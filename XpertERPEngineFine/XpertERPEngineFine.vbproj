@@ -325,6 +325,7 @@
     <Compile Include="Inventory\clsInventoryMovementNew.vb" />
     <Compile Include="Inventory\clsInventorySourceCode.vb" />
     <Compile Include="Inventory\clsSerializeInvenotry.vb" />
+    <Compile Include="Inventory\clsStartBatchEntry.vb" />
     <Compile Include="Inventory\clsStockAgeingFilters.vb" />
     <Compile Include="Inventory\clsStockRecoFilters.vb" />
     <Compile Include="ItemModel\clsItemMaster.vb" />

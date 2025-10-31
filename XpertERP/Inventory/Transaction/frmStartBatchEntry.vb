@@ -197,7 +197,9 @@ Public Class frmStartBatchEntry
                         objTr.Line_No = clsCommon.myCdbl(grow.Cells(colLineNo).Value)
                         objTr.Location_Code = clsCommon.myCstr(grow.Cells(colLocationCode).Value)
                         objTr.Item_Code = clsCommon.myCstr((grow.Cells(colItemCode).Value))
-                        objTr.arrBatchItem = TryCast(grow.Cells(colItemCode).Tag, List(Of clsBatchInventory))
+                        If Not objCommonVar.AutoGenrateBatchInventory Then
+                            objTr.arrBatchItem = TryCast(grow.Cells(colItemCode).Tag, List(Of clsBatchInventory))
+                        End If
                         objTr.Qty = clsCommon.myCDecimal((grow.Cells(colQty).Value))
                         objTr.Unit_code = clsCommon.myCstr((grow.Cells(colStockUOM).Value))
                         objTr.Amount = clsCommon.myCDecimal((grow.Cells(colAmount).Value))
@@ -406,36 +408,38 @@ Public Class frmStartBatchEntry
         End If
     End Sub
     Sub OpenBatchItem(ByVal isFromF5 As Boolean)
-        Dim frm As frmBatchItemIn = New frmBatchItemIn()
-        frm.strItemCode = clsCommon.myCstr(Gv1.CurrentRow.Cells(colItemCode).Value)
-        frm.strItemName = clsCommon.myCstr(Gv1.CurrentRow.Cells(colItemName).Value)
-        frm.dblqty = clsCommon.myCdbl(Gv1.CurrentRow.Cells(colQty).Value)
-        frm.strUOM = clsCommon.myCstr(Gv1.CurrentRow.Cells(colStockUOM).Value)
-        frm.TransDate = txtDocumentDate.Value
+        If Not objCommonVar.AutoGenrateBatchInventory Then
+            Dim frm As frmBatchItemIn = New frmBatchItemIn()
+            frm.strItemCode = clsCommon.myCstr(Gv1.CurrentRow.Cells(colItemCode).Value)
+            frm.strItemName = clsCommon.myCstr(Gv1.CurrentRow.Cells(colItemName).Value)
+            frm.dblqty = clsCommon.myCdbl(Gv1.CurrentRow.Cells(colQty).Value)
+            frm.strUOM = clsCommon.myCstr(Gv1.CurrentRow.Cells(colStockUOM).Value)
+            frm.TransDate = txtDocumentDate.Value
 
-        frm.arr = TryCast(Gv1.CurrentRow.Cells(colItemCode).Tag, List(Of clsBatchInventory))
-        If Not isFromF5 Then
-            frm.arr = New List(Of clsBatchInventory)
-            Dim dblTotalQty As Double = 0
-            Dim blnAvailable As Boolean = False
+            frm.arr = TryCast(Gv1.CurrentRow.Cells(colItemCode).Tag, List(Of clsBatchInventory))
+            If Not isFromF5 Then
+                frm.arr = New List(Of clsBatchInventory)
+                Dim dblTotalQty As Double = 0
+                Dim blnAvailable As Boolean = False
 
-            Dim obj As clsBatchInventory = New clsBatchInventory()
-            obj.Batch_No = txtDefaultBatch.Text
-            obj.Manual_BatchNo = txtDefaultBatch.Text
-            obj.Manufacture_Date = clsCommon.myCDate(txtDocumentDate.Value)
-            obj.Expiry_Date = clsCommon.myCDate(txtDocumentDate.Value)
+                Dim obj As clsBatchInventory = New clsBatchInventory()
+                obj.Batch_No = txtDefaultBatch.Text
+                obj.Manual_BatchNo = txtDefaultBatch.Text
+                obj.Manufacture_Date = clsCommon.myCDate(txtDocumentDate.Value)
+                obj.Expiry_Date = clsCommon.myCDate(txtDocumentDate.Value)
 
-            obj.Qty = frm.dblqty
-            ' obj.Unit_code = strUnit_code
-            If obj.Qty > 0 Then
-                frm.arr.Add(obj)
-                Gv1.CurrentRow.Cells(colItemCode).Tag = frm.arr
-            End If
-        Else
+                obj.Qty = frm.dblqty
+                ' obj.Unit_code = strUnit_code
+                If obj.Qty > 0 Then
+                    frm.arr.Add(obj)
+                    Gv1.CurrentRow.Cells(colItemCode).Tag = frm.arr
+                End If
+            Else
 
-            frm.ShowDialog()
-            If Not frm.isCencelButtonClicked Then
-                Gv1.CurrentRow.Cells(colItemCode).Tag = frm.arr
+                frm.ShowDialog()
+                If Not frm.isCencelButtonClicked Then
+                    Gv1.CurrentRow.Cells(colItemCode).Tag = frm.arr
+                End If
             End If
         End If
     End Sub

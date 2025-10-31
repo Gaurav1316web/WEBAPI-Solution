@@ -410,7 +410,6 @@
     <Compile Include="Inventory\clsItemLocationDetails.vb" />
     <Compile Include="Inventory\clsOutputEntry.vb" />
     <Compile Include="Inventory\clsPhysicalstock.vb" />
-    <Compile Include="Inventory\clsStartBatchEntry.vb" />
     <Compile Include="Inventory\clsWeightUomMaster.vb" />
     <Compile Include="Inventory\frmBatchItemOutNew.Designer.vb">
       <DependentUpon>frmBatchItemOutNew.vb</DependentUpon>

@@ -119,42 +119,38 @@ Public Class clsStartBatchEntry
             '----Update inventory movement Out-----
             Dim ArrInventoryMovement As List(Of clsInventoryMovement) = New List(Of clsInventoryMovement)
             clsDBFuncationality.ExecuteNonQuery("update tspl_batch_item set Against_Inv_Movement_Trans_Id=null where Document_Code='" & obj.Document_No & "'", trans)
-                clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" & obj.Document_No & "'", trans)
-                Dim intCounter As Integer = 0
-                Dim objInventoryMovemnt As New clsInventoryMovement()
+            clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" & obj.Document_No & "'", trans)
+            Dim intCounter As Integer = 0
+            Dim objInventoryMovemnt As New clsInventoryMovement()
 
-                For Each objTr As clsStartBatchEntryDetail In obj.Arr
-                    intCounter = intCounter + 1
-                    Dim strItemType As String = clsItemMaster.GetItemType(objTr.Item_Code, trans)
-                    Dim strItemTypeToSave As String = ""
-                    If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
-                        strItemTypeToSave = "RM"
-                    ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
-                        strItemTypeToSave = "OT"
-                    ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
-                        strItemTypeToSave = "FT"
-                    Else
-                        strItemTypeToSave = strItemType
-                    End If
-                    objInventoryMovemnt = New clsInventoryMovement()
-                    objInventoryMovemnt.InOut = "O"
+            For Each objTr As clsStartBatchEntryDetail In obj.Arr
+                intCounter = intCounter + 1
+                Dim strItemType As String = clsItemMaster.GetItemType(objTr.Item_Code, trans)
+                Dim strItemTypeToSave As String = ""
+                If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+                    strItemTypeToSave = "RM"
+                ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+                    strItemTypeToSave = "OT"
+                ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+                    strItemTypeToSave = "FT"
+                Else
+                    strItemTypeToSave = strItemType
+                End If
+                objInventoryMovemnt = New clsInventoryMovement()
+                objInventoryMovemnt.InOut = "O"
 
-                    objInventoryMovemnt.Location_Code = objTr.Location_Code
-                    objInventoryMovemnt.Item_Code = objTr.Item_Code
-                    objInventoryMovemnt.Item_Desc = objTr.Item_Desc
-                    objInventoryMovemnt.Qty = objTr.Qty
-                    objInventoryMovemnt.UOM = objTr.Unit_code
-                    objInventoryMovemnt.Avg_Cost = objTr.Amount
-                    objInventoryMovemnt.ItemType = strItemTypeToSave
-                    ArrInventoryMovement.Add(objInventoryMovemnt)
-                Next
+                objInventoryMovemnt.Location_Code = objTr.Location_Code
+                objInventoryMovemnt.Item_Code = objTr.Item_Code
+                objInventoryMovemnt.Item_Desc = objTr.Item_Desc
+                objInventoryMovemnt.Qty = objTr.Qty
+                objInventoryMovemnt.UOM = objTr.Unit_code
+                objInventoryMovemnt.Avg_Cost = objTr.Amount
+                objInventoryMovemnt.ItemType = strItemTypeToSave
+                ArrInventoryMovement.Add(objInventoryMovemnt)
+            Next
             clsInventoryMovement.SaveData("SBE", obj.Document_No, obj.Document_date, clsCommon.GetPrintDate(obj.Document_date, "dd/MM/yyyy"), ArrInventoryMovement, trans)
             '---End
             clsDBFuncationality.ExecuteNonQuery("update tspl_item_master set Is_Batch_Item= 1 where Item_Code in (select distinct Item_Code from TSPL_START_BATCH_ENTRY_DETAIL where Document_No = '" & obj.Document_No & "' ) ", trans)
-
-            For Each objTr As clsStartBatchEntryDetail In obj.Arr
-                clsBatchInventory.SaveData("SBE", obj.Document_No, obj.Document_date, "I", objTr.Item_Code, objTr.Location_Code, objTr.Line_No, 0, objTr.Unit_code, objTr.arrBatchItem, trans)
-            Next
 
             '---- Update inventory movement In
             ArrInventoryMovement = New List(Of clsInventoryMovement)
@@ -180,8 +176,28 @@ Public Class clsStartBatchEntry
                 End If
                 ArrInventoryMovement.Add(objInventoryMovemnt)
             Next
-            clsInventoryMovement.SaveData("SBE", obj.Document_No, obj.Document_date, clsCommon.GetPrintDate(obj.Document_date, "dd/MM/yyyy"), ArrInventoryMovement, trans)
 
+            clsInventoryMovement.SaveData("SBE", obj.Document_No, obj.Document_date, clsCommon.GetPrintDate(obj.Document_date, "dd/MM/yyyy"), ArrInventoryMovement, trans)
+            '---End
+            '---Batch In
+            If objCommonVar.AutoGenrateBatchInventory Then
+                For Each objtr As clsStartBatchEntryDetail In obj.Arr
+                    If clsItemMaster.IsBatchItem(objtr.Item_Code, trans) Then
+                        Dim ArrBatchItem As New List(Of clsBatchInventory)
+                        Dim objBatch As New clsBatchInventory
+                        objBatch.Parent_Line_No = objtr.Line_No
+                        objBatch.Line_No = 1
+                        objBatch.Batch_No = clsERPFuncationality.GetNextCode(trans, clsCommon.GetPrintDate(obj.Document_date, "dd/MMM/yyyy"), clsDocType.ItemBatch, clsItemMaster.GetItemType(objtr.Item_Code, trans), objtr.Location_Code, False, True, False, False, False, False, "", clsCommon.GetPrintDate(obj.Document_date, "ddMMyyHHmm"), "")
+                        objBatch.Manual_BatchNo = objBatch.Batch_No
+                        objBatch.Manufacture_Date = obj.Document_date
+                        objBatch.Expiry_Date = clsCommon.myCDate(obj.Document_date).AddDays(clsItemMaster.GetSelfLife(objtr.Item_Code, trans))
+                        objBatch.Qty = objtr.Qty
+                        ArrBatchItem.Add(objBatch)
+                        clsBatchInventory.SaveData("SBE", strDocNo, obj.Document_date, "I", objtr.Item_Code, objtr.Location_Code, objtr.Line_No, 0, objtr.Unit_code, ArrBatchItem, trans)
+                    End If
+                Next
+                obj = obj.GetData(strDocNo, NavigatorType.Current, trans)
+            End If
             '---End
             clsDBFuncationality.ExecuteNonQuery("Update TSPL_START_BATCH_ENTRY set Status= 1, Posted_By = '" & objCommonVar.CurrentUserCode & "',Posted_Date = '" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt") & "'  where Document_No='" & obj.Document_No & "'", trans)
         Catch ex As Exception
@@ -189,57 +205,6 @@ Public Class clsStartBatchEntry
         End Try
         Return True
     End Function
-
-    Public Shared Function UpdateInventoryMovement(ByVal obj As clsStartBatchEntry, ByVal trans As SqlTransaction, Optional ByVal UpdateInventory As Boolean = False) As Boolean
-
-        Return True
-    End Function
-
-    Public Function ReverseAndUnpost(ByVal strCode As String) As Boolean
-        Dim isResponse As Boolean = False
-        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-        Try
-            If ReverseAndUnpost(strCode, trans) Then
-                isResponse = True
-            Else
-                isResponse = False
-            End If
-            trans.Commit()
-        Catch ex As Exception
-            trans.Rollback()
-            Throw New Exception(ex.Message)
-        End Try
-        Return isResponse
-    End Function
-
-    Public Function ReverseAndUnpost(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
-        Dim isResponse As Boolean = True
-        Try
-
-            Dim obj As clsStartBatchEntry = New clsStartBatchEntry
-            obj = obj.GetData(strCode, NavigatorType.Current, trans)
-            If (obj Is Nothing OrElse clsCommon.myLen(obj.Status) <= 0) Then
-                clsCommon.MyMessageBoxShow("No Data found to Reverse And UnPost")
-                isResponse = False
-            End If
-
-            If Not obj.Status = 1 Then
-                clsCommon.MyMessageBoxShow("Transaction status should be posted for reverse and unpost")
-                isResponse = False
-            End If
-
-            Dim coll As New Hashtable()
-            clsCommon.AddColumnsForChange(coll, "Status", 0)
-            clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
-            clsCommon.AddColumnsForChange(coll, "Posted_Date", Nothing, True)
-            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_START_BATCH_ENTRY", OMInsertOrUpdate.Update, "Document_No='" & obj.Document_No & "'", trans)
-
-        Catch ex As Exception
-            Throw New Exception(ex.Message)
-        End Try
-        Return isResponse
-    End Function
-
     Public Function DeleteData(ByVal strCode As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
@@ -265,17 +230,34 @@ Public Class clsStartBatchEntry
                 Throw New Exception("Already Posted")
             End If
             Dim qry As String = Nothing
+            For Each objtr As clsStartBatchEntryDetail In obj.Arr
+                Dim batchNoList As String = String.Join(",", objtr.arrBatchItem.
+                                                Where(Function(x) Not String.IsNullOrEmpty(x.Batch_No)).
+                                                Select(Function(x) "'" & x.Batch_No.Replace("'", "''") & "'"))
+
+                qry = " select count(1) from TSPL_BATCH_ITEM where item_code ='" & objtr.Item_Code & "' and Batch_No in (" & batchNoList & ")"
+                Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
+                If count > 0 Then
+                    Throw New Exception("Same Batch No is also used in other transaction")
+                End If
+            Next
+            qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" + obj.Document_No + "' and Trans_Type='SBE' and InOut='I' "
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            clsBatchInventory.DeleteData("SBE", obj.Document_No, trans)
+
+            clsDBFuncationality.ExecuteNonQuery("update tspl_item_master set Is_Batch_Item= 0 where Item_Code in (select distinct Item_Code from TSPL_START_BATCH_ENTRY_DETAIL where Document_No = '" & obj.Document_No & "' ) ", trans)
+
+            qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" + obj.Document_No + "' and Trans_Type='SBE' and InOut='O' "
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
             qry = "delete from TSPL_START_BATCH_ENTRY_DETAIL where Document_No='" & obj.Document_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" + obj.Document_No + "' and Trans_Type='SBE'"
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            clsBatchInventory.DeleteData("SBE", obj.Document_No, trans)
             qry = "delete from TSPL_START_BATCH_ENTRY where Document_No='" & obj.Document_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
         Catch ex As Exception
-
             Throw New Exception(ex.Message)
         End Try
         Return True
