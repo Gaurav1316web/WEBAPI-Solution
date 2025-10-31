@@ -417,6 +417,7 @@ Public Class clsDocType
     Public Const HeadLoadDCS As String = "Head Load DCS"
     Public Const MultipleShareAllotment As String = "Multiple Share Allotment"
     Public Const CustomerPenalty As String = "Customer Penalty"
+    Public Const StartBatchEntry As String = "Start Batch Entry"
     Public Const CFSalePurchaseUploader As String = "CF Sale Purchase Uploader"
     Public Const QuickPaymentBySingleCheque As String = "Quick Payment By Single Cheque"
     Public Const BulkSaleFreightMaster As String = "Bulk Sale Freight Master"

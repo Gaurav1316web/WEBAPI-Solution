@@ -673,6 +673,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmAdjProductionEntry, "Production Entry", "1.07.02.22", clsUserMgtCode.SubModuleMaterialTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.frmAdjProductionEntryQC, "Production Entry QC", "1.0 7.02.22", clsUserMgtCode.SubModuleMaterialTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.frmAdjProductionStoreEntry, "Production Store Entry", "1.07.02.23", clsUserMgtCode.SubModuleMaterialTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmStartBatchEntry, "Start Batch Entry", "1.07.02.23", clsUserMgtCode.SubModuleMaterialTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
 
         ' Reports 
         InsertDefaultValue(clsUserMgtCode.SubModuleMaterialReport, "Report", "1.07.03", clsUserMgtCode.ModuleMaterial, "SM", 30)
