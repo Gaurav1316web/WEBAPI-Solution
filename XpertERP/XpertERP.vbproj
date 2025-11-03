@@ -955,6 +955,12 @@
     <Compile Include="Inventory\Transaction\frmRawMilkConsumption.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Inventory\Transaction\frmStartBatchEntry.Designer.vb">
+      <DependentUpon>frmStartBatchEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\Transaction\frmStartBatchEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Inventory\Transaction\FrmTransferGateOut.Designer.vb">
       <DependentUpon>FrmTransferGateOut.vb</DependentUpon>
     </Compile>
@@ -5126,6 +5132,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Inventory\Transaction\frmRawMilkConsumption.resx">
       <DependentUpon>frmRawMilkConsumption.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\Transaction\frmStartBatchEntry.resx">
+      <DependentUpon>frmStartBatchEntry.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Inventory\Transaction\FrmTransferGateOut.resx">
       <DependentUpon>FrmTransferGateOut.vb</DependentUpon>

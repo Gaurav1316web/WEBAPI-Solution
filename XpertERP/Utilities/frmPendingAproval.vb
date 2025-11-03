@@ -57,8 +57,12 @@ Public Class FrmPendingAproval
     Dim FlagAllSelectWorking As Boolean = False
     Dim SettSeprateDemandForMorningEveningShift As Boolean = False
     Dim SettApplyMergeForDCSMultipleDays As Boolean = False
+    Dim EnableProductSaleForJPR As Boolean = False
+
 
     Private Sub FrmPendingAproval_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        EnableProductSaleForJPR = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = 1, True, False)
+
         SettApplyMergeForDCSMultipleDays = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyMergeForDCSMultipleDays, clsFixedParameterCode.ApplyMergeForDCSMultipleDays, Nothing)) > 0)
         SettSeprateDemandForMorningEveningShift = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SeprateDemandForMorningEveningShift, clsFixedParameterCode.SeprateDemandForMorningEveningShift, Nothing)) = 1)
         ShowDairySaleModuleOnBulkPosting = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowDairySaleModuleOnBulkPosting, clsFixedParameterCode.ShowDairySaleModuleOnBulkPosting, Nothing))
@@ -368,6 +372,18 @@ Public Class FrmPendingAproval
         dr = dt1.NewRow()
         dr("Code") = "Sale Invoice"
         dr("Name") = "Sale Invoice"
+        dt1.Rows.Add(dr)
+
+        If EnableProductSaleForJPR = True Then
+            dr = dt1.NewRow()
+            dr("Code") = "Product Dispatch"
+            dr("Name") = "Product Dispatch"
+            dt1.Rows.Add(dr)
+        End If
+
+        dr = dt1.NewRow()
+        dr("Code") = "Product Demand Booking"
+        dr("Name") = "Product Demand Booking"
         dt1.Rows.Add(dr)
 
         cboTransaction.DataSource = dt1
@@ -2262,7 +2278,8 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
                     qry = "SELECT  CAST(TSPL_SD_SHIPMENT_HEAD.Status as BIT) as Status, TSPL_SD_SHIPMENT_HEAD.Document_Code as [Document Id], TSPL_SD_SHIPMENT_HEAD.Document_Date as [Document Date], TSPL_SD_SALE_INVOICE_HEAD.Document_Code as [Sale Invoice], isnull(TSPL_SD_SHIPMENT_HEAD.Total_Amt,0) as [Amount], TSPL_SD_SHIPMENT_HEAD.Bill_To_Location As Location , TSPL_LOCATION_MASTER.Location_Desc as [Location Desc], TSPL_SD_SHIPMENT_HEAD.Customer_Code as [Customer Code], TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name], TSPL_SD_SHIPMENT_HEAD.Description as [Description], CAST(TSPL_SD_SHIPMENT_HEAD.On_Hold as BIT) as Hold,TSPL_SD_SHIPMENT_HEAD.Created_By as 'Created By' FROM TSPL_SD_SHIPMENT_HEAD" &
                         " Left Outer Join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code" &
                         " Left Outer Join TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=TSPL_LOCATION_MASTER.Location_Code" &
-                        " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code WHERE convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,'" + dtpToDate.Value + "',103)"
+                        " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code 
+                        WHERE convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,'" + dtpToDate.Value + "',103)"
                     If rbtnStatusPending.IsChecked = True Then
                         qry += " and TSPL_SD_SHIPMENT_HEAD.Status <> 1"
                         Isrefreshed = False
@@ -2314,6 +2331,76 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
                 End If
             End If
 
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Product Demand Booking") = CompairStringResult.Equal Then
+            Load_Authorisation(clsUserMgtCode.FrmProductDemandBooking)
+            If dtAuthen.Rows.Count > 0 Then
+                If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
+                    gv1.DataSource = Nothing
+
+                    qry = "SELECT  CAST(TSPL_Product_DEMAND_BOOKING_MASTER.posted as BIT) as Status, 
+
+'' as [Description], '' as Hold,
+TSPL_Product_DEMAND_BOOKING_MASTER.Document_no as [Document Id],
+                         TSPL_Product_DEMAND_BOOKING_MASTER.Document_Date as [Document Date],  isnull(TSPL_Product_DEMAND_BOOKING_DETAIL.ItemNetAmount,0) as [Amount], 
+                         TSPL_Product_DEMAND_BOOKING_MASTER.Location_Code As Location , TSPL_LOCATION_MASTER.Location_Desc as [Location Desc],
+                         TSPL_Product_DEMAND_BOOKING_DETAIL.Cust_Code as [Customer Code], TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name], 
+                                      TSPL_Product_DEMAND_BOOKING_MASTER.Created_By as 'Created By' FROM TSPL_Product_DEMAND_BOOKING_MASTER" &
+                        " Left Outer Join TSPL_Product_DEMAND_BOOKING_DETAIL on TSPL_Product_DEMAND_BOOKING_DETAIL.Document_No=TSPL_Product_DEMAND_BOOKING_MASTER.Document_No" &
+                        " Left Outer Join TSPL_LOCATION_MASTER on TSPL_Product_DEMAND_BOOKING_MASTER.Location_Code=TSPL_LOCATION_MASTER.Location_Code" &
+                        " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_Product_DEMAND_BOOKING_DETAIL.Cust_Code 
+                        WHERE   convert(date,TSPL_Product_DEMAND_BOOKING_MASTER.Document_Date,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_Product_DEMAND_BOOKING_MASTER.Document_Date,103) <= convert(date,'" + dtpToDate.Value + "',103)"
+                    If rbtnStatusPending.IsChecked = True Then
+                        qry += " and TSPL_Product_DEMAND_BOOKING_MASTER.posted = 0"
+                        Isrefreshed = False
+                    ElseIf rbtnStatusPosted.IsChecked = True Then
+                        qry += " and TSPL_Product_DEMAND_BOOKING_MASTER.posted = 1"
+                        Isrefreshed = True
+                    End If
+                    If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
+                        qry += " AND TSPL_Product_DEMAND_BOOKING_MASTER.Location_Code in (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ")"
+                    End If
+                    If ChkAllowBulkPosting.Equals(0) Then
+                        If chkUserSelect.IsChecked AndAlso cbgUser.CheckedValue.Count > 0 Then
+                            qry += " and TSPL_Product_DEMAND_BOOKING_MASTER.Created_By IN (" + clsCommon.GetMulcallString(cbgUser.CheckedValue) + ")"
+                        Else
+                            qry += " and TSPL_Product_DEMAND_BOOKING_MASTER.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
+                        End If
+                    End If
+                    qry += "ORDER BY TSPL_Product_DEMAND_BOOKING_MASTER.Document_Date, TSPL_Product_DEMAND_BOOKING_MASTER.Document_No "
+                End If
+            End If
+
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Product Dispatch") = CompairStringResult.Equal Then
+            Load_Authorisation(clsUserMgtCode.FrmProductDispatch)
+            If dtAuthen.Rows.Count > 0 Then
+                If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
+
+                    qry = "SELECT  CAST(TSPL_SD_SHIPMENT_HEAD.Status as BIT) as Status, TSPL_SD_SHIPMENT_HEAD.Document_Code as [Document Id], TSPL_SD_SHIPMENT_HEAD.Document_Date as [Document Date], TSPL_SD_SALE_INVOICE_HEAD.Document_Code as [Sale Invoice], isnull(TSPL_SD_SHIPMENT_HEAD.Total_Amt,0) as [Amount], TSPL_SD_SHIPMENT_HEAD.Bill_To_Location As Location , TSPL_LOCATION_MASTER.Location_Desc as [Location Desc], TSPL_SD_SHIPMENT_HEAD.Customer_Code as [Customer Code], TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name], TSPL_SD_SHIPMENT_HEAD.Description as [Description], CAST(TSPL_SD_SHIPMENT_HEAD.On_Hold as BIT) as Hold,TSPL_SD_SHIPMENT_HEAD.Created_By as 'Created By' FROM TSPL_SD_SHIPMENT_HEAD" &
+                        " Left Outer Join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code" &
+                        " Left Outer Join TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=TSPL_LOCATION_MASTER.Location_Code" &
+                        " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code 
+                        WHERE TSPL_SD_SHIPMENT_HEAD.Item_Type in('P','I')  and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,'" + dtpToDate.Value + "',103)"
+                    If rbtnStatusPending.IsChecked = True Then
+                        qry += " and TSPL_SD_SHIPMENT_HEAD.Status <> 1"
+                        Isrefreshed = False
+                    ElseIf rbtnStatusPosted.IsChecked = True Then
+                        qry += " and TSPL_SD_SHIPMENT_HEAD.Status = 1"
+                        Isrefreshed = True
+                    End If
+                    If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
+                        qry += " AND TSPL_SD_SHIPMENT_HEAD.Bill_To_Location in (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ")"
+                    End If
+                    If ChkAllowBulkPosting.Equals(0) Then
+                        If chkUserSelect.IsChecked AndAlso cbgUser.CheckedValue.Count > 0 Then
+                            qry += " and TSPL_SD_SHIPMENT_HEAD.Created_By IN (" + clsCommon.GetMulcallString(cbgUser.CheckedValue) + ")"
+                        Else
+                            qry += " and TSPL_SD_SHIPMENT_HEAD.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
+                        End If
+                    End If
+                    'qry += " and TSPL_SD_SHIPMENT_HEAD.Trans_Type='" & strTransType & "'"
+                    qry += "ORDER BY TSPL_SD_SHIPMENT_HEAD.Document_Date , TSPL_SD_SHIPMENT_HEAD.Document_Code"
+                End If
+            End If
 
 
         End If
@@ -5843,6 +5930,36 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                         DtError.Rows.Add(dr)
                     End Try
                 Next
+
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Product Dispatch") = CompairStringResult.Equal Then
+                For j As Integer = 0 To trnsLst.Count - 1
+                    Try
+                        clsCommon.ProgressBarPercentUpdate((((j + 1) * 100) / (trnsLst.Count)), "Document Posting " + clsCommon.myCstr(j + 1) + "/" + clsCommon.myCstr(trnsLst.Count))
+                        strDocNo = trnsLst.Item(j)
+                        clsPSInvoiceHead.PostData("", strDocNo)
+                        countPostedDoc = countPostedDoc + 1 'Added By [Pankaj Kumar]-for Counting Posted Documents-26/09/2014
+                    Catch ex As Exception
+                        dr = DtError.NewRow()
+                        dr("Code") = strDocNo
+                        dr("Error") = ex.Message
+                        DtError.Rows.Add(dr)
+                    End Try
+                Next
+
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Product Demand Booking") = CompairStringResult.Equal Then
+                For j As Integer = 0 To trnsLst.Count - 1
+                    Try
+                        clsCommon.ProgressBarPercentUpdate((((j + 1) * 100) / (trnsLst.Count)), "Document Posting " + clsCommon.myCstr(j + 1) + "/" + clsCommon.myCstr(trnsLst.Count))
+                        strDocNo = trnsLst.Item(j)
+                        clsProductDemandBookingSale.PostData("", strDocNo)
+                        countPostedDoc = countPostedDoc + 1 'Added By [Pankaj Kumar]-for Counting Posted Documents-26/09/2014
+                    Catch ex As Exception
+                        dr = DtError.NewRow()
+                        dr("Code") = strDocNo
+                        dr("Error") = ex.Message
+                        DtError.Rows.Add(dr)
+                    End Try
+                Next
             End If
 
         Catch ex As Exception
@@ -6855,5 +6972,6 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
     Private Sub gv1_FilterChanged(sender As Object, e As GridViewCollectionChangedEventArgs) Handles gv1.FilterChanged
         lblNoOfRecords.Text = "" + gv1.ChildRows.Count.ToString + " Records Found"
     End Sub
+
 
 End Class

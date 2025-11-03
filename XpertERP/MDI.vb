@@ -4299,6 +4299,9 @@ Public Class MDI
                         frm = New frmAdjustmentStore()
                         frm.Text = "Store Adjustment"
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmStartBatchEntry
+                        frm = New frmStartBatchEntry()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.FrmJobWorkInventory
                         frm = New frmJobWorkInventory()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
