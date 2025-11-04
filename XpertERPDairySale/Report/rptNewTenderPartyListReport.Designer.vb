@@ -22,7 +22,7 @@ Partial Class rptNewTenderPartyListReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -46,6 +46,10 @@ Partial Class rptNewTenderPartyListReport
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.MyDateTimePicker1 = New common.Controls.MyDateTimePicker()
+        Me.gbStatus = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnDistributor = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnCreditCustomer = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnAll = New Telerik.WinControls.UI.RadRadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -70,6 +74,11 @@ Partial Class rptNewTenderPartyListReport
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyDateTimePicker1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gbStatus, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gbStatus.SuspendLayout()
+        CType(Me.rbtnDistributor, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnCreditCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnAll, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -144,6 +153,7 @@ Partial Class rptNewTenderPartyListReport
         '
         'RadPanel1
         '
+        Me.RadPanel1.Controls.Add(Me.gbStatus)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox1)
         Me.RadPanel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPanel1.Location = New System.Drawing.Point(0, 0)
@@ -262,7 +272,7 @@ Partial Class rptNewTenderPartyListReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -362,6 +372,47 @@ Partial Class rptNewTenderPartyListReport
         Me.MyDateTimePicker1.Text = "17-12-2011"
         Me.MyDateTimePicker1.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
         '
+        'gbStatus
+        '
+        Me.gbStatus.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.gbStatus.Controls.Add(Me.rbtnAll)
+        Me.gbStatus.Controls.Add(Me.rbtnDistributor)
+        Me.gbStatus.Controls.Add(Me.rbtnCreditCustomer)
+        Me.gbStatus.HeaderText = ""
+        Me.gbStatus.Location = New System.Drawing.Point(370, 16)
+        Me.gbStatus.Name = "gbStatus"
+        Me.gbStatus.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.gbStatus.Size = New System.Drawing.Size(256, 35)
+        Me.gbStatus.TabIndex = 446
+        '
+        'rbtnDistributor
+        '
+        Me.rbtnDistributor.Location = New System.Drawing.Point(110, 7)
+        Me.rbtnDistributor.Name = "rbtnDistributor"
+        Me.rbtnDistributor.Size = New System.Drawing.Size(74, 18)
+        Me.rbtnDistributor.TabIndex = 1
+        Me.rbtnDistributor.TabStop = False
+        Me.rbtnDistributor.Text = "Distributor"
+        '
+        'rbtnCreditCustomer
+        '
+        Me.rbtnCreditCustomer.Location = New System.Drawing.Point(3, 7)
+        Me.rbtnCreditCustomer.Name = "rbtnCreditCustomer"
+        Me.rbtnCreditCustomer.Size = New System.Drawing.Size(102, 18)
+        Me.rbtnCreditCustomer.TabIndex = 0
+        Me.rbtnCreditCustomer.TabStop = False
+        Me.rbtnCreditCustomer.Text = "Credit Customer"
+        '
+        'rbtnAll
+        '
+        Me.rbtnAll.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnAll.Location = New System.Drawing.Point(190, 7)
+        Me.rbtnAll.Name = "rbtnAll"
+        Me.rbtnAll.Size = New System.Drawing.Size(33, 18)
+        Me.rbtnAll.TabIndex = 2
+        Me.rbtnAll.Text = "All"
+        Me.rbtnAll.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
         'rptNewTenderPartyListReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -400,6 +451,12 @@ Partial Class rptNewTenderPartyListReport
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyDateTimePicker1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gbStatus, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.gbStatus.ResumeLayout(False)
+        Me.gbStatus.PerformLayout()
+        CType(Me.rbtnDistributor, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnCreditCustomer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnAll, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -428,5 +485,9 @@ Partial Class rptNewTenderPartyListReport
     Protected WithEvents txtDate As common.Controls.MyDateTimePicker
     Friend WithEvents cmbShift As common.Controls.MyComboBox
     Friend WithEvents lblShiftType As common.Controls.MyLabel
+    Friend WithEvents gbStatus As RadGroupBox
+    Friend WithEvents rbtnAll As RadRadioButton
+    Friend WithEvents rbtnDistributor As RadRadioButton
+    Friend WithEvents rbtnCreditCustomer As RadRadioButton
 End Class
 

@@ -4356,7 +4356,14 @@ from (" & BaseQry & ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
                     End If
                 Next
 
-                Dim totFreshAmbCol As Integer = dtFresh.Columns.Count + dtAmbient.Columns.Count
+
+                Dim totFreshAmbCol As Integer = 0
+                If dtFresh IsNot Nothing AndAlso dtFresh.Columns.Count > 0 Then
+                    totFreshAmbCol += dtFresh.Columns.Count
+                End If
+                If dtAmbient IsNot Nothing AndAlso dtAmbient.Columns.Count > 0 Then
+                    totFreshAmbCol += dtAmbient.Columns.Count
+                End If
                 If isVisibleCol < totFreshAmbCol Then
                     Dim colToAdd As Integer = totFreshAmbCol - isVisibleCol
                     For i As Integer = 1 To colToAdd

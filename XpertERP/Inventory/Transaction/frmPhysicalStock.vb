@@ -735,7 +735,7 @@ Public Class FrmPhysicalStock
                     If clsCommon.myCdbl(gv1.Rows(ii).Cells(colPhyQty).Value) <> 0 OrElse (clsCommon.myCBool(gv1.Rows(ii).Cells(colPhyNillBalance).Value)) Then ' AndAlso CheckStockOfItemTillTransactionDateOnly = False
                         gv1.CurrentRow = gv1.Rows(ii)
                         UpdateCurrentRow()
-                        OpenBatchItem()
+                        OpenBatchItem(False)
                         If clsCommon.myCBool(gv1.Rows(ii).Cells(colIsBatchItem).Value) Then
                             Dim arrBatchNo As List(Of clsBatchInventory) = TryCast(gv1.Rows(ii).Cells(colICode).Tag, List(Of clsBatchInventory))
                             If arrBatchNo Is Nothing Then
@@ -743,7 +743,6 @@ Public Class FrmPhysicalStock
                                 Else
                                     Throw New Exception("Please provide Batch no for item : " + clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value) + " . At Line No" + clsCommon.myCstr(ii + 1))
                                 End If
-
                             Else
                                 Dim tQty As Decimal = 0
                                 For Each objBatch As clsBatchInventory In arrBatchNo
@@ -899,7 +898,7 @@ Public Class FrmPhysicalStock
                     UpdateCurrentRow()
 
                     If (e.Column Is gv1.Columns(colPhyQty)) Then
-                        OpenBatchItem()
+                        OpenBatchItem(Not objCommonVar.AutoGenrateBatchInventory)
                     End If
                     isCellvaluechanged = False
                 End If
@@ -910,43 +909,44 @@ Public Class FrmPhysicalStock
         End Try
     End Sub
 
-    Sub OpenBatchItem() ''BHA/03/10/18-000586 by balwinder on 04/10/2018
+    Sub OpenBatchItem(ByVal isShowBatchInForm As Boolean) ''BHA/03/10/18-000586 by balwinder on 04/10/2018
         Dim blnBatchqty As Boolean = False
         If clsCommon.myCBool(gv1.CurrentRow.Cells(colIsBatchItem).Value) AndAlso Not isImport Then
             If clsCommon.myCdbl(gv1.CurrentRow.Cells(colPhyQty).Value) > 0 OrElse clsCommon.myCBool(gv1.CurrentRow.Cells(colPhyNillBalance).Value) Then
                 Dim diffQty As Decimal = clsCommon.myCdbl(gv1.CurrentRow.Cells(colDiffQty).Value)
                 If diffQty < 0 Then
-                    diffQty = Math.Abs(diffQty)
-                    Dim frm As frmBatchItemIn = New frmBatchItemIn()
-                    frm.strItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
-                    frm.strItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
-                    frm.dblqty = diffQty
-                    frm.strUOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colStockUnit).Value)
-                    'frm.dblMRP = clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value)
-                    frm.arr = TryCast(gv1.CurrentRow.Cells(colICode).Tag, List(Of clsBatchInventory))
-                    If CheckStockOfItemTillTransactionDateOnly = True AndAlso chkMilk.Checked = False AndAlso clsCommon.myLen(txtManualBatchNo.Text) > 0 Then
-                        frm.arr = New List(Of clsBatchInventory)
-                        Dim obj As clsBatchInventory = New clsBatchInventory()
-                        obj.Batch_No = clsCommon.myCstr(txtManualBatchNo.Text)
-                        obj.Manufacture_Date = clsCommon.myCDate(dtpdate.Value)
-                        Dim datex As DateTime = dtpdate.Value
-                        Dim silfNoDays As Integer = clsCommon.myCdbl(txtSelfLifeDays.Text)
-                        obj.Expiry_Date = clsCommon.myCDate(datex.AddDays(silfNoDays))
-                        obj.Qty = clsCommon.myCdbl(diffQty)
-                        obj.Manual_BatchNo = clsCommon.myCstr(txtManualBatchNo.Text)
-                        If clsCommon.myLen(obj.Batch_No) > 0 AndAlso obj.Qty <> 0 Then
-                            frm.arr.Add(obj)
-                        End If
-                        gv1.CurrentRow.Cells(colICode).Tag = frm.arr
-                        txtManualBatchNo.Enabled = False
-                        txtSelfLifeDays.Enabled = False
-                    Else
-                        frm.ShowDialog()
-                        If Not frm.isCencelButtonClicked Then
+                    If isShowBatchInForm Then
+                        diffQty = Math.Abs(diffQty)
+                        Dim frm As frmBatchItemIn = New frmBatchItemIn()
+                        frm.strItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
+                        frm.strItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
+                        frm.dblqty = diffQty
+                        frm.strUOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colStockUnit).Value)
+                        'frm.dblMRP = clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value)
+                        frm.arr = TryCast(gv1.CurrentRow.Cells(colICode).Tag, List(Of clsBatchInventory))
+                        If CheckStockOfItemTillTransactionDateOnly = True AndAlso chkMilk.Checked = False AndAlso clsCommon.myLen(txtManualBatchNo.Text) > 0 Then
+                            frm.arr = New List(Of clsBatchInventory)
+                            Dim obj As clsBatchInventory = New clsBatchInventory()
+                            obj.Batch_No = clsCommon.myCstr(txtManualBatchNo.Text)
+                            obj.Manufacture_Date = clsCommon.myCDate(dtpdate.Value)
+                            Dim datex As DateTime = dtpdate.Value
+                            Dim silfNoDays As Integer = clsCommon.myCdbl(txtSelfLifeDays.Text)
+                            obj.Expiry_Date = clsCommon.myCDate(datex.AddDays(silfNoDays))
+                            obj.Qty = clsCommon.myCdbl(diffQty)
+                            obj.Manual_BatchNo = clsCommon.myCstr(txtManualBatchNo.Text)
+                            If clsCommon.myLen(obj.Batch_No) > 0 AndAlso obj.Qty <> 0 Then
+                                frm.arr.Add(obj)
+                            End If
                             gv1.CurrentRow.Cells(colICode).Tag = frm.arr
+                            txtManualBatchNo.Enabled = False
+                            txtSelfLifeDays.Enabled = False
+                        Else
+                            frm.ShowDialog()
+                            If Not frm.isCencelButtonClicked Then
+                                gv1.CurrentRow.Cells(colICode).Tag = frm.arr
+                            End If
                         End If
                     End If
-
                 ElseIf diffQty > 0 Then
                     If RunBatchFifowise Then
                         If clsCommon.myLen(gv1.CurrentRow.Cells(colICode).Value) > 0 Then
@@ -1348,7 +1348,7 @@ Public Class FrmPhysicalStock
         ElseIf e.KeyCode = Keys.F5 Then
             '======update by preeti gupta 17/10/2018
             If RunBatchFifowise = 0 Then
-                OpenBatchItem()
+                OpenBatchItem(True)
             Else
                 OpenBatchItemIfFIFIOSettingON()
             End If
