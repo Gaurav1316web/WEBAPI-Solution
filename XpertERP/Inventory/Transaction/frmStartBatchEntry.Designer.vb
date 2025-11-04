@@ -22,9 +22,9 @@ Partial Class frmStartBatchEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.Gv1 = New common.UserControls.MyRadGridView()
+        Me.gv1 = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
@@ -43,6 +43,8 @@ Partial Class frmStartBatchEntry
         Me.lblStatus = New common.usLock()
         Me.txtDocumentNo = New common.UserControls.txtNavigator()
         Me.txtRemarks = New common.Controls.MyTextBox()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.btnReverseDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnSaveAndPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
@@ -50,8 +52,8 @@ Partial Class frmStartBatchEntry
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -67,6 +69,8 @@ Partial Class frmStartBatchEntry
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverseDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSaveAndPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -78,43 +82,52 @@ Partial Class frmStartBatchEntry
         '
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
-        Me.SplitContainer1.IsSplitterFixed = True
         Me.SplitContainer1.Location = New System.Drawing.Point(0, 20)
         Me.SplitContainer1.Name = "SplitContainer1"
         Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
         'SplitContainer1.Panel1
         '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.Gv1)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.gv1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.Panel1)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel1)
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnShowInventory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverseDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSaveAndPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(766, 436)
-        Me.SplitContainer1.SplitterDistance = 377
+        Me.SplitContainer1.Size = New System.Drawing.Size(713, 436)
+        Me.SplitContainer1.SplitterDistance = 394
         Me.SplitContainer1.TabIndex = 3
         '
-        'Gv1
+        'gv1
         '
-        Me.Gv1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Gv1.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.Gv1.Location = New System.Drawing.Point(0, 133)
+        Me.gv1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gv1.Cursor = System.Windows.Forms.Cursors.Default
+        Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gv1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gv1.ForeColor = System.Drawing.Color.Black
+        Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.gv1.Location = New System.Drawing.Point(0, 137)
         '
         '
         '
-        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
-        Me.Gv1.MyExportFilePath = ""
-        Me.Gv1.MyStopExport = False
-        Me.Gv1.Name = "Gv1"
-        Me.Gv1.ShowHeaderCellButtons = True
-        Me.Gv1.Size = New System.Drawing.Size(766, 244)
-        Me.Gv1.TabIndex = 1
-        Me.Gv1.VarID = ""
+        Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
+        Me.gv1.MyStopExport = False
+        Me.gv1.Name = "gv1"
+        Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gv1.ShowGroupPanel = False
+        Me.gv1.ShowHeaderCellButtons = True
+        Me.gv1.Size = New System.Drawing.Size(713, 241)
+        Me.gv1.TabIndex = 1
+        Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'Panel1
         '
@@ -132,7 +145,7 @@ Partial Class frmStartBatchEntry
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(766, 133)
+        Me.Panel1.Size = New System.Drawing.Size(713, 137)
         Me.Panel1.TabIndex = 0
         '
         'btnReset
@@ -192,11 +205,12 @@ Partial Class frmStartBatchEntry
         Me.txtDefaultBatch.ReferenceTableName = Nothing
         Me.txtDefaultBatch.Size = New System.Drawing.Size(419, 18)
         Me.txtDefaultBatch.TabIndex = 1099
+        Me.txtDefaultBatch.Visible = False
         '
         'MyLabel3
         '
         Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.MyLabel3.Location = New System.Drawing.Point(7, 110)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(51, 16)
@@ -259,6 +273,7 @@ Partial Class frmStartBatchEntry
         Me.lblBatch.TabIndex = 51
         Me.lblBatch.Text = "Default Batch"
         Me.lblBatch.TextAlignment = System.Drawing.ContentAlignment.TopLeft
+        Me.lblBatch.Visible = False
         '
         'btnGo
         '
@@ -273,6 +288,7 @@ Partial Class frmStartBatchEntry
         '
         Me.txtDocumentDate.CalculationExpression = Nothing
         Me.txtDocumentDate.CustomFormat = "dd/MM/yyyy hh:mm tt"
+        Me.txtDocumentDate.Enabled = False
         Me.txtDocumentDate.FieldCode = Nothing
         Me.txtDocumentDate.FieldDesc = Nothing
         Me.txtDocumentDate.FieldMaxLength = 0
@@ -374,11 +390,34 @@ Partial Class frmStartBatchEntry
         Me.txtRemarks.Size = New System.Drawing.Size(534, 18)
         Me.txtRemarks.TabIndex = 6
         '
+        'MyLabel1
+        '
+        Me.MyLabel1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.MyLabel1.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.MyLabel1.Location = New System.Drawing.Point(0, 378)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(133, 16)
+        Me.MyLabel1.TabIndex = 52
+        Me.MyLabel1.Text = "Press F5 for Batch Item"
+        Me.MyLabel1.TextAlignment = System.Drawing.ContentAlignment.TopLeft
+        '
+        'btnShowInventory
+        '
+        Me.btnShowInventory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnShowInventory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnShowInventory.Location = New System.Drawing.Point(533, 10)
+        Me.btnShowInventory.Name = "btnShowInventory"
+        Me.btnShowInventory.Size = New System.Drawing.Size(105, 24)
+        Me.btnShowInventory.TabIndex = 48
+        Me.btnShowInventory.Text = "Show Inventory"
+        '
         'btnReverseDelete
         '
         Me.btnReverseDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReverseDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverseDelete.Location = New System.Drawing.Point(144, 28)
+        Me.btnReverseDelete.Location = New System.Drawing.Point(144, 11)
         Me.btnReverseDelete.Name = "btnReverseDelete"
         Me.btnReverseDelete.Size = New System.Drawing.Size(111, 24)
         Me.btnReverseDelete.TabIndex = 7
@@ -389,7 +428,7 @@ Partial Class frmStartBatchEntry
         '
         Me.btnSaveAndPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSaveAndPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSaveAndPost.Location = New System.Drawing.Point(6, 28)
+        Me.btnSaveAndPost.Location = New System.Drawing.Point(6, 11)
         Me.btnSaveAndPost.Name = "btnSaveAndPost"
         Me.btnSaveAndPost.Size = New System.Drawing.Size(134, 24)
         Me.btnSaveAndPost.TabIndex = 0
@@ -399,7 +438,7 @@ Partial Class frmStartBatchEntry
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(696, 27)
+        Me.btnClose.Location = New System.Drawing.Point(643, 10)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(68, 24)
         Me.btnClose.TabIndex = 5
@@ -409,14 +448,14 @@ Partial Class frmStartBatchEntry
         '
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(766, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(713, 20)
         Me.RadMenu1.TabIndex = 0
         '
         'frmStartBatchEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(766, 456)
+        Me.ClientSize = New System.Drawing.Size(713, 456)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Name = "frmStartBatchEntry"
@@ -426,10 +465,11 @@ Partial Class frmStartBatchEntry
         Me.RootElement.ApplyShapeToControl = True
         Me.Text = "Customer Penalty"
         Me.SplitContainer1.Panel1.ResumeLayout(False)
+        Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
-        CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
@@ -447,6 +487,8 @@ Partial Class frmStartBatchEntry
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverseDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSaveAndPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
@@ -477,9 +519,11 @@ Partial Class frmStartBatchEntry
     Friend WithEvents RadLabel1 As common.Controls.MyLabel
     Friend WithEvents lblStatus As common.usLock
     Friend WithEvents txtDocumentNo As common.UserControls.txtNavigator
-    Friend WithEvents Gv1 As common.UserControls.MyRadGridView
     Friend WithEvents txtItemType As common.UserControls.txtMultiSelectFinder
     Friend WithEvents txtItem As common.UserControls.txtMultiSelectFinder
     Friend WithEvents txtDefaultBatch As common.Controls.MyTextBox
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
+    Friend WithEvents btnShowInventory As RadButton
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
 End Class
 
