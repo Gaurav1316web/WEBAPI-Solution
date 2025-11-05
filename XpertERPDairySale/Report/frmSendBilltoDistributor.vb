@@ -378,10 +378,18 @@ where  CONVERT(Date,TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date,103)=CONVERT(Date
     Private Sub ProcessFileGatePass(dr As DataRow)
         Dim PDFPath As String
         Dim objGatePassPath As New frmDairyGatePass
-        If rbtnMilk.Checked Then
-            PDFPath = objGatePassPath.GatepassWithFilePath(clsCommon.myCstr(dr("GP Code")), clsCommon.myCstr(dr("GP Date")), clsCommon.myCstr(dr("Shift Type")), Nothing, Nothing, clsCommon.myCstr(dr("Route No")), clsCommon.myCstr(dr("Location Code")), True)
+        If EnableProductSaleForJPR = 1 Then
+            If rbtnMilk.Checked AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                PDFPath = objGatePassPath.GatepassWithFilePath(clsCommon.myCstr(dr("GP Code")), clsCommon.myCstr(dr("GP Date")), clsCommon.myCstr(dr("Shift Type")), Nothing, Nothing, clsCommon.myCstr(dr("Route No")), clsCommon.myCstr(dr("Location Code")), True)
+            Else
+                PDFPath = objGatePassPath.funPrint2(clsCommon.myCstr(dr("GP Code")), True)
+            End If
         Else
-            PDFPath = objGatePassPath.funPrint2(clsCommon.myCstr(dr("GP Code")), True)
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                PDFPath = objGatePassPath.GatepassWithFilePath(clsCommon.myCstr(dr("GP Code")), clsCommon.myCstr(dr("GP Date")), clsCommon.myCstr(dr("Shift Type")), Nothing, Nothing, clsCommon.myCstr(dr("Route No")), clsCommon.myCstr(dr("Location Code")), True)
+            Else
+                PDFPath = objGatePassPath.funPrint2(clsCommon.myCstr(dr("GP Code")), True)
+            End If
         End If
         objGatePassPath = Nothing
             Dim qry1 As String = " Select FILE_INFO from TSPL_DAIRYSALE_GATEPASS_MASTER where GPCode= '" & clsCommon.myCstr(dr("GP Code")) & "'"
