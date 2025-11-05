@@ -377,18 +377,32 @@ Public Class frmStartBatchEntry
         End If
         LoadBlankGrid()
         isLoadData = False
-        LoadGridData(isLoadData)
+        LoadGridData()
     End Sub
 
-    Private Sub LoadGridData(ByVal isLoadData As Boolean)
+    Private Sub LoadGridData()
         Try
             Dim whrcls As String = " AND TSPL_INVENTORY_MOVEMENT.Punching_Date <= '" & clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtDocumentDate.Value), "dd/MMM/yyyy hh:mm:ss tt") & "'  "
+            If txtItemType.arrValueMember IsNot Nothing AndAlso txtItemType.arrValueMember.Count > 0 Then
+                whrcls += "  and  TSPL_ITEM_MASTER.Item_TYPE IN (" & clsCommon.GetMulcallString(txtItemType.arrValueMember) & ") "
+            End If
             If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
                 whrcls += "  and  TSPL_INVENTORY_MOVEMENT.Item_Code IN (" & clsCommon.GetMulcallString(txtItem.arrValueMember) & ") "
             End If
             Dim qry As String = " select Location_Code,max(Location_Desc)Location_Desc,Item_Code,max(Item_Desc)Item_Desc,sum(Stock_Qty * ri )Stock_Qty,max(Stock_UOM)Stock_UOM,sum(Amount*RI) as Amount from ( 
-            select TSPL_INVENTORY_MOVEMENT.Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_INVENTORY_MOVEMENT.Item_Code,TSPL_ITEM_MASTER.Item_Desc, TSPL_INVENTORY_MOVEMENT.Stock_Qty,TSPL_INVENTORY_MOVEMENT.Stock_UOM,TSPL_INVENTORY_MOVEMENT.Avg_Cost as Amount, case when InOut = 'I' then 1 else -1 end as RI,InOut,TSPL_INVENTORY_MOVEMENT.Punching_Date from TSPL_INVENTORY_MOVEMENT 
-            LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = TSPL_INVENTORY_MOVEMENT.Location_Code LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.ITEM_CODE = TSPL_INVENTORY_MOVEMENT.Item_Code where  2=2 and is_batch_item = 0  " & whrcls & " ) xx group by Location_Code,Item_Code "
+            select TSPL_INVENTORY_MOVEMENT.Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_INVENTORY_MOVEMENT.Item_Code,TSPL_ITEM_MASTER.Item_Desc, TSPL_INVENTORY_MOVEMENT.Stock_Qty,TSPL_INVENTORY_MOVEMENT.Stock_UOM,TSPL_INVENTORY_MOVEMENT.Avg_Cost as Amount, case when InOut = 'I' then 1 else -1 end as RI,InOut from TSPL_INVENTORY_MOVEMENT 
+            LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = TSPL_INVENTORY_MOVEMENT.Location_Code LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.ITEM_CODE = TSPL_INVENTORY_MOVEMENT.Item_Code where 2=2 and is_batch_item = 0  " & whrcls & "
+           union 
+			select TSPL_LOCATION_MASTER.Location_Code, TSPL_LOCATION_MASTER.Location_Desc,tspl_item_master.Item_Code,TSPL_ITEM_MASTER.Item_Desc, 0 as Stock_Qty,'' as Stock_UOM,0 as Amount, 0 as RI,'' as InOut 
+			from tspl_item_master LEFT OUTER JOIN (select top 1 * from  TSPL_LOCATION_MASTER) as TSPL_LOCATION_MASTER ON 2=2 where  2=2 and Is_Batch_Item=0 "
+
+            If txtItemType.arrValueMember IsNot Nothing AndAlso txtItemType.arrValueMember.Count > 0 Then
+                qry += "  and TSPL_ITEM_MASTER.Item_TYPE IN (" & clsCommon.GetMulcallString(txtItemType.arrValueMember) & ") "
+            End If
+            If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
+                qry += "  and  TSPL_ITEM_MASTER.Item_Code IN (" & clsCommon.GetMulcallString(txtItem.arrValueMember) & ") "
+            End If
+            qry += ") xx group by Location_Code,Item_Code "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
             If dt.Rows.Count > 0 Then
@@ -425,36 +439,37 @@ Public Class frmStartBatchEntry
         frm.dblqty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value)
         frm.strUOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colStockUOM).Value)
         frm.TransDate = txtDocumentDate.Value
+        If frm.dblqty > 0 Then
+            frm.arr = TryCast(gv1.CurrentRow.Cells(colItemCode).Tag, List(Of clsBatchInventory))
+            If Not objCommonVar.AutoGenrateBatchInventory Then
+                If Not isFromF5 Then
+                    frm.arr = New List(Of clsBatchInventory)
+                    Dim dblTotalQty As Double = 0
+                    Dim blnAvailable As Boolean = False
 
-        frm.arr = TryCast(gv1.CurrentRow.Cells(colItemCode).Tag, List(Of clsBatchInventory))
-        If Not objCommonVar.AutoGenrateBatchInventory Then
-            If Not isFromF5 Then
-                frm.arr = New List(Of clsBatchInventory)
-                Dim dblTotalQty As Double = 0
-                Dim blnAvailable As Boolean = False
+                    Dim obj As clsBatchInventory = New clsBatchInventory()
+                    obj.Batch_No = txtDefaultBatch.Text
+                    obj.Manual_BatchNo = txtDefaultBatch.Text
+                    obj.Manufacture_Date = clsCommon.myCDate(txtDocumentDate.Value)
+                    obj.Expiry_Date = clsCommon.myCDate(txtDocumentDate.Value)
 
-                Dim obj As clsBatchInventory = New clsBatchInventory()
-                obj.Batch_No = txtDefaultBatch.Text
-                obj.Manual_BatchNo = txtDefaultBatch.Text
-                obj.Manufacture_Date = clsCommon.myCDate(txtDocumentDate.Value)
-                obj.Expiry_Date = clsCommon.myCDate(txtDocumentDate.Value)
-
-                obj.Qty = frm.dblqty
-                ' obj.Unit_code = strUnit_code
-                If obj.Qty > 0 Then
-                    frm.arr.Add(obj)
-                    gv1.CurrentRow.Cells(colItemCode).Tag = frm.arr
+                    obj.Qty = frm.dblqty
+                    ' obj.Unit_code = strUnit_code
+                    If obj.Qty > 0 Then
+                        frm.arr.Add(obj)
+                        gv1.CurrentRow.Cells(colItemCode).Tag = frm.arr
+                    End If
+                Else
+                    frm.ShowDialog()
+                    If Not frm.isCencelButtonClicked Then
+                        gv1.CurrentRow.Cells(colItemCode).Tag = frm.arr
+                    End If
                 End If
-            Else
+            ElseIf isFromF5 Then
                 frm.ShowDialog()
                 If Not frm.isCencelButtonClicked Then
                     gv1.CurrentRow.Cells(colItemCode).Tag = frm.arr
                 End If
-            End If
-        ElseIf isFromF5 Then
-            frm.ShowDialog()
-            If Not frm.isCencelButtonClicked Then
-                gv1.CurrentRow.Cells(colItemCode).Tag = frm.arr
             End If
         End If
     End Sub

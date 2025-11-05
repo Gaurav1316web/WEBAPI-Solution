@@ -125,31 +125,33 @@ Public Class clsStartBatchEntry
             Dim objInventoryMovemnt As New clsInventoryMovement()
 
             For Each objTr As clsStartBatchEntryDetail In OBJ.Arr
-                intCounter = intCounter + 1
-                Dim strItemType As String = clsItemMaster.GetItemType(objTr.Item_Code, trans)
-                Dim strItemTypeToSave As String = ""
-                If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
-                    strItemTypeToSave = "RM"
-                ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
-                    strItemTypeToSave = "OT"
-                ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
-                    strItemTypeToSave = "FT"
-                Else
-                    strItemTypeToSave = strItemType
-                End If
-                objInventoryMovemnt = New clsInventoryMovement()
-                objInventoryMovemnt.InOut = "O"
+                If objTr.Qty > 0 OrElse objTr.Amount > 0 Then
+                    intCounter = intCounter + 1
+                    Dim strItemType As String = clsItemMaster.GetItemType(objTr.Item_Code, trans)
+                    Dim strItemTypeToSave As String = ""
+                    If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+                        strItemTypeToSave = "RM"
+                    ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+                        strItemTypeToSave = "OT"
+                    ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+                        strItemTypeToSave = "FT"
+                    Else
+                        strItemTypeToSave = strItemType
+                    End If
+                    objInventoryMovemnt = New clsInventoryMovement()
+                    objInventoryMovemnt.InOut = "O"
 
-                objInventoryMovemnt.Location_Code = objTr.Location_Code
-                objInventoryMovemnt.Item_Code = objTr.Item_Code
-                objInventoryMovemnt.Item_Desc = objTr.Item_Desc
-                objInventoryMovemnt.Qty = objTr.Qty
-                objInventoryMovemnt.UOM = objTr.Unit_code
-                objInventoryMovemnt.CalculateAvgCost = False
-                objInventoryMovemnt.Avg_Cost = objTr.Amount
-                objInventoryMovemnt.Basic_Cost = objTr.Amount / objTr.Qty
-                objInventoryMovemnt.ItemType = strItemTypeToSave
-                ArrInventoryMovement.Add(objInventoryMovemnt)
+                    objInventoryMovemnt.Location_Code = objTr.Location_Code
+                    objInventoryMovemnt.Item_Code = objTr.Item_Code
+                    objInventoryMovemnt.Item_Desc = objTr.Item_Desc
+                    objInventoryMovemnt.Qty = objTr.Qty
+                    objInventoryMovemnt.UOM = objTr.Unit_code
+                    objInventoryMovemnt.CalculateAvgCost = False
+                    objInventoryMovemnt.Avg_Cost = objTr.Amount
+                    objInventoryMovemnt.Basic_Cost = clsCommon.myCDivide(objTr.Amount, objTr.Qty)
+                    objInventoryMovemnt.ItemType = strItemTypeToSave
+                    ArrInventoryMovement.Add(objInventoryMovemnt)
+                End If
             Next
             clsInventoryMovement.SaveData("SBE", OBJ.Document_No, OBJ.Document_date, clsCommon.GetPrintDate(OBJ.Document_date, "dd/MM/yyyy"), ArrInventoryMovement, trans)
             '---End
@@ -158,24 +160,28 @@ Public Class clsStartBatchEntry
             '---Batch In
             If objCommonVar.AutoGenrateBatchInventory Then
                 For Each objtr As clsStartBatchEntryDetail In OBJ.Arr
-                    If clsItemMaster.IsBatchItem(objtr.Item_Code, trans) Then
-                        Dim ArrBatchItem As New List(Of clsBatchInventory)
-                        Dim objBatch As New clsBatchInventory
-                        objBatch.Parent_Line_No = objtr.Line_No
-                        objBatch.Line_No = 1
-                        objBatch.Batch_No = clsERPFuncationality.GetNextCode(trans, clsCommon.GetPrintDate(OBJ.Document_date, "dd/MMM/yyyy"), clsDocType.ItemBatch, clsItemMaster.GetItemType(objtr.Item_Code, trans), objtr.Location_Code, False, True, False, False, False, False, "", clsCommon.GetPrintDate(OBJ.Document_date, "ddMMyyHHmm"), "")
-                        objBatch.Manual_BatchNo = objBatch.Batch_No
-                        objBatch.Manufacture_Date = OBJ.Document_date
-                        objBatch.Expiry_Date = clsCommon.myCDate(OBJ.Document_date).AddDays(clsItemMaster.GetSelfLife(objtr.Item_Code, trans))
-                        objBatch.Qty = objtr.Qty
-                        ArrBatchItem.Add(objBatch)
-                        clsBatchInventory.SaveData("SBE", OBJ.Document_No, OBJ.Document_date, "I", objtr.Item_Code, objtr.Location_Code, objtr.Line_No, 0, objtr.Unit_code, ArrBatchItem, trans)
+                    If objtr.Qty > 0 OrElse objtr.Amount > 0 Then
+                        If clsItemMaster.IsBatchItem(objtr.Item_Code, trans) Then
+                            Dim ArrBatchItem As New List(Of clsBatchInventory)
+                            Dim objBatch As New clsBatchInventory
+                            objBatch.Parent_Line_No = objtr.Line_No
+                            objBatch.Line_No = 1
+                            objBatch.Batch_No = clsERPFuncationality.GetNextCode(trans, clsCommon.GetPrintDate(OBJ.Document_date, "dd/MMM/yyyy"), clsDocType.ItemBatch, clsItemMaster.GetItemType(objtr.Item_Code, trans), objtr.Location_Code, False, True, False, False, False, False, "", clsCommon.GetPrintDate(OBJ.Document_date, "ddMMyyHHmm"), "")
+                            objBatch.Manual_BatchNo = objBatch.Batch_No
+                            objBatch.Manufacture_Date = OBJ.Document_date
+                            objBatch.Expiry_Date = clsCommon.myCDate(OBJ.Document_date).AddDays(clsItemMaster.GetSelfLife(objtr.Item_Code, trans))
+                            objBatch.Qty = objtr.Qty
+                            ArrBatchItem.Add(objBatch)
+                            clsBatchInventory.SaveData("SBE", OBJ.Document_No, OBJ.Document_date, "I", objtr.Item_Code, objtr.Location_Code, objtr.Line_No, 0, objtr.Unit_code, ArrBatchItem, trans)
+                        End If
                     End If
                 Next
             Else
                 For Each objtr As clsStartBatchEntryDetail In OBJ.Arr
-                    If clsItemMaster.IsBatchItem(objtr.Item_Code, trans) Then
-                        clsBatchInventory.SaveData("SBE", OBJ.Document_No, OBJ.Document_date, "I", objtr.Item_Code, objtr.Location_Code, objtr.Line_No, 0, objtr.Unit_code, objtr.arrBatchItem, trans)
+                    If objtr.Qty > 0 OrElse objtr.Amount > 0 Then
+                        If clsItemMaster.IsBatchItem(objtr.Item_Code, trans) Then
+                            clsBatchInventory.SaveData("SBE", OBJ.Document_No, OBJ.Document_date, "I", objtr.Item_Code, objtr.Location_Code, objtr.Line_No, 0, objtr.Unit_code, objtr.arrBatchItem, trans)
+                        End If
                     End If
                 Next
             End If
@@ -184,30 +190,31 @@ Public Class clsStartBatchEntry
             '---- Update inventory movement In
             ArrInventoryMovement = New List(Of clsInventoryMovement)
             For Each objTr As clsStartBatchEntryDetail In OBJ.Arr
-                Dim itemtype As String = "select item_type from TSPL_ITEM_MASTER where item_code='" + objTr.Item_Code + "'"
-                Dim type As String = clsDBFuncationality.getSingleValue(itemtype, trans)
-                objInventoryMovemnt = New clsInventoryMovement()
-                objInventoryMovemnt.InOut = "I"
-                objInventoryMovemnt.Location_Code = objTr.Location_Code
-                objInventoryMovemnt.Other_Location_Code = objTr.Location_Code
-                objInventoryMovemnt.Other_Location_Desc = objTr.Location_Desc
-                objInventoryMovemnt.Item_Code = objTr.Item_Code
-                objInventoryMovemnt.Item_Desc = objTr.Item_Desc
-                objInventoryMovemnt.Qty = objTr.Qty
-                objInventoryMovemnt.UOM = objTr.Unit_code
-                objInventoryMovemnt.Basic_Cost = objTr.Amount / objTr.Qty
-                objInventoryMovemnt.Avg_Cost = objTr.Amount
-                objInventoryMovemnt.CalculateAvgCost = False
-                If clsCommon.CompairString(type, "R") = CompairStringResult.Equal Then
-                    objInventoryMovemnt.ItemType = "RM"
-                ElseIf clsCommon.CompairString(type, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(type, "O") = CompairStringResult.Equal Then
-                    objInventoryMovemnt.ItemType = "OT"
-                ElseIf clsCommon.CompairString(type, "F") = CompairStringResult.Equal Then
-                    objInventoryMovemnt.ItemType = "FT"
+                If objTr.Qty > 0 OrElse objTr.Amount > 0 Then
+                    Dim itemtype As String = "select item_type from TSPL_ITEM_MASTER where item_code='" + objTr.Item_Code + "'"
+                    Dim type As String = clsDBFuncationality.getSingleValue(itemtype, trans)
+                    objInventoryMovemnt = New clsInventoryMovement()
+                    objInventoryMovemnt.InOut = "I"
+                    objInventoryMovemnt.Location_Code = objTr.Location_Code
+                    objInventoryMovemnt.Other_Location_Code = objTr.Location_Code
+                    objInventoryMovemnt.Other_Location_Desc = objTr.Location_Desc
+                    objInventoryMovemnt.Item_Code = objTr.Item_Code
+                    objInventoryMovemnt.Item_Desc = objTr.Item_Desc
+                    objInventoryMovemnt.Qty = objTr.Qty
+                    objInventoryMovemnt.UOM = objTr.Unit_code
+                    objInventoryMovemnt.Basic_Cost = clsCommon.myCDivide(objTr.Amount, objTr.Qty)
+                    objInventoryMovemnt.Avg_Cost = objTr.Amount
+                    objInventoryMovemnt.CalculateAvgCost = False
+                    If clsCommon.CompairString(type, "R") = CompairStringResult.Equal Then
+                        objInventoryMovemnt.ItemType = "RM"
+                    ElseIf clsCommon.CompairString(type, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(type, "O") = CompairStringResult.Equal Then
+                        objInventoryMovemnt.ItemType = "OT"
+                    ElseIf clsCommon.CompairString(type, "F") = CompairStringResult.Equal Then
+                        objInventoryMovemnt.ItemType = "FT"
+                    End If
+                    ArrInventoryMovement.Add(objInventoryMovemnt)
                 End If
-                ArrInventoryMovement.Add(objInventoryMovemnt)
             Next
-
             clsInventoryMovement.SaveData("SBE", OBJ.Document_No, OBJ.Document_date, clsCommon.GetPrintDate(OBJ.Document_date, "dd/MM/yyyy"), ArrInventoryMovement, trans)
             '---End
 
