@@ -4729,7 +4729,12 @@ Public Class FrmUtility
                         Dim strVoucherNo As String = clsCommon.myCstr(dt.Rows(ii)("voucher_no"))
                         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                         Try
+                            clsBatchInventory.ReverseAndUnpost("SRN", strSRNNo, trans)
+                            qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" + strSRNNo + "' and Trans_Type='SRN'"
+                            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
                             Dim obj As clsSRNHead = clsSRNHead.GetData(strSRNNo, NavigatorType.Current, trans)
+                            clsSRNHead.HitInventroyMovement(obj, trans, False, False)
                             clsSRNHead.CreateJournalEntry(obj, strVoucherNo, trans)
                             clsDBFuncationality.ExecuteNonQuery("Insert into TEMP_CREATE_SRN values('" + strSRNNo + "','" + strVoucherNo + "')", trans)
                             trans.Commit()
@@ -25905,41 +25910,49 @@ where TSPL_ASSET_SCRAP_HEAD.Status=1"
             End If
             Dim StrAllException As String = ""
             Dim qry As String
-            For ii As Integer = 0 To TxtMultiSelectFinder18.arrValueMember.Count - 1
-                Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-                Try
-                    qry = "update TSPL_SPP_CONSUMPTION_WITHOUT_BATCH set Avg_Cost=xx.Avg_Cost from (
+            clsCommon.ProgressBarPercentShow()
+            Try
+                For ii As Integer = 0 To TxtMultiSelectFinder18.arrValueMember.Count - 1
+                    clsCommon.ProgressBarPercentUpdate((ii + 1), TxtMultiSelectFinder18.arrValueMember.Count, "Recreate JE AND INVENTORY " + clsCommon.myCstr(ii + 1) + "/" + clsCommon.myCstr(TxtMultiSelectFinder18.arrValueMember.Count))
+                    Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+                    Try
+                        qry = "update TSPL_SPP_CONSUMPTION_WITHOUT_BATCH set Avg_Cost=xx.Avg_Cost from (
 select Source_Doc_No,Item_Code,Avg_Cost   from TSPL_INVENTORY_MOVEMENT where Trans_Type='STD_PRO_ENT' and InOut='O' and TSPL_INVENTORY_MOVEMENT.Source_Doc_No='" + clsCommon.myCstr(TxtMultiSelectFinder18.arrValueMember(ii)) + "'
 )xx inner join TSPL_SPP_CONSUMPTION_WITHOUT_BATCH on TSPL_SPP_CONSUMPTION_WITHOUT_BATCH.PROD_ENTRY_CODE=xx.Source_Doc_No and TSPL_SPP_CONSUMPTION_WITHOUT_BATCH.CONSM_ITEM_CODE=xx.Item_Code"
-                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                        clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                    qry = "update TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL set FIFO_Cost=xx.Avg_Cost,LIFO_Cost=xx.Avg_Cost,Avg_Cost=xx.Avg_Cost
+                        qry = "update TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL set FIFO_Cost=xx.Avg_Cost,LIFO_Cost=xx.Avg_Cost,Avg_Cost=xx.Avg_Cost
 from (
 select Source_Doc_No,Item_Code,Avg_Cost   from TSPL_INVENTORY_MOVEMENT where Trans_Type='STD_PRO_ENT' and InOut='O' and TSPL_INVENTORY_MOVEMENT.Source_Doc_No='" + clsCommon.myCstr(TxtMultiSelectFinder18.arrValueMember(ii)) + "'
 )xx inner join TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL on TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE=xx.Source_Doc_No and TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.CONSM_ITEM_CODE=xx.Item_Code"
-                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                        clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                    qry = "update TSPL_SPP_COST_WITHOUT_BATCH set OverHead_Cost=xx.Avg_Cost from (
+                        qry = "update TSPL_SPP_COST_WITHOUT_BATCH set OverHead_Cost=xx.Avg_Cost from (
 select Source_Doc_No,sum(Avg_Cost) as Avg_Cost  from TSPL_INVENTORY_MOVEMENT where Trans_Type='STD_PRO_ENT' and InOut='O' and TSPL_INVENTORY_MOVEMENT.Source_Doc_No='" + clsCommon.myCstr(TxtMultiSelectFinder18.arrValueMember(ii)) + "' group by Source_Doc_No  
 )xx inner join TSPL_SPP_COST_WITHOUT_BATCH on TSPL_SPP_COST_WITHOUT_BATCH.PROD_ENTRY_CODE=xx.Source_Doc_No "
-                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                        clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                    qry = "update TSPL_INVENTORY_MOVEMENT set Avg_Cost=0  where Trans_Type='STD_PRO_ENT' and InOut='I'  and TSPL_INVENTORY_MOVEMENT.Source_Doc_No='" + clsCommon.myCstr(TxtMultiSelectFinder18.arrValueMember(ii)) + "'"
-                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                        qry = "update TSPL_INVENTORY_MOVEMENT set Avg_Cost=0  where Trans_Type='STD_PRO_ENT' and InOut='I'  and TSPL_INVENTORY_MOVEMENT.Source_Doc_No='" + clsCommon.myCstr(TxtMultiSelectFinder18.arrValueMember(ii)) + "'"
+                        clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                    qry = "update TSPL_INVENTORY_MOVEMENT set Avg_Cost=xx.Avg_Cost from (
+                        qry = "update TSPL_INVENTORY_MOVEMENT set Avg_Cost=xx.Avg_Cost from (
 select Source_Doc_No,sum(Avg_Cost) as Avg_Cost  from TSPL_INVENTORY_MOVEMENT where Trans_Type='STD_PRO_ENT' and InOut='O' and TSPL_INVENTORY_MOVEMENT.Source_Doc_No='" + clsCommon.myCstr(TxtMultiSelectFinder18.arrValueMember(ii)) + "' group by Source_Doc_No  
 )xx inner join TSPL_INVENTORY_MOVEMENT on TSPL_INVENTORY_MOVEMENT.Source_Doc_No=xx.Source_Doc_No  
 and TSPL_INVENTORY_MOVEMENT.InOut='I' 
 and not Exists(select 1 from TSPL_ITEM_UOM_DETAIL where  TSPL_ITEM_UOM_DETAIL.item_code=TSPL_INVENTORY_MOVEMENT.Item_Code and isnull(TSPL_ITEM_UOM_DETAIL.Net_Weight,0)>0)"
-                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
-                    clsStanderdProductionEntry.ReCreateJE(clsUserMgtCode.frmStanderdProductionEntry, TxtMultiSelectFinder18.arrValueMember(ii), "", True, trans, True)
-                    trans.Commit()
-                Catch ex As Exception
-                    trans.Rollback()
-                    StrAllException += "Error  [" + TxtMultiSelectFinder18.arrValueMember(ii) + "]" + ex.Message + Environment.NewLine
-                End Try
-            Next
+                        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                        clsStanderdProductionEntry.ReCreateJE(clsUserMgtCode.frmStanderdProductionEntry, TxtMultiSelectFinder18.arrValueMember(ii), "", True, trans, True)
+                        trans.Commit()
+                    Catch ex As Exception
+                        trans.Rollback()
+                        StrAllException += "Error  [" + TxtMultiSelectFinder18.arrValueMember(ii) + "]" + ex.Message + Environment.NewLine
+                    End Try
+                Next
+            Catch ex As Exception
+            Finally
+                clsCommon.ProgressBarPercentHide()
+            End Try
+
             If clsCommon.myLen(StrAllException) > 0 Then
                 clsCommon.MyMessageBoxShow(StrAllException, Me.Text)
             Else
