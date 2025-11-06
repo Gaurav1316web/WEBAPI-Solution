@@ -12178,7 +12178,8 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                 Dim dblMRPAmt As Double = dblQty * dblMRP
                 Dim dblAmt As Double = (dblQty * dblRate) ''+ dblFAmt
                 If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colRowType).Value), RowTypeItem) = CompairStringResult.Equal Then 'AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colIsMannualAmt).Value) = 0
-                    gv1.Rows(IntRowNo).Cells(colAmt).Value = Math.Round(dblAmt, 2)
+                    gv1.Rows(IntRowNo).Cells(colAmt).Value = clsCommon.myRoundOFF(dblAmt, 2, 5)
+                    dblAmt = clsCommon.myRoundOFF(dblAmt, 2, 5)
                 Else
                     'gv1.Rows(IntRowNo).Cells(colAmt).Value = Math.Round(dblAmt, 2)
                     dblAmt = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colAmt).Value)

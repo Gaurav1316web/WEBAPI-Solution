@@ -356,6 +356,9 @@ Public Class frmScrapSale
         txtVehicleDesc.Text = ""
         txtaddamt.Text = ""
         fndLocation.Value = ""
+        txtSubLocation.Enabled = False
+        txtSubLocation.Value = ""
+        lblSubLocation.Text = ""
         txtponumber.Text = ""
         gvadd.DataSource = Nothing
         gvadd.Rows.Clear()
@@ -1538,7 +1541,7 @@ Public Class frmScrapSale
         repoTaxRate.Name = colTTaxRate
         repoTaxRate.Width = 100
         repoTaxRate.ReadOnly = True
-        repoTaxRate.IsVisible = True
+        repoTaxRate.IsVisible = False
         repoTaxRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv2.MasterTemplate.Columns.Add(repoTaxRate)
 
@@ -1592,7 +1595,7 @@ Public Class frmScrapSale
                             If clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), clsItemRowType.RowTypeItem) = CompairStringResult.Equal Then
                                 Dim stockqty As Double = 0
                                 If clsCommon.myLen(fndLocation.Value) > 0 And clsCommon.myLen(gv1.CurrentRow.Cells(colICode).Value) > 0 And clsCommon.myLen(gv1.CurrentRow.Cells(colUnit).Value) > 0 Then
-                                    stockqty = clsItemLocationDetails.getBalance(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), fndLocation.Value, txtDocNo.Value, dtpshipment.Value, Nothing, clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), 0)
+                                    stockqty = clsItemLocationDetails.getBalance(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), IIf(clsCommon.myLen(txtSubLocation.Value) > 0, txtSubLocation.Value, fndLocation.Value), txtDocNo.Value, dtpshipment.Value, Nothing, clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), 0)
                                     If clsCommon.myLen(txtnrg.Value) <= 0 AndAlso clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value) > stockqty Then
                                         common.clsCommon.MyMessageBoxShow("Qty more then stock qty not allowed.Availabe Qty : " + clsCommon.myCstr(stockqty))
                                         gv1.CurrentRow.Cells(colQty).Value = 0
@@ -1725,6 +1728,9 @@ Public Class frmScrapSale
                         End If
                     Else
                         gv1.CurrentRow.Cells(colprice).ReadOnly = False
+                    End If
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
+                        SetTax(obj.Item_Code)
                     End If
                     SetitemWiseTaxSetting(True, True)
                 Else
@@ -1955,6 +1961,30 @@ Public Class frmScrapSale
         chkBuyBack.Visible = True
         chkBuyBack.Checked = False
         btnPrint.Visible = True
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
+            MyLabel60.Visible = True
+            txtSubLocation.Visible = True
+            lblSubLocation.Visible = True
+            fndLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            txtlocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            txtVehicleDesc.ReadOnly = False
+            If clsCommon.myLen(clsCommon.myCstr(fndLocation.Value)) > 0 Then
+                If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(fndLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
+                    txtSubLocation.Enabled = True
+                    txtSubLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Sub_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "'"))
+                    lblSubLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtSubLocation.Value + "'"))
+                Else
+                    txtSubLocation.Enabled = False
+                    txtSubLocation.Value = ""
+                    lblSubLocation.Text = ""
+                End If
+
+            End If
+        Else
+            MyLabel60.Visible = False
+            txtSubLocation.Visible = False
+            lblSubLocation.Visible = False
+        End If
         'chkIsEwaybill.Checked = True
         ''------------------
         ''For Custom Fields
@@ -2039,6 +2069,19 @@ Public Class frmScrapSale
             fndLocation.Focus()
             Return False
         End If
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
+            If clsCommon.myLen(clsCommon.myCstr(fndLocation.Value)) > 0 Then
+                If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(fndLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(fndcustNo.Value) & "' ")), "Others") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(fndcustNo.Value) & "' ")), "") = CompairStringResult.Equal Then
+                        If clsCommon.myLen(txtSubLocation.Value) <= 0 Then
+                            Throw New Exception("Please select Sub Location")
+                            txtSubLocation.Focus()
+                            Return False
+                        End If
+                    End If
+                End If
+            End If
+        End If
         If AllowtoChangeTCSBaseAmount Then
             If clsCommon.myCdbl(txttcstaxbaseamount.Value) > clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text) Then
                 Throw New Exception("TCS Tax Base amount should not be greater than Actual TCS Tax Base Amount")
@@ -2116,7 +2159,7 @@ Public Class frmScrapSale
                     End If
                     ''For RM Other balance Qty check And works only for one unit.
                     Dim dblOuterConvFac As Double = clsItemMaster.GetConvertionFactor(strICode, strUOM, Nothing)
-                    Dim dblBalQty As Double = clsItemLocationDetails.getBalanceWithUnapproveForRMOther(strICode, fndLocation.Value, txtDocNo.Value, dtpshipment.Value, Nothing, strUOM)
+                    Dim dblBalQty As Double = clsItemLocationDetails.getBalanceWithUnapproveForRMOther(strICode, IIf(clsCommon.myLen(txtSubLocation.Value) > 0, txtSubLocation.Value, fndLocation.Value), txtDocNo.Value, dtpshipment.Value, Nothing, strUOM)
                     Dim dblEnteredQty As Double = dblQty
                     For jj As Integer = 0 To gv1.Rows.Count - 1
                         If ii = jj Then
@@ -2198,22 +2241,24 @@ Public Class frmScrapSale
                 End If
             End If
         End If
-
-        Dim qrychk As String = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select cfp_unit from TSPL_CUSTOMER_MASTER where Cust_Code ='" + fndcustNo.Value + "' "))
-        If qrychk = 1 Then
-            If clsCommon.CompairString(cmbSaleType.Text, "Inter Unit Sale") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") = CompairStringResult.Equal Then
+            Dim qrychk As String = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select cfp_unit from TSPL_CUSTOMER_MASTER where Cust_Code ='" + fndcustNo.Value + "' "))
+            If qrychk = 1 Then
+                If clsCommon.CompairString(cmbSaleType.Text, "Inter Unit Sale") = CompairStringResult.Equal Then
+                Else
+                    common.clsCommon.MyMessageBoxShow("Please Select Sale Type inter Unit Sale")
+                    cmbSaleType.Focus()
+                    Return False
+                End If
             Else
-                common.clsCommon.MyMessageBoxShow("Please Select Sale Type inter Unit Sale")
-                cmbSaleType.Focus()
-                Return False
-            End If
-        Else
-            If clsCommon.CompairString(cmbSaleType.Text, "Inter Unit Sale") = CompairStringResult.Equal Then
-                common.clsCommon.MyMessageBoxShow("Please map this Customer with cfp_unit on Customer master or change Sale Type ")
-                cmbSaleType.Focus()
-                Return False
+                If clsCommon.CompairString(cmbSaleType.Text, "Inter Unit Sale") = CompairStringResult.Equal Then
+                    common.clsCommon.MyMessageBoxShow("Please map this Customer with cfp_unit on Customer master or change Sale Type ")
+                    cmbSaleType.Focus()
+                    Return False
+                End If
             End If
         End If
+
 
         'If Inter_unit_salechk.Checked Then
         '    ' Check if the vehicle number is empty
@@ -2519,6 +2564,7 @@ Public Class frmScrapSale
                 obj.posting_Date = dtppost.Value
                 obj.expship_Date = dtpexp.Value
                 obj.Loc_Code = fndLocation.Value
+                obj.Sub_Location_code = txtSubLocation.Value
                 obj.Vehicle_Id = TxtVehicleCode.Value
                 obj.Is_ManualTCS = IIf(rbtnManualTCS.IsChecked, 1, 0)
                 obj.Loc_Name = txtlocation.Text
@@ -2894,6 +2940,8 @@ Public Class frmScrapSale
                 fndLocation.Value = obj.Loc_Code
                 lblLocGSTNo.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select GSTNO from TSPL_LOCATION_MASTER where Location_Code = '" + fndLocation.Value + "'"))
                 txtlocation.Text = obj.Loc_Name
+                txtSubLocation.Value = obj.Sub_Location_code
+                lblSubLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtSubLocation.Value + "' "))
                 TxtVehicleCode.Value = obj.Vehicle_Id
                 'txt.Text = obj.Vehicle_code
                 txtTransporter_Code.Value = obj.Transporter_code
@@ -3679,6 +3727,43 @@ Public Class frmScrapSale
             SetTaxDetails()
         End If
     End Sub
+    Private Sub SetTax(ByVal Item_Code As String)
+        GSTStatus = clsERPFuncationality.GetGSTStatus(dtpshipment.Value)
+        Try
+            If GSTStatus = False OrElse (chkTaxable.Checked AndAlso GSTStatus) Then
+                If CalculateTaxRatefromItemwsieTaxOnSale Then
+                    If clsCommon.myLen(fndLocation.Value) > 0 Then
+                        Dim strTaxType As String = clsLocationWiseTax.TaxType(fndLocation.Value, fndcustNo.Value, "S", dtpshipment.Value, Nothing)
+                        If GSTStatus = True AndAlso clsCommon.CompairString(strTaxType, "L") = CompairStringResult.Equal Then
+
+                            txtTaxGroup.Value = clsItemWiseTaxAuthority.GetTaxGroupItemWise("L", "S", dtpshipment.Value, Item_Code, Nothing)
+                        Else
+                            'txtTaxGroup.Value = clsLocationWiseTax.GetDefaultTaxGroup(txtBillToLocation.Value, txtVendorNo.Value, "S", txtDate.Value)
+                            txtTaxGroup.Value = clsItemWiseTaxAuthority.GetTaxGroupItemWise("I", "S", dtpshipment.Value, Item_Code, Nothing)
+                        End If
+                    Else
+                        txtTaxGroup.Value = clsLocationWiseTax.GetDefaultTaxGroup(fndLocation.Value, fndcustNo.Value, "S", dtpshipment.Value)
+                    End If
+                Else
+                    txtTaxGroup.Value = clsLocationWiseTax.GetDefaultTaxGroup(fndLocation.Value, fndcustNo.Value, "S", dtpshipment.Value)
+                    lblTaxGrpName.Text = clsTaxGroupMaster.GetNameOfSaleType(txtTaxGroup.Value, Nothing)
+                End If
+
+            Else
+                If Not chkTaxable.Checked Then
+                    txtTaxGroup.Value = clsLocationWiseTax.GetExempedDefaultTaxGroup(True, fndLocation.Value, fndcustNo.Value, "S", dtpshipment.Value)
+                    lblTaxGrpName.Text = clsTaxGroupMaster.GetNameOfSaleType(txtTaxGroup.Value, Nothing)
+                End If
+            End If
+            If clsCommon.myLen(txtTaxGroup.Value) <= 0 Then
+                Throw New Exception("Please Map Item Wise Tax Master [" & Item_Code & "]")
+            End If
+            SetTaxDetails()
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+
+    End Sub
     Private Sub fndShipToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndShipToLocation._MYValidating
         Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
         Dim WhrCls As String = "Location_Type='Physical' and Rejected_Type='N'"
@@ -4040,7 +4125,17 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
             fndLocation.Value = clsCommon.ShowSelectForm("LocTnMstrFND", qry, "Code", WhrCls, fndLocation.Value, "Code", isButtonClicked)
             txtlocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + fndLocation.Value + "'"))
             lblLocGSTNo.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select GSTNO from TSPL_LOCATION_MASTER where Location_Code = '" + fndLocation.Value + "'"))
-
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
+                If clsCommon.myLen(clsCommon.myCstr(fndLocation.Value)) > 0 Then
+                    If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(fndLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
+                        txtSubLocation.Enabled = True
+                    Else
+                        txtSubLocation.Enabled = False
+                    End If
+                    txtSubLocation.Value = ""
+                    lblSubLocation.Text = ""
+                End If
+            End If
             ''richa agarwal 19/03/2015
             If clsCommon.CompairString(clsDBFuncationality.getSingleValue("Select Excisable from tspl_location_master where Location_Code ='" & fndLocation.Value & "'"), "T") = CompairStringResult.Equal Then
                 ddlInvoiceType.SelectedValue = "E"
@@ -5148,7 +5243,8 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                         '         " isnull(TSPL_SCRAPSALE_DETAIL.TAX9_Rate,0) as DTax9_Rate,  isnull(TSPL_SCRAPSALE_DETAIL.TAX10_Rate,0) as DTax10_Rate,"
 
                         Qry1 += " TSPL_GL_SEGMENT_CODE.Description as vehicle_code,TSPL_SCRAPSALE_HEAD.Transport_code,TSPL_TRANSPORT_MASTER.Transporter_name,TSPL_SCRAPSALE_HEAD.Cust_code,TSPL_SCRAPSALE_HEAD.cust_name,tspl_customer_master.add1,tspl_customer_master.add2,tspl_customer_master.add3,tspl_city_master.city_name,TSPL_SCRAPSALE_HEAD.Electronic_ref_No,FromLocation.accountholdername,FromLocation.Bank,FromLocation.Branch,FromLocation.ACType,FromLocation.bankaccno,FromLocation.bankifsccode,fromlocation.Pin_Code as PinNo,
-	  fromlocation.Phone1 as LPhone,fromlocation.Service_Tax_Reg_No as Registration_No
+(case when isnull(FromLocation.Phone1,'')<>'' then FromLocation.Phone1  when  isnull(FromLocation.Phone2,'')<>'' then + ', '+ FromLocation.Phone2 end) as Loc_Phone ,
+	  fromlocation.Phone1 as LPhone,fromlocation.Service_Tax_Reg_No as Registration_No,trnasporter.GSTNO as trnasporterGST,trnasporter.PAN as TransporterPan,trnasporter.Add1 +' '+trnasporter.Add2 +' ' + trnasporter.Add3 as TransporterAddress,TSPL_SCRAPSALE_HEAD.Description as TransRemark,TSPL_SCRAPSALE_HEAD.Vehicle_code as transVehicle_Code,FromLocation.PAN_NO as FromPAN, FromLocation.Location_Desc 
                             from TSPL_SCRAPSALE_HEAD 
                             left outer join TSPL_GL_SEGMENT_CODE on TSPL_GL_SEGMENT_CODE.Segment_code  =TSPL_SCRAPSALE_HEAD.Vehicle_Id and TSPL_GL_SEGMENT_CODE.Seg_No='2'
                             left join TSPL_SCRAPSALE_DETAIL on TSPL_SCRAPSALE_DETAIL.shipment_No=TSPL_SCRAPSALE_HEAD.shipment_No left join TSPL_SCRAPINVOICE_HEAD on TSPL_SCRAPINVOICE_HEAD. shipment_No=TSPL_SCRAPSALE_HEAD.shipment_No left join TSPL_LOCATION_MASTER as FromLocation on FromLocation.Location_Code=TSPL_SCRAPSALE_HEAD.Loc_Code left join TSPL_LOCATION_MASTER as ToLocation on ToLocation.Location_Code=TSPL_SCRAPSALE_HEAD.ToLoc_Code 
@@ -5178,6 +5274,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                         '     " left outer join TSPL_TAX_MASTER as dtax9 on dtax9.Tax_Code =TSPL_SCRAPSALE_DETAIL .TAX9 " &
                         '      " left outer join TSPL_TAX_MASTER as dtax10 on dtax10.Tax_Code =TSPL_SCRAPSALE_DETAIL .TAX10 " &
                         Qry1 += " left join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_SCRAPSALE_HEAD.Transport_code  left join tspl_customer_master on tspl_customer_master.cust_code=TSPL_SCRAPSALE_HEAD.cust_code "
+                        Qry1 += "  left join tspl_customer_master as trnasporter on trnasporter.cust_code=TSPL_SCRAPSALE_HEAD.Transport_code  "
                         Qry1 += " left join TSPL_STATE_MASTER as Customer_State on tspl_customer_master .State=Customer_State.STATE_CODE "
                         Qry1 += " left join tspl_city_master on tspl_city_master.city_code=tspl_customer_master.city_code  left outer join tspl_company_master on tspl_company_master.comp_code = TSPL_SCRAPSALE_HEAD.Comp_Code  where TSPL_SCRAPSALE_HEAD.shipment_No='" & txtDocNo.Value & "'"
                         If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDFCF") = CompairStringResult.Equal Then
@@ -5189,13 +5286,13 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                         ' ==============================Ticket No  ERO/27/11/18-000422 By Prabhakar for  Customer Dashboard on Print ==============================================
                         Dim dtCustomerOutstanding As DataTable = Nothing
                         Dim itemSummnary As DataTable = Nothing
-                        If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDFCF") = CompairStringResult.Equal Then
-                            Dim strQry1 As String = "select max(TSPL_SCRAPINVOICE_HEAD.invoice_No) as Invoice, max(TSPL_ITEM_MASTER.Item_Desc) AS Item_Name,TSPL_SCRAPSALE_DETAIL.Unit_Code as UOM, SUM( Shipped_Qty *TSPL_ITEM_UOM_DETAIL.Conversion_Factor ) as WeightInKg, sum( ItemAmt ) as Amt from TSPL_SCRAPSALE_HEAD left join TSPL_SCRAPSALE_DETAIL on TSPL_SCRAPSALE_DETAIL.shipment_No = TSPL_SCRAPSALE_HEAD.shipment_No left join TSPL_SCRAPINVOICE_HEAD on TSPL_SCRAPINVOICE_HEAD.shipment_No = TSPL_SCRAPSALE_HEAD.shipment_No left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SCRAPSALE_DETAIL.Item_Code left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_SCRAPSALE_DETAIL.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code = 'KG' where TSPL_SCRAPSALE_HEAD.shipment_No = '" & txtDocNo.Value & "' group by TSPL_SCRAPSALE_DETAIL.Item_Code, TSPL_SCRAPSALE_DETAIL.Unit_code"
-                            itemSummnary = clsDBFuncationality.GetDataTable(strQry1)
-                        Else
-                            dtCustomerOutstanding = clsCustomerMaster.getCustomerOutstandingOfAmt_Can_Crate("'" & clsCommon.myCstr(dt1.Rows(0)("Cust_code")) & "'", clsCommon.GetPrintDate(clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")).AddDays(-1), "dd/MMM/yyyy"), clsCommon.GetPrintDate(clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "dd/MMM/yyyy"))
+                        'If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDFCF") = CompairStringResult.Equal Then
+                        Dim strQry1 As String = "select max(TSPL_SCRAPINVOICE_HEAD.invoice_No) as Invoice, max(TSPL_ITEM_MASTER.Item_Desc) AS Item_Name,TSPL_SCRAPSALE_DETAIL.Unit_Code as UOM, SUM( Shipped_Qty *TSPL_ITEM_UOM_DETAIL.Conversion_Factor ) as WeightInKg, sum( ItemAmt ) as Amt from TSPL_SCRAPSALE_HEAD left join TSPL_SCRAPSALE_DETAIL on TSPL_SCRAPSALE_DETAIL.shipment_No = TSPL_SCRAPSALE_HEAD.shipment_No left join TSPL_SCRAPINVOICE_HEAD on TSPL_SCRAPINVOICE_HEAD.shipment_No = TSPL_SCRAPSALE_HEAD.shipment_No left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SCRAPSALE_DETAIL.Item_Code left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_SCRAPSALE_DETAIL.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code = 'KG' where TSPL_SCRAPSALE_HEAD.shipment_No = '" & txtDocNo.Value & "' group by TSPL_SCRAPSALE_DETAIL.Item_Code, TSPL_SCRAPSALE_DETAIL.Unit_code"
+                        itemSummnary = clsDBFuncationality.GetDataTable(strQry1)
+                        'Else
+                        '    dtCustomerOutstanding = clsCustomerMaster.getCustomerOutstandingOfAmt_Can_Crate("'" & clsCommon.myCstr(dt1.Rows(0)("Cust_code")) & "'", clsCommon.GetPrintDate(clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")).AddDays(-1), "dd/MMM/yyyy"), clsCommon.GetPrintDate(clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "dd/MMM/yyyy"))
 
-                        End If
+                        'End If
                         '=============================================================================
 
                         If isPrint Then
@@ -5208,43 +5305,62 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                             '    End If
                             'Else
                             ' Ticket No : SHR/14/06/18-000030 By Prabhakar  , Add client-VIJAYA
-                            If (clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDFCF") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "001") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "SPMMD") = CompairStringResult.Equal) Or clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHAD") = CompairStringResult.Equal Or clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "PSFI") = CompairStringResult.Equal Or clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "TSDDCF") = CompairStringResult.Equal Then
-                                'If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "SPMMD") = CompairStringResult.Equal Then
-                                '    filePath=frmCRV.funsubreportWithdt(isPDFPath,CrystalReportFolder.PurchaseOrder, dt1, Nothing, "rptMaterialSaleInvoice", "ScrapnSale Invoice Local", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), Nothing, "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
-                                '    Return
-                                'End If
+                            'If (clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDFCF") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "001") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "SPMMD") = CompairStringResult.Equal) Or clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHAD") = CompairStringResult.Equal Or clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "PSFI") = CompairStringResult.Equal Or clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "TSDDCF") = CompairStringResult.Equal Then
+                            'If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "SPMMD") = CompairStringResult.Equal Then
+                            '    filePath=frmCRV.funsubreportWithdt(isPDFPath,CrystalReportFolder.PurchaseOrder, dt1, Nothing, "rptMaterialSaleInvoice", "ScrapnSale Invoice Local", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), Nothing, "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                            '    Return
+                            'End If
 
-                                If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt1.Rows(0)("Invoice_Date"))) Then
-                                    If clsCommon.myCdbl(dt1.Rows(0)("Is_Taxable")) = 1 Then
-                                        'If clsCommon.CompairString(clsCommon.myCstr(dt1.Rows(0)("frm_State_name")), clsCommon.myCstr(dt1.Rows(0)("Cust_StateName"))) = CompairStringResult.Equal Then
-                                        '    filePath=frmCRV.funsubreportWithdt(isPDFPath,CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice", "ScrapnSale Invoice Local", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
-                                        'Else
-                                        '    If IsMandiTax > 0 Then
-                                        '        filePath=frmCRV.funsubreportWithdt(isPDFPath,CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice_InterState_WithMandi", "ScrapnSale Invoice InterState", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
-                                        '    Else
-                                        '        'filePath=frmCRV.funsubreportWithdt(isPDFPath,CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice_InterState", "ScrapnSale Invoice InterState", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                            If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt1.Rows(0)("Invoice_Date"))) Then
+                                If clsCommon.myCdbl(dt1.Rows(0)("Is_Taxable")) = 1 Then
+                                    'If clsCommon.CompairString(clsCommon.myCstr(dt1.Rows(0)("frm_State_name")), clsCommon.myCstr(dt1.Rows(0)("Cust_StateName"))) = CompairStringResult.Equal Then
+                                    '    filePath=frmCRV.funsubreportWithdt(isPDFPath,CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice", "ScrapnSale Invoice Local", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                                    'Else
+                                    '    If IsMandiTax > 0 Then
+                                    '        filePath=frmCRV.funsubreportWithdt(isPDFPath,CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice_InterState_WithMandi", "ScrapnSale Invoice InterState", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                                    '    Else
+                                    '        'filePath=frmCRV.funsubreportWithdt(isPDFPath,CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice_InterState", "ScrapnSale Invoice InterState", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                                    If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDFCF") = CompairStringResult.Equal Then
                                         If ischallan = True Then
                                             filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleInvoice_RCDFCF", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
                                         Else
                                             filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleChallan_RCDFCF", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
                                         End If
-
-                                        'End If
-                                        'filePath=frmCRV.funsubreportWithdt(isPDFPath,CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleInvoice_RCDFCF", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
-
                                     Else
+                                        If ischallan = True Then
+                                            filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleInvoiceForJPR", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
+                                        Else
+                                            filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleChallan_Union", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
+                                        End If
+                                    End If
+
+
+                                    'End If
+                                    'filePath=frmCRV.funsubreportWithdt(isPDFPath,CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleInvoice_RCDFCF", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
+
+                                Else
+                                    If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDFCF") = CompairStringResult.Equal Then
                                         If ischallan = False Then
                                             filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleChallan_RCDFCF", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
                                         Else
                                             'filePath=frmCRV.funsubreportWithdt(isPDFPath,CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice_NonTaxable", "ScrapnSale Invoice Non Taxable", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
                                             filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleInvoice_RCDFCF_NT", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
                                         End If
+                                    Else
+                                        If ischallan = False Then
+                                            filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleChallan_Union", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
+                                        Else
+                                            'filePath=frmCRV.funsubreportWithdt(isPDFPath,CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice_NonTaxable", "ScrapnSale Invoice Non Taxable", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                                            filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleInvoice_Union", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
+                                        End If
                                     End If
-                                    'Else
-                                    '    filePath=frmCRV.funsubreportWithdt(isPDFPath,CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "ScrapSaleInvoice", "ScrapnSale Invoice", "rptCompanyAddress.rpt")
-                                    '    'PurchaseOrderViewer.funreport(isPDFPath,dt1, "ScrapSaleInvoice", "ScrapSaleInvoiceRpt")
+
                                 End If
+                                'Else
+                                '    filePath=frmCRV.funsubreportWithdt(isPDFPath,CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "ScrapSaleInvoice", "ScrapnSale Invoice", "rptCompanyAddress.rpt")
+                                '    'PurchaseOrderViewer.funreport(isPDFPath,dt1, "ScrapSaleInvoice", "ScrapSaleInvoiceRpt")
                             End If
+                            'End If
                             'End If
                             'Else
                             'EnumTecxpertPaperSize.PaperSize10x12
@@ -5981,11 +6097,17 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
     End Sub
     ' done by priti BHA/12/07/18-000148 to apply batch wise fifo functionality
     Sub OpenBatchItem()
+        Dim isSubLocation As Boolean = False
+        If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select IsSubLocationWise from TSPL_LOCATION_MASTER where Location_Code='" + fndLocation.Value + "'", Nothing)), "Y") = CompairStringResult.Equal Then
+            isSubLocation = True
+        Else
+            isSubLocation = False
+        End If
         If clsCommon.myCBool(clsDBFuncationality.getSingleValue("select TSPL_ITEM_MASTER.Is_Batch_Item  from TSPL_ITEM_MASTER where TSPL_ITEM_MASTER.Item_Code ='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "'", Nothing)) Then
             Dim frm As frmBatchItemOut = New frmBatchItemOut()
             frm.strItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
             frm.strItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
-            frm.strLocationCode = fndLocation.Value
+            frm.strLocationCode = IIf(isSubLocation, txtSubLocation.Value, fndLocation.Value)
             frm.strCurrDocNo = txtDocNo.Value
             frm.strCurrDocType = "ScrapIn"
             frm.strUOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
@@ -6291,6 +6413,21 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
 
     Private Sub chkEInvoice_(sender As Object, args As StateChangedEventArgs) Handles chkEInvoice.ToggleStateChanged
 
+    End Sub
+
+    Private Sub txtSubLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtSubLocation._MYValidating
+        Try
+            If clsCommon.myLen(clsCommon.myCstr(fndLocation.Value)) > 0 Then
+                txtSubLocation.Value = clsLocation.getFinder(" (isnull(is_sub_location,'N')='Y' or isnull(Is_Section,'N')='Y') and Main_Location_Code='" + fndLocation.Value + "'", txtSubLocation.Value, isButtonClicked)
+                If clsCommon.myLen(txtSubLocation.Value) > 0 Then
+                    lblSubLocation.Text = clsLocation.GetName(txtSubLocation.Value, Nothing)
+                Else
+                    lblSubLocation.Text = ""
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class
 

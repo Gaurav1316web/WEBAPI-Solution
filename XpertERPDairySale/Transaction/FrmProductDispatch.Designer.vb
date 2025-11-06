@@ -22,14 +22,14 @@ Partial Class FrmProductDispatch
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim WindowsSettings2 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition13 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition14 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -419,6 +419,12 @@ Partial Class FrmProductDispatch
         Me.Export_Head = New Telerik.WinControls.UI.RadMenuItem()
         Me.Export_details = New Telerik.WinControls.UI.RadMenuItem()
         Me.Import = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MyLabel71 = New common.Controls.MyLabel()
+        Me.MyLabel73 = New common.Controls.MyLabel()
+        Me.MyLabel74 = New common.Controls.MyLabel()
+        Me.MyLabel75 = New common.Controls.MyLabel()
+        Me.MyLabel76 = New common.Controls.MyLabel()
+        Me.MyLabel77 = New common.Controls.MyLabel()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit
         Me.Panel1.SuspendLayout
         CType(Me.radScrollablePanel1, System.ComponentModel.ISupportInitialize).BeginInit
@@ -799,6 +805,12 @@ Partial Class FrmProductDispatch
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadMenu1.SuspendLayout
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.MyLabel71, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.MyLabel73, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.MyLabel74, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.MyLabel75, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.MyLabel76, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.MyLabel77, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
@@ -829,9 +841,9 @@ Partial Class FrmProductDispatch
         Me.RadMenuItem2.TabIndex = 0
         Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenuItem2.Visible = False
-        WindowsSettings2.EnableRoundedCorners = Nothing
-        WindowsSettings2.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
-        Me.RadMenuItem2.WindowsSettings = WindowsSettings2
+        WindowsSettings1.EnableRoundedCorners = Nothing
+        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
         'Panel1
         '
@@ -926,6 +938,12 @@ Partial Class FrmProductDispatch
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel71)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel73)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel74)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel75)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel76)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel77)
         Me.RadPageViewPage1.Controls.Add(Me.cmbDisItemType)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel40)
         Me.RadPageViewPage1.Controls.Add(Me.RadLabel15)
@@ -2184,7 +2202,7 @@ Partial Class FrmProductDispatch
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -2571,7 +2589,7 @@ Partial Class FrmProductDispatch
         Me.gvDistributor.MasterTemplate.AllowDeleteRow = False
         Me.gvDistributor.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDistributor.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvDistributor.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gvDistributor.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvDistributor.MyExportFilePath = ""
         Me.gvDistributor.MyStopExport = False
         Me.gvDistributor.Name = "gvDistributor"
@@ -2867,7 +2885,7 @@ Partial Class FrmProductDispatch
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
@@ -2921,7 +2939,7 @@ Partial Class FrmProductDispatch
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvAC.MyExportFilePath = ""
         Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
@@ -3885,7 +3903,7 @@ Partial Class FrmProductDispatch
         Me.gv_Uploader_Temp.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_Uploader_Temp.MasterTemplate.ShowGroupedColumns = True
         Me.gv_Uploader_Temp.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_Uploader_Temp.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.gv_Uploader_Temp.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv_Uploader_Temp.MyExportFilePath = ""
         Me.gv_Uploader_Temp.MyStopExport = False
         Me.gv_Uploader_Temp.Name = "gv_Uploader_Temp"
@@ -3907,7 +3925,7 @@ Partial Class FrmProductDispatch
         Me.gv_Uploader.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_Uploader.MasterTemplate.ShowGroupedColumns = True
         Me.gv_Uploader.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_Uploader.MasterTemplate.ViewDefinition = TableViewDefinition13
+        Me.gv_Uploader.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gv_Uploader.MyExportFilePath = ""
         Me.gv_Uploader.MyStopExport = False
         Me.gv_Uploader.Name = "gv_Uploader"
@@ -4485,7 +4503,7 @@ Partial Class FrmProductDispatch
         '
         '
         '
-        Me.gvCC.MasterTemplate.ViewDefinition = TableViewDefinition14
+        Me.gvCC.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvCC.Name = "gvCC"
         Me.gvCC.Size = New System.Drawing.Size(1089, 318)
         Me.gvCC.TabIndex = 0
@@ -6968,6 +6986,72 @@ Partial Class FrmProductDispatch
         Me.Import.Text = "Import"
         Me.Import.Visibility = Telerik.WinControls.ElementVisibility.Hidden
         '
+        'MyLabel71
+        '
+        Me.MyLabel71.AutoSize = False
+        Me.MyLabel71.BorderVisible = True
+        Me.MyLabel71.FieldName = Nothing
+        Me.MyLabel71.Location = New System.Drawing.Point(891, 46)
+        Me.MyLabel71.Name = "MyLabel71"
+        Me.MyLabel71.Size = New System.Drawing.Size(125, 18)
+        Me.MyLabel71.TabIndex = 1479
+        Me.MyLabel71.TextWrap = False
+        Me.MyLabel71.Visible = False
+        '
+        'MyLabel73
+        '
+        Me.MyLabel73.FieldName = Nothing
+        Me.MyLabel73.Location = New System.Drawing.Point(786, 46)
+        Me.MyLabel73.Name = "MyLabel73"
+        Me.MyLabel73.Size = New System.Drawing.Size(60, 18)
+        Me.MyLabel73.TabIndex = 1481
+        Me.MyLabel73.Text = "Price Code"
+        Me.MyLabel73.Visible = False
+        '
+        'MyLabel74
+        '
+        Me.MyLabel74.FieldName = Nothing
+        Me.MyLabel74.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel74.Location = New System.Drawing.Point(786, 69)
+        Me.MyLabel74.Name = "MyLabel74"
+        Me.MyLabel74.Size = New System.Drawing.Size(58, 16)
+        Me.MyLabel74.TabIndex = 1483
+        Me.MyLabel74.Text = "Round Off"
+        '
+        'MyLabel75
+        '
+        Me.MyLabel75.AutoSize = False
+        Me.MyLabel75.BorderVisible = True
+        Me.MyLabel75.FieldName = Nothing
+        Me.MyLabel75.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel75.Location = New System.Drawing.Point(891, 68)
+        Me.MyLabel75.Name = "MyLabel75"
+        Me.MyLabel75.Size = New System.Drawing.Size(125, 18)
+        Me.MyLabel75.TabIndex = 1484
+        Me.MyLabel75.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'MyLabel76
+        '
+        Me.MyLabel76.FieldName = Nothing
+        Me.MyLabel76.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel76.Location = New System.Drawing.Point(786, 89)
+        Me.MyLabel76.Name = "MyLabel76"
+        Me.MyLabel76.Size = New System.Drawing.Size(100, 16)
+        Me.MyLabel76.TabIndex = 1482
+        Me.MyLabel76.Text = "Document Amount"
+        '
+        'MyLabel77
+        '
+        Me.MyLabel77.AutoSize = False
+        Me.MyLabel77.BorderVisible = True
+        Me.MyLabel77.FieldName = Nothing
+        Me.MyLabel77.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel77.Location = New System.Drawing.Point(891, 88)
+        Me.MyLabel77.Name = "MyLabel77"
+        Me.MyLabel77.Size = New System.Drawing.Size(125, 18)
+        Me.MyLabel77.TabIndex = 1480
+        Me.MyLabel77.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
         'FrmProductDispatch
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -7387,6 +7471,12 @@ Partial Class FrmProductDispatch
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit
         Me.RadMenu1.ResumeLayout(False)
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.MyLabel71, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.MyLabel73, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.MyLabel74, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.MyLabel75, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.MyLabel76, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.MyLabel77, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(False)
         Me.PerformLayout
@@ -7781,4 +7871,10 @@ Partial Class FrmProductDispatch
     Friend WithEvents lblItem_Type As common.Controls.MyLabel
     Friend WithEvents cmbDisItemType As common.Controls.MyComboBox
     Friend WithEvents MyLabel40 As common.Controls.MyLabel
+    Friend WithEvents MyLabel71 As common.Controls.MyLabel
+    Friend WithEvents MyLabel73 As common.Controls.MyLabel
+    Friend WithEvents MyLabel74 As common.Controls.MyLabel
+    Friend WithEvents MyLabel75 As common.Controls.MyLabel
+    Friend WithEvents MyLabel76 As common.Controls.MyLabel
+    Friend WithEvents MyLabel77 As common.Controls.MyLabel
 End Class

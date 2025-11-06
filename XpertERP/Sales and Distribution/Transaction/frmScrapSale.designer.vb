@@ -32,6 +32,10 @@ Partial Class frmScrapSale
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.lblSubLocation = New common.Controls.MyLabel()
+        Me.txtSubLocation = New common.UserControls.txtFinder()
+        Me.MyLabel60 = New common.Controls.MyLabel()
+        Me.chkIsEwaybill = New Telerik.WinControls.UI.RadCheckBox()
         Me.lblSalesType = New common.Controls.MyLabel()
         Me.cmbSaleType = New common.Controls.MyComboBox()
         Me.lblCustGSTNo = New common.Controls.MyLabel()
@@ -190,13 +194,15 @@ Partial Class frmScrapSale
         Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.chkIsEwaybill = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel60, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkIsEwaybill, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSalesType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmbSaleType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCustGSTNo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -344,7 +350,6 @@ Partial Class frmScrapSale
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
-        CType(Me.chkIsEwaybill, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -401,6 +406,9 @@ Partial Class frmScrapSale
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.lblSubLocation)
+        Me.RadPageViewPage1.Controls.Add(Me.txtSubLocation)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel60)
         Me.RadPageViewPage1.Controls.Add(Me.chkIsEwaybill)
         Me.RadPageViewPage1.Controls.Add(Me.lblSalesType)
         Me.RadPageViewPage1.Controls.Add(Me.cmbSaleType)
@@ -474,6 +482,63 @@ Partial Class frmScrapSale
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1108, 425)
         Me.RadPageViewPage1.Text = "Shipment"
+        '
+        'lblSubLocation
+        '
+        Me.lblSubLocation.AutoSize = False
+        Me.lblSubLocation.BorderVisible = True
+        Me.lblSubLocation.FieldName = Nothing
+        Me.lblSubLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSubLocation.Location = New System.Drawing.Point(233, 136)
+        Me.lblSubLocation.Name = "lblSubLocation"
+        Me.lblSubLocation.Size = New System.Drawing.Size(122, 18)
+        Me.lblSubLocation.TabIndex = 1492
+        Me.lblSubLocation.TextWrap = False
+        '
+        'txtSubLocation
+        '
+        Me.txtSubLocation.CalculationExpression = Nothing
+        Me.txtSubLocation.FieldCode = Nothing
+        Me.txtSubLocation.FieldDesc = Nothing
+        Me.txtSubLocation.FieldMaxLength = 0
+        Me.txtSubLocation.FieldName = Nothing
+        Me.txtSubLocation.isCalculatedField = False
+        Me.txtSubLocation.IsSourceFromTable = False
+        Me.txtSubLocation.IsSourceFromValueList = False
+        Me.txtSubLocation.IsUnique = False
+        Me.txtSubLocation.Location = New System.Drawing.Point(84, 136)
+        Me.txtSubLocation.MendatroryField = False
+        Me.txtSubLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSubLocation.MyLinkLable1 = Nothing
+        Me.txtSubLocation.MyLinkLable2 = Nothing
+        Me.txtSubLocation.MyReadOnly = False
+        Me.txtSubLocation.MyShowMasterFormButton = False
+        Me.txtSubLocation.Name = "txtSubLocation"
+        Me.txtSubLocation.ReferenceFieldDesc = Nothing
+        Me.txtSubLocation.ReferenceFieldName = Nothing
+        Me.txtSubLocation.ReferenceTableName = Nothing
+        Me.txtSubLocation.Size = New System.Drawing.Size(143, 19)
+        Me.txtSubLocation.TabIndex = 1491
+        Me.txtSubLocation.Value = ""
+        '
+        'MyLabel60
+        '
+        Me.MyLabel60.FieldName = Nothing
+        Me.MyLabel60.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel60.Location = New System.Drawing.Point(10, 137)
+        Me.MyLabel60.Name = "MyLabel60"
+        Me.MyLabel60.Size = New System.Drawing.Size(72, 16)
+        Me.MyLabel60.TabIndex = 1490
+        Me.MyLabel60.Text = "Sub Location"
+        '
+        'chkIsEwaybill
+        '
+        Me.chkIsEwaybill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkIsEwaybill.Location = New System.Drawing.Point(957, 4)
+        Me.chkIsEwaybill.Name = "chkIsEwaybill"
+        Me.chkIsEwaybill.Size = New System.Drawing.Size(71, 16)
+        Me.chkIsEwaybill.TabIndex = 1486
+        Me.chkIsEwaybill.Text = "IsEwaybill"
         '
         'lblSalesType
         '
@@ -609,7 +674,7 @@ Partial Class frmScrapSale
         'chkBuyBack
         '
         Me.chkBuyBack.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkBuyBack.Location = New System.Drawing.Point(416, 156)
+        Me.chkBuyBack.Location = New System.Drawing.Point(416, 170)
         Me.chkBuyBack.Name = "chkBuyBack"
         Me.chkBuyBack.Size = New System.Drawing.Size(65, 16)
         Me.chkBuyBack.TabIndex = 1432
@@ -752,7 +817,7 @@ Partial Class frmScrapSale
         'chkTaxable
         '
         Me.chkTaxable.Enabled = False
-        Me.chkTaxable.Location = New System.Drawing.Point(357, 154)
+        Me.chkTaxable.Location = New System.Drawing.Point(357, 168)
         Me.chkTaxable.MyLinkLable1 = Nothing
         Me.chkTaxable.MyLinkLable2 = Nothing
         Me.chkTaxable.Name = "chkTaxable"
@@ -764,7 +829,7 @@ Partial Class frmScrapSale
         'chkCashSale
         '
         Me.chkCashSale.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkCashSale.Location = New System.Drawing.Point(273, 141)
+        Me.chkCashSale.Location = New System.Drawing.Point(273, 155)
         Me.chkCashSale.Name = "chkCashSale"
         Me.chkCashSale.Size = New System.Drawing.Size(72, 16)
         Me.chkCashSale.TabIndex = 1431
@@ -774,7 +839,7 @@ Partial Class frmScrapSale
         'chkScrapSale
         '
         Me.chkScrapSale.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkScrapSale.Location = New System.Drawing.Point(174, 155)
+        Me.chkScrapSale.Location = New System.Drawing.Point(174, 169)
         Me.chkScrapSale.Name = "chkScrapSale"
         Me.chkScrapSale.Size = New System.Drawing.Size(76, 16)
         Me.chkScrapSale.TabIndex = 17
@@ -784,7 +849,7 @@ Partial Class frmScrapSale
         'chkOnHold
         '
         Me.chkOnHold.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkOnHold.Location = New System.Drawing.Point(82, 155)
+        Me.chkOnHold.Location = New System.Drawing.Point(82, 169)
         Me.chkOnHold.Name = "chkOnHold"
         Me.chkOnHold.Size = New System.Drawing.Size(62, 16)
         Me.chkOnHold.TabIndex = 16
@@ -794,7 +859,7 @@ Partial Class frmScrapSale
         '
         Me.chkinvoice.Enabled = False
         Me.chkinvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkinvoice.Location = New System.Drawing.Point(174, 141)
+        Me.chkinvoice.Location = New System.Drawing.Point(174, 155)
         Me.chkinvoice.Name = "chkinvoice"
         Me.chkinvoice.Size = New System.Drawing.Size(93, 16)
         Me.chkinvoice.TabIndex = 15
@@ -1170,7 +1235,7 @@ Partial Class frmScrapSale
         'chkInterBranch
         '
         Me.chkInterBranch.Enabled = False
-        Me.chkInterBranch.Location = New System.Drawing.Point(273, 154)
+        Me.chkInterBranch.Location = New System.Drawing.Point(273, 168)
         Me.chkInterBranch.MyLinkLable1 = Nothing
         Me.chkInterBranch.MyLinkLable2 = Nothing
         Me.chkInterBranch.Name = "chkInterBranch"
@@ -1182,7 +1247,7 @@ Partial Class frmScrapSale
         'chkExcisable
         '
         Me.chkExcisable.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkExcisable.Location = New System.Drawing.Point(82, 141)
+        Me.chkExcisable.Location = New System.Drawing.Point(82, 155)
         Me.chkExcisable.Name = "chkExcisable"
         Me.chkExcisable.Size = New System.Drawing.Size(69, 16)
         Me.chkExcisable.TabIndex = 14
@@ -1201,7 +1266,7 @@ Partial Class frmScrapSale
         Me.txtscrapinvoice.IsSourceFromTable = False
         Me.txtscrapinvoice.IsSourceFromValueList = False
         Me.txtscrapinvoice.IsUnique = False
-        Me.txtscrapinvoice.Location = New System.Drawing.Point(459, 138)
+        Me.txtscrapinvoice.Location = New System.Drawing.Point(459, 136)
         Me.txtscrapinvoice.MaxLength = 30
         Me.txtscrapinvoice.MendatroryField = False
         Me.txtscrapinvoice.MyLinkLable1 = Me.RadLabel12
@@ -1217,7 +1282,7 @@ Partial Class frmScrapSale
         '
         Me.RadLabel12.FieldName = Nothing
         Me.RadLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel12.Location = New System.Drawing.Point(361, 139)
+        Me.RadLabel12.Location = New System.Drawing.Point(361, 137)
         Me.RadLabel12.Name = "RadLabel12"
         Me.RadLabel12.Size = New System.Drawing.Size(92, 16)
         Me.RadLabel12.TabIndex = 28
@@ -2763,15 +2828,6 @@ Partial Class frmScrapSale
         Me.Panel1.Size = New System.Drawing.Size(1129, 503)
         Me.Panel1.TabIndex = 3
         '
-        'chkIsEwaybill
-        '
-        Me.chkIsEwaybill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkIsEwaybill.Location = New System.Drawing.Point(957, 4)
-        Me.chkIsEwaybill.Name = "chkIsEwaybill"
-        Me.chkIsEwaybill.Size = New System.Drawing.Size(71, 16)
-        Me.chkIsEwaybill.TabIndex = 1486
-        Me.chkIsEwaybill.Text = "IsEwaybill"
-        '
         'frmScrapSale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2793,6 +2849,9 @@ Partial Class frmScrapSale
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel60, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkIsEwaybill, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSalesType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmbSaleType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCustGSTNo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2947,7 +3006,6 @@ Partial Class frmScrapSale
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
-        CType(Me.chkIsEwaybill, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -3118,6 +3176,9 @@ Partial Class frmScrapSale
     Friend WithEvents lblSalesType As common.Controls.MyLabel
     Friend WithEvents cmbSaleType As common.Controls.MyComboBox
     Friend WithEvents chkIsEwaybill As RadCheckBox
+    Friend WithEvents lblSubLocation As common.Controls.MyLabel
+    Friend WithEvents txtSubLocation As common.UserControls.txtFinder
+    Friend WithEvents MyLabel60 As common.Controls.MyLabel
     '>>>>>>> d1ec586fa3c5d6f2c6903ff02c7d5301aea8f361
 End Class
 

@@ -15,6 +15,7 @@ Public Class scrapinvoicehead
     Public expship_Date As String = Nothing
     Public Loc_Code As String = Nothing
     Public Loc_Name As String = Nothing
+    Public Sub_Location_code As String = Nothing
     Public ToLoc_Code As String = Nothing
     Public CreateInvoice As String = Nothing
     Public Create_E_Invoice As String = Nothing
@@ -164,6 +165,7 @@ Public Class scrapinvoicehead
             objin.expship_Date = obj.expship_Date
             objin.Loc_Code = obj.Loc_Code
             objin.Loc_Name = obj.Loc_Name
+            objin.Sub_Location_code = obj.Sub_Location_code
             objin.isEwaybill = obj.IsEwaybill
             objin.ToLoc_Code = obj.ToLoc_Code
             objin.Specification = obj.Specification
@@ -588,6 +590,7 @@ Public Class scrapinvoicehead
             clsCommon.AddColumnsForChange(coll, "expship_Date", clsCommon.GetPrintDate(objin.expship_Date, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Loc_Code", objin.Loc_Code)
             clsCommon.AddColumnsForChange(coll, "Loc_Name", objin.Loc_Name)
+            clsCommon.AddColumnsForChange(coll, "Sub_Location_code", objin.Sub_Location_code)
             clsCommon.AddColumnsForChange(coll, "ToLoc_Code", objin.ToLoc_Code)
             clsCommon.AddColumnsForChange(coll, "CreateInvoice", objin.CreateInvoice)
             clsCommon.AddColumnsForChange(coll, "Create_E_Invoice", objin.Create_E_Invoice)

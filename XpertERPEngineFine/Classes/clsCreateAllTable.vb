@@ -8817,7 +8817,8 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("NoCrateIssue", "integer null")
             coll.Add("IsEwaybill", "integer null")
             coll.Add("Exclude_KKF_And_Mandi", "integer null")
-
+            coll.Add("PO_Indent_No", "VARCHAR(100) NULL")
+            coll.Add("PO_Indent_Date", "Date NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_MATSER", coll, Nothing, True, True, "", "Document_No", "Document_Date", True)
             Try
                 clsDBFuncationality.ExecuteNonQuery("update TSPL_BOOKING_MATSER set supply_date=Document_Date where supply_date is null")
@@ -27950,6 +27951,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Create_E_Invoice", "integer not null default 0")
             coll.Add("IsEwaybill", "integer null")
             coll.Add("Inter_unit_sale", "Integer default 0")
+            coll.Add("Sub_Location_code", "varchar(12) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPINVOICE_HEAD", coll, Nothing, True, True, "", "invoice_No", "posting_Date", True)
 
             qry = "alter table TSPL_SCRAPINVOICE_HEAD alter column AddCode1 varchar(35) null "
@@ -31289,6 +31291,10 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Posted_By", "varchar(12) NULL")
             coll.Add("Posted_Date", "Datetime NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CUSTOMER_TENDER_ORDER", coll, "", True, False, "", "Document_Code", "Document_Date", True)
+            Try
+                clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_CUSTOMER_TENDER_ORDER ALTER COLUMN Ref_No Varchar(100)")
+            Catch ex As Exception
+            End Try
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("Document_Code", "varchar(30) NOT NULL REFERENCES TSPL_CUSTOMER_TENDER_ORDER(Document_Code)")
@@ -35046,6 +35052,7 @@ LL")
             coll.Add("Is_ManualTCS", "Integer Default 0")
             coll.Add("Inter_unit_sale", "Integer default 0")
             coll.Add("IsEwaybill", "integer null")
+            coll.Add("Sub_Location_code", "varchar(12) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPSALE_HEAD", coll, Nothing, True, True, "", "shipment_No", "shipment_Date", True)
 
             qry = "alter table TSPL_SCRAPSALE_HEAD alter column AddCode1 varchar(35) null "

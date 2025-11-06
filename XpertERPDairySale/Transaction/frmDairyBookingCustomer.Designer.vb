@@ -22,22 +22,23 @@ Partial Class frmDairyBookingCustomer
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UsLock1 = New common.usLock()
         Me.chkExcludeKKFMND = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtSupplyDate = New common.Controls.MyDateTimePicker()
         Me.lblSupplyDate = New common.Controls.MyLabel()
@@ -321,7 +322,10 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.UsLock1 = New common.usLock()
+        Me.txtIndentDate = New common.Controls.MyDateTimePicker()
+        Me.lblIndentDate = New common.Controls.MyLabel()
+        Me.txtIndentNo = New common.Controls.MyTextBox()
+        Me.lblIndentNo = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -598,6 +602,10 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblTotRAmt1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtIndentDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblIndentDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtIndentNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblIndentNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -661,9 +669,13 @@ Partial Class frmDairyBookingCustomer
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.txtIndentDate)
         Me.RadPageViewPage1.Controls.Add(Me.UsLock1)
+        Me.RadPageViewPage1.Controls.Add(Me.lblIndentDate)
         Me.RadPageViewPage1.Controls.Add(Me.chkExcludeKKFMND)
+        Me.RadPageViewPage1.Controls.Add(Me.txtIndentNo)
         Me.RadPageViewPage1.Controls.Add(Me.txtSupplyDate)
+        Me.RadPageViewPage1.Controls.Add(Me.lblIndentNo)
         Me.RadPageViewPage1.Controls.Add(Me.lblSupplyDate)
         Me.RadPageViewPage1.Controls.Add(Me.chkIsEwayBill)
         Me.RadPageViewPage1.Controls.Add(Me.chkNoCrateIssue)
@@ -754,6 +766,16 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1260, 409)
         Me.RadPageViewPage1.Text = "Booking Order"
+        '
+        'UsLock1
+        '
+        Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.UsLock1.Location = New System.Drawing.Point(809, -2)
+        Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.UsLock1.Name = "UsLock1"
+        Me.UsLock1.Size = New System.Drawing.Size(97, 16)
+        Me.UsLock1.Status = common.ERPTransactionStatus.Pending
+        Me.UsLock1.TabIndex = 1587
         '
         'chkExcludeKKFMND
         '
@@ -1097,16 +1119,16 @@ Partial Class frmDairyBookingCustomer
         Me.cmbPaymentType.IsSourceFromTable = False
         Me.cmbPaymentType.IsSourceFromValueList = False
         Me.cmbPaymentType.IsUnique = False
-        RadListDataItem7.Text = "CASH"
-        RadListDataItem8.Text = "NEFT"
-        RadListDataItem9.Text = "RTGS"
-        RadListDataItem10.Text = "CHEQUE"
-        RadListDataItem11.Text = "UPI"
-        Me.cmbPaymentType.Items.Add(RadListDataItem7)
-        Me.cmbPaymentType.Items.Add(RadListDataItem8)
-        Me.cmbPaymentType.Items.Add(RadListDataItem9)
-        Me.cmbPaymentType.Items.Add(RadListDataItem10)
-        Me.cmbPaymentType.Items.Add(RadListDataItem11)
+        RadListDataItem1.Text = "CASH"
+        RadListDataItem2.Text = "NEFT"
+        RadListDataItem3.Text = "RTGS"
+        RadListDataItem4.Text = "CHEQUE"
+        RadListDataItem5.Text = "UPI"
+        Me.cmbPaymentType.Items.Add(RadListDataItem1)
+        Me.cmbPaymentType.Items.Add(RadListDataItem2)
+        Me.cmbPaymentType.Items.Add(RadListDataItem3)
+        Me.cmbPaymentType.Items.Add(RadListDataItem4)
+        Me.cmbPaymentType.Items.Add(RadListDataItem5)
         Me.cmbPaymentType.Location = New System.Drawing.Point(506, 132)
         Me.cmbPaymentType.MendatroryField = True
         Me.cmbPaymentType.MyLinkLable1 = Me.MyLabel7
@@ -1492,12 +1514,12 @@ Partial Class frmDairyBookingCustomer
         Me.cmbGatePassType.IsSourceFromTable = False
         Me.cmbGatePassType.IsSourceFromValueList = False
         Me.cmbGatePassType.IsUnique = False
-        RadListDataItem12.Text = "Select"
-        RadListDataItem13.Text = "AM"
-        RadListDataItem14.Text = "PM"
-        Me.cmbGatePassType.Items.Add(RadListDataItem12)
-        Me.cmbGatePassType.Items.Add(RadListDataItem13)
-        Me.cmbGatePassType.Items.Add(RadListDataItem14)
+        RadListDataItem6.Text = "Select"
+        RadListDataItem7.Text = "AM"
+        RadListDataItem8.Text = "PM"
+        Me.cmbGatePassType.Items.Add(RadListDataItem6)
+        Me.cmbGatePassType.Items.Add(RadListDataItem7)
+        Me.cmbGatePassType.Items.Add(RadListDataItem8)
         Me.cmbGatePassType.Location = New System.Drawing.Point(171, 179)
         Me.cmbGatePassType.MendatroryField = False
         Me.cmbGatePassType.MyLinkLable1 = Nothing
@@ -1895,12 +1917,12 @@ Partial Class frmDairyBookingCustomer
         Me.cmbcashcredit.IsSourceFromTable = False
         Me.cmbcashcredit.IsSourceFromValueList = False
         Me.cmbcashcredit.IsUnique = False
-        RadListDataItem1.Text = "Select"
-        RadListDataItem2.Text = "CASH"
-        RadListDataItem3.Text = "CREDIT"
-        Me.cmbcashcredit.Items.Add(RadListDataItem1)
-        Me.cmbcashcredit.Items.Add(RadListDataItem2)
-        Me.cmbcashcredit.Items.Add(RadListDataItem3)
+        RadListDataItem9.Text = "Select"
+        RadListDataItem10.Text = "CASH"
+        RadListDataItem11.Text = "CREDIT"
+        Me.cmbcashcredit.Items.Add(RadListDataItem9)
+        Me.cmbcashcredit.Items.Add(RadListDataItem10)
+        Me.cmbcashcredit.Items.Add(RadListDataItem11)
         Me.cmbcashcredit.Location = New System.Drawing.Point(506, 23)
         Me.cmbcashcredit.MendatroryField = False
         Me.cmbcashcredit.MyLinkLable1 = Nothing
@@ -2127,7 +2149,7 @@ Partial Class frmDairyBookingCustomer
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -2403,7 +2425,7 @@ Partial Class frmDairyBookingCustomer
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
@@ -4558,15 +4580,77 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Footer Setting"
         '
-        'UsLock1
+        'txtIndentDate
         '
-        Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(809, -2)
-        Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.UsLock1.Name = "UsLock1"
-        Me.UsLock1.Size = New System.Drawing.Size(97, 16)
-        Me.UsLock1.Status = common.ERPTransactionStatus.Pending
-        Me.UsLock1.TabIndex = 1587
+        Me.txtIndentDate.CalculationExpression = Nothing
+        Me.txtIndentDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtIndentDate.FieldCode = Nothing
+        Me.txtIndentDate.FieldDesc = Nothing
+        Me.txtIndentDate.FieldMaxLength = 0
+        Me.txtIndentDate.FieldName = Nothing
+        Me.txtIndentDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtIndentDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtIndentDate.isCalculatedField = False
+        Me.txtIndentDate.IsSourceFromTable = False
+        Me.txtIndentDate.IsSourceFromValueList = False
+        Me.txtIndentDate.IsUnique = False
+        Me.txtIndentDate.Location = New System.Drawing.Point(915, 193)
+        Me.txtIndentDate.MendatroryField = False
+        Me.txtIndentDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtIndentDate.MyLinkLable1 = Me.RadLabel4
+        Me.txtIndentDate.MyLinkLable2 = Nothing
+        Me.txtIndentDate.Name = "txtIndentDate"
+        Me.txtIndentDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtIndentDate.ReferenceFieldDesc = Nothing
+        Me.txtIndentDate.ReferenceFieldName = Nothing
+        Me.txtIndentDate.ReferenceTableName = Nothing
+        Me.txtIndentDate.Size = New System.Drawing.Size(106, 18)
+        Me.txtIndentDate.TabIndex = 1594
+        Me.txtIndentDate.TabStop = False
+        Me.txtIndentDate.Text = "13/06/2011"
+        Me.txtIndentDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'lblIndentDate
+        '
+        Me.lblIndentDate.FieldName = Nothing
+        Me.lblIndentDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblIndentDate.Location = New System.Drawing.Point(830, 194)
+        Me.lblIndentDate.Name = "lblIndentDate"
+        Me.lblIndentDate.Size = New System.Drawing.Size(84, 16)
+        Me.lblIndentDate.TabIndex = 1595
+        Me.lblIndentDate.Text = "PO/Indent Date"
+        '
+        'txtIndentNo
+        '
+        Me.txtIndentNo.CalculationExpression = Nothing
+        Me.txtIndentNo.FieldCode = Nothing
+        Me.txtIndentNo.FieldDesc = Nothing
+        Me.txtIndentNo.FieldMaxLength = 0
+        Me.txtIndentNo.FieldName = Nothing
+        Me.txtIndentNo.isCalculatedField = False
+        Me.txtIndentNo.IsSourceFromTable = False
+        Me.txtIndentNo.IsSourceFromValueList = False
+        Me.txtIndentNo.IsUnique = False
+        Me.txtIndentNo.Location = New System.Drawing.Point(710, 191)
+        Me.txtIndentNo.MendatroryField = False
+        Me.txtIndentNo.MyLinkLable1 = Nothing
+        Me.txtIndentNo.MyLinkLable2 = Nothing
+        Me.txtIndentNo.Name = "txtIndentNo"
+        Me.txtIndentNo.ReferenceFieldDesc = Nothing
+        Me.txtIndentNo.ReferenceFieldName = Nothing
+        Me.txtIndentNo.ReferenceTableName = Nothing
+        Me.txtIndentNo.Size = New System.Drawing.Size(111, 20)
+        Me.txtIndentNo.TabIndex = 1593
+        '
+        'lblIndentNo
+        '
+        Me.lblIndentNo.FieldName = Nothing
+        Me.lblIndentNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblIndentNo.Location = New System.Drawing.Point(633, 192)
+        Me.lblIndentNo.Name = "lblIndentNo"
+        Me.lblIndentNo.Size = New System.Drawing.Size(75, 16)
+        Me.lblIndentNo.TabIndex = 1592
+        Me.lblIndentNo.Text = "PO/Indent No"
         '
         'frmDairyBookingCustomer
         '
@@ -4879,6 +4963,10 @@ Partial Class frmDairyBookingCustomer
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtIndentDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblIndentDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtIndentNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblIndentNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -5170,5 +5258,9 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents chkDCS As RadCheckBox
     Friend WithEvents UsLock1 As common.usLock
+    Friend WithEvents txtIndentDate As common.Controls.MyDateTimePicker
+    Friend WithEvents lblIndentDate As common.Controls.MyLabel
+    Friend WithEvents txtIndentNo As common.Controls.MyTextBox
+    Friend WithEvents lblIndentNo As common.Controls.MyLabel
 End Class
 
