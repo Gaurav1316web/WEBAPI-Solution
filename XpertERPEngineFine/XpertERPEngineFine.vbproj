@@ -416,6 +416,7 @@
       <DependentUpon>Application.myapp</DependentUpon>
     </Compile>
     <Compile Include="Sales Distribution\clsEInvoiceHead.vb" />
+    <Compile Include="Sales Distribution\clsWarranty.vb" />
     <Compile Include="Seed\clsSeedSelectionEntry.vb" />
     <Compile Include="Share\clsMultipleShareAllotment.vb" />
     <Compile Include="Share\clsShareAllotment.vb" />
