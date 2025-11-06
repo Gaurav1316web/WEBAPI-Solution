@@ -955,12 +955,6 @@
     <Compile Include="Inventory\Transaction\frmRawMilkConsumption.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Inventory\Transaction\frmStartBatchEntry.Designer.vb">
-      <DependentUpon>frmStartBatchEntry.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Inventory\Transaction\frmStartBatchEntry.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Inventory\Transaction\FrmTransferGateOut.Designer.vb">
       <DependentUpon>FrmTransferGateOut.vb</DependentUpon>
     </Compile>
@@ -1823,12 +1817,6 @@
       <DependentUpon>frmBulkPurchaseUploader.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Transaction\frmBulkPurchaseUploader.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Milk Procurement\Transaction\frmCancelDCSSale.Designer.vb">
-      <DependentUpon>frmCancelDCSSale.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Milk Procurement\Transaction\frmCancelDCSSale.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Milk Procurement\Transaction\frmCattleFeedSalePurchaseUploader.Designer.vb">
@@ -5139,9 +5127,6 @@
     <EmbeddedResource Include="Inventory\Transaction\frmRawMilkConsumption.resx">
       <DependentUpon>frmRawMilkConsumption.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Inventory\Transaction\frmStartBatchEntry.resx">
-      <DependentUpon>frmStartBatchEntry.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Inventory\Transaction\FrmTransferGateOut.resx">
       <DependentUpon>FrmTransferGateOut.vb</DependentUpon>
     </EmbeddedResource>
@@ -5620,9 +5605,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmBulkPurchaseUploader.resx">
       <DependentUpon>frmBulkPurchaseUploader.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Milk Procurement\Transaction\frmCancelDCSSale.resx">
-      <DependentUpon>frmCancelDCSSale.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmCattleFeedSalePurchaseUploader.resx">
       <DependentUpon>frmCattleFeedSalePurchaseUploader.vb</DependentUpon>

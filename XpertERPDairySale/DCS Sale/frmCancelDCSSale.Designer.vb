@@ -22,10 +22,12 @@ Partial Class frmCancelDCSSale
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.txtDeduction = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel17 = New common.Controls.MyLabel()
         Me.txtFromDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
@@ -33,9 +35,7 @@ Partial Class frmCancelDCSSale
         Me.RadLabel4 = New common.Controls.MyLabel()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.btnOk = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel17 = New common.Controls.MyLabel()
-        Me.txtDeduction = New common.UserControls.txtMultiSelectFinder()
+        Me.btnCancel = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -43,6 +43,7 @@ Partial Class frmCancelDCSSale
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -51,8 +52,7 @@ Partial Class frmCancelDCSSale
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnOk, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnCancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -72,7 +72,7 @@ Partial Class frmCancelDCSSale
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnOk)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnCancel)
         Me.SplitContainer1.Size = New System.Drawing.Size(830, 476)
         Me.SplitContainer1.SplitterDistance = 443
         Me.SplitContainer1.TabIndex = 0
@@ -109,6 +109,29 @@ Partial Class frmCancelDCSSale
         Me.GroupBox1.Size = New System.Drawing.Size(436, 57)
         Me.GroupBox1.TabIndex = 4
         Me.GroupBox1.TabStop = False
+        '
+        'txtDeduction
+        '
+        Me.txtDeduction.arrDispalyMember = Nothing
+        Me.txtDeduction.arrValueMember = Nothing
+        Me.txtDeduction.Location = New System.Drawing.Point(81, 35)
+        Me.txtDeduction.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDeduction.MyLinkLable1 = Nothing
+        Me.txtDeduction.MyLinkLable2 = Nothing
+        Me.txtDeduction.MyNullText = "All"
+        Me.txtDeduction.Name = "txtDeduction"
+        Me.txtDeduction.Size = New System.Drawing.Size(243, 19)
+        Me.txtDeduction.TabIndex = 395
+        '
+        'MyLabel17
+        '
+        Me.MyLabel17.FieldName = Nothing
+        Me.MyLabel17.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel17.Location = New System.Drawing.Point(11, 36)
+        Me.MyLabel17.Name = "MyLabel17"
+        Me.MyLabel17.Size = New System.Drawing.Size(57, 16)
+        Me.MyLabel17.TabIndex = 306
+        Me.MyLabel17.Text = "Deduction"
         '
         'txtFromDate
         '
@@ -208,7 +231,7 @@ Partial Class frmCancelDCSSale
         '
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -226,37 +249,14 @@ Partial Class frmCancelDCSSale
         Me.btnClose.TabIndex = 1
         Me.btnClose.Text = "Close"
         '
-        'btnOk
+        'btnCancel
         '
-        Me.btnOk.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnOk.Location = New System.Drawing.Point(12, 2)
-        Me.btnOk.Name = "btnOk"
-        Me.btnOk.Size = New System.Drawing.Size(87, 24)
-        Me.btnOk.TabIndex = 0
-        Me.btnOk.Text = "Cancel"
-        '
-        'MyLabel17
-        '
-        Me.MyLabel17.FieldName = Nothing
-        Me.MyLabel17.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel17.Location = New System.Drawing.Point(11, 36)
-        Me.MyLabel17.Name = "MyLabel17"
-        Me.MyLabel17.Size = New System.Drawing.Size(57, 16)
-        Me.MyLabel17.TabIndex = 306
-        Me.MyLabel17.Text = "Deduction"
-        '
-        'txtDeduction
-        '
-        Me.txtDeduction.arrDispalyMember = Nothing
-        Me.txtDeduction.arrValueMember = Nothing
-        Me.txtDeduction.Location = New System.Drawing.Point(81, 35)
-        Me.txtDeduction.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDeduction.MyLinkLable1 = Nothing
-        Me.txtDeduction.MyLinkLable2 = Nothing
-        Me.txtDeduction.MyNullText = "All"
-        Me.txtDeduction.Name = "txtDeduction"
-        Me.txtDeduction.Size = New System.Drawing.Size(243, 19)
-        Me.txtDeduction.TabIndex = 395
+        Me.btnCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnCancel.Location = New System.Drawing.Point(12, 2)
+        Me.btnCancel.Name = "btnCancel"
+        Me.btnCancel.Size = New System.Drawing.Size(87, 24)
+        Me.btnCancel.TabIndex = 0
+        Me.btnCancel.Text = "Cancel"
         '
         'frmCancelDCSSale
         '
@@ -280,6 +280,7 @@ Partial Class frmCancelDCSSale
         Me.SplitContainer2.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -288,8 +289,7 @@ Partial Class frmCancelDCSSale
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnOk, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnCancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -297,7 +297,7 @@ Partial Class frmCancelDCSSale
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
     Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
-    Friend WithEvents btnOk As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnCancel As Telerik.WinControls.UI.RadButton
     Friend WithEvents SplitContainer2 As System.Windows.Forms.SplitContainer
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
     Friend WithEvents txtFromDate As common.Controls.MyDateTimePicker

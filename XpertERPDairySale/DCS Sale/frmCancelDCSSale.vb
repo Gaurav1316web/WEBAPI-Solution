@@ -3,12 +3,6 @@ Imports common
 Public Class frmCancelDCSSale
 #Region "Variables"
     Dim IsInsideLoadData As Boolean = False
-    Public VendorCode As String = Nothing
-    Public VendorName As String = Nothing
-    Public strCurrCode As String = Nothing
-    Public ArrReturn As List(Of clsSNInvoiceDetail) = Nothing
-    Dim dtAllData As DataTable = Nothing
-
     Const colDSelect As String = "SELECT"
     Const colInvoiceNo As String = "colInvoiceNo"
     Const colInvoiceDate As String = "colInvoiceDate"
@@ -136,48 +130,51 @@ Public Class frmCancelDCSSale
         gv1.ShowFilteringRow = True
     End Sub
 
-    Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
-        btnCancelPressed()
+    Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
+        btnClosePressed()
     End Sub
 
-    Private Sub btnOk_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOk.Click
-        btnOKPressed()
+    Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
+        CancelData()
     End Sub
 
-    Sub btnCancelPressed()
+    Sub btnClosePressed()
         Me.Close()
     End Sub
 
-    Sub btnOKPressed()
-        ArrReturn = New List(Of clsSNInvoiceDetail)
-        Dim obj As clsSNInvoiceDetail = Nothing
+    Sub CancelData()
+        Dim ArrCheck As New ArrayList()
         If clsCommon.MyMessageBoxShow(Me, "Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
+
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-        For ii As Integer = 0 To gv1.RowCount - 1
+        Try
+            For ii As Integer = 0 To gv1.RowCount - 1
+                If (clsCommon.myCBool(gv1.Rows(ii).Cells(colDSelect).Value)) Then
+                    ArrCheck.Add(gv1.Rows(ii).Cells(colInvoiceNo).Value)
+                    clsPSInvoiceHead.CancelData(clsCommon.myCstr(gv1.Rows(ii).Cells(colInvoiceNo).Value), trans)
+                    clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
+                End If
+            Next
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
 
-            Try
-                clsPSInvoiceHead.CancelData(clsCommon.myCstr(gv1.Rows(ii).Cells(colInvoiceNo).Value), trans)
-                clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
-                'AddNew()
-            Catch ex As Exception
-                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-            End Try
-        Next
-
-        If ArrReturn.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending Invoice item", Me.Text)
+        If ArrCheck.Count <= 0 Then
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Invoice", Me.Text)
         Else
             Me.Close()
         End If
     End Sub
 
-    Private Sub FrmPendingRequistion_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
+    Private Sub frmCancelDCSSale_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.F5 Then
-            btnOKPressed()
+            '  btnOKPressed()
         ElseIf e.KeyCode = Keys.Escape Then
-            btnCancelPressed()
+            btnClosePressed()
         End If
     End Sub
 
@@ -247,10 +244,10 @@ Public Class frmCancelDCSSale
             If txtDeduction.arrValueMember IsNot Nothing AndAlso txtDeduction.arrValueMember.Count > 0 Then
                 qry += " And Deduction in (" & clsCommon.GetMulcallString(txtDeduction.arrValueMember) & ") "
             End If
-            dtAllData = clsDBFuncationality.GetDataTable(qry)
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             LoadBlankGrid()
-            If dtAllData IsNot Nothing AndAlso dtAllData.Rows.Count > 0 Then
-                For Each dr As DataRow In dtAllData.Rows
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                For Each dr As DataRow In dt.Rows
                     If clsCommon.myLen(clsCommon.myCstr(dr("Invoice_No"))) Then
                         gv1.Rows.AddNew()
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDSelect).Value = True

@@ -187,6 +187,7 @@ Public Class frmStartBatchEntry
     End Function
 
     Function SaveData() As Boolean
+        Dim IsSaved As Boolean = False
         Try
             If (AllowToSave()) Then
                 obj = New clsStartBatchEntry()
@@ -212,16 +213,15 @@ Public Class frmStartBatchEntry
                     End If
                 Next
                 If (obj.SaveData(obj, isNewEntry, Nothing, False)) Then
-                    Return True
-                    'common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
-                    'LoadData(obj.Document_No, NavigatorType.Current)
+                    IsSaved = True
                 Else
-                    Return False
+                    IsSaved = False
                 End If
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+        Return IsSaved
     End Function
 
     Private Sub Addnew()
