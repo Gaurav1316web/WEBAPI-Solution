@@ -125,7 +125,8 @@ Public Class clsStartBatchEntry
             Dim objInventoryMovemnt As New clsInventoryMovement()
 
             For Each objTr As clsStartBatchEntryDetail In OBJ.Arr
-                If objTr.Qty > 0 OrElse objTr.Amount > 0 Then
+                If objTr.Qty = 0 AndAlso objTr.Amount = 0 Then
+                Else
                     intCounter = intCounter + 1
                     Dim strItemType As String = clsItemMaster.GetItemType(objTr.Item_Code, trans)
                     Dim strItemTypeToSave As String = ""
@@ -160,7 +161,8 @@ Public Class clsStartBatchEntry
             '---Batch In
             If objCommonVar.AutoGenrateBatchInventory Then
                 For Each objtr As clsStartBatchEntryDetail In OBJ.Arr
-                    If objtr.Qty > 0 OrElse objtr.Amount > 0 Then
+                    If objtr.Qty = 0 AndAlso objtr.Amount = 0 Then
+                    Else
                         If clsItemMaster.IsBatchItem(objtr.Item_Code, trans) Then
                             Dim ArrBatchItem As New List(Of clsBatchInventory)
                             Dim objBatch As New clsBatchInventory
@@ -178,7 +180,8 @@ Public Class clsStartBatchEntry
                 Next
             Else
                 For Each objtr As clsStartBatchEntryDetail In OBJ.Arr
-                    If objtr.Qty > 0 OrElse objtr.Amount > 0 Then
+                    If objtr.Qty = 0 AndAlso objtr.Amount = 0 Then
+                    Else
                         If clsItemMaster.IsBatchItem(objtr.Item_Code, trans) Then
                             clsBatchInventory.SaveData("SBE", OBJ.Document_No, OBJ.Document_date, "I", objtr.Item_Code, objtr.Location_Code, objtr.Line_No, 0, objtr.Unit_code, objtr.arrBatchItem, trans)
                         End If
@@ -190,7 +193,8 @@ Public Class clsStartBatchEntry
             '---- Update inventory movement In
             ArrInventoryMovement = New List(Of clsInventoryMovement)
             For Each objTr As clsStartBatchEntryDetail In OBJ.Arr
-                If objTr.Qty > 0 OrElse objTr.Amount > 0 Then
+                If objTr.Qty = 0 AndAlso objTr.Amount = 0 Then
+                Else
                     Dim itemtype As String = "select item_type from TSPL_ITEM_MASTER where item_code='" + objTr.Item_Code + "'"
                     Dim type As String = clsDBFuncationality.getSingleValue(itemtype, trans)
                     objInventoryMovemnt = New clsInventoryMovement()

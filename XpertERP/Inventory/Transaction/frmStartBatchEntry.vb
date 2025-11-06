@@ -382,27 +382,19 @@ Public Class frmStartBatchEntry
 
     Private Sub LoadGridData()
         Try
-            Dim whrcls As String = " AND TSPL_INVENTORY_MOVEMENT.Punching_Date <= '" & clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtDocumentDate.Value), "dd/MMM/yyyy hh:mm:ss tt") & "'  "
+            Dim whrcls As String = " and TSPL_ITEM_MASTER.Is_Batch_Item = 0 "
             If txtItemType.arrValueMember IsNot Nothing AndAlso txtItemType.arrValueMember.Count > 0 Then
                 whrcls += "  and  TSPL_ITEM_MASTER.Item_TYPE IN (" & clsCommon.GetMulcallString(txtItemType.arrValueMember) & ") "
             End If
             If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
-                whrcls += "  and  TSPL_INVENTORY_MOVEMENT.Item_Code IN (" & clsCommon.GetMulcallString(txtItem.arrValueMember) & ") "
+                whrcls += "  and  TSPL_ITEM_MASTER.Item_Code IN (" & clsCommon.GetMulcallString(txtItem.arrValueMember) & ") "
             End If
-            Dim qry As String = " select Location_Code,max(Location_Desc)Location_Desc,Item_Code,max(Item_Desc)Item_Desc,sum(Stock_Qty * ri )Stock_Qty,max(Stock_UOM)Stock_UOM,sum(Amount*RI) as Amount from ( 
-            select TSPL_INVENTORY_MOVEMENT.Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_INVENTORY_MOVEMENT.Item_Code,TSPL_ITEM_MASTER.Item_Desc, TSPL_INVENTORY_MOVEMENT.Stock_Qty,TSPL_INVENTORY_MOVEMENT.Stock_UOM,TSPL_INVENTORY_MOVEMENT.Avg_Cost as Amount, case when InOut = 'I' then 1 else -1 end as RI,InOut from TSPL_INVENTORY_MOVEMENT 
-            LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = TSPL_INVENTORY_MOVEMENT.Location_Code LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.ITEM_CODE = TSPL_INVENTORY_MOVEMENT.Item_Code where 2=2 and is_batch_item = 0  " & whrcls & "
-           union 
-			select TSPL_LOCATION_MASTER.Location_Code, TSPL_LOCATION_MASTER.Location_Desc,tspl_item_master.Item_Code,TSPL_ITEM_MASTER.Item_Desc, 0 as Stock_Qty,'' as Stock_UOM,0 as Amount, 0 as RI,'' as InOut 
-			from tspl_item_master LEFT OUTER JOIN (select top 1 * from  TSPL_LOCATION_MASTER) as TSPL_LOCATION_MASTER ON 2=2 where  2=2 and Is_Batch_Item=0 "
-
-            If txtItemType.arrValueMember IsNot Nothing AndAlso txtItemType.arrValueMember.Count > 0 Then
-                qry += "  and TSPL_ITEM_MASTER.Item_TYPE IN (" & clsCommon.GetMulcallString(txtItemType.arrValueMember) & ") "
-            End If
-            If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
-                qry += "  and  TSPL_ITEM_MASTER.Item_Code IN (" & clsCommon.GetMulcallString(txtItem.arrValueMember) & ") "
-            End If
-            qry += ") xx group by Location_Code,Item_Code "
+            Dim qry As String = " WITH CTE_Main AS ( SELECT TSPL_INVENTORY_MOVEMENT.Location_Code,MAX(TSPL_LOCATION_MASTER.Location_Desc) AS Location_Desc,TSPL_INVENTORY_MOVEMENT.Item_Code,MAX(TSPL_ITEM_MASTER.Item_Desc) AS Item_Desc,SUM(TSPL_INVENTORY_MOVEMENT.Stock_Qty * CASE WHEN TSPL_INVENTORY_MOVEMENT.InOut = 'I' THEN 1 ELSE -1 END) AS Stock_Qty,
+            MAX(TSPL_INVENTORY_MOVEMENT.Stock_UOM) AS Stock_UOM,SUM(TSPL_INVENTORY_MOVEMENT.Avg_Cost * CASE WHEN TSPL_INVENTORY_MOVEMENT.InOut = 'I' THEN 1 ELSE -1 END) AS Amount
+            FROM TSPL_INVENTORY_MOVEMENT LEFT JOIN TSPL_LOCATION_MASTER  ON TSPL_LOCATION_MASTER.Location_Code = TSPL_INVENTORY_MOVEMENT.Location_Code LEFT JOIN TSPL_ITEM_MASTER  ON TSPL_ITEM_MASTER.Item_Code = TSPL_INVENTORY_MOVEMENT.Item_Code WHERE 2=2 AND TSPL_INVENTORY_MOVEMENT.Punching_Date <= '" & clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtDocumentDate.Value), "dd/MMM/yyyy hh:mm:ss tt") & "' " & whrcls & " GROUP BY TSPL_INVENTORY_MOVEMENT.Location_Code, TSPL_INVENTORY_MOVEMENT.Item_Code
+		    ),CTE_AllItems AS (  SELECT TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_LOCATION_MASTER.Location_Code,TSPL_LOCATION_MASTER.Location_Desc FROM TSPL_ITEM_MASTER LEFT JOIN ( select top 1 * from  TSPL_LOCATION_MASTER) as TSPL_LOCATION_MASTER ON 2=2 where  2=2 " & whrcls & " )
+            SELECT COALESCE(CTE_Main.Location_Code, CTE_AllItems.Location_Code) AS Location_Code,COALESCE(CTE_Main.Location_Desc, CTE_AllItems.Location_Desc) AS Location_Desc,CTE_AllItems.Item_Code,CTE_AllItems.Item_Desc,ISNULL(CTE_Main.Stock_Qty,0) AS Stock_Qty,ISNULL(CTE_Main.Stock_UOM, '') AS Stock_UOM,
+            ISNULL(CTE_Main.Amount, 0) AS Amount FROM CTE_AllItems  LEFT JOIN CTE_Main ON CTE_AllItems.Item_Code = CTE_Main.Item_Code "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
             If dt.Rows.Count > 0 Then

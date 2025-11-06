@@ -8075,6 +8075,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmDCSSaleEntry
                         frm = New frmDCSSaleEntry
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmCancelDCSSale
+                        frm = New frmCancelDCSSale
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmMCCMaterial
                         frm = New frmMCCMaterialSale
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
