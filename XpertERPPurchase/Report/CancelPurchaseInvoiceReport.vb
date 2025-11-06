@@ -120,35 +120,38 @@ Public Class CancelPurchaseInvoiceReport
         Close()
     End Sub
 
-    Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
+    Private Sub ExportToExcel(ByVal exporter As EnumExportTo)
         Try
-            If gv1.Rows.Count > 0 Then
-                Dim arrHeader As List(Of String) = New List(Of String)()
-                'arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
-                arrHeader.Add(objCommonVar.CurrentCompanyName)
-                clsCommon.MyExportToExcelGrid("", gv1, arrHeader, Me.Text)
-                'transportSql.exportdata(gv1, "", Me.Text, False, arrHeader, False, False, True)
+
+            Dim arrHeader As List(Of String) = New List(Of String)()
+            Dim strtemp As String = "Date Range : " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")
+            arrHeader.Add(strtemp)
+            arrHeader.Add("Company : " + objCommonVar.CurrentCompanyName)
+
+            'If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+            '    arrHeader.Add(" Customer : " + clsCommon.GetMulcallStringWithComma(txtMultiCustomer.arrDispalyMember))
+            'End If
+            If exporter = EnumExportTo.Excel Then
+                clsCommon.MyExportToExcelGrid("Cancel Purchase Invoice Report", gv1, arrHeader, Me.Text)
             Else
-                clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
+                clsCommon.MyExportToPDF("Cancel Purchase Invoice Report", gv1, arrHeader, "Cancel Purchase Invoice Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
+
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
 
+    Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
+        If gv1.Rows.Count > 0 Then
+            ExporttoExcel(EnumExportTo.Excel)
+        Else
+            RadMessageBox.Show("No Data Found to Display", Me.Text)
+        End If
+    End Sub
+
     Private Sub rmiPDF_Click(sender As Object, e As EventArgs) Handles rmiPDF.Click
-        Try
-            If gv1.Rows.Count > 0 Then
-                Dim arrHeader As List(Of String) = New List(Of String)()
-                'arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
-                arrHeader.Add(objCommonVar.CurrentCompanyName)
-                clsCommon.MyExportToPDF(Me.Text, gv1, arrHeader, Me.Text)
-            Else
-                clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
-            End If
-        Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
+        ExporttoExcel(EnumExportTo.PDF)
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
@@ -178,27 +181,29 @@ Public Class CancelPurchaseInvoiceReport
 
             Dim qry As String = "SELECT DISTINCT TSPL_GRN_HEAD.GRN_No AS [GRN No],
                                 CASE  WHEN TSPL_GRN_HEAD.Status = 0 THEN 'Pending' WHEN TSPL_GRN_HEAD.Status = 1 THEN 'Approved' 
-	                                ELSE 'Unknown' END AS [Status],
+	                                ELSE 'Unknown' END AS [GRN Status],
                                 TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code as [Weighment No],
                                 CASE  WHEN TSPL_PO_WEIGHTMENT_HEAD.Status = 0 THEN 'Pending' WHEN TSPL_PO_WEIGHTMENT_HEAD.Status = 1 THEN 'Approved' 
-	                                ELSE 'Unknown' END AS [Status],
+	                                ELSE 'Unknown' END AS [Weighment Status],
                                 TSPL_MRN_HEAD.MRN_No AS [MRN No],
                                 CASE  WHEN TSPL_MRN_HEAD.Status = 0 THEN 'Pending' WHEN TSPL_MRN_HEAD.Status = 1 THEN 'Approved' 
-	                                ELSE 'Unknown' END AS [Status],
+	                                ELSE 'Unknown' END AS [MRN Status],
                                 TSPL_NIR_QC.Document_No as[NIR QC NO],
                                 CASE  WHEN TSPL_NIR_QC.Status = 0 THEN 'Pending' WHEN TSPL_NIR_QC.Status = 1 THEN 'Approved' 
-	                                ELSE 'Unknown' END AS [Status],
+	                                ELSE 'Unknown' END AS [NIR QC Status],
                                 TSPL_QC_CHECK_SRN_DETAIL.Document_Code as [Wet Qc No],
+								TSPL_QC_CHECK_DETAIL.QC_Status as [Incoming Qc Status],
                                 TSPL_SRN_HEAD.SRN_No AS [SRN No],
                                 CASE  WHEN TSPL_SRN_HEAD.Status = 0 THEN 'Pending' WHEN TSPL_SRN_HEAD.Status = 1 THEN 'Approved' 
-	                                ELSE 'Unknown' END AS [Status],
-                                TSPL_PI_HEAD_Cancel_Data.Against_PO AS [PO No],
-
-                                TSPL_PI_HEAD_Cancel_Data.PI_No AS [PI No],
-                                CASE  WHEN TSPL_PI_HEAD_Cancel_Data.Status = 0 THEN 'Pending' WHEN TSPL_PI_HEAD_Cancel_Data.Status = 1 THEN 'Cancel' 
-	                                ELSE 'Unknown' END AS [Status],TSPL_LOCATION_MASTER.Location_Code as [Location Code],
+	                                ELSE 'Unknown' END AS [SRN Status],
+									TSPL_TENDER_PENALTY_DETAIL.Document_No as [Ral Penalty],
+								TSPL_PI_DETAIL_Cancel_Data.PO_ID AS [PO No],
+                                TSPL_PI_DETAIL_Cancel_Data.PI_No AS [PI No],
+                                CASE  WHEN TSPL_PI_DETAIL_Cancel_Data.Status = 0 THEN 'Pending' WHEN TSPL_PI_DETAIL_Cancel_Data.Status = 1 THEN 'Cancel' 
+	                                ELSE 'Unknown' END AS [PI Status],TSPL_LOCATION_MASTER.Location_Code as [Location Code],
                                 TSPL_PI_HEAD_Cancel_Data.Ref_No as [Tender],TSPL_ITEM_MASTER.Item_Code as [Item],TSPL_VENDOR_MASTER.Vendor_Code as [Vendor Code]
-	                                FROM TSPL_PI_HEAD_Cancel_Data
+	                                FROM TSPL_PI_DETAIL_Cancel_Data
+									left outer join TSPL_PI_HEAD_Cancel_Data on TSPL_PI_HEAD_Cancel_Data.Against_GRN=TSPL_PI_DETAIL_Cancel_Data.GRN_ID
 	                                left outer join TSPL_PI_HEAD on TSPL_PI_HEAD.PI_No=TSPL_PI_HEAD_Cancel_Data.PI_No
 	                                left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_PI_HEAD_Cancel_Data.Against_GRN
 	                                left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
@@ -209,7 +214,9 @@ Public Class CancelPurchaseInvoiceReport
 	                                left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_QC_CHECK_SRN_DETAIL.Item_Code
 	                                left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_PI_HEAD_Cancel_Data.Vendor_Code
 	                                left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_PO_WEIGHTMENT_HEAD.Location_Code
-                                    WHERE  (Convert(date,TSPL_PI_HEAD_Cancel_Data.Cancel_On ,103) BETWEEN convert(date,'" + txtFromDate.Value + "',103) and convert(date,'" + txtToDate.Value + "',103)) and " + Whr + " "
+									left outer join TSPL_QC_CHECK_DETAIL on TSPL_QC_CHECK_DETAIL.Item_Code=TSPL_PI_DETAIL_Cancel_Data.Item_Code
+									left outer join TSPL_TENDER_PENALTY_DETAIL on TSPL_TENDER_PENALTY_DETAIL.SRN_No=TSPL_PI_DETAIL_Cancel_Data.SRN_Id
+                                    WHERE  (Convert(date,TSPL_PI_HEAD_Cancel_Data.Cancel_On ,103) BETWEEN convert(date,'" + txtFromDate.Value + "',103) and convert(date,'" + txtToDate.Value + "',103)) " + Whr + " "
 
             Dim dt = clsDBFuncationality.GetDataTable(qry)
 
