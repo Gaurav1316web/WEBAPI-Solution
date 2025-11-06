@@ -1955,10 +1955,10 @@ where 2=2 "
                 '                Else
                 BaseQry += " and TSPL_CUSTOMER_MASTER.Cust_Code Not In (Select Cust_Code from TSPL_DEMAND_BOOKING_DETAIL Where Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_No) "
                 'End If
-                BaseQry += " )XXFinal "
             End If
-            BaseQry += "  Group by XXFinal.Cust_Code,XXFinal.Sku_Seq 
-)xx) xfinal left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=xfinal.Cust_Code "
+            BaseQry += " )XXFinal "
+            BaseQry += "  Group by XXFinal.Cust_Code,XXFinal.Sku_Seq "
+            BaseQry += " )xx) xfinal left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=xfinal.Cust_Code "
             Dim qry As String = " select Short_Description from (" & BaseQry & " )xx Where Short_Description is Not Null group by Short_Description order by max(Sku_Seq)"
             Dim dtItem As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dtItem IsNot Nothing AndAlso dtItem.Rows.Count <= 0 Then

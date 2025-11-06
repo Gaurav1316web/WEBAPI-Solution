@@ -340,6 +340,8 @@ Public Class BMC_Transporter_Bill
         FatSnfRate()
         FatSnfCalculation()
         IceCharge()
+        AddSummaryRowToGrid()
+
     End Sub
 
     Sub FatSnfCalculation()
@@ -873,7 +875,7 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
 
             ' Add summary row
             Dim summaryRow As New GridViewSummaryRowItem()
-            summaryRow.Add(New GridViewSummaryItem(colDocumentNo, "Grand Total", GridAggregateFunction.Sum))
+            summaryRow.Add(New GridViewSummaryItem(ColCategory, "Grand Total", GridAggregateFunction.Sum))
             summaryRow.Add(New GridViewSummaryItem(ColTrip, totalTrip.ToString("N2"), GridAggregateFunction.Sum))
             summaryRow.Add(New GridViewSummaryItem(ColGPSKM, totalGPSKM.ToString("N2"), GridAggregateFunction.Sum))
             summaryRow.Add(New GridViewSummaryItem(ColKM, totalKM.ToString("N2"), GridAggregateFunction.Sum))
