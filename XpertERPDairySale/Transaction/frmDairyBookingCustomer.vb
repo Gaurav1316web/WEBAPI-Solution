@@ -461,6 +461,8 @@ Public Class frmDairyBookingCustomer
         'lblLocation.Text = ""
         txtPriceCode.Text = ""
         txtPONo.Text = ""
+        txtIndentNo.Text = ""
+        txtIndentDate.Value = txtDate.Value
         lblCreatedByValue.Text = ""
         txtCustPODate.Checked = False
         txtCustPODate.Value = clsCommon.GETSERVERDATE()
@@ -3497,6 +3499,10 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 If clsCommon.myLen(lblUploadingDate.Text) > 0 Then
                     obj.Uploading_date = lblUploadingDate.Text
                 End If
+                If clsCommon.myLen(txtIndentNo.Text) > 0 Then
+                    obj.PO_Indent_No = txtIndentNo.Text
+                    obj.PO_Indent_Date = txtIndentDate.Value
+                End If
                 obj.TotalCAN = txtCan.Text
                 If chkNoCrateIssue.Checked Then
                     obj.TotalCrate = 0
@@ -4247,6 +4253,11 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                     lblSubLocation.Text = clsLocation.GetName(txtSubLocation.Value, Nothing)
                 Else
                     lblSubLocation.Text = ""
+                End If
+                If obj.PO_Indent_Date IsNot Nothing Then
+                    txtIndentNo.Text = obj.PO_Indent_No
+                    txtIndentDate.Value = obj.PO_Indent_Date
+
                 End If
                 lblCreatedByValue.Text = clsCommon.myCstr(obj.Created_By)
                 lblDONumber.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(Delivery_No,'') from TSPL_BOOKING_DETAIL where Document_No='" & txtDocNo.Value & "'"))
@@ -9017,18 +9028,30 @@ from
         txtCouponDate.Visible = flag
         txtCategory.Visible = flag
         lblCategory.Visible = flag
+        lblIndentNo.Visible = Not flag
+        txtIndentNo.Visible = Not flag
+        lblIndentDate.Visible = Not flag
+        txtIndentDate.Visible = Not flag
         If flag Then
             RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Visible
             chkDCS.Enabled = False
             chkDistributor.Checked = False
             chkDistributor.Enabled = False
             txtCouponDate.Value = clsCommon.GETSERVERDATE()
+            lblIndentNo.Location = New Point(633, 190)
+            txtIndentNo.Location = New Point(710, 189)
+            lblIndentDate.Location = New Point(830, 192)
+            txtIndentDate.Location = New Point(915, 191)
         Else
             RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Collapsed
             chkDCS.Enabled = True
             chkDistributor.Checked = True
             chkDistributor.Enabled = True
             txtCouponDate.Value = Nothing
+            lblIndentNo.Location = New Point(429, 47)
+            txtIndentNo.Location = New Point(506, 46)
+            lblIndentDate.Location = New Point(429, 70)
+            txtIndentDate.Location = New Point(512, 69)
         End If
     End Sub
     'Public Function GetTax(ByVal obj As clsTaxCalculation, ByVal rowno As Integer, ByVal qty As Decimal) As Decimal

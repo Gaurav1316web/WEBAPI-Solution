@@ -543,7 +543,6 @@
     <Compile Include="Receivables\ClsCompetitorMaster.vb" />
     <Compile Include="Receivables\clsCustomerOutstanding.vb" />
     <Compile Include="Sale\clsMultipleInvoice.vb" />
-    <Compile Include="Sale\clsSaleIncentiveMaster.vb" />
     <Compile Include="Sale\ClsScrapSaleInvoice.vb" />
     <Compile Include="Sale\ClsScrapSaleReturn.vb" />
     <Compile Include="Sale\DairySale\clsAcknowledgementOfGRN.vb" />
@@ -1173,9 +1172,7 @@
     <Compile Include="Milk Procurement\ClsRouteFreightDetails.vb" />
     <Compile Include="Milk Procurement\clsRouteSifting.vb" />
     <Compile Include="Sale\ClsSaleLevelHierarchy.vb" />
-    <Compile Include="Sale\clsSaleOrder.vb" />
     <Compile Include="Sale\clsSaleReturnInterCompany.vb" />
-    <Compile Include="Sale\clsSalesHierarchy.vb" />
     <Compile Include="Sale\clsSalesHierarchyMapping.vb" />
     <Compile Include="Sale\clsSalesmanTarget.vb" />
     <Compile Include="Sale\clsSalesOrder.vb" />

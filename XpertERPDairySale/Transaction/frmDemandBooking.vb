@@ -2714,17 +2714,17 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
                         If dt.Rows.Count > 0 Then
                             Dim objCustItem As clsDemandCustItem = New clsDemandCustItem()
 
-                            dblRate = Math.Round(clsCommon.myCdbl(dt.Rows(0).Item("Item_Basic_Price")), 2)
+                            dblRate = clsCommon.myCdbl(dt.Rows(0).Item("Item_Basic_Price"))
                             If dblRate = 0 Then
                                 Throw New InvalidOperationException("Please Fill Selling Price for Location " & txtLocation.Value & "  for item " & clsCommon.myCstr(obj1.ShortDesc) & Environment.NewLine)
                             End If
                             If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Fresh") = CompairStringResult.Equal Then
                                 'obj1.ItemRate = dblRate
-                                dblTotalMAmt = dblTotalMAmt + Math.Round(clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * clsCommon.myCdbl(dblRate), 2)
+                                dblTotalMAmt = dblTotalMAmt + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * clsCommon.myCdbl(dblRate)
 
                             Else
                                 'obj1.ItemRate = dblRate
-                                dblTotalPAmt = dblTotalPAmt + Math.Round(clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * clsCommon.myCdbl(dblRate), 2)
+                                dblTotalPAmt = dblTotalPAmt + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * clsCommon.myCdbl(dblRate)
                             End If
                             objCustItem.ItemRate = dblRate
                             'obj1.ItemTotAmt = Math.Round(clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * clsCommon.myCdbl(dblRate), 2)
@@ -2833,13 +2833,13 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
                     gv1.Rows(dblrows).Cells(colCrate).Value = IIf(clsCommon.myRoundOFF(clsCommon.myCdbl(TotalLitre / 12), 0, 9) >= 1, clsCommon.myRoundOFF(clsCommon.myCdbl(TotalLitre / 12), 0, 9) - 1, 0)
                     'End If
                 End If
-                gv1.Rows(dblrows).Cells(colMAmt).Value = clsCommon.myCdbl(dblTotalMAmt)
+                gv1.Rows(dblrows).Cells(colMAmt).Value = clsCommon.myRoundOFF(clsCommon.myCdbl(dblTotalMAmt), 2, 5)
                 gv1.Rows(dblrows).Cells(colPCount).Value = clsCommon.myCdbl(dblTotalPCount)
                 If AllowMultipleUOMForProduct Then
                     gv1.Rows(dblrows).Cells(colPCrate).Value = clsCommon.myCdbl(dblTotalPCrate)
                 End If
-                gv1.Rows(dblrows).Cells(colPAmt).Value = clsCommon.myCdbl(dblTotalPAmt)
-                gv1.Rows(dblrows).Cells(colAmt).Value = clsCommon.myCdbl(dblTotalDocAmtRowWise)
+                gv1.Rows(dblrows).Cells(colPAmt).Value = clsCommon.myRoundOFF(clsCommon.myCdbl(dblTotalPAmt), 2, 5)
+                gv1.Rows(dblrows).Cells(colAmt).Value = clsCommon.myRoundOFF(clsCommon.myCdbl(dblTotalDocAmtRowWise), 2, 5)
                 If clsCommon.myLen(gv1.Rows(dblrows).Cells(colItemExist)) > 0 Then
                     gv1.Rows(dblrows).Cells(colItemExist).Value = strItemValueExist
                 End If

@@ -13,7 +13,7 @@ Public Class clsSaleOrder
             trans.Commit()
             Return True
         Catch ex As Exception
-            myMessages.myExceptions(ex)
+            Throw New Exception(ex.Message)
             Return False
         Finally
             con.Close()

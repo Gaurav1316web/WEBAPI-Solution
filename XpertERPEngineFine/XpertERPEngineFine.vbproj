@@ -285,6 +285,9 @@
     <Compile Include="Classes\ClsReimbursementTypeMaster.vb" />
     <Compile Include="Classes\clsRMProcessLoss.vb" />
     <Compile Include="Classes\clsSalaryStructure.vb" />
+    <Compile Include="Classes\clsSaleIncentiveMaster.vb" />
+    <Compile Include="Classes\clsSaleOrder.vb" />
+    <Compile Include="Classes\clsSalesHierarchy.vb" />
     <Compile Include="Classes\ClsSentMailSlip.vb" />
     <Compile Include="Classes\ClsServiceAllocation.vb" />
     <Compile Include="Classes\ClsServiceCall.vb" />

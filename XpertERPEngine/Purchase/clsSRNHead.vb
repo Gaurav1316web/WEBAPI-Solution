@@ -1553,145 +1553,17 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
                 obj = clsSRNHead.GetData(strDocNo, NavigatorType.Current, trans)
             End If
 
-            Dim ArrInventoryMovement As List(Of clsInventoryMovement) = New List(Of clsInventoryMovement)
+
             Dim IsRejectedItemFound As Boolean = False
-            Dim strFirstItemCodeNonItemRowType As String = GetFirstItemCode(obj.Arr)
-            Dim isSerialiedItem As Integer = clsDBFuncationality.getSingleValue("select  is_serial_item from tspl_item_master where item_code='" & strFirstItemCodeNonItemRowType & "'", trans)
+            '
+            'Dim isSerialiedItem As Integer = clsDBFuncationality.getSingleValue("select  is_serial_item from tspl_item_master where item_code='" & strFirstItemCodeNonItemRowType & "'", trans)
 
 
             If obj.Confirmatory_PO Then
                 CreateConfirmatoryPO(trans, obj)
             End If
 
-
-            Dim intCounter As Integer = 0
-            If Not (obj.is_RGP_Non_Inventory AndAlso clsCommon.myLen(obj.Against_RGP) > 0) Then
-                For Each objTr As clsSRNDetail In obj.Arr
-                    intCounter = intCounter + 1
-                    If clsCommon.CompairString(objTr.Row_Type, clsItemRowType.RowTypeItem) = CompairStringResult.Equal Then
-                        If clsCommon.myLen(objTr.MRN_Id) > 0 Then
-                            Dim qry1 As String = "update TSPL_MRN_DETAIL set Balance_Qty=Balance_Qty - " + clsCommon.myCstr(clsCommon.myCdbl(objTr.SRN_Qty + objTr.Rejected_Qty + objTr.Leak_Qty + objTr.Burst_Qty + objTr.Short_Qty)) + " where MRN_No='" + objTr.MRN_Id + "' and Item_Code='" + objTr.Item_Code + "' and Unit_code='" + objTr.Unit_code + "' and isnull(MRP,0)='" + clsCommon.myCstr(objTr.MRP) + "' and isnull(Assessable,0)='" + clsCommon.myCstr(objTr.Assessable) + "'"
-                            clsDBFuncationality.ExecuteNonQuery(qry1, trans)
-                        End If
-                    Else
-                        objTr.Item_Code = strFirstItemCodeNonItemRowType
-                    End If
-                    Dim strItemType As String = clsItemMaster.GetItemType(objTr.Item_Code, trans)
-                    If clsCommon.CompairString(objTr.Row_Type, clsItemRowType.RowTypeItem) = CompairStringResult.Equal Then
-                        Dim strItemTypeToSave As String = ""
-                        If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
-                            strItemTypeToSave = "RM"
-                        ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
-                            strItemTypeToSave = "OT"
-                        ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
-                            strItemTypeToSave = "FT"
-
-                        ElseIf clsCommon.CompairString(strItemType, "A") = CompairStringResult.Equal Then
-                            strItemTypeToSave = "A"
-                        Else
-                            strItemTypeToSave = strItemType
-                        End If
-
-
-
-                        Dim objInventoryMovemnt As New clsInventoryMovement()
-                        objInventoryMovemnt.InOut = "I"
-                        If clsCommon.myLen(obj.Sublocation_Code) > 0 Then
-                            objInventoryMovemnt.Location_Code = obj.Sublocation_Code
-                        ElseIf clsCommon.myLen(obj.Ship_To_Location) > 0 Then
-                            objInventoryMovemnt.Location_Code = obj.Ship_To_Location
-                        Else
-                            objInventoryMovemnt.Location_Code = obj.Bill_To_Location
-                        End If
-
-                        ''richa agarwal 4 Dec,2020
-                        'If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(obj.Bill_To_Location) & "'", trans)), "Y") = CompairStringResult.Equal Then
-                        '    If obj.isJobWorkOutward = 0 Then
-                        '        objInventoryMovemnt.Location_Code = obj.Sublocation_Code
-                        '    End If
-                        'End If
-
-                        objInventoryMovemnt.Vendor_Code = obj.Vendor_Code
-                        objInventoryMovemnt.Vendor_Name = obj.Vendor_Name
-
-                        objInventoryMovemnt.Item_Code = objTr.Item_Code
-                        objInventoryMovemnt.Item_Desc = objTr.Item_Desc
-                        objInventoryMovemnt.Qty = objTr.SRN_Qty + objTr.Freeqty '- IIf(obj.is_Srn_rejQty_goes_in_Rejstore = True And isSerialiedItem <> 1, objTr.Rejected_Qty, 0)
-                        objInventoryMovemnt.UOM = objTr.Unit_code
-                        objInventoryMovemnt.MRP = objTr.MRP
-                        objInventoryMovemnt.Add_Cost = objTr.Total_Tax_Amt * IIf(obj.ConvRate = 0, 1, obj.ConvRate)
-                        objInventoryMovemnt.Net_Cost = objTr.Landed_Cost_Amount * IIf(obj.ConvRate = 0, 1, obj.ConvRate)
-                        If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
-                            objInventoryMovemnt.ItemType = "RM"
-                        ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
-                            objInventoryMovemnt.ItemType = "OT"
-                        ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
-                            objInventoryMovemnt.ItemType = "FT"
-                        End If
-                        objInventoryMovemnt.ItemType = strItemTypeToSave
-
-                        objInventoryMovemnt.Basic_Cost = objTr.Landed_Cost_Rate * IIf(obj.ConvRate = 0, 1, obj.ConvRate)
-                        objInventoryMovemnt.Batch_No = objTr.Batch_No
-                        objInventoryMovemnt.MFG_Date = objTr.MFG_Date
-                        objInventoryMovemnt.Expiry_Date = objTr.Expiry_Date
-
-                        ArrInventoryMovement.Add(objInventoryMovemnt)
-                        If WithoutRejection = False Then
-                            If objTr.Rejected_Qty > 0 AndAlso Not obj.is_Srn_rejQty_goes_in_Rejstore Then
-                                Throw New Exception("Please apply rejection setting on SRN")
-                            End If
-                        End If
-
-                        If objTr.Rejected_Qty > 0 AndAlso obj.is_Srn_rejQty_goes_in_Rejstore Then
-                                'Comment by balwider on 02/06/2021 becuase if location is not defined it return 1 and Condition will always false.
-                                'Dim RejLoc As Integer = clsDBFuncationality.getSingleValue("select count(Rejected_Location) from TSPL_LOCATION_MASTER where Location_Code='" & objTr.Location & "'", trans)
-                                'If RejLoc <= 0 Then
-                                '    Throw New Exception("Rejected Location Not filled of [" + objTr.Location + "]")
-                                'End If
-
-                                Dim objInventoryMovemntForRej As New clsInventoryMovement()
-                                objInventoryMovemntForRej.InOut = "I"
-                                objInventoryMovemntForRej.Location_Code = clsDBFuncationality.getSingleValue("select Rejected_Location from TSPL_LOCATION_MASTER where Location_Code='" & objTr.Location & "'", trans)
-                                If clsCommon.myLen(objInventoryMovemntForRej.Location_Code) <= 0 Then
-                                    Throw New Exception("Rejected Location Not filled of [" + objTr.Location + "]")
-                                End If
-                                ''richa agarwal 4 Dec,2020
-                                If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(objTr.Location) & "'", trans)), "Y") = CompairStringResult.Equal Then
-                                    If obj.isJobWorkOutward = 0 Then
-                                        objInventoryMovemnt.Location_Code = obj.Sublocation_Code
-                                    End If
-                                End If
-
-                                objInventoryMovemnt.Vendor_Code = obj.Vendor_Code
-                                objInventoryMovemnt.Vendor_Name = obj.Vendor_Name
-
-                                objInventoryMovemntForRej.Item_Code = objTr.Item_Code
-                                objInventoryMovemntForRej.Item_Desc = objTr.Item_Desc
-                                objInventoryMovemntForRej.Qty = objTr.Rejected_Qty
-                                objInventoryMovemntForRej.UOM = objTr.Unit_code
-                                objInventoryMovemntForRej.MRP = objTr.MRP
-                                ''BM00000007656 fo handle multicurrancy .Balwinder on 26.08.2015
-                                objInventoryMovemntForRej.Add_Cost = objTr.Total_Tax_Amt * IIf(obj.ConvRate = 0, 1, obj.ConvRate)
-                                objInventoryMovemntForRej.Net_Cost = objTr.Landed_Cost_Amount * IIf(obj.ConvRate = 0, 1, obj.ConvRate)
-                                If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
-                                    objInventoryMovemntForRej.ItemType = "RM"
-                                ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
-                                    objInventoryMovemntForRej.ItemType = "OT"
-                                ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
-                                    objInventoryMovemntForRej.ItemType = "FT"
-                                End If
-                                objInventoryMovemntForRej.ItemType = strItemTypeToSave
-
-                                objInventoryMovemntForRej.Basic_Cost = objTr.Landed_Cost_Rate * IIf(obj.ConvRate = 0, 1, obj.ConvRate)
-                                objInventoryMovemntForRej.Batch_No = objTr.Batch_No
-                                objInventoryMovemntForRej.MFG_Date = objTr.MFG_Date
-                                objInventoryMovemntForRej.Expiry_Date = objTr.Expiry_Date
-                                ArrInventoryMovement.Add(objInventoryMovemntForRej)
-                            End If
-                        End If
-                Next
-                isSaved = isSaved AndAlso clsInventoryMovement.SaveData("SRN", obj.SRN_No, obj.SRN_Date, clsCommon.GetPrintDate(obj.SRN_Date, "dd/MM/yyyy"), ArrInventoryMovement, trans)
-            End If
+            HitInventroyMovement(obj, trans, WithoutRejection, True)
 
 
             For Each objTr As clsSRNDetail In obj.Arr
@@ -1750,6 +1622,140 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
 
             Throw New Exception(ex.Message)
         End Try
+        Return True
+    End Function
+
+    Public Shared Function HitInventroyMovement(obj As clsSRNHead, trans As SqlTransaction, WithoutRejection As Boolean, updateMrnBalance As Boolean) As Boolean
+        Dim ArrInventoryMovement As List(Of clsInventoryMovement) = New List(Of clsInventoryMovement)
+        Dim intCounter As Integer = 0
+        Dim strFirstItemCodeNonItemRowType As String = GetFirstItemCode(obj.Arr)
+        If Not (obj.is_RGP_Non_Inventory AndAlso clsCommon.myLen(obj.Against_RGP) > 0) Then
+            For Each objTr As clsSRNDetail In obj.Arr
+                intCounter = intCounter + 1
+                If clsCommon.CompairString(objTr.Row_Type, clsItemRowType.RowTypeItem) = CompairStringResult.Equal Then
+                    If clsCommon.myLen(objTr.MRN_Id) > 0 AndAlso updateMrnBalance Then
+                        Dim qry1 As String = "update TSPL_MRN_DETAIL set Balance_Qty=Balance_Qty - " + clsCommon.myCstr(clsCommon.myCdbl(objTr.SRN_Qty + objTr.Rejected_Qty + objTr.Leak_Qty + objTr.Burst_Qty + objTr.Short_Qty)) + " where MRN_No='" + objTr.MRN_Id + "' and Item_Code='" + objTr.Item_Code + "' and Unit_code='" + objTr.Unit_code + "' and isnull(MRP,0)='" + clsCommon.myCstr(objTr.MRP) + "' and isnull(Assessable,0)='" + clsCommon.myCstr(objTr.Assessable) + "'"
+                        clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+                    End If
+                Else
+                    objTr.Item_Code = strFirstItemCodeNonItemRowType
+                End If
+                Dim strItemType As String = clsItemMaster.GetItemType(objTr.Item_Code, trans)
+                If clsCommon.CompairString(objTr.Row_Type, clsItemRowType.RowTypeItem) = CompairStringResult.Equal Then
+                    Dim strItemTypeToSave As String = ""
+                    If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+                        strItemTypeToSave = "RM"
+                    ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+                        strItemTypeToSave = "OT"
+                    ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+                        strItemTypeToSave = "FT"
+
+                    ElseIf clsCommon.CompairString(strItemType, "A") = CompairStringResult.Equal Then
+                        strItemTypeToSave = "A"
+                    Else
+                        strItemTypeToSave = strItemType
+                    End If
+
+
+
+                    Dim objInventoryMovemnt As New clsInventoryMovement()
+                    objInventoryMovemnt.InOut = "I"
+                    If clsCommon.myLen(obj.Sublocation_Code) > 0 Then
+                        objInventoryMovemnt.Location_Code = obj.Sublocation_Code
+                    ElseIf clsCommon.myLen(obj.Ship_To_Location) > 0 Then
+                        objInventoryMovemnt.Location_Code = obj.Ship_To_Location
+                    Else
+                        objInventoryMovemnt.Location_Code = obj.Bill_To_Location
+                    End If
+
+                    ''richa agarwal 4 Dec,2020
+                    'If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(obj.Bill_To_Location) & "'", trans)), "Y") = CompairStringResult.Equal Then
+                    '    If obj.isJobWorkOutward = 0 Then
+                    '        objInventoryMovemnt.Location_Code = obj.Sublocation_Code
+                    '    End If
+                    'End If
+
+                    objInventoryMovemnt.Vendor_Code = obj.Vendor_Code
+                    objInventoryMovemnt.Vendor_Name = obj.Vendor_Name
+
+                    objInventoryMovemnt.Item_Code = objTr.Item_Code
+                    objInventoryMovemnt.Item_Desc = objTr.Item_Desc
+                    objInventoryMovemnt.Qty = objTr.SRN_Qty + objTr.Freeqty '- IIf(obj.is_Srn_rejQty_goes_in_Rejstore = True And isSerialiedItem <> 1, objTr.Rejected_Qty, 0)
+                    objInventoryMovemnt.UOM = objTr.Unit_code
+                    objInventoryMovemnt.MRP = objTr.MRP
+                    objInventoryMovemnt.Add_Cost = objTr.Total_Tax_Amt * IIf(obj.ConvRate = 0, 1, obj.ConvRate)
+                    objInventoryMovemnt.Net_Cost = objTr.Landed_Cost_Amount * IIf(obj.ConvRate = 0, 1, obj.ConvRate)
+                    If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+                        objInventoryMovemnt.ItemType = "RM"
+                    ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+                        objInventoryMovemnt.ItemType = "OT"
+                    ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+                        objInventoryMovemnt.ItemType = "FT"
+                    End If
+                    objInventoryMovemnt.ItemType = strItemTypeToSave
+
+                    objInventoryMovemnt.Basic_Cost = objTr.Landed_Cost_Rate * IIf(obj.ConvRate = 0, 1, obj.ConvRate)
+                    objInventoryMovemnt.Batch_No = objTr.Batch_No
+                    objInventoryMovemnt.MFG_Date = objTr.MFG_Date
+                    objInventoryMovemnt.Expiry_Date = objTr.Expiry_Date
+
+                    ArrInventoryMovement.Add(objInventoryMovemnt)
+                    If WithoutRejection = False Then
+                        If objTr.Rejected_Qty > 0 AndAlso Not obj.is_Srn_rejQty_goes_in_Rejstore Then
+                            Throw New Exception("Please apply rejection setting on SRN")
+                        End If
+                    End If
+
+                    If objTr.Rejected_Qty > 0 AndAlso obj.is_Srn_rejQty_goes_in_Rejstore Then
+                        'Comment by balwider on 02/06/2021 becuase if location is not defined it return 1 and Condition will always false.
+                        'Dim RejLoc As Integer = clsDBFuncationality.getSingleValue("select count(Rejected_Location) from TSPL_LOCATION_MASTER where Location_Code='" & objTr.Location & "'", trans)
+                        'If RejLoc <= 0 Then
+                        '    Throw New Exception("Rejected Location Not filled of [" + objTr.Location + "]")
+                        'End If
+
+                        Dim objInventoryMovemntForRej As New clsInventoryMovement()
+                        objInventoryMovemntForRej.InOut = "I"
+                        objInventoryMovemntForRej.Location_Code = clsDBFuncationality.getSingleValue("select Rejected_Location from TSPL_LOCATION_MASTER where Location_Code='" & objTr.Location & "'", trans)
+                        If clsCommon.myLen(objInventoryMovemntForRej.Location_Code) <= 0 Then
+                            Throw New Exception("Rejected Location Not filled of [" + objTr.Location + "]")
+                        End If
+                        ''richa agarwal 4 Dec,2020
+                        If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(objTr.Location) & "'", trans)), "Y") = CompairStringResult.Equal Then
+                            If obj.isJobWorkOutward = 0 Then
+                                objInventoryMovemnt.Location_Code = obj.Sublocation_Code
+                            End If
+                        End If
+
+                        objInventoryMovemnt.Vendor_Code = obj.Vendor_Code
+                        objInventoryMovemnt.Vendor_Name = obj.Vendor_Name
+
+                        objInventoryMovemntForRej.Item_Code = objTr.Item_Code
+                        objInventoryMovemntForRej.Item_Desc = objTr.Item_Desc
+                        objInventoryMovemntForRej.Qty = objTr.Rejected_Qty
+                        objInventoryMovemntForRej.UOM = objTr.Unit_code
+                        objInventoryMovemntForRej.MRP = objTr.MRP
+                        ''BM00000007656 fo handle multicurrancy .Balwinder on 26.08.2015
+                        objInventoryMovemntForRej.Add_Cost = objTr.Total_Tax_Amt * IIf(obj.ConvRate = 0, 1, obj.ConvRate)
+                        objInventoryMovemntForRej.Net_Cost = objTr.Landed_Cost_Amount * IIf(obj.ConvRate = 0, 1, obj.ConvRate)
+                        If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+                            objInventoryMovemntForRej.ItemType = "RM"
+                        ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+                            objInventoryMovemntForRej.ItemType = "OT"
+                        ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+                            objInventoryMovemntForRej.ItemType = "FT"
+                        End If
+                        objInventoryMovemntForRej.ItemType = strItemTypeToSave
+
+                        objInventoryMovemntForRej.Basic_Cost = objTr.Landed_Cost_Rate * IIf(obj.ConvRate = 0, 1, obj.ConvRate)
+                        objInventoryMovemntForRej.Batch_No = objTr.Batch_No
+                        objInventoryMovemntForRej.MFG_Date = objTr.MFG_Date
+                        objInventoryMovemntForRej.Expiry_Date = objTr.Expiry_Date
+                        ArrInventoryMovement.Add(objInventoryMovemntForRej)
+                    End If
+                End If
+            Next
+            clsInventoryMovement.SaveData("SRN", obj.SRN_No, obj.SRN_Date, clsCommon.GetPrintDate(obj.SRN_Date, "dd/MM/yyyy"), ArrInventoryMovement, trans)
+        End If
         Return True
     End Function
 
@@ -3054,7 +3060,7 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
             Else
                 clsBatchInventory.ReverseAndUnpost("SRN", strCode, trans)
             End If
-            clsBatchInventory.ReverseAndUnpost("SRN", strCode, trans)
+
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_INVENTORY_MOVEMENT", "Source_Doc_No", trans)
             Qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" + strCode + "' and Trans_Type='SRN'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
