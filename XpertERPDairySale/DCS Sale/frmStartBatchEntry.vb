@@ -219,9 +219,12 @@ Public Class frmStartBatchEntry
 
     Private Sub btnSaveAndPost_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnSaveAndPost.Click
         Try
+            If gv1.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Data found to save", Me.Text)
+                Exit Sub
+            End If
             If clsCommon.MyMessageBoxShow(Me, "Save and Post the Current Document " & Environment.NewLine & "Are You Sure.", Me.Text, MessageBoxButtons.YesNo, WinControls.RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 If SaveData() Then
-
                     clsCommon.MyMessageBoxShow(Me, "Data save and posted successfully", Me.Text)
                     LoadData(obj.Document_No, NavigatorType.Current)
                 End If
@@ -363,12 +366,13 @@ Public Class frmStartBatchEntry
             If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
                 whrcls += "  and  TSPL_ITEM_MASTER.Item_Code IN (" & clsCommon.GetMulcallString(txtItem.arrValueMember) & ") "
             End If
-            Dim qry As String = " WITH CTE_Main AS ( SELECT TSPL_INVENTORY_MOVEMENT.Location_Code,MAX(TSPL_LOCATION_MASTER.Location_Desc) AS Location_Desc,TSPL_INVENTORY_MOVEMENT.Item_Code,MAX(TSPL_ITEM_MASTER.Item_Desc) AS Item_Desc,SUM(TSPL_INVENTORY_MOVEMENT.Stock_Qty * CASE WHEN TSPL_INVENTORY_MOVEMENT.InOut = 'I' THEN 1 ELSE -1 END) AS Stock_Qty,
-            MAX(TSPL_INVENTORY_MOVEMENT.Stock_UOM) AS Stock_UOM,SUM(TSPL_INVENTORY_MOVEMENT.Avg_Cost * CASE WHEN TSPL_INVENTORY_MOVEMENT.InOut = 'I' THEN 1 ELSE -1 END) AS Amount
-            FROM TSPL_INVENTORY_MOVEMENT LEFT JOIN TSPL_LOCATION_MASTER  ON TSPL_LOCATION_MASTER.Location_Code = TSPL_INVENTORY_MOVEMENT.Location_Code LEFT JOIN TSPL_ITEM_MASTER  ON TSPL_ITEM_MASTER.Item_Code = TSPL_INVENTORY_MOVEMENT.Item_Code WHERE 2=2 AND TSPL_INVENTORY_MOVEMENT.Punching_Date <= '" & clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtDocumentDate.Value), "dd/MMM/yyyy hh:mm:ss tt") & "' " & whrcls & " GROUP BY TSPL_INVENTORY_MOVEMENT.Location_Code, TSPL_INVENTORY_MOVEMENT.Item_Code
-		    ),CTE_AllItems AS (  SELECT TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_LOCATION_MASTER.Location_Code,TSPL_LOCATION_MASTER.Location_Desc FROM TSPL_ITEM_MASTER LEFT JOIN ( select top 1 * from  TSPL_LOCATION_MASTER) as TSPL_LOCATION_MASTER ON 2=2 where  2=2 " & whrcls & " )
-            SELECT COALESCE(CTE_Main.Location_Code, CTE_AllItems.Location_Code) AS Location_Code,COALESCE(CTE_Main.Location_Desc, CTE_AllItems.Location_Desc) AS Location_Desc,CTE_AllItems.Item_Code,CTE_AllItems.Item_Desc,ISNULL(CTE_Main.Stock_Qty,0) AS Stock_Qty,ISNULL(CTE_Main.Stock_UOM, '') AS Stock_UOM,
-            ISNULL(CTE_Main.Amount, 0) AS Amount FROM CTE_AllItems  LEFT JOIN CTE_Main ON CTE_AllItems.Item_Code = CTE_Main.Item_Code "
+            Dim qry As String = " ;WITH CTE_Main AS ( SELECT TSPL_INVENTORY_MOVEMENT.Location_Code,MAX(TSPL_LOCATION_MASTER.Location_Desc) AS Location_Desc,TSPL_INVENTORY_MOVEMENT.Item_Code,MAX(TSPL_ITEM_MASTER.Item_Desc) AS Item_Desc,SUM(TSPL_INVENTORY_MOVEMENT.Stock_Qty * CASE WHEN TSPL_INVENTORY_MOVEMENT.InOut = 'I' THEN 1 ELSE -1 END) AS Stock_Qty,
+            MAX(TSPL_INVENTORY_MOVEMENT.Stock_UOM) AS Stock_UOM,SUM(TSPL_INVENTORY_MOVEMENT.Avg_Cost * CASE WHEN TSPL_INVENTORY_MOVEMENT.InOut = 'I' THEN 1 ELSE -1 END) AS Amount FROM TSPL_INVENTORY_MOVEMENT  LEFT JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = TSPL_INVENTORY_MOVEMENT.Location_Code
+            LEFT JOIN TSPL_ITEM_MASTER TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_INVENTORY_MOVEMENT.Item_Code WHERE 2=2 " & whrcls & " and TSPL_INVENTORY_MOVEMENT.Punching_Date <= '" & clsCommon.GetPrintDate(txtDocumentDate.Value, "dd/MMM/yyyy") & "' GROUP BY TSPL_INVENTORY_MOVEMENT.Location_Code, TSPL_INVENTORY_MOVEMENT.Item_Code ),
+            CTE_PositiveRows AS ( SELECT * FROM CTE_Main WHERE ISNULL(Stock_Qty,0) <> 0 OR ISNULL(Amount,0) <> 0 ),  CTE_AllItems AS ( SELECT Item_Code, Item_Desc FROM TSPL_ITEM_MASTER WHERE 2=2 " & whrcls & " ),
+            CTE_MissingItems AS ( SELECT TSPL_LOCATION_MASTER.Location_Code, TSPL_LOCATION_MASTER.Location_Desc, CTE_AllItems.Item_Code, CTE_AllItems.Item_Desc, 0.00 AS Stock_Qty, ''   AS Stock_UOM, 0.00 AS Amount FROM CTE_AllItems  CROSS JOIN ( SELECT TOP 1 Location_Code, Location_Desc FROM TSPL_LOCATION_MASTER ORDER BY Location_Code ) TSPL_LOCATION_MASTER
+            WHERE NOT EXISTS ( SELECT 1 FROM CTE_PositiveRows  WHERE CTE_PositiveRows.Item_Code = CTE_AllItems.Item_Code ) ) SELECT  CTE_PositiveRows.Location_Code,CTE_PositiveRows.Location_Desc,CTE_PositiveRows.Item_Code, CTE_PositiveRows.Item_Desc,CTE_PositiveRows.Stock_Qty,ISNULL(CTE_PositiveRows.Stock_UOM, '') AS Stock_UOM,CTE_PositiveRows.Amount FROM CTE_PositiveRows 
+            UNION ALL SELECT TSPL_INVENTORY_MOVEMENT.Location_Code, TSPL_INVENTORY_MOVEMENT.Location_Desc, TSPL_INVENTORY_MOVEMENT.Item_Code, TSPL_INVENTORY_MOVEMENT.Item_Desc,TSPL_INVENTORY_MOVEMENT.Stock_Qty,TSPL_INVENTORY_MOVEMENT.Stock_UOM, TSPL_INVENTORY_MOVEMENT.Amount FROM CTE_MissingItems TSPL_INVENTORY_MOVEMENT ORDER BY Item_Code, Location_Code "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
             If dt.Rows.Count > 0 Then

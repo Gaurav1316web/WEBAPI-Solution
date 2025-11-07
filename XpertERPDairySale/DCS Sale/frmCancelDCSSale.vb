@@ -46,7 +46,7 @@ Public Class frmCancelDCSSale
         repoInvDate.HeaderText = "Invoice Date"
         repoInvDate.FormatString = "{0:d}"
         repoInvDate.Name = colInvoiceDate
-        repoInvDate.WrapText = True
+        repoInvDate.Width = 100
         repoInvDate.ReadOnly = True
         repoInvDate.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoInvDate)
@@ -143,31 +143,35 @@ Public Class frmCancelDCSSale
     End Sub
 
     Sub CancelData()
-        Dim ArrCheck As New ArrayList()
-        If clsCommon.MyMessageBoxShow(Me, "Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
-            Exit Sub
-        End If
-
-        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Dim trans As SqlTransaction = Nothing
         Try
+            Dim ArrCheck As New ArrayList()
+            If clsCommon.MyMessageBoxShow(Me, "Are you sure to Cancel the Records?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+                Exit Sub
+            End If
+
             For ii As Integer = 0 To gv1.RowCount - 1
                 If (clsCommon.myCBool(gv1.Rows(ii).Cells(colDSelect).Value)) Then
                     ArrCheck.Add(gv1.Rows(ii).Cells(colInvoiceNo).Value)
-                    clsPSInvoiceHead.CancelData(clsCommon.myCstr(gv1.Rows(ii).Cells(colInvoiceNo).Value), trans)
-                    clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
                 End If
             Next
+            If ArrCheck.Count <= 0 Then
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Invoice", Me.Text)
+                Exit Sub
+            End If
+            trans = clsDBFuncationality.GetTransactin()
+
+            For ii As Integer = 0 To ArrCheck.Count - 1
+                clsPSInvoiceHead.CancelData(ArrCheck(ii), trans)
+            Next
             trans.Commit()
+            clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
+            LoadData()
+
         Catch ex As Exception
             trans.Rollback()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
-
-        If ArrCheck.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Invoice", Me.Text)
-        Else
-            Me.Close()
-        End If
     End Sub
 
     Private Sub frmCancelDCSSale_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
@@ -250,14 +254,14 @@ Public Class frmCancelDCSSale
                 For Each dr As DataRow In dt.Rows
                     If clsCommon.myLen(clsCommon.myCstr(dr("Invoice_No"))) Then
                         gv1.Rows.AddNew()
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDSelect).Value = True
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDSelect).Value = False
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colInvoiceNo).Value = clsCommon.myCstr(dr("Invoice_No"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colInvoiceDate).Value = clsCommon.myCstr(dr("Invoice_Date"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDCSUploaderNo).Value = clsCommon.myCstr(dr("VLC_Code_VLC_Uploader"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDCSCode).Value = clsCommon.myCstr(dr("VLC_Code"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDCSName).Value = clsCommon.myCstr(dr("VLC_Name"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDedCode).Value = clsCommon.myCdbl(dr("Deduction"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDedName).Value = clsCommon.myCdbl(dr("Deduction_Name"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDedCode).Value = clsCommon.myCstr(dr("Deduction"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDedName).Value = clsCommon.myCstr(dr("Deduction_Name"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colAmount).Value = clsCommon.myCdbl(dr("Total_Amt"))
                     End If
                 Next

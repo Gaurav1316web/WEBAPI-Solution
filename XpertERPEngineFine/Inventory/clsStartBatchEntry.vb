@@ -143,6 +143,7 @@ Public Class clsStartBatchEntry
                     objInventoryMovemnt.InOut = "O"
 
                     objInventoryMovemnt.Location_Code = objTr.Location_Code
+                    objInventoryMovemnt.Ref_Line_No = objTr.Line_No
                     objInventoryMovemnt.Item_Code = objTr.Item_Code
                     objInventoryMovemnt.Item_Desc = objTr.Item_Desc
                     objInventoryMovemnt.Qty = objTr.Qty
@@ -200,6 +201,7 @@ Public Class clsStartBatchEntry
                     objInventoryMovemnt = New clsInventoryMovement()
                     objInventoryMovemnt.InOut = "I"
                     objInventoryMovemnt.Location_Code = objTr.Location_Code
+                    objInventoryMovemnt.Ref_Line_No = objTr.Line_No
                     objInventoryMovemnt.Other_Location_Code = objTr.Location_Code
                     objInventoryMovemnt.Other_Location_Desc = objTr.Location_Desc
                     objInventoryMovemnt.Item_Code = objTr.Item_Code
