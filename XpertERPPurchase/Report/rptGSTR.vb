@@ -660,7 +660,7 @@ Left Outer Join TSPL_TAX_MASTER On TSPL_TAX_MASTER.Tax_Code=TSPL_TAX_GROUP_DETAI
 Left Outer Join TSPL_TAX_GROUP_DETAILS On TSPL_TAX_GROUP_DETAILS.Tax_Group_Code=TSPL_TAX_GROUP_MASTER.Tax_Group_Code
 Left Outer Join TSPL_TAX_MASTER On TSPL_TAX_MASTER.Tax_Code=TSPL_TAX_GROUP_DETAILS.Tax_Code
 ) xyz Group By Tax_Group_Code,Tax_Code) As Tax_Master On Tax_Master.Tax_Group_Code=TSPL_Customer_Invoice_Head.Tax_Group " & Environment.NewLine &
-            " where  isnull(TSPL_Customer_INVOICE_HEAD.Against_Sale_No ,'')<>'' And  TSPL_Customer_Invoice_Head.Against_Sale_No not IN (select  Document_Code  from TSPL_SD_SALE_INVOICE_HEAD where Document_Type in ('EX','MT')) " & Wrcls & " and Tax_Master.Is_Tax_Exempted=1 and Tax_Master.Tax_Group_Type='S' And Tax_Master.Is_TCS='N' " & Environment.NewLine &
+            " where  1=1 And  TSPL_Customer_Invoice_Head.Against_Sale_No not IN (select  Document_Code  from TSPL_SD_SALE_INVOICE_HEAD where Document_Type in ('EX','MT')) " & Wrcls & " and Tax_Master.Is_Tax_Exempted=1 and Tax_Master.Tax_Group_Type='S' And Tax_Master.Is_TCS='N' " & Environment.NewLine &
             " UNION " & Environment.NewLine &
             " select '9' as SNo, 'Nil Rated Invoices - 8A, 8B, 8C, 8D' as Name, '',0,0,0,0,0,0,0,0,0) z  group by Name " & Environment.NewLine &
               " union all" & Environment.NewLine &
@@ -2782,19 +2782,20 @@ Case When TSPL_Customer_Invoice_Detail.Is_TCS = 'Y' Then Isnull(TSPL_Customer_IN
             BaseQry += " ,z.[Reverse Charges]  from ( " & Environment.NewLine &
             " select ROW_NUMBER() OVER(ORDER BY TSPL_Customer_Invoice_Head.Document_No ASC) as  SNo,'" & strType & "' as Particulars,TSPL_Customer_Invoice_Head.Document_No as [Document No],convert(varchar,TSPL_Customer_Invoice_Head.Document_Date ,103) as [Document Date]," & strtranstypeandsaleinvoiceno & " " & Environment.NewLine &
             " TSPL_Customer_Invoice_Head.Customer_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name],TSPL_CUSTOMER_MASTER.GSTNO as [GST No],TSPL_Customer_Invoice_Head.Document_Type as [Document Type],
-              case when TSPL_Customer_Invoice_Head.Document_Type ='C' then -1 else 1 end * (TSPL_Customer_Invoice_Detail.Total_Amount-TSPL_Customer_Invoice_Detail.total_Tax)-TSPL_Customer_Invoice_Head.Total_Add_Charge as [Taxable Value]," & Environment.NewLine &
+              case when TSPL_Customer_Invoice_Head.Document_Type ='C' then -1 else 1 end * TSPL_Customer_Invoice_Detail.Amount as [Taxable Value]," & Environment.NewLine &
             " TSPL_Customer_Invoice_Detail.Tax_Amt AS [Taxable Amount],
               case when TSPL_Customer_Invoice_Head.Document_Type ='C' then -1 else 1 end * isnull(TSPL_Customer_Invoice_Head.RoundOffAmount,0) as [Round Off Amount], 
-              (TSPL_Customer_Invoice_Head.Document_Total-TSPL_Customer_Invoice_Head.Total_Add_Charge)  as [Invoice Amount],'N' As [Reverse Charges] " & Environment.NewLine &
+              case when TSPL_Customer_Invoice_Head.Document_Type ='C' then -1 else 1 end * (TSPL_Customer_Invoice_Head.Document_Total-TSPL_Customer_Invoice_Head.Total_Add_Charge)  as [Invoice Amount],'N' As [Reverse Charges] " & Environment.NewLine &
             " from (Select Document_No,Sum(Tax_Rate)Tax_Rate,Sum(Tax_Amt)Tax_Amt,MAX(Amount)Amount,MAX(Total_Tax)Total_Tax,Max(Total_Amount)Total_Amount,Max(Tax_Code)Tax_Code,Max(Tax_Group_Type)Tax_Group_Type,MAX(Type)Type,Max(Is_Tax_Exempted)Is_Tax_Exempted,Max(Is_TCS)Is_TCS from (Select Document_No,Tax,Case When Max(Tax_Master.Type) IN ('CGST','SGST','IGST','UGST') Then Tax_Rate Else 0 End As Tax_Rate,Sum(Tax_Amt)Tax_Amt,Sum(Amount)Amount,SUM(Total_Tax)Total_Tax,SUM(Total_Amount)Total_Amount,Max(Tax_Master.Tax_Code)Tax_Code,Max(Tax_Master.Tax_Group_Type)Tax_Group_Type,MAX(Tax_Master.Type)Type,Max(Tax_Master.Is_Tax_Exempted)Is_Tax_Exempted,Max(Tax_Master.Is_TCS)Is_TCS from ( "
 #Disable Warning
             For i As Integer = 1 To 10
                 If i <> 1 Then
                     BaseQry += Environment.NewLine & " Union All " & Environment.NewLine
                 End If
-                BaseQry += " Select TSPL_Customer_Invoice_Head.Document_No,TSPL_Customer_Invoice_Head.Tax_Group, TSPL_Customer_Invoice_Head.Tax" & clsCommon.myCstr(i) & " As Tax,IsNull(TSPL_CUSTOMER_INVOICE_DETAIL.Tax" & clsCommon.myCstr(i) & "_Rate,0) As Tax_Rate, TSPL_CUSTOMER_INVOICE_DETAIL.Tax" & clsCommon.myCstr(i) & "_Amt As Tax_Amt,
+                BaseQry += " Select TSPL_Customer_Invoice_Head.Document_No,TSPL_Customer_Invoice_Head.Tax_Group, TSPL_Customer_Invoice_Head.Tax" & clsCommon.myCstr(i) & " As Tax,IsNull(TSPL_CUSTOMER_INVOICE_DETAIL.Tax" & clsCommon.myCstr(i) & "_Rate,0) As Tax_Rate,Case When TSPL_TAX_MASTER.Type In ('CGST','SGST','IGST','UGST') Then TSPL_CUSTOMER_INVOICE_DETAIL.Tax" & clsCommon.myCstr(i) & "_Amt Else 0 End As Tax_Amt,
 TSPL_CUSTOMER_INVOICE_DETAIL.TAX" & clsCommon.myCstr(i) & "_Base_Amt As Amount,TSPL_CUSTOMER_INVOICE_DETAIL.Total_Tax,TSPL_CUSTOMER_INVOICE_DETAIL.Total_Amount from TSPL_CUSTOMER_INVOICE_DETAIL
 Inner Join TSPL_Customer_Invoice_Head On TSPL_Customer_Invoice_Head.Document_No=TSPL_CUSTOMER_INVOICE_DETAIL.Document_No
+Left Outer Join TSPL_TAX_MASTER On TSPL_TAX_MASTER.Tax_Code=TSPL_Customer_Invoice_Head.TAX" & clsCommon.myCstr(i) & "
 where convert(date,TSPL_Customer_INVOICE_HEAD.Document_Date ,103)>=convert(date,'" & txtFromDate.Value & "',103) AND convert(date,TSPL_Customer_INVOICE_HEAD.Document_Date,103)<=convert(date,'" & txtToDate.Value & "',103) "
             Next
 #Enable Warning
@@ -3017,7 +3018,7 @@ Left Outer Join TSPL_TAX_MASTER On TSPL_TAX_MASTER.Tax_Code=TSPL_TAX_GROUP_DETAI
                     qry = getBaseQueryforDetail_GSTR1(Wrcls, clsCommon.myCstr(IIf(exportGSTR = True, "Credit/Debit Notes(Registered) - 9B", clsCommon.myCstr(gv2.CurrentRow.Cells("Name").Value))))
                 ElseIf IIf(exportGSTR, clsCommon.CompairString(sheetName, "cdnur") = CompairStringResult.Equal, clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "Credit/Debit Notes(Unregistered) - 9B") = CompairStringResult.Equal) Then
 
-                    Wrcls += " and TSPL_CUSTOMER_MASTER.GST_Registered =0 and isnull(TSPL_CUSTOMER_MASTER.GSTNO ,'')='' and isnull(TSPL_Customer_Invoice_Head.Total_Tax,0) >0  AND TSPL_Customer_Invoice_Head.Document_Type IN ('C','D') " & Environment.NewLine &
+                    Wrcls += " and TSPL_CUSTOMER_MASTER.GST_Registered =1 and isnull(TSPL_CUSTOMER_MASTER.GSTNO ,'')='' and isnull(TSPL_Customer_Invoice_Head.Total_Tax,0) >0  AND TSPL_Customer_Invoice_Head.Document_Type IN ('C','D') " & Environment.NewLine &
                     " AND TSPL_Customer_Invoice_Head.Against_Sale_No NOT IN (select  Document_Code  from TSPL_SD_SALE_INVOICE_HEAD where Document_Type in ('EX','MT'))" & Environment.NewLine &
                      " and (isnull(TSPL_Customer_Invoice_Head.AgainstScrapReturn,'')='' OR ISNULL (TSPL_Customer_Invoice_Head.Against_Sale_Return_No,'')='' OR  ISNULL (TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,'')='' OR isnull(TSPL_Customer_Invoice_Head.Against_Asset_Disposal,'')='' OR ISNULL (TSPL_Customer_Invoice_Head.Against_Sale_No,'')='' OR ISNULL (TSPL_Customer_Invoice_Head.Against_Security_Receipt_No,'')='' OR isnull(TSPL_Customer_Invoice_Head.Against_Service_Visit_Code,'')='' OR ISNULL (TSPL_Customer_Invoice_Head.Against_Subsidy_No,'')='' OR ISNULL (TSPL_Customer_Invoice_Head.Against_VCGL,'')='' OR ISNULL (TSPL_Customer_Invoice_Head.AgainstScrap,'')='') "
 
@@ -3029,7 +3030,8 @@ Left Outer Join TSPL_TAX_MASTER On TSPL_TAX_MASTER.Tax_Code=TSPL_TAX_GROUP_DETAI
                     qry = getBaseQueryforDetail_GSTR1(Wrcls, clsCommon.myCstr(IIf(exportGSTR = True, "Exports Invoices - 6A", clsCommon.myCstr(gv2.CurrentRow.Cells("Name").Value))))
 
                 ElseIf IIf(exportGSTR, clsCommon.CompairString(sheetName, "exemp") = CompairStringResult.Equal, clsCommon.CompairString(gv2.CurrentRow.Cells("Name").Value, "Nil Rated Invoices - 8A, 8B, 8C, 8D") = CompairStringResult.Equal) Then
-                    Wrcls += " And isnull(TSPL_Customer_INVOICE_HEAD.Against_Sale_No ,'')<>''  AND TSPL_Customer_Invoice_Head.Against_Sale_No not IN (select  Document_Code  from TSPL_SD_SALE_INVOICE_HEAD where Document_Type in ('EX','MT')) "
+                    ' Wrcls += " And isnull(TSPL_Customer_INVOICE_HEAD.Against_Sale_No ,'')<>'' " 
+                    Wrcls += " AND TSPL_Customer_Invoice_Head.Against_Sale_No not IN (select  Document_Code  from TSPL_SD_SALE_INVOICE_HEAD where Document_Type in ('EX','MT')) "
                     '       Wrcls += " And (ISNULL(TSPL_Customer_INVOICE_HEAD.TAX1,'')='EXEMPT' 
                     'Or ISNULL(TSPL_Customer_INVOICE_HEAD.TAX2,'')='EXEMPT'
                     ' Or ISNULL(TSPL_Customer_INVOICE_HEAD.TAX3,'')='EXEMPT'
