@@ -20,6 +20,7 @@ Public Class ClsDeductionMaster
     Public Is_Default_Security_Deduction As Boolean
     Public Is_Default_Asset_Installment As Boolean
     Public Is_Default_Asset_Lost As Boolean
+    Public Is_Default_HeadLoad As Boolean
     Public Is_Default_Advance_Interest As Boolean
     Public Is_Default_TIP As Boolean
     Public Is_Default_PRO_Data As Boolean
@@ -116,6 +117,12 @@ Public Class ClsDeductionMaster
                 End If
                 qry += " Is_Default_Asset_Lost=0 "
             End If
+            If obj.Is_Default_HeadLoad Then
+                If clsCommon.myLen(qry) > 0 Then
+                    qry += ","
+                End If
+                qry += " Is_Default_HeadLoad=0 "
+            End If
             If obj.Is_Default_Advance_Interest Then
                 If clsCommon.myLen(qry) > 0 Then
                     qry += ","
@@ -198,6 +205,7 @@ Public Class ClsDeductionMaster
             clsCommon.AddColumnsForChange(coll, "Is_Default_Security_Deduction", IIf(obj.Is_Default_Security_Deduction, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Is_Default_Asset_Installment", IIf(obj.Is_Default_Asset_Installment, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Is_Default_Asset_Lost", IIf(obj.Is_Default_Asset_Lost, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "Is_Default_HeadLoad", IIf(obj.Is_Default_HeadLoad, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Is_Default_Advance_Interest", IIf(obj.Is_Default_Advance_Interest, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Is_Default_TIP", IIf(obj.Is_Default_TIP, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Is_Default_PRO_Data", IIf(obj.Is_Default_PRO_Data, 1, 0))
@@ -277,6 +285,7 @@ Public Class ClsDeductionMaster
                 obj.Is_Default_Security_Deduction = IIf(clsCommon.myCdbl(dt1.Rows(0)("Is_Default_Security_Deduction")) > 0, True, False)
                 obj.Is_Default_Asset_Installment = IIf(clsCommon.myCdbl(dt1.Rows(0)("Is_Default_Asset_Installment")) > 0, True, False)
                 obj.Is_Default_Asset_Lost = IIf(clsCommon.myCdbl(dt1.Rows(0)("Is_Default_Asset_Lost")) > 0, True, False)
+                obj.Is_Default_HeadLoad = IIf(clsCommon.myCdbl(dt1.Rows(0)("Is_Default_HeadLoad")) > 0, True, False)
                 obj.Is_Default_Advance_Interest = IIf(clsCommon.myCdbl(dt1.Rows(0)("Is_Default_Advance_Interest")) > 0, True, False)
                 obj.Is_Default_TIP = IIf(clsCommon.myCdbl(dt1.Rows(0)("Is_Default_TIP")) > 0, True, False)
                 obj.Is_Default_PRO_Data = IIf(clsCommon.myCdbl(dt1.Rows(0)("Is_Default_PRO_Data")) > 0, True, False)

@@ -44,6 +44,7 @@ Public Class clsFixedParameterType
     Public Const NewDCSScreen As String = "New DCS Screen"
     Public Const SameBankCodeForCurrentAndSaving As String = "Same Bank Code For Current And Saving"
     Public Const MinimumQtyForHeadLoad As String = "Minimum Qty For Head Load"
+    Public Const ApplyHeadLoadDayAndCycleWiseForALW As String = "Apply Head Load Day And Cycle Wise For ALW"
     Public Const StopSetting As String = "Stop Setting"
     Public Const PickBulkRoute As String = "Pick Bulk Route"
     Public Const ShowMultipleLegers As String = "Show Multiple Legers"
@@ -1430,6 +1431,7 @@ Public Class clsFixedParameterCode
     Public Const NewDCSScreen As String = "New DCS Screen"
     Public Const SameBankCodeForCurrentAndSaving As String = "Same Bank Code For Current And Saving"
     Public Const MinimumQtyForHeadLoad As String = "Minimum Qty For Head Load"
+    Public Const ApplyHeadLoadDayAndCycleWiseForALW As String = "Apply Head Load Day And Cycle Wise For ALW"
     Public Const JournalEntry As String = "Journal Entry"
     Public Const Inventory As String = "Inventory"
     Public Const InventoryNew As String = "Inventory New"
@@ -3027,6 +3029,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.NewDCSScreen, clsFixedParameterCode.NewDCSScreen, "0", "0:Off, 1:On;New DCS Screen")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SameBankCodeForCurrentAndSaving, clsFixedParameterCode.SameBankCodeForCurrentAndSaving, "0", "0:Off;1:On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MinimumQtyForHeadLoad, clsFixedParameterCode.MinimumQtyForHeadLoad, "0", "Minimum Qty To Apply For Head Load")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyHeadLoadDayAndCycleWiseForALW, clsFixedParameterCode.ApplyHeadLoadDayAndCycleWiseForALW, "0", "0:Off-Head Load Calculation Milk SRN wise;1:On-Head Load Calculation Day wise;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.StopSetting, clsFixedParameterCode.JournalEntry, "0", "0:OFF:1 Stop Jouranl Entry")
         InsertDefaultValueFixedParameter(clsFixedParameterType.StopSetting, clsFixedParameterCode.Inventory, "0", "0:OFF:1 Stop Inventory Movement")
         InsertDefaultValueFixedParameter(clsFixedParameterType.StopSetting, clsFixedParameterCode.InventoryNew, "0", "0:OFF:1 Stop Inventory Movement New(Milk)")
@@ -4656,6 +4659,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.DistributorWiseBilling, clsFixedParameterCode.DistributorWiseBilling, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.RoundOffBankAdvice, clsFixedParameterCode.RoundOffBankAdvice, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMilkSRN, clsFixedParameterType.MinimumQtyForHeadLoad, clsFixedParameterCode.MinimumQtyForHeadLoad, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.frmHeadLoadMaster, clsFixedParameterType.ApplyHeadLoadDayAndCycleWiseForALW, clsFixedParameterCode.ApplyHeadLoadDayAndCycleWiseForALW, EnumControlType.CheckBox)
         'InsertDefaultValue(clsUserMgtCode.frmNewDCSScreen, clsFixedParameterType.StopSetting, clsFixedParameterCode.JournalEntry, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.rptTrialBalance, clsFixedParameterType.StopSetting, clsFixedParameterCode.JournalEntry, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.stockRecoNew, clsFixedParameterType.StopSetting, clsFixedParameterCode.Inventory, EnumControlType.CheckBox)

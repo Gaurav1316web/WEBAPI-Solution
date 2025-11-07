@@ -1851,7 +1851,7 @@ select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo
         End If
 
 
-        Dim strRefDocType As String = "('DED-MAP','TIP-DED','VSP-COM','VSP-CMP','VSP-QLT','VSP-PVK','VSP-DIT','PRO-VFC','PRO-VFD','NCM-DED','CM-DED','ASL-DED','PRO-LCS','PRO-STD','OWD-CRE','CHC-CRE','OWD-CRD','OWD-DBT','DCS-ADD','DCS-DED','DCS-QAT','DCS-LYT','VSP-NGT','OWD-RJM')"
+        Dim strRefDocType As String = "('DED-MAP','TIP-DED','VSP-COM','VSP-CMP','VSP-QLT','VSP-PVK','VSP-DIT','PRO-VFC','PRO-VFD','NCM-DED','CM-DED','ASL-DED','PRO-LCS','PRO-STD','OWD-CRE','CHC-CRE','CRE-DHL','OWD-CRD','OWD-DBT','DCS-ADD','DCS-DED','DCS-QAT','DCS-LYT','VSP-NGT','OWD-RJM')"
         'Delete deduction Entry
 
         qry = "delete from TSPL_INVENTORY_MOVEMENT_NEW where Trans_Type='IC-AD' and source_doc_no in ( select Adjustment_No from TSPL_ADJUSTMENT_HEADER where Against_AP_Invoice_No in (select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocNo in " + strWhr + " and RefDocType in " + strRefDocType + "))"
@@ -1964,6 +1964,9 @@ select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
         qry = "delete from TSPL_MILK_PURCHASE_INVOICE_CHILLING_CHARGES where InvoiceNo in " + strWhr + ""
+        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+        qry = "delete from TSPL_MILK_PURCHASE_INVOICE_DAY_WISE_HEAD_LOAD where InvoiceNo in " + strWhr + ""
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
         qry = "delete from TSPL_MILK_PURCHASE_INVOICE_HEAD  where DOC_CODE in " + strWhr + ""
@@ -3129,6 +3132,7 @@ WHEN TSPL_VENDOR_INVOICE_HEAD.RefDocType='DCS-LYT' THEN 'Loyalty'
 WHEN TSPL_VENDOR_INVOICE_HEAD.RefDocType='OWD-CRE' THEN 'Own BMC Expanse'
 WHEN TSPL_VENDOR_INVOICE_HEAD.RefDocType='OWD-CRD' THEN 'FAT SNF SHORTAGE'
 WHEN TSPL_VENDOR_INVOICE_HEAD.RefDocType='CHC-CRE' THEN 'BMC CHARGES'
+WHEN TSPL_VENDOR_INVOICE_HEAD.RefDocType='CRE-DHL' THEN 'Head Load'
 when TSPL_DCS_ADDITION_DEDUCTION.Description is null then TSPL_VENDOR_INVOICE_HEAD.RefDocType
 else TSPL_DCS_ADDITION_DEDUCTION.Description  end as Item_Desc ,TSPL_DCS_ADDITION_DEDUCTION.Description_Hindi as Addition_Hindis,
 COALESCE(TSPL_DCS_ADDITION_DEDUCTION.Description_Hindi, TSPL_DEDUCTION_MASTER.Description_Hindi) AS Addition_Hindi,
