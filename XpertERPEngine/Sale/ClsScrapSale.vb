@@ -358,7 +358,7 @@ Public Class ClsScrapSaleHead
             clsCommon.AddColumnsForChange(coll, "expship_Date", clsCommon.GetPrintDate(obj.expship_Date, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Loc_Code", obj.Loc_Code)
             clsCommon.AddColumnsForChange(coll, "Loc_Name", obj.Loc_Name)
-            clsCommon.AddColumnsForChange(coll, "Sub_Location_code", obj.Sub_Location_code)
+            clsCommon.AddColumnsForChange(coll, "Sub_Location_code", obj.Sub_Location_code, True)
             clsCommon.AddColumnsForChange(coll, "Vehicle_Id", obj.Vehicle_Id)
             clsCommon.AddColumnsForChange(coll, "ToLoc_Code", obj.ToLoc_Code)
             clsCommon.AddColumnsForChange(coll, "CreateInvoice", obj.CreateInvoice)

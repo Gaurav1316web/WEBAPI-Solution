@@ -590,7 +590,7 @@ Public Class scrapinvoicehead
             clsCommon.AddColumnsForChange(coll, "expship_Date", clsCommon.GetPrintDate(objin.expship_Date, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Loc_Code", objin.Loc_Code)
             clsCommon.AddColumnsForChange(coll, "Loc_Name", objin.Loc_Name)
-            clsCommon.AddColumnsForChange(coll, "Sub_Location_code", objin.Sub_Location_code)
+            clsCommon.AddColumnsForChange(coll, "Sub_Location_code", objin.Sub_Location_code, True)
             clsCommon.AddColumnsForChange(coll, "ToLoc_Code", objin.ToLoc_Code)
             clsCommon.AddColumnsForChange(coll, "CreateInvoice", objin.CreateInvoice)
             clsCommon.AddColumnsForChange(coll, "Create_E_Invoice", objin.Create_E_Invoice)

@@ -5392,13 +5392,18 @@ Public Class FrmProductDispatch
         If clsCommon.CompairString(strItemType, RowTypeItem) = CompairStringResult.Equal Then
             Dim strItem As String = ""
             If clsCommon.CompairString(cboItemType.SelectedValue, "P") = CompairStringResult.Equal Then
-                strItem = " TypeOfItm='P'"
+                strItem = " TSPL_ITEM_MASTER.TypeOfItm='P'"
             ElseIf clsCommon.CompairString(cboItemType.SelectedValue, "I") = CompairStringResult.Equal Then
-                strItem = " TypeOfItm='I'"
+                strItem = " TSPL_ITEM_MASTER.TypeOfItm='I'"
             ElseIf clsCommon.CompairString(cboItemType.SelectedValue, "O") = CompairStringResult.Equal Then
-                strItem = " TypeOfItm='O'"
+                strItem = " TSPL_ITEM_MASTER.TypeOfItm='O'"
             End If
-            gv1.CurrentRow.Cells(colICode).Value = clsItemMaster.getFinder(strItem, clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), False)
+            If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "NT") = CompairStringResult.Equal Then
+                strItem += " and TSPL_ITEM_MASTER_TAXABLE.Is_Taxable=0 "
+            Else
+                strItem += " and TSPL_ITEM_MASTER_TAXABLE.Is_Taxable=1 "
+            End If
+            gv1.CurrentRow.Cells(colICode).Value = clsItemMaster.getFinder(strItem, clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), txtDate.Value, False)
             gv1.CurrentRow.Cells(colUnit).Value = clsDBFuncationality.getSingleValue("select UOM_Code from TSPL_ITEM_UOM_DETAIL where Bulk_UOM=1 and Item_Code='" & gv1.CurrentRow.Cells(colICode).Value & "' ")
             gv1.CurrentRow.Cells(colIName).Value = clsDBFuncationality.getSingleValue("select Item_Desc from TSPL_ITEM_MASTER where Item_Code='" & gv1.CurrentRow.Cells(colICode).Value & "' ")
             gv1.CurrentRow.Cells(colIHSN).Value = clsItemMaster.GetItemHSNCode(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), Nothing)
