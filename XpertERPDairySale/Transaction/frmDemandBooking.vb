@@ -4216,10 +4216,19 @@ and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= Convert(Date,'"
             GVTruckSheet.Columns("Total Amount").TextAlignment = ContentAlignment.MiddleRight
 
             Dim view As New ColumnGroupsViewDefinition()
+            Dim TempColGroupCount As Integer = 0
             view.ColumnGroups.Add(New GridViewColumnGroup(""))
-            view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(GVTruckSheet.Columns("Agents").Name)
-            Dim TempColGroupCount As Integer = 1
+            view.ColumnGroups(TempColGroupCount).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(GVTruckSheet.Columns("SNo").Name)
+            TempColGroupCount += 1
+            view.ColumnGroups.Add(New GridViewColumnGroup(""))
+            view.ColumnGroups(TempColGroupCount).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(GVTruckSheet.Columns("Code").Name)
+            TempColGroupCount += 1
+            view.ColumnGroups.Add(New GridViewColumnGroup(""))
+            view.ColumnGroups(TempColGroupCount).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(GVTruckSheet.Columns("Agents").Name)
+            TempColGroupCount += 1
             If rdbnFreshAmbientBoth.IsChecked Then
                 For Each dr As DataRow In dtDataExist.Rows
                     view.ColumnGroups.Add(New GridViewColumnGroup(clsCommon.myCstr(dr("Alies_Name"))))
