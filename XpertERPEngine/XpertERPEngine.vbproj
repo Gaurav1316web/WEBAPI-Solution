@@ -1171,7 +1171,6 @@
     <Compile Include="Milk Procurement\clsRouteSifting.vb" />
     <Compile Include="Sale\ClsSaleLevelHierarchy.vb" />
     <Compile Include="Sale\clsSaleReturnInterCompany.vb" />
-    <Compile Include="Sale\clsSalesHierarchy.vb" />
     <Compile Include="Sale\clsSalesHierarchyMapping.vb" />
     <Compile Include="Sale\clsSalesmanTarget.vb" />
     <Compile Include="Sale\clsSalesOrder.vb" />
