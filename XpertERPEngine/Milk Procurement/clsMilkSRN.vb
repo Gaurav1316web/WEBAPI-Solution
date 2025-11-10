@@ -113,7 +113,7 @@ Public Class clsMilkSRNMCC
         objTR.Head_Load_Amount = 0
         objTR.Head_Load_Type = ""
         objTR.Head_Load_Cycle = 0
-        If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyHeadLoadDayAndCycleWiseForALW, clsFixedParameterCode.ApplyHeadLoadDayAndCycleWiseForALW, trans)) = 0 Then
+        If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyHeadLoadDayAndCycleWiseForAJM, clsFixedParameterCode.ApplyHeadLoadDayAndCycleWiseForAJM, trans)) = 0 Then
             Dim MinimumQtyForHeadLoad As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MinimumQtyForHeadLoad, clsFixedParameterCode.MinimumQtyForHeadLoad, trans))
             Dim qry As String = "select DistanceKM_Head_Load from TSPL_VENDOR_MASTER where Vendor_Code='" + obj.VSP_CODE + "'"
             Dim dclDistanceKM As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))

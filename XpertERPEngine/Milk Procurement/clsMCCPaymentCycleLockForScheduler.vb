@@ -4033,7 +4033,7 @@ where TSPL_MILK_SRN_DETAIL.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No
 
 #Region "Headload Day and Cycle wise"
 
-            If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyHeadLoadDayAndCycleWiseForALW, clsFixedParameterCode.ApplyHeadLoadDayAndCycleWiseForALW, trans)) = 1 Then
+            If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyHeadLoadDayAndCycleWiseForAJM, clsFixedParameterCode.ApplyHeadLoadDayAndCycleWiseForAJM, trans)) = 1 Then
                 qry = "Select DOC_DATE,sum(ACC_Qty) As ACC_Qty,sum(ACC_Qty_LTR) As ACC_Qty_LTR from (
 select convert(date, TSPL_MILK_SRN_HEAD.DOC_DATE,103) as DOC_DATE,case when ISNULL(TSPL_MILK_REJECT_TYPE.Exclude_Head,0) =0 then TSPL_MILK_SRN_DETAIL.ACC_Qty else 0 end  ACC_Qty,case when ISNULL(TSPL_MILK_REJECT_TYPE.Exclude_Head,0) =0 then TSPL_MILK_SRN_DETAIL.ACC_Qty_LTR else 0 end ACC_Qty_LTR
 from TSPL_MILK_SRN_DETAIL 
@@ -4081,7 +4081,7 @@ where  TSPL_MILK_SRN_HEAD.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No)
                                     Head_Load_Amount_Exact = Math.Round(ApplicableQty * objHeadLoad.Head_Load_Rate * dclDistanceKM, 6)
                                 End If
                             ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CK") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CL") = CompairStringResult.Equal Then
-                                Head_Load_Cycle = Math.Ceiling(clsCommon.myCDivide(ApplicableQty, objHeadLoad.Cycle_Frequency)) - 1
+                                Head_Load_Cycle = Math.Ceiling(clsCommon.myCDivide(ApplicableQty, objHeadLoad.Cycle_Frequency))
                                 If Head_Load_Cycle < 0 Then
                                     Head_Load_Cycle = 0
                                 End If
