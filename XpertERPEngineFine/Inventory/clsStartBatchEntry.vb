@@ -253,11 +253,13 @@ Public Class clsStartBatchEntry
             End If
             Dim qry As String = Nothing
             For Each objtr As clsStartBatchEntryDetail In obj.Arr
-                Dim batchNoList As String = String.Join(","c, objtr.arrBatchItem.Where(Function(x) Not String.IsNullOrEmpty(x.Batch_No)).Select(Function(x) "'" & x.Batch_No.Replace("'", "''") & "'").ToArray())
-                qry = " select count(1) from TSPL_BATCH_ITEM where item_code ='" & objtr.Item_Code & "' and Document_Type not in ('SBE')  and Batch_No in (" & batchNoList & ")"
-                Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
-                If count > 0 Then
-                    Throw New Exception("Same Batch No is also used in other transaction")
+                If objtr.arrBatchItem IsNot Nothing AndAlso objtr.arrBatchItem.Count > 0 Then
+                    Dim batchNoList As String = String.Join(","c, objtr.arrBatchItem.Where(Function(x) Not String.IsNullOrEmpty(x.Batch_No)).Select(Function(x) "'" & x.Batch_No.Replace("'", "''") & "'").ToArray())
+                    qry = " select count(1) from TSPL_BATCH_ITEM where item_code ='" & objtr.Item_Code & "' and Document_Type not in ('SBE')  and Batch_No in (" & batchNoList & ")"
+                    Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
+                    If count > 0 Then
+                        Throw New Exception("Same Batch No is also used in other transaction")
+                    End If
                 End If
             Next
             clsDBFuncationality.ExecuteNonQuery("update tspl_batch_item set Against_Inv_Movement_Trans_Id=null where Document_Code='" & obj.Document_No & "'", trans)
