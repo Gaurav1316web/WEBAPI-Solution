@@ -15,7 +15,7 @@ Public Class frmDairyBookingCustomer
     Dim ConvertIntoBillingUOM As Boolean = False
     Dim ApplyPricePlanOnDocumentDate As Boolean = False
 
-    Dim HideOutstanding As Boolean = True
+    Dim HideOutstanding As Boolean = False
     Dim ApplyManualScheme As Boolean = False
     Dim ApplyItemCapacityLimit As Boolean = False
     Dim isloadBookingTypeValues As Boolean = True
