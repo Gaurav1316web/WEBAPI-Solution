@@ -11411,6 +11411,7 @@ FROM TSPL_ITEM_MASTER"
             'clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_MASTER", coll)
             coll.Add("Is_Correction_After_Process_DR_Note", "integer not null default 0")
             coll.Add("Is_Correction_After_Process_CR_Note", "integer not null default 0")
+            coll.Add("Is_Default_HeadLoad", "integer not null default 0")
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_DEDUCTION_MASTER", coll, "", True, False, "", "", "", True)
 
 
@@ -58248,6 +58249,17 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Rate", "DECIMAL(18,2) NULL")
             coll.Add("Amt", "DECIMAL(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PURCHASE_INVOICE_CHILLING_CHARGES", coll, Nothing, False, False, "TSPL_MILK_PURCHASE_INVOICE_HEAD", "InvoiceNo", "")
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("InvoiceNo", "Varchar(30) not null references TSPL_MILK_PURCHASE_INVOICE_HEAD(DOC_CODE)")
+            coll.Add("Against_Head_Load_PKID", "integer not NULL references TSPL_HEAD_LOAD_DCS(PK_Id)")
+            coll.Add("Qty", "DECIMAL(18,2) NULL")
+            coll.Add("Apply_Date", "datetime not NULL")
+            coll.Add("Head_Load_Cycle", "integer NULL")
+            coll.Add("Rate", "DECIMAL(18,2) NULL")
+            coll.Add("Amt", "DECIMAL(18,2) NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PURCHASE_INVOICE_DAY_WISE_HEAD_LOAD", coll, Nothing, False, False, "TSPL_MILK_PURCHASE_INVOICE_HEAD", "InvoiceNo", "")
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_Code", "varchar(30) NOT NULL Primary Key")

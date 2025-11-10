@@ -24,11 +24,6 @@ Public Class frmHeadLoadMaster
 #End Region
 
     Private Sub frmHeadLoadMaster_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim coll As New Dictionary(Of String, String)()
-        coll.Add("Deduction_Per", "Decimal(18,2) NULL")
-        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_HEAD_LOAD_DCS", coll, "", True, False, "", "", "", True)
-
-
         SetUserMgmtNew()
         OwnBMCDCS = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowOwnBMCDCS, clsFixedParameterCode.ShowOwnBMCDCS, Nothing)) > 0)
 
@@ -744,6 +739,10 @@ where 2=2 "
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
+    End Sub
+
+    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
+
     End Sub
 End Class
 

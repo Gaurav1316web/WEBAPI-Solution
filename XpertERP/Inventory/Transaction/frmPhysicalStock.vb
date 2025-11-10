@@ -739,7 +739,7 @@ Public Class FrmPhysicalStock
                         If clsCommon.myCBool(gv1.Rows(ii).Cells(colIsBatchItem).Value) Then
                             Dim arrBatchNo As List(Of clsBatchInventory) = TryCast(gv1.Rows(ii).Cells(colICode).Tag, List(Of clsBatchInventory))
                             If arrBatchNo Is Nothing Then
-                                If clsCommon.myCBool(gv1.Rows(ii).Cells(colPhyNillBalance).Value) = True AndAlso clsCommon.myCdbl(gv1.Rows(ii).Cells(colPhyQty).Value) = 0 AndAlso clsCommon.myCdbl(gv1.Rows(ii).Cells(colCurrQty).Value) = 0 Then
+                                If (clsCommon.myCBool(gv1.Rows(ii).Cells(colPhyNillBalance).Value) = True AndAlso clsCommon.myCdbl(gv1.Rows(ii).Cells(colPhyQty).Value) = 0 AndAlso clsCommon.myCdbl(gv1.Rows(ii).Cells(colCurrQty).Value) = 0) OrElse (clsCommon.myCdbl(gv1.Rows(ii).Cells(colDiffQty).Value) < 0 AndAlso objCommonVar.AutoGenrateBatchInventory) Then
                                 Else
                                     Throw New Exception("Please provide Batch no for item : " + clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value) + " . At Line No" + clsCommon.myCstr(ii + 1))
                                 End If
