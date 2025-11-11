@@ -4032,7 +4032,6 @@ where TSPL_MILK_SRN_DETAIL.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No
 #End Region
 
 #Region "Headload Day and Cycle wise"
-
             If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyHeadLoadDayAndCycleWiseForAJM, clsFixedParameterCode.ApplyHeadLoadDayAndCycleWiseForAJM, trans)) = 1 Then
                 qry = "Select DOC_DATE,sum(ACC_Qty) As ACC_Qty,sum(ACC_Qty_LTR) As ACC_Qty_LTR from (
 select convert(date, TSPL_MILK_SRN_HEAD.DOC_DATE,103) as DOC_DATE,case when ISNULL(TSPL_MILK_REJECT_TYPE.Exclude_Head,0) =0 then TSPL_MILK_SRN_DETAIL.ACC_Qty else 0 end  ACC_Qty,case when ISNULL(TSPL_MILK_REJECT_TYPE.Exclude_Head,0) =0 then TSPL_MILK_SRN_DETAIL.ACC_Qty_LTR else 0 end ACC_Qty_LTR
@@ -4043,6 +4042,11 @@ left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_U
 left outer join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.Code= COALESCE(TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type)
 where  TSPL_MILK_SRN_HEAD.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No) + ")
 ) xx group by DOC_DATE"
+                Dim TotalApplicableQty As Decimal = 0
+                Dim MinmumQtyCheck As Boolean = True
+                Dim Head_Load_Cycle As Decimal = 0
+                Dim Head_Load_Amount_Exact As Decimal = 0
+
                 dt = clsDBFuncationality.GetDataTable(qry, trans)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Dim MinimumQtyForHeadLoad As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MinimumQtyForHeadLoad, clsFixedParameterCode.MinimumQtyForHeadLoad, trans))
@@ -4054,12 +4058,13 @@ where  TSPL_MILK_SRN_HEAD.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No)
 
                     Dim objHeadLoad As New clsHeadLoadDCS()
                     objHeadLoad = clsHeadLoadDCS.GetDcsData(strVLCCode, objHead.DOC_DATE, trans)
-                    Dim Head_Load_Rate As Decimal = objHeadLoad.Head_Load_Rate
-                    Dim Head_Load_Type As String = clsCommon.myCstr(objHeadLoad.Head_Load_Basis)
+                    'Dim Head_Load_Rate As Decimal = objHeadLoad.Head_Load_Rate
+                    'Dim Head_Load_Type As String = clsCommon.myCstr(objHeadLoad.Head_Load_Basis)
+
                     For Each dr As DataRow In dt.Rows
                         'Dim dclQty As Decimal = clsCommon.myCDecimal(dr("Qty"))
-                        Dim Head_Load_Cycle As Decimal = 0
-                        Dim Head_Load_Amount_Exact As Decimal = 0
+                        Head_Load_Cycle = 0
+                        Head_Load_Amount_Exact = 0
                         Dim Head_Load_Amount As Decimal = 0
                         Dim ApplicableQty As Decimal = clsCommon.myCDecimal(dr("ACC_Qty_LTR"))
                         If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CK") = CompairStringResult.Equal Then
@@ -4075,133 +4080,160 @@ where  TSPL_MILK_SRN_HEAD.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No)
                             End If
                             ApplicableQty = ApplicableQty - (dclCapacity * objHeadLoad.Deduction_Per / 100)
                         End If
-                        If ApplicableQty > 0 Then
-                            If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "L") = CompairStringResult.Equal Then
-                                If ApplicableQty >= MinimumQtyForHeadLoad Then
-                                    Head_Load_Amount_Exact = Math.Round(ApplicableQty * objHeadLoad.Head_Load_Rate * dclDistanceKM, 6)
-                                End If
-                            ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CK") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CL") = CompairStringResult.Equal Then
-                                Head_Load_Cycle = Math.Ceiling(clsCommon.myCDivide(ApplicableQty, objHeadLoad.Cycle_Frequency))
-                                If Head_Load_Cycle < 0 Then
-                                    Head_Load_Cycle = 0
-                                End If
-                                Head_Load_Amount_Exact = Math.Round(Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 6)
-                            End If
-                            Head_Load_Amount = Math.Round(Head_Load_Amount_Exact, 2)
 
-                            If Head_Load_Amount > 0 Then
-                                Dim coll As New Hashtable()
-                                clsCommon.AddColumnsForChange(coll, "InvoiceNo", objHead.DOC_CODE)
-                                clsCommon.AddColumnsForChange(coll, "Apply_Date", clsCommon.GetPrintDate(clsCommon.myCDate(dr("DOC_DATE")), "dd/MMM/yyyy"))
-                                clsCommon.AddColumnsForChange(coll, "Against_Head_Load_PKID", objHeadLoad.PK_Id)
-                                clsCommon.AddColumnsForChange(coll, "Qty", ApplicableQty)
-                                clsCommon.AddColumnsForChange(coll, "Rate", objHeadLoad.Head_Load_Rate)
-                                clsCommon.AddColumnsForChange(coll, "Amt", Head_Load_Amount)
-                                clsCommon.AddColumnsForChange(coll, "Head_Load_Cycle", Head_Load_Cycle)
-                                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_PURCHASE_INVOICE_DAY_WISE_HEAD_LOAD", OMInsertOrUpdate.Insert, "", trans)
-                            End If
+                        If ApplicableQty < 0 Then
+                            ApplicableQty = 0
                         End If
+                        If ApplicableQty > objHeadLoad.Header_Cycle_Min_Qty Then
+                            MinmumQtyCheck = False
+                        Else
+                            TotalApplicableQty += ApplicableQty
+                            ApplicableQty = 0
+                        End If
+
+                        If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "L") = CompairStringResult.Equal Then
+                            If ApplicableQty >= MinimumQtyForHeadLoad Then
+                                Head_Load_Amount_Exact = Math.Round(ApplicableQty * objHeadLoad.Head_Load_Rate * dclDistanceKM, 6)
+                            End If
+                        ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CK") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CL") = CompairStringResult.Equal Then
+                            Head_Load_Cycle = Math.Ceiling(clsCommon.myCDivide(ApplicableQty, objHeadLoad.Cycle_Frequency))
+                            If Head_Load_Cycle < 0 Then
+                                Head_Load_Cycle = 0
+                            End If
+                            Head_Load_Amount_Exact = Math.Round(Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 6)
+                        End If
+                        Head_Load_Amount = Math.Round(Head_Load_Amount_Exact, 2)
+                        If Head_Load_Amount < 0 Then
+                            Head_Load_Amount = 0
+                        End If
+
+                        Dim coll As New Hashtable()
+                        clsCommon.AddColumnsForChange(coll, "InvoiceNo", objHead.DOC_CODE)
+                        clsCommon.AddColumnsForChange(coll, "Apply_Date", clsCommon.GetPrintDate(clsCommon.myCDate(dr("DOC_DATE")), "dd/MMM/yyyy"))
+                        clsCommon.AddColumnsForChange(coll, "Against_Head_Load_PKID", objHeadLoad.PK_Id)
+                        clsCommon.AddColumnsForChange(coll, "Qty", ApplicableQty)
+                        clsCommon.AddColumnsForChange(coll, "Rate", objHeadLoad.Head_Load_Rate)
+                        clsCommon.AddColumnsForChange(coll, "Amt", Head_Load_Amount)
+                        clsCommon.AddColumnsForChange(coll, "Head_Load_Cycle", Head_Load_Cycle)
+                        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_PURCHASE_INVOICE_DAY_WISE_HEAD_LOAD", OMInsertOrUpdate.Insert, "", trans)
                     Next
-                End If
 
-                ''Now Create Cr Note
-                qry = "select sum(Amt) as NoteAmt  from TSPL_MILK_PURCHASE_INVOICE_DAY_WISE_HEAD_LOAD where InvoiceNo='" + objHead.DOC_CODE + "'"
-                dtAmt = clsDBFuncationality.GetDataTable(qry, trans)
-                dblAmount = 0
-                If dtAmt IsNot Nothing AndAlso dtAmt.Rows.Count > 0 Then
-                    If clsCommon.myCDecimal(dtAmt.Rows(0)("NoteAmt")) > 0 Then
-                        Dim objVendorInvHead As New clsVedorInvoiceHead()
-                        objVendorInvHead.isDeduction = 0
-                        objVendorInvHead.Invoice_Entry_Date = clsCommon.GetPrintDate(objHead.DOC_DATE, "dd/MMM/yyyy")
-                        objVendorInvHead.Vendor_Code = objHead.VSP_CODE
-                        objVendorInvHead.Vendor_Name = clsVendorMaster.GetName(objHead.VSP_CODE, trans)
-                        objVendorInvHead.Vendor_Invoice_No = ""
-                        objVendorInvHead.Invoice_Type = "AP"
-                        objVendorInvHead.Vendor_Invoice_Date = objVendorInvHead.Invoice_Entry_Date
-                        objVendorInvHead.loc_code = clsLocation.GetSegmentCode(objHead.MCC_CODE, trans)
-                        objVendorInvHead.Account_Set = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  Vendor_Account from TSPL_VENDOR_MASTER where Vendor_Code ='" + objVendorInvHead.Vendor_Code + "'", trans))
-                        If (clsCommon.myLen(objVendorInvHead.Account_Set) < 0) Then
-                            Throw New Exception("Please set the vendor Account Set For Vendor : " + objVendorInvHead.Vendor_Name)
-                        End If
-                        objVendorInvHead.Document_Type = "C"
 
-                        objVendorInvHead.Description = "AP Credit Note For Head Load"
-                        objVendorInvHead.RefDocType = "CRE-DHL"
-
-                        objVendorInvHead.RefDocNo = objHead.DOC_CODE
-                        objVendorInvHead.On_Hold = False
-                        objVendorInvHead.Due_Date = objVendorInvHead.Invoice_Entry_Date
-                        dt = clsDBFuncationality.GetDataTable("select Acct_Set_Code,Payable_Account,Discount_Account,PRO_DATA_ACCOUNT from TSPL_VENDOR_ACCOUNT_SET  where Acct_Set_Code='" + objVendorInvHead.Account_Set + "'", trans)
-                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                            objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
-                            objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, objHead.MCC_CODE, trans)
-                            If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
-                                objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
-                                objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, objHead.MCC_CODE, trans)
+                    ''Now Create Cr Note
+                    If MinmumQtyCheck Then
+                        If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "L") = CompairStringResult.Equal Then
+                            If TotalApplicableQty >= MinimumQtyForHeadLoad Then
+                                dblAmount = Math.Round(TotalApplicableQty * objHeadLoad.Head_Load_Rate * dclDistanceKM, 6)
                             End If
-                        End If
-                        If clsCommon.myLen(objVendorInvHead.Vendor_Control_AC) <= 0 Then
-                            Throw New Exception("Please set the vendor payable Account")
-                        End If
-                        objVendorInvHead.Arr = New List(Of clsVedorInvoiceDetail)
-                        Dim ii As Integer = 0
-                        Dim isFirstTime As Boolean = True
-                        objVendorInvHead.Total_Landed_Amt = 0
-                        objVendorInvHead.ArrAssetEMI = New List(Of clsAPInvoiceAssetEMIDetails)()
-
-                        If True Then
-                            ''Set AP Invvoice Detail Table
-
-                            Dim dtDed As DataTable = clsDBFuncationality.GetDataTable("select code,GL_Account_Code from TSPL_DEDUCTION_MASTER  where Is_Default_HeadLoad=1", trans)
-                            If dtDed Is Nothing OrElse dtDed.Rows.Count <= 0 Then
-                                Throw New Exception("Please set default Head load in Deduction Master")
+                        ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CK") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CL") = CompairStringResult.Equal Then
+                            Head_Load_Cycle = Math.Ceiling(clsCommon.myCDivide(TotalApplicableQty, objHeadLoad.Cycle_Frequency))
+                            If Head_Load_Cycle < 0 Then
+                                Head_Load_Cycle = 0
                             End If
-                            If clsCommon.myLen(clsCommon.myCstr(dtDed.Rows(0)("GL_Account_Code"))) <= 0 Then
-                                Throw New Exception("Please set GL Account for deduction [" + clsCommon.myCstr(dtDed.Rows(0)("code")) + "]")
-                            End If
-
-                            ii = ii + 1
-                            Dim objVendorInvDetail As New clsVedorInvoiceDetail()
-                            objVendorInvDetail.Detail_Line_No = ii
-                            objVendorInvDetail.DeductionCode = clsCommon.myCstr(dtDed.Rows(0)("code"))
-                            objVendorInvDetail.DeductionDesc = ClsDeductionMaster.GetName(objVendorInvDetail.DeductionCode, trans)
-                            objVendorInvDetail.GL_Account_Code = clsCommon.myCstr(dtDed.Rows(0)("GL_Account_Code"))
-                            objVendorInvDetail.GL_Account_Code = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvDetail.GL_Account_Code, objHead.MCC_CODE, trans)
-                            objVendorInvDetail.GL_Account_Desc = clsGLAccount.GetName(objVendorInvDetail.GL_Account_Code, trans)
-
-                            dblAmount = Math.Abs(clsCommon.myCDecimal(dtAmt.Rows(0)("NoteAmt")))
-                            objVendorInvDetail.Amount = dblAmount
-                            objVendorInvDetail.Discount_Per = 0
-                            objVendorInvDetail.Discount = 0
-                            objVendorInvDetail.Amount_less_Discount = dblAmount
-                            objVendorInvDetail.Total_Tax = 0
-                            objVendorInvDetail.Total_Amount = dblAmount
-                            objVendorInvDetail.Landed_Amount = dblAmount
-                            ''End of Set AP Invvoice Detail Table
-
-                            If (clsCommon.myLen(objVendorInvDetail.GL_Account_Code) > 0) Then
-                                objVendorInvHead.Arr.Add(objVendorInvDetail)
-                            End If
-
-                            ''Set AP Invvoice Header Table
-                            objVendorInvHead.Total_Landed_Amt += dblAmount
-                            objVendorInvHead.Discount_Base += dblAmount
-                            objVendorInvHead.Discount_Amount += 0
-                            objVendorInvHead.Amount_Less_Discount += dblAmount
-                            objVendorInvHead.Document_Total += dblAmount
-                            objVendorInvHead.Balance_Amt += dblAmount
-                            ''End of Set AP Invvoice Header Table
+                            Head_Load_Amount_Exact = Math.Round(Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 6)
                         End If
-                        If (objVendorInvHead.Arr Is Nothing OrElse objVendorInvHead.Arr.Count <= 0) Then
-                            Throw New Exception("No GL Account Found For AP Invoice")
+                        dblAmount = Math.Round(Head_Load_Amount_Exact, 2)
+                    Else
+                        qry = "select sum(Amt) as NoteAmt  from TSPL_MILK_PURCHASE_INVOICE_DAY_WISE_HEAD_LOAD where InvoiceNo='" + objHead.DOC_CODE + "'"
+                        dtAmt = clsDBFuncationality.GetDataTable(qry, trans)
+                        dblAmount = Math.Abs(clsCommon.myCDecimal(dtAmt.Rows(0)("NoteAmt")))
+                    End If
+
+
+                    If dtAmt IsNot Nothing AndAlso dtAmt.Rows.Count > 0 Then
+                        If dblAmount > 0 Then
+                            Dim objVendorInvHead As New clsVedorInvoiceHead()
+                            objVendorInvHead.isDeduction = 0
+                            objVendorInvHead.Invoice_Entry_Date = clsCommon.GetPrintDate(objHead.DOC_DATE, "dd/MMM/yyyy")
+                            objVendorInvHead.Vendor_Code = objHead.VSP_CODE
+                            objVendorInvHead.Vendor_Name = clsVendorMaster.GetName(objHead.VSP_CODE, trans)
+                            objVendorInvHead.Vendor_Invoice_No = ""
+                            objVendorInvHead.Invoice_Type = "AP"
+                            objVendorInvHead.Vendor_Invoice_Date = objVendorInvHead.Invoice_Entry_Date
+                            objVendorInvHead.loc_code = clsLocation.GetSegmentCode(objHead.MCC_CODE, trans)
+                            objVendorInvHead.Account_Set = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  Vendor_Account from TSPL_VENDOR_MASTER where Vendor_Code ='" + objVendorInvHead.Vendor_Code + "'", trans))
+                            If (clsCommon.myLen(objVendorInvHead.Account_Set) < 0) Then
+                                Throw New Exception("Please set the vendor Account Set For Vendor : " + objVendorInvHead.Vendor_Name)
+                            End If
+                            objVendorInvHead.Document_Type = "C"
+
+                            objVendorInvHead.Description = "AP Credit Note For Head Load"
+                            objVendorInvHead.RefDocType = "CRE-DHL"
+
+                            objVendorInvHead.RefDocNo = objHead.DOC_CODE
+                            objVendorInvHead.On_Hold = False
+                            objVendorInvHead.Due_Date = objVendorInvHead.Invoice_Entry_Date
+                            dt = clsDBFuncationality.GetDataTable("select Acct_Set_Code,Payable_Account,Discount_Account,PRO_DATA_ACCOUNT from TSPL_VENDOR_ACCOUNT_SET  where Acct_Set_Code='" + objVendorInvHead.Account_Set + "'", trans)
+                            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
+                                objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, objHead.MCC_CODE, trans)
+                                If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
+                                    objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
+                                    objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, objHead.MCC_CODE, trans)
+                                End If
+                            End If
+                            If clsCommon.myLen(objVendorInvHead.Vendor_Control_AC) <= 0 Then
+                                Throw New Exception("Please set the vendor payable Account")
+                            End If
+                            objVendorInvHead.Arr = New List(Of clsVedorInvoiceDetail)
+                            Dim ii As Integer = 0
+                            Dim isFirstTime As Boolean = True
+                            objVendorInvHead.Total_Landed_Amt = 0
+                            objVendorInvHead.ArrAssetEMI = New List(Of clsAPInvoiceAssetEMIDetails)()
+
+                            If True Then
+                                ''Set AP Invvoice Detail Table
+
+                                Dim dtDed As DataTable = clsDBFuncationality.GetDataTable("select code,GL_Account_Code from TSPL_DEDUCTION_MASTER  where Is_Default_HeadLoad=1", trans)
+                                If dtDed Is Nothing OrElse dtDed.Rows.Count <= 0 Then
+                                    Throw New Exception("Please set default Head load in Deduction Master")
+                                End If
+                                If clsCommon.myLen(clsCommon.myCstr(dtDed.Rows(0)("GL_Account_Code"))) <= 0 Then
+                                    Throw New Exception("Please set GL Account for deduction [" + clsCommon.myCstr(dtDed.Rows(0)("code")) + "]")
+                                End If
+
+                                ii = ii + 1
+                                Dim objVendorInvDetail As New clsVedorInvoiceDetail()
+                                objVendorInvDetail.Detail_Line_No = ii
+                                objVendorInvDetail.DeductionCode = clsCommon.myCstr(dtDed.Rows(0)("code"))
+                                objVendorInvDetail.DeductionDesc = ClsDeductionMaster.GetName(objVendorInvDetail.DeductionCode, trans)
+                                objVendorInvDetail.GL_Account_Code = clsCommon.myCstr(dtDed.Rows(0)("GL_Account_Code"))
+                                objVendorInvDetail.GL_Account_Code = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvDetail.GL_Account_Code, objHead.MCC_CODE, trans)
+                                objVendorInvDetail.GL_Account_Desc = clsGLAccount.GetName(objVendorInvDetail.GL_Account_Code, trans)
+
+
+                                objVendorInvDetail.Amount = dblAmount
+                                objVendorInvDetail.Discount_Per = 0
+                                objVendorInvDetail.Discount = 0
+                                objVendorInvDetail.Amount_less_Discount = dblAmount
+                                objVendorInvDetail.Total_Tax = 0
+                                objVendorInvDetail.Total_Amount = dblAmount
+                                objVendorInvDetail.Landed_Amount = dblAmount
+                                ''End of Set AP Invvoice Detail Table
+
+                                If (clsCommon.myLen(objVendorInvDetail.GL_Account_Code) > 0) Then
+                                    objVendorInvHead.Arr.Add(objVendorInvDetail)
+                                End If
+
+                                ''Set AP Invvoice Header Table
+                                objVendorInvHead.Total_Landed_Amt += dblAmount
+                                objVendorInvHead.Discount_Base += dblAmount
+                                objVendorInvHead.Discount_Amount += 0
+                                objVendorInvHead.Amount_Less_Discount += dblAmount
+                                objVendorInvHead.Document_Total += dblAmount
+                                objVendorInvHead.Balance_Amt += dblAmount
+                                ''End of Set AP Invvoice Header Table
+                            End If
+                            If (objVendorInvHead.Arr Is Nothing OrElse objVendorInvHead.Arr.Count <= 0) Then
+                                Throw New Exception("No GL Account Found For AP Invoice")
+                            End If
+                            objVendorInvHead.ApplicableFrom = objVendorInvHead.Invoice_Entry_Date
+                            objVendorInvHead.Main_VSP_Milk_AP_Invoice_No = clsVedorInvoiceHead.GetMainVSPMilkAPInvoiceNo(ToDate, objVendorInvHead.Vendor_Code, trans)
+                            objVendorInvHead.SaveData(objVendorInvHead, True, trans)
+                            clsVedorInvoiceHead.PostData("", objVendorInvHead.Document_No, "", trans)
                         End If
-                        objVendorInvHead.ApplicableFrom = objVendorInvHead.Invoice_Entry_Date
-                        objVendorInvHead.Main_VSP_Milk_AP_Invoice_No = clsVedorInvoiceHead.GetMainVSPMilkAPInvoiceNo(ToDate, objVendorInvHead.Vendor_Code, trans)
-                        objVendorInvHead.SaveData(objVendorInvHead, True, trans)
-                        clsVedorInvoiceHead.PostData("", objVendorInvHead.Document_No, "", trans)
                     End If
                 End If
-
             End If
 #End Region
         End If

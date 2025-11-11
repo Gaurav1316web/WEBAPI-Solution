@@ -25764,7 +25764,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Modified_Date", "datetime  Not NULL")
             coll.Add("Posted_By", "varchar(12) NULL")
             coll.Add("Posted_Date", "datetime NULL")
-
+            coll.Add("Cycle_Min_Qty", "Integer NULL")
             ' clsCommonFunctionality.CreateOrAlterTable("TSPL_Head_Load", coll)
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_HEAD_LOAD", coll, "", True, False, "", "", "", True)
             coll = New Dictionary(Of String, String)()

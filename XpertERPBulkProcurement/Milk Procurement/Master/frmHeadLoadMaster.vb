@@ -201,6 +201,7 @@ Public Class frmHeadLoadMaster
                 obj.Description = txtDescription.Text
                 obj.Document_date = clsCommon.myCDate(txtDate.Value)
                 obj.Start_Date = clsCommon.myCDate(txtstartDate.Value)
+                obj.Cycle_Min_Qty = txtCycleMinQty.Value
                 obj.Arr = New List(Of clsHeadLoadDCS)
 
                 For Each grow As GridViewRowInfo In gv1.Rows
@@ -247,6 +248,7 @@ Public Class frmHeadLoadMaster
         lblStatus.Status = ERPTransactionStatus.Pending
         ReStoreGridLayout()
         cmbHeadLoadBasis.SelectedValue = ""
+        txtCycleMinQty.Value = 0
     End Sub
 
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
@@ -340,20 +342,17 @@ Public Class frmHeadLoadMaster
                     btnDelete.Enabled = True
                     btnImport.Enabled = True
                 End If
-
-
                 txtDocumentNo.Value = obj.Document_No
                 txtDate.Value = obj.Document_date
                 txtstartDate.Value = obj.Start_Date
                 txtDescription.Text = obj.Description
                 cmbHeadLoadBasis.SelectedIndex = 0
+                txtCycleMinQty.Value = obj.Cycle_Min_Qty
             End If
-
             isLoadData = True
             isInsideLoadData = True
             setGridData(isLoadData)
             isInsideLoadData = False
-
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
