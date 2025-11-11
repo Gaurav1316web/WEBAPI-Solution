@@ -12,12 +12,16 @@ Public Class frmGenerateBonus
     Private isNewEntry As Boolean = False
     Private isInsideLoadData As Boolean = False
     Dim Qry As String
+    Const colCheck As String = "Check"
     Const colLineNo As String = "LineNo"
     Const colempcode As String = "empcode"
     Const colempname As String = "empname"
     Const colbonusCode As String = "bonusCode"
     Const colbonusName As String = "bonusName"
     Const colbonusAmount As String = "bonusAmount"
+    Const colSaleIncrement As String = "Sale Increment"
+    Const ColTotalBonus As String = "Total Bonus"
+    Const colWages As String = "Wages"
 
 #End Region
 
@@ -28,12 +32,12 @@ Public Class frmGenerateBonus
     Public Function Save() As Boolean
         Try
             If AllowToSave() Then
-                GenerateBonus()
+                'GenerateBonus()
                 Dim obj As New clsBonus()
                 obj.EMP_BONUS_CODE = txtCode.Value
                 obj.Location_Code = fndLocation.Value
                 obj.Division_Code = fndDivision.Value
-                obj.ToDate=txtCheckLeapyear.Text
+                obj.ToDate = txtCheckLeapyear.Text
 
                 obj.FROM_PAY_PERIOD_CODE = txtFromPayPeriodCode.Value
                 obj.TO_PAY_PERIOD_CODE = txtToPayPeriodCode.Value
@@ -41,16 +45,19 @@ Public Class frmGenerateBonus
                 obj.DESCRIPTION = txtDescription.Text
                 obj.ObjList = New List(Of clsBonusDetails)
                 For Each grow As GridViewRowInfo In gv1.Rows
-                    If clsCommon.myLen(grow.Cells(colempcode).Value) > 0 Then
+                    If grow.Cells(colCheck).Value = True Then
+                        If clsCommon.myLen(grow.Cells(colempcode).Value) > 0 Then
 
-                        Dim objTr As New clsBonusDetails()
-                        objTr.EMP_BONUS_CODE = txtCode.Value
-                        objTr.EMP_CODE = clsCommon.myCstr(grow.Cells(colempcode).Value)
-                        objTr.BONUS_CODE = clsCommon.myCstr(grow.Cells(colbonusCode).Value)
-                        objTr.BONUS_AMOUNT = clsCommon.myCdbl(grow.Cells(colbonusAmount).Value)
-                        obj.ObjList.Add(objTr)
+                            Dim objTr As New clsBonusDetails()
+                            objTr.EMP_BONUS_CODE = txtCode.Value
+                            objTr.EMP_CODE = clsCommon.myCstr(grow.Cells(colempcode).Value)
+                            objTr.BONUS_CODE = clsCommon.myCstr(grow.Cells(colbonusCode).Value)
+                            objTr.BONUS_AMOUNT = clsCommon.myCdbl(grow.Cells(colbonusAmount).Value)
+                            objTr.Final_BONUS_AMOUNT = clsCommon.myCdbl(grow.Cells(ColTotalBonus).Value)
+                            objTr.Bonus_Increment = clsCommon.myCdbl(grow.Cells(colSaleIncrement).Value)
+                            obj.ObjList.Add(objTr)
+                        End If
                     End If
-
                 Next
 
                 If (obj.SaveData(obj, isNewEntry)) Then
@@ -118,17 +125,52 @@ Public Class frmGenerateBonus
                     gv1.Rows.AddNew()
                     ii = ii + 1
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = ii
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colCheck).Value = True
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colempcode).Value = objTr.EMP_CODE
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colempname).Value = objTr.EMP_NAME
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colbonusCode).Value = objTr.BONUS_CODE
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colbonusName).Value = objTr.BONUS_NAME
 5:                  gv1.Rows(gv1.Rows.Count - 1).Cells(colbonusAmount).Value = objTr.BONUS_AMOUNT
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(ColTotalBonus).Value = objTr.Final_BONUS_AMOUNT
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colSaleIncrement).Value = objTr.Bonus_Increment
                 Next
             End If
             '' fill report tab
-            LoadBonusSummaryData(False)
-            LoadBonusDetailData(False)
+            'LoadBonusSummaryData(False)
+            'LoadBonusDetailData(False)
         End If
+
+        '''''FORWAGESOFEMPLOYEE   
+        'Dim Wagesqry As String = " Select PAY_PERIOD_CODE,EMP_CODE,ACTUAL_AMOUNT,CASE WHEN PAY_HEAD_CODE='BASIC' THEN ACTUAL_AMOUNT ELSE 0 end AS BasicPay,
+        '                           CASE WHEN PAY_HEAD_CODE='DA' THEN ACTUAL_AMOUNT ELSE 0 end AS DAPay from TSPL_SALARY_CALCULATION where PAY_PERIOD_CODE='" & txtPayablePayPeriodCode.Value & "'
+        '                           AND PAY_HEAD_CODE IN ('BASIC','DA') "
+
+        Dim Wagesqry As String = " Select PAY_PERIOD_CODE,EMP_CODE,ACTUAL_AMOUNT,CASE WHEN PAY_HEAD_CODE='BASIC' THEN ACTUAL_AMOUNT ELSE 0 end AS BasicPay,
+                                   CASE WHEN PAY_HEAD_CODE='DA' THEN ACTUAL_AMOUNT ELSE 0 end AS DAPay from TSPL_SALARY_CALCULATION where PAY_PERIOD_CODE='APR25'
+                                   AND PAY_HEAD_CODE IN ('BASIC','DA') "
+        Dim dtwages As DataTable = clsDBFuncationality.GetDataTable(Wagesqry)
+        If dtwages IsNot Nothing AndAlso dtwages.Rows.Count > 0 Then
+            For Each gridRow As GridViewRowInfo In gv1.Rows
+                Dim empCode As String = gridRow.Cells("empcode").Value.ToString()
+
+                Dim rows() As DataRow = dtwages.Select("EMP_CODE='" & empCode & "'")
+                If rows.Length > 0 Then
+                    Dim basic As Double = 0
+                    Dim da As Double = 0
+
+                    For Each r As DataRow In rows
+                        basic += Convert.ToDouble(r("BasicPay"))
+                        da += Convert.ToDouble(r("DAPay"))
+                    Next
+
+                    Dim totalPay As Double = basic + da
+                    ' Store result back into grid
+                    gridRow.Cells("Wages").Value = totalPay
+                    'gv1.Rows(gv1.Rows.Count - 1).Cells(colWages).Value = totalPay
+                End If
+            Next
+        End If
+
 
 
     End Sub
@@ -176,9 +218,9 @@ Public Class frmGenerateBonus
 
         Next
         '' Anubhooti 10-July-2014 (BM00000002913)
-        If CheckSalStructure() = False Then
-            Return False
-        End If
+        'If CheckSalStructure() = False Then
+        '    Return False
+        'End If
         Return True
     End Function
     '' Anubhooti 10-July-2014 (BM00000002913)
@@ -412,6 +454,14 @@ Public Class frmGenerateBonus
         gv1.Columns.Clear()
         gv1.ReadOnly = False
 
+        Dim Check As New GridViewCheckBoxColumn
+        Check.FormatString = ""
+        Check.Name = colCheck
+        Check.Width = 50
+        Check.ReadOnly = False
+        Check.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.Columns.Add(Check)
+
         Dim lineNo As GridViewTextBoxColumn
         lineNo = New GridViewTextBoxColumn()
         lineNo.FormatString = ""
@@ -440,6 +490,15 @@ Public Class frmGenerateBonus
         empname.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gv1.Columns.Add(empname)
 
+        Dim TotalWages As New GridViewDecimalColumn
+        TotalWages.FormatString = ""
+        TotalWages.HeaderText = "Wages"
+        TotalWages.Name = colWages
+        TotalWages.Width = 150
+        TotalWages.ReadOnly = True
+        TotalWages.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.Columns.Add(TotalWages)
+
         Dim bonusCode As New GridViewTextBoxColumn
         bonusCode.FormatString = ""
         bonusCode.HeaderText = "Bonus Code"
@@ -467,7 +526,25 @@ Public Class frmGenerateBonus
         bonusAmount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.Columns.Add(bonusAmount)
 
-        gv1.ReadOnly = False
+        Dim bonusRate As New GridViewDecimalColumn
+        bonusRate.FormatString = ""
+        bonusRate.HeaderText = "Sale Increment"
+        bonusRate.Name = colSaleIncrement
+        bonusRate.Width = 150
+        bonusRate.ReadOnly = False
+        bonusRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.Columns.Add(bonusRate)
+
+        Dim TotalbonusAmt As New GridViewDecimalColumn
+        TotalbonusAmt.FormatString = ""
+        TotalbonusAmt.HeaderText = "Total Bonus Amt"
+        TotalbonusAmt.Name = ColTotalBonus
+        TotalbonusAmt.Width = 150
+        TotalbonusAmt.ReadOnly = True
+        TotalbonusAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.Columns.Add(TotalbonusAmt)
+
+        'gv1.ReadOnly = False
 
     End Sub
 
@@ -488,13 +565,71 @@ Public Class frmGenerateBonus
         '    End If
     End Sub
 
-    Private Sub gv1_CellValueChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs)
+    Private Sub gv1_CellValueChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv1.CellValueChanged
 
-        'If e.Column Is gv1.Columns("LeaveCode") Then
-        '    Dim qry As String = " select LEAVE_CODE AS Code, LEAVE_NAME as Name, PRINT_NAME as 'Print Name', AFFECTS_SALARY as 'Is Affects Salary'  from TSPL_LEAVE_MASTER"
-        '    gv1.CurrentRow.Cells(1).Value = clsCommon.ShowSelectForm("LEAVE_MASTER", qry, "Code", "", clsCommon.myCstr(gv1.CurrentRow.Cells(1).Value), "LEAVE_CODE", False)
-        '    gv1.CurrentRow.Cells(2).Value = clsLeaveMaster.GetName(clsCommon.myCstr(gv1.CurrentRow.Cells(1).Value), Nothing)
-        'End If
+        If e.Column Is gv1.Columns("Sale Increment") Then
+            Dim SaleIncrement As Double = 0
+            SaleIncrement = gv1.CurrentRow.Cells(colSaleIncrement).Value
+
+            Dim Empcode As String = 0
+            Empcode = gv1.CurrentRow.Cells(colempcode).Value
+            Dim BonusRate As Double = 0
+            Dim qry2 As String = " Select BONUS_RATE from TSPL_BONUS_MASTER "
+            BonusRate = clsDBFuncationality.getSingleValue(qry2)
+
+
+            Dim CheckPercent As Double = 0
+            Dim TotalBonusAmt As Double = 0
+            CheckPercent = SaleIncrement + BonusRate
+            Dim percentValue As Double = 0
+            If IsNumeric(CheckPercent) Then
+                percentValue = CDbl(CheckPercent)
+            Else
+                percentValue = 0 ' or default 8.33
+            End If
+            If CheckPercent <= 20 Then
+
+                Dim FinalBonusAmt As String = "  select [Total Bonus] from (select EMP_CODE AS empcode,EMP_NAME as empname,FATHERS_NAME as fname,DEPARTMENT_CODE as dcode,DEPARTMENT_NAME as dname,LOCATION_CODE as location,Location_Desc as locdesc,PF_NO as pfno,Designation as desgcode,Designation_Desc as desgDesc,  Joining_date as doj,RELIEVING_DATE as dol,BONUS_CODE AS bonuscode,BONUS_NAME as bonusname,BONUS_RATE as bonusrate,sum(FinalBonus_Amt) as [Total Bonus] from  (  Select *,ROUND((ISNULL(Bonus_Amt, 0)*PAYABLE_DAYS),2)FinalBonus_Amt from (Select *,ROUND((ISNULL(BONUS_AMOUNT, 0)/PAYPERIOD_DAYS),2)Bonus_Amt from (select GSA.EMP_CODE,EMP.EMP_NAME,EMP.FATHERS_NAME,EMP.DEPARTMENT_CODE,DEPT.DEPARTMENT_NAME,EMP.LOCATION_CODE,LOC.Location_Desc,EMP.PF_NO,EMP.Designation,DES.Designation_Desc,EMP.Joining_date,EMP.RELIEVING_DATE,GS.PAY_PERIOD_CODE as PAY_PERIOD_CODE_MAIN,'Amount_' + GS.PAY_PERIOD_CODE as PAY_PERIOD_CODE,'PD_' + GS.PAY_PERIOD_CODE as PD_PAY_PERIOD_CODE,'BonusWages_' + GS.PAY_PERIOD_CODE as BonusWages_PAY_PERIOD_CODE, GSP.RATE_AMOUNT  AS Std_Basic,
+                                             (GSP.ACTUAL_AMOUNT)  AS Actual_Basic, GSA.PAYPERIOD_DAYS  as PAYPERIOD_DAYS,
+                                              GSA.PAYABLE_DAYS  PAYABLE_DAYS, 
+                                              ( ROUND((case when GSP.Rate_Amount>=BONUS.COND_BASIC_PER_MONTH then BONUS.COND_BASIC_PER_MONTH else GSP.Rate_Amount end)* (case when BONUS.Is_Consider_Pay_Days=1 then GSA.PAYABLE_DAYS/GSA.PAYPERIOD_DAYS else 1 end),0) ) as Bonus_On, 
+
+                                                ROUND(CASE WHEN ISNULL(GSA.PAYABLE_DAYS, 0) > 0 THEN ((ISNULL(COND_MAX_EARNING_PER_MONTH, 0) * " & percentValue & "/100)) ELSE 0 END, 2)BONUS_AMOUNT,  ESTS.BONUS_CODE,BONUS.BONUS_NAME,BONUS.BONUS_RATE 
+                                 from TSPL_GENERATE_SALARY_ATTENDANCE GSA 
+                                 inner join TSPL_GENERATE_SALARY GS ON GSA.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE 
+                                 left join TSPL_EMPLOYEE_MASTER EMP ON EMP.EMP_CODE=GSA.EMP_CODE  LEFT JOIN TSPL_EMPLOYEE_STATUS ESTS ON GSA.EMP_CODE=ESTS.EMP_CODE AND GSA.EMP_STATUS_CODE=ESTS.EMP_STATUS_CODE  LEFT JOIN TSPL_BONUS_MASTER BONUS ON ESTS.BONUS_CODE=BONUS.BONUS_CODE  left join (
+                                 SELECT SALARY_GENERATION_CODE,EMP_CODE,Rate_Amount,ACTUAL_AMOUNT,'Basic' as CalculationMethod FROM TSPL_GENERATE_SALARY_PAYHEADS  WHERE SUB_HEAD_TYPE='BASIC' 
+                                 union all
+                                 select SALARY_GENERATION_CODE,EMP_CODE,sum(ACTUAL_AMOUNT * case when x.ISEARNING=1 then 1 else -1 end) as Rate_Amount,sum(ACTUAL_AMOUNT* case when x.ISEARNING=1 then 1 else -1 end) as ACTUAL_AMOUNT,'Net' as CalculationMethod  from (
+                                 SELECT SALARY_GENERATION_CODE,EMP_CODE,Rate_Amount,ACTUAL_AMOUNT,TSPL_PAYHEAD_MASTER.ISEARNING FROM TSPL_GENERATE_SALARY_PAYHEADS as innTSPL_GENERATE_SALARY_PAYHEADS
+                                 left outer join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE= innTSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE 
+                                 )x group by SALARY_GENERATION_CODE, EMP_CODE  
+                                 ) GSP ON GSA.SALARY_GENERATION_CODE=GSP.SALARY_GENERATION_CODE  AND GSA.EMP_CODE=GSP.EMP_CODE and GSP.CalculationMethod=BONUS.Calculation_Method  left join TSPL_PAYPERIOD_MASTER PM on PM.PAY_PERIOD_CODE=GS.PAY_PERIOD_CODE  left join TSPL_DEPARTMENT_MASTER DEPT ON EMP.DEPARTMENT_CODE=DEPT.DEPARTMENT_CODE  left join TSPL_LOCATION_MASTER LOC ON EMP.Location_Code=LOC.Location_Code  left join TSPL_DESIGNATION_MASTER DES ON EMP.Designation=DES.Designation_id   WHERE 2=2  AND GS.Location_Code='JODHPUR' AND ESTS.BONUS_CODE is not null  and PM.DATE_FROM BETWEEN   (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='Jan')  AND (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='Dec') and  GSA.EMP_CODE = '" + clsCommon.myCstr(Empcode) + "' )XX )YY  ) as Final  PIVOT  (  sum(Std_Basic)  FOR Pay_Period_Code IN ([Amount_Jan],[Amount_JDPPAY],[Amount_Feb],[Amount_APR],[Amount_May],[Amount_Jun],[Amount_Jul],[Amount_Aug],[Amount_Sep],[Amount_Oct],[Amount_Nov],[Amount_Dec])  ) AS Wages  PIVOT  (  sum(PAYABLE_DAYS)  FOR PD_PAY_PERIOD_CODE IN ([PD_Jan],[PD_JDPPAY],[PD_Feb],[PD_APR],[PD_May],[PD_Jun],[PD_Jul],[PD_Aug],[PD_Sep],[PD_Oct],[PD_Nov],[PD_Dec])  ) AS PDays  PIVOT  (  sum(Bonus_On)  FOR BonusWages_PAY_PERIOD_CODE IN ([BonusWages_Jan],[BonusWages_JDPPAY],[BonusWages_Feb],[BonusWages_APR],[BonusWages_May],[BonusWages_Jun],[BonusWages_Jul],[BonusWages_Aug],[BonusWages_Sep],[BonusWages_Oct],[BonusWages_Nov],[BonusWages_Dec])  ) AS Bonus_On  group by EMP_CODE,BONUS_CODE,BONUS_NAME,BONUS_RATE,EMP_NAME,FATHERS_NAME,DEPARTMENT_CODE,DEPARTMENT_NAME,LOCATION_CODE,Location_Desc,PF_NO,Designation,Designation_Desc,Joining_date,RELIEVING_DATE) Final  where [Total Bonus]>0 "
+                TotalBonusAmt = clsDBFuncationality.getSingleValue(FinalBonusAmt)
+
+
+                'Dim PayableDays As Double = 0
+                'Dim qry As String = " Select PAYABLE_DAYS from TSPL_GENERATE_SALARY_ATTENDANCE "
+                'PayableDays = clsDBFuncationality.getSingleValue(qry)
+
+                'Dim BonusAmt As Double = 0
+                'Dim qry1 As String = " Select COND_MAX_EARNING_PER_MONTH from TSPL_BONUS_MASTER "
+                'BonusAmt = clsDBFuncationality.getSingleValue(qry1)
+
+                ''Dim BonusRate As Double = 0
+                ''Dim qry2 As String = " Select BONUS_RATE from TSPL_GENERATE_SALARY_ATTENDANCE "
+                ''BonusRate = clsDBFuncationality.getSingleValue(qry2)
+
+                'Dim Days As Integer = CalculateLeapYearDays(txtCheckLeapyear.Text)
+
+                'Dim TotalBonusAmt As Double = 0
+                'TotalBonusAmt = clsCommon.myCdbl(((BonusAmt / BonusRate) / Days) * PayableDays)
+                gv1.CurrentRow.Cells(ColTotalBonus).Value = clsCommon.myCdbl(TotalBonusAmt)
+            Else
+                common.clsCommon.MyMessageBoxShow(Me, "Bonus Rate is more then 20%", Me.Text)
+                gv1.CurrentRow.Cells(ColTotalBonus).Value = 0
+            End If
+        End If
 
     End Sub
 
@@ -525,6 +660,13 @@ Public Class frmGenerateBonus
     End Sub
 
     Private Sub btnGenerate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGenerate.Click
+        Dim Qry As String = "Select * from TSPL_SALARY_CALCULATION where PAY_PERIOD_CODE = '" & txtPayablePayPeriodCode.Value & "' "
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+        'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+        '    GenerateBonus()
+        'Else
+        '    common.clsCommon.MyMessageBoxShow(Me, "Salary is not generated for current Month", Me.Text)
+        'End If
         GenerateBonus()
     End Sub
     Sub GenerateBonus()
@@ -547,6 +689,36 @@ Public Class frmGenerateBonus
                 gv1.Rows(gv1.Rows.Count - 1).Cells(colbonusCode).Value = dr("bonuscode")
                 gv1.Rows(gv1.Rows.Count - 1).Cells(colbonusName).Value = dr("bonusname")
                 gv1.Rows(gv1.Rows.Count - 1).Cells(colbonusAmount).Value = dr("TOTAL BONUS")
+            Next
+        End If
+
+        'Dim Wagesqry As String = " Select PAY_PERIOD_CODE,EMP_CODE,ACTUAL_AMOUNT,CASE WHEN PAY_HEAD_CODE='BASIC' THEN ACTUAL_AMOUNT ELSE 0 end AS BasicPay,
+        '                           CASE WHEN PAY_HEAD_CODE='DA' THEN ACTUAL_AMOUNT ELSE 0 end AS DAPay from TSPL_SALARY_CALCULATION where PAY_PERIOD_CODE='" & txtPayablePayPeriodCode.Value & "'
+        '                           AND PAY_HEAD_CODE IN ('BASIC','DA') "
+
+        Dim Wagesqry As String = " Select PAY_PERIOD_CODE,EMP_CODE,ACTUAL_AMOUNT,CASE WHEN PAY_HEAD_CODE='BASIC' THEN ACTUAL_AMOUNT ELSE 0 end AS BasicPay,
+                                   CASE WHEN PAY_HEAD_CODE='DA' THEN ACTUAL_AMOUNT ELSE 0 end AS DAPay from TSPL_SALARY_CALCULATION where PAY_PERIOD_CODE='APR25'
+                                   AND PAY_HEAD_CODE IN ('BASIC','DA') "
+        Dim dtwages As DataTable = clsDBFuncationality.GetDataTable(Wagesqry)
+        If dtwages IsNot Nothing AndAlso dtwages.Rows.Count > 0 Then
+            For Each gridRow As GridViewRowInfo In gv1.Rows
+                Dim empCode As String = gridRow.Cells("empcode").Value.ToString()
+
+                Dim rows() As DataRow = dtwages.Select("EMP_CODE='" & empCode & "'")
+                If rows.Length > 0 Then
+                    Dim basic As Double = 0
+                    Dim da As Double = 0
+
+                    For Each r As DataRow In rows
+                        basic += Convert.ToDouble(r("BasicPay"))
+                        da += Convert.ToDouble(r("DAPay"))
+                    Next
+
+                    Dim totalPay As Double = basic + da
+                    ' Store result back into grid
+                    gridRow.Cells("Wages").Value = totalPay
+                    'gv1.Rows(gv1.Rows.Count - 1).Cells(colWages).Value = totalPay
+                End If
             Next
         End If
     End Sub
