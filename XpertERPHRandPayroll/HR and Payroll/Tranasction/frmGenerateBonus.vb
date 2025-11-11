@@ -662,12 +662,12 @@ Public Class frmGenerateBonus
     Private Sub btnGenerate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGenerate.Click
         Dim Qry As String = "Select * from TSPL_SALARY_CALCULATION where PAY_PERIOD_CODE = '" & txtPayablePayPeriodCode.Value & "' "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
-        'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-        '    GenerateBonus()
-        'Else
-        '    common.clsCommon.MyMessageBoxShow(Me, "Salary is not generated for current Month", Me.Text)
-        'End If
-        GenerateBonus()
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            GenerateBonus()
+        Else
+            common.clsCommon.MyMessageBoxShow(Me, "Salary is not generated for current Month", Me.Text)
+        End If
+        'GenerateBonus()
     End Sub
     Sub GenerateBonus()
         gv1.DataSource = Nothing
