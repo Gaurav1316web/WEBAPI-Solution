@@ -437,9 +437,9 @@ TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ,
                 (
                   TSPL_SD_sale_invoice_DETAIL.Qty * ItemConvinUOM.Conversion_Factor / ItemConvReportUOM.Conversion_Factor
                 ) as Decimal(18, 2)
-              ) as QtyAccToReportUOM, Convert(decimal(18,2),(TSPL_SD_sale_invoice_DETAIL.Amt_Less_Discount/((
-                TSPL_SD_sale_invoice_DETAIL.Qty
-              *ItemConvinUOM.Conversion_Factor )/ItemConvReportUOM.Conversion_Factor))) as ReportRate,
+              ) as QtyAccToReportUOM,
+ISNULL( Convert(decimal(18,2), TSPL_SD_sale_invoice_DETAIL.Amt_Less_Discount / NULLIF( ((TSPL_SD_sale_invoice_DETAIL.Qty * ItemConvinUOM.Conversion_Factor) / ItemConvReportUOM.Conversion_Factor),0)), 0) as ReportRate,
+
               '' GrandTotalCrates, 
               TSPL_COMPANY_MASTER.Comp_Code, 
               TSPL_COMPANY_MASTER.Comp_Name, 
@@ -628,7 +628,7 @@ case when FinalQ.Taxtype1='TCS' then FinalQ.TAX1_Amt else (case when FinalQ.Taxt
 from( " + qry + " )FinalQ )FinalXX " + order
             Else
                 'qry += order
-                qry = "select FinalXX.*," + IIf(rbtnZone.IsChecked, "(SELECT STRING_AGG(Route_No, ',') AS Route_No FROM TSPL_ROUTE_MASTER WHERE Zone_Code = FinalXX.Zone_Code) as Route_Nos", "") + "
+                qry = "select FinalXX.* " + IIf(rbtnZone.IsChecked, ",(SELECT STRING_AGG(Route_No, ',') AS Route_No FROM TSPL_ROUTE_MASTER WHERE Zone_Code = FinalXX.Zone_Code) as Route_Nos", "") + "
 from(
 select FinalQ.*,
 case when FinalQ.Taxtype1='K' then 'KKF' else (case when FinalQ.Taxtype2='K' then 'KKF' else(case when FinalQ.Taxtype3='K' then 'KKF' else(case when FinalQ.Taxtype4='K' then 'KKF' else(case when FinalQ.Taxtype5='K' then 'KKF' else'' end)end)end)end)end as KKF,

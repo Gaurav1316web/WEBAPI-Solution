@@ -2301,8 +2301,12 @@ order by  xx.Shift desc,xx.Qty "
                                                     If FATKG < 0 OrElse SNFKG < 0 Then
                                                         Continue For
                                                     End If
-                                                    Dim FAT As Decimal = Math.Round(clsCommon.myCDivide((100 * FATKG), Qty), 1, MidpointRounding.AwayFromZero)
-                                                    Dim SNF As Decimal = Math.Round(clsCommon.myCDivide((100 * SNFKG), Qty), settSNFDecimalPlace, MidpointRounding.AwayFromZero)
+                                                    'Dim FAT As Decimal = Math.Round(clsCommon.myCDivide((100 * FATKG), Qty), 1, MidpointRounding.AwayFromZero)
+                                                    'Dim SNF As Decimal = Math.Round(clsCommon.myCDivide((100 * SNFKG), Qty), settSNFDecimalPlace, MidpointRounding.AwayFromZero)
+                                                    Dim ROIncreaseAfter As Integer = 5
+                                                    Dim FAT As Decimal = clsCommon.myRoundOFF(clsCommon.myCDivide((100 * FATKG), Qty), 1, ROIncreaseAfter)
+                                                    Dim SNF As Decimal = clsCommon.myRoundOFF(clsCommon.myCDivide((100 * SNFKG), Qty), settSNFDecimalPlace, ROIncreaseAfter)
+
                                                     If settMaxFATPerLimit > 0 Then
                                                         If FAT > settMaxFATPerLimit Then
                                                             FAT = settMaxFATPerLimit

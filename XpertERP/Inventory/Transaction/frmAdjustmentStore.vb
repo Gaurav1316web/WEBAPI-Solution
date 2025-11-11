@@ -2034,9 +2034,17 @@ Public Class frmAdjustmentStore
                     End If
                 Else
                     If Not objCommonVar.AutoGenrateBatchInventory OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransType.SelectedValue), "Out") = CompairStringResult.Equal Then
+
+
                         Dim arrBatchNo As List(Of clsBatchInventory) = TryCast(gv1.Rows(ii).Cells(colICode).Tag, List(Of clsBatchInventory))
                         If arrBatchNo Is Nothing Then
-                            Throw New Exception("Please provide Batch no for item : " + strICode + " . At Line No" + clsCommon.myCstr(ii + 1))
+                            If clsCommon.CompairString(clsCommon.myCstr(cboTransType.SelectedValue), "Out") = CompairStringResult.Equal AndAlso RunBatchFifowise = 1 Then
+                                OpenBatchItem(False)
+                                arrBatchNo = TryCast(gv1.Rows(ii).Cells(colICode).Tag, List(Of clsBatchInventory))
+                            End If
+                            If arrBatchNo Is Nothing Then
+                                Throw New Exception("Please provide Batch no for item : " + strICode + " . At Line No" + clsCommon.myCstr(ii + 1))
+                            End If
                         Else
                             Dim tQty As Decimal = 0
                             For Each objBatch As clsBatchInventory In arrBatchNo

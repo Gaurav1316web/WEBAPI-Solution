@@ -52,7 +52,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>ERP.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355,40000</NoWarn>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <Optimize>false</Optimize>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <Prefer32Bit>false</Prefer32Bit>
@@ -953,12 +953,6 @@
       <DependentUpon>frmRawMilkConsumption.vb</DependentUpon>
     </Compile>
     <Compile Include="Inventory\Transaction\frmRawMilkConsumption.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Inventory\Transaction\frmStartBatchEntry.Designer.vb">
-      <DependentUpon>frmStartBatchEntry.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Inventory\Transaction\frmStartBatchEntry.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Inventory\Transaction\FrmTransferGateOut.Designer.vb">
@@ -5132,9 +5126,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Inventory\Transaction\frmRawMilkConsumption.resx">
       <DependentUpon>frmRawMilkConsumption.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Inventory\Transaction\frmStartBatchEntry.resx">
-      <DependentUpon>frmStartBatchEntry.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Inventory\Transaction\FrmTransferGateOut.resx">
       <DependentUpon>FrmTransferGateOut.vb</DependentUpon>

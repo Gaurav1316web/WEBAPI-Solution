@@ -211,6 +211,18 @@
     <Compile Include="APS Sale\Transaction\FrmSalesOrderGatePass.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="DCS Sale\frmCancelDCSSale.Designer.vb">
+      <DependentUpon>frmCancelDCSSale.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DCS Sale\frmCancelDCSSale.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DCS Sale\frmStartBatchEntry.Designer.vb">
+      <DependentUpon>frmStartBatchEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DCS Sale\frmStartBatchEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Export Sale\DuplicateForm\frmPendingQuotation.Designer.vb">
       <DependentUpon>frmPendingQuotation.vb</DependentUpon>
     </Compile>
@@ -1275,6 +1287,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="APS Sale\Transaction\FrmSalesOrderGatePass.resx">
       <DependentUpon>FrmSalesOrderGatePass.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DCS Sale\frmCancelDCSSale.resx">
+      <DependentUpon>frmCancelDCSSale.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DCS Sale\frmStartBatchEntry.resx">
+      <DependentUpon>frmStartBatchEntry.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Export Sale\DuplicateForm\frmPendingQuotation.resx">
       <DependentUpon>frmPendingQuotation.vb</DependentUpon>

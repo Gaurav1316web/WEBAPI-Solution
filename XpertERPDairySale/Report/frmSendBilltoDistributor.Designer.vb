@@ -25,6 +25,7 @@ Partial Class frmSendBilltoDistributor
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnIceCream = New System.Windows.Forms.RadioButton()
         Me.rbtnProduct = New System.Windows.Forms.RadioButton()
         Me.rbtnMilk = New System.Windows.Forms.RadioButton()
         Me.chkResendBill = New Telerik.WinControls.UI.RadCheckBox()
@@ -50,7 +51,6 @@ Partial Class frmSendBilltoDistributor
         Me.btnSendGatePass = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel11 = New common.Controls.MyLabel()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.rbtnIceCream = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -125,6 +125,17 @@ Partial Class frmSendBilltoDistributor
         Me.RadGroupBox4.Name = "RadGroupBox4"
         Me.RadGroupBox4.Size = New System.Drawing.Size(344, 29)
         Me.RadGroupBox4.TabIndex = 1469
+        '
+        'rbtnIceCream
+        '
+        Me.rbtnIceCream.AutoSize = True
+        Me.rbtnIceCream.Location = New System.Drawing.Point(240, 6)
+        Me.rbtnIceCream.Name = "rbtnIceCream"
+        Me.rbtnIceCream.Size = New System.Drawing.Size(74, 17)
+        Me.rbtnIceCream.TabIndex = 2
+        Me.rbtnIceCream.TabStop = True
+        Me.rbtnIceCream.Text = "Ice Cream"
+        Me.rbtnIceCream.UseVisualStyleBackColor = True
         '
         'rbtnProduct
         '
@@ -240,7 +251,7 @@ Partial Class frmSendBilltoDistributor
         Me.btnSendDemandBill.Name = "btnSendDemandBill"
         Me.btnSendDemandBill.Size = New System.Drawing.Size(74, 20)
         Me.btnSendDemandBill.TabIndex = 288
-        Me.btnSendDemandBill.Text = "Send Bill"
+        Me.btnSendDemandBill.Text = "Send PDF"
         '
         'lblDocNo
         '
@@ -426,7 +437,7 @@ Partial Class frmSendBilltoDistributor
         Me.btnSendGatePass.Name = "btnSendGatePass"
         Me.btnSendGatePass.Size = New System.Drawing.Size(74, 20)
         Me.btnSendGatePass.TabIndex = 288
-        Me.btnSendGatePass.Text = "Send Bill"
+        Me.btnSendGatePass.Text = "Send PDF"
         '
         'MyLabel11
         '
@@ -446,17 +457,6 @@ Partial Class frmSendBilltoDistributor
         Me.btnClose.Size = New System.Drawing.Size(68, 20)
         Me.btnClose.TabIndex = 10
         Me.btnClose.Text = "Close"
-        '
-        'rbtnIceCream
-        '
-        Me.rbtnIceCream.AutoSize = True
-        Me.rbtnIceCream.Location = New System.Drawing.Point(240, 6)
-        Me.rbtnIceCream.Name = "rbtnIceCream"
-        Me.rbtnIceCream.Size = New System.Drawing.Size(74, 17)
-        Me.rbtnIceCream.TabIndex = 2
-        Me.rbtnIceCream.TabStop = True
-        Me.rbtnIceCream.Text = "Ice Cream"
-        Me.rbtnIceCream.UseVisualStyleBackColor = True
         '
         'frmSendBilltoDistributor
         '

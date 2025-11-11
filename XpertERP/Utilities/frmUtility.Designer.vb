@@ -2008,7 +2008,7 @@ Partial Class FrmUtility
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage7
         Me.RadPageView1.Size = New System.Drawing.Size(1112, 569)
         Me.RadPageView1.TabIndex = 44
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -4584,7 +4584,7 @@ Partial Class FrmUtility
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(174.0!, 28.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(1091, 407)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(1091, 521)
         Me.RadPageViewPage3.Text = "Update Milk Inventory FAT/SNF"
         '
         'RadScrollablePanel3
@@ -4618,8 +4618,8 @@ Partial Class FrmUtility
         Me.RadScrollablePanel3.PanelContainer.Controls.Add(Me.GroupBox34)
         Me.RadScrollablePanel3.PanelContainer.Controls.Add(Me.GroupBox38)
         Me.RadScrollablePanel3.PanelContainer.Controls.Add(Me.GroupBox35)
-        Me.RadScrollablePanel3.PanelContainer.Size = New System.Drawing.Size(1072, 405)
-        Me.RadScrollablePanel3.Size = New System.Drawing.Size(1091, 407)
+        Me.RadScrollablePanel3.PanelContainer.Size = New System.Drawing.Size(1072, 519)
+        Me.RadScrollablePanel3.Size = New System.Drawing.Size(1091, 521)
         Me.RadScrollablePanel3.TabIndex = 628
         '
         'GroupBox97
@@ -5953,7 +5953,7 @@ Partial Class FrmUtility
         Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(117.0!, 28.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(1091, 407)
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(1091, 521)
         Me.RadPageViewPage4.Text = "Machine Integration"
         '
         'SplitContainer1
@@ -5986,7 +5986,7 @@ Partial Class FrmUtility
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.txtKeyDown)
         Me.SplitContainer1.Panel2.Controls.Add(Me.txtHyperTerminal)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1091, 407)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1091, 521)
         Me.SplitContainer1.SplitterDistance = 51
         Me.SplitContainer1.TabIndex = 0
         '
@@ -6212,7 +6212,7 @@ Partial Class FrmUtility
         Me.txtKeyDown.ReferenceFieldDesc = Nothing
         Me.txtKeyDown.ReferenceFieldName = Nothing
         Me.txtKeyDown.ReferenceTableName = Nothing
-        Me.txtKeyDown.Size = New System.Drawing.Size(368, 352)
+        Me.txtKeyDown.Size = New System.Drawing.Size(368, 466)
         Me.txtKeyDown.TabIndex = 8
         Me.txtKeyDown.TabStop = False
         '
@@ -6242,7 +6242,7 @@ Partial Class FrmUtility
         Me.txtHyperTerminal.ReferenceFieldDesc = Nothing
         Me.txtHyperTerminal.ReferenceFieldName = Nothing
         Me.txtHyperTerminal.ReferenceTableName = Nothing
-        Me.txtHyperTerminal.Size = New System.Drawing.Size(717, 352)
+        Me.txtHyperTerminal.Size = New System.Drawing.Size(717, 466)
         Me.txtHyperTerminal.TabIndex = 7
         Me.txtHyperTerminal.TabStop = False
         '
@@ -7744,7 +7744,7 @@ Partial Class FrmUtility
         Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(121.0!, 28.0!)
         Me.RadPageViewPage7.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage7.Name = "RadPageViewPage7"
-        Me.RadPageViewPage7.Size = New System.Drawing.Size(1091, 407)
+        Me.RadPageViewPage7.Size = New System.Drawing.Size(1091, 521)
         Me.RadPageViewPage7.Text = "Update After Posting"
         '
         'RadScrollablePanel4
@@ -7783,8 +7783,8 @@ Partial Class FrmUtility
         Me.RadScrollablePanel4.PanelContainer.Controls.Add(Me.rbtnGatePass)
         Me.RadScrollablePanel4.PanelContainer.Controls.Add(Me.MyLabel43)
         Me.RadScrollablePanel4.PanelContainer.Controls.Add(Me.TxtMultiDairyGPass)
-        Me.RadScrollablePanel4.PanelContainer.Size = New System.Drawing.Size(1075, 408)
-        Me.RadScrollablePanel4.Size = New System.Drawing.Size(1094, 410)
+        Me.RadScrollablePanel4.PanelContainer.Size = New System.Drawing.Size(1075, 522)
+        Me.RadScrollablePanel4.Size = New System.Drawing.Size(1094, 524)
         Me.RadScrollablePanel4.TabIndex = 373
         '
         'GroupBox49

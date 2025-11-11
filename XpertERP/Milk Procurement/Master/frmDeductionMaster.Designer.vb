@@ -81,6 +81,7 @@ Partial Class FrmDeductionMaster
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.chkHeadLoad = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -133,6 +134,7 @@ Partial Class FrmDeductionMaster
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkHeadLoad, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -402,6 +404,7 @@ Partial Class FrmDeductionMaster
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.chkHeadLoad)
         Me.GroupBox1.Controls.Add(Me.chkCorrectionAfterProcessCrNote)
         Me.GroupBox1.Controls.Add(Me.chkCorrectionAfterProcessDrNote)
         Me.GroupBox1.Controls.Add(Me.chkTransferToSaving)
@@ -425,7 +428,7 @@ Partial Class FrmDeductionMaster
         Me.GroupBox1.Controls.Add(Me.chkCompany)
         Me.GroupBox1.Location = New System.Drawing.Point(12, 138)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(627, 113)
+        Me.GroupBox1.Size = New System.Drawing.Size(670, 113)
         Me.GroupBox1.TabIndex = 84
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Default Deduction Type"
@@ -473,7 +476,7 @@ Partial Class FrmDeductionMaster
         Me.txtOwnBMCMilkRejectType.IsSourceFromTable = False
         Me.txtOwnBMCMilkRejectType.IsSourceFromValueList = False
         Me.txtOwnBMCMilkRejectType.IsUnique = False
-        Me.txtOwnBMCMilkRejectType.Location = New System.Drawing.Point(404, 66)
+        Me.txtOwnBMCMilkRejectType.Location = New System.Drawing.Point(404, 67)
         Me.txtOwnBMCMilkRejectType.MendatroryField = True
         Me.txtOwnBMCMilkRejectType.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtOwnBMCMilkRejectType.MyLinkLable1 = Nothing
@@ -503,7 +506,7 @@ Partial Class FrmDeductionMaster
         '
         'chkOwnBMCMilkRejectType
         '
-        Me.chkOwnBMCMilkRejectType.Location = New System.Drawing.Point(245, 66)
+        Me.chkOwnBMCMilkRejectType.Location = New System.Drawing.Point(245, 67)
         Me.chkOwnBMCMilkRejectType.Name = "chkOwnBMCMilkRejectType"
         Me.chkOwnBMCMilkRejectType.Size = New System.Drawing.Size(155, 18)
         Me.chkOwnBMCMilkRejectType.TabIndex = 93
@@ -511,7 +514,7 @@ Partial Class FrmDeductionMaster
         '
         'chkOwnBMCExcess
         '
-        Me.chkOwnBMCExcess.Location = New System.Drawing.Point(134, 66)
+        Me.chkOwnBMCExcess.Location = New System.Drawing.Point(134, 67)
         Me.chkOwnBMCExcess.Name = "chkOwnBMCExcess"
         Me.chkOwnBMCExcess.Size = New System.Drawing.Size(105, 18)
         Me.chkOwnBMCExcess.TabIndex = 92
@@ -519,7 +522,7 @@ Partial Class FrmDeductionMaster
         '
         'chkOwnBMCShortage
         '
-        Me.chkOwnBMCShortage.Location = New System.Drawing.Point(6, 66)
+        Me.chkOwnBMCShortage.Location = New System.Drawing.Point(6, 67)
         Me.chkOwnBMCShortage.Name = "chkOwnBMCShortage"
         Me.chkOwnBMCShortage.Size = New System.Drawing.Size(118, 18)
         Me.chkOwnBMCShortage.TabIndex = 91
@@ -527,7 +530,7 @@ Partial Class FrmDeductionMaster
         '
         'chkPasuVikashKos
         '
-        Me.chkPasuVikashKos.Location = New System.Drawing.Point(460, 42)
+        Me.chkPasuVikashKos.Location = New System.Drawing.Point(531, 44)
         Me.chkPasuVikashKos.Name = "chkPasuVikashKos"
         Me.chkPasuVikashKos.Size = New System.Drawing.Size(107, 18)
         Me.chkPasuVikashKos.TabIndex = 90
@@ -535,7 +538,7 @@ Partial Class FrmDeductionMaster
         '
         'chkLocalSale
         '
-        Me.chkLocalSale.Location = New System.Drawing.Point(162, 42)
+        Me.chkLocalSale.Location = New System.Drawing.Point(162, 44)
         Me.chkLocalSale.Name = "chkLocalSale"
         Me.chkLocalSale.Size = New System.Drawing.Size(69, 18)
         Me.chkLocalSale.TabIndex = 89
@@ -543,7 +546,7 @@ Partial Class FrmDeductionMaster
         '
         'chkStdDeduction
         '
-        Me.chkStdDeduction.Location = New System.Drawing.Point(352, 42)
+        Me.chkStdDeduction.Location = New System.Drawing.Point(245, 44)
         Me.chkStdDeduction.Name = "chkStdDeduction"
         Me.chkStdDeduction.Size = New System.Drawing.Size(94, 18)
         Me.chkStdDeduction.TabIndex = 89
@@ -551,7 +554,7 @@ Partial Class FrmDeductionMaster
         '
         'chkAssetLost
         '
-        Me.chkAssetLost.Location = New System.Drawing.Point(245, 42)
+        Me.chkAssetLost.Location = New System.Drawing.Point(352, 44)
         Me.chkAssetLost.Name = "chkAssetLost"
         Me.chkAssetLost.Size = New System.Drawing.Size(71, 18)
         Me.chkAssetLost.TabIndex = 88
@@ -559,7 +562,7 @@ Partial Class FrmDeductionMaster
         '
         'chkPROData
         '
-        Me.chkPROData.Location = New System.Drawing.Point(84, 42)
+        Me.chkPROData.Location = New System.Drawing.Point(84, 44)
         Me.chkPROData.Name = "chkPROData"
         Me.chkPROData.Size = New System.Drawing.Size(68, 18)
         Me.chkPROData.TabIndex = 84
@@ -567,7 +570,7 @@ Partial Class FrmDeductionMaster
         '
         'chkVSPQualityDeduction
         '
-        Me.chkVSPQualityDeduction.Location = New System.Drawing.Point(470, 21)
+        Me.chkVSPQualityDeduction.Location = New System.Drawing.Point(531, 21)
         Me.chkVSPQualityDeduction.Name = "chkVSPQualityDeduction"
         Me.chkVSPQualityDeduction.Size = New System.Drawing.Size(133, 18)
         Me.chkVSPQualityDeduction.TabIndex = 87
@@ -575,7 +578,7 @@ Partial Class FrmDeductionMaster
         '
         'chkTIP
         '
-        Me.chkTIP.Location = New System.Drawing.Point(208, 21)
+        Me.chkTIP.Location = New System.Drawing.Point(352, 21)
         Me.chkTIP.Name = "chkTIP"
         Me.chkTIP.Size = New System.Drawing.Size(35, 18)
         Me.chkTIP.TabIndex = 86
@@ -583,7 +586,7 @@ Partial Class FrmDeductionMaster
         '
         'chkAdvanceInterest
         '
-        Me.chkAdvanceInterest.Location = New System.Drawing.Point(360, 21)
+        Me.chkAdvanceInterest.Location = New System.Drawing.Point(426, 21)
         Me.chkAdvanceInterest.Name = "chkAdvanceInterest"
         Me.chkAdvanceInterest.Size = New System.Drawing.Size(104, 18)
         Me.chkAdvanceInterest.TabIndex = 85
@@ -591,7 +594,7 @@ Partial Class FrmDeductionMaster
         '
         'chkAssetInstallment
         '
-        Me.chkAssetInstallment.Location = New System.Drawing.Point(249, 21)
+        Me.chkAssetInstallment.Location = New System.Drawing.Point(245, 21)
         Me.chkAssetInstallment.Name = "chkAssetInstallment"
         Me.chkAssetInstallment.Size = New System.Drawing.Size(105, 18)
         Me.chkAssetInstallment.TabIndex = 84
@@ -607,7 +610,7 @@ Partial Class FrmDeductionMaster
         '
         'chkDefaultSecurity
         '
-        Me.chkDefaultSecurity.Location = New System.Drawing.Point(6, 42)
+        Me.chkDefaultSecurity.Location = New System.Drawing.Point(6, 44)
         Me.chkDefaultSecurity.Name = "chkDefaultSecurity"
         Me.chkDefaultSecurity.Size = New System.Drawing.Size(60, 18)
         Me.chkDefaultSecurity.TabIndex = 83
@@ -615,7 +618,7 @@ Partial Class FrmDeductionMaster
         '
         'chkVSP
         '
-        Me.chkVSP.Location = New System.Drawing.Point(88, 21)
+        Me.chkVSP.Location = New System.Drawing.Point(84, 21)
         Me.chkVSP.Name = "chkVSP"
         Me.chkVSP.Size = New System.Drawing.Size(66, 18)
         Me.chkVSP.TabIndex = 81
@@ -623,7 +626,7 @@ Partial Class FrmDeductionMaster
         '
         'chkCompany
         '
-        Me.chkCompany.Location = New System.Drawing.Point(134, 21)
+        Me.chkCompany.Location = New System.Drawing.Point(162, 21)
         Me.chkCompany.Name = "chkCompany"
         Me.chkCompany.Size = New System.Drawing.Size(68, 18)
         Me.chkCompany.TabIndex = 81
@@ -821,6 +824,14 @@ Partial Class FrmDeductionMaster
         Me.btnClose.TabIndex = 73
         Me.btnClose.Text = "Close"
         '
+        'chkHeadLoad
+        '
+        Me.chkHeadLoad.Location = New System.Drawing.Point(426, 44)
+        Me.chkHeadLoad.Name = "chkHeadLoad"
+        Me.chkHeadLoad.Size = New System.Drawing.Size(74, 18)
+        Me.chkHeadLoad.TabIndex = 98
+        Me.chkHeadLoad.Text = "Head Load"
+        '
         'FrmDeductionMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -888,6 +899,7 @@ Partial Class FrmDeductionMaster
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkHeadLoad, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -951,5 +963,6 @@ Partial Class FrmDeductionMaster
     Friend WithEvents btnHistory As RadButton
     Friend WithEvents chkCorrectionAfterProcessCrNote As RadCheckBox
     Friend WithEvents chkCorrectionAfterProcessDrNote As RadCheckBox
+    Friend WithEvents chkHeadLoad As RadCheckBox
 End Class
 

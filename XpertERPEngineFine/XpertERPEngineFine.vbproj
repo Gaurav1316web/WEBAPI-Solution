@@ -285,6 +285,9 @@
     <Compile Include="Classes\ClsReimbursementTypeMaster.vb" />
     <Compile Include="Classes\clsRMProcessLoss.vb" />
     <Compile Include="Classes\clsSalaryStructure.vb" />
+    <Compile Include="Classes\clsSaleIncentiveMaster.vb" />
+    <Compile Include="Classes\clsSaleOrder.vb" />
+    <Compile Include="Classes\clsSalesHierarchy.vb" />
     <Compile Include="Classes\ClsSentMailSlip.vb" />
     <Compile Include="Classes\ClsServiceAllocation.vb" />
     <Compile Include="Classes\ClsServiceCall.vb" />
@@ -375,6 +378,8 @@
     <Compile Include="Purchase\clsRALNOC.vb" />
     <Compile Include="Purchase\clsTenderDetail.vb" />
     <Compile Include="RCDFProduction\ClsBagReceipt.vb" />
+    <Compile Include="Rice\clsRiceMixingEntry.vb" />
+    <Compile Include="Rice\clsRiceProcessingEntry.vb" />
     <Compile Include="Sales Distribution\clsBulkSaleFreightCalculation.vb" />
     <Compile Include="Sales Distribution\clsBulkSaleFreightMaster.vb" />
     <Compile Include="BulkProcurement\clsOwnBMCGainLossRate.vb" />
@@ -413,6 +418,7 @@
       <DependentUpon>Application.myapp</DependentUpon>
     </Compile>
     <Compile Include="Sales Distribution\clsEInvoiceHead.vb" />
+    <Compile Include="Sales Distribution\clsWarranty.vb" />
     <Compile Include="Seed\clsSeedSelectionEntry.vb" />
     <Compile Include="Share\clsMultipleShareAllotment.vb" />
     <Compile Include="Share\clsShareAllotment.vb" />

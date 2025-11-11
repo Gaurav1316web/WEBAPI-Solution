@@ -2,6 +2,7 @@
 Imports System.Data
 Imports System.Data.SqlClient
 Imports System.IO
+Imports System.Text
 
 Public Class rptDealerSalesReport
     Inherits FrmMainTranScreen
@@ -19,41 +20,60 @@ Public Class rptDealerSalesReport
 
     End Sub
     Private Sub Load_Dealer_Sales_Report(ByVal Print As Boolean)
-        Dim qry As String = ""
-        Dim baseqry As String = ""
-        Dim finalqry As String = ""
-        Dim dt As New DataTable()
-        txtFromDate.Enabled = False
-        txtToDate.Enabled = False
-        Dim location As String = Nothing
-        Dim location1 As String = Nothing
-        Dim customer As String = Nothing
-        Dim FromDate As String = clsCommon.myCstr(txtFromDate.Text)
-        Dim TODate As String = clsCommon.myCstr(txtToDate.Text)
-        If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Plz Select Location.", Me.Text)
-            txtBillToLocation.Focus()
-            Exit Sub
-        End If
-
         Try
+            Dim qry As String = ""
+            Dim baseqry As String = ""
+            Dim finalqry As String = ""
+            Dim dt As New DataTable()
+            txtFromDate.Enabled = False
+            txtToDate.Enabled = False
+            Dim location As String = Nothing
+            Dim location1 As String = Nothing
+            Dim customer As String = Nothing
+            Dim FromDate As String = clsCommon.myCstr(txtFromDate.Text)
+            Dim TODate As String = clsCommon.myCstr(txtToDate.Text)
+            If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Plz Select Location.", Me.Text)
+                txtBillToLocation.Focus()
+                Exit Sub
+            End If
+
+            Dim strFinYear As String = ";WITH m AS(SELECT CONVERT(date,'" & txtFromDate.Value & "',103) AS dt UNION ALL SELECT DATEADD(MONTH,1,dt) FROM m WHERE DATEADD(MONTH,1,dt) <= CONVERT(date,'" & txtToDate.Value & "',103)
+)SELECT DATENAME(MONTH,dt) AS Month,DATENAME(MONTH,dt) + ' ' + DATENAME(YEAR,dt) AS MonthYear FROM m OPTION (MAXRECURSION 12);"
+            Dim dtMonthYear As DataTable = clsDBFuncationality.GetDataTable(strFinYear)
+            Dim sbMonth As New StringBuilder()
+            Dim sbMonthYear As New StringBuilder()
+            Dim sbTotal As New StringBuilder()
+            If dtMonthYear IsNot Nothing AndAlso dtMonthYear.Rows.Count > 0 Then
+                Dim i As Integer = 1
+                For Each strMonth As DataRow In dtMonthYear.Rows
+                    If clsCommon.myLen(sbMonthYear) <> 0 Then
+                        sbMonthYear.Append(",")
+                        sbMonth.Append(",")
+                        sbTotal.Append("+")
+                    End If
+                    sbMonthYear.Append("[" & clsCommon.myCstr(strMonth("Month")) & "]")
+                    If Print Then
+                        sbMonth.Append("'" & clsCommon.myCstr(strMonth("MonthYear")) & "' As [Month" & clsCommon.myCstr(i) & "] ,")
+                    End If
+                    sbMonth.Append("sum(isnull([" & clsCommon.myCstr(strMonth("Month")) & "],0)) As [" & clsCommon.myCstr(strMonth("Month")) & "]")
+                    sbTotal.Append("sum(isnull([" & clsCommon.myCstr(strMonth("Month")) & "],0))")
+                    i += 1
+                Next
+            End If
 
             qry = "(SELECT "
             If chkYearly.Checked Then
                 qry += " (xx.month)month, "
-
             Else
                 qry += "datename(month,max(xx.Document_Date))month, "
             End If
-
-
-
             qry += " '" + objCommonVar.CurrentUser + "' as username ,'" + FromDate + "' AS FromDate, '" + TODate + " ' as ToDate,   ROW_NUMBER() OVER (ORDER BY Customer_Code) AS serial_number,  Customer_Code,MAX(CUSTOMER_NAME)CUSTOMER_NAME,max(XX.Location)Location,MAX(XX.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add2)Add2,
                                      max(xx.add1+xx.add2)COMPANYLocation,
                                      max(xx.Add4)Add4,max(xx.Document_Date)Document_Date,max(xx.CustAdd2+xx.CustAdd1+xx.CustAdd3)place,
                                      cast(sum(xx.Quantity)as decimal(10,3))Quantity,max(price_CodeNon)price_CodeNon,max(xx.HeadName)HeadName FROM "
 
-            baseqry = "                (SELECT TSPL_SD_SHIPMENT_DETAIL.Item_Code,datename(month,(Document_Date))Month, TSPL_SD_SHIPMENT_HEAD.Customer_Code,(TSPL_CUSTOMER_MASTER.CUSTOMER_NAME)CUSTOMER_NAME, 
+            baseqry = "                (SELECT TSPL_SD_SHIPMENT_DETAIL.Item_Code,datename(month,(Document_Date)) As Month, TSPL_SD_SHIPMENT_HEAD.Customer_Code,(TSPL_CUSTOMER_MASTER.CUSTOMER_NAME)CUSTOMER_NAME, 
                                     (TSPL_SD_SHIPMENT_DETAIL.Location)Location,(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,(TSPL_LOCATION_MASTER.Add1)Add1,(TSPL_LOCATION_MASTER.Add2)Add2,(TSPL_LOCATION_MASTER.Add4)Add4,
                                     (convert (date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)) as Document_Date,
                                      (TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty/TSPL_ITEM_UOM_MT.Conversion_Factor) as Quantity,
@@ -69,13 +89,10 @@ Public Class rptDealerSalesReport
                                      LEFT JOIN  TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_MT ON  TSPL_ITEM_UOM_MT.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code 
                                      AND TSPL_ITEM_UOM_MT.UOM_Code= 'MT' 
 						      		 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_DETAIL.Location "
-            If chkYearly.Checked Then
-                baseqry += "  WHERE  Convert( Date, TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= Convert( Date,'" + startDate + "',103)   
-                                     And  convert(date, TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= Convert( Date,'" + endDate + "',103)"
-            Else
-                baseqry += "  WHERE  Convert( Date, TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= Convert( Date,'" + txtFromDate.Value + "',103)   
+
+            baseqry += "  WHERE  Convert( Date, TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= Convert( Date,'" + txtFromDate.Value + "',103)   
                                      And  convert(date, TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= Convert( Date,'" + txtToDate.Value + "',103)"
-            End If
+
 
             If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
                 baseqry += "  and TSPL_SD_SHIPMENT_DETAIL.Location In ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
@@ -89,7 +106,7 @@ Public Class rptDealerSalesReport
             baseqry += "  AND TSPL_SD_SHIPMENT_HEAD.Status=1   and TSPL_Item_Master.FG_for_CF_RPT=1  And TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale=0 
 									  
 						              union all
-                         			  SELECT  TSPL_SCRAPSALE_DETAIL.item_code, datename(month,(shipment_Date))Month,TSPL_SCRAPSALE_HEAD.cust_Code,(TSPL_CUSTOMER_MASTER.CUSTOMER_NAME)CUSTOMER_NAME,(TSPL_SCRAPSALE_HEAD.Loc_Code) as Location,(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,(TSPL_LOCATION_MASTER.Add1)Add1,(TSPL_LOCATION_MASTER.Add2)Add2,(TSPL_LOCATION_MASTER.Add4)Add4,(convert (date,TSPL_SCRAPSALE_HEAD.shipment_Date,103)) as Document_Date,
+                         			  SELECT  TSPL_SCRAPSALE_DETAIL.item_code, datename(month,(shipment_Date)) As Month,TSPL_SCRAPSALE_HEAD.cust_Code,(TSPL_CUSTOMER_MASTER.CUSTOMER_NAME)CUSTOMER_NAME,(TSPL_SCRAPSALE_HEAD.Loc_Code) as Location,(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,(TSPL_LOCATION_MASTER.Add1)Add1,(TSPL_LOCATION_MASTER.Add2)Add2,(TSPL_LOCATION_MASTER.Add4)Add4,(convert (date,TSPL_SCRAPSALE_HEAD.shipment_Date,103)) as Document_Date,
                                       (TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SCRAPSALE_DETAIL.shipped_Qty/TSPL_ITEM_UOM_MT.Conversion_Factor) as Quantity,
                                       (price_CodeNon)price_CodeNon,'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName								   
 									 ,(TSPL_CUSTOMER_MASTER.Add1) as custAdd1 ,(TSPL_CUSTOMER_MASTER.add2) as custadd2 ,(TSPL_CUSTOMER_MASTER.add3 ) as custadd3   
@@ -104,13 +121,10 @@ Public Class rptDealerSalesReport
                                      AND TSPL_ITEM_UOM_MT.UOM_Code= 'MT' 
 						      		left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SCRAPSALE_HEAD.Loc_Code "
 
-            If chkYearly.Checked Then
-                baseqry += "  WHERE  Convert( Date, TSPL_SCRAPSALE_HEAD.shipment_Date,103) >= Convert( Date,'" + startDate + "',103)   
-                                     And  convert(date, TSPL_SCRAPSALE_HEAD.shipment_Date,103) <= Convert( Date,'" + endDate + "',103)"
-            Else
-                baseqry += "  WHERE  Convert( Date, TSPL_SCRAPSALE_HEAD.shipment_Date,103) >= Convert( Date,'" + txtFromDate.Value + "',103)   
+
+            baseqry += "  WHERE  Convert( Date, TSPL_SCRAPSALE_HEAD.shipment_Date,103) >= Convert( Date,'" + txtFromDate.Value + "',103)   
                                      And  convert(date, TSPL_SCRAPSALE_HEAD.shipment_Date,103) <= Convert( Date,'" + txtToDate.Value + "',103)"
-            End If
+
 
             If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
                 baseqry += "  and TSPL_SCRAPSALE_HEAD.Loc_Code In ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
@@ -127,11 +141,8 @@ Public Class rptDealerSalesReport
             If chkYearly.Checked Then
                 finalqry = " with RawData as (" + qry + "" + baseqry + "XX GROUP BY xx.Customer_Code,xx.month))
                             SELECT ROW_NUMBER() OVER (ORDER BY Customer_Code) AS serial_number,max(LOcation)LOcation,max(price_CodeNon)price_CodeNon,max(Location_Desc)Location_Desc,max(Add1)Add1,max(Add2)Add2,max(Add4)Add4,max(Document_Date)Document_Date,(Customer_Code)Customer_Code,max(CUSTOMER_NAME)CUSTOMER_NAME,max(username)username,max(FromDate)FromDate,max(ToDate)ToDate,max(COMPANYLocation)COMPANYLocation,max(place)place,max(HeadName)HeadName, 
-sum(isnull([April],0)) AS April,sum(isnull([May],0)) AS May,sum(isnull([June],0)) AS June,
-                            sum(isnull([July],0)) AS July,sum(isnull([August],0)) AS Aug,sum(isnull([September],0)) AS Sept,sum(isnull([October],0)) AS Oct,sum(isnull([November],0)) AS Nov,sum(isnull([December],0)) AS Dec,sum(isnull([January],0)) AS Jan,sum(isnull([February],0)) AS Feb,sum(isnull([March],0)) AS March,
-                            (sum(Isnull(April,0))+sum(Isnull([May],0))+sum(Isnull([June],0))+sum(Isnull([July],0))+sum(Isnull([August],0))+sum(Isnull([September],0))+sum(Isnull([October],0))+sum(Isnull([November],0))+sum(Isnull([December],0))+sum(Isnull([January],0))+sum(Isnull([February],0))+sum(Isnull([March],0)))
-                            as Total FROM RawData
-                            PIVOT ( SUM(Quantity) FOR [Month] IN ( [April],[May],[June],[July],[August],[September],[October],[November],[December],[January],[February], [March],[Total])
+" & clsCommon.myCstr(sbMonth) & ",(" & clsCommon.myCstr(sbTotal) & ") as Total FROM RawData
+                            PIVOT ( SUM(Quantity) FOR [Month] IN ( " & clsCommon.myCstr(sbMonthYear) & ",[Total])
                             ) AS PivotTable group by Customer_Code "
             Else
                 finalqry += " " & qry & " " + baseqry + "XX GROUP BY xx.Customer_Code)"
@@ -290,11 +301,8 @@ sum(isnull([April],0)) AS April,sum(isnull([May],0)) AS May,sum(isnull([June],0)
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
         End If
-
-
         txtBillToLocation.Value = clsCommon.ShowSelectForm("VendorMafnd", qry, "Code", WhrCls, txtBillToLocation.Value, "Code", isButtonClicked)
         lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
-
     End Sub
 
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
@@ -375,31 +383,38 @@ sum(isnull([April],0)) AS April,sum(isnull([May],0)) AS May,sum(isnull([June],0)
     '    End Try
     'End Sub
 
-    Private Sub chkYearly_Click(sender As Object, e As EventArgs) Handles chkYearly.Click
-        'txtBillToLocation.Enabled = False
-        'txtCustomer.Enabled = False
+    Private Sub chkYearly_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkYearly.ToggleStateChanged
         Try
-            Dim qry As String = Nothing
-            qry = "select  top 1 Start_Date,end_date from TSPL_Fiscal_Year_Master order by Fiscal_Code desc"
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            'Dim startDate As DateTime
-            'Dim endDate As DateTime
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                ' Assign values to variables
-                startDate = clsCommon.myCDate(dt.Rows(0)("Start_Date"))
-                endDate = clsCommon.myCDate(dt.Rows(0)("End_Date"))
-                RadGroupBox1.Enabled = False
+            If chkYearly.Checked Then
+                Dim finYear As String = ""
+                Dim qry As String = "select Fiscal_Code as Code,Fiscal_Name as Name,Start_Date As [Start Date],End_Date As [End Date] from TSPL_Fiscal_Year_Master"
+                Dim whrClas As String = " Comp_Code='" + objCommonVar.CurrentCompanyCode + "' "
+                finYear = clsCommon.ShowSelectForm("TSPL_Fiscal_Year_Master", qry, "Code", whrClas, finYear, "Code Desc", True)
 
-                ' Optional: Use the variables as needed
-                'common.clsCommon.MyMessageBoxShow("Start Date: " & clsCommon.GetPrintDate(startDate, "dd-MMM-yyyy") &
-                ' " | End Date: " & clsCommon.GetPrintDate(endDate, "dd-MMM-yyyy"))
-
-                'common.clsCommon.MyMessageBoxShow("Start Date: " & clsCommon.GetPrintDate(startDate, "dd-MMM-yyyy") & vbCrLf & "End Date: " & clsCommon.GetPrintDate(endDate, "dd-MMM-yyyy"))
+                If clsCommon.myLen(finYear) > 0 Then
+                    qry += " Where "
+                    qry += whrClas
+                    qry += " And Fiscal_Code='" & finYear & "'"
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        txtFromDate.Value = clsCommon.myCDate(dt.Rows(0)("Start Date"), "dd/MM/yyyy")
+                        txtToDate.Value = clsCommon.myCDate(dt.Rows(0)("End Date"), "dd/MM/yyyy")
+                        RadGroupBox1.Enabled = False
+                    Else
+                        clsCommon.MyMessageBoxShow(Me, "No fiscal year data found.", Me.Text)
+                    End If
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "Select finacial year !", Me.Text)
+                End If
             Else
-                common.clsCommon.MyMessageBoxShow("No fiscal year data found.")
+                txtFromDate.Value = clsCommon.myCDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy")
+                txtToDate.Value = txtFromDate.Value
+                RadGroupBox1.Enabled = True
+                txtFromDate.Enabled = True
+                txtToDate.Enabled = True
             End If
         Catch ex As Exception
-
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

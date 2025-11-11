@@ -73,7 +73,7 @@ Public Class ItemStockReport
             If chkPhV.Checked = True Then
                 q = "  'Physical Stock Verification' as 'StockType', "
             End If
-            qry = "select * from (select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName," + q + "xxxxxxx.Location_Code,[Loc Desp],Add1,Add4,convert(varchar, Punching_Date,103) as Punching_Date  ,Structure_Desc,Item_Type_Name,RACK_NO,Item_Code ,Item_Desc,Stock_UOM, case when ( abs(cast((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))as  decimal(18,2)))<=0.11 or (abs(cast((ISNULL(CLCost,0) - isnull(RecCost,0)+isnull(IssCost,0))as  decimal(18,2)))<0.11 and tspl_location_master.Is_jobWork=0) ) then 0 else  Convert(decimal(18,3),(ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))) end as OPQty,
+            qry = "select *,SUM(CLQty) OVER (PARTITION BY Location_Code, Item_Code ORDER BY convert(date,  Punching_Date,103),Location_Code) AS [CumuQty],SUM(CLCost) OVER (PARTITION BY Location_Code, Item_Code ORDER BY convert(date,  Punching_Date,103),Location_Code) AS [CumuCost] from (select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName," + q + "xxxxxxx.Location_Code,[Loc Desp],Add1,Add4,convert(varchar, Punching_Date,103) as Punching_Date  ,Structure_Desc,Item_Type_Name,RACK_NO,Item_Code ,Item_Desc,Stock_UOM, case when ( abs(cast((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))as  decimal(18,2)))<=0.11 or (abs(cast((ISNULL(CLCost,0) - isnull(RecCost,0)+isnull(IssCost,0))as  decimal(18,2)))<0.11 and tspl_location_master.Is_jobWork=0) ) then 0 else  Convert(decimal(18,3),(ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))) end as OPQty,
                     case when ( abs(cast((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))as  decimal(18,2)))<=0.11 or abs(cast((ISNULL(CLCost,0) - isnull(RecCost,0)+isnull(IssCost,0))as  decimal(18,2)))<0.11) then 0 else  Convert(decimal(18,2),((isnull(CLCost,0)-isnull(RecCost,0)+isnull(IssCost,0))/((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))))) end as OPRate ,case when ( abs(cast((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))as  decimal(18,2)))<=0.11 or (abs(cast((ISNULL(CLCost,0) - isnull(RecCost,0)+isnull(IssCost,0))as  decimal(18,2)))<0.11 and tspl_location_master.Is_jobWork=0) ) then 0 else Convert(decimal(18,2),(isnull(CLCost,0)-isnull(RecCost,0)+ isnull(IssCost,0))) end as OPCost, RecPurQty,RecPurRate,RecPurCost ,RecProQty, RecProRate ,RecProCost,RecAdjQty,RecAdjRate ,RecAdjCost ,RecOthQty,RecOthRate ,RecOthCost,RecQty,RecRate,RecCost  ,IssTransferQty ,IssTransferRate ,IssTransferCost ,IssSaleQty ,IssSaleRate  ,IssSaleCost , IssIssAdjQty , IssIssAdjRate ,IssIssAdjCost , IssOthQty , IssOthRate ,IssOthCost ,IssQty,IssRate,IssCost ,case when (ABS(isnull(cast(CLQty as decimal(18,2)),0))<=0.11 or (ABS(isnull(cast(CLCost as decimal(18,2)),0))<0.11 and tspl_location_master.Is_jobWork=0) ) then 0 else CLQty end as CLQty,
                     case when (ABS(isnull(cast(CLQty as decimal(18,2)),0))<=0.11 or ABS(isnull(cast(CLCost as decimal(18,2)),0))<0.11 ) then 0 else CLCost/CLQty end as CLRate, CLCost 
                      
@@ -519,6 +519,16 @@ where TSPL_PARAMETER_MASTER.Type='SNF') as SNF on Items.Item_Code=SNF.Item_Code 
         Gv1.Columns("CLCost").HeaderText = "Closing Cost"
         Gv1.Columns("CLCost").FormatString = "{0:n2}"
 
+        Gv1.Columns("CumuQty").Width = 100
+        Gv1.Columns("CumuQty").IsVisible = True
+        Gv1.Columns("CumuQty").HeaderText = "Cumulative Qty"
+        Gv1.Columns("CumuQty").FormatString = "{0:n2}"
+
+        Gv1.Columns("CumuCost").Width = 100
+        Gv1.Columns("CumuCost").IsVisible = True
+        Gv1.Columns("CumuCost").HeaderText = "Cumulative Cost"
+        Gv1.Columns("CumuCost").FormatString = "{0:n2}"
+
         Dim summaryRowItem As New GridViewSummaryRowItem()
 
         Dim item1 As New GridViewSummaryItem("OPQty", "{0:n2}", GridAggregateFunction.Sum)
@@ -595,7 +605,6 @@ where TSPL_PARAMETER_MASTER.Type='SNF') as SNF on Items.Item_Code=SNF.Item_Code 
         'Dim item14 As New GridViewSummaryItem("IssTransferQty", "{0:n2}", GridAggregateFunction.Sum)
         'summaryRowItem.Add(item14)
         'RecQty, RecRate, RecCost, IssTransferQty, IssTransferRate, IssTransferCost, IssSaleQty, IssSaleRate, IssSaleCost, IssIssAdjQty, IssIssAdjRate, IssIssAdjCost, IssOthQty, IssOthRate, IssOthCost, IssQty, IssRate, IssCost
-
 
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom

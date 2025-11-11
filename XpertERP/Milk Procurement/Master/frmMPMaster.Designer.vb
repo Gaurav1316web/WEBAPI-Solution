@@ -446,7 +446,7 @@ Partial Class FrmMPMaster
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 20)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage5
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1048, 595)
         Me.RadPageView1.TabIndex = 0
         Me.RadPageView1.Visible = False
@@ -1202,7 +1202,7 @@ Partial Class FrmMPMaster
         Me.txtTolerance.TabIndex = 17
         Me.txtTolerance.Text = "0"
         Me.txtTolerance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTolerance.Value = 0R
+        Me.txtTolerance.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel7
         '
@@ -2476,7 +2476,7 @@ Partial Class FrmMPMaster
         Me.txtNoofAnimal.TabIndex = 38
         Me.txtNoofAnimal.Text = "0"
         Me.txtNoofAnimal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNoofAnimal.Value = 0R
+        Me.txtNoofAnimal.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'dgvNoofBuffaloes
         '
@@ -2488,6 +2488,7 @@ Partial Class FrmMPMaster
         Me.dgvNoofBuffaloes.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvNoofBuffaloes.MasterTemplate.ShowHeaderCellButtons = True
         Me.dgvNoofBuffaloes.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgvNoofBuffaloes.MyExportFilePath = ""
         Me.dgvNoofBuffaloes.MyStopExport = False
         Me.dgvNoofBuffaloes.Name = "dgvNoofBuffaloes"
         Me.dgvNoofBuffaloes.ShowHeaderCellButtons = True
@@ -2568,7 +2569,7 @@ Partial Class FrmMPMaster
         Me.txtNoofCows.TabIndex = 38
         Me.txtNoofCows.Text = "0"
         Me.txtNoofCows.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNoofCows.Value = 0R
+        Me.txtNoofCows.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'dgvNoofCows
         '
@@ -2580,6 +2581,7 @@ Partial Class FrmMPMaster
         Me.dgvNoofCows.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvNoofCows.MasterTemplate.ShowHeaderCellButtons = True
         Me.dgvNoofCows.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.dgvNoofCows.MyExportFilePath = ""
         Me.dgvNoofCows.MyStopExport = False
         Me.dgvNoofCows.Name = "dgvNoofCows"
         Me.dgvNoofCows.ShowHeaderCellButtons = True
@@ -3560,7 +3562,7 @@ Partial Class FrmMPMaster
         Me.txtAccountNo.TabIndex = 6
         Me.txtAccountNo.Text = "0"
         Me.txtAccountNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAccountNo.Value = 0R
+        Me.txtAccountNo.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblAccountNo
         '

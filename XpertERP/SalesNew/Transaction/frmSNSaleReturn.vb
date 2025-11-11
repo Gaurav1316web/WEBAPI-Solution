@@ -42,6 +42,7 @@ Public Class frmSNSaleReturn
     Const colBalanceQty As String = "BALANCEQTY"
     Const colICode As String = "COLICODE"
     Const colIName As String = "COLINAME"
+    Const colIsInvoiceBatchItem As String = "colIsInvoiceBatchItem"
     Const colPendingQty As String = "COLPENDINGQTY"
 
     'Const colOrgSOQty As String = "COLORGSOQTY"
@@ -581,6 +582,15 @@ Public Class frmSNSaleReturn
         repoIName.Width = 150
         repoIName.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoIName)
+
+        Dim repoIsBatchItem As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+        repoIsBatchItem.HeaderText = "Is Invoice Batch Item"
+        repoIsBatchItem.Name = colIsInvoiceBatchItem
+        repoIsBatchItem.ReadOnly = True
+        repoIsBatchItem.IsVisible = False
+        repoIsBatchItem.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        gv1.MasterTemplate.Columns.Add(repoIsBatchItem)
+
         Dim repoIHSN As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoIHSN.FormatString = ""
         repoIHSN.HeaderText = "HSN No"
@@ -5188,6 +5198,7 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = obj.Row_Type
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = obj.Item_Code
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Tag = obj.arrBatchItem
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colIsInvoiceBatchItem).Value = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(1) from TSPL_BATCH_ITEM where Document_Code IN ( SELECT Against_Shipment_No FROM TSPL_SD_SALE_INVOICE_HEAD WHERE DOCUMENT_CODE= '" & obj.Document_Code & "' )  and Document_Type = 'SD-SH' and item_code = '" & obj.Item_Code & "' ")) = 1, True, False)
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = obj.Item_Desc
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colIHSN).Value = clsItemMaster.GetItemHSNCode(obj.Item_Code, Nothing)
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colIsEmptyValue).Value = clsItemMaster.IsItemHaveEmptyValue(obj.Item_Code)
@@ -6489,7 +6500,20 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
     End Sub
 
     Sub OpenBatchItem()
-        If clsCommon.myCBool(clsDBFuncationality.getSingleValue("select TSPL_ITEM_MASTER.Is_Batch_Item  from TSPL_ITEM_MASTER where TSPL_ITEM_MASTER.Item_Code ='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "'", Nothing)) Then
+        If Not gv1.CurrentRow.Cells(colIsInvoiceBatchItem).Value AndAlso clsCommon.myCBool(clsDBFuncationality.getSingleValue("select TSPL_ITEM_MASTER.Is_Batch_Item  from TSPL_ITEM_MASTER where TSPL_ITEM_MASTER.Item_Code ='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "'", Nothing)) Then
+            Dim frmBatchIn As frmBatchItemIn = New frmBatchItemIn()
+            frmBatchIn.strItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
+            frmBatchIn.strItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
+            frmBatchIn.dblqty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value)
+            frmBatchIn.strUOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
+            frmBatchIn.dblMRP = clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value)
+            frmBatchIn.TransDate = txtDate.Value
+            frmBatchIn.arr = TryCast(gv1.CurrentRow.Cells(colICode).Tag, List(Of clsBatchInventory))
+            frmBatchIn.ShowDialog()
+            If Not frmBatchIn.isCencelButtonClicked Then
+                gv1.CurrentRow.Cells(colICode).Tag = frmBatchIn.arr
+            End If
+        Else
             Dim frm As frmBatchItemOut = New frmBatchItemOut()
             frm.strItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
             frm.strItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)

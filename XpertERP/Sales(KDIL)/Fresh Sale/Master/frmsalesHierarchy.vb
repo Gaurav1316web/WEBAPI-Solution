@@ -114,8 +114,8 @@ Public Class FrmsalesHierarchy
 
     Private Sub RadMenuItem1_Click(sender As Object, e As EventArgs) Handles RadMenuItem1.Click
         Dim qry1 As String
-        qry1 = "	select TSPL_Sales_Hierarchy_Structure.Struct_Code as [Code],TSPL_Sales_Hierarchy_Structure.Description ,TSPL_Sales_Hierarchy_Structure.Level_Code as [Level Code] ,TSPL_Sales_Hierarchy_Structure.Parent_Struct_Code as [Parent Struct Code]," & _
-            " TSPL_Sales_Hierarchy_Structure.Applicable_From as [Applicable From],TSPL_Sales_Hierarchy_Levels.Level_Type as [Level Type]," & _
+        qry1 = "	select TSPL_Sales_Hierarchy_Structure.Struct_Code as [Code],TSPL_Sales_Hierarchy_Structure.Description ,TSPL_Sales_Hierarchy_Structure.Level_Code as [Level Code] ,TSPL_Sales_Hierarchy_Structure.Parent_Struct_Code as [Parent Struct Code]," &
+            " TSPL_Sales_Hierarchy_Structure.Applicable_From as [Applicable From],TSPL_Sales_Hierarchy_Levels.Level_Type as [Level Type]," &
             " TSPL_Sales_Hierarchy_Levels.Sub_Type as [Sub Type],TSPL_Sales_Hierarchy_Structure.Source_Doc as [Source Doc] from TSPL_Sales_Hierarchy_Structure "
         qry1 += " left outer join TSPL_Sales_Hierarchy_Levels on TSPL_Sales_Hierarchy_Levels.Level_Code =TSPL_Sales_Hierarchy_Structure.Level_Code "
         qry1 += " left outer join TSPL_Sales_Hierarchy_Structure as TSPL_Sales_Hierarchy_Structure_for_parent on TSPL_Sales_Hierarchy_Structure_for_parent.Struct_Code=TSPL_Sales_Hierarchy_Structure.Parent_Struct_Code"

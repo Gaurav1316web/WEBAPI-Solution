@@ -55,6 +55,7 @@ Public Class FrmDeductionMaster
         chkDefaultSecurity.Checked = False
         chkAssetInstallment.Checked = False
         chkAssetLost.Checked = False
+        chkHeadLoad.Checked = False
         chkStdDeduction.Checked = False
         chkLocalSale.Checked = False
         chkAdvanceInterest.Checked = False
@@ -172,6 +173,7 @@ Public Class FrmDeductionMaster
             obj.Is_Default_Security_Deduction = chkDefaultSecurity.Checked
             obj.Is_Default_Asset_Installment = chkAssetInstallment.Checked
             obj.Is_Default_Asset_Lost = chkAssetLost.Checked
+            obj.Is_Default_HeadLoad = chkHeadLoad.Checked
             obj.Is_Default_Std_Deduction = chkStdDeduction.Checked
             obj.Is_Default_Local_Sale = chkLocalSale.Checked
             obj.Is_Default_Pashu_Vikash_Kos = chkPasuVikashKos.Checked
@@ -245,6 +247,7 @@ Public Class FrmDeductionMaster
                 chkDefaultSecurity.Checked = obj.Is_Default_Security_Deduction
                 chkAssetInstallment.Checked = obj.Is_Default_Asset_Installment
                 chkAssetLost.Checked = obj.Is_Default_Asset_Lost
+                chkHeadLoad.Checked = obj.Is_Default_HeadLoad
                 chkStdDeduction.Checked = obj.Is_Default_Std_Deduction
                 chkLocalSale.Checked = obj.Is_Default_Local_Sale
                 chkPasuVikashKos.Checked = obj.Is_Default_Pashu_Vikash_Kos
