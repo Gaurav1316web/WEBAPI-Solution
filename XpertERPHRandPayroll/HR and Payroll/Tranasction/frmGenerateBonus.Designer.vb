@@ -25,9 +25,9 @@ Partial Class frmGenerateBonus
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmGenerateBonus))
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.UsLock1 = New common.usLock()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.lblPayablePayPeriodName = New common.Controls.MyLabel()
@@ -607,7 +607,8 @@ Partial Class frmGenerateBonus
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
@@ -619,6 +620,7 @@ Partial Class frmGenerateBonus
         'pageBonusSummary
         '
         Me.pageBonusSummary.Controls.Add(Me.gvBonusSummary)
+        Me.pageBonusSummary.Enabled = False
         Me.pageBonusSummary.ItemSize = New System.Drawing.SizeF(100.0!, 26.0!)
         Me.pageBonusSummary.Location = New System.Drawing.Point(10, 35)
         Me.pageBonusSummary.Name = "pageBonusSummary"
@@ -636,7 +638,8 @@ Partial Class frmGenerateBonus
         Me.gvBonusSummary.MasterTemplate.EnableFiltering = True
         Me.gvBonusSummary.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBonusSummary.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvBonusSummary.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvBonusSummary.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvBonusSummary.MyExportFilePath = ""
         Me.gvBonusSummary.MyStopExport = False
         Me.gvBonusSummary.Name = "gvBonusSummary"
         Me.gvBonusSummary.ShowHeaderCellButtons = True
@@ -648,6 +651,7 @@ Partial Class frmGenerateBonus
         'pageBonusDetail
         '
         Me.pageBonusDetail.Controls.Add(Me.gvBonusDetail)
+        Me.pageBonusDetail.Enabled = False
         Me.pageBonusDetail.ItemSize = New System.Drawing.SizeF(80.0!, 26.0!)
         Me.pageBonusDetail.Location = New System.Drawing.Point(10, 35)
         Me.pageBonusDetail.Name = "pageBonusDetail"
@@ -665,7 +669,8 @@ Partial Class frmGenerateBonus
         Me.gvBonusDetail.MasterTemplate.EnableFiltering = True
         Me.gvBonusDetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBonusDetail.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvBonusDetail.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvBonusDetail.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvBonusDetail.MyExportFilePath = ""
         Me.gvBonusDetail.MyStopExport = False
         Me.gvBonusDetail.Name = "gvBonusDetail"
         Me.gvBonusDetail.ShowHeaderCellButtons = True
