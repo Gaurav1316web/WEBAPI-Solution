@@ -22,7 +22,7 @@ Partial Class CancelPurchaseInvoiceReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -55,6 +55,7 @@ Partial Class CancelPurchaseInvoiceReport
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.chkAllData = New System.Windows.Forms.CheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -141,6 +142,7 @@ Partial Class CancelPurchaseInvoiceReport
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.chkAllData)
         Me.RadGroupBox1.Controls.Add(Me.RadGroupBox2)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel2)
         Me.RadGroupBox1.Controls.Add(Me.TxtVendor)
@@ -385,7 +387,7 @@ Partial Class CancelPurchaseInvoiceReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -473,6 +475,16 @@ Partial Class CancelPurchaseInvoiceReport
         Me.btnGo.TabIndex = 162
         Me.btnGo.Text = ">>>"
         '
+        'chkAllData
+        '
+        Me.chkAllData.AutoSize = True
+        Me.chkAllData.Location = New System.Drawing.Point(10, 18)
+        Me.chkAllData.Name = "chkAllData"
+        Me.chkAllData.Size = New System.Drawing.Size(66, 17)
+        Me.chkAllData.TabIndex = 449
+        Me.chkAllData.Text = "All Data"
+        Me.chkAllData.UseVisualStyleBackColor = True
+        '
         'CancelPurchaseInvoiceReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -553,4 +565,5 @@ Partial Class CancelPurchaseInvoiceReport
     Friend WithEvents RadGroupBox2 As RadGroupBox
     Friend WithEvents rbtnCycleWise As RadioButton
     Friend WithEvents C As RadioButton
+    Friend WithEvents chkAllData As CheckBox
 End Class
