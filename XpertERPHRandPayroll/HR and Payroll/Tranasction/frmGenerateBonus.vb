@@ -146,7 +146,7 @@ Public Class frmGenerateBonus
         '                           AND PAY_HEAD_CODE IN ('BASIC','DA') "
 
         Dim Wagesqry As String = " Select PAY_PERIOD_CODE,EMP_CODE,ACTUAL_AMOUNT,CASE WHEN PAY_HEAD_CODE='BASIC' THEN ACTUAL_AMOUNT ELSE 0 end AS BasicPay,
-                                   CASE WHEN PAY_HEAD_CODE='DA' THEN ACTUAL_AMOUNT ELSE 0 end AS DAPay from TSPL_SALARY_CALCULATION where PAY_PERIOD_CODE='APR25'
+                                   CASE WHEN PAY_HEAD_CODE='DA' THEN ACTUAL_AMOUNT ELSE 0 end AS DAPay from TSPL_SALARY_CALCULATION where PAY_PERIOD_CODE='" & txtPayablePayPeriodCode.Value & "'
                                    AND PAY_HEAD_CODE IN ('BASIC','DA') "
         Dim dtwages As DataTable = clsDBFuncationality.GetDataTable(Wagesqry)
         If dtwages IsNot Nothing AndAlso dtwages.Rows.Count > 0 Then
