@@ -151,7 +151,8 @@ Public Class clsBonus
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_BONUS", OMInsertOrUpdate.Update, "EMP_BONUS_CODE='" & obj.EMP_BONUS_CODE & "'", trans)
             End If
-            isSaved = isSaved AndAlso objBonusDetails.SaveData(obj, trans)
+            'isSaved = isSaved AndAlso objBonusDetails.SaveData(obj, trans)
+            isSaved = isSaved AndAlso objBonusDetails.SaveData(obj, trans, obj.EMP_BONUS_CODE)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.EMP_BONUS_CODE, "TSPL_EMPLOYEE_BONUS", "EMP_BONUS_CODE", "TSPL_EMPBONUS_DETAIL", "EMP_BONUS_CODE", trans)
 
             '' SAVE BONUS GENERATION DETAIL
@@ -272,9 +273,16 @@ Public Class clsBonus
         Return dt
     End Function
     Public Shared Function GetGenerateBonusDataTable(ByVal Location As String, ByVal Division As String, ByVal strFromPayPeriod As String, ByVal strToPayPeriod As String, ByVal strPayablePayPeriod As String, ByVal isSummary As Boolean, ByVal DOC_CODE As String, ByVal Days As Integer) As DataTable
-        Dim qry As String = GetGenerateBonusQuery(Location, Division, strFromPayPeriod, strToPayPeriod, strPayablePayPeriod, isSummary, DOC_CODE, Days)
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-        Return dt
+        Try
+            Dim qry As String = GetGenerateBonusQuery(Location, Division, strFromPayPeriod, strToPayPeriod, strPayablePayPeriod, isSummary, DOC_CODE, Days)
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            Return dt
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        'Dim qry As String = GetGenerateBonusQuery(Location, Division, strFromPayPeriod, strToPayPeriod, strPayablePayPeriod, isSummary, DOC_CODE, Days)
+        'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        'Return dt
     End Function
     Public Shared Function GetGenerateBonusQuery(ByVal Location As String, ByVal Division As String, ByVal strFromPayPeriod As String, ByVal strToPayPeriod As String, ByVal strPayablePayPeriod As String, ByVal isSummary As Boolean, ByVal DOC_CODE As String, ByVal Days As Integer) As String
         Dim qryBase As String = ""
@@ -365,7 +373,7 @@ Public Class clsBonus
             dynamicCol = "" & colBasic & " (" & colBasicTotal & ") AS [Total Basic], " & colPD & " (" & colPDTotal & ") as [Total Payable Days], " & colBO & " (" & colBOTotal & ") as [Total Bonus Wages], round((" & colBOTotal & ")*BONUS_RATE/100,0) as [Total Bonus1]"
         End If
         Qry = " select * from (select EMP_CODE AS empcode,EMP_NAME as empname,FATHERS_NAME as fname,DEPARTMENT_CODE as dcode,DEPARTMENT_NAME as dname,LOCATION_CODE as location,Location_Desc as locdesc,PF_NO as pfno,Designation as desgcode,Designation_Desc as desgDesc, " &
-              " Joining_date as doj,RELIEVING_DATE as dol,BONUS_CODE AS bonuscode,BONUS_NAME as bonusname,BONUS_RATE as bonusrate,sum(BONUS_AMOUNT) as [Total Bonus] from " &
+              " Joining_date as doj,RELIEVING_DATE as dol,BONUS_CODE AS bonuscode,BONUS_NAME as bonusname,BONUS_RATE as bonusrate,sum(FinalBonus_Amt) as [Total Bonus] from " &
               " (" & qryBase & ") as Final " &
               " PIVOT " &
               " ( " &
@@ -396,12 +404,12 @@ Public Class clsBonus
         If clsCommon.myLen(Division) > 0 Then
             strCond = strCond & " AND GS.DEVISION_CODE='" & Division & "'"
         End If
-        qry = "  select GSA.EMP_CODE,EMP.EMP_NAME,EMP.FATHERS_NAME,EMP.DEPARTMENT_CODE,DEPT.DEPARTMENT_NAME,EMP.LOCATION_CODE,LOC.Location_Desc,EMP.PF_NO,EMP.Designation,DES.Designation_Desc,EMP.Joining_date,EMP.RELIEVING_DATE,GS.PAY_PERIOD_CODE as PAY_PERIOD_CODE_MAIN,'Amount_' + GS.PAY_PERIOD_CODE as PAY_PERIOD_CODE,'PD_' + GS.PAY_PERIOD_CODE as PD_PAY_PERIOD_CODE,'BonusWages_' + GS.PAY_PERIOD_CODE as BonusWages_PAY_PERIOD_CODE, GSP.RATE_AMOUNT  AS Std_Basic,
+        qry = "  Select *,ROUND((ISNULL(Bonus_Amt, 0)*PAYABLE_DAYS),2)FinalBonus_Amt from (Select *,ROUND((ISNULL(BONUS_AMOUNT, 0)/PAYPERIOD_DAYS),2)Bonus_Amt from (select GSA.EMP_CODE,EMP.EMP_NAME,EMP.FATHERS_NAME,EMP.DEPARTMENT_CODE,DEPT.DEPARTMENT_NAME,EMP.LOCATION_CODE,LOC.Location_Desc,EMP.PF_NO,EMP.Designation,DES.Designation_Desc,EMP.Joining_date,EMP.RELIEVING_DATE,GS.PAY_PERIOD_CODE as PAY_PERIOD_CODE_MAIN,'Amount_' + GS.PAY_PERIOD_CODE as PAY_PERIOD_CODE,'PD_' + GS.PAY_PERIOD_CODE as PD_PAY_PERIOD_CODE,'BonusWages_' + GS.PAY_PERIOD_CODE as BonusWages_PAY_PERIOD_CODE, GSP.RATE_AMOUNT  AS Std_Basic,
              (GSP.ACTUAL_AMOUNT)  AS Actual_Basic, GSA.PAYPERIOD_DAYS  as PAYPERIOD_DAYS,
               GSA.PAYABLE_DAYS  PAYABLE_DAYS, 
               ( ROUND((case when GSP.Rate_Amount>=BONUS.COND_BASIC_PER_MONTH then BONUS.COND_BASIC_PER_MONTH else GSP.Rate_Amount end)* (case when BONUS.Is_Consider_Pay_Days=1 then GSA.PAYABLE_DAYS/GSA.PAYPERIOD_DAYS else 1 end),0) ) as Bonus_On, 
 
-               Round((Case when isnull(GSA.PAYABLE_DAYS,0)>0 then (((((isnull(COND_MAX_EARNING_PER_MONTH,0)/isnull(BONUS_RATE,0)))*isnull(ex_gratia,0)))/" + clsCommon.myCstr(days) + ")*isnull(GSA.PAYABLE_DAYS,0) else 0 end),0)  BONUS_AMOUNT, " &
+                ROUND(CASE WHEN ISNULL(GSA.PAYABLE_DAYS, 0) > 0 THEN ((ISNULL(COND_MAX_EARNING_PER_MONTH, 0) * ISNULL(BONUS_RATE, 0)/100)) ELSE 0 END, 2)BONUS_AMOUNT, " &
               " ESTS.BONUS_CODE,BONUS.BONUS_NAME,BONUS.BONUS_RATE " + Environment.NewLine +
               " from TSPL_GENERATE_SALARY_ATTENDANCE GSA " + Environment.NewLine +
               " inner join TSPL_GENERATE_SALARY GS ON GSA.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE " + Environment.NewLine +
@@ -422,7 +430,7 @@ Public Class clsBonus
               " left join TSPL_DESIGNATION_MASTER DES ON EMP.Designation=DES.Designation_id " &
               " " & strCond & " AND ESTS.BONUS_CODE is not null " &
               " and PM.DATE_FROM BETWEEN   (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strFromPayPeriod & "') " &
-              " AND (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strToPayPeriod & "') "
+              " AND (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strToPayPeriod & "' )) XX )YY  "
         Return qry
     End Function
     Public Shared Function GetGenerateBonusDetailBaseQuery(ByVal Doc_Code As String) As String
@@ -455,6 +463,8 @@ Public Class clsBonusDetails
     Public BONUS_CODE As String
     Public BONUS_NAME As String
     Public BONUS_AMOUNT As Double
+    Public Final_BONUS_AMOUNT As Double
+    Public Bonus_Increment As Double
 #End Region
 
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
@@ -478,7 +488,7 @@ Public Class clsBonusDetails
     Public Shared Function GetData(ByVal strCode As String, ByVal trans As SqlTransaction) As List(Of clsBonusDetails)
         Dim obj As clsBonusDetails = Nothing
         Dim ObjList As New List(Of clsBonusDetails)
-        Dim qry As String = " select TSPL_EMPBONUS_DETAIL.EMP_CODE, TSPL_EMPLOYEE_MASTER.EMP_name, TSPL_EMPBONUS_DETAIL.BONUS_CODE, TSPL_BONUS_MASTER.BONUS_NAME, TSPL_EMPBONUS_DETAIL.BONUS_AMOUNT  from TSPL_EMPBONUS_DETAIL left outer join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.EMP_CODE = TSPL_EMPBONUS_DETAIL.EMP_CODE left outer join TSPL_BONUS_MASTER on TSPL_BONUS_MASTER.BONUS_CODE = TSPL_EMPBONUS_DETAIL.BONUS_CODE "
+        Dim qry As String = " select TSPL_EMPBONUS_DETAIL.EMP_CODE, TSPL_EMPLOYEE_MASTER.EMP_name, TSPL_EMPBONUS_DETAIL.BONUS_CODE, TSPL_BONUS_MASTER.BONUS_NAME, TSPL_EMPBONUS_DETAIL.BONUS_AMOUNT,TSPL_EMPBONUS_DETAIL.Final_BONUS_AMOUNT,TSPL_EMPBONUS_DETAIL.Bonus_Increment  from TSPL_EMPBONUS_DETAIL left outer join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.EMP_CODE = TSPL_EMPBONUS_DETAIL.EMP_CODE left outer join TSPL_BONUS_MASTER on TSPL_BONUS_MASTER.BONUS_CODE = TSPL_EMPBONUS_DETAIL.BONUS_CODE "
         qry += " where EMP_BONUS_CODE = '" + strCode + "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
 
@@ -491,6 +501,8 @@ Public Class clsBonusDetails
                 obj.BONUS_CODE = clsCommon.myCstr(dr("BONUS_CODE"))
                 obj.BONUS_NAME = clsCommon.myCstr(dr("BONUS_NAME"))
                 obj.BONUS_AMOUNT = clsCommon.myCdbl(dr("BONUS_AMOUNT"))
+                obj.Final_BONUS_AMOUNT = clsCommon.myCdbl(dr("Final_BONUS_AMOUNT"))
+                obj.Bonus_Increment = clsCommon.myCdbl(dr("Bonus_Increment"))
                 ObjList.Add(obj)
             Next
         End If
@@ -498,15 +510,20 @@ Public Class clsBonusDetails
 
     End Function
 
-    Public Function SaveData(ByVal obj As clsBonus, ByVal trans As SqlTransaction) As Boolean
+    'Public Function SaveData(ByVal obj As clsBonus, ByVal trans As SqlTransaction) As Boolean
+    Public Function SaveData(ByVal obj As clsBonus, ByVal trans As SqlTransaction, ByVal strcode As String) As Boolean
+
         Dim isSaved As Boolean = True
         Try
             For Each objTr As clsBonusDetails In obj.ObjList
                 Dim coll As New Hashtable()
-                clsCommon.AddColumnsForChange(coll, "EMP_BONUS_CODE", objTr.EMP_BONUS_CODE)
+                'clsCommon.AddColumnsForChange(coll, "EMP_BONUS_CODE", objTr.EMP_BONUS_CODE)
+                clsCommon.AddColumnsForChange(coll, "EMP_BONUS_CODE", strcode)
                 clsCommon.AddColumnsForChange(coll, "EMP_CODE", objTr.EMP_CODE)
                 clsCommon.AddColumnsForChange(coll, "BONUS_AMOUNT", objTr.BONUS_AMOUNT)
                 clsCommon.AddColumnsForChange(coll, "BONUS_CODE", objTr.BONUS_CODE)
+                clsCommon.AddColumnsForChange(coll, "Final_BONUS_AMOUNT", objTr.Final_BONUS_AMOUNT)
+                clsCommon.AddColumnsForChange(coll, "Bonus_Increment", objTr.Bonus_Increment)
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPBONUS_DETAIL", OMInsertOrUpdate.Insert, "", trans)
                 'Dim qry As String = "SELECT Count(*) FROM TSPL_EMPBONUS_DETAIL where EMP_BONUS_CODE = '" & strCode & "' and EMP_CODE = '" & obj.EMP_CODE & "' and BONUS_CODE = '" & obj.BONUS_CODE & "' "
                 'Dim check As Integer = clsDBFuncationality.getSingleValue(qry)

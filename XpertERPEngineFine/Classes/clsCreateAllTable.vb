@@ -16434,13 +16434,15 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
 
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_EMPLOYEE_BONUS", coll, Nothing, True, False, "EMP_BONUS_CODE", "", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_EMPLOYEE_BONUS", coll, Nothing, True, False, "EMP_BONUS_CODE", "", True, True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("EMP_BONUS_CODE", "VARCHAR(30) NOT NULL")
             coll.Add("EMP_CODE", "VARCHAR(12) NOT NULL REFERENCES TSPL_EMPLOYEE_MASTER(EMP_CODE)")
             coll.Add("BONUS_CODE", "VARCHAR(30) NOT NULL REFERENCES TSPL_BONUS_MASTER(BONUS_CODE)")
             coll.Add("BONUS_AMOUNT", "NUMERIC(12,2) NOT NULL ")
+            coll.Add("Final_BONUS_AMOUNT", "NUMERIC(12,2)  NULL ")
+            coll.Add("Bonus_Increment", "NUMERIC(12,2)  NULL ")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_EMPBONUS_DETAIL", coll, Nothing, True, False, "TSPL_EMPLOYEE_BONUS", "EMP_BONUS_CODE", "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -25764,7 +25766,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Modified_Date", "datetime  Not NULL")
             coll.Add("Posted_By", "varchar(12) NULL")
             coll.Add("Posted_Date", "datetime NULL")
-
+            coll.Add("Cycle_Min_Qty", "Integer NULL")
             ' clsCommonFunctionality.CreateOrAlterTable("TSPL_Head_Load", coll)
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_HEAD_LOAD", coll, "", True, False, "", "", "", True)
             coll = New Dictionary(Of String, String)()

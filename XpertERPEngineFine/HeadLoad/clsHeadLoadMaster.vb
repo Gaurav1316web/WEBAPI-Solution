@@ -10,6 +10,7 @@ Public Class clsHeadLoadMaster
     Public Document_date As Date? = Nothing
     Public Description As String = Nothing
     Public Status As Integer = 0
+    Public Cycle_Min_Qty As Integer = 0
     Public Arr As List(Of clsHeadLoadDCS) = Nothing
 #End Region
     Public Function SaveData(ByVal obj As clsHeadLoadMaster, ByVal isNewEntry As Boolean, ByVal strTransType As String, ByVal AutoSave As Boolean) As Boolean
@@ -68,6 +69,7 @@ Public Class clsHeadLoadMaster
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
             clsCommon.AddColumnsForChange(coll, "Document_date", clsCommon.GetPrintDate(obj.Document_date, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Start_Date", clsCommon.GetPrintDate(obj.Start_Date, "dd/MMM/yyyy"))
+            clsCommon.AddColumnsForChange(coll, "Cycle_Min_Qty", obj.Cycle_Min_Qty)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             If isNewEntry Then
@@ -102,7 +104,7 @@ Public Class clsHeadLoadMaster
 
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal TransType As String, ByVal trans As SqlTransaction) As clsHeadLoadMaster
         Dim obj As clsHeadLoadMaster = Nothing
-        Dim qry As String = "select Document_No ,Description, Document_date,Start_Date ,ISNULL( Status,0) as Status from TSPL_HEAD_LOAD where 2=2 "
+        Dim qry As String = "select Document_No ,Description, Document_date,Start_Date ,ISNULL( Status,0) as Status,Cycle_Min_Qty from TSPL_HEAD_LOAD where 2=2 "
         Select Case NavType
             Case NavigatorType.First
                 qry += " and TSPL_HEAD_LOAD.Document_No = (select MIN(Document_No) from TSPL_HEAD_LOAD)"
@@ -121,6 +123,7 @@ Public Class clsHeadLoadMaster
             obj = New clsHeadLoadMaster()
             obj.Document_No = clsCommon.myCstr(dt.Rows(0)("Document_No"))
             obj.Description = clsCommon.myCstr(dt.Rows(0)("Description"))
+            obj.Cycle_Min_Qty = clsCommon.myCDecimal(dt.Rows(0)("Cycle_Min_Qty"))
             obj.Document_date = clsCommon.myCDate(dt.Rows(0)("Document_date"))
             obj.Start_Date = clsCommon.myCDate(dt.Rows(0)("Start_Date"))
             obj.Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
@@ -275,6 +278,7 @@ Public Class clsHeadLoadDCS
     Public Head_Load_Rate As Decimal
     Public Cycle_Frequency As Integer
     Public Deduction_Per As Decimal
+    Public Header_Cycle_Min_Qty As Integer = 0 ''Not a table column
 
 
 #End Region
@@ -329,8 +333,7 @@ where TSPL_HEAD_LOAD_DCS.Document_No = '" + strCode + "' order by Document_No "
     Public Shared Function GetDcsData(ByVal VLC_CODE As String, ByVal DcsDate As Date, ByVal trans As SqlTransaction) As clsHeadLoadDCS
         Dim obj As New clsHeadLoadDCS()
         Try
-
-            Dim qry As String = "select top 1 TSPL_HEAD_LOAD.Start_Date ,TSPL_HEAD_LOAD_DCS .PK_Id, TSPL_HEAD_LOAD_DCS.Head_Load_Basis ,TSPL_HEAD_LOAD_DCS.Head_Load_Rate,TSPL_HEAD_LOAD_DCS.Cycle_Frequency,TSPL_HEAD_LOAD_DCS.Deduction_Per 
+            Dim qry As String = "select top 1 TSPL_HEAD_LOAD.Start_Date ,TSPL_HEAD_LOAD_DCS .PK_Id, TSPL_HEAD_LOAD_DCS.Head_Load_Basis ,TSPL_HEAD_LOAD_DCS.Head_Load_Rate,TSPL_HEAD_LOAD_DCS.Cycle_Frequency,TSPL_HEAD_LOAD_DCS.Deduction_Per,TSPL_HEAD_LOAD.Cycle_Min_Qty
 from TSPL_HEAD_LOAD 
 left outer join TSPL_HEAD_LOAD_DCS on TSPL_HEAD_LOAD_DCS.Document_No = TSPL_HEAD_LOAD.Document_No 
 where  TSPL_HEAD_LOAD.status = 1 and TSPL_HEAD_LOAD_DCS.VLC_CODE  = '" & VLC_CODE & "'  
@@ -342,6 +345,7 @@ and TSPL_HEAD_LOAD.Start_Date <= '" & clsCommon.GetPrintDate(DcsDate, "dd/MMM/yy
                 obj.Head_Load_Rate = clsCommon.myCDecimal(dt.Rows(0)("Head_Load_Rate"))
                 obj.Cycle_Frequency = clsCommon.myCDecimal(dt.Rows(0)("Cycle_Frequency"))
                 obj.Deduction_Per = clsCommon.myCDecimal(dt.Rows(0)("Deduction_Per"))
+                obj.Header_Cycle_Min_Qty = clsCommon.myCDecimal(dt.Rows(0)("Cycle_Min_Qty"))
             End If
 
         Catch ex As Exception
