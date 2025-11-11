@@ -7741,7 +7741,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                                                         "'" & clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value) & "' as OrgUOM," & dblqty & " as OrgQty,0 as OrgMRP, " &
                                                         "'" & clsCommon.GetPrintDate(obj.Expiry_Date, "dd/MMM/yyyy") & "' as Expiry_Date, " &
                                                         "'" & clsCommon.GetPrintDate(obj.Manufacture_Date, "dd/MMM/yyyy") & "' as Manufacture_Date, " &
-                                                        "" & dblqty & " as Qty, 0 as MRP "
+                                                        "" & dblqty & " as Qty, 0 as MRP,'' as RALNo,'' as VehicleNo "
                                             Next
                                         End If
                                     End If
@@ -12178,7 +12178,8 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                 Dim dblMRPAmt As Double = dblQty * dblMRP
                 Dim dblAmt As Double = (dblQty * dblRate) ''+ dblFAmt
                 If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colRowType).Value), RowTypeItem) = CompairStringResult.Equal Then 'AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colIsMannualAmt).Value) = 0
-                    gv1.Rows(IntRowNo).Cells(colAmt).Value = Math.Round(dblAmt, 2)
+                    gv1.Rows(IntRowNo).Cells(colAmt).Value = clsCommon.myRoundOFF(dblAmt, 2, 5)
+                    dblAmt = clsCommon.myRoundOFF(dblAmt, 2, 5)
                 Else
                     'gv1.Rows(IntRowNo).Cells(colAmt).Value = Math.Round(dblAmt, 2)
                     dblAmt = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colAmt).Value)
@@ -14881,10 +14882,17 @@ On TabBatch.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code And  TabBatch.Ite
     Private Sub btnReverseAndUnpost_Click(sender As Object, e As EventArgs) Handles btnReverseAndUnpost.Click
         Try
             If clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
-                If clsPSShipmentHead.ReverseAndUnpost(txtDocNo.Value) Then
-                    clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
-                    LoadData(txtDocNo.Value, NavigatorType.Current)
+                Dim Qry As String = "select Document_Code from TSPL_SD_SHIPMENT_HEAD where Document_Code='" & txtDocNo.Value & "' and Against_Booking_No is null"
+                Dim strDocno As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Qry))
+                If clsCommon.myLen(strDocno) > 0 Then
+                    If clsPSShipmentHead.ReverseAndUnpost(txtDocNo.Value) Then
+                        clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
+                        LoadData(txtDocNo.Value, NavigatorType.Current)
+                    End If
+                Else
+                    Throw New Exception("Dispatch No [ " & txtDocNo.Value & "]  created against Booking")
                 End If
+
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -14973,9 +14981,13 @@ On TabBatch.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code And  TabBatch.Ite
             If clsCommon.MyMessageBoxShow(Me, "Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                 Return False
             End If
-            If clsCommon.MyMessageBoxShow(Me, "Is E-invoice Cancelled on GST Portal?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
-                isEinvoiceCancelled = True
+            Dim strIrnNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select IRN_No from tspl_sd_sale_invoice_head where Against_Shipment_No='" & txtDocNo.Value & "'"))
+            If clsCommon.myLen(strIrnNo) > 0 Then
+                If clsCommon.MyMessageBoxShow(Me, "Is E-invoice Cancelled on GST Portal?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                    isEinvoiceCancelled = True
+                End If
             End If
+
             Dim strSaleReturnNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Document_Code from TSPL_SD_SALE_RETURN_HEAD where Against_Invoice_No='" & txtInvoiceNo.Text & "' "))
             If clsCommon.myLen(strSaleReturnNo) > 0 Then
                 Throw New Exception("You cannot cancelled this document because its Sale Return (" + clsCommon.myCstr(strSaleReturnNo) + ") has been created.")

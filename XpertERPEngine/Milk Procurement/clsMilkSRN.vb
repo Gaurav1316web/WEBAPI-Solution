@@ -113,56 +113,57 @@ Public Class clsMilkSRNMCC
         objTR.Head_Load_Amount = 0
         objTR.Head_Load_Type = ""
         objTR.Head_Load_Cycle = 0
-
-        Dim MinimumQtyForHeadLoad As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MinimumQtyForHeadLoad, clsFixedParameterCode.MinimumQtyForHeadLoad, trans))
-        Dim qry As String = "select DistanceKM_Head_Load from TSPL_VENDOR_MASTER where Vendor_Code='" + obj.VSP_CODE + "'"
-        Dim dclDistanceKM As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
-        If dclDistanceKM = 0 Then
-            dclDistanceKM = 1
-        End If
-        If clsCommon.myLen(obj.Against_Shift_Uploader_TR_No) > 0 Then
-            qry = "select Reject_Type from TSPL_MILK_SHIFT_UPLOADER_DETAIL where TR_No='" + obj.Against_Shift_Uploader_TR_No + "'"
-            qry = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
-        ElseIf clsCommon.myLen(obj.Against_Uploader_TR_No) > 0 Then
-            qry = "select Reject_Type from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL where TR_No='" + obj.Against_Shift_Uploader_TR_No + "'"
-            qry = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
-        End If
-        Dim ExcluetHeadLoad As Boolean = False
-        If clsCommon.myLen(qry) > 0 Then
-            qry = "select ISNULL(Exclude_Head,0) as Exclude_Head from TSPL_MILK_REJECT_TYPE where Code='" + qry + "' "
-            ExcluetHeadLoad = (clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, trans)) = 1)
-        End If
-        If Not ExcluetHeadLoad Then
-            Dim objHeadLoad As New clsHeadLoadDCS()
-            objHeadLoad = clsHeadLoadDCS.GetDcsData(obj.VLC_CODE, obj.DOC_DATE, trans)
-            objTR.Head_Load_Rate = objHeadLoad.Head_Load_Rate
-            objTR.Head_Load_Type = clsCommon.myCstr(objHeadLoad.Head_Load_Basis)
-            objTR.Head_Load_Cycle = 0
-            objTR.Head_Load_Amount_Exact = 0
-            Dim ApplicableQty As Decimal = objTR.ACC_Qty_LTR
-            If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CK") = CompairStringResult.Equal Then
-                ApplicableQty = objTR.ACC_Qty
+        If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyHeadLoadDayAndCycleWiseForAJM, clsFixedParameterCode.ApplyHeadLoadDayAndCycleWiseForAJM, trans)) = 0 Then
+            Dim MinimumQtyForHeadLoad As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MinimumQtyForHeadLoad, clsFixedParameterCode.MinimumQtyForHeadLoad, trans))
+            Dim qry As String = "select DistanceKM_Head_Load from TSPL_VENDOR_MASTER where Vendor_Code='" + obj.VSP_CODE + "'"
+            Dim dclDistanceKM As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
+            If dclDistanceKM = 0 Then
+                dclDistanceKM = 1
             End If
-            If objHeadLoad.Deduction_Per > 0 Then
-                Dim dclCapacity As Decimal = clsMccMaster.GetSiloCapacity(obj.MCC_CODE, trans)
-                If dclCapacity <= 0 Then
-                    Throw New Exception("Please define silo capacity of BMC [" + obj.MCC_CODE + "]")
-                End If
-                If ApplicableQty > dclCapacity Then
-                    ApplicableQty = dclCapacity
-                End If
-                ApplicableQty = ApplicableQty - (dclCapacity * objHeadLoad.Deduction_Per / 100)
+            If clsCommon.myLen(obj.Against_Shift_Uploader_TR_No) > 0 Then
+                qry = "select Reject_Type from TSPL_MILK_SHIFT_UPLOADER_DETAIL where TR_No='" + obj.Against_Shift_Uploader_TR_No + "'"
+                qry = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+            ElseIf clsCommon.myLen(obj.Against_Uploader_TR_No) > 0 Then
+                qry = "select Reject_Type from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL where TR_No='" + obj.Against_Shift_Uploader_TR_No + "'"
+                qry = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
             End If
-            If ApplicableQty > 0 Then
-                If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "L") = CompairStringResult.Equal Then
-                    If ApplicableQty >= MinimumQtyForHeadLoad Then
-                        objTR.Head_Load_Amount_Exact = Math.Round(ApplicableQty * objHeadLoad.Head_Load_Rate * dclDistanceKM, 6)
+            Dim ExcluetHeadLoad As Boolean = False
+            If clsCommon.myLen(qry) > 0 Then
+                qry = "select ISNULL(Exclude_Head,0) as Exclude_Head from TSPL_MILK_REJECT_TYPE where Code='" + qry + "' "
+                ExcluetHeadLoad = (clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, trans)) = 1)
+            End If
+            If Not ExcluetHeadLoad Then
+                Dim objHeadLoad As New clsHeadLoadDCS()
+                objHeadLoad = clsHeadLoadDCS.GetDcsData(obj.VLC_CODE, obj.DOC_DATE, trans)
+                objTR.Head_Load_Rate = objHeadLoad.Head_Load_Rate
+                objTR.Head_Load_Type = clsCommon.myCstr(objHeadLoad.Head_Load_Basis)
+                objTR.Head_Load_Cycle = 0
+                objTR.Head_Load_Amount_Exact = 0
+                Dim ApplicableQty As Decimal = objTR.ACC_Qty_LTR
+                If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CK") = CompairStringResult.Equal Then
+                    ApplicableQty = objTR.ACC_Qty
+                End If
+                If objHeadLoad.Deduction_Per > 0 Then
+                    Dim dclCapacity As Decimal = clsMccMaster.GetSiloCapacity(obj.MCC_CODE, trans)
+                    If dclCapacity <= 0 Then
+                        Throw New Exception("Please define silo capacity of BMC [" + obj.MCC_CODE + "]")
                     End If
-                ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CK") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CL") = CompairStringResult.Equal Then
-                    objTR.Head_Load_Cycle = Math.Ceiling(clsCommon.myCDivide(ApplicableQty, objHeadLoad.Cycle_Frequency))
-                    objTR.Head_Load_Amount_Exact = Math.Round(objTR.Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 6)
+                    If ApplicableQty > dclCapacity Then
+                        ApplicableQty = dclCapacity
+                    End If
+                    ApplicableQty = ApplicableQty - (dclCapacity * objHeadLoad.Deduction_Per / 100)
                 End If
-                objTR.Head_Load_Amount = Math.Round(objTR.Head_Load_Amount_Exact, 2)
+                If ApplicableQty > 0 Then
+                    If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "L") = CompairStringResult.Equal Then
+                        If ApplicableQty >= MinimumQtyForHeadLoad Then
+                            objTR.Head_Load_Amount_Exact = Math.Round(ApplicableQty * objHeadLoad.Head_Load_Rate * dclDistanceKM, 6)
+                        End If
+                    ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CK") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CL") = CompairStringResult.Equal Then
+                        objTR.Head_Load_Cycle = Math.Ceiling(clsCommon.myCDivide(ApplicableQty, objHeadLoad.Cycle_Frequency))
+                        objTR.Head_Load_Amount_Exact = Math.Round(objTR.Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 6)
+                    End If
+                    objTR.Head_Load_Amount = Math.Round(objTR.Head_Load_Amount_Exact, 2)
+                End If
             End If
         End If
     End Sub

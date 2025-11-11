@@ -60,6 +60,8 @@ Partial Class frmHeadLoadMaster
         Me.cmbHeadLoadBasis = New common.Controls.MyComboBox()
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.rbtnDetails = New common.Controls.MyRadioButton()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.txtCycleMinQty = New common.MyNumBox()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
@@ -95,6 +97,8 @@ Partial Class frmHeadLoadMaster
         CType(Me.cmbHeadLoadBasis, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnDetails, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCycleMinQty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -284,7 +288,7 @@ Partial Class frmHeadLoadMaster
         '
         '
         Me.txtDescription.RootElement.StretchVertically = True
-        Me.txtDescription.Size = New System.Drawing.Size(769, 18)
+        Me.txtDescription.Size = New System.Drawing.Size(423, 18)
         Me.txtDescription.TabIndex = 3
         '
         'RadLabel3
@@ -337,7 +341,7 @@ Partial Class frmHeadLoadMaster
         'lblStatus
         '
         Me.lblStatus.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.lblStatus.Location = New System.Drawing.Point(704, 6)
+        Me.lblStatus.Location = New System.Drawing.Point(700, 6)
         Me.lblStatus.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.lblStatus.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblStatus.Name = "lblStatus"
@@ -365,6 +369,8 @@ Partial Class frmHeadLoadMaster
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.MyLabel2)
+        Me.Panel1.Controls.Add(Me.txtCycleMinQty)
         Me.Panel1.Controls.Add(Me.txtDescription)
         Me.Panel1.Controls.Add(Me.txtstartDate)
         Me.Panel1.Controls.Add(Me.MyLabel7)
@@ -641,6 +647,45 @@ Partial Class frmHeadLoadMaster
         Me.rbtnDetails.TabStop = False
         Me.rbtnDetails.Text = "Details"
         '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(538, 28)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(152, 16)
+        Me.MyLabel2.TabIndex = 1096
+        Me.MyLabel2.Text = "Minimum Qty To Apply Cycle"
+        '
+        'txtCycleMinQty
+        '
+        Me.txtCycleMinQty.BackColor = System.Drawing.Color.Transparent
+        Me.txtCycleMinQty.CalculationExpression = Nothing
+        Me.txtCycleMinQty.DecimalPlaces = 2
+        Me.txtCycleMinQty.FieldCode = Nothing
+        Me.txtCycleMinQty.FieldDesc = Nothing
+        Me.txtCycleMinQty.FieldMaxLength = 0
+        Me.txtCycleMinQty.FieldName = Nothing
+        Me.txtCycleMinQty.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.txtCycleMinQty.isCalculatedField = False
+        Me.txtCycleMinQty.IsSourceFromTable = False
+        Me.txtCycleMinQty.IsSourceFromValueList = False
+        Me.txtCycleMinQty.IsUnique = False
+        Me.txtCycleMinQty.Location = New System.Drawing.Point(700, 26)
+        Me.txtCycleMinQty.MaxLength = 6
+        Me.txtCycleMinQty.MendatroryField = False
+        Me.txtCycleMinQty.MyLinkLable1 = Nothing
+        Me.txtCycleMinQty.MyLinkLable2 = Nothing
+        Me.txtCycleMinQty.Name = "txtCycleMinQty"
+        Me.txtCycleMinQty.ReferenceFieldDesc = Nothing
+        Me.txtCycleMinQty.ReferenceFieldName = Nothing
+        Me.txtCycleMinQty.ReferenceTableName = Nothing
+        Me.txtCycleMinQty.Size = New System.Drawing.Size(82, 21)
+        Me.txtCycleMinQty.TabIndex = 1095
+        Me.txtCycleMinQty.Text = "0"
+        Me.txtCycleMinQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtCycleMinQty.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        '
         'frmHeadLoadMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -693,6 +738,8 @@ Partial Class frmHeadLoadMaster
         CType(Me.cmbHeadLoadBasis, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnDetails, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCycleMinQty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -731,6 +778,8 @@ Partial Class frmHeadLoadMaster
     Friend WithEvents btnHistory As RadButton
     Friend WithEvents txtOwnBMCDeduction As common.MyNumBox
     Friend WithEvents chkOwnBMCDeduction As RadCheckBox
+    Friend WithEvents MyLabel2 As common.Controls.MyLabel
+    Friend WithEvents txtCycleMinQty As common.MyNumBox
 End Class
 
 

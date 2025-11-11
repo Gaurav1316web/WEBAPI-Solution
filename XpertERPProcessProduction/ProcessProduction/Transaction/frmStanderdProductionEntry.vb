@@ -1292,10 +1292,7 @@ Public Class frmStanderdProductionEntry
                     myMessages.blankValue(Me, "AVG Cost in consumption tab should be greter then or equals to zero( Stock not available). at line no- " & (grow.Index + 1) & "", Me.Text)
                     Return False
                 End If
-                If RunBatchFifowise OrElse RunBatchFifowisewithmodifyfunctionality Then
-                    gvConsumption.CurrentRow = gvConsumption.Rows(grow.Index)
-                    OpenBatchItem(True)
-                End If
+
 
 
                 If SettCheckBalanceOnSave Then
@@ -1309,7 +1306,14 @@ Public Class frmStanderdProductionEntry
                 If dblQty > 0 AndAlso clsCommon.myCBool(grow.Cells(colIsBatchItem).Value) Then
                     Dim arrBatchNo As List(Of clsBatchInventory) = TryCast(grow.Cells(colItemCode).Tag, List(Of clsBatchInventory))
                     If arrBatchNo Is Nothing Then
-                        Throw New Exception("Consumption Tab Please provide Batch no for item : " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + " . At Line No" + clsCommon.myCstr(grow.Index + 1))
+                        If RunBatchFifowise OrElse RunBatchFifowisewithmodifyfunctionality Then
+                            gvConsumption.CurrentRow = gvConsumption.Rows(grow.Index)
+                            OpenBatchItem(True)
+                            arrBatchNo = TryCast(grow.Cells(colItemCode).Tag, List(Of clsBatchInventory))
+                        End If
+                        If arrBatchNo Is Nothing Then
+                            Throw New Exception("Consumption Tab Please provide Batch no for item : " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + " . At Line No" + clsCommon.myCstr(grow.Index + 1))
+                        End If
                     Else
                         Dim tQty As Decimal = 0
                         For Each objBatch As clsBatchInventory In arrBatchNo

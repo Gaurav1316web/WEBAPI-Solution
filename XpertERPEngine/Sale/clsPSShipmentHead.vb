@@ -458,15 +458,19 @@ Public Class clsPSShipmentHead
             qry = "delete from TSPL_DAIRYSALE_GATEPASS_MASTER where GPCode='" & strDairyGAtePassCount & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             '' Cancel E-Invoice ----------------------------- 
-            Dim dtirn As DataTable = clsDBFuncationality.GetDataTable("select Einvoice_type,IRN_No,Is_Taxable,Bill_To_Location from TSPL_SD_SALE_INVOICE_HEAD where document_code='" & InvoiceNo & "'", trans)
-            If dtirn IsNot Nothing AndAlso dtirn.Rows.Count > 0 Then
-                If clsCommon.CompairString(clsCommon.myCstr(dtirn.Rows(0)("Einvoice_type")), "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(dtirn.Rows(0)("Is_Taxable")), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True Then
-                    If ClsEInvoiceOFAPIs.EInvoice_Cancellation(InvoiceNo, clsCommon.myCstr(dtirn.Rows(0)("IRN_No")), clsCommon.myCstr(dtirn.Rows(0)("Bill_To_Location")), trans) = True Then
-                    Else
-                        Throw New Exception("Invalid JSON Value")
+            Dim strIrnNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select IRN_No from tspl_sd_sale_invoice_head where Document_Code='" & InvoiceNo & "'", trans))
+            If clsCommon.myLen(strIrnNo) > 0 Then
+                Dim dtirn As DataTable = clsDBFuncationality.GetDataTable("select Einvoice_type,IRN_No,Is_Taxable,Bill_To_Location from TSPL_SD_SALE_INVOICE_HEAD where document_code='" & InvoiceNo & "'", trans)
+                If dtirn IsNot Nothing AndAlso dtirn.Rows.Count > 0 Then
+                    If clsCommon.CompairString(clsCommon.myCstr(dtirn.Rows(0)("Einvoice_type")), "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(dtirn.Rows(0)("Is_Taxable")), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True Then
+                        If ClsEInvoiceOFAPIs.EInvoice_Cancellation(InvoiceNo, clsCommon.myCstr(dtirn.Rows(0)("IRN_No")), clsCommon.myCstr(dtirn.Rows(0)("Bill_To_Location")), trans) = True Then
+                        Else
+                            Throw New Exception("Invalid JSON Value")
+                        End If
                     End If
                 End If
             End If
+
             ''End of Cancel E_Invoice ---------------------------------------
             qry = "delete from TSPL_SD_SALE_INVOICE_DETAIL where Document_Code='" & InvoiceNo & "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)

@@ -78,11 +78,11 @@ Partial Class FrmSalesOrder
         Me.txtDocAmtWithoutTax = New common.Controls.MyLabel()
         Me.lblDocamt = New common.Controls.MyLabel()
         Me.txtDocAmt = New common.Controls.MyLabel()
+        Me.btnReverseAndUnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.btnReverseAndUnPost = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -138,11 +138,11 @@ Partial Class FrmSalesOrder
         CType(Me.txtDocAmtWithoutTax, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDocamt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDocAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReverseAndUnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnReverseAndUnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -247,7 +247,7 @@ Partial Class FrmSalesOrder
         Me.gbQtySummary.Controls.Add(Me.txtTenderQty)
         Me.gbQtySummary.Controls.Add(Me.lblbalQty)
         Me.gbQtySummary.Controls.Add(Me.lblTenderQty)
-        Me.gbQtySummary.Location = New System.Drawing.Point(639, 30)
+        Me.gbQtySummary.Location = New System.Drawing.Point(673, 30)
         Me.gbQtySummary.Name = "gbQtySummary"
         Me.gbQtySummary.Size = New System.Drawing.Size(162, 82)
         Me.gbQtySummary.TabIndex = 1586
@@ -337,7 +337,7 @@ Partial Class FrmSalesOrder
         'UsLock1
         '
         Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(639, 2)
+        Me.UsLock1.Location = New System.Drawing.Point(673, 2)
         Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UsLock1.Name = "UsLock1"
         Me.UsLock1.Size = New System.Drawing.Size(97, 22)
@@ -358,7 +358,7 @@ Partial Class FrmSalesOrder
         Me.txtRefDate.IsSourceFromTable = False
         Me.txtRefDate.IsSourceFromValueList = False
         Me.txtRefDate.IsUnique = False
-        Me.txtRefDate.Location = New System.Drawing.Point(506, 49)
+        Me.txtRefDate.Location = New System.Drawing.Point(540, 49)
         Me.txtRefDate.MendatroryField = False
         Me.txtRefDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtRefDate.MyLinkLable1 = Me.lblRefdate
@@ -380,9 +380,9 @@ Partial Class FrmSalesOrder
         Me.lblRefdate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblRefdate.Location = New System.Drawing.Point(455, 50)
         Me.lblRefdate.Name = "lblRefdate"
-        Me.lblRefdate.Size = New System.Drawing.Size(51, 16)
+        Me.lblRefdate.Size = New System.Drawing.Size(84, 16)
         Me.lblRefdate.TabIndex = 1577
-        Me.lblRefdate.Text = "Ref Date"
+        Me.lblRefdate.Text = "PO/Indent Date"
         '
         'txtRefNo
         '
@@ -395,7 +395,7 @@ Partial Class FrmSalesOrder
         Me.txtRefNo.IsSourceFromTable = False
         Me.txtRefNo.IsSourceFromValueList = False
         Me.txtRefNo.IsUnique = False
-        Me.txtRefNo.Location = New System.Drawing.Point(506, 25)
+        Me.txtRefNo.Location = New System.Drawing.Point(540, 25)
         Me.txtRefNo.MendatroryField = False
         Me.txtRefNo.MyLinkLable1 = Me.lblRefNo
         Me.txtRefNo.MyLinkLable2 = Nothing
@@ -412,9 +412,9 @@ Partial Class FrmSalesOrder
         Me.lblRefNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblRefNo.Location = New System.Drawing.Point(455, 27)
         Me.lblRefNo.Name = "lblRefNo"
-        Me.lblRefNo.Size = New System.Drawing.Size(41, 16)
+        Me.lblRefNo.Size = New System.Drawing.Size(75, 16)
         Me.lblRefNo.TabIndex = 1578
-        Me.lblRefNo.Text = "Ref No"
+        Me.lblRefNo.Text = "PO/Indent No"
         '
         'txtCustomerCode
         '
@@ -620,7 +620,7 @@ Partial Class FrmSalesOrder
         Me.txtDate.IsSourceFromTable = False
         Me.txtDate.IsSourceFromValueList = False
         Me.txtDate.IsUnique = False
-        Me.txtDate.Location = New System.Drawing.Point(506, 4)
+        Me.txtDate.Location = New System.Drawing.Point(540, 4)
         Me.txtDate.MendatroryField = False
         Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtDate.MyLinkLable1 = Me.lblDate
@@ -966,6 +966,17 @@ Partial Class FrmSalesOrder
         Me.txtDocAmt.TabIndex = 1588
         Me.txtDocAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
+        'btnReverseAndUnPost
+        '
+        Me.btnReverseAndUnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnReverseAndUnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReverseAndUnPost.Location = New System.Drawing.Point(679, 4)
+        Me.btnReverseAndUnPost.Name = "btnReverseAndUnPost"
+        Me.btnReverseAndUnPost.Size = New System.Drawing.Size(99, 22)
+        Me.btnReverseAndUnPost.TabIndex = 12
+        Me.btnReverseAndUnPost.Text = "Reverse/UnPost"
+        Me.btnReverseAndUnPost.Visible = False
+        '
         'btnClose
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -1005,17 +1016,6 @@ Partial Class FrmSalesOrder
         Me.btnSave.Size = New System.Drawing.Size(57, 22)
         Me.btnSave.TabIndex = 3
         Me.btnSave.Text = "Save"
-        '
-        'btnReverseAndUnPost
-        '
-        Me.btnReverseAndUnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnReverseAndUnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverseAndUnPost.Location = New System.Drawing.Point(679, 4)
-        Me.btnReverseAndUnPost.Name = "btnReverseAndUnPost"
-        Me.btnReverseAndUnPost.Size = New System.Drawing.Size(99, 22)
-        Me.btnReverseAndUnPost.TabIndex = 12
-        Me.btnReverseAndUnPost.Text = "Reverse/UnPost"
-        Me.btnReverseAndUnPost.Visible = False
         '
         'FrmSalesOrder
         '
@@ -1090,11 +1090,11 @@ Partial Class FrmSalesOrder
         CType(Me.txtDocAmtWithoutTax, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDocamt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDocAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReverseAndUnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnReverseAndUnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

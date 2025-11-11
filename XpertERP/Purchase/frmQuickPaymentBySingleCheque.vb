@@ -436,12 +436,12 @@ Public Class frmQuickPaymentBySingleCheque
 
             If objCommonVar.RCDFCFP = True Then
             Else
-                strWhereClause += " User_Code='" + objCommonVar.CurrentUserCode + "' "
+                strWhereClause += " User_Code='" + objCommonVar.CurrentUserCode + "' and "
             End If
             strWhrclas += " and  TSPL_bank_master.INACTIVE ='Active' "
-            strWhereClause += " and TSPL_bank_master.INACTIVE ='Active' "
+            strWhereClause += " TSPL_bank_master.INACTIVE ='Active' "
 
-            Dim query As String = Qry & "where " & strWhereClause
+            Dim query As String = Qry & "where 1=1 and " & strWhereClause
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(query)
             If dt.Rows.Count > 0 Then
                 txtBankCode.Value = clsCommon.ShowSelectForm("BankSlctr@Payment", Qry, "Code", strWhereClause, txtBankCode.Value, "Code", isButtonClicked)

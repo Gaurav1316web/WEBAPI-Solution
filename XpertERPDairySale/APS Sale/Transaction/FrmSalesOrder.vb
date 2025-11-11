@@ -802,7 +802,7 @@ left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_CUSTOMER_T
     Private Sub txtLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocation._MYValidating
         Try
             Dim qry As String = "select Location_Code as Code,Location_Desc as Name,Loc_Short_Name as [Short Name] from TSPL_LOCATION_MASTER "
-            Dim WhrCls As String = " Location_Category not in('MCC')"
+            Dim WhrCls As String = "Loc_Status='N' and Location_Category not in('MCC') and Location_Type='Physical' and Is_Section='N' and Is_Sub_Location='N' and CSA_Type <>'Y' and DutyPaid <>'Y' and Rejected_Type <>'Y' and GIT_Type<>'Y' or isSaleLocation=1 "
             If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
                 WhrCls += "  and  Location_Code in (" & objCommonVar.strCurrUserLocations & ")"
             End If

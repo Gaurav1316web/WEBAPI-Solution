@@ -34,7 +34,13 @@ Public Class rptDayWiseBoothDemand
         rdbBooth.IsChecked = True
         rdbRoute.IsChecked = False
         rdbRouteBoothGrp.IsChecked = False
-        GV1.DataSource = Nothing
+        gv1.DataSource = Nothing
+        rbdBoth.IsChecked = True
+        rbdMorning.IsChecked = False
+        rbdEvening.IsChecked = False
+        rbdLtrWise.IsChecked = True
+        rbdCrateWise.IsChecked = False
+        rbdShiftWise.IsChecked = False
         RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
@@ -87,6 +93,7 @@ Public Class rptDayWiseBoothDemand
                     Throw New Exception("No data found to display")
                 End If
             End If
+
             If rdbBooth.IsChecked And (rbnItemWise.IsChecked) And rdbDetail.IsChecked Then
                 Groupby = " GROUP BY [Booth Code] ,Route,Document_Date "
                 Booth = " [Booth Code],"
@@ -116,6 +123,12 @@ Public Class rptDayWiseBoothDemand
                 Groupby = " Group by  [Booth Code] "
                 Booth = " [Booth Code],"
                 Route = "max(Route) as Route"
+            ElseIf rdbBooth.IsChecked And rbnItemType.IsChecked And rbdShiftWise.IsChecked Then
+                Groupby = " Group by ShiftType,Document_Date , [Booth Code] "
+                Booth = " [Booth Code],"
+                Route = "max(Route) as Route"
+                Dates = "Document_Date as Date,"
+
             ElseIf rdbRouteBoothGrp.IsChecked And rbnItemWise.IsChecked And rdbDetail.IsChecked Then
                 Groupby = "GROUP BY Document_Date,Route, Cust_Group_Code order by Date,Route"
                 Dates = "Cast(document_date as Date) as [Date], "
@@ -126,7 +139,171 @@ Public Class rptDayWiseBoothDemand
                 Dates = "Document_Date as Date,"
             ElseIf rdbRouteBoothGrp.IsChecked And rbnItemType.IsChecked And rdbSummary.IsChecked Then
                 Groupby = "Group by Route, Cust_Group_Code  order by Route"
+
+            ElseIf rdbBooth.IsChecked And (rbnItemWise.IsChecked) And rbdShiftWise.IsChecked Then
+                Groupby = " GROUP BY ShiftType,[Booth Code] ,Route,Document_Date "
+                Booth = " [Booth Code],"
+                Dates = "Document_Date as Date,"
+
+            ElseIf rdbRoute.IsChecked And rbnItemWise.IsChecked And rbdShiftWise.IsChecked Then
+                Groupby = " Group by ShiftType,Document_Date ,Route "
+                Dates = " Cast(document_date as Date) as [Date],"
+            ElseIf rdbRoute.IsChecked And rbnItemType.IsChecked And rbdShiftWise.IsChecked Then
+                Groupby = " Group by ShiftType, Document_Date ,Route "
+                Route = "Route"
+                Dates = "Document_Date as Date,"
+            ElseIf rdbRouteBoothGrp.IsChecked And rbnItemWise.IsChecked And rbdShiftWise.IsChecked Then
+                Groupby = "GROUP BY ShiftType,Document_Date,Route, Cust_Group_Code order by Date,Route"
+                Dates = "Cast(document_date as Date) as [Date], "
+            ElseIf rdbRouteBoothGrp.IsChecked And rbnItemWise.IsChecked And rbdShiftWise.IsChecked Then
+                Groupby = "GROUP BY ShiftType,Document_Date,Route, Cust_Group_Code order by Date,Route"
+            ElseIf rdbRouteBoothGrp.IsChecked And rbnItemType.IsChecked And rbdShiftWise.IsChecked Then
+                Groupby = "Group by ShiftType, Document_Date ,Route, Cust_Group_Code  order by Document_Date ,Route"
+                Dates = "Document_Date as Date,"
             End If
+
+
+
+
+            'If rbdLtrWise.IsChecked And rdbBooth.IsChecked And (rbnItemWise.IsChecked) And rdbDetail.IsChecked Then
+            '    Groupby = " GROUP BY [Booth Code] ,Route,Document_Date "
+            '    Booth = " [Booth Code],"
+            '    Dates = "Document_Date as Date,"
+            'ElseIf rdbBooth.IsChecked And (rbnItemWise.IsChecked) And rbdShiftWise.IsChecked Then
+            '    Groupby = " GROUP BY ShiftType,[Booth Code] ,Route,Document_Date "
+            '    Booth = " [Booth Code],"
+            '    Dates = "Document_Date as Date,"
+            'ElseIf rbdLtrWise.IsChecked And rdbBooth.IsChecked And (rbnItemWise.IsChecked) And rdbSummary.IsChecked Then
+            '    Groupby = " GROUP BY [Booth Code] ,Route "
+            '    Booth = " [Booth Code],"
+            '    order = "Order By [Booth Code] "
+            'ElseIf rbdLtrWise.IsChecked And rdbRoute.IsChecked And rbnItemWise.IsChecked And rdbDetail.IsChecked Then
+            '    Groupby = " Group by Document_Date ,Route "
+            '    Dates = " Cast(document_date as Date) as [Date],"
+            'ElseIf rdbRoute.IsChecked And rbnItemWise.IsChecked And rbdShiftWise.IsChecked Then
+            '    Groupby = " Group by ShiftType, Document_Date ,Route "
+            '    Dates = " Cast(document_date as Date) as [Date],"
+            'ElseIf rbdLtrWise.IsChecked And rdbRoute.IsChecked And rbnItemWise.IsChecked And rdbSummary.IsChecked Then
+            '    Groupby = " Group by Route "
+            'ElseIf rbdLtrWise.IsChecked And rdbRoute.IsChecked And rbnItemType.IsChecked And rdbDetail.IsChecked Then
+            '    Groupby = " Group by Document_Date ,Route "
+            '    Route = "Route"
+            '    Dates = "Document_Date as Date,"
+            'ElseIf rbdLtrWise.IsChecked And rdbRoute.IsChecked And rbnItemType.IsChecked And rbdShiftWise.IsChecked Then
+            '    Groupby = " Group by ShiftType,Document_Date ,Route "
+            '    Route = "Route"
+            '    Dates = "Document_Date as Date,"
+            'ElseIf rbdLtrWise.IsChecked And rdbRoute.IsChecked And rbnItemType.IsChecked And rdbSummary.IsChecked Then
+            '    Groupby = " Group by Route "
+            '    Route = "Route"
+            'ElseIf rbdLtrWise.IsChecked And rdbBooth.IsChecked And rbnItemType.IsChecked And rdbDetail.IsChecked Then
+            '    Groupby = " Group by Document_Date , [Booth Code] "
+            '    Booth = " [Booth Code],"
+            '    Route = "max(Route) as Route"
+            '    Dates = "Document_Date as Date,"
+            'ElseIf rdbBooth.IsChecked And rbnItemType.IsChecked And rbdShiftWise.IsChecked Then
+            '    Groupby = " Group by ShiftType,Document_Date , [Booth Code] "
+            '    Booth = " [Booth Code],"
+            '    Route = "max(Route) as Route"
+            '    Dates = "Document_Date as Date,"
+
+            'ElseIf rbdLtrWise.IsChecked And rdbBooth.IsChecked And rbnItemType.IsChecked And rdbSummary.IsChecked Then
+            '    Groupby = " Group by  [Booth Code] "
+            '    Booth = " [Booth Code],"
+            '    Route = "max(Route) as Route"
+            'ElseIf rbdLtrWise.IsChecked And rdbRouteBoothGrp.IsChecked And rbnItemWise.IsChecked And rdbDetail.IsChecked Then
+            '    Groupby = "GROUP BY Document_Date,Route, Cust_Group_Code order by Date,Route"
+            '    Dates = "Cast(document_date as Date) as [Date], "
+
+            'ElseIf rbdLtrWise.IsChecked And rdbRouteBoothGrp.IsChecked And rbnItemWise.IsChecked And rbdShiftWise.IsChecked Then
+            '    Groupby = "GROUP BY ShiftType, Document_Date,Route, Cust_Group_Code order by Date,Route"
+            '    Dates = "Cast(document_date as Date) as [Date], "
+            'ElseIf rbdCrateWise.IsChecked And rdbRouteBoothGrp.IsChecked And rbnItemWise.IsChecked And rbdShiftWise.IsChecked Then
+            '    Groupby = "GROUP BY ShiftType, Document_Date,Route, Cust_Group_Code order by Date,Route"
+            '    Dates = "Cast(document_date as Date) as [Date], "
+
+            'ElseIf rbdLtrWise.IsChecked And rdbRouteBoothGrp.IsChecked And rbnItemWise.IsChecked And rdbSummary.IsChecked Then
+            '    Groupby = "GROUP BY Route, Cust_Group_Code order by Route"
+            'ElseIf rbdLtrWise.IsChecked And rdbRouteBoothGrp.IsChecked And rbnItemType.IsChecked And rdbDetail.IsChecked Then
+            '    Groupby = "Group by Document_Date ,Route, Cust_Group_Code  order by Document_Date ,Route"
+            '    Dates = "Document_Date as Date,"
+            'ElseIf rbdLtrWise.IsChecked And rdbRouteBoothGrp.IsChecked And rbnItemType.IsChecked And rbdShiftWise.IsChecked Then
+            '    Groupby = "Group by ShiftType,Document_Date ,Route, Cust_Group_Code  order by Document_Date ,Route"
+            '    Dates = "Document_Date as Date,"
+            'ElseIf rbdCrateWise.IsChecked And rdbRouteBoothGrp.IsChecked And rbnItemType.IsChecked And rbdShiftWise.IsChecked Then
+            '    Groupby = "Group by ShiftType,Document_Date ,Route, Cust_Group_Code  order by Document_Date ,Route"
+            '    Dates = "Document_Date as Date,"
+
+            'ElseIf rbdLtrWise.IsChecked And rdbRouteBoothGrp.IsChecked And rbnItemType.IsChecked And rdbSummary.IsChecked Then
+            '    Groupby = "Group by Route, Cust_Group_Code  order by Route"
+
+
+
+            'ElseIf rbdCrateWise.IsChecked And rdbBooth.IsChecked And (rbnItemWise.IsChecked) And rdbDetail.IsChecked Then
+            '    Groupby = " GROUP BY [Booth Code] ,Route,Document_Date "
+            '    Booth = " [Booth Code],"
+            '    Dates = "Document_Date as Date,"
+            'ElseIf rdbBooth.IsChecked And (rbnItemWise.IsChecked) And rbdShiftWise.IsChecked Then
+            '    Groupby = " GROUP BY ShiftType,[Booth Code] ,Route,Document_Date "
+            '    Booth = " [Booth Code],"
+            '    Dates = "Document_Date as Date,"
+            'ElseIf rbdCrateWise.IsChecked And rdbBooth.IsChecked And (rbnItemWise.IsChecked) And rdbSummary.IsChecked Then
+            '    Groupby = " GROUP BY [Booth Code] ,Route "
+            '    Booth = " [Booth Code],"
+            '    order = "Order By [Booth Code] "
+            'ElseIf rbdCrateWise.IsChecked And rdbRoute.IsChecked And rbnItemWise.IsChecked And rdbDetail.IsChecked Then
+            '    Groupby = " Group by Document_Date ,Route "
+            '    Dates = " Cast(document_date as Date) as [Date],"
+            'ElseIf rdbRoute.IsChecked And rbnItemWise.IsChecked And rbdShiftWise.IsChecked Then
+            '    Groupby = " Group by ShiftType, Document_Date ,Route "
+            '    Dates = " Cast(document_date as Date) as [Date],"
+            'ElseIf rbdCrateWise.IsChecked And rdbRoute.IsChecked And rbnItemWise.IsChecked And rdbSummary.IsChecked Then
+            '    Groupby = " Group by Route "
+            'ElseIf rbdCrateWise.IsChecked And rdbRoute.IsChecked And rbnItemType.IsChecked And rdbDetail.IsChecked Then
+            '    Groupby = " Group by Document_Date ,Route "
+            '    Route = "Route"
+            '    Dates = "Document_Date as Date,"
+            'ElseIf rbdCrateWise.IsChecked And rdbRoute.IsChecked And rbnItemType.IsChecked And rbdShiftWise.IsChecked Then
+            '    Groupby = " Group by ShiftType,Document_Date ,Route "
+            '    Route = "Route"
+            '    Dates = "Document_Date as Date,"
+            'ElseIf rbdCrateWise.IsChecked And rdbRoute.IsChecked And rbnItemType.IsChecked And rdbSummary.IsChecked Then
+            '    Groupby = " Group by Route "
+            '    Route = "Route"
+            'ElseIf rbdCrateWise.IsChecked And rdbBooth.IsChecked And rbnItemType.IsChecked And rdbDetail.IsChecked Then
+            '    Groupby = " Group by Document_Date , [Booth Code] "
+            '    Booth = " [Booth Code],"
+            '    Route = "max(Route) as Route"
+            '    Dates = "Document_Date as Date,"
+            'ElseIf rbdCrateWise.IsChecked And rdbBooth.IsChecked And rbnItemType.IsChecked And rbdShiftWise.IsChecked Then
+            '    Groupby = " Group by ShiftType,Document_Date , [Booth Code] "
+            '    Booth = " [Booth Code],"
+            '    Route = "max(Route) as Route"
+            '    Dates = "Document_Date as Date,"
+
+            'ElseIf rbdCrateWise.IsChecked And rdbBooth.IsChecked And rbnItemType.IsChecked And rdbSummary.IsChecked Then
+            '    Groupby = " Group by  [Booth Code] "
+            '    Booth = " [Booth Code],"
+            '    Route = "max(Route) as Route"
+            'ElseIf rbdCrateWise.IsChecked And rdbRouteBoothGrp.IsChecked And rbnItemWise.IsChecked And rdbDetail.IsChecked Then
+            '    Groupby = "GROUP BY Document_Date,Route, Cust_Group_Code order by Date,Route"
+            '    Dates = "Cast(document_date as Date) as [Date], "
+
+            'ElseIf rbdCrateWise.IsChecked And rdbRouteBoothGrp.IsChecked And rbnItemWise.IsChecked And rbdShiftWise.IsChecked Then
+            '    Groupby = "GROUP BY ShiftType, Document_Date,Route, Cust_Group_Code order by Date,Route"
+            '    Dates = "Cast(document_date as Date) as [Date], "
+            'ElseIf rbdCrateWise.IsChecked And rdbRouteBoothGrp.IsChecked And rbnItemWise.IsChecked And rdbSummary.IsChecked Then
+            '    Groupby = "GROUP BY Route, Cust_Group_Code order by Route"
+            'ElseIf rbdCrateWise.IsChecked And rdbRouteBoothGrp.IsChecked And rbnItemType.IsChecked And rdbDetail.IsChecked Then
+            '    Groupby = "Group by Document_Date ,Route, Cust_Group_Code  order by Document_Date ,Route"
+            '    Dates = "Document_Date as Date,"
+            'ElseIf rdbRouteBoothGrp.IsChecked And rbnItemType.IsChecked And rbdShiftWise.IsChecked Then
+            '    Groupby = "Group by ShiftType,Document_Date ,Route, Cust_Group_Code  order by Document_Date ,Route"
+            '    Dates = "Document_Date as Date,"
+            'ElseIf rbdCrateWise.IsChecked And rdbRouteBoothGrp.IsChecked And rbnItemType.IsChecked And rdbSummary.IsChecked Then
+            '    Groupby = "Group by Route, Cust_Group_Code  order by Route"
+            'End If
+
             If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
                 Whr += "  and Route In (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
             End If
@@ -135,9 +312,23 @@ Public Class rptDayWiseBoothDemand
             End If
             If (rdbBooth.IsChecked OrElse rdbRoute.IsChecked) And rbnItemWise.IsChecked Then
                 Qry += "SELECT " + Dates + "'LTR' as [QTY IN]," + Booth + "([Route]) AS [Route], max(Zone_Code) as Zone,max(Cust_Group_Code) as [Booth Type], MAX([Mobile No]) AS [Mobile No],  
-                     " + Sumitemdesc + ",Sum(ItemNetAmount) as [Total Amount] FROM ((
-select xx.Item_Code,  xx.Quantity,xx.[Booth Code],dateadd(day,1,convert(date,Document_Date,103)) as Document_Date,xx.[Customer Name],xx.[Mobile No],xx.Route,xx.Zone_Code,xx.[Route Name],xx.Short_Description,xx.Qty,xx.Cust_Group_Code,xx.Unit_code,ItemNetAmount  from (
-                    (SELECT TSPL_DEMAND_BOOKING_DETAIL.Item_Code,
+                     " + Sumitemdesc + ",Sum(ItemNetAmount) as [Total Amount] "
+                     If rbdShiftWise.IsChecked Then
+                        Qry += ",(ShiftType)ShiftType "
+                    End If
+                Qry += " FROM ((
+                         select"
+                 If rbdShiftWise.IsChecked Then
+                        Qry += " xx.shifttype, "
+                    End If
+
+                Qry += " xx.Item_Code,  xx.Quantity,xx.[Booth Code],dateadd(day,1,convert(date,Document_Date,103)) as Document_Date,xx.[Customer Name],xx.[Mobile No],xx.Route,xx.Zone_Code,xx.[Route Name],xx.Short_Description,xx.Qty,xx.Cust_Group_Code,xx.Unit_code,ItemNetAmount  from (
+                    (SELECT "
+                 If rbdShiftWise.IsChecked Then
+                        Qry += " TSPL_DEMAND_BOOKING_MASTER.ShiftType, "
+                    End If
+
+                Qry += "  TSPL_DEMAND_BOOKING_DETAIL.Item_Code,
 					 ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor)  AS [Quantity],
                     TSPL_DEMAND_BOOKING_DETAIL.Cust_Code AS [Booth Code],TSPL_DEMAND_BOOKING_MASTER.Document_Date, TSPL_CUSTOMER_MASTER.Customer_Name AS [Customer Name], TSPL_CUSTOMER_MASTER.Phone1 AS [Mobile No],
                     TSPL_ROUTE_MASTER.Route_No AS [Route],TSPL_ROUTE_MASTER.Zone_Code, TSPL_CUSTOMER_MASTER.Route_Desc AS [Route Name], TSPL_ITEM_MASTER.Short_Description + ' ' + '(' + case when isnull(ITEMDETAIL1.Report_UOM,0) = 1 then  ITEMDETAIL1.UOM_Code + ')' end AS Short_Description, TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_CUSTOMER_MASTER.Cust_Group_Code,
@@ -147,13 +338,45 @@ select xx.Item_Code,  xx.Quantity,xx.[Booth Code],dateadd(day,1,convert(date,Doc
                     LEFT JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
                     LEFT JOIN tspl_item_master ON TSPL_DEMAND_BOOKING_DETAIL.item_code = tspl_item_master.item_code
                     left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "'
-                    LEFT JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = tspl_item_master.item_code AND TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code
-                 left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='LTR'
-                    where  TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' and
-					convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=dateadd(day,-1,convert(date,'" + fromDate.Value + "',103)) AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=dateadd(day,-1,convert(date,'" + ToDate.Value + "',103))  
-                    ))xx )
+                    LEFT JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = tspl_item_master.item_code AND TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code"
+                If rbdCrateWise.IsChecked Then
+                    Qry += "  left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='Crate'"
+                Else
+                    Qry += "  left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='LTR'"
+                End If
+
+                Qry += "where  "
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") <> CompairStringResult.Equal Then
+                    If rbdMorning.IsChecked Then
+                        Qry += "  TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Morning'
+                                      and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                    ElseIf rbdEvening.IsChecked Then
+                        Qry += "  TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Evening'
+                                      and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                    Else
+                        Qry += "  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                    End If
+                Else
+                    Qry += " TSPL_DEMAND_BOOKING_MASTER.ShiftType ='Evening' 
+                               and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=dateadd(day,-1,convert(date,'" + fromDate.Value + "',103))
+                    AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=dateadd(day,-1,convert(date,'" + ToDate.Value + "',103))   "
+                End If
+
+
+
+                'Qry += " where  TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' and
+                '	convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=dateadd(day,-1,convert(date,'" + fromDate.Value + "',103)) AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=dateadd(day,-1,convert(date,'" + ToDate.Value + "',103))  "
+                Qry += " ))xx )
 					union all
-                    (SELECT TSPL_DEMAND_BOOKING_DETAIL.Item_Code,
+                    (SELECT "
+                    If rbdShiftWise.IsChecked Then
+                        Qry += " TSPL_DEMAND_BOOKING_MASTER.ShiftType, "
+                    End If
+
+                    Qry += "  TSPL_DEMAND_BOOKING_DETAIL.Item_Code,
 					 ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor)  AS [Quantity],
                     TSPL_DEMAND_BOOKING_DETAIL.Cust_Code AS [Booth Code],convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) as Document_Date, TSPL_CUSTOMER_MASTER.Customer_Name AS [Customer Name], TSPL_CUSTOMER_MASTER.Phone1 AS [Mobile No],
                     TSPL_ROUTE_MASTER.Route_No AS [Route],TSPL_ROUTE_MASTER.Zone_Code, TSPL_CUSTOMER_MASTER.Route_Desc AS [Route Name], TSPL_ITEM_MASTER.Short_Description + ' ' + '(' + case when isnull(ITEMDETAIL1.Report_UOM,0) = 1 then  ITEMDETAIL1.UOM_Code + ')' end AS Short_Description, TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_CUSTOMER_MASTER.Cust_Group_Code,
@@ -163,18 +386,50 @@ select xx.Item_Code,  xx.Quantity,xx.[Booth Code],dateadd(day,1,convert(date,Doc
                     LEFT JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
                     LEFT JOIN tspl_item_master ON TSPL_DEMAND_BOOKING_DETAIL.item_code = tspl_item_master.item_code
                     left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "'
-                    LEFT JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = tspl_item_master.item_code AND TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code
-                 left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='LTR'
-                    where  TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning' and
-					convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103) 
-                    ))AS SourceData PIVOT (SUM([Quantity])FOR Short_Description IN (" + itemdesc + ")) AS PivotTable where 2=2 " + Whr + " " + Groupby + " " + order + "
+                    LEFT JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = tspl_item_master.item_code AND TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code"
+                    If rbdCrateWise.IsChecked Then
+                        Qry += "  left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='Crate'"
+                    Else
+                        Qry += "  left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='LTR'"
+                    End If
+                '           Qry += " where  TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning' and
+                'convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103) "
+
+                Qry += " where "
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") <> CompairStringResult.Equal Then
+                    If rbdMorning.IsChecked Then
+                        Qry += "  TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Morning'
+                                      and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                    ElseIf rbdEvening.IsChecked Then
+                        Qry += "  TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Evening'
+                                      and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                    Else
+                        Qry += " convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                    End If
+                Else
+                    Qry += " TSPL_DEMAND_BOOKING_MASTER.ShiftType ='Morning' 
+                                and  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) 
+                              AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)   "
+                End If
+
+
+
+
+                Qry += "))AS SourceData PIVOT (SUM([Quantity])FOR Short_Description IN (" + itemdesc + ")) AS PivotTable where 2=2 " + Whr + " " + Groupby + " " + order + "
                      "
                 If (rdbBooth.IsChecked OrElse rdbRoute.IsChecked) And rbnItemWise.IsChecked And rdbDetail.IsChecked Then
-                    Qry += " order by Date "
-                End If
-            ElseIf (rdbBooth.IsChecked OrElse rdbRoute.IsChecked) And rbnItemType.IsChecked Then
-                Qry = "Select " + Dates + " " + Booth + " " + Route + ",max(Zone_Code) as Zone,max(Cust_Group_Code) as [Booth Type],max([Mobile No]) as [Mobile No],Sum([Milk(LTR)]) as [Milk(LTR)],Sum([Product(LTR)]) as [Product(LTR)],Sum([Milk(LTR)])+Sum([Product(LTR)]) as [Total (LTR)],sum(ItemNetAmount) as [Total Amount],Sum([Milk(LTR)])/  " + clsCommon.myCstr(daysCount) + "  as [AVG Milk],Sum([Product(LTR)])/ " + clsCommon.myCstr(daysCount) + " as [AVG Product] from (((select xx.[Milk(LTR)],xx.[Product(LTR)],xx.[Booth Code],dateadd(day,1,convert(date,xx.Document_Date,103)) as Document_Date,xx.[Customer Name],xx.[Mobile No],xx.Route,xx.Zone_Code,xx.[Route Name],xx.Short_Description,xx.Qty,xx.Cust_Group_Code,xx.Unit_code,ItemNetAmount,Is_FreshItem,Is_FreshAmbient from (
-                    (SELECT 
+                        Qry += " order by Date "
+                    End If
+                ElseIf (rdbBooth.IsChecked OrElse rdbRoute.IsChecked) And rbnItemType.IsChecked Then
+                    If rbdShiftWise.IsChecked Then
+                        Qry = "Select " + Dates + " " + Booth + " " + Route + ",max(Zone_Code) as Zone,max(Cust_Group_Code) as [Booth Type],max([Mobile No]) as [Mobile No],Sum([Milk(LTR)]) as [Milk(LTR)],Sum([Product(LTR)]) as [Product(LTR)],Sum([Milk(LTR)])+Sum([Product(LTR)]) as [Total (LTR)],sum(ItemNetAmount) as [Total Amount],Sum([Milk(LTR)])/  " + clsCommon.myCstr(daysCount) + "  as [AVG Milk],Sum([Product(LTR)])/ " + clsCommon.myCstr(daysCount) + " as [AVG Product],
+(ShiftType)ShiftType
+from (((select xx.ShiftType,xx.[Milk(LTR)],xx.[Product(LTR)],xx.[Booth Code],dateadd(day,1,convert(date,xx.Document_Date,103)) as Document_Date,xx.[Customer Name],xx.[Mobile No],xx.Route,xx.Zone_Code,xx.[Route Name],xx.Short_Description,xx.Qty,xx.Cust_Group_Code,xx.Unit_code,ItemNetAmount,Is_FreshItem,Is_FreshAmbient from (
+                    (SELECT TSPL_DEMAND_BOOKING_MASTER.
+ShiftType,
 					 Case when tspl_item_master.IsTaxable=0 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) else 0 end  AS [Milk(LTR)],Case when tspl_item_master.IsTaxable=1 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) else 0 end  AS [Product(LTR)],
                     TSPL_DEMAND_BOOKING_DETAIL.Cust_Code AS [Booth Code],TSPL_DEMAND_BOOKING_MASTER.Document_Date, TSPL_CUSTOMER_MASTER.Customer_Name AS [Customer Name], TSPL_CUSTOMER_MASTER.Phone1 AS [Mobile No],tspl_item_master.Is_FreshItem,Is_FreshAmbient,
                     TSPL_ROUTE_MASTER.Route_No AS [Route],TSPL_ROUTE_MASTER.Zone_Code, TSPL_CUSTOMER_MASTER.Route_Desc AS [Route Name], TSPL_ITEM_MASTER.Short_Description + ' ' + '(' + case when isnull(ITEMDETAIL1.Report_UOM,0) = 1 then  ITEMDETAIL1.UOM_Code + ')' end AS Short_Description, TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_CUSTOMER_MASTER.Cust_Group_Code,
@@ -184,13 +439,40 @@ select xx.Item_Code,  xx.Quantity,xx.[Booth Code],dateadd(day,1,convert(date,Doc
                     LEFT JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
                     LEFT JOIN tspl_item_master ON TSPL_DEMAND_BOOKING_DETAIL.item_code = tspl_item_master.item_code
                     left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "'
-                    LEFT JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = tspl_item_master.item_code AND TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code
-                 left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='LTR'
-                    where  TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' and
-					convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=dateadd(day,-1,convert(date,'" + fromDate.Value + "',103)) AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=dateadd(day,-1,convert(date,'" + ToDate.Value + "',103))  
-                    ))xx )
+                    LEFT JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = tspl_item_master.item_code AND TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code"
+                        If rbdCrateWise.IsChecked Then
+                            Qry += "  left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='Crate'"
+                        Else
+                            Qry += "  left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='LTR'"
+                        End If
+
+                    Qry += "where  "
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") <> CompairStringResult.Equal Then
+                        If rbdMorning.IsChecked Then
+                            Qry += "  TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Morning'
+                                      and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                        ElseIf rbdEvening.IsChecked Then
+                            Qry += "  TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Evening'
+                                      and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                        Else
+                            Qry += "  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                        End If
+                    Else
+                        Qry += " TSPL_DEMAND_BOOKING_MASTER.ShiftType ='Evening' 
+                               and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=dateadd(day,-1,convert(date,'" + fromDate.Value + "',103))
+                    AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=dateadd(day,-1,convert(date,'" + ToDate.Value + "',103))   "
+                    End If
+                    'TSPL_DEMAND_BOOKING_MASTER.ShiftType ='Evening' and
+
+
+                    '                    Qry += " and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=dateadd(day,-1,convert(date,'" + fromDate.Value + "',103))
+                    'AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=dateadd(day,-1,convert(date,'" + ToDate.Value + "',103))  
+                    Qry += "  ))xx )
 					union all
-                    (SELECT 
+                    (SELECT TSPL_DEMAND_BOOKING_MASTER.ShiftType,
 					 case when tspl_item_master.IsTaxable=0 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) end   AS [Milk(LTR)],Case when tspl_item_master.IsTaxable=1 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) else 0 end  AS [Product(LTR)],
                     TSPL_DEMAND_BOOKING_DETAIL.Cust_Code AS [Booth Code],convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) as Document_Date , TSPL_CUSTOMER_MASTER.Customer_Name AS [Customer Name], TSPL_CUSTOMER_MASTER.Phone1 AS [Mobile No],
                     TSPL_ROUTE_MASTER.Route_No AS [Route],TSPL_ROUTE_MASTER.Zone_Code, TSPL_CUSTOMER_MASTER.Route_Desc AS [Route Name], TSPL_ITEM_MASTER.Short_Description + ' ' + '(' + case when isnull(ITEMDETAIL1.Report_UOM,0) = 1 then  ITEMDETAIL1.UOM_Code + ')' end AS Short_Description, TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_CUSTOMER_MASTER.Cust_Group_Code,
@@ -200,18 +482,67 @@ select xx.Item_Code,  xx.Quantity,xx.[Booth Code],dateadd(day,1,convert(date,Doc
                     LEFT JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
                     LEFT JOIN tspl_item_master ON TSPL_DEMAND_BOOKING_DETAIL.item_code = tspl_item_master.item_code
                     left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "'
-                    LEFT JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = tspl_item_master.item_code AND TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code
-                 left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='LTR'
-                    where  TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning' and
-					convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103) 
-                    )))YYY  where  2=2 " + Whr + " " + Groupby + " "
-                If (rdbBooth.IsChecked OrElse rdbRoute.IsChecked) And rbnItemType.IsChecked And rdbDetail.IsChecked Then
-                    Qry += " order by Document_Date "
-                End If
-            ElseIf rdbRouteBoothGrp.IsChecked And rbnItemType.IsChecked Then
-                Qry = "Select " + Dates + " (Route) as Route,max(Zone_Code) as Zone,(Cust_Group_Code) as [Booth Type],max([Mobile No]) as [Mobile No],Sum([Milk(LTR)]) as [Milk(LTR)],Sum([Product(LTR)]) as [Product(LTR)],Sum([Milk(LTR)])+Sum([Product(LTR)]) as [Total (LTR)],sum(ItemNetAmount) as [Total Amount] ,Sum([Milk(LTR)])/  " + clsCommon.myCstr(daysCount) + "  as [AVG Milk],Sum([Product(LTR)])/ " + clsCommon.myCstr(daysCount) + " as [AVG Product] from (((select xx.[Milk(LTR)],xx.[Product(LTR)],xx.[Booth Code],dateadd(day,1,convert(date,xx.Document_Date,103)) as Document_Date,xx.[Customer Name],xx.[Mobile No],xx.Route,xx.Zone_Code,xx.[Route Name],xx.Short_Description,xx.Qty,xx.Cust_Group_Code,xx.Unit_code,ItemNetAmount,Is_FreshItem,Is_FreshAmbient from (
-                    (SELECT 
-					 Case when tspl_item_master.IsTaxable=0 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) else 0 end  AS [Milk(LTR)],Case when tspl_item_master.IsTaxable=1 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) else 0 end  AS [Product(LTR)],
+                    LEFT JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = tspl_item_master.item_code AND TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code"
+                    If rbdCrateWise.IsChecked Then
+                            Qry += "  left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='Crate'"
+                        Else
+                            Qry += "  left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='LTR'"
+                        End If
+                        Qry += " where "
+                    'If rbdMorning.IsChecked Then
+                    '    Qry += " TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Morning'"
+                    'ElseIf rbdEvening.IsChecked Then
+                    '    Qry += " TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Evening'"
+                    'Else
+                    '    Qry += " TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning'"
+                    'End If
+
+
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") <> CompairStringResult.Equal Then
+                        If rbdMorning.IsChecked Then
+                            Qry += "  TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Morning'
+                                      and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                        ElseIf rbdEvening.IsChecked Then
+                            Qry += "  TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Evening'
+                                      and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                        Else
+                            Qry += " convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                        End If
+                    Else
+                        Qry += " TSPL_DEMAND_BOOKING_MASTER.ShiftType ='Morning' 
+                                and  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) 
+                              AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)   "
+                    End If
+
+
+
+
+                    ' TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning' and
+                    '                    Qry += " and  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) 
+                    'AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103) 
+                    Qry += " )))YYY  where  2=2 " + Whr + " " + Groupby + " "
+                    If (rdbBooth.IsChecked OrElse rdbRoute.IsChecked) And rbnItemType.IsChecked And rbdShiftWise.IsChecked Then
+                            Qry += " order by Document_Date "
+                        End If
+
+                    Else
+                        Qry = "Select " + Dates + " " + Booth + " " + Route + ",max(Zone_Code) as Zone,max(Cust_Group_Code) as [Booth Type],max([Mobile No]) as [Mobile No],Sum([Milk(LTR)]) as [Milk(LTR)],Sum([Product(LTR)]) as [Product(LTR)],Sum([Milk(LTR)])+Sum([Product(LTR)]) as [Total (LTR)],sum(ItemNetAmount) as [Total Amount],Sum([Milk(LTR)])/  " + clsCommon.myCstr(daysCount) + "  as [AVG Milk],Sum([Product(LTR)])/ " + clsCommon.myCstr(daysCount) + " as [AVG Product] "
+                        If rbdShiftWise.IsChecked Then
+                            Qry += ",(ShiftType)ShiftType "
+                        End If
+                        Qry += " from (((select "
+                        If rbdShiftWise.IsChecked Then
+                            Qry += " xx.shifttype, "
+                        End If
+                        Qry += " xx.[Milk(LTR)],xx.[Product(LTR)],xx.[Booth Code],dateadd(day,1,convert(date,xx.Document_Date,103)) as Document_Date,xx.[Customer Name],xx.[Mobile No],xx.Route,xx.Zone_Code,xx.[Route Name],xx.Short_Description,xx.Qty,xx.Cust_Group_Code,xx.Unit_code,ItemNetAmount,Is_FreshItem,Is_FreshAmbient from (
+                    (SELECT "
+                        If rbdShiftWise.IsChecked Then
+                            Qry += " TSPL_DEMAND_BOOKING_MASTER.ShiftType, "
+                        End If
+                        Qry += " Case when tspl_item_master.IsTaxable=0 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) else 0 end  AS [Milk(LTR)],Case when tspl_item_master.IsTaxable=1 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) else 0 end  AS [Product(LTR)],
                     TSPL_DEMAND_BOOKING_DETAIL.Cust_Code AS [Booth Code],TSPL_DEMAND_BOOKING_MASTER.Document_Date, TSPL_CUSTOMER_MASTER.Customer_Name AS [Customer Name], TSPL_CUSTOMER_MASTER.Phone1 AS [Mobile No],tspl_item_master.Is_FreshItem,Is_FreshAmbient,
                     TSPL_ROUTE_MASTER.Route_No AS [Route],TSPL_ROUTE_MASTER.Zone_Code, TSPL_CUSTOMER_MASTER.Route_Desc AS [Route Name], TSPL_ITEM_MASTER.Short_Description + ' ' + '(' + case when isnull(ITEMDETAIL1.Report_UOM,0) = 1 then  ITEMDETAIL1.UOM_Code + ')' end AS Short_Description, TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_CUSTOMER_MASTER.Cust_Group_Code,
                     TSPL_DEMAND_BOOKING_DETAIL.Unit_code,TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount FROM TSPL_DEMAND_BOOKING_MASTER
@@ -220,14 +551,52 @@ select xx.Item_Code,  xx.Quantity,xx.[Booth Code],dateadd(day,1,convert(date,Doc
                     LEFT JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
                     LEFT JOIN tspl_item_master ON TSPL_DEMAND_BOOKING_DETAIL.item_code = tspl_item_master.item_code
                     left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "'
-                    LEFT JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = tspl_item_master.item_code AND TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code
-                 left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='LTR'
-                    where  TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' and
-					convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=dateadd(day,-1,convert(date,'" + fromDate.Value + "',103)) AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=dateadd(day,-1,convert(date,'" + ToDate.Value + "',103))  
-                    ))xx )
+                    LEFT JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = tspl_item_master.item_code AND TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code"
+                        If rbdCrateWise.IsChecked Then
+                            Qry += "  left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='Crate'"
+                        Else
+                            Qry += "  left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='LTR'"
+                        End If
+                    Qry += "  where"
+
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") <> CompairStringResult.Equal Then
+                        If rbdMorning.IsChecked Then
+                            Qry += "  TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Morning'
+                                      and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                        ElseIf rbdEvening.IsChecked Then
+                            Qry += "  TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Evening'
+                                      and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                        Else
+                            Qry += "  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                        End If
+                    Else
+                        Qry += " TSPL_DEMAND_BOOKING_MASTER.ShiftType ='Evening' 
+                               and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=dateadd(day,-1,convert(date,'" + fromDate.Value + "',103))
+                    AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=dateadd(day,-1,convert(date,'" + ToDate.Value + "',103))   "
+                    End If
+
+
+
+
+
+
+
+
+
+
+
+                    'Qry += "  where  TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' and
+                    'convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=dateadd(day,-1,convert(date,'" + fromDate.Value + "',103)) AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=dateadd(day,-1,convert(date,'" + ToDate.Value + "',103))  "
+                    Qry += "  ))xx )
 					union all
-                    (SELECT 
-					 case when tspl_item_master.IsTaxable=0 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) end   AS [Milk(LTR)],Case when tspl_item_master.IsTaxable=1 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) else 0 end  AS [Product(LTR)],
+                    (SELECT "
+                        If rbdShiftWise.IsChecked Then
+                            Qry += " TSPL_DEMAND_BOOKING_MASTER.ShiftType, "
+                        End If
+                        Qry += " case when tspl_item_master.IsTaxable=0 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) end   AS [Milk(LTR)],Case when tspl_item_master.IsTaxable=1 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) else 0 end  AS [Product(LTR)],
                     TSPL_DEMAND_BOOKING_DETAIL.Cust_Code AS [Booth Code],convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) as Document_Date , TSPL_CUSTOMER_MASTER.Customer_Name AS [Customer Name], TSPL_CUSTOMER_MASTER.Phone1 AS [Mobile No],
                     TSPL_ROUTE_MASTER.Route_No AS [Route],TSPL_ROUTE_MASTER.Zone_Code, TSPL_CUSTOMER_MASTER.Route_Desc AS [Route Name], TSPL_ITEM_MASTER.Short_Description + ' ' + '(' + case when isnull(ITEMDETAIL1.Report_UOM,0) = 1 then  ITEMDETAIL1.UOM_Code + ')' end AS Short_Description, TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_CUSTOMER_MASTER.Cust_Group_Code,
                     TSPL_DEMAND_BOOKING_DETAIL.Unit_code,TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,Is_FreshItem,Is_FreshAmbient  FROM TSPL_DEMAND_BOOKING_MASTER
@@ -236,32 +605,227 @@ select xx.Item_Code,  xx.Quantity,xx.[Booth Code],dateadd(day,1,convert(date,Doc
                     LEFT JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
                     LEFT JOIN tspl_item_master ON TSPL_DEMAND_BOOKING_DETAIL.item_code = tspl_item_master.item_code
                     left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "'
-                    LEFT JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = tspl_item_master.item_code AND TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code
-                 left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='LTR'
-                    where  TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning' and
-					convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103) 
-                    )))YYY  where  2=2 " + Whr + "  " + Groupby + " "
-            ElseIf rdbRouteBoothGrp.IsChecked And rbnItemWise.IsChecked Then
-                Qry = "SELECT " + Dates + " ([Route]) AS [Route], max(Zone_Code) as Zone,(Cust_Group_Code) as [Booth Type], MAX([Mobile No]) AS [Mobile No],  
-                      " + Sumitemdesc + ",Sum(ItemNetAmount) as [Total Amount] FROM ((
-                      select xx.Item_Code, xx.Quantity,xx.[Booth Code],dateadd(day,1,convert(date,Document_Date,103)) as Document_Date,xx.[Customer Name],xx.[Mobile No],xx.Route,xx.Zone_Code,xx.[Route Name],xx.Short_Description,xx.Qty,xx.Cust_Group_Code,xx.Unit_code,ItemNetAmount  from (
-                    (SELECT TSPL_DEMAND_BOOKING_DETAIL.Item_Code,
+                    LEFT JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = tspl_item_master.item_code AND TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code"
+                        If rbdCrateWise.IsChecked Then
+                            Qry += "  left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='Crate'"
+                        Else
+                            Qry += "  left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='LTR'"
+                        End If
+
+                    Qry += " where "
+
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") <> CompairStringResult.Equal Then
+                        If rbdMorning.IsChecked Then
+                            Qry += "  TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Morning'
+                                      and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                        ElseIf rbdEvening.IsChecked Then
+                            Qry += "  TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Evening'
+                                      and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                        Else
+                            Qry += " convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                        End If
+                    Else
+                        Qry += " TSPL_DEMAND_BOOKING_MASTER.ShiftType ='Morning' 
+                                and  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) 
+                              AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)   "
+                    End If
+
+
+
+
+
+
+
+
+                    ' Qry += " where  TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning' and
+                    'convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103) "
+                    Qry += "   )))YYY  where  2=2 " + Whr + " " + Groupby + " "
+                        If (rdbBooth.IsChecked OrElse rdbRoute.IsChecked) And rbnItemType.IsChecked And rdbDetail.IsChecked Then
+                            Qry += " order by Document_Date "
+                        End If
+                    End If
+
+                ElseIf rdbRouteBoothGrp.IsChecked And rbnItemType.IsChecked Then
+                    Qry = "Select " + Dates + " (Route) as Route,max(Zone_Code) as Zone,(Cust_Group_Code) as [Booth Type],max([Mobile No]) as [Mobile No],Sum([Milk(LTR)]) as [Milk(LTR)],Sum([Product(LTR)]) as [Product(LTR)],Sum([Milk(LTR)])+Sum([Product(LTR)]) as [Total (LTR)],sum(ItemNetAmount) as [Total Amount] ,Sum([Milk(LTR)])/  " + clsCommon.myCstr(daysCount) + "  as [AVG Milk],Sum([Product(LTR)])/ " + clsCommon.myCstr(daysCount) + " as [AVG Product] "
+                    If rbdShiftWise.IsChecked Then
+                        Qry += ",(ShiftType)ShiftType "
+                    End If
+                    Qry += "from (((select "
+
+                    If rbdShiftWise.IsChecked Then
+                        Qry += " xx.shifttype, "
+                    End If
+                    Qry += " xx.[Milk(LTR)],xx.[Product(LTR)],xx.[Booth Code],dateadd(day,1,convert(date,xx.Document_Date,103)) as Document_Date,xx.[Customer Name],xx.[Mobile No],xx.Route,xx.Zone_Code,xx.[Route Name],xx.Short_Description,xx.Qty,xx.Cust_Group_Code,xx.Unit_code,ItemNetAmount,Is_FreshItem,Is_FreshAmbient from (
+                    (SELECT "
+                    If rbdShiftWise.IsChecked Then
+                        Qry += " TSPL_DEMAND_BOOKING_MASTER.ShiftType, "
+                    End If
+                    Qry += " Case when tspl_item_master.IsTaxable=0 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) else 0 end  AS [Milk(LTR)],Case when tspl_item_master.IsTaxable=1 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) else 0 end  AS [Product(LTR)],
+                    TSPL_DEMAND_BOOKING_DETAIL.Cust_Code AS [Booth Code],TSPL_DEMAND_BOOKING_MASTER.Document_Date, TSPL_CUSTOMER_MASTER.Customer_Name AS [Customer Name], TSPL_CUSTOMER_MASTER.Phone1 AS [Mobile No],tspl_item_master.Is_FreshItem,Is_FreshAmbient,
+                    TSPL_ROUTE_MASTER.Route_No AS [Route],TSPL_ROUTE_MASTER.Zone_Code, TSPL_CUSTOMER_MASTER.Route_Desc AS [Route Name], TSPL_ITEM_MASTER.Short_Description + ' ' + '(' + case when isnull(ITEMDETAIL1.Report_UOM,0) = 1 then  ITEMDETAIL1.UOM_Code + ')' end AS Short_Description, TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_CUSTOMER_MASTER.Cust_Group_Code,
+                    TSPL_DEMAND_BOOKING_DETAIL.Unit_code,TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount FROM TSPL_DEMAND_BOOKING_MASTER
+                    LEFT OUTER JOIN TSPL_ROUTE_MASTER ON TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_MASTER.Route_No
+                    LEFT JOIN TSPL_DEMAND_BOOKING_DETAIL ON TSPL_DEMAND_BOOKING_DETAIL.Document_No = TSPL_DEMAND_BOOKING_MASTER.Document_No
+                    LEFT JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
+                    LEFT JOIN tspl_item_master ON TSPL_DEMAND_BOOKING_DETAIL.item_code = tspl_item_master.item_code
+                    left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "'
+                    LEFT JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = tspl_item_master.item_code AND TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code"
+                    If rbdCrateWise.IsChecked Then
+                        Qry += "  left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='Crate'"
+                    Else
+                        Qry += "  left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='LTR'"
+                    End If
+                Qry += " where"
+
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") <> CompairStringResult.Equal Then
+                    If rbdMorning.IsChecked Then
+                        Qry += "  TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Morning'
+                                      and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                    ElseIf rbdEvening.IsChecked Then
+                        Qry += "  TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Evening'
+                                      and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                    Else
+                        Qry += "  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                    End If
+                Else
+                    Qry += " TSPL_DEMAND_BOOKING_MASTER.ShiftType ='Evening' 
+                               and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=dateadd(day,-1,convert(date,'" + fromDate.Value + "',103))
+                    AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=dateadd(day,-1,convert(date,'" + ToDate.Value + "',103))   "
+                End If
+
+
+
+
+
+                'Qry += " where  TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' and
+                'convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=dateadd(day,-1,convert(date,'" + fromDate.Value + "',103)) AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=dateadd(day,-1,convert(date,'" + ToDate.Value + "',103))  "
+                Qry += "  ))xx )
+					union all
+                    (SELECT "
+                    If rbdShiftWise.IsChecked Then
+                        Qry += " TSPL_DEMAND_BOOKING_MASTER.ShiftType, "
+                    End If
+                    Qry += " case when tspl_item_master.IsTaxable=0 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) end   AS [Milk(LTR)],Case when tspl_item_master.IsTaxable=1 then ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) else 0 end  AS [Product(LTR)],
+                    TSPL_DEMAND_BOOKING_DETAIL.Cust_Code AS [Booth Code],convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) as Document_Date , TSPL_CUSTOMER_MASTER.Customer_Name AS [Customer Name], TSPL_CUSTOMER_MASTER.Phone1 AS [Mobile No],
+                    TSPL_ROUTE_MASTER.Route_No AS [Route],TSPL_ROUTE_MASTER.Zone_Code, TSPL_CUSTOMER_MASTER.Route_Desc AS [Route Name], TSPL_ITEM_MASTER.Short_Description + ' ' + '(' + case when isnull(ITEMDETAIL1.Report_UOM,0) = 1 then  ITEMDETAIL1.UOM_Code + ')' end AS Short_Description, TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_CUSTOMER_MASTER.Cust_Group_Code,
+                    TSPL_DEMAND_BOOKING_DETAIL.Unit_code,TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,Is_FreshItem,Is_FreshAmbient  FROM TSPL_DEMAND_BOOKING_MASTER
+                    LEFT OUTER JOIN TSPL_ROUTE_MASTER ON TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_MASTER.Route_No
+                    LEFT JOIN TSPL_DEMAND_BOOKING_DETAIL ON TSPL_DEMAND_BOOKING_DETAIL.Document_No = TSPL_DEMAND_BOOKING_MASTER.Document_No
+                    LEFT JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
+                    LEFT JOIN tspl_item_master ON TSPL_DEMAND_BOOKING_DETAIL.item_code = tspl_item_master.item_code
+                    left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "'
+                    LEFT JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = tspl_item_master.item_code AND TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code"
+
+                    If rbdCrateWise.IsChecked Then
+                        Qry += "  left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='Crate'"
+                    Else
+                        Qry += "  left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='LTR'"
+                    End If
+
+                Qry += "  where "
+
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") <> CompairStringResult.Equal Then
+                    If rbdMorning.IsChecked Then
+                        Qry += "  TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Morning'
+                                      and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                    ElseIf rbdEvening.IsChecked Then
+                        Qry += "  TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Evening'
+                                      and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                    Else
+                        Qry += " convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                    End If
+                Else
+                    Qry += " TSPL_DEMAND_BOOKING_MASTER.ShiftType ='Morning' 
+                                and  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) 
+                              AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)   "
+                End If
+
+
+
+
+
+                'Qry += "  where  TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning' and
+                'convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103) "
+
+                Qry += " )))YYY  where  2=2 " + Whr + "  " + Groupby + " "
+                ElseIf rdbRouteBoothGrp.IsChecked And rbnItemWise.IsChecked Then
+                    Qry = "SELECT " + Dates + " ([Route]) AS [Route], max(Zone_Code) as Zone,(Cust_Group_Code) as [Booth Type], MAX([Mobile No]) AS [Mobile No],  
+                      " + Sumitemdesc + ",Sum(ItemNetAmount) as [Total Amount] "
+                If rbdShiftWise.IsChecked Then
+                    Qry += ",(ShiftType)ShiftType "
+                End If
+                Qry += "   FROM(("
+
+                Qry += "select "
+
+                If rbdShiftWise.IsChecked Then
+                    Qry += " xx.shifttype, "
+                End If
+                Qry += " xx.Item_Code, xx.Quantity, xx.[Booth Code], DateAdd(Day, 1, Convert(Of Date, Document_Date,103)) As Document_Date, xx.[Customer Name], xx.[Mobile No], xx.Route, xx.Zone_Code, xx.[Route Name], xx.Short_Description, xx.Qty, xx.Cust_Group_Code, xx.Unit_code, ItemNetAmount  from (
+                    (SELECT "
+                If rbdShiftWise.IsChecked Then
+                    Qry += " TSPL_DEMAND_BOOKING_MASTER.ShiftType, "
+                End If
+                Qry += "  TSPL_DEMAND_BOOKING_DETAIL.Item_Code,
 					 ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor)  AS [Quantity],
-                    TSPL_DEMAND_BOOKING_DETAIL.Cust_Code AS [Booth Code],TSPL_DEMAND_BOOKING_MASTER.Document_Date, TSPL_CUSTOMER_MASTER.Customer_Name AS [Customer Name], TSPL_CUSTOMER_MASTER.Phone1 AS [Mobile No],
-                    TSPL_ROUTE_MASTER.Route_No AS [Route],TSPL_ROUTE_MASTER.Zone_Code, TSPL_CUSTOMER_MASTER.Route_Desc AS [Route Name], TSPL_ITEM_MASTER.Short_Description + ' ' + '(' + case when isnull(ITEMDETAIL1.Report_UOM,0) = 1 then  ITEMDETAIL1.UOM_Code + ')' end AS Short_Description, TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_CUSTOMER_MASTER.Cust_Group_Code,
-                    TSPL_DEMAND_BOOKING_DETAIL.Unit_code,TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount FROM TSPL_DEMAND_BOOKING_MASTER
-                    LEFT OUTER JOIN TSPL_ROUTE_MASTER ON TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_MASTER.Route_No
-                    LEFT JOIN TSPL_DEMAND_BOOKING_DETAIL ON TSPL_DEMAND_BOOKING_DETAIL.Document_No = TSPL_DEMAND_BOOKING_MASTER.Document_No
-                    LEFT JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
-                    LEFT JOIN tspl_item_master ON TSPL_DEMAND_BOOKING_DETAIL.item_code = tspl_item_master.item_code
-                    left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "'
-                    LEFT JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = tspl_item_master.item_code AND TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code
-                 left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='LTR'
-                    where  TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' and
-					convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=dateadd(day,-1,convert(date,'" + fromDate.Value + "',103)) AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=dateadd(day,-1,convert(date,'" + ToDate.Value + "',103))  
-                    ))xx )
+                    TSPL_DEMAND_BOOKING_DETAIL.Cust_Code AS [Booth Code], TSPL_DEMAND_BOOKING_MASTER.Document_Date, TSPL_CUSTOMER_MASTER.Customer_Name As [Customer Name], TSPL_CUSTOMER_MASTER.Phone1 As [Mobile No],
+                    TSPL_ROUTE_MASTER.Route_No AS [Route], TSPL_ROUTE_MASTER.Zone_Code, TSPL_CUSTOMER_MASTER.Route_Desc As [Route Name], TSPL_ITEM_MASTER.Short_Description + ' ' + '(' + case when isnull(ITEMDETAIL1.Report_UOM,0) = 1 then  ITEMDETAIL1.UOM_Code + ')' end AS Short_Description, TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_CUSTOMER_MASTER.Cust_Group_Code,
+                    TSPL_DEMAND_BOOKING_DETAIL.Unit_code, TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount FROM TSPL_DEMAND_BOOKING_MASTER
+                    Left OUTER JOIN TSPL_ROUTE_MASTER ON TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_MASTER.Route_No
+                    Left Join TSPL_DEMAND_BOOKING_DETAIL ON TSPL_DEMAND_BOOKING_DETAIL.Document_No = TSPL_DEMAND_BOOKING_MASTER.Document_No
+                    Left Join TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
+                    Left Join tspl_item_master ON TSPL_DEMAND_BOOKING_DETAIL.item_code = tspl_item_master.item_code
+                    Left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "'
+                    Left Join TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = tspl_item_master.item_code And TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code"
+                If rbdCrateWise.IsChecked Then
+                        Qry += "  left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code And ITEMDETAIL1.UOM_Code='Crate'"
+                Else
+                    Qry += "  left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='LTR'"
+                    End If
+
+
+                Qry += " where"
+
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") <> CompairStringResult.Equal Then
+                    If rbdMorning.IsChecked Then
+                        Qry += "  TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Morning'
+                                      and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                    ElseIf rbdEvening.IsChecked Then
+                        Qry += "  TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Evening'
+                                      and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                    Else
+                        Qry += "  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                    End If
+                Else
+                    Qry += " TSPL_DEMAND_BOOKING_MASTER.ShiftType ='Evening' 
+                               and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=dateadd(day,-1,convert(date,'" + fromDate.Value + "',103))
+                    AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=dateadd(day,-1,convert(date,'" + ToDate.Value + "',103))   "
+                End If
+
+
+
+
+                ' Qry += " where  TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' and
+                'convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=dateadd(day,-1,convert(date,'" + fromDate.Value + "',103)) AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=dateadd(day,-1,convert(date,'" + ToDate.Value + "',103)) "
+                Qry += " ))xx )
 					union all
-                    (SELECT TSPL_DEMAND_BOOKING_DETAIL.Item_Code,
+                    (SELECT"
+                 If rbdShiftWise.IsChecked Then
+                    Qry += " TSPL_DEMAND_BOOKING_MASTER.ShiftType, "
+                End If
+                Qry += " TSPL_DEMAND_BOOKING_DETAIL.Item_Code,
 					 ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor)  AS [Quantity],
                     TSPL_DEMAND_BOOKING_DETAIL.Cust_Code AS [Booth Code],convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) as Document_Date, TSPL_CUSTOMER_MASTER.Customer_Name AS [Customer Name], TSPL_CUSTOMER_MASTER.Phone1 AS [Mobile No],
                     TSPL_ROUTE_MASTER.Route_No AS [Route],TSPL_ROUTE_MASTER.Zone_Code, TSPL_CUSTOMER_MASTER.Route_Desc AS [Route Name], TSPL_ITEM_MASTER.Short_Description + ' ' + '(' + case when isnull(ITEMDETAIL1.Report_UOM,0) = 1 then  ITEMDETAIL1.UOM_Code + ')' end AS Short_Description, TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_CUSTOMER_MASTER.Cust_Group_Code,
@@ -271,15 +835,45 @@ select xx.Item_Code,  xx.Quantity,xx.[Booth Code],dateadd(day,1,convert(date,Doc
                     LEFT JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
                     LEFT JOIN tspl_item_master ON TSPL_DEMAND_BOOKING_DETAIL.item_code = tspl_item_master.item_code
                     left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "'
-                    LEFT JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = tspl_item_master.item_code AND TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code
-                 left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='LTR'
-                    where  TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning' and
-					convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103) 
-                    ))AS SourceData PIVOT (SUM([Quantity])FOR Short_Description IN (" + itemdesc + ")) AS PivotTable where 2=2 " + Whr + "  " + Groupby + "
+                    LEFT JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = tspl_item_master.item_code AND TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code"
+                If rbdCrateWise.IsChecked Then
+                    Qry += "  left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='Crate'"
+                Else
+                    Qry += "  left outer join TSPL_ITEM_UOM_DETAIL ITEMDETAIL1 ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and ITEMDETAIL1.UOM_Code='LTR'"
+                End If
+
+                Qry += "  where "
+
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") <> CompairStringResult.Equal Then
+                    If rbdMorning.IsChecked Then
+                        Qry += "  TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Morning'
+                                      and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                    ElseIf rbdEvening.IsChecked Then
+                        Qry += "  TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Evening'
+                                      and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                    Else
+                        Qry += " convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND 
+                                      convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)"
+                    End If
+                Else
+                    Qry += " TSPL_DEMAND_BOOKING_MASTER.ShiftType ='Morning' 
+                                and  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) 
+                              AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)   "
+                End If
+
+
+
+
+
+                'Qry += "  where  TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning' and
+                'convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103) "
+                Qry += "   ))AS SourceData PIVOT (SUM([Quantity])FOR Short_Description IN (" + itemdesc + ")) AS PivotTable where 2=2 " + Whr + "  " + Groupby + "
                      "
             End If
             dt = clsDBFuncationality.GetDataTable(Qry)
-            GV1.DataSource = Nothing
+            gv1.DataSource = Nothing
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 Throw New Exception("No Data Found to Display")
             Else
@@ -398,23 +992,49 @@ select xx.Item_Code,  xx.Quantity,xx.[Booth Code],dateadd(day,1,convert(date,Doc
         GV1.Columns("Mobile No").HeaderText = "Mobile No"
         GV1.Columns("Mobile No").Width = 100
         GV1.Columns("Mobile No").FormatString = ""
-
-        GV1.Columns("Milk(LTR)").HeaderText = "Milk(LTR)"
-        GV1.Columns("Milk(LTR)").IsVisible = True
-        GV1.Columns("Milk(LTR)").FormatString = "{0:n2}"
-        If objCommonVar.CurrComp_Code1 = "JPR" Then
-            GV1.Columns("Product(LTR)").HeaderText = "CHHACH(LTR)"
+        If rbdCrateWise.IsChecked Then
+            gv1.Columns("Milk(LTR)").HeaderText = "Milk(CRATE)"
+            gv1.Columns("Milk(LTR)").IsVisible = True
+            gv1.Columns("Milk(LTR)").FormatString = "{0:n2}"
         Else
-            GV1.Columns("Product(LTR)").HeaderText = "Product(LTR)"
+
+            gv1.Columns("Milk(LTR)").HeaderText = "Milk(LTR)"
+            gv1.Columns("Milk(LTR)").IsVisible = True
+            gv1.Columns("Milk(LTR)").FormatString = "{0:n2}"
         End If
-        GV1.Columns("Product(LTR)").Width = 100
+        If rbdCrateWise.IsChecked Then
+            If objCommonVar.CurrComp_Code1 = "JPR" Then
+                gv1.Columns("Product(LTR)").HeaderText = "CHHACH(CRATE)"
+            Else
+                gv1.Columns("Product(LTR)").HeaderText = "Product(CRATE)"
+            End If
+        Else
+            If objCommonVar.CurrComp_Code1 = "JPR" Then
+                gv1.Columns("Product(LTR)").HeaderText = "CHHACH(LTR)"
+            Else
+                gv1.Columns("Product(LTR)").HeaderText = "Product(LTR)"
+            End If
+        End If
+
+        gv1.Columns("Product(LTR)").Width = 100
         GV1.Columns("Product(LTR)").FormatString = "{0:n2}"
 
-        GV1.Columns("Total (LTR)").HeaderText = "Total (LTR)"
-        GV1.Columns("Total (LTR)").IsVisible = True
-        GV1.Columns("Total (LTR)").FormatString = "{0:n2}"
+        'GV1.Columns("Total (LTR)").HeaderText = "Total (LTR)"
+        'GV1.Columns("Total (LTR)").IsVisible = True
+        'gv1.Columns("Total (LTR)").FormatString = "{0:n2}"
+        If rbdCrateWise.IsChecked Then
+            gv1.Columns("Total (LTR)").HeaderText = "Total (CRATE)"
+            gv1.Columns("Total (LTR)").IsVisible = True
+            gv1.Columns("Total (LTR)").FormatString = "{0:n2}"
+        Else
+            gv1.Columns("Total (LTR)").HeaderText = "Total (LTR)"
+            gv1.Columns("Total (LTR)").IsVisible = True
+            gv1.Columns("Total (LTR)").FormatString = "{0:n2}"
+        End If
 
-        GV1.Columns("Total Amount").HeaderText = "Total Amount"
+
+
+        gv1.Columns("Total Amount").HeaderText = "Total Amount"
         GV1.Columns("Total Amount").Width = 100
         GV1.Columns("Total Amount").FormatString = "{0:n2}"
 

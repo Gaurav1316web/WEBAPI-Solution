@@ -247,10 +247,18 @@ Public Class clsMpMaster
     Public Shared Function SaveData(ByVal obj As clsMpMaster, ByVal trans As SqlTransaction) As Boolean
         Try
             Dim qry As String = ""
-            If clsCommon.myLen(obj.MP_Code) > 0 Then
+            If obj.InActive = 0 Then
                 qry = "Delete from TSPL_MP_INCENTIVE where MP_CODE ='" + obj.MP_Code + "' "
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
+            If obj.InActive = 0 Then
+                qry = "select AccountNO from TSPL_MP_MASTER where MP_Code not in ('" + obj.MP_Code + "') and Active=0 and AccountNO='" + obj.AccountNO + "' "
+                Dim dtACNo As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                If dtACNo IsNot Nothing AndAlso dtACNo.Rows.Count > 0 Then
+                    Throw New Exception("Account number [" + obj.AccountNO + "] is already in use.")
+                End If
+            End If
+
             Dim issaved As Boolean = True
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "MP_Code", obj.MP_Code)
@@ -327,11 +335,11 @@ Public Class clsMpMaster
 
                 issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "tspl_mp_master", OMInsertOrUpdate.Update, "tspl_mp_master.mp_code='" + obj.MP_Code + "'", trans)
             End If
-            qry = "select 1 from TSPL_MP_MASTER where MP_Code not in ('" & obj.MP_Code & " ') and AccountNO='" & obj.AccountNO & "'"
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                Throw New Exception("Duplicate account no [" + obj.AccountNO + "]")
-            End If
+            'qry = "select 1 from TSPL_MP_MASTER where MP_Code not in ('" & obj.MP_Code & " ') and AccountNO='" & obj.AccountNO & "'"
+            'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            '    Throw New Exception("Duplicate account no [" + obj.AccountNO + "]")
+            'End If
             qry = ""
 
             'issaved = issaved And clsBuffaloesDetails.SaveData(obj.arrBuffaloesDetail, trans)

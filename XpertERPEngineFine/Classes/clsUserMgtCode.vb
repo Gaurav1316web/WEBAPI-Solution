@@ -2195,6 +2195,7 @@ Public Class clsUserMgtCode
     Public Const frmMilkReasonMaster As String = "M-Reason"
     Public Const frmMCCMaterial As String = "M-Material"
     Public Const frmDCSSaleEntry As String = "DCS-SAL-ENT"
+    Public Const frmCancelDCSSale As String = "CNL-DCS-SAL"
     Public Const frmMCCMaterialSaleReturn As String = "M-Material-R"
     Public Const frmMCCMaterialFarmer As String = "M-MaterialF"
     Public Const frmMCCMaterialFarmerUploader As String = "M-MatFUP"

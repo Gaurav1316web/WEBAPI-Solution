@@ -2714,17 +2714,17 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
                         If dt.Rows.Count > 0 Then
                             Dim objCustItem As clsDemandCustItem = New clsDemandCustItem()
 
-                            dblRate = Math.Round(clsCommon.myCdbl(dt.Rows(0).Item("Item_Basic_Price")), 2)
+                            dblRate = clsCommon.myCdbl(dt.Rows(0).Item("Item_Basic_Price"))
                             If dblRate = 0 Then
                                 Throw New InvalidOperationException("Please Fill Selling Price for Location " & txtLocation.Value & "  for item " & clsCommon.myCstr(obj1.ShortDesc) & Environment.NewLine)
                             End If
                             If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Fresh") = CompairStringResult.Equal Then
                                 'obj1.ItemRate = dblRate
-                                dblTotalMAmt = dblTotalMAmt + Math.Round(clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * clsCommon.myCdbl(dblRate), 2)
+                                dblTotalMAmt = dblTotalMAmt + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * clsCommon.myCdbl(dblRate)
 
                             Else
                                 'obj1.ItemRate = dblRate
-                                dblTotalPAmt = dblTotalPAmt + Math.Round(clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * clsCommon.myCdbl(dblRate), 2)
+                                dblTotalPAmt = dblTotalPAmt + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * clsCommon.myCdbl(dblRate)
                             End If
                             objCustItem.ItemRate = dblRate
                             'obj1.ItemTotAmt = Math.Round(clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * clsCommon.myCdbl(dblRate), 2)
@@ -2833,13 +2833,13 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
                     gv1.Rows(dblrows).Cells(colCrate).Value = IIf(clsCommon.myRoundOFF(clsCommon.myCdbl(TotalLitre / 12), 0, 9) >= 1, clsCommon.myRoundOFF(clsCommon.myCdbl(TotalLitre / 12), 0, 9) - 1, 0)
                     'End If
                 End If
-                gv1.Rows(dblrows).Cells(colMAmt).Value = clsCommon.myCdbl(dblTotalMAmt)
+                gv1.Rows(dblrows).Cells(colMAmt).Value = clsCommon.myRoundOFF(clsCommon.myCdbl(dblTotalMAmt), 2, 5)
                 gv1.Rows(dblrows).Cells(colPCount).Value = clsCommon.myCdbl(dblTotalPCount)
                 If AllowMultipleUOMForProduct Then
                     gv1.Rows(dblrows).Cells(colPCrate).Value = clsCommon.myCdbl(dblTotalPCrate)
                 End If
-                gv1.Rows(dblrows).Cells(colPAmt).Value = clsCommon.myCdbl(dblTotalPAmt)
-                gv1.Rows(dblrows).Cells(colAmt).Value = clsCommon.myCdbl(dblTotalDocAmtRowWise)
+                gv1.Rows(dblrows).Cells(colPAmt).Value = clsCommon.myRoundOFF(clsCommon.myCdbl(dblTotalPAmt), 2, 5)
+                gv1.Rows(dblrows).Cells(colAmt).Value = clsCommon.myRoundOFF(clsCommon.myCdbl(dblTotalDocAmtRowWise), 2, 5)
                 If clsCommon.myLen(gv1.Rows(dblrows).Cells(colItemExist)) > 0 Then
                     gv1.Rows(dblrows).Cells(colItemExist).Value = strItemValueExist
                 End If
@@ -3958,7 +3958,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
             Dim strItemA As String = sbstrItemA.ToString()
             Dim strProdQ As String = sbstrProdQ.ToString()
             Dim strItemSUM As String = sbstrItemSUM.ToString()
-            Dim Qry As String = "select Cust_Code As Code,max(customer_Name) as Agents, " & strItemSUM & ""
+            Dim Qry As String = "select Row_Number() Over (Order By (Select 1)) As SNo,Cust_Code As Code,max(customer_Name) as Agents, " & strItemSUM & ""
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") <> CompairStringResult.Equal Then
                 Qry += " ,sum(isnull(TotalLtr_CustWise,0)) as [Milk In Ltr],sum(isnull(TotalCrates_ItemWise,0)) as [Crates],sum(isnull(MAmt,0)) as [Milk Amount],sum(isnull(PQty,0)) as [Product Quantity],sum(isnull(PAmt,0)) as [Product Amount] "
             End If
@@ -4068,7 +4068,7 @@ and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= Convert(Date,'"
             'End If
             'Dim newTotalAmtRow As DataRow = dt.NewRow
             'newTotalAmtRow("Agents") = "Total Amt"
-            For i As Integer = 2 To dt.Columns.Count - 1
+            For i As Integer = 3 To dt.Columns.Count - 1
                 Dim ColName As String = dt.Columns(i).ColumnName
                 newTotalRow(ColName) = clsCommon.myCdbl(dt.Compute("sum([" & ColName & "])", ""))
                 'If ColName.Contains("#C") Then
@@ -4216,10 +4216,19 @@ and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= Convert(Date,'"
             GVTruckSheet.Columns("Total Amount").TextAlignment = ContentAlignment.MiddleRight
 
             Dim view As New ColumnGroupsViewDefinition()
+            Dim TempColGroupCount As Integer = 0
             view.ColumnGroups.Add(New GridViewColumnGroup(""))
-            view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(GVTruckSheet.Columns("Agents").Name)
-            Dim TempColGroupCount As Integer = 1
+            view.ColumnGroups(TempColGroupCount).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(GVTruckSheet.Columns("SNo").Name)
+            TempColGroupCount += 1
+            view.ColumnGroups.Add(New GridViewColumnGroup(""))
+            view.ColumnGroups(TempColGroupCount).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(GVTruckSheet.Columns("Code").Name)
+            TempColGroupCount += 1
+            view.ColumnGroups.Add(New GridViewColumnGroup(""))
+            view.ColumnGroups(TempColGroupCount).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(GVTruckSheet.Columns("Agents").Name)
+            TempColGroupCount += 1
             If rdbnFreshAmbientBoth.IsChecked Then
                 For Each dr As DataRow In dtDataExist.Rows
                     view.ColumnGroups.Add(New GridViewColumnGroup(clsCommon.myCstr(dr("Alies_Name"))))
@@ -4274,7 +4283,7 @@ and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= Convert(Date,'"
                 'Dim GVFreshTotal As New UserControls.MyRadGridView
 
                 If strFUOMPivot IsNot Nothing AndAlso (rbtn_Fresh.IsChecked OrElse rdbnFreshAmbientBoth.IsChecked) Then
-                    strQry = "Select Alies_Name As [Product Name]," & strFUOM & ",[Cash Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Cash Amount],MAX(Summary_Seq_No)Summary_Seq_No  
+                    strQry = "Select Alies_Name As [Product Name]," & strFUOM & ",[Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Amount],MAX(Summary_Seq_No)Summary_Seq_No  
 from (" & BaseQry & ")xyz where Is_FreshItem=1 And Qty>0 group By  Item_code,Unit_Code) AS SourceTable PIVOT ( SUM(Qty) FOR Unit_Desc IN (" & strFUOMPivot & ") ) AS PivotTable Order By Summary_Seq_No"
                     dtFresh = clsDBFuncationality.GetDataTable(strQry)
                     If dtFresh IsNot Nothing AndAlso dtFresh.Rows.Count > 0 Then
@@ -4282,17 +4291,17 @@ from (" & BaseQry & ")xyz where Is_FreshItem=1 And Qty>0 group By  Item_code,Uni
                         GVFresh.DataSource = dtFresh
                     End If
                     'strQry += " Union All "
-                    strQry = "Select 'Total : ' As [Product Name]," & strFSumItem & ",Sum([Cash Amount])[Cash Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Cash Amount] 
+                    strQry = "Select 'Total : ' As [Product Name]," & strFSumItem & ",Sum([Amount])[Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Amount] 
 from (" & BaseQry & ")xyz where Is_FreshItem=1 And Qty>0 group By  Item_code,Unit_Code) AS SourceTable PIVOT ( SUM(Qty) FOR Unit_Desc IN (" & strFUOMPivot & ") ) AS PivotTable"
                     dtFreshTotal = clsDBFuncationality.GetDataTable(strQry)
                 End If
 
                 If strPUOMPivot IsNot Nothing AndAlso (rbtn_Ambient.IsChecked OrElse rdbnFreshAmbientBoth.IsChecked) Then
-                    strQry = "Select Alies_Name As [Product Name]," & strPUOM & ",[Cash Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Cash Amount] ,MAX(Summary_Seq_No)Summary_Seq_No
+                    strQry = "Select Alies_Name As [Product Name]," & strPUOM & ",[Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Amount] ,MAX(Summary_Seq_No)Summary_Seq_No
 from (" & BaseQry & ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_Code) AS SourceTable PIVOT ( SUM(Qty) FOR Unit_Desc IN (" & strPUOMPivot & ") ) AS PivotTable Order By Summary_Seq_No "
                     dtAmbient = clsDBFuncationality.GetDataTable(strQry)
                     'strQry += " Union All "
-                    strQry = "Select 'Total : ' As [Product Name]," & strPSumItem & ",Sum([Cash Amount])[Cash Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Cash Amount]
+                    strQry = "Select 'Total : ' As [Product Name]," & strPSumItem & ",Sum([Amount])[Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Amount]
 from (" & BaseQry & ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_Code) AS SourceTable PIVOT ( SUM(Qty) FOR Unit_Desc IN (" & strPUOMPivot & ") ) AS PivotTable "
                     dtAmbientTotal = clsDBFuncationality.GetDataTable(strQry)
                 End If
@@ -4494,7 +4503,9 @@ from (" & BaseQry & ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
             Dim arrHeader As List(Of String) = New List(Of String)()
             If isExcelPDF Then
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
-                    arrHeader.Add("Doc Date : " & clsCommon.myCstr(clsCommon.GetPrintDate(txtDate.Value, "dd-MMM-yyyy")) & "     " & "Shift : " & IIf(rbtnMorning.IsChecked, "Morning", "Evening") & "     " & "Trip No : " & clsCommon.myCstr(TripNo) & "     " & "Route : " & lblRouteDesc.Text & "     " & "City : " & lblCityName.Text & "     " & "Distributor : " & lblTransporterName.Text)
+                    arrHeader.Add("Doc Date : " & clsCommon.myCstr(clsCommon.GetPrintDate(txtDate.Value, "dd-MMM-yyyy")) & "     " & "Shift : " & IIf(rbtnMorning.IsChecked, "Morning", "Evening") & "     " & "Trip No : " & clsCommon.myCstr(TripNo))
+                    arrHeader.Add("Route : " & lblRouteDesc.Text & "     " & "City : " & lblCityName.Text & "     " & "Distributor : " & lblTransporterName.Text)
+                    arrHeader.Add("")
                     'arrHeader.Add("Shift : " & IIf(rbtnMorning.IsChecked, "Morning", "Evening"))
                     'arrHeader.Add("Trip No : " & clsCommon.myCstr(TripNo))
                     'arrHeader.Add("Route : " & lblRouteDesc.Text)
