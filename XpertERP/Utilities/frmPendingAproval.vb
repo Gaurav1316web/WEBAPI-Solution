@@ -89,13 +89,13 @@ Public Class FrmPendingAproval
         SetUserMgmtNew()
         rbtnStatusPending.IsChecked = True
         btnPost.Enabled = False
-        If objCommonVar.RCDFCFP = True Then
-            LoadModuleTypePO()
-            LoadModuleNIRQC()
-        Else
-            LoadModuleType()
+        'If objCommonVar.RCDFCFP = True Then
+        '    LoadModuleTypePO()
+        '    LoadModuleNIRQC()
+        'Else
+        LoadModuleType()
             LaodModuleCommonServices()
-        End If
+        'End If
         LoadBlankGrid()
         'LoadModuleType()
         dtpFromDate.Value = clsCommon.GETSERVERDATE()
