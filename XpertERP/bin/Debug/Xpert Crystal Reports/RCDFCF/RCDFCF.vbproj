@@ -1425,6 +1425,7 @@
     <None Include="Crystal Reports\Purchase Order\crptProspectReportPrint.rpt" />
     <None Include="Crystal Reports\Purchase Order\crptProspectReportSub.rpt" />
     <None Include="Crystal Reports\Purchase Order\crptProspectReportSub1.rpt" />
+    <None Include="Crystal Reports\Purchase Order\crptPurchaseMaterialWeighmentReport.rpt" />
     <None Include="Crystal Reports\Purchase Order\crptPurchaseorder.rpt" />
     <None Include="Crystal Reports\Purchase Order\crptPurchaseReturn.rpt" />
     <None Include="Crystal Reports\Purchase Order\crptScrapTransfer.rpt" />
