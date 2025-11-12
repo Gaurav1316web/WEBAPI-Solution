@@ -9,6 +9,7 @@ Public Class frmScrapSale
 
 #Region "Variables"
     Dim RunBatchFifowise As Integer = 0
+    Dim RunBatchFifowisewithmodifyfunctionality As Boolean = False
     Dim isLoadData As Boolean = False
     Dim isReset As Boolean = False
     Dim CalculateTaxRatefromItemwsieTaxOnSale As Integer = 0
@@ -208,6 +209,7 @@ Public Class frmScrapSale
 
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         RunBatchFifowise = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowise, clsFixedParameterCode.RunBatchFifowise, Nothing))
+        RunBatchFifowisewithmodifyfunctionality = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowisewithModifyfunctionality, clsFixedParameterCode.RunBatchFifowisewithModifyfunctionality, Nothing)) = 1, True, False)
         CalculateTaxRatefromItemwsieTaxOnSale = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CalculateTaxRatefromItemwsieTaxOnSale, clsFixedParameterCode.CalculateTaxRatefromItemwsieTaxOnSale, Nothing))
         EnableTCSRateValidityFrom01July2021 = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableTCSRateValidityFrom01July2021, clsFixedParameterCode.EnableTCSRateValidityFrom01July2021, Nothing)) = 0, False, True)
         AmountToCheckCustomerOutstandingForTCSTax = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AmountToCheckCustomerOutstandingForTCSTax, clsFixedParameterCode.AmountToCheckCustomerOutstandingForTCSTax, Nothing))
@@ -1610,7 +1612,13 @@ Public Class frmScrapSale
                             UpdateCurrentRow(gv1.CurrentRow.Index) ''-1 is for current row
                             UpdateAllTotals()
                             If e.Column Is gv1.Columns(colQty) Then
-                                OpenBatchItem()
+                                If RunBatchFifowisewithmodifyfunctionality Then
+                                    OpenBatchItem(True)
+                                ElseIf RunBatchFifowise Then
+                                    OpenBatchItem(True)
+                                Else
+                                    OpenBatchItem(False)
+                                End If
                             End If
                         ElseIf gv1.CurrentColumn Is gv1.Columns(colICode) Then
                             OpenICodeList(False)
@@ -2178,14 +2186,18 @@ Public Class frmScrapSale
                         common.clsCommon.MyMessageBoxShow(Me, "Item - " + strICode + Environment.NewLine + "Entered Quantity - " + clsCommon.myCstr(dblEnteredQty) + " and Balance Quantity - " + clsCommon.myCstr(dblBalQty), Me.Text)
                         Return False
                     End If
-                    If RunBatchFifowise = 1 Then
-                        gv1.CurrentRow = gv1.Rows(ii)
-                        OpenBatchItem()
-                    End If
+
                     If dblQty > 0 AndAlso clsCommon.myCBool(clsDBFuncationality.getSingleValue("select TSPL_ITEM_MASTER.Is_Batch_Item  from TSPL_ITEM_MASTER where TSPL_ITEM_MASTER.Item_Code ='" + clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value) + "'", Nothing)) Then
                         Dim arrBatchNo As List(Of clsBatchInventory) = TryCast(gv1.Rows(ii).Cells(colICode).Tag, List(Of clsBatchInventory))
                         If arrBatchNo Is Nothing Then
-                            Throw New Exception("Please provide Batch no for item : " + strICode + " . At Line No" + clsCommon.myCstr(ii + 1))
+                            If RunBatchFifowise OrElse RunBatchFifowisewithmodifyfunctionality Then
+                                gv1.CurrentRow = gv1.Rows(ii)
+                                OpenBatchItem(True)
+                                arrBatchNo = TryCast(gv1.Rows(ii).Cells(colICode).Tag, List(Of clsBatchInventory))
+                            End If
+                            If arrBatchNo Is Nothing Then
+                                Throw New Exception("Please provide Batch no for item : " + strICode + " . At Line No" + clsCommon.myCstr(ii + 1))
+                            End If
                         Else
                             Dim tQty As Decimal = 0
                             For Each objBatch As clsBatchInventory In arrBatchNo
@@ -6072,10 +6084,14 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
     Private Sub gv1_KeyDown(sender As Object, e As KeyEventArgs) Handles gv1.KeyDown
         If e.KeyCode = Keys.F5 Then
             '======update by preeti gupta 17/10/2018
-            If RunBatchFifowise = 0 Then
-                OpenBatchItem()
-            Else
-                OpenBatchItemIfFIFIOSettingON()
+            If e.KeyCode = Keys.F5 Then
+                If RunBatchFifowisewithmodifyfunctionality Then
+                    OpenBatchItem(False)
+                ElseIf RunBatchFifowise Then
+                    OpenBatchItemIfFIFIOSettingON()
+                Else
+                    OpenBatchItem(False)
+                End If
             End If
         End If
     End Sub
@@ -6096,7 +6112,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
         End If
     End Sub
     ' done by priti BHA/12/07/18-000148 to apply batch wise fifo functionality
-    Sub OpenBatchItem()
+    Sub OpenBatchItem(ByVal isAutoFillBatch As Boolean)
         Dim isSubLocation As Boolean = False
         If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select IsSubLocationWise from TSPL_LOCATION_MASTER where Location_Code='" + fndLocation.Value + "'", Nothing)), "Y") = CompairStringResult.Equal Then
             isSubLocation = True
@@ -6108,20 +6124,20 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
             frm.strItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
             frm.strItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
             frm.strLocationCode = IIf(isSubLocation, txtSubLocation.Value, fndLocation.Value)
-            frm.strCurrDocNo = txtDocNo.Value
+            frm.strCurrDocNo = lblInvoiceNo.Text
             frm.strCurrDocType = "ScrapIn"
             frm.strUOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
             frm.dblMRP = 0
             frm.dblqty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value)
             frm.arr = TryCast(gv1.CurrentRow.Cells(colICode).Tag, List(Of clsBatchInventory))
-            If RunBatchFifowise = 0 Then
+            If isAutoFillBatch Then
+                frm.OpenSerialList(0, "")
+                gv1.CurrentRow.Cells(colICode).Tag = frm.arr
+            Else
                 frm.ShowDialog()
                 If Not frm.isCencelButtonClicked Then
                     gv1.CurrentRow.Cells(colICode).Tag = frm.arr
                 End If
-            Else
-                frm.OpenSerialList(0, "")
-                gv1.CurrentRow.Cells(colICode).Tag = frm.arr
             End If
         End If
     End Sub
