@@ -22,14 +22,14 @@ Partial Class FrmProductDispatch
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim WindowsSettings2 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition13 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition14 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -37,17 +37,17 @@ Partial Class FrmProductDispatch
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.lblCrAmt = New common.Controls.MyLabel()
-        Me.txtCrAmt = New common.Controls.MyLabel()
         Me.lblNetbalance = New common.Controls.MyLabel()
         Me.txtClosingBal = New common.Controls.MyLabel()
-        Me.lblOpeningBal = New common.Controls.MyLabel()
-        Me.txtOpeningbal = New common.Controls.MyLabel()
-        Me.lblDrAmt = New common.Controls.MyLabel()
-        Me.txtDrAmt = New common.Controls.MyLabel()
+        Me.lblCrAmt = New common.Controls.MyLabel()
+        Me.txtCrAmt = New common.Controls.MyLabel()
         Me.MyLabel71 = New common.Controls.MyLabel()
         Me.MyLabel73 = New common.Controls.MyLabel()
         Me.MyLabel74 = New common.Controls.MyLabel()
+        Me.lblDrAmt = New common.Controls.MyLabel()
+        Me.txtDrAmt = New common.Controls.MyLabel()
+        Me.lblOpeningBal = New common.Controls.MyLabel()
+        Me.txtOpeningbal = New common.Controls.MyLabel()
         Me.MyLabel75 = New common.Controls.MyLabel()
         Me.MyLabel76 = New common.Controls.MyLabel()
         Me.MyLabel77 = New common.Controls.MyLabel()
@@ -444,17 +444,17 @@ Partial Class FrmProductDispatch
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadPageView1.SuspendLayout
         Me.RadPageViewPage1.SuspendLayout
-        CType(Me.lblCrAmt, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtCrAmt, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.lblNetbalance, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.txtClosingBal, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblOpeningBal, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtOpeningbal, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblDrAmt, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtDrAmt, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.lblCrAmt, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.txtCrAmt, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel71, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel73, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel74, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.lblDrAmt, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.txtDrAmt, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.lblOpeningBal, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.txtOpeningbal, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel75, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel76, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel77, System.ComponentModel.ISupportInitialize).BeginInit
@@ -857,9 +857,9 @@ Partial Class FrmProductDispatch
         Me.RadMenuItem2.TabIndex = 0
         Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenuItem2.Visible = False
-        WindowsSettings2.EnableRoundedCorners = Nothing
-        WindowsSettings2.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
-        Me.RadMenuItem2.WindowsSettings = WindowsSettings2
+        WindowsSettings1.EnableRoundedCorners = Nothing
+        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
         'Panel1
         '
@@ -1030,33 +1030,11 @@ Partial Class FrmProductDispatch
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1089, 416)
         Me.RadPageViewPage1.Text = "Shipment"
         '
-        'lblCrAmt
-        '
-        Me.lblCrAmt.FieldName = Nothing
-        Me.lblCrAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCrAmt.Location = New System.Drawing.Point(545, 133)
-        Me.lblCrAmt.Name = "lblCrAmt"
-        Me.lblCrAmt.Size = New System.Drawing.Size(60, 16)
-        Me.lblCrAmt.TabIndex = 141
-        Me.lblCrAmt.Text = "Credit Amt"
-        '
-        'txtCrAmt
-        '
-        Me.txtCrAmt.AutoSize = False
-        Me.txtCrAmt.BorderVisible = True
-        Me.txtCrAmt.FieldName = Nothing
-        Me.txtCrAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCrAmt.Location = New System.Drawing.Point(647, 131)
-        Me.txtCrAmt.Name = "txtCrAmt"
-        Me.txtCrAmt.Size = New System.Drawing.Size(125, 18)
-        Me.txtCrAmt.TabIndex = 142
-        Me.txtCrAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        '
         'lblNetbalance
         '
         Me.lblNetbalance.FieldName = Nothing
         Me.lblNetbalance.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblNetbalance.Location = New System.Drawing.Point(790, 131)
+        Me.lblNetbalance.Location = New System.Drawing.Point(786, 131)
         Me.lblNetbalance.Name = "lblNetbalance"
         Me.lblNetbalance.Size = New System.Drawing.Size(88, 16)
         Me.lblNetbalance.TabIndex = 139
@@ -1068,55 +1046,33 @@ Partial Class FrmProductDispatch
         Me.txtClosingBal.BorderVisible = True
         Me.txtClosingBal.FieldName = Nothing
         Me.txtClosingBal.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtClosingBal.Location = New System.Drawing.Point(891, 131)
+        Me.txtClosingBal.Location = New System.Drawing.Point(891, 130)
         Me.txtClosingBal.Name = "txtClosingBal"
         Me.txtClosingBal.Size = New System.Drawing.Size(125, 18)
         Me.txtClosingBal.TabIndex = 140
         Me.txtClosingBal.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
-        'lblOpeningBal
+        'lblCrAmt
         '
-        Me.lblOpeningBal.FieldName = Nothing
-        Me.lblOpeningBal.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblOpeningBal.Location = New System.Drawing.Point(543, 110)
-        Me.lblOpeningBal.Name = "lblOpeningBal"
-        Me.lblOpeningBal.Size = New System.Drawing.Size(93, 16)
-        Me.lblOpeningBal.TabIndex = 137
-        Me.lblOpeningBal.Text = "Opening Balance"
+        Me.lblCrAmt.FieldName = Nothing
+        Me.lblCrAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCrAmt.Location = New System.Drawing.Point(786, 91)
+        Me.lblCrAmt.Name = "lblCrAmt"
+        Me.lblCrAmt.Size = New System.Drawing.Size(60, 16)
+        Me.lblCrAmt.TabIndex = 141
+        Me.lblCrAmt.Text = "Credit Amt"
         '
-        'txtOpeningbal
+        'txtCrAmt
         '
-        Me.txtOpeningbal.AutoSize = False
-        Me.txtOpeningbal.BorderVisible = True
-        Me.txtOpeningbal.FieldName = Nothing
-        Me.txtOpeningbal.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtOpeningbal.Location = New System.Drawing.Point(647, 108)
-        Me.txtOpeningbal.Name = "txtOpeningbal"
-        Me.txtOpeningbal.Size = New System.Drawing.Size(125, 18)
-        Me.txtOpeningbal.TabIndex = 138
-        Me.txtOpeningbal.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'lblDrAmt
-        '
-        Me.lblDrAmt.FieldName = Nothing
-        Me.lblDrAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDrAmt.Location = New System.Drawing.Point(790, 110)
-        Me.lblDrAmt.Name = "lblDrAmt"
-        Me.lblDrAmt.Size = New System.Drawing.Size(56, 16)
-        Me.lblDrAmt.TabIndex = 126
-        Me.lblDrAmt.Text = "Debit Amt"
-        '
-        'txtDrAmt
-        '
-        Me.txtDrAmt.AutoSize = False
-        Me.txtDrAmt.BorderVisible = True
-        Me.txtDrAmt.FieldName = Nothing
-        Me.txtDrAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDrAmt.Location = New System.Drawing.Point(891, 108)
-        Me.txtDrAmt.Name = "txtDrAmt"
-        Me.txtDrAmt.Size = New System.Drawing.Size(125, 18)
-        Me.txtDrAmt.TabIndex = 136
-        Me.txtDrAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.txtCrAmt.AutoSize = False
+        Me.txtCrAmt.BorderVisible = True
+        Me.txtCrAmt.FieldName = Nothing
+        Me.txtCrAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCrAmt.Location = New System.Drawing.Point(891, 88)
+        Me.txtCrAmt.Name = "txtCrAmt"
+        Me.txtCrAmt.Size = New System.Drawing.Size(125, 18)
+        Me.txtCrAmt.TabIndex = 142
+        Me.txtCrAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
         'MyLabel71
         '
@@ -1144,11 +1100,55 @@ Partial Class FrmProductDispatch
         '
         Me.MyLabel74.FieldName = Nothing
         Me.MyLabel74.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel74.Location = New System.Drawing.Point(786, 69)
+        Me.MyLabel74.Location = New System.Drawing.Point(542, 108)
         Me.MyLabel74.Name = "MyLabel74"
         Me.MyLabel74.Size = New System.Drawing.Size(58, 16)
         Me.MyLabel74.TabIndex = 1483
         Me.MyLabel74.Text = "Round Off"
+        '
+        'lblDrAmt
+        '
+        Me.lblDrAmt.FieldName = Nothing
+        Me.lblDrAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDrAmt.Location = New System.Drawing.Point(786, 110)
+        Me.lblDrAmt.Name = "lblDrAmt"
+        Me.lblDrAmt.Size = New System.Drawing.Size(56, 16)
+        Me.lblDrAmt.TabIndex = 126
+        Me.lblDrAmt.Text = "Debit Amt"
+        '
+        'txtDrAmt
+        '
+        Me.txtDrAmt.AutoSize = False
+        Me.txtDrAmt.BorderVisible = True
+        Me.txtDrAmt.FieldName = Nothing
+        Me.txtDrAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDrAmt.Location = New System.Drawing.Point(891, 109)
+        Me.txtDrAmt.Name = "txtDrAmt"
+        Me.txtDrAmt.Size = New System.Drawing.Size(125, 18)
+        Me.txtDrAmt.TabIndex = 136
+        Me.txtDrAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'lblOpeningBal
+        '
+        Me.lblOpeningBal.FieldName = Nothing
+        Me.lblOpeningBal.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblOpeningBal.Location = New System.Drawing.Point(786, 68)
+        Me.lblOpeningBal.Name = "lblOpeningBal"
+        Me.lblOpeningBal.Size = New System.Drawing.Size(93, 16)
+        Me.lblOpeningBal.TabIndex = 137
+        Me.lblOpeningBal.Text = "Opening Balance"
+        '
+        'txtOpeningbal
+        '
+        Me.txtOpeningbal.AutoSize = False
+        Me.txtOpeningbal.BorderVisible = True
+        Me.txtOpeningbal.FieldName = Nothing
+        Me.txtOpeningbal.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtOpeningbal.Location = New System.Drawing.Point(891, 67)
+        Me.txtOpeningbal.Name = "txtOpeningbal"
+        Me.txtOpeningbal.Size = New System.Drawing.Size(125, 18)
+        Me.txtOpeningbal.TabIndex = 138
+        Me.txtOpeningbal.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
         'MyLabel75
         '
@@ -1156,7 +1156,7 @@ Partial Class FrmProductDispatch
         Me.MyLabel75.BorderVisible = True
         Me.MyLabel75.FieldName = Nothing
         Me.MyLabel75.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel75.Location = New System.Drawing.Point(891, 68)
+        Me.MyLabel75.Location = New System.Drawing.Point(647, 107)
         Me.MyLabel75.Name = "MyLabel75"
         Me.MyLabel75.Size = New System.Drawing.Size(125, 18)
         Me.MyLabel75.TabIndex = 1484
@@ -1166,7 +1166,7 @@ Partial Class FrmProductDispatch
         '
         Me.MyLabel76.FieldName = Nothing
         Me.MyLabel76.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel76.Location = New System.Drawing.Point(786, 89)
+        Me.MyLabel76.Location = New System.Drawing.Point(542, 128)
         Me.MyLabel76.Name = "MyLabel76"
         Me.MyLabel76.Size = New System.Drawing.Size(100, 16)
         Me.MyLabel76.TabIndex = 1482
@@ -1178,7 +1178,7 @@ Partial Class FrmProductDispatch
         Me.MyLabel77.BorderVisible = True
         Me.MyLabel77.FieldName = Nothing
         Me.MyLabel77.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel77.Location = New System.Drawing.Point(891, 88)
+        Me.MyLabel77.Location = New System.Drawing.Point(647, 127)
         Me.MyLabel77.Name = "MyLabel77"
         Me.MyLabel77.Size = New System.Drawing.Size(125, 18)
         Me.MyLabel77.TabIndex = 1480
@@ -2380,7 +2380,7 @@ Partial Class FrmProductDispatch
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -2767,7 +2767,7 @@ Partial Class FrmProductDispatch
         Me.gvDistributor.MasterTemplate.AllowDeleteRow = False
         Me.gvDistributor.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDistributor.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvDistributor.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gvDistributor.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvDistributor.MyExportFilePath = ""
         Me.gvDistributor.MyStopExport = False
         Me.gvDistributor.Name = "gvDistributor"
@@ -3063,7 +3063,7 @@ Partial Class FrmProductDispatch
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
@@ -3117,7 +3117,7 @@ Partial Class FrmProductDispatch
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvAC.MyExportFilePath = ""
         Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
@@ -4081,7 +4081,7 @@ Partial Class FrmProductDispatch
         Me.gv_Uploader_Temp.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_Uploader_Temp.MasterTemplate.ShowGroupedColumns = True
         Me.gv_Uploader_Temp.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_Uploader_Temp.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.gv_Uploader_Temp.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv_Uploader_Temp.MyExportFilePath = ""
         Me.gv_Uploader_Temp.MyStopExport = False
         Me.gv_Uploader_Temp.Name = "gv_Uploader_Temp"
@@ -4103,7 +4103,7 @@ Partial Class FrmProductDispatch
         Me.gv_Uploader.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_Uploader.MasterTemplate.ShowGroupedColumns = True
         Me.gv_Uploader.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_Uploader.MasterTemplate.ViewDefinition = TableViewDefinition13
+        Me.gv_Uploader.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gv_Uploader.MyExportFilePath = ""
         Me.gv_Uploader.MyStopExport = False
         Me.gv_Uploader.Name = "gv_Uploader"
@@ -4681,7 +4681,7 @@ Partial Class FrmProductDispatch
         '
         '
         '
-        Me.gvCC.MasterTemplate.ViewDefinition = TableViewDefinition14
+        Me.gvCC.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvCC.Name = "gvCC"
         Me.gvCC.Size = New System.Drawing.Size(1089, 318)
         Me.gvCC.TabIndex = 0
@@ -7190,17 +7190,17 @@ Partial Class FrmProductDispatch
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout
-        CType(Me.lblCrAmt, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtCrAmt, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.lblNetbalance, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.txtClosingBal, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblOpeningBal, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtOpeningbal, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblDrAmt, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtDrAmt, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.lblCrAmt, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.txtCrAmt, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel71, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel73, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel74, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.lblDrAmt, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.txtDrAmt, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.lblOpeningBal, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.txtOpeningbal, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel75, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel76, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel77, System.ComponentModel.ISupportInitialize).EndInit

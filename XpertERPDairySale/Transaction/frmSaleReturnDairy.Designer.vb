@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class frmSaleReturnDairy
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,12 +20,12 @@ Partial Class frmSaleReturnDairy
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
@@ -212,14 +212,6 @@ Partial Class frmSaleReturnDairy
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
-        Me.lblOpeningBal = New common.Controls.MyLabel()
-        Me.txtOpeningbal = New common.Controls.MyLabel()
-        Me.lblDrAmt = New common.Controls.MyLabel()
-        Me.txtDrAmt = New common.Controls.MyLabel()
-        Me.lblNetbalance = New common.Controls.MyLabel()
-        Me.txtClosingBal = New common.Controls.MyLabel()
-        Me.lblCrAmt = New common.Controls.MyLabel()
-        Me.txtCrAmt = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -392,14 +384,6 @@ Partial Class frmSaleReturnDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblOpeningBal, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtOpeningbal, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDrAmt, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtDrAmt, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblNetbalance, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtClosingBal, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblCrAmt, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtCrAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -458,14 +442,6 @@ Partial Class frmSaleReturnDairy
         '
         'RadPageViewPage1
         '
-        Me.RadPageViewPage1.Controls.Add(Me.lblNetbalance)
-        Me.RadPageViewPage1.Controls.Add(Me.txtClosingBal)
-        Me.RadPageViewPage1.Controls.Add(Me.lblCrAmt)
-        Me.RadPageViewPage1.Controls.Add(Me.txtCrAmt)
-        Me.RadPageViewPage1.Controls.Add(Me.lblDrAmt)
-        Me.RadPageViewPage1.Controls.Add(Me.txtDrAmt)
-        Me.RadPageViewPage1.Controls.Add(Me.lblOpeningBal)
-        Me.RadPageViewPage1.Controls.Add(Me.txtOpeningbal)
         Me.RadPageViewPage1.Controls.Add(Me.Panel3)
         Me.RadPageViewPage1.Controls.Add(Me.lblSubLocation)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel60)
@@ -1003,7 +979,7 @@ Partial Class frmSaleReturnDairy
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -1238,7 +1214,7 @@ Partial Class frmSaleReturnDairy
         Me.MyLabel7.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.MyLabel7.FieldName = Nothing
         Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel7.Location = New System.Drawing.Point(435, 315)
+        Me.MyLabel7.Location = New System.Drawing.Point(3, 318)
         Me.MyLabel7.Name = "MyLabel7"
         Me.MyLabel7.Size = New System.Drawing.Size(100, 16)
         Me.MyLabel7.TabIndex = 34
@@ -1278,7 +1254,7 @@ Partial Class frmSaleReturnDairy
         Me.lblTotRAmt1.BorderVisible = True
         Me.lblTotRAmt1.FieldName = Nothing
         Me.lblTotRAmt1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotRAmt1.Location = New System.Drawing.Point(537, 314)
+        Me.lblTotRAmt1.Location = New System.Drawing.Point(105, 317)
         Me.lblTotRAmt1.Name = "lblTotRAmt1"
         Me.lblTotRAmt1.Size = New System.Drawing.Size(110, 18)
         Me.lblTotRAmt1.TabIndex = 35
@@ -1628,7 +1604,7 @@ Partial Class frmSaleReturnDairy
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.ForeColor = System.Drawing.Color.Blue
-        Me.MyLabel2.Location = New System.Drawing.Point(435, 341)
+        Me.MyLabel2.Location = New System.Drawing.Point(1, 341)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(438, 16)
         Me.MyLabel2.TabIndex = 25
@@ -2140,7 +2116,7 @@ Partial Class frmSaleReturnDairy
         Me.gvBooth.MasterTemplate.AllowDeleteRow = False
         Me.gvBooth.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBooth.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvBooth.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gvBooth.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvBooth.MyExportFilePath = ""
         Me.gvBooth.MyStopExport = False
         Me.gvBooth.Name = "gvBooth"
@@ -2385,7 +2361,7 @@ Partial Class frmSaleReturnDairy
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
@@ -2439,7 +2415,7 @@ Partial Class frmSaleReturnDairy
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvAC.MyExportFilePath = ""
         Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
@@ -3173,94 +3149,6 @@ Partial Class frmSaleReturnDairy
         WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
         Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
-        'lblOpeningBal
-        '
-        Me.lblOpeningBal.FieldName = Nothing
-        Me.lblOpeningBal.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblOpeningBal.Location = New System.Drawing.Point(4, 317)
-        Me.lblOpeningBal.Name = "lblOpeningBal"
-        Me.lblOpeningBal.Size = New System.Drawing.Size(93, 16)
-        Me.lblOpeningBal.TabIndex = 1477
-        Me.lblOpeningBal.Text = "Opening Balance"
-        '
-        'txtOpeningbal
-        '
-        Me.txtOpeningbal.AutoSize = False
-        Me.txtOpeningbal.BorderVisible = True
-        Me.txtOpeningbal.FieldName = Nothing
-        Me.txtOpeningbal.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtOpeningbal.Location = New System.Drawing.Point(108, 315)
-        Me.txtOpeningbal.Name = "txtOpeningbal"
-        Me.txtOpeningbal.Size = New System.Drawing.Size(125, 17)
-        Me.txtOpeningbal.TabIndex = 1478
-        Me.txtOpeningbal.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'lblDrAmt
-        '
-        Me.lblDrAmt.FieldName = Nothing
-        Me.lblDrAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDrAmt.Location = New System.Drawing.Point(239, 316)
-        Me.lblDrAmt.Name = "lblDrAmt"
-        Me.lblDrAmt.Size = New System.Drawing.Size(56, 16)
-        Me.lblDrAmt.TabIndex = 1479
-        Me.lblDrAmt.Text = "Debit Amt"
-        '
-        'txtDrAmt
-        '
-        Me.txtDrAmt.AutoSize = False
-        Me.txtDrAmt.BorderVisible = True
-        Me.txtDrAmt.FieldName = Nothing
-        Me.txtDrAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDrAmt.Location = New System.Drawing.Point(296, 315)
-        Me.txtDrAmt.Name = "txtDrAmt"
-        Me.txtDrAmt.Size = New System.Drawing.Size(125, 18)
-        Me.txtDrAmt.TabIndex = 1480
-        Me.txtDrAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'lblNetbalance
-        '
-        Me.lblNetbalance.FieldName = Nothing
-        Me.lblNetbalance.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblNetbalance.Location = New System.Drawing.Point(4, 335)
-        Me.lblNetbalance.Name = "lblNetbalance"
-        Me.lblNetbalance.Size = New System.Drawing.Size(88, 16)
-        Me.lblNetbalance.TabIndex = 1481
-        Me.lblNetbalance.Text = "Closing Balance"
-        '
-        'txtClosingBal
-        '
-        Me.txtClosingBal.AutoSize = False
-        Me.txtClosingBal.BorderVisible = True
-        Me.txtClosingBal.FieldName = Nothing
-        Me.txtClosingBal.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtClosingBal.Location = New System.Drawing.Point(108, 336)
-        Me.txtClosingBal.Name = "txtClosingBal"
-        Me.txtClosingBal.Size = New System.Drawing.Size(125, 17)
-        Me.txtClosingBal.TabIndex = 1482
-        Me.txtClosingBal.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'lblCrAmt
-        '
-        Me.lblCrAmt.FieldName = Nothing
-        Me.lblCrAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCrAmt.Location = New System.Drawing.Point(235, 337)
-        Me.lblCrAmt.Name = "lblCrAmt"
-        Me.lblCrAmt.Size = New System.Drawing.Size(60, 16)
-        Me.lblCrAmt.TabIndex = 1483
-        Me.lblCrAmt.Text = "Credit Amt"
-        '
-        'txtCrAmt
-        '
-        Me.txtCrAmt.AutoSize = False
-        Me.txtCrAmt.BorderVisible = True
-        Me.txtCrAmt.FieldName = Nothing
-        Me.txtCrAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCrAmt.Location = New System.Drawing.Point(296, 336)
-        Me.txtCrAmt.Name = "txtCrAmt"
-        Me.txtCrAmt.Size = New System.Drawing.Size(125, 17)
-        Me.txtCrAmt.TabIndex = 1484
-        Me.txtCrAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        '
         'frmSaleReturnDairy
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3463,14 +3351,6 @@ Partial Class frmSaleReturnDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblOpeningBal, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtOpeningbal, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDrAmt, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtDrAmt, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblNetbalance, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtClosingBal, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblCrAmt, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtCrAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -3661,13 +3541,5 @@ Partial Class frmSaleReturnDairy
     Friend WithEvents Panel3 As Panel
     Friend WithEvents rbtnEvening As RadRadioButton
     Friend WithEvents rbtnMorning As RadRadioButton
-    Friend WithEvents lblOpeningBal As common.Controls.MyLabel
-    Friend WithEvents txtOpeningbal As common.Controls.MyLabel
-    Friend WithEvents lblDrAmt As common.Controls.MyLabel
-    Friend WithEvents txtDrAmt As common.Controls.MyLabel
-    Friend WithEvents lblNetbalance As common.Controls.MyLabel
-    Friend WithEvents txtClosingBal As common.Controls.MyLabel
-    Friend WithEvents lblCrAmt As common.Controls.MyLabel
-    Friend WithEvents txtCrAmt As common.Controls.MyLabel
 End Class
 

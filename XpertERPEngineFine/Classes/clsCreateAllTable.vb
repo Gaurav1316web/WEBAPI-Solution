@@ -34098,10 +34098,7 @@ inner JOIN tspl_sd_sale_Invoice_detail ON TSPL_Customer_Invoice_Head.Against_Sal
             coll.Add("TotalSubsidyAmt", "Decimal(18,2) NULL")
             coll.Add("TotalSubsidyDisAmt", "Decimal(18,2) NULL")
             coll.Add("Shift_Type", "Varchar(12) NULL")
-            coll.Add("OpeningBal", "varchar(20)  NULL")
-            coll.Add("DrAmt", "varchar(20)  NULL")
-            coll.Add("CrAmt", "varchar(20)  NULL")
-            coll.Add("ClosingBal", "varchar(20) NULL")
+
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_RETURN_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
 
             Try
