@@ -8819,6 +8819,10 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Exclude_KKF_And_Mandi", "integer null")
             coll.Add("PO_Indent_No", "VARCHAR(100) NULL")
             coll.Add("PO_Indent_Date", "Date NULL")
+            coll.Add("OpeningBal", "varchar(20)  NULL")
+            coll.Add("DrAmt", "varchar(20)  NULL")
+            coll.Add("CrAmt", "varchar(20)  NULL")
+            coll.Add("ClosingBal", "varchar(20) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_MATSER", coll, Nothing, True, True, "", "Document_No", "Document_Date", True)
             Try
                 clsDBFuncationality.ExecuteNonQuery("update TSPL_BOOKING_MATSER set supply_date=Document_Date where supply_date is null")
@@ -31681,6 +31685,10 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Send_Date", "datetime  NULL")
             coll.Add("Against_Cust_Order", "Varchar(30) null References TSPL_CUSTOMER_TENDER_Order(DOCUMENT_CODE)")
             coll.Add("Against_CF_Sale_Purchase_No", "Varchar(30) null References TSPL_CATTLE_FEED_SALE_PURCHASE_UPLOADER(Document_No)")
+            coll.Add("OpeningBal", "varchar(20)  NULL")
+            coll.Add("DrAmt", "varchar(20)  NULL")
+            coll.Add("CrAmt", "varchar(20)  NULL")
+            coll.Add("ClosingBal", "varchar(20) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
             Try
                 qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo=Document_Code where ParentDocNo is null "
@@ -34088,6 +34096,10 @@ inner JOIN tspl_sd_sale_Invoice_detail ON TSPL_Customer_Invoice_Head.Against_Sal
             coll.Add("TotalSubsidyAmt", "Decimal(18,2) NULL")
             coll.Add("TotalSubsidyDisAmt", "Decimal(18,2) NULL")
             coll.Add("Shift_Type", "Varchar(12) NULL")
+            coll.Add("OpeningBal", "varchar(20)  NULL")
+            coll.Add("DrAmt", "varchar(20)  NULL")
+            coll.Add("CrAmt", "varchar(20)  NULL")
+            coll.Add("ClosingBal", "varchar(20) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_RETURN_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
 
             Try

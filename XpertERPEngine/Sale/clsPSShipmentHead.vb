@@ -251,6 +251,10 @@ Public Class clsPSShipmentHead
     Public Vehicle_Type As String = ""
     Public Exclude_KKF_And_Mandi As Integer = 0
     Public Is_CashSale As String = ""
+    Public OpeningBal As String = ""
+    Public DrAmt As String = ""
+    Public CrAmt As String = ""
+    Public ClosingBal As String = ""
     Public ArrDemand As List(Of clsPSShipmentDemand) = Nothing
     Public ArrBoothScheme As List(Of clsPSShipmentBoothWiseScheme) = Nothing
     Public ArrCrateType As List(Of clsPSShipmentCrateTypeDtail) = Nothing
@@ -1220,7 +1224,7 @@ Public Class clsPSShipmentHead
         qry += " TSPL_SD_SHIPMENT_HEAD.CURRENCY_CODE,TSPL_SD_SHIPMENT_HEAD.CONVRATE,TSPL_SD_SHIPMENT_HEAD.APPLICABLEFROM,TSPL_SD_SHIPMENT_HEAD.PRoject_ID ,TSPL_SD_SHIPMENT_HEAD.Mannual_Invoice_No,TSPL_SD_SHIPMENT_HEAD. Mannual_Invoice_No_StringType,TSPL_SD_SHIPMENT_HEAD.Form_38_No " &
         " ,TSPL_SD_SHIPMENT_HEAD.SO_Validity,TSPL_SD_SHIPMENT_HEAD.Commission_Apply,TSPL_SD_SHIPMENT_HEAD.Total_Comm_Amt,TSPL_SD_SHIPMENT_HEAD.Dispatch_date,TSPL_SD_SHIPMENT_HEAD.WayBillNo,TSPL_SD_SHIPMENT_HEAD.WayBillDate " &
         " ,TSPL_SD_SHIPMENT_HEAD.Dispatch_Terms,TSPL_SD_SHIPMENT_HEAD.Payment_Terms,TSPL_SD_SHIPMENT_HEAD.Dispatch_Period,TSPL_SD_SHIPMENT_HEAD.Vehicle_Capacity " &
-        ",TSPL_SD_SHIPMENT_HEAD.Itemwise,TSPL_SD_SHIPMENT_HEAD.Against_Cust_Order,TSPL_SD_SHIPMENT_HEAD.Supply_Date,TSPL_SD_SHIPMENT_HEAD.Delivery_Code_PS,TSPL_SD_SHIPMENT_HEAD.Advance_Percentage,TSPL_SD_SHIPMENT_HEAD.GR_Date,TSPL_SD_SHIPMENT_HEAD.RoadPermit_Date,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_Date,TSPL_SD_SHIPMENT_HEAD.Removal_Date,TSPL_SD_SHIPMENT_HEAD.Cash_Customer,TSPL_SD_SHIPMENT_HEAD.Insurance,TSPL_SD_SHIPMENT_HEAD.ManualVehicle,TSPL_SD_SHIPMENT_HEAD.Freight_Distance,TSPL_SD_SHIPMENT_HEAD.Distributor_Commission_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Transporter_Commission_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt,TSPL_SD_SHIPMENT_HEAD.FAT_Per,TSPL_SD_SHIPMENT_HEAD.SNF_Per,TSPL_SD_SHIPMENT_HEAD.Acidity,TSPL_SD_SHIPMENT_HEAD.Temperature,TSPL_SD_SHIPMENT_HEAD.MBRT_Hours,TSPL_SD_SHIPMENT_HEAD.BoothSecurity_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Vehicle_Type,TSPL_SD_SHIPMENT_HEAD.IsEwaybill,TSPL_SD_SHIPMENT_HEAD.IsIndividualCustomer,TSPL_SD_SHIPMENT_HEAD.Demand_UniqueID,TSPL_SD_SHIPMENT_HEAD.Exclude_KKF_And_Mandi "
+        ",TSPL_SD_SHIPMENT_HEAD.Itemwise,TSPL_SD_SHIPMENT_HEAD.Against_Cust_Order,TSPL_SD_SHIPMENT_HEAD.Supply_Date,TSPL_SD_SHIPMENT_HEAD.Delivery_Code_PS,TSPL_SD_SHIPMENT_HEAD.Advance_Percentage,TSPL_SD_SHIPMENT_HEAD.GR_Date,TSPL_SD_SHIPMENT_HEAD.RoadPermit_Date,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_Date,TSPL_SD_SHIPMENT_HEAD.Removal_Date,TSPL_SD_SHIPMENT_HEAD.Cash_Customer,TSPL_SD_SHIPMENT_HEAD.Insurance,TSPL_SD_SHIPMENT_HEAD.ManualVehicle,TSPL_SD_SHIPMENT_HEAD.Freight_Distance,TSPL_SD_SHIPMENT_HEAD.Distributor_Commission_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Transporter_Commission_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt,TSPL_SD_SHIPMENT_HEAD.FAT_Per,TSPL_SD_SHIPMENT_HEAD.SNF_Per,TSPL_SD_SHIPMENT_HEAD.Acidity,TSPL_SD_SHIPMENT_HEAD.Temperature,TSPL_SD_SHIPMENT_HEAD.MBRT_Hours,TSPL_SD_SHIPMENT_HEAD.BoothSecurity_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Vehicle_Type,TSPL_SD_SHIPMENT_HEAD.IsEwaybill,TSPL_SD_SHIPMENT_HEAD.IsIndividualCustomer,TSPL_SD_SHIPMENT_HEAD.Demand_UniqueID,TSPL_SD_SHIPMENT_HEAD.Exclude_KKF_And_Mandi,TSPL_SD_SHIPMENT_HEAD.OpeningBal,TSPL_SD_SHIPMENT_HEAD.DrAmt ,TSPL_SD_SHIPMENT_HEAD.CrAmt,TSPL_SD_SHIPMENT_HEAD.ClosingBal "
         qry += "  FROM TSPL_SD_SHIPMENT_HEAD "
         qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_HEAD.Bill_To_Location "
         qry += " left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_SD_SHIPMENT_HEAD.Ship_To_Location "
@@ -1291,6 +1295,12 @@ Public Class clsPSShipmentHead
             obj.isCardSale = clsCommon.myCdbl(dt.Rows(0)("isCardSale"))
             obj.OPKm = clsCommon.myCdbl(dt.Rows(0)("OPKm"))
             obj.CLKm = clsCommon.myCdbl(dt.Rows(0)("CLKm"))
+            ' Opening Closing Bal
+            obj.OpeningBal = clsCommon.myCstr(dt.Rows(0)("OpeningBal"))
+            obj.DrAmt = clsCommon.myCstr(dt.Rows(0)("DrAmt"))
+            obj.CrAmt = clsCommon.myCstr(dt.Rows(0)("CrAmt"))
+            obj.ClosingBal = clsCommon.myCstr(dt.Rows(0)("ClosingBal"))
+            '====End of Opening Closing Bal=====
             obj.Is_CustomerChanged = clsCommon.myCdbl(dt.Rows(0)("Is_CustomerChanged"))
             obj.IsSameBillShipParty = clsCommon.myCdbl(dt.Rows(0)("IsSameBillShipParty"))
             obj.Scheme_Tax_Group = clsCommon.myCstr(dt.Rows(0)("Scheme_Tax_Group"))

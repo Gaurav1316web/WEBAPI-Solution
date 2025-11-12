@@ -646,6 +646,10 @@ Public Class frmSaleReturnDairy
         UcAttachment1.BlankAllControls()
         fndProject.Text = ""
         lblProject.Text = ""
+        txtOpeningbal.Text = ""
+        txtDrAmt.Text = ""
+        txtCrAmt.Text = ""
+        txtClosingBal.Text = ""
         If UOMAtDiarySaleReturn = True Then
             gv1.Columns(colQty).ReadOnly = True
             gv1.Columns(colUnit).ReadOnly = True
@@ -5212,8 +5216,13 @@ Where TSPL_ITEM_MASTER.Item_Code='" + itemCode + "' And TSPL_ITEM_UOM_DETAIL.UOM
                     repoComplete.IsVisible = True
                     repoBalQty.IsVisible = True
                     btnCancel.Enabled = True
+                    txtOpeningbal.Text = obj.OpeningBal
+                    txtDrAmt.Text = obj.DrAmt
+                    txtCrAmt.Text = obj.CrAmt
+                    txtClosingBal.Text = obj.ClosingBal
                 Else
                     btnCancel.Enabled = False
+                    GetOpeningClosingAndReceivedAmt(obj.Customer_Code, obj.Document_Date)
                 End If
                 If obj.Booth_Arr.Count > 0 Then
                     chkBoothWiseReturn.Checked = True
@@ -5992,6 +6001,7 @@ Where TSPL_ITEM_MASTER.Item_Code='" + itemCode + "' And TSPL_ITEM_UOM_DETAIL.UOM
                 End If
                 ''
                 If (clsDSSalesReturnHead.PostData(MyBase.Form_ID, txtDocNo.Value)) Then
+
                     msg = "Successfully Posted"
                 Else
                     qry = "select No_Of_Level, LEVEL from TSPL_APPROVAL_LEVEL_SCREEN where User_Code='" + objCommonVar.CurrentUserCode + "' and Trans_Code='" + MyBase.Form_ID + "' "
@@ -6018,6 +6028,17 @@ Where TSPL_ITEM_MASTER.Item_Code='" + itemCode + "' And TSPL_ITEM_UOM_DETAIL.UOM
                         End If
                     End If
                 End If
+                Try
+                    GetOpeningClosingAndReceivedAmt(txtVendorNo.Value, txtDate.Value)
+                    Dim balqry As String = "Update TSPL_SD_SALE_RETURN_HEAD set OpeningBal='" & clsCommon.myCstr(txtOpeningbal.Text) & "', " &
+                            "DrAmt='" & clsCommon.myCstr(txtDrAmt.Text) & "', " &
+                            "CrAmt='" & clsCommon.myCstr(txtCrAmt.Text) & "'," &
+                            "ClosingBal='" & clsCommon.myCstr(txtClosingBal.Text) & "' " &
+                         " where Document_Code='" & txtDocNo.Value & "'"
+                    clsDBFuncationality.ExecuteNonQuery(balqry)
+                Catch ex As Exception
+
+                End Try
                 common.clsCommon.MyMessageBoxShow(msg)
                 LoadData(txtDocNo.Value, NavigatorType.Current)
 
@@ -6240,6 +6261,45 @@ Where TSPL_ITEM_MASTER.Item_Code='" + itemCode + "' And TSPL_ITEM_UOM_DETAIL.UOM
         '-----------------------------------------------------
 
         LoadData(clsCommon.ShowSelectForm("PSSaleReturnDocfnd", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked, " TSPL_SD_SALE_RETURN_HEAD.Document_date "), NavigatorType.Current)
+    End Sub
+    Private Sub GetOpeningClosingAndReceivedAmt(ByVal CustCode As String, ByVal docDate As DateTime)
+        Try
+            Dim OpeningBal As Decimal = 0
+            Dim DrAmt As Decimal = 0
+            Dim CrAmt As Decimal = 0
+            Dim ClosingBal As Decimal = 0
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("EXEC SP_GetBalCustWise @Cust_Code = '" + clsCommon.myCstr(CustCode) + "',@DocDate='" + clsCommon.GetPrintDate(docDate, "dd/MMM/yyyy HH:mm:ss") + "'")
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                OpeningBal = dt.Rows(0)("OpngBal")
+                DrAmt = dt.Rows(0)("DrAmt")
+                CrAmt = dt.Rows(0)("CrAmt")
+                ClosingBal = dt.Rows(0)("BalAmt")
+            End If
+            If OpeningBal > 0 Then
+                txtOpeningbal.Text = clsCommon.myCstr(OpeningBal) & " DR"
+            Else
+                txtOpeningbal.Text = clsCommon.myCstr(OpeningBal) & " CR"
+            End If
+            If DrAmt > 0 Then
+                txtDrAmt.Text = clsCommon.myCstr(DrAmt) & " DR"
+            Else
+                txtDrAmt.Text = clsCommon.myCstr(DrAmt) & " CR"
+            End If
+            If CrAmt > 0 Then
+                txtCrAmt.Text = clsCommon.myCstr(CrAmt) & " DR"
+            Else
+                txtCrAmt.Text = clsCommon.myCstr(CrAmt) & " CR"
+            End If
+            If ClosingBal > 0 Then
+                txtClosingBal.Text = clsCommon.myCstr(ClosingBal) & " DR"
+            Else
+                txtClosingBal.Text = clsCommon.myCstr(ClosingBal) & " CR"
+            End If
+
+        Catch ex As Exception
+
+        End Try
     End Sub
 
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
@@ -6510,7 +6570,7 @@ Where TSPL_ITEM_MASTER.Item_Code='" + itemCode + "' And TSPL_ITEM_UOM_DETAIL.UOM
         End If
         '-----------------------------------------------------'
         txtVendorNo.Value = clsCommon.ShowSelectForm("PSSaleRetCustfnd", qry, "Code", strwhrcondition, txtVendorNo.Value, "Code", isButtonClicked)
-
+        GetOpeningClosingAndReceivedAmt(txtVendorNo.Value, txtDate.Value)
         qry += " where 2=2 and TSPL_CUSTOMER_MASTER.Cust_Code ='" + txtVendorNo.Value + "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
@@ -6636,6 +6696,7 @@ left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DI
             If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
                 lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtBillToLocation.Value + "' "))
             End If
+            GetOpeningClosingAndReceivedAmt(txtVendorNo.Value, txtDate.Value)
             SetTaxX()
         End If
     End Sub
