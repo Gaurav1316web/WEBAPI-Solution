@@ -136,5 +136,32 @@ FROM TSPL_ITEM_MASTER"
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
+    Private Sub UpdateData()
+        Try
+            Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "ITEM_CODE", txtitemCode.Text)
+            clsCommon.AddColumnsForChange(coll, "IS_TAXABLE", IIf(chkIsTaxable.Checked, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "EFFECTIVE_DATE", clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy"))
+            clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
+            clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm tt"))
+            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ITEM_MASTER_TAXABLE", OMInsertOrUpdate.Insert, "")
+            clsCommon.MyMessageBoxShow(Me, "Saved Successfully", Me.Text)
+            btnSave.Enabled = False
+            LoadData()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub FrmItemMasterTax_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+        If e.Alt AndAlso e.KeyCode = Keys.E AndAlso btnSave.Enabled Then
+            Dim frm As New FrmPWD(Nothing)
+            frm.strType = clsFixedParameterType.Transactionupdate
+            frm.strCode = clsFixedParameterCode.ItemMaster
+            frm.ShowDialog()
+            If frm.isPasswordCorrect Then
+                UpdateData()
+                OneTimeCheck = True
+            End If
+        End If
+    End Sub
 End Class
