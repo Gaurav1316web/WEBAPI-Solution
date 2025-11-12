@@ -689,17 +689,63 @@ where " + TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL + ".PROD_ENTRY_CODE='" + StrCod
     End Function
     Public Shared Function UnpostData(ByVal strCode As String, ByVal FormId As String, ByVal trans As SqlTransaction) As Boolean
         Try
+            Dim obj As clsStanderdProductionEntry = clsStanderdProductionEntry.GetData(strCode, "", NavigatorType.Current, trans)
+            If (obj Is Nothing OrElse clsCommon.myLen(obj.PROD_ENTRY_CODE) <= 0) Then
+                Throw New Exception("No Data found to Post")
+            End If
+            If (obj.POSTED = False) Then
+                Throw New Exception("Transaction status should be posted for reverse and unpost")
+            End If
+            'If objCommonVar.AutoGenrateBatchInventory Then
+            '    For Each objtr As clsStanderdProductionEntryDetail In obj.ArrBatchItem
+            '        If clsItemMaster.IsBatchItem(objtr.ITEM_CODE, trans) Then
+            '            Dim ArrBatchItem As New List(Of clsBatchInventory)
+            '            Dim objBatch As New clsBatchInventory
+            '            objBatch.Parent_Line_No = objtr.Line_No
+            '            objBatch.Line_No = 1
+            '            objBatch.Batch_No = clsERPFuncationality.GetNextCode(trans, clsCommon.GetPrintDate(obj.PROD_DATE, "dd/MMM/yyyy"), clsDocType.ItemBatch, clsItemMaster.GetItemType(objtr.ITEM_CODE, trans), objtr.LOCATION_CODE, False, True, False, False, False, False, IIf(clsCommon.myLen(obj.Shift_Code) > 0, obj.Shift_Code.Substring(0, 1), ""), clsCommon.GetPrintDate(dtPostDate, "ddMMyyHHmm"), "")
+            '            objBatch.Manual_BatchNo = objBatch.Batch_No
+            '            objBatch.Manufacture_Date = dtPostDate
+            '            objBatch.Expiry_Date = dtPostDate.AddDays(clsItemMaster.GetSelfLife(objtr.ITEM_CODE, trans))
+            '            objBatch.Qty = objtr.FINAL_PRODUCTION_QTY
+            '            ArrBatchItem.Add(objBatch)
+            '            clsBatchInventory.SaveData("STD_PRO_ENT", strDocNo, obj.PROD_DATE, "I", objtr.ITEM_CODE, objtr.LOCATION_CODE, objtr.Line_No, 0, objtr.UNIT_CODE, ArrBatchItem, trans)
+            '        End If
+            '    Next
+            '    obj = clsStanderdProductionEntry.GetData(strDocNo, arrloc, NavigatorType.Current, trans)
+            'End If
+
+            For Each objtr As clsStanderdProductionEntryDetail In obj.ArrBatchItem
+                Dim dblBalance As Decimal = clsItemLocationDetails.getBalanceWithUnapproveForRMOther(objtr.ITEM_CODE, objtr.LOCATION_CODE, obj.PROD_ENTRY_CODE, obj.PROD_DATE, trans, objtr.UNIT_CODE)
+                If dblBalance < objtr.FINAL_PRODUCTION_QTY Then
+                    If Math.Abs(dblBalance - objtr.FINAL_PRODUCTION_QTY) > 0.01 Then
+                        Throw New Exception("Balance will be going to -ve.Balance Qty : " + clsCommon.myCstr(dblBalance) + " and Entered Qty : " + clsCommon.myCstr(objtr.FINAL_PRODUCTION_QTY) + Environment.NewLine + "Item : " + objtr.ITEM_CODE + Environment.NewLine + "Unit : " + objtr.UNIT_CODE)
+                    End If
+                End If
+                ''End of Main Item
+
+                ''Batch Item
+                If objtr.arrBatchItem IsNot Nothing AndAlso objtr.arrBatchItem.Count > 0 Then
+                    For Each objBatch As clsBatchInventory In objtr.arrBatchItem
+                        dblBalance = clsBatchInventory.GetBatchBalance(objBatch.Item_Code, objBatch.Location_Code, objBatch.Batch_No, objBatch.MRP, objBatch.UOM, objBatch.Document_Code, objBatch.Document_Type, trans)
+                        If dblBalance < objBatch.Qty Then
+                            Throw New Exception("Balance will be going to -ve.Balance Qty : " + clsCommon.myCstr(dblBalance) + " and Entered Qty : " + clsCommon.myCstr(objBatch.Qty) + Environment.NewLine + "Item : " + objBatch.Item_Code + Environment.NewLine + "Batch : " + objBatch.Batch_No + Environment.NewLine + "MRP : " + clsCommon.myCstr(objBatch.MRP) + Environment.NewLine + "Unit : " + objBatch.UOM)
+                        End If
+                    Next
+                End If
+            Next
+
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select PROD_DATE,LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY where PROD_ENTRY_CODE='" + strCode + "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionSTD, clsUserMgtCode.frmStanderdProductionEntry, clsCommon.myCstr(dt.Rows(0)("LOCATION_CODE")), clsCommon.myCDate(dt.Rows(0)("PROD_DATE")), trans)
-
             End If
             Dim issaved As Boolean = True
             clsBatchInventory.ReverseAndUnpost("STD_PRO_ENT", strCode, trans)
             If objCommonVar.AutoGenrateBatchInventory Then
                 clsBatchInventory.DeleteData("STD_PRO_ENT", strCode, trans, " and Parent_Line_No=1 ")
             End If
+
             Dim qry As String = "delete from tspl_inventory_movement where trans_type='" + FormId + "' and source_doc_no='" + strCode + "'"
             issaved = issaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -720,7 +766,7 @@ where " + TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL + ".PROD_ENTRY_CODE='" + StrCod
 
 
 
-            Return clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SPP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SPP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", trans)
 
             Return issaved
         Catch ex As Exception

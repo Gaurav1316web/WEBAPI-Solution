@@ -32,10 +32,10 @@ Public Class RptPurchaseMaterialRegister
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         PageSetupReport_ID = MyBase.Form_ID
         TemplateGridview = gv
-        LoadData()
+        LoadData(False)
     End Sub
 
-    Sub LoadData()
+    Sub LoadData(ByVal isPrint As Boolean)
         Try
             If clsCommon.GetDateWithStartTime(txtFromDate.Value) > clsCommon.GetDateWithEndTime(txtToDate.Value) Then
                 txtFromDate.Focus()
@@ -50,39 +50,52 @@ Public Class RptPurchaseMaterialRegister
             fromdate = clsCommon.myCDate(txtFromDate.Value, "dd/MM/yyyy")
             Todate = clsCommon.myCDate(txtToDate.Value, "dd/MM/yyyy")
             If txtSupplier.arrValueMember IsNot Nothing AndAlso txtSupplier.arrValueMember.Count > 0 Then
-                whr = " and TSPL_GRN_HEAD.Vendor_Code in ( " + clsCommon.GetMulcallString(txtSupplier.arrValueMember) + ")"
+                whr = " and TSPL_GRN_HEAD.Vendor_Code in ( " & clsCommon.GetMulcallString(txtSupplier.arrValueMember) & ")"
             End If
 
             If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
-                whr = whr + " and TSPL_GRN_DETAIL.Item_Code in ( " + clsCommon.GetMulcallString(txtItem.arrValueMember) + ")"
+                whr = whr + " and TSPL_GRN_DETAIL.Item_Code in ( " & clsCommon.GetMulcallString(txtItem.arrValueMember) & ")"
             End If
-            If objCommonVar.ApplyLocationFilterBasedOnPermission = True AndAlso clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                whr += " and TSPL_GRN_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
+            If objCommonVar.ApplyLocationFilterBasedOnPermission AndAlso clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                whr += " and TSPL_GRN_HEAD.Bill_To_Location in (" & objCommonVar.strCurrUserLocations & ")"
             End If
 
-            qry = " select TSPL_GRN_HEAD.GRN_No,convert (varchar, FORMAT (TSPL_GRN_HEAD.GRN_Date,'dd/MM/yyyy HH:mm:ss' )) as GRN_Date,TSPL_GRN_HEAD.Vendor_Code,TSPL_GRN_HEAD.Vendor_Name,TSPL_GRN_DETAIL.Item_Code,TSPL_GRN_DETAIL.Item_Desc,TSPL_GRN_DETAIL.PO_Id, TSPL_PO_WEIGHTMENT_HEAD_Temp.Weighment_Code, convert (varchar, FORMAT (TSPL_PO_WEIGHTMENT_HEAD_Temp.Weighment_Date,'dd/MM/yyyy HH:mm:ss' )) as Weighment_Date,TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight from TSPL_GRN_DETAIL " & _
-                   " left outer join TSPL_GRN_HEAD on TSPL_GRN_DETAIL.GRN_No = TSPL_GRN_HEAD.GRN_No " & _
-                   " left outer join (select * from TSPL_PO_WEIGHTMENT_HEAD where TSPL_PO_WEIGHTMENT_HEAD.Status = 1 ) TSPL_PO_WEIGHTMENT_HEAD_Temp on TSPL_PO_WEIGHTMENT_HEAD_Temp.Against_GRN_No = TSPL_GRN_HEAD.GRN_No " & _
-                   " left outer join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code =TSPL_PO_WEIGHTMENT_HEAD_Temp.Weighment_Code " & _
-                   " where TSPL_GRN_HEAD.Status = 1  and  Convert(date,TSPL_GRN_HEAD.GRN_Date,103) >= convert (date, '" + fromdate + "',103) and Convert(date,TSPL_GRN_HEAD.GRN_Date,103) <= convert (date, '" + Todate + "',103) " + whr + " "
+            qry = " select TSPL_GRN_HEAD.GRN_No,convert (varchar, FORMAT (TSPL_GRN_HEAD.GRN_Date,'dd/MM/yyyy HH:mm:ss' )) as GRN_Date,TSPL_GRN_HEAD.Vendor_Code,TSPL_GRN_HEAD.Vendor_Name,TSPL_GRN_HEAD.VehicleNo,TSPL_GRN_DETAIL.Item_Code,TSPL_GRN_DETAIL.Item_Desc,TSPL_GRN_DETAIL.PO_Id, TSPL_PO_WEIGHTMENT_HEAD_Temp.Weighment_Code, convert (varchar, FORMAT (TSPL_PO_WEIGHTMENT_HEAD_Temp.Weighment_Date,'dd/MM/yyyy HH:mm:ss' )) as Weighment_Date,TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,CinBag.Conversion_Factor As CFInBag from TSPL_GRN_DETAIL " &
+                   " left outer join TSPL_GRN_HEAD on TSPL_GRN_DETAIL.GRN_No = TSPL_GRN_HEAD.GRN_No " &
+                   " left outer join (select * from TSPL_PO_WEIGHTMENT_HEAD where TSPL_PO_WEIGHTMENT_HEAD.Status = 1 ) TSPL_PO_WEIGHTMENT_HEAD_Temp on TSPL_PO_WEIGHTMENT_HEAD_Temp.Against_GRN_No = TSPL_GRN_HEAD.GRN_No " &
+                   " left outer join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code =TSPL_PO_WEIGHTMENT_HEAD_Temp.Weighment_Code " &
+            " Left Outer Join TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code=TSPL_GRN_DETAIL.Item_Code " &
+            " Left Outer Join TSPL_ITEM_UOM_DETAIL On TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code And TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_GRN_DETAIL.Unit_code " &
+            " Left Outer Join TSPL_ITEM_UOM_DETAIL As CinBag On CinBag.Item_Code=TSPL_ITEM_MASTER.Item_Code And CinBag.UOM_Code='Bag'" &
+            " where TSPL_GRN_HEAD.Status = 1  and  Convert(date,TSPL_GRN_HEAD.GRN_Date,103) >= convert (date, '" & fromdate & "',103) and Convert(date,TSPL_GRN_HEAD.GRN_Date,103) <= convert (date, '" & Todate & "',103) " & whr & " "
 
+            Dim finalQry As String = " Select xyz.GRN_No As [GRN No],xyz.GRN_Date As [GRN Date],xyz.Vendor_Code As [Vendor Code],xyz.Vendor_Name As [Vendor Name],xyz.VehicleNo As [Vehicle No],xyz.Item_Code As [Item Code],xyz.Item_Desc As [Item Desc],xyz.PO_Id As [PO ID],xyz.Weighment_Code As [Weighment Code],xyz.Weighment_Date As [Weighment Date],xyz.Gross_Weight As [Gross Weight],xyz.Tare_Weight As [Tare Weight],xyz.Net_Weight As [Net Weight],Convert(Decimal(18,0),((Net_Weight*Conversion_Factor)/CFInBag)) As [No Of Bag],Convert(Decimal(18,2),Case When (Net_Weight*Conversion_Factor)>0 And CFInBag>0 Then  Net_Weight/((Net_Weight*Conversion_Factor)/CFInBag) Else 0 End) As [Avg Weight Per Bag]"
+            If isPrint Then
+                finalQry += " ,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,TSPL_STATE_MASTER.STATE_NAME"
+            End If
+            finalQry += " from(" & qry & ")xyz"
+            If isPrint Then
+                finalQry += " Left Outer Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "'
+ Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_MASTER.State"
+            End If
             Dim dtgv As New DataTable
-            dtgv = clsDBFuncationality.GetDataTable(qry)
-            If dtgv IsNot Nothing And dtgv.Rows.Count > 0 Then
-                gv.DataSource = Nothing
-                gv.Rows.Clear()
-                gv.Columns.Clear()
-                gv.DataSource = dtgv
-                gv.BestFitColumns()
-                ReStoreGridLayout()
-                RadPageView1.SelectedPage = RadPageViewPage2
-            End If
-            If dtgv.Rows.Count <= 0 Then
-                gv.DataSource = Nothing
-                gv.Rows.Clear()
-                gv.Columns.Clear()
-                clsCommon.MyMessageBoxShow("No Data Found")
-                Exit Sub
+            dtgv = clsDBFuncationality.GetDataTable(finalQry)
+            If dtgv IsNot Nothing AndAlso dtgv.Rows.Count > 0 Then
+                If isPrint Then
+                    Dim frm As New frmCrystalReportViewer()
+                    frm.funreport(Form_ID, CrystalReportFolder.PurchaseOrder, dtgv, "crptPurchaseMaterialWeighmentReport", "Purchase Material Weighment Report")
+                    frm = Nothing
+                Else
+                    gv.DataSource = Nothing
+                    gv.Rows.Clear()
+                    gv.Columns.Clear()
+                    gv.DataSource = dtgv
+                    gv.BestFitColumns()
+                    ReStoreGridLayout()
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -105,9 +118,9 @@ Public Class RptPurchaseMaterialRegister
             Dim arrHeader As List(Of String) = New List(Of String)()
             arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.RptPurchaseMaterialRegister & "'"))
             arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
-            arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")) + " ")
+            arrHeader.Add(("Date Range: " & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") & " To " & clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")) & " ")
 
-            
+
             If exporter = EnumExportTo.Excel Then
           
                 'Dim sfd As SaveFileDialog = New SaveFileDialog()
@@ -175,7 +188,7 @@ Public Class RptPurchaseMaterialRegister
             If clsCommon.myLen(MyBase.Form_ID) > 0 Then
                 Dim obj As clsGridLayout = New clsGridLayout()
                 obj = CType(obj.GetData(Form_ID, "", objCommonVar.CurrentUserCode), clsGridLayout)
-                If Not obj Is Nothing AndAlso obj.GridColumns >= gv.ColumnCount Then
+                If obj IsNot Nothing AndAlso obj.GridColumns >= gv.ColumnCount Then
                     Dim ii As Integer
                     For ii = 0 To gv.Columns.Count - 1 Step ii + 1
                         gv.Columns(ii).IsVisible = False
@@ -192,5 +205,9 @@ Public Class RptPurchaseMaterialRegister
 
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click
         Export(EnumExportTo.PDF)
+    End Sub
+
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        LoadData(True)
     End Sub
 End Class

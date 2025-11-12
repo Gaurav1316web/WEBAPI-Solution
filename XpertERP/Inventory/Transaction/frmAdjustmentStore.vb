@@ -53,11 +53,13 @@ Public Class frmAdjustmentStore
     Public settPickCostFromItemMaster As Boolean = False
     Public settEditItemCost As Boolean = False
     Dim SettDoNotStopOnItemBalanceExceptionStoreAdjustment As Boolean = False
-    Dim RunBatchFifowise As Integer = 0
     Dim settTankerDispatchAvgFATSNFPer As Boolean = False
     Dim ItemCostZeroOnStoreAdjForTypeFlushing As Boolean = False
     Dim ItemCostTolerancePercentage As Decimal = 0
     Private isInsideLoadForm As Boolean = False
+
+    Dim RunBatchFifowise As Integer = 0
+    Dim RunBatchFifowisewithmodifyfunctionality As Boolean = False
 #End Region
 
     Public Sub SetUserMgmtNew()
@@ -105,112 +107,6 @@ Public Class frmAdjustmentStore
     End Sub
 
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As Dictionary(Of String, String)
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("Adjustment_No", "varchar(30)  NOT NULL PRIMARY KEY ")
-        coll.Add("Reference", "varchar(100) NULL")
-        coll.Add("Description", "varchar(300) NULL")
-        coll.Add("Posted", "char(1) NULL")
-        coll.Add("Created_By", "varchar(12)  NOT NULL")
-        coll.Add("Modify_By", "varchar(12)  NOT NULL")
-        coll.Add("Comp_Code", "varchar(8)  NOT NULL")
-        coll.Add("Against_Item_Stock_Conv_Doc", "varchar(30) NULL")
-        coll.Add("Reference_Document", "Varchar(30) null")
-        coll.Add("Document_No", "Varchar(30) null")
-        coll.Add("Unit_Code", "Varchar(12) null")
-        coll.Add("ItemType", "char(2) null")
-        coll.Add("EMP_CODE", "Varchar(12) null")
-        coll.Add("EMP_NAME", "Varchar(50) null")
-        coll.Add("Customer_CODE", "Varchar(12) null")
-        coll.Add("Customer_NAME", "Varchar(50) null")
-        coll.Add("Created_time", "Varchar(10) null")
-        coll.Add("Modified_Time", "Varchar(10) null")
-        coll.Add("Vehicle_Code", "Varchar(12) null")
-        coll.Add("Vehicle_No", "Varchar(30) null")
-        coll.Add("Challan_No", "Varchar(30) null")
-        coll.Add("Challan_date", "Datetime null")
-        coll.Add("GateEntry_No", "Varchar(30) null")
-        coll.Add("GateEntry_Date", "Datetime null")
-        coll.Add("Loc_Code", "Varchar(12) null")
-        coll.Add("Loc_Desc", "Varchar(50) null")
-        coll.Add("Trans_Type", "Varchar(5) null")
-        coll.Add("Adjustment_Date", "Datetime null")
-        coll.Add("Posting_Date", "Datetime null")
-        coll.Add("Created_Date", "Datetime null")
-        coll.Add("Modify_Date", "Datetime null")
-        coll.Add("EntryDateTime", "datetime default null")
-        coll.Add("GateEnt_No", "Varchar(50) null")
-        coll.Add("Is_Imported", "Int NOT NULL Default 0")
-        coll.Add("Stock_Type", "Char(1) Not NUll Default ''")
-        coll.Add("Third_Party_Location", "char(1) Not Null Default 'N'")
-        coll.Add("IsMilkType", "integer not null default 0")
-        coll.Add("MainLocationCode", "Varchar(12) null")
-        coll.Add("MainLocationDesc", "Varchar(50) null")
-        coll.Add("Against_Item_Stock_Conversion", "Varchar(30) null References TSPL_Item_Stock_Conversion_Head(Doc_No)")
-        coll.Add("Against_Bulk_Srn_PI_adjustment", "Varchar(30) null ")
-        coll.Add("Against_AP_Invoice_No", "Varchar(30) null References TSPL_VENDOR_INVOICE_HEAD(Document_No)")
-        coll.Add("Against_Physical_Stock_No", "varchar(50) null")
-        coll.Add("Auto_Gen_Againnt_PI_No", "Varchar(30) null References TSPL_PI_HEAD(PI_No)")
-        coll.Add("Against_Transfer_In_Doc_No", "Varchar(30) null ")
-        coll.Add("Against_Tanker_Dispatch_Doc_No", "Varchar(30) null")
-
-        coll.Add("FromLocation", "Varchar(30) null ")
-        coll.Add("ToLocation", "Varchar(30) null")
-        coll.Add("isAutoCreatedByMilkTransferIn", "integer not null default 0")
-
-        coll.Add("Against_PI_No_Difference", "Varchar(30) null References TSPL_PI_HEAD(PI_No)")
-        coll.Add("Against_PI_No_Difference_Rejected", "Varchar(30) null References TSPL_PI_HEAD(PI_No)")
-        coll.Add("AdjustType", "Varchar(10) null")
-        coll.Add("Adjustment_Type", "varchar(3) null")
-        coll.Add("Adjustment_Specification", "varchar(200) null")
-        coll.Add("Is_JobWork", "integer not null default 0")
-        coll.Add("Against_Transfer_In_Return_Doc_No", "Varchar(30) null ")
-        coll.Add("Against_PurchaseReturn_No", "Varchar(30) null References TSPL_PR_HEAD(PR_No)")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_ADJUSTMENT_HEADER", coll, Nothing, True, True, "", "Adjustment_No", "Adjustment_Date", True)
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("Adjustment_No", "varchar(30)  NOT NULL")
-        coll.Add("Adjustment_Line_No", "int  NOT NULL")
-        coll.Add("Item_Code", "varchar(50)  NOT NULL REFERENCES TSPL_ITEM_MASTER (Item_Code)")
-        coll.Add("Item_Description", "varchar(100) NULL")
-        coll.Add("Adjustment_Type", "char(2)  NOT NULL")
-        coll.Add("Location_Code", "varchar(12)  NOT NULL")
-        coll.Add("Item_Quantity", "decimal (18,2) NULL")
-        coll.Add("Item_Cost", "decimal (18,2) NULL")
-        coll.Add("Unit_Code", "varchar(12) NULL")
-        coll.Add("Account_Code", "varchar(50) NULL")
-        coll.Add("Account_Description", "varchar(100) NULL")
-        coll.Add("Remarks", "varchar(100) NULL")
-        coll.Add("Comments", "varchar(100) NULL")
-        coll.Add("MFG_Date", "date NULL")
-        coll.Add("Batch_No", "varchar(30)  NOT NULL")
-        coll.Add("Expiry_Date", "date NULL")
-        coll.Add("Breakage", "decimal (18,2) NULL")
-        coll.Add("Item_Type", "char(22) NULL")
-        coll.Add("MRP", "Decimal(18,2) null")
-        coll.Add("ItemType", "char(22) null")
-        coll.Add("BreakageType", "Varchar(20) null")
-        coll.Add("Breakage_Cost", "decimal(18,0) null")
-        coll.Add("LeakageQty", "Decimal(18,2) null")
-        coll.Add("Basic_Price", "Decimal(18,2) null")
-        coll.Add("Bar_Code", "Varchar(30) null References TSPL_ITEM_BARCODE(Bar_Code)")
-        coll.Add("Item_Status", "varchar(3) Not Null Default 'NEW'")
-        coll.Add("FAT_Pers", "float NULL")
-        coll.Add("FAT_KG", "float NULL")
-        coll.Add("SNF_Pers", "float NULL")
-        coll.Add("SNF_KG", "float NULL")
-        coll.Add("Unit_Cost", "decimal(18,0) Default 0")
-
-        coll.Add("Fat_Rate", "float not null default 0")
-        coll.Add("SNF_Rate", "float not null default 0")
-        coll.Add("Fat_Amt", "float not null default 0")
-        coll.Add("SNF_Amt", "float not null default 0")
-        coll.Add("Price_Type", "varchar(30) Null ")
-        coll.Add("MCC_Price_Code", "Varchar(30) null References TSPL_MILK_PRICE_MASTER(Price_Code)")
-        coll.Add("Bulk_Price_Code", "Varchar(30) null References TSPL_Bulk_Price_MASTER(Price_Code)")
-        coll.Add("Bin_No", "varchar(50) NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_ADJUSTMENT_DETAIL", coll, Nothing, True, True, "TSPL_ADJUSTMENT_HEADER", "Adjustment_No", "", True)
 
         isInsideLoadForm = True
         settPickCostFromItemMaster = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PickCostFromItemMaster, clsFixedParameterCode.PickCostFromItemMaster, Nothing)) = 1)
@@ -222,6 +118,7 @@ Public Class frmAdjustmentStore
         SettDoNotStopOnItemBalanceExceptionStoreAdjustment = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DoNotStopOnItemBalanceExceptionStoreAdjustment, clsFixedParameterCode.DoNotStopOnItemBalanceExceptionStoreAdjustment, Nothing)) > 0)
         '========Added by preet gupta against ticket no[BHA/23/08/18-000477]
         RunBatchFifowise = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowise, clsFixedParameterCode.RunBatchFifowise, Nothing))
+        RunBatchFifowisewithmodifyfunctionality = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowisewithModifyfunctionality, clsFixedParameterCode.RunBatchFifowisewithModifyfunctionality, Nothing)) = 1)
         settTankerDispatchAvgFATSNFPer = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TankerDispatchAvgFATSNFPer, clsFixedParameterCode.TankerDispatchAvgFATSNFPer, Nothing)) = 1)
         ItemCostZeroOnStoreAdjForTypeFlushing = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ItemCostZeroOnStoreAdjForTypeFlushing, clsFixedParameterCode.ItemCostZeroOnStoreAdjForTypeFlushing, Nothing)) = 0, False, True)
         SetUserMgmtNew()
@@ -2034,28 +1931,28 @@ Public Class frmAdjustmentStore
                     End If
                 Else
                     If Not objCommonVar.AutoGenrateBatchInventory OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransType.SelectedValue), "Out") = CompairStringResult.Equal Then
-
-
                         Dim arrBatchNo As List(Of clsBatchInventory) = TryCast(gv1.Rows(ii).Cells(colICode).Tag, List(Of clsBatchInventory))
                         If arrBatchNo Is Nothing Then
-                            If clsCommon.CompairString(clsCommon.myCstr(cboTransType.SelectedValue), "Out") = CompairStringResult.Equal AndAlso RunBatchFifowise = 1 Then
-                                OpenBatchItem(False)
-                                arrBatchNo = TryCast(gv1.Rows(ii).Cells(colICode).Tag, List(Of clsBatchInventory))
-                            End If
-                            If arrBatchNo Is Nothing Then
-                                Throw New Exception("Please provide Batch no for item : " + strICode + " . At Line No" + clsCommon.myCstr(ii + 1))
-                            End If
-                        Else
-                            Dim tQty As Decimal = 0
-                            For Each objBatch As clsBatchInventory In arrBatchNo
-                                tQty += objBatch.Qty
-                            Next
-                            If tQty <> dblQty Then
-                                Throw New Exception("Item : " + strICode + " Entered Qty " + clsCommon.myCstr(dblQty) + Environment.NewLine + "And Batchwise Qty " + clsCommon.myCstr(tQty) + " . At Line No" + clsCommon.myCstr(ii + 1))
+                            If clsCommon.CompairString(clsCommon.myCstr(cboTransType.SelectedValue), "Out") = CompairStringResult.Equal AndAlso (RunBatchFifowise = 1 OrElse RunBatchFifowisewithmodifyfunctionality) Then
+                                If arrBatchNo Is Nothing Then
+                                    If RunBatchFifowise = 1 OrElse RunBatchFifowisewithmodifyfunctionality Then
+                                        OpenBatchItem(False)
+                                        arrBatchNo = TryCast(gv1.Rows(ii).Cells(colICode).Tag, List(Of clsBatchInventory))
+                                    End If
+                                End If
                             End If
                         End If
+                        If arrBatchNo Is Nothing Then
+                            Throw New Exception("Please provide Batch no for item : " + strICode + " . At Line No" + clsCommon.myCstr(ii + 1))
+                        End If
+                        Dim tQty As Decimal = 0
+                        For Each objBatch As clsBatchInventory In arrBatchNo
+                            tQty += objBatch.Qty
+                        Next
+                        If tQty <> dblQty Then
+                            Throw New Exception("Item : " + strICode + " Entered Qty " + clsCommon.myCstr(dblQty) + Environment.NewLine + "And Batchwise Qty " + clsCommon.myCstr(tQty) + " . At Line No" + clsCommon.myCstr(ii + 1))
+                        End If
                     End If
-
                 End If
             End If
 
@@ -2383,12 +2280,12 @@ Public Class frmAdjustmentStore
         End Try
     End Sub
 
-    Sub OpenBatchItem(ByVal isShowFormForIn As Boolean)
+    Sub OpenBatchItem(ByVal isShowForm As Boolean)
         If clsERPFuncationality.GetBatchWiseApplicableStatus(txtDate.Value) = True Then
             Dim blnBatchqty As Boolean = False
             If clsCommon.myCBool(gv1.CurrentRow.Cells(colIsBatchItem).Value) Then
                 If clsCommon.CompairString("In", clsCommon.myCstr(cboTransType.SelectedValue)) = CompairStringResult.Equal Then
-                    If isShowFormForIn Then
+                    If isShowForm Then
                         Dim frm As frmBatchItemIn = New frmBatchItemIn()
                         frm.strItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
                         frm.strItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
@@ -2403,7 +2300,7 @@ Public Class frmAdjustmentStore
                         End If
                     End If
                 Else
-                    If RunBatchFifowise = 0 Then
+                    If RunBatchFifowise = 0 Or isShowForm Then
                         Dim frm As frmBatchItemOut = New frmBatchItemOut()
                         frm.strItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
                         frm.strItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
@@ -2420,7 +2317,6 @@ Public Class frmAdjustmentStore
                         End If
                     Else
                         ' fifo start preeti gupta against ticket no[BHA/23/08/18-000477]
-
                         For ii As Integer = 0 To gv1.Rows.Count - 1
                             If clsCommon.myLen(gv1.Rows(ii).Cells(colICode).Value) > 0 Then
                                 If clsCommon.myCBool(clsDBFuncationality.getSingleValue("select TSPL_ITEM_MASTER.Is_Batch_Item  from TSPL_ITEM_MASTER where TSPL_ITEM_MASTER.Item_Code ='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "'", Nothing)) Then
@@ -2469,7 +2365,6 @@ Public Class frmAdjustmentStore
                                             blnBatchqty = False
                                             Exit Sub
                                         End If
-
                                     End If
                                 End If
                             End If
@@ -3187,7 +3082,7 @@ Public Class frmAdjustmentStore
                     OpenBatchItemIfFIFIOSettingONNew()
                 End If
             Else
-                If RunBatchFifowise = 0 Or cboTransType.SelectedValue = "In" Then
+                If RunBatchFifowisewithmodifyfunctionality Or RunBatchFifowise = 0 Or cboTransType.SelectedValue = "In" Then
                     OpenBatchItem(True)
                 Else
                     OpenBatchItemIfFIFIOSettingON()

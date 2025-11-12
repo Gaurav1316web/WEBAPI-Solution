@@ -593,6 +593,7 @@ Public Class frmMapPayHeadsToSalaStructure
                     gv1.CurrentRow.Cells(colPayHeadCategory).Value = obj.SUB_HEAD_TYPE
                     gv1.CurrentRow.Cells(colCalculationBasis).Value = obj.CALC_BASIS
                     gv1.CurrentRow.Cells(colHiddenComponent).Value = obj.IsHiddenComponent
+                    gv1.CurrentRow.Cells(colLocationCode).Value = fndLocation.Value
                 End If
             End If
             isCellValueChangedOpen = False

@@ -2993,6 +2993,25 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
     End Function
     Public Shared Function ReverseAndUnpost(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
         Try
+            Dim obj As clsSRNHead = clsSRNHead.GetData(strCode, NavigatorType.Current, trans)
+            If (obj Is Nothing OrElse clsCommon.myLen(obj.SRN_No) <= 0) Then
+                Throw New Exception("No Data found to Post")
+            End If
+            If Not (obj.Status = ERPTransactionStatus.Approved) Then
+                Throw New Exception("Transaction status should be posted for reverse and unpost")
+            End If
+            For Each objtr As clsSRNDetail In obj.Arr
+                ''Batch Item
+                If objtr.arrBatchItem IsNot Nothing AndAlso objtr.arrBatchItem.Count > 0 Then
+                    For Each objBatch As clsBatchInventory In objtr.arrBatchItem
+                        Dim dblBalance As Decimal = clsBatchInventory.GetBatchBalance(objBatch.Item_Code, objBatch.Location_Code, objBatch.Batch_No, objBatch.MRP, objBatch.UOM, objBatch.Document_Code, objBatch.Document_Type, trans)
+                        If dblBalance < objBatch.Qty Then
+                            Throw New Exception("Balance will be going to -ve.Balance Qty : " + clsCommon.myCstr(dblBalance) + " and Entered Qty : " + clsCommon.myCstr(objBatch.Qty) + Environment.NewLine + "Item : " + objBatch.Item_Code + Environment.NewLine + "Batch : " + objBatch.Batch_No + Environment.NewLine + "MRP : " + clsCommon.myCstr(objBatch.MRP) + Environment.NewLine + "Unit : " + objBatch.UOM)
+                        End If
+                    Next
+                End If
+            Next
+
             Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_SRN_HEAD.Bill_To_Location, TSPL_SRN_HEAD.SRN_No, TSPL_SRN_HEAD.SRN_Date from TSPL_SRN_HEAD where SRN_No= '" + strCode + "' ", trans)
             If dts.Rows.Count > 0 Then
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnSRN, clsCommon.myCstr(dts.Rows(0)("Bill_To_Location")), clsCommon.myCstr(dts.Rows(0)("SRN_Date")), trans)

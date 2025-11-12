@@ -204,34 +204,124 @@ Public Class frmDBTNEFTUnionReport
                              IsNull(Sum(xxxfinal.[M3 Farmer Code]),0)[M3 Farmer Code],
                              IsNull(Sum(xxxfinal.[M3 Amt]),0)[M3 Amt], "
 
+                query += " '" + clsCommon.GetPrintDate(Month4, "MMM-yyyy") + "' As Month4,"
+                If chkOnlyReject.Checked Then
+                    query += " IsNull(Sum(xxxfinal.[M4 No Of Doc]),0)[M4 No Of Doc],"
+                End If
+                query += " IsNull(Sum(xxxfinal.[M4 Billed Qty]),0)[M4 Billed Qty],
+                             IsNull(Sum(xxxfinal.[M4 Farmer Qty]),0)[M4 Farmer Qty],
+                             IsNull(Sum(xxxfinal.[M4 Farmer Code]),0)[M4 Farmer Code],
+                             IsNull(Sum(xxxfinal.[M4 Amt]),0)[M4 Amt], "
+
+                query += " '" + clsCommon.GetPrintDate(Month5, "MMM-yyyy") + "' As Month5,"
+                If chkOnlyReject.Checked Then
+                    query += " IsNull(Sum(xxxfinal.[M5 No Of Doc]),0)[M5 No Of Doc],"
+                End If
+                query += " IsNull(Sum(xxxfinal.[M5 Billed Qty]),0)[M5 Billed Qty],
+                             IsNull(Sum(xxxfinal.[M5 Farmer Qty]),0)[M5 Farmer Qty],
+                             IsNull(Sum(xxxfinal.[M5 Farmer Code]),0)[M5 Farmer Code],
+                             IsNull(Sum(xxxfinal.[M5 Amt]),0)[M5 Amt], "
+
+                query += " '" + clsCommon.GetPrintDate(Month6, "MMM-yyyy") + "' As Month6,"
+                If chkOnlyReject.Checked Then
+                    query += " IsNull(Sum(xxxfinal.[M6 No Of Doc]),0)[M6 No Of Doc],"
+                End If
+                query += " IsNull(Sum(xxxfinal.[M6 Billed Qty]),0)[M6 Billed Qty],
+                             IsNull(Sum(xxxfinal.[M6 Farmer Qty]),0)[M6 Farmer Qty],
+                             IsNull(Sum(xxxfinal.[M6 Farmer Code]),0)[M6 Farmer Code],
+                             IsNull(Sum(xxxfinal.[M6 Amt]),0)[M6 Amt], "
+
+                query += " '" + clsCommon.GetPrintDate(Month7, "MMM-yyyy") + "' As Month7,"
+                If chkOnlyReject.Checked Then
+                    query += " IsNull(Sum(xxxfinal.[M7 No Of Doc]),0)[M7 No Of Doc],"
+                End If
+                query += " IsNull(Sum(xxxfinal.[M7 Billed Qty]),0)[M7 Billed Qty],
+                             IsNull(Sum(xxxfinal.[M7 Farmer Qty]),0)[M7 Farmer Qty],
+                             IsNull(Sum(xxxfinal.[M7 Farmer Code]),0)[M7 Farmer Code],
+                             IsNull(Sum(xxxfinal.[M7 Amt]),0)[M7 Amt], "
+
+                query += " '" + clsCommon.GetPrintDate(Month8, "MMM-yyyy") + "' As Month8,"
+                If chkOnlyReject.Checked Then
+                    query += " IsNull(Sum(xxxfinal.[M8 No Of Doc]),0)[M8 No Of Doc],"
+                End If
+                query += " IsNull(Sum(xxxfinal.[M8 Billed Qty]),0)[M8 Billed Qty],
+                             IsNull(Sum(xxxfinal.[M8 Farmer Qty]),0)[M8 Farmer Qty],
+                             IsNull(Sum(xxxfinal.[M8 Farmer Code]),0)[M8 Farmer Code],
+                             IsNull(Sum(xxxfinal.[M8 Amt]),0)[M8 Amt], "
+
+                query += " '" + clsCommon.GetPrintDate(Month9, "MMM-yyyy") + "' As Month9,"
+                If chkOnlyReject.Checked Then
+                    query += " IsNull(Sum(xxxfinal.[M9 No Of Doc]),0)[M9 No Of Doc],"
+                End If
+                query += " IsNull(Sum(xxxfinal.[M9 Billed Qty]),0)[M9 Billed Qty],
+                             IsNull(Sum(xxxfinal.[M9 Farmer Qty]),0)[M9 Farmer Qty],
+                             IsNull(Sum(xxxfinal.[M9 Farmer Code]),0)[M9 Farmer Code],
+                             IsNull(Sum(xxxfinal.[M9 Amt]),0)[M9 Amt], "
+
+                query += " '" + clsCommon.GetPrintDate(Month10, "MMM-yyyy") + "' As Month10,"
+                If chkOnlyReject.Checked Then
+                    query += " IsNull(Sum(xxxfinal.[M10 No Of Doc]),0)[M10 No Of Doc],"
+                End If
+                query += " IsNull(Sum(xxxfinal.[M10 Billed Qty]),0)[M10 Billed Qty],
+                             IsNull(Sum(xxxfinal.[M10 Farmer Qty]),0)[M10 Farmer Qty],
+                             IsNull(Sum(xxxfinal.[M10 Farmer Code]),0)[M10 Farmer Code],
+                             IsNull(Sum(xxxfinal.[M10 Amt]),0)[M10 Amt], "
+
+                query += " '" + clsCommon.GetPrintDate(Month11, "MMM-yyyy") + "' As Month11,"
+                If chkOnlyReject.Checked Then
+                    query += " IsNull(Sum(xxxfinal.[M11 No Of Doc]),0)[M11 No Of Doc],"
+                End If
+                query += " IsNull(Sum(xxxfinal.[M11 Billed Qty]),0)[M11 Billed Qty],
+                             IsNull(Sum(xxxfinal.[M11 Farmer Qty]),0)[M11 Farmer Qty],
+                             IsNull(Sum(xxxfinal.[M11 Farmer Code]),0)[M11 Farmer Code],
+                             IsNull(Sum(xxxfinal.[M11 Amt]),0)[M11 Amt], "
+
+                query += " '" + clsCommon.GetPrintDate(Month12, "MMM-yyyy") + "' As Month12,"
+                If chkOnlyReject.Checked Then
+                    query += " IsNull(Sum(xxxfinal.[M12 No Of Doc]),0)[M12 No Of Doc],"
+                End If
+                query += " IsNull(Sum(xxxfinal.[M12 Billed Qty]),0)[M12 Billed Qty],
+                             IsNull(Sum(xxxfinal.[M12 Farmer Qty]),0)[M12 Farmer Qty],
+                             IsNull(Sum(xxxfinal.[M12 Farmer Code]),0)[M12 Farmer Code],
+                             IsNull(Sum(xxxfinal.[M12 Amt]),0)[M12 Amt], "
+
                 If rbtnYearly.IsChecked Then
-                    query += "'" + clsCommon.GetPrintDate(Month4, "MMM-yyyy") + "' As Month4,"
-                    query += " IsNull(Sum(xxxfinal.[M4 Amt]),0)[M4 Amt],"
-                    query += "'" + clsCommon.GetPrintDate(Month5, "MMM-yyyy") + "' As Month5,"
-                    query += " IsNull(Sum(xxxfinal.[M5 Amt]),0)[M5 Amt],"
-                    query += "'" + clsCommon.GetPrintDate(Month6, "MMM-yyyy") + "' As Month6,"
-                    query += " IsNull(Sum(xxxfinal.[M6 Amt]),0)[M6 Amt],"
-                    query += "'" + clsCommon.GetPrintDate(Month7, "MMM-yyyy") + "' As Month7,"
-                    query += " IsNull(Sum(xxxfinal.[M7 Amt]),0)[M7 Amt],"
-                    query += "'" + clsCommon.GetPrintDate(Month8, "MMM-yyyy") + "' As Month8,"
-                    query += " IsNull(Sum(xxxfinal.[M8 Amt]),0)[M8 Amt],"
-                    query += "'" + clsCommon.GetPrintDate(Month9, "MMM-yyyy") + "' As Month9,"
-                    query += " IsNull(Sum(xxxfinal.[M9 Amt]),0)[M9 Amt],"
-                    query += "'" + clsCommon.GetPrintDate(Month10, "MMM-yyyy") + "' As Month10,"
-                    query += " IsNull(Sum(xxxfinal.[M10 Amt]),0)[M10 Amt],"
-                    query += "'" + clsCommon.GetPrintDate(Month11, "MMM-yyyy") + "' As Month11,"
-                    query += " IsNull(Sum(xxxfinal.[M11 Amt]),0)[M11 Amt],"
-                    query += "'" + clsCommon.GetPrintDate(Month12, "MMM-yyyy") + "' As Month12,"
-                    query += " IsNull(Sum(xxxfinal.[M12 Amt]),0)[M12 Amt],"
+                    'query += "'" + clsCommon.GetPrintDate(Month4, "MMM-yyyy") + "' As Month4,"
+                    'query += " IsNull(Sum(xxxfinal.[M4 Amt]),0)[M4 Amt],"
+                    'query += "'" + clsCommon.GetPrintDate(Month5, "MMM-yyyy") + "' As Month5,"
+                    'query += " IsNull(Sum(xxxfinal.[M5 Amt]),0)[M5 Amt],"
+                    'query += "'" + clsCommon.GetPrintDate(Month6, "MMM-yyyy") + "' As Month6,"
+                    'query += " IsNull(Sum(xxxfinal.[M6 Amt]),0)[M6 Amt],"
+                    'query += "'" + clsCommon.GetPrintDate(Month7, "MMM-yyyy") + "' As Month7,"
+                    'query += " IsNull(Sum(xxxfinal.[M7 Amt]),0)[M7 Amt],"
+                    'query += "'" + clsCommon.GetPrintDate(Month8, "MMM-yyyy") + "' As Month8,"
+                    'query += " IsNull(Sum(xxxfinal.[M8 Amt]),0)[M8 Amt],"
+                    'query += "'" + clsCommon.GetPrintDate(Month9, "MMM-yyyy") + "' As Month9,"
+                    'query += " IsNull(Sum(xxxfinal.[M9 Amt]),0)[M9 Amt],"
+                    'query += "'" + clsCommon.GetPrintDate(Month10, "MMM-yyyy") + "' As Month10,"
+                    'query += " IsNull(Sum(xxxfinal.[M10 Amt]),0)[M10 Amt],"
+                    'query += "'" + clsCommon.GetPrintDate(Month11, "MMM-yyyy") + "' As Month11,"
+                    'query += " IsNull(Sum(xxxfinal.[M11 Amt]),0)[M11 Amt],"
+                    'query += "'" + clsCommon.GetPrintDate(Month12, "MMM-yyyy") + "' As Month12,"
+                    'query += " IsNull(Sum(xxxfinal.[M12 Amt]),0)[M12 Amt],"
 
                 End If
                 If chkOnlyReject.Checked Then
                     query += " (IsNull(Sum(xxxfinal.[M1 No Of Doc]),0)+IsNull(Sum(xxxfinal.[M2 No Of Doc]),0)+IsNull(Sum(xxxfinal.[M3 No Of Doc]),0)) As [Total Document], "
                 End If
-                query += " (IsNull(Sum(xxxfinal.[M1 Billed Qty]),0)+IsNull(Sum(xxxfinal.[M2 Billed Qty]),0)+IsNull(Sum(xxxfinal.[M3 Billed Qty]),0)) As [Total Billed Qty],
-							 (IsNull(Sum(xxxfinal.[M1 Farmer Qty]),0)+IsNull(Sum(xxxfinal.[M2 Farmer Qty]),0)+IsNull(Sum(xxxfinal.[M3 Farmer Qty]),0)) As [Total Farmer Qty],
-							 (IsNull(Sum(xxxfinal.[M1 Farmer Code]),0)+IsNull(Sum(xxxfinal.[M2 Farmer Code]),0)+IsNull(Sum(xxxfinal.[M3 Farmer Code]),0)) As [Total No. Of Farmer],
-							 (IsNull(Sum(xxxfinal.[M1 Amt]),0)+IsNull(Sum(xxxfinal.[M2 Amt]),0)+IsNull(Sum(xxxfinal.[M3 Amt]),0)) "
+                query += " (IsNull(Sum(xxxfinal.[M1 Billed Qty]),0)+IsNull(Sum(xxxfinal.[M2 Billed Qty]),0)+IsNull(Sum(xxxfinal.[M3 Billed Qty]),0)+IsNull(Sum(xxxfinal.[M4 Billed Qty]),0)+IsNull(Sum(xxxfinal.[M5 Billed Qty]),0)+IsNull(Sum(xxxfinal.[M6 Billed Qty]),0)
+							 +IsNull(Sum(xxxfinal.[M7 Billed Qty]),0)+IsNull(Sum(xxxfinal.[M8 Billed Qty]),0)+IsNull(Sum(xxxfinal.[M9 Billed Qty]),0)
+							 +IsNull(Sum(xxxfinal.[M10 Billed Qty]),0)+IsNull(Sum(xxxfinal.[M11 Billed Qty]),0)+IsNull(Sum(xxxfinal.[M12 Billed Qty]),0)) As [Total Billed Qty],
+
+							 (IsNull(Sum(xxxfinal.[M1 Farmer Qty]),0)+IsNull(Sum(xxxfinal.[M2 Farmer Qty]),0)+IsNull(Sum(xxxfinal.[M3 Farmer Qty]),0)+IsNull(Sum(xxxfinal.[M4 Farmer Qty]),0)+IsNull(Sum(xxxfinal.[M5 Farmer Qty]),0)+IsNull(Sum(xxxfinal.[M6 Farmer Qty]),0)
+							 +IsNull(Sum(xxxfinal.[M7 Farmer Qty]),0)+IsNull(Sum(xxxfinal.[M8 Farmer Qty]),0)+IsNull(Sum(xxxfinal.[M9 Farmer Qty]),0)
+							 +IsNull(Sum(xxxfinal.[M10 Farmer Qty]),0)+IsNull(Sum(xxxfinal.[M11 Farmer Qty]),0)+IsNull(Sum(xxxfinal.[M12 Farmer Qty]),0)) As [Total Farmer Qty],
+
+							 (IsNull(Sum(xxxfinal.[M1 Farmer Code]),0)+IsNull(Sum(xxxfinal.[M2 Farmer Code]),0)+IsNull(Sum(xxxfinal.[M3 Farmer Code]),0)+IsNull(Sum(xxxfinal.[M4 Farmer Code]),0)+IsNull(Sum(xxxfinal.[M5 Farmer Code]),0)+IsNull(Sum(xxxfinal.[M6 Farmer Code]),0)
+							 +IsNull(Sum(xxxfinal.[M7 Farmer Code]),0)+IsNull(Sum(xxxfinal.[M8 Farmer Code]),0)+IsNull(Sum(xxxfinal.[M9 Farmer Code]),0)
+							 +IsNull(Sum(xxxfinal.[M10 Farmer Code]),0)+IsNull(Sum(xxxfinal.[M11 Farmer Code]),0)+IsNull(Sum(xxxfinal.[M12 Farmer Code]),0)) As [Total No. Of Farmer],
+
+							 (IsNull(Sum(xxxfinal.[M1 Amt]),0)+IsNull(Sum(xxxfinal.[M2 Amt]),0)+IsNull(Sum(xxxfinal.[M3 Amt]),0)+IsNull(Sum(xxxfinal.[M4 Amt]),0)+IsNull(Sum(xxxfinal.[M5 Amt]),0)+IsNull(Sum(xxxfinal.[M6 Amt]),0)+IsNull(Sum(xxxfinal.[M7 Amt]),0)+IsNull(Sum(xxxfinal.[M8 Amt]),0)+IsNull(Sum(xxxfinal.[M9 Amt]),0)+IsNull(Sum(xxxfinal.[M10 Amt]),0)+IsNull(Sum(xxxfinal.[M11 Amt]),0)+IsNull(Sum(xxxfinal.[M12 Amt]),0)) "
                 If rbtnYearly.IsChecked Then
                     query += " +IsNull(Sum(xxxfinal.[M4 Amt]),0) +IsNull(Sum(xxxfinal.[M5 Amt]),0) +IsNull(Sum(xxxfinal.[M6 Amt]),0) +IsNull(Sum(xxxfinal.[M7 Amt]),0) +IsNull(Sum(xxxfinal.[M8 Amt]),0) +IsNull(Sum(xxxfinal.[M9 Amt]),0) +IsNull(Sum(xxxfinal.[M10 Amt]),0) +IsNull(Sum(xxxfinal.[M11 Amt]),0) +IsNull(Sum(xxxfinal.[M12 Amt]),0)  "
                 End If
@@ -258,17 +348,90 @@ Public Class frmDBTNEFTUnionReport
                 query += " Case When Month='" + Month3 + "' Then Sum([Billed Qty]) Else 0 End As 'M3 Billed Qty',
                                 Case When Month='" + Month3 + "' Then Sum([Farmer Qty]) Else 0 End As 'M3 Farmer Qty',
                                 Case When Month='" + Month3 + "' Then Sum([Farmer Code]) Else 0 End As 'M3 Farmer Code',
-                                Case When Month='" + Month3 + "' Then Sum(Amt) Else 0 End As 'M3 Amt'"
+                                Case When Month='" + Month3 + "' Then Sum(Amt) Else 0 End As 'M3 Amt',"
+
+                If chkOnlyReject.Checked Then
+                    query += " Case When Month='" + Month4 + "' Then Sum([No Of Doc]) Else 0 End As 'M4 No Of Doc', "
+                End If
+                query += " Case When Month='" + Month4 + "' Then Sum([Billed Qty]) Else 0 End As 'M4 Billed Qty',
+                                Case When Month='" + Month4 + "' Then Sum([Farmer Qty]) Else 0 End As 'M4 Farmer Qty',
+                                Case When Month='" + Month4 + "' Then Sum([Farmer Code]) Else 0 End As 'M4 Farmer Code',
+                                Case When Month='" + Month4 + "' Then Sum(Amt) Else 0 End As 'M4 Amt',"
+
+                If chkOnlyReject.Checked Then
+                    query += " Case When Month='" + Month5 + "' Then Sum([No Of Doc]) Else 0 End As 'M5 No Of Doc', "
+                End If
+                query += " Case When Month='" + Month5 + "' Then Sum([Billed Qty]) Else 0 End As 'M5 Billed Qty',
+                                Case When Month='" + Month5 + "' Then Sum([Farmer Qty]) Else 0 End As 'M5 Farmer Qty',
+                                Case When Month='" + Month5 + "' Then Sum([Farmer Code]) Else 0 End As 'M5 Farmer Code',
+                                Case When Month='" + Month5 + "' Then Sum(Amt) Else 0 End As 'M5 Amt',"
+
+                If chkOnlyReject.Checked Then
+                    query += " Case When Month='" + Month6 + "' Then Sum([No Of Doc]) Else 0 End As 'M6 No Of Doc', "
+                End If
+                query += " Case When Month='" + Month6 + "' Then Sum([Billed Qty]) Else 0 End As 'M6 Billed Qty',
+                                Case When Month='" + Month6 + "' Then Sum([Farmer Qty]) Else 0 End As 'M6 Farmer Qty',
+                                Case When Month='" + Month6 + "' Then Sum([Farmer Code]) Else 0 End As 'M6 Farmer Code',
+                                Case When Month='" + Month6 + "' Then Sum(Amt) Else 0 End As 'M6 Amt',"
+
+                If chkOnlyReject.Checked Then
+                    query += " Case When Month='" + Month7 + "' Then Sum([No Of Doc]) Else 0 End As 'M7 No Of Doc', "
+                End If
+                query += " Case When Month='" + Month7 + "' Then Sum([Billed Qty]) Else 0 End As 'M7 Billed Qty',
+                                Case When Month='" + Month7 + "' Then Sum([Farmer Qty]) Else 0 End As 'M7 Farmer Qty',
+                                Case When Month='" + Month7 + "' Then Sum([Farmer Code]) Else 0 End As 'M7 Farmer Code',
+                                Case When Month='" + Month7 + "' Then Sum(Amt) Else 0 End As 'M7 Amt',"
+
+                If chkOnlyReject.Checked Then
+                    query += " Case When Month='" + Month8 + "' Then Sum([No Of Doc]) Else 0 End As 'M8 No Of Doc', "
+                End If
+                query += " Case When Month='" + Month8 + "' Then Sum([Billed Qty]) Else 0 End As 'M8 Billed Qty',
+                                Case When Month='" + Month8 + "' Then Sum([Farmer Qty]) Else 0 End As 'M8 Farmer Qty',
+                                Case When Month='" + Month8 + "' Then Sum([Farmer Code]) Else 0 End As 'M8 Farmer Code',
+                                Case When Month='" + Month8 + "' Then Sum(Amt) Else 0 End As 'M8 Amt',"
+
+                If chkOnlyReject.Checked Then
+                    query += " Case When Month='" + Month9 + "' Then Sum([No Of Doc]) Else 0 End As 'M9 No Of Doc', "
+                End If
+                query += " Case When Month='" + Month9 + "' Then Sum([Billed Qty]) Else 0 End As 'M9 Billed Qty',
+                                Case When Month='" + Month9 + "' Then Sum([Farmer Qty]) Else 0 End As 'M9 Farmer Qty',
+                                Case When Month='" + Month9 + "' Then Sum([Farmer Code]) Else 0 End As 'M9 Farmer Code',
+                                Case When Month='" + Month9 + "' Then Sum(Amt) Else 0 End As 'M9 Amt',"
+
+                If chkOnlyReject.Checked Then
+                    query += " Case When Month='" + Month10 + "' Then Sum([No Of Doc]) Else 0 End As 'M10 No Of Doc', "
+                End If
+                query += " Case When Month='" + Month10 + "' Then Sum([Billed Qty]) Else 0 End As 'M10 Billed Qty',
+                                Case When Month='" + Month10 + "' Then Sum([Farmer Qty]) Else 0 End As 'M10 Farmer Qty',
+                                Case When Month='" + Month10 + "' Then Sum([Farmer Code]) Else 0 End As 'M10 Farmer Code',
+                                Case When Month='" + Month10 + "' Then Sum(Amt) Else 0 End As 'M10 Amt',"
+
+                If chkOnlyReject.Checked Then
+                    query += " Case When Month='" + Month11 + "' Then Sum([No Of Doc]) Else 0 End As 'M11 No Of Doc', "
+                End If
+                query += " Case When Month='" + Month11 + "' Then Sum([Billed Qty]) Else 0 End As 'M11 Billed Qty',
+                                Case When Month='" + Month11 + "' Then Sum([Farmer Qty]) Else 0 End As 'M11 Farmer Qty',
+                                Case When Month='" + Month11 + "' Then Sum([Farmer Code]) Else 0 End As 'M11 Farmer Code',
+                                Case When Month='" + Month11 + "' Then Sum(Amt) Else 0 End As 'M11 Amt',"
+
+                If chkOnlyReject.Checked Then
+                    query += " Case When Month='" + Month12 + "' Then Sum([No Of Doc]) Else 0 End As 'M12 No Of Doc', "
+                End If
+                query += " Case When Month='" + Month12 + "' Then Sum([Billed Qty]) Else 0 End As 'M12 Billed Qty',
+                                Case When Month='" + Month12 + "' Then Sum([Farmer Qty]) Else 0 End As 'M12 Farmer Qty',
+                                Case When Month='" + Month12 + "' Then Sum([Farmer Code]) Else 0 End As 'M12 Farmer Code',
+                                Case When Month='" + Month12 + "' Then Sum(Amt) Else 0 End As 'M12 Amt'"
+
                 If rbtnYearly.IsChecked Then
-                    query += " , Case When Month='" + Month4 + "' Then Sum(Amt) Else 0 End As 'M4 Amt', "
-                    query += "  Case When Month='" + Month5 + "' Then Sum(Amt) Else 0 End As 'M5 Amt', "
-                    query += "  Case When Month='" + Month6 + "' Then Sum(Amt) Else 0 End As 'M6 Amt', "
-                    query += "  Case When Month='" + Month7 + "' Then Sum(Amt) Else 0 End As 'M7 Amt', "
-                    query += "  Case When Month='" + Month8 + "' Then Sum(Amt) Else 0 End As 'M8 Amt', "
-                    query += "  Case When Month='" + Month9 + "' Then Sum(Amt) Else 0 End As 'M9 Amt', "
-                    query += "  Case When Month='" + Month10 + "' Then Sum(Amt) Else 0 End As 'M10 Amt', "
-                    query += "  Case When Month='" + Month11 + "' Then Sum(Amt) Else 0 End As 'M11 Amt', "
-                    query += "  Case When Month='" + Month12 + "' Then Sum(Amt) Else 0 End As 'M12 Amt' "
+                    'query += " , Case When Month='" + Month4 + "' Then Sum(Amt) Else 0 End As 'M4 Amt', "
+                    'query += "  Case When Month='" + Month5 + "' Then Sum(Amt) Else 0 End As 'M5 Amt', "
+                    'query += "  Case When Month='" + Month6 + "' Then Sum(Amt) Else 0 End As 'M6 Amt', "
+                    'query += "  Case When Month='" + Month7 + "' Then Sum(Amt) Else 0 End As 'M7 Amt', "
+                    'query += "  Case When Month='" + Month8 + "' Then Sum(Amt) Else 0 End As 'M8 Amt', "
+                    'query += "  Case When Month='" + Month9 + "' Then Sum(Amt) Else 0 End As 'M9 Amt', "
+                    'query += "  Case When Month='" + Month10 + "' Then Sum(Amt) Else 0 End As 'M10 Amt', "
+                    'query += "  Case When Month='" + Month11 + "' Then Sum(Amt) Else 0 End As 'M11 Amt', "
+                    'query += "  Case When Month='" + Month12 + "' Then Sum(Amt) Else 0 End As 'M12 Amt' "
 
                 End If
                 'query += "     Sum([Billed Qty]) As [Billed Qty],Sum([Farmer Qty])[Farmer Qty],Sum([Farmer Code])  as [Farmer Code],sum(Amt) as Amt"

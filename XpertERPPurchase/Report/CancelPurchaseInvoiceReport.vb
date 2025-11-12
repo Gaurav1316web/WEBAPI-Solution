@@ -159,64 +159,305 @@ Public Class CancelPurchaseInvoiceReport
     End Sub
 
 
+    'Private Sub LoadData()
+    '    'Dim qry As String = Nothing
+    '    'Dim qryy As String = Nothing
+
+    '    Try
+    '        Dim Whr As String = ""
+    '        If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+    '            Whr += " and TSPL_LOCATION_MASTER.Location_Code In (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
+    '        End If
+
+    '        If TxtRAL.arrValueMember IsNot Nothing AndAlso TxtRAL.arrValueMember.Count > 0 Then
+    '            Whr += " and TSPL_PI_HEAD_Cancel_Data.Ref_No In (" + clsCommon.GetMulcallString(TxtRAL.arrValueMember) + ")"
+    '        End If
+
+    '        If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
+    '            Whr += " and TSPL_ITEM_MASTER.Item_Code In (" + clsCommon.GetMulcallString(txtItem.arrValueMember) + ")"
+    '        End If
+
+    '        If TxtVendor.arrValueMember IsNot Nothing AndAlso TxtVendor.arrValueMember.Count > 0 Then
+    '            Whr += " and TSPL_VENDOR_MASTER.Vendor_Code In (" + clsCommon.GetMulcallString(TxtVendor.arrValueMember) + ")"
+    '        End If
+
+    '        If chkAllData.Checked Then
+    '            Dim qryy As String = "SELECT DISTINCT TSPL_GRN_HEAD.GRN_No AS [GRN No],
+    '                            CASE  WHEN TSPL_GRN_HEAD.Status = 0 THEN 'Pending' WHEN TSPL_GRN_HEAD.Status = 1 THEN 'Approved' 
+    '                             ELSE 'Unknown' END AS [GRN Status],
+    '                            TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code as [Weighment No],
+    '                            CASE  WHEN TSPL_PO_WEIGHTMENT_HEAD.Status = 0 THEN 'Pending' WHEN TSPL_PO_WEIGHTMENT_HEAD.Status = 1 THEN 'Approved' 
+    '                             ELSE 'Unknown' END AS [Weighment Status],
+    '                            TSPL_MRN_HEAD.MRN_No AS [MRN No],
+    '                            CASE  WHEN TSPL_MRN_HEAD.Status = 0 THEN 'Pending' WHEN TSPL_MRN_HEAD.Status = 1 THEN 'Approved' 
+    '                             ELSE 'Unknown' END AS [MRN Status],
+    '                            TSPL_NIR_QC.Document_No as[NIR QC NO],
+    '                            CASE  WHEN TSPL_NIR_QC.Status = 0 THEN 'Pending' WHEN TSPL_NIR_QC.Status = 1 THEN 'Approved' 
+    '                             ELSE 'Unknown' END AS [NIR QC Status],
+    '                            TSPL_QC_CHECK_SRN_DETAIL.Document_Code as [Wet Qc No],
+    '				TSPL_QC_CHECK_DETAIL.QC_Status as [Incoming Qc Status],
+    '                            TSPL_SRN_HEAD.SRN_No AS [SRN No],
+    '                            CASE  WHEN TSPL_SRN_HEAD.Status = 0 THEN 'Pending' WHEN TSPL_SRN_HEAD.Status = 1 THEN 'Approved' 
+    '                             ELSE 'Unknown' END AS [SRN Status],
+    '					TSPL_TENDER_PENALTY_DETAIL.Document_No as [Ral Penalty],
+    '				TSPL_PI_DETAIL.PO_ID AS [PO No],
+    '                            TSPL_PI_HEAD.PI_No AS [PI No],
+    '                            CASE  WHEN TSPL_PI_DETAIL_Cancel_Data.Status = 0 THEN 'Pending' WHEN TSPL_PI_DETAIL_Cancel_Data.Status = 1 THEN 'Cancel' 
+    '                             ELSE 'Unknown' END AS [PI Status],TSPL_LOCATION_MASTER.Location_Code as [Location Code],
+    '                            TSPL_PI_HEAD_Cancel_Data.Ref_No as [Tender],TSPL_ITEM_MASTER.Item_Code as [Item],TSPL_VENDOR_MASTER.Vendor_Code as [Vendor Code]
+    '                             FROM TSPL_PI_DETAIL_Cancel_Data
+    '					left outer join TSPL_PI_HEAD_Cancel_Data on TSPL_PI_HEAD_Cancel_Data.Against_GRN=TSPL_PI_DETAIL_Cancel_Data.GRN_ID
+    '                             left outer join TSPL_PI_HEAD on TSPL_PI_HEAD.PI_No=TSPL_PI_HEAD_Cancel_Data.PI_No
+    '                                LEFT OUTER JOIN TSPL_PI_DETAIL ON TSPL_PI_DETAIL.PI_No = TSPL_PI_HEAD_Cancel_Data.PI_No
+    '                             left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_PI_HEAD_Cancel_Data.Against_GRN
+    '                             left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
+    '                             left outer join TSPL_NIR_QC on TSPL_NIR_QC.MRN_No=TSPL_PI_HEAD_Cancel_Data.Against_MRN
+    '                             left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.MRN_No=TSPL_PI_HEAD_Cancel_Data.Against_MRN
+    '                             left outer join TSPL_QC_CHECK_SRN_DETAIL on TSPL_QC_CHECK_SRN_DETAIL.MRN_No=TSPL_PI_HEAD_Cancel_Data.Against_MRN
+    '                             left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_PI_HEAD_Cancel_Data.Against_SRN
+    '                             left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_QC_CHECK_SRN_DETAIL.Item_Code
+    '                             left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_PI_HEAD_Cancel_Data.Vendor_Code
+    '                             left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_PO_WEIGHTMENT_HEAD.Location_Code
+    '					left outer join TSPL_QC_CHECK_DETAIL on TSPL_QC_CHECK_DETAIL.Item_Code=TSPL_PI_DETAIL_Cancel_Data.Item_Code
+    '					left outer join TSPL_TENDER_PENALTY_DETAIL on TSPL_TENDER_PENALTY_DETAIL.SRN_No=TSPL_PI_DETAIL_Cancel_Data.SRN_Id
+    '                                WHERE  (Convert(date,TSPL_PI_HEAD_Cancel_Data.Cancel_On ,103) BETWEEN convert(date,'" + txtFromDate.Value + "',103) and convert(date,'" + txtToDate.Value + "',103)) " + Whr + " "
+    '        Else
+    '            Dim qry As String = "SELECT DISTINCT TSPL_GRN_HEAD.GRN_No AS [GRN No],
+    '                            CASE  WHEN TSPL_GRN_HEAD.Status = 0 THEN 'Pending' WHEN TSPL_GRN_HEAD.Status = 1 THEN 'Approved' 
+    '                             ELSE 'Unknown' END AS [GRN Status],
+    '                            TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code as [Weighment No],
+    '                            CASE  WHEN TSPL_PO_WEIGHTMENT_HEAD.Status = 0 THEN 'Pending' WHEN TSPL_PO_WEIGHTMENT_HEAD.Status = 1 THEN 'Approved' 
+    '                             ELSE 'Unknown' END AS [Weighment Status],
+    '                            TSPL_MRN_HEAD.MRN_No AS [MRN No],
+    '                            CASE  WHEN TSPL_MRN_HEAD.Status = 0 THEN 'Pending' WHEN TSPL_MRN_HEAD.Status = 1 THEN 'Approved' 
+    '                             ELSE 'Unknown' END AS [MRN Status],
+    '                            TSPL_NIR_QC.Document_No as[NIR QC NO],
+    '                            CASE  WHEN TSPL_NIR_QC.Status = 0 THEN 'Pending' WHEN TSPL_NIR_QC.Status = 1 THEN 'Approved' 
+    '                             ELSE 'Unknown' END AS [NIR QC Status],
+    '                            TSPL_QC_CHECK_SRN_DETAIL.Document_Code as [Wet Qc No],
+    '				TSPL_QC_CHECK_DETAIL.QC_Status as [Incoming Qc Status],
+    '                            TSPL_SRN_HEAD.SRN_No AS [SRN No],
+    '                            CASE  WHEN TSPL_SRN_HEAD.Status = 0 THEN 'Pending' WHEN TSPL_SRN_HEAD.Status = 1 THEN 'Approved' 
+    '                             ELSE 'Unknown' END AS [SRN Status],
+    '					TSPL_TENDER_PENALTY_DETAIL.Document_No as [Ral Penalty],
+    '				TSPL_PI_DETAIL_Cancel_Data.PO_ID AS [PO No],
+    '                            TSPL_PI_DETAIL_Cancel_Data.PI_No AS [PI No],
+    '                            CASE  WHEN TSPL_PI_DETAIL_Cancel_Data.Status = 0 THEN 'Pending' WHEN TSPL_PI_DETAIL_Cancel_Data.Status = 1 THEN 'Cancel' 
+    '                             ELSE 'Unknown' END AS [PI Status],TSPL_LOCATION_MASTER.Location_Code as [Location Code],
+    '                            TSPL_PI_HEAD_Cancel_Data.Ref_No as [Tender],TSPL_ITEM_MASTER.Item_Code as [Item],TSPL_VENDOR_MASTER.Vendor_Code as [Vendor Code]
+    '                             FROM TSPL_PI_DETAIL_Cancel_Data
+    '					left outer join TSPL_PI_HEAD_Cancel_Data on TSPL_PI_HEAD_Cancel_Data.Against_GRN=TSPL_PI_DETAIL_Cancel_Data.GRN_ID
+    '                             left outer join TSPL_PI_HEAD on TSPL_PI_HEAD.PI_No=TSPL_PI_HEAD_Cancel_Data.PI_No
+    '                             left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_PI_HEAD_Cancel_Data.Against_GRN
+    '                             left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
+    '                             left outer join TSPL_NIR_QC on TSPL_NIR_QC.MRN_No=TSPL_PI_HEAD_Cancel_Data.Against_MRN
+    '                             left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.MRN_No=TSPL_PI_HEAD_Cancel_Data.Against_MRN
+    '                             left outer join TSPL_QC_CHECK_SRN_DETAIL on TSPL_QC_CHECK_SRN_DETAIL.MRN_No=TSPL_PI_HEAD_Cancel_Data.Against_MRN
+    '                             left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_PI_HEAD_Cancel_Data.Against_SRN
+    '                             left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_QC_CHECK_SRN_DETAIL.Item_Code
+    '                             left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_PI_HEAD_Cancel_Data.Vendor_Code
+    '                             left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_PO_WEIGHTMENT_HEAD.Location_Code
+    '					left outer join TSPL_QC_CHECK_DETAIL on TSPL_QC_CHECK_DETAIL.Item_Code=TSPL_PI_DETAIL_Cancel_Data.Item_Code
+    '					left outer join TSPL_TENDER_PENALTY_DETAIL on TSPL_TENDER_PENALTY_DETAIL.SRN_No=TSPL_PI_DETAIL_Cancel_Data.SRN_Id
+    '                                WHERE  (Convert(date,TSPL_PI_HEAD_Cancel_Data.Cancel_On ,103) BETWEEN convert(date,'" + txtFromDate.Value + "',103) and convert(date,'" + txtToDate.Value + "',103)) " + Whr + " "
+    '        End If
+    '        Dim dt = clsDBFuncationality.GetDataTable(qry)
+
+    '        gv1.DataSource = Nothing
+    '        gv1.Rows.Clear()
+    '        gv1.Columns.Clear()
+    '        gv1.GroupDescriptors.Clear()
+    '        gv1.MasterTemplate.SummaryRowsBottom.Clear()
+    '        gv1.MasterView.Refresh()
+
+    '        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+    '            gv1.DataSource = dt
+    '            RadPageView1.SelectedPage = RadPageViewPage2
+    '            gv1.EnableFiltering = True
+    '        Else
+    '            clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+    '        End If
+    '        gv1.BestFitColumns()
+
+    '    Catch ex As Exception
+    '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '    End Try
+    'End Sub
+
+
+
     Private Sub LoadData()
         Try
             Dim Whr As String = ""
+
             If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
-                Whr += " and TSPL_LOCATION_MASTER.Location_Code In (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
+                Whr &= " AND TSPL_LOCATION_MASTER.Location_Code IN (" & clsCommon.GetMulcallString(txtLocation.arrValueMember) & ")"
             End If
 
             If TxtRAL.arrValueMember IsNot Nothing AndAlso TxtRAL.arrValueMember.Count > 0 Then
-                Whr += " and TSPL_PI_HEAD_Cancel_Data.Ref_No In (" + clsCommon.GetMulcallString(TxtRAL.arrValueMember) + ")"
+                Whr &= " AND TSPL_PI_HEAD_Cancel_Data.Ref_No IN (" & clsCommon.GetMulcallString(TxtRAL.arrValueMember) & ")"
             End If
 
             If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
-                Whr += " and TSPL_ITEM_MASTER.Item_Code In (" + clsCommon.GetMulcallString(txtItem.arrValueMember) + ")"
+                Whr &= " AND TSPL_ITEM_MASTER.Item_Code IN (" & clsCommon.GetMulcallString(txtItem.arrValueMember) & ")"
             End If
 
             If TxtVendor.arrValueMember IsNot Nothing AndAlso TxtVendor.arrValueMember.Count > 0 Then
-                Whr += " and TSPL_VENDOR_MASTER.Vendor_Code In (" + clsCommon.GetMulcallString(TxtVendor.arrValueMember) + ")"
+                Whr &= " AND TSPL_VENDOR_MASTER.Vendor_Code IN (" & clsCommon.GetMulcallString(TxtVendor.arrValueMember) & ")"
             End If
 
+            Dim qry As String = ""
+            If chkAllData.Checked Then
+                qry = "
+                SELECT DISTINCT 
+                    TSPL_GRN_HEAD.GRN_No AS [GRN No],
+                    CASE WHEN TSPL_GRN_HEAD.Status = 0 THEN 'Pending' 
+                         WHEN TSPL_GRN_HEAD.Status = 1 THEN 'Approved' 
+                         ELSE 'Unknown' END AS [GRN Status],
 
-            Dim qry As String = "SELECT DISTINCT TSPL_GRN_HEAD.GRN_No AS [GRN No],
-                                CASE  WHEN TSPL_GRN_HEAD.Status = 0 THEN 'Pending' WHEN TSPL_GRN_HEAD.Status = 1 THEN 'Approved' 
-	                                ELSE 'Unknown' END AS [GRN Status],
-                                TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code as [Weighment No],
-                                CASE  WHEN TSPL_PO_WEIGHTMENT_HEAD.Status = 0 THEN 'Pending' WHEN TSPL_PO_WEIGHTMENT_HEAD.Status = 1 THEN 'Approved' 
-	                                ELSE 'Unknown' END AS [Weighment Status],
-                                TSPL_MRN_HEAD.MRN_No AS [MRN No],
-                                CASE  WHEN TSPL_MRN_HEAD.Status = 0 THEN 'Pending' WHEN TSPL_MRN_HEAD.Status = 1 THEN 'Approved' 
-	                                ELSE 'Unknown' END AS [MRN Status],
-                                TSPL_NIR_QC.Document_No as[NIR QC NO],
-                                CASE  WHEN TSPL_NIR_QC.Status = 0 THEN 'Pending' WHEN TSPL_NIR_QC.Status = 1 THEN 'Approved' 
-	                                ELSE 'Unknown' END AS [NIR QC Status],
-                                TSPL_QC_CHECK_SRN_DETAIL.Document_Code as [Wet Qc No],
-								TSPL_QC_CHECK_DETAIL.QC_Status as [Incoming Qc Status],
-                                TSPL_SRN_HEAD.SRN_No AS [SRN No],
-                                CASE  WHEN TSPL_SRN_HEAD.Status = 0 THEN 'Pending' WHEN TSPL_SRN_HEAD.Status = 1 THEN 'Approved' 
-	                                ELSE 'Unknown' END AS [SRN Status],
-									TSPL_TENDER_PENALTY_DETAIL.Document_No as [Ral Penalty],
-								TSPL_PI_DETAIL_Cancel_Data.PO_ID AS [PO No],
-                                TSPL_PI_DETAIL_Cancel_Data.PI_No AS [PI No],
-                                CASE  WHEN TSPL_PI_DETAIL_Cancel_Data.Status = 0 THEN 'Pending' WHEN TSPL_PI_DETAIL_Cancel_Data.Status = 1 THEN 'Cancel' 
-	                                ELSE 'Unknown' END AS [PI Status],TSPL_LOCATION_MASTER.Location_Code as [Location Code],
-                                TSPL_PI_HEAD_Cancel_Data.Ref_No as [Tender],TSPL_ITEM_MASTER.Item_Code as [Item],TSPL_VENDOR_MASTER.Vendor_Code as [Vendor Code]
-	                                FROM TSPL_PI_DETAIL_Cancel_Data
-									left outer join TSPL_PI_HEAD_Cancel_Data on TSPL_PI_HEAD_Cancel_Data.Against_GRN=TSPL_PI_DETAIL_Cancel_Data.GRN_ID
-	                                left outer join TSPL_PI_HEAD on TSPL_PI_HEAD.PI_No=TSPL_PI_HEAD_Cancel_Data.PI_No
-	                                left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_PI_HEAD_Cancel_Data.Against_GRN
-	                                left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
-	                                left outer join TSPL_NIR_QC on TSPL_NIR_QC.MRN_No=TSPL_PI_HEAD_Cancel_Data.Against_MRN
-	                                left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.MRN_No=TSPL_PI_HEAD_Cancel_Data.Against_MRN
-	                                left outer join TSPL_QC_CHECK_SRN_DETAIL on TSPL_QC_CHECK_SRN_DETAIL.MRN_No=TSPL_PI_HEAD_Cancel_Data.Against_MRN
-	                                left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_PI_HEAD_Cancel_Data.Against_SRN
-	                                left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_QC_CHECK_SRN_DETAIL.Item_Code
-	                                left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_PI_HEAD_Cancel_Data.Vendor_Code
-	                                left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_PO_WEIGHTMENT_HEAD.Location_Code
-									left outer join TSPL_QC_CHECK_DETAIL on TSPL_QC_CHECK_DETAIL.Item_Code=TSPL_PI_DETAIL_Cancel_Data.Item_Code
-									left outer join TSPL_TENDER_PENALTY_DETAIL on TSPL_TENDER_PENALTY_DETAIL.SRN_No=TSPL_PI_DETAIL_Cancel_Data.SRN_Id
-                                    WHERE  (Convert(date,TSPL_PI_HEAD_Cancel_Data.Cancel_On ,103) BETWEEN convert(date,'" + txtFromDate.Value + "',103) and convert(date,'" + txtToDate.Value + "',103)) " + Whr + " "
+                    TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code AS [Weighment No],
+                    CASE WHEN TSPL_PO_WEIGHTMENT_HEAD.Status = 0 THEN 'Pending' 
+                         WHEN TSPL_PO_WEIGHTMENT_HEAD.Status = 1 THEN 'Approved' 
+                         ELSE 'Unknown' END AS [Weighment Status],
+
+                    TSPL_MRN_HEAD.MRN_No AS [MRN No],
+                    CASE WHEN TSPL_MRN_HEAD.Status = 0 THEN 'Pending' 
+                         WHEN TSPL_MRN_HEAD.Status = 1 THEN 'Approved' 
+                         ELSE 'Unknown' END AS [MRN Status],
+
+                    TSPL_NIR_QC.Document_No AS [NIR QC No],
+                    CASE WHEN TSPL_NIR_QC.Status = 0 THEN 'Pending' 
+                         WHEN TSPL_NIR_QC.Status = 1 THEN 'Approved' 
+                         ELSE 'Unknown' END AS [NIR QC Status],
+
+                    TSPL_QC_CHECK_SRN_DETAIL.Document_Code AS [Wet QC No],
+                    TSPL_QC_CHECK_DETAIL.QC_Status AS [Incoming QC Status],
+
+                    TSPL_SRN_HEAD.SRN_No AS [SRN No],
+                    CASE WHEN TSPL_SRN_HEAD.Status = 0 THEN 'Pending' 
+                         WHEN TSPL_SRN_HEAD.Status = 1 THEN 'Approved' 
+                         ELSE 'Unknown' END AS [SRN Status],
+
+                    TSPL_TENDER_PENALTY_DETAIL.Document_No AS [RAL Penalty],
+                    TSPL_PI_DETAIL.PO_ID AS [PO No],
+                    TSPL_PI_HEAD.PI_No AS [PI No],
+                    CASE WHEN TSPL_PI_DETAIL_Cancel_Data.Status = 0 THEN 'Pending' 
+                         WHEN TSPL_PI_DETAIL_Cancel_Data.Status = 1 THEN 'Cancel' 
+                         ELSE 'Unknown' END AS [PI Status],
+
+                    TSPL_LOCATION_MASTER.Location_Code AS [Location Code],
+                    TSPL_PI_HEAD_Cancel_Data.Ref_No AS [Tender],
+                    TSPL_ITEM_MASTER.Item_Code AS [Item],
+                    TSPL_VENDOR_MASTER.Vendor_Code AS [Vendor Code]
+
+                FROM TSPL_PI_DETAIL_Cancel_Data
+                LEFT OUTER JOIN TSPL_PI_HEAD_Cancel_Data 
+                    ON TSPL_PI_HEAD_Cancel_Data.Against_GRN = TSPL_PI_DETAIL_Cancel_Data.GRN_ID
+                LEFT OUTER JOIN TSPL_PI_HEAD 
+                    ON TSPL_PI_HEAD.PI_No = TSPL_PI_HEAD_Cancel_Data.PI_No
+                LEFT OUTER JOIN TSPL_PI_DETAIL 
+                    ON TSPL_PI_DETAIL.PI_No = TSPL_PI_HEAD_Cancel_Data.PI_No
+                LEFT OUTER JOIN TSPL_PO_WEIGHTMENT_HEAD 
+                    ON TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No = TSPL_PI_HEAD_Cancel_Data.Against_GRN
+                LEFT OUTER JOIN TSPL_GRN_HEAD 
+                    ON TSPL_GRN_HEAD.GRN_No = TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
+                LEFT OUTER JOIN TSPL_NIR_QC 
+                    ON TSPL_NIR_QC.MRN_No = TSPL_PI_HEAD_Cancel_Data.Against_MRN
+                LEFT OUTER JOIN TSPL_MRN_HEAD 
+                    ON TSPL_MRN_HEAD.MRN_No = TSPL_PI_HEAD_Cancel_Data.Against_MRN
+                LEFT OUTER JOIN TSPL_QC_CHECK_SRN_DETAIL 
+                    ON TSPL_QC_CHECK_SRN_DETAIL.MRN_No = TSPL_PI_HEAD_Cancel_Data.Against_MRN
+                LEFT OUTER JOIN TSPL_SRN_HEAD 
+                    ON TSPL_SRN_HEAD.SRN_No = TSPL_PI_HEAD_Cancel_Data.Against_SRN
+                LEFT OUTER JOIN TSPL_ITEM_MASTER 
+                    ON TSPL_ITEM_MASTER.Item_Code = TSPL_QC_CHECK_SRN_DETAIL.Item_Code
+                LEFT OUTER JOIN TSPL_VENDOR_MASTER 
+                    ON TSPL_VENDOR_MASTER.Vendor_Code = TSPL_PI_HEAD_Cancel_Data.Vendor_Code
+                LEFT OUTER JOIN TSPL_LOCATION_MASTER 
+                    ON TSPL_LOCATION_MASTER.Location_Code = TSPL_PO_WEIGHTMENT_HEAD.Location_Code
+                LEFT OUTER JOIN TSPL_QC_CHECK_DETAIL 
+                    ON TSPL_QC_CHECK_DETAIL.Item_Code = TSPL_PI_DETAIL_Cancel_Data.Item_Code
+                LEFT OUTER JOIN TSPL_TENDER_PENALTY_DETAIL 
+                    ON TSPL_TENDER_PENALTY_DETAIL.SRN_No = TSPL_PI_DETAIL_Cancel_Data.SRN_Id
+
+                WHERE (CONVERT(date, TSPL_PI_HEAD_Cancel_Data.Cancel_On, 103) 
+                    BETWEEN CONVERT(date, '" & txtFromDate.Value & "', 103) 
+                    AND CONVERT(date, '" & txtToDate.Value & "', 103)) " & Whr
+            Else
+                qry = "
+                SELECT DISTINCT 
+                    TSPL_GRN_HEAD.GRN_No AS [GRN No],
+                    CASE WHEN TSPL_GRN_HEAD.Status = 0 THEN 'Pending' 
+                         WHEN TSPL_GRN_HEAD.Status = 1 THEN 'Approved' 
+                         ELSE 'Unknown' END AS [GRN Status],
+
+                    TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code AS [Weighment No],
+                    CASE WHEN TSPL_PO_WEIGHTMENT_HEAD.Status = 0 THEN 'Pending' 
+                         WHEN TSPL_PO_WEIGHTMENT_HEAD.Status = 1 THEN 'Approved' 
+                         ELSE 'Unknown' END AS [Weighment Status],
+
+                    TSPL_MRN_HEAD.MRN_No AS [MRN No],
+                    CASE WHEN TSPL_MRN_HEAD.Status = 0 THEN 'Pending' 
+                         WHEN TSPL_MRN_HEAD.Status = 1 THEN 'Approved' 
+                         ELSE 'Unknown' END AS [MRN Status],
+
+                    TSPL_NIR_QC.Document_No AS [NIR QC No],
+                    CASE WHEN TSPL_NIR_QC.Status = 0 THEN 'Pending' 
+                         WHEN TSPL_NIR_QC.Status = 1 THEN 'Approved' 
+                         ELSE 'Unknown' END AS [NIR QC Status],
+
+                    TSPL_QC_CHECK_SRN_DETAIL.Document_Code AS [Wet QC No],
+                    TSPL_QC_CHECK_DETAIL.QC_Status AS [Incoming QC Status],
+
+                    TSPL_SRN_HEAD.SRN_No AS [SRN No],
+                    CASE WHEN TSPL_SRN_HEAD.Status = 0 THEN 'Pending' 
+                         WHEN TSPL_SRN_HEAD.Status = 1 THEN 'Approved' 
+                         ELSE 'Unknown' END AS [SRN Status],
+
+                    TSPL_TENDER_PENALTY_DETAIL.Document_No AS [RAL Penalty],
+                    TSPL_PI_DETAIL_Cancel_Data.PO_ID AS [PO No],
+                    TSPL_PI_DETAIL_Cancel_Data.PI_No AS [PI No],
+                    CASE WHEN TSPL_PI_DETAIL_Cancel_Data.Status = 0 THEN 'Pending' 
+                         WHEN TSPL_PI_DETAIL_Cancel_Data.Status = 1 THEN 'Cancel' 
+                         ELSE 'Unknown' END AS [PI Status],
+
+                    TSPL_LOCATION_MASTER.Location_Code AS [Location Code],
+                    TSPL_PI_HEAD_Cancel_Data.Ref_No AS [Tender],
+                    TSPL_ITEM_MASTER.Item_Code AS [Item],
+                    TSPL_VENDOR_MASTER.Vendor_Code AS [Vendor Code]
+
+                FROM TSPL_PI_DETAIL_Cancel_Data
+                LEFT OUTER JOIN TSPL_PI_HEAD_Cancel_Data 
+                    ON TSPL_PI_HEAD_Cancel_Data.Against_GRN = TSPL_PI_DETAIL_Cancel_Data.GRN_ID
+                LEFT OUTER JOIN TSPL_PI_HEAD 
+                    ON TSPL_PI_HEAD.PI_No = TSPL_PI_HEAD_Cancel_Data.PI_No
+                LEFT OUTER JOIN TSPL_PO_WEIGHTMENT_HEAD 
+                    ON TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No = TSPL_PI_HEAD_Cancel_Data.Against_GRN
+                LEFT OUTER JOIN TSPL_GRN_HEAD 
+                    ON TSPL_GRN_HEAD.GRN_No = TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
+                LEFT OUTER JOIN TSPL_NIR_QC 
+                    ON TSPL_NIR_QC.MRN_No = TSPL_PI_HEAD_Cancel_Data.Against_MRN
+                LEFT OUTER JOIN TSPL_MRN_HEAD 
+                    ON TSPL_MRN_HEAD.MRN_No = TSPL_PI_HEAD_Cancel_Data.Against_MRN
+                LEFT OUTER JOIN TSPL_QC_CHECK_SRN_DETAIL 
+                    ON TSPL_QC_CHECK_SRN_DETAIL.MRN_No = TSPL_PI_HEAD_Cancel_Data.Against_MRN
+                LEFT OUTER JOIN TSPL_SRN_HEAD 
+                    ON TSPL_SRN_HEAD.SRN_No = TSPL_PI_HEAD_Cancel_Data.Against_SRN
+                LEFT OUTER JOIN TSPL_ITEM_MASTER 
+                    ON TSPL_ITEM_MASTER.Item_Code = TSPL_QC_CHECK_SRN_DETAIL.Item_Code
+                LEFT OUTER JOIN TSPL_VENDOR_MASTER 
+                    ON TSPL_VENDOR_MASTER.Vendor_Code = TSPL_PI_HEAD_Cancel_Data.Vendor_Code
+                LEFT OUTER JOIN TSPL_LOCATION_MASTER 
+                    ON TSPL_LOCATION_MASTER.Location_Code = TSPL_PO_WEIGHTMENT_HEAD.Location_Code
+                LEFT OUTER JOIN TSPL_QC_CHECK_DETAIL 
+                    ON TSPL_QC_CHECK_DETAIL.Item_Code = TSPL_PI_DETAIL_Cancel_Data.Item_Code
+                LEFT OUTER JOIN TSPL_TENDER_PENALTY_DETAIL 
+                    ON TSPL_TENDER_PENALTY_DETAIL.SRN_No = TSPL_PI_DETAIL_Cancel_Data.SRN_Id
+
+                WHERE (CONVERT(date, TSPL_PI_HEAD_Cancel_Data.Cancel_On, 103) 
+                    BETWEEN CONVERT(date, '" & txtFromDate.Value & "', 103) 
+                    AND CONVERT(date, '" & txtToDate.Value & "', 103)) " & Whr
+            End If
 
             Dim dt = clsDBFuncationality.GetDataTable(qry)
 
@@ -234,10 +475,12 @@ Public Class CancelPurchaseInvoiceReport
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             End If
+
             gv1.BestFitColumns()
 
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
 End Class
