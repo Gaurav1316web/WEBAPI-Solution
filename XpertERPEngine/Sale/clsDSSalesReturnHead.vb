@@ -1221,6 +1221,7 @@ from
             obj.CrateMan = clsCommon.myCdbl(dt.Rows(0)("CrateMan"))
             obj.jaali = clsCommon.myCdbl(dt.Rows(0)("jaali"))
             obj.Box = clsCommon.myCdbl(dt.Rows(0)("Box"))
+
             obj.Trans_type = clsCommon.myCstr(dt.Rows(0)("Trans_type"))
             Trans_type_Str = clsCommon.myCstr(dt.Rows(0)("Trans_type")) + "-SR"
             obj.Invoice_Type = clsCommon.myCstr(dt.Rows(0)("Invoice_Type"))

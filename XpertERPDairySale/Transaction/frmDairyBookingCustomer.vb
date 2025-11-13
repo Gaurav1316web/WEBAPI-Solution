@@ -465,6 +465,10 @@ Public Class frmDairyBookingCustomer
         txtIndentDate.Value = txtDate.Value
         lblCreatedByValue.Text = ""
         txtCustPODate.Checked = False
+        txtOpeningbal.Text = ""
+        txtDrAmt.Text = ""
+        txtCrAmt.Text = ""
+        txtClosingBal.Text = ""
         txtCustPODate.Value = clsCommon.GETSERVERDATE()
         UsLock1.Status = ERPTransactionStatus.Pending
     End Sub
@@ -2949,6 +2953,10 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         btnGatepass.Enabled = False
         chkcashsale.Checked = False
         chkcashsale.Enabled = True
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+            chkcashsale.Text = "Against Receipt"
+
+        End If
         txtChequeNo.Text = ""
         txtReceiverName.Text = ""
         cmbPaymentType.SelectedIndex = 0
@@ -3092,6 +3100,13 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                         blnSaveTotalQTy = False
                         'Exit Function
                     End If
+
+                End If
+            End If
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                If chkcashsale.Checked AndAlso clsCommon.myLen(txtChequeNo.Text) = 0 Then
+                    Throw New Exception("Please Enter Reference/Cheque No.")
+                    blnSaveTotalQTy = False
 
                 End If
             End If
@@ -4137,6 +4152,7 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                 lbltotalOutstanding1.Text = dblAmt
                 lblOutstandingDesc.Text = dblOutstandingAmt
                 lblTotalSecurity11.Text = dblSecurityAmount - dblReverseSecurityAmount - dblRefundAmount + dblReverseRefundAmount - dblARSecurityAmt
+
             End If
             If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select  isnull(tspl_customer_master.CheckCreditLimit,0) as CheckCreditLimit from tspl_customer_master where cust_code='" & strCustomer & "'", trans)) = 0 Then
                 Return True
@@ -4161,15 +4177,7 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
                 IsTotalQtyinKG = False
                 chkSampling.Enabled = False
-                'Dim isDemandBooking1 = clsDBFuncationality.getSingleValue("select top 1 Against_DemandBooking_No from TSPL_BOOKING_DETAIL where Document_No='" & obj.Document_No & "'")
-                'If clsCommon.myLen(isDemandBooking1) > 0 Then
-                '    rgbItemType.Visible = False
-                '    If clsCommon.CompairString(obj.GatePass_Type, "AM") = CompairStringResult.Equal Then
-                '        lblShiftType.Text = "Morning"
-                '    Else
-                '        lblShiftType.Text = "Evening"
-                '    End If
-                'Else
+
                 rgbItemType.Visible = True
                 If obj.Is_Taxable = 2 Then
                     rbtnTaxable.IsChecked = True
@@ -4272,6 +4280,10 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                     'If clsCommon.myLen(isDemandBooking) > 0 Then
                     '    btnCreateAndPrintInvoice.Enabled = False
                     'Else
+                    txtOpeningbal.Text = obj.OpeningBal
+                    txtDrAmt.Text = obj.DrAmt
+                    txtCrAmt.Text = obj.CrAmt
+                    txtClosingBal.Text = obj.ClosingBal
                     btnCreateAndPrintInvoice.Enabled = True
                     'End If
                     btnCreateDO.Enabled = True
@@ -4371,6 +4383,9 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                 'lblTermName.Text = obj.Terms_Description
                 If obj.Due_Date IsNot Nothing Then
                     txtDueDate.Value = obj.Due_Date
+                End If
+                If obj.Posted = 0 Then
+                    GetOpeningClosingAndReceivedAmt(txtVendorNo.Value, txtDate.Value)
                 End If
                 lblAmtWithDiscount.Text = clsCommon.myFormat(obj.Discount_Base)
                 lblDiscountAmt.Text = clsCommon.myFormat(obj.Discount_Amt)
@@ -4585,17 +4600,17 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                 LblUpdatedVehicleCode.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Vehicle_Code from TSPL_BOOKING_DETAIL where Document_No='" & txtDocNo.Value & "'"))
                 LblUpdatedVehicleDesc.Text = clsCommon.myCstr(ClsVehicleMaster.GetName(LblUpdatedVehicleCode.Text, Nothing))
                 'setRouteDetail(txtVendorNo.Value, lblroutecode.Text)
-                If CheckOutstandingOnbooking = 1 Then
-                    GetUnbilledAmt(obj.Document_Date, txtVendorNo.Value)
+                'If CheckOutstandingOnbooking = 1 Then
+                GetUnbilledAmt(obj.Document_Date, txtVendorNo.Value)
                     If chkDCS.Checked Then
                         GetOutStandingBal(txtVendorNo.Value, txtDate.Value)
                     Else
                         CustomerOutstandingAmount(txtVendorNo.Value, Nothing)
                     End If
-                End If
+                    'End If
 
-                ''richa TEC/01/10/19-001025
-                txtRouteNo.Value = clsCommon.myCstr(dt2.Rows(0)("Route_No"))
+                    ''richa TEC/01/10/19-001025
+                    txtRouteNo.Value = clsCommon.myCstr(dt2.Rows(0)("Route_No"))
                 lblRouteDesc.Text = clsCommon.myCstr(dt2.Rows(0)("Route_Desc"))
                 If clsCommon.CompairString(obj.GatePass_Type, "") = CompairStringResult.Equal Then
                     cmbGatePassType.Text = "Select"
@@ -4916,11 +4931,16 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                     'Dim msg As String = String.Empty
                     clsBookingEntryDairySale.CreateDebitNote(txtDocNo.Value, trans)
                     Dim qry = "Update TSPL_BOOKING_MATSER set Posted=1, " &
+                     "OpeningBal='" & clsCommon.myCstr(txtOpeningbal.Text) & "', " &
+                     "DrAmt='" & clsCommon.myCstr(txtDrAmt.Text) & "', " &
+                     "CrAmt='" & clsCommon.myCstr(txtCrAmt.Text) & "', " &
+                     "ClosingBal='" & clsCommon.myCstr(txtClosingBal.Text) & "', " &
                      "Modified_By='" & objCommonVar.CurrentUserCode & "', " &
                      "Modified_Date='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") & "' " &
                      "where Document_No='" & txtDocNo.Value & "'"
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
                     clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtDocNo.Value, "TSPL_BOOKING_MATSER", "Document_No", trans)
+
 
                     ''For ii As Integer = 8 To gv1.Columns.Count - 1
                     ''Dim objBooking As clsBookingTemp = TryCast(gv1.Columns(ii).Tag, clsBookingTemp)
@@ -4971,6 +4991,8 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                     '    trans.Rollback()
                     'End If
                     trans.Commit()
+
+
                     clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
 
@@ -5285,6 +5307,45 @@ where TSPL_ITEM_CAPACITY_LIMIT_head.From_Date<='" & clsCommon.GetPrintDate(txtDa
         'LoadBlankGridTax()
         gv1.Rows.AddNew()
     End Sub
+    Private Sub GetOpeningClosingAndReceivedAmt(ByVal CustCode As String, ByVal docDate As DateTime)
+        Try
+            Dim OpeningBal As Decimal = 0
+            Dim DrAmt As Decimal = 0
+            Dim CrAmt As Decimal = 0
+            Dim ClosingBal As Decimal = 0
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("EXEC SP_GetBalCustWise @Cust_Code = '" + clsCommon.myCstr(CustCode) + "',@DocDate='" + clsCommon.GetPrintDate(docDate, "dd/MMM/yyyy HH:mm:ss") + "'")
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                OpeningBal = dt.Rows(0)("OpngBal")
+                DrAmt = dt.Rows(0)("DrAmt")
+                CrAmt = dt.Rows(0)("CrAmt")
+                ClosingBal = dt.Rows(0)("BalAmt")
+            End If
+            If OpeningBal > 0 Then
+                txtOpeningbal.Text = clsCommon.myCstr(OpeningBal) & " DR"
+            Else
+                txtOpeningbal.Text = clsCommon.myCstr(OpeningBal) & " CR"
+            End If
+            If DrAmt > 0 Then
+                txtDrAmt.Text = clsCommon.myCstr(DrAmt) & " DR"
+            Else
+                txtDrAmt.Text = clsCommon.myCstr(DrAmt) & " CR"
+            End If
+            If CrAmt > 0 Then
+                txtCrAmt.Text = clsCommon.myCstr(CrAmt) & " DR"
+            Else
+                txtCrAmt.Text = clsCommon.myCstr(CrAmt) & " CR"
+            End If
+            If ClosingBal > 0 Then
+                txtClosingBal.Text = clsCommon.myCstr(ClosingBal) & " DR"
+            Else
+                txtClosingBal.Text = clsCommon.myCstr(ClosingBal) & " CR"
+            End If
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
     Private Sub txtVendorNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtVendorNo._MYValidating
         Dim qry As String = ""
         Dim docdate As DateTime = txtDate.Value
@@ -5359,15 +5420,15 @@ where TSPL_ITEM_CAPACITY_LIMIT_head.From_Date<='" & clsCommon.GetPrintDate(txtDa
             If clsCommon.myLen(txtVendorNo.Value) > 0 Then
                 ''richa VIJ/18/12/19-000123
                 ' CustomerOutstandingAmount(txtVendorNo.Value, Nothing)
-                If Not HideOutstanding Then
-                    If chkDCS.Checked Then
-                        GetOutStandingBal(txtVendorNo.Value, docdate)
-                    Else
-                        CustomerOutstandingAmount(txtVendorNo.Value, Nothing)
-                    End If
-                    GetUnbilledAmt(docdate, txtVendorNo.Value)
+                'If Not HideOutstanding Then
+                If chkDCS.Checked Then
+                    GetOutStandingBal(txtVendorNo.Value, docdate)
+                Else
+                    CustomerOutstandingAmount(txtVendorNo.Value, Nothing)
                 End If
-
+                GetUnbilledAmt(docdate, txtVendorNo.Value)
+                'End If
+                GetOpeningClosingAndReceivedAmt(txtVendorNo.Value, docdate)
                 'If chkDCS.Checked Then
                 '    LoadDCSData(txtVendorNo.Value, docdate)
                 'Else
@@ -7940,7 +8001,7 @@ where TSPL_ITEM_CAPACITY_LIMIT_head.From_Date<='" & clsCommon.GetPrintDate(txtDa
         txtSalesman1.Value = clsCommon.ShowSelectForm("DBC-SNOSaleman", qry, "Code", whrcls, txtSalesman1.Value, "Code", isButtonClicked)
         lblSalesmandesc1.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Emp_Name as Name from TSPL_EMPLOYEE_MASTER where EMP_CODE ='" & txtSalesman1.Value & "' and Emp_type='Salesman'"))
     End Sub
-    Private Sub txtReceipt__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtReceipt._MYValidating
+    Private Sub txtReceipt__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean)
         If clsCommon.myLen(txtVendorNo.Value) > 0 Then
             Dim qry As String = "select TSPL_RECEIPT_HEADER.Receipt_No as Code,TSPL_RECEIPT_HEADER.Receipt_Amount as Amount,TSPL_RECEIPT_HEADER.Receipt_Date,TSPL_RECEIPT_HEADER.Receipt_Post_Date,TSPL_RECEIPT_HEADER.Receipt_Type,TSPL_RECEIPT_HEADER.Balance_Amt from TSPL_RECEIPT_HEADER"
             Dim whrcls As String = " TSPL_RECEIPT_HEADER.Cust_Code='" & clsCommon.myCstr(txtVendorNo.Value) & "'"
@@ -8920,7 +8981,17 @@ from
                         trans.Rollback()
                         Throw New Exception(ex.Message)
                     End Try
+                    Try
+                        GetOpeningClosingAndReceivedAmt(txtVendorNo.Value, txtDate.Value)
+                        Dim balqry As String = "Update TSPL_BOOKING_MATSER set OpeningBal='" & clsCommon.myCstr(txtOpeningbal.Text) & "', " &
+                            "DrAmt='" & clsCommon.myCstr(txtDrAmt.Text) & "', " &
+                            "CrAmt='" & clsCommon.myCstr(txtCrAmt.Text) & "'," &
+                            "ClosingBal='" & clsCommon.myCstr(txtClosingBal.Text) & "' " &
+                         " where Document_No='" & txtDocNo.Value & "'"
+                        clsDBFuncationality.ExecuteNonQuery(balqry)
+                    Catch ex As Exception
 
+                    End Try
                 Else
                     trans.Commit()
                     ' clsCommon.MyMessageBoxShow(Me, "Document Not Found!", Me.Text)
@@ -9951,7 +10022,7 @@ where  TSPL_BOOKING_DETAIL.Cust_Code='" & strVendorno & "' and convert(date,TSPL
     End Function
 
     Private Sub chkcashsale_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkcashsale.ToggleStateChanged
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
             If chkcashsale.Checked Then
                 lblPaymentType.Visible = True
                 cmbPaymentType.Visible = True
@@ -9962,12 +10033,14 @@ where  TSPL_BOOKING_DETAIL.Cust_Code='" & strVendorno & "' and convert(date,TSPL
                 cmbPaymentType.Visible = False
                 txtChequeNo.Visible = False
                 lblChequeNo.Visible = False
+
             End If
         Else
             lblPaymentType.Visible = False
             cmbPaymentType.Visible = False
             txtChequeNo.Visible = False
             lblChequeNo.Visible = False
+
         End If
     End Sub
     Private Sub chkManualVehicle_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkManualVehicle.ToggleStateChanged
@@ -10020,4 +10093,6 @@ where  TSPL_BOOKING_DETAIL.Cust_Code='" & strVendorno & "' and convert(date,TSPL
             Throw New Exception(ex.Message)
         End Try
     End Sub
+
+
 End Class

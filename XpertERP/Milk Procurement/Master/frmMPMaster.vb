@@ -2778,6 +2778,7 @@ Public Class FrmMPMaster
             Dim gv As New UserControls.MyRadGridView
             Me.Controls.Add(gv)
             If transportSql.importExcel(gv, "MP Code", "Account Number", "IFSC Code") Then
+                Dim ArrAccountNo As New List(Of String)
                 Dim ii As Integer = 0
                 Dim Arr As New List(Of clsMpMaster)
                 Dim dtError As New DataTable
@@ -2821,10 +2822,19 @@ Public Class FrmMPMaster
                                     Throw New Exception("MP Code (" + clsCommon.myCstr(obj.MP_Code) + ") is not exist !")
                                 End If
 
-                                Dim qry As String = "select 1 from TSPL_MP_MASTER where MP_Code not in ('" & obj.MP_Code & " ') and AccountNO='" & obj.AccountNO & "'"
-                                dt = clsDBFuncationality.GetDataTable(qry)
-                                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                                    Throw New Exception("MP Code (" + clsCommon.myCstr(obj.MP_Code) + ") Duplicate account no [" + obj.AccountNO + "]")
+                                'Dim qry As String = "select 1 from TSPL_MP_MASTER where MP_Code not in ('" & obj.MP_Code & " ') and AccountNO='" & obj.AccountNO & "'"
+                                'dt = clsDBFuncationality.GetDataTable(qry)
+                                'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                '    Throw New Exception("MP Code (" + clsCommon.myCstr(obj.MP_Code) + ") Duplicate account no [" + obj.AccountNO + "]")
+                                'End If
+
+                                Dim qry As String = "select AccountNO from TSPL_MP_MASTER where MP_Code not in ('" + obj.MP_Code + "') and Active=0 and AccountNO='" + obj.AccountNO + "' "
+                                Dim dtACNo As DataTable = clsDBFuncationality.GetDataTable(qry)
+                                If dtACNo IsNot Nothing AndAlso dtACNo.Rows.Count > 0 Then
+                                    Throw New Exception("Account number [" + obj.AccountNO + "] is already in use.")
+                                End If
+                                If ArrAccountNo.Contains(obj.AccountNO) Then
+                                    Throw New Exception("Repeated Account number [" + obj.AccountNO + "].")
                                 End If
                                 Arr.Add(obj)
                             Catch ex As Exception

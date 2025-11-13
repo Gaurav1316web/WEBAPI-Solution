@@ -200,7 +200,9 @@ Public Class FrmGRNReport
                 ,(case when TSPL_SRN_HEAD.Status=1 then 'Posted' when TSPL_SRN_HEAD.Status=0 then 'UnPosted' end) as [SRN Status] 
                 ,convert(varchar, TSPL_PI_HEAD.PI_Date,103) as [Purchase Invoice Date]
                 ,TSPL_PI_HEAD.PI_No as [Purchase Invoice No]
-                ,(case when TSPL_PI_HEAD.Status=1 then 'Posted' when TSPL_PI_HEAD.Status=0 then 'UnPosted' end) as [Purchase Invoice Status]
+                ,(case when TSPL_PI_HEAD.Status=1 then 'Posted' when TSPL_PI_HEAD.Status=0 then 'UnPosted' end) as [Purchase Invoice Status],
+                CONVERT(VARCHAR(8), TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date, 108) AS [In Time],
+                CONVERT(VARCHAR(8), TSPL_PO_WEIGHTMENT_HEAD.Tare_Weight_Manual_Date, 108) AS [Out Time]
                 from TSPL_GRN_DETAIL
                   left outer join TSPL_GRN_HEAD ON TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No
                   left outer join TSPL_PURCHASE_ORDER_HEAD ON TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_GRN_HEAD.Against_PO
@@ -335,6 +337,8 @@ Null As InputData9,Null As AliasName10,Null As InputData10,Null As AliasName11,N
                 ,Null as [Purchase Invoice Date]
                 ,Null as [Purchase Invoice No]
                 ,Null as [Purchase Invoice Status]
+                ,Null as [IN Time]
+				,Null as [Out Time]
 		    	from TSPL_GRN_DETAIL_Cancel_Data
                 left outer join TSPL_GRN_HEAD_Cancel_Data ON TSPL_GRN_DETAIL_Cancel_Data.GRN_No=TSPL_GRN_HEAD_Cancel_Data.GRN_No
                 left outer join TSPL_PURCHASE_ORDER_HEAD_Cancel_Data ON TSPL_PURCHASE_ORDER_HEAD_Cancel_Data.PurchaseOrder_No=TSPL_GRN_HEAD_Cancel_Data.Against_PO

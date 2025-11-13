@@ -646,6 +646,7 @@ Public Class frmSaleReturnDairy
         UcAttachment1.BlankAllControls()
         fndProject.Text = ""
         lblProject.Text = ""
+
         If UOMAtDiarySaleReturn = True Then
             gv1.Columns(colQty).ReadOnly = True
             gv1.Columns(colUnit).ReadOnly = True
@@ -5212,6 +5213,7 @@ Where TSPL_ITEM_MASTER.Item_Code='" + itemCode + "' And TSPL_ITEM_UOM_DETAIL.UOM
                     repoComplete.IsVisible = True
                     repoBalQty.IsVisible = True
                     btnCancel.Enabled = True
+
                 Else
                     btnCancel.Enabled = False
                 End If
@@ -5992,6 +5994,7 @@ Where TSPL_ITEM_MASTER.Item_Code='" + itemCode + "' And TSPL_ITEM_UOM_DETAIL.UOM
                 End If
                 ''
                 If (clsDSSalesReturnHead.PostData(MyBase.Form_ID, txtDocNo.Value)) Then
+
                     msg = "Successfully Posted"
                 Else
                     qry = "select No_Of_Level, LEVEL from TSPL_APPROVAL_LEVEL_SCREEN where User_Code='" + objCommonVar.CurrentUserCode + "' and Trans_Code='" + MyBase.Form_ID + "' "
@@ -6018,6 +6021,7 @@ Where TSPL_ITEM_MASTER.Item_Code='" + itemCode + "' And TSPL_ITEM_UOM_DETAIL.UOM
                         End If
                     End If
                 End If
+
                 common.clsCommon.MyMessageBoxShow(msg)
                 LoadData(txtDocNo.Value, NavigatorType.Current)
 
@@ -6241,6 +6245,7 @@ Where TSPL_ITEM_MASTER.Item_Code='" + itemCode + "' And TSPL_ITEM_UOM_DETAIL.UOM
 
         LoadData(clsCommon.ShowSelectForm("PSSaleReturnDocfnd", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked, " TSPL_SD_SALE_RETURN_HEAD.Document_date "), NavigatorType.Current)
     End Sub
+
 
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.F2 AndAlso gv1.CurrentCell IsNot Nothing AndAlso gv1.CurrentColumn Is gv1.Columns(colUnit) Then
@@ -6510,7 +6515,6 @@ Where TSPL_ITEM_MASTER.Item_Code='" + itemCode + "' And TSPL_ITEM_UOM_DETAIL.UOM
         End If
         '-----------------------------------------------------'
         txtVendorNo.Value = clsCommon.ShowSelectForm("PSSaleRetCustfnd", qry, "Code", strwhrcondition, txtVendorNo.Value, "Code", isButtonClicked)
-
         qry += " where 2=2 and TSPL_CUSTOMER_MASTER.Cust_Code ='" + txtVendorNo.Value + "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
