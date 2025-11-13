@@ -369,7 +369,7 @@ Public Class frmBatchItemOut
                 gv1.Rows(intRowNo).Cells(colBalance).Value = clsCommon.myCdbl(dr("Qty"))
             End If
             blnAvailable = True
-        ElseIf RunBatchFifowise = True OrElse (ApplyFEFO = True AndAlso isInternalTransfer = True) Then
+        ElseIf (RunBatchFifowise OrElse RunBatchFifowisewithModifyfunctionality) OrElse (ApplyFEFO = True AndAlso isInternalTransfer = True) Then
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
                 arr = New List(Of clsBatchInventory)

@@ -109,32 +109,59 @@ FROM TSPL_ITEM_MASTER"
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             If clsCommon.MyMessageBoxShow(Me, "Do you want to Save Item Code [" & txtitemCode.Text & "]" & Environment.NewLine & "Are You Sure.", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
-
-            End If
-            Dim strQry As String = "select IS_TAXABLE,EFFECTIVE_DATE from TSPL_ITEM_MASTER_TAXABLE where ITEM_CODE='" & txtitemCode.Text & "' order by EFFECTIVE_DATE desc"
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If clsCommon.myCdbl(dt.Rows(0)("IS_TAXABLE")) = clsCommon.myCdbl(IIf(chkIsTaxable.Checked, 1, 0)) OrElse clsCommon.GetPrintDate(dt.Rows(0)("EFFECTIVE_DATE"), "dd/MMM/yyyy") = clsCommon.myCDate(txtDate.Value, "dd/MMM/yyyy") Then
-                    Throw New Exception("Already Exits!")
+                Dim strQry As String = "select IS_TAXABLE,EFFECTIVE_DATE from TSPL_ITEM_MASTER_TAXABLE where ITEM_CODE='" & txtitemCode.Text & "' order by EFFECTIVE_DATE desc"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    If clsCommon.myCdbl(dt.Rows(0)("IS_TAXABLE")) = clsCommon.myCdbl(IIf(chkIsTaxable.Checked, 1, 0)) OrElse clsCommon.GetPrintDate(dt.Rows(0)("EFFECTIVE_DATE"), "dd/MMM/yyyy") >= clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") Then
+                        Throw New Exception("Already Exits!")
+                    End If
                 End If
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "ITEM_CODE", txtitemCode.Text)
+                clsCommon.AddColumnsForChange(coll, "IS_TAXABLE", IIf(chkIsTaxable.Checked, 1, 0))
+                clsCommon.AddColumnsForChange(coll, "EFFECTIVE_DATE", clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy"))
+                clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
+                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ITEM_MASTER_TAXABLE", OMInsertOrUpdate.Insert, "", trans)
+                'strQry = "Update TSPL_ITEM_MASTER set istaxable='" & clsCommon.myCstr(IIf(chkIsTaxable.Checked, 1, 0)) & "' where Item_Code='" & clsCommon.myCstr(txtitemCode.Text) & "'"
+                'clsDBFuncationality.ExecuteNonQuery("")
+                trans.Commit()
+                clsCommon.MyMessageBoxShow(Me, "Saved Successfully", Me.Text)
+                btnSave.Enabled = False
             End If
-            Dim coll As New Hashtable()
-            clsCommon.AddColumnsForChange(coll, "ITEM_CODE", txtitemCode.Text)
-            clsCommon.AddColumnsForChange(coll, "IS_TAXABLE", IIf(chkIsTaxable.Checked, 1, 0))
-            clsCommon.AddColumnsForChange(coll, "EFFECTIVE_DATE", clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy"))
-            clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
-            clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
-            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ITEM_MASTER_TAXABLE", OMInsertOrUpdate.Insert, "", trans)
-            'strQry = "Update TSPL_ITEM_MASTER set istaxable='" & clsCommon.myCstr(IIf(chkIsTaxable.Checked, 1, 0)) & "' where Item_Code='" & clsCommon.myCstr(txtitemCode.Text) & "'"
-            'clsDBFuncationality.ExecuteNonQuery("")
-            trans.Commit()
-            clsCommon.MyMessageBoxShow(Me, "Saved Successfully", Me.Text)
-            btnSave.Enabled = False
+
             LoadData()
         Catch ex As Exception
             trans.Rollback()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
+    Private Sub UpdateData()
+        Try
+            Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "ITEM_CODE", txtitemCode.Text)
+            clsCommon.AddColumnsForChange(coll, "IS_TAXABLE", IIf(chkIsTaxable.Checked, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "EFFECTIVE_DATE", clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy"))
+            clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
+            clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm tt"))
+            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ITEM_MASTER_TAXABLE", OMInsertOrUpdate.Insert, "")
+            clsCommon.MyMessageBoxShow(Me, "Saved Successfully", Me.Text)
+            btnSave.Enabled = False
+            LoadData()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub FrmItemMasterTax_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+        If e.Alt AndAlso e.KeyCode = Keys.E AndAlso btnSave.Enabled Then
+            Dim frm As New FrmPWD(Nothing)
+            frm.strType = clsFixedParameterType.Transactionupdate
+            frm.strCode = clsFixedParameterCode.ItemMaster
+            frm.ShowDialog()
+            If frm.isPasswordCorrect Then
+                UpdateData()
+                OneTimeCheck = True
+            End If
+        End If
+    End Sub
 End Class

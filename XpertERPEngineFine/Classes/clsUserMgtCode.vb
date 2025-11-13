@@ -1,5 +1,6 @@
 ﻿Imports common
 Public Class clsUserMgtCode
+    Public Const frmUnionWiseAppUserReport As String = "UNN-APP-RPT"
     Public Const frmRouteWiseSaleTargetReport As String = "RSL-TGT-RPT"
     Public Const frmRouteWiseSaleTarget As String = "RTWS-SL-TGT"
     Public Const frmPDAccountSummariesReport As String = "PD-ACC-SRPT"

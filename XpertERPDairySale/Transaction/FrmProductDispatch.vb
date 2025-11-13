@@ -1002,6 +1002,10 @@ Public Class FrmProductDispatch
         lblRouteDesc.Text = ""
         txtManualCustomer.Text = ""
         txtInsuranceNo.Text = ""
+        txtOpeningbal.Text = ""
+        txtDrAmt.Text = ""
+        txtCrAmt.Text = ""
+        txtClosingBal.Text = ""
         If AllowManualVehicleOnDairyDispatch = True Then
             txtManualVehicle.Visible = True
             lblManualVehicle.Visible = True
@@ -1955,6 +1959,38 @@ Public Class FrmProductDispatch
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+    Private Sub GetOpeningClosingAndReceivedAmt(ByVal CustCode As String, ByVal docDate As DateTime)
+        Try
+            Dim OpeningBal As Decimal = 0
+            Dim DrAmt As Decimal = 0
+            Dim CrAmt As Decimal = 0
+            Dim ClosingBal As Decimal = 0
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("EXEC SP_GetBalCustWise @Cust_Code = '" + clsCommon.myCstr(CustCode) + "',@DocDate='" + clsCommon.GetPrintDate(docDate, "dd/MMM/yyyy") + "'")
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                OpeningBal = dt.Rows(0)("OpngBal")
+                DrAmt = dt.Rows(0)("DrAmt")
+                CrAmt = dt.Rows(0)("CrAmt")
+                ClosingBal = dt.Rows(0)("BalAmt")
+            End If
+            If OpeningBal > 0 Then
+                txtOpeningbal.Text = clsCommon.myCstr(OpeningBal) & " DR"
+            Else
+                txtOpeningbal.Text = clsCommon.myCstr(OpeningBal) & " CR"
+            End If
+            txtDrAmt.Text = clsCommon.myCstr(DrAmt) & " DR"
+            txtCrAmt.Text = clsCommon.myCstr(CrAmt) & " CR"
+            If ClosingBal > 0 Then
+                txtClosingBal.Text = clsCommon.myCstr(ClosingBal) & " DR"
+            Else
+                txtClosingBal.Text = clsCommon.myCstr(ClosingBal) & " CR"
+            End If
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
     Private Sub ImportTransactionButtonEvent()
         RadPageViewPage5.Item.Visibility = ElementVisibility.Visible
         RadPageView1.SelectedPage = RadPageViewPage5
@@ -7221,7 +7257,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                 Dim strupdate As String = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo='" + ParentDocNo + "' where Document_Code='" + ParentDocNo + "'"
                 clsDBFuncationality.ExecuteNonQuery(strupdate, trans)
                 trans.Commit()
-
+                GetOpeningClosingAndReceivedAmt(txtVendorNo.Value, txtDate.Value)
                 If Not IsAutoClose Then
                     clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(ParentDocNo, NavigatorType.Current)
@@ -7956,8 +7992,14 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                         btnDeliveredTo.Enabled = True
                     End If
                     btnCancel.Enabled = True
+                    txtOpeningbal.Text = obj.OpeningBal
+                    txtDrAmt.Text = obj.DrAmt
+                    txtCrAmt.Text = obj.CrAmt
+                    txtClosingBal.Text = obj.ClosingBal
                 Else
                     btnCancel.Enabled = False
+                    GetOpeningClosingAndReceivedAmt(obj.Customer_Code, obj.Document_Date)
+
                 End If
                 ParentDocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select ParentDocNo from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + obj.Document_Code + "'"))
                 If clsCommon.myLen(ParentDocNo) > 0 Then
@@ -8816,6 +8858,10 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "'"
                 End If
                 qry += " order by TSPL_Product_DEMAND_BOOKING_DETAIL.TR_Code"
                 LoadDistributorGrid(qry, Nothing)
+                txtFrom_Date.Value = clsCommon.GetPrintDate(clsDBFuncationality.getSingleValue("select TSPL_PRODUCT_DEMAND_BOOKING_MASTER.Document_Date from TSPL_PRODUCT_DEMAND_BOOKING_MASTER
+left join TSPL_PRODUCT_DEMAND_BOOKING_DETAIL on TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Document_No=TSPL_PRODUCT_DEMAND_BOOKING_MASTER.Document_No where TR_Code in(select min(Booking_TR_Code) as TR_Code from TSPL_SD_SHIPMENT_BOOKING_DETAIL where DOCUMENT_CODE='" & ParentDocNo & "')"))
+                txtToDate.Value = clsCommon.GetPrintDate(clsDBFuncationality.getSingleValue("select TSPL_PRODUCT_DEMAND_BOOKING_MASTER.Document_Date from TSPL_PRODUCT_DEMAND_BOOKING_MASTER
+left join TSPL_PRODUCT_DEMAND_BOOKING_DETAIL on TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Document_No=TSPL_PRODUCT_DEMAND_BOOKING_MASTER.Document_No where TR_Code in(select max(Booking_TR_Code) as TR_Code from TSPL_SD_SHIPMENT_BOOKING_DETAIL where DOCUMENT_CODE='" & ParentDocNo & "')"))
             End If
             'txtCrate.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select sum(Qty) as Qty from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Document_Code='" + ParentDocNo + "' and Unit_code='Crate' group by Unit_code"))
             If clsCommon.myLen(txtInvoiceNo.Text) > 0 Then
@@ -9168,6 +9214,17 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "'"
             If trans Is Nothing Then
                 If (clsPSShipmentHead.PostData(MyBase.Form_ID, txtDocNo.Value, True)) Then
                     msg = "Successfully Posted"
+                    Try
+                        GetOpeningClosingAndReceivedAmt(txtVendorNo.Value, txtDate.Value)
+                        Dim balqry As String = "Update TSPL_SD_SHIPMENT_HEAD set OpeningBal='" & clsCommon.myCstr(txtOpeningbal.Text) & "', " &
+                            "DrAmt='" & clsCommon.myCstr(txtDrAmt.Text) & "', " &
+                            "CrAmt='" & clsCommon.myCstr(txtCrAmt.Text) & "'," &
+                            "ClosingBal='" & clsCommon.myCstr(txtClosingBal.Text) & "' " &
+                         " where Document_Code='" & txtDocNo.Value & "'"
+                        clsDBFuncationality.ExecuteNonQuery(balqry)
+                    Catch ex As Exception
+
+                    End Try
                     clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                     If (clsCommon.MyMessageBoxShow(Me, "Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
                         funPrint(txtDocNo.Value)
@@ -12078,6 +12135,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                     If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
                         lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
                     End If
+                    GetOpeningClosingAndReceivedAmt(txtVendorNo.Value, txtDate.Value)
                 Else
                     lblVendorName.Text = ""
                     txtTermCode.Value = ""
@@ -12152,6 +12210,8 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
  and TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code='" + txtVendorNo.Value + "' and 2=(Case when TSPL_DISTRIBUTOR_ROUTE.End_Date is null then 2 else (Case when TSPL_DISTRIBUTOR_ROUTE.End_Date>='" + clsCommon.GetPrintDate(txtDate.Value) + "' then 2 else 3 end) end)"
                 txtRouteNo.Value = clsCommon.ShowSelectForm("DShipRouteFinder", qry, "Code", WhrCls, txtRouteNo.Value, "Start_Date desc", isButtonClicked)
                 fndRouteNo_TextChanged()
+                GetOpeningClosingAndReceivedAmt(txtVendorNo.Value, txtDate.Value)
+
             End If
             LoadDemandData(Nothing)
         Else
