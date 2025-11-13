@@ -2321,9 +2321,10 @@ Public Class clsEkoPro
         Return Rate
     End Function
 
-    Public Shared Function GetLatestPlaningQryALW(ByVal Doc_Date As Date, ByVal Shift As String, ByVal FATPer As String) As String
+    Public Shared Function GetLatestPlaningQryALW(ByVal Doc_Date As Date, ByVal Shift As String, ByVal FATPer As String, ByVal strMilkType As String) As String
         Return "select top 1 Planning_Code,Price_Chart_Code,Single_Axis_FAT_Per,Single_Axis_SNFDed_FAT_Per,Single_Axis_SNF_Per,Single_Axis_SNFDed_SNF_Per,TSDDCS_Rate
- from TSPL_PRICE_CHART_PLANNING where Status=1 and GK_Min_FAT_Per<=" + FATPer + " and	GK_Max_FAT_Per>=" + FATPer + " and  
+,GK_Min_FAT_Per,GK_Max_FAT_Per,GK_Min_SNF_Per,GK_Max_SNF_Per 
+from TSPL_PRICE_CHART_PLANNING where  Dock_Collection_Milk_Type='" + strMilkType + "'  and Status=1 and GK_Min_FAT_Per<=" + FATPer + " and	GK_Max_FAT_Per>=" + FATPer + " and  
  ((convert(Date,Planning_Date,103)< '" & clsCommon.GetPrintDate(Doc_Date, "dd/MMM/yyyy") & "' or (convert(Date,Planning_Date,103)= '" & clsCommon.GetPrintDate(Doc_Date, "dd/MMM/yyyy") & "' and shift>='" & Shift & "')))
   order by Planning_Date desc,Planning_Code desc"
     End Function
@@ -2574,11 +2575,28 @@ where  TSPL_FAT_SNF_UPLOADER_MASTER.Posted='1' "
         End If
         Dim qry As String = ""
         Dim dt As DataTable = Nothing
-        qry = GetLatestPlaningQryALW(Doc_Date, Shift, FatPer)
-        dt = clsDBFuncationality.GetDataTable(qry, tran)
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            strPlanningCode = clsCommon.myCstr(dt.Rows(0)("Planning_Code"))
-            strPriceMasterCode = clsCommon.myCstr(dt.Rows(0)("Price_Chart_Code"))
+        Dim ApplyMixMilk As Boolean = True
+        If clsfrmVLCMaster.CowPriceApplied(VLC_Code, Doc_Date, tran) Then
+            qry = GetLatestPlaningQryALW(Doc_Date, Shift, FatPer, "C")
+            dt = clsDBFuncationality.GetDataTable(qry, tran)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                If clsCommon.myCDecimal(dt.Rows(0)("GK_Min_FAT_Per")) <= FatPer AndAlso
+                       clsCommon.myCDecimal(dt.Rows(0)("GK_Max_FAT_Per")) >= FatPer AndAlso
+                       clsCommon.myCDecimal(dt.Rows(0)("GK_Min_SNF_Per")) <= SNFPer AndAlso
+                       clsCommon.myCDecimal(dt.Rows(0)("GK_Max_SNF_Per")) >= SNFPer Then
+                    ApplyMixMilk = False
+                    strPlanningCode = clsCommon.myCstr(dt.Rows(0)("Planning_Code"))
+                    strPriceMasterCode = clsCommon.myCstr(dt.Rows(0)("Price_Chart_Code"))
+                End If
+            End If
+        End If
+        If ApplyMixMilk Then
+            qry = GetLatestPlaningQryALW(Doc_Date, Shift, FatPer, "M")
+            dt = clsDBFuncationality.GetDataTable(qry, tran)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                strPlanningCode = clsCommon.myCstr(dt.Rows(0)("Planning_Code"))
+                strPriceMasterCode = clsCommon.myCstr(dt.Rows(0)("Price_Chart_Code"))
+            End If
         End If
 
         If clsCommon.myLen(strPlanningCode) > 0 Then
