@@ -842,6 +842,8 @@ Public Class clsFixedParameterType
     Public Const AmountInLacsOnMisSaleRegister As String = "Allow amount in lacs on MIS SALE REGISTER"
     Public Const ShortCloseItemWiseOnPO As String = "Allow short close item wise on PO"
     Public Const MakeClosingofPOreadonlyforuser As String = "Make closing of PO read only"
+    Public Const MakeClosingofCustomerTenderreadonlyforuser As String = "Make closing of customer tender read only"
+    Public Const MakeClosingofCustomerTenderOrderreadonlyforuser As String = "Make closing of customer tender order read only"
     Public Const AllowModificationOnApprovalByApprovalUser As String = "Allow Modification On Approval By Approval User"
     Public Const AllowAutoCalculateADDREMOVEQty As String = "Auto Calculate Qty of Add/Remove Item"
     Public Const FATDeductionPercent As String = "FAT Deduction Percent"
@@ -2323,6 +2325,8 @@ Public Class clsFixedParameterCode
     Public Const AmountInLacsOnMisSaleRegister As String = "Allow amount in lacs on MIS SALE REGISTER"
     Public Const ShortCloseItemWiseOnPO As String = "Allow short close item wise on PO"
     Public Const MakeClosingofPOreadonlyforuser As String = "Make closing of PO read only"
+    Public Const MakeClosingofCustomerTenderreadonlyforuser As String = "Make closing of customer tender read only"
+    Public Const MakeClosingofCustomerTenderOrderreadonlyforuser As String = "Make closing of customer tender order read only"
     Public Const AllowModificationOnApprovalByApprovalUser As String = "Allow Modification On Approval By Approval User"
     Public Const AllowAutoCalculateADDREMOVEQty As String = "Auto Calculate Qty of Add/Remove Item"
     '-----------------end here---------------'
@@ -3975,6 +3979,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.CancelDocDueToSRNReturn, clsFixedParameterCode.CancelDocDueToSRNReturn, "0", "0:Off, 1:On; Cancel document due to SRN Return")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AmountInLacsOnMisSaleRegister, clsFixedParameterCode.AmountInLacsOnMisSaleRegister, "0", "0:Off, 1:On; Amount in lacs on MIS SALE REGISTER")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MakeClosingofPOreadonlyforuser, clsFixedParameterCode.MakeClosingofPOreadonlyforuser, "0", "0:Off, 1:On; Make closing of PO read only.")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.MakeClosingofCustomerTenderreadonlyforuser, clsFixedParameterCode.MakeClosingofCustomerTenderreadonlyforuser, "0", "0:Off, 1:On; Make closing of Customer Tender read only.")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.MakeClosingofCustomerTenderOrderreadonlyforuser, clsFixedParameterCode.MakeClosingofCustomerTenderOrderreadonlyforuser, "0", "0:Off, 1:On; Make closing of Customer Tender order read only.")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShortCloseItemWiseOnPO, clsFixedParameterCode.ShortCloseItemWiseOnPO, "0", "0:Off, 1:On; Allow short close item-wise")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowModificationOnApprovalByApprovalUser, clsFixedParameterCode.AllowModificationOnApprovalByApprovalUser, "0", "0:Off, 1:On; Allow Modification On Approval By Approval User")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowAutoCalculateADDREMOVEQty, clsFixedParameterCode.AllowAutoCalculateADDREMOVEQty, "0", "0:Off, 1:On; Auto Calculate Qty of Add/Remove Item")
@@ -5003,6 +5009,8 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.MISSaleRegisterWithCSASalePatti, clsFixedParameterType.AmountInLacsOnMisSaleRegister, clsFixedParameterCode.AmountInLacsOnMisSaleRegister, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.mbtnPurchaseOrder, clsFixedParameterType.ShortCloseItemWiseOnPO, clsFixedParameterCode.ShortCloseItemWiseOnPO, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.mbtnPurchaseOrder, clsFixedParameterType.MakeClosingofPOreadonlyforuser, clsFixedParameterCode.MakeClosingofPOreadonlyforuser, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.mbtnPurchaseOrder, clsFixedParameterType.MakeClosingofCustomerTenderreadonlyforuser, clsFixedParameterCode.MakeClosingofCustomerTenderreadonlyforuser, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.mbtnPurchaseOrder, clsFixedParameterType.MakeClosingofCustomerTenderOrderreadonlyforuser, clsFixedParameterCode.MakeClosingofCustomerTenderOrderreadonlyforuser, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmApprovalLevelScreen, clsFixedParameterType.AllowModificationOnApprovalByApprovalUser, clsFixedParameterCode.AllowModificationOnApprovalByApprovalUser, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmProcessProductionStandardization, clsFixedParameterType.AllowAutoCalculateADDREMOVEQty, clsFixedParameterCode.AllowAutoCalculateADDREMOVEQty, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MISSaleRegister, clsFixedParameterType.Donotshowtrasnfertransactionsbydefault, clsFixedParameterCode.Donotshowtrasnfertransactionsbydefault, EnumControlType.CheckBox)

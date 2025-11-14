@@ -1719,7 +1719,7 @@ where TSPL_CUSTOMER_TENDER_Order_DETAIL.Document_Code='" & strCode & "' "
     Private Sub txtOrderNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtOrderNo._MYValidating
         Try
             Dim qry As String = "select Document_Code as Code,RAL_No as [RAL No],Cust_Code as [Customer Code] from TSPL_CUSTOMER_TENDER_ORDER "
-            Dim Whrcls As String = " status=1"
+            Dim Whrcls As String = " status=1 and isnull(close_yn,'N')='N' "
             txtOrderNo.Value = clsCommon.ShowSelectForm("Sale-OrdDralfnd", qry, "Code", Whrcls, txtOrderNo.Value, "Code", isButtonClicked)
             lblorderdesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Remarks from TSPL_CUSTOMER_TENDER_ORDER where Document_Code='" & txtOrderNo.Value & "'"))
             GetTenderQty(txtOrderNo.Value)

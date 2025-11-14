@@ -26,6 +26,7 @@ Partial Class SaleEinvoiceReport
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkAPS = New System.Windows.Forms.CheckBox()
         Me.chkBPL = New System.Windows.Forms.CheckBox()
         Me.chkDCSSale = New Telerik.WinControls.UI.RadCheckBox()
         Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
@@ -149,6 +150,7 @@ Partial Class SaleEinvoiceReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkAPS)
         Me.RadPageViewPage1.Controls.Add(Me.chkBPL)
         Me.RadPageViewPage1.Controls.Add(Me.chkDCSSale)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox6)
@@ -168,6 +170,17 @@ Partial Class SaleEinvoiceReport
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(771, 259)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'chkAPS
+        '
+        Me.chkAPS.AutoSize = True
+        Me.chkAPS.Location = New System.Drawing.Point(520, 99)
+        Me.chkAPS.Name = "chkAPS"
+        Me.chkAPS.Size = New System.Drawing.Size(69, 17)
+        Me.chkAPS.TabIndex = 453
+        Me.chkAPS.Text = "APS Sale"
+        Me.chkAPS.UseVisualStyleBackColor = True
+        Me.chkAPS.Visible = False
         '
         'chkBPL
         '
@@ -749,5 +762,6 @@ Partial Class SaleEinvoiceReport
     Friend WithEvents gvData As common.UserControls.MyRadGridView
     Friend WithEvents chkDCSSale As RadCheckBox
     Friend WithEvents chkBPL As CheckBox
+    Friend WithEvents chkAPS As CheckBox
 End Class
 

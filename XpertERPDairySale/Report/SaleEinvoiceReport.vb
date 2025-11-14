@@ -123,26 +123,27 @@ Public Class SaleEinvoiceReport
             Dim qry As String = ""
             Dim whrDCSSale As String = ""
             Dim whrclsDate As String = ""
-            If BtnMorning.IsChecked Then
-                    whrDCSSale = " And TSPL_SD_SHIPMENT_HEAD.Shift_Type in( 'AM','')"
-                    whrclsDate += "And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' "
-                ElseIf BtnEvening.IsChecked Then
-                    whrDCSSale += "And TSPL_SD_SHIPMENT_HEAD.Shift_Type in('PM','') "
-                    whrclsDate += "And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'PM' "
-                End If
-                If rbtnDocumentdate.IsChecked Then
-                    whrclsDate += " where Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= Convert( Date,'" + strtxtfDate + "',103) AND 
-                                Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) <= Convert(Date,'" + strToDate + "',103) and TSPL_SD_SALE_INVOICE_HEAD.Status='1' "
-                    whrDCSSale += " where Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= Convert( Date,'" + strtxtfDate + "',103) AND 
-                                Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) <= Convert(Date,'" + strToDate + "',103) and TSPL_SD_SALE_INVOICE_HEAD.Status='1' "
-                Else
-                    whrDCSSale += " where Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= Convert( Date,'" + strtxtfDate + "',103) AND 
-                                Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) <= Convert(Date,'" + strToDate + "',103) and TSPL_SD_SALE_INVOICE_HEAD.Status='1' "
-                    whrclsDate += " where Convert( Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) >= Convert( Date,'" + strtxtfDate + "',103) AND 
-                                Convert( Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) <= Convert(Date,'" + strToDate + "',103) and TSPL_SD_SALE_INVOICE_HEAD.Status='1' "
-                End If
 
-                If ChkB2B.Checked = True Then
+            If rbtnDocumentdate.IsChecked Then
+                whrclsDate += " where Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= Convert( Date,'" + strtxtfDate + "',103) AND 
+                                Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) <= Convert(Date,'" + strToDate + "',103) and TSPL_SD_SALE_INVOICE_HEAD.Status='1' "
+                whrDCSSale += " where Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= Convert( Date,'" + strtxtfDate + "',103) AND 
+                                Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) <= Convert(Date,'" + strToDate + "',103) and TSPL_SD_SALE_INVOICE_HEAD.Status='1' "
+            Else
+                whrDCSSale += " where Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= Convert( Date,'" + strtxtfDate + "',103) AND 
+                                Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) <= Convert(Date,'" + strToDate + "',103) and TSPL_SD_SALE_INVOICE_HEAD.Status='1' "
+                whrclsDate += " where Convert( Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) >= Convert( Date,'" + strtxtfDate + "',103) AND 
+                                Convert( Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) <= Convert(Date,'" + strToDate + "',103) and TSPL_SD_SALE_INVOICE_HEAD.Status='1' "
+            End If
+            If BtnMorning.IsChecked Then
+                whrDCSSale = " And TSPL_SD_SHIPMENT_HEAD.Shift_Type in( 'AM','')"
+                whrclsDate += " And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' "
+            ElseIf BtnEvening.IsChecked Then
+                whrDCSSale += " And TSPL_SD_SHIPMENT_HEAD.Shift_Type in('PM','') "
+                whrclsDate += " And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'PM' "
+            End If
+
+            If ChkB2B.Checked = True Then
                     Whr += " and TSPL_CUSTOMER_MASTER.GST_Registered=1 "
                 ElseIf chkB2C.Checked = True Then
                     Whr += " and TSPL_CUSTOMER_MASTER.GST_Registered=0 "
@@ -154,6 +155,8 @@ Public Class SaleEinvoiceReport
 
             If chkBPL.Checked Then
                 Whr += " and TSPL_BOOKING_MATSER.Is_BPL=1  "
+            ElseIf chkAPS.Checked Then
+                Whr += " and TSPL_BOOKING_MATSER.Is_APS=1 or TSPL_SD_SHIPMENT_HEAD.Against_Cust_Order is not null "
             Else
                 If TxtRoute.arrValueMember IsNot Nothing AndAlso TxtRoute.arrValueMember.Count > 0 Then
                     If chkDCSSale.Checked Then
@@ -284,9 +287,12 @@ Public Class SaleEinvoiceReport
                            left join tspl_item_master on tspl_item_master.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
                            left outer join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
                            left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No "
-                    Baseqry = qry
-                    qry += "" + Whr + " " + whrclsDate + " And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' group by TSPL_SD_SALE_INVOICE_HEAD.Document_Code  "
-                ElseIf rbtnDetail.IsChecked Then
+                If chkBPL.Checked OrElse chkAPS.Checked Then
+                    qry += " left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No=TSPL_SD_SHIPMENT_HEAD.Against_Booking_No "
+                End If
+                Baseqry = qry
+                qry += "" + whrclsDate + " " + Whr + "  And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' group by TSPL_SD_SALE_INVOICE_HEAD.Document_Code  "
+            ElseIf rbtnDetail.IsChecked Then
                     qry = "SELECT  CONVERT(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) as [Supply Date],
                                 CASE WHEN TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' THEN 'Morning' WHEN TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'PM' THEN 'Evening'  end as [Shift Type], 
                                 TSPL_SD_SHIPMENT_HEAD.Bill_To_Location AS [Location],
@@ -462,7 +468,7 @@ Public Class SaleEinvoiceReport
                                 left join tspl_item_master on tspl_item_master.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
                                 left outer join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
                                 left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No "
-                If chkBPL.Checked Then
+                If chkBPL.Checked OrElse chkAPS.Checked Then
                     qry += " left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No=TSPL_SD_SHIPMENT_HEAD.Against_Booking_No "
                 End If
 
@@ -1262,6 +1268,12 @@ Public Class SaleEinvoiceReport
             txtItem.Visible = False
             MyLabel10.Visible = False
             MyLabel4.Visible = False
+            'chkAPS.Checked = False
+            'ElseIf chkAPS.Checked Then
+            '    RadGroupBox2.Enabled = True
+            '    RadGroupBox6.Visible = False
+            '    TxtRoute.Visible = False
+            '    txtItem.Visible = False
         Else
             rbtnDetail.IsChecked = True
             ChkBoth.Checked = True
@@ -1274,6 +1286,38 @@ Public Class SaleEinvoiceReport
             MyLabel10.Visible = True
             MyLabel4.Visible = False
         End If
+    End Sub
+
+    Private Sub chkAPS_CheckedChanged(sender As Object, e As EventArgs) Handles chkAPS.CheckedChanged
+        'If chkAPS.Checked Then
+        '    rbtnDetail.IsChecked = True
+        '    ChkBoth.Checked = True
+        '    RadGroupBox2.Enabled = True
+        '    RadGroupBox6.Visible = False
+        '    RadGroupBox1.Enabled = False
+        '    chkDCSSale.Visible = False
+        '    TxtRoute.Visible = False
+        '    txtItem.Visible = False
+        '    MyLabel10.Visible = False
+        '    MyLabel4.Visible = False
+        '    chkBPL.Checked = False
+        'ElseIf chkBPL.Checked Then
+        '    RadGroupBox2.Enabled = False
+        '    RadGroupBox6.Visible = False
+        '    TxtRoute.Visible = False
+        '    txtItem.Visible = False
+        'Else
+        '    rbtnDetail.IsChecked = True
+        '    ChkBoth.Checked = True
+        '    RadGroupBox2.Enabled = True
+        '    RadGroupBox6.Visible = True
+        '    RadGroupBox1.Enabled = True
+        '    chkDCSSale.Visible = True
+        '    TxtRoute.Visible = True
+        '    txtItem.Visible = False
+        '    MyLabel10.Visible = True
+        '    MyLabel4.Visible = False
+        'End If
     End Sub
 
     'Private Sub rmsaveLayout_Click(sender As Object, e As EventArgs) Handles rmsaveLayout.Click

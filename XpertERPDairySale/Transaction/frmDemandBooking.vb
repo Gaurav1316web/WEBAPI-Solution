@@ -23,6 +23,7 @@ Public Class frmDemandBooking
     Dim ApplyItemCapacityLimit As Boolean = False
     Dim isDepartmentRoute As Boolean = False
     Dim isDepartmentRouteSetting As Boolean = False
+    Dim EnableProductSaleForJPR As Boolean = False
     Dim DisableRouteandVehicle As Boolean = False
     Dim AllowMultipleUOMForProduct As Boolean = False
     Dim EnableResetDemand As Boolean = False
@@ -135,6 +136,7 @@ Public Class frmDemandBooking
             SeprateMorningEveningSequence = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SeprateMorningEveningSequence, clsFixedParameterCode.SeprateMorningEveningSequence, Nothing)) = 1, True, False)
             ApplyItemUOMOnDemand = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyItemUOMOnDemand, clsFixedParameterCode.ApplyItemUOMOnDemand, Nothing)) = 1, True, False)
             AllowRouteWiseDemandEntryInDecimal = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowRouteWiseDemandEntryInDecimal, clsFixedParameterCode.AllowRouteWiseDemandEntryInDecimal, Nothing)) = 1, True, False)
+            EnableProductSaleForJPR = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = 1, True, False)
             CrateHisTable()
             AddNew()
             SetUserMgmtNew()
@@ -1739,13 +1741,18 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
             Dim qry As String = String.Empty
             Dim ItemType As String = ""
             Dim shiftType As String = ""
+            Dim Whrcls As String = ""
             'If SeparateDemandMilkandProduct Then
             '    qry = "Select TSPL_ROUTE_MASTER.Route_No as Code,Route_Desc as Description,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER"
             'Else
             qry = "Select TSPL_ROUTE_MASTER.Route_No as Code,Route_Desc as Description,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER"
             ' End If
+            If EnableProductSaleForJPR Then
+                Whrcls = " TSPL_ROUTE_MASTER.Item_Type='M' "
+            End If
+
             If Not isQuickDemand Then
-                txtRouteNo.Value = clsCommon.ShowSelectForm("DSRouteFinder", qry, "Code", "", txtRouteNo.Value, "", isClicked)
+                txtRouteNo.Value = clsCommon.ShowSelectForm("DSRouteFinder", qry, "Code", Whrcls, txtRouteNo.Value, "", isClicked)
                 lblRouteDesc.Text = clsCommon.myCstr(clsRouteMaster.GetName(txtRouteNo.Value, Nothing))
             End If
             If rbtnMorning.IsChecked Then

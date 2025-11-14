@@ -3456,6 +3456,9 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("ExtraM_Time", "integer null")
             coll.Add("ExtraE_Time", "integer null")
             coll.Add("AllowEntryInDecimal", "integer null")
+            coll.Add("Item_Type", "varchar(10) null")
+            coll.Add("Pord_Start_Time", "datetime NULL")
+            coll.Add("Pord_End_Time", "datetime NULL")
             'clsCommonFunctionality.CreateOrAlterTable("TSPL_ROUTE_MASTER", coll)
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_ROUTE_MASTER", coll, "", True, False, "", "", "", True)
 
@@ -8823,6 +8826,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("DrAmt", "varchar(20)  NULL")
             coll.Add("CrAmt", "varchar(20)  NULL")
             coll.Add("ClosingBal", "varchar(20) NULL")
+            coll.Add("Is_APS", "Integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_MATSER", coll, Nothing, True, True, "", "Document_No", "Document_Date", True)
             Try
                 clsDBFuncationality.ExecuteNonQuery("update TSPL_BOOKING_MATSER set supply_date=Document_Date where supply_date is null")
@@ -31228,6 +31232,12 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("Posted_By", "varchar(12) NULL")
             coll.Add("Posted_Date", "Datetime NULL")
+            coll.Add("close_yn", "char(1) null ")
+            coll.Add("close_remarks", "varchar(500) NULL ")
+            coll.Add("Closed_By", "varchar(12) NULL")
+            coll.Add("Closed_Date", "Datetime NULL")
+
+
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CUSTOMER_TENDER", coll, "", True, False, "", "Document_Code", "Document_Date", True)
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
@@ -31297,6 +31307,10 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("Posted_By", "varchar(12) NULL")
             coll.Add("Posted_Date", "Datetime NULL")
+            coll.Add("close_yn", "char(1) null ")
+            coll.Add("close_remarks", "varchar(500) NULL ")
+            coll.Add("Closed_By", "varchar(12) NULL")
+            coll.Add("Closed_Date", "Datetime NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CUSTOMER_TENDER_ORDER", coll, "", True, False, "", "Document_Code", "Document_Date", True)
             Try
                 clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_CUSTOMER_TENDER_ORDER ALTER COLUMN Ref_No Varchar(100)")
@@ -35065,6 +35079,11 @@ LL")
             coll.Add("Inter_unit_sale", "Integer default 0")
             coll.Add("IsEwaybill", "integer null")
             coll.Add("Sub_Location_code", "varchar(12) NULL")
+            coll.Add("Po_Date", "DateTime NULL")
+            coll.Add("OpeningBal", "varchar(20)  NULL")
+            coll.Add("DrAmt", "varchar(20)  NULL")
+            coll.Add("CrAmt", "varchar(20)  NULL")
+            coll.Add("ClosingBal", "varchar(20) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPSALE_HEAD", coll, Nothing, True, True, "", "shipment_No", "shipment_Date", True)
 
             qry = "alter table TSPL_SCRAPSALE_HEAD alter column AddCode1 varchar(35) null "
