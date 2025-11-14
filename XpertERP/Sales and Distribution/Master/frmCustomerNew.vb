@@ -6060,6 +6060,9 @@ Public Class frmCustomer
         Try
             Dim qry As String = "SELECT Route_No,Route_Desc,Type FROM TSPL_ROUTE_MASTER"
             Dim WhrCls As String = " Status='A' "
+            If EnableProductSaleForJPR Then
+                WhrCls += " and Item_Type='P' "
+            End If
             txtPRouteCode.Value = clsCommon.ShowSelectForm("PROUTeNOFND", qry, "Route_No", WhrCls, txtPRouteCode.Value, "", isButtonClicked)
         Catch ex As Exception
         End Try
@@ -6069,6 +6072,9 @@ Public Class frmCustomer
         Try
             Dim qry As String = "SELECT Route_No,Route_Desc,Type FROM TSPL_ROUTE_MASTER"
             Dim WhrCls As String = " Status='A' "
+            If EnableProductSaleForJPR Then
+                WhrCls += " and Item_Type='I' "
+            End If
             txtIRouteCode.Value = clsCommon.ShowSelectForm("IROUTeNOFND", qry, "Route_No", WhrCls, txtIRouteCode.Value, "", isButtonClicked)
         Catch ex As Exception
         End Try

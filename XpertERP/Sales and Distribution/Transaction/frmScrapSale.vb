@@ -237,6 +237,25 @@ Public Class frmScrapSale
         If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
             chkScrapSale.Visible = True
         End If
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") = CompairStringResult.Equal Then
+            lblOpeningBal.Visible = False
+            txtOpeningbal.Visible = False
+            lblDrAmt.Visible = False
+            txtDrAmt.Visible = False
+            lblCrAmt.Visible = False
+            txtCrAmt.Visible = False
+            lblNetbalance.Visible = False
+            txtClosingBal.Visible = False
+        Else
+            lblOpeningBal.Visible = True
+            txtOpeningbal.Visible = True
+            lblDrAmt.Visible = True
+            txtDrAmt.Visible = True
+            lblCrAmt.Visible = True
+            txtCrAmt.Visible = True
+            lblNetbalance.Visible = True
+            txtClosingBal.Visible = True
+        End If
         LoadBlankGrid()
         LoadBlankGridTax()
         '=====Sanjeet(10/02/2017)===================
@@ -405,7 +424,11 @@ Public Class frmScrapSale
         End If
         ''End of For Custom Fields
         UcAttachment1.BlankAllControls()
-
+        txtOpeningbal.Text = ""
+        txtDrAmt.Text = ""
+        txtCrAmt.Text = ""
+        txtClosingBal.Text = ""
+        txtPODate.Value = txtAckDate.Value
         chkTaxable.Checked = False
         txtEWayBillNo.Text = ""
         txtEWayBillDate.Checked = False
@@ -422,7 +445,37 @@ Public Class frmScrapSale
         lblActualTCSTaxBaseAmt.Text = "0"
         txtTCSTaxRate.Value = 0
     End Sub
+    Private Sub GetOpeningClosingAndReceivedAmt(ByVal CustCode As String, ByVal docDate As DateTime)
+        Try
+            Dim OpeningBal As Decimal = 0
+            Dim DrAmt As Decimal = 0
+            Dim CrAmt As Decimal = 0
+            Dim ClosingBal As Decimal = 0
 
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("EXEC SP_GetBalCustWise @Cust_Code = '" + clsCommon.myCstr(CustCode) + "',@DocDate='" + clsCommon.GetPrintDate(docDate, "dd/MMM/yyyy") + "'")
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                OpeningBal = dt.Rows(0)("OpngBal")
+                DrAmt = dt.Rows(0)("DrAmt")
+                CrAmt = dt.Rows(0)("CrAmt")
+                ClosingBal = dt.Rows(0)("BalAmt")
+            End If
+            If OpeningBal > 0 Then
+                txtOpeningbal.Text = clsCommon.myCstr(OpeningBal) & " DR"
+            Else
+                txtOpeningbal.Text = clsCommon.myCstr(OpeningBal) & " CR"
+            End If
+            txtDrAmt.Text = clsCommon.myCstr(DrAmt) & " DR"
+            txtCrAmt.Text = clsCommon.myCstr(CrAmt) & " CR"
+            If ClosingBal > 0 Then
+                txtClosingBal.Text = clsCommon.myCstr(ClosingBal) & " DR"
+            Else
+                txtClosingBal.Text = clsCommon.myCstr(ClosingBal) & " CR"
+            End If
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
     Sub LoadBlankGrid()
         gv1.Rows.Clear()
         gv1.Columns.Clear()
@@ -2569,6 +2622,9 @@ Public Class frmScrapSale
                 End If
                 obj.Weighment_Code = txtGWeighmentNo.Value
                 obj.Po_No = txtponumber.Text
+                If clsCommon.myLen(txtponumber.Text) > 0 Then
+                    obj.Po_Date = txtPODate.Value
+                End If
                 obj.NRG_No = clsCommon.myCstr(txtnrg.Value)
                 obj.cust_Code = fndcustNo.Value
                 obj.cust_Name = txtcustdesc.Text
@@ -2925,8 +2981,13 @@ Public Class frmScrapSale
                     'repoComplete.IsVisible = True
                     'repoBalQty.IsVisible = True
                     btnCancel.Enabled = True
+                    txtOpeningbal.Text = obj.OpeningBal
+                    txtDrAmt.Text = obj.DrAmt
+                    txtCrAmt.Text = obj.CrAmt
+                    txtClosingBal.Text = obj.ClosingBal
                 Else
                     btnCancel.Enabled = False
+                    GetOpeningClosingAndReceivedAmt(obj.cust_Code, obj.shipment_Date)
                 End If
 
                 UsLock1.Status = obj.ispost
@@ -2942,6 +3003,9 @@ Public Class frmScrapSale
                 txtGWeighmentNo.Value = obj.Weighment_Code
                 lblInvoiceNo.Text = obj.strInvoiceNo
                 txtponumber.Text = obj.Po_No
+                If obj.Po_Date IsNot Nothing Then
+                    txtPODate.Value = obj.Po_Date
+                End If
                 txtnrg.Value = obj.NRG_No
                 fndcustNo.Value = obj.cust_Code
                 lblCustGSTNo.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select GSTNO from TSPL_customer_MASTER where cust_code='" + fndcustNo.Value + "' "))
@@ -3639,11 +3703,11 @@ Public Class frmScrapSale
             If clsCommon.myLen(fndLocation.Value) <= 0 Then
                 Exit Sub
             End If
-
-
-
             Dim qry As String = "  select TSPL_customer_MASTER.cust_code as Code,TSPL_customer_MASTER.Customer_Name as Name,TSPL_customer_MASTER.Terms_Code as [Term Code] ,TSPL_TERMS_MASTER.Terms_Desc as [Term Description] ,TSPL_customer_MASTER.Tax_Group as [Tax Group],TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as [Tax Group Description],TSPL_customer_MASTER.GSTNO from TSPL_customer_MASTER  left outer join  TSPL_TERMS_MASTER on TSPL_customer_MASTER.Terms_Code=TSPL_TERMS_MASTER.Terms_Code  left outer join  TSPL_TAX_GROUP_MASTER on TSPL_customer_MASTER.Tax_Group=TSPL_TAX_GROUP_MASTER.Tax_Group_Code left outer join TSPL_CUSTOMER_LOCATION_MAPPING on TSPL_CUSTOMER_LOCATION_MAPPING.Customer_Code= TSPL_CUSTOMER_MASTER.Cust_Code "
             Dim WhrCls As String = "TSPL_TAX_GROUP_MASTER.Tax_Group_Type='s' and  TSPL_customer_MASTER.Status ='N'"
+            If clsCommon.CompairString(cmbSaleType.Text, "Inter Unit Sale") = CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
+                WhrCls += " and Inter_Union_Sale=1 "
+            End If
             If objCommonVar.ApplyLocationFilterBasedOnPermission = True Then
                 WhrCls += " and TSPL_CUSTOMER_LOCATION_MAPPING.Location_Code in ('" + fndLocation.Value + "')"
             End If
@@ -3669,6 +3733,9 @@ Public Class frmScrapSale
                 chkInterBranch.Checked = False
             End If
 
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
+                GetOpeningClosingAndReceivedAmt(fndcustNo.Value, dtpshipment.Value)
+            End If
             ' '========================Added by Preeti Gupta===========================
             ' qry = "SELECT TSPL_LOCATION_MASTER.Excisable,TSPL_LOCATION_MASTER.State, " & _
             '"TSPL_LOCATION_MASTER.Sales_Tax_Group as LocalTaxGroup,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as Local_Tax_GroupName, " & _
@@ -4900,6 +4967,20 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                 End If
                 ''
                 If (ClsScrapSaleHead.PostData(txtDocNo.Value)) Then
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
+
+                        Try
+                            GetOpeningClosingAndReceivedAmt(fndcustNo.Value, dtpshipment.Value)
+                            Dim balqry As String = "Update TSPL_SCRAPSALE_HEAD set OpeningBal='" & clsCommon.myCstr(txtOpeningbal.Text) & "', " &
+                                "DrAmt='" & clsCommon.myCstr(txtDrAmt.Text) & "', " &
+                                "CrAmt='" & clsCommon.myCstr(txtCrAmt.Text) & "'," &
+                                "ClosingBal='" & clsCommon.myCstr(txtClosingBal.Text) & "' " &
+                             " where shipment_No='" & txtDocNo.Value & "'"
+                            clsDBFuncationality.ExecuteNonQuery(balqry)
+                        Catch ex As Exception
+
+                        End Try
+                    End If
                     common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                     Dim lstUsers As New List(Of String)
@@ -5256,7 +5337,8 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
 
                         Qry1 += " TSPL_GL_SEGMENT_CODE.Description as vehicle_code,TSPL_SCRAPSALE_HEAD.Transport_code,TSPL_TRANSPORT_MASTER.Transporter_name,TSPL_SCRAPSALE_HEAD.Cust_code,TSPL_SCRAPSALE_HEAD.cust_name,tspl_customer_master.add1,tspl_customer_master.add2,tspl_customer_master.add3,tspl_city_master.city_name,TSPL_SCRAPSALE_HEAD.Electronic_ref_No,FromLocation.accountholdername,FromLocation.Bank,FromLocation.Branch,FromLocation.ACType,FromLocation.bankaccno,FromLocation.bankifsccode,fromlocation.Pin_Code as PinNo,
 (case when isnull(FromLocation.Phone1,'')<>'' then FromLocation.Phone1  when  isnull(FromLocation.Phone2,'')<>'' then + ', '+ FromLocation.Phone2 end) as Loc_Phone ,
-	  fromlocation.Phone1 as LPhone,fromlocation.Service_Tax_Reg_No as Registration_No,trnasporter.GSTNO as trnasporterGST,trnasporter.PAN as TransporterPan,trnasporter.Add1 +' '+trnasporter.Add2 +' ' + trnasporter.Add3 as TransporterAddress,TSPL_SCRAPSALE_HEAD.Description as TransRemark,TSPL_SCRAPSALE_HEAD.Vehicle_code as transVehicle_Code,FromLocation.PAN_NO as FromPAN, FromLocation.Location_Desc 
+	  fromlocation.Phone1 as LPhone,fromlocation.Service_Tax_Reg_No as Registration_No,trnasporter.GSTNO as trnasporterGST,trnasporter.PAN as TransporterPan,trnasporter.Add1 +' '+trnasporter.Add2 +' ' + trnasporter.Add3 as TransporterAddress,TSPL_SCRAPSALE_HEAD.Description as TransRemark,TSPL_SCRAPSALE_HEAD.Vehicle_code as transVehicle_Code,FromLocation.PAN_NO as FromPAN, FromLocation.Location_Desc
+    ,tspl_scrapsale_head.OpeningBal,tspl_scrapsale_head.DrAmt,tspl_scrapsale_head.CrAmt,tspl_scrapsale_head.ClosingBal,tspl_scrapsale_head.Po_No,convert(varchar(20),tspl_scrapsale_head.Po_Date,103) as Po_Date 
                             from TSPL_SCRAPSALE_HEAD 
                             left outer join TSPL_GL_SEGMENT_CODE on TSPL_GL_SEGMENT_CODE.Segment_code  =TSPL_SCRAPSALE_HEAD.Vehicle_Id and TSPL_GL_SEGMENT_CODE.Seg_No='2'
                             left join TSPL_SCRAPSALE_DETAIL on TSPL_SCRAPSALE_DETAIL.shipment_No=TSPL_SCRAPSALE_HEAD.shipment_No left join TSPL_SCRAPINVOICE_HEAD on TSPL_SCRAPINVOICE_HEAD. shipment_No=TSPL_SCRAPSALE_HEAD.shipment_No left join TSPL_LOCATION_MASTER as FromLocation on FromLocation.Location_Code=TSPL_SCRAPSALE_HEAD.Loc_Code left join TSPL_LOCATION_MASTER as ToLocation on ToLocation.Location_Code=TSPL_SCRAPSALE_HEAD.ToLoc_Code 
@@ -6444,6 +6526,10 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub txtVatInvNo_Click(sender As Object, e As EventArgs) Handles txtVatInvNo.Click
+
     End Sub
 End Class
 

@@ -2827,6 +2827,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         txtDCSDemandNo.Visible = False
         chkIsEwayBill.Checked = True
         chkBPL.Checked = False
+        chkAPS.Checked = False
         chkGhee.Checked = False
         chkGhee.Enabled = True
         txtCouponCode.Text = ""
@@ -3815,6 +3816,11 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                     obj.Is_BPL = 0
                     obj.BPL_Coupon_Date = Nothing
                 End If
+                If chkAPS.Checked Then
+                    obj.Is_APS = 1
+                Else
+                    obj.Is_APS = 0
+                End If
                 If chkGhee.Checked Then
                     obj.Is_GHEE = 1
                 Else
@@ -4203,6 +4209,7 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                 chkDCS.Checked = IIf(obj.Is_DCS = 1, True, False)
                 chkBPL.Checked = IIf(obj.Is_BPL = 1, True, False)
                 chkGhee.Checked = IIf(obj.Is_GHEE = 1, True, False)
+                chkGhee.Checked = IIf(obj.Is_APS = 1, True, False)
                 chkGhee.Enabled = False
                 chkcashsale.Checked = IIf(obj.Is_CashSale = "Y", True, False)
                 chkManualVehicle.Checked = IIf(obj.Is_Manual_Vehicle = "Y", True, False)
@@ -9108,6 +9115,8 @@ from
             chkDCS.Enabled = False
             chkDistributor.Checked = False
             chkDistributor.Enabled = False
+            chkAPS.Checked = False
+            chkAPS.Enabled = False
             txtCouponDate.Value = clsCommon.GETSERVERDATE()
             lblIndentNo.Location = New Point(633, 190)
             txtIndentNo.Location = New Point(710, 189)
@@ -9116,8 +9125,10 @@ from
         Else
             RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Collapsed
             chkDCS.Enabled = True
-            chkDistributor.Checked = True
+            chkDistributor.Checked = False
             chkDistributor.Enabled = True
+            chkAPS.Checked = False
+            chkAPS.Enabled = True
             txtCouponDate.Value = Nothing
             lblIndentNo.Location = New Point(429, 47)
             txtIndentNo.Location = New Point(506, 46)
@@ -10094,5 +10105,12 @@ where  TSPL_BOOKING_DETAIL.Cust_Code='" & strVendorno & "' and convert(date,TSPL
         End Try
     End Sub
 
+    Private Sub chkAPS_CheckStateChanged(sender As Object, e As EventArgs) Handles chkAPS.CheckStateChanged
+        If chkAPS.Checked Then
+            chkBPL.Enabled = False
+            chkDistributor.Checked = False
+            chkDistributor.Enabled = False
 
+        End If
+    End Sub
 End Class
