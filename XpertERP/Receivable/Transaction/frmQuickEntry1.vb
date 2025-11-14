@@ -56,31 +56,6 @@ Public Class FrmQuickEntry1
             pnlCustType.Visible = True
         End If
     End Sub
-    Sub LoadCustomerType()
-        Dim dt As New DataTable()
-        dt.Columns.Add("Code", GetType(String))
-        dt.Columns.Add("Name", GetType(String))
-        Dim dr As DataRow = Nothing
-
-        dr = dt.NewRow()
-        dr("Code") = ""
-        dr("Name") = "Select"
-        dt.Rows.Add(dr)
-
-        dr = dt.NewRow()
-        dr("Code") = "M"
-        dr("Name") = "Milk"
-        dt.Rows.Add(dr)
-
-        dr = dt.NewRow()
-        dr("Code") = "P"
-        dr("Name") = "Product"
-        dt.Rows.Add(dr)
-
-        cboCustomerType.DataSource = dt
-        cboCustomerType.ValueMember = "Code"
-        cboCustomerType.DisplayMember = "Name"
-    End Sub
     Private Sub LoadBlankGrid()
         MasterTemplate.DataSource = Nothing
         MasterTemplate.Rows.Clear()
@@ -1687,8 +1662,8 @@ Public Class FrmQuickEntry1
     End Sub
 
     Public Sub funReset()
-        LoadCustomerType()
-        cboCustomerType.SelectedValue = ""
+        fndCusType.Value = ""
+        lblCustTypeDesc.Text = ""
         chkPrintCheque.Checked = False
         chkSecurity.Checked = False
         txtEntryNo.Value = ""
@@ -1941,7 +1916,7 @@ Public Class FrmQuickEntry1
                 End If
             End If
             ''richa 14 Jan,2019 to show location into grid
-            If cboCustomerType.SelectedIndex = 0 Then
+            If clsCommon.myLen(fndCusType.Value) = 0 Then
                 If clsCommon.myLen(txtLocation.Text) > 0 Then
                     MasterTemplate.CurrentRow.Cells("gvLocation").Value = txtLocation.Text
                     IsLoadData = False
@@ -2629,7 +2604,7 @@ Public Class FrmQuickEntry1
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
-            If cboCustomerType.SelectedIndex > 0 Then
+            If clsCommon.myLen(fndCusType.Value) > 0 Then
                 Dim qry As String = "select Cust_Code ,Customer_Name,TSPL_CUSTOMER_MASTER.Alies_Name ,Cust_Group_Code ,(select case when Status ='N' then 'Active' when Status ='Y' then 'In-Active' end) as [Status] from TSPL_CUSTOMER_MASTER "
                 Dim whrCls As String = " where Status ='N' AND OnHold='N'"
                 Dim strwherecls As String = ""
@@ -2637,7 +2612,7 @@ Public Class FrmQuickEntry1
                 If clsCommon.myLen(strwherecls) > 0 Then
                     whrCls += " and TSPL_CUSTOMER_MASTER.Cust_Code in (" + strwherecls + ") "
                 End If
-                whrCls += " and TSPL_CUSTOMER_MASTER.Cust_Type ='" + cboCustomerType.SelectedValue + "' "
+                whrCls += " and TSPL_CUSTOMER_MASTER.Cust_Type_Code ='" + fndCusType.Value + "' "
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry + whrCls)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     MasterTemplate.Rows.Clear()
@@ -2670,11 +2645,22 @@ Public Class FrmQuickEntry1
                     MasterTemplate.Rows.AddNew()
                     Throw New Exception("No data found to display.")
                 End If
-
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Please select Customer Type", Me.Text)
+                Exit Sub
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+    Private Sub fndCusType__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndCusType._MYValidating
+        Dim qry As String = "SELECT  [Cust_Type_Code] as [CustomerTypeCode],[Cust_Type_Desc] as [Description]FROM [TSPL_CUSTOMER_TYPE_MASTER]"
+        fndCusType.Value = clsCommon.ShowSelectForm("CUSTCODEFND", qry, "CustomerTypeCode", "", fndCusType.Value, "", isButtonClicked)
+        If clsCommon.myLen(fndCusType.Value) > 0 Then
+            lblCustTypeDesc.Text = clsDBFuncationality.getSingleValue("select Cust_Type_Desc from TSPL_CUSTOMER_TYPE_MASTER where Cust_Type_Code='" + fndCusType.Value + "'")
+        Else
+            lblCustTypeDesc.Text = ""
+        End If
     End Sub
 
     Private Sub rmiExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmiExport.Click

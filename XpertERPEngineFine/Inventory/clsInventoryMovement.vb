@@ -321,6 +321,16 @@ Public Class clsInventoryMovement
                             obj.FIFO_Cost = obj.FIFO_Cost
                             obj.LIFO_Cost = obj.LIFO_Cost
                             obj.Avg_Cost = obj.Avg_Cost
+
+                        ElseIf clsCommon.CompairString(obj.InOut, "I") = CompairStringResult.Equal AndAlso clsCommon.CompairString(TransType, "MS-SR") = CompairStringResult.Equal Then
+                            Dim InvoiceNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Invoice_No  from TSPL_SCRAPSALE_HEAD_Return where Document_No='" & DocNo & "'", trans))
+                            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select FIFO_Cost,LIFO_Cost,Avg_Cost,Stock_Qty from TSPL_INVENTORY_MOVEMENT where Item_Code='" + obj.Item_Code + "' and Source_Doc_No='" + InvoiceNo + "' and Trans_Type='ScrapIn' and InOut='O'", trans)
+                            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                obj.FIFO_Cost = clsCommon.myCDivide(clsCommon.myCdbl(dt.Rows(0)("Avg_Cost")), clsCommon.myCdbl(dt.Rows(0)("Stock_Qty"))) * obj.Stock_Qty
+                                obj.LIFO_Cost = clsCommon.myCDivide(clsCommon.myCdbl(dt.Rows(0)("Avg_Cost")), clsCommon.myCdbl(dt.Rows(0)("Stock_Qty"))) * obj.Stock_Qty
+                                obj.Avg_Cost = clsCommon.myCDivide(clsCommon.myCdbl(dt.Rows(0)("Avg_Cost")), clsCommon.myCdbl(dt.Rows(0)("Stock_Qty"))) * obj.Stock_Qty
+                            End If
+
                         ElseIf clsCommon.CompairString(obj.InOut, "I") = CompairStringResult.Equal Then
                             obj.FIFO_Cost = obj.Basic_Cost * obj.Qty
                             obj.LIFO_Cost = obj.Basic_Cost * obj.Qty
