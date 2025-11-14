@@ -157,6 +157,12 @@ Public Class clsBonus
 
             '' SAVE BONUS GENERATION DETAIL
             Dim Days As Integer = CalculateLeapYearDays(obj.ToDate)
+            'qry = clsBonus.GetGenerateBonusDetailBaseQuery(obj.Location_Code, obj.Division_Code, obj.FROM_PAY_PERIOD_CODE, obj.TO_PAY_PERIOD_CODE, obj.PAYABLE_PAY_PERIOD_CODE, Days)
+            'Dim qryInsert As String = "INSERT INTO TSPL_BONUS_GENERATION_DETAIL (EMP_BONUS_CODE,EMP_CODE,DEPARTMENT_CODE,Designation_Code,Location_Code,Division_Code, " &
+            '    " PAY_PERIOD_CODE,STD_AMOUNT,ACTUAL_AMOUNT,PAYPERIOD_DAYS,PAYABLE_DAYS,BONUS_ON,BONUS_CODE,BONUS_RATE,BONUS_AMOUNT) " &
+            '    " SELECT '" & obj.EMP_BONUS_CODE & "',EMP_CODE,DEPARTMENT_CODE,Designation,Location_Code,'" & obj.Division_Code & "',PAY_PERIOD_CODE_MAIN,Std_Basic,Actual_Basic,PAYPERIOD_DAYS,PAYABLE_DAYS,BONUS_ON,BONUS_CODE,BONUS_RATE,BONUS_AMOUNT FROM (" & qry & ") AS BONUS"
+            'isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qryInsert, trans)
+
             qry = clsBonus.GetGenerateBonusDetailBaseQuery(obj.Location_Code, obj.Division_Code, obj.FROM_PAY_PERIOD_CODE, obj.TO_PAY_PERIOD_CODE, obj.PAYABLE_PAY_PERIOD_CODE, Days)
             Dim qryInsert As String = "INSERT INTO TSPL_BONUS_GENERATION_DETAIL (EMP_BONUS_CODE,EMP_CODE,DEPARTMENT_CODE,Designation_Code,Location_Code,Division_Code, " &
                 " PAY_PERIOD_CODE,STD_AMOUNT,ACTUAL_AMOUNT,PAYPERIOD_DAYS,PAYABLE_DAYS,BONUS_ON,BONUS_CODE,BONUS_RATE,BONUS_AMOUNT) " &
