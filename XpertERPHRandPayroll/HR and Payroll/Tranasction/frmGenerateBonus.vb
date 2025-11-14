@@ -45,19 +45,19 @@ Public Class frmGenerateBonus
                 obj.DESCRIPTION = txtDescription.Text
                 obj.ObjList = New List(Of clsBonusDetails)
                 For Each grow As GridViewRowInfo In gv1.Rows
-                    If grow.Cells(colCheck).Value = True Then
-                        If clsCommon.myLen(grow.Cells(colempcode).Value) > 0 Then
+                    'If grow.Cells(colCheck).Value = True Then
+                    If clsCommon.myLen(grow.Cells(colempcode).Value) > 0 Then
 
-                            Dim objTr As New clsBonusDetails()
-                            objTr.EMP_BONUS_CODE = txtCode.Value
-                            objTr.EMP_CODE = clsCommon.myCstr(grow.Cells(colempcode).Value)
-                            objTr.BONUS_CODE = clsCommon.myCstr(grow.Cells(colbonusCode).Value)
-                            objTr.BONUS_AMOUNT = clsCommon.myCdbl(grow.Cells(colbonusAmount).Value)
-                            objTr.Final_BONUS_AMOUNT = clsCommon.myCdbl(grow.Cells(ColTotalBonus).Value)
-                            objTr.Bonus_Increment = clsCommon.myCdbl(grow.Cells(colSaleIncrement).Value)
-                            obj.ObjList.Add(objTr)
-                        End If
+                        Dim objTr As New clsBonusDetails()
+                        objTr.EMP_BONUS_CODE = txtCode.Value
+                        objTr.EMP_CODE = clsCommon.myCstr(grow.Cells(colempcode).Value)
+                        objTr.BONUS_CODE = clsCommon.myCstr(grow.Cells(colbonusCode).Value)
+                        objTr.BONUS_AMOUNT = clsCommon.myCdbl(grow.Cells(colbonusAmount).Value)
+                        objTr.Final_BONUS_AMOUNT = clsCommon.myCdbl(grow.Cells(ColTotalBonus).Value)
+                        objTr.Bonus_Increment = clsCommon.myCdbl(grow.Cells(colSaleIncrement).Value)
+                        obj.ObjList.Add(objTr)
                     End If
+                    'End If
                 Next
 
                 If (obj.SaveData(obj, isNewEntry)) Then
@@ -572,7 +572,9 @@ Public Class frmGenerateBonus
             SaleIncrement = gv1.CurrentRow.Cells(colSaleIncrement).Value
 
             Dim Empcode As String = 0
+            Dim BonusAmt As String = 0
             Empcode = gv1.CurrentRow.Cells(colempcode).Value
+            BonusAmt = gv1.CurrentRow.Cells(colbonusAmount).Value
             Dim BonusRate As Double = 0
             Dim qry2 As String = " Select BONUS_RATE from TSPL_BONUS_MASTER "
             BonusRate = clsDBFuncationality.getSingleValue(qry2)
@@ -607,28 +609,15 @@ Public Class frmGenerateBonus
                                  ) GSP ON GSA.SALARY_GENERATION_CODE=GSP.SALARY_GENERATION_CODE  AND GSA.EMP_CODE=GSP.EMP_CODE and GSP.CalculationMethod=BONUS.Calculation_Method  left join TSPL_PAYPERIOD_MASTER PM on PM.PAY_PERIOD_CODE=GS.PAY_PERIOD_CODE  left join TSPL_DEPARTMENT_MASTER DEPT ON EMP.DEPARTMENT_CODE=DEPT.DEPARTMENT_CODE  left join TSPL_LOCATION_MASTER LOC ON EMP.Location_Code=LOC.Location_Code  left join TSPL_DESIGNATION_MASTER DES ON EMP.Designation=DES.Designation_id   WHERE 2=2  AND GS.Location_Code='JODHPUR' AND ESTS.BONUS_CODE is not null  and PM.DATE_FROM BETWEEN   (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='Jan')  AND (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='Dec') and  GSA.EMP_CODE = '" + clsCommon.myCstr(Empcode) + "' )XX )YY  ) as Final  PIVOT  (  sum(Std_Basic)  FOR Pay_Period_Code IN ([Amount_Jan],[Amount_JDPPAY],[Amount_Feb],[Amount_APR],[Amount_May],[Amount_Jun],[Amount_Jul],[Amount_Aug],[Amount_Sep],[Amount_Oct],[Amount_Nov],[Amount_Dec])  ) AS Wages  PIVOT  (  sum(PAYABLE_DAYS)  FOR PD_PAY_PERIOD_CODE IN ([PD_Jan],[PD_JDPPAY],[PD_Feb],[PD_APR],[PD_May],[PD_Jun],[PD_Jul],[PD_Aug],[PD_Sep],[PD_Oct],[PD_Nov],[PD_Dec])  ) AS PDays  PIVOT  (  sum(Bonus_On)  FOR BonusWages_PAY_PERIOD_CODE IN ([BonusWages_Jan],[BonusWages_JDPPAY],[BonusWages_Feb],[BonusWages_APR],[BonusWages_May],[BonusWages_Jun],[BonusWages_Jul],[BonusWages_Aug],[BonusWages_Sep],[BonusWages_Oct],[BonusWages_Nov],[BonusWages_Dec])  ) AS Bonus_On  group by EMP_CODE,BONUS_CODE,BONUS_NAME,BONUS_RATE,EMP_NAME,FATHERS_NAME,DEPARTMENT_CODE,DEPARTMENT_NAME,LOCATION_CODE,Location_Desc,PF_NO,Designation,Designation_Desc,Joining_date,RELIEVING_DATE) Final  where [Total Bonus]>0 "
                 TotalBonusAmt = clsDBFuncationality.getSingleValue(FinalBonusAmt)
 
-
-                'Dim PayableDays As Double = 0
-                'Dim qry As String = " Select PAYABLE_DAYS from TSPL_GENERATE_SALARY_ATTENDANCE "
-                'PayableDays = clsDBFuncationality.getSingleValue(qry)
-
-                'Dim BonusAmt As Double = 0
-                'Dim qry1 As String = " Select COND_MAX_EARNING_PER_MONTH from TSPL_BONUS_MASTER "
-                'BonusAmt = clsDBFuncationality.getSingleValue(qry1)
-
-                ''Dim BonusRate As Double = 0
-                ''Dim qry2 As String = " Select BONUS_RATE from TSPL_GENERATE_SALARY_ATTENDANCE "
-                ''BonusRate = clsDBFuncationality.getSingleValue(qry2)
-
-                'Dim Days As Integer = CalculateLeapYearDays(txtCheckLeapyear.Text)
-
-                'Dim TotalBonusAmt As Double = 0
-                'TotalBonusAmt = clsCommon.myCdbl(((BonusAmt / BonusRate) / Days) * PayableDays)
                 gv1.CurrentRow.Cells(ColTotalBonus).Value = clsCommon.myCdbl(TotalBonusAmt)
             Else
                 common.clsCommon.MyMessageBoxShow(Me, "Bonus Rate is more then 20%", Me.Text)
                 gv1.CurrentRow.Cells(ColTotalBonus).Value = 0
             End If
+            'Else
+            '    Dim BonusAmt As Double = 0
+            '    BonusAmt = gv1.CurrentRow.Cells(colbonusAmount).Value
+            '    gv1.CurrentRow.Cells(ColTotalBonus).Value = BonusAmt
         End If
 
     End Sub
@@ -689,6 +678,7 @@ Public Class frmGenerateBonus
                 gv1.Rows(gv1.Rows.Count - 1).Cells(colbonusCode).Value = dr("bonuscode")
                 gv1.Rows(gv1.Rows.Count - 1).Cells(colbonusName).Value = dr("bonusname")
                 gv1.Rows(gv1.Rows.Count - 1).Cells(colbonusAmount).Value = dr("TOTAL BONUS")
+                gv1.Rows(gv1.Rows.Count - 1).Cells(ColTotalBonus).Value = dr("TOTAL BONUS")
             Next
         End If
 

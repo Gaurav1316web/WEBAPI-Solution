@@ -26,6 +26,8 @@ Partial Class RptKDILSalarySlip
     Private Sub InitializeComponent()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.ChkOnePagePrint = New System.Windows.Forms.CheckBox()
+        Me.RadStatusStrip1 = New Telerik.WinControls.UI.RadStatusStrip()
         Me.txtDepartment = New common.UserControls.txtMultiSelectFinder()
         Me.lblDepartment = New common.Controls.MyLabel()
         Me.txtDivisionMult = New common.UserControls.txtMultiSelectFinder()
@@ -41,13 +43,16 @@ Partial Class RptKDILSalarySlip
         Me.lblPrintFormat2 = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.RadStatusStrip1 = New Telerik.WinControls.UI.RadStatusStrip()
-        Me.ChkOnePagePrint = New System.Windows.Forms.CheckBox()
+        Me.ChkMonthlysalaryslip = New System.Windows.Forms.CheckBox()
+        Me.TxtMultPayperiod = New common.UserControls.txtMultiSelectFinder()
+        Me.lblEmployee = New common.Controls.MyLabel()
+        Me.TxtEmployee = New common.UserControls.txtFinder()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.RadStatusStrip1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDepartment, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -58,7 +63,7 @@ Partial Class RptKDILSalarySlip
         CType(Me.lblPrintFormat2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadStatusStrip1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblEmployee, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -85,6 +90,10 @@ Partial Class RptKDILSalarySlip
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.lblEmployee)
+        Me.RadGroupBox1.Controls.Add(Me.TxtEmployee)
+        Me.RadGroupBox1.Controls.Add(Me.TxtMultPayperiod)
+        Me.RadGroupBox1.Controls.Add(Me.ChkMonthlysalaryslip)
         Me.RadGroupBox1.Controls.Add(Me.ChkOnePagePrint)
         Me.RadGroupBox1.Controls.Add(Me.RadStatusStrip1)
         Me.RadGroupBox1.Controls.Add(Me.txtDepartment)
@@ -107,6 +116,23 @@ Partial Class RptKDILSalarySlip
         Me.RadGroupBox1.Size = New System.Drawing.Size(858, 476)
         Me.RadGroupBox1.TabIndex = 1
         '
+        'ChkOnePagePrint
+        '
+        Me.ChkOnePagePrint.AutoSize = True
+        Me.ChkOnePagePrint.Location = New System.Drawing.Point(521, 17)
+        Me.ChkOnePagePrint.Name = "ChkOnePagePrint"
+        Me.ChkOnePagePrint.Size = New System.Drawing.Size(103, 17)
+        Me.ChkOnePagePrint.TabIndex = 344
+        Me.ChkOnePagePrint.Text = "One Page Print"
+        Me.ChkOnePagePrint.UseVisualStyleBackColor = True
+        '
+        'RadStatusStrip1
+        '
+        Me.RadStatusStrip1.Location = New System.Drawing.Point(10, 440)
+        Me.RadStatusStrip1.Name = "RadStatusStrip1"
+        Me.RadStatusStrip1.Size = New System.Drawing.Size(838, 26)
+        Me.RadStatusStrip1.TabIndex = 343
+        '
         'txtDepartment
         '
         Me.txtDepartment.arrDispalyMember = Nothing
@@ -122,6 +148,7 @@ Partial Class RptKDILSalarySlip
         '
         'lblDepartment
         '
+        Me.lblDepartment.FieldName = Nothing
         Me.lblDepartment.Location = New System.Drawing.Point(12, 104)
         Me.lblDepartment.Name = "lblDepartment"
         Me.lblDepartment.Size = New System.Drawing.Size(66, 18)
@@ -143,6 +170,7 @@ Partial Class RptKDILSalarySlip
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Location = New System.Drawing.Point(11, 60)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(46, 18)
@@ -164,6 +192,7 @@ Partial Class RptKDILSalarySlip
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Location = New System.Drawing.Point(11, 81)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(55, 18)
@@ -185,6 +214,7 @@ Partial Class RptKDILSalarySlip
         '
         'lblLocation
         '
+        Me.lblLocation.FieldName = Nothing
         Me.lblLocation.Location = New System.Drawing.Point(11, 39)
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(49, 18)
@@ -195,11 +225,11 @@ Partial Class RptKDILSalarySlip
         '
         Me.lblFrompp.AutoSize = False
         Me.lblFrompp.BorderVisible = True
+        Me.lblFrompp.FieldName = Nothing
         Me.lblFrompp.Location = New System.Drawing.Point(324, 16)
         Me.lblFrompp.Name = "lblFrompp"
         Me.lblFrompp.Size = New System.Drawing.Size(191, 19)
         Me.lblFrompp.TabIndex = 216
-        Me.lblFrompp.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtFromPP
         '
@@ -229,6 +259,7 @@ Partial Class RptKDILSalarySlip
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Location = New System.Drawing.Point(9, 16)
         Me.RadLabel1.Name = "RadLabel1"
         Me.RadLabel1.Size = New System.Drawing.Size(92, 18)
@@ -276,23 +307,67 @@ Partial Class RptKDILSalarySlip
         Me.btnClose.TabIndex = 4
         Me.btnClose.Text = "Close"
         '
-        'RadStatusStrip1
+        'ChkMonthlysalaryslip
         '
-        Me.RadStatusStrip1.Location = New System.Drawing.Point(10, 440)
-        Me.RadStatusStrip1.Name = "RadStatusStrip1"
-        Me.RadStatusStrip1.Size = New System.Drawing.Size(838, 26)
-        Me.RadStatusStrip1.TabIndex = 343
-        Me.RadStatusStrip1.Text = "RadStatusStrip1"
+        Me.ChkMonthlysalaryslip.AutoSize = True
+        Me.ChkMonthlysalaryslip.Location = New System.Drawing.Point(621, 17)
+        Me.ChkMonthlysalaryslip.Name = "ChkMonthlysalaryslip"
+        Me.ChkMonthlysalaryslip.Size = New System.Drawing.Size(121, 17)
+        Me.ChkMonthlysalaryslip.TabIndex = 345
+        Me.ChkMonthlysalaryslip.Text = "Multiple SalarySlip"
+        Me.ChkMonthlysalaryslip.UseVisualStyleBackColor = True
         '
-        'ChkOnePagePrint
+        'TxtMultPayperiod
         '
-        Me.ChkOnePagePrint.AutoSize = True
-        Me.ChkOnePagePrint.Location = New System.Drawing.Point(521, 17)
-        Me.ChkOnePagePrint.Name = "ChkOnePagePrint"
-        Me.ChkOnePagePrint.Size = New System.Drawing.Size(103, 17)
-        Me.ChkOnePagePrint.TabIndex = 344
-        Me.ChkOnePagePrint.Text = "One Page Print"
-        Me.ChkOnePagePrint.UseVisualStyleBackColor = True
+        Me.TxtMultPayperiod.arrDispalyMember = Nothing
+        Me.TxtMultPayperiod.arrValueMember = Nothing
+        Me.TxtMultPayperiod.Location = New System.Drawing.Point(111, 16)
+        Me.TxtMultPayperiod.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtMultPayperiod.MyLinkLable1 = Nothing
+        Me.TxtMultPayperiod.MyLinkLable2 = Nothing
+        Me.TxtMultPayperiod.MyNullText = "All"
+        Me.TxtMultPayperiod.Name = "TxtMultPayperiod"
+        Me.TxtMultPayperiod.Size = New System.Drawing.Size(404, 19)
+        Me.TxtMultPayperiod.TabIndex = 346
+        Me.TxtMultPayperiod.Visible = False
+        '
+        'lblEmployee
+        '
+        Me.lblEmployee.AutoSize = False
+        Me.lblEmployee.BorderVisible = True
+        Me.lblEmployee.FieldName = Nothing
+        Me.lblEmployee.Location = New System.Drawing.Point(324, 79)
+        Me.lblEmployee.Name = "lblEmployee"
+        Me.lblEmployee.Size = New System.Drawing.Size(191, 19)
+        Me.lblEmployee.TabIndex = 348
+        Me.lblEmployee.Visible = False
+        '
+        'TxtEmployee
+        '
+        Me.TxtEmployee.CalculationExpression = Nothing
+        Me.TxtEmployee.FieldCode = Nothing
+        Me.TxtEmployee.FieldDesc = Nothing
+        Me.TxtEmployee.FieldMaxLength = 0
+        Me.TxtEmployee.FieldName = Nothing
+        Me.TxtEmployee.isCalculatedField = False
+        Me.TxtEmployee.IsSourceFromTable = False
+        Me.TxtEmployee.IsSourceFromValueList = False
+        Me.TxtEmployee.IsUnique = False
+        Me.TxtEmployee.Location = New System.Drawing.Point(111, 79)
+        Me.TxtEmployee.MendatroryField = True
+        Me.TxtEmployee.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtEmployee.MyLinkLable1 = Me.RadLabel1
+        Me.TxtEmployee.MyLinkLable2 = Me.lblEmployee
+        Me.TxtEmployee.MyReadOnly = False
+        Me.TxtEmployee.MyShowMasterFormButton = False
+        Me.TxtEmployee.Name = "TxtEmployee"
+        Me.TxtEmployee.ReferenceFieldDesc = Nothing
+        Me.TxtEmployee.ReferenceFieldName = Nothing
+        Me.TxtEmployee.ReferenceTableName = Nothing
+        Me.TxtEmployee.Size = New System.Drawing.Size(208, 18)
+        Me.TxtEmployee.TabIndex = 347
+        Me.TxtEmployee.Value = ""
+        Me.TxtEmployee.Visible = False
         '
         'RptKDILSalarySlip
         '
@@ -312,6 +387,7 @@ Partial Class RptKDILSalarySlip
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.RadStatusStrip1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDepartment, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -322,7 +398,7 @@ Partial Class RptKDILSalarySlip
         CType(Me.lblPrintFormat2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadStatusStrip1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblEmployee, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -346,6 +422,10 @@ Partial Class RptKDILSalarySlip
     Friend WithEvents lblDepartment As common.Controls.MyLabel
     Friend WithEvents ChkOnePagePrint As System.Windows.Forms.CheckBox
     Friend WithEvents RadStatusStrip1 As Telerik.WinControls.UI.RadStatusStrip
+    Friend WithEvents ChkMonthlysalaryslip As CheckBox
+    Friend WithEvents TxtMultPayperiod As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents lblEmployee As common.Controls.MyLabel
+    Friend WithEvents TxtEmployee As common.UserControls.txtFinder
 End Class
 
 
