@@ -1370,6 +1370,7 @@ Public Class clsFixedParameterType
     Public Const ApplyPricePlanOnDocumentDate = "Apply Price Plan On Document Date"
     Public Const DisplayTransporterAddress = "Display Transporter Address"
     Public Const AllowRouteWiseDemandEntryInDecimal = "Allow Route Wise Demand Entry In Decimal"
+    Public Const AllowToCheckEntryUOMForProduct = "Allow To Check Entry UOM For Product"
 End Class
 Public Class clsFixedParameterCode
     Public Const AutoGenrateBatchInventoryOnPost As String = "Auto Genrate Batch Inventory On Post"
@@ -2894,6 +2895,7 @@ Public Class clsFixedParameterCode
     Public Const ApplyPricePlanOnDocumentDate = "Apply Price Plan On Document Date"
     Public Const DisplayTransporterAddress = "Display Transporter Address"
     Public Const AllowRouteWiseDemandEntryInDecimal = "Allow Route Wise Demand Entry In Decimal"
+    Public Const AllowToCheckEntryUOMForProduct = "Allow To Check Entry UOM For Product"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4591,6 +4593,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyPricePlanOnDocumentDate, clsFixedParameterCode.ApplyPricePlanOnDocumentDate, "0", "0:Supply Date, 1:Document Date")
         InsertDefaultValueFixedParameter(clsFixedParameterType.DisplayTransporterAddress, clsFixedParameterCode.DisplayTransporterAddress, "0", "0:Company Address, 1:Transporter Address")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowRouteWiseDemandEntryInDecimal, clsFixedParameterCode.AllowRouteWiseDemandEntryInDecimal, "0", "0:Off, 1:On")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AllowToCheckEntryUOMForProduct, clsFixedParameterCode.AllowToCheckEntryUOMForProduct, "0", "0:Off, 1:On")
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
     End Function
@@ -6484,5 +6487,6 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyPricePlanOnDocumentDate, clsFixedParameterCode.ApplyPricePlanOnDocumentDate, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmUtilityForm, clsFixedParameterType.DisplayTransporterAddress, clsFixedParameterCode.DisplayTransporterAddress, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmRouteMaster, clsFixedParameterType.AllowRouteWiseDemandEntryInDecimal, clsFixedParameterCode.AllowRouteWiseDemandEntryInDecimal, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.userMaster, clsFixedParameterType.AllowToCheckEntryUOMForProduct, clsFixedParameterCode.AllowToCheckEntryUOMForProduct, EnumControlType.CheckBox)
     End Sub
 End Class
