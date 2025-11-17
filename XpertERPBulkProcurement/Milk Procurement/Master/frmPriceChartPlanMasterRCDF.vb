@@ -1,5 +1,5 @@
-﻿Imports common
-Imports System.Data.SqlClient
+﻿Imports System.Data.SqlClient
+Imports common
 
 Public Class frmPriceChartPlanMasterRCDF
     Inherits FrmMainTranScreen
@@ -25,15 +25,7 @@ Public Class frmPriceChartPlanMasterRCDF
     End Sub
 
     Private Sub FrmPriceChartMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As New Dictionary(Of String, String)()
-        coll.Add("Planning_Code", "Varchar(30) not null REFERENCES TSPL_PRICE_CHART_PLANNING(Planning_Code)")
-        coll.Add("SNo", "integer null")
-        coll.Add("FAT", "decimal(18,1) null")
-        coll.Add("SNF", "decimal(18,1) null")
-        coll.Add("Rate", "decimal(18,2) null")
-        clsCommonFunctionality.CreateOrAlterTable("TSPL_PRICE_CHART_PLANNING_EXCEPTION", coll)
-
-        RadPageView1.Pages("RadPageViewPage2").Item.Visibility = ElementVisibility.Collapsed
+        'RadPageView1.Pages("RadPageViewPage2").Item.Visibility = ElementVisibility.Collapsed
         RadPageView1.SelectedPage = RadPageViewPage1
 
         txtCowFatRate.DecimalPlaces = 2
@@ -503,27 +495,69 @@ Public Class frmPriceChartPlanMasterRCDF
 
     Private Function CalculateRate(ByVal dblFATPer As Decimal, ByVal dblSNFPer As Decimal) As Double
         Dim dclRate As Decimal = 0
+        If dblFATPer > objCommonVar.MaxFATPerForRate Then
+            dblFATPer = objCommonVar.MaxFATPerForRate
+        End If
+        If dblSNFPer > objCommonVar.MaxSNFPerForRate Then
+            dblSNFPer = objCommonVar.MaxSNFPerForRate
+        End If
+
         If dblFATPer > txtMaxFATPer.Value Then
             dblFATPer = txtMaxFATPer.Value
         End If
         If dblSNFPer > txtMaxSNFPer.Value Then
             dblSNFPer = txtMaxSNFPer.Value
         End If
-        If dblFATPer < txtMinFATPer.Value OrElse dblSNFPer < txtMinSNFPer.Value Then
-            dclRate = 0
-        ElseIf dblFATPer >= txtCowFatFrom.Value AndAlso dblFATPer <= txtCowFatTo.Value AndAlso dblSNFPer >= txtCowSNFFrom.Value AndAlso dblSNFPer <= txtCowSNFTo.Value Then
-            dclRate = ((dblFATPer * txtCowFatRate.Value / 100) + (dblSNFPer * txtCowSNFRate.Value / 100))
-        Else
-            For ii As Integer = 0 To gvSNF.Rows.Count - 1
-                If clsCommon.myCdbl(gvSNF.Rows(ii).Cells(colRatePer).Value) > 0 Then
-                    If dblSNFPer >= clsCommon.myCdbl(gvSNF.Rows(ii).Cells(colFrom).Value) AndAlso dblSNFPer <= clsCommon.myCdbl(gvSNF.Rows(ii).Cells(colTo).Value) Then
-                        dclRate = (dblFATPer * clsCommon.myCdbl(gvSNF.Rows(ii).Cells(colRatePer).Value)) / 100
-                        Exit For
+        Dim flag As Boolean = True
+        For ii As Integer = 0 To gvException.Rows.Count - 1
+            If dblFATPer = clsCommon.myCdbl(gvException.Rows(ii).Cells(colFrom).Value) AndAlso dblFATPer = clsCommon.myCdbl(gvException.Rows(ii).Cells(colTo).Value) Then
+                dclRate = clsCommon.myCdbl(gvException.Rows(ii).Cells(colRatePer).Value)
+                flag = False
+            End If
+        Next
+        If flag Then
+            If dblFATPer < txtMinFATPer.Value OrElse dblSNFPer < txtMinSNFPer.Value Then
+                dclRate = 0
+                flag = False
+            End If
+            If flag Then
+                If clsCommon.CompairString(clsCommon.myCstr(cboDockCollectionMilkType.SelectedValue), "C") = CompairStringResult.Equal Then
+                    For ii As Integer = 0 To gvFAT.Rows.Count - 1
+                        If clsCommon.myCdbl(gvFAT.Rows(ii).Cells(colRatePer).Value) > 0 Then
+                            If dblFATPer >= clsCommon.myCdbl(gvFAT.Rows(ii).Cells(colFrom).Value) AndAlso dblFATPer <= clsCommon.myCdbl(gvFAT.Rows(ii).Cells(colTo).Value) Then
+                                dclRate += (dblFATPer * clsCommon.myCdbl(gvFAT.Rows(ii).Cells(colRatePer).Value)) / 100
+                                Exit For
+                            End If
+                        End If
+                    Next
+                    For ii As Integer = 0 To gvSNF.Rows.Count - 1
+                        If clsCommon.myCdbl(gvSNF.Rows(ii).Cells(colRatePer).Value) > 0 Then
+                            If dblSNFPer >= clsCommon.myCdbl(gvSNF.Rows(ii).Cells(colFrom).Value) AndAlso dblSNFPer <= clsCommon.myCdbl(gvSNF.Rows(ii).Cells(colTo).Value) Then
+                                dclRate += (dblSNFPer * clsCommon.myCdbl(gvSNF.Rows(ii).Cells(colRatePer).Value)) / 100
+                                Exit For
+                            End If
+                        End If
+                    Next
+                Else
+                    If dblFATPer >= txtCowFatFrom.Value AndAlso dblFATPer <= txtCowFatTo.Value AndAlso dblSNFPer >= txtCowSNFFrom.Value AndAlso dblSNFPer <= txtCowSNFTo.Value Then
+                        dclRate = ((dblFATPer * txtCowFatRate.Value / 100) + (dblSNFPer * txtCowSNFRate.Value / 100))
                     End If
+                    For ii As Integer = 0 To gvSNF.Rows.Count - 1
+                        If clsCommon.myCdbl(gvSNF.Rows(ii).Cells(colRatePer).Value) > 0 Then
+                            If dblSNFPer >= clsCommon.myCdbl(gvSNF.Rows(ii).Cells(colFrom).Value) AndAlso dblSNFPer <= clsCommon.myCdbl(gvSNF.Rows(ii).Cells(colTo).Value) Then
+                                dclRate = (dblFATPer * clsCommon.myCdbl(gvSNF.Rows(ii).Cells(colRatePer).Value)) / 100
+                                Exit For
+                            End If
+                        End If
+                    Next
                 End If
-            Next
+            End If
         End If
-        dclRate = Math.Round(dclRate, 3)
+        If objCommonVar.MilkRateRoundOffType = 1 Then
+            dclRate = Math.Round(dclRate, 2, MidpointRounding.AwayFromZero)
+        Else
+            dclRate = Math.Round(dclRate, 2, MidpointRounding.ToEven)
+        End If
         If dclRate < 0 Then
             dclRate = 0
         End If
@@ -699,28 +733,27 @@ Public Class frmPriceChartPlanMasterRCDF
                     End If
                     Dim coll As New Hashtable()
                     ''---------------------FAT SNF
-                    'For RowFAT As Integer = 0 To 150
-                    '    For ColSNF As Integer = 0 To 150
-                    '        coll = New Hashtable()
-                    '        clsCommon.AddColumnsForChange(coll, "Code", Code)
-
-                    '        'clsCommon.AddColumnsForChange(coll, "date", clsCommon.GetPrintDate(dtEffective, "dd/MMM/yyyy"))
-                    '        clsCommon.AddColumnsForChange(coll, "date", clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy"))
-                    '        clsCommon.AddColumnsForChange(coll, "fat", RowFAT / 10)
-                    '        clsCommon.AddColumnsForChange(coll, "snf", ColSNF / 10)
-                    '        clsCommon.AddColumnsForChange(coll, "rate", CalculateRate(RowFAT / 10, ColSNF / 10))
-                    '        clsCommon.AddColumnsForChange(coll, "Price_Code", txtPriceChartCode.Value)
-                    '        clsCommon.AddColumnsForChange(coll, "Price_Code_Shift", clsCommon.myCstr(CboShift.SelectedValue))
-                    '        clsCommon.AddColumnsForChange(coll, "created_by", clsCommon.myCstr(objCommonVar.CurrentUserCode))
-                    '        clsCommon.AddColumnsForChange(coll, "created_date", clsCommon.myCstr(clsCommon.GetPrintDate(dtCurrent, "dd/MM/yyyy")))
-                    '        clsCommon.AddColumnsForChange(coll, "modified_by", clsCommon.myCstr(objCommonVar.CurrentUserCode))
-                    '        clsCommon.AddColumnsForChange(coll, "modified_date", clsCommon.myCstr(clsCommon.GetPrintDate(dtCurrent, "dd/MM/yyyy")))
-                    '        clsCommon.AddColumnsForChange(coll, "Planning_Code", txtCode.Value, True)
-                    '        clsCommon.AddColumnsForChange(coll, "Dock_Collection_Milk_Type", clsCommon.myCstr(cboDockCollectionMilkType.SelectedValue))
-                    '        clsCommon.AddColumnsForChange(coll, "Posted", 1)
-                    '        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_FAT_SNF_UPLOADER_MASTER", OMInsertOrUpdate.Insert, "", trans)
-                    '    Next
-                    'Next
+                    For RowFAT As Integer = 0 To 150
+                        For ColSNF As Integer = 0 To 150
+                            coll = New Hashtable()
+                            clsCommon.AddColumnsForChange(coll, "Code", Code)
+                            'clsCommon.AddColumnsForChange(coll, "date", clsCommon.GetPrintDate(dtEffective, "dd/MMM/yyyy"))
+                            clsCommon.AddColumnsForChange(coll, "date", clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy"))
+                            clsCommon.AddColumnsForChange(coll, "fat", RowFAT / 10)
+                            clsCommon.AddColumnsForChange(coll, "snf", ColSNF / 10)
+                            clsCommon.AddColumnsForChange(coll, "rate", CalculateRate(RowFAT / 10, ColSNF / 10))
+                            clsCommon.AddColumnsForChange(coll, "Price_Code", txtPriceChartCode.Value)
+                            clsCommon.AddColumnsForChange(coll, "Price_Code_Shift", clsCommon.myCstr(CboShift.SelectedValue))
+                            clsCommon.AddColumnsForChange(coll, "created_by", clsCommon.myCstr(objCommonVar.CurrentUserCode))
+                            clsCommon.AddColumnsForChange(coll, "created_date", clsCommon.myCstr(clsCommon.GetPrintDate(dtCurrent, "dd/MM/yyyy")))
+                            clsCommon.AddColumnsForChange(coll, "modified_by", clsCommon.myCstr(objCommonVar.CurrentUserCode))
+                            clsCommon.AddColumnsForChange(coll, "modified_date", clsCommon.myCstr(clsCommon.GetPrintDate(dtCurrent, "dd/MM/yyyy")))
+                            clsCommon.AddColumnsForChange(coll, "Planning_Code", txtCode.Value, True)
+                            clsCommon.AddColumnsForChange(coll, "Dock_Collection_Milk_Type", clsCommon.myCstr(cboDockCollectionMilkType.SelectedValue))
+                            clsCommon.AddColumnsForChange(coll, "Posted", 1)
+                            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_FAT_SNF_UPLOADER_MASTER", OMInsertOrUpdate.Insert, "", trans)
+                        Next
+                    Next
                     ''---------------------End of FAT SNF
 
                     ''---------------------MCC

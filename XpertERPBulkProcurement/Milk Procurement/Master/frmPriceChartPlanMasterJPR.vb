@@ -615,40 +615,40 @@ Public Class frmPriceChartPlanMasterJPR
                 ''    Code = "PCU000001"
                 ''End If
                 Dim dtCurrent As DateTime = clsCommon.GETSERVERDATE(trans)
-                ''Dim dtEffective As DateTime = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select Effective_Date from TSPL_MILK_PRICE_MASTER where price_code='" + txtPriceChartCode.Value + "'", trans))
-                'Dim Code As String = clsERPFuncationality.GetNextCode(trans, txtDate.Value, clsDocType.MatrixPriceChart, "", "")
-                'If clsCommon.myLen(Code) < 0 Then
-                '    Throw New Exception("Error in Code Generation")
-                'End If
-                'Dim coll As New Hashtable()
+                'Dim dtEffective As DateTime = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select Effective_Date from TSPL_MILK_PRICE_MASTER where price_code='" + txtPriceChartCode.Value + "'", trans))
+                Dim Code As String = clsERPFuncationality.GetNextCode(trans, txtDate.Value, clsDocType.MatrixPriceChart, "", "")
+                If clsCommon.myLen(Code) < 0 Then
+                    Throw New Exception("Error in Code Generation")
+                End If
+                Dim coll As New Hashtable()
                 '---------------------FAT SNF
-                'For RowFAT As Integer = 0 To 150
-                '    For ColSNF As Integer = 0 To 150
-                '        coll = New Hashtable()
-                '        clsCommon.AddColumnsForChange(coll, "Code", Code)
+                For RowFAT As Integer = 0 To 150
+                    For ColSNF As Integer = 0 To 150
+                        coll = New Hashtable()
+                        clsCommon.AddColumnsForChange(coll, "Code", Code)
 
-                '        'clsCommon.AddColumnsForChange(coll, "date", clsCommon.GetPrintDate(dtEffective, "dd/MMM/yyyy"))
-                '        clsCommon.AddColumnsForChange(coll, "date", clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy"))
-                '        clsCommon.AddColumnsForChange(coll, "fat", RowFAT / 10)
-                '        clsCommon.AddColumnsForChange(coll, "snf", ColSNF / 10)
-                '        clsCommon.AddColumnsForChange(coll, "rate", CalculateRate(RowFAT / 10, ColSNF / 10))
-                '        clsCommon.AddColumnsForChange(coll, "Price_Code", txtPriceChartCode.Value)
-                '        clsCommon.AddColumnsForChange(coll, "Price_Code_Shift", clsCommon.myCstr(CboShift.SelectedValue))
-                '        clsCommon.AddColumnsForChange(coll, "created_by", clsCommon.myCstr(objCommonVar.CurrentUserCode))
-                '        clsCommon.AddColumnsForChange(coll, "created_date", clsCommon.myCstr(clsCommon.GetPrintDate(dtCurrent, "dd/MM/yyyy")))
-                '        clsCommon.AddColumnsForChange(coll, "modified_by", clsCommon.myCstr(objCommonVar.CurrentUserCode))
-                '        clsCommon.AddColumnsForChange(coll, "modified_date", clsCommon.myCstr(clsCommon.GetPrintDate(dtCurrent, "dd/MM/yyyy")))
-                '        clsCommon.AddColumnsForChange(coll, "Planning_Code", txtCode.Value, True)
-                '        clsCommon.AddColumnsForChange(coll, "Dock_Collection_Milk_Type", clsCommon.myCstr(cboDockCollectionMilkType.SelectedValue))
-                '        clsCommon.AddColumnsForChange(coll, "Posted", 1)
-                '        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_FAT_SNF_UPLOADER_MASTER", OMInsertOrUpdate.Insert, "", trans)
-                '    Next
-                'Next
+                        'clsCommon.AddColumnsForChange(coll, "date", clsCommon.GetPrintDate(dtEffective, "dd/MMM/yyyy"))
+                        clsCommon.AddColumnsForChange(coll, "date", clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy"))
+                        clsCommon.AddColumnsForChange(coll, "fat", RowFAT / 10)
+                        clsCommon.AddColumnsForChange(coll, "snf", ColSNF / 10)
+                        clsCommon.AddColumnsForChange(coll, "rate", CalculateRate(RowFAT / 10, ColSNF / 10))
+                        clsCommon.AddColumnsForChange(coll, "Price_Code", txtPriceChartCode.Value)
+                        clsCommon.AddColumnsForChange(coll, "Price_Code_Shift", clsCommon.myCstr(CboShift.SelectedValue))
+                        clsCommon.AddColumnsForChange(coll, "created_by", clsCommon.myCstr(objCommonVar.CurrentUserCode))
+                        clsCommon.AddColumnsForChange(coll, "created_date", clsCommon.myCstr(clsCommon.GetPrintDate(dtCurrent, "dd/MM/yyyy")))
+                        clsCommon.AddColumnsForChange(coll, "modified_by", clsCommon.myCstr(objCommonVar.CurrentUserCode))
+                        clsCommon.AddColumnsForChange(coll, "modified_date", clsCommon.myCstr(clsCommon.GetPrintDate(dtCurrent, "dd/MM/yyyy")))
+                        clsCommon.AddColumnsForChange(coll, "Planning_Code", txtCode.Value, True)
+                        clsCommon.AddColumnsForChange(coll, "Dock_Collection_Milk_Type", clsCommon.myCstr(cboDockCollectionMilkType.SelectedValue))
+                        clsCommon.AddColumnsForChange(coll, "Posted", 1)
+                        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_FAT_SNF_UPLOADER_MASTER", OMInsertOrUpdate.Insert, "", trans)
+                    Next
+                Next
                 '---------------------End of FAT SNF
 
 
 
-                Dim coll As New Hashtable()
+                coll = New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Status", 1)
                 clsCommon.AddColumnsForChange(coll, "Posted_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Posted_Date", clsCommon.myCstr(clsCommon.GetPrintDate(dtCurrent, "dd/MMM/yyyy hh:mm:ss tt")))

@@ -22,12 +22,6 @@ Public Class frmPriceChartPlanMasterUCDF
     End Sub
 
     Private Sub FrmPriceChartMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("UCDF_SNF_Ded_Below", "decimal(18,1) null")
-        coll.Add("UCDF_SNF_Ded_Rate", "decimal(18,2) null")
-        clsCommonFunctionality.CreateOrAlterTable("TSPL_PRICE_CHART_PLANNING", coll)
-
         SetUserMgmtNew()
         LoadShift()
         Reset()
