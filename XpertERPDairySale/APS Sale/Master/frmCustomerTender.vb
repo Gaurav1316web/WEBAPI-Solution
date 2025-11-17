@@ -10,6 +10,9 @@ Public Class frmCustomerTender
     Dim isInsideLoadData As Boolean = False
     Dim isLoadData As Boolean = False
     Dim isCellValueChangedOpen As Boolean = False
+
+    Dim closeyn As String
+    Dim vaddnew As String
 #End Region
     Public Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
@@ -97,6 +100,9 @@ Public Class frmCustomerTender
         btnDelete.Enabled = True
         btnPost.Enabled = True
         btnAmendment.Enabled = False
+        chkCloseCustTender.Enabled = True
+        vaddnew = "Y"
+        chkCloseCustTender.Checked = False
         LoadBlankGrid()
     End Sub
     Private Sub CreateTable()
@@ -218,6 +224,19 @@ from TSPL_CUSTOMER_TENDER "
                     btnPost.Enabled = True
                     btnDelete.Enabled = True
                     UsLock1.Status = ERPTransactionStatus.Pending
+                End If
+                If obj.close_yn = "Y" Then
+                    vaddnew = "Y"
+                    chkCloseCustTender.Checked = True
+                    btnSave.Enabled = False
+                    btnPost.Enabled = False
+                    'btn_Cancels.Enabled = False
+                    btnDelete.Enabled = False
+                    btnAmendment.Enabled = False
+                    vaddnew = "N"
+                Else
+                    chkCloseCustTender.Checked = False
+                    vaddnew = "N"
                 End If
                 btnGo.Enabled = False
                 txtDocNo.Value = obj.Document_Code
@@ -408,6 +427,47 @@ from TSPL_CUSTOMER_TENDER "
             frm.strtotalQty = clsCommon.myCdbl(txtTotalQty.Text)
             frm.strToDate = clsCommon.myCDate(txtToDate.Value)
             frm.ShowDialog()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Sub closeCustomerTender()
+        Try
+            If (clsCustomerTender.closeCustomerTenderdata(txtDocNo.Value, True, closeyn)) Then
+                If closeyn = "Y" Then
+                    clsCommon.MyMessageBoxShow(Me, "Successfully Closed", Me.Text)
+                ElseIf closeyn = "N" Then
+                    clsCommon.MyMessageBoxShow(Me, "Successfully Opened", Me.Text)
+                End If
+                LoadData(txtDocNo.Value, NavigatorType.Current)
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+    Private Sub chkCloseCustTender_CheckedChanged(sender As Object, e As EventArgs) Handles chkCloseCustTender.CheckedChanged
+        Try
+            If chkCloseCustTender.Checked = True And vaddnew = "N" Then
+                Dim response = MsgBox("Are you sure want to close the Purchase Order", MsgBoxStyle.YesNo, "Attention")
+                If response = MsgBoxResult.Yes Then
+                    closeyn = "Y"
+                    closeCustomerTender()
+                ElseIf response = MsgBoxResult.No Then
+                    chkCloseCustTender.Checked = False
+                End If
+            ElseIf chkCloseCustTender.Checked = False And vaddnew = "N" Then
+                closeyn = "N"
+                closeCustomerTender()
+            End If
+            vaddnew = "N"
+            If chkCloseCustTender.Checked Then
+                Dim makereadonly As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.MakeClosingofCustomerTenderreadonlyforuser, clsFixedParameterCode.MakeClosingofCustomerTenderreadonlyforuser, Nothing)) = "1", True, False))
+                If makereadonly Then
+                    chkCloseCustTender.Enabled = False
+                Else
+                    chkCloseCustTender.Enabled = True
+                End If
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

@@ -22,7 +22,7 @@ Partial Class frmCustomerTender
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
@@ -64,6 +64,7 @@ Partial Class frmCustomerTender
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.chkCloseCustTender = New System.Windows.Forms.CheckBox()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -151,6 +152,7 @@ Partial Class frmCustomerTender
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.chkCloseCustTender)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnAmendment)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
@@ -669,7 +671,7 @@ Partial Class frmCustomerTender
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.VerticalScrollState = Telerik.WinControls.UI.ScrollState.AlwaysShow
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -731,6 +733,17 @@ Partial Class frmCustomerTender
         Me.btnSave.TabIndex = 4
         Me.btnSave.Text = "Save"
         '
+        'chkCloseCustTender
+        '
+        Me.chkCloseCustTender.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.chkCloseCustTender.AutoSize = True
+        Me.chkCloseCustTender.Location = New System.Drawing.Point(656, 9)
+        Me.chkCloseCustTender.Name = "chkCloseCustTender"
+        Me.chkCloseCustTender.Size = New System.Drawing.Size(144, 17)
+        Me.chkCloseCustTender.TabIndex = 1587
+        Me.chkCloseCustTender.Text = "Close Customer Tender"
+        Me.chkCloseCustTender.UseVisualStyleBackColor = True
+        '
         'frmCustomerTender
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -747,6 +760,7 @@ Partial Class frmCustomerTender
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
+        Me.SplitContainer1.Panel2.PerformLayout()
         Me.SplitContainer1.ResumeLayout(False)
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.Panel1.PerformLayout()
@@ -829,4 +843,5 @@ Partial Class frmCustomerTender
     Friend WithEvents btnGo As RadButton
     Friend WithEvents txtRemark As common.Controls.MyTextBox
     Friend WithEvents lblRemark As common.Controls.MyLabel
+    Friend WithEvents chkCloseCustTender As CheckBox
 End Class

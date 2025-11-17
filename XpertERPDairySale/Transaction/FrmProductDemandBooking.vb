@@ -6,6 +6,7 @@ Public Class FrmProductDemandBooking
     Public Shared LockUnlock As Integer = 0
     Dim EnableLocation As Boolean = False
     Dim DisableRouteandVehicle As Boolean = False
+    Dim EnableProductSaleForJPR As Boolean = False
     Dim EnableResetDemand As Boolean = False
     Dim ConvertPouchtoCrate As Boolean = False
     Dim DontCreateForPouch As Boolean = False
@@ -115,6 +116,8 @@ Public Class FrmProductDemandBooking
             SetUserMgmtNew()
             AmountToCheckCustomerOutstandingForTCSTax = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AmountToCheckCustomerOutstandingForTCSTax, clsFixedParameterCode.AmountToCheckCustomerOutstandingForTCSTax, Nothing))
             DisableRouteandVehicle = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DisableRouteandVehicle, clsFixedParameterCode.DisableRouteandVehicle, Nothing)) = 1, True, False)
+            EnableProductSaleForJPR = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = 1, True, False)
+
             AddNew()
             CreateTable()
         Catch ex As Exception
@@ -507,13 +510,17 @@ Public Class FrmProductDemandBooking
             Dim qry As String = String.Empty
             Dim ItemType As String = ""
             Dim shiftType As String = ""
+            Dim Whrcls As String = ""
             If SeparateDemandMilkandProduct Then
                 qry = "Select TSPL_ROUTE_MASTER.Route_No as Code,Route_Desc as Description,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER"
             Else
                 qry = "Select TSPL_ROUTE_MASTER.Route_No as Code,Route_Desc as Description,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER"
             End If
+            If EnableProductSaleForJPR Then
+                Whrcls = " TSPL_ROUTE_MASTER.Item_Type='" & IIf(rbtn_Product.IsChecked, "P", "I") & "' "
+            End If
             If Not isQuickDemand Then
-                txtRouteNo.Value = clsCommon.ShowSelectForm("DSRouteFinder", qry, "Code", "", txtRouteNo.Value, "", isClicked)
+                txtRouteNo.Value = clsCommon.ShowSelectForm("DSRouteFinder", qry, "Code", Whrcls, txtRouteNo.Value, "", isClicked)
                 lblRouteDesc.Text = clsCommon.myCstr(clsRouteMaster.GetName(txtRouteNo.Value, Nothing))
             End If
             qry = "Select Document_No from TSPL_Product_DEMAND_BOOKING_MASTER where Route_No = '" & txtRouteNo.Value & "' and Posted=0  and IsIndividualCustomer=0"

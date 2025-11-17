@@ -20,6 +20,8 @@ Public Class frmRouteMaster
     Dim AllowRouteWiseDemandEntryInDecimal As Boolean = False
     Dim ApplyDepartmentRoute As Boolean = False
     Dim SettNoOFCustomerForImportExport As Integer
+    Private EnableProductSaleForJPR As Boolean = False
+
 #End Region
 
     Public Sub New(ByVal user As String, ByVal company As String)
@@ -34,6 +36,8 @@ Public Class frmRouteMaster
         EnableLocation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, Nothing)) = 1, True, False)
         ApplyDepartmentRoute = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, Nothing)) = 1, True, False)
         AllowRouteWiseDemandEntryInDecimal = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowRouteWiseDemandEntryInDecimal, clsFixedParameterCode.AllowRouteWiseDemandEntryInDecimal, Nothing)) = 1, True, False)
+        EnableProductSaleForJPR = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = "1", True, False)
+
         EnableLocation = True '' Update on 11-Jun-2025 (ASHOK Sir)
         ButtonToolTip.SetToolTip(rbtnSave, "Press Alt+S for Save/Update ")
         ButtonToolTip.SetToolTip(rbtnDelete, "Press Alt+D  for Delete ")
@@ -42,6 +46,22 @@ Public Class frmRouteMaster
         ButtonToolTip.SetToolTip(btnprint, "Press Alt+R for Print Preview")
         rbtnDelete.Enabled = False
         isInsideLoadData = True
+        If EnableProductSaleForJPR Then
+            lblitemType.Visible = True
+            cmbItemType.Visible = True
+            lblPStartTime.Visible = True
+            txtPStartTime.Visible = True
+            lblPEndTime.Visible = True
+            txtPEndTime.Visible = True
+            LoadItemType()
+        Else
+            lblitemType.Visible = False
+            cmbItemType.Visible = False
+            lblPStartTime.Visible = False
+            txtPStartTime.Visible = False
+            lblPEndTime.Visible = False
+            txtPEndTime.Visible = False
+        End If
         funReset()
         LoadBlankGrid()
         FunAddHandler()
@@ -284,6 +304,8 @@ Public Class frmRouteMaster
                 txtRouteTime.Value = Nothing
                 txtMorningCOT.Value = Nothing
                 txtEveningCOT.Value = Nothing
+                txtPStartTime.Value = Nothing
+                txtPEndTime.Value = Nothing
             End If
             'If userCode <> "ADMIN" Then
             '    If funSetUserAccess() = False Then Exit Sub
@@ -298,7 +320,7 @@ Public Class frmRouteMaster
     'This is Funfill Function Used To Fill All Fields of Current Windows Form.
     Private Sub funfill()
         Try
-            Dim strQuery As String = "select Route_Desc,Type,Employee_Code,Off_Day,City_Code,District,Category_Code,Length,Employee_Name,Depot_Id,Price_Code,Price_Code_Desc ,vehicle_code,NonPrice_Code,status,SDate,RoutePrice_Code ,Route_time,isnull(Distance,0) as Distance,isnull(TOLL_Amount,0) as TOLL_Amount,IsEarlyRoute,MorningCutOff_Time,EveningCutOff_Time,Route_Seq_No,isnull(Entry_UOM,0) as Entry_UOM,Location_Code,Area_Code ,Zone_Code,IsNull(Split_Print,0) As Split_Print,IsNull(Department_Route,0) as Department_Route,ExtraM_Time,ExtraE_Time,AllowEntryInDecimal  from TSPL_Route_Master where Route_No='" + fndRouteid.Value + "'"
+            Dim strQuery As String = "select Route_Desc,Type,Employee_Code,Off_Day,City_Code,District,Category_Code,Length,Employee_Name,Depot_Id,Price_Code,Price_Code_Desc ,vehicle_code,NonPrice_Code,status,SDate,RoutePrice_Code ,Route_time,isnull(Distance,0) as Distance,isnull(TOLL_Amount,0) as TOLL_Amount,IsEarlyRoute,MorningCutOff_Time,EveningCutOff_Time,Route_Seq_No,isnull(Entry_UOM,0) as Entry_UOM,Location_Code,Area_Code ,Zone_Code,IsNull(Split_Print,0) As Split_Print,IsNull(Department_Route,0) as Department_Route,ExtraM_Time,ExtraE_Time,AllowEntryInDecimal,Item_Type,Pord_Start_Time,Pord_End_Time  from TSPL_Route_Master where Route_No='" + fndRouteid.Value + "'"
             fnd_saleman_code.arrValueMember = Nothing
             fnd_saleman_code.arrDispalyMember = Nothing
             Dim arrempcode As New ArrayList()
@@ -345,6 +367,9 @@ Public Class frmRouteMaster
                     txtExtraMTime.Text = clsCommon.myCdbl(dt.Rows(i)("ExtraM_Time"))
                     txtExtraETime.Text = clsCommon.myCdbl(dt.Rows(i)("ExtraE_Time"))
                     chkAllowDecimal.Checked = IIf(clsCommon.myCdbl(dt.Rows(i)("AllowEntryInDecimal")) = 1, True, False)
+                    If EnableProductSaleForJPR Then
+                        cmbItemType.SelectedValue = clsCommon.myCstr(dt.Rows(i)("Item_Type"))
+                    End If
                     If clsCommon.myCdbl(clsCommon.myCstr(dt.Rows(i)("Split_Print"))) > 0 Then
                         rbtnSplitPrint.Checked = True
                     Else
@@ -369,12 +394,28 @@ Public Class frmRouteMaster
                         txtMorningCOT.Value = dt.Rows(i)("MorningCutOff_Time")
                         txtMorningCOT.Checked = True
                     End If
+
                     If String.IsNullOrEmpty(clsCommon.myCstr(dt.Rows(i)("EveningCutOff_Time"))) = True Then
                         txtEveningCOT.Value = Nothing
                         txtEveningCOT.Checked = False
                     Else
                         txtEveningCOT.Value = dt.Rows(i)("EveningCutOff_Time")
                         txtEveningCOT.Checked = True
+                    End If
+                    If String.IsNullOrEmpty(clsCommon.myCstr(dt.Rows(i)("Pord_Start_Time"))) = True Then
+                        txtPStartTime.Value = Nothing
+                        txtPStartTime.Checked = False
+                    Else
+                        txtPStartTime.Value = dt.Rows(i)("Pord_Start_Time")
+                        txtPStartTime.Checked = True
+                    End If
+
+                    If String.IsNullOrEmpty(clsCommon.myCstr(dt.Rows(i)("Pord_End_Time"))) = True Then
+                        txtPEndTime.Value = Nothing
+                        txtPEndTime.Checked = False
+                    Else
+                        txtPEndTime.Value = dt.Rows(i)("Pord_End_Time")
+                        txtPEndTime.Checked = True
                     End If
 
                     Dim StrCk As String = clsCommon.myCstr(dt.Rows(i)("Status"))
@@ -422,6 +463,9 @@ Public Class frmRouteMaster
             ddltype.Text = ""
             rddl_route_offday.Text = ""
             rddl_category.Text = ""
+
+            cmbItemType.SelectedValue = ""
+
             'fndZone_outid.txtValue.Text = ""
             rtxtDistrict.Text = ""
             rtxtdescription.Text = ""
@@ -446,6 +490,10 @@ Public Class frmRouteMaster
             txtMorningCOT.Checked = False
             txtEveningCOT.Value = Nothing
             txtEveningCOT.Checked = False
+            txtPStartTime.Value = Nothing
+            txtPStartTime.Checked = False
+            txtPEndTime.Value = Nothing
+            txtPEndTime.Checked = False
             fndnonprice.Value = String.Empty
             txtnonprice.Text = String.Empty
             fndRoutePrice.Value = String.Empty
@@ -612,6 +660,16 @@ Public Class frmRouteMaster
         Else
             clsCommon.AddColumnsForChange(coll1, "EveningCutOff_Time", Nothing, True)
         End If
+        If txtPStartTime.Checked Then
+            clsCommon.AddColumnsForChange(coll1, "Pord_Start_Time", clsCommon.GetPrintDate(txtPStartTime.Value, "dd/MMM/yyyy hh:mm tt"), True)
+        Else
+            clsCommon.AddColumnsForChange(coll1, "Pord_Start_Time", Nothing, True)
+        End If
+        If txtPEndTime.Checked Then
+            clsCommon.AddColumnsForChange(coll1, "Pord_End_Time", clsCommon.GetPrintDate(txtPEndTime.Value, "dd/MMM/yyyy hh:mm tt"), True)
+        Else
+            clsCommon.AddColumnsForChange(coll1, "Pord_End_Time", Nothing, True)
+        End If
         clsCommon.AddColumnsForChange(coll1, "Location_Code", txtLocation.Value, True)
         clsCommon.AddColumnsForChange(coll1, "Route_Seq_No", txtSeqNo.Value)
         clsCommon.AddColumnsForChange(coll1, "City_Code", fndcity_id.Value, True)
@@ -625,6 +683,7 @@ Public Class frmRouteMaster
         clsCommon.AddColumnsForChange(coll1, "ExtraM_Time", clsCommon.myCdbl(txtExtraMTime.Text), True)
         clsCommon.AddColumnsForChange(coll1, "ExtraE_Time", clsCommon.myCdbl(txtExtraETime.Text), True)
         clsCommon.AddColumnsForChange(coll1, "AllowEntryInDecimal", IIf(chkAllowDecimal.Checked, 1, 0), True)
+        clsCommon.AddColumnsForChange(coll1, "Item_Type", cmbItemType.SelectedValue, True)
         clsCommonFunctionality.UpdateDataTable(coll1, "TSPL_ROUTE_MASTER", OMInsertOrUpdate.Update, "TSPL_ROUTE_MASTER.Route_No='" + fndRouteid.Value + "' ", trans)
         'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndRouteid.Value, "TSPL_ROUTE_MASTER", "Route_No", trans)
 
@@ -1336,6 +1395,72 @@ Public Class frmRouteMaster
         End If
 
         text_changed()
+    End Sub
+    Private Sub LoadItemType()
+        If EnableProductSaleForJPR Then
+            Dim dt As DataTable = New DataTable
+            dt.Columns.Add("Code", GetType(String))
+            dt.Columns.Add("Name", GetType(String))
+
+            Dim dr As DataRow = dt.NewRow()
+            dr("Code") = ""
+            dr("Name") = "Select"
+            dt.Rows.Add(dr)
+
+            dr = dt.NewRow()
+            dr("Code") = "M"
+            dr("Name") = "Milk"
+            dt.Rows.Add(dr)
+
+            dr = dt.NewRow()
+            dr("Code") = "P"
+            dr("Name") = "Product"
+            dt.Rows.Add(dr)
+
+            dr = dt.NewRow()
+            dr("Code") = "I"
+            dr("Name") = "IceCream"
+            dt.Rows.Add(dr)
+            'dr = dt.NewRow()
+            'dr("Code") = "MP"
+            'dr("Name") = "Milk Product"
+            'dt.Rows.Add(dr)
+            'dr = dt.NewRow()
+            'dr("Code") = "MI"
+            'dr("Name") = "Milk IceCream"
+            'dt.Rows.Add(dr)
+            'dr = dt.NewRow()
+            'dr("Code") = "PI"
+            'dr("Name") = "Product IceCream"
+            'dt.Rows.Add(dr)
+            'dr = dt.NewRow()
+            'dr("Code") = "ALL"
+            'dr("Name") = "ALL"
+            'dt.Rows.Add(dr)
+            cmbItemType.DataSource = dt
+            cmbItemType.ValueMember = "Code"
+            cmbItemType.DisplayMember = "Name"
+            'Else
+            '    If ShowFreshAmbientItems Then
+            '    dr = dt.NewRow()
+            '    dr("Code") = "FProduct"
+            '    dr("Name") = "F Product"
+            '    dt.Rows.Add(dr)
+            '    dr = dt.NewRow()
+            '    dr("Code") = "ALL"
+            '    dr("Name") = "ALL"
+            '    dt.Rows.Add(dr)
+            'Else
+            '    dr = dt.NewRow()
+            '    dr("Code") = "Both"
+            '    dr("Name") = "Both"
+            '    dt.Rows.Add(dr)
+            'End If
+        End If
+
+
+
+
     End Sub
     'Private Sub fndSalesman_code__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean)
     '    Dim qry As String = "select distinct EMP_CODE as [EMPCODE],Emp_Name as [Emp Name], Designation,Pin_Code as [Pin Code],Phone,Card_No as [Card No],Cash from TSPL_EMPLOYEE_MASTER "
