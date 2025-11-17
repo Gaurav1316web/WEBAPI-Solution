@@ -27,7 +27,7 @@ Public Class frmPriceChartPlanMasterAJM
     End Sub
 
     Private Sub FrmPriceChartMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        RadPageView1.Pages("RadPageViewPage2").Item.Visibility = ElementVisibility.Collapsed
+        'RadPageView1.Pages("RadPageViewPage2").Item.Visibility = ElementVisibility.Collapsed
         RadPageView1.SelectedPage = RadPageViewPage1
         SetUserMgmtNew()
         LoadShift()
@@ -427,11 +427,11 @@ Public Class frmPriceChartPlanMasterAJM
         Try
             For Row As Integer = 0 To 150
                 clsCommon.ProgressBarPercentUpdate((Row * 100 / 150), "Generating FAT/SNF matrix")
-                If Row >= txtMinFATPer.Value And Row <= txtMaxFATPer.Value Then
+                If Row >= (txtMinFATPer.Value * 10) And Row <= (txtMaxFATPer.Value * 10) Then
                     gv.Rows.AddNew()
                     gv.Rows(gv.Rows.Count - 1).Cells("FATSNF").Value = clsCommon.myCstr(Row / 10)
                     For Col As Integer = 0 To 150
-                        If Col >= txtMinSNFPer.Value And Col <= txtMaxSNFPer.Value Then
+                        If Col >= (txtMinSNFPer.Value * 10) And Col <= (txtMaxSNFPer.Value * 10) Then
                             Dim strColName As String = clsCommon.myCstr(Col / 10)
                             gv.Rows(gv.Rows.Count - 1).Cells(strColName).Value = CalculateRate(Row / 10, Col / 10)
                         End If
@@ -551,28 +551,28 @@ Public Class frmPriceChartPlanMasterAJM
                     End If
                     Dim coll As New Hashtable()
                     ''---------------------FAT SNF
-                    'For RowFAT As Integer = 0 To 150
-                    '    For ColSNF As Integer = 0 To 150
-                    '        coll = New Hashtable()
-                    '        clsCommon.AddColumnsForChange(coll, "Code", Code)
+                    For RowFAT As Integer = 0 To 150
+                        For ColSNF As Integer = 0 To 150
+                            coll = New Hashtable()
+                            clsCommon.AddColumnsForChange(coll, "Code", Code)
 
-                    '        'clsCommon.AddColumnsForChange(coll, "date", clsCommon.GetPrintDate(dtEffective, "dd/MMM/yyyy"))
-                    '        clsCommon.AddColumnsForChange(coll, "date", clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy"))
-                    '        clsCommon.AddColumnsForChange(coll, "fat", RowFAT / 10)
-                    '        clsCommon.AddColumnsForChange(coll, "snf", ColSNF / 10)
-                    '        clsCommon.AddColumnsForChange(coll, "rate", CalculateRate(RowFAT / 10, ColSNF / 10))
-                    '        clsCommon.AddColumnsForChange(coll, "Price_Code", txtPriceChartCode.Value)
-                    '        clsCommon.AddColumnsForChange(coll, "Price_Code_Shift", clsCommon.myCstr(CboShift.SelectedValue))
-                    '        clsCommon.AddColumnsForChange(coll, "created_by", clsCommon.myCstr(objCommonVar.CurrentUserCode))
-                    '        clsCommon.AddColumnsForChange(coll, "created_date", clsCommon.myCstr(clsCommon.GetPrintDate(dtCurrent, "dd/MM/yyyy")))
-                    '        clsCommon.AddColumnsForChange(coll, "modified_by", clsCommon.myCstr(objCommonVar.CurrentUserCode))
-                    '        clsCommon.AddColumnsForChange(coll, "modified_date", clsCommon.myCstr(clsCommon.GetPrintDate(dtCurrent, "dd/MM/yyyy")))
-                    '        clsCommon.AddColumnsForChange(coll, "Planning_Code", txtCode.Value, True)
-                    '        clsCommon.AddColumnsForChange(coll, "Dock_Collection_Milk_Type", clsCommon.myCstr(cboDockCollectionMilkType.SelectedValue))
-                    '        clsCommon.AddColumnsForChange(coll, "Posted", 1)
-                    '        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_FAT_SNF_UPLOADER_MASTER", OMInsertOrUpdate.Insert, "", trans)
-                    '    Next
-                    'Next
+                            'clsCommon.AddColumnsForChange(coll, "date", clsCommon.GetPrintDate(dtEffective, "dd/MMM/yyyy"))
+                            clsCommon.AddColumnsForChange(coll, "date", clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy"))
+                            clsCommon.AddColumnsForChange(coll, "fat", RowFAT / 10)
+                            clsCommon.AddColumnsForChange(coll, "snf", ColSNF / 10)
+                            clsCommon.AddColumnsForChange(coll, "rate", CalculateRate(RowFAT / 10, ColSNF / 10))
+                            clsCommon.AddColumnsForChange(coll, "Price_Code", txtPriceChartCode.Value)
+                            clsCommon.AddColumnsForChange(coll, "Price_Code_Shift", clsCommon.myCstr(CboShift.SelectedValue))
+                            clsCommon.AddColumnsForChange(coll, "created_by", clsCommon.myCstr(objCommonVar.CurrentUserCode))
+                            clsCommon.AddColumnsForChange(coll, "created_date", clsCommon.myCstr(clsCommon.GetPrintDate(dtCurrent, "dd/MM/yyyy")))
+                            clsCommon.AddColumnsForChange(coll, "modified_by", clsCommon.myCstr(objCommonVar.CurrentUserCode))
+                            clsCommon.AddColumnsForChange(coll, "modified_date", clsCommon.myCstr(clsCommon.GetPrintDate(dtCurrent, "dd/MM/yyyy")))
+                            clsCommon.AddColumnsForChange(coll, "Planning_Code", txtCode.Value, True)
+                            clsCommon.AddColumnsForChange(coll, "Dock_Collection_Milk_Type", clsCommon.myCstr(cboDockCollectionMilkType.SelectedValue))
+                            clsCommon.AddColumnsForChange(coll, "Posted", 1)
+                            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_FAT_SNF_UPLOADER_MASTER", OMInsertOrUpdate.Insert, "", trans)
+                        Next
+                    Next
                     ''---------------------End of FAT SNF
 
                     ''---------------------MCC

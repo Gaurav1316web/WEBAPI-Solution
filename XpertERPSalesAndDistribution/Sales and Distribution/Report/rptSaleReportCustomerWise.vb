@@ -255,7 +255,7 @@ Public Class rptSaleReportCustomerWise
             If Gv1.Columns(ii).Name.Contains("Amt") AndAlso Not Gv1.Columns(ii).Name.Contains("Total_Amt") Then
                 Gv1.Columns(ii).HeaderText = "Amt"
             ElseIf Gv1.Columns(ii).Name.Contains("Qty") AndAlso Not Gv1.Columns(ii).Name.Contains("Total_Qty") Then
-                Gv1.Columns(ii).HeaderText = "Qty"
+                Gv1.Columns(ii).HeaderText = "Qty(MT)"
             End If
         Next
         If clsCommon.myLen(Gv1.Columns("Total_Amt")) > 0 Then
@@ -263,7 +263,7 @@ Public Class rptSaleReportCustomerWise
         End If
 
         If clsCommon.myLen(Gv1.Columns("Total_Qty")) > 0 Then
-            Gv1.Columns("Total_Qty").HeaderText = "Total Qty"
+            Gv1.Columns("Total_Qty").HeaderText = "Total Qty(MT)"
         End If
 
         If clsCommon.myLen(Gv1.Columns("Fiscal_Code")) > 0 Then
@@ -295,6 +295,7 @@ Public Class rptSaleReportCustomerWise
         Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Gv1.EnableFiltering = True
         Gv1.ShowGroupPanel = False
+        gvDetails.BestFitColumns()
     End Sub
 
     Sub View()
