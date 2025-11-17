@@ -180,7 +180,6 @@ Partial Class SaleEinvoiceReport
         Me.chkAPS.TabIndex = 453
         Me.chkAPS.Text = "APS Sale"
         Me.chkAPS.UseVisualStyleBackColor = True
-        Me.chkAPS.Visible = False
         '
         'chkBPL
         '
