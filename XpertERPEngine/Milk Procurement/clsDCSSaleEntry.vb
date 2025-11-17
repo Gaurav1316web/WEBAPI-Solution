@@ -1012,7 +1012,7 @@ Public Class clsDCSSaleEntry
                     Next
                 End If
             End If
-
+            Dim AllowRoundOff_onInvoice As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowRoundOff_OnCSASalePatti, clsFixedParameterCode.AllowRoundOff_OnCSASalePatti, trans)) = "1", True, False))
             Dim Arr As New Dictionary(Of String, clsMCCMaterialSale)
             Dim strDedTaxGroup As String = ""
             Dim objDCSSale As New clsMCCMaterialSale()
@@ -1341,7 +1341,6 @@ Public Class clsDCSSaleEntry
                 Arr(strDedTaxGroup).TAX9_Base_Amt += objDCSEntrySale.TAX9_Base_Amt
                 Arr(strDedTaxGroup).TAX10_Amt += objDCSEntrySale.TAX10_Amt
                 Arr(strDedTaxGroup).TAX10_Base_Amt += objDCSEntrySale.TAX10_Base_Amt
-                Arr(strDedTaxGroup).Total_Amt += objDCSEntrySale.Item_Net_Amt
                 Arr(strDedTaxGroup).Total_Tax_Amt += objDCSEntrySale.Total_Tax_Amt
                 Arr(strDedTaxGroup).Amount_Less_Discount += objDCSEntrySale.Amt_Less_Discount
                 Arr(strDedTaxGroup).Discount_Base += objDCSEntrySale.Total_Basic_Amt
@@ -1351,11 +1350,19 @@ Public Class clsDCSSaleEntry
                 Arr(strDedTaxGroup).TotCashDiscAmt += objDCSEntrySale.Total_Cust_Discount
                 Arr(strDedTaxGroup).Total_Comm_Amt += objDCSEntrySale.Commission_Amt
 
-                Dim lstDecml As New List(Of Decimal)
-                lstDecml = ClsScrapSaleHead.Calculate_RoundOffAmt(clsCommon.myCdbl(objDCSEntrySale.Item_Net_Amt), Nothing)
-                If lstDecml IsNot Nothing AndAlso lstDecml.Count > 0 Then
-                    Arr(strDedTaxGroup).RoundOffAmount += clsCommon.myCdbl(lstDecml(1))
+                If AllowRoundOff_onInvoice Then
+                    Dim lstDecml As New List(Of Decimal)
+                    lstDecml = ClsScrapSaleHead.Calculate_RoundOffAmt(clsCommon.myCdbl(objDCSEntrySale.Item_Net_Amt), Nothing)
+                    If lstDecml IsNot Nothing AndAlso lstDecml.Count > 0 Then
+                        Arr(strDedTaxGroup).Total_Amt += clsCommon.myCdbl(lstDecml(0))
+                        Arr(strDedTaxGroup).RoundOffAmount += clsCommon.myCdbl(lstDecml(1))
+                    End If
+                Else
+                    Arr(strDedTaxGroup).Total_Amt += objDCSEntrySale.Item_Net_Amt
+                    Arr(strDedTaxGroup).RoundOffAmount += 0
                 End If
+
+
                 Arr(strDedTaxGroup).RateDiff_Per += objDCSEntrySale.RateDiff_Per
                 Arr(strDedTaxGroup).RateDiff_Amt += objDCSEntrySale.RateDiff_Amt
                 Arr(strDedTaxGroup).TotalSubsidyAmt += objDCSEntrySale.TotalSubsidyAmt
