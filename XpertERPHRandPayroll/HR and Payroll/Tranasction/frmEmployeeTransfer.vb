@@ -84,6 +84,7 @@ Public Class FrmEmployeeTransfer
                 End If
                 obj.Previous_Salary_Code = clsCommon.myCstr(lblPreviousSalary.Text)
                 obj.Description = clsCommon.myCstr(txtDescription.Text)
+                obj.Office_Letter = clsCommon.myCstr(TxtOfficeLetter.Text)
                 obj.Emp_Code = clsCommon.myCstr(fndEmployeeCode.Value)
                 obj.Transfer_Department = clsCommon.myCstr(fndChangedDepartment.Value)
                 obj.Current_Department = clsCommon.myCstr(lblDepartment.Text)
@@ -101,6 +102,7 @@ Public Class FrmEmployeeTransfer
                 End If
                 obj.Previous_Salary_Code = clsCommon.myCstr(lblPreviousSalary.Text)
                 obj.Description = clsCommon.myCstr(txtDescription.Text)
+                obj.Office_Letter = clsCommon.myCstr(TxtOfficeLetter.Text)
                 obj.Current_Department = clsCommon.myCstr(lblDepartment.Text)
                 obj.Current_Designation = clsCommon.myCstr(lblDesignation.Text)
                 obj.Current_Location = clsCommon.myCstr(lblLocation.Text)
@@ -120,6 +122,7 @@ Public Class FrmEmployeeTransfer
                 End If
                 obj.Previous_Salary_Code = clsCommon.myCstr(lblPreviousSalary.Text)
                 obj.Description = clsCommon.myCstr(txtDescription.Text)
+                obj.Office_Letter = clsCommon.myCstr(TxtOfficeLetter.Text)
                 obj.Current_Department = clsCommon.myCstr(lblDepartment.Text)
                 obj.Current_Designation = clsCommon.myCstr(lblDesignation.Text)
                 obj.Current_Location = clsCommon.myCstr(lblLocation.Text)
@@ -187,6 +190,7 @@ Public Class FrmEmployeeTransfer
             isAllowValueChanged = False
             lblPreviousSalary.Text = obj.Previous_Salary_Code
             txtDescription.Text = obj.Description
+            TxtOfficeLetter.Text = obj.Office_Letter
             txtCode.MyReadOnly = True
             btnsave.Text = "Update"
 
@@ -386,6 +390,7 @@ Public Class FrmEmployeeTransfer
         txtEffDate.Text = clsCommon.GETSERVERDATE()
         fndEmployeeCode.Value = ""
         txtDescription.Text = ""
+        TxtOfficeLetter.Text = ""
         fndChangedDepartment.Value = ""
         fndChangedDesignation.Value = ""
         fndChangedLocation.Value = ""

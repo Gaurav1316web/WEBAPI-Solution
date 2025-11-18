@@ -771,6 +771,14 @@ Partial Class FrmUtility
         Me.TxtMultiDairyGPass = New common.UserControls.txtMultiSelectFinder()
         Me.RadPageViewPage8 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadScrollablePanel5 = New Telerik.WinControls.UI.RadScrollablePanel()
+        Me.GroupBox118 = New System.Windows.Forms.GroupBox()
+        Me.btnPickCFSaleInvoiceDoc = New Telerik.WinControls.UI.RadButton()
+        Me.btnResetCFSaleInvoiceDoc = New Telerik.WinControls.UI.RadButton()
+        Me.btnReCreateCFSaleInvoiceInvJEAR = New Telerik.WinControls.UI.RadButton()
+        Me.groupBoxMSInventory = New System.Windows.Forms.GroupBox()
+        Me.btnMatSalesPickDoc = New Telerik.WinControls.UI.RadButton()
+        Me.btnResetMatSalesDoc = New Telerik.WinControls.UI.RadButton()
+        Me.btnReCreateInventory = New Telerik.WinControls.UI.RadButton()
         Me.GroupBox113 = New System.Windows.Forms.GroupBox()
         Me.RadButton311 = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel70 = New common.Controls.MyLabel()
@@ -1552,6 +1560,14 @@ Partial Class FrmUtility
         CType(Me.RadScrollablePanel5, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadScrollablePanel5.PanelContainer.SuspendLayout
         Me.RadScrollablePanel5.SuspendLayout
+        Me.GroupBox118.SuspendLayout
+        CType(Me.btnPickCFSaleInvoiceDoc, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.btnResetCFSaleInvoiceDoc, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.btnReCreateCFSaleInvoiceInvJEAR, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.groupBoxMSInventory.SuspendLayout
+        CType(Me.btnMatSalesPickDoc, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.btnResetMatSalesDoc, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.btnReCreateInventory, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox113.SuspendLayout
         CType(Me.RadButton311, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel70, System.ComponentModel.ISupportInitialize).BeginInit
@@ -2008,7 +2024,7 @@ Partial Class FrmUtility
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage7
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage8
         Me.RadPageView1.Size = New System.Drawing.Size(1112, 569)
         Me.RadPageView1.TabIndex = 44
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -2633,7 +2649,7 @@ Partial Class FrmUtility
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(127.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1091, 407)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1091, 521)
         Me.RadPageViewPage2.Text = "Recreate Journal Entry"
         '
         'RadScrollablePanel2
@@ -2703,8 +2719,8 @@ Partial Class FrmUtility
         Me.RadScrollablePanel2.PanelContainer.Controls.Add(Me.GroupBox7)
         Me.RadScrollablePanel2.PanelContainer.Controls.Add(Me.btnrecreatebulksaletrade)
         Me.RadScrollablePanel2.PanelContainer.Controls.Add(Me.GroupBox24)
-        Me.RadScrollablePanel2.PanelContainer.Size = New System.Drawing.Size(1066, 398)
-        Me.RadScrollablePanel2.Size = New System.Drawing.Size(1085, 400)
+        Me.RadScrollablePanel2.PanelContainer.Size = New System.Drawing.Size(1066, 512)
+        Me.RadScrollablePanel2.Size = New System.Drawing.Size(1085, 514)
         Me.RadScrollablePanel2.TabIndex = 626
         '
         'GroupBox112
@@ -9847,7 +9863,7 @@ Partial Class FrmUtility
         Me.RadPageViewPage8.ItemSize = New System.Drawing.SizeF(127.0!, 28.0!)
         Me.RadPageViewPage8.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage8.Name = "RadPageViewPage8"
-        Me.RadPageViewPage8.Size = New System.Drawing.Size(1091, 407)
+        Me.RadPageViewPage8.Size = New System.Drawing.Size(1091, 521)
         Me.RadPageViewPage8.Text = "Recreate Journal Entry"
         '
         'RadScrollablePanel5
@@ -9860,6 +9876,8 @@ Partial Class FrmUtility
         '
         'RadScrollablePanel5.PanelContainer
         '
+        Me.RadScrollablePanel5.PanelContainer.Controls.Add(Me.GroupBox118)
+        Me.RadScrollablePanel5.PanelContainer.Controls.Add(Me.groupBoxMSInventory)
         Me.RadScrollablePanel5.PanelContainer.Controls.Add(Me.GroupBox113)
         Me.RadScrollablePanel5.PanelContainer.Controls.Add(Me.GroupBox66)
         Me.RadScrollablePanel5.PanelContainer.Controls.Add(Me.GroupBox110)
@@ -9874,9 +9892,81 @@ Partial Class FrmUtility
         Me.RadScrollablePanel5.PanelContainer.Controls.Add(Me.GroupBox73)
         Me.RadScrollablePanel5.PanelContainer.Controls.Add(Me.GroupBox93)
         Me.RadScrollablePanel5.PanelContainer.Controls.Add(Me.GroupBox89)
-        Me.RadScrollablePanel5.PanelContainer.Size = New System.Drawing.Size(1074, 405)
-        Me.RadScrollablePanel5.Size = New System.Drawing.Size(1093, 407)
+        Me.RadScrollablePanel5.PanelContainer.Size = New System.Drawing.Size(1074, 519)
+        Me.RadScrollablePanel5.Size = New System.Drawing.Size(1093, 521)
         Me.RadScrollablePanel5.TabIndex = 387
+        '
+        'GroupBox118
+        '
+        Me.GroupBox118.Controls.Add(Me.btnPickCFSaleInvoiceDoc)
+        Me.GroupBox118.Controls.Add(Me.btnResetCFSaleInvoiceDoc)
+        Me.GroupBox118.Controls.Add(Me.btnReCreateCFSaleInvoiceInvJEAR)
+        Me.GroupBox118.Location = New System.Drawing.Point(381, 319)
+        Me.GroupBox118.Name = "GroupBox118"
+        Me.GroupBox118.Size = New System.Drawing.Size(415, 39)
+        Me.GroupBox118.TabIndex = 389
+        Me.GroupBox118.TabStop = False
+        Me.GroupBox118.Text = "(Even if Receipt Created) + Cattle Feed Sale Invoice(Inventroy+AR+JE)"
+        '
+        'btnPickCFSaleInvoiceDoc
+        '
+        Me.btnPickCFSaleInvoiceDoc.Location = New System.Drawing.Point(67, 14)
+        Me.btnPickCFSaleInvoiceDoc.Name = "btnPickCFSaleInvoiceDoc"
+        Me.btnPickCFSaleInvoiceDoc.Size = New System.Drawing.Size(92, 24)
+        Me.btnPickCFSaleInvoiceDoc.TabIndex = 41
+        Me.btnPickCFSaleInvoiceDoc.Text = "Pick Doc No"
+        '
+        'btnResetCFSaleInvoiceDoc
+        '
+        Me.btnResetCFSaleInvoiceDoc.Location = New System.Drawing.Point(4, 14)
+        Me.btnResetCFSaleInvoiceDoc.Name = "btnResetCFSaleInvoiceDoc"
+        Me.btnResetCFSaleInvoiceDoc.Size = New System.Drawing.Size(59, 24)
+        Me.btnResetCFSaleInvoiceDoc.TabIndex = 42
+        Me.btnResetCFSaleInvoiceDoc.Text = "Reset All"
+        '
+        'btnReCreateCFSaleInvoiceInvJEAR
+        '
+        Me.btnReCreateCFSaleInvoiceInvJEAR.Location = New System.Drawing.Point(163, 14)
+        Me.btnReCreateCFSaleInvoiceInvJEAR.Name = "btnReCreateCFSaleInvoiceInvJEAR"
+        Me.btnReCreateCFSaleInvoiceInvJEAR.Size = New System.Drawing.Size(200, 24)
+        Me.btnReCreateCFSaleInvoiceInvJEAR.TabIndex = 13
+        Me.btnReCreateCFSaleInvoiceInvJEAR.Text = "Recreate Documents"
+        '
+        'groupBoxMSInventory
+        '
+        Me.groupBoxMSInventory.Controls.Add(Me.btnMatSalesPickDoc)
+        Me.groupBoxMSInventory.Controls.Add(Me.btnResetMatSalesDoc)
+        Me.groupBoxMSInventory.Controls.Add(Me.btnReCreateInventory)
+        Me.groupBoxMSInventory.Location = New System.Drawing.Point(377, 274)
+        Me.groupBoxMSInventory.Name = "groupBoxMSInventory"
+        Me.groupBoxMSInventory.Size = New System.Drawing.Size(368, 39)
+        Me.groupBoxMSInventory.TabIndex = 388
+        Me.groupBoxMSInventory.TabStop = False
+        Me.groupBoxMSInventory.Text = "Material Sales (Inventory Recreation)"
+        '
+        'btnMatSalesPickDoc
+        '
+        Me.btnMatSalesPickDoc.Location = New System.Drawing.Point(67, 14)
+        Me.btnMatSalesPickDoc.Name = "btnMatSalesPickDoc"
+        Me.btnMatSalesPickDoc.Size = New System.Drawing.Size(92, 24)
+        Me.btnMatSalesPickDoc.TabIndex = 41
+        Me.btnMatSalesPickDoc.Text = "Pick Doc No"
+        '
+        'btnResetMatSalesDoc
+        '
+        Me.btnResetMatSalesDoc.Location = New System.Drawing.Point(4, 14)
+        Me.btnResetMatSalesDoc.Name = "btnResetMatSalesDoc"
+        Me.btnResetMatSalesDoc.Size = New System.Drawing.Size(59, 24)
+        Me.btnResetMatSalesDoc.TabIndex = 42
+        Me.btnResetMatSalesDoc.Text = "Reset All"
+        '
+        'btnReCreateInventory
+        '
+        Me.btnReCreateInventory.Location = New System.Drawing.Point(163, 14)
+        Me.btnReCreateInventory.Name = "btnReCreateInventory"
+        Me.btnReCreateInventory.Size = New System.Drawing.Size(200, 24)
+        Me.btnReCreateInventory.TabIndex = 13
+        Me.btnReCreateInventory.Text = "Recreate Inventory"
         '
         'GroupBox113
         '
@@ -11275,6 +11365,14 @@ Partial Class FrmUtility
         Me.RadScrollablePanel5.PanelContainer.ResumeLayout(False)
         CType(Me.RadScrollablePanel5, System.ComponentModel.ISupportInitialize).EndInit
         Me.RadScrollablePanel5.ResumeLayout(False)
+        Me.GroupBox118.ResumeLayout(False)
+        CType(Me.btnPickCFSaleInvoiceDoc, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.btnResetCFSaleInvoiceDoc, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.btnReCreateCFSaleInvoiceInvJEAR, System.ComponentModel.ISupportInitialize).EndInit
+        Me.groupBoxMSInventory.ResumeLayout(False)
+        CType(Me.btnMatSalesPickDoc, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.btnResetMatSalesDoc, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.btnReCreateInventory, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox113.ResumeLayout(False)
         Me.GroupBox113.PerformLayout
         CType(Me.RadButton311, System.ComponentModel.ISupportInitialize).EndInit
@@ -12142,5 +12240,13 @@ Partial Class FrmUtility
     Friend WithEvents txtDemadUpdatedate As common.Controls.MyDateTimePicker
     Friend WithEvents txtDemandUpdateLoc As common.UserControls.txtFinder
     Friend WithEvents RadLabel15 As common.Controls.MyLabel
+    Friend WithEvents GroupBox118 As GroupBox
+    Friend WithEvents btnPickCFSaleInvoiceDoc As RadButton
+    Friend WithEvents btnResetCFSaleInvoiceDoc As RadButton
+    Friend WithEvents btnReCreateCFSaleInvoiceInvJEAR As RadButton
+    Friend WithEvents groupBoxMSInventory As GroupBox
+    Friend WithEvents btnMatSalesPickDoc As RadButton
+    Friend WithEvents btnResetMatSalesDoc As RadButton
+    Friend WithEvents btnReCreateInventory As RadButton
 End Class
 

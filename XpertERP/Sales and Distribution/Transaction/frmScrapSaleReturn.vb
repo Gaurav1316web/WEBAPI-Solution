@@ -6250,14 +6250,14 @@ Public Class frmScrapSaleReturn
             End If
         End If
 
-        'SetitemWiseTaxOnlySetting()
+        SetitemWiseTaxOnlySetting()
 
         'For ii As Integer = 0 To gv1.RowCount - 1
         '    UpdateCurrentRow(ii)
         'Next
 
         isInsideLoadData = False
-        'UpdateAllTotals()
+        UpdateAllTotals()
         FillGateEntryNo()
 
     End Sub

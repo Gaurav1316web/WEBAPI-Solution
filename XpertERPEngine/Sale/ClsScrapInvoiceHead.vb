@@ -969,51 +969,51 @@ Left Outer Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id  =TSPL_SCR
             'Sanjay 02/July/2018 Check Tax Group
 
             Dim qry As String = ""
-            Dim ArrInventoryMovement As List(Of clsInventoryMovement) = New List(Of clsInventoryMovement)
+            '  Dim ArrInventoryMovement As List(Of clsInventoryMovement) = New List(Of clsInventoryMovement)
             Dim IsRejectedItemFound As Boolean = False
 
 
 
-            For Each objTr As ClsScrapInvoiceDetail In obj.Arr
-                If clsCommon.CompairString(objTr.Row_Type, clsItemRowType.RowTypeItem) = CompairStringResult.Equal Then
-                    Dim objInventoryMovemnt As New clsInventoryMovement()
-                    objInventoryMovemnt.InOut = "O"
-                    objInventoryMovemnt.Location_Code = IIf(clsCommon.myLen(obj.Sub_Location_code) > 0, obj.Sub_Location_code, obj.Loc_Code)
-                    objInventoryMovemnt.Cust_Code = obj.cust_Code
-                    objInventoryMovemnt.Cust_Name = obj.cust_Name
-                    objInventoryMovemnt.Item_Code = objTr.Item_Code
-                    objInventoryMovemnt.Item_Desc = objTr.Item_Desc
-                    objInventoryMovemnt.Qty = objTr.shipped_Qty
-                    objInventoryMovemnt.UOM = objTr.Unit_code
-                    objInventoryMovemnt.Basic_Cost = objTr.price
-                    objInventoryMovemnt.Add_Cost = objTr.TotalTaxAmt
-                    objInventoryMovemnt.Net_Cost = objTr.TotalAmt
-                    objInventoryMovemnt.ItemType = "RM"
-                    If clsCommon.CompairString(obj.Doc_Type, "J") = CompairStringResult.Equal Then
-                        objInventoryMovemnt.CalculateAvgCost = False
-                        objInventoryMovemnt.Avg_Cost = 0
-                    End If
-                    If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowPurchaseAccounting, clsFixedParameterCode.AllowPurchaseAccounting, trans)) = 0 Then
-                        Dim item_Purchase_Class As String = clsDBFuncationality.getSingleValue("select Purchase_Class_Code from TSPL_ITEM_MASTER where Item_Code='" & objTr.Item_Code & "'", trans)
-                        Dim qry1 As String = "select Loc_Segment_Code from TSPL_LOCATION_MASTER where Location_Code='" + obj.Loc_Code + "'"
-                        Dim strLocatinSegment As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry1, trans))
-                        If clsCommon.myLen(item_Purchase_Class) > 0 Then
-                            Dim Inventory_Purchase_code As String = clsDBFuncationality.getSingleValue("select Inv_Control_Account from TSPL_PURCHASE_ACCOUNTS where Purchase_Class_Code='" & item_Purchase_Class & "'", trans)
-                            If clsCommon.myLen(Inventory_Purchase_code) > 0 Then
-                                objInventoryMovemnt.Inventory_CrAcc = Inventory_Purchase_code.Substring(0, Inventory_Purchase_code.Length - 3) + strLocatinSegment
-                            End If
-                        End If
-                    End If
-                    ArrInventoryMovement.Add(objInventoryMovemnt)
+            'For Each objTr As ClsScrapInvoiceDetail In obj.Arr
+            '    If clsCommon.CompairString(objTr.Row_Type, clsItemRowType.RowTypeItem) = CompairStringResult.Equal Then
+            '        Dim objInventoryMovemnt As New clsInventoryMovement()
+            '        objInventoryMovemnt.InOut = "O"
+            '        objInventoryMovemnt.Location_Code = IIf(clsCommon.myLen(obj.Sub_Location_code) > 0, obj.Sub_Location_code, obj.Loc_Code)
+            '        objInventoryMovemnt.Cust_Code = obj.cust_Code
+            '        objInventoryMovemnt.Cust_Name = obj.cust_Name
+            '        objInventoryMovemnt.Item_Code = objTr.Item_Code
+            '        objInventoryMovemnt.Item_Desc = objTr.Item_Desc
+            '        objInventoryMovemnt.Qty = objTr.shipped_Qty
+            '        objInventoryMovemnt.UOM = objTr.Unit_code
+            '        objInventoryMovemnt.Basic_Cost = objTr.price
+            '        objInventoryMovemnt.Add_Cost = objTr.TotalTaxAmt
+            '        objInventoryMovemnt.Net_Cost = objTr.TotalAmt
+            '        objInventoryMovemnt.ItemType = "RM"
+            '        If clsCommon.CompairString(obj.Doc_Type, "J") = CompairStringResult.Equal Then
+            '            objInventoryMovemnt.CalculateAvgCost = False
+            '            objInventoryMovemnt.Avg_Cost = 0
+            '        End If
+            '        If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowPurchaseAccounting, clsFixedParameterCode.AllowPurchaseAccounting, trans)) = 0 Then
+            '            Dim item_Purchase_Class As String = clsDBFuncationality.getSingleValue("select Purchase_Class_Code from TSPL_ITEM_MASTER where Item_Code='" & objTr.Item_Code & "'", trans)
+            '            Dim qry1 As String = "select Loc_Segment_Code from TSPL_LOCATION_MASTER where Location_Code='" + obj.Loc_Code + "'"
+            '            Dim strLocatinSegment As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry1, trans))
+            '            If clsCommon.myLen(item_Purchase_Class) > 0 Then
+            '                Dim Inventory_Purchase_code As String = clsDBFuncationality.getSingleValue("select Inv_Control_Account from TSPL_PURCHASE_ACCOUNTS where Purchase_Class_Code='" & item_Purchase_Class & "'", trans)
+            '                If clsCommon.myLen(Inventory_Purchase_code) > 0 Then
+            '                    objInventoryMovemnt.Inventory_CrAcc = Inventory_Purchase_code.Substring(0, Inventory_Purchase_code.Length - 3) + strLocatinSegment
+            '                End If
+            '            End If
+            '        End If
+            '        ArrInventoryMovement.Add(objInventoryMovemnt)
 
-                    Dim qryupdatepen As String = "update TSPL_SCRAPSALE_DETAIL set pending_qty='" + clsCommon.myCstr(objTr.pending_Qty) + "' where shipment_no='" + obj.shipment_No + "'  and item_code='" + objTr.Item_Code + "' "
-                    clsDBFuncationality.ExecuteNonQuery(qryupdatepen, trans)
-                End If
-            Next
+            '        Dim qryupdatepen As String = "update TSPL_SCRAPSALE_DETAIL set pending_qty='" + clsCommon.myCstr(objTr.pending_Qty) + "' where shipment_no='" + obj.shipment_No + "'  and item_code='" + objTr.Item_Code + "' "
+            '        clsDBFuncationality.ExecuteNonQuery(qryupdatepen, trans)
+            '    End If
+            'Next
 
 
             If IsCreateInventory Then
-                isSaved = isSaved AndAlso clsInventoryMovement.SaveData("ScrapIn", obj.invoice_No, clsCommon.GetPrintDate(obj.shipment_Date, "dd/MM/yyyy"), clsCommon.GetPrintDate(obj.shipment_Date, "dd/MM/yyyy"), ArrInventoryMovement, trans)
+                obj.CreateInventoryMovement(obj, trans)
             End If
 
             If istrue = False Then
@@ -1335,6 +1335,57 @@ Left Outer Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id  =TSPL_SCR
     'Public Shared Function GetEWayBillNo(strDocNo As String, trans As SqlTransaction) As String
     '    Return clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SCRAPINVOICE_HEAD where shipment_No='" + strDocNo + "'", trans))
     'End Function
+
+    Public Function CreateInventoryMovement(ByVal obj As ClsScrapInvoiceHead, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim isSaved As Boolean = True
+            Dim ArrInventoryMovement As List(Of clsInventoryMovement) = New List(Of clsInventoryMovement)
+            Dim strRgpNo As String = Nothing
+            Dim intCounter As Integer = 0
+
+            For Each objTr As ClsScrapInvoiceDetail In obj.Arr
+                If clsCommon.CompairString(objTr.Row_Type, clsItemRowType.RowTypeItem) = CompairStringResult.Equal Then
+                    Dim objInventoryMovemnt As New clsInventoryMovement()
+                    objInventoryMovemnt.InOut = "O"
+                    objInventoryMovemnt.Location_Code = IIf(clsCommon.myLen(obj.Sub_Location_code) > 0, obj.Sub_Location_code, obj.Loc_Code)
+                    objInventoryMovemnt.Cust_Code = obj.cust_Code
+                    objInventoryMovemnt.Cust_Name = obj.cust_Name
+                    objInventoryMovemnt.Item_Code = objTr.Item_Code
+                    objInventoryMovemnt.Item_Desc = objTr.Item_Desc
+                    objInventoryMovemnt.Qty = objTr.shipped_Qty
+                    objInventoryMovemnt.UOM = objTr.Unit_code
+                    objInventoryMovemnt.Basic_Cost = objTr.price
+                    objInventoryMovemnt.Add_Cost = objTr.TotalTaxAmt
+                    objInventoryMovemnt.Net_Cost = objTr.TotalAmt
+                    objInventoryMovemnt.ItemType = "RM"
+                    If clsCommon.CompairString(obj.Doc_Type, "J") = CompairStringResult.Equal Then
+                        objInventoryMovemnt.CalculateAvgCost = False
+                        objInventoryMovemnt.Avg_Cost = 0
+                    End If
+                    If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowPurchaseAccounting, clsFixedParameterCode.AllowPurchaseAccounting, trans)) = 0 Then
+                        Dim item_Purchase_Class As String = clsDBFuncationality.getSingleValue("select Purchase_Class_Code from TSPL_ITEM_MASTER where Item_Code='" & objTr.Item_Code & "'", trans)
+                        Dim qry1 As String = "select Loc_Segment_Code from TSPL_LOCATION_MASTER where Location_Code='" + obj.Loc_Code + "'"
+                        Dim strLocatinSegment As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry1, trans))
+                        If clsCommon.myLen(item_Purchase_Class) > 0 Then
+                            Dim Inventory_Purchase_code As String = clsDBFuncationality.getSingleValue("select Inv_Control_Account from TSPL_PURCHASE_ACCOUNTS where Purchase_Class_Code='" & item_Purchase_Class & "'", trans)
+                            If clsCommon.myLen(Inventory_Purchase_code) > 0 Then
+                                objInventoryMovemnt.Inventory_CrAcc = Inventory_Purchase_code.Substring(0, Inventory_Purchase_code.Length - 3) + strLocatinSegment
+                            End If
+                        End If
+                    End If
+                    ArrInventoryMovement.Add(objInventoryMovemnt)
+
+                    Dim qryupdatepen As String = "update TSPL_SCRAPSALE_DETAIL set pending_qty='" + clsCommon.myCstr(objTr.pending_Qty) + "' where shipment_no='" + obj.shipment_No + "'  and item_code='" + objTr.Item_Code + "' "
+                    clsDBFuncationality.ExecuteNonQuery(qryupdatepen, trans)
+                End If
+            Next
+
+            isSaved = isSaved AndAlso clsInventoryMovement.SaveData("ScrapIn", obj.invoice_No, clsCommon.GetPrintDate(obj.shipment_Date, "dd/MM/yyyy"), clsCommon.GetPrintDate(obj.shipment_Date, "dd/MM/yyyy"), ArrInventoryMovement, trans)
+            Return isSaved
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Function
 
     Private Shared Function GetFirstItemCode(ByVal Arr As List(Of ClsScrapInvoiceDetail)) As String
         For Each objtr As ClsScrapInvoiceDetail In Arr
