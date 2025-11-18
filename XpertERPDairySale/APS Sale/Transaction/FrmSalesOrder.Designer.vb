@@ -78,12 +78,12 @@ Partial Class FrmSalesOrder
         Me.txtDocAmtWithoutTax = New common.Controls.MyLabel()
         Me.lblDocamt = New common.Controls.MyLabel()
         Me.txtDocAmt = New common.Controls.MyLabel()
+        Me.chkCloseSalesOrder = New System.Windows.Forms.CheckBox()
         Me.btnReverseAndUnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.chkCloseSalesOrder = New System.Windows.Forms.CheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -968,6 +968,18 @@ Partial Class FrmSalesOrder
         Me.txtDocAmt.TabIndex = 1588
         Me.txtDocAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
+        'chkCloseSalesOrder
+        '
+        Me.chkCloseSalesOrder.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.chkCloseSalesOrder.AutoSize = True
+        Me.chkCloseSalesOrder.Enabled = False
+        Me.chkCloseSalesOrder.Location = New System.Drawing.Point(547, 6)
+        Me.chkCloseSalesOrder.Name = "chkCloseSalesOrder"
+        Me.chkCloseSalesOrder.Size = New System.Drawing.Size(116, 17)
+        Me.chkCloseSalesOrder.TabIndex = 1588
+        Me.chkCloseSalesOrder.Text = "Close Sales Order"
+        Me.chkCloseSalesOrder.UseVisualStyleBackColor = True
+        '
         'btnReverseAndUnPost
         '
         Me.btnReverseAndUnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -976,7 +988,7 @@ Partial Class FrmSalesOrder
         Me.btnReverseAndUnPost.Name = "btnReverseAndUnPost"
         Me.btnReverseAndUnPost.Size = New System.Drawing.Size(99, 22)
         Me.btnReverseAndUnPost.TabIndex = 12
-        Me.btnReverseAndUnPost.Text = "Reverse/UnPost"
+        Me.btnReverseAndUnPost.Text = "Amendment"
         Me.btnReverseAndUnPost.Visible = False
         '
         'btnClose
@@ -1018,17 +1030,6 @@ Partial Class FrmSalesOrder
         Me.btnSave.Size = New System.Drawing.Size(57, 22)
         Me.btnSave.TabIndex = 3
         Me.btnSave.Text = "Save"
-        '
-        'chkCloseSalesOrder
-        '
-        Me.chkCloseSalesOrder.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.chkCloseSalesOrder.AutoSize = True
-        Me.chkCloseSalesOrder.Location = New System.Drawing.Point(547, 6)
-        Me.chkCloseSalesOrder.Name = "chkCloseSalesOrder"
-        Me.chkCloseSalesOrder.Size = New System.Drawing.Size(116, 17)
-        Me.chkCloseSalesOrder.TabIndex = 1588
-        Me.chkCloseSalesOrder.Text = "Close Sales Order"
-        Me.chkCloseSalesOrder.UseVisualStyleBackColor = True
         '
         'FrmSalesOrder
         '

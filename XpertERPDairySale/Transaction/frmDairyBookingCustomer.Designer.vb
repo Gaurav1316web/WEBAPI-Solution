@@ -127,7 +127,6 @@ Partial Class frmDairyBookingCustomer
         Me.lblAbandonmentNo = New common.Controls.MyLabel()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gv1 = New common.UserControls.MyRadGridView()
-        Me.RadPanel3 = New Telerik.WinControls.UI.RadPanel()
         Me.lblVendorName = New common.Controls.MyLabel()
         Me.txtRouteNo = New common.UserControls.txtFinder()
         Me.RadLabel2 = New common.Controls.MyLabel()
@@ -427,8 +426,6 @@ Partial Class frmDairyBookingCustomer
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gv1.SuspendLayout()
-        CType(Me.RadPanel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblVendorName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -2108,7 +2105,6 @@ Partial Class frmDairyBookingCustomer
         'gv1
         '
         Me.gv1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
-        Me.gv1.Controls.Add(Me.RadPanel3)
         Me.gv1.Cursor = System.Windows.Forms.Cursors.Default
         Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -2132,14 +2128,6 @@ Partial Class frmDairyBookingCustomer
         Me.gv1.TabIndex = 17
         Me.gv1.TabStop = False
         Me.gv1.VarID = ""
-        '
-        'RadPanel3
-        '
-        Me.RadPanel3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.RadPanel3.Location = New System.Drawing.Point(999, 101)
-        Me.RadPanel3.Name = "RadPanel3"
-        Me.RadPanel3.Size = New System.Drawing.Size(260, 32)
-        Me.RadPanel3.TabIndex = 1566
         '
         'lblVendorName
         '
@@ -4886,9 +4874,6 @@ Partial Class frmDairyBookingCustomer
         Me.RadGroupBox2.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gv1.ResumeLayout(False)
-        Me.gv1.PerformLayout()
-        CType(Me.RadPanel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblVendorName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5390,7 +5375,6 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents txtOpeningbal As common.Controls.MyLabel
     Friend WithEvents lblDrAmt As common.Controls.MyLabel
     Friend WithEvents txtDrAmt As common.Controls.MyLabel
-    Friend WithEvents RadPanel3 As RadPanel
     Friend WithEvents lblDocAmt As common.Controls.MyLabel
     Friend WithEvents lblTotalDocAmt As common.Controls.MyLabel
     Friend WithEvents lblNetbalance As common.Controls.MyLabel

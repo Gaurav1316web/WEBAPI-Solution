@@ -12091,7 +12091,7 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
         ' 
         If SettDistributorWiseBilling Then
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal OrElse clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-                Dim strqry As String = "select Distinct Route_No as Code from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER left join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No "
+                Dim strqry As String = "select Distinct TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No as Code from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER left join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No "
                 Dim Whrcls As String = " TSPL_ROUTE_MASTER.Item_Type='" + cboItemType.SelectedValue + "' "
                 txtRouteNo.Value = clsCommon.ShowSelectForm("DShipRouteFinder", strqry, "Code", "", txtRouteNo.Value, "", isButtonClicked)
                 fndRouteNo_TextChanged()
