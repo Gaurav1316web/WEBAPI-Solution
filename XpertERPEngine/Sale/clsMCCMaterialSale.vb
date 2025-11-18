@@ -684,12 +684,12 @@ Public Class clsMCCMaterialSale
             ''''  for automatic invoice
             Dim objSI As clsPSInvoiceHead = ConvertShipmentToSaleInvoice(obj)
             If clsCommon.myLen(obj.Sale_Invoice_No) > 0 Then
-                objSI.SaveData(objSI, False, False, clsDocType.DCSInvoice, trans)
+                objSI.SaveData(objSI, False, False, clsDocType.DCSInvoice, trans, True)
             Else
                 If clsCommon.CompairString(obj.Is_CashSale, "Y") = CompairStringResult.Equal Then
-                    objSI.SaveData(objSI, True, True, clsDocType.DCSInvoice, trans)
+                    objSI.SaveData(objSI, True, True, clsDocType.DCSInvoice, trans, True)
                 Else
-                    objSI.SaveData(objSI, True, False, clsDocType.DCSInvoice, trans)
+                    objSI.SaveData(objSI, True, False, clsDocType.DCSInvoice, trans, True)
                 End If
 
             End If
