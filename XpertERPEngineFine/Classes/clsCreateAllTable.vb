@@ -44228,6 +44228,7 @@ LL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("comp_code", "varchar(8) NULL")
             coll.Add("Current_Division", "Varchar(30)  NULL ")
+            'coll.Add("Office_Letter", "Varchar(500) NULL")
             'clsCommonFunctionality.CreateOrAlterTable("TSPL_EMPLOYEE_TRANSFER", coll)
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_EMPLOYEE_TRANSFER", coll, "", True, False, "", "", "", True)
 

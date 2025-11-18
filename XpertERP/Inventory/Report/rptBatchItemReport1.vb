@@ -50,115 +50,117 @@ Public Class rptBatchItemReport1
             If txtItemType.arrValueMember IsNot Nothing AndAlso txtItemType.arrValueMember.Count > 0 Then
                 strItemType = " and TSPL_ITEM_MASTER.Item_Type in (" + clsCommon.GetMulcallString(txtItemType.arrValueMember) + ")"
             End If
-            qry = " Select * from ( " & _
-                  " select  TSPL_BATCH_ITEM.Batch_No  as [Batch No],convert (varchar, TSPL_BATCH_ITEM.Manufacture_Date,103) as [Manufacture Date]," & _
-                  " convert(varchar,TSPL_BATCH_ITEM.Expiry_Date,103) as [Expiry Date], TSPL_BATCH_ITEM.MRP , TSPL_BATCH_ITEM.Qty , TSPL_BATCH_ITEM.UOM , TSPL_BATCH_ITEM.Item_Code as [Item Code] , " & _
-                  " TSPL_ITEM_MASTER.Item_Desc as [Item Desc] , TSPL_BATCH_ITEM.Document_Code as [Document Code] , convert(varchar,TSPL_BATCH_ITEM.Document_Date,103) as [Document Date] , " & _
-                  " TSPL_BATCH_ITEM.Document_Type as [Document Type Code],TSPL_INVENTORY_SOURCE_CODE.Name as [Document Type Name],   " & _
-                  " Case " & _
-                  " when TSPL_BATCH_ITEM.Document_Type = 'PS-SH' then iif ( convert (varchar, TSPL_SD_SHIPMENT_HEAD.STATUS)  = '1' , 'Posted' , 'Not Posted' )  " & _
-                  " when TSPL_BATCH_ITEM.Document_Type = 'IC-AD' then iif ( convert (varchar, TSPL_ADJUSTMENT_HEADER.Posted)  = 'Y'  , 'Posted' , 'Not Posted' )  " & _
-                  " when TSPL_BATCH_ITEM.Document_Type = 'FS-SH' then iif ( convert (varchar, TSPL_SD_SHIPMENT_HEAD.STATUS)  = '1'  , 'Posted' , 'Not Posted' )  " & _
-                  " when TSPL_BATCH_ITEM.Document_Type = 'PROD_ENTRY' then iif ( convert (varchar, TSPL_PP_PRODUCTION_ENTRY.Posted)  = '1'  , 'Posted' , 'Not Posted' )   " & _
-                  " when TSPL_BATCH_ITEM.Document_Type = 'Disassembly' then iif ( convert (varchar, TSPL_PROD_ASSEMBLIES.Posted)  = '1'  , 'Posted' , 'Not Posted' )  " & _
-                  " when TSPL_BATCH_ITEM.Document_Type = 'FS-SR' then iif ( convert (varchar, TSPL_SD_SALE_RETURN_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )   " & _
-                  " when TSPL_BATCH_ITEM.Document_Type = 'MCC-MSALE' then iif ( convert (varchar, TSPL_SD_SHIPMENT_HEAD.STATUS)  = '1' , 'Posted' , 'Not Posted' )  " & _
-                  " when TSPL_BATCH_ITEM.Document_Type = 'MCC-MSR' then iif ( convert (varchar, TSPL_SD_SALE_RETURN_HEAD.Status)  = '1'   , 'Posted' , 'Not Posted' )   " & _
-                  " when TSPL_BATCH_ITEM.Document_Type = 'PRO-ENT-FQC' then iif ( convert (varchar, TSPL_PE_FINALQC_HEAD.Posted)  = '1'  , 'Posted' , 'Not Posted' )   " & _
-                  " when TSPL_BATCH_ITEM.Document_Type = 'PS-SR' then iif ( convert (varchar, TSPL_SD_SALE_RETURN_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )   " & _
-                  " when TSPL_BATCH_ITEM.Document_Type = 'Transfer' then iif ( convert (varchar, TSPL_TRANSFER_ORDER_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )   " & _
-                  " when TSPL_BATCH_ITEM.Document_Type = 'EX_SALE_IN' then iif ( convert (varchar, TSPL_SD_SALE_INVOICE_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )   " & _
-                  " when TSPL_BATCH_ITEM.Document_Type = 'MT_SALE_IN' then iif ( convert (varchar, TSPL_SD_SALE_INVOICE_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )   " & _
-                  " when TSPL_BATCH_ITEM.Document_Type = 'SD-CSATRANS' then iif ( convert (varchar, TSPL_CSA_TRANSFER_HEAD.STATUS)  = '1' , 'Posted' , 'Not Posted' )   " & _
-                  " when TSPL_BATCH_ITEM.Document_Type = 'SD-CSATRANS-RETURN' then iif ( convert (varchar, TSPL_SD_SALE_RETURN_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )   " & _
-                  " when TSPL_BATCH_ITEM.Document_Type = 'JW-IN' then iif ( convert (varchar, TSPL_ADJUSTMENT_HEADER.Posted)  = 'Y'  , 'Posted' , 'Not Posted' )  " & _
-                  " when TSPL_BATCH_ITEM.Document_Type = 'ITransfer' then iif ( convert (varchar, TSPL_TRANSFER_ORDER_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )  " & _
-                  " when TSPL_BATCH_ITEM.Document_Type = 'ScrapIn' then iif ( convert (varchar, TSPL_SCRAPINVOICE_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )  " & _
-                  " when TSPL_BATCH_ITEM.Document_Type = 'ISSTRAN' then iif ( convert (varchar, TSPL_IssueReturn_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )  " & _
-                  " when TSPL_BATCH_ITEM.Document_Type = 'MS-SR' then iif ( convert (varchar, TSPL_SCRAPSALE_HEAD_Return.Status)  = '1' , 'Posted' , 'Not Posted' )   " & _
-                  " else 'NA' end as [Document Status],  " & _
-                  " " & _
-                  " TSPL_BATCH_ITEM.In_Out_Type as [In Out Type], TSPL_BATCH_ITEM.Against_Inv_Movement_Trans_Id as [Against Inv Movement Trans Id], " & _
-                  " TSPL_BATCH_ITEM.Location_Code as [Location Code],TSPL_LOCATION_MASTER.Location_Desc as Location_Desc, TSPL_BATCH_ITEM.Manual_BatchNo as [Manual Batch No] " & _
-                " ,SU.UOM_CODE as [Stocking UOM]" & _
-                " ,round((case when TSPL_BATCH_ITEM.In_Out_Type='O' then (-1 * isnull(TSPL_BATCH_ITEM.Qty,0)) else isnull(TSPL_BATCH_ITEM.Qty,0) end *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)),2) as [Qty in Stocking UOM] " & _
-                " from TSPL_BATCH_ITEM " & _
-                  " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_BATCH_ITEM.Item_Code " & _
-                  " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_code = TSPL_BATCH_ITEM.Location_Code  " & _
-                  " left outer join TSPL_INVENTORY_SOURCE_CODE on TSPL_INVENTORY_SOURCE_CODE.Code = TSPL_BATCH_ITEM.Document_Type " & _
-                  " left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.item_code=TSPL_BATCH_ITEM.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM.UOM" & _
-                  " left join ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL WHERE Stocking_Unit='Y') SU ON SU.item_code=TSPL_BATCH_ITEM.Item_Code" & _
-                  "  " & _
-                  " Left Outer Join TSPL_SD_SHIPMENT_HEAD on  TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_BATCH_ITEM.Document_Code " & _
-                  " LEft Outer Join TSPL_ADJUSTMENT_HEADER on TSPL_ADJUSTMENT_HEADER.Adjustment_no = TSPL_BATCH_ITEM.Document_Code  " & _
-                  " Left Outer Join TSPL_PP_PRODUCTION_ENTRY on TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE = TSPL_BATCH_ITEM.Document_Code  " & _
-                  " Left Outer Join TSPL_PROD_ASSEMBLIES on TSPL_PROD_ASSEMBLIES.CODE = TSPL_BATCH_ITEM.Document_Code  " & _
-                  " Left Outer Join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code = TSPL_BATCH_ITEM.Document_Code  " & _
-                  " Left Outer Join TSPL_PE_FINALQC_HEAD on TSPL_PE_FINALQC_HEAD.QC_Code = TSPL_BATCH_ITEM.Document_Code  " & _
-                  " Left Outer Join TSPL_TRANSFER_ORDER_HEAD on TSPL_TRANSFER_ORDER_HEAD.Document_No =TSPL_BATCH_ITEM.Document_Code   " & _
-                  " Left Outer Join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_BATCH_ITEM.Document_Code   " & _
-                  " Left Outer Join TSPL_CSA_TRANSFER_HEAD on TSPL_CSA_TRANSFER_HEAD.DOC_CODE = TSPL_BATCH_ITEM.Document_Code   " & _
-                  " Left Outer Join TSPL_SCRAPSALE_HEAD on TSPL_SCRAPSALE_HEAD.shipment_no = TSPL_BATCH_ITEM.Document_Code   " & _
-                  " Left Outer Join TSPL_SCRAPINVOICE_HEAD on TSPL_SCRAPINVOICE_HEAD.Invoice_No = TSPL_BATCH_ITEM.Document_Code   " & _
-                  " Left Outer Join TSPL_IssueReturn_HEAD on TSPL_IssueReturn_HEAD.Doc_No = TSPL_BATCH_ITEM.Document_Code   " & _
-                  " Left Outer Join TSPL_SCRAPSALE_HEAD_Return on TSPL_SCRAPSALE_HEAD_Return.Document_No = TSPL_BATCH_ITEM.Document_Code   " & _
-                  "  " & _
-                  " where convert(date,TSPL_BATCH_ITEM.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,TSPL_BATCH_ITEM.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)  " + strItemType + "  " & _
-                  " Union All " & _
-                  " " & _
-                  "  select  TSPL_BATCH_ITEM_New.Batch_No  as [Batch No],'' as [Manufacture Date]," & _
-                  " '' as [Expiry Date], 0 as MRP , TSPL_BATCH_ITEM_New.Qty , TSPL_BATCH_ITEM_New.UOM , TSPL_BATCH_ITEM_New.Item_Code as [Item Code] , " & _
-                  " TSPL_ITEM_MASTER.Item_Desc as [Item Desc] , TSPL_BATCH_ITEM_New.Document_Code as [Document Code] , convert(varchar,TSPL_BATCH_ITEM_New.Document_Date,103) as [Document Date] , " & _
-                  " TSPL_BATCH_ITEM_New.Document_Type as [Document Type Code],TSPL_INVENTORY_SOURCE_CODE.Name as [Document Type Name],   " & _
-                  " Case " & _
-                  " when TSPL_BATCH_ITEM_New.Document_Type = 'PS-SH' then iif ( convert (varchar, TSPL_SD_SHIPMENT_HEAD.STATUS)  = '1' , 'Posted' , 'Not Posted' )  " & _
-                  " when TSPL_BATCH_ITEM_New.Document_Type = 'IC-AD' then iif ( convert (varchar, TSPL_ADJUSTMENT_HEADER.Posted)  = 'Y'  , 'Posted' , 'Not Posted' )  " & _
-                  " when TSPL_BATCH_ITEM_New.Document_Type = 'FS-SH' then iif ( convert (varchar, TSPL_SD_SHIPMENT_HEAD.STATUS)  = '1'  , 'Posted' , 'Not Posted' )  " & _
-                  " when TSPL_BATCH_ITEM_New.Document_Type = 'PROD_ENTRY' then iif ( convert (varchar, TSPL_PP_PRODUCTION_ENTRY.Posted)  = '1'  , 'Posted' , 'Not Posted' )   " & _
-                  " when TSPL_BATCH_ITEM_New.Document_Type = 'Disassembly' then iif ( convert (varchar, TSPL_PROD_ASSEMBLIES.Posted)  = '1'  , 'Posted' , 'Not Posted' )  " & _
-                  " when TSPL_BATCH_ITEM_New.Document_Type = 'FS-SR' then iif ( convert (varchar, TSPL_SD_SALE_RETURN_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )   " & _
-                  " when TSPL_BATCH_ITEM_New.Document_Type = 'MCC-MSALE' then iif ( convert (varchar, TSPL_SD_SHIPMENT_HEAD.STATUS)  = '1' , 'Posted' , 'Not Posted' )  " & _
-                  " when TSPL_BATCH_ITEM_New.Document_Type = 'MCC-MSR' then iif ( convert (varchar, TSPL_SD_SALE_RETURN_HEAD.Status)  = '1'   , 'Posted' , 'Not Posted' )   " & _
-                  " when TSPL_BATCH_ITEM_New.Document_Type = 'PRO-ENT-FQC' then iif ( convert (varchar, TSPL_PE_FINALQC_HEAD.Posted)  = '1'  , 'Posted' , 'Not Posted' )   " & _
-                  " when TSPL_BATCH_ITEM_New.Document_Type = 'PS-SR' then iif ( convert (varchar, TSPL_SD_SALE_RETURN_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )   " & _
-                  " when TSPL_BATCH_ITEM_New.Document_Type = 'Transfer' then iif ( convert (varchar, TSPL_TRANSFER_ORDER_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )   " & _
-                  " when TSPL_BATCH_ITEM_New.Document_Type = 'EX_SALE_IN' then iif ( convert (varchar, TSPL_SD_SALE_INVOICE_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )   " & _
-                  " when TSPL_BATCH_ITEM_New.Document_Type = 'MT_SALE_IN' then iif ( convert (varchar, TSPL_SD_SALE_INVOICE_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )   " & _
-                  " when TSPL_BATCH_ITEM_New.Document_Type = 'SD-CSATRANS' then iif ( convert (varchar, TSPL_CSA_TRANSFER_HEAD.STATUS)  = '1' , 'Posted' , 'Not Posted' )   " & _
-                  " when TSPL_BATCH_ITEM_New.Document_Type = 'SD-CSATRANS-RETURN' then iif ( convert (varchar, TSPL_SD_SALE_RETURN_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )   " & _
-                  " when TSPL_BATCH_ITEM_New.Document_Type = 'JW-IN' then iif ( convert (varchar, TSPL_ADJUSTMENT_HEADER.Posted)  = 'Y'  , 'Posted' , 'Not Posted' )  " & _
-                  " when TSPL_BATCH_ITEM_New.Document_Type = 'ITransfer' then iif ( convert (varchar, TSPL_TRANSFER_ORDER_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )  " & _
-                  " when TSPL_BATCH_ITEM_New.Document_Type = 'ScrapIn' then iif ( convert (varchar, TSPL_SCRAPINVOICE_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )  " & _
-                  " when TSPL_BATCH_ITEM_New.Document_Type = 'ISSTRAN' then iif ( convert (varchar, TSPL_IssueReturn_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )  " & _
-                  " when TSPL_BATCH_ITEM_New.Document_Type = 'MS-SR' then iif ( convert (varchar, TSPL_SCRAPSALE_HEAD_Return.Status)  = '1' , 'Posted' , 'Not Posted' )   " & _
-                  " else 'NA' end as [Document Status],  " & _
-                  " " & _
-                  " TSPL_BATCH_ITEM_New.In_Out_Type as [In Out Type], TSPL_BATCH_ITEM_New.Against_Inv_Movement_New_Trans_Id as [Against Inv Movement Trans Id], " & _
-                  " TSPL_BATCH_ITEM_New.Location_Code as [Location Code],TSPL_LOCATION_MASTER.Location_Desc as Location_Desc, '' as [Manual Batch No] " & _
-                " ,SU.UOM_CODE as [Stocking UOM]" & _
-                " ,round((case when TSPL_BATCH_ITEM_New.In_Out_Type='O' then (-1 * isnull(TSPL_BATCH_ITEM_New.Qty,0)) else isnull(TSPL_BATCH_ITEM_New.Qty,0) end *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)),2) as [Qty in Stocking UOM] " & _
-                " from TSPL_BATCH_ITEM_New " & _
-                  " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_BATCH_ITEM_New.Item_Code " & _
-                  " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_code = TSPL_BATCH_ITEM_New.Location_Code  " & _
-                  " left outer join TSPL_INVENTORY_SOURCE_CODE on TSPL_INVENTORY_SOURCE_CODE.Code = TSPL_BATCH_ITEM_New.Document_Type " & _
-                  " left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.item_code=TSPL_BATCH_ITEM_New.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM_New.UOM" & _
-                  " left join ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL WHERE Stocking_Unit='Y') SU ON SU.item_code=TSPL_BATCH_ITEM_New.Item_Code" & _
-                  "  " & _
-                  " Left Outer Join TSPL_SD_SHIPMENT_HEAD on  TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_BATCH_ITEM_New.Document_Code " & _
-                  " LEft Outer Join TSPL_ADJUSTMENT_HEADER on TSPL_ADJUSTMENT_HEADER.Adjustment_no = TSPL_BATCH_ITEM_New.Document_Code  " & _
-                  " Left Outer Join TSPL_PP_PRODUCTION_ENTRY on TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE = TSPL_BATCH_ITEM_New.Document_Code  " & _
-                  " Left Outer Join TSPL_PROD_ASSEMBLIES on TSPL_PROD_ASSEMBLIES.CODE = TSPL_BATCH_ITEM_New.Document_Code  " & _
-                  " Left Outer Join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code = TSPL_BATCH_ITEM_New.Document_Code  " & _
-                  " Left Outer Join TSPL_PE_FINALQC_HEAD on TSPL_PE_FINALQC_HEAD.QC_Code = TSPL_BATCH_ITEM_New.Document_Code  " & _
-                  " Left Outer Join TSPL_TRANSFER_ORDER_HEAD on TSPL_TRANSFER_ORDER_HEAD.Document_No =TSPL_BATCH_ITEM_New.Document_Code   " & _
-                  " Left Outer Join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_BATCH_ITEM_New.Document_Code   " & _
-                  " Left Outer Join TSPL_CSA_TRANSFER_HEAD on TSPL_CSA_TRANSFER_HEAD.DOC_CODE = TSPL_BATCH_ITEM_New.Document_Code   " & _
-                  " Left Outer Join TSPL_SCRAPSALE_HEAD on TSPL_SCRAPSALE_HEAD.shipment_no = TSPL_BATCH_ITEM_New.Document_Code   " & _
-                  " Left Outer Join TSPL_SCRAPINVOICE_HEAD on TSPL_SCRAPINVOICE_HEAD.Invoice_No = TSPL_BATCH_ITEM_New.Document_Code   " & _
-                  " Left Outer Join TSPL_IssueReturn_HEAD on TSPL_IssueReturn_HEAD.Doc_No = TSPL_BATCH_ITEM_New.Document_Code   " & _
-                  " Left Outer Join TSPL_SCRAPSALE_HEAD_Return on TSPL_SCRAPSALE_HEAD_Return.Document_No = TSPL_BATCH_ITEM_New.Document_Code   " & _
-                  "  " & _
-                  " where convert(date,TSPL_BATCH_ITEM_New.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,TSPL_BATCH_ITEM_New.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)  " + strItemType + "  " & _
+            qry = " Select * from ( " &
+                  " select  TSPL_BATCH_ITEM.Batch_No  as [Batch No],convert (varchar, TSPL_BATCH_ITEM.Manufacture_Date,103) as [Manufacture Date]," &
+                  " convert(varchar,TSPL_BATCH_ITEM.Expiry_Date,103) as [Expiry Date], TSPL_BATCH_ITEM.MRP , TSPL_BATCH_ITEM.Qty , TSPL_BATCH_ITEM.UOM , TSPL_BATCH_ITEM.Item_Code as [Item Code] , " &
+                  " TSPL_ITEM_MASTER.Item_Desc as [Item Desc] , TSPL_BATCH_ITEM.Document_Code as [Document Code] , convert(varchar,TSPL_BATCH_ITEM.Document_Date,103) as [Document Date] , " &
+                  " TSPL_BATCH_ITEM.Document_Type as [Document Type Code],TSPL_INVENTORY_SOURCE_CODE.Name as [Document Type Name],   " &
+                  " Case " &
+                  " when TSPL_BATCH_ITEM.Document_Type = 'PS-SH' then iif ( convert (varchar, TSPL_SD_SHIPMENT_HEAD.STATUS)  = '1' , 'Posted' , 'Not Posted' )  " &
+                  " when TSPL_BATCH_ITEM.Document_Type = 'IC-AD' then iif ( convert (varchar, TSPL_ADJUSTMENT_HEADER.Posted)  = 'Y'  , 'Posted' , 'Not Posted' )  " &
+                  " when TSPL_BATCH_ITEM.Document_Type = 'FS-SH' then iif ( convert (varchar, TSPL_SD_SHIPMENT_HEAD.STATUS)  = '1'  , 'Posted' , 'Not Posted' )  " &
+                  " when TSPL_BATCH_ITEM.Document_Type = 'PROD_ENTRY' then iif ( convert (varchar, TSPL_PP_PRODUCTION_ENTRY.Posted)  = '1'  , 'Posted' , 'Not Posted' )   " &
+                  " when TSPL_BATCH_ITEM.Document_Type = 'Disassembly' then iif ( convert (varchar, TSPL_PROD_ASSEMBLIES.Posted)  = '1'  , 'Posted' , 'Not Posted' )  " &
+                  " when TSPL_BATCH_ITEM.Document_Type = 'FS-SR' then iif ( convert (varchar, TSPL_SD_SALE_RETURN_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )   " &
+                  " when TSPL_BATCH_ITEM.Document_Type = 'MCC-MSALE' then iif ( convert (varchar, TSPL_SD_SHIPMENT_HEAD.STATUS)  = '1' , 'Posted' , 'Not Posted' )  " &
+                  " when TSPL_BATCH_ITEM.Document_Type = 'MCC-MSR' then iif ( convert (varchar, TSPL_SD_SALE_RETURN_HEAD.Status)  = '1'   , 'Posted' , 'Not Posted' )   " &
+                  " when TSPL_BATCH_ITEM.Document_Type = 'PRO-ENT-FQC' then iif ( convert (varchar, TSPL_PE_FINALQC_HEAD.Posted)  = '1'  , 'Posted' , 'Not Posted' )   " &
+                  " when TSPL_BATCH_ITEM.Document_Type = 'PS-SR' then iif ( convert (varchar, TSPL_SD_SALE_RETURN_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )   " &
+                  " when TSPL_BATCH_ITEM.Document_Type = 'Transfer' then iif ( convert (varchar, TSPL_TRANSFER_ORDER_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )   " &
+                  " when TSPL_BATCH_ITEM.Document_Type = 'EX_SALE_IN' then iif ( convert (varchar, TSPL_SD_SALE_INVOICE_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )   " &
+                  " when TSPL_BATCH_ITEM.Document_Type = 'MT_SALE_IN' then iif ( convert (varchar, TSPL_SD_SALE_INVOICE_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )   " &
+                  " when TSPL_BATCH_ITEM.Document_Type = 'SD-CSATRANS' then iif ( convert (varchar, TSPL_CSA_TRANSFER_HEAD.STATUS)  = '1' , 'Posted' , 'Not Posted' )   " &
+                  " when TSPL_BATCH_ITEM.Document_Type = 'SD-CSATRANS-RETURN' then iif ( convert (varchar, TSPL_SD_SALE_RETURN_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )   " &
+                  " when TSPL_BATCH_ITEM.Document_Type = 'JW-IN' then iif ( convert (varchar, TSPL_ADJUSTMENT_HEADER.Posted)  = 'Y'  , 'Posted' , 'Not Posted' )  " &
+                  " when TSPL_BATCH_ITEM.Document_Type = 'ITransfer' then iif ( convert (varchar, TSPL_TRANSFER_ORDER_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )  " &
+                  " when TSPL_BATCH_ITEM.Document_Type = 'ScrapIn' then iif ( convert (varchar, TSPL_SCRAPINVOICE_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )  " &
+                  " when TSPL_BATCH_ITEM.Document_Type = 'ISSTRAN' then iif ( convert (varchar, TSPL_IssueReturn_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )  " &
+                  " when TSPL_BATCH_ITEM.Document_Type = 'MS-SR' then iif ( convert (varchar, TSPL_SCRAPSALE_HEAD_Return.Status)  = '1' , 'Posted' , 'Not Posted' )   " &
+                  " else 'NA' end as [Document Status],  " &
+                  " " &
+                  " TSPL_BATCH_ITEM.In_Out_Type as [In Out Type], TSPL_BATCH_ITEM.Against_Inv_Movement_Trans_Id as [Against Inv Movement Trans Id], " &
+                  " TSPL_BATCH_ITEM.Location_Code as [Location Code],TSPL_LOCATION_MASTER.Location_Desc as Location_Desc, TSPL_BATCH_ITEM.Manual_BatchNo as [Manual Batch No] " &
+                " ,SU.UOM_CODE as [Stocking UOM]" &
+                " ,round((case when TSPL_BATCH_ITEM.In_Out_Type='O' then (-1 * isnull(TSPL_BATCH_ITEM.Qty,0)) else isnull(TSPL_BATCH_ITEM.Qty,0) end *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)),2) as [Qty in Stocking UOM],CASE  WHEN TSPL_BATCH_ITEM.Document_Type = 'SBE' THEN 0 ELSE CASE WHEN TSPL_BATCH_ITEM.Against_Inv_Movement_Trans_Id IS NOT NULL THEN 0
+                    ELSE TSPL_BATCH_ITEM.qty END END AS ReservedQty " &
+                " from TSPL_BATCH_ITEM " &
+                  " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_BATCH_ITEM.Item_Code " &
+                  " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_code = TSPL_BATCH_ITEM.Location_Code  " &
+                  " left outer join TSPL_INVENTORY_SOURCE_CODE on TSPL_INVENTORY_SOURCE_CODE.Code = TSPL_BATCH_ITEM.Document_Type " &
+                  " left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.item_code=TSPL_BATCH_ITEM.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM.UOM" &
+                  " left join ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL WHERE Stocking_Unit='Y') SU ON SU.item_code=TSPL_BATCH_ITEM.Item_Code" &
+                  "  " &
+                  " Left Outer Join TSPL_SD_SHIPMENT_HEAD on  TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_BATCH_ITEM.Document_Code " &
+                  " LEft Outer Join TSPL_ADJUSTMENT_HEADER on TSPL_ADJUSTMENT_HEADER.Adjustment_no = TSPL_BATCH_ITEM.Document_Code  " &
+                  " Left Outer Join TSPL_PP_PRODUCTION_ENTRY on TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE = TSPL_BATCH_ITEM.Document_Code  " &
+                  " Left Outer Join TSPL_PROD_ASSEMBLIES on TSPL_PROD_ASSEMBLIES.CODE = TSPL_BATCH_ITEM.Document_Code  " &
+                  " Left Outer Join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code = TSPL_BATCH_ITEM.Document_Code  " &
+                  " Left Outer Join TSPL_PE_FINALQC_HEAD on TSPL_PE_FINALQC_HEAD.QC_Code = TSPL_BATCH_ITEM.Document_Code  " &
+                  " Left Outer Join TSPL_TRANSFER_ORDER_HEAD on TSPL_TRANSFER_ORDER_HEAD.Document_No =TSPL_BATCH_ITEM.Document_Code   " &
+                  " Left Outer Join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_BATCH_ITEM.Document_Code   " &
+                  " Left Outer Join TSPL_CSA_TRANSFER_HEAD on TSPL_CSA_TRANSFER_HEAD.DOC_CODE = TSPL_BATCH_ITEM.Document_Code   " &
+                  " Left Outer Join TSPL_SCRAPSALE_HEAD on TSPL_SCRAPSALE_HEAD.shipment_no = TSPL_BATCH_ITEM.Document_Code   " &
+                  " Left Outer Join TSPL_SCRAPINVOICE_HEAD on TSPL_SCRAPINVOICE_HEAD.Invoice_No = TSPL_BATCH_ITEM.Document_Code   " &
+                  " Left Outer Join TSPL_IssueReturn_HEAD on TSPL_IssueReturn_HEAD.Doc_No = TSPL_BATCH_ITEM.Document_Code   " &
+                  " Left Outer Join TSPL_SCRAPSALE_HEAD_Return on TSPL_SCRAPSALE_HEAD_Return.Document_No = TSPL_BATCH_ITEM.Document_Code   " &
+                  "  " &
+                  " where convert(date,TSPL_BATCH_ITEM.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,TSPL_BATCH_ITEM.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)  " + strItemType + "  " &
+                  " Union All " &
+                  " " &
+                  "  select  TSPL_BATCH_ITEM_New.Batch_No  as [Batch No],'' as [Manufacture Date]," &
+                  " '' as [Expiry Date], 0 as MRP , TSPL_BATCH_ITEM_New.Qty , TSPL_BATCH_ITEM_New.UOM , TSPL_BATCH_ITEM_New.Item_Code as [Item Code] , " &
+                  " TSPL_ITEM_MASTER.Item_Desc as [Item Desc] , TSPL_BATCH_ITEM_New.Document_Code as [Document Code] , convert(varchar,TSPL_BATCH_ITEM_New.Document_Date,103) as [Document Date] , " &
+                  " TSPL_BATCH_ITEM_New.Document_Type as [Document Type Code],TSPL_INVENTORY_SOURCE_CODE.Name as [Document Type Name],   " &
+                  " Case " &
+                  " when TSPL_BATCH_ITEM_New.Document_Type = 'PS-SH' then iif ( convert (varchar, TSPL_SD_SHIPMENT_HEAD.STATUS)  = '1' , 'Posted' , 'Not Posted' )  " &
+                  " when TSPL_BATCH_ITEM_New.Document_Type = 'IC-AD' then iif ( convert (varchar, TSPL_ADJUSTMENT_HEADER.Posted)  = 'Y'  , 'Posted' , 'Not Posted' )  " &
+                  " when TSPL_BATCH_ITEM_New.Document_Type = 'FS-SH' then iif ( convert (varchar, TSPL_SD_SHIPMENT_HEAD.STATUS)  = '1'  , 'Posted' , 'Not Posted' )  " &
+                  " when TSPL_BATCH_ITEM_New.Document_Type = 'PROD_ENTRY' then iif ( convert (varchar, TSPL_PP_PRODUCTION_ENTRY.Posted)  = '1'  , 'Posted' , 'Not Posted' )   " &
+                  " when TSPL_BATCH_ITEM_New.Document_Type = 'Disassembly' then iif ( convert (varchar, TSPL_PROD_ASSEMBLIES.Posted)  = '1'  , 'Posted' , 'Not Posted' )  " &
+                  " when TSPL_BATCH_ITEM_New.Document_Type = 'FS-SR' then iif ( convert (varchar, TSPL_SD_SALE_RETURN_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )   " &
+                  " when TSPL_BATCH_ITEM_New.Document_Type = 'MCC-MSALE' then iif ( convert (varchar, TSPL_SD_SHIPMENT_HEAD.STATUS)  = '1' , 'Posted' , 'Not Posted' )  " &
+                  " when TSPL_BATCH_ITEM_New.Document_Type = 'MCC-MSR' then iif ( convert (varchar, TSPL_SD_SALE_RETURN_HEAD.Status)  = '1'   , 'Posted' , 'Not Posted' )   " &
+                  " when TSPL_BATCH_ITEM_New.Document_Type = 'PRO-ENT-FQC' then iif ( convert (varchar, TSPL_PE_FINALQC_HEAD.Posted)  = '1'  , 'Posted' , 'Not Posted' )   " &
+                  " when TSPL_BATCH_ITEM_New.Document_Type = 'PS-SR' then iif ( convert (varchar, TSPL_SD_SALE_RETURN_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )   " &
+                  " when TSPL_BATCH_ITEM_New.Document_Type = 'Transfer' then iif ( convert (varchar, TSPL_TRANSFER_ORDER_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )   " &
+                  " when TSPL_BATCH_ITEM_New.Document_Type = 'EX_SALE_IN' then iif ( convert (varchar, TSPL_SD_SALE_INVOICE_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )   " &
+                  " when TSPL_BATCH_ITEM_New.Document_Type = 'MT_SALE_IN' then iif ( convert (varchar, TSPL_SD_SALE_INVOICE_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )   " &
+                  " when TSPL_BATCH_ITEM_New.Document_Type = 'SD-CSATRANS' then iif ( convert (varchar, TSPL_CSA_TRANSFER_HEAD.STATUS)  = '1' , 'Posted' , 'Not Posted' )   " &
+                  " when TSPL_BATCH_ITEM_New.Document_Type = 'SD-CSATRANS-RETURN' then iif ( convert (varchar, TSPL_SD_SALE_RETURN_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )   " &
+                  " when TSPL_BATCH_ITEM_New.Document_Type = 'JW-IN' then iif ( convert (varchar, TSPL_ADJUSTMENT_HEADER.Posted)  = 'Y'  , 'Posted' , 'Not Posted' )  " &
+                  " when TSPL_BATCH_ITEM_New.Document_Type = 'ITransfer' then iif ( convert (varchar, TSPL_TRANSFER_ORDER_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )  " &
+                  " when TSPL_BATCH_ITEM_New.Document_Type = 'ScrapIn' then iif ( convert (varchar, TSPL_SCRAPINVOICE_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )  " &
+                  " when TSPL_BATCH_ITEM_New.Document_Type = 'ISSTRAN' then iif ( convert (varchar, TSPL_IssueReturn_HEAD.Status)  = '1' , 'Posted' , 'Not Posted' )  " &
+                  " when TSPL_BATCH_ITEM_New.Document_Type = 'MS-SR' then iif ( convert (varchar, TSPL_SCRAPSALE_HEAD_Return.Status)  = '1' , 'Posted' , 'Not Posted' )   " &
+                  " else 'NA' end as [Document Status],  " &
+                  " " &
+                  " TSPL_BATCH_ITEM_New.In_Out_Type as [In Out Type], TSPL_BATCH_ITEM_New.Against_Inv_Movement_New_Trans_Id as [Against Inv Movement Trans Id], " &
+                  " TSPL_BATCH_ITEM_New.Location_Code as [Location Code],TSPL_LOCATION_MASTER.Location_Desc as Location_Desc, '' as [Manual Batch No] " &
+                " ,SU.UOM_CODE as [Stocking UOM]" &
+                " ,round((case when TSPL_BATCH_ITEM_New.In_Out_Type='O' then (-1 * isnull(TSPL_BATCH_ITEM_New.Qty,0)) else isnull(TSPL_BATCH_ITEM_New.Qty,0) end *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)),2) as [Qty in Stocking UOM],CASE  WHEN TSPL_BATCH_ITEM_New.Document_Type = 'SBE' THEN 0 ELSE CASE WHEN TSPL_BATCH_ITEM_New.Against_Inv_Movement_New_Trans_Id IS NOT NULL THEN 0
+                   ELSE TSPL_BATCH_ITEM_New.qty END END AS ReservedQty " &
+                " from TSPL_BATCH_ITEM_New " &
+                  " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_BATCH_ITEM_New.Item_Code " &
+                  " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_code = TSPL_BATCH_ITEM_New.Location_Code  " &
+                  " left outer join TSPL_INVENTORY_SOURCE_CODE on TSPL_INVENTORY_SOURCE_CODE.Code = TSPL_BATCH_ITEM_New.Document_Type " &
+                  " left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.item_code=TSPL_BATCH_ITEM_New.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM_New.UOM" &
+                  " left join ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL WHERE Stocking_Unit='Y') SU ON SU.item_code=TSPL_BATCH_ITEM_New.Item_Code" &
+                  "  " &
+                  " Left Outer Join TSPL_SD_SHIPMENT_HEAD on  TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_BATCH_ITEM_New.Document_Code " &
+                  " LEft Outer Join TSPL_ADJUSTMENT_HEADER on TSPL_ADJUSTMENT_HEADER.Adjustment_no = TSPL_BATCH_ITEM_New.Document_Code  " &
+                  " Left Outer Join TSPL_PP_PRODUCTION_ENTRY on TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE = TSPL_BATCH_ITEM_New.Document_Code  " &
+                  " Left Outer Join TSPL_PROD_ASSEMBLIES on TSPL_PROD_ASSEMBLIES.CODE = TSPL_BATCH_ITEM_New.Document_Code  " &
+                  " Left Outer Join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code = TSPL_BATCH_ITEM_New.Document_Code  " &
+                  " Left Outer Join TSPL_PE_FINALQC_HEAD on TSPL_PE_FINALQC_HEAD.QC_Code = TSPL_BATCH_ITEM_New.Document_Code  " &
+                  " Left Outer Join TSPL_TRANSFER_ORDER_HEAD on TSPL_TRANSFER_ORDER_HEAD.Document_No =TSPL_BATCH_ITEM_New.Document_Code   " &
+                  " Left Outer Join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_BATCH_ITEM_New.Document_Code   " &
+                  " Left Outer Join TSPL_CSA_TRANSFER_HEAD on TSPL_CSA_TRANSFER_HEAD.DOC_CODE = TSPL_BATCH_ITEM_New.Document_Code   " &
+                  " Left Outer Join TSPL_SCRAPSALE_HEAD on TSPL_SCRAPSALE_HEAD.shipment_no = TSPL_BATCH_ITEM_New.Document_Code   " &
+                  " Left Outer Join TSPL_SCRAPINVOICE_HEAD on TSPL_SCRAPINVOICE_HEAD.Invoice_No = TSPL_BATCH_ITEM_New.Document_Code   " &
+                  " Left Outer Join TSPL_IssueReturn_HEAD on TSPL_IssueReturn_HEAD.Doc_No = TSPL_BATCH_ITEM_New.Document_Code   " &
+                  " Left Outer Join TSPL_SCRAPSALE_HEAD_Return on TSPL_SCRAPSALE_HEAD_Return.Document_No = TSPL_BATCH_ITEM_New.Document_Code   " &
+                  "  " &
+                  " where convert(date,TSPL_BATCH_ITEM_New.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,TSPL_BATCH_ITEM_New.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)  " + strItemType + "  " &
                   " ) Final where 2= 2 "
 
 
@@ -205,6 +207,10 @@ Public Class rptBatchItemReport1
                 Dim summaryRowItem As New GridViewSummaryRowItem()
                 Dim itemQty As New GridViewSummaryItem("Qty in Stocking UOM", "{0:F2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(itemQty)
+                Gv1.Columns("ReservedQty").FormatString = "{0:n2}"
+                'Dim summaryRowItem As New GridViewSummaryRowItem()
+                Dim itemQty2 As New GridViewSummaryItem("ReservedQty", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(itemQty2)
                 Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
                 Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             Else
