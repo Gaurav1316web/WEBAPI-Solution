@@ -1268,12 +1268,12 @@ Public Class SaleEinvoiceReport
             txtItem.Visible = False
             MyLabel10.Visible = False
             MyLabel4.Visible = False
-            'chkAPS.Checked = False
-            'ElseIf chkAPS.Checked Then
-            '    RadGroupBox2.Enabled = True
-            '    RadGroupBox6.Visible = False
-            '    TxtRoute.Visible = False
-            '    txtItem.Visible = False
+            chkAPS.Checked = False
+        ElseIf chkAPS.Checked Then
+            RadGroupBox2.Enabled = True
+            RadGroupBox6.Visible = False
+            TxtRoute.Visible = False
+            txtItem.Visible = False
         Else
             rbtnDetail.IsChecked = True
             ChkBoth.Checked = True
@@ -1289,35 +1289,35 @@ Public Class SaleEinvoiceReport
     End Sub
 
     Private Sub chkAPS_CheckedChanged(sender As Object, e As EventArgs) Handles chkAPS.CheckedChanged
-        'If chkAPS.Checked Then
-        '    rbtnDetail.IsChecked = True
-        '    ChkBoth.Checked = True
-        '    RadGroupBox2.Enabled = True
-        '    RadGroupBox6.Visible = False
-        '    RadGroupBox1.Enabled = False
-        '    chkDCSSale.Visible = False
-        '    TxtRoute.Visible = False
-        '    txtItem.Visible = False
-        '    MyLabel10.Visible = False
-        '    MyLabel4.Visible = False
-        '    chkBPL.Checked = False
-        'ElseIf chkBPL.Checked Then
-        '    RadGroupBox2.Enabled = False
-        '    RadGroupBox6.Visible = False
-        '    TxtRoute.Visible = False
-        '    txtItem.Visible = False
-        'Else
-        '    rbtnDetail.IsChecked = True
-        '    ChkBoth.Checked = True
-        '    RadGroupBox2.Enabled = True
-        '    RadGroupBox6.Visible = True
-        '    RadGroupBox1.Enabled = True
-        '    chkDCSSale.Visible = True
-        '    TxtRoute.Visible = True
-        '    txtItem.Visible = False
-        '    MyLabel10.Visible = True
-        '    MyLabel4.Visible = False
-        'End If
+        If chkAPS.Checked Then
+            rbtnDetail.IsChecked = True
+            ChkBoth.Checked = True
+            RadGroupBox2.Enabled = True
+            RadGroupBox6.Visible = False
+            RadGroupBox1.Enabled = False
+            chkDCSSale.Visible = False
+            TxtRoute.Visible = False
+            txtItem.Visible = False
+            MyLabel10.Visible = False
+            MyLabel4.Visible = False
+            chkBPL.Checked = False
+        ElseIf chkBPL.Checked Then
+            RadGroupBox2.Enabled = False
+            RadGroupBox6.Visible = False
+            TxtRoute.Visible = False
+            txtItem.Visible = False
+        Else
+            rbtnDetail.IsChecked = True
+            ChkBoth.Checked = True
+            RadGroupBox2.Enabled = True
+            RadGroupBox6.Visible = True
+            RadGroupBox1.Enabled = True
+            chkDCSSale.Visible = True
+            TxtRoute.Visible = True
+            txtItem.Visible = False
+            MyLabel10.Visible = True
+            MyLabel4.Visible = False
+        End If
     End Sub
 
     'Private Sub rmsaveLayout_Click(sender As Object, e As EventArgs) Handles rmsaveLayout.Click

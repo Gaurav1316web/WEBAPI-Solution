@@ -25,9 +25,9 @@ Partial Class frmGenerateBonus
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmGenerateBonus))
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.UsLock1 = New common.usLock()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.lblPayablePayPeriodName = New common.Controls.MyLabel()
@@ -68,6 +68,7 @@ Partial Class frmGenerateBonus
         Me.gvBonusSummary = New common.UserControls.MyRadGridView()
         Me.pageBonusDetail = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvBonusDetail = New common.UserControls.MyRadGridView()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblPayablePayPeriodName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -107,6 +108,7 @@ Partial Class frmGenerateBonus
         Me.pageBonusDetail.SuspendLayout()
         CType(Me.gvBonusDetail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvBonusDetail.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -407,6 +409,7 @@ Partial Class frmGenerateBonus
         '
         'SplitContainer2.Panel2
         '
+        Me.SplitContainer2.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnsave)
@@ -607,7 +610,7 @@ Partial Class frmGenerateBonus
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -638,7 +641,7 @@ Partial Class frmGenerateBonus
         Me.gvBonusSummary.MasterTemplate.EnableFiltering = True
         Me.gvBonusSummary.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBonusSummary.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvBonusSummary.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvBonusSummary.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gvBonusSummary.MyExportFilePath = ""
         Me.gvBonusSummary.MyStopExport = False
         Me.gvBonusSummary.Name = "gvBonusSummary"
@@ -669,7 +672,7 @@ Partial Class frmGenerateBonus
         Me.gvBonusDetail.MasterTemplate.EnableFiltering = True
         Me.gvBonusDetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBonusDetail.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvBonusDetail.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvBonusDetail.MasterTemplate.ViewDefinition = TableViewDefinition9
         Me.gvBonusDetail.MyExportFilePath = ""
         Me.gvBonusDetail.MyStopExport = False
         Me.gvBonusDetail.Name = "gvBonusDetail"
@@ -678,6 +681,16 @@ Partial Class frmGenerateBonus
         Me.gvBonusDetail.TabIndex = 1
         Me.gvBonusDetail.TabStop = False
         Me.gvBonusDetail.VarID = ""
+        '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint.Location = New System.Drawing.Point(381, 12)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(66, 18)
+        Me.btnPrint.TabIndex = 11
+        Me.btnPrint.Text = "Print"
         '
         'btnHistory
         '
@@ -741,6 +754,7 @@ Partial Class frmGenerateBonus
         Me.pageBonusDetail.ResumeLayout(False)
         CType(Me.gvBonusDetail.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvBonusDetail, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -788,4 +802,5 @@ Partial Class frmGenerateBonus
     Friend WithEvents fndLocation As common.UserControls.txtFinder
     Friend WithEvents txtCheckLeapyear As common.Controls.MyLabel
     Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnPrint As Telerik.WinControls.UI.RadButton
 End Class

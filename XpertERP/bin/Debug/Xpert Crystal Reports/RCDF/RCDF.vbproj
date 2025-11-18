@@ -1253,6 +1253,7 @@
     <None Include="Crystal Reports\HR_Payroll\rptDeductionRegister.rpt" />
     <None Include="Crystal Reports\HR_Payroll\rptDeductionRegisterkkk.rpt" />
     <None Include="Crystal Reports\HR_Payroll\rptDetailOfWelfareFundAmount.rpt" />
+    <None Include="Crystal Reports\HR_Payroll\rptGenerateBonusrpt.rpt" />
     <None Include="Crystal Reports\HR_Payroll\rptPayrollBankTransferDetail.rpt" />
     <None Include="Crystal Reports\HR_Payroll\rptTentativeSalary.rpt" />
     <None Include="Crystal Reports\Human Resource\rptAppointmentLetter.rpt" />

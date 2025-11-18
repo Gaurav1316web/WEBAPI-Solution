@@ -687,7 +687,7 @@ Public Class frmGenerateBonus
         '                           AND PAY_HEAD_CODE IN ('BASIC','DA') "
 
         Dim Wagesqry As String = " Select PAY_PERIOD_CODE,EMP_CODE,ACTUAL_AMOUNT,CASE WHEN PAY_HEAD_CODE='BASIC' THEN ACTUAL_AMOUNT ELSE 0 end AS BasicPay,
-                                   CASE WHEN PAY_HEAD_CODE='DA' THEN ACTUAL_AMOUNT ELSE 0 end AS DAPay from TSPL_SALARY_CALCULATION where PAY_PERIOD_CODE='APR25'
+                                   CASE WHEN PAY_HEAD_CODE='DA' THEN ACTUAL_AMOUNT ELSE 0 end AS DAPay from TSPL_SALARY_CALCULATION where PAY_PERIOD_CODE= '" & txtPayablePayPeriodCode.Value & "'
                                    AND PAY_HEAD_CODE IN ('BASIC','DA') "
         Dim dtwages As DataTable = clsDBFuncationality.GetDataTable(Wagesqry)
         If dtwages IsNot Nothing AndAlso dtwages.Rows.Count > 0 Then
@@ -837,6 +837,41 @@ Public Class frmGenerateBonus
             clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "EMP_BONUS_CODE", "TSPL_EMPLOYEE_BONUS", "TSPL_EMPBONUS_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Document Selected For Print.", Me.Text)
+                txtCode.Focus()
+                Exit Sub
+            End If
+            Dim frmCRV As New frmCrystalReportViewer()
+            Dim Qry As String = ""
+            Dim dtprint As New DataTable
+            Qry = " Select ROW_NUMBER() OVER (ORDER BY TSPL_EMPBONUS_DETAIL.EMP_CODE) AS SNo,TSPL_COMPANY_MASTER.Comp_Name,TSPL_EMPLOYEE_BONUS.EMP_BONUS_CODE,TSPL_EMPBONUS_DETAIL.EMP_CODE,Emp_Name,WAGES.Amount as Wages,
+                    TSPL_EMPBONUS_DETAIL.Final_BONUS_AMOUNT,payableDaysCount.DaysCount from TSPL_EMPLOYEE_BONUS
+                    left outer join TSPL_EMPBONUS_DETAIL ON TSPL_EMPBONUS_DETAIL.EMP_BONUS_CODE=TSPL_EMPLOYEE_BONUS.EMP_BONUS_CODE
+                    left outer join TSPL_EMPLOYEE_MASTER ON TSPL_EMPLOYEE_MASTER.EMP_CODE=TSPL_EMPBONUS_DETAIL.EMP_CODE
+                    left outer join (Select max(PAY_PERIOD_CODE)PAY_PERIOD_CODE,EMP_CODE,Sum(BasicPay+DAPay) as Amount 
+                    from (Select PAY_PERIOD_CODE,EMP_CODE,ACTUAL_AMOUNT,CASE WHEN PAY_HEAD_CODE='BASIC' THEN ACTUAL_AMOUNT ELSE 0 end AS BasicPay,
+                    CASE WHEN PAY_HEAD_CODE='DA' THEN ACTUAL_AMOUNT ELSE 0 end AS DAPay from TSPL_SALARY_CALCULATION where PAY_PERIOD_CODE = '" & txtPayablePayPeriodCode.Value & "'
+                     AND PAY_HEAD_CODE IN ('BASIC','DA') )XX group by EMP_CODE) WAGES ON WAGES.EMP_CODE=TSPL_EMPBONUS_DETAIL.EMP_CODE
+                    left outer join (Select max(PAY_PERIOD_CODE)PAY_PERIOD_CODE,EMP_CODE,Sum(payableDays) as DaysCount 
+                    from (Select PAYABLE_DAYS,PAY_PERIOD_CODE,EMP_CODE,ACTUAL_AMOUNT,CASE WHEN PAY_HEAD_CODE='BASIC' THEN PAYABLE_DAYS ELSE 0 end AS payableDays 
+                    from TSPL_SALARY_CALCULATION  where PAY_PERIOD_CODE >= '" & txtFromPayPeriodCode.Value & "' and PAY_PERIOD_CODE <= '" & txtToPayPeriodCode.Value & "'
+                     AND PAY_HEAD_CODE IN ('BASIC','DA') )XX group by EMP_CODE) payableDaysCount ON payableDaysCount.EMP_CODE=TSPL_EMPBONUS_DETAIL.EMP_CODE
+                    left outer join TSPL_COMPANY_MASTER On 2=2
+         		    WHERE TSPL_EMPLOYEE_BONUS.EMP_BONUS_CODE='" & txtCode.Value & "'  order by EMP_CODE  "
+
+            dtprint = clsDBFuncationality.GetDataTable(Qry)
+            If dtPrint.Rows.Count > 0 Then
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtprint, "rptGenerateBonusrpt", "Generate Bonus Report")
+            End If
+            frmCRV = Nothing
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, "Data not found.", Me.Text)
         End Try
     End Sub
 End Class
