@@ -22,13 +22,13 @@ Partial Class frmScrapSale
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmScrapSale))
-        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim GridViewTextBoxColumn7 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn8 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewDecimalColumn4 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
-        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim GridViewTextBoxColumn1 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn2 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewDecimalColumn1 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -612,7 +612,7 @@ Partial Class frmScrapSale
         'txtPODate
         '
         Me.txtPODate.CalculationExpression = Nothing
-        Me.txtPODate.CustomFormat = "dd/MM/yyyy  hh:mm tt"
+        Me.txtPODate.CustomFormat = "dd/MM/yyyy"
         Me.txtPODate.FieldCode = Nothing
         Me.txtPODate.FieldDesc = Nothing
         Me.txtPODate.FieldMaxLength = 0
@@ -635,7 +635,7 @@ Partial Class frmScrapSale
         Me.txtPODate.Size = New System.Drawing.Size(146, 20)
         Me.txtPODate.TabIndex = 1494
         Me.txtPODate.TabStop = False
-        Me.txtPODate.Text = "05/08/2011  05:38 PM"
+        Me.txtPODate.Text = "05/08/2011"
         Me.txtPODate.Value = New Date(2011, 8, 5, 17, 38, 42, 656)
         '
         'RadLabel14
@@ -1728,7 +1728,7 @@ Partial Class frmScrapSale
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -1993,7 +1993,7 @@ Partial Class frmScrapSale
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
@@ -2041,20 +2041,20 @@ Partial Class frmScrapSale
         '
         '
         Me.gvadd.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
-        GridViewTextBoxColumn7.HeaderText = "Additional Charges"
-        GridViewTextBoxColumn7.Name = "coladdcode"
-        GridViewTextBoxColumn7.Width = 125
-        GridViewTextBoxColumn8.HeaderText = "Description"
-        GridViewTextBoxColumn8.Name = "coladddesc"
-        GridViewTextBoxColumn8.Width = 300
-        GridViewDecimalColumn4.HeaderText = "Amount"
-        GridViewDecimalColumn4.Name = "coladdamt"
-        GridViewDecimalColumn4.Width = 78
-        Me.gvadd.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn7, GridViewTextBoxColumn8, GridViewDecimalColumn4})
+        GridViewTextBoxColumn1.HeaderText = "Additional Charges"
+        GridViewTextBoxColumn1.Name = "coladdcode"
+        GridViewTextBoxColumn1.Width = 125
+        GridViewTextBoxColumn2.HeaderText = "Description"
+        GridViewTextBoxColumn2.Name = "coladddesc"
+        GridViewTextBoxColumn2.Width = 300
+        GridViewDecimalColumn1.HeaderText = "Amount"
+        GridViewDecimalColumn1.Name = "coladdamt"
+        GridViewDecimalColumn1.Width = 78
+        Me.gvadd.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn1, GridViewTextBoxColumn2, GridViewDecimalColumn1})
         Me.gvadd.MasterTemplate.EnableGrouping = False
         Me.gvadd.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvadd.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvadd.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.gvadd.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvadd.MyExportFilePath = ""
         Me.gvadd.MyStopExport = False
         Me.gvadd.Name = "gvadd"
