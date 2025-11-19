@@ -237,6 +237,7 @@ Public Class clsUserMgtCode
     Public Const FrmSalesOrder As String = "SALES-ORD"
     Public Const FrmSalesOrderDispatch As String = "SAL-ORD_DIS"
     Public Const FrmSalesOrderGatePass As String = "SAL-ORD-GP"
+    Public Const FrmAPSSaleReport As String = "APS-SAL-RPT"
     'Public Const frmAdvanceForCD As String = "ADV_For_CD"
     'Public Const frmAcknowledgeMentOfGRN As String = "ACK_OF_GRN"
     Public Const frmDairyBookingUploader As String = "DA_BOK_UPL"

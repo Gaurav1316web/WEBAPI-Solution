@@ -4273,6 +4273,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
     End Sub
     Private Sub UpdateCurrentRow(ByVal IntRowNo As Integer)
         Dim arrTaxableAuth As New List(Of String)
+        Dim arrTaxableAuth1 As New List(Of String)
         Dim dblQty As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value)
         Dim dblRate As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colprice).Value)
         Dim dblAmt As Decimal = dblQty * dblRate
@@ -4305,12 +4306,22 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                             Dim dblSurTaxAmt As Double = GetCurrentRowSurTaxAmt(IntRowNo, ii, strSurTaxCode)
                             dblBaseAmt = dblSurTaxAmt
                         Else
-                            Dim dblOtherTaxAmt As Double = 0
+                        Dim dblOtherTaxAmt As Double = 0
+                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") = CompairStringResult.Equal Then
                             If Not IsTaxOnBaseAmt Then
                                 dblOtherTaxAmt = GetCurrentRowOtherTaxAmt(IntRowNo, Strii, arrTaxableAuth)
                             End If
+                        Else
+                            If Not IsTaxOnBaseAmt AndAlso clsCommon.CompairString(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value, "TCS") <> CompairStringResult.Equal Then
+                                dblOtherTaxAmt = GetCurrentRowOtherTaxAmt(IntRowNo, Strii, arrTaxableAuth)
+                            ElseIf Not IsTaxOnBaseAmt AndAlso clsCommon.CompairString(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value, "TCS") = CompairStringResult.Equal Then
+                                dblOtherTaxAmt = GetCurrentRowOtherTaxAmt(IntRowNo, Strii, arrTaxableAuth1)
+                            End If
+                        End If
 
-                            If Not IsTaxOnBaseAmt AndAlso clsCommon.myCdbl(txttcstaxbaseamount.Value) > 0 AndAlso AllowtoChangeTCSBaseAmount = True Then
+
+
+                        If Not IsTaxOnBaseAmt AndAlso clsCommon.myCdbl(txttcstaxbaseamount.Value) > 0 AndAlso AllowtoChangeTCSBaseAmount = True Then
 
                                 Dim dblTotalBasicPrice As Double = 0
                                 For n As Integer = 0 To gv1.Rows.Count - 1
@@ -4348,12 +4359,20 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                         dblTaxAmt = (dblBaseAmt * dblTaxRate) / 100
                     End If
                     gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = Math.Round(dblTaxAmt, IIf(objCommonVar.IsRoundOffTaxToZeroDecimal, 0, 2))
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") = CompairStringResult.Equal Then
                         If IsTaxable AndAlso Not arrTaxableAuth.Contains(strTaxCode.ToUpper()) Then
                             arrTaxableAuth.Add(strTaxCode.ToUpper())
                         End If
-
-
                     Else
+                        If (IsTaxable AndAlso Not arrTaxableAuth.Contains(strTaxCode.ToUpper())) AndAlso (clsCommon.CompairString(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value, "CGST") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value, "SGST") <> CompairStringResult.Equal) Then
+                            arrTaxableAuth.Add(strTaxCode.ToUpper())
+                        End If
+                        If (IsTaxable AndAlso Not arrTaxableAuth1.Contains(strTaxCode.ToUpper())) Then
+                            arrTaxableAuth1.Add(strTaxCode.ToUpper())
+                        End If
+                    End If
+
+                Else
                         gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value = Nothing
                     gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = Nothing
                     gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxRate" + Strii)).Value = Nothing

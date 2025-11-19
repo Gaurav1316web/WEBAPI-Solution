@@ -356,8 +356,8 @@ Public Class ClsScrapSaleHead
             clsCommon.AddColumnsForChange(coll, "Doc_Type", obj.Doc_Type)
             clsCommon.AddColumnsForChange(coll, "Status", obj.Status)
             clsCommon.AddColumnsForChange(coll, "Po_No", obj.Po_No)
-            If obj.Po_Date IsNot Nothing Then
-                clsCommon.AddColumnsForChange(coll, "Po_Date", obj.Po_Date, True)
+            If obj.Po_Date IsNot Nothing AndAlso clsCommon.myLen(obj.Po_No) > 0 Then
+                clsCommon.AddColumnsForChange(coll, "Po_Date", clsCommon.GetPrintDate(obj.Po_Date, "dd/MMM/yyyy"), True)
             End If
             clsCommon.AddColumnsForChange(coll, "NRG_No", obj.NRG_No)
             clsCommon.AddColumnsForChange(coll, "cust_Code", obj.cust_Code)

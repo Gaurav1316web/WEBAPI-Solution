@@ -359,7 +359,7 @@ Public Class clsCustomerTenderOrder
     Public Shared Function closeCustomerTenderOrderdata(ByVal trans As SqlTransaction, ByVal strDocNo As String, ByVal isCheckForPosted As Boolean, ByVal cls As String, Optional ByVal strRemarks As String = "") As Boolean
         Try
             If (clsCommon.myLen(strDocNo) <= 0) Then
-                Throw New Exception("Purchase Order No not found to Close")
+                Throw New Exception("Sales Order No not found to Close")
             End If
             Dim strClosedDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt")
             Dim obj As clsCustomerTenderOrder = clsCustomerTenderOrder.GetData(strDocNo, NavigatorType.Current, trans)

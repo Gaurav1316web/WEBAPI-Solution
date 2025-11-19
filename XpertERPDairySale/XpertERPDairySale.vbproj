@@ -193,6 +193,12 @@
     <Compile Include="APS Sale\Master\frmCustomerTender.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="APS Sale\Report\FrmAPSSaleReport.Designer.vb">
+      <DependentUpon>FrmAPSSaleReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="APS Sale\Report\FrmAPSSaleReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="APS Sale\Transaction\FrmSalesOrder.Designer.vb">
       <DependentUpon>FrmSalesOrder.vb</DependentUpon>
     </Compile>
@@ -1279,6 +1285,9 @@
     <EmbeddedResource Include="APS Sale\Master\frmCustomerTender.resx">
       <DependentUpon>frmCustomerTender.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="APS Sale\Report\FrmAPSSaleReport.resx">
+      <DependentUpon>FrmAPSSaleReport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="APS Sale\Transaction\FrmSalesOrder.resx">
       <DependentUpon>FrmSalesOrder.vb</DependentUpon>
     </EmbeddedResource>
@@ -1858,7 +1867,6 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="APS Sale\Report\" />
     <Folder Include="Fresh Sale\Master\" />
     <Folder Include="Fresh Sale\Report\" />
     <Folder Include="Fresh Sale\Transaction\" />

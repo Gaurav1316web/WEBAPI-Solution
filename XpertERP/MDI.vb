@@ -9690,6 +9690,9 @@ Public Class MDI
                     Case clsUserMgtCode.FrmSalesOrderGatePass
                         frm = New FrmSalesOrderGatePass
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmAPSSaleReport
+                        frm = New FrmAPSSaleReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     'Case clsUserMgtCode.frmAdvanceForCD
                     '    frm = New frmCustomerAdvanceAgainstBooking
                     '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

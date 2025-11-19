@@ -9544,7 +9544,7 @@ END "
             Dim Qry As String = ""
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                 GetBatchQty()
-                Dim IsInvoiceCreated As Boolean = clsCommon.myCBool(IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(Document_Code) as NoofDoc from TSPL_SD_SHIPMENT_HEAD where Against_Booking_No='DSB-JPR/2526/000037'")) = 0, False, True))
+                Dim IsInvoiceCreated As Boolean = clsCommon.myCBool(IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(Document_Code) as NoofDoc from TSPL_SD_SHIPMENT_HEAD where Against_Booking_No='" & txtDocNo.Value & "'")) = 0, False, True))
 
                 If IsInvoiceCreated Then
                     Qry = "select TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1+TSPL_COMPANY_MASTER.Add2+TSPL_COMPANY_MASTER.Add3 as Comp_Address,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.GSTReg_No,

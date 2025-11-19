@@ -80,8 +80,8 @@ Public Class FrmSalesOrder
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPost.Visible = MyBase.isPostFlag
-        If MyBase.isReverse Then
-            btnReverseAndUnPost.Enabled = True
+        If MyBase.isPostFlag Then
+            chkCloseSalesOrder.Enabled = True
         End If
     End Sub
     Private Sub FrmSalesOrder_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -655,7 +655,7 @@ Public Class FrmSalesOrder
         btnSave.Enabled = True
         btnDelete.Enabled = True
         btnPost.Enabled = True
-
+        btnReverseAndUnPost.Visible = False
         vaddnew = "Y"
         chkCloseSalesOrder.Checked = False
     End Sub
@@ -1314,11 +1314,13 @@ where TSPL_CUSTOMER_TENDER.Document_Code='" & strCode & "' and TSPL_CUSTOMER_TEN
                     btnPost.Enabled = False
                     UsLock1.Status = ERPTransactionStatus.Approved
                     btnDelete.Enabled = False
+                    btnReverseAndUnPost.Visible = True
                 Else
                     btnSave.Enabled = True
                     btnPost.Enabled = True
                     btnDelete.Enabled = True
                     UsLock1.Status = ERPTransactionStatus.Pending
+                    btnReverseAndUnPost.Visible = False
                 End If
                 If obj.close_yn = "Y" Then
                     vaddnew = "Y"
@@ -2176,13 +2178,13 @@ where TSPL_CUSTOMER_TENDER.Document_Code='" & strCode & "' and TSPL_CUSTOMER_TEN
                 setGridFocus()
                 isCellValueChangedOpen = False
             ElseIf e.Alt AndAlso e.Shift AndAlso e.Control AndAlso e.KeyCode = Keys.F12 Then
-                Dim frm As New FrmPWD(Nothing)
-                frm.strType = clsFixedParameterType.SIRC
-                frm.strCode = clsFixedParameterCode.SIReversAndCreate
-                frm.ShowDialog()
-                If frm.isPasswordCorrect Then
-                    btnReverseAndUnPost.Visible = True
-                End If
+                'Dim frm As New FrmPWD(Nothing)
+                'frm.strType = clsFixedParameterType.SIRC
+                'frm.strCode = clsFixedParameterCode.SIReversAndCreate
+                'frm.ShowDialog()
+                'If frm.isPasswordCorrect Then
+                '    btnReverseAndUnPost.Visible = True
+                'End If
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -2219,7 +2221,7 @@ where TSPL_CUSTOMER_TENDER.Document_Code='" & strCode & "' and TSPL_CUSTOMER_TEN
     Private Sub chkCloseSalesOrder_CheckedChanged(sender As Object, e As EventArgs) Handles chkCloseSalesOrder.CheckedChanged
         Try
             If chkCloseSalesOrder.Checked = True And vaddnew = "N" Then
-                Dim response = MsgBox("Are you sure want to close the Purchase Order", MsgBoxStyle.YesNo, "Attention")
+                Dim response = clsCommon.MyMessageBoxShow(Me, "Are you sure want to close the Sales Order", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question)
                 If response = MsgBoxResult.Yes Then
                     closeyn = "Y"
                     closeCustomerTenderOrder()

@@ -3703,7 +3703,10 @@ Public Class FrmVendorService
                 txtlocation.Value = obj.loc_code
                 ' lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtlocation.Value + "'"))
                 lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT ISNULL(Description,'') As Description FROM TSPL_GL_SEGMENT_CODE WHERE Segment_code ='" & clsCommon.myCstr(txtlocation.Value) & "'"))
-
+                txtLocationPrefix.Value = obj.Location_Code_Prefix
+                If clsCommon.myLen(obj.Location_Code_Prefix) > 0 Then
+                    txtLocationPrefixName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Location_Desc  from TSPL_LOCATION_MASTER WHERE  Location_Code='" & txtLocationPrefix.Value & "' "))
+                End If
                 '' For used in  Einvoice CancelData
                 FlagDocumentIsTaxable = IIf(obj.IsEInvoice, 1, 0)
                 EInvoiceType = clsERPFuncationality.GetCustomerEInvoiceTypeFromTransationTable("TSPL_VENDOR_INVOICE_HEAD", "Document_No", obj.Document_No, Nothing)

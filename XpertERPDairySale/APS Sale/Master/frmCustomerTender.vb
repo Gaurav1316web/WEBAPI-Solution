@@ -23,6 +23,9 @@ Public Class frmCustomerTender
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPost.Visible = MyBase.isPostFlag
+        If MyBase.isPostFlag Then
+            chkCloseCustTender.Enabled = True
+        End If
     End Sub
     Private Sub LoadBlankGrid()
         gv1.Rows.Clear()
@@ -219,11 +222,13 @@ from TSPL_CUSTOMER_TENDER "
                     btnPost.Enabled = False
                     UsLock1.Status = ERPTransactionStatus.Approved
                     btnDelete.Enabled = False
+                    chkCloseCustTender.Enabled = True
                 Else
                     btnSave.Enabled = True
                     btnPost.Enabled = True
                     btnDelete.Enabled = True
                     UsLock1.Status = ERPTransactionStatus.Pending
+                    chkCloseCustTender.Enabled = False
                 End If
                 If obj.close_yn = "Y" Then
                     vaddnew = "Y"
@@ -448,7 +453,7 @@ from TSPL_CUSTOMER_TENDER "
     Private Sub chkCloseCustTender_CheckedChanged(sender As Object, e As EventArgs) Handles chkCloseCustTender.CheckedChanged
         Try
             If chkCloseCustTender.Checked = True And vaddnew = "N" Then
-                Dim response = MsgBox("Are you sure want to close the Purchase Order", MsgBoxStyle.YesNo, "Attention")
+                Dim response = clsCommon.MyMessageBoxShow(Me, "Are you sure want to close the Customer Tender", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question)
                 If response = MsgBoxResult.Yes Then
                     closeyn = "Y"
                     closeCustomerTender()
