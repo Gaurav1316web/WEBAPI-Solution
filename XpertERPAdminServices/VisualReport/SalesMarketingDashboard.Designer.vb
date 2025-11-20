@@ -22,23 +22,25 @@ Partial Class SalesMarketingDashboard
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.cmbReportType = New common.Controls.MyComboBox()
+        Me.txtUnion = New common.UserControls.txtMultiSelectFinder()
+        Me.lblLocation = New common.Controls.MyLabel()
         Me.txtFromDate = New common.Controls.MyDateTimePicker()
         Me.txtToDate = New common.Controls.MyDateTimePicker()
         Me.lblToDate = New common.Controls.MyLabel()
         Me.lblFromdate = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv1 = New common.UserControls.MyRadGridView()
-        Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gv2 = New common.UserControls.MyRadGridView()
-        Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.Gv3 = New common.UserControls.MyRadGridView()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnExport = New Telerik.WinControls.UI.RadSplitButton()
@@ -46,6 +48,7 @@ Partial Class SalesMarketingDashboard
         Me.btnPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnreset = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -54,6 +57,9 @@ Partial Class SalesMarketingDashboard
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel1.SuspendLayout()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbReportType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -61,17 +67,13 @@ Partial Class SalesMarketingDashboard
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage3.SuspendLayout()
-        CType(Me.gv2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage4.SuspendLayout()
-        CType(Me.Gv3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Gv3.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -101,8 +103,6 @@ Partial Class SalesMarketingDashboard
         '
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage4)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
@@ -122,15 +122,80 @@ Partial Class SalesMarketingDashboard
         '
         'RadPanel1
         '
-        Me.RadPanel1.Controls.Add(Me.txtFromDate)
-        Me.RadPanel1.Controls.Add(Me.txtToDate)
-        Me.RadPanel1.Controls.Add(Me.lblToDate)
-        Me.RadPanel1.Controls.Add(Me.lblFromdate)
+        Me.RadPanel1.Controls.Add(Me.RadGroupBox1)
         Me.RadPanel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPanel1.Location = New System.Drawing.Point(0, 0)
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(779, 370)
         Me.RadPanel1.TabIndex = 15
+        '
+        'MyLabel6
+        '
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel6.Location = New System.Drawing.Point(3, 34)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(67, 18)
+        Me.MyLabel6.TabIndex = 456
+        Me.MyLabel6.Text = "Report Type"
+        '
+        'cmbReportType
+        '
+        Me.cmbReportType.AutoCompleteDisplayMember = Nothing
+        Me.cmbReportType.AutoCompleteValueMember = Nothing
+        Me.cmbReportType.CalculationExpression = Nothing
+        Me.cmbReportType.DropDownAnimationEnabled = True
+        Me.cmbReportType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbReportType.FieldCode = Nothing
+        Me.cmbReportType.FieldDesc = Nothing
+        Me.cmbReportType.FieldMaxLength = 0
+        Me.cmbReportType.FieldName = Nothing
+        Me.cmbReportType.isCalculatedField = False
+        Me.cmbReportType.IsSourceFromTable = False
+        Me.cmbReportType.IsSourceFromValueList = False
+        Me.cmbReportType.IsUnique = False
+        RadListDataItem5.Text = "Select"
+        RadListDataItem6.Text = "Union Wise Demand"
+        RadListDataItem7.Text = "Route And Booth Wise Demand"
+        RadListDataItem8.Text = "Item Wise Detail"
+        Me.cmbReportType.Items.Add(RadListDataItem5)
+        Me.cmbReportType.Items.Add(RadListDataItem6)
+        Me.cmbReportType.Items.Add(RadListDataItem7)
+        Me.cmbReportType.Items.Add(RadListDataItem8)
+        Me.cmbReportType.Location = New System.Drawing.Point(90, 34)
+        Me.cmbReportType.MendatroryField = True
+        Me.cmbReportType.MyLinkLable1 = Nothing
+        Me.cmbReportType.MyLinkLable2 = Nothing
+        Me.cmbReportType.Name = "cmbReportType"
+        Me.cmbReportType.NullText = "Please Select"
+        Me.cmbReportType.ReferenceFieldDesc = Nothing
+        Me.cmbReportType.ReferenceFieldName = Nothing
+        Me.cmbReportType.ReferenceTableName = Nothing
+        Me.cmbReportType.Size = New System.Drawing.Size(218, 20)
+        Me.cmbReportType.TabIndex = 455
+        '
+        'txtUnion
+        '
+        Me.txtUnion.arrDispalyMember = Nothing
+        Me.txtUnion.arrValueMember = Nothing
+        Me.txtUnion.Location = New System.Drawing.Point(90, 60)
+        Me.txtUnion.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtUnion.MyLinkLable1 = Me.lblLocation
+        Me.txtUnion.MyLinkLable2 = Nothing
+        Me.txtUnion.MyNullText = "All"
+        Me.txtUnion.Name = "txtUnion"
+        Me.txtUnion.Size = New System.Drawing.Size(218, 19)
+        Me.txtUnion.TabIndex = 389
+        '
+        'lblLocation
+        '
+        Me.lblLocation.FieldName = Nothing
+        Me.lblLocation.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLocation.Location = New System.Drawing.Point(3, 58)
+        Me.lblLocation.Name = "lblLocation"
+        Me.lblLocation.Size = New System.Drawing.Size(36, 18)
+        Me.lblLocation.TabIndex = 390
+        Me.lblLocation.Text = "Union"
         '
         'txtFromDate
         '
@@ -145,7 +210,7 @@ Partial Class SalesMarketingDashboard
         Me.txtFromDate.IsSourceFromTable = False
         Me.txtFromDate.IsSourceFromValueList = False
         Me.txtFromDate.IsUnique = False
-        Me.txtFromDate.Location = New System.Drawing.Point(76, 14)
+        Me.txtFromDate.Location = New System.Drawing.Point(90, 9)
         Me.txtFromDate.MendatroryField = False
         Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtFromDate.MyLinkLable1 = Nothing
@@ -174,7 +239,7 @@ Partial Class SalesMarketingDashboard
         Me.txtToDate.IsSourceFromTable = False
         Me.txtToDate.IsSourceFromValueList = False
         Me.txtToDate.IsUnique = False
-        Me.txtToDate.Location = New System.Drawing.Point(211, 14)
+        Me.txtToDate.Location = New System.Drawing.Point(226, 9)
         Me.txtToDate.MendatroryField = False
         Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtToDate.MyLinkLable1 = Nothing
@@ -193,7 +258,7 @@ Partial Class SalesMarketingDashboard
         'lblToDate
         '
         Me.lblToDate.FieldName = Nothing
-        Me.lblToDate.Location = New System.Drawing.Point(160, 16)
+        Me.lblToDate.Location = New System.Drawing.Point(175, 11)
         Me.lblToDate.Name = "lblToDate"
         Me.lblToDate.Size = New System.Drawing.Size(45, 18)
         Me.lblToDate.TabIndex = 78
@@ -202,7 +267,7 @@ Partial Class SalesMarketingDashboard
         'lblFromdate
         '
         Me.lblFromdate.FieldName = Nothing
-        Me.lblFromdate.Location = New System.Drawing.Point(11, 14)
+        Me.lblFromdate.Location = New System.Drawing.Point(3, 9)
         Me.lblFromdate.Name = "lblFromdate"
         Me.lblFromdate.Size = New System.Drawing.Size(59, 18)
         Me.lblFromdate.TabIndex = 77
@@ -211,11 +276,11 @@ Partial Class SalesMarketingDashboard
         'RadPageViewPage2
         '
         Me.RadPageViewPage2.Controls.Add(Me.gv1)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(119.0!, 28.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(779, 370)
-        Me.RadPageViewPage2.Text = "Union Wise Demand"
+        Me.RadPageViewPage2.Text = "Report"
         '
         'gv1
         '
@@ -231,72 +296,14 @@ Partial Class SalesMarketingDashboard
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(779, 370)
         Me.gv1.TabIndex = 2
-        '
-        'RadPageViewPage3
-        '
-        Me.RadPageViewPage3.Controls.Add(Me.gv2)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(164.0!, 28.0!)
-        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(779, 370)
-        Me.RadPageViewPage3.Text = "Route & Booth Wise Demand"
-        '
-        'gv2
-        '
-        Me.gv2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.gv2.Location = New System.Drawing.Point(8, 8)
-        '
-        '
-        '
-        Me.gv2.MasterTemplate.AllowAddNewRow = False
-        Me.gv2.MasterTemplate.AllowDeleteRow = False
-        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gv2.MasterTemplate.ShowGroupedColumns = True
-        Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition8
-        Me.gv2.MyStopExport = False
-        Me.gv2.Name = "gv2"
-        Me.gv2.ShowHeaderCellButtons = True
-        Me.gv2.Size = New System.Drawing.Size(779, 370)
-        Me.gv2.TabIndex = 3
-        '
-        'RadPageViewPage4
-        '
-        Me.RadPageViewPage4.Controls.Add(Me.Gv3)
-        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(98.0!, 28.0!)
-        Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(779, 370)
-        Me.RadPageViewPage4.Text = "Item Wise Detail"
-        '
-        'Gv3
-        '
-        Me.Gv3.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Gv3.Location = New System.Drawing.Point(2, 0)
-        '
-        '
-        '
-        Me.Gv3.MasterTemplate.AllowAddNewRow = False
-        Me.Gv3.MasterTemplate.AllowDeleteRow = False
-        Me.Gv3.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.Gv3.MasterTemplate.ShowGroupedColumns = True
-        Me.Gv3.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv3.MasterTemplate.ViewDefinition = TableViewDefinition9
-        Me.Gv3.MyStopExport = False
-        Me.Gv3.Name = "Gv3"
-        Me.Gv3.ShowHeaderCellButtons = True
-        Me.Gv3.Size = New System.Drawing.Size(776, 370)
-        Me.Gv3.TabIndex = 3
+        Me.gv1.VarID = ""
         '
         'btnPrint
         '
@@ -360,6 +367,24 @@ Partial Class SalesMarketingDashboard
         Me.btnreset.TabIndex = 19
         Me.btnreset.Text = "Reset"
         '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.txtUnion)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel6)
+        Me.RadGroupBox1.Controls.Add(Me.lblFromdate)
+        Me.RadGroupBox1.Controls.Add(Me.cmbReportType)
+        Me.RadGroupBox1.Controls.Add(Me.lblToDate)
+        Me.RadGroupBox1.Controls.Add(Me.txtToDate)
+        Me.RadGroupBox1.Controls.Add(Me.lblLocation)
+        Me.RadGroupBox1.Controls.Add(Me.txtFromDate)
+        Me.RadGroupBox1.HeaderText = ""
+        Me.RadGroupBox1.Location = New System.Drawing.Point(8, 8)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(320, 86)
+        Me.RadGroupBox1.TabIndex = 457
+        '
         'SalesMarketingDashboard
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -380,7 +405,9 @@ Partial Class SalesMarketingDashboard
         Me.RadPageViewPage1.ResumeLayout(False)
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
-        Me.RadPanel1.PerformLayout()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbReportType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -388,17 +415,14 @@ Partial Class SalesMarketingDashboard
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage3.ResumeLayout(False)
-        CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage4.ResumeLayout(False)
-        CType(Me.Gv3.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Gv3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -420,9 +444,10 @@ Partial Class SalesMarketingDashboard
     Friend WithEvents lblFromdate As common.Controls.MyLabel
     Friend WithEvents RadPageViewPage2 As RadPageViewPage
     Friend WithEvents gv1 As common.UserControls.MyRadGridView
-    Friend WithEvents RadPageViewPage3 As RadPageViewPage
-    Friend WithEvents RadPageViewPage4 As RadPageViewPage
-    Friend WithEvents gv2 As common.UserControls.MyRadGridView
-    Friend WithEvents Gv3 As common.UserControls.MyRadGridView
     Friend WithEvents btnPrint As RadButton
+    Friend WithEvents txtUnion As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents lblLocation As common.Controls.MyLabel
+    Friend WithEvents MyLabel6 As common.Controls.MyLabel
+    Friend WithEvents cmbReportType As common.Controls.MyComboBox
+    Friend WithEvents RadGroupBox1 As RadGroupBox
 End Class
