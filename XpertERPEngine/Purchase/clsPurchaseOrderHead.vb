@@ -7104,9 +7104,17 @@ Public Class clsTenderSchedulePO
         Return True
     End Function
 
+    Public Shared Function GetScheduleDataQuery(ByVal strDocNo As String, ByVal strItem As String) As String
+        Dim qry As String = "select TSPL_TENDER_SCHEDULE_PO.* from TSPL_TENDER_SCHEDULE_PO  where TSPL_TENDER_SCHEDULE_PO.DocumentCode='" & clsCommon.myCstr(strDocNo) & "'"
+        If clsCommon.myLen(strItem) > 0 Then
+            qry += " And TSPL_TENDER_SCHEDULE_PO.Item_Code In (" & strItem & ")"
+        End If
+        Return qry
+    End Function
+
     Public Shared Function GetData(ByVal strDocNo As String, ByVal trans As SqlTransaction) As List(Of clsTenderSchedulePO)
         Dim arr As List(Of clsTenderSchedulePO) = Nothing
-        Dim qry As String = "select TSPL_TENDER_SCHEDULE_PO.* from TSPL_TENDER_SCHEDULE_PO  where TSPL_TENDER_SCHEDULE_PO.DocumentCode='" + clsCommon.myCstr(strDocNo) + "' order by TSPL_TENDER_SCHEDULE_PO.PK_Id"
+        Dim qry As String = GetScheduleDataQuery(strDocNo, Nothing) & " order by TSPL_TENDER_SCHEDULE_PO.PK_Id"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             arr = New List(Of clsTenderSchedulePO)()

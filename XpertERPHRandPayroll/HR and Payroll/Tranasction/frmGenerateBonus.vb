@@ -45,19 +45,19 @@ Public Class frmGenerateBonus
                 obj.DESCRIPTION = txtDescription.Text
                 obj.ObjList = New List(Of clsBonusDetails)
                 For Each grow As GridViewRowInfo In gv1.Rows
-                    If grow.Cells(colCheck).Value = True Then
-                        If clsCommon.myLen(grow.Cells(colempcode).Value) > 0 Then
+                    'If grow.Cells(colCheck).Value = True Then
+                    If clsCommon.myLen(grow.Cells(colempcode).Value) > 0 Then
 
-                            Dim objTr As New clsBonusDetails()
-                            objTr.EMP_BONUS_CODE = txtCode.Value
-                            objTr.EMP_CODE = clsCommon.myCstr(grow.Cells(colempcode).Value)
-                            objTr.BONUS_CODE = clsCommon.myCstr(grow.Cells(colbonusCode).Value)
-                            objTr.BONUS_AMOUNT = clsCommon.myCdbl(grow.Cells(colbonusAmount).Value)
-                            objTr.Final_BONUS_AMOUNT = clsCommon.myCdbl(grow.Cells(ColTotalBonus).Value)
-                            objTr.Bonus_Increment = clsCommon.myCdbl(grow.Cells(colSaleIncrement).Value)
-                            obj.ObjList.Add(objTr)
-                        End If
+                        Dim objTr As New clsBonusDetails()
+                        objTr.EMP_BONUS_CODE = txtCode.Value
+                        objTr.EMP_CODE = clsCommon.myCstr(grow.Cells(colempcode).Value)
+                        objTr.BONUS_CODE = clsCommon.myCstr(grow.Cells(colbonusCode).Value)
+                        objTr.BONUS_AMOUNT = clsCommon.myCdbl(grow.Cells(colbonusAmount).Value)
+                        objTr.Final_BONUS_AMOUNT = clsCommon.myCdbl(grow.Cells(ColTotalBonus).Value)
+                        objTr.Bonus_Increment = clsCommon.myCdbl(grow.Cells(colSaleIncrement).Value)
+                        obj.ObjList.Add(objTr)
                     End If
+                    'End If
                 Next
 
                 If (obj.SaveData(obj, isNewEntry)) Then
@@ -572,7 +572,9 @@ Public Class frmGenerateBonus
             SaleIncrement = gv1.CurrentRow.Cells(colSaleIncrement).Value
 
             Dim Empcode As String = 0
+            Dim BonusAmt As String = 0
             Empcode = gv1.CurrentRow.Cells(colempcode).Value
+            BonusAmt = gv1.CurrentRow.Cells(colbonusAmount).Value
             Dim BonusRate As Double = 0
             Dim qry2 As String = " Select BONUS_RATE from TSPL_BONUS_MASTER "
             BonusRate = clsDBFuncationality.getSingleValue(qry2)
@@ -607,28 +609,15 @@ Public Class frmGenerateBonus
                                  ) GSP ON GSA.SALARY_GENERATION_CODE=GSP.SALARY_GENERATION_CODE  AND GSA.EMP_CODE=GSP.EMP_CODE and GSP.CalculationMethod=BONUS.Calculation_Method  left join TSPL_PAYPERIOD_MASTER PM on PM.PAY_PERIOD_CODE=GS.PAY_PERIOD_CODE  left join TSPL_DEPARTMENT_MASTER DEPT ON EMP.DEPARTMENT_CODE=DEPT.DEPARTMENT_CODE  left join TSPL_LOCATION_MASTER LOC ON EMP.Location_Code=LOC.Location_Code  left join TSPL_DESIGNATION_MASTER DES ON EMP.Designation=DES.Designation_id   WHERE 2=2  AND GS.Location_Code='JODHPUR' AND ESTS.BONUS_CODE is not null  and PM.DATE_FROM BETWEEN   (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='Jan')  AND (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='Dec') and  GSA.EMP_CODE = '" + clsCommon.myCstr(Empcode) + "' )XX )YY  ) as Final  PIVOT  (  sum(Std_Basic)  FOR Pay_Period_Code IN ([Amount_Jan],[Amount_JDPPAY],[Amount_Feb],[Amount_APR],[Amount_May],[Amount_Jun],[Amount_Jul],[Amount_Aug],[Amount_Sep],[Amount_Oct],[Amount_Nov],[Amount_Dec])  ) AS Wages  PIVOT  (  sum(PAYABLE_DAYS)  FOR PD_PAY_PERIOD_CODE IN ([PD_Jan],[PD_JDPPAY],[PD_Feb],[PD_APR],[PD_May],[PD_Jun],[PD_Jul],[PD_Aug],[PD_Sep],[PD_Oct],[PD_Nov],[PD_Dec])  ) AS PDays  PIVOT  (  sum(Bonus_On)  FOR BonusWages_PAY_PERIOD_CODE IN ([BonusWages_Jan],[BonusWages_JDPPAY],[BonusWages_Feb],[BonusWages_APR],[BonusWages_May],[BonusWages_Jun],[BonusWages_Jul],[BonusWages_Aug],[BonusWages_Sep],[BonusWages_Oct],[BonusWages_Nov],[BonusWages_Dec])  ) AS Bonus_On  group by EMP_CODE,BONUS_CODE,BONUS_NAME,BONUS_RATE,EMP_NAME,FATHERS_NAME,DEPARTMENT_CODE,DEPARTMENT_NAME,LOCATION_CODE,Location_Desc,PF_NO,Designation,Designation_Desc,Joining_date,RELIEVING_DATE) Final  where [Total Bonus]>0 "
                 TotalBonusAmt = clsDBFuncationality.getSingleValue(FinalBonusAmt)
 
-
-                'Dim PayableDays As Double = 0
-                'Dim qry As String = " Select PAYABLE_DAYS from TSPL_GENERATE_SALARY_ATTENDANCE "
-                'PayableDays = clsDBFuncationality.getSingleValue(qry)
-
-                'Dim BonusAmt As Double = 0
-                'Dim qry1 As String = " Select COND_MAX_EARNING_PER_MONTH from TSPL_BONUS_MASTER "
-                'BonusAmt = clsDBFuncationality.getSingleValue(qry1)
-
-                ''Dim BonusRate As Double = 0
-                ''Dim qry2 As String = " Select BONUS_RATE from TSPL_GENERATE_SALARY_ATTENDANCE "
-                ''BonusRate = clsDBFuncationality.getSingleValue(qry2)
-
-                'Dim Days As Integer = CalculateLeapYearDays(txtCheckLeapyear.Text)
-
-                'Dim TotalBonusAmt As Double = 0
-                'TotalBonusAmt = clsCommon.myCdbl(((BonusAmt / BonusRate) / Days) * PayableDays)
                 gv1.CurrentRow.Cells(ColTotalBonus).Value = clsCommon.myCdbl(TotalBonusAmt)
             Else
                 common.clsCommon.MyMessageBoxShow(Me, "Bonus Rate is more then 20%", Me.Text)
                 gv1.CurrentRow.Cells(ColTotalBonus).Value = 0
             End If
+            'Else
+            '    Dim BonusAmt As Double = 0
+            '    BonusAmt = gv1.CurrentRow.Cells(colbonusAmount).Value
+            '    gv1.CurrentRow.Cells(ColTotalBonus).Value = BonusAmt
         End If
 
     End Sub
@@ -689,6 +678,7 @@ Public Class frmGenerateBonus
                 gv1.Rows(gv1.Rows.Count - 1).Cells(colbonusCode).Value = dr("bonuscode")
                 gv1.Rows(gv1.Rows.Count - 1).Cells(colbonusName).Value = dr("bonusname")
                 gv1.Rows(gv1.Rows.Count - 1).Cells(colbonusAmount).Value = dr("TOTAL BONUS")
+                gv1.Rows(gv1.Rows.Count - 1).Cells(ColTotalBonus).Value = dr("TOTAL BONUS")
             Next
         End If
 
@@ -697,7 +687,7 @@ Public Class frmGenerateBonus
         '                           AND PAY_HEAD_CODE IN ('BASIC','DA') "
 
         Dim Wagesqry As String = " Select PAY_PERIOD_CODE,EMP_CODE,ACTUAL_AMOUNT,CASE WHEN PAY_HEAD_CODE='BASIC' THEN ACTUAL_AMOUNT ELSE 0 end AS BasicPay,
-                                   CASE WHEN PAY_HEAD_CODE='DA' THEN ACTUAL_AMOUNT ELSE 0 end AS DAPay from TSPL_SALARY_CALCULATION where PAY_PERIOD_CODE='APR25'
+                                   CASE WHEN PAY_HEAD_CODE='DA' THEN ACTUAL_AMOUNT ELSE 0 end AS DAPay from TSPL_SALARY_CALCULATION where PAY_PERIOD_CODE= '" & txtPayablePayPeriodCode.Value & "'
                                    AND PAY_HEAD_CODE IN ('BASIC','DA') "
         Dim dtwages As DataTable = clsDBFuncationality.GetDataTable(Wagesqry)
         If dtwages IsNot Nothing AndAlso dtwages.Rows.Count > 0 Then
@@ -847,6 +837,41 @@ Public Class frmGenerateBonus
             clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "EMP_BONUS_CODE", "TSPL_EMPLOYEE_BONUS", "TSPL_EMPBONUS_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Document Selected For Print.", Me.Text)
+                txtCode.Focus()
+                Exit Sub
+            End If
+            Dim frmCRV As New frmCrystalReportViewer()
+            Dim Qry As String = ""
+            Dim dtprint As New DataTable
+            Qry = " Select ROW_NUMBER() OVER (ORDER BY TSPL_EMPBONUS_DETAIL.EMP_CODE) AS SNo,TSPL_COMPANY_MASTER.Comp_Name,TSPL_EMPLOYEE_BONUS.EMP_BONUS_CODE,TSPL_EMPBONUS_DETAIL.EMP_CODE,Emp_Name,WAGES.Amount as Wages,
+                    TSPL_EMPBONUS_DETAIL.Final_BONUS_AMOUNT,payableDaysCount.DaysCount from TSPL_EMPLOYEE_BONUS
+                    left outer join TSPL_EMPBONUS_DETAIL ON TSPL_EMPBONUS_DETAIL.EMP_BONUS_CODE=TSPL_EMPLOYEE_BONUS.EMP_BONUS_CODE
+                    left outer join TSPL_EMPLOYEE_MASTER ON TSPL_EMPLOYEE_MASTER.EMP_CODE=TSPL_EMPBONUS_DETAIL.EMP_CODE
+                    left outer join (Select max(PAY_PERIOD_CODE)PAY_PERIOD_CODE,EMP_CODE,Sum(BasicPay+DAPay) as Amount 
+                    from (Select PAY_PERIOD_CODE,EMP_CODE,ACTUAL_AMOUNT,CASE WHEN PAY_HEAD_CODE='BASIC' THEN ACTUAL_AMOUNT ELSE 0 end AS BasicPay,
+                    CASE WHEN PAY_HEAD_CODE='DA' THEN ACTUAL_AMOUNT ELSE 0 end AS DAPay from TSPL_SALARY_CALCULATION where PAY_PERIOD_CODE = '" & txtPayablePayPeriodCode.Value & "'
+                     AND PAY_HEAD_CODE IN ('BASIC','DA') )XX group by EMP_CODE) WAGES ON WAGES.EMP_CODE=TSPL_EMPBONUS_DETAIL.EMP_CODE
+                    left outer join (Select max(PAY_PERIOD_CODE)PAY_PERIOD_CODE,EMP_CODE,Sum(payableDays) as DaysCount 
+                    from (Select PAYABLE_DAYS,PAY_PERIOD_CODE,EMP_CODE,ACTUAL_AMOUNT,CASE WHEN PAY_HEAD_CODE='BASIC' THEN PAYABLE_DAYS ELSE 0 end AS payableDays 
+                    from TSPL_SALARY_CALCULATION  where PAY_PERIOD_CODE >= '" & txtFromPayPeriodCode.Value & "' and PAY_PERIOD_CODE <= '" & txtToPayPeriodCode.Value & "'
+                     AND PAY_HEAD_CODE IN ('BASIC','DA') )XX group by EMP_CODE) payableDaysCount ON payableDaysCount.EMP_CODE=TSPL_EMPBONUS_DETAIL.EMP_CODE
+                    left outer join TSPL_COMPANY_MASTER On 2=2
+         		    WHERE TSPL_EMPLOYEE_BONUS.EMP_BONUS_CODE='" & txtCode.Value & "'  order by EMP_CODE  "
+
+            dtprint = clsDBFuncationality.GetDataTable(Qry)
+            If dtPrint.Rows.Count > 0 Then
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtprint, "rptGenerateBonusrpt", "Generate Bonus Report")
+            End If
+            frmCRV = Nothing
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, "Data not found.", Me.Text)
         End Try
     End Sub
 End Class

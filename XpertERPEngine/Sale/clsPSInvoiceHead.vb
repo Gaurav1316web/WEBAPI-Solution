@@ -1659,12 +1659,12 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                     End If
                 End If
             ElseIf clsCommon.CompairString(ECustomerType, "BC") = CompairStringResult.Equal AndAlso clsCommon.CompairString(obj.Screen_Type, "CT") = CompairStringResult.Equal AndAlso obj.IsReplacement = 0 Then
-                If clsCommon.myLen(GetEWayBillNo(strDocNo, trans)) <= 0 Then
-                    clsPSInvoiceHead.EWayBill_Implementation(obj.Document_Code, obj.Bill_To_Location, trans, True)
-                    If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" & strDocNo & "'", trans)) <= 0 Then
-                        'Throw New Exception("E-Way Bill For Sales Invoice No [" + strDocNo + "] is not generated")
-                    End If
-                End If
+                'If clsCommon.myLen(GetEWayBillNo(strDocNo, trans)) <= 0 Then
+                '    clsPSInvoiceHead.EWayBill_Implementation(obj.Document_Code, obj.Bill_To_Location, trans, True)
+                '    If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" & strDocNo & "'", trans)) <= 0 Then
+                '        Throw New Exception("E-Way Bill For Sales Invoice No [" + strDocNo + "] is not generated")
+                '    End If
+                'End If
             ElseIf clsCommon.CompairString(ECustomerType, "BC") = CompairStringResult.Equal AndAlso clsCommon.CompairString(obj.Trans_type, "MCC") = CompairStringResult.Equal Then
                 Dim EnableDynamicQRCodeForB2CInvoice As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.EnableDynamicQRCodeForB2CInvoice, clsFixedParameterCode.EnableDynamicQRCodeForB2CInvoice, trans)) = 1, True, False))
                 If EnableDynamicQRCodeForB2CInvoice = True AndAlso clsERPFuncationality.GetQRCodeStatus(obj.Document_Date, trans) = True Then

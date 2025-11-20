@@ -10,6 +10,7 @@ Public Class FrmProductDispatch
     Dim IsOnlyCreditCust As Boolean = True
     Dim ConvertIntoBulkUOM As Boolean = False
     Dim ConvertIntoBillingUOM As Boolean = False
+    Dim EnableProductSaleForJPR As Boolean = False
 
     Dim ConvertPouchtoCrateonDispatch As Boolean = True
     Dim EnableManualCrateonTaxableDairyDispatch As Integer = 0
@@ -484,6 +485,7 @@ Public Class FrmProductDispatch
         ConvertIntoBulkUOM = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConvertIntoBulkUOM, clsFixedParameterCode.ConvertIntoBulkUOM, Nothing)) = 1, True, False)
         FORPRICE = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, Nothing))
         ConvertIntoBillingUOM = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConvertTOBillingUOM, clsFixedParameterCode.ConvertTOBillingUOM, Nothing)) = 1, True, False)
+        EnableProductSaleForJPR = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = 1, True, False)
 
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = clsCommon.GETSERVERDATE
@@ -661,10 +663,10 @@ Public Class FrmProductDispatch
         dr("Code") = "I"
         dr("Name") = "Ice Cream"
         dt.Rows.Add(dr)
-        dr = dt.NewRow()
-        dr("Code") = "O"
-        dr("Name") = "Other"
-        dt.Rows.Add(dr)
+        'dr = dt.NewRow()
+        'dr("Code") = "O"
+        'dr("Name") = "Other"
+        'dt.Rows.Add(dr)
 
         cboItemType.DataSource = dt
         cboItemType.ValueMember = "Code"
@@ -12089,7 +12091,8 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
         ' 
         If SettDistributorWiseBilling Then
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal OrElse clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-                Dim strqry As String = "select Distinct Route_No as Code from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER"
+                Dim strqry As String = "select Distinct TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No as Code from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER left join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No "
+                Dim Whrcls As String = " TSPL_ROUTE_MASTER.Item_Type='" + cboItemType.SelectedValue + "' "
                 txtRouteNo.Value = clsCommon.ShowSelectForm("DShipRouteFinder", strqry, "Code", "", txtRouteNo.Value, "", isButtonClicked)
                 fndRouteNo_TextChanged()
                 Dim strQry1 As String = "select TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code  from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER

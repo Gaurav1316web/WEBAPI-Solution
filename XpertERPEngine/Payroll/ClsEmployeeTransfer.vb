@@ -11,6 +11,7 @@ Public Class ClsEmployeeTransfer
     Public Transfer_Division As String
     Public Document_Date As Date
     Public Description As String
+    Public Office_Letter As String
     Public Document_Type As String
     Public Posting_Date As Date
     Public Salary_Affected As String
@@ -39,6 +40,7 @@ Public Class ClsEmployeeTransfer
             clsCommon.AddColumnsForChange(coll, "Effective_Date", clsCommon.GetPrintDate(obj.Effective_Date, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Document_Type", obj.Document_Type)
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
+            clsCommon.AddColumnsForChange(coll, "Office_Letter", obj.Office_Letter)
 
             clsCommon.AddColumnsForChange(coll, "Salary_Affected", obj.Salary_Affected, True)
             clsCommon.AddColumnsForChange(coll, "Salary_Code", obj.Salary_Code, False)
@@ -102,6 +104,7 @@ Public Class ClsEmployeeTransfer
             obj.Document_Code = clsCommon.myCstr(dt.Rows(0)("Document_Code"))
             obj.Document_Date = clsCommon.myCDate(dt.Rows(0)("Document_Date"))
             obj.Description = clsCommon.myCstr(dt.Rows(0)("Description"))
+            obj.Office_Letter = clsCommon.myCstr(dt.Rows(0)("Office_Letter"))
             obj.Effective_Date = clsCommon.myCDate(dt.Rows(0)("Effective_Date"))
             obj.Document_Type = clsCommon.myCstr(dt.Rows(0)("Document_Type"))
             obj.Salary_Affected = clsCommon.myCstr(dt.Rows(0)("Salary_Affected"))

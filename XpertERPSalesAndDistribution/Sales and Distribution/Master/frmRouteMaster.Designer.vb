@@ -105,6 +105,12 @@ Partial Class frmRouteMaster
         Me.txtExtraMTime = New common.Controls.MyTextBox()
         Me.txtExtraETime = New common.Controls.MyTextBox()
         Me.chkAllowDecimal = New Telerik.WinControls.UI.RadCheckBox()
+        Me.cmbItemType = New Telerik.WinControls.UI.RadDropDownList()
+        Me.lblitemType = New common.Controls.MyLabel()
+        Me.txtPStartTime = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.lblPStartTime = New common.Controls.MyLabel()
+        Me.txtPEndTime = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.lblPEndTime = New common.Controls.MyLabel()
         CType(Me.rlblRouteid, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rlblDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rlblType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -171,6 +177,12 @@ Partial Class frmRouteMaster
         CType(Me.txtExtraMTime, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtExtraETime, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkAllowDecimal, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbItemType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblitemType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtPStartTime, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblPStartTime, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtPEndTime, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblPEndTime, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -1410,11 +1422,86 @@ Partial Class frmRouteMaster
         Me.chkAllowDecimal.TabIndex = 1418
         Me.chkAllowDecimal.Text = "Allow Decimal"
         '
+        'cmbItemType
+        '
+        Me.cmbItemType.AutoCompleteDisplayMember = Nothing
+        Me.cmbItemType.AutoCompleteValueMember = Nothing
+        Me.cmbItemType.DropDownAnimationEnabled = True
+        Me.cmbItemType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbItemType.Location = New System.Drawing.Point(723, 117)
+        Me.cmbItemType.Name = "cmbItemType"
+        Me.cmbItemType.Size = New System.Drawing.Size(135, 20)
+        Me.cmbItemType.TabIndex = 1420
+        '
+        'lblitemType
+        '
+        Me.lblitemType.FieldName = Nothing
+        Me.lblitemType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblitemType.Location = New System.Drawing.Point(665, 119)
+        Me.lblitemType.Name = "lblitemType"
+        Me.lblitemType.Size = New System.Drawing.Size(57, 16)
+        Me.lblitemType.TabIndex = 1419
+        Me.lblitemType.Text = "Item Type"
+        '
+        'txtPStartTime
+        '
+        Me.txtPStartTime.CustomFormat = "hh:mm tt"
+        Me.txtPStartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtPStartTime.Location = New System.Drawing.Point(769, 142)
+        Me.txtPStartTime.Name = "txtPStartTime"
+        Me.txtPStartTime.ShowCheckBox = True
+        Me.txtPStartTime.ShowUpDown = True
+        Me.txtPStartTime.Size = New System.Drawing.Size(109, 20)
+        Me.txtPStartTime.TabIndex = 1422
+        Me.txtPStartTime.TabStop = False
+        Me.txtPStartTime.Text = "02:08 PM"
+        Me.txtPStartTime.Value = New Date(2018, 12, 11, 14, 8, 55, 115)
+        '
+        'lblPStartTime
+        '
+        Me.lblPStartTime.FieldName = Nothing
+        Me.lblPStartTime.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPStartTime.Location = New System.Drawing.Point(669, 144)
+        Me.lblPStartTime.Name = "lblPStartTime"
+        Me.lblPStartTime.Size = New System.Drawing.Size(101, 16)
+        Me.lblPStartTime.TabIndex = 1421
+        Me.lblPStartTime.Text = "Product Start Time"
+        '
+        'txtPEndTime
+        '
+        Me.txtPEndTime.CustomFormat = "hh:mm tt"
+        Me.txtPEndTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtPEndTime.Location = New System.Drawing.Point(770, 165)
+        Me.txtPEndTime.Name = "txtPEndTime"
+        Me.txtPEndTime.ShowCheckBox = True
+        Me.txtPEndTime.ShowUpDown = True
+        Me.txtPEndTime.Size = New System.Drawing.Size(109, 20)
+        Me.txtPEndTime.TabIndex = 1424
+        Me.txtPEndTime.TabStop = False
+        Me.txtPEndTime.Text = "02:08 PM"
+        Me.txtPEndTime.Value = New Date(2018, 12, 11, 14, 8, 55, 115)
+        '
+        'lblPEndTime
+        '
+        Me.lblPEndTime.FieldName = Nothing
+        Me.lblPEndTime.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPEndTime.Location = New System.Drawing.Point(670, 167)
+        Me.lblPEndTime.Name = "lblPEndTime"
+        Me.lblPEndTime.Size = New System.Drawing.Size(97, 16)
+        Me.lblPEndTime.TabIndex = 1423
+        Me.lblPEndTime.Text = "Product End Time"
+        '
         'frmRouteMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(930, 511)
+        Me.Controls.Add(Me.txtPEndTime)
+        Me.Controls.Add(Me.lblPEndTime)
+        Me.Controls.Add(Me.txtPStartTime)
+        Me.Controls.Add(Me.lblPStartTime)
+        Me.Controls.Add(Me.cmbItemType)
+        Me.Controls.Add(Me.lblitemType)
         Me.Controls.Add(Me.chkAllowDecimal)
         Me.Controls.Add(Me.txtExtraETime)
         Me.Controls.Add(Me.txtExtraMTime)
@@ -1560,6 +1647,12 @@ Partial Class frmRouteMaster
         CType(Me.txtExtraMTime, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtExtraETime, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkAllowDecimal, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbItemType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblitemType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtPStartTime, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblPStartTime, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtPEndTime, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblPEndTime, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1645,5 +1738,11 @@ Partial Class frmRouteMaster
     Friend WithEvents txtExtraMTime As common.Controls.MyTextBox
     Friend WithEvents txtExtraETime As common.Controls.MyTextBox
     Friend WithEvents chkAllowDecimal As RadCheckBox
+    Friend WithEvents cmbItemType As RadDropDownList
+    Friend WithEvents lblitemType As common.Controls.MyLabel
+    Friend WithEvents txtPStartTime As RadDateTimePicker
+    Friend WithEvents lblPStartTime As common.Controls.MyLabel
+    Friend WithEvents txtPEndTime As RadDateTimePicker
+    Friend WithEvents lblPEndTime As common.Controls.MyLabel
 End Class
 

@@ -59,6 +59,8 @@ Public Class clsCustomerTenderOrder
     Public Remarks As String = ""
     Public Status As Integer = 0
     Public Posted_Date As DateTime = Nothing
+    Public close_yn As String
+    Public close_remarks As String
     Public Arr As List(Of clsCustomerTenderOrderDetail) = Nothing
 #End Region
     Public Function SaveData(ByVal obj As clsCustomerTenderOrder, ByVal isNewEntry As Boolean) As Boolean
@@ -155,7 +157,7 @@ Public Class clsCustomerTenderOrder
         Try
             Dim Whrcls As String = ""
             Dim strQry As String = "select Document_Code,Document_Date,RAL_No,Cust_Code,Location_Code,Sub_Location,Ref_No,Ref_Date,Document_Amt,Remarks,Status,Posted_Date " &
-                ",Tax_Group,TaxGroupName,Tax1,Tax1_Rate,Tax1_Base_Amt,TAX1_Amt,Tax2,Tax2_Rate,Tax2_Base_Amt,TAX2_Amt,Tax3,Tax3_Rate,Tax3_Base_Amt,TAX3_Amt,Tax4,Tax4_Rate,Tax4_Base_Amt,TAX4_Amt,Tax5,Tax5_Rate,Tax5_Base_Amt,TAX5_Amt,Tax6,Tax6_Rate,Tax6_Base_Amt,Tax6_Amt,Tax7,Tax7_Rate,Tax7_Base_Amt,Tax7_Amt,Tax8,Tax8_Rate,Tax8_Base_Amt,Tax8_Amt,Tax9,Tax9_Rate,Tax9_Base_Amt,Tax9_Amt,Tax10,Tax10_Rate,Tax10_Base_Amt,Tax10_Amt,Doc_Amt_Without_Tax,Tax_Amt  " &
+                ",Tax_Group,TaxGroupName,Tax1,Tax1_Rate,Tax1_Base_Amt,TAX1_Amt,Tax2,Tax2_Rate,Tax2_Base_Amt,TAX2_Amt,Tax3,Tax3_Rate,Tax3_Base_Amt,TAX3_Amt,Tax4,Tax4_Rate,Tax4_Base_Amt,TAX4_Amt,Tax5,Tax5_Rate,Tax5_Base_Amt,TAX5_Amt,Tax6,Tax6_Rate,Tax6_Base_Amt,Tax6_Amt,Tax7,Tax7_Rate,Tax7_Base_Amt,Tax7_Amt,Tax8,Tax8_Rate,Tax8_Base_Amt,Tax8_Amt,Tax9,Tax9_Rate,Tax9_Base_Amt,Tax9_Amt,Tax10,Tax10_Rate,Tax10_Base_Amt,Tax10_Amt,Doc_Amt_Without_Tax,Tax_Amt,close_yn  " &
                 " From TSPL_CUSTOMER_TENDER_ORDER  where 2=2"
             Select Case NavType
                 Case NavigatorType.First
@@ -228,6 +230,7 @@ Public Class clsCustomerTenderOrder
                 obj.Tax_Amt = clsCommon.myCdbl(dt.Rows(0)("Tax_Amt"))
                 obj.Document_Amt = clsCommon.myCdbl(dt.Rows(0)("Document_Amt"))
                 obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
+                obj.close_yn = clsCommon.myCstr(dt.Rows(0)("close_yn"))
                 obj.Status = IIf(clsCommon.myCDecimal(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
                 If dt.Rows(0)("Posted_Date") IsNot DBNull.Value Then
                     obj.Posted_Date = clsCommon.myCDate(dt.Rows(0)("Posted_Date"))
@@ -342,6 +345,37 @@ Public Class clsCustomerTenderOrder
         End Try
         Return True
     End Function
+    Public Shared Function closeCustomerTenderOrderdata(ByVal strDocNo As String, ByVal isCheckForPosted As Boolean, ByVal cls As String, Optional ByVal strRemarks As String = "") As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            closeCustomerTenderOrderdata(trans, strDocNo, isCheckForPosted, cls, strRemarks)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function closeCustomerTenderOrderdata(ByVal trans As SqlTransaction, ByVal strDocNo As String, ByVal isCheckForPosted As Boolean, ByVal cls As String, Optional ByVal strRemarks As String = "") As Boolean
+        Try
+            If (clsCommon.myLen(strDocNo) <= 0) Then
+                Throw New Exception("Sales Order No not found to Close")
+            End If
+            Dim strClosedDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt")
+            Dim obj As clsCustomerTenderOrder = clsCustomerTenderOrder.GetData(strDocNo, NavigatorType.Current, trans)
+            If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
+                Throw New Exception("No Data found to Close")
+            End If
+            obj.close_yn = cls
+            obj.close_remarks = strRemarks
+            Dim qry As String = "Update TSPL_CUSTOMER_TENDER_ORDER set close_yn='" + obj.close_yn + "',close_remarks='" + obj.close_remarks + "',Closed_By='" + clsCommon.myCstr(objCommonVar.CurrentUserCode) + "',Closed_Date='" + strClosedDate + "' where Document_Code='" + strDocNo + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
 End Class
 Public Class clsCustomerTenderOrderDetail
 #Region "Variables"

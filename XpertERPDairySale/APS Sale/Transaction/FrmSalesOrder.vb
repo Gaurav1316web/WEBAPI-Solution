@@ -66,6 +66,10 @@ Public Class FrmSalesOrder
     Const colTTaxRate As String = "colTTaxRate"
     Const colTBaseAmt As String = "TAXBASEAMT"
     Const colTTaxAmt As String = "TAXAMT"
+
+    Dim closeyn As String
+    Dim vaddnew As String
+
 #End Region
     Public Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
@@ -76,8 +80,8 @@ Public Class FrmSalesOrder
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPost.Visible = MyBase.isPostFlag
-        If MyBase.isReverse Then
-            btnReverseAndUnPost.Enabled = True
+        If MyBase.isPostFlag Then
+            chkCloseSalesOrder.Enabled = True
         End If
     End Sub
     Private Sub FrmSalesOrder_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -651,6 +655,9 @@ Public Class FrmSalesOrder
         btnSave.Enabled = True
         btnDelete.Enabled = True
         btnPost.Enabled = True
+        btnReverseAndUnPost.Visible = False
+        vaddnew = "Y"
+        chkCloseSalesOrder.Checked = False
     End Sub
     Sub LoadBlankGridTax()
         gv2.Rows.Clear()
@@ -761,7 +768,7 @@ from TSPL_CUSTOMER_TENDER_ORDER "
     Private Sub txtRALNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtRALNo._MYValidating
         Try
             Dim qry As String = "select Document_Code as Code,From_Date as [From Date],To_Date as [To Date],Location_Code as [Location] from TSPL_CUSTOMER_TENDER"
-            Dim Whrcls As String = " status=1"
+            Dim Whrcls As String = " status=1 and isnull(close_yn,'N')='N' "
             txtRALNo.Value = clsCommon.ShowSelectForm("Sale-Ordralfnd", qry, "Code", Whrcls, txtRALNo.Value, "Code", isButtonClicked)
             lblRalNoDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Remarks from TSPL_CUSTOMER_TENDER where Document_Code='" & txtRALNo.Value & "'"))
             GetTenderQty(txtRALNo.Value)
@@ -1307,11 +1314,26 @@ where TSPL_CUSTOMER_TENDER.Document_Code='" & strCode & "' and TSPL_CUSTOMER_TEN
                     btnPost.Enabled = False
                     UsLock1.Status = ERPTransactionStatus.Approved
                     btnDelete.Enabled = False
+                    btnReverseAndUnPost.Visible = True
                 Else
                     btnSave.Enabled = True
                     btnPost.Enabled = True
                     btnDelete.Enabled = True
                     UsLock1.Status = ERPTransactionStatus.Pending
+                    btnReverseAndUnPost.Visible = False
+                End If
+                If obj.close_yn = "Y" Then
+                    vaddnew = "Y"
+                    chkCloseSalesOrder.Checked = True
+                    btnSave.Enabled = False
+                    btnPost.Enabled = False
+                    'btn_Cancels.Enabled = False
+                    btnDelete.Enabled = False
+                    'btnAmendment.Enabled = False
+                    vaddnew = "N"
+                Else
+                    chkCloseSalesOrder.Checked = False
+                    vaddnew = "N"
                 End If
                 txtDocCode.Value = obj.Document_Code
                 txtDate.Value = obj.Document_Date
@@ -2156,13 +2178,13 @@ where TSPL_CUSTOMER_TENDER.Document_Code='" & strCode & "' and TSPL_CUSTOMER_TEN
                 setGridFocus()
                 isCellValueChangedOpen = False
             ElseIf e.Alt AndAlso e.Shift AndAlso e.Control AndAlso e.KeyCode = Keys.F12 Then
-                Dim frm As New FrmPWD(Nothing)
-                frm.strType = clsFixedParameterType.SIRC
-                frm.strCode = clsFixedParameterCode.SIReversAndCreate
-                frm.ShowDialog()
-                If frm.isPasswordCorrect Then
-                    btnReverseAndUnPost.Visible = True
-                End If
+                'Dim frm As New FrmPWD(Nothing)
+                'frm.strType = clsFixedParameterType.SIRC
+                'frm.strCode = clsFixedParameterCode.SIReversAndCreate
+                'frm.ShowDialog()
+                'If frm.isPasswordCorrect Then
+                '    btnReverseAndUnPost.Visible = True
+                'End If
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -2176,6 +2198,47 @@ where TSPL_CUSTOMER_TENDER.Document_Code='" & strCode & "' and TSPL_CUSTOMER_TEN
                 If clsCustomerTenderOrder.ReverseAndUnpost(txtDocCode.Value) Then
                     clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocCode.Value, NavigatorType.Current)
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Sub closeCustomerTenderOrder()
+        Try
+            If (clsCustomerTenderOrder.closeCustomerTenderOrderdata(txtDocCode.Value, True, closeyn)) Then
+                If closeyn = "Y" Then
+                    clsCommon.MyMessageBoxShow(Me, "Successfully Closed", Me.Text)
+                ElseIf closeyn = "N" Then
+                    clsCommon.MyMessageBoxShow(Me, "Successfully Opened", Me.Text)
+                End If
+                LoadData(txtDocCode.Value, NavigatorType.Current)
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+    Private Sub chkCloseSalesOrder_CheckedChanged(sender As Object, e As EventArgs) Handles chkCloseSalesOrder.CheckedChanged
+        Try
+            If chkCloseSalesOrder.Checked = True And vaddnew = "N" Then
+                Dim response = clsCommon.MyMessageBoxShow(Me, "Are you sure want to close the Sales Order", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question)
+                If response = MsgBoxResult.Yes Then
+                    closeyn = "Y"
+                    closeCustomerTenderOrder()
+                ElseIf response = MsgBoxResult.No Then
+                    chkCloseSalesOrder.Checked = False
+                End If
+            ElseIf chkCloseSalesOrder.Checked = False And vaddnew = "N" Then
+                closeyn = "N"
+                closeCustomerTenderOrder()
+            End If
+            vaddnew = "N"
+            If chkCloseSalesOrder.Checked Then
+                Dim makereadonly As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.MakeClosingofCustomerTenderOrderreadonlyforuser, clsFixedParameterCode.MakeClosingofCustomerTenderOrderreadonlyforuser, Nothing)) = "1", True, False))
+                If makereadonly Then
+                    chkCloseSalesOrder.Enabled = False
+                Else
+                    chkCloseSalesOrder.Enabled = True
                 End If
             End If
         Catch ex As Exception

@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class rptSaleReportCustomerWise
     'Inherits System.Windows.Forms.Form
     Inherits FrmMainTranScreen
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,9 +20,14 @@ Partial Class rptSaleReportCustomerWise
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -30,13 +35,21 @@ Partial Class rptSaleReportCustomerWise
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBoxFiscalYear = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtMulFiscalYear = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.MyLabel7 = New common.Controls.MyLabel()
+        Me.txtFiscalYear = New common.UserControls.txtFinder()
+        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.cmbReportType = New common.Controls.MyComboBox()
+        Me.TxtItem = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel4 = New common.Controls.MyLabel()
         Me.TxtCustGrp = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.lblBillToLocation = New common.Controls.MyLabel()
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.TxtLocation = New common.UserControls.txtFinder()
         Me.txtCustomer = New common.UserControls.txtMultiSelectFinder()
-        Me.MyLabel3 = New common.Controls.MyLabel()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtToDate = New common.Controls.MyDateTimePicker()
         Me.txtFromDate = New common.Controls.MyDateTimePicker()
@@ -51,8 +64,8 @@ Partial Class rptSaleReportCustomerWise
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.TxtItem = New common.UserControls.txtMultiSelectFinder()
-        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gvDetails = New common.UserControls.MyRadGridView()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -60,10 +73,16 @@ Partial Class rptSaleReportCustomerWise
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBoxFiscalYear, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBoxFiscalYear.SuspendLayout()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbReportType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBillToLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -78,7 +97,9 @@ Partial Class rptSaleReportCustomerWise
         CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage3.SuspendLayout()
+        CType(Me.gvDetails, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvDetails.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -135,6 +156,7 @@ Partial Class rptSaleReportCustomerWise
         '
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
@@ -145,6 +167,9 @@ Partial Class rptSaleReportCustomerWise
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBoxFiscalYear)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel6)
+        Me.RadPageViewPage1.Controls.Add(Me.cmbReportType)
         Me.RadPageViewPage1.Controls.Add(Me.TxtItem)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel4)
         Me.RadPageViewPage1.Controls.Add(Me.TxtCustGrp)
@@ -161,11 +186,151 @@ Partial Class rptSaleReportCustomerWise
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 344)
         Me.RadPageViewPage1.Text = "Filters"
         '
+        'RadGroupBoxFiscalYear
+        '
+        Me.RadGroupBoxFiscalYear.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBoxFiscalYear.Controls.Add(Me.txtMulFiscalYear)
+        Me.RadGroupBoxFiscalYear.Controls.Add(Me.MyLabel7)
+        Me.RadGroupBoxFiscalYear.Controls.Add(Me.txtFiscalYear)
+        Me.RadGroupBoxFiscalYear.HeaderText = ""
+        Me.RadGroupBoxFiscalYear.Location = New System.Drawing.Point(16, 6)
+        Me.RadGroupBoxFiscalYear.Name = "RadGroupBoxFiscalYear"
+        Me.RadGroupBoxFiscalYear.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBoxFiscalYear.Size = New System.Drawing.Size(350, 28)
+        Me.RadGroupBoxFiscalYear.TabIndex = 457
+        Me.RadGroupBoxFiscalYear.Visible = False
+        '
+        'txtMulFiscalYear
+        '
+        Me.txtMulFiscalYear.arrDispalyMember = Nothing
+        Me.txtMulFiscalYear.arrValueMember = Nothing
+        Me.txtMulFiscalYear.Location = New System.Drawing.Point(101, 5)
+        Me.txtMulFiscalYear.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMulFiscalYear.MyLinkLable1 = Me.MyLabel3
+        Me.txtMulFiscalYear.MyLinkLable2 = Nothing
+        Me.txtMulFiscalYear.MyNullText = "All"
+        Me.txtMulFiscalYear.Name = "txtMulFiscalYear"
+        Me.txtMulFiscalYear.Size = New System.Drawing.Size(245, 19)
+        Me.txtMulFiscalYear.TabIndex = 457
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(16, 109)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(55, 18)
+        Me.MyLabel3.TabIndex = 336
+        Me.MyLabel3.Text = "Customer"
+        '
+        'MyLabel7
+        '
+        Me.MyLabel7.FieldName = Nothing
+        Me.MyLabel7.Location = New System.Drawing.Point(3, 6)
+        Me.MyLabel7.Name = "MyLabel7"
+        Me.MyLabel7.Size = New System.Drawing.Size(58, 18)
+        Me.MyLabel7.TabIndex = 456
+        Me.MyLabel7.Text = "Fiscal Year"
+        '
+        'txtFiscalYear
+        '
+        Me.txtFiscalYear.CalculationExpression = Nothing
+        Me.txtFiscalYear.FieldCode = Nothing
+        Me.txtFiscalYear.FieldDesc = Nothing
+        Me.txtFiscalYear.FieldMaxLength = 0
+        Me.txtFiscalYear.FieldName = Nothing
+        Me.txtFiscalYear.isCalculatedField = False
+        Me.txtFiscalYear.IsSourceFromTable = False
+        Me.txtFiscalYear.IsSourceFromValueList = False
+        Me.txtFiscalYear.IsUnique = False
+        Me.txtFiscalYear.Location = New System.Drawing.Point(101, 4)
+        Me.txtFiscalYear.MendatroryField = False
+        Me.txtFiscalYear.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtFiscalYear.MyLinkLable1 = Nothing
+        Me.txtFiscalYear.MyLinkLable2 = Nothing
+        Me.txtFiscalYear.MyReadOnly = False
+        Me.txtFiscalYear.MyShowMasterFormButton = False
+        Me.txtFiscalYear.Name = "txtFiscalYear"
+        Me.txtFiscalYear.ReferenceFieldDesc = Nothing
+        Me.txtFiscalYear.ReferenceFieldName = Nothing
+        Me.txtFiscalYear.ReferenceTableName = Nothing
+        Me.txtFiscalYear.Size = New System.Drawing.Size(245, 20)
+        Me.txtFiscalYear.TabIndex = 455
+        Me.txtFiscalYear.Value = ""
+        '
+        'MyLabel6
+        '
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel6.Location = New System.Drawing.Point(16, 86)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(67, 18)
+        Me.MyLabel6.TabIndex = 454
+        Me.MyLabel6.Text = "Report Type"
+        '
+        'cmbReportType
+        '
+        Me.cmbReportType.AutoCompleteDisplayMember = Nothing
+        Me.cmbReportType.AutoCompleteValueMember = Nothing
+        Me.cmbReportType.CalculationExpression = Nothing
+        Me.cmbReportType.DropDownAnimationEnabled = True
+        Me.cmbReportType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbReportType.FieldCode = Nothing
+        Me.cmbReportType.FieldDesc = Nothing
+        Me.cmbReportType.FieldMaxLength = 0
+        Me.cmbReportType.FieldName = Nothing
+        Me.cmbReportType.isCalculatedField = False
+        Me.cmbReportType.IsSourceFromTable = False
+        Me.cmbReportType.IsSourceFromValueList = False
+        Me.cmbReportType.IsUnique = False
+        RadListDataItem5.Text = "Customer And Item Wise (Horizontal)"
+        RadListDataItem6.Text = "Customer And Item Wise (Vertical)"
+        RadListDataItem7.Text = "Year And Month Wise"
+        RadListDataItem8.Text = "Year Wise"
+        Me.cmbReportType.Items.Add(RadListDataItem5)
+        Me.cmbReportType.Items.Add(RadListDataItem6)
+        Me.cmbReportType.Items.Add(RadListDataItem7)
+        Me.cmbReportType.Items.Add(RadListDataItem8)
+        Me.cmbReportType.Location = New System.Drawing.Point(116, 85)
+        Me.cmbReportType.MendatroryField = True
+        Me.cmbReportType.MyLinkLable1 = Nothing
+        Me.cmbReportType.MyLinkLable2 = Nothing
+        Me.cmbReportType.Name = "cmbReportType"
+        Me.cmbReportType.NullText = "Please Select"
+        Me.cmbReportType.ReferenceFieldDesc = Nothing
+        Me.cmbReportType.ReferenceFieldName = Nothing
+        Me.cmbReportType.ReferenceTableName = Nothing
+        Me.cmbReportType.Size = New System.Drawing.Size(249, 20)
+        Me.cmbReportType.TabIndex = 453
+        '
+        'TxtItem
+        '
+        Me.TxtItem.arrDispalyMember = Nothing
+        Me.TxtItem.arrValueMember = Nothing
+        Me.TxtItem.Location = New System.Drawing.Point(115, 178)
+        Me.TxtItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtItem.MyLinkLable1 = Me.MyLabel4
+        Me.TxtItem.MyLinkLable2 = Nothing
+        Me.TxtItem.MyNullText = "All"
+        Me.TxtItem.Name = "TxtItem"
+        Me.TxtItem.Size = New System.Drawing.Size(251, 19)
+        Me.TxtItem.TabIndex = 451
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel4.Location = New System.Drawing.Point(16, 179)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(29, 18)
+        Me.MyLabel4.TabIndex = 452
+        Me.MyLabel4.Text = "Item"
+        '
         'TxtCustGrp
         '
         Me.TxtCustGrp.arrDispalyMember = Nothing
         Me.TxtCustGrp.arrValueMember = Nothing
-        Me.TxtCustGrp.Location = New System.Drawing.Point(115, 102)
+        Me.TxtCustGrp.Location = New System.Drawing.Point(115, 154)
         Me.TxtCustGrp.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtCustGrp.MyLinkLable1 = Me.MyLabel1
         Me.TxtCustGrp.MyLinkLable2 = Nothing
@@ -178,7 +343,7 @@ Partial Class rptSaleReportCustomerWise
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(16, 103)
+        Me.MyLabel1.Location = New System.Drawing.Point(16, 155)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(89, 18)
         Me.MyLabel1.TabIndex = 450
@@ -190,7 +355,7 @@ Partial Class rptSaleReportCustomerWise
         Me.lblBillToLocation.BorderVisible = True
         Me.lblBillToLocation.FieldName = Nothing
         Me.lblBillToLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblBillToLocation.Location = New System.Drawing.Point(221, 79)
+        Me.lblBillToLocation.Location = New System.Drawing.Point(221, 131)
         Me.lblBillToLocation.Name = "lblBillToLocation"
         Me.lblBillToLocation.Size = New System.Drawing.Size(145, 18)
         Me.lblBillToLocation.TabIndex = 45
@@ -200,7 +365,7 @@ Partial Class rptSaleReportCustomerWise
         '
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel5.Location = New System.Drawing.Point(16, 81)
+        Me.MyLabel5.Location = New System.Drawing.Point(16, 133)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(49, 16)
         Me.MyLabel5.TabIndex = 447
@@ -217,7 +382,7 @@ Partial Class rptSaleReportCustomerWise
         Me.TxtLocation.IsSourceFromTable = False
         Me.TxtLocation.IsSourceFromValueList = False
         Me.TxtLocation.IsUnique = False
-        Me.TxtLocation.Location = New System.Drawing.Point(115, 79)
+        Me.TxtLocation.Location = New System.Drawing.Point(115, 131)
         Me.TxtLocation.MendatroryField = True
         Me.TxtLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtLocation.MyLinkLable1 = Me.MyLabel5
@@ -236,7 +401,7 @@ Partial Class rptSaleReportCustomerWise
         '
         Me.txtCustomer.arrDispalyMember = Nothing
         Me.txtCustomer.arrValueMember = Nothing
-        Me.txtCustomer.Location = New System.Drawing.Point(115, 56)
+        Me.txtCustomer.Location = New System.Drawing.Point(115, 108)
         Me.txtCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCustomer.MyLinkLable1 = Me.MyLabel3
         Me.txtCustomer.MyLinkLable2 = Nothing
@@ -244,16 +409,6 @@ Partial Class rptSaleReportCustomerWise
         Me.txtCustomer.Name = "txtCustomer"
         Me.txtCustomer.Size = New System.Drawing.Size(251, 19)
         Me.txtCustomer.TabIndex = 335
-        '
-        'MyLabel3
-        '
-        Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(16, 57)
-        Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(55, 18)
-        Me.MyLabel3.TabIndex = 336
-        Me.MyLabel3.Text = "Customer"
         '
         'RadGroupBox3
         '
@@ -263,7 +418,7 @@ Partial Class rptSaleReportCustomerWise
         Me.RadGroupBox3.Controls.Add(Me.MyLabel2)
         Me.RadGroupBox3.Controls.Add(Me.RadLabel1)
         Me.RadGroupBox3.HeaderText = ""
-        Me.RadGroupBox3.Location = New System.Drawing.Point(16, 9)
+        Me.RadGroupBox3.Location = New System.Drawing.Point(15, 37)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox3.Size = New System.Drawing.Size(350, 42)
@@ -369,7 +524,7 @@ Partial Class rptSaleReportCustomerWise
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
@@ -388,6 +543,7 @@ Partial Class rptSaleReportCustomerWise
         Me.btnPrint.Size = New System.Drawing.Size(70, 22)
         Me.btnPrint.TabIndex = 159
         Me.btnPrint.Text = "Print"
+        Me.btnPrint.Visible = False
         '
         'btnClose
         '
@@ -441,28 +597,39 @@ Partial Class rptSaleReportCustomerWise
         Me.btnGo.TabIndex = 152
         Me.btnGo.Text = ">>>"
         '
-        'TxtItem
+        'RadPageViewPage3
         '
-        Me.TxtItem.arrDispalyMember = Nothing
-        Me.TxtItem.arrValueMember = Nothing
-        Me.TxtItem.Location = New System.Drawing.Point(115, 126)
-        Me.TxtItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtItem.MyLinkLable1 = Me.MyLabel4
-        Me.TxtItem.MyLinkLable2 = Nothing
-        Me.TxtItem.MyNullText = "All"
-        Me.TxtItem.Name = "TxtItem"
-        Me.TxtItem.Size = New System.Drawing.Size(251, 19)
-        Me.TxtItem.TabIndex = 451
+        Me.RadPageViewPage3.Controls.Add(Me.gvDetails)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage3.Name = "RadPageViewPage3"
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(779, 344)
+        Me.RadPageViewPage3.Text = "Details"
         '
-        'MyLabel4
+        'gvDetails
         '
-        Me.MyLabel4.FieldName = Nothing
-        Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(16, 127)
-        Me.MyLabel4.Name = "MyLabel4"
-        Me.MyLabel4.Size = New System.Drawing.Size(29, 18)
-        Me.MyLabel4.TabIndex = 452
-        Me.MyLabel4.Text = "Item"
+        Me.gvDetails.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gvDetails.Cursor = System.Windows.Forms.Cursors.Default
+        Me.gvDetails.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvDetails.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.gvDetails.ForeColor = System.Drawing.Color.Black
+        Me.gvDetails.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.gvDetails.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvDetails.MasterTemplate.AllowAddNewRow = False
+        Me.gvDetails.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvDetails.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvDetails.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvDetails.MyExportFilePath = ""
+        Me.gvDetails.MyStopExport = False
+        Me.gvDetails.Name = "gvDetails"
+        Me.gvDetails.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gvDetails.ShowHeaderCellButtons = True
+        Me.gvDetails.Size = New System.Drawing.Size(779, 344)
+        Me.gvDetails.TabIndex = 1
+        Me.gvDetails.VarID = ""
         '
         'rptSaleReportCustomerWise
         '
@@ -485,10 +652,17 @@ Partial Class rptSaleReportCustomerWise
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBoxFiscalYear, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBoxFiscalYear.ResumeLayout(False)
+        Me.RadGroupBoxFiscalYear.PerformLayout()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbReportType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBillToLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
         Me.RadGroupBox3.PerformLayout()
@@ -504,7 +678,9 @@ Partial Class rptSaleReportCustomerWise
         CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage3.ResumeLayout(False)
+        CType(Me.gvDetails.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvDetails, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -541,4 +717,12 @@ Partial Class rptSaleReportCustomerWise
     Friend WithEvents txtToDate As common.Controls.MyDateTimePicker
     Friend WithEvents TxtItem As common.UserControls.txtMultiSelectFinder
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
+    Friend WithEvents MyLabel6 As common.Controls.MyLabel
+    Friend WithEvents cmbReportType As common.Controls.MyComboBox
+    Friend WithEvents MyLabel7 As common.Controls.MyLabel
+    Friend WithEvents txtFiscalYear As common.UserControls.txtFinder
+    Friend WithEvents RadGroupBoxFiscalYear As RadGroupBox
+    Friend WithEvents txtMulFiscalYear As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents RadPageViewPage3 As RadPageViewPage
+    Friend WithEvents gvDetails As common.UserControls.MyRadGridView
 End Class

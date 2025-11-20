@@ -381,10 +381,10 @@ Public Class FrmPendingAproval
             dt1.Rows.Add(dr)
         End If
 
-        dr = dt1.NewRow()
-        dr("Code") = "Product Demand Booking"
-        dr("Name") = "Product Demand Booking"
-        dt1.Rows.Add(dr)
+        'dr = dt1.NewRow()
+        'dr("Code") = "Product Demand Booking"
+        'dr("Name") = "Product Demand Booking"
+        'dt1.Rows.Add(dr)
 
         cboTransaction.DataSource = dt1
         cboTransaction.DisplayMember = "Name"
@@ -643,6 +643,11 @@ Public Class FrmPendingAproval
             dr("Name") = "Dairy GatePass"
             dt1.Rows.Add(dr)
         End If
+
+        dr = dt1.NewRow()
+        dr("Code") = "Product Demand Booking"
+        dr("Name") = "Product Demand Booking"
+        dt1.Rows.Add(dr)
         ''-----------------------
 
         cboTransaction.DataSource = dt1
@@ -1053,13 +1058,20 @@ Public Class FrmPendingAproval
     Private Sub cboModule_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.Data.PositionChangedEventArgs) Handles cboModule.SelectedIndexChanged
 
         If clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Dairy Sale") = CompairStringResult.Equal Then
-
+            'If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Product Demand Booking") = CompairStringResult.Equal Then
+            '    lblCustomer.Visible = False
+            '    txtCustomer.Visible = False
+            'Else
             lblCustomer.Visible = True
-            txtCustomer.Visible = True
+                txtCustomer.Visible = True
+            'End If
+            'lblCustomer.Visible = True
+            'txtCustomer.Visible = True
         Else
             lblCustomer.Visible = False
             txtCustomer.Visible = False
         End If
+
 
         LoadTrnsListOfSelectedModeule()
     End Sub
@@ -2331,44 +2343,44 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
                 End If
             End If
 
-        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Product Demand Booking") = CompairStringResult.Equal Then
-            Load_Authorisation(clsUserMgtCode.FrmProductDemandBooking)
-            If dtAuthen.Rows.Count > 0 Then
-                If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
-                    gv1.DataSource = Nothing
+            '        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Product Demand Booking") = CompairStringResult.Equal Then
+            '            Load_Authorisation(clsUserMgtCode.FrmProductDemandBooking)
+            '            If dtAuthen.Rows.Count > 0 Then
+            '                If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
+            '                    gv1.DataSource = Nothing
 
-                    qry = "SELECT  CAST(TSPL_Product_DEMAND_BOOKING_MASTER.posted as BIT) as Status, 
+            '                    qry = "SELECT  CAST(TSPL_Product_DEMAND_BOOKING_MASTER.posted as BIT) as Status, 
 
-'' as [Description], '' as Hold,
-TSPL_Product_DEMAND_BOOKING_MASTER.Document_no as [Document Id],
-                         TSPL_Product_DEMAND_BOOKING_MASTER.Document_Date as [Document Date],  isnull(TSPL_Product_DEMAND_BOOKING_DETAIL.ItemNetAmount,0) as [Amount], 
-                         TSPL_Product_DEMAND_BOOKING_MASTER.Location_Code As Location , TSPL_LOCATION_MASTER.Location_Desc as [Location Desc],
-                         TSPL_Product_DEMAND_BOOKING_DETAIL.Cust_Code as [Customer Code], TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name], 
-                                      TSPL_Product_DEMAND_BOOKING_MASTER.Created_By as 'Created By' FROM TSPL_Product_DEMAND_BOOKING_MASTER" &
-                        " Left Outer Join TSPL_Product_DEMAND_BOOKING_DETAIL on TSPL_Product_DEMAND_BOOKING_DETAIL.Document_No=TSPL_Product_DEMAND_BOOKING_MASTER.Document_No" &
-                        " Left Outer Join TSPL_LOCATION_MASTER on TSPL_Product_DEMAND_BOOKING_MASTER.Location_Code=TSPL_LOCATION_MASTER.Location_Code" &
-                        " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_Product_DEMAND_BOOKING_DETAIL.Cust_Code 
-                        WHERE   convert(date,TSPL_Product_DEMAND_BOOKING_MASTER.Document_Date,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_Product_DEMAND_BOOKING_MASTER.Document_Date,103) <= convert(date,'" + dtpToDate.Value + "',103)"
-                    If rbtnStatusPending.IsChecked = True Then
-                        qry += " and TSPL_Product_DEMAND_BOOKING_MASTER.posted = 0"
-                        Isrefreshed = False
-                    ElseIf rbtnStatusPosted.IsChecked = True Then
-                        qry += " and TSPL_Product_DEMAND_BOOKING_MASTER.posted = 1"
-                        Isrefreshed = True
-                    End If
-                    If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
-                        qry += " AND TSPL_Product_DEMAND_BOOKING_MASTER.Location_Code in (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ")"
-                    End If
-                    If ChkAllowBulkPosting.Equals(0) Then
-                        If chkUserSelect.IsChecked AndAlso cbgUser.CheckedValue.Count > 0 Then
-                            qry += " and TSPL_Product_DEMAND_BOOKING_MASTER.Created_By IN (" + clsCommon.GetMulcallString(cbgUser.CheckedValue) + ")"
-                        Else
-                            qry += " and TSPL_Product_DEMAND_BOOKING_MASTER.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
-                        End If
-                    End If
-                    qry += "ORDER BY TSPL_Product_DEMAND_BOOKING_MASTER.Document_Date, TSPL_Product_DEMAND_BOOKING_MASTER.Document_No "
-                End If
-            End If
+            ''' as [Description], '' as Hold,
+            'TSPL_Product_DEMAND_BOOKING_MASTER.Document_no as [Document Id],
+            '                         TSPL_Product_DEMAND_BOOKING_MASTER.Document_Date as [Document Date],  isnull(TSPL_Product_DEMAND_BOOKING_DETAIL.ItemNetAmount,0) as [Amount], 
+            '                         TSPL_Product_DEMAND_BOOKING_MASTER.Location_Code As Location , TSPL_LOCATION_MASTER.Location_Desc as [Location Desc],
+            '                         TSPL_Product_DEMAND_BOOKING_DETAIL.Cust_Code as [Customer Code], TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name], 
+            '                                      TSPL_Product_DEMAND_BOOKING_MASTER.Created_By as 'Created By' FROM TSPL_Product_DEMAND_BOOKING_MASTER" &
+            '                        " Left Outer Join TSPL_Product_DEMAND_BOOKING_DETAIL on TSPL_Product_DEMAND_BOOKING_DETAIL.Document_No=TSPL_Product_DEMAND_BOOKING_MASTER.Document_No" &
+            '                        " Left Outer Join TSPL_LOCATION_MASTER on TSPL_Product_DEMAND_BOOKING_MASTER.Location_Code=TSPL_LOCATION_MASTER.Location_Code" &
+            '                        " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_Product_DEMAND_BOOKING_DETAIL.Cust_Code 
+            '                        WHERE   convert(date,TSPL_Product_DEMAND_BOOKING_MASTER.Document_Date,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_Product_DEMAND_BOOKING_MASTER.Document_Date,103) <= convert(date,'" + dtpToDate.Value + "',103)"
+            '                    If rbtnStatusPending.IsChecked = True Then
+            '                        qry += " and TSPL_Product_DEMAND_BOOKING_MASTER.posted = 0"
+            '                        Isrefreshed = False
+            '                    ElseIf rbtnStatusPosted.IsChecked = True Then
+            '                        qry += " and TSPL_Product_DEMAND_BOOKING_MASTER.posted = 1"
+            '                        Isrefreshed = True
+            '                    End If
+            '                    If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
+            '                        qry += " AND TSPL_Product_DEMAND_BOOKING_MASTER.Location_Code in (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ")"
+            '                    End If
+            '                    If ChkAllowBulkPosting.Equals(0) Then
+            '                        If chkUserSelect.IsChecked AndAlso cbgUser.CheckedValue.Count > 0 Then
+            '                            qry += " and TSPL_Product_DEMAND_BOOKING_MASTER.Created_By IN (" + clsCommon.GetMulcallString(cbgUser.CheckedValue) + ")"
+            '                        Else
+            '                            qry += " and TSPL_Product_DEMAND_BOOKING_MASTER.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
+            '                        End If
+            '                    End If
+            '                    qry += "ORDER BY TSPL_Product_DEMAND_BOOKING_MASTER.Document_Date, TSPL_Product_DEMAND_BOOKING_MASTER.Document_No "
+            '                End If
+            '            End If
 
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Product Dispatch") = CompairStringResult.Equal Then
             Load_Authorisation(clsUserMgtCode.FrmProductDispatch)
@@ -4655,7 +4667,41 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                     'qry += " ORDER BY [Created Date], [Document Id] "
                 End If
             End If
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Product Demand Booking") = CompairStringResult.Equal Then
+            Load_Authorisation(clsUserMgtCode.FrmProductDemandBooking)
+            If dtAuthen.Rows.Count > 0 Then
+                If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
+                    gv1.DataSource = Nothing
 
+                    qry = "SELECT  CAST(TSPL_Product_DEMAND_BOOKING_MASTER.posted as BIT) as Status, 
+
+            '' as [Description], '' as Hold,
+            TSPL_Product_DEMAND_BOOKING_MASTER.Document_no as [Document Id],
+                                     TSPL_Product_DEMAND_BOOKING_MASTER.Document_Date as [Document Date],  isnull(TSPL_PRODUCT_DEMAND_BOOKING_MASTER.DocumentAmount,0) as [Amount], 
+                                     TSPL_Product_DEMAND_BOOKING_MASTER.Location_Code As Location , TSPL_LOCATION_MASTER.Location_Desc as [Location Desc],
+                                     TSPL_Product_DEMAND_BOOKING_MASTER.Created_By as 'Created By' FROM TSPL_Product_DEMAND_BOOKING_MASTER" &
+                                   " Left Outer Join TSPL_LOCATION_MASTER on TSPL_Product_DEMAND_BOOKING_MASTER.Location_Code=TSPL_LOCATION_MASTER.Location_Code" &
+                        "  WHERE   convert(date,TSPL_Product_DEMAND_BOOKING_MASTER.Document_Date,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_Product_DEMAND_BOOKING_MASTER.Document_Date,103) <= convert(date,'" + dtpToDate.Value + "',103)"
+                    If rbtnStatusPending.IsChecked = True Then
+                        qry += " and TSPL_Product_DEMAND_BOOKING_MASTER.posted = 0"
+                        Isrefreshed = False
+                    ElseIf rbtnStatusPosted.IsChecked = True Then
+                        qry += " and TSPL_Product_DEMAND_BOOKING_MASTER.posted = 1"
+                        Isrefreshed = True
+                    End If
+                    If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
+                        qry += " AND TSPL_Product_DEMAND_BOOKING_MASTER.Location_Code in (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ")"
+                    End If
+                    If ChkAllowBulkPosting.Equals(0) Then
+                        If chkUserSelect.IsChecked AndAlso cbgUser.CheckedValue.Count > 0 Then
+                            qry += " and TSPL_Product_DEMAND_BOOKING_MASTER.Created_By IN (" + clsCommon.GetMulcallString(cbgUser.CheckedValue) + ")"
+                        Else
+                            qry += " and TSPL_Product_DEMAND_BOOKING_MASTER.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
+                        End If
+                    End If
+                    qry += "ORDER BY TSPL_Product_DEMAND_BOOKING_MASTER.Document_Date, TSPL_Product_DEMAND_BOOKING_MASTER.Document_No "
+                End If
+            End If
             '======================================================================
         End If
         If clsCommon.CompairString(clsCommon.myCstr(qry), Nothing) <> CompairStringResult.Equal Then
@@ -6973,5 +7019,10 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
         lblNoOfRecords.Text = "" + gv1.ChildRows.Count.ToString + " Records Found"
     End Sub
 
-
+    Private Sub cboTransaction_SelectedIndexChanged(sender As Object, e As UI.Data.PositionChangedEventArgs) Handles cboTransaction.SelectedIndexChanged
+        If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Product Demand Booking") = CompairStringResult.Equal Then
+            lblCustomer.Visible = False
+            txtCustomer.Visible = False
+        End If
+    End Sub
 End Class

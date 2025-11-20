@@ -24,12 +24,15 @@ Partial Class FrmEmployeeTransfer
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.TxtOfficeLetter = New common.Controls.MyTextBox()
+        Me.lblDescription = New common.Controls.MyLabel()
         Me.lblChangedDivisionName = New common.Controls.MyLabel()
         Me.fndChangedDivision = New common.UserControls.txtFinder()
         Me.lblChangedDivision = New common.Controls.MyLabel()
@@ -48,7 +51,6 @@ Partial Class FrmEmployeeTransfer
         Me.UsLock1 = New common.usLock()
         Me.lblDate = New common.Controls.MyLabel()
         Me.txtDate = New common.Controls.MyDateTimePicker()
-        Me.lblDescription = New common.Controls.MyLabel()
         Me.txtDescription = New common.Controls.MyTextBox()
         Me.lblChangedDepartmentName = New common.Controls.MyLabel()
         Me.lblChangedDepartment = New common.Controls.MyLabel()
@@ -75,14 +77,18 @@ Partial Class FrmEmployeeTransfer
         Me.lblDocCode = New common.Controls.MyLabel()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.btnnew = New Telerik.WinControls.UI.RadButton()
+        Me.BtnPrint2 = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtOfficeLetter, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblChangedDivisionName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblChangedDivision, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCurrentDivisionName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -99,7 +105,6 @@ Partial Class FrmEmployeeTransfer
         CType(Me.lblDocType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblChangedDepartmentName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblChangedDepartment, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -121,11 +126,12 @@ Partial Class FrmEmployeeTransfer
         CType(Me.lblDepartment, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDocCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnPrint2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -140,6 +146,8 @@ Partial Class FrmEmployeeTransfer
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel1)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.TxtOfficeLetter)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblChangedDivisionName)
         Me.SplitContainer1.Panel1.Controls.Add(Me.fndChangedDivision)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblChangedDivision)
@@ -186,6 +194,7 @@ Partial Class FrmEmployeeTransfer
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.BtnPrint2)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
@@ -194,6 +203,52 @@ Partial Class FrmEmployeeTransfer
         Me.SplitContainer1.Size = New System.Drawing.Size(1069, 435)
         Me.SplitContainer1.SplitterDistance = 402
         Me.SplitContainer1.TabIndex = 0
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(16, 318)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(68, 16)
+        Me.MyLabel1.TabIndex = 432
+        Me.MyLabel1.Text = "Office Letter"
+        '
+        'TxtOfficeLetter
+        '
+        Me.TxtOfficeLetter.AutoSize = False
+        Me.TxtOfficeLetter.CalculationExpression = Nothing
+        Me.TxtOfficeLetter.FieldCode = Nothing
+        Me.TxtOfficeLetter.FieldDesc = Nothing
+        Me.TxtOfficeLetter.FieldMaxLength = 0
+        Me.TxtOfficeLetter.FieldName = Nothing
+        Me.TxtOfficeLetter.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtOfficeLetter.isCalculatedField = False
+        Me.TxtOfficeLetter.IsSourceFromTable = False
+        Me.TxtOfficeLetter.IsSourceFromValueList = False
+        Me.TxtOfficeLetter.IsUnique = False
+        Me.TxtOfficeLetter.Location = New System.Drawing.Point(128, 315)
+        Me.TxtOfficeLetter.MaxLength = 200
+        Me.TxtOfficeLetter.MendatroryField = True
+        Me.TxtOfficeLetter.Multiline = True
+        Me.TxtOfficeLetter.MyLinkLable1 = Me.lblDescription
+        Me.TxtOfficeLetter.MyLinkLable2 = Nothing
+        Me.TxtOfficeLetter.Name = "TxtOfficeLetter"
+        Me.TxtOfficeLetter.ReferenceFieldDesc = Nothing
+        Me.TxtOfficeLetter.ReferenceFieldName = Nothing
+        Me.TxtOfficeLetter.ReferenceTableName = Nothing
+        Me.TxtOfficeLetter.Size = New System.Drawing.Size(282, 25)
+        Me.TxtOfficeLetter.TabIndex = 431
+        '
+        'lblDescription
+        '
+        Me.lblDescription.FieldName = Nothing
+        Me.lblDescription.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.lblDescription.Location = New System.Drawing.Point(16, 59)
+        Me.lblDescription.Name = "lblDescription"
+        Me.lblDescription.Size = New System.Drawing.Size(63, 16)
+        Me.lblDescription.TabIndex = 412
+        Me.lblDescription.Text = "Description"
         '
         'lblChangedDivisionName
         '
@@ -342,7 +397,7 @@ Partial Class FrmEmployeeTransfer
         '
         Me.gbSalary.Controls.Add(Me.lblSalaryCode)
         Me.gbSalary.Controls.Add(Me.btnProceed)
-        Me.gbSalary.Location = New System.Drawing.Point(127, 313)
+        Me.gbSalary.Location = New System.Drawing.Point(126, 346)
         Me.gbSalary.Name = "gbSalary"
         Me.gbSalary.Size = New System.Drawing.Size(370, 40)
         Me.gbSalary.TabIndex = 421
@@ -386,10 +441,10 @@ Partial Class FrmEmployeeTransfer
         Me.cboSalary.IsSourceFromTable = False
         Me.cboSalary.IsSourceFromValueList = False
         Me.cboSalary.IsUnique = False
-        RadListDataItem3.Text = "Yes"
-        RadListDataItem4.Text = "No"
-        Me.cboSalary.Items.Add(RadListDataItem3)
-        Me.cboSalary.Items.Add(RadListDataItem4)
+        RadListDataItem1.Text = "Yes"
+        RadListDataItem2.Text = "No"
+        Me.cboSalary.Items.Add(RadListDataItem1)
+        Me.cboSalary.Items.Add(RadListDataItem2)
         Me.cboSalary.Location = New System.Drawing.Point(128, 294)
         Me.cboSalary.MendatroryField = False
         Me.cboSalary.MyLinkLable1 = Me.lblDocType
@@ -460,16 +515,6 @@ Partial Class FrmEmployeeTransfer
         Me.txtDate.TabStop = False
         Me.txtDate.Text = "16/11/2011"
         Me.txtDate.Value = New Date(2011, 11, 16, 11, 21, 56, 285)
-        '
-        'lblDescription
-        '
-        Me.lblDescription.FieldName = Nothing
-        Me.lblDescription.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.lblDescription.Location = New System.Drawing.Point(16, 59)
-        Me.lblDescription.Name = "lblDescription"
-        Me.lblDescription.Size = New System.Drawing.Size(63, 16)
-        Me.lblDescription.TabIndex = 412
-        Me.lblDescription.Text = "Description"
         '
         'txtDescription
         '
@@ -609,12 +654,12 @@ Partial Class FrmEmployeeTransfer
         Me.cboDocType.IsSourceFromTable = False
         Me.cboDocType.IsSourceFromValueList = False
         Me.cboDocType.IsUnique = False
-        RadListDataItem5.Text = "Transfer Letter(For Location)"
-        RadListDataItem6.Text = "Promotion Letter"
-        RadListDataItem7.Text = "Transfer Letter(For Department)"
+        RadListDataItem3.Text = "Transfer Letter(For Location)"
+        RadListDataItem4.Text = "Promotion Letter"
+        RadListDataItem5.Text = "Transfer Letter(For Department)"
+        Me.cboDocType.Items.Add(RadListDataItem3)
+        Me.cboDocType.Items.Add(RadListDataItem4)
         Me.cboDocType.Items.Add(RadListDataItem5)
-        Me.cboDocType.Items.Add(RadListDataItem6)
-        Me.cboDocType.Items.Add(RadListDataItem7)
         Me.cboDocType.Location = New System.Drawing.Point(131, 36)
         Me.cboDocType.MendatroryField = False
         Me.cboDocType.MyLinkLable1 = Me.lblDocType
@@ -859,6 +904,26 @@ Partial Class FrmEmployeeTransfer
         Me.btnnew.Size = New System.Drawing.Size(16, 20)
         Me.btnnew.TabIndex = 55
         '
+        'BtnPrint2
+        '
+        Me.BtnPrint2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.BtnPrint2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnPrint2.Location = New System.Drawing.Point(299, 5)
+        Me.BtnPrint2.Name = "BtnPrint2"
+        Me.BtnPrint2.Size = New System.Drawing.Size(66, 18)
+        Me.BtnPrint2.TabIndex = 10
+        Me.BtnPrint2.Text = "Print2"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(227, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 9
+        Me.btnHistory.Text = "History"
+        '
         'btnPrint
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -899,16 +964,6 @@ Partial Class FrmEmployeeTransfer
         Me.btnclose.TabIndex = 6
         Me.btnclose.Text = "Close"
         '
-        'btnHistory
-        '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(227, 5)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
-        Me.btnHistory.TabIndex = 9
-        Me.btnHistory.Text = "History"
-        '
         'FrmEmployeeTransfer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -925,6 +980,9 @@ Partial Class FrmEmployeeTransfer
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtOfficeLetter, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDescription, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblChangedDivisionName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblChangedDivision, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCurrentDivisionName, System.ComponentModel.ISupportInitialize).EndInit()
@@ -941,7 +999,6 @@ Partial Class FrmEmployeeTransfer
         CType(Me.lblDocType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDescription, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDescription, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblChangedDepartmentName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblChangedDepartment, System.ComponentModel.ISupportInitialize).EndInit()
@@ -963,11 +1020,12 @@ Partial Class FrmEmployeeTransfer
         CType(Me.lblDepartment, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDocCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnPrint2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1024,5 +1082,8 @@ Partial Class FrmEmployeeTransfer
     Friend WithEvents lblChangedDivision As common.Controls.MyLabel
     Friend WithEvents lblChangedDivisionName As common.Controls.MyLabel
     Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
+    Friend WithEvents TxtOfficeLetter As common.Controls.MyTextBox
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents BtnPrint2 As Telerik.WinControls.UI.RadButton
 End Class
 

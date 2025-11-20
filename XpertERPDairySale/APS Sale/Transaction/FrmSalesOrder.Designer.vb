@@ -78,6 +78,7 @@ Partial Class FrmSalesOrder
         Me.txtDocAmtWithoutTax = New common.Controls.MyLabel()
         Me.lblDocamt = New common.Controls.MyLabel()
         Me.txtDocAmt = New common.Controls.MyLabel()
+        Me.chkCloseSalesOrder = New System.Windows.Forms.CheckBox()
         Me.btnReverseAndUnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
@@ -160,6 +161,7 @@ Partial Class FrmSalesOrder
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.chkCloseSalesOrder)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverseAndUnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
@@ -966,6 +968,18 @@ Partial Class FrmSalesOrder
         Me.txtDocAmt.TabIndex = 1588
         Me.txtDocAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
+        'chkCloseSalesOrder
+        '
+        Me.chkCloseSalesOrder.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.chkCloseSalesOrder.AutoSize = True
+        Me.chkCloseSalesOrder.Enabled = False
+        Me.chkCloseSalesOrder.Location = New System.Drawing.Point(547, 6)
+        Me.chkCloseSalesOrder.Name = "chkCloseSalesOrder"
+        Me.chkCloseSalesOrder.Size = New System.Drawing.Size(116, 17)
+        Me.chkCloseSalesOrder.TabIndex = 1588
+        Me.chkCloseSalesOrder.Text = "Close Sales Order"
+        Me.chkCloseSalesOrder.UseVisualStyleBackColor = True
+        '
         'btnReverseAndUnPost
         '
         Me.btnReverseAndUnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -974,7 +988,7 @@ Partial Class FrmSalesOrder
         Me.btnReverseAndUnPost.Name = "btnReverseAndUnPost"
         Me.btnReverseAndUnPost.Size = New System.Drawing.Size(99, 22)
         Me.btnReverseAndUnPost.TabIndex = 12
-        Me.btnReverseAndUnPost.Text = "Reverse/UnPost"
+        Me.btnReverseAndUnPost.Text = "Amendment"
         Me.btnReverseAndUnPost.Visible = False
         '
         'btnClose
@@ -1031,6 +1045,7 @@ Partial Class FrmSalesOrder
         Me.Text = "Sales Order"
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
+        Me.SplitContainer1.Panel2.PerformLayout()
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
@@ -1159,4 +1174,5 @@ Partial Class FrmSalesOrder
     Friend WithEvents lblbalQty As common.Controls.MyLabel
     Friend WithEvents lblTenderQty As common.Controls.MyLabel
     Friend WithEvents btnReverseAndUnPost As RadButton
+    Friend WithEvents chkCloseSalesOrder As CheckBox
 End Class

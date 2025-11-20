@@ -237,7 +237,7 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(3, 3)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(809, 489)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -304,11 +304,13 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.gvException.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvException.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvException.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvException.MyExportFilePath = ""
         Me.gvException.MyStopExport = False
         Me.gvException.Name = "gvException"
         Me.gvException.ShowHeaderCellButtons = True
         Me.gvException.Size = New System.Drawing.Size(257, 250)
         Me.gvException.TabIndex = 97
+        Me.gvException.VarID = ""
         '
         'SplitContainer2
         '
@@ -349,11 +351,13 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.gvSNF.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSNF.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvSNF.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvSNF.MyExportFilePath = ""
         Me.gvSNF.MyStopExport = False
         Me.gvSNF.Name = "gvSNF"
         Me.gvSNF.ShowHeaderCellButtons = True
         Me.gvSNF.Size = New System.Drawing.Size(243, 250)
         Me.gvSNF.TabIndex = 97
+        Me.gvSNF.VarID = ""
         '
         'RadGroupBox2
         '
@@ -377,11 +381,13 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.gvFAT.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvFAT.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvFAT.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvFAT.MyExportFilePath = ""
         Me.gvFAT.MyStopExport = False
         Me.gvFAT.Name = "gvFAT"
         Me.gvFAT.ShowHeaderCellButtons = True
         Me.gvFAT.Size = New System.Drawing.Size(263, 250)
         Me.gvFAT.TabIndex = 97
+        Me.gvFAT.VarID = ""
         '
         'RadGroupBox1
         '
@@ -430,7 +436,7 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.txtCowFatRate.TabIndex = 19
         Me.txtCowFatRate.Text = "0"
         Me.txtCowFatRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCowFatRate.Value = 0R
+        Me.txtCowFatRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel6
         '
@@ -467,7 +473,7 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.txtCowSNFRate.TabIndex = 21
         Me.txtCowSNFRate.Text = "0"
         Me.txtCowSNFRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCowSNFRate.Value = 0R
+        Me.txtCowSNFRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel16
         '
@@ -504,7 +510,7 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.txtCowSNFTo.TabIndex = 7
         Me.txtCowSNFTo.Text = "0"
         Me.txtCowSNFTo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCowSNFTo.Value = 0R
+        Me.txtCowSNFTo.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel9
         '
@@ -541,7 +547,7 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.txtCowFatTo.TabIndex = 6
         Me.txtCowFatTo.Text = "0"
         Me.txtCowFatTo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCowFatTo.Value = 0R
+        Me.txtCowFatTo.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel10
         '
@@ -578,7 +584,7 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.txtCowSNFFrom.TabIndex = 1
         Me.txtCowSNFFrom.Text = "0"
         Me.txtCowSNFFrom.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCowSNFFrom.Value = 0R
+        Me.txtCowSNFFrom.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel11
         '
@@ -615,7 +621,7 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.txtCowFatFrom.TabIndex = 0
         Me.txtCowFatFrom.Text = "0"
         Me.txtCowFatFrom.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCowFatFrom.Value = 0R
+        Me.txtCowFatFrom.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel13
         '
@@ -669,7 +675,7 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.txtMaxSNFPer.TabIndex = 7
         Me.txtMaxSNFPer.Text = "0"
         Me.txtMaxSNFPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMaxSNFPer.Value = 0R
+        Me.txtMaxSNFPer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel1
         '
@@ -706,7 +712,7 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.txtMaxFATPer.TabIndex = 6
         Me.txtMaxFATPer.Text = "0"
         Me.txtMaxFATPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMaxFATPer.Value = 0R
+        Me.txtMaxFATPer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel2
         '
@@ -743,7 +749,7 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.txtMinSNFPer.TabIndex = 1
         Me.txtMinSNFPer.Text = "0"
         Me.txtMinSNFPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMinSNFPer.Value = 0R
+        Me.txtMinSNFPer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel23
         '
@@ -780,7 +786,7 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.txtMinFATPer.TabIndex = 0
         Me.txtMinFATPer.Text = "0"
         Me.txtMinFATPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMinFATPer.Value = 0R
+        Me.txtMinFATPer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel24
         '
@@ -981,7 +987,7 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.txtFatPer.TabIndex = 2
         Me.txtFatPer.Text = "0"
         Me.txtFatPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFatPer.Value = 0R
+        Me.txtFatPer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel4
         '
@@ -1020,7 +1026,7 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.txtSnfPer.TabIndex = 5
         Me.txtSnfPer.Text = "0"
         Me.txtSnfPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSnfPer.Value = 0R
+        Me.txtSnfPer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel3
         '
@@ -1068,7 +1074,7 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.txtFatRatio.TabIndex = 1
         Me.txtFatRatio.Text = "0"
         Me.txtFatRatio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFatRatio.Value = 0R
+        Me.txtFatRatio.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtRate
         '
@@ -1096,7 +1102,7 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.txtRate.TabIndex = 3
         Me.txtRate.Text = "0"
         Me.txtRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtRate.Value = 0R
+        Me.txtRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtSNFRatio
         '
@@ -1124,7 +1130,7 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.txtSNFRatio.TabIndex = 4
         Me.txtSNFRatio.Text = "0"
         Me.txtSNFRatio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSNFRatio.Value = 0R
+        Me.txtSNFRatio.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel12
         '
@@ -1240,7 +1246,7 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(105.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(654, 441)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(788, 441)
         Me.RadPageViewPage2.Text = "Price Chart Matrix"
         '
         'gv
@@ -1253,11 +1259,13 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv.MyExportFilePath = ""
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
-        Me.gv.Size = New System.Drawing.Size(654, 408)
+        Me.gv.Size = New System.Drawing.Size(788, 408)
         Me.gv.TabIndex = 0
+        Me.gv.VarID = ""
         '
         'Panel1
         '
@@ -1270,13 +1278,13 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(654, 33)
+        Me.Panel1.Size = New System.Drawing.Size(788, 33)
         Me.Panel1.TabIndex = 1
         '
         'RadButton4
         '
         Me.RadButton4.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.RadButton4.Location = New System.Drawing.Point(572, 4)
+        Me.RadButton4.Location = New System.Drawing.Point(706, 4)
         Me.RadButton4.Name = "RadButton4"
         Me.RadButton4.Size = New System.Drawing.Size(78, 24)
         Me.RadButton4.TabIndex = 43
@@ -1346,7 +1354,7 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.txtSearchRate.TabIndex = 20
         Me.txtSearchRate.Text = "0"
         Me.txtSearchRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSearchRate.Value = 0R
+        Me.txtSearchRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel21
         '
@@ -1396,7 +1404,7 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.txtSearchSNF.TabIndex = 21
         Me.txtSearchSNF.Text = "0"
         Me.txtSearchSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSearchSNF.Value = 0R
+        Me.txtSearchSNF.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel17
         '
@@ -1433,7 +1441,7 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.txtSearchFAT.TabIndex = 20
         Me.txtSearchFAT.Text = "0"
         Me.txtSearchFAT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSearchFAT.Value = 0R
+        Me.txtSearchFAT.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel18
         '

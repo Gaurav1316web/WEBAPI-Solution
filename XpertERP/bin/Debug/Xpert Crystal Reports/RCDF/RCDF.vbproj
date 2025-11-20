@@ -473,6 +473,7 @@
     <None Include="Crystal Reports GST\Milk Procurement\crptMilkPurchaseBillPaymentProcess.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\crptMPWiseMilkCollectionAtPoolingPoint.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\crptShiftReportZeroAmountSample.rpt" />
+    <None Include="Crystal Reports GST\Milk Procurement\crptTaxableNonTaxableInvoiceDCSSaleEntryJDHNEW.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\crptVillageData.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\CrptVillageDifference.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\crptVillageSlipReport.rpt" />
@@ -1218,6 +1219,7 @@
     <None Include="Crystal Reports\HR_Payroll\crptKDILSalarySlipFormat1.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptKDILSalarySlipFormat1AJM.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptLabelPrinting.rpt" />
+    <None Include="Crystal Reports\HR_Payroll\crptLastPayCertificate.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptLocationtransferletter.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptLTAClaim.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptMonthlyESI.rpt" />
@@ -1253,6 +1255,7 @@
     <None Include="Crystal Reports\HR_Payroll\rptDeductionRegister.rpt" />
     <None Include="Crystal Reports\HR_Payroll\rptDeductionRegisterkkk.rpt" />
     <None Include="Crystal Reports\HR_Payroll\rptDetailOfWelfareFundAmount.rpt" />
+    <None Include="Crystal Reports\HR_Payroll\rptGenerateBonusrpt.rpt" />
     <None Include="Crystal Reports\HR_Payroll\rptPayrollBankTransferDetail.rpt" />
     <None Include="Crystal Reports\HR_Payroll\rptTentativeSalary.rpt" />
     <None Include="Crystal Reports\Human Resource\rptAppointmentLetter.rpt" />

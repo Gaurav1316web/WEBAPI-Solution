@@ -684,12 +684,12 @@ Public Class clsMCCMaterialSale
             ''''  for automatic invoice
             Dim objSI As clsPSInvoiceHead = ConvertShipmentToSaleInvoice(obj)
             If clsCommon.myLen(obj.Sale_Invoice_No) > 0 Then
-                objSI.SaveData(objSI, False, False, clsDocType.DCSInvoice, trans)
+                objSI.SaveData(objSI, False, False, clsDocType.DCSInvoice, trans, True)
             Else
                 If clsCommon.CompairString(obj.Is_CashSale, "Y") = CompairStringResult.Equal Then
-                    objSI.SaveData(objSI, True, True, clsDocType.DCSInvoice, trans)
+                    objSI.SaveData(objSI, True, True, clsDocType.DCSInvoice, trans, True)
                 Else
-                    objSI.SaveData(objSI, True, False, clsDocType.DCSInvoice, trans)
+                    objSI.SaveData(objSI, True, False, clsDocType.DCSInvoice, trans, True)
                 End If
 
             End If
@@ -2933,7 +2933,7 @@ ITEMDETAIL1.Conversion_Factor As CF,TSPL_ITEM_UOM_DETAIL.Conversion_Factor As Co
         End If
         Qry += " TSPL_SD_SHIPMENT_HEAD.Amount_Less_Discount  as aftrdiscount ,TSPL_SD_SHIPMENT_HEAD .Total_Amt as Total_amount,"
         Qry += " TSPL_SD_SHIPMENT_HEAD.Discount_Base as bfrdisc_amount, TSPL_COMPANY_MASTER.Access_Officer as FSSAI,TSPL_COMPANY_MASTER.Email,TSPL_COMPANY_MASTER.Tcan_No AS WebSite ,TSPL_COMPANY_MASTER.Phone1 AS COMP_PHONE,TSPL_SD_SHIPMENT_HEAD.Transporter_Commission_TotalAmt ,TSPL_SD_SHIPMENT_HEAD.Recommended_By, "
-        Qry += " tax1.Tax_Code_Desc as tax1name,isnull (TSPL_SD_SHIPMENT_HEAD.tax1_amt,0) as txt1amt, TSPL_SD_SHIPMENT_HEAD.TAX1_Rate,  tax2.Tax_Code_Desc as tax2name,isnull (TSPL_SD_SHIPMENT_HEAD.tax2_amt,0) as txt2amt,TSPL_SD_SHIPMENT_HEAD.TAX2_Rate, tax3.Tax_Code_Desc as tax3name,isnull (TSPL_SD_SHIPMENT_HEAD.tax3_amt,0) as txt3amt,TSPL_SD_SHIPMENT_HEAD.TAX3_Rate,   tax4.Tax_Code_Desc as tax4name,isnull (TSPL_SD_SHIPMENT_HEAD.tax4_amt,0) as txt4amt,TSPL_SD_SHIPMENT_HEAD.TAX4_Rate,   tax5.Tax_Code_Desc as tax5name,isnull (TSPL_SD_SHIPMENT_HEAD.tax5_amt,0) as txt5amt,TSPL_SD_SHIPMENT_HEAD.TAX5_Rate,   tax6.Tax_Code_Desc as tax6name,isnull (TSPL_SD_SHIPMENT_HEAD.tax6_amt,0) as txt6amt,TSPL_SD_SHIPMENT_HEAD.TAX6_Rate,   tax7.Tax_Code_Desc as tax7name,isnull (TSPL_SD_SHIPMENT_HEAD.tax7_amt,0) as txt7amt,TSPL_SD_SHIPMENT_HEAD.TAX7_Rate,   tax8.Tax_Code_Desc as tax8name,isnull (TSPL_SD_SHIPMENT_HEAD.tax8_amt,0) as txt8amt,TSPL_SD_SHIPMENT_HEAD.TAX8_Rate,    tax9.Tax_Code_Desc as tax9name,isnull (TSPL_SD_SHIPMENT_HEAD.tax9_amt,0) as txt9amt,TSPL_SD_SHIPMENT_HEAD.TAX9_Rate,   tax10.Tax_Code_Desc as tax10name,isnull (TSPL_SD_SHIPMENT_HEAD.tax10_amt,0) as txt10amt, TSPL_SD_SHIPMENT_HEAD.TAX10_Rate, "
+        Qry += " tax1.Tax_Code_Desc as tax1name,isnull (TSPL_SD_SHIPMENT_detail.tax1_amt,0) as txt1amt, TSPL_SD_SHIPMENT_detail.TAX1_Rate,  tax2.Tax_Code_Desc as tax2name,isnull (TSPL_SD_SHIPMENT_detail.tax2_amt,0) as txt2amt,TSPL_SD_SHIPMENT_detail.TAX2_Rate, tax3.Tax_Code_Desc as tax3name,isnull (TSPL_SD_SHIPMENT_detail.tax3_amt,0) as txt3amt,TSPL_SD_SHIPMENT_detail.TAX3_Rate,   tax4.Tax_Code_Desc as tax4name,isnull (TSPL_SD_SHIPMENT_detail.tax4_amt,0) as txt4amt,TSPL_SD_SHIPMENT_detail.TAX4_Rate,   tax5.Tax_Code_Desc as tax5name,isnull (TSPL_SD_SHIPMENT_detail.tax5_amt,0) as txt5amt,TSPL_SD_SHIPMENT_detail.TAX5_Rate,   tax6.Tax_Code_Desc as tax6name,isnull (TSPL_SD_SHIPMENT_detail.tax6_amt,0) as txt6amt,TSPL_SD_SHIPMENT_detail.TAX6_Rate,   tax7.Tax_Code_Desc as tax7name,isnull (TSPL_SD_SHIPMENT_detail.tax7_amt,0) as txt7amt,TSPL_SD_SHIPMENT_detail.TAX7_Rate,   tax8.Tax_Code_Desc as tax8name,isnull (TSPL_SD_SHIPMENT_detail.tax8_amt,0) as txt8amt,TSPL_SD_SHIPMENT_detail.TAX8_Rate,    tax9.Tax_Code_Desc as tax9name,isnull (TSPL_SD_SHIPMENT_detail.tax9_amt,0) as txt9amt,TSPL_SD_SHIPMENT_detail.TAX9_Rate,   tax10.Tax_Code_Desc as tax10name,isnull (TSPL_SD_SHIPMENT_detail.tax10_amt,0) as txt10amt, TSPL_SD_SHIPMENT_detail.TAX10_Rate, "
         'Qry += " tax1.Tax_Code_Desc as tax1name,isnull (TSPL_SD_SHIPMENT_HEAD.tax1_amt,0) as txt1amt,  "
         'Qry += " tax2.Tax_Code_Desc as tax2name,isnull (TSPL_SD_SHIPMENT_HEAD.tax2_amt,0) as txt2amt,  "
         'Qry += " tax3.Tax_Code_Desc as tax3name,isnull (TSPL_SD_SHIPMENT_HEAD.tax3_amt,0) as txt3amt,  "

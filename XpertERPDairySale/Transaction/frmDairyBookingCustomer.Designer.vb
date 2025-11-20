@@ -38,6 +38,7 @@ Partial Class frmDairyBookingCustomer
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkAPS = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtIndentDate = New common.Controls.MyDateTimePicker()
         Me.RadLabel4 = New common.Controls.MyLabel()
         Me.UsLock1 = New common.usLock()
@@ -299,10 +300,9 @@ Partial Class frmDairyBookingCustomer
         Me.lblCancelStatus = New common.Controls.MyLabel()
         Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
-        Me.RadPanel3 = New Telerik.WinControls.UI.RadPanel()
+        Me.rpOpening = New Telerik.WinControls.UI.RadPanel()
         Me.lblDocAmt = New common.Controls.MyLabel()
         Me.lblTotalDocAmt = New common.Controls.MyLabel()
-        Me.rpOpening = New Telerik.WinControls.UI.RadPanel()
         Me.lblCrAmt = New common.Controls.MyLabel()
         Me.txtCrAmt = New common.Controls.MyLabel()
         Me.lblNetbalance = New common.Controls.MyLabel()
@@ -340,6 +340,7 @@ Partial Class frmDairyBookingCustomer
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkAPS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtIndentDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblIndentDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -590,12 +591,10 @@ Partial Class frmDairyBookingCustomer
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCancelStatus, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage5.SuspendLayout()
-        CType(Me.RadPanel3, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPanel3.SuspendLayout()
-        CType(Me.lblDocAmt, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblTotalDocAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rpOpening, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.rpOpening.SuspendLayout()
+        CType(Me.lblDocAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotalDocAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCrAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCrAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblNetbalance, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -640,7 +639,6 @@ Partial Class frmDairyBookingCustomer
         '
         'SplitContainer1.Panel2
         '
-        Me.SplitContainer1.Panel2.Controls.Add(Me.RadPanel3)
         Me.SplitContainer1.Panel2.Controls.Add(Me.rpOpening)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnprinte_wayBill)
@@ -683,6 +681,7 @@ Partial Class frmDairyBookingCustomer
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkAPS)
         Me.RadPageViewPage1.Controls.Add(Me.txtIndentDate)
         Me.RadPageViewPage1.Controls.Add(Me.UsLock1)
         Me.RadPageViewPage1.Controls.Add(Me.lblIndentDate)
@@ -770,6 +769,15 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1260, 409)
         Me.RadPageViewPage1.Text = "Booking Order"
+        '
+        'chkAPS
+        '
+        Me.chkAPS.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkAPS.Location = New System.Drawing.Point(377, 47)
+        Me.chkAPS.Name = "chkAPS"
+        Me.chkAPS.Size = New System.Drawing.Size(43, 16)
+        Me.chkAPS.TabIndex = 1596
+        Me.chkAPS.Text = "APS"
         '
         'txtIndentDate
         '
@@ -4415,21 +4423,29 @@ Partial Class frmDairyBookingCustomer
         Me.UcAttachment1.TabIndex = 1
         Me.UcAttachment1.TabStop = False
         '
-        'RadPanel3
+        'rpOpening
         '
-        Me.RadPanel3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.RadPanel3.Controls.Add(Me.lblDocAmt)
-        Me.RadPanel3.Controls.Add(Me.lblTotalDocAmt)
-        Me.RadPanel3.Location = New System.Drawing.Point(1013, 3)
-        Me.RadPanel3.Name = "RadPanel3"
-        Me.RadPanel3.Size = New System.Drawing.Size(260, 32)
-        Me.RadPanel3.TabIndex = 1566
+        Me.rpOpening.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.rpOpening.Controls.Add(Me.lblDocAmt)
+        Me.rpOpening.Controls.Add(Me.lblTotalDocAmt)
+        Me.rpOpening.Controls.Add(Me.lblCrAmt)
+        Me.rpOpening.Controls.Add(Me.txtCrAmt)
+        Me.rpOpening.Controls.Add(Me.lblNetbalance)
+        Me.rpOpening.Controls.Add(Me.txtClosingBal)
+        Me.rpOpening.Controls.Add(Me.lblOpeningBal)
+        Me.rpOpening.Controls.Add(Me.txtOpeningbal)
+        Me.rpOpening.Controls.Add(Me.lblDrAmt)
+        Me.rpOpening.Controls.Add(Me.txtDrAmt)
+        Me.rpOpening.Location = New System.Drawing.Point(28, 2)
+        Me.rpOpening.Name = "rpOpening"
+        Me.rpOpening.Size = New System.Drawing.Size(1167, 32)
+        Me.rpOpening.TabIndex = 1565
         '
         'lblDocAmt
         '
         Me.lblDocAmt.FieldName = Nothing
         Me.lblDocAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDocAmt.Location = New System.Drawing.Point(9, 8)
+        Me.lblDocAmt.Location = New System.Drawing.Point(862, 5)
         Me.lblDocAmt.Name = "lblDocAmt"
         Me.lblDocAmt.Size = New System.Drawing.Size(108, 16)
         Me.lblDocAmt.TabIndex = 126
@@ -4441,27 +4457,11 @@ Partial Class frmDairyBookingCustomer
         Me.lblTotalDocAmt.BorderVisible = True
         Me.lblTotalDocAmt.FieldName = Nothing
         Me.lblTotalDocAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotalDocAmt.Location = New System.Drawing.Point(151, 6)
+        Me.lblTotalDocAmt.Location = New System.Drawing.Point(977, 3)
         Me.lblTotalDocAmt.Name = "lblTotalDocAmt"
         Me.lblTotalDocAmt.Size = New System.Drawing.Size(104, 20)
         Me.lblTotalDocAmt.TabIndex = 136
         Me.lblTotalDocAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'rpOpening
-        '
-        Me.rpOpening.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.rpOpening.Controls.Add(Me.lblCrAmt)
-        Me.rpOpening.Controls.Add(Me.txtCrAmt)
-        Me.rpOpening.Controls.Add(Me.lblNetbalance)
-        Me.rpOpening.Controls.Add(Me.txtClosingBal)
-        Me.rpOpening.Controls.Add(Me.lblOpeningBal)
-        Me.rpOpening.Controls.Add(Me.txtOpeningbal)
-        Me.rpOpening.Controls.Add(Me.lblDrAmt)
-        Me.rpOpening.Controls.Add(Me.txtDrAmt)
-        Me.rpOpening.Location = New System.Drawing.Point(6, 3)
-        Me.rpOpening.Name = "rpOpening"
-        Me.rpOpening.Size = New System.Drawing.Size(878, 32)
-        Me.rpOpening.TabIndex = 1565
         '
         'lblCrAmt
         '
@@ -4535,7 +4535,7 @@ Partial Class frmDairyBookingCustomer
         Me.lblDrAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDrAmt.Location = New System.Drawing.Point(239, 5)
         Me.lblDrAmt.Name = "lblDrAmt"
-        Me.lblDrAmt.Size = New System.Drawing.Size(72, 16)
+        Me.lblDrAmt.Size = New System.Drawing.Size(60, 16)
         Me.lblDrAmt.TabIndex = 126
         Me.lblDrAmt.Text = "Debit Amt"
         '
@@ -4786,6 +4786,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkAPS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtIndentDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblIndentDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5052,14 +5053,11 @@ Partial Class frmDairyBookingCustomer
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCancelStatus, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage5.ResumeLayout(False)
-        CType(Me.RadPanel3, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPanel3.ResumeLayout(False)
-        Me.RadPanel3.PerformLayout()
-        CType(Me.lblDocAmt, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblTotalDocAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rpOpening, System.ComponentModel.ISupportInitialize).EndInit()
         Me.rpOpening.ResumeLayout(False)
         Me.rpOpening.PerformLayout()
+        CType(Me.lblDocAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotalDocAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCrAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtCrAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblNetbalance, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5377,7 +5375,6 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents txtOpeningbal As common.Controls.MyLabel
     Friend WithEvents lblDrAmt As common.Controls.MyLabel
     Friend WithEvents txtDrAmt As common.Controls.MyLabel
-    Friend WithEvents RadPanel3 As RadPanel
     Friend WithEvents lblDocAmt As common.Controls.MyLabel
     Friend WithEvents lblTotalDocAmt As common.Controls.MyLabel
     Friend WithEvents lblNetbalance As common.Controls.MyLabel
@@ -5390,5 +5387,6 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents txtReceipt As common.UserControls.txtFinder
     Friend WithEvents lblCrAmt As common.Controls.MyLabel
     Friend WithEvents txtCrAmt As common.Controls.MyLabel
+    Friend WithEvents chkAPS As RadCheckBox
 End Class
 

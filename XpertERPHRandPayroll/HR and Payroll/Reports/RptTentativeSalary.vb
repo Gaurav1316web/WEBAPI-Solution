@@ -74,9 +74,11 @@ Public Class RptTentativeSalary
             End If
             Dim whr As String = ""
             Dim whrEmp As String = ""
+            Dim WHEEMPBONUS As String = ""
             If txtmultiEmpcode.arrValueMember IsNot Nothing AndAlso txtmultiEmpcode.arrValueMember.Count > 0 Then
                 whr = " in (" + clsCommon.GetMulcallString(txtmultiEmpcode.arrValueMember) + ")"
                 whrEmp = " EMP.EMP_CODE in (" + clsCommon.GetMulcallString(txtmultiEmpcode.arrValueMember) + ") And "
+                WHEEMPBONUS = " TSPL_EMPLOYEE_MASTER.EMP_CODE in (" + clsCommon.GetMulcallString(txtmultiEmpcode.arrValueMember) + ") "
             End If
             Dim dt As DataTable = Nothing
             Dim GetLastGenerateMonth As Double = 0
@@ -161,7 +163,20 @@ Public Class RptTentativeSalary
                     LEFT OUTER JOIN TSPL_PAYHEAD_MASTER ON TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE = TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE
                     LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = EMP.LOCATION_CODE
                     WHERE " + whrEmp + "   TSPL_GENERATE_SALARY.PAY_PERIOD_CODE IN (" & PayperiodCode & ") and ACTUAL_AMOUNT<>0
-					) "
+					 union all 
+
+                     Select TSPL_EMPLOYEE_BONUS.PAYABLE_PAY_PERIOD_CODE,TSPL_EMPLOYEE_MASTER.Emp_Name,TSPL_EMPLOYEE_MASTER.EMP_CODE,'25-26' AS FinYear,TSPL_LOCATION_MASTER.Location_Code,TSPL_LOCATION_MASTER.Add1,
+                    TSPL_LOCATION_MASTER.City_Code,TSPL_LOCATION_MASTER.Location_Desc,'BONUS' AS PayHead,Final_BONUS_AMOUNT as ACTUAL_AMOUNT,RIGHT(YEAR(TSPL_PAYPERIOD_MASTER.DATE_FROM), 2) AS PAY_YEAR,
+                    MONTH(TSPL_PAYPERIOD_MASTER.DATE_FROM) AS GENERATE_MONTH,DATENAME(MONTH, TSPL_PAYPERIOD_MASTER.DATE_TO) AS PAY_MONTH, MONTH(TSPL_PAYPERIOD_MASTER.DATE_TO) AS Mon,
+                    TSPL_PAYPERIOD_MASTER.DATE_TO ,TSPL_EMPBONUS_DETAIL.Final_BONUS_AMOUNT AS PAYABLE_AMOUNT from TSPL_EMPLOYEE_BONUS
+                     left join TSPL_EMPBONUS_DETAIL on TSPL_EMPBONUS_DETAIL.EMP_BONUS_CODE=TSPL_EMPLOYEE_BONUS.EMP_BONUS_CODE
+                     left join TSPL_EMPLOYEE_MASTER  ON TSPL_EMPLOYEE_MASTER.EMP_CODE=TSPL_EMPBONUS_DETAIL.EMP_CODE  
+                     LEFT OUTER JOIN TSPL_PAYPERIOD_MASTER ON TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE = TSPL_EMPLOYEE_BONUS.PAYABLE_PAY_PERIOD_CODE
+                     LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = TSPL_EMPLOYEE_MASTER.LOCATION_CODE
+                     WHERE  " + WHEEMPBONUS + "  And TSPL_EMPLOYEE_BONUS.PAYABLE_PAY_PERIOD_CODE IN ( " & PayperiodCode & "  ) and Final_BONUS_AMOUNT<>0
+
+
+) "
             'End If
             dt = clsDBFuncationality.GetDataTable(FinalQry)
             If dt Is Nothing OrElse dt.Rows.Count > 0 Then
@@ -282,10 +297,10 @@ Public Class RptTentativeSalary
             End If
 
             Dim qry As String = ""
-            qry = " SELECT Emp_Name as [Employee Name],PAY_MONTH as Month," & PayheadsCodes & "  FROM ( SELECT TSPL_GENERATE_SALARY.PAY_PERIOD_CODE,emp.Emp_Name,'" + txtFinYear.Value + "' AS FinYear,TSPL_LOCATION_MASTER.Location_Code,TSPL_LOCATION_MASTER.Add1,
+            qry = " SELECT EMPCODE,Emp_Name as [Employee Name],PAY_MONTH as Month," & PayheadsCodes & ", ISNULL([BONUS], 0) AS [BONUS]   FROM ( SELECT EMP.EMP_CODE AS EMPCODE,TSPL_GENERATE_SALARY.PAY_PERIOD_CODE,emp.Emp_Name,'" + txtFinYear.Value + "' AS FinYear,TSPL_LOCATION_MASTER.Location_Code,TSPL_LOCATION_MASTER.Add1,
                     TSPL_LOCATION_MASTER.City_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE  AS PayHead,TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT,RIGHT(YEAR(TSPL_PAYPERIOD_MASTER.DATE_FROM), 2) AS PAY_YEAR,
                     MONTH(TSPL_PAYPERIOD_MASTER.DATE_FROM) AS GENERATE_MONTH,DATENAME(MONTH, TSPL_PAYPERIOD_MASTER.DATE_TO) AS PAY_MONTH, MONTH(TSPL_PAYPERIOD_MASTER.DATE_TO) AS Mon,
-                    TSPL_PAYPERIOD_MASTER.DATE_TO FROM TSPL_GENERATE_SALARY_PAYHEADS 
+                    TSPL_PAYPERIOD_MASTER.DATE_TO,ISNULL(TSPL_EMPBONUS_DETAIL.Final_BONUS_AMOUNT,0) AS BONUS_AMOUNT FROM TSPL_GENERATE_SALARY_PAYHEADS 
                     LEFT JOIN tspl_employee_master EMP ON EMP.EMP_CODE = TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE 
                     INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE = TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE  
                     INNER JOIN TSPL_GENERATE_SALARY_ATTENDANCE ON TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE = TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE 
@@ -293,8 +308,14 @@ Public Class RptTentativeSalary
                     LEFT OUTER JOIN TSPL_PAYPERIOD_MASTER ON TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE = TSPL_GENERATE_SALARY.PAY_PERIOD_CODE
                     LEFT OUTER JOIN TSPL_PAYHEAD_MASTER ON TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE = TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE
                     LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = EMP.LOCATION_CODE
+                    LEFT OUTER JOIN TSPL_EMPLOYEE_BONUS on TSPL_EMPLOYEE_BONUS.PAYABLE_PAY_PERIOD_CODE=TSPL_GENERATE_SALARY.PAY_PERIOD_CODE
+					LEFT OUTER JOIN TSPL_EMPBONUS_DETAIL  ON TSPL_EMPBONUS_DETAIL.EMP_CODE = TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE
                     WHERE " + whrEmp + "  TSPL_GENERATE_SALARY.PAY_PERIOD_CODE IN (" & PayperiodCode & ")) AS src
-                    PIVOT ( SUM(ACTUAL_AMOUNT)FOR PayHead IN (" & PayheadCode & " )) AS pvt  ORDER BY Mon "
+                    PIVOT ( SUM(ACTUAL_AMOUNT)FOR PayHead IN (" & PayheadCode & " )) AS pvt  
+                    LEFT JOIN (SELECT EMP_CODE, PAYABLE_PAY_PERIOD_CODE, SUM(Final_BONUS_AMOUNT) AS BONUS FROM TSPL_EMPLOYEE_BONUS
+					left join TSPL_EMPBONUS_DETAIL on TSPL_EMPBONUS_DETAIL.EMP_BONUS_CODE=TSPL_EMPLOYEE_BONUS.EMP_BONUS_CODE
+					GROUP BY EMP_CODE, PAYABLE_PAY_PERIOD_CODE ) AS B ON B.EMP_CODE = pvt.EMPCODE AND B.PAYABLE_PAY_PERIOD_CODE = pvt.PAY_PERIOD_CODE
+                    ORDER BY Mon "
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             gv1.DataSource = Nothing
@@ -325,6 +346,7 @@ Public Class RptTentativeSalary
                 gv1.Columns(ii).IsVisible = True
                 gv1.Columns(ii).VisibleInColumnChooser = False
             Next
+            gv1.Columns("EMPCODE").IsVisible = False
             Dim index As Integer
             Dim summaryRowItem As New GridViewSummaryRowItem()
             index = 2

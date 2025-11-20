@@ -10,6 +10,7 @@ Public Class frmShipmentDairy
     Dim CreditCustDoc As String = ""
     Dim defaultScreenstartup As Boolean = True
     Dim DispatchCommissionDecimalPlaces As Decimal = 4
+    Dim EnableProductSaleForJPR As Boolean = False
     Dim isCTQtyUpdate As Boolean = True
     Dim AllowAddOrEditItems As Boolean = False
     Dim ApplyMonthEndDispatch As Boolean = True
@@ -788,6 +789,7 @@ Public Class frmShipmentDairy
         DifferentCrateTypeForFGItem = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DifferentCrateTypeForFGItem, clsFixedParameterCode.DifferentCrateTypeForFGItem, Nothing)) = 1, True, False)
         ApplyPricePlanOnDocumentDate = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyPricePlanOnDocumentDate, clsFixedParameterCode.ApplyPricePlanOnDocumentDate, Nothing)) = 1, True, False)
         DispatchCommissionDecimalPlaces = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DispatchCommissionDecimalPlaces, clsFixedParameterCode.DispatchCommissionDecimalPlaces, Nothing))
+        EnableProductSaleForJPR = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = 1, True, False)
 
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = dtpChallan.Value
@@ -12234,7 +12236,7 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                 Dim dblDisAmt As Double = (dblAmt * dblDisPer) / 100
                 'Dim dblSCAmt As Double = dblAmt * (dblSCRate / 100)
                 'gv1.Rows(IntRowNo).Cells(ColSCAmt).Value = dblSCAmt
-                If gv1.Rows(IntRowNo).Cells(ColDCRate).Value <> Nothing AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColDCRate).Value) >= 0 AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colMRP).Value) > 0 Then
+                If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(ColDCRate).Value), "") <> CompairStringResult.Equal AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColDCRate).Value) >= 0 AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colMRP).Value) > 0 Then
                     If Not ApplyCommissionRateWithTax Then
                         gv1.Rows(IntRowNo).Cells(ColDCRateWithTax).Value = gv1.Rows(IntRowNo).Cells(ColDCRate).Value
                     Else
@@ -13462,8 +13464,10 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
             LoadBlankGridTax(Nothing)
             If SettDistributorWiseBilling Then
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                    Dim strqry As String = "select Distinct Route_No as Code from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER"
-                    txtRouteNo.Value = clsCommon.ShowSelectForm("DShipRouteFinder", strqry, "Code", "", txtRouteNo.Value, "", isButtonClicked)
+                    Dim Whrcls As String = " TSPL_ROUTE_MASTER.Item_Type='M' "
+                    Dim strqry As String = "select Distinct TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No as Code from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER left join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No "
+
+                    txtRouteNo.Value = clsCommon.ShowSelectForm("DShipRouteFinder", strqry, "Code", Whrcls, txtRouteNo.Value, "", isButtonClicked)
                     fndRouteNo_TextChanged()
                     Dim strQry1 As String = "select top 1 TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code  from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER
 left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DISTRIBUTOR_ROUTE.Code

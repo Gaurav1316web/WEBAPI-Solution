@@ -22,9 +22,12 @@ Partial Class frmCancelledTransactions_DairySale
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.RdbDelete = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rdbCancel = New Telerik.WinControls.UI.RadRadioButton()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.rgbItemType = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnCancelDate = New Telerik.WinControls.UI.RadRadioButton()
@@ -54,13 +57,14 @@ Partial Class frmCancelledTransactions_DairySale
         Me.btnPrintCancel = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.lblNoOfRecords = New common.Controls.MyLabel()
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.RdbDelete = New Telerik.WinControls.UI.RadRadioButton()
-        Me.rdbCancel = New Telerik.WinControls.UI.RadRadioButton()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
+        CType(Me.RdbDelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbCancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rgbItemType, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.rgbItemType.SuspendLayout()
@@ -93,10 +97,6 @@ Partial Class frmCancelledTransactions_DairySale
         CType(Me.btnPrintCancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblNoOfRecords, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox1.SuspendLayout()
-        CType(Me.RdbDelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rdbCancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -148,6 +148,36 @@ Partial Class frmCancelledTransactions_DairySale
         Me.SplitContainer1.Size = New System.Drawing.Size(914, 459)
         Me.SplitContainer1.SplitterDistance = 422
         Me.SplitContainer1.TabIndex = 0
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.RdbDelete)
+        Me.RadGroupBox1.Controls.Add(Me.rdbCancel)
+        Me.RadGroupBox1.HeaderText = ""
+        Me.RadGroupBox1.Location = New System.Drawing.Point(83, 2)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Size = New System.Drawing.Size(230, 25)
+        Me.RadGroupBox1.TabIndex = 1539
+        '
+        'RdbDelete
+        '
+        Me.RdbDelete.Location = New System.Drawing.Point(124, 5)
+        Me.RdbDelete.Name = "RdbDelete"
+        Me.RdbDelete.Size = New System.Drawing.Size(52, 18)
+        Me.RdbDelete.TabIndex = 1
+        Me.RdbDelete.TabStop = False
+        Me.RdbDelete.Text = "Delete"
+        '
+        'rdbCancel
+        '
+        Me.rdbCancel.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rdbCancel.Location = New System.Drawing.Point(6, 5)
+        Me.rdbCancel.Name = "rdbCancel"
+        Me.rdbCancel.Size = New System.Drawing.Size(53, 18)
+        Me.rdbCancel.TabIndex = 0
+        Me.rdbCancel.Text = "Cancel"
+        Me.rdbCancel.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'MyLabel1
         '
@@ -201,6 +231,7 @@ Partial Class frmCancelledTransactions_DairySale
         Me.RadGroupBox4.Size = New System.Drawing.Size(282, 148)
         Me.RadGroupBox4.TabIndex = 15
         Me.RadGroupBox4.Text = "User"
+        Me.RadGroupBox4.Visible = False
         '
         'cbgUser
         '
@@ -394,7 +425,7 @@ Partial Class frmCancelledTransactions_DairySale
         Me.gv1.MasterTemplate.EnableFiltering = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -517,36 +548,6 @@ Partial Class frmCancelledTransactions_DairySale
         Me.lblNoOfRecords.TabIndex = 2
         Me.lblNoOfRecords.Text = "0 Record Found"
         '
-        'RadGroupBox1
-        '
-        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox1.Controls.Add(Me.RdbDelete)
-        Me.RadGroupBox1.Controls.Add(Me.rdbCancel)
-        Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(83, 2)
-        Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(230, 25)
-        Me.RadGroupBox1.TabIndex = 1539
-        '
-        'RdbDelete
-        '
-        Me.RdbDelete.Location = New System.Drawing.Point(124, 5)
-        Me.RdbDelete.Name = "RdbDelete"
-        Me.RdbDelete.Size = New System.Drawing.Size(52, 18)
-        Me.RdbDelete.TabIndex = 1
-        Me.RdbDelete.TabStop = False
-        Me.RdbDelete.Text = "Delete"
-        '
-        'rdbCancel
-        '
-        Me.rdbCancel.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rdbCancel.Location = New System.Drawing.Point(6, 5)
-        Me.rdbCancel.Name = "rdbCancel"
-        Me.rdbCancel.Size = New System.Drawing.Size(53, 18)
-        Me.rdbCancel.TabIndex = 0
-        Me.rdbCancel.Text = "Cancel"
-        Me.rdbCancel.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
-        '
         'frmCancelledTransactions_DairySale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -566,6 +567,11 @@ Partial Class frmCancelledTransactions_DairySale
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.Panel2.PerformLayout()
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
+        CType(Me.RdbDelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbCancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rgbItemType, System.ComponentModel.ISupportInitialize).EndInit()
         Me.rgbItemType.ResumeLayout(False)
@@ -601,11 +607,6 @@ Partial Class frmCancelledTransactions_DairySale
         CType(Me.btnPrintCancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblNoOfRecords, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox1.ResumeLayout(False)
-        Me.RadGroupBox1.PerformLayout()
-        CType(Me.RdbDelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rdbCancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

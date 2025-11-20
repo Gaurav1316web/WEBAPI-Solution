@@ -2540,7 +2540,7 @@ Public Class ProgramCodeNew
 
         '' Dairy APS Sale ==> Report
         InsertDefaultValue(clsUserMgtCode.SubModuleAPSSaleDairyReport, "Report", "1.38.03", clsUserMgtCode.ModuleAPSSaleDairy, "SM", 30)
-
+        InsertDefaultValue(clsUserMgtCode.FrmAPSSaleReport, "APS Sale Report", "1.38.03.01", clsUserMgtCode.SubModuleAPSSaleDairyReport, 37)
         '' End of Dairy Product Sale
         '===============================
         ' '' setup

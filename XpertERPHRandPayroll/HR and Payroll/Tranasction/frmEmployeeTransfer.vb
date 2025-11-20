@@ -84,6 +84,7 @@ Public Class FrmEmployeeTransfer
                 End If
                 obj.Previous_Salary_Code = clsCommon.myCstr(lblPreviousSalary.Text)
                 obj.Description = clsCommon.myCstr(txtDescription.Text)
+                obj.Office_Letter = clsCommon.myCstr(TxtOfficeLetter.Text)
                 obj.Emp_Code = clsCommon.myCstr(fndEmployeeCode.Value)
                 obj.Transfer_Department = clsCommon.myCstr(fndChangedDepartment.Value)
                 obj.Current_Department = clsCommon.myCstr(lblDepartment.Text)
@@ -101,6 +102,7 @@ Public Class FrmEmployeeTransfer
                 End If
                 obj.Previous_Salary_Code = clsCommon.myCstr(lblPreviousSalary.Text)
                 obj.Description = clsCommon.myCstr(txtDescription.Text)
+                obj.Office_Letter = clsCommon.myCstr(TxtOfficeLetter.Text)
                 obj.Current_Department = clsCommon.myCstr(lblDepartment.Text)
                 obj.Current_Designation = clsCommon.myCstr(lblDesignation.Text)
                 obj.Current_Location = clsCommon.myCstr(lblLocation.Text)
@@ -120,6 +122,7 @@ Public Class FrmEmployeeTransfer
                 End If
                 obj.Previous_Salary_Code = clsCommon.myCstr(lblPreviousSalary.Text)
                 obj.Description = clsCommon.myCstr(txtDescription.Text)
+                obj.Office_Letter = clsCommon.myCstr(TxtOfficeLetter.Text)
                 obj.Current_Department = clsCommon.myCstr(lblDepartment.Text)
                 obj.Current_Designation = clsCommon.myCstr(lblDesignation.Text)
                 obj.Current_Location = clsCommon.myCstr(lblLocation.Text)
@@ -187,6 +190,7 @@ Public Class FrmEmployeeTransfer
             isAllowValueChanged = False
             lblPreviousSalary.Text = obj.Previous_Salary_Code
             txtDescription.Text = obj.Description
+            TxtOfficeLetter.Text = obj.Office_Letter
             txtCode.MyReadOnly = True
             btnsave.Text = "Update"
 
@@ -386,6 +390,7 @@ Public Class FrmEmployeeTransfer
         txtEffDate.Text = clsCommon.GETSERVERDATE()
         fndEmployeeCode.Value = ""
         txtDescription.Text = ""
+        TxtOfficeLetter.Text = ""
         fndChangedDepartment.Value = ""
         fndChangedDesignation.Value = ""
         fndChangedLocation.Value = ""
@@ -540,6 +545,64 @@ Public Class FrmEmployeeTransfer
             clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Document_Code", "TSPL_EMPLOYEE_TRANSFER")
         Catch ex As Exception
             Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub BtnPrint2_Click(sender As Object, e As EventArgs) Handles BtnPrint2.Click
+        Try
+            Dim Qry As String = ""
+            Qry = "WITH E AS (
+    SELECT 
+        ROW_NUMBER() OVER (ORDER BY TSPL_EMPLOYEE_MASTER.EMP_CODE) AS rn,
+		STD_AMOUNT,
+        PAY_HEAD_CODE AS EarningPayhead,
+        ACTUAL_AMOUNT AS EarningPayheadAmt,
+        Emp_Name, TSPL_EMPLOYEE_MASTER.EMP_CODE, TSPL_EMPLOYEE_TRANSFER.Description, Document_Code, Document_Date,
+        Transfer_Department, Transfer_Designation, Transfer_Division,
+        Transfer_Location, Document_Type, Effective_Date, Current_Department,
+        Current_Designation, Current_Division, Current_Location, Office_Letter,
+        Location_Desc, Comp_Name, TSPL_COMPANY_MASTER.Add1, TSPL_COMPANY_MASTER.Add2, Regn_No, TSPL_COMPANY_MASTER.Phone1, TSPL_SALARY_CALCULATION.PF_No
+    from TSPL_SALARY_CALCULATION
+Left outer join TSPL_EMPLOYEE_TRANSFER on TSPL_EMPLOYEE_TRANSFER.Emp_Code=TSPL_SALARY_CALCULATION.EMP_CODE 
+Left outer join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.Emp_Code=TSPL_SALARY_CALCULATION.EMP_CODE 
+Left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_EMPLOYEE_TRANSFER.Transfer_Location 
+left outer join TSPL_COMPANY_MASTER ON 2=2
+    WHERE TSPL_EMPLOYEE_MASTER.EMP_CODE= '" & fndEmployeeCode.Value & "'  and Is_Earning_Payhead = 1 and ACTUAL_AMOUNT<>0
+),
+D AS (
+    SELECT 
+        ROW_NUMBER() OVER (ORDER BY TSPL_EMPLOYEE_MASTER.EMP_CODE) AS rn,
+		STD_AMOUNT,
+        PAY_HEAD_CODE AS DeductionPayhead,
+        ACTUAL_AMOUNT AS DeductionPayheadAmt
+     from TSPL_SALARY_CALCULATION
+Left outer join TSPL_EMPLOYEE_TRANSFER on TSPL_EMPLOYEE_TRANSFER.Emp_Code=TSPL_SALARY_CALCULATION.EMP_CODE 
+Left outer join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.Emp_Code=TSPL_SALARY_CALCULATION.EMP_CODE 
+Left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_EMPLOYEE_TRANSFER.Transfer_Location 
+left outer join TSPL_COMPANY_MASTER ON 2=2
+    WHERE   TSPL_EMPLOYEE_MASTER.EMP_CODE= '" & fndEmployeeCode.Value & "'   and Is_Earning_Payhead = 0 and ACTUAL_AMOUNT<>0
+)
+SELECT 
+    E.rn,E.Emp_Name, E.EMP_CODE, E.Description, E.Document_Code, E.Document_Date,
+    E.Transfer_Department, E.Transfer_Designation, E.Transfer_Division,
+    E.Transfer_Location, E.Document_Type, CONVERT(VARCHAR(10), E.Effective_Date, 23) AS Effective_Date, E.Current_Department,
+    E.Current_Designation, E.Current_Division, E.Current_Location, E.Office_Letter,
+    E.Location_Desc, E.Comp_Name, E.Add1, E.Add2, E.Regn_No, E.Phone1, E.PF_No,
+	E.STD_AMOUNT,
+    E.EarningPayhead,
+    E.EarningPayheadAmt,
+    D.DeductionPayhead,
+    D.DeductionPayheadAmt
+FROM E
+LEFT JOIN D ON E.rn = D.rn  
+ORDER BY E.rn "
+
+            Dim dt As New DataTable
+            dt = clsDBFuncationality.GetDataTable(Qry)
+            Dim frmcrsytal As New frmCrystalReportViewer
+            frmcrsytal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dt, "crptLastPayCertificate", "Last Pay Certificate")
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

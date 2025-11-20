@@ -59,6 +59,7 @@ Partial Class frmCustomerTender
         Me.txtDocNo = New common.UserControls.txtNavigator()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.chkCloseCustTender = New System.Windows.Forms.CheckBox()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnAmendment = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
@@ -151,6 +152,7 @@ Partial Class frmCustomerTender
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.chkCloseCustTender)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnAmendment)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
@@ -681,6 +683,18 @@ Partial Class frmCustomerTender
         Me.gv1.TabStop = False
         Me.gv1.VarID = ""
         '
+        'chkCloseCustTender
+        '
+        Me.chkCloseCustTender.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.chkCloseCustTender.AutoSize = True
+        Me.chkCloseCustTender.Enabled = False
+        Me.chkCloseCustTender.Location = New System.Drawing.Point(656, 9)
+        Me.chkCloseCustTender.Name = "chkCloseCustTender"
+        Me.chkCloseCustTender.Size = New System.Drawing.Size(144, 17)
+        Me.chkCloseCustTender.TabIndex = 1587
+        Me.chkCloseCustTender.Text = "Close Customer Tender"
+        Me.chkCloseCustTender.UseVisualStyleBackColor = True
+        '
         'btnClose
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -747,6 +761,7 @@ Partial Class frmCustomerTender
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
+        Me.SplitContainer1.Panel2.PerformLayout()
         Me.SplitContainer1.ResumeLayout(False)
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.Panel1.PerformLayout()
@@ -829,4 +844,5 @@ Partial Class frmCustomerTender
     Friend WithEvents btnGo As RadButton
     Friend WithEvents txtRemark As common.Controls.MyTextBox
     Friend WithEvents lblRemark As common.Controls.MyLabel
+    Friend WithEvents chkCloseCustTender As CheckBox
 End Class
