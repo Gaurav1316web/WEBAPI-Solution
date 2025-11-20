@@ -161,7 +161,7 @@ Public Class FrmSalesOrderDispatch
         repoIName.FormatString = ""
         repoIName.HeaderText = "Item Desc"
         repoIName.Name = colIName
-        repoIName.Width = 100
+        repoIName.Width = 200
         repoIName.ReadOnly = True
         repoIName.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoIName)
@@ -170,7 +170,7 @@ Public Class FrmSalesOrderDispatch
         repoQty.FormatString = ""
         repoQty.HeaderText = "Qty"
         repoQty.Name = colQty
-        repoQty.Width = 100
+        repoQty.Width = 170
         repoQty.Minimum = 0
         repoQty.ShowUpDownButtons = False
         repoQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
@@ -622,7 +622,7 @@ Public Class FrmSalesOrderDispatch
         repoTotalTaxAmt.FormatString = "{0:n2}"
         repoTotalTaxAmt.HeaderText = "Total Tax Amt"
         repoTotalTaxAmt.Name = colTotalTaxAmt
-        repoTotalTaxAmt.Width = 50
+        repoTotalTaxAmt.Width = 150
         repoTotalTaxAmt.Minimum = 0
         repoTotalTaxAmt.ReadOnly = True
         repoTotalTaxAmt.IsVisible = True
@@ -633,7 +633,7 @@ Public Class FrmSalesOrderDispatch
         repoTotalAmt.FormatString = "{0:n2}"
         repoTotalAmt.HeaderText = "Total Amt"
         repoTotalAmt.Name = colTotalAmt
-        repoTotalAmt.Width = 50
+        repoTotalAmt.Width = 150
         repoTotalAmt.Minimum = 0
         repoTotalAmt.ReadOnly = True
         repoTotalAmt.IsVisible = True
@@ -756,6 +756,8 @@ Public Class FrmSalesOrderDispatch
         btnSave.Enabled = True
         btnDelete.Enabled = True
         btnPost.Enabled = True
+        ControlEnableDisable(True)
+
     End Sub
     Private Sub CreateTable()
         Dim coll As Dictionary(Of String, String)
@@ -1139,12 +1141,12 @@ Public Class FrmSalesOrderDispatch
                     lstStr.Add(clsCommon.myCstr(item.Document_Code))
                 End If
             Next
-            Dim qry As String = "select sum(Qty) as Qty from TSPL_CUSTOMER_TENDER_ORDER
-left join TSPL_CUSTOMER_TENDER_ORDER_DETAIL on TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Document_Code=TSPL_CUSTOMER_TENDER_ORDER.Document_Code
-where TSPL_CUSTOMER_TENDER_ORDER.Document_Code in (" & clsCommon.GetMulcallString(lstStr) & ") and TSPL_CUSTOMER_TENDER_ORDER.Status=1"
-            txtOrderQty.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
-            qry = "select sum(TSPL_SD_SHIPMENT_DETAIL.Qty) as Qty from TSPL_SD_SHIPMENT_HEAD left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code where TSPL_SD_SHIPMENT_DETAIL.Against_Cust_Ord_PK_ID in(select PK_ID from TSPL_CUSTOMER_TENDER_ORDER where Document_Code in(" & clsCommon.GetMulcallString(lstStr) & ")) and TSPL_SD_SHIPMENT_HEAD.Status=1 and TSPL_SD_SHIPMENT_HEAD.IsReplacement=0 "
-            txtBalQty.Text = clsCommon.myCdbl(txtOrderQty.Text) - clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+            '            Dim qry As String = "select sum(Qty) as Qty from TSPL_CUSTOMER_TENDER_ORDER
+            'left join TSPL_CUSTOMER_TENDER_ORDER_DETAIL on TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Document_Code=TSPL_CUSTOMER_TENDER_ORDER.Document_Code
+            'where TSPL_CUSTOMER_TENDER_ORDER.Document_Code in (" & clsCommon.GetMulcallString(lstStr) & ") and TSPL_CUSTOMER_TENDER_ORDER.Status=1"
+            '            txtOrderQty.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+            '            qry = "select sum(TSPL_SD_SHIPMENT_DETAIL.Qty) as Qty from TSPL_SD_SHIPMENT_HEAD left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code where TSPL_SD_SHIPMENT_DETAIL.Against_Cust_Ord_PK_ID in(select PK_ID from TSPL_CUSTOMER_TENDER_ORDER where Document_Code in(" & clsCommon.GetMulcallString(lstStr) & ")) and TSPL_SD_SHIPMENT_HEAD.Status=1 and TSPL_SD_SHIPMENT_HEAD.IsReplacement=0 "
+            '            txtBalQty.Text = clsCommon.myCdbl(txtOrderQty.Text) - clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
 
             Dim strqry As String = "select TSPL_CUSTOMER_TENDER_Order_DETAIL.PK_ID,TSPL_CUSTOMER_TENDER_Order_DETAIL.RowType,TSPL_CUSTOMER_TENDER_Order_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_CUSTOMER_TENDER_Order_DETAIL.Tender_Rate,TSPL_CUSTOMER_TENDER_Order_DETAIL.Item_Rate,TSPL_CUSTOMER_TENDER_Order_DETAIL.Qty from TSPL_CUSTOMER_TENDER_Order_DETAIL
 left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_CUSTOMER_TENDER_Order_DETAIL.Item_Code
@@ -1168,13 +1170,15 @@ where TSPL_CUSTOMER_TENDER_Order_DETAIL.Document_Code in(" & clsCommon.GetMulcal
                     gv1.Rows(intRow).Cells(colRate).Value = clsCommon.myCdbl(dr("Item_Rate"))
                     gv1.Rows(intRow).Cells(colRate).ReadOnly = True
                     gv1.Rows(intRow).Cells(colPKID).Value = clsCommon.myCdbl(dr("PK_ID"))
+                    GetBalanceQty(clsCommon.myCstr(dr("PK_ID")))
                     gv1.Rows(intRow).Cells(colIsBatchItem).Value = clsItemMaster.IsBatchItem(clsCommon.myCstr(dr("Item_Code")))
                     If clsCommon.CompairString(clsCommon.myCstr(dr("Item_Code")), clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Item_Code from TSPL_ITEM_MASTER where Item_Code='" & clsCommon.myCstr(dr("Item_Code")) & "'"))) = CompairStringResult.Equal Then
                         SetTax(clsCommon.myCstr(dr("Item_Code")), intRow)
                     End If
                     If clsCommon.myCdbl(dr("Qty")) > 0 Then
                         isInsideLoadData = False
-                        gv1.Rows(intRow).Cells(colQty).Value = clsCommon.myCdbl(dr("Qty"))
+                        gv1.Rows(intRow).Cells(colQty).Value = clsCommon.myCdbl(txtBalQty.Text)
+                        txtBalQty.Text = 0
                         isInsideLoadData = True
                     End If
                     intRow += 1
@@ -1730,7 +1734,55 @@ where TSPL_CUSTOMER_TENDER_Order_DETAIL.Document_Code in(" & clsCommon.GetMulcal
         End Try
 
     End Sub
+    Private Sub GetBalanceQty(ByVal strPKID As String)
+        Try
+            Dim Qry As String = "select PK_Id, max(Final.Document_Code) as Document_Code,max(Final.Document_Date) as Document_Date,max(Final.Cust_Code) as Cust_Code,max(Final.Customer_Name) as Customer_Name,max(Final.RAL_No) as RAL_No,max(Final.Location_Code) as Location_Code,max(Final.Sub_Location)as Sub_Location,max(Final.Item_Code) as Item_Code,max(Final.Short_Description) as Short_Description,max(Final.RowType) as RowType,max(Final.Unit_Code) as Unit_Code,max(Final.Item_Rate) as Item_Rate
+,sum(Final.Qty * case when RI=1 then 1 else 0 end) as Qty,sum(Final.Qty * case when RI=-1 then 1 else 0 end) as UsedQty
+,sum(Final.Qty*RI) as PendingQty
 
+from (
+
+select TSPL_CUSTOMER_TENDER_ORDER.Document_Code,Convert(varchar(20),TSPL_CUSTOMER_TENDER_ORDER.Document_Date,103) as Document_Date,TSPL_CUSTOMER_TENDER_ORDER.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_CUSTOMER_TENDER_ORDER.RAL_No,TSPL_CUSTOMER_TENDER_ORDER.Location_Code,TSPL_CUSTOMER_TENDER_ORDER.Sub_Location,
+TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_CUSTOMER_TENDER_ORDER_DETAIL.RowType,TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Unit_Code,TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Item_Rate,TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Qty, isnull(TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Total_Tax_Amt,0) as Total_Tax_Amt,TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Total_Amt,TSPL_CUSTOMER_TENDER_ORDER_DETAIL.PK_Id,1 as RI,1 as chk
+from TSPL_CUSTOMER_TENDER_ORDER 
+left join TSPL_CUSTOMER_TENDER_ORDER_DETAIL on TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Document_Code=TSPL_CUSTOMER_TENDER_ORDER.Document_Code
+left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_CUSTOMER_TENDER_ORDER.Cust_Code
+left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Item_Code
+where TSPL_CUSTOMER_TENDER_ORDER.status=1 and isnull(TSPL_CUSTOMER_TENDER_ORDER.close_yn,'N')='N' and TSPL_CUSTOMER_TENDER_ORDER_DETAIL.PK_ID='" & strPKID & "'
+
+union all
+
+select '' as Document_Code,convert(varchar(20),TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,TSPL_SD_SHIPMENT_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,'' as RAL_No,'' as Location_Code,'' as Sub_Location,
+TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_SD_SHIPMENT_DETAIL.Row_Type as RowType,TSPL_SD_SHIPMENT_DETAIL.Unit_Code,TSPL_SD_SHIPMENT_DETAIL.Item_Cost as Item_Rate,TSPL_SD_SHIPMENT_DETAIL.Qty,isnull(TSPL_SD_SHIPMENT_DETAIL.Total_Tax_Amt,0) as Total_Tax_Amt,TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt as Total_Amt,TSPL_SD_SHIPMENT_DETAIL.Against_Cust_Ord_PK_ID as PK_ID,-1 as ri,0 as chk
+from TSPL_SD_SHIPMENT_HEAD 
+left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.Document_Code=TSPL_SD_SHIPMENT_HEAD.Document_Code
+left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
+where   TSPL_SD_SHIPMENT_DETAIL.Against_Cust_Ord_PK_ID is not null and TSPL_SD_SHIPMENT_DETAIL.Against_Cust_Ord_PK_ID='" & strPKID & "'"
+            If UsLock1.Status = ERPTransactionStatus.Pending Then
+                Qry += "and TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE Not In ('" & txtDocCode.Value & "')"
+            End If
+            Qry += " ) Final
+group by Final.PK_ID having sum(chk)>0 and sum(Final.Qty*RI)>0
+"
+            Dim TotalQty As Double = 0
+            Dim PendingQty As Double = 0
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                For Each dr As DataRow In dt.Rows
+                    TotalQty += clsCommon.myCdbl(dr("Qty"))
+                    PendingQty += clsCommon.myCdbl(dr("PendingQty"))
+                Next
+                txtOrderQty.Text = TotalQty
+                txtBalQty.Text = PendingQty
+            Else
+                txtOrderQty.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select sum(TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Qty) as OrderQty from TSPL_CUSTOMER_TENDER_ORDER_DETAIL where TSPL_CUSTOMER_TENDER_ORDER_DETAIL.PK_Id='" & clsCommon.myCstr(strPKID) & "'"))
+                txtBalQty.Text = 0
+            End If
+        Catch ex As Exception
+
+        End Try
+    End Sub
     Private Sub btnAddNew_Click(sender As Object, e As EventArgs) Handles btnAddNew.Click
         AddNew()
     End Sub
@@ -1738,16 +1790,17 @@ where TSPL_CUSTOMER_TENDER_Order_DETAIL.Document_Code in(" & clsCommon.GetMulcal
     Private Sub txtOrderNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtOrderNo._MYValidating
         Try
             Dim frm As New FrmPendingSalesOrder()
+            frm.DocCode = txtDocCode.Value
             frm.ShowDialog()
             Dim obj As clsCustomerTenderOrder = Nothing
             'LoadBlankGrid()
-            LoadBlankGrid()
-            LoadBlankGridTax()
+
             If frm.ArrReturn IsNot Nothing AndAlso frm.ArrReturn.Count > 0 Then
                 obj = clsCustomerTenderOrder.GetData(frm.ArrReturn(0).Document_Code, NavigatorType.Current, Nothing)
                 txtOrderNo.Value = obj.Document_Code
                 lblorderdesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Remarks from TSPL_CUSTOMER_TENDER_ORDER where Document_Code='" & txtOrderNo.Value & "'"))
-
+                LoadBlankGrid()
+                LoadBlankGridTax()
                 GetOrderData(txtOrderNo.Value)
                 LoadGrid(frm.ArrReturn)
             End If
@@ -1783,20 +1836,6 @@ where TSPL_CUSTOMER_TENDER_Order_DETAIL.Document_Code in(" & clsCommon.GetMulcal
             Throw New Exception(ex.Message)
         End Try
     End Sub
-
-    '    Private Sub GetTenderQty(ByVal strCode As String)
-    '        Try
-    '            Dim qry As String = "select sum(Qty) as Qty from TSPL_CUSTOMER_TENDER_ORDER
-    'left join TSPL_CUSTOMER_TENDER_ORDER_DETAIL on TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Document_Code=TSPL_CUSTOMER_TENDER_ORDER.Document_Code
-    'where TSPL_CUSTOMER_TENDER_ORDER.Document_Code='" & strCode & "' and TSPL_CUSTOMER_TENDER_ORDER.Status=1"
-    '            txtOrderQty.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
-    '            qry = "select sum(Qty) as Qty from TSPL_SD_SHIPMENT_HEAD left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code where TSPL_SD_SHIPMENT_HEAD.Against_Cust_Order='" & strCode & "' and TSPL_SD_SHIPMENT_HEAD.Status=1 and TSPL_SD_SHIPMENT_HEAD.IsReplacement=0 "
-    '            txtBalQty.Text = clsCommon.myCdbl(txtOrderQty.Text) - clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
-
-    '        Catch ex As Exception
-    '            Throw New Exception(ex.Message)
-    '        End Try
-    '    End Sub
 
     Private Sub txtDocCode__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtDocCode._MYNavigator
         Try
@@ -1947,6 +1986,11 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
                 End If
                 If clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value) <= 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colRowType).Value), clsItemRowType.RowTypeItem) = CompairStringResult.Equal AndAlso clsCommon.myLen(clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value)) > 0 Then
                     Throw New Exception("Enter Qty at line no -" & clsCommon.myCstr(ii + 1))
+                End If
+                GetBalanceQty(clsCommon.myCstr(gv1.Rows(ii).Cells(colPKID).Value))
+                If clsCommon.myCdbl(txtBalQty.Text) < clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value) Then
+                    gv1.Rows(ii).Cells(colQty).Value = 0
+                    Throw New Exception("Item [" & clsCommon.myCstr(gv1.Rows(ii).Cells(colIName).Value) & "] out of stock! Current available balance is [" & clsCommon.myCstr(txtBalQty.Text) & "]")
                 End If
             Next
             UcAttachment1.AllowToSave()
@@ -2169,7 +2213,19 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
         Next
         Return Arr
     End Function
+    Private Sub ControlEnableDisable(ByVal flag As Boolean)
+        txtOrderNo.Enabled = flag
+        txtLocation.Enabled = flag
+        txtSubLocation.Enabled = flag
+        txtCustomerCode.Enabled = flag
+        txtTransporterCode.Enabled = flag
+        txtVehicleCode.Enabled = flag
+        lblVehicleNo.Enabled = flag
+        txtRemark.Enabled = flag
+        txtInvoice_for_replacement.Enabled = flag
+        chkReplacement.Enabled = flag
 
+    End Sub
     Private Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         Try
             isInsideLoadData = True
@@ -2185,11 +2241,14 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
                     btnPost.Enabled = False
                     UsLock1.Status = ERPTransactionStatus.Approved
                     btnDelete.Enabled = False
+                    ControlEnableDisable(False)
                 Else
                     btnSave.Enabled = True
                     btnPost.Enabled = True
                     btnDelete.Enabled = True
                     UsLock1.Status = ERPTransactionStatus.Pending
+                    ControlEnableDisable(True)
+
                 End If
                 txtDocCode.Value = obj.Document_Code
                 txtDate.Value = obj.Document_Date
@@ -2217,7 +2276,7 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
                 If chkReplacement.Checked Then
                     GetReplacementQty(obj.Sale_Invoice_No, obj.Invoice_No_ForReplacement, True)
                 Else
-                    'GetTenderQty(txtOrderNo.Value)
+                    ' GetTenderQty(obj.Document_Code)
 
                 End If
                 Dim objTaxGrpMaster As New clsTaxGroupMaster()
@@ -2463,6 +2522,7 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colIsBatchItem).Value = clsItemMaster.IsBatchItem(clsCommon.myCstr(objTr.Item_Code))
                         sl += 1
                     Next
+
                 End If
                 UcAttachment1.LoadData(obj.Document_Code)
             End If
@@ -2957,6 +3017,26 @@ from TSPL_SD_SHIPMENT_HEAD left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub gv1_CellClick(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellClick
+        If e.Column Is gv1.Columns(colQty) Then
+            If clsCommon.myLen(gv1.CurrentRow.Cells(colICode).Value) > 0 Then
+                GetBalanceQty(clsCommon.myCstr(gv1.CurrentRow.Cells(colPKID).Value))
+            End If
+        End If
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtDocCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocCode.Value, "Document_Code", "TSPL_SD_SHIPMENT_HEAD", "TSPL_SD_SHIPMENT_DETAIL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
         End Try
     End Sub
 End Class
