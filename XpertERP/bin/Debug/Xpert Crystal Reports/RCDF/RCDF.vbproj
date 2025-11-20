@@ -473,6 +473,7 @@
     <None Include="Crystal Reports GST\Milk Procurement\crptMilkPurchaseBillPaymentProcess.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\crptMPWiseMilkCollectionAtPoolingPoint.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\crptShiftReportZeroAmountSample.rpt" />
+    <None Include="Crystal Reports GST\Milk Procurement\crptTaxableNonTaxableInvoiceDCSSaleEntryJDHNEW.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\crptVillageData.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\CrptVillageDifference.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\crptVillageSlipReport.rpt" />
