@@ -33,6 +33,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmAppIntegrator, "Application Integrator", "1.00.01.13", clsUserMgtCode.SubModuleSystemAdminSetup, 29)
         InsertDefaultValue(clsUserMgtCode.frmApprovalAlertSumm, "Approval Alert", "1.00.01.14", clsUserMgtCode.SubModuleSystemAdminSetup, 29)
         InsertDefaultValue(clsUserMgtCode.frmNotification, "Notification", "1.00.01.15", clsUserMgtCode.SubModuleSystemAdminSetup, 29)
+        InsertDefaultValue(clsUserMgtCode.FrmOfficeOrderTemplate, "Office Order Template", "1.00.01.16", clsUserMgtCode.SubModuleSystemAdminSetup, 29)
 
         'InsertDefaultValue(clsUserMgtCode.TimeTable, "Time Table", "1.00.01.15", clsUserMgtCode.SubModuleSystemAdminSetup, 30)
         'InsertDefaultValue(clsUserMgtCode.frmConfigureSynchronization, "Configure Synchronization", "1.00.01.16", clsUserMgtCode.SubModuleSystemAdminSetup, 29)
@@ -44,6 +45,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.SubModuleSystemAdminTransation, "Transaction", "1.00.02", clsUserMgtCode.ModuleSystemAdmin, "SM", 26)
         InsertDefaultValue(clsUserMgtCode.frmSendSMSEmailSetting, "SMS/Email Setting", "1.00.02.01", clsUserMgtCode.SubModuleSystemAdminTransation, "", 8, 0, "", "", "", True, True, Nothing)
         InsertDefaultValue(clsUserMgtCode.frmRCDFRateControl, "RCDF Rate Control", "1.00.02.02", clsUserMgtCode.SubModuleSystemAdminTransation, 8)
+        InsertDefaultValue(clsUserMgtCode.frmOfficeOrder, "Office Order", "1.00.02.03", clsUserMgtCode.SubModuleSystemAdminTransation, 8)
 
 
         '=======Preeti Gupta==========

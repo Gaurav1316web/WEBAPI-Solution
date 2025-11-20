@@ -22,12 +22,13 @@ Partial Class CancelPurchaseInvoiceReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkAllData = New System.Windows.Forms.CheckBox()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnCycleWise = New System.Windows.Forms.RadioButton()
         Me.C = New System.Windows.Forms.RadioButton()
@@ -55,7 +56,6 @@ Partial Class CancelPurchaseInvoiceReport
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.chkAllData = New System.Windows.Forms.CheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -161,6 +161,16 @@ Partial Class CancelPurchaseInvoiceReport
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Size = New System.Drawing.Size(363, 173)
         Me.RadGroupBox1.TabIndex = 389
+        '
+        'chkAllData
+        '
+        Me.chkAllData.AutoSize = True
+        Me.chkAllData.Location = New System.Drawing.Point(10, 18)
+        Me.chkAllData.Name = "chkAllData"
+        Me.chkAllData.Size = New System.Drawing.Size(66, 17)
+        Me.chkAllData.TabIndex = 449
+        Me.chkAllData.Text = "All Data"
+        Me.chkAllData.UseVisualStyleBackColor = True
         '
         'RadGroupBox2
         '
@@ -371,7 +381,7 @@ Partial Class CancelPurchaseInvoiceReport
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(779, 339)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(779, 346)
         Me.RadPageViewPage2.Text = "Report"
         '
         'gv1
@@ -387,12 +397,12 @@ Partial Class CancelPurchaseInvoiceReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(779, 339)
+        Me.gv1.Size = New System.Drawing.Size(779, 346)
         Me.gv1.TabIndex = 2
         Me.gv1.VarID = ""
         '
@@ -474,16 +484,6 @@ Partial Class CancelPurchaseInvoiceReport
         Me.btnGo.Size = New System.Drawing.Size(71, 22)
         Me.btnGo.TabIndex = 162
         Me.btnGo.Text = ">>>"
-        '
-        'chkAllData
-        '
-        Me.chkAllData.AutoSize = True
-        Me.chkAllData.Location = New System.Drawing.Point(10, 18)
-        Me.chkAllData.Name = "chkAllData"
-        Me.chkAllData.Size = New System.Drawing.Size(66, 17)
-        Me.chkAllData.TabIndex = 449
-        Me.chkAllData.Text = "All Data"
-        Me.chkAllData.UseVisualStyleBackColor = True
         '
         'CancelPurchaseInvoiceReport
         '

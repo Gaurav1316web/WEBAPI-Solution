@@ -75,6 +75,7 @@ Public Class frmDBTNEFTUnionReport
         RadPageView1.SelectedPage = RadPageViewPage1
         chkOnlyReject.Checked = False
         rbtnYearly.IsChecked = True
+        EnableDisableCtrl(True)
     End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         Try
@@ -95,7 +96,16 @@ Public Class frmDBTNEFTUnionReport
                 Gv.GroupDescriptors.Clear()
                 Gv.MasterTemplate.SummaryRowsBottom.Clear()
                 Gv.MasterView.Refresh()
-                Gv.DataSource = dt2
+                'gv.DataSource = dt2
+
+                If dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0 Then
+                    gv.DataSource = dt2
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    gv.EnableFiltering = True
+                    EnableDisableCtrl(False)
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                End If
 
                 For ii As Integer = 0 To Gv.Columns.Count - 1
                     Gv.Columns(ii).ReadOnly = True
@@ -451,7 +461,9 @@ Public Class frmDBTNEFTUnionReport
         Gv.AllowAddNewRow = False
         Gv.AllowDeleteRow = False
         Gv.EnableFiltering = True
-        Gv.ShowFilteringRow = True
+        gv.ShowFilteringRow = True
+        gv.ShowGroupPanel = False
+        'EnableDisableCtrl(False)
 
 
         For ii As Integer = 0 To Gv.Columns.Count - 1
@@ -472,8 +484,35 @@ Public Class frmDBTNEFTUnionReport
             Gv.Columns("M2 Farmer Code").IsVisible = False
             Gv.Columns("M3 Billed Qty").IsVisible = False
             Gv.Columns("M3 Farmer Qty").IsVisible = False
-            Gv.Columns("M3 Farmer Code").IsVisible = False
-            Gv.Columns("Total Billed Qty").IsVisible = False
+            gv.Columns("M3 Farmer Code").IsVisible = False
+            gv.Columns("M4 Billed Qty").IsVisible = False
+            gv.Columns("M4 Farmer Qty").IsVisible = False
+            gv.Columns("M4 Farmer Code").IsVisible = False
+            gv.Columns("M5 Billed Qty").IsVisible = False
+            gv.Columns("M5 Farmer Qty").IsVisible = False
+            gv.Columns("M5 Farmer Code").IsVisible = False
+            gv.Columns("M6 Billed Qty").IsVisible = False
+            gv.Columns("M6 Farmer Qty").IsVisible = False
+            gv.Columns("M6 Farmer Code").IsVisible = False
+            gv.Columns("M7 Billed Qty").IsVisible = False
+            gv.Columns("M7 Farmer Qty").IsVisible = False
+            gv.Columns("M7 Farmer Code").IsVisible = False
+            gv.Columns("M8 Billed Qty").IsVisible = False
+            gv.Columns("M8 Farmer Qty").IsVisible = False
+            gv.Columns("M8 Farmer Code").IsVisible = False
+            gv.Columns("M9 Billed Qty").IsVisible = False
+            gv.Columns("M9 Farmer Qty").IsVisible = False
+            gv.Columns("M9 Farmer Code").IsVisible = False
+            gv.Columns("M10 Billed Qty").IsVisible = False
+            gv.Columns("M10 Farmer Qty").IsVisible = False
+            gv.Columns("M10 Farmer Code").IsVisible = False
+            gv.Columns("M11 Billed Qty").IsVisible = False
+            gv.Columns("M11 Farmer Qty").IsVisible = False
+            gv.Columns("M11 Farmer Code").IsVisible = False
+            gv.Columns("M12 Billed Qty").IsVisible = False
+            gv.Columns("M12 Farmer Qty").IsVisible = False
+            gv.Columns("M12 Farmer Code").IsVisible = False
+            gv.Columns("Total Billed Qty").IsVisible = False
             Gv.Columns("Total Farmer Qty").IsVisible = False
             Gv.Columns("Total No. Of Farmer").IsVisible = False
             Gv.Columns("Month1").IsVisible = False
@@ -496,104 +535,353 @@ Public Class frmDBTNEFTUnionReport
         Gv.Columns("Union Name").IsVisible = True
 
         Gv.Columns("Month1").HeaderText = "Month 1"
-        Gv.Columns("Month1").Width = 200
-        Gv.Columns("Month1").FormatString = ""
+        gv.Columns("Month1").Width = 100
+        gv.Columns("Month1").FormatString = ""
 
         If chkOnlyReject.Checked Then
             Gv.Columns("M1 No Of Doc").HeaderText = "No. Of Document"
-            Gv.Columns("M1 No Of Doc").Width = 200
-            Gv.Columns("M1 No Of Doc").FormatString = "{0:n2}"
+            gv.Columns("M1 No Of Doc").Width = 100
+            gv.Columns("M1 No Of Doc").FormatString = "{0:n2}"
         End If
 
         Gv.Columns("M1 Billed Qty").HeaderText = "Qty"
-        Gv.Columns("M1 Billed Qty").Width = 200
-        Gv.Columns("M1 Billed Qty").FormatString = "{0:n2}"
+        gv.Columns("M1 Billed Qty").Width = 100
+        gv.Columns("M1 Billed Qty").FormatString = "{0:n2}"
 
         Gv.Columns("M1 Farmer Qty").HeaderText = "Farmer Qty"
-        Gv.Columns("M1 Farmer Qty").Width = 200
-        Gv.Columns("M1 Farmer Qty").FormatString = "{0:n2}"
+        gv.Columns("M1 Farmer Qty").Width = 100
+        gv.Columns("M1 Farmer Qty").FormatString = "{0:n2}"
 
         Gv.Columns("M1 Farmer Code").HeaderText = "No. Of Farmer"
-        Gv.Columns("M1 Farmer Code").Width = 200
-        Gv.Columns("M1 Farmer Code").FormatString = "{0:n2}"
+        gv.Columns("M1 Farmer Code").Width = 100
+        gv.Columns("M1 Farmer Code").FormatString = "{0:n2}"
 
         Gv.Columns("M1 Amt").HeaderText = "Amount"
-        Gv.Columns("M1 Amt").Width = 200
-        Gv.Columns("M1 Amt").FormatString = "{0:n2}"
+        gv.Columns("M1 Amt").Width = 100
+        gv.Columns("M1 Amt").FormatString = "{0:n2}"
 
         Gv.Columns("Month2").HeaderText = "Month 2"
-        Gv.Columns("Month2").Width = 200
-        Gv.Columns("Month2").FormatString = ""
+        gv.Columns("Month2").Width = 100
+        gv.Columns("Month2").FormatString = ""
 
         If chkOnlyReject.Checked Then
             Gv.Columns("M2 No Of Doc").HeaderText = "No. Of Document"
-            Gv.Columns("M2 No Of Doc").Width = 200
-            Gv.Columns("M2 No Of Doc").FormatString = "{0:n2}"
+            gv.Columns("M2 No Of Doc").Width = 100
+            gv.Columns("M2 No Of Doc").FormatString = "{0:n2}"
         End If
 
         Gv.Columns("M2 Billed Qty").HeaderText = "Qty"
-        Gv.Columns("M2 Billed Qty").Width = 200
-        Gv.Columns("M2 Billed Qty").FormatString = "{0:n2}"
+        gv.Columns("M2 Billed Qty").Width = 100
+        gv.Columns("M2 Billed Qty").FormatString = "{0:n2}"
 
         Gv.Columns("M2 Farmer Qty").HeaderText = "Farmer Qty"
-        Gv.Columns("M2 Farmer Qty").Width = 200
-        Gv.Columns("M2 Farmer Qty").FormatString = "{0:n2}"
+        gv.Columns("M2 Farmer Qty").Width = 100
+        gv.Columns("M2 Farmer Qty").FormatString = "{0:n2}"
 
         Gv.Columns("M2 Farmer Code").HeaderText = "No. Of Farmer"
-        Gv.Columns("M2 Farmer Code").Width = 200
-        Gv.Columns("M2 Farmer Code").FormatString = "{0:n2}"
+        gv.Columns("M2 Farmer Code").Width = 100
+        gv.Columns("M2 Farmer Code").FormatString = "{0:n2}"
 
         Gv.Columns("M2 Amt").HeaderText = "Amount"
-        Gv.Columns("M2 Amt").Width = 200
-        Gv.Columns("M2 Amt").FormatString = "{0:n2}"
+        gv.Columns("M2 Amt").Width = 100
+        gv.Columns("M2 Amt").FormatString = "{0:n2}"
 
         Gv.Columns("Month3").HeaderText = "Month 3"
-        Gv.Columns("Month3").Width = 200
-        Gv.Columns("Month3").FormatString = ""
+        gv.Columns("Month3").Width = 100
+        gv.Columns("Month3").FormatString = ""
 
         If chkOnlyReject.Checked Then
             Gv.Columns("M3 No Of Doc").HeaderText = "No. Of Document"
-            Gv.Columns("M3 No Of Doc").Width = 200
-            Gv.Columns("M3 No Of Doc").FormatString = "{0:n2}"
+            gv.Columns("M3 No Of Doc").Width = 100
+            gv.Columns("M3 No Of Doc").FormatString = "{0:n2}"
         End If
 
         Gv.Columns("M3 Billed Qty").HeaderText = "Qty"
-        Gv.Columns("M3 Billed Qty").Width = 200
-        Gv.Columns("M3 Billed Qty").FormatString = "{0:n2}"
+        gv.Columns("M3 Billed Qty").Width = 100
+        gv.Columns("M3 Billed Qty").FormatString = "{0:n2}"
 
         Gv.Columns("M3 Farmer Qty").HeaderText = "Farmer Qty"
-        Gv.Columns("M3 Farmer Qty").Width = 200
-        Gv.Columns("M3 Farmer Qty").FormatString = "{0:n2}"
+        gv.Columns("M3 Farmer Qty").Width = 100
+        gv.Columns("M3 Farmer Qty").FormatString = "{0:n2}"
 
         Gv.Columns("M3 Farmer Code").HeaderText = "No. Of Farmer"
-        Gv.Columns("M3 Farmer Code").Width = 200
-        Gv.Columns("M3 Farmer Code").FormatString = "{0:n2}"
+        gv.Columns("M3 Farmer Code").Width = 100
+        gv.Columns("M3 Farmer Code").FormatString = "{0:n2}"
 
         Gv.Columns("M3 Amt").HeaderText = "Amount"
-        Gv.Columns("M3 Amt").Width = 200
-        Gv.Columns("M3 Amt").FormatString = "{0:n2}"
+        gv.Columns("M3 Amt").Width = 100
+        gv.Columns("M3 Amt").FormatString = "{0:n2}"
+
+
+
+
+
+        gv.Columns("Month4").HeaderText = "Month 4"
+        gv.Columns("Month4").Width = 100
+        gv.Columns("Month4").FormatString = ""
+
+        If chkOnlyReject.Checked Then
+            gv.Columns("M4 No Of Doc").HeaderText = "No. Of Document"
+            gv.Columns("M4 No Of Doc").Width = 100
+            gv.Columns("M4 No Of Doc").FormatString = "{0:n2}"
+        End If
+
+        gv.Columns("M4 Billed Qty").HeaderText = "Qty"
+        gv.Columns("M4 Billed Qty").Width = 100
+        gv.Columns("M4 Billed Qty").FormatString = "{0:n2}"
+
+        gv.Columns("M4 Farmer Qty").HeaderText = "Farmer Qty"
+        gv.Columns("M4 Farmer Qty").Width = 100
+        gv.Columns("M4 Farmer Qty").FormatString = "{0:n2}"
+
+        gv.Columns("M4 Farmer Code").HeaderText = "No. Of Farmer"
+        gv.Columns("M4 Farmer Code").Width = 100
+        gv.Columns("M4 Farmer Code").FormatString = "{0:n2}"
+
+        gv.Columns("M4 Amt").HeaderText = "Amount"
+        gv.Columns("M4 Amt").Width = 100
+        gv.Columns("M4 Amt").FormatString = "{0:n2}"
+
+
+        gv.Columns("Month5").HeaderText = "Month 5"
+        gv.Columns("Month5").Width = 100
+        gv.Columns("Month5").FormatString = ""
+
+        If chkOnlyReject.Checked Then
+            gv.Columns("M5 No Of Doc").HeaderText = "No. Of Document"
+            gv.Columns("M5 No Of Doc").Width = 100
+            gv.Columns("M5 No Of Doc").FormatString = "{0:n2}"
+        End If
+
+        gv.Columns("M5 Billed Qty").HeaderText = "Qty"
+        gv.Columns("M5 Billed Qty").Width = 100
+        gv.Columns("M5 Billed Qty").FormatString = "{0:n2}"
+
+        gv.Columns("M5 Farmer Qty").HeaderText = "Farmer Qty"
+        gv.Columns("M5 Farmer Qty").Width = 100
+        gv.Columns("M5 Farmer Qty").FormatString = "{0:n2}"
+
+        gv.Columns("M5 Farmer Code").HeaderText = "No. Of Farmer"
+        gv.Columns("M5 Farmer Code").Width = 100
+        gv.Columns("M5 Farmer Code").FormatString = "{0:n2}"
+
+        gv.Columns("M5 Amt").HeaderText = "Amount"
+        gv.Columns("M5 Amt").Width = 100
+        gv.Columns("M5 Amt").FormatString = "{0:n2}"
+
+
+        gv.Columns("Month6").HeaderText = "Month 6"
+        gv.Columns("Month6").Width = 100
+        gv.Columns("Month6").FormatString = ""
+
+        If chkOnlyReject.Checked Then
+            gv.Columns("M6 No Of Doc").HeaderText = "No. Of Document"
+            gv.Columns("M6 No Of Doc").Width = 100
+            gv.Columns("M6 No Of Doc").FormatString = "{0:n2}"
+        End If
+
+        gv.Columns("M6 Billed Qty").HeaderText = "Qty"
+        gv.Columns("M6 Billed Qty").Width = 100
+        gv.Columns("M6 Billed Qty").FormatString = "{0:n2}"
+
+        gv.Columns("M6 Farmer Qty").HeaderText = "Farmer Qty"
+        gv.Columns("M6 Farmer Qty").Width = 100
+        gv.Columns("M6 Farmer Qty").FormatString = "{0:n2}"
+
+        gv.Columns("M6 Farmer Code").HeaderText = "No. Of Farmer"
+        gv.Columns("M6 Farmer Code").Width = 100
+        gv.Columns("M6 Farmer Code").FormatString = "{0:n2}"
+
+        gv.Columns("M6 Amt").HeaderText = "Amount"
+        gv.Columns("M6 Amt").Width = 100
+        gv.Columns("M6 Amt").FormatString = "{0:n2}"
+
+
+        gv.Columns("Month7").HeaderText = "Month 7"
+        gv.Columns("Month7").Width = 100
+        gv.Columns("Month7").FormatString = ""
+
+        If chkOnlyReject.Checked Then
+            gv.Columns("M7 No Of Doc").HeaderText = "No. Of Document"
+            gv.Columns("M7 No Of Doc").Width = 100
+            gv.Columns("M7 No Of Doc").FormatString = "{0:n2}"
+        End If
+
+        gv.Columns("M7 Billed Qty").HeaderText = "Qty"
+        gv.Columns("M7 Billed Qty").Width = 100
+        gv.Columns("M7 Billed Qty").FormatString = "{0:n2}"
+
+        gv.Columns("M7 Farmer Qty").HeaderText = "Farmer Qty"
+        gv.Columns("M7 Farmer Qty").Width = 100
+        gv.Columns("M7 Farmer Qty").FormatString = "{0:n2}"
+
+        gv.Columns("M7 Farmer Code").HeaderText = "No. Of Farmer"
+        gv.Columns("M7 Farmer Code").Width = 100
+        gv.Columns("M7 Farmer Code").FormatString = "{0:n2}"
+
+        gv.Columns("M7 Amt").HeaderText = "Amount"
+        gv.Columns("M7 Amt").Width = 100
+        gv.Columns("M7 Amt").FormatString = "{0:n2}"
+
+
+        gv.Columns("Month8").HeaderText = "Month 8"
+        gv.Columns("Month8").Width = 100
+        gv.Columns("Month8").FormatString = ""
+
+        If chkOnlyReject.Checked Then
+            gv.Columns("M8 No Of Doc").HeaderText = "No. Of Document"
+            gv.Columns("M8 No Of Doc").Width = 100
+            gv.Columns("M8 No Of Doc").FormatString = "{0:n2}"
+        End If
+
+        gv.Columns("M8 Billed Qty").HeaderText = "Qty"
+        gv.Columns("M8 Billed Qty").Width = 100
+        gv.Columns("M8 Billed Qty").FormatString = "{0:n2}"
+
+        gv.Columns("M8 Farmer Qty").HeaderText = "Farmer Qty"
+        gv.Columns("M8 Farmer Qty").Width = 100
+        gv.Columns("M8 Farmer Qty").FormatString = "{0:n2}"
+
+        gv.Columns("M8 Farmer Code").HeaderText = "No. Of Farmer"
+        gv.Columns("M8 Farmer Code").Width = 100
+        gv.Columns("M8 Farmer Code").FormatString = "{0:n2}"
+
+        gv.Columns("M8 Amt").HeaderText = "Amount"
+        gv.Columns("M8 Amt").Width = 100
+        gv.Columns("M8 Amt").FormatString = "{0:n2}"
+
+        gv.Columns("Month9").HeaderText = "Month 9"
+        gv.Columns("Month9").Width = 100
+        gv.Columns("Month9").FormatString = ""
+
+        If chkOnlyReject.Checked Then
+            gv.Columns("M9 No Of Doc").HeaderText = "No. Of Document"
+            gv.Columns("M9 No Of Doc").Width = 100
+            gv.Columns("M9 No Of Doc").FormatString = "{0:n2}"
+        End If
+
+        gv.Columns("M9 Billed Qty").HeaderText = "Qty"
+        gv.Columns("M9 Billed Qty").Width = 100
+        gv.Columns("M9 Billed Qty").FormatString = "{0:n2}"
+
+        gv.Columns("M9 Farmer Qty").HeaderText = "Farmer Qty"
+        gv.Columns("M9 Farmer Qty").Width = 100
+        gv.Columns("M9 Farmer Qty").FormatString = "{0:n2}"
+
+        gv.Columns("M9 Farmer Code").HeaderText = "No. Of Farmer"
+        gv.Columns("M9 Farmer Code").Width = 100
+        gv.Columns("M9 Farmer Code").FormatString = "{0:n2}"
+
+        gv.Columns("M9 Amt").HeaderText = "Amount"
+        gv.Columns("M9 Amt").Width = 100
+        gv.Columns("M9 Amt").FormatString = "{0:n2}"
+
+
+        gv.Columns("Month10").HeaderText = "Month 10"
+        gv.Columns("Month10").Width = 100
+        gv.Columns("Month10").FormatString = ""
+
+        If chkOnlyReject.Checked Then
+            gv.Columns("M10 No Of Doc").HeaderText = "No. Of Document"
+            gv.Columns("M10 No Of Doc").Width = 100
+            gv.Columns("M10 No Of Doc").FormatString = "{0:n2}"
+        End If
+
+        gv.Columns("M10 Billed Qty").HeaderText = "Qty"
+        gv.Columns("M10 Billed Qty").Width = 100
+        gv.Columns("M10 Billed Qty").FormatString = "{0:n2}"
+
+        gv.Columns("M10 Farmer Qty").HeaderText = "Farmer Qty"
+        gv.Columns("M10 Farmer Qty").Width = 100
+        gv.Columns("M10 Farmer Qty").FormatString = "{0:n2}"
+
+        gv.Columns("M10 Farmer Code").HeaderText = "No. Of Farmer"
+        gv.Columns("M10 Farmer Code").Width = 100
+        gv.Columns("M10 Farmer Code").FormatString = "{0:n2}"
+
+        gv.Columns("M10 Amt").HeaderText = "Amount"
+        gv.Columns("M10 Amt").Width = 100
+        gv.Columns("M10 Amt").FormatString = "{0:n2}"
+
+
+
+        gv.Columns("Month11").HeaderText = "Month 11"
+        gv.Columns("Month11").Width = 100
+        gv.Columns("Month11").FormatString = ""
+
+        If chkOnlyReject.Checked Then
+            gv.Columns("M11 No Of Doc").HeaderText = "No. Of Document"
+            gv.Columns("M11 No Of Doc").Width = 100
+            gv.Columns("M11 No Of Doc").FormatString = "{0:n2}"
+        End If
+
+        gv.Columns("M11 Billed Qty").HeaderText = "Qty"
+        gv.Columns("M11 Billed Qty").Width = 100
+        gv.Columns("M11 Billed Qty").FormatString = "{0:n2}"
+
+        gv.Columns("M11 Farmer Qty").HeaderText = "Farmer Qty"
+        gv.Columns("M11 Farmer Qty").Width = 100
+        gv.Columns("M11 Farmer Qty").FormatString = "{0:n2}"
+
+        gv.Columns("M11 Farmer Code").HeaderText = "No. Of Farmer"
+        gv.Columns("M11 Farmer Code").Width = 100
+        gv.Columns("M11 Farmer Code").FormatString = "{0:n2}"
+
+        gv.Columns("M11 Amt").HeaderText = "Amount"
+        gv.Columns("M11 Amt").Width = 100
+        gv.Columns("M11 Amt").FormatString = "{0:n2}"
+
+
+
+        gv.Columns("Month12").HeaderText = "Month 12"
+        gv.Columns("Month12").Width = 100
+        gv.Columns("Month12").FormatString = ""
+
+        If chkOnlyReject.Checked Then
+            gv.Columns("M12 No Of Doc").HeaderText = "No. Of Document"
+            gv.Columns("M12 No Of Doc").Width = 100
+            gv.Columns("M12 No Of Doc").FormatString = "{0:n2}"
+        End If
+
+        gv.Columns("M12 Billed Qty").HeaderText = "Qty"
+        gv.Columns("M12 Billed Qty").Width = 100
+        gv.Columns("M12 Billed Qty").FormatString = "{0:n2}"
+
+        gv.Columns("M12 Farmer Qty").HeaderText = "Farmer Qty"
+        gv.Columns("M12 Farmer Qty").Width = 100
+        gv.Columns("M12 Farmer Qty").FormatString = "{0:n2}"
+
+        gv.Columns("M12 Farmer Code").HeaderText = "No. Of Farmer"
+        gv.Columns("M12 Farmer Code").Width = 100
+        gv.Columns("M12 Farmer Code").FormatString = "{0:n2}"
+
+        gv.Columns("M12 Amt").HeaderText = "Amount"
+        gv.Columns("M12 Amt").Width = 100
+        gv.Columns("M12 Amt").FormatString = "{0:n2}"
+
+
 
         If chkOnlyReject.Checked Then
             Gv.Columns("Total Document").HeaderText = "Total Document"
-            Gv.Columns("Total Document").Width = 200
-            Gv.Columns("Total Document").FormatString = "{0:n2}"
+            gv.Columns("Total Document").Width = 100
+            gv.Columns("Total Document").FormatString = "{0:n2}"
         End If
 
         Gv.Columns("Total Billed Qty").HeaderText = "Billed Qty"
-        Gv.Columns("Total Billed Qty").Width = 200
-        Gv.Columns("Total Billed Qty").FormatString = "{0:n2}"
+        gv.Columns("Total Billed Qty").Width = 100
+        gv.Columns("Total Billed Qty").FormatString = "{0:n2}"
 
         Gv.Columns("Total Farmer Qty").HeaderText = "Farmer Qty"
-        Gv.Columns("Total Farmer Qty").Width = 200
-        Gv.Columns("Total Farmer Qty").FormatString = "{0:n2}"
+        gv.Columns("Total Farmer Qty").Width = 100
+        gv.Columns("Total Farmer Qty").FormatString = "{0:n2}"
 
         Gv.Columns("Total No. Of Farmer").HeaderText = "No. Of Farmer"
-        Gv.Columns("Total No. Of Farmer").Width = 200
-        Gv.Columns("Total No. Of Farmer").FormatString = "{0:n2}"
+        gv.Columns("Total No. Of Farmer").Width = 100
+        gv.Columns("Total No. Of Farmer").FormatString = "{0:n2}"
 
         Gv.Columns("Total Amt").HeaderText = "Amount"
-        Gv.Columns("Total Amt").Width = 200
-        Gv.Columns("Total Amt").FormatString = "{0:n2}"
+        gv.Columns("Total Amt").Width = 100
+        gv.Columns("Total Amt").FormatString = "{0:n2}"
 
         'Gv.Columns("Dis_SNFKG").HeaderText = "SNFKG"
         'Gv.Columns("Dis_SNFKG").IsVisible = True
@@ -604,77 +892,234 @@ Public Class frmDBTNEFTUnionReport
         If rbtnQuarterly.IsChecked Then
             View()
         ElseIf rbtnYearly.IsChecked Then
-            Gv.Columns("Total Amt").HeaderText = "Total Amount"
-            Gv.Columns("M1 Amt").HeaderText = clsCommon.GetPrintDate(Month1, "MMM-yyyy")
-            Gv.Columns("M2 Amt").HeaderText = clsCommon.GetPrintDate(Month2, "MMM-yyyy")
-            Gv.Columns("M3 Amt").HeaderText = clsCommon.GetPrintDate(Month3, "MMM-yyyy")
-            Gv.Columns("M4 Amt").HeaderText = clsCommon.GetPrintDate(Month4, "MMM-yyyy")
-            Gv.Columns("M5 Amt").HeaderText = clsCommon.GetPrintDate(Month5, "MMM-yyyy")
-            Gv.Columns("M6 Amt").HeaderText = clsCommon.GetPrintDate(Month6, "MMM-yyyy")
-            Gv.Columns("M7 Amt").HeaderText = clsCommon.GetPrintDate(Month7, "MMM-yyyy")
-            Gv.Columns("M8 Amt").HeaderText = clsCommon.GetPrintDate(Month8, "MMM-yyyy")
-            Gv.Columns("M9 Amt").HeaderText = clsCommon.GetPrintDate(Month9, "MMM-yyyy")
-            Gv.Columns("M10 Amt").HeaderText = clsCommon.GetPrintDate(Month10, "MMM-yyyy")
-            Gv.Columns("M11 Amt").HeaderText = clsCommon.GetPrintDate(Month11, "MMM-yyyy")
-            Gv.Columns("M12 Amt").HeaderText = clsCommon.GetPrintDate(Month12, "MMM-yyyy")
+            Vieww()
+            'Gv.Columns("Total Amt").HeaderText = "Total Amount"
+            'Gv.Columns("M1 Amt").HeaderText = clsCommon.GetPrintDate(Month1, "MMM-yyyy")
+            'Gv.Columns("M2 Amt").HeaderText = clsCommon.GetPrintDate(Month2, "MMM-yyyy")
+            'Gv.Columns("M3 Amt").HeaderText = clsCommon.GetPrintDate(Month3, "MMM-yyyy")
+            'Gv.Columns("M4 Amt").HeaderText = clsCommon.GetPrintDate(Month4, "MMM-yyyy")
+            'Gv.Columns("M5 Amt").HeaderText = clsCommon.GetPrintDate(Month5, "MMM-yyyy")
+            'Gv.Columns("M6 Amt").HeaderText = clsCommon.GetPrintDate(Month6, "MMM-yyyy")
+            'Gv.Columns("M7 Amt").HeaderText = clsCommon.GetPrintDate(Month7, "MMM-yyyy")
+            'Gv.Columns("M8 Amt").HeaderText = clsCommon.GetPrintDate(Month8, "MMM-yyyy")
+            'Gv.Columns("M9 Amt").HeaderText = clsCommon.GetPrintDate(Month9, "MMM-yyyy")
+            'Gv.Columns("M10 Amt").HeaderText = clsCommon.GetPrintDate(Month10, "MMM-yyyy")
+            'Gv.Columns("M11 Amt").HeaderText = clsCommon.GetPrintDate(Month11, "MMM-yyyy")
+            'Gv.Columns("M12 Amt").HeaderText = clsCommon.GetPrintDate(Month12, "MMM-yyyy")
         End If
         SummaryRow()
     End Sub
 
     Sub View()
 
-        If Gv.Rows.Count > 0 Then
+        If gv.Rows.Count > 0 Then
             Dim view As New ColumnGroupsViewDefinition()
 
             view.ColumnGroups.Add(New GridViewColumnGroup("Union"))
             view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv.Columns("SNo").Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv.Columns("Union Name").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns("SNo").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns("Union Name").Name)
 
             view.ColumnGroups.Add(New GridViewColumnGroup(clsCommon.GetPrintDate(Month1, "MMM-yyyy")))
             view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
             If chkOnlyReject.Checked Then
-                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv.Columns("M1 No Of Doc").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv.Columns("M1 No Of Doc").Name)
             End If
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv.Columns("M1 Billed Qty").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv.Columns("M1 Farmer Qty").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv.Columns("M1 Farmer Code").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv.Columns("M1 Amt").Name)
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv.Columns("M1 Billed Qty").Name)
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv.Columns("M1 Farmer Qty").Name)
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv.Columns("M1 Farmer Code").Name)
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv.Columns("M1 Amt").Name)
 
             view.ColumnGroups.Add(New GridViewColumnGroup(clsCommon.GetPrintDate(Month2, "MMM-yyyy")))
             view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
             If chkOnlyReject.Checked Then
-                view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv.Columns("M2 No Of Doc").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv.Columns("M2 No Of Doc").Name)
             End If
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv.Columns("M2 Billed Qty").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv.Columns("M2 Farmer Qty").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv.Columns("M2 Farmer Code").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv.Columns("M2 Amt").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv.Columns("M2 Billed Qty").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv.Columns("M2 Farmer Qty").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv.Columns("M2 Farmer Code").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv.Columns("M2 Amt").Name)
 
             view.ColumnGroups.Add(New GridViewColumnGroup(clsCommon.GetPrintDate(Month3, "MMM-yyyy")))
             view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
             If chkOnlyReject.Checked Then
-                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv.Columns("M3 No Of Doc").Name)
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv.Columns("M3 No Of Doc").Name)
             End If
-            view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv.Columns("M3 Billed Qty").Name)
-            view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv.Columns("M3 Farmer Qty").Name)
-            view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv.Columns("M3 Farmer Code").Name)
-            view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv.Columns("M3 Amt").Name)
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv.Columns("M3 Billed Qty").Name)
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv.Columns("M3 Farmer Qty").Name)
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv.Columns("M3 Farmer Code").Name)
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv.Columns("M3 Amt").Name)
 
 
             view.ColumnGroups.Add(New GridViewColumnGroup("Total"))
             view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
 
             If chkOnlyReject.Checked Then
-                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv.Columns("Total Document").Name)
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv.Columns("Total Document").Name)
             End If
-            view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv.Columns("Total Billed Qty").Name)
-            view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv.Columns("Total Farmer Qty").Name)
-            view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv.Columns("Total No. Of Farmer").Name)
-            view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv.Columns("Total Amt").Name)
-            Gv.ViewDefinition = view
+            view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv.Columns("Total Billed Qty").Name)
+            view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv.Columns("Total Farmer Qty").Name)
+            view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv.Columns("Total No. Of Farmer").Name)
+            view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv.Columns("Total Amt").Name)
+            gv.ViewDefinition = view
         End If
     End Sub
+
+
+
+
+
+    Sub Vieww()
+
+        If gv.Rows.Count > 0 Then
+            Dim vieww As New ColumnGroupsViewDefinition()
+
+            vieww.ColumnGroups.Add(New GridViewColumnGroup("Union"))
+            vieww.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
+            vieww.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns("SNo").Name)
+            vieww.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns("Union Name").Name)
+
+            vieww.ColumnGroups.Add(New GridViewColumnGroup(clsCommon.GetPrintDate(Month1, "MMM-yyyy")))
+            vieww.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+            If chkOnlyReject.Checked Then
+                vieww.ColumnGroups(1).Rows(0).ColumnNames.Add(gv.Columns("M1 No Of Doc").Name)
+            End If
+            vieww.ColumnGroups(1).Rows(0).ColumnNames.Add(gv.Columns("M1 Billed Qty").Name)
+            vieww.ColumnGroups(1).Rows(0).ColumnNames.Add(gv.Columns("M1 Farmer Qty").Name)
+            vieww.ColumnGroups(1).Rows(0).ColumnNames.Add(gv.Columns("M1 Farmer Code").Name)
+            vieww.ColumnGroups(1).Rows(0).ColumnNames.Add(gv.Columns("M1 Amt").Name)
+
+            vieww.ColumnGroups.Add(New GridViewColumnGroup(clsCommon.GetPrintDate(Month2, "MMM-yyyy")))
+            vieww.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
+            If chkOnlyReject.Checked Then
+                vieww.ColumnGroups(2).Rows(0).ColumnNames.Add(gv.Columns("M2 No Of Doc").Name)
+            End If
+            vieww.ColumnGroups(2).Rows(0).ColumnNames.Add(gv.Columns("M2 Billed Qty").Name)
+            vieww.ColumnGroups(2).Rows(0).ColumnNames.Add(gv.Columns("M2 Farmer Qty").Name)
+            vieww.ColumnGroups(2).Rows(0).ColumnNames.Add(gv.Columns("M2 Farmer Code").Name)
+            vieww.ColumnGroups(2).Rows(0).ColumnNames.Add(gv.Columns("M2 Amt").Name)
+
+            vieww.ColumnGroups.Add(New GridViewColumnGroup(clsCommon.GetPrintDate(Month3, "MMM-yyyy")))
+            vieww.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
+            If chkOnlyReject.Checked Then
+                vieww.ColumnGroups(3).Rows(0).ColumnNames.Add(gv.Columns("M3 No Of Doc").Name)
+            End If
+            vieww.ColumnGroups(3).Rows(0).ColumnNames.Add(gv.Columns("M3 Billed Qty").Name)
+            vieww.ColumnGroups(3).Rows(0).ColumnNames.Add(gv.Columns("M3 Farmer Qty").Name)
+            vieww.ColumnGroups(3).Rows(0).ColumnNames.Add(gv.Columns("M3 Farmer Code").Name)
+            vieww.ColumnGroups(3).Rows(0).ColumnNames.Add(gv.Columns("M3 Amt").Name)
+
+            vieww.ColumnGroups.Add(New GridViewColumnGroup(clsCommon.GetPrintDate(Month4, "MMM-yyyy")))
+            vieww.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
+            If chkOnlyReject.Checked Then
+                vieww.ColumnGroups(4).Rows(0).ColumnNames.Add(gv.Columns("M4 No Of Doc").Name)
+            End If
+            vieww.ColumnGroups(4).Rows(0).ColumnNames.Add(gv.Columns("M4 Billed Qty").Name)
+            vieww.ColumnGroups(4).Rows(0).ColumnNames.Add(gv.Columns("M4 Farmer Qty").Name)
+            vieww.ColumnGroups(4).Rows(0).ColumnNames.Add(gv.Columns("M4 Farmer Code").Name)
+            vieww.ColumnGroups(4).Rows(0).ColumnNames.Add(gv.Columns("M4 Amt").Name)
+
+            vieww.ColumnGroups.Add(New GridViewColumnGroup(clsCommon.GetPrintDate(Month5, "MMM-yyyy")))
+            vieww.ColumnGroups(5).Rows.Add(New GridViewColumnGroupRow())
+            If chkOnlyReject.Checked Then
+                vieww.ColumnGroups(5).Rows(0).ColumnNames.Add(gv.Columns("M1 No Of Doc").Name)
+            End If
+            vieww.ColumnGroups(5).Rows(0).ColumnNames.Add(gv.Columns("M5 Billed Qty").Name)
+            vieww.ColumnGroups(5).Rows(0).ColumnNames.Add(gv.Columns("M5 Farmer Qty").Name)
+            vieww.ColumnGroups(5).Rows(0).ColumnNames.Add(gv.Columns("M5 Farmer Code").Name)
+            vieww.ColumnGroups(5).Rows(0).ColumnNames.Add(gv.Columns("M5 Amt").Name)
+
+            vieww.ColumnGroups.Add(New GridViewColumnGroup(clsCommon.GetPrintDate(Month6, "MMM-yyyy")))
+            vieww.ColumnGroups(6).Rows.Add(New GridViewColumnGroupRow())
+            If chkOnlyReject.Checked Then
+                vieww.ColumnGroups(6).Rows(0).ColumnNames.Add(gv.Columns("M6 No Of Doc").Name)
+            End If
+            vieww.ColumnGroups(6).Rows(0).ColumnNames.Add(gv.Columns("M6 Billed Qty").Name)
+            vieww.ColumnGroups(6).Rows(0).ColumnNames.Add(gv.Columns("M6 Farmer Qty").Name)
+            vieww.ColumnGroups(6).Rows(0).ColumnNames.Add(gv.Columns("M6 Farmer Code").Name)
+            vieww.ColumnGroups(6).Rows(0).ColumnNames.Add(gv.Columns("M6 Amt").Name)
+
+            vieww.ColumnGroups.Add(New GridViewColumnGroup(clsCommon.GetPrintDate(Month7, "MMM-yyyy")))
+            vieww.ColumnGroups(7).Rows.Add(New GridViewColumnGroupRow())
+            If chkOnlyReject.Checked Then
+                vieww.ColumnGroups(7).Rows(0).ColumnNames.Add(gv.Columns("M7 No Of Doc").Name)
+            End If
+            vieww.ColumnGroups(7).Rows(0).ColumnNames.Add(gv.Columns("M7 Billed Qty").Name)
+            vieww.ColumnGroups(7).Rows(0).ColumnNames.Add(gv.Columns("M7 Farmer Qty").Name)
+            vieww.ColumnGroups(7).Rows(0).ColumnNames.Add(gv.Columns("M7 Farmer Code").Name)
+            vieww.ColumnGroups(7).Rows(0).ColumnNames.Add(gv.Columns("M7 Amt").Name)
+
+            vieww.ColumnGroups.Add(New GridViewColumnGroup(clsCommon.GetPrintDate(Month8, "MMM-yyyy")))
+            vieww.ColumnGroups(8).Rows.Add(New GridViewColumnGroupRow())
+            If chkOnlyReject.Checked Then
+                vieww.ColumnGroups(8).Rows(0).ColumnNames.Add(gv.Columns("M8 No Of Doc").Name)
+            End If
+            vieww.ColumnGroups(8).Rows(0).ColumnNames.Add(gv.Columns("M8 Billed Qty").Name)
+            vieww.ColumnGroups(8).Rows(0).ColumnNames.Add(gv.Columns("M8 Farmer Qty").Name)
+            vieww.ColumnGroups(8).Rows(0).ColumnNames.Add(gv.Columns("M8 Farmer Code").Name)
+            vieww.ColumnGroups(8).Rows(0).ColumnNames.Add(gv.Columns("M8 Amt").Name)
+
+            vieww.ColumnGroups.Add(New GridViewColumnGroup(clsCommon.GetPrintDate(Month9, "MMM-yyyy")))
+            vieww.ColumnGroups(9).Rows.Add(New GridViewColumnGroupRow())
+            If chkOnlyReject.Checked Then
+                vieww.ColumnGroups(9).Rows(0).ColumnNames.Add(gv.Columns("M9 No Of Doc").Name)
+            End If
+            vieww.ColumnGroups(9).Rows(0).ColumnNames.Add(gv.Columns("M9 Billed Qty").Name)
+            vieww.ColumnGroups(9).Rows(0).ColumnNames.Add(gv.Columns("M9 Farmer Qty").Name)
+            vieww.ColumnGroups(9).Rows(0).ColumnNames.Add(gv.Columns("M9 Farmer Code").Name)
+            vieww.ColumnGroups(9).Rows(0).ColumnNames.Add(gv.Columns("M9 Amt").Name)
+
+
+            vieww.ColumnGroups.Add(New GridViewColumnGroup(clsCommon.GetPrintDate(Month10, "MMM-yyyy")))
+            vieww.ColumnGroups(10).Rows.Add(New GridViewColumnGroupRow())
+            If chkOnlyReject.Checked Then
+                vieww.ColumnGroups(10).Rows(0).ColumnNames.Add(gv.Columns("M10 No Of Doc").Name)
+            End If
+            vieww.ColumnGroups(10).Rows(0).ColumnNames.Add(gv.Columns("M10 Billed Qty").Name)
+            vieww.ColumnGroups(10).Rows(0).ColumnNames.Add(gv.Columns("M10 Farmer Qty").Name)
+            vieww.ColumnGroups(10).Rows(0).ColumnNames.Add(gv.Columns("M10 Farmer Code").Name)
+            vieww.ColumnGroups(10).Rows(0).ColumnNames.Add(gv.Columns("M10 Amt").Name)
+
+            vieww.ColumnGroups.Add(New GridViewColumnGroup(clsCommon.GetPrintDate(Month11, "MMM-yyyy")))
+            vieww.ColumnGroups(11).Rows.Add(New GridViewColumnGroupRow())
+            If chkOnlyReject.Checked Then
+                vieww.ColumnGroups(11).Rows(0).ColumnNames.Add(gv.Columns("M11 No Of Doc").Name)
+            End If
+            vieww.ColumnGroups(11).Rows(0).ColumnNames.Add(gv.Columns("M11 Billed Qty").Name)
+            vieww.ColumnGroups(11).Rows(0).ColumnNames.Add(gv.Columns("M11 Farmer Qty").Name)
+            vieww.ColumnGroups(11).Rows(0).ColumnNames.Add(gv.Columns("M11 Farmer Code").Name)
+            vieww.ColumnGroups(11).Rows(0).ColumnNames.Add(gv.Columns("M11 Amt").Name)
+
+            vieww.ColumnGroups.Add(New GridViewColumnGroup(clsCommon.GetPrintDate(Month12, "MMM-yyyy")))
+            vieww.ColumnGroups(12).Rows.Add(New GridViewColumnGroupRow())
+            If chkOnlyReject.Checked Then
+                vieww.ColumnGroups(12).Rows(0).ColumnNames.Add(gv.Columns("M12 No Of Doc").Name)
+            End If
+            vieww.ColumnGroups(12).Rows(0).ColumnNames.Add(gv.Columns("M12 Billed Qty").Name)
+            vieww.ColumnGroups(12).Rows(0).ColumnNames.Add(gv.Columns("M12 Farmer Qty").Name)
+            vieww.ColumnGroups(12).Rows(0).ColumnNames.Add(gv.Columns("M12 Farmer Code").Name)
+            vieww.ColumnGroups(12).Rows(0).ColumnNames.Add(gv.Columns("M12 Amt").Name)
+
+            vieww.ColumnGroups.Add(New GridViewColumnGroup("Total"))
+            vieww.ColumnGroups(13).Rows.Add(New GridViewColumnGroupRow())
+
+            If chkOnlyReject.Checked Then
+                vieww.ColumnGroups(13).Rows(0).ColumnNames.Add(gv.Columns("Total Document").Name)
+            End If
+            vieww.ColumnGroups(13).Rows(0).ColumnNames.Add(gv.Columns("Total Billed Qty").Name)
+            vieww.ColumnGroups(13).Rows(0).ColumnNames.Add(gv.Columns("Total Farmer Qty").Name)
+            vieww.ColumnGroups(13).Rows(0).ColumnNames.Add(gv.Columns("Total No. Of Farmer").Name)
+            vieww.ColumnGroups(13).Rows(0).ColumnNames.Add(gv.Columns("Total Amt").Name)
+            gv.ViewDefinition = vieww
+        End If
+    End Sub
+
+
+
+
+
+
+
 
     Sub SummaryRow()
         If Gv.Rows.Count > 0 Then
@@ -775,5 +1220,9 @@ Public Class frmDBTNEFTUnionReport
             txtToDate.Value = txtFromDate.Value.AddMonths(2)
             chkOnlyReject.Visible = True
         End If
+    End Sub
+
+    Sub EnableDisableCtrl(ByVal val As Boolean)
+        RadGroupBox1.Enabled = val
     End Sub
 End Class
