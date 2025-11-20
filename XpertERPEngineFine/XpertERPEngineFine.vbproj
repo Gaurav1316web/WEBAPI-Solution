@@ -356,6 +356,8 @@
     <Compile Include="Milk Procurement\clsSendDBTDataToJanAadhar.vb" />
     <Compile Include="MIS\clsDailySMPProduction.vb" />
     <Compile Include="MIS\clsProductionTransactionType.vb" />
+    <Compile Include="Office Order Template\ClsOfficeOrderTemplate.vb" />
+    <Compile Include="OfficeOrder\ClsOfficeOrder.vb" />
     <Compile Include="Paravet\clsBredType.vb" />
     <Compile Include="Paravet\clsBullMaster.vb" />
     <Compile Include="Paravet\clsCattleColor.vb" />

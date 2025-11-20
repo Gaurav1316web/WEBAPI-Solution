@@ -5936,7 +5936,7 @@ Public Class frmGRN
                     objItemMaster = clsItemMaster.FinderForItem("", "", True, "", whrcls)
                 End If
 
-                If  clsCommon.CompairString(frmNew.strRetValue, "Pending PO") <> CompairStringResult.Equal Then
+                If clsCommon.CompairString(frmNew.strRetValue, "Pending PO") <> CompairStringResult.Equal Then
                     If lstItem IsNot Nothing AndAlso lstItem.Count = 1 Then
                         frm.ItemForDocumentFilter = clsCommon.myCstr(lstItem(0))
                     ElseIf objItemMaster IsNot Nothing AndAlso clsCommon.myLen(objItemMaster.Item_Code) > 0 Then
@@ -8311,8 +8311,12 @@ inner join tspl_tender_header on tspl_tender_header.DocumentCode=TSPL_GRN_HEAD.R
                     Next
                 End If
 
-                Dim strQry As String = "Select Schedule_No As [Schedule No],Convert(Varchar(10),From_Date,103) As [From Date],Convert(Varchar(10),To_Date,103) As [To Date],Schedule_Qty_Per As [Schedule Qty Per],Schedule_Qty As [Schedule Qty] from(" & clsTenderSchedule.GetScheduleDataQuery(txtRefNo.Text, txtVendorNo.Value, clsCommon.GetMulcallString(lstItem), txtBillToLocation.Value) & ")final order by PK_Id"
+                Dim strQry As String = "Select Schedule_No As [Schedule No],Convert(Varchar(10),From_Date,103) As [From Date],Convert(Varchar(10),To_Date,103) As [To Date],Schedule_Qty_Per As [Schedule Qty Per],Schedule_Qty As [Schedule Qty] from(" & clsTenderSchedulePO.GetScheduleDataQuery(txtReqNo.Value, clsCommon.GetMulcallString(lstItem)) & ")final order by PK_Id"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+                If dt Is Nothing AndAlso dt.Rows.Count <= 0 Then
+                    strQry = "Select Schedule_No As [Schedule No],Convert(Varchar(10),From_Date,103) As [From Date],Convert(Varchar(10),To_Date,103) As [To Date],Schedule_Qty_Per As [Schedule Qty Per],Schedule_Qty As [Schedule Qty] from(" & clsTenderSchedule.GetScheduleDataQuery(txtRefNo.Text, txtVendorNo.Value, clsCommon.GetMulcallString(lstItem), txtBillToLocation.Value) & ")final order by PK_Id"
+                    dt = clsDBFuncationality.GetDataTable(strQry)
+                End If
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Dim frm As New FrmFreeGrid()
                     frm.ReportID = Form_ID
@@ -8322,7 +8326,6 @@ inner join tspl_tender_header on tspl_tender_header.DocumentCode=TSPL_GRN_HEAD.R
                 Else
                     clsCommon.MyMessageBoxShow(Me, "Schedule not found.", Me.Text)
                 End If
-
                 lstItem = Nothing
             Else
                 clsCommon.MyMessageBoxShow(Me, "Reference No can't be blank !", Me.Text)

@@ -103,8 +103,10 @@ Public Class CancelPurchaseInvoiceReport
         TxtRAL.arrValueMember = Nothing
         txtItem.arrValueMember = Nothing
         TxtVendor.arrValueMember = Nothing
+
         txtFromDate.Value = clsCommon.GETSERVERDATE
         txtToDate.Value = clsCommon.GETSERVERDATE
+        EnableDisableCtrl(True)
     End Sub
 
     Private Sub CancelPurchaseInvoiceReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -306,6 +308,10 @@ Public Class CancelPurchaseInvoiceReport
                 Whr &= " AND TSPL_VENDOR_MASTER.Vendor_Code IN (" & clsCommon.GetMulcallString(TxtVendor.arrValueMember) & ")"
             End If
 
+            If objCommonVar.ApplyLocationFilterBasedOnPermission = True AndAlso clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                Whr &= " and TSPL_LOCATION_MASTER.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+            End If
+
             Dim qry As String = ""
             If chkAllData.Checked Then
                 qry = "
@@ -417,8 +423,8 @@ Public Class CancelPurchaseInvoiceReport
                     TSPL_TENDER_PENALTY_DETAIL.Document_No AS [RAL Penalty],
                     TSPL_PI_DETAIL_Cancel_Data.PO_ID AS [PO No],
                     TSPL_PI_DETAIL_Cancel_Data.PI_No AS [PI No],
-                    CASE WHEN TSPL_PI_DETAIL_Cancel_Data.Status = 0 THEN 'Pending' 
-                         WHEN TSPL_PI_DETAIL_Cancel_Data.Status = 1 THEN 'Cancel' 
+                    CASE WHEN TSPL_PI_DETAIL_Cancel_Data.Status = 0 THEN 'Cancel' 
+                         WHEN TSPL_PI_DETAIL_Cancel_Data.Status = 1 THEN 'Pending' 
                          ELSE 'Unknown' END AS [PI Status],
 
                     TSPL_LOCATION_MASTER.Location_Code AS [Location Code],
@@ -467,11 +473,14 @@ Public Class CancelPurchaseInvoiceReport
             gv1.GroupDescriptors.Clear()
             gv1.MasterTemplate.SummaryRowsBottom.Clear()
             gv1.MasterView.Refresh()
+            gv1.ReadOnly = True
+            gv1.ShowGroupPanel = False
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 gv1.DataSource = dt
                 RadPageView1.SelectedPage = RadPageViewPage2
                 gv1.EnableFiltering = True
+                EnableDisableCtrl(False)
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             End If
@@ -482,5 +491,7 @@ Public Class CancelPurchaseInvoiceReport
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
+    Sub EnableDisableCtrl(ByVal val As Boolean)
+        RadGroupBox1.Enabled = val
+    End Sub
 End Class
