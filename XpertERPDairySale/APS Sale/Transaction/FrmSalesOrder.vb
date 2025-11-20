@@ -2196,9 +2196,9 @@ where TSPL_CUSTOMER_TENDER.Document_Code='" & strCode & "' and TSPL_CUSTOMER_TEN
 
     Private Sub btnReverseAndUnPost_Click(sender As Object, e As EventArgs) Handles btnReverseAndUnPost.Click
         Try
-            If clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" & Environment.NewLine & "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Amendment the Current Document" & Environment.NewLine & "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsCustomerTenderOrder.ReverseAndUnpost(txtDocCode.Value) Then
-                    clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Successfully amended", Me.Text)
                     LoadData(txtDocCode.Value, NavigatorType.Current)
                 End If
             End If
