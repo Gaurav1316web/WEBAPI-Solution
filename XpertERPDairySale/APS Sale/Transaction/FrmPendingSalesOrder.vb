@@ -378,7 +378,7 @@ where TSPL_CUSTOMER_TENDER_ORDER.status=1 and isnull(TSPL_CUSTOMER_TENDER_ORDER.
             Next
 
         If ArrReturn.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending PO item", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero seles order item", Me.Text)
         Else
             Me.Close()
         End If
