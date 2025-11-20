@@ -1168,8 +1168,8 @@ Public Class MDI
                 End If
             End If
 
-                objCommonVar.CurrentUserCode = clsCommon.myCstr(dt.Rows(0)("User_Code"))
-    
+            objCommonVar.CurrentUserCode = clsCommon.myCstr(dt.Rows(0)("User_Code"))
+
             If SettSameUserCanNotloginmultipletimes Then
                 qry = clsLoginInfo.funGetActiveUserQuery(True, clsCommon.myCstr(dt.Rows(0)("User_Code")))
                 Dim dtTemp As DataTable = clsDBFuncationality.GetDataTable(qry)
@@ -3754,6 +3754,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmNotification
                         frm = New frmNotification()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmOfficeOrderTemplate
+                        frm = New FrmOfficeOrderTemplate()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmLocationSetting
                         frm = New frmLocationLogin()
@@ -10214,6 +10217,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmRCDFRateControl
                         frm = New frmRCDFRateControl
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmOfficeOrder
+                        frm = New frmOfficeOrder
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.frmLockMPCollectionPC

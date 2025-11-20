@@ -587,7 +587,8 @@ Public Class clsDocType
     Public Const ItemCapacityLimit As String = "ItemCapacityLimit"
     Public Const BoothRouteMapping As String = "BoothRouteMapping"
 
-
+    Public Const frmofficeordertemplate As String = "office order template screen"
+    Public Const frmofficeorder As String = "office order screen"
     Public Const frmNotification As String = "Notifications screen"
     Public Const ShareMaster As String = "Share Master"
     Public Const ShareAllotment As String = "Share Allotment"

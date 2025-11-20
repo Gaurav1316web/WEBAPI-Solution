@@ -1895,11 +1895,39 @@ where GPCode='" + StrCode + "'))xxx
     End Function
 
     '============================Changes by preeti gupta [09/01/2017],[BHA/02/08/18-000212]
-    Private Function GetAttachQry(ByVal StrCode As String, ByVal isDepartmentRoute As Boolean) As String
+    Private Function GetAttachQry(ByVal StrCode As String, ByVal isDepartmentRoute As Boolean)
+        Return GetAttachQry(StrCode, isDepartmentRoute, False)
+    End Function
+
+    Private Function GetAttachQry(ByVal StrCode As String, ByVal isDepartmentRoute As Boolean, ByVal isCancel As Boolean) As String
         ''richa remove ceiling from crate qty 15 Nov,2019
+        Dim tbl_TSPL_DAIRYSALE_GATEPASS_DETAIL As String = Nothing
+        Dim tbl_TSPL_DAIRYSALE_GATEPASS_MASTER As String = Nothing
+        Dim tbl_TSPL_SD_SHIPMENT_DETAIL As String = Nothing
+        Dim tbl_TSPL_SD_SHIPMENT_HEAD As String = Nothing
+        Dim tbl_TSPL_BOOKING_MATSER As String = Nothing
+        Dim tbl_TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL As String = Nothing
+        If isCancel Then
+            tbl_TSPL_DAIRYSALE_GATEPASS_DETAIL = " TSPL_DAIRYSALE_GATEPASS_DETAIL_Cancel_Data As TSPL_DAIRYSALE_GATEPASS_Detail "
+            tbl_TSPL_DAIRYSALE_GATEPASS_MASTER = " TSPL_DAIRYSALE_GATEPASS_MASTER_Cancel_Data As TSPL_DAIRYSALE_GATEPASS_MASTER "
+            tbl_TSPL_SD_SHIPMENT_DETAIL = " TSPL_SD_SHIPMENT_DETAIL_Cancel_Data As TSPL_SD_SHIPMENT_DETAIL "
+            tbl_TSPL_SD_SHIPMENT_HEAD = " TSPL_SD_SHIPMENT_HEAD_Cancel_Data As TSPL_SD_SHIPMENT_HEAD "
+            tbl_TSPL_BOOKING_MATSER = " TSPL_BOOKING_MATSER_Cancel_Data As TSPL_BOOKING_MATSER "
+            tbl_TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL = " TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL_Cancel_Data As TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL"
+        Else
+            tbl_TSPL_DAIRYSALE_GATEPASS_DETAIL = " TSPL_DAIRYSALE_GATEPASS_Detail "
+            tbl_TSPL_DAIRYSALE_GATEPASS_MASTER = " TSPL_DAIRYSALE_GATEPASS_MASTER "
+            tbl_TSPL_SD_SHIPMENT_DETAIL = " TSPL_SD_SHIPMENT_DETAIL "
+            tbl_TSPL_SD_SHIPMENT_HEAD = "  TSPL_SD_SHIPMENT_HEAD "
+            tbl_TSPL_BOOKING_MATSER = " TSPL_BOOKING_MATSER "
+            tbl_TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL = " TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL"
+
+        End If
+
+
         Dim Qry As String = ""
         If isDepartmentRoute Then
-            Qry = " Select  '" + objCommonVar.CurrentUserCode + "' as UserName,  Case When CFinPouch > 0 and Final.StokingUOM='LTR' Then ( ( ((Final.Box_Crate_Qty * Final.Conversion_Factor)/CFinPouch) + Final.Pouch_Qty )/ CFinLTR ) Else (Case When CFinPouch > 0  Then ( ( Final.Box_Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty )/ CFinPouch ) Else 0 End) End AS 'NoOfPouch',
+            Qry = " Select  '" & clsCommon.myCstr(IIf(isCancel, "Y", "N")) & "' As isCancelled,'" & objCommonVar.CurrentUserCode & "' as UserName,  Case When CFinPouch > 0 and Final.StokingUOM='LTR' Then ( ( ((Final.Box_Crate_Qty * Final.Conversion_Factor)/CFinPouch) + Final.Pouch_Qty )/ CFinLTR ) Else (Case When CFinPouch > 0  Then ( ( Final.Box_Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty )/ CFinPouch ) Else 0 End) End AS 'NoOfPouch',
 Case When CFinLTR > 0 and Final.StokingUOM='LTR' or Final.StokingUOM = 'Pouch' Then ( final.LTR_Qty ) Else (Case When CFinLTR > 0 Then ( ( ( Final.Box_Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty ) )/ CFinLTR ) ELSE 0 end) End AS 'MilkQuantity',
 Case When CFinLTR > 0 Then ( final.LTR_Qty ) Else 0 End AS 'MilkQuantityltr',
 CAST( ( Final.Box_Crate_Qty * Final.Conversion_Factor ) / CFinKG AS DECIMAL(10, 2) ) AS 'MilkQuantityKG',
@@ -1916,7 +1944,7 @@ tbl_Brand.Brand, tbl_Brand.BRANDDESC, TSPL_COMPANY_MASTER.Logo_Img,"
             Qry += "   TSPL_COMPANY_MASTER.Logo_Img2, TSPL_COMPANY_MASTER.Logo_Img2,
              case when isnull(Final.CFinLTR,0)=0 then Final.Amount/((Final.qty*Final.Conversion_Factor)/Final.CFinKG) else Final.Amount/((Final.qty*Final.Conversion_Factor)/Final.CFinLTR) end as item_Cost"
         Else
-            Qry = " Select '" + objCommonVar.CurrentUserCode + "' as UserName,   Case When CFinPouch > 0 and Final.StokingUOM='LTR' Then ( ( ((Final.Crate_Qty * Final.Conversion_Factor)/CFinPouch) + Final.Pouch_Qty )/ CFinLTR ) Else (Case When CFinPouch > 0  Then ( ( Final.Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty )" + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal, "+(Final.LTR_Qty*Final.CFinLTR/CFinPouch)", "") + " )/ CFinPouch Else 0 End) End AS 'NoOfPouch',
+            Qry = " Select '" & clsCommon.myCstr(IIf(isCancel, "Y", "N")) & "' As isCancelled,'" + objCommonVar.CurrentUserCode + "' as UserName,   Case When CFinPouch > 0 and Final.StokingUOM='LTR' Then ( ( ((Final.Crate_Qty * Final.Conversion_Factor)/CFinPouch) + Final.Pouch_Qty )/ CFinLTR ) Else (Case When CFinPouch > 0  Then ( ( Final.Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty )" + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal, "+(Final.LTR_Qty*Final.CFinLTR/CFinPouch)", "") + " )/ CFinPouch Else 0 End) End AS 'NoOfPouch',
                             Case When CFinLTR > 0 and Final.StokingUOM='LTR' Then ( ( ( ((Final.Crate_Qty * Final.Conversion_Factor)/CFinPouch) + Final.Pouch_Qty ) )* CFinPouch ) Else (Case When CFinLTR > 0 Then ( ( ( Final.Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty )" + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal, "+(Final.LTR_Qty*Final.CFinLTR/CFinPouch)", "") + " )/ CFinLTR ) ELSE 0 end) End AS 'MilkQuantity', "
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
                 Qry += "NoCrateIssue ,Demand_UniqueID, "
@@ -2010,8 +2038,8 @@ xyz.Sale_Invoice_No, "
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
             Qry += " xyz.ActualRate, "
         End If
-        Qry += "case when Scheme_Item = 'Y' then 0 else xyz.Total_TCS_Amt end as Total_TCS_Amt,xyz.Zone_Code as Zonecode" + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ", xyz.ItemCost", "") + ",TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_Name,TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_ContactNo from TSPL_DAIRYSALE_GATEPASS_DETAIL " &
-                   " left outer join TSPL_DAIRYSALE_GATEPASS_MASTER on TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode=TSPL_DAIRYSALE_GATEPASS_DETAIL.GPCode " &
+        Qry += "case when Scheme_Item = 'Y' then 0 else xyz.Total_TCS_Amt end as Total_TCS_Amt,xyz.Zone_Code as Zonecode" + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ", xyz.ItemCost", "") + ",TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_Name,TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_ContactNo from " & tbl_TSPL_DAIRYSALE_GATEPASS_DETAIL & " " &
+                   " left outer join " & tbl_TSPL_DAIRYSALE_GATEPASS_MASTER & "  on TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode=TSPL_DAIRYSALE_GATEPASS_DETAIL.GPCode " &
                    " left outer join tspl_vehicle_master on tspl_vehicle_master.Vehicle_id=TSPL_DAIRYSALE_GATEPASS_MASTER.vehicle_id " &
                    " left outer join tspl_location_master on tspl_location_master.location_code=TSPL_DAIRYSALE_GATEPASS_MASTER.location_code " &
                    " left outer join tspl_company_master on tspl_company_master.comp_code=TSPL_DAIRYSALE_GATEPASS_MASTER.comp_code " &
@@ -2070,16 +2098,16 @@ xyz.Sale_Invoice_No, "
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
             Qry += "max(NoCrateIssue)NoCrateIssue,"
         End If
-        Qry += " max(Zone_Code)Zone_Code " + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ", max(TSPL_SD_SHIPMENT_DETAIL.Item_Cost) as ItemCost", "") + " from TSPL_SD_SHIPMENT_DETAIL   
+        Qry += " max(Zone_Code)Zone_Code " + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ", max(TSPL_SD_SHIPMENT_DETAIL.Item_Cost) as ItemCost", "") + " from " & tbl_TSPL_SD_SHIPMENT_DETAIL & "   
  
-                     Left Outer Join TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE "
+                     Left Outer Join " & tbl_TSPL_SD_SHIPMENT_HEAD & " ON TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE "
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
-            Qry += " left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No=TSPL_SD_SHIPMENT_HEAD.Against_Booking_No "
+            Qry += " left outer join " & tbl_TSPL_BOOKING_MATSER & " on TSPL_BOOKING_MATSER.Document_No=TSPL_SD_SHIPMENT_HEAD.Against_Booking_No "
 
         End If
         Qry += " Left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
                      WHERE  --TSPL_SD_SHIPMENT_HEAD.GPCode = '" + StrCode + "'
-                      TSPL_SD_SHIPMENT_DETAIL.PK_ID in(select PK_ID from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL where GPCode = '" + StrCode + "')
+                      TSPL_SD_SHIPMENT_DETAIL.PK_ID in(select PK_ID from " & tbl_TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL & " where GPCode = '" + StrCode + "')
                      Group By  TSPL_SD_SHIPMENT_DETAIL.Item_Code "
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
             Qry += ",TSPL_SD_SHIPMENT_DETAIL.Unit_code "
@@ -2214,11 +2242,15 @@ xyz.Sale_Invoice_No, "
     End Function
 
     Public Function funPrint2(ByVal Code As String, ByVal isfilePath As Boolean) As String
+        Return funPrint2(Code, isfilePath, False)
+    End Function
+
+    Public Function funPrint2(ByVal Code As String, ByVal isfilePath As Boolean, ByVal isCancel As Boolean) As String
         Dim filePath As String = Nothing
         Try
-            If CreateGatePassFromDemand = True Then
+            If CreateGatePassFromDemand Then
                 Dim frm As New frmDemandBooking()
-                frm.PrintGatePass("DG", Code, IIf(rbtnMorning.IsChecked = True, "Morning", "Evening"), Nothing, Nothing)
+                frm.PrintGatePass("DG", Code, IIf(rbtnMorning.IsChecked, "Morning", "Evening"), Nothing, Nothing)
             Else
                 Dim dt2 As DataTable = Nothing
                 Dim subrptqry As String = ""
@@ -2227,7 +2259,7 @@ xyz.Sale_Invoice_No, "
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
                     atchqry = GetAttachQryBKN(Code, isDepartmentRoute)
                 Else
-                    atchqry = GetAttachQry(Code, isDepartmentRoute)
+                    atchqry = GetAttachQry(Code, isDepartmentRoute, isCancel)
                 End If
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(atchqry)
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
@@ -2298,6 +2330,10 @@ xyz.Sale_Invoice_No, "
     End Function
 
     Function GatepassWithFilePath(ByVal Code As String, ByVal DocDate As DateTime, ByVal strShift As String, ByVal isFresh As Boolean, ByVal isAmbient As Boolean, ByVal strRoute As String, ByVal strLocation As String, ByVal isPDFPath As Boolean) As String
+        Return GatepassWithFilePath(Code, txtDate.Value, IIf(rbtnMorning.IsChecked, "Morning", "Evening"), Nothing, Nothing, Nothing, Nothing, isPDFPath, False)
+    End Function
+
+    Function GatepassWithFilePath(ByVal Code As String, ByVal DocDate As DateTime, ByVal strShift As String, ByVal isFresh As Boolean, ByVal isAmbient As Boolean, ByVal strRoute As String, ByVal strLocation As String, ByVal isPDFPath As Boolean, ByVal isCancel As Boolean) As String
         Dim strPath As String = Nothing
         If CreateGatePassFromDemand Then
             Dim frm As New frmDemandBooking()
@@ -2310,7 +2346,7 @@ xyz.Sale_Invoice_No, "
                 End If
             End If
             If rbtn_Milk.IsChecked OrElse isFresh Then
-                atchqry = GetAttachQry(Code, isDepartmentRoute)
+                atchqry = GetAttachQry(Code, isDepartmentRoute, isCancel)
             ElseIf rbtn_product.IsChecked OrElse rbtn_IceCream.IsChecked OrElse isAmbient Then
                 atchqry = GetProductPrintQry(Code)
             End If

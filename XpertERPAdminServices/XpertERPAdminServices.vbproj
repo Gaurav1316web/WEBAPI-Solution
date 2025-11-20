@@ -326,6 +326,18 @@
     <Compile Include="Administrative Services\frmNotification.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Administrative Services\frmOfficeOrder.Designer.vb">
+      <DependentUpon>frmOfficeOrder.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Administrative Services\frmOfficeOrder.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrative Services\FrmOfficeOrderTemplate.Designer.vb">
+      <DependentUpon>FrmOfficeOrderTemplate.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Administrative Services\FrmOfficeOrderTemplate.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Administrative Services\frmRCDFRateControl.Designer.vb">
       <DependentUpon>frmRCDFRateControl.vb</DependentUpon>
     </Compile>
@@ -513,6 +525,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Administrative Services\frmNotification.resx">
       <DependentUpon>frmNotification.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Administrative Services\frmOfficeOrder.resx">
+      <DependentUpon>frmOfficeOrder.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Administrative Services\FrmOfficeOrderTemplate.resx">
+      <DependentUpon>FrmOfficeOrderTemplate.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Administrative Services\frmRCDFRateControl.resx">
       <DependentUpon>frmRCDFRateControl.vb</DependentUpon>
