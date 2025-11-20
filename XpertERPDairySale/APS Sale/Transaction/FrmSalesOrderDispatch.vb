@@ -1131,34 +1131,53 @@ Public Class FrmSalesOrderDispatch
         End If
         Return dblConvQty
     End Function
-    Private Sub LoadGrid(ByVal strCode As String)
+    Private Sub LoadGrid(ByVal Arr As List(Of clsCustomerTenderOrderDetail))
         Try
-            Dim strqry As String = "select TSPL_CUSTOMER_TENDER_Order_DETAIL.PK_ID,TSPL_CUSTOMER_TENDER_Order_DETAIL.RowType,TSPL_CUSTOMER_TENDER_Order_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_CUSTOMER_TENDER_Order_DETAIL.Tender_Rate,TSPL_CUSTOMER_TENDER_Order_DETAIL.Item_Rate from TSPL_CUSTOMER_TENDER_Order_DETAIL
+            Dim lstStr As New List(Of String)
+            For Each item As clsCustomerTenderOrderDetail In Arr
+                If Not lstStr.Contains(clsCommon.myCstr(item.Document_Code)) Then
+                    lstStr.Add(clsCommon.myCstr(item.Document_Code))
+                End If
+            Next
+            Dim qry As String = "select sum(Qty) as Qty from TSPL_CUSTOMER_TENDER_ORDER
+left join TSPL_CUSTOMER_TENDER_ORDER_DETAIL on TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Document_Code=TSPL_CUSTOMER_TENDER_ORDER.Document_Code
+where TSPL_CUSTOMER_TENDER_ORDER.Document_Code in (" & clsCommon.GetMulcallString(lstStr) & ") and TSPL_CUSTOMER_TENDER_ORDER.Status=1"
+            txtOrderQty.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+            qry = "select sum(TSPL_SD_SHIPMENT_DETAIL.Qty) as Qty from TSPL_SD_SHIPMENT_HEAD left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code where TSPL_SD_SHIPMENT_DETAIL.Against_Cust_Ord_PK_ID in(select PK_ID from TSPL_CUSTOMER_TENDER_ORDER where Document_Code in(" & clsCommon.GetMulcallString(lstStr) & ")) and TSPL_SD_SHIPMENT_HEAD.Status=1 and TSPL_SD_SHIPMENT_HEAD.IsReplacement=0 "
+            txtBalQty.Text = clsCommon.myCdbl(txtOrderQty.Text) - clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+
+            Dim strqry As String = "select TSPL_CUSTOMER_TENDER_Order_DETAIL.PK_ID,TSPL_CUSTOMER_TENDER_Order_DETAIL.RowType,TSPL_CUSTOMER_TENDER_Order_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_CUSTOMER_TENDER_Order_DETAIL.Tender_Rate,TSPL_CUSTOMER_TENDER_Order_DETAIL.Item_Rate,TSPL_CUSTOMER_TENDER_Order_DETAIL.Qty from TSPL_CUSTOMER_TENDER_Order_DETAIL
 left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_CUSTOMER_TENDER_Order_DETAIL.Item_Code
-where TSPL_CUSTOMER_TENDER_Order_DETAIL.Document_Code='" & strCode & "' "
+where TSPL_CUSTOMER_TENDER_Order_DETAIL.Document_Code in(" & clsCommon.GetMulcallString(lstStr) & ")"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strqry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 isInsideLoadData = True
-                LoadBlankGrid()
-                LoadBlankGridTax()
+                'LoadBlankGrid()
+                'LoadBlankGridTax()
+                Dim intRow As Integer = 0
                 For Each dr As DataRow In dt.Rows
                     gv1.Rows.AddNew()
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = gv1.Rows.Count
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = clsCommon.myCstr(dr("RowType"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = clsCommon.myCstr(dr("Item_Code"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).ReadOnly = True
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = clsCommon.myCstr(dr("Short_Description"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colUOM).Value = "LTR"
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colTenderRate).Value = clsCommon.myCdbl(dr("Tender_Rate"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colItemAmt).ReadOnly = True
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = clsCommon.myCdbl(dr("Item_Rate"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).ReadOnly = True
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colPKID).Value = clsCommon.myCdbl(dr("PK_ID"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colIsBatchItem).Value = clsItemMaster.IsBatchItem(clsCommon.myCstr(dr("Item_Code")))
+                    gv1.Rows(intRow).Cells(colLineNo).Value = gv1.Rows.Count
+                    gv1.Rows(intRow).Cells(colRowType).Value = clsCommon.myCstr(dr("RowType"))
+                    gv1.Rows(intRow).Cells(colICode).Value = clsCommon.myCstr(dr("Item_Code"))
+                    gv1.Rows(intRow).Cells(colICode).ReadOnly = True
+                    gv1.Rows(intRow).Cells(colIName).Value = clsCommon.myCstr(dr("Short_Description"))
+                    gv1.Rows(intRow).Cells(colUOM).Value = "LTR"
+                    gv1.Rows(intRow).Cells(colTenderRate).Value = clsCommon.myCdbl(dr("Tender_Rate"))
+                    gv1.Rows(intRow).Cells(colItemAmt).ReadOnly = True
+                    gv1.Rows(intRow).Cells(colRate).Value = clsCommon.myCdbl(dr("Item_Rate"))
+                    gv1.Rows(intRow).Cells(colRate).ReadOnly = True
+                    gv1.Rows(intRow).Cells(colPKID).Value = clsCommon.myCdbl(dr("PK_ID"))
+                    gv1.Rows(intRow).Cells(colIsBatchItem).Value = clsItemMaster.IsBatchItem(clsCommon.myCstr(dr("Item_Code")))
                     If clsCommon.CompairString(clsCommon.myCstr(dr("Item_Code")), clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Item_Code from TSPL_ITEM_MASTER where Item_Code='" & clsCommon.myCstr(dr("Item_Code")) & "'"))) = CompairStringResult.Equal Then
-                        SetTax(clsCommon.myCstr(dr("Item_Code")), gv1.Rows.Count - 1)
+                        SetTax(clsCommon.myCstr(dr("Item_Code")), intRow)
                     End If
-
+                    If clsCommon.myCdbl(dr("Qty")) > 0 Then
+                        isInsideLoadData = False
+                        gv1.Rows(intRow).Cells(colQty).Value = clsCommon.myCdbl(dr("Qty"))
+                        isInsideLoadData = True
+                    End If
+                    intRow += 1
                 Next
                 isInsideLoadData = False
             End If
@@ -1272,15 +1291,15 @@ where TSPL_CUSTOMER_TENDER_Order_DETAIL.Document_Code='" & strCode & "' "
         Next
     End Sub
     Private Sub setGridFocus()
-        Dim intCurrRow As Integer = gv1.CurrentRow.Index
-        gv1.CurrentRow.Cells(colLineNo).Value = clsCommon.myCdbl(intCurrRow + 1)
-        If intCurrRow = gv1.Rows.Count - 1 Then
-            gv1.Rows.AddNew()
-            gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = clsItemRowType.RowTypeItem
-            gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).ReadOnly = True
-            gv1.Rows(gv1.Rows.Count - 1).Cells(colItemAmt).ReadOnly = False
-            gv1.CurrentRow = gv1.Rows(intCurrRow)
-        End If
+        'Dim intCurrRow As Integer = gv1.CurrentRow.Index
+        'gv1.CurrentRow.Cells(colLineNo).Value = clsCommon.myCdbl(intCurrRow + 1)
+        'If intCurrRow = gv1.Rows.Count - 1 Then
+        '    gv1.Rows.AddNew()
+        '    gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = clsItemRowType.RowTypeItem
+        '    gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).ReadOnly = True
+        '    gv1.Rows(gv1.Rows.Count - 1).Cells(colItemAmt).ReadOnly = False
+        '    gv1.CurrentRow = gv1.Rows(intCurrRow)
+        'End If
     End Sub
     Private Sub gv1_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellValueChanged
         Try
@@ -1718,13 +1737,28 @@ where TSPL_CUSTOMER_TENDER_Order_DETAIL.Document_Code='" & strCode & "' "
 
     Private Sub txtOrderNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtOrderNo._MYValidating
         Try
-            Dim qry As String = "select Document_Code as Code,RAL_No as [RAL No],Cust_Code as [Customer Code] from TSPL_CUSTOMER_TENDER_ORDER "
-            Dim Whrcls As String = " status=1 and isnull(close_yn,'N')='N' "
-            txtOrderNo.Value = clsCommon.ShowSelectForm("Sale-OrdDralfnd", qry, "Code", Whrcls, txtOrderNo.Value, "Code", isButtonClicked)
-            lblorderdesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Remarks from TSPL_CUSTOMER_TENDER_ORDER where Document_Code='" & txtOrderNo.Value & "'"))
-            GetTenderQty(txtOrderNo.Value)
-            GetOrderData(txtOrderNo.Value)
-            LoadGrid(txtOrderNo.Value)
+            Dim frm As New FrmPendingSalesOrder()
+            frm.ShowDialog()
+            Dim obj As clsCustomerTenderOrder = Nothing
+            'LoadBlankGrid()
+            LoadBlankGrid()
+            LoadBlankGridTax()
+            If frm.ArrReturn IsNot Nothing AndAlso frm.ArrReturn.Count > 0 Then
+                obj = clsCustomerTenderOrder.GetData(frm.ArrReturn(0).Document_Code, NavigatorType.Current, Nothing)
+                txtOrderNo.Value = obj.Document_Code
+                lblorderdesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Remarks from TSPL_CUSTOMER_TENDER_ORDER where Document_Code='" & txtOrderNo.Value & "'"))
+
+                GetOrderData(txtOrderNo.Value)
+                LoadGrid(frm.ArrReturn)
+            End If
+
+            'Dim qry As String = "select Document_Code as Code,RAL_No as [RAL No],Cust_Code as [Customer Code] from TSPL_CUSTOMER_TENDER_ORDER "
+            'Dim Whrcls As String = " status=1 and isnull(close_yn,'N')='N' "
+            'txtOrderNo.Value = clsCommon.ShowSelectForm("Sale-OrdDralfnd", qry, "Code", Whrcls, txtOrderNo.Value, "Code", isButtonClicked)
+            'lblorderdesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Remarks from TSPL_CUSTOMER_TENDER_ORDER where Document_Code='" & txtOrderNo.Value & "'"))
+            'GetTenderQty(txtOrderNo.Value)
+            'GetOrderData(txtOrderNo.Value)
+            'LoadGrid(txtOrderNo.Value)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -1750,19 +1784,19 @@ where TSPL_CUSTOMER_TENDER_Order_DETAIL.Document_Code='" & strCode & "' "
         End Try
     End Sub
 
-    Private Sub GetTenderQty(ByVal strCode As String)
-        Try
-            Dim qry As String = "select sum(Qty) as Qty from TSPL_CUSTOMER_TENDER_ORDER
-left join TSPL_CUSTOMER_TENDER_ORDER_DETAIL on TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Document_Code=TSPL_CUSTOMER_TENDER_ORDER.Document_Code
-where TSPL_CUSTOMER_TENDER_ORDER.Document_Code='" & strCode & "' and TSPL_CUSTOMER_TENDER_ORDER.Status=1"
-            txtOrderQty.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
-            qry = "select sum(Qty) as Qty from TSPL_SD_SHIPMENT_HEAD left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code where TSPL_SD_SHIPMENT_HEAD.Against_Cust_Order='" & strCode & "' and TSPL_SD_SHIPMENT_HEAD.Status=1 and TSPL_SD_SHIPMENT_HEAD.IsReplacement=0 "
-            txtBalQty.Text = clsCommon.myCdbl(txtOrderQty.Text) - clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+    '    Private Sub GetTenderQty(ByVal strCode As String)
+    '        Try
+    '            Dim qry As String = "select sum(Qty) as Qty from TSPL_CUSTOMER_TENDER_ORDER
+    'left join TSPL_CUSTOMER_TENDER_ORDER_DETAIL on TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Document_Code=TSPL_CUSTOMER_TENDER_ORDER.Document_Code
+    'where TSPL_CUSTOMER_TENDER_ORDER.Document_Code='" & strCode & "' and TSPL_CUSTOMER_TENDER_ORDER.Status=1"
+    '            txtOrderQty.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+    '            qry = "select sum(Qty) as Qty from TSPL_SD_SHIPMENT_HEAD left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code where TSPL_SD_SHIPMENT_HEAD.Against_Cust_Order='" & strCode & "' and TSPL_SD_SHIPMENT_HEAD.Status=1 and TSPL_SD_SHIPMENT_HEAD.IsReplacement=0 "
+    '            txtBalQty.Text = clsCommon.myCdbl(txtOrderQty.Text) - clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
 
-        Catch ex As Exception
-            Throw New Exception(ex.Message)
-        End Try
-    End Sub
+    '        Catch ex As Exception
+    '            Throw New Exception(ex.Message)
+    '        End Try
+    '    End Sub
 
     Private Sub txtDocCode__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtDocCode._MYNavigator
         Try
@@ -2183,7 +2217,7 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
                 If chkReplacement.Checked Then
                     GetReplacementQty(obj.Sale_Invoice_No, obj.Invoice_No_ForReplacement, True)
                 Else
-                    GetTenderQty(txtOrderNo.Value)
+                    'GetTenderQty(txtOrderNo.Value)
 
                 End If
                 Dim objTaxGrpMaster As New clsTaxGroupMaster()

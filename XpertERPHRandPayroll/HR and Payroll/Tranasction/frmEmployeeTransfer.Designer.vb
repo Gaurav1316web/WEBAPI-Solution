@@ -24,11 +24,11 @@ Partial Class FrmEmployeeTransfer
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.TxtOfficeLetter = New common.Controls.MyTextBox()
@@ -77,6 +77,7 @@ Partial Class FrmEmployeeTransfer
         Me.lblDocCode = New common.Controls.MyLabel()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.btnnew = New Telerik.WinControls.UI.RadButton()
+        Me.BtnPrint2 = New Telerik.WinControls.UI.RadButton()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
@@ -125,6 +126,7 @@ Partial Class FrmEmployeeTransfer
         CType(Me.lblDepartment, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDocCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnPrint2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -192,6 +194,7 @@ Partial Class FrmEmployeeTransfer
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.BtnPrint2)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
@@ -210,7 +213,6 @@ Partial Class FrmEmployeeTransfer
         Me.MyLabel1.Size = New System.Drawing.Size(68, 16)
         Me.MyLabel1.TabIndex = 432
         Me.MyLabel1.Text = "Office Letter"
-        Me.MyLabel1.Visible = False
         '
         'TxtOfficeLetter
         '
@@ -237,7 +239,6 @@ Partial Class FrmEmployeeTransfer
         Me.TxtOfficeLetter.ReferenceTableName = Nothing
         Me.TxtOfficeLetter.Size = New System.Drawing.Size(282, 25)
         Me.TxtOfficeLetter.TabIndex = 431
-        Me.TxtOfficeLetter.Visible = False
         '
         'lblDescription
         '
@@ -440,10 +441,10 @@ Partial Class FrmEmployeeTransfer
         Me.cboSalary.IsSourceFromTable = False
         Me.cboSalary.IsSourceFromValueList = False
         Me.cboSalary.IsUnique = False
-        RadListDataItem6.Text = "Yes"
-        RadListDataItem7.Text = "No"
-        Me.cboSalary.Items.Add(RadListDataItem6)
-        Me.cboSalary.Items.Add(RadListDataItem7)
+        RadListDataItem1.Text = "Yes"
+        RadListDataItem2.Text = "No"
+        Me.cboSalary.Items.Add(RadListDataItem1)
+        Me.cboSalary.Items.Add(RadListDataItem2)
         Me.cboSalary.Location = New System.Drawing.Point(128, 294)
         Me.cboSalary.MendatroryField = False
         Me.cboSalary.MyLinkLable1 = Me.lblDocType
@@ -653,12 +654,12 @@ Partial Class FrmEmployeeTransfer
         Me.cboDocType.IsSourceFromTable = False
         Me.cboDocType.IsSourceFromValueList = False
         Me.cboDocType.IsUnique = False
-        RadListDataItem1.Text = "Transfer Letter(For Location)"
-        RadListDataItem2.Text = "Promotion Letter"
-        RadListDataItem8.Text = "Transfer Letter(For Department)"
-        Me.cboDocType.Items.Add(RadListDataItem1)
-        Me.cboDocType.Items.Add(RadListDataItem2)
-        Me.cboDocType.Items.Add(RadListDataItem8)
+        RadListDataItem3.Text = "Transfer Letter(For Location)"
+        RadListDataItem4.Text = "Promotion Letter"
+        RadListDataItem5.Text = "Transfer Letter(For Department)"
+        Me.cboDocType.Items.Add(RadListDataItem3)
+        Me.cboDocType.Items.Add(RadListDataItem4)
+        Me.cboDocType.Items.Add(RadListDataItem5)
         Me.cboDocType.Location = New System.Drawing.Point(131, 36)
         Me.cboDocType.MendatroryField = False
         Me.cboDocType.MyLinkLable1 = Me.lblDocType
@@ -903,6 +904,16 @@ Partial Class FrmEmployeeTransfer
         Me.btnnew.Size = New System.Drawing.Size(16, 20)
         Me.btnnew.TabIndex = 55
         '
+        'BtnPrint2
+        '
+        Me.BtnPrint2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.BtnPrint2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnPrint2.Location = New System.Drawing.Point(299, 5)
+        Me.BtnPrint2.Name = "BtnPrint2"
+        Me.BtnPrint2.Size = New System.Drawing.Size(66, 18)
+        Me.BtnPrint2.TabIndex = 10
+        Me.BtnPrint2.Text = "Print2"
+        '
         'btnHistory
         '
         Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -1009,6 +1020,7 @@ Partial Class FrmEmployeeTransfer
         CType(Me.lblDepartment, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDocCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnPrint2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1072,5 +1084,6 @@ Partial Class FrmEmployeeTransfer
     Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
     Friend WithEvents TxtOfficeLetter As common.Controls.MyTextBox
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents BtnPrint2 As Telerik.WinControls.UI.RadButton
 End Class
 
