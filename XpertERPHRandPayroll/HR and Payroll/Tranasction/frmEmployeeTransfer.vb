@@ -550,7 +550,12 @@ Public Class FrmEmployeeTransfer
 
     Private Sub BtnPrint2_Click(sender As Object, e As EventArgs) Handles BtnPrint2.Click
         Try
+            If clsCommon.myLen(clsCommon.myCstr(txtCode.Value)) <= 0 Then
+                txtCode.Focus()
+                Throw New Exception("Select Transfer Code")
+            End If
             Dim Qry As String = ""
+            Dim Qryleave As String = ""
             Qry = "WITH E AS (
     SELECT 
         ROW_NUMBER() OVER (ORDER BY TSPL_EMPLOYEE_MASTER.EMP_CODE) AS rn,
@@ -596,11 +601,29 @@ SELECT
 FROM E
 LEFT JOIN D ON E.rn = D.rn  
 ORDER BY E.rn "
+            Qryleave = "  select row_number() over (partition by empcode order by empcode) as SNo,Outermost.empcode,Outermost.empname,emp.Joining_date as doj,convert(varchar,emp.RELIEVING_DATE,103) as dol,Outermost.departmentcode,Dept.Department_Name as departmentname,emp.location_code as location,loc.Location_desc as locationDesc,emp.Devision_code as Divisioncode,Div.Devision_Name as DevisionDesc,Outermost.Leavecode,sum(Outermost.Balance) as Balance 
+ 
+ from  ( select *,row_number() over (partition by empcode,leavecode order by empcode,leavecode,TransDate) as Tr_id 
+ from ( select lv.EMP_CODE as empcode,emp.Emp_Name as empname,emp.DEPARTMENT_CODE as departmentcode,emp.Location_Code as loccode,emp.Devision_Code as divcode,
+lv.PAY_PERIOD_CODE as Month,lv.LEAVE_CODE as Leavecode,  coalesce(lv.TR_DATE,lv.DATE_FROM) as TransDate,lv.TR_CODE,lv.REMARKS,lv.ALLOTED as Alloted,lv.AVAILED as Taken,
+(lv.ALLOTED-lv.AVAILED) as Balance 
+ from TSPL_VIEW_LEAVE_LEDGER as lv 
+ left join TSPL_EMPLOYEE_MASTER emp on lv.EMP_CODE=emp.EMP_CODE  where lv.EMP_CODE= '" & fndEmployeeCode.Value & "' 
+ 
+ and emp.RELIEVING_DATE is null    and (lv.ALLOTED >0 or lv.AVAILED>0) ) as Final where 2=2 ) as Outermost 
+ left join tspl_employee_master emp on Outermost.empcode=emp.emp_code 
+ left join tspl_location_master loc on emp.location_code=loc.location_code 
+ left join TSPL_DEVISION_MASTER Div on emp.devision_code=Div.Devision_code 
+ left join TSPL_DEPARTMENT_MASTER Dept on emp.department_code=Dept.department_code 
+ group by Outermost.empcode,Outermost.empname,emp.Joining_date,emp.RELIEVING_DATE,Outermost.Leavecode,emp.location_code,loc.Location_desc,emp.Devision_code,Div.Devision_Name,Outermost.departmentcode,Dept.Department_Name  
+ order by Outermost.empcode,Outermost.Leavecode "
 
             Dim dt As New DataTable
+            Dim Dtleave As New DataTable
+            Dtleave = clsDBFuncationality.GetDataTable(Qryleave)
             dt = clsDBFuncationality.GetDataTable(Qry)
             Dim frmcrsytal As New frmCrystalReportViewer
-            frmcrsytal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dt, "crptLastPayCertificate", "Last Pay Certificate")
+            frmcrsytal.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dt, Dtleave, "crptLastPayCertificate", "Last Pay Certificate", "LeaveDetail.rpt")
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
