@@ -265,6 +265,36 @@ Public Class clsPriceChartPlanning
         End Try
         Return obj
     End Function
+
+    Public Shared Function GenerateFarmerPrice(ByVal strDCSPriceCode As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AutoGenerateFarmerPriceFromDCSPrice, clsFixedParameterCode.AutoGenerateFarmerPriceFromDCSPrice, trans)) = 1 Then
+                If (clsCommon.myLen(strDCSPriceCode) <= 0) Then
+                    Throw New Exception("Price Code not found to Post")
+                End If
+                Dim qry As String = "insert into TSPL_MP_MILK_PRICE (Date,App_Shift,Status,Created_By,Created_Date,Modified_By,Modified_Date,Posted_By,Posted_Date,Dock_Collection_Milk_Type,Against_PriceCode)
+select top 1 Date,Price_Code_Shift,Posted,Created_By,GETDATE(),Modified_By,GETDATE(),Modified_By,GETDATE(),Dock_Collection_Milk_Type,Code from TSPL_FAT_SNF_UPLOADER_MASTER where Code='" + strDCSPriceCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                Dim ii As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT SCOPE_IDENTITY()", trans))
+
+                qry = "insert into TSPL_MP_MILK_PRICE_RATE (Code,FAT,SNF,Rate)
+select '" + ii + "' as Code,FAT,SNF,Rate from TSPL_FAT_SNF_UPLOADER_MASTER where Code='" + strDCSPriceCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "insert into TSPL_MP_MILK_PRICE_BMC (Code,BMC_Code)
+select '" + ii + "' as Code,MCC_Code from TSPL_FAT_SNF_UPLOADER_MCC where Code='" + strDCSPriceCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "insert into TSPL_MP_MILK_PRICE_DCS (Code,DCS_Code)
+select '" + ii + "' as Code,VLC_Code from TSPL_FAT_SNF_UPLOADER_VLC where Code='" + strDCSPriceCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
 End Class
 
 Public Class clsPriceChartPlanningMCC

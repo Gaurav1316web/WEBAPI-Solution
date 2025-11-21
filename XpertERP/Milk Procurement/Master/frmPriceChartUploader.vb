@@ -719,8 +719,19 @@ Public Class FrmPriceChartUploader
 
     Private Sub BtnPost_Click(sender As Object, e As EventArgs) Handles BtnPost.Click
         Try
-            Dim str As String = "update tspl_fat_snf_Uploader_master set posted='1' where code='" & clsCommon.myCstr(txtDocNo.Value) & "'"
-            clsDBFuncationality.ExecuteNonQuery(str)
+            Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+            Try
+                Dim str As String = "update tspl_fat_snf_Uploader_master set posted='1' where code='" & clsCommon.myCstr(txtDocNo.Value) & "'"
+                clsDBFuncationality.ExecuteNonQuery(str, trans)
+                clsPriceChartPlanning.GenerateFarmerPrice(txtDocNo.Value, trans)
+                trans.Commit()
+
+            Catch ex As Exception
+                trans.Rollback()
+                Throw New Exception(ex.Message)
+            End Try
+
+
             clsCommon.MyMessageBoxShow(Me, "Price Chart Posted Successfully...", Me.Text)
             BtnPost.Enabled = False
             BtnSaveCharge.Enabled = False

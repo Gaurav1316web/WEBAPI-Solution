@@ -294,91 +294,8 @@ Public Class clsRcptEntryHeader
             clsCommon.AddColumnsForChange(coll, "SO_Location_Code", obj.SO_Location_Code, True)
             clsCommon.AddColumnsForChange(coll, "ReceiptAgainstSO_DO", obj.ReceiptAgainstSO_DO)
 
-            '' Anubhooti 01-Jan-2015 (Remarks : if setting "AllowToUseSubAccount" is ON And Bank_Type should be "B" Then BankAccount is Sub_Account Else previous)
-            Dim BankTypeOfBank As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select ISNULL(Bank_type,'') AS Bank_Type From TSPL_BANK_MASTER Where BANK_CODE ='" + clsCommon.myCstr(obj.Bank_Code) + "'", trans))
-            '' Anubhooti 03-Sep-2014 BM00000003437(Remarks : if setting "AllowToUseSubAccount" is ON Then BankAccount is Sub_Account Else previous)
-            Dim UseSubAcc As String
-            'Dim strQ1 As String
-            'Dim strBankAcc As String
 
-            UseSubAcc = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowToUseSubAccount, clsFixedParameterCode.AllowToUseSubAccount, trans))
-            If clsCommon.CompairString(UseSubAcc, "1") = CompairStringResult.Equal AndAlso clsCommon.CompairString(BankTypeOfBank, "B") = CompairStringResult.Equal Then
-                qry = "select ISNULL(Sub_Account,'')  BANKACC  from TSPL_BANK_MASTER where BANK_CODE='" + clsCommon.myCstr(obj.Bank_Code) + "'"
-                obj.Dr_Account = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
-                'strBankAcc = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
-            Else
-                qry = "select BANKACC  from TSPL_BANK_MASTER where BANK_CODE='" + clsCommon.myCstr(obj.Bank_Code) + "'"
-                obj.Dr_Account = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
-                'strBankAcc = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
-            End If
-            If clsCommon.myLen(obj.Dr_Account) <= 0 Then
-                If clsCommon.CompairString(UseSubAcc, "1") = CompairStringResult.Equal AndAlso clsCommon.CompairString(BankTypeOfBank, "B") = CompairStringResult.Equal Then
-                    Throw New Exception("Please enter sub account for bank " + clsCommon.myCstr(obj.Bank_Code))
-                Else
-                    Throw New Exception("Please enter bank account for bank " + clsCommon.myCstr(obj.Bank_Code))
-                End If
-            End If
-            If clsCommon.CompairString(clsCommon.myCstr(obj.Receipt_Type), "A") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(obj.Receipt_Type), "K") = CompairStringResult.Equal Then
-                'Dim tBankLocation As String = strBankAcc.Substring(clsCommon.myLen(strBankAcc) - 3, 3)
-                Dim strsecurityType As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select SecurityDeposit from TSPL_RECEIPT_HEADER where Receipt_No ='" & clsCommon.myCstr(obj.Applied_Receipt) & "' ", trans))
-                If clsCommon.CompairString(strsecurityType, "Y") = CompairStringResult.Equal Then
-                    qry = "SELECT TSPL_CUSTOMER_ACCOUNT_SET.SECURITY_ACCOUNT FROM  TSPL_CUSTOMER_ACCOUNT_SET INNER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account = TSPL_CUSTOMER_MASTER.Cust_Account  where TSPL_CUSTOMER_MASTER.Cust_Code ='" + clsCommon.myCstr(obj.Cust_Code) + "'"
-                Else
-                    If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Receipt_Type from TSPL_RECEIPT_HEADER where Receipt_No ='" & clsCommon.myCstr(obj.Applied_Receipt) & "' ", trans)), "O") = CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
-                        qry = "SELECT TSPL_CUSTOMER_ACCOUNT_SET.Receivable_Control_acct FROM  TSPL_CUSTOMER_ACCOUNT_SET INNER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account = TSPL_CUSTOMER_MASTER.Cust_Account  where TSPL_CUSTOMER_MASTER.Cust_Code ='" + clsCommon.myCstr(obj.Cust_Code) + "'"
-                    ElseIf clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Document_Type from TSPL_Customer_Invoice_Head where Document_No ='" & clsCommon.myCstr(obj.Applied_Receipt) & "' ", trans)), "C") = CompairStringResult.Equal Then
-                        qry = "SELECT TSPL_CUSTOMER_ACCOUNT_SET.Receivable_Control_acct FROM  TSPL_CUSTOMER_ACCOUNT_SET INNER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account = TSPL_CUSTOMER_MASTER.Cust_Account  where TSPL_CUSTOMER_MASTER.Cust_Code ='" + clsCommon.myCstr(obj.Cust_Code) + "'"
-                    Else
-                        qry = "SELECT TSPL_CUSTOMER_ACCOUNT_SET.Advance_acct FROM  TSPL_CUSTOMER_ACCOUNT_SET INNER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account = TSPL_CUSTOMER_MASTER.Cust_Account  where TSPL_CUSTOMER_MASTER.Cust_Code ='" + clsCommon.myCstr(obj.Cust_Code) + "'"
-                    End If
-                End If
-                obj.Dr_Account = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
-                ' obj.Dr_Account  = clsERPFuncationality.ChangeGLAccountLocationSegment(strBankAcc, tBankLocation, trans)
-
-                If clsCommon.myLen(obj.Dr_Account) <= 0 Then
-                    Throw New Exception("Please enter SECURITY_ACCOUNT/Receivable_Control_acct/Advance_acct for customer " + clsCommon.myCstr(obj.Cust_Code))
-                End If
-
-            End If
-            '' Commented Old bank account as a debit account conditionally of sub account
-            'qry = "select BANKACC  from TSPL_BANK_MASTER  where BANK_CODE ='" + obj.Bank_Code + "'"
-            'obj.Dr_Account = clsDBFuncationality.getSingleValue(qry, trans)
-            ''
-            'Dim strLocationSeg As String = obj.Dr_Account.Substring(clsCommon.myLen(obj.Dr_Account) - 3, 3)
-            'obj.Dr_Account = clsERPFuncationality.ChangeGLAccountLocationSegment(obj.Dr_Account, strLocationSeg, True, trans)
-            obj.Dr_Account = clsERPFuncationality.ChangeGLAccountLocationSegment(obj.Dr_Account, LocSegmentCode, True, trans)
-            If clsCommon.CompairString(obj.Receipt_Type, "P") = CompairStringResult.Equal Or clsCommon.CompairString(obj.Receipt_Type, "F") = CompairStringResult.Equal Then
-                Dim strColumn As String = ""
-                If clsCommon.CompairString(obj.SecurityDeposit, "Y") = CompairStringResult.Equal AndAlso clsCommon.myLen(obj.SecurityDepositType) > 0 Then
-                    If clsCommon.CompairString(obj.SecurityDepositType, "S") = CompairStringResult.Equal Then
-                        strColumn = "TSPL_CUSTOMER_ACCOUNT_SET.SECURITY_ACCOUNT"
-                    ElseIf clsCommon.CompairString(obj.SecurityDepositType, "C") = CompairStringResult.Equal Then
-                        strColumn = "TSPL_CUSTOMER_ACCOUNT_SET.CREATE_SECURITY_ACCOUNT"
-                    ElseIf clsCommon.CompairString(obj.SecurityDepositType, "B") = CompairStringResult.Equal Then
-                        strColumn = "TSPL_CUSTOMER_ACCOUNT_SET.BANK_GUARANTEE"
-                    ElseIf clsCommon.CompairString(obj.SecurityDepositType, "O") = CompairStringResult.Equal Then
-                        strColumn = "TSPL_CUSTOMER_ACCOUNT_SET.ACCOUNT1"
-                    ElseIf clsCommon.CompairString(obj.SecurityDepositType, "R") = CompairStringResult.Equal Then
-                        strColumn = "TSPL_CUSTOMER_ACCOUNT_SET.ACCOUNT2"
-                    End If
-                Else
-                    If clsCommon.CompairString(obj.Receipt_Type, "F") = CompairStringResult.Equal Then
-                        If clsCommon.CompairString(clsCommon.myCstr(obj.Applied_Receipt), "") = CompairStringResult.Equal Then
-                            strColumn = "TSPL_CUSTOMER_ACCOUNT_SET.Receivable_Control_acct"
-                        Else
-                            strColumn = "TSPL_CUSTOMER_ACCOUNT_SET.Advance_acct"
-                        End If
-                    Else
-                        strColumn = "TSPL_CUSTOMER_ACCOUNT_SET.Advance_acct"
-                    End If
-                End If
-                qry = "SELECT " & strColumn & " FROM  TSPL_CUSTOMER_ACCOUNT_SET INNER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account = TSPL_CUSTOMER_MASTER.Cust_Account  where TSPL_CUSTOMER_MASTER.Cust_Code ='" + obj.Cust_Code + "' "
-            Else
-                qry = "SELECT TSPL_CUSTOMER_ACCOUNT_SET.Receivable_Control_acct FROM  TSPL_CUSTOMER_ACCOUNT_SET INNER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account = TSPL_CUSTOMER_MASTER.Cust_Account  where TSPL_CUSTOMER_MASTER.Cust_Code ='" + obj.Cust_Code + "' "
-            End If
-            obj.Cr_Account = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
-            obj.Cr_Account = clsERPFuncationality.ChangeGLAccountLocationSegment(obj.Cr_Account, LocSegmentCode, True, trans)
-
+            GetDRCRAccount(obj.Cust_Code, obj.Applied_Receipt, obj.Bank_Code, obj.Receipt_Type, obj.SecurityDeposit, obj.SecurityDepositType, LocSegmentCode, obj.Dr_Account, obj.Cr_Account, trans)
 
             If clsCommon.CompairString(obj.Receipt_Type, "R") = CompairStringResult.Equal Or clsCommon.CompairString(obj.Receipt_Type, "P") = CompairStringResult.Equal Or clsCommon.CompairString(obj.Receipt_Type, "O") = CompairStringResult.Equal Or clsCommon.CompairString(obj.Receipt_Type, "A") = CompairStringResult.Equal Or clsCommon.CompairString(clsCommon.myCstr(obj.Receipt_Type), "K") = CompairStringResult.Equal Then
                 If clsCommon.CompairString(obj.Receipt_Type, "P") = CompairStringResult.Equal AndAlso clsCommon.CompairString(obj.SecurityDeposit, "Y") = CompairStringResult.Equal Then
@@ -724,6 +641,91 @@ Public Class clsRcptEntryHeader
         End Try
         Return isSaved
     End Function
+
+    Public Shared Sub GetDRCRAccount(Cust_Code As String, Applied_Receipt As String, Bank_Code As String, Receipt_Type As String, SecurityDeposit As String, SecurityDepositType As String, LocSegmentCode As String, ByRef dr_Account As String, ByRef cr_Account As String, trans As SqlTransaction)
+        dr_Account = ""
+        cr_Account = ""
+        Dim qry As String = ""
+        '' Anubhooti 01-Jan-2015 (Remarks : if setting "AllowToUseSubAccount" is ON And Bank_Type should be "B" Then BankAccount is Sub_Account Else previous)
+        Dim BankTypeOfBank As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select ISNULL(Bank_type,'') AS Bank_Type From TSPL_BANK_MASTER Where BANK_CODE ='" + clsCommon.myCstr(Bank_Code) + "'", trans))
+        '' Anubhooti 03-Sep-2014 BM00000003437(Remarks : if setting "AllowToUseSubAccount" is ON Then BankAccount is Sub_Account Else previous)
+        Dim UseSubAcc As String
+        'Dim strQ1 As String
+        'Dim strBankAcc As String
+
+        UseSubAcc = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowToUseSubAccount, clsFixedParameterCode.AllowToUseSubAccount, trans))
+        If clsCommon.CompairString(UseSubAcc, "1") = CompairStringResult.Equal AndAlso clsCommon.CompairString(BankTypeOfBank, "B") = CompairStringResult.Equal Then
+            qry = "select ISNULL(Sub_Account,'')  BANKACC  from TSPL_BANK_MASTER where BANK_CODE='" + clsCommon.myCstr(Bank_Code) + "'"
+            dr_Account = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+            'strBankAcc = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+        Else
+            qry = "select BANKACC  from TSPL_BANK_MASTER where BANK_CODE='" + clsCommon.myCstr(Bank_Code) + "'"
+            dr_Account = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+            'strBankAcc = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+        End If
+        If clsCommon.myLen(dr_Account) <= 0 Then
+            If clsCommon.CompairString(UseSubAcc, "1") = CompairStringResult.Equal AndAlso clsCommon.CompairString(BankTypeOfBank, "B") = CompairStringResult.Equal Then
+                Throw New Exception("Please enter sub account for bank " + clsCommon.myCstr(Bank_Code))
+            Else
+                Throw New Exception("Please enter bank account for bank " + clsCommon.myCstr(Bank_Code))
+            End If
+        End If
+        If clsCommon.CompairString(clsCommon.myCstr(Receipt_Type), "A") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(Receipt_Type), "K") = CompairStringResult.Equal Then
+            'Dim tBankLocation As String = strBankAcc.Substring(clsCommon.myLen(strBankAcc) - 3, 3)
+            Dim strsecurityType As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select SecurityDeposit from TSPL_RECEIPT_HEADER where Receipt_No ='" & clsCommon.myCstr(Applied_Receipt) & "' ", trans))
+            If clsCommon.CompairString(strsecurityType, "Y") = CompairStringResult.Equal Then
+                qry = "SELECT TSPL_CUSTOMER_ACCOUNT_SET.SECURITY_ACCOUNT FROM  TSPL_CUSTOMER_ACCOUNT_SET INNER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account = TSPL_CUSTOMER_MASTER.Cust_Account  where TSPL_CUSTOMER_MASTER.Cust_Code ='" + clsCommon.myCstr(Cust_Code) + "'"
+            Else
+                If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Receipt_Type from TSPL_RECEIPT_HEADER where Receipt_No ='" & clsCommon.myCstr(Applied_Receipt) & "' ", trans)), "O") = CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
+                    qry = "SELECT TSPL_CUSTOMER_ACCOUNT_SET.Receivable_Control_acct FROM  TSPL_CUSTOMER_ACCOUNT_SET INNER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account = TSPL_CUSTOMER_MASTER.Cust_Account  where TSPL_CUSTOMER_MASTER.Cust_Code ='" + clsCommon.myCstr(Cust_Code) + "'"
+                ElseIf clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Document_Type from TSPL_Customer_Invoice_Head where Document_No ='" & clsCommon.myCstr(Applied_Receipt) & "' ", trans)), "C") = CompairStringResult.Equal Then
+                    qry = "SELECT TSPL_CUSTOMER_ACCOUNT_SET.Receivable_Control_acct FROM  TSPL_CUSTOMER_ACCOUNT_SET INNER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account = TSPL_CUSTOMER_MASTER.Cust_Account  where TSPL_CUSTOMER_MASTER.Cust_Code ='" + clsCommon.myCstr(Cust_Code) + "'"
+                Else
+                    qry = "SELECT TSPL_CUSTOMER_ACCOUNT_SET.Advance_acct FROM  TSPL_CUSTOMER_ACCOUNT_SET INNER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account = TSPL_CUSTOMER_MASTER.Cust_Account  where TSPL_CUSTOMER_MASTER.Cust_Code ='" + clsCommon.myCstr(Cust_Code) + "'"
+                End If
+            End If
+            dr_Account = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+            ' dr_Account  = clsERPFuncationality.ChangeGLAccountLocationSegment(strBankAcc, tBankLocation, trans)
+
+            If clsCommon.myLen(dr_Account) <= 0 Then
+                Throw New Exception("Please enter SECURITY_ACCOUNT/Receivable_Control_acct/Advance_acct for customer " + clsCommon.myCstr(Cust_Code))
+            End If
+
+        End If
+        dr_Account = clsERPFuncationality.ChangeGLAccountLocationSegment(dr_Account, LocSegmentCode, True, trans)
+        If clsCommon.CompairString(Receipt_Type, "P") = CompairStringResult.Equal Or clsCommon.CompairString(Receipt_Type, "F") = CompairStringResult.Equal Then
+            Dim strColumn As String = ""
+            If clsCommon.CompairString(SecurityDeposit, "Y") = CompairStringResult.Equal AndAlso clsCommon.myLen(SecurityDepositType) > 0 Then
+                If clsCommon.CompairString(SecurityDepositType, "S") = CompairStringResult.Equal Then
+                    strColumn = "TSPL_CUSTOMER_ACCOUNT_SET.SECURITY_ACCOUNT"
+                ElseIf clsCommon.CompairString(SecurityDepositType, "C") = CompairStringResult.Equal Then
+                    strColumn = "TSPL_CUSTOMER_ACCOUNT_SET.CREATE_SECURITY_ACCOUNT"
+                ElseIf clsCommon.CompairString(SecurityDepositType, "B") = CompairStringResult.Equal Then
+                    strColumn = "TSPL_CUSTOMER_ACCOUNT_SET.BANK_GUARANTEE"
+                ElseIf clsCommon.CompairString(SecurityDepositType, "O") = CompairStringResult.Equal Then
+                    strColumn = "TSPL_CUSTOMER_ACCOUNT_SET.ACCOUNT1"
+                ElseIf clsCommon.CompairString(SecurityDepositType, "R") = CompairStringResult.Equal Then
+                    strColumn = "TSPL_CUSTOMER_ACCOUNT_SET.ACCOUNT2"
+                End If
+            Else
+                If clsCommon.CompairString(Receipt_Type, "F") = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(clsCommon.myCstr(Applied_Receipt), "") = CompairStringResult.Equal Then
+                        strColumn = "TSPL_CUSTOMER_ACCOUNT_SET.Receivable_Control_acct"
+                    Else
+                        strColumn = "TSPL_CUSTOMER_ACCOUNT_SET.Advance_acct"
+                    End If
+                Else
+                    strColumn = "TSPL_CUSTOMER_ACCOUNT_SET.Advance_acct"
+                End If
+            End If
+            qry = "SELECT " & strColumn & " FROM  TSPL_CUSTOMER_ACCOUNT_SET INNER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account = TSPL_CUSTOMER_MASTER.Cust_Account  where TSPL_CUSTOMER_MASTER.Cust_Code ='" + Cust_Code + "' "
+        Else
+            qry = "SELECT TSPL_CUSTOMER_ACCOUNT_SET.Receivable_Control_acct FROM  TSPL_CUSTOMER_ACCOUNT_SET INNER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account = TSPL_CUSTOMER_MASTER.Cust_Account  where TSPL_CUSTOMER_MASTER.Cust_Code ='" + Cust_Code + "' "
+        End If
+        cr_Account = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+        cr_Account = clsERPFuncationality.ChangeGLAccountLocationSegment(cr_Account, LocSegmentCode, True, trans)
+
+    End Sub
 
     Public Shared Function funUnAppliedEntry(ByVal obj As clsRcptEntryHeader, ByVal trans As SqlTransaction) As Boolean
         Try
@@ -3399,15 +3401,8 @@ Public Class clsRcptEntryHeader
                 Dim bankAccountChargesAmount As Double = 0
                 Dim AdjAmt As Decimal = 0
                 Dim RCRowcount As Integer = 0
+                Dim dt As DataTable = Nothing
                 If clsCommon.CompairString(clsCommon.myCstr(dtReceipt.Rows(0)("Receipt_Type")), "R") = CompairStringResult.Equal Or clsCommon.CompairString(clsCommon.myCstr(dtReceipt.Rows(0)("Receipt_Type")), "A") = CompairStringResult.Equal Or clsCommon.CompairString(clsCommon.myCstr(dtReceipt.Rows(0)("Receipt_Type")), "K") = CompairStringResult.Equal Then
-                    '--------------------------This COde Updates Balance Amount of Invoice--------------------------
-                    'Dim qry As String = "select  Document_No,  (case when ISNULL(ConvRateRevaluation,0)<>0 then ConvRateRevaluation else ConvRateOld end) as ConvRateOld,  Applied_Amount, TagType ,Loc_Code from (   select TSPL_RECEIPT_DETAIL.Document_No,case when isnull(TSPL_Customer_Invoice_Head.ConvRate,0)=0 then 1 else TSPL_Customer_Invoice_Head.ConvRate end  as ConvRateOld,isnull( ( select top 1 TSPL_REVALUATION_HEAD.Currency_Rate  from TSPL_REVALUATION_DETAIL left outer join TSPL_REVALUATION_HEAD on TSPL_REVALUATION_HEAD.Document_No=TSPL_REVALUATION_DETAIL.Document_No  where TSPL_REVALUATION_DETAIL.AR_Invoice_No=TSPL_Customer_Invoice_Head.Document_No and TSPL_REVALUATION_HEAD.Status=1 and convert(date, TSPL_REVALUATION_HEAD.Document_Date,103)<= convert(date, TSPL_RECEIPT_HEADER.Receipt_Date,103)  order by TSPL_REVALUATION_HEAD.Document_Date desc),0) as ConvRateRevaluation, (Case When TSPL_RECEIPT_DETAIL.Receipt_Type<>'C' Then Applied_Amount Else Applied_Amount*-1 End) as Applied_Amount, TagType ,TSPL_Customer_Invoice_Head.Loc_Code from TSPL_RECEIPT_DETAIL "
-                    'qry += " left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No= TSPL_RECEIPT_DETAIL.Receipt_No "
-                    'qry += " LEFT OUTER JOIN TSPL_Receipt_Adjustment_Header ON TSPL_Receipt_Adjustment_Header.Adjustment_No=TSPL_RECEIPT_DETAIL.Adjustment_No "
-                    'qry += " left outer join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Document_No=TSPL_RECEIPT_DETAIL.Document_No"
-                    'qry += " WHERE TSPL_RECEIPT_DETAIL.Receipt_No='" + strDocNo + "' ) xx"
-
-
                     Dim qry As String = "select  Document_No,  (case when ISNULL(ConvRateRevaluation,0)<>0 then ConvRateRevaluation else ConvRateOld end) as ConvRateOld,  Applied_Amount, TagType ,Loc_Code from (   select TSPL_RECEIPT_DETAIL.Document_No,case when isnull(TSPL_Customer_Invoice_Head.ConvRate,0)=0 then 1 else TSPL_Customer_Invoice_Head.ConvRate end  as ConvRateOld,isnull( ( select top 1 TSPL_REVALUATION_HEAD.Currency_Rate  from TSPL_REVALUATION_DETAIL left outer join TSPL_REVALUATION_HEAD on TSPL_REVALUATION_HEAD.Document_No=TSPL_REVALUATION_DETAIL.Document_No  where TSPL_REVALUATION_DETAIL.AR_Invoice_No=TSPL_Customer_Invoice_Head.Document_No and TSPL_REVALUATION_HEAD.Status=1 and convert(date, TSPL_REVALUATION_HEAD.Document_Date,103)<= convert(date, TSPL_RECEIPT_HEADER.Receipt_Date,103)  order by TSPL_REVALUATION_HEAD.Document_Date desc),0) as ConvRateRevaluation, (Case When TSPL_RECEIPT_DETAIL.Receipt_Type not in ('C') Then Applied_Amount Else Applied_Amount*-1 End) as Applied_Amount, TagType, " &
                     "  case when TSPL_RECEIPT_DETAIL.Receipt_Type ='F' then (Select right(BANKACC,3) from TSPL_RECEIPT_HEADER left outer join TSPL_BANK_MASTER on TSPL_RECEIPT_HEADER .Bank_Code =TSPL_BANK_MASTER .BANK_CODE  where Receipt_No =TSPL_RECEIPT_DETAIL.Document_No) else TSPL_Customer_Invoice_Head.Loc_Code end as Loc_Code" &
                     " from TSPL_RECEIPT_DETAIL " &
@@ -3415,7 +3410,7 @@ Public Class clsRcptEntryHeader
                     " LEFT OUTER JOIN TSPL_Receipt_Adjustment_Header ON TSPL_Receipt_Adjustment_Header.Adjustment_No=TSPL_RECEIPT_DETAIL.Adjustment_No " &
                     " left outer join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Document_No=TSPL_RECEIPT_DETAIL.Document_No" &
                     " WHERE TSPL_RECEIPT_DETAIL.Receipt_No='" + strDocNo + "' ) xx"
-                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                    dt = clsDBFuncationality.GetDataTable(qry, trans)
                     Dim StartGLAccordingToBrach As Boolean = True
                     Dim isApplyBrachAccounting As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyBrachAccounting, clsFixedParameterCode.ApplyBrachAccounting, trans)) = 1, True, False)
                     Dim strBankLocation As String = strBankAcc.Substring(clsCommon.myLen(strBankAcc) - 3, 3)
@@ -4299,10 +4294,7 @@ Public Class clsRcptEntryHeader
 
                         End If
                     End If
-
                 End If
-
-
 
                 clsJournalMaster.FunGrnlEntryWithTrans(LocSegmentCode, True, isForUnpostedTransaction, strVoucherNo, trans, clsCommon.myCDate(dtReceipt.Rows(0)("Receipt_Post_Date")), dtReceipt.Rows(0)("Entry_Desc").ToString(), PayType, "AR Payment Received", strDocNo, "", "C", dtReceipt.Rows(0)("Cust_Code").ToString(), dtReceipt.Rows(0)("Customer_Name").ToString(), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArrList, , dtReceipt.Rows(0)("Reference").ToString(), dtReceipt.Rows(0)("Narration").ToString(), coll, objJE)
                 coll = Nothing

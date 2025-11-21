@@ -339,12 +339,20 @@ Public Class frmPriceChartPlanMasterAJM
 
     Private Function CalculateRate(ByVal dblFATPer As Decimal, ByVal dblSNFPer As Decimal) As Double
         Dim dclRate As Decimal = 0
+        If dblFATPer > objCommonVar.MaxFATPerForRate Then
+            dblFATPer = objCommonVar.MaxFATPerForRate
+        End If
+        If dblSNFPer > objCommonVar.MaxSNFPerForRate Then
+            dblSNFPer = objCommonVar.MaxSNFPerForRate
+        End If
+
         If dblFATPer > txtMaxFATPer.Value Then
             dblFATPer = txtMaxFATPer.Value
         End If
         If dblSNFPer > txtMaxSNFPer.Value Then
             dblSNFPer = txtMaxSNFPer.Value
         End If
+
         If dblFATPer < txtMinFATPer.Value OrElse dblSNFPer < txtMinSNFPer.Value Then
             dclRate = 0
         Else
@@ -598,7 +606,7 @@ Public Class frmPriceChartPlanMasterAJM
                     clsCommon.AddColumnsForChange(coll, "Posted_By", objCommonVar.CurrentUserCode)
                     clsCommon.AddColumnsForChange(coll, "Posted_Date", clsCommon.myCstr(clsCommon.GetPrintDate(dtCurrent, "dd/MMM/yyyy hh:mm:ss tt")))
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PRICE_CHART_PLANNING", OMInsertOrUpdate.Update, "Planning_Code='" + txtCode.Value + "'", trans)
-
+                    clsPriceChartPlanning.GenerateFarmerPrice(Code, trans)
                     trans.Commit()
                     clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
