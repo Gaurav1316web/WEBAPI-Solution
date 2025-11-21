@@ -102,6 +102,7 @@ Public Class frmCustomerTender
         btnSave.Enabled = True
         btnDelete.Enabled = True
         btnPost.Enabled = True
+        btnGo.Enabled = True
         btnAmendment.Enabled = False
         chkCloseCustTender.Enabled = True
         vaddnew = "Y"
@@ -475,6 +476,18 @@ from TSPL_CUSTOMER_TENDER "
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Document_Code", "TSPL_Customer_Tender", "TSPL_Customer_Tender_Detail")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
         End Try
     End Sub
 End Class

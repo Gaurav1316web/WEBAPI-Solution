@@ -5561,6 +5561,15 @@ Public Class FrmUtility
                             Dim dtReceipt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                             Dim LocSegmentCode As String = clsDBFuncationality.getSingleValue("Select RIGHT(BANKACC, 3) from TSPL_BANK_MASTER  Where BANK_CODE='" + clsCommon.myCstr(dtReceipt.Rows(0)("Bank_Code")) + "'", trans)
                             clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleReceivable, clsUserMgtCode.ReceiptEntry, LocSegmentCode, clsCommon.myCDate(dtReceipt.Rows(0)("Receipt_Date")), trans)
+                            If dtReceipt IsNot Nothing AndAlso dtReceipt.Rows.Count > 0 Then
+                                Dim Dr_Account As String = ""
+                                Dim Cr_Account As String = ""
+                                clsRcptEntryHeader.GetDRCRAccount(clsCommon.myCstr(dtReceipt.Rows(0)("Cust_Code")), clsCommon.myCstr(dtReceipt.Rows(0)("Applied_Receipt")), clsCommon.myCstr(dtReceipt.Rows(0)("Bank_Code")), clsCommon.myCstr(dtReceipt.Rows(0)("Receipt_Type")), clsCommon.myCstr(dtReceipt.Rows(0)("SecurityDeposit")), clsCommon.myCstr(dtReceipt.Rows(0)("SecurityDepositType")), LocSegmentCode, Dr_Account, Cr_Account, trans)
+
+                                qry = "update  TSPL_RECEIPT_HEADER set Dr_Account='" + Dr_Account + "',Cr_Account='" + Cr_Account + "' where Receipt_No='" + strDocNo + "'"
+                                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                            End If
+
 
                             ''richa KDI/27/12/18-000445 27 Dec,2018
                             ''richa 25 Apr,2019  create journal entry for opening in case of Misc receipt and Advance (Security) as Journal Master table instead of journal master op table ERO/26/04/19-000573
@@ -5580,7 +5589,7 @@ Public Class FrmUtility
                             End If
 
                             clsDBFuncationality.ExecuteNonQuery("Insert into TEMP_CREATED_RECEIPT values('" + strDocNo + "')", trans)
-                            trans.Commit()
+                                trans.Commit()
                         Catch ex As Exception
                             trans.Rollback()
                             strErro += "Receipt No - " + strDocNo + " Voucher No - " + strVoucherNo + " Exception -" + ex.Message + Environment.NewLine
@@ -10346,7 +10355,7 @@ Public Class FrmUtility
                         'Dim strLocationCode As String = clsCommon.myCstr(dt.Rows(ii)("NewLocCode"))
                         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                         Try
-                            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, False)
+                            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, False, False)
                             clsPSShipmentHead.CreateJournalEntry(obj.Document_Code, trans, strVoucherNo)
                             clsDBFuncationality.ExecuteNonQuery("Insert into TEMP_CREATED_PDISPATCH values('" & strDocNo & "','" & strVoucherNo & "')", trans)
                             trans.Commit()
@@ -13188,7 +13197,7 @@ Public Class FrmUtility
                             qry = "Delete from TSPL_JOURNAL_MASTER where voucher_no='" + strShipmentJVNo + "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, True)
+                            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, False, False)
                             clsPSShipmentHead.UpdateInventoryMovement(obj, trans, True, True)
                             clsPSShipmentHead.CreateJournalEntry(strDocNo, trans, strShipmentJVNo, True)
 
@@ -17293,7 +17302,7 @@ line1:
                             qry = "Delete from TSPL_JOURNAL_MASTER where voucher_no='" + strShipmentJVNo + "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, True)
+                            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, False, False)
                             clsPSShipmentHead.UpdateInventoryMovement(obj, trans, True, True)
                             clsPSShipmentHead.CreateJournalEntry(strDocNo, trans, strShipmentJVNo)
 
@@ -17509,7 +17518,7 @@ line1:
                             qry = "Delete from TSPL_JOURNAL_MASTER where voucher_no='" + strShipmentJVNo + "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, True)
+                            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, False, False)
                             clsPSShipmentHead.UpdateInventoryMovement(obj, trans, True, True)
                             clsPSShipmentHead.CreateJournalEntry(strDocNo, trans, strShipmentJVNo)
 
@@ -18892,7 +18901,7 @@ line1:
                             qry = "Delete from TSPL_JOURNAL_MASTER where voucher_no='" + strShipmentJVNo + "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, True)
+                            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, False, False)
                             clsPSShipmentHead.CreateJournalEntry(strDocNo, trans, strShipmentJVNo, True)
 
                             clsDBFuncationality.ExecuteNonQuery("Insert into TEMP_CREATED_DAIRY_SHIPMENT values('" & strDocNo & "')", trans)
@@ -23379,7 +23388,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                     Dim strInvoiceARJENo As String = clsCommon.myCstr(dt.Rows(ii)("Invoice_No_AR_JV_NO"))
                     trans = clsDBFuncationality.GetTransactin()
                     Try
-                        Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, True)
+                        Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, False, False)
                         clsPSShipmentHead.UpdateInventoryMovement(obj, trans, True, True, IIf(MyDateTimePicker5.Checked, MyDateTimePicker5.Value, Nothing))
                         clsPSShipmentHead.CreateJournalEntry(strDocNo, trans, strShipmentJVNo)
 
@@ -23901,7 +23910,7 @@ Recreate:
                                     trans = clsDBFuncationality.GetTransactin()
                                     Try
                                         If clsCommon.CompairString(strDocType, "S") = CompairStringResult.Equal Then
-                                            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, True)
+                                            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, False, False)
                                             Dim ExtraWhrForAvg As String = ""
                                             If Not MyCheckBox11.Checked Then
                                                 ExtraWhrForAvg = "  and 2= case when Trans_Type='Transfer' and InOut='I' then 1 else 2 end  "
@@ -26736,7 +26745,7 @@ left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=
                             For Each docno As String In arr
                                 'clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmSaleDispatchDairy, docno)
                                 Dim obj As New clsPSShipmentHead()
-                                obj = clsPSShipmentHead.GetData(docno, NavigatorType.Current, trans, True)
+                                obj = clsPSShipmentHead.GetData(docno, NavigatorType.Current, trans, False, False)
                                 TotalSCAmt = 0
                                 TotalDCAmt = 0
                                 TotalTCAmt = 0

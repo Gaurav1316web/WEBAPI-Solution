@@ -1,6 +1,7 @@
 ﻿Imports common
 Public Class FrmPendingSalesOrder
 #Region "Variables"
+    Public Property DocCode As String = ""
     Dim dtAllData As DataTable = Nothing
     Dim IsInsideLoadData As Boolean = False
     Public ArrReturn As List(Of clsCustomerTenderOrderDetail) = Nothing
@@ -12,6 +13,8 @@ Public Class FrmPendingSalesOrder
     Const colCustName As String = "colCustName"
     Const colLocation As String = "colLocation"
     Const colSubLocation As String = "colSubLocation"
+    Const colHICode As String = "colHICode"
+    Const colHIRate As String = "colHIRate"
     Const colDSelect As String = "colDSelect"
     Const colSalesordDtl As String = "colSalesordDtl"
     Const colItemCode As String = "colItemCode"
@@ -20,6 +23,7 @@ Public Class FrmPendingSalesOrder
     Const colUnitCode As String = "colUnitCode"
     Const colItemRate As String = "colItemRate"
     Const colQty As String = "colTotQty"
+    Const colPendingQty As String = "colPendingQty"
     Const colTotTaxAmt As String = "colTotTaxAmt"
     Const colTotalAmt As String = "colTotalAmt"
     Const colPKID As String = "colPKID"
@@ -87,6 +91,23 @@ Public Class FrmPendingSalesOrder
             reposubLoc.Width = 170
             reposubLoc.ReadOnly = True
             gvHead.MasterTemplate.Columns.Add(reposubLoc)
+            Dim repoHICode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+            repoHICode.FormatString = ""
+            repoHICode.HeaderText = "Item Code"
+            repoHICode.Name = colHICode
+            repoHICode.Width = 170
+            repoHICode.ReadOnly = True
+            repoHICode.IsVisible = False
+            gvHead.MasterTemplate.Columns.Add(repoHICode)
+            Dim repoHIRate As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+            repoHIRate.FormatString = ""
+            repoHIRate.HeaderText = "Item Rate"
+            repoHIRate.Name = colHIRate
+            repoHIRate.Width = 170
+            repoHIRate.ReadOnly = True
+            repoHIRate.IsVisible = False
+            repoHIRate.VisibleInColumnChooser = False
+            gvHead.MasterTemplate.Columns.Add(repoHIRate)
             gvHead.ShowFilteringRow = True
             gvHead.EnableFiltering = True
             gvHead.AllowDeleteRow = False
@@ -112,16 +133,33 @@ Public Class FrmPendingSalesOrder
     End Sub
     Sub LoadAllDataOnLoadAndButtonGoClick()
         Try
-            Dim qry As String = "select TSPL_CUSTOMER_TENDER_ORDER.Document_Code,convert(varchar(20),TSPL_CUSTOMER_TENDER_ORDER.Document_Date,103) as Document_Date,TSPL_CUSTOMER_TENDER_ORDER.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_CUSTOMER_TENDER_ORDER.RAL_No,TSPL_CUSTOMER_TENDER_ORDER.Location_Code,TSPL_CUSTOMER_TENDER_ORDER.Sub_Location,
-TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_CUSTOMER_TENDER_ORDER_DETAIL.RowType,TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Unit_Code,TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Item_Rate,TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Qty,TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Total_Tax_Amt,TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Total_Amt,TSPL_CUSTOMER_TENDER_ORDER_DETAIL.PK_Id
+            Dim qry As String = "select PK_Id, max(Final.Document_Code) as Document_Code,max(Final.Document_Date) as Document_Date,max(Final.Cust_Code) as Cust_Code,max(Final.Customer_Name) as Customer_Name,max(Final.RAL_No) as RAL_No,max(Final.Location_Code) as Location_Code,max(Final.Sub_Location)as Sub_Location,max(Final.Item_Code) as Item_Code,max(Final.Short_Description) as Short_Description,max(Final.RowType) as RowType,max(Final.Unit_Code) as Unit_Code,max(Final.Item_Rate) as Item_Rate
+,sum(Final.Qty * case when RI=1 then 1 else 0 end) as Qty,sum(Final.Qty * case when RI=-1 then 1 else 0 end) as UsedQty
+,sum(Final.Qty*RI) as PendingQty
+
+from (
+
+select TSPL_CUSTOMER_TENDER_ORDER.Document_Code,Convert(varchar(20),TSPL_CUSTOMER_TENDER_ORDER.Document_Date,103) as Document_Date,TSPL_CUSTOMER_TENDER_ORDER.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_CUSTOMER_TENDER_ORDER.RAL_No,TSPL_CUSTOMER_TENDER_ORDER.Location_Code,TSPL_CUSTOMER_TENDER_ORDER.Sub_Location,
+TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_CUSTOMER_TENDER_ORDER_DETAIL.RowType,TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Unit_Code,TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Item_Rate,TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Qty, isnull(TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Total_Tax_Amt,0) as Total_Tax_Amt,TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Total_Amt,TSPL_CUSTOMER_TENDER_ORDER_DETAIL.PK_Id,1 as RI,1 as chk
 from TSPL_CUSTOMER_TENDER_ORDER 
 left join TSPL_CUSTOMER_TENDER_ORDER_DETAIL on TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Document_Code=TSPL_CUSTOMER_TENDER_ORDER.Document_Code
 left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_CUSTOMER_TENDER_ORDER.Cust_Code
 left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Item_Code
-where TSPL_CUSTOMER_TENDER_ORDER.status=1 and isnull(TSPL_CUSTOMER_TENDER_ORDER.close_yn,'N')='N' and NOT EXISTS (
-    SELECT 1    FROM TSPL_SD_SHIPMENT_DETAIL left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
-	WHERE TSPL_CUSTOMER_TENDER_ORDER_DETAIL.PK_Id = TSPL_SD_SHIPMENT_DETAIL.Against_Cust_Ord_PK_ID  and TSPL_SD_SHIPMENT_HEAD.Status=1
-) "
+where TSPL_CUSTOMER_TENDER_ORDER.status=1 and isnull(TSPL_CUSTOMER_TENDER_ORDER.close_yn,'N')='N'
+
+union all
+
+select '' as Document_Code,convert(varchar(20),TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,TSPL_SD_SHIPMENT_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,'' as RAL_No,'' as Location_Code,'' as Sub_Location,
+TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_SD_SHIPMENT_DETAIL.Row_Type as RowType,TSPL_SD_SHIPMENT_DETAIL.Unit_Code,TSPL_SD_SHIPMENT_DETAIL.Item_Cost as Item_Rate,TSPL_SD_SHIPMENT_DETAIL.Qty,isnull(TSPL_SD_SHIPMENT_DETAIL.Total_Tax_Amt,0) as Total_Tax_Amt,TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt as Total_Amt,TSPL_SD_SHIPMENT_DETAIL.Against_Cust_Ord_PK_ID as PK_ID,-1 as ri,0 as chk
+from TSPL_SD_SHIPMENT_HEAD 
+left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.Document_Code=TSPL_SD_SHIPMENT_HEAD.Document_Code
+left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
+where   TSPL_SD_SHIPMENT_DETAIL.Against_Cust_Ord_PK_ID is not null and TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE not in ('" & DocCode & "')
+
+) Final
+group by Final.PK_ID having sum(chk)>0 and sum(Final.Qty*RI)>0
+"
             dtAllData = clsDBFuncationality.GetDataTable(qry)
             If dtAllData Is Nothing OrElse dtAllData.Rows.Count <= 0 Then
                 common.clsCommon.MyMessageBoxShow("Sales order not found!")
@@ -151,6 +189,8 @@ where TSPL_CUSTOMER_TENDER_ORDER.status=1 and isnull(TSPL_CUSTOMER_TENDER_ORDER.
                     gvHead.Rows(gvHead.RowCount - 1).Cells(colCustName).Value = clsCommon.myCstr(dr("Customer_Name"))
                     gvHead.Rows(gvHead.RowCount - 1).Cells(colLocation).Value = clsCommon.myCstr(dr("Location_Code"))
                     gvHead.Rows(gvHead.RowCount - 1).Cells(colSubLocation).Value = clsCommon.myCstr(dr("Sub_Location"))
+                    gvHead.Rows(gvHead.RowCount - 1).Cells(colHICode).Value = clsCommon.myCstr(dr("Item_Code"))
+                    gvHead.Rows(gvHead.RowCount - 1).Cells(colHIRate).Value = clsCommon.myCstr(dr("Item_Rate"))
                 End If
             Next
             IsInsideLoadData = False
@@ -198,7 +238,7 @@ where TSPL_CUSTOMER_TENDER_ORDER.status=1 and isnull(TSPL_CUSTOMER_TENDER_ORDER.
             repoRowType.FormatString = ""
             repoRowType.HeaderText = "RowType"
             repoRowType.Name = colRowType
-            repoRowType.Width = 170
+            repoRowType.Width = 100
             repoRowType.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
             repoRowType.ReadOnly = True
             gv1.MasterTemplate.Columns.Add(repoRowType)
@@ -206,7 +246,7 @@ where TSPL_CUSTOMER_TENDER_ORDER.status=1 and isnull(TSPL_CUSTOMER_TENDER_ORDER.
             repoUnitCode.FormatString = ""
             repoUnitCode.HeaderText = "Unit Code"
             repoUnitCode.Name = colUnitCode
-            repoUnitCode.Width = 170
+            repoUnitCode.Width = 100
             repoUnitCode.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
             repoUnitCode.ReadOnly = True
             gv1.MasterTemplate.Columns.Add(repoUnitCode)
@@ -214,7 +254,7 @@ where TSPL_CUSTOMER_TENDER_ORDER.status=1 and isnull(TSPL_CUSTOMER_TENDER_ORDER.
             repoItemRate.FormatString = ""
             repoItemRate.HeaderText = "Item Rate"
             repoItemRate.Name = colItemRate
-            repoItemRate.Width = 170
+            repoItemRate.Width = 80
             repoItemRate.ReadOnly = True
             repoItemRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
             repoItemRate.FormatString = "{0:n6}"
@@ -224,16 +264,25 @@ where TSPL_CUSTOMER_TENDER_ORDER.status=1 and isnull(TSPL_CUSTOMER_TENDER_ORDER.
             repoQty.FormatString = ""
             repoQty.HeaderText = "Qty"
             repoQty.Name = colQty
-            repoQty.Width = 170
+            repoQty.Width = 80
             repoQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
             repoQty.ReadOnly = True
             gv1.MasterTemplate.Columns.Add(repoQty)
+            Dim repoPQty As GridViewDecimalColumn = New GridViewDecimalColumn()
+            repoPQty.FormatString = ""
+            repoPQty.HeaderText = "Pending Qty"
+            repoPQty.Name = colPendingQty
+            repoPQty.Width = 80
+            repoPQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+            repoPQty.ReadOnly = True
+            gv1.MasterTemplate.Columns.Add(repoPQty)
             Dim repoTotTaxAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
             repoTotTaxAmt.FormatString = ""
             repoTotTaxAmt.HeaderText = "Total Tax Amt"
             repoTotTaxAmt.Name = colTotTaxAmt
-            repoTotTaxAmt.Width = 170
+            repoTotTaxAmt.Width = 80
             repoTotTaxAmt.ReadOnly = True
+            repoTotTaxAmt.IsVisible = False
             repoTotTaxAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
             repoTotTaxAmt.FormatString = "{0:n6}"
             repoTotTaxAmt.DecimalPlaces = 6
@@ -244,6 +293,7 @@ where TSPL_CUSTOMER_TENDER_ORDER.status=1 and isnull(TSPL_CUSTOMER_TENDER_ORDER.
             repoTotamt.Name = colTotalAmt
             repoTotamt.Width = 170
             repoTotamt.ReadOnly = True
+            repoTotamt.IsVisible = False
             repoTotamt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
             repoTotamt.FormatString = "{0:n6}"
             repoTotamt.DecimalPlaces = 6
@@ -252,7 +302,7 @@ where TSPL_CUSTOMER_TENDER_ORDER.status=1 and isnull(TSPL_CUSTOMER_TENDER_ORDER.
             repoPKID.FormatString = ""
             repoPKID.HeaderText = "PKID"
             repoPKID.Name = colPKID
-            repoPKID.Width = 170
+            repoPKID.Width = 60
             repoPKID.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
             repoPKID.ReadOnly = True
             gv1.MasterTemplate.Columns.Add(repoPKID)
@@ -308,9 +358,10 @@ where TSPL_CUSTOMER_TENDER_ORDER.status=1 and isnull(TSPL_CUSTOMER_TENDER_ORDER.
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colUnitCode).Value = clsCommon.myCstr(dr("Unit_Code"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colItemRate).Value = clsCommon.myCDecimal(dr("Item_Rate"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCDecimal(dr("Qty"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colTotTaxAmt).Value = clsCommon.myCDecimal(dr("Total_Tax_Amt"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colTotalAmt).Value = clsCommon.myCDecimal(dr("Total_Amt"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colPKID).Value = clsCommon.myCDecimal(dr("PK_ID"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colPendingQty).Value = clsCommon.myCDecimal(dr("PendingQty"))
+                    'gv1.Rows(gv1.Rows.Count - 1).Cells(colTotTaxAmt).Value = clsCommon.myCDecimal(dr("Total_Tax_Amt"))
+                    'gv1.Rows(gv1.Rows.Count - 1).Cells(colTotalAmt).Value = clsCommon.myCDecimal(dr("Total_Amt"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colPKID).Value = clsCommon.myCstr(dr("PK_ID"))
                 End If
             Next
         Else
@@ -332,21 +383,41 @@ where TSPL_CUSTOMER_TENDER_ORDER.status=1 and isnull(TSPL_CUSTOMER_TENDER_ORDER.
     Private Function isAllowed() As Boolean
 
         Dim arrVendor As New List(Of String)
-        Dim arrPOType As New List(Of String)
-        Dim arrLoc As New List(Of String)
+        Dim arrICode As New List(Of String)
+        Dim arrIRate As New List(Of String)
 
         For ii As Integer = 0 To gvHead.RowCount - 1
             If clsCommon.myCBool(gvHead.Rows(ii).Cells(colHSelect).Value) Then
                 Dim strCode As String = clsCommon.myCstr(gvHead.Rows(ii).Cells(colCustCode).Value)
+                Dim strICode As String = clsCommon.myCstr(gvHead.Rows(ii).Cells(colHICode).Value)
+                Dim strIRate As String = clsCommon.myCstr(gvHead.Rows(ii).Cells(colHIRate).Value)
                 For jj As Integer = ii + 1 To gvHead.RowCount - 1
                     If clsCommon.myCBool(gvHead.Rows(jj).Cells(colHSelect).Value) Then
                         If clsCommon.CompairString(strCode, clsCommon.myCstr(gvHead.Rows(jj).Cells(colCustCode).Value)) <> CompairStringResult.Equal Then
                             arrVendor.Add(clsCommon.myCstr(gvHead.Rows(jj).Cells(colCustCode).Value))
                         End If
                     End If
+                    If clsCommon.myCBool(gvHead.Rows(jj).Cells(colHSelect).Value) Then
+                        If clsCommon.CompairString(strICode, clsCommon.myCstr(gvHead.Rows(jj).Cells(colHICode).Value)) <> CompairStringResult.Equal Then
+                            arrICode.Add(clsCommon.myCstr(gvHead.Rows(jj).Cells(colHICode).Value))
+                        End If
+                    End If
+                    If clsCommon.myCBool(gvHead.Rows(jj).Cells(colHSelect).Value) Then
+                        If clsCommon.CompairString(strIRate, clsCommon.myCstr(gvHead.Rows(jj).Cells(colHIRate).Value)) <> CompairStringResult.Equal Then
+                            arrIRate.Add(clsCommon.myCstr(gvHead.Rows(jj).Cells(colHIRate).Value))
+                        End If
+                    End If
                 Next
                 If arrVendor.Count > 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "Item more than one vendor are not allowed.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "More then one customer are not allowed.", Me.Text)
+                    Return False
+                End If
+                If arrICode.Count > 0 Then
+                    clsCommon.MyMessageBoxShow(Me, "More then one item are not allowed.", Me.Text)
+                    Return False
+                End If
+                If arrIRate.Count > 0 Then
+                    clsCommon.MyMessageBoxShow(Me, "Different item rate are not allowed.", Me.Text)
                     Return False
                 End If
                 Return True
@@ -370,7 +441,7 @@ where TSPL_CUSTOMER_TENDER_ORDER.status=1 and isnull(TSPL_CUSTOMER_TENDER_ORDER.
                 obj.RowType = clsCommon.myCstr(gv1.Rows(ii).Cells(colRowType).Value)
                 obj.Item_Rate = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colItemRate).Value)
                 obj.Unit_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colUnitCode).Value)
-                obj.Qty = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colQty).Value)
+                obj.Qty = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colPendingQty).Value)
                 If (obj.Qty > 0) Then
                     ArrReturn.Add(obj)
                 End If
@@ -378,7 +449,7 @@ where TSPL_CUSTOMER_TENDER_ORDER.status=1 and isnull(TSPL_CUSTOMER_TENDER_ORDER.
             Next
 
         If ArrReturn.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero seles order item", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero pending Qty", Me.Text)
         Else
             Me.Close()
         End If

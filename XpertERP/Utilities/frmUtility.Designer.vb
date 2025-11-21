@@ -2024,7 +2024,7 @@ Partial Class FrmUtility
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage8
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(1112, 569)
         Me.RadPageView1.TabIndex = 44
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -2071,15 +2071,15 @@ Partial Class FrmUtility
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.GroupBox114)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton357)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadGroupBox4)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton271)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton356)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.btnBankAdvice)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.UpdateVirtualCustomerAccount)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.btnCreateTransferJournalEntry)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.btnCreateTransferJournalEntryOtherThanEmpty)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.btnCreateGLReceiptAdjEntry)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.btnRecereateInventoryMovementAndItemLocationDetail)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton5)
+        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton271)
+        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton356)
+        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.btnBankAdvice)
+        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.UpdateVirtualCustomerAccount)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton348)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.txtBlankTransDataDate)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton143)
@@ -9252,6 +9252,7 @@ Partial Class FrmUtility
         '
         Me.GroupBox54.Controls.Add(Me.MyLabel52)
         Me.GroupBox54.Controls.Add(Me.TxtMultiSelectFinder12)
+        Me.GroupBox54.Controls.Add(Me.lblLocation)
         Me.GroupBox54.Controls.Add(Me.txtFPSNFRate)
         Me.GroupBox54.Controls.Add(Me.MyLabel49)
         Me.GroupBox54.Controls.Add(Me.txtFPFATRate)
@@ -9259,7 +9260,6 @@ Partial Class FrmUtility
         Me.GroupBox54.Controls.Add(Me.MyLabel48)
         Me.GroupBox54.Controls.Add(Me.MyDateTimePicker4)
         Me.GroupBox54.Controls.Add(Me.chkDoNotConsiderOutTypeDocForBalance)
-        Me.GroupBox54.Controls.Add(Me.lblLocation)
         Me.GroupBox54.Controls.Add(Me.txtLocation)
         Me.GroupBox54.Controls.Add(Me.MyCheckBox3)
         Me.GroupBox54.Controls.Add(Me.MyCheckBox2)

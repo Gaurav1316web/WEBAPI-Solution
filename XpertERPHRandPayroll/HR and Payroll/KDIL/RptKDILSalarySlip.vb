@@ -506,7 +506,8 @@ Public Class RptKDILSalarySlip
                         DrFinal.Item("AVAILED") = clsCommon.myCstr(DrDT3("AVAILED"))
 
                         '' balance of leaves
-                        DrFinal.Item("EL_Bal") = clsCommon.myCdbl(dt4.Compute("sum(Balance)", "leave_code='EL'")) ' clsCommon.myCstr(DrDT3("Balance"))
+                        'DrFinal.Item("EL_Bal") = clsCommon.myCdbl(dt4.Compute("sum(Balance)", "leave_code='EL'")) ' clsCommon.myCstr(DrDT3("Balance"))
+                        DrFinal.Item("EL_Bal") = clsCommon.myCdbl(dt4.Compute("sum(Balance)", "leave_code='EL' OR leave_code='PL'"))
                         DrFinal.Item("CL_Bal") = clsCommon.myCdbl(dt4.Compute("sum(Balance)", "leave_code='CL'")) ' clsCommon.myCstr(DrDT3("Balance"))
                         DrFinal.Item("SL_Bal") = clsCommon.myCdbl(dt4.Compute("sum(Balance)", "leave_code='SL'")) ' clsCommon.myCstr(DrDT3("Balance"))
 

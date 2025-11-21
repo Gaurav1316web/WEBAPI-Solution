@@ -1418,10 +1418,9 @@ Public Class clsPurchaseInvoiceHead
             objVendorInvHead.Discount_Amount = obj.Discount_Amt
             objVendorInvHead.Amount_Less_Discount = obj.Amount_Less_Discount
             objVendorInvHead.RoundOffAmount = obj.RoundOffAmt
-            objVendorInvHead.Document_Total = obj.PI_Total_Amt
-            objVendorInvHead.Balance_Amt = obj.PI_Total_Amt
+            objVendorInvHead.Document_Total = (obj.PI_Total_Amt + obj.RoundOffAmt)
+            objVendorInvHead.Balance_Amt = objVendorInvHead.Document_Total
             objVendorInvHead.Against_POInvoice_No = obj.PI_No
-            objVendorInvHead.RoundOffAmount = obj.RoundOffAmt
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Payable_Account,Discount_Account from TSPL_VENDOR_ACCOUNT_SET  where Acct_Set_Code='" + objVendorInvHead.Account_Set + "'", trans)
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then

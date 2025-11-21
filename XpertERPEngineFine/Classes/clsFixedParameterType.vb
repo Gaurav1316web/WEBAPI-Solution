@@ -2,6 +2,7 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
+    Public Const AutoGenerateFarmerPriceFromDCSPrice As String = "Auto Generate Farmer Price From DCS Price"
     Public Const AutoGenrateBatchInventoryOnPost As String = "Auto Genrate Batch Inventory On Post"
 
     Public Const PickcompanyBankCodeFromPaymentProcess As String = "pick company BankCode From Payment Process"
@@ -1375,6 +1376,7 @@ Public Class clsFixedParameterType
     Public Const AllowToCheckEntryUOMForProduct = "Allow To Check Entry UOM For Product"
 End Class
 Public Class clsFixedParameterCode
+    Public Const AutoGenerateFarmerPriceFromDCSPrice As String = "Auto Generate Farmer Price From DCS Price"
     Public Const AutoGenrateBatchInventoryOnPost As String = "Auto Genrate Batch Inventory On Post"
     Public Const PickcompanyBankCodeFromPaymentProcess As String = "Pick company BankCode From Payment Process"
     Public Const isThereOnlyOneRowOfOwnDCS As String = "is There Only One Row Of Own DCS"
@@ -2978,6 +2980,7 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AutoGenerateFarmerPriceFromDCSPrice, clsFixedParameterCode.AutoGenerateFarmerPriceFromDCSPrice, "1", "0:OFF,1:ON;if on then Auto Genrate Farmer Price on Post dcs Price of Transaction")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AutoGenrateBatchInventoryOnPost, clsFixedParameterCode.AutoGenrateBatchInventoryOnPost, "0", "0:OFF,1:ON;if on then Auto Genrate Batch Inventory At Post of Transaction")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAMCUDetails, clsFixedParameterCode.AMCUDetailsHeading1, "Heading 1", "Dynamic Heading 1 for AMCU Detail")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAMCUDetails, clsFixedParameterCode.AMCUDetailsHeading2, "Heading 2", "Dynamic Heading 2 for AMCU Detail")
@@ -4888,6 +4891,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmCSASaleInvoice, clsFixedParameterType.AllowCSAPriceMasterPostedData, clsFixedParameterCode.AllowCSAPriceMasterPostedData, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmPriceChartMaster, clsFixedParameterType.AllowMilkItemMasterPostedData, clsFixedParameterCode.AllowMilkItemMasterPostedData, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmPriceChartUploader, clsFixedParameterType.AllowMilkItemMasterPostedData, clsFixedParameterCode.AllowMilkItemMasterPostedData, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.FrmPriceChartUploader, clsFixedParameterType.AutoGenerateFarmerPriceFromDCSPrice, clsFixedParameterCode.AutoGenerateFarmerPriceFromDCSPrice, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmPriceChartBulkProc, clsFixedParameterType.AllowBulkProcItemPostedData, clsFixedParameterCode.AllowBulkProcItemPostedData, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmBulkMilkSRN, clsFixedParameterType.AllowBulkProcItemPostedData, clsFixedParameterCode.AllowBulkProcItemPostedData, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.PriceMaster, clsFixedParameterType.AllowPriceListMasterPostedData, clsFixedParameterCode.AllowPriceListMasterPostedData, EnumControlType.CheckBox)

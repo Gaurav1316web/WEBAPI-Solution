@@ -135,8 +135,9 @@ Public Class FrmSalesOrder
         repoICode.HeaderText = "Item Code"
         repoICode.Name = colICode
         repoICode.Width = 100
-        repoICode.ReadOnly = False
+        repoICode.ReadOnly = True
         repoICode.IsVisible = True
+        repoICode.VisibleInColumnChooser = False
         gv1.MasterTemplate.Columns.Add(repoICode)
         Dim repoIName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoIName.FormatString = ""
@@ -153,6 +154,7 @@ Public Class FrmSalesOrder
         repoQty.Name = colQty
         repoQty.Width = 100
         repoQty.Minimum = 0
+        repoQty.ReadOnly = True
         repoQty.ShowUpDownButtons = False
         repoQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoQty)
@@ -191,7 +193,7 @@ Public Class FrmSalesOrder
         repoAmt.Width = 100
         repoAmt.Minimum = 0
         repoAmt.ShowUpDownButtons = False
-        repoAmt.ReadOnly = False
+        repoAmt.ReadOnly = True
         repoAmt.IsVisible = True
         repoAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoAmt)
@@ -2194,9 +2196,9 @@ where TSPL_CUSTOMER_TENDER.Document_Code='" & strCode & "' and TSPL_CUSTOMER_TEN
 
     Private Sub btnReverseAndUnPost_Click(sender As Object, e As EventArgs) Handles btnReverseAndUnPost.Click
         Try
-            If clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" & Environment.NewLine & "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Amendment the Current Document" & Environment.NewLine & "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsCustomerTenderOrder.ReverseAndUnpost(txtDocCode.Value) Then
-                    clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Successfully amended", Me.Text)
                     LoadData(txtDocCode.Value, NavigatorType.Current)
                 End If
             End If
@@ -2243,6 +2245,18 @@ where TSPL_CUSTOMER_TENDER.Document_Code='" & strCode & "' and TSPL_CUSTOMER_TEN
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtDocCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocCode.Value, "Document_Code", "TSPL_CUSTOMER_TENDER_ORDER", "TSPL_CUSTOMER_TENDER_ORDER_DETAIL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
         End Try
     End Sub
 End Class
