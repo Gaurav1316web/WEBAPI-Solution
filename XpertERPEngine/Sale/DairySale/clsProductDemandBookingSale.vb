@@ -760,6 +760,12 @@ Public Class clsProductDemandBookingSaleDetail
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PRODUCT_DEMAND_BOOKING_DETAIL", OMInsertOrUpdate.Insert, "", trans)
                 End If
             Next
+            Dim strQry As String = "select Document_No,Cust_Code,Item_Code,Unit_code,sum(1) AS DuplicateCoun from TSPL_PRODUCT_DEMAND_BOOKING_DETAIL where Document_No='" & strDocNo & "'
+            group by Document_No,Cust_Code,Item_Code,Unit_code having sum(1)>1"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Throw New Exception("Duplicate Item Found [ Document No" & clsCommon.myCstr(dt.Rows(0)("Document_No")) & ",Cust Code " & clsCommon.myCstr(dt.Rows(0)("Cust_Code")) & ",Item Code " & clsCommon.myCstr(dt.Rows(0)("Item_Code")) & ",Unit Code " & clsCommon.myCstr(dt.Rows(0)("Unit_code")) & " ]")
+            End If
         End If
         Return True
     End Function
@@ -834,6 +840,12 @@ Public Class clsProductDemandBookingSaleDetail
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Product_DEMAND_BOOKING_DETAIL", OMInsertOrUpdate.Insert, "", trans)
 
             Next
+            Dim strQry As String = "select Document_No,Cust_Code,Item_Code,Unit_code,sum(1) AS DuplicateCoun from TSPL_PRODUCT_DEMAND_BOOKING_DETAIL where Document_No='" & strDocNo & "'
+            group by Document_No,Cust_Code,Item_Code,Unit_code having sum(1)>1"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Throw New Exception("Duplicate Item Found [ Document No" & clsCommon.myCstr(dt.Rows(0)("Document_No")) & ",Cust Code " & clsCommon.myCstr(dt.Rows(0)("Cust_Code")) & ",Item Code " & clsCommon.myCstr(dt.Rows(0)("Item_Code")) & ",Unit Code " & clsCommon.myCstr(dt.Rows(0)("Unit_code")) & " ]")
+            End If
         End If
         Return True
     End Function
