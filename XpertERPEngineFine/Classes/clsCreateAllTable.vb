@@ -10678,6 +10678,8 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Modified_Date", "datetime  NOT NULL")
             coll.Add("Posted_By", "varchar(12) NULL REFERENCES TSPL_USER_MASTER(User_Code)")
             coll.Add("Posted_Date", "datetime NULL")
+            coll.Add("Dock_Collection_Milk_Type", "char(1) NOT NULL Default 'M'")
+            coll.Add("Against_PriceCode", "varchar(30) null")
             ' clsCommonFunctionality.CreateOrAlterTable("TSPL_MP_MILK_PRICE", coll)
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_MP_MILK_PRICE", coll, "", True, False, "", "", "", True)
 

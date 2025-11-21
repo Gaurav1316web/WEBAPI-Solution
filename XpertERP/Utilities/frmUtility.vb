@@ -5561,6 +5561,15 @@ Public Class FrmUtility
                             Dim dtReceipt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                             Dim LocSegmentCode As String = clsDBFuncationality.getSingleValue("Select RIGHT(BANKACC, 3) from TSPL_BANK_MASTER  Where BANK_CODE='" + clsCommon.myCstr(dtReceipt.Rows(0)("Bank_Code")) + "'", trans)
                             clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleReceivable, clsUserMgtCode.ReceiptEntry, LocSegmentCode, clsCommon.myCDate(dtReceipt.Rows(0)("Receipt_Date")), trans)
+                            If dtReceipt IsNot Nothing AndAlso dtReceipt.Rows.Count > 0 Then
+                                Dim Dr_Account As String = ""
+                                Dim Cr_Account As String = ""
+                                clsRcptEntryHeader.GetDRCRAccount(clsCommon.myCstr(dtReceipt.Rows(0)("Cust_Code")), clsCommon.myCstr(dtReceipt.Rows(0)("Applied_Receipt")), clsCommon.myCstr(dtReceipt.Rows(0)("Bank_Code")), clsCommon.myCstr(dtReceipt.Rows(0)("Receipt_Type")), clsCommon.myCstr(dtReceipt.Rows(0)("SecurityDeposit")), clsCommon.myCstr(dtReceipt.Rows(0)("SecurityDepositType")), LocSegmentCode, Dr_Account, Cr_Account, trans)
+
+                                qry = "update  TSPL_RECEIPT_HEADER set Dr_Account='" + Dr_Account + "',Cr_Account='" + Cr_Account + "' where Receipt_No='" + strDocNo + "'"
+                                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                            End If
+
 
                             ''richa KDI/27/12/18-000445 27 Dec,2018
                             ''richa 25 Apr,2019  create journal entry for opening in case of Misc receipt and Advance (Security) as Journal Master table instead of journal master op table ERO/26/04/19-000573
@@ -5580,7 +5589,7 @@ Public Class FrmUtility
                             End If
 
                             clsDBFuncationality.ExecuteNonQuery("Insert into TEMP_CREATED_RECEIPT values('" + strDocNo + "')", trans)
-                            trans.Commit()
+                                trans.Commit()
                         Catch ex As Exception
                             trans.Rollback()
                             strErro += "Receipt No - " + strDocNo + " Voucher No - " + strVoucherNo + " Exception -" + ex.Message + Environment.NewLine

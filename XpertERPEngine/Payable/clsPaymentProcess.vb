@@ -584,6 +584,7 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                             End If
                         End If
 
+                        ''AdjAmt and balance amt is having gap of TDS Amount.
                         objPayAdj = New clsPaymentAdjustmentEntry
                         objPayAdj.Adjustment_No = ""
                         objPayAdj.Description = " AP Adjustment Against Bulk Payment Process "
@@ -593,7 +594,7 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                         objPayAdj.Doc_No = clsCommon.myCstr(obj.ArrPPDetail(i).AP_Invoice_No)
                         objPayAdj.Doc_Amount = clsCommon.myCDecimal(obj.ArrPPDetail(i).Total_Invoice_Amount)
                         objPayAdj.Remarks = clsCommon.myCstr("")
-                        objPayAdj.Adjustment_Amount = clsCommon.myCDecimal(AdjAmt)
+                        objPayAdj.Adjustment_Amount = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select balance_amt from TSPL_VENDOR_INVOICE_HEAD where Document_No='" + obj.ArrPPDetail(i).AP_Invoice_No + "'", trans))
                         objPayAdj.Against_Payment_Process = DocNo
                         objPayAdj.Arr = New List(Of clsPaymentAdjustmentEntryDetail)
                         objTrPay = New clsPaymentAdjustmentEntryDetail()
@@ -601,7 +602,8 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                         objTrPay.Discount_Description = clsCommon.myCstr(DiscDiscForArAdj)
                         objTrPay.Account_No = clsCommon.myCstr(GLAcARAdj)
                         objTrPay.Account_Description = clsCommon.myCstr(GLAcDescARAdj)
-                        objTrPay.Amount = clsCommon.myCDecimal(AdjAmt)
+                        objTrPay.Amount = objPayAdj.Adjustment_Amount
+
                         objTrPay.Remarks = clsCommon.myCstr("")
                         objPayAdj.Arr.Add(objTrPay)
                         objPayAdj.SaveData(objPayAdj, True, trans)

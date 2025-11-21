@@ -25,6 +25,12 @@ Public Class frmPriceChartPlanMasterRCDF
     End Sub
 
     Private Sub FrmPriceChartMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim coll As New Dictionary(Of String, String)
+        coll.Add("Dock_Collection_Milk_Type", "char(1) NOT NULL Default 'M'")
+        coll.Add("Against_PriceCode", "varchar(30) null")
+        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_MP_MILK_PRICE", coll, "", True, False, "", "", "", True)
+
+
         'RadPageView1.Pages("RadPageViewPage2").Item.Visibility = ElementVisibility.Collapsed
         RadPageView1.SelectedPage = RadPageViewPage1
 
@@ -779,7 +785,7 @@ Public Class frmPriceChartPlanMasterRCDF
                     clsCommon.AddColumnsForChange(coll, "Posted_By", objCommonVar.CurrentUserCode)
                     clsCommon.AddColumnsForChange(coll, "Posted_Date", clsCommon.myCstr(clsCommon.GetPrintDate(dtCurrent, "dd/MMM/yyyy hh:mm:ss tt")))
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PRICE_CHART_PLANNING", OMInsertOrUpdate.Update, "Planning_Code='" + txtCode.Value + "'", trans)
-
+                    clsPriceChartPlanning.GenerateFarmerPrice(Code, trans)
                     trans.Commit()
                     clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
