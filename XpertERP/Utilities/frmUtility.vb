@@ -10346,7 +10346,7 @@ Public Class FrmUtility
                         'Dim strLocationCode As String = clsCommon.myCstr(dt.Rows(ii)("NewLocCode"))
                         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                         Try
-                            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, False)
+                            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, False, False)
                             clsPSShipmentHead.CreateJournalEntry(obj.Document_Code, trans, strVoucherNo)
                             clsDBFuncationality.ExecuteNonQuery("Insert into TEMP_CREATED_PDISPATCH values('" & strDocNo & "','" & strVoucherNo & "')", trans)
                             trans.Commit()
@@ -13188,7 +13188,7 @@ Public Class FrmUtility
                             qry = "Delete from TSPL_JOURNAL_MASTER where voucher_no='" + strShipmentJVNo + "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, True)
+                            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, False, False)
                             clsPSShipmentHead.UpdateInventoryMovement(obj, trans, True, True)
                             clsPSShipmentHead.CreateJournalEntry(strDocNo, trans, strShipmentJVNo, True)
 
@@ -17293,7 +17293,7 @@ line1:
                             qry = "Delete from TSPL_JOURNAL_MASTER where voucher_no='" + strShipmentJVNo + "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, True)
+                            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, False, False)
                             clsPSShipmentHead.UpdateInventoryMovement(obj, trans, True, True)
                             clsPSShipmentHead.CreateJournalEntry(strDocNo, trans, strShipmentJVNo)
 
@@ -17509,7 +17509,7 @@ line1:
                             qry = "Delete from TSPL_JOURNAL_MASTER where voucher_no='" + strShipmentJVNo + "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, True)
+                            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, False, False)
                             clsPSShipmentHead.UpdateInventoryMovement(obj, trans, True, True)
                             clsPSShipmentHead.CreateJournalEntry(strDocNo, trans, strShipmentJVNo)
 
@@ -18892,7 +18892,7 @@ line1:
                             qry = "Delete from TSPL_JOURNAL_MASTER where voucher_no='" + strShipmentJVNo + "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, True)
+                            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, False, False)
                             clsPSShipmentHead.CreateJournalEntry(strDocNo, trans, strShipmentJVNo, True)
 
                             clsDBFuncationality.ExecuteNonQuery("Insert into TEMP_CREATED_DAIRY_SHIPMENT values('" & strDocNo & "')", trans)
@@ -23379,7 +23379,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                     Dim strInvoiceARJENo As String = clsCommon.myCstr(dt.Rows(ii)("Invoice_No_AR_JV_NO"))
                     trans = clsDBFuncationality.GetTransactin()
                     Try
-                        Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, True)
+                        Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, False, False)
                         clsPSShipmentHead.UpdateInventoryMovement(obj, trans, True, True, IIf(MyDateTimePicker5.Checked, MyDateTimePicker5.Value, Nothing))
                         clsPSShipmentHead.CreateJournalEntry(strDocNo, trans, strShipmentJVNo)
 
@@ -23901,7 +23901,7 @@ Recreate:
                                     trans = clsDBFuncationality.GetTransactin()
                                     Try
                                         If clsCommon.CompairString(strDocType, "S") = CompairStringResult.Equal Then
-                                            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, True)
+                                            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, False, False)
                                             Dim ExtraWhrForAvg As String = ""
                                             If Not MyCheckBox11.Checked Then
                                                 ExtraWhrForAvg = "  and 2= case when Trans_Type='Transfer' and InOut='I' then 1 else 2 end  "
@@ -26736,7 +26736,7 @@ left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=
                             For Each docno As String In arr
                                 'clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmSaleDispatchDairy, docno)
                                 Dim obj As New clsPSShipmentHead()
-                                obj = clsPSShipmentHead.GetData(docno, NavigatorType.Current, trans, True)
+                                obj = clsPSShipmentHead.GetData(docno, NavigatorType.Current, trans, False, False)
                                 TotalSCAmt = 0
                                 TotalDCAmt = 0
                                 TotalTCAmt = 0

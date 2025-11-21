@@ -8,6 +8,7 @@ Public Class FrmSalesOrderDispatch
     Dim isInsideLoadData As Boolean = False
     Dim isCellValueChangedOpen As Boolean = False
     Dim GSTStatus As Boolean = False
+    Dim OneTimeCheck As Boolean = False
     Dim CalculateTaxRatefromItemwsieTaxOnSale As Integer = 0
     Const colLineNo As String = "colLineNo"
     Const colRowType As String = "colRowType"
@@ -2230,7 +2231,7 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
         Try
             isInsideLoadData = True
             Dim obj As New clsPSShipmentHead()
-            obj = clsPSShipmentHead.GetData(strCode, NavTyep, Nothing)
+            obj = clsPSShipmentHead.GetData(strCode, NavTyep, Nothing, False, True)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
                 LoadBlankGrid()
                 AddNew()
@@ -3039,4 +3040,59 @@ from TSPL_SD_SHIPMENT_HEAD left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT
             Throw New Exception(ex.Message)
         End Try
     End Sub
+
+    Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
+        Dim frm1 As New FrmPWD(Nothing)
+        frm1.strType = clsFixedParameterType.Transactionupdate
+        frm1.strCode = clsFixedParameterCode.DispatchCancel
+        frm1.ShowDialog()
+        If frm1.isPasswordCorrect Then
+            CancelData()
+            OneTimeCheck = True
+        End If
+    End Sub
+    Function CancelData() As Boolean
+        Try
+            'If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
+            '    Throw New Exception("Code is empty")
+            'End If
+            Dim isEinvoiceCancelled As Boolean = False
+            If clsCommon.MyMessageBoxShow(Me, "Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+                Return False
+            End If
+            'Dim strIrnNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select IRN_No from tspl_sd_sale_invoice_head where Against_Shipment_No='" & txtDocNo.Value & "'"))
+            'If clsCommon.myLen(strIrnNo) > 0 Then
+            '    If clsCommon.MyMessageBoxShow(Me, "Is E-invoice Cancelled on GST Portal?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            '        isEinvoiceCancelled = True
+            '    End If
+            'End If
+
+            'Dim strSaleReturnNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Document_Code from TSPL_SD_SALE_RETURN_HEAD where Against_Invoice_No='" & txtInvoiceno.Text & "' "))
+            'If clsCommon.myLen(strSaleReturnNo) > 0 Then
+            '    Throw New Exception("You cannot cancelled this document because its Sale Return (" + clsCommon.myCstr(strSaleReturnNo) + ") has been created.")
+            'End If
+            Dim strReceiptCount As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select receipt_no from TSPL_RECEIPT_DETAIL where Document_No in (Select Document_No from TSPL_Customer_Invoice_Head  where against_Sale_no='" & txtInvoiceno.Text & "') "))
+            If clsCommon.myLen(strReceiptCount) > 0 Then
+                Throw New Exception("You cannot cancelled this document because receiving (" + clsCommon.myCstr(strReceiptCount) + ") has been done against its AR Invoice.")
+            End If
+            Dim strDairyGAtePassCount As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_CUSTOMER_TENDER_GATE_PASS where Dispatch_Code='" & txtDocCode.Value & "' "))
+            If clsCommon.myLen(strDairyGAtePassCount) > 0 Then
+                Throw New Exception("You cannot cancelled this document because Gate Pass (" + clsCommon.myCstr(strDairyGAtePassCount) + ") has been created.")
+            End If
+
+            'If FlagDocumentIsTaxable = 1 AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value) AndAlso clsCommon.CompairString(EInvoiceType, "BB") = CompairStringResult.Equal AndAlso Not isEinvoiceCancelled Then
+            '    Dim EInvoiceCancelTimeValid As Int64 = 0
+            '    EInvoiceCancelTimeValid = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" Select  isnull (DATEDIFF(hour,EInvoice_Posting_Date,GETDATE()),0) as PostedHours from tspl_sd_sale_invoice_head where  document_code = '" + txtInvoiceno.Text + "'"))
+            '    If EInvoiceCancelTimeValid >= 24 Then
+            '        Throw New Exception("Invoice can not be cancelled.It has been more than 24 hours.")
+            '    End If
+            'End If
+            clsPSShipmentHead.CancelData(Me.Form_ID, txtDocCode.Value, txtInvoiceno.Text, NavigatorType.Current)
+            clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
+            AddNew()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+        Return True
+    End Function
 End Class
