@@ -1388,6 +1388,11 @@ Public Class clsFixedParameterCode
     Public Const B2CDocumentAmountRangeOtherState As String = "B2C Document Amount Range Other State"
     Public Const B2CDocumentAmountRange As String = "B2C Document Amount Range"
     Public Const TuneTime As String = "Tune Time"
+
+    Public Const BMCStartTime As String = "BMC Start Time"
+    Public Const BMCEndHours As String = "BMC End Hours"
+    Public Const DCSEndHours As String = "DCS End Hours"
+
     Public Const ApplySendApprovalSetting As String = "Apply Send Approval Setting"
     Public Const ViewDCSMilkPurchaseRegister As String = "View DCS Milk Purchase Register"
     Public Const NoOfDCSToLoadDeductionData As String = "No Of DCS To Load Deduction Data"
@@ -2994,8 +2999,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.DefaultFilesPath, clsFixedParameterCode.DefaultFilesPath, "E:\XpertServices\XpertFileUpload\Upload", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.B2CDocumentAmountRangeOtherState, clsFixedParameterCode.B2CDocumentAmountRangeOtherState, "100000", "Define Document Amount Range For Other State B2C Large/Small")
         InsertDefaultValueFixedParameter(clsFixedParameterType.B2CDocumentAmountRange, clsFixedParameterCode.B2CDocumentAmountRange, "250000", "Define Document Amount Range For Same State B2C Large/Small")
-        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TuneTime, "NA", "NA [27-Mar-2025 12:00:00AM to 27-Mar-2025 11:59:59PM]; 06:00:00AM [27-Mar-2025 06:00:00AM to 28-Mar-2025 05:59:59AM]")
-        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.ViewDCSMilkPurchaseRegister, "0", "0:OFF,1:ON;Show DCS Milk Purchase register on APP")
+
         InsertDefaultValueFixedParameter(clsFixedParameterType.NoOfDCSToLoadDeductionData, clsFixedParameterCode.NoOfDCSToLoadDeductionData, "50", "It Should above 50")
         InsertDefaultValueFixedParameter(clsFixedParameterType.DCSWiseFilterEnableOnSavingCheck, clsFixedParameterCode.DCSWiseFilterEnableOnSavingCheck, "0", "0:OFF,1:ON;Show DCS Filter")
         InsertDefaultValueFixedParameter(clsFixedParameterType.XpertAPI, clsFixedParameterCode.SetDCSAvgFATSNF, "0", "0:OFF;1:ON")
@@ -3139,6 +3143,12 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.IncludeOwnBMC, "1", "1:On,0:Off; Include Own BMC in BMC List")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TransactionForCurrentDateOnly, "1", "1:On;0:Off Disable Date selection by user")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.AddPostFunctionality, "0", "0:OFF,1:ON;Add Post functionality in BMC DCS APK")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TuneTime, "NA", "NA [27-Mar-2025 12:00:00AM to 27-Mar-2025 11:59:59PM]; 06:00:00AM [27-Mar-2025 06:00:00AM to 28-Mar-2025 05:59:59AM]")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.ViewDCSMilkPurchaseRegister, "0", "0:OFF,1:ON;Show DCS Milk Purchase register on APP")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.BMCStartTime, "02:00:00AM", "BMC Milk Collection Start Time")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.BMCEndHours, "12", "BMC End Time = BMC Start Time + Hours")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.DCSEndHours, "6", "DCS End Time = BMC Start Time + Hours")
+
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAPPVersion, clsFixedParameterCode.comAnchal_ucdfErp, "", "Version of Aanchal Pro APP [0 Skip]")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAPPVersion, clsFixedParameterCode.comtecxpertappsaras, "", "Version of SARAS Sales APP [0 Skip]")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAPPVersion, clsFixedParameterCode.comTecxpertSarasPro, "", "Version of SARAS Pro APP [0 Skip]")
@@ -6450,6 +6460,12 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.AllowIncreaseDispatchQty, clsFixedParameterCode.AllowIncreaseDispatchQty, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.AddPostFunctionality, EnumControlType.CheckBox)
+
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.BMCStartTime, EnumControlType.TextBox)
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.BMCEndHours, EnumControlType.TextBox)
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.DCSEndHours, EnumControlType.TextBox)
+
+
         InsertDefaultValue(clsUserMgtCode.frmDairyGatePass, clsFixedParameterType.AllowGatePassDemandTripWise, clsFixedParameterCode.AllowGatePassDemandTripWise, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.ConvertPouchtoCrate, clsFixedParameterCode.ConvertPouchtoCrate, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.DontCreateForPouch, clsFixedParameterCode.DontCreateForPouch, EnumControlType.CheckBox)
