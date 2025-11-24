@@ -438,7 +438,7 @@ Public Class clsDairyGatePassEntry
                     For Each dr As DataRow In dt.Rows
                         Dim objSD As New clsPSShipmentHead()
 
-                        objSD = clsPSShipmentHead.GetData(clsCommon.myCstr(dr("Document_Code")), NavigatorType.Current, trans, True)
+                        objSD = clsPSShipmentHead.GetData(clsCommon.myCstr(dr("Document_Code")), NavigatorType.Current, trans, False, False, True)
                         For Each GParr As clsDairyGPDetail In obj.Arr
                             Dim r As Integer = 0
                             For Each SDarr As clsPSShipmentHeadDetail In objSD.Arr
@@ -718,7 +718,7 @@ Public Class clsDairyGatePassEntry
                     For Each dr As DataRow In dt1.Rows
                         Dim objSD As New clsPSShipmentHead()
 
-                        objSD = clsPSShipmentHead.GetData(clsCommon.myCstr(dr("Document_Code")), NavigatorType.Current, trans, True)
+                        objSD = clsPSShipmentHead.GetData(clsCommon.myCstr(dr("Document_Code")), NavigatorType.Current, trans, False, False, True)
                         TransType_Str = clsDBFuncationality.getSingleValue("SELECT isnull(Trans_Type,'') as Trans_Type FROM TSPL_SD_SHIPMENT_HEAD where Document_Code = '" + objSD.Document_Code + "'", trans)
 
                         TransType_Str = TransType_Str + "-SH"

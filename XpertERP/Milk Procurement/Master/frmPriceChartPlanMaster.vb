@@ -652,7 +652,7 @@ Public Class frmPriceChartPlanMaster
                 clsCommon.AddColumnsForChange(coll, "Posted_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Posted_Date", clsCommon.myCstr(clsCommon.GetPrintDate(dtCurrent, "dd/MMM/yyyy hh:mm:ss tt")))
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PRICE_CHART_PLANNING", OMInsertOrUpdate.Update, "Planning_Code='" + txtCode.Value + "'", trans)
-
+                clsPriceChartPlanning.GenerateFarmerPrice(Code, trans)
                 trans.Commit()
                 clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully", Me.Text)
                 LoadData(txtCode.Value, NavigatorType.Current)

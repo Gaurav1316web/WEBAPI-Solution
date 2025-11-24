@@ -328,7 +328,7 @@ Public Class clsCustomerTenderOrder
         Try
             Dim Qry As String = "select isnull(Status,0) as Status from TSPL_CUSTOMER_TENDER_ORDER where Document_Code='" & strCode & "'"
             If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry, trans)) = 0 Then
-                Throw New Exception("Transaction status should be posted for reverse and unpost")
+                Throw New Exception("Transaction status should be posted for Amendment")
             End If
             Qry = "Select Against_Cust_Order from TSPL_SD_SHIPMENT_HEAD where Against_Cust_Order='" & strCode & "'"
             If clsCommon.myLen(clsCommon.myCstr(clsDBFuncationality.getSingleValue(Qry, trans))) > 0 Then
