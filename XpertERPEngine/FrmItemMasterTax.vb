@@ -125,6 +125,7 @@ FROM TSPL_ITEM_MASTER"
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ITEM_MASTER_TAXABLE", OMInsertOrUpdate.Insert, "", trans)
                 'strQry = "Update TSPL_ITEM_MASTER set istaxable='" & clsCommon.myCstr(IIf(chkIsTaxable.Checked, 1, 0)) & "' where Item_Code='" & clsCommon.myCstr(txtitemCode.Text) & "'"
                 'clsDBFuncationality.ExecuteNonQuery("")
+                clsDBFuncationality.ExecuteNonQuery("update TSPL_ITEM_MASTER set IsTaxable='" & IIf(chkIsTaxable.Checked, 1, 0) & "' where Item_Code='" & txtitemCode.Text & "'", trans)
                 trans.Commit()
                 clsCommon.MyMessageBoxShow(Me, "Saved Successfully", Me.Text)
                 btnSave.Enabled = False
