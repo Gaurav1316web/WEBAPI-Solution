@@ -49,6 +49,10 @@ Public Class ClsEInvoiceOFAPIs
         Try
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select * from TSPL_EInvoiceHeader_Info where Comp_Code='" & strCompCode & "' and RequiredFor ='GenerateAuthToken_Get' and Location_Code='" & strLocation & "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count >> 0 Then
+                Const Tls12Value As Integer = &HC00
+                Dim Tls12Protocol As System.Net.SecurityProtocolType = CType(Tls12Value, System.Net.SecurityProtocolType)
+                ' Set the security protocol globally for all HTTPS requests
+                System.Net.ServicePointManager.SecurityProtocol = Tls12Protocol
                 httpRequest = CType(WebRequest.Create(clsCommon.myCstr(dt.Rows(0)("Url"))), HttpWebRequest)
                 httpRequest.ContentType = "application/json"
                 httpRequest.Headers.Add("username", clsCommon.myCstr(dt.Rows(0)("username")))
@@ -109,6 +113,10 @@ Public Class ClsEInvoiceOFAPIs
                 End If
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                 If dt IsNot Nothing AndAlso dt.Rows.Count >> 0 Then
+                    Const Tls12Value As Integer = &HC00
+                    Dim Tls12Protocol As System.Net.SecurityProtocolType = CType(Tls12Value, System.Net.SecurityProtocolType)
+                    ' Set the security protocol globally for all HTTPS requests
+                    System.Net.ServicePointManager.SecurityProtocol = Tls12Protocol
                     httpRequest = CType(WebRequest.Create(clsCommon.myCstr(dt.Rows(0)("Url"))), HttpWebRequest)
                     httpRequest.ContentType = "application/json"
                     If clsCommon.CompairString(strEInvoiceVendor.ToUpper(), "MASTERGST") = CompairStringResult.Equal Then
@@ -204,7 +212,12 @@ Public Class ClsEInvoiceOFAPIs
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select * from TSPL_EInvoiceHeader_Info where Comp_Code='" & strCompCode & "' and RequiredFor ='authenticate_Get' and VendorName='MASTERGST'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count >> 0 Then
                 ' Set the TLS protocol version
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls Or SecurityProtocolType.Ssl3
+                Const Tls12Value As Integer = &HC00
+                Dim Tls12Protocol As System.Net.SecurityProtocolType = CType(Tls12Value, System.Net.SecurityProtocolType)
+                ' Set the security protocol globally for all HTTPS requests
+                System.Net.ServicePointManager.SecurityProtocol = Tls12Protocol
+                'ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls Or SecurityProtocolType.Ssl3
+                'ServicePointManager.SecurityProtocol = SecurityProtocolType.Or SecurityProtocolType.Tls11
                 httpRequest = CType(WebRequest.Create(clsCommon.myCstr(dt.Rows(0)("Url"))), HttpWebRequest)
                 httpRequest.ContentType = "application/json"
                 httpRequest.Accept = "application/json"
@@ -261,6 +274,10 @@ Public Class ClsEInvoiceOFAPIs
                 End If
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                 If dt IsNot Nothing AndAlso dt.Rows.Count >> 0 Then
+                    Const Tls12Value As Integer = &HC00
+                    Dim Tls12Protocol As System.Net.SecurityProtocolType = CType(Tls12Value, System.Net.SecurityProtocolType)
+                    ' Set the security protocol globally for all HTTPS requests
+                    System.Net.ServicePointManager.SecurityProtocol = Tls12Protocol
                     httpRequest = CType(WebRequest.Create(clsCommon.myCstr(dt.Rows(0)("Url"))), HttpWebRequest)
                     httpRequest.ContentType = "application/json"
                     If clsCommon.CompairString(strEInvoiceVendor.ToUpper(), "MASTERGST") = CompairStringResult.Equal Then
@@ -445,6 +462,10 @@ Public Class ClsEInvoiceOFAPIs
                 End If
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    Const Tls12Value As Integer = &HC00
+                    Dim Tls12Protocol As System.Net.SecurityProtocolType = CType(Tls12Value, System.Net.SecurityProtocolType)
+                    ' Set the security protocol globally for all HTTPS requests
+                    System.Net.ServicePointManager.SecurityProtocol = Tls12Protocol
                     httpRequest = CType(WebRequest.Create(clsCommon.myCstr(dt.Rows(0)("Url"))), HttpWebRequest)
                     httpRequest.ContentType = "application/json"
                     If clsCommon.CompairString(strEInvoiceVendor.ToUpper(), "MASTERGST") = CompairStringResult.Equal Then
@@ -709,6 +730,10 @@ Public Class ClsEInvoiceOFAPIs
                 End If
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                 If dt IsNot Nothing AndAlso dt.Rows.Count >> 0 Then
+                    Const Tls12Value As Integer = &HC00
+                    Dim Tls12Protocol As System.Net.SecurityProtocolType = CType(Tls12Value, System.Net.SecurityProtocolType)
+                    ' Set the security protocol globally for all HTTPS requests
+                    System.Net.ServicePointManager.SecurityProtocol = Tls12Protocol
                     qry = clsCommon.myCstr(dt.Rows(0)("Url"))
                     qry = qry.Replace("GENERATE", "GENERATE_EWAYBILL")
                     httpRequest = CType(WebRequest.Create(qry), HttpWebRequest)
@@ -818,6 +843,10 @@ Public Class ClsEInvoiceOFAPIs
                 End If
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                 If dt IsNot Nothing AndAlso dt.Rows.Count >> 0 Then
+                    Const Tls12Value As Integer = &HC00
+                    Dim Tls12Protocol As System.Net.SecurityProtocolType = CType(Tls12Value, System.Net.SecurityProtocolType)
+                    ' Set the security protocol globally for all HTTPS requests
+                    System.Net.ServicePointManager.SecurityProtocol = Tls12Protocol
                     httpRequest = CType(WebRequest.Create(clsCommon.myCstr(dt.Rows(0)("Url"))), HttpWebRequest)
                     httpRequest.ContentType = "application/json"
                     If clsCommon.CompairString(strEInvoiceVendor.ToUpper(), "MASTERGST") = CompairStringResult.Equal Then
