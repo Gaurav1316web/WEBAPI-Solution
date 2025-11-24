@@ -2805,7 +2805,7 @@ left outer join  TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VAL
             End If
             whrcls += " ) as s pivot(max(cat_value) for description in ([BRAND],[ITEM TYPE1],[MAIN GROUP],[PACKING],[PRODUCT CATEGORY],[SKU],[SUB GROUP]))t  "
             ' Dim dr As DataRow = clsCommon.ShowSelectFormForRow("MSA@Items", qry)
-            gv1.CurrentRow.Cells(colICode).Value = clsCommon.ShowSelectForm("ITMMSTFND", qry, "Item", whrcls, gv1.CurrentRow.Cells(colICode).Value, "Item", False)
+            gv1.CurrentRow.Cells(colICode).Value = clsCommon.ShowSelectForm("ITEMSTFND", qry, "Item", whrcls, gv1.CurrentRow.Cells(colICode).Value, "Item", False)
 
             qry += " where " & whrcls & ""
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
