@@ -1175,6 +1175,14 @@ Public Class frmLocationMaster
                 chkIsMainPlant.Checked = IIf(clsCommon.myCstr(row("IsMainPlant")) = "1", True, False)
                 chkIsProduction.Checked = IIf(clsCommon.myCstr(row("IsProduction")) = "1", True, False)
                 isEdit = True
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
+                    If chkIsMainPlant.Checked Then
+                        chkIsEinvoice.Visible = True
+                    Else
+                        chkIsEinvoice.Visible = False
+                        chkIsEinvoice.Checked = False
+                    End If
+                End If
                 chk_HO.Checked = False
                 If clsCommon.CompairString(cmbloc_cate.SelectedValue, "HO") = CompairStringResult.Equal Then
                     chk_HO.Checked = True
@@ -1527,6 +1535,9 @@ Public Class frmLocationMaster
         chkUseInJobWork.Checked = False
         chkUseInJobWork.Visible = False
         chkIsEinvoice.Checked = False
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
+            chkIsEinvoice.Visible = False
+        End If
         chkParlour.Checked = False
         txtLocShortName.Text = ""
         rbtnDispatchfromDO.IsChecked = True
