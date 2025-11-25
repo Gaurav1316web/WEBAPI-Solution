@@ -1148,6 +1148,7 @@
     <None Include="Crystal Reports\crptExciseDetails.rpt" />
     <None Include="Crystal Reports\crptExciseSummary.rpt" />
     <None Include="Crystal Reports\Dairy Sales Report\crptBPLprint.rpt" />
+    <None Include="Crystal Reports\Dairy Sales Report\rptVendorServiceInvoice_Union.rpt" />
     <None Include="Crystal Reports\Fixed Assets\frmAcquisionEntryReport.rpt" />
     <None Include="Crystal Reports\Fixed Assets\frmAssetScrapSale.rpt" />
     <None Include="Crystal Reports\General Ledger\1812012crptGLTrans.rpt" />

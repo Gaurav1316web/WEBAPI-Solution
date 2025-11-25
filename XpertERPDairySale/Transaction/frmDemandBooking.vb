@@ -6816,12 +6816,12 @@ group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Co
             Freshitem = "Select max(TSPL_ITEM_MASTER.Short_Description)Fresh_Item,max(TSPL_ITEM_MASTER.Item_Desc)Item_Desc,max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq,MAX(TSPL_ITEM_MASTER.Print_Sequence)Print_Sequence from TSPL_DEMAND_BOOKING_DETAIL
 LEFT OUTER JOIN TSPL_DEMAND_BOOKING_MASTER ON TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
 LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
-WHERE TSPL_DEMAND_BOOKING_MASTER.Document_No='" & clsCommon.myCstr(txtDocNo.Value) & "' AND ((TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) or (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 and Is_CrateType = 1))
+WHERE TSPL_DEMAND_BOOKING_MASTER.Document_No='" & clsCommon.myCstr(txtDocNo.Value) & "' AND ((TSPL_ITEM_MASTER.Is_FreshItem = 1 ) or (TSPL_ITEM_MASTER.Is_FreshItem = 1 and Is_CrateType = 1))
  group by TSPL_ITEM_MASTER.Item_Code ORDER BY Sku_Seq "
             ProductItem = "Select max(TSPL_ITEM_MASTER.Short_Description)Product_Item,max(TSPL_ITEM_MASTER.Item_Desc)Item_Desc,max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq,MAX(TSPL_ITEM_MASTER.Print_Sequence)Print_Sequence from TSPL_DEMAND_BOOKING_DETAIL
 LEFT OUTER JOIN TSPL_DEMAND_BOOKING_MASTER ON TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
 LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
-WHERE TSPL_DEMAND_BOOKING_MASTER.Document_No='" & clsCommon.myCstr(txtDocNo.Value) & "' AND TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1
+WHERE TSPL_DEMAND_BOOKING_MASTER.Document_No='" & clsCommon.myCstr(txtDocNo.Value) & "' AND TSPL_ITEM_MASTER.Is_Ambient = 1 
  group by TSPL_ITEM_MASTER.Item_Code ORDER BY Sku_Seq "
 
 
