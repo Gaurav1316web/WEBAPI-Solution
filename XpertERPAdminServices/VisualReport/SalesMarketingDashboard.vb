@@ -11,11 +11,11 @@ Public Class SalesMarketingDashboard
         Addnew()
     End Sub
     Sub Addnew()
-        txtFromDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy")
-        txtToDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy")
+        ' txtFromDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy")
+        'txtToDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy")
         gv1.DataSource = Nothing
-        txtUnion.arrValueMember = Nothing
-        cmbReportType.SelectedIndex = 0
+        'txtUnion.arrValueMember = Nothing
+        'cmbReportType.SelectedIndex = 0
         EnableDisableCtrl(True)
     End Sub
 
@@ -74,32 +74,21 @@ Public Class SalesMarketingDashboard
                     If ii > 0 Then
                         query += " UNION ALL "
                     End If
+                    'Divya
 
-
-                    query += " select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
-                        '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,max(dis_demand.Union_Contact_Person) as Union_Contact_Person,
-						max(dis_demand.Union_Contact_PhoneNo) as Union_Contact_PhoneNo,
-                     ISNULL(SUM(Dis_Demand.TotalLtr_ItemWiseDemand), 0) AS DEMAND_INLTR,
-                    ISNULL(SUM(Dis_Demand.FATKGDemand), 0) AS Dis_FATKG,
-                    ISNULL(SUM(Dis_Demand.SNFKGDemand), 0) AS Dis_SNFKG,
-                    ISNULL(SUM(DEMANDINKG.DEMANDQTYKG), 0) AS DEMANDQTYKG,
-                    ISNULL(SUM(DEMANDINKG.FATKGPRODUCT), 0) AS FATKGPRODUCT,
-                    ISNULL(SUM(DEMANDINKG.SNFKGPRODUCT), 0) AS SNFKGPRODUCT
+                    query += " select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                        '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,max(Union_Contact_Person) as Union_Contact_Person,max(Union_Contact_PhoneNo) as Union_Contact_PhoneNo,
+                     ISNULL(SUM(TotalLtr_ItemWiseDemand), 0) AS DEMAND_INLTR,
+                    ISNULL(SUM(FATKGDemand), 0) AS Dis_FATKG,
+                    ISNULL(SUM(SNFKGDemand), 0) AS Dis_SNFKG,
+                    ISNULL(SUM(DEMANDQTYKG), 0) AS DEMANDQTYKG,
+                    ISNULL(SUM(FATKGPRODUCT), 0) AS FATKGPRODUCT,
+                    ISNULL(SUM(SNFKGPRODUCT), 0) AS SNFKGPRODUCT
 					FROM
-					(SELECT 
-                        SUM(TotalLtr_ItemWiseDemand) AS TotalLtr_ItemWiseDemand,
-                        SUM(FATKGDemand) AS FATKGDemand,
-                        SUM(SNFKGDemand) AS SNFKGDemand,
-                        max(Union_Contact_Person) as Union_Contact_Person,
-						max(Union_Contact_PhoneNo) as Union_Contact_PhoneNo
-						
-                    FROM (
-                    (SELECT 
-                        SUM(TotalLtr_ItemWise) AS TotalLtr_ItemWiseDemand,
-                        SUM(TotalLtr_ItemWise * im.STD_FatPer / 100) AS FATKGDemand,
-                        SUM(TotalLtr_ItemWise * im.STD_SNFPer / 100) AS SNFKGDemand,
-                        max(tspl_company_master.Union_Contact_Person) as Union_Contact_Person,
-						max(tspl_company_master.Union_Contact_PhoneNo) as Union_Contact_PhoneNo
+					( 
+----1st
+SELECT   SUM(TotalLtr_ItemWise) AS TotalLtr_ItemWiseDemand,SUM(TotalLtr_ItemWise * im.STD_FatPer / 100) AS FATKGDemand,SUM(TotalLtr_ItemWise * im.STD_SNFPer / 100) AS SNFKGDemand,max(tspl_company_master.Union_Contact_Person) as Union_Contact_Person,
+						max(tspl_company_master.Union_Contact_PhoneNo) as Union_Contact_PhoneNo,0 AS DEMANDQTYKG,0 AS FATKGPRODUCT,0 AS SNFKGPRODUCT
                     FROM 
                         [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL dbd
                     LEFT JOIN 
@@ -112,14 +101,16 @@ Public Class SalesMarketingDashboard
                         AND im.IsTaxable = 0
                         AND im.Is_FreshItem = 1
                           AND dbm.Posted=1
+
+                        ------2nd
+
                         union all
                         SELECT 
                       cast(  SUM(xxxx.Qty) as decimal(18,2)) AS TotalLtr_ItemWiseDemand,
                         SUM(xxxx.Fat_KG ) AS FATKGDemand,
                         SUM(xxxx.SNF_KG) AS SNFKGDemand,
                         	'' as Union_Contact_Person,
-						'' as Union_Contact_PhoneNo
-						
+						'' as Union_Contact_PhoneNo,0 AS DEMANDQTYKG,0 AS FATKGPRODUCT,0 AS SNFKGPRODUCT
                 from (
                 SELECT case when isnull(ConvertDiv.Conversion_Factor,0)=0 then 0 else  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Qty*ConvertMul.Conversion_Factor/ConvertDiv.Conversion_Factor end as Qty ,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Fat_KG ,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.SNF_KG,0 as Route_No,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Unit_code
                 FROM  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale
@@ -129,17 +120,12 @@ Public Class SalesMarketingDashboard
 
                 WHERE CONVERT(DATE, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_BulkSale.Document_Date, 103)  BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
                              AND TSPL_Dispatch_BulkSale.Posted=1  
-                )xxxx ))Disp_BUlksale
-                    ) AS Dis_Demand,
+                )xxxx 
 
-					
-
-					(SELECT 
-                        SUM(DEMANDQTYKG) AS DEMANDQTYKG,
-                        SUM(FATKGPRODUCT) AS FATKGPRODUCT,
-                        SUM(SNFKGPRODUCT) AS SNFKGPRODUCT
-                    FROM (
-                    (SELECT 
+				---3rd
+				UNION ALL
+				SELECT 0 as TotalLtr_ItemWiseDemand,0 AS FATKGDemand,
+               0 AS SNFKGDemand, max(TSPL_COMPANY_MASTER.Union_Contact_Person) as Union_Contact_Person, max(TSPL_COMPANY_MASTER.Union_Contact_PhoneNo) as Union_Contact_PhoneNo,
                         SUM(CASE 
                                 WHEN dbd.Unit_code = 'POUCH' THEN dbd.qty * POUCHCONVER.Conversion_Factor / KGCONVER.Conversion_Factor 
                                 WHEN dbd.Unit_code = 'BOTTLE' THEN dbd.qty * BOTTLECONVER.Conversion_Factor / KGCONVER.Conversion_Factor
@@ -165,15 +151,13 @@ Public Class SalesMarketingDashboard
                                 ELSE 0 
                             END )* im.STD_SNFPer / 100,0)) AS SNFKGPRODUCT
 							
-							--,
-                       -- SUM(TotalLtr_ItemWise * im.STD_FatPer / 100) AS FATKGDemand,
-                        --SUM(TotalLtr_ItemWise * im.STD_SNFPer / 100) AS SNFKGDemand
-                    FROM 
+		                    FROM 
                         [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL dbd
                     LEFT JOIN 
                         [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_master dbm ON dbm.Document_No = dbd.Document_No
                     LEFT JOIN 
                         [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER im ON im.Item_Code = dbd.Item_Code
+						  left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER.Comp_Code=im.Comp_Code
 						LEFT JOIN 
                         (SELECT Conversion_factor, Item_code FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL WHERE UOM_Code='POUCH') AS POUCHCONVER ON POUCHCONVER.Item_code = dbd.Item_Code
 						LEFT JOIN 
@@ -189,25 +173,56 @@ Public Class SalesMarketingDashboard
                         AND im.IsTaxable = 1
                         AND im.Is_Ambient = 1
                             AND dbm.Posted=1
+							---4th
+
                         union all
-                        SELECT 
+                        SELECT 0 as TotalLtr_ItemWiseDemand,0 AS FATKGDemand,
+               0 AS SNFKGDemand, max(Union_Contact_Person) as Union_Contact_Person, max(Union_Contact_PhoneNo) as Union_Contact_PhoneNo,
                       cast(  SUM(xxxx.Qty) as decimal(18,2)) AS DEMANDQTYKG,
                         SUM(xxxx.Fat_KG ) AS FATKGPRODUCT,
                         SUM(xxxx.SNF_KG) AS SNFKGPRODUCT
                     from (
-                    SELECT case when isnull(ConvertDiv.Conversion_Factor,0)=0 then 0 else  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Qty*ConvertMul.Conversion_Factor/ConvertDiv.Conversion_Factor end as Qty ,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Fat_KG ,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.SNF_KG,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Unit_code
+                    SELECT case when isnull(ConvertDiv.Conversion_Factor,0)=0 then 0 else  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Qty*ConvertMul.Conversion_Factor/ConvertDiv.Conversion_Factor end as Qty ,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Fat_KG ,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.SNF_KG,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Unit_code,TSPL_COMPANY_MASTER.Union_Contact_PhoneNo,TSPL_COMPANY_MASTER.Union_Contact_Person
                     FROM  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale
                     LEFT JOIN  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_BulkSale  ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_BulkSale.Document_No = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Document_No
                     inner join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL as ConvertMul on ConvertMul.Item_Code=[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Item_Code and ConvertMul.UOM_Code=[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Unit_code 
                     inner join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL as ConvertDiv on ConvertDiv .Item_Code=[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Item_Code and ConvertDiv.UOM_Code='KG'  
                     inner join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER on  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Item_Code=[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Item_Code
+					  left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER.Comp_Code=TSPL_ITEM_MASTER.Comp_Code
                     WHERE CONVERT(DATE, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_BulkSale.Document_Date, 103)  BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
                                               and Is_Ambient=1 and IsTaxable=1  AND TSPL_Dispatch_BulkSale.Posted=1      
-                    )xxxx ))Disp_BUlksale
-                    ) AS DEMANDINKG)FINAL "
+                    )xxxx 
+					
+					-----5TH 
+
+	union all
+
+	 SELECT 0 as TotalLtr_ItemWiseDemand, 0 AS FATKGDemand,
+              0 AS SNFKGDemand,
+                        max(Union_Contact_Person) as Union_Contact_Person,
+			     max(Union_Contact_PhoneNo) as Union_Contact_PhoneNo,
+              SUM(xxxx.Qty) AS DEMANDQTYKG,
+               SUM(xxxx.Fat_KG) AS FATKGPRODUCT,
+               SUM(xxxx.SNF_KG) AS SNFKGPRODUCT			    
+        FROM 
+        (
+            SELECT TSPL_COMPANY_MASTER.Union_Contact_Person,TSPL_COMPANY_MASTER.Union_Contact_PhoneNo,TSPL_ITEM_MASTER.STD_FatPer,TSPL_ITEM_MASTER.STD_SNFPer, CASE WHEN ISNULL(ConvertDiv.Conversion_Factor, 0) = 0 THEN 0 
+                        ELSE [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Qty * ConvertMul.Conversion_Factor / ConvertDiv.Conversion_Factor 
+                   END AS Qty,
+                   (Qty * STD_FatPer / 100) AS Fat_KG,
+                   (Qty * STD_SNFPer / 100) as SNF_KG
+            FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCT_DEMAND_BOOKING_DETAIL
+            LEFT JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCT_DEMAND_BOOKING_MASTER ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCT_DEMAND_BOOKING_MASTER.Document_No = 
+			[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Document_No
+			        LEFT JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER  ON TSPL_ITEM_MASTER.Item_Code = TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Item_Code
+            INNER JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL AS ConvertMul ON ConvertMul.Item_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Item_Code AND ConvertMul.UOM_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Unit_code 
+            INNER JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL AS ConvertDiv ON ConvertDiv.Item_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Item_Code AND ConvertDiv.UOM_Code = 'KG'
+			        left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER.Comp_Code=TSPL_ITEM_MASTER.Comp_Code
+            WHERE CONVERT(DATE, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCT_DEMAND_BOOKING_MASTER.Document_Date, 103)  BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' and TSPL_PRODUCT_DEMAND_BOOKING_MASTER.Posted=1
+        ) xxxx )Disp_BUlksale"
+                    'end
                 Next
             End If
-            'query = "select * from (" + query + ")xx "
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
             If dt2 IsNot Nothing OrElse dt2.Rows.Count > 0 Then
                 gv1.DataSource = Nothing
@@ -363,108 +378,53 @@ Public Class SalesMarketingDashboard
                     If ii > 0 Then
                         query += " UNION ALL "
                     End If
+                    'Divya---
 
-
-                    query += " select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
-                        '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,max(dis_demand.Union_Contact_Person) as Union_Contact_Person,
-						max(dis_demand.Union_Contact_PhoneNo) as Union_Contact_PhoneNo,
-
-                     
-	    Max(Dis_Demand.route_no) AS route_no,
-	   MAx(dis_demand.booth) as Booth,
-       ISNULL(SUM(Dis_Demand.TotalLtr_ItemWiseDemand), 0) AS DEMAND_INLTR,
-       ISNULL(SUM(Dis_Demand.FATKGDemand), 0) AS Dis_FATKG,
-       ISNULL(SUM(Dis_Demand.SNFKGDemand), 0) AS Dis_SNFKG,
-      
-       ISNULL(SUM(DEMANDINKG.DEMANDQTYKG), 0) AS DEMANDQTYKG,
-       ISNULL(SUM(DEMANDINKG.FATKGPRODUCT), 0) AS FATKGPRODUCT,
-       ISNULL(SUM(DEMANDINKG.SNFKGPRODUCT), 0) AS SNFKGPRODUCT
-FROM
-(
-    SELECT SUM(TotalLtr_ItemWiseDemand) AS TotalLtr_ItemWiseDemand,
-           SUM(FATKGDemand) AS FATKGDemand,
-           SUM(SNFKGDemand) AS SNFKGDemand,
-        count(distinct route_no)route_no,
-	   count(distinct Booth)Booth,
-                         max(Union_Contact_Person) as Union_Contact_Person,
-			     max(Union_Contact_PhoneNo) as Union_Contact_PhoneNo
-    FROM 
-    (
-        SELECT SUM(TotalLtr_ItemWise) AS TotalLtr_ItemWiseDemand,
-               SUM(TotalLtr_ItemWise * im.STD_FatPer / 100) AS FATKGDemand,
-               SUM(TotalLtr_ItemWise * im.STD_SNFPer / 100) AS SNFKGDemand,
-                        max(TSPL_COMPANY_MASTER.Union_Contact_Person) as Union_Contact_Person,
-			     max(TSPL_COMPANY_MASTER.Union_Contact_PhoneNo) as Union_Contact_PhoneNo,
-              dbm.route_no,
-			  dbd.Cust_Code AS Booth
+                    query += " select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                        '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,max(Union_Contact_Person) as Union_Contact_Person,
+						max(Union_Contact_PhoneNo) as Union_Contact_PhoneNo,count(distinct route_no) AS route_no,count(distinct Booth)Booth,ISNULL(SUM(TotalLtr_ItemWiseDemand), 0) AS DEMAND_INLTR,ISNULL(SUM(FATKGDemand), 0) AS Dis_FATKG,
+                        ISNULL(SUM(SNFKGDemand), 0) AS Dis_SNFKG,ISNULL(SUM(DEMANDQTYKG), 0) AS DEMANDQTYKG,ISNULL(SUM(FATKGPRODUCT), 0) AS FATKGPRODUCT,ISNULL(SUM(SNFKGPRODUCT), 0) AS SNFKGPRODUCT FROM ( SELECT SUM(TotalLtr_ItemWise) AS TotalLtr_ItemWiseDemand,SUM(TotalLtr_ItemWise * im.STD_FatPer / 100) AS FATKGDemand,SUM(TotalLtr_ItemWise * im.STD_SNFPer / 100) AS SNFKGDemand,max(TSPL_COMPANY_MASTER.Union_Contact_Person) as Union_Contact_Person,max(TSPL_COMPANY_MASTER.Union_Contact_PhoneNo) as Union_Contact_PhoneNo,
+              dbm.route_no,dbd.Cust_Code AS Booth,0 as DEMANDQTYKG, 0 as FATKGPRODUCT,0 as SNFKGPRODUCT
         FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL dbd
         LEFT JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_master dbm ON dbm.Document_No = dbd.Document_No
         LEFT JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER im ON im.Item_Code = dbd.Item_Code
         left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER.Comp_Code=im.Comp_Code
-        WHERE CONVERT(DATE, dbm.Document_Date, 103)  BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
-          AND im.IsTaxable = 0
-          AND im.Is_FreshItem = 1
-		  and dbm.Posted=1
+        WHERE CONVERT(DATE, dbm.Document_Date, 103)  BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' AND im.IsTaxable = 0 AND im.Is_FreshItem = 1 and dbm.Posted=1
         GROUP BY dbm.route_no,dbd.Cust_Code
-        
-        UNION ALL
-        
-        SELECT SUM(xxxx.Qty) AS TotalLtr_ItemWiseDemand,
-               SUM(xxxx.Fat_KG) AS FATKGDemand,
-               SUM(xxxx.SNF_KG) AS SNFKGDemand,
-        '' as Union_Contact_Person,
-			   '' as Union_Contact_PhoneNo,
-         NULL AS route_no,
-		 null as Booth
-        FROM 
-        (
+		---2ND
+		UNION ALL
+		SELECT SUM(xxxx.Qty) AS TotalLtr_ItemWiseDemand,SUM(xxxx.Fat_KG) AS FATKGDemand,SUM(xxxx.SNF_KG) AS SNFKGDemand,'' as Union_Contact_Person,'' as Union_Contact_PhoneNo,NULL AS route_no,
+		 null as Booth,0 as DEMANDQTYKG, 0 as FATKGPRODUCT,0 as SNFKGPRODUCT FROM  (
             SELECT CASE WHEN ISNULL(ConvertDiv.Conversion_Factor, 0) = 0 THEN 0 
                         ELSE [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Qty * ConvertMul.Conversion_Factor / ConvertDiv.Conversion_Factor 
                    END AS Qty,
-                   [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Fat_KG,
-                   [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.SNF_KG,
-                   NULL AS route_no,
-				   null as Booth
+                   [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Fat_KG, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.SNF_KG,NULL AS route_no,null as Booth
             FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale
             LEFT JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_BulkSale ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_BulkSale.Document_No = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Document_No
             INNER JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL AS ConvertMul ON ConvertMul.Item_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Item_Code AND ConvertMul.UOM_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Unit_code 
             INNER JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL AS ConvertDiv ON ConvertDiv.Item_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Item_Code AND ConvertDiv.UOM_Code = 'LTR'
             WHERE CONVERT(DATE, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_BulkSale.Document_Date, 103)  BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' and TSPL_Dispatch_BulkSale.Posted=1
         ) xxxx
-    ) Dis_Demand
-) Dis_Demand,
 
-(
-    SELECT SUM(DEMANDQTYKG) AS DEMANDQTYKG,
-           SUM(FATKGPRODUCT) AS FATKGPRODUCT,
-           SUM(SNFKGPRODUCT) AS SNFKGPRODUCT
-		  
-    FROM 
-    (
-        SELECT SUM(CASE 
-                       WHEN dbd.Unit_code = 'POUCH' THEN dbd.qty * POUCHCONVER.Conversion_Factor / KGCONVER.Conversion_Factor 
+		-----3RD
+		UNION ALL 
+		 SELECT 0 as TotalLtr_ItemWiseDemand,0 AS FATKGDemand,0 AS SNFKGDemand,max(TSPL_COMPANY_MASTER.Union_Contact_Person) as Union_Contact_Person,max(TSPL_COMPANY_MASTER.Union_Contact_PhoneNo) as Union_Contact_PhoneNo,
+              dbm.route_no,dbd.Cust_Code AS Booth,SUM(CASE WHEN dbd.Unit_code = 'POUCH' THEN dbd.qty * POUCHCONVER.Conversion_Factor / KGCONVER.Conversion_Factor 
                        WHEN dbd.Unit_code = 'BOTTLE' THEN dbd.qty * BOTTLECONVER.Conversion_Factor / KGCONVER.Conversion_Factor
                        WHEN dbd.Unit_code = 'CUP' THEN dbd.qty * CUPCONVER.Conversion_Factor / KGCONVER.Conversion_Factor
                        WHEN dbd.Unit_code = 'PACK' THEN dbd.qty * PACKCONVER.Conversion_Factor / KGCONVER.Conversion_Factor
-                       WHEN dbd.Unit_code = 'KG' THEN dbd.qty  
-                       ELSE 0 
-                   END) AS DEMANDQTYKG,
-               SUM(ISNULL((CASE 
-                               WHEN dbd.Unit_code = 'POUCH' THEN dbd.qty * POUCHCONVER.Conversion_Factor / KGCONVER.Conversion_Factor 
+                       WHEN dbd.Unit_code = 'KG' THEN dbd.qty  ELSE 0  END) AS DEMANDQTYKG,
+               SUM(ISNULL((CASE WHEN dbd.Unit_code = 'POUCH' THEN dbd.qty * POUCHCONVER.Conversion_Factor / KGCONVER.Conversion_Factor 
                                WHEN dbd.Unit_code = 'BOTTLE' THEN dbd.qty * BOTTLECONVER.Conversion_Factor / KGCONVER.Conversion_Factor
                                WHEN dbd.Unit_code = 'CUP' THEN dbd.qty * CUPCONVER.Conversion_Factor / KGCONVER.Conversion_Factor
                                WHEN dbd.Unit_code = 'PACK' THEN dbd.qty * PACKCONVER.Conversion_Factor / KGCONVER.Conversion_Factor
                                WHEN dbd.Unit_code = 'KG' THEN dbd.qty  
-                               ELSE 0 
-                           END) * im.STD_FatPer / 100, 0)) AS FATKGPRODUCT,
-               SUM(ISNULL((CASE 
-                               WHEN dbd.Unit_code = 'POUCH' THEN dbd.qty * POUCHCONVER.Conversion_Factor / KGCONVER.Conversion_Factor 
+                               ELSE 0  END) * im.STD_FatPer / 100, 0)) AS FATKGPRODUCT,
+               SUM(ISNULL((CASE WHEN dbd.Unit_code = 'POUCH' THEN dbd.qty * POUCHCONVER.Conversion_Factor / KGCONVER.Conversion_Factor 
                                WHEN dbd.Unit_code = 'BOTTLE' THEN dbd.qty * BOTTLECONVER.Conversion_Factor / KGCONVER.Conversion_Factor
                                WHEN dbd.Unit_code = 'CUP' THEN dbd.qty * CUPCONVER.Conversion_Factor / KGCONVER.Conversion_Factor
                                WHEN dbd.Unit_code = 'PACK' THEN dbd.qty * PACKCONVER.Conversion_Factor / KGCONVER.Conversion_Factor
-                               WHEN dbd.Unit_code = 'KG' THEN dbd.qty  
-                               ELSE 0 
-                           END) * im.STD_SNFPer / 100, 0)) AS SNFKGPRODUCT
+                               WHEN dbd.Unit_code = 'KG' THEN dbd.qty  ELSE 0 END) * im.STD_SNFPer / 100, 0)) AS SNFKGPRODUCT
         FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL dbd
         LEFT JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_master dbm ON dbm.Document_No = dbd.Document_No
         LEFT JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER im ON im.Item_Code = dbd.Item_Code
@@ -473,23 +433,16 @@ FROM
         LEFT JOIN (SELECT Conversion_factor, Item_code FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL WHERE UOM_Code='CUP') AS CUPCONVER ON CUPCONVER.Item_code = dbd.Item_Code
         LEFT JOIN (SELECT Conversion_factor, Item_code FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL WHERE UOM_Code='PACK') AS PACKCONVER ON PACKCONVER.Item_code = dbd.Item_Code
         LEFT JOIN (SELECT Conversion_factor, Item_code FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL WHERE UOM_Code='KG') AS KGCONVER ON KGCONVER.Item_code = dbd.Item_Code
+		        left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER.Comp_Code=im.Comp_Code
         WHERE CONVERT(DATE, dbm.Document_Date, 103)  BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
-          AND im.IsTaxable = 1
-          AND im.Is_Ambient = 1
-       and dbm.Posted=1
-        
-        UNION ALL
-        
-        SELECT SUM(xxxx.Qty) AS DEMANDQTYKG,
-               SUM(xxxx.Fat_KG) AS FATKGPRODUCT,
-               SUM(xxxx.SNF_KG) AS SNFKGPRODUCT
-			   
-   
-        FROM 
-        (
+          AND im.IsTaxable = 1 AND im.Is_Ambient = 1 and dbm.Posted=1 GROUP BY dbm.route_no,dbd.Cust_Code
+	   ---------4TH
+
+	   union all 
+	    SELECT 0 as TotalLtr_ItemWiseDemand,0 AS FATKGDemand, 0 AS SNFKGDemand,'' as Union_Contact_Person,'' as Union_Contact_PhoneNo,NULL AS route_no,null as Booth, SUM(xxxx.Qty) AS DEMANDQTYKG,SUM(xxxx.Fat_KG) AS FATKGPRODUCT,
+        SUM(xxxx.SNF_KG) AS SNFKGPRODUCT FROM (
             SELECT CASE WHEN ISNULL(ConvertDiv.Conversion_Factor, 0) = 0 THEN 0 
-                        ELSE [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Qty * ConvertMul.Conversion_Factor / ConvertDiv.Conversion_Factor 
-                   END AS Qty,
+                        ELSE [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Qty * ConvertMul.Conversion_Factor / ConvertDiv.Conversion_Factor  END AS Qty,
                    [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Fat_KG,
                    [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.SNF_KG
             FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale
@@ -498,15 +451,28 @@ FROM
             INNER JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL AS ConvertDiv ON ConvertDiv.Item_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Item_Code AND ConvertDiv.UOM_Code = 'KG'
             WHERE CONVERT(DATE, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_BulkSale.Document_Date, 103)  BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' and TSPL_Dispatch_BulkSale.Posted=1
         ) xxxx
-        
-    ) DEMANDINKG
-  
-) DEMANDINKG )Final
+	-----5TH 
 
- "
+	union all
+	 SELECT 0 as TotalLtr_ItemWiseDemand, 0 AS FATKGDemand,0 AS SNFKGDemand,max(Union_Contact_Person) as Union_Contact_Person,max(Union_Contact_PhoneNo) as Union_Contact_PhoneNo,Route_No,Cust_Code AS Booth,	 
+	 SUM(xxxx.Qty) AS DEMANDQTYKG,SUM(xxxx.Fat_KG) AS FATKGPRODUCT,SUM(xxxx.SNF_KG) AS SNFKGPRODUCT FROM 
+        (
+            SELECT TSPL_PRODUCT_DEMAND_BOOKING_MASTER.Route_No,TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_COMPANY_MASTER.Union_Contact_Person,TSPL_COMPANY_MASTER.Union_Contact_PhoneNo,TSPL_ITEM_MASTER.STD_FatPer,TSPL_ITEM_MASTER.STD_SNFPer, CASE WHEN ISNULL(ConvertDiv.Conversion_Factor, 0) = 0 THEN 0 
+                        ELSE [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Qty * ConvertMul.Conversion_Factor / ConvertDiv.Conversion_Factor 
+                   END AS Qty,(Qty * STD_FatPer / 100) AS Fat_KG,(Qty * STD_SNFPer / 100) as SNF_KG
+            FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCT_DEMAND_BOOKING_DETAIL
+            LEFT JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCT_DEMAND_BOOKING_MASTER ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCT_DEMAND_BOOKING_MASTER.Document_No = 
+			[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Document_No
+			        LEFT JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER  ON TSPL_ITEM_MASTER.Item_Code = TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Item_Code
+            INNER JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL AS ConvertMul ON ConvertMul.Item_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Item_Code AND ConvertMul.UOM_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Unit_code 
+            INNER JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL AS ConvertDiv ON ConvertDiv.Item_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Item_Code AND ConvertDiv.UOM_Code = 'KG'
+			        left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER.Comp_Code=TSPL_ITEM_MASTER.Comp_Code
+            WHERE CONVERT(DATE, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCT_DEMAND_BOOKING_MASTER.Document_Date, 103)  BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' and TSPL_PRODUCT_DEMAND_BOOKING_MASTER.Posted=1
+        ) xxxx GROUP BY Route_No,Cust_Code
+		 ) Final "
+                    'end---
                 Next
             End If
-            'query = "select * from (" + query + ")xx "
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
             If dt2 IsNot Nothing OrElse dt2.Rows.Count > 0 Then
                 gv1.DataSource = Nothing
@@ -730,10 +696,14 @@ FROM
                     If ii > 0 Then
                         strqry += " UNION  "
                     End If
-
                     strqry += "SELECT  max(report_name)Short_Description,MAX(Item_SNO)Item_SNO FROM (
-                                    SELECT    [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Item_Code,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.report_name FROM  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Document_No = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Document_No Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER.Cust_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Cust_Code Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Item_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Item_Code Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VEHICLE_MASTER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VEHICLE_MASTER.Vehicle_Id = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Vehicle_Code  Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_LOCATION_MASTER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_LOCATION_MASTER.Location_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.location_code left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_GROUP_MASTER on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER.Cust_Group_Code where ([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Report_Name !='' or [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Report_Name is not null)  and Scheme_Item='N'   and [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Is_Milk_Pouch =1   or [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Is_Milk_Pouch =0  and convert(date, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Document_Date,103) >= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and  convert(date, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Document_Date,103) <= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'
-                                     )XX inner join (SELECT Alias_Name,SNO AS Item_SNO,code FROM [TSPL_MASTER].[dbo].TSPL_Item_Alias_Master) As Item_Alias_Master on Item_Alias_Master.Alias_Name = XX.Report_Name and Item_Alias_Master.Code= xx.Item_Code WHERE xx.Report_Name<>'' group by Item_Code "
+                                    SELECT    [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Item_Code,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.report_name FROM  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_MASTER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_MASTER.Document_No = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL.Document_No Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER.Cust_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL.Cust_Code Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Item_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL.Item_Code Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VEHICLE_MASTER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VEHICLE_MASTER.Vehicle_Id = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code  Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_LOCATION_MASTER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_LOCATION_MASTER.Location_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_MASTER.location_code left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_GROUP_MASTER on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER.Cust_Group_Code where ([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Report_Name !='' or [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Report_Name is not null)  and [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Is_Milk_Pouch =1   or [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Is_Milk_Pouch =0  and convert(date, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) >= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and  convert(date, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) <= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'
+" & Environment.NewLine & " UNION ALL " & Environment.NewLine & " 
+									SELECT [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Item_Code,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.report_name FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCT_DEMAND_BOOKING_DETAIL
+            LEFT JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCT_DEMAND_BOOKING_MASTER ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCT_DEMAND_BOOKING_MASTER.Document_No = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Document_No
+			        LEFT JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER  ON TSPL_ITEM_MASTER.Item_Code = TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Item_Code where  ([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Report_Name !='' or [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Report_Name is not null) and [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Is_Milk_Pouch =1   or [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Is_Milk_Pouch =0  and convert(date, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCT_DEMAND_BOOKING_MASTER.Document_Date,103) >= '22/Aug/2025' and  convert(date, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PRODUCT_DEMAND_BOOKING_MASTER.Document_Date,103) <= '22/Aug/2025'
+            )XX inner join (SELECT Alias_Name,SNO AS Item_SNO,code FROM [TSPL_MASTER].[dbo].TSPL_Item_Alias_Master) As Item_Alias_Master on Item_Alias_Master.Alias_Name = XX.Report_Name
+                   WHERE xx.Report_Name<>'' group by Item_Code "
                 Next
                 dt1 = clsDBFuncationality.GetDataTable(" SELECT * FROM  (" & strqry & "  )XXX order by Item_SNO")
                 For kk As Integer = 0 To dt1.Rows.Count - 1
