@@ -695,8 +695,24 @@ Public Class FrmSacWiseTaxMaster
                         Return False
                     End If
                 Next
-
             Next
+
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
+                For ii As Integer = 0 To gv1.Rows.Count - 1
+                    Dim strTaxCode As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colTAX1_Code).Value)
+                    Dim strTaxRate As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colTAX1_Rate).Value)
+                    For jj As Integer = 0 To gv1.Rows.Count - 1
+                        Dim strInnerTaxCode As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colTAX2_Code).Value)
+                        Dim strInnerTaxRate As Double = clsCommon.myCdbl(gv1.Rows(jj).Cells(colTAX2_Rate).Value)
+                        If clsCommon.CompairString(strTaxCode, "CGST") = CompairStringResult.Equal AndAlso clsCommon.CompairString(strInnerTaxCode, "SGST") = CompairStringResult.Equal Then
+                            If strTaxRate <> strInnerTaxRate Then
+                                clsCommon.MyMessageBoxShow(Me, "Tax rate mismatch", Me.Text)
+                                Return False
+                            End If
+                        End If
+                    Next
+                Next
+            End If
 
             For ii As Integer = 0 To gv1.Rows.Count - 1
                 If clsCommon.myLen(clsCommon.myCstr(gv1.Rows(ii).Cells(colSAC_Code).Value)) > 0 Then

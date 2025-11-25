@@ -530,6 +530,86 @@ Public Class FrmVendorService
             iStxtTaxGroup_TxtChangedComplete = True
         End If
     End Sub
+    Private Sub txtTaxGroup_UNION(ByVal TaxGroup As String, ByVal HCode As String)
+        If Not isInsideLoadData AndAlso iStxtTaxGroup_TxtChangedComplete Then
+            iStxtTaxGroup_TxtChangedComplete = False
+            LoadBlankGridTax()
+            Dim qry As String = "select TSPL_TAX_GROUP_DETAILS.Tax_Group_Code ,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc,Tax_Code,Tax_Code_Desc,Surtax,Surtax_Tax_Code,(select Tax_Rate from TSPL_TAX_RATES WHERE Tax_Rate=(select TAX_Rate from TSPL_SAC_WISE_TAX_AUTHORITY where HCODE='" & HCode & "' and TSPL_SAC_WISE_TAX_AUTHORITY.Tax_Authority=TSPL_TAX_GROUP_DETAILS.Tax_Code ) AND Tax_Code=TSPL_TAX_GROUP_DETAILS.Tax_Code and TSPL_TAX_RATES.Tax_Type='P') AS TaxRate,Taxable from TSPL_TAX_GROUP_DETAILS left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_TAX_GROUP_DETAILS.Tax_Group_Code where TSPL_TAX_GROUP_DETAILS.Tax_Group_Code='" & TaxGroup & "' and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='P' and TSPL_TAX_GROUP_DETAILS.Tax_Group_Type='P' order by Trans_Code"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                If (dt.Rows.Count > 10) Then
+                    MessageBox.Show("Can't Handle More than 10 Tax Types in a Group")
+                    Return
+                End If
+                Dim ii As Integer = 0
+                txtTaxGroup.Value = clsCommon.myCstr(dt.Rows(0)("Tax_Group_Code"))
+                lblTaxGrpName.Text = clsCommon.myCstr(dt.Rows(0)("Tax_Group_Desc"))
+                For Each dr As DataRow In dt.Rows
+                    gv2.Rows.AddNew()
+                    gv2.Rows(ii).Cells(colTTaxAutCode).Value = clsCommon.myCstr(dr("Tax_Code"))
+                    gv2.Rows(ii).Cells(colTTaxAutName).Value = clsCommon.myCstr(dr("Tax_Code_Desc"))
+                    If rbtnTaxCalAutomatic.IsChecked Then
+                        gv2.Rows(ii).Cells(colTTaxRate).Value = clsCommon.myCdbl(dr("TaxRate"))
+                    ElseIf rbtnTaxCalManual.IsChecked Then
+                        gv2.Rows(ii).Cells(colTTaxRate).Value = Nothing
+                    End If
+                    ii = ii + 1
+                Next
+                SetitemWiseTaxSetting_Union(True, False, HCode)
+            Else
+                lblTaxGrpName.Text = ""
+            End If
+
+            For ii As Integer = 0 To gv1.Rows.Count - 1
+                UpdateCurrentRow(ii)
+            Next
+            UpdateAllTotals()
+            iStxtTaxGroup_TxtChangedComplete = True
+        End If
+    End Sub
+    Sub SetitemWiseTaxSetting_Union(ByVal isChangeRate As Boolean, ByVal isForCurrentRow As Boolean, ByVal HCode As String)
+        'Dim qry As String = "select TSPL_TAX_GROUP_DETAILS.Tax_Group_Code ,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc,Tax_Code,Tax_Code_Desc,Surtax,Surtax_Tax_Code,(select Tax_Rate from TSPL_TAX_RATES WHERE Tax_Rate=(select TAX_Rate from TSPL_SAC_WISE_TAX_AUTHORITY where HCODE='" & HCode & "' and TSPL_SAC_WISE_TAX_AUTHORITY.Tax_Authority=TSPL_TAX_GROUP_DETAILS.Tax_Code ) AND Tax_Code=TSPL_TAX_GROUP_DETAILS.Tax_Code and TSPL_TAX_RATES.Tax_Type='P') AS TaxRate,Taxable from TSPL_TAX_GROUP_DETAILS left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_TAX_GROUP_DETAILS.Tax_Group_Code where TSPL_TAX_GROUP_DETAILS.Tax_Group_Code='" & txtTaxGroup.Value & "' and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='P' and TSPL_TAX_GROUP_DETAILS.Tax_Group_Type='P' order by Trans_Code"
+        Dim dt As DataTable = clsTaxGroupMaster.GetTaxDetails_Union(txtTaxGroup.Value, HCode)
+        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+            If isForCurrentRow Then
+                BlankTaxDetails(gv1.CurrentRow.Index)
+                If clsCommon.myLen(gv1.CurrentRow.Cells(colACCode)) > 0 Then
+                    Dim ii As Integer = 1
+                    For Each dr As DataRow In dt.Rows
+                        Dim strII As String = clsCommon.myCstr(ii)
+                        gv1.CurrentRow.Cells(clsCommon.myCstr("colTax" + strII)).Value = clsCommon.myCstr(dr("Tax_Code"))
+                        If isChangeRate Then
+                            gv1.CurrentRow.Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = clsCommon.myCdbl(dr("TaxRate"))
+                        End If
+                        gv1.CurrentRow.Cells(clsCommon.myCstr("ISTAXABLE" + strII)).Value = clsCommon.myCBool(clsCommon.CompairString(clsCommon.myCstr(dr("Taxable")), "Y") = CompairStringResult.Equal)
+                        gv1.CurrentRow.Cells(clsCommon.myCstr("ISSURTAX" + strII)).Value = clsCommon.myCBool(clsCommon.CompairString(clsCommon.myCstr(dr("Surtax")), "Y") = CompairStringResult.Equal)
+                        gv1.CurrentRow.Cells(clsCommon.myCstr("SURTAXCODE" + strII)).Value = clsCommon.myCstr(dr("Surtax_Tax_Code"))
+                        gv1.CurrentRow.Cells(clsCommon.myCstr("ISEXCISABLE" + strII)).Value = clsCommon.myCBool(clsCommon.CompairString(clsCommon.myCstr(dr("Excisable")), "Y") = CompairStringResult.Equal)
+                        ii = ii + 1
+                    Next
+                End If
+            Else
+                For intRowNo As Integer = 0 To gv1.Rows.Count - 1
+                    BlankTaxDetails(intRowNo)
+                    If clsCommon.myLen(gv1.Rows(intRowNo).Cells(colACCode)) > 0 Then
+                        Dim ii As Integer = 1
+                        For Each dr As DataRow In dt.Rows
+                            Dim strII As String = clsCommon.myCstr(ii)
+                            gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax" + strII)).Value = clsCommon.myCstr(dr("Tax_Code"))
+                            If isChangeRate Then
+                                gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = clsCommon.myCdbl(dr("TaxRate"))
+                            End If
+                            gv1.Rows(intRowNo).Cells(clsCommon.myCstr("ISTAXABLE" + strII)).Value = clsCommon.myCBool(clsCommon.CompairString(clsCommon.myCstr(dr("Taxable")), "Y") = CompairStringResult.Equal)
+                            gv1.Rows(intRowNo).Cells(clsCommon.myCstr("ISSURTAX" + strII)).Value = clsCommon.myCBool(clsCommon.CompairString(clsCommon.myCstr(dr("Surtax")), "Y") = CompairStringResult.Equal)
+                            gv1.Rows(intRowNo).Cells(clsCommon.myCstr("SURTAXCODE" + strII)).Value = clsCommon.myCstr(dr("Surtax_Tax_Code"))
+                            gv1.Rows(intRowNo).Cells(clsCommon.myCstr("ISEXCISABLE" + strII)).Value = clsCommon.myCBool(clsCommon.CompairString(clsCommon.myCstr(dr("Excisable")), "Y") = CompairStringResult.Equal)
+                            ii = ii + 1
+                        Next
+                    End If
+                Next
+            End If
+        End If
+    End Sub
 
     Private Sub txtTermCode_TxtChanged()
 
@@ -687,6 +767,12 @@ Public Class FrmVendorService
         txtDataAndTimeSelection.Value = clsCommon.GETSERVERDATE()
         txtTapalNo.Text = ""
         txtDataAndTimeSelection.Checked = False
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
+            txtLocationPrefix.Visible = False
+        Else
+            txtLocationPrefix.Visible = True
+        End If
+
     End Sub
     Sub LoadITC_Elibible()
         Dim dt As DataTable = New DataTable()
@@ -2400,8 +2486,16 @@ Public Class FrmVendorService
                 Else
                     gv1.CurrentRow.Cells(colGLType).Value = ""
                 End If
-                SetitemWiseTaxSetting(True, True)
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
+                    txtTaxGroup_UNION(obj.Tax_Group_Code, obj.HCODE)
+                Else
+                    SetitemWiseTaxSetting(True, True)
+
+                End If
             Else
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
+                    Throw New Exception("SAC Wise Tax Group/Master Not Found!")
+                End If
                 gv1.CurrentRow.Cells(colAChgCode).Value = ""
                 gv1.CurrentRow.Cells(colAChgName).Value = ""
                 gv1.CurrentRow.Cells(colReverserChargePer).Value = 0
@@ -3087,8 +3181,31 @@ Public Class FrmVendorService
                     Next
                 End If
             Next
-
-
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
+                For ii As Integer = 0 To gv2.Rows.Count - 1
+                    Dim strTaxCode As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colTTaxAutCode).Value)
+                    If clsCommon.myLen(strTaxCode) > 0 Then
+                        For jj As Integer = 0 To gv2.Rows.Count - 1
+                            If clsCommon.CompairString(strTaxCode, "CGST") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(gv2.Rows(jj).Cells(colTTaxAutCode).Value), "SGST") = CompairStringResult.Equal Then
+                                Dim CGSTRate As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colTTaxRate).Value)
+                                Dim SGSTRate As String = clsCommon.myCstr(gv2.Rows(jj).Cells(colTTaxRate).Value)
+                                If clsCommon.CompairString(CGSTRate, SGSTRate) <> CompairStringResult.Equal Then
+                                    clsCommon.MyMessageBoxShow(Me, "Tax rate mismatch", Me.Text)
+                                    Return False
+                                End If
+                            End If
+                        Next
+                    Else
+                        clsCommon.MyMessageBoxShow(Me, "Please select Tax Group")
+                        Return False
+                    End If
+                Next
+                Dim strLocCode As String = "select Location_Code from TSPL_LOCATION_MASTER where Loc_Segment_Code='" & txtlocation.Value & "' and IsEinvoice=1"
+                If clsCommon.myLen(strLocCode) <= 0 Then
+                    clsCommon.MyMessageBoxShow(Me, "Please Map  E-Invoice on Location Master!", Me.Text)
+                    Return False
+                End If
+            End If
 
             Dim isFirstTime As Boolean = True
             Dim strFirstLocSeg As String = ""
