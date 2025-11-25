@@ -150,10 +150,74 @@ Public Class clsItemMaster
     Public IsRepeat As Integer = 0
     Public AllowEntryInDecimal As Integer = 0
     Public CrateType_Item As String = String.Empty
+
+
+
+
+
 #End Region
     ''Richa 20201616
     '==================================
     '----------------Code For Get Finder--------------------------------------------------------------------'
+
+
+    Public Shared Function SaveAliesDetail(ByVal strCode As String, ByVal isNewEntry As Boolean, ByVal obj As clsItemMaster, ByVal arr As List(Of clsItemMaster), ByVal trans As SqlTransaction) As Boolean
+        Dim IsTransactionExist As Boolean = IIf(trans Is Nothing, False, True)
+
+        If IsTransactionExist = False Then
+            trans = clsDBFuncationality.GetTransactin()
+        End If
+        Try
+            Dim isSaved As Boolean = True
+            Dim coll As New Hashtable()
+            strCode = obj.Item_Code
+            '----------insert head block--------------------------------------------------
+            'clsCommon.AddColumnsForChange(coll, "Bank_Name", obj.Bank_Name)
+
+            clsCommon.AddColumnsForChange(coll, "comp_code", objCommonVar.CurrentCompanyCode)
+            clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
+            clsCommon.AddColumnsForChange(coll, "Item_Desc", obj.Item_Desc)
+            clsCommon.AddColumnsForChange(coll, "Alies_Name", obj.Alies_Name)
+            clsCommon.AddColumnsForChange(coll, "Report_Name", obj.ReportName)
+
+            If isNewEntry Then
+                clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
+                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.myCstr(clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy")))
+                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ITEM_MASTER", OMInsertOrUpdate.Insert, "", trans)
+            Else
+                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ITEM_MASTER", OMInsertOrUpdate.Update, " TSPL_ITEM_MASTER.Item_Code='" + obj.Item_Code + "'", trans)
+            End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Item_Code, "TSPL_ITEM_MASTER", "Item_Code", trans)
+            'isSaved = isSaved AndAlso SaveVLCPriceCode(obj.vlcCode, obj.vspCode, obj.MCCCOde, trans)
+            '----------insert detail block--------------------------------------------------
+            isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.Item_Code, obj.arrCustomFields, trans)
+
+            coll = New Hashtable()
+
+
+            If IsTransactionExist = False Then
+                trans.Commit()
+            End If
+            Return True
+        Catch ex As Exception
+            If IsTransactionExist = False Then
+                trans.Rollback()
+            End If
+            If clsCommon.myCstr(ex.Message).Contains("uk_VLC_Code_VLC_Uploader") Then
+                Throw New Exception("Duplicate DCS Code for DCS Uploader ")
+                Return False
+            Else
+                Throw New Exception(ex.Message)
+                Return False
+            End If
+            'Throw New Exception(ex.Message)
+        End Try
+    End Function
+
+
+
+
+
     Public Shared Function GetDCSItemFinder(ByVal strCode As String, ByVal isButtonClicked As Boolean) As clsItemMaster
         Dim obj As clsItemMaster = Nothing
         Dim qry As String = "select TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_UOM_DETAIL.UOM_Code from TSPL_ITEM_MASTER
