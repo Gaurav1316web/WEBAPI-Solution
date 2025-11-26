@@ -2517,6 +2517,25 @@ Public Class frmPurchaseReturn
         End If
     End Sub
 
+    Sub OpenBatchItem()
+        If clsCommon.myCBool(clsDBFuncationality.getSingleValue("select TSPL_ITEM_MASTER.Is_Batch_Item  from TSPL_ITEM_MASTER where TSPL_ITEM_MASTER.Item_Code ='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "'", Nothing)) Then
+            Dim frm As frmBatchItemOut = New frmBatchItemOut()
+            frm.strItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
+            frm.strItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
+            frm.dblqty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value)
+            frm.strUOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
+            frm.strLocationCode = txtBillToLocation.Value
+            frm.strCurrDocNo = txtDocNo.Value
+            frm.strCurrDocType = "Purchase Return"
+            frm.strSplTransaction = "PurchaseReturn"
+            frm.strLoadoutNo = clsCommon.myCstr(gv1.CurrentRow.Cells(colPINo).Value)
+            frm.arr = TryCast(gv1.CurrentRow.Cells(colICode).Tag, List(Of clsBatchInventory))
+            frm.ShowDialog()
+            If Not frm.isCencelButtonClicked Then
+                gv1.CurrentRow.Cells(colICode).Tag = frm.arr
+            End If
+        End If
+    End Sub
     Sub LoadBlankGridTax()
         gv2.Rows.Clear()
         gv2.Columns.Clear()
@@ -2606,6 +2625,7 @@ Public Class frmPurchaseReturn
 
                             If e.Column Is gv1.Columns(colQty) Then
                                 OpenSerialItem()
+                                OpenBatchItem()
                             End If
                             'Asked By Ranjana mam(12-Nov-2020)
                             If (e.Column Is gv1.Columns(colAmt) AndAlso clsCommon.myLen(gv1.CurrentRow.Cells(colPINo).Value) > 0) Then
@@ -3666,6 +3686,20 @@ Public Class frmPurchaseReturn
                         Return False
                     End If
                 End If
+                If dblQty > 0 AndAlso clsCommon.myCBool(clsDBFuncationality.getSingleValue("select TSPL_ITEM_MASTER.Is_Batch_Item  from TSPL_ITEM_MASTER where TSPL_ITEM_MASTER.Item_Code ='" + clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value) + "'", Nothing)) Then
+                    Dim arrBatchNo As List(Of clsBatchInventory) = TryCast(gv1.Rows(ii).Cells(colICode).Tag, List(Of clsBatchInventory))
+                    If arrBatchNo Is Nothing Then
+                        Throw New Exception("Please provide Batch no for item : " + strICode + " . At Line No" + clsCommon.myCstr(ii + 1))
+                    Else
+                        Dim tQty As Decimal = 0
+                        For Each objBatch As clsBatchInventory In arrBatchNo
+                            tQty += objBatch.Qty
+                        Next
+                        If tQty <> dblQty Then
+                            Throw New Exception("Item : " + strICode + " Entered Qty " + clsCommon.myCstr(dblQty) + Environment.NewLine + "And Batchwise Qty " + clsCommon.myCstr(tQty) + " . At Line No" + clsCommon.myCstr(ii + 1))
+                        End If
+                    End If
+                End If
             Next
             If ShowItemAllStructureWise = False Then
                 clsItemMaster.isItemOfSameType(clsCommon.myCstr(cboItemType.SelectedValue), cboItemType.Text, arrICode)
@@ -3977,6 +4011,7 @@ Public Class frmPurchaseReturn
                     objTr.Line_No = clsCommon.myCdbl(grow.Cells(colLineNo).Value)
                     objTr.Row_Type = clsCommon.myCstr(grow.Cells(colRowType).Value)
                     objTr.Item_Code = clsCommon.myCstr(grow.Cells(colICode).Value)
+                    objTr.arrBatchItem = TryCast(grow.Cells(colICode).Tag, List(Of clsBatchInventory))
                     objTr.Item_Desc = clsCommon.myCstr(grow.Cells(colIName).Value)
                     objTr.PR_Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
                     ''objTr.Rejected_Qty = clsCommon.myCdbl(grow.Cells(colRejectedQty).Value)
@@ -4857,6 +4892,7 @@ Public Class frmPurchaseReturn
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = objTr.Row_Type
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colComplete).Value = IIf(objTr.Status = 0, "No", "Yes")
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = objTr.Item_Code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Tag = objTr.arrBatchItem
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = objTr.Item_Desc
 
                         If clsCommon.CompairString(objTr.Row_Type, clsItemRowType.RowTypeMisc) = CompairStringResult.Equal Then
@@ -6712,6 +6748,8 @@ Public Class frmPurchaseReturn
     Private Sub gv1_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles gv1.KeyDown
         If e.KeyCode = Keys.F4 Then
             OpenSerialItem()
+        ElseIf e.KeyCode = Keys.F5 Then
+            OpenBatchItem()
         End If
     End Sub
 
