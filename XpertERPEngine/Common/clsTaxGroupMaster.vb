@@ -228,6 +228,11 @@ Public Class clsTaxGroupMaster
 
         Return clsDBFuncationality.GetDataTable(qry)
     End Function
+    Public Shared Function GetTaxDetails_Union(ByVal GrpCode As String, ByVal HCode As String) As DataTable
+        Dim qry As String = "select TSPL_TAX_GROUP_DETAILS.Tax_Group_Code ,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc,TSPL_TAX_GROUP_DETAILS.Tax_Code,TSPL_TAX_GROUP_DETAILS.Tax_Code_Desc,TSPL_TAX_GROUP_DETAILS.Tax_On_Base_Amount,Surtax,Surtax_Tax_Code,(select Tax_Rate from TSPL_TAX_RATES WHERE Tax_Rate=(select TAX_Rate from TSPL_SAC_WISE_TAX_AUTHORITY where HCODE='" & HCode & "' and TSPL_SAC_WISE_TAX_AUTHORITY.Tax_Authority=TSPL_TAX_GROUP_DETAILS.Tax_Code ) AND Tax_Code=TSPL_TAX_GROUP_DETAILS.Tax_Code and TSPL_TAX_RATES.Tax_Type='P') AS TaxRate,TSPL_TAX_GROUP_DETAILS.Taxable, TSPL_TAX_MASTER.Excisable , TSPL_TAX_MASTER.Tax_Recoverable,TSPL_TAX_MASTER.Type,TSPL_TAX_MASTER.Is_TCS  from TSPL_TAX_GROUP_DETAILS left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_TAX_GROUP_DETAILS.Tax_Group_Code left outer join TSPL_TAX_MASTER on TSPL_TAX_MASTER.Tax_Code=TSPL_TAX_GROUP_DETAILS.Tax_Code where TSPL_TAX_GROUP_DETAILS.Tax_Group_Code='" + GrpCode + "' and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='P' and TSPL_TAX_GROUP_DETAILS.Tax_Group_Type='P' order by Trans_Code"
+
+        Return clsDBFuncationality.GetDataTable(qry)
+    End Function
     Public Shared Function GetTaxDetailsscrap(ByVal GrpCode As String) As DataTable
         Return (GetTaxDetailsscrap(GrpCode, Nothing))
     End Function
