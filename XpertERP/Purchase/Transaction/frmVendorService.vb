@@ -3186,12 +3186,19 @@ Public Class FrmVendorService
                     Dim strTaxCode As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colTTaxAutCode).Value)
                     If clsCommon.myLen(strTaxCode) > 0 Then
                         For jj As Integer = 0 To gv2.Rows.Count - 1
-                            If clsCommon.CompairString(strTaxCode, "CGST") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(gv2.Rows(jj).Cells(colTTaxAutCode).Value), "SGST") = CompairStringResult.Equal Then
+                            If clsCommon.CompairString(strTaxCode, "CGST") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(gv2.Rows(jj).Cells(colTTaxAutCode).Value), "SGST") = CompairStringResult.Equal Then
                                 Dim CGSTRate As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colTTaxRate).Value)
                                 Dim SGSTRate As String = clsCommon.myCstr(gv2.Rows(jj).Cells(colTTaxRate).Value)
+
                                 If clsCommon.CompairString(CGSTRate, SGSTRate) <> CompairStringResult.Equal Then
                                     clsCommon.MyMessageBoxShow(Me, "Tax rate mismatch", Me.Text)
                                     Return False
+                                End If
+                                If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso clsCommon.CompairString(CGSTRate, SGSTRate) = CompairStringResult.Equal Then
+                                    If clsCommon.MyMessageBoxShow("Tax Selected: CGST" & CGSTRate & "% SGST" & SGSTRate & "%  Do you want to save/update", "", MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.No Then
+                                        Return False
+                                    End If
+
                                 End If
                             End If
                         Next
@@ -3201,7 +3208,7 @@ Public Class FrmVendorService
                     End If
                 Next
                 Dim strLocCode As String = "select Location_Code from TSPL_LOCATION_MASTER where Loc_Segment_Code='" & txtlocation.Value & "' and IsEinvoice=1"
-                If clsCommon.myLen(strLocCode) <= 0 Then
+                                        If clsCommon.myLen(strLocCode) <= 0 Then
                     clsCommon.MyMessageBoxShow(Me, "Please Map  E-Invoice on Location Master!", Me.Text)
                     Return False
                 End If

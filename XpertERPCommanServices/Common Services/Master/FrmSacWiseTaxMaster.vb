@@ -698,20 +698,27 @@ Public Class FrmSacWiseTaxMaster
             Next
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                For ii As Integer = 0 To gv1.Rows.Count - 1
-                    Dim strTaxCode As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colTAX1_Code).Value)
-                    Dim strTaxRate As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colTAX1_Rate).Value)
-                    For jj As Integer = 0 To gv1.Rows.Count - 1
-                        Dim strInnerTaxCode As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colTAX2_Code).Value)
-                        Dim strInnerTaxRate As Double = clsCommon.myCdbl(gv1.Rows(jj).Cells(colTAX2_Rate).Value)
-                        If clsCommon.CompairString(strTaxCode, "CGST") = CompairStringResult.Equal AndAlso clsCommon.CompairString(strInnerTaxCode, "SGST") = CompairStringResult.Equal Then
-                            If strTaxRate <> strInnerTaxRate Then
-                                clsCommon.MyMessageBoxShow(Me, "Tax rate mismatch", Me.Text)
-                                Return False
-                            End If
-                        End If
-                    Next
-                Next
+                Dim strTaxCode As String = ""
+                Dim strTaxRate As Double = 0
+                Dim strInnerTaxCode As String = ""
+                Dim strInnerTaxRate As Double = 0
+                'For ii As Integer = 0 To gv1.Rows.Count - 1
+                '    If clsCommon.CompairString(strTaxCode, "CGST") = CompairStringResult.Equal Then
+                '        strTaxCode = clsCommon.myCstr(gv1.Rows(ii).Cells(colTAX1_Code).Value)
+                '        strTaxRate = clsCommon.myCdbl(gv1.Rows(ii).Cells(colTAX1_Rate).Value)
+                '    End If
+
+                '    For jj As Integer = 0 To gv1.Rows.Count - 1
+                '        Dim strInnerTaxCode As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colTAX2_Code).Value)
+                '        Dim strInnerTaxRate As Double = clsCommon.myCdbl(gv1.Rows(jj).Cells(colTAX2_Rate).Value)
+                '        If clsCommon.CompairString(strTaxCode, "CGST") = CompairStringResult.Equal AndAlso clsCommon.CompairString(strInnerTaxCode, "SGST") = CompairStringResult.Equal Then
+                '            If strTaxRate <> strInnerTaxRate Then
+                '                clsCommon.MyMessageBoxShow(Me, "Tax rate mismatch", Me.Text)
+                '                Return False
+                '            End If
+                '        End If
+                '    Next
+                'Next
             End If
 
             For ii As Integer = 0 To gv1.Rows.Count - 1
