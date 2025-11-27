@@ -516,6 +516,8 @@ Public Class clsPurchasReturnHead
             ' End If
             clsPRAdditionChargeInsurance.DeleteData(obj.PR_No, trans)
             clsSerializeInvenotry.DeleteData("Purchase Return", obj.PR_No, trans)
+            clsBatchInventory.DeleteData("Purchase Return", obj.PR_No, trans)
+
             Dim qry As String = "delete from TSPL_PR_DETAIL where PR_No='" + obj.PR_No + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_PI_REMITTANCE where Document_No='" + obj.PR_No + "'"
@@ -1042,6 +1044,7 @@ Public Class clsPurchasReturnHead
                     objTr.Item_Amt_After_Insurance = clsCommon.myCdbl(dr("Item_Amt_After_Insurance"))
 
                     objTr.arrSrItem = clsSerializeInvenotry.GetData("Purchase Return", objTr.PR_No, objTr.Item_Code, objTr.Line_No, trans)
+                    objTr.arrBatchItem = clsBatchInventory.GetData("Purchase Return", objTr.PR_No, objTr.Item_Code, objTr.Line_No, trans)
                     obj.Arr.Add(objTr)
                 Next
             End If
@@ -1708,6 +1711,7 @@ Public Class clsPurchasReturnHead
                 End If
                 clsPRAdditionChargeInsurance.DeleteData(strCode, trans)
                 clsSerializeInvenotry.DeleteData("Purchase Return", strCode, trans)
+                clsBatchInventory.DeleteData("Purchase Return", strCode, trans)
                 clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PR_HEAD", "PR_No", "TSPL_PR_DETAIL", "PR_No", trans)
 
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PR_HEAD", "PR_No", "TSPL_PR_DETAIL", "PR_No", trans)
@@ -1759,6 +1763,7 @@ where PR_No='" + strDocNo + "' and TSPL_PR_HEAD.Status=1"
                         clsDBFuncationality.ExecuteNonQuery(qry, trans)
                     End If
                 End If
+                clsBatchInventory.ReverseAndUnpost("Purchase Return", strDocNo, trans)
 
                 Dim docNo As String = clsCommon.myCstr(dt.Rows(0)("Document_No"))
                 qry = "delete from TSPL_JOURNAL_DETAILS where TSPL_JOURNAL_DETAILS.Voucher_No in (select Voucher_No from  TSPL_JOURNAL_MASTER where Source_Doc_No='" & docNo & "')"
@@ -1996,6 +2001,7 @@ Public Class clsPurchasReturnDetail
     Public Item_Insurance_Amt As Decimal = 0
     Public Item_Amt_After_Insurance As Decimal = 0
     Public arrSrItem As List(Of clsSerializeInvenotry) = Nothing
+    Public arrBatchItem As List(Of clsBatchInventory) = Nothing
 #End Region
 
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal dtDocDate As DateTime, ByVal Arr As List(Of clsPurchasReturnDetail), ByVal trans As SqlTransaction, Optional ByVal Transaction_type As String = "") As Boolean
@@ -2149,6 +2155,7 @@ Public Class clsPurchasReturnDetail
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PR_DETAIL", OMInsertOrUpdate.Insert, "", trans)
                 If Transaction_type <> "P" Then
                     clsSerializeInvenotry.SaveData("Purchase Return", strDocNo, dtDocDate, "O", obj.Item_Code, obj.Location, obj.Line_No, obj.arrSrItem, trans)
+                    clsBatchInventory.SaveData("Purchase Return", strDocNo, dtDocDate, "O", obj.Item_Code, obj.Location, obj.Line_No, obj.MRP, obj.Unit_code, obj.arrBatchItem, trans)
                 End If
             Next
         End If

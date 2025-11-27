@@ -695,8 +695,37 @@ Public Class FrmSacWiseTaxMaster
                         Return False
                     End If
                 Next
-
             Next
+
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
+                For irow As Integer = 0 To gv1.Rows.Count - 1
+                    Dim strTaxCode As String = ""
+                    Dim strTaxRate As Double = 0
+                    Dim strInnerTaxCode As String = ""
+                    Dim strInnerTaxRate As Double = 0
+                    For ii As Integer = 0 To gv1.Columns.Count - 1
+                        If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(irow).Cells(ii).Value), "CGST") = CompairStringResult.Equal Then
+                            strTaxCode = clsCommon.myCstr(gv1.Rows(irow).Cells(ii).Value)
+                            strTaxRate = clsCommon.myCdbl(gv1.Rows(irow).Cells(ii + 1).Value)
+                        End If
+                    Next
+                    For jj As Integer = 0 To gv1.Columns.Count - 1
+                        If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(irow).Cells(jj).Value), "SGST") = CompairStringResult.Equal Then
+                            strInnerTaxCode = clsCommon.myCstr(gv1.Rows(irow).Cells(jj).Value)
+                            strInnerTaxRate = clsCommon.myCdbl(gv1.Rows(irow).Cells(jj + 1).Value)
+                        End If
+                    Next
+
+                    If clsCommon.CompairString(strTaxCode, "CGST") = CompairStringResult.Equal AndAlso clsCommon.CompairString(strInnerTaxCode, "SGST") = CompairStringResult.Equal Then
+                        If strTaxRate <> strInnerTaxRate Then
+                            clsCommon.MyMessageBoxShow(Me, "Tax rate mismatch [" & strTaxCode & "-" & strTaxRate & "] and [ " & strInnerTaxCode & "-" & strInnerTaxRate & " ]", Me.Text)
+                            Return False
+                        End If
+                    End If
+
+                Next
+
+            End If
 
             For ii As Integer = 0 To gv1.Rows.Count - 1
                 If clsCommon.myLen(clsCommon.myCstr(gv1.Rows(ii).Cells(colSAC_Code).Value)) > 0 Then
