@@ -36002,7 +36002,7 @@ LL")
             coll.Add("Freight_Distance", "Integer Not Null Default 0")
             coll.Add("ProdRequestTransfer", "Integer not null default 0")
             coll.Add("EWayBill_QR_Code", "image null")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TRANSFER_ORDER_HEAD", coll, Nothing, True, True, "", "Document_No", "Document_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TRANSFER_ORDER_HEAD", coll, Nothing, True, True, "", "Document_No", "Document_Date", True)
 
 
             coll = New Dictionary(Of String, String)
@@ -36080,7 +36080,7 @@ LL")
             coll.Add("Bin_No", "varchar(50) NULL")
             coll.Add("GatePassNo", "VARCHAR(30) NULL REFERENCES TSPL_GATEPASS_TRANSFER_HEAD(Document_No)")
             coll.Add("ItemwiseTaxCode", "varchar(30) null ")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TRANSFER_ORDER_DETAIL", coll, Nothing, True, True, "TSPL_TRANSFER_ORDER_HEAD", "Document_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TRANSFER_ORDER_DETAIL", coll, Nothing, True, True, "TSPL_TRANSFER_ORDER_HEAD", "Document_No", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("IssueCode", "varchar(20) NOT NULL Primary Key")
@@ -54296,7 +54296,7 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("BarCode_Img", "image null")
             coll.Add("EWayBillRemarks", "VARCHAR(100) NULL")
             coll.Add("EWayBillValidDate", "Datetime NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_JOBWORK_BILLING_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_JOBWORK_BILLING_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
 
 
             coll = New Dictionary(Of String, String)
@@ -54358,7 +54358,7 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("TAX10_Amt", "decimal(18, 2) NULL")
             coll.Add("ItemwiseTaxCode", "varchar(30) null ")
             coll.Add("JWI_Price_Code", "VARCHAR(30) null REFERENCES TSPL_JWI_PRICE_HEAD(Price_Code)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_JOBWORK_BILLING_DETAIL", coll, Nothing, True, True, "TSPL_JOBWORK_BILLING_HEAD", "Document_Code", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_JOBWORK_BILLING_DETAIL", coll, Nothing, True, True, "TSPL_JOBWORK_BILLING_HEAD", "Document_Code", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("INCENTIVE_CODE", "varchar(30) NOT NULL Primary Key")

@@ -108,9 +108,9 @@ Public Class ClsInvoiceBulkSale
         Dim isSaved As Boolean = True
         ' Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_INVOICE_MASTER_BULKSAlE", "Document_No", "TSPL_INVOICE_DETAIL_BulKSALE", "Document_No", trans)
-            End If
+            'If Not isNewEntry Then
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_INVOICE_MASTER_BULKSAlE", "Document_No", "TSPL_INVOICE_DETAIL_BulKSALE", "Document_No", trans)
+            'End If
             'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmInvoiceBulkSale, obj.Location_Code, obj.Document_Date, trans)
             qry = "delete from TSPL_INVOICE_DETAIL_BulKSALE where Document_No='" & obj.Document_No & "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -263,6 +263,7 @@ Public Class ClsInvoiceBulkSale
             End If
             isSaved = isSaved AndAlso ClsInvoiceDetailBulkSale.saveData(obj.arrInvoiceDetailBulkSale, obj.Document_No, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_INVOICE_MASTER_BULKSAlE", "Document_No", "TSPL_INVOICE_DETAIL_BulKSALE", "Document_No", trans)
+
             ' trans.Commit()
         Catch err As Exception
             'trans.Rollback()

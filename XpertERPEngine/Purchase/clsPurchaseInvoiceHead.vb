@@ -422,9 +422,9 @@ Public Class clsPurchaseInvoiceHead
                 Next
             End If
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnPurchaseInvoice, obj.Bill_To_Location, clsCommon.myCDate(obj.PI_Date), trans)
-            If Not isNewEntry Then
-                HistoryUpdate(obj.PI_No, trans)
-            End If
+            'If Not isNewEntry Then
+            'HistoryUpdate(obj.PI_No, trans)
+            'End If
             clsPIAdditionChargeInsurance.DeleteData(obj.PI_No, trans)
             Dim qry As String = "delete from TSPL_PI_DETAIL where PI_No='" + obj.PI_No + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -684,6 +684,9 @@ Public Class clsPurchaseInvoiceHead
             isSaved = isSaved AndAlso clsApprovalScreen.SaveApprovalAtTransLevel(obj.Form_ID, "PI_No", obj.PI_No, "TSPL_PI_HEAD", trans)
             RequiredMgmtApprovalIfRateIncrease(obj, trans)
             isSaved = isSaved AndAlso clsPIAdditionChargeInsurance.SaveData(obj.PI_No, obj.PI_Date, obj.Arr_ACInsurance, trans)
+            'HistoryUpdate(obj.PI_No, trans)
+
+
             If isSaved Then
                 trans.Commit()
             End If

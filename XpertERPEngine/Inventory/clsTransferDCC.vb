@@ -4311,6 +4311,9 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
         Dim obj As clsTransferDCC = clsTransferDCC.GetData(strCode, NavigatorType.Current, trans)
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
             Try
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_TRANSFER_ORDER_HEAD", "DOCUMENT_NO", "TSPL_TRANSFER_ORDER_DETAIL", "DOCUMENT_NO", trans)
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_TRANSFER_ORDER_HEAD", "DOCUMENT_NO", "TSPL_TRANSFER_ORDER_DETAIL", "DOCUMENT_NO", trans)
+
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Transfer Order", "Transfer Order", obj.From_Location, obj.Document_Date, trans)
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)

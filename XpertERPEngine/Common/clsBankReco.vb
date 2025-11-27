@@ -32,9 +32,9 @@ Public Class clsBankReco
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleCommonServices, clsUserMgtCode.FrmBankReco, LocSegmentCode, obj.Statement_Date, trans)
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Reconciliation_Id, "tspl_BankReco_Head", "Reconciliation_Id", "tspl_BankReco_Detail", "Reconciliation_Id", trans)
-            End If
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Reconciliation_Id, "tspl_BankReco_Head", "Reconciliation_Id", "tspl_BankReco_Detail", "Reconciliation_Id", trans)
+            'End If
 
             Dim qry As String = "delete from tspl_BankReco_Detail    where Reconciliation_Id='" + obj.Reconciliation_Id + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -103,6 +103,7 @@ Public Class clsBankReco
         clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleCommonServices, clsUserMgtCode.FrmBankReco, LocSegmentCode, obj.Statement_Date, Nothing)
 
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Reconciliation_Id) > 0) Then
             Try
                 If (obj.Post = True) Then

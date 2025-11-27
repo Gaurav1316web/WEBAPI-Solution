@@ -95,9 +95,9 @@ Public Class clsVCGLHead
             Throw New Exception("Please fill at least one Account")
         End If
         Dim isSaved As Boolean = True
-        If Not isNewEntry Then
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_VCGL_Head", "Document_No", "TSPL_VCGL_Detail", "Document_No", trans)
-        End If
+        'If Not isNewEntry Then
+        '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_VCGL_Head", "Document_No", "TSPL_VCGL_Detail", "Document_No", trans)
+        'End If
         Dim qry As String = "delete from TSPL_VCGL_Detail where Document_No='" + obj.Document_No + "'"
         isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
         Dim strDocNo As String = ""

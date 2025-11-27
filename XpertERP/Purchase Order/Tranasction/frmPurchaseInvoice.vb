@@ -3866,6 +3866,22 @@ Public Class frmPurchaseInvoice
                     Return False
                 End If
             End If
+            Dim cgstAmount As Decimal = 0
+            Dim sgstAmount As Decimal = 0
+            For Each grow As GridViewRowInfo In gv2.Rows
+                Dim taxtype As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select type from tspl_Tax_master where Tax_Code='" + clsCommon.myCstr(grow.Cells(colTTaxAutCode).Value) + "' "))
+                Dim amt As Decimal = clsCommon.myCdbl(grow.Cells(colTTaxAmt).Value)
+                If taxtype = "CGST" Then
+                    cgstAmount = amt
+                ElseIf taxtype = "SGST" Then
+                    sgstAmount = amt
+                End If
+            Next
+            If clsCommon.CompairString(cgstAmount, sgstAmount) <> CompairStringResult.Equal Then
+                ' If cgstAmount <> sgstAmount Then
+                Throw New Exception("CGST " & cgstAmount & "  and SGST " & sgstAmount & " Amount must be same")
+            End If
+
             CalculateInsuranceTotal(False)
             For ii As Integer = 0 To gv1.Rows.Count - 1
                 If PurchaseModulePickFixTaxRate AndAlso clsCommon.myLen(gv1.Rows(ii).Cells(colSRNNo).Value) <= 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colRowType).Value), clsItemRowType.RowTypeItem) = CompairStringResult.Equal Then

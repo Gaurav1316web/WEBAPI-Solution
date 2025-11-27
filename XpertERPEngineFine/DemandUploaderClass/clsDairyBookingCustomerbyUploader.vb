@@ -175,9 +175,9 @@ Public Class clsDairyBookingCustomerbyUploader
 
             Dim isSaved As Boolean = True
 
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_TEMP_BOOKING_MATSER", "Document_No", "TSPL_TEMP_BOOKING_DETAIL", "Document_No", "TSPL_TEMP_BOOKING_PAYMENT_MODE_DETAIL", "Document_No", trans)
-            End If
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_TEMP_BOOKING_MATSER", "Document_No", "TSPL_TEMP_BOOKING_DETAIL", "Document_No", "TSPL_TEMP_BOOKING_PAYMENT_MODE_DETAIL", "Document_No", trans)
+            'End If
 
 
             qry = "delete from TSPL_TEMP_BOOKING_DETAIL where Document_No='" + obj.Document_No + "'"
@@ -391,10 +391,11 @@ Public Class clsDairyBookingCustomerbyUploader
 
             isSaved = isSaved AndAlso clsDairyBookingCustomerDetailbyUploader.SaveData(obj.Document_No, Arr, trans, isNewEntry, obj.Document_Date, obj.Sub_Location_code)
             isSaved = isSaved AndAlso clsDairyBookingCustomerDetailbyUploaderPaymentMode.saveData(obj.arrBookingDetailDairySalePaymentMode, obj.Document_No, obj.Document_Date, trans)
-            If isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_TEMP_BOOKING_MATSER", "Document_No", "TSPL_TEMP_BOOKING_DETAIL", "Document_No", "TSPL_TEMP_BOOKING_PAYMENT_MODE_DETAIL", "Document_No", trans)
+            'If isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_TEMP_BOOKING_MATSER", "Document_No", "TSPL_TEMP_BOOKING_DETAIL", "Document_No", "TSPL_TEMP_BOOKING_PAYMENT_MODE_DETAIL", "Document_No", trans)
 
-            End If
+            'End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_TEMP_BOOKING_MATSER", "Document_No", "TSPL_TEMP_BOOKING_DETAIL", "Document_No", "TSPL_TEMP_BOOKING_PAYMENT_MODE_DETAIL", "Document_No", trans)
 
             Return isSaved
         Catch ex As Exception

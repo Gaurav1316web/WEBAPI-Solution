@@ -38,9 +38,9 @@ Public Class clsPaymentAdjustmentEntry
     Public Function SaveData(ByVal obj As clsPaymentAdjustmentEntry, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = True
         Try
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Adjustment_No, "TSPL_Payment_Adjustment_Header", "Adjustment_No", "TSPL_Payment_Adjustment_Detail", "Adjustment_No", trans)
-            End If
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Adjustment_No, "TSPL_Payment_Adjustment_Header", "Adjustment_No", "TSPL_Payment_Adjustment_Detail", "Adjustment_No", trans)
+            'End If
 
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)

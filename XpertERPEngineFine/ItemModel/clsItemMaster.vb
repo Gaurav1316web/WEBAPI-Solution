@@ -1543,9 +1543,9 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             If CheckItemBalance(obj.Item_Code, obj.Is_Batch_Item, trans) Then
-                If Not isNewEntry Then
-                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Item_Code, "TSPL_ITEM_MASTER", "Item_Code", "TSPL_ITEM_UOM_DETAIL", "Item_Code", "TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER", "Item_Code", trans)
-                End If
+                'If Not isNewEntry Then
+                '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Item_Code, "TSPL_ITEM_MASTER", "Item_Code", "TSPL_ITEM_UOM_DETAIL", "Item_Code", "TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER", "Item_Code", trans)
+                'End If
                 Dim qry As String = "delete from TSPL_ITEM_UOM_DETAIL where Item_Code='" + obj.Item_Code + "'"
                 clsDBFuncationality.ExecuteNonQueryInSelectedDatabase(qry, ArrDatabase, trans)
                 qry = "delete from TSPL_ITEM_MASTER_CATEGORY where Item_Code='" + obj.Item_Code + "'"
@@ -1738,6 +1738,8 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
                 clsItemSchedule.SaveData(obj.Item_Code, obj.ArrSchedule, trans)
                 clsItemNOCSchedule.SaveData(obj.Item_Code, obj.ArrNOCSchedule, trans)
                 clsItemSlabTolerance.SaveData(obj.Item_Code, obj.ArrSlabTolerance, trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Item_Code, "TSPL_ITEM_MASTER", "Item_Code", "TSPL_ITEM_UOM_DETAIL", "Item_Code", "TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER", "Item_Code", trans)
+
                 trans.Commit()
             End If
         Catch err As Exception
