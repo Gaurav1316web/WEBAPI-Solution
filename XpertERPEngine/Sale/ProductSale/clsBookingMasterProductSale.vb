@@ -167,9 +167,9 @@ Public Class clsBookingMasterProductSale
                 isSaved = isSaved AndAlso clsPurchaseOrderHeadHist.SaveData(obj.Document_Code, clsCommon.myCdbl(obj.Abandonment_No + 1), trans)
             End If
 
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_BOOKING_MASTER_PRODUCTSALE", "Document_Code", "TSPL_BOOKING_DETAIL_PRODUCTSALE", "Document_Code", trans)
-            End If
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_BOOKING_MASTER_PRODUCTSALE", "Document_Code", "TSPL_BOOKING_DETAIL_PRODUCTSALE", "Document_Code", trans)
+            'End If
 
 
             Dim qry As String = "delete from TSPL_BOOKING_DETAIL_PRODUCTSALE where Document_Code='" + obj.Document_Code + "'"
@@ -356,6 +356,7 @@ Public Class clsBookingMasterProductSale
             qry = "update TSPL_BOOKING_DETAIL_PRODUCTSALE set Weight_UOM= (select Weight_UOM from TSPL_ITEM_MASTER where Item_Code=TSPL_BOOKING_DETAIL_PRODUCTSALE.Item_Code)  where Document_Code='" + obj.Document_Code + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             '''' 
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_BOOKING_MASTER_PRODUCTSALE", "Document_Code", "TSPL_BOOKING_DETAIL_PRODUCTSALE", "Document_Code", trans)
 
             isSaved = isSaved AndAlso clsApprovalScreen.SaveApprovalAtTransLevel(obj.Form_ID, "Document_Code", obj.Document_Code, "TSPL_BOOKING_MASTER_PRODUCTSALE", trans)
             If isSaved Then

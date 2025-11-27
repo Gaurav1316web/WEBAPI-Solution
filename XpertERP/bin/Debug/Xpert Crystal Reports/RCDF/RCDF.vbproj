@@ -1147,6 +1147,7 @@
     <None Include="Crystal Reports\CompanyA4Portrait.rpt" />
     <None Include="Crystal Reports\crptExciseDetails.rpt" />
     <None Include="Crystal Reports\crptExciseSummary.rpt" />
+    <None Include="Crystal Reports\Dairy Sales Report\BatchWise_PrintChallan.rpt" />
     <None Include="Crystal Reports\Dairy Sales Report\crptBPLprint.rpt" />
     <None Include="Crystal Reports\Dairy Sales Report\rptVendorServiceInvoice_Union.rpt" />
     <None Include="Crystal Reports\Fixed Assets\frmAcquisionEntryReport.rpt" />
@@ -2039,6 +2040,7 @@
     <None Include="Crystal Reports\Sales Report\CrptSTSRegister-ItemWiseSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\CrptSTSRegister-ItemWiseSummaryPartyWise.rpt" />
     <None Include="Crystal Reports\Sales Report\CrptSTSRegister-ItemWiseSummaryPartyWisee.rpt" />
+    <None Include="Crystal Reports\Sales Report\crptSubRouteWiseSaleTargetReportSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\crptTarget.rpt" />
     <None Include="Crystal Reports\Sales Report\crptTargetReport.rpt" />
     <None Include="Crystal Reports\Sales Report\CrptTcsSummaryReport.rpt" />

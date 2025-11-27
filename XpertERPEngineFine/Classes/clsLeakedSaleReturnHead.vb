@@ -76,9 +76,9 @@ Public Class clsLeakedSaleReturnHead
     End Function
     Public Shared Function SaveData(ByVal obj As clsLeakedSaleReturnHead, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_LEAKED_SALE_RETURN_HEAD", "Document_Code", "TSPL_LEAKED_SALE_RETURN_DETAIL", "Document_Code", "TSPL_LEAKED_SALE_RETURN_Main_Item", "Document_Code", trans)
-            End If
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_LEAKED_SALE_RETURN_HEAD", "Document_Code", "TSPL_LEAKED_SALE_RETURN_DETAIL", "Document_Code", "TSPL_LEAKED_SALE_RETURN_Main_Item", "Document_Code", trans)
+            'End If
             Dim qry As String = "delete from TSPL_LEAKED_SALE_RETURN_Main_Item where Document_Code='" + obj.Document_Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_LEAKED_SALE_RETURN_DETAIL where Document_Code='" + obj.Document_Code + "'"
@@ -151,6 +151,8 @@ Public Class clsLeakedSaleReturnHead
             End If
             clsLeakedSaleReturnDetail.SaveData(obj.Document_Code, obj.Arr, trans)
             clsLeakedSaleReturnMainItem.SaveData(obj.Document_Code, obj.ArrMainItem, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_LEAKED_SALE_RETURN_HEAD", "Document_Code", "TSPL_LEAKED_SALE_RETURN_DETAIL", "Document_Code", "TSPL_LEAKED_SALE_RETURN_Main_Item", "Document_Code", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -484,6 +486,8 @@ Public Class clsLeakedSaleReturnHead
                 Throw New Exception("Document No not found to Delete")
             End If
             Dim obj As clsLeakedSaleReturnHead = clsLeakedSaleReturnHead.GetData(strCode, NavigatorType.Current, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_bank_book", "SOURCEDOC_NO", trans)
+
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)

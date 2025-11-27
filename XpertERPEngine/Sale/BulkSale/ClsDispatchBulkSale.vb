@@ -121,9 +121,9 @@ Public Class ClsDispatchBulkSale
         Try
             Dim ApplyTSPriceAtBulkSale As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ApplyTSPriceAtBulkSale, clsFixedParameterCode.ApplyTSPriceAtBulkSale, trans)) = 1, True, False))
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmDispatchBulkSale, obj.Location_Code, obj.Document_Date, trans)
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_Dispatch_BulkSale", "Document_No", "TSPL_Dispatch_Detail_BulkSale", "Document_No", trans)
-            End If
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_Dispatch_BulkSale", "Document_No", "TSPL_Dispatch_Detail_BulkSale", "Document_No", trans)
+            'End If
             qry = "delete from TSPL_Dispatch_Detail_BulkSale where Document_No='" & obj.Document_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_Dispatch_Silo_Detail where Document_No='" & obj.Document_No & "'"
@@ -272,6 +272,7 @@ Public Class ClsDispatchBulkSale
             clsSiloDetailBulkSale.saveData(obj.arrSiloDetailBulkSale, obj.Document_No, trans)
             'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_Dispatch_Silo_Detail", "Document_No", "TSPL_Dispatch_Detail_BulkSale", "Document_No", trans)
 
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_Dispatch_BulkSale", "Document_No", "TSPL_Dispatch_Detail_BulkSale", "Document_No", trans)
 
             If clsCommon.CompairString(clsDBFuncationality.getSingleValue("Select Approved from TSPL_Dispatch_BulkSale where Document_No='" & obj.Document_No & "'", trans), "Y") = CompairStringResult.Equal AndAlso clsCommon.myCdbl(obj.CreditLimit) > 0 Then
                 qry = "update TSPL_CUSTOMER_MASTER set Credit_Limit=Credit_Limit+" & clsCommon.myCstr(obj.CreditLimit) & " where Cust_Code='" & obj.Customer_Code & "'"

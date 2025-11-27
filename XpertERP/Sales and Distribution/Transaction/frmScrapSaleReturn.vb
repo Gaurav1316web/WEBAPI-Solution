@@ -1693,6 +1693,10 @@ Public Class frmScrapSaleReturn
             gv1.CurrentRow.Cells(colUnit).Value = obj.Unit_Code
             gv1.CurrentRow.Cells(colprice).Value = obj.price
 
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
+                SetTax(obj.Item_Code)
+            End If
+
         Else
             gv1.CurrentRow.Cells(colICode).Value = ""
             gv1.CurrentRow.Cells(colIName).Value = ""
@@ -3353,6 +3357,43 @@ Public Class frmScrapSaleReturn
             SetTaxDetails()
         End If
     End Sub
+    Private Sub SetTax(ByVal Item_Code As String)
+        GSTStatus = clsERPFuncationality.GetGSTStatus(dtpshipment.Value)
+        Try
+            If GSTStatus = False OrElse (chkTaxable.Checked AndAlso GSTStatus) Then
+                If CalculateTaxRatefromItemwsieTaxOnSale Then
+                    If clsCommon.myLen(fndLocation.Value) > 0 Then
+                        Dim strTaxType As String = clsLocationWiseTax.TaxType(fndLocation.Value, fndcustNo.Value, "S", dtpshipment.Value, Nothing)
+                        If GSTStatus = True AndAlso clsCommon.CompairString(strTaxType, "L") = CompairStringResult.Equal Then
+
+                            txtTaxGroup.Value = clsItemWiseTaxAuthority.GetTaxGroupItemWise("L", "S", dtpshipment.Value, Item_Code, Nothing)
+                        Else
+                            'txtTaxGroup.Value = clsLocationWiseTax.GetDefaultTaxGroup(txtBillToLocation.Value, txtVendorNo.Value, "S", txtDate.Value)
+                            txtTaxGroup.Value = clsItemWiseTaxAuthority.GetTaxGroupItemWise("I", "S", dtpshipment.Value, Item_Code, Nothing)
+                        End If
+                    Else
+                        txtTaxGroup.Value = clsLocationWiseTax.GetDefaultTaxGroup(fndLocation.Value, fndcustNo.Value, "S", dtpshipment.Value)
+                    End If
+                Else
+                    txtTaxGroup.Value = clsLocationWiseTax.GetDefaultTaxGroup(fndLocation.Value, fndcustNo.Value, "S", dtpshipment.Value)
+                    lblTaxGrpName.Text = clsTaxGroupMaster.GetNameOfSaleType(txtTaxGroup.Value, Nothing)
+                End If
+
+            Else
+                If Not chkTaxable.Checked Then
+                    txtTaxGroup.Value = clsLocationWiseTax.GetExempedDefaultTaxGroup(True, fndLocation.Value, fndcustNo.Value, "S", dtpshipment.Value)
+                    lblTaxGrpName.Text = clsTaxGroupMaster.GetNameOfSaleType(txtTaxGroup.Value, Nothing)
+                End If
+            End If
+            If clsCommon.myLen(txtTaxGroup.Value) <= 0 Then
+                Throw New Exception("Please Map Item Wise Tax Master [" & Item_Code & "]")
+            End If
+            SetTaxDetails()
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+
+    End Sub
     Private Sub fndShipToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndShipToLocation._MYValidating
         Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
         Dim WhrCls As String = "Location_Type='Physical'"
@@ -3755,6 +3796,7 @@ Public Class frmScrapSaleReturn
 
     Private Sub UpdateCurrentRow(ByVal IntRowNo As Integer)
         Dim arrTaxableAuth As New List(Of String)
+        Dim arrTaxableAuth1 As New List(Of String)
         Dim dblQty As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value)
         Dim dblRate As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colprice).Value)
         Dim dblAmt As Double = dblQty * dblRate
@@ -3782,10 +3824,31 @@ Public Class frmScrapSaleReturn
                         dblBaseAmt = dblSurTaxAmt
                     Else
                         Dim dblOtherTaxAmt As Double = 0
-                        If Not IsTaxOnBaseAmt Then
-                            dblOtherTaxAmt = GetCurrentRowOtherTaxAmt(IntRowNo, Strii, arrTaxableAuth)
+                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") = CompairStringResult.Equal Then
+                            If Not IsTaxOnBaseAmt Then
+                                dblOtherTaxAmt = GetCurrentRowOtherTaxAmt(IntRowNo, Strii, arrTaxableAuth)
+                            End If
+                        Else
+                            If Not IsTaxOnBaseAmt AndAlso clsCommon.CompairString(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value, "TCS") <> CompairStringResult.Equal Then
+                                dblOtherTaxAmt = GetCurrentRowOtherTaxAmt(IntRowNo, Strii, arrTaxableAuth)
+                            ElseIf Not IsTaxOnBaseAmt AndAlso clsCommon.CompairString(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value, "TCS") = CompairStringResult.Equal Then
+                                dblOtherTaxAmt = GetCurrentRowOtherTaxAmt(IntRowNo, Strii, arrTaxableAuth1)
+                            End If
                         End If
-                        dblBaseAmt = (dblAmtAfterDis + dblOtherTaxAmt)
+
+                        'dblBaseAmt = (dblAmtAfterDis + dblOtherTaxAmt)
+                        If Not IsTaxOnBaseAmt Then
+
+                            Dim dblTotalBasicPrice As Double = 0
+                            'For n As Integer = 0 To gv1.Rows.Count - 1
+                            '    If clsCommon.myLen(gv1.Rows(n).Cells(colICode).Value) > 0 Then
+                            '        dblTotalBasicPrice = dblTotalBasicPrice + clsCommon.myCdbl(gv1.Rows(n).Cells(colAmt).Value)
+                            '    End If
+                            'Next
+                            dblBaseAmt = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colAmt).Value) ' * clsCommon.myCdbl(txttcstaxbaseamount.Value)) / dblTotalBasicPrice
+                        Else
+                            dblBaseAmt = (dblAmtAfterDis + dblOtherTaxAmt)
+                        End If
                     End If
                     gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = Math.Round(dblBaseAmt, 2)
                     If rbtnManualTCS.IsChecked Then
@@ -3808,9 +3871,21 @@ Public Class frmScrapSaleReturn
                         dblTaxAmt = (dblBaseAmt * dblTaxRate) / 100
                     End If
                     gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = Math.Round(dblTaxAmt, IIf(objCommonVar.IsRoundOffTaxToZeroDecimal, 0, 2))
-                    If IsTaxable AndAlso Not arrTaxableAuth.Contains(strTaxCode.ToUpper()) Then
-                        arrTaxableAuth.Add(strTaxCode.ToUpper())
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") = CompairStringResult.Equal Then
+                        If IsTaxable AndAlso Not arrTaxableAuth.Contains(strTaxCode.ToUpper()) Then
+                            arrTaxableAuth.Add(strTaxCode.ToUpper())
+                        End If
+                    Else
+                        If (IsTaxable AndAlso Not arrTaxableAuth.Contains(strTaxCode.ToUpper())) AndAlso (clsCommon.CompairString(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value, "CGST") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value, "SGST") <> CompairStringResult.Equal) Then
+                            arrTaxableAuth.Add(strTaxCode.ToUpper())
+                        End If
+                        If (IsTaxable AndAlso Not arrTaxableAuth1.Contains(strTaxCode.ToUpper())) Then
+                            arrTaxableAuth1.Add(strTaxCode.ToUpper())
+                        End If
                     End If
+                    'If IsTaxable AndAlso Not arrTaxableAuth.Contains(strTaxCode.ToUpper()) Then
+                    '    arrTaxableAuth.Add(strTaxCode.ToUpper())
+                    'End If
                 Else
                     gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value = Nothing
                     gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = Nothing

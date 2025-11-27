@@ -98,9 +98,9 @@ Public Class clsPaymentProcessHead
                 End If
             End If
 
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_No, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "TSPL_PAYMENT_PROCESS_DETAIL", "Doc_No", trans)
-            End If
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_No, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "TSPL_PAYMENT_PROCESS_DETAIL", "Doc_No", trans)
+            'End If
 
             clsPaymentProcessInvoices.deleteData(obj.Doc_No, trans)
             clsPaymentProcessMCCSale.deleteData(obj.Doc_No, trans)

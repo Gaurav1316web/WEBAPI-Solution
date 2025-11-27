@@ -158,9 +158,9 @@ Public Class ClsScrapSaleHeadReturn
         Dim VatInvoiceType As String = Nothing
         Try
             'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Scrap Invoice", obj.Loc_Code, obj.shipment_Date, trans)
-            If Not isNewEntry Then
-                HistoryUpdate(obj.Document_No, trans)
-            End If
+            'If Not isNewEntry Then
+            '    HistoryUpdate(obj.Document_No, trans)
+            'End If
             Dim qry As String = "delete from TSPL_SCRAPSALE_DETAIL_RETURN where Document_No='" + obj.Document_No + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 

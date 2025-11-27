@@ -154,7 +154,7 @@ Public Class FrmSalesOrder
         repoQty.Name = colQty
         repoQty.Width = 100
         repoQty.Minimum = 0
-        repoQty.ReadOnly = True
+        repoQty.ReadOnly = False
         repoQty.ShowUpDownButtons = False
         repoQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoQty)

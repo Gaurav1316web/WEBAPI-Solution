@@ -833,26 +833,26 @@ and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE='" + clsCommon.myCstr(dtVLC.Rows(0)
         Return True
     End Function
     Public Shared Function DeleteCollectionData(arrMCC As ArrayList, FromDate As Date, ToDate As Date, strShift As String) As Boolean
-        Return DeleteCollectionData(arrMCC, FromDate, ToDate, strShift, True, True)
+        Return DeleteCollectionData(arrMCC, FromDate, ToDate, strShift, True, True, True)
     End Function
-    Public Shared Function DeleteCollectionData(arrMCC As ArrayList, FromDate As Date, ToDate As Date, strShift As String, DeleteBMCCollection As Boolean, checkForPreviousShift As Boolean) As Boolean
+    Public Shared Function DeleteCollectionData(arrMCC As ArrayList, FromDate As Date, ToDate As Date, strShift As String, DeleteBMCCollection As Boolean, checkForPreviousShift As Boolean, DeleteDCSCollection As Boolean) As Boolean
         Try
             clsCommon.ProgressBarShow()
             Dim strShiftCon As String = ""
             If checkForPreviousShift Then
                 strShiftCon = " and SHIFT='E'"
-                DeleteCollectionBulk(FromDate.AddDays(-1), FromDate.AddDays(-1), strShiftCon, arrMCC, DeleteBMCCollection)
+                DeleteCollectionBulk(FromDate.AddDays(-1), FromDate.AddDays(-1), strShiftCon, arrMCC, DeleteBMCCollection, DeleteDCSCollection)
 
                 strShiftCon = ""
-                DeleteCollectionBulk(FromDate, ToDate.AddDays(-1), strShiftCon, arrMCC, DeleteBMCCollection)
+                DeleteCollectionBulk(FromDate, ToDate.AddDays(-1), strShiftCon, arrMCC, DeleteBMCCollection, DeleteDCSCollection)
 
                 strShiftCon = " and SHIFT='M'"
-                DeleteCollectionBulk(ToDate, ToDate, strShiftCon, arrMCC, DeleteBMCCollection)
+                DeleteCollectionBulk(ToDate, ToDate, strShiftCon, arrMCC, DeleteBMCCollection, DeleteDCSCollection)
             Else
                 If Not clsCommon.CompairString(clsCommon.myCstr(strShift), "B") = CompairStringResult.Equal Then
                     strShiftCon = " and SHIFT='" + clsCommon.myCstr(strShift) + "'"
                 End If
-                DeleteCollectionBulk(FromDate, ToDate, strShiftCon, arrMCC, DeleteBMCCollection)
+                DeleteCollectionBulk(FromDate, ToDate, strShiftCon, arrMCC, DeleteBMCCollection, DeleteDCSCollection)
             End If
             clsCommon.ProgressBarHide()
         Catch ex As Exception
@@ -861,10 +861,10 @@ and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE='" + clsCommon.myCstr(dtVLC.Rows(0)
         End Try
         Return True
     End Function
-    Private Shared Sub DeleteCollectionBulk(FromDate As Date, ToDate As Date, strShiftCon As String, ArrMCC As ArrayList, DeleteBMCCollection As Boolean)
+    Private Shared Sub DeleteCollectionBulk(FromDate As Date, ToDate As Date, strShiftCon As String, ArrMCC As ArrayList, DeleteBMCCollection As Boolean, DeleteDCSCollection As Boolean)
         Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            DeleteCollectionBulk(FromDate, ToDate, strShiftCon, ArrMCC, DeleteBMCCollection, tran)
+            DeleteCollectionBulk(FromDate, ToDate, strShiftCon, ArrMCC, DeleteBMCCollection, tran, DeleteDCSCollection)
 
             tran.Commit()
         Catch ex As Exception
@@ -872,7 +872,7 @@ and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE='" + clsCommon.myCstr(dtVLC.Rows(0)
             Throw New Exception(ex.Message)
         End Try
     End Sub
-    Public Shared Sub DeleteCollectionBulk(FromDate As Date, ToDate As Date, strShiftCon As String, ArrMCC As ArrayList, DeleteBMCCollection As Boolean, tran As SqlTransaction)
+    Public Shared Sub DeleteCollectionBulk(FromDate As Date, ToDate As Date, strShiftCon As String, ArrMCC As ArrayList, DeleteBMCCollection As Boolean, tran As SqlTransaction, DeleteDCSCollection As Boolean)
         Dim qry As String = ""
 
         qry = clsERPFuncationality.GetConstraintWorking("TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED", "SRN_CODE", tran)
@@ -980,12 +980,15 @@ select Document_No from TEMP_TSPL_MILK_COLLECTION_DCS_DETAIL))X"
         qry = "delete from TSPL_MILK_SHIFT_UPLOADER_HEAD where not exists(select 1 from TSPL_MILK_SHIFT_UPLOADER_DETAIL where TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No=TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No)"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
-        qry = "delete from TSPL_MILK_COLLECTION_DCS_DETAIL where PK_Id in (select PK_Id from TEMP_TSPL_MILK_COLLECTION_DCS_DETAIL)"
-        clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Document_No in (select Document_No from TSPL_MILK_COLLECTION_DCS where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_DETAIL where TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS.Document_No))"
-        clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_COLLECTION_DCS where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_DETAIL where TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS.Document_No)"
-        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+
+        If DeleteDCSCollection Then
+            qry = "delete from TSPL_MILK_COLLECTION_DCS_DETAIL where PK_Id in (select PK_Id from TEMP_TSPL_MILK_COLLECTION_DCS_DETAIL)"
+            clsDBFuncationality.ExecuteNonQuery(qry, tran)
+            qry = "delete from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Document_No in (select Document_No from TSPL_MILK_COLLECTION_DCS where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_DETAIL where TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS.Document_No))"
+            clsDBFuncationality.ExecuteNonQuery(qry, tran)
+            qry = "delete from TSPL_MILK_COLLECTION_DCS where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_DETAIL where TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS.Document_No)"
+            clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        End If
 
         If DeleteBMCCollection Then
             qry = "select * into TEMP_TSPL_MILK_COLLECTION_MCC_DETAIL from (  

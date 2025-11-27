@@ -6522,7 +6522,7 @@ ExitLOOP:
             txt_tolerance.Text = ""
         End If
     End Sub
-    Private Sub RadMenu1_Click(sender As Object, e As EventArgs) Handles RadMenu1.Click
+    Private Sub RadMenu1_Click(sender As Object, e As EventArgs)
 
     End Sub
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
@@ -7330,6 +7330,162 @@ ExitLOOP:
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+
+
+    Private Sub rbdImportItemAlias_Click(sender As Object, e As EventArgs) Handles rbdImportItemAlias.Click
+        'Dim qry As String = "SELECT ITEM_CODE AS [ITEM CODE],Item_Desc AS [ITEM NAME],Alies_Name AS [Alies Name],Report_Name as [Report Name] FROM TSPL_ITEM_MASTER"
+        '' For j As Integer = 1 To 1
+        ''qry += " ,Vendor_Name As [DCS Name],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Uploader Code],TSPL_VLC_MASTER_HEAD.Route_Code as [Route Code]"
+        ''Next
+        ''qry += " from TSPL_VENDOR_MASTER   Left Outer Join TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MASTER.Vendor_Code  "
+        'ListImpExpColumnsMandatory = New List(Of String)({"ITEM CODE"})
+        ''ListImpExpColumnsSuperMandatory = New List(Of String)({"ITEM CODE"})
+        'transportSql.ExporttoExcel(qry, "", Me)
+
+        ''  transportSql.ExporttoExcel(qry, " ", " ", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID + "ITEM")
+
+        Dim gv1 As New UserControls.MyRadGridView
+        Me.Controls.Add(gv1)
+        Dim qry As String = ""
+        Dim check As Integer = 0
+        Dim Item_Code As String = ""
+        Dim Alies_Name As String = ""
+        Dim item_name As String = ""
+        Dim ReportName As String = ""
+        Dim lineno As Integer = 1
+        Dim Arr As New List(Of clsItemMaster)
+
+        If transportSql.importExcel(gv1, "ITEM CODE", "ITEM NAME", "Alies Name", "Report Name") Then
+
+            'DCS_Code = gv1.Rows(0).Cells("DCS Code").Value
+            'Route_Code = gv1.Rows(0).Cells("Route Code").Value
+            'Uploader_Code = gv1.Rows(0).Cells("Uploader Code").Value
+            'Dim count As String
+            Dim ii As Integer = 0
+            'Dim qry As String = ""
+            Dim dtError As New DataTable
+            dtError.Columns.Add("RowNo", GetType(Integer))
+            dtError.Columns.Add("Error", GetType(String))
+            Try
+
+                If gv1 IsNot Nothing AndAlso gv1.Rows.Count > 0 Then
+                    clsCommon.ProgressBarPercentShow()
+                    For Each grow As GridViewRowInfo In gv1.Rows
+                        Try
+                            ii += 1
+                            Item_Code = clsCommon.myCstr(grow.Cells("ITEM CODE").Value)
+                            item_name = (clsCommon.myCstr(grow.Cells("ITEM NAME").Value))
+                            ReportName = (clsCommon.myCstr(grow.Cells("Report Name").Value))
+                            Alies_Name = (clsCommon.myCstr(grow.Cells("Alies Name").Value))
+                            clsCommon.ProgressBarPercentUpdate(ii, gv1.Rows.Count, "Validating Data...")
+                            If clsCommon.myLen(clsCommon.myCstr(grow.Cells("ITEM Code").Value)) > 0 Then
+                                'Dim Count1 As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select COunt(*) from tspl_item_master WHERE item_code='" + clsCommon.myCstr(txtCode) + "'", Nothing))
+                                'If Count1 > 1 Then
+                                Dim obj As New clsItemMaster
+                                'Dim obj As New clsfrmVLCMaster
+                                obj.Item_Code = clsCommon.myCstr(grow.Cells("Item Code").Value)
+                                obj.Item_Desc = clsCommon.myCstr(grow.Cells("Item Name").Value)
+                                obj.Alies_Name = clsCommon.myCstr(grow.Cells("Alies Name").Value)
+                                obj.ReportName = clsCommon.myCstr(grow.Cells("Report Name").Value)
+                                Arr.Add(obj)
+                                'Else
+                                '    Throw New Exception("ITEM Code can't be blank !")
+                                'End If
+                                ''itemmaster
+
+                                '' Throw New Exception("ITEM Code can't be blank !")
+                                'ElseIf clsCommon.myLen(DCS_Code) > 0 Then
+                                '    qry = "select Count(VSP_Code) from TSPL_VLC_MASTER_HEAD where VSP_Code='" + DCS_Code + "'"
+                                '    check = clsDBFuncationality.getSingleValue(qry)
+                                '    If check <= 0 Then
+                                '        Throw New Exception("Filled DCS code does not exist at line no. " + clsCommon.myCstr(lineno) + "")
+                                '    End If
+                            End If
+                            'If clsCommon.myLen(clsCommon.myCstr(grow.Cells("ITEM Name").Value)) <= 0 Then
+                            '    Throw New Exception("ITEM Name can't be blank !")
+                            'End If
+                            'If clsCommon.myLen(clsCommon.myCstr(grow.Cells("Route Code").Value)) > 0 Then
+                            '    qry = "select Count(ROUTE_NO) from TSPL_BULK_ROUTE_MASTER where ROUTE_NO='" + Route_Code + "'"
+                            '    check = clsDBFuncationality.getSingleValue(qry)
+                            '    If check <= 0 Then
+                            '        Throw New Exception("Filled Route Code " + clsCommon.myCstr(Route_Code) + " does not exist ")
+                            '    End If
+                            'End If
+
+                        Catch ex As Exception
+                            Dim dr As DataRow = dtError.NewRow()
+                            dr("RowNo") = ii
+                            dr("Error") = ex.Message
+                            dtError.Rows.Add(dr)
+                        End Try
+
+                    Next
+                    clsCommon.ProgressBarPercentHide()
+                End If
+
+                Try
+                    If dtError.Rows.Count > 0 Then
+                        Dim ff As New FrmFreeGrid
+                        ff.ReportID = "Import Alias Item"
+                        ff.Text = "Item Mater"
+                        ff.dt = dtError
+                        ff.ShowDialog()
+                    ElseIf Arr IsNot Nothing AndAlso Arr.Count > 0 Then
+                        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+                        Try
+
+                            'Dim qryy As String = "Valid Row [" + clsCommon.myCstr(Arr.Count) + "] Do You want to Proceed"
+                            'clsCommon.ProgressBarPercentShow()
+                            'ii = 0
+                            'ii += 1
+                            For Each obj1 As clsItemMaster In Arr
+                                ii += 1
+                                clsItemMaster.SaveAliesDetail(Nothing, False, obj1, Arr, trans)
+                            Next
+                            trans.Commit()
+                            clsCommon.ProgressBarPercentHide()
+                            clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
+                        Catch ex As Exception
+                            trans.Rollback()
+                            Throw New Exception(ex.Message)
+                        End Try
+                    End If
+                    ' clsCommon.ProgressBarPercentHide()
+                    'clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
+
+                Catch ex As Exception
+                    clsCommon.ProgressBarPercentHide()
+                    Throw New Exception(ex.Message)
+                End Try
+            Catch ex As Exception
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+
+            End Try
+        End If
+        Me.Controls.Remove(gv1)
+    End Sub
+
+    Private Sub rbdExportItemAlias_Click(sender As Object, e As EventArgs) Handles rbdExportItemAlias.Click
+
+        Dim qry As String = "SELECT ITEM_CODE AS [ITEM CODE],Item_Desc AS [ITEM NAME],Alies_Name AS [Alies Name],Report_Name as [Report Name] FROM TSPL_ITEM_MASTER"
+        ' For j As Integer = 1 To 1
+        'qry += " ,Vendor_Name As [DCS Name],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Uploader Code],TSPL_VLC_MASTER_HEAD.Route_Code as [Route Code]"
+        'Next
+        'qry += " from TSPL_VENDOR_MASTER   Left Outer Join TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MASTER.Vendor_Code  "
+        ListImpExpColumnsMandatory = New List(Of String)({"ITEM CODE"})
+        'ListImpExpColumnsSuperMandatory = New List(Of String)({"ITEM CODE"})
+        transportSql.ExporttoExcel(qry, "", Me)
+
+        '  transportSql.ExporttoExcel(qry, " ", " ", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID + "ITEM")
+
+
+
+    End Sub
+
+    Private Sub rmiExport_Click(sender As Object, e As EventArgs) Handles rmiExport.Click
+
     End Sub
 
     Private Sub ShowNOCPenalty()

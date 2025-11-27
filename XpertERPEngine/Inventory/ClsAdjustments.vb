@@ -283,9 +283,9 @@ Public Class ClsAdjustments
             clsSerializeInvenotry.DeleteData("IC-AD", obj.Adjustment_No, trans)
             clsBatchInventory.DeleteData("IC-AD", obj.Adjustment_No, trans)
             clsBatchInventoryNew.DeleteData("IC-AD", obj.Adjustment_No, trans)
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Adjustment_No, "TSPL_ADJUSTMENT_HEADER", "adjustment_no", "TSPL_ADJUSTMENT_DETAIL", "Adjustment_No", trans)
-            End If
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Adjustment_No, "TSPL_ADJUSTMENT_HEADER", "adjustment_no", "TSPL_ADJUSTMENT_DETAIL", "Adjustment_No", trans)
+            'End If
             Dim qry As String = "delete from TSPL_ADJUSTMENT_DETAIL where Adjustment_No='" + obj.Adjustment_No + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             '======================= remove details data for Delete table during update record =============================

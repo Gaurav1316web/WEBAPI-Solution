@@ -3177,6 +3177,22 @@ Public Class frmMRN
             cboMRNType.Select()
             Return False
         End If
+        Dim cgstAmount As Decimal = 0
+        Dim sgstAmount As Decimal = 0
+        For Each grow As GridViewRowInfo In gv2.Rows
+            Dim taxtype As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select type from tspl_Tax_master where Tax_Code='" + clsCommon.myCstr(grow.Cells(colTTaxAutCode).Value) + "' "))
+            Dim amt As Decimal = clsCommon.myCdbl(grow.Cells(colTTaxAmt).Value)
+            If taxtype = "CGST" Then
+                cgstAmount = amt
+            ElseIf taxtype = "SGST" Then
+                sgstAmount = amt
+            End If
+        Next
+        If clsCommon.CompairString(cgstAmount, sgstAmount) <> CompairStringResult.Equal Then
+            ' If cgstAmount <> sgstAmount Then
+            Throw New Exception("CGST " & cgstAmount & "  and SGST " & sgstAmount & " Amount must be same")
+        End If
+
 
         If clsCommon.myCDate(clsDBFuncationality.getSingleValue("Select CONVERT(date, GRN_Date,103) from TSPL_GRN_HEAD where GRN_No ='" + txtReqNo.Value + "' AND isnull(TSPL_GRN_HEAD.ISCANCEL,0)=0")) > clsCommon.myCDate(txtDate.Value) Then
             txtDate.Focus()
@@ -3193,6 +3209,10 @@ Public Class frmMRN
             Dim dblPendingQty As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colPendingQty).Value)
             Dim dblQty As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value) + clsCommon.myCdbl(gv1.Rows(ii).Cells(colLeakQty).Value) + clsCommon.myCdbl(gv1.Rows(ii).Cells(colBurstQty).Value) + clsCommon.myCdbl(gv1.Rows(ii).Cells(colShortQty).Value)
             Dim dblAmtAfterDis As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colAmtAfterDis).Value)
+
+
+
+
 
             If clsCommon.myLen(strReqNo) > 0 Then
                 If Not (arrReqNo.Contains(strReqNo)) Then
@@ -3252,6 +3272,7 @@ Public Class frmMRN
             '' ===== ENd of code===
 
         Next
+
         If ShowItemAllStructureWise = False Then
             clsItemMaster.isItemOfSameType(clsCommon.myCstr(cboItemType.SelectedValue), cboItemType.Text, arrICode)
         End If
