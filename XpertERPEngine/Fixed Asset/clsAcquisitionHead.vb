@@ -209,7 +209,6 @@ Public Class clsAcquisitionHead
                 If Status = 1 Then
                     Throw New Exception("This document is already posted.")
                 End If
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Acquisition_Code, "TSPL_ACQUISITION_HEAD", "Acquisition_Code", "TSPL_ACQUISITION_DETAIL", "Acquisition_Code", "TSPL_REMITTANCE", "Document_No", trans)
             End If
             '' delete assemble detail
             Dim qry As String = "delete from TSPL_ASSET_ASSEMBLE_DETAIL where Acquisition_Code='" + obj.Acquisition_Code + "'  "
@@ -354,6 +353,7 @@ Public Class clsAcquisitionHead
             End If
             isSaved = isSaved AndAlso clsAcquisitionDetail.SaveData(obj.Acquisition_Code, Arr, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Acquisition_Code, "TSPL_ACQUISITION_HEAD", "Acquisition_Code", "TSPL_ACQUISITION_DETAIL", "Acquisition_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Acquisition_Code, "TSPL_ACQUISITION_HEAD", "Acquisition_Code", "TSPL_ACQUISITION_DETAIL", "Acquisition_Code", "TSPL_REMITTANCE", "Document_No", trans)
 
             'isSaved = isSaved AndAlso clsAcquisitionPendingSRN.SaveData(obj.Acquisition_Code, Arr1, trans)
             isSaved = isSaved AndAlso clsRemittance.SaveData(obj.RemittanceObject, obj.Acquisition_Code, Loc_Code, trans)

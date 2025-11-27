@@ -22,9 +22,9 @@ Public Class clsPricePlanHead
     Public Function SaveData(ByVal obj As clsPricePlanHead, ByVal IsNewEntry As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            If Not IsNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Plan_Code, "TSPL_ITEM_PRICE_PLAN_HEADER", "Plan_Code", "TSPL_ITEM_PRICE_PLAN_DETAIL", "Plan_Code", trans)
-            End If
+            'If Not IsNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Plan_Code, "TSPL_ITEM_PRICE_PLAN_HEADER", "Plan_Code", "TSPL_ITEM_PRICE_PLAN_DETAIL", "Plan_Code", trans)
+            'End If
 
             Dim qry As String = "delete from TSPL_ITEM_PRICE_PLAN_DETAIL where Plan_Code='" + obj.Plan_Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)

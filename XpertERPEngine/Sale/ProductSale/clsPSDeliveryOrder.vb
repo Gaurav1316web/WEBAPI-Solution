@@ -188,9 +188,9 @@ Public Class clsPSDeliveryOrder
         Try
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductSale, clsUserMgtCode.frmDeliveryPrderProductSale, obj.Bill_To_Location, obj.Document_Date, trans)
 
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE", "Document_Code", "TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE", "Document_Code", trans)
-            End If
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE", "Document_Code", "TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE", "Document_Code", trans)
+            'End If
 
             Dim qry As String = "delete from TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE where Document_Code='" + obj.Document_Code + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -473,6 +473,7 @@ Public Class clsPSDeliveryOrder
                 isSaved = isSaved AndAlso clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE", "Document_Code", trans)
                 isSaved = isSaved AndAlso clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE", "Document_Code", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE", "Document_Code", "TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE", "Document_Code", trans)
 
             If isSaved Then
                 trans.Commit()

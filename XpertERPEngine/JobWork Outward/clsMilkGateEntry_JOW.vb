@@ -110,9 +110,9 @@ Public Class clsMilkGateEntry_JOW
         Try
             Dim issaved As Boolean = True
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.MilkJobWork, clsUserMgtCode.FrmMilkGateEntry, obj.location_Code, obj.Date_And_Time, trans)
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Gate_Entry_No), "TSPL_JWO_GATE_ENTRY", "gate_entry_no", "TSPL_JWO_GATE_ENTRY_detail", "gate_entry_no", "TSPL_JWO_GATE_ENTRY_TRASNFER", "Gate_Entry_No", trans)
-            End If
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Gate_Entry_No), "TSPL_JWO_GATE_ENTRY", "gate_entry_no", "TSPL_JWO_GATE_ENTRY_detail", "gate_entry_no", "TSPL_JWO_GATE_ENTRY_TRASNFER", "Gate_Entry_No", trans)
+            'End If
             Dim qry As String = "delete from TSPL_JWO_GATE_ENTRY_DETAIL where Gate_Entry_No='" & obj.Gate_Entry_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_JWO_GATE_ENTRY_TRASNFER where Gate_Entry_No='" & obj.Gate_Entry_No & "'"
@@ -162,6 +162,8 @@ Public Class clsMilkGateEntry_JOW
             End If
             clsMilkGateEntryDetail_JOW.saveData(obj.arrJOWGateEntryDetail, obj.Gate_Entry_No, trans)
             clsMilkGateEntryTransfer.SaveData(obj.Gate_Entry_No, obj.ArrTransferIssueNo, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Gate_Entry_No), "TSPL_JWO_GATE_ENTRY", "gate_entry_no", "TSPL_JWO_GATE_ENTRY_detail", "gate_entry_no", "TSPL_JWO_GATE_ENTRY_TRASNFER", "Gate_Entry_No", trans)
+
             Return issaved
         Catch ex As Exception
             Throw New Exception(ex.Message)

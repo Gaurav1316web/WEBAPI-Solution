@@ -511,9 +511,9 @@ Public Class clsPurchasReturnHead
         Dim isSaved As Boolean = True
         Try
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnPurchaseReturn, obj.Bill_To_Location, obj.PR_Date, trans)
-            If Not isNewEntry Then
-                HistoryUpdate(obj.PR_No, trans)
-            End If
+            ' If Not isNewEntry Then
+            'HistoryUpdate(obj.PR_No, trans)
+            ' End If
             clsPRAdditionChargeInsurance.DeleteData(obj.PR_No, trans)
             clsSerializeInvenotry.DeleteData("Purchase Return", obj.PR_No, trans)
             Dim qry As String = "delete from TSPL_PR_DETAIL where PR_No='" + obj.PR_No + "'"

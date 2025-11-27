@@ -864,6 +864,8 @@ where TSPL_JOBWORK_BILLING_HEAD.Document_Code ='" & strDocNo & "'"
                     Throw New Exception("Already Posted on : ")
                 End If
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_JOBWORK_BILLING_HEAD", "Document_Code", "TSPL_JOBWORK_BILLING_DETAIL", "Document_Code", trans)
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_JOBWORK_BILLING_HEAD", "Document_Code", "TSPL_JOBWORK_BILLING_DETAIL", "Document_Code", trans)
+
                 Dim qry As String = "delete from TSPL_JOBWORK_BILLING_DETAIL where Document_Code='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
 

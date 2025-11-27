@@ -32,9 +32,9 @@ Public Class clsTransferReturn
                 If (clsCommon.myLen(obj.Document_No) <= 0) Then
                     Throw New Exception("Error in Document Code Generation")
                 End If
-                If Not isNewEntry Then
-                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_Transfer_RETURN", "Document_No", trans)
-                End If
+                ' If Not isNewEntry Then
+                'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_Transfer_RETURN", "Document_No", trans)
+                'End If
 
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt"))
