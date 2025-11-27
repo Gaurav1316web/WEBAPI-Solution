@@ -33,11 +33,11 @@ Public Class clsJWEStimate
         Dim trans As SqlTransaction = Nothing
         Try
             trans = clsDBFuncationality.GetTransactin()
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_NO, "TSPL_JWI_ESTIMATION_SNF_PRODUCTION", "Document_NO", "TSPL_JWI_ESTIMATION_SNF_PRODUCTION_QC_PARAMETER", "Document_NO", "TSPL_JWI_ESTIMATION_RAW_ITEM", "Document_NO", trans)
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_NO, "TSPL_JWI_ESTIMATION_FAT_PRODUCTION_QC_PARAMETER", "Document_NO", "TSPL_JWI_ESTIMATION_FAT_PRODUCTION", "Document_NO", "TSPL_JWI_ESTIMATION_WEIGHMENT", "Document_NO", trans)
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_NO, "TSPL_JWI_ESTIMATION_HEAD", "Document_NO", trans)
-            End If
+            'If Not isNewEntry Then
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_NO, "TSPL_JWI_ESTIMATION_SNF_PRODUCTION", "Document_NO", "TSPL_JWI_ESTIMATION_SNF_PRODUCTION_QC_PARAMETER", "Document_NO", "TSPL_JWI_ESTIMATION_RAW_ITEM", "Document_NO", trans)
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_NO, "TSPL_JWI_ESTIMATION_FAT_PRODUCTION_QC_PARAMETER", "Document_NO", "TSPL_JWI_ESTIMATION_FAT_PRODUCTION", "Document_NO", "TSPL_JWI_ESTIMATION_WEIGHMENT", "Document_NO", trans)
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_NO, "TSPL_JWI_ESTIMATION_HEAD", "Document_NO", trans)
+            'End If
             Dim qry As String = "delete from TSPL_JWI_ESTIMATION_RAW_ITEM where Document_NO='" + obj.Document_NO + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -93,7 +93,9 @@ Public Class clsJWEStimate
             clsJWIEstimateFATProduction.SaveData(obj.Document_NO, obj.Document_Date, ArrFATProduction, trans)
             clsJWIEstimateSNFProduction.SaveData(obj.Document_NO, obj.Document_Date, ArrSNFProducion, trans)
             clsJWIEstimateRawItem.SaveData(obj.Document_NO, obj.Document_Date, ArrRawItem, trans)
-
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_NO, "TSPL_JWI_ESTIMATION_SNF_PRODUCTION", "Document_NO", "TSPL_JWI_ESTIMATION_SNF_PRODUCTION_QC_PARAMETER", "Document_NO", "TSPL_JWI_ESTIMATION_RAW_ITEM", "Document_NO", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_NO, "TSPL_JWI_ESTIMATION_FAT_PRODUCTION_QC_PARAMETER", "Document_NO", "TSPL_JWI_ESTIMATION_FAT_PRODUCTION", "Document_NO", "TSPL_JWI_ESTIMATION_WEIGHMENT", "Document_NO", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_NO, "TSPL_JWI_ESTIMATION_HEAD", "Document_NO", trans)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()

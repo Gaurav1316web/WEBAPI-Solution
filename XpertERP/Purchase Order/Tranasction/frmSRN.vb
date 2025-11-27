@@ -4367,6 +4367,23 @@ Public Class frmSRN
                     Throw New Exception("Invoice Date can't be greater than Document Date")
                 End If
             End If
+
+            Dim cgstAmount As Decimal = 0
+            Dim sgstAmount As Decimal = 0
+            For Each grow As GridViewRowInfo In gv2.Rows
+                Dim taxtype As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select type from tspl_Tax_master where Tax_Code='" + clsCommon.myCstr(grow.Cells(colTTaxAutCode).Value) + "' "))
+                Dim amt As Decimal = clsCommon.myCdbl(grow.Cells(colTTaxAmt).Value)
+                If taxtype = "CGST" Then
+                    cgstAmount = amt
+                ElseIf taxtype = "SGST" Then
+                    sgstAmount = amt
+                End If
+            Next
+            If clsCommon.CompairString(cgstAmount, sgstAmount) <> CompairStringResult.Equal Then
+                ' If cgstAmount <> sgstAmount Then
+                Throw New Exception("CGST " & cgstAmount & "  and SGST " & sgstAmount & " Amount must be same")
+            End If
+
             ''--------
             RadPageView1.SelectedPage = RadPageViewPage1
             If (btnSave.Text = "Update" AndAlso RadButton1.Visible = False) Then

@@ -80,9 +80,9 @@ Public Class ClsCanSale
             Dim ApplyTSPriceAtBulkSale As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ApplyTSPriceAtBulkSale, clsFixedParameterCode.ApplyTSPriceAtBulkSale, trans)) = 1, True, False))
 
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmCanSale, obj.Location_Code, obj.Document_Date, trans)
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_CAN_SALE_HEAD", "Document_No", "TSPL_CAN_SALE_DETAIL", "Document_No", trans)
-            End If
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_CAN_SALE_HEAD", "Document_No", "TSPL_CAN_SALE_DETAIL", "Document_No", trans)
+            'End If
             qry = "delete from TSPL_CAN_SALE_DETAIL where Document_No='" & obj.Document_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             If isNewEntry Then

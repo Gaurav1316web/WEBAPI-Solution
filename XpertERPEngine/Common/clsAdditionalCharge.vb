@@ -26,6 +26,9 @@ Public Class clsAdditionalCharge
     Public NO_GST_Credit As Boolean = False
     Public Is_Insurance As Boolean = False
     Public Is_RoundOff As Boolean = False
+    Public Tax_Group_Code As String = Nothing
+    Public HCODE As String = Nothing
+
 #End Region
 
     '----------------Code For Get Finder--------------------------------------------------------------------'
@@ -111,7 +114,7 @@ Public Class clsAdditionalCharge
         If clsCommon.CompairString(Form_ID, "VEN-SER-CHG") = CompairStringResult.Equal Then
             qry = "SELECT top 1 TSPL_SAC_WISE_TAX.DOC_DATE,tspl_Additional_Charges.Code,tspl_Additional_Charges.Is_RoundOff, tspl_Additional_Charges.description,Account_Code,Account_Description ,freightCharges,specification,abatement,Reverse_Charge_Per,Service_Type,
                                 tspl_Additional_Charges.SAC_Code,TSPL_SAC_MASTER.
-                                Description as SAC_Description,TSPL_ADDITIONAL_CHARGES.RCM,TSPL_ADDITIONAL_CHARGES.NO_GST_Credit,tspl_Additional_Charges.Is_Insurance 
+                                Description as SAC_Description,TSPL_ADDITIONAL_CHARGES.RCM,TSPL_ADDITIONAL_CHARGES.NO_GST_Credit,tspl_Additional_Charges.Is_Insurance,TSPL_SAC_WISE_TAX_GROUP.Tax_Group_Code,TSPL_SAC_WISE_TAX_GROUP.HCODE
                                 from tspl_Additional_Charges 
                                 inner join TSPL_SAC_MASTER ON tspl_Additional_Charges.SAC_Code=TSPL_SAC_MASTER.Code
                                 inner join TSPL_SAC_WISE_TAX_GROUP ON TSPL_SAC_WISE_TAX_GROUP.SAC_Code=TSPL_SAC_MASTER.Code
@@ -152,6 +155,8 @@ Public Class clsAdditionalCharge
             obj.ServiceType = clsCommon.myCstr(dt.Rows(0)("Service_Type"))
             obj.SACCode = clsCommon.myCstr(dt.Rows(0)("SAC_Code"))
             obj.SAC_Description = clsCommon.myCstr(dt.Rows(0)("SAC_Description"))
+            obj.Tax_Group_Code = clsCommon.myCstr(dt.Rows(0)("Tax_Group_Code"))
+            obj.HCODE = clsCommon.myCstr(dt.Rows(0)("HCODE"))
         End If
 
         Return obj
@@ -180,6 +185,8 @@ Public Class clsAdditionalCharge
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0) Then
             Try
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, Code, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
+
                 Dim qry As String = "delete from tspl_Additional_Charges where Code='" + Code + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
 

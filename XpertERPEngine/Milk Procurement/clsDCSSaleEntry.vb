@@ -238,9 +238,9 @@ Public Class clsDCSSaleEntry
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmDCSSaleEntry, obj.Bill_To_Location, obj.Document_Date, trans)
             AllowToSave(obj, trans)
             clsSerializeInvenotry.DeleteData("DCS-SAL-ENT", obj.Document_Code, trans)
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DCS_SALE_ENTRY", "Document_Code", "TSPL_DCS_SALE_ENTRY_DETAIL", "Document_Code", trans)
-            End If
+            'If Not isNewEntry Then
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DCS_SALE_ENTRY", "Document_Code", "TSPL_DCS_SALE_ENTRY_DETAIL", "Document_Code", trans)
+            'End If
 
             Dim qry As String = "select distinct isnull(TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE,'') DOCUMENT_CODE from TSPL_SD_SHIPMENT_DETAIL where REF_PK_ID in (select  PK_ID from TSPL_DCS_SALE_ENTRY_DETAIL where Document_Code='" + obj.Document_Code + "') "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)

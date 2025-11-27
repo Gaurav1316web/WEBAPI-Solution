@@ -160,9 +160,9 @@ Public Class clsMccMaterialSaleReturn
             ''
             clsSerializeInvenotry.DeleteData("Sale Return", obj.Document_Code, trans)
             clsBatchInventory.DeleteData("MCC-MSR", obj.Document_Code, trans)
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_SD_SALE_RETURN_HEAD", "Document_Code", "TSPL_SD_SALE_RETURN_DETAIL", "Document_Code", trans)
-            End If
+            'If Not isNewEntry Then
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_SD_SALE_RETURN_HEAD", "Document_Code", "TSPL_SD_SALE_RETURN_DETAIL", "Document_Code", trans)
+            'End If
             Dim qry As String = "delete from TSPL_SD_SALE_RETURN_DETAIL where Document_Code='" + obj.Document_Code + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             Dim strDocNo As String = ""

@@ -194,9 +194,9 @@ Public Class clsCustomerInvoiceHead
 
             clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleReceivable, clsUserMgtCode.mbtnARInvoiceEntry, obj.loc_code, obj.Document_Date, trans)
 
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_Customer_Invoice_HEAD", "Document_No", "TSPL_Customer_Invoice_Detail", "Document_No", "TSPL_REMITTANCE", "Document_No", trans)
-            End If
+            'If Not isNewEntry Then
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_Customer_Invoice_HEAD", "Document_No", "TSPL_Customer_Invoice_Detail", "Document_No", "TSPL_REMITTANCE", "Document_No", trans)
+            'End If
 
             qry = "delete from TSPL_Customer_Invoice_Detail where Document_No='" + obj.Document_No + "'"
         isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)

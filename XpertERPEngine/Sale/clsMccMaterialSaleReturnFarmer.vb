@@ -154,9 +154,9 @@ Public Class clsMccMaterialSaleReturnFarmer
             ''
             clsSerializeInvenotry.DeleteData("Sale Return Farmer", obj.Document_Code, trans)
             clsBatchInventory.DeleteData("MCC-MSR-F", obj.Document_Code, trans)
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_MCC_SALE_RETURN_HEAD_FARMER", "Document_Code", "TSPL_MCC_Sale_Return_Detail_Farmer", "Document_Code", trans)
-            End If
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_MCC_SALE_RETURN_HEAD_FARMER", "Document_Code", "TSPL_MCC_Sale_Return_Detail_Farmer", "Document_Code", trans)
+            'End If
             Dim qry As String = "delete from TSPL_MCC_Sale_Return_Detail_Farmer where Document_Code='" + obj.Document_Code + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             Dim strDocNo As String = ""
@@ -327,6 +327,7 @@ Public Class clsMccMaterialSaleReturnFarmer
             qry = "update TSPL_MCC_Sale_Return_Detail_Farmer set Weight_UOM= (select Weight_UOM from TSPL_ITEM_MASTER where Item_Code=TSPL_MCC_Sale_Return_Detail_Farmer.Item_Code)  where Document_Code='" + obj.Document_Code + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             '''' 
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_MCC_SALE_RETURN_HEAD_FARMER", "Document_Code", "TSPL_MCC_Sale_Return_Detail_Farmer", "Document_Code", trans)
 
             isSaved = isSaved AndAlso clsApprovalScreen.SaveApprovalAtTransLevel(obj.Form_ID, "Document_Code", obj.Document_Code, "TSPL_MCC_Sale_Return_Head_Farmer", trans)
             If isSaved Then

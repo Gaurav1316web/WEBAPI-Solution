@@ -50,9 +50,9 @@ Public Class clsCrateReceivedHead
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmCanReceived, obj.Location_Code, clsCommon.myCDate(obj.Document_Date), trans)
             'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmCrateReceviedDairySale, obj.Location_Code, clsCommon.myCDate(obj.Document_Date), trans)
             Dim isSaved As Boolean = True
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE", "Document_No", "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE", "Document_No", trans)
-            End If
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE", "Document_No", "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE", "Document_No", trans)
+            'End If
             qry = "delete from TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE where Document_No='" + obj.Document_No + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             Dim strDocNo As String = ""
@@ -98,6 +98,7 @@ Public Class clsCrateReceivedHead
             End If
             isSaved = isSaved AndAlso clsCrateReceivedDetail.SaveData(obj.Document_No, Arr, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE", "Document_No", "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE", "Document_No", trans)
+
             ' done by priti BHA/09/05/18-000022
             Dim strCrateCan As String = ""
             Dim AllowCratePhysicalStock As Integer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowCratePhysicalStock, clsFixedParameterCode.AllowCratePhysicalStock, trans))
