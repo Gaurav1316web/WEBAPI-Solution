@@ -3257,7 +3257,7 @@ LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_
                 ProductItem += " and Shift_Type = '" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "' "
                 ProductItem += " And Route_No = '" + clsCommon.myCstr(fndRouteNo.Value) + "' "
             End If
-            ProductItem += " and TSPL_SD_SHIPMENT_HEAD.Status=1 AND TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 group by TSPL_ITEM_MASTER.Item_Code ORDER BY Sku_Seq "
+            ProductItem += " and TSPL_SD_SHIPMENT_HEAD.Status=1 AND ((TSPL_ITEM_MASTER.Is_Ambient = 1 and TSPL_ITEM_MASTER.IsTaxable = 0) or (TSPL_ITEM_MASTER.Is_Ambient = 1 and TSPL_ITEM_MASTER.IsTaxable = 1)) group by TSPL_ITEM_MASTER.Item_Code ORDER BY Sku_Seq "
 
 
 

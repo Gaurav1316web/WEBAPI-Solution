@@ -3363,6 +3363,11 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                         Throw New Exception("Item - " + strICode + Environment.NewLine + "Entered Quantity - " + clsCommon.myCstr(dblEnteredQty) + " and Balance Quantity - " + clsCommon.myCstr(dblBalQty))
                         Return False
                     End If
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                        UpdateCurrentRow1(ii)
+                    Else
+                        UpdateCurrentRow(ii)
+                    End If
                 End If
             Next
             If ShowBookingTypeDropDownonDairyBookingCustomer AndAlso dblQuantity <= 0 AndAlso AllowZeroQtyOnDairyBooking Then
@@ -3429,8 +3434,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                     isCheck = False
                 End If
             End If
-
-            'UpdateAllTotals()
+            UpdateAllTotals()
             'Return True
         Catch ex As Exception
             Throw New Exception(ex.Message)
