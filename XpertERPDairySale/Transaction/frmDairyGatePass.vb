@@ -3257,7 +3257,7 @@ LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_
                 ProductItem += " and Shift_Type = '" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "' "
                 ProductItem += " And Route_No = '" + clsCommon.myCstr(fndRouteNo.Value) + "' "
             End If
-            ProductItem += " and TSPL_SD_SHIPMENT_HEAD.Status=1 AND ((TSPL_ITEM_MASTER.Is_Ambient = 1 and TSPL_ITEM_MASTER.IsTaxable = 0) or (TSPL_ITEM_MASTER.Is_Ambient = 1 and TSPL_ITEM_MASTER.IsTaxable = 1)) group by TSPL_ITEM_MASTER.Item_Code ORDER BY Sku_Seq "
+            ProductItem += " and TSPL_SD_SHIPMENT_HEAD.Status=1 AND TSPL_ITEM_MASTER.Is_Ambient = 1  group by TSPL_ITEM_MASTER.Item_Code ORDER BY Sku_Seq "
 
 
 
@@ -3387,7 +3387,7 @@ TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,TSP
   Convert(Decimal(18,2),(isnull(TSPL_SD_SHIPMENT_BOOKING_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[KG]) as KG_QTY ,
   Convert(Decimal(18,2),(isnull(TSPL_SD_SHIPMENT_BOOKING_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[KG]) as KG_QTY1,
   Convert(Decimal(18,2),(isnull(TSPL_SD_SHIPMENT_BOOKING_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[LTR]) as LTR_QTY,
-case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then TSPL_ITEM_MASTER.Short_Description  end AS Product_Item,
+case when TSPL_ITEM_MASTER.Is_Ambient = 1  then TSPL_ITEM_MASTER.Short_Description  end AS Product_Item,
 				case when (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) or (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 and Is_CrateType = 1) then  TSPL_ITEM_MASTER.Short_Description end as Fresh_Item
     from  TSPL_SD_SHIPMENT_BOOKING_DETAIL
 left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.TR_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code
@@ -3461,7 +3461,7 @@ TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,TSP
 Convert(Decimal(18,2),(isnull(TSPL_SD_SHIPMENT_BOOKING_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[KG]) as KG_QTY ,
   Convert(Decimal(18,2),(isnull(TSPL_SD_SHIPMENT_BOOKING_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[KG]) as KG_QTY1,
   Convert(Decimal(18,2),(isnull(TSPL_SD_SHIPMENT_BOOKING_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[LTR]) as LTR_QTY,
-case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then TSPL_ITEM_MASTER.Short_Description  end AS Product_Item,
+case when TSPL_ITEM_MASTER.Is_Ambient = 1  then TSPL_ITEM_MASTER.Short_Description  end AS Product_Item,
 				case when (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) or (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 and Is_CrateType = 1) then  TSPL_ITEM_MASTER.Short_Description end as Fresh_Item
     from  TSPL_SD_SHIPMENT_BOOKING_DETAIL
 left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.TR_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code
