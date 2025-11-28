@@ -101,7 +101,7 @@ Public Class FrmAPSSaleReport
             whrclsDate += " where Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= Convert( Date,'" + strtxtfDate + "',103) AND 
                                 Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) <= Convert(Date,'" + strToDate + "',103) and TSPL_SD_SALE_INVOICE_HEAD.Status='1' and  TSPL_SD_SALE_INVOICE_HEAD.Screen_Type='CT' "
             If chkGSTSaleRpt.Checked Then
-                qry = " select Convert(varchar(20),TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as [Invoice Date], TSPL_SD_SALE_INVOICE_HEAD.Document_Code as [Invoice No],TSPL_CUSTOMER_MASTER.Customer_Name as [Party Name],TSPL_CUSTOMER_MASTER.GSTNO as [GST No],TSPL_CUSTOMER_MASTER.State as [State Code],TSPL_ITEM_MASTER.Short_Description as [Product Name],TSPL_SD_SALE_INVOICE_DETAIL.Unit_code as [Qty Measure],TSPL_SD_SALE_INVOICE_DETAIL.Qty as [Product Qty],TSPL_ITEM_MASTER.HSN_Code as [HSN Code],
+                qry = " select Convert(varchar(20),TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as [Invoice Date], TSPL_SD_SALE_INVOICE_HEAD.Document_Code as [Invoice No],TSPL_CUSTOMER_MASTER.Customer_Name as [Party Name],TSPL_CUSTOMER_MASTER.GSTNO as [GST No],TSPL_CUSTOMER_MASTER.State as [State Code],TSPL_ITEM_MASTER.Short_Description as [Product Name],TSPL_SD_SALE_INVOICE_DETAIL.Unit_code as [Qty Measure],TSPL_SD_SALE_INVOICE_DETAIL.Qty as [Product Qty],TSPL_ITEM_MASTER.HSN_Code as [HSN Code],TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost as [Item Rate],
  case when TSPL_SD_SALE_INVOICE_DETAIL.TAX1='KKF' or TSPL_SD_SALE_INVOICE_DETAIL.TAX2='KKF' then  TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate + TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Rate else case when TSPL_SD_SALE_INVOICE_DETAIL.tax1='CGST' or TSPL_SD_SALE_INVOICE_DETAIL.tax2='CGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Rate + TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Rate else 0 end end  as [GST Rate],
 TSPL_SD_SALE_INVOICE_DETAIL.Total_Basic_Amt as [Basic Amount],
 case when TSPL_SD_SALE_INVOICE_DETAIL.tax1='MNDTAX' then TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt else case when TSPL_SD_SALE_INVOICE_DETAIL.tax2='MNDTAX' then TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt else 0 end end  as [Mandi Tax],
@@ -112,9 +112,18 @@ case when TSPL_SD_SALE_INVOICE_DETAIL.tax2='SGST' then TSPL_SD_SALE_INVOICE_DETA
 case when TSPL_SD_SALE_INVOICE_DETAIL.tax1='IGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt else case when TSPL_SD_SALE_INVOICE_DETAIL.tax3='IGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt else 0 end end as [IGST],
 TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt  as [Total Amount],
 TSPL_SD_SALE_INVOICE_HEAD.Payment_Terms as [Pay Mode],
-TSPL_SD_SALE_INVOICE_HEAD.EInvoice_Type as [Invoice Type] "
+case when TSPL_SD_SALE_INVOICE_HEAD.EInvoice_Type='BC' then 'B2C' else 'B2B' end as [Invoice Type]"
             ElseIf chkProdRpt.Checked Then
-                Throw New Exception("Product Wise Report under progress..")
+                qry = "select ROW_NUMBER() OVER (ORDER BY TSPL_ITEM_MASTER.Short_Description) as sno, TSPL_ITEM_MASTER.Short_Description as ProductName,TSPL_ITEM_MASTER.HSN_Code as HSNCODE,
+TSPL_SD_SALE_INVOICE_DETAIL.Total_Basic_Amt as BaseAmt, 
+case when TSPL_SD_SALE_INVOICE_DETAIL.tax1='MNDTAX' then TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt else case when TSPL_SD_SALE_INVOICE_DETAIL.tax2='MNDTAX' then TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt else 0 end end  as MNDTAX,
+ case when TSPL_SD_SALE_INVOICE_DETAIL.tax1='KKF' then TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt else case when TSPL_SD_SALE_INVOICE_DETAIL.tax2='KKF' then TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt else 0 end end  as KKFTAX,
+case when TSPL_SD_SALE_INVOICE_DETAIL.tax2='TCS' then TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt else case when TSPL_SD_SALE_INVOICE_DETAIL.tax3='TCS' then TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt else case when TSPL_SD_SALE_INVOICE_DETAIL.tax5='TCS' then TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Amt else 0 end  end end as PartyTCS,
+case when TSPL_SD_SALE_INVOICE_DETAIL.tax1='CGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt else case when TSPL_SD_SALE_INVOICE_DETAIL.tax3='CGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt else 0 end end as CGSTAmt,
+case when TSPL_SD_SALE_INVOICE_DETAIL.tax2='SGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt else case when TSPL_SD_SALE_INVOICE_DETAIL.tax4='SGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Amt else 0 end end as SGSTAMT,
+case when TSPL_SD_SALE_INVOICE_DETAIL.tax1='IGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt else case when TSPL_SD_SALE_INVOICE_DETAIL.tax3='IGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt else 0 end end as IGSTAmt,
+TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt as TotalTaxAmt,
+TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt  as TotalAmt "
             ElseIf ChkTenderTrackRpt.Checked Then
                 Throw New Exception("Tender Tacking Report under progress..")
 
@@ -122,7 +131,7 @@ TSPL_SD_SALE_INVOICE_HEAD.EInvoice_Type as [Invoice Type] "
             qry += " from TSPL_SD_SALE_INVOICE_HEAD
 left join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.Document_Code
 left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
-left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code " + whrclsDate
+left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code " + whrclsDate + " order by TSPL_SD_SALE_INVOICE_HEAD.Document_Date "
             dt = clsDBFuncationality.GetDataTable(qry)
             gvData.GroupDescriptors.Clear()
             gvData.MasterTemplate.SummaryRowsBottom.Clear()
@@ -280,30 +289,41 @@ left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DE
                 gvData.Columns("Product Qty").HeaderText = "Product Qty"
                 gvData.Columns("Product Qty").Width = 100
                 gvData.Columns("Product Qty").IsVisible = True
+                gvData.Columns("Product Qty").FormatString = "{0:F2}"
 
                 gvData.Columns("HSN Code").HeaderText = "HSN Code"
                 gvData.Columns("HSN Code").Width = 100
                 gvData.Columns("HSN Code").IsVisible = True
 
+                gvData.Columns("Item Rate").HeaderText = "Item Rate"
+                gvData.Columns("Item Rate").Width = 100
+                gvData.Columns("Item Rate").IsVisible = True
+                gvData.Columns("Item Rate").FormatString = "{0:F2}"
+
                 gvData.Columns("GST Rate").HeaderText = "GST Rate"
                 gvData.Columns("GST Rate").Width = 100
                 gvData.Columns("GST Rate").IsVisible = True
+                gvData.Columns("GST Rate").FormatString = "{0:F2}"
 
                 gvData.Columns("Basic Amount").HeaderText = "Basic Amount"
                 gvData.Columns("Basic Amount").Width = 100
                 gvData.Columns("Basic Amount").IsVisible = True
+                gvData.Columns("Basic Amount").FormatString = "{0:F2}"
 
                 gvData.Columns("Mandi Tax").HeaderText = "Mandi Tax"
                 gvData.Columns("Mandi Tax").Width = 100
                 gvData.Columns("Mandi Tax").IsVisible = True
+                gvData.Columns("Mandi Tax").FormatString = "{0:F2}"
 
                 gvData.Columns("Krishk Kalyan Fee").HeaderText = "Krishk Kalyan Fee"
                 gvData.Columns("Krishk Kalyan Fee").Width = 100
                 gvData.Columns("Krishk Kalyan Fee").IsVisible = True
+                gvData.Columns("Krishk Kalyan Fee").FormatString = "{0:F2}"
 
                 gvData.Columns("Party TCS").HeaderText = "Party TCS"
                 gvData.Columns("Party TCS").Width = 100
                 gvData.Columns("Party TCS").IsVisible = True
+                gvData.Columns("Party TCS").FormatString = "{0:F2}"
 
                 gvData.Columns("CGST").HeaderText = "CGST"
                 gvData.Columns("CGST").Width = 100
@@ -312,14 +332,17 @@ left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DE
                 gvData.Columns("SGST").HeaderText = "SGST"
                 gvData.Columns("SGST").Width = 100
                 gvData.Columns("SGST").IsVisible = True
+                gvData.Columns("SGST").FormatString = "{0:F2}"
 
                 gvData.Columns("IGST").HeaderText = "IGST"
                 gvData.Columns("IGST").Width = 100
                 gvData.Columns("IGST").IsVisible = True
+                gvData.Columns("IGST").FormatString = "{0:F2}"
 
                 gvData.Columns("Total Amount").HeaderText = "Total Amount"
                 gvData.Columns("Total Amount").Width = 100
                 gvData.Columns("Total Amount").IsVisible = True
+                gvData.Columns("Total Amount").FormatString = "{0:F2}"
                 gvData.Columns("Pay Mode").HeaderText = "Pay Mode"
                 gvData.Columns("Pay Mode").Width = 100
                 gvData.Columns("Pay Mode").IsVisible = True
@@ -342,165 +365,63 @@ left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DE
 
             ElseIf chkProdRpt.Checked Then
 
-                gvData.Columns("Supply Date").HeaderText = "Supply Date"
-                gvData.Columns("Supply Date").Width = 100
-                gvData.Columns("Supply Date").IsVisible = True
+                gvData.Columns("SNO").HeaderText = "S.No"
+                gvData.Columns("SNO").Width = 100
+                gvData.Columns("SNO").IsVisible = True
 
-                gvData.Columns("Shift Type").HeaderText = "Shift Type"
-                gvData.Columns("Shift Type").Width = 100
-                gvData.Columns("Shift Type").IsVisible = True
+                gvData.Columns("ProductName").HeaderText = "Product Name"
+                gvData.Columns("ProductName").Width = 100
+                gvData.Columns("ProductName").IsVisible = True
 
-                gvData.Columns("Location").HeaderText = "Location"
-                gvData.Columns("Location").Width = 100
-                gvData.Columns("Location").IsVisible = True
+                gvData.Columns("HSNCODE").HeaderText = "HSN Code"
+                gvData.Columns("HSNCODE").Width = 100
+                gvData.Columns("HSNCODE").IsVisible = True
 
-                gvData.Columns("Sub Location").HeaderText = "Sub Location"
-                gvData.Columns("Sub Location").Width = 100
-                gvData.Columns("Sub Location").IsVisible = True
-
-                gvData.Columns("GST No").HeaderText = "GST No"
-                gvData.Columns("GST No").Width = 100
-                gvData.Columns("GST No").IsVisible = True
-
-                gvData.Columns("State Code").HeaderText = "State Code"
-                gvData.Columns("State Code").Width = 100
-                gvData.Columns("State Code").IsVisible = True
-
-                gvData.Columns("Customer Code").HeaderText = "Customer Code"
-                gvData.Columns("Customer Code").Width = 100
-                gvData.Columns("Customer Code").IsVisible = True
-
-                gvData.Columns("Customer Name").HeaderText = "Customer Name"
-                gvData.Columns("Customer Name").Width = 100
-                gvData.Columns("Customer Name").IsVisible = True
-
-                gvData.Columns("Party State").HeaderText = "Party State"
-                gvData.Columns("Party State").Width = 100
-                gvData.Columns("Party State").IsVisible = True
-
-                gvData.Columns("Recipient Gst No").HeaderText = "Recipient Gst No"
-                gvData.Columns("Recipient Gst No").Width = 100
-                gvData.Columns("Recipient Gst No").IsVisible = True
-
-                gvData.Columns("E Invoice Type").HeaderText = "E Invoice Type"
-                gvData.Columns("E Invoice Type").Width = 100
-                gvData.Columns("E Invoice Type").IsVisible = True
-
-                gvData.Columns("Ack No").HeaderText = "Ack No"
-                gvData.Columns("Ack No").Width = 100
-                gvData.Columns("Ack No").IsVisible = True
-
-                gvData.Columns("Ack Date").HeaderText = "Ack Date"
-                gvData.Columns("Ack Date").Width = 100
-                gvData.Columns("Ack Date").IsVisible = True
-
-                gvData.Columns("IRN No").HeaderText = "IRN No"
-                gvData.Columns("IRN No").Width = 100
-                gvData.Columns("IRN No").IsVisible = True
-
-                gvData.Columns("Invoice No").HeaderText = "Invoice No"
-                gvData.Columns("Invoice No").Width = 100
-                gvData.Columns("Invoice No").IsVisible = True
-
-                gvData.Columns("Invoice Date").HeaderText = "Invoice Date"
-                gvData.Columns("Invoice Date").Width = 100
-                gvData.Columns("Invoice Date").IsVisible = True
-
-                gvData.Columns("Invoice Type").HeaderText = "Invoice Type"
-                gvData.Columns("Invoice Type").Width = 100
-                gvData.Columns("Invoice Type").IsVisible = True
-                gvData.Columns("Zone_Code").HeaderText = "Zone Code"
-                gvData.Columns("Zone_Code").Width = 100
-                gvData.Columns("Zone_Code").IsVisible = True
-
-                gvData.Columns("Route No").HeaderText = "Route No"
-                gvData.Columns("Route No").Width = 100
-                gvData.Columns("Route No").IsVisible = True
-
-                gvData.Columns("Item Code").HeaderText = "Item Code"
-                gvData.Columns("Item Code").Width = 100
-                gvData.Columns("Item Code").IsVisible = True
-
-                gvData.Columns("Item Name").HeaderText = "Item Name"
-                gvData.Columns("Item Name").Width = 100
-                gvData.Columns("Item Name").IsVisible = True
-
-                gvData.Columns("UOM").HeaderText = "UOM"
-                gvData.Columns("UOM").Width = 100
-                gvData.Columns("UOM").IsVisible = True
-
-                gvData.Columns("Qty").HeaderText = "Qty"
-                gvData.Columns("Qty").Width = 100
-                gvData.Columns("Qty").IsVisible = True
-
-                gvData.Columns("Item Amount").HeaderText = "Item Amount"
-                gvData.Columns("Item Amount").Width = 100
-                gvData.Columns("Item Amount").IsVisible = True
-
-                gvData.Columns("HSN Code").HeaderText = "HSN Code"
-                gvData.Columns("HSN Code").Width = 100
-                gvData.Columns("HSN Code").IsVisible = True
-
-                gvData.Columns("EwayBillNo").HeaderText = "EwayBillNo"
-                gvData.Columns("EwayBillNo").Width = 100
-                gvData.Columns("EwayBillNo").IsVisible = True
-
-                gvData.Columns("EwayBillDate").HeaderText = "EwayBillDate"
-                gvData.Columns("EwayBillDate").Width = 100
-                gvData.Columns("EwayBillDate").IsVisible = True
+                gvData.Columns("BaseAmt").HeaderText = "Base Amount"
+                gvData.Columns("BaseAmt").Width = 100
+                gvData.Columns("BaseAmt").IsVisible = True
+                gvData.Columns("BaseAmt").FormatString = "{0:F2}"
 
 
-                gvData.Columns("KKF %").HeaderText = "KKF %"
-                gvData.Columns("KKF %").Width = 100
-                gvData.Columns("KKF %").IsVisible = True
+                gvData.Columns("MNDTAX").HeaderText = "Mandi Tax"
+                gvData.Columns("MNDTAX").Width = 100
+                gvData.Columns("MNDTAX").IsVisible = True
+                gvData.Columns("MNDTAX").FormatString = "{0:F2}"
 
-                gvData.Columns("KKF Amt").HeaderText = "KKF Amt"
-                gvData.Columns("KKF Amt").Width = 100
-                gvData.Columns("KKF Amt").IsVisible = True
+                gvData.Columns("KKFTAX").HeaderText = "Krishk Kalyan Fee"
+                gvData.Columns("KKFTAX").Width = 100
+                gvData.Columns("KKFTAX").IsVisible = True
+                gvData.Columns("KKFTAX").FormatString = "{0:F2}"
 
-                gvData.Columns("Mandi Tax %").HeaderText = "Mandi Tax %"
-                gvData.Columns("Mandi Tax %").Width = 100
-                gvData.Columns("Mandi Tax %").IsVisible = True
+                gvData.Columns("PartyTCS").HeaderText = "Party TCS"
+                gvData.Columns("PartyTCS").Width = 100
+                gvData.Columns("PartyTCS").IsVisible = True
+                gvData.Columns("PartyTCS").FormatString = "{0:F2}"
 
-                gvData.Columns("Mandi Tax Amt").HeaderText = "Mandi Tax Amt"
-                gvData.Columns("Mandi Tax Amt").Width = 100
-                gvData.Columns("Mandi Tax Amt").IsVisible = True
+                gvData.Columns("CGSTAmt").HeaderText = "CGST Amt"
+                gvData.Columns("CGSTAmt").Width = 100
+                gvData.Columns("CGSTAmt").IsVisible = True
+                gvData.Columns("CGSTAmt").FormatString = "{0:F2}"
 
-                gvData.Columns("CGST %").HeaderText = "CGST %"
-                gvData.Columns("CGST %").Width = 100
-                gvData.Columns("CGST %").IsVisible = True
+                gvData.Columns("SGSTAMT").HeaderText = "SCGST Amt"
+                gvData.Columns("SGSTAMT").Width = 100
+                gvData.Columns("SGSTAMT").IsVisible = True
+                gvData.Columns("SGSTAMT").FormatString = "{0:F2}"
 
-                gvData.Columns("CGST Amt").HeaderText = "CGST Amt"
-                gvData.Columns("CGST Amt").Width = 100
-                gvData.Columns("CGST Amt").IsVisible = True
+                gvData.Columns("IGSTAmt").HeaderText = "IGST Amt"
+                gvData.Columns("IGSTAmt").Width = 100
+                gvData.Columns("IGSTAmt").IsVisible = True
+                gvData.Columns("IGSTAmt").FormatString = "{0:F2}"
 
-                gvData.Columns("IGST %").HeaderText = "IGST %"
-                gvData.Columns("IGST %").Width = 100
-                gvData.Columns("IGST %").IsVisible = True
+                gvData.Columns("TotalTaxAmt").HeaderText = "Total Tax Amt"
+                gvData.Columns("TotalTaxAmt").Width = 100
+                gvData.Columns("TotalTaxAmt").IsVisible = True
+                gvData.Columns("TotalTaxAmt").FormatString = "{0:F2}"
 
-                gvData.Columns("IGST Amt").HeaderText = "IGST Amt"
-                gvData.Columns("IGST Amt").Width = 100
-                gvData.Columns("IGST Amt").IsVisible = True
-
-                gvData.Columns("SGST %").HeaderText = "SGST %"
-                gvData.Columns("SGST %").Width = 100
-                gvData.Columns("SGST %").IsVisible = True
-
-                gvData.Columns("SGST Amt").HeaderText = "SGST Amt"
-                gvData.Columns("SGST Amt").Width = 100
-                gvData.Columns("SGST Amt").IsVisible = True
-
-                gvData.Columns("TCS %").HeaderText = "TCS %"
-                gvData.Columns("TCS %").Width = 100
-                gvData.Columns("TCS %").IsVisible = True
-
-                gvData.Columns("TCS Amt").HeaderText = "TCS Amt"
-                gvData.Columns("TCS Amt").Width = 100
-                gvData.Columns("TCS Amt").IsVisible = True
-
-                gvData.Columns("Total Amount").HeaderText = "Total Amount"
-                gvData.Columns("Total Amount").Width = 100
-                gvData.Columns("Total Amount").IsVisible = True
+                gvData.Columns("TotalAmt").HeaderText = "Total Amt"
+                gvData.Columns("TotalAmt").Width = 100
+                gvData.Columns("TotalAmt").IsVisible = True
+                gvData.Columns("TotalAmt").FormatString = "{0:F2}"
 
                 'Dim summaryRowItem As New GridViewSummaryRowItem()
                 'Dim item1 As New GridViewSummaryItem("OPBal", "{0:n2}", GridAggregateFunction.Sum)
@@ -518,5 +439,9 @@ left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DE
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+        Me.Close()
     End Sub
 End Class

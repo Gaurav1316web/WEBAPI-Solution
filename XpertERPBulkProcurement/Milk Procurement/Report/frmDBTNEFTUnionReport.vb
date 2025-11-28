@@ -476,46 +476,46 @@ Public Class frmDBTNEFTUnionReport
         Gv.Columns("User").IsVisible = False
 
         If rbtnYearly.IsChecked Then
-            Gv.Columns("M1 Billed Qty").IsVisible = False
-            Gv.Columns("M1 Farmer Qty").IsVisible = False
-            Gv.Columns("M1 Farmer Code").IsVisible = False
-            Gv.Columns("M2 Billed Qty").IsVisible = False
-            Gv.Columns("M2 Farmer Qty").IsVisible = False
-            Gv.Columns("M2 Farmer Code").IsVisible = False
-            Gv.Columns("M3 Billed Qty").IsVisible = False
-            Gv.Columns("M3 Farmer Qty").IsVisible = False
-            gv.Columns("M3 Farmer Code").IsVisible = False
-            gv.Columns("M4 Billed Qty").IsVisible = False
-            gv.Columns("M4 Farmer Qty").IsVisible = False
-            gv.Columns("M4 Farmer Code").IsVisible = False
-            gv.Columns("M5 Billed Qty").IsVisible = False
-            gv.Columns("M5 Farmer Qty").IsVisible = False
-            gv.Columns("M5 Farmer Code").IsVisible = False
-            gv.Columns("M6 Billed Qty").IsVisible = False
-            gv.Columns("M6 Farmer Qty").IsVisible = False
-            gv.Columns("M6 Farmer Code").IsVisible = False
-            gv.Columns("M7 Billed Qty").IsVisible = False
-            gv.Columns("M7 Farmer Qty").IsVisible = False
-            gv.Columns("M7 Farmer Code").IsVisible = False
-            gv.Columns("M8 Billed Qty").IsVisible = False
-            gv.Columns("M8 Farmer Qty").IsVisible = False
-            gv.Columns("M8 Farmer Code").IsVisible = False
-            gv.Columns("M9 Billed Qty").IsVisible = False
-            gv.Columns("M9 Farmer Qty").IsVisible = False
-            gv.Columns("M9 Farmer Code").IsVisible = False
-            gv.Columns("M10 Billed Qty").IsVisible = False
-            gv.Columns("M10 Farmer Qty").IsVisible = False
-            gv.Columns("M10 Farmer Code").IsVisible = False
-            gv.Columns("M11 Billed Qty").IsVisible = False
-            gv.Columns("M11 Farmer Qty").IsVisible = False
-            gv.Columns("M11 Farmer Code").IsVisible = False
-            gv.Columns("M12 Billed Qty").IsVisible = False
-            gv.Columns("M12 Farmer Qty").IsVisible = False
-            gv.Columns("M12 Farmer Code").IsVisible = False
-            gv.Columns("Total Billed Qty").IsVisible = False
-            Gv.Columns("Total Farmer Qty").IsVisible = False
-            Gv.Columns("Total No. Of Farmer").IsVisible = False
-            Gv.Columns("Month1").IsVisible = False
+            gv.Columns("M1 Billed Qty").IsVisible = True
+            gv.Columns("M1 Farmer Qty").IsVisible = True
+            gv.Columns("M1 Farmer Code").IsVisible = True
+            gv.Columns("M2 Billed Qty").IsVisible = True
+            gv.Columns("M2 Farmer Qty").IsVisible = True
+            gv.Columns("M2 Farmer Code").IsVisible = True
+            gv.Columns("M3 Billed Qty").IsVisible = True
+            gv.Columns("M3 Farmer Qty").IsVisible = True
+            gv.Columns("M3 Farmer Code").IsVisible = True
+            gv.Columns("M4 Billed Qty").IsVisible = True
+            gv.Columns("M4 Farmer Qty").IsVisible = True
+            gv.Columns("M4 Farmer Code").IsVisible = True
+            gv.Columns("M5 Billed Qty").IsVisible = True
+            gv.Columns("M5 Farmer Qty").IsVisible = True
+            gv.Columns("M5 Farmer Code").IsVisible = True
+            gv.Columns("M6 Billed Qty").IsVisible = True
+            gv.Columns("M6 Farmer Qty").IsVisible = True
+            gv.Columns("M6 Farmer Code").IsVisible = True
+            gv.Columns("M7 Billed Qty").IsVisible = True
+            gv.Columns("M7 Farmer Qty").IsVisible = True
+            gv.Columns("M7 Farmer Code").IsVisible = True
+            gv.Columns("M8 Billed Qty").IsVisible = True
+            gv.Columns("M8 Farmer Qty").IsVisible = True
+            gv.Columns("M8 Farmer Code").IsVisible = True
+            gv.Columns("M9 Billed Qty").IsVisible = True
+            gv.Columns("M9 Farmer Qty").IsVisible = True
+            gv.Columns("M9 Farmer Code").IsVisible = True
+            gv.Columns("M10 Billed Qty").IsVisible = True
+            gv.Columns("M10 Farmer Qty").IsVisible = True
+            gv.Columns("M10 Farmer Code").IsVisible = True
+            gv.Columns("M11 Billed Qty").IsVisible = True
+            gv.Columns("M11 Farmer Qty").IsVisible = True
+            gv.Columns("M11 Farmer Code").IsVisible = True
+            gv.Columns("M12 Billed Qty").IsVisible = True
+            gv.Columns("M12 Farmer Qty").IsVisible = True
+            gv.Columns("M12 Farmer Code").IsVisible = True
+            gv.Columns("Total Billed Qty").IsVisible = True
+            gv.Columns("Total Farmer Qty").IsVisible = True
+            gv.Columns("Total No. Of Farmer").IsVisible = True
+            gv.Columns("Month1").IsVisible = False
             Gv.Columns("Month2").IsVisible = False
             Gv.Columns("Month3").IsVisible = False
             Gv.Columns("Month4").IsVisible = False
@@ -544,7 +544,7 @@ Public Class frmDBTNEFTUnionReport
             gv.Columns("M1 No Of Doc").FormatString = "{0:n2}"
         End If
 
-        Gv.Columns("M1 Billed Qty").HeaderText = "Qty"
+        gv.Columns("M1 Billed Qty").HeaderText = "DCS Qty"
         gv.Columns("M1 Billed Qty").Width = 100
         gv.Columns("M1 Billed Qty").FormatString = "{0:n2}"
 
@@ -570,7 +570,7 @@ Public Class frmDBTNEFTUnionReport
             gv.Columns("M2 No Of Doc").FormatString = "{0:n2}"
         End If
 
-        Gv.Columns("M2 Billed Qty").HeaderText = "Qty"
+        gv.Columns("M2 Billed Qty").HeaderText = "DCS Qty"
         gv.Columns("M2 Billed Qty").Width = 100
         gv.Columns("M2 Billed Qty").FormatString = "{0:n2}"
 
@@ -596,7 +596,7 @@ Public Class frmDBTNEFTUnionReport
             gv.Columns("M3 No Of Doc").FormatString = "{0:n2}"
         End If
 
-        Gv.Columns("M3 Billed Qty").HeaderText = "Qty"
+        gv.Columns("M3 Billed Qty").HeaderText = "DCS Qty"
         gv.Columns("M3 Billed Qty").Width = 100
         gv.Columns("M3 Billed Qty").FormatString = "{0:n2}"
 
@@ -626,7 +626,7 @@ Public Class frmDBTNEFTUnionReport
             gv.Columns("M4 No Of Doc").FormatString = "{0:n2}"
         End If
 
-        gv.Columns("M4 Billed Qty").HeaderText = "Qty"
+        gv.Columns("M4 Billed Qty").HeaderText = "DCS Qty"
         gv.Columns("M4 Billed Qty").Width = 100
         gv.Columns("M4 Billed Qty").FormatString = "{0:n2}"
 
@@ -653,7 +653,7 @@ Public Class frmDBTNEFTUnionReport
             gv.Columns("M5 No Of Doc").FormatString = "{0:n2}"
         End If
 
-        gv.Columns("M5 Billed Qty").HeaderText = "Qty"
+        gv.Columns("M5 Billed Qty").HeaderText = "DCS Qty"
         gv.Columns("M5 Billed Qty").Width = 100
         gv.Columns("M5 Billed Qty").FormatString = "{0:n2}"
 
@@ -680,7 +680,7 @@ Public Class frmDBTNEFTUnionReport
             gv.Columns("M6 No Of Doc").FormatString = "{0:n2}"
         End If
 
-        gv.Columns("M6 Billed Qty").HeaderText = "Qty"
+        gv.Columns("M6 Billed Qty").HeaderText = "DCS Qty"
         gv.Columns("M6 Billed Qty").Width = 100
         gv.Columns("M6 Billed Qty").FormatString = "{0:n2}"
 
@@ -707,7 +707,7 @@ Public Class frmDBTNEFTUnionReport
             gv.Columns("M7 No Of Doc").FormatString = "{0:n2}"
         End If
 
-        gv.Columns("M7 Billed Qty").HeaderText = "Qty"
+        gv.Columns("M7 Billed Qty").HeaderText = "DCS Qty"
         gv.Columns("M7 Billed Qty").Width = 100
         gv.Columns("M7 Billed Qty").FormatString = "{0:n2}"
 
@@ -734,7 +734,7 @@ Public Class frmDBTNEFTUnionReport
             gv.Columns("M8 No Of Doc").FormatString = "{0:n2}"
         End If
 
-        gv.Columns("M8 Billed Qty").HeaderText = "Qty"
+        gv.Columns("M8 Billed Qty").HeaderText = "DCS Qty"
         gv.Columns("M8 Billed Qty").Width = 100
         gv.Columns("M8 Billed Qty").FormatString = "{0:n2}"
 
@@ -760,7 +760,7 @@ Public Class frmDBTNEFTUnionReport
             gv.Columns("M9 No Of Doc").FormatString = "{0:n2}"
         End If
 
-        gv.Columns("M9 Billed Qty").HeaderText = "Qty"
+        gv.Columns("M9 Billed Qty").HeaderText = "DCS Qty"
         gv.Columns("M9 Billed Qty").Width = 100
         gv.Columns("M9 Billed Qty").FormatString = "{0:n2}"
 
@@ -787,7 +787,7 @@ Public Class frmDBTNEFTUnionReport
             gv.Columns("M10 No Of Doc").FormatString = "{0:n2}"
         End If
 
-        gv.Columns("M10 Billed Qty").HeaderText = "Qty"
+        gv.Columns("M10 Billed Qty").HeaderText = "DCS Qty"
         gv.Columns("M10 Billed Qty").Width = 100
         gv.Columns("M10 Billed Qty").FormatString = "{0:n2}"
 
@@ -815,7 +815,7 @@ Public Class frmDBTNEFTUnionReport
             gv.Columns("M11 No Of Doc").FormatString = "{0:n2}"
         End If
 
-        gv.Columns("M11 Billed Qty").HeaderText = "Qty"
+        gv.Columns("M11 Billed Qty").HeaderText = "DCS Qty"
         gv.Columns("M11 Billed Qty").Width = 100
         gv.Columns("M11 Billed Qty").FormatString = "{0:n2}"
 
@@ -843,7 +843,7 @@ Public Class frmDBTNEFTUnionReport
             gv.Columns("M12 No Of Doc").FormatString = "{0:n2}"
         End If
 
-        gv.Columns("M12 Billed Qty").HeaderText = "Qty"
+        gv.Columns("M12 Billed Qty").HeaderText = "DCS Qty"
         gv.Columns("M12 Billed Qty").Width = 100
         gv.Columns("M12 Billed Qty").FormatString = "{0:n2}"
 

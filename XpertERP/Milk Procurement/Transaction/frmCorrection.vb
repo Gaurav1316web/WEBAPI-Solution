@@ -65,6 +65,7 @@ Public Class frmCorrection
                 RadPageView1.Pages("RadPageViewPage2").Item.Visibility = ElementVisibility.Collapsed
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                     RadPageView1.Pages("RadPageViewPage7").Item.Visibility = ElementVisibility.Visible
+                    chkDeleteDCSCollection.Visible = True
                 End If
 
                 SetUserMgmtNew()
@@ -1185,7 +1186,7 @@ order by  xx.Shift desc,xx.Qty "
             If clsCommon.MyMessageBoxShow("Delete the collection data", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
                 Exit Sub
             End If
-            clsMilkShiftUploaderHead.DeleteCollectionData(TxtMultiSelectFinder8.arrValueMember, txtMCCFromDate.Value, txtMCCToDate.Value, clsCommon.myCstr(txtFromShift.SelectedValue), chkDeleteBMCCollection.Checked, chkPreviousShift.Checked)
+            clsMilkShiftUploaderHead.DeleteCollectionData(TxtMultiSelectFinder8.arrValueMember, txtMCCFromDate.Value, txtMCCToDate.Value, clsCommon.myCstr(txtFromShift.SelectedValue), chkDeleteBMCCollection.Checked, chkPreviousShift.Checked, chkDeleteDCSCollection.Checked)
             clsCommon.MyMessageBoxShow(Me, "Successfully Deleted", Me.Text)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
