@@ -154,7 +154,7 @@ Public Class frmChapterHead
         Else
             Try
                 connectSql.RunSp("sp_chapterhead_update", New SqlParameter("@chapterhead", fndchapterhead.Value), New SqlParameter("@chapterheaddesc", rdtxtchapterdesc.Text), New SqlParameter("@CreatedBy", userCode), New SqlParameter("@CreatedDate", connectSql.serverDate()), New SqlParameter("@ModifyBy", userCode), New SqlParameter("@ModifyDate", connectSql.serverDate()), New SqlParameter("@ComCode", companyCode))
-                ' clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndchapterhead.Value, "tspl_chapter_head", "chapter_head_code", Nothing)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndchapterhead.Value, "tspl_chapter_head", "chapter_head_code", Nothing)
 
                 myMessages.update()
                 rdbtnSave.Text = "Update"

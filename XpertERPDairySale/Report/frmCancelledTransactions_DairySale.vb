@@ -49,7 +49,7 @@ from TSPL_PROGRAM_MASTER
 left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('SM')) as TBL_SMODULE on TBL_SMODULE.Program_Code = TSPL_PROGRAM_MASTER.Parent_Code
 left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('M')) as TBL_MODULE on TBL_MODULE.Program_Code = TBL_SMODULE.Parent_Code
 Where TBL_MODULE.Program_Code in (select  distinct Module_Name from TSPL_MODULE_PERMISSION ) and  not TSPL_PROGRAM_MASTER.Type in ('M','SM') 
-and TBL_MODULE.Program_Code in ('" & clsUserMgtCode.ModuleSaleDairy & "','" & clsUserMgtCode.ModuleSalesNew & "','" & clsUserMgtCode.SubModuleSaleNewTransaction & "','" & clsUserMgtCode.ModuleMCCMilkProcurement & "') 
+and TBL_MODULE.Program_Code in ('" & clsUserMgtCode.ModuleSaleDairy & "','" & clsUserMgtCode.ModuleSalesNew & "','" & clsUserMgtCode.SubModuleSaleNewTransaction & "','" & clsUserMgtCode.ModuleMCCMilkProcurement & "','" & clsUserMgtCode.ModulePurchase & "') 
 and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') 
  "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
@@ -73,7 +73,7 @@ left outer join (select Program_Code, Program_Name,Parent_Code,case when len (is
 left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('M')) as TBL_MODULE on TBL_MODULE.Program_Code = TBL_SMODULE.Parent_Code
 Where TBL_MODULE.Program_Code in (select  distinct Module_Name from TSPL_MODULE_PERMISSION ) and  not TSPL_PROGRAM_MASTER.Type in ('M','SM') 
 and TBL_SMODULE.Parent_Code In ('" & clsCommon.myCstr(cboModule.SelectedValue) & "') 
-and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') And TSPL_PROGRAM_MASTER.Program_Code In ('" & clsUserMgtCode.frmSaleDispatchDairy & "','" & clsUserMgtCode.frmSNSaleInvoice & "','" & clsUserMgtCode.frmDairyGatePass & "','" & clsUserMgtCode.frmMCCMaterial & "','" & clsUserMgtCode.frmDairyBookingCustomer & "','" & clsUserMgtCode.frmWreckageBooking & "','" & clsUserMgtCode.frmSNPOS & "','" & clsUserMgtCode.frmGatePassDairy & "')
+and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') And TSPL_PROGRAM_MASTER.Program_Code In ('" & clsUserMgtCode.frmSaleDispatchDairy & "','" & clsUserMgtCode.frmSNSaleInvoice & "','" & clsUserMgtCode.frmDairyGatePass & "','" & clsUserMgtCode.frmMCCMaterial & "','" & clsUserMgtCode.frmDairyBookingCustomer & "','" & clsUserMgtCode.frmWreckageBooking & "','" & clsUserMgtCode.frmSNPOS & "','" & clsUserMgtCode.frmGatePassDairy & "','" & clsUserMgtCode.ScrapSale & "')
  "
             dt = clsDBFuncationality.GetDataTable(Qry)
             'dr = dt.NewRow()
@@ -146,9 +146,9 @@ and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transacti
         End If
 
         Dim count As Integer = gv1.MasterTemplate.Columns.Count
-        For i As Integer = 2 To count - 2
+        For i As Integer = 2 To count - 1
             Me.gv1.MasterTemplate.Columns(i).Width = 120
-        Next i
+        Next
         Me.gv1.MasterTemplate.Columns("Description").Width = 200    ''Last Column
         For j As Integer = 0 To count - 1
             Me.gv1.MasterTemplate.Columns(j).ReadOnly = True
@@ -231,11 +231,11 @@ TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Ack_Date as [Ack Date],TSPL_SD_SHIPMENT_HE
                 If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
                     qry += " and TSPL_SD_SHIPMENT_HEAD_Delete_Data.Bill_To_Location  in   (" & clsCommon.GetMulcallString(cbgLocation.CheckedValue) & ") "
                 End If
-                If chkUserSelect.IsChecked AndAlso cbgUser.CheckedValue.Count > 0 Then
-                    qry += " and TSPL_SD_SHIPMENT_HEAD_Delete_Data.Created_By IN (" & clsCommon.GetMulcallString(cbgUser.CheckedValue) & ")"
-                Else
-                    qry += " and TSPL_SD_SHIPMENT_HEAD_Delete_Data.Created_By IN (" & clsCommon.GetMulcallString(arrSelectedUser) & ")"
-                End If
+                'If chkUserSelect.IsChecked AndAlso cbgUser.CheckedValue.Count > 0 Then
+                '    qry += " and TSPL_SD_SHIPMENT_HEAD_Delete_Data.Created_By IN (" & clsCommon.GetMulcallString(cbgUser.CheckedValue) & ")"
+                'Else
+                '    qry += " and TSPL_SD_SHIPMENT_HEAD_Delete_Data.Created_By IN (" & clsCommon.GetMulcallString(arrSelectedUser) & ")"
+                'End If
                 qry += " ORDER BY TSPL_SD_SHIPMENT_HEAD_Delete_Data.Document_date,TSPL_SD_SHIPMENT_HEAD_Delete_Data.Document_Code "
             Else
                 gv1.DataSource = Nothing
@@ -392,15 +392,18 @@ TSPL_SD_SALE_INVOICe_HEAD_Cancel_Data.Ack_Date as [Ack Date],TSPL_SD_SHIPMENT_HE
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmDairyBookingCustomer) = CompairStringResult.Equal Then
             If RdbDelete.IsChecked Then
                 gv1.DataSource = Nothing
-                qry = " select TSPL_BOOKING_MATSER_Delete_Data.Document_No  as [Document Id] , convert(varchar,TSPL_BOOKING_MATSER_Delete_Data.Document_date ,103) as [Document Date],
-TSPL_BOOKING_MATSER_Delete_Data.location_code as [Location Code], Convert(varchar,TSPL_BOOKING_MATSER_Delete_Data.Supply_Date,103) As [Supply Date], Case When TSPL_BOOKING_MATSER_Delete_Data.Is_Taxable=0 Then 'Non-Taxable' Else 'Taxable' End As [Invoice Type],TSPL_BOOKING_MATSER_Delete_Data.Against_DemandBooking_No as [Against Booking No], TSPL_BOOKING_MATSER_Delete_Data.Created_By as [Created By], (convert(varchar,TSPL_BOOKING_MATSER_Delete_Data.Created_Date,103)+' '+convert(varchar,TSPL_BOOKING_MATSER_Delete_Data.Created_Date,108)) as [Created Date],TSPL_BOOKING_MATSER_Delete_Data.Delete_By AS [Deleted By],(CONVERT(varchar,TSPL_BOOKING_MATSER_Delete_Data.Delete_On,103)+' '+CONVERT(varchar,TSPL_BOOKING_MATSER_Delete_Data.Delete_On,108)) AS [Deleted Date]
-,'' as Description from TSPL_BOOKING_MATSER_Delete_Data   
-            WHERE "
+                qry = "  select TSPL_BOOKING_MATSER_Delete_Data.Document_No  as [Document Id] , convert(varchar,TSPL_BOOKING_MATSER_Delete_Data.Document_date ,103) as [Document Date],TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Code As [Invoice No],Convert(Varchar(10),TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Date,103) As [Invoice Date],
+TSPL_BOOKING_MATSER_Delete_Data.location_code as [Location Code],TSPL_BOOKING_MATSER_Delete_Data.sub_Location_Code As [Sub Location Code], 
+TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Customer_Code As [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name As [Customer Name],Convert(varchar,TSPL_BOOKING_MATSER_Delete_Data.Supply_Date,103) As [Supply Date], Case When TSPL_BOOKING_MATSER_Delete_Data.Is_Taxable=0 Then 'Non-Taxable' Else 'Taxable' End As [Invoice Type], TSPL_BOOKING_MATSER_Delete_Data.Created_By as [Created By], (convert(varchar,TSPL_BOOKING_MATSER_Delete_Data.Created_Date,103)+' '+convert(varchar,TSPL_BOOKING_MATSER_Delete_Data.Created_Date,108)) as [Created Date],TSPL_BOOKING_MATSER_Delete_Data.Delete_By AS [Deleted By],(CONVERT(varchar,TSPL_BOOKING_MATSER_Delete_Data.Delete_On,103)+' '+CONVERT(varchar,TSPL_BOOKING_MATSER_Delete_Data.Delete_On,108)) AS [Deleted Date]
+,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Description from TSPL_BOOKING_MATSER_Delete_Data  
+Left Outer Join TSPL_SD_SHIPMENT_HEAD_Cancel_Data On TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_Booking_No=TSPL_BOOKING_MATSER_Delete_Data.Document_No
+Left Outer Join TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data On TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_Code
+Left Outer Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Customer_Code WHERE "
                 If rbtnCancelDate.IsChecked Then
-                    qry += "convert(date,TSPL_BOOKING_MATSER_Delete_Data.Delete_On ,103) >= convert(date,'" & dtpFromDate.Value & "',103) and 
+                    qry += " convert(date,TSPL_BOOKING_MATSER_Delete_Data.Delete_On ,103) >= convert(date,'" & dtpFromDate.Value & "',103) and 
                     convert(date,TSPL_BOOKING_MATSER_Delete_Data.Delete_On,103) <= convert(date,'" & dtpToDate.Value & "',103) "
                 Else
-                    qry += "convert(date,TSPL_BOOKING_MATSER_Delete_Data.Document_date ,103) >= convert(date,'" & dtpFromDate.Value & "',103) and 
+                    qry += " convert(date,TSPL_BOOKING_MATSER_Delete_Data.Document_date ,103) >= convert(date,'" & dtpFromDate.Value & "',103) and 
                   convert(date,TSPL_BOOKING_MATSER_Delete_Data.Document_date,103) <= convert(date,'" & dtpToDate.Value & "',103) "
 
                 End If
@@ -414,10 +417,14 @@ TSPL_BOOKING_MATSER_Delete_Data.location_code as [Location Code], Convert(varcha
                 'End If
             Else
                 gv1.DataSource = Nothing
-                qry = " select TSPL_BOOKING_MATSER_Cancel_Data.Document_No  as [Document Id] , convert(varchar,TSPL_BOOKING_MATSER_Cancel_Data.Document_date ,103) as [Document Date],
-TSPL_BOOKING_MATSER_Cancel_Data.location_code as [Location Code], Convert(varchar,TSPL_BOOKING_MATSER_Cancel_Data.Supply_Date,103) As [Supply Date], Case When TSPL_BOOKING_MATSER_Cancel_Data.Is_Taxable=0 Then 'Non-Taxable' Else 'Taxable' End As [Invoice Type],TSPL_BOOKING_MATSER_Cancel_Data.Against_DemandBooking_No as [Against Booking No], TSPL_BOOKING_MATSER_Cancel_Data.Created_By as [Created By], (convert(varchar,TSPL_BOOKING_MATSER_Cancel_Data.Created_Date,103)+' '+convert(varchar,TSPL_BOOKING_MATSER_Cancel_Data.Created_Date,108)) as [Created Date],TSPL_BOOKING_MATSER_Cancel_Data.Cancel_By AS [Canceled By],(CONVERT(varchar,TSPL_BOOKING_MATSER_Cancel_Data.Cancel_On,103)+' '+CONVERT(varchar,TSPL_BOOKING_MATSER_Cancel_Data.Cancel_On,108)) AS [Canceled Date]
-,'' as Description from TSPL_BOOKING_MATSER_Cancel_Data   
-            WHERE "
+                qry = " select TSPL_BOOKING_MATSER_Cancel_Data.Document_No as [Document Id] , convert(varchar,TSPL_BOOKING_MATSER_Cancel_Data.Document_date ,103) as [Document Date],TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Code As [Invoice No],Convert(Varchar(10),TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Date,103) As [Invoice Date],
+TSPL_BOOKING_MATSER_Cancel_Data.location_code as [Location Code],TSPL_BOOKING_MATSER_Cancel_Data.sub_Location_Code As [Sub Location Code], 
+TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Customer_Code As [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name As [Customer Name],
+Convert(varchar,TSPL_BOOKING_MATSER_Cancel_Data.Supply_Date,103) As [Supply Date], Case When TSPL_BOOKING_MATSER_Cancel_Data.Is_Taxable=0 Then 'Non-Taxable' Else 'Taxable' End As [Invoice Type],TSPL_BOOKING_MATSER_Cancel_Data.Created_By as [Created By], (convert(varchar,TSPL_BOOKING_MATSER_Cancel_Data.Created_Date,103)+' '+convert(varchar,TSPL_BOOKING_MATSER_Cancel_Data.Created_Date,108)) as [Created Date],TSPL_BOOKING_MATSER_Cancel_Data.Cancel_By AS [Canceled By],(CONVERT(varchar,TSPL_BOOKING_MATSER_Cancel_Data.Cancel_On,103)+' '+CONVERT(varchar,TSPL_BOOKING_MATSER_Cancel_Data.Cancel_On,108)) AS [Canceled Date]
+,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Description from TSPL_BOOKING_MATSER_Cancel_Data 
+Left Outer Join TSPL_SD_SHIPMENT_HEAD_Cancel_Data On TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_Booking_No=TSPL_BOOKING_MATSER_Cancel_Data.Document_No
+Left Outer Join TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data On TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_Code
+Left Outer Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Customer_Code WHERE "
                 If rbtnCancelDate.IsChecked Then
                     qry += "convert(date,TSPL_BOOKING_MATSER_Cancel_Data.Cancel_On ,103) >= convert(date,'" & dtpFromDate.Value & "',103) and 
                     convert(date,TSPL_BOOKING_MATSER_Cancel_Data.Cancel_On,103) <= convert(date,'" & dtpToDate.Value & "',103) "
@@ -533,11 +540,51 @@ TSPL_GATEPASS_MASTER_DAIRYSALE_cancel_data.Created_By as [Created By], (convert(
                 'End If
 
             End If
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.ScrapSale) = CompairStringResult.Equal Then
+            If rdbCancel.IsChecked Then
+                qry = "Select TSPL_SCRAPSALE_HEAD_Cancel_Data.shipment_No As [Document ID],Convert(Varchar(10),TSPL_SCRAPSALE_HEAD_Cancel_Data.shipment_Date,103) As [Document Date],TSPL_SCRAPINVOICE_HEAD_Cancel_Data.invoice_No As [Invoice No],
+TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Ack_No As [Ack No],Convert(Varchar(10),TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Ack_Date,103) As [Ack Date],
+TSPL_SCRAPSALE_HEAD_Cancel_Data.cust_Code As [Customer Code],TSPL_SCRAPSALE_HEAD_Cancel_Data.cust_Name As [Customer Name],Case When TSPL_SCRAPSALE_HEAD_Cancel_Data.Invoice_Type='T' Then 'Taxable' Else 'Non-Taxable' End As [Invoice Type],
+TSPL_SCRAPSALE_HEAD_Cancel_Data.Loc_Code As [Location Code],TSPL_SCRAPSALE_HEAD_Cancel_Data.Loc_Name As [Location Name],
+TSPL_SCRAPSALE_HEAD_Cancel_Data.Doc_Amt As [Amount],TSPL_SCRAPSALE_HEAD_Cancel_Data.Description,
+TSPL_SCRAPSALE_HEAD_Cancel_Data.Created_By As [Created By],Convert(Varchar(10),TSPL_SCRAPSALE_HEAD_Cancel_Data.Created_Date,103) As [Created Date],
+TSPL_SCRAPSALE_HEAD_Cancel_Data.Cancel_By As [Canceled By],Convert(Varchar(10),TSPL_SCRAPSALE_HEAD_Cancel_Data.Cancel_On,103) As [Canceled Date] 
+from TSPL_SCRAPSALE_HEAD_Cancel_Data
+left outer join TSPL_SCRAPINVOICE_HEAD_Cancel_Data on TSPL_SCRAPINVOICE_HEAD_Cancel_Data.shipment_No=TSPL_SCRAPSALE_HEAD_Cancel_Data.shipment_No
+Inner Join TSPL_USER_MASTER On TSPL_USER_MASTER.User_Code=TSPL_SCRAPSALE_HEAD_Cancel_Data.Cancel_By Where "
+                If rbtnCancelDate.IsChecked Then
+                    qry += " convert(date,TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Cancel_On ,103) >= convert(date,'" & dtpFromDate.Value & "',103) and 
+                     convert(date,TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Cancel_On,103) <= convert(date,'" & dtpToDate.Value & "',103) "
+                Else
+                    qry += " convert(date,TSPL_SCRAPINVOICE_HEAD_Cancel_Data.shipment_Date ,103) >= convert(date,'" & dtpFromDate.Value & "',103) and 
+                     convert(date,TSPL_SCRAPINVOICE_HEAD_Cancel_Data.shipment_Date,103) <= convert(date,'" & dtpToDate.Value & "',103) "
+                End If
+            Else
+                qry = "Select TSPL_SCRAPSALE_HEAD_Delete_Data.shipment_No As [Document ID],Convert(Varchar(10),TSPL_SCRAPSALE_HEAD_Delete_Data.shipment_Date,103) As [Document Date],TSPL_SCRAPINVOICE_HEAD_Delete_Data.invoice_No As [Invoice No],
+TSPL_SCRAPINVOICE_HEAD_Delete_Data.Ack_No As [Ack No],Convert(Varchar(10),TSPL_SCRAPINVOICE_HEAD_Delete_Data.Ack_Date,103) As [Ack Date],
+TSPL_SCRAPSALE_HEAD_Delete_Data.cust_Code As [Customer Code],TSPL_SCRAPSALE_HEAD_Delete_Data.cust_Name As [Customer Name],Case When TSPL_SCRAPSALE_HEAD_Delete_Data.Invoice_Type='T' Then 'Taxable' Else 'Non-Taxable' End As [Invoice Type],
+TSPL_SCRAPSALE_HEAD_Delete_Data.Loc_Code As [Location Code],TSPL_SCRAPSALE_HEAD_Delete_Data.Loc_Name As [Location Name],
+TSPL_SCRAPSALE_HEAD_Delete_Data.Doc_Amt As [Amount],TSPL_SCRAPSALE_HEAD_Delete_Data.Description,
+TSPL_SCRAPSALE_HEAD_Delete_Data.Created_By As [Created By],Convert(Varchar(10),TSPL_SCRAPSALE_HEAD_Delete_Data.Created_Date,103) As [Created Date],
+TSPL_SCRAPSALE_HEAD_Delete_Data.Delete_By As [Deleted By],Convert(Varchar(10),TSPL_SCRAPSALE_HEAD_Delete_Data.Delete_On,103) As [Deleted Date] 
+from TSPL_SCRAPSALE_HEAD_Delete_Data
+left outer join TSPL_SCRAPINVOICE_HEAD_Delete_Data on TSPL_SCRAPINVOICE_HEAD_Delete_Data.shipment_No=TSPL_SCRAPSALE_HEAD_Delete_Data.shipment_No
+Inner Join TSPL_USER_MASTER On TSPL_USER_MASTER.User_Code=TSPL_SCRAPSALE_HEAD_Delete_Data.Delete_By Where "
+                If rbtnCancelDate.IsChecked Then
+                    qry += " convert(date,TSPL_SCRAPSALE_HEAD_Delete_Data.Delete_On ,103) >= convert(date,'" & dtpFromDate.Value & "',103) and 
+                     convert(date,TSPL_SCRAPSALE_HEAD_Delete_Data.Delete_On,103) <= convert(date,'" & dtpToDate.Value & "',103) "
+                Else
+                    qry += " convert(date,TSPL_SCRAPSALE_HEAD_Delete_Data.shipment_Date ,103) >= convert(date,'" & dtpFromDate.Value & "',103) and 
+                     convert(date,TSPL_SCRAPSALE_HEAD_Delete_Data.shipment_Date,103) <= convert(date,'" & dtpToDate.Value & "',103) "
+                End If
+            End If
+
         End If
         If clsCommon.CompairString(clsCommon.myCstr(qry), Nothing) <> CompairStringResult.Equal Then
 
             dt = clsDBFuncationality.GetDataTable(qry)
             LoadBlankGrid()
+            gv1.DataSource = Nothing
             gv1.DataSource = dt
             gv1.MasterTemplate.SummaryRowsBottom.Clear()
             gv1Format()
@@ -641,7 +688,11 @@ TSPL_GATEPASS_MASTER_DAIRYSALE_cancel_data.Created_By as [Created By], (convert(
                     Doc_Date = clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value)
                     Inv_Code = clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Invoice No").Value)
                     Cust_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Customer_Code from TSPL_SD_SHIPMENT_HEAD_Cancel_Data where Document_Code='" & Doc_Code & "'"))
-                    objPrintInvoice.PrintInvoiveForAll(Doc_Code, Doc_Date, Inv_Code, True)
+                    If rdbCancel.IsChecked Then
+                        objPrintInvoice.PrintInvoiveForAll(Doc_Code, Doc_Date, Inv_Code, "Cancel")
+                    Else
+                        objPrintInvoice.PrintInvoiveForAll(Doc_Code, Doc_Date, Inv_Code, "Delete")
+                    End If
                 Else
                     Throw New Exception("Data not found !")
                 End If
@@ -684,7 +735,7 @@ TSPL_GATEPASS_MASTER_DAIRYSALE_cancel_data.Created_By as [Created By], (convert(
                 InvoiceDocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data where Against_Shipment_No ='" & doccodeShip & "'"))
                 'Dim Qry As String = Nothing
 
-                frm.printInvoice(clsCommon.myCstr(InvoiceDocNo), clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), True)
+                frm.printInvoice(clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), clsCommon.myCstr(InvoiceDocNo), clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), True)
                 'frm.printInvoice(clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), True)
                 frm = Nothing
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmSNPOS) = CompairStringResult.Equal Then

@@ -398,7 +398,7 @@ Public Class frmPurcahseAccountSetCode
                     Return
                 End If
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndaccountsetcode.Value, "TSPL_PURCHASE_ACCOUNTS", "Purchase_Class_Code", Nothing)
+            ' clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndaccountsetcode.Value, "TSPL_PURCHASE_ACCOUNTS", "Purchase_Class_Code", Nothing)
             If rdbtnsave.Text = "Save" Then
                 funinsert()
                 funfill()
@@ -1554,10 +1554,12 @@ Public Class frmPurcahseAccountSetCode
                         clsCommon.AddColumnsForChange(COLL, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
                         clsCommonFunctionality.UpdateDataTable(COLL, "tspl_purchase_accounts", OMInsertOrUpdate.Insert, "", trans)
                     Else
-                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strpurchaseclasscode, "TSPL_PURCHASE_ACCOUNTS", "Purchase_Class_Code", trans)
+                        'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strpurchaseclasscode, "TSPL_PURCHASE_ACCOUNTS", "Purchase_Class_Code", trans)
                         clsCommonFunctionality.UpdateDataTable(COLL, "tspl_purchase_accounts", OMInsertOrUpdate.Update, "tspl_purchase_accounts.Purchase_Class_Code='" + strpurchaseclasscode + "'", trans)
                     End If
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strpurchaseclasscode, "TSPL_PURCHASE_ACCOUNTS", "Purchase_Class_Code", trans)
                 Next
+
                 trans.Commit()
                 clsCommon.ProgressBarHide()
                 common.clsCommon.MyMessageBoxShow(Me, "Data Transferred Completed", Me.Text, MessageBoxButtons.OK)

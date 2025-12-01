@@ -29342,7 +29342,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("WIP_AC", "varchar(50) NULL References TSPL_GL_ACCOUNTS(Account_Code)")
             coll.Add("PROFIT_AC", "varchar(50) NULL References TSPL_GL_ACCOUNTS(Account_Code)")
             coll.Add("LOSS_AC", "varchar(50) NULL References TSPL_GL_ACCOUNTS(Account_Code)")
-            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_Dep_AccountSet", coll, Nothing, True)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_Dep_AccountSet", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Category_Code", "Varchar(12) NOT NULL Primary Key ")

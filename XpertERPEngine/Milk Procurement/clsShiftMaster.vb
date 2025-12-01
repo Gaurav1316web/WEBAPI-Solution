@@ -33,7 +33,7 @@ Public Class clsShiftMaster
             isSaved = False
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_SHIFT_MASTER", "SHIFT_CODE", Nothing)
 
-            ' clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SHIFT_MASTER", "SHIFT_CODE", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SHIFT_MASTER", "SHIFT_CODE", Nothing)
 
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")

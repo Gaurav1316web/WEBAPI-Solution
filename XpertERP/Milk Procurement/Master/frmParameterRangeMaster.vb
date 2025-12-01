@@ -1509,7 +1509,7 @@ Public Class FrmParameterRangeMaster
             End If
         End If
         clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, clsCommon.myLen(gv.Rows(0).Cells(colCode).Value), "TSPL_PARAMETER_RANGE_MASTER", "pk_Id", trans)
-        'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myLen(gv.Rows(0).Cells(colCode).Value), "TSPL_PARAMETER_RANGE_MASTER", "pk_Id", trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myLen(gv.Rows(0).Cells(colCode).Value), "TSPL_PARAMETER_RANGE_MASTER", "pk_Id", trans)
 
         Try
             Dim qry As String = "delete from tspl_parameter_range_master " & whrCls

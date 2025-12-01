@@ -30,6 +30,7 @@ Public Class clsOccupationMaster
                 Throw New Exception("Code not found to Delete")
             End If
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_OCCUPATION_MASTER", "OCCUPATION_CODE", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_OCCUPATION_MASTER", "OCCUPATION_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_OCCUPATION_MASTER where OCCUPATION_CODE ='" + strCode + "'"

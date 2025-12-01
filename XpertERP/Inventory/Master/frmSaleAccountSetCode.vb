@@ -830,11 +830,14 @@ Public Class frmSaleAccountSetCode
                         Dim query As String = "insert into tspl_Sales_accounts(Sales_Class_Code,Sales_Class_Desc,Sales_Account,Sales_Return_Account,Cost_Of_Goods_Sold,Cost_Variance,Damaged_Goods,Internal_Usage,Returnable_container,Created_By,Created_Date,Modify_By,Modify_Date,Comp_Code,Schemes,Promotional,Cogs_InterBranch,suspence_Account,Gain_Loss_Account,Stock_Transfer_Ac,COGT_AC,Cost_Of_Goods_Scheme) values('" + strsalesclasscode + "','" + strdescription + "','" + strsalesaccount + "','" + strsalesreturnaccount + "','" + strcostofgoodsold + "','" + strcostofvarience + "','" + strdamagedgoods + "','" + strinternalusages + "','" + strreturn + "','" + userCode + "','" + connectSql.serverDate(trans) + "','" + userCode + "','" + connectSql.serverDate(trans) + "','" + companyCode + "','" + strschemes + "','" + strpromotional + "','" + cogsInterBranch + "','" + strSuspenceAc + "','" + clsCommon.myCstr(dgrv.Cells("Stock Transfer AC").Value) + "','" + clsCommon.myCstr(dgrv.Cells("Cost Of Goods Transfer AC").Value) + "','',(case when " & clsCommon.myLen(strCostOfGoodsScheme) & ">0 then '" + clsCommon.myCstr(strCostOfGoodsScheme) + "' else null end) )"
                         connectSql.RunSqlTransaction(trans, query)
                     Else
-                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strsalesclasscode, "TSPL_SALES_ACCOUNTS", "Sales_Class_Code", trans)
+                        'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strsalesclasscode, "TSPL_SALES_ACCOUNTS", "Sales_Class_Code", trans)
                         Dim query1 As String = "update tspl_sales_accounts set sales_class_desc='" + strdescription + "',sales_account='" + strsalesaccount + "',sales_return_account='" + strsalesreturnaccount + "',Cost_of_goods_sold='" + strcostofgoodsold + "',Cost_Variance='" + strcostofvarience + "',Damaged_goods='" + strdamagedgoods + "',Internal_Usage='" + strinternalusages + "',Returnable_Container='" + strreturn + "',Schemes='" + strschemes + "',Promotional='" + strpromotional + "',Cogs_InterBranch='" + cogsInterBranch + "',Suspence_Account='" + strSuspenceAc + "',Stock_transfer_Ac='" + clsCommon.myCstr(dgrv.Cells("Stock Transfer AC").Value) + "',COGT_AC='" + clsCommon.myCstr(dgrv.Cells("Cost Of Goods Transfer AC").Value) + "', Cost_Of_Goods_Scheme = (case when " & clsCommon.myLen(strCostOfGoodsScheme) & ">0 then '" + clsCommon.myCstr(strCostOfGoodsScheme) + "' else null end) where sales_class_code='" + strsalesclasscode + "'"
                         connectSql.RunSqlTransaction(trans, query1)
                     End If
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strsalesclasscode, "TSPL_SALES_ACCOUNTS", "Sales_Class_Code", trans)
+
                 Next
+
                 trans.Commit()
                 clsCommon.ProgressBarHide()
                 common.clsCommon.MyMessageBoxShow(Me, "Data Transferred Completed", Me.Text, MessageBoxButtons.OK)

@@ -926,6 +926,7 @@ Public Class frmReverseTransaction
 
             'Ticket No  TEC/10/09/19-001007 Sanjay
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndreversecode.Value, "TSPL_BANK_REVERSE", "Reverse_Code", Nothing)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndreversecode.Value, "TSPL_BANK_REVERSE", "Reverse_Code", Nothing)
 
             connectSql.RunSp("sp_tspl_bankreverse_delete", New SqlParameter("@Reverse_Code", fndreversecode.Value))
             myMessages.delete()

@@ -3087,6 +3087,9 @@ Public Class clsMachineIntegration
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_MACHINE_INTEGRATION", "Code", trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_MACHINE_INTEGRATION", "Code", trans)
+
             Dim qry As String = "delete from TSPL_MACHINE_INTEGRATION where Code='" + strCode + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry)
         Catch ex As Exception

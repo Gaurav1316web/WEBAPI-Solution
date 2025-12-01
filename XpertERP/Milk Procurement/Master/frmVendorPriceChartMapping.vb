@@ -519,7 +519,7 @@ Public Class frmVendorPriceChartMapping
             Exit Sub
         End If
         clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndPriceCode.Value, "tspl_Vendor_price_chart_mapping", "Pricecode", Nothing)
-        ' clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndPriceCode.Value, "tspl_Vendor_price_chart_mapping", "Pricecode", Nothing)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndPriceCode.Value, "tspl_Vendor_price_chart_mapping", "Pricecode", Nothing)
         If myMessages.deleteConfirm() Then
             Dim qry As String = " delete from tspl_vendor_Price_Chart_mapping where priceCode='" & fndPriceCode.Value & "'"
             clsDBFuncationality.ExecuteNonQuery(qry)

@@ -16,29 +16,7 @@ Public Class YearlyDBTSummaryReport
             txtToDate.Enabled = False
 
             If rdbValid.Checked Then
-                '                qry = "select  TSPL_MP_INCENTIVE_ENTRY_detail.mp_code AS [ERP Mp Code],TSPL_DBT_NEFT.Document_Date,TSPL_VLC_MASTER_HEAD.Vsp_code as [DCS CODE],
-                'TSPL_VLC_MASTER_HEAD.vlc_name as [Dcs Name],TSPL_DBT_NEFT_DETAIL.MP_Uploader_Code AS [Mp Code] ,TSPL_DBT_NEFT_DETAIL.MP_Name AS [MP Name],TSPL_DBT_NEFT_DETAIL.MP_Bank AS [MP Bank]
-                ',TSPL_DBT_NEFT_DETAIL.MP_Account_No AS [Bank Account],TSPL_DBT_NEFT_DETAIL.MP_IFSC_No as[IFSC],
-                '    SUM(TSPL_MP_INCENTIVE_ENTRY_detail.qty) AS [Quantity]
-                ' from TSPL_DBT_NEFT_DETAIl 
-                'left outer join TSPL_DBT_NEFT on TSPL_DBT_NEFT_DETAIL.Document_Code=TSPL_DBT_NEFT.Document_Code
-                'left outer join TSPL_MP_INCENTIVE_ENTRY_detail on TSPL_MP_INCENTIVE_ENTRY_detail.PK_Id=TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR
-                'left outer join TSPL_MP_INCENTIVE_ENTRY_head on TSPL_MP_INCENTIVE_ENTRY_head.Document_Code=TSPL_MP_INCENTIVE_ENTRY_detail.Document_Code
-                ' left outer join TSPL_VLC_MASTER_HEAD on TSPL_MP_INCENTIVE_ENTRY_detail.vlc_code= TSPL_VLC_MASTER_HEAD.VLC_Code 
-                'where convert(date,TSPL_MP_INCENTIVE_ENTRY_head.    From_Date,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,TSPL_MP_INCENTIVE_ENTRY_head.To_Date,103) <=convert(date,'" + txtToDate.Value + "' ,103)
-                'GROUP BY  
-                'TSPL_DBT_NEFT.Document_Date,
-                'TSPL_MP_INCENTIVE_ENTRY_head.From_Date,TSPL_MP_INCENTIVE_ENTRY_head.To_Date,
-                'TSPL_DBT_NEFT.Document_Date,
-                '    TSPL_MP_INCENTIVE_ENTRY_detail.mp_code,
-                '    TSPL_VLC_MASTER_HEAD.Vsp_code,
-                '    TSPL_VLC_MASTER_HEAD.vlc_name,
-                '    TSPL_DBT_NEFT_DETAIL.MP_Uploader_Code,
-                '    TSPL_DBT_NEFT_DETAIL.MP_Name,
-                '    TSPL_DBT_NEFT_DETAIL.MP_Bank,
-                '    TSPL_DBT_NEFT_DETAIL.MP_Account_No,
-                '    TSPL_DBT_NEFT_DETAIL.MP_IFSC_No
-                '"
+
                 qry = " select  TSPL_MP_INCENTIVE_ENTRY_detail.mp_code AS [ERP Mp Code],max(TSPL_DBT_NEFT.Document_Date)Document_Date,max(TSPL_VLC_MASTER_HEAD.Vsp_code) as [DCS CODE],
 max(TSPL_VLC_MASTER_HEAD.vlc_name) as [Dcs Name],max(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,max(TSPL_DBT_NEFT_DETAIL.MP_Uploader_Code) AS [Mp Code] ,
 max(TSPL_DBT_NEFT_DETAIL.MP_Name) AS [MP Name],max(TSPL_DBT_NEFT_DETAIL.MP_Bank) AS [MP Bank],max(TSPL_DBT_NEFT_DETAIL.MP_Account_No) AS [Bank Account],
@@ -52,30 +30,7 @@ where convert(date,TSPL_MP_INCENTIVE_ENTRY_head.From_Date,103)>=convert(date,'" 
 
 group by TSPL_MP_INCENTIVE_ENTRY_detail.mp_code "
             ElseIf rdbInValid.Checked Then
-                '                qry = "select TSPL_MP_INCENTIVE_ENTRY_detail.mp_code AS [ERP Mp Code],TSPL_DBT_NEFT.Document_Date,  TSPL_VLC_MASTER_HEAD.Vsp_code as [DCS CODE],TSPL_VLC_MASTER_HEAD.vlc_name as [Dcs Name],TSPL_DBT_NEFT_DETAIL_invalid.MP_Uploader_Code AS [Mp Code],TSPL_DBT_NEFT_DETAIL_invalid.MP_Name AS [MP Name],TSPL_MP_INCENTIVE_ENTRY_detail.MP_Bank AS [MP Bank],
-                'TSPL_DBT_NEFT_DETAIL_invalid.MP_Account_No AS [Bank Account],TSPL_DBT_NEFT_DETAIL_invalid.MP_IFSC_No as[IFSC],
-                '    SUM(TSPL_MP_INCENTIVE_ENTRY_detail.qty) AS [Quantity]
-                'from TSPL_DBT_NEFT_DETAIL_invalid
-                'left outer join TSPL_DBT_NEFT on TSPL_DBT_NEFT_DETAIL_invalid.Document_Code=TSPL_DBT_NEFT.Document_Code
-                'left outer join TSPL_MP_INCENTIVE_ENTRY_detail on TSPL_MP_INCENTIVE_ENTRY_detail.PK_Id=TSPL_DBT_NEFT_DETAIL_invalid.Against_MP_Incentive_TR
-                'left outer join TSPL_MP_INCENTIVE_ENTRY_head on TSPL_MP_INCENTIVE_ENTRY_head.Document_Code=TSPL_MP_INCENTIVE_ENTRY_detail.Document_Code
 
-                ' left outer join TSPL_VLC_MASTER_HEAD on TSPL_MP_INCENTIVE_ENTRY_detail.vlc_code= TSPL_VLC_MASTER_HEAD.VLC_Code
-                'where convert(date,TSPL_MP_INCENTIVE_ENTRY_head.From_Date,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,TSPL_MP_INCENTIVE_ENTRY_head.To_Date,103) <=convert(date,'" + txtToDate.Value + "' ,103)
-                'GROUP BY  
-                'TSPL_DBT_NEFT.Document_Date,
-                'TSPL_MP_INCENTIVE_ENTRY_head.From_Date,TSPL_MP_INCENTIVE_ENTRY_head.To_Date,
-                'TSPL_DBT_NEFT.Document_Date,
-                '    TSPL_MP_INCENTIVE_ENTRY_detail.mp_code,
-                '    TSPL_VLC_MASTER_HEAD.Vsp_code,
-                '    TSPL_VLC_MASTER_HEAD.vlc_name,
-
-                '    TSPL_DBT_NEFT_DETAIL_invalid.MP_Uploader_Code,
-                '    TSPL_DBT_NEFT_DETAIL_invalid.MP_Name,
-                '    TSPL_MP_INCENTIVE_ENTRY_detail.MP_Bank,
-
-                '    TSPL_DBT_NEFT_DETAIL_invalid.MP_Account_No,
-                '    TSPL_DBT_NEFT_DETAIL_invalid.MP_IFSC_No"
                 qry = "select TSPL_MP_INCENTIVE_ENTRY_detail.mp_code AS [ERP Mp Code],max(TSPL_DBT_NEFT.Document_Date)Document_Date,  max(TSPL_VLC_MASTER_HEAD.Vsp_code) as [DCS CODE],max(TSPL_VLC_MASTER_HEAD.vlc_name) as [Dcs Name],
 max(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,max(TSPL_DBT_NEFT_DETAIL_invalid.MP_Uploader_Code) AS [Mp Code],max(TSPL_DBT_NEFT_DETAIL_invalid.MP_Name) AS [MP Name],
 max(TSPL_MP_INCENTIVE_ENTRY_detail.MP_Bank) AS [MP Bank],max(TSPL_DBT_NEFT_DETAIL_invalid.MP_Account_No) AS [Bank Account],
@@ -108,32 +63,12 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
 where convert(date,TSPL_MP_INCENTIVE_ENTRY_head.From_Date,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,TSPL_MP_INCENTIVE_ENTRY_head.To_Date,103) <=convert(date,'" + txtToDate.Value + "' ,103)
 group by TSPL_MP_INCENTIVE_ENTRY_detail.mp_code
 "
-                '                qry = "select TSPL_MP_INCENTIVE_ENTRY_detail.mp_code AS [ERP Mp Code],TSPL_DBT_NEFT.Document_Date,TSPL_VLC_MASTER_HEAD.Vsp_code as [DCS CODE],
-                'TSPL_VLC_MASTER_HEAD.vlc_name as [Dcs Name],tspl_dbt_neft_detail_hold.MP_Uploader_Code AS [Mp Code],tspl_dbt_neft_detail_hold.MP_Name AS [MP Name],TSPL_MP_INCENTIVE_ENTRY_detail.MP_Bank AS [MP Bank],
-                'tspl_dbt_neft_detail_hold.MP_Account_No AS [Bank Account],tspl_dbt_neft_detail_hold.MP_IFSC_No as[IFSC],
-                '    SUM(TSPL_MP_INCENTIVE_ENTRY_detail.qty) AS [ Quantity]
-                'from tspl_dbt_neft_detail_hold 
-                'left outer join TSPL_DBT_NEFT on tspl_dbt_neft_detail_hold.Document_Code=tspl_dbt_neft_detail_hold.Document_Code
-                'left outer join TSPL_MP_INCENTIVE_ENTRY_detail on TSPL_MP_INCENTIVE_ENTRY_detail.PK_Id=tspl_dbt_neft_detail_hold.Against_MP_Incentive_TR
-                'left outer join TSPL_MP_INCENTIVE_ENTRY_head on TSPL_MP_INCENTIVE_ENTRY_head.Document_Code=TSPL_MP_INCENTIVE_ENTRY_detail.Document_Code
 
-                ' left outer join TSPL_VLC_MASTER_HEAD on TSPL_MP_INCENTIVE_ENTRY_detail.vlc_code= TSPL_VLC_MASTER_HEAD.VLC_Code
-                'where convert(date,TSPL_MP_INCENTIVE_ENTRY_head.From_Date,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,TSPL_MP_INCENTIVE_ENTRY_head.To_Date,103) <=convert(date,'" + txtToDate.Value + "' ,103)
-                'GROUP BY  
-                '    TSPL_MP_INCENTIVE_ENTRY_head.From_Date,TSPL_MP_INCENTIVE_ENTRY_head.To_Date,
-                'TSPL_DBT_NEFT.Document_Date,
-                'TSPL_MP_INCENTIVE_ENTRY_head.From_Date,TSPL_MP_INCENTIVE_ENTRY_head.To_Date,
-                '    TSPL_MP_INCENTIVE_ENTRY_detail.mp_code,
-                '    TSPL_VLC_MASTER_HEAD.Vsp_code,
-                '    TSPL_VLC_MASTER_HEAD.vlc_name,
-                '    tspl_dbt_neft_detail_hold.MP_Uploader_Code,
-                '    tspl_dbt_neft_detail_hold.MP_Name,
-                '    TSPL_MP_INCENTIVE_ENTRY_detail.MP_Bank,
-                '    tspl_dbt_neft_detail_hold.MP_Account_No,
-                '    tspl_dbt_neft_detail_hold.MP_IFSC_No"
             ElseIf rdbAll.Checked Then
                 qry = "select max(xxx.From_Date)From_Date,max(xxx.To_Date)To_Date, 
- [ERP Mp Code],max(xxx.[DCS CODE])[DCS CODE],max(xxx.[Dcs Name])[Dcs Name],max(xxx.VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,max(xxx.[MP Bank])[MP Bank]
+ [ERP Mp Code],max(xxx.[DCS CODE])[DCS CODE],max(xxx.[Dcs Name])[Dcs Name],max(xxx.VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,
+ max(MP_Code_VLC_Uploader)[MP Code],max(mp_name)[mp name],
+max(xxx.[MP Bank])[MP Bank]
  ,max(xxx.[Bank Account])[Bank Account],max(xxx.[IFSC])[IFSC],sum([Quantity])[Quantity] 
  from(select
 (TSPL_MP_INCENTIVE_ENTRY_head.From_Date)From_Date,(TSPL_MP_INCENTIVE_ENTRY_head.To_Date)To_Date, 
@@ -141,97 +76,23 @@ TSPL_MP_INCENTIVE_ENTRY_detail.mp_code AS [ERP Mp Code],
 (TSPL_VLC_MASTER_HEAD.Vsp_code) as [DCS CODE],
 (TSPL_VLC_MASTER_HEAD.vlc_name) as [Dcs Name],
 (TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,
+TSPL_MP_MASTER.MP_Code_VLC_Uploader,TSPL_MP_MASTER.mp_name,
 (TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Bank) AS [MP Bank]
 ,(TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Account_No) AS [Bank Account],(TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_IFSC_No) as[IFSC],
     (TSPL_MP_INCENTIVE_ENTRY_detail.qty) AS [Quantity]
 
 	from TSPL_MP_INCENTIVE_ENTRY_DETAIL 
  left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code=TSPL_MP_INCENTIVE_ENTRY_HEAd.Document_Code
-  left outer join TSPL_VLC_MASTER_HEAD on TSPL_MP_INCENTIVE_ENTRY_detail.vlc_code= TSPL_VLC_MASTER_HEAD.VLC_Code 
+   left outer join TSPL_VLC_MASTER_HEAD on TSPL_MP_INCENTIVE_ENTRY_detail.vlc_code= TSPL_VLC_MASTER_HEAD.VLC_Code 
+
+left outer join  TSPL_MP_MASTER on TSPL_MP_MASTER.mp_code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.mp_code
  where convert(date,TSPL_MP_INCENTIVE_ENTRY_HEAD.From_Date,103)>=convert(date,'" + txtFromDate.Value + "',103) 
  and convert(date,TSPL_MP_INCENTIVE_ENTRY_HEAD.To_Date,103) <=convert(date,'" + txtToDate.Value + "' ,103)
 
   )xxx
  group by [ERP Mp Code]
 "
-                '            ElseIf rdbAll.Checked Then
-                '                qry = "select  XXX.[ERP Mp Code],
-                '    (xxx.Document_Date) AS Document_Date, 
-                '    MAX(xxx.[DCS Code]) AS [DCS Code],
-                '    MAX(xxx.[Dcs Name]) AS [Dcs Name],
-                '	max(XXX.VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,
 
-                '    MAX(xxx.[Mp Code]) AS [Mp Code],
-                '    MAX(xxx.[MP Name]) AS [MP Name],
-                '    MAX(xxx.[MP Bank]) AS [MP Bank],
-                '    MAX(xxx.[Bank Account]) AS [Bank Account],
-                '    MAX(xxx.[IFSC]) AS [IFSC],
-                '    max(xxx.Quantity) AS Quantity,            
-                '    MIN(xxx.From_Date) AS From_Date,           
-                '    MAX(xxx.To_Date) AS To_Date
-                'from
-                '(select (TSPL_MP_INCENTIVE_ENTRY_head.From_Date)From_Date,(TSPL_MP_INCENTIVE_ENTRY_head.To_Date)To_Date,
-                'TSPL_MP_INCENTIVE_ENTRY_detail.mp_code AS [ERP Mp Code],
-                '(TSPL_DBT_NEFT.Document_Date)Document_Date,(TSPL_VLC_MASTER_HEAD.Vsp_code) as [DCS CODE],
-                '(TSPL_VLC_MASTER_HEAD.vlc_name) as [Dcs Name],
-                '(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,
-
-                '(tspl_dbt_neft_detail_hold.MP_Uploader_Code) AS [Mp Code],
-                '(tspl_dbt_neft_detail_hold.MP_Name) AS [MP Name],(TSPL_MP_INCENTIVE_ENTRY_detail.MP_Bank) AS [MP Bank],
-                '(tspl_dbt_neft_detail_hold.MP_Account_No) AS [Bank Account],
-                '(tspl_dbt_neft_detail_hold.MP_IFSC_No) as[IFSC],    (TSPL_MP_INCENTIVE_ENTRY_detail.qty) AS [Quantity]
-                'from tspl_dbt_neft_detail_hold 
-                'left outer join TSPL_DBT_NEFT on tspl_dbt_neft_detail_hold.Document_Code=TSPL_DBT_NEFT.Document_Code
-                'left outer join TSPL_MP_INCENTIVE_ENTRY_detail on TSPL_MP_INCENTIVE_ENTRY_detail.PK_Id=tspl_dbt_neft_detail_hold.Against_MP_Incentive_TR
-                'left outer join TSPL_MP_INCENTIVE_ENTRY_head on TSPL_MP_INCENTIVE_ENTRY_head.Document_Code=TSPL_MP_INCENTIVE_ENTRY_detail.Document_Code
-
-                ' left outer join TSPL_VLC_MASTER_HEAD on TSPL_MP_INCENTIVE_ENTRY_detail.vlc_code= TSPL_VLC_MASTER_HEAD.VLC_Code 
-
-
-                '  union all
-                'select (TSPL_MP_INCENTIVE_ENTRY_head.From_Date)From_Date,(TSPL_MP_INCENTIVE_ENTRY_head.To_Date)To_Date, 
-                'TSPL_MP_INCENTIVE_ENTRY_detail.mp_code AS [ERP Mp Code],
-                '(TSPL_DBT_NEFT.Document_Date)Document_Date, (TSPL_VLC_MASTER_HEAD.Vsp_code) as [DCS CODE],
-                '(TSPL_VLC_MASTER_HEAD.vlc_name) as [Dcs Name],
-                '(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,
-
-                '(TSPL_DBT_NEFT_DETAIL_invalid.MP_Uploader_Code) AS [Mp Code],
-                '(TSPL_DBT_NEFT_DETAIL_invalid.MP_Name) AS [MP Name],(TSPL_MP_INCENTIVE_ENTRY_detail.MP_Bank) AS [MP Bank],
-                '(TSPL_DBT_NEFT_DETAIL_invalid.MP_Account_No) AS [Bank Account],(TSPL_DBT_NEFT_DETAIL_invalid.MP_IFSC_No) as[IFSC],
-                '(TSPL_MP_INCENTIVE_ENTRY_detail.qty) AS [Quantity]
-
-                'from TSPL_DBT_NEFT_DETAIL_invalid
-                'left outer join TSPL_DBT_NEFT on TSPL_DBT_NEFT_DETAIL_invalid.Document_Code=TSPL_DBT_NEFT.Document_Code
-                'left outer join TSPL_MP_INCENTIVE_ENTRY_detail on TSPL_MP_INCENTIVE_ENTRY_detail.PK_Id=TSPL_DBT_NEFT_DETAIL_invalid.Against_MP_Incentive_TR
-                'left outer join TSPL_MP_INCENTIVE_ENTRY_head on TSPL_MP_INCENTIVE_ENTRY_head.Document_Code=TSPL_MP_INCENTIVE_ENTRY_detail.Document_Code
-
-                ' left outer join TSPL_VLC_MASTER_HEAD on TSPL_MP_INCENTIVE_ENTRY_detail.vlc_code= TSPL_VLC_MASTER_HEAD.VLC_Code 
-
-
-                '    union all
-                'select (TSPL_MP_INCENTIVE_ENTRY_head.From_Date)From_Date,(TSPL_MP_INCENTIVE_ENTRY_head.To_Date)To_Date, 
-                'TSPL_MP_INCENTIVE_ENTRY_detail.mp_code AS [ERP Mp Code],
-                '(TSPL_DBT_NEFT.Document_Date)Document_Date,(TSPL_VLC_MASTER_HEAD.Vsp_code) as [DCS CODE],
-                '(TSPL_VLC_MASTER_HEAD.vlc_name) as [Dcs Name],
-                '(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,
-                '(TSPL_DBT_NEFT_DETAIL.MP_Uploader_Code) AS [Mp Code] ,(TSPL_DBT_NEFT_DETAIL.MP_Name) AS [MP Name],
-                '(TSPL_DBT_NEFT_DETAIL.MP_Bank) AS [MP Bank]
-                ',(TSPL_DBT_NEFT_DETAIL.MP_Account_No) AS [Bank Account],(TSPL_DBT_NEFT_DETAIL.MP_IFSC_No) as[IFSC],
-                '    (TSPL_MP_INCENTIVE_ENTRY_detail.qty) AS [Quantity]
-                ' from TSPL_DBT_NEFT_DETAIl 
-                'left outer join TSPL_DBT_NEFT on TSPL_DBT_NEFT_DETAIL.Document_Code=TSPL_DBT_NEFT.Document_Code
-                'left outer join TSPL_MP_INCENTIVE_ENTRY_detail on TSPL_MP_INCENTIVE_ENTRY_detail.PK_Id=TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR
-                'left outer join TSPL_MP_INCENTIVE_ENTRY_head on TSPL_MP_INCENTIVE_ENTRY_head.Document_Code=TSPL_MP_INCENTIVE_ENTRY_detail.Document_Code
-
-                ' left outer join TSPL_VLC_MASTER_HEAD on TSPL_MP_INCENTIVE_ENTRY_detail.vlc_code= TSPL_VLC_MASTER_HEAD.VLC_Code 
-
-
-                '    )xxx
-                ' where convert(date,xxx.From_Date,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,xxx.To_Date,103) <=convert(date,'" + txtToDate.Value + "' ,103)
-
-                '                Group  BY xxx.[ERP Mp Code],Document_Date
-
-                '"
 
             ElseIf rblCappingHold.Checked Then
                 qry = "select  (TSPL_MP_INCENTIVE_ENTRY_detail.mp_code) AS [ERP Mp Code] , max(TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Date)Document_Date,
@@ -250,26 +111,7 @@ where 2=2 and CONVERT(date,TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date,103)=conver
 isnull(TSPL_DBT_CAPING_DETAIL.Capping_Status,0)=0
 group by TSPL_MP_INCENTIVE_ENTRY_detail.mp_code
 "
-                '                qry = "
-                'select  TSPL_MP_INCENTIVE_ENTRY_detail.mp_code AS [ERP Mp Code] , TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Date,TSPL_VLC_MASTER_HEAD.Vsp_code as [DCS CODE],
-                '                'TSPL_VLC_MASTER_HEAD.vlc_name as [Dcs Name],
-                '                'TSPL_DBT_CAPING_DETAIL.mp_code AS [Mp Code] ,
-                '                '--TSPL_DBT_NEFT_DETAIL.MP_Name AS [MP Name],
-                '                'TSPL_MP_INCENTIVE_ENTRY_detail.MP_Bank AS [MP Bank]
-                '                ',TSPL_MP_INCENTIVE_ENTRY_detail.MP_Account_No AS [Bank Account],TSPL_MP_INCENTIVE_ENTRY_detail.MP_IFSC_No as[IFSC],
-                '                'TSPL_DBT_CAPING_DETAIL.qty AS  [Quantity]
-                'from 
-                ' TSPL_DBT_CAPING_DETAIL
-                '               left outer join TSPL_DBT_CAPING on TSPL_DBT_CAPING.Document_Code = TSPL_DBT_CAPING_DETAIL.Document_Code
-                '               left outer join TSPL_DCS_MP_INCENTIVE_RECO_HEAD on TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Code = TSPL_DBT_CAPING.Reco_Code
-                '               left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_DBT_CAPING_DETAIL.DCS_Code
-                '                left outer join TSPL_MP_INCENTIVE_ENTRY_detail on TSPL_MP_INCENTIVE_ENTRY_detail.pk_id=TSPL_DBT_CAPING_DETAIL.pk_id
 
-                '               left outer join TSPL_MP_MASTER on TSPL_MP_MASTER.MP_Code=TSPL_DBT_CAPING_DETAIL.MP_Code
-                '               where 2=2 and CONVERT(date,TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date,103)=convert(date,'" + txtFromDate.Value + "',103)
-                '			   and CONVERT(date,TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date_To,103)= Convert(date,'" + txtToDate.Value + "',103) 
-                '			   and 
-                '			   isnull(TSPL_DBT_CAPING_DETAIL.Capping_Status,0)=0  "
             End If
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)

@@ -141,6 +141,8 @@ Public Class ClsDeprAccountSet
         Dim isSaved As Boolean = True
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_Dep_AccountSet", "AcSet_Code", trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_Dep_AccountSet", "AcSet_Code", trans)
 
 
             Dim qry As String = "delete from TSPL_Dep_AccountSet where AcSet_Code='" + strCode + "'"
