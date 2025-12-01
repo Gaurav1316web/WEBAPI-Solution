@@ -931,9 +931,9 @@ from
             ''
             clsSerializeInvenotry.DeleteData("Sale Return", obj.Document_Code, trans)
             clsBatchInventory.DeleteData(Trans_type_Str, obj.Document_Code, trans)
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_SD_SALE_RETURN_HEAD", "Document_Code", "TSPL_SD_SALE_RETURN_DETAIL", "Document_Code", trans)
-            End If
+            'If Not isNewEntry Then
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_SD_SALE_RETURN_HEAD", "Document_Code", "TSPL_SD_SALE_RETURN_DETAIL", "Document_Code", trans)
+            ' End If
 
             Dim qry As String = "delete from TSPL_SD_SALE_RETURN_DETAIL where Document_Code='" & obj.Document_Code & "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -1129,6 +1129,8 @@ from
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SALE_RETURN_HEAD", OMInsertOrUpdate.Update, "TSPL_SD_SALE_RETURN_HEAD.Document_Code='" + obj.Document_Code + "'", trans)
             End If
             isSaved = isSaved AndAlso clsDSSalesReturnDetail.SaveData(obj.Document_Code, obj.Document_Date, Arr, obj.Trans_type, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_SD_SALE_RETURN_HEAD", "Document_Code", "TSPL_SD_SALE_RETURN_DETAIL", "Document_Code", trans)
+
             If obj.Booth_Arr IsNot Nothing AndAlso obj.Booth_Arr.Count > 0 Then
                 isSaved = isSaved AndAlso clsDSSalesReturnBookingDetail.SaveData(obj.Document_Code, obj.Booth_Arr, trans)
 

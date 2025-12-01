@@ -159,6 +159,8 @@ Public Class clsJWOSRNHead
             clsERPFuncationality.IsDocumentAlreadyPosted("TSPL_JWO_SRN_HEAD", "Document_No", strDocNo, "Posted=1", trans)
             clsBatchInventory.DeleteData("JWO-SRN", strDocNo, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_JWO_SRN_HEAD", "DOCUMENT_NO", "TSPL_JWO_SRN_DETAIL", "DOCUMENT_NO", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_JWO_SRN_HEAD", "DOCUMENT_NO", "TSPL_JWO_SRN_DETAIL", "DOCUMENT_NO", trans)
+
             Dim qry As String = "delete from TSPL_JWO_SRN_DETAIL where Document_No='" & strDocNo & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_JWO_SRN_HEAD where Document_No='" & strDocNo & "'"

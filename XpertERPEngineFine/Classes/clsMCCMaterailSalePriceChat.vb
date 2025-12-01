@@ -22,10 +22,10 @@ Public Class clsMCCMaterailSalePriceChat
     End Function
     Public Function SaveData(ByVal obj As clsMCCMaterailSalePriceChat, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_MCC_RATE_UPLOADER_master", "Code", "TSPL_MCC_RATE_UPLOADER_Detail", "Code", "TSPL_MCC_RATE_UPLOADER_MCC", "Code", trans)
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_MCC_RATE_UPLOADER_master", "Code", "TSPL_MCC_RATE_UPLOADER_Detail", "Code", "TSPL_MCC_RATE_UPLOADER_MCC", "Code", trans)
 
-            End If
+            'End If
             Dim StrQry As String = "delete from TSPL_MCC_RATE_UPLOADER_Detail where Code='" + obj.Code + "'"
             clsDBFuncationality.ExecuteNonQuery(StrQry, trans)
             StrQry = "delete from TSPL_MCC_RATE_UPLOADER_MCC where Code='" + obj.Code + "'"
@@ -50,6 +50,8 @@ Public Class clsMCCMaterailSalePriceChat
             End If
             clsMCCMaterailSalePriceChatDetail.SaveData(obj.Code, obj.Arr, trans)
             clsMCCRATEUPLOADERMCC.SaveData(obj.Code, obj.ArrMCCRate, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_MCC_RATE_UPLOADER_master", "Code", "TSPL_MCC_RATE_UPLOADER_Detail", "Code", "TSPL_MCC_RATE_UPLOADER_MCC", "Code", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

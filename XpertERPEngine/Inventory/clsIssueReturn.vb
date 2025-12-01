@@ -135,9 +135,9 @@ Public Class clsIssueReturnHead
                     End If
                 End If
             End If
-            If Not isNewEntry Then
-                HistoryUpdate(obj.Doc_No, trans)
-            End If
+            'If Not isNewEntry Then
+            '    HistoryUpdate(obj.Doc_No, trans)
+            'End If
 
             Dim qry As String = "delete from TSPL_IssueReturn_DETAIL where Doc_No='" + obj.Doc_No + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)

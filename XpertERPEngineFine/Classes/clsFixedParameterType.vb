@@ -2956,9 +2956,10 @@ Public Class clsFixedParameter
                 clsCommon.AddColumnsForChange(coll, "Code", obj.Code)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_FIXED_PARAMETER", OMInsertOrUpdate.Insert, "", trans)
             Else
-                clsCommonFunctionality.SaveHistoryData(False, objCommonVar.CurrentUserCode, obj.Type, "TSPL_FIXED_PARAMETER", "Type", "", "", "", "", "", "", "", "", "Code='" + obj.Code + "", "", "", "", trans)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_FIXED_PARAMETER", OMInsertOrUpdate.Update, "Type='" + obj.Type + "' AND Code='" + obj.Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(False, objCommonVar.CurrentUserCode, obj.Type, "TSPL_FIXED_PARAMETER", "Type", "", "", "", "", "", "", "", "", "Code='" + obj.Code + "", "", "", "", trans)
+
             '' update program code of the template, asset category and asset group
             If clsCommon.CompairString(obj.Code, "ReadOnlyTemplateFieldsOnAcqusition") = CompairStringResult.Equal Then
                 ProgramCodeNew.InsertDefaultValue(clsUserMgtCode.Categories, "" & If(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterCode.ReadOnlyTemplateFieldsOnAcqusition, clsFixedParameterType.ReadOnlyTemplateFieldsOnAcqusition, trans)) = "1", "Asset Group", "Asset Category") & "", "1.10.01.03", clsUserMgtCode.SubModuleFixedAssetSetup, 27, 27, trans)

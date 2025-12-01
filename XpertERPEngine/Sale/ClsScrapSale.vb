@@ -285,10 +285,10 @@ Public Class ClsScrapSaleHead
         Dim VatInvoiceType As String = Nothing
         Try
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.JobWorkDispatchProduction, obj.Loc_Code, obj.shipment_Date, trans)
-            If Not isNewEntry Then
-                HistoryUpdate(obj.shipment_No, trans)
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.strInvoiceNo), "TSPL_SCRAPINVOICE_HEAD", "invoice_No", "TSPL_SCRAPINVOICE_DETAIL", "invoice_No", trans)
-            End If
+            'If Not isNewEntry Then
+            '    HistoryUpdate(obj.shipment_No, trans)
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.strInvoiceNo), "TSPL_SCRAPINVOICE_HEAD", "invoice_No", "TSPL_SCRAPINVOICE_DETAIL", "invoice_No", trans)
+            'End If
 
             Dim qry As String = "delete from TSPL_SCRAPSALE_DETAIL where shipment_No='" + obj.shipment_No + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -505,6 +505,10 @@ Public Class ClsScrapSaleHead
 
             isSaved = isSaved AndAlso ClsScrapSaleDetail.SaveData(obj.shipment_No, Arr, trans, obj.shipment_Date, obj.Loc_Code, obj.strInvoiceNo)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.shipment_No), "TSPL_SCRAPSALE_HEAD", "shipment_No", "TSPL_SCRAPSALE_DETAIL", "shipment_No", trans)
+
+            HistoryUpdate(obj.shipment_No, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.strInvoiceNo), "TSPL_SCRAPINVOICE_HEAD", "invoice_No", "TSPL_SCRAPINVOICE_DETAIL", "invoice_No", trans)
+
 
             If (obj.CreateInvoice = 1) Then
                 isSaved = isSaved AndAlso scrapinvoicehead.SaveDatainvoice(obj.shipment_No, strScrapSaleInvoiceNo, trans, obj.Invoice_Type, Arr)

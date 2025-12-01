@@ -583,7 +583,7 @@ Public Class clsPSShipmentHead
             End If
             If Not isNewEntry Then
                 CheckInvoicePostedOnGovtProtal(obj.Document_Code, trans)
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_DETAIL", "Document_Code", trans)
+                'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_DETAIL", "Document_Code", trans)
             End If
             Dim qry As String = "delete from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Document_Code='" + obj.Document_Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -976,6 +976,8 @@ Public Class clsPSShipmentHead
             If obj.ArrCrateType IsNot Nothing Then
                 clsPSShipmentCrateTypeDtail.SaveData(obj.Document_Code, obj.ArrCrateType, trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_DETAIL", "Document_Code", trans)
+
             clsPSShipmentChecklistDetail.SaveData(obj.Document_Code, obj.ArrChkList, trans)
             clsCustomFieldValues.SaveData(obj.Form_ID, obj.Document_Code, obj.arrCustomFields, trans)
             '''' to save item weight unit

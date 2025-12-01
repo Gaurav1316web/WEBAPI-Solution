@@ -99,9 +99,9 @@ Public Class clsPhysicalstock
                     End If
                 End If
 
-                If Not isNewEntry Then
-                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, physicalNo, "tspl_physical_stock", "Physical_No", "TSPL_ADJUSTMENT_HEADER", "against_physical_stock_no", trans)
-                End If
+                'If Not isNewEntry Then
+                '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, physicalNo, "tspl_physical_stock", "Physical_No", "TSPL_ADJUSTMENT_HEADER", "against_physical_stock_no", trans)
+                'End If
                 obj1.Physical_No = physicalNo
                 clsDBFuncationality.ExecuteNonQuery("delete from tspl_physical_stock where physical_no='" + physicalNo + "'", trans)
                 clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_SERIAL_ITEM where Document_Type='IC-AD' and Document_Code in (select adjustment_no from TSPL_ADJUSTMENT_HEADER where against_physical_stock_no='" + physicalNo + "')", trans)

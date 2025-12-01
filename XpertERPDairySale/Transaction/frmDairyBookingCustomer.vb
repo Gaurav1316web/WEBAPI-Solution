@@ -3363,6 +3363,11 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                         Throw New Exception("Item - " + strICode + Environment.NewLine + "Entered Quantity - " + clsCommon.myCstr(dblEnteredQty) + " and Balance Quantity - " + clsCommon.myCstr(dblBalQty))
                         Return False
                     End If
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                        UpdateCurrentRow1(ii)
+                    Else
+                        UpdateCurrentRow(ii)
+                    End If
                 End If
             Next
             If ShowBookingTypeDropDownonDairyBookingCustomer AndAlso dblQuantity <= 0 AndAlso AllowZeroQtyOnDairyBooking Then
@@ -3429,8 +3434,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                     isCheck = False
                 End If
             End If
-
-            'UpdateAllTotals()
+            UpdateAllTotals()
             'Return True
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -9575,7 +9579,7 @@ dbo.fn_GetBatchQty(TSPL_BOOKING_DETAIL.item_code,TSPL_SD_SHIPMENT_HEAD.Document_
 ITEMDETAIL1.Conversion_Factor as CF,
 ((TSPL_BOOKING_DETAIL.Booking_Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/(ITEMDETAIL1.Conversion_Factor)/TSPL_BOOKING_DETAIL.Booking_Qty) as PackingQty,
 ((TSPL_BOOKING_DETAIL.Booking_Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ITEMDETAIL1.Conversion_Factor) as TotalSaleQty,
-TSPL_BOOKING_DETAIL.Amount_with_Tax
+TSPL_BOOKING_DETAIL.Tax_On_Amount as Amount_With_Tax
 
 from TSPL_BOOKING_MATSER
 left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No
@@ -9623,7 +9627,7 @@ dbo.fn_GetBatchQty(TSPL_BOOKING_DETAIL.item_code,TSPL_BOOKING_DETAIL.Document_No
 ITEMDETAIL1.Conversion_Factor as CF,
 ((TSPL_BOOKING_DETAIL.Booking_Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/(ITEMDETAIL1.Conversion_Factor)/TSPL_BOOKING_DETAIL.Booking_Qty) as PackingQty,
 ((TSPL_BOOKING_DETAIL.Booking_Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ITEMDETAIL1.Conversion_Factor) as TotalSaleQty,
-TSPL_BOOKING_DETAIL.Amount_with_Tax
+TSPL_BOOKING_DETAIL.Tax_On_Amount as Amount_With_Tax
 
 from TSPL_BOOKING_MATSER
 left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No

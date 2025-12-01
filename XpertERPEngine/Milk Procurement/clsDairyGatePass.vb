@@ -88,9 +88,9 @@ Public Class clsDairyGatePassEntry
 
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmTankerProvision, obj.Location_Code, obj.GPDate, trans)
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmDairyGatePass, obj.Location_Code, obj.GPDate, trans)
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.GPCode), "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "TSPL_DAIRYSALE_GATEPASS_DETAIL", "GPCode", trans)
-            End If
+            'If Not isNewEntry Then
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.GPCode), "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "TSPL_DAIRYSALE_GATEPASS_DETAIL", "GPCode", trans)
+            ' End If
 
             qry = ""
             qry = "delete from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL where GPcode='" + obj.GPCode + "'"
@@ -160,6 +160,8 @@ Public Class clsDairyGatePassEntry
             isSaved = isSaved AndAlso clsDairyGPDetail.SaveData(obj.GPCode, obj.Arr, trans)
             isSaved = isSaved AndAlso clsDairyGPCrateDetail.SaveData(obj.GPCode, obj.ArrCrateType, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.GPCode, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "TSPL_DAIRYSALE_GATEPASS_DETAIL", "GPCode", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.GPCode), "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "TSPL_DAIRYSALE_GATEPASS_DETAIL", "GPCode", trans)
+
             ''richa agarwal 22 Nov,2019 ERO/22/11/19-001129
             '' qry = "Update TSPL_SD_SHIPMENT_HEAD set GPCode='" & obj.GPCode & "' where  convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(obj.GPDate, "") & "' and isnull(GPCode,'') = '' and Trans_Type='FS' and Bill_To_Location='" & obj.Location_Code & "' and Vehicle_Code='" & obj.Vehicle_Id & "' and TSPL_SD_SHIPMENT_HEAD.Document_Code  in (" + AgainstDocumentCode + ")"
 

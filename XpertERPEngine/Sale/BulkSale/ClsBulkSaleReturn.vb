@@ -80,9 +80,9 @@ Public Class ClsBulkSaleReturn
         Dim qry As String = ""
         Dim isSaved As Boolean = True
         Try
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_SALE_RETURN_MASTER_BULKSALE", "Document_No", "TSPL_SALE_RETURN_DETAIL_BULKSALE", "Document_No", trans)
-            End If
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_SALE_RETURN_MASTER_BULKSALE", "Document_No", "TSPL_SALE_RETURN_DETAIL_BULKSALE", "Document_No", trans)
+            'End If
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmBulkSaleReturn, obj.Location_Code, obj.Document_Date, trans)
             qry = "delete from TSPL_SALE_RETURN_DETAIL_BULKSALE where Document_No='" + obj.Document_No + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)

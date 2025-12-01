@@ -36,9 +36,9 @@ Public Class clsAdjustmentEntryReceivables
         Dim isSaved As Boolean = True
         Try
             'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Order", obj.Bill_To_Location, obj.PurchaseOrder_Date, trans)
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Adjustment_No, "TSPL_Receipt_Adjustment_Header", "Adjustment_No", "TSPL_Receipt_Adjustment_Detail", "Adjustment_No", trans)
-            End If
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Adjustment_No, "TSPL_Receipt_Adjustment_Header", "Adjustment_No", "TSPL_Receipt_Adjustment_Detail", "Adjustment_No", trans)
+            'End If
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
             clsCommon.AddColumnsForChange(coll, "Adjustment_Date", clsCommon.GetPrintDate(obj.Adjustment_Date, "dd/MMM/yyyy hh:mm tt"))
