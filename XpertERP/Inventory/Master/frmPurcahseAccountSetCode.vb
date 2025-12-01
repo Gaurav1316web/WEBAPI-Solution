@@ -1557,8 +1557,8 @@ Public Class frmPurcahseAccountSetCode
                         'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strpurchaseclasscode, "TSPL_PURCHASE_ACCOUNTS", "Purchase_Class_Code", trans)
                         clsCommonFunctionality.UpdateDataTable(COLL, "tspl_purchase_accounts", OMInsertOrUpdate.Update, "tspl_purchase_accounts.Purchase_Class_Code='" + strpurchaseclasscode + "'", trans)
                     End If
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strpurchaseclasscode, "TSPL_PURCHASE_ACCOUNTS", "Purchase_Class_Code", trans)
                 Next
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strpurchaseclasscode, "TSPL_PURCHASE_ACCOUNTS", "Purchase_Class_Code", trans)
 
                 trans.Commit()
                 clsCommon.ProgressBarHide()
