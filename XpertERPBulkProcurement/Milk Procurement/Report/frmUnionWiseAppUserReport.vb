@@ -96,7 +96,7 @@ Public Class frmUnionWiseAppUserReport
                     End If
                     sbQry.Append(" Select [Union Name],COUNT(Distinct Cust_Code) As [User Count],Sum(TotalLtr_ItemWise) As [Qty(Ltr)],SUM([Qty(KG)]) As [Qty(KG)]   " &
                          " from (Select '" & strUnion("Location") & "' As [Union Name],TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_MASTER.ItemType,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.Is_FreshItem,TSPL_ITEM_MASTER.Is_Ambient,TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code," &
-" Case When TSPL_ITEM_MASTER.Is_FreshItem=1 Then TSPL_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise Else 0 End As TotalLtr_ItemWise,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,TSPL_ITEM_UOM_DETAIL_LTR.Conversion_Factor As CFinLTR,TSPL_ITEM_UOM_DETAIL_KG.Conversion_Factor As CFinKG,case when TSPL_ITEM_MASTER.Is_Ambient=1 then CONVERT(decimal(18,2),(Qty * TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ TSPL_ITEM_UOM_DETAIL_KG.Conversion_Factor ) else 0 end As [Qty(KG)] " &
+" Case When TSPL_ITEM_MASTER.Is_FreshItem=1 And TSPL_ITEM_MASTER.IsTaxable=0 Then TSPL_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise Else 0 End As TotalLtr_ItemWise,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,TSPL_ITEM_UOM_DETAIL_LTR.Conversion_Factor As CFinLTR,TSPL_ITEM_UOM_DETAIL_KG.Conversion_Factor As CFinKG,case when TSPL_ITEM_MASTER.Is_Ambient=1 OR (TSPL_ITEM_MASTER.Is_FreshItem=1 And TSPL_ITEM_MASTER.IsTaxable=1) then CONVERT(decimal(18,2),(Qty * TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ TSPL_ITEM_UOM_DETAIL_KG.Conversion_Factor ) else 0 end As [Qty(KG)] " &
 " from [" & strUnion("DataBase Name") & "].dbo.TSPL_DEMAND_BOOKING_DETAIL " &
 " Left Outer Join [" & strUnion("DataBase Name") & "].dbo.TSPL_DEMAND_BOOKING_MASTER On TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No " &
 " Left Outer Join [" & strUnion("DataBase Name") & "].dbo.TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code " &
@@ -104,6 +104,18 @@ Public Class frmUnionWiseAppUserReport
 " Left Outer Join [" & strUnion("DataBase Name") & "].dbo.TSPL_ITEM_UOM_DETAIL As TSPL_ITEM_UOM_DETAIL_LTR On TSPL_ITEM_UOM_DETAIL_LTR.Item_Code=TSPL_ITEM_MASTER.Item_Code And TSPL_ITEM_UOM_DETAIL_LTR.UOM_Code='LTR' " &
 " Left Outer Join [" & strUnion("DataBase Name") & "].dbo.TSPL_ITEM_UOM_DETAIL As TSPL_ITEM_UOM_DETAIL_KG On TSPL_ITEM_UOM_DETAIL_KG.Item_Code=TSPL_ITEM_MASTER.Item_Code And TSPL_ITEM_UOM_DETAIL_KG.UOM_Code='KG' " &
 " where  IsNull(TSPL_DEMAND_BOOKING_DETAIL.created_by,'') <>'' And Convert(Date,Document_Date,103)=Convert(date,'" & txtFromDate.Value & "',103) " &
+" Union All " &
+" Select '" & strUnion("Location") & "' As [Union Name],TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_PRODUCT_DEMAND_BOOKING_MASTER.ItemType,TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.Is_FreshItem,TSPL_ITEM_MASTER.Is_Ambient,TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Qty,TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Unit_code,
+Case When TSPL_ITEM_MASTER.Is_FreshItem=1 And TSPL_ITEM_MASTER.IsTaxable=0 Then TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise Else 0 End As TotalLtr_ItemWise,
+TSPL_ITEM_UOM_DETAIL.Conversion_Factor,TSPL_ITEM_UOM_DETAIL_LTR.Conversion_Factor As CFinLTR,TSPL_ITEM_UOM_DETAIL_KG.Conversion_Factor As CFinKG,
+case when TSPL_ITEM_MASTER.Is_Ambient=1 OR (TSPL_ITEM_MASTER.Is_FreshItem=1 And TSPL_ITEM_MASTER.IsTaxable=1) then CONVERT(decimal(18,2),(Qty * TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ TSPL_ITEM_UOM_DETAIL_KG.Conversion_Factor ) else 0 end As [Qty(KG)]  
+from [JPRTEST].dbo.TSPL_PRODUCT_DEMAND_BOOKING_DETAIL   
+Left Outer Join [" & strUnion("DataBase Name") & "].dbo.TSPL_PRODUCT_DEMAND_BOOKING_MASTER On TSPL_PRODUCT_DEMAND_BOOKING_MASTER.Document_No=TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Document_No  
+Left Outer Join [" & strUnion("DataBase Name") & "].dbo.TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code=TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Item_Code  
+Left Outer Join [" & strUnion("DataBase Name") & "].dbo.TSPL_ITEM_UOM_DETAIL On TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Item_Code And TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Unit_code  
+Left Outer Join [" & strUnion("DataBase Name") & "].dbo.TSPL_ITEM_UOM_DETAIL As TSPL_ITEM_UOM_DETAIL_LTR On TSPL_ITEM_UOM_DETAIL_LTR.Item_Code=TSPL_ITEM_MASTER.Item_Code And TSPL_ITEM_UOM_DETAIL_LTR.UOM_Code='LTR'  
+Left Outer Join [" & strUnion("DataBase Name") & "].dbo.TSPL_ITEM_UOM_DETAIL As TSPL_ITEM_UOM_DETAIL_KG On TSPL_ITEM_UOM_DETAIL_KG.Item_Code=TSPL_ITEM_MASTER.Item_Code And TSPL_ITEM_UOM_DETAIL_KG.UOM_Code='KG'  
+where  IsNull(TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.created_by,'') <>'' And Convert(Date,Document_Date,103)=Convert(date,'" & txtFromDate.Value & "',103) " &
 " Union All " &
 " Select '" & strUnion("Location") & "' As [Union Name],Null As Cust_Code,Null As ItemType,Null As Item_Code,Null As Item_Desc,0 As Is_FreshItem,0 As Is_Ambient,0 As Qty,Null As Unit_code,0 As TotalLtr_ItemWise,0 As Conversion_Factor,0 As CFinLTR,0 As CFinKG,0 As [Qty(KG)] " &
 " )BaseQry " &
