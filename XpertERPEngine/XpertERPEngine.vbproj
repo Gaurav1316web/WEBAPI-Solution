@@ -198,8 +198,6 @@
     <Compile Include="..\XpertERPService\My Project\SharedAssemblyInfo.vb">
       <Link>SharedAssemblyInfo.vb</Link>
     </Compile>
-    <Compile Include="API\ClsEInvoiceOFAPIs.vb" />
-    <Compile Include="API\clsEWayBill.vb" />
     <Compile Include="clsAllEnum.vb" />
     <Compile Include="clscomplaintdetail.vb" />
     <Compile Include="clsfrmNotificationScreen.vb" />
