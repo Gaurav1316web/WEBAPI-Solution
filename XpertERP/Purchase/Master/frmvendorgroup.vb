@@ -111,13 +111,14 @@ Public Class frmVendorGroup
                 End If
             End If
             connectSql.RunSp("sp_vendorgroup_insert", New SqlParameter("@vendorgroupcode", fndgroupcode.Value), New SqlParameter("@groupdesc", rdtxtgroupdesc.Text), New SqlParameter("@acct_set_code", fndaccountset.Value), New SqlParameter("@acct_desc", rdtxtaccountset.Text), New SqlParameter("@termscode", fndtermscode.Value), New SqlParameter("@termsdesc", rdtxttermscode.Text), New SqlParameter("@paymentcode", fndpayamentcode.Value), New SqlParameter("@payamentdesc", rdtxtpayametcode.Text), New SqlParameter("@bankcode", fndbankcode.Value), New SqlParameter("@bankdesc", rdtxtbankcode.Text), New SqlParameter("@taxcode", fndtaxgroup.Value), New SqlParameter("@taxdesc", rdtxttaxgroup.Text), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("@modifyby", userCode), New SqlParameter("@modifydate", connectSql.serverDate()), New SqlParameter("@comcode", companyCode), New SqlParameter("@isTDSApplicable", IIf(clsCommon.myCBool(chk_istdsapplicable.Checked) = True, 1, 0)))
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(fndgroupcode.Value), "TSPL_VENDOR_GROUP", "Ven_Group_Code", Nothing)
             '' changes by Parteek on 26/03/2018
             Dim strqry As String = ""
             strqry = " update TSPL_VENDOR_GROUP set Vendor_Sub_Group='" & clsCommon.myCstr(fndSubGroup.Value) & "' where Ven_Group_Code='" + fndgroupcode.Value + "'"
             clsDBFuncationality.ExecuteNonQuery(strqry)
             strqry = " update TSPL_VENDOR_GROUP set Default_VSP='" & IIf(clsCommon.myCBool(chkDefaultVSP.Checked) = True, 1, 0) & "' where Ven_Group_Code='" + fndgroupcode.Value + "'"
             clsDBFuncationality.ExecuteNonQuery(strqry)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(fndgroupcode.Value), "TSPL_VENDOR_GROUP", "Ven_Group_Code", Nothing)
+
             myMessages.insert()
         Catch ex As Exception
             myMessages.myExceptions(ex)

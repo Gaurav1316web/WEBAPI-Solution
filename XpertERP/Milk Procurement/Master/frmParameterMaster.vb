@@ -547,7 +547,7 @@ Public Class FrmParameterMaster
                 Return
             End If
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, clsCommon.myCstr(fndNo.Value), "TSPL_PARAMETER_MASTER", "Code", trans)
-            ' clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(fndNo.Value), "TSPL_PARAMETER_MASTER", "Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(fndNo.Value), "TSPL_PARAMETER_MASTER", "Code", trans)
 
             qry = "delete from TSPL_PARAMETER_MASTER where comp_code='" + objCommonVar.CurrentCompanyCode + "' and code='" + clsCommon.myCstr(fndNo.Value) + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)

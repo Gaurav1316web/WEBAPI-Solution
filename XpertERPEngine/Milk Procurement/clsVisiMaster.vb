@@ -88,6 +88,7 @@ Public Class clsVisiMaster
             If (clsCommon.myLen(strVisiId) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+
             Dim qry As String = "delete from TSPL_VISI_MASTER where Visi_Id='" + strVisiId + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
             Return True
