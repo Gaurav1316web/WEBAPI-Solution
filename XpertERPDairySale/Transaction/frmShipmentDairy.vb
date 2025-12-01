@@ -13917,11 +13917,11 @@ and TSPL_Demand_Booking_Master.Route_No='" + txtRouteNo.Value + "' and TSPL_Dema
         PrintInvoiveForAll(clsCommon.myCstr(txtDocNo.Value), txtDate.Value, clsCommon.myCstr(txtInvoiceNo.Text), False)
     End Sub
 
-    Function PrintInvoiveForAll(ByVal DocCode As String, ByVal docDate As DateTime, ByVal invoiceCode As String, ByVal isCancel As Boolean) As String
+    Function PrintInvoiveForAll(ByVal DocCode As String, ByVal docDate As DateTime, ByVal invoiceCode As String, ByVal isCancel As String) As String
         Return PrintInvoiveForAll(DocCode, docDate, invoiceCode, isCancel, False, Nothing)
     End Function
 
-    Function PrintInvoiveForAll(ByVal DocCode As String, ByVal docDate As DateTime, ByVal invoiceCode As String, ByVal isCancel As Boolean, ByVal isPdf As Boolean, ByVal Cust_Code As String) As String
+    Function PrintInvoiveForAll(ByVal DocCode As String, ByVal docDate As DateTime, ByVal invoiceCode As String, ByVal isCancel As String, ByVal isPdf As Boolean, ByVal Cust_Code As String) As String
         Dim filePath As String = Nothing
         Try
             Dim Qry As String = Nothing
@@ -13929,8 +13929,10 @@ and TSPL_Demand_Booking_Master.Route_No='" + txtRouteNo.Value + "' and TSPL_Dema
             Dim objMultPrintInvoice As New FrmPrintFreshInvoice
             Dim ItemMain As String = Nothing
             Dim itemScheme As Double = 0
-            If isCancel Then
+            If clsCommon.CompairString(isCancel, "Cancel") = CompairStringResult.Equal Then
                 itemScheme = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from  TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data where Shipment_Code='" & DocCode & "' and Scheme_Applicable='Y'"))
+            ElseIf clsCommon.CompairString(isCancel, "Delete") = CompairStringResult.Equal Then
+                itemScheme = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from  TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data where Shipment_Code='" & DocCode & "' and Scheme_Applicable='Y'"))
             Else
                 itemScheme = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from  TSPL_SD_SALE_INVOICE_DETAIL where " & clsCommon.myCstr(IIf(clsCommon.myLen(DocCode) > 0, "Shipment_Code='" & DocCode & "'", "Document_Code ='" & invoiceCode & "'")) & " and Scheme_Applicable='Y'"))
             End If
@@ -13961,14 +13963,16 @@ and TSPL_Demand_Booking_Master.Route_No='" + txtRouteNo.Value + "' and TSPL_Dema
             'Else
             '    ItemMain = "Y"
             'End If
-            If Not isCancel AndAlso clsCommon.myLen(txtInvoiceNo.Text) <= 0 AndAlso clsCommon.myLen(invoiceCode) <= 0 Then
+            If clsCommon.myLen(isCancel) <= 0 AndAlso clsCommon.myLen(txtInvoiceNo.Text) <= 0 AndAlso clsCommon.myLen(invoiceCode) <= 0 Then
                 myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
             Else
                 Dim dtDocdate As Date?
                 dtDocdate = Nothing
                 Dim StrSql As String = Nothing
-                If isCancel Then
+                If clsCommon.CompairString(isCancel, "Cancel") = CompairStringResult.Equal Then
                     StrSql = "Select Document_Code,Document_Date,Customer_Code,Bill_To_Location,is_taxable,Tax_Group from  TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data where Document_Code='" + invoiceCode + "'"
+                ElseIf clsCommon.CompairString(isCancel, "Delete") = CompairStringResult.Equal Then
+                    StrSql = "Select Document_Code,Document_Date,Customer_Code,Bill_To_Location,is_taxable,Tax_Group from  TSPL_SD_SALE_INVOICE_HEAD_Delete_Data where Document_Code='" + invoiceCode + "'"
                 Else
                     StrSql = "Select Document_Code,Document_Date,Customer_Code,Bill_To_Location,is_taxable,Tax_Group from  TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" + invoiceCode + "'"
                 End If
@@ -13978,8 +13982,10 @@ and TSPL_Demand_Booking_Master.Route_No='" + txtRouteNo.Value + "' and TSPL_Dema
                     dtDocdate = clsCommon.myCDate(dt1.Rows(0)("Document_Date"))
                 End If
                 Dim InvoiceNo As String
-                If isCancel Then
+                If clsCommon.CompairString(isCancel, "Cancel") = CompairStringResult.Equal Then
                     InvoiceNo = clsCommon.GetMulcallString(clsDBFuncationality.GetDataTable("select Sale_Invoice_No from  TSPL_SD_SHIPMENT_HEAD_Cancel_Data  where Document_Code in(select Document_Code from  TSPL_SD_SHIPMENT_HEAD_Cancel_Data  where ParentDocNo='" + DocCode + "')"), "Sale_Invoice_No")
+                ElseIf clsCommon.CompairString(isCancel, "Delete") = CompairStringResult.Equal Then
+                    InvoiceNo = clsCommon.GetMulcallString(clsDBFuncationality.GetDataTable("select Sale_Invoice_No from  TSPL_SD_SHIPMENT_HEAD_Delete_Data  where Document_Code in(select Document_Code from  TSPL_SD_SHIPMENT_HEAD_Delete_Data  where ParentDocNo='" + DocCode + "')"), "Sale_Invoice_No")
                 Else
                     InvoiceNo = clsCommon.GetMulcallString(clsDBFuncationality.GetDataTable("select Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAD where ParentDocNo in(select ParentDocNo from  TSPL_SD_SHIPMENT_HEAD where Document_Code='" + DocCode + "')"), "Sale_Invoice_No")
                 End If
