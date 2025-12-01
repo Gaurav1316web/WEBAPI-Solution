@@ -22,10 +22,14 @@ Partial Class ProductionReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.Prdncreallchk = New common.Controls.MyRadioButton()
+        Me.RePrdntchk = New common.Controls.MyRadioButton()
+        Me.Productionchk = New common.Controls.MyRadioButton()
         Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rdbfgsfg = New common.Controls.MyRadioButton()
         Me.rdbSFG = New common.Controls.MyRadioButton()
@@ -34,8 +38,6 @@ Partial Class ProductionReport
         Me.rdbAll = New common.Controls.MyRadioButton()
         Me.rdbUnposted = New common.Controls.MyRadioButton()
         Me.rdbPosted = New common.Controls.MyRadioButton()
-        Me.lblBillToLocation = New common.Controls.MyLabel()
-        Me.txtBillToLocation = New common.UserControls.txtFinder()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtToDate = New common.Controls.MyDateTimePicker()
@@ -51,16 +53,18 @@ Partial Class ProductionReport
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.Prdncreallchk = New common.Controls.MyRadioButton()
-        Me.RePrdntchk = New common.Controls.MyRadioButton()
-        Me.Productionchk = New common.Controls.MyRadioButton()
+        Me.txtBillToLocation = New common.UserControls.txtMultiSelectFinder()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox7.SuspendLayout()
+        CType(Me.Prdncreallchk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RePrdntchk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Productionchk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox5.SuspendLayout()
         CType(Me.rdbfgsfg, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -71,7 +75,6 @@ Partial Class ProductionReport
         CType(Me.rdbAll, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbUnposted, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbPosted, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblBillToLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -84,11 +87,6 @@ Partial Class ProductionReport
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox7.SuspendLayout()
-        CType(Me.Prdncreallchk, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RePrdntchk, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Productionchk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -128,11 +126,10 @@ Partial Class ProductionReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.txtBillToLocation)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox7)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox5)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
-        Me.RadPageViewPage1.Controls.Add(Me.lblBillToLocation)
-        Me.RadPageViewPage1.Controls.Add(Me.txtBillToLocation)
         Me.RadPageViewPage1.Controls.Add(Me.Label3)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
@@ -140,6 +137,53 @@ Partial Class ProductionReport
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 363)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'RadGroupBox7
+        '
+        Me.RadGroupBox7.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox7.Controls.Add(Me.Prdncreallchk)
+        Me.RadGroupBox7.Controls.Add(Me.RePrdntchk)
+        Me.RadGroupBox7.Controls.Add(Me.Productionchk)
+        Me.RadGroupBox7.HeaderText = ""
+        Me.RadGroupBox7.Location = New System.Drawing.Point(17, 192)
+        Me.RadGroupBox7.Name = "RadGroupBox7"
+        Me.RadGroupBox7.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox7.Size = New System.Drawing.Size(246, 42)
+        Me.RadGroupBox7.TabIndex = 60
+        '
+        'Prdncreallchk
+        '
+        Me.Prdncreallchk.Location = New System.Drawing.Point(202, 11)
+        Me.Prdncreallchk.MyLinkLable1 = Nothing
+        Me.Prdncreallchk.MyLinkLable2 = Nothing
+        Me.Prdncreallchk.Name = "Prdncreallchk"
+        Me.Prdncreallchk.Size = New System.Drawing.Size(33, 18)
+        Me.Prdncreallchk.TabIndex = 3
+        Me.Prdncreallchk.TabStop = False
+        Me.Prdncreallchk.Text = "All"
+        '
+        'RePrdntchk
+        '
+        Me.RePrdntchk.Location = New System.Drawing.Point(97, 11)
+        Me.RePrdntchk.MyLinkLable1 = Nothing
+        Me.RePrdntchk.MyLinkLable2 = Nothing
+        Me.RePrdntchk.Name = "RePrdntchk"
+        Me.RePrdntchk.Size = New System.Drawing.Size(92, 18)
+        Me.RePrdntchk.TabIndex = 2
+        Me.RePrdntchk.TabStop = False
+        Me.RePrdntchk.Text = "Re-Production"
+        '
+        'Productionchk
+        '
+        Me.Productionchk.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.Productionchk.Location = New System.Drawing.Point(16, 11)
+        Me.Productionchk.MyLinkLable1 = Nothing
+        Me.Productionchk.MyLinkLable2 = Nothing
+        Me.Productionchk.Name = "Productionchk"
+        Me.Productionchk.Size = New System.Drawing.Size(75, 18)
+        Me.Productionchk.TabIndex = 1
+        Me.Productionchk.Text = "Production"
+        Me.Productionchk.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'RadGroupBox5
         '
@@ -234,44 +278,6 @@ Partial Class ProductionReport
         Me.rdbPosted.TabIndex = 1
         Me.rdbPosted.Text = "Posted"
         Me.rdbPosted.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
-        '
-        'lblBillToLocation
-        '
-        Me.lblBillToLocation.AutoSize = False
-        Me.lblBillToLocation.BorderVisible = True
-        Me.lblBillToLocation.FieldName = Nothing
-        Me.lblBillToLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblBillToLocation.Location = New System.Drawing.Point(176, 69)
-        Me.lblBillToLocation.Name = "lblBillToLocation"
-        Me.lblBillToLocation.Size = New System.Drawing.Size(187, 18)
-        Me.lblBillToLocation.TabIndex = 42
-        Me.lblBillToLocation.TextWrap = False
-        '
-        'txtBillToLocation
-        '
-        Me.txtBillToLocation.CalculationExpression = Nothing
-        Me.txtBillToLocation.FieldCode = Nothing
-        Me.txtBillToLocation.FieldDesc = Nothing
-        Me.txtBillToLocation.FieldMaxLength = 0
-        Me.txtBillToLocation.FieldName = Nothing
-        Me.txtBillToLocation.isCalculatedField = False
-        Me.txtBillToLocation.IsSourceFromTable = False
-        Me.txtBillToLocation.IsSourceFromValueList = False
-        Me.txtBillToLocation.IsUnique = False
-        Me.txtBillToLocation.Location = New System.Drawing.Point(71, 69)
-        Me.txtBillToLocation.MendatroryField = True
-        Me.txtBillToLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtBillToLocation.MyLinkLable1 = Nothing
-        Me.txtBillToLocation.MyLinkLable2 = Nothing
-        Me.txtBillToLocation.MyReadOnly = False
-        Me.txtBillToLocation.MyShowMasterFormButton = False
-        Me.txtBillToLocation.Name = "txtBillToLocation"
-        Me.txtBillToLocation.ReferenceFieldDesc = Nothing
-        Me.txtBillToLocation.ReferenceFieldName = Nothing
-        Me.txtBillToLocation.ReferenceTableName = Nothing
-        Me.txtBillToLocation.Size = New System.Drawing.Size(99, 18)
-        Me.txtBillToLocation.TabIndex = 41
-        Me.txtBillToLocation.Value = ""
         '
         'Label3
         '
@@ -389,7 +395,8 @@ Partial Class ProductionReport
         '
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
@@ -459,52 +466,18 @@ Partial Class ProductionReport
         Me.btnGo.TabIndex = 38
         Me.btnGo.Text = ">>"
         '
-        'RadGroupBox7
+        'txtBillToLocation
         '
-        Me.RadGroupBox7.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox7.Controls.Add(Me.Prdncreallchk)
-        Me.RadGroupBox7.Controls.Add(Me.RePrdntchk)
-        Me.RadGroupBox7.Controls.Add(Me.Productionchk)
-        Me.RadGroupBox7.HeaderText = ""
-        Me.RadGroupBox7.Location = New System.Drawing.Point(17, 192)
-        Me.RadGroupBox7.Name = "RadGroupBox7"
-        Me.RadGroupBox7.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox7.Size = New System.Drawing.Size(246, 42)
-        Me.RadGroupBox7.TabIndex = 60
-        '
-        'Prdncreallchk
-        '
-        Me.Prdncreallchk.Location = New System.Drawing.Point(202, 11)
-        Me.Prdncreallchk.MyLinkLable1 = Nothing
-        Me.Prdncreallchk.MyLinkLable2 = Nothing
-        Me.Prdncreallchk.Name = "Prdncreallchk"
-        Me.Prdncreallchk.Size = New System.Drawing.Size(33, 18)
-        Me.Prdncreallchk.TabIndex = 3
-        Me.Prdncreallchk.TabStop = False
-        Me.Prdncreallchk.Text = "All"
-        '
-        'RePrdntchk
-        '
-        Me.RePrdntchk.Location = New System.Drawing.Point(97, 11)
-        Me.RePrdntchk.MyLinkLable1 = Nothing
-        Me.RePrdntchk.MyLinkLable2 = Nothing
-        Me.RePrdntchk.Name = "RePrdntchk"
-        Me.RePrdntchk.Size = New System.Drawing.Size(92, 18)
-        Me.RePrdntchk.TabIndex = 2
-        Me.RePrdntchk.TabStop = False
-        Me.RePrdntchk.Text = "Re-Production"
-        '
-        'Productionchk
-        '
-        Me.Productionchk.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.Productionchk.Location = New System.Drawing.Point(16, 11)
-        Me.Productionchk.MyLinkLable1 = Nothing
-        Me.Productionchk.MyLinkLable2 = Nothing
-        Me.Productionchk.Name = "Productionchk"
-        Me.Productionchk.Size = New System.Drawing.Size(75, 18)
-        Me.Productionchk.TabIndex = 1
-        Me.Productionchk.Text = "Production"
-        Me.Productionchk.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        Me.txtBillToLocation.arrDispalyMember = Nothing
+        Me.txtBillToLocation.arrValueMember = Nothing
+        Me.txtBillToLocation.Location = New System.Drawing.Point(71, 69)
+        Me.txtBillToLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBillToLocation.MyLinkLable1 = Nothing
+        Me.txtBillToLocation.MyLinkLable2 = Nothing
+        Me.txtBillToLocation.MyNullText = "All"
+        Me.txtBillToLocation.Name = "txtBillToLocation"
+        Me.txtBillToLocation.Size = New System.Drawing.Size(302, 21)
+        Me.txtBillToLocation.TabIndex = 61
         '
         'ProductionReport
         '
@@ -525,6 +498,12 @@ Partial Class ProductionReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox7.ResumeLayout(False)
+        Me.RadGroupBox7.PerformLayout()
+        CType(Me.Prdncreallchk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RePrdntchk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Productionchk, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox5.ResumeLayout(False)
         Me.RadGroupBox5.PerformLayout()
@@ -537,7 +516,6 @@ Partial Class ProductionReport
         CType(Me.rdbAll, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbUnposted, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbPosted, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblBillToLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
@@ -551,12 +529,6 @@ Partial Class ProductionReport
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox7.ResumeLayout(False)
-        Me.RadGroupBox7.PerformLayout()
-        CType(Me.Prdncreallchk, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RePrdntchk, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Productionchk, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -580,8 +552,6 @@ Partial Class ProductionReport
     Friend WithEvents btnGo As RadButton
     Friend WithEvents Gv1 As common.UserControls.MyRadGridView
     Friend WithEvents btnPrint As RadButton
-    Friend WithEvents lblBillToLocation As common.Controls.MyLabel
-    Friend WithEvents txtBillToLocation As common.UserControls.txtFinder
     Friend WithEvents RadGroupBox2 As RadGroupBox
     Friend WithEvents rdbAll As common.Controls.MyRadioButton
     Friend WithEvents rdbUnposted As common.Controls.MyRadioButton
@@ -594,4 +564,5 @@ Partial Class ProductionReport
     Friend WithEvents Prdncreallchk As common.Controls.MyRadioButton
     Friend WithEvents RePrdntchk As common.Controls.MyRadioButton
     Friend WithEvents Productionchk As common.Controls.MyRadioButton
+    Friend WithEvents txtBillToLocation As common.UserControls.txtMultiSelectFinder
 End Class

@@ -5174,13 +5174,17 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
     End Sub
 
     Public Function Print(ByVal isPrint As Boolean, ByVal ischallan As Boolean, ByVal isPDFPath As Boolean) As String
+        Return Print(isPrint, ischallan, isPDFPath, Nothing)
+    End Function
+
+    Public Function Print(ByVal isPrint As Boolean, ByVal ischallan As Boolean, ByVal isPDFPath As Boolean, ByVal strCancelDelete As String) As String
         Dim filePath As String = ""
         Try
             Dim frmCRV As New frmCrystalReportViewer()
             Dim IsMandiTax As Double = 0
             IsMandiTax = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code='" & txtTaxGroup.Value & "' and Tax_Code in(select Tax_Code from TSPL_TAX_MASTER where Is_Mandi_Tax='Y')"))
             If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
-                Dim Query As String = PrintMaterialSale()
+                Dim Query As String = PrintMaterialSale(strCancelDelete)
                 Dim dt3 As DataTable = clsDBFuncationality.GetDataTable(Query)
                 If dt3.Rows.Count > 0 Then
                     If clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("Is_CashSale")), "Y") = CompairStringResult.Equal Then
@@ -5491,8 +5495,34 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
         Return filePath
     End Function
 
-    'Done  by sanjay in UDL Plant 
     Public Function PrintMaterialSale() As String
+        Return PrintMaterialSale(Nothing)
+    End Function
+
+    'Done  by sanjay in UDL Plant 
+    Public Function PrintMaterialSale(ByVal strCancelDelete As Boolean) As String
+        Dim tbl_ScrapSaleHead As String = Nothing
+        Dim tbl_ScrapSaleDetail As String = Nothing
+        Dim tbl_ScrapInvoice_Head As String = Nothing
+        Dim tbl_ScrapInvoice_Detail As String = Nothing
+
+        If clsCommon.CompairString(strCancelDelete, "Cancel") = CompairStringResult.Equal Then
+            tbl_ScrapSaleHead = " TSPL_SCRAPSALE_HEAD_Cancel_Data As TSPL_SCRAPSALE_HEAD "
+            tbl_ScrapSaleDetail = " TSPL_SCRAPSALE_Detail_Cancel_Data As TSPL_SCRAPSALE_DETAIL "
+            tbl_ScrapInvoice_Head = " TSPL_SCRAPINVOICE_HEAD_Cancel_Data As TSPL_SCRAPINVOICE_HEAD "
+            tbl_ScrapInvoice_Detail = " TSPL_SCRAPINVOICE_DETAIL_Cancel_Data As TSPL_SCRAPINVOICE_DETAIL "
+        ElseIf clsCommon.CompairString(strCancelDelete, "Delete") = CompairStringResult.Equal Then
+            tbl_ScrapSaleHead = " TSPL_SCRAPSALE_HEAD_Delete_Data As TSPL_SCRAPSALE_HEAD "
+            tbl_ScrapSaleDetail = " TSPL_SCRAPSALE_Detail_Delete_Data As TSPL_SCRAPSALE_DETAIL "
+            tbl_ScrapInvoice_Head = " TSPL_SCRAPINVOICE_HEAD_Delete_Data As TSPL_SCRAPINVOICE_HEAD "
+            tbl_ScrapInvoice_Detail = " TSPL_SCRAPINVOICE_DETAIL_Delete_Data As TSPL_SCRAPINVOICE_DETAIL "
+        Else
+            tbl_ScrapSaleHead = " TSPL_SCRAPSALE_HEAD "
+            tbl_ScrapSaleDetail = " TSPL_SCRAPSALE_DETAIL "
+            tbl_ScrapInvoice_Head = " TSPL_SCRAPINVOICE_HEAD "
+            tbl_ScrapInvoice_Detail = " TSPL_SCRAPINVOICE_DETAIL "
+        End If
+
         '"ToState.GST_STATE_CODE as Cust_GstStateCode,ToState.STATE_NAME AS Cust_StateName"
         Dim strQuery As String = Nothing
         'Dim TempInvoiceDate = clsCommon.myCDate(clsDBFuncationality.getSingleValue("Select shipment_Date from TSPL_SCRAPINVOICE_HEAD where invoice_no='" & lblInvoiceNo.Text & "'"))
@@ -5541,9 +5571,9 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                     " isnull(TSPL_SCRAPSALE_DETAIL.TAX7_Base_Amt,0) as DBase7_Amt,  isnull(TSPL_SCRAPSALE_DETAIL.TAX8_Base_Amt,0) as DBase8_Amt, " &
                     " isnull(TSPL_SCRAPSALE_DETAIL.TAX9_Base_Amt,0) as DBase9_Amt,  isnull(TSPL_SCRAPSALE_DETAIL.TAX10_Base_Amt,0) as DBase10_Amt "
 
-        strQuery += " from TSPL_SCRAPSALE_HEAD  left join TSPL_SCRAPSALE_DETAIL on TSPL_SCRAPSALE_DETAIL.shipment_No=TSPL_SCRAPSALE_HEAD.shipment_No " &
- "left join TSPL_SCRAPINVOICE_HEAD on TSPL_SCRAPINVOICE_HEAD. shipment_No=TSPL_SCRAPSALE_HEAD.shipment_No " &
- "left join TSPL_SCRAPINVOICE_DETAIL on TSPL_SCRAPINVOICE_DETAIL.invoice_No=TSPL_SCRAPINVOICE_HEAD.invoice_No " &
+        strQuery += " from " & tbl_ScrapSaleHead & "  left join " & tbl_ScrapSaleDetail & " on TSPL_SCRAPSALE_DETAIL.shipment_No=TSPL_SCRAPSALE_HEAD.shipment_No " &
+ "left join " & tbl_ScrapInvoice_Head & " on TSPL_SCRAPINVOICE_HEAD. shipment_No=TSPL_SCRAPSALE_HEAD.shipment_No " &
+ "left join " & tbl_ScrapInvoice_Detail & " on TSPL_SCRAPINVOICE_DETAIL.invoice_No=TSPL_SCRAPINVOICE_HEAD.invoice_No " &
 " and TSPL_SCRAPSALE_DETAIL.Item_Code=TSPL_SCRAPINVOICE_DETAIL.Item_Code " &
 " and TSPL_SCRAPSALE_DETAIL.Unit_code=TSPL_SCRAPINVOICE_DETAIL.Unit_code  and TSPL_SCRAPSALE_DETAIL.Line_No=TSPL_SCRAPINVOICE_DETAIL.Line_No   " &
 "left join TSPL_LOCATION_MASTER as FromLocation on FromLocation.Location_Code=TSPL_SCRAPSALE_HEAD.Loc_Code " &
@@ -6470,18 +6500,14 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
         End Try
     End Sub
 
-
-
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         strPrintType = "Excise"
         Print(True, True, False)
-
     End Sub
 
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
         strPrintType = "Excise"
         Print(True, False, False)
-
     End Sub
 
     Private Sub RadPageViewPage1_Paint(sender As Object, e As PaintEventArgs) Handles RadPageViewPage1.Paint
