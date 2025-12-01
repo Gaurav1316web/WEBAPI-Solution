@@ -230,7 +230,6 @@
     <Compile Include="Common\clsERPFuncationality.vb" />
     <Compile Include="Common\clsExpiryDate.vb" />
     <Compile Include="Common\clsExportTemplate.vb" />
-    <Compile Include="Common\clsFinder.vb" />
     <Compile Include="Common\clsFormIssuehead.vb" />
     <Compile Include="Common\clsFormSerialNoMaster.vb" />
     <Compile Include="Common\clsGardeMaster.vb" />
