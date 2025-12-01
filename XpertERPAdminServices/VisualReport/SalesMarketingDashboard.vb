@@ -690,10 +690,10 @@ SELECT   SUM(TotalLtr_ItemWise) AS TotalLtr_ItemWiseDemand,SUM(TotalLtr_ItemWise
                 dt = clsMilkUnion.UnionDBName1(txtUnion.arrValueMember)
             End If
             query = ""
-
+            Dim dt1 As DataTable = Nothing
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
 
-                Dim dt1 As DataTable = Nothing
+
                 Dim strqry As String = ""
                 For ii As Integer = 0 To dt.Rows.Count - 1
                     If ii > 0 Then
@@ -713,7 +713,7 @@ SELECT   SUM(TotalLtr_ItemWise) AS TotalLtr_ItemWiseDemand,SUM(TotalLtr_ItemWise
             )XX inner join (SELECT Alias_Name,SNO AS Item_SNO,code,Report_UOM FROM [TSPL_MASTER].[dbo].TSPL_Item_Alias_Master) As Item_Alias_Master on Item_Alias_Master.Alias_Name = XX.Report_Name
                    WHERE xx.Report_Name<>'' group by Item_Code "
                 Next
-                dt1 = clsDBFuncationality.GetDataTable(" SELECT * FROM  (" & strqry & "  )XXX order by Item_SNO")
+                dt1 = clsDBFuncationality.GetDataTable(" SELECT Distinct Short_Description,Item_SNO,Report_UOM FROM  (" & strqry & "  )XXX order by Item_SNO")
                 If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
                     For kk As Integer = 0 To dt1.Rows.Count - 1
                         If clsCommon.myLen(itemdesc) > 0 Then
@@ -734,14 +734,16 @@ SELECT   SUM(TotalLtr_ItemWise) AS TotalLtr_ItemWiseDemand,SUM(TotalLtr_ItemWise
 
             End If
 
-            For ii As Integer = 0 To dt.Rows.Count - 1
-                If ii > 0 Then
-                    query += " UNION ALL "
-                Else
-                    query += " ( "
-                End If
+            If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
 
-                query += " select xxxx.Item_Code,Short_Description,Item_SNO,Qty,Unit_code,xxxx.Report_UOM,(QTY * ConFromUom.Conversion_Factor)/ConToUom.Conversion_Factor as Report_Uom_Qty,[Union Name] from (
+                For ii As Integer = 0 To dt.Rows.Count - 1
+                    If ii > 0 Then
+                        query += " UNION ALL "
+                    Else
+                        query += " ( "
+                    End If
+
+                    query += " select xxxx.Item_Code,Short_Description,Item_SNO,Qty,Unit_code,xxxx.Report_UOM,(QTY * ConFromUom.Conversion_Factor)/ConToUom.Conversion_Factor as Report_Uom_Qty,[Union Name] from (
                              SELECT  ITEM_CODE, (report_name)Short_Description,MAX(Item_SNO)Item_SNO,sum(qty)Qty,MAX(Unit_code)Unit_code,max(Report_UOM)Report_UOM,max([Union Name]) [Union Name]
                             FROM  ( SELECT * FROM ( SELECT '" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL.Item_Code,Item_Code.report_name,
                                   [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL.Qty,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL.Unit_code FROM  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL 
@@ -771,17 +773,22 @@ SELECT   SUM(TotalLtr_ItemWise) AS TotalLtr_ItemWiseDemand,SUM(TotalLtr_ItemWise
 								      LEFT JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL AS ConToUom  ON ConToUom.Item_Code=xxxx.Item_Code and ConToUom.UOM_Code=xxxx.Report_UOM  "
 
 
-                'query += " select '" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],max(Union_Contact_Person)Union_Contact_Person,max(Union_Contact_PhoneNo)Union_Contact_PhoneNo,
-                '            '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username, " + sumitemdesc + " from (select ROW_NUMBER() OVER (PARTITION BY 1 ORDER BY  TSPL_ROUTE_MASTER.Route_Seq_No asc ,XXXFinal.[Route No] asc 
-                '                                  ,  XXXFinal.[Customer Name] asc) as Sno,XXXFinal.[Route No],max(XXXFinal.[Customer Code]) as [Customer Code],  XXXFinal.[Customer Name], " + sumitemdesc + "  ,max( XXXFinal.[Modified By]) as [Modified By], max(XXXFinal.[Created By]) as  [Created By],max(Union_Contact_Person)Union_Contact_Person,max(Union_Contact_PhoneNo)Union_Contact_PhoneNo  from ( " + MainQuery + " ) XXXFinal left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ROUTE_MASTER on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ROUTE_MASTER.Route_No = XXXFinal.[Route No]	 group by route_seq_no, XXXFinal.[Route No],  XXXFinal.[Customer Name] )ttt "
-                'query += " "
-            Next
+                    'query += " select '" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],max(Union_Contact_Person)Union_Contact_Person,max(Union_Contact_PhoneNo)Union_Contact_PhoneNo,
+                    '            '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username, " + sumitemdesc + " from (select ROW_NUMBER() OVER (PARTITION BY 1 ORDER BY  TSPL_ROUTE_MASTER.Route_Seq_No asc ,XXXFinal.[Route No] asc 
+                    '                                  ,  XXXFinal.[Customer Name] asc) as Sno,XXXFinal.[Route No],max(XXXFinal.[Customer Code]) as [Customer Code],  XXXFinal.[Customer Name], " + sumitemdesc + "  ,max( XXXFinal.[Modified By]) as [Modified By], max(XXXFinal.[Created By]) as  [Created By],max(Union_Contact_Person)Union_Contact_Person,max(Union_Contact_PhoneNo)Union_Contact_PhoneNo  from ( " + MainQuery + " ) XXXFinal left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ROUTE_MASTER on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ROUTE_MASTER.Route_No = XXXFinal.[Route No]	 group by route_seq_no, XXXFinal.[Route No],  XXXFinal.[Customer Name] )ttt "
+                    'query += " "
+                Next
 
-            FinalQry = " SELECT CAST(ROW_NUMBER() OVER(ORDER BY ([Union Name])) AS INT) AS SNo,([Union Name]) as [Union Name],TSPL_COMPANY_MASTER.Union_Contact_Person,TSPL_COMPANY_MASTER.Union_Contact_PhoneNo," + sumitemdesc + " FROM
+
+                FinalQry = " SELECT CAST(ROW_NUMBER() OVER(ORDER BY ([Union Name])) AS INT) AS SNo,([Union Name]) as [Union Name],TSPL_COMPANY_MASTER.Union_Contact_Person,TSPL_COMPANY_MASTER.Union_Contact_PhoneNo, " + sumitemdesc + " FROM
                         (select [Union Name],Short_Description,Sum(Report_Uom_Qty)Report_Uom_Qty 
                         From  " + query + " )  AS SourceData group by [Union Name],Short_Description )Final
                             PIVOT (SUM(Report_UOM_Qty) FOR Short_Description IN (" + itemdesc + ") ) AS PVT 
                             Left join TSPL_COMPANY_MASTER on 2=2"
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                Exit Sub
+            End If
 
             Dim dtgv As New DataTable
             dtgv = clsDBFuncationality.GetDataTable(FinalQry)
