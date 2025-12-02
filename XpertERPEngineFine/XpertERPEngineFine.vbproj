@@ -63,6 +63,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERP\bin\Debug\Microsoft.VisualStudio.Shell.Interop.8.0.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -209,6 +213,8 @@
       <Link>SharedAssemblyInfo.vb</Link>
     </Compile>
     <Compile Include="Accounts\clsJournalMaster.vb" />
+    <Compile Include="API\ClsEInvoiceOFAPIs.vb" />
+    <Compile Include="API\clsEWayBill.vb" />
     <Compile Include="BoothRouteMapping\clsBoothRouteMappingHead.vb" />
     <Compile Include="Bull Breed Management\clsBullBreedMaster.vb" />
     <Compile Include="Bull Breed Management\clsBullCategoryMaster.vb" />
@@ -309,6 +315,7 @@
     <Compile Include="Common\clsCountryMaster.vb" />
     <Compile Include="Common\clsCurrencyMaster.vb" />
     <Compile Include="Common\clsCustomFieldValues.vb" />
+    <Compile Include="Common\clsFinder.vb" />
     <Compile Include="Common\clsStateMaster.vb" />
     <Compile Include="Common\MIlkComponentType.vb" />
     <Compile Include="Dairy Sales\clsCustomerPenalty.vb" />

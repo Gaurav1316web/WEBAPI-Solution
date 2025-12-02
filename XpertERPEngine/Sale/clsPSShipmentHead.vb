@@ -3241,6 +3241,7 @@ Public Class clsPSShipmentHead
                 clsBatchInventory.DeleteData(TransType_Str, obj.Document_Code, trans)
                 clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_DETAIL", "Document_Code", trans)
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_DETAIL", "Document_Code", trans)
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strInvoiceNo, "TSPL_SD_SALE_INVOICE_HEAD", "Document_Code", "TSPL_SD_SALE_INVOICE_DETAIL", "Document_Code", trans)
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strInvoiceNo, "TSPL_SD_SALE_INVOICE_HEAD", "Document_Code", "TSPL_SD_SALE_INVOICE_DETAIL", "Document_Code", trans)
                 clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_DETAIL", "Document_Code", trans)
                 Dim qry As String = "delete from TSPL_SD_SALE_INVOICE_DETAIL where Document_Code='" + strInvoiceNo + "'"

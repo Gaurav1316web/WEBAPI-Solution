@@ -258,7 +258,7 @@ And (
 
 where 2=2  and TSPL_DEMAND_BOOKING_MASTER.Document_Date >= '01/" & clsCommon.GetPrintDate(FromDate, "MMM/yyyy") & "' And TSPL_DEMAND_BOOKING_MASTER.Document_Date <= '" & clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") & "'
 --and TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code='ARMY U'
-And IsNull(TSPL_ROUTE_WISE_SALE_TARGET.Target_Qty,0)<>0
+--And IsNull(TSPL_ROUTE_WISE_SALE_TARGET.Target_Qty,0)<>0
 )"
         Else
             Throw New Exception("Item sub group type not found !")

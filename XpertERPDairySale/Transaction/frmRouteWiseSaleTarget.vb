@@ -466,7 +466,10 @@ Inner Join TSPL_ROUTE_WISE_SALE_TARGET On TSPL_ROUTE_WISE_SALE_TARGET.Document_C
     Private Sub txtDocumentNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocumentNo._MYValidating
         Try
             Dim Qry As String = "Select Document_Code As DocumentCode,Document_Date As [Document Date],Months,Item_Sub_Category As [Item Sub Category],Case When IsNull(Status,0)=0 Then 'Pending' Else 'Approved' End As Status from TSPL_ROUTE_WISE_SALE_TARGET"
-            LoadData(clsCommon.ShowSelectForm("@Doc", Qry, "DocumentCode", "", txtDocumentNo.Value, "TSPL_ROUTE_WISE_SALE_TARGET.Document_Date desc", isButtonClicked), NavigatorType.Current, False)
+            txtDocumentNo.Value = clsCommon.ShowSelectForm("@Doc", Qry, "DocumentCode", "", txtDocumentNo.Value, "TSPL_ROUTE_WISE_SALE_TARGET.Document_Date desc", isButtonClicked)
+            If clsCommon.myLen(txtDocumentNo.Value) > 0 Then
+                LoadData(txtDocumentNo.Value, NavigatorType.Current, False)
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

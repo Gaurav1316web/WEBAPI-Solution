@@ -29342,7 +29342,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("WIP_AC", "varchar(50) NULL References TSPL_GL_ACCOUNTS(Account_Code)")
             coll.Add("PROFIT_AC", "varchar(50) NULL References TSPL_GL_ACCOUNTS(Account_Code)")
             coll.Add("LOSS_AC", "varchar(50) NULL References TSPL_GL_ACCOUNTS(Account_Code)")
-            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_Dep_AccountSet", coll, Nothing, True)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_Dep_AccountSet", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Category_Code", "Varchar(12) NOT NULL Primary Key ")
@@ -37545,7 +37545,33 @@ LL")
 
             '=========================END OF BULK SALE OF PAVITRA TABLES===================================
 
+            '=========================BMC DCS SAMPLE RECEIVING TABLES START=======================
 
+
+            coll = New Dictionary(Of String, String)
+            coll.Add("PK_Id", "Integer Not NULL identity primary key")
+            coll.Add("Document_Date", "Date NOT NULL")
+            coll.Add("Route_No", "varchar(12)  NULL REFERENCES TSPL_ROUTE_MASTER(Route_No)")
+            coll.Add("Tanker_No", "varchar(20) NULL REFERENCES TSPL_TANKER_MASTER(Tanker_No)")
+            coll.Add("Trip", "integer not null ")
+            coll.Add("BMC_Code", "varchar(30) NULL REFERENCES TSPL_MCC_MASTER(MCC_Code)")
+            coll.Add("No_Of_Sample", "integer null")
+            coll.Add("No_Of_Trucksheet", "integer null")
+            coll.Add("Seal_LockNo_Dispatch", "varchar(20) NULL")
+            coll.Add("Seal_LockNo_Receiving", "varchar(20) NULL")
+            coll.Add("Temperature", "decimal(18, 2) NULL")
+            coll.Add("Gate_Entry_Time", "datetime NOT NULL")
+            coll.Add("Gate_Receiving_Time", "datetime NOT NULL")
+            coll.Add("Created_By", "varchar(12) NOT NULL")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Modified_By", "varchar(12) NOT NULL")
+            coll.Add("Modified_Date", "Datetime NOT NULL")
+
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BMC_DCS_SAMPLE_RECEIVING", coll, "UNIQUE ( Document_Date, BMC_Code,Trip)", True, True, "", "", "", True)
+
+
+
+            '=========================BMC DCS SAMPLE RECEIVING TABLES END=======================
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Weighment_No", "varchar(30) NOT NULL ")

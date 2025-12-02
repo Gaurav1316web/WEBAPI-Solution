@@ -1578,7 +1578,7 @@ Public Class frmVSPMaster
         Try
             trans = clsDBFuncationality.GetTransactin()
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndvendorNo.Value, "TSPL_VENDOR_MASTER", "Vendor_Code", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndvendorNo.Value, "TSPL_VENDOR_MASTER", "Vendor_Code", trans)
 
             Dim Registered As Integer = 0
             If objCommonVar.GSTApplicable Then
@@ -1847,6 +1847,7 @@ Public Class frmVSPMaster
 
             Dim QryVSPNameHindi As String = " update TSPL_VENDOR_MASTER set Vendor_name_Hindi = N'" + txtvendornameHindi.Text + "' where Vendor_Code='" & fndvendorNo.Value & "' "
             clsDBFuncationality.ExecuteNonQuery(QryVSPNameHindi, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndvendorNo.Value, "TSPL_VENDOR_MASTER", "Vendor_Code", trans)
 
             trans.Commit()
 
