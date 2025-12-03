@@ -523,6 +523,7 @@ Public Class clsAcknowledgementEntry
 
             Dim strQry As String = " update TSPL_ACKNOWLEDGENT_ENTRY_Header set isPosted='1',Posting_Date='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy") & "' where Document_No='" & obj.Document_No & "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(strQry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_ACKNOWLEDGENT_ENTRY_HEADER", "Document_No", trans)
 
             SaveAndPostFromGateEntryToMilkTransferIn(obj.Document_No, trans)
 

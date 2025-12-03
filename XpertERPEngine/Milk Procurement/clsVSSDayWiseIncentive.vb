@@ -69,9 +69,11 @@ Public Class clsVSSDayWiseIncentive
                 clsCommon.AddColumnsForChange(coll, "Day_Wise_Incentive_Code", obj.Day_Wise_Incentive_Code)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VSP_DAY_WISE_INCENTIVE_MASTER", OMInsertOrUpdate.Insert, "", trans)
             Else
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Day_Wise_Incentive_Code, "TSPL_VSP_DAY_WISE_INCENTIVE_MASTER", "Day_Wise_Incentive_Code", trans)
+                'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Day_Wise_Incentive_Code, "TSPL_VSP_DAY_WISE_INCENTIVE_MASTER", "Day_Wise_Incentive_Code", trans)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VSP_DAY_WISE_INCENTIVE_MASTER", OMInsertOrUpdate.Update, "Day_Wise_Incentive_Code='" + obj.Day_Wise_Incentive_Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Day_Wise_Incentive_Code, "TSPL_VSP_DAY_WISE_INCENTIVE_MASTER", "Day_Wise_Incentive_Code", trans)
+
             trans.Commit()
         Catch err As Exception
             trans.Rollback()
@@ -133,6 +135,8 @@ Public Class clsVSSDayWiseIncentive
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
         Dim qry As String = ""
         Try
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_VSP_DAY_WISE_INCENTIVE_MASTER", "Day_Wise_Incentive_Code", Nothing)
+
             qry = "Delete from TSPL_VSP_DAY_WISE_INCENTIVE_MASTER where TSPL_VSP_DAY_WISE_INCENTIVE_MASTER.Day_Wise_Incentive_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch err As Exception

@@ -262,6 +262,7 @@ Public Class FrmDeductionGroup1
             End If
             If clsCommon.MyMessageBoxShow("are you sure? do you want to delete this Code ('" + fndCode.Value + "')", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndCode.Value, "TSPL_DEDUCTION_GROUP", "Ded_Code", Nothing)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndCode.Value, "TSPL_DEDUCTION_GROUP", "Ded_Code", Nothing)
 
                 Dim qry As String = "DELETE FROM TSPL_DEDUCTION_GROUP WHERE Ded_Code='" + fndCode.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)

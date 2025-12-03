@@ -175,6 +175,7 @@ Public Class FrmMccRecurringPayablePendingInvoiceList
     End Sub
 
     Sub DeleteData()
+
         For Each grow As GridViewRowInfo In gv1.Rows
             Dim qry As String = "delete from TSPL_MCC_MAIL_SMS_Setting where program_code='" + clsCommon.myCstr("") + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)

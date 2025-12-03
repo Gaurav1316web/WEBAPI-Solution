@@ -245,6 +245,8 @@ Public Class clsMilkGateEntryWeighment
             If (obj.GW_Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Posted on :" + clsCommon.GetPrintDate(obj.GW_Posted_Date, "dd/MM/yyyy"))
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.Weighment_Code, "TSPL_MILK_GATE_ENTRY_WEIGHTMENT", "Weighment_Code", trans)
+
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Weighment_Code, "TSPL_MILK_GATE_ENTRY_WEIGHTMENT", "Weighment_Code", trans)
             Dim qry As String = "delete from TSPL_MILK_GATE_ENTRY_WEIGHTMENT where Weighment_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)

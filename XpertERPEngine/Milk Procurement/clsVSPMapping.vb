@@ -80,6 +80,7 @@ Public Class clsVSPMapping
         Dim qry As String = ""
         Try
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_VSP_MAPPING", "Code", "TSPL_VSP_MAPPING_MCC", "Code", "TSPL_VSP_MAPPING_VSP", "Code", tran)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_VSP_MAPPING", "Code", "TSPL_VSP_MAPPING_MCC", "Code", "TSPL_VSP_MAPPING_VSP", "Code", tran)
 
             qry = "Delete from TSPL_VSP_MAPPING_MCC where Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, tran)

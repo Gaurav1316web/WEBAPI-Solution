@@ -727,9 +727,9 @@ Public Class clsBulkMilkSRN
             clsCommon.AddColumnsForChange(coll, "Modify_By", clsCommon.myCstr(obj.Modify_By))
             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.myCstr(obj.Modify_Date))
             clsCommon.AddColumnsForChange(coll, "Comp_Code", clsCommon.myCstr(obj.comp_code))
-            If Not obj.isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.SRN_NO, "TSPL_Bulk_MILK_SRN", "SRN_NO", "TSPL_BULK_MILK_SRN_CHEMBER_DETAILS", "SRN_NO", trans)
-            End If
+            'If Not obj.isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.SRN_NO, "TSPL_Bulk_MILK_SRN", "SRN_NO", "TSPL_BULK_MILK_SRN_CHEMBER_DETAILS", "SRN_NO", trans)
+            'End If
 
             If obj.isNewEntry OrElse isHistory Then
                 clsCommon.AddColumnsForChange(coll, "Created_By", clsCommon.myCstr(objCommonVar.CurrentUserCode))
@@ -738,6 +738,7 @@ Public Class clsBulkMilkSRN
             Else
                 issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "tspl_bulk_milk_srn", OMInsertOrUpdate.Update, "tspl_bulk_milk_srn.srn_no='" + obj.SRN_NO + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.SRN_NO, "TSPL_Bulk_MILK_SRN", "SRN_NO", "TSPL_BULK_MILK_SRN_CHEMBER_DETAILS", "SRN_NO", trans)
 
             If TankerFromMaster = 0 Then
                 If obj.arrObj IsNot Nothing AndAlso obj.arrObj.Count > 0 Then

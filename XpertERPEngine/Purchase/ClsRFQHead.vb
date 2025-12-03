@@ -202,7 +202,9 @@ Public Class ClsVendorQuotationHead
             Throw New Exception("Requisition No not found to Delete")
         End If
         Dim obj As ClsVendorQuotationHead = ClsVendorQuotationHead.GetData(strCode, NavigatorType.Current)
+
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0) Then
             Try
                 If (obj.Status = ERPTransactionStatus.Approved) Then

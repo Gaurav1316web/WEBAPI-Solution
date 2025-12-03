@@ -125,7 +125,7 @@ Public Class clsContractTankerHead
         If (clsCommon.myLen(strCode) <= 0) Then
             Throw New Exception("Tanker Code not found to Delete")
         End If
-        ' clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_CONTRACT_TANKER_MASTER", "TANKER_CODE", "TSPL_CONTRACT_TANKER_DETAIL", "TANKER_CODE", Nothing)
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_CONTRACT_TANKER_MASTER", "TANKER_CODE", "TSPL_CONTRACT_TANKER_DETAIL", "TANKER_CODE", Nothing)
         clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_CONTRACT_TANKER_MASTER", "TANKER_CODE", "TSPL_CONTRACT_TANKER_DETAIL", "TANKER_CODE", Nothing)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
 

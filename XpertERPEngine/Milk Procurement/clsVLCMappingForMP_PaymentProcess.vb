@@ -29,6 +29,9 @@ Public Class clsVLCMappingForMP_PaymentProcess
     Public Shared Function DeleteData(ByVal strMCC As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strMCC, "TSPL_VLC_MAPPING_FOR_MP_PAYMENT_PROCESS", "MCC_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strMCC, "TSPL_VLC_MAPPING_FOR_MP_PAYMENT_PROCESS", "MCC_Code", trans)
+
             Dim qry As String = "Delete from TSPL_VLC_MAPPING_FOR_MP_PAYMENT_PROCESS where MCC_Code='" + strMCC + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             trans.Commit()

@@ -909,6 +909,12 @@ Public Class frmReverseTransaction
     End Sub
     Private Sub fundelete()
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndreversecode.Value, "TSPL_BANK_REVERSE", "Reverse_Code", Nothing)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndreversecode.Value, "TSPL_BANK_REVERSE", "Reverse_Code", Nothing)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndreversecode.Value, "TSPL_BANK_REVERSE", "Reverse_Code", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndcheckReceiptNo.Value, "TSPL_RECEIPT_HEADER", "Receipt_No", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndCheckPaymentNo.Value, "TSPL_PAYMENT_HEADER", "Payment_No", Nothing)
             '===============================update by richa agarwal 2 July,2018 ticket no. KDI/02/07/18-000383
             Dim strqry As String = "select Reverse_Code, Document_No, Reversal_Date,Bank_Code, Back_Acc_No, Post, Source_Type ,amount,Vendor_Code,Vendor_Name,Cust_Code,Cust_Name from TSPL_BANK_REVERSE where Reverse_Code='" & fndreversecode.Value & "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strqry)
@@ -925,8 +931,8 @@ Public Class frmReverseTransaction
             '======================================END==================================================
 
             'Ticket No  TEC/10/09/19-001007 Sanjay
-            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndreversecode.Value, "TSPL_BANK_REVERSE", "Reverse_Code", Nothing)
-            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndreversecode.Value, "TSPL_BANK_REVERSE", "Reverse_Code", Nothing)
+            'clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndreversecode.Value, "TSPL_BANK_REVERSE", "Reverse_Code", Nothing)
+            'clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndreversecode.Value, "TSPL_BANK_REVERSE", "Reverse_Code", Nothing)
 
             connectSql.RunSp("sp_tspl_bankreverse_delete", New SqlParameter("@Reverse_Code", fndreversecode.Value))
             myMessages.delete()
@@ -943,9 +949,9 @@ Public Class frmReverseTransaction
             clsDBFuncationality.ExecuteNonQuery(qrychkRec)
             '======================================END==================================================
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndreversecode.Value, "TSPL_BANK_REVERSE", "Reverse_Code", Nothing)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndcheckReceiptNo.Value, "TSPL_RECEIPT_HEADER", "Receipt_No", Nothing)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndCheckPaymentNo.Value, "TSPL_PAYMENT_HEADER", "Payment_No", Nothing)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndreversecode.Value, "TSPL_BANK_REVERSE", "Reverse_Code", Nothing)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndcheckReceiptNo.Value, "TSPL_RECEIPT_HEADER", "Receipt_No", Nothing)
+            ' clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndCheckPaymentNo.Value, "TSPL_PAYMENT_HEADER", "Payment_No", Nothing)
         Catch ex As Exception
             myMessages.myExceptions(ex)
         End Try

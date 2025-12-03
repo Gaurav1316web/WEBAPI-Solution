@@ -225,6 +225,8 @@ Public Class ClsGeneralWeighment
             "Posting_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "' " & _
             " where Weighment_No='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_GENERAL_WEIGHMENT_DETAIL", "Weighment_No", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

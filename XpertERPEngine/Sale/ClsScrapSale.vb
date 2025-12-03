@@ -504,9 +504,9 @@ Public Class ClsScrapSaleHead
             End If
 
             isSaved = isSaved AndAlso ClsScrapSaleDetail.SaveData(obj.shipment_No, Arr, trans, obj.shipment_Date, obj.Loc_Code, obj.strInvoiceNo)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.shipment_No), "TSPL_SCRAPSALE_HEAD", "shipment_No", "TSPL_SCRAPSALE_DETAIL", "shipment_No", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.shipment_No), "TSPL_SCRAPSALE_HEAD", "shipment_No", "TSPL_SCRAPSALE_DETAIL", "shipment_No", trans)
 
-            HistoryUpdate(obj.shipment_No, trans)
+            'HistoryUpdate(obj.shipment_No, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.strInvoiceNo), "TSPL_SCRAPINVOICE_HEAD", "invoice_No", "TSPL_SCRAPINVOICE_DETAIL", "invoice_No", trans)
 
 
