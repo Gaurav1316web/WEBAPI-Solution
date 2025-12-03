@@ -7969,7 +7969,8 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Silo_Area", "Decimal(18,3)  NULL")
             coll.Add("Silo_Unit", "varchar(1)  NULL")
             coll.Add("Gaze_Reading_Code", "Varchar(30) null REFERENCES TSPL_GAZE_READING(Code)")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_SILO_DETAIL", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_SILO_DETAIL", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_SILO_DETAIL", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Prog_Code", "varchar(30) NOT NULL references tspl_mcc_master(mcc_code)")
