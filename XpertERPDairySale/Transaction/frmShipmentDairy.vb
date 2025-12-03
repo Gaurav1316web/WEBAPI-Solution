@@ -16786,9 +16786,15 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
     Private Sub gvDistributor_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvDistributor.CellValueChanged
         If Not AllowIncreaseDispatchQty AndAlso Not AllowAddOrEditItems Then
             If gvDistributor.CurrentRow.Cells("DemandQty").Value < gvDistributor.CurrentRow.Cells("Qty").Value Then
-                clsCommon.MyMessageBoxShow(Me, "Qty is greater then Demand Qty")
                 gvDistributor.CurrentRow.Cells("Qty").Value = gvDistributor.CurrentRow.Cells("DemandQty").Value
+                clsCommon.MyMessageBoxShow(Me, "Qty is greater then Demand Qty")
+            ElseIf clsCommon.myCdbl(gvDistributor.CurrentRow.Cells("Qty").Value) = 0 Then
+                gvDistributor.CurrentRow.Cells("Qty").Value = gvDistributor.CurrentRow.Cells("DemandQty").Value
+                clsCommon.MyMessageBoxShow(Me, "Qty should be greater then 0.")
             End If
+        ElseIf clsCommon.myCdbl(gvDistributor.CurrentRow.Cells("Qty").Value) = 0 Then
+            gvDistributor.CurrentRow.Cells("Qty").Value = gvDistributor.CurrentRow.Cells("DemandQty").Value
+            clsCommon.MyMessageBoxShow(Me, "Qty should be greater then 0.")
         End If
         'MergeDistributorItems(True, False, trans)
     End Sub
