@@ -164,6 +164,7 @@ Partial Class FrmARInvoiceEntry
         Me.rmiOPInvoiceForTCS = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.chkEinvoice = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -279,6 +280,7 @@ Partial Class FrmARInvoiceEntry
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkEinvoice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -321,7 +323,7 @@ Partial Class FrmARInvoiceEntry
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1102, 416)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -330,6 +332,7 @@ Partial Class FrmARInvoiceEntry
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkEinvoice)
         Me.RadPageViewPage1.Controls.Add(Me.pnlLocation)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel10)
         Me.RadPageViewPage1.Controls.Add(Me.txtDataAndTimeSelection)
@@ -392,7 +395,7 @@ Partial Class FrmARInvoiceEntry
         Me.pnlLocation.Controls.Add(Me.txtLocationPrefix)
         Me.pnlLocation.Location = New System.Drawing.Point(543, 154)
         Me.pnlLocation.Name = "pnlLocation"
-        Me.pnlLocation.Size = New System.Drawing.Size(529, 23)
+        Me.pnlLocation.Size = New System.Drawing.Size(410, 23)
         Me.pnlLocation.TabIndex = 12147
         '
         'RadLabel7
@@ -411,7 +414,7 @@ Partial Class FrmARInvoiceEntry
         Me.txtLocationPrefixName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtLocationPrefixName.Location = New System.Drawing.Point(214, 3)
         Me.txtLocationPrefixName.Name = "txtLocationPrefixName"
-        Me.txtLocationPrefixName.Size = New System.Drawing.Size(267, 18)
+        Me.txtLocationPrefixName.Size = New System.Drawing.Size(194, 18)
         Me.txtLocationPrefixName.TabIndex = 12146
         '
         'txtLocationPrefix
@@ -526,7 +529,7 @@ Partial Class FrmARInvoiceEntry
         '
         Me.Panel2.Controls.Add(Me.txtSercurityReceiptNo)
         Me.Panel2.Controls.Add(Me.MyLabel8)
-        Me.Panel2.Location = New System.Drawing.Point(759, 129)
+        Me.Panel2.Location = New System.Drawing.Point(865, 126)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(317, 24)
         Me.Panel2.TabIndex = 171
@@ -1039,10 +1042,10 @@ Partial Class FrmARInvoiceEntry
         Me.RadGroupBox2.Controls.Add(Me.gv1)
         Me.RadGroupBox2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox2.HeaderText = "Details"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(1, 179)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(1, 183)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1079, 190)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1079, 186)
         Me.RadGroupBox2.TabIndex = 12
         Me.RadGroupBox2.Text = "Details"
         '
@@ -1068,7 +1071,7 @@ Partial Class FrmARInvoiceEntry
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(1059, 160)
+        Me.gv1.Size = New System.Drawing.Size(1059, 156)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         Me.gv1.VarID = ""
@@ -2161,6 +2164,14 @@ Partial Class FrmARInvoiceEntry
         Me.RadMenu1.Size = New System.Drawing.Size(1102, 20)
         Me.RadMenu1.TabIndex = 1
         '
+        'chkEinvoice
+        '
+        Me.chkEinvoice.Location = New System.Drawing.Point(759, 129)
+        Me.chkEinvoice.Name = "chkEinvoice"
+        Me.chkEinvoice.Size = New System.Drawing.Size(101, 18)
+        Me.chkEinvoice.TabIndex = 12148
+        Me.chkEinvoice.Text = "Create E-Invoice"
+        '
         'FrmARInvoiceEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2300,6 +2311,7 @@ Partial Class FrmARInvoiceEntry
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkEinvoice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -2443,5 +2455,6 @@ Partial Class FrmARInvoiceEntry
     Friend WithEvents txtLocationPrefix As common.UserControls.txtFinder
     Friend WithEvents RadLabel7 As RadLabel
     Friend WithEvents pnlLocation As Panel
+    Friend WithEvents chkEinvoice As RadCheckBox
 End Class
 

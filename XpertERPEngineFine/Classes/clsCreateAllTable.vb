@@ -28609,6 +28609,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("isCardSale", "integer not null default 0")
             coll.Add("Location_Code_Prefix", " VARCHAR(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
             coll.Add("Route_No", " VARCHAR(12) NULL REFERENCES TSPL_ROUTE_MASTER (Route_No)")
+            coll.Add("Is_Einvoice", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Customer_Invoice_Head", coll, Nothing, True, True, "", "Document_No", "Document_Date", True)
 
 

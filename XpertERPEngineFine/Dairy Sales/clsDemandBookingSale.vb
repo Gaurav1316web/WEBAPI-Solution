@@ -1166,6 +1166,7 @@ where TSPL_Booth_Route_Mapping_Detail.Booth_Code='" & clsCommon.myCstr(dr("Cust_
                                                         If Not isNewEntry Then
                                                             Mobj.Arr(ii).CustomerReorderCheck = True
                                                         End If
+                                                        Mobj.Arr(ii).Created_By = ""
                                                     End If
                                                 Next
                                                 If Mobj.Arr IsNot Nothing AndAlso Mobj.Arr.Count > 0 Then
@@ -1181,6 +1182,7 @@ where TSPL_Booth_Route_Mapping_Detail.Booth_Code='" & clsCommon.myCstr(dr("Cust_
                                                         If Not isNewEntry Then
                                                             Mobj.Arr(ii).CustomerReorderCheck = True
                                                         End If
+                                                        Mobj.Arr(ii).Created_By = ""
                                                     End If
                                                 Next
                                                 If Mobj.Arr IsNot Nothing AndAlso Mobj.Arr.Count > 0 Then
@@ -1270,6 +1272,7 @@ where TSPL_Booth_Route_Mapping_Detail.Booth_Code='" & clsCommon.myCstr(dr("Cust_
                                         obj.Arr(ii).TAX7_Rate = clsCommon.myCdbl(dtDBD.Rows(0).Item("TAX7_Rate"))
                                         obj.Arr(ii).TAX7_Amt = Math.Round(obj.Arr(ii).ItemNetAmount * (obj.Arr(ii).TAX7_Rate / 100), 2)
                                         obj.Arr(ii).TAX7_Base_Amt = obj.Arr(ii).ItemNetAmount
+                                        obj.Arr(ii).Created_By = ""
                                     End If
                                     If Not isNewEntry Then
                                         obj.Arr(ii).CustomerReorderCheck = True
@@ -1341,6 +1344,7 @@ where TSPL_Booth_Route_Mapping_Detail.Booth_Code='" & clsCommon.myCstr(dr("Cust_
                                         obj.Arr(ii).TAX7_Rate = clsCommon.myCdbl(dtDBD.Rows(0).Item("TAX7_Rate"))
                                         obj.Arr(ii).TAX7_Amt = Math.Round(obj.Arr(ii).ItemNetAmount * (obj.Arr(ii).TAX7_Rate / 100), 2)
                                         obj.Arr(ii).TAX7_Base_Amt = obj.Arr(ii).ItemNetAmount
+                                        obj.Arr(ii).Created_By = ""
                                     End If
                                     If Not isNewEntry Then
                                         obj.Arr(ii).CustomerReorderCheck = True
