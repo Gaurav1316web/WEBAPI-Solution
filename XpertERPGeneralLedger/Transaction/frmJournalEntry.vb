@@ -1288,6 +1288,8 @@ Public Class frmJournalEntry
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, fndVoucher.Value, "TSPL_JOURNAL_MASTER", "Voucher_No", "TSPL_JOURNAL_DETAILS", "Voucher_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndVoucher.Value, "TSPL_JOURNAL_MASTER", "Voucher_No", "TSPL_JOURNAL_DETAILS", "Voucher_No", trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndVoucher.Value, "TSPL_JOURNAL_MASTER", "Voucher_No", "TSPL_JOURNAL_DETAILS", "Voucher_No", trans)
 
             connectSql.RunSpTransaction(trans, "sp_TSPL_JOURNAL_DETAILS_DELETE", New SqlParameter("@Voucher_No", fndVoucher.Value))
             connectSql.RunSpTransaction(trans, "sp_TSPL_JOURNAL_MASTER_DELETE", New SqlParameter("@Voucher_No", fndVoucher.Value))

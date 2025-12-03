@@ -674,7 +674,7 @@ Public Class clsItemIssueToAssembledAsset
             End If
 
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnIssueReturn, obj.From_Location, obj.Doc_Date, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_No, "TSPL_IssueItemToAssembledAsset_Head", "Doc_No", "TSPL_IssueItemToAssembledAsset_Detail", "Doc_No", trans)
+            ' clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_No, "TSPL_IssueItemToAssembledAsset_Head", "Doc_No", "TSPL_IssueItemToAssembledAsset_Detail", "Doc_No", trans)
             If Not obj.Status = 1 Then
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If
@@ -706,6 +706,7 @@ Public Class clsItemIssueToAssembledAsset
 
             qry = "Update TSPL_IssueItemToAssembledAsset_Head set Status=0, Posting_Date=NULL, Modify_By='" + objCommonVar.CurrentUserCode + "' where Doc_No='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_No, "TSPL_IssueItemToAssembledAsset_Head", "Doc_No", trans)
 
             trans.Commit()
         Catch ex As Exception

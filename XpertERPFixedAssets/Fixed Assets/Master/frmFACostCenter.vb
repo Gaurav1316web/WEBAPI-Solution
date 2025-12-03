@@ -136,6 +136,7 @@ Public Class FrmFACostCenter
 
             End If
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, txtCode.Value, "TSPL_FA_COST_CENTER_MASTER", "CostCenter_Code", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtCode.Value, "TSPL_FA_COST_CENTER_MASTER", "CostCenter_Code", Nothing)
 
 
 

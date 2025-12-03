@@ -2539,7 +2539,7 @@ Public Class clsAssetAccountChangeHead
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ASSET_ACCOUNT_CHANGE_HEAD", "Doc_Code", "TSPL_ASSET_ACCOUNT_CHANGE_DETAIL", "Doc_Code", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ASSET_ACCOUNT_CHANGE_HEAD", "Doc_Code", "TSPL_ASSET_ACCOUNT_CHANGE_DETAIL", "Doc_Code", trans)
             Qry = "delete from TSPL_JOURNAL_DETAILS where Voucher_No in (select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='AQ-AC' and Source_Doc_No='" + strCode + "')"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
 
@@ -2549,6 +2549,7 @@ Public Class clsAssetAccountChangeHead
 
             Qry = "Update TSPL_ASSET_ACCOUNT_CHANGE_HEAD set status = 0,post_date=null where Doc_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ASSET_ACCOUNT_CHANGE_HEAD", "Doc_Code", "TSPL_ASSET_ACCOUNT_CHANGE_DETAIL", "Doc_Code", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
