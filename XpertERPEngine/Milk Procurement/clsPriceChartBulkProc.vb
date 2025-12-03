@@ -203,7 +203,7 @@ Public Class clsPriceChartBulkProc
             Throw New Exception("Document No not found to Delete")
         End If
         clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Bulk_Price_MASTER", "Price_Code", "tspl_bulk_price_detail_item_wise", "Price_Code", "tspl_bulk_price_detail", "Price_Code", Nothing)
-        'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Bulk_Price_MASTER", "Price_Code", "tspl_bulk_price_detail_item_wise", "Price_Code", "tspl_bulk_price_detail", "Price_Code", Nothing)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Bulk_Price_MASTER", "Price_Code", "tspl_bulk_price_detail_item_wise", "Price_Code", "tspl_bulk_price_detail", "Price_Code", Nothing)
 
         Try
             Dim qry As String = ""

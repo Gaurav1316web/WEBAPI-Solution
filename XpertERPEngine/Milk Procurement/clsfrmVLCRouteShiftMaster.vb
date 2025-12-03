@@ -170,6 +170,8 @@ Public Class clsfrmVLCRouteShiftMaster
         Try
             Dim qry As String = "select count(*) from TSPL_VLC_ROUTE_SHIFT_MASTER where doc_no='" + strCode + "'"
             Dim check As Integer = clsDBFuncationality.getSingleValue(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_VLC_ROUTE_SHIFT_MASTER", "doc_no", trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_VLC_ROUTE_SHIFT_MASTER", "doc_no", trans)
 
             If check <= 0 Then
                 Throw New Exception("No Data Found For Deletion")

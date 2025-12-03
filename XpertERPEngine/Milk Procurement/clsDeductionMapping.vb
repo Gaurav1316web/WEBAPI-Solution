@@ -164,6 +164,7 @@ Public Class clsDeductionMappingHead
                     Throw New Exception("Already Posted")
                 End If
                 clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.Doc_Code, "TSPL_DEDUCTION_MAPPING_HEAD", "Doc_Code", "TSPL_DEDUCTION_MAPPING_DETAIL", "Doc_Code", "TSPL_DEDUCTION_MAPPING_MCC", "Doc_Code", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_Code, "TSPL_DEDUCTION_MAPPING_HEAD", "Doc_Code", "TSPL_DEDUCTION_MAPPING_DETAIL", "Doc_Code", trans)
 
                 Dim qry As String = "delete from TSPL_DEDUCTION_MAPPING_DETAIL where Doc_Code='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)

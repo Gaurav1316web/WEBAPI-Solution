@@ -24465,7 +24465,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Approve_By", "varchar(12)  NULL")
             coll.Add("Source_API", "int Null")
             coll.Add("Against_Offline_Document_No", "int Null")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_HEAD", coll, Nothing, True, False, "", "Document_No", "Document_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_HEAD", coll, Nothing, True, False, "", "Document_No", "Document_Date", True)
             coll("Document_No") = "Varchar(30) null"
             coll("MCC_Code") = "Varchar(30) null"
             coll("Dock_code") = "Varchar(30) null"
@@ -24495,7 +24495,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Weighment_Time", "Datetime NULL")
             coll.Add("Is_Drip_Saver", "Integer NULL")
             coll.Add("Vehicle_No", "varchar(150) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL", coll, Nothing, True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_HEAD", "Document_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL", coll, Nothing, True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_HEAD", "Document_No", "", True)
             coll.Item("Document_No") = "Varchar(30) not null"
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_SYNC", coll, Nothing, False, False)
 
@@ -28266,7 +28266,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("MRP_In_Bottle", "decimal(18, 6) NOT NULL DEFAULT 0.00")
             coll.Add("Total_QtyInCase", "decimal(18, 6) NOT NULL DEFAULT 0.00")
             coll.Add("Basic_Amt", "decimal(18, 2) NOT NULL DEFAULT 0.00")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_INDENT_DETAIL", coll, Nothing, False, False, "TSPL_INDENT_HEAD", "Indent_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_INDENT_DETAIL", coll, Nothing, True, False, "TSPL_INDENT_HEAD", "Indent_No", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Is_Complete", "char(1) default 'N'")
@@ -29344,6 +29344,29 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("PROFIT_AC", "varchar(50) NULL References TSPL_GL_ACCOUNTS(Account_Code)")
             coll.Add("LOSS_AC", "varchar(50) NULL References TSPL_GL_ACCOUNTS(Account_Code)")
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_Dep_AccountSet", coll, "", True, False, "", "", "", True)
+
+            coll = New Dictionary(Of String, String)
+            coll.Add("PK_Id", "Integer Not NULL identity primary key")
+            coll.Add("Document_Date", "Date NOT NULL")
+            coll.Add("Route_No", "varchar(12)  NULL REFERENCES TSPL_ROUTE_MASTER(Route_No)")
+            coll.Add("Tanker_No", "varchar(20) NULL REFERENCES TSPL_TANKER_MASTER(Tanker_No)")
+            coll.Add("Trip", "integer not null ")
+            coll.Add("BMC_Code", "varchar(30) NULL REFERENCES TSPL_MCC_MASTER(MCC_Code)")
+            coll.Add("No_Of_Sample", "integer null")
+            coll.Add("No_Of_Trucksheet", "integer null")
+            coll.Add("Seal_LockNo_Dispatch", "varchar(20) NULL")
+            coll.Add("Seal_LockNo_Receiving", "varchar(20) NULL")
+            coll.Add("Temperature", "decimal(18, 2) NULL")
+            coll.Add("Gate_Entry_Time", "datetime NOT NULL")
+            coll.Add("Gate_Receiving_Time", "datetime NOT NULL")
+            coll.Add("Created_By", "varchar(12) NOT NULL")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Modified_By", "varchar(12) NOT NULL")
+            coll.Add("Modified_Date", "Datetime NOT NULL")
+
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BMC_DCS_SAMPLE_RECEIVING", coll, "UNIQUE ( Document_Date, BMC_Code,Trip)", True, True, "", "", "", True)
+
+
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Category_Code", "Varchar(12) NOT NULL Primary Key ")
@@ -37553,9 +37576,9 @@ LL")
             coll.Add("PK_Id", "Integer Not NULL identity primary key")
             coll.Add("Document_Date", "Date NOT NULL")
             coll.Add("Route_No", "varchar(12)  NULL REFERENCES TSPL_ROUTE_MASTER(Route_No)")
-            coll.Add("Tanker_No", "varchar(12) NULL REFERENCES TSPL_TANKER_MASTER(Tanker_No)")
+            coll.Add("Tanker_No", "varchar(20) NULL REFERENCES TSPL_TANKER_MASTER(Tanker_No)")
             coll.Add("Trip", "integer not null ")
-            coll.Add("BMC_Code", "varchar(200) NULL REFERENCES TSPL_MCC_MASTER(MCC_Code)")
+            coll.Add("BMC_Code", "varchar(30) NULL REFERENCES TSPL_MCC_MASTER(MCC_Code)")
             coll.Add("No_Of_Sample", "integer null")
             coll.Add("No_Of_Trucksheet", "integer null")
             coll.Add("Seal_LockNo_Dispatch", "varchar(20) NULL")

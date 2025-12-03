@@ -44,6 +44,7 @@ Public Class clsIncentiveMaster
                 Throw New Exception("Code not found to Delete")
             End If
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_INCENTIVE_MASTER_HEAD", "INCENTIVE_CODE", "TSPL_INCENTIVE_DETAIL", "INCENTIVE_CODE", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_INCENTIVE_MASTER_HEAD", "INCENTIVE_CODE", "TSPL_INCENTIVE_DETAIL", "INCENTIVE_CODE", trans)
 
             Dim qry As String
             qry = "delete from TSPL_INCENTIVE_DETAIL where INCENTIVE_CODE ='" + strCode + "'"

@@ -29,9 +29,11 @@ Public Class clsCanMaster
                 clsCommon.AddColumnsForChange(coll, "Code", obj.Code)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CAN_MASTER", OMInsertOrUpdate.Insert, "", trans)
             Else
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_CAN_MASTER", "Code", trans)
+                'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_CAN_MASTER", "Code", trans)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CAN_MASTER", OMInsertOrUpdate.Update, "Code='" + obj.Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_CAN_MASTER", "Code", trans)
+
             trans.Commit()
         Catch err As Exception
             trans.Rollback()
@@ -73,6 +75,8 @@ Public Class clsCanMaster
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
         Dim qry As String = ""
         Try
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_CAN_MASTER", "Code", Nothing)
+
             qry = "Delete from TSPL_CAN_MASTER where TSPL_CAN_MASTER.Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch err As Exception
@@ -215,6 +219,8 @@ Public Class clsDockMaster
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
         Dim qry As String = ""
         Try
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_CAN_MASTER", "Code", Nothing)
+
             qry = "Delete from TSPL_DOCK_MASTER where TSPL_DOCK_MASTER.Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch err As Exception
