@@ -167,6 +167,7 @@ Public Class clsPriceChartPlanning
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_PRICE_CHART_PLANNING", "Planning_Code", "TSPL_PRICE_CHART_PLANNING_MCC", "Planning_Code", "TSPL_PRICE_CHART_PLANNING_VLC", "Planning_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_PRICE_CHART_PLANNING", "Planning_Code", "TSPL_PRICE_CHART_PLANNING_MCC", "Planning_Code", trans)
 
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")

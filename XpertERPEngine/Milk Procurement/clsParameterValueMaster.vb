@@ -28,7 +28,7 @@ Public Class clsParameterValueMaster
                 Throw New Exception("Code not found to Delete")
             End If
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "tspl_Parameter_value_master", "Parameter_code", Nothing)
-            ' clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "tspl_Parameter_value_master", "Parameter_code", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "tspl_Parameter_value_master", "Parameter_code", Nothing)
 
             Dim qry As String
             qry = "delete from tspl_Parameter_value_master where Parameter_code ='" + strCode + "'"

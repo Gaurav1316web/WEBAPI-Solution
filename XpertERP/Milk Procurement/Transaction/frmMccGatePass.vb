@@ -656,13 +656,14 @@ left join TSPL_MCC_SCRAP_GATEPASS_DETAIL on TSPL_MCC_SCRAP_GATEPASS_DETAIL.GPCod
             common.clsCommon.MyMessageBoxShow(Me, "You Cannot Post Record", Me.Text)
             Exit Sub
         End If
-        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtCode.Value, "TSPL_MCC_SCRAP_GATEPASS_MASTER", "GPCode", "TSPL_MCC_SCRAP_GATEPASS_DETAIL", "GPCode", Nothing)
 
         If myMessages.postConfirm() Then
             clsDBFuncationality.ExecuteNonQuery("Update TSPL_DAIRYSALE_GATEPASS_MASTER set post='Y' where gpcode='" & txtCode.Value & "'")
             btnSave.Enabled = False
             btnPost.Enabled = False
         End If
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtCode.Value, "TSPL_MCC_SCRAP_GATEPASS_MASTER", "GPCode", "TSPL_MCC_SCRAP_GATEPASS_DETAIL", "GPCode", Nothing)
+
     End Sub
 
     Private Sub btnSelect_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnSelect.Click

@@ -167,8 +167,10 @@ Public Class clsBankTrasnferNew
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BANK_TRANSFER", OMInsertOrUpdate.Update, "TSPL_BANK_TRANSFER.Transfer_No='" & STR & "'", trans)
             End If
 
-            obj.Transfer_No = STR                        
-        Catch ex As Exception           
+            obj.Transfer_No = STR
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, STR, "TSPL_BANK_TRANSFER", "Transfer_No", trans)
+        Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
         Return True

@@ -55,6 +55,7 @@ Public Class ClsVlcTargetMaster
 
             Dim qry As String
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_Vlc_Target_Detail", "DOCument_CODE", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_Vlc_Target_Detail", "DOCument_CODE", trans)
 
 
             qry = "delete from TSPL_Vlc_Target_Detail where DOCument_CODE ='" + strCode + "'"

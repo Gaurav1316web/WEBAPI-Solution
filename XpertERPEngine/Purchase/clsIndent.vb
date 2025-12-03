@@ -276,7 +276,7 @@ Public Class clsIndentHead
             clsIndentDetail.SaveData(obj.Indent_No, obj.Arr, trans)
 
             'If Not isNewEntry Then
-            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Indent_No), "TSPL_INDENT_HEAD", "Indent_No", "TSPL_INDENT_DETAIL", "Indent_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Indent_No), "TSPL_INDENT_HEAD", "Indent_No", "TSPL_INDENT_DETAIL", "Indent_No", trans)
             'End If
 
         Catch ex As Exception
@@ -511,6 +511,7 @@ Public Class clsIndentHead
 
             Dim qry As String = "Update TSPL_INDENT_HEAD set Post=1, Posting_Date='" + strPostDate + "',Modify_By='" + objCommonVar.CurrentUserCode + "' where Indent_No='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_INDENT_HEAD", "Indent_No", trans)
 
             trans.Commit()
         Catch ex As Exception
