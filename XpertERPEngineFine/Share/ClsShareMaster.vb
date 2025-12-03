@@ -65,6 +65,7 @@ Public Class ClsShareMaster
             Else
                 IsSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SHARE_MASTER", OMInsertOrUpdate.Update, "TSPL_SHARE_MASTER.Code='" + obj.Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_SHARE_MASTER", "Code", trans)
 
             'IsSaved = IsSaved AndAlso clsNotificationDetails.SaveData(obj.Code, obj.Arr, trans)
         Catch err As Exception
@@ -132,6 +133,9 @@ Public Class ClsShareMaster
             If (clsCommon.myLen(StrCode) <= 0) Then
                 Throw New Exception("Code No. not found to Delete")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, StrCode, "TSPL_SHARE_MASTER", "Code", trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, StrCode, "TSPL_SHARE_MASTER", "Code", trans)
+
             Dim qry As String = ""
             qry = "delete from TSPL_SHARE_MOVEMENT where Share_Code='" + StrCode + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -201,6 +205,7 @@ Public Class ClsShareMaster
             clsCommon.AddColumnsForChange(coll, "Post_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Post_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SHARE_MASTER", OMInsertOrUpdate.Update, "Code='" + clsCommon.myCstr(obj.Code) + "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_SHARE_MASTER", "Code", trans)
 
 
         Catch ex As Exception

@@ -138,6 +138,7 @@ Public Class clsDepreciationPeriods
 
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEPRECIATION_PERIODS", OMInsertOrUpdate.Update, "TSPL_DEPRECIATION_PERIODS.period_Code='" + obj.period_Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.period_Code), "TSPL_DEPRECIATION_PERIODS", "period_Code", Nothing)
 
             If isSaved Then
                 trans.Commit()
@@ -240,7 +241,9 @@ Public Class clsDepreciationPeriods
         Dim isSaved As Boolean = True
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_DEPRECIATION_PERIODS", "period_Code", Nothing)
 
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_DEPRECIATION_PERIODS", "period_Code", Nothing)
 
             Dim qry As String = "delete from TSPL_DEPRECIATION_PERIODS where period_Code='" + strCode + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)

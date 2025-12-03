@@ -283,6 +283,7 @@ Public Class FrmSourceCode
     'delete Source Code Details
     Private Sub funDelete()
         clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndSourceCode.Value, "TSPL_GL_SOURCECODE", "SourceCode", Nothing)
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndSourceCode.Value, "TSPL_GL_SOURCECODE", "SourceCode", Nothing)
 
         connectSql.RunSp("sp_tspl_gl_sourcecode_delete", New SqlParameter("@SourceCode", mskSourceCode.Text))
         myMessages.delete()

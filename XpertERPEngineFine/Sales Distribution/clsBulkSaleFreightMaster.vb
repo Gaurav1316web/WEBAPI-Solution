@@ -195,13 +195,14 @@ Public Class clsBulkSaleFreightMaster
                 clsCommon.MyMessageBoxShow("Transaction status should be posted for reverse and unpost")
                 isResponse = False
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_BLK_FREIGHT_MASTER", "Document_Code", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_BLK_FREIGHT_MASTER", "Document_Code", trans)
 
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Status", 0)
             clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
             clsCommon.AddColumnsForChange(coll, "Posted_Date", Nothing, True)
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BLK_FREIGHT_MASTER", OMInsertOrUpdate.Update, "Document_Code='" + obj.Document_Code + "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_BLK_FREIGHT_MASTER", "Document_Code", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

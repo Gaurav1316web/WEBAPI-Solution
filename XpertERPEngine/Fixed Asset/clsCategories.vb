@@ -68,6 +68,7 @@ Public Class clsCategories
             Throw New Exception("Code not found to Delete")
         End If
         clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCatCode, "TSPL_ASSET_CATEGORY", "Category_Code", Nothing)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCatCode, "TSPL_ASSET_CATEGORY", "Category_Code", Nothing)
 
         Dim qry As String = "delete from TSPL_ASSET_CATEGORY where Category_Code='" + strCatCode + "'"
         Return clsDBFuncationality.ExecuteNonQuery(qry)
