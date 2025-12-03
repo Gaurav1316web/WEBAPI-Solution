@@ -119,7 +119,32 @@ Public Class ProductionReport
 
     Private Sub Load_Production_Report()
         Dim qry As String = ""
-        Dim dt As New DataTable()
+        Dim dt As DataTable = Nothing
+        Try
+            dt = clsDBFuncationality.GetDataTable(ReturnQuery())
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Gv1.DataSource = Nothing
+                Gv1.GroupDescriptors.Clear()
+                Gv1.SummaryRowsBottom.Clear()
+                Gv1.DataSource = dt
+                'gv1.Columns("TransType").IsVisible = False
+                'gv1.Columns("PROD_ENTRY_CODE").IsVisible = False
+                RadPageView1.SelectedPage = RadPageViewPage2
+                Gv1.BestFitColumns()
+                FormatGrid()
+                summary()
+                'View()
+                'ReStoreGridLayout()
+            Else
+                clsCommon.MyMessageBoxShow("No data found to display.", "Production Report")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Function ReturnQuery() As String
+        Dim qry As String = ""
         Try
             Dim whr As String = ""
             Dim Status1 As String = ""
@@ -127,9 +152,9 @@ Public Class ProductionReport
             Dim SFG As String = ""
             Dim FGSFG As String = ""
             If txtBillToLocation.arrValueMember IsNot Nothing AndAlso txtBillToLocation.arrValueMember.Count > 0 Then
-                whr += " and LOCATION_CODE IN ('" & clsCommon.GetMulcallString(txtBillToLocation.arrValueMember) & "') "
+                whr += " and LOCATION_CODE IN (" & clsCommon.GetMulcallString(txtBillToLocation.arrValueMember) & ") "
             Else
-                Throw New Exception("Select Location !")
+                whr += " and LOCATION_CODE IN (" & arrLoc & ") "
             End If
             If rdbPosted.IsChecked Then
                 Status1 = "  and TSPL_SPP_PRODUCTION_ENTRY.posted=1 "
@@ -196,30 +221,14 @@ Public Class ProductionReport
             qry += " )Tab1 group by PROD_DATE,LOCATION_CODE,[Item Code],shiftcode)YY
                                     PIVOT(SUM(qty_bag) FOR shiftcode IN ([A-SHIFT],[B-SHIFT],[C-SHIFT],[WHOLEDAY])) AS Tab2 )tmp
 									where [Item Code] IN (" & clsCommon.myCstr(itemNames1) & ")  and tmp.PROD_DATE >= '" & clsCommon.GetPrintDate(txtFromDate.Value) & "' and tmp.PROD_DATE<='" & clsCommon.GetPrintDate(txtToDate.Value) & "'" & whr & "  order by PROD_DATE "
-            If clsCommon.myLen(qry) > 0 Then
-                dt = clsDBFuncationality.GetDataTable(qry)
-            End If
-
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                Gv1.DataSource = Nothing
-                Gv1.GroupDescriptors.Clear()
-                Gv1.SummaryRowsBottom.Clear()
-                Gv1.DataSource = dt
-                'gv1.Columns("TransType").IsVisible = False
-                'gv1.Columns("PROD_ENTRY_CODE").IsVisible = False
-                RadPageView1.SelectedPage = RadPageViewPage2
-                Gv1.BestFitColumns()
-                FormatGrid()
-                summary()
-                'View()
-                'ReStoreGridLayout()
-            Else
-                clsCommon.MyMessageBoxShow("No data found to display.", "Production Report")
-            End If
+            'If clsCommon.myLen(qry) > 0 Then
+            '    dt = clsDBFuncationality.GetDataTable(qry)
+            'End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            Throw New Exception(ex.Message)
         End Try
-    End Sub
+        Return qry
+    End Function
 
     Sub FormatGrid()
         Gv1.TableElement.TableHeaderHeight = 40
@@ -398,74 +407,71 @@ Public Class ProductionReport
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
-            Dim Status1 As String = ""
-            Dim FG As String = ""
-            Dim SFG As String = ""
-            Dim FGSFG As String = ""
-            Dim whr As String = ""
-            If txtBillToLocation.arrValueMember IsNot Nothing AndAlso txtBillToLocation.arrValueMember.Count > 0 Then
-                whr += " and LOCATION_CODE IN ('" & clsCommon.GetMulcallString(txtBillToLocation.arrValueMember) & "') "
-            Else
-                'whr += " and TSPL_LOCATION_MASTER.Location_Type='Physical'  "
-                'If clsCommon.myLen(arrLoc) > 0 Then
-                'whr += "  and  LOCATION_CODE IN (" + clsCommon.GetMulcallStringWithComma(TxtMultiLocation.arrValueMember) + ") "
-                'End If
-            End If
-            If rdbPosted.IsChecked Then
-                Status1 = " And TSPL_SPP_PRODUCTION_ENTRY.posted=1 "
-            ElseIf rdbUnposted.IsChecked Then
-                Status1 = " And TSPL_SPP_PRODUCTION_ENTRY.posted=0 "
-            End If
-            Dim Itemqry As String = ""
-            Dim itemNames1 As New StringBuilder()
-            If rdbFG.IsChecked Then
-                FG = " and TSPL_Item_Master.FG_for_CF_RPT=1 "
-                Itemqry = " Select Item_Code from TSPL_ITEM_MASTER WHERE FG_for_CF_RPT=1 "
-            ElseIf rdbSFG.IsChecked Then
-                SFG = " and TSPL_Item_Master.SFG_for_CF=1 "
-                Itemqry = " Select Item_Code from TSPL_ITEM_MASTER WHERE SFG_for_CF=1 "
-            ElseIf rdbfgsfg.IsChecked Then
-                FGSFG = " and TSPL_Item_Master.FG_for_CF=1 "
-                Itemqry = " Select Item_Code from TSPL_ITEM_MASTER WHERE FG_for_CF=1 "
-            End If
-            Dim dtitemName As DataTable = clsDBFuncationality.GetDataTable(Itemqry)
-            If dtitemName.Rows.Count > 0 Then
-                For i As Integer = 0 To dtitemName.Rows.Count - 1
-                    If i = 0 Then
-                        itemNames1.Append("'" & clsCommon.myCstr(dtitemName.Rows(i)("Item_Code")) & "' ")
-                    Else
-                        itemNames1.Append(", '" & clsCommon.myCstr(dtitemName.Rows(i)("Item_Code")) & "' ")
-                    End If
-                Next
-            End If
-            Dim qry As String = ""
-            qry = " Select * from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") & "' as FromDate, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") & "' as ToDate,   LOCATION_CODE,Location_Desc as [Location Description],Add1,Add4,CONVERT(date, PROD_DATE,103) as PROD_DATE,[Item Code],ITEM_DESCRIPTION,isnull ([A-SHIFT], 0)  as [A-SHIFT],isnull ([B-SHIFT], 0) as [B-SHIFT], isnull ([C-SHIFT],0) as [C-SHIFT],
-                          isnull ([WHOLEDAY],0) as [WHOLEDAY] , (  isnull ([A-SHIFT], 0)  + isnull ([B-SHIFT], 0) + isnull ([C-SHIFT],0) + isnull ([WHOLEDAY],0) ) AS [TOTAL BAG],   
-                          (((  isnull ([A-SHIFT], 0)  + isnull ([B-SHIFT], 0) + isnull ([C-SHIFT],0) + isnull ([WHOLEDAY],0) )* 50)/1000) as [Total MT]
-                          FROM
-                                   (SELECT TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4,TSPL_LOCATION_MASTER.Location_Desc,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE as [Item Code],
-                                    TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_DESCRIPTION, "
-            If Productionchk.IsChecked Then
-                qry += " (FINAL_PRODUCTION_QTY/TSPL_ITEM_UOM_DETAIL.Conversion_Factor) as qty_bag "
-            ElseIf RePrdntchk.IsChecked Then
-                qry += " ((FINAL_PRODUCTION_QTY-Reprocess_Qty)/TSPL_ITEM_UOM_DETAIL.Conversion_Factor) as qty_bag "
-            ElseIf Prdncreallchk.IsChecked Then
-                qry += " (Reprocess_Qty/TSPL_ITEM_UOM_DETAIL.Conversion_Factor) as qty_bag  "
-            End If
+            '   Dim Status1 As String = ""
+            '   Dim FG As String = ""
+            '   Dim SFG As String = ""
+            '   Dim FGSFG As String = ""
+            '   Dim whr As String = ""
+            '   If txtBillToLocation.arrValueMember IsNot Nothing AndAlso txtBillToLocation.arrValueMember.Count > 0 Then
+            '       whr += " and LOCATION_CODE IN (" & clsCommon.GetMulcallString(txtBillToLocation.arrValueMember) & ") "
+            '   Else
+            '       whr += " and LOCATION_CODE IN (" & arrLoc & ") "
+            '   End If
+            '   If rdbPosted.IsChecked Then
+            '       Status1 = " And TSPL_SPP_PRODUCTION_ENTRY.posted=1 "
+            '   ElseIf rdbUnposted.IsChecked Then
+            '       Status1 = " And TSPL_SPP_PRODUCTION_ENTRY.posted=0 "
+            '   End If
+            '   Dim Itemqry As String = ""
+            '   Dim itemNames1 As New StringBuilder()
+            '   If rdbFG.IsChecked Then
+            '       FG = " and TSPL_Item_Master.FG_for_CF_RPT=1 "
+            '       Itemqry = " Select Item_Code from TSPL_ITEM_MASTER WHERE FG_for_CF_RPT=1 "
+            '   ElseIf rdbSFG.IsChecked Then
+            '       SFG = " and TSPL_Item_Master.SFG_for_CF=1 "
+            '       Itemqry = " Select Item_Code from TSPL_ITEM_MASTER WHERE SFG_for_CF=1 "
+            '   ElseIf rdbfgsfg.IsChecked Then
+            '       FGSFG = " and TSPL_Item_Master.FG_for_CF=1 "
+            '       Itemqry = " Select Item_Code from TSPL_ITEM_MASTER WHERE FG_for_CF=1 "
+            '   End If
+            '   Dim dtitemName As DataTable = clsDBFuncationality.GetDataTable(Itemqry)
+            '   If dtitemName.Rows.Count > 0 Then
+            '       For i As Integer = 0 To dtitemName.Rows.Count - 1
+            '           If i = 0 Then
+            '               itemNames1.Append("'" & clsCommon.myCstr(dtitemName.Rows(i)("Item_Code")) & "' ")
+            '           Else
+            '               itemNames1.Append(", '" & clsCommon.myCstr(dtitemName.Rows(i)("Item_Code")) & "' ")
+            '           End If
+            '       Next
+            '   End If
+            '   Dim qry As String = ""
+            '   qry = " Select * from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") & "' as FromDate, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") & "' as ToDate,   LOCATION_CODE,Location_Desc as [Location Description],Add1,Add4,CONVERT(date, PROD_DATE,103) as PROD_DATE,[Item Code],ITEM_DESCRIPTION,isnull ([A-SHIFT], 0)  as [A-SHIFT],isnull ([B-SHIFT], 0) as [B-SHIFT], isnull ([C-SHIFT],0) as [C-SHIFT],
+            '                 isnull ([WHOLEDAY],0) as [WHOLEDAY] , (  isnull ([A-SHIFT], 0)  + isnull ([B-SHIFT], 0) + isnull ([C-SHIFT],0) + isnull ([WHOLEDAY],0) ) AS [TOTAL BAG],   
+            '                 (((  isnull ([A-SHIFT], 0)  + isnull ([B-SHIFT], 0) + isnull ([C-SHIFT],0) + isnull ([WHOLEDAY],0) )* 50)/1000) as [Total MT]
+            '                 FROM
+            '                          (SELECT TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4,TSPL_LOCATION_MASTER.Location_Desc,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE as [Item Code],
+            '                           TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_DESCRIPTION, "
+            '   If Productionchk.IsChecked Then
+            '       qry += " (FINAL_PRODUCTION_QTY/TSPL_ITEM_UOM_DETAIL.Conversion_Factor) as qty_bag "
+            '   ElseIf RePrdntchk.IsChecked Then
+            '       qry += " ((FINAL_PRODUCTION_QTY-Reprocess_Qty)/TSPL_ITEM_UOM_DETAIL.Conversion_Factor) as qty_bag "
+            '   ElseIf Prdncreallchk.IsChecked Then
+            '       qry += " (Reprocess_Qty/TSPL_ITEM_UOM_DETAIL.Conversion_Factor) as qty_bag  "
+            '   End If
 
-            qry += "               ,TSPL_SPP_PRODUCTION_ENTRY.Shift_Code as shiftcode FROM TSPL_SPP_PRODUCTION_ENTRY_DETAIL
-								   left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
-                                   left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE and TSPL_ITEM_UOM_DETAIL.UOM_Code='bag'
-								   left join TSPL_ITEM_UOM_DETAIL AS MT_ITEM_UOM_DETAIL on MT_ITEM_UOM_DETAIL.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE and MT_ITEM_UOM_DETAIL.UOM_Code='MT'
-								   left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE
-                                   LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE "
+            '   qry += "               ,TSPL_SPP_PRODUCTION_ENTRY.Shift_Code as shiftcode FROM TSPL_SPP_PRODUCTION_ENTRY_DETAIL
+            '  left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
+            '                          left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE and TSPL_ITEM_UOM_DETAIL.UOM_Code='bag'
+            '  left join TSPL_ITEM_UOM_DETAIL AS MT_ITEM_UOM_DETAIL on MT_ITEM_UOM_DETAIL.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE and MT_ITEM_UOM_DETAIL.UOM_Code='MT'
+            '  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE
+            '                          LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE "
 
-            qry += " where 1=1 " & Status1 & " " & FG & " " & SFG & " " & FGSFG & ""
-            qry += " )Tab1
-                                    PIVOT(SUM(qty_bag) FOR shiftcode IN ([A-SHIFT],[B-SHIFT],[C-SHIFT],[WHOLEDAY])) AS Tab2 )tmp
-									where [Item Code] IN (" & clsCommon.myCstr(itemNames1) & ")  and tmp.PROD_DATE >= '" & clsCommon.GetPrintDate(txtFromDate.Value) & "' and tmp.PROD_DATE<='" & clsCommon.GetPrintDate(txtToDate.Value) & "'" & whr & "  order by PROD_DATE "
+            '   qry += " where 1=1 " & Status1 & " " & FG & " " & SFG & " " & FGSFG & ""
+            '   qry += " )Tab1
+            '                           PIVOT(SUM(qty_bag) FOR shiftcode IN ([A-SHIFT],[B-SHIFT],[C-SHIFT],[WHOLEDAY])) AS Tab2 )tmp
+            'where [Item Code] IN (" & clsCommon.myCstr(itemNames1) & ")  and tmp.PROD_DATE >= '" & clsCommon.GetPrintDate(txtFromDate.Value) & "' and tmp.PROD_DATE<='" & clsCommon.GetPrintDate(txtToDate.Value) & "'" & whr & "  order by PROD_DATE "
 
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(ReturnQuery())
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt, "rptProductionReport", "")
