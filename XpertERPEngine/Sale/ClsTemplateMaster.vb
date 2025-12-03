@@ -105,6 +105,7 @@ Public Class ClsTemplateMaster
 
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_FA_TEMPLATE_MASTER", OMInsertOrUpdate.Update, "TSPL_FA_TEMPLATE_MASTER.template_code='" + obj.template_code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.template_code, "TSPL_FA_TEMPLATE_MASTER", "template_code", Nothing)
 
         Catch err As Exception
             Throw New Exception(err.Message)
@@ -186,6 +187,9 @@ Public Class ClsTemplateMaster
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_FA_TEMPLATE_MASTER", "template_code", Nothing)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_FA_TEMPLATE_MASTER", "template_code", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_FA_TEMPLATE_MASTER where template_code ='" + strCode + "'"

@@ -48,6 +48,8 @@ Public Class clsAcquisitionCodes
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(Col1, "TSPL_ACQUISITION_CODES", OMInsertOrUpdate.Update, "TSPL_ACQUISITION_CODES.Code='" + obj.Code + "'", Trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_ACQUISITION_CODES", "Code", Trans)
+
             If isSaved Then
                 Trans.Commit()
             End If
@@ -90,6 +92,8 @@ Public Class clsAcquisitionCodes
         If (clsCommon.myLen(strCode) <= 0) Then
             Throw New Exception("Code not found to Delete")
         End If
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ACQUISITION_CODES", "Code", Nothing)
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_ACQUISITION_CODES", "Code", Nothing)
 
         Dim qry As String = "delete from TSPL_ACQUISITION_CODES where Code='" + strCode + "'"
         Return clsDBFuncationality.ExecuteNonQuery(qry)

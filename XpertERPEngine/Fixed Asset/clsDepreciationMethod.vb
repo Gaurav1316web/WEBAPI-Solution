@@ -89,6 +89,7 @@ Public Class clsDepreciationMethod
             Throw New Exception("Code not found to Delete")
         End If
         clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_DEPRECIATION_METHOD", "Code", Nothing)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_DEPRECIATION_METHOD", "Code", Nothing)
 
         Dim qry As String = "delete from TSPL_DEPRECIATION_METHOD where Code='" + strCode + "'"
         Return clsDBFuncationality.ExecuteNonQuery(qry)

@@ -20,6 +20,7 @@ Public Class frmShipmentDairy
     Dim ConvertIntoBulkUOM As Boolean = False
     Dim DifferentCrateTypeForFGItem As Boolean = False
     Dim ApplyPricePlanOnDocumentDate As Boolean = False
+    Dim AllowToCheckZeroQtyonDispatch As Boolean = False
 
     Dim ApplyManualScheme As Boolean = False
     Dim AutoSchemeOnTotalDispatchQty As Boolean = False
@@ -790,6 +791,7 @@ Public Class frmShipmentDairy
         ApplyPricePlanOnDocumentDate = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyPricePlanOnDocumentDate, clsFixedParameterCode.ApplyPricePlanOnDocumentDate, Nothing)) = 1, True, False)
         DispatchCommissionDecimalPlaces = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DispatchCommissionDecimalPlaces, clsFixedParameterCode.DispatchCommissionDecimalPlaces, Nothing))
         EnableProductSaleForJPR = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = 1, True, False)
+        AllowToCheckZeroQtyonDispatch = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowToCheckZeroQtyonDispatch, clsFixedParameterCode.AllowToCheckZeroQtyonDispatch, Nothing)) = 1, True, False)
 
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = dtpChallan.Value
@@ -16544,7 +16546,11 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
                 Dim myDictionary As New Dictionary(Of String, clsSNShipmentDCSItemDetail)
                 'SetTax(clsCommon.myCstr(gv1.Rows(0).Cells(colICode).Value), trans)
                 For ii As Integer = 0 To gvDistributor.Rows.Count - 1
-                    If clsCommon.myLen(gvDistributor.Rows(ii).Cells("Item_Code").Value) > 0 AndAlso clsCommon.myLen(gvDistributor.Rows(ii).Cells("Unit_code").Value) > 0 Then
+                    Dim IsCheckQty As Boolean = True
+                    If AllowToCheckZeroQtyonDispatch Then
+                        IsCheckQty = IIf(clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value) > 0, True, False)
+                    End If
+                    If clsCommon.myLen(gvDistributor.Rows(ii).Cells("Item_Code").Value) > 0 AndAlso clsCommon.myLen(gvDistributor.Rows(ii).Cells("Unit_code").Value) > 0 AndAlso IsCheckQty Then
                         Dim strKey As String = "" ' clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
                         If Not IsLoadCreditCust Then
                             isCreditCust = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Credit_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + gvDistributor.Rows(ii).Cells("Cust_Code").Value + "'", trans))
@@ -16786,9 +16792,15 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
     Private Sub gvDistributor_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvDistributor.CellValueChanged
         If Not AllowIncreaseDispatchQty AndAlso Not AllowAddOrEditItems Then
             If gvDistributor.CurrentRow.Cells("DemandQty").Value < gvDistributor.CurrentRow.Cells("Qty").Value Then
-                clsCommon.MyMessageBoxShow(Me, "Qty is greater then Demand Qty")
                 gvDistributor.CurrentRow.Cells("Qty").Value = gvDistributor.CurrentRow.Cells("DemandQty").Value
+                clsCommon.MyMessageBoxShow(Me, "Qty is greater then Demand Qty")
+                'ElseIf clsCommon.myCdbl(gvDistributor.CurrentRow.Cells("Qty").Value) = 0 Then
+                '    gvDistributor.CurrentRow.Cells("Qty").Value = gvDistributor.CurrentRow.Cells("DemandQty").Value
+                '    clsCommon.MyMessageBoxShow(Me, "Qty should be greater then 0.")
             End If
+            'ElseIf clsCommon.myCdbl(gvDistributor.CurrentRow.Cells("Qty").Value) = 0 Then
+            'gvDistributor.CurrentRow.Cells("Qty").Value = gvDistributor.CurrentRow.Cells("DemandQty").Value
+            'clsCommon.MyMessageBoxShow(Me, "Qty should be greater then 0.")
         End If
         'MergeDistributorItems(True, False, trans)
     End Sub

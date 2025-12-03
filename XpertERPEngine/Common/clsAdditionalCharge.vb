@@ -155,8 +155,11 @@ Public Class clsAdditionalCharge
             obj.ServiceType = clsCommon.myCstr(dt.Rows(0)("Service_Type"))
             obj.SACCode = clsCommon.myCstr(dt.Rows(0)("SAC_Code"))
             obj.SAC_Description = clsCommon.myCstr(dt.Rows(0)("SAC_Description"))
-            obj.Tax_Group_Code = clsCommon.myCstr(dt.Rows(0)("Tax_Group_Code"))
-            obj.HCODE = clsCommon.myCstr(dt.Rows(0)("HCODE"))
+            If clsCommon.CompairString(Form_ID, "VEN-SER-CHG") = CompairStringResult.Equal Then
+                obj.Tax_Group_Code = clsCommon.myCstr(dt.Rows(0)("Tax_Group_Code"))
+                obj.HCODE = clsCommon.myCstr(dt.Rows(0)("HCODE"))
+            End If
+
         End If
 
         Return obj
