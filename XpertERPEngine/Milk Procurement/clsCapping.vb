@@ -100,6 +100,8 @@ Public Class clsCapping
         Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
         Dim qry As String = ""
         Try
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_CAPPING", "Code", "TSPL_CAPPING_MCC", "Code", "TSPL_CAPPING_VSP", "Code", tran)
+
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_CAPPING", "Code", "TSPL_CAPPING_MCC", "Code", "TSPL_CAPPING_VSP", "Code", tran)
 
             qry = "Delete from TSPL_CAPPING_VSP where Code='" + strCode + "'"

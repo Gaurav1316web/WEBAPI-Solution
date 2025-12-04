@@ -68,6 +68,8 @@ Public Class clsMilkPurchaseInvoiceMCC
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_PURCHASE_INVOICE_HEAD", "DOC_CODE", "TSPL_MILK_PURCHASE_INVOICE_DETAIL", "DOC_CODE", trans)
+
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_PURCHASE_INVOICE_HEAD", "DOC_CODE", "TSPL_MILK_PURCHASE_INVOICE_DETAIL", "DOC_CODE", trans)
             Dim qry As String
             qry = "delete from TSPL_MILK_PURCHASE_INVOICE_DETAIL where DOC_CODE ='" + strCode + "'"
@@ -2430,7 +2432,7 @@ a:      If ArrReturn.Count > 2 Then
                 obj.DOC_CODE = clsERPFuncationality.GetNextCode(trans, clsCommon.GetPrintDate(obj.DOC_DATE, "dd/MMM/yyyy"), clsDocType.MilkPurInvoice, "", obj.MCC_CODE, False, True, False, False, objCommonVar.ShowMCCFinderInPaymentProcess)
             Else
                 isNewEntry = False
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.DOC_CODE, "TSPL_MILK_PURCHASE_INVOICE_HEAD", "DOC_CODE", "TSPL_MILK_PURCHASE_INVOICE_DETAIL", "DOC_CODE", trans)
+                'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.DOC_CODE, "TSPL_MILK_PURCHASE_INVOICE_HEAD", "DOC_CODE", "TSPL_MILK_PURCHASE_INVOICE_DETAIL", "DOC_CODE", trans)
                 Dim squery As String = "delete from tspl_milk_purchase_invoice_detail where Doc_Code='" & obj.DOC_CODE & "'"
                 clsDBFuncationality.ExecuteNonQuery(squery, trans)
                 'obj.DOC_CODE = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(clsCommon.GETSERVERDATE(trans)), clsDocType.MilkReceipt, "", "")
@@ -2496,6 +2498,8 @@ a:      If ArrReturn.Count > 2 Then
             End If
             isSaved = isSaved AndAlso clsMilkPurchaseInvoiceMCCDetail.SaveData(obj.DOC_CODE, objList, trans)
             isSaved = isSaved AndAlso clsPIRemittance.SaveData(obj.objPIRemittance, obj.DOC_CODE, obj.DOC_DATE, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.DOC_CODE, "TSPL_MILK_PURCHASE_INVOICE_HEAD", "DOC_CODE", "TSPL_MILK_PURCHASE_INVOICE_DETAIL", "DOC_CODE", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try

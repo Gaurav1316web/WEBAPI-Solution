@@ -712,6 +712,7 @@ where  TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Document_No='" + strPONo + 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 Throw New Exception("Invalid PK ID")
             End If
+
             qry = "Delete from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL where PK_Id=" + clsCommon.myCstr(PKID) + ""
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             If dt.Rows.Count = 1 Then

@@ -416,6 +416,8 @@ Public Class clsMilkReceiptMCC
             If dt.Rows.Count > 0 Then
                 Throw New Exception("Code can not Deleted.It has been Sampled")
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_RECEIPT_HEAD", "DOC_CODE", trans)
+
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_RECEIPT_HEAD", "DOC_CODE", trans)
 
             qry = "delete from TSPL_MILK_Receipt_DETAIL where DOC_CODE ='" + strCode + "'"

@@ -46,7 +46,7 @@ Public Class clsDivertedContractor
     End Function
     '' For Delete of Data in TSPL_DIVERTED_CONTRACTOR_MASTER
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
-        'clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_DIVERTED_CONTRACTOR_MASTER", "CONTRACTOR_CODE", Nothing)
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_DIVERTED_CONTRACTOR_MASTER", "CONTRACTOR_CODE", Nothing)
         clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_DIVERTED_CONTRACTOR_MASTER", "CONTRACTOR_CODE", Nothing)
 
         Dim qry As String = "Delete from TSPL_DIVERTED_CONTRACTOR_MASTER where CONTRACTOR_CODE='" + strCode + "'"

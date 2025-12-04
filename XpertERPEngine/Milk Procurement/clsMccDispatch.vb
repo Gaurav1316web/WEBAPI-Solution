@@ -759,9 +759,9 @@ Public Class clsMccDispatch
                 Qry = "CURRENT Challan IS USED IN Gate Entry-" & gtno
                 Throw New Exception(Qry)
             End If
-            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_MCC_DISPATCH_CHALLAN", "chalan_No", "TSPL_MCC_Dispatch_Challan_Stock_Detail", "chalan_No", trans)
+            'clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_MCC_DISPATCH_CHALLAN", "chalan_No", "TSPL_MCC_Dispatch_Challan_Stock_Detail", "chalan_No", trans)
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_MCC_DISPATCH_CHALLAN", "chalan_No", "TSPL_MCC_Dispatch_Challan_Stock_Detail", "chalan_No", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_MCC_DISPATCH_CHALLAN", "chalan_No", "TSPL_MCC_Dispatch_Challan_Stock_Detail", "chalan_No", trans)
 
             ''to delete provision entry  5 Jun,2019 BHA/29/05/19-000899 journal entry not created in this case so that i cannot delete journal entry as discussed with it Ashok sir 
             Qry = "delete from tspl_provision_entry where Ref_Doc_No ='" + strCode + "'"
@@ -814,6 +814,7 @@ Public Class clsMccDispatch
             Dim tnkrNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Tanker_No  from TSPL_MCC_Dispatch_Challan where Chalan_NO='" & strCode & "'", trans))
             Qry = "Update tspl_tanker_master set isGateOut = 0,Ref_Doc_No='" & strCode & "' where tanker_no='" + tnkrNo + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_MCC_DISPATCH_CHALLAN", "chalan_No", "TSPL_MCC_Dispatch_Challan_Stock_Detail", "chalan_No", trans)
 
 
             trans.Commit()

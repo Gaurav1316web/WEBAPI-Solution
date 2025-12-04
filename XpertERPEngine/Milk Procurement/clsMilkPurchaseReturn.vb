@@ -1028,6 +1028,7 @@ Public Class clsMilkPurchaseReturnDetail
     Public Shared Function deleteData(ByVal strDocNo As String) As Boolean
         Dim isDeleted As Boolean = True
         Try
+
             Dim qry As String = "delete from TSPL_BULK_MILK_PURCHASE_RETURN_DETAIL where Pur_Return_No='" & strDocNo & "'"
             isDeleted = isDeleted AndAlso clsDBFuncationality.ExecuteNonQuery(qry)
 

@@ -222,6 +222,8 @@ Public Class clsMPDCSInsentiveReco
             End If
             qry = "Update TSPL_DCS_MP_INCENTIVE_RECO_HEAD set Status=1 ," + ExtrColumn + ", Posting_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Document_Code='" + strDocNo + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_DCS_MP_INCENTIVE_RECO_HEAD", "Document_Code", trans)
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()

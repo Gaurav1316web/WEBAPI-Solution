@@ -140,7 +140,7 @@ Public Class clsMilkTransferInReturn
             If Not clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry, trans)) = 1 Then
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_TRANSFER_IN_RETURN", "Receipt_Challan_No", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_TRANSFER_IN_RETURN", "Receipt_Challan_No", trans)
 
             ''Delete Consumption Entry by balwinder on 09/08/2017
             Qry = "delete from TSPL_JOURNAL_DETAILS where Voucher_No in (" + Environment.NewLine + _
