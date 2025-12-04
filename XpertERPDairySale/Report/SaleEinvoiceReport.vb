@@ -144,13 +144,13 @@ Public Class SaleEinvoiceReport
             End If
 
             If ChkB2B.Checked = True Then
-                    Whr += " and TSPL_CUSTOMER_MASTER.GST_Registered=1 "
-                ElseIf chkB2C.Checked = True Then
-                    Whr += " and TSPL_CUSTOMER_MASTER.GST_Registered=0 "
-                End If
-                If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
-                    Whr += " and tspl_customer_master.cust_code in(" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")" + Environment.NewLine
-                End If
+                Whr += " and TSPL_CUSTOMER_MASTER.GST_Registered=1 "
+            ElseIf chkB2C.Checked = True Then
+                Whr += " and TSPL_CUSTOMER_MASTER.GST_Registered=0 "
+            End If
+            If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                Whr += " and tspl_customer_master.cust_code in(" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")" + Environment.NewLine
+            End If
 
 
             If chkBPL.Checked Then
@@ -181,9 +181,9 @@ Public Class SaleEinvoiceReport
                 End If
             End If
             Dim Baseqry As String = ""
-                If rbtnSummary.IsChecked Then
-                    GetReportGridID()
-                    qry = "SELECT  max(CONVERT(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103)) as [Supply Date],
+            If rbtnSummary.IsChecked Then
+                GetReportGridID()
+                qry = "SELECT  max(CONVERT(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103)) as [Supply Date],
                            CASE WHEN max(TSPL_SD_SHIPMENT_HEAD.Shift_Type) = 'AM' THEN 'Morning' WHEN max(TSPL_SD_SHIPMENT_HEAD.Shift_Type) = 'PM' THEN 'Evening'  end as [Shift Type],
                            max(TSPL_SD_SHIPMENT_HEAD.Bill_To_Location) AS [Location],
                            max(TSPL_SD_SALE_INVOICE_HEAD.Sub_Location_code) AS [Sub Location],
@@ -194,10 +194,10 @@ Public Class SaleEinvoiceReport
                            maX(TSPL_STATE_MASTER.GST_STATE_Code) AS [Party State],
                            max(TSPL_CUSTOMER_MASTER.GSTNO) AS [Recipient Gst No],
                            max(TSPL_SD_SALE_INVOICE_HEAD.EInvoice_Type) as [E Invoice Type],"
-                    If EnableProductSaleForJPR Then
-                        qry += "max(case when  TSPL_SD_SALE_INVOICE_HEAD.item_type = 'M' then 'Milk' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'P' then 'Product' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'I' then 'Ice Cream' end  )  as [Item Type],"
-                    End If
-                    qry += " max(Ack_No) AS [Ack No],
+                If EnableProductSaleForJPR Then
+                    qry += "max(case when  TSPL_SD_SALE_INVOICE_HEAD.item_type = 'M' then 'Milk' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'P' then 'Product' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'I' then 'Ice Cream' end  )  as [Item Type],"
+                End If
+                qry += " max(Ack_No) AS [Ack No],
                            max(CONVERT(varchar,Ack_Date, 103)) AS [Ack Date],
                            max(IRN_No) AS [IRN No],
                            TSPL_SD_SALE_INVOICE_HEAD.Document_Code AS [Invoice No],
@@ -293,7 +293,7 @@ Public Class SaleEinvoiceReport
                 Baseqry = qry
                 qry += "" + whrclsDate + " " + Whr + "  And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' group by TSPL_SD_SALE_INVOICE_HEAD.Document_Code  "
             ElseIf rbtnDetail.IsChecked Then
-                    qry = "SELECT  CONVERT(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) as [Supply Date],
+                qry = "SELECT  CONVERT(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) as [Supply Date],
                                 CASE WHEN TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' THEN 'Morning' WHEN TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'PM' THEN 'Evening'  end as [Shift Type], 
                                 TSPL_SD_SHIPMENT_HEAD.Bill_To_Location AS [Location],
                                 TSPL_SD_SALE_INVOICE_HEAD.Sub_Location_code AS [Sub Location],
@@ -304,10 +304,10 @@ Public Class SaleEinvoiceReport
                                 TSPL_STATE_MASTER.GST_STATE_Code AS [Party State],
 								TSPL_CUSTOMER_MASTER.GSTNO AS [Recipient Gst No],
                                 TSPL_SD_SALE_INVOICE_HEAD.EInvoice_Type as [E Invoice Type],"
-                    If EnableProductSaleForJPR Then
-                        qry += "case when  TSPL_SD_SALE_INVOICE_HEAD.item_type = 'M' then 'Milk' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'P' then 'Product' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'I' then 'Ice Cream'  end as [Item Type],"
-                    End If
-                    qry += " Ack_No AS [Ack No],
+                If EnableProductSaleForJPR Then
+                    qry += "case when  TSPL_SD_SALE_INVOICE_HEAD.item_type = 'M' then 'Milk' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'P' then 'Product' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'I' then 'Ice Cream'  end as [Item Type],"
+                End If
+                qry += " Ack_No AS [Ack No],
                                 CONVERT(varchar,Ack_Date, 103) AS [Ack Date],
 								IRN_No AS [IRN No],
                                 TSPL_SD_SALE_INVOICE_HEAD.Document_Code AS [Invoice No],
@@ -323,10 +323,10 @@ Public Class SaleEinvoiceReport
                                 tspl_item_master.HSN_Code as [HSN Code],                               
                                 TSPL_SD_SALE_INVOICE_HEAD.EwayBillNo AS [EwayBillNo],
                                 TSPL_SD_SALE_INVOICE_HEAD.EWayBillDate AS [EwayBillDate], "
-                    If chkBPL.Checked Then
+                If chkBPL.Checked Then
                     qry += " TSPL_BOOKING_MATSER.BPL_Coupon_Code,CONVERT(VARCHAR(10),TSPL_BOOKING_MATSER.BPL_Coupon_Date,103) AS BPL_Coupon_Date ,TSPL_BOOKING_MATSER.BPL_Name,TSPL_BOOKING_MATSER.BPL_Remark,TSPL_BOOKING_MATSER.BPL_Category,"
                 End If
-                    qry += " Convert(decimal(18,2),CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX1='KKF'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate 
+                qry += " Convert(decimal(18,2),CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX1='KKF'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate 
     				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX2='KKF'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Rate 
     				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX3='KKF'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate 
     				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX4='KKF'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Rate 
@@ -473,16 +473,16 @@ Public Class SaleEinvoiceReport
                 End If
 
                 Baseqry = qry
-                    qry += " " + whrclsDate + " " + Whr + " And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' "
+                qry += " " + whrclsDate + " " + Whr + " And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' "
+            End If
+            If chkDCSSale.Checked Then
+                qry = "" + qry + " " + Environment.NewLine + " union all " + Environment.NewLine + " " + Baseqry + whrDCSSale + Whr + " And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type = 'MCC'"
+                If rbtnSummary.IsChecked Then
+                    qry += "  group by TSPL_SD_SALE_INVOICE_HEAD.Document_Code "
                 End If
-                If chkDCSSale.Checked Then
-                    qry = "" + qry + " " + Environment.NewLine + " union all " + Environment.NewLine + " " + Baseqry + whrDCSSale + Whr + " And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type = 'MCC'"
-                    If rbtnSummary.IsChecked Then
-                        qry += "  group by TSPL_SD_SALE_INVOICE_HEAD.Document_Code "
-                    End If
-                End If
+            End If
 
-                qry += " ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code"
+            qry += " ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code"
 
 
 
