@@ -1761,7 +1761,7 @@ Public Class clsMCCIssueReturnHead
             End If
 
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmVSPAssetIssue, obj.From_Location, obj.Doc_Date, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_VSPAsset_HEAD", "Doc_No", "TSPL_VSPAsset_DETAIL", "Doc_No", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_VSPAsset_HEAD", "Doc_No", "TSPL_VSPAsset_DETAIL", "Doc_No", trans)
             If Not obj.Status = 1 Then
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If
@@ -1771,7 +1771,7 @@ Public Class clsMCCIssueReturnHead
             If clsCommon.myLen(qry) > 0 Then
                 Throw New Exception("This Document No is used in AP Debit Note no [" + qry + "]")
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_No, "TSPL_VSPAsset_HEAD", "Doc_No", "TSPL_VSPAsset_DETAIL", "Doc_No", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_No, "TSPL_VSPAsset_HEAD", "Doc_No", "TSPL_VSPAsset_DETAIL", "Doc_No", trans)
             ''richa agarwal 01 Oct,2021
 
             Dim APInvoiceNo As String = clsDBFuncationality.getSingleValue("select Document_No  from TSPL_VENDOR_INVOICE_HEAD where isnull(Against_VSP_Asset_Issue ,'')='" + strCode + "'", trans)
@@ -1840,6 +1840,7 @@ Public Class clsMCCIssueReturnHead
             End If
             qry = "Update TSPL_VSPAsset_HEAD set Status=0, Posting_Date=NULL, Modify_By='" + objCommonVar.CurrentUserCode + "' where Doc_No='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_No, "TSPL_VSPAsset_HEAD", "Doc_No", "TSPL_VSPAsset_DETAIL", "Doc_No", trans)
 
             trans.Commit()
         Catch ex As Exception

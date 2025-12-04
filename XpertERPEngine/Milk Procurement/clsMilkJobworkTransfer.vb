@@ -445,9 +445,9 @@ Public Class clsMilkJobworkTransfer
             End If
 
             clsERPFuncationality.IsDocumentAlreadyPosted("TSPL_MILK_JOBWORK_TRANSFER_HEAD", "Document_Code", obj.Document_Code, "isPosted=1", trans)
-            If Not obj.isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_Code), "TSPL_MILK_JOBWORK_TRANSFER_HEAD", "Document_Code", "TSPL_MILK_JOBWORK_TRANSFER_DETAILS", "Document_Code", trans)
-            End If
+            'If Not obj.isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_Code), "TSPL_MILK_JOBWORK_TRANSFER_HEAD", "Document_Code", "TSPL_MILK_JOBWORK_TRANSFER_DETAILS", "Document_Code", trans)
+            'End If
             Dim DateTime As String = clsFixedParameter.GetData(clsFixedParameterType.AllowToSaveTimeWithDocumentDate, clsFixedParameterCode.AllowToSaveTimeWithDocumentDate, trans)
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Manual_Standard_Rate", obj.Manual_Standard_Rate)
@@ -539,6 +539,8 @@ Public Class clsMilkJobworkTransfer
             End If
          
             issaved = issaved AndAlso clsMilkJobworkTransferDetails.SaveData(obj.Document_Code, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_Code), "TSPL_MILK_JOBWORK_TRANSFER_HEAD", "Document_Code", "TSPL_MILK_JOBWORK_TRANSFER_DETAILS", "Document_Code", trans)
+
             Return issaved
         Catch ex As Exception
             Throw New Exception(ex.Message)
