@@ -330,8 +330,8 @@ Public Class FrmDispatchBulkSale
         gvSiloDetails.Columns.Add(snfper)
 
         Dim FatKg As New GridViewDecimalColumn
-        FatKg.FormatString = "{0:n2}"
-        FatKg.DecimalPlaces = 2
+        FatKg.FormatString = "{0:n3}"
+        FatKg.DecimalPlaces = 3
         FatKg.HeaderText = "FAT KG"
         FatKg.Name = colFatKGSilo
         FatKg.Width = 75
@@ -342,8 +342,8 @@ Public Class FrmDispatchBulkSale
 
 
         Dim SnfKg As New GridViewDecimalColumn
-        SnfKg.FormatString = "{0:n2}"
-        SnfKg.DecimalPlaces = 2
+        SnfKg.FormatString = "{0:n3}"
+        SnfKg.DecimalPlaces = 3
         SnfKg.HeaderText = "SNF KG"
         SnfKg.Name = colSNFKGSilo
         SnfKg.Width = 75
@@ -366,10 +366,12 @@ Public Class FrmDispatchBulkSale
         Dim item4 As New GridViewSummaryItem(colSNFPerSilo, "{0:F2}", GridAggregateFunction.Avg)
         summaryRowItem.Add(item4)
 
-        Dim item5 As New GridViewSummaryItem(colFatKGSilo, "{0:F2}", GridAggregateFunction.Sum)
+        'Dim item5 As New GridViewSummaryItem(colFatKGSilo, "{0:F2}", GridAggregateFunction.Sum)
+        Dim item5 As New GridViewSummaryItem(colFatKGSilo, "{0:F3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item5)
 
-        Dim item6 As New GridViewSummaryItem(colSNFKGSilo, "{0:F2}", GridAggregateFunction.Sum)
+        'Dim item6 As New GridViewSummaryItem(colSNFKGSilo, "{0:F2}", GridAggregateFunction.Sum)
+        Dim item6 As New GridViewSummaryItem(colSNFKGSilo, "{0:F3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item6)
 
         gvSiloDetails.MasterTemplate.SummaryRowsBottom.Clear()
@@ -1519,7 +1521,8 @@ Public Class FrmDispatchBulkSale
                 FatRate = Math.Round(StandardRate * FatWeightage / FatRatio, 2)
                 SNFRate = Math.Round(StandardRate * SNFWeightage / SNFRatio, 2)
 
-                FatKG = Math.Round(((Qty * FatPer) / 100), 3)
+                'FatKG = Math.Round(((Qty * FatPer) / 100), 3)
+                FatKG = Math.Round(((Qty * FatPer) / 100), 4)
                 SNFKG = Math.Round(((Qty * SNFPer) / 100), 3)
             End If
 
@@ -3658,7 +3661,8 @@ Public Class FrmDispatchBulkSale
                         SiloQty = gvSiloDetails.CurrentRow.Cells(colQtySilo).Value
                         SiloFatper = gvSiloDetails.CurrentRow.Cells(colFatPerSilo).Value
                         'SiloFatkg = clsCommon.myCdbl(SiloQty * SiloFatper)
-                        SiloFatkg = Math.Round(((SiloQty * SiloFatper) / 100), 2)
+                        ' SiloFatkg = Math.Round(((SiloQty * SiloFatper) / 100), 2)
+                        SiloFatkg = Math.Round(((SiloQty * SiloFatper) / 100), 3)
                         gvSiloDetails.CurrentRow.Cells(colFatKGSilo).Value = clsCommon.myCdbl(SiloFatkg)
                         gvSiloDetails.CurrentRow.Cells(colFatKGSilo).ReadOnly = True
                         'UpdategridTotals()
@@ -3698,7 +3702,8 @@ Public Class FrmDispatchBulkSale
                         SiloQty = gvSiloDetails.CurrentRow.Cells(colQtySilo).Value
                         SiloSnfper = gvSiloDetails.CurrentRow.Cells(colSNFPerSilo).Value
                         'SiloSnfkg = clsCommon.myCdbl(SiloQty * SiloSnfper)
-                        SiloSnfkg = Math.Round(((SiloQty * SiloSnfper) / 100), 2)
+                        'SiloSnfkg = Math.Round(((SiloQty * SiloSnfper) / 100), 2)
+                        SiloSnfkg = Math.Round(((SiloQty * SiloSnfper) / 100), 3)
                         gvSiloDetails.CurrentRow.Cells(colSNFKGSilo).Value = clsCommon.myCdbl(SiloSnfkg)
                         gvSiloDetails.CurrentRow.Cells(colSNFKGSilo).ReadOnly = True
                         'UpdategridTotals()
