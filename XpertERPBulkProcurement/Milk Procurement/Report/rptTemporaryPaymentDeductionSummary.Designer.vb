@@ -61,6 +61,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.chkCurrntCycle = New System.Windows.Forms.CheckBox()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -154,6 +155,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkCurrntCycle)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel2)
         Me.RadPageViewPage1.Controls.Add(Me.fndArea)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
@@ -482,6 +484,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -550,6 +553,16 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.btnReset.Size = New System.Drawing.Size(71, 22)
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
+        '
+        'chkCurrntCycle
+        '
+        Me.chkCurrntCycle.AutoSize = True
+        Me.chkCurrntCycle.Location = New System.Drawing.Point(463, 89)
+        Me.chkCurrntCycle.Name = "chkCurrntCycle"
+        Me.chkCurrntCycle.Size = New System.Drawing.Size(94, 17)
+        Me.chkCurrntCycle.TabIndex = 1505
+        Me.chkCurrntCycle.Text = "Current Cycle"
+        Me.chkCurrntCycle.UseVisualStyleBackColor = True
         '
         'rptTemporaryPaymentDeductionSummary
         '
@@ -639,5 +652,6 @@ Partial Class rptTemporaryPaymentDeductionSummary
     Friend WithEvents rbtnActive As RadioButton
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents fndArea As common.UserControls.txtFinder
+    Friend WithEvents chkCurrntCycle As CheckBox
 End Class
 

@@ -25961,6 +25961,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Deduction", "Varchar(30) null References TSPL_DEDUCTION_MASTER(Code)")
             coll.Add("FAT_Range_From", "decimal(18,1) NULL")
             coll.Add("FAT_Range_To", "decimal(18,1) NULL")
+            coll.Add("Hide_In_Milk_Bill_Print", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_DCS_ADDITION_DEDUCTION", coll, "", True, False, "", "", "", True)
 
             qry = "alter table TSPL_DCS_ADDITION_DEDUCTION alter column Applicable_Value Decimal(18,3) not null"

@@ -22,6 +22,11 @@ Partial Class frmDCSAdditionDeduction
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.grpFATRange = New System.Windows.Forms.GroupBox()
+        Me.txtFATRangeTo = New common.MyNumBox()
+        Me.MyLabel17 = New common.Controls.MyLabel()
+        Me.txtFATRangeFrom = New common.MyNumBox()
+        Me.MyLabel16 = New common.Controls.MyLabel()
         Me.lblDedName = New common.Controls.MyLabel()
         Me.MyLabel15 = New common.Controls.MyLabel()
         Me.txtDedCode = New common.UserControls.txtFinder()
@@ -103,14 +108,15 @@ Partial Class frmDCSAdditionDeduction
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
-        Me.grpFATRange = New System.Windows.Forms.GroupBox()
-        Me.txtFATRangeFrom = New common.MyNumBox()
-        Me.MyLabel16 = New common.Controls.MyLabel()
-        Me.txtFATRangeTo = New common.MyNumBox()
-        Me.MyLabel17 = New common.Controls.MyLabel()
+        Me.rdbHideInMilkBillPrint = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        Me.grpFATRange.SuspendLayout()
+        CType(Me.txtFATRangeTo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtFATRangeFrom, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDedName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkMarginDCS, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -184,11 +190,7 @@ Partial Class frmDCSAdditionDeduction
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.grpFATRange.SuspendLayout()
-        CType(Me.txtFATRangeFrom, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtFATRangeTo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbHideInMilkBillPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -203,6 +205,7 @@ Partial Class frmDCSAdditionDeduction
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.rdbHideInMilkBillPrint)
         Me.SplitContainer1.Panel1.Controls.Add(Me.grpFATRange)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblDedName)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel15)
@@ -269,9 +272,101 @@ Partial Class frmDCSAdditionDeduction
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.rdbtnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
-        Me.SplitContainer1.Size = New System.Drawing.Size(752, 420)
-        Me.SplitContainer1.SplitterDistance = 386
+        Me.SplitContainer1.Size = New System.Drawing.Size(752, 449)
+        Me.SplitContainer1.SplitterDistance = 415
         Me.SplitContainer1.TabIndex = 0
+        '
+        'grpFATRange
+        '
+        Me.grpFATRange.Controls.Add(Me.txtFATRangeTo)
+        Me.grpFATRange.Controls.Add(Me.txtFATRangeFrom)
+        Me.grpFATRange.Controls.Add(Me.MyLabel17)
+        Me.grpFATRange.Controls.Add(Me.MyLabel16)
+        Me.grpFATRange.Location = New System.Drawing.Point(326, 146)
+        Me.grpFATRange.Name = "grpFATRange"
+        Me.grpFATRange.Size = New System.Drawing.Size(201, 36)
+        Me.grpFATRange.TabIndex = 440
+        Me.grpFATRange.TabStop = False
+        Me.grpFATRange.Text = "FAT Range"
+        Me.grpFATRange.Visible = False
+        '
+        'txtFATRangeTo
+        '
+        Me.txtFATRangeTo.BackColor = System.Drawing.Color.Transparent
+        Me.txtFATRangeTo.CalculationExpression = Nothing
+        Me.txtFATRangeTo.DecimalPlaces = 1
+        Me.txtFATRangeTo.FieldCode = Nothing
+        Me.txtFATRangeTo.FieldDesc = Nothing
+        Me.txtFATRangeTo.FieldMaxLength = 0
+        Me.txtFATRangeTo.FieldName = Nothing
+        Me.txtFATRangeTo.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.txtFATRangeTo.isCalculatedField = False
+        Me.txtFATRangeTo.IsSourceFromTable = False
+        Me.txtFATRangeTo.IsSourceFromValueList = False
+        Me.txtFATRangeTo.IsUnique = False
+        Me.txtFATRangeTo.Location = New System.Drawing.Point(140, 12)
+        Me.txtFATRangeTo.MaxLength = 5
+        Me.txtFATRangeTo.MendatroryField = True
+        Me.txtFATRangeTo.MyLinkLable1 = Me.MyLabel17
+        Me.txtFATRangeTo.MyLinkLable2 = Nothing
+        Me.txtFATRangeTo.Name = "txtFATRangeTo"
+        Me.txtFATRangeTo.ReferenceFieldDesc = Nothing
+        Me.txtFATRangeTo.ReferenceFieldName = Nothing
+        Me.txtFATRangeTo.ReferenceTableName = Nothing
+        Me.txtFATRangeTo.Size = New System.Drawing.Size(58, 21)
+        Me.txtFATRangeTo.TabIndex = 16
+        Me.txtFATRangeTo.Text = "0"
+        Me.txtFATRangeTo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtFATRangeTo.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        '
+        'MyLabel17
+        '
+        Me.MyLabel17.FieldName = Nothing
+        Me.MyLabel17.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel17.Location = New System.Drawing.Point(118, 14)
+        Me.MyLabel17.Name = "MyLabel17"
+        Me.MyLabel17.Size = New System.Drawing.Size(19, 16)
+        Me.MyLabel17.TabIndex = 17
+        Me.MyLabel17.Text = "To"
+        '
+        'txtFATRangeFrom
+        '
+        Me.txtFATRangeFrom.BackColor = System.Drawing.Color.Transparent
+        Me.txtFATRangeFrom.CalculationExpression = Nothing
+        Me.txtFATRangeFrom.DecimalPlaces = 1
+        Me.txtFATRangeFrom.FieldCode = Nothing
+        Me.txtFATRangeFrom.FieldDesc = Nothing
+        Me.txtFATRangeFrom.FieldMaxLength = 0
+        Me.txtFATRangeFrom.FieldName = Nothing
+        Me.txtFATRangeFrom.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.txtFATRangeFrom.isCalculatedField = False
+        Me.txtFATRangeFrom.IsSourceFromTable = False
+        Me.txtFATRangeFrom.IsSourceFromValueList = False
+        Me.txtFATRangeFrom.IsUnique = False
+        Me.txtFATRangeFrom.Location = New System.Drawing.Point(57, 12)
+        Me.txtFATRangeFrom.MaxLength = 5
+        Me.txtFATRangeFrom.MendatroryField = True
+        Me.txtFATRangeFrom.MyLinkLable1 = Me.MyLabel16
+        Me.txtFATRangeFrom.MyLinkLable2 = Nothing
+        Me.txtFATRangeFrom.Name = "txtFATRangeFrom"
+        Me.txtFATRangeFrom.ReferenceFieldDesc = Nothing
+        Me.txtFATRangeFrom.ReferenceFieldName = Nothing
+        Me.txtFATRangeFrom.ReferenceTableName = Nothing
+        Me.txtFATRangeFrom.Size = New System.Drawing.Size(58, 21)
+        Me.txtFATRangeFrom.TabIndex = 14
+        Me.txtFATRangeFrom.Text = "0"
+        Me.txtFATRangeFrom.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtFATRangeFrom.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        '
+        'MyLabel16
+        '
+        Me.MyLabel16.FieldName = Nothing
+        Me.MyLabel16.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel16.Location = New System.Drawing.Point(21, 14)
+        Me.MyLabel16.Name = "MyLabel16"
+        Me.MyLabel16.Size = New System.Drawing.Size(33, 16)
+        Me.MyLabel16.TabIndex = 15
+        Me.MyLabel16.Text = "From"
         '
         'lblDedName
         '
@@ -1335,103 +1430,20 @@ Partial Class frmDCSAdditionDeduction
         Me.btnDelete.TabIndex = 1
         Me.btnDelete.Text = "Delete"
         '
-        'grpFATRange
+        'rdbHideInMilkBillPrint
         '
-        Me.grpFATRange.Controls.Add(Me.txtFATRangeTo)
-        Me.grpFATRange.Controls.Add(Me.txtFATRangeFrom)
-        Me.grpFATRange.Controls.Add(Me.MyLabel17)
-        Me.grpFATRange.Controls.Add(Me.MyLabel16)
-        Me.grpFATRange.Location = New System.Drawing.Point(326, 146)
-        Me.grpFATRange.Name = "grpFATRange"
-        Me.grpFATRange.Size = New System.Drawing.Size(201, 36)
-        Me.grpFATRange.TabIndex = 440
-        Me.grpFATRange.TabStop = False
-        Me.grpFATRange.Text = "FAT Range"
-        Me.grpFATRange.Visible = False
-        '
-        'txtFATRangeFrom
-        '
-        Me.txtFATRangeFrom.BackColor = System.Drawing.Color.Transparent
-        Me.txtFATRangeFrom.CalculationExpression = Nothing
-        Me.txtFATRangeFrom.DecimalPlaces = 1
-        Me.txtFATRangeFrom.FieldCode = Nothing
-        Me.txtFATRangeFrom.FieldDesc = Nothing
-        Me.txtFATRangeFrom.FieldMaxLength = 0
-        Me.txtFATRangeFrom.FieldName = Nothing
-        Me.txtFATRangeFrom.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.txtFATRangeFrom.isCalculatedField = False
-        Me.txtFATRangeFrom.IsSourceFromTable = False
-        Me.txtFATRangeFrom.IsSourceFromValueList = False
-        Me.txtFATRangeFrom.IsUnique = False
-        Me.txtFATRangeFrom.Location = New System.Drawing.Point(57, 12)
-        Me.txtFATRangeFrom.MaxLength = 5
-        Me.txtFATRangeFrom.MendatroryField = True
-        Me.txtFATRangeFrom.MyLinkLable1 = Me.MyLabel16
-        Me.txtFATRangeFrom.MyLinkLable2 = Nothing
-        Me.txtFATRangeFrom.Name = "txtFATRangeFrom"
-        Me.txtFATRangeFrom.ReferenceFieldDesc = Nothing
-        Me.txtFATRangeFrom.ReferenceFieldName = Nothing
-        Me.txtFATRangeFrom.ReferenceTableName = Nothing
-        Me.txtFATRangeFrom.Size = New System.Drawing.Size(58, 21)
-        Me.txtFATRangeFrom.TabIndex = 14
-        Me.txtFATRangeFrom.Text = "0"
-        Me.txtFATRangeFrom.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFATRangeFrom.Value = New Decimal(New Integer() {0, 0, 0, 0})
-        '
-        'MyLabel16
-        '
-        Me.MyLabel16.FieldName = Nothing
-        Me.MyLabel16.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel16.Location = New System.Drawing.Point(21, 14)
-        Me.MyLabel16.Name = "MyLabel16"
-        Me.MyLabel16.Size = New System.Drawing.Size(33, 16)
-        Me.MyLabel16.TabIndex = 15
-        Me.MyLabel16.Text = "From"
-        '
-        'txtFATRangeTo
-        '
-        Me.txtFATRangeTo.BackColor = System.Drawing.Color.Transparent
-        Me.txtFATRangeTo.CalculationExpression = Nothing
-        Me.txtFATRangeTo.DecimalPlaces = 1
-        Me.txtFATRangeTo.FieldCode = Nothing
-        Me.txtFATRangeTo.FieldDesc = Nothing
-        Me.txtFATRangeTo.FieldMaxLength = 0
-        Me.txtFATRangeTo.FieldName = Nothing
-        Me.txtFATRangeTo.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.txtFATRangeTo.isCalculatedField = False
-        Me.txtFATRangeTo.IsSourceFromTable = False
-        Me.txtFATRangeTo.IsSourceFromValueList = False
-        Me.txtFATRangeTo.IsUnique = False
-        Me.txtFATRangeTo.Location = New System.Drawing.Point(140, 12)
-        Me.txtFATRangeTo.MaxLength = 5
-        Me.txtFATRangeTo.MendatroryField = True
-        Me.txtFATRangeTo.MyLinkLable1 = Me.MyLabel17
-        Me.txtFATRangeTo.MyLinkLable2 = Nothing
-        Me.txtFATRangeTo.Name = "txtFATRangeTo"
-        Me.txtFATRangeTo.ReferenceFieldDesc = Nothing
-        Me.txtFATRangeTo.ReferenceFieldName = Nothing
-        Me.txtFATRangeTo.ReferenceTableName = Nothing
-        Me.txtFATRangeTo.Size = New System.Drawing.Size(58, 21)
-        Me.txtFATRangeTo.TabIndex = 16
-        Me.txtFATRangeTo.Text = "0"
-        Me.txtFATRangeTo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFATRangeTo.Value = New Decimal(New Integer() {0, 0, 0, 0})
-        '
-        'MyLabel17
-        '
-        Me.MyLabel17.FieldName = Nothing
-        Me.MyLabel17.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel17.Location = New System.Drawing.Point(118, 14)
-        Me.MyLabel17.Name = "MyLabel17"
-        Me.MyLabel17.Size = New System.Drawing.Size(19, 16)
-        Me.MyLabel17.TabIndex = 17
-        Me.MyLabel17.Text = "To"
+        Me.rdbHideInMilkBillPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rdbHideInMilkBillPrint.Location = New System.Drawing.Point(452, 387)
+        Me.rdbHideInMilkBillPrint.Name = "rdbHideInMilkBillPrint"
+        Me.rdbHideInMilkBillPrint.Size = New System.Drawing.Size(124, 16)
+        Me.rdbHideInMilkBillPrint.TabIndex = 441
+        Me.rdbHideInMilkBillPrint.Text = "Hide In Milk Bill Print"
         '
         'frmDCSAdditionDeduction
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(752, 420)
+        Me.ClientSize = New System.Drawing.Size(752, 449)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "frmDCSAdditionDeduction"
         '
@@ -1444,6 +1456,12 @@ Partial Class frmDCSAdditionDeduction
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        Me.grpFATRange.ResumeLayout(False)
+        Me.grpFATRange.PerformLayout()
+        CType(Me.txtFATRangeTo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtFATRangeFrom, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDedName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkMarginDCS, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1521,12 +1539,7 @@ Partial Class frmDCSAdditionDeduction
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.grpFATRange.ResumeLayout(False)
-        Me.grpFATRange.PerformLayout()
-        CType(Me.txtFATRangeFrom, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtFATRangeTo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbHideInMilkBillPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1618,4 +1631,5 @@ Partial Class frmDCSAdditionDeduction
     Friend WithEvents MyLabel17 As common.Controls.MyLabel
     Friend WithEvents txtFATRangeFrom As common.MyNumBox
     Friend WithEvents MyLabel16 As common.Controls.MyLabel
+    Friend WithEvents rdbHideInMilkBillPrint As RadCheckBox
 End Class
