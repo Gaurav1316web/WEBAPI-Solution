@@ -477,6 +477,7 @@ Public Class FrmVillageMaster
                 Return False
             End If
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndcode.Value, "TSPL_VILLAGE_MASTER", "Village_code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndcode.Value, "TSPL_VILLAGE_MASTER", "Village_code", trans)
 
             qry = "delete from TSPL_VILLAGE_MASTER where village_code='" + fndcode.Value + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)

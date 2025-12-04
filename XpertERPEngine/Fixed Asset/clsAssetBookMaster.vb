@@ -101,6 +101,7 @@ Public Class clsAssetBookMaster
             Throw New Exception("Code not found to Delete")
         End If
         clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strGroupCode, "TSPL_FA_BOOK_MASTER", "Book_Code", Nothing)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strGroupCode, "TSPL_FA_BOOK_MASTER", "Book_Code", Nothing)
 
         Dim qry As String = "delete from TSPL_FA_BOOK_MASTER where Book_Code='" + strGroupCode + "'"
         Return clsDBFuncationality.ExecuteNonQuery(qry)

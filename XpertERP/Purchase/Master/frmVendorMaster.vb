@@ -1357,7 +1357,7 @@ Public Class frmVendorMaster
         Try
             'trans = clsDBFuncationality.GetTransactin()
             '' Anubhooti 17-Nov-2014 BM00000004655
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndvendorNo.Value, "TSPL_VENDOR_MASTER", "Vendor_Code", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndvendorNo.Value, "TSPL_VENDOR_MASTER", "Vendor_Code", trans)
 
             Dim closingdate As String = ""
             Dim strStatus As String = ""

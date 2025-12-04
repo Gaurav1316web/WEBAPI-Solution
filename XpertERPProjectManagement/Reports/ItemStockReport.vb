@@ -76,9 +76,9 @@ Public Class ItemStockReport
         Dim Item_Type As String = Nothing
         Dim dt As New DataTable()
         Try
-            If txtBillToLocation.arrValueMember Is Nothing OrElse txtBillToLocation.arrValueMember.Count <= 0 Then
-                Throw New Exception("Select Location !")
-            End If
+            'If txtBillToLocation.arrValueMember Is Nothing OrElse txtBillToLocation.arrValueMember.Count <= 0 Then
+            '    Throw New Exception("Select Location !")
+            'End If
 
             Dim whr As String = " "
             If TxtItem.arrValueMember IsNot Nothing AndAlso TxtItem.arrValueMember.Count > 0 Then
@@ -131,7 +131,7 @@ Public Class ItemStockReport
 	             left outer join TSPL_MRN_DETAIL on TSPL_MRN_HEAD.MRN_No=TSPL_MRN_DETAIL.MRN_No
                 left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_MRN_HEAD.Against_GRN
 	              left join (select Conversion_factor as cf,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code in (select UOM_Code  from TSPL_item_uom_detail where Item_Code = TSPL_ITEM_UOM_DETAIL.Item_code) And TSPL_ITEM_UOM_DETAIL.UOM_Code='" & clsCommon.myCstr(cmbUnit.SelectedValue) & "') as ITEMDETAIL1 on ITEMDETAIL1.Item_code=TSPL_MRN_DETAIL.Item_Code
-	             where TSPL_MRN_HEAD.MRN_No not in (select Against_MRN from TSPL_SRN_HEAD) and Location IN (" & clsCommon.GetMulcallString(txtBillToLocation.arrValueMember) & ") and convert(date,MRN_Date ,103) between '" & clsCommon.GetPrintDate(txtFromDate.Value) & "'  and  '" & clsCommon.GetPrintDate(txtToDate.Value) & "'   
+	             where TSPL_MRN_HEAD.MRN_No not in (select Against_MRN from TSPL_SRN_HEAD) and Location IN (" & IIf(txtBillToLocation.arrValueMember IsNot Nothing, clsCommon.GetMulcallString(txtBillToLocation.arrValueMember), arrLoc) & ") and convert(date,MRN_Date ,103) between '" & clsCommon.GetPrintDate(txtFromDate.Value) & "'  and  '" & clsCommon.GetPrintDate(txtToDate.Value) & "'   
                 and TSPL_GRN_HEAD.IsCancel=0 and TSPL_GRN_HEAD.Status=1 and (VisualQCStatus <>2 or VisualQCStatusSecond<>2) 
 	             union all
 	              select 0 as Fat_Amt,0 as SNF_Amt,0 AS Fat_Rate,0 AS SNF_Rate ,'' as Trans_Id,'' as Trans_Type,'' as Source_Doc_No,SRN_Date as Punching_Date,'I' as InOut,TSPL_SRN_HEAD.Bill_To_Location,TSPL_SRN_DETAIL.Item_Code,TSPL_SRN_DETAIL.Unit_code UOM, 0 as MRP,TSPL_SRN_DETAIL.Unit_code Stock_UOM,TSPL_SRN_DETAIL.SRN_Qty Stock_Qty,0 as FIFO_Cost,0 as LIFO_Cost,0 as Avg_Cost,0 as IsFromMilk,0 as MilkFatPer,0 as MilkSNFPer,0 as MilkFATKG,0 AS MilkSNFKG,0 as MilkFATQuintal,0 as MilkSNFQuintal,'' as SourceCode,'' as SourceName, '' as SourceType,'' as Custom_UOM,0 as Custom_Coversion_Factor  from TSPL_SRN_HEAD 
@@ -139,7 +139,7 @@ Public Class ItemStockReport
                  left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.MRN_No=TSPL_SRN_HEAD.Against_MRN
                  left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_MRN_HEAD.Against_GRN
 				 left outer join TSPL_NIR_QC on TSPL_NIR_QC.mrn_no=TSPL_MRN_HEAD.mrn_no
-	              left join (select Conversion_factor as cf,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code in (select UOM_Code  from TSPL_item_uom_detail where Item_Code = TSPL_ITEM_UOM_DETAIL.Item_code) And TSPL_ITEM_UOM_DETAIL.UOM_Code='" + clsCommon.myCstr(cmbUnit.SelectedValue) + "' ) as ITEMDETAIL1 on ITEMDETAIL1.Item_code=TSPL_SRN_DETAIL.Item_Code where TSPL_SRN_HEAD.Status=0 and Location IN (" & clsCommon.GetMulcallString(txtBillToLocation.arrValueMember) & ") and convert(date,SRN_Date ,103) between '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  and '" + clsCommon.GetPrintDate(txtToDate.Value) + "'  
+	              left join (select Conversion_factor as cf,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code in (select UOM_Code  from TSPL_item_uom_detail where Item_Code = TSPL_ITEM_UOM_DETAIL.Item_code) And TSPL_ITEM_UOM_DETAIL.UOM_Code='" + clsCommon.myCstr(cmbUnit.SelectedValue) + "' ) as ITEMDETAIL1 on ITEMDETAIL1.Item_code=TSPL_SRN_DETAIL.Item_Code where TSPL_SRN_HEAD.Status=0 and Location IN (" & IIf(txtBillToLocation.arrValueMember IsNot Nothing, clsCommon.GetMulcallString(txtBillToLocation.arrValueMember), arrLoc) & ") and convert(date,SRN_Date ,103) between '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  and '" + clsCommon.GetPrintDate(txtToDate.Value) + "'  
                     and TSPL_GRN_HEAD.IsCancel=0 and TSPL_GRN_HEAD.Status=1 and TSPL_NIR_QC.qc_status=1  and (VisualQCStatus <>2 or VisualQCStatusSecond<>2)"
             End If
             qry += "   ) InventroyMovement 
@@ -202,7 +202,7 @@ Public Class ItemStockReport
 				left  join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_MRN_DETAIL.Item_Code And  
                     TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_MRN_DETAIL.Unit_code
 	              left join (select UOM_Code,Item_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL where  Stocking_Unit='Y') as ITEMDETAIL1 on ITEMDETAIL1.Item_code=TSPL_MRN_DETAIL.Item_Code
-	             where TSPL_MRN_HEAD.MRN_No not in (select Against_MRN from TSPL_SRN_HEAD) and Location In (" & clsCommon.GetMulcallString(txtBillToLocation.arrValueMember) & ") and convert(date,MRN_Date ,103) between '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  and '" + clsCommon.GetPrintDate(txtToDate.Value) + "'   
+	             where TSPL_MRN_HEAD.MRN_No not in (select Against_MRN from TSPL_SRN_HEAD) and Location In (" & IIf(txtBillToLocation.arrValueMember IsNot Nothing, clsCommon.GetMulcallString(txtBillToLocation.arrValueMember), arrLoc) & ") and convert(date,MRN_Date ,103) between '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  and '" + clsCommon.GetPrintDate(txtToDate.Value) + "'   
                  and TSPL_GRN_HEAD.IsCancel=0 and TSPL_GRN_HEAD.Status=1 and (VisualQCStatus <>2 or VisualQCStatusSecond<>2)
 	 union all
 	   select 0 as Fat_Amt,0 as SNF_Amt,0 AS Fat_Rate,0 AS SNF_Rate ,'' as Trans_Id,'SRN' as Trans_Type,'' as Source_Doc_No,SRN_Date as Punching_Date,'I' as InOut,TSPL_SRN_HEAD.Bill_To_Location,TSPL_SRN_DETAIL.Item_Code,TSPL_SRN_DETAIL.Unit_code UOM, TSPL_SRN_DETAIL.Item_Cost/TSPL_ITEM_UOM_DETAIL.Conversion_Factor*ITEMDETAIL2.Conversion_Factor as MRP ,ITEMDETAIL2.UOM_Code Stock_UOM, TSPL_SRN_DETAIL.MRN_Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/ITEMDETAIL2.Conversion_Factor Stock_Qty,(TSPL_SRN_DETAIL.Item_Cost/TSPL_ITEM_UOM_DETAIL.Conversion_Factor*ITEMDETAIL2.Conversion_Factor)*(TSPL_SRN_DETAIL.MRN_Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/ITEMDETAIL2.Conversion_Factor) as FIFO_Cost,(TSPL_SRN_DETAIL.Item_Cost/TSPL_ITEM_UOM_DETAIL.Conversion_Factor*ITEMDETAIL2.Conversion_Factor)*(TSPL_SRN_DETAIL.MRN_Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/ITEMDETAIL2.Conversion_Factor) as LIFO_Cost,(TSPL_SRN_DETAIL.Item_Cost/TSPL_ITEM_UOM_DETAIL.Conversion_Factor*ITEMDETAIL2.Conversion_Factor)*(TSPL_SRN_DETAIL.MRN_Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/ITEMDETAIL2.Conversion_Factor) as Avg_Cost,0 as IsFromMilk,0 as MilkFatPer,0 as MilkSNFPer,0 as MilkFATKG,0 AS MilkSNFKG,0 as MilkFATQuintal,0 as MilkSNFQuintal,'' as SourceCode,'' as SourceName, '' as SourceType,'' as Custom_UOM,0 as Custom_Coversion_Factor  from TSPL_SRN_HEAD 
@@ -276,6 +276,8 @@ where TSPL_PARAMETER_MASTER.Type='SNF') as SNF on Items.Item_Code=SNF.Item_Code 
                 qry += " and Location_Code IN (" & clsCommon.GetMulcallString(txtBillToLocation.arrValueMember) & ") "
             ElseIf txtBillToLocation.arrValueMember IsNot Nothing AndAlso txtBillToLocation.arrValueMember.Count > 0 Then
                 qry += " where Location_Code IN (" & clsCommon.GetMulcallString(txtBillToLocation.arrValueMember) & ") "
+            Else
+                qry += " where Location_Code IN (" & arrLoc & ") "
             End If
             qry += " Order by  convert(date,  Punching_Date,103),Location_Code"
 
@@ -784,7 +786,7 @@ where TSPL_PARAMETER_MASTER.Type='SNF') as SNF on Items.Item_Code=SNF.Item_Code 
 	             left outer join TSPL_MRN_DETAIL on TSPL_MRN_HEAD.MRN_No=TSPL_MRN_DETAIL.MRN_No
                  left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_MRN_HEAD.Against_GRN
 	              left join (select Conversion_factor as cf,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code in (select UOM_Code  from TSPL_item_uom_detail where Item_Code = TSPL_ITEM_UOM_DETAIL.Item_code) And TSPL_ITEM_UOM_DETAIL.UOM_Code=(select Unit_Code  from TSPL_UNIT_MASTER where Unit_Desc=  '" + clsCommon.myCstr(cmbUnit.SelectedValue) + "') ) as ITEMDETAIL1 on ITEMDETAIL1.Item_code=TSPL_MRN_DETAIL.Item_Code
-	             where TSPL_MRN_HEAD.MRN_No not in (select Against_MRN from TSPL_SRN_HEAD) and Location IN (" & clsCommon.GetMulcallString(txtBillToLocation.arrValueMember) & ") and convert(date,MRN_Date ,103) between '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  and  '" + clsCommon.GetPrintDate(txtToDate.Value) + "'   
+	             where TSPL_MRN_HEAD.MRN_No not in (select Against_MRN from TSPL_SRN_HEAD) and Location IN (" & IIf(txtBillToLocation.arrValueMember IsNot Nothing, clsCommon.GetMulcallString(txtBillToLocation.arrValueMember), arrLoc) & ") and convert(date,MRN_Date ,103) between '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  and  '" + clsCommon.GetPrintDate(txtToDate.Value) + "'   
                  and TSPL_GRN_HEAD.IsCancel=0 and TSPL_GRN_HEAD.Status=1 and (VisualQCStatus <>2 or VisualQCStatusSecond<>2)  
 	             union all
 	              select 0 as Fat_Amt,0 as SNF_Amt,0 AS Fat_Rate,0 AS SNF_Rate ,'' as Trans_Id,'' as Trans_Type,'' as Source_Doc_No,SRN_Date as Punching_Date,'I' as InOut,TSPL_SRN_HEAD.Bill_To_Location,TSPL_SRN_DETAIL.Item_Code,TSPL_SRN_DETAIL.Unit_code UOM, 0 as MRP,TSPL_SRN_DETAIL.Unit_code Stock_UOM,TSPL_SRN_DETAIL.SRN_Qty Stock_Qty,0 as FIFO_Cost,0 as LIFO_Cost,0 as Avg_Cost,0 as IsFromMilk,0 as MilkFatPer,0 as MilkSNFPer,0 as MilkFATKG,0 AS MilkSNFKG,0 as MilkFATQuintal,0 as MilkSNFQuintal,'' as SourceCode,'' as SourceName, '' as SourceType,'' as Custom_UOM,0 as Custom_Coversion_Factor  from TSPL_SRN_HEAD 
@@ -792,7 +794,7 @@ where TSPL_PARAMETER_MASTER.Type='SNF') as SNF on Items.Item_Code=SNF.Item_Code 
                   left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.MRN_No=TSPL_SRN_HEAD.Against_MRN
                  left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_MRN_HEAD.Against_GRN
 				 left outer join TSPL_NIR_QC on TSPL_NIR_QC.mrn_no=TSPL_MRN_HEAD.mrn_no
-	              left join (select Conversion_factor as cf,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code in (select UOM_Code  from TSPL_item_uom_detail where Item_Code = TSPL_ITEM_UOM_DETAIL.Item_code) And TSPL_ITEM_UOM_DETAIL.UOM_Code=(select Unit_Code  from TSPL_UNIT_MASTER where Unit_Desc=  '" + clsCommon.myCstr(cmbUnit.SelectedValue) + "') ) as ITEMDETAIL1 on ITEMDETAIL1.Item_code=TSPL_SRN_DETAIL.Item_Code where TSPL_SRN_HEAD.Status=0 and Location IN (" & clsCommon.GetMulcallString(txtBillToLocation.arrValueMember) & ") and convert(date,SRN_Date ,103) between '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  and '" + clsCommon.GetPrintDate(txtToDate.Value) + "'  
+	              left join (select Conversion_factor as cf,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code in (select UOM_Code  from TSPL_item_uom_detail where Item_Code = TSPL_ITEM_UOM_DETAIL.Item_code) And TSPL_ITEM_UOM_DETAIL.UOM_Code=(select Unit_Code  from TSPL_UNIT_MASTER where Unit_Desc=  '" + clsCommon.myCstr(cmbUnit.SelectedValue) + "') ) as ITEMDETAIL1 on ITEMDETAIL1.Item_code=TSPL_SRN_DETAIL.Item_Code where TSPL_SRN_HEAD.Status=0 and Location IN (" & IIf(txtBillToLocation.arrValueMember IsNot Nothing, clsCommon.GetMulcallString(txtBillToLocation.arrValueMember), arrLoc) & ") and convert(date,SRN_Date ,103) between '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  and '" + clsCommon.GetPrintDate(txtToDate.Value) + "'  
                  and TSPL_GRN_HEAD.IsCancel=0 and TSPL_GRN_HEAD.Status=1 and TSPL_NIR_QC.qc_status=1  and (VisualQCStatus <>2 or VisualQCStatusSecond<>2)"
             End If
             qry += "   ) InventroyMovement 
@@ -855,7 +857,7 @@ where TSPL_PARAMETER_MASTER.Type='SNF') as SNF on Items.Item_Code=SNF.Item_Code 
 				left  join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_MRN_DETAIL.Item_Code And  
                     TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_MRN_DETAIL.Unit_code
 	              left join (select UOM_Code,Item_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL where  Stocking_Unit='Y') as ITEMDETAIL1 on ITEMDETAIL1.Item_code=TSPL_MRN_DETAIL.Item_Code
-	             where TSPL_MRN_HEAD.MRN_No not in (select Against_MRN from TSPL_SRN_HEAD) and Location  IN (" & clsCommon.GetMulcallString(txtBillToLocation.arrValueMember) & ") and convert(date,MRN_Date ,103) between '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  and '" + clsCommon.GetPrintDate(txtToDate.Value) + "'   
+	             where TSPL_MRN_HEAD.MRN_No not in (select Against_MRN from TSPL_SRN_HEAD) and Location  IN (" & IIf(txtBillToLocation.arrValueMember IsNot Nothing, clsCommon.GetMulcallString(txtBillToLocation.arrValueMember), arrLoc) & ") and convert(date,MRN_Date ,103) between '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  and '" + clsCommon.GetPrintDate(txtToDate.Value) + "'   
                 and TSPL_GRN_HEAD.IsCancel=0 and TSPL_GRN_HEAD.Status=1 and (VisualQCStatus <>2 or VisualQCStatusSecond<>2)
 	 union all
 	   select 0 as Fat_Amt,0 as SNF_Amt,0 AS Fat_Rate,0 AS SNF_Rate ,'' as Trans_Id,'SRN' as Trans_Type,'' as Source_Doc_No,SRN_Date as Punching_Date,'I' as InOut,TSPL_SRN_HEAD.Bill_To_Location,TSPL_SRN_DETAIL.Item_Code,TSPL_SRN_DETAIL.Unit_code UOM, TSPL_SRN_DETAIL.Item_Cost/TSPL_ITEM_UOM_DETAIL.Conversion_Factor*ITEMDETAIL2.Conversion_Factor as MRP ,ITEMDETAIL2.UOM_Code Stock_UOM, TSPL_SRN_DETAIL.MRN_Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/ITEMDETAIL2.Conversion_Factor Stock_Qty,(TSPL_SRN_DETAIL.Item_Cost/TSPL_ITEM_UOM_DETAIL.Conversion_Factor*ITEMDETAIL2.Conversion_Factor)*(TSPL_SRN_DETAIL.MRN_Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/ITEMDETAIL2.Conversion_Factor) as FIFO_Cost,(TSPL_SRN_DETAIL.Item_Cost/TSPL_ITEM_UOM_DETAIL.Conversion_Factor*ITEMDETAIL2.Conversion_Factor)*(TSPL_SRN_DETAIL.MRN_Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/ITEMDETAIL2.Conversion_Factor) as LIFO_Cost,(TSPL_SRN_DETAIL.Item_Cost/TSPL_ITEM_UOM_DETAIL.Conversion_Factor*ITEMDETAIL2.Conversion_Factor)*(TSPL_SRN_DETAIL.MRN_Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/ITEMDETAIL2.Conversion_Factor) as Avg_Cost,0 as IsFromMilk,0 as MilkFatPer,0 as MilkSNFPer,0 as MilkFATKG,0 AS MilkSNFKG,0 as MilkFATQuintal,0 as MilkSNFQuintal,'' as SourceCode,'' as SourceName, '' as SourceType,'' as Custom_UOM,0 as Custom_Coversion_Factor  from TSPL_SRN_HEAD 
@@ -865,7 +867,7 @@ where TSPL_PARAMETER_MASTER.Type='SNF') as SNF on Items.Item_Code=SNF.Item_Code 
 				 left outer join TSPL_NIR_QC on TSPL_NIR_QC.mrn_no=TSPL_MRN_HEAD.mrn_no
 	            left  join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SRN_DETAIL.Item_Code And  
                     TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SRN_DETAIL.Unit_code
-	              left join (select UOM_Code,Item_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL where  Stocking_Unit='Y') as ITEMDETAIL2 on ITEMDETAIL2.Item_code=TSPL_SRN_DETAIL.Item_Code where TSPL_SRN_HEAD.Status=0 and Location IN (" & clsCommon.GetMulcallString(txtBillToLocation.arrValueMember) & ") and convert(date,SRN_Date ,103)  between '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  and '" + clsCommon.GetPrintDate(txtToDate.Value) + "'  
+	              left join (select UOM_Code,Item_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL where  Stocking_Unit='Y') as ITEMDETAIL2 on ITEMDETAIL2.Item_code=TSPL_SRN_DETAIL.Item_Code where TSPL_SRN_HEAD.Status=0 and Location IN (" & IIf(txtBillToLocation.arrValueMember IsNot Nothing, clsCommon.GetMulcallString(txtBillToLocation.arrValueMember), arrLoc) & ") and convert(date,SRN_Date ,103)  between '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  and '" + clsCommon.GetPrintDate(txtToDate.Value) + "'  
                    and TSPL_GRN_HEAD.IsCancel=0  and TSPL_GRN_HEAD.Status=1 and TSPL_NIR_QC.qc_status=1  and (VisualQCStatus <>2 or VisualQCStatusSecond<>2) "
             End If
             qry += ") InventroyMovement 
@@ -916,10 +918,14 @@ where TSPL_PARAMETER_MASTER.Type='SNF') as SNF on Items.Item_Code=SNF.Item_Code 
             If clsCommon.myLen(cmbUnit.SelectedValue) > 0 Then
                 qry += " where Stock_UOM='" + clsCommon.myCstr(cmbUnit.SelectedValue) + "'"
             End If
-            If clsCommon.myLen(cmbUnit.SelectedValue) > 0 AndAlso txtBillToLocation.arrValueMember.Count > 0 Then
-                qry += " and Location_Code IN (" & clsCommon.GetMulcallString(txtBillToLocation.arrValueMember) & ") "
-            ElseIf txtBillToLocation.arrValueMember.Count > 0 Then
-                qry += " where Location_Code IN (" & clsCommon.GetMulcallString(txtBillToLocation.arrValueMember) & ") "
+            If txtBillToLocation.arrValueMember IsNot Nothing Then
+                If clsCommon.myLen(cmbUnit.SelectedValue) > 0 AndAlso txtBillToLocation.arrValueMember.Count > 0 Then
+                    qry += " and Location_Code IN (" & clsCommon.GetMulcallString(txtBillToLocation.arrValueMember) & ") "
+                ElseIf txtBillToLocation.arrValueMember.Count > 0 Then
+                    qry += " where Location_Code IN (" & clsCommon.GetMulcallString(txtBillToLocation.arrValueMember) & ") "
+                End If
+            Else
+                qry += " where Location_Code IN (" & arrLoc & ") "
             End If
             qry += " Order by  convert(date,  Punching_Date,103),Location_Code"
             If clsCommon.myLen(qry) > 0 Then

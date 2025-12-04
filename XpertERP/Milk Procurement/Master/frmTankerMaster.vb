@@ -631,6 +631,7 @@ Public Class FrmTankerMaster
                 Return
             End If
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndNo.Value, "TSPL_TANKER_MASTER", "Tanker_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndNo.Value, "TSPL_TANKER_MASTER", "Tanker_No", trans)
 
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_TANKER_CHAMBER_DETAIL where Tanker_No='" + fndNo.Value + "'", trans)
 

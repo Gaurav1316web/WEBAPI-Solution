@@ -52,7 +52,10 @@ Public Class clsAssetGroups
                     Else                                                                                '-----Update Entry-----
                         clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ASSET_GROUP", OMInsertOrUpdate.Update, "TSPL_ASSET_GROUP.Group_Code = '" + obj.Group_Code + "'", trans)
                     End If
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Group_Code), "TSPL_ASSET_GROUP", "Group_Code", Nothing)
+
                 Next
+
                 trans.Commit()
             End If
         Catch err As Exception
@@ -66,6 +69,10 @@ Public Class clsAssetGroups
         If (clsCommon.myLen(strGroupCode) <= 0) Then
             Throw New Exception("Code not found to Delete")
         End If
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strGroupCode, "TSPL_ASSET_GROUP", "Group_Code", Nothing)
+
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strGroupCode, "TSPL_ASSET_GROUP", "Group_Code", Nothing)
+
         Dim qry As String = "delete from TSPL_ASSET_GROUP where Group_Code='" + strGroupCode + "'"
         Return clsDBFuncationality.ExecuteNonQuery(qry)
 

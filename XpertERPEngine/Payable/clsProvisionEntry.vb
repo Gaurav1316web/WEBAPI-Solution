@@ -252,14 +252,14 @@ Public Class clsProvisionEntry
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmProvisionEntry, clsCommon.myCstr(dt.Rows(0)("Loc_Code")), clsCommon.myCDate(dt.Rows(0)("Doc_Date")), tran)
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, DocNo, "TSPL_PROVISION_ENTRY", "Doc_No", tran)
 
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, DocNo, "TSPL_PROVISION_ENTRY", "Doc_No", tran)
             Dim Qry As String = "select isPosted from tspl_provision_entry where Doc_no='" + DocNo + "'"
             If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry, tran)) = 1 Then
                 Throw New Exception("Transaction status should be Unposted for delete")
             End If
-            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, DocNo, "TSPL_PROVISION_ENTRY", "Doc_No", tran)
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, DocNo, "TSPL_PROVISION_ENTRY", "Doc_No", tran)
 
             Qry = "delete from tspl_provision_Entry where  Doc_No='" & DocNo & "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, tran)
@@ -368,6 +368,7 @@ Public Class clsProvisionEntry
 
             Qry = "update tspl_provision_entry set isPosted='0' where Doc_no='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_PROVISION_ENTRY", "Doc_No", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

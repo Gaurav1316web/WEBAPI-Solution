@@ -2567,6 +2567,7 @@ Public Class clsMCCMaterialSale
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
                 End If
+
                 clsSerializeInvenotry.DeleteData("SD-IN", strCode, trans)
                 clsBatchInventory.DeleteData("MCC-MSALE", obj.Document_Code, trans)
                 clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_DETAIL", "Document_Code", trans)

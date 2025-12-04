@@ -197,6 +197,8 @@ Public Class frmAccountGroup
             If clsCommon.myLen(txtAccMainGrp.Value) > 0 Then
                 clsDBFuncationality.ExecuteNonQuery("UPDATE TSPL_ACCOUNT_GROUPS SET Account_Main_Group_Code='" & clsCommon.myCstr(txtAccMainGrp.Value) & "' WHERE Account_Group_Code='" & clsCommon.myCstr(fndaccgp.Value) & "'")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndaccgp.Value, "TSPL_ACCOUNT_GROUPS", "Account_Group_Code", Nothing)
+
             myMessages.update()
         Catch ex As Exception
             myMessages.myExceptions(ex)

@@ -199,6 +199,8 @@ Public Class clsItemCostMapping
 
             Dim qry As String = "Update TSPL_ITEM_COST_MAPPING_HEADS set Status=1, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where HCODE='" + strDocNo + "' "
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_ITEM_COST_MAPPING_HEADS", "HCODE", "TSPL_ITEM_COST_MAPPING_DETAIL", "HCODE", Nothing)
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -328,6 +330,8 @@ Public Class clsItemCostMappingDetails
             Next
             Dim objtrDetails As New clsItemCostMappingDetailsAll
             objtrDetails.SaveData("", strCode, ArrAuth, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ITEM_COST_MAPPING_HEADS", "HCODE", "TSPL_ITEM_COST_MAPPING_DETAIL", "HCODE", "TSPL_ITEM_COST_MAPPING_DETAILS_ALL", "HCODE", Nothing)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

@@ -87,6 +87,7 @@ Public Class clsVSPCommission
 
         Try
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_VSP_COMMISSION_MASTER", "Commission_Code", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_VSP_COMMISSION_MASTER", "Commission_Code", Nothing)
 
             qry = "Delete from TSPL_VSP_COMMISSION_MASTER where TSPL_VSP_COMMISSION_MASTER.Commission_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)

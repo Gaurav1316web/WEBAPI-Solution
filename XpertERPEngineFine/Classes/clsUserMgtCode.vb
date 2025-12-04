@@ -2819,8 +2819,9 @@ Public Class clsUserMgtCode
 
     Public Const XpertAPIMilkMilkRegister As String = "API-MLK-REG"
     Public Const XpertAPIDairyGatePass As String = "API-GT-PASS"
-    Public Const XpertAPIBMCDCSSamplingReceiving As String = "BMC-DCS-SR"
     Public Const XpertAPITruckSheet As String = "API-TS-RPT"
+    Public Const XpertAPIBMCDCSSamplingReceiving As String = "BMC-DCS-SR"
+    Public Const XpertAPIBMCDCSSampleReceivedRegister As String = "API-DCS-SMR"
     ''=================== MIS start here============
 
     Public Const ModuleMIS As String = "MMIS"
