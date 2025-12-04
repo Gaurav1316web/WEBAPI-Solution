@@ -51,6 +51,10 @@ Public Class ClsMCCSMSSetting
 
     Public Shared Function DeleteData(ByVal strcode As String, ByVal trans As SqlTransaction) As Boolean
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strcode, "TSPL_MCC_MAIL_SMS_Setting", "Program_Code", trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strcode, "TSPL_MCC_MAIL_SMS_Setting", "Program_Code", trans)
+
             If (clsCommon.myLen(strcode >= 0)) Then
                 Dim qry As String = "delete from TSPL_MCC_MAIL_SMS_Setting where Program_Code='" + strcode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)

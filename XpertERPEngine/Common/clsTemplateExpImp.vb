@@ -18,6 +18,8 @@ Public Class clsTemplateExpImp
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             isSaved = False
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_TEMPLATE_EXPIMP_HEAD", "Export_Code", "TSPL_TEMPLATE_EXPIMP_DETAIL", "Export_Code", trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_TEMPLATE_EXPIMP_HEAD", "Export_Code", "TSPL_TEMPLATE_EXPIMP_DETAIL", "Export_Code", trans)
 
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
@@ -116,6 +118,7 @@ Public Class clsTemplateExpImp
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TEMPLATE_EXPIMP_HEAD", OMInsertOrUpdate.Update, "TSPL_TEMPLATE_EXPIMP_HEAD.Export_Code='" + obj.Export_Code + "'", trans)
             End If
             isSaved = isSaved AndAlso clsTemplateExpImpDetail.SaveDetailData(obj, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Export_Code, "TSPL_TEMPLATE_EXPIMP_HEAD", "Export_Code", "TSPL_TEMPLATE_EXPIMP_DETAIL", "Export_Code", trans)
 
             trans.Commit()
         Catch err As Exception

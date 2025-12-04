@@ -225,6 +225,7 @@ Public Class frmDCSAdditionDeduction
                 obj.Subtract = chkSubtract.Checked
                 obj.Apply_Formula = chkApplyFormula.Checked
                 obj.Dont_Generate_DR_CR_Note = chkDontGenerateDRCRNote.Checked
+                obj.Hide_In_Milk_Bill_Print = rdbHideInMilkBillPrint.Checked
                 If rbtnQtyUOMRec.IsChecked Then
                     obj.Qty_UOM = 0
                 ElseIf rbtnQtyUOMLtr.IsChecked Then
@@ -358,6 +359,7 @@ Public Class frmDCSAdditionDeduction
                 chkSubtract.Checked = obj.Subtract
                 chkApplyFormula.Checked = obj.Apply_Formula
                 chkDontGenerateDRCRNote.Checked = obj.Dont_Generate_DR_CR_Note
+                rdbHideInMilkBillPrint.Checked = obj.Hide_In_Milk_Bill_Print
                 If obj.Check_Saving_AC > 0 Then
                     chkSavingAC.Checked = True
                     If obj.Check_Saving_AC = 1 Then
@@ -585,6 +587,7 @@ Public Class frmDCSAdditionDeduction
         chkSubtract.Checked = False
         chkApplyFormula.Checked = False
         chkDontGenerateDRCRNote.Checked = False
+        rdbHideInMilkBillPrint.Checked = False
         chkSavingAC.Checked = False
         rbtnACExists.Visible = False
         rbtnACNotExists.Visible = False

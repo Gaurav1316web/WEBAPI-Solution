@@ -28,6 +28,8 @@ Public Class clsCourseMaster
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_COURSE_MASTER", "COURSE_CODE", Nothing)
+
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_COURSE_MASTER", "COURSE_CODE", Nothing)
 
             Dim qry As String

@@ -81,11 +81,12 @@ Public Class clsOverheadCost
 
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
         Dim qry As String = ""
-        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_OVERHEAD_COST", "COST_CODE", Nothing)
-
-        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_OVERHEAD_COST", "COST_CODE", Nothing)
 
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_OVERHEAD_COST", "COST_CODE", Nothing)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_OVERHEAD_COST", "COST_CODE", Nothing)
+
             qry = "Delete from TSPL_OVERHEAD_COST where TSPL_OVERHEAD_COST.Cost_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch err As Exception

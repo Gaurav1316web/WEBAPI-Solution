@@ -578,7 +578,6 @@ Public Class clsBOM
 
             Dim qry As String
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PP_BOM_HEAD", "BOM_CODE", "TSPL_PP_BOM_STAGE_DETAIL", "BOM_CODE", "TSPL_PP_BOM_ITEM_DETAIL", "BOM_CODE", trans)
-
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PP_BOM_HEAD", "BOM_CODE", "TSPL_PP_BOM_STAGE_DETAIL", "BOM_CODE", "TSPL_PP_BOM_ITEM_DETAIL", "BOM_CODE", trans)
             qry = "delete from TSPL_PP_BOM_ITEM_DETAIL where BOM_CODE ='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
