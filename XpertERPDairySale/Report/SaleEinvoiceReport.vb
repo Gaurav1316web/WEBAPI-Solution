@@ -156,7 +156,7 @@ Public Class SaleEinvoiceReport
             If chkBPL.Checked Then
                 Whr += " and TSPL_BOOKING_MATSER.Is_BPL=1  "
             ElseIf chkAPS.Checked Then
-                Whr += " and TSPL_BOOKING_MATSER.Is_APS=1 or TSPL_SD_SHIPMENT_HEAD.Against_Cust_Order is not null "
+                Whr += " and TSPL_BOOKING_MATSER.Is_APS=1 or TSPL_SD_SHIPMENT_HEAD.Screen_Type ='CT' "
             Else
                 If TxtRoute.arrValueMember IsNot Nothing AndAlso TxtRoute.arrValueMember.Count > 0 Then
                     If chkDCSSale.Checked Then
@@ -305,7 +305,7 @@ Public Class SaleEinvoiceReport
 								TSPL_CUSTOMER_MASTER.GSTNO AS [Recipient Gst No],
                                 TSPL_SD_SALE_INVOICE_HEAD.EInvoice_Type as [E Invoice Type],"
                 If EnableProductSaleForJPR Then
-                    qry += "case when  TSPL_SD_SALE_INVOICE_HEAD.item_type = 'M' then 'Milk' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'P' then 'Product' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'I' then 'Ice Cream'  end as [Item Type],"
+                    qry += "case when  TSPL_SD_SALE_INVOICE_HEAD.item_type = 'S' then 'Milk' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'P' then 'Product' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'I' then 'Ice Cream'  end as [Item Type],"
                 End If
                 qry += " Ack_No AS [Ack No],
                                 CONVERT(varchar,Ack_Date, 103) AS [Ack Date],
@@ -316,8 +316,14 @@ Public Class SaleEinvoiceReport
                                 END AS [Invoice Type],isnull(TSPL_ROUTE_MASTER.Zone_Code,'')as Zone_Code,
                                 TSPL_SD_SALE_INVOICE_HEAD.Route_No as [Route No],
                                 tspl_item_master.Item_Code as [Item Code],
-                                tspl_item_master.Item_Desc as [Item Name],
-								TSPL_SD_SALE_INVOICE_DETAIL.Unit_code as [UOM],
+                                tspl_item_master.Item_Desc as [Item Name],"
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                    qry += " TSPL_SD_SALE_INVOICE_DETAIL.Billing_Unit_code as [Billing UOM],
+  TSPL_SD_SALE_INVOICE_DETAIL.Billing_Qty as [Billing Qty],
+   case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.Billing_Qty,0)>0 then  Convert(decimal(18, 2),(TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Discount/  TSPL_SD_SALE_INVOICE_DETAIL.Billing_Qty)) else 0 end as [Billing Rate], "
+                End If
+
+                qry += "TSPL_SD_SALE_INVOICE_DETAIL.Unit_code as [UOM],
 								TSPL_SD_SALE_INVOICE_DETAIL.Qty as [Qty],
                                 TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Discount AS [Item Amount],
                                 tspl_item_master.HSN_Code as [HSN Code],                               
@@ -473,7 +479,7 @@ Public Class SaleEinvoiceReport
                 End If
 
                 Baseqry = qry
-                qry += " " + whrclsDate + " " + Whr + " And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' "
+                qry += " " + whrclsDate + " " + Whr + " And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' " + IIf(chkAPS.Checked = False, " and TSPL_SD_SALE_INVOICE_HEAD.Screen_Type <>'CT' ", "")
             End If
             If chkDCSSale.Checked Then
                 qry = "" + qry + " " + Environment.NewLine + " union all " + Environment.NewLine + " " + Baseqry + whrDCSSale + Whr + " And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type = 'MCC'"
@@ -763,6 +769,19 @@ Public Class SaleEinvoiceReport
                 gvData.Columns("Item Name").HeaderText = "Item Name"
                 gvData.Columns("Item Name").Width = 100
                 gvData.Columns("Item Name").IsVisible = True
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                    gvData.Columns("Billing UOM").HeaderText = "Billing UOM"
+                    gvData.Columns("Billing UOM").Width = 100
+                    gvData.Columns("Billing UOM").IsVisible = True
+
+                    gvData.Columns("Billing Qty").HeaderText = "Billing Qty"
+                    gvData.Columns("Billing Qty").Width = 100
+                    gvData.Columns("Billing Qty").IsVisible = True
+
+                    gvData.Columns("Billing Rate").HeaderText = "Billing Rate"
+                    gvData.Columns("Billing Rate").Width = 100
+                    gvData.Columns("Billing Rate").IsVisible = True
+                End If
 
                 gvData.Columns("UOM").HeaderText = "UOM"
                 gvData.Columns("UOM").Width = 100
