@@ -36,6 +36,7 @@ Public Class clsConveyanceRateMaster
                 Throw New Exception("CONV_RATE_CODE not found to Delete")
             End If
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_CONVEYANCE_RATE_MASTER", "CONV_RATE_CODE", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_CONVEYANCE_RATE_MASTER", "CONV_RATE_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_CONVEYANCE_RATE_MASTER where CONV_RATE_CODE ='" + strCode + "'"

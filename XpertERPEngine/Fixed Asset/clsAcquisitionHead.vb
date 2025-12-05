@@ -2437,7 +2437,7 @@ Public Class clsAssetAccountChangeHead
                 Throw New Exception("Already Post on :" + clsCommon.GetPrintDate(obj.Post_Date, "dd/MM/yyyy"))
             End If
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_ASSET_ACCOUNT_CHANGE_HEAD", "Doc_Code", "TSPL_ASSET_ACCOUNT_CHANGE_DETAIL", "Doc_Code", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_ASSET_ACCOUNT_CHANGE_HEAD", "Doc_Code", "TSPL_ASSET_ACCOUNT_CHANGE_DETAIL", "Doc_Code", trans)
             Dim ArryLst As ArrayList = New ArrayList()
             'Dim strQ As String = "select xx.Ac_Control, SUM(xx.Book_Source_value )  as Book_Source_value " &
             '        " from ( select TSPL_ACQUISITION_DETAIL.Book_Source_value,TSPL_Dep_AccountSet.Ac_Control as Ac_Control " &

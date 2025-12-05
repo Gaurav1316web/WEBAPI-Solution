@@ -430,6 +430,7 @@ Partial Class frmCustomer
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.rbtnAddSecurity = New Telerik.WinControls.UI.RadButton()
         Me.btnGetHistory = New Telerik.WinControls.UI.RadButton()
+        Me.chkSkipBal = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.pageCus, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pageCus.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
@@ -731,6 +732,7 @@ Partial Class frmCustomer
         Me.SplitContainer2.SuspendLayout()
         CType(Me.rbtnAddSecurity, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGetHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSkipBal, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -4085,6 +4087,7 @@ Partial Class frmCustomer
         '
         'RadPageViewPage3
         '
+        Me.RadPageViewPage3.Controls.Add(Me.chkSkipBal)
         Me.RadPageViewPage3.Controls.Add(Me.cmbSplitPrint)
         Me.RadPageViewPage3.Controls.Add(Me.MyLabel47)
         Me.RadPageViewPage3.Controls.Add(Me.txtRoute)
@@ -6594,6 +6597,14 @@ Partial Class frmCustomer
         Me.btnGetHistory.TabIndex = 16
         Me.btnGetHistory.Text = "Show History"
         '
+        'chkSkipBal
+        '
+        Me.chkSkipBal.Location = New System.Drawing.Point(784, 159)
+        Me.chkSkipBal.Name = "chkSkipBal"
+        Me.chkSkipBal.Size = New System.Drawing.Size(83, 18)
+        Me.chkSkipBal.TabIndex = 403
+        Me.chkSkipBal.Text = "Skip Balance"
+        '
         'frmCustomer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -6923,6 +6934,7 @@ Partial Class frmCustomer
         Me.SplitContainer2.ResumeLayout(False)
         CType(Me.rbtnAddSecurity, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGetHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkSkipBal, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -7287,5 +7299,6 @@ Partial Class frmCustomer
     Friend WithEvents chkpermanentInactive As RadCheckBox
     Friend WithEvents rmiImportProductR As RadMenuItem
     Friend WithEvents rmiExportProductR As RadMenuItem
+    Friend WithEvents chkSkipBal As RadCheckBox
 End Class
 

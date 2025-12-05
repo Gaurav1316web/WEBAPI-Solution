@@ -1336,6 +1336,7 @@ Public Class frmCustomer
             obj.I_Route_No = clsCommon.myCstr(txtIRouteCode.Value)
             obj.City_Code = clsCommon.myCstr(fndCity.Value)
             obj.State = clsCommon.myCstr(fndstate.Value)
+            obj.Is_Skip_Balance = IIf(chkSkipBal.Checked, 1, 0)
 
             ''richa ticket No. BM00000003109 on 19/08/2014
             If clsCommon.myCdbl(txtTempCreditLimit.Text) > 0 Then
@@ -2073,6 +2074,7 @@ Public Class frmCustomer
                 Me.fndRoute.Value = clsCommon.myCstr(myDr(8))
                 Me.txtPRouteCode.Value = clsCommon.myCstr(myDr("P_Route_No"))
                 Me.txtIRouteCode.Value = clsCommon.myCstr(myDr("I_Route_No"))
+                Me.chkSkipBal.Checked = IIf(clsCommon.myCdbl(myDr("is_Skip_Balance")) = 1, True, False)
                 '' MULTICURRENCY
                 'If Me.fndBaseCurrency.Enabled = True Then
                 '    Me.fndBaseCurrency.Value = clsCommon.myCstr(myDr("CURRENCY_CODE"))
@@ -2647,6 +2649,7 @@ Public Class frmCustomer
         'chkInActive.Checked = True
         chkInActive.Enabled = True
         chkcredit.Checked = False
+        chkSkipBal.Checked = False
         chkIsRepeatOrder.Checked = False
         Me.txtPriceCode.Value = ""
         Me.fndstate.Value = ""
@@ -2926,6 +2929,7 @@ Public Class frmCustomer
                 Else
                     chkcredit.Checked = False
                 End If
+
                 If obj.Inter_Branch = "Y" Then
                     chkInterBranch.Checked = True
                 Else

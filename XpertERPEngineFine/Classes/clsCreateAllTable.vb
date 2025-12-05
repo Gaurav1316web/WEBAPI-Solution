@@ -15276,6 +15276,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("SkipTaxableInvoice", "int null default 0")
             coll.Add("SkipNonTaxableInvoice", "int null default 0")
             coll.Add("Inter_Union_Sale", "Integer null default 0")
+            coll.Add("Is_Skip_Balance", "Integer null default 0")
             coll.Add("Cust_Type", "char(1) NULL")
             Try
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", False)
