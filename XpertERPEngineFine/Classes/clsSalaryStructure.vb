@@ -22,6 +22,7 @@ Public Class clsSalaryStructure
                 Throw New Exception("Code not found to Delete")
             End If
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SALARY_STRUCTURE", "SALARY_STRUCTURE_CODE", Nothing)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_SALARY_STRUCTURE", "SALARY_STRUCTURE_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_SALARY_STRUCTURE where SALARY_STRUCTURE_CODE ='" + strCode + "'"

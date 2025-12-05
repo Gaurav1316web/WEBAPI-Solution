@@ -99,6 +99,7 @@ Public Class clsVendorPriceChartMappingUDLHead
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                         Throw New Exception("Some posted vendor mapping found for Price code :" + obj.Pricecode + " and Milk Grade Code:" + obj.Milk_Grade_Code)
                     End If
+
                     qry = "delete from Tspl_Vendor_Price_Chart_mapping where PriceCode='" + obj.Pricecode + "' and Milk_Grade_Code='" + obj.Milk_Grade_Code + "'"
                     clsDBFuncationality.ExecuteNonQuery(qry, tran)
                     For Each StrVendor As String In obj.arrVendor
@@ -128,6 +129,8 @@ Public Class clsVendorPriceChartMappingUDLHead
                 For Each obj As clsVendorPriceChartMappingUDLHead In arr
                     qry = "select top 1 PriceCode from TSPL_VENDOR_PRICE_CHART_MAPPING where PriceCode='" + obj.Pricecode + "' and Milk_Grade_Code='" + obj.Milk_Grade_Code + "' and posted=1"
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Pricecode, "tspl_Vendor_price_chart_mapping", "Pricecode", tran)
+                    clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.Pricecode, "tspl_Vendor_price_chart_mapping", "Pricecode", tran)
 
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                         Throw New Exception("Some posted vendor mapping found for Price code :" + obj.Pricecode + " and Milk Grade Code:" + obj.Milk_Grade_Code)
@@ -157,6 +160,8 @@ Public Class clsVendorPriceChartMappingUDLHead
                     End If
                     qry = "Update Tspl_Vendor_Price_Chart_mapping set posted='1',Posted_By='" + objCommonVar.CurrentUserCode + "',Posted_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(tran), "dd/MMM/yyyy hh:mm tt") + "'  where PriceCode='" + obj.Pricecode + "' and Milk_Grade_Code='" + obj.Milk_Grade_Code + "'"
                     clsDBFuncationality.ExecuteNonQuery(qry, tran)
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Pricecode, "tspl_Vendor_price_chart_mapping", "Pricecode", tran)
+
                 Next
             End If
             tran.Commit()

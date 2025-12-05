@@ -174,6 +174,8 @@ left outer join tspl_employee_master on tspl_employee_master.EMP_CODE= TSPL_CUST
 
             Dim qry As String = "update TSPL_CUSTOMER_EMPLOYEE_MAPPING set employee_code='" + fndEmployee.Value + "' where cust_code='" + fndcustomer.Value + "'"
             connectSql.RunSql(qry)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndcustomer.Value, "TSPL_CUSTOMER_EMPLOYEE_MAPPING", "Cust_Code", Nothing)
+
             myMessages.update()
         Catch ex As Exception
             myMessages.myExceptions(ex)
@@ -212,7 +214,7 @@ left outer join tspl_employee_master on tspl_employee_master.EMP_CODE= TSPL_CUST
     End Sub
     Public Sub fundelete()
         Try
-            'clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndcustomer.Value, "TSPL_CUSTOMER_EMPLOYEE_MAPPING", "Cust_Code", Nothing)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndcustomer.Value, "TSPL_CUSTOMER_EMPLOYEE_MAPPING", "Cust_Code", Nothing)
 
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndcustomer.Value, "TSPL_CUSTOMER_EMPLOYEE_MAPPING", "Cust_Code", Nothing)
 

@@ -198,6 +198,8 @@ Public Class clsLeaveEncashmentHead
             End If
             Qry = "Update TSPL_Leave_Encashment_Head set Posted = 0 where Document_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_Leave_Encashment_Head", "Document_Code", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

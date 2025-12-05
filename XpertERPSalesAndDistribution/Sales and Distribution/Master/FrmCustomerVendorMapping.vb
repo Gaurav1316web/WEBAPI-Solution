@@ -95,6 +95,8 @@ Public Class FrmCustomerVendorMapping
 
             Dim qry As String = "update TSPL_CUSTOMER_VENDOR_MAPPING set vendor_code='" + fndvendor.Value + "' where cust_code='" + fndcustomer.Value + "'"
             connectSql.RunSql(qry)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndcustomer.Value, "TSPL_CUSTOMER_VENDOR_MAPPING", "Cust_code", Nothing)
+
             myMessages.update()
         Catch ex As Exception
             myMessages.myExceptions(ex)
@@ -106,6 +108,7 @@ Public Class FrmCustomerVendorMapping
     Public Sub fundelete()
         Try
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndcustomer.Value, "TSPL_CUSTOMER_VENDOR_MAPPING", "Cust_code", Nothing)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndcustomer.Value, "TSPL_CUSTOMER_VENDOR_MAPPING", "Cust_code", Nothing)
 
             Dim qry As String = "delete from TSPL_CUSTOMER_VENDOR_MAPPING where cust_code='" + fndcustomer.Value + "'"
             connectSql.RunSql(qry)

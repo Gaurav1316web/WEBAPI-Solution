@@ -189,6 +189,8 @@ Public Class ClsEmployeeLICTagging
         If (clsCommon.myLen(strCode) <= 0) Then
             Throw New Exception("Code not found to Delete")
         End If
+        'clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMPLOYEE_LIC_TAGGING", "Document_code", "TSPL_EMPLOYEE_LIC_TAGGING_DETAIL", "Document_code", trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMPLOYEE_LIC_TAGGING", "Document_code", "TSPL_EMPLOYEE_LIC_TAGGING_DETAIL", "Document_code", trans)
 
         Dim qry As String
         qry = "delete from TSPL_EMPLOYEE_LIC_TAGGING_DETAIL where DOCUMENT_CODE ='" + strCode + "'"

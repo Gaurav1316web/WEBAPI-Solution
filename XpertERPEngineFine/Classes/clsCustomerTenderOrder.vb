@@ -338,7 +338,7 @@ Public Class clsCustomerTenderOrder
             Qry = "Update TSPL_CUSTOMER_TENDER_ORDER set Status = 0 where Document_Code='" & strCode & "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_CUSTOMER_TENDER_ORDER", "Document_Code", "TSPL_CUSTOMER_TENDER_ORDER_DETAIL", "Document_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_CUSTOMER_TENDER_ORDER", "Document_Code", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

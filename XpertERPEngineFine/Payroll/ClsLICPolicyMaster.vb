@@ -47,13 +47,10 @@ Public Class ClsLICPolicyMaster
                 clsCommon.AddColumnsForChange(coll, "LIC_CODE", obj.Code)
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"))
-
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_LIC_POLICY_MASTER", OMInsertOrUpdate.Insert, "")
-
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_LIC_POLICY_MASTER", OMInsertOrUpdate.Update, "")
             End If
-
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_ATTENDANCE_MASTER", "ATTENDANCE_CODE", Nothing)
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -70,9 +67,8 @@ Public Class ClsLICPolicyMaster
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
-
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_LIC_POLICY_MASTER", "LIC_CODE", Nothing)
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_LIC_POLICY_MASTER", "LIC_CODE", Nothing)
-
             Dim qry As String
             qry = "delete from TSPL_LIC_POLICY_MASTER where LIC_CODE ='" + strCode + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry)

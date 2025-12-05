@@ -119,6 +119,8 @@ Public Class clsSerializeInvenotry
     Public Shared Function PostData(ByVal strDocType As String, ByVal strDocNo As String, ByVal strICode As String, ByVal InOutType As String, ByVal intParentLineNo As Integer, ByVal trans As SqlTransaction) As Boolean
         Dim qry As String = "update TSPL_SERIAL_ITEM set Against_Inv_Movement_Trans_Id=(select max(Trans_Id) from TSPL_INVENTORY_MOVEMENT) where Document_Type='" + strDocType + "' and Document_Code='" + strDocNo + "' and Item_Code='" + strICode + "' and Parent_Line_No='" + clsCommon.myCstr(intParentLineNo) + "' and In_Out_Type='" + InOutType + "'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_SERIAL_ITEM", "Document_Code", trans)
+
         Return True
     End Function
 End Class

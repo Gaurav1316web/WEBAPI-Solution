@@ -340,7 +340,7 @@ Public Class clsLocation
         Dim i As Integer = 1
         Dim Qry As String
         Try
-            clsCommonFunctionality.SaveHistoryData(False, objCommonVar.CurrentUserCode, obj.Location_Code, "TSPL_LOCATION_MASTER", "Location_Code", "TSPL_LOCATION_WISE_TAX_MASTER", "Location_Code", "TSPL_LOCATION_MASTER_Jobwork_Item", "Main_Location_Code", "TSPL_LOCATION_CATEGORY_MASTER", "Location_code", "", "", "", "", "", "", trans)
+            'clsCommonFunctionality.SaveHistoryData(False, objCommonVar.CurrentUserCode, obj.Location_Code, "TSPL_LOCATION_MASTER", "Location_Code", "TSPL_LOCATION_WISE_TAX_MASTER", "Location_Code", "TSPL_LOCATION_MASTER_Jobwork_Item", "Main_Location_Code", "TSPL_LOCATION_CATEGORY_MASTER", "Location_code", "", "", "", "", "", "", trans)
             If Not isImport Then
                 Qry = "Delete from TSPL_LOCATION_WISE_TAX_MASTER where Location_Code='" & obj.Location_Code & "' "
                 clsDBFuncationality.getSingleValue(Qry, trans)
@@ -510,6 +510,8 @@ Public Class clsLocation
                 isSaved = isSaved AndAlso clsLocationPlantDepotMapping.SaveData(obj, obj.ArrMappingPlantDepot, trans)
                 isSaved = isSaved AndAlso SaveLocationCategory(obj.Location_Code, obj.Loc_Cat_structr_Code, obj.ArrCategoryStr, trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(False, objCommonVar.CurrentUserCode, obj.Location_Code, "TSPL_LOCATION_MASTER", "Location_Code", "TSPL_LOCATION_WISE_TAX_MASTER", "Location_Code", "TSPL_LOCATION_MASTER_Jobwork_Item", "Main_Location_Code", "TSPL_LOCATION_CATEGORY_MASTER", "Location_code", "", "", "", "", "", "", trans)
+
             'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Location_Code, "TSPL_MULTIPLE_DEDUCTION_HEAD", "Document_No", "TSPL_MULTIPLE_DEDUCTION_DETAIL", "Document_No", trans)
         Catch err As Exception
             Throw New Exception(err.Message)
@@ -537,6 +539,8 @@ Public Class clsLocation
         End Try
     End Function
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_LOCATION_MASTER", "Location_Code", Nothing)
+
         Dim qry As String = "Delete from TSPL_LOCATION_MASTER where Location_Code='" + strCode + "'"
         Return clsDBFuncationality.ExecuteNonQuery(qry)
     End Function

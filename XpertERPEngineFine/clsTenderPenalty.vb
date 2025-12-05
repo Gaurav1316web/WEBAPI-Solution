@@ -175,6 +175,7 @@ where 2=2"
 
                 qry = "delete from TSPL_TENDER_PENALTY where Document_No='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_TENDER_PENALTY", "Document_No", "TSPL_TENDER_PENALTY_DETAIL", "Document_No", trans)
 
                 trans.Commit()
             Catch ex As Exception

@@ -302,7 +302,7 @@ where 2=2"
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             Dim Qry As String = Nothing
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocCode, "TSPL_SHORT_SUPPLY_PENALTY", "Document_No", "TSPL_SHORT_SUPPLY_PENALTY_DETAIL", "Document_No", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocCode, "TSPL_SHORT_SUPPLY_PENALTY", "Document_No", "TSPL_SHORT_SUPPLY_PENALTY_DETAIL", "Document_No", trans)
 
             Dim PONumber As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No FROM TSPL_PURCHASE_ORDER_DETAIL LEFT OUTER JOIN TSPL_PURCHASE_ORDER_HEAD ON TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No = TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No WHERE TSPL_PURCHASE_ORDER_HEAD.Vendor_Code = '" + Vendor_No + "' AND TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location = '" + Location + "' AND TSPL_PURCHASE_ORDER_HEAD.RefTendorNo = '" + RAL_No + "'      AND TSPL_PURCHASE_ORDER_DETAIL.Item_Code = '" + Item_Code + "' ", trans))
 

@@ -128,6 +128,7 @@ Public Class clsfrmSalaryAccountSetting
                 Throw New Exception("Code not found to Delete")
             End If
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_PAYROLL_ACCOUNTSETS", "ACCOUNT_SET_CODE", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_PAYROLL_ACCOUNTSETS", "ACCOUNT_SET_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_PAYROLL_ACCOUNTSETS where ACCOUNT_SET_CODE ='" + strCode + "'"

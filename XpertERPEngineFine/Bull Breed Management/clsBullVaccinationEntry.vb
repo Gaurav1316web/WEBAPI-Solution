@@ -164,6 +164,7 @@ Public Class clsBullVaccinationEntry
             UpdateInventoryMovement(obj, trans, False)
 
             clsDBFuncationality.ExecuteNonQuery("Update TSPL_BULL_VACCINE_ENTRY set Status= 1, Posted_By = '" + objCommonVar.CurrentUserCode + "',Posted_Date = '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt") + "'  where Document_Code='" & obj.Document_Code & "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_BULL_VACCINE_ENTRY", "Document_Code", trans)
 
         Catch ex As Exception
 
@@ -255,6 +256,7 @@ Public Class clsBullVaccinationEntry
             clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
             clsCommon.AddColumnsForChange(coll, "Posted_Date", Nothing, True)
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BULL_VACCINE_ENTRY", OMInsertOrUpdate.Update, "Document_Code='" + obj.Document_Code + "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_BULL_VACCINE_ENTRY", "Document_Code", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -279,6 +281,9 @@ Public Class clsBullVaccinationEntry
         End If
         Dim obj As clsBullVaccinationEntry = clsBullVaccinationEntry.GetData(strCode, NavigatorType.Current, "", trans)
         Try
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_BULL_VACCINE_ENTRY", "Document_Code", "TSPL_BULL_VACCINE_ENTRY_DETAIL", "Document_Code", trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_BULL_VACCINE_ENTRY", "Document_Code", "TSPL_BULL_VACCINE_ENTRY_DETAIL", "Document_Code", trans)
+
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
                 Throw New Exception("Document No not found to Delete")
             End If

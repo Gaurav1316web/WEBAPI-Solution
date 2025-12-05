@@ -93,6 +93,7 @@ Public Class clsDeductionTypeMaster
         Dim qry As String = ""
         Try
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_DEDUCTION_TYPE_MASTER", "Document_No", tran)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_DEDUCTION_TYPE_MASTER", "Document_No", tran)
 
             qry = "Delete from TSPL_DEDUCTION_TYPE_MASTER  where Document_No='" + strCode + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, tran)

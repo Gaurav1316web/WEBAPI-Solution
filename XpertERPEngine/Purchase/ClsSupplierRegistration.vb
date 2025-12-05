@@ -388,7 +388,9 @@ Public Class ClsSupplierRegistration
             End If
 
             Dim qry As String
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SUPPLIER_REGISTRATION", "Registration_No", trans)
 
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_SUPPLIER_REGISTRATION", "Registration_No", trans)
 
             qry = "Delete From TSPL_SUPPLIER_REGISTRATION Where Registration_No ='" + strCode + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)

@@ -140,6 +140,8 @@ Public Class clsDAArrear
             End If
             Dim qry As String = "Update TSPL_DA_Arrear_Header set Status=1, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "'  where Document_code ='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_DA_Arrear_Header", "Document_Code", trans)
+
             'clsDBFuncationality.ExecuteNonQuery("Update TSPL_PROD_QC_CHECK_HEAD set posted='1', Modified_By = '" + objCommonVar.CurrentUserCode + "',Modified_Date = '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "yyyy-MM-dd") + "'  where document_code='" & obj.document_code & "'", trans)
             trans.Commit()
         Catch ex As Exception
@@ -188,7 +190,7 @@ Public Class clsDAArrear
             If (obj Is Nothing OrElse clsCommon.myLen(obj.document_code) <= 0) Then
                 Throw New Exception("Document No not found to Post")
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_DA_Arrear_Header", "Document_Code", "TSPL_DA_Arrear_Detail", "Document_Code", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_DA_Arrear_Header", "Document_Code", "TSPL_DA_Arrear_Detail", "Document_Code", trans)
             If Not (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Transaction status should be posted.")
             End If
@@ -197,6 +199,8 @@ Public Class clsDAArrear
                 qry = "update TSPL_DA_Arrear_Header set Status=0,Posted_Date=null,Posted_By=null where document_code='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_DA_Arrear_Header", "Document_Code", trans)
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()

@@ -155,9 +155,9 @@ Public Class clsRGPHead
 
         Try
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnGatePass, obj.Location, obj.RGP_Date, trans)
-            If Not isNewEntry Then
-                HistoryUpdate(obj.RGP_No, trans)
-            End If
+            'If Not isNewEntry Then
+            '    HistoryUpdate(obj.RGP_No, trans)
+            'End If
             clsSerializeInvenotry.DeleteData(obj.Doc_Type, obj.RGP_No, trans)
             clsBatchInventory.DeleteData(obj.Doc_Type, obj.RGP_No, trans)
             Dim qry As String = "delete from TSPL_RGP_DETAIL where RGP_No='" + obj.RGP_No + "'"
@@ -281,6 +281,8 @@ Public Class clsRGPHead
             isSaved = isSaved AndAlso clsRGPDetail.SaveData(obj.RGP_No, obj, trans)
             isSaved = isSaved AndAlso clsRGPBOMItem.SaveData(obj.RGP_No, obj.Arr_BOM, trans)
             isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.RGP_No, obj.arrCustomFields, trans)
+            HistoryUpdate(obj.RGP_No, trans)
+
             If isSaved Then
                 trans.Commit()
             End If

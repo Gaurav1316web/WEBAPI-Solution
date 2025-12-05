@@ -511,6 +511,7 @@ Public Class clsPurchaseSchedule
         Try
             Dim isSaved As Boolean = True
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_PO_SCH_HEAD", "Document_Code", "TSPL_PO_SCH_DETAIL", "Document_Code", trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_PO_SCH_HEAD", "Document_Code", "TSPL_PO_SCH_DETAIL", "Document_Code", trans)
 
             Dim qry As String = "delete from TSPL_PO_VENDOR_SCH_DETAIL where document_code='" + strCode + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)

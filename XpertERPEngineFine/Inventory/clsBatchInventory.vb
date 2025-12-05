@@ -64,6 +64,8 @@ Public Class clsBatchInventory
                     End If
                 Next
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BATCH_ITEM", "Document_Code", trans)
+
         End If
 
         Return True
@@ -185,6 +187,8 @@ Public Class clsBatchInventory
     End Function
     Public Shared Function DeleteData(ByVal strDocType As String, ByVal strDocNo As String, ByVal trans As SqlTransaction, ByVal WhrCls As String)
         clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BATCH_ITEM", "Document_Code", trans)
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BATCH_ITEM", "Document_Code", trans)
+
         Dim qry As String = "Delete from TSPL_BATCH_ITEM where Document_Type='" + strDocType + "' and Document_Code='" + strDocNo + "' " + WhrCls
 
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -221,6 +225,8 @@ Public Class clsBatchInventory
             End If
             qry = "update TSPL_BATCH_ITEM set Against_Inv_Movement_Trans_Id=(select max(Trans_Id) from TSPL_INVENTORY_MOVEMENT " + WhrInventory + ") " + WhrCls
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BATCH_ITEM", "Document_Code", trans)
+
         End If
         Return True
     End Function
