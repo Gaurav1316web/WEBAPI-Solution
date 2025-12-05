@@ -72,10 +72,11 @@ Public Class clsMonthAttendance
             If Not clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry, trans)) = 1 Then
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_MONTHLY_ATTENDANCE", "MTA_CODE", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_MONTHLY_ATTENDANCE", "MTA_CODE", trans)
 
             Qry = "Update TSPL_MONTHLY_ATTENDANCE set POSTED = 0 where MTA_CODE='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_MONTHLY_ATTENDANCE", "MTA_CODE", trans)
 
             trans.Commit()
         Catch ex As Exception

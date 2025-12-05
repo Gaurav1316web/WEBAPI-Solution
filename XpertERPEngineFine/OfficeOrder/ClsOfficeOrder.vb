@@ -161,6 +161,8 @@ Public Class ClsOfficeOrder
             End If
 
             Try
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, StrCode, "", "", "TSPL_OFFICE_ORDER_TEMPLATE", "Document_No", trans)
+
                 clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, StrCode, "", "", "TSPL_OFFICE_ORDER_TEMPLATE", "Document_No", trans)
             Catch ex As Exception
             End Try

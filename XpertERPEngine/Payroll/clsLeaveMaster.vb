@@ -34,6 +34,7 @@ Public Class clsLeaveMaster
                 Throw New Exception("Code not found to Delete")
             End If
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_LEAVE_MASTER", "LEAVE_CODE", Nothing)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_LEAVE_MASTER", "LEAVE_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_LEAVE_MASTER where LEAVE_CODE ='" + strCode + "'"

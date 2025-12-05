@@ -1713,6 +1713,7 @@ Public Class clsPurchasReturnHead
                 clsSerializeInvenotry.DeleteData("Purchase Return", strCode, trans)
                 clsBatchInventory.DeleteData("Purchase Return", strCode, trans)
                 clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PR_HEAD", "PR_No", "TSPL_PR_DETAIL", "PR_No", trans)
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PR_HEAD", "PR_No", "TSPL_PR_DETAIL", "PR_No", trans)
 
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PR_HEAD", "PR_No", "TSPL_PR_DETAIL", "PR_No", trans)
                 Dim qry As String = "delete from TSPL_PR_DETAIL where PR_No='" + strCode + "'"

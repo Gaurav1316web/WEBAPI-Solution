@@ -31,6 +31,7 @@ Public Class clsCastCategoryMaster
                 Throw New Exception("Code not found to Delete")
             End If
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_CAST_CATEGORY_MASTER", "CAST_CATEGORY_CODE", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_CAST_CATEGORY_MASTER", "CAST_CATEGORY_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_CAST_CATEGORY_MASTER where CAST_CATEGORY_CODE ='" + strCode + "'"

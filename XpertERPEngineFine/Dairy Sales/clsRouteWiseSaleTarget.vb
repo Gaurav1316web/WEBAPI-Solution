@@ -118,6 +118,9 @@ Public Class clsRouteWiseSaleTarget
     Public Function DeleteData(ByVal strCode As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_ROUTE_WISE_SALE_TARGET", "Document_Code", "TSPL_ROUTE_WISE_SALE_TARGET_DETAIL", "Document_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ROUTE_WISE_SALE_TARGET", "Document_Code", "TSPL_ROUTE_WISE_SALE_TARGET_DETAIL", "Document_Code", trans)
+
             clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_ROUTE_WISE_SALE_TARGET_DETAIL Where Document_Code='" & strCode & "' ", trans)
             clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_ROUTE_WISE_SALE_TARGET Where Document_Code='" & strCode & "' ", trans)
             trans.Commit()
@@ -136,6 +139,8 @@ Public Class clsRouteWiseSaleTarget
             clsCommon.AddColumnsForChange(coll, "Posted_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Posted_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Nothing), "dd/MMM/yyyy"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ROUTE_WISE_SALE_TARGET", OMInsertOrUpdate.Update, "TSPL_ROUTE_WISE_SALE_TARGET.Document_Code='" & strDoc & "'", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDoc, "TSPL_ROUTE_WISE_SALE_TARGET", "Document_Code", Nothing)
+
             'trans.Commit()
         Catch ex As Exception
             'trans.Rollback()
@@ -177,6 +182,8 @@ Public Class clsRouteWiseSaleTarget
             clsCommon.AddColumnsForChange(coll, "Posted_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Posted_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ROUTE_WISE_SALE_TARGET", OMInsertOrUpdate.Update, "TSPL_ROUTE_WISE_SALE_TARGET.Document_Code='" & strCode & "'", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_ROUTE_WISE_SALE_TARGET", "Document_Code", Nothing)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

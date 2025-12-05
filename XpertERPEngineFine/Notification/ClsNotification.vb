@@ -44,7 +44,7 @@ Public Class ClsNotification
             '    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmbookingdairy, clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
             'End If
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(dt.Rows(0)("Document_No")), "TSPL_NOTIFICATIONS", "Document_No", trans)
+                'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(dt.Rows(0)("Document_No")), "TSPL_NOTIFICATIONS", "Document_No", trans)
 
                 Qry = "Update TSPL_NOTIFICATIONS set Status = 0 where Document_No='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(Qry, trans)

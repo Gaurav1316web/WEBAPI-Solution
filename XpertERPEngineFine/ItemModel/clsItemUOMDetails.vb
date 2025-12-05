@@ -81,7 +81,7 @@ Public Class clsItemUOMDetails
             clsCommon.AddColumnsForChange(coll, "Item_Cost", Math.Round(StockUnitItemCost * obj.Conversion_Factor, 2, MidpointRounding.AwayFromZero))
 
             isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTableInSelectedDatabase(coll, ArrDatabase, "TSPL_ITEM_UOM_DETAIL", OMInsertOrUpdate.Insert, "", trans)
-            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strICode, "TSPL_ITEM_UOM_DETAIL", "Item_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strICode, "TSPL_ITEM_UOM_DETAIL", "Item_Code", trans)
 
         Next
         Return isSaved

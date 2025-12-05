@@ -334,6 +334,7 @@ Public Class ClsScrapInvoiceHead
 
 
             isSaved = isSaved AndAlso ClsScrapInvoiceDetail.SaveData(obj.invoice_No, Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.invoice_No), "TSPL_SCRAPINVOICE_HEAD", "invoice_No", "TSPL_SCRAPINVOICE_DETAIL", "invoice_No", trans)
 
         Catch err As Exception
             Throw New Exception(err.Message)

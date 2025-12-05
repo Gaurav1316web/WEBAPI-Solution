@@ -129,6 +129,7 @@ Public Class clsInsuranceTagAllocation
             End If
 
             clsDBFuncationality.ExecuteNonQuery("Update TSPL_INS_TAG_ALLOCATION set Status= 1, Posted_By = '" + objCommonVar.CurrentUserCode + "',Posted_Date = '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt") + "'  where Document_Code='" & obj.Document_Code & "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_INS_TAG_ALLOCATION", "Document_Code", trans)
 
         Catch ex As Exception
 
@@ -174,6 +175,7 @@ Public Class clsInsuranceTagAllocation
             clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
             clsCommon.AddColumnsForChange(coll, "Posted_Date", Nothing, True)
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_INS_TAG_ALLOCATION", OMInsertOrUpdate.Update, "Document_Code='" + obj.Document_Code + "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_INS_TAG_ALLOCATION", "Document_Code", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -198,6 +200,9 @@ Public Class clsInsuranceTagAllocation
         End If
         Dim obj As clsInsuranceTagAllocation = clsInsuranceTagAllocation.GetData(strCode, NavigatorType.Current, "", trans)
         Try
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_INS_TAG_ALLOCATION", "Document_Code", trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_INS_TAG_ALLOCATION", "Document_Code", trans)
+
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
                 Throw New Exception("Document No not found to Delete")
             End If

@@ -487,6 +487,7 @@ Public Class clsLeakedSaleReturnHead
             End If
             Dim obj As clsLeakedSaleReturnHead = clsLeakedSaleReturnHead.GetData(strCode, NavigatorType.Current, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_bank_book", "SOURCEDOC_NO", trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_bank_book", "SOURCEDOC_NO", trans)
 
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
                 If (obj.Status = 1) Then
@@ -532,6 +533,8 @@ Public Class clsLeakedSaleReturnHead
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
             Qry = "Update TSPL_LEAKED_SALE_RETURN_Head set Status = 0,Posting_Date= null where Document_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_bank_book", "SOURCEDOC_NO", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

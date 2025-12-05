@@ -202,12 +202,14 @@ Public Class clsBulkSaleAcknowledgement
             If (clsCommon.myLen(strDocNo) <= 0) Then
                 Throw New Exception("Dispatch No not found to Post")
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BULK_SALE_ACKNOWLEDGEMENT", "Document_No", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BULK_SALE_ACKNOWLEDGEMENT", "Document_No", trans)
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Status", 1)
             clsCommon.AddColumnsForChange(coll, "Posted_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Posting_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BULK_SALE_ACKNOWLEDGEMENT", OMInsertOrUpdate.Update, "Document_No='" + clsCommon.myCstr(strDocNo) + "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BULK_SALE_ACKNOWLEDGEMENT", "Document_No", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

@@ -729,7 +729,7 @@ Public Class clsSalaryGeneration
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_GENERATE_SALARY", "SALARY_GENERATION_CODE", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_GENERATE_SALARY", "SALARY_GENERATION_CODE", trans)
 
             Dim VoucherNo As String = clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='PL-JE' and Source_Doc_No='" + strCode + "'", trans)
             If clsCommon.myLen(VoucherNo) > 0 Then
@@ -795,6 +795,7 @@ Public Class clsSalaryGeneration
 
             Qry = "Update TSPL_GENERATE_SALARY set POSTED = 0 where SALARY_GENERATION_CODE='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_GENERATE_SALARY", "SALARY_GENERATION_CODE", trans)
 
             trans.Commit()
         Catch ex As Exception

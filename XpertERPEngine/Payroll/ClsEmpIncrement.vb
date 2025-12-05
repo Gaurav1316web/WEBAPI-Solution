@@ -142,7 +142,7 @@ Public Class ClsEmpIncrement
             
             Dim qry As String = "Update TSPL_EMPLOYEE_INCREMENT_HEAD set POSTED = '1',EMP_SAL_CODE_NEW='" & objSal.EMP_SAL_CODE & "', Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where INCREMENT_CODE ='" + strDocNo + "'"
             IsSaved = IsSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.INCREMENT_CODE, "TSPL_EMPLOYEE_INCREMENT_HEAD", "INCREMENT_CODE", "TSPL_EMPLOYEE_INCREMENT_DETAIL", "INCREMENT_CODE", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.INCREMENT_CODE, "TSPL_EMPLOYEE_INCREMENT_HEAD", "INCREMENT_CODE", "TSPL_EMPLOYEE_INCREMENT_DETAIL", "INCREMENT_CODE", trans)
 
             trans.Commit()
         Catch ex As Exception

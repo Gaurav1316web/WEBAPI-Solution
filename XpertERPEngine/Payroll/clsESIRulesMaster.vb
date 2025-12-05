@@ -32,6 +32,7 @@ Public Class clsESIRulesMaster
                 Throw New Exception("Code not found to Delete")
             End If
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_ESI_RULE_MASTER", "ESIRULE_CODE", Nothing)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_ESI_RULE_MASTER", "ESIRULE_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_ESI_RULE_MASTER where ESIRULE_CODE ='" + strCode + "'"

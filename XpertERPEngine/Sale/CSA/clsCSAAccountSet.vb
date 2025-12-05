@@ -194,6 +194,8 @@ Public Class clsCSACommissionFreightMappingHead
                 End If
 
                 clsCSACommissionFreightMappingDetail.SaveData(obj.Doc_No, obj.Arr, trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Doc_No), "TSPL_ITEM_COMMISSION_FREIGHT_AC_HEAD", "Cust_Account", "TSPL_ITEM_COMMISSION_FREIGHT_AC_DETAIL", "Cust_Account", trans)
+
             End If
 
             Return True
@@ -265,6 +267,8 @@ Public Class clsCSACommissionFreightMappingHead
 
     Public Shared Function DeleteData(ByVal strCOde As String, ByVal trans As SqlTransaction) As Boolean
         Try
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCOde, "TSPL_ITEM_COMMISSION_FREIGHT_AC_HEAD", "Cust_Account", "TSPL_ITEM_COMMISSION_FREIGHT_AC_DETAIL", "Cust_Account", trans)
+
             Dim qry As String = "delete from TSPL_ITEM_COMMISSION_FREIGHT_AC_DETAIL where doc_no='" + strCOde + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 

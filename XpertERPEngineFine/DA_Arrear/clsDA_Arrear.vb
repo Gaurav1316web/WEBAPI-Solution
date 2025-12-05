@@ -51,6 +51,8 @@ Public Class clsDA_Arrear
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DA_ARREAR", OMInsertOrUpdate.Update, "TSPL_DA_ARREAR.Document_Code='" + obj.Document_Code + "'", trans)
             End If
             clsDA_Arrear_Employee.SaveData(obj.Document_Code, obj.Emp_Code, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DA_ARREAR", "Document_Code", "TSPL_DA_ARREAR_EMPLOYEE", "Document_Code", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

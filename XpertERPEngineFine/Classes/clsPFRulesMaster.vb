@@ -47,6 +47,7 @@ Public Class clsPFRulesMaster
                 Throw New Exception("Code not found to Delete")
             End If
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_PF_RULE_MASTER", "PFRULE_CODE", Nothing)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_PF_RULE_MASTER", "PFRULE_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_PF_RULE_MASTER where PFRULE_CODE ='" + strCode + "'"

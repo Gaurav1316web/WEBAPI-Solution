@@ -226,6 +226,7 @@ Public Class clsRMDemandApproval
 
             qry = "update TSPL_RM_DEMAND_APPROVAL set Status=0,Posting_Date=null where Document_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_RM_DEMAND_APPROVAL", "Document_Code", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

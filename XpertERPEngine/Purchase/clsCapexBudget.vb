@@ -392,9 +392,11 @@ Public Class clsCapexBudget
                 End If
 
             Else
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Code), "TSPL_CAPEX_BUDGET_MASTER", "CODE", trans)
+                'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Code), "TSPL_CAPEX_BUDGET_MASTER", "CODE", trans)
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CAPEX_BUDGET_MASTER", OMInsertOrUpdate.Update, "TSPL_CAPEX_BUDGET_MASTER.CODE='" + obj.Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Code), "TSPL_CAPEX_BUDGET_MASTER", "CODE", trans)
+
             '' check budget and sub budget limit 
             isSaved = isSaved AndAlso clsCapexMaster.chkLimitBugetMaster(obj.CapexCode, trans)
             '' check sub capex is used in po

@@ -129,6 +129,7 @@ Public Class cls_TSPL_NRGP_REQUEST_HEAD
                 Throw New Exception("Code not found to Delete")
             End If
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_NRGP_REQUEST_HEAD", "BOOKING_NO", "TSPL_NRGP_REQUEST_DETAIL", "BOOKING_NO", trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_NRGP_REQUEST_HEAD", "BOOKING_NO", "TSPL_NRGP_REQUEST_DETAIL", "BOOKING_NO", trans)
 
             Dim qry As String
             qry = "delete from TSPL_NRGP_REQUEST_DETAIL where BOOKING_NO ='" + strCode + "'"

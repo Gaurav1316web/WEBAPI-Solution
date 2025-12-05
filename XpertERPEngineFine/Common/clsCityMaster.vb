@@ -62,9 +62,11 @@ Public Class clsCityMaster
                     isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CITY_MASTER", OMInsertOrUpdate.Update, "City_Code='" + obj.City_Code + "'", trans)
                 End If
             Else
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.City_Code, "TSPL_CITY_MASTER", "City_Code", trans)
+                'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.City_Code, "TSPL_CITY_MASTER", "City_Code", trans)
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CITY_MASTER", OMInsertOrUpdate.Update, "City_Code='" + obj.City_Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.City_Code, "TSPL_CITY_MASTER", "City_Code", trans)
+
             trans.Commit()
         Catch err As Exception
             trans.Rollback()
