@@ -5333,34 +5333,37 @@ where TSPL_ITEM_CAPACITY_LIMIT_head.From_Date<='" & clsCommon.GetPrintDate(txtDa
             Dim DrAmt As Decimal = 0
             Dim CrAmt As Decimal = 0
             Dim ClosingBal As Decimal = 0
+            Dim isSkipBal As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select is_Skip_Balance from tspl_customer_Master where Cust_Code='" & CustCode & "'"))
+            If isSkipBal = 0 Then
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable("EXEC SP_GetBalCustWise @Cust_Code = '" + clsCommon.myCstr(CustCode) + "',@DocDate='" + clsCommon.GetPrintDate(docDate, "dd/MMM/yyyy HH:mm:ss") + "'")
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    OpeningBal = dt.Rows(0)("OpngBal")
+                    DrAmt = dt.Rows(0)("DrAmt")
+                    CrAmt = dt.Rows(0)("CrAmt")
+                    ClosingBal = dt.Rows(0)("BalAmt")
+                End If
+                If OpeningBal > 0 Then
+                    txtOpeningbal.Text = clsCommon.myCstr(OpeningBal) & " DR"
+                Else
+                    txtOpeningbal.Text = clsCommon.myCstr(OpeningBal) & " CR"
+                End If
+                If DrAmt > 0 Then
+                    txtDrAmt.Text = clsCommon.myCstr(DrAmt) & " DR"
+                Else
+                    txtDrAmt.Text = clsCommon.myCstr(DrAmt) & " CR"
+                End If
+                If CrAmt > 0 Then
+                    txtCrAmt.Text = clsCommon.myCstr(CrAmt) & " DR"
+                Else
+                    txtCrAmt.Text = clsCommon.myCstr(CrAmt) & " CR"
+                End If
+                If ClosingBal > 0 Then
+                    txtClosingBal.Text = clsCommon.myCstr(ClosingBal) & " DR"
+                Else
+                    txtClosingBal.Text = clsCommon.myCstr(ClosingBal) & " CR"
+                End If
+            End If
 
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable("EXEC SP_GetBalCustWise @Cust_Code = '" + clsCommon.myCstr(CustCode) + "',@DocDate='" + clsCommon.GetPrintDate(docDate, "dd/MMM/yyyy HH:mm:ss") + "'")
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                OpeningBal = dt.Rows(0)("OpngBal")
-                DrAmt = dt.Rows(0)("DrAmt")
-                CrAmt = dt.Rows(0)("CrAmt")
-                ClosingBal = dt.Rows(0)("BalAmt")
-            End If
-            If OpeningBal > 0 Then
-                txtOpeningbal.Text = clsCommon.myCstr(OpeningBal) & " DR"
-            Else
-                txtOpeningbal.Text = clsCommon.myCstr(OpeningBal) & " CR"
-            End If
-            If DrAmt > 0 Then
-                txtDrAmt.Text = clsCommon.myCstr(DrAmt) & " DR"
-            Else
-                txtDrAmt.Text = clsCommon.myCstr(DrAmt) & " CR"
-            End If
-            If CrAmt > 0 Then
-                txtCrAmt.Text = clsCommon.myCstr(CrAmt) & " DR"
-            Else
-                txtCrAmt.Text = clsCommon.myCstr(CrAmt) & " CR"
-            End If
-            If ClosingBal > 0 Then
-                txtClosingBal.Text = clsCommon.myCstr(ClosingBal) & " DR"
-            Else
-                txtClosingBal.Text = clsCommon.myCstr(ClosingBal) & " CR"
-            End If
 
         Catch ex As Exception
 
