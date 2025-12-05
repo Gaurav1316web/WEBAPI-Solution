@@ -11081,9 +11081,9 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                                     End If
                                 End If
                             End If
-                            gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = clsCommon.myRoundOFF(dblBaseAmt, 2, 5)
+                            gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = clsCommon.myRoundOFF(TruncateToDecimalPlaces(dblBaseAmt, 3), 2, 4)
                             dblTaxAmt = (dblBaseAmt * dblTaxRate) / 100
-                            gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = clsCommon.myRoundOFF(dblTaxAmt, 2, 5)
+                            gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = clsCommon.myRoundOFF(TruncateToDecimalPlaces(dblTaxAmt, 3), 2, 4)
                             If (IsTaxable AndAlso Not arrTaxableAuth.Contains(strTaxCode.ToUpper())) AndAlso (clsCommon.CompairString(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value, "CGST") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value, "SGST") <> CompairStringResult.Equal) Then
                                 arrTaxableAuth.Add(strTaxCode.ToUpper())
                                 'ElseIf clsCommon.CompairString(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value, "TCS") = CompairStringResult.Equal Then
