@@ -230,7 +230,7 @@ TSPL_ITEM_UOM_DETAIL_IN_LTR.Conversion_Factor As [CFinLTR],TSPL_ITEM_UOM_DETAIL_
                 strQry += " 0 As QtyInKG,"
             End If
 
-            strQry += " TSPL_ROUTE_WISE_SALE_TARGET.Months,IsNull(TSPL_ROUTE_WISE_SALE_TARGET.Target_Qty,0)Target_Qty FROM TSPL_DEMAND_BOOKING_DETAIL
+            strQry += " TSPL_ROUTE_WISE_SALE_TARGET.Months,IsNull(TSPL_ROUTE_WISE_SALE_TARGET.Target_Qty,0)Target_Qty,TSPL_ROUTE_WISE_SALE_TARGET.Route_And_Group FROM TSPL_DEMAND_BOOKING_DETAIL
 Left Outer Join TSPL_DEMAND_BOOKING_MASTER On TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
 Left Outer Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
 Left Outer Join TSPL_CUSTOMER_GROUP_MASTER On TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code
@@ -249,28 +249,25 @@ Left Outer Join TSPL_ITEM_UOM_DETAIL As TSPL_ITEM_UOM_DETAIL_IN_KG On TSPL_ITEM_
 Left Outer Join tspl_chapter_head On tspl_chapter_head.Chapter_Head_Code=TSPL_ITEM_MASTER.Item_Sub_Group_Type
 Left Outer Join TSPL_ROUTE_MASTER On TSPL_ROUTE_MASTER.Route_No=TSPL_DEMAND_BOOKING_MASTER.Route_No
 
-Left Outer Join (Select TSPL_ROUTE_WISE_SALE_TARGET.Months,TSPL_ROUTE_WISE_SALE_TARGET.Item_Sub_Category,TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.Route_Code,
+Left Outer Join(Select Months,Item_Sub_Category,Target_On,Case When	IsNull(Route_Code,'')<>'' Then Route_Code Else Cust_Group_Code End As Route_And_Group,	Target_Qty 
+from (Select TSPL_ROUTE_WISE_SALE_TARGET.Months,TSPL_ROUTE_WISE_SALE_TARGET.Item_Sub_Category,TSPL_ROUTE_WISE_SALE_TARGET.Target_On,TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.Route_Code,
 TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.Cust_Group_Code,IsNull(TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.Target_Qty,0) AS Target_Qty 
 from TSPL_ROUTE_WISE_SALE_TARGET_DETAIL
 Left Outer Join TSPL_ROUTE_WISE_SALE_TARGET  On TSPL_ROUTE_WISE_SALE_TARGET.Document_Code=TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.Document_Code 
 Where ISNULL(TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.Route_Code, '') <> '' And TSPL_ROUTE_WISE_SALE_TARGET.Status=1
+And TSPL_ROUTE_WISE_SALE_TARGET.Months='Aug/2025'
 Union All
-Select TSPL_ROUTE_WISE_SALE_TARGET.Months,TSPL_ROUTE_WISE_SALE_TARGET.Item_Sub_Category,TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.Route_Code,
+Select TSPL_ROUTE_WISE_SALE_TARGET.Months,TSPL_ROUTE_WISE_SALE_TARGET.Item_Sub_Category,TSPL_ROUTE_WISE_SALE_TARGET.Target_On,TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.Route_Code,
 TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.Cust_Group_Code,IsNull(TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.Target_Qty,0) AS Target_Qty 
 from TSPL_ROUTE_WISE_SALE_TARGET_DETAIL
 Left Outer Join TSPL_ROUTE_WISE_SALE_TARGET  On TSPL_ROUTE_WISE_SALE_TARGET.Document_Code=TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.Document_Code 
-Where ISNULL(TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.Cust_Group_Code, '') <> '' And TSPL_ROUTE_WISE_SALE_TARGET.Status=1
+Where ISNULL(TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.Cust_Group_Code, '') <> '' And TSPL_ROUTE_WISE_SALE_TARGET.Status=1 
+And TSPL_ROUTE_WISE_SALE_TARGET.Months='Aug/2025'
+)SALE_TARGET)TSPL_ROUTE_WISE_SALE_TARGET On TSPL_ROUTE_WISE_SALE_TARGET.Item_Sub_Category=TSPL_ITEM_MASTER.Item_Sub_Group_Type 
+And
+TSPL_ROUTE_WISE_SALE_TARGET.Route_And_Group=Case When TSPL_ROUTE_WISE_SALE_TARGET.Target_On=1 Then TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code Else TSPL_Route_Master.Route_No End
 
-)TSPL_ROUTE_WISE_SALE_TARGET On TSPL_ROUTE_WISE_SALE_TARGET.Item_Sub_Category=TSPL_ITEM_MASTER.Item_Sub_Group_Type 
-And (
-        ( 1=1  ---ISNULL(TSPL_ROUTE_WISE_SALE_TARGET.Route_Code, '') <> '' 
-            AND TSPL_ROUTE_WISE_SALE_TARGET.Route_Code = TSPL_ROUTE_MASTER.Route_No)
-        OR
-        ( 1=1  ---ISNULL(TSPL_ROUTE_WISE_SALE_TARGET.Route_Code, '') = '' 
-            AND TSPL_ROUTE_WISE_SALE_TARGET.Cust_Group_Code = TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code)
-    )
-
-where 2=2  and TSPL_DEMAND_BOOKING_MASTER.Document_Date >= '01/" & clsCommon.GetPrintDate(FromDate, "MMM/yyyy") & "' And TSPL_DEMAND_BOOKING_MASTER.Document_Date <= '" & clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") & "'
+where 2=2 And IsNull(TSPL_ROUTE_WISE_SALE_TARGET.Route_And_Group,'')<>'' and TSPL_DEMAND_BOOKING_MASTER.Document_Date >= '01/" & clsCommon.GetPrintDate(FromDate, "MMM/yyyy") & "' And TSPL_DEMAND_BOOKING_MASTER.Document_Date <= '" & clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") & "'
 --and TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code='ARMY U'
 --And IsNull(TSPL_ROUTE_WISE_SALE_TARGET.Target_Qty,0)<>0
 )"
@@ -316,7 +313,7 @@ where 2=2  and TSPL_DEMAND_BOOKING_MASTER.Document_Date >= '01/" & clsCommon.Get
                     strItemTypeIN.Append(" '" & clsCommon.myCstr(UOM("Description")) & "' As [DescGroup" & clsCommon.myCstr(i + 1) & "],")
                     strItemTypeIN.Append(" '" & clsCommon.myCstr(UOM("UOM_Code")) & "' As [DescGroupUOM" & clsCommon.myCstr(i + 1) & "],")
                     If clsCommon.myLen(UOM("UOM_Code")) > 0 Then
-                        strItemTypeIN.Append(" Sum(QtyIn" & clsCommon.myCstr(UOM("UOM_Code")) & ")*Case When Max(DetailData.Document_Date)='" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "' And Max(Item_Sub_Group_Type)='" & clsCommon.myCstr(UOM("Chapter_Head_Code")) & "' Then 1 Else 0 End As '" & clsCommon.myCstr(UOM("Description")) & "',")
+                        strItemTypeIN.Append(" (QtyIn" & clsCommon.myCstr(UOM("UOM_Code")) & ")*Case When (DetailData.Document_Date)='" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "' And (Item_Sub_Group_Type)='" & clsCommon.myCstr(UOM("Chapter_Head_Code")) & "' Then 1 Else 0 End As '" & clsCommon.myCstr(UOM("Description")) & "',")
                     Else
                         strItemTypeIN.Append(" 0 As '" & clsCommon.myCstr(UOM("Description")) & "',")
                     End If
@@ -331,61 +328,38 @@ where 2=2  and TSPL_DEMAND_BOOKING_MASTER.Document_Date >= '01/" & clsCommon.Get
                 End If
                 strQry += "final.*,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,TSPL_STATE_MASTER.STATE_NAME,
 TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2 from(
-Select Code,MAX(Description)Description " & clsCommon.myCstr(strItemType) & ",SUM(Target_Qty)[TGT MILK],SUM([ACHV MILK])[ACHV MILK],Case When Sum(Target_Qty)<>0 Then Round(((SUM([ACHV MILK])/SUM(Target_Qty))*100),0) Else 0 End As 'PROGRESS' from (
+Select Code,MAX(Description)Description " & clsCommon.myCstr(strItemType) & ",Max(Target_Qty)[TGT MILK],SUM([ACHV MILK])[ACHV MILK],Case When Max(Target_Qty)<>0 Then Round(((SUM([ACHV MILK])/Max(Target_Qty))*100),0) Else 0 End As 'PROGRESS' from (
 Select 
-DetailData.Route_No As Code,MAX(Route_Desc) As Description, "
+DetailData.Route_And_Group As Code,(Route_Desc) As Description, "
                 strQry += clsCommon.myCstr(strItemTypeIN)
-                strQry += " MAX(DetailData.Months)Months,IsNull(Max(DetailData.Target_Qty),0)Target_Qty,
-(Sum(QtyInLTR)*Case When Max(DetailData.Document_Date)<='" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "' And Item_Sub_Group_Type='MILK' Then 1 Else 0 End)/DAY('" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "') As 'ACHV MILK'
+                strQry += " (DetailData.Months)Months,IsNull((DetailData.Target_Qty),0)Target_Qty,
+((QtyInLTR)*Case When Item_Sub_Group_Type='MILK' Then 1 Else 0 End)/DAY('" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "') As 'ACHV MILK'
 from DetailData 
-Where DetailData.IsGoverment<>1 
-Group BY DetailData.Route_No,Item_Sub_Group_Type
-
-Union All
-
-Select 
-DetailData.Cust_Group_Code,MAX(Cust_Group_Desc)As Description,"
-                strQry += clsCommon.myCstr(strItemTypeIN)
-                strQry += " MAX(DetailData.Months)Months,
-IsNull(Max(DetailData.Target_Qty),0)Target_Qty,
-(Sum(QtyInLTR)*Case When Max(DetailData.Document_Date)<='" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "' And Item_Sub_Group_Type='MILK' Then 1 Else 0 End)/DAY('" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "') As 'ACHV MILK'
-from DetailData 
-Where IsGoverment=1
-Group BY DetailData.Cust_Group_Code,Item_Sub_Group_Type
 )xyz Group By Code
 
 Union All
 
-Select '' As Code,Max(Description)Description " & clsCommon.myCstr(strItemType) & ",SUM(Target_Qty)Target_Qty,SUM([ACHV MILK])[ACHV MILK],
-Case When Sum(Target_Qty)<>0 Then Round(((SUM([ACHV MILK])/SUM(Target_Qty))*100),0) Else 0 End As 'PROGRESS' 
-from (
-Select DetailData.Route_No As Code,'CITY (LTR)' As Description, "
+Select Null As Code,'CITY(LTR)' As Description " & clsCommon.myCstr(strItemType) & ",Sum([TGT MILK])[TGT MILK],SUM([ACHV MILK])[ACHV MILK],Case When Sum([TGT MILK])<>0 Then Round(((SUM([ACHV MILK])/Sum([TGT MILK]))*100),0) Else 0 End As 'PROGRESS' from (
+Select Code,MAX(Description)Description " & clsCommon.myCstr(strItemType) & ",Max(Target_Qty)[TGT MILK],SUM([ACHV MILK])[ACHV MILK] from (
+Select 
+DetailData.Route_And_Group As Code,(Route_Desc) As Description, "
                 strQry += clsCommon.myCstr(strItemTypeIN)
-                strQry += "MAX(DetailData.Months)Months,IsNull(Max(DetailData.Target_Qty),0)Target_Qty,
-(Sum(QtyInLTR)*Case When Max(DetailData.Document_Date)<='" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "' And Item_Sub_Group_Type='MILK' Then 1 Else 0 End)/DAY('" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "') As 'ACHV MILK'
-from DetailData 
-Where DetailData.IsGoverment<>1 
-Group BY DetailData.Route_No,Item_Sub_Group_Type --Having Sum(Target_Qty)<>0
+                strQry += " (DetailData.Months)Months,IsNull((DetailData.Target_Qty),0)Target_Qty,
+((QtyInLTR)*Case When  Item_Sub_Group_Type='MILK' Then 1 Else 0 End)/DAY('" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "') As 'ACHV MILK'
+from DetailData Where DetailData.IsGoverment<>1
+)xyz Group By Code)CityTotal
 
 Union All
 
-Select '' As Code,Description "
-                i = 0
-                For Each strUOM In dtItem.Rows
-                    strQry += ",Max(DescGroup" & clsCommon.myCstr(i + 1) & ") As [DescGroup" & clsCommon.myCstr(i + 1) & "]"
-                    strQry += ",Max(DescGroupUOM" & clsCommon.myCstr(i + 1) & ") As [DescGroupUOM" & clsCommon.myCstr(i + 1) & "]"
-                    strQry += ",Sum([" & clsCommon.myCstr(strUOM("Description")) & "]) As [" & clsCommon.myCstr(strUOM("Description")) & "]"
-                    i += 1
-                Next
-                strQry += ",MAX(Months)Months,SUM(Target_Qty)Target_Qty,SUm([ACHV MILK])[ACHV MILK]  from (
-Select DetailData.Route_No As Code,'TOTAL (LTR)' As Description, "
+Select Null As Code,'TOTAL(LTR)' As Description " & clsCommon.myCstr(strItemType) & ",Sum([TGT MILK])[TGT MILK],SUM([ACHV MILK])[ACHV MILK],Case When Sum([TGT MILK])<>0 Then Round(((SUM([ACHV MILK])/Sum([TGT MILK]))*100),0) Else 0 End As 'PROGRESS' from (
+Select Code,MAX(Description)Description " & clsCommon.myCstr(strItemType) & ",Max(Target_Qty)[TGT MILK],SUM([ACHV MILK])[ACHV MILK] from (
+Select 
+DetailData.Route_And_Group As Code,(Route_Desc) As Description, "
                 strQry += clsCommon.myCstr(strItemTypeIN)
-                strQry += "MAX(DetailData.Months)Months,IsNull(Max(DetailData.Target_Qty),0)Target_Qty,
-(Sum(QtyInLTR)*Case When Max(DetailData.Document_Date)<='" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "' And Item_Sub_Group_Type='MILK' Then 1 Else 0 End)/DAY('" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "') As 'ACHV MILK'
+                strQry += " (DetailData.Months)Months,IsNull((DetailData.Target_Qty),0)Target_Qty,
+((QtyInLTR)*Case When Item_Sub_Group_Type='MILK' Then 1 Else 0 End)/DAY('" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "') As 'ACHV MILK'
 from DetailData 
-Group BY DetailData.Route_No,Item_Sub_Group_Type
-)AllTotal Group By Description
-)TotalWise Group By Description )final
+)xyz Group By Code)AllTotal )final
 Left Outer Join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "'
 Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_MASTER.State"
             Else
