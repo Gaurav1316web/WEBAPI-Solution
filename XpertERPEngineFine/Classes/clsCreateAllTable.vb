@@ -37573,8 +37573,8 @@ LL")
 
 
             Try
-                Dim qry As String = "select 1 from TSPL_BMC_DCS_SAMPLE_RECEIVING "
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                qry = "select 1 from TSPL_BMC_DCS_SAMPLE_RECEIVING "
+                dt = clsDBFuncationality.GetDataTable(qry)
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                     qry = "drop table TSPL_BMC_DCS_SAMPLE_RECEIVING"
                     clsDBFuncationality.getSingleValue(qry)

@@ -61,7 +61,7 @@ Public Class clsSendDBTDataToJanAadhar
         Return objReturn
     End Function
 End Class
-
+<XmlRoot(ElementName:="root")>
 Public Class clsXMLSendDBTDataToJanAadharHead
     <XmlElement("Transaction")>
     Public Property Transaction As clsXMLSendDBTDataToJanAadharDetail
