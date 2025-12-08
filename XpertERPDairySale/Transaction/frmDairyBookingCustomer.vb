@@ -3459,7 +3459,46 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             FlagFirstRecord = False
         End If
         SavingData(False)
+
     End Sub
+    'Private Sub UpdateExcelDoc()
+    '    Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
+    '    Try
+    '        Dim gv As New UserControls.MyRadGridView
+    '        Me.Controls.Add(gv)
+    '        If transportSql.importExcel(gv, "DocumentNo", "Remarks", "DocDate") Then
+
+    '            Try
+    '                clsCommon.ProgressBarShow()
+    '                For Each grow As GridViewRowInfo In gv.Rows
+    '                    Dim DocNo As String = clsCommon.myCstr(grow.Cells("DocumentNo").Value)
+    '                    Dim Remarks As String = clsCommon.myCstr(grow.Cells("Remarks").Value)
+    '                    Dim DocDate As DateTime = clsCommon.myCDate(grow.Cells("DocDate").Value)
+    '                    Dim strqry As String = "update TSPL_BOOKING_MATSER set Document_Date='" & clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") & "',Description='" & Remarks & "' where Document_No='" & DocNo & "' "
+    '                    clsDBFuncationality.ExecuteNonQuery(strqry, tran)
+    '                    Dim invoiceno As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Sale_Invoice_No from tspl_sd_shipment_head where Against_Booking_No='" & DocNo & "'", tran))
+    '                    Dim ShipCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from tspl_sd_shipment_head where Against_Booking_No='" & DocNo & "'", tran))
+    '                    strqry = "update tspl_sd_shipment_head set Document_Date='" & clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") & "',Description='" & Remarks & "' where Document_Code='" & ShipCode & "' "
+    '                    clsDBFuncationality.ExecuteNonQuery(strqry, tran)
+    '                    strqry = "update TSPL_SD_SALE_INVOICE_HEAD set Document_Date='" & clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") & "',Description='" & Remarks & "' where Document_Code='" & invoiceno & "' "
+    '                    clsDBFuncationality.ExecuteNonQuery(strqry, tran)
+    '                    'tran.Commit()
+    '                Next
+    '                tran.Commit()
+    '                clsCommon.ProgressBarHide()
+    '                clsCommon.MyMessageBoxShow(Me, "Update Successfully", Me.Text)
+    '            Catch ex As Exception
+
+    '                tran.Rollback()
+    '                clsCommon.ProgressBarHide()
+    '                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '            End Try
+    '        End If
+
+    '    Catch ex As Exception
+
+    '    End Try
+    'End Sub
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If SaveData() AndAlso Not ChekBtnPost Then
             'If ChekBtnPost = False Then
