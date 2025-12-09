@@ -504,8 +504,11 @@ Inner Join TSPL_ROUTE_WISE_SALE_TARGET On TSPL_ROUTE_WISE_SALE_TARGET.Document_C
     Private Sub btnCC_Click(sender As Object, e As EventArgs) Handles btnCC.Click
         Try
             Dim Qry As String = "Select Document_Code As DocumentCode,Document_Date As [Document Date],Months,Item_Sub_Category As [Item Sub Category],Case When IsNull(Status,0)=0 Then 'Pending' Else 'Approved' End As Status from TSPL_ROUTE_WISE_SALE_TARGET"
-            LoadData(clsCommon.ShowSelectForm("@Doc", Qry, "DocumentCode", "", txtDocumentNo.Value, "TSPL_ROUTE_WISE_SALE_TARGET.Document_Date desc", True), Nothing, True)
+            Dim strCode As String = clsCommon.ShowSelectForm("@Doc", Qry, "DocumentCode", "", txtDocumentNo.Value, "TSPL_ROUTE_WISE_SALE_TARGET.Document_Date desc", True)
+            LoadData(strCode, Nothing, True)
+            txtDocumentNo.Value = Nothing
             EnableDisableFields(True)
+            LoadBlankGrid(False)
             isInsideLoadData = False
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

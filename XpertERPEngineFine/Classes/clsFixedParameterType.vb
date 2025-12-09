@@ -1391,8 +1391,8 @@ Public Class clsFixedParameterCode
     Public Const TuneTime As String = "Tune Time"
 
     Public Const BMCStartTime As String = "BMC Start Time"
-    Public Const BMCEndHours As String = "BMC End Hours"
-    Public Const DCSEndHours As String = "DCS End Hours"
+    Public Const BMCEndHours As String = "BMC End hours"
+    Public Const DCSEndHours As String = "DCS End hours"
 
     Public Const ApplySendApprovalSetting As String = "Apply Send Approval Setting"
     Public Const ViewDCSMilkPurchaseRegister As String = "View DCS Milk Purchase Register"

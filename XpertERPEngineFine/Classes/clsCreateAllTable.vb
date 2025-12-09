@@ -37564,8 +37564,7 @@ LL")
             coll.Add("StandardMilkRate", "float not NULL default 0")
             coll.Add("ActualMilkRate", "float not NULL default 0")
             coll.Add("Amount", "float not NULL default 0")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SALES_ORDER_DETAIL_BulkSale", coll, Nothing, False, False, "TSPL_SALES_ORDER_MASTER_BULKSALE", "Document_No", ""
-)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SALES_ORDER_DETAIL_BulkSale", coll, Nothing, False, False, "TSPL_SALES_ORDER_MASTER_BULKSALE", "Document_No", "")
 
 
             '=========================END OF BULK SALE OF PAVITRA TABLES===================================
@@ -37573,14 +37572,34 @@ LL")
             '=========================BMC DCS SAMPLE RECEIVING TABLES START=======================
 
 
-            coll = New Dictionary(Of String, String)
+            Try
+                qry = "select 1 from TSPL_BMC_DCS_SAMPLE_RECEIVING "
+                dt = clsDBFuncationality.GetDataTable(qry)
+                If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                    qry = "drop table TSPL_BMC_DCS_SAMPLE_RECEIVING"
+                    clsDBFuncationality.getSingleValue(qry)
+
+                    qry = "drop table TSPL_BMC_DCS_SAMPLE_RECEIVING_Hist_Data"
+                    clsDBFuncationality.getSingleValue(qry)
+
+                    qry = "drop table TSPL_BMC_DCS_SAMPLE_RECEIVING_Delete_Data"
+                    clsDBFuncationality.getSingleValue(qry)
+
+                    qry = "drop table TSPL_BMC_DCS_SAMPLE_RECEIVING_Cancel_Data"
+                    clsDBFuncationality.getSingleValue(qry)
+                End If
+            Catch ex As Exception
+            End Try
+
+
+            coll = New Dictionary(Of String, String)()
             coll.Add("PK_Id", "Integer Not NULL identity primary key")
             coll.Add("Document_Date", "Date NOT NULL")
-            coll.Add("Route_No", "varchar(12)  NULL REFERENCES TSPL_ROUTE_MASTER(Route_No)")
+            coll.Add("Route_No", "varchar(30)  NULL REFERENCES TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
             coll.Add("Tanker_No", "varchar(20) NULL REFERENCES TSPL_TANKER_MASTER(Tanker_No)")
             coll.Add("Trip", "integer not null ")
-            coll.Add("BMC_Code", "varchar(30) NULL REFERENCES TSPL_MCC_MASTER(MCC_Code)")
-            coll.Add("No_Of_Sample", "integer null")
+            coll.Add("BMC_Code", "varchar(30) NOT NULL REFERENCES TSPL_MCC_MASTER(MCC_Code)")
+            coll.Add("No_Of_Sample", "integer not null")
             coll.Add("No_Of_Trucksheet", "integer null")
             coll.Add("Seal_LockNo_Dispatch", "varchar(20) NULL")
             coll.Add("Seal_LockNo_Receiving", "varchar(20) NULL")
@@ -37591,8 +37610,8 @@ LL")
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BMC_DCS_SAMPLE_RECEIVING", coll, "UNIQUE ( Document_Date, BMC_Code,No_Of_Sample)", True, True, "", "", "", True)
 
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BMC_DCS_SAMPLE_RECEIVING", coll, "UNIQUE ( Document_Date, BMC_Code,Trip)", True, True, "", "", "", True)
 
 
 
