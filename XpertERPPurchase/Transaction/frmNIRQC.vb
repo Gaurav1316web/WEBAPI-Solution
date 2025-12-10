@@ -94,7 +94,7 @@ Public Class frmNIRQC
         txtRemarks.Text = ""
         cboVisualQCStatus.SelectedValue = ""
         txtMRNNo.Value = ""
-        txtDate.Value = clsCommon.myCDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy")
+        txtDate.Value = clsCommon.GETSERVERDATE()
         txtRemarks.Text = ""
         UsLock1.Status = ERPTransactionStatus.Pending
         BlankMRNFields()
