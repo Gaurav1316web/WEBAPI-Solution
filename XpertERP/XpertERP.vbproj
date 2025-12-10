@@ -52,7 +52,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>ERP.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355,40000</NoWarn>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <Optimize>false</Optimize>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <Prefer32Bit>false</Prefer32Bit>
@@ -2648,6 +2648,12 @@
       <DependentUpon>frmSubsidyNote.vb</DependentUpon>
     </Compile>
     <Compile Include="Sales%28KDIL%29\Fresh Sale\Transaction\frmSubsidyNote.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SalesNew\Report\frmCancelledTransactions_DairySale.Designer.vb">
+      <DependentUpon>frmCancelledTransactions_DairySale.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SalesNew\Report\frmCancelledTransactions_DairySale.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="SalesNew\Report\rptCustomerAgeingDetail.Designer.vb">
@@ -6066,6 +6072,9 @@
     <EmbeddedResource Include="Sales%28KDIL%29\Fresh Sale\Transaction\frmSubsidyNote.resx">
       <DependentUpon>frmSubsidyNote.vb</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SalesNew\Report\frmCancelledTransactions_DairySale.resx">
+      <DependentUpon>frmCancelledTransactions_DairySale.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SalesNew\Report\rptCustomerAgeingDetail.resx">
       <DependentUpon>rptCustomerAgeingDetail.vb</DependentUpon>

@@ -35,6 +35,8 @@ Public Class clsSubDepartmentMaster
             End If
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_SUB_DEPARTMENT_MASTER", "SUB_DEPARTMENT_CODE", Nothing)
 
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_SUB_DEPARTMENT_MASTER", "SUB_DEPARTMENT_CODE", Nothing)
+
             Dim qry As String
             qry = "delete from TSPL_SUB_DEPARTMENT_MASTER where SUB_DEPARTMENT_CODE='" + strCode + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry)

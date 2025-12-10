@@ -51438,7 +51438,7 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Modify_By", "varchar(12) null")
             coll.Add("Modify_Date", "datetime null")
             'clsCommonFunctionality.CreateOrAlterTable("TSPL_Bin_MASTER", coll)
-            clsCommonFunctionality.CreateOrAlterTable(False, False, "tspl_Bin_master", coll, "", True, False, "", "", "")
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "tspl_Bin_master", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Location", "varchar(20) not null ")

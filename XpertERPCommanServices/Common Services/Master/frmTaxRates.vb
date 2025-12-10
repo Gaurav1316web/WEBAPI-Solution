@@ -223,6 +223,9 @@ Public Class FrmTaxRates
         Dim trans As SqlTransaction = Nothing
         If myMessages.deleteConfirm() Then
             Try
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, findTaxAuthority.Value, "TSPL_TAX_RATES", "Tax_Code", trans)
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, findTaxAuthority.Value, "TSPL_TAX_RATES", "Tax_Code", trans)
+
                 connectSql.OpenConnection()
                 trans = clsDBFuncationality.GetTransactin()
                 connectSql.RunSpTransaction(trans, "sp_TSPL_TAX_RATES_DELETE", New SqlParameter("@Tax_Code", findTaxAuthority.Value), New SqlParameter("@Tax_Type", ddlTransType.SelectedValue))

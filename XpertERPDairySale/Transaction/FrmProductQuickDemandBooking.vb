@@ -513,7 +513,11 @@ where TSPL_PRODUCT_DEMAND_BOOKING_MASTER.Route_No='" & clsCommon.myCstr(gv1.Curr
             If clsCommon.myLen(RouteNo) > 0 Then
                 qry = "Select Document_No from TSPL_Product_DEMAND_BOOKING_MASTER where Route_No = '" & RouteNo & "' and IsIndividualCustomer=0 and Posted=0"
             End If
+
             Dim DocumentNO As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, DocumentNO, "TSPL_PRODUCT_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_Product_DEMAND_BOOKING_DETAIL", "Document_No", Nothing)
+            ' clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, DocumentNO, "TSPL_PRODUCT_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_Product_DEMAND_BOOKING_DETAIL", "Document_No", Nothing)
+
             Dim lineNo As Integer = 1
             If clsCommon.myLen(DocumentNO) > 0 Then
                 Dim location_Code As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Product_DEMAND_BOOKING_MASTER where Document_No='" & DocumentNO & "'"))
@@ -611,7 +615,7 @@ where TSPL_PRODUCT_DEMAND_BOOKING_MASTER.Route_No='" & clsCommon.myCstr(gv1.Curr
                         qry = "delete from TSPL_PRODUCT_DEMAND_BOOKING_DETAIL where tr_code in (select tr_code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" & obj.Document_No & "' and Cust_Code='" & strCustCode & "') "
                         clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         clsProductDemandBookingSaleDetail.SaveData(DocumentNO, DemandData, DObj, trans, location_Code, True, RouteNo)
-                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, DocumentNO, "TSPL_PRODUCT_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_Product_DEMAND_BOOKING_DETAIL", "Document_No", trans)
+                        'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, DocumentNO, "TSPL_PRODUCT_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_Product_DEMAND_BOOKING_DETAIL", "Document_No", trans)
                         trans.Commit()
                         clsCommon.MyMessageBoxShow(Me, "Saved Successfully", Me.Text)
                         LoadBlankGrid(IIf(rbtnProduct.IsChecked, "P", "I"))
