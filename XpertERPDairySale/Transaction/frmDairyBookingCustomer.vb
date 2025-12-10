@@ -9097,7 +9097,7 @@ from
                     SaleInvoiceNo.Add(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_head where Against_Shipment_No ='" & DocCode & "'"))
                     Dim Qry As String = Nothing
                     If chkCancel Then
-                        Qry = objMultPrintInvoice.PrintInvoiceForAll("'" & clsCommon.myCstr(DocCode) & "'", chkDate, Nothing, "Y", chkCancel)
+                        Qry = objMultPrintInvoice.PrintInvoiceForAll("'" & clsCommon.myCstr(DocCode) & "'", chkDate, Nothing, "Y", "Cancel")
                         'Qry = objMultPrintInvoice.PrintInvoiceForAll(clsCommon.GetMulcallString(SaleInvoiceNo), chkDate, Nothing, "Y", chkCancel)
 
                     Else

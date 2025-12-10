@@ -230,6 +230,7 @@ Public Class clsUserMgtCode
     '--Dairy Sales Trnasaction
     Public Const RptRouteWiseSaleRegister As String = "RPT_RTE_SLE"
     Public Const SaleEinvoiceReport As String = "SA_EIV_RPT"
+    Public Const rptSaleInvoiceStatusReport As String = "SA_INV_RPT"
     Public Const SubModuleSaleDairyTransaction As String = "SMSDairyT"
     Public Const frmbookingdairy As String = "BOOK-DS"
     'Public Const frmbookingdairyFreshSale As String = "BOOK-DS_FSH"
