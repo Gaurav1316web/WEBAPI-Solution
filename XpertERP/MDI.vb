@@ -8649,6 +8649,11 @@ Public Class MDI
                         frm = New SaleEinvoiceReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+
+                    Case clsUserMgtCode.rptSaleInvoiceStatusReport
+                        frm = New rptSaleInvoiceStatusReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.rptVSPIncentiveRegister
                         frm = New rptVSPIncentiveRegister
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
