@@ -833,6 +833,12 @@
     <Compile Include="Report\rptPlantCustomerDemandReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\rptSaleInvoiceStatusReport.Designer.vb">
+      <DependentUpon>rptSaleInvoiceStatusReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptSaleInvoiceStatusReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\rptSaleRegisterDetail.Designer.vb">
       <DependentUpon>rptSaleRegisterDetail.vb</DependentUpon>
     </Compile>
@@ -1613,6 +1619,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptPlantCustomerDemandReport.resx">
       <DependentUpon>rptPlantCustomerDemandReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptSaleInvoiceStatusReport.resx">
+      <DependentUpon>rptSaleInvoiceStatusReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptSaleRegisterDetail.resx">
       <DependentUpon>rptSaleRegisterDetail.vb</DependentUpon>

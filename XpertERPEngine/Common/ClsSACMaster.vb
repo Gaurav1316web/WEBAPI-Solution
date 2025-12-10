@@ -554,6 +554,8 @@ Public Class clsVendorSubGroup
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
         Dim qry As String = ""
         Try
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_VENDOR_SUB_GROUP", "Ven_Sub_Group_Code", Nothing)
+
             qry = "Delete from TSPL_VENDOR_SUB_GROUP where TSPL_VENDOR_SUB_GROUP.Ven_Sub_Group_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch err As Exception

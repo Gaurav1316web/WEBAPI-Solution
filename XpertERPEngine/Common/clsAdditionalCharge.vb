@@ -189,6 +189,7 @@ Public Class clsAdditionalCharge
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0) Then
             Try
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, Code, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, Code, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
 
                 Dim qry As String = "delete from tspl_Additional_Charges where Code='" + Code + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)

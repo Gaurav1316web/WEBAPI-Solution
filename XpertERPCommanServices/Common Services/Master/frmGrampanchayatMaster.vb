@@ -95,6 +95,7 @@ Public Class frmGrampanchayatMaster
                 Return
             End If
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtCode.Value, "TSPL_GRAMPANCHAYAT_MASTER", "GRAMPANCHAYAT_CODE", Nothing)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, txtCode.Value, "TSPL_GRAMPANCHAYAT_MASTER", "GRAMPANCHAYAT_CODE", Nothing)
 
             Dim qry As String = "SELECT Count(*) FROM TSPL_GRAMPANCHAYAT_MASTER where GRAMPANCHAYAT_CODE= '" & txtCode.Value & "'"
             Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
