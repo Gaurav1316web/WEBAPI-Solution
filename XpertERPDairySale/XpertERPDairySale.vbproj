@@ -473,12 +473,6 @@
     <Compile Include="Report\FrmBoothDemandReport.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Report\frmCancelledTransactions_DairySale.Designer.vb">
-      <DependentUpon>frmCancelledTransactions_DairySale.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Report\frmCancelledTransactions_DairySale.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Report\frmCrateJaliReport.Designer.vb">
       <DependentUpon>frmCrateJaliReport.vb</DependentUpon>
     </Compile>
@@ -1421,9 +1415,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\FrmBoothDemandReport.resx">
       <DependentUpon>FrmBoothDemandReport.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Report\frmCancelledTransactions_DairySale.resx">
-      <DependentUpon>frmCancelledTransactions_DairySale.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\frmCrateJaliReport.resx">
       <DependentUpon>frmCrateJaliReport.vb</DependentUpon>

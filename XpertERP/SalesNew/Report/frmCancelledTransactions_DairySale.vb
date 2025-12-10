@@ -745,7 +745,7 @@ Inner Join TSPL_USER_MASTER On TSPL_USER_MASTER.User_Code=TSPL_SCRAPSALE_HEAD_De
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmGatePassDairy) = CompairStringResult.Equal Then
                 clsMilkTransferIn.funGatepassdairyPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), False, False, Nothing)
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmDairyGatePass) = CompairStringResult.Equal Then
-                Dim frmFree As New FrmFreeComboBox()
+                Dim frmFree As New XpertERPEngine.FrmFreeComboBox()
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select Code from (Select 'Print 1' As Code Union All Select 'Print 2' As Code)xyz")
                 frmFree.ComboSource = dt
                 frmFree.ComboValueMember = "Code"
@@ -770,6 +770,11 @@ Inner Join TSPL_USER_MASTER On TSPL_USER_MASTER.User_Code=TSPL_SCRAPSALE_HEAD_De
                     frm.funPrint2(clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("GatePass No").Value), False, True)
                 End If
                 frm = Nothing
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.ScrapSale) = CompairStringResult.Equal Then
+                'Dim frm As New frmScrapSale()
+                ''Print(ByVal isPrint As Boolean, ByVal ischallan As Boolean, ByVal isPDFPath As Boolean, ByVal strCancelDelete As String)
+                'frm.Print(False, False, False, "Cancel")
+                'frm = Nothing
             Else
                 printCanceInvoice()
             End If
