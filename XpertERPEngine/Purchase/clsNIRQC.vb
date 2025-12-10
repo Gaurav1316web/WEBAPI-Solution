@@ -32,12 +32,12 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
             End If
             Try
                 Dim coll As New Hashtable()
-                clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt"))
+                clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm:ss tt"))
                 clsCommon.AddColumnsForChange(coll, "MRN_No", obj.MRN_No)
                 clsCommon.AddColumnsForChange(coll, "QC_Status", obj.QC_Status)
                 clsCommon.AddColumnsForChange(coll, "QC_Remarks", obj.QC_Remarks)
                 clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
-                clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
+                clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
                 If isNewEntry Then
                     obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.NIRQC, "", "")
                     If (clsCommon.myLen(obj.Document_No) <= 0) Then
@@ -45,7 +45,7 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
                     End If
                     clsCommon.AddColumnsForChange(coll, "Document_No", obj.Document_No)
                     clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
-                    clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
+                    clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mms:ss tt"))
                     isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_NIR_QC", OMInsertOrUpdate.Insert, "", trans)
                 Else
                     isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_NIR_QC", OMInsertOrUpdate.Update, "TSPL_NIR_QC.Document_No='" + obj.Document_No + "'", trans)

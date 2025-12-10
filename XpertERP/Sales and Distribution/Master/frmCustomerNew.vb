@@ -3890,8 +3890,10 @@ Public Class frmCustomer
                             trans.Rollback()
                             Throw New Exception(ex.Message)
                         End Try
-                    Else
                         clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCusCode, "TSPL_CUSTOMER_MASTER", "Cust_Code", "TSPL_VISI_MASTER", "Customer_Id", trans)
+
+                    Else
+                        'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCusCode, "TSPL_CUSTOMER_MASTER", "Cust_Code", "TSPL_VISI_MASTER", "Customer_Id", trans)
                         If SuperUserCustomer = True Then
                             If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("Status").Value).ToUpper().Trim(), "Y") = CompairStringResult.Equal Then
                                 clsDBFuncationality.ExecuteNonQuery("delete from TSPL_USER_CUSTOMER_MAPPING where Cust_Code='" & strCusCode & "'", trans)

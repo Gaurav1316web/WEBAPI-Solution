@@ -8332,17 +8332,20 @@ inner join tspl_tender_header on tspl_tender_header.DocumentCode=TSPL_GRN_HEAD.R
                         End If
                     Next
                 End If
-
+                Dim strMsg As String = Nothing
                 Dim strQry As String = "Select Schedule_No As [Schedule No],Convert(Varchar(10),From_Date,103) As [From Date],Convert(Varchar(10),To_Date,103) As [To Date],Schedule_Qty_Per As [Schedule Qty Per],Schedule_Qty As [Schedule Qty] from(" & clsTenderSchedulePO.GetScheduleDataQuery(txtReqNo.Value, clsCommon.GetMulcallString(lstItem)) & ")final order by PK_Id"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
-                If dt Is Nothing AndAlso dt.Rows.Count <= 0 Then
+                strMsg = "PO Schedule"
+                If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                    strMsg = Nothing
                     strQry = "Select Schedule_No As [Schedule No],Convert(Varchar(10),From_Date,103) As [From Date],Convert(Varchar(10),To_Date,103) As [To Date],Schedule_Qty_Per As [Schedule Qty Per],Schedule_Qty As [Schedule Qty] from(" & clsTenderSchedule.GetScheduleDataQuery(txtRefNo.Text, txtVendorNo.Value, clsCommon.GetMulcallString(lstItem), txtBillToLocation.Value) & ")final order by PK_Id"
                     dt = clsDBFuncationality.GetDataTable(strQry)
+                    strMsg = "RAL Schedule"
                 End If
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Dim frm As New FrmFreeGrid()
                     frm.ReportID = Form_ID
-                    frm.strFormName = "Schedule"
+                    frm.strFormName = strMsg
                     frm.dt = dt
                     frm.ShowDialog()
                 Else
