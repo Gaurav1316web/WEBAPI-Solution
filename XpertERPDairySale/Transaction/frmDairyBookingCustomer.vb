@@ -5392,9 +5392,9 @@ where TSPL_ITEM_CAPACITY_LIMIT_head.From_Date<='" & clsCommon.GetPrintDate(txtDa
                     txtDrAmt.Text = clsCommon.myCstr(DrAmt) & " CR"
                 End If
                 If CrAmt > 0 Then
-                    txtCrAmt.Text = clsCommon.myCstr(CrAmt) & " DR"
-                Else
                     txtCrAmt.Text = clsCommon.myCstr(CrAmt) & " CR"
+                Else
+                    txtCrAmt.Text = clsCommon.myCstr(CrAmt) & " DR"
                 End If
                 If ClosingBal > 0 Then
                     txtClosingBal.Text = clsCommon.myCstr(ClosingBal) & " DR"
