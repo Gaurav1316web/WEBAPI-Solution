@@ -771,10 +771,14 @@ Inner Join TSPL_USER_MASTER On TSPL_USER_MASTER.User_Code=TSPL_SCRAPSALE_HEAD_De
                 End If
                 frm = Nothing
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.ScrapSale) = CompairStringResult.Equal Then
-                'Dim frm As New frmScrapSale()
-                ''Print(ByVal isPrint As Boolean, ByVal ischallan As Boolean, ByVal isPDFPath As Boolean, ByVal strCancelDelete As String)
-                'frm.Print(False, False, False, "Cancel")
-                'frm = Nothing
+                Dim frm As New frmScrapSale()
+                'Print(ByVal isPrint As Boolean, ByVal ischallan As Boolean, ByVal isPDFPath As Boolean, ByVal strCancelDelete As String)
+                Dim strDoc As String = clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value)
+                Dim strInvNo As String = clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Invoice No").Value)
+                Dim strLocCode As String = clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Location Code").Value)
+
+                frm.Print(False, False, False, "Cancel", strDoc, strInvNo, strLocCode)
+                frm = Nothing
             Else
                 printCanceInvoice()
             End If
