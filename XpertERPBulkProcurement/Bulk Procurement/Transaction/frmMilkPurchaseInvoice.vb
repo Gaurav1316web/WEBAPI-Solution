@@ -280,7 +280,7 @@ Public Class FrmMilkPurchaseInvoice
                         End If
                         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
 
-                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.DOC_NO, "TSPL_BULK_MILK_PURCHASE_INVOICE_head", "DOC_No", "TSPL_BULK_MILK_PURCHASE_INVOICE_detail", "DOC_No", trans)
+                        'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.DOC_NO, "TSPL_BULK_MILK_PURCHASE_INVOICE_head", "DOC_No", "TSPL_BULK_MILK_PURCHASE_INVOICE_detail", "DOC_No", trans)
 
                         Try
                             For Each dr As DataRow In dt.Rows
@@ -379,6 +379,8 @@ Public Class FrmMilkPurchaseInvoice
                                 docNo = clsCommon.myCstr(dr("DOC_NO"))
                                 qry = "update tspl_Bulk_milk_purchase_Invoice_head set isPosted=0 where DOC_NO in ('" + docNo + "')"
                                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.DOC_NO, "TSPL_BULK_MILK_PURCHASE_INVOICE_head", "DOC_No", "TSPL_BULK_MILK_PURCHASE_INVOICE_detail", "DOC_No", trans)
+
                             Next
                             saveCancelLog(Reason, "Reverse and Recreate", trans)
                             trans.Commit()

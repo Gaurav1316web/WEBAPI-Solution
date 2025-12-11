@@ -20710,7 +20710,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Specification", "varchar(200) NULL")
             coll.Add("Remarks", "varchar(200) NULL")
             coll.Add("Is_Select_For_PO", "integer not null default 0")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VENDOR_QUOTATION_DETAIL", coll, Nothing, True, False, "TSPL_VENDOR_QUOTATION_HEAD", "Code", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VENDOR_QUOTATION_DETAIL", coll, Nothing, True, False, "TSPL_VENDOR_QUOTATION_HEAD", "Code", "", True)
 
 
             coll = New Dictionary(Of String, String)

@@ -650,10 +650,12 @@ Public Class FrmGateOut
     Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
         Try
             If clsCommon.myLen(fndDocNo.Value) > 0 Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_No, "TSPL_Gate_Out", "Doc_no", Nothing)
+                'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_No, "TSPL_Gate_Out", "Doc_no", Nothing)
 
                 Dim strQry As String = "update TSPL_Gate_Out set IsPosted='1' where DOC_no='" & fndDocNo.Value & "'"
                 clsDBFuncationality.ExecuteNonQuery(strQry)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_No, "TSPL_Gate_Out", "Doc_no", Nothing)
+
                 common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                 loadData(fndDocNo.Value, NavigatorType.Current)
             End If

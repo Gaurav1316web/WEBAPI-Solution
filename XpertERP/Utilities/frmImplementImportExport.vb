@@ -1719,8 +1719,10 @@ Public Class frmImplementImportExport
                             clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
                             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VENDOR_MASTER", OMInsertOrUpdate.Insert, "", trans)
                         Else
-                            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strvendorNo, "TSPL_VENDOR_MASTER", "Vendor_Code", trans)
+                            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strvendorNo, "TSPL_VENDOR_MASTER", "Vendor_Code", trans)
                             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VENDOR_MASTER", OMInsertOrUpdate.Update, "TSPL_VENDOR_MASTER.vendor_code='" + strvendorNo + "'", trans)
+                            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strvendorNo, "TSPL_VENDOR_MASTER", "Vendor_Code", trans)
+
                         End If
                     Next
                     trans.Commit()
