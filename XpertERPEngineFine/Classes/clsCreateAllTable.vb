@@ -14102,6 +14102,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("OwnBMCDate", "Date NULL")
             coll.Add("Shift_Cow_Limit", "integer null")
             coll.Add("REIL_Integrated", "integer null")
+            coll.Add("Integrate_Milk_Collection", "Integer NULL")
             ' clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VLC_MASTER_HEAD", coll, Nothing, True)
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_VLC_MASTER_HEAD", coll, "", True, False, "", "", "", True)
 
@@ -20710,7 +20711,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Specification", "varchar(200) NULL")
             coll.Add("Remarks", "varchar(200) NULL")
             coll.Add("Is_Select_For_PO", "integer not null default 0")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VENDOR_QUOTATION_DETAIL", coll, Nothing, True, False, "TSPL_VENDOR_QUOTATION_HEAD", "Code", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VENDOR_QUOTATION_DETAIL", coll, Nothing, True, False, "TSPL_VENDOR_QUOTATION_HEAD", "Code", "", True)
 
 
             coll = New Dictionary(Of String, String)

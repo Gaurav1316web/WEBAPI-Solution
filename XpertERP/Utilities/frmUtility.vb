@@ -16558,6 +16558,7 @@ line1:
             qry = "delete from TSPL_JOURNAL_MASTER where TSPL_JOURNAL_MASTER.Source_Code='AR-IN' and TSPL_JOURNAL_MASTER.Voucher_No='" + strJVNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
         End If
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strARNo, "TSPL_Customer_Invoice_HEAD", "Document_No", "TSPL_Customer_Invoice_Detail", "Document_No", trans)
 
         'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strARNo, "TSPL_Customer_Invoice_HEAD", "Document_No", "TSPL_Customer_Invoice_Detail", "Document_No", trans)
         qry = "delete from TSPL_Customer_Invoice_Detail where Document_No in ('" + strARNo + "')"
@@ -16570,10 +16571,12 @@ line1:
         '' for can sale dispatch
 
         If clsCommon.myLen(strJVNoOfDispatch) > 0 Then
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strJVNoOfDispatch, "TSPL_JOURNAL_MASTER", "Voucher_No", "TSPL_JOURNAL_DETAILS", "Voucher_No", trans)
+
             'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strJVNoOfDispatch, "TSPL_JOURNAL_MASTER", "Voucher_No", "TSPL_JOURNAL_DETAILS", "Voucher_No", trans)
             qry = "delete from TSPL_JOURNAL_DETAILS where TSPL_JOURNAL_DETAILS.Voucher_No in ('" + strJVNoOfDispatch + "')"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strJVNoOfDispatch, "TSPL_JOURNAL_MASTER", "Voucher_No", "TSPL_JOURNAL_DETAILS", "Voucher_No", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strJVNoOfDispatch, "TSPL_JOURNAL_MASTER", "Voucher_No", "TSPL_JOURNAL_DETAILS", "Voucher_No", trans)
 
             qry = "delete from TSPL_JOURNAL_MASTER where TSPL_JOURNAL_MASTER.Source_Code='DS-CS' and TSPL_JOURNAL_MASTER.Voucher_No='" + strJVNoOfDispatch + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)

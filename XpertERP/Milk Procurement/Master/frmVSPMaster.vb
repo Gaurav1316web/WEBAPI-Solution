@@ -6021,7 +6021,7 @@ Public Class frmVSPMaster
 
 
                     Else
-                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strvendorNo, "TSPL_VENDOR_MASTER", "Vendor_Code", trans)
+                        'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strvendorNo, "TSPL_VENDOR_MASTER", "Vendor_Code", trans)
                         Dim strcmd As String
                         ''richa agarwal add FAt/SNF KG in Head Load Unit against Ticket No.MIL/17/01/19-000031
                         If clsCommon.CompairString(strAgreement, "Yes") = CompairStringResult.Equal Then
@@ -6055,6 +6055,7 @@ Public Class frmVSPMaster
                     End If
                     connectSql.RunSqlTransaction(trans, "UPDATE TSPL_VENDOR_MASTER SET Isbuyerfilereturninlasttwoyears=" + buyerfilereturninlasttwoyears + " , IsTCS_TDSamountgreaterthan50KpreviousYear = " + TCSTDSamountisgreaterthan50KinpreviousYear + ",Is_TDS_Applicable='" + IsTaxApp + "' ,TDS_State_Code =" + StateCodeCommon + ",TDS_Status='" + strTDSState + "' ,TDS_Vendor_Type ='" + strTDSVenType + "',Deduction_Code= " + strDedCode + ",TDS_Branch_Code=" + strTDSBranch + " where Vendor_Code='" + strvendorNo + "'")
 
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strvendorNo, "TSPL_VENDOR_MASTER", "Vendor_Code", trans)
 
 
                     Dim CorrectionFatSNF As String = "update TSPL_VENDOR_MASTER set "

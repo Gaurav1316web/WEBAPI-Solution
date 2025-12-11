@@ -49,7 +49,7 @@ from TSPL_PROGRAM_MASTER
 left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('SM')) as TBL_SMODULE on TBL_SMODULE.Program_Code = TSPL_PROGRAM_MASTER.Parent_Code
 left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('M')) as TBL_MODULE on TBL_MODULE.Program_Code = TBL_SMODULE.Parent_Code
 Where TBL_MODULE.Program_Code in (select  distinct Module_Name from TSPL_MODULE_PERMISSION ) and  not TSPL_PROGRAM_MASTER.Type in ('M','SM') 
-and TBL_MODULE.Program_Code in ('" & clsUserMgtCode.ModuleSaleDairy & "','" & clsUserMgtCode.ModuleSalesNew & "','" & clsUserMgtCode.SubModuleSaleNewTransaction & "','" & clsUserMgtCode.ModuleMCCMilkProcurement & "','" & clsUserMgtCode.ModulePurchase & "') 
+and TBL_MODULE.Program_Code in ('" & clsUserMgtCode.ModuleSaleDairy & "','" & clsUserMgtCode.ModuleSalesNew & "','" & clsUserMgtCode.SubModuleSaleNewTransaction & "','" & clsUserMgtCode.ModuleMCCMilkProcurement & "','" & clsUserMgtCode.ModulePurchase & "','" & clsUserMgtCode.ModulePayable & "') 
 and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') 
  "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
@@ -73,7 +73,7 @@ left outer join (select Program_Code, Program_Name,Parent_Code,case when len (is
 left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('M')) as TBL_MODULE on TBL_MODULE.Program_Code = TBL_SMODULE.Parent_Code
 Where TBL_MODULE.Program_Code in (select  distinct Module_Name from TSPL_MODULE_PERMISSION ) and  not TSPL_PROGRAM_MASTER.Type in ('M','SM') 
 and TBL_SMODULE.Parent_Code In ('" & clsCommon.myCstr(cboModule.SelectedValue) & "') 
-and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') And TSPL_PROGRAM_MASTER.Program_Code In ('" & clsUserMgtCode.frmSaleDispatchDairy & "','" & clsUserMgtCode.frmSNSaleInvoice & "','" & clsUserMgtCode.frmDairyGatePass & "','" & clsUserMgtCode.frmMCCMaterial & "','" & clsUserMgtCode.frmDairyBookingCustomer & "','" & clsUserMgtCode.frmWreckageBooking & "','" & clsUserMgtCode.frmSNPOS & "','" & clsUserMgtCode.frmGatePassDairy & "','" & clsUserMgtCode.ScrapSale & "')
+and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') And TSPL_PROGRAM_MASTER.Program_Code In ('" & clsUserMgtCode.frmSaleDispatchDairy & "','" & clsUserMgtCode.frmSNSaleInvoice & "','" & clsUserMgtCode.frmDairyGatePass & "','" & clsUserMgtCode.frmMCCMaterial & "','" & clsUserMgtCode.frmDairyBookingCustomer & "','" & clsUserMgtCode.frmWreckageBooking & "','" & clsUserMgtCode.frmSNPOS & "','" & clsUserMgtCode.frmGatePassDairy & "','" & clsUserMgtCode.ScrapSale & "','" & clsUserMgtCode.FrmVendorService & "')
  "
             dt = clsDBFuncationality.GetDataTable(Qry)
             'dr = dt.NewRow()
@@ -771,10 +771,17 @@ Inner Join TSPL_USER_MASTER On TSPL_USER_MASTER.User_Code=TSPL_SCRAPSALE_HEAD_De
                 End If
                 frm = Nothing
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.ScrapSale) = CompairStringResult.Equal Then
-                'Dim frm As New frmScrapSale()
-                ''Print(ByVal isPrint As Boolean, ByVal ischallan As Boolean, ByVal isPDFPath As Boolean, ByVal strCancelDelete As String)
-                'frm.Print(False, False, False, "Cancel")
-                'frm = Nothing
+                Dim frm As New frmScrapSale()
+                'Print(ByVal isPrint As Boolean, ByVal ischallan As Boolean, ByVal isPDFPath As Boolean, ByVal strCancelDelete As String)
+                Dim strDoc As String = clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value)
+                Dim strInvNo As String = clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Invoice No").Value)
+                Dim strLocCode As String = clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Location Code").Value)
+                If rdbCancel.IsChecked Then
+                    frm.Print(True, True, False, "Cancel", strDoc, strInvNo, strLocCode)
+                Else
+                    frm.Print(True, True, False, "Delete", strDoc, strInvNo, strLocCode)
+                End If
+                frm = Nothing
             Else
                 printCanceInvoice()
             End If
