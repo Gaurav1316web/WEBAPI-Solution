@@ -33,6 +33,7 @@ Public Class frmVSP_VLCMaster
     Dim arrExistCols As New List(Of String)
     Dim dtDefault As DataTable = Nothing
     Dim arrMCCRights As ArrayList
+    Dim isInsideLoadData As Boolean = False
 #End Region
 
 
@@ -1177,6 +1178,7 @@ Public Class frmVSP_VLCMaster
             End If
             Dim obj As New clsfrmVLCMaster()
             obj.vlcCode = clsCommon.myCstr(fndvlccode.Text)
+            obj.Integrate_Milk_Collection = chkIntMilkCollection.Checked
             obj.VLC_CODE_VLC_UPLOADER = clsCommon.myCstr(txtVLCCodeVlcUploader.Text)
             obj.vlcName = clsCommon.myCstr(txtvlcname.Text.Replace("'", "`"))
             'obj.vehical = clsCommon.myCstr(txtvehicalname.Text.Replace("'", "`"))
@@ -1219,7 +1221,9 @@ Public Class frmVSP_VLCMaster
             'isNewEntry = True
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.vlcCode) > 0 Then
                 'isNewEntry = False
+                isInsideLoadData = True
                 fndvlccode.Text = obj.vlcCode
+                chkIntMilkCollection.Checked = obj.Integrate_Milk_Collection
                 txtVLCCodeVlcUploader.Text = clsCommon.myCstr(obj.VLC_CODE_VLC_UPLOADER)
                 txtvlcname.Text = obj.vlcName
                 'txtvehicalname.Text = obj.vehical
@@ -1288,7 +1292,7 @@ Public Class frmVSP_VLCMaster
             Else
                 Reset()
             End If
-
+            isInsideLoadData = False
             'isLoadData = False
         Catch ex As Exception
             'isNewEntry = True
@@ -2645,7 +2649,6 @@ Public Class frmVSP_VLCMaster
     Public Sub funreset()
         UcAttachment1.Form_ID = clsUserMgtCode.frmVSPMaster
         UcAttachment1.BlankAllControls()
-
         chk_isblacklist.Checked = False
         IsInsieLoadData = False
         chkMultIncentive.Checked = False
@@ -2811,7 +2814,9 @@ Public Class frmVSP_VLCMaster
     End Sub
 
     Private Sub VLC_reset()
+        isInsideLoadData = False
         chkInActive.Checked = False
+        chkIntMilkCollection.Checked = False
         txtVLCCodeVlcUploader.Text = ""
         txtvillcode.Value = ""
         txtvillname.Text = ""
@@ -7204,6 +7209,14 @@ Public Class frmVSP_VLCMaster
     Private Sub fndbankcode_Leave(sender As Object, e As EventArgs) Handles fndbankcode.Leave
         If clsCommon.myLen(fndbankcode.Text) > 0 Then
             txtbankcodedes.Text = fndbankcode.Text
+        End If
+    End Sub
+
+    Private Sub chkIntMilkCollection_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkIntMilkCollection.ToggleStateChanged
+        If Not isInsideLoadData Then
+            If chkIntMilkCollection.Checked Then
+                chkIntMilkCollection.Checked = False
+            End If
         End If
     End Sub
 
