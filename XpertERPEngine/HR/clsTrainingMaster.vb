@@ -60,6 +60,7 @@ Public Class clsTrainingMaster
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strcode, str_tb_name, "code", trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strcode, str_tb_name, "code", trans)
 
             If (clsCommon.myLen(strcode) >= 0) Then
                 Dim qry As String = "delete from " & str_tb_name & " where code='" + strcode + "'"

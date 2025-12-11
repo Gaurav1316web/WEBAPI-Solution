@@ -160,12 +160,12 @@ Public Class clsBulkSaleFreightCalculation
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_BLK_FREIGHT_CALC_HEAD", "Document_Code", "TSPL_BLK_FREIGHT_CALC_DETAIL", "Document_Code", trans)
 
             If (obj.Status = 1) Then
                 Throw New Exception("Already Posted")
             End If
             clsDBFuncationality.ExecuteNonQuery("Update TSPL_BLK_FREIGHT_CALC_HEAD set Status= 1, Posted_By = '" + objCommonVar.CurrentUserCode + "',Posted_Date = '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt") + "'  where Document_Code='" & obj.Document_Code & "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_BLK_FREIGHT_CALC_HEAD", "Document_Code", "TSPL_BLK_FREIGHT_CALC_DETAIL", "Document_Code", trans)
 
         Catch ex As Exception
 
@@ -205,13 +205,13 @@ Public Class clsBulkSaleFreightCalculation
                 clsCommon.MyMessageBoxShow("Transaction status should be posted for reverse and unpost")
                 isResponse = False
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_BLK_FREIGHT_CALC_HEAD", "Document_Code", "TSPL_BLK_FREIGHT_CALC_DETAIL", "Document_Code", trans)
 
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Status", 0)
             clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
             clsCommon.AddColumnsForChange(coll, "Posted_Date", Nothing, True)
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BLK_FREIGHT_CALC_HEAD", OMInsertOrUpdate.Update, "Document_Code='" + obj.Document_Code + "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_BLK_FREIGHT_CALC_HEAD", "Document_Code", "TSPL_BLK_FREIGHT_CALC_DETAIL", "Document_Code", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

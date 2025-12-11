@@ -127,6 +127,8 @@ Public Class clsMpMaster
             Dim isdeleted As Boolean = True
             'isdeleted = isdeleted And clsCowDetails.deleteData(progcode, strcode, trans)
             'isdeleted = isdeleted And clsBuffaloesDetails.deleteData(progcode, strcode, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strcode, "tspl_mp_master", "MP_Code", trans)
+
             isdeleted = isdeleted And clsAnimalDetails.deleteData(progcode, strcode, trans)
             Dim qry As String = "delete from TSPL_MP_INCENTIVE where  mp_code='" & strcode & "'"
             isdeleted = isdeleted And clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -331,10 +333,12 @@ Public Class clsMpMaster
                 clsCommon.AddColumnsForChange(coll, "Created_Date", obj.Created_Date)
                 issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "tspl_mp_master", OMInsertOrUpdate.Insert, "", trans)
             Else
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.MP_Code, "tspl_mp_master", "MP_Code", trans)
+                'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.MP_Code, "tspl_mp_master", "MP_Code", trans)
 
                 issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "tspl_mp_master", OMInsertOrUpdate.Update, "tspl_mp_master.mp_code='" + obj.MP_Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.MP_Code, "tspl_mp_master", "MP_Code", trans)
+
             'qry = "select 1 from TSPL_MP_MASTER where MP_Code not in ('" & obj.MP_Code & " ') and AccountNO='" & obj.AccountNO & "'"
             'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then

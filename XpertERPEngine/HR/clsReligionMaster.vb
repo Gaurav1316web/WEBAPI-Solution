@@ -29,6 +29,7 @@ Public Class clsReligionMaster
                 Throw New Exception("Code not found to Delete")
             End If
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_RELIGION_MASTER", "RELIGION_CODE", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_RELIGION_MASTER", "RELIGION_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_RELIGION_MASTER where RELIGION_CODE ='" + strCode + "'"

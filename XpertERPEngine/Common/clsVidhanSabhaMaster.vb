@@ -57,7 +57,7 @@ Public Class clsVidhanSabhaMaster
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType) As clsVidhanSabhaMaster
         Try
             Dim obj As clsVidhanSabhaMaster = Nothing
-            Dim qry As String = "select VIDHAN_SABHA_CODE, VIDHAN_SABHA_NAME from TSPL_VIDHAN_SABHA_MASTER where 2=2"
+            Dim qry As String = "select VIDHAN_SABHA_CODE, VIDHAN_SABHA_NAME,VIDHAN_SABHA_NAME_HINDI from TSPL_VIDHAN_SABHA_MASTER where 2=2"
             Select Case NavType
                 Case NavigatorType.First
                     qry += " and VIDHAN_SABHA_CODE = (select MIN(VIDHAN_SABHA_CODE) from TSPL_VIDHAN_SABHA_MASTER)"

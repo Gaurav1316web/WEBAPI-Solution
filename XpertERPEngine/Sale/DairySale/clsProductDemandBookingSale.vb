@@ -232,6 +232,9 @@ Public Class clsProductDemandBookingSale
 
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                 Dim obj1 As List(Of clsProductDemandBookingSaleDetail) = New List(Of clsProductDemandBookingSaleDetail)
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_Product_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_Product_DEMAND_BOOKING_DETAIL", "Document_No", trans)
+
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_Product_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_Product_DEMAND_BOOKING_DETAIL", "Document_No", trans)
 
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     For Each dr As DataRow In dt.Rows
@@ -255,9 +258,6 @@ Public Class clsProductDemandBookingSale
                     isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
                     clsProductDemandBookingSaleDetail.SaveDeleteData(obj.Document_No, obj.Document_Date, obj1, trans, obj.Location_Code, False, obj.Route_No)
                 End If
-                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_Product_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_Product_DEMAND_BOOKING_DETAIL", "Document_No", trans)
-
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_Product_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_Product_DEMAND_BOOKING_DETAIL", "Document_No", trans)
 
 
                 qry = "delete from TSPL_PRODUCT_DEMAND_BOOKING_DETAIL where Document_No='" + strCode + "'"

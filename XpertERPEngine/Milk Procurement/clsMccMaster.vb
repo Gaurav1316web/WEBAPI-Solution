@@ -403,6 +403,9 @@ Public Class clsMccMaster
             Dim isdeleted As Boolean = True
             isdeleted = isdeleted And clsGenSetDetail.deleteData(progcode, strcode, trans)
             isdeleted = isdeleted And clsCompressorDetail.deleteData(progcode, strcode, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strcode, "TSPL_MCC_MASTER", "mcc_code", trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strcode, "TSPL_MCC_MASTER", "mcc_code", trans)
+
             Dim qry As String = "delete from tspl_mcc_master where  mcc_code='" & strcode & "'"
             isdeleted = isdeleted And clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from tspl_location_master where  location_code='" & strcode & "'"
@@ -929,12 +932,16 @@ Public Class clsMccMaster
                 clsCommon.AddColumnsForChange(coll, "Created_Date", obj.Created_Date)
                 issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MCC_MASTER", OMInsertOrUpdate.Insert, "", trans)
             Else
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.MCC_Code, "TSPL_MCC_MASTER", "mcc_code", trans)
+                'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.MCC_Code, "TSPL_MCC_MASTER", "mcc_code", trans)
                 issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MCC_MASTER", OMInsertOrUpdate.Update, "tspl_mcc_master.mcc_code='" + obj.MCC_Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.MCC_Code, "TSPL_MCC_MASTER", "mcc_code", trans)
+
             issaved = issaved And clsGenSetDetail.SaveData(obj.arrGenSetDetail, trans)
             issaved = issaved And clsCompressorDetail.SaveData(obj.arrCompressorDetail, trans)
             issaved = issaved And clsSiloDetail.SaveData(obj.arrSiloDetail, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.MCC_Code, "TSPL_Silo_Detail", "Trans_Code", trans)
+
             issaved = issaved And clsMilkPumpDetail.SaveData(obj.arrMilkPumpDetail, trans)
             issaved = issaved And clsChillerDetail.SaveData(obj.arrChillerDetail, trans)
             issaved = issaved And clsMCCChequeDetails.SaveData(obj.arrChequeDetail, trans)
@@ -1711,6 +1718,7 @@ Public Class clsSiloDetail
                     clsCommon.AddColumnsForChange(coll, "Gaze_Reading_Code", arr.Item(i).Gaze_Reading_Code, True)
                     issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SILO_DETAIL", OMInsertOrUpdate.Insert, "", Trans)
                 Next
+
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)

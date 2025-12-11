@@ -178,7 +178,8 @@ Public Class rptPaymentCycleWiseReport
                     Next
                 End If
                 'clsPaymentProcessHead.PaymentProcessDrCrPrint(strDocumentCode, date1, date2, strLocaton, strDCS, strRoute, "", "", "")
-                clsPaymentProcessHead.PaymentProcessDrCrPrint(strDocumentCode, date1, date2, strLocaton, strRoute, "", "", "")
+                'clsPaymentProcessHead.PaymentProcessDrCrPrint(strDocumentCode, date1, date2, strLocaton, strRoute, "", "", "")
+                clsPaymentProcessHead.PaymentProcessDrCrPrint(strDocumentCode, date1, date2, strLocaton, strRoute, "", "", "", strDCS, True)
 
             ElseIf chkShowData.Checked = True Then
                 Dim query As String = ""

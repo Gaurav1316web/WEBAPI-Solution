@@ -146,7 +146,7 @@ Public Class clsItemCapacityLimitHead
             clsCommon.AddColumnsForChange(coll, "Posted_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Posted_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ITEM_CAPACITY_LIMIT_HEAD", OMInsertOrUpdate.Update, "Document_No='" + clsCommon.myCstr(obj.Document_No) + "'", trans)
-            ' clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ITEM_CAPACITY_LIMIT_HEAD", "Document_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_ITEM_CAPACITY_LIMIT_HEAD", "Document_No", trans)
 
         Catch ex As Exception
 
@@ -214,6 +214,8 @@ Public Class clsItemCapacityLimitHead
                 qry = "update TSPL_ITEM_CAPACITY_LIMIT_HEAD set Posted=0,Posted_Date=null,Posted_By=null where Document_No='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ITEM_CAPACITY_LIMIT_HEAD", "Document_No", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -245,8 +247,8 @@ Public Class clsItemCapacityLimitHead
             If (isPosted = 1) Then
                 Throw New Exception("Already Posted on :" + obj.Posted_Date)
             End If
-            'clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_ITEM_CAPACITY_LIMIT_HEAD", "Document_No", "TSPL_ITEM_CAPACITY_LIMIT_DETAIL", "Document_No", trans)
-            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ITEM_CAPACITY_LIMIT_HEAD", "Document_No", "TSPL_ITEM_CAPACITY_LIMIT_DETAIL", "Document_No", trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_ITEM_CAPACITY_LIMIT_HEAD", "Document_No", "TSPL_ITEM_CAPACITY_LIMIT_DETAIL", "Document_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ITEM_CAPACITY_LIMIT_HEAD", "Document_No", "TSPL_ITEM_CAPACITY_LIMIT_DETAIL", "Document_No", trans)
 
             Dim qry As String
 

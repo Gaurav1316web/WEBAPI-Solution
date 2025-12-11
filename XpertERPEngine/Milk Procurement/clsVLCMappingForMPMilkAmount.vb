@@ -30,6 +30,7 @@ Public Class clsVLCMappingForMPMilkAmount
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strMCC, "TSPL_VLC_MAPPING_FOR_MP_MILK_AMOUNT", "MCC_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strMCC, "TSPL_VLC_MAPPING_FOR_MP_MILK_AMOUNT", "MCC_Code", trans)
 
             Dim qry As String = "Delete from TSPL_VLC_MAPPING_FOR_MP_MILK_AMOUNT where MCC_Code='" + strMCC + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)

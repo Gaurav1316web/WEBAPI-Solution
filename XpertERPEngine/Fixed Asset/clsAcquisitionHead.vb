@@ -2437,7 +2437,7 @@ Public Class clsAssetAccountChangeHead
                 Throw New Exception("Already Post on :" + clsCommon.GetPrintDate(obj.Post_Date, "dd/MM/yyyy"))
             End If
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_ASSET_ACCOUNT_CHANGE_HEAD", "Doc_Code", "TSPL_ASSET_ACCOUNT_CHANGE_DETAIL", "Doc_Code", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_ASSET_ACCOUNT_CHANGE_HEAD", "Doc_Code", "TSPL_ASSET_ACCOUNT_CHANGE_DETAIL", "Doc_Code", trans)
             Dim ArryLst As ArrayList = New ArrayList()
             'Dim strQ As String = "select xx.Ac_Control, SUM(xx.Book_Source_value )  as Book_Source_value " &
             '        " from ( select TSPL_ACQUISITION_DETAIL.Book_Source_value,TSPL_Dep_AccountSet.Ac_Control as Ac_Control " &
@@ -2539,7 +2539,7 @@ Public Class clsAssetAccountChangeHead
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ASSET_ACCOUNT_CHANGE_HEAD", "Doc_Code", "TSPL_ASSET_ACCOUNT_CHANGE_DETAIL", "Doc_Code", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ASSET_ACCOUNT_CHANGE_HEAD", "Doc_Code", "TSPL_ASSET_ACCOUNT_CHANGE_DETAIL", "Doc_Code", trans)
             Qry = "delete from TSPL_JOURNAL_DETAILS where Voucher_No in (select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='AQ-AC' and Source_Doc_No='" + strCode + "')"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
 
@@ -2549,6 +2549,7 @@ Public Class clsAssetAccountChangeHead
 
             Qry = "Update TSPL_ASSET_ACCOUNT_CHANGE_HEAD set status = 0,post_date=null where Doc_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ASSET_ACCOUNT_CHANGE_HEAD", "Doc_Code", "TSPL_ASSET_ACCOUNT_CHANGE_DETAIL", "Doc_Code", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

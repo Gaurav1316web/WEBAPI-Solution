@@ -65,6 +65,7 @@ Public Class clsPayPeriodMaster
                 Throw New Exception("Code not found to Delete")
             End If
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_PAYPERIOD_MASTER", "PAY_PERIOD_CODE", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_PAYPERIOD_MASTER", "PAY_PERIOD_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE ='" + strCode + "'"

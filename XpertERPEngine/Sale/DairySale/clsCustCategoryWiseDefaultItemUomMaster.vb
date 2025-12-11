@@ -29,8 +29,6 @@ Public Class clsCustCategoryWiseDefaultItemUomMaster
         Try
 
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Customer_Category, "TSPL_CUST_CATEGORY_DEFAULT_UOM_HEAD", "Customer_Category", trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Customer_Category, "TSPL_CUST_CATEGORY_DEFAULT_UOM_DETAILS", "Customer_Category", trans)
 
             Dim qry As String = "delete from TSPL_CUST_CATEGORY_DEFAULT_UOM_DETAILS where Customer_Category='" + obj.Customer_Category + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -69,6 +67,7 @@ Public Class clsCustCategoryWiseDefaultItemUomMaster
             End If
             isSaved = isSaved AndAlso clsCustCategoryWiseDefaultItemUomDetail.SaveData(obj.Customer_Category, obj.Arr, trans)
 
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Customer_Category, "TSPL_CUST_CATEGORY_DEFAULT_UOM_DETAILS", "Customer_Category", "TSPL_CUST_CATEGORY_DEFAULT_UOM_DETAILS", "Customer_Category", Nothing)
 
             '' Check Duplicate Price CHart
             'Dim qrycheck As String = "	select TSPL_JOB_OUTWARD_PRICE_Detail.itemcode,TSPL_JOB_OUTWARD_PRICE_Detail.ItemUom,TSPL_JOB_OUTWARD_PRICE_Detail.Charges,TSPL_JOB_OUTWARD_PRICE_head.Vendor_Price_Code,convert(date,TSPL_JOB_OUTWARD_PRICE_head.Price_Date,103) as Price_Date,sum(1) as Repeated from TSPL_JOB_OUTWARD_PRICE_Detail left outer join TSPL_JOB_OUTWARD_PRICE_head on TSPL_JOB_OUTWARD_PRICE_head.price_code=TSPL_JOB_OUTWARD_PRICE_Detail.Price_Code group by TSPL_JOB_OUTWARD_PRICE_head.Vendor_Price_Code,TSPL_JOB_OUTWARD_PRICE_Detail.itemcode,TSPL_JOB_OUTWARD_PRICE_Detail.ItemUom,TSPL_JOB_OUTWARD_PRICE_Detail.Charges,convert(date,TSPL_JOB_OUTWARD_PRICE_head.Price_Date,103) having SUM(1) > 1"
@@ -87,6 +86,8 @@ Public Class clsCustCategoryWiseDefaultItemUomMaster
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
         Dim qry As String = ""
         Try
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_CUST_CATEGORY_DEFAULT_UOM_DETAILS", "Customer_Category", "TSPL_CUST_CATEGORY_DEFAULT_UOM_DETAILS", "Customer_Category", Nothing)
+
             qry = "Delete from TSPL_CUST_CATEGORY_DEFAULT_UOM_DETAILS where TSPL_CUST_CATEGORY_DEFAULT_UOM_DETAILS.Customer_Category='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
             qry = "Delete from TSPL_CUST_CATEGORY_DEFAULT_UOM_HEAD where TSPL_CUST_CATEGORY_DEFAULT_UOM_HEAD.Customer_Category='" + strCode + "'"

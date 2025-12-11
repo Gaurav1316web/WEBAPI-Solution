@@ -1357,7 +1357,7 @@ Public Class frmVendorMaster
         Try
             'trans = clsDBFuncationality.GetTransactin()
             '' Anubhooti 17-Nov-2014 BM00000004655
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndvendorNo.Value, "TSPL_VENDOR_MASTER", "Vendor_Code", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndvendorNo.Value, "TSPL_VENDOR_MASTER", "Vendor_Code", trans)
 
             Dim closingdate As String = ""
             Dim strStatus As String = ""
@@ -3145,7 +3145,7 @@ Public Class frmVendorMaster
 
                     Else
 
-                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strvendorNo, "TSPL_VENDOR_MASTER", "Vendor_Code", trans)
+                        'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strvendorNo, "TSPL_VENDOR_MASTER", "Vendor_Code", trans)
 
                         ''Map Employee
                         If IsEmployee = 1 AndAlso clsCommon.myLen(EmployeeCode) > 0 Then
@@ -3189,6 +3189,8 @@ Public Class frmVendorMaster
                         Else
                             TCCertiQry = "UPDATE TSPL_VENDOR_MASTER SET TC_Certified=NULL,Is_TC_Certified='0' where Vendor_Code='" + strvendorNo + "'"
                         End If
+                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strvendorNo, "TSPL_VENDOR_MASTER", "Vendor_Code", trans)
+
                         connectSql.RunSqlTransaction(trans, TCCertiQry)
                     End If
                     If clsCommon.CompairString(clsCommon.myLen(clsCommon.myCstr(grow.Cells("Transporter").Value.ToString())), "1") = CompairStringResult.Equal Then

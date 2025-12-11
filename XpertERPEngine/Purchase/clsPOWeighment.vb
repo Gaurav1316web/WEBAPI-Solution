@@ -686,7 +686,7 @@ select Against_GRN_No from TSPL_PO_WEIGHTMENT_HEAD where Weighment_Code='" + cls
 
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.POWeighment, clsCommon.myCstr(dts.Rows(0)("Bill_To_Location")), obj.Weighment_Date, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_PO_WEIGHTMENT_HEAD", "Weighment_Code", trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_PO_WEIGHTMENT_HEAD", "Weighment_Code", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_PO_WEIGHTMENT_HEAD", "Weighment_Code", trans)
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Weighment_Code) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If

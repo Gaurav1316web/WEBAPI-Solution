@@ -469,10 +469,10 @@ Public Class clsPSDeliveryOrder
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             isSaved = isSaved AndAlso clsApprovalScreen.SaveApprovalAtTransLevel(obj.Form_ID, "Document_Code", obj.Document_Code, "TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE", trans)
-            If obj.isDOAmended Then
-                isSaved = isSaved AndAlso clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE", "Document_Code", trans)
-                isSaved = isSaved AndAlso clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE", "Document_Code", trans)
-            End If
+            'If obj.isDOAmended Then
+            '    ' isSaved = isSaved AndAlso clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE", "Document_Code", trans)
+            '    ' isSaved = isSaved AndAlso clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE", "Document_Code", trans)
+            'End If
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE", "Document_Code", "TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE", "Document_Code", trans)
 
             If isSaved Then
@@ -1656,6 +1656,8 @@ Public Class clsPSDeliveryOrder
                 'If (obj.Status = 1) Then
                 '    Throw New Exception("Already Posted on :" + obj.Posting_Date)
                 'End If
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE", "Document_Code", "TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE", "Document_Code", trans)
+
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE", "Document_Code", "TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE", "Document_Code", trans)
                 Dim qry As String = "delete from TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE where Document_Code='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)

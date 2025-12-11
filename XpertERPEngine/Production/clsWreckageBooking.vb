@@ -201,7 +201,7 @@ Public Class clsWreckageBooking
             Dim issaved As Boolean = True
 
             Dim qry As String
-            HistoryUpdate(strCode, trans)
+            'HistoryUpdate(strCode, trans)
             ''RICHA AGARWAL 17 aUG,2018 BHA/17/08/18-000454
             Dim VoucherNo As String = clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where  Source_Doc_No='" + strCode + "'", trans)
             If clsCommon.myLen(VoucherNo) > 0 Then
@@ -226,7 +226,7 @@ Public Class clsWreckageBooking
 
             qry = "update TSPL_WRECKAGE_ENTRY set Posted='0',Modified_By='" + objCommonVar.CurrentUserCode + "',Modified_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "' where WRECKAGE_ENTRY_CODE='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
+            HistoryUpdate(strCode, trans)
             Return issaved
         Catch ex As Exception
             Throw New Exception(ex.Message)

@@ -31,7 +31,7 @@ Public Class clsInventorySourceCode
                 Throw New Exception("Code not found to Delete")
             End If
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_INVENTORY_SOURCE_CODE", "Code", Nothing)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_INVENTORY_SOURCE_CODE", "Code", Nothing)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_INVENTORY_SOURCE_CODE", "Code", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_INVENTORY_SOURCE_CODE where Code ='" + strCode + "'"

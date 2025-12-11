@@ -57,6 +57,8 @@ Public Class clsRevaluationHead
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_REVALUATION_HEAD", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
         End If
         clsRevaluationDetail.SaveData(obj.Document_No, Arr, trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_REVALUATION_HEAD", "Document_No", "TSPL_REVALUATION_DETAIL", "Document_No", trans)
+
         Return True
     End Function
 
@@ -142,6 +144,10 @@ Public Class clsRevaluationHead
         End If
         Dim obj As clsRevaluationHead = clsRevaluationHead.GetData(strDocNo, NavigatorType.Current, Nothing)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_REVALUATION_HEAD", "Document_No", "TSPL_REVALUATION_DETAIL", "Document_No", trans)
+
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_REVALUATION_HEAD", "Document_No", "TSPL_REVALUATION_DETAIL", "Document_No", trans)
+
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
             Try
                 If obj.Status = ERPTransactionStatus.Approved Then
@@ -185,6 +191,7 @@ Public Class clsRevaluationHead
             clsCommon.AddColumnsForChange(coll, "Posted_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Posted_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_REVALUATION_HEAD", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_REVALUATION_HEAD", "Document_No", trans)
 
             trans.Commit()
         Catch ex As Exception

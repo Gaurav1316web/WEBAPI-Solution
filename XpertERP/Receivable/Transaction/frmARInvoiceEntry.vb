@@ -409,7 +409,7 @@ Public Class FrmARInvoiceEntry
     Sub BlankAllControls()
         EInvoiceType = ""
         FlagDocumentIsTaxable = 0
-
+        chkEinvoice.Checked = False
         txtServiceVisitCode.Text = ""
         txtVCGNo.Text = ""
         txtSaleReturnNo.Text = ""
@@ -1335,9 +1335,61 @@ Public Class FrmARInvoiceEntry
     End Sub
 
     Private Sub gv1_CellDoubleClick(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv1.CellDoubleClick
-        If clsCommon.myLen(gv1.CurrentRow.Cells(colACName).Value) > 0 Then
-            clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.glAccount, gv1.CurrentRow.Cells(colACName).Value)
-        End If
+        'If clsCommon.myLen(gv1.CurrentRow.Cells(colACName).Value) > 0 Then
+        '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.glAccount, gv1.CurrentRow.Cells(colACName).Value)
+        'End If
+        Try
+            If e.Column Is gv1.Columns(colTotTaxAmt) AndAlso rbtnTaxCalAutomatic.IsChecked Then
+                Dim frm As New FrmPOItemTaxDetails()
+                frm.strLineNo = clsCommon.myCstr(gv1.CurrentRow.Cells(colLineNo).Value)
+                frm.strItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colACCode).Value)
+                frm.strItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colACName).Value)
+                frm.dblTotTax = clsCommon.myCdbl(gv1.CurrentRow.Cells(colTotTaxAmt).Value)
+                frm.dblAmtAfterDis = clsCommon.myCdbl(gv1.CurrentRow.Cells(colAmtAfterDis).Value)
+                frm.strTaxType = "P"
+                frm.IslocationSegment = True
+                If clsCommon.myLen(frm.strItemCode) > 0 Then
+                    frm.ArrIn = New List(Of clsTempItemTaxDetails)
+                    For ii As Integer = 1 To 10
+                        Dim strii As String = clsCommon.myCstr(ii)
+                        Dim obj As New clsTempItemTaxDetails()
+                        obj.AuthorityCode = clsCommon.myCstr(gv1.CurrentRow.Cells("COLTAX" + strii).Value)
+                        If clsCommon.myLen(obj.AuthorityCode) > 0 Then
+                            obj.AuthorityName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Tax_Code_Desc from TSPL_TAX_MASTER WHERE Tax_Code='" + obj.AuthorityCode + "'"))
+                            obj.Rate = clsCommon.myCdbl(gv1.CurrentRow.Cells("COLTAXRATE" + strii).Value)
+                            obj.BaseAmt = clsCommon.myCdbl(gv1.CurrentRow.Cells("COLTAXBASEAMT" + strii).Value)
+                            obj.TaxAmt = clsCommon.myCdbl(gv1.CurrentRow.Cells("COLTAXAMT" + strii).Value)
+                            'obj.isSurTax = clsCommon.myCBool(gv1.CurrentRow.Cells("ISSURTAX" + strii).Value)
+                            'obj.SurTax = clsCommon.myCstr(gv1.CurrentRow.Cells("SURTAXCODE" + strii).Value)
+                            'obj.IsTaxable = clsCommon.myCBool(gv1.CurrentRow.Cells("ISTAXABLE" + strii).Value)
+                            frm.ArrIn.Add(obj)
+                        End If
+                    Next
+
+                    frm.ShowDialog()
+                    If frm.ArrOut IsNot Nothing AndAlso frm.ArrOut.Count > 0 Then
+                        BlankTaxDetailsCurrentRowWihtRowNo(gv1.CurrentRow.Index)
+                        For ii As Integer = 0 To frm.ArrOut.Count - 1
+                            Dim strii As String = clsCommon.myCstr(ii + 1)
+                            gv1.CurrentRow.Cells("COLTAX" + strii).Value = frm.ArrOut(ii).AuthorityCode
+                            gv1.CurrentRow.Cells("COLTAXRATE" + strii).Value = frm.ArrOut(ii).Rate
+                            gv1.CurrentRow.Cells("COLTAXBASEAMT" + strii).Value = frm.ArrOut(ii).BaseAmt
+                            gv1.CurrentRow.Cells("COLTAXAMT" + strii).Value = frm.ArrOut(ii).TaxAmt
+                            'gv1.CurrentRow.Cells("ISSURTAX" + strii).Value = frm.ArrOut(ii).isSurTax
+                            'gv1.CurrentRow.Cells("SURTAXCODE" + strii).Value = frm.ArrOut(ii).SurTax
+                            'gv1.CurrentRow.Cells("ISTAXABLE" + strii).Value = frm.ArrOut(ii).IsTaxable
+                        Next
+
+                        gv1.CurrentRow.Cells(colTotTaxAmt).Value = frm.dblTotTax
+                        gv1.CurrentRow.Cells(colAmtAfterTax).Value = frm.dblTotTax + frm.dblAmtAfterDis
+
+                        UpdateAllTotals()
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub gv1_CellValueChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv1.CellValueChanged
@@ -1779,6 +1831,16 @@ Public Class FrmARInvoiceEntry
         Dim dblTaxAmt8 As Double = 0
         Dim dblTaxAmt9 As Double = 0
         Dim dblTaxAmt10 As Double = 0
+        Dim dblTaxRate1 As Double = 0
+        Dim dblTaxRate2 As Double = 0
+        Dim dblTaxRate3 As Double = 0
+        Dim dblTaxRate4 As Double = 0
+        Dim dblTaxRate5 As Double = 0
+        Dim dblTaxRate6 As Double = 0
+        Dim dblTaxRate7 As Double = 0
+        Dim dblTaxRate8 As Double = 0
+        Dim dblTaxRate9 As Double = 0
+        Dim dblTaxRate10 As Double = 0
         Dim dblTaxTotAmt As Double = 0
         Dim dblNetAmt As Double = 0
         Dim dblTaxBaseAmt1 As Double = 0
@@ -1808,6 +1870,17 @@ Public Class FrmARInvoiceEntry
                 dblTaxAmt9 = dblTaxAmt9 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxAmt9).Value)
                 dblTaxAmt10 = dblTaxAmt10 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxAmt10).Value)
                 dblTaxTotAmt = dblTaxTotAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTotTaxAmt).Value)
+                dblTaxRate1 = dblTaxRate1 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxRate1).Value)
+                dblTaxRate2 = dblTaxRate2 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxRate2).Value)
+                dblTaxRate3 = dblTaxRate3 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxRate3).Value)
+                dblTaxRate4 = dblTaxRate4 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxRate4).Value)
+                dblTaxRate5 = dblTaxRate5 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxRate5).Value)
+                dblTaxRate6 = dblTaxRate6 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxRate6).Value)
+                dblTaxRate7 = dblTaxRate7 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxRate7).Value)
+                dblTaxRate8 = dblTaxRate8 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxRate8).Value)
+                dblTaxRate9 = dblTaxRate9 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxRate9).Value)
+                dblTaxRate10 = dblTaxRate10 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxRate10).Value)
+                dblTaxTotAmt = dblTaxTotAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTotTaxAmt).Value)
                 dblNetAmt = dblNetAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(colAmtAfterTax).Value)
 
                 dblTaxBaseAmt1 = dblTaxBaseAmt1 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxBaseAmt1).Value)
@@ -1828,24 +1901,74 @@ Public Class FrmARInvoiceEntry
                 Select Case (ii)
                     Case 1
                         gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = dblTaxAmt1
+                        If dblTaxAmt1 > 0 Then
+                            gv2.Rows(ii - 1).Cells(colTTaxRate).Value = clsCommon.myRoundOFF((dblTaxAmt1 * 100) / (dblTaxBaseAmt1), 1, 4)
+                        Else
+                            gv2.Rows(ii - 1).Cells(colTTaxRate).Value = 0
+                        End If
                     Case 2
                         gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = dblTaxAmt2
+                        If dblTaxAmt2 > 0 Then
+                            gv2.Rows(ii - 1).Cells(colTTaxRate).Value = clsCommon.myRoundOFF((dblTaxAmt2 * 100) / (dblTaxBaseAmt2), 1, 4)
+                        Else
+                            gv2.Rows(ii - 1).Cells(colTTaxRate).Value = 0
+                        End If
                     Case 3
                         gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = dblTaxAmt3
+                        If dblTaxAmt3 > 0 Then
+                            gv2.Rows(ii - 1).Cells(colTTaxRate).Value = clsCommon.myRoundOFF((dblTaxAmt3 * 100) / (dblTaxBaseAmt3), 1, 4)
+                        Else
+                            gv2.Rows(ii - 1).Cells(colTTaxRate).Value = 0
+                        End If
                     Case 4
                         gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = dblTaxAmt4
+                        If dblTaxAmt4 > 0 Then
+                            gv2.Rows(ii - 1).Cells(colTTaxRate).Value = clsCommon.myRoundOFF((dblTaxAmt4 * 100) / (dblTaxBaseAmt4), 1, 4)
+                        Else
+                            gv2.Rows(ii - 1).Cells(colTTaxRate).Value = 0
+                        End If
                     Case 5
                         gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = dblTaxAmt5
+                        If dblTaxAmt5 > 0 Then
+                            gv2.Rows(ii - 1).Cells(colTTaxRate).Value = clsCommon.myRoundOFF((dblTaxAmt5 * 100) / (dblTaxBaseAmt5), 1, 4)
+                        Else
+                            gv2.Rows(ii - 1).Cells(colTTaxRate).Value = 0
+                        End If
                     Case 6
                         gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = dblTaxAmt6
+                        If dblTaxAmt6 > 0 Then
+                            gv2.Rows(ii - 1).Cells(colTTaxRate).Value = clsCommon.myRoundOFF((dblTaxAmt6 * 100) / (dblTaxBaseAmt6), 1, 4)
+                        Else
+                            gv2.Rows(ii - 1).Cells(colTTaxRate).Value = 0
+                        End If
                     Case 7
                         gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = dblTaxAmt7
+                        If dblTaxAmt7 > 0 Then
+                            gv2.Rows(ii - 1).Cells(colTTaxRate).Value = clsCommon.myRoundOFF((dblTaxAmt7 * 100) / (dblTaxBaseAmt7), 1, 4)
+                        Else
+                            gv2.Rows(ii - 1).Cells(colTTaxRate).Value = 0
+                        End If
                     Case 8
                         gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = dblTaxAmt8
+                        If dblTaxAmt7 > 0 Then
+                            gv2.Rows(ii - 1).Cells(colTTaxRate).Value = clsCommon.myRoundOFF((dblTaxAmt8 * 100) / (dblTaxBaseAmt8), 1, 4)
+                        Else
+                            gv2.Rows(ii - 1).Cells(colTTaxRate).Value = 0
+                        End If
                     Case 9
                         gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = dblTaxAmt9
+                        If dblTaxAmt7 > 0 Then
+                            gv2.Rows(ii - 1).Cells(colTTaxRate).Value = clsCommon.myRoundOFF((dblTaxAmt9 * 100) / (dblTaxBaseAmt9), 1, 4)
+                        Else
+                            gv2.Rows(ii - 1).Cells(colTTaxRate).Value = 0
+                        End If
                     Case 10
                         gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = dblTaxAmt10
+                        If dblTaxAmt7 > 0 Then
+                            gv2.Rows(ii - 1).Cells(colTTaxRate).Value = clsCommon.myRoundOFF((dblTaxAmt10 * 100) / (dblTaxBaseAmt10), 1, 4)
+                        Else
+                            gv2.Rows(ii - 1).Cells(colTTaxRate).Value = 0
+                        End If
                 End Select
                 Dim dblBaseAmt As Double = 0
                 If clsCommon.myCBool(gv2.Rows(ii - 1).Cells(colTIsSurTax).Value) Then
@@ -2143,6 +2266,32 @@ Public Class FrmARInvoiceEntry
                 End If
 
             End If
+            For irow As Integer = 0 To gv1.Rows.Count - 1
+                Dim strTaxCode As String = ""
+                Dim strTaxRate As Double = 0
+                Dim strInnerTaxCode As String = ""
+                Dim strInnerTaxRate As Double = 0
+                For ii As Integer = 0 To gv1.Columns.Count - 1
+                    If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(irow).Cells(ii).Value), "CGST") = CompairStringResult.Equal Then
+                        strTaxCode = clsCommon.myCstr(gv1.Rows(irow).Cells(ii).Value)
+                        strTaxRate = clsCommon.myCdbl(gv1.Rows(irow).Cells(ii + 2).Value)
+                    End If
+                Next
+                For jj As Integer = 0 To gv1.Columns.Count - 1
+                    If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(irow).Cells(jj).Value), "SGST") = CompairStringResult.Equal Then
+                        strInnerTaxCode = clsCommon.myCstr(gv1.Rows(irow).Cells(jj).Value)
+                        strInnerTaxRate = clsCommon.myCdbl(gv1.Rows(irow).Cells(jj + 2).Value)
+                    End If
+                Next
+
+                If clsCommon.CompairString(strTaxCode, "CGST") = CompairStringResult.Equal AndAlso clsCommon.CompairString(strInnerTaxCode, "SGST") = CompairStringResult.Equal Then
+                    If strTaxRate <> strInnerTaxRate Then
+                        clsCommon.MyMessageBoxShow(Me, "Tax rate mismatch [" & strTaxCode & "-" & strTaxRate & "] and [ " & strInnerTaxCode & "-" & strInnerTaxRate & " ] at Line no[ " & clsCommon.myCstr(irow + 1) & " ]", Me.Text)
+                        Return False
+                    End If
+                End If
+
+            Next
 
             UcCustomFields1.AllowToSave()
             UcAttachment1.AllowToSave()
@@ -2187,6 +2336,7 @@ Public Class FrmARInvoiceEntry
                 obj.Tax_Group = txtTaxGroup.Value
                 obj.PROJECT_ID = fndProject.Value
                 obj.TapalNo = clsCommon.myCstr(txtTapalNo.Text)
+                obj.Is_Einvoice = IIf(chkEinvoice.Checked, 1, 0)
                 If txtDataAndTimeSelection.Checked Then
                     obj.DateAndTime = txtDataAndTimeSelection.Value
                 End If
@@ -2620,6 +2770,7 @@ Public Class FrmARInvoiceEntry
                 txtOrderNo.Text = obj.Order_No
 
                 chkOnHold.Checked = obj.On_Hold
+                chkEinvoice.Checked = IIf(obj.Is_Einvoice = 1, True, False)
                 '=================================shivani
                 If clsCommon.myLen(obj.DateAndTime) > 0 Then
                     txtDataAndTimeSelection.Value = obj.DateAndTime
@@ -5431,5 +5582,7 @@ Public Class FrmARInvoiceEntry
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+
 End Class
 

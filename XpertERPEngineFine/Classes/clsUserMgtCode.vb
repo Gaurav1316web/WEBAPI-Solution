@@ -231,6 +231,7 @@ Public Class clsUserMgtCode
     '--Dairy Sales Trnasaction
     Public Const RptRouteWiseSaleRegister As String = "RPT_RTE_SLE"
     Public Const SaleEinvoiceReport As String = "SA_EIV_RPT"
+    Public Const rptSaleInvoiceStatusReport As String = "SA_INV_RPT"
     Public Const SubModuleSaleDairyTransaction As String = "SMSDairyT"
     Public Const frmbookingdairy As String = "BOOK-DS"
     'Public Const frmbookingdairyFreshSale As String = "BOOK-DS_FSH"
@@ -2820,8 +2821,9 @@ Public Class clsUserMgtCode
 
     Public Const XpertAPIMilkMilkRegister As String = "API-MLK-REG"
     Public Const XpertAPIDairyGatePass As String = "API-GT-PASS"
-    Public Const XpertAPIBMCDCSSamplingReceiving As String = "BMC-DCS-SR"
     Public Const XpertAPITruckSheet As String = "API-TS-RPT"
+    Public Const XpertAPIBMCDCSSamplingReceiving As String = "BMC-DCS-SR"
+    Public Const XpertAPIBMCDCSSampleReceivedRegister As String = "API-DCS-SMR"
     ''=================== MIS start here============
 
     Public Const ModuleMIS As String = "MMIS"

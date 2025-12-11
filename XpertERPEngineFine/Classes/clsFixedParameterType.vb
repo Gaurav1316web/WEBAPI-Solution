@@ -1374,6 +1374,7 @@ Public Class clsFixedParameterType
     Public Const DisplayTransporterAddress = "Display Transporter Address"
     Public Const AllowRouteWiseDemandEntryInDecimal = "Allow Route Wise Demand Entry In Decimal"
     Public Const AllowToCheckEntryUOMForProduct = "Allow To Check Entry UOM For Product"
+    Public Const AllowToCheckZeroQtyonDispatch = "Allow To Check Zero Qty on Dispatch"
 End Class
 Public Class clsFixedParameterCode
     Public Const AutoGenerateFarmerPriceFromDCSPrice As String = "Auto Generate Farmer Price From DCS Price"
@@ -1390,8 +1391,8 @@ Public Class clsFixedParameterCode
     Public Const TuneTime As String = "Tune Time"
 
     Public Const BMCStartTime As String = "BMC Start Time"
-    Public Const BMCEndHours As String = "BMC End Hours"
-    Public Const DCSEndHours As String = "DCS End Hours"
+    Public Const BMCEndHours As String = "BMC End hours"
+    Public Const DCSEndHours As String = "DCS End hours"
 
     Public Const ApplySendApprovalSetting As String = "Apply Send Approval Setting"
     Public Const ViewDCSMilkPurchaseRegister As String = "View DCS Milk Purchase Register"
@@ -2907,6 +2908,7 @@ Public Class clsFixedParameterCode
     Public Const DisplayTransporterAddress = "Display Transporter Address"
     Public Const AllowRouteWiseDemandEntryInDecimal = "Allow Route Wise Demand Entry In Decimal"
     Public Const AllowToCheckEntryUOMForProduct = "Allow To Check Entry UOM For Product"
+    Public Const AllowToCheckZeroQtyonDispatch = "Allow To Check Zero Qty on Dispatch"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4614,6 +4616,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.DisplayTransporterAddress, clsFixedParameterCode.DisplayTransporterAddress, "0", "0:Company Address, 1:Transporter Address")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowRouteWiseDemandEntryInDecimal, clsFixedParameterCode.AllowRouteWiseDemandEntryInDecimal, "0", "0:Off, 1:On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowToCheckEntryUOMForProduct, clsFixedParameterCode.AllowToCheckEntryUOMForProduct, "0", "0:Off, 1:On")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AllowToCheckZeroQtyonDispatch, clsFixedParameterCode.AllowToCheckZeroQtyonDispatch, "0", "0:Off, 1:On")
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
     End Function
@@ -6517,5 +6520,6 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.FrmUtilityForm, clsFixedParameterType.DisplayTransporterAddress, clsFixedParameterCode.DisplayTransporterAddress, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmRouteMaster, clsFixedParameterType.AllowRouteWiseDemandEntryInDecimal, clsFixedParameterCode.AllowRouteWiseDemandEntryInDecimal, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.userMaster, clsFixedParameterType.AllowToCheckEntryUOMForProduct, clsFixedParameterCode.AllowToCheckEntryUOMForProduct, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.AllowToCheckZeroQtyonDispatch, clsFixedParameterCode.AllowToCheckZeroQtyonDispatch, EnumControlType.CheckBox)
     End Sub
 End Class

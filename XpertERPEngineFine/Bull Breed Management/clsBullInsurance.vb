@@ -169,6 +169,7 @@ Public Class clsBullInsurance
                 Throw New Exception("Document No not found to Post")
             End If
             Dim obj As clsBullInsurance = clsBullInsurance.GetData(strDocNo, NavigatorType.Current, "", trans)
+
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
@@ -176,6 +177,7 @@ Public Class clsBullInsurance
                 Throw New Exception("Already Posted")
             End If
             clsDBFuncationality.ExecuteNonQuery("Update TSPL_BULL_INSURANCE set Status= 1, Posted_By = '" + objCommonVar.CurrentUserCode + "',Posted_Date = '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt") + "'  where Document_Code='" & obj.Document_Code & "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_BULL_INSURANCE", "Document_Code", trans)
 
         Catch ex As Exception
 
@@ -221,6 +223,7 @@ Public Class clsBullInsurance
             clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
             clsCommon.AddColumnsForChange(coll, "Posted_Date", Nothing, True)
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BULL_INSURANCE", OMInsertOrUpdate.Update, "Document_Code='" + obj.Document_Code + "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_BULL_INSURANCE", "Document_Code", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -251,6 +254,9 @@ Public Class clsBullInsurance
             If clsCommon.CompairString(obj.Status, "1") = CompairStringResult.Equal Then
                 Throw New Exception("Already Posted")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_BULL_INSURANCE", "Document_Code", "TSPL_BULL_INSURANCE_TAG", "Document_Code", trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_BULL_INSURANCE", "Document_Code", "TSPL_BULL_INSURANCE_TAG", "Document_Code", trans)
+
             Dim qry As String = Nothing
             qry = "delete from TSPL_BULL_INSURANCE_TAG where Document_Code='" + obj.Document_Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)

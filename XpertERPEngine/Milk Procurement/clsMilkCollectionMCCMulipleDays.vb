@@ -158,7 +158,7 @@ where 2=2"
             If (obj.Status = ERPTransactionStatus.Approved OrElse obj.Status = ERPTransactionStatus.Posted) Then
                 Throw New Exception("Already Posted on :" + obj.Posting_Date)
             End If
-            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS", "Document_No", "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL", "Document_No", trans)
+            'clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS", "Document_No", "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL", "Document_No", trans)
             HistoryUpdate(strCode, trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL where Document_No='" + strCode + "'", trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS where Document_No='" + strCode + "'", trans)

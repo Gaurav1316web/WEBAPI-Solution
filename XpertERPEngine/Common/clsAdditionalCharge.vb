@@ -155,8 +155,11 @@ Public Class clsAdditionalCharge
             obj.ServiceType = clsCommon.myCstr(dt.Rows(0)("Service_Type"))
             obj.SACCode = clsCommon.myCstr(dt.Rows(0)("SAC_Code"))
             obj.SAC_Description = clsCommon.myCstr(dt.Rows(0)("SAC_Description"))
-            obj.Tax_Group_Code = clsCommon.myCstr(dt.Rows(0)("Tax_Group_Code"))
-            obj.HCODE = clsCommon.myCstr(dt.Rows(0)("HCODE"))
+            If clsCommon.CompairString(Form_ID, "VEN-SER-CHG") = CompairStringResult.Equal Then
+                obj.Tax_Group_Code = clsCommon.myCstr(dt.Rows(0)("Tax_Group_Code"))
+                obj.HCODE = clsCommon.myCstr(dt.Rows(0)("HCODE"))
+            End If
+
         End If
 
         Return obj
@@ -186,6 +189,7 @@ Public Class clsAdditionalCharge
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0) Then
             Try
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, Code, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, Code, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
 
                 Dim qry As String = "delete from tspl_Additional_Charges where Code='" + Code + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -300,6 +304,7 @@ Public Class clsCustomerMaster
     Public Route_No As String
     Public P_Route_No As String
     Public I_Route_No As String
+    Public Is_Skip_Balance As Integer = 0
     Public City_Code As String
     Public State As String
     Public Country As String
@@ -513,7 +518,7 @@ Public Class clsCustomerMaster
                      " ,[Credit_Limit],[Channel_Desc],[Visi_Desc],[Salesman_Desc],[Route_Group],[CST],[ECC],[Range],[Collectorate],[PAN],[Division], [Parent_Customer_No],Customer_Class,credit_customer,Price_CodeNon,Price_CodeFOR,Inter_branch,transaction_type,Agg_Made_Date,Agg_Close_Date,CURRENCY_CODE,parent_customer_yn,Service_Dealer_Code,TDM_Code,Distributor_Code,IsDistributor,Is_Default_Grower,Price_Group_Code,CSA_Type,Category_Struct_Code,TempCreditLimit,TempCreditLimitFrom,TempCreditLimitTo,CheckCreditLimit,Alies_Name,Zone_Code,[PIN_NO],Crate_Opening ,Crate_Opening_Date,Franchise_Code,Other_For_PAN,Default_Cash_Customer,Reference,EMP_CODE,Is_Staff,OldName,VehicleNo,Driver_Name,Driver_Mobile_No,Manual_Customer,GSTNO,GSTEntity,GSTBlank,GSTDigit,Region_Type,GST_Registered,GST_COMPOSITION,[Priority_Level],FSSAI_NO,SubsidyAmount,RSM,ASM,ASO,ZSM,Booking_Type,Customer_Category,isnull(Bank_Name,'') as Bank_Name,isnull(IFSC_Code,'') as IFSC_Code,isnull(Branch_Name,'') as Branch_Name,isnull(Account_No,'') as Account_No,isnull(IsTCSnotApplicable,0) as IsTCSnotApplicable,isnull(IsTurnoverMorethan10CR,0) as IsTurnoverMorethan10CR,isnull(IsTCSGreaterthan50K,0) as IsTCSGreaterthan50K,isnull(IsITRfilledinLast2Years,0) as IsITRfilledinLast2Years " &
                      " ,isnull(F_H_Name,'') as F_H_Name,isnull(Education,'') as Education,isnull(ResidentialAdd1,'') as ResidentialAdd1,isnull(ResidentialAdd2,'') as ResidentialAdd2,DOB,MaritalStatus,CustStatus,Area_Code " &
                      " ,[Customer_Name_Hindi],TSPL_Customer_Master_ParaInactive.perinactive as [Perinactive],
-IsReorder,Cast_Category_Code,Distict_Code,Block_Code,Revenue_Village_Code,Grampanchayat_Code,Panchayat_Samiti_Code,Vidhan_Sabha_Code,[Virtual_Ac_no],[P_Route_No],[I_Route_No],[Split_Print],[CFP_Unit],SkipNonTaxableInvoice,SkipTaxableInvoice,Inter_Union_Sale as [Inter Union Sale] from TSPL_CUSTOMER_MASTER
+IsReorder,Cast_Category_Code,Distict_Code,Block_Code,Revenue_Village_Code,Grampanchayat_Code,Panchayat_Samiti_Code,Vidhan_Sabha_Code,[Virtual_Ac_no],[P_Route_No],[I_Route_No],[Is_Skip_Balance],[Split_Print],[CFP_Unit],SkipNonTaxableInvoice,SkipTaxableInvoice,Inter_Union_Sale as [Inter Union Sale] from TSPL_CUSTOMER_MASTER
 left outer join TSPL_Customer_Master_ParaInactive on TSPL_Customer_Master_ParaInactive.customer_code=TSPL_CUSTOMER_MASTER.cust_code
 where CUSTOMER_FORM_TYPE='VSP' and Cust_Code = '" + strCustCode + "'"
 
@@ -527,7 +532,7 @@ where CUSTOMER_FORM_TYPE='VSP' and Cust_Code = '" + strCustCode + "'"
                      " ,[Tin_No],[Lst_No],[Form_Type],[Channel_Code],[Status],[OnHold],[Remarks1],[Remarks2],[Additional1],[Additional2],[Additional3],[Salesman_Code],[Visi_Id] " &
                      " ,[Credit_Limit],[Channel_Desc],[Visi_Desc],[Salesman_Desc],[Route_Group],[CST],[ECC],[Range],[Collectorate],[PAN],[Division], [Parent_Customer_No],Customer_Class,credit_customer,Price_CodeNon,Price_CodeFOR,Inter_branch,transaction_type,Agg_Made_Date,Agg_Close_Date,CURRENCY_CODE,parent_customer_yn,Service_Dealer_Code,TDM_Code,Distributor_Code,IsDistributor,Is_Default_Grower,Price_Group_Code,CSA_Type,Category_Struct_Code,TempCreditLimit,TempCreditLimitFrom,TempCreditLimitTo,CheckCreditLimit,Alies_Name,Zone_Code,[PIN_NO],Crate_Opening ,Crate_Opening_Date,Franchise_Code,Other_For_PAN,Default_Cash_Customer,Reference,EMP_CODE,Is_Staff,OldName,VehicleNo,Driver_Name,Driver_Mobile_No,Manual_Customer,GSTNO,GSTEntity,GSTBlank,GSTDigit,Region_Type,GST_Registered,GST_COMPOSITION,[Priority_Level],FSSAI_NO,SubsidyAmount,RSM,ASM,ASO,ZSM,Booking_Type,Customer_Category,isnull(Bank_Name,'') as Bank_Name,isnull(IFSC_Code,'') as IFSC_Code,isnull(Branch_Name,'') as Branch_Name,isnull(Account_No,'') as Account_No,isnull(IsTCSnotApplicable,0) as IsTCSnotApplicable,isnull(IsTurnoverMorethan10CR,0) as IsTurnoverMorethan10CR,isnull(IsTCSGreaterthan50K,0) as IsTCSGreaterthan50K,isnull(IsITRfilledinLast2Years,0) as IsITRfilledinLast2Years " &
                      " ,isnull(F_H_Name,'') as F_H_Name,isnull(Education,'') as Education,isnull(ResidentialAdd1,'') as ResidentialAdd1,isnull(ResidentialAdd2,'') as ResidentialAdd2,DOB,MaritalStatus,CustStatus,Area_Code " &
-                     " ,[Customer_Name_Hindi],IsReorder,Cast_Category_Code,Distict_Code,Block_Code,Revenue_Village_Code,Grampanchayat_Code,Panchayat_Samiti_Code,Vidhan_Sabha_Code,[Virtual_Ac_no],[P_Route_No],[I_Route_No],[Split_Print],[CFP_Unit],SkipNonTaxableInvoice,SkipTaxableInvoice,Inter_Union_Sale as [Inter Union Sale],TSPL_Customer_Master_ParaInactive.perinactive as [Perinactive] from TSPL_CUSTOMER_MASTER
+                     " ,[Customer_Name_Hindi],IsReorder,Cast_Category_Code,Distict_Code,Block_Code,Revenue_Village_Code,Grampanchayat_Code,Panchayat_Samiti_Code,Vidhan_Sabha_Code,[Virtual_Ac_no],[P_Route_No],[I_Route_No],[Is_Skip_Balance],[Split_Print],[CFP_Unit],SkipNonTaxableInvoice,SkipTaxableInvoice,Inter_Union_Sale as [Inter Union Sale],TSPL_Customer_Master_ParaInactive.perinactive as [Perinactive] from TSPL_CUSTOMER_MASTER
                      left outer join TSPL_Customer_Master_ParaInactive on TSPL_Customer_Master_ParaInactive.customer_code=TSPL_CUSTOMER_MASTER.cust_code
 
                      where CUSTOMER_FORM_TYPE='VSP' and Cust_Code = '" + strCustCode + "'"
@@ -541,7 +546,7 @@ where CUSTOMER_FORM_TYPE='VSP' and Cust_Code = '" + strCustCode + "'"
                      " ,[Tin_No],[Lst_No],[Form_Type],[Channel_Code],[Status],[OnHold],[Remarks1],[Remarks2],[Additional1],[Additional2],[Additional3],[Salesman_Code],[Visi_Id] " &
                      " ,[Credit_Limit],[Channel_Desc],[Visi_Desc],[Salesman_Desc],[Route_Group],[CST],[ECC],[Range],[Collectorate],[PAN],[Division], [Parent_Customer_No],Customer_Class,credit_customer,Price_CodeNon,Price_CodeFOR,Inter_branch,transaction_type,Agg_Made_Date,Agg_Close_Date,CURRENCY_CODE,parent_customer_yn,Service_Dealer_Code,TDM_Code,Distributor_Code,IsDistributor,Is_Default_Grower,Price_Group_Code,CSA_Type,Category_Struct_Code,TempCreditLimit,TempCreditLimitFrom,TempCreditLimitTo,CheckCreditLimit,Alies_Name,Zone_Code,[PIN_NO],Crate_Opening ,Crate_Opening_Date,Franchise_Code,Other_For_PAN,Default_Cash_Customer,Reference,EMP_CODE,Is_Staff,OldName,VehicleNo,Driver_Name,Driver_Mobile_No,Manual_Customer,GSTNO,GSTEntity,GSTBlank,GSTDigit,Region_Type,GST_Registered,GST_COMPOSITION,[Priority_Level],FSSAI_NO,SubsidyAmount,RSM,ASM,ASO,ZSM,Booking_Type,Customer_Category,isnull(Bank_Name,'') as Bank_Name,isnull(IFSC_Code,'') as IFSC_Code,isnull(Branch_Name,'') as Branch_Name,isnull(Account_No,'') as Account_No,isnull(IsTCSnotApplicable,0) as IsTCSnotApplicable,isnull(IsTurnoverMorethan10CR,0) as IsTurnoverMorethan10CR,isnull(IsTCSGreaterthan50K,0) as IsTCSGreaterthan50K,isnull(IsITRfilledinLast2Years,0) as IsITRfilledinLast2Years " &
                      " ,isnull(F_H_Name,'') as F_H_Name,isnull(Education,'') as Education,isnull(ResidentialAdd1,'') as ResidentialAdd1,isnull(ResidentialAdd2,'') as ResidentialAdd2,DOB,MaritalStatus,CustStatus,Area_Code " &
-                     " ,[Customer_Name_Hindi],IsReorder,Cast_Category_Code,Distict_Code,Block_Code,Revenue_Village_Code,Grampanchayat_Code,Panchayat_Samiti_Code,Vidhan_Sabha_Code,[Virtual_Ac_no],[P_Route_No],[I_Route_No],[Split_Print],[CFP_Unit],SkipNonTaxableInvoice,SkipTaxableInvoice,Inter_Union_Sale as [Inter Union Sale],TSPL_Customer_Master_ParaInactive.perinactive as [Perinactive]
+                     " ,[Customer_Name_Hindi],IsReorder,Cast_Category_Code,Distict_Code,Block_Code,Revenue_Village_Code,Grampanchayat_Code,Panchayat_Samiti_Code,Vidhan_Sabha_Code,[Virtual_Ac_no],[P_Route_No],[I_Route_No],[Is_Skip_Balance],[Split_Print],[CFP_Unit],SkipNonTaxableInvoice,SkipTaxableInvoice,Inter_Union_Sale as [Inter Union Sale],TSPL_Customer_Master_ParaInactive.perinactive as [Perinactive]
                      from TSPL_CUSTOMER_MASTER
                      left outer join TSPL_Customer_Master_ParaInactive on TSPL_Customer_Master_ParaInactive.customer_code=TSPL_CUSTOMER_MASTER.cust_code
 
@@ -687,6 +692,7 @@ where TSPL_DEMAND_BOOKING_MASTER.Route_No='" + PrevRoute + "' and TSPL_DEMAND_BO
                 clsCommon.AddColumnsForChange(coll, "Route_No", obj.Route_No, True)
                 clsCommon.AddColumnsForChange(coll, "P_Route_No", obj.P_Route_No, True)
                 clsCommon.AddColumnsForChange(coll, "I_Route_No", obj.I_Route_No, True)
+                clsCommon.AddColumnsForChange(coll, "Is_Skip_Balance", obj.Is_Skip_Balance, True)
                 Dim Route_Desc As String = clsDBFuncationality.getSingleValue("Select Route_Desc from TSPL_ROUTE_MASTER Where Route_No='" + obj.Route_No + "'", trans)
                 clsCommon.AddColumnsForChange(coll, "Route_Desc", Route_Desc)
                 clsCommon.AddColumnsForChange(coll, "City_Code", obj.City_Code)

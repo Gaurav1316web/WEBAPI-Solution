@@ -99,9 +99,10 @@ Public Class ClsTDSPayment
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TDS_PAYMENT_HEADER", OMInsertOrUpdate.Update, "TSPL_TDS_PAYMENT_HEADER.Document_No='" + obj.Document_No + "'", trans)
             End If
             ClsTDSPaymentDetail.saveData(obj.arrTDSPaymentDetail, obj.Document_No, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_TDS_PAYMENT_HEADER", "Document_No", "TSPL_TDS_PAYMENT_DETAIL", "Document_No", trans)
 
             ClsTDSPaymentDetailTDS_ND.saveData(obj.arrTDSPaymentDetail_TDS_ND, obj.Document_No, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_TDS_PAYMENT_HEADER", "Document_No", "TSPL_TDS_PAYMENT_DETAIL", "Document_No", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         Finally

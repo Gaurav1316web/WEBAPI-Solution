@@ -1279,7 +1279,7 @@ Public Class clsAssetDispatchRetailerHead
             End If
 
             'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Issue/Return/Transfer", obj.From_Location, obj.Doc_Date, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ASSET_DISPATCH_RETAILER_HEAD", "Doc_No", "TSPL_ASSET_DISPATCH_RETAILER_DETAIL", "Doc_No", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ASSET_DISPATCH_RETAILER_HEAD", "Doc_No", "TSPL_ASSET_DISPATCH_RETAILER_DETAIL", "Doc_No", trans)
             If Not obj.Status = 1 Then
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If
@@ -1303,6 +1303,7 @@ Public Class clsAssetDispatchRetailerHead
             End If
             qry = "Update TSPL_ASSET_DISPATCH_RETAILER_HEAD set Status=0, Posting_Date=NULL, Modify_By='" + objCommonVar.CurrentUserCode + "' where Doc_No='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ASSET_DISPATCH_RETAILER_HEAD", "Doc_No", "TSPL_ASSET_DISPATCH_RETAILER_DETAIL", "Doc_No", trans)
 
             trans.Commit()
         Catch ex As Exception

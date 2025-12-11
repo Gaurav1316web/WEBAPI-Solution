@@ -50,6 +50,11 @@ Public Class rptTemporaryPaymentDeductionSummary
         btnPrint.Text = Nothing
         PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID)
         GetReportID()
+        If chkCurrntCycle.Checked Then
+            Print(False)
+           ' PrintChkwiseData(False)
+            Exit Sub
+        End If
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse
                 clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal OrElse
                 clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal OrElse
@@ -267,7 +272,7 @@ left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_CUSTOMER_VE
 where 2=2 
 
 union all
-Select '' as Document_No,'' as Doc_Date,TSPL_VENDOR_INVOICE_HEAD.Document_No as AP_Invoice_No,TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VENDOR_INVOICE_HEAD.Document_Total as Amount,0 as Reduce_Deduc_Amt,6 as RI,TSPL_VLC_MASTER_HEAD.Active from TSPL_VENDOR_INVOICE_DETAIL
+Select '' as Document_No,TSPL_VENDOR_INVOICE_HEAD.Posting_Date as Doc_Date,TSPL_VENDOR_INVOICE_HEAD.Document_No as AP_Invoice_No,TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VENDOR_INVOICE_HEAD.Document_Total as Amount,0 as Reduce_Deduc_Amt,6 as RI,TSPL_VLC_MASTER_HEAD.Active from TSPL_VENDOR_INVOICE_DETAIL
 LEFT OUTER JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_VENDOR_INVOICE_DETAIL.Document_No
 left outer join TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
 WHERE 2=2  and  RefDocType In('CAP-MSN-CDCS','CAP-MSN','CAP-OMSN')
@@ -1475,4 +1480,309 @@ union all
             clsCommon.MyMessageBoxShow(Me, ex.ToString)
         End Try
     End Sub
+
+    Sub PrintChkwiseData(ByVal isPrint As Boolean, Optional ByVal isPrerint As Boolean = False)
+        Try
+            Dim strDocNo As String = Nothing
+            Dim strDocQry = "select Doc_No from TSPL_PAYMENT_PROCESS_head where convert(date,From_Date,103)>=convert(date,('" + fromDate.Value + "'),103) and convert(date,To_Date,103)<=convert(date,('" + ToDate.Value + "'),103)"
+            Dim dtDocNo As DataTable = clsDBFuncationality.GetDataTable(strDocQry)
+            If dtDocNo IsNot Nothing AndAlso dtDocNo.Rows.Count > 0 Then
+                Dim arr As New ArrayList
+                For Each dr As DataRow In dtDocNo.Rows
+                    arr.Add(clsCommon.myCstr(dr("Doc_No")))
+                Next
+                strDocNo = clsCommon.GetMulcallString(arr)
+            End If
+
+            Dim StrVSPCODE As String = " Select Distinct VSP_CODE from TSPL_PAYMENT_PROCESS_DETAIL where Doc_No In (" + strDocNo + ")
+ "
+            Dim dtvspcode As DataTable = clsDBFuncationality.GetDataTable(StrVSPCODE)
+            If dtvspcode IsNot Nothing AndAlso dtvspcode.Rows.Count > 0 Then
+                Dim arr As New ArrayList
+                For Each dr As DataRow In dtvspcode.Rows
+                    arr.Add(clsCommon.myCstr(dr("VSP_CODE")))
+                Next
+                StrVSPCODE = clsCommon.GetMulcallString(arr)
+            End If
+
+            Dim qry As String = ""
+            Dim dt1 As New DataTable
+
+            Dim whrActiveInactive As String = Nothing
+            If rbtnActive.Checked Then
+                whrActiveInactive = " And TSPL_VLC_MASTER_HEAD.Active=1 "
+                'whrActiveInactive = " And xxx.Active=1 "
+            ElseIf rbtnInActive.Checked Then
+                whrActiveInactive = " And TSPL_VLC_MASTER_HEAD.Active=0 "
+                'whrActiveInactive = " And xxx.Active=0 "
+            Else
+                whrActiveInactive = Nothing
+            End If
+
+            If rdbOldOutstanding.Checked Then ''1,2,3
+                qry = "select top 1 From_Date,To_Date from TSPL_PAYMENT_CYCLE_GENERATED where From_Date<'" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' order by MCC_Code,From_Date desc"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                    Throw New Exception("Please Generate Payment Cycle")
+                End If
+                qry = GetBAseQeryforcycle(clsCommon.myCDate(dt.Rows(0)("From_Date")), clsCommon.myCDate(dt.Rows(0)("To_Date")), StrVSPCODE, strDocNo)
+            ElseIf rdbOldCurrent.Checked OrElse rdbCurrentStanding.Checked = True Then
+                qry = GetBAseQeryforcycle(fromDate.Value, ToDate.Value, StrVSPCODE, strDocNo)
+            ElseIf chkWithOpening.Checked OrElse chkORD_CD.Checked Then
+                'Dim strDocNo As String = Nothing
+                'Dim strDocQry = "select Doc_No from TSPL_PAYMENT_PROCESS_head where convert(date,From_Date,103)>=convert(date,('" + fromDate.Value + "'),103) and convert(date,To_Date,103)<=convert(date,('" + ToDate.Value + "'),103)"
+                'Dim dtDocNo As DataTable = clsDBFuncationality.GetDataTable(strDocQry)
+                'If dtDocNo IsNot Nothing AndAlso dtDocNo.Rows.Count > 0 Then
+                '    Dim arr As New ArrayList
+                '    For Each dr As DataRow In dtDocNo.Rows
+                '        arr.Add(clsCommon.myCstr(dr("Doc_No")))
+                '    Next
+                '    strDocNo = clsCommon.GetMulcallString(arr)
+                'End If
+
+                Dim strOldDocNo As String = Nothing
+                If clsCommon.myLen(strDocNo) > 0 Then
+                    strOldDocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT TOP 1 Doc_No  from TSPL_PAYMENT_PROCESS_head where convert(date,To_Date,103)<=convert(date,('" + ToDate.Value + "'),103) AND TSPL_PAYMENT_PROCESS_head.Doc_No in (" + strDocNo + ") ORDER BY From_Date DESC"))
+                Else
+                    strDocNo = "''"
+                    strOldDocNo = "''"
+                End If
+
+                Dim subMCCQry1 As String = Nothing
+                Dim subMCCQry2 As String = Nothing
+                If txtMCC.Value.Length > 0 Then
+                    subMCCQry1 = " and TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Value + "'"
+                    'subMCCQry2 = " and TSPL_MULTIPLE_DEDUCTION_HEAD.MCC_Code='" + txtMCC.Value + "'"
+                End If
+
+                Dim subQryWhere As String = Nothing
+                If txtDeduction.Value.Length > 0 Then
+                    subQryWhere = "where Final.Ded_Code='" + txtDeduction.Value + "'"
+                End If
+
+                Dim subQry As String = Nothing
+                Dim subDCSQry As String = Nothing
+                If chkDCSWise.Checked = True Then
+                    subDCSQry = ",Max(VSP_Uploader_Code) as DCSCode,Max(Vendor_NAME) As 'DCS Name'"
+                    subQry = ",Final.Vendor_CODE"
+                End If
+                If chkWithOpening.Checked = True Then ''4
+                    qry = "select case when isnull(Final.Type,'D')='D' then 'Deduction' when isnull(Final.Type,'')='A' then 'Addition' else '' end Type
+                       ,Max(Ded_code+'-'+Ded_Desc) as DeductionName " + subDCSQry + ", sum(Amount) as [Amount] from ( 
+                        select case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type
+                        ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as VSP_Uploader_Code 
+                        ,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name
+                        ,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode as Ded_Code,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc as Ded_Desc
+                        ,isnull(TSPL_MULTIPLE_DEDUCTION_detail.amount,0) as Amount
+                        from TSPL_MULTIPLE_DEDUCTION_HEAD 
+                        LEFT OUTER JOIN TSPL_MULTIPLE_DEDUCTION_DETAIL ON TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No =TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
+                        left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader,TSPL_VLC_MASTER_HEAD.Active from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code
+                        where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 " + whrActiveInactive + "
+                        and TSPL_MULTIPLE_DEDUCTION_HEAD.IsOpening=1 and convert(date,Document_Date,103)>=convert(date,('" + fromDate.Value + "'),103) and convert(date,Document_Date,103)<=convert(date,('" + ToDate.Value + "'),103) " + subMCCQry1 + "
+                        ) Final " + subQryWhere + " group by  Final.Ded_Code ,[Type]" + subQry + " order by [Type] desc"
+
+                ElseIf chkORD_CD.Checked = True Then ''5
+                    qry = "select case when isnull(Final.Type,'D')='D' then 'Deduction' when isnull(Final.Type,'')='A' then 'Addition' else '' end Type,Max(Ded_code+'-'+Ded_Desc) as DeductionName
+                        " + subDCSQry + ", sum(Amount) as [Amount] from ( 
+                        Select 'D' Type,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc,TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt as Amount 
+                        from TSPL_PAYMENT_PROCESS_DEDUCTION 
+                        left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
+                        where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in ('" + strOldDocNo + "')  AND ISNULL(TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt,0)>0  " + whrActiveInactive + "
+                        UNION ALL 
+                        Select 'D' Type,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc,TSPL_PAYMENT_PROCESS_DEDUCTION.Amount-TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt as Amount 
+                        from TSPL_PAYMENT_PROCESS_DEDUCTION 
+                        left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
+                        where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ") " + subMCCQry1 + "" + whrActiveInactive + "
+                        ) Final " + subQryWhere + " group by  Final.Ded_Code ,[Type] " + subQry + " order by [Type] desc"
+                End If
+            End If
+            If btnPrint.Text = "Print" Then
+                dtPrint = clsDBFuncationality.GetDataTable(qry)
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dtPrint, "rptTempPayDedctSummaryList", "TP Print")
+                frmCRV = Nothing
+            Else
+                dt1 = Nothing
+                dt1 = clsDBFuncationality.GetDataTable(qry)
+                Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                Gv1.DataSource = Nothing
+                Gv1.Rows.Clear()
+                Gv1.Columns.Clear()
+                Gv1.GroupDescriptors.Clear()
+                Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                Gv1.MasterView.Refresh()
+
+                If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                    Exit Sub
+                Else
+                    Gv1.DataSource = dt1
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    SetGridFormatUDP()
+                    ReStoreGridLayout()
+                End If
+                EnableDisableControl(False)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+    End Sub
+
+    Function GetBAseQeryforcycle(ByVal fromDate As Date, ByVal ToDate As Date, ByVal strVSPCode As String, ByVal strDocNo As String) As String
+        Dim whrActiveInactive As String = Nothing
+        Dim BaseQry As String = "select TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo as AP_Invoice_No,
+TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,
+TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_MULTIPLE_DEDUCTION_DETAIL.Amount,0 as Reduce_Deduc_Amt ,1 as RI,TSPL_VLC_MASTER_HEAD.Active
+from TSPL_MULTIPLE_DEDUCTION_DETAIL
+left  join TSPL_MULTIPLE_DEDUCTION_HEAD on TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No 
+left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo
+left  join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+where 2=2  and TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader In (" + strVSPCode + ")"
+
+
+        BaseQry += "Union all
+select TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No as Document_No, TSPL_PAYMENT_PROCESS_HEAD.To_Date as Doc_Date,TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No ,
+TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,
+TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_DEDUCTION.Amount,
+TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt,2 as RI,TSPL_VLC_MASTER_HEAD.Active   
+from TSPL_PAYMENT_PROCESS_DEDUCTION
+left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
+left  join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No
+left join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No 
+left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+where 2=2  and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode is not null  and TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No In (" + strDocNo + ")
+Union all
+select TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No as Document_No, TSPL_PAYMENT_PROCESS_HEAD.To_Date as Doc_Date,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No,
+TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,
+TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount,0 as Reduce_Deduc_Amt,3 as RI,TSPL_VLC_MASTER_HEAD.Active
+from TSPL_PAYMENT_PROCESS_CREDIT_NOTE
+left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
+left  join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No
+left join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No 
+left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+where 2=2 and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode is not null and TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No In (" + strDocNo + ")
+union all 
+select TSPL_SD_SHIPMENT_HEAD.Document_Code as Document_No,TSPL_SD_SHIPMENT_HEAD.Document_Date,TSPL_Customer_Invoice_Head.Document_No as AP_Invoice_No ,TSPL_Customer_Invoice_Head.Posting_Date as AP_Invoice_Date,'D' as Document_Type,TSPL_SD_SHIPMENT_HEAD.Deduction as DeductionCode,TSPL_VLC_MASTER_HEAD.VSP_Code as Vendor_Code ,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ,TSPL_SD_SHIPMENT_HEAD.Total_Amt as Amount,0 as Reduce_Deduc_Amt ,4 as RI,TSPL_VLC_MASTER_HEAD.Active 
+from  TSPL_SD_SHIPMENT_HEAD 
+left outer join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code
+left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code = TSPL_SD_SHIPMENT_HEAD.Deduction 
+left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_VLC_MASTER_HEAD.VSP_Code
+left outer join TSPL_CUSTOMER_INVOICE_HEAD on TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No
+where  TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC' and TSPL_SD_SHIPMENT_HEAD.is_cashsale='N'  and TSPL_SD_SHIPMENT_HEAD.Status=1 
+and TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader In (" + strVSPCode + ")
+union all
+select TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No as Document_No, TSPL_PAYMENT_PROCESS_HEAD.To_Date as Doc_Date,TSPL_PAYMENT_PROCESS_MCC_SALE.AR_Invoice_No as AP_Invoice_No ,TSPL_Customer_Invoice_Head.Posting_Date as AP_Invoice_Date,'D' as Document_Type,TSPL_SD_SHIPMENT_HEAD.Deduction as DeductionCode,TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_MCC_SALE.Amount,TSPL_PAYMENT_PROCESS_MCC_SALE.Reduce_Deduc_Amt,5 as RI,TSPL_VLC_MASTER_HEAD.Active
+from TSPL_PAYMENT_PROCESS_MCC_SALE
+left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_PAYMENT_PROCESS_MCC_SALE.Shipment_Doc_No
+left outer join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Document_No=TSPL_PAYMENT_PROCESS_MCC_SALE.AR_Invoice_No
+left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No
+left outer join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code
+where 2=2 and TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" + strDocNo + ")
+
+union all
+Select '' as Document_No,'' as Doc_Date,TSPL_VENDOR_INVOICE_HEAD.Document_No as AP_Invoice_No,TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VENDOR_INVOICE_HEAD.Document_Total as Amount,0 as Reduce_Deduc_Amt,6 as RI,TSPL_VLC_MASTER_HEAD.Active from TSPL_VENDOR_INVOICE_DETAIL
+LEFT OUTER JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_VENDOR_INVOICE_DETAIL.Document_No
+left outer join TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+WHERE 2=2  and  RefDocType In('CAP-MSN-CDCS','CAP-MSN','CAP-OMSN') 
+
+union all
+Select TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No as Document_No, TSPL_PAYMENT_PROCESS_HEAD.To_Date as Doc_Date,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No,
+TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,
+TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount,0 as Reduce_Deduc_Amt,7 as RI,TSPL_VLC_MASTER_HEAD.Active 
+from TSPL_PAYMENT_PROCESS_CREDIT_NOTE
+left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
+left join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No
+left  join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No
+left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+where 2=2  and RefDocType In('CAP-MSN-CDCS','CAP-MSN','CAP-OMSN')
+
+union all
+Select TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No as Document_No, TSPL_PAYMENT_PROCESS_HEAD.To_Date as Doc_Date,TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No ,
+TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,
+TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_DEDUCTION.Amount,
+TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt,8 as RI,TSPL_VLC_MASTER_HEAD.Active 
+from TSPL_PAYMENT_PROCESS_DEDUCTION
+left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
+left join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No
+left  join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No
+left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+where 2=2 and RefDocType In('CAP-MSN-CDCS','CAP-MSN','CAP-OMSN') "
+
+        Dim qry As String = ""
+        If chkDCSWise.Checked Then
+            Dim subQry As String = Nothing
+            If btnPrint.Text = "Print" Then
+                subQry = "select '" + clsCommon.myCstr(objCommonVar.CurrentUser) + "' As PrintedBy,'" + clsCommon.GetPrintDate(fromDate) + "' As FromDate,'" + clsCommon.GetPrintDate(ToDate) + "' As ToDate,(Select Comp_Name From TSPL_COMPANY_MASTER Where Comp_Code1='" + clsCommon.myCstr(objCommonVar.CurrComp_Code1) + "') As Comp_Name,(Select City_Code From TSPL_COMPANY_MASTER Where Comp_Code1='" + clsCommon.myCstr(objCommonVar.CurrComp_Code1) + "') As City_Code, "
+            Else
+                subQry = "Select "
+            End If
+            qry = subQry + " case when Document_Type='D' then 'Deduction' else 'Addition'  end Type,DCSCode,[DCS Name] ,(DeductionCode+'-'+DeductionName) as DeductionName,cast((OP+Sale) as  decimal(18,2)) as [Opening+Sale],AMTDeducted as [Amt Deducted],cast((OP+Sale-AMTDeducted) as decimal(18,2)) as [Balance Amount],Active from (
+select Document_Type,xx.DeductionCode,max(TSPL_DEDUCTION_MASTER.Description) as DeductionName,TSPL_VENDOR_MASTER.Vendor_Code,max(VLC_Code_VLC_Uploader) as DCSCode,max(TSPL_VENDOR_MASTER.Vendor_Name) as [DCS Name]
+,sum((Amount-Reduce_Deduc_Amt) * (case when  Document_Date<'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when RI=1 or RI=4 or RI=6 then 1 else -1 end)) as OP 
+,sum(Amount * (case when  Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when (RI=1 or RI=4 or RI=6) then 1 else 0 end)) as Sale
+,sum((Amount-Reduce_Deduc_Amt) * (case when Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when (RI=1 or RI=4 or RI=6) then 0 else 1 end)) as AMTDeducted ,max(Active)Active
+from (" + BaseQry + ")xx
+left  join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=xx.DeductionCode
+left  join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.Vendor_Code "
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                qry += " where 2=2 and TSPL_DEDUCTION_MASTER.Code !='PDP' "
+            End If
+            qry += " group by Document_Type,DeductionCode,TSPL_VENDOR_MASTER.Vendor_Code
+)xxx  where 2=2 "
+            If clsCommon.myLen(txtMCC.Value) > 0 Then
+                qry += " and TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Value + "' "
+            End If
+            If clsCommon.myLen(txtDeduction.Value) > 0 Then
+                qry += " and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode='" + txtDeduction.Value + "'"
+            End If
+            If rbtnActive.Checked Then
+                'whrActiveInactive = " And TSPL_VLC_MASTER_HEAD.Active=1 "
+                qry += " And xxx.Active=1 "
+            ElseIf rbtnInActive.Checked Then
+                'whrActiveInactive = " And TSPL_VLC_MASTER_HEAD.Active=0 "
+                qry += " And xxx.Active=0 "
+            Else
+                qry += Nothing
+            End If
+
+
+            'where (OP+Sale-AMTDeducted)>0"
+        Else
+            qry = "select case when Document_Type='D' then 'Deduction' else 'Addition'  end Type ,(DeductionCode+'-'+DeductionName) as DeductionName,(OP+Sale) as [Opening+Sale],AMTDeducted as [Amt Deducted],(OP+Sale-AMTDeducted) as [Balance Amount],Active from (
+select Document_Type,xx.DeductionCode,max(TSPL_DEDUCTION_MASTER.Description) as DeductionName
+,sum((Amount-Reduce_Deduc_Amt) * (case when  Document_Date<'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when RI=1 or RI=4 or RI=6 then 1 else -1 end)) as OP 
+,sum(Amount * (case when  Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when RI=1 or RI=4 or RI=6 then 1 else 0 end)) as Sale
+,sum((Amount-Reduce_Deduc_Amt) * (case when Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when RI=1 or RI=4 or RI=6 then 0 else 1 end)) as AMTDeducted ,max(Active)Active
+from (" + BaseQry + ")xx
+left  join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=xx.DeductionCode
+left  join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.Vendor_Code "
+
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                qry += " where 2=2 and TSPL_DEDUCTION_MASTER.Code !='PDP' "
+            End If
+
+            qry += " group by Document_Type,DeductionCode
+)xxx   where 2=2 "
+            If clsCommon.myLen(txtMCC.Value) > 0 Then
+                qry += " And TSPL_VLC_MASTER_HEAD.MCC ='" + txtMCC.Value + "' "
+            End If
+            If clsCommon.myLen(txtDeduction.Value) > 0 Then
+                qry += " and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode='" + txtDeduction.Value + "'"
+            End If
+            If rbtnActive.Checked Then
+                'whrActiveInactive = " And TSPL_VLC_MASTER_HEAD.Active=1 "
+                qry += " And xxx.Active=1 "
+            ElseIf rbtnInActive.Checked Then
+                'whrActiveInactive = " And TSPL_VLC_MASTER_HEAD.Active=0 "
+                qry += " And xxx.Active=0 "
+            Else
+                qry += Nothing
+            End If
+
+        End If
+        Return qry
+    End Function
 End Class

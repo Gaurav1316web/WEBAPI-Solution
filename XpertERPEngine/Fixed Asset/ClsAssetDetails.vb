@@ -43,6 +43,8 @@ Public Class ClsAssetDetails
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Asset_Details", OMInsertOrUpdate.Update, "TSPL_Asset_Details.Asset_Code='" + obj.Asset_Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Asset_Code, "TSPL_Asset_Details", "Asset_Code", trans)
+
             If isSaved Then
                 trans.Commit()
             End If

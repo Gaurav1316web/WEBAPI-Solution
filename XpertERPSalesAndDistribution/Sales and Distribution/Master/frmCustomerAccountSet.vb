@@ -185,6 +185,8 @@ Public Class frmCustomerAccountSet
             clsCommon.AddColumnsForChange(coll, "Rate_Difference", Me.FndRateDifference.Value, True)
             clsCommon.AddColumnsForChange(coll, "TDS_Recoverable", Me.TxtTDSRec.Value, True)
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_ACCOUNT_SET", OMInsertOrUpdate.Update, "TSPL_CUSTOMER_ACCOUNT_SET.Cust_account='" + fndaccountsetcode.Value + "'", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndaccountsetcode.Value, "TSPL_CUSTOMER_ACCOUNT_SET", "Cust_account", Nothing)
+
             '' end multicurrency
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text())
@@ -193,7 +195,7 @@ Public Class frmCustomerAccountSet
     'This function is used to update Data.
     Public Sub funupdate()
         Try
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndaccountsetcode.Value, "TSPL_CUSTOMER_ACCOUNT_SET", "Cust_account", Nothing)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndaccountsetcode.Value, "TSPL_CUSTOMER_ACCOUNT_SET", "Cust_account", Nothing)
             clsDBFuncationality.SaveAStorePorcedure("sp_customeraccountset_update", New SqlParameter("custacct", fndaccountsetcode.Value), New SqlParameter("@custdesc", rdtxtdescription.Text.ToString()), New SqlParameter("@containerdeposit", fndcontainer.Value), New SqlParameter("@receivablecontrolacc", fndrecisvablecontrol.Value()), New SqlParameter("@receiptdiscacc", fndrecieptdiscount.Value), New SqlParameter("@advanceacc", fndadvance.Value), New SqlParameter("@writeoff", fndwriteoffs.Value), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("@modifiedby", userCode), New SqlParameter("@modofieddate", connectSql.serverDate()), New SqlParameter("@compcode", companyCode))
             myMessages.update()
             '' multicurrency
@@ -233,6 +235,7 @@ Public Class frmCustomerAccountSet
             STRQ = "UPDATE TSPL_CUSTOMER_MASTER SET CURRENCY_CODE=TSPL_CUSTOMER_ACCOUNT_SET.CURRENCY_CODE FROM " & _
                 " TSPL_CUSTOMER_ACCOUNT_SET WHERE TSPL_CUSTOMER_MASTER.Cust_Account=TSPL_CUSTOMER_ACCOUNT_SET.CUST_ACCOUNT AND TSPL_CUSTOMER_ACCOUNT_SET.CUST_ACCOUNT='" & fndaccountsetcode.Value & "' "
             clsDBFuncationality.ExecuteNonQuery(STRQ)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndaccountsetcode.Value, "TSPL_CUSTOMER_ACCOUNT_SET", "Cust_account", Nothing)
 
             '' end multicurrency
         Catch ex As Exception
@@ -1090,7 +1093,7 @@ Public Class frmCustomerAccountSet
                         clsDBFuncationality.ExecuteNonQuery(query, trans)
                     Else
 
-                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strcustmaster, "TSPL_CUSTOMER_ACCOUNT_SET", "cust_account", trans)
+                        'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strcustmaster, "TSPL_CUSTOMER_ACCOUNT_SET", "cust_account", trans)
                         'richa  Ticket No. BM00000003087 on 08/07/2014
                         'Dim query1 As String = "update tspl_customer_account_set set cust_acct_desc='" + strcustaccountdisc + "',receivable_control_acct='" + strreceivablecontrol + "',receipts_discount_acct='" + strrecieptdiscount + "',Advance_acct='" + stradvanceaccount + "',Write_offs='" + strwriteoff + "', Container_Deposit='" + ContainerDeposite + "' where cust_account='" + strcustmaster + "'"
                         'Dim query1 As String = "update tspl_customer_account_set set cust_acct_desc='" + strcustaccountdisc + "',receivable_control_acct='" + strreceivablecontrol + "',receipts_discount_acct='" + strrecieptdiscount + "',Advance_acct='" + stradvanceaccount + "',Write_offs='" + strwriteoff + "', Container_Deposit='" + ContainerDeposite + "',SECURITY_ACCOUNT='" + Securityaccount + "',CREATE_SECURITY_ACCOUNT='" + CreateSecurityaccount + "',BANK_GUARANTEE='" + BankGuaranteeaccount + "',ACCOUNT1='" + account1 + "',ACCOUNT2='" + account2 + "',GSOC_Acct= ( CASE WHEN " & clsCommon.myLen(gsoc) & ">0 THEN '" + gsoc + "' ELSE NULL END),Consignment_Acct= ( CASE WHEN " & clsCommon.myLen(consignment) & ">0 THEN '" + consignment + "' ELSE NULL END),Gain_Acct= ( CASE WHEN " & clsCommon.myLen(gain) & ">0 THEN '" + gain + "' ELSE NULL END),Loss_Acct=( CASE WHEN " & clsCommon.myLen(loss) & ">0 THEN '" + loss + "' ELSE NULL END),Foreign_Bank_Charges_Account='" + ForeignBankCharges + "',Bank_Charges_Other_Account='" + BankChargesOther + "' where cust_account='" + strcustmaster + "'"
@@ -1099,6 +1102,8 @@ Public Class frmCustomerAccountSet
                         clsDBFuncationality.ExecuteNonQuery(query1, trans)
 
                     End If
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strcustmaster, "TSPL_CUSTOMER_ACCOUNT_SET", "cust_account", trans)
+
                     ' Ticket No : TEC/02/11/18-000359 By Prabhakar 
                     If clsCommon.myLen(CustomerOpeningclearingAC) > 0 Then
                         Dim qryClearing As String = " update tspl_customer_account_set set Customer_Opening_Clearing_AC = '" + CustomerOpeningclearingAC + "' where cust_account='" + strcustmaster + "' "

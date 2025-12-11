@@ -510,6 +510,7 @@ Public Class frmGLAccount
             Dim qry As String = "select count(*) from TSPL_PAYMENT_DETAIL where Account_Code='" + fndaccount.Value + "'"
             Dim count As Integer = clsDBFuncationality.getSingleValue(qry)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndaccount.Value, "TSPL_GL_ACCOUNTS", "Account_Code", Nothing)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, fndaccount.Value, "TSPL_GL_ACCOUNTS", "Account_Code", Nothing)
 
             If count = 0 Then
                 connectSql.RunSp("SP_TSPL_GL_ACCOUNTS_DELETE", New SqlParameter("accountcode", fndaccount.Value))

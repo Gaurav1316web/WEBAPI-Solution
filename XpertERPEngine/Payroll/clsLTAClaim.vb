@@ -168,6 +168,8 @@ Public Class clsLTAClaim
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_LTA_Claim_Head", "LTA_Code", "TSPL_LTA_Claim_Detail", "LTA_Code", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_LTA_Claim_Head", "LTA_Code", "TSPL_LTA_Claim_Detail", "LTA_Code", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_LTA_Claim_Detail where LTA_Code ='" + strCode + "'"

@@ -1480,6 +1480,8 @@ Public Class frmIndent
     Private Sub FunDelete(ByVal Reason As String)
         Dim tr As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtTransferNo.Value, "TSPL_INDENT_HEAD", "Indent_No", "TSPL_INDENT_DETAIL", "Indent_No", trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, txtTransferNo.Value, "TSPL_INDENT_HEAD", "Indent_No", "TSPL_INDENT_DETAIL", "Indent_No", trans)
 
             Dim qry As String = "delete from TSPL_INDENT_DETAIL where Indent_No='" + txtTransferNo.Value + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, tr)

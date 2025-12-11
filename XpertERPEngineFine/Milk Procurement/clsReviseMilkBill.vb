@@ -149,6 +149,8 @@ Public Class clsReviseMilkBill
     Public Shared Function deleteData(ByVal DocNo As String, ByVal trans As SqlTransaction) As Boolean
         Dim isDeleted As Boolean = True
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, DocNo, "TSPL_MILK_BILL_REVISE", "Document_No", "TSPL_MILK_BILL_REVISE_DETAIL", "Document_No", trans)
+
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, DocNo, "TSPL_MILK_BILL_REVISE", "Document_No", "TSPL_MILK_BILL_REVISE_DETAIL", "Document_No", trans)
             isDeleted = isDeleted AndAlso clsReviseMilkBillDeduction.deleteData(DocNo, trans)
             isDeleted = isDeleted AndAlso clsReviseMilkBillAddition.deleteData(DocNo, trans)
@@ -221,10 +223,12 @@ Public Class clsReviseMilkBill
             If clsCommon.myCdbl(dt.Rows(0)("Status")) = 1 Then
                 Throw New Exception("Revise Milk Bill processed can't unpost it")
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_MILK_BILL_REVISE", "Document_No", "TSPL_MILK_BILL_REVISE_DETAIL", "Document_No", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_MILK_BILL_REVISE", "Document_No", "TSPL_MILK_BILL_REVISE_DETAIL", "Document_No", trans)
 
             qry = "update TSPL_MILK_BILL_REVISE set Status=0, Posted_Date=null where Document_No='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_MILK_BILL_REVISE", "Document_No", "TSPL_MILK_BILL_REVISE_DETAIL", "Document_No", trans)
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()

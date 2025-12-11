@@ -53,6 +53,7 @@ Public Class clsGazeReading
                 Throw New Exception("Code not found to Delete")
             End If
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_GAZE_READING", "Code", "TSPL_GAZE_READING_DETAIL", "Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_GAZE_READING", "Code", "TSPL_GAZE_READING_DETAIL", "Code", trans)
 
             Dim qry As String = "Delete from TSPL_GAZE_READING_DETAIL where Code='" + obj.Code + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)

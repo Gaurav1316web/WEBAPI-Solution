@@ -89,7 +89,7 @@ Public Class clsCostCenterTypeMaster
         Dim qry As String = ""
         Try
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_COST_CENTER_TYPE_MASTER", "Code", Nothing)
-            ' clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_COST_CENTER_TYPE_MASTER", "Code", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_COST_CENTER_TYPE_MASTER", "Code", Nothing)
 
             qry = "Delete from TSPL_COST_CENTER_TYPE_MASTER where TSPL_COST_CENTER_TYPE_MASTER.Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)

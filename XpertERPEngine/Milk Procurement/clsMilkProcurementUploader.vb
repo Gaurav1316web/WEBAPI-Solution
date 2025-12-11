@@ -177,6 +177,9 @@ where 2=2 "
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Posted on :" + obj.Posting_Date)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_PROCUREMENT_UPLOADER_HEAD", "Document_No", "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL", "Document_No", trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_PROCUREMENT_UPLOADER_HEAD", "Document_No", "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL", "Document_No", trans)
+
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_MILK_PROCUREMENT_UPLOADER_QC_PARAMETER_DETAIL where Document_No='" + strCode + "'", trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL where Document_No='" + strCode + "'", trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_MILK_PROCUREMENT_UPLOADER_HEAD where Document_No='" + strCode + "'", trans)
@@ -290,6 +293,8 @@ where 2=2 "
             clsCommon.AddColumnsForChange(coll, "Posted_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Posted_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_PROCUREMENT_UPLOADER_HEAD", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_PROCUREMENT_UPLOADER_HEAD", "Document_No", trans)
+
             'Throw New Exception("Balwinder Singh Premi")
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -344,6 +349,7 @@ where  TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No='" + strCode + "' "
             clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
             clsCommon.AddColumnsForChange(coll, "Posted_Date", Nothing, True)
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_PROCUREMENT_UPLOADER_HEAD", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_PROCUREMENT_UPLOADER_HEAD", "Document_No", trans)
 
             trans.Commit()
         Catch ex As Exception

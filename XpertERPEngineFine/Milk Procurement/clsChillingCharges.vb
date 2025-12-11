@@ -30,7 +30,7 @@ Public Class clsChillingCharges
 
     Public Function SaveData(ByVal obj As clsChillingCharges, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_CHILLING_CHARGES", "Code", "TSPL_CHILLING_CHARGES_SLAB", "Code", "", "", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_CHILLING_CHARGES", "Code", "TSPL_CHILLING_CHARGES_SLAB", "Code", "", "", trans)
 
             Dim qry As String = "delete from TSPL_CHILLING_CHARGES_SLAB where Code='" + obj.Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -67,6 +67,8 @@ Public Class clsChillingCharges
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CHILLING_CHARGES", OMInsertOrUpdate.Update, "TSPL_CHILLING_CHARGES.Code='" + obj.Code + "'", trans)
             End If
             clsChillingChargesSlab.SaveData(obj.Start_Date, obj.Code, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_CHILLING_CHARGES", "Code", "TSPL_CHILLING_CHARGES_SLAB", "Code", "", "", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try

@@ -202,12 +202,17 @@ Public Class ClsVendorQuotationHead
             Throw New Exception("Requisition No not found to Delete")
         End If
         Dim obj As ClsVendorQuotationHead = ClsVendorQuotationHead.GetData(strCode, NavigatorType.Current)
+
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0) Then
             Try
                 If (obj.Status = ERPTransactionStatus.Approved) Then
                     Throw New Exception("Already Post on :" + obj.Posting_Date)
                 End If
+
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_VENDOR_QUOTATION_HEAD", "Code", "TSPL_VENDOR_QUOTATION_DETAIL", "Code", trans)
+
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_VENDOR_QUOTATION_HEAD", "Code", "TSPL_VENDOR_QUOTATION_DETAIL", "Code", trans)
 
                 Dim qry As String = "delete from TSPL_Vendor_Quotation_DETAIL where Code='" + strCode + "'"

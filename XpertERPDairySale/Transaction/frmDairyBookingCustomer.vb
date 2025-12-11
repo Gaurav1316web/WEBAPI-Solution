@@ -1662,23 +1662,23 @@ Public Class frmDairyBookingCustomer
         End If
         'Return dblRate
     End Sub
-    Public Sub GetDCDetails()
+    Public Sub GetDCDetails(ByVal intRow As Integer)
         Dim DCQry As String = "select top 1 TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Commision_UOM,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.PK_ID,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Rate,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Transporter_Rate,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Security_Rate from TSPL_DISTRIBUTOR_COMMISSION_HEAD
 left join TSPL_DISTRIBUTOR_COMMISSION_DETAIL on TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
 left join TSPL_DISTRIBUTOR_COMMISSION_ITEMS on TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
-where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" & clsCommon.GetPrintDate(txtDate.Value) & "' and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code='" & clsCommon.myCstr(txtVendorNo.Value) & "' and TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) & "' and TSPL_DISTRIBUTOR_COMMISSION_HEAD.IsPosted=1 and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Route_Code='" & clsCommon.myCstr(txtRouteNo.Value) & "'
+where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" & clsCommon.GetPrintDate(txtDate.Value) & "' and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code='" & clsCommon.myCstr(txtVendorNo.Value) & "' and TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code='" & clsCommon.myCstr(gv1.Rows(intRow).Cells(colICode).Value) & "' and TSPL_DISTRIBUTOR_COMMISSION_HEAD.IsPosted=1 and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Route_Code='" & clsCommon.myCstr(txtRouteNo.Value) & "'
 order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No desc"
         Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(DCQry)
         If (dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0) Then
-            gv1.CurrentRow.Cells(ColDCPKID).Value = clsCommon.myCstr(dt1.Rows(0)("PK_ID"))
-            gv1.CurrentRow.Cells(ColDCApplicableDate).Value = clsCommon.myCstr(dt1.Rows(0)("Applicable_Date"))
-            gv1.CurrentRow.Cells(ColDCUOM).Value = clsCommon.myCstr(dt1.Rows(0)("Commision_UOM"))
-            gv1.CurrentRow.Cells(ColDCRate).Value = clsCommon.myCstr(dt1.Rows(0)("Rate"))
-            gv1.CurrentRow.Cells(ColTCRate).Value = clsCommon.myCstr(dt1.Rows(0)("Transporter_Rate"))
-            gv1.CurrentRow.Cells(ColSCRate).Value = clsCommon.myCstr(dt1.Rows(0)("Security_Rate"))
+            gv1.Rows(intRow).Cells(ColDCPKID).Value = clsCommon.myCstr(dt1.Rows(0)("PK_ID"))
+            gv1.Rows(intRow).Cells(ColDCApplicableDate).Value = clsCommon.myCstr(dt1.Rows(0)("Applicable_Date"))
+            gv1.Rows(intRow).Cells(ColDCUOM).Value = clsCommon.myCstr(dt1.Rows(0)("Commision_UOM"))
+            gv1.Rows(intRow).Cells(ColDCRate).Value = clsCommon.myCstr(dt1.Rows(0)("Rate"))
+            gv1.Rows(intRow).Cells(ColTCRate).Value = clsCommon.myCstr(dt1.Rows(0)("Transporter_Rate"))
+            gv1.Rows(intRow).Cells(ColSCRate).Value = clsCommon.myCstr(dt1.Rows(0)("Security_Rate"))
             'gv1.CurrentRow.Cells(ColDCRateWithTax).Value = Math.Round(gv1.Rows(IntRowNo).Cells(ColDCRate).Value * 100 / (100 + dblTotTaxRate), 2)
-            gv1.CurrentRow.Cells(ColDCUnitCF).Value = clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where UOM_Code='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value) & "' and Item_Code='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) & "'")
-            gv1.CurrentRow.Cells(ColDCCFUOM).Value = clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where UOM_Code='" & clsCommon.myCstr(gv1.CurrentRow.Cells(ColDCUOM).Value) & "' and Item_Code='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) & "'")
+            gv1.Rows(intRow).Cells(ColDCUnitCF).Value = clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where UOM_Code='" & clsCommon.myCstr(gv1.Rows(intRow).Cells(colUnit).Value) & "' and Item_Code='" & clsCommon.myCstr(gv1.Rows(intRow).Cells(colICode).Value) & "'")
+            gv1.Rows(intRow).Cells(ColDCCFUOM).Value = clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where UOM_Code='" & clsCommon.myCstr(gv1.Rows(intRow).Cells(ColDCUOM).Value) & "' and Item_Code='" & clsCommon.myCstr(gv1.Rows(intRow).Cells(colICode).Value) & "'")
             'gv1.CurrentRow.Cells(ColDCQtyinSU).Value = (gv1.Rows(IntRowNo).Cells(colQty).Value * gv1.Rows(IntRowNo).Cells(ColDCUnitCF).Value) / gv1.Rows(IntRowNo).Cells(ColDCCFUOM).Value
             'gv1.CurrentRow.Cells(ColDCAmt).Value = gv1.CurrentRow.Cells(ColDCQtyinSU).Value * gv1.CurrentRow.Cells(ColDCRateWithTax).Value
             'dblTotalDCAmt = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColDCAmt).Value)
@@ -1899,10 +1899,10 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
 
             If ApplyTPT Then
                 If chkTPT.Checked Then
-                    GetDCDetails()
+                    GetDCDetails(IntRowNo)
                 End If
             ElseIf ApplyCommission Then
-                GetDCDetails()
+                GetDCDetails(IntRowNo)
             End If
 
 
@@ -1928,7 +1928,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 Else
                     gv1.Rows(IntRowNo).Cells(ColDCAmt).Value = gv1.Rows(IntRowNo).Cells(ColDCQtyinSU).Value * gv1.Rows(IntRowNo).Cells(ColDCRateWithTax).Value
                 End If
-                If gv1.Rows(IntRowNo).Cells(ColTCRate).Value IsNot Nothing AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColTCRate).Value) >= 0 Then
+                If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(ColTCRate).Value), "") <> CompairStringResult.Equal AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColTCRate).Value) >= 0 Then
                     gv1.Rows(IntRowNo).Cells(ColTCAmt).Value = gv1.Rows(IntRowNo).Cells(ColDCQtyinSU).Value * gv1.Rows(IntRowNo).Cells(ColTCRate).Value
                 End If
                 ' gv1.Rows(IntRowNo).Cells(ColDCAmt).Value = gv1.Rows(IntRowNo).Cells(ColDCQtyinSU).Value * gv1.Rows(IntRowNo).Cells(ColDCRateWithTax).Value
@@ -1956,8 +1956,10 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             dblAmtAfterDis = dblAmt - dblDisAmt
             gv1.Rows(IntRowNo).Cells(colDisAmt).Value = dblTotDiscAmt
             gv1.Rows(IntRowNo).Cells(colAmtAfterDis).Value = dblAmtAfterDis
+            SetitemWiseTaxSetting(False, clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colICode).Value), IntRowNo)
             For ii As Integer = 1 To 10
                 Dim Strii As String = clsCommon.myCstr(ii)
+
                 If rbtnTaxCalAutomatic.IsChecked Then
                     Dim strTaxCode As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" & Strii)).Value)
                     If clsCommon.myLen(strTaxCode) > 0 Then
@@ -1991,9 +1993,11 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                                 dblBaseAmt = (clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colAmtAfterDis).Value) * clsCommon.myCdbl(txttcstaxbaseamount.Value)) / dblTotalBasicPrice
                             End If
                         End If
-                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Base_Amt" & Strii)).Value = Math.Round(dblBaseAmt, 2)
+                        'gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Base_Amt" & Strii)).Value = Math.Round(dblBaseAmt, 2)
+                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Base_Amt" & Strii)).Value = clsCommon.myRoundOFF(TruncateToDecimalPlaces(dblBaseAmt, 3), 2, 4)
                         dblTaxAmt = (dblBaseAmt * dblTaxRate) / 100
-                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Amt" & Strii)).Value = Math.Round(dblTaxAmt, 2)
+                        'gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Amt" & Strii)).Value = Math.Round(dblTaxAmt, 2)
+                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Amt" & Strii)).Value = clsCommon.myRoundOFF(TruncateToDecimalPlaces(dblTaxAmt, 3), 2, 4)
                         'gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Base_Amt" + Strii)).Value = Math.Round(dblTaxBaseAmt, 2)
                         'gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Amt" + Strii)).Value = Math.Round((dblTaxBaseAmt * dblTaxRate) / 100, 2)
                         If ((rbtnTaxable.IsChecked AndAlso Not arrTaxableAuth.Contains(strTaxCode.ToUpper()))) AndAlso (clsCommon.CompairString(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value, "CGST") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value, "SGST") <> CompairStringResult.Equal) Then
@@ -2111,7 +2115,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             'Dim dblCustDiscPercentage As Decimal = 0
             'Dim dblApplyCustDisc As Decimal = 0
             'Dim dblTotCustDisc As Decimal = 0
-            GetDCDetails()
+            GetDCDetails(IntRowNo)
             Dim dblTotalDCAmt As Decimal = 0
             Dim dblTotalTCAmt As Decimal = 0
             Dim dblTotTaxRate As Decimal = GetCurrentRowTotalTaxRate(IntRowNo)
@@ -3363,13 +3367,11 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                         Throw New Exception("Item - " + strICode + Environment.NewLine + "Entered Quantity - " + clsCommon.myCstr(dblEnteredQty) + " and Balance Quantity - " + clsCommon.myCstr(dblBalQty))
                         Return False
                     End If
-                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
-                        UpdateCurrentRow1(ii)
-                    Else
-                        UpdateCurrentRow(ii)
-                    End If
+
                 End If
             Next
+
+
             If ShowBookingTypeDropDownonDairyBookingCustomer AndAlso dblQuantity <= 0 AndAlso AllowZeroQtyOnDairyBooking Then
                 'If dblQuantity <= 0 AndAlso AllowZeroQtyOnDairyBooking Then
                 Throw New Exception("Please enter Qunatity at least in one row")
@@ -3434,6 +3436,13 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                     isCheck = False
                 End If
             End If
+            For ii As Integer = 0 To gv1.Rows.Count - 1
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                    UpdateCurrentRow1(ii)
+                Else
+                    UpdateCurrentRow(ii)
+                End If
+            Next
             UpdateAllTotals()
             'Return True
         Catch ex As Exception
@@ -3450,7 +3459,46 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             FlagFirstRecord = False
         End If
         SavingData(False)
+
     End Sub
+    'Private Sub UpdateExcelDoc()
+    '    Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
+    '    Try
+    '        Dim gv As New UserControls.MyRadGridView
+    '        Me.Controls.Add(gv)
+    '        If transportSql.importExcel(gv, "DocumentNo", "Remarks", "DocDate") Then
+
+    '            Try
+    '                clsCommon.ProgressBarShow()
+    '                For Each grow As GridViewRowInfo In gv.Rows
+    '                    Dim DocNo As String = clsCommon.myCstr(grow.Cells("DocumentNo").Value)
+    '                    Dim Remarks As String = clsCommon.myCstr(grow.Cells("Remarks").Value)
+    '                    Dim DocDate As DateTime = clsCommon.myCDate(grow.Cells("DocDate").Value)
+    '                    Dim strqry As String = "update TSPL_BOOKING_MATSER set Document_Date='" & clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") & "',Description='" & Remarks & "' where Document_No='" & DocNo & "' "
+    '                    clsDBFuncationality.ExecuteNonQuery(strqry, tran)
+    '                    Dim invoiceno As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Sale_Invoice_No from tspl_sd_shipment_head where Against_Booking_No='" & DocNo & "'", tran))
+    '                    Dim ShipCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from tspl_sd_shipment_head where Against_Booking_No='" & DocNo & "'", tran))
+    '                    strqry = "update tspl_sd_shipment_head set Document_Date='" & clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") & "',Description='" & Remarks & "' where Document_Code='" & ShipCode & "' "
+    '                    clsDBFuncationality.ExecuteNonQuery(strqry, tran)
+    '                    strqry = "update TSPL_SD_SALE_INVOICE_HEAD set Document_Date='" & clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") & "',Description='" & Remarks & "' where Document_Code='" & invoiceno & "' "
+    '                    clsDBFuncationality.ExecuteNonQuery(strqry, tran)
+    '                    'tran.Commit()
+    '                Next
+    '                tran.Commit()
+    '                clsCommon.ProgressBarHide()
+    '                clsCommon.MyMessageBoxShow(Me, "Update Successfully", Me.Text)
+    '            Catch ex As Exception
+
+    '                tran.Rollback()
+    '                clsCommon.ProgressBarHide()
+    '                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '            End Try
+    '        End If
+
+    '    Catch ex As Exception
+
+    '    End Try
+    'End Sub
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If SaveData() AndAlso Not ChekBtnPost Then
             'If ChekBtnPost = False Then
@@ -5324,34 +5372,37 @@ where TSPL_ITEM_CAPACITY_LIMIT_head.From_Date<='" & clsCommon.GetPrintDate(txtDa
             Dim DrAmt As Decimal = 0
             Dim CrAmt As Decimal = 0
             Dim ClosingBal As Decimal = 0
+            Dim isSkipBal As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select is_Skip_Balance from tspl_customer_Master where Cust_Code='" & CustCode & "'"))
+            If isSkipBal = 0 Then
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable("EXEC SP_GetBalCustWise @Cust_Code = '" + clsCommon.myCstr(CustCode) + "',@DocDate='" + clsCommon.GetPrintDate(docDate, "dd/MMM/yyyy HH:mm:ss") + "'")
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    OpeningBal = dt.Rows(0)("OpngBal")
+                    DrAmt = dt.Rows(0)("DrAmt")
+                    CrAmt = dt.Rows(0)("CrAmt")
+                    ClosingBal = dt.Rows(0)("BalAmt")
+                End If
+                If OpeningBal > 0 Then
+                    txtOpeningbal.Text = clsCommon.myCstr(OpeningBal) & " DR"
+                Else
+                    txtOpeningbal.Text = clsCommon.myCstr(OpeningBal) & " CR"
+                End If
+                If DrAmt > 0 Then
+                    txtDrAmt.Text = clsCommon.myCstr(DrAmt) & " DR"
+                Else
+                    txtDrAmt.Text = clsCommon.myCstr(DrAmt) & " CR"
+                End If
+                If CrAmt > 0 Then
+                    txtCrAmt.Text = clsCommon.myCstr(CrAmt) & " CR"
+                Else
+                    txtCrAmt.Text = clsCommon.myCstr(CrAmt) & " DR"
+                End If
+                If ClosingBal > 0 Then
+                    txtClosingBal.Text = clsCommon.myCstr(ClosingBal) & " DR"
+                Else
+                    txtClosingBal.Text = clsCommon.myCstr(ClosingBal) & " CR"
+                End If
+            End If
 
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable("EXEC SP_GetBalCustWise @Cust_Code = '" + clsCommon.myCstr(CustCode) + "',@DocDate='" + clsCommon.GetPrintDate(docDate, "dd/MMM/yyyy HH:mm:ss") + "'")
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                OpeningBal = dt.Rows(0)("OpngBal")
-                DrAmt = dt.Rows(0)("DrAmt")
-                CrAmt = dt.Rows(0)("CrAmt")
-                ClosingBal = dt.Rows(0)("BalAmt")
-            End If
-            If OpeningBal > 0 Then
-                txtOpeningbal.Text = clsCommon.myCstr(OpeningBal) & " DR"
-            Else
-                txtOpeningbal.Text = clsCommon.myCstr(OpeningBal) & " CR"
-            End If
-            If DrAmt > 0 Then
-                txtDrAmt.Text = clsCommon.myCstr(DrAmt) & " DR"
-            Else
-                txtDrAmt.Text = clsCommon.myCstr(DrAmt) & " CR"
-            End If
-            If CrAmt > 0 Then
-                txtCrAmt.Text = clsCommon.myCstr(CrAmt) & " DR"
-            Else
-                txtCrAmt.Text = clsCommon.myCstr(CrAmt) & " CR"
-            End If
-            If ClosingBal > 0 Then
-                txtClosingBal.Text = clsCommon.myCstr(ClosingBal) & " DR"
-            Else
-                txtClosingBal.Text = clsCommon.myCstr(ClosingBal) & " CR"
-            End If
 
         Catch ex As Exception
 
@@ -9046,7 +9097,7 @@ from
                     SaleInvoiceNo.Add(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_head where Against_Shipment_No ='" & DocCode & "'"))
                     Dim Qry As String = Nothing
                     If chkCancel Then
-                        Qry = objMultPrintInvoice.PrintInvoiceForAll("'" & clsCommon.myCstr(DocCode) & "'", chkDate, Nothing, "Y", chkCancel)
+                        Qry = objMultPrintInvoice.PrintInvoiceForAll("'" & clsCommon.myCstr(DocCode) & "'", chkDate, Nothing, "Y", "Cancel")
                         'Qry = objMultPrintInvoice.PrintInvoiceForAll(clsCommon.GetMulcallString(SaleInvoiceNo), chkDate, Nothing, "Y", chkCancel)
 
                     Else

@@ -137,10 +137,11 @@ Public Class clsMilkGateEntryOut
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Gross Weight Already Post on :" + clsCommon.GetPrintDate(obj.Posted_Date, "dd/MM/yyyy"))
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Gate_Out_Code, "TSPL_MILK_GATE_ENTRY_OUT", "Gate_Out_Code", trans)
 
             Dim qry As String = "Update TSPL_MILK_GATE_ENTRY_OUT set Status=1, Posted_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Gate_Out_Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Gate_Out_Code, "TSPL_MILK_GATE_ENTRY_OUT", "Gate_Out_Code", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

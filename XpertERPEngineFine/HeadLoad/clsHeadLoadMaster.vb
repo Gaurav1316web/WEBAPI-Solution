@@ -242,6 +242,7 @@ Public Class clsHeadLoadMaster
                 Throw New Exception("Document No not found to Delete")
             End If
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_HEAD_LOAD", "Document_No", "TSPL_HEAD_LOAD_DCS", "Document_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_HEAD_LOAD", "Document_No", trans)
 
             If clsCommon.CompairString(obj.Status, "1") = CompairStringResult.Equal Then
                 Throw New Exception("Already Posted")

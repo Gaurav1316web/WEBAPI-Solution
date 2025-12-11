@@ -3471,6 +3471,25 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     gv1.Rows(ii).Cells(colRate).Value = 0
                 End If
             Next
+            Dim cgstAmount As Decimal = 0
+            Dim sgstAmount As Decimal = 0
+            For Each grow As GridViewRowInfo In gv1.Rows
+                If clsCommon.myLen(grow.Cells(colICode).Value) > 0 Then
+                    For ii As Integer = 1 To 10
+                        Dim taxtype As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select type from tspl_Tax_master where Tax_Code='" + clsCommon.myCstr(grow.Cells("colTax" + clsCommon.myCstr(ii)).Value) + "' "))
+                        Dim amt As Decimal = clsCommon.myCdbl(grow.Cells("COLTAXAMT" + clsCommon.myCstr(ii)).Value)
+                        If clsCommon.CompairString(taxtype, "CGST") = CompairStringResult.Equal Then
+                            cgstAmount = amt
+                        ElseIf clsCommon.CompairString(taxtype, "SGST") = CompairStringResult.Equal Then
+                            sgstAmount = amt
+                        End If
+                    Next
+                End If
+            Next
+            If cgstAmount <> sgstAmount Then
+                Throw New Exception("CGST " & cgstAmount & "  and SGST " & sgstAmount & " Amount must be same")
+            End If
+
             Return True
         Catch ex As Exception
             Throw New Exception(ex.Message)

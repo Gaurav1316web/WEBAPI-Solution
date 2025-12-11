@@ -473,12 +473,6 @@
     <Compile Include="Report\FrmBoothDemandReport.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Report\frmCancelledTransactions_DairySale.Designer.vb">
-      <DependentUpon>frmCancelledTransactions_DairySale.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Report\frmCancelledTransactions_DairySale.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Report\frmCrateJaliReport.Designer.vb">
       <DependentUpon>frmCrateJaliReport.vb</DependentUpon>
     </Compile>
@@ -837,6 +831,12 @@
       <DependentUpon>rptPlantCustomerDemandReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Report\rptPlantCustomerDemandReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\rptSaleInvoiceStatusReport.Designer.vb">
+      <DependentUpon>rptSaleInvoiceStatusReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptSaleInvoiceStatusReport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Report\rptSaleRegisterDetail.Designer.vb">
@@ -1422,9 +1422,6 @@
     <EmbeddedResource Include="Report\FrmBoothDemandReport.resx">
       <DependentUpon>FrmBoothDemandReport.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Report\frmCancelledTransactions_DairySale.resx">
-      <DependentUpon>frmCancelledTransactions_DairySale.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Report\frmCrateJaliReport.resx">
       <DependentUpon>frmCrateJaliReport.vb</DependentUpon>
     </EmbeddedResource>
@@ -1622,6 +1619,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptPlantCustomerDemandReport.resx">
       <DependentUpon>rptPlantCustomerDemandReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptSaleInvoiceStatusReport.resx">
+      <DependentUpon>rptSaleInvoiceStatusReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptSaleRegisterDetail.resx">
       <DependentUpon>rptSaleRegisterDetail.vb</DependentUpon>

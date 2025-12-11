@@ -155,6 +155,7 @@ Public Class ClsFACostCenter
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_FA_COST_CENTER_MASTER", OMInsertOrUpdate.Update, "TSPL_FA_COST_CENTER_MASTER.CostCenter_Code='" + obj.Cost_Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Cost_Code), "TSPL_FA_COST_CENTER_MASTER", "Cost_Code", trans)
 
         Catch err As Exception
 
