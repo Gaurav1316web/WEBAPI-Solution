@@ -150,7 +150,9 @@ Public Class frmDBTNEFTUnionReport
                                 From( Select Format(TSPL_DBT_NEFT.From_Date,'MM-yyyy') As[Month],(TSPL_DBT_NEFT_DETAIL.MP_Uploader_Code) as MP_Uploader_Code,
                                 (TSPL_DBT_NEFT_DETAIL.Amount) as Amount ,(TSPL_MP_INCENTIVE_ENTRY_DETAIL.Qty)[Farmer Qty],(TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code)  as [Farmer Code]
                                 from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL 
-                                Left Outer JOin [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT On TSPL_DBT_NEFT.Document_Code=TSPL_DBT_NEFT_DETAIL.Document_Code
+
+                                inner join (select * from ( select ROW_NUMBER() over(Partition by from_date order by UKID) as Rep,Document_Code,RCDF_Status,From_Date,To_Date from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT)x where rep=1 )TSPL_DBT_NEFT on TSPL_DBT_NEFT.Document_Code=TSPL_DBT_NEFT_DETAIL.Document_Code
+
                                 Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL On TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR   
                                 left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
                                 left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code "
@@ -162,7 +164,7 @@ Public Class frmDBTNEFTUnionReport
                     'BaseQry += " where TSPL_DBT_NEFT_DETAIL.PK_Id Not In (Select Against_DBT_NEFT_TR From [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_REJECT_DETAIL where TSPL_DBT_NEFT_REJECT_DETAIL.Document_Code Not In (Select Document_Code From [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_REJECT where TSPL_DBT_NEFT_REJECT.Against_DBT_NEFT Not In (TSPL_DBT_NEFT.Document_Code))) and                        
                     '            Convert(Date,TSPL_DBT_NEFT.From_Date,103)>=Convert(Date,'" + Slot1 + "',103) And Convert(Date,TSPL_DBT_NEFT.To_Date,103)<=Convert(Date,'" + Slot2 + "',103) "
                 End If
-                BaseQry += "              )x group by [Month] "
+                BaseQry += "    )x group by [Month] "
                 If chkOnlyReject.Checked Then
                     BaseQry += " Union All
 							  Select [Month],COUNT(Document_Code)[No Of Doc],0 As [Billed Qty],0 As [Farmer Qty],0 as [Farmer Code],0 as Amt from (
