@@ -234,7 +234,8 @@ Public Class rptNewSalesReport
             If dtProductItem.Rows.Count > 0 Then
                 If dtItemSubGroup.Rows.Count > 0 Then
                     For i As Integer = 0 To dtItemSubGroup.Rows.Count - 1
-                        ItemSubGroupAvg += " case when  cast(sum(" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + ") as int ) = 0 or max(Days) = 0 then 0 else (sum(" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + ")/ max(Days)) end as [" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + " Avg] , "
+                        'ItemSubGroupAvg += " case when  cast(sum(" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + ") as int ) = 0 or max(Days) = 0 then 0 else (sum(" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + ")/ max(Days)) end as [" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + " Avg] , "
+                        ItemSubGroupAvg += " case when  cast(sum([" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + "]) as int ) = 0 or max(Days) = 0 then 0 else (sum([" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + "])/ max(Days)) end as [" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + " Avg] , "
                         ItemSubGroup += "Sum(IsNull([" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + "],0)) As [" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + "]" + ","
                         If i = 0 Then
                             ItemsSubGroup += "[" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + "] "
