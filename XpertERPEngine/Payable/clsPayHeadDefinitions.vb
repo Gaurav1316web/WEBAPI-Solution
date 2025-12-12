@@ -39,6 +39,8 @@ Public Class clsPayHeadDefinitions
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_PAYHEAD_MASTER", "PAY_HEAD_CODE", Nothing)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_PAYHEAD_MASTER", "PAY_HEAD_CODE", Nothing)
 
             Dim qry As String
             qry = "delete from TSPL_PAYHEAD_MASTER where PAY_HEAD_CODE ='" + strCode + "'"
@@ -141,7 +143,7 @@ Public Class clsPayHeadDefinitions
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PAYHEAD_MASTER", OMInsertOrUpdate.Update, "PAY_HEAD_CODE='" + obj.PAY_HEAD_CODE + "'")
             End If
-            '  clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.PAY_HEAD_CODE, "TSPL_PAYHEAD_MASTER", "PAY_HEAD_CODE", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.PAY_HEAD_CODE, "TSPL_PAYHEAD_MASTER", "PAY_HEAD_CODE", Nothing)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

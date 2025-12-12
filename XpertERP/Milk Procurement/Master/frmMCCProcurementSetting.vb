@@ -52,11 +52,15 @@ Public Class frmMCCProcurementSetting
             mnexport.Enabled = False
         End If
 
+
+        txtBMCStartDate.Value = MyBase.isAmendmentFlag
+        txtBMCEndtime.Visible = MyBase.isAmendmentFlag
+        txtDcsEndTime.Visible = MyBase.isAmendmentFlag
     End Sub
     Private Sub frmMCCProcurementSetting_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
         Funfill()
-        
+
     End Sub
     ''To Authorised the user 
     'Private Function funSetUserAccess() As Boolean
@@ -127,6 +131,30 @@ Public Class frmMCCProcurementSetting
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
             '==================================================================================
+
+            'If clsCommon.myLen(txtBMCStartDate.Text) > 0 Then
+            '    qry = "update TSPL_FIXED_PARAMETER set Description='" & txtBMCStartDate.Text & "' where Type='" & clsFixedParameterType.AndroidMilkCollectionBMCDCS & " ' and Code='" & clsFixedParameterCode.BMCStartTime & "'"
+            '    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            'End
+            '
+            If clsCommon.myLen(dbtBMCStartDate1.Text) > 0 Then
+                qry = "update TSPL_FIXED_PARAMETER set Description='" & dbtBMCStartDate1.Text & "' where Type='" & clsFixedParameterType.AndroidMilkCollectionBMCDCS & " ' and Code='" & clsFixedParameterCode.BMCStartTime & "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
+            If txtBMCEndtime.Text <> "" Then
+                qry = "update TSPL_FIXED_PARAMETER set Description='" & txtBMCEndtime.Text & "' where Type='" & clsFixedParameterType.AndroidMilkCollectionBMCDCS & " ' and Code='" & clsFixedParameterCode.BMCEndHours & "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
+
+            If txtDcsEndTime.Text <> "" Then
+                qry = "update TSPL_FIXED_PARAMETER set Description='" & txtDcsEndTime.Text & "' where Type='" & clsFixedParameterType.AndroidMilkCollectionBMCDCS & " ' and Code='" & clsFixedParameterCode.DCSEndHours & "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
+
+
+
+
+
             If clsCommon.myCdbl(TxtDaysForFssaiPopup.Text) > 0 Then
                 qry = "update TSPL_FIXED_PARAMETER set Description='" & clsCommon.myCdbl(TxtDaysForFssaiPopup.Text) & "' where Type='" & clsFixedParameterType.MCCFSSAI_DAYS & " ' and Code='" & clsFixedParameterCode.MilkSetting & "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -400,6 +428,13 @@ Public Class frmMCCProcurementSetting
         If clsCommon.myLen(clsFixedParameter.GetData(clsFixedParameterType.MCCInvoiceScheduleDate, clsFixedParameterCode.MilkSetting, Nothing)) > 0 Then
             DtpStartingDate.Value = clsFixedParameter.GetData(clsFixedParameterType.MCCInvoiceScheduleDate, clsFixedParameterCode.MilkSetting, Nothing)
         End If
+
+        'txtBMCStartDate.Text = clsFixedParameter.GetData(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.BMCStartTime, Nothing)
+        dbtBMCStartDate1.Text = clsFixedParameter.GetData(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.BMCStartTime, Nothing)
+
+        txtBMCEndtime.Text = clsFixedParameter.GetData(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.BMCEndHours, Nothing)
+        txtDcsEndTime.Text = clsFixedParameter.GetData(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.DCSEndHours, Nothing)
+
         '====================================================
         txtItemDescForTankerDisp.Text = clsFixedParameter.GetData(clsFixedParameterType.ItemDescForTankerdispatchPrint, clsFixedParameterCode.ItemDescForTankerDispatchPrint, Nothing)
         '=========Rohit 31 Jan,2015=======
@@ -606,6 +641,8 @@ Public Class frmMCCProcurementSetting
         Catch ex As Exception
         End Try
     End Sub
+
+
 
     Private Sub chkItemMilkType_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkItemMilkType.ToggleStateChanged
         If chkItemMilkType.Checked Then

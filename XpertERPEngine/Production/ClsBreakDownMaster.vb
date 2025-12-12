@@ -30,9 +30,10 @@ Public Class ClsBreakDownMaster
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BREAK_DOWN_MASTER", OMInsertOrUpdate.Insert, "", trans)
             Else
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_BREAK_DOWN_MASTER", "Code", trans)
+                'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_BREAK_DOWN_MASTER", "Code", trans)
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BREAK_DOWN_MASTER", OMInsertOrUpdate.Update, "Code='" + obj.Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_BREAK_DOWN_MASTER", "Code", trans)
 
         Catch err As Exception
             Throw New Exception(err.Message)
@@ -79,6 +80,9 @@ Public Class ClsBreakDownMaster
         End If
         Dim obj As ClsBreakDownMaster = ClsBreakDownMaster.GetData(strCode, NavigatorType.Current)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_BREAK_DOWN_MASTER", "Code", trans)
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_BREAK_DOWN_MASTER", "Code", trans)
+
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0) Then
             Try
 

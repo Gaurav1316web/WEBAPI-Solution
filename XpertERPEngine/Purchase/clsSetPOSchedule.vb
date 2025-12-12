@@ -172,6 +172,7 @@ Public Class clsSetPOSchedule
                     Throw New Exception("Already Post on :" + obj.Posting_Date)
                 End If
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SET_PO_SCHEDULE", "Code", "TSPL_SET_PO_SCHEDULE_DETAIL", "Code", trans)
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_SET_PO_SCHEDULE", "Code", "TSPL_SET_PO_SCHEDULE_DETAIL", "Code", trans)
 
                 Dim qry As String = "delete from TSPL_SET_PO_SCHEDULE_DETAIL where Code='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)

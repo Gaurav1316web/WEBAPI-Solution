@@ -68,9 +68,9 @@ Public Class clsEmployeeSavingsMappingHead
                     isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_SAVINGS_MAPPING_MASTER", OMInsertOrUpdate.Update, "TSPL_EMPLOYEE_SAVINGS_MAPPING_MASTER.DOCUMENT_CODE='" + obj.DOCUMENT_CODE + "'", trans)
                 End If
                 clsEmployeeSavingsMappingDetail.SaveData(obj.DOCUMENT_CODE, Arr2, clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"), trans)
-                If isNewEntry = False Then
-                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.DOCUMENT_CODE, "TSPL_EMPLOYEE_SAVINGS_MAPPING_MASTER", "DOCUMENT_CODE", "TSPL_EMPLOYEE_SAVINGS_MAPPING_DETAIL", "DOCUMENT_CODE", trans)
-                End If
+                ' If isNewEntry = False Then
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.DOCUMENT_CODE, "TSPL_EMPLOYEE_SAVINGS_MAPPING_MASTER", "DOCUMENT_CODE", "TSPL_EMPLOYEE_SAVINGS_MAPPING_DETAIL", "DOCUMENT_CODE", trans)
+                'End If
             Next
         Catch err As Exception
             Throw New Exception(err.Message)
