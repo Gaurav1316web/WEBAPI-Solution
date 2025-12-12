@@ -4503,7 +4503,7 @@ Public Class FrmVendorService
                 common.clsCommon.MyMessageBoxShow("Document No not found to print", Me.Text)
             End If
             Dim strDocNo As String = clsCommon.myCstr(txtDocNo.Value)
-            clsVedorInvoiceHead.funVendorServicePrint(MyBase.Form_ID, False, txtDate.Value, txtDocNo.Value)
+            clsVedorInvoiceHead.funVendorServicePrint(MyBase.Form_ID, Nothing, txtDate.Value, txtDocNo.Value)
 
             '           Dim qry As String = " select TSPL_VENDOR_INVOICE_HEAD.IsEInvoice,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date, TSPL_Additional_Charges.SAC_Code,(TSPL_VENDOR_MASTER.Add1+' '+TSPL_VENDOR_MASTER.ADD2+' '+TSPL_VENDOR_MASTER.Add3) AS ADD1,TSPL_VENDOR_MASTER.PAN ,TSPL_VENDOR_MASTER.Pin_Code,TSPL_VENDOR_MASTER.State_Code,TSPL_VENDOR_MASTER.GSTFinalNo,TSPL_VENDOR_MASTER.City_Code_Desc,right(TSPL_VENDOR_INVOICE_HEAD.document_no,4) as Gatepass ,TSPL_VENDOR_INVOICE_HEAD.Loc_Code as from_location ,TSPL_VENDOR_MASTER.GSTFinalNo as Cust_GstInNo,TSPL_VENDOR_INVOICE_HEAD.document_no
             ', cast(

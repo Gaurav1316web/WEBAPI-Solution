@@ -7560,7 +7560,7 @@ left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DI
     '    End Sub
     Public Sub funPrint(ByVal StrCode As String, Optional ByVal IsPDF As Boolean = False)
         Try
-            clsDSSalesReturnHead.funsaleReturnDairyPrint(MyBase.Form_ID, False, txtDate.Value, StrCode, IsPDF)
+            clsDSSalesReturnHead.funsaleReturnDairyPrint(MyBase.Form_ID, Nothing, txtDate.Value, StrCode, IsPDF)
 
             '            If clsCommon.myLen(StrCode) > 0 Then
             '                Dim Qry As String = "select 

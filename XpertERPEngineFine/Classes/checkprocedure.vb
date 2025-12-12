@@ -3060,6 +3060,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptUnionBookingReport, "Milk Marketing Report", "1.49.03.20", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.DBTPDAccountReport, "DBT PD Account Report", "1.49.03.21", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.frmUnionWiseAppUserReport, "Union Wise App User Report", "1.49.03.22", clsUserMgtCode.SubModuleMilkUnion, 8)
+        InsertDefaultValue(clsUserMgtCode.FrmCmSambalYojanaSunsidy, "Cm Sambal Yojana Sunsidy", "1.49.03.23", clsUserMgtCode.SubModuleMilkUnion, 8)
 
         InsertDefaultValue(clsUserMgtCode.ModuleBullManagement, "Bull Management", "1.50", clsUserMgtCode.ExpertERP, "M", 23)
 
