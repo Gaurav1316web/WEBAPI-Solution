@@ -2831,7 +2831,8 @@ Public Class FrmMPMaster
                                 Dim qry As String = "select AccountNO from TSPL_MP_MASTER where MP_Code not in ('" + obj.MP_Code + "') and Active=0 and AccountNO='" + obj.AccountNO + "' "
                                 Dim dtACNo As DataTable = clsDBFuncationality.GetDataTable(qry)
                                 If dtACNo IsNot Nothing AndAlso dtACNo.Rows.Count > 0 Then
-                                    Throw New Exception("Account number [" + obj.AccountNO + "] is already in use.")
+                                    'Throw New Exception("Account number [" + obj.AccountNO + "] is already in use.")
+                                    Throw New Exception("Account number [" + obj.AccountNO + "],(" + clsCommon.myCstr(obj.MP_Code) + ") is already in use.")
                                 End If
                                 If ArrAccountNo.Contains(obj.AccountNO) Then
                                     Throw New Exception("Repeated Account number [" + obj.AccountNO + "].")
