@@ -1195,6 +1195,7 @@ Public Class frmDairyBookingCustomer_FreshSale
 
     Function AllowToSave(ByVal trans As SqlTransaction) As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
                 If Is_Cancelled = 1 Then
                     clsCommon.MyMessageBoxShow(Me, "Booking Cancelled,Can not Update", Me.Text)

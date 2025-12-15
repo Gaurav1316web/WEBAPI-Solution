@@ -1307,6 +1307,7 @@ Public Class frmCreateReceivedDairySale
     End Sub
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
                 txtDate.Select()
                 Return False

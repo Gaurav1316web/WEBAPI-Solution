@@ -323,12 +323,15 @@ Public Class clsVedorInvoiceHead
     Public Saving As Integer = 0
     Public arrSecurityAdjustment As ArrayList = Nothing
 #End Region
-    Public Shared Function funVendorServicePrint(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal strDate As DateTime, ByVal StrDocNo As String) As Boolean
+    Public Shared Function funVendorServicePrint(ByVal Form_ID As String, ByVal strCancelDelete As String, ByVal strDate As DateTime, ByVal StrDocNo As String) As Boolean
         Dim TSPL_VENDOR_INVOICE_HEAD As String = Nothing
         Dim TSPL_VENDOR_INVOICE_detail As String = Nothing
-        If isCancel Then
+        If clsCommon.CompairString(strCancelDelete, "Cancel") = CompairStringResult.Equal Then
             TSPL_VENDOR_INVOICE_HEAD = "TSPL_VENDOR_INVOICE_HEAD_Cancel_data"
             TSPL_VENDOR_INVOICE_detail = "TSPL_VENDOR_INVOICE_detail_cancel_data"
+        ElseIf clsCommon.CompairString(strCancelDelete, "Delete") = CompairStringResult.Equal Then
+            TSPL_VENDOR_INVOICE_HEAD = "TSPL_VENDOR_INVOICE_HEAD_Delete_data"
+            TSPL_VENDOR_INVOICE_detail = "TSPL_VENDOR_INVOICE_detail_Delete_data"
         Else
             TSPL_VENDOR_INVOICE_HEAD = "TSPL_VENDOR_INVOICE_HEAD"
             TSPL_VENDOR_INVOICE_detail = "TSPL_VENDOR_INVOICE_detail"
@@ -336,17 +339,17 @@ Public Class clsVedorInvoiceHead
 
 
         Dim qry As String = " select " + TSPL_VENDOR_INVOICE_HEAD + ".IsEInvoice,"
-        If isCancel Then
+        If clsCommon.CompairString(strCancelDelete, "Cancel") = CompairStringResult.Equal OrElse clsCommon.CompairString(strCancelDelete, "Delete") = CompairStringResult.Equal Then
             qry += " 'Cancelled' As Report_Status, "
         Else
             qry += " '' As Report_Status, "
         End If
 
         qry += "" + TSPL_VENDOR_INVOICE_HEAD + ".Invoice_Entry_Date, TSPL_Additional_Charges.SAC_Code,(TSPL_VENDOR_MASTER.Add1+' '+TSPL_VENDOR_MASTER.ADD2+' '+TSPL_VENDOR_MASTER.Add3) AS ADD1,TSPL_VENDOR_MASTER.PAN ,TSPL_VENDOR_MASTER.Pin_Code,TSPL_VENDOR_MASTER.State_Code,TSPL_VENDOR_MASTER.GSTFinalNo,TSPL_VENDOR_MASTER.City_Code_Desc,right(" + TSPL_VENDOR_INVOICE_HEAD + ".document_no,4) as Gatepass ," + TSPL_VENDOR_INVOICE_HEAD + ".Loc_Code as from_location ,TSPL_VENDOR_MASTER.GSTFinalNo as Cust_GstInNo," + TSPL_VENDOR_INVOICE_HEAD + ".document_no"
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal AndAlso Not isCancel Then
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(strCancelDelete, "Cancel") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(strCancelDelete, "Delete") <> CompairStringResult.Equal Then
             qry += " ,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_VENDOR_INVOICE_HEAD.RefDocType,TSPL_VENDOR_INVOICE_HEAD.RefDocNo,TSPL_VENDOR_INVOICE_HEAD.Remarks "
         End If
-        qry +=" , cast(
+        qry += " , cast(
         " + TSPL_VENDOR_INVOICE_HEAD + ".BarCode_Img as image
       ) As BarCode_Img ," + TSPL_VENDOR_INVOICE_detail + ".Discount,	" + TSPL_VENDOR_INVOICE_detail + ".Amount_less_Discount	," + TSPL_VENDOR_INVOICE_detail + ".TAX1	," + TSPL_VENDOR_INVOICE_detail + ".TAX1_Rate,	" + TSPL_VENDOR_INVOICE_detail + ".TAX1_Amt,	" + TSPL_VENDOR_INVOICE_detail + ".TAX2,	" + TSPL_VENDOR_INVOICE_detail + ".TAX2_Rate,	" + TSPL_VENDOR_INVOICE_detail + ".TAX2_Amt,	" + TSPL_VENDOR_INVOICE_detail + ".TAX3	," + TSPL_VENDOR_INVOICE_detail + ".TAX3_Rate,	" + TSPL_VENDOR_INVOICE_detail + ".TAX3_Amt	," + TSPL_VENDOR_INVOICE_detail + ".TAX4,	" + TSPL_VENDOR_INVOICE_detail + ".TAX4_Rate,	" + TSPL_VENDOR_INVOICE_detail + ".TAX4_Amt,	" + TSPL_VENDOR_INVOICE_detail + ".TAX5,	" + TSPL_VENDOR_INVOICE_detail + ".TAX5_Rate,	" + TSPL_VENDOR_INVOICE_detail + ".TAX5_Amt,	" + TSPL_VENDOR_INVOICE_detail + ".TAX6,	" + TSPL_VENDOR_INVOICE_detail + ".TAX6_Rate,	" + TSPL_VENDOR_INVOICE_detail + ".TAX6_Amt	," + TSPL_VENDOR_INVOICE_detail + ".TAX7,	" + TSPL_VENDOR_INVOICE_detail + ".TAX7_Rate,	" + TSPL_VENDOR_INVOICE_detail + ".TAX7_Amt,	" + TSPL_VENDOR_INVOICE_detail + ".TAX8,	" + TSPL_VENDOR_INVOICE_detail + ".TAX8_Rate,	" + TSPL_VENDOR_INVOICE_detail + ".TAX8_Amt	," + TSPL_VENDOR_INVOICE_detail + ".TAX9,	" + TSPL_VENDOR_INVOICE_detail + ".TAX9_Rate,	" + TSPL_VENDOR_INVOICE_detail + ".TAX9_Amt,	" + TSPL_VENDOR_INVOICE_detail + ".TAX10,	" + TSPL_VENDOR_INVOICE_detail + ".TAX10_Rate,	" + TSPL_VENDOR_INVOICE_detail + ".TAX10_Amt,	" + TSPL_VENDOR_INVOICE_detail + ".Total_Tax,	" + TSPL_VENDOR_INVOICE_detail + ".Total_Amount	," + TSPL_VENDOR_INVOICE_detail + ".Remarks,	" + TSPL_VENDOR_INVOICE_detail + ".Comments	,	" + TSPL_VENDOR_INVOICE_detail + ".Invoice_Type,	" + TSPL_VENDOR_INVOICE_detail + ".Landed_Amount
 	  ," + TSPL_VENDOR_INVOICE_HEAD + ".IRN_No," + TSPL_VENDOR_INVOICE_HEAD + ".Ack_No," + TSPL_VENDOR_INVOICE_HEAD + ".Ack_Date," + TSPL_VENDOR_INVOICE_HEAD + ".Vendor_Invoice_No," + TSPL_VENDOR_INVOICE_HEAD + ".Vendor_Invoice_Date," + TSPL_VENDOR_INVOICE_HEAD + ".Vendor_Name," + TSPL_VENDOR_INVOICE_HEAD + ".Vendor_Code," + TSPL_VENDOR_INVOICE_detail + ".AddChargeDesc," + TSPL_VENDOR_INVOICE_detail + ".Amount
@@ -396,7 +399,7 @@ Public Class clsVedorInvoiceHead
 	  inner join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=" + TSPL_VENDOR_INVOICE_HEAD + ".Vendor_Code
 	  left join TSPL_Additional_Charges on TSPL_Additional_Charges.Code=" + TSPL_VENDOR_INVOICE_detail + ".AddChargeCode  where " + TSPL_VENDOR_INVOICE_HEAD + ".Document_No ='" + StrDocNo + "' "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-        If dt IsNot Nothing And dt.Rows.Count > 0 Then
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") = CompairStringResult.Equal Then
                 frmCRV.funreport(Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptVendorServiceInvoice_RCDFCF", "VendorService")
@@ -4764,7 +4767,7 @@ Public Class clsVedorInvoiceHead
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("No Data found to Reverse And UnPost")
             End If
-            clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_VENDOR_INVOICE_HEAD", "Document_No", "TSPL_VENDOR_INVOICE_DETAIL", "Document_No", "TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL", "AP_Invoice_No", "TSPL_AP_Invoice_Asset_EMI_Details", "AP_Invoice_No", "", "", "", "", "", "", trans)
+            'clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_VENDOR_INVOICE_HEAD", "Document_No", "TSPL_VENDOR_INVOICE_DETAIL", "Document_No", "TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL", "AP_Invoice_No", "TSPL_AP_Invoice_Asset_EMI_Details", "AP_Invoice_No", "", "", "", "", "", "", trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_REMITTANCE", "Document_No", "TSPL_AP_INVOICE_ADVANCE_INTEREST", "AP_Invoice_No", "TSPL_PROVISION_ENTRY_KNOCKOFF", "AP_Invoice_No", trans)
 
             '' Get Payment Entry Against AP Invoice
@@ -4856,7 +4859,8 @@ Public Class clsVedorInvoiceHead
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
             'clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_VENDOR_INVOICE_HEAD", "Document_No", "TSPL_VENDOR_INVOICE_DETAIL", "Document_No", "TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL", "AP_Invoice_No", "TSPL_AP_Invoice_Asset_EMI_Details", "AP_Invoice_No", "", "", "", "", "", "", trans)
             'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_REMITTANCE", "Document_No", "TSPL_AP_INVOICE_ADVANCE_INTEREST", "AP_Invoice_No", "TSPL_PROVISION_ENTRY_KNOCKOFF", "AP_Invoice_No", trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BOOKING_MATSER", "Document_No", "TSPL_BOOKING_DETAIL", "Document_No", "TSPL_BOOKING_PAYMENT_MODE_DETAIL", "Document_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_VENDOR_INVOICE_HEAD", "Document_No", trans)
+
             'trans.Commit()
             Return True
         Catch ex As Exception

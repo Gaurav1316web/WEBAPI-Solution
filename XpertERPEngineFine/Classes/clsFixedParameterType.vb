@@ -2,6 +2,7 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
+    Public Const TransactionValidity As String = "Transaction Validity"
     Public Const AutoGenerateFarmerPriceFromDCSPrice As String = "Auto Generate Farmer Price From DCS Price"
     Public Const AutoGenrateBatchInventoryOnPost As String = "Auto Genrate Batch Inventory On Post"
 
@@ -1377,6 +1378,7 @@ Public Class clsFixedParameterType
     Public Const AllowToCheckZeroQtyonDispatch = "Allow To Check Zero Qty on Dispatch"
 End Class
 Public Class clsFixedParameterCode
+    Public Const TransactionValidity As String = "Transaction Validity"
     Public Const AutoGenerateFarmerPriceFromDCSPrice As String = "Auto Generate Farmer Price From DCS Price"
     Public Const AutoGenrateBatchInventoryOnPost As String = "Auto Genrate Batch Inventory On Post"
     Public Const PickcompanyBankCodeFromPaymentProcess As String = "Pick company BankCode From Payment Process"
@@ -2988,6 +2990,7 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.TransactionValidity, clsFixedParameterCode.TransactionValidity, "30", "Set Transaction Validity Day")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AutoGenerateFarmerPriceFromDCSPrice, clsFixedParameterCode.AutoGenerateFarmerPriceFromDCSPrice, "1", "0:OFF,1:ON;if on then Auto Genrate Farmer Price on Post dcs Price of Transaction")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AutoGenrateBatchInventoryOnPost, clsFixedParameterCode.AutoGenrateBatchInventoryOnPost, "0", "0:OFF,1:ON;if on then Auto Genrate Batch Inventory At Post of Transaction")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAMCUDetails, clsFixedParameterCode.AMCUDetailsHeading1, "Heading 1", "Dynamic Heading 1 for AMCU Detail")

@@ -333,6 +333,14 @@ Public Class Xtra
         End Try
         Return dt
     End Function
+
+    Public Shared Function TransactionValidity(ByVal dtTransactionDate As DateTime) As Boolean
+        Dim diff As TimeSpan = clsCommon.GETSERVERDATE().Subtract(dtTransactionDate)
+        If objCommonVar.TransactionValidity <= (diff.Days + 1) Then
+            Throw New Exception("Persmission Denied ! " & Environment.NewLine & "Transaction validity expired. Cannot change data before " & clsCommon.myCstr(objCommonVar.TransactionValidity) & " validity days.")
+        End If
+        Return True
+    End Function
 End Class
 
 Public Class clsEmailSMSConstants

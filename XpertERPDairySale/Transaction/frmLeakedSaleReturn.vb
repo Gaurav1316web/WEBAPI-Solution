@@ -961,6 +961,7 @@ Public Class frmLeakedSaleReturn
     End Sub
     Public Function AllowtoSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             If clsCommon.myLen(txtRouteNo.Value) <= 0 Then
                 Throw New Exception("Please Select Route No.")
             End If

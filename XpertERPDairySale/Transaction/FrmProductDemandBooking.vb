@@ -1625,6 +1625,7 @@ group by TSPL_Product_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.displ
     End Sub
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             If clsCommon.myLen(txtRouteNo.Value) <= 0 Then
                 Throw New Exception("Please select Route")
             End If

@@ -17,7 +17,7 @@ Public Class clsLineMaster
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_LINE_MASTER", "LINE_NO", trans)
-            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_LINE_MASTER", "LINE_NO", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_LINE_MASTER", "LINE_NO", trans)
 
             Dim qry As String = "delete from TSPL_LINE_MASTER where LINE_NO='" & strDocNo & "'"
             Dim isDeleted As Boolean = True

@@ -333,13 +333,14 @@ Public Class FrmItemProjection
     End Sub
     Function allowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             If clsCommon.myLen(txtDate.Value) <= 0 Then
                 Throw New Exception("Projection Date Can't left blank")
             End If
             If gv.Rows.Count <= 0 Then
                 Throw New Exception("No Data Found For Save")
             End If
-           
+
             'Return True
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

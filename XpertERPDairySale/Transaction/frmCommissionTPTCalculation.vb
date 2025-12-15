@@ -432,6 +432,7 @@ where TSPL_CUSTOMER_COMMISSION_TPT_INVOICE.Document_Code not in ('" & txtDocNo.V
 
     Private Function AllowData() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             If clsCommon.myCDate(txtFromDate.Value) > clsCommon.myCDate(txtToDate.Value) Then
                 clsCommon.MyMessageBoxShow(Me, "From date can't be grater then To Date !", Me.Text)
                 txtFromDate.Focus()

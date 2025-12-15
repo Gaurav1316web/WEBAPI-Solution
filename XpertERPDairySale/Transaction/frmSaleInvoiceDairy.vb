@@ -3283,6 +3283,7 @@ Public Class frmSaleInvoiceDairy
 
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             GSTStatus = clsERPFuncationality.GetGSTStatus(txtDate.Value)
             RefreshReqNo()
 

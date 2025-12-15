@@ -33,6 +33,7 @@ Public Class clsUnitMaster
             Else
                 IsSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_COST_CENTER_UNIT_MASTER", OMInsertOrUpdate.Update, "Code='" + obj.Code + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_COST_CENTER_UNIT_MASTER", "Code", trans)
 
         Catch err As Exception
             Throw New Exception(err.Message)
@@ -77,6 +78,10 @@ Public Class clsUnitMaster
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
         Dim qry As String = ""
         Try
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_COST_CENTER_UNIT_MASTER", "Code", Nothing)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_COST_CENTER_UNIT_MASTER", "Code", Nothing
+                                                   )
+
             qry = "Delete from TSPL_COST_CENTER_UNIT_MASTER where TSPL_COST_CENTER_UNIT_MASTER.Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch err As Exception

@@ -3062,6 +3062,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
     End Sub
     Function AllowToSave(ByVal trans As SqlTransaction) As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             'Sanjay Ticket No- ERO/12/07/18-000371
             If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso Is_Cancelled = 1 Then
                 'If Is_Cancelled = 1 Then

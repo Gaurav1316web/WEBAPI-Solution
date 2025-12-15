@@ -315,9 +315,10 @@ Public Class clsPPStdFinalQCHead
             isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PP_STD_FINALQC_HEAD", OMInsertOrUpdate.Insert, "", trans)
         Else
             'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.QC_Code), "TSPL_PP_STD_FINALQC_HEAD", "QC_Code", "TSPL_PP_STD_FINALQC_QC_DETAIL", "QC_Code", "TSPL_PP_STD_FINALQC_ISSUE_ITEM_DETAIL", "QC_Code", trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.QC_Code), "TSPL_PP_STD_FINALQC_HEAD", "QC_Code", "TSPL_PP_STD_FINALQC_DETAIL", "QC_Code", "TSPL_PP_STD_FINALQC_QC_PARAMETER", "QC_Code", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.QC_Code), "TSPL_PP_STD_FINALQC_HEAD", "QC_Code", "TSPL_PP_STD_FINALQC_DETAIL", "QC_Code", "TSPL_PP_STD_FINALQC_QC_PARAMETER", "QC_Code", trans)
             isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PP_STD_FINALQC_HEAD", OMInsertOrUpdate.Update, "TSPL_PP_STD_FINALQC_HEAD.QC_Code='" + obj.QC_Code + "'", trans)
         End If
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.QC_Code), "TSPL_PP_STD_FINALQC_HEAD", "QC_Code", "TSPL_PP_STD_FINALQC_DETAIL", "QC_Code", "TSPL_PP_STD_FINALQC_QC_PARAMETER", "QC_Code", trans)
 
         isSaved = isSaved AndAlso clsPPStdFinalQCBatchItemDetail.SaveData(obj.QC_Code, obj.ArrBatchItem, trans)
         isSaved = isSaved AndAlso clsPPStdFinalQCIssueItemDetail.SaveData(obj.QC_Code, obj, obj.ArrIssueItem, trans)
@@ -392,8 +393,8 @@ Public Class clsPPStdFinalQCHead
             End If
 
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PP_STD_FINALQC_HEAD", "QC_Code", "TSPL_PP_STD_FINALQC_DETAIL", "QC_Code", "TSPL_PP_STD_FINALQC_QC_PARAMETER", "QC_Code", trans)
-           
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PP_STD_FINALQC_HEAD", "QC_Code", "TSPL_PP_STD_FINALQC_DETAIL", "QC_Code", "TSPL_PP_STD_FINALQC_QC_PARAMETER", "QC_Code", trans)
+
 
             clsBatchInventory.ReverseAndUnpost(FormId, strCode, trans)
             clsBatchInventoryNew.ReverseAndUnpost(FormId, strCode, trans)
@@ -417,6 +418,7 @@ Public Class clsPPStdFinalQCHead
 
             qry = "update TSPL_PP_STD_FINALQC_HEAD set Posted='0',Modified_By='" + objCommonVar.CurrentUserCode + "',Modified_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "' where QC_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PP_STD_FINALQC_HEAD", "QC_Code", trans)
 
             clsBatchInventory.UpdateDocumentNoAndType(strCode, clsUserMgtCode.ProcessProductionStandardizationFinalQC, strAgainstStdNo, clsUserMgtCode.frmProcessProductionStandardization, trans)
 
@@ -439,6 +441,8 @@ Public Class clsPPStdFinalQCHead
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.ProcessProductionStandardizationFinalQC, clsCommon.myCstr(dt.Rows(0)("Loaction_Code")), clsCommon.myCDate(dt.Rows(0)("QC_Date")), trans)
 
             End If
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_PP_STD_FINALQC_HEAD", "QC_Code", "TSPL_PP_STD_FINALQC_DETAIL", "QC_Code", "TSPL_PP_STD_FINALQC_QC_PARAMETER", "QC_Code", trans)
+
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_PP_STD_FINALQC_HEAD", "QC_Code", "TSPL_PP_STD_FINALQC_DETAIL", "QC_Code", "TSPL_PP_STD_FINALQC_QC_PARAMETER", "QC_Code", trans)
             Dim qry As String = "delete from TSPL_PP_STD_FINALQC_QC_DETAIL where   QC_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)

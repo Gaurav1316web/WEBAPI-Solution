@@ -4431,6 +4431,7 @@ Where TSPL_ITEM_MASTER.Item_Code='" + itemCode + "' And TSPL_ITEM_UOM_DETAIL.UOM
 
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             If ApplyBoothWiseReturn Then
                 If gvBooth Is Nothing OrElse gvBooth.Rows.Count <= 0 Then
                     Throw New Exception("Please Fill Booth Detail")
@@ -7560,7 +7561,7 @@ left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DI
     '    End Sub
     Public Sub funPrint(ByVal StrCode As String, Optional ByVal IsPDF As Boolean = False)
         Try
-            clsDSSalesReturnHead.funsaleReturnDairyPrint(MyBase.Form_ID, False, txtDate.Value, StrCode, IsPDF)
+            clsDSSalesReturnHead.funsaleReturnDairyPrint(MyBase.Form_ID, Nothing, txtDate.Value, StrCode, IsPDF)
 
             '            If clsCommon.myLen(StrCode) > 0 Then
             '                Dim Qry As String = "select 

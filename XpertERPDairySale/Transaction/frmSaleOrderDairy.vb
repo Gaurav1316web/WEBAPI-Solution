@@ -4551,6 +4551,7 @@ Public Class frmSaleOrderDairy
 
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             For ii As Integer = 0 To gv1.Rows.Count - 1
                 UpdateCurrentRow(ii)
                 UpdateCurrentRow(ii)
@@ -4566,7 +4567,7 @@ Public Class frmSaleOrderDairy
                     End If
                     Dim balQty As Decimal = clsItemLocationDetails.getBalance(dr.Cells(colICode).Value, clsCommon.myCstr(Me.txtBillToLocation.Value), Me.txtDocNo.Value, txtDate.Value, Nothing, dr.Cells(colUnit).Value, dr.Cells(colMRP).Value)
                     Dim strq As String
-                    strq = "select Min_Level,(Min_Level+Min_Level * Min_Level_Tollerence/100) tol_Plus,(Min_Level-Min_Level * Min_Level_Tollerence/100) tol_Minus " & _
+                    strq = "select Min_Level,(Min_Level+Min_Level * Min_Level_Tollerence/100) tol_Plus,(Min_Level-Min_Level * Min_Level_Tollerence/100) tol_Minus " &
                            " from TSPL_ITEM_REORDER_LEVEL_NEW where Item_Code='" & dr.Cells(colICode).Value & "'"
 
                     dt = clsDBFuncationality.GetDataTable(strq)

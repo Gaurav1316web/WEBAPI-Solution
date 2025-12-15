@@ -349,6 +349,8 @@ where TSPL_VENDOR_MASTER.Vendor_Code ='" + objTr.Vendor_Code + "'"
 
             Qry = "Update TSPL_TRANSFER_TO_SAVING set Posted_By=null,Posted_Date=NULL, Modify_By='" + objCommonVar.CurrentUserCode + "',Status=0 where Document_No='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_TRANSFER_TO_SAVING", "Document_No", trans)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

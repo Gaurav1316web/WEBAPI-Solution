@@ -335,7 +335,7 @@ Public Class frmTranspoterDeduction
     End Sub
 
     Function AllowToSave() As Boolean
-
+        Xtra.TransactionValidity(txtDocDate.Value)
 
         If clsCommon.myLen(fndTranspoter.Value) <= 0 Then
             fndTranspoter.Focus()

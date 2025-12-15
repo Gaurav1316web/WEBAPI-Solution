@@ -806,6 +806,7 @@ Public Class frmPOSBookingDairyMultipleCustomer
         'LoadBlankGrid()
     End Sub
     Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtDate.Value)
         'Dim strCustCode As String = String.Empty
         'Dim strCustName As String = String.Empty
         'Dim strLocCode As String = String.Empty

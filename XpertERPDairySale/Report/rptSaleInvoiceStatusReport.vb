@@ -342,8 +342,8 @@ TSPL_SCRAPINVOICE_Detail.Unit_code as [Measure of Qty],
                 qry = Baseqry
             ElseIf rbtnsummary.ischecked AndAlso rdbGstInvoice.IsChecked Then
                 qry = " Select max(Transcation_Type)Transcation_Type,max(Doc_Status)Doc_Status,max(Location)Location,max([Sub Location])[Sub Location],max(Invoice_Date)Invoice_Date,Invoice_No,max([Party Name])[Party Name],max([GST No])[GST No],
-                        max([State Code])[State Code],max([Measure of Qty])[Measure of Qty],max([Product Qty])[Product Qty],Max([IGST Rate])[IGST Rate],sum([Basic Amt])[Basic Amt],max(KKF)KKF,sum([Mandi Tax Amt])[Mandi Tax Amt],sum([Party TCS Amt])[Party TCS Amt],
-                        sum([CGST Amt])[CGST Amt],sum([SGST Amt])[SGST Amt],sum([IGST Amt])[IGST Amt],sum([Total Amt])[Total Amt],max([B2B/B2C])[B2B/B2C]
+                        max([State Code])[State Code],max([Measure of Qty])[Measure of Qty],max([Product Qty])[Product Qty],Cast(Max([IGST Rate]) as decimal(10,2))[IGST Rate],Cast(sum([Basic Amt]) as Decimal(10,2))[Basic Amt],Cast(max(KKF) as decimal(10,2))KKF,Cast(sum([Mandi Tax Amt]) as Decimal(10,2))[Mandi Tax Amt],Cast(sum([Party TCS Amt]) as Decimal(10,2))[Party TCS Amt],
+                        Cast(sum([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(sum([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(sum([IGST Amt]) as decimal(10,2))[IGST Amt],cast(sum([Total Amt]) as decimal(10,2))[Total Amt],max([B2B/B2C])[B2B/B2C]
                         from ( " + Baseqry + " )XX  group by xx.Invoice_No "
             End If
 
@@ -555,9 +555,9 @@ where convert(date,shipment_Date,103)>=Convert( Date,'" + strtxtfDate + "',103) 
                 qry = BaseQryCancel
             ElseIf rbtnSummary.IsChecked AndAlso rdbCancelInvoice.IsChecked Then
                 qry = " Select max(Transcation_Type)Transcation_Type,max(Doc_Status)Doc_Status,max(Location)Location,max([Sub Location])[Sub Location],max(Invoice_Date)Invoice_Date,Invoice_No,max([Party Name])[Party Name],
-                        max([GST No])[GST No],max([State Code])[State Code],max([Measure of Qty])[Measure of Qty],max([Product Qty])[Product Qty],Max([IGST Rate])[IGST Rate],
-                        sum([Basic Amt])[Basic Amt],max(KKF)KKF,sum([Mandi Tax Amt])[Mandi Tax Amt],sum([Party TCS Amt])[Party TCS Amt],sum([CGST Amt])[CGST Amt],sum([SGST Amt])[SGST Amt],sum([IGST Amt])[IGST Amt],
-                        sum([Total Amt])[Total Amt],max([B2B/B2C])[B2B/B2C] from (" + BaseQryCancel + " )XX  group by xx.Invoice_No "
+                        max([GST No])[GST No],max([State Code])[State Code],max([Measure of Qty])[Measure of Qty],max([Product Qty])[Product Qty],Cast(Max([IGST Rate]) as decimal(10,2))[IGST Rate],Cast(sum([Basic Amt]) as Decimal(10,2))[Basic Amt],Cast(max(KKF) as decimal(10,2))KKF,Cast(sum([Mandi Tax Amt]) as Decimal(10,2))[Mandi Tax Amt],Cast(sum([Party TCS Amt]) as Decimal(10,2))[Party TCS Amt],
+                        Cast(sum([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(sum([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(sum([IGST Amt]) as decimal(10,2))[IGST Amt],cast(sum([Total Amt]) as decimal(10,2))[Total Amt]
+                        ,max([B2B/B2C])[B2B/B2C] from (" + BaseQryCancel + " )XX  group by xx.Invoice_No "
             End If
 
             Dim qryreturn As String = ""
@@ -666,9 +666,9 @@ where convert(date,Document_Date,103)>=Convert( Date,'" + strtxtfDate + "',103) 
                 qry = qryreturn
             ElseIf rbtnSummary.IsChecked AndAlso rdbSaleReturn.IsChecked Then
                 qry = " Select max(Transaction_Type)Transaction_Type,max(Doc_Status)Doc_Status,max(Location)Location,max([Sub Location])[Sub Location],max(Invoice_Date)Invoice_Date,Invoice_No,max([Party Name])[Party Name],
-                        max([GST No])[GST No],max([State Code])[State Code],max([Product Qty])[Product Qty],Max([IGST Rate])[IGST Rate],
-                        sum([Basic Amt])[Basic Amt],max(KKF)KKF,sum([Mandi Tax Amt])[Mandi Tax Amt],sum([Party TCS Amt])[Party TCS Amt],sum([CGST Amt])[CGST Amt],sum([SGST Amt])[SGST Amt],sum([IGST Amt])[IGST Amt],
-                        sum([Total Amt])[Total Amt],max([B2B/B2C])[B2B/B2C] from (" + qryreturn + " )XX  group by xx.Invoice_No "
+                        max([GST No])[GST No],max([State Code])[State Code],max([Measure of Qty])[Measure of Qty],max([Product Qty])[Product Qty],Cast(Max([IGST Rate]) as decimal(10,2))[IGST Rate],Cast(sum([Basic Amt]) as Decimal(10,2))[Basic Amt],Cast(max(KKF) as decimal(10,2))KKF,Cast(sum([Mandi Tax Amt]) as Decimal(10,2))[Mandi Tax Amt],Cast(sum([Party TCS Amt]) as Decimal(10,2))[Party TCS Amt],
+                        Cast(sum([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(sum([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(sum([IGST Amt]) as decimal(10,2))[IGST Amt],cast(sum([Total Amt]) as decimal(10,2))[Total Amt],
+                        max([B2B/B2C])[B2B/B2C] from (" + qryreturn + " )XX  group by xx.Invoice_No "
             End If
 
             dt = clsDBFuncationality.GetDataTable(qry)
@@ -683,7 +683,6 @@ where convert(date,Document_Date,103)>=Convert( Date,'" + strtxtfDate + "',103) 
                 gvData.GroupDescriptors.Clear()
                 gvData.MasterTemplate.SummaryRowsBottom.Clear()
                 gvData.DataSource = dt
-
 
                 gvData.AutoExpandGroups = True
                 gvData.ShowGroupPanel = True
@@ -718,6 +717,21 @@ where convert(date,Document_Date,103)>=Convert( Date,'" + strtxtfDate + "',103) 
                 gvData.Columns(ii).ReadOnly = True
                 gvData.Columns(ii).BestFit()
             Next
+
+            gvData.Columns("Transaction_Type").HeaderText = "Transaction Type"
+            gvData.Columns("Doc_Status").HeaderText = "Status"
+            gvData.Columns("Location").HeaderText = "Location"
+            gvData.Columns("Sub Location").HeaderText = "Sub Location"
+            gvData.Columns("Invoice_Date").HeaderText = "Invoice Date"
+            gvData.Columns("Invoice_No").HeaderText = "Invoice No"
+            gvData.Columns("Party Name").HeaderText = "Party Name"
+            'gvData.Columns("Transaction_Type").HeaderText = "Transaction Type"
+            'gvData.Columns("Transaction_Type").HeaderText = "Transaction Type"
+            'gvData.Columns("Transaction_Type").HeaderText = "Transaction Type"
+            'gvData.Columns("Transaction_Type").HeaderText = "Transaction Type"
+            'gvData.Columns("Transaction_Type").HeaderText = "Transaction Type"
+            'gvData.Columns("Transaction_Type").HeaderText = "Transaction Type"
+            'gvData.Columns("Transaction_Type").HeaderText = "Transaction Type"
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
