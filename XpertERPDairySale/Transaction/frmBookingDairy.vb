@@ -3614,6 +3614,7 @@ Public Class frmBookingDairy
 
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             For ii As Integer = 0 To gv1.Rows.Count - 1
                 UpdateCurrentRow(ii)
             Next

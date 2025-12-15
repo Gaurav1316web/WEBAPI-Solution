@@ -349,6 +349,7 @@ Public Class frmDCSDemandBooking
     End Sub
     Function AllowToSave(ByVal trans As SqlTransaction) As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             If clsCommon.myLen(txtRouteNo.Value) <= 0 Then
                 Throw New Exception("Please select Route")
             End If

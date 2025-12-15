@@ -7156,6 +7156,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
     End Sub
     Function AllowToSave(ByVal ChekPostBtn As Boolean, Optional ByVal UpdateCustomerAfterPost As Boolean = False) As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             If SettDistributorWiseBilling Then
                 MergeDistributorItems(True, False, trans)
 
