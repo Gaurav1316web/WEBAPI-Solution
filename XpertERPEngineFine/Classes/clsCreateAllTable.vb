@@ -48511,6 +48511,8 @@ LL")
             coll.Add("Apply_PD_Account", "integer NULL")
             coll.Add("Apply_ECollect", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_APP_LOCATION", coll, Nothing, True, False, "", "Code", "", False)
+            qry = "alter table TSPL_APP_LOCATION add Code_Pro varchar(5) null"
+            clsDBFuncationality.ExecuteNonQuery(qry)
             '===
 
             coll = New Dictionary(Of String, String)()
