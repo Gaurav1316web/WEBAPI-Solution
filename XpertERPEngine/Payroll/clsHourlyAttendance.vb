@@ -214,6 +214,8 @@ Public Class clsHourlyAttendance
 
             Dim qry As String = "Update TSPL_HOURLY_ATTENDANCE set POSTED=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where DLA_CODE ='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.DLA_CODE, "TSPL_HOURLY_ATTENDANCE", "DLA_CODE", "TSPL_HOURLY_ATTENDANCE_DETAIL", "DLA_CODE", Nothing)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

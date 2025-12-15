@@ -220,7 +220,7 @@ Public Class ProductionReport
                      and TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE<= '" & clsCommon.GetPrintDate(txtToDate.Value) & "'"
             qry += " )Tab1 group by PROD_DATE,LOCATION_CODE,[Item Code],shiftcode)YY
                                     PIVOT(SUM(qty_bag) FOR shiftcode IN ([A-SHIFT],[B-SHIFT],[C-SHIFT],[WHOLEDAY])) AS Tab2 )tmp
-									where [Item Code] IN (" & clsCommon.myCstr(itemNames1) & ")  and tmp.PROD_DATE >= '" & clsCommon.GetPrintDate(txtFromDate.Value) & "' and tmp.PROD_DATE<='" & clsCommon.GetPrintDate(txtToDate.Value) & "'" & whr & "  order by PROD_DATE "
+									where [Item Code] IN (" & clsCommon.myCstr(itemNames1) & ")  and convert(date,tmp.PROD_DATE,103) >= convert(date,'" & clsCommon.GetPrintDate(txtFromDate.Value) & "',103) and convert(date,tmp.PROD_DATE,103)<=convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value) & "',103)" & whr & "  order by PROD_DATE "
             'If clsCommon.myLen(qry) > 0 Then
             '    dt = clsDBFuncationality.GetDataTable(qry)
             'End If

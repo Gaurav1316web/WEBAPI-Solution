@@ -73,7 +73,7 @@ left outer join (select Program_Code, Program_Name,Parent_Code,case when len (is
 left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('M')) as TBL_MODULE on TBL_MODULE.Program_Code = TBL_SMODULE.Parent_Code
 Where TBL_MODULE.Program_Code in (select  distinct Module_Name from TSPL_MODULE_PERMISSION ) and  not TSPL_PROGRAM_MASTER.Type in ('M','SM') 
 and TBL_SMODULE.Parent_Code In ('" & clsCommon.myCstr(cboModule.SelectedValue) & "') 
-and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') And TSPL_PROGRAM_MASTER.Program_Code In ('" & clsUserMgtCode.frmSaleDispatchDairy & "','" & clsUserMgtCode.frmSNSaleInvoice & "','" & clsUserMgtCode.frmDairyGatePass & "','" & clsUserMgtCode.frmMCCMaterial & "','" & clsUserMgtCode.frmDairyBookingCustomer & "','" & clsUserMgtCode.frmWreckageBooking & "','" & clsUserMgtCode.frmSNPOS & "','" & clsUserMgtCode.frmGatePassDairy & "','" & clsUserMgtCode.ScrapSale & "','" & clsUserMgtCode.FrmVendorService & "')
+and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') And TSPL_PROGRAM_MASTER.Program_Code In ('" & clsUserMgtCode.frmSaleDispatchDairy & "','" & clsUserMgtCode.frmSNSaleInvoice & "','" & clsUserMgtCode.frmDairyGatePass & "','" & clsUserMgtCode.frmMCCMaterial & "','" & clsUserMgtCode.frmDairyBookingCustomer & "','" & clsUserMgtCode.frmWreckageBooking & "','" & clsUserMgtCode.frmSNPOS & "','" & clsUserMgtCode.frmGatePassDairy & "','" & clsUserMgtCode.ScrapSale & "','" & clsUserMgtCode.FrmVendorService & "','" & clsUserMgtCode.frmSaleReturndairy & "')
  "
             dt = clsDBFuncationality.GetDataTable(Qry)
             'dr = dt.NewRow()
@@ -579,6 +579,38 @@ Inner Join TSPL_USER_MASTER On TSPL_USER_MASTER.User_Code=TSPL_SCRAPSALE_HEAD_De
                      convert(date,TSPL_SCRAPSALE_HEAD_Delete_Data.shipment_Date,103) <= convert(date,'" & dtpToDate.Value & "',103) "
                 End If
             End If
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.FrmVendorService) = CompairStringResult.Equal Then
+            If RdbDelete.IsChecked Then
+                qry = "Select Document_No As [Document ID],Convert(Varchar(10),Invoice_Entry_Date,103) As [Document Date],Vendor_Code As [Vendor Code],Vendor_Name As [Vendor Name],Document_Total As [Total],Description,Delete_By As [Deleted By],Convert(varchar(10),Delete_On,103) As [Deleted Date] from TSPL_VENDOR_INVOICE_HEAD_Delete_Data Where "
+                If rbtnCancelDate.IsChecked Then
+                    qry += " Convert(Date,Delete_On,103)>=Convert(Date,'" & dtpFromDate.Value & "',103) And Convert(Date,Delete_On,103)<=Convert(Date,'" & dtpToDate.Value & "',103)"
+                Else
+                    qry += " Convert(Date,Invoice_Entry_Date,103)>=Convert(Date,'" & dtpFromDate.Value & "',103) And Convert(Date,Invoice_Entry_Date,103)<=Convert(Date,'" & dtpToDate.Value & "',103)"
+                End If
+            Else
+                qry = "Select Document_No As [Document ID],Invoice_Entry_Date As [Document Date],Vendor_Code As [Vendor Code],Vendor_Name As [Vendor Name],Document_Total As [Total],Description,Cancel_By As [Canceled By],Convert(varchar(10),Cancel_On,103) As [Canceled Date] from TSPL_VENDOR_INVOICE_HEAD_Cancel_Data Where "
+                If rbtnCancelDate.IsChecked Then
+                    qry += " Convert(Date,Cancel_On,103)>=Convert(Date,'" & dtpFromDate.Value & "',103) And Convert(Date,Cancel_On,103)<=Convert(Date,'" & dtpToDate.Value & "',103)"
+                Else
+                    qry += " Convert(Date,Invoice_Entry_Date,103)>=Convert(Date,'" & dtpFromDate.Value & "',103) And Convert(Date,Invoice_Entry_Date,103)<=Convert(Date,'" & dtpToDate.Value & "',103)"
+                End If
+            End If
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmSaleReturndairy) = CompairStringResult.Equal Then
+            If RdbDelete.IsChecked Then
+                qry = "Select Document_Code As [Document ID],Convert(Varchar(10),Document_Date,103) As [Document Date],Against_Invoice_No As [Invoice No],Customer_Code As [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name As [Customer Name],Total_Amt As [Total],Description,Delete_By As [Deleted By],Convert(varchar(10),Delete_On,103) As [Deleted Date] from TSPL_SD_SALE_RETURN_HEAD_Delete_Data Left Outer Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_RETURN_HEAD_Delete_Data.Customer_Code where "
+                If rbtnCancelDate.IsChecked Then
+                    qry += " Convert(Date,TSPL_SD_SALE_RETURN_HEAD_Delete_Data.Delete_On,103)>=Convert(Date,'" & dtpFromDate.Value & "',103) And Convert(Date,Delete_On,103)<=Convert(Date,'" & dtpToDate.Value & "',103)"
+                Else
+                    qry += " Convert(Date,TSPL_SD_SALE_RETURN_HEAD_Delete_Data.Document_Date,103)>=Convert(Date,'" & dtpFromDate.Value & "',103) And Convert(Date,Document_Date,103)<=Convert(Date,'" & dtpToDate.Value & "',103)"
+                End If
+            Else
+                qry = "Select Document_Code As [Document ID],Convert(Varchar(10),Document_Date,103) As [Document Date],Against_Invoice_No As [Invoice No],Customer_Code As [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name As [Customer Name],Total_Amt As [Total],Description,Cancel_By As [Canceled By],Convert(varchar(10),Cancel_On,103) As [Canceled Date] from TSPL_SD_SALE_RETURN_HEAD_cancel_Data Left Outer Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_RETURN_HEAD_cancel_Data.Customer_Code where "
+                If rbtnCancelDate.IsChecked Then
+                    qry += " Convert(Date,Cancel_On,103)>=Convert(Date,'" & dtpFromDate.Value & "',103) And Convert(Date,Cancel_On,103)<=Convert(Date,'" & dtpToDate.Value & "',103)"
+                Else
+                    qry += " Convert(Date,Document_Date,103)>=Convert(Date,'" & dtpFromDate.Value & "',103) And Convert(Date,Document_Date,103)<=Convert(Date,'" & dtpToDate.Value & "',103)"
+                End If
+            End If
 
         End If
         If clsCommon.CompairString(clsCommon.myCstr(qry), Nothing) <> CompairStringResult.Equal Then
@@ -643,8 +675,8 @@ Inner Join TSPL_USER_MASTER On TSPL_USER_MASTER.User_Code=TSPL_SCRAPSALE_HEAD_De
     Public Sub LoadUsers()
         Try
             Dim qry As String = clsUserMaster.GetSubbordinateUsersQry(objCommonVar.CurrentUserCode)
-        cbgUser.DataSource = clsDBFuncationality.GetDataTable(qry)
-        cbgUser.ValueMember = "User_Code"
+            cbgUser.DataSource = clsDBFuncationality.GetDataTable(qry)
+            cbgUser.ValueMember = "User_Code"
             cbgUser.DisplayMember = "User_Name"
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -782,6 +814,18 @@ Inner Join TSPL_USER_MASTER On TSPL_USER_MASTER.User_Code=TSPL_SCRAPSALE_HEAD_De
                     frm.Print(True, True, False, "Delete", strDoc, strInvNo, strLocCode)
                 End If
                 frm = Nothing
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.FrmVendorService) = CompairStringResult.Equal Then
+                If rdbCancel.IsChecked Then
+                    clsVedorInvoiceHead.funVendorServicePrint(MyBase.Form_ID, "Cancel", clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
+                Else
+                    clsVedorInvoiceHead.funVendorServicePrint(MyBase.Form_ID, "Delete", clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
+                End If
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmSaleReturndairy) = CompairStringResult.Equal Then
+                If rdbCancel.IsChecked Then
+                    clsDSSalesReturnHead.funsaleReturnDairyPrint(MyBase.Form_ID, "Cancel", clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), False)
+                Else
+                    clsDSSalesReturnHead.funsaleReturnDairyPrint(MyBase.Form_ID, "Delete", clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), False)
+                End If
             Else
                 printCanceInvoice()
             End If

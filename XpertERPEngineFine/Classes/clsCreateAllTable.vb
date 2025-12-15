@@ -20491,7 +20491,8 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Created_Date", "datetime null")
             coll.Add("Modify_By", "varchar(12) null")
             coll.Add("Modify_Date", "datetime null")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_COST_CENTER_UNIT_MASTER", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_COST_CENTER_UNIT_MASTER", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_COST_CENTER_UNIT_MASTER", coll, "", True, False, "", "", "", True)
 
 
             coll = New Dictionary(Of String, String)()
@@ -41128,7 +41129,7 @@ LL")
             coll.Add("Sublocation_Code", "varchar(12)   NULL  References TSPL_LOCATION_MASTER(Location_Code) ")
             coll.Add("IsBatchWise", "char(1) not null default 'N'")
             coll.Add("Batch_No", "varchar(50) null")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Milk_unloading_Chember_Details", coll, Nothing, False, False, "TSPL_MILK_UNLOADING", "Unloading_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Milk_unloading_Chember_Details", coll, Nothing, False, False, "TSPL_MILK_UNLOADING", "Unloading_No", "", True)
 
             '-----------------------TSPL_Cleaning
             coll = New Dictionary(Of String, String)()
@@ -48521,6 +48522,8 @@ LL")
             coll.Add("Apply_PD_Account", "integer NULL")
             coll.Add("Apply_ECollect", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_APP_LOCATION", coll, Nothing, True, False, "", "Code", "", False)
+            qry = "alter table TSPL_APP_LOCATION add Code_Pro varchar(5) null"
+            clsDBFuncationality.ExecuteNonQuery(qry)
             '===
 
             coll = New Dictionary(Of String, String)()
@@ -53894,7 +53897,7 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("SNF_Per", "decimal (18,2) not NULL default 0")
             coll.Add("QC_From", "varchar(30)  NULL")
             coll.Add("Parent_ID", "integer")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PP_STD_FINALQC_DETAIL", coll, Nothing, True, True, "TSPL_PP_STD_FINALQC_HEAD", "QC_Code", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PP_STD_FINALQC_DETAIL", coll, Nothing, True, True, "TSPL_PP_STD_FINALQC_HEAD", "QC_Code", "", True)
 
             coll = New Dictionary(Of String, String)
             coll.Add("QC_Code", "varchar(30) not NULL References TSPL_PP_STD_FINALQC_HEAD(QC_Code)")
@@ -53903,7 +53906,7 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Param_Field_Value", "varchar(50)  NULL")
             coll.Add("Param_Type", "varchar(30) NOT NULL")
             coll.Add("LINE_NO", "INTEGER not null default 0")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PP_STD_FINALQC_QC_PARAMETER", coll, Nothing, True, True, "TSPL_PP_STD_FINALQC_HEAD", "QC_Code", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PP_STD_FINALQC_QC_PARAMETER", coll, Nothing, True, True, "TSPL_PP_STD_FINALQC_HEAD", "QC_Code", "", True)
 
             '' Primary Values Find and then drop
             Try
@@ -56737,7 +56740,8 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Modified_Date", "datetime NOT NULL")
             coll.Add("Posted_By", "varchar(12) null REFERENCES TSPL_USER_MASTER(User_Code)")
             coll.Add("Posted_Date", "Datetime NULL")
-            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_SET_PO_SCHEDULE", coll, "", True)
+            'clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_SET_PO_SCHEDULE", coll, "", True)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_SET_PO_SCHEDULE", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
@@ -56745,7 +56749,8 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Item_Code", "Varchar(50) null REFERENCES TSPL_ITEM_MASTER(Item_Code)")
             coll.Add("Qty", "decimal(18,2) null")
             coll.Add("UOM", "Varchar(12) null REFERENCES TSPL_UNIT_MASTER(Unit_Code)")
-            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_SET_PO_SCHEDULE_DETAIL", coll, Nothing, True)
+            'clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_SET_PO_SCHEDULE_DETAIL", coll, Nothing, True)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_SET_PO_SCHEDULE_DETAIL", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("SNo", "Integer Not NULL Default 0")
@@ -57636,8 +57641,8 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Modify_By", "varchar(12) NOT NULL")
             coll.Add("Modify_Date", "datetime NOT NULL")
             coll.Add("Comp_Code", "varchar(8) NOT NULL")
-            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BREAK_DOWN_MASTER", coll, "", True)
-
+            'clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BREAK_DOWN_MASTER", coll, "", True)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BREAK_DOWN_MASTER", coll, "", True, False, "", "", "", True)
             coll = New Dictionary(Of String, String)()
             coll.Add("Doc_No", "varchar(30) NOT NULL Primary Key")
             coll.Add("Doc_Date", "date NOT NULL")

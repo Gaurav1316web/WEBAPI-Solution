@@ -159,13 +159,16 @@ Public Class clsDSSalesReturnHead
     Public Transporter_Commission_TotalAmt As Decimal = 0
     Public Security_TotalAmt As Decimal = 0
 #End Region
-    Public Shared Function funsaleReturnDairyPrint(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal txtDate As DateTime, ByVal StrCode As String, ByVal IsPDF As Boolean) As Boolean
+    Public Shared Function funsaleReturnDairyPrint(ByVal Form_ID As String, ByVal strCancelDelete As String, ByVal txtDate As DateTime, ByVal StrCode As String, ByVal IsPDF As Boolean) As Boolean
 
         Dim TSPL_SD_SALE_RETURN_HEAD As String = Nothing
         Dim TSPL_SD_SALE_RETURN_detail As String = Nothing
-        If isCancel Then
+        If clsCommon.CompairString(strCancelDelete, "Cancel") = CompairStringResult.Equal Then
             TSPL_SD_SALE_RETURN_HEAD = "TSPL_SD_SALE_RETURN_HEAD_cancel_data"
             TSPL_SD_SALE_RETURN_detail = "TSPL_SD_SALE_RETURN_detail_cancel_data"
+        ElseIf clsCommon.CompairString(strCancelDelete, "Delete") = CompairStringResult.Equal Then
+            TSPL_SD_SALE_RETURN_HEAD = "TSPL_SD_SALE_RETURN_HEAD_Delete_data"
+            TSPL_SD_SALE_RETURN_detail = "TSPL_SD_SALE_RETURN_detail_Delete_data"
         Else
             TSPL_SD_SALE_RETURN_HEAD = "TSPL_SD_SALE_RETURN_HEAD"
             TSPL_SD_SALE_RETURN_detail = "TSPL_SD_SALE_RETURN_detail"
@@ -174,7 +177,7 @@ Public Class clsDSSalesReturnHead
 
         If clsCommon.myLen(StrCode) > 0 Then
             Dim Qry As String = "select "
-            If isCancel Then
+            If clsCommon.CompairString(strCancelDelete, "Cancel") = CompairStringResult.Equal OrElse clsCommon.CompairString(strCancelDelete, "Delete") = CompairStringResult.Equal Then
                 Qry += " 'Cancelled' As Report_Status, "
             Else
                 Qry += " '' As Report_Status, "

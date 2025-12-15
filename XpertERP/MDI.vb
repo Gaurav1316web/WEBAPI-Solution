@@ -7970,6 +7970,9 @@ Public Class MDI
                     Case clsUserMgtCode.AMCUMaster
                         frm = New AMCUMaster
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.WEIGHINGMaster
+                        frm = New WEIGHINGMaster
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                         'Case clsUserMgtCode.MilkRetesting
                         ' frm = New frmMilkRetesting
                         'formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

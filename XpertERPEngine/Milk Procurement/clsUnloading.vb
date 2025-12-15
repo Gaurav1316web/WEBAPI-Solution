@@ -163,9 +163,10 @@ Public Class clsUnloading
             Else
                 issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_UNLOADING", OMInsertOrUpdate.Update, "TSPL_MILK_UNLOADING.Unloading_no='" + obj.Unloading_No + "'", trans)
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Unloading_No, "TSPL_MILK_UNLOADING", "Unloading_No", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Unloading_No, "TSPL_MILK_UNLOADING", "Unloading_No", trans)
 
             issaved = issaved AndAlso clsUnloadingChemberNoDetails.SaveData(obj.Unloading_No, obj.Arr, trans, obj.Weighment_No)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Unloading_No, "TSPL_MILK_UNLOADING", "Unloading_No", "TSPL_Milk_unloading_Chember_Details", "Unloading_No", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -307,10 +308,12 @@ Public Class clsUnloading
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Throw New Exception("Can not reverse the document because cleaning [" + clsCommon.myCstr(dt.Rows(0)("Doc_No")) + "] is created")
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Unloading_No, "TSPL_MILK_UNLOADING", "Unloading_No", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Unloading_No, "TSPL_MILK_UNLOADING", "Unloading_No", trans)
 
             strQry = " update TSPL_MILK_UNLOADING set isPosted='0', Posting_Date=null where Unloading_no='" & strCode & "'"
             clsDBFuncationality.ExecuteNonQuery(strQry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Unloading_No, "TSPL_MILK_UNLOADING", "Unloading_No", trans)
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()

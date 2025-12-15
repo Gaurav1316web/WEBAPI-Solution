@@ -296,9 +296,9 @@ Public Class clsWeighment
                 Throw New Exception("Record is Already posted")
             End If
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmWeighment, obj.location_Code, obj.Weighment_Date, trans)
-            If Not obj.isNewEntry Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Weighment_No), "TSPL_Weighment_Detail", "Weighment_No", "TSPL_Weighment_Chember_Details", "Weighment_No", trans)
-            End If
+            'If Not obj.isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Weighment_No), "TSPL_Weighment_Detail", "Weighment_No", "TSPL_Weighment_Chember_Details", "Weighment_No", trans)
+            'End If
 
             Dim issaved As Boolean = True
             Dim DateTime As String = clsFixedParameter.GetData(clsFixedParameterType.AllowToSaveTimeWithDocumentDate, clsFixedParameterCode.AllowToSaveTimeWithDocumentDate, trans)
@@ -376,7 +376,7 @@ Public Class clsWeighment
             Else
                 issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "tspl_weighment_detail", OMInsertOrUpdate.Update, "tspl_weighment_detail.Weighment_No='" + obj.Weighment_No + "'", trans)
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Weighment_No, "TSPL_Weighment_Detail", "Weighment_No", "TSPL_Weighment_Chember_Details", "Weighment_No", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Weighment_No, "TSPL_Weighment_Detail", "Weighment_No", "TSPL_Weighment_Chember_Details", "Weighment_No", trans)
 
             If Not isHistory Then
                 If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_quality_check where isposted=1 and gate_entry_no='" & obj.Gate_Entry_No & "'  and weighment_no=''", trans)) > 0 Then
@@ -385,6 +385,7 @@ Public Class clsWeighment
             End If
             issaved = issaved AndAlso clsWeighmentChemberNoDetails.SaveData(obj.Weighment_No, obj.Arr, trans)
             issaved = issaved AndAlso clsDBFuncationality.ExecuteNonQuery("update tspl_gate_entry_details set Tanker_Return='" & obj.Tanker_Return & "' where gate_entry_no='" & obj.Gate_Entry_No & "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Weighment_No, "TSPL_Weighment_Detail", "Weighment_No", "TSPL_Weighment_Chember_Details", "Weighment_No", trans)
 
             ''Notification on save
             Dim strNotifiContent As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Notification_Text from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.frmWeighment + "2" + "'", trans))

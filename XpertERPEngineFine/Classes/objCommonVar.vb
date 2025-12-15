@@ -155,6 +155,7 @@ Public Class objCommonVar
     Private Shared _ImportExportDrive As String = ""
     Private Shared _ApplyBoothRouteMapping As Boolean = False
     Private Shared _AutoGenrateBatchInventory As Boolean = False
+    Private Shared _TransactionValidity As Integer = 0
 #End Region
     Public Shared Property AutoGenrateBatchInventory() As Boolean
         Get
@@ -942,6 +943,15 @@ Public Class objCommonVar
         End Set
     End Property
 
+    Public Shared Property TransactionValidity() As Integer
+        Get
+            Return _TransactionValidity
+        End Get
+        Set(ByVal Value As Integer)
+            _TransactionValidity = Value
+        End Set
+    End Property
+
 
 
     Public Shared Sub RefreshCommonVar()
@@ -955,6 +965,7 @@ Public Class objCommonVar
         Else
             objCommonVar.TDSValidationFrom = Nothing
         End If
+        objCommonVar.TransactionValidity = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TransactionValidity, clsFixedParameterCode.TransactionValidity, Nothing))
         objCommonVar.ApplyGovtRulesInTDS = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyGovtRulesInTDS, clsFixedParameterCode.ApplyGovtRulesInTDS, Nothing)) = 1, True, False)
         objCommonVar.PricePlan = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.OpenPriceChartPlanningScreenOnTotalSolid, clsFixedParameterCode.OpenPriceChartPlanningScreenOnTotalSolid, Nothing))
         objCommonVar.InstantSendTheSMS = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SMSPrefix, clsFixedParameterCode.InstantSendTheSMS, Nothing)) = 1)
