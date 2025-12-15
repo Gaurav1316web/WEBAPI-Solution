@@ -712,6 +712,7 @@ Public Class frmCreateReceivedCustomerDairySale
 
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             If clsCommon.myLen(fndLocation.Value) <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
                 fndLocation.Focus()

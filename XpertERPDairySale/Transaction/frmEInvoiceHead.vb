@@ -124,7 +124,6 @@ Public Class frmEInvoiceHead
         End Try
     End Sub
     Function AllowToSave() As Boolean
-
         If txtUrl.Text = "" Then
             txtUrl.Focus()
             Throw New Exception("Please enter Url")

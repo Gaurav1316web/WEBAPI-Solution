@@ -861,6 +861,7 @@ Public Class frmDeliveryNoteDairySale
     End Function
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             UpdateAllTotals()
             If clsCommon.myLen(fndCustomerNo.Value) = 0 Then
                 clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)

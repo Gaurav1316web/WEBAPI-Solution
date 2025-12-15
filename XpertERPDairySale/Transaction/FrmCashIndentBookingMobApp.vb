@@ -1420,7 +1420,7 @@ Public Class frmCashIndentBookingMobApp
 
     Function AllowToSave(ByVal trans As SqlTransaction) As Boolean
         Try
-
+            Xtra.TransactionValidity(txtDate.Value)
             'Sanjay Ticket No- ERO/12/07/18-000371
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
                 If Is_Cancelled = 1 Then

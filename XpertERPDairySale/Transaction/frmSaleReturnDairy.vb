@@ -4431,6 +4431,7 @@ Where TSPL_ITEM_MASTER.Item_Code='" + itemCode + "' And TSPL_ITEM_UOM_DETAIL.UOM
 
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             If ApplyBoothWiseReturn Then
                 If gvBooth Is Nothing OrElse gvBooth.Rows.Count <= 0 Then
                     Throw New Exception("Please Fill Booth Detail")

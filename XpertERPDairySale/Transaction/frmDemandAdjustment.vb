@@ -945,6 +945,7 @@ where TSPL_DEMAND_BOOKING_MASTER.Posted=0 and convert(date,TSPL_DEMAND_BOOKING_M
     End Sub
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             If clsCommon.myLen(txtItemCode.Value) <= 0 Then
                 Throw New Exception("Please select Item Code!")
             End If

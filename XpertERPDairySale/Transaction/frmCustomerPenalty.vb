@@ -153,6 +153,7 @@ Public Class frmCustomerPenalty
         btnGo.Enabled = val
     End Sub
     Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtDocumentDate.Value)
         If txtPenaltyPer.Value = 0 Then
             txtPenaltyPer.Focus()
             Throw New Exception("Penalty % can't be blank.")
