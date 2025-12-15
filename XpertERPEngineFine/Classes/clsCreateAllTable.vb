@@ -14561,6 +14561,17 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("AMCU_EXTRA_1", "varchar(100) NULL")
             coll.Add("AMCU_EXTRA_2", "varchar(100) NULL")
             coll.Add("AMCU_EXTRA_3", "varchar(100) NULL")
+
+            coll.Add("IsWeighing", "integer Null")
+            coll.Add("Weighing_BrandName", "varchar(30) NULL")
+            coll.Add("Weighing_SerailNo", "varchar(30) NULL")
+            coll.Add("Weighing_FILE_INFO", "integer Null")
+
+            coll.Add("Weighing_FILE_LATITUDE", "varchar(20) NULL")
+            coll.Add("Weighing_FILE_LONGITUDE", "varchar(20) NULL")
+            coll.Add("Weighing_EXTRA_1", "varchar(100) NULL")
+            coll.Add("Weighing_EXTRA_2", "varchar(100) NULL")
+            coll.Add("Weighing_EXTRA_3", "varchar(100) NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VENDOR_MASTER", coll, "", True)
 
             clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_VENDOR_MASTER ALTER COLUMN Cheque_In_Favour_Of VARCHAR(200)")
@@ -59778,6 +59789,24 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
         coll.Add("Unit_code", "varchar(20) null")
         coll.Add("Amount", "Decimal(18,2) NULL")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_START_BATCH_ENTRY_DETAIL", coll, Nothing, True, False, "TSPL_START_BATCH_ENTRY", "Document_No", "")
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Code", "VARCHAR(30) NOT NULL PRIMARY KEY ")
+        coll.Add("Name", "Varchar(50) NOT NULL ")
+        coll.Add("Created_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
+        coll.Add("Created_Date", "Datetime NOT NULL")
+        coll.Add("Modified_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
+        coll.Add("Modified_Date", "Datetime NOT NULL")
+        clsCommonFunctionality.CreateOrAlterTable("TSPL_AMCU_Master", coll)
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Code", "varchar(30) Not NULL Primary Key")
+        coll.Add("Name", "varchar(30) not null ")
+        coll.Add("Created_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
+        coll.Add("Created_Date", "Datetime NOT NULL")
+        coll.Add("Modified_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
+        coll.Add("Modified_Date", "Datetime NOT NULL")
+        clsCommonFunctionality.CreateOrAlterTable("TSPL_WEIGHING_MASTER", coll)
 
         Return True
     End Function

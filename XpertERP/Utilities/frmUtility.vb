@@ -27245,6 +27245,8 @@ where TR_Code='" & clsCommon.myCstr(dr("TR_Code")) & "'"
         coll = New Dictionary(Of String, String)()
         coll.Add("Shipment_NO", "varchar(30) null")
         coll.Add("Invoice_No", "varchar(30) null")
+        coll.Add("Invoice_No_AR_NO", "varchar(30) null")
+        coll.Add("Invoice_No_AR_JV_NO", "varchar(30) null")
         clsCommonFunctionality.CreateOrAlterTable("TEMP_DELETED_MATERIAL_SALES", coll)
 
         coll = New Dictionary(Of String, String)()
@@ -27257,8 +27259,10 @@ where TR_Code='" & clsCommon.myCstr(dr("TR_Code")) & "'"
 
     Private Sub btnMatSalesPickDoc_Click(sender As Object, e As EventArgs) Handles btnMatSalesPickDoc.Click
         Try
-            Dim qry As String = " select TSPL_SCRAPINVOICE_HEAD.Invoice_No as InvoiceNo ,tspl_scrapsale_head.shipment_No AS ShipmentNo,convert(varchar,tspl_scrapsale_head.shipment_Date,103) as ShipmentDate " + Environment.NewLine +
+            Dim qry As String = " select TSPL_SCRAPINVOICE_HEAD.Invoice_No as InvoiceNo ,tspl_scrapsale_head.shipment_No AS ShipmentNo,convert(varchar,tspl_scrapsale_head.shipment_Date,103) as ShipmentDate ,TSPL_Customer_Invoice_Head.Document_No as ARInvoiceNo,ARJVNo.Voucher_No as ARVoucherNo" + Environment.NewLine +
             " from TSPL_SCRAPINVOICE_HEAD LEFT OUTER JOIN tspl_scrapsale_head ON tspl_scrapsale_head.shipment_No = TSPL_SCRAPINVOICE_HEAD.shipment_No " + Environment.NewLine +
+            " left join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.AgainstScrap=TSPL_SCRAPINVOICE_HEAD.Invoice_No" + Environment.NewLine +
+            " left join TSPL_JOURNAL_MASTER as ARJVNo on ARJVNo.Source_Doc_No=TSPL_Customer_Invoice_Head.Document_No" + Environment.NewLine +
             " where tspl_scrapsale_head.ispost =1  " + Environment.NewLine
 
             Dim QryInsert As String = ""
@@ -27266,7 +27270,7 @@ where TR_Code='" & clsCommon.myCstr(dr("TR_Code")) & "'"
             If arr IsNot Nothing AndAlso arr.Count > 0 Then
                 clsDBFuncationality.ExecuteNonQuery("delete from TEMP_DELETED_MATERIAL_SALES")
                 QryInsert = "insert into TEMP_DELETED_MATERIAL_SALES "
-                QryInsert += "select ShipmentNo,InvoiceNo from (" & qry & " and TSPL_SCRAPINVOICE_HEAD.Invoice_No in(" + clsCommon.GetMulcallString(arr) & ")) Rev ORDER BY ShipmentDate "
+                QryInsert += "select ShipmentNo,InvoiceNo,ARInvoiceNo,ARVoucherNo from (" & qry & " and TSPL_SCRAPINVOICE_HEAD.Invoice_No in(" + clsCommon.GetMulcallString(arr) & ")) Rev ORDER BY ShipmentDate "
                 clsDBFuncationality.ExecuteNonQuery(QryInsert)
             End If
         Catch ex As Exception
@@ -27288,6 +27292,8 @@ where TR_Code='" & clsCommon.myCstr(dr("TR_Code")) & "'"
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strShipment_No As String = clsCommon.myCstr(dt.Rows(ii)("Shipment_No"))
                         Dim strInvoiceNo As String = clsCommon.myCstr(dt.Rows(ii)("Invoice_No"))
+                        Dim strInvoiceARNo As String = clsCommon.myCstr(dt.Rows(ii)("Invoice_No_AR_NO"))
+                        Dim strInvoiceARJENo As String = clsCommon.myCstr(dt.Rows(ii)("Invoice_No_AR_JV_NO"))
                         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                         Try
                             clsBatchInventory.ReverseAndUnpost("ScrapIn", strInvoiceNo, trans)
@@ -27297,17 +27303,23 @@ where TR_Code='" & clsCommon.myCstr(dr("TR_Code")) & "'"
                             Dim objScrapInvoice As ClsScrapInvoiceHead = ClsScrapInvoiceHead.GetData(strInvoiceNo, NavigatorType.Current, trans)
                             objScrapInvoice.CreateInventoryMovement(objScrapInvoice, trans)
 
+                            '--Invoice                       
+                            qry = "update TSPL_CUSTOMER_INVOICE_HEAD set status=0 where document_no='" + strInvoiceARNo + "'"
+                            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                            objScrapInvoice.createARInvoice(objScrapInvoice, trans, strInvoiceARNo, strInvoiceARJENo)
+                            'End
                             clsDBFuncationality.ExecuteNonQuery("Insert into TEMP_CREATED_MATERIAL_SALES values('" & strInvoiceNo & "')", trans)
                             trans.Commit()
                         Catch ex As Exception
                             trans.Rollback()
-                            strErro += "Recreate Material Sales Inventory  - " + strInvoiceNo + " Exception -" + ex.Message + Environment.NewLine
+                            strErro += "Recreate Material Sales Inventory and AR AND Journal Entry  - " + strInvoiceNo + " Exception -" + ex.Message + Environment.NewLine
                         End Try
                         clsCommon.ProgressBarPercentUpdate((ii + 1) * 100 / dt.Rows.Count, "Recreate Document " + clsCommon.myCstr(ii + 1) + "/" + clsCommon.myCstr(dt.Rows.Count))
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
                     Else
                         clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
