@@ -159,20 +159,20 @@ where isnull(" + DBName + ".dbo.TSPL_MP_MASTER.Jan_Aadhar_No_Verified,0)=1 and I
                 Dim ResponceSucess As Integer = 0
                 Dim ResponceFailure As Integer = 0
                 qry = "select Refenceno,max(DocumentCode) as DocumentCode,max(FromDate) as FromDate,max(ToDate) as ToDate,max(Lot_No) as Lot_No from (
-select '66'+FORMAT(TSPL_DBT_NEFT.UKID, '0000')+CAST(TSPL_DBT_NEFT_DETAIl.Lot_No as varchar) as Refenceno,TSPL_DBT_NEFT_DETAIl.Lot_No ,max(TSPL_DBT_NEFT.Document_Code) as DocumentCode,Max(TSPL_DBT_NEFT.From_Date) as FromDate,max(TSPL_DBT_NEFT.To_Date) as ToDate,1 as RI,1 as chk
+select '" + strPrefix + "'+FORMAT(TSPL_DBT_NEFT.UKID, '0000')+CAST(TSPL_DBT_NEFT_DETAIl.Lot_No as varchar) as Refenceno,TSPL_DBT_NEFT_DETAIl.Lot_No ,max(TSPL_DBT_NEFT.Document_Code) as DocumentCode,Max(TSPL_DBT_NEFT.From_Date) as FromDate,max(TSPL_DBT_NEFT.To_Date) as ToDate,1 as RI,1 as chk
 from " + DBName + ".dbo.TSPL_DBT_NEFT_DETAIL
 left outer join " + DBName + ".dbo.TSPL_DBT_NEFT on " + DBName + ".dbo.TSPL_DBT_NEFT.Document_Code=" + DBName + ".dbo.TSPL_DBT_NEFT_DETAIL.Document_Code
 where TSPL_DBT_NEFT.Document_Date>'" + ApplyPDAccountDate + "' and isnull(TSPL_DBT_NEFT.RCDF_Status,0)=1 
 and TSPL_DBT_NEFT.RCDF_Post_Date < DATEADD(DAY, -10, GETDATE())
 group by TSPL_DBT_NEFT.UKID,TSPL_DBT_NEFT_DETAIl.Lot_No
 union all
-select '66'+FORMAT(TSPL_DBT_NEFT.UKID, '0000')+CAST(TSPL_DBT_NEFT_DETAIl.Lot_No as varchar) as Refenceno,TSPL_DBT_NEFT_DETAIl.Lot_No,max(TSPL_DBT_NEFT.Document_Code) as DocumentCode,Max(TSPL_DBT_NEFT.From_Date) as FromDate,max(TSPL_DBT_NEFT.To_Date) as ToDate
+select '" + strPrefix + "'+FORMAT(TSPL_DBT_NEFT.UKID, '0000')+CAST(TSPL_DBT_NEFT_DETAIl.Lot_No as varchar) as Refenceno,TSPL_DBT_NEFT_DETAIl.Lot_No,max(TSPL_DBT_NEFT.Document_Code) as DocumentCode,Max(TSPL_DBT_NEFT.From_Date) as FromDate,max(TSPL_DBT_NEFT.To_Date) as ToDate
 ,-1 as RI,0 as chk
 from " + DBName + ".dbo.TSPL_DBT_NEFT_DETAIL
 left outer join " + DBName + ".dbo.TSPL_DBT_NEFT on " + DBName + ".dbo.TSPL_DBT_NEFT.Document_Code=" + DBName + ".dbo.TSPL_DBT_NEFT_DETAIL.Document_Code
 inner join " + DBName + ".dbo.TSPL_DBT_NEFT_BANK_RESPONSE on " + DBName + ".dbo.TSPL_DBT_NEFT_BANK_RESPONSE.Ref_PK_Id = " + DBName + ".dbo.TSPL_DBT_NEFT_DETAIL.PK_Id
 group by TSPL_DBT_NEFT.UKID,TSPL_DBT_NEFT_DETAIl.Lot_No
-)xx group by Refenceno having sum(RI)>0 and sum(chk)>0 order by FromDate"
+)xx  group by Refenceno having sum(RI)>0 and sum(chk)>0 order by FromDate"
                 dt = clsDBFuncationality.GetDataTable(qry)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     If clsCommon.MyMessageBoxShow(Me, "found [" + clsCommon.myCstr(dt.Rows.Count) + "] Pending Document" + Environment.NewLine + "Do you want to continue...", Me.Text, MessageBoxButtons.YesNo, Telerik.WinControls.RadMessageIcon.Question) = DialogResult.Yes Then
@@ -183,7 +183,7 @@ group by TSPL_DBT_NEFT.UKID,TSPL_DBT_NEFT_DETAIl.Lot_No
                                 Try
                                     Dim arrError As ArrayList = Nothing
                                     Dim arr As List(Of RejectionTmp) = clsPDAccountBankResponse.GetRejectionList(clsCommon.myCstr(dr("Refenceno")))
-
+                                    'Dim arr As List(Of RejectionTmp) = clsPDAccountBankResponse.GetRejectionList("10006014")
                                     Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
                                     Try
                                         Dim servDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(tran), "dd/MMM/yyyy hh:mm:ss tt")

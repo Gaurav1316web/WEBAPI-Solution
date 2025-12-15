@@ -45,7 +45,7 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
                     End If
                     clsCommon.AddColumnsForChange(coll, "Document_No", obj.Document_No)
                     clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
-                    clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mms:ss tt"))
+                    clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
                     isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_NIR_QC", OMInsertOrUpdate.Insert, "", trans)
                 Else
                     isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_NIR_QC", OMInsertOrUpdate.Update, "TSPL_NIR_QC.Document_No='" + obj.Document_No + "'", trans)

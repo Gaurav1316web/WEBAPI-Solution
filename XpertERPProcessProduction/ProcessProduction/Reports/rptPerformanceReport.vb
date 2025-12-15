@@ -114,7 +114,7 @@ Public Class rptPerformanceReport
                 max(TendorSeqNo) as TendorSeqNo,
                 SUM(SRN_Qty) AS SRNQTY,
                 (RM_RAL.RAL_QTY - sum(TSPL_SRN_DETAIL.SRN_Qty )) as 'Pending_Qty',MAX(RM_RAL.Rate) AS RATE,'' as RiskPurchase,
-				(sum(SRN_Qty)*100)/ RM_RAL.RAL_QTY as [% Supplied],'' as Remarks
+				case when RM_RAL.RAL_QTY=0 then 0 else  (sum(SRN_Qty)*100)/ RM_RAL.RAL_QTY end as [% Supplied],'' as Remarks
                  , MAX(RM_RAL.FROM_DATE) AS FROM_DATE,MAX(RM_RAL.TO_DATE) AS TO_DATE,MAX(RM_RAL.Location) AS Location
                 from TSPL_SRN_HEAD
 				LEFT OUTER JOIN TSPL_SRN_DETAIL ON TSPL_SRN_DETAIL.SRN_No=TSPL_SRN_HEAD.SRN_No
@@ -370,7 +370,7 @@ Public Class rptPerformanceReport
                 max(TendorSeqNo) as TendorSeqNo,
                 SUM(SRN_Qty) AS SRNQTY,
                 (RM_RAL.RAL_QTY - sum(TSPL_SRN_DETAIL.SRN_Qty )) as 'Pending_Qty',MAX(RM_RAL.Rate) AS RATE,'' as RiskPurchase,
-				(sum(SRN_Qty)*100)/ RM_RAL.RAL_QTY as [% Supplied],'' as Remarks
+				case when RM_RAL.RAL_QTY=0 then 0 else  (sum(SRN_Qty)*100)/ RM_RAL.RAL_QTY end as [% Supplied],'' as Remarks
                  , MAX(RM_RAL.FROM_DATE) AS FROM_DATE,MAX(RM_RAL.TO_DATE) AS TO_DATE,MAX(RM_RAL.Location) AS Location
                 from TSPL_SRN_HEAD
 				LEFT OUTER JOIN TSPL_SRN_DETAIL ON TSPL_SRN_DETAIL.SRN_No=TSPL_SRN_HEAD.SRN_No
