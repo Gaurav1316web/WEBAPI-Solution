@@ -1162,12 +1162,8 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
     End Sub
 
     Function AllowToSave() As Boolean
-        If clsCommon.myLen(txtCode.Value) > 0 Then
-            Dim strmsg As String = myMessages.TransactionValidity(txtDate.Value)
-            If clsCommon.myLen(strmsg) > 0 Then
-                Throw New Exception(strmsg)
-            End If
-        End If
+        Xtra.TransactionValidity(txtDate.Value)
+
         If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
             txtDate.Select()
             Return False
