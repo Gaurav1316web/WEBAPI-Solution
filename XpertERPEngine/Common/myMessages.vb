@@ -171,4 +171,16 @@ Public Module myMessages
         End If
         Return True
     End Function
+
+    Public Function TransactionValidity(ByVal strDate As DateTime) As String
+        message = Nothing
+        Dim ValidityDays As Integer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TransactionValidity, clsFixedParameterCode.TransactionValidity, Nothing))
+        Dim date1 As DateTime = clsCommon.GETSERVERDATE()
+        Dim diff As TimeSpan = date1.Subtract(strDate)
+        Dim diffDays As Integer = diff.Days + 1
+        If ValidityDays <= diffDays Then
+            message = "Persmission Denied ! " & Environment.NewLine & "Transaction validity expired. Cannot change data before " & ValidityDays & " validity days."
+        End If
+        Return message
+    End Function
 End Module
