@@ -168,9 +168,12 @@ Public Class clsMonthAttendance
         Dim isSaved As Boolean = True
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
+            Dim fromdate As String = clsDBFuncationality.getSingleValue(" Select DATE_FROM from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE= '" + obj.PAY_PERIOD_CODE + "' ", trans)
+
             If isNewEntry Then
                 If strCode = "" Then
-                    obj.MTA_CODE = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(clsCommon.GETSERVERDATE(trans)), clsDocType.MonthlyAttendance, "", "")
+                    'obj.MTA_CODE = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(clsCommon.GETSERVERDATE(trans)), clsDocType.MonthlyAttendance, "", "")
+                    obj.MTA_CODE = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(fromdate), clsDocType.MonthlyAttendance, "", "")
                 Else
                     obj.MTA_CODE = strCode
                 End If
