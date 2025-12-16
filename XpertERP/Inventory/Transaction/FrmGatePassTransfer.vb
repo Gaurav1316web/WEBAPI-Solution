@@ -327,6 +327,7 @@ Public Class FrmGatePassTransfer
 
 
     Private Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtDate.Value)
 
         RadPageView1.SelectedPage = RadPageViewPage1
         If clsCommon.myLen(FndBooking.Value) <= 0 Then

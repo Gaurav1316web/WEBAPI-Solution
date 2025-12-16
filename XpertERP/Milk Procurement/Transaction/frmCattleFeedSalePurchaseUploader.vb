@@ -271,6 +271,7 @@ Public Class FrmCattleFeedSalePurchaseUploader
     End Sub
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDocumentDate.Value)
             If clsCommon.myLen(clsCommon.myCstr(txtLocation.Value)) > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
                     If clsCommon.myLen(txtSubLocation.Value) <= 0 Then

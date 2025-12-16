@@ -258,6 +258,7 @@ Public Class frmDCSFinancialEntry
 
     End Sub
     Private Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtdate.Value)
         If AllowFutureDateTransaction(txtdate.Value, Nothing) = False Then
             txtdate.Focus()
             Return False

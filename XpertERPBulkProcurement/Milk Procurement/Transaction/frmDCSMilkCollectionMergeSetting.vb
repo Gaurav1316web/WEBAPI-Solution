@@ -153,6 +153,7 @@ Public Class frmDCSMilkCollectionMergeSetting
     End Sub
     Private Function AllowToSave() As Boolean
         'Prevent future date transaction
+        Xtra.TransactionValidity(txtDate.Value)
         If clsCommon.myCDate(txtDate.Value).Date() > clsCommon.GETSERVERDATE().Date() Then
             clsCommon.MyMessageBoxShow(Me, "Cannot allow future date -  " & clsCommon.myCDate(txtDate.Value).Date())
             txtDate.Focus()

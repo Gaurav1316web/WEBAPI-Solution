@@ -1136,6 +1136,7 @@ Public Class FrmMccTankerDispatchReturn
     End Sub
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(dtpDateAndTime.Value)
             Dim TempNetQty As Decimal = 0
             For ii As Integer = 0 To gv.Rows.Count - 1
                 TempNetQty += clsCommon.myCdbl(gv.Rows(ii).Cells(ColQtyInKg).Value)

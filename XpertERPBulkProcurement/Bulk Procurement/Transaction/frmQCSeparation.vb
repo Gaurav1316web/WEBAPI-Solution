@@ -821,6 +821,7 @@ Public Class FrmQCSeparation
 
     Function allowToSave(ByVal isPost As Boolean) As Boolean
         Try
+            Xtra.TransactionValidity(dtpQCInDateTime.Value)
             If AllowFutureDateTransaction(dtpQCInDateTime.Value, Nothing) = False Then
                 dtpQCInDateTime.Select()
                 Return False
@@ -899,7 +900,7 @@ Public Class FrmQCSeparation
                     End If
                 End If
             End If
-           
+
             Dim whrCls As String = String.Empty
             If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowUseBoilingParameteronParameterMaster, clsFixedParameterCode.AllowUseBoilingParameteronParameterMaster, Nothing)), "1") = CompairStringResult.Equal Then
                 If (clsERPFuncationality.isLocationMcc(fndLocation.Value) AndAlso Not SettCalculateSNFFromCLRForMCCMilk) Then
@@ -924,7 +925,7 @@ Public Class FrmQCSeparation
                     Throw New Exception("Deduction amount cannot be left blank or 0")
                 End If
             End If
-       
+
             If Not clsQualityCheck.chkIsGridColumnHasTag(gvParam) Then
                 Throw New Exception(" Grid's Column is not being recognized, Please delete layout and try loading Document Again ")
             End If
@@ -932,7 +933,7 @@ Public Class FrmQCSeparation
             If chk > 0 Then
                 Throw New Exception("The Same Tanker you have selected is Already used in other Document.")
             End If
-           
+
             If clsCommon.GetDateWithStartTime(dtpQCInDateTime.Value) < clsCommon.GetDateWithStartTime(dtpWeighmentDate.Value) Then
                 Throw New Exception("QC In Date can not be less than Weighment Date")
             End If

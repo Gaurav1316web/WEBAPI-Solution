@@ -367,6 +367,8 @@ Public Class FrmWeighment
     End Sub
     Function allowToSave(ByVal IsPostingClick As Boolean) As Boolean
         Try
+            Xtra.TransactionValidity(dtpWeighmentDateBulk.Value)
+
             '===============Preeti Gupta==================================
             If AllowFutureDateTransaction(dtpWeighmentDateBulk.Value, Nothing) = False Then
                 dtpWeighmentDateBulk.Select()

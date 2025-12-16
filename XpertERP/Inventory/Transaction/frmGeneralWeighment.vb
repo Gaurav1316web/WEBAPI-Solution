@@ -229,12 +229,13 @@ Public Class frmGeneralWeighment
     End Sub
 
     Private Function AllowToSave(Optional ByVal ispost As Boolean = False) As Boolean
-
         If AllowFutureDateTransaction(txtWeighmentdate.Value, Nothing) = False Then
             txtWeighmentdate.Focus()
             txtWeighmentdate.Select()
             Return False
         End If
+        Xtra.TransactionValidity(txtWeighmentdate.Value)
+
         If rbtnJobWork.IsChecked = True AndAlso isFillGeneralWeighmentDetailsByJobworkTypeGateInNo = True Then
             If clsCommon.myLen(txtGateInNoJW.Value) <= 0 Then
                 Throw New Exception("Gate Entery No can not be left blank.")

@@ -27,6 +27,7 @@ Partial Class AMCUMaster
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AMCUMaster))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.btnnew = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
@@ -38,10 +39,10 @@ Partial Class AMCUMaster
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.btnnew = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtname, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -49,7 +50,6 @@ Partial Class AMCUMaster
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -77,6 +77,14 @@ Partial Class AMCUMaster
         Me.SplitContainer1.Size = New System.Drawing.Size(492, 245)
         Me.SplitContainer1.SplitterDistance = 212
         Me.SplitContainer1.TabIndex = 0
+        '
+        'btnnew
+        '
+        Me.btnnew.Image = CType(resources.GetObject("btnnew.Image"), System.Drawing.Image)
+        Me.btnnew.Location = New System.Drawing.Point(294, 24)
+        Me.btnnew.Name = "btnnew"
+        Me.btnnew.Size = New System.Drawing.Size(15, 21)
+        Me.btnnew.TabIndex = 58
         '
         'RadMenu1
         '
@@ -199,14 +207,6 @@ Partial Class AMCUMaster
         Me.btnclose.TabIndex = 11
         Me.btnclose.Text = "Close"
         '
-        'btnnew
-        '
-        Me.btnnew.Image = CType(resources.GetObject("btnnew.Image"), System.Drawing.Image)
-        Me.btnnew.Location = New System.Drawing.Point(294, 24)
-        Me.btnnew.Name = "btnnew"
-        Me.btnnew.Size = New System.Drawing.Size(15, 21)
-        Me.btnnew.TabIndex = 58
-        '
         'AMCUMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -223,6 +223,7 @@ Partial Class AMCUMaster
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.btnnew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtname, System.ComponentModel.ISupportInitialize).EndInit()
@@ -230,7 +231,6 @@ Partial Class AMCUMaster
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnnew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

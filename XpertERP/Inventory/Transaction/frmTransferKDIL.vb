@@ -2484,6 +2484,7 @@ Public Class FrmTransferKDIL
     End Sub
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             If chkInternalTransfer.Checked Then
                 clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, txtDocNo.Value)
             End If

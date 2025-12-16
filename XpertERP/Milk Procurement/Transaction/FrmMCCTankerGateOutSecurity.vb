@@ -108,6 +108,7 @@ Public Class FrmMCCTankerGateOutSecurity
     End Sub
     Function allowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(dtpStartDateTime.Value)
             If AllowFutureDateTransaction(dtpStartDateTime.Value, Nothing) = False Then
                 dtpStartDateTime.Focus()
                 Return False

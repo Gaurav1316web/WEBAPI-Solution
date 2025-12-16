@@ -157,11 +157,12 @@ Public Class frmMCCGateEntry
 
     Private Function AllowToSave() As Boolean
         ' = KUNAL > TICKET : BM00000009575 ========
+        Xtra.TransactionValidity(txtDate.Value)
         If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
             txtDate.Focus()
             Return False
         End If
-
+        Xtra.TransactionValidity(txtDate.Value)
         If clsCommon.myLen(clsCommon.myCstr(txtLocation.Value)) <= 0 Then
             txtLocation.Focus()
             Throw New Exception("Please select Location")

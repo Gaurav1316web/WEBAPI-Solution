@@ -4393,6 +4393,7 @@ Public Class frmIndent
     End Sub
 
     Private Function AllowToSave() As Boolean
+
         Dim location_type1 = connectSql.RunScalar("select location_type from TSPL_LOCATION_master where Location_Code ='" + Convert.ToString(txtToLocation.Value) + "'")
         Dim exicisable As String = connectSql.RunScalar("Select Excisable from tspl_location_Master where Location_code='" + Convert.ToString(txtFromLoaction.Value) + "'")
         Dim IsPOst As Decimal = clsCommon.myCdbl(connectSql.RunScalar("select 1 from TSPL_INDENT_HEAD where Indent_No ='" + txtTransferNo.Value + "' and Post ='1'"))

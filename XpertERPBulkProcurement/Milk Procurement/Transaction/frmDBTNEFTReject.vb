@@ -106,6 +106,7 @@ Public Class frmDBTNEFTReject
     End Sub
 
     Private Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtdate.Value)
         If clsCommon.myLen(txtDPTNEFT.Value) <= 0 Then
             Throw New Exception("Please select DPT NEFT No")
         End If

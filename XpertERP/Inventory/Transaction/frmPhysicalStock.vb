@@ -647,6 +647,7 @@ Public Class FrmPhysicalStock
 
     Public Function AllowToSave(Optional ByVal isposted As Boolean = False) As Boolean
         Try
+            Xtra.TransactionValidity(dtpdate.Value)
             If AllowFutureDateTransaction(dtpdate.Value, Nothing) = False Then
                 dtpdate.Select()
                 Return False

@@ -214,6 +214,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
     End Sub
 
     Private Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtdate.Value)
         clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocumentNo.Value))
         If clsCommon.GetDateWithStartTime(txtBankLetterDate.Value) < clsCommon.GetDateWithStartTime(txtdate.Value) Then
             txtBankLetterDate.Focus()

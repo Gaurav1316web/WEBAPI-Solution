@@ -2265,6 +2265,7 @@ Public Class frmMccMilkTransportorInvoice
 
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             If btnSave.Text = "Update" Then
                 Dim strchk As String = "select Status from TSPL_Mcc_Milk_Transport_Invoice_HEAD where Doc_No='" + txtDocNo.Value + "'"
                 Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk)

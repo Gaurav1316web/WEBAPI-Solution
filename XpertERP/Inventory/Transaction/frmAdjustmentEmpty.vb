@@ -660,6 +660,7 @@ Public Class frmAdjustmentEmpty
 
     Private Function AllowToSave() As Boolean
         UpdateAllTotals()
+        Xtra.TransactionValidity(txtDate.Value)
         If rbtnRoute.IsChecked Then
             If clsCommon.myLen(cboRefDocument.SelectedValue) <= 0 Then
                 cboRefDocument.Focus()

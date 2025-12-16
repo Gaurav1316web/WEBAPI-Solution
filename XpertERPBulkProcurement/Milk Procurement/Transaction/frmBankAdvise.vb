@@ -181,6 +181,8 @@ Public Class frmBankAdvise
     End Sub
 
     Private Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtDocDate.Value)
+
         If clsCommon.myLen(fndPaymentProcessNo.Value) < 0 Then
             clsCommon.MyMessageBoxShow(Me, "Payment Process Document No. can't be black.", Me.Text)
             Return False

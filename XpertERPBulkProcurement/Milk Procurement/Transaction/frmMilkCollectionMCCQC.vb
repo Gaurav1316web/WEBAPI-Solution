@@ -131,6 +131,7 @@ Public Class frmMilkCollectionMCCQC
     '    End Function
     Function AllowToSave(ByVal isStartProgressBar As Boolean) As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             CorrectionApply = False
             If isStartProgressBar Then
                 clsCommon.ProgressBarPercentShow()

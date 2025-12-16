@@ -2022,6 +2022,7 @@ Public Class frmTransferDCC
 
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             Dim Qry As String
             If clsCommon.CompairString(cboTransferType.Text, "Load In") = CompairStringResult.Equal Then
                 Qry = "select Document_Date  from TSPL_TRANSFER_ORDER_HEAD where Transfer_No='" + txtTransferOutNo.Value + "'"
@@ -2169,7 +2170,7 @@ Public Class frmTransferDCC
             'clsItemMaster.isItemOfSameType(clsCommon.myCstr(cboItemType.SelectedValue), cboItemType.Text, arrICode)
             UcCustomFields1.AllowToSave()
             UcAttachment1.AllowToSave()
-            
+
             Return True
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

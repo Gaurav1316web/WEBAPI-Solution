@@ -1131,6 +1131,7 @@ Public Class frmRawMilkConsumption
     End Sub
 
     Private Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtDate.Value)
         UpdateAllTotals()
         If ChkMilkType.Checked = True Then
             Dim qry As String = clsDBFuncationality.getSingleValue("select Location_Category  from tspl_location_master where Location_Code = '" + FndMainLocation.Value + "'")

@@ -582,6 +582,7 @@ Public Class frmAdjustmentProduction
 
     Private Function AllowToSave() As Boolean
         ''Added by preeti Gupta====[16/10/2017]
+        Xtra.TransactionValidity(txtDate.Value)
         If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
             txtDate.Focus()
             Return False

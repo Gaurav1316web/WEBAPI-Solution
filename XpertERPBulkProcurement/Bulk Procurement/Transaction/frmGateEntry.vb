@@ -1202,6 +1202,7 @@ Public Class FrmGateEntry
     End Sub
     Function allowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(dtpDateAndTimeBulk.Value)
             '===============Preeti Gupta==================================
             If AllowFutureDateTransaction(dtpDateAndTimeBulk.Value, Nothing) = False Then
                 dtpDateAndTimeBulk.Select()
