@@ -5606,7 +5606,7 @@ Public Class frmDeliveryOrderProductSale
         Next
     End Sub
     Function AllowToSave(Optional ByVal ThroughSHipment As Boolean = False) As Boolean
-
+        Xtra.TransactionValidity(txtDate.Value)
         'KUNAL > TICKET : BM00000009580 > DATE :  18 - OCTOBER - 2016
         If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
             txtDate.Select()

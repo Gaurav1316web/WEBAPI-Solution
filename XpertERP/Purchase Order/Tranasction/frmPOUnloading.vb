@@ -226,6 +226,7 @@ Public Class frmPOUnloading
     End Sub
 
     Private Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtDate.Value)
         If clsCommon.myLen(txtGateEntryNo.Value) <= 0 Then
             txtGateEntryNo.Focus()
             errorControl.SetError(txtGateEntryNo, "Please select GRN No")

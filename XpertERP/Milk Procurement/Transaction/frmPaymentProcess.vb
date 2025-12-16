@@ -3944,6 +3944,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
     Function AllowToSave() As Boolean
 
         Try
+            Xtra.TransactionValidity(dtpDate.Value)
             ' KUNAL > TICKET : BM00000009575 =======
             'If AllowFutureDateTransaction(dtpDate.Value, Nothing) = False Then
             '    dtpDate.Focus()

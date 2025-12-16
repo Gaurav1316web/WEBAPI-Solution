@@ -743,7 +743,7 @@ Public Class frmWorkEstimationEng
                     Return False
                 End If
             End If
-
+            Xtra.TransactionValidity(txtDate.Value)
             UpdateAllTotals()
             '' Anubhooti 13-Sep-2014 BM00000003735
             If FrmMainTranScreen.ValidateTransactionAccToFinYear("Work Estimation", txtDate.Value) = False Then

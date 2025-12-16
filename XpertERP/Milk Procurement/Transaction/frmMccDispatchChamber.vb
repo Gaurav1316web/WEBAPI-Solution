@@ -1204,6 +1204,7 @@ Public Class frmMccDispatchChamber
 
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(dtpDateAndTime.Value)
             If settTankerDispatchAvgFATSNFPer Then
                 Dim arr As New List(Of clsMCCDispatchDetail)
                 For ii As Integer = 0 To gv.Rows.Count - 1

@@ -282,6 +282,7 @@ Public Class frmMaterialQuotationComparison
 
     Function AllowToSave(ByVal ChekBtnPost As Boolean) As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             'UpdateAllTotals()
             ' = KUNAL > TICKET :  BM00000009580 ==============================
             If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then

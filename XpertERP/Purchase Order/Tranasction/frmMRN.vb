@@ -3080,6 +3080,7 @@ Public Class frmMRN
     End Sub
     Function AllowToSave() As Boolean
         Dim dt As DataTable
+        Xtra.TransactionValidity(txtDate.Value)
         '= KUNAL > TICKET : BM00000009580 =============
         If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
             txtDate.Focus()

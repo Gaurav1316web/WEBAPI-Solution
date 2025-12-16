@@ -339,6 +339,7 @@ Public Class frmNRGPBooking
 
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(dtpDate.Value)
             'KUNAL > TICKET : BM00000009580 > DATE :  18 - OCTOBER - 2016
             If AllowFutureDateTransaction(dtpDate.Value, Nothing) = False Then
                 dtpDate.Select()

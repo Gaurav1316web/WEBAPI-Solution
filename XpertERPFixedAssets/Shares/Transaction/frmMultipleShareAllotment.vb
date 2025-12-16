@@ -191,7 +191,7 @@ Public Class frmMultipleShareAllotment
         RadGroupBox1.Enabled = val
     End Sub
     Function AllowToSave() As Boolean
-
+        Xtra.TransactionValidity(txtDocumentDate.Value)
         If txtRateOfOneShare.Value = 0 Then
             txtRateOfOneShare.Focus()
             Throw New Exception("Rate Of One Share can't be blank.")

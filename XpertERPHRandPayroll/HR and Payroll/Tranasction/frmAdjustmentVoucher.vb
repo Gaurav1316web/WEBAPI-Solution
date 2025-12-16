@@ -305,6 +305,7 @@ Public Class frmAdjustmentVoucher
         Return False
     End Function
     Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(dtpAdjustDate.Value)
         Dim qry As Integer = 0
         If btnsave.Text = "Update" Then
             Dim QryStr As String = "select POSTED from TSPL_ADJUSTMENT_VOUCHER where ADJUSTMENT_CODE = '" + txtcode.Value + "' "

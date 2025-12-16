@@ -300,7 +300,6 @@ Public Class FrmItemConversion
     End Sub
 
     Private Function AllowToSave() As Boolean
-
         If clsCommon.myLen(frnItemCode.Value) <= 0 Then
             clsCommon.MyMessageBoxShow(Me, "Please Fill Main Item...", Me.Text)
             Return False

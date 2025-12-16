@@ -654,6 +654,7 @@ Public Class FrmsaleReturnGateEntry
 
     End Sub
     Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtDate.Value)
         If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
             txtDate.Focus()
             Return False

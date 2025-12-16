@@ -1623,6 +1623,7 @@ Public Class frmVSPItemIssue
 
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             ' KUNAL > TICKET : BM00000009575 ============
             If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
                 txtDate.Focus()

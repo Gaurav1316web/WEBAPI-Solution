@@ -4352,6 +4352,7 @@ Public Class frmSRN
     Function AllowToSave() As Boolean
         Try
             Dim dt As DataTable
+            Xtra.TransactionValidity(txtDate.Value)
             If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
                 txtDate.Focus()
                 Return False

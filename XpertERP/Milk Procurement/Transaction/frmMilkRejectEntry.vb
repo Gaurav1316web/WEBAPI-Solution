@@ -247,6 +247,7 @@ Public Class frmMilkRejectEntry
 
     Private Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(dtpDocDate.Value)
             '===============Preeti Gupta==================================
             If AllowFutureDateTransaction(dtpDocDate.Value, Nothing) = False Then
                 dtpDocDate.Select()

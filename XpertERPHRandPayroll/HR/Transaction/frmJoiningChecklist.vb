@@ -373,7 +373,7 @@ Public Class FrmJoiningChecklist
     End Sub
     Private Function AllowToSave() As Boolean
         Try
-
+            Xtra.TransactionValidity(Txtdate.Value)
             If fndaccountsetcode.Value = "" Then
                 myMessages.blankValue(Me, "Applicant Code", Me.Text)
 

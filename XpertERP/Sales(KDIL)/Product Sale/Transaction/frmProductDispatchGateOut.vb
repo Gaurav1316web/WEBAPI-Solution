@@ -16,6 +16,7 @@ Public Class FrmProductDispatchGateOut
     End Sub
     Function allowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtGateOutDate.Value)
             If AllowFutureDateTransaction(txtGateOutDate.Value, Nothing) = False Then
                 txtGateOutDate.Select()
                 Return False

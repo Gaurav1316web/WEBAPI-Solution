@@ -289,6 +289,7 @@ Public Class frmDailyElectricalEntry
             '    txtGateEntryNo.Focus()
             '    Throw New Exception("Please Enter Gate entry No")
             'End If
+            Xtra.TransactionValidity(txtConsumptionDate.Value)
             If clsCommon.myLen(txtConsumptionDate.Text) <= 0 Then
                 txtConsumptionDate.Focus()
                 Throw New Exception("Please select Consumption Date")

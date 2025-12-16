@@ -3081,7 +3081,7 @@ Public Class frmInvoiceFreshSale
                 txtDate.Select()
                 Return False
             End If
-
+            Xtra.TransactionValidity(txtDate.Value)
             RefreshReqNo()
 
             UpdateAllTotals()

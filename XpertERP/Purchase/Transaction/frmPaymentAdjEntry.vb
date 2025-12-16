@@ -58,6 +58,7 @@ Public Class frmPaymentAdjEntry
     End Sub
 
     Private Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(dtAdj.Value)
         If clsCommon.myLen(fndVendorCode.Value) <= 0 Then
             clsCommon.MyMessageBoxShow(Me, "Please select Vendor", Me.Text)
             fndVendorCode.Focus()

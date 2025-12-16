@@ -3330,6 +3330,7 @@ Public Class frmGRN
     End Sub
     Function AllowToSave(ByVal ChekPostBtn As Boolean) As Boolean
         Dim dt As DataTable
+        Xtra.TransactionValidity(txtDate.Value)
         If AutoClosePO Or AutoClosePOBasedOnSRNQtyWithTolerance Then
             If clsCommon.myLen(txtinvoiceno.Text) <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "Please enter invoice no.", Me.Text)

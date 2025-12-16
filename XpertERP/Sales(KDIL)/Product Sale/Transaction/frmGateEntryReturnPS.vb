@@ -27,6 +27,7 @@ Public Class frmGateEntryReturnPS
     End Sub
     Function allowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDocDate.Value)
             If AllowFutureDateTransaction(txtDocDate.Value, Nothing) = False Then
                 txtDocDate.Focus()
                 Return False
@@ -34,7 +35,7 @@ Public Class frmGateEntryReturnPS
             'If clsCommon.myLen(txtVehicleNo.Text) <= 0 Then
             '    Throw New Exception("Gate Out Not Allow because Vehicle No. is not Available.")
             'End If
-           
+
             Return True
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

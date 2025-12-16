@@ -167,7 +167,6 @@ Partial Class frmchildRouteFreight
         Me.rdmenufile.Name = "rdmenufile"
         Me.rdmenufile.Size = New System.Drawing.Size(662, 20)
         Me.rdmenufile.TabIndex = 5
-        Me.rdmenufile.Text = "File"
         '
         'rdmenufile1
         '
@@ -179,15 +178,11 @@ Partial Class frmchildRouteFreight
         '
         'rmExport
         '
-        Me.rmExport.AccessibleDescription = "Export"
-        Me.rmExport.AccessibleName = "Export"
         Me.rmExport.Name = "rmExport"
         Me.rmExport.Text = "Export"
         '
         'rmImport
         '
-        Me.rmImport.AccessibleDescription = "Import"
-        Me.rmImport.AccessibleName = "Import"
         Me.rmImport.Name = "rmImport"
         Me.rmImport.Text = "Import"
         '
@@ -217,7 +212,7 @@ Partial Class frmchildRouteFreight
         Me.txtFixedAmt.TabIndex = 309
         Me.txtFixedAmt.Text = "0"
         Me.txtFixedAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFixedAmt.Value = 0.0R
+        Me.txtFixedAmt.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtFreight
         '
@@ -245,7 +240,7 @@ Partial Class frmchildRouteFreight
         Me.txtFreight.TabIndex = 308
         Me.txtFreight.Text = "0"
         Me.txtFreight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFreight.Value = 0.0R
+        Me.txtFreight.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyTextBox1
         '
@@ -273,7 +268,7 @@ Partial Class frmchildRouteFreight
         Me.MyTextBox1.TabIndex = 307
         Me.MyTextBox1.Text = "0"
         Me.MyTextBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.MyTextBox1.Value = 0.0R
+        Me.MyTextBox1.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblFromLocation
         '
@@ -285,7 +280,6 @@ Partial Class frmchildRouteFreight
         Me.lblFromLocation.Name = "lblFromLocation"
         Me.lblFromLocation.Size = New System.Drawing.Size(242, 18)
         Me.lblFromLocation.TabIndex = 173
-        Me.lblFromLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblFromLocation.TextWrap = False
         '
         'txtfromLocation
@@ -384,7 +378,6 @@ Partial Class frmchildRouteFreight
         Me.lbltranspoterName.Name = "lbltranspoterName"
         Me.lbltranspoterName.Size = New System.Drawing.Size(242, 18)
         Me.lbltranspoterName.TabIndex = 167
-        Me.lbltranspoterName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbltranspoterName.TextWrap = False
         '
         'ddl_transtype
@@ -392,6 +385,7 @@ Partial Class frmchildRouteFreight
         Me.ddl_transtype.AutoCompleteDisplayMember = Nothing
         Me.ddl_transtype.AutoCompleteValueMember = Nothing
         Me.ddl_transtype.CalculationExpression = Nothing
+        Me.ddl_transtype.DropDownAnimationEnabled = True
         Me.ddl_transtype.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddl_transtype.FieldCode = Nothing
         Me.ddl_transtype.FieldDesc = Nothing
@@ -428,7 +422,6 @@ Partial Class frmchildRouteFreight
         Me.lblLocationName.Name = "lblLocationName"
         Me.lblLocationName.Size = New System.Drawing.Size(242, 18)
         Me.lblLocationName.TabIndex = 166
-        Me.lblLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLocationName.TextWrap = False
         '
         'lblCityName
@@ -441,7 +434,6 @@ Partial Class frmchildRouteFreight
         Me.lblCityName.Name = "lblCityName"
         Me.lblCityName.Size = New System.Drawing.Size(242, 18)
         Me.lblCityName.TabIndex = 165
-        Me.lblCityName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblCityName.TextWrap = False
         '
         'MyLabel6
@@ -597,6 +589,7 @@ Partial Class frmchildRouteFreight
         Me.ddltype.AutoCompleteDisplayMember = Nothing
         Me.ddltype.AutoCompleteValueMember = Nothing
         Me.ddltype.CalculationExpression = Nothing
+        Me.ddltype.DropDownAnimationEnabled = True
         Me.ddltype.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddltype.FieldCode = Nothing
         Me.ddltype.FieldDesc = Nothing

@@ -336,6 +336,7 @@ Public Class frmVendorQuotation
 
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             UpdateAllTotals()
             ' = KUNAL > TICKET :  BM00000009580 ==============================
             If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
@@ -356,7 +357,7 @@ Public Class frmVendorQuotation
                 Throw New Exception("Plese enter vendor Quotation No")
             End If
 
-          
+
 
             UcCustomFields1.AllowToSave()
             UcAttachment1.AllowToSave()

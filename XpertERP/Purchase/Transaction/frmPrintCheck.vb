@@ -237,6 +237,7 @@ Public Class frmPrintCheck
     End Function
 
     Private Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(dtpPrintDate.Value)
         If clsCommon.myLen(clsCommon.myCstr(txtBankCode.Text)) <= 0 Then
             txtBankCode.Focus()
             clsCommon.MyMessageBoxShow(Me, "Bank Code not found", Me.Text)
@@ -249,7 +250,7 @@ Public Class frmPrintCheck
                 Return False
             End If
         End If
-       
+
         If clsCommon.myLen(clsCommon.myCdbl(txtNextCheckNumber.Text)) <= 0 Then
             txtNextCheckNumber.Focus()
             clsCommon.MyMessageBoxShow(Me, "Check No is blank", Me.Text)
@@ -259,7 +260,7 @@ Public Class frmPrintCheck
 
         Return True
     End Function
-    
+
 #End Region
 #Region "Events"
 

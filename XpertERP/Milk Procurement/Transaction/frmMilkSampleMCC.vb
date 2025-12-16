@@ -739,6 +739,7 @@ Public Class frmMilkSampleMCC
 
     Private Function AllowToSave(ByVal GGGrid As RadGridView, ByVal IsPostData As Boolean) As Boolean
         Try
+            Xtra.TransactionValidity(dtpDocDate.Value)
             '===============Preeti Gupta==================================
             If AllowFutureDateTransaction(dtpDocDate.Value, Nothing) = False Then
                 dtpDocDate.Select()

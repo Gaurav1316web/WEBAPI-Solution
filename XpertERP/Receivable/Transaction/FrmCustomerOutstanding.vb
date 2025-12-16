@@ -466,6 +466,7 @@ Public Class FrmCustomerOutstanding
     Public Function allowToSave() As Boolean
         Try
             Dim count As Integer = 0
+            Xtra.TransactionValidity(dtpAgeof.Value)
             If AllowFutureDateTransaction(dtpAgeof.Value, Nothing) = False Then
                 dtpAgeof.Focus()
                 Return False

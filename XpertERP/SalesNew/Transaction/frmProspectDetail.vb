@@ -3186,6 +3186,7 @@ Public Class frmProspectDetail
         Try
             '' check for the minimum order level including tolerance 
             Dim proceed As Boolean = False
+            Xtra.TransactionValidity(txtDate.Value)
             For Each dr As GridViewRowInfo In gv1.Rows
                 If clsCommon.myLen(dr.Cells(colICode).Value) > 0 Then
                     If proceed = True Then

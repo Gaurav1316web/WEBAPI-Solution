@@ -4820,120 +4820,121 @@ Public Class frmSaleOrderProductSale
     End Sub
 
     Function AllowToSave() As Boolean
-            'KUNAL > TICKET : BM00000009580 > DATE :  18 - OCTOBER - 2016
-            If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
-                txtDate.Select()
-                Return False
-            End If
+        Xtra.TransactionValidity(txtDate.Value)
+        'KUNAL > TICKET : BM00000009580 > DATE :  18 - OCTOBER - 2016
+        If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
+            txtDate.Select()
+            Return False
+        End If
         If CalculateTaxRatefromItemwsieTaxOnSale = 1 Then
             SetitemWiseTaxSetting(True, False)
         End If
         For ii As Integer = 0 To gv1.Rows.Count - 1
-           
+
             UpdateCurrentRow(ii)
             UpdateCurrentRow(ii)
         Next
-            UpdateAllTotals()
-            '' check for the minimum order level including tolerance 
-            Dim proceed As Boolean = False
-            Dim dt As DataTable
-            For Each dr As GridViewRowInfo In gv1.Rows
-                If clsCommon.myLen(dr.Cells(colICode).Value) > 0 Then
-                    If proceed = True Then
-                        Exit For
-                    End If
-                    Dim balQty As Decimal = clsItemLocationDetails.getBalance(dr.Cells(colICode).Value, clsCommon.myCstr(Me.txtBillToLocation.Value), Me.txtDocNo.Value, txtDate.Value, Nothing, dr.Cells(colUnit).Value, dr.Cells(colMRP).Value)
-                    Dim strq As String
-                    strq = "select Min_Level,(Min_Level+Min_Level * Min_Level_Tollerence/100) tol_Plus,(Min_Level-Min_Level * Min_Level_Tollerence/100) tol_Minus " & _
-                           " from TSPL_ITEM_REORDER_LEVEL_NEW where Item_Code='" & dr.Cells(colICode).Value & "'"
-
-                    dt = clsDBFuncationality.GetDataTable(strq)
-                    'If dt.Rows.Count > 0 Then
-                    '    If balQty <= clsCommon.myCdbl(dt.Rows(0).Item("tol_Minus")) + clsCommon.myCdbl(dr.Cells(colQty).Value) Then
-                    '        If clsCommon.MyMessageBoxShow("Balance of item " & dr.Cells(colICode).Value & "  on Location " & clsCommon.myCstr(Me.txtBillToLocation.Value) & " is reached minimum level of (" & balQty & "," & dt.Rows(0).Item("tol_Plus") & "). Still do you want to proceed ?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
-                    '            proceed = False
-                    '            Return False
-                    '        Else
-                    '            proceed = True
-                    '        End If
-                    '    End If
-                    'End If
+        UpdateAllTotals()
+        '' check for the minimum order level including tolerance 
+        Dim proceed As Boolean = False
+        Dim dt As DataTable
+        For Each dr As GridViewRowInfo In gv1.Rows
+            If clsCommon.myLen(dr.Cells(colICode).Value) > 0 Then
+                If proceed = True Then
+                    Exit For
                 End If
-            Next
+                Dim balQty As Decimal = clsItemLocationDetails.getBalance(dr.Cells(colICode).Value, clsCommon.myCstr(Me.txtBillToLocation.Value), Me.txtDocNo.Value, txtDate.Value, Nothing, dr.Cells(colUnit).Value, dr.Cells(colMRP).Value)
+                Dim strq As String
+                strq = "select Min_Level,(Min_Level+Min_Level * Min_Level_Tollerence/100) tol_Plus,(Min_Level-Min_Level * Min_Level_Tollerence/100) tol_Minus " &
+                       " from TSPL_ITEM_REORDER_LEVEL_NEW where Item_Code='" & dr.Cells(colICode).Value & "'"
 
-
-            'CalculateDiscountAmount()
-            If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Customer", Me.Text)
-                txtVendorNo.Focus()
-                Return False
-            End If
-
-            GSTStatus = clsERPFuncationality.GetGSTStatus(txtDate.Value)
-            If GSTStatus = False OrElse (chkIsTaxable.Checked AndAlso GSTStatus = True) Then
-                If clsCommon.myLen(txtTaxGroup.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Tax Group", Me.Text)
-                    txtTaxGroup.Focus()
-                    Return False
-                End If
-            End If
-
-            If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Bill to Location", Me.Text)
-                txtBillToLocation.Focus()
-                Return False
-            End If
-
-
-            If Not isNewEntry AndAlso clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Pucahse Order code Not found to save", Me.Text)
-                txtDocNo.Focus()
-                Return False
-            End If
-            'If clsCommon.CompairString("R", cboItemType.SelectedValue) = CompairStringResult.Equal AndAlso Not (clsLocation.isLocatinExcisable(txtBillToLocation.Value)) Then
-            '    common.clsCommon.MyMessageBoxShow("Location should be Excisable for Raw Material")
-            '    txtBillToLocation.Focus()
-            '    Return False
-            'End If
-            'If clsCommon.myLen(cboItemType.SelectedValue) <= 0 Then
-            '    common.clsCommon.MyMessageBoxShow("Please select Item Type")
-            '    cboItemType.Focus()
-            '    Return False
-            'End If
-            If chkclose.Checked = True AndAlso IsRemarksMandatory = True AndAlso clsCommon.myLen(txtCloseRemarks.Value) = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please enter Remarks for Closing Order", Me.Text)
-                txtCloseRemarks.Focus()
-                Return False
-            End If
-            If chkCommApply.Checked = True AndAlso clsCommon.myCdbl(lblCommAmt.Text) = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please enter Commission amount.", Me.Text)
-                Return False
-            End If
-            If txtCustPODate.Checked Then
-                If clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtCustPODate.Value)) > clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtDeliveryDate.Value)) Then
-                common.clsCommon.MyMessageBoxShow("Please enter Delivery Date greater or equal  than Customer Po Date.", Me.Text)
-                    Return False
-                End If
-
-                If clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtCustPODate.Value)) > clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtDate.Value)) Then
-                common.clsCommon.MyMessageBoxShow("Please enter Document Date greater or equal  than Customer Po Date.", Me.Text)
-                    Return False
-                End If
-            Else
-                If clsCommon.myLen(txtPONo.Text) > 0 Then
-                common.clsCommon.MyMessageBoxShow("Please enter Customer Po Date.", Me.Text)
-                    Return False
-                End If
-                'If clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtCustPODate.Value)) > clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtDate.Value)) Then
-                '    common.clsCommon.MyMessageBoxShow("Please enter Document Date greater or equal  than Customer Po Date.")
-                '    Return False
+                dt = clsDBFuncationality.GetDataTable(strq)
+                'If dt.Rows.Count > 0 Then
+                '    If balQty <= clsCommon.myCdbl(dt.Rows(0).Item("tol_Minus")) + clsCommon.myCdbl(dr.Cells(colQty).Value) Then
+                '        If clsCommon.MyMessageBoxShow("Balance of item " & dr.Cells(colICode).Value & "  on Location " & clsCommon.myCstr(Me.txtBillToLocation.Value) & " is reached minimum level of (" & balQty & "," & dt.Rows(0).Item("tol_Plus") & "). Still do you want to proceed ?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+                '            proceed = False
+                '            Return False
+                '        Else
+                '            proceed = True
+                '        End If
+                '    End If
                 'End If
+            End If
+        Next
 
+
+        'CalculateDiscountAmount()
+        If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
+            common.clsCommon.MyMessageBoxShow("Please select Customer", Me.Text)
+            txtVendorNo.Focus()
+            Return False
+        End If
+
+        GSTStatus = clsERPFuncationality.GetGSTStatus(txtDate.Value)
+        If GSTStatus = False OrElse (chkIsTaxable.Checked AndAlso GSTStatus = True) Then
+            If clsCommon.myLen(txtTaxGroup.Value) <= 0 Then
+                common.clsCommon.MyMessageBoxShow("Please select Tax Group", Me.Text)
+                txtTaxGroup.Focus()
+                Return False
             End If
-            If clsCommon.myCDate(clsDBFuncationality.getSingleValue("Select CONVERT(date, Document_Date,103) from TSPL_BOOKING_MASTER_PRODUCTSALE where Document_Code ='" + txtReqNo.Value + "'")) > clsCommon.myCDate(txtDate.Value) Then
-                txtDate.Focus()
-                Throw New Exception("Date cannot be less than from Booking Date")
+        End If
+
+        If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
+            common.clsCommon.MyMessageBoxShow("Please select Bill to Location", Me.Text)
+            txtBillToLocation.Focus()
+            Return False
+        End If
+
+
+        If Not isNewEntry AndAlso clsCommon.myLen(txtDocNo.Value) <= 0 Then
+            common.clsCommon.MyMessageBoxShow("Pucahse Order code Not found to save", Me.Text)
+            txtDocNo.Focus()
+            Return False
+        End If
+        'If clsCommon.CompairString("R", cboItemType.SelectedValue) = CompairStringResult.Equal AndAlso Not (clsLocation.isLocatinExcisable(txtBillToLocation.Value)) Then
+        '    common.clsCommon.MyMessageBoxShow("Location should be Excisable for Raw Material")
+        '    txtBillToLocation.Focus()
+        '    Return False
+        'End If
+        'If clsCommon.myLen(cboItemType.SelectedValue) <= 0 Then
+        '    common.clsCommon.MyMessageBoxShow("Please select Item Type")
+        '    cboItemType.Focus()
+        '    Return False
+        'End If
+        If chkclose.Checked = True AndAlso IsRemarksMandatory = True AndAlso clsCommon.myLen(txtCloseRemarks.Value) = 0 Then
+            common.clsCommon.MyMessageBoxShow("Please enter Remarks for Closing Order", Me.Text)
+            txtCloseRemarks.Focus()
+            Return False
+        End If
+        If chkCommApply.Checked = True AndAlso clsCommon.myCdbl(lblCommAmt.Text) = 0 Then
+            common.clsCommon.MyMessageBoxShow("Please enter Commission amount.", Me.Text)
+            Return False
+        End If
+        If txtCustPODate.Checked Then
+            If clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtCustPODate.Value)) > clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtDeliveryDate.Value)) Then
+                common.clsCommon.MyMessageBoxShow("Please enter Delivery Date greater or equal  than Customer Po Date.", Me.Text)
+                Return False
             End If
+
+            If clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtCustPODate.Value)) > clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtDate.Value)) Then
+                common.clsCommon.MyMessageBoxShow("Please enter Document Date greater or equal  than Customer Po Date.", Me.Text)
+                Return False
+            End If
+        Else
+            If clsCommon.myLen(txtPONo.Text) > 0 Then
+                common.clsCommon.MyMessageBoxShow("Please enter Customer Po Date.", Me.Text)
+                Return False
+            End If
+            'If clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtCustPODate.Value)) > clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtDate.Value)) Then
+            '    common.clsCommon.MyMessageBoxShow("Please enter Document Date greater or equal  than Customer Po Date.")
+            '    Return False
+            'End If
+
+        End If
+        If clsCommon.myCDate(clsDBFuncationality.getSingleValue("Select CONVERT(date, Document_Date,103) from TSPL_BOOKING_MASTER_PRODUCTSALE where Document_Code ='" + txtReqNo.Value + "'")) > clsCommon.myCDate(txtDate.Value) Then
+            txtDate.Focus()
+            Throw New Exception("Date cannot be less than from Booking Date")
+        End If
         Dim strCust As String = ""
         For jj As Integer = 0 To gv1.Rows.Count - 1
             If AllowDifferentStateofChildCustomerOnPS = 0 Then
@@ -4952,165 +4953,165 @@ Public Class frmSaleOrderProductSale
                 Exit For
             End If
         Next
-            If GSTStatus = True AndAlso chkIsTaxable.Checked Then
+        If GSTStatus = True AndAlso chkIsTaxable.Checked Then
             clsLocationWiseTax.IsValidTaxGroup(txtTaxGroup.Value, txtBillToLocation.Value, strCust, "S", txtDate.Value, Nothing)
-            End If
-            Dim arrProjNo As New List(Of String)
-            Dim arrReqNo As New List(Of String)
-            Dim arrICode As New List(Of String)()
-            Dim dblTotalQty As Double = 0
-            Dim dblPendingQty As Double = 0
-            Dim arrCust As New List(Of String)
+        End If
+        Dim arrProjNo As New List(Of String)
+        Dim arrReqNo As New List(Of String)
+        Dim arrICode As New List(Of String)()
+        Dim dblTotalQty As Double = 0
+        Dim dblPendingQty As Double = 0
+        Dim arrCust As New List(Of String)
 
-            ''richa agarwal 7 july
-            '  If chkItemwise.Checked Then
-            Dim strItemCodeforlocation As String = String.Empty
-            Dim strItemCategory As String = String.Empty
-            Dim itemcount As Integer = 0
-            Dim StrCustomerState As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select ISNULL(state,'') AS STATE from TSPL_CUSTOMER_MASTER where Cust_Code='" & clsCommon.myCstr(txtVendorNo.Value) & "'"))
-            Dim StrLocationState As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select ISNULL(State,'') AS STATE from TSPL_LOCATION_MASTER WHERE LOCATION_CODE='" & clsCommon.myCstr(txtBillToLocation.Value) & "'"))
-            For ii As Integer = 0 To gv1.Rows.Count - 1
-                If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value), "") <> CompairStringResult.Equal Then
-                    strItemCodeforlocation = strItemCodeforlocation + "'" + clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value) + "',"
-                    itemcount = itemcount + 1
-                End If
-            Next
-            If clsCommon.myLen(strItemCodeforlocation) > 0 Then
-                strItemCodeforlocation = strItemCodeforlocation.Substring(0, strItemCodeforlocation.Length - 1)
+        ''richa agarwal 7 july
+        '  If chkItemwise.Checked Then
+        Dim strItemCodeforlocation As String = String.Empty
+        Dim strItemCategory As String = String.Empty
+        Dim itemcount As Integer = 0
+        Dim StrCustomerState As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select ISNULL(state,'') AS STATE from TSPL_CUSTOMER_MASTER where Cust_Code='" & clsCommon.myCstr(txtVendorNo.Value) & "'"))
+        Dim StrLocationState As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select ISNULL(State,'') AS STATE from TSPL_LOCATION_MASTER WHERE LOCATION_CODE='" & clsCommon.myCstr(txtBillToLocation.Value) & "'"))
+        For ii As Integer = 0 To gv1.Rows.Count - 1
+            If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value), "") <> CompairStringResult.Equal Then
+                strItemCodeforlocation = strItemCodeforlocation + "'" + clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value) + "',"
+                itemcount = itemcount + 1
             End If
-            If clsCommon.CompairString(StrCustomerState, StrLocationState) = CompairStringResult.Equal Then
-                strItemCategory = "L"
-            Else
-                strItemCategory = "I"
+        Next
+        If clsCommon.myLen(strItemCodeforlocation) > 0 Then
+            strItemCodeforlocation = strItemCodeforlocation.Substring(0, strItemCodeforlocation.Length - 1)
+        End If
+        If clsCommon.CompairString(StrCustomerState, StrLocationState) = CompairStringResult.Equal Then
+            strItemCategory = "L"
+        Else
+            strItemCategory = "I"
+        End If
+
+        Dim strcount As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT count(Item_Code) FROM TSPL_LOCATION_WISE_ITEM_MASTER where Location_Code='" & txtBillToLocation.Value & "' and Item_Category='" & strItemCategory & "' and Item_Code in (" & strItemCodeforlocation & ")"))
+        If strcount <> 0 Then
+            If strcount <> itemcount Then
+                Throw New Exception(" You must have to select only those items which are mapped with location " & txtBillToLocation.Value & " in location master/ or which are not mapped with this location.")
             End If
-
-            Dim strcount As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT count(Item_Code) FROM TSPL_LOCATION_WISE_ITEM_MASTER where Location_Code='" & txtBillToLocation.Value & "' and Item_Category='" & strItemCategory & "' and Item_Code in (" & strItemCodeforlocation & ")"))
-            If strcount <> 0 Then
-                If strcount <> itemcount Then
-                    Throw New Exception(" You must have to select only those items which are mapped with location " & txtBillToLocation.Value & " in location master/ or which are not mapped with this location.")
-                End If
-                If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select count(Tax_Group_Code) from TSPL_TAX_GROUP_MASTER where Tax_Group_Code ='" & clsCommon.myCstr(txtTaxGroup.Value) & "' and Tax_Group_Type ='S' and Is_Tax_Exempted =1")), "0") = CompairStringResult.Equal Then
-                    Throw New Exception(" Please select Tax type EXEMPTED for sale.")
-                End If
-
+            If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select count(Tax_Group_Code) from TSPL_TAX_GROUP_MASTER where Tax_Group_Code ='" & clsCommon.myCstr(txtTaxGroup.Value) & "' and Tax_Group_Type ='S' and Is_Tax_Exempted =1")), "0") = CompairStringResult.Equal Then
+                Throw New Exception(" Please select Tax type EXEMPTED for sale.")
             End If
 
-            '  End If
+        End If
 
-            ''-----------------
+        '  End If
 
-            For ii As Integer = 0 To gv1.Rows.Count - 1
-                dblTotalQty = 0
-                Dim strRowType As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colRowType).Value)
-                Dim strCommParty As String = clsCommon.myCstr(gv1.Rows(ii).Cells(ColCommParty).Value)
-                Dim strReqNo As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colReqistionNo).Value)
-                Dim strSchemeItem As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colSchemeItem).Value)
-                Dim strICode As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value)
-                Dim strICodeGrp As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colICodeGrp).Value)
-                Dim strIName As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colIName).Value)
+        ''-----------------
 
-                Dim dblQty As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value)
-                Dim dblMRP As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colMRP).Value)
-                ''Dim dblAssessableAmt As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colAssessableRate).Value)
-                Dim strUOM As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value)
-                Dim strAlterUOM As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colUnitALter).Value)
-                Dim strRateUOM As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colUnitRate).Value)
-                'Dim strProject As String
-                Dim strCustCode As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colShipParty).Value)
-                If clsCommon.myLen(strCustCode) = 0 Then
-                    strCustCode = txtVendorNo.Value
-                ElseIf Not arrCust.Contains(strCustCode) Then
-                    arrCust.Add(strCustCode)
-                End If
-                If clsCommon.myLen(strICode) > 0 AndAlso clsCommon.CompairString(strRowType, clsItemRowType.RowTypeItem) = CompairStringResult.Equal Then
-                    If clsCommon.myLen(strUOM) <= 0 Then
+        For ii As Integer = 0 To gv1.Rows.Count - 1
+            dblTotalQty = 0
+            Dim strRowType As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colRowType).Value)
+            Dim strCommParty As String = clsCommon.myCstr(gv1.Rows(ii).Cells(ColCommParty).Value)
+            Dim strReqNo As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colReqistionNo).Value)
+            Dim strSchemeItem As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colSchemeItem).Value)
+            Dim strICode As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value)
+            Dim strICodeGrp As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colICodeGrp).Value)
+            Dim strIName As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colIName).Value)
+
+            Dim dblQty As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value)
+            Dim dblMRP As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colMRP).Value)
+            ''Dim dblAssessableAmt As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colAssessableRate).Value)
+            Dim strUOM As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value)
+            Dim strAlterUOM As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colUnitALter).Value)
+            Dim strRateUOM As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colUnitRate).Value)
+            'Dim strProject As String
+            Dim strCustCode As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colShipParty).Value)
+            If clsCommon.myLen(strCustCode) = 0 Then
+                strCustCode = txtVendorNo.Value
+            ElseIf Not arrCust.Contains(strCustCode) Then
+                arrCust.Add(strCustCode)
+            End If
+            If clsCommon.myLen(strICode) > 0 AndAlso clsCommon.CompairString(strRowType, clsItemRowType.RowTypeItem) = CompairStringResult.Equal Then
+                If clsCommon.myLen(strUOM) <= 0 Then
                     common.clsCommon.MyMessageBoxShow("Please enter UOM for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
-                        Return False
-                    End If
-                    If clsCommon.myLen(strAlterUOM) <= 0 Then
+                    Return False
+                End If
+                If clsCommon.myLen(strAlterUOM) <= 0 Then
                     common.clsCommon.MyMessageBoxShow("Please enter Alter UOM for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
-                        Return False
-                    End If
-                    If clsCommon.myLen(strRateUOM) <= 0 Then
+                    Return False
+                End If
+                If clsCommon.myLen(strRateUOM) <= 0 Then
                     common.clsCommon.MyMessageBoxShow("Please enter Rate UOM for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
-                        Return False
-                    End If
-                    If chkCommApply.Checked = True AndAlso clsCommon.myLen(strCommParty) <= 0 Then
+                    Return False
+                End If
+                If chkCommApply.Checked = True AndAlso clsCommon.myLen(strCommParty) <= 0 Then
                     common.clsCommon.MyMessageBoxShow("Please enter Commission party for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
+                    Return False
+                End If
+            End If
+
+            If clsCommon.myLen(strReqNo) > 0 Then
+                If chkItemwise.Checked Then
+                    dblPendingQty = GetBalanceBookingQty(txtReqNo.Value, strICode)
+                    If dblQty > dblPendingQty Then
+                        common.clsCommon.MyMessageBoxShow("Item " + strICode + "( " + strIName.Trim() + " ) Entered Quantity(" + clsCommon.myCstr(dblQty) + ") Can't be more Pending Quantity(" + clsCommon.myCstr(dblPendingQty) + ").At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
                         Return False
                     End If
+                Else
+                    dblPendingQty = GetBalanceBookingQty(txtReqNo.Value, strICodeGrp)
                 End If
+            End If
+            If clsCommon.myLen(strICode) > 0 Then
+                If Not arrICode.Contains(strICode) Then
+                    arrICode.Add(strICode)
+                End If
+            End If
 
-                If clsCommon.myLen(strReqNo) > 0 Then
-                    If chkItemwise.Checked Then
-                        dblPendingQty = GetBalanceBookingQty(txtReqNo.Value, strICode)
-                        If dblQty > dblPendingQty Then
-                            common.clsCommon.MyMessageBoxShow("Item " + strICode + "( " + strIName.Trim() + " ) Entered Quantity(" + clsCommon.myCstr(dblQty) + ") Can't be more Pending Quantity(" + clsCommon.myCstr(dblPendingQty) + ").At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
-                            Return False
-                        End If
-                    Else
-                        dblPendingQty = GetBalanceBookingQty(txtReqNo.Value, strICodeGrp)
+
+            If clsCommon.myLen(strICode) > 0 AndAlso clsCommon.CompairString(strSchemeItem, "No") = CompairStringResult.Equal Then
+
+                For jj As Integer = 0 To gv1.Rows.Count - 1
+                    Dim wt_unit As String = 0
+                    Dim wt_qty As Double = 0
+                    Dim Item_Weight As Double = 0
+                    Dim TotalItem_Weight As Double = 0
+                    Dim TotalItem_WeightMetric As Double = 0
+                    Dim dblInnerQty As Double = clsCommon.myCdbl(gv1.Rows(jj).Cells(colQty).Value)
+                    Dim dblConvertedQty As Double = clsCommon.myCdbl(gv1.Rows(jj).Cells(colConvQty).Value)
+
+                    If jj = ii Then
+                        dblTotalQty += dblConvertedQty
+                        Continue For
                     End If
-                End If
-                If clsCommon.myLen(strICode) > 0 Then
-                    If Not arrICode.Contains(strICode) Then
-                        arrICode.Add(strICode)
+                    Dim strInnerICode As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colICode).Value)
+                    'Dim dblInnerQty As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colQty).Value)
+                    Dim strInnerCustCode As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colShipParty).Value)
+                    Dim strInnerICodeGrp As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colICodeGrp).Value)
+                    If clsCommon.myLen(strInnerCustCode) = 0 Then
+                        strInnerCustCode = txtVendorNo.Value
                     End If
-                End If
 
+                    Dim dblInnerMRP As Double = clsCommon.myCdbl(gv1.Rows(jj).Cells(colMRP).Value)
+                    Dim strInnerUOM As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colUnit).Value)
 
-                If clsCommon.myLen(strICode) > 0 AndAlso clsCommon.CompairString(strSchemeItem, "No") = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(strICode, strInnerICode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(jj).Cells(colSchemeItem).Value), "No") = CompairStringResult.Equal AndAlso clsCommon.CompairString(strUOM, strInnerUOM) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strCustCode, strInnerCustCode) = CompairStringResult.Equal Then
+                        Dim Msg As String = "Same Item Exist at Row No " + clsCommon.myCstr(ii + 1) + " And " + clsCommon.myCstr(jj + 1)
 
-                    For jj As Integer = 0 To gv1.Rows.Count - 1
-                        Dim wt_unit As String = 0
-                        Dim wt_qty As Double = 0
-                        Dim Item_Weight As Double = 0
-                        Dim TotalItem_Weight As Double = 0
-                        Dim TotalItem_WeightMetric As Double = 0
-                        Dim dblInnerQty As Double = clsCommon.myCdbl(gv1.Rows(jj).Cells(colQty).Value)
-                        Dim dblConvertedQty As Double = clsCommon.myCdbl(gv1.Rows(jj).Cells(colConvQty).Value)
-
-                        If jj = ii Then
-                            dblTotalQty += dblConvertedQty
-                            Continue For
+                        Msg = Msg + Environment.NewLine + "Item: " + strICode + "(" + strIName + ")"
+                        Msg = Msg + Environment.NewLine + "UOM: " + strUOM
+                        If dblMRP > 0 Then
+                            Msg = Msg + Environment.NewLine + "MRP: " + clsCommon.myCstr(dblMRP)
                         End If
-                        Dim strInnerICode As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colICode).Value)
-                        'Dim dblInnerQty As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colQty).Value)
-                        Dim strInnerCustCode As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colShipParty).Value)
-                        Dim strInnerICodeGrp As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colICodeGrp).Value)
-                        If clsCommon.myLen(strInnerCustCode) = 0 Then
-                            strInnerCustCode = txtVendorNo.Value
-                        End If
-
-                        Dim dblInnerMRP As Double = clsCommon.myCdbl(gv1.Rows(jj).Cells(colMRP).Value)
-                        Dim strInnerUOM As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colUnit).Value)
-
-                        If clsCommon.CompairString(strICode, strInnerICode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(jj).Cells(colSchemeItem).Value), "No") = CompairStringResult.Equal AndAlso clsCommon.CompairString(strUOM, strInnerUOM) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strCustCode, strInnerCustCode) = CompairStringResult.Equal Then
-                            Dim Msg As String = "Same Item Exist at Row No " + clsCommon.myCstr(ii + 1) + " And " + clsCommon.myCstr(jj + 1)
-
-                            Msg = Msg + Environment.NewLine + "Item: " + strICode + "(" + strIName + ")"
-                            Msg = Msg + Environment.NewLine + "UOM: " + strUOM
-                            If dblMRP > 0 Then
-                                Msg = Msg + Environment.NewLine + "MRP: " + clsCommon.myCstr(dblMRP)
-                            End If
                         common.clsCommon.MyMessageBoxShow(Msg, Me.Text)
-                            Return False
+                        Return False
+                    End If
+                    If chkItemwise.Checked Then
+                        'If clsCommon.CompairString(strICode, strInnerICode) = CompairStringResult.Equal Then
+                        '    dblTotalQty += dblInnerQty
+                        'End If
+                    Else
+                        If clsCommon.CompairString(strICodeGrp, strInnerICodeGrp) = CompairStringResult.Equal Then
+                            dblTotalQty += dblConvertedQty
                         End If
-                        If chkItemwise.Checked Then
-                            'If clsCommon.CompairString(strICode, strInnerICode) = CompairStringResult.Equal Then
-                            '    dblTotalQty += dblInnerQty
-                            'End If
-                        Else
-                            If clsCommon.CompairString(strICodeGrp, strInnerICodeGrp) = CompairStringResult.Equal Then
-                                dblTotalQty += dblConvertedQty
-                            End If
-                        End If
-                        If dblTotalQty > dblPendingQty Then
-                            common.clsCommon.MyMessageBoxShow("Item Group " + strICodeGrp + "( " + strIName.Trim() + " ) Entered Quantity(" + clsCommon.myCstr(dblTotalQty) + ") Can't be more Pending Quantity(" + clsCommon.myCstr(dblPendingQty) + ").At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
-                            Return False
-                        End If
-                    Next
-                End If
+                    End If
+                    If dblTotalQty > dblPendingQty Then
+                        common.clsCommon.MyMessageBoxShow("Item Group " + strICodeGrp + "( " + strIName.Trim() + " ) Entered Quantity(" + clsCommon.myCstr(dblTotalQty) + ") Can't be more Pending Quantity(" + clsCommon.myCstr(dblPendingQty) + ").At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
+                        Return False
+                    End If
+                Next
+            End If
         Next
         ' In case of Bill and ship party different 
         For ii As Integer = 0 To gv1.Rows.Count - 1
@@ -5122,14 +5123,14 @@ Public Class frmSaleOrderProductSale
                 End If
             End If
         Next
-            Dim strLocationStatus As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select State from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
-            If clsCommon.myLen(strLocationStatus) <= 0 Then
-                Throw New Exception("From location's states not found")
-            End If
-            If GSTStatus = False OrElse (chkIsTaxable.Checked AndAlso GSTStatus = True) Then
-                Dim qry As String = "select  State from TSPL_CUSTOMER_MASTER where Cust_Code in (" + clsCommon.GetMulcallString(arrCust) + ") group by State"
-                dt = clsDBFuncationality.GetDataTable(qry)
-                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+        Dim strLocationStatus As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select State from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
+        If clsCommon.myLen(strLocationStatus) <= 0 Then
+            Throw New Exception("From location's states not found")
+        End If
+        If GSTStatus = False OrElse (chkIsTaxable.Checked AndAlso GSTStatus = True) Then
+            Dim qry As String = "select  State from TSPL_CUSTOMER_MASTER where Cust_Code in (" + clsCommon.GetMulcallString(arrCust) + ") group by State"
+            dt = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim strFirstChildstate = clsCommon.myCstr(dt.Rows(0)("State"))
                 If dt.Rows.Count = 1 Then
                     If AllowDifferentStateofChildCustomerOnPS = 0 Then
@@ -5176,50 +5177,50 @@ Public Class frmSaleOrderProductSale
                         End If
                     Next
                 End If
-                    'Else
-                    '    Throw New Exception("Customer states not found")
-                End If
+                'Else
+                '    Throw New Exception("Customer states not found")
             End If
-            'GSTStatus = clsERPFuncationality.GetGSTStatus(txtDate.Value)
-            If GSTStatus = False Then
-                Dim intx As Integer = clsItemMaster.isItemOfSameExcisable(arrICode)
-                Dim Item_TaxType As Integer = 0
-                If Not (intx = arrICode.Count OrElse intx = 0) Then
-                    Throw New Exception("All item should be of Excisable or NonExcisable")
-                End If
-                If intx > 0 Then
-                    Item_TaxType = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select TOP(1) Is_Tax_Exempted from TSPL_ITEM_MASTER where Item_Code in (" + clsCommon.GetMulcallString(arrICode) + ")"))
-                Else
-                    Item_TaxType = 0
-                End If
-
-                'If clsLocation.isLocatinExcisable(txtBillToLocation.Value) Then
-                If Item_TaxType = 2 AndAlso clsLocation.isLocatinExcisable(txtBillToLocation.Value) = True Then
-                    For Each grow As GridViewRowInfo In gv2.Rows
-                        If Not clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Excisable from TSPL_TAX_MASTER WHERE Tax_Code='" + grow.Cells(colTTaxAutCode).Value + "'")), "Y") = CompairStringResult.Equal Then
-                            Throw New Exception("Atleast One tax should be excisable.")
-                        Else
-                            Exit For
-                        End If
-                    Next
-
-                End If
+        End If
+        'GSTStatus = clsERPFuncationality.GetGSTStatus(txtDate.Value)
+        If GSTStatus = False Then
+            Dim intx As Integer = clsItemMaster.isItemOfSameExcisable(arrICode)
+            Dim Item_TaxType As Integer = 0
+            If Not (intx = arrICode.Count OrElse intx = 0) Then
+                Throw New Exception("All item should be of Excisable or NonExcisable")
             End If
+            If intx > 0 Then
+                Item_TaxType = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select TOP(1) Is_Tax_Exempted from TSPL_ITEM_MASTER where Item_Code in (" + clsCommon.GetMulcallString(arrICode) + ")"))
+            Else
+                Item_TaxType = 0
+            End If
+
+            'If clsLocation.isLocatinExcisable(txtBillToLocation.Value) Then
+            If Item_TaxType = 2 AndAlso clsLocation.isLocatinExcisable(txtBillToLocation.Value) = True Then
+                For Each grow As GridViewRowInfo In gv2.Rows
+                    If Not clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Excisable from TSPL_TAX_MASTER WHERE Tax_Code='" + grow.Cells(colTTaxAutCode).Value + "'")), "Y") = CompairStringResult.Equal Then
+                        Throw New Exception("Atleast One tax should be excisable.")
+                    Else
+                        Exit For
+                    End If
+                Next
+
+            End If
+        End If
         If AllowtoChangeTCSBaseAmount Then
             If clsCommon.myCdbl(txttcstaxbaseamount.Value) > clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text) Then
                 Throw New Exception("TCS Tax Base amount should not be greater than Actual TCS Tax Base Amount")
             End If
         End If
         UcCustomFields1.AllowToSave()
-            UcAttachment1.AllowToSave()
-            If clsCommon.myLen(txtDocNo.Value) = 0 Then
-                If CFormFunction() = False Then
-                    Return False
-                End If
+        UcAttachment1.AllowToSave()
+        If clsCommon.myLen(txtDocNo.Value) = 0 Then
+            If CFormFunction() = False Then
+                Return False
             End If
+        End If
 
-            Return True
-       
+        Return True
+
     End Function
 
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click

@@ -319,7 +319,7 @@ Public Class FrmOpenMCCShift
         Dim Qry As String
         Dim dt As DataTable
         Try
-
+            Xtra.TransactionValidity(dtpShiftDate.Value)
             '= KUNAL > TICKET : BM00000009575 =======
             If AllowFutureDateTransaction(dtpShiftDate.Value, Nothing) = False Then
                 dtpShiftDate.Focus()

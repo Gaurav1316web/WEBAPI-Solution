@@ -155,6 +155,7 @@ Public Class frmAssetRequisition
         End If
     End Sub
     Private Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(dtpReqDate.Value)
         '===============Preeti==================================
         If AllowFutureDateTransaction(dtpReqDate.Value, Nothing) = False Then
             dtpReqDate.Select()

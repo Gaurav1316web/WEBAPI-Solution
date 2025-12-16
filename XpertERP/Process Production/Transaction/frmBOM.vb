@@ -1230,7 +1230,7 @@ Public Class frmBOM
 
     Function AllowToSave() As Boolean
         Try
-
+            Xtra.TransactionValidity(dtpBOMDate.Value)
             If AllowFutureDateTransaction(dtpBOMDate.Value, Nothing) = False Then
                 Return False
             End If

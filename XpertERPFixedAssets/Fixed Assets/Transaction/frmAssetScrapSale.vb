@@ -1532,6 +1532,7 @@ Public Class frmAssetScrapSale
             dtpshipment.Select()
             Return False
         End If
+        Xtra.TransactionValidity(dtpshipment.Value)
         '=======================================================
 
         If btnSave.Text = "Update" Then

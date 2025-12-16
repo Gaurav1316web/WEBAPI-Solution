@@ -466,7 +466,7 @@ Public Class frmAssetAccountChange
             txtDate.Select()
             Return False
         End If
-
+        Xtra.TransactionValidity(txtDate.Value)
         RefreshSNo()
 
 

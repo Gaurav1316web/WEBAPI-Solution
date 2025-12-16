@@ -402,7 +402,7 @@ Public Class FrmVLCDataUploaderManual
     Private Function AllowToSave() As Boolean
 
         '====================Added by preeti gupta==================
-
+        Xtra.TransactionValidity(txtdate.Value)
         clsLockMPPaymentCycle.LockMPTransaction(fndMCC_Code.Value, txtdate.Value)
 
         '===========================================================

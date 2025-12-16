@@ -1276,6 +1276,7 @@ Public Class frmProductionEntry
     End Sub
 
     Function AllowToSave(Optional ByVal isPost As Boolean = False) As Boolean
+        Xtra.TransactionValidity(dtpDate.Value)
         If AllowFutureDateTransaction(dtpDate.Value, Nothing) = False Then
             Return False
         End If

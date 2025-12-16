@@ -5318,6 +5318,7 @@ Public Class frmDispatchAdviceProductSale
     End Sub
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             '' check for the minimum order level including tolerance
             'isValid_CashScheme()
             If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
@@ -5332,7 +5333,7 @@ Public Class frmDispatchAdviceProductSale
             Next
 
             UpdateAllTotals()
-        
+
 
             'CalculateDiscountAmount()
             If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
@@ -5376,7 +5377,7 @@ Public Class frmDispatchAdviceProductSale
 
                 Dim dblBalQty As Double = clsItemLocationDetails.getBalance(strICode, txtBillToLocation.Value, txtDocNo.Value, txtDate.Value, Nothing, strUOM, dblMRP)
                 Dim dblEnteredQty As Double = dblPendingQty
-                
+
                 dblEnteredQty = Math.Round(dblEnteredQty, 2, MidpointRounding.ToEven)
                 If dblBalQty >= dblEnteredQty Then
                     gv1.Rows(ii).Cells(colQty).Value = 0

@@ -3218,7 +3218,7 @@ Public Class frmSNSaleInvoice
             RefreshReqNo()
 
             UpdateAllTotals()
-
+            Xtra.TransactionValidity(txtDate.Value)
             If clsCommon.myCDate(txtDate.Value).Date() > clsCommon.GETSERVERDATE().Date() Then
                 clsCommon.MyMessageBoxShow(Me, "Cannot allow future date -  " & clsCommon.myCDate(txtDate.Value).Date())
                 txtDate.Focus()

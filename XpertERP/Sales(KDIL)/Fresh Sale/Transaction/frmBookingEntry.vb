@@ -605,7 +605,7 @@ Public Class FrmBookingEntry
         Dim strInLocCode As String = String.Empty
         Dim strInnerVehicleCode As String = String.Empty
         Try
-
+            Xtra.TransactionValidity(txtDate.Value)
             'KUNAL > TICKET : BM00000009580 > DATE :  18 - OCTOBER - 2016
             If AllowFutureDateTransaction(txtDate.Value, trans) = False Then
                 txtDate.Select()

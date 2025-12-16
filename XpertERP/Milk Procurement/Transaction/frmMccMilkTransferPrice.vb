@@ -139,6 +139,7 @@ Public Class FrmMccMilkTransferPrice
     End Sub
     Private Function AllowToSave(ByVal trans As SqlTransaction) As Boolean
         Try
+            Xtra.TransactionValidity(dtpPriceDate.Value)
             ' KUNAL > TICKET : BM00000009575 =====
             If AllowFutureDateTransaction(dtpPriceDate.Value, trans) = False Then
                 dtpPriceDate.Focus()

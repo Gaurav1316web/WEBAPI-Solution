@@ -495,6 +495,7 @@ Public Class FrmMakePayment
 
     Private Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(dtDocDate.Value)
             If MasterTemplate.Rows.Count <= 0 Then
                 Throw New Exception("Please insert atleast single account in grid.")
             Else

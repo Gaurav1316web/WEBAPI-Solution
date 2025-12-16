@@ -1636,6 +1636,7 @@ Public Class frmAssetWork
     End Sub
 
     Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtDate.Value)
         '===============Preeti Gupta==================================
         If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
             txtDate.Select()

@@ -1900,6 +1900,7 @@ Public Class frmScrapSaleReturn
 
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(dtpshipment.Value)
             If AllowFutureDateTransaction(dtpshipment.Value, Nothing) = False Then
                 dtppost.Focus()
                 Return False
@@ -1917,14 +1918,14 @@ Public Class frmScrapSaleReturn
                 'check Qty sanjay
                 Dim PendingQty As Decimal = 0
                 Dim dtAllData As DataTable = Nothing
-                Dim qry As String = "select * from (select CAST(0 as bit) as Sel,code,ICode,max(IName) as IName ,max(Unit)as Unit,max(Location) as Location,MAX (TSPL_LOCATION_MASTER.Location_Desc) as LocationName ,SUM(Qty* case when RI=1 then 1 else 0 end) as ShipmentQty ,SUM(Qty* case when RI=-1 then 1 else 0 end) as ReturnQty ,SUM(Unapproved) as UnapprovedQty ,SUM((Qty *RI)- Unapproved) as PendingQty ,MAX(Rate) as Rate,max(TransDate) as TransDate,max(final.Customer) as Customer,MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as CustomerName,MAX(Specification) as Specification from  ( " + Environment.NewLine & _
+                Dim qry As String = "select * from (select CAST(0 as bit) as Sel,code,ICode,max(IName) as IName ,max(Unit)as Unit,max(Location) as Location,MAX (TSPL_LOCATION_MASTER.Location_Desc) as LocationName ,SUM(Qty* case when RI=1 then 1 else 0 end) as ShipmentQty ,SUM(Qty* case when RI=-1 then 1 else 0 end) as ReturnQty ,SUM(Unapproved) as UnapprovedQty ,SUM((Qty *RI)- Unapproved) as PendingQty ,MAX(Rate) as Rate,max(TransDate) as TransDate,max(final.Customer) as Customer,MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as CustomerName,MAX(Specification) as Specification from  ( " + Environment.NewLine &
                " select TSPL_SCRAPSALE_DETAIL.shipment_No as Code,TSPL_SCRAPSALE_head.cust_Code as Customer,TSPL_SCRAPSALE_DETAIL.Item_Code as ICode,TSPL_SCRAPSALE_DETAIL.Item_Desc as IName,TSPL_SCRAPSALE_DETAIL.shipped_Qty as Qty,0 as Unapproved,TSPL_SCRAPSALE_DETAIL.Unit_Code as Unit,TSPL_SCRAPSALE_HEAD.Loc_Code as Location,1 as RI,TSPL_SCRAPSALE_DETAIL.ItemAmt as Rate,1 as Chk,TSPL_SCRAPSALE_head.shipment_Date as TransDate,TSPL_SCRAPSALE_DETAIL.Specification  from TSPL_SCRAPSALE_DETAIL left outer join TSPL_SCRAPSALE_HEAD on TSPL_SCRAPSALE_HEAD.shipment_No=TSPL_SCRAPSALE_DETAIL.shipment_No where  TSPL_SCRAPSALE_head.ispost=1  "
                 If clsCommon.myLen(fndcustNo.Value) > 0 Then
                     qry += "and TSPL_SCRAPSALE_head.cust_Code='" + fndcustNo.Value + "'" + Environment.NewLine
                 End If
 
 
-                qry += " union all" + Environment.NewLine & _
+                qry += " union all" + Environment.NewLine &
                 " select TSPL_SCRAPSALE_detail_Return.Shipment_No as Code,TSPL_SCRAPSALE_head_Return.cust_code as Customer,TSPL_SCRAPSALE_detail_Return.Item_Code as ICode,TSPL_SCRAPSALE_detail_Return.Item_Desc as IName,TSPL_SCRAPSALE_detail_Return.shipped_Qty as Qty,0 as Unapproved,'' as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,null as TransDate ,TSPL_SCRAPSALE_detail_Return.Specification  from TSPL_SCRAPSALE_detail_Return left outer join TSPL_SCRAPSALE_head_Return on TSPL_SCRAPSALE_head_Return.Document_No=TSPL_SCRAPSALE_detail_Return.Document_No where TSPL_SCRAPSALE_head_Return.ispost=1 and len(isnull(TSPL_SCRAPSALE_detail_Return.Shipment_No,''))>0    "
                 qry += " )Final left outer join TSPL_Customer_MASTER on TSPL_Customer_MASTER.cust_code=final.customer left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=Final.Location where 1=1 group by Code,ICode having SUM(Chk)>0 and (SUM(Qty *RI)-SUM(Unapproved)) >0) as xyz where 1=1 order by Code,ICode "
 
@@ -1933,7 +1934,7 @@ Public Class frmScrapSaleReturn
                 Dim result As DataRow() = dtAllData.Select("ICode ='" & clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value) & "' and Unit ='" & clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value) & "' and code = '" & txtShipmentNo.Value & "'")
                 If result.Count() > 0 Then
                     PendingQty = clsCommon.myCdbl(result(0)("PendingQty"))
-                  
+
                     If clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value) > PendingQty Then
                         clsCommon.MyMessageBoxShow(Me, "Can't enter more than shipped Quantity for Item-" & clsCommon.myCstr(gv1.Rows(ii).Cells(colIName).Value))
                         Return False
@@ -1976,7 +1977,7 @@ Public Class frmScrapSaleReturn
                 txtDocNo.Focus()
                 Return False
             End If
-          
+
 
             If isALlowVehicleGateOutValidation = True Then
                 If clsCommon.myLen(txtvehicle_mannual_no.Text) > 0 Then

@@ -147,6 +147,7 @@ Public Class frmMilkGateEntryWeighment
     End Sub
 
     Private Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtDate.Value)
         If clsCommon.myLen(txtGateEntryNo.Value) <= 0 Then
             txtGateEntryNo.Focus()
             errorControl.SetError(txtGateEntryNo, "Please select Gate Entry No")

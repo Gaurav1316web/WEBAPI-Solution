@@ -386,6 +386,7 @@ Public Class FrmOfferCheckList
     End Sub
     Private Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(TxtDate.Value)
             If fndaccountsetcode.Value = "" Then
                 myMessages.blankValue(Me, "Applicant Code", Me.Text)
 

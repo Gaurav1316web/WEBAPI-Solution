@@ -54,7 +54,7 @@ Public Class frmFarmerPaymentAdjEntry
             dtAdj.Focus()
             Return False
         End If
-
+        Xtra.TransactionValidity(dtAdj.Value)
         '====================Added by preeti gupta==================
         'clsLockMPPaymentCycle.LockMPTransaction(fndMCC_Code.Value, dtAdj.Value)
 

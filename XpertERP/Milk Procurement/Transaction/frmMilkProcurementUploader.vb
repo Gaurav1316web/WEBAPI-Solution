@@ -619,6 +619,7 @@ Public Class frmMilkProcurementUploader
     End Sub
 
     Private Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtDate.Value)
         For ii As Integer = 0 To gv1.RowCount - 1
             If clsCommon.myLen(gv1.Rows(ii).Cells(colVLCCode).Value) > 0 Then
                 If chkMilkReject.Checked Then

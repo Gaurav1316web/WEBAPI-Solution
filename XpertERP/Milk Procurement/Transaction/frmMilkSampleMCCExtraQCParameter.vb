@@ -272,8 +272,8 @@ Public Class frmMilkSampleMCCExtraQCParameter
     End Sub
 
     Function AllowToSave() As Boolean
-        Dim qry As String = "select Doc_code from tspl_milk_shift_end_head " + Environment.NewLine + _
-        "inner join (select Mcc_code,Doc_date,Shift from TSPL_MILK_SAMPLE_HEAD where Doc_Code='" + strSampleNo + "')x" + Environment.NewLine + _
+        Dim qry As String = "select Doc_code from tspl_milk_shift_end_head " + Environment.NewLine +
+        "inner join (select Mcc_code,Doc_date,Shift from TSPL_MILK_SAMPLE_HEAD where Doc_Code='" + strSampleNo + "')x" + Environment.NewLine +
         "on x.mcc_code=tspl_milk_shift_end_head.mcc_code and  x.shift=tspl_milk_shift_end_head.shift and  convert(date, x.Doc_date,103)=convert(date, tspl_milk_shift_end_head.Doc_date,103)"
         If clsCommon.myLen(clsDBFuncationality.getSingleValue(qry)) > 0 Then
             Throw New Exception("Shift End is Completed cannot Enter/Change any QC Parameter")

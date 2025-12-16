@@ -2078,6 +2078,8 @@ Public Class frmScrapSale
     Function AllowToSave() As Boolean
         'Try
         ' KUNAL > TICKET : BM00000009580 ========
+
+        Xtra.TransactionValidity(dtpshipment.Value)
         If AllowFutureDateTransaction(dtpshipment.Value, Nothing) = False Then
             dtppost.Focus()
             Return False

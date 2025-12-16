@@ -279,6 +279,7 @@ Public Class FrmGatePassFS
         '    txtVehicle.Focus()
         '    Return False
         'End If'KUNAL > TICKET : BM00000009580 > DATE :  18 - OCTOBER - 2016
+        Xtra.TransactionValidity(txtDate.Value)
         If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
             txtDate.Select()
             Return False

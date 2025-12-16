@@ -1545,7 +1545,7 @@ Public Class frmScrapInvoice
     End Sub
 
     Function AllowToSave() As Boolean
-
+        Xtra.TransactionValidity(dtpshipment.Value)
         UpdateAllTotals()
         If clsCommon.myLen(fndcustNo.Value) <= 0 Then
             common.clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)

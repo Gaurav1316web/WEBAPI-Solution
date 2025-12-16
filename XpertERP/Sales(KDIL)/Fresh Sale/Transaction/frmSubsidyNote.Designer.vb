@@ -203,7 +203,6 @@ Partial Class frmSubsidyNote
         Me.LblLocDesp.Name = "LblLocDesp"
         Me.LblLocDesp.Size = New System.Drawing.Size(410, 18)
         Me.LblLocDesp.TabIndex = 44
-        Me.LblLocDesp.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.LblLocDesp.TextWrap = False
         '
         'txtlocation
@@ -307,7 +306,6 @@ Partial Class frmSubsidyNote
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(731, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'btnClose
         '

@@ -38,6 +38,7 @@ Public Class FrmSupplierReg
 
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(dtpDate.Value)
             UcAttachment1.AllowToSave()
             btnsave.Focus()
             If clsCommon.myLen(TxtSupplierName.Text) <= 0 Then
@@ -45,7 +46,7 @@ Public Class FrmSupplierReg
                 TxtSupplierName.Focus()
                 Throw New Exception("Supplier name can not be left blank")
             End If
-            
+
             If clsCommon.myLen(TxtProduct.Text) <= 0 Then
                 Me.RadPageView1.SelectedPage = RadPageViewPage1
                 TxtProduct.Focus()

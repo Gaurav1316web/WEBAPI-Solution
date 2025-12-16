@@ -684,6 +684,7 @@ Public Class FrmQuickEntry1
 
     Private Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(dtDocDate.Value)
             If clsCommon.myLen(fndBankCode.Value) <= 0 Then
                 fndBankCode.Focus()
                 Throw New Exception("Please select Bank.")

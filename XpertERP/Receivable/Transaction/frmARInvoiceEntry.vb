@@ -2076,6 +2076,7 @@ Public Class FrmARInvoiceEntry
     Function AllowToSave() As Boolean
         Try
             btnSave.Focus()
+            Xtra.TransactionValidity(txtDate.Value)
             '========================Added by Preeti Gupta[01/02/2017]==============
             If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
                 txtDate.Focus()

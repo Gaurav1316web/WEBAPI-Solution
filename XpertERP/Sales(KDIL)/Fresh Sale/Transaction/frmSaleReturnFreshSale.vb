@@ -3401,7 +3401,7 @@ Public Class frmSaleReturnFreshSale
     Function AllowToSave() As Boolean
         Try
 
-
+            Xtra.TransactionValidity(txtDate.Value)
             'KUNAL > TICKET : BM00000009580 > DATE :  18 - OCTOBER - 2016
             If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
                 txtDate.Select()

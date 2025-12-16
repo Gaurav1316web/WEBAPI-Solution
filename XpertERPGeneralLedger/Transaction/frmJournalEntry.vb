@@ -203,6 +203,7 @@ Public Class frmJournalEntry
     '=================Added by preeti Gupta [02/02/2017]
     Function AllowToSave1() As Boolean
         Try
+            Xtra.TransactionValidity(dtVoucher.Value)
             If AllowFutureDateTransaction(dtVoucher.Value, Nothing) = False Then
                 dtVoucher.Focus()
                 Return False

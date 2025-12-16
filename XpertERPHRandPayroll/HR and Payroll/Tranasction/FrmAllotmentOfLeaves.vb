@@ -20,7 +20,7 @@ Public Class FrmAllotmentOfLeaves
     Dim Qry As String
 
     Private Function AllowToSave() As Boolean
-
+        Xtra.TransactionValidity(txtDate.Value)
         If clsCommon.myLen(fndLocation.Value) <= 0 Then
             RadMessageBox.Show("Please select Location Code")
             fndLocation.Focus()
