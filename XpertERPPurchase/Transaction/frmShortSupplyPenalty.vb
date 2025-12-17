@@ -486,6 +486,7 @@ where TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_TENDER
 
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
                 txtBillToLocation.Focus()
                 Throw New Exception("Please select " + txtBillToLocation.MyLinkLable1.Text)

@@ -753,6 +753,7 @@ Public Class FrmSalesOrderBS_Pavitra
         SaveData()
     End Sub
     Private Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtSOdate.Value)
         '===============Preeti==================================
         If AllowFutureDateTransaction(txtSOdate.Value, Nothing) = False Then
             txtSOdate.Select()

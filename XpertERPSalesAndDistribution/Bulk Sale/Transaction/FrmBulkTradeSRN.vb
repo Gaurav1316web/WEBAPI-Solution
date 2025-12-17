@@ -579,7 +579,7 @@ Public Class FrmBulkTradeSRN
     End Sub
     Private Function AllowToSave() As Boolean
         Dim desc As String = String.Empty
-
+        Xtra.TransactionValidity(txtDate.Value)
         If clsCommon.myLen(FndVendor.Value) <= 0 Then
             FndVendor.Focus()
             Throw New Exception("Vendor cannot be left blank")

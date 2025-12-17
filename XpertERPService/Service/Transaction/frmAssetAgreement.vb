@@ -291,6 +291,7 @@ Public Class FrmAssetAgreement
     End Sub
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             If clsCommon.CompairString(txtDate.Value.ToString, "") = CompairStringResult.Equal Then
                 Throw New Exception("Invalid Document Date")
             End If

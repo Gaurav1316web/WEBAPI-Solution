@@ -236,6 +236,7 @@ Public Class frmRMDemandApproval
     End Sub
     Function AllowToSave(ByVal trans As SqlTransaction) As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             UcAttachment1.AllowToSave()
             'If clsCommon.myLen(txtDocNo.Value) <= 0 Then
             '    common.clsCommon.MyMessageBoxShow(Me, "Please Enter Tender No", Me.Text)

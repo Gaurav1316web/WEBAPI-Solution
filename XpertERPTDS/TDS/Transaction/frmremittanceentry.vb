@@ -311,7 +311,7 @@ Public Class Frmremittanceentry
 
     Public Function AllowToSave() As Boolean
 
-
+        Xtra.TransactionValidity(dtpremittancedate.Value)
         If btnsave.Text = "Update" Then
             Dim strchk As String = "select Posted from TSPL_REMITTANCE_ENTRY where Remittance_Code='" + fndremittance.Value + "'"
             Dim chkpost As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strchk))

@@ -296,6 +296,7 @@ Public Class frmRALNOC
     End Sub
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             'For ii As Integer = 0 To gvSchedule.Rows.Count - 1
             '    If clsCommon.myCBool(gvSchedule.Rows(ii).Cells("UserStatus").Value) Then
             '        If clsCommon.myCDecimal(gvSchedule.Rows(ii).Cells("FinalStatus").Value) = 0 Then

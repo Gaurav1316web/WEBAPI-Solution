@@ -152,7 +152,7 @@ Public Class frmBulkSaleFreightCalculation
     End Sub
 
     Function AllowToSave() As Boolean
-
+        Xtra.TransactionValidity(txtdate.Value)
         'If clsCommon.myLen(txtDescription.Text) <= 0 Then
         '    txtDescription.Focus()
         '    Throw New Exception("Description can't be blank.")

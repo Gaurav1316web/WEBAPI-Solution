@@ -63,7 +63,7 @@ Public Class FrmServiceEnquiry
     Function AllowToSave() As Boolean
         Try
             btnsave.Focus()
-
+            Xtra.TransactionValidity(dtpDate.Value)
             If clsCommon.myLen(TxtCustGrp.Value) <= 0 Then
                 clsCommon.MyMessageBoxShow("Please fill customer group")
                 TxtCustGrp.Focus()

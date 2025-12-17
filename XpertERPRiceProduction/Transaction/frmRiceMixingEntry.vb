@@ -366,6 +366,7 @@ Public Class FrmRiceMixingEntry
 
     Private Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(dtpDate.Value)
             If clsCommon.myLen(txtfrm_loc_code.Value) <= 0 Then
                 RadPageView1.SelectedPage = RadPageViewPage1
                 txtfrm_loc_code.Select()

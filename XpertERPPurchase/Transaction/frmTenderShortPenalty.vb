@@ -104,6 +104,7 @@ Public Class frmTenderShortPenalty
     End Sub
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             For ii As Integer = 0 To gv1.Rows.Count - 1
                 If clsCommon.myCBool(gv1.Rows(ii).Cells("UserStatus").Value) Then
                     If clsCommon.myCDecimal(gv1.Rows(ii).Cells("FinalStatus").Value) = 0 Then

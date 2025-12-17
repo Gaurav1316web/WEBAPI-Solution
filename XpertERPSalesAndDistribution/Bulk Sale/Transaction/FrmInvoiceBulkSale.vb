@@ -1745,7 +1745,7 @@ Public Class FrmInvoiceBulkSale
         Dim desc As String = ""
         Dim InvoiceQty As Double = 0
         Dim DispatchQty As Double = 0
-
+        Xtra.TransactionValidity(txtDate.Value)
         ' KUNAL > TICKET : BM00000009609 > Modified Date : 22-09-2016
         If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
             txtDate.Select()

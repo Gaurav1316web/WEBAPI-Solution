@@ -796,6 +796,7 @@ Public Class frmAssetDispatch
 
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             If btnSave.Text = "Update" Then
                 Dim strchk As String = "select Status from TSPL_RGP_HEAD where RGP_No='" + txtDocNo.Value + "'"
                 Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk)

@@ -874,6 +874,7 @@ WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)
     End Sub
     Private Function AllowToSave() As Boolean 'ByVal isPost As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             Dim obj As New clsRMProcessLoss()
             If AllowFutureDateTransaction(docDate.Value, Nothing) = False Then
                 docDate.Focus()
