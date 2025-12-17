@@ -140,22 +140,22 @@ Public Class rptSaleInvoiceStatusReport
         CASE WHEN EXISTS ( SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD 
         LEFT JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
         WHERE TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
-          AND TSPL_SD_SHIPMENT_HEAD.Against_Booking_No IS NOT NULL AND ISNULL(TSPL_BOOKING_MATSER.Is_APS,0) = 0) THEN 'Customer Booking'
+          AND TSPL_SD_SHIPMENT_HEAD.Against_Booking_No IS NOT NULL)  And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC'  THEN 'CUSTOMER BOOKING'
 		  WHEN EXISTS (SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD 
         LEFT JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
         WHERE TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
           AND TSPL_SD_SHIPMENT_HEAD.Against_Booking_No IS NULL AND ISNULL(TSPL_BOOKING_MATSER.Is_APS,0) = 0
-          AND TSPL_SD_SHIPMENT_HEAD.Item_Type = 'S') THEN 'DISPATCH'
+          AND TSPL_SD_SHIPMENT_HEAD.Item_Type = 'S') And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' THEN 'DISPATCH'
 		  WHEN EXISTS (SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD 
         LEFT JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
         WHERE TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
           AND TSPL_SD_SHIPMENT_HEAD.Against_Booking_No IS NULL AND ISNULL(TSPL_BOOKING_MATSER.Is_APS,0) = 0
-          AND TSPL_SD_SHIPMENT_HEAD.Item_Type In ('P','I')) THEN 'PRODUCT DISPATCH'
+          AND TSPL_SD_SHIPMENT_HEAD.Item_Type In ('P','I')) And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' THEN 'PRODUCT DISPATCH'
 		  WHEN EXISTS (SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD 
 		  LEFT JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
         WHERE TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
-          AND TSPL_SD_SHIPMENT_HEAD.Against_Booking_No IS NULL AND (TSPL_BOOKING_MATSER.Is_APS=1 OR TSPL_SD_SHIPMENT_HEAD.Screen_Type= ('CT'))) THEN 'SALES ORDER DISPATCH'
-		  ELSE 'MATERIAL SALE' END AS Transcation_Type,
+          AND TSPL_SD_SHIPMENT_HEAD.Against_Booking_No IS NULL AND (TSPL_BOOKING_MATSER.Is_APS=1 OR TSPL_SD_SHIPMENT_HEAD.Screen_Type= ('CT'))) And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' THEN 'APS SALES'
+		  ELSE 'DCS SALE' END AS Transcation_Type,
 case when TSPL_SD_SALE_INVOICE_HEAD.Status=1 then 'Approved' else'Pending' end as Doc_Status,
 TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location AS [Location],
 TSPL_SD_SALE_INVOICE_HEAD.Sub_Location_code AS [Sub Location],
@@ -257,7 +257,7 @@ where convert(date,Document_Date,103)>=Convert( Date,'" + strtxtfDate + "',103) 
 
             Baseqry += "            union all
 
-select  '' as Transcation_Type,case when TSPL_SCRAPINVOICE_HEAD.Status=1 then 'Approved' else'Pending' end as Doc_Status,
+select  'MATERIAL SALE' as Transcation_Type,case when TSPL_SCRAPINVOICE_HEAD.Status=1 then 'Approved' else'Pending' end as Doc_Status,
 TSPL_SCRAPINVOICE_HEAD.Loc_Code AS [Location],
 TSPL_SCRAPINVOICE_HEAD.Sub_Location_code AS [Sub Location],
 Convert(varchar(20),TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) as Invoice_Date,
@@ -378,22 +378,24 @@ TSPL_SCRAPINVOICE_Detail.Unit_code as [Measure of Qty],
 select  CASE WHEN EXISTS ( SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD_Cancel_Data 
         LEFT JOIN TSPL_BOOKING_MATSER_Cancel_Data ON TSPL_BOOKING_MATSER_Cancel_Data.Document_No = TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_Booking_No
         WHERE TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_Code = TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Against_Shipment_No
-          AND TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_Booking_No IS NOT NULL AND ISNULL(TSPL_BOOKING_MATSER_Cancel_Data.Is_APS,0) = 0) THEN 'Customer Booking'
+          AND TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_Booking_No IS NOT NULL) 
+        And TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Trans_Type <> 'MCC' THEN 'CUSTOMER BOOKING'
 		  WHEN EXISTS (SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD_Cancel_Data 
         LEFT JOIN TSPL_BOOKING_MATSER_Cancel_Data ON TSPL_BOOKING_MATSER_Cancel_Data.Document_No = TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_Booking_No
         WHERE TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_Code = TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Against_Shipment_No
           AND TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_Booking_No IS NULL AND ISNULL(TSPL_BOOKING_MATSER_Cancel_Data.Is_APS,0) = 0
-          AND TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Item_Type = 'S') THEN 'DISPATCH'
+          AND TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Item_Type = 'S') And TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Trans_Type <> 'MCC' THEN 'DISPATCH'
 		  WHEN EXISTS (SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD_Cancel_Data 
         LEFT JOIN TSPL_BOOKING_MATSER_Cancel_Data ON TSPL_BOOKING_MATSER_Cancel_Data.Document_No = TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_Booking_No
         WHERE TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_Code = TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Against_Shipment_No
           AND TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_Booking_No IS NULL AND ISNULL(TSPL_BOOKING_MATSER_Cancel_Data.Is_APS,0) = 0
-          AND TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Item_Type In ('P','I')) THEN 'PRODUCT DISPATCH'
+          AND TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Item_Type In ('P','I')) And TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Trans_Type <> 'MCC' THEN 'PRODUCT DISPATCH'
 		  WHEN EXISTS (SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD_Cancel_Data 
 		  LEFT JOIN TSPL_BOOKING_MATSER_Cancel_Data ON TSPL_BOOKING_MATSER_Cancel_Data.Document_No = TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_Booking_No
         WHERE TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_Code = TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Against_Shipment_No
-          AND TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_Booking_No IS NULL AND (TSPL_BOOKING_MATSER_Cancel_Data.Is_APS=1 OR TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Screen_Type= ('CT'))) THEN 'SALES ORDER DISPATCH'
-		  ELSE 'MATERIAL SALE' END AS Transcation_Type,
+          AND TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_Booking_No IS NULL AND (TSPL_BOOKING_MATSER_Cancel_Data.Is_APS=1 OR TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Screen_Type= ('CT')))
+         And TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Trans_Type <> 'MCC' THEN 'APS SALES'
+		  ELSE 'DCS SALE' END AS Transcation_Type,
 case when TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Status=1 then 'Approved' else'Pending' end as Doc_Status,
 TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Bill_To_Location AS [Location],
 TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Sub_Location_code AS [Sub Location],
@@ -495,7 +497,7 @@ where convert(date,Document_Date,103)>=Convert( Date,'" + strtxtfDate + "',103) 
 
             BaseQryCancel += " union all
 
-select  '' as Transcation_Type,case when TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Status=1 then 'Approved' else'Pending' end as Doc_Status,
+select  'MATERIAL SALE' as Transcation_Type,case when TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Status=1 then 'Approved' else'Pending' end as Doc_Status,
 TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Loc_Code AS [Location],
 TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Sub_Location_code AS [Sub Location],
 Convert(varchar(20),TSPL_SCRAPINVOICE_HEAD_Cancel_Data.shipment_Date,103) as Invoice_Date,

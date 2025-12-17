@@ -377,7 +377,8 @@ where 1=1 "
                                     If rbtnRouteWise.IsChecked = True Then
                                         If isAdded Or i = 0 Then
                                             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
-                                                dtReport.Rows.Add("Dispatch Detail for BMC : " + clsCommon.myCstr(dtMCCDetailFilter.Rows(j).Item("Mcc_Code_VLC_Uploader")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, RejectRecovery, MCCSumQty, MCCAVGFAT, MCCAVGSNF, MCCSumFATKG, MCCSumSNFKG, MCCSumQty, MCCAVGFAT, MCCAVGSNF, MCCSumFATKG, MCCSumSNFKG)
+                                                'dtReport.Rows.Add("Dispatch Detail for BMC : " + clsCommon.myCstr(dtMCCDetailFilter.Rows(j).Item("Mcc_Code_VLC_Uploader")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, RejectRecovery, MCCSumQty, MCCAVGFAT, MCCAVGSNF, MCCSumFATKG, MCCSumSNFKG, MCCSumQty, MCCAVGFAT, MCCAVGSNF, MCCSumFATKG, MCCSumSNFKG)
+                                                dtReport.Rows.Add("Dispatch Detail for BMC : " + clsCommon.myCstr(dtMCCDetailFilter.Rows(j).Item("Mcc_Code_VLC_Uploader")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, MCCSumQty, MCCAVGFAT, MCCAVGSNF, MCCSumFATKG, MCCSumSNFKG, MCCSumQty, MCCAVGFAT, MCCAVGSNF, MCCSumFATKG, MCCSumSNFKG)
                                             Else
                                                 dtReport.Rows.Add("Dispatch Detail for BMC : " + clsCommon.myCstr(dtMCCDetailFilter.Rows(j).Item("Mcc_Code_VLC_Uploader")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, MCCSumQty, MCCAVGFAT, MCCAVGSNF, MCCSumFATKG, MCCSumSNFKG, MCCSumQty, MCCAVGFAT, MCCAVGSNF, MCCSumFATKG, MCCSumSNFKG)
                                             End If
@@ -467,7 +468,8 @@ where 1=1 "
 
                                     If isLastRoute Then
                                         dtReport.Rows.Add("Total Dispatch for Tanker : " + clsCommon.myCstr(dtMCCHeadFilter.Rows(i).Item("Route_Code")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, RouteSumQty1, DBNull.Value, DBNull.Value, RouteSumFATKG1, RouteSumSNFKG1, RouteHist_SumQty1, DBNull.Value, DBNull.Value, RouteHist_SumFATKG1, RouteHist_SumSNFKG1)
-                                        dtReport.Rows.Add("Receipt at dock for : ", DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, RouteSumQty2, DBNull.Value, DBNull.Value, RouteSumFATKG2, RouteSumSNFKG2, RouteHist_SumQty2, DBNull.Value, DBNull.Value, RouteHist_SumFATKG2, RouteHist_SumSNFKG2)
+                                        'dtReport.Rows.Add("Receipt at dock for : ", DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, RouteSumQty2, DBNull.Value, DBNull.Value, RouteSumFATKG2, RouteSumSNFKG2, RouteHist_SumQty2, DBNull.Value, DBNull.Value, RouteHist_SumFATKG2, RouteHist_SumSNFKG2)
+                                        dtReport.Rows.Add("Receipt at dock for : ", DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, RejectRecovery, RouteSumQty2, DBNull.Value, DBNull.Value, RouteSumFATKG2, RouteSumSNFKG2, RouteHist_SumQty2, DBNull.Value, DBNull.Value, RouteHist_SumFATKG2, RouteHist_SumSNFKG2)
                                         dtReport.Rows.Add("Variation : ", DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, RouteSumQty, DBNull.Value, DBNull.Value, RouteSumFATKG, RouteSumSNFKG, RouteHist_SumQty, DBNull.Value, DBNull.Value, RouteHist_SumFATKG, RouteHist_SumSNFKG)
                                     End If
                                 End If
