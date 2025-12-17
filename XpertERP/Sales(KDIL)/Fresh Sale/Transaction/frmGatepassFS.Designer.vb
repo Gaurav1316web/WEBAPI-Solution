@@ -22,9 +22,10 @@ Partial Class FrmGatePassFS
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.Gv1 = New common.UserControls.MyRadGridView()
         Me.lblSalesman = New common.Controls.MyLabel()
         Me.lblpaymentno = New common.Controls.MyLabel()
@@ -50,13 +51,13 @@ Partial Class FrmGatePassFS
         Me.txtVehicle = New common.UserControls.txtFinder()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSelect = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSalesman, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -82,11 +83,11 @@ Partial Class FrmGatePassFS
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSelect, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -94,13 +95,23 @@ Partial Class FrmGatePassFS
         '
         Me.Gv1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Gv1.Location = New System.Drawing.Point(0, 156)
+        '
+        '
+        '
+        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyExportFilePath = ""
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
+        Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(894, 319)
         Me.Gv1.TabIndex = 0
-        Me.Gv1.Text = "RadGridView1"
+        Me.Gv1.VarID = ""
         '
         'lblSalesman
         '
+        Me.lblSalesman.FieldName = Nothing
         Me.lblSalesman.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblSalesman.Location = New System.Drawing.Point(4, 58)
         Me.lblSalesman.Name = "lblSalesman"
@@ -110,6 +121,7 @@ Partial Class FrmGatePassFS
         '
         'lblpaymentno
         '
+        Me.lblpaymentno.FieldName = Nothing
         Me.lblpaymentno.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblpaymentno.Location = New System.Drawing.Point(4, 6)
         Me.lblpaymentno.Name = "lblpaymentno"
@@ -187,18 +199,31 @@ Partial Class FrmGatePassFS
         '
         'txtLocDesc
         '
+        Me.txtLocDesc.CalculationExpression = Nothing
+        Me.txtLocDesc.FieldCode = Nothing
+        Me.txtLocDesc.FieldDesc = Nothing
+        Me.txtLocDesc.FieldMaxLength = 0
+        Me.txtLocDesc.FieldName = Nothing
         Me.txtLocDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocDesc.isCalculatedField = False
+        Me.txtLocDesc.IsSourceFromTable = False
+        Me.txtLocDesc.IsSourceFromValueList = False
+        Me.txtLocDesc.IsUnique = False
         Me.txtLocDesc.Location = New System.Drawing.Point(252, 33)
         Me.txtLocDesc.MaxLength = 200
         Me.txtLocDesc.MendatroryField = False
         Me.txtLocDesc.MyLinkLable1 = Me.MyLabel4
         Me.txtLocDesc.MyLinkLable2 = Nothing
         Me.txtLocDesc.Name = "txtLocDesc"
+        Me.txtLocDesc.ReferenceFieldDesc = Nothing
+        Me.txtLocDesc.ReferenceFieldName = Nothing
+        Me.txtLocDesc.ReferenceTableName = Nothing
         Me.txtLocDesc.Size = New System.Drawing.Size(474, 18)
         Me.txtLocDesc.TabIndex = 65
         '
         'MyLabel4
         '
+        Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel4.Location = New System.Drawing.Point(5, 32)
         Me.MyLabel4.Name = "MyLabel4"
@@ -208,6 +233,15 @@ Partial Class FrmGatePassFS
         '
         'txtLocCode
         '
+        Me.txtLocCode.CalculationExpression = Nothing
+        Me.txtLocCode.FieldCode = Nothing
+        Me.txtLocCode.FieldDesc = Nothing
+        Me.txtLocCode.FieldMaxLength = 0
+        Me.txtLocCode.FieldName = Nothing
+        Me.txtLocCode.isCalculatedField = False
+        Me.txtLocCode.IsSourceFromTable = False
+        Me.txtLocCode.IsSourceFromValueList = False
+        Me.txtLocCode.IsUnique = False
         Me.txtLocCode.Location = New System.Drawing.Point(93, 31)
         Me.txtLocCode.MendatroryField = True
         Me.txtLocCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -216,24 +250,40 @@ Partial Class FrmGatePassFS
         Me.txtLocCode.MyReadOnly = False
         Me.txtLocCode.MyShowMasterFormButton = False
         Me.txtLocCode.Name = "txtLocCode"
+        Me.txtLocCode.ReferenceFieldDesc = Nothing
+        Me.txtLocCode.ReferenceFieldName = Nothing
+        Me.txtLocCode.ReferenceTableName = Nothing
         Me.txtLocCode.Size = New System.Drawing.Size(153, 18)
         Me.txtLocCode.TabIndex = 64
         Me.txtLocCode.Value = ""
         '
         'txtComments
         '
+        Me.txtComments.CalculationExpression = Nothing
+        Me.txtComments.FieldCode = Nothing
+        Me.txtComments.FieldDesc = Nothing
+        Me.txtComments.FieldMaxLength = 0
+        Me.txtComments.FieldName = Nothing
         Me.txtComments.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtComments.isCalculatedField = False
+        Me.txtComments.IsSourceFromTable = False
+        Me.txtComments.IsSourceFromValueList = False
+        Me.txtComments.IsUnique = False
         Me.txtComments.Location = New System.Drawing.Point(92, 131)
         Me.txtComments.MaxLength = 200
         Me.txtComments.MendatroryField = False
         Me.txtComments.MyLinkLable1 = Me.MyLabel2
         Me.txtComments.MyLinkLable2 = Nothing
         Me.txtComments.Name = "txtComments"
+        Me.txtComments.ReferenceFieldDesc = Nothing
+        Me.txtComments.ReferenceFieldName = Nothing
+        Me.txtComments.ReferenceTableName = Nothing
         Me.txtComments.Size = New System.Drawing.Size(633, 18)
         Me.txtComments.TabIndex = 6
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.Location = New System.Drawing.Point(4, 136)
         Me.MyLabel2.Name = "MyLabel2"
@@ -243,18 +293,31 @@ Partial Class FrmGatePassFS
         '
         'txtRemarks
         '
+        Me.txtRemarks.CalculationExpression = Nothing
+        Me.txtRemarks.FieldCode = Nothing
+        Me.txtRemarks.FieldDesc = Nothing
+        Me.txtRemarks.FieldMaxLength = 0
+        Me.txtRemarks.FieldName = Nothing
         Me.txtRemarks.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRemarks.isCalculatedField = False
+        Me.txtRemarks.IsSourceFromTable = False
+        Me.txtRemarks.IsSourceFromValueList = False
+        Me.txtRemarks.IsUnique = False
         Me.txtRemarks.Location = New System.Drawing.Point(92, 106)
         Me.txtRemarks.MaxLength = 200
         Me.txtRemarks.MendatroryField = False
         Me.txtRemarks.MyLinkLable1 = Me.MyLabel3
         Me.txtRemarks.MyLinkLable2 = Nothing
         Me.txtRemarks.Name = "txtRemarks"
+        Me.txtRemarks.ReferenceFieldDesc = Nothing
+        Me.txtRemarks.ReferenceFieldName = Nothing
+        Me.txtRemarks.ReferenceTableName = Nothing
         Me.txtRemarks.Size = New System.Drawing.Size(633, 18)
         Me.txtRemarks.TabIndex = 5
         '
         'MyLabel3
         '
+        Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel3.Location = New System.Drawing.Point(4, 110)
         Me.MyLabel3.Name = "MyLabel3"
@@ -264,18 +327,31 @@ Partial Class FrmGatePassFS
         '
         'txtTransporter
         '
+        Me.txtTransporter.CalculationExpression = Nothing
+        Me.txtTransporter.FieldCode = Nothing
+        Me.txtTransporter.FieldDesc = Nothing
+        Me.txtTransporter.FieldMaxLength = 0
+        Me.txtTransporter.FieldName = Nothing
         Me.txtTransporter.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTransporter.isCalculatedField = False
+        Me.txtTransporter.IsSourceFromTable = False
+        Me.txtTransporter.IsSourceFromValueList = False
+        Me.txtTransporter.IsUnique = False
         Me.txtTransporter.Location = New System.Drawing.Point(92, 81)
         Me.txtTransporter.MaxLength = 200
         Me.txtTransporter.MendatroryField = False
         Me.txtTransporter.MyLinkLable1 = Me.MyLabel1
         Me.txtTransporter.MyLinkLable2 = Nothing
         Me.txtTransporter.Name = "txtTransporter"
+        Me.txtTransporter.ReferenceFieldDesc = Nothing
+        Me.txtTransporter.ReferenceFieldName = Nothing
+        Me.txtTransporter.ReferenceTableName = Nothing
         Me.txtTransporter.Size = New System.Drawing.Size(633, 18)
         Me.txtTransporter.TabIndex = 4
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel1.Location = New System.Drawing.Point(4, 84)
         Me.MyLabel1.Name = "MyLabel1"
@@ -285,20 +361,41 @@ Partial Class FrmGatePassFS
         '
         'lblVehicleDesc
         '
+        Me.lblVehicleDesc.CalculationExpression = Nothing
+        Me.lblVehicleDesc.FieldCode = Nothing
+        Me.lblVehicleDesc.FieldDesc = Nothing
+        Me.lblVehicleDesc.FieldMaxLength = 0
+        Me.lblVehicleDesc.FieldName = Nothing
         Me.lblVehicleDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblVehicleDesc.isCalculatedField = False
+        Me.lblVehicleDesc.IsSourceFromTable = False
+        Me.lblVehicleDesc.IsSourceFromValueList = False
+        Me.lblVehicleDesc.IsUnique = False
         Me.lblVehicleDesc.Location = New System.Drawing.Point(251, 57)
         Me.lblVehicleDesc.MaxLength = 200
         Me.lblVehicleDesc.MendatroryField = False
         Me.lblVehicleDesc.MyLinkLable1 = Me.lblSalesman
         Me.lblVehicleDesc.MyLinkLable2 = Nothing
         Me.lblVehicleDesc.Name = "lblVehicleDesc"
+        Me.lblVehicleDesc.ReferenceFieldDesc = Nothing
+        Me.lblVehicleDesc.ReferenceFieldName = Nothing
+        Me.lblVehicleDesc.ReferenceTableName = Nothing
         Me.lblVehicleDesc.Size = New System.Drawing.Size(474, 18)
         Me.lblVehicleDesc.TabIndex = 3
         '
         'txtDate
         '
+        Me.txtDate.CalculationExpression = Nothing
         Me.txtDate.CustomFormat = "dd/MM/yyyy  hh:mm tt"
+        Me.txtDate.FieldCode = Nothing
+        Me.txtDate.FieldDesc = Nothing
+        Me.txtDate.FieldMaxLength = 0
+        Me.txtDate.FieldName = Nothing
         Me.txtDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtDate.isCalculatedField = False
+        Me.txtDate.IsSourceFromTable = False
+        Me.txtDate.IsSourceFromValueList = False
+        Me.txtDate.IsUnique = False
         Me.txtDate.Location = New System.Drawing.Point(444, 4)
         Me.txtDate.MendatroryField = False
         Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -306,6 +403,9 @@ Partial Class FrmGatePassFS
         Me.txtDate.MyLinkLable2 = Nothing
         Me.txtDate.Name = "txtDate"
         Me.txtDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDate.ReferenceFieldDesc = Nothing
+        Me.txtDate.ReferenceFieldName = Nothing
+        Me.txtDate.ReferenceTableName = Nothing
         Me.txtDate.Size = New System.Drawing.Size(133, 20)
         Me.txtDate.TabIndex = 0
         Me.txtDate.TabStop = False
@@ -314,6 +414,7 @@ Partial Class FrmGatePassFS
         '
         'lblpaymentpostdate
         '
+        Me.lblpaymentpostdate.FieldName = Nothing
         Me.lblpaymentpostdate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblpaymentpostdate.Location = New System.Drawing.Point(354, 6)
         Me.lblpaymentpostdate.Name = "lblpaymentpostdate"
@@ -325,24 +426,38 @@ Partial Class FrmGatePassFS
         '
         Me.cmbitemtype.AutoCompleteDisplayMember = Nothing
         Me.cmbitemtype.AutoCompleteValueMember = Nothing
+        Me.cmbitemtype.CalculationExpression = Nothing
+        Me.cmbitemtype.DropDownAnimationEnabled = True
         Me.cmbitemtype.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem4.Text = "Select"
-        RadListDataItem5.Text = "Full"
-        RadListDataItem6.Text = "Empty"
-        Me.cmbitemtype.Items.Add(RadListDataItem4)
-        Me.cmbitemtype.Items.Add(RadListDataItem5)
-        Me.cmbitemtype.Items.Add(RadListDataItem6)
+        Me.cmbitemtype.FieldCode = Nothing
+        Me.cmbitemtype.FieldDesc = Nothing
+        Me.cmbitemtype.FieldMaxLength = 0
+        Me.cmbitemtype.FieldName = Nothing
+        Me.cmbitemtype.isCalculatedField = False
+        Me.cmbitemtype.IsSourceFromTable = False
+        Me.cmbitemtype.IsSourceFromValueList = False
+        Me.cmbitemtype.IsUnique = False
+        RadListDataItem1.Text = "Select"
+        RadListDataItem2.Text = "Full"
+        RadListDataItem3.Text = "Empty"
+        Me.cmbitemtype.Items.Add(RadListDataItem1)
+        Me.cmbitemtype.Items.Add(RadListDataItem2)
+        Me.cmbitemtype.Items.Add(RadListDataItem3)
         Me.cmbitemtype.Location = New System.Drawing.Point(645, 4)
         Me.cmbitemtype.MendatroryField = False
         Me.cmbitemtype.MyLinkLable1 = Me.lblfullempty
         Me.cmbitemtype.MyLinkLable2 = Nothing
         Me.cmbitemtype.Name = "cmbitemtype"
+        Me.cmbitemtype.ReferenceFieldDesc = Nothing
+        Me.cmbitemtype.ReferenceFieldName = Nothing
+        Me.cmbitemtype.ReferenceTableName = Nothing
         Me.cmbitemtype.Size = New System.Drawing.Size(80, 20)
         Me.cmbitemtype.TabIndex = 1
         Me.cmbitemtype.Visible = False
         '
         'lblfullempty
         '
+        Me.lblfullempty.FieldName = Nothing
         Me.lblfullempty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblfullempty.Location = New System.Drawing.Point(582, 6)
         Me.lblfullempty.Name = "lblfullempty"
@@ -353,6 +468,15 @@ Partial Class FrmGatePassFS
         '
         'txtVehicle
         '
+        Me.txtVehicle.CalculationExpression = Nothing
+        Me.txtVehicle.FieldCode = Nothing
+        Me.txtVehicle.FieldDesc = Nothing
+        Me.txtVehicle.FieldMaxLength = 0
+        Me.txtVehicle.FieldName = Nothing
+        Me.txtVehicle.isCalculatedField = False
+        Me.txtVehicle.IsSourceFromTable = False
+        Me.txtVehicle.IsSourceFromValueList = False
+        Me.txtVehicle.IsUnique = False
         Me.txtVehicle.Location = New System.Drawing.Point(92, 56)
         Me.txtVehicle.MendatroryField = True
         Me.txtVehicle.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -361,12 +485,16 @@ Partial Class FrmGatePassFS
         Me.txtVehicle.MyReadOnly = False
         Me.txtVehicle.MyShowMasterFormButton = False
         Me.txtVehicle.Name = "txtVehicle"
+        Me.txtVehicle.ReferenceFieldDesc = Nothing
+        Me.txtVehicle.ReferenceFieldName = Nothing
+        Me.txtVehicle.ReferenceTableName = Nothing
         Me.txtVehicle.Size = New System.Drawing.Size(153, 18)
         Me.txtVehicle.TabIndex = 2
         Me.txtVehicle.Value = ""
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(92, 4)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
@@ -404,6 +532,16 @@ Partial Class FrmGatePassFS
         Me.SplitContainer1.SplitterDistance = 475
         Me.SplitContainer1.TabIndex = 3
         '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint.Location = New System.Drawing.Point(79, 4)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(68, 24)
+        Me.btnPrint.TabIndex = 55
+        Me.btnPrint.Text = "Print"
+        '
         'RadSplitButton1
         '
         Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -417,15 +555,11 @@ Partial Class FrmGatePassFS
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "PrePrinted"
-        Me.RadMenuItem1.AccessibleName = "PrePrinted"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "PrePrinted"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Print"
-        Me.RadMenuItem2.AccessibleName = "Print"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Print"
         '
@@ -457,17 +591,6 @@ Partial Class FrmGatePassFS
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(894, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
-        '
-        'btnPrint
-        '
-        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(79, 4)
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(68, 24)
-        Me.btnPrint.TabIndex = 55
-        Me.btnPrint.Text = "Print"
         '
         'FrmGatePassFS
         '
@@ -508,11 +631,11 @@ Partial Class FrmGatePassFS
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSelect, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
