@@ -1118,6 +1118,7 @@ where TSPL_CUSTOMER_TENDER.Document_Code='" & strCode & "' and TSPL_CUSTOMER_TEN
     End Sub
     Function AllowToSave()
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             If clsCommon.myLen(txtRALNo.Value) <= 0 Then
                 Throw New Exception("Please select RAL No.")
             End If

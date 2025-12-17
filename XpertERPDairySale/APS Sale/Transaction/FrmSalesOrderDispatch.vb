@@ -1957,6 +1957,7 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
     Function AllowToSave() As Boolean
 
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             If clsCommon.myLen(txtOrderNo.Value) <= 0 Then
                 Throw New Exception("Please select Order No.")
             End If

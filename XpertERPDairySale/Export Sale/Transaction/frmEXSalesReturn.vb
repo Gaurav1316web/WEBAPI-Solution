@@ -3128,6 +3128,7 @@ Public Class frmEXSalesReturn
 
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
                 txtDate.Select()
                 Return False
@@ -3222,7 +3223,7 @@ Public Class frmEXSalesReturn
                     Return False
                 End If
             End If
-           
+
             Dim arrReqNo As New List(Of String)
             Dim arrICode As New List(Of String)()
             Dim strItemType As String = Nothing

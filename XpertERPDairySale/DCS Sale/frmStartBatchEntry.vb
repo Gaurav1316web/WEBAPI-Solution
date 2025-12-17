@@ -151,6 +151,7 @@ Public Class frmStartBatchEntry
         btnGo.Enabled = val
     End Sub
     Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtDocumentDate.Value)
         If Not objCommonVar.AutoGenrateBatchInventory Then
             If clsCommon.myLen(txtDefaultBatch.Text) = 0 Then
                 txtDefaultBatch.Focus()

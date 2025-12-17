@@ -800,7 +800,7 @@ Partial Class frmEXPorformaInvoice
         Me.TxtFinalGrossWeight.TabIndex = 162
         Me.TxtFinalGrossWeight.Text = "0"
         Me.TxtFinalGrossWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtFinalGrossWeight.Value = 0R
+        Me.TxtFinalGrossWeight.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel43
         '
@@ -837,7 +837,7 @@ Partial Class frmEXPorformaInvoice
         Me.txtGrossWeight.TabIndex = 160
         Me.txtGrossWeight.Text = "0"
         Me.txtGrossWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtGrossWeight.Value = 0R
+        Me.txtGrossWeight.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel42
         '
@@ -1148,7 +1148,7 @@ Partial Class frmEXPorformaInvoice
         Me.txtAdvance_Pers.TabIndex = 33
         Me.txtAdvance_Pers.Text = "0"
         Me.txtAdvance_Pers.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAdvance_Pers.Value = 0R
+        Me.txtAdvance_Pers.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtOthr_Instructn
         '
@@ -1631,7 +1631,7 @@ Partial Class frmEXPorformaInvoice
         Me.txtAmt_comm.TabIndex = 10
         Me.txtAmt_comm.Text = "0"
         Me.txtAmt_comm.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAmt_comm.Value = 0R
+        Me.txtAmt_comm.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtExporter_Ref_No
         '
@@ -2263,6 +2263,7 @@ Partial Class frmEXPorformaInvoice
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2271,6 +2272,7 @@ Partial Class frmEXPorformaInvoice
         Me.gv1.Size = New System.Drawing.Size(991, 38)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'RadLabel1
         '
@@ -2435,6 +2437,7 @@ Partial Class frmEXPorformaInvoice
         Me.gv_Notify_Party.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_Notify_Party.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv_Notify_Party.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv_Notify_Party.MyExportFilePath = ""
         Me.gv_Notify_Party.MyStopExport = False
         Me.gv_Notify_Party.Name = "gv_Notify_Party"
         Me.gv_Notify_Party.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2443,6 +2446,7 @@ Partial Class frmEXPorformaInvoice
         Me.gv_Notify_Party.Size = New System.Drawing.Size(975, 247)
         Me.gv_Notify_Party.TabIndex = 0
         Me.gv_Notify_Party.TabStop = False
+        Me.gv_Notify_Party.VarID = ""
         '
         'Grpjoint
         '
@@ -3200,6 +3204,7 @@ Partial Class frmEXPorformaInvoice
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3207,6 +3212,7 @@ Partial Class frmEXPorformaInvoice
         Me.gv2.Size = New System.Drawing.Size(990, 193)
         Me.gv2.TabIndex = 1
         Me.gv2.TabStop = False
+        Me.gv2.VarID = ""
         '
         'RdPaymentterms
         '
@@ -3267,7 +3273,7 @@ Partial Class frmEXPorformaInvoice
         Me.TxtCIF.TabIndex = 1496
         Me.TxtCIF.Text = "0"
         Me.TxtCIF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtCIF.Value = 0R
+        Me.TxtCIF.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblCIF
         '
@@ -3382,7 +3388,7 @@ Partial Class frmEXPorformaInvoice
         Me.TxtOnAccount.TabIndex = 1489
         Me.TxtOnAccount.Text = "0"
         Me.TxtOnAccount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtOnAccount.Value = 0R
+        Me.TxtOnAccount.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblonAccount
         '
@@ -3419,7 +3425,7 @@ Partial Class frmEXPorformaInvoice
         Me.txtRetained.TabIndex = 1487
         Me.txtRetained.Text = "0"
         Me.txtRetained.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtRetained.Value = 0R
+        Me.txtRetained.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblretained
         '
@@ -3456,7 +3462,7 @@ Partial Class frmEXPorformaInvoice
         Me.TxtBalancePayment.TabIndex = 1485
         Me.TxtBalancePayment.Text = "0"
         Me.TxtBalancePayment.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtBalancePayment.Value = 0R
+        Me.TxtBalancePayment.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblBalancePayment
         '
@@ -3493,7 +3499,7 @@ Partial Class frmEXPorformaInvoice
         Me.TxtLC.TabIndex = 1483
         Me.TxtLC.Text = "0"
         Me.TxtLC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtLC.Value = 0R
+        Me.TxtLC.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblLC
         '
@@ -3530,7 +3536,7 @@ Partial Class frmEXPorformaInvoice
         Me.TxtCAD.TabIndex = 1481
         Me.TxtCAD.Text = "0"
         Me.TxtCAD.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtCAD.Value = 0R
+        Me.TxtCAD.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblCad
         '
@@ -3567,7 +3573,7 @@ Partial Class frmEXPorformaInvoice
         Me.txtAdvance.TabIndex = 1479
         Me.txtAdvance.Text = "0"
         Me.txtAdvance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAdvance.Value = 0R
+        Me.txtAdvance.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblAdvance
         '
@@ -3754,6 +3760,7 @@ Partial Class frmEXPorformaInvoice
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvAC.MyExportFilePath = ""
         Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3762,6 +3769,7 @@ Partial Class frmEXPorformaInvoice
         Me.gvAC.Size = New System.Drawing.Size(995, 371)
         Me.gvAC.TabIndex = 1
         Me.gvAC.TabStop = False
+        Me.gvAC.VarID = ""
         '
         'RadLabel31
         '
@@ -3978,7 +3986,7 @@ Partial Class frmEXPorformaInvoice
         Me.txtDiscAmt.TabIndex = 6
         Me.txtDiscAmt.Text = "0"
         Me.txtDiscAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDiscAmt.Value = 0R
+        Me.txtDiscAmt.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtDiscPer
         '
@@ -4005,7 +4013,7 @@ Partial Class frmEXPorformaInvoice
         Me.txtDiscPer.TabIndex = 5
         Me.txtDiscPer.Text = "0"
         Me.txtDiscPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDiscPer.Value = 0R
+        Me.txtDiscPer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel5
         '
@@ -4055,7 +4063,7 @@ Partial Class frmEXPorformaInvoice
         Me.txtConversionRate.TabIndex = 1
         Me.txtConversionRate.Text = "1"
         Me.txtConversionRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtConversionRate.Value = 1.0R
+        Me.txtConversionRate.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'txtCurrencyCode
         '
