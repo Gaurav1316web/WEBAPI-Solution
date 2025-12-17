@@ -24,24 +24,25 @@ Partial Class FrmJoiningChecklist
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem
-        Me.RSaveLayout = New Telerik.WinControls.UI.RadMenuItem
-        Me.RDeleteLayout = New Telerik.WinControls.UI.RadMenuItem
-        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
-        Me.fndaccountsetcode = New common.UserControls.txtNavigator
-        Me.UcRequisitionDetail1 = New XpertERPHRandPayroll.ucRequisitionDetail
-        Me.UsLock1 = New common.usLock
-        Me.rdbtnreset = New Telerik.WinControls.UI.RadButton
-        Me.lblApplicantCode = New common.Controls.MyLabel
-        Me.lbldate = New common.Controls.MyLabel
-        Me.Txtdate = New common.Controls.MyDateTimePicker
-        Me.gv = New common.UserControls.MyRadGridView
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
-        Me.btnRejected = New Telerik.WinControls.UI.RadButton
-        Me.btnPost = New Telerik.WinControls.UI.RadButton
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.fndaccountsetcode = New common.UserControls.txtNavigator()
+        Me.UcRequisitionDetail1 = New XpertERPHRandPayroll.ucRequisitionDetail()
+        Me.UsLock1 = New common.usLock()
+        Me.rdbtnreset = New Telerik.WinControls.UI.RadButton()
+        Me.lblApplicantCode = New common.Controls.MyLabel()
+        Me.lbldate = New common.Controls.MyLabel()
+        Me.Txtdate = New common.Controls.MyDateTimePicker()
+        Me.gv = New common.UserControls.MyRadGridView()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnRejected = New Telerik.WinControls.UI.RadButton()
+        Me.btnPost = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
@@ -69,32 +70,22 @@ Partial Class FrmJoiningChecklist
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(820, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RSaveLayout, Me.RDeleteLayout})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
-        Me.RadMenuItem1.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RSaveLayout
         '
-        Me.RSaveLayout.AccessibleDescription = "SaveLayout"
-        Me.RSaveLayout.AccessibleName = "SaveLayout"
         Me.RSaveLayout.Name = "RSaveLayout"
         Me.RSaveLayout.Text = "SaveLayout"
-        Me.RSaveLayout.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RDeleteLayout
         '
-        Me.RDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.RDeleteLayout.AccessibleName = "Delete Layout"
         Me.RDeleteLayout.Name = "RDeleteLayout"
         Me.RDeleteLayout.Text = "Delete Layout"
-        Me.RDeleteLayout.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'SplitContainer2
         '
@@ -123,6 +114,7 @@ Partial Class FrmJoiningChecklist
         '
         'fndaccountsetcode
         '
+        Me.fndaccountsetcode.FieldName = Nothing
         Me.fndaccountsetcode.Location = New System.Drawing.Point(101, 12)
         Me.fndaccountsetcode.MendatroryField = True
         Me.fndaccountsetcode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -173,6 +165,7 @@ Partial Class FrmJoiningChecklist
         '
         'lblApplicantCode
         '
+        Me.lblApplicantCode.FieldName = Nothing
         Me.lblApplicantCode.Location = New System.Drawing.Point(12, 15)
         Me.lblApplicantCode.Name = "lblApplicantCode"
         Me.lblApplicantCode.Size = New System.Drawing.Size(83, 18)
@@ -181,6 +174,7 @@ Partial Class FrmJoiningChecklist
         '
         'lbldate
         '
+        Me.lbldate.FieldName = Nothing
         Me.lbldate.Location = New System.Drawing.Point(351, 15)
         Me.lbldate.Name = "lbldate"
         Me.lbldate.Size = New System.Drawing.Size(30, 18)
@@ -189,8 +183,17 @@ Partial Class FrmJoiningChecklist
         '
         'Txtdate
         '
+        Me.Txtdate.CalculationExpression = Nothing
         Me.Txtdate.CustomFormat = "dd-MM-yyyy"
+        Me.Txtdate.FieldCode = Nothing
+        Me.Txtdate.FieldDesc = Nothing
+        Me.Txtdate.FieldMaxLength = 0
+        Me.Txtdate.FieldName = Nothing
         Me.Txtdate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.Txtdate.isCalculatedField = False
+        Me.Txtdate.IsSourceFromTable = False
+        Me.Txtdate.IsSourceFromValueList = False
+        Me.Txtdate.IsUnique = False
         Me.Txtdate.Location = New System.Drawing.Point(387, 13)
         Me.Txtdate.MendatroryField = False
         Me.Txtdate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -198,6 +201,9 @@ Partial Class FrmJoiningChecklist
         Me.Txtdate.MyLinkLable2 = Nothing
         Me.Txtdate.Name = "Txtdate"
         Me.Txtdate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.Txtdate.ReferenceFieldDesc = Nothing
+        Me.Txtdate.ReferenceFieldName = Nothing
+        Me.Txtdate.ReferenceTableName = Nothing
         Me.Txtdate.Size = New System.Drawing.Size(79, 20)
         Me.Txtdate.TabIndex = 2
         Me.Txtdate.TabStop = False
@@ -214,17 +220,23 @@ Partial Class FrmJoiningChecklist
         Me.gv.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv.Location = New System.Drawing.Point(0, 0)
         '
-        'gv
+        '
         '
         Me.gv.MasterTemplate.AllowAddNewRow = False
         Me.gv.MasterTemplate.AllowDeleteRow = False
         Me.gv.MasterTemplate.EnableFiltering = True
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyExportFilePath = ""
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowGroupPanel = False
+        Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(820, 291)
         Me.gv.TabIndex = 4
-        Me.gv.Text = "gv"
+        Me.gv.VarID = ""
         '
         'SplitContainer1
         '

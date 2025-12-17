@@ -76,6 +76,7 @@ Public Class frmGeneralHolidays
         '    txtCode.Focus()
         '    Return False
         'Else
+        Xtra.TransactionValidity(dtpHolidayDate.Value)
         If clsCommon.myLen(txtAttendCode.Value) <= 0 Then
             myMessages.blankValue(Me, "Attendence Code", Me.Text)
             txtAttendCode.Focus()

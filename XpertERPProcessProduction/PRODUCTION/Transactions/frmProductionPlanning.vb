@@ -635,6 +635,7 @@ Public Class frmProductionPlanning
     End Function
 
     Function AllowToSave(Optional ByVal chk_post As Boolean = False) As Boolean
+        Xtra.TransactionValidity(dtpBOMDate.Value)
         '===================Added by preeti Gupta==============
         If AllowFutureDateTransaction(dtpBOMDate.Value, Nothing) = False Then
             dtpBOMDate.Select()

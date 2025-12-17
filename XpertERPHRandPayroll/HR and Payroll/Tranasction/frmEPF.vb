@@ -473,6 +473,7 @@ Public Class frmEPF
     Private Function AllowToSave() As Boolean 'ByVal isPost As Boolean
         Try
             Dim obj As New clsEPF()
+            Xtra.TransactionValidity(txtdocdate.Value)
             If AllowFutureDateTransaction(txtdocdate.Value, Nothing) = False Then
                 txtdocdate.Focus()
                 Return False

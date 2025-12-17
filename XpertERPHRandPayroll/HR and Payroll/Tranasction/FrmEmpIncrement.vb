@@ -423,6 +423,7 @@ Public Class FrmEmpIncrement
         End Try
     End Sub
     Private Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtIncrementDate.Value)
         '' Ticket No:BM00000007692 by Panch raj
         If clsCommon.myLen(fndEmpCode.Value) <= 0 Then
             RadMessageBox.Show("Please select Employee Code")

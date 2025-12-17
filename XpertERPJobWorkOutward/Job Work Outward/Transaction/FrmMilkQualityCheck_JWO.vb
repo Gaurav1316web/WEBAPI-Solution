@@ -611,6 +611,8 @@ Public Class FrmMilkQualityCheck_JWO
     End Sub
     Function allowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(dtpWeighmentDate.Value)
+
             If clsCommon.myLen(fndTankerNo.Value) <= 0 Then
                 Throw New Exception("Please enter Tanker No")
                 errorControl.SetError(fndTankerNo, "Please enter Tanker No")

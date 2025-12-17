@@ -332,6 +332,7 @@ Public Class frmDailyAttendance
         Return True
     End Function
     Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(dtpAttendanceDate.Value)
         If btnsave.Text = "Update" Then
             Dim QryStr As String = "select POSTED from TSPL_DAILY_ATTENDANCE where DLA_CODE = '" + txtCode.Value + "' "
             Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)

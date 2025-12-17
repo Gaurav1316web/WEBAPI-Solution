@@ -377,7 +377,7 @@ Public Class FrmFarmerServiceOrderWithRate
 
     Function AllowToSave() As Boolean
         Try
-
+            Xtra.TransactionValidity(dtpServiceOrderDate.Value)
             If clsCommon.myLen(txtServiceProviderType.Value) <= 0 Then
                 common.clsCommon.MyMessageBoxShow("Please select Service Provider Type.")
                 txtServiceProviderType.Focus()

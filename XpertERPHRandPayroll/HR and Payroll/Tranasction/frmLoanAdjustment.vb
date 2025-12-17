@@ -78,6 +78,7 @@ Public Class frmLoanAdjustment
     End Sub
 
     Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(dtpLoanAdjustDate.Value)
         If btnsave.Text = "Update" Then
             Dim QryStr As String = "select POSTED from TSPL_LOAN_ADJUSTMENT where LOANADJUSTMENT_CODE = '" + txtCode.Value + "' "
             Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)

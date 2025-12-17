@@ -326,6 +326,7 @@ Public Class frmProductionRequisition
 
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             '===================Added by preeti Gupta==============
             If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
                 txtDate.Select()

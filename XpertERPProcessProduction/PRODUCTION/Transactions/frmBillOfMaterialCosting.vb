@@ -1163,6 +1163,7 @@ Public Class frmBillOfMaterialCosting
         Return False
     End Function
     Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(dtpBOMDate.Value)
         If clsCommon.myLen(txtProducedItem.Value) <= 0 Then
             myMessages.blankValue(Me, "Main Item", Me.Text)
             txtProducedItem.Focus()

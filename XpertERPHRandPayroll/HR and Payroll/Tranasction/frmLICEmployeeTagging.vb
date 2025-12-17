@@ -281,6 +281,7 @@ Public Class frmLICEmployeeTagging
 
     End Sub
     Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtDate.Value)
         Return True
     End Function
 

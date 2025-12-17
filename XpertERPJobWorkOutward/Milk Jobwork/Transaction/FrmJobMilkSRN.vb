@@ -765,6 +765,7 @@ Public Class FrmJobMilkSRN
     End Sub
     Function allowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(dtpSRNDATE.Value)
             '===================Added by preeti Gupta==============
             If AllowFutureDateTransaction(dtpSRNDATE.Value, Nothing) = False Then
                 dtpSRNDATE.Select()

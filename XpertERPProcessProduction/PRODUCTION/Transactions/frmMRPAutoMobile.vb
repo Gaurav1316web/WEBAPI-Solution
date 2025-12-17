@@ -547,6 +547,7 @@ Public Class frmMRPAutoMobile
 
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(dtpMRPDate.Value)
             If btnsave.Text = "Update" Then
                 Dim QryStr As String = "select POSTED from TSPL_MRP_HEAD where MRP_Code = '" + txtCode.Value + "' "
                 Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)

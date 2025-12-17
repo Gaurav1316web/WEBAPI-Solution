@@ -1685,7 +1685,7 @@ Public Class FrmSRNJobWorkEstimate
     End Sub
 
     Function AllowToSave() As Boolean
-
+        Xtra.TransactionValidity(txtDocumentDate.Value)
         If AllowFutureDateTransaction(txtDocumentDate.Value, Nothing) = False Then
             txtDocumentDate.Focus()
             Return False

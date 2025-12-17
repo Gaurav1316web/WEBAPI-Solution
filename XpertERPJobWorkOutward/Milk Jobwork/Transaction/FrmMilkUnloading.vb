@@ -306,6 +306,7 @@ Public Class FrmMilkUnloading
     End Sub
     Function allowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(dtpUnloadingDateTime.Value)
             '===================Added by preeti Gupta==============
             If AllowFutureDateTransaction(dtpUnloadingDateTime.Value, Nothing) = False Then
                 dtpUnloadingDateTime.Select()

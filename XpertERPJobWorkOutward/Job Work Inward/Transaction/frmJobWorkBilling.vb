@@ -1539,6 +1539,7 @@ Public Class frmJobWorkBillig
 
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDocDate.Value)
             ' KUNAL > TICKET : BM00000009580 ========
             If AllowFutureDateTransaction(txtDocDate.Value, Nothing) = False Then
                 txtDocDate.Focus()

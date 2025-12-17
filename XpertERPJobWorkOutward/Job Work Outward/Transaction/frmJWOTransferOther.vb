@@ -1841,6 +1841,7 @@ Public Class frmJWOTransferOther
     End Sub
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, txtDocNo.Value)
             If clsCommon.myLen(txtFromLocation.Value) <= 0 Then
                 common.clsCommon.MyMessageBoxShow("From Location can not be blank.")

@@ -133,7 +133,7 @@ Public Class frmWeeklyHolidays
     End Sub
 
     Function AllowToSave() As Boolean
-
+        Xtra.TransactionValidity(dtpApplicableFrom.Value)
         'If clsCommon.myLen(txtCode.Value) <= 0 Then
         '    myMessages.blankValue("Code")
         '    txtCode.Focus()

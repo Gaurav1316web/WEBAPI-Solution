@@ -603,6 +603,7 @@ Public Class frmOutgoingQCEntry
     End Sub
     Private Function AllowToSave() As Boolean 'ByVal isPost As Boolean
         Try
+            Xtra.TransactionValidity(docDate.Value)
             Dim obj As New ClsOutgoingQcEntry()
             If AllowFutureDateTransaction(docDate.Value, Nothing) = False Then
                 docDate.Focus()

@@ -282,6 +282,7 @@ Public Class FrmLabourWorkingSheet
     End Sub
 
     Private Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtDate.Value)
         '===================Added by preeti Gupta==============
         If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
             txtDate.Select()

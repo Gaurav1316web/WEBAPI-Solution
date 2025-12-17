@@ -597,6 +597,8 @@ Public Class frmJWOGateEntry
     End Sub
     Function allowToSave() As Boolean
         Try
+
+            Xtra.TransactionValidity(dtpDateAndTimeBulk.Value)
             If rbtnTankerReceipt.IsChecked = False AndAlso rbtnSKU.IsChecked = False Then
                 errorControl.SetError(rbtnTankerReceipt, "Please Select Gate Entry Type Either Tanker Receipt or Sku Receipt ")
                 Throw New Exception("Please Select Gate Entry Type Either Tanker Receipt or Sku Receipt ")

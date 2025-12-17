@@ -303,6 +303,7 @@ Public Class FrmJWOSRN
 
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             If clsCommon.myLen(txtLocation.Value) <= 0 Then
                 txtLocation.Focus()
                 Throw New Exception("Please Select location")

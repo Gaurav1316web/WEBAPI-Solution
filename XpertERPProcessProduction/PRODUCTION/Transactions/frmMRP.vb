@@ -689,6 +689,7 @@ Public Class frmMRP
         End Try
     End Sub
     Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(dtpMRPDate.Value)
         '===================Added by preeti Gupta==============
         If AllowFutureDateTransaction(dtpMRPDate.Value, Nothing) = False Then
             dtpMRPDate.Select()

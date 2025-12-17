@@ -608,6 +608,7 @@ Public Class frmStoreIssue
     End Sub
 
     Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(dtpDate.Value)
         '===================Added by preeti Gupta==============
         If AllowFutureDateTransaction(dtpDate.Value, Nothing) = False Then
             dtpDate.Select()
