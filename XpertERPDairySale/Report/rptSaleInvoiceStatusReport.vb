@@ -257,7 +257,7 @@ where convert(date,Document_Date,103)>=Convert( Date,'" + strtxtfDate + "',103) 
 
             Baseqry += "            union all
 
-select  'MATERIAL SALE' as Transcation_Type,case when TSPL_SCRAPINVOICE_HEAD.Status=1 then 'Approved' else'Pending' end as Doc_Status,
+select  'MATERIAL SALE' as Transcation_Type,case when TSPL_SCRAPINVOICE_HEAD.ispost=1 then 'Approved' else'Pending' end as Doc_Status,
 TSPL_SCRAPINVOICE_HEAD.Loc_Code AS [Location],
 TSPL_SCRAPINVOICE_HEAD.Sub_Location_code AS [Sub Location],
 Convert(varchar(20),TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) as Invoice_Date,
@@ -497,7 +497,7 @@ where convert(date,Document_Date,103)>=Convert( Date,'" + strtxtfDate + "',103) 
 
             BaseQryCancel += " union all
 
-select  'MATERIAL SALE' as Transcation_Type,case when TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Status=1 then 'Approved' else'Pending' end as Doc_Status,
+select  'MATERIAL SALE' as Transcation_Type,case when TSPL_SCRAPINVOICE_HEAD_Cancel_Data.ispost=1 then 'Approved' else'Pending' end as Doc_Status,
 TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Loc_Code AS [Location],
 TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Sub_Location_code AS [Sub Location],
 Convert(varchar(20),TSPL_SCRAPINVOICE_HEAD_Cancel_Data.shipment_Date,103) as Invoice_Date,
@@ -720,7 +720,7 @@ where convert(date,Document_Date,103)>=Convert( Date,'" + strtxtfDate + "',103) 
                 qry = qryreturn
             ElseIf rbtnSummary.IsChecked AndAlso rdbSaleReturn.IsChecked Then
                 qry = " Select max(Transaction_Type)Transaction_Type,max(Doc_Status)Doc_Status,max(Location)Location,max([Sub Location])[Sub Location],max(Invoice_Date)Invoice_Date,Invoice_No,max([Party Name])[Party Name],
-                        max([GST No])[GST No],max([State Code])[State Code],max([Measure of Qty])[Measure of Qty],max([Product Qty])[Product Qty],Cast(Max([IGST Rate]) as decimal(10,2))[IGST Rate],Cast(sum([Basic Amt]) as Decimal(10,2))[Basic Amt],Cast(max(KKF) as decimal(10,2))KKF,Cast(sum([Mandi Tax Amt]) as Decimal(10,2))[Mandi Tax Amt],Cast(sum([Party TCS Amt]) as Decimal(10,2))[Party TCS Amt],
+                        max([GST No])[GST No],max([State Code])[State Code],max([Product Qty])[Product Qty],Cast(Max([IGST Rate]) as decimal(10,2))[IGST Rate],Cast(sum([Basic Amt]) as Decimal(10,2))[Basic Amt],Cast(max(KKF) as decimal(10,2))KKF,Cast(sum([Mandi Tax Amt]) as Decimal(10,2))[Mandi Tax Amt],Cast(sum([Party TCS Amt]) as Decimal(10,2))[Party TCS Amt],
                         Cast(sum([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(sum([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(sum([IGST Amt]) as decimal(10,2))[IGST Amt],cast(sum([Total Amt]) as decimal(10,2))[Total Amt],
                         max([B2B/B2C])[B2B/B2C] from (" + qryreturn + " )XX  group by xx.Invoice_No "
             End If
@@ -774,11 +774,11 @@ where convert(date,Document_Date,103)>=Convert( Date,'" + strtxtfDate + "',103) 
 
             gvData.Columns("Transcation_Type").HeaderText = "Transaction Type"
             gvData.Columns("Doc_Status").HeaderText = "Status"
-            gvData.Columns("Location").HeaderText = "Location"
-            gvData.Columns("Sub Location").HeaderText = "Sub Location"
+            'gvData.Columns("Location").HeaderText = "Location"
+            'gvData.Columns("Sub Location").HeaderText = "Sub Location"
             gvData.Columns("Invoice_Date").HeaderText = "Invoice Date"
             gvData.Columns("Invoice_No").HeaderText = "Invoice No"
-            gvData.Columns("Party Name").HeaderText = "Party Name"
+            'gvData.Columns("Party Name").HeaderText = "Party Name"
             'gvData.Columns("Transaction_Type").HeaderText = "Transaction Type"
             'gvData.Columns("Transaction_Type").HeaderText = "Transaction Type"
             'gvData.Columns("Transaction_Type").HeaderText = "Transaction Type"

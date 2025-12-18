@@ -148,6 +148,11 @@ Public Class clsCustomerInvoiceHead
     Public Form_ID As String = ""
     Public Route_No As String = ""
 
+    Public irn_no As String = Nothing
+    Public Ack_No As String = Nothing
+    Public QR_Code As String = Nothing
+    Public Ack_Date As DateTime?
+
     Public Is_Against_Security_Receipt As Boolean
     Public Against_Security_Receipt_No As String
     Public Against_Subsidy_No As String
@@ -155,6 +160,26 @@ Public Class clsCustomerInvoiceHead
     Public arrCustomFields As List(Of clsCustomFieldValues) = Nothing
 
 #End Region
+
+    Public Shared Function UpdateEInvoiceAfterPosting(ByVal obj As clsCustomerInvoiceHead, ByVal strDocumentNo As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            If obj IsNot Nothing And clsCommon.myLen(strDocumentNo) > 0 Then
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "IRN_No", obj.irn_no)
+                clsCommon.AddColumnsForChange(coll, "Ack_No", obj.Ack_No)
+                clsCommon.AddColumnsForChange(coll, "Ack_Date", clsCommon.GetPrintDate(obj.Ack_Date, "dd/MMM/yyyy hh:mm tt"))
+                clsCommon.AddColumnsForChange(coll, "QR_Code", obj.QR_Code)
+
+
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Customer_Invoice_HEAD", OMInsertOrUpdate.Update, "TSPL_Customer_Invoice_HEAD.Document_No='" + strDocumentNo + "'", trans)
+                '    clsCommon.AddColumnsForChange(coll, "Electronic_Ref_No", obj.Electronic_Ref_No)
+                '    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SCRAPSALE_HEAD", OMInsertOrUpdate.Update, "TSPL_SCRAPSALE_HEAD.shipment_No='" + ShipmentNo + "'", trans)
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
 
     Public Function SaveData(ByVal obj As clsCustomerInvoiceHead, ByVal isNewEntry As Boolean, ByVal FormId As String, Optional ByVal IsDirectEntry As Boolean = False) As Boolean
         Dim isSaved As Boolean = False
@@ -4957,6 +4982,8 @@ Public Class clsCustomerInvoiceDetail
         End If
         Return True
     End Function
+
+
 
 End Class
 
