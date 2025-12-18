@@ -8947,6 +8947,9 @@ Public Class MDI
                     Case clsUserMgtCode.FrmCmSambalYojanaSunsidy
                         frm = New FrmCmSambalYojanaSunsidy
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptDBTBankResponse
+                        frm = New rptDBTBankResponse
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptUnionMilkPurchase
                         frm = New rptUnionMilkRegister
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
