@@ -59813,6 +59813,28 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
         coll.Add("Modified_Date", "Datetime NOT NULL")
         clsCommonFunctionality.CreateOrAlterTable("TSPL_WEIGHING_MASTER", coll)
 
+        coll = New Dictionary(Of String, String)
+        coll.Add("PK_Id", "Integer Not NULL identity primary key")
+        coll.Add("Gate_Entry_Date", "DateTime NOT NULL")
+        coll.Add("Gate_Entry_Location_Code", "varchar(12) NOT null REFERENCES TSPL_LOCATION_MASTER(Location_Code)")
+        coll.Add("Gate_Entry_Type", "varchar  null ")
+        coll.Add("Type", "varchar(2) null")
+        coll.Add("Route_No", "varchar(30)  NULL REFERENCES TSPL_BULK_ROUTE_MASTER(Route_No)")
+        coll.Add("Vehicle_No", "varchar(12) NULL REFERENCES TSPL_VEHICLE_MASTER (Vehicle_Id)")
+        coll.Add("Vehicle_Desc", "varchar(50) null")
+        coll.Add("Vendor_Code", "varchar(12)  NULL REFERENCES TSPL_VENDOR_MASTER(Vendor_Code)")
+        coll.Add("Customer_Code", "varchar(12)  NULL REFERENCES TSPL_CUSTOMER_MASTER(Cust_Code)")
+        coll.Add("Location_Code", "varchar(12)   NULL REFERENCES TSPL_LOCATION_MASTER(Location_Code)")
+        coll.Add("Item_Code", "varchar  (50) NOT NULL REFERENCES TSPL_ITEM_MASTER(ITEM_CODE)")
+        coll.Add("Qty", "decimal (18, 2) NULL")
+        coll.Add("FAT", "decimal (18, 2) NULL")
+        coll.Add("SNF", "decimal (18, 2) NULL")
+        coll.Add("Created_By", "varchar(12) NOT NULL")
+        coll.Add("Created_Date", "Datetime NOT NULL")
+        coll.Add("Modified_By", "varchar(12) NOT NULL")
+        coll.Add("Modified_Date", "Datetime NOT NULL")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GATE_ENTRY", coll, "", True, True, "", "", "", True)
+
         Return True
     End Function
 
