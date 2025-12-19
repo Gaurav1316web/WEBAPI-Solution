@@ -22,7 +22,7 @@ Partial Class rptDBTBankResponse
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -53,6 +53,8 @@ Partial Class rptDBTBankResponse
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.rbtnSuccess = New common.Controls.MyRadioButton()
+        Me.rbtnFailed = New common.Controls.MyRadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -78,6 +80,8 @@ Partial Class rptDBTBankResponse
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnSuccess, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnFailed, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -126,6 +130,7 @@ Partial Class rptDBTBankResponse
         '
         'RadPanel1
         '
+        Me.RadPanel1.Controls.Add(Me.txtStatus)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox1)
         Me.RadPanel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPanel1.Location = New System.Drawing.Point(0, 0)
@@ -136,10 +141,11 @@ Partial Class rptDBTBankResponse
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox1.Controls.Add(Me.txtStatus)
         Me.RadGroupBox1.Controls.Add(Me.txtFarmerCode)
-        Me.RadGroupBox1.Controls.Add(Me.lblFarmerCode)
+        Me.RadGroupBox1.Controls.Add(Me.rbtnFailed)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel4)
+        Me.RadGroupBox1.Controls.Add(Me.rbtnSuccess)
+        Me.RadGroupBox1.Controls.Add(Me.lblFarmerCode)
         Me.RadGroupBox1.Controls.Add(Me.txtDcsCode)
         Me.RadGroupBox1.Controls.Add(Me.lblDcsCode)
         Me.RadGroupBox1.Controls.Add(Me.txtDoc)
@@ -160,7 +166,7 @@ Partial Class rptDBTBankResponse
         '
         Me.txtStatus.arrDispalyMember = Nothing
         Me.txtStatus.arrValueMember = Nothing
-        Me.txtStatus.Location = New System.Drawing.Point(108, 64)
+        Me.txtStatus.Location = New System.Drawing.Point(355, 237)
         Me.txtStatus.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtStatus.MyLinkLable1 = Me.MyLabel4
         Me.txtStatus.MyLinkLable2 = Nothing
@@ -168,12 +174,13 @@ Partial Class rptDBTBankResponse
         Me.txtStatus.Name = "txtStatus"
         Me.txtStatus.Size = New System.Drawing.Size(230, 19)
         Me.txtStatus.TabIndex = 453
+        Me.txtStatus.Visible = False
         '
         'MyLabel4
         '
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(5, 64)
+        Me.MyLabel4.Location = New System.Drawing.Point(6, 65)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(37, 18)
         Me.MyLabel4.TabIndex = 454
@@ -261,7 +268,7 @@ Partial Class rptDBTBankResponse
         Me.txtToDate.IsSourceFromTable = False
         Me.txtToDate.IsSourceFromValueList = False
         Me.txtToDate.IsUnique = False
-        Me.txtToDate.Location = New System.Drawing.Point(219, 9)
+        Me.txtToDate.Location = New System.Drawing.Point(226, 9)
         Me.txtToDate.MendatroryField = False
         Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtToDate.MyLinkLable1 = Nothing
@@ -290,7 +297,7 @@ Partial Class rptDBTBankResponse
         Me.txtFromDate.IsSourceFromTable = False
         Me.txtFromDate.IsSourceFromValueList = False
         Me.txtFromDate.IsUnique = False
-        Me.txtFromDate.Location = New System.Drawing.Point(77, 9)
+        Me.txtFromDate.Location = New System.Drawing.Point(84, 9)
         Me.txtFromDate.MendatroryField = False
         Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtFromDate.MyLinkLable1 = Nothing
@@ -309,7 +316,7 @@ Partial Class rptDBTBankResponse
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(167, 10)
+        Me.Label2.Location = New System.Drawing.Point(174, 10)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(46, 13)
         Me.Label2.TabIndex = 444
@@ -318,7 +325,7 @@ Partial Class rptDBTBankResponse
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(1, 12)
+        Me.Label1.Location = New System.Drawing.Point(8, 12)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(60, 13)
         Me.Label1.TabIndex = 443
@@ -369,7 +376,7 @@ Partial Class rptDBTBankResponse
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -451,6 +458,29 @@ Partial Class rptDBTBankResponse
         Me.btnReset.TabIndex = 156
         Me.btnReset.Text = "Reset"
         '
+        'rbtnSuccess
+        '
+        Me.rbtnSuccess.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnSuccess.Location = New System.Drawing.Point(108, 65)
+        Me.rbtnSuccess.MyLinkLable1 = Nothing
+        Me.rbtnSuccess.MyLinkLable2 = Nothing
+        Me.rbtnSuccess.Name = "rbtnSuccess"
+        Me.rbtnSuccess.Size = New System.Drawing.Size(59, 18)
+        Me.rbtnSuccess.TabIndex = 398
+        Me.rbtnSuccess.Text = "Success"
+        Me.rbtnSuccess.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'rbtnFailed
+        '
+        Me.rbtnFailed.Location = New System.Drawing.Point(216, 65)
+        Me.rbtnFailed.MyLinkLable1 = Nothing
+        Me.rbtnFailed.MyLinkLable2 = Nothing
+        Me.rbtnFailed.Name = "rbtnFailed"
+        Me.rbtnFailed.Size = New System.Drawing.Size(50, 18)
+        Me.rbtnFailed.TabIndex = 397
+        Me.rbtnFailed.TabStop = False
+        Me.rbtnFailed.Text = "Failed"
+        '
         'rptDBTBankResponse
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -490,6 +520,8 @@ Partial Class rptDBTBankResponse
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnSuccess, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnFailed, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -525,4 +557,6 @@ Partial Class rptDBTBankResponse
     Friend WithEvents lblDocumnetcode As common.Controls.MyLabel
     Friend WithEvents txtStatus As common.UserControls.txtMultiSelectFinder
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
+    Friend WithEvents rbtnSuccess As common.Controls.MyRadioButton
+    Friend WithEvents rbtnFailed As common.Controls.MyRadioButton
 End Class

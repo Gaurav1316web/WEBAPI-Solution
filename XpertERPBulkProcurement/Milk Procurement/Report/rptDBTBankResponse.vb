@@ -36,12 +36,25 @@ Public Class rptDBTBankResponse
                 Exit Sub
             End If
             Dim qry As String = ""
-            qry = "SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHT','JMBILL') ORDER BY [TSPL_APP_LOCATION].Location_Name"
+            qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 ORDER BY [TSPL_APP_LOCATION].Location_Name"
 
-            txtUnion.arrValueMember = clsCommon.ShowMultipleSelectForm("DBTPaymentDetail", qry, "DataBase_Name", "Location_Name", txtUnion.arrValueMember, txtUnion.arrDispalyMember)
+            txtUnion.arrValueMember = clsCommon.ShowMultipleSelectForm("DBTUnionPay", qry, "DataBase Name", "", txtUnion.arrValueMember, Nothing)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+        'Try
+        '    Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
+        '    If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
+        '        common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
+        '        Exit Sub
+        '    End If
+        '    Dim qry As String = ""
+        '    qry = "SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHT','JMBILL') ORDER BY [TSPL_APP_LOCATION].Location_Name"
+
+        '    txtUnion.arrValueMember = clsCommon.ShowMultipleSelectForm("DBTPaymentDetail", qry, "DataBase_Name", "Location_Name", txtUnion.arrValueMember, txtUnion.arrDispalyMember)
+        'Catch ex As Exception
+        '    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        'End Try
     End Sub
     Function chkDataBase() As Boolean
         Try
@@ -106,10 +119,10 @@ CONVERT(Varchar,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + 
 [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response,
 case when  [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response = 'STATUS : SUCCESS , STATUS DESCRIPTION : VALID DATA' then 1 else 0  end as Success_Farmer,case when 
   ([" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response  <> 'STATUS : SUCCESS , STATUS DESCRIPTION : VALID DATA') and (TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response IS NOT NULL) then 1  else 0 end as Failure_Farmer
-  ,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Ref_PK_Id as[Ref PK Id],
-  [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIl.Against_MP_Incentive_TR AS[Against MP Incentive TR],
-  [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIl.sno as [SNO],[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIl.Lot_No AS[LOT NO],[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.UKID AS [UKID]
-  ,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.DBT_Revise_Payment AS [DBT Revise Payment],[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Sanction_Number AS [Sanction Number],[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Sanction_Date AS [Sanction Date],[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Sanction_Amount AS [Sanction Amount]
+  ,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Ref_PK_Id ,
+  [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIl.Against_MP_Incentive_TR ,
+  [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIl.sno ,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIl.Lot_No,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.UKID 
+  ,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.DBT_Revise_Payment,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Sanction_Number,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Sanction_Date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Sanction_Amount
  from [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIl 
 left outer join [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT on [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Document_Code=[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Document_Code
 left outer join [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_detail on [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_detail.PK_Id=[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR
@@ -137,20 +150,24 @@ AND [JPR].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response LIKE '%STATUS : %'"
                 'If txtStatus.arrValueMember IsNot Nothing AndAlso txtStatus.arrValueMember.Count > 0 Then
                 '    baseqry += " and [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.status in (" + clsCommon.GetMulcallString(txtStatus.arrValueMember) + ") "
                 'End If
-                If txtStatus.arrValueMember IsNot Nothing AndAlso txtStatus.arrValueMember.Count > 0 Then
+                'If txtStatus.arrValueMember IsNot Nothing AndAlso txtStatus.arrValueMember.Count > 0 Then
 
-                    Dim statusText As String = clsCommon.myCstr(txtStatus.arrValueMember(0))
+                '    Dim statusText As String = clsCommon.myCstr(txtStatus.arrValueMember(0))
 
-                    If statusText = "APPROVED" Then
-                        baseqry += " AND [" & clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) &
-                                   "].[dbo].TSPL_DBT_NEFT.status = 1"
-                    ElseIf statusText = "PENDING" Then
-                        baseqry += " AND [" & clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) &
-                                   "].[dbo].TSPL_DBT_NEFT.status = 0"
-                    End If
+                '    If statusText = "APPROVED" Then
+                '        baseqry += " AND [" & clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) &
+                '                   "].[dbo].TSPL_DBT_NEFT.status = 1"
+                '    ElseIf statusText = "PENDING" Then
+                '        baseqry += " AND [" & clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) &
+                '                   "].[dbo].TSPL_DBT_NEFT.status = 0"
+                '    End If
 
+                'End If
+                If rbtnSuccess.IsChecked Then
+                    baseqry += " and  (CASE WHEN TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response LIKE '%STATUS : SUCCESS%' THEN 1 ELSE 0 END) = 1"
+                Else
+                    baseqry += " and (CASE WHEN TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response LIKE '%STATUS : SUCCESS%' THEN 1 ELSE 0 END) = 0"
                 End If
-
             Next
 
             'qry1 += "WITH CTE AS(" + baseqry + " )SELECT (UnionName)UnionName,  MonthYear,MonthName, COUNT(DISTINCT ID) As TotalID, COUNT(Case When RN = 1 Then 1 End) As NewID FROM CTE
@@ -195,6 +212,25 @@ AND [JPR].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response LIKE '%STATUS : %'"
             gv1.Columns("Success_Farmer").IsVisible = False
             gv1.Columns("Failure_Farmer").IsVisible = False
             gv1.Columns("status").IsVisible = False
+            gv1.Columns("status").IsVisible = False
+            gv1.Columns("Ref_PK_Id").IsVisible = False
+            gv1.Columns("Ref_PK_Id").HeaderText = "Ref PK Id"
+            gv1.Columns("Against_MP_Incentive_TR").IsVisible = False
+            gv1.Columns("Against_MP_Incentive_TR").HeaderText = "Against MP Incentive TR"
+            gv1.Columns("sno").IsVisible = False
+            gv1.Columns("sno").HeaderText = "sno"
+            gv1.Columns("Lot_No").IsVisible = False
+            gv1.Columns("Lot_No").HeaderText = "Lot_No"
+            gv1.Columns("UKID").IsVisible = False
+            gv1.Columns("UKID").HeaderText = "UKID"
+            gv1.Columns("DBT_Revise_Payment").IsVisible = False
+            gv1.Columns("DBT_Revise_Payment").HeaderText = "DBT Revise Payment"
+            gv1.Columns("Sanction_Number").IsVisible = False
+            gv1.Columns("Sanction_Number").HeaderText = "Sanction_Number"
+            gv1.Columns("Sanction_Date").IsVisible = False
+            gv1.Columns("Sanction_Date").HeaderText = "Sanction_Date"
+            gv1.Columns("Sanction_Amount").IsVisible = False
+            gv1.Columns("Sanction_Amount").HeaderText = "Sanction Amount"
         Next
         Dim summaryRowItemB As New GridViewSummaryRowItem()
         Dim Amount As New GridViewSummaryItem("Amount", "{0:n2}", GridAggregateFunction.Sum)
