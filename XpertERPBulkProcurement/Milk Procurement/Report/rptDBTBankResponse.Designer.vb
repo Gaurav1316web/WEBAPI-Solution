@@ -28,6 +28,14 @@ Partial Class rptDBTBankResponse
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtStatus = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.txtFarmerCode = New common.UserControls.txtMultiSelectFinder()
+        Me.lblFarmerCode = New common.Controls.MyLabel()
+        Me.txtDcsCode = New common.UserControls.txtMultiSelectFinder()
+        Me.lblDcsCode = New common.Controls.MyLabel()
+        Me.txtDoc = New common.UserControls.txtMultiSelectFinder()
+        Me.lblDocumnetcode = New common.Controls.MyLabel()
         Me.txtToDate = New common.Controls.MyDateTimePicker()
         Me.txtFromDate = New common.Controls.MyDateTimePicker()
         Me.Label2 = New System.Windows.Forms.Label()
@@ -42,7 +50,6 @@ Partial Class rptDBTBankResponse
         Me.rmDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.btnExcel = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
@@ -56,6 +63,10 @@ Partial Class rptDBTBankResponse
         Me.RadPanel1.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblFarmerCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDcsCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDocumnetcode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -125,6 +136,14 @@ Partial Class rptDBTBankResponse
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.txtStatus)
+        Me.RadGroupBox1.Controls.Add(Me.txtFarmerCode)
+        Me.RadGroupBox1.Controls.Add(Me.lblFarmerCode)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel4)
+        Me.RadGroupBox1.Controls.Add(Me.txtDcsCode)
+        Me.RadGroupBox1.Controls.Add(Me.lblDcsCode)
+        Me.RadGroupBox1.Controls.Add(Me.txtDoc)
+        Me.RadGroupBox1.Controls.Add(Me.lblDocumnetcode)
         Me.RadGroupBox1.Controls.Add(Me.txtToDate)
         Me.RadGroupBox1.Controls.Add(Me.txtFromDate)
         Me.RadGroupBox1.Controls.Add(Me.Label2)
@@ -134,8 +153,100 @@ Partial Class rptDBTBankResponse
         Me.RadGroupBox1.HeaderText = ""
         Me.RadGroupBox1.Location = New System.Drawing.Point(6, 13)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(347, 99)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(347, 170)
         Me.RadGroupBox1.TabIndex = 389
+        '
+        'txtStatus
+        '
+        Me.txtStatus.arrDispalyMember = Nothing
+        Me.txtStatus.arrValueMember = Nothing
+        Me.txtStatus.Location = New System.Drawing.Point(108, 64)
+        Me.txtStatus.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtStatus.MyLinkLable1 = Me.MyLabel4
+        Me.txtStatus.MyLinkLable2 = Nothing
+        Me.txtStatus.MyNullText = "All"
+        Me.txtStatus.Name = "txtStatus"
+        Me.txtStatus.Size = New System.Drawing.Size(230, 19)
+        Me.txtStatus.TabIndex = 453
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel4.Location = New System.Drawing.Point(5, 64)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(37, 18)
+        Me.MyLabel4.TabIndex = 454
+        Me.MyLabel4.Text = "Status"
+        '
+        'txtFarmerCode
+        '
+        Me.txtFarmerCode.arrDispalyMember = Nothing
+        Me.txtFarmerCode.arrValueMember = Nothing
+        Me.txtFarmerCode.Location = New System.Drawing.Point(108, 137)
+        Me.txtFarmerCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtFarmerCode.MyLinkLable1 = Me.lblFarmerCode
+        Me.txtFarmerCode.MyLinkLable2 = Nothing
+        Me.txtFarmerCode.MyNullText = "All"
+        Me.txtFarmerCode.Name = "txtFarmerCode"
+        Me.txtFarmerCode.Size = New System.Drawing.Size(230, 19)
+        Me.txtFarmerCode.TabIndex = 451
+        '
+        'lblFarmerCode
+        '
+        Me.lblFarmerCode.FieldName = Nothing
+        Me.lblFarmerCode.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblFarmerCode.Location = New System.Drawing.Point(5, 137)
+        Me.lblFarmerCode.Name = "lblFarmerCode"
+        Me.lblFarmerCode.Size = New System.Drawing.Size(70, 18)
+        Me.lblFarmerCode.TabIndex = 452
+        Me.lblFarmerCode.Text = "Farmer Code"
+        '
+        'txtDcsCode
+        '
+        Me.txtDcsCode.arrDispalyMember = Nothing
+        Me.txtDcsCode.arrValueMember = Nothing
+        Me.txtDcsCode.Location = New System.Drawing.Point(108, 113)
+        Me.txtDcsCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDcsCode.MyLinkLable1 = Me.lblDcsCode
+        Me.txtDcsCode.MyLinkLable2 = Nothing
+        Me.txtDcsCode.MyNullText = "All"
+        Me.txtDcsCode.Name = "txtDcsCode"
+        Me.txtDcsCode.Size = New System.Drawing.Size(230, 19)
+        Me.txtDcsCode.TabIndex = 449
+        '
+        'lblDcsCode
+        '
+        Me.lblDcsCode.FieldName = Nothing
+        Me.lblDcsCode.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDcsCode.Location = New System.Drawing.Point(5, 113)
+        Me.lblDcsCode.Name = "lblDcsCode"
+        Me.lblDcsCode.Size = New System.Drawing.Size(54, 18)
+        Me.lblDcsCode.TabIndex = 450
+        Me.lblDcsCode.Text = "Dcs Code"
+        '
+        'txtDoc
+        '
+        Me.txtDoc.arrDispalyMember = Nothing
+        Me.txtDoc.arrValueMember = Nothing
+        Me.txtDoc.Location = New System.Drawing.Point(108, 89)
+        Me.txtDoc.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDoc.MyLinkLable1 = Me.lblDocumnetcode
+        Me.txtDoc.MyLinkLable2 = Nothing
+        Me.txtDoc.MyNullText = "All"
+        Me.txtDoc.Name = "txtDoc"
+        Me.txtDoc.Size = New System.Drawing.Size(230, 19)
+        Me.txtDoc.TabIndex = 447
+        '
+        'lblDocumnetcode
+        '
+        Me.lblDocumnetcode.FieldName = Nothing
+        Me.lblDocumnetcode.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDocumnetcode.Location = New System.Drawing.Point(5, 89)
+        Me.lblDocumnetcode.Name = "lblDocumnetcode"
+        Me.lblDocumnetcode.Size = New System.Drawing.Size(94, 18)
+        Me.lblDocumnetcode.TabIndex = 448
+        Me.lblDocumnetcode.Text = "Documenet Code"
         '
         'txtToDate
         '
@@ -217,7 +328,7 @@ Partial Class rptDBTBankResponse
         '
         Me.txtUnion.arrDispalyMember = Nothing
         Me.txtUnion.arrValueMember = Nothing
-        Me.txtUnion.Location = New System.Drawing.Point(77, 40)
+        Me.txtUnion.Location = New System.Drawing.Point(108, 40)
         Me.txtUnion.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtUnion.MyLinkLable1 = Me.lblLocation
         Me.txtUnion.MyLinkLable2 = Nothing
@@ -297,7 +408,7 @@ Partial Class rptDBTBankResponse
         'RadSplitButton1
         '
         Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnExcel, Me.btnPDF})
+        Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnExcel})
         Me.RadSplitButton1.Location = New System.Drawing.Point(160, 10)
         Me.RadSplitButton1.Name = "RadSplitButton1"
         Me.RadSplitButton1.Size = New System.Drawing.Size(95, 22)
@@ -309,12 +420,6 @@ Partial Class rptDBTBankResponse
         Me.btnExcel.Name = "btnExcel"
         Me.btnExcel.Text = "Excel"
         Me.btnExcel.UseCompatibleTextRendering = False
-        '
-        'btnPDF
-        '
-        Me.btnPDF.Name = "btnPDF"
-        Me.btnPDF.Text = "PDF"
-        Me.btnPDF.UseCompatibleTextRendering = False
         '
         'btnClose
         '
@@ -370,6 +475,10 @@ Partial Class rptDBTBankResponse
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblFarmerCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDcsCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDocumnetcode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
@@ -389,7 +498,6 @@ Partial Class rptDBTBankResponse
     Friend WithEvents SplitContainer1 As SplitContainer
     Friend WithEvents RadSplitButton1 As RadSplitButton
     Friend WithEvents btnExcel As RadMenuItem
-    Friend WithEvents btnPDF As RadMenuItem
     Friend WithEvents btnClose As RadButton
     Friend WithEvents btnGo As RadButton
     Friend WithEvents btnReset As RadButton
@@ -409,4 +517,12 @@ Partial Class rptDBTBankResponse
     Friend WithEvents txtFromDate As common.Controls.MyDateTimePicker
     Friend WithEvents Label2 As Label
     Friend WithEvents Label1 As Label
+    Friend WithEvents txtFarmerCode As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents lblFarmerCode As common.Controls.MyLabel
+    Friend WithEvents txtDcsCode As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents lblDcsCode As common.Controls.MyLabel
+    Friend WithEvents txtDoc As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents lblDocumnetcode As common.Controls.MyLabel
+    Friend WithEvents txtStatus As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents MyLabel4 As common.Controls.MyLabel
 End Class
