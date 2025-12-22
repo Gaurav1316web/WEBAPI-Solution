@@ -59833,6 +59833,8 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
         coll.Add("Created_Date", "Datetime NOT NULL")
         coll.Add("Modified_By", "varchar(12) NOT NULL")
         coll.Add("Modified_Date", "Datetime NOT NULL")
+        coll.Add("FILE_INFO", "bigint NULL")
+        coll.Add("Status", "integer NOT NULL DEFAULT 0")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GATE_ENTRY", coll, "", True, True, "", "", "", True)
 
         Return True

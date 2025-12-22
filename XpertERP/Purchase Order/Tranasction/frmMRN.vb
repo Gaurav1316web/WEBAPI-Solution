@@ -3183,13 +3183,16 @@ Public Class frmMRN
         For Each grow As GridViewRowInfo In gv2.Rows
             Dim taxtype As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select type from tspl_Tax_master where Tax_Code='" + clsCommon.myCstr(grow.Cells(colTTaxAutCode).Value) + "' "))
             Dim amt As Decimal = clsCommon.myCdbl(grow.Cells(colTTaxAmt).Value)
-            If taxtype = "CGST" Then
+            'If taxtype = "CGST" Then
+            If clsCommon.CompairString(taxtype, "CGST") = CompairStringResult.Equal Then
                 cgstAmount = amt
-            ElseIf taxtype = "SGST" Then
+                'ElseIf taxtype = "SGST" Then
+            ElseIf clsCommon.CompairString(taxtype, "SGST") = CompairStringResult.Equal Then
                 sgstAmount = amt
             End If
         Next
-        If clsCommon.CompairString(cgstAmount, sgstAmount) <> CompairStringResult.Equal Then
+        If cgstAmount <> sgstAmount Then
+            'If clsCommon.CompairString(cgstAmount, sgstAmount) <> CompairStringResult.Equal Then
             ' If cgstAmount <> sgstAmount Then
             Throw New Exception("CGST " & cgstAmount & "  and SGST " & sgstAmount & " Amount must be same")
         End If
