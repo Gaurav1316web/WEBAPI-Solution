@@ -6298,6 +6298,54 @@ Public Class frmCustomer
         End Try
     End Sub
 
+    Private Sub btnGetGSTDetail_Click(sender As Object, e As EventArgs) Handles btnGetGSTDetail.Click
+        Try
+            If clsCommon.myLen(fndCustomer.Value) > 0 Then
+                Dim strCust As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Cust_Code from TSPL_CUSTOMER_MASTER where Cust_Code='" & fndCustomer.Value & "' "))
+                If clsCommon.myLen(strCust) > 0 Then
+                    Dim frm As New FrmFreeTxtBox1
+                    frm.Text = "Enter GSTIN No."
+                    frm.strLabelName = "GSTIN No."
+                    frm.ShowDialog()
+                    If clsCommon.myLen(frm.strRmks) <= 0 Then
+                        Throw New Exception("Please Enter GSTIN No.")
+                    Else
+                        Dim objResult As Object
+                        objResult = ClsEInvoiceOFAPIs.GetGSTINDetails(objCommonVar.CurrentCompanyCode, frm.strRmks, "JAIPUR", Nothing)
+                        If objResult IsNot Nothing Then
+                            Dim GSTNo As String = objResult.SelectToken("data.gstin").ToString
+                            Dim Alies_name As String = objResult.SelectToken("data.tradeName").ToString
+                            Dim Customer_Name As String = objResult.SelectToken("data.legalName").ToString
+                            Dim Add1 As String = objResult.SelectToken("data.address1").ToString
+                            Dim Add2 As String = objResult.SelectToken("data.address2").ToString
+                            Dim GST_STATE_Code As String = objResult.SelectToken("data.stateCode").ToString
+                            Dim PIN_NO As String = objResult.SelectToken("data.pinCode").ToString
+                            'Dim txpType As String = objResult.SelectToken("data.txpType").ToString
+                            'Dim status As String = objResult.SelectToken("data.status").ToString
+                            'Dim blkStatus As String = objResult.SelectToken("data.blkStatus").ToString
+                            'Dim CompGSTNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select GSTReg_No from TSPL_COMPANY_MASTER ", trans))
+                            'Dim CompGSTNo As String = objResult.SelectToken("header.gstin").ToString
+                            Try
+                                Dim stateCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select STATE_CODE from TSPL_STATE_MASTER where GST_STATE_Code='" & GST_STATE_Code & "'", Nothing))
+                                Dim strQry As String = "update TSPL_CUSTOMER_MASTER set GSTNO='" & GSTNo & "',Customer_Name='" & Customer_Name & "',Alies_name='" & Alies_name & "',Add1='" & Add1 & "',Add2='" & Add2 & "',State='" & stateCode & "',PIN_NO='" & PIN_NO & "' where Cust_Code='" & fndCustomer.Value & "'"
+                                clsDBFuncationality.ExecuteNonQuery(strQry)
+                            Catch ex As Exception
+                                Throw New Exception(ex.Message)
+                            End Try
+                        End If
+                    End If
+                Else
+                    Throw New Exception("Please Select valid Customer")
+                End If
+
+            Else
+                Throw New Exception("Please Select valid Customer")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
         Dim obj As New clsCancelLog
         obj.Program_Code = Form_ID

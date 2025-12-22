@@ -22,8 +22,8 @@ Partial Class FrmSalesOrderDispatch
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer5 = New System.Windows.Forms.SplitContainer()
@@ -96,6 +96,7 @@ Partial Class FrmSalesOrderDispatch
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.chkewaybill = New System.Windows.Forms.CheckBox()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
@@ -208,6 +209,7 @@ Partial Class FrmSalesOrderDispatch
         '
         'SplitContainer5.Panel1
         '
+        Me.SplitContainer5.Panel1.Controls.Add(Me.chkewaybill)
         Me.SplitContainer5.Panel1.Controls.Add(Me.lblInvnoForReplacement)
         Me.SplitContainer5.Panel1.Controls.Add(Me.txtInvoice_for_replacement)
         Me.SplitContainer5.Panel1.Controls.Add(Me.txtRemark)
@@ -823,7 +825,7 @@ Partial Class FrmSalesOrderDispatch
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -981,7 +983,7 @@ Partial Class FrmSalesOrderDispatch
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
@@ -1232,6 +1234,16 @@ Partial Class FrmSalesOrderDispatch
         Me.btnSave.TabIndex = 18
         Me.btnSave.Text = "Save"
         '
+        'chkewaybill
+        '
+        Me.chkewaybill.AutoSize = True
+        Me.chkewaybill.Location = New System.Drawing.Point(638, 69)
+        Me.chkewaybill.Name = "chkewaybill"
+        Me.chkewaybill.Size = New System.Drawing.Size(109, 18)
+        Me.chkewaybill.TabIndex = 1630
+        Me.chkewaybill.Text = "Create E-way Bill"
+        Me.chkewaybill.UseVisualStyleBackColor = True
+        '
         'FrmSalesOrderDispatch
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1396,4 +1408,5 @@ Partial Class FrmSalesOrderDispatch
     Friend WithEvents lblInvnoForReplacement As common.Controls.MyLabel
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents chkewaybill As CheckBox
 End Class

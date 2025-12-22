@@ -122,7 +122,12 @@ Public Class clsCreateAllTable
             coll.Add("Location_Code", "VARCHAR(20) NULL")
             coll.Add("ExpiryTime", "datetime NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_EInvoiceToken", coll)
-
+            coll = New Dictionary(Of String, String)()
+            coll.Add("IsAuthenticate", "Integer NULL")
+            coll.Add("ResponseTime", "datetime NULL")
+            coll.Add("Location_Code", "VARCHAR(20) NULL")
+            coll.Add("ExpiryTime", "datetime NULL")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_EWayBillToken", coll)
             coll = New Dictionary(Of String, String)()
             coll.Add("item_code", "VARCHAR(30) NULL")
             clsCommonFunctionality.CreateOrAlterTable("TEMP_DELETE_ITEM_COST", coll)

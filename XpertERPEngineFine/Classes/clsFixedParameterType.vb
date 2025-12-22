@@ -183,6 +183,7 @@ Public Class clsFixedParameterType
     Public Const AllowtoChangeTCSBaseAmount = "AllowtoChangeTCSBaseAmount"
     Public Const EInvoiceVendor = "EInvoiceVendor"
     Public Const TokenTimeReGenForEinvoice = "TokenTimeReGenForEinvoice"
+    Public Const TokenTimeReGenForEWayBill = "TokenTimeReGenForEWayBill"
     Public Const ItemCostZeroOnStoreAdjForTypeFlushing = "ItemCostZeroOnStoreAdjForTypeFlushing"
     Public Const AutoCreateSaleInvoice = "Auto Create Sale Invoice"
     Public Const AmountToCheckCustomerOutstandingForTCSTax = "AmountToCheckCustomerOutstandingForTCSTax"
@@ -1614,6 +1615,7 @@ Public Class clsFixedParameterCode
     Public Const AllowtoChangeTCSBaseAmount = "AllowtoChangeTCSBaseAmount"
     Public Const EInvoiceVendor = "EInvoiceVendor"
     Public Const TokenTimeReGenForEinvoice = "TokenTimeReGenForEinvoice"
+    Public Const TokenTimeReGenForEWayBill = "TokenTimeReGenForEWayBill"
     Public Const ItemCostZeroOnStoreAdjForTypeFlushing = "ItemCostZeroOnStoreAdjForTypeFlushing"
     Public Const AutoCreateSaleInvoice = "Auto Create Sale Invoice"
     Public Const AmountToCheckCustomerOutstandingForTCSTax = "AmountToCheckCustomerOutstandingForTCSTax"
@@ -3222,6 +3224,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowtoChangeTCSBaseAmount, clsFixedParameterCode.AllowtoChangeTCSBaseAmount, "0", "AllowtoChangeTCSBaseAmount")
         InsertDefaultValueFixedParameter(clsFixedParameterType.EInvoiceVendor, clsFixedParameterCode.EInvoiceVendor, "mastergst", "EInvoiceVendor")
         InsertDefaultValueFixedParameter(clsFixedParameterType.TokenTimeReGenForEinvoice, clsFixedParameterCode.TokenTimeReGenForEinvoice, "360", "Token Time ReGen For Einvoice (in mins)")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.TokenTimeReGenForEWayBill, clsFixedParameterCode.TokenTimeReGenForEWayBill, "360", "Token Time ReGen For Einvoice (in mins)")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ItemCostZeroOnStoreAdjForTypeFlushing, clsFixedParameterCode.ItemCostZeroOnStoreAdjForTypeFlushing, "0", "ItemCostZeroOnStoreAdjForTypeFlushing")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AmountToCheckCustomerOutstandingForTCSTax, clsFixedParameterCode.AmountToCheckCustomerOutstandingForTCSTax, "0", "AmountToCheckCustomerOutstandingForTCSTax")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AutoCreateSaleInvoice, clsFixedParameterCode.AutoCreateSaleInvoice, "1", "Auto Create Sale Invoice")
