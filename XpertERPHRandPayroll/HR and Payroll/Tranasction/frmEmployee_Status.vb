@@ -214,6 +214,7 @@ Public Class frmEmployee_Status
     End Sub
 
     Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(dtpApplicableFrom.Value)
         If clsCommon.myLen(finddesignation.Value) <= 0 Then
             myMessages.blankValue(Me, "Designation ", Me.Text)
             finddesignation.Focus()

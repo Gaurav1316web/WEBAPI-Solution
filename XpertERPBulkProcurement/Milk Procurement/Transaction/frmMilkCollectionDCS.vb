@@ -936,6 +936,7 @@ select top 1 convert(Date, DOC_DATE,103) as DOC_DATE from tspl_milk_srn_head whe
     End Sub
 
     Private Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtDate.Value)
         'Prevent future date transaction
         If clsCommon.myCDate(txtDate.Value).Date() > clsCommon.GETSERVERDATE().Date() Then
             txtDate.Focus()

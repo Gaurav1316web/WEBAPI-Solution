@@ -805,7 +805,7 @@ Public Class frmWreckage
     End Function
 
     Function AllowToSave(Optional ByVal isPost As Boolean = False) As Boolean
-
+        Xtra.TransactionValidity(dtDate.Value)
         If AllowFutureDateTransaction(dtDate.Value, Nothing) = False Then
             Return False
         End If

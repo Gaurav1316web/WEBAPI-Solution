@@ -3583,6 +3583,7 @@ Public Class frmMccMaterialSaleReturn
 
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
                 txtDate.Focus()
                 Return False

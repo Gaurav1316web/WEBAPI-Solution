@@ -215,6 +215,7 @@ Public Class frmLeaveEncashment
     End Sub
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             If clsCommon.myLen(txtLocationCode.Value) <= 0 Then
                 Throw New Exception("Please select Locaiton")
             End If

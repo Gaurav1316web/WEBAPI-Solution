@@ -204,6 +204,7 @@ Public Class FrmGateEntrySale
         End Try
     End Sub
     Private Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtDate.Value)
         ' KUNAL > TICKET : BM00000009609 > Modified Date : 22-09-2016
         If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
             txtDate.Focus()

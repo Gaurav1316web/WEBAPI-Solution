@@ -182,7 +182,7 @@ Public Class frmCustomerComplain
     End Sub
 
     Function AllowToSave() As Boolean
-
+        Xtra.TransactionValidity(txtDocDate.Value)
         'If clsCommon.myLen(txtRemarks.Text) <= 0 Then
         '    txtRemarks.Focus()
         '    Throw New Exception("Remarks can't be blank.")

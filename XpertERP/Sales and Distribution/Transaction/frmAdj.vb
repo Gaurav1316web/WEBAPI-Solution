@@ -64,6 +64,8 @@ Public Class frmAdj
     End Sub
 
     Private Function AllowToSave() As Boolean
+
+        Xtra.TransactionValidity(dtAdj.Value)
         If clsCommon.myLen(fndCusCode.Value) <= 0 Then
             clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
             fndCusCode.Focus()
@@ -73,7 +75,7 @@ Public Class frmAdj
             fndDocNo.Focus()
             Return False
         End If
-      
+
         Dim Post As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Is_Post from TSPL_Receipt_Adjustment_Header where Adjustment_No='" + fndFnAdj.Value + "' "))
         If clsCommon.CompairString(Post, "Y") = CompairStringResult.Equal Then
             clsCommon.MyMessageBoxShow(Me, "Posted Transaction", Me.Text)

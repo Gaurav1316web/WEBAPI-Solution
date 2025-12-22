@@ -352,6 +352,12 @@
     <Compile Include="Milk Procurement\Report\rptBMCMobileHistory.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptDBTBankResponse.Designer.vb">
+      <DependentUpon>rptDBTBankResponse.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptDBTBankResponse.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptDBTMonthWiseFarmerDetail.Designer.vb">
       <DependentUpon>rptDBTMonthWiseFarmerDetail.vb</DependentUpon>
     </Compile>
@@ -1313,6 +1319,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptBMCMobileHistory.resx">
       <DependentUpon>rptBMCMobileHistory.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptDBTBankResponse.resx">
+      <DependentUpon>rptDBTBankResponse.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptDBTMonthWiseFarmerDetail.resx">
       <DependentUpon>rptDBTMonthWiseFarmerDetail.vb</DependentUpon>

@@ -618,6 +618,8 @@ Public Class FrmExpiryDateEntry
             txtDate.Select()
             Return False
         End If
+        Xtra.TransactionValidity(txtDate.Value)
+
         If clsCommon.myLen(txtLocation.Value) <= 0 Then
             txtLocation.Focus()
             Throw New Exception("Please select Location")
@@ -690,7 +692,7 @@ Public Class FrmExpiryDateEntry
                     End If
                 Next
             End If
-            
+
         Next
 
 

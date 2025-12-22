@@ -313,6 +313,7 @@ Public Class FrmMilkUnloading_JWO
     End Sub
     Function allowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(dtpUnloadingDateTime.Value)
             If clsCommon.myLen(FndTankerNo.Value) <= 0 Then
                 Throw New Exception("Please Select Tanker No")
                 errorControl.SetError(FndTankerNo, "Please Select Tanker No")

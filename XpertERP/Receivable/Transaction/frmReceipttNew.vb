@@ -829,6 +829,8 @@ Public Class FrmReceipttNew
 
     Public Function allowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(dtRcpt.Value)
+
             'If IsNewEntry And ddlTransType.SelectedValue = "O" Then
             '    common.clsCommon.MyMessageBoxShow("You can not create 'On Account' Entry.")
             '    ddlTransType.Focus()

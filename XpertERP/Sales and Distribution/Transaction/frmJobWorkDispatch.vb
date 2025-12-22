@@ -1700,6 +1700,8 @@ Public Class frmJobWorkDispatch
 
     Function AllowToSave() As Boolean
         Try
+
+            Xtra.TransactionValidity(dtpshipment.Value)
             ' KUNAL > TICKET : BM00000009580 ========
             If AllowFutureDateTransaction(dtpshipment.Value, Nothing) = False Then
                 dtppost.Focus()

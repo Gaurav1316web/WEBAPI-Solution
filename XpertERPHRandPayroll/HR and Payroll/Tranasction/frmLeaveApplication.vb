@@ -122,7 +122,7 @@ Public Class frmLeaveApplication
     End Sub
 
     Function AllowToSave() As Boolean
-
+        Xtra.TransactionValidity(dtpApplicableFrom.Value)
         If btnsave.Text = "Update" Then
             Dim QryStr As String = "select POSTED from TSPL_LEAVE_APPLICATION where LVAPPLICATION_CODE = '" + txtCode.Value + "' "
             Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)

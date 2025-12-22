@@ -24,7 +24,7 @@ Public Class FrmTraineeFeedback
     End Sub
     Function allowtosave()
 
-
+        Xtra.TransactionValidity(txtDate.Value)
         If clsCommon.myLen(clsCommon.myCstr(fndSchedule.Value)) <= 0 Or clsCommon.myLen(clsCommon.myCstr(fndSchedule.Value)) > 30 Then
             myMessages.blankValue(Me, "Schedule Code ", Me.Text)
 

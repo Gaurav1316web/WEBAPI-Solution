@@ -192,15 +192,7 @@ Public Class AMCUMaster
 
 
     Private Sub AMCUMaster_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("Code", "VARCHAR(30) NOT NULL PRIMARY KEY ")
-        coll.Add("Name", "Varchar(50) NOT NULL ")
-        coll.Add("Created_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
-        coll.Add("Created_Date", "Datetime NOT NULL")
-        coll.Add("Modified_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
-        coll.Add("Modified_Date", "Datetime NOT NULL")
-        clsCommonFunctionality.CreateOrAlterTable("TSPL_AMCU_Master", coll)
+
     End Sub
 
     Private Sub btnnew_Click(sender As Object, e As EventArgs) Handles btnnew.Click

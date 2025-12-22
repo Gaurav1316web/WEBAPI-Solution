@@ -3713,7 +3713,7 @@ Public Class frmSNShipment
         Try
 
             MergeDCSItems(True)
-
+            Xtra.TransactionValidity(txtDate.Value)
             If CalculateTaxRatefromItemwsieTaxOnSale = 1 Then
                 SetitemWiseTaxSetting(True, False)
             End If

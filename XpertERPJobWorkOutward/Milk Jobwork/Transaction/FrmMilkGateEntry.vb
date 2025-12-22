@@ -548,6 +548,8 @@ Public Class FrmMilkGateEntry
     End Sub
     Function allowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(dtpDateAndTimeBulk.Value)
+
             '===================Added by preeti Gupta==============
             If AllowFutureDateTransaction(dtpDateAndTimeBulk.Value, Nothing) = False Then
                 dtpDateAndTimeBulk.Select()

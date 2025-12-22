@@ -122,6 +122,7 @@ Public Class FrmHireEmployee
     Private Function AllowToSave() As Boolean
         Try
             btnsave.Focus()
+
             If clsCommon.myLen(clsCommon.myCstr(txtAppcode.Value)) <= 0 Then
                 txtAppcode.Focus()
                 Throw New Exception("Applicant Code can not be left blank")

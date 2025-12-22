@@ -82,6 +82,7 @@ Public Class frmMilkCollectionGenerate
         'RadButton3.Enabled = True
     End Sub
     Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtDate.Value)
         'Try
         '    For ii As Integer = 0 To gv1.Rows.Count - 1
         '        If clsCommon.myCBool(gv1.Rows(ii).Cells("UserStatus").Value) Then

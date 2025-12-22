@@ -51,7 +51,7 @@ Public Class FrmMediclaimEntry
             '    txtCode.Select()
             '    Return False
             'End If
-
+            Xtra.TransactionValidity(txtdate.Value)
             If clsCommon.myLen(txtempcode.Value) <= 0 Then
                 clsCommon.MyMessageBoxShow(Me, "Please Select Employee", Me.Text)
                 txtempcode.Focus()

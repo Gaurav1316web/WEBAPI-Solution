@@ -22,7 +22,7 @@ Partial Class rptSaleInvoiceStatusReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -34,7 +34,6 @@ Partial Class rptSaleInvoiceStatusReport
         Me.rdbSaleReturn = New common.Controls.MyRadioButton()
         Me.rdbGstInvoice = New common.Controls.MyRadioButton()
         Me.rdbCancelInvoice = New common.Controls.MyRadioButton()
-        Me.MyLabel3 = New common.Controls.MyLabel()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.TxtCustomerType = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel1 = New common.Controls.MyLabel()
@@ -73,7 +72,6 @@ Partial Class rptSaleInvoiceStatusReport
         CType(Me.rdbSaleReturn, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbGstInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbCancelInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -162,7 +160,6 @@ Partial Class rptSaleInvoiceStatusReport
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel3)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel2)
         Me.RadPageViewPage1.Controls.Add(Me.TxtCustomerType)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
@@ -207,14 +204,15 @@ Partial Class rptSaleInvoiceStatusReport
         '
         'rdbGstInvoice
         '
+        Me.rdbGstInvoice.CheckState = System.Windows.Forms.CheckState.Checked
         Me.rdbGstInvoice.Location = New System.Drawing.Point(15, 9)
         Me.rdbGstInvoice.MyLinkLable1 = Nothing
         Me.rdbGstInvoice.MyLinkLable2 = Nothing
         Me.rdbGstInvoice.Name = "rdbGstInvoice"
         Me.rdbGstInvoice.Size = New System.Drawing.Size(78, 18)
         Me.rdbGstInvoice.TabIndex = 396
-        Me.rdbGstInvoice.TabStop = False
         Me.rdbGstInvoice.Text = "GST Invoice"
+        Me.rdbGstInvoice.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'rdbCancelInvoice
         '
@@ -226,17 +224,6 @@ Partial Class rptSaleInvoiceStatusReport
         Me.rdbCancelInvoice.TabIndex = 391
         Me.rdbCancelInvoice.TabStop = False
         Me.rdbCancelInvoice.Text = "Cancelled Invoice"
-        '
-        'MyLabel3
-        '
-        Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(289, 13)
-        Me.MyLabel3.Margin = New System.Windows.Forms.Padding(4)
-        Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(86, 18)
-        Me.MyLabel3.TabIndex = 454
-        Me.MyLabel3.Text = "View Preference"
         '
         'MyLabel2
         '
@@ -339,12 +326,13 @@ Partial Class rptSaleInvoiceStatusReport
         Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox2.Controls.Add(Me.rbtnDetail)
         Me.RadGroupBox2.Controls.Add(Me.rbtnSummary)
-        Me.RadGroupBox2.HeaderText = ""
-        Me.RadGroupBox2.Location = New System.Drawing.Point(383, 6)
+        Me.RadGroupBox2.HeaderText = "Data View Preference"
+        Me.RadGroupBox2.Location = New System.Drawing.Point(279, 6)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(158, 33)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(158, 39)
         Me.RadGroupBox2.TabIndex = 441
+        Me.RadGroupBox2.Text = "Data View Preference"
         '
         'rbtnDetail
         '
@@ -359,14 +347,15 @@ Partial Class rptSaleInvoiceStatusReport
         '
         'rbtnSummary
         '
+        Me.rbtnSummary.CheckState = System.Windows.Forms.CheckState.Checked
         Me.rbtnSummary.Location = New System.Drawing.Point(79, 9)
         Me.rbtnSummary.MyLinkLable1 = Nothing
         Me.rbtnSummary.MyLinkLable2 = Nothing
         Me.rbtnSummary.Name = "rbtnSummary"
         Me.rbtnSummary.Size = New System.Drawing.Size(67, 18)
         Me.rbtnSummary.TabIndex = 391
-        Me.rbtnSummary.TabStop = False
         Me.rbtnSummary.Text = "Summary"
+        Me.rbtnSummary.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'MyLabel13
         '
@@ -470,7 +459,7 @@ Partial Class rptSaleInvoiceStatusReport
         '
         Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvData.MyExportFilePath = ""
         Me.gvData.MyStopExport = False
         Me.gvData.Name = "gvData"
@@ -555,7 +544,6 @@ Partial Class rptSaleInvoiceStatusReport
         CType(Me.rdbSaleReturn, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbGstInvoice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbCancelInvoice, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
@@ -619,7 +607,6 @@ Partial Class rptSaleInvoiceStatusReport
     Friend WithEvents TxtCustomerType As common.UserControls.txtMultiSelectFinder
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents TxtSubLocation As common.UserControls.txtMultiSelectFinder
-    Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents RadGroupBox1 As RadGroupBox
     Friend WithEvents rdbGstInvoice As common.Controls.MyRadioButton
     Friend WithEvents rdbCancelInvoice As common.Controls.MyRadioButton

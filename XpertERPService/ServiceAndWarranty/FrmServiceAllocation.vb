@@ -32,7 +32,7 @@ Public Class FrmServiceAllocation
     Function AllowToSave() As Boolean
         Try
             btnsave.Focus()
-
+            Xtra.TransactionValidity(dtpDate.Value)
             If clsCommon.myLen(TxtSerDoc.Value) <= 0 Then
                 clsCommon.MyMessageBoxShow("Please fill service document no.")
                 TxtSerDoc.Focus()

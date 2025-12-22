@@ -596,6 +596,7 @@ Public Class frmSaleQuotation
 
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             UpdateAllTotals()
             If clsCommon.myLen(txtLocation.Value) <= 0 Then
                 common.clsCommon.MyMessageBoxShow("Please select Location")

@@ -1323,6 +1323,7 @@ Partial Class frmMilkRGP
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1331,6 +1332,7 @@ Partial Class frmMilkRGP
         Me.gv1.Size = New System.Drawing.Size(978, 147)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'Department
         '
@@ -1485,6 +1487,7 @@ Partial Class frmMilkRGP
         Me.gv_qc.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_qc.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv_qc.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv_qc.MyExportFilePath = ""
         Me.gv_qc.MyStopExport = False
         Me.gv_qc.Name = "gv_qc"
         Me.gv_qc.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1492,6 +1495,7 @@ Partial Class frmMilkRGP
         Me.gv_qc.Size = New System.Drawing.Size(1003, 490)
         Me.gv_qc.TabIndex = 3
         Me.gv_qc.TabStop = False
+        Me.gv_qc.VarID = ""
         '
         'Attachments
         '

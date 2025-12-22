@@ -1732,7 +1732,7 @@ Public Class frmItemIssueToAssembledAsset
 
     Function AllowToSave() As Boolean
         Try
-
+            Xtra.TransactionValidity(txtDate.Value)
             '===============Preeti Gupta==================================
             If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
                 txtDate.Select()

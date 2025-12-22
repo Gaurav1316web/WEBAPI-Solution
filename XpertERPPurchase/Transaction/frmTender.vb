@@ -514,7 +514,7 @@ Public Class frmTender
     End Function
     Function AllowToSave(ByVal trans As SqlTransaction) As Boolean
         Try
-
+            Xtra.TransactionValidity(txtDate.Value)
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "Please Enter Tender No", Me.Text)
                 txtDocNo.Focus()

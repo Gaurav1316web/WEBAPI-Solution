@@ -335,6 +335,7 @@ Public Class frmMilkPurchaseInvoiceMCC
 
     Private Function AllowToSave(ByVal trans As SqlTransaction) As Boolean
         Try
+            Xtra.TransactionValidity(dtpDocDate.Value)
             ' = KUNAL > TICKET : BM00000009575 =====
             If AllowFutureDateTransaction(dtpDocDate.Value, trans) = False Then
                 dtpDocDate.Focus()

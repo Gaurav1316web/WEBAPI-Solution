@@ -375,7 +375,7 @@ Partial Class frmMilkJobWorkTransfer
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1104, 448)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -711,7 +711,7 @@ Partial Class frmMilkJobWorkTransfer
         Me.txtManualPrice.TabIndex = 347
         Me.txtManualPrice.Text = "0"
         Me.txtManualPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtManualPrice.Value = 0R
+        Me.txtManualPrice.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtTolerance
         '
@@ -739,7 +739,7 @@ Partial Class frmMilkJobWorkTransfer
         Me.txtTolerance.TabIndex = 345
         Me.txtTolerance.Text = "0"
         Me.txtTolerance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTolerance.Value = 0R
+        Me.txtTolerance.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel8
         '
@@ -787,7 +787,7 @@ Partial Class frmMilkJobWorkTransfer
         Me.txtSNFPercentage.TabIndex = 343
         Me.txtSNFPercentage.Text = "0"
         Me.txtSNFPercentage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSNFPercentage.Value = 0R
+        Me.txtSNFPercentage.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'TxtSNFWeightage
         '
@@ -815,7 +815,7 @@ Partial Class frmMilkJobWorkTransfer
         Me.TxtSNFWeightage.TabIndex = 336
         Me.TxtSNFWeightage.Text = "0"
         Me.TxtSNFWeightage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtSNFWeightage.Value = 0R
+        Me.TxtSNFWeightage.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'TxtFatWeightage
         '
@@ -843,7 +843,7 @@ Partial Class frmMilkJobWorkTransfer
         Me.TxtFatWeightage.TabIndex = 335
         Me.TxtFatWeightage.Text = "0"
         Me.TxtFatWeightage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtFatWeightage.Value = 0R
+        Me.TxtFatWeightage.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel1
         '
@@ -891,7 +891,7 @@ Partial Class frmMilkJobWorkTransfer
         Me.txtStanadardrate.TabIndex = 338
         Me.txtStanadardrate.Text = "0"
         Me.txtStanadardrate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtStanadardrate.Value = 0R
+        Me.txtStanadardrate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtStanadardrate.Visible = False
         '
         'MyLabel6
@@ -941,7 +941,7 @@ Partial Class frmMilkJobWorkTransfer
         Me.txtfatPercentage.TabIndex = 337
         Me.txtfatPercentage.Text = "0"
         Me.txtfatPercentage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtfatPercentage.Value = 0R
+        Me.txtfatPercentage.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblPriceChart
         '
@@ -1367,6 +1367,7 @@ Partial Class frmMilkJobWorkTransfer
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvItem.MyExportFilePath = ""
         Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1375,6 +1376,7 @@ Partial Class frmMilkJobWorkTransfer
         Me.gvItem.Size = New System.Drawing.Size(1083, 149)
         Me.gvItem.TabIndex = 0
         Me.gvItem.TabStop = False
+        Me.gvItem.VarID = ""
         '
         'QcDetails
         '
@@ -1639,11 +1641,13 @@ Partial Class frmMilkJobWorkTransfer
         Me.gvParam.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvParam.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvParam.MyExportFilePath = ""
         Me.gvParam.MyStopExport = False
         Me.gvParam.Name = "gvParam"
         Me.gvParam.ShowHeaderCellButtons = True
         Me.gvParam.Size = New System.Drawing.Size(1079, 100)
         Me.gvParam.TabIndex = 264
+        Me.gvParam.VarID = ""
         '
         'RadGroupBox2
         '
@@ -1667,11 +1671,13 @@ Partial Class frmMilkJobWorkTransfer
         Me.gvRange.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvRange.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvRange.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvRange.MyExportFilePath = ""
         Me.gvRange.MyStopExport = False
         Me.gvRange.Name = "gvRange"
         Me.gvRange.ShowHeaderCellButtons = True
         Me.gvRange.Size = New System.Drawing.Size(1079, 95)
         Me.gvRange.TabIndex = 264
+        Me.gvRange.VarID = ""
         '
         'RadPageViewPage2
         '
@@ -1995,6 +2001,7 @@ Partial Class frmMilkJobWorkTransfer
         Me.gvReceipt.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvReceipt.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvReceipt.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvReceipt.MyExportFilePath = ""
         Me.gvReceipt.MyStopExport = False
         Me.gvReceipt.Name = "gvReceipt"
         Me.gvReceipt.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2003,6 +2010,7 @@ Partial Class frmMilkJobWorkTransfer
         Me.gvReceipt.Size = New System.Drawing.Size(1083, 367)
         Me.gvReceipt.TabIndex = 1
         Me.gvReceipt.TabStop = False
+        Me.gvReceipt.VarID = ""
         '
         'RadPanel1
         '

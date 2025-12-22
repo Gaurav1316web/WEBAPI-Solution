@@ -262,7 +262,7 @@ Partial Class frmFarmerPaymentEntry
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel3.Location = New System.Drawing.Point(6, 111)
         Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(58, 16)
+        Me.MyLabel3.Size = New System.Drawing.Size(60, 16)
         Me.MyLabel3.TabIndex = 88
         Me.MyLabel3.Text = "DCS Code"
         '
@@ -645,7 +645,7 @@ Partial Class frmFarmerPaymentEntry
         Me.MyLabel7.Font = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.MyLabel7.Location = New System.Drawing.Point(438, 87)
         Me.MyLabel7.Name = "MyLabel7"
-        Me.MyLabel7.Size = New System.Drawing.Size(59, 18)
+        Me.MyLabel7.Size = New System.Drawing.Size(85, 18)
         Me.MyLabel7.TabIndex = 79
         Me.MyLabel7.Text = "Secretary Name"
         '
@@ -665,7 +665,7 @@ Partial Class frmFarmerPaymentEntry
         Me.RadLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel3.Location = New System.Drawing.Point(438, 111)
         Me.RadLabel3.Name = "RadLabel3"
-        Me.RadLabel3.Size = New System.Drawing.Size(62, 16)
+        Me.RadLabel3.Size = New System.Drawing.Size(63, 16)
         Me.RadLabel3.TabIndex = 85
         Me.RadLabel3.Text = "DCS Name"
         '
@@ -700,7 +700,7 @@ Partial Class frmFarmerPaymentEntry
         Me.lblVSPCode.Font = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.lblVSPCode.Location = New System.Drawing.Point(6, 87)
         Me.lblVSPCode.Name = "lblVSPCode"
-        Me.lblVSPCode.Size = New System.Drawing.Size(55, 18)
+        Me.lblVSPCode.Size = New System.Drawing.Size(82, 18)
         Me.lblVSPCode.TabIndex = 78
         Me.lblVSPCode.Text = "Secretary Code"
         '

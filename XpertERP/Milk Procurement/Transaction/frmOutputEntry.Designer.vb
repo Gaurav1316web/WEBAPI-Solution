@@ -63,12 +63,12 @@ Partial Class frmOutputEntry
         Me.UsLock1 = New common.usLock()
         Me.txtDocNo = New common.UserControls.txtNavigator()
         Me.txtDate = New common.Controls.MyDateTimePicker()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -102,12 +102,12 @@ Partial Class frmOutputEntry
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -314,7 +314,7 @@ Partial Class frmOutputEntry
         Me.txtQtyLTR.TabIndex = 418
         Me.txtQtyLTR.Text = "0"
         Me.txtQtyLTR.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtQtyLTR.Value = 0R
+        Me.txtQtyLTR.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtFatKG
         '
@@ -341,7 +341,7 @@ Partial Class frmOutputEntry
         Me.txtFatKG.TabIndex = 417
         Me.txtFatKG.Text = "0"
         Me.txtFatKG.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFatKG.Value = 0R
+        Me.txtFatKG.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtSnfKG
         '
@@ -368,7 +368,7 @@ Partial Class frmOutputEntry
         Me.txtSnfKG.TabIndex = 416
         Me.txtSnfKG.Text = "0"
         Me.txtSnfKG.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSnfKG.Value = 0R
+        Me.txtSnfKG.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtFatPer
         '
@@ -396,7 +396,7 @@ Partial Class frmOutputEntry
         Me.txtFatPer.TabIndex = 415
         Me.txtFatPer.Text = "0"
         Me.txtFatPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFatPer.Value = 0R
+        Me.txtFatPer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtSNFPer
         '
@@ -424,7 +424,7 @@ Partial Class frmOutputEntry
         Me.txtSNFPer.TabIndex = 414
         Me.txtSNFPer.Text = "0"
         Me.txtSNFPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSNFPer.Value = 0R
+        Me.txtSNFPer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtQtyKG
         '
@@ -451,7 +451,7 @@ Partial Class frmOutputEntry
         Me.txtQtyKG.TabIndex = 413
         Me.txtQtyKG.Text = "0"
         Me.txtQtyKG.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtQtyKG.Value = 0R
+        Me.txtQtyKG.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'cboOutPutType
         '
@@ -775,6 +775,15 @@ Partial Class frmOutputEntry
         Me.txtDate.Text = "13/06/2011"
         Me.txtDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
         '
+        'btnHistory
+        '
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(230, 3)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(69, 22)
+        Me.btnHistory.TabIndex = 26
+        Me.btnHistory.Text = "History"
+        '
         'btnReverse
         '
         Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -822,15 +831,6 @@ Partial Class frmOutputEntry
         Me.btnSave.Size = New System.Drawing.Size(69, 22)
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
-        '
-        'btnHistory
-        '
-        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(230, 3)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(69, 22)
-        Me.btnHistory.TabIndex = 26
-        Me.btnHistory.Text = "History"
         '
         'frmOutputEntry
         '
@@ -881,12 +881,12 @@ Partial Class frmOutputEntry
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

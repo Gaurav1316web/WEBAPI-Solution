@@ -208,6 +208,7 @@ Public Class FrmSalesOrderGatePass
     End Sub
     Function AllowToSave()
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             If clsCommon.myLen(txtDispatchCode.Value) <= 0 Then
                 Throw New Exception("Please select Dispatch Code.")
             End If

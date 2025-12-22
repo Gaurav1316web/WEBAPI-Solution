@@ -513,6 +513,7 @@ Public Class FrmMilkPurchaseInvoice
     End Function
     Function allowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(dtpDocDate.Value)
             ' = KUNAL > TICKET : BM00000009575 ====
             If AllowFutureDateTransaction(dtpDocDate.Value, Nothing) = False Then
                 dtpDocDate.Focus()

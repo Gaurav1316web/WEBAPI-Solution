@@ -172,6 +172,7 @@ Public Class frmQuickPaymentBySingleCheque
     End Sub
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDocumentDate.Value)
             If clsCommon.myLen(clsCommon.myCstr(txtPaymentMode.Value)) <= 0 Then
                 Throw New Exception("Please select Payment Mode")
             End If

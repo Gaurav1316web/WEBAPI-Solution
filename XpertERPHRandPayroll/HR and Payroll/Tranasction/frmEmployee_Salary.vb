@@ -473,6 +473,7 @@ Public Class frmEmployee_Salary
         Return False
     End Function
     Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(dtpApplicableFrom.Value)
         If btnsave.Text = "Update" Then
             Dim QryStr As String = "select POSTED from TSPL_EMPLOYEE_SALARY where EMP_SAL_CODE = '" + txtCode.Value + "' "
             Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)

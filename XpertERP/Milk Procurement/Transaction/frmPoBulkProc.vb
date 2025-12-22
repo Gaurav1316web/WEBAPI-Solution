@@ -356,7 +356,8 @@ Public Class frmPoBulkProc
     End Sub
   
     Function allowToSave() As Boolean
-        Try            
+        Try
+            Xtra.TransactionValidity(dtpDateAndTimeBulk.Value)
             If clsCommon.CompairString(cmbGEType.SelectedValue, "") = CompairStringResult.Equal Then
                 errorControl.SetError(cmbGEType, "Please Select PO  type ")
                 cmbGEType.Focus()
@@ -387,14 +388,14 @@ Public Class frmPoBulkProc
                 errorControl.SetError(txtMilktypeCode, "")
             End If
             Dim dblQty As Double = 0
-                Dim intcount As Integer = 0
-                For ii As Integer = 0 To gvItemBulk.Rows.Count - 1
+            Dim intcount As Integer = 0
+            For ii As Integer = 0 To gvItemBulk.Rows.Count - 1
                 dblQty = clsCommon.myCdbl(gvItemBulk.Rows(ii).Cells(colQty).Value)
-                    If dblQty > 0 Then
-                        intcount += 1
-                    End If
-                Next
-                If intcount = 0 Then
+                If dblQty > 0 Then
+                    intcount += 1
+                End If
+            Next
+            If intcount = 0 Then
                 Throw New Exception("Please enter atleast one chamber qty. ")
             Else
                 txtQty.Text = dblQty
@@ -416,10 +417,10 @@ Public Class frmPoBulkProc
             End If
 
             If clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colQty).Value) <= 0 Then
-                    Throw New Exception(" Item Qty Must be a Number and Not Zero or Negative At Row No 1 in Item Grid")
+                Throw New Exception(" Item Qty Must be a Number and Not Zero or Negative At Row No 1 in Item Grid")
             End If
 
-         
+
             If clsCommon.myCDate(dtpDateAndTimeBulk.Value, "dd/MMM/yyyy") > clsCommon.myCDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy") Then
                 dtpDateAndTimeBulk.Value = clsCommon.myCDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy")
                 Throw New Exception(" PO Date Can not be upcoming Date ")
@@ -431,11 +432,11 @@ Public Class frmPoBulkProc
                 End If
             End If
             If allowManualrate = 0 Then
-                Dim strPriceCode = clsDBFuncationality.getSingleValue("select top 1 TSPL_Bulk_Price_MASTER.Price_Code from  TSPL_Bulk_Price_MASTER left outer join " & _
-                                       "TSPL_BULK_PRICE_DETAIL on TSPL_Bulk_Price_MASTER.Price_Code=TSPL_BULK_PRICE_DETAIL.Price_Code " & _
-                                       "where  TSPL_Bulk_Price_MASTER.Posted=1  and effective_Date<='" & clsCommon.GetPrintDate(dtpDateAndTimeBulk.Value, "dd/MMM/yyyy hh:mm tt") & "' and  expirydate >= '" & clsCommon.GetPrintDate(dtpDateAndTimeBulk.Value, "dd/MMM/yyyy hh:mm tt") & "' and TSPL_Bulk_Price_MASTER.Milk_Type_Code='" & txtMilktypeCode.Value & "'   and " & _
-                                       "TSPL_Bulk_Price_MASTER.Price_Code in (select Tspl_Vendor_Price_Chart_mapping.PriceCode from " & _
-                                       "Tspl_Vendor_Price_Chart_mapping where  " & _
+                Dim strPriceCode = clsDBFuncationality.getSingleValue("select top 1 TSPL_Bulk_Price_MASTER.Price_Code from  TSPL_Bulk_Price_MASTER left outer join " &
+                                       "TSPL_BULK_PRICE_DETAIL on TSPL_Bulk_Price_MASTER.Price_Code=TSPL_BULK_PRICE_DETAIL.Price_Code " &
+                                       "where  TSPL_Bulk_Price_MASTER.Posted=1  and effective_Date<='" & clsCommon.GetPrintDate(dtpDateAndTimeBulk.Value, "dd/MMM/yyyy hh:mm tt") & "' and  expirydate >= '" & clsCommon.GetPrintDate(dtpDateAndTimeBulk.Value, "dd/MMM/yyyy hh:mm tt") & "' and TSPL_Bulk_Price_MASTER.Milk_Type_Code='" & txtMilktypeCode.Value & "'   and " &
+                                       "TSPL_Bulk_Price_MASTER.Price_Code in (select Tspl_Vendor_Price_Chart_mapping.PriceCode from " &
+                                       "Tspl_Vendor_Price_Chart_mapping where  " &
                                        "Tspl_Vendor_Price_Chart_mapping.VendorCode='" & fndVendorBulk.Value & "'  )  order by Price_Date desc")
                 If clsCommon.myLen(strPriceCode) = 0 Then
                     Throw New Exception("Please create price chart for Vendor : " + fndVendorBulk.Value)

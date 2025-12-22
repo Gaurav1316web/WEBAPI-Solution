@@ -290,6 +290,8 @@ Public Class frmReimbursementDetails
         Return False
     End Function
     Function AllowToSave() As Boolean
+
+        Xtra.TransactionValidity(dtpReimbursementDate.Value)
         If btnsave.Text = "Update" Then
             Dim QryStr As String = "select POSTED from TSPL_EMP_REIMBURSEMENT where REIMBURSEMENT_CODE = '" + txtCode.Value + "' "
             Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)

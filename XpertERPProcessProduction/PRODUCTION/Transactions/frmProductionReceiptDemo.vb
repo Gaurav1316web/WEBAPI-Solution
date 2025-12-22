@@ -470,6 +470,7 @@ Public Class FrmProductionReceiptDemo
 
     Private Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(dtpDate.Value)
             Dim MainItemType As String = String.Empty
 
             If clsCommon.myLen(txtRecptNo.Value) <= 0 Then
@@ -495,7 +496,7 @@ Public Class FrmProductionReceiptDemo
                     Return False
                 End If
             End If
-            
+
             '' 12-Oct-2015 Child Items BM00000008095
             Dim DBSrNo As String = String.Empty
 

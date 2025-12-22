@@ -330,6 +330,7 @@ left join TSPL_MCC_SCRAP_GATEPASS_DETAIL on TSPL_MCC_SCRAP_GATEPASS_DETAIL.GPCod
     End Sub
 
     Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtDate.Value)
         If clsCommon.CompairString(cmbtype.SelectedIndex, 2) = CompairStringResult.Equal Then
             'If clsCommon.myLen(txtVehicle.Value) <= 0 Then
             '    common.clsCommon.MyMessageBoxShow(Me, "Please select Vehicle No", Me.Text)

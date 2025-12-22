@@ -92,6 +92,7 @@ Public Class frmLeaveAdjustment
     End Sub
 
     Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(dtpAdjustDate.Value)
         If btnsave.Text = "Update" Then
             Dim QryStr As String = "select POSTED from TSPL_LEAVE_ADJUSTMENT where LVADJUSTMENT_CODE = '" + txtCode.Value + "' "
             Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)

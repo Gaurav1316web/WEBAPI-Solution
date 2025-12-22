@@ -763,7 +763,7 @@ Public Class frmPurchaseRequistion
 
     Function AllowToSave() As Boolean
         Try
-
+            Xtra.TransactionValidity(txtDate.Value)
             If btnSave.Text = "Update" Then
                 Dim strchk As String = "select Status from TSPL_REQUISITION_HEAD where Requisition_Id='" + txtReqNo.Value + "'"
                 Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk)

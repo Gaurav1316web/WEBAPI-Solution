@@ -1082,6 +1082,7 @@ Public Class FrmMccDispatch
 
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(dtpDateAndTime.Value)
             ' KUNAL > TICKET : BM00000009575 =======
             If AllowFutureDateTransaction(dtpDateAndTime.Value, Nothing) = False Then
                 dtpDateAndTime.Focus()

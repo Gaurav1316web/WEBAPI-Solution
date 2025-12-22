@@ -618,6 +618,8 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
     End Sub
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
+
             Return True
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

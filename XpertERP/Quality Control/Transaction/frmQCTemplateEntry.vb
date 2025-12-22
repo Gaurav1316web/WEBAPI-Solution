@@ -646,7 +646,7 @@ Public Class frmQCTemplateEntry
             Dim arr As New List(Of String)
 
             Dim icode As String = ""
-
+            Xtra.TransactionValidity(dtpDate.Value)
             If rbtnRej.Enabled AndAlso rbtnUD.Enabled AndAlso rbtnUD.IsChecked AndAlso clsCommon.myLen(txtRemarks.Text) <= 0 Then
                 txtRemarks.Focus()
                 txtRemarks.Select()

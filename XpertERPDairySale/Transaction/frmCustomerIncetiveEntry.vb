@@ -1333,6 +1333,7 @@ Public Class frmCustomerIncetiveEntry
     End Sub
 
     Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtDate.Value)
         For ii As Integer = 0 To gvCustomer.Rows.Count - 1
             CalculateRow(ii)
             If clsCommon.myCdbl(gvCustomer.Rows(ii).Cells(colAmount).Value) <= 0 Then

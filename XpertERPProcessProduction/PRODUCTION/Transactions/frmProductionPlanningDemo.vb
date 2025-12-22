@@ -341,7 +341,7 @@ Public Class frmProductionPlanningDemo
         Return False
     End Function
     Function AllowToSave() As Boolean
-
+        Xtra.TransactionValidity(dtpBOMDate.Value)
         If btnsave.Text = "Update" Then
             Dim QryStr As String = "select POSTED from TSPL_MF_PRODUCTION_PLAN_HEAD where PROD_PLAN_CODE = '" + txtCode.Value + "' "
             Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)

@@ -98,6 +98,7 @@ Public Class FrmMCCTankerGateOut
             'If clsCommon.myLen(txtMccCode.Value) <= 0 Then
             '    Throw New Exception("Mcc Code Can't left blank")
             'End If
+            Xtra.TransactionValidity(txtGateOutDate.Value)
 
             If mulMccCode.arrValueMember IsNot Nothing AndAlso mulMccCode.arrValueMember.Count > 1 Then
                 'Squence number mandatory

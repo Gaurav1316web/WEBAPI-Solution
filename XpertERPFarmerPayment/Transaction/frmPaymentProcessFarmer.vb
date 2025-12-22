@@ -4084,6 +4084,7 @@ Public Class frmPaymentProcessFarmer
     End Sub
 
     Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(dtpDate.Value)
         If dtpFromDate.Value > dtpToDate.Value Then
             Throw New Exception(" 'From Date' can't be larger than 'To Date'")
         End If

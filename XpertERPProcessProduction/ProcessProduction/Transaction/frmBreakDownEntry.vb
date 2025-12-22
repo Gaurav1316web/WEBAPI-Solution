@@ -82,6 +82,7 @@ Public Class frmBreakDownEntry
 
     Private Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(dtpDate.Value)
             If clsCommon.myLen(txtBreakDowncode.Value) <= 0 Then
                 RadPageView1.SelectedPage = RadPageViewPage1
                 txtBreakDowncode.Focus()

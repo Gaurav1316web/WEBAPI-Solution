@@ -3039,6 +3039,7 @@ Public Class FrmVendorService
 
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             If clsCommon.CompairString(cmbRefType.SelectedValue, "WO") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtRefDocNo.Value) > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(cboDocType.SelectedValue), "D") <> CompairStringResult.Equal Then
                     Dim WOBal As Decimal = clsVedorInvoiceHead.GetWorkOrderBalanceAmount(txtRefDocNo.Value, txtDocNo.Value, Nothing)
@@ -3208,7 +3209,7 @@ Public Class FrmVendorService
                     End If
                 Next
                 Dim strLocCode As String = "select Location_Code from TSPL_LOCATION_MASTER where Loc_Segment_Code='" & txtlocation.Value & "' and IsEinvoice=1"
-                                        If clsCommon.myLen(strLocCode) <= 0 Then
+                If clsCommon.myLen(strLocCode) <= 0 Then
                     clsCommon.MyMessageBoxShow(Me, "Please Map  E-Invoice on Location Master!", Me.Text)
                     Return False
                 End If

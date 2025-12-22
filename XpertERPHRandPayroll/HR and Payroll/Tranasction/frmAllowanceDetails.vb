@@ -314,6 +314,7 @@ Public Class frmAllowanceDetails
         Return False
     End Function
     Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(dtpAllowanceDate.Value)
         If btnsave.Text = "Update" Then
             Dim QryStr As String = "select POSTED from TSPL_ALLOWANCE where ALLOWANCE_CODE = '" + txtCode.Value + "' "
             Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)

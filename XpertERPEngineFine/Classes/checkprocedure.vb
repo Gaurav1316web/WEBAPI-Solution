@@ -3034,7 +3034,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.XpertAPIParlourShiftClose, "Parlour Shift Close", "1.48.02.11", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPIDairyGatePass, "Dairy GatePass", "1.48.02.12", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPIBMCDCSSamplingReceiving, "BMC DCS Sampling Receiving", "1.48.02.13", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
-
+        InsertDefaultValue(clsUserMgtCode.XpertAPIGateEntry, "Gate Entry", "1.48.02.14", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
 
         InsertDefaultValue(clsUserMgtCode.SubModuleXpertAPIReport, "Report", "1.48.03", clsUserMgtCode.ModuleXpertAPI, "SM", 30, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPIMilkMilkRegister, "Milk Register", "1.48.03.01", clsUserMgtCode.SubModuleXpertAPIReport, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
@@ -3064,6 +3064,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.DBTPDAccountReport, "DBT PD Account Report", "1.49.03.21", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.frmUnionWiseAppUserReport, "Union Wise App User Report", "1.49.03.22", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.FrmCmSambalYojanaSunsidy, "Cm Sambal Yojana Sunsidy", "1.49.03.23", clsUserMgtCode.SubModuleMilkUnion, 8)
+        InsertDefaultValue(clsUserMgtCode.rptDBTBankResponse, "DBT Bank Response", "1.49.03.24", clsUserMgtCode.SubModuleMilkUnion, 8)
 
         InsertDefaultValue(clsUserMgtCode.ModuleBullManagement, "Bull Management", "1.50", clsUserMgtCode.ExpertERP, "M", 23)
 

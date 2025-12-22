@@ -1357,6 +1357,7 @@ Public Class FrmQualityCheck
     End Sub
     Function allowToSave(ByVal isPost As Boolean) As Boolean
         Try
+            Xtra.TransactionValidity(dtpQCInDateTime.Value)
             '===============Preeti Gupta==================================
             If AllowFutureDateTransaction(dtpQCInDateTime.Value, Nothing) = False Then
                 dtpQCInDateTime.Select()

@@ -245,6 +245,7 @@ Public Class frmSalaryGeneration
     End Sub
 
     Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(dtpGenerateDate.Value)
         If btnsave.Text = "Update" Then
             Dim QryStr As String = "select POSTED from TSPL_GENERATE_SALARY where SALARY_GENERATION_CODE = '" + txtCode.Value + "' "
             Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)

@@ -34,7 +34,7 @@ Public Class FrmOfferLetterHR
     Function AllowTosave() As Boolean
         Dim Joining_Date As DateTime
         Dim Offer_Date As DateTime
-
+        Xtra.TransactionValidity(dtpaOffrDate.Value)
         Joining_Date = clsCommon.myCDate(dtpDOJ.Value)
         Offer_Date = clsCommon.myCDate(dtpaOffrDate.Value)
 

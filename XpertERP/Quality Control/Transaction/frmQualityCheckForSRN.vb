@@ -807,6 +807,7 @@ Public Class FrmQualityCheckForSRN
     End Sub
     Private Function AllowToSave() As Boolean 'ByVal isPost As Boolean
         Try
+            Xtra.TransactionValidity(dtpDate.Value)
             If AllowFutureDateTransaction(dtpDate.Value, Nothing) = False Then
                 dtpDate.Focus()
                 Return False

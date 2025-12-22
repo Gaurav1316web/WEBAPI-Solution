@@ -22,6 +22,7 @@ Public Class FrmCSATransferGateOut
     End Sub
     Function allowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtGateOutDate.Value)
             '===================Added by preeti Gupta=======================
             If AllowFutureDateTransaction(txtGateOutDate.Value, Nothing) = False Then
                 txtGateOutDate.Select()

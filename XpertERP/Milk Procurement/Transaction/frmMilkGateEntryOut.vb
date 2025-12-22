@@ -128,6 +128,7 @@ Public Class frmMilkGateEntryOut
     End Sub
 
     Private Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtGWDate.Value)
         '===============Preeti Gupta==================================
         If AllowFutureDateTransaction(txtGWDate.Value, Nothing) = False Then
             txtGWDate.Select()
@@ -145,7 +146,7 @@ Public Class frmMilkGateEntryOut
             errorControl.SetError(txtEmptyCansOut, "Please enter empty cans")
             Throw New Exception("Please enter empty cans")
         End If
-        Dim qry As String = "select 1 from TSPL_MILK_GATE_ENTRY_IN where exists(select 1 from TSPL_MILK_RECEIPT_DETAIL left outer join TSPL_MILK_RECEIPT_HEAD on TSPL_MILK_RECEIPT_HEAD.DOC_CODE=TSPL_MILK_RECEIPT_DETAIL.DOC_CODE " + Environment.NewLine + _
+        Dim qry As String = "select 1 from TSPL_MILK_GATE_ENTRY_IN where exists(select 1 from TSPL_MILK_RECEIPT_DETAIL left outer join TSPL_MILK_RECEIPT_HEAD on TSPL_MILK_RECEIPT_HEAD.DOC_CODE=TSPL_MILK_RECEIPT_DETAIL.DOC_CODE " + Environment.NewLine +
            " where CONVERT(date, TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103)=  CONVERT(date, TSPL_MILK_GATE_ENTRY_IN.Entry_Date,103) and TSPL_MILK_RECEIPT_HEAD.SHIFT=TSPL_MILK_GATE_ENTRY_IN.Entry_Shift and TSPL_MILK_GATE_ENTRY_IN.MCC_CODE=TSPL_MILK_GATE_ENTRY_IN.MCC_CODE and TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE= TSPL_MILK_GATE_ENTRY_IN.Route_Code) and TSPL_MILK_GATE_ENTRY_IN.Entry_Code='" + txtGateEntryNo.Value + "'"
         Dim dtMilkReceipt As DataTable = clsDBFuncationality.GetDataTable(qry)
 

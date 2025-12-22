@@ -3531,6 +3531,7 @@ Public Class frmMCCMaterialSaleFarmer
                 txtDate.Focus()
                 Return False
             End If
+            Xtra.TransactionValidity(txtDate.Value)
             'RefreshReqNo()
             '====================Added by preeti gupta==================
             '   clsLockMPPaymentCycle.LockMPTransaction(txtBillToLocation.Value, txtDate.Value)

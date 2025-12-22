@@ -239,6 +239,7 @@ Public Class frmMilkGateEntryIn
     End Sub
 
     Private Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtDate.Value)
         '===============Preeti Gupta==================================
         If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
             txtDate.Select()

@@ -588,6 +588,7 @@ Public Class FrmMRPBasedPO
 
     Private Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             Dim oldqty As Decimal = 0
             For Each grow As GridViewRowInfo In gv_PO.Rows
                 oldqty = 0
@@ -621,7 +622,7 @@ Public Class FrmMRPBasedPO
                             Throw New Exception("sum of order quantity of item: " + clsCommon.myCstr(grow.Cells(colVItemName).Value) + " should not exceed " + clsCommon.myCstr(netqty) + " see from row no. " + clsCommon.myCstr(grow.Index + 1) + " to " + clsCommon.myCstr(upto + 1) + "")
                         End If
                     End If
-                    
+
                 End If
             Next
 

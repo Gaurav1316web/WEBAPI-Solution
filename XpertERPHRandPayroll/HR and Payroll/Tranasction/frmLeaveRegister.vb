@@ -80,4 +80,8 @@ Public Class frmLeaveRegister
     Private Sub frmLeaveRegister_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
     End Sub
+
+    Private Sub btnsave_Click(sender As Object, e As EventArgs) Handles btnsave.Click
+
+    End Sub
 End Class

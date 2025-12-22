@@ -1128,6 +1128,7 @@ Public Class frmJobWorkInventory
 
     Private Function AllowToSave() As Boolean
         UpdateAllTotals()
+        Xtra.TransactionValidity(txtDate.Value)
         If ChkMilkType.Checked = True Then
             Dim qry As String = clsDBFuncationality.getSingleValue("select Location_Category  from tspl_location_master where Location_Code = '" + FndMainLocation.Value + "'")
             If clsCommon.CompairString(qry, "MCC") <> CompairStringResult.Equal Then

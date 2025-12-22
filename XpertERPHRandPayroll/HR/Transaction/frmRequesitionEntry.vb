@@ -16,9 +16,9 @@ Public Class FrmRequesitionEntry
         savedata()
     End Sub
     Function allowtosave()
-        
-        ' Ticket No : TEC/19/03/19-000456 
 
+        ' Ticket No : TEC/19/03/19-000456 
+        Xtra.TransactionValidity(txtReqDateDate.Value)
         If clsCommon.myLen(clsCommon.myCstr(txtdescription.Text)) <= 0 Or clsCommon.myLen(clsCommon.myCstr(txtdescription.Text)) > 100 Then
             myMessages.blankValue(Me, "Description ", Me.Text)
             txtdescription.Focus()

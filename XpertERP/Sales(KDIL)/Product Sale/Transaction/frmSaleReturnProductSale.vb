@@ -3862,6 +3862,7 @@ Public Class frmSaleReturnProductSale
 
     Sub SaveData(ByVal ChekPostBtn As Boolean)
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             '' Anubhooti 13-Sep-2014 BM00000003735
             If ChekPostBtn = False Then
                 If FrmMainTranScreen.ValidateTransactionAccToFinYear("Sale Return", txtDate.Value) = False Then

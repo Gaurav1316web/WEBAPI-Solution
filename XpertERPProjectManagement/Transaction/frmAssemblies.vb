@@ -350,6 +350,7 @@ Public Class frmAssemblies
 
     Private Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(dtp_AssembleDate.Value)
             'If clsCommon.myLen(clsCommon.myCstr(txtCode.Value)) <= 0 Then
             '    txtCode.Focus()
             '    Throw New Exception("Please Fill  Code")

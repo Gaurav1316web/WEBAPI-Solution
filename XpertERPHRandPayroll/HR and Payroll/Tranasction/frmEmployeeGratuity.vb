@@ -61,6 +61,7 @@ Public Class FrmEmployeeGratuity
 
     Function AllowToSave() As Boolean
         Dim DOJ As Date
+        Xtra.TransactionValidity(MyDateTimePicker1.Value)
         ' Dim DOL As Date
         If clsCommon.myLen(txtCode.Value) <= 0 Then
             myMessages.blankValue(Me, "Employee Code", Me.Text)

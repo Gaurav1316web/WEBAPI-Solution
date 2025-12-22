@@ -183,6 +183,7 @@ Public Class FrmLCCreation
         End If
     End Sub
     Private Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtLCCreationdate.Value)
         If AllowFutureDateTransaction(txtLCCreationdate.Value, Nothing) = False Then
             txtLCCreationdate.Select()
             Return False

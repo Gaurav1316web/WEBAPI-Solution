@@ -389,6 +389,7 @@ Public Class frmPrintCheckMultiple
     'End Function
 
     Private Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(dtpPrintDate.Value)
         If clsCommon.myLen(clsCommon.myCstr(fndBankCode)) <= 0 Then
             fndBankCode.Focus()
             clsCommon.MyMessageBoxShow(Me, "Bank Code not found", Me.Text)

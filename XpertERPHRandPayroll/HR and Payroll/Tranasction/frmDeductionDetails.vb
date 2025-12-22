@@ -305,6 +305,7 @@ Public Class frmDeductionDetails
         Return False
     End Function
     Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(dtpDeductionDate.Value)
         '===============update by preeti gupta Against Ticket no [BM00000008223]
         If btnsave.Text = "Update" Then
             Dim QryStr As String = "select POSTED from TSPL_DEDUCTION where DEDUCTION_CODE = '" + txtCode.Value + "' "

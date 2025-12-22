@@ -24,9 +24,9 @@ Partial Class frmLeaveRegister
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.UsLock1 = New common.usLock()
@@ -282,13 +282,15 @@ Partial Class frmLeaveRegister
         Me.gvLeaveRegister.MasterTemplate.EnableGrouping = False
         Me.gvLeaveRegister.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvLeaveRegister.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvLeaveRegister.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvLeaveRegister.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvLeaveRegister.MyExportFilePath = ""
         Me.gvLeaveRegister.MyStopExport = False
         Me.gvLeaveRegister.Name = "gvLeaveRegister"
         Me.gvLeaveRegister.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvLeaveRegister.ShowHeaderCellButtons = True
         Me.gvLeaveRegister.Size = New System.Drawing.Size(824, 341)
         Me.gvLeaveRegister.TabIndex = 5
+        Me.gvLeaveRegister.VarID = ""
         '
         'ddlFromPayPeriod
         '
@@ -304,10 +306,10 @@ Partial Class frmLeaveRegister
         Me.ddlFromPayPeriod.IsSourceFromTable = False
         Me.ddlFromPayPeriod.IsSourceFromValueList = False
         Me.ddlFromPayPeriod.IsUnique = False
-        RadListDataItem3.Text = "Yes"
-        RadListDataItem4.Text = "No"
-        Me.ddlFromPayPeriod.Items.Add(RadListDataItem3)
-        Me.ddlFromPayPeriod.Items.Add(RadListDataItem4)
+        RadListDataItem1.Text = "Yes"
+        RadListDataItem2.Text = "No"
+        Me.ddlFromPayPeriod.Items.Add(RadListDataItem1)
+        Me.ddlFromPayPeriod.Items.Add(RadListDataItem2)
         Me.ddlFromPayPeriod.Location = New System.Drawing.Point(468, 19)
         Me.ddlFromPayPeriod.MendatroryField = True
         Me.ddlFromPayPeriod.MyLinkLable1 = Me.lblPayPeriod

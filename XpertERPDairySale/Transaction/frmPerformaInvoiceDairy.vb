@@ -4262,6 +4262,7 @@ Public Class frmPerformaInvoiceDairy
     End Sub
     Function AllowToSave(ByVal ChekPostBtn As Boolean) As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             GSTStatus = clsERPFuncationality.GetGSTStatus(txtDate.Value)
             RefreshReqNo()
 

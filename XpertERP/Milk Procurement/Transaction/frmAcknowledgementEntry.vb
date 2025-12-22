@@ -922,6 +922,7 @@ Public Class frmAcknowledgementEntry
 
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(dtpDateAndTime.Value)
             'For ii As Integer = 0 To gvAE.Rows.Count - 1
             '    If clsCommon.myCdbl(gvAE.Rows(ii).Cells(ColQtyInKg).Value) > 0 Then
             '        Dim objtr As New clsMCCDispatchDetail

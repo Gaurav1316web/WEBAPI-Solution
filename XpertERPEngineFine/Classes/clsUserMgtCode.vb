@@ -2,6 +2,8 @@
 Public Class clsUserMgtCode
     Public Const frmUnionWiseAppUserReport As String = "UNN-APP-RPT"
     Public Const FrmCmSambalYojanaSunsidy As String = "CM-SAM-YO"
+    Public Const rptDBTBankResponse As String = "DBT-BAN-RE"
+
     Public Const frmRouteWiseSaleTargetReport As String = "RSL-TGT-RPT"
     Public Const frmRouteWiseSaleTarget As String = "RTWS-SL-TGT"
     Public Const frmPDAccountSummariesReport As String = "PD-ACC-SRPT"
@@ -2826,6 +2828,7 @@ Public Class clsUserMgtCode
     Public Const XpertAPITruckSheet As String = "API-TS-RPT"
     Public Const XpertAPIBMCDCSSamplingReceiving As String = "BMC-DCS-SR"
     Public Const XpertAPIBMCDCSSampleReceivedRegister As String = "API-DCS-SMR"
+    Public Const XpertAPIGateEntry As String = "API-GT-ENT"
     ''=================== MIS start here============
 
     Public Const ModuleMIS As String = "MMIS"

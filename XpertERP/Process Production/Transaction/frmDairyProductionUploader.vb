@@ -280,6 +280,7 @@ Public Class frmDairyProductionUploader
     End Sub
 
     Private Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtDate.Value)
         'For ii As Integer = 0 To gv1.RowCount - 1
         '    If clsCommon.myLen(gv1.Rows(ii).Cells(colLocCode).Value) > 0 Then
 

@@ -1092,6 +1092,7 @@ Public Class frmGatePassDairySale
     End Function
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
                 Dim strCode = clsDBFuncationality.getSingleValue("select top 1 DOCUMENT_CODE from TSPL_SD_SHIPMENT_DETAIL where GatePass_No ='" & txtDocNo.Value & "'")
                 If clsCommon.myLen(strCode) > 0 Then

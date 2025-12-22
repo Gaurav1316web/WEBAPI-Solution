@@ -137,7 +137,25 @@ Public Class rptSaleInvoiceStatusReport
             Dim Baseqry As String = ""
 
             Baseqry = " select  
-case when TSPL_SD_SALE_INVOICE_HEAD.Screen_Type='CT' then 'APS' else (case when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='MCC' then 'MCC' else 'Dairy Sale'end)end as Transcation_Type,
+        CASE WHEN EXISTS ( SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD 
+        LEFT JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
+        WHERE TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
+          AND TSPL_SD_SHIPMENT_HEAD.Against_Booking_No IS NOT NULL)  And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC'  THEN 'CUSTOMER BOOKING'
+		  WHEN EXISTS (SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD 
+        LEFT JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
+        WHERE TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
+          AND TSPL_SD_SHIPMENT_HEAD.Against_Booking_No IS NULL AND ISNULL(TSPL_BOOKING_MATSER.Is_APS,0) = 0
+          AND TSPL_SD_SHIPMENT_HEAD.Item_Type = 'S') And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' THEN 'DISPATCH'
+		  WHEN EXISTS (SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD 
+        LEFT JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
+        WHERE TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
+          AND TSPL_SD_SHIPMENT_HEAD.Against_Booking_No IS NULL AND ISNULL(TSPL_BOOKING_MATSER.Is_APS,0) = 0
+          AND TSPL_SD_SHIPMENT_HEAD.Item_Type In ('P','I')) And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' THEN 'PRODUCT DISPATCH'
+		  WHEN EXISTS (SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD 
+		  LEFT JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
+        WHERE TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
+          AND TSPL_SD_SHIPMENT_HEAD.Against_Booking_No IS NULL AND (TSPL_BOOKING_MATSER.Is_APS=1 OR TSPL_SD_SHIPMENT_HEAD.Screen_Type= ('CT'))) And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' THEN 'APS SALES'
+		  ELSE 'DCS SALE' END AS Transcation_Type,
 case when TSPL_SD_SALE_INVOICE_HEAD.Status=1 then 'Approved' else'Pending' end as Doc_Status,
 TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location AS [Location],
 TSPL_SD_SALE_INVOICE_HEAD.Sub_Location_code AS [Sub Location],
@@ -239,7 +257,7 @@ where convert(date,Document_Date,103)>=Convert( Date,'" + strtxtfDate + "',103) 
 
             Baseqry += "            union all
 
-select  '' as Transcation_Type,case when TSPL_SCRAPINVOICE_HEAD.Status=1 then 'Approved' else'Pending' end as Doc_Status,
+select  'MATERIAL SALE' as Transcation_Type,case when TSPL_SCRAPINVOICE_HEAD.ispost=1 then 'Approved' else'Pending' end as Doc_Status,
 TSPL_SCRAPINVOICE_HEAD.Loc_Code AS [Location],
 TSPL_SCRAPINVOICE_HEAD.Sub_Location_code AS [Sub Location],
 Convert(varchar(20),TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) as Invoice_Date,
@@ -339,18 +357,45 @@ TSPL_SCRAPINVOICE_Detail.Unit_code as [Measure of Qty],
             End If
 
             If rbtnDetail.IsChecked AndAlso rdbGstInvoice.IsChecked Then
-                qry = Baseqry
+                qry = "Select * from (" + Baseqry + ")XX   "
+                If TxtTransaction.arrValueMember IsNot Nothing AndAlso TxtTransaction.arrValueMember.Count > 0 Then
+                    qry += " where XX.Transcation_Type In(" + clsCommon.GetMulcallString(TxtTransaction.arrValueMember) + ")" + Environment.NewLine
+                End If
             ElseIf rbtnsummary.ischecked AndAlso rdbGstInvoice.IsChecked Then
                 qry = " Select max(Transcation_Type)Transcation_Type,max(Doc_Status)Doc_Status,max(Location)Location,max([Sub Location])[Sub Location],max(Invoice_Date)Invoice_Date,Invoice_No,max([Party Name])[Party Name],max([GST No])[GST No],
-                        max([State Code])[State Code],max([Measure of Qty])[Measure of Qty],max([Product Qty])[Product Qty],Max([IGST Rate])[IGST Rate],sum([Basic Amt])[Basic Amt],max(KKF)KKF,sum([Mandi Tax Amt])[Mandi Tax Amt],sum([Party TCS Amt])[Party TCS Amt],
-                        sum([CGST Amt])[CGST Amt],sum([SGST Amt])[SGST Amt],sum([IGST Amt])[IGST Amt],sum([Total Amt])[Total Amt],max([B2B/B2C])[B2B/B2C]
-                        from ( " + Baseqry + " )XX  group by xx.Invoice_No "
+                        max([State Code])[State Code],max([Measure of Qty])[Measure of Qty],max([Product Qty])[Product Qty],Cast(Max([IGST Rate]) as decimal(10,2))[IGST Rate],Cast(sum([Basic Amt]) as Decimal(10,2))[Basic Amt],Cast(max(KKF) as decimal(10,2))KKF,Cast(sum([Mandi Tax Amt]) as Decimal(10,2))[Mandi Tax Amt],Cast(sum([Party TCS Amt]) as Decimal(10,2))[Party TCS Amt],
+                        Cast(sum([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(sum([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(sum([IGST Amt]) as decimal(10,2))[IGST Amt],cast(sum([Total Amt]) as decimal(10,2))[Total Amt],max([B2B/B2C])[B2B/B2C]
+                        from ( " + Baseqry + " )XX  "
+                If TxtTransaction.arrValueMember IsNot Nothing AndAlso TxtTransaction.arrValueMember.Count > 0 Then
+                    qry += " where XX.Transcation_Type In(" + clsCommon.GetMulcallString(TxtTransaction.arrValueMember) + ")" + Environment.NewLine
+                End If
+                qry += " Group by xx.Invoice_No "
             End If
 
             Dim BaseQryCancel As String = ""
 
             BaseQryCancel = " 
-select  case when TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Screen_Type='CT' then 'APS' else (case when TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Trans_Type='MCC' then 'MCC' else 'Dairy Sale'end)end as Transcation_Type,
+select  CASE WHEN EXISTS ( SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD_Cancel_Data 
+        LEFT JOIN TSPL_BOOKING_MATSER_Cancel_Data ON TSPL_BOOKING_MATSER_Cancel_Data.Document_No = TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_Booking_No
+        WHERE TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_Code = TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Against_Shipment_No
+          AND TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_Booking_No IS NOT NULL) 
+        And TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Trans_Type <> 'MCC' THEN 'CUSTOMER BOOKING'
+		  WHEN EXISTS (SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD_Cancel_Data 
+        LEFT JOIN TSPL_BOOKING_MATSER_Cancel_Data ON TSPL_BOOKING_MATSER_Cancel_Data.Document_No = TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_Booking_No
+        WHERE TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_Code = TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Against_Shipment_No
+          AND TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_Booking_No IS NULL AND ISNULL(TSPL_BOOKING_MATSER_Cancel_Data.Is_APS,0) = 0
+          AND TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Item_Type = 'S') And TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Trans_Type <> 'MCC' THEN 'DISPATCH'
+		  WHEN EXISTS (SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD_Cancel_Data 
+        LEFT JOIN TSPL_BOOKING_MATSER_Cancel_Data ON TSPL_BOOKING_MATSER_Cancel_Data.Document_No = TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_Booking_No
+        WHERE TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_Code = TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Against_Shipment_No
+          AND TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_Booking_No IS NULL AND ISNULL(TSPL_BOOKING_MATSER_Cancel_Data.Is_APS,0) = 0
+          AND TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Item_Type In ('P','I')) And TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Trans_Type <> 'MCC' THEN 'PRODUCT DISPATCH'
+		  WHEN EXISTS (SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD_Cancel_Data 
+		  LEFT JOIN TSPL_BOOKING_MATSER_Cancel_Data ON TSPL_BOOKING_MATSER_Cancel_Data.Document_No = TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_Booking_No
+        WHERE TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_Code = TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Against_Shipment_No
+          AND TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_Booking_No IS NULL AND (TSPL_BOOKING_MATSER_Cancel_Data.Is_APS=1 OR TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Screen_Type= ('CT')))
+         And TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Trans_Type <> 'MCC' THEN 'APS SALES'
+		  ELSE 'DCS SALE' END AS Transcation_Type,
 case when TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Status=1 then 'Approved' else'Pending' end as Doc_Status,
 TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Bill_To_Location AS [Location],
 TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Sub_Location_code AS [Sub Location],
@@ -452,7 +497,7 @@ where convert(date,Document_Date,103)>=Convert( Date,'" + strtxtfDate + "',103) 
 
             BaseQryCancel += " union all
 
-select  '' as Transcation_Type,case when TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Status=1 then 'Approved' else'Pending' end as Doc_Status,
+select  'MATERIAL SALE' as Transcation_Type,case when TSPL_SCRAPINVOICE_HEAD_Cancel_Data.ispost=1 then 'Approved' else'Pending' end as Doc_Status,
 TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Loc_Code AS [Location],
 TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Sub_Location_code AS [Sub Location],
 Convert(varchar(20),TSPL_SCRAPINVOICE_HEAD_Cancel_Data.shipment_Date,103) as Invoice_Date,
@@ -552,12 +597,21 @@ where convert(date,shipment_Date,103)>=Convert( Date,'" + strtxtfDate + "',103) 
             End If
 
             If rbtnDetail.IsChecked AndAlso rdbCancelInvoice.IsChecked Then
-                qry = BaseQryCancel
+                qry = "Select * from (" + BaseQryCancel + ")XX   "
+                If TxtTransaction.arrValueMember IsNot Nothing AndAlso TxtTransaction.arrValueMember.Count > 0 Then
+                    qry += " where XX.Transcation_Type In(" + clsCommon.GetMulcallString(TxtTransaction.arrValueMember) + ")" + Environment.NewLine
+                End If
+                'qry = BaseQryCancel
             ElseIf rbtnSummary.IsChecked AndAlso rdbCancelInvoice.IsChecked Then
                 qry = " Select max(Transcation_Type)Transcation_Type,max(Doc_Status)Doc_Status,max(Location)Location,max([Sub Location])[Sub Location],max(Invoice_Date)Invoice_Date,Invoice_No,max([Party Name])[Party Name],
-                        max([GST No])[GST No],max([State Code])[State Code],max([Measure of Qty])[Measure of Qty],max([Product Qty])[Product Qty],Max([IGST Rate])[IGST Rate],
-                        sum([Basic Amt])[Basic Amt],max(KKF)KKF,sum([Mandi Tax Amt])[Mandi Tax Amt],sum([Party TCS Amt])[Party TCS Amt],sum([CGST Amt])[CGST Amt],sum([SGST Amt])[SGST Amt],sum([IGST Amt])[IGST Amt],
-                        sum([Total Amt])[Total Amt],max([B2B/B2C])[B2B/B2C] from (" + BaseQryCancel + " )XX  group by xx.Invoice_No "
+                        max([GST No])[GST No],max([State Code])[State Code],max([Measure of Qty])[Measure of Qty],max([Product Qty])[Product Qty],Cast(Max([IGST Rate]) as decimal(10,2))[IGST Rate],Cast(sum([Basic Amt]) as Decimal(10,2))[Basic Amt],Cast(max(KKF) as decimal(10,2))KKF,Cast(sum([Mandi Tax Amt]) as Decimal(10,2))[Mandi Tax Amt],Cast(sum([Party TCS Amt]) as Decimal(10,2))[Party TCS Amt],
+                        Cast(sum([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(sum([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(sum([IGST Amt]) as decimal(10,2))[IGST Amt],cast(sum([Total Amt]) as decimal(10,2))[Total Amt]
+                        ,max([B2B/B2C])[B2B/B2C] from (" + BaseQryCancel + " )XX  "
+                If TxtTransaction.arrValueMember IsNot Nothing AndAlso TxtTransaction.arrValueMember.Count > 0 Then
+                    qry += " where XX.Transcation_Type In(" + clsCommon.GetMulcallString(TxtTransaction.arrValueMember) + ")" + Environment.NewLine
+                End If
+                qry += " Group by xx.Invoice_No "
+                'group by xx.Invoice_No "
             End If
 
             Dim qryreturn As String = ""
@@ -666,9 +720,9 @@ where convert(date,Document_Date,103)>=Convert( Date,'" + strtxtfDate + "',103) 
                 qry = qryreturn
             ElseIf rbtnSummary.IsChecked AndAlso rdbSaleReturn.IsChecked Then
                 qry = " Select max(Transaction_Type)Transaction_Type,max(Doc_Status)Doc_Status,max(Location)Location,max([Sub Location])[Sub Location],max(Invoice_Date)Invoice_Date,Invoice_No,max([Party Name])[Party Name],
-                        max([GST No])[GST No],max([State Code])[State Code],max([Product Qty])[Product Qty],Max([IGST Rate])[IGST Rate],
-                        sum([Basic Amt])[Basic Amt],max(KKF)KKF,sum([Mandi Tax Amt])[Mandi Tax Amt],sum([Party TCS Amt])[Party TCS Amt],sum([CGST Amt])[CGST Amt],sum([SGST Amt])[SGST Amt],sum([IGST Amt])[IGST Amt],
-                        sum([Total Amt])[Total Amt],max([B2B/B2C])[B2B/B2C] from (" + qryreturn + " )XX  group by xx.Invoice_No "
+                        max([GST No])[GST No],max([State Code])[State Code],max([Product Qty])[Product Qty],Cast(Max([IGST Rate]) as decimal(10,2))[IGST Rate],Cast(sum([Basic Amt]) as Decimal(10,2))[Basic Amt],Cast(max(KKF) as decimal(10,2))KKF,Cast(sum([Mandi Tax Amt]) as Decimal(10,2))[Mandi Tax Amt],Cast(sum([Party TCS Amt]) as Decimal(10,2))[Party TCS Amt],
+                        Cast(sum([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(sum([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(sum([IGST Amt]) as decimal(10,2))[IGST Amt],cast(sum([Total Amt]) as decimal(10,2))[Total Amt],
+                        max([B2B/B2C])[B2B/B2C] from (" + qryreturn + " )XX  group by xx.Invoice_No "
             End If
 
             dt = clsDBFuncationality.GetDataTable(qry)
@@ -683,7 +737,6 @@ where convert(date,Document_Date,103)>=Convert( Date,'" + strtxtfDate + "',103) 
                 gvData.GroupDescriptors.Clear()
                 gvData.MasterTemplate.SummaryRowsBottom.Clear()
                 gvData.DataSource = dt
-
 
                 gvData.AutoExpandGroups = True
                 gvData.ShowGroupPanel = True
@@ -718,6 +771,21 @@ where convert(date,Document_Date,103)>=Convert( Date,'" + strtxtfDate + "',103) 
                 gvData.Columns(ii).ReadOnly = True
                 gvData.Columns(ii).BestFit()
             Next
+
+            gvData.Columns("Transcation_Type").HeaderText = "Transaction Type"
+            gvData.Columns("Doc_Status").HeaderText = "Status"
+            'gvData.Columns("Location").HeaderText = "Location"
+            'gvData.Columns("Sub Location").HeaderText = "Sub Location"
+            gvData.Columns("Invoice_Date").HeaderText = "Invoice Date"
+            gvData.Columns("Invoice_No").HeaderText = "Invoice No"
+            'gvData.Columns("Party Name").HeaderText = "Party Name"
+            'gvData.Columns("Transaction_Type").HeaderText = "Transaction Type"
+            'gvData.Columns("Transaction_Type").HeaderText = "Transaction Type"
+            'gvData.Columns("Transaction_Type").HeaderText = "Transaction Type"
+            'gvData.Columns("Transaction_Type").HeaderText = "Transaction Type"
+            'gvData.Columns("Transaction_Type").HeaderText = "Transaction Type"
+            'gvData.Columns("Transaction_Type").HeaderText = "Transaction Type"
+            'gvData.Columns("Transaction_Type").HeaderText = "Transaction Type"
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

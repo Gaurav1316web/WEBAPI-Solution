@@ -37,6 +37,7 @@ Public Class FrmPurchaseOrderAuto
     End Sub
 
     Function AllowToSave() As Boolean
+
         'If clsCommon.myLen(txtCategory.Value) <= 0 Then
         '    common.clsCommon.MyMessageBoxShow("Please select Category Code")
         '    txtCategory.Focus()

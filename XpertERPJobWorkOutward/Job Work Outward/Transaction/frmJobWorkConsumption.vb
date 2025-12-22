@@ -1224,7 +1224,7 @@ Public Class frmJobWorkConsumption
         isInsideLoadData = True
         UpdateAllTotals()
         isInsideLoadData = False
-
+        Xtra.TransactionValidity(txtDate.Value)
 
         If ChkMilkType.Checked = True Then
             Dim qry As String = clsDBFuncationality.getSingleValue("select Location_Category  from tspl_location_master where Location_Code = '" + FndMainLocation.Value + "'")

@@ -1045,6 +1045,7 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
         SaveData()
     End Sub
     Private Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtDate.Value)
         'Prevent future date transaction
         If clsCommon.myCDate(txtDate.Value).Date() > clsCommon.GETSERVERDATE().Date() Then
             txtDate.Focus()

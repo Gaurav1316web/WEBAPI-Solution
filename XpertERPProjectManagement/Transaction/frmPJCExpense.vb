@@ -340,7 +340,7 @@ Public Class FrmPJCExpense
         LoadData(txtDocNo.Value, NavigatorType.Current)
     End Sub
     Private Function AllowToSave() As Boolean
-
+        Xtra.TransactionValidity(txtDate.Value)
         If clsCommon.myLen(fndEmployee.Value) <= 0 Then
             fndEmployee.Focus()
             Throw New Exception("Please select Employee")

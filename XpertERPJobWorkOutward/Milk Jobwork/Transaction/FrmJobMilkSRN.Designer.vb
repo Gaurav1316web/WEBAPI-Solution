@@ -22,6 +22,9 @@ Partial Class FrmJobMilkSRN
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer4 = New System.Windows.Forms.SplitContainer()
@@ -316,34 +319,25 @@ Partial Class FrmJobMilkSRN
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(917, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Text = "Total"
         '
         'mnuSetting
         '
-        Me.mnuSetting.AccessibleDescription = "Setting"
-        Me.mnuSetting.AccessibleName = "Setting"
         Me.mnuSetting.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnuSaveLayout, Me.mnuDeleteLayout, Me.mnuExit})
         Me.mnuSetting.Name = "mnuSetting"
         Me.mnuSetting.Text = "Setting"
         '
         'mnuSaveLayout
         '
-        Me.mnuSaveLayout.AccessibleDescription = "Save Layout"
-        Me.mnuSaveLayout.AccessibleName = "Save Layout"
         Me.mnuSaveLayout.Name = "mnuSaveLayout"
         Me.mnuSaveLayout.Text = "Save Layout"
         '
         'mnuDeleteLayout
         '
-        Me.mnuDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.mnuDeleteLayout.AccessibleName = "Delete Layout"
         Me.mnuDeleteLayout.Name = "mnuDeleteLayout"
         Me.mnuDeleteLayout.Text = "Delete Layout"
         '
         'mnuExit
         '
-        Me.mnuExit.AccessibleDescription = "Exit"
-        Me.mnuExit.AccessibleName = "Exit"
         Me.mnuExit.Name = "mnuExit"
         Me.mnuExit.Text = "Exit"
         '
@@ -358,7 +352,6 @@ Partial Class FrmJobMilkSRN
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(917, 448)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -570,7 +563,7 @@ Partial Class FrmJobMilkSRN
         Me.lblReverse.Size = New System.Drawing.Size(69, 19)
         Me.lblReverse.TabIndex = 340
         Me.lblReverse.Text = "Reversed"
-        Me.lblReverse.TextAlignment = System.Drawing.ContentAlignment.TopCenter
+        Me.lblReverse.TextAlignment = System.Drawing.ContentAlignment.TopLeft
         '
         'lblTankerTransporterName
         '
@@ -581,7 +574,6 @@ Partial Class FrmJobMilkSRN
         Me.lblTankerTransporterName.Name = "lblTankerTransporterName"
         Me.lblTankerTransporterName.Size = New System.Drawing.Size(336, 21)
         Me.lblTankerTransporterName.TabIndex = 339
-        Me.lblTankerTransporterName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTankerTransporterName.Visible = False
         '
         'fndTankerNo
@@ -660,7 +652,7 @@ Partial Class FrmJobMilkSRN
         Me.txtTolerance.TabIndex = 345
         Me.txtTolerance.Text = "0"
         Me.txtTolerance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTolerance.Value = 0.0R
+        Me.txtTolerance.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel8
         '
@@ -708,7 +700,7 @@ Partial Class FrmJobMilkSRN
         Me.txtSNFPercentage.TabIndex = 343
         Me.txtSNFPercentage.Text = "0"
         Me.txtSNFPercentage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSNFPercentage.Value = 0.0R
+        Me.txtSNFPercentage.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'TxtSNFWeightage
         '
@@ -736,7 +728,7 @@ Partial Class FrmJobMilkSRN
         Me.TxtSNFWeightage.TabIndex = 336
         Me.TxtSNFWeightage.Text = "0"
         Me.TxtSNFWeightage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtSNFWeightage.Value = 0.0R
+        Me.TxtSNFWeightage.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'TxtFatWeightage
         '
@@ -764,7 +756,7 @@ Partial Class FrmJobMilkSRN
         Me.TxtFatWeightage.TabIndex = 335
         Me.TxtFatWeightage.Text = "0"
         Me.TxtFatWeightage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtFatWeightage.Value = 0.0R
+        Me.TxtFatWeightage.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel1
         '
@@ -812,7 +804,7 @@ Partial Class FrmJobMilkSRN
         Me.txtStanadardrate.TabIndex = 338
         Me.txtStanadardrate.Text = "0"
         Me.txtStanadardrate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtStanadardrate.Value = 0.0R
+        Me.txtStanadardrate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel6
         '
@@ -860,7 +852,7 @@ Partial Class FrmJobMilkSRN
         Me.txtfatPercentage.TabIndex = 337
         Me.txtfatPercentage.Text = "0"
         Me.txtfatPercentage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtfatPercentage.Value = 0.0R
+        Me.txtfatPercentage.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblPriceChart
         '
@@ -906,7 +898,6 @@ Partial Class FrmJobMilkSRN
         Me.lblLocationDesc.Name = "lblLocationDesc"
         Me.lblLocationDesc.Size = New System.Drawing.Size(336, 21)
         Me.lblLocationDesc.TabIndex = 328
-        Me.lblLocationDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtGateEntryNo
         '
@@ -1085,7 +1076,6 @@ Partial Class FrmJobMilkSRN
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(336, 21)
         Me.lblVendorName.TabIndex = 323
-        Me.lblVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblVendor
         '
@@ -1142,7 +1132,7 @@ Partial Class FrmJobMilkSRN
         '
         'btnReset
         '
-        Me.btnReset.Image = My.Resources._new
+        Me.btnReset.Image = Global.XpertERPJobWorkOutward.My.Resources.Resources._new
         Me.btnReset.Location = New System.Drawing.Point(424, 61)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(14, 20)
@@ -1273,11 +1263,15 @@ Partial Class FrmJobMilkSRN
         Me.gvItem.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvItem.Location = New System.Drawing.Point(0, 0)
         '
-        'gvItem
+        '
         '
         Me.gvItem.MasterTemplate.AllowColumnHeaderContextMenu = False
         Me.gvItem.MasterTemplate.AllowDeleteRow = False
+        Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvItem.MyExportFilePath = ""
+        Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvItem.ShowGroupPanel = False
@@ -1285,7 +1279,7 @@ Partial Class FrmJobMilkSRN
         Me.gvItem.Size = New System.Drawing.Size(896, 171)
         Me.gvItem.TabIndex = 0
         Me.gvItem.TabStop = False
-        Me.gvItem.Text = "RadGridView1"
+        Me.gvItem.VarID = ""
         '
         'QcDetails
         '
@@ -1545,14 +1539,18 @@ Partial Class FrmJobMilkSRN
         Me.gvParam.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvParam.Location = New System.Drawing.Point(2, 18)
         '
-        'gvParam
         '
+        '
+        Me.gvParam.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvParam.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvParam.MyExportFilePath = ""
+        Me.gvParam.MyStopExport = False
         Me.gvParam.Name = "gvParam"
         Me.gvParam.ShowHeaderCellButtons = True
         Me.gvParam.Size = New System.Drawing.Size(892, 100)
         Me.gvParam.TabIndex = 264
-        Me.gvParam.Text = "RadGridView1"
+        Me.gvParam.VarID = ""
         '
         'RadGroupBox2
         '
@@ -1573,12 +1571,16 @@ Partial Class FrmJobMilkSRN
         '
         '
         '
+        Me.gvRange.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvRange.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvRange.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvRange.MyExportFilePath = ""
+        Me.gvRange.MyStopExport = False
         Me.gvRange.Name = "gvRange"
         Me.gvRange.ShowHeaderCellButtons = True
         Me.gvRange.Size = New System.Drawing.Size(892, 95)
         Me.gvRange.TabIndex = 264
-        Me.gvRange.Text = "RadGridView1"
+        Me.gvRange.VarID = ""
         '
         'RadPageViewPage2
         '

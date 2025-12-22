@@ -240,6 +240,7 @@ Public Class frmRouteWiseSaleTarget
 
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDocumentDate.Value)
             If clsCommon.myLen(cboUOM.SelectedItem) <= 0 Then
                 clsCommon.MyMessageBoxShow(Me, "Please Select UOM !", Me.Text)
                 Return False

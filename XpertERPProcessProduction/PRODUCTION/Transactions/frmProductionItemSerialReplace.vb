@@ -633,6 +633,7 @@ Public Class frmProductionItemSerialReplace
 
     Private Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(dtpDate.Value)
             If clsCommon.myLen(txtLocation.Value) <= 0 Then
                 txtLocation.Focus()
                 txtLocation.Select()

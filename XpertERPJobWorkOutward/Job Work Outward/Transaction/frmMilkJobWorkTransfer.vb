@@ -1146,6 +1146,7 @@ Public Class frmMilkJobWorkTransfer
 
     Function allowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(dtpSRNDATE.Value)
             ' = KUNAL > TICKET : BM00000009575 =====
             If AllowFutureDateTransaction(dtpSRNDATE.Value, Nothing) = False Then
                 dtpSRNDATE.Focus()

@@ -273,6 +273,7 @@ Public Class frmSetPOSchedule
     Function AllowToSave() As Boolean
         Try
             UpdateAllTotals()
+            Xtra.TransactionValidity(txtDate.Value)
             ' = KUNAL > TICKET :  BM00000009580 ==============================
             If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
                 txtDate.Focus()

@@ -660,6 +660,7 @@ Partial Class frmJWOTransferOther
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -667,6 +668,7 @@ Partial Class frmJWOTransferOther
         Me.gv1.Size = New System.Drawing.Size(774, 233)
         Me.gv1.TabIndex = 21
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'UcItemBalance1
         '
@@ -817,6 +819,7 @@ Partial Class frmJWOTransferOther
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -824,6 +827,7 @@ Partial Class frmJWOTransferOther
         Me.gv2.Size = New System.Drawing.Size(769, 384)
         Me.gv2.TabIndex = 1
         Me.gv2.TabStop = False
+        Me.gv2.VarID = ""
         '
         'Attachments
         '
@@ -993,7 +997,7 @@ Partial Class frmJWOTransferOther
         'btnSave
         '
         Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSave.Location = New System.Drawing.Point(4, 5)
+        Me.btnSave.Location = New System.Drawing.Point(3, 5)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(69, 22)
         Me.btnSave.TabIndex = 3

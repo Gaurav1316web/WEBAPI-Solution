@@ -1208,6 +1208,7 @@ Public Class frmRCDFStandardization
     End Sub
     Private Function AllowToSave(Optional ByVal IsPost As Boolean = False) As Boolean
         Try
+            Xtra.TransactionValidity(dtpDate.Value)
             If AllowFutureDateTransaction(dtpDate.Value, Nothing) = False Then
                 Return False
             End If

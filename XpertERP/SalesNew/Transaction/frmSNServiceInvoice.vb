@@ -2785,6 +2785,7 @@ Public Class frmSNServiceInvoice
             'RefreshReqNo()
 
             UpdateAllTotals()
+            Xtra.TransactionValidity(txtDate.Value)
             If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
                 common.clsCommon.MyMessageBoxShow("Please select Customer")
                 txtVendorNo.Focus()

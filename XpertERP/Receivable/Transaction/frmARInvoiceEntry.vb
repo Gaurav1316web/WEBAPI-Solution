@@ -173,6 +173,13 @@ Public Class FrmARInvoiceEntry
         Else
             RadPageView1.Pages("Attachments").Item.Visibility = ElementVisibility.Collapsed
         End If
+
+        If chkEinvoice.Checked = True Then
+            RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Visible
+        Else
+            RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Collapsed
+
+        End If
         ''End of For Attachment
         If Not objCommonVar.IsDemoERP Then
             pnlPCJ.Visible = False
@@ -2037,6 +2044,9 @@ Public Class FrmARInvoiceEntry
         LblLocDesp.Text = ""
         txtLocationPrefix.Value = ""
         txtLocationPrefixName.Text = ""
+        EInvoiceIRNNo.Text = ""
+        EInvoiceQrCode.Text = ""
+        EinvoiceBtnUpdate.Enabled = True
         BlankAllControls()
         LoadBlankGridGL()
         LoadBlankGridTax()
@@ -2076,6 +2086,7 @@ Public Class FrmARInvoiceEntry
     Function AllowToSave() As Boolean
         Try
             btnSave.Focus()
+            Xtra.TransactionValidity(txtDate.Value)
             '========================Added by Preeti Gupta[01/02/2017]==============
             If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
                 txtDate.Focus()
@@ -2702,6 +2713,18 @@ Public Class FrmARInvoiceEntry
                     btnCancel.Enabled = False
                     butCostCenterAndHirerachy_Update_AfterPost.Visible = False
                 End If
+                If clsCommon.myLen(obj.irn_no) > 0 Then
+                    EInvoiceIRNNo.Text = obj.irn_no
+                    EinvoiceAckNo.Text = obj.Ack_No
+                    If clsCommon.myLen(obj.Ack_Date) > 0 Then
+                        txtAckDate.Value = obj.Ack_Date
+                    End If
+                    EInvoiceQrCode.Text = obj.QR_Code
+                    EinvoiceBtnUpdate.Enabled = False
+                Else
+                    EinvoiceBtnUpdate.Enabled = True
+                End If
+
                 UsLock1.Status = obj.Status
                 txtDocNo.Value = obj.Document_No
                 txtDate.Value = obj.Document_Date
@@ -5583,6 +5606,37 @@ Public Class FrmARInvoiceEntry
         End Try
     End Sub
 
+    Private Sub EinvoiceBtnUpdate_Click(sender As Object, e As EventArgs) Handles EinvoiceBtnUpdate.Click
+        UpdateEInvoice()
+    End Sub
 
+    Sub UpdateEInvoice()
+        Try
+
+            Dim obj As New clsCustomerInvoiceHead
+            obj.Document_No = clsCommon.myCstr(txtDocNo.Value)
+            obj.irn_no = EInvoiceIRNNo.Text
+            obj.Ack_No = EinvoiceAckNo.Text
+            obj.Ack_Date = txtAckDate.Value
+            obj.QR_Code = EInvoiceQrCode.Text
+            clsCustomerInvoiceHead.UpdateEInvoiceAfterPosting(obj, txtDocNo.Value, Nothing)
+            clsCommon.MyMessageBoxShow("E-Invoice Updated Successfully", Me.Text)
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub chkEinvoice_CheckStateChanged(sender As Object, e As EventArgs) Handles chkEinvoice.CheckStateChanged
+        Try
+            If chkEinvoice.Checked = True Then
+                RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Visible
+            Else
+                RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Collapsed
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class
 

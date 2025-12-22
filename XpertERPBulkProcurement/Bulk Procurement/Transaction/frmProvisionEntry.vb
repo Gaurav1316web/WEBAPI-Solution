@@ -182,7 +182,7 @@ Public Class FrmProvisionEntry
     Function AllowToSave() As Boolean
         Try
             '= KUNAL > TICKET : BM00000009575 =====
-           
+            Xtra.TransactionValidity(dtpDate.Value)
             If AllowFutureDateTransaction(dtpDate.Value, Nothing) = False Then
                 dtpDate.Focus()
                 Return False

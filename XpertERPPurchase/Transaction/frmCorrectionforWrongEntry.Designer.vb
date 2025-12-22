@@ -328,7 +328,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage5
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1020, 647)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -1740,6 +1740,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.Gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv2.MasterTemplate.ShowHeaderCellButtons = True
         Me.Gv2.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv2.MyExportFilePath = ""
         Me.Gv2.MyStopExport = False
         Me.Gv2.Name = "Gv2"
         Me.Gv2.RightToLeft = System.Windows.Forms.RightToLeft.No

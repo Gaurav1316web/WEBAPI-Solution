@@ -660,6 +660,8 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
                     view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colPCount).Name)
                     view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colPAmt).Name)
                 End If
+                ''17/12 add crate for visibility for GNG 
+                view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colCrate).Name)
                 view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colAmt).Name)
                 view.ColumnGroups(TempColGroupCount).IsPinned = True
                 view.ColumnGroups(TempColGroupCount).PinPosition = PinnedColumnPosition.Right
@@ -857,6 +859,7 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
     End Sub
     Function AllowToSave(ByVal trans As SqlTransaction) As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             If clsCommon.myLen(txtRouteNo.Value) <= 0 Then
                 Throw New Exception("Please select Route")
             End If

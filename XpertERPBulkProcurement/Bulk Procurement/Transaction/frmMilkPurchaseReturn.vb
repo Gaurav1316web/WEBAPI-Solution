@@ -765,7 +765,7 @@ Public Class FrmMilkPurchaseReturn
     End Sub
     Function allowToSave() As Boolean
         Try
-
+            Xtra.TransactionValidity(dtpDocReturnDate.Value)
             If AllowFutureDateTransaction(dtpDocReturnDate.Value, Nothing) = False Then
                 dtpDocReturnDate.Focus()
                 Return False

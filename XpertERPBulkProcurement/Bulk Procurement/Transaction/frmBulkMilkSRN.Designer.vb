@@ -675,7 +675,7 @@ Partial Class FrmBulkMilkSRN
         Me.txtTolerance.TabIndex = 345
         Me.txtTolerance.Text = "0"
         Me.txtTolerance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTolerance.Value = 0R
+        Me.txtTolerance.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel4
         '
@@ -724,7 +724,7 @@ Partial Class FrmBulkMilkSRN
         Me.txtfatPercentage.TabIndex = 337
         Me.txtfatPercentage.Text = "0"
         Me.txtfatPercentage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtfatPercentage.Value = 0R
+        Me.txtfatPercentage.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel7
         '
@@ -773,7 +773,7 @@ Partial Class FrmBulkMilkSRN
         Me.txtSNFPercentage.TabIndex = 343
         Me.txtSNFPercentage.Text = "0"
         Me.txtSNFPercentage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSNFPercentage.Value = 0R
+        Me.txtSNFPercentage.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtStanadardrate
         '
@@ -802,7 +802,7 @@ Partial Class FrmBulkMilkSRN
         Me.txtStanadardrate.TabIndex = 338
         Me.txtStanadardrate.Text = "0"
         Me.txtStanadardrate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtStanadardrate.Value = 0R
+        Me.txtStanadardrate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'TxtSNFWeightage
         '
@@ -831,7 +831,7 @@ Partial Class FrmBulkMilkSRN
         Me.TxtSNFWeightage.TabIndex = 336
         Me.TxtSNFWeightage.Text = "0"
         Me.TxtSNFWeightage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtSNFWeightage.Value = 0R
+        Me.TxtSNFWeightage.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel5
         '
@@ -870,7 +870,7 @@ Partial Class FrmBulkMilkSRN
         Me.TxtFatWeightage.TabIndex = 335
         Me.TxtFatWeightage.Text = "0"
         Me.TxtFatWeightage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtFatWeightage.Value = 0R
+        Me.TxtFatWeightage.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel1
         '
@@ -918,7 +918,7 @@ Partial Class FrmBulkMilkSRN
         Me.txtTransportCharges.TabIndex = 340
         Me.txtTransportCharges.Text = "0"
         Me.txtTransportCharges.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTransportCharges.Value = 0R
+        Me.txtTransportCharges.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel11
         '
@@ -957,7 +957,7 @@ Partial Class FrmBulkMilkSRN
         Me.txtTotalSolidRate.TabIndex = 288
         Me.txtTotalSolidRate.Text = "0"
         Me.txtTotalSolidRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTotalSolidRate.Value = 0R
+        Me.txtTotalSolidRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblPriceChart
         '
@@ -1410,6 +1410,7 @@ Partial Class FrmBulkMilkSRN
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvItem.MyExportFilePath = ""
         Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1683,6 +1684,7 @@ Partial Class FrmBulkMilkSRN
         Me.gvParam.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvParam.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvParam.MyExportFilePath = ""
         Me.gvParam.MyStopExport = False
         Me.gvParam.Name = "gvParam"
         Me.gvParam.ShowHeaderCellButtons = True
@@ -1712,6 +1714,7 @@ Partial Class FrmBulkMilkSRN
         Me.gvRange.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvRange.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvRange.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvRange.MyExportFilePath = ""
         Me.gvRange.MyStopExport = False
         Me.gvRange.Name = "gvRange"
         Me.gvRange.ShowHeaderCellButtons = True

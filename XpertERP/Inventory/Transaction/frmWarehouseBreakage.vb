@@ -411,6 +411,7 @@ Public Class FrmWarehouseBreakage
     End Sub
 
     Private Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtDate.Value)
         '=======preeti Gupta=============
         If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
             txtDate.Select()

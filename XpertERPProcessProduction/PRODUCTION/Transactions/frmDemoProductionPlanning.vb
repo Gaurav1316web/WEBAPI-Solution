@@ -492,7 +492,7 @@ Public Class frmDemoProductionPlanning
         Return clsCancelLog.SaveData(obj, True, trans)
     End Function
     Private Function AllowToSave() As Boolean
-
+        Xtra.TransactionValidity(txtDate.Value)
         If clsCommon.myLen(fndCust.Value) <= 0 Then
             fndCust.Focus()
             Throw New Exception("Please select Customer")

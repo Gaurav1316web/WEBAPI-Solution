@@ -678,6 +678,7 @@ Public Class frmBatchOrder
         Return False
     End Function
     Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(dtpBODate.Value)
         '===================Added by preeti Gupta==============
         If AllowFutureDateTransaction(dtpBODate.Value, Nothing) = False Then
             dtpBODate.Select()

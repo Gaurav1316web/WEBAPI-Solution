@@ -2305,7 +2305,7 @@ Public Class FrmAPInvoiceEntryTDS
             txtDate.Focus()
             Return False
         End If
-
+        Xtra.TransactionValidity(txtDate.Value)
         ' If clsCommon.myLen(obj.Posting_Date) > 0 Then
         If btnSave.Text = "Update" Then
             Dim strchk As String = "select Posting_Date from TSPL_VENDOR_INVOICE_HEAD where Document_No='" + txtDocNo.Value + "'"

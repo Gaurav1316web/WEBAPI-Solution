@@ -313,6 +313,7 @@ Public Class FrmComplaintDetailEntry
 
     Public Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             If (clsCommon.myLen(txtoutletcode.Value) = 0) Then
                 clsCommon.MyMessageBoxShow("Please Select OutLet For Complaint", Me.Text)
                 txtoutletcode.Focus()

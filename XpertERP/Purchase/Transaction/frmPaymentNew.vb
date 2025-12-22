@@ -2083,6 +2083,7 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
     End Sub
     Function AllowToSave1() As Boolean
         Try
+            Xtra.TransactionValidity(dtpPayment.Value)
             Dim isAllowFutureTransForPDCCheque As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowtoFutureDateTransForPDCCheque, clsFixedParameterCode.AllowtoFutureDateTransForPDCCheque, Nothing)) = 1, True, False)
             If isAllowFutureTransForPDCCheque = True AndAlso chkPDC.Checked = True Then
             Else

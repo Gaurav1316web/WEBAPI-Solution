@@ -149,7 +149,7 @@ Public Class FrmDispatchTransfer
         Me.Close()
     End Sub
     Function AllowToSave() As Boolean
-
+        Xtra.TransactionValidity(dtpDate.Value)
         'KUNAL > TICKET : BM00000009575 =============
         If AllowFutureDateTransaction(dtpDate.Value, Nothing) = False Then
             dtpDate.Focus()

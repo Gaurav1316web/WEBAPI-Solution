@@ -179,6 +179,7 @@ Public Class frmMilkShiftUploaderRaj
     End Sub
 
     Private Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtDate.Value)
         'Prevent future date transaction
         If clsCommon.myCDate(txtDate.Value).Date() > clsCommon.GETSERVERDATE().Date() Then
             txtDate.Focus()

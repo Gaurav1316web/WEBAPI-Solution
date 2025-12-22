@@ -427,6 +427,7 @@ Public Class FrmReceiptInvoiceMapping
     End Sub
 
     Private Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtDate.Value)
         If clsCommon.myLen(fndReceiptNo.Value) = 0 Then
             clsCommon.MyMessageBoxShow(Me, "Please select Receipt No.", Me.Text)
             Return False

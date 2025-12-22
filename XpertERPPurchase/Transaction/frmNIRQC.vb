@@ -170,6 +170,7 @@ Public Class frmNIRQC
 
     End Sub
     Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtDate.Value)
         If clsCommon.myLen(cboVisualQCStatus.SelectedValue) <= 0 Then
             cboVisualQCStatus.Focus()
             Throw New Exception("Please select " + cboVisualQCStatus.MyLinkLable1.Text)

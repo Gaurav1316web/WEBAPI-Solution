@@ -934,7 +934,7 @@ Public Class frmRiceBOM
         End If
     End Function
     Function AllowToSave() As Boolean
-
+        Xtra.TransactionValidity(dtpBOMDate.Value)
         If btnsave.Text = "Update" Then
             Dim QryStr As String = "select POSTED from TSPL_MF_BOM_HEAD where BOM_CODE = '" + txtCode.Value + "' and trans_type='RICE' "
             Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)

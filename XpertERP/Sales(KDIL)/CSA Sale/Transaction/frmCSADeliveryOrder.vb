@@ -217,6 +217,7 @@ Public Class FrmCSADeliveryOrder
     Private Function AllowToSave() As Boolean
         Dim qry As String = ""
         Try
+            Xtra.TransactionValidity(dtpdate.Value)
             'KUNAL > TICKET : BM00000009580 > DATE :  18 - OCTOBER - 2016
             If AllowFutureDateTransaction(dtpdate.Value, Nothing) = False Then
                 dtpdate.Select()

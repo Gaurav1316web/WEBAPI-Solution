@@ -25,7 +25,7 @@ Partial Class frmAssetInstallPullOut
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.chkPullOut = New Telerik.WinControls.UI.RadRadioButton()
         Me.chkInstall = New Telerik.WinControls.UI.RadRadioButton()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
@@ -368,7 +368,8 @@ Partial Class frmAssetInstallPullOut
         Me.dgvVisi.MasterTemplate.AllowDeleteRow = False
         Me.dgvVisi.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvVisi.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgvVisi.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.dgvVisi.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgvVisi.MyExportFilePath = ""
         Me.dgvVisi.MyStopExport = False
         Me.dgvVisi.Name = "dgvVisi"
         Me.dgvVisi.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -377,6 +378,7 @@ Partial Class frmAssetInstallPullOut
         Me.dgvVisi.Size = New System.Drawing.Size(957, 200)
         Me.dgvVisi.TabIndex = 1
         Me.dgvVisi.TabStop = False
+        Me.dgvVisi.VarID = ""
         '
         'SplitContainer1
         '

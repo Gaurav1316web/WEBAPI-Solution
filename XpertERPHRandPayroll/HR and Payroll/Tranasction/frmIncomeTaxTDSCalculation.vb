@@ -1212,7 +1212,7 @@ Public Class frmIncomeTaxTDSCalculation
 
     Function AllowToSave() As Boolean
         Dim linno As Integer = 0
-
+        Xtra.TransactionValidity(txtDate.Value)
         If clsCommon.myLen(txtDesc.Text) <= 0 Then
             txtDesc.Focus()
             Throw New Exception("Please enter Incentive Description")

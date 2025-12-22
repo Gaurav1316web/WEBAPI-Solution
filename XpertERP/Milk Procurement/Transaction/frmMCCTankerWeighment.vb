@@ -162,7 +162,7 @@ Public Class frmMCCTankerWeighment
     End Sub
 
     Private Function AllowToSave() As Boolean
-
+        Xtra.TransactionValidity(txtDocumentDate.Value)
         ' KUNAL > TICKET : BM00000009575 =====
         If AllowFutureDateTransaction(txtDocumentDate.Value, Nothing) = False Then
             txtDocumentDate.Focus()

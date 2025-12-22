@@ -322,6 +322,7 @@ Public Class frmLoanGeneration
         Return False
     End Function
     Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(dtpGenerateDate.Value)
         If btnsave.Text = "Update" Then
             Dim QryStr As String = "select POSTED from TSPL_LOAN_GENERATION where LOAN_GENERATION_CODE = '" + txtCode.Value + "' "
             Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)

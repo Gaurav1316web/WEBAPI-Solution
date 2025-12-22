@@ -252,6 +252,7 @@ Public Class FrmGateOut
     End Sub
     Function allowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(dtpStartDateTime.Value)
             '= KUNAL > TICKET : BM00000009575 ==============
             If AllowFutureDateTransaction(dtpStartDateTime.Value, Nothing) = False Then
                 dtpStartDateTime.Focus()

@@ -327,6 +327,7 @@ Public Class FrmGatePassPS
     End Sub
 
     Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtdate.Value)
         If clsCommon.myLen(fndLocationCode.Value) <= 0 Then
             common.clsCommon.MyMessageBoxShow("Please select Location")
             fndLocationCode.Focus()

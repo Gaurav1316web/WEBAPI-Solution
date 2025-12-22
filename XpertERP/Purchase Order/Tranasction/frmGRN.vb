@@ -3330,6 +3330,7 @@ Public Class frmGRN
     End Sub
     Function AllowToSave(ByVal ChekPostBtn As Boolean) As Boolean
         Dim dt As DataTable
+        Xtra.TransactionValidity(txtDate.Value)
         If AutoClosePO Or AutoClosePOBasedOnSRNQtyWithTolerance Then
             If clsCommon.myLen(txtinvoiceno.Text) <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "Please enter invoice no.", Me.Text)
@@ -3384,14 +3385,17 @@ Public Class frmGRN
 
             Dim taxtype As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select type from tspl_Tax_master where Tax_Code='" + clsCommon.myCstr(grow.Cells(colTTaxAutCode).Value) + "' "))
             Dim amt As Decimal = clsCommon.myCdbl(grow.Cells(colTTaxAmt).Value)
-
-            If taxtype = "CGST" Then
+            If clsCommon.CompairString(taxtype, "CGST") = CompairStringResult.Equal Then
+                'If taxtype = "CGST" Then
                 cgstAmount = amt
-            ElseIf taxtype = "SGST" Then
+                'ElseIf taxtype = "SGST" Then
+            ElseIf clsCommon.CompairString(taxtype, "SGST") = CompairStringResult.Equal Then
                 sgstAmount = amt
             End If
         Next
-        If clsCommon.CompairString(cgstAmount, sgstAmount) <> CompairStringResult.Equal Then
+        ' If clsCommon.CompairString(cgstAmount, sgstAmount) <> CompairStringResult.Equal Then
+        If cgstAmount <> sgstAmount Then
+
             ' If cgstAmount <> sgstAmount Then
             Throw New Exception("CGST " & cgstAmount & "  and SGST " & sgstAmount & " Amount must be same")
         End If

@@ -31,6 +31,8 @@ Public Class frmGateEntryReturnTransfer
                 txtDocDate.Focus()
                 Return False
             End If
+            Xtra.TransactionValidity(txtDocDate.Value)
+
             If clsCommon.myLen(fndRefDocNo.Value) <= 0 Then
                 Throw New Exception("Pls Select Transfer No for Return.")
             End If

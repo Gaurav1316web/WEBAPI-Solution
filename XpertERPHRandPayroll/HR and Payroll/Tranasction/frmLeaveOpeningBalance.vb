@@ -66,6 +66,7 @@ Public Class frmLeaveOpeningBalance
     End Sub
 
     Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(dtpOpeningDate.Value)
         If clsCommon.myLen(txtEmpCode.Value) <= 0 Then
             myMessages.blankValue(Me, "Employee Code", Me.Text)
             txtEmpCode.Focus()

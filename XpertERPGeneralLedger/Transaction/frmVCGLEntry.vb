@@ -558,7 +558,7 @@ Public Class frmVCGLEntry
     End Sub
 
     Function AllowToSave() As Boolean
-
+        Xtra.TransactionValidity(txtDate.Value)
         If btnSave.Text = "Update" Then
             Dim strchk As String = "select Status from TSPL_VCGL_Head where Document_No='" + txtDocNo.Value + "'"
             Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk)

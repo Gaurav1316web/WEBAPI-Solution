@@ -108,6 +108,7 @@ Public Class frmOutputEntry
     End Sub
 
     Private Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtDate.Value)
         If (clsCommon.myLen(fndLoc.Value)) <= 0 Then
             clsCommon.MyMessageBoxShow(Me, "Select Plant first.", Me.Text)
             fndLoc.Focus()

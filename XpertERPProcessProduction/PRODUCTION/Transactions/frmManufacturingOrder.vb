@@ -1279,7 +1279,6 @@ Public Class frmManufacturingOrder
         Return True
     End Function
     Function AllowToSave() As Boolean
-
         If btnsave.Text = "Update" Then
             Dim QryStr As String = "select POSTED from TSPL_MF_MANUFACTURING_ORDER where MO_CODE = '" + txtCode.Value + "' "
             Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)

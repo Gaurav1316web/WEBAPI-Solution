@@ -119,6 +119,7 @@ Public Class frmSRNReturn
 
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             '= KUNAL > TICKET : BM00000009580 =====
             If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
                 txtDate.Focus()

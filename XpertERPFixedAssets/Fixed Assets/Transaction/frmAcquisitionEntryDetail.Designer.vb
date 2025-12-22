@@ -258,10 +258,9 @@ Partial Class FrmAcquisitionEntryDetail
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(626, 322)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -381,7 +380,6 @@ Partial Class FrmAcquisitionEntryDetail
         Me.lblItem.Name = "lblItem"
         Me.lblItem.Size = New System.Drawing.Size(287, 18)
         Me.lblItem.TabIndex = 122
-        Me.lblItem.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblItem.TextWrap = False
         '
         'lblGroup
@@ -394,7 +392,6 @@ Partial Class FrmAcquisitionEntryDetail
         Me.lblGroup.Name = "lblGroup"
         Me.lblGroup.Size = New System.Drawing.Size(287, 18)
         Me.lblGroup.TabIndex = 10
-        Me.lblGroup.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblGroup.TextWrap = False
         '
         'lblAccountSet
@@ -407,7 +404,6 @@ Partial Class FrmAcquisitionEntryDetail
         Me.lblAccountSet.Name = "lblAccountSet"
         Me.lblAccountSet.Size = New System.Drawing.Size(287, 18)
         Me.lblAccountSet.TabIndex = 35
-        Me.lblAccountSet.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblAccountSet.TextWrap = False
         '
         'lblCategory
@@ -420,7 +416,6 @@ Partial Class FrmAcquisitionEntryDetail
         Me.lblCategory.Name = "lblCategory"
         Me.lblCategory.Size = New System.Drawing.Size(287, 18)
         Me.lblCategory.TabIndex = 6
-        Me.lblCategory.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblCategory.TextWrap = False
         '
         'txtItem
@@ -499,7 +494,6 @@ Partial Class FrmAcquisitionEntryDetail
         Me.lblCostCenter.Name = "lblCostCenter"
         Me.lblCostCenter.Size = New System.Drawing.Size(287, 18)
         Me.lblCostCenter.TabIndex = 33
-        Me.lblCostCenter.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblCostCenter.TextWrap = False
         Me.lblCostCenter.Visible = False
         '
@@ -513,7 +507,6 @@ Partial Class FrmAcquisitionEntryDetail
         Me.lblTemplate.Name = "lblTemplate"
         Me.lblTemplate.Size = New System.Drawing.Size(287, 18)
         Me.lblTemplate.TabIndex = 3
-        Me.lblTemplate.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTemplate.TextWrap = False
         '
         'MyLabel6
@@ -713,6 +706,7 @@ Partial Class FrmAcquisitionEntryDetail
         'cboTaxDepType
         '
         Me.cboTaxDepType.CalculationExpression = Nothing
+        Me.cboTaxDepType.DropDownAnimationEnabled = True
         Me.cboTaxDepType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboTaxDepType.FieldCode = Nothing
         Me.cboTaxDepType.FieldDesc = Nothing
@@ -747,6 +741,7 @@ Partial Class FrmAcquisitionEntryDetail
         'cboDepType
         '
         Me.cboDepType.CalculationExpression = Nothing
+        Me.cboDepType.DropDownAnimationEnabled = True
         Me.cboDepType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboDepType.FieldCode = Nothing
         Me.cboDepType.FieldDesc = Nothing
@@ -803,7 +798,7 @@ Partial Class FrmAcquisitionEntryDetail
         Me.txtTaxAmount.TabIndex = 145
         Me.txtTaxAmount.Text = "0"
         Me.txtTaxAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTaxAmount.Value = 0.0R
+        Me.txtTaxAmount.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblTaxAmount
         '
@@ -839,7 +834,7 @@ Partial Class FrmAcquisitionEntryDetail
         Me.txtNetValue.TabIndex = 143
         Me.txtNetValue.Text = "0"
         Me.txtNetValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNetValue.Value = 0.0R
+        Me.txtNetValue.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblNetValue
         '
@@ -875,7 +870,7 @@ Partial Class FrmAcquisitionEntryDetail
         Me.txtSalvageRate.TabIndex = 141
         Me.txtSalvageRate.Text = "0"
         Me.txtSalvageRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSalvageRate.Value = 0.0R
+        Me.txtSalvageRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel14
         '
@@ -911,7 +906,7 @@ Partial Class FrmAcquisitionEntryDetail
         Me.txtSalvageValue.TabIndex = 9
         Me.txtSalvageValue.Text = "0"
         Me.txtSalvageValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSalvageValue.Value = 0.0R
+        Me.txtSalvageValue.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtSourceValue
         '
@@ -938,7 +933,7 @@ Partial Class FrmAcquisitionEntryDetail
         Me.txtSourceValue.TabIndex = 8
         Me.txtSourceValue.Text = "0"
         Me.txtSourceValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSourceValue.Value = 0.0R
+        Me.txtSourceValue.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtSourceOrgValue
         '
@@ -965,7 +960,7 @@ Partial Class FrmAcquisitionEntryDetail
         Me.txtSourceOrgValue.TabIndex = 7
         Me.txtSourceOrgValue.Text = "0"
         Me.txtSourceOrgValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSourceOrgValue.Value = 0.0R
+        Me.txtSourceOrgValue.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtDepTaxRate
         '
@@ -992,7 +987,7 @@ Partial Class FrmAcquisitionEntryDetail
         Me.txtDepTaxRate.TabIndex = 5
         Me.txtDepTaxRate.Text = "0"
         Me.txtDepTaxRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDepTaxRate.Value = 0.0R
+        Me.txtDepTaxRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtDepRate
         '
@@ -1019,7 +1014,7 @@ Partial Class FrmAcquisitionEntryDetail
         Me.txtDepRate.TabIndex = 4
         Me.txtDepRate.Text = "0"
         Me.txtDepRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDepRate.Value = 0.0R
+        Me.txtDepRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel12
         '
@@ -1040,7 +1035,6 @@ Partial Class FrmAcquisitionEntryDetail
         Me.lblDepMethodTax.Name = "lblDepMethodTax"
         Me.lblDepMethodTax.Size = New System.Drawing.Size(287, 18)
         Me.lblDepMethodTax.TabIndex = 135
-        Me.lblDepMethodTax.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDepMethodTax.TextWrap = False
         '
         'MyLabel13
@@ -1122,7 +1116,7 @@ Partial Class FrmAcquisitionEntryDetail
         Me.txtEstLife.TabIndex = 6
         Me.txtEstLife.Text = "0"
         Me.txtEstLife.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtEstLife.Value = 0.0R
+        Me.txtEstLife.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel5
         '
@@ -1161,7 +1155,6 @@ Partial Class FrmAcquisitionEntryDetail
         Me.lblDepPeriod.Name = "lblDepPeriod"
         Me.lblDepPeriod.Size = New System.Drawing.Size(287, 18)
         Me.lblDepPeriod.TabIndex = 129
-        Me.lblDepPeriod.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDepPeriod.TextWrap = False
         '
         'MyLabel1
@@ -1215,7 +1208,6 @@ Partial Class FrmAcquisitionEntryDetail
         Me.lblDepMethod.Name = "lblDepMethod"
         Me.lblDepMethod.Size = New System.Drawing.Size(287, 18)
         Me.lblDepMethod.TabIndex = 122
-        Me.lblDepMethod.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDepMethod.TextWrap = False
         '
         'MyLabel3
@@ -1322,7 +1314,6 @@ Partial Class FrmAcquisitionEntryDetail
         Me.lblBalAmountWithTol.Name = "lblBalAmountWithTol"
         Me.lblBalAmountWithTol.Size = New System.Drawing.Size(126, 18)
         Me.lblBalAmountWithTol.TabIndex = 150
-        Me.lblBalAmountWithTol.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblBalAmountWithTol.TextWrap = False
         '
         'MyLabel17
@@ -1345,7 +1336,6 @@ Partial Class FrmAcquisitionEntryDetail
         Me.lblBalanceAmount.Name = "lblBalanceAmount"
         Me.lblBalanceAmount.Size = New System.Drawing.Size(106, 18)
         Me.lblBalanceAmount.TabIndex = 148
-        Me.lblBalanceAmount.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblBalanceAmount.TextWrap = False
         '
         'MyLabel19
@@ -1368,7 +1358,6 @@ Partial Class FrmAcquisitionEntryDetail
         Me.lbl_AmountWithTol.Name = "lbl_AmountWithTol"
         Me.lbl_AmountWithTol.Size = New System.Drawing.Size(126, 18)
         Me.lbl_AmountWithTol.TabIndex = 146
-        Me.lbl_AmountWithTol.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_AmountWithTol.TextWrap = False
         '
         'MyLabel15
@@ -1391,7 +1380,6 @@ Partial Class FrmAcquisitionEntryDetail
         Me.lbl_Amount.Name = "lbl_Amount"
         Me.lbl_Amount.Size = New System.Drawing.Size(106, 18)
         Me.lbl_Amount.TabIndex = 144
-        Me.lbl_Amount.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_Amount.TextWrap = False
         '
         'lblAmount
@@ -1414,7 +1402,6 @@ Partial Class FrmAcquisitionEntryDetail
         Me.lbl_capexcode.Name = "lbl_capexcode"
         Me.lbl_capexcode.Size = New System.Drawing.Size(257, 18)
         Me.lbl_capexcode.TabIndex = 142
-        Me.lbl_capexcode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_capexcode.TextWrap = False
         '
         'lbl_capexsubcode
@@ -1427,7 +1414,6 @@ Partial Class FrmAcquisitionEntryDetail
         Me.lbl_capexsubcode.Name = "lbl_capexsubcode"
         Me.lbl_capexsubcode.Size = New System.Drawing.Size(257, 18)
         Me.lbl_capexsubcode.TabIndex = 141
-        Me.lbl_capexsubcode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_capexsubcode.TextWrap = False
         '
         'fndcapexcode

@@ -141,6 +141,7 @@ Public Class FrmLCRequest
         LoadData(fndLCRequestcode.Value, NavigatorType.Current)
     End Sub
     Private Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtLCRequestdate.Value)
         If AllowFutureDateTransaction(txtLCRequestdate.Value, Nothing) = False Then
             txtLCRequestdate.Select()
             Return False

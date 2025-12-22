@@ -205,6 +205,7 @@ Public Class frmShareAllotment
 
     Function AllowToSave() As Boolean
         Dim Check As Boolean = False
+        Xtra.TransactionValidity(txtDate.Value)
         Dim Qry As String = "select Certificate_No,RI  From TSPL_SHARE_MOVEMENT Where Share_Code='" + fndShare.Value + "' "
 
         If fndCertificate.arrValueMember IsNot Nothing AndAlso fndCertificate.arrValueMember.Count > 0 Then

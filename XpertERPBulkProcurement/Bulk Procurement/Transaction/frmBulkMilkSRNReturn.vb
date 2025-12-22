@@ -226,7 +226,7 @@ Public Class FrmBulkMilkSRNReturn
         Dim isSaved As Boolean = False
 
         Try
-           
+            Xtra.TransactionValidity(dtpDate.Value)
             If dtpFromDate.Value > dtpToDate.Value Then
                 Throw New Exception("'From Date' can't be larger than 'To Date'")
             End If

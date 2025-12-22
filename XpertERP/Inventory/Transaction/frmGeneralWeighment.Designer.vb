@@ -570,7 +570,7 @@ Partial Class frmGeneralWeighment
         Me.txtNetWeight.TabIndex = 11
         Me.txtNetWeight.Text = "0"
         Me.txtNetWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNetWeight.Value = 0R
+        Me.txtNetWeight.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel6
         '
@@ -617,7 +617,7 @@ Partial Class frmGeneralWeighment
         Me.txtGrossWeight.TabIndex = 10
         Me.txtGrossWeight.Text = "0"
         Me.txtGrossWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtGrossWeight.Value = 0R
+        Me.txtGrossWeight.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtVehicle_No
         '
@@ -718,7 +718,7 @@ Partial Class frmGeneralWeighment
         Me.TxtTareWeight.TabIndex = 9
         Me.TxtTareWeight.Text = "0"
         Me.TxtTareWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtTareWeight.Value = 0R
+        Me.TxtTareWeight.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'btnnew
         '

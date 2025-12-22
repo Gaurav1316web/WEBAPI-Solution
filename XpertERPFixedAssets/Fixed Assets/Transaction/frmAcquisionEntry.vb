@@ -3474,6 +3474,7 @@ Public Class frmAcquisionEntry
             txtDate.Select()
             Return False
         End If
+        Xtra.TransactionValidity(txtDate.Value)
         '=======================================================
         If clsCommon.myLen(txtSRNNo.Value) > 0 Then
             Dim AcqDate As Date? = clsCommon.GetDateWithStartTime(clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy"))

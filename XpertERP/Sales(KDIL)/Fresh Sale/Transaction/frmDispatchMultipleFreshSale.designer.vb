@@ -22,6 +22,11 @@ Partial Class frmDispatchMultipleFreshSale
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -170,7 +175,9 @@ Partial Class frmDispatchMultipleFreshSale
         Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gv_dispatchchecklist = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.lblLeakageAmt = New common.Controls.MyLabel()
         Me.btnReverseAndUnpost = New Telerik.WinControls.UI.RadButton()
+        Me.txtLeakageAmount = New common.Controls.MyLabel()
         Me.pnlMannualInvoiceNo = New System.Windows.Forms.Panel()
         Me.TxtInvoiceManualNoWithPrefix = New common.Controls.MyTextBox()
         Me.txtMannaulInvoiceNo = New common.MyNumBox()
@@ -232,8 +239,6 @@ Partial Class frmDispatchMultipleFreshSale
         Me.Export_Head = New Telerik.WinControls.UI.RadMenuItem()
         Me.Export_details = New Telerik.WinControls.UI.RadMenuItem()
         Me.Import = New Telerik.WinControls.UI.RadMenuItem()
-        Me.lblLeakageAmt = New common.Controls.MyLabel()
-        Me.txtLeakageAmount = New common.Controls.MyLabel()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -377,7 +382,9 @@ Partial Class frmDispatchMultipleFreshSale
         CType(Me.gv_dispatchchecklist, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv_dispatchchecklist.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage4.SuspendLayout()
+        CType(Me.lblLeakageAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverseAndUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtLeakageAmount, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlMannualInvoiceNo.SuspendLayout()
         CType(Me.TxtInvoiceManualNoWithPrefix, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtMannaulInvoiceNo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -428,8 +435,6 @@ Partial Class frmDispatchMultipleFreshSale
         CType(Me.txtGENo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblLeakageAmt, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtLeakageAmount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -448,6 +453,7 @@ Partial Class frmDispatchMultipleFreshSale
         Me.RadMenuItem2.FadeAnimationType = Telerik.WinControls.UI.FadeAnimationType.FadeIn
         Me.RadMenuItem2.FitToScreenMode = CType((Telerik.WinControls.UI.FitToScreenModes.FitWidth Or Telerik.WinControls.UI.FitToScreenModes.FitHeight), Telerik.WinControls.UI.FitToScreenModes)
         Me.RadMenuItem2.HorizontalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
+        Me.RadMenuItem2.LastShowDpiScaleFactor = New System.Drawing.SizeF(1.0!, 1.0!)
         Me.RadMenuItem2.Location = New System.Drawing.Point(0, 0)
         Me.RadMenuItem2.Maximum = New System.Drawing.Size(0, 0)
         Me.RadMenuItem2.Minimum = New System.Drawing.Size(0, 0)
@@ -459,6 +465,9 @@ Partial Class frmDispatchMultipleFreshSale
         Me.RadMenuItem2.TabIndex = 0
         Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenuItem2.Visible = False
+        WindowsSettings1.EnableRoundedCorners = Nothing
+        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
         'Panel1
         '
@@ -517,10 +526,9 @@ Partial Class frmDispatchMultipleFreshSale
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1114, 537)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -1043,7 +1051,6 @@ Partial Class frmDispatchMultipleFreshSale
         Me.lblShipToLocation.Name = "lblShipToLocation"
         Me.lblShipToLocation.Size = New System.Drawing.Size(287, 18)
         Me.lblShipToLocation.TabIndex = 17
-        Me.lblShipToLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblShipToLocation.TextWrap = False
         Me.lblShipToLocation.Visible = False
         '
@@ -1117,7 +1124,6 @@ Partial Class frmDispatchMultipleFreshSale
         Me.lblProject.Name = "lblProject"
         Me.lblProject.Size = New System.Drawing.Size(285, 20)
         Me.lblProject.TabIndex = 1
-        Me.lblProject.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblProject.TextWrap = False
         '
         'RadLabel12
@@ -1139,7 +1145,7 @@ Partial Class frmDispatchMultipleFreshSale
         Me.UcItemBalance1.CommitedQty = False
         Me.UcItemBalance1.CommitedQtyLbl = False
         Me.UcItemBalance1.ItemCode = ""
-        Me.UcItemBalance1.ItemMRP = 0.0R
+        Me.UcItemBalance1.ItemMRP = 0R
         Me.UcItemBalance1.ItemName = ""
         Me.UcItemBalance1.Location = New System.Drawing.Point(2, 422)
         Me.UcItemBalance1.LocationCode = ""
@@ -1166,7 +1172,6 @@ Partial Class frmDispatchMultipleFreshSale
         Me.lblSalesman.Name = "lblSalesman"
         Me.lblSalesman.Size = New System.Drawing.Size(287, 18)
         Me.lblSalesman.TabIndex = 26
-        Me.lblSalesman.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblSalesman.TextWrap = False
         Me.lblSalesman.Visible = False
         '
@@ -1309,7 +1314,6 @@ Partial Class frmDispatchMultipleFreshSale
         Me.lblDept.Name = "lblDept"
         Me.lblDept.Size = New System.Drawing.Size(287, 18)
         Me.lblDept.TabIndex = 22
-        Me.lblDept.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDept.TextWrap = False
         Me.lblDept.Visible = False
         '
@@ -1361,7 +1365,6 @@ Partial Class frmDispatchMultipleFreshSale
         Me.lblBillToLocation.Name = "lblBillToLocation"
         Me.lblBillToLocation.Size = New System.Drawing.Size(171, 18)
         Me.lblBillToLocation.TabIndex = 9
-        Me.lblBillToLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblBillToLocation.TextWrap = False
         '
         'RadLabel3
@@ -1476,10 +1479,14 @@ Partial Class frmDispatchMultipleFreshSale
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -1487,7 +1494,7 @@ Partial Class frmDispatchMultipleFreshSale
         Me.gv1.Size = New System.Drawing.Size(1068, 313)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
+        Me.gv1.VarID = ""
         '
         'RadLabel13
         '
@@ -1562,7 +1569,7 @@ Partial Class frmDispatchMultipleFreshSale
         Me.txtCrateQty.TabIndex = 156
         Me.txtCrateQty.Text = "0"
         Me.txtCrateQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCrateQty.Value = 0.0R
+        Me.txtCrateQty.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtCrateQty.Visible = False
         '
         'MyLabel19
@@ -1855,7 +1862,7 @@ Partial Class frmDispatchMultipleFreshSale
         Me.txtFreightAmt.TabIndex = 146
         Me.txtFreightAmt.Text = "0"
         Me.txtFreightAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFreightAmt.Value = 0.0R
+        Me.txtFreightAmt.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtFreightAmt.Visible = False
         '
         'RadLabel5
@@ -1922,6 +1929,7 @@ Partial Class frmDispatchMultipleFreshSale
         Me.ddlFreight.AutoCompleteDisplayMember = Nothing
         Me.ddlFreight.AutoCompleteValueMember = Nothing
         Me.ddlFreight.CalculationExpression = Nothing
+        Me.ddlFreight.DropDownAnimationEnabled = True
         Me.ddlFreight.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlFreight.Enabled = False
         Me.ddlFreight.FieldCode = Nothing
@@ -1949,6 +1957,7 @@ Partial Class frmDispatchMultipleFreshSale
         Me.ddlInvoiceType.AutoCompleteDisplayMember = Nothing
         Me.ddlInvoiceType.AutoCompleteValueMember = Nothing
         Me.ddlInvoiceType.CalculationExpression = Nothing
+        Me.ddlInvoiceType.DropDownAnimationEnabled = True
         Me.ddlInvoiceType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlInvoiceType.FieldCode = Nothing
         Me.ddlInvoiceType.FieldDesc = Nothing
@@ -2048,7 +2057,6 @@ Partial Class frmDispatchMultipleFreshSale
         Me.lblBookingDate.Name = "lblBookingDate"
         Me.lblBookingDate.Size = New System.Drawing.Size(288, 18)
         Me.lblBookingDate.TabIndex = 142
-        Me.lblBookingDate.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblBookingDate.TextWrap = False
         Me.lblBookingDate.Visible = False
         '
@@ -2296,7 +2304,6 @@ Partial Class frmDispatchMultipleFreshSale
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(286, 18)
         Me.lblVendorName.TabIndex = 13
-        Me.lblVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVendorName.TextWrap = False
         Me.lblVendorName.Visible = False
         '
@@ -2524,6 +2531,7 @@ Partial Class frmDispatchMultipleFreshSale
         Me.cboItemType.AutoCompleteDisplayMember = Nothing
         Me.cboItemType.AutoCompleteValueMember = Nothing
         Me.cboItemType.CalculationExpression = Nothing
+        Me.cboItemType.DropDownAnimationEnabled = True
         Me.cboItemType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboItemType.FieldCode = Nothing
         Me.cboItemType.FieldDesc = Nothing
@@ -2648,7 +2656,6 @@ Partial Class frmDispatchMultipleFreshSale
         Me.lblTaxGrpName.Name = "lblTaxGrpName"
         Me.lblTaxGrpName.Size = New System.Drawing.Size(321, 20)
         Me.lblTaxGrpName.TabIndex = 1
-        Me.lblTaxGrpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTaxGrpName.TextWrap = False
         '
         'RadLabel10
@@ -2728,7 +2735,6 @@ Partial Class frmDispatchMultipleFreshSale
         Me.lblTermName.Name = "lblTermName"
         Me.lblTermName.Size = New System.Drawing.Size(321, 20)
         Me.lblTermName.TabIndex = 1
-        Me.lblTermName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTermName.TextWrap = False
         '
         'txtDueDate
@@ -2788,14 +2794,18 @@ Partial Class frmDispatchMultipleFreshSale
         '
         Me.gv2.MasterTemplate.AllowAddNewRow = False
         Me.gv2.MasterTemplate.AllowDeleteRow = False
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyExportFilePath = ""
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(1088, 349)
         Me.gv2.TabIndex = 3
         Me.gv2.TabStop = False
-        Me.gv2.Text = "RadGridView1"
+        Me.gv2.VarID = ""
         '
         'RadPageViewPage3
         '
@@ -2835,10 +2845,14 @@ Partial Class frmDispatchMultipleFreshSale
         Me.gvAC.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvAC.Location = New System.Drawing.Point(0, 0)
         '
-        'gvAC
+        '
         '
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
+        Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvAC.MyExportFilePath = ""
+        Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAC.ShowGroupPanel = False
@@ -2846,7 +2860,7 @@ Partial Class frmDispatchMultipleFreshSale
         Me.gvAC.Size = New System.Drawing.Size(1093, 444)
         Me.gvAC.TabIndex = 1
         Me.gvAC.TabStop = False
-        Me.gvAC.Text = "RadGridView1"
+        Me.gvAC.VarID = ""
         '
         'RadLabel31
         '
@@ -2942,14 +2956,18 @@ Partial Class frmDispatchMultipleFreshSale
         '
         Me.gv_dispatchchecklist.MasterTemplate.AllowAddNewRow = False
         Me.gv_dispatchchecklist.MasterTemplate.AllowDeleteRow = False
+        Me.gv_dispatchchecklist.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_dispatchchecklist.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv_dispatchchecklist.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv_dispatchchecklist.MyExportFilePath = ""
+        Me.gv_dispatchchecklist.MyStopExport = False
         Me.gv_dispatchchecklist.Name = "gv_dispatchchecklist"
         Me.gv_dispatchchecklist.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv_dispatchchecklist.ShowHeaderCellButtons = True
         Me.gv_dispatchchecklist.Size = New System.Drawing.Size(1089, 471)
         Me.gv_dispatchchecklist.TabIndex = 4
         Me.gv_dispatchchecklist.TabStop = False
-        Me.gv_dispatchchecklist.Text = "RadGridView1"
+        Me.gv_dispatchchecklist.VarID = ""
         '
         'RadPageViewPage4
         '
@@ -2985,6 +3003,16 @@ Partial Class frmDispatchMultipleFreshSale
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1093, 491)
         Me.RadPageViewPage4.Text = "Total"
         '
+        'lblLeakageAmt
+        '
+        Me.lblLeakageAmt.FieldName = Nothing
+        Me.lblLeakageAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLeakageAmt.Location = New System.Drawing.Point(115, 219)
+        Me.lblLeakageAmt.Name = "lblLeakageAmt"
+        Me.lblLeakageAmt.Size = New System.Drawing.Size(99, 16)
+        Me.lblLeakageAmt.TabIndex = 127
+        Me.lblLeakageAmt.Text = "- Leakage Amount"
+        '
         'btnReverseAndUnpost
         '
         Me.btnReverseAndUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -2995,6 +3023,18 @@ Partial Class frmDispatchMultipleFreshSale
         Me.btnReverseAndUnpost.TabIndex = 9
         Me.btnReverseAndUnpost.Text = "Reverse and Unpost"
         Me.btnReverseAndUnpost.Visible = False
+        '
+        'txtLeakageAmount
+        '
+        Me.txtLeakageAmount.AutoSize = False
+        Me.txtLeakageAmount.BorderVisible = True
+        Me.txtLeakageAmount.FieldName = Nothing
+        Me.txtLeakageAmount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLeakageAmount.Location = New System.Drawing.Point(217, 218)
+        Me.txtLeakageAmount.Name = "txtLeakageAmount"
+        Me.txtLeakageAmount.Size = New System.Drawing.Size(110, 18)
+        Me.txtLeakageAmount.TabIndex = 126
+        Me.txtLeakageAmount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
         'pnlMannualInvoiceNo
         '
@@ -3056,7 +3096,7 @@ Partial Class frmDispatchMultipleFreshSale
         Me.txtMannaulInvoiceNo.TabIndex = 0
         Me.txtMannaulInvoiceNo.Text = "0"
         Me.txtMannaulInvoiceNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMannaulInvoiceNo.Value = 0.0R
+        Me.txtMannaulInvoiceNo.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel11
         '
@@ -3156,7 +3196,7 @@ Partial Class frmDispatchMultipleFreshSale
         Me.txtDiscAmt.TabIndex = 8
         Me.txtDiscAmt.Text = "0"
         Me.txtDiscAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDiscAmt.Value = 0.0R
+        Me.txtDiscAmt.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtDiscPer
         '
@@ -3183,7 +3223,7 @@ Partial Class frmDispatchMultipleFreshSale
         Me.txtDiscPer.TabIndex = 6
         Me.txtDiscPer.Text = "0"
         Me.txtDiscPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDiscPer.Value = 0.0R
+        Me.txtDiscPer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'pnlCurrConv
         '
@@ -3224,7 +3264,7 @@ Partial Class frmDispatchMultipleFreshSale
         Me.txtConversionRate.TabIndex = 1
         Me.txtConversionRate.Text = "1"
         Me.txtConversionRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtConversionRate.Value = 1.0R
+        Me.txtConversionRate.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'txtCurrencyCode
         '
@@ -3486,22 +3526,16 @@ Partial Class frmDispatchMultipleFreshSale
         '
         'btnpreview
         '
-        Me.btnpreview.AccessibleDescription = "Preview"
-        Me.btnpreview.AccessibleName = "Preview"
         Me.btnpreview.Name = "btnpreview"
         Me.btnpreview.Text = "Preview"
         '
         'btnsend
         '
-        Me.btnsend.AccessibleDescription = "Send E-Mail/SMS"
-        Me.btnsend.AccessibleName = "Send E-Mail/SMS"
         Me.btnsend.Name = "btnsend"
         Me.btnsend.Text = "Send E-Mail/SMS"
         '
         'btnSendForApproval
         '
-        Me.btnSendForApproval.AccessibleDescription = "Send For Approval"
-        Me.btnSendForApproval.AccessibleName = "Send For Approval"
         Me.btnSendForApproval.Name = "btnSendForApproval"
         Me.btnSendForApproval.Text = "Send For Approval"
         '
@@ -3676,42 +3710,31 @@ Partial Class frmDispatchMultipleFreshSale
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1114, 20)
         Me.RadMenu1.TabIndex = 3
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem4, Me.RadMenuItem5})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Save Layout"
-        Me.RadMenuItem1.AccessibleName = "Save Layout"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Save Layout"
         '
         'RadMenuItem4
         '
-        Me.RadMenuItem4.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItem4.AccessibleName = "Delete Layout"
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Delete Layout"
         '
         'RadMenuItem5
         '
-        Me.RadMenuItem5.AccessibleDescription = "E-Mail/SMS Setting"
-        Me.RadMenuItem5.AccessibleName = "E-Mail/SMS Setting"
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "E-Mail/SMS Setting"
         Me.RadMenuItem5.Visibility = Telerik.WinControls.ElementVisibility.Hidden
         '
         'RadMenuItem6
         '
-        Me.RadMenuItem6.AccessibleDescription = "File"
-        Me.RadMenuItem6.AccessibleName = "File"
         Me.RadMenuItem6.Items.AddRange(New Telerik.WinControls.RadItem() {Me.Export, Me.Import})
         Me.RadMenuItem6.Name = "RadMenuItem6"
         Me.RadMenuItem6.Text = "File"
@@ -3719,55 +3742,25 @@ Partial Class frmDispatchMultipleFreshSale
         '
         'Export
         '
-        Me.Export.AccessibleDescription = "Export"
-        Me.Export.AccessibleName = "Export"
         Me.Export.Items.AddRange(New Telerik.WinControls.RadItem() {Me.Export_Head, Me.Export_details})
         Me.Export.Name = "Export"
         Me.Export.Text = "Export"
         '
         'Export_Head
         '
-        Me.Export_Head.AccessibleDescription = "Export Shipment Head"
-        Me.Export_Head.AccessibleName = "Export Shipment Head"
         Me.Export_Head.Name = "Export_Head"
         Me.Export_Head.Text = "Export Shipment Head"
         '
         'Export_details
         '
-        Me.Export_details.AccessibleDescription = "Export Shipment Details"
-        Me.Export_details.AccessibleName = "Export Shipment Details"
         Me.Export_details.Name = "Export_details"
         Me.Export_details.Text = "Export Shipment Details"
         '
         'Import
         '
-        Me.Import.AccessibleDescription = "Import"
-        Me.Import.AccessibleName = "Import"
         Me.Import.Name = "Import"
         Me.Import.Text = "Import"
         Me.Import.Visibility = Telerik.WinControls.ElementVisibility.Hidden
-        '
-        'lblLeakageAmt
-        '
-        Me.lblLeakageAmt.FieldName = Nothing
-        Me.lblLeakageAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLeakageAmt.Location = New System.Drawing.Point(115, 219)
-        Me.lblLeakageAmt.Name = "lblLeakageAmt"
-        Me.lblLeakageAmt.Size = New System.Drawing.Size(99, 16)
-        Me.lblLeakageAmt.TabIndex = 127
-        Me.lblLeakageAmt.Text = "- Leakage Amount"
-        '
-        'txtLeakageAmount
-        '
-        Me.txtLeakageAmount.AutoSize = False
-        Me.txtLeakageAmount.BorderVisible = True
-        Me.txtLeakageAmount.FieldName = Nothing
-        Me.txtLeakageAmount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtLeakageAmount.Location = New System.Drawing.Point(217, 218)
-        Me.txtLeakageAmount.Name = "txtLeakageAmount"
-        Me.txtLeakageAmount.Size = New System.Drawing.Size(110, 18)
-        Me.txtLeakageAmount.TabIndex = 126
-        Me.txtLeakageAmount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
         'frmDispatchMultipleFreshSale
         '
@@ -3937,7 +3930,9 @@ Partial Class frmDispatchMultipleFreshSale
         CType(Me.gv_dispatchchecklist, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage4.ResumeLayout(False)
         Me.RadPageViewPage4.PerformLayout()
+        CType(Me.lblLeakageAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverseAndUnpost, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtLeakageAmount, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlMannualInvoiceNo.ResumeLayout(False)
         Me.pnlMannualInvoiceNo.PerformLayout()
         CType(Me.TxtInvoiceManualNoWithPrefix, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3992,8 +3987,6 @@ Partial Class frmDispatchMultipleFreshSale
         CType(Me.txtGENo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblLeakageAmt, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtLeakageAmount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

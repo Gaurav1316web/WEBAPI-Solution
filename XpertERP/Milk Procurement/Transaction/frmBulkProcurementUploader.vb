@@ -599,7 +599,7 @@ Public Class frmBulkProcurementUploader
         Return True
     End Function
 
-  
+
     Private Sub FrmSerializeItemIn_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.N Then
             AddNew()

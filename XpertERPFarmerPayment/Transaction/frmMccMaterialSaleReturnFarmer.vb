@@ -3536,6 +3536,7 @@ Public Class frmMccMaterialSaleReturnFarmer
 
     Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
                 txtDate.Focus()
                 Return False
@@ -3571,10 +3572,10 @@ Public Class frmMccMaterialSaleReturnFarmer
             '    cboItemType.Focus()
             '    Return False
             'End If
-            Dim strReceiptNo = clsDBFuncationality.getSingleValue("select isnull((Select distinct '['+TSPL_RECEIPT_DETAIL.Receipt_No+']    ' from tspl_sd_sale_invoice_head  " & _
-           "left outer join TSPL_Customer_Invoice_Head on tspl_sd_sale_invoice_head.Document_Code=TSPL_Customer_Invoice_Head.Against_Sale_No  " & _
-           "left outer join TSPL_RECEIPT_DETAIL on TSPL_Customer_Invoice_Head.Document_No=TSPL_RECEIPT_DETAIL.Document_No " & _
-           "left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_DETAIL.Receipt_No=TSPL_RECEIPT_HEADER.Receipt_No  " & _
+            Dim strReceiptNo = clsDBFuncationality.getSingleValue("select isnull((Select distinct '['+TSPL_RECEIPT_DETAIL.Receipt_No+']    ' from tspl_sd_sale_invoice_head  " &
+           "left outer join TSPL_Customer_Invoice_Head on tspl_sd_sale_invoice_head.Document_Code=TSPL_Customer_Invoice_Head.Against_Sale_No  " &
+           "left outer join TSPL_RECEIPT_DETAIL on TSPL_Customer_Invoice_Head.Document_No=TSPL_RECEIPT_DETAIL.Document_No " &
+           "left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_DETAIL.Receipt_No=TSPL_RECEIPT_HEADER.Receipt_No  " &
            "where TSPL_RECEIPT_HEADER.Posted ='N' and tspl_sd_sale_invoice_head.Trans_Type='MCC' and TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" & txtReqNo.Value & "' for xml path('')),'')  as DocNo ")
             If clsCommon.myLen(strReceiptNo) > 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "Please Post these Receipt " & strReceiptNo & " before creating sale return")

@@ -201,9 +201,10 @@ Public Class FrmCartMaintenanceEntry
 
     Public Function AllowToSave() As Boolean
         Try
+            Xtra.TransactionValidity(txtDate.Value)
             Dim i As Integer = 0
             Dim customercode As String = ""
-
+            Xtra.TransactionValidity(txtDate.Value)
             If rdselect.IsChecked = True Then
                 Try
                     For i = 0 To cbgCustomer.Rows.Count - 1

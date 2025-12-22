@@ -81,6 +81,7 @@ Public Class FrmDocumentAcceptance
         SaveData()
     End Sub
     Private Function AllowToSave() As Boolean
+        Xtra.TransactionValidity(txtdocumentAcceptancedate.Value)
         If AllowFutureDateTransaction(txtdocumentAcceptancedate.Value, Nothing) = False Then
             txtdocumentAcceptancedate.Select()
             Return False
