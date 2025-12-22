@@ -434,8 +434,13 @@ Public Class FrmSacWiseTaxMaster
                 common.clsCommon.MyMessageBoxShow(Me, "Tax1 Code  Not Avilable", Me.Text)
                 Exit Sub
             End If
+            Dim type As String = clsDBFuncationality.getSingleValue(" select Tax_Group_Type from TSPL_TAX_GROUP_MASTER where Tax_Group_Code= '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX_GROUP_CODE).Value) + "' ")
+            Dim whrcls As String = ""
+            whrcls = " Tax_Code = '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX1_Code).Value) + "' and Tax_Type= '" + type + "' "
             Dim qry As String = "select Tax_Code as Code,Tax_Type as Type,Tax_Rate as Rate  from TSPL_TAX_RATES "
-            gv1.CurrentRow.Cells(colTAX1_Rate).Value = clsCommon.ShowSelectForm("ItemFnder@TaxCode", qry, "Rate", " Tax_Code = '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX1_Code).Value) + "' ", clsCommon.myCdbl(gv1.CurrentRow.Cells(colTAX1_Rate).Value), "", isButtonClick)
+            'gv1.CurrentRow.Cells(colTAX1_Rate).Value = clsCommon.ShowSelectForm("ItemFnder@TaxCode", qry, "Rate", " Tax_Code = '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX1_Code).Value) + "' ", clsCommon.myCdbl(gv1.CurrentRow.Cells(colTAX1_Rate).Value), "", isButtonClick)
+            gv1.CurrentRow.Cells(colTAX1_Rate).Value = clsCommon.ShowSelectForm("ItemFnder@TaxCode", qry, "Rate", whrcls, clsCommon.myCdbl(gv1.CurrentRow.Cells(colTAX1_Rate).Value), "", isButtonClick)
+
         Catch ex As Exception
             gv1.CurrentRow.Cells(colTAX1_Rate).Value = 0
             Throw New Exception(ex.Message)
@@ -451,8 +456,13 @@ Public Class FrmSacWiseTaxMaster
                 common.clsCommon.MyMessageBoxShow(Me, "Tax2 Code  Not Avilable", Me.Text)
                 Exit Sub
             End If
+            Dim type As String = clsDBFuncationality.getSingleValue(" select Tax_Group_Type from TSPL_TAX_GROUP_MASTER where Tax_Group_Code= '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX_GROUP_CODE).Value) + "' ")
+            Dim whrcls As String = ""
+            whrcls = " Tax_Code = '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX2_Code).Value) + "' and Tax_Type= '" + type + "' "
             Dim qry As String = "select Tax_Code as Code,Tax_Type as Type,Tax_Rate as Rate  from TSPL_TAX_RATES "
-            gv1.CurrentRow.Cells(colTAX2_Rate).Value = clsCommon.ShowSelectForm("ItemFnder@TaxCode", qry, "Rate", " Tax_Code = '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX2_Code).Value) + "'", clsCommon.myCdbl(gv1.CurrentRow.Cells(colTAX2_Rate).Value), "", isButtonClick)
+
+            gv1.CurrentRow.Cells(colTAX2_Rate).Value = clsCommon.ShowSelectForm("ItemFnder@TaxCode", qry, "Rate", whrcls, clsCommon.myCdbl(gv1.CurrentRow.Cells(colTAX2_Rate).Value), "", isButtonClick)
+            'gv1.CurrentRow.Cells(colTAX2_Rate).Value = clsCommon.ShowSelectForm("ItemFnder@TaxCode", qry, "Rate", " Tax_Code = '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX2_Code).Value) + "'", clsCommon.myCdbl(gv1.CurrentRow.Cells(colTAX2_Rate).Value), "", isButtonClick)
         Catch ex As Exception
             gv1.CurrentRow.Cells(colTAX2_Rate).Value = 0
             Throw New Exception(ex.Message)
@@ -468,8 +478,14 @@ Public Class FrmSacWiseTaxMaster
                 common.clsCommon.MyMessageBoxShow(Me, "Tax3 Code  Not Avilable", Me.Text)
                 Exit Sub
             End If
+            Dim type As String = clsDBFuncationality.getSingleValue(" select Tax_Group_Type from TSPL_TAX_GROUP_MASTER where Tax_Group_Code= '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX_GROUP_CODE).Value) + "' ")
+            Dim whrcls As String = ""
+            whrcls = " Tax_Code = '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX3_Code).Value) + "' and Tax_Type= '" + type + "' "
+
             Dim qry As String = "select Tax_Code as Code,Tax_Type as Type,Tax_Rate as Rate  from TSPL_TAX_RATES "
-            gv1.CurrentRow.Cells(colTAX3_Rate).Value = clsCommon.ShowSelectForm("ItemFnder@TaxCode", qry, "Rate", " Tax_Code = '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX3_Code).Value) + "' ", clsCommon.myCdbl(gv1.CurrentRow.Cells(colTAX3_Rate).Value), "", isButtonClick)
+            gv1.CurrentRow.Cells(colTAX3_Rate).Value = clsCommon.ShowSelectForm("ItemFnder@TaxCode", qry, "Rate", whrcls, clsCommon.myCdbl(gv1.CurrentRow.Cells(colTAX3_Rate).Value), "", isButtonClick)
+            'gv1.CurrentRow.Cells(colTAX3_Rate).Value = clsCommon.ShowSelectForm("ItemFnder@TaxCode", qry, "Rate", " Tax_Code = '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX3_Code).Value) + "' ", clsCommon.myCdbl(gv1.CurrentRow.Cells(colTAX3_Rate).Value), "", isButtonClick)
+
         Catch ex As Exception
             gv1.CurrentRow.Cells(colTAX3_Rate).Value = 0
             Throw New Exception(ex.Message)
@@ -486,8 +502,14 @@ Public Class FrmSacWiseTaxMaster
                 common.clsCommon.MyMessageBoxShow(Me, "Tax4 Code  Not Avilable", Me.Text)
                 Exit Sub
             End If
+            Dim type As String = clsDBFuncationality.getSingleValue(" select Tax_Group_Type from TSPL_TAX_GROUP_MASTER where Tax_Group_Code= '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX_GROUP_CODE).Value) + "' ")
+            Dim whrcls As String = ""
+            whrcls = " Tax_Code = '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX4_Code).Value) + "' and Tax_Type= '" + type + "' "
+
             Dim qry As String = "select Tax_Code as Code,Tax_Type as Type,Tax_Rate as Rate  from TSPL_TAX_RATES "
-            gv1.CurrentRow.Cells(colTAX4_Rate).Value = clsCommon.ShowSelectForm("ItemFnder@TaxCode", qry, "Rate", " Tax_Code = '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX4_Code).Value) + "' ", clsCommon.myCdbl(gv1.CurrentRow.Cells(colTAX4_Rate).Value), "", isButtonClick)
+            gv1.CurrentRow.Cells(colTAX4_Rate).Value = clsCommon.ShowSelectForm("ItemFnder@TaxCode", qry, "Rate", whrcls, clsCommon.myCdbl(gv1.CurrentRow.Cells(colTAX4_Rate).Value), "", isButtonClick)
+            'gv1.CurrentRow.Cells(colTAX4_Rate).Value = clsCommon.ShowSelectForm("ItemFnder@TaxCode", qry, "Rate", " Tax_Code = '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX4_Code).Value) + "' ", clsCommon.myCdbl(gv1.CurrentRow.Cells(colTAX4_Rate).Value), "", isButtonClick)
+
         Catch ex As Exception
             gv1.CurrentRow.Cells(colTAX4_Rate).Value = 0
             Throw New Exception(ex.Message)
@@ -504,8 +526,14 @@ Public Class FrmSacWiseTaxMaster
                 common.clsCommon.MyMessageBoxShow(Me, "Tax5 Code  Not Avilable", Me.Text)
                 Exit Sub
             End If
+            Dim type As String = clsDBFuncationality.getSingleValue(" select Tax_Group_Type from TSPL_TAX_GROUP_MASTER where Tax_Group_Code= '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX_GROUP_CODE).Value) + "' ")
+            Dim whrcls As String = ""
+            whrcls = " Tax_Code = '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX4_Code).Value) + "' and Tax_Type= '" + type + "' "
+
             Dim qry As String = "select Tax_Code as Code,Tax_Type as Type,Tax_Rate as Rate  from TSPL_TAX_RATES "
-            gv1.CurrentRow.Cells(colTAX5_Rate).Value = clsCommon.ShowSelectForm("ItemFnder@TaxCode", qry, "Rate", " Tax_Code = '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX5_Code).Value) + "' ", clsCommon.myCdbl(gv1.CurrentRow.Cells(colTAX5_Rate).Value), "", isButtonClick)
+            gv1.CurrentRow.Cells(colTAX5_Rate).Value = clsCommon.ShowSelectForm("ItemFnder@TaxCode", qry, "Rate", whrcls, clsCommon.myCdbl(gv1.CurrentRow.Cells(colTAX5_Rate).Value), "", isButtonClick)
+            'gv1.CurrentRow.Cells(colTAX5_Rate).Value = clsCommon.ShowSelectForm("ItemFnder@TaxCode", qry, "Rate", " Tax_Code = '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX5_Code).Value) + "' ", clsCommon.myCdbl(gv1.CurrentRow.Cells(colTAX5_Rate).Value), "", isButtonClick)
+
         Catch ex As Exception
             gv1.CurrentRow.Cells(colTAX5_Rate).Value = 0
             Throw New Exception(ex.Message)

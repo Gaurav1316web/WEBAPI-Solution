@@ -290,6 +290,14 @@ Public Class FrmVendorService
         End If
         ''richa agarwal 12/06/2015
         setProvisionVisibility()
+        txtlocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Loc_Segment_Code from TSPL_LOCATION_MASTER where Location_Code in (select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' ) "))
+        '' Anubhooti 28-Nov-2014 BM00000004810
+        If clsCommon.myLen(clsCommon.myCstr(txtlocation.Value)) > 0 Then
+            lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT ISNULL(Description,'') As Description FROM TSPL_GL_SEGMENT_CODE WHERE Segment_code ='" & clsCommon.myCstr(txtlocation.Value) & "'"))
+        Else
+            lblLocation.Text = ""
+        End If
+
     End Sub
     Sub SetMultiCurrencyVisibility()
         Dim strq As String = ""
@@ -3035,6 +3043,14 @@ Public Class FrmVendorService
         lblTaxableAmount.Text = ""
         chkGSTRegistered.Checked = True
         FillVendorDetails()
+        txtlocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Loc_Segment_Code from TSPL_LOCATION_MASTER where Location_Code in (select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' ) "))
+        '' Anubhooti 28-Nov-2014 BM00000004810
+        If clsCommon.myLen(clsCommon.myCstr(txtlocation.Value)) > 0 Then
+            lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT ISNULL(Description,'') As Description FROM TSPL_GL_SEGMENT_CODE WHERE Segment_code ='" & clsCommon.myCstr(txtlocation.Value) & "'"))
+        Else
+            lblLocation.Text = ""
+        End If
+
     End Sub
 
     Function AllowToSave() As Boolean

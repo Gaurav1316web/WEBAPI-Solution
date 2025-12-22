@@ -88,13 +88,16 @@ Public Class rptSaleInvoiceStatusReport
     End Sub
 
     Private Sub txtMultiCustomer__My_Click(sender As Object, e As EventArgs) Handles txtMultiCustomer._My_Click
-        Dim qry As String = " select cust_code as [Code], Customer_Name as [Name] from tspl_customer_master "
+        Dim qry As String = " select cust_code as [Code], Customer_Name as [Name] from tspl_customer_master  "
+        If TxtCustomerType.arrValueMember IsNot Nothing AndAlso TxtCustomerType.arrValueMember.Count > 0 Then
+            qry += " Where Cust_Group_Code In (" + clsCommon.GetMulcallString(TxtCustomerType.arrValueMember) + ")"
+        End If
         txtMultiCustomer.arrValueMember = clsCommon.ShowMultipleSelectForm("CustMulSel", qry, "Code", "Name", txtMultiCustomer.arrValueMember, txtMultiCustomer.arrDispalyMember)
     End Sub
 
     Private Sub TxtCustomerType__My_Click(sender As Object, e As EventArgs) Handles TxtCustomerType._My_Click
         Dim qry As String = " select Cust_Group_Code as [Code], Customer_Name as [Name],Cust_Type,Cust_Group_Code,Cust_Category_Code,Cust_Type_Code from tspl_customer_master "
-        txtMultiCustomer.arrValueMember = clsCommon.ShowMultipleSelectForm("CustMulSel", qry, "Code", "Name", txtMultiCustomer.arrValueMember, txtMultiCustomer.arrDispalyMember)
+        TxtCustomerType.arrValueMember = clsCommon.ShowMultipleSelectForm("CustMulSel", qry, "Code", "Name", txtMultiCustomer.arrValueMember, txtMultiCustomer.arrDispalyMember)
 
     End Sub
 
@@ -233,7 +236,8 @@ TSPL_SD_SALE_INVOICE_DETAIL.Billing_Unit_code as [Measure of Qty],
     				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX9='IGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Amt
     				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX10='IGST' THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Amt  else 0 END AS [IGST Amt],
 					TSPL_SD_SALE_INVOICE_Detail.Item_Net_Amt as [Total Amt],
-					 case when TSPL_SD_SALE_INVOICE_HEAD.EInvoice_Type='BB' then 'B2B' else 'B2C' end as [B2B/B2C]
+					 case when TSPL_SD_SALE_INVOICE_HEAD.EInvoice_Type='BB' then 'B2B' else 'B2C' end as [B2B/B2C],
+TSPL_SD_SALE_INVOICE_HEAD.Ack_No,TSPL_SD_SALE_INVOICE_HEAD.Ack_Date,TSPL_SD_SALE_INVOICE_HEAD.IRN_No
                          from TSPL_SD_SALE_INVOICE_HEAD
 left join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.Document_Code
 LEFT JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
@@ -334,7 +338,8 @@ TSPL_SCRAPINVOICE_Detail.Unit_code as [Measure of Qty],
     				WHEN TSPL_SCRAPINVOICE_Detail.TAX9='IGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX9_Amt
     				WHEN TSPL_SCRAPINVOICE_Detail.TAX10='IGST' THEN TSPL_SCRAPINVOICE_Detail.TAX10_Amt  else 0 END AS [IGST Amt],
 					TSPL_SCRAPINVOICE_Detail.ItemNetAmt as [Total Amt],
-					 case when TSPL_SCRAPINVOICE_HEAD.EInvoice_Type='BB' then 'B2B' else 'B2C' end as [B2B/B2C]
+					 case when TSPL_SCRAPINVOICE_HEAD.EInvoice_Type='BB' then 'B2B' else 'B2C' end as [B2B/B2C],
+TSPL_SCRAPINVOICE_HEAD.Ack_No,TSPL_SCRAPINVOICE_HEAD.Ack_Date,TSPL_SCRAPINVOICE_HEAD.IRN_No
                            from TSPL_SCRAPINVOICE_HEAD
                     left join TSPL_SCRAPINVOICE_Detail on TSPL_SCRAPINVOICE_Detail.invoice_No=TSPL_SCRAPINVOICE_HEAD.invoice_No
                     LEFT JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SCRAPINVOICE_Detail.Item_Code
@@ -364,7 +369,7 @@ TSPL_SCRAPINVOICE_Detail.Unit_code as [Measure of Qty],
             ElseIf rbtnsummary.ischecked AndAlso rdbGstInvoice.IsChecked Then
                 qry = " Select max(Transcation_Type)Transcation_Type,max(Doc_Status)Doc_Status,max(Location)Location,max([Sub Location])[Sub Location],max(Invoice_Date)Invoice_Date,Invoice_No,max([Party Name])[Party Name],max([GST No])[GST No],
                         max([State Code])[State Code],max([Measure of Qty])[Measure of Qty],max([Product Qty])[Product Qty],Cast(Max([IGST Rate]) as decimal(10,2))[IGST Rate],Cast(sum([Basic Amt]) as Decimal(10,2))[Basic Amt],Cast(max(KKF) as decimal(10,2))KKF,Cast(sum([Mandi Tax Amt]) as Decimal(10,2))[Mandi Tax Amt],Cast(sum([Party TCS Amt]) as Decimal(10,2))[Party TCS Amt],
-                        Cast(sum([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(sum([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(sum([IGST Amt]) as decimal(10,2))[IGST Amt],cast(sum([Total Amt]) as decimal(10,2))[Total Amt],max([B2B/B2C])[B2B/B2C]
+                        Cast(sum([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(sum([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(sum([IGST Amt]) as decimal(10,2))[IGST Amt],cast(sum([Total Amt]) as decimal(10,2))[Total Amt],max([B2B/B2C])[B2B/B2C],max(Ack_No)[Ack No],max(Ack_Date)[Ack Date],max(IRN_No)[IRN No]
                         from ( " + Baseqry + " )XX  "
                 If TxtTransaction.arrValueMember IsNot Nothing AndAlso TxtTransaction.arrValueMember.Count > 0 Then
                     qry += " where XX.Transcation_Type In(" + clsCommon.GetMulcallString(TxtTransaction.arrValueMember) + ")" + Environment.NewLine
@@ -396,7 +401,7 @@ select  CASE WHEN EXISTS ( SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD_Cancel_Data
           AND TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_Booking_No IS NULL AND (TSPL_BOOKING_MATSER_Cancel_Data.Is_APS=1 OR TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Screen_Type= ('CT')))
          And TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Trans_Type <> 'MCC' THEN 'APS SALES'
 		  ELSE 'DCS SALE' END AS Transcation_Type,
-case when TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Status=1 then 'Approved' else'Pending' end as Doc_Status,
+'Cancel' as Doc_Status,
 TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Bill_To_Location AS [Location],
 TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Sub_Location_code AS [Sub Location],
 Convert(varchar(20),TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Date,103) as Invoice_Date,
@@ -473,7 +478,7 @@ TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.Billing_Unit_code as [Measure of Qty],
     				WHEN TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.TAX9='IGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.TAX9_Amt
     				WHEN TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.TAX10='IGST' THEN TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.TAX10_Amt  else 0 END AS [IGST Amt],
 					TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.Item_Net_Amt as [Total Amt],
-					 case when TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.EInvoice_Type='BB' then 'B2B' else 'B2C' end as [B2B/B2C]
+					 case when TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.EInvoice_Type='BB' then 'B2B' else 'B2C' end as [B2B/B2C],TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Ack_No,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Ack_Date,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.IRN_No
                               from TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data
 left join TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data on TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Code
 LEFT JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.Item_Code
@@ -497,7 +502,7 @@ where convert(date,Document_Date,103)>=Convert( Date,'" + strtxtfDate + "',103) 
 
             BaseQryCancel += " union all
 
-select  'MATERIAL SALE' as Transcation_Type,case when TSPL_SCRAPINVOICE_HEAD_Cancel_Data.ispost=1 then 'Approved' else'Pending' end as Doc_Status,
+select  'MATERIAL SALE' as Transcation_Type,'Cancel' as Doc_Status,
 TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Loc_Code AS [Location],
 TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Sub_Location_code AS [Sub Location],
 Convert(varchar(20),TSPL_SCRAPINVOICE_HEAD_Cancel_Data.shipment_Date,103) as Invoice_Date,
@@ -575,6 +580,7 @@ TSPL_SCRAPINVOICE_DETAIL_Cancel_Data.Unit_code as [Measure of Qty],
     				WHEN TSPL_SCRAPINVOICE_DETAIL_Cancel_Data.TAX10='IGST' THEN TSPL_SCRAPINVOICE_DETAIL_Cancel_Data.TAX10_Amt  else 0 END AS [IGST Amt],
 					TSPL_SCRAPINVOICE_DETAIL_Cancel_Data.ItemNetAmt as [Total Amt],
 					 case when TSPL_SCRAPINVOICE_HEAD_Cancel_Data.EInvoice_Type='BB' then 'B2B' else 'B2C' end as [B2B/B2C]
+,TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Ack_No,TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Ack_Date,TSPL_SCRAPINVOICE_HEAD_Cancel_Data.IRN_No
                          from TSPL_SCRAPINVOICE_HEAD_Cancel_Data
 left join TSPL_SCRAPINVOICE_DETAIL_Cancel_Data on TSPL_SCRAPINVOICE_DETAIL_Cancel_Data.invoice_No=TSPL_SCRAPINVOICE_HEAD_Cancel_Data.invoice_No
 LEFT JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SCRAPINVOICE_DETAIL_Cancel_Data.Item_Code
@@ -606,7 +612,7 @@ where convert(date,shipment_Date,103)>=Convert( Date,'" + strtxtfDate + "',103) 
                 qry = " Select max(Transcation_Type)Transcation_Type,max(Doc_Status)Doc_Status,max(Location)Location,max([Sub Location])[Sub Location],max(Invoice_Date)Invoice_Date,Invoice_No,max([Party Name])[Party Name],
                         max([GST No])[GST No],max([State Code])[State Code],max([Measure of Qty])[Measure of Qty],max([Product Qty])[Product Qty],Cast(Max([IGST Rate]) as decimal(10,2))[IGST Rate],Cast(sum([Basic Amt]) as Decimal(10,2))[Basic Amt],Cast(max(KKF) as decimal(10,2))KKF,Cast(sum([Mandi Tax Amt]) as Decimal(10,2))[Mandi Tax Amt],Cast(sum([Party TCS Amt]) as Decimal(10,2))[Party TCS Amt],
                         Cast(sum([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(sum([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(sum([IGST Amt]) as decimal(10,2))[IGST Amt],cast(sum([Total Amt]) as decimal(10,2))[Total Amt]
-                        ,max([B2B/B2C])[B2B/B2C] from (" + BaseQryCancel + " )XX  "
+                        ,max([B2B/B2C])[B2B/B2C],max(Ack_No)[Ack No],max(Ack_Date)[Ack Date],max(IRN_No)[IRN No] from (" + BaseQryCancel + " )XX  "
                 If TxtTransaction.arrValueMember IsNot Nothing AndAlso TxtTransaction.arrValueMember.Count > 0 Then
                     qry += " where XX.Transcation_Type In(" + clsCommon.GetMulcallString(TxtTransaction.arrValueMember) + ")" + Environment.NewLine
                 End If
