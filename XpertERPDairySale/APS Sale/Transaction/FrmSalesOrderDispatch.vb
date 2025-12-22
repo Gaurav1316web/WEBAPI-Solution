@@ -924,7 +924,7 @@ Public Class FrmSalesOrderDispatch
                                                         "'" & clsCommon.myCstr(gv1.Rows(ii).Cells(colUOM).Value) & "' as OrgUOM," & dblqty & " as OrgQty,0 as OrgMRP, " &
                                                         "'" & clsCommon.GetPrintDate(obj.Expiry_Date, "dd/MMM/yyyy") & "' as Expiry_Date, " &
                                                         "'" & clsCommon.GetPrintDate(obj.Manufacture_Date, "dd/MMM/yyyy") & "' as Manufacture_Date, " &
-                                                        "" & dblqty & " as Qty, 0 as MRP "
+                                                        "" & dblqty & " as Qty, 0 as MRP,'' as RALNo,'' as VehicleNo "
                                             Next
                                         End If
                                     End If
