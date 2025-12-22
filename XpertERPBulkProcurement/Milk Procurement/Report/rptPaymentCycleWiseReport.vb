@@ -54,11 +54,11 @@ Public Class rptPaymentCycleWiseReport
                 ToDate.Value = to_Date
             End If
             If rcbMilkBill.Checked = True Then
-                strQuery = "select Doc_No,concat(convert(varchar,From_Date,103),' - ',convert(varchar,To_Date,103)) as Description from TSPL_PAYMENT_PROCESS_HEAD where 
+                strQuery = "select Doc_No,concat(convert(varchar,From_Date,103),' - ',convert(varchar,To_Date,103)) as Description, CAST(1 AS bit) AS Status from TSPL_PAYMENT_PROCESS_HEAD where 
                             convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date) >= CONVERT(DATE, '" & clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") & "', 103)
                             and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date) <= CONVERT(DATE, '" & clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") & "', 103)"
             ElseIf chkPaymentSummary.Checked = True Then
-                strQuery = "Select  Doc_No,concat(convert(varchar,From_Date,103),' - ',convert(varchar,To_Date,103)) as Description from TSPL_PAYMENT_PROCESS_HEAD where 
+                strQuery = "Select  Doc_No,concat(convert(varchar,From_Date,103),' - ',convert(varchar,To_Date,103)) as Description, CAST(1 AS bit) AS Status from TSPL_PAYMENT_PROCESS_HEAD where 
                             Convert(Date, TSPL_PAYMENT_PROCESS_HEAD.From_Date) >= CONVERT(Date, '" & clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") & "', 103)
                             And convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date) <= CONVERT(DATE, '" & clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") & "', 103)"
             Else
@@ -67,8 +67,22 @@ Public Class rptPaymentCycleWiseReport
             End If
             ' Dim strQuery As String = "select Doc_No,concat(convert(varchar,From_Date,103),' - ',convert(varchar,To_Date,103)) as Description from TSPL_PAYMENT_PROCESS_HEAD"
             transportSql.FillGridView(strQuery, dgv_Groupmapping)
-            dgv_Groupmapping.Columns(0).FieldName = "Doc_No"
-            dgv_Groupmapping.Columns(1).FieldName = "Description"
+            If rcbMilkBill.Checked = True Then
+                dgv_Groupmapping.Columns(0).FieldName = "Doc_No"
+                dgv_Groupmapping.Columns(1).FieldName = "Description"
+                dgv_Groupmapping.Columns(2).FieldName = "Status"
+            ElseIf chkPaymentSummary.Checked = True Then
+                dgv_Groupmapping.Columns(0).FieldName = "Doc_No"
+                dgv_Groupmapping.Columns(1).FieldName = "Description"
+                dgv_Groupmapping.Columns(2).FieldName = "Status"
+            Else
+                dgv_Groupmapping.Columns(0).FieldName = "Doc_No"
+                dgv_Groupmapping.Columns(1).FieldName = "Description"
+                'dgv_Groupmapping.Columns(2).FieldName = "Status"
+            End If
+            'dgv_Groupmapping.Columns(0).FieldName = "Doc_No"
+            'dgv_Groupmapping.Columns(1).FieldName = "Description"
+            'dgv_Groupmapping.Columns(2).FieldName = "Status"
             dgv_Groupmapping.Select()
             'dgv_Groupmapping.Columns(2). = True
         Catch ex As Exception
