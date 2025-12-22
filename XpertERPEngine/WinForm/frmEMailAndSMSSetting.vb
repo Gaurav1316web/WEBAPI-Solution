@@ -9,7 +9,6 @@ Public Class frmEMailAndSMSSetting
     Public isForSMS As Boolean = False
     Public isForNotification As Boolean = False
     Public isConfigPwdEntered As Boolean = False
-
     Public Form_ID As String = ""
     Public Const SMSStringMobileNo As String = "$#MOBILENO#$"
     Public Const SMSStringConstSMSText As String = "$#SMSTEXT#$"
@@ -1164,6 +1163,11 @@ Public Class frmEMailAndSMSSetting
             chkMailEnableSSL.Checked = obj.EMail_Enabel_SSL
             txtSMSString.Text = obj.SMS_String
             txtNo_of_characters.Value = obj.NoOFChar
+            txtWAPhoneNumerID.Text = obj.WhatsApp_Phone_Number_ID
+            txtWABusinessAccID.Text = obj.WhatsApp_Business_Account_ID
+            txtWAAccessToken.Text = obj.WhatsApp_Access_Token
+            txtWAApiVersion.Text = obj.WhatsApp_Api_Version
+            txtWAURL.Text = obj.WhatsApp_URL
         End If
         Dim objContent As clsESContent = clsESContent.GetData(Form_ID)
         If objContent IsNot Nothing Then
@@ -1226,6 +1230,11 @@ Public Class frmEMailAndSMSSetting
                     obj.EMail_Enabel_SSL = chkMailEnableSSL.Checked
                     obj.SMS_String = txtSMSString.Text
                     obj.NoOFChar = txtNo_of_characters.Value
+                    obj.WhatsApp_Phone_Number_ID = txtWAPhoneNumerID.Text
+                    obj.WhatsApp_Business_Account_ID = txtWABusinessAccID.Text
+                    obj.WhatsApp_Access_Token = txtWAAccessToken.Text
+                    obj.WhatsApp_URL = txtWAURL.Text
+                    obj.WhatsApp_Api_Version = txtWAApiVersion.Text
                     obj.SaveData(obj)
                 End If
 
@@ -1239,6 +1248,7 @@ Public Class frmEMailAndSMSSetting
                 objContent.Notification_Text = txt_NotificationText.Text
                 objContent.Notification_Detail_Text = txtNotification_Detail.Text
                 objContent.Notification_On = clsCommon.myCstr(ddl_notificationon.SelectedValue)
+                objContent.WhatsApp_Text = txtWhatsApp.Text
 
 
 

@@ -4372,6 +4372,7 @@ Public Class frmPurchaseOrder
     End Sub
 
     Sub AddNew()
+        btnUpdateSchedule.Visible = False
         chkMonthEndDate.Checked = True
         btnViewTDSDetails.Enabled = False
         isCellValueChangedOpen = False
@@ -7631,7 +7632,7 @@ Public Class frmPurchaseOrder
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.F2 AndAlso gv1.CurrentCell IsNot Nothing AndAlso clsCommon.myLen(gv1.CurrentRow.Cells(colReqistionNo).Value) <= 0 Then
             isCellValueChangedOpen = True
-            If gv1.CurrentColumn Is gv1.Columns(colICode) AndAlso Not clsCommon.CompairString(cboItemType.SelectedValue, "N") = CompairStringResult.Equal Then
+            If gv1.CurrentColumn Is gv1.Columns(colICode) AndAlso clsCommon.CompairString(cboItemType.SelectedValue, "N") <> CompairStringResult.Equal Then
                 gv1.CurrentColumn = gv1.Columns(colIName)
                 OpenICodeList(True)
                 gv1.CurrentColumn = gv1.Columns(colICode)
@@ -7659,7 +7660,7 @@ Public Class frmPurchaseOrder
         ElseIf Not e.Alt AndAlso Not e.Shift AndAlso (e.Control AndAlso e.KeyCode = Keys.F7) Then ''because setting is open at Alt+Shift+Cntl+F7, and after this short-cut works automatically creates problem ,so do change
             SelectRequistionItems()
             ''richa agarwal 08/04/2015
-        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F10 Then
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control AndAlso e.KeyCode = Keys.F10 Then
             If clsCommon.CompairString(FORMTYPE, clsUserMgtCode.mbtnPurchaseOrder) = CompairStringResult.Equal Then
                 If Not isSettlementBankOnly Then
                     Dim frm As New FrmPWD(Nothing)
@@ -7674,13 +7675,13 @@ Public Class frmPurchaseOrder
                 End If
             End If
 
-        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F11 Then
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control AndAlso e.KeyCode = Keys.F11 Then
             If AllowAmendmentWithPasssword(MyBase.Form_ID, Nothing) Then
                 btnAmendment.Visible = True
             Else
                 btnAmendment.Visible = False
             End If
-        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control AndAlso e.KeyCode = Keys.F12 Then
             If MyBase.isReverse Then
 
                 'Add Tool tip Task No- TEC/22/05/18-000245
@@ -7717,6 +7718,22 @@ Public Class frmPurchaseOrder
             Else
                 clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
                 'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control AndAlso e.KeyCode = Keys.F8 Then
+            If clsCommon.CompairString(clsCommon.myCstr(UsLock1.Status), "Approved") = CompairStringResult.Equal Then
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    If btnUpdateSchedule.Visible Then
+                        btnUpdateSchedule.Visible = False
+                    Else
+                        btnUpdateSchedule.Visible = True
+                    End If
+                End If
+            Else
+                btnUpdateSchedule.Visible = False
             End If
         End If
     End Sub
@@ -11209,7 +11226,7 @@ left outer join TSPL_ITEM_TYPE_MASTER on TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_CODE=TS
         gvSchedule.TableElement.TableHeaderHeight = 40
     End Sub
 
-    Private Sub ShowPenalty()
+    Private Sub ShowPenalty(ByVal isFlag As Boolean)
         Try
             Dim dt As DataTable = New DataTable()
             dt.Columns.Add("Penalty Date", GetType(String))
@@ -11227,26 +11244,28 @@ left outer join TSPL_ITEM_TYPE_MASTER on TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_CODE=TS
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frm As New FrmFreeGrid
                 frm.dt = dt
-                'frm.arrEditableColumn = New List(Of String)
-                'frm.arrEditableColumn.Add("Penalty")
-                frm.strFormName = "Show Penalty"
-                frm.ReportID = "SchPenaltyD"
-                frm.WindowState = FormWindowState.Maximized
-                frm.ShowDialog()
-                'If frm.dt IsNot Nothing AndAlso frm.dt.Rows.Count > 0 Then
-                '    Dim ArrTemp As New List(Of clsItemSchedulePenalty)
-                '    Dim obj As clsItemSchedulePenalty = Nothing
-                '    For Each dr As DataRow In frm.dt.Rows
-                '        obj = New clsItemSchedulePenalty()
-                '        obj.Penalty_Days = clsCommon.myCDecimal(dr("Days"))
-                '        obj.Penalty = clsCommon.myCDecimal(dr("Penalty"))
-                '        ArrTemp.Add(obj)
-                '    Next
-                '    gvSchedule.CurrentRow.Cells(colScheduleLateDays).Tag = ArrTemp
-                'Else
-                '    gvSchedule.CurrentRow.Cells(colScheduleLateDays).Tag = Nothing
-                'End If
-            End If
+                If isFlag Then
+                    frm.arrEditableColumn = New List(Of String)
+                    frm.arrEditableColumn.Add("Penalty")
+                End If
+                frm.strFormName = "Set Penalty"
+                    frm.ReportID = "SchPenaltyD"
+                    frm.WindowState = FormWindowState.Maximized
+                    frm.ShowDialog()
+                    'If frm.dt IsNot Nothing AndAlso frm.dt.Rows.Count > 0 Then
+                    '    Dim ArrTemp As New List(Of clsItemSchedulePenalty)
+                    '    Dim obj As clsItemSchedulePenalty = Nothing
+                    '    For Each dr As DataRow In frm.dt.Rows
+                    '        obj = New clsItemSchedulePenalty()
+                    '        obj.Penalty_Days = clsCommon.myCDecimal(dr("Days"))
+                    '        obj.Penalty = clsCommon.myCDecimal(dr("Penalty"))
+                    '        ArrTemp.Add(obj)
+                    '    Next
+                    '    gvSchedule.CurrentRow.Cells(colScheduleLateDays).Tag = ArrTemp
+                    'Else
+                    '    gvSchedule.CurrentRow.Cells(colScheduleLateDays).Tag = Nothing
+                    'End If
+                End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -11254,7 +11273,7 @@ left outer join TSPL_ITEM_TYPE_MASTER on TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_CODE=TS
 
     Private Sub gvSchedule_KeyDown(sender As Object, e As KeyEventArgs) Handles gvSchedule.KeyDown
         If e.KeyCode = Keys.F5 Then
-            ShowPenalty()
+            ShowPenalty(False)
         End If
     End Sub
 
@@ -11399,6 +11418,14 @@ left outer join TSPL_ITEM_TYPE_MASTER on TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_CODE=TS
         If Not chkIsMerchantTrade.Checked Then
             SetTax()
         End If
+    End Sub
+
+    Private Sub btnUpdateSchedule_Click(sender As Object, e As EventArgs) Handles btnUpdateSchedule.Click
+        Try
+            ShowPenalty(True)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class
 
