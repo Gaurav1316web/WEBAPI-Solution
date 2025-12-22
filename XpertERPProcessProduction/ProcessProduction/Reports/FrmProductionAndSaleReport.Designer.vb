@@ -22,7 +22,7 @@ Partial Class FrmProductionAndSaleReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
@@ -72,6 +72,7 @@ Partial Class FrmProductionAndSaleReport
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnReport = New Telerik.WinControls.UI.RadButton()
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
+        Me.rbdDateRange = New common.Controls.MyRadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer3.Panel1.SuspendLayout()
         Me.SplitContainer3.Panel2.SuspendLayout()
@@ -129,6 +130,7 @@ Partial Class FrmProductionAndSaleReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReport, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbdDateRange, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -214,6 +216,7 @@ Partial Class FrmProductionAndSaleReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.rdbWeekly)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox7)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox6)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox5)
@@ -466,7 +469,7 @@ Partial Class FrmProductionAndSaleReport
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox1.Controls.Add(Me.rdbWeekly)
+        Me.RadGroupBox1.Controls.Add(Me.rbdDateRange)
         Me.RadGroupBox1.Controls.Add(Me.rdbDaily)
         Me.RadGroupBox1.HeaderText = ""
         Me.RadGroupBox1.Location = New System.Drawing.Point(16, 57)
@@ -477,7 +480,7 @@ Partial Class FrmProductionAndSaleReport
         '
         'rdbWeekly
         '
-        Me.rdbWeekly.Location = New System.Drawing.Point(92, 11)
+        Me.rdbWeekly.Location = New System.Drawing.Point(262, 68)
         Me.rdbWeekly.MyLinkLable1 = Nothing
         Me.rdbWeekly.MyLinkLable2 = Nothing
         Me.rdbWeekly.Name = "rdbWeekly"
@@ -485,6 +488,7 @@ Partial Class FrmProductionAndSaleReport
         Me.rdbWeekly.TabIndex = 2
         Me.rdbWeekly.TabStop = False
         Me.rdbWeekly.Text = "Weekly"
+        Me.rdbWeekly.Visible = False
         '
         'rdbDaily
         '
@@ -582,7 +586,7 @@ Partial Class FrmProductionAndSaleReport
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
@@ -687,6 +691,17 @@ Partial Class FrmProductionAndSaleReport
         Me.btnReport.TabIndex = 164
         Me.btnReport.Text = ">>>"
         '
+        'rbdDateRange
+        '
+        Me.rbdDateRange.Location = New System.Drawing.Point(81, 11)
+        Me.rbdDateRange.MyLinkLable1 = Nothing
+        Me.rbdDateRange.MyLinkLable2 = Nothing
+        Me.rbdDateRange.Name = "rbdDateRange"
+        Me.rbdDateRange.Size = New System.Drawing.Size(78, 18)
+        Me.rbdDateRange.TabIndex = 3
+        Me.rbdDateRange.TabStop = False
+        Me.rbdDateRange.Text = "Date Range"
+        '
         'FrmProductionAndSaleReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -711,6 +726,7 @@ Partial Class FrmProductionAndSaleReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
+        Me.RadPageViewPage1.PerformLayout()
         CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox7.ResumeLayout(False)
         Me.RadGroupBox7.PerformLayout()
@@ -765,6 +781,7 @@ Partial Class FrmProductionAndSaleReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReport, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbdDateRange, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -819,5 +836,6 @@ Partial Class FrmProductionAndSaleReport
     Friend WithEvents Prdncreallchk As common.Controls.MyRadioButton
     Friend WithEvents RePrdntchk As common.Controls.MyRadioButton
     Friend WithEvents Productionchk As common.Controls.MyRadioButton
+    Friend WithEvents rbdDateRange As common.Controls.MyRadioButton
 End Class
 
