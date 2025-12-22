@@ -37,6 +37,7 @@ Partial Class frmSendBillToDCS
         Me.MyLabel11 = New common.Controls.MyLabel()
         Me.RadButton5 = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkSendBillOnWA = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkInactive = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtRemainingBill = New System.Windows.Forms.TextBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
@@ -66,6 +67,7 @@ Partial Class frmSendBillToDCS
         CType(Me.RadButton5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.chkSendBillOnWA, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkInactive, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -278,6 +280,7 @@ Partial Class frmSendBillToDCS
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.chkSendBillOnWA)
         Me.RadGroupBox1.Controls.Add(Me.chkInactive)
         Me.RadGroupBox1.Controls.Add(Me.txtRemainingBill)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel1)
@@ -297,12 +300,22 @@ Partial Class frmSendBillToDCS
         Me.RadGroupBox1.TabIndex = 277
         Me.RadGroupBox1.Text = "Mobile User Bill "
         '
+        'chkSendBillOnWA
+        '
+        Me.chkSendBillOnWA.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkSendBillOnWA.Location = New System.Drawing.Point(345, 61)
+        Me.chkSendBillOnWA.Name = "chkSendBillOnWA"
+        Me.chkSendBillOnWA.Size = New System.Drawing.Size(136, 16)
+        Me.chkSendBillOnWA.TabIndex = 392
+        Me.chkSendBillOnWA.Text = "Send Bill on WhatsApp"
+        Me.chkSendBillOnWA.Visible = False
+        '
         'chkInactive
         '
         Me.chkInactive.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkInactive.Location = New System.Drawing.Point(345, 55)
+        Me.chkInactive.Location = New System.Drawing.Point(345, 43)
         Me.chkInactive.Name = "chkInactive"
-        Me.chkInactive.Size = New System.Drawing.Size(111, 16)
+        Me.chkInactive.Size = New System.Drawing.Size(139, 16)
         Me.chkInactive.TabIndex = 391
         Me.chkInactive.Text = "Not Send To Mobile Bill"
         '
@@ -383,9 +396,9 @@ Partial Class frmSendBillToDCS
         '
         'btnPrintBillMobUser
         '
-        Me.btnPrintBillMobUser.Location = New System.Drawing.Point(73, 67)
+        Me.btnPrintBillMobUser.Location = New System.Drawing.Point(69, 67)
         Me.btnPrintBillMobUser.Name = "btnPrintBillMobUser"
-        Me.btnPrintBillMobUser.Size = New System.Drawing.Size(105, 20)
+        Me.btnPrintBillMobUser.Size = New System.Drawing.Size(109, 20)
         Me.btnPrintBillMobUser.TabIndex = 288
         Me.btnPrintBillMobUser.Text = "Print Bill Mob. User"
         '
@@ -464,6 +477,7 @@ Partial Class frmSendBillToDCS
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.chkSendBillOnWA, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkInactive, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
@@ -506,4 +520,5 @@ Partial Class frmSendBillToDCS
     Friend WithEvents RadButton3 As RadButton
     Friend WithEvents RadButton1 As RadButton
     Friend WithEvents chkInactive As RadCheckBox
+    Friend WithEvents chkSendBillOnWA As RadCheckBox
 End Class

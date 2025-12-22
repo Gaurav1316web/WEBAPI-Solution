@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class frmEMailAndSMSSetting
     Inherits Telerik.WinControls.UI.RadForm
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class frmEMailAndSMSSetting
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
@@ -55,9 +55,24 @@ Partial Class frmEMailAndSMSSetting
         Me.MyLabel12 = New common.Controls.MyLabel()
         Me.txt_NotificationCaption = New common.Controls.MyTextBox()
         Me.MyLabel13 = New common.Controls.MyLabel()
+        Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtWhatsApp = New System.Windows.Forms.TextBox()
+        Me.MyLabel18 = New common.Controls.MyLabel()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
+        Me.GroupBox5 = New System.Windows.Forms.GroupBox()
+        Me.txtWAApiVersion = New common.Controls.MyTextBox()
+        Me.MyLabel25 = New common.Controls.MyLabel()
+        Me.MyLabel23 = New common.Controls.MyLabel()
+        Me.txtWAURL = New common.Controls.MyTextBox()
+        Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel24 = New common.Controls.MyLabel()
+        Me.txtWAAccessToken = New common.Controls.MyTextBox()
+        Me.MyLabel26 = New common.Controls.MyLabel()
+        Me.txtWABusinessAccID = New common.Controls.MyTextBox()
+        Me.MyLabel27 = New common.Controls.MyLabel()
+        Me.txtWAPhoneNumerID = New common.Controls.MyTextBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.MyLabel10 = New common.Controls.MyLabel()
         Me.txtEmailTo = New common.Controls.MyTextBox()
@@ -112,12 +127,26 @@ Partial Class frmEMailAndSMSSetting
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txt_NotificationCaption, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage5.SuspendLayout()
+        CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage3.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
         Me.SplitContainer3.Panel1.SuspendLayout()
         Me.SplitContainer3.Panel2.SuspendLayout()
         Me.SplitContainer3.SuspendLayout()
+        Me.GroupBox5.SuspendLayout()
+        CType(Me.txtWAApiVersion, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtWAURL, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtWAAccessToken, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel26, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtWABusinessAccID, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtWAPhoneNumerID, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtEmailTo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -164,7 +193,7 @@ Partial Class frmEMailAndSMSSetting
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSaveConfiguration)
-        Me.SplitContainer1.Size = New System.Drawing.Size(566, 444)
+        Me.SplitContainer1.Size = New System.Drawing.Size(851, 444)
         Me.SplitContainer1.SplitterDistance = 404
         Me.SplitContainer1.TabIndex = 0
         '
@@ -173,12 +202,13 @@ Partial Class frmEMailAndSMSSetting
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage4)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage5)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
-        Me.RadPageView1.Size = New System.Drawing.Size(566, 404)
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
+        Me.RadPageView1.Size = New System.Drawing.Size(851, 404)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -191,7 +221,7 @@ Partial Class frmEMailAndSMSSetting
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(62.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(545, 356)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(830, 356)
         Me.RadPageViewPage2.Text = "SMS Text"
         '
         'txtEmpSMSAlerts
@@ -207,7 +237,7 @@ Partial Class frmEMailAndSMSSetting
         Me.txtEmpSMSAlerts.MyLinkLable2 = Nothing
         Me.txtEmpSMSAlerts.MyNullText = "None"
         Me.txtEmpSMSAlerts.Name = "txtEmpSMSAlerts"
-        Me.txtEmpSMSAlerts.Size = New System.Drawing.Size(412, 20)
+        Me.txtEmpSMSAlerts.Size = New System.Drawing.Size(697, 20)
         Me.txtEmpSMSAlerts.TabIndex = 385
         '
         'Employee
@@ -227,7 +257,7 @@ Partial Class frmEMailAndSMSSetting
         Me.txtSMSText.Location = New System.Drawing.Point(0, 47)
         Me.txtSMSText.Multiline = True
         Me.txtSMSText.Name = "txtSMSText"
-        Me.txtSMSText.Size = New System.Drawing.Size(545, 293)
+        Me.txtSMSText.Size = New System.Drawing.Size(830, 293)
         Me.txtSMSText.TabIndex = 27
         '
         'ContextMenuStrip1
@@ -243,7 +273,7 @@ Partial Class frmEMailAndSMSSetting
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel2.Location = New System.Drawing.Point(0, 0)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(545, 47)
+        Me.Panel2.Size = New System.Drawing.Size(830, 47)
         Me.Panel2.TabIndex = 28
         '
         'MyLabel16
@@ -279,7 +309,7 @@ Partial Class frmEMailAndSMSSetting
         Me.txtSMSTemplateID.ReferenceFieldDesc = Nothing
         Me.txtSMSTemplateID.ReferenceFieldName = Nothing
         Me.txtSMSTemplateID.ReferenceTableName = Nothing
-        Me.txtSMSTemplateID.Size = New System.Drawing.Size(407, 18)
+        Me.txtSMSTemplateID.Size = New System.Drawing.Size(692, 18)
         Me.txtSMSTemplateID.TabIndex = 389
         '
         'MyLabel9
@@ -290,7 +320,7 @@ Partial Class frmEMailAndSMSSetting
         Me.MyLabel9.ForeColor = System.Drawing.SystemColors.Highlight
         Me.MyLabel9.Location = New System.Drawing.Point(0, 340)
         Me.MyLabel9.Name = "MyLabel9"
-        Me.MyLabel9.Size = New System.Drawing.Size(167, 16)
+        Me.MyLabel9.Size = New System.Drawing.Size(830, 16)
         Me.MyLabel9.TabIndex = 26
         Me.MyLabel9.Text = "Right Click for Add Constants"
         '
@@ -302,7 +332,7 @@ Partial Class frmEMailAndSMSSetting
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(72.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(545, 356)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(830, 356)
         Me.RadPageViewPage1.Text = "E-Mail Text"
         '
         'txtEmailText
@@ -311,7 +341,7 @@ Partial Class frmEMailAndSMSSetting
         Me.txtEmailText.Dock = System.Windows.Forms.DockStyle.Fill
         Me.txtEmailText.Location = New System.Drawing.Point(0, 49)
         Me.txtEmailText.Name = "txtEmailText"
-        Me.txtEmailText.Size = New System.Drawing.Size(545, 291)
+        Me.txtEmailText.Size = New System.Drawing.Size(830, 291)
         Me.txtEmailText.TabIndex = 38
         Me.txtEmailText.Text = ""
         '
@@ -324,7 +354,7 @@ Partial Class frmEMailAndSMSSetting
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(545, 49)
+        Me.Panel1.Size = New System.Drawing.Size(830, 49)
         Me.Panel1.TabIndex = 27
         '
         'MyLabel4
@@ -350,7 +380,7 @@ Partial Class frmEMailAndSMSSetting
         Me.txtEmpEmailAlerts.MyLinkLable2 = Nothing
         Me.txtEmpEmailAlerts.MyNullText = "None"
         Me.txtEmpEmailAlerts.Name = "txtEmpEmailAlerts"
-        Me.txtEmpEmailAlerts.Size = New System.Drawing.Size(400, 19)
+        Me.txtEmpEmailAlerts.Size = New System.Drawing.Size(685, 19)
         Me.txtEmpEmailAlerts.TabIndex = 387
         '
         'MyLabel11
@@ -387,7 +417,7 @@ Partial Class frmEMailAndSMSSetting
         Me.txtSubject.ReferenceFieldDesc = Nothing
         Me.txtSubject.ReferenceFieldName = Nothing
         Me.txtSubject.ReferenceTableName = Nothing
-        Me.txtSubject.Size = New System.Drawing.Size(488, 18)
+        Me.txtSubject.Size = New System.Drawing.Size(773, 0)
         Me.txtSubject.TabIndex = 38
         '
         'RadLabel12
@@ -398,7 +428,7 @@ Partial Class frmEMailAndSMSSetting
         Me.RadLabel12.ForeColor = System.Drawing.SystemColors.Highlight
         Me.RadLabel12.Location = New System.Drawing.Point(0, 340)
         Me.RadLabel12.Name = "RadLabel12"
-        Me.RadLabel12.Size = New System.Drawing.Size(167, 16)
+        Me.RadLabel12.Size = New System.Drawing.Size(830, 16)
         Me.RadLabel12.TabIndex = 25
         Me.RadLabel12.Text = "Right Click for Add Constants"
         '
@@ -411,7 +441,7 @@ Partial Class frmEMailAndSMSSetting
         Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(99.0!, 28.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(545, 356)
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(830, 356)
         Me.RadPageViewPage4.Text = "Notification Text"
         '
         'GroupBox3
@@ -458,7 +488,7 @@ Partial Class frmEMailAndSMSSetting
         Me.Panel3.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel3.Location = New System.Drawing.Point(0, 0)
         Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(545, 70)
+        Me.Panel3.Size = New System.Drawing.Size(830, 70)
         Me.Panel3.TabIndex = 40
         '
         'ddl_notificationon
@@ -520,7 +550,7 @@ Partial Class frmEMailAndSMSSetting
         Me.txtEmpNotificationAlerts.MyLinkLable2 = Nothing
         Me.txtEmpNotificationAlerts.MyNullText = "None"
         Me.txtEmpNotificationAlerts.Name = "txtEmpNotificationAlerts"
-        Me.txtEmpNotificationAlerts.Size = New System.Drawing.Size(358, 19)
+        Me.txtEmpNotificationAlerts.Size = New System.Drawing.Size(643, 19)
         Me.txtEmpNotificationAlerts.TabIndex = 387
         '
         'MyLabel12
@@ -556,7 +586,7 @@ Partial Class frmEMailAndSMSSetting
         Me.txt_NotificationCaption.ReferenceFieldDesc = Nothing
         Me.txt_NotificationCaption.ReferenceFieldName = Nothing
         Me.txt_NotificationCaption.ReferenceTableName = Nothing
-        Me.txt_NotificationCaption.Size = New System.Drawing.Size(488, 18)
+        Me.txt_NotificationCaption.Size = New System.Drawing.Size(773, 0)
         Me.txt_NotificationCaption.TabIndex = 38
         '
         'MyLabel13
@@ -567,9 +597,41 @@ Partial Class frmEMailAndSMSSetting
         Me.MyLabel13.ForeColor = System.Drawing.SystemColors.Highlight
         Me.MyLabel13.Location = New System.Drawing.Point(0, 340)
         Me.MyLabel13.Name = "MyLabel13"
-        Me.MyLabel13.Size = New System.Drawing.Size(167, 16)
+        Me.MyLabel13.Size = New System.Drawing.Size(830, 16)
         Me.MyLabel13.TabIndex = 39
         Me.MyLabel13.Text = "Right Click for Add Constants"
+        '
+        'RadPageViewPage5
+        '
+        Me.RadPageViewPage5.Controls.Add(Me.txtWhatsApp)
+        Me.RadPageViewPage5.Controls.Add(Me.MyLabel18)
+        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(92.0!, 28.0!)
+        Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage5.Name = "RadPageViewPage5"
+        Me.RadPageViewPage5.Size = New System.Drawing.Size(830, 356)
+        Me.RadPageViewPage5.Text = "WhatsApp Text"
+        '
+        'txtWhatsApp
+        '
+        Me.txtWhatsApp.ContextMenuStrip = Me.ContextMenuStrip1
+        Me.txtWhatsApp.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.txtWhatsApp.Location = New System.Drawing.Point(0, 0)
+        Me.txtWhatsApp.Multiline = True
+        Me.txtWhatsApp.Name = "txtWhatsApp"
+        Me.txtWhatsApp.Size = New System.Drawing.Size(830, 340)
+        Me.txtWhatsApp.TabIndex = 29
+        '
+        'MyLabel18
+        '
+        Me.MyLabel18.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.MyLabel18.FieldName = Nothing
+        Me.MyLabel18.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel18.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.MyLabel18.Location = New System.Drawing.Point(0, 340)
+        Me.MyLabel18.Name = "MyLabel18"
+        Me.MyLabel18.Size = New System.Drawing.Size(830, 16)
+        Me.MyLabel18.TabIndex = 28
+        Me.MyLabel18.Text = "Right Click for Add Constants"
         '
         'RadPageViewPage3
         '
@@ -577,7 +639,7 @@ Partial Class frmEMailAndSMSSetting
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(85.0!, 28.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(545, 356)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(830, 356)
         Me.RadPageViewPage3.Text = "Configuration"
         '
         'SplitContainer2
@@ -591,7 +653,7 @@ Partial Class frmEMailAndSMSSetting
         '
         Me.SplitContainer2.Panel1.Controls.Add(Me.SplitContainer3)
         Me.SplitContainer2.Panel2Collapsed = True
-        Me.SplitContainer2.Size = New System.Drawing.Size(545, 356)
+        Me.SplitContainer2.Size = New System.Drawing.Size(830, 356)
         Me.SplitContainer2.SplitterDistance = 326
         Me.SplitContainer2.TabIndex = 2
         '
@@ -604,14 +666,215 @@ Partial Class frmEMailAndSMSSetting
         '
         'SplitContainer3.Panel1
         '
+        Me.SplitContainer3.Panel1.Controls.Add(Me.GroupBox5)
         Me.SplitContainer3.Panel1.Controls.Add(Me.GroupBox1)
         '
         'SplitContainer3.Panel2
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.GroupBox2)
-        Me.SplitContainer3.Size = New System.Drawing.Size(545, 356)
+        Me.SplitContainer3.Size = New System.Drawing.Size(830, 356)
         Me.SplitContainer3.SplitterDistance = 156
         Me.SplitContainer3.TabIndex = 0
+        '
+        'GroupBox5
+        '
+        Me.GroupBox5.Controls.Add(Me.txtWAApiVersion)
+        Me.GroupBox5.Controls.Add(Me.MyLabel23)
+        Me.GroupBox5.Controls.Add(Me.txtWAURL)
+        Me.GroupBox5.Controls.Add(Me.RadButton3)
+        Me.GroupBox5.Controls.Add(Me.MyLabel24)
+        Me.GroupBox5.Controls.Add(Me.MyLabel25)
+        Me.GroupBox5.Controls.Add(Me.txtWAAccessToken)
+        Me.GroupBox5.Controls.Add(Me.MyLabel26)
+        Me.GroupBox5.Controls.Add(Me.txtWABusinessAccID)
+        Me.GroupBox5.Controls.Add(Me.MyLabel27)
+        Me.GroupBox5.Controls.Add(Me.txtWAPhoneNumerID)
+        Me.GroupBox5.Dock = System.Windows.Forms.DockStyle.Right
+        Me.GroupBox5.Location = New System.Drawing.Point(403, 0)
+        Me.GroupBox5.Name = "GroupBox5"
+        Me.GroupBox5.Size = New System.Drawing.Size(427, 156)
+        Me.GroupBox5.TabIndex = 2
+        Me.GroupBox5.TabStop = False
+        Me.GroupBox5.Text = "WhatsApp Setting"
+        '
+        'txtWAApiVersion
+        '
+        Me.txtWAApiVersion.CalculationExpression = Nothing
+        Me.txtWAApiVersion.FieldCode = Nothing
+        Me.txtWAApiVersion.FieldDesc = Nothing
+        Me.txtWAApiVersion.FieldMaxLength = 0
+        Me.txtWAApiVersion.FieldName = Nothing
+        Me.txtWAApiVersion.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtWAApiVersion.isCalculatedField = False
+        Me.txtWAApiVersion.IsSourceFromTable = False
+        Me.txtWAApiVersion.IsSourceFromValueList = False
+        Me.txtWAApiVersion.IsUnique = False
+        Me.txtWAApiVersion.Location = New System.Drawing.Point(179, 83)
+        Me.txtWAApiVersion.MaxLength = 50
+        Me.txtWAApiVersion.MendatroryField = False
+        Me.txtWAApiVersion.MyLinkLable1 = Me.MyLabel25
+        Me.txtWAApiVersion.MyLinkLable2 = Nothing
+        Me.txtWAApiVersion.Name = "txtWAApiVersion"
+        Me.txtWAApiVersion.ReferenceFieldDesc = Nothing
+        Me.txtWAApiVersion.ReferenceFieldName = Nothing
+        Me.txtWAApiVersion.ReferenceTableName = Nothing
+        Me.txtWAApiVersion.Size = New System.Drawing.Size(210, 18)
+        Me.txtWAApiVersion.TabIndex = 51
+        '
+        'MyLabel25
+        '
+        Me.MyLabel25.FieldName = Nothing
+        Me.MyLabel25.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel25.Location = New System.Drawing.Point(6, 63)
+        Me.MyLabel25.Name = "MyLabel25"
+        Me.MyLabel25.Size = New System.Drawing.Size(77, 16)
+        Me.MyLabel25.TabIndex = 41
+        Me.MyLabel25.Text = "Access Token"
+        '
+        'MyLabel23
+        '
+        Me.MyLabel23.FieldName = Nothing
+        Me.MyLabel23.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel23.Location = New System.Drawing.Point(6, 105)
+        Me.MyLabel23.Name = "MyLabel23"
+        Me.MyLabel23.Size = New System.Drawing.Size(29, 16)
+        Me.MyLabel23.TabIndex = 50
+        Me.MyLabel23.Text = "URL"
+        '
+        'txtWAURL
+        '
+        Me.txtWAURL.CalculationExpression = Nothing
+        Me.txtWAURL.FieldCode = Nothing
+        Me.txtWAURL.FieldDesc = Nothing
+        Me.txtWAURL.FieldMaxLength = 0
+        Me.txtWAURL.FieldName = Nothing
+        Me.txtWAURL.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtWAURL.isCalculatedField = False
+        Me.txtWAURL.IsSourceFromTable = False
+        Me.txtWAURL.IsSourceFromValueList = False
+        Me.txtWAURL.IsUnique = False
+        Me.txtWAURL.Location = New System.Drawing.Point(179, 104)
+        Me.txtWAURL.MaxLength = 50
+        Me.txtWAURL.MendatroryField = False
+        Me.txtWAURL.MyLinkLable1 = Me.MyLabel23
+        Me.txtWAURL.MyLinkLable2 = Nothing
+        Me.txtWAURL.Name = "txtWAURL"
+        Me.txtWAURL.ReferenceFieldDesc = Nothing
+        Me.txtWAURL.ReferenceFieldName = Nothing
+        Me.txtWAURL.ReferenceTableName = Nothing
+        Me.txtWAURL.Size = New System.Drawing.Size(210, 18)
+        Me.txtWAURL.TabIndex = 49
+        '
+        'RadButton3
+        '
+        Me.RadButton3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadButton3.Location = New System.Drawing.Point(179, 125)
+        Me.RadButton3.Name = "RadButton3"
+        Me.RadButton3.Size = New System.Drawing.Size(210, 22)
+        Me.RadButton3.TabIndex = 48
+        Me.RadButton3.Text = "Send A Test WhatsApp"
+        '
+        'MyLabel24
+        '
+        Me.MyLabel24.FieldName = Nothing
+        Me.MyLabel24.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel24.Location = New System.Drawing.Point(6, 84)
+        Me.MyLabel24.Name = "MyLabel24"
+        Me.MyLabel24.Size = New System.Drawing.Size(66, 16)
+        Me.MyLabel24.TabIndex = 41
+        Me.MyLabel24.Text = "API Version"
+        '
+        'txtWAAccessToken
+        '
+        Me.txtWAAccessToken.CalculationExpression = Nothing
+        Me.txtWAAccessToken.FieldCode = Nothing
+        Me.txtWAAccessToken.FieldDesc = Nothing
+        Me.txtWAAccessToken.FieldMaxLength = 0
+        Me.txtWAAccessToken.FieldName = Nothing
+        Me.txtWAAccessToken.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtWAAccessToken.isCalculatedField = False
+        Me.txtWAAccessToken.IsSourceFromTable = False
+        Me.txtWAAccessToken.IsSourceFromValueList = False
+        Me.txtWAAccessToken.IsUnique = False
+        Me.txtWAAccessToken.Location = New System.Drawing.Point(179, 62)
+        Me.txtWAAccessToken.MaxLength = 1000
+        Me.txtWAAccessToken.MendatroryField = False
+        Me.txtWAAccessToken.MyLinkLable1 = Me.MyLabel25
+        Me.txtWAAccessToken.MyLinkLable2 = Nothing
+        Me.txtWAAccessToken.Name = "txtWAAccessToken"
+        Me.txtWAAccessToken.ReferenceFieldDesc = Nothing
+        Me.txtWAAccessToken.ReferenceFieldName = Nothing
+        Me.txtWAAccessToken.ReferenceTableName = Nothing
+        Me.txtWAAccessToken.Size = New System.Drawing.Size(210, 18)
+        Me.txtWAAccessToken.TabIndex = 40
+        '
+        'MyLabel26
+        '
+        Me.MyLabel26.FieldName = Nothing
+        Me.MyLabel26.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel26.Location = New System.Drawing.Point(6, 42)
+        Me.MyLabel26.Name = "MyLabel26"
+        Me.MyLabel26.Size = New System.Drawing.Size(166, 16)
+        Me.MyLabel26.TabIndex = 39
+        Me.MyLabel26.Text = "WhatsApp Business Account ID"
+        '
+        'txtWABusinessAccID
+        '
+        Me.txtWABusinessAccID.CalculationExpression = Nothing
+        Me.txtWABusinessAccID.FieldCode = Nothing
+        Me.txtWABusinessAccID.FieldDesc = Nothing
+        Me.txtWABusinessAccID.FieldMaxLength = 0
+        Me.txtWABusinessAccID.FieldName = Nothing
+        Me.txtWABusinessAccID.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtWABusinessAccID.isCalculatedField = False
+        Me.txtWABusinessAccID.IsSourceFromTable = False
+        Me.txtWABusinessAccID.IsSourceFromValueList = False
+        Me.txtWABusinessAccID.IsUnique = False
+        Me.txtWABusinessAccID.Location = New System.Drawing.Point(179, 41)
+        Me.txtWABusinessAccID.MaxLength = 50
+        Me.txtWABusinessAccID.MendatroryField = False
+        Me.txtWABusinessAccID.MyLinkLable1 = Me.MyLabel26
+        Me.txtWABusinessAccID.MyLinkLable2 = Nothing
+        Me.txtWABusinessAccID.Name = "txtWABusinessAccID"
+        Me.txtWABusinessAccID.ReferenceFieldDesc = Nothing
+        Me.txtWABusinessAccID.ReferenceFieldName = Nothing
+        Me.txtWABusinessAccID.ReferenceTableName = Nothing
+        Me.txtWABusinessAccID.Size = New System.Drawing.Size(210, 18)
+        Me.txtWABusinessAccID.TabIndex = 38
+        '
+        'MyLabel27
+        '
+        Me.MyLabel27.FieldName = Nothing
+        Me.MyLabel27.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel27.Location = New System.Drawing.Point(6, 21)
+        Me.MyLabel27.Name = "MyLabel27"
+        Me.MyLabel27.Size = New System.Drawing.Size(97, 16)
+        Me.MyLabel27.TabIndex = 37
+        Me.MyLabel27.Text = "Phone Number ID"
+        '
+        'txtWAPhoneNumerID
+        '
+        Me.txtWAPhoneNumerID.CalculationExpression = Nothing
+        Me.txtWAPhoneNumerID.FieldCode = Nothing
+        Me.txtWAPhoneNumerID.FieldDesc = Nothing
+        Me.txtWAPhoneNumerID.FieldMaxLength = 0
+        Me.txtWAPhoneNumerID.FieldName = Nothing
+        Me.txtWAPhoneNumerID.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtWAPhoneNumerID.isCalculatedField = False
+        Me.txtWAPhoneNumerID.IsSourceFromTable = False
+        Me.txtWAPhoneNumerID.IsSourceFromValueList = False
+        Me.txtWAPhoneNumerID.IsUnique = False
+        Me.txtWAPhoneNumerID.Location = New System.Drawing.Point(179, 20)
+        Me.txtWAPhoneNumerID.MaxLength = 50
+        Me.txtWAPhoneNumerID.MendatroryField = False
+        Me.txtWAPhoneNumerID.MyLinkLable1 = Me.MyLabel27
+        Me.txtWAPhoneNumerID.MyLinkLable2 = Nothing
+        Me.txtWAPhoneNumerID.Name = "txtWAPhoneNumerID"
+        Me.txtWAPhoneNumerID.ReferenceFieldDesc = Nothing
+        Me.txtWAPhoneNumerID.ReferenceFieldName = Nothing
+        Me.txtWAPhoneNumerID.ReferenceTableName = Nothing
+        Me.txtWAPhoneNumerID.Size = New System.Drawing.Size(210, 18)
+        Me.txtWAPhoneNumerID.TabIndex = 36
         '
         'GroupBox1
         '
@@ -627,10 +890,10 @@ Partial Class frmEMailAndSMSSetting
         Me.GroupBox1.Controls.Add(Me.txtMailPort)
         Me.GroupBox1.Controls.Add(Me.RadLabel5)
         Me.GroupBox1.Controls.Add(Me.txtMailSMTPClient)
-        Me.GroupBox1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.GroupBox1.Dock = System.Windows.Forms.DockStyle.Left
         Me.GroupBox1.Location = New System.Drawing.Point(0, 0)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(545, 156)
+        Me.GroupBox1.Size = New System.Drawing.Size(373, 156)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "SMTP Setting"
@@ -840,7 +1103,7 @@ Partial Class frmEMailAndSMSSetting
         Me.GroupBox2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupBox2.Location = New System.Drawing.Point(0, 0)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(545, 196)
+        Me.GroupBox2.Size = New System.Drawing.Size(830, 196)
         Me.GroupBox2.TabIndex = 1
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "SMS Setting"
@@ -904,7 +1167,7 @@ Partial Class frmEMailAndSMSSetting
         Me.txtNo_of_characters.TabIndex = 387
         Me.txtNo_of_characters.Text = "0"
         Me.txtNo_of_characters.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNo_of_characters.Value = 0R
+        Me.txtNo_of_characters.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel15
         '
@@ -1021,7 +1284,7 @@ Partial Class frmEMailAndSMSSetting
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(490, 7)
+        Me.btnClose.Location = New System.Drawing.Point(775, 7)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(69, 22)
         Me.btnClose.TabIndex = 50
@@ -1040,7 +1303,7 @@ Partial Class frmEMailAndSMSSetting
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(566, 444)
+        Me.ClientSize = New System.Drawing.Size(851, 444)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "frmEMailAndSMSSetting"
         '
@@ -1081,12 +1344,28 @@ Partial Class frmEMailAndSMSSetting
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txt_NotificationCaption, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage5.ResumeLayout(False)
+        Me.RadPageViewPage5.PerformLayout()
+        CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage3.ResumeLayout(False)
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
         Me.SplitContainer3.Panel1.ResumeLayout(False)
         Me.SplitContainer3.Panel2.ResumeLayout(False)
         Me.SplitContainer3.ResumeLayout(False)
+        Me.GroupBox5.ResumeLayout(False)
+        Me.GroupBox5.PerformLayout()
+        CType(Me.txtWAApiVersion, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtWAURL, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtWAAccessToken, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel26, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtWABusinessAccID, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtWAPhoneNumerID, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1182,5 +1461,20 @@ Partial Class frmEMailAndSMSSetting
     Friend WithEvents txtSMSTemplateID As Controls.MyTextBox
     Friend WithEvents MyLabel17 As Controls.MyLabel
     Friend WithEvents txttestSMSTempate As Controls.MyTextBox
+    Friend WithEvents RadPageViewPage5 As RadPageViewPage
+    Friend WithEvents GroupBox5 As GroupBox
+    Friend WithEvents MyLabel23 As Controls.MyLabel
+    Friend WithEvents txtWAURL As Controls.MyTextBox
+    Friend WithEvents RadButton3 As RadButton
+    Friend WithEvents MyLabel24 As Controls.MyLabel
+    Friend WithEvents MyLabel25 As Controls.MyLabel
+    Friend WithEvents txtWAAccessToken As Controls.MyTextBox
+    Friend WithEvents MyLabel26 As Controls.MyLabel
+    Friend WithEvents txtWABusinessAccID As Controls.MyTextBox
+    Friend WithEvents MyLabel27 As Controls.MyLabel
+    Friend WithEvents txtWAPhoneNumerID As Controls.MyTextBox
+    Friend WithEvents txtWhatsApp As TextBox
+    Friend WithEvents MyLabel18 As Controls.MyLabel
+    Friend WithEvents txtWAApiVersion As Controls.MyTextBox
 End Class
 
