@@ -165,9 +165,12 @@ AND [JPR].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response LIKE '%STATUS : %'"
                 'End If
                 If rbtnSuccess.IsChecked Then
                     baseqry += " and  (CASE WHEN TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response LIKE '%STATUS : SUCCESS%' THEN 1 ELSE 0 END) = 1"
-                Else
+                ElseIf rbtnFailed.IsChecked Then
                     baseqry += " and (CASE WHEN TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response LIKE '%STATUS : SUCCESS%' THEN 1 ELSE 0 END) = 0"
+                Else
+                    baseqry += " and (CASE WHEN TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response LIKE '%STATUS : SUCCESS%' THEN 1 ELSE 0 END) in('1','0')"
                 End If
+
             Next
 
             'qry1 += "WITH CTE AS(" + baseqry + " )SELECT (UnionName)UnionName,  MonthYear,MonthName, COUNT(DISTINCT ID) As TotalID, COUNT(Case When RN = 1 Then 1 End) As NewID FROM CTE
@@ -231,6 +234,8 @@ AND [JPR].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response LIKE '%STATUS : %'"
             gv1.Columns("Sanction_Date").HeaderText = "Sanction_Date"
             gv1.Columns("Sanction_Amount").IsVisible = False
             gv1.Columns("Sanction_Amount").HeaderText = "Sanction Amount"
+            gv1.Columns("Bank_Response").HeaderText = "Bank Response"
+
         Next
         Dim summaryRowItemB As New GridViewSummaryRowItem()
         Dim Amount As New GridViewSummaryItem("Amount", "{0:n2}", GridAggregateFunction.Sum)

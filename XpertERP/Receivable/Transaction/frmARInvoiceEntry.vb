@@ -2080,6 +2080,13 @@ Public Class FrmARInvoiceEntry
         End If
         ''End of For Custom Fields
         UcAttachment1.BlankAllControls()
+        txtlocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Loc_Segment_Code from TSPL_LOCATION_MASTER where Location_Code in (select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' ) "))
+        '' Anubhooti 28-Nov-2014 BM00000004810
+        If clsCommon.myLen(clsCommon.myCstr(txtlocation.Value)) > 0 Then
+            LblLocDesp.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT ISNULL(Description,'') As Description FROM TSPL_GL_SEGMENT_CODE WHERE Segment_code ='" & clsCommon.myCstr(txtlocation.Value) & "'"))
+        Else
+            LblLocDesp.Text = ""
+        End If
 
     End Sub
 
