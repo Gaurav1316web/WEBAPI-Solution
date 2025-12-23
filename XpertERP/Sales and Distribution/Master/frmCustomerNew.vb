@@ -6326,7 +6326,11 @@ Public Class frmCustomer
                             'Dim CompGSTNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select GSTReg_No from TSPL_COMPANY_MASTER ", trans))
                             'Dim CompGSTNo As String = objResult.SelectToken("header.gstin").ToString
                             Try
+                                If clsCommon.myLen(GST_STATE_Code) = 1 Then
+                                    GST_STATE_Code = "0" + GST_STATE_Code
+                                End If
                                 Dim stateCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select STATE_CODE from TSPL_STATE_MASTER where GST_STATE_Code='" & GST_STATE_Code & "'", Nothing))
+
                                 Dim strQry As String = "update TSPL_CUSTOMER_MASTER set GSTNO='" & GSTNo & "',Customer_Name='" & Customer_Name & "',Alies_name='" & Alies_name & "',Add1='" & Add1 & "',Add2='" & Add2 & "',State='" & stateCode & "',PIN_NO='" & PIN_NO & "' where Cust_Code='" & fndCustomer.Value & "'"
                                 clsDBFuncationality.ExecuteNonQuery(strQry)
                             Catch ex As Exception
