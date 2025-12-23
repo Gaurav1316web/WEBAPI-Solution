@@ -22,7 +22,7 @@ Partial Class FrmProductionAndSaleReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
@@ -31,6 +31,7 @@ Partial Class FrmProductionAndSaleReport
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.rdbWeekly = New common.Controls.MyRadioButton()
         Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
         Me.Prdncreallchk = New common.Controls.MyRadioButton()
         Me.RePrdntchk = New common.Controls.MyRadioButton()
@@ -52,7 +53,7 @@ Partial Class FrmProductionAndSaleReport
         Me.rdbUnposted = New common.Controls.MyRadioButton()
         Me.rdbPosted = New common.Controls.MyRadioButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rdbWeekly = New common.Controls.MyRadioButton()
+        Me.rbdDateRange = New common.Controls.MyRadioButton()
         Me.rdbDaily = New common.Controls.MyRadioButton()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.lbltoDate = New common.Controls.MyLabel()
@@ -72,7 +73,6 @@ Partial Class FrmProductionAndSaleReport
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnReport = New Telerik.WinControls.UI.RadButton()
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
-        Me.rbdDateRange = New common.Controls.MyRadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer3.Panel1.SuspendLayout()
         Me.SplitContainer3.Panel2.SuspendLayout()
@@ -83,6 +83,7 @@ Partial Class FrmProductionAndSaleReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.rdbWeekly, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox7.SuspendLayout()
         CType(Me.Prdncreallchk, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -110,7 +111,7 @@ Partial Class FrmProductionAndSaleReport
         CType(Me.rdbPosted, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
-        CType(Me.rdbWeekly, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbdDateRange, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbDaily, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
@@ -130,7 +131,6 @@ Partial Class FrmProductionAndSaleReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReport, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbdDateRange, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -229,6 +229,18 @@ Partial Class FrmProductionAndSaleReport
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1057, 392)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'rdbWeekly
+        '
+        Me.rdbWeekly.Location = New System.Drawing.Point(262, 68)
+        Me.rdbWeekly.MyLinkLable1 = Nothing
+        Me.rdbWeekly.MyLinkLable2 = Nothing
+        Me.rdbWeekly.Name = "rdbWeekly"
+        Me.rdbWeekly.Size = New System.Drawing.Size(56, 18)
+        Me.rdbWeekly.TabIndex = 2
+        Me.rdbWeekly.TabStop = False
+        Me.rdbWeekly.Text = "Weekly"
+        Me.rdbWeekly.Visible = False
         '
         'RadGroupBox7
         '
@@ -478,17 +490,16 @@ Partial Class FrmProductionAndSaleReport
         Me.RadGroupBox1.Size = New System.Drawing.Size(174, 42)
         Me.RadGroupBox1.TabIndex = 54
         '
-        'rdbWeekly
+        'rbdDateRange
         '
-        Me.rdbWeekly.Location = New System.Drawing.Point(262, 68)
-        Me.rdbWeekly.MyLinkLable1 = Nothing
-        Me.rdbWeekly.MyLinkLable2 = Nothing
-        Me.rdbWeekly.Name = "rdbWeekly"
-        Me.rdbWeekly.Size = New System.Drawing.Size(56, 18)
-        Me.rdbWeekly.TabIndex = 2
-        Me.rdbWeekly.TabStop = False
-        Me.rdbWeekly.Text = "Weekly"
-        Me.rdbWeekly.Visible = False
+        Me.rbdDateRange.Location = New System.Drawing.Point(81, 11)
+        Me.rbdDateRange.MyLinkLable1 = Nothing
+        Me.rbdDateRange.MyLinkLable2 = Nothing
+        Me.rbdDateRange.Name = "rbdDateRange"
+        Me.rbdDateRange.Size = New System.Drawing.Size(78, 18)
+        Me.rbdDateRange.TabIndex = 3
+        Me.rbdDateRange.TabStop = False
+        Me.rbdDateRange.Text = "Date Range"
         '
         'rdbDaily
         '
@@ -586,7 +597,7 @@ Partial Class FrmProductionAndSaleReport
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
@@ -691,17 +702,6 @@ Partial Class FrmProductionAndSaleReport
         Me.btnReport.TabIndex = 164
         Me.btnReport.Text = ">>>"
         '
-        'rbdDateRange
-        '
-        Me.rbdDateRange.Location = New System.Drawing.Point(81, 11)
-        Me.rbdDateRange.MyLinkLable1 = Nothing
-        Me.rbdDateRange.MyLinkLable2 = Nothing
-        Me.rbdDateRange.Name = "rbdDateRange"
-        Me.rbdDateRange.Size = New System.Drawing.Size(78, 18)
-        Me.rbdDateRange.TabIndex = 3
-        Me.rbdDateRange.TabStop = False
-        Me.rbdDateRange.Text = "Date Range"
-        '
         'FrmProductionAndSaleReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -727,6 +727,7 @@ Partial Class FrmProductionAndSaleReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.rdbWeekly, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox7.ResumeLayout(False)
         Me.RadGroupBox7.PerformLayout()
@@ -760,7 +761,7 @@ Partial Class FrmProductionAndSaleReport
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
-        CType(Me.rdbWeekly, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbdDateRange, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbDaily, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
@@ -781,7 +782,6 @@ Partial Class FrmProductionAndSaleReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReport, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbdDateRange, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
