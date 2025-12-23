@@ -300,6 +300,7 @@ Public Class clsUserMgtCode
     Public Const rptDemandNill As String = "DM_NL_RPT"
     Public Const rptMonthlyBillSummaryReport As String = "MON_BLL_RPT"
     Public Const frmDemandHistory As String = "DS_DEM_HIS"
+    Public Const frmEwaybill As String = "E_WAY_BILL"
     Public Const rptBankDetailsWithVendorMargin As String = "RPT_BDWVM"
     Public Const rptAbsentBooth As String = "ABS_BOOTH"
     Public Const rptUnpostedDocumentReport As String = "UNPOST_DOC"

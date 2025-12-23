@@ -1640,6 +1640,8 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             If clsCommon.myLen(strARInvNo) <= 0 Then
                 Throw New Exception("AR Invoice Not Found For Sales Invoice No [" + strDocNo + "]")
             End If
+            Dim isAPS As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" select Is_APS from TSPL_BOOKING_MATSER where Document_No in(
+select Against_Booking_No from TSPL_SD_SHIPMENT_HEAD where Against_Booking_No is not null and Sale_Invoice_No='" & obj.Document_Code & "') and TSPL_BOOKING_MATSER.Is_APS=1 ", trans))
             'Throw New Exception("BALWINDER Sales Invoice No [" + strDocNo + "]")
             ''richa agarwal 21 Dec,2020 check eInvoice Implementation
             If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.Is_Taxable), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True AndAlso obj.IsSampling = 0 AndAlso clsCommon.CompairString(obj.Screen_Type, "CT") <> CompairStringResult.Equal Then
@@ -1659,7 +1661,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                         End If
                     End If
                 End If
-            ElseIf clsCommon.CompairString(ECustomerType, "BC") = CompairStringResult.Equal AndAlso clsCommon.CompairString(obj.Screen_Type, "CT") = CompairStringResult.Equal AndAlso obj.IsReplacement = 0 AndAlso obj.IsEwaybill = 1 Then
+            ElseIf clsCommon.CompairString(ECustomerType, "BC") = CompairStringResult.Equal AndAlso (clsCommon.CompairString(obj.Screen_Type, "CT") = CompairStringResult.Equal OrElse isAPS = 1) AndAlso obj.IsReplacement = 0 AndAlso obj.IsEwaybill = 1 Then
                 If clsCommon.myLen(GetEWayBillNo(strDocNo, trans)) <= 0 Then
                     clsPSInvoiceHead.EWayBill_Implementation(obj.Document_Code, obj.Bill_To_Location, trans, True)
                     If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" & strDocNo & "'", trans)) <= 0 Then

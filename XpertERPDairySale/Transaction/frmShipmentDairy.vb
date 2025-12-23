@@ -9,6 +9,7 @@ Public Class frmShipmentDairy
     Dim ParentDocNo As String = ""
     Dim CreditCustDoc As String = ""
     Dim defaultScreenstartup As Boolean = True
+    Dim DefaultEnableEWayBill As Boolean = False
     Dim DispatchCommissionDecimalPlaces As Decimal = 4
     Dim EnableProductSaleForJPR As Boolean = False
     Dim isCTQtyUpdate As Boolean = True
@@ -794,6 +795,7 @@ Public Class frmShipmentDairy
         DispatchCommissionDecimalPlaces = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DispatchCommissionDecimalPlaces, clsFixedParameterCode.DispatchCommissionDecimalPlaces, Nothing))
         EnableProductSaleForJPR = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = 1, True, False)
         AllowToCheckZeroQtyonDispatch = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowToCheckZeroQtyonDispatch, clsFixedParameterCode.AllowToCheckZeroQtyonDispatch, Nothing)) = 1, True, False)
+        DefaultEnableEWayBill = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultEnableEWayBill, clsFixedParameterCode.DefaultEnableEWayBill, Nothing)) = 1, True, False)
 
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = dtpChallan.Value
@@ -7014,7 +7016,11 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         btnSave.Enabled = True
         btnPost.Enabled = True
         btnDelete.Enabled = True
-        chkIsEWayBill.Checked = True
+        If DefaultEnableEWayBill Then
+            chkIsEWayBill.Checked = True
+        Else
+            chkIsEWayBill.Checked = False
+        End If
         txtDate.Focus()
         gv1.Rows.AddNew()
         gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = RowTypeItem
