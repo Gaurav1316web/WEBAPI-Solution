@@ -310,7 +310,7 @@ Public Class clsPurchaseInvoiceHead
                     --left join TSPL_ITEM_MASTER as GUNNY_TSPL_ITEM_MASTER ON GUNNY_TSPL_ITEM_MASTER.ITEM_CODE=TSPL_PO_WEIGHTMENT_GUNNY.ITEM_CODE
                     LEFT JOIN TSPL_TENDER_DETAIL ON TSPL_GRN_HEAD.Ref_No=TSPL_TENDER_DETAIL.DocumentCode AND TSPL_TENDER_DETAIL.Location=TSPL_GRN_HEAD.Bill_To_Location
                     and TSPL_TENDER_DETAIL.Item_Code=" + tspl_pi_detail + ".Item_Code AND TSPL_TENDER_DETAIL.Vendor_Code=TSPL_GRN_HEAD.Vendor_Code
-                    left join TSPL_SRN_DEDUCTION_SECURITY on TSPL_SRN_DEDUCTION_SECURITY.SRN_No=TSPL_SRN_HEAD.SRN_No
+                    left join TSPL_SRN_DEDUCTION_SECURITY on TSPL_SRN_DEDUCTION_SECURITY.SRN_No=TSPL_SRN_HEAD.SRN_No and TSPL_SRN_DEDUCTION_SECURITY.Item_Code=TSPL_SRN_Detail.Item_Code
                      left outer join TSPL_TENDER_HEADER on TSPL_TENDER_HEADER.DocumentCode=TSPL_grn_head.ref_no
 					 left outer join  ( select DocumentCode,min(From_Date) as schedule_from_date,max(DATEADD(day, Extension_Days, to_date)) as schedule_to_date,max(Schedule_Qty) as Schedule_Qty,max(Schedule_Qty_Per) as Schedule_Qty_Per,max(Schedule_Short) as Schedule_Short,max(Schedule_Short_Per) as Schedule_Short_Per,max(Schedule_No ) as Schedule_No,count(*) as NoOfSchedule,min(Schedule_No) as Schedule_No_Min from TSPL_TENDER_SCHEDULE 
                      where TSPL_TENDER_SCHEDULE.DocumentCode ='" + txtRefNo + "'and 
