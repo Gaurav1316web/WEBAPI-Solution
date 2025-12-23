@@ -640,6 +640,7 @@ Public Class frmCustomer
         btnDelete.Enabled = False
         drpformtype.SelectedIndex = 0
         chkInActive.Enabled = False
+        btnGetGSTDetail.Visible = False
         dtClosing.Value = connectSql.serverDate()
         LoadCustomerType()
         'SetDataBaseGrid()
@@ -4748,6 +4749,15 @@ Public Class frmCustomer
             Close()
         ElseIf e.Alt And e.KeyCode = Keys.N Then
             funNew()
+        ElseIf e.Alt And e.KeyCode = Keys.U Then
+            Dim frm As New FrmPWD(Nothing)
+            frm.strType = clsFixedParameterType.Transactionupdate
+            frm.strCode = clsFixedParameterCode.CustomerMaster
+            frm.ShowDialog()
+            If frm.isPasswordCorrect Then
+                btnGetGSTDetail.Visible = True
+            End If
+
         End If
     End Sub
     Private Sub fndCusgrp__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndCusgrp._MYValidating

@@ -464,8 +464,8 @@ Public Class clsPSShipmentHead
             '' Cancel E-Way Bill --------------------------------------
             Dim ewbno As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select EWayBillNo from tspl_sd_sale_invoice_head where Document_Code='" & InvoiceNo & "'", trans))
             If clsCommon.myLen(ewbno) > 0 Then
-                Dim objResut As Object = ClsEInvoiceOFAPIs.CancelEWayBill(objCommonVar.CurrentCompanyCode, ewbno, "Order Cancelled", obj.Bill_To_Location, trans) Then
-                    If objResut Is Nothing Then
+                Dim objResut As Object = ClsEInvoiceOFAPIs.CancelEWayBill(objCommonVar.CurrentCompanyCode, ewbno, "Order Cancelled", obj.Bill_To_Location, trans)
+                If objResut Is Nothing Then
                     Throw New Exception("e-way bill cancellation failed!")
                 End If
             End If
