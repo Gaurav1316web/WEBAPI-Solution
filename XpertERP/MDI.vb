@@ -8569,6 +8569,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmDemandHistory
                         frm = New frmDemandHistory()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmEwaybill
+                        frm = New FrmEwaybill()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.FrmPrintMultipleGatepass
                         frm = New FrmPrintMultipleGatepass()

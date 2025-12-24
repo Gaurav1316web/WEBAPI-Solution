@@ -76,10 +76,10 @@ Public Class rptQCAnalysisReport
             If clsCommon.myLen(txtLocation.Value) > 0 Then
                 whrcls += " and TSPL_LOCATION_MASTER.Location_Code='" & txtLocation.Value & "'  "
             End If
-            If clsCommon.myLen(txtItemCode.Value) > 0 then
-           whrcls+ = "and  TSPL_QC_CHECK_SRN_DETAIL.Item_Code = '"& txtItemCode.value &"' "
-                End if
-              If clsCommon.myLen(txtVendor.Value) > 0 Then
+            If clsCommon.myLen(txtItemCode.Value) > 0 Then
+                whrcls += "and  TSPL_QC_CHECK_SRN_DETAIL.Item_Code = '" & txtItemCode.Value & "' "
+            End If
+            If clsCommon.myLen(txtVendor.Value) > 0 Then
                 whrcls += "and TSPL_QC_CHECK_HEAD.Vendor_Code = '" & txtVendor.Value & "'  "
             End If
             If txtRALNo.arrValueMember IsNot Nothing Then
@@ -421,7 +421,7 @@ Public Class rptQCAnalysisReport
                         '    SumParamDed += ",SUM([" + clsCommon.myCstr(dtParam.Rows(i)("param_desc")) + "Ded]) As [" + clsCommon.myCstr(dtParam.Rows(i)("param_desc")) + "Ded ]"
 
                     End If
-            Next
+                Next
             Else
                 gv1.DataSource = Nothing
                 clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
@@ -513,6 +513,369 @@ ORDER BY PivotResult.Item_Code "
 
             End If
 
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnPrintA4_Click(sender As Object, e As EventArgs) Handles btnPrintA4.Click
+        AnalysisPrintt(True)
+    End Sub
+    Private Sub AnalysisPrintt(ByVal isA4Size As Boolean)
+        Try
+            Dim StrWhere As String = ""
+            If clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage1.Name) = CompairStringResult.Equal Then
+                'If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                '    common.clsCommon.MyMessageBoxShow(Me, "Document number not found", Me.Text)
+                '    txtDocNo.Focus()
+                '    Exit Sub
+                'End If
+                'StrWhere += " AND TSPL_QC_CHECK_SRN_DETAIL.Document_Code = '" + txtDocNo.Value + "'"
+                'ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage3.Name) = CompairStringResult.Equal Then
+                If txtFromDate.Value > txtToDate.Value Then
+                    common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
+                    txtFromDate.Focus()
+                    Exit Sub
+                End If
+                If clsCommon.myLen(txtLocation.Value) <= 0 Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Select Location first", Me.Text)
+                    txtLocation.Focus()
+                    Exit Sub
+                End If
+                If clsCommon.myLen(txtVendor.Value) <= 0 Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Select vendor first", Me.Text)
+                    txtVendor.Focus()
+                    Exit Sub
+                End If
+                'If clsCommon.myLen(txtItemCodeFG.Value) <= 0 Then
+                '    common.clsCommon.MyMessageBoxShow(Me, "Select item first")
+                '    txtItemCode.Focus()
+                '    Exit Sub
+                'End If
+                StrWhere += "and TSPL_QC_CHECK_HEAD.posted=1"
+                StrWhere += " and TSPL_QC_CHECK_HEAD.Vendor_Code = '" + txtVendor.Value + "' 
+                                  and  TSPL_QC_CHECK_SRN_DETAIL.Item_Code = '" + txtItemCode.Value + "'
+                                  and TSPL_LOCATION_MASTER.Location_Code='" + txtLocation.Value + "'"
+                If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                    StrWhere += " and TSPL_QC_CHECK_HEAD.Bill_To_location in (" + objCommonVar.strCurrUserLocations + ")"
+                End If
+                If clsCommon.myLen(txtRALNo.arrValueMember) > 0 Then
+                    StrWhere += "and  TSPL_GRN_HEAD.Ref_No in (" + clsCommon.GetMulcallString(txtRALNo.arrValueMember) + ")"
+                End If
+                If rbtnQCdate.IsChecked = True Then
+                    StrWhere += " and convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103) >= convert(date,('" & txtFromDate.Value & "'),103) and convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103) <= convert(date,('" & txtToDate.Value & "'),103) "
+                End If
+                If rbtnWeighmentDate.IsChecked = True Then
+                    StrWhere += " and convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) >= convert(date,('" & txtFromDate.Value & "'),103) and convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) <= convert(date,('" & txtToDate.Value & "'),103) "
+                End If
+            End If
+
+            Dim frmCRV As New frmCrystalReportViewer()
+            'ROW_NUMBER() OVER(PARTITION BY TSPL_QC_CHECK_HEAD.Document_Code ORDER BY TSPL_QC_CHECK_HEAD.Document_Code ASC)
+            Dim qry As String = " select TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.SNO as RowNum,TSPL_COMPANY_MASTER.Comp_Code,TSPL_COMPANY_MASTER.Comp_Name,TSPL_MRN_Head.VehicleNo,TSPL_COMPANY_MASTER.Comp_Code   , TSPL_COMPANY_MASTER.Comp_Name , TSPL_COMPANY_MASTER.Add1 as Comp_Add1, TSPL_COMPANY_MASTER.Add2 as Comp_Add2 , TSPL_COMPANY_MASTER.Add3 as Comp_Add3 , TSPL_COMPANY_MASTER.City_Code as Comp_City_Code, TSPL_COMPANY_MASTER.Email as Comp_Email , TSPL_COMPANY_MASTER.Pincode as Comp_Pincode , TSPL_COMPANY_MASTER.State as Comp_State , TSPL_COMPANY_MASTER.Tin_No as Comp_Tin_No , TSPL_COMPANY_MASTER.Logo_Img as Comp_Logo_Img , TSPL_COMPANY_MASTER.Logo_Img2 as Comp_Logo_Img2, TSPL_COMPANY_MASTER.GSTReg_No as Comp_GSTReg_No, TSPL_COMPANY_MASTER.CINNo as Comp_CINNo, TSPL_COMPANY_MASTER.Phone1 as Comp_Phone1 , TSPL_COMPANY_MASTER.Phone2 as Comp_Phone2, TSPL_LOCATION_MASTER.Location_Code  , TSPL_LOCATION_MASTER.Location_Desc , TSPL_LOCATION_MASTER.Add1 as Location_Add1, TSPL_LOCATION_MASTER.Add2 as Location_Add2 , TSPL_LOCATION_MASTER.Add3 as Location_Add3 , TSPL_LOCATION_MASTER.Add4 as Location_Add4 , TSPL_LOCATION_MASTER.City_Code as Location_City_Code , TSPL_LOCATION_MASTER.State as Location_State , TSPL_LOCATION_MASTER.Pin_Code as Location_Pin_Code , TSPL_LOCATION_MASTER.Country as Location_Country , TSPL_LOCATION_MASTER.Telphone as Location_Telphone, TSPL_LOCATION_MASTER.Email as Location_Email, TSPL_LOCATION_MASTER.Loc_Short_Name as Loc_Short_Name , TSPL_LOCATION_MASTER.IsMainPlant as Location_IsMainPlant,  TSPL_QC_CHECK_HEAD.Document_Code, convert (varchar, TSPL_QC_CHECK_HEAD.Document_Date,103) as Document_Date ,TSPL_QC_CHECK_HEAD.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name ,TSPL_QC_CHECK_SRN_DETAIL.Item_Code, TSPL_ITEM_MASTER.Item_Desc , TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code , convert (varchar,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as Weighment_Date , TSPL_QC_CHECK_SRN_DETAIL.QC_Param_Code, (case when len(tspl_qc_log_sheet_master.AliasName)>0 then tspl_qc_log_sheet_master.AliasName else tspl_qc_log_sheet_master.description end) as param_desc,
+                                      TSPL_QC_CHECK_SRN_DETAIL.InputData , TSPL_QC_CHECK_SRN_DETAIL.InputDataDeductionPer
+                                      ,TSPL_QC_CHECK_HEAD.Gate_Entry_No,TSPL_QC_CHECK_HEAD.Gate_Entry_Date,TSPL_QC_CHECK_HEAD.QC_Status,TSPL_GRN_HEAD.Ref_No as RAL_NO
+                                      from TSPL_QC_CHECK_SRN_DETAIL 
+                                      inner join TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_HEAD.Document_Code = TSPL_QC_CHECK_SRN_DETAIL.Document_Code
+                                      left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_QC_CHECK_SRN_DETAIL.Item_Code
+                                      left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_QC_CHECK_HEAD.Vendor_Code
+                                      left outer join TSPL_MRN_DETAIL on TSPL_MRN_DETAIL.MRN_No = TSPL_QC_CHECK_SRN_DETAIL.MRN_No and TSPL_MRN_DETAIL.Item_Code = TSPL_QC_CHECK_SRN_DETAIL.Item_Code
+                                      left outer join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No = TSPL_MRN_DETAIL.GRN_Id and TSPL_GRN_DETAIL.Item_Code = TSPL_MRN_DETAIL.Item_Code
+                                      left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No = TSPL_GRN_DETAIL.GRN_No
+                                      left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No = TSPL_GRN_DETAIL.GRN_No
+                                      left outer join tspl_qc_log_sheet_master on tspl_qc_log_sheet_master.code=TSPL_QC_CHECK_SRN_DETAIL.qc_param_code and tspl_qc_log_sheet_master.trans_id='standard'
+                                      left outer join TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER on TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.Item_Code=TSPL_QC_CHECK_SRN_DETAIL.Item_Code
+                                      and TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.QC_Code=TSPL_QC_CHECK_SRN_DETAIL.qc_param_code
+                                      left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_QC_CHECK_HEAD.Bill_To_location
+                                      left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_ITEM_MASTER.Comp_code
+                                      left outer join TSPL_MRN_Head on TSPL_MRN_DETAIL.MRN_No = TSPL_MRN_Head.MRN_No
+                                      where 1=1 " + StrWhere + " order by TSPL_QC_CHECK_HEAD.Document_Code,TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.SNO"
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
+            Else
+                'If clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage1.Name) = CompairStringResult.Equal AndAlso isA4Size = True Then
+                '  frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReport", "Analysis Report", clsCommon.myCDate(dtpDate.Value))
+                ' ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage1.Name) = CompairStringResult.Equal AndAlso isA4Size = False Then
+                ' frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportA5", "Analysis Report", clsCommon.myCDate(dtpDate.Value))
+
+                If clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage1.Name) = CompairStringResult.Equal AndAlso isA4Size = True Then
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportMultiple", "Analysis Report", Nothing)
+                ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage1.Name) = CompairStringResult.Equal AndAlso isA4Size = False Then
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportMultiple", "Analysis Report", Nothing)
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnPrintA5_Click(sender As Object, e As EventArgs) Handles btnPrintA5.Click
+        AnalysisPrintt(False)
+    End Sub
+
+    Private Sub btnAnalysisPrintVertical_Click(sender As Object, e As EventArgs)
+
+    End Sub
+
+    Private Sub btnAnalysisPrintVertical_Click_1(sender As Object, e As EventArgs) Handles btnAnalysisPrintVertical.Click
+        Try
+            AnalysisPrint(True)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub AnalysisPrint(ByVal IsPrintVertical As Boolean)
+        Try
+            Dim StrWhere As String = ""
+            'If clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage1.Name) = CompairStringResult.Equal Then
+            '    If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+            '        common.clsCommon.MyMessageBoxShow(Me, "Document number not found", Me.Text)
+            '        txtDocNo.Focus()
+            '        Exit Sub
+            '    End If
+            '    StrWhere += " AND TSPL_QC_CHECK_SRN_DETAIL.Document_Code = '" + txtDocNo.Value + "'"
+            'Else
+            If clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage1.Name) = CompairStringResult.Equal Then
+                If txtFromDate.Value > txtToDate.Value Then
+                    common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
+                    txtFromDate.Focus()
+                    Exit Sub
+                End If
+                If clsCommon.myLen(txtLocation.Value) <= 0 Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Select Location first", Me.Text)
+                    txtLocation.Focus()
+                    Exit Sub
+                End If
+                If clsCommon.myLen(txtVendor.Value) <= 0 Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Select vendor first", Me.Text)
+                    txtVendor.Focus()
+                    Exit Sub
+                End If
+                'If clsCommon.myLen(txtItemCode.Value) <= 0 Then
+                '    common.clsCommon.MyMessageBoxShow(Me, "Select item first", Me.Text)
+                '    txtItemCode.Focus()
+                '    Exit Sub
+                'End If
+                StrWhere += "and TSPL_QC_CHECK_HEAD.Posted=1 "
+                StrWhere += " and TSPL_QC_CHECK_HEAD.Vendor_Code = '" + txtVendor.Value + "' 
+                              and  TSPL_QC_CHECK_SRN_DETAIL.Item_Code = '" + txtItemCode.Value + "'
+                               and TSPL_LOCATION_MASTER.Location_Code='" + txtLocation.Value + "'"
+                If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                    StrWhere += " and TSPL_QC_CHECK_HEAD.Bill_To_location in (" + objCommonVar.strCurrUserLocations + ")"
+                End If
+                If clsCommon.myLen(txtRALNo.arrValueMember) > 0 Then
+                    StrWhere += "and  TSPL_GRN_HEAD.Ref_No in (" + clsCommon.GetMulcallString(txtRALNo.arrValueMember) + ")"
+                End If
+                If rbtnQCdate.IsChecked = True Then
+                    StrWhere += " and convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103) >= convert(date,('" & txtFromDate.Value & "'),103) and convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103) <= convert(date,('" & txtToDate.Value & "'),103) "
+                End If
+                If rbtnWeighmentDate.IsChecked = True Then
+                    StrWhere += " and convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) >= convert(date,('" & txtFromDate.Value & "'),103) and convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) <= convert(date,('" & txtToDate.Value & "'),103) "
+                End If
+            End If
+
+            Dim frmCRV As New frmCrystalReportViewer()
+            'ROW_NUMBER() OVER(PARTITION BY TSPL_QC_CHECK_HEAD.Document_Code ORDER BY TSPL_QC_CHECK_HEAD.Document_Code ASC)
+            Dim qry As String = " select TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.SNO as RowNum,TSPL_COMPANY_MASTER.Comp_Code,TSPL_COMPANY_MASTER.Comp_Name,TSPL_MRN_Head.VehicleNo,TSPL_COMPANY_MASTER.Comp_Code   , TSPL_COMPANY_MASTER.Comp_Name , TSPL_COMPANY_MASTER.Add1 as Comp_Add1, TSPL_COMPANY_MASTER.Add2 as Comp_Add2 , TSPL_COMPANY_MASTER.Add3 as Comp_Add3 , TSPL_COMPANY_MASTER.City_Code as Comp_City_Code, TSPL_COMPANY_MASTER.Email as Comp_Email , TSPL_COMPANY_MASTER.Pincode as Comp_Pincode , TSPL_COMPANY_MASTER.State as Comp_State , TSPL_COMPANY_MASTER.Tin_No as Comp_Tin_No , TSPL_COMPANY_MASTER.Logo_Img as Comp_Logo_Img , TSPL_COMPANY_MASTER.Logo_Img2 as Comp_Logo_Img2, TSPL_COMPANY_MASTER.GSTReg_No as Comp_GSTReg_No, TSPL_COMPANY_MASTER.CINNo as Comp_CINNo, TSPL_COMPANY_MASTER.Phone1 as Comp_Phone1 , TSPL_COMPANY_MASTER.Phone2 as Comp_Phone2, TSPL_LOCATION_MASTER.Location_Code  , TSPL_LOCATION_MASTER.Location_Desc , TSPL_LOCATION_MASTER.Add1 as Location_Add1, TSPL_LOCATION_MASTER.Add2 as Location_Add2 , TSPL_LOCATION_MASTER.Add3 as Location_Add3 , TSPL_LOCATION_MASTER.Add4 as Location_Add4 , TSPL_LOCATION_MASTER.City_Code as Location_City_Code , TSPL_LOCATION_MASTER.State as Location_State , TSPL_LOCATION_MASTER.Pin_Code as Location_Pin_Code , TSPL_LOCATION_MASTER.Country as Location_Country , TSPL_LOCATION_MASTER.Telphone as Location_Telphone, TSPL_LOCATION_MASTER.Email as Location_Email, TSPL_LOCATION_MASTER.Loc_Short_Name as Loc_Short_Name , TSPL_LOCATION_MASTER.IsMainPlant as Location_IsMainPlant,  TSPL_QC_CHECK_HEAD.Document_Code, convert (varchar, TSPL_QC_CHECK_HEAD.Document_Date,103) as Document_Date ,TSPL_QC_CHECK_HEAD.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name ,TSPL_QC_CHECK_SRN_DETAIL.Item_Code, TSPL_ITEM_MASTER.Item_Desc , TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code , convert (varchar,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as Weighment_Date , TSPL_QC_CHECK_SRN_DETAIL.QC_Param_Code, (case when len(tspl_qc_log_sheet_master.AliasName)>0 then tspl_qc_log_sheet_master.AliasName else tspl_qc_log_sheet_master.description end) as param_desc,
+                                  TSPL_QC_CHECK_SRN_DETAIL.InputData , TSPL_QC_CHECK_SRN_DETAIL.InputDataDeductionPer
+                                  ,TSPL_QC_CHECK_HEAD.Gate_Entry_No,TSPL_QC_CHECK_HEAD.Gate_Entry_Date,TSPL_QC_CHECK_HEAD.QC_Status,TSPL_GRN_HEAD.Ref_No as RAL_NO
+                                  from TSPL_QC_CHECK_SRN_DETAIL 
+                                  inner join TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_HEAD.Document_Code = TSPL_QC_CHECK_SRN_DETAIL.Document_Code
+                                  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_QC_CHECK_SRN_DETAIL.Item_Code
+                                  left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_QC_CHECK_HEAD.Vendor_Code
+                                  left outer join TSPL_MRN_DETAIL on TSPL_MRN_DETAIL.MRN_No = TSPL_QC_CHECK_SRN_DETAIL.MRN_No and TSPL_MRN_DETAIL.Item_Code = TSPL_QC_CHECK_SRN_DETAIL.Item_Code
+                                  left outer join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No = TSPL_MRN_DETAIL.GRN_Id and TSPL_GRN_DETAIL.Item_Code = TSPL_MRN_DETAIL.Item_Code
+                                  left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No = TSPL_GRN_DETAIL.GRN_No
+                                  left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No = TSPL_GRN_DETAIL.GRN_No
+                                  left outer join tspl_qc_log_sheet_master on tspl_qc_log_sheet_master.code=TSPL_QC_CHECK_SRN_DETAIL.qc_param_code and tspl_qc_log_sheet_master.trans_id='standard'
+                                  left outer join TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER on TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.Item_Code=TSPL_QC_CHECK_SRN_DETAIL.Item_Code
+                                  and TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.QC_Code=TSPL_QC_CHECK_SRN_DETAIL.qc_param_code
+                                  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_QC_CHECK_HEAD.Bill_To_location
+                                  left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_ITEM_MASTER.Comp_code
+                                  left outer join TSPL_MRN_Head on TSPL_MRN_DETAIL.MRN_No = TSPL_MRN_Head.MRN_No
+                                  where 1=1  " + StrWhere + " order by TSPL_QC_CHECK_HEAD.Document_Code,TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.SNO"
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
+            Else
+                If IsPrintVertical = True Then
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportVertical", "Analysis Report", Nothing)
+                ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage1.Name) = CompairStringResult.Equal Then
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportMultiple", "Analysis Report", Nothing)
+
+                    'frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReport", "Analysis Report", clsCommon.myCDate(dtpDate.Value))
+                    'ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage3.Name) = CompairStringResult.Equal Then
+                    'frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportMultiple", "Analysis Report", clsCommon.myCDate(ToDate.Value))
+                Else
+                    'If IsPrintVertical = True Then
+                    '    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReport", "Analysis Report", clsCommon.myCDate(dtpDate.Value))
+                    'Else
+                    '    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportA5", "Analysis Report", clsCommon.myCDate(dtpDate.Value))
+
+                    'End If
+                End If
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnRALWiseAnaysisPrint_Click(sender As Object, e As EventArgs) Handles btnRALWiseAnaysisPrint.Click
+        Try
+            Dim StrWhere As String = ""
+            'If clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage1.Name) = CompairStringResult.Equal Then
+            '    'If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+            '    '    common.clsCommon.MyMessageBoxShow(Me, "Document number not found", Me.Text)
+            '    '    txtDocNo.Focus()
+            '    '    Exit Sub
+            '    'End If
+            '    'StrWhere += " AND TSPL_QC_CHECK_HEAD.Document_Code = '" + txtDocNo.Value + "'"
+            'Else
+            If clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage1.Name) = CompairStringResult.Equal Then
+                If txtFromDate.Value > txtToDate.Value Then
+                    common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
+                    txtFromDate.Focus()
+                    Exit Sub
+                End If
+                If clsCommon.myLen(txtLocation.Value) <= 0 Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Select Location first", Me.Text)
+                    txtLocation.Focus()
+                    Exit Sub
+                End If
+                If clsCommon.myLen(txtRALNo.arrValueMember) <= 0 Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Select RAL first")
+                    txtRALNo.Focus()
+                    Exit Sub
+                End If
+                StrWhere += " and TSPL_QC_CHECK_HEAD.Posted = 1"
+                If clsCommon.myLen(txtVendor.Value) > 0 Then
+                    StrWhere += " and TSPL_QC_CHECK_HEAD.Vendor_Code = '" + txtVendor.Value + "'"
+                End If
+                If clsCommon.myLen(txtItemCode.Value) > 0 Then
+                    StrWhere += " and TSPL_QC_CHECK_DETAIL.Item_Code = '" + txtItemCode.Value + "'"
+                End If
+                StrWhere += " And TSPL_LOCATION_MASTER.Location_Code='" + txtLocation.Value + "'
+                              And TSPL_GRN_HEAD.Ref_No in (" + clsCommon.GetMulcallString(txtRALNo.arrValueMember) + ")"
+                If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                        StrWhere += " and TSPL_QC_CHECK_HEAD.Bill_To_location in (" + objCommonVar.strCurrUserLocations + ")"
+                    End If
+                    If rbtnQCdate.IsChecked = True Then
+                    StrWhere += " and convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103) >= convert(date,('" & txtFromDate.Value & "'),103) and convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103) <= convert(date,('" & txtToDate.Value & "'),103) "
+                End If
+                    If rbtnWeighmentDate.IsChecked = True Then
+                    StrWhere += " and convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) >= convert(date,('" & txtFromDate.Value & "'),103) and convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) <= convert(date,('" & txtToDate.Value & "'),103) "
+                End If
+                End If
+                Dim frmCRV As New frmCrystalReportViewer()
+
+            Dim qry As String = " select  TSPL_LOCATION_MASTER.IsMainPlant as Location_IsMainPlant,  TSPL_COMPANY_MASTER.Comp_Code, TSPL_COMPANY_MASTER.Comp_Name, TSPL_MRN_Head.VehicleNo, TSPL_COMPANY_MASTER.Logo_Img as Comp_Logo_Img, TSPL_COMPANY_MASTER.Logo_Img2 as Comp_Logo_Img2, TSPL_LOCATION_MASTER.Location_Code, TSPL_LOCATION_MASTER.Location_Desc, TSPL_QC_CHECK_HEAD.Document_Code, convert ( varchar, TSPL_QC_CHECK_HEAD.Document_Date, 103 ) as Document_Date, TSPL_QC_CHECK_HEAD.Vendor_Code, TSPL_VENDOR_MASTER.Vendor_Name, TSPL_ITEM_MASTER.Item_Desc, TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code, convert ( varchar, TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date, 103 ) as Weighment_Date, TSPL_QC_CHECK_HEAD.Gate_Entry_No, TSPL_QC_CHECK_HEAD.Gate_Entry_Date, TSPL_QC_CHECK_HEAD.QC_Status, TSPL_GRN_HEAD.Ref_No as RAL_NO, TSPL_QC_CHECK_HEAD.Template_Remarks as [Template Remark], TSPL_GRN_HEAD.LR_No as [Bilty No], TSPL_GRN_HEAD.GRN_Date
+                                from TSPL_QC_CHECK_HEAD inner join TSPL_QC_CHECK_DETAIL on TSPL_QC_CHECK_DETAIL.Document_Code = TSPL_QC_CHECK_HEAD.Document_Code left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_QC_CHECK_DETAIL.Item_Code left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_QC_CHECK_HEAD.Vendor_Code left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No = TSPL_QC_CHECK_HEAD.Gate_Entry_No left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No = TSPL_QC_CHECK_HEAD.Gate_Entry_No left outer join TSPL_MRN_DETAIL on TSPL_MRN_DETAIL.GRN_Id = TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No left outer join TSPL_MRN_Head on TSPL_MRN_Head.MRN_No = TSPL_MRN_DETAIL.MRN_No left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_QC_CHECK_HEAD.Bill_To_location left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_ITEM_MASTER.Comp_code where 1 = 1 
+                                " + StrWhere + " "
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
+                'Exit Sub
+            Else
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptQCRALWiseRMReportMultiple", "RL Wise Report")
+                frmCRV = Nothing
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub rmiEnglish_Click(sender As Object, e As EventArgs) Handles rmiEnglish.Click
+        PrintRejected(rmiEnglish.Text)
+    End Sub
+
+    Private Sub rmiHindi_Click(sender As Object, e As EventArgs) Handles rmiHindi.Click
+        PrintRejected(rmiHindi.Text)
+    End Sub
+
+
+    Private Sub PrintRejected(strBtnText As String)
+        Try
+            Dim StrWhere As String = ""
+            ' If clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage1.Name) = CompairStringResult.Equal Then
+            'If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+            '    common.clsCommon.MyMessageBoxShow(Me, "Document number not found", Me.Text)
+            '    txtDocNo.Focus()
+            '    Exit Sub
+            'End If
+            'StrWhere += " AND TSPL_QC_CHECK_HEAD.Document_Code = '" + txtDocNo.Value + "'"
+            ' Else
+
+            If clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage1.Name) = CompairStringResult.Equal Then
+                If txtFromDate.Value > txtToDate.Value Then
+                    common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
+                    txtFromDate.Focus()
+                    Exit Sub
+                End If
+                If clsCommon.myLen(txtLocation.Value) <= 0 Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Select Location first", Me.Text)
+                    txtLocation.Focus()
+                    Exit Sub
+                End If
+                StrWhere += "and TSPL_QC_CHECK_HEAD.Posted=1"
+                If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                    StrWhere += " and TSPL_QC_CHECK_HEAD.Bill_To_location in (" + objCommonVar.strCurrUserLocations + ")"
+                End If
+                If clsCommon.myLen(txtVendor.Value) > 0 Then
+                    StrWhere += " and TSPL_QC_CHECK_HEAD.Vendor_Code = '" + txtVendor.Value + "' "
+                End If
+                If clsCommon.myLen(txtRALNo.arrValueMember) > 0 Then
+                    StrWhere += "  And TSPL_GRN_HEAD.Ref_No in (" + clsCommon.GetMulcallString(txtRALNo.arrValueMember) + ")"
+                End If
+                If clsCommon.myLen(txtItemCode.Value) > 0 Then
+                    StrWhere += "  and  TSPL_QC_CHECK_DETAIL.Item_Code = '" + txtItemCode.Value + "'"
+                End If
+                If rbtnQCdate.IsChecked = True Then
+                    StrWhere += " and convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103) >= convert(date,('" & txtFromDate.Value & "'),103) and convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103) <= convert(date,('" & txtToDate.Value & "'),103) "
+                End If
+                If rbtnWeighmentDate.IsChecked = True Then
+                    StrWhere += " and convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) >= convert(date,('" & txtFromDate.Value & "'),103) and convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) <= convert(date,('" & txtToDate.Value & "'),103) "
+                End If
+                StrWhere += " And TSPL_LOCATION_MASTER.Location_Code='" + txtLocation.Value + "'"
+            End If
+            Dim frmCRV As New frmCrystalReportViewer()
+            'ROW_NUMBER() OVER(PARTITION BY TSPL_QC_CHECK_HEAD.Document_Code ORDER BY TSPL_QC_CHECK_HEAD.Document_Code ASC)
+            Dim qry As String = " select  TSPL_QC_CHECK_HEAD.Document_Code,TSPL_COMPANY_MASTER.Comp_Code,TSPL_COMPANY_MASTER.Comp_Name,TSPL_MRN_Head.VehicleNo,TSPL_COMPANY_MASTER.Add1 as Comp_Add1, TSPL_COMPANY_MASTER.Add2 as Comp_Add2 , TSPL_COMPANY_MASTER.Add3 as Comp_Add3 , TSPL_COMPANY_MASTER.City_Code as Comp_City_Code, TSPL_COMPANY_MASTER.Email as Comp_Email , TSPL_COMPANY_MASTER.Pincode as Comp_Pincode , TSPL_COMPANY_MASTER.State as Comp_State , TSPL_COMPANY_MASTER.Tin_No as Comp_Tin_No , TSPL_COMPANY_MASTER.Logo_Img as Comp_Logo_Img , TSPL_COMPANY_MASTER.Logo_Img2 as Comp_Logo_Img2, TSPL_COMPANY_MASTER.GSTReg_No as Comp_GSTReg_No, TSPL_COMPANY_MASTER.CINNo as Comp_CINNo, TSPL_COMPANY_MASTER.Phone1 as Comp_Phone1 , TSPL_COMPANY_MASTER.Phone2 as Comp_Phone2, TSPL_LOCATION_MASTER.Location_Code  , TSPL_LOCATION_MASTER.Location_Desc , TSPL_LOCATION_MASTER.Add1 as Location_Add1, TSPL_LOCATION_MASTER.Add2 as Location_Add2 , TSPL_LOCATION_MASTER.Add3 as Location_Add3 , TSPL_LOCATION_MASTER.Add4 as Location_Add4 , TSPL_LOCATION_MASTER.City_Code as Location_City_Code , TSPL_LOCATION_MASTER.State as Location_State , TSPL_LOCATION_MASTER.Pin_Code as Location_Pin_Code , TSPL_LOCATION_MASTER.Country as Location_Country , TSPL_LOCATION_MASTER.Telphone as Location_Telphone, TSPL_LOCATION_MASTER.Email as Location_Email, TSPL_LOCATION_MASTER.Loc_Short_Name as Loc_Short_Name , TSPL_LOCATION_MASTER.IsMainPlant as Location_IsMainPlant,  TSPL_QC_CHECK_HEAD.Document_Code, convert (varchar, TSPL_QC_CHECK_HEAD.Document_Date,103) as Document_Date ,TSPL_QC_CHECK_HEAD.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name,(TSPL_VENDOR_MASTER.Add1+''+TSPL_VENDOR_MASTER.Add2+''+TSPL_VENDOR_MASTER.Add3) As VendorAddress,(TSPL_VENDOR_MASTER.Phone1+' '+TSPL_VENDOR_MASTER.Phone2) As VendorPhoneNo,TSPL_VENDOR_MASTER.Email As VendorEmail,
+                                  Isnull(TSPL_LOCATION_MASTER.Range_Name,'') As RangeName,
+                                  (Case When TSPL_LOCATION_MASTER.Range_Address='' Then 'Manager'  Else IsNull(TSPL_LOCATION_MASTER.Range_Address,'Manager') End) As DesignationName, 
+                                 TSPL_QC_CHECK_DETAIL.Item_Code, TSPL_ITEM_MASTER.Item_Desc , TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code , convert (varchar,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as Weighment_Date ,
+                                  TSPL_QC_CHECK_HEAD.Gate_Entry_No,TSPL_QC_CHECK_HEAD.Gate_Entry_Date,TSPL_QC_CHECK_HEAD.QC_Status,TSPL_GRN_HEAD.Ref_No as RAL_NO,TSPL_QC_CHECK_HEAD.Template_Remarks
+                                  from TSPL_QC_CHECK_DETAIL 
+                 			      inner join TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_HEAD.Document_Code = TSPL_QC_CHECK_DETAIL.Document_Code
+                                  left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_QC_CHECK_HEAD.Vendor_Code
+								  left outer join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_QC_CHECK_DETAIL.Item_Code
+                                  left outer join TSPL_MRN_DETAIL on TSPL_MRN_DETAIL.MRN_No = TSPL_QC_CHECK_DETAIL.MRN_No and TSPL_MRN_DETAIL.Item_Code = TSPL_QC_CHECK_DETAIL.Item_Code
+                                  left outer join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No = TSPL_MRN_DETAIL.GRN_Id and TSPL_GRN_DETAIL.Item_Code = TSPL_MRN_DETAIL.Item_Code
+                                  left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No = TSPL_GRN_DETAIL.GRN_No
+                                  left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No = TSPL_GRN_DETAIL.GRN_No
+                                  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_QC_CHECK_HEAD.Bill_To_location
+                                  left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_ITEM_MASTER.Comp_code
+                                  left outer join TSPL_MRN_Head on TSPL_MRN_DETAIL.MRN_No = TSPL_MRN_Head.MRN_No
+                                  where 1=1  And TSPL_QC_CHECK_HEAD.QC_Status='Rejected' " + StrWhere
+            qry += "order by TSPL_QC_CHECK_HEAD.Document_Code"
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
+                Exit Sub
+            Else
+                If clsCommon.CompairString(strBtnText, "English") = CompairStringResult.Equal Then
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportRejectionEnglish", "Rejected Analysis Report")
+                ElseIf clsCommon.CompairString(strBtnText, "Hindi") = CompairStringResult.Equal Then
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportRejectionHindi", "Rejected Analysis Report")
+                End If
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

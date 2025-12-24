@@ -31,6 +31,7 @@ Partial Class FrmProductionAndSaleReport
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.rdbWeekly = New common.Controls.MyRadioButton()
         Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
         Me.Prdncreallchk = New common.Controls.MyRadioButton()
         Me.RePrdntchk = New common.Controls.MyRadioButton()
@@ -52,7 +53,7 @@ Partial Class FrmProductionAndSaleReport
         Me.rdbUnposted = New common.Controls.MyRadioButton()
         Me.rdbPosted = New common.Controls.MyRadioButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rdbWeekly = New common.Controls.MyRadioButton()
+        Me.rbdDateRange = New common.Controls.MyRadioButton()
         Me.rdbDaily = New common.Controls.MyRadioButton()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.lbltoDate = New common.Controls.MyLabel()
@@ -82,6 +83,7 @@ Partial Class FrmProductionAndSaleReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.rdbWeekly, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox7.SuspendLayout()
         CType(Me.Prdncreallchk, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -109,7 +111,7 @@ Partial Class FrmProductionAndSaleReport
         CType(Me.rdbPosted, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
-        CType(Me.rdbWeekly, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbdDateRange, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbDaily, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
@@ -214,6 +216,7 @@ Partial Class FrmProductionAndSaleReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.rdbWeekly)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox7)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox6)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox5)
@@ -226,6 +229,18 @@ Partial Class FrmProductionAndSaleReport
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1057, 392)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'rdbWeekly
+        '
+        Me.rdbWeekly.Location = New System.Drawing.Point(262, 68)
+        Me.rdbWeekly.MyLinkLable1 = Nothing
+        Me.rdbWeekly.MyLinkLable2 = Nothing
+        Me.rdbWeekly.Name = "rdbWeekly"
+        Me.rdbWeekly.Size = New System.Drawing.Size(56, 18)
+        Me.rdbWeekly.TabIndex = 2
+        Me.rdbWeekly.TabStop = False
+        Me.rdbWeekly.Text = "Weekly"
+        Me.rdbWeekly.Visible = False
         '
         'RadGroupBox7
         '
@@ -466,7 +481,7 @@ Partial Class FrmProductionAndSaleReport
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox1.Controls.Add(Me.rdbWeekly)
+        Me.RadGroupBox1.Controls.Add(Me.rbdDateRange)
         Me.RadGroupBox1.Controls.Add(Me.rdbDaily)
         Me.RadGroupBox1.HeaderText = ""
         Me.RadGroupBox1.Location = New System.Drawing.Point(16, 57)
@@ -475,16 +490,16 @@ Partial Class FrmProductionAndSaleReport
         Me.RadGroupBox1.Size = New System.Drawing.Size(174, 42)
         Me.RadGroupBox1.TabIndex = 54
         '
-        'rdbWeekly
+        'rbdDateRange
         '
-        Me.rdbWeekly.Location = New System.Drawing.Point(92, 11)
-        Me.rdbWeekly.MyLinkLable1 = Nothing
-        Me.rdbWeekly.MyLinkLable2 = Nothing
-        Me.rdbWeekly.Name = "rdbWeekly"
-        Me.rdbWeekly.Size = New System.Drawing.Size(56, 18)
-        Me.rdbWeekly.TabIndex = 2
-        Me.rdbWeekly.TabStop = False
-        Me.rdbWeekly.Text = "Weekly"
+        Me.rbdDateRange.Location = New System.Drawing.Point(81, 11)
+        Me.rbdDateRange.MyLinkLable1 = Nothing
+        Me.rbdDateRange.MyLinkLable2 = Nothing
+        Me.rbdDateRange.Name = "rbdDateRange"
+        Me.rbdDateRange.Size = New System.Drawing.Size(78, 18)
+        Me.rbdDateRange.TabIndex = 3
+        Me.rbdDateRange.TabStop = False
+        Me.rbdDateRange.Text = "Date Range"
         '
         'rdbDaily
         '
@@ -711,6 +726,8 @@ Partial Class FrmProductionAndSaleReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
+        Me.RadPageViewPage1.PerformLayout()
+        CType(Me.rdbWeekly, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox7.ResumeLayout(False)
         Me.RadGroupBox7.PerformLayout()
@@ -744,7 +761,7 @@ Partial Class FrmProductionAndSaleReport
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
-        CType(Me.rdbWeekly, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbdDateRange, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbDaily, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
@@ -819,5 +836,6 @@ Partial Class FrmProductionAndSaleReport
     Friend WithEvents Prdncreallchk As common.Controls.MyRadioButton
     Friend WithEvents RePrdntchk As common.Controls.MyRadioButton
     Friend WithEvents Productionchk As common.Controls.MyRadioButton
+    Friend WithEvents rbdDateRange As common.Controls.MyRadioButton
 End Class
 

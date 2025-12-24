@@ -9,6 +9,7 @@ Public Class frmShipmentDairy
     Dim ParentDocNo As String = ""
     Dim CreditCustDoc As String = ""
     Dim defaultScreenstartup As Boolean = True
+    Dim DefaultEnableEWayBill As Boolean = False
     Dim DispatchCommissionDecimalPlaces As Decimal = 4
     Dim EnableProductSaleForJPR As Boolean = False
     Dim isCTQtyUpdate As Boolean = True
@@ -386,6 +387,7 @@ Public Class frmShipmentDairy
     Dim OPkmMandatoryonDS As Boolean = False
     Dim ShowMulMRPOfSameItemOnDairyBookingCustomer As Boolean = False
     Dim DispatchPriceCodeForCreditCustomer As Boolean = False
+    Dim ApplyCommissionTPTForCreditCustomer As Boolean = False
     Dim FinancialImpactForTPT As Boolean = False
     Dim FinancialImpactForDistributor As Boolean = False
     Dim FlagDocumentIsTaxable As Integer = 0
@@ -769,6 +771,7 @@ Public Class frmShipmentDairy
         ApplyTPT = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyTPT, clsFixedParameterCode.ApplyTPT, Nothing)) = 1, True, False)
         ApplyCommissionRateWithTax = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyCommissionRateWithTax, clsFixedParameterCode.ApplyCommissionRateWithTax, Nothing)) = 1, True, False)
         DispatchPriceCodeForCreditCustomer = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DispatchPriceCodeForCreditCustomer, clsFixedParameterCode.DispatchPriceCodeForCreditCustomer, Nothing)) = 1, True, False)
+        ApplyCommissionTPTForCreditCustomer = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyCommissionTPTForCreditCustomer, clsFixedParameterCode.ApplyCommissionTPTForCreditCustomer, Nothing)) = 0, True, False)
         FinancialImpactForDistributor = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FinancialImpactForDistributor, clsFixedParameterCode.FinancialImpactForDistributor, Nothing)) = 1, True, False)
         FinancialImpactForTPT = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FinancialImpactForTPT, clsFixedParameterCode.FinancialImpactForTPT, Nothing)) = 1, True, False)
         OPkmMandatoryonDS = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.OPkmMandatoryonDS, clsFixedParameterCode.OPkmMandatoryonDS, Nothing)) = 1, True, False)
@@ -792,6 +795,7 @@ Public Class frmShipmentDairy
         DispatchCommissionDecimalPlaces = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DispatchCommissionDecimalPlaces, clsFixedParameterCode.DispatchCommissionDecimalPlaces, Nothing))
         EnableProductSaleForJPR = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = 1, True, False)
         AllowToCheckZeroQtyonDispatch = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowToCheckZeroQtyonDispatch, clsFixedParameterCode.AllowToCheckZeroQtyonDispatch, Nothing)) = 1, True, False)
+        DefaultEnableEWayBill = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultEnableEWayBill, clsFixedParameterCode.DefaultEnableEWayBill, Nothing)) = 1, True, False)
 
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = dtpChallan.Value
@@ -6189,7 +6193,8 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
         End If
     End Sub
     Public Sub GetDCDetails(ByVal trans As SqlTransaction)
-        If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Credit_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "'", trans)), "N") = CompairStringResult.Equal OrElse IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, False, DispatchPriceCodeForCreditCustomer) Then
+        'If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Credit_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "'", trans)), "N") = CompairStringResult.Equal OrElse IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, False, DispatchPriceCodeForCreditCustomer) Then
+        If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Credit_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "'", trans)), "N") = CompairStringResult.Equal OrElse ApplyCommissionTPTForCreditCustomer Then
             Dim DCQry As String = "select top 1 TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Commision_UOM,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.PK_ID,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Rate,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Transporter_Rate,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Security_Rate,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Booth_Security_Rate from TSPL_DISTRIBUTOR_COMMISSION_HEAD
 left join TSPL_DISTRIBUTOR_COMMISSION_DETAIL on TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
 left join TSPL_DISTRIBUTOR_COMMISSION_ITEMS on TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
@@ -7011,7 +7016,11 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         btnSave.Enabled = True
         btnPost.Enabled = True
         btnDelete.Enabled = True
-        chkIsEWayBill.Checked = True
+        If DefaultEnableEWayBill Then
+            chkIsEWayBill.Checked = True
+        Else
+            chkIsEWayBill.Checked = False
+        End If
         txtDate.Focus()
         gv1.Rows.AddNew()
         gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = RowTypeItem

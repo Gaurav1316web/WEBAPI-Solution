@@ -8,6 +8,7 @@ Public Class FrmProductDispatch
     Dim trans As SqlTransaction = Nothing
     Dim ParentDocNo As String = ""
     Dim IsOnlyCreditCust As Boolean = True
+    Dim DefaultEnableEWayBill As Boolean = False
     Dim ConvertIntoBulkUOM As Boolean = False
     Dim ConvertIntoBillingUOM As Boolean = False
     Dim EnableProductSaleForJPR As Boolean = False
@@ -486,6 +487,7 @@ Public Class FrmProductDispatch
         FORPRICE = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, Nothing))
         ConvertIntoBillingUOM = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConvertTOBillingUOM, clsFixedParameterCode.ConvertTOBillingUOM, Nothing)) = 1, True, False)
         EnableProductSaleForJPR = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = 1, True, False)
+        DefaultEnableEWayBill = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultEnableEWayBill, clsFixedParameterCode.DefaultEnableEWayBill, Nothing)) = 1, True, False)
 
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = clsCommon.GETSERVERDATE
@@ -6270,6 +6272,11 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = RowTypeItem
         ''gv1.Rows.AddNew()
         chkInternal.Checked = False
+        If DefaultEnableEWayBill Then
+            chkIsEWayBill.Checked = True
+        Else
+            chkIsEWayBill.Checked = False
+        End If
         gvAC.Rows.AddNew()
         gvAC.Rows.AddNew()
         txtDate.Enabled = True
@@ -7395,6 +7402,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             obj.Freight_Charges = lblFreightCharges.Text
             obj.Insurance = txtInsuranceNo.Text
             obj.Sub_Location_code = txtSubLocation.Value
+            obj.IsEwaybill = IIf(chkIsEWayBill.Checked, 1, 0)
             If AllowManualVehicleOnDairyDispatch = True Then
                 obj.ManualVehicle = txtManualVehicle.Text
             End If
@@ -7999,6 +8007,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                 txtFrom_Date.Enabled = False
                 txtTo_Date.Enabled = False
                 txtRouteNo.Enabled = False
+                chkIsEWayBill.Enabled = False
                 If obj.Status = ERPTransactionStatus.Approved Then
                     btnSave.Enabled = False
                     btnPost.Enabled = False
@@ -8032,6 +8041,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                 If IsCreditCustomer Then
                     LoadDataForCreditCust("select Document_Code ,Sale_Invoice_No,Customer_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" + ParentDocNo + "'", trans)
                 End If
+                chkIsEWayBill.Checked = IIf(obj.IsEwaybill = 1, True, False)
                 txtFreightDistance.Value = obj.Freight_Distance
                 chkSampling.Enabled = False
                 chkSampling.Checked = IIf(obj.IsSampling = 1, True, False)

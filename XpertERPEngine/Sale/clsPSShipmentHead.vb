@@ -461,6 +461,14 @@ Public Class clsPSShipmentHead
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_DAIRYSALE_GATEPASS_MASTER where GPCode='" & strDairyGAtePassCount & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            '' Cancel E-Way Bill --------------------------------------
+            Dim ewbno As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select EWayBillNo from tspl_sd_sale_invoice_head where Document_Code='" & InvoiceNo & "'", trans))
+            If clsCommon.myLen(ewbno) > 0 Then
+                Dim objResut As Object = ClsEInvoiceOFAPIs.CancelEWayBill(objCommonVar.CurrentCompanyCode, ewbno, "Order Cancelled", obj.Bill_To_Location, trans)
+                If objResut Is Nothing Then
+                    Throw New Exception("e-way bill cancellation failed!")
+                End If
+            End If
             '' Cancel E-Invoice ----------------------------- 
             Dim strIrnNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select IRN_No from tspl_sd_sale_invoice_head where Document_Code='" & InvoiceNo & "'", trans))
             If clsCommon.myLen(strIrnNo) > 0 Then

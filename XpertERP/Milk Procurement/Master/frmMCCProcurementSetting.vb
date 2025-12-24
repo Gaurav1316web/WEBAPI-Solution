@@ -140,16 +140,23 @@ Public Class frmMCCProcurementSetting
             If clsCommon.myLen(dbtBMCStartDate1.Text) > 0 Then
                 qry = "update TSPL_FIXED_PARAMETER set Description='" & dbtBMCStartDate1.Text & "' where Type='" & clsFixedParameterType.AndroidMilkCollectionBMCDCS & " ' and Code='" & clsFixedParameterCode.BMCStartTime & "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsFixedParameterCode.BMCStartTime, "TSPL_FIXED_PARAMETER", "Code", trans)
+
             End If
             If txtBMCEndtime.Text <> "" Then
                 qry = "update TSPL_FIXED_PARAMETER set Description='" & txtBMCEndtime.Text & "' where Type='" & clsFixedParameterType.AndroidMilkCollectionBMCDCS & " ' and Code='" & clsFixedParameterCode.BMCEndHours & "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsFixedParameterCode.BMCEndHours, "TSPL_FIXED_PARAMETER", "Code", trans)
+
             End If
 
             If txtDcsEndTime.Text <> "" Then
                 qry = "update TSPL_FIXED_PARAMETER set Description='" & txtDcsEndTime.Text & "' where Type='" & clsFixedParameterType.AndroidMilkCollectionBMCDCS & " ' and Code='" & clsFixedParameterCode.DCSEndHours & "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsFixedParameterCode.DCSEndHours, "TSPL_FIXED_PARAMETER", "Code", trans)
+
             End If
+
 
 
 

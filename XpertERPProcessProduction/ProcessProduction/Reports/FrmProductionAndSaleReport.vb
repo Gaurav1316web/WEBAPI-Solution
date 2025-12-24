@@ -43,8 +43,9 @@ Public Class FrmProductionAndSaleReport
         buttontooltip.SetToolTip(btnclose, "Press Alt+C Close the Window")
         fromDate.Value = clsCommon.GETSERVERDATE()
         toDate.Value = clsCommon.GETSERVERDATE()
-        lbltoDate.Visible = False
-        toDate.Visible = False
+        'lbltoDate.Visible = False
+        'ToDate.Visible = False
+
     End Sub
 
     'Public Class clsDateDetail
@@ -753,7 +754,7 @@ TSPL_SCRAPINVOICE_HEAD.Loc_Code FROM
 
                 query += " where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N'"
 
-            ElseIf rdbWeekly.IsChecked = True Then
+            ElseIf rdbWeekly.IsChecked = True OrElse rbdDateRange.IsChecked Then
                 'fDate = CDate(clsDBFuncationality.getSingleValue("select DATEADD(DAY,2-DATEPART(WEEKDAY,convert(date,'" + fromDate.Value + "',103)),convert(date,'" + fromDate.Value + "',103))"))
                 'tDate = CDate(clsDBFuncationality.getSingleValue("select DATEADD(DAY,8-DATEPART(WEEKDAY,convert(date,'" + fromDate.Value + "',103)),convert(date,'" + fromDate.Value + "',103))"))
                 'dtpFrom.Value = fDate
@@ -786,8 +787,12 @@ TSPL_SCRAPINVOICE_HEAD.Loc_Code FROM
                     as Alies_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N' FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')"
                 Dim strMaxLocation As String = clsDBFuncationality.getSingleValue(StrTempQry)
                 query = " SELECT * FROM (
-						SELECT 'Capacity / Day' AS Production, TSPL_LOCATION_MASTER.Location_Code,  TSPL_LOCATION_MASTER.Silo_Capacity  Capacity
-                        FROM  TSPL_LOCATION_MASTER where Rejected_Type='N' ) AS XXXProduction
+							SELECT 'Capacity / Day' AS Production, TSPL_LOCATION_MASTER.Location_Code,  (TSPL_LOCATION_MASTER.Silo_Capacity ) Capacity
+                        FROM  TSPL_LOCATION_MASTER where IsMainPlant=0
+						
+						union all
+						SELECT 'Capacity / Day' AS Production, 'RCDF' AS Location_Code,  SUM(TSPL_LOCATION_MASTER.Silo_Capacity) Capacity
+                        FROM  TSPL_LOCATION_MASTER where IsMainPlant=0  ) AS XXXProduction
                             PIVOT (    MAX(Capacity)     FOR Location_Code IN ([AJMR],[BIKR],[JODH],[KALR],[LAMB],[NADB],[PALI],[RCDF]) ) AS zpivot "
                 query += " UNION ALL
                         select Production," + strSumLocation + "," + strTotalLocation + " as " + strMainLocation + "
@@ -930,7 +935,7 @@ TSPL_SCRAPINVOICE_HEAD.Loc_Code FROM
                     Dim frmCRV As New frmCrystalReportViewer()
                     frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt2, "Daily_Production_sale_FG_stock_BD_report", "Daily Production Sale Report")
                     frmCRV = Nothing
-                ElseIf Print = True And rdbWeekly.IsChecked = True Then
+                ElseIf Print = True And rdbWeekly.IsChecked = True OrElse rbdDateRange.IsChecked = True Then
                     Gv1.Visible = True
                     Gv1.DataSource = dt2
                     Gv1.ReadOnly = True
@@ -1338,6 +1343,9 @@ TSPL_SCRAPINVOICE_HEAD.Loc_Code FROM
         ElseIf rdbWeekly.IsChecked = True Then
             lbltoDate.Visible = True
             ToDate.Visible = True
+        ElseIf rbdDateRange.IsChecked = True Then
+            lbltoDate.Visible = True
+            ToDate.Visible = True
         End If
     End Sub
 
@@ -1496,7 +1504,13 @@ TSPL_SCRAPINVOICE_HEAD.Loc_Code FROM
         slotCount += 1
         Slot4FD = clsCommon.GetPrintDate(currentDate.AddDays(24), "dd/MMM/yyyy")
         'Slot4TD = clsCommon.GetPrintDate(currentDate.AddDays(24), "dd/MMM/yyyy")
-        ToDate.Value = clsCommon.GetPrintDate(currentDate.AddMonths(1).AddDays(-1), "dd/MMM/yyyy")
+        If rbdDateRange.IsChecked Then
+            ToDate.Value = clsCommon.GETSERVERDATE()
+
+        Else
+            ToDate.Value = clsCommon.GetPrintDate(currentDate.AddMonths(1).AddDays(-1), "dd/MMM/yyyy")
+
+        End If
         slotCount += 1
     End Sub
 

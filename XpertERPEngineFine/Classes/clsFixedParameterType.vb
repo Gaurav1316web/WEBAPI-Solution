@@ -183,6 +183,7 @@ Public Class clsFixedParameterType
     Public Const AllowtoChangeTCSBaseAmount = "AllowtoChangeTCSBaseAmount"
     Public Const EInvoiceVendor = "EInvoiceVendor"
     Public Const TokenTimeReGenForEinvoice = "TokenTimeReGenForEinvoice"
+    Public Const TokenTimeReGenForEWayBill = "TokenTimeReGenForEWayBill"
     Public Const ItemCostZeroOnStoreAdjForTypeFlushing = "ItemCostZeroOnStoreAdjForTypeFlushing"
     Public Const AutoCreateSaleInvoice = "Auto Create Sale Invoice"
     Public Const AmountToCheckCustomerOutstandingForTCSTax = "AmountToCheckCustomerOutstandingForTCSTax"
@@ -1330,6 +1331,7 @@ Public Class clsFixedParameterType
     Public Const CreateAutoMCCPriceChat = "Create Auto MCC Price Chat"
     Public Const VehicleNofromDispatch = "VehicleNo From Dispatch"
     Public Const DispatchPriceCodeForCreditCustomer = "Dispatch PriceCode For Credit Customer"
+    Public Const ApplyCommissionTPTForCreditCustomer = "Apply Commission/TPT For Credit Customer"
     Public Const ConvertPouchtoCrateonDispatch = "Convert Pouch to Crate on Dispatch"
     Public Const PickRatefromMaster = "Pick Rate from Master"
     Public Const EnableProductSaleForJPR = "Enable Product Sale For JPR"
@@ -1376,6 +1378,7 @@ Public Class clsFixedParameterType
     Public Const AllowRouteWiseDemandEntryInDecimal = "Allow Route Wise Demand Entry In Decimal"
     Public Const AllowToCheckEntryUOMForProduct = "Allow To Check Entry UOM For Product"
     Public Const AllowToCheckZeroQtyonDispatch = "Allow To Check Zero Qty on Dispatch"
+    Public Const DefaultEnableEWayBill = "Default Enable EWay Bill"
 End Class
 Public Class clsFixedParameterCode
     Public Const TransactionValidity As String = "Transaction Validity"
@@ -1614,6 +1617,7 @@ Public Class clsFixedParameterCode
     Public Const AllowtoChangeTCSBaseAmount = "AllowtoChangeTCSBaseAmount"
     Public Const EInvoiceVendor = "EInvoiceVendor"
     Public Const TokenTimeReGenForEinvoice = "TokenTimeReGenForEinvoice"
+    Public Const TokenTimeReGenForEWayBill = "TokenTimeReGenForEWayBill"
     Public Const ItemCostZeroOnStoreAdjForTypeFlushing = "ItemCostZeroOnStoreAdjForTypeFlushing"
     Public Const AutoCreateSaleInvoice = "Auto Create Sale Invoice"
     Public Const AmountToCheckCustomerOutstandingForTCSTax = "AmountToCheckCustomerOutstandingForTCSTax"
@@ -2861,6 +2865,7 @@ Public Class clsFixedParameterCode
     Public Const VehicleNofromDispatch = "VehicleNo From Dispatch"
     Public Const HideQtyCrateRegister = "Hide Qty Crate Register"
     Public Const DispatchPriceCodeForCreditCustomer = "Dispatch PriceCode For Credit Customer"
+    Public Const ApplyCommissionTPTForCreditCustomer = "Apply Commission/TPT For Credit Customer"
     Public Const ConvertPouchtoCrateonDispatch = "Convert Pouch to Crate on Dispatch"
     Public Const PickRatefromMaster = "Pick Rate from Master"
     Public Const EnableProductSaleForJPR = "Enable Product Sale For JPR"
@@ -2911,6 +2916,7 @@ Public Class clsFixedParameterCode
     Public Const AllowRouteWiseDemandEntryInDecimal = "Allow Route Wise Demand Entry In Decimal"
     Public Const AllowToCheckEntryUOMForProduct = "Allow To Check Entry UOM For Product"
     Public Const AllowToCheckZeroQtyonDispatch = "Allow To Check Zero Qty on Dispatch"
+    Public Const DefaultEnableEWayBill = "Default Enable EWay Bill"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -3222,6 +3228,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowtoChangeTCSBaseAmount, clsFixedParameterCode.AllowtoChangeTCSBaseAmount, "0", "AllowtoChangeTCSBaseAmount")
         InsertDefaultValueFixedParameter(clsFixedParameterType.EInvoiceVendor, clsFixedParameterCode.EInvoiceVendor, "mastergst", "EInvoiceVendor")
         InsertDefaultValueFixedParameter(clsFixedParameterType.TokenTimeReGenForEinvoice, clsFixedParameterCode.TokenTimeReGenForEinvoice, "360", "Token Time ReGen For Einvoice (in mins)")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.TokenTimeReGenForEWayBill, clsFixedParameterCode.TokenTimeReGenForEWayBill, "360", "Token Time ReGen For Einvoice (in mins)")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ItemCostZeroOnStoreAdjForTypeFlushing, clsFixedParameterCode.ItemCostZeroOnStoreAdjForTypeFlushing, "0", "ItemCostZeroOnStoreAdjForTypeFlushing")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AmountToCheckCustomerOutstandingForTCSTax, clsFixedParameterCode.AmountToCheckCustomerOutstandingForTCSTax, "0", "AmountToCheckCustomerOutstandingForTCSTax")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AutoCreateSaleInvoice, clsFixedParameterCode.AutoCreateSaleInvoice, "1", "Auto Create Sale Invoice")
@@ -4575,6 +4582,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.CreateAutoMCCPriceChat, clsFixedParameterCode.CreateAutoMCCPriceChat, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.VehicleNofromDispatch, clsFixedParameterCode.VehicleNofromDispatch, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.DispatchPriceCodeForCreditCustomer, clsFixedParameterCode.DispatchPriceCodeForCreditCustomer, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyCommissionTPTForCreditCustomer, clsFixedParameterCode.ApplyCommissionTPTForCreditCustomer, "0", "0:Off,1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ConvertPouchtoCrateonDispatch, clsFixedParameterCode.ConvertPouchtoCrateonDispatch, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ChangeInventroyMovemnet, clsFixedParameterCode.ChangeInventroyMovemnet, "0", "0:Dispatch, 1:Gatepass;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickRatefromMaster, clsFixedParameterCode.PickRatefromMaster, "0", "0:Pick Rate Manually, 1:Pick Rate from Master;")
@@ -4620,6 +4628,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowRouteWiseDemandEntryInDecimal, clsFixedParameterCode.AllowRouteWiseDemandEntryInDecimal, "0", "0:Off, 1:On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowToCheckEntryUOMForProduct, clsFixedParameterCode.AllowToCheckEntryUOMForProduct, "0", "0:Off, 1:On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowToCheckZeroQtyonDispatch, clsFixedParameterCode.AllowToCheckZeroQtyonDispatch, "0", "0:Off, 1:On")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.DefaultEnableEWayBill, clsFixedParameterCode.DefaultEnableEWayBill, "0", "0:Off, 1:On")
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
     End Function
@@ -6480,7 +6489,9 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmMCCMaterial, clsFixedParameterType.CreateAutoMCCPriceChat, clsFixedParameterCode.CreateAutoMCCPriceChat, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyGatePass, clsFixedParameterType.VehicleNofromDispatch, clsFixedParameterCode.VehicleNofromDispatch, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.DispatchPriceCodeForCreditCustomer, clsFixedParameterCode.DispatchPriceCodeForCreditCustomer, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyCommissionTPTForCreditCustomer, clsFixedParameterCode.ApplyCommissionTPTForCreditCustomer, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ConvertPouchtoCrateonDispatch, clsFixedParameterCode.ConvertPouchtoCrateonDispatch, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.ApplyCommissionTPTForCreditCustomer, clsFixedParameterCode.ApplyCommissionTPTForCreditCustomer, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmItemMasterRMOther, clsFixedParameterType.ItemBatchWiseStartDate, clsFixedParameterCode.ItemBatchWiseStartDate, EnumControlType.TextBox)
 
         InsertDefaultValue(clsUserMgtCode.rptMonthWiseDMRReport, clsFixedParameterType.PickRatefromMaster, clsFixedParameterCode.PickRatefromMaster, EnumControlType.CheckBox)
@@ -6524,5 +6535,6 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmRouteMaster, clsFixedParameterType.AllowRouteWiseDemandEntryInDecimal, clsFixedParameterCode.AllowRouteWiseDemandEntryInDecimal, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.userMaster, clsFixedParameterType.AllowToCheckEntryUOMForProduct, clsFixedParameterCode.AllowToCheckEntryUOMForProduct, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.AllowToCheckZeroQtyonDispatch, clsFixedParameterCode.AllowToCheckZeroQtyonDispatch, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.DefaultEnableEWayBill, clsFixedParameterCode.DefaultEnableEWayBill, EnumControlType.CheckBox)
     End Sub
 End Class
