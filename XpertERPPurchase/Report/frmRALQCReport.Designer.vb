@@ -23,6 +23,7 @@ Partial Class frmRALQCReport
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -42,6 +43,8 @@ Partial Class frmRALQCReport
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gvDetails = New Telerik.WinControls.UI.RadGridView()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
@@ -52,6 +55,8 @@ Partial Class frmRALQCReport
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.rmiExcelDetail = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmiPDFDetail = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -73,6 +78,9 @@ Partial Class frmRALQCReport
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage3.SuspendLayout()
+        CType(Me.gvDetails, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvDetails.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExp, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -107,6 +115,7 @@ Partial Class frmRALQCReport
         '
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
         Me.RadPageView1.DefaultPage = Me.RadPageViewPage1
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 20)
@@ -349,6 +358,30 @@ Partial Class frmRALQCReport
         Me.gv1.Size = New System.Drawing.Size(779, 343)
         Me.gv1.TabIndex = 0
         '
+        'RadPageViewPage3
+        '
+        Me.RadPageViewPage3.Controls.Add(Me.gvDetails)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage3.Name = "RadPageViewPage3"
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(779, 343)
+        Me.RadPageViewPage3.Text = "Details"
+        '
+        'gvDetails
+        '
+        Me.gvDetails.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvDetails.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvDetails.MasterTemplate.AllowAddNewRow = False
+        Me.gvDetails.MasterTemplate.AllowColumnReorder = False
+        Me.gvDetails.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvDetails.Name = "gvDetails"
+        Me.gvDetails.ReadOnly = True
+        Me.gvDetails.Size = New System.Drawing.Size(779, 343)
+        Me.gvDetails.TabIndex = 1
+        '
         'RadMenu1
         '
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3})
@@ -389,7 +422,7 @@ Partial Class frmRALQCReport
         'btnExp
         '
         Me.btnExp.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnExp.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
+        Me.btnExp.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF, Me.rmiExcelDetail, Me.rmiPDFDetail})
         Me.btnExp.Location = New System.Drawing.Point(159, 6)
         Me.btnExp.Name = "btnExp"
         Me.btnExp.Size = New System.Drawing.Size(83, 22)
@@ -428,6 +461,16 @@ Partial Class frmRALQCReport
         Me.btnGo.TabIndex = 452
         Me.btnGo.Text = ">>>"
         '
+        'rmiExcelDetail
+        '
+        Me.rmiExcelDetail.Name = "rmiExcelDetail"
+        Me.rmiExcelDetail.Text = "Excel Detail"
+        '
+        'rmiPDFDetail
+        '
+        Me.rmiPDFDetail.Name = "rmiPDFDetail"
+        Me.rmiPDFDetail.Text = "PDF Detail"
+        '
         'frmRALQCReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -463,6 +506,9 @@ Partial Class frmRALQCReport
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage3.ResumeLayout(False)
+        CType(Me.gvDetails.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvDetails, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExp, System.ComponentModel.ISupportInitialize).EndInit()
@@ -502,4 +548,8 @@ Partial Class frmRALQCReport
     Friend WithEvents btnReset As RadButton
     Friend WithEvents btnGo As RadButton
     Friend WithEvents gv1 As RadGridView
+    Friend WithEvents RadPageViewPage3 As RadPageViewPage
+    Friend WithEvents gvDetails As RadGridView
+    Friend WithEvents rmiExcelDetail As RadMenuItem
+    Friend WithEvents rmiPDFDetail As RadMenuItem
 End Class
