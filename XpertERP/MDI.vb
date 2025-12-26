@@ -7976,6 +7976,9 @@ Public Class MDI
                         'Case clsUserMgtCode.MilkRetesting
                         ' frm = New frmMilkRetesting
                         'formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmGateEntryTransaction
+                        frm = New frmGateEntryTransaction
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.MilkGateEntryWeightment
                         frm = New frmMilkGateEntryWeighment
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
