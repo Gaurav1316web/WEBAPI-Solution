@@ -3,13 +3,18 @@ Imports System.Windows.Forms
 
 Public Class FrmFreeTxtBox1
     Public strRmks As String = ""
+    Public strLabelName As String = ""
     Private Sub btnOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOK.Click
         btnOKPressed()
     End Sub
 
     Sub btnOKPressed()
         If clsCommon.myLen(txtRemarks.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Plese enter remarks", Me.Text)
+            If clsCommon.CompairString(strLabelName, "") <> CompairStringResult.Equal Then
+                clsCommon.MyMessageBoxShow(Me, "Plese enter GSTIN No.", Me.Text)
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Plese enter remarks", Me.Text)
+            End If
             txtRemarks.Focus()
         Else
             strRmks = txtRemarks.Text
@@ -36,6 +41,9 @@ Public Class FrmFreeTxtBox1
 
 
     Private Sub FrmFreeTxtBox1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        If clsCommon.CompairString(strLabelName, "") <> CompairStringResult.Equal Then
+            lblRemark.Text = strLabelName
+        End If
         txtRemarks.Text = strRmks
     End Sub
 End Class

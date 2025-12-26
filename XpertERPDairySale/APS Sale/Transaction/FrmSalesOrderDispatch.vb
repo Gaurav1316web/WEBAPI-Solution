@@ -757,6 +757,7 @@ Public Class FrmSalesOrderDispatch
         btnSave.Enabled = True
         btnDelete.Enabled = True
         btnPost.Enabled = True
+        chkewaybill.Checked = False
         ControlEnableDisable(True)
 
     End Sub
@@ -924,7 +925,7 @@ Public Class FrmSalesOrderDispatch
                                                         "'" & clsCommon.myCstr(gv1.Rows(ii).Cells(colUOM).Value) & "' as OrgUOM," & dblqty & " as OrgQty,0 as OrgMRP, " &
                                                         "'" & clsCommon.GetPrintDate(obj.Expiry_Date, "dd/MMM/yyyy") & "' as Expiry_Date, " &
                                                         "'" & clsCommon.GetPrintDate(obj.Manufacture_Date, "dd/MMM/yyyy") & "' as Manufacture_Date, " &
-                                                        "" & dblqty & " as Qty, 0 as MRP "
+                                                        "" & dblqty & " as Qty, 0 as MRP,'' as RALNo,'' as VehicleNo "
                                             Next
                                         End If
                                     End If
@@ -2025,6 +2026,7 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
                 If obj.IsReplacement = 1 Then
                     obj.Invoice_No_ForReplacement = txtInvoice_for_replacement.Value
                 End If
+                obj.IsEwaybill = IIf(chkewaybill.Checked, 1, 0)
                 obj.Transport_Id = clsCommon.myCstr(txtTransporterCode.Value)
                 obj.Transporter_Name = lblTransporterName.Text
                 obj.Vehicle_Code = txtVehicleCode.Value
@@ -2226,7 +2228,7 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
         txtRemark.Enabled = flag
         txtInvoice_for_replacement.Enabled = flag
         chkReplacement.Enabled = flag
-
+        chkewaybill.Enabled = flag
     End Sub
     Private Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         Try
@@ -2274,6 +2276,7 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
                 txtInvoiceno.Text = obj.Sale_Invoice_No
                 txtInvoice_for_replacement.Value = obj.Invoice_No_ForReplacement
                 chkReplacement.Checked = IIf(obj.IsReplacement = 1, True, False)
+                chkewaybill.Checked = IIf(obj.IsEwaybill = 1, True, False)
                 LoadBlankGridTax()
                 If chkReplacement.Checked Then
                     GetReplacementQty(obj.Sale_Invoice_No, obj.Invoice_No_ForReplacement, True)

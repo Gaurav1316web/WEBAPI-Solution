@@ -1,8 +1,10 @@
 ﻿Imports System.ComponentModel
 Imports System.Data.SqlClient
 Imports common
+Imports System
 Imports System.IO
 Imports System.Net
+Imports System.Text
 
 Public Class frmSendBillToDCS
 #Region "Variables"
@@ -115,8 +117,8 @@ Public Class frmSendBillToDCS
                 Exit Sub
             End If
             If PDFPath IsNot Nothing AndAlso clsCommon.myLen(PDFPath) > 0 Then
-            Dim FileNo As Integer = clsAttachDocument.UploadWithHttpRequest(PDFPath, Path.GetFileName(PDFPath), clsUserMgtCode.frmMilkPurchaseInvoice, clsCommon.myCstr(dr("Milk_Purchase_Invoice_No")))
-            If FileNo > 0 Then
+                Dim FileNo As Integer = clsAttachDocument.UploadWithHttpRequest(PDFPath, Path.GetFileName(PDFPath), clsUserMgtCode.frmMilkPurchaseInvoice, clsCommon.myCstr(dr("Milk_Purchase_Invoice_No")))
+                If FileNo > 0 Then
                     If chkInactive.Checked = True Then
                         Dim qry As String = " UPDATE TSPL_MILK_PURCHASE_INVOICE_HEAD set FILE_INFO2=" + clsCommon.myCstr(FileNo) + ",Send_By = '" & objCommonVar.CurrentUserCode & "',Send_Date = '" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm tt") & "' where DOC_CODE='" + clsCommon.myCstr(dr("Milk_Purchase_Invoice_No")) + "'"
                         clsDBFuncationality.ExecuteNonQuery(qry)
@@ -124,16 +126,33 @@ Public Class frmSendBillToDCS
                         Dim qry As String = " UPDATE TSPL_MILK_PURCHASE_INVOICE_HEAD set FILE_INFO=" + clsCommon.myCstr(FileNo) + ",Send_By = '" & objCommonVar.CurrentUserCode & "',Send_Date = '" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm tt") & "' where DOC_CODE='" + clsCommon.myCstr(dr("Milk_Purchase_Invoice_No")) + "'"
                         clsDBFuncationality.ExecuteNonQuery(qry)
                     End If
+                End If
+
+
             End If
-
-
-        End If
-        SaveFile(PDFPath, clsCommon.myCstr(dr("VSP_CODE")), clsCommon.myCstr(dr("Doc_No")), clsCommon.myCDate(dr("Doc_Date")), clsCommon.myCstr(dr("VSP_CODE")), clsCommon.myCstr(dr("VSP_NAME")), clsCommon.myCstr(dr("VLC_CODE_Uploader")), clsCommon.myCDate(dr("From_Date")), clsCommon.myCDate(dr("To_Date")))
+            SaveFile(PDFPath, clsCommon.myCstr(dr("VSP_CODE")), clsCommon.myCstr(dr("Doc_No")), clsCommon.myCDate(dr("Doc_Date")), clsCommon.myCstr(dr("VSP_CODE")), clsCommon.myCstr(dr("VSP_NAME")), clsCommon.myCstr(dr("VLC_CODE_Uploader")), clsCommon.myCDate(dr("From_Date")), clsCommon.myCDate(dr("To_Date")))
+            If chkSendBillOnWA.Checked Then
+                SendOnWhatsApp(Path.GetFileName(PDFPath))
+            End If
         Else
             clsCommon.MyMessageBoxShow(Me, "Empty File Path", Me.Text)
         End If
     End Sub
 
+    Sub SendOnWhatsApp(ByVal fileName As String)
+        Try
+            Dim dtContent As DataTable = clsDBFuncationality.GetDataTable("SELECT WhatsApp_Text from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.frmSendBillToDCS + "'", Nothing)
+            If dtContent IsNot Nothing AndAlso dtContent.Rows.Count > 0 Then
+                Dim strQry As String = "Select WhatsApp_Phone_Number_ID,WhatsApp_Business_Account_ID,WhatsApp_Access_Token,WhatsApp_URL,WhatsApp_Api_Version from TSPL_ES_Config"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    clsAttachDocument.SendOnWhatsApp(clsCommon.myCstr(dt.Rows(0)("WhatsApp_Phone_Number_ID")), clsCommon.myCstr(dt.Rows(0)("WhatsApp_Access_Token")), clsCommon.myCstr(dt.Rows(0)("WhatsApp_URL")), clsCommon.myCstr(dt.Rows(0)("WhatsApp_Api_Version")), fileName, Nothing)
+                End If
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 
 
 
@@ -224,7 +243,7 @@ Public Class frmSendBillToDCS
         Try
             'If chkInactive.Checked = True Then
             txtSendBill.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Count(*) from (" & ReturnDCSQry() & " and (TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is not null or TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO2 is not null)  ) xxx"))
-                txtRemainingBill.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Count(*) from (" & ReturnDCSQry() & " and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is null and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO2 is null ) xxx"))
+            txtRemainingBill.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Count(*) from (" & ReturnDCSQry() & " and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is null and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO2 is null ) xxx"))
             'Else
             '    txtSendBill.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Count(*) from (" & ReturnDCSQry() & " and (TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is not null or TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO2 is not null) ) xxx"))
             '    txtRemainingBill.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Count(*) from (" & ReturnDCSQry() & " and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is null ) xxx"))
@@ -541,6 +560,51 @@ where TSPL_MP_MASTER.VLC_Code ='" & VLCCode & "' and TSPL_MP_MASTER.MP_Code_VLC_
 
     Private Sub RadButton4_Click(sender As Object, e As EventArgs) Handles RadButton4.Click
         REILIntegration(False, False, True)
+    End Sub
+
+    Private Sub btnSendBill_Click(sender As Object, e As EventArgs) Handles btnSendBill.Click
+        '        Try
+        '            ' 🔒 FORCE TLS 1.2 (CRITICAL)
+        '            ServicePointManager.SecurityProtocol = CType(3072, SecurityProtocolType)
+        '            Dim phoneNumberId As String = "886929041174911"
+        '            Dim token As String = "EAAUWtVIZClXoBQIZCKz5BRSK2qVLg8stZCCXrPoydRwXyJ1yfZCaZCQqU07yLUZAsll1oSNBclNf21FWDNAbaTvh07YNuSEvrY3gbr1tZCgp7or3moKC9mF3qbr1rBCEu8JHrV73UzDccCAxpsrmLZBDmwGfYkWO3uZCy1kiu8dHAFM7Nki75DFCxtysAwCh1cVvK8tWenPjKLw66kHtE5NmmDYgbGpmXLv8xMtgQSVa8Uzfxmg88c3ThnMEa4ejc4JyZA01NfahBYLFEuRukk5nuOxKKE"
+
+        '            Dim url As String = "https://graph.facebook.com/v22.0/" & phoneNumberId & "/messages"
+
+        '            Dim json As String =
+        '"{
+        '  ""messaging_product"": ""whatsapp"",
+        '  ""to"": ""919170001844"",
+        '  ""type"": ""document"",
+        '  ""document"": {
+        '    ""link"": ""https://yourdomain.com/invoice.pdf"",
+        '    ""filename"": ""Invoice.pdf""
+        '  }
+        '}"
+
+        '            Dim request As HttpWebRequest = CType(WebRequest.Create(url), HttpWebRequest)
+        '            request.Method = "POST"
+        '            request.Headers.Clear()
+        '            request.Headers.Add("Authorization", "Bearer " & token)
+        '            request.ContentType = "application/json"
+
+        '            Using stream As Stream = request.GetRequestStream()
+        '                Dim bytes = Encoding.UTF8.GetBytes(json)
+        '                stream.Write(bytes, 0, bytes.Length)
+        '            End Using
+
+        '            Using response As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
+        '                MessageBox.Show("WhatsApp template sent successfully")
+        '            End Using
+        '        Catch exweb As WebException
+        '            Try
+        '                Using reader As New StreamReader(exweb.Response.GetResponseStream())
+        '                    Throw New Exception(reader.ReadToEnd())
+        '                End Using
+        '            Catch
+        '                clsCommon.MyMessageBoxShow(Me, exweb.Message, Me.Text)
+        '            End Try
+        '        End Try
     End Sub
 End Class
 

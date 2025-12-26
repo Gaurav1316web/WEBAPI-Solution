@@ -880,6 +880,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.WeightmentAutoAndManualReport, "Weightment Auto And Manual Report", "1.08.03.53", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptRejectionReport, "Rejection Detail Report", "1.08.03.57", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.CancelPurchaseInvoiceReport, "Cancel Purchase Invoice Report", "1.08.03.58", clsUserMgtCode.SubModulePurchaseReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmRALQCReport, "RAL QC Report", "1.08.03.59", clsUserMgtCode.SubModulePurchaseReport, 37)
         '=================End=====================
 
 
@@ -2507,6 +2508,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptNewTenderPartyListReport, "New Tender Party List Report", "1.06.03.67", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptCrateRegister, "Crate Balance Register", "1.06.03.69", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptSaleInvoiceStatusReport, "Sale Invoice Status Report", "1.06.03.71", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmEwaybill, "Eway Bill API", "1.06.03.72", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         '-------------------------SERVICE MODULE END----------------------------------------
 

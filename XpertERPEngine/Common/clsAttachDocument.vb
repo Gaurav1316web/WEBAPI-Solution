@@ -3,12 +3,11 @@ Imports System.Data
 Imports System.Data.SqlClient
 Imports System.IO
 Imports System.Net
-
-
-
+Imports System.Text
 Imports Newtonsoft.Json
 Imports Newtonsoft.Json.Linq
 Imports System.Collections.Specialized
+Imports System.Web.Script.Serialization
 
 Public Class clsAttachDocument
 
@@ -248,6 +247,98 @@ where 1=1 "
         End Try
         Return FileNo
     End Function
+
+
+    Public Shared Function SendOnWhatsApp(ByVal phoneNumberId As String, ByVal AccessToken As String, ByVal URL As String, ByVal API_Version As String, ByVal fileName As String, ByVal json As String) As Boolean
+        Try
+            ' 🔒 FORCE TLS 1.2 (CRITICAL)
+            ServicePointManager.SecurityProtocol = CType(3072, SecurityProtocolType)
+            Dim fileURL As String = Nothing
+            If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
+                fileURL = "http://172.21.80.251:7888/api/FileUploads/FileUploadWithDetails"  ''Server Live IP
+            Else
+                fileURL = "http://103.122.38.34:7888/api/FileUploads/FileUploadWithDetails" '' Local IP
+            End If
+            fileURL += "/" & fileName
+            'fileURL = "http://localhost:1111/api/FileUploads/FileUploadWithDetails" ''Testing LOCALIIS BSP
+
+            Dim strURL As String = URL & "/" & API_Version & "/" & phoneNumberId & "/messages"
+            Dim mobile As String = "919170001844"
+            Dim customerName As String = "Alok"
+            Dim messageText As String = "Hii Alok"
+            ' --- Build JSON safely ---
+
+            Dim payload As New Dictionary(Of String, Object) From {
+    {"messaging_product", "whatsapp"},
+    {"to", mobile},
+    {"type", "template"},
+    {"template", New Dictionary(Of String, Object) From {
+        {"name", "tecxpert_send_common_document"},
+        {"language", New Dictionary(Of String, String) From {
+            {"code", "en_US"}
+        }},
+        {"components", New Object() {
+            New Dictionary(Of String, Object) From {
+                {"type", "header"},
+                {"parameters", New Object() {
+                    New Dictionary(Of String, Object) From {
+                        {"type", "document"},
+                        {"document", New Dictionary(Of String, String) From {
+                            {"link", fileURL},
+                            {"filename", fileName}
+                        }}
+                    }
+                }}
+            }
+        }}
+    }}
+}
+
+
+
+
+
+            Dim serializer As New JavaScriptSerializer()
+            json = serializer.Serialize(payload)
+
+            ' --- HTTP Request ---
+            Dim request As HttpWebRequest = CType(WebRequest.Create(strURL), HttpWebRequest)
+            request.Method = "POST"
+            request.ContentType = "application/json"
+            request.Headers.Add("Authorization", "Bearer " & AccessToken)
+
+            Using stream As Stream = request.GetRequestStream()
+                Dim bytes = Encoding.UTF8.GetBytes(json)
+                stream.Write(bytes, 0, bytes.Length)
+            End Using
+
+            ' --- Read Response ---
+            Using response As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
+                Using reader As New StreamReader(response.GetResponseStream())
+                    Dim responseText As String = reader.ReadToEnd()
+                    ' Optional: log responseText
+                End Using
+            End Using
+            Return True
+        Catch ex As WebException
+            Using errResp = ex.Response
+                If errResp IsNot Nothing Then
+                    Using reader As New StreamReader(errResp.GetResponseStream())
+                        Dim errorText As String = reader.ReadToEnd()
+                        Throw New Exception("WhatsApp Error" & Environment.NewLine & errorText)
+                    End Using
+                Else
+                    Throw New Exception(ex.Message)
+                End If
+            End Using
+            Return False
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+            Return False
+        End Try
+    End Function
+
 
 
     Private Shared Function GetMultipartFormDataForUpload(ByVal byteArray As Byte(), ByVal fileName As String, ByVal contentType As String, ByVal Boundary As String) As Byte()

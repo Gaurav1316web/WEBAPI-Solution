@@ -139,6 +139,12 @@ Public Class clsESConfig
     Public EMail_Enabel_SSL As Boolean = False
     Public SMS_String As String = Nothing
     Public NoOFChar As Integer = 0
+    Public WhatsApp_Phone_Number_ID As String = Nothing
+    Public WhatsApp_Business_Account_ID As String = Nothing
+    Public WhatsApp_Access_Token As String = Nothing
+    Public WhatsApp_URL As String = Nothing
+    Public WhatsApp_Api_Version As String = Nothing
+    Public WhatsApp_Is_Active As Integer = 0
 #End Region
 
     Public Function SaveData(ByVal obj As clsESConfig) As Boolean
@@ -155,6 +161,12 @@ Public Class clsESConfig
             clsCommon.AddColumnsForChange(coll, "SplitChar", obj.NoOFChar)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm tt"))
+            clsCommon.AddColumnsForChange(coll, "WhatsApp_Phone_Number_ID", obj.WhatsApp_Phone_Number_ID)
+            clsCommon.AddColumnsForChange(coll, "WhatsApp_Business_Account_ID", obj.WhatsApp_Business_Account_ID)
+            clsCommon.AddColumnsForChange(coll, "WhatsApp_Access_Token", obj.WhatsApp_Access_Token)
+            clsCommon.AddColumnsForChange(coll, "WhatsApp_URL", obj.WhatsApp_URL)
+            clsCommon.AddColumnsForChange(coll, "WhatsApp_Api_Version", obj.WhatsApp_Api_Version)
+            'clsCommon.AddColumnsForChange(coll, "WhatsApp_Is_Active", obj.WhatsApp_Is_Active)
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ES_Config", OMInsertOrUpdate.Insert, "")
         Catch err As System.Exception
             Throw New System.Exception(err.Message)
@@ -175,6 +187,11 @@ Public Class clsESConfig
             obj.EMail_Enabel_SSL = IIf(clsCommon.myCdbl(dt.Rows(0)("EMail_Enabel_SSL")) = 1, True, False)
             obj.SMS_String = clsCommon.myCstr(dt.Rows(0)("SMS_String"))
             obj.NoOFChar = clsCommon.myCdbl(dt.Rows(0)("SplitChar"))
+            obj.WhatsApp_Phone_Number_ID = clsCommon.myCstr(dt.Rows(0)("WhatsApp_Phone_Number_ID"))
+            obj.WhatsApp_Business_Account_ID = clsCommon.myCstr(dt.Rows(0)("WhatsApp_Business_Account_ID"))
+            obj.WhatsApp_Access_Token = clsCommon.myCstr(dt.Rows(0)("WhatsApp_Access_Token"))
+            obj.WhatsApp_URL = clsCommon.myCstr(dt.Rows(0)("WhatsApp_URL"))
+            obj.WhatsApp_Api_Version = clsCommon.myCstr(dt.Rows(0)("WhatsApp_Api_Version"))
         End If
         Return obj
     End Function
@@ -193,7 +210,7 @@ Public Class clsESContent
     Public Notification_Detail_Text As String = Nothing
     Public Notification_On As String = Nothing
 
-
+    Public WhatsApp_Text As String = Nothing
 
     Public arrAlertEmployeeSMS As ArrayList = Nothing
     Public arrAlertEmployeeEMail As ArrayList = Nothing
@@ -219,7 +236,7 @@ Public Class clsESContent
             clsCommon.AddColumnsForChange(coll, "SMS_Text", obj.SMS_Text)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
-
+            clsCommon.AddColumnsForChange(coll, "WhatsApp_Text", obj.WhatsApp_Text)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 ''Old Entry
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ES_Content", OMInsertOrUpdate.Update, "Form_ID='" + obj.Form_ID + "'", trans)

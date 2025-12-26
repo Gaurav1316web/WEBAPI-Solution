@@ -431,6 +431,12 @@
     <Compile Include="Report\FrmBoothCountReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\FrmEwaybill.Designer.vb">
+      <DependentUpon>FrmEwaybill.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\FrmEwaybill.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\frmIBPReport.Designer.vb">
       <DependentUpon>frmIBPReport.vb</DependentUpon>
     </Compile>
@@ -1424,6 +1430,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\frmCrateJaliReport.resx">
       <DependentUpon>frmCrateJaliReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\FrmEwaybill.resx">
+      <DependentUpon>FrmEwaybill.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\frmIBPReport.resx">
       <DependentUpon>frmIBPReport.vb</DependentUpon>

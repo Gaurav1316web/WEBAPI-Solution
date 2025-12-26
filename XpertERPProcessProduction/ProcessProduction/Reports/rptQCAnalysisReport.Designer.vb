@@ -22,8 +22,8 @@ Partial Class rptQCAnalysisReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition21 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition22 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.gvDB = New Telerik.WinControls.UI.MasterGridViewTemplate()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -52,6 +52,9 @@ Partial Class rptQCAnalysisReport
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.btnAnalysisPrint = New Telerik.WinControls.UI.RadSplitButton()
+        Me.btnPrintA4 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnPrintA5 = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnSplitExport = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
@@ -62,6 +65,11 @@ Partial Class rptQCAnalysisReport
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnAnalysisPrintVertical = New Telerik.WinControls.UI.RadButton()
+        Me.btnRALWiseAnaysisPrint = New Telerik.WinControls.UI.RadButton()
+        Me.btnRejected = New Telerik.WinControls.UI.RadSplitButton()
+        Me.rmiEnglish = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmiHindi = New Telerik.WinControls.UI.RadMenuItem()
         CType(Me.gvDB, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
@@ -91,18 +99,22 @@ Partial Class rptQCAnalysisReport
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.btnAnalysisPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnAnalysisPrintVertical, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnRALWiseAnaysisPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnRejected, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'gvDB
         '
         Me.gvDB.AllowAddNewRow = False
-        Me.gvDB.ViewDefinition = TableViewDefinition1
+        Me.gvDB.ViewDefinition = TableViewDefinition21
         '
         'RadPageView1
         '
@@ -208,7 +220,7 @@ Partial Class rptQCAnalysisReport
         Me.txtItemCodeFG.IsSourceFromTable = False
         Me.txtItemCodeFG.IsSourceFromValueList = False
         Me.txtItemCodeFG.IsUnique = False
-        Me.txtItemCodeFG.Location = New System.Drawing.Point(95, 94)
+        Me.txtItemCodeFG.Location = New System.Drawing.Point(95, 93)
         Me.txtItemCodeFG.MendatroryField = True
         Me.txtItemCodeFG.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtItemCodeFG.MyLinkLable1 = Nothing
@@ -482,7 +494,7 @@ Partial Class rptQCAnalysisReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition22
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -493,6 +505,10 @@ Partial Class rptQCAnalysisReport
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.btnRejected)
+        Me.Panel1.Controls.Add(Me.btnRALWiseAnaysisPrint)
+        Me.Panel1.Controls.Add(Me.btnAnalysisPrintVertical)
+        Me.Panel1.Controls.Add(Me.btnAnalysisPrint)
         Me.Panel1.Controls.Add(Me.btnSplitExport)
         Me.Panel1.Controls.Add(Me.btnGo)
         Me.Panel1.Controls.Add(Me.btnReset)
@@ -502,6 +518,28 @@ Partial Class rptQCAnalysisReport
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(977, 23)
         Me.Panel1.TabIndex = 1
+        '
+        'btnAnalysisPrint
+        '
+        Me.btnAnalysisPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnAnalysisPrint.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnPrintA4, Me.btnPrintA5})
+        Me.btnAnalysisPrint.Location = New System.Drawing.Point(264, 2)
+        Me.btnAnalysisPrint.Name = "btnAnalysisPrint"
+        Me.btnAnalysisPrint.Size = New System.Drawing.Size(92, 20)
+        Me.btnAnalysisPrint.TabIndex = 160
+        Me.btnAnalysisPrint.Text = "Analysis Print"
+        '
+        'btnPrintA4
+        '
+        Me.btnPrintA4.Name = "btnPrintA4"
+        Me.btnPrintA4.Text = "Print A4 Size"
+        Me.btnPrintA4.UseCompatibleTextRendering = False
+        '
+        'btnPrintA5
+        '
+        Me.btnPrintA5.Name = "btnPrintA5"
+        Me.btnPrintA5.Text = "Print A5 Size"
+        Me.btnPrintA5.UseCompatibleTextRendering = False
         '
         'btnSplitExport
         '
@@ -574,6 +612,46 @@ Partial Class rptQCAnalysisReport
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Delete Layout"
         '
+        'btnAnalysisPrintVertical
+        '
+        Me.btnAnalysisPrintVertical.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnAnalysisPrintVertical.Location = New System.Drawing.Point(362, 0)
+        Me.btnAnalysisPrintVertical.Name = "btnAnalysisPrintVertical"
+        Me.btnAnalysisPrintVertical.Size = New System.Drawing.Size(116, 22)
+        Me.btnAnalysisPrintVertical.TabIndex = 161
+        Me.btnAnalysisPrintVertical.Text = "Analysis Print Vertical"
+        '
+        'btnRALWiseAnaysisPrint
+        '
+        Me.btnRALWiseAnaysisPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnRALWiseAnaysisPrint.Location = New System.Drawing.Point(484, 0)
+        Me.btnRALWiseAnaysisPrint.Name = "btnRALWiseAnaysisPrint"
+        Me.btnRALWiseAnaysisPrint.Size = New System.Drawing.Size(120, 22)
+        Me.btnRALWiseAnaysisPrint.TabIndex = 162
+        Me.btnRALWiseAnaysisPrint.Text = "RAL Wise Anaysis Print"
+        '
+        'btnRejected
+        '
+        Me.btnRejected.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnRejected.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiEnglish, Me.rmiHindi})
+        Me.btnRejected.Location = New System.Drawing.Point(610, 0)
+        Me.btnRejected.Name = "btnRejected"
+        Me.btnRejected.Size = New System.Drawing.Size(83, 22)
+        Me.btnRejected.TabIndex = 163
+        Me.btnRejected.Text = "Rejected Analysis Print"
+        '
+        'rmiEnglish
+        '
+        Me.rmiEnglish.Name = "rmiEnglish"
+        Me.rmiEnglish.Text = "English"
+        Me.rmiEnglish.UseCompatibleTextRendering = False
+        '
+        'rmiHindi
+        '
+        Me.rmiHindi.Name = "rmiHindi"
+        Me.rmiHindi.Text = "Hindi"
+        Me.rmiHindi.UseCompatibleTextRendering = False
+        '
         'rptQCAnalysisReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -621,11 +699,15 @@ Partial Class rptQCAnalysisReport
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
+        CType(Me.btnAnalysisPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnAnalysisPrintVertical, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnRALWiseAnaysisPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnRejected, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -669,6 +751,14 @@ Partial Class rptQCAnalysisReport
     Friend WithEvents rbtQcForFG As RadRadioButton
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents txtItemCodeFG As common.UserControls.txtFinder
+    Friend WithEvents btnAnalysisPrint As RadSplitButton
+    Friend WithEvents btnPrintA4 As RadMenuItem
+    Friend WithEvents btnPrintA5 As RadMenuItem
+    Friend WithEvents btnAnalysisPrintVertical As RadButton
+    Friend WithEvents btnRALWiseAnaysisPrint As RadButton
+    Friend WithEvents btnRejected As RadSplitButton
+    Friend WithEvents rmiEnglish As RadMenuItem
+    Friend WithEvents rmiHindi As RadMenuItem
 End Class
 
 

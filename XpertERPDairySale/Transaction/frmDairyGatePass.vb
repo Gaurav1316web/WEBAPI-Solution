@@ -1965,7 +1965,18 @@ left outer join " & tbl_TSPL_SD_SHIPMENT_DETAIL & " ON  TSPL_SD_SHIPMENT_DETAIL.
 
         Dim Qry As String = ""
         If isDepartmentRoute Then
-            Qry = " Select  '" & clsCommon.myCstr(IIf(isCancel, "Y", "N")) & "' As isCancelled,'" & objCommonVar.CurrentUserCode & "' as UserName,  Case When CFinPouch > 0 and Final.StokingUOM='LTR' Then ( ( ((Final.Box_Crate_Qty * Final.Conversion_Factor)/CFinPouch) + Final.Pouch_Qty )/ CFinLTR ) Else (Case When CFinPouch > 0  Then ( ( Final.Box_Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty )/ CFinPouch ) Else 0 End) End AS 'NoOfPouch',
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                Qry = " Select CASE WHEN Conversion_FactorCrt > 0 THEN CAST(MilkQuantityltr AS DECIMAL(18,0)) -
+    ( CASE WHEN CAST(MilkQuantityltr AS DECIMAL(18,0)) % CAST(Conversion_FactorCrt AS DECIMAL(18,0)) >= CAST(Conversion_FactorCrt AS DECIMAL(18,0)) / 2.0
+        THEN (CAST(CAST(MilkQuantityltr AS DECIMAL(18,0)) / CAST(Conversion_FactorCrt AS DECIMAL(18,0)) AS INT) + 1) * CAST(Conversion_FactorCrt AS DECIMAL(18,0))
+        ELSE CAST(CAST(MilkQuantityltr AS DECIMAL(18,0)) / CAST(Conversion_FactorCrt AS DECIMAL(18,0)) AS INT) * CAST(Conversion_FactorCrt AS DECIMAL(18,0))
+      END) ELSE 0 END AS LooseLTR,CASE WHEN Conver_Factr > 0 THEN CAST(MilkQuantityKG AS DECIMAL(18,0)) -
+    ( CASE WHEN CAST(MilkQuantityKG AS DECIMAL(18,0)) % CAST(Conver_Factr AS DECIMAL(18,0)) >= CAST(Conver_Factr AS DECIMAL(18,0)) / 2.0
+        THEN (CAST(CAST(MilkQuantityKG AS DECIMAL(18,0)) / CAST(Conver_Factr AS DECIMAL(18,0)) AS INT) )
+          * CAST(Conver_Factr AS DECIMAL(18,0)) ELSE CAST(CAST(MilkQuantityKG AS DECIMAL(18,0)) / CAST(Conver_Factr AS DECIMAL(18,0)) AS INT)
+          * CAST(Conver_Factr AS DECIMAL(18,0)) END ) ELSE 0 END AS LooseKG,* from ( "
+            End If
+            Qry += " Select  ISNULL(CAST(qty / Conver_Factr AS INT), 0) AS Bulk_uom_Qty,'" & clsCommon.myCstr(IIf(isCancel, "Y", "N")) & "' As isCancelled,'" & objCommonVar.CurrentUserCode & "' as UserName,  Case When CFinPouch > 0 and Final.StokingUOM='LTR' Then ( ( ((Final.Box_Crate_Qty * Final.Conversion_Factor)/CFinPouch) + Final.Pouch_Qty )/ CFinLTR ) Else (Case When CFinPouch > 0  Then ( ( Final.Box_Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty )/ CFinPouch ) Else 0 End) End AS 'NoOfPouch',
 Case When CFinLTR > 0 and Final.StokingUOM='LTR' or Final.StokingUOM = 'Pouch' Then ( final.LTR_Qty ) Else (Case When CFinLTR > 0 Then ( ( ( Final.Box_Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty ) )/ CFinLTR ) ELSE 0 end) End AS 'MilkQuantity',
 Case When CFinLTR > 0 Then ( final.LTR_Qty ) Else 0 End AS 'MilkQuantityltr',
 CAST( ( Final.Box_Crate_Qty * Final.Conversion_Factor ) / CFinKG AS DECIMAL(10, 2) ) AS 'MilkQuantityKG',
@@ -1979,10 +1990,22 @@ tbl_Brand.Brand, tbl_Brand.BRANDDESC, TSPL_COMPANY_MASTER.Logo_Img,"
                 Qry += " 	  FINAL.TAX1,FINAL.TAX1_Amt,FINAL.TAX2,FINAL.TAX2_Amt,FINAL.TAX3,FINAL.TAX3_Amt,FINAL.TAX3,FINAL.TAX4_Amt
 						   ,FINAL.TAX5,FINAL.TAX5_Amt,FINAL.TAX6,FINAL.TAX7,FINAL.TAX7_Amt,FINAL.TAX8,Final.TAX8_Amt, "
             End If
-            Qry += "   TSPL_COMPANY_MASTER.Logo_Img2, TSPL_COMPANY_MASTER.Logo_Img2,
+            Qry += "    TSPL_COMPANY_MASTER.Logo_Img2,
              case when isnull(Final.CFinLTR,0)=0 then Final.Amount/((Final.qty*Final.Conversion_Factor)/Final.CFinKG) else Final.Amount/((Final.qty*Final.Conversion_Factor)/Final.CFinLTR) end as item_Cost"
         Else
-            Qry = " Select '" & clsCommon.myCstr(IIf(isCancel, "Y", "N")) & "' As isCancelled,'" + objCommonVar.CurrentUserCode + "' as UserName,   Case When CFinPouch > 0 and Final.StokingUOM='LTR' Then ( ( ((Final.Crate_Qty * Final.Conversion_Factor)/CFinPouch) + Final.Pouch_Qty )/ CFinLTR ) Else (Case When CFinPouch > 0  Then ( ( Final.Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty )" + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal, "+(Final.LTR_Qty*Final.CFinLTR/CFinPouch)", "") + " )/ CFinPouch Else 0 End) End AS 'NoOfPouch',
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                Qry = " Select CASE WHEN Conversion_FactorCrt > 0 THEN CAST(MilkQuantityltr AS DECIMAL(18,0)) -
+    ( CASE WHEN CAST(MilkQuantityltr AS DECIMAL(18,0)) % CAST(Conversion_FactorCrt AS DECIMAL(18,0)) >= CAST(Conversion_FactorCrt AS DECIMAL(18,0)) / 2.0
+        THEN (CAST(CAST(MilkQuantityltr AS DECIMAL(18,0)) / CAST(Conversion_FactorCrt AS DECIMAL(18,0)) AS INT) + 1) * CAST(Conversion_FactorCrt AS DECIMAL(18,0))
+        ELSE CAST(CAST(MilkQuantityltr AS DECIMAL(18,0)) / CAST(Conversion_FactorCrt AS DECIMAL(18,0)) AS INT) * CAST(Conversion_FactorCrt AS DECIMAL(18,0))
+      END) ELSE 0 END AS LooseLTR,CASE WHEN Conver_Factr > 0 THEN CAST(MilkQuantityKG AS DECIMAL(18,0)) -
+    ( CASE WHEN CAST(MilkQuantityKG AS DECIMAL(18,0)) % CAST(Conver_Factr AS DECIMAL(18,0)) >= CAST(Conver_Factr AS DECIMAL(18,0)) / 2.0
+        THEN (CAST(CAST(MilkQuantityKG AS DECIMAL(18,0)) / CAST(Conver_Factr AS DECIMAL(18,0)) AS INT) )
+          * CAST(Conver_Factr AS DECIMAL(18,0)) ELSE CAST(CAST(MilkQuantityKG AS DECIMAL(18,0)) / CAST(Conver_Factr AS DECIMAL(18,0)) AS INT)
+          * CAST(Conver_Factr AS DECIMAL(18,0)) END ) ELSE 0 END AS LooseKG,* from ( "
+            End If
+
+            Qry += " Select ISNULL(CAST(qty / Conver_Factr AS INT), 0) AS Bulk_uom_Qty,'" & clsCommon.myCstr(IIf(isCancel, "Y", "N")) & "' As isCancelled,'" + objCommonVar.CurrentUserCode + "' as UserName,   Case When CFinPouch > 0 and Final.StokingUOM='LTR' Then ( ( ((Final.Crate_Qty * Final.Conversion_Factor)/CFinPouch) + Final.Pouch_Qty )/ CFinLTR ) Else (Case When CFinPouch > 0  Then ( ( Final.Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty )" + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal, "+(Final.LTR_Qty*Final.CFinLTR/CFinPouch)", "") + " )/ CFinPouch Else 0 End) End AS 'NoOfPouch',
                             Case When CFinLTR > 0 and Final.StokingUOM='LTR' Then ( ( ( ((Final.Crate_Qty * Final.Conversion_Factor)/CFinPouch) + Final.Pouch_Qty ) )* CFinPouch ) Else (Case When CFinLTR > 0 Then ( ( ( Final.Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty )" + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal, "+(Final.LTR_Qty*Final.CFinLTR/CFinPouch)", "") + " )/ CFinLTR ) ELSE 0 end) End AS 'MilkQuantity', "
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
                 Qry += "NoCrateIssue ,Demand_UniqueID, "
@@ -2004,7 +2027,7 @@ tbl_Brand.Brand, tbl_Brand.BRANDDESC, TSPL_COMPANY_MASTER.Logo_Img,"
 
             Qry += " Case When Final.Column_Crate > 0 Then Cast( ( Final.Crate_Qty / Final.Column_Crate ) AS int ) Else 0 End AS 'CrateLine', Case When Column_Crate > 0 Then ( crate_qty-( Column_Crate * (Case When Final.Column_Crate > 0 Then Cast( ( Final.Crate_Qty / Final.Column_Crate ) AS int ) Else 0 End)) ) Else 0 End AS 'LooseCrate'," + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, "Pouch_Qty as LoosePouch, ", "(Pouch_Qty -  ( CAST( CASE WHEN qty > 0 AND Conversion_FactorCrt IS NOT NULL THEN FLOOR((CAST(Pouch_Qty AS decimal(18,2)) * CFinPouch) / Conversion_FactorCrt) ELSE 0 END AS decimal(18,2))) * Conversion_FactorCrt/CFinPouch) As LoosePouch,") + " 
                            CAST( CASE WHEN qty > 0 AND Conversion_FactorCrt IS NOT NULL THEN FLOOR((CAST(Pouch_Qty AS decimal(18,2)) * CFinPouch) / Conversion_FactorCrt) ELSE 0 END AS decimal(18,2)) AS CrateQtydd,
-                           CASE WHEN Unit_Code='POUCH' then qty*CFinPouch / Conversion_FactorCrt WHEN Unit_Code='LTR' then qty*CFinLTR / Conversion_FactorCrt WHEN Unit_Code='KG' then qty*CFinKG / Conversion_FactorCrt WHEN Unit_Code='CRATE' then qty*Conversion_FactorCrt / Conversion_FactorCrt WHEN Unit_Code='BOX' then qty*CFinBOX / Conversion_FactorCrt ELSE 0 END AS QtyCrate , Final.*, tbl_Brand.Brand, tbl_Brand.BRANDDESC, TSPL_COMPANY_MASTER.Logo_Img, TSPL_COMPANY_MASTER.Logo_Img2, TSPL_COMPANY_MASTER.Logo_Img2, case when isnull(Final.CFinLTR,0)=0 then Final.Amount/((Final.qty*Final.Conversion_Factor)/Final.CFinKG) else Final.Amount/((Final.qty*Final.Conversion_Factor)/Final.CFinLTR) end as item_Cost"
+                           CASE WHEN Unit_Code='POUCH' then qty*CFinPouch / Conversion_FactorCrt WHEN Unit_Code='LTR' then qty*CFinLTR / Conversion_FactorCrt WHEN Unit_Code='KG' then qty*CFinKG / Conversion_FactorCrt WHEN Unit_Code='CRATE' then qty*Conversion_FactorCrt / Conversion_FactorCrt WHEN Unit_Code='BOX' then qty*CFinBOX / Conversion_FactorCrt ELSE 0 END AS QtyCrate , Final.*, tbl_Brand.Brand, tbl_Brand.BRANDDESC, TSPL_COMPANY_MASTER.Logo_Img, TSPL_COMPANY_MASTER.Logo_Img2, case when isnull(Final.CFinLTR,0)=0 then Final.Amount/((Final.qty*Final.Conversion_Factor)/Final.CFinKG) else Final.Amount/((Final.qty*Final.Conversion_Factor)/Final.CFinLTR) end as item_Cost"
         End If
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
             Qry += " ,ROW_NUMBER() OVER (ORDER BY [item_desc]) AS SerialNumber "
@@ -2045,8 +2068,8 @@ MAX(TAX6)TAX6,MAX(TAX6_Amt)TAX6_Amt,
 MAX(TAX7)TAX7,MAX(TAX7_Amt)TAX7_Amt,
 MAX(TAX8)TAX8,MAX(TAX8_Amt)TAX8_Amt "
         End If
-        Qry += "FROM
-                   ( select   FORMAT( TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date, 'dd/MM/yyyy' ) as Supply_Date,tspl_item_uom_detail.Conversion_Factor As PrintUOMConv,"
+        Qry += " ,max(Conver_Factr)Conver_Factr,max(Bulk_UOM_Code)Bulk_UOM_Code FROM
+                   ( select   Bulk_UOM.UOM_Code as Bulk_UOM_Code,Bulk_UOM.Conversion_Factor AS Conver_Factr,FORMAT( TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date, 'dd/MM/yyyy' ) as Supply_Date,tspl_item_uom_detail.Conversion_Factor As PrintUOMConv,"
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
             Qry += "NoCrateIssue, Demand_UniqueID, "
         End If
@@ -2088,6 +2111,7 @@ xyz.Sale_Invoice_No, "
                    " left join tspl_item_uom_detail CurrentUnit on CurrentUnit.item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.item_code and 	CurrentUnit.uom_code=	TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code " &
                    " left join tspl_item_uom_detail CrateUnit on CrateUnit.item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.item_code  and 	CrateUnit.uom_code=	'Crate' " &
                    " left join tspl_item_uom_detail  on tspl_item_uom_detail.item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.item_code and tspl_item_uom_detail.Print_UOM=1" &
+                   " left join tspl_item_uom_detail Bulk_UOM  on Bulk_UOM.item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.item_code and Bulk_UOM.Bulk_UOM=1 " &
                    " left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='Pouch') as ItemConversionInPouch on ItemConversionInPouch.Item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code
                     left join ( select Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'Crate' ) as ItemConversionCrate on ItemConversionCrate.Item_code = TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code 
                      left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='LTR') as ItemConversionInLTR on ItemConversionInLTR.Item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code 
@@ -2170,10 +2194,16 @@ xyz.Sale_Invoice_No, "
                     " TSPL_ITEM_MASTER_CATEGORY.Item_code = TSPL_ITEM_MASTER.Item_code  left outer join TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and " &
                     " TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values   where 2=2 )xx  Pivot   ( max(Item_Cagetory_Values) for Item_Category_Code   in ( [CATEGORY RM],[BRAND],[SUB BRAND],[DESCRP],[PACK],[PACK SIZE], " &
                     " [CATEGORY OT],[CATEGORY FA],[P TYPE],[L TYPE],[JW],[SCRAP])  ) Pivt   Pivot  ( max(Category_Value_Desc) for Item_Category_CodeDesc in ([CATEGORY RMDESC], [BRANDDESC],[SUB BRANDDESC],[DESCRPDESC],[PACKDESC],[PACK SIZEDESC]," &
-                    " [CATEGORY OTDESC],[CATEGORY FADESC],[P TYPEDESC],[L TYPEDESC],[JWDESC],[SCRAPDESC])  ) Pivt1 ) xxx  group by Item_Code " + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, "", "") + " )  as tbl_Brand on tbl_Brand.Item_Code=Final.Item_Code   left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code =Final.Comp_Code " &
-                     " order by Final.sku_seq"
+                    " [CATEGORY OTDESC],[CATEGORY FADESC],[P TYPEDESC],[L TYPEDESC],[JWDESC],[SCRAPDESC])  ) Pivt1 ) xxx  group by Item_Code " + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, "", "") + " )  as tbl_Brand on tbl_Brand.Item_Code=Final.Item_Code   left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code =Final.Comp_Code "
+
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+            Qry += " )XX order by XX.sku_seq "
+        Else
+            Qry += " order by Final.sku_seq "
+        End If
+        '" order by Final.sku_seq"
         '' Group by UnitCode removed by Vinod (as per Instructed by Prabhat Sirohi) date:- 22-Aug-2024
-        '" )As Main Group by Item_code" + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ",Unit_Code", "") + " )AS Final left outer join  ( select Item_Code,max([CATEGORY RM]) as [CATEGORY RM],max([BRAND]) as [BRAND],max([SUB BRAND]) as [SUB BRAND], " &
+        '" )As Main Group by Item_code" + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ",Unit_Code", "") + " )As Final left outer join  ( Select Item_Code,max([CATEGORY RM]) As [CATEGORY RM],max([BRAND]) As [BRAND],max([SUB BRAND]) As [SUB BRAND], " &
         '
         Return Qry
     End Function
@@ -2210,17 +2240,17 @@ xyz.Sale_Invoice_No, "
         Dim whrcls As String = ""
 
         If arrLocation IsNot Nothing AndAlso arrLocation.Count > 0 Then
-            whrcls += " and TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code in (" & clsCommon.GetMulcallString(arrLocation) & ") "
+            whrcls += " And TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code In (" & clsCommon.GetMulcallString(arrLocation) & ") "
         End If
         If arrRoute IsNot Nothing AndAlso arrRoute.Count > 0 Then
-            whrcls += " and TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No in (" & clsCommon.GetMulcallString(arrRoute) & ") "
+            whrcls += " And TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No In (" & clsCommon.GetMulcallString(arrRoute) & ") "
         End If
         If arrVehicle IsNot Nothing AndAlso arrVehicle.Count > 0 Then
-            whrcls += " and TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id in (" & clsCommon.GetMulcallString(arrVehicle) & ") "
+            whrcls += " And TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id In (" & clsCommon.GetMulcallString(arrVehicle) & ") "
         End If
 
         If clsCommon.CompairString(clsCommon.myCstr(ShiftType), "M") = CompairStringResult.Equal Then
-            whrcls += " and TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType= 'Morning' "
+            whrcls += " And TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType= 'Morning' "
             shift += " and TSPL_SD_SHIPMENT_HEAD.Shift_Type= 'AM' "
         ElseIf clsCommon.CompairString(clsCommon.myCstr(ShiftType), "E") = CompairStringResult.Equal Then
             whrcls += " and TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType= 'Evening' "

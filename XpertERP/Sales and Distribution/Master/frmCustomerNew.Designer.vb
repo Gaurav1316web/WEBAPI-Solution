@@ -66,9 +66,11 @@ Partial Class frmCustomer
         Dim SortDescriptor2 As Telerik.WinControls.Data.SortDescriptor = New Telerik.WinControls.Data.SortDescriptor()
         Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim MyRadGridView1 As common.UserControls.MyRadGridView = New common.UserControls.MyRadGridView()
         Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem31 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem32 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem33 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -281,6 +283,7 @@ Partial Class frmCustomer
         Me.txtTinNo = New common.Controls.MyTextBox()
         Me.txtStaxNo = New common.Controls.MyTextBox()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkSkipBal = New Telerik.WinControls.UI.RadCheckBox()
         Me.cmbSplitPrint = New common.Controls.MyComboBox()
         Me.MyLabel47 = New common.Controls.MyLabel()
         Me.txtRoute = New common.Controls.MyTextBox()
@@ -430,7 +433,7 @@ Partial Class frmCustomer
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.rbtnAddSecurity = New Telerik.WinControls.UI.RadButton()
         Me.btnGetHistory = New Telerik.WinControls.UI.RadButton()
-        Me.chkSkipBal = New Telerik.WinControls.UI.RadCheckBox()
+        Me.btnGetGSTDetail = New Telerik.WinControls.UI.RadButton()
         CType(Me.pageCus, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pageCus.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
@@ -594,6 +597,7 @@ Partial Class frmCustomer
         CType(Me.txtTinNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtStaxNo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage3.SuspendLayout()
+        CType(Me.chkSkipBal, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmbSplitPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel47, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRoute, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -679,6 +683,7 @@ Partial Class frmCustomer
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pvpCustomFields.SuspendLayout()
         Me.Attachments.SuspendLayout()
+        CType(MyRadGridView1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.CrateAccounting.SuspendLayout()
         CType(Me.gvCrate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvCrate.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -732,7 +737,7 @@ Partial Class frmCustomer
         Me.SplitContainer2.SuspendLayout()
         CType(Me.rbtnAddSecurity, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGetHistory, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkSkipBal, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnGetGSTDetail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -914,13 +919,14 @@ Partial Class frmCustomer
         Me.pageCus.Dock = System.Windows.Forms.DockStyle.Fill
         Me.pageCus.Location = New System.Drawing.Point(0, 0)
         Me.pageCus.Name = "pageCus"
-        Me.pageCus.SelectedPage = Me.RadPageViewPage3
+        Me.pageCus.SelectedPage = Me.RadPageViewPage1
         Me.pageCus.Size = New System.Drawing.Size(1079, 462)
         Me.pageCus.TabIndex = 12
         CType(Me.pageCus.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.btnGetGSTDetail)
         Me.RadPageViewPage1.Controls.Add(Me.chkpermanentInactive)
         Me.RadPageViewPage1.Controls.Add(Me.chkInterUnionSale)
         Me.RadPageViewPage1.Controls.Add(Me.chkSkipNonTaxableInvoice)
@@ -4138,6 +4144,14 @@ Partial Class frmCustomer
         Me.RadPageViewPage3.Size = New System.Drawing.Size(1058, 414)
         Me.RadPageViewPage3.Text = "Activity"
         '
+        'chkSkipBal
+        '
+        Me.chkSkipBal.Location = New System.Drawing.Point(784, 159)
+        Me.chkSkipBal.Name = "chkSkipBal"
+        Me.chkSkipBal.Size = New System.Drawing.Size(83, 18)
+        Me.chkSkipBal.TabIndex = 403
+        Me.chkSkipBal.Text = "Skip Balance"
+        '
         'cmbSplitPrint
         '
         Me.cmbSplitPrint.AutoCompleteDisplayMember = Nothing
@@ -5817,6 +5831,33 @@ Partial Class frmCustomer
         'UcAttachment1
         '
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
+        MyRadGridView1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        MyRadGridView1.BackColor = System.Drawing.Color.FromArgb(CType(CType(191, Byte), Integer), CType(CType(219, Byte), Integer), CType(CType(255, Byte), Integer))
+        MyRadGridView1.Cursor = System.Windows.Forms.Cursors.Default
+        MyRadGridView1.Font = New System.Drawing.Font("Arial", 8.25!)
+        MyRadGridView1.ForeColor = System.Drawing.Color.Black
+        MyRadGridView1.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        MyRadGridView1.Location = New System.Drawing.Point(0, 33)
+        '
+        '
+        '
+        MyRadGridView1.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
+        MyRadGridView1.MasterTemplate.AllowAddNewRow = False
+        MyRadGridView1.MasterTemplate.EnableFiltering = True
+        MyRadGridView1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        MyRadGridView1.MasterTemplate.ShowHeaderCellButtons = True
+        MyRadGridView1.MasterTemplate.ViewDefinition = TableViewDefinition6
+        MyRadGridView1.MyExportFilePath = ""
+        MyRadGridView1.MyStopExport = False
+        MyRadGridView1.Name = "gv1"
+        MyRadGridView1.RightToLeft = System.Windows.Forms.RightToLeft.No
+        MyRadGridView1.ShowHeaderCellButtons = True
+        MyRadGridView1.Size = New System.Drawing.Size(1026, 388)
+        MyRadGridView1.TabIndex = 147
+        MyRadGridView1.VarID = ""
+        Me.UcAttachment1.gv1 = MyRadGridView1
         Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
         Me.UcAttachment1.Name = "UcAttachment1"
         Me.UcAttachment1.Size = New System.Drawing.Size(1026, 424)
@@ -5848,7 +5889,7 @@ Partial Class frmCustomer
         Me.gvCrate.MasterTemplate.AllowDeleteRow = False
         Me.gvCrate.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCrate.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCrate.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvCrate.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvCrate.MyExportFilePath = ""
         Me.gvCrate.MyStopExport = False
         Me.gvCrate.Name = "gvCrate"
@@ -5885,7 +5926,7 @@ Partial Class frmCustomer
         Me.gvCan.MasterTemplate.AllowDeleteRow = False
         Me.gvCan.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCan.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCan.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvCan.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gvCan.MyExportFilePath = ""
         Me.gvCan.MyStopExport = False
         Me.gvCan.Name = "gvCan"
@@ -5930,7 +5971,7 @@ Partial Class frmCustomer
         Me.gvSecurity.MasterTemplate.AllowDeleteRow = False
         Me.gvSecurity.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSecurity.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSecurity.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvSecurity.MasterTemplate.ViewDefinition = TableViewDefinition9
         Me.gvSecurity.MyExportFilePath = ""
         Me.gvSecurity.MyStopExport = False
         Me.gvSecurity.Name = "gvSecurity"
@@ -6597,13 +6638,14 @@ Partial Class frmCustomer
         Me.btnGetHistory.TabIndex = 16
         Me.btnGetHistory.Text = "Show History"
         '
-        'chkSkipBal
+        'btnGetGSTDetail
         '
-        Me.chkSkipBal.Location = New System.Drawing.Point(784, 159)
-        Me.chkSkipBal.Name = "chkSkipBal"
-        Me.chkSkipBal.Size = New System.Drawing.Size(83, 18)
-        Me.chkSkipBal.TabIndex = 403
-        Me.chkSkipBal.Text = "Skip Balance"
+        Me.btnGetGSTDetail.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnGetGSTDetail.Location = New System.Drawing.Point(726, 206)
+        Me.btnGetGSTDetail.Name = "btnGetGSTDetail"
+        Me.btnGetGSTDetail.Size = New System.Drawing.Size(108, 18)
+        Me.btnGetGSTDetail.TabIndex = 1388
+        Me.btnGetGSTDetail.Text = "Get GSTIN Detail"
         '
         'frmCustomer
         '
@@ -6790,6 +6832,7 @@ Partial Class frmCustomer
         CType(Me.txtStaxNo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage3.ResumeLayout(False)
         Me.RadPageViewPage3.PerformLayout()
+        CType(Me.chkSkipBal, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmbSplitPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel47, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRoute, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6880,6 +6923,7 @@ Partial Class frmCustomer
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pvpCustomFields.ResumeLayout(False)
         Me.Attachments.ResumeLayout(False)
+        CType(MyRadGridView1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         Me.CrateAccounting.ResumeLayout(False)
         CType(Me.gvCrate.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvCrate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6934,7 +6978,7 @@ Partial Class frmCustomer
         Me.SplitContainer2.ResumeLayout(False)
         CType(Me.rbtnAddSecurity, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGetHistory, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkSkipBal, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnGetGSTDetail, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -7300,5 +7344,6 @@ Partial Class frmCustomer
     Friend WithEvents rmiImportProductR As RadMenuItem
     Friend WithEvents rmiExportProductR As RadMenuItem
     Friend WithEvents chkSkipBal As RadCheckBox
+    Friend WithEvents btnGetGSTDetail As RadButton
 End Class
 
