@@ -28,7 +28,7 @@ Public Class FrmPWD
             If clsCommon.CompairString(Pwd, txtPWd.Text, True) = CompairStringResult.Equal Then
                 isPasswordCorrect = True
                 Me.Close()
-            ElseIf clsCommon.CompairString("DeveLoper", txtPWd.Text, True) = CompairStringResult.Equal Then
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_MASTER.DBO.TSPL_FIXED_PARAMETER where code='Master PWD'", tran)), txtPWd.Text, True) = CompairStringResult.Equal Then
                 common.clsCommon.MyMessageBoxShow(Me, "Correct Password is:   " & Pwd, Me.Text)
                 Exit Sub
             Else
@@ -42,7 +42,7 @@ Public Class FrmPWD
                 If clsCommon.CompairString(Pwd, clsCommon.EncryptString(txtPWd.Text), True) = CompairStringResult.Equal Then
                     isPasswordCorrect = True
                     Me.Close()
-                ElseIf clsCommon.CompairString("DeveLoper", txtPWd.Text, True) = CompairStringResult.Equal Then
+                ElseIf clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_MASTER.DBO.TSPL_FIXED_PARAMETER where code='Master PWD'", tran)), txtPWd.Text, True) = CompairStringResult.Equal Then
                     common.clsCommon.MyMessageBoxShow(Me, "Correct Password is:   " & clsCommon.DecryptString(Pwd), Me.Text)
                     Exit Sub
                 Else
