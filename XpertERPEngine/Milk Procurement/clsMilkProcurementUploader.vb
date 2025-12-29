@@ -277,6 +277,12 @@ where 2=2 "
                     If MinDate > objtr.Shift_Date Then
                         MinDate = objtr.Shift_Date
                     End If
+                    If objtr.FAT <= 0 Then
+                        Throw New Exception("FAT % Should be greater than zero")
+                    End If
+                    If objtr.SNF <= 0 Then
+                        Throw New Exception("SNF % Should be greater than zero")
+                    End If
                 Next
                 clsMCCPaymentCycleLockForScheduler.CheckForSchedulerLock(obj.MCC_Code, MinDate, trans)
             End If
