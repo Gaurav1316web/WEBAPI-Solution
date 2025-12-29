@@ -48,11 +48,9 @@ Public Class QualitySummaryReport
     End Sub
 
     Private Sub Load_Quality_Summary_Report()
-
         Dim qry As String = ""
         Dim dt As New DataTable()
         Try
-
             Dim whr As String = ""
             If TxttRAL.arrValueMember IsNot Nothing AndAlso TxttRAL.arrValueMember.Count > 0 Then
                 whr += "  and TSPL_GRN_HEAD.Ref_No  In  (" + clsCommon.GetMulcallString(TxttRAL.arrValueMember) + ")  "
@@ -63,6 +61,8 @@ Public Class QualitySummaryReport
                 count((case when TSPL_GRN_HEAD.VisualQCStatus=3  OR TSPL_GRN_HEAD.VisualQCStatusSecond=3 then 'Partial Ok'  end)) AS 'PARTIAL_REJECT',
                 count((case when TSPL_QC_CHECK_HEAD.QC_Status='Rejected' or TSPL_GRN_HEAD.VisualQCStatusSecond=2 or TSPL_GRN_HEAD.VisualQCStatus=2 OR TSPL_GRN_HEAD.VisualQCStatus=3  OR TSPL_GRN_HEAD.VisualQCStatusSecond=3 then 'Partial Ok'  end)) AS 'TOTALL_REJECT',
                 count((case when TSPL_GRN_HEAD.VisualQCStatus=1 AND (TSPL_GRN_HEAD.VisualQCStatusSecond<>3 OR TSPL_GRN_HEAD.VisualQCStatusSecond<>2 or TSPL_QC_CHECK_HEAD.QC_Status<>'Rejected')then 'Ok'  end)) AS 'TOTAL_ACCEPTED',
+                Sum(Case When TSPL_NIR_QC.QC_Status=1 Then 1 Else 0 End) As 'Accepted',
+                Sum(Case When TSPL_NIR_QC.QC_Status=2 Then 1 Else 0 End) As 'Rejected',
 				count(case when TSPL_QC_CHECK_SRN_DETAIL.deduction>0 and TSPL_QC_CHECK_HEAD.QC_Status='Under Deviation' then 'Accepted With Deduction' end) as 'Accepted With Deduction',
 				count(case when TSPL_QC_CHECK_SRN_DETAIL.deduction=0 and TSPL_QC_CHECK_HEAD.QC_Status='Accepted' then 'Accepted Without Deduction' end) as 'Accepted Without Deduction',
 				count(case when TSPL_QC_CHECK_SRN_DETAIL.deduction>=0 and TSPL_QC_CHECK_HEAD.QC_Status IN ('Accepted','Under Deviation') then 'Total Wet QC' end) as 'Total Wet QC',
@@ -70,6 +70,8 @@ Public Class QualitySummaryReport
                 from  TSPL_GRN_HEAD
                 left join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No
                 left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_GRN_DETAIL.Item_Code
+                left Outer Join TSPL_MRN_HEAD On TSPL_MRN_HEAD.Against_GRN=TSPL_GRN_HEAD.GRN_No
+                Left Outer join TSPL_NIR_QC On TSPL_NIR_QC.MRN_No=TSPL_MRN_HEAD.MRN_No
                 left OUTER join TSPL_QC_CHECK_HEAD ON TSPL_QC_CHECK_HEAD.Gate_Entry_No=TSPL_GRN_HEAD.GRN_No
                 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_GRN_HEAD.Bill_To_Location
 				left outer join (select Document_Code,sum(InputDataDeductionPer) as deduction from TSPL_QC_CHECK_sRN_DETAIL 
@@ -81,12 +83,12 @@ Public Class QualitySummaryReport
 				GROUP BY TSPL_LOCATION_MASTER.Add4,TSPL_LOCATION_MASTER.Location_Desc,TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No,TSPL_GRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description
 				order by TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No desc"
 
-
             If clsCommon.myLen(qry) > 0 Then
                 dt = clsDBFuncationality.GetDataTable(qry)
             End If
-
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Gvv1.AllowAddNewRow = False
+                Gvv1.AllowDragToGroup = False
                 Gvv1.DataSource = Nothing
                 Gvv1.GroupDescriptors.Clear()
                 Gvv1.SummaryRowsBottom.Clear()
@@ -96,112 +98,162 @@ Public Class QualitySummaryReport
                 RadPageVieww1.SelectedPage = RadPageViewPage2
                 Gvv1.BestFitColumns()
                 FormatGrid()
+                View()
                 'ReStoreGridLayout()
             Else
-                clsCommon.MyMessageBoxShow("No data found to display.", "rptQualitySummaryReport")
+                clsCommon.MyMessageBoxShow(Me, "No data found to display.", Me.Text)
             End If
-
-
-
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
-
     End Sub
 
     Sub FormatGrid()
+        Try
+            Gvv1.TableElement.TableHeaderHeight = 40
+            Gvv1.MasterTemplate.ShowRowHeaderColumn = False
+            For ii As Integer = 0 To Gvv1.Columns.Count - 1
+                Gvv1.Columns(ii).ReadOnly = True
+                Gvv1.Columns(ii).IsVisible = False
+            Next
 
-        Gvv1.TableElement.TableHeaderHeight = 40
-        Gvv1.MasterTemplate.ShowRowHeaderColumn = False
-        For ii As Integer = 0 To Gvv1.Columns.Count - 1
-            Gvv1.Columns(ii).ReadOnly = True
-            Gvv1.Columns(ii).IsVisible = False
-        Next
+            Gvv1.Columns("S.NO").Width = 50
+            Gvv1.Columns("S.NO").IsVisible = True
+            Gvv1.Columns("S.NO").HeaderText = "S No"
 
-        Gvv1.Columns("S.NO").Width = 50
-        Gvv1.Columns("S.NO").IsVisible = True
-        Gvv1.Columns("S.NO").HeaderText = "S No"
+            Gvv1.Columns("Ref_No").Width = 150
+            Gvv1.Columns("Ref_No").IsVisible = True
+            Gvv1.Columns("Ref_No").HeaderText = "RAL NO"
 
-        Gvv1.Columns("Ref_No").Width = 150
-        Gvv1.Columns("Ref_No").IsVisible = True
-        Gvv1.Columns("Ref_No").HeaderText = "RAL NO"
+            Gvv1.Columns("Item_Code").Width = 100
+            Gvv1.Columns("Item_Code").IsVisible = True
+            Gvv1.Columns("Item_Code").HeaderText = "Item Code"
 
-        Gvv1.Columns("Item_Code").Width = 100
-        Gvv1.Columns("Item_Code").IsVisible = True
-        Gvv1.Columns("Item_Code").HeaderText = "Item Code"
+            Gvv1.Columns("item_desc").Width = 100
+            Gvv1.Columns("item_desc").IsVisible = True
+            Gvv1.Columns("item_desc").HeaderText = "Item Name"
 
-        Gvv1.Columns("item_desc").Width = 100
-        Gvv1.Columns("item_desc").IsVisible = True
-        Gvv1.Columns("item_desc").HeaderText = "Item Name"
+            Gvv1.Columns("full_reject").Width = 100
+            Gvv1.Columns("full_reject").IsVisible = True
+            Gvv1.Columns("full_reject").HeaderText = "Full Rejected"
 
-        Gvv1.Columns("full_reject").Width = 100
-        Gvv1.Columns("full_reject").IsVisible = True
-        Gvv1.Columns("full_reject").HeaderText = "Full Rejected"
+            Gvv1.Columns("partial_reject").Width = 100
+            Gvv1.Columns("partial_reject").IsVisible = True
+            Gvv1.Columns("partial_reject").HeaderText = "Partial Rejected"
 
-        Gvv1.Columns("partial_reject").Width = 100
-        Gvv1.Columns("partial_reject").IsVisible = True
-        Gvv1.Columns("partial_reject").HeaderText = "Partial Rejected"
+            Gvv1.Columns("totall_reject").Width = 100
+            Gvv1.Columns("totall_reject").IsVisible = True
+            Gvv1.Columns("totall_reject").HeaderText = "Total Rejected"
 
-        Gvv1.Columns("totall_reject").Width = 100
-        Gvv1.Columns("totall_reject").IsVisible = True
-        Gvv1.Columns("totall_reject").HeaderText = "Total Rejected"
+            Gvv1.Columns("TOTAL_ACCEPTED").Width = 100
+            Gvv1.Columns("TOTAL_ACCEPTED").IsVisible = True
+            Gvv1.Columns("TOTAL_ACCEPTED").HeaderText = "Total Accepted"
 
-        Gvv1.Columns("TOTAL_ACCEPTED").Width = 100
-        Gvv1.Columns("TOTAL_ACCEPTED").IsVisible = True
-        Gvv1.Columns("TOTAL_ACCEPTED").HeaderText = "Total Accepted"
+            Gvv1.Columns("Accepted").Width = 100
+            Gvv1.Columns("Accepted").IsVisible = True
+            Gvv1.Columns("Accepted").HeaderText = "Accepted"
 
-        Gvv1.Columns("Accepted With Deduction").Width = 100
-        Gvv1.Columns("Accepted With Deduction").IsVisible = True
-        Gvv1.Columns("Accepted With Deduction").HeaderText = "Accepted With Deduction"
+            Gvv1.Columns("Rejected").Width = 100
+            Gvv1.Columns("Rejected").IsVisible = True
+            Gvv1.Columns("Rejected").HeaderText = "Rejected"
 
-        Gvv1.Columns("Accepted Without Deduction").Width = 100
-        Gvv1.Columns("Accepted Without Deduction").IsVisible = True
-        Gvv1.Columns("Accepted Without Deduction").HeaderText = "Accepted Without Deduction"
+            Gvv1.Columns("Accepted With Deduction").Width = 100
+            Gvv1.Columns("Accepted With Deduction").IsVisible = True
+            Gvv1.Columns("Accepted With Deduction").HeaderText = "Accepted With Deduction in Wet QC"
 
-        Gvv1.Columns("Total Wet QC").Width = 100
-        Gvv1.Columns("Total Wet QC").IsVisible = True
-        Gvv1.Columns("Total Wet QC").HeaderText = "Total Wet In QC"
+            Gvv1.Columns("Accepted Without Deduction").Width = 100
+            Gvv1.Columns("Accepted Without Deduction").IsVisible = True
+            Gvv1.Columns("Accepted Without Deduction").HeaderText = "Accepted Without Deduction in Wet QC"
 
-        Gvv1.Columns("Rejected Wet QC").Width = 100
-        Gvv1.Columns("Rejected Wet QC").IsVisible = True
-        Gvv1.Columns("Rejected Wet QC").HeaderText = "Rejected Wet In QC"
+            Gvv1.Columns("Total Wet QC").Width = 100
+            Gvv1.Columns("Total Wet QC").IsVisible = True
+            Gvv1.Columns("Total Wet QC").HeaderText = "Total In Wet QC"
 
-        Dim summaryRowItem As New GridViewSummaryRowItem()
+            Gvv1.Columns("Rejected Wet QC").Width = 100
+            Gvv1.Columns("Rejected Wet QC").IsVisible = True
+            Gvv1.Columns("Rejected Wet QC").HeaderText = "Rejected In Wet QC"
 
-        Dim item1 As New GridViewSummaryItem("FULL_REJECT", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item1)
+            Dim summaryRowItem As New GridViewSummaryRowItem()
 
-        Dim item2 As New GridViewSummaryItem("PARTIAL_REJECT", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item2)
+            Dim item1 As New GridViewSummaryItem("FULL_REJECT", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item1)
 
-        Dim item3 As New GridViewSummaryItem("TOTALL_REJECT", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item3)
+            Dim item2 As New GridViewSummaryItem("PARTIAL_REJECT", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item2)
 
-        Dim item4 As New GridViewSummaryItem("TOTAL_ACCEPTED", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item4)
+            Dim item3 As New GridViewSummaryItem("TOTALL_REJECT", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item3)
 
-        Dim item5 As New GridViewSummaryItem("Accepted With Deduction", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item5)
+            Dim item4 As New GridViewSummaryItem("TOTAL_ACCEPTED", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item4)
 
-        Dim item6 As New GridViewSummaryItem("Accepted Without Deduction", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item6)
+            Dim item5 As New GridViewSummaryItem("Accepted", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item5)
 
-        Dim item7 As New GridViewSummaryItem("Total Wet QC", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item7)
+            Dim item6 As New GridViewSummaryItem("Rejected", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item6)
 
-        Dim item8 As New GridViewSummaryItem("Rejected Wet QC", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item8)
+            Dim item7 As New GridViewSummaryItem("Accepted With Deduction", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item7)
 
-        Gvv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-        Gvv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+            Dim item8 As New GridViewSummaryItem("Accepted Without Deduction", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item8)
+
+            Dim item9 As New GridViewSummaryItem("Total Wet QC", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item9)
+
+            Dim item10 As New GridViewSummaryItem("Rejected Wet QC", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item10)
+
+            Gvv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gvv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+    Sub View()
+        Try
+            If Gvv1.Rows.Count > 0 Then
+                Dim view As New ColumnGroupsViewDefinition()
+                view.ColumnGroups.Add(New GridViewColumnGroup(" "))
+                view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gvv1.Columns("S.NO").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gvv1.Columns("Ref_No").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gvv1.Columns("Item_Code").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gvv1.Columns("item_desc").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gvv1.Columns("HeadName").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gvv1.Columns("Location_Desc").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gvv1.Columns("Add4").Name)
+
+                view.ColumnGroups.Add(New GridViewColumnGroup("Visual QC"))
+                view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gvv1.Columns("full_reject").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gvv1.Columns("partial_reject").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gvv1.Columns("totall_reject").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gvv1.Columns("TOTAL_ACCEPTED").Name)
+
+                view.ColumnGroups.Add(New GridViewColumnGroup("NIR QC"))
+                view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gvv1.Columns("Accepted").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gvv1.Columns("Rejected").Name)
+
+                view.ColumnGroups.Add(New GridViewColumnGroup("Wet QC"))
+                view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gvv1.Columns("Accepted With Deduction").Name)
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gvv1.Columns("Accepted Without Deduction").Name)
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gvv1.Columns("Total Wet QC").Name)
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gvv1.Columns("Rejected Wet QC").Name)
+                Gvv1.ViewDefinition = view
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 
     Private Sub TxtItem__My_Click(sender As Object, e As EventArgs) Handles TxttRAL._My_Click
-
         Dim qry As String = " SELECT DocumentCode,DocumentDate from TSPL_TENDER_HEADER order by DocumentCode "
         TxttRAL.arrValueMember = clsCommon.ShowMultipleSelectForm("ItemMulSel", qry, "DocumentCode", "DocumentDate", TxttRAL.arrValueMember, TxttRAL.arrDispalyMember)
-
-
     End Sub
 
     Private Sub txtBillToLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txttBillToLocation._MYValidating
