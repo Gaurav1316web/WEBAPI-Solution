@@ -1961,15 +1961,19 @@ WHERE XX.ITEM_CODE NOT IN ('PM0001','PM0002') and xx.STOCK_QTY>0  " & Environmen
 
         Try
             If dtRMSupply Is Nothing OrElse dtRMSupply.Rows.Count <= 0 Then
-                Dim sQuery As String = "select final.Ref_No,final.ITEM_DESC,final.UOM,final.Vendor_Name,final.RAL_QTY,final.GRNQTY,final.Pending_Qty from (
+                Dim sQuery As String = "select final.Ref_No,final.ITEM_DESC,final.UOM,final.Vendor_Name,final.RAL_QTY,--final.GRNQTY,
+                IsNull(final.SRN_Qty,0)SRN_Qty,Case When final.Pending_Qty>0 Then final.Pending_Qty Else 0 End As Pending_Qty from (
                 Select  TSPL_GRN_HEAD.Ref_No ,TSPL_ITEM_MASTER.Short_Description As 'ITEM_DESC',TSPL_PO_WEIGHTMENT_DETAIL.UOM,TSPL_GRN_HEAD.Vendor_Name,
                 cast(RM_RAL.RAL_QTY as numeric (18,0)) as 'RAL_QTY',
                 max(TendorSeqNo) as TendorSeqNo,
-                SUM(CASE WHEN TSPL_QC_CHECK_HEAD.QC_Status='Rejected' or TSPL_GRN_HEAD.VisualQCStatusSecond=2 or TSPL_GRN_HEAD.VisualQCStatus=2 then 0 else cast(TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight as numeric (18,0)) END) AS GRNQTY,
-                (RM_RAL.RAL_QTY - sum((CASE WHEN TSPL_QC_CHECK_HEAD.QC_Status='Rejected' or TSPL_GRN_HEAD.VisualQCStatusSecond=2 or TSPL_GRN_HEAD.VisualQCStatus=2 then 0 else cast(TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight as numeric (18,0)) END))) as 'Pending_Qty'
+                ---SUM(CASE WHEN TSPL_QC_CHECK_HEAD.QC_Status='Rejected' or TSPL_GRN_HEAD.VisualQCStatusSecond=2 or TSPL_GRN_HEAD.VisualQCStatus=2 then 0 else cast(TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight as numeric (18,0)) END) AS GRNQTY,
+                Round(Sum(TSPL_SRN_DETAIL.MRN_Qty-TSPL_SRN_DETAIL.Rejected_Qty),0) As SRN_Qty,
+                RM_RAL.RAL_QTY-Round(Sum((TSPL_SRN_DETAIL.MRN_Qty-TSPL_SRN_DETAIL.Rejected_Qty)),0) as 'Pending_Qty'
                 from TSPL_PO_WEIGHTMENT_HEAD
                 left outer join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code
                 left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
+                left outer join TSPL_SRN_HEAD On TSPL_SRN_HEAD.Against_GRN=TSPL_GRN_HEAD.GRN_No and TSPL_SRN_HEAD.Status=1
+				left outer Join TSPL_SRN_DETAIL On TSPL_SRN_DETAIL.SRN_No=TSPL_SRN_HEAD.SRN_No
                 left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_PO_WEIGHTMENT_DETAIL.Item_Code
                 LEFT JOIN TSPL_QC_CHECK_HEAD ON TSPL_QC_CHECK_HEAD.Gate_Entry_No=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
                 INNER JOIN 
@@ -2010,7 +2014,8 @@ WHERE XX.ITEM_CODE NOT IN ('PM0001','PM0002') and xx.STOCK_QTY>0  " & Environmen
                 gvRMSupply.Columns("UOM").HeaderText = "Unit"
                 gvRMSupply.Columns("Vendor_Name").HeaderText = "Vendor"
                 gvRMSupply.Columns("RAL_QTY").HeaderText = "Ordered" + Environment.NewLine + "Quantity"
-                gvRMSupply.Columns("GRNQTY").HeaderText = "Received" + Environment.NewLine + "Quantity"
+                'gvRMSupply.Columns("GRNQTY").HeaderText = "Received" + Environment.NewLine + "Quantity"
+                gvRMSupply.Columns("SRN_Qty").HeaderText = "Received" + Environment.NewLine + "Quantity"
                 gvRMSupply.Columns("Pending_Qty").HeaderText = "Pending" + Environment.NewLine + "Quantity"
 
 
