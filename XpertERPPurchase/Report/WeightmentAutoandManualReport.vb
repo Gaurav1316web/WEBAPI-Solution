@@ -152,15 +152,15 @@ Public Class Weightment_Auto_and_Manual_Report
              FROM (SELECT Location_Code,
              CASE WHEN (Is_Auto_Gross_Weight = 1 AND Is_Auto_Tare_Weight = 1) THEN COUNT(*)END AS Auto_wt,
              CASE WHEN (Is_Auto_Gross_Weight = 0 AND Is_Auto_Tare_Weight = 0) OR (Is_Auto_Gross_Weight = 0 AND Is_Auto_Tare_Weight = 1) OR (Is_Auto_Gross_Weight = 1 AND Is_Auto_Tare_Weight = 0) THEN COUNT(*) 
-             END AS Manual_wt, COUNT(*) AS Total_wt,case when max(VisualQCStatus)=1 then count(*) end as Visual_QC,case when max(TSPL_NIR_QC.QC_Status)=1 then count(*) end as NIR_QC,
-			 case when max(TSPL_QC_CHECK_HEAD.QC_Status) is not null then count(*) end as WET_QC
+             END AS Manual_wt, COUNT(*) AS Total_wt,case when (VisualQCStatus)=1 then count(*) end as Visual_QC,case when (TSPL_NIR_QC.QC_Status)=1 then count(*) end as NIR_QC,
+			 case when (TSPL_QC_CHECK_HEAD.QC_Status) is not null then count(*) end as WET_QC
              FROM TSPL_PO_WEIGHTMENT_HEAD 
              left outer join tspl_grn_head on tspl_grn_head.GRN_No=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
-			 left outer join TSPL_MRN_HEAD ON TSPL_MRN_HEAD.Against_GRN=TSPL_GRN_HEAD.GRN_No
+			 left outer join TSPL_MRN_HEAD ON TSPL_MRN_HEAD.Against_GRN=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
 			 left outer join TSPL_NIR_QC ON TSPL_NIR_QC.MRN_No=TSPL_MRN_HEAD.MRN_No
-			 left outer join TSPL_QC_CHECK_HEAD ON TSPL_QC_CHECK_HEAD.Gate_Entry_No = TSPL_GRN_HEAD.GRN_No
+			 left outer join TSPL_QC_CHECK_HEAD ON TSPL_QC_CHECK_HEAD.Gate_Entry_No = TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
              where convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) and convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)<=convert(date,('" + txtToDate.Value + "'),103)
-             GROUP BY Location_Code,Is_Auto_Gross_Weight,Is_Auto_Tare_Weight) aa  "
+             GROUP BY Location_Code,Is_Auto_Gross_Weight,Is_Auto_Tare_Weight,VisualQCStatus,TSPL_NIR_QC.QC_Status,TSPL_QC_CHECK_HEAD.QC_Status) aa  "
             ElseIf rbtWeightment.Checked = True Then
                 strqry = " SELECT aa.Location_Code as Location,
     ISNULL(SUM(aa.Auto_wt), 0) AS [Auto Weighment],
@@ -335,9 +335,9 @@ Public Class Weightment_Auto_and_Manual_Report
              FROM TSPL_PO_WEIGHTMENT_HEAD 
 			 left outer join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code
 			 left outer join tspl_grn_head on tspl_grn_head.GRN_No=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
-			 left outer join TSPL_MRN_HEAD ON TSPL_MRN_HEAD.Against_GRN=TSPL_GRN_HEAD.GRN_No
+			 left outer join TSPL_MRN_HEAD ON TSPL_MRN_HEAD.Against_GRN=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
 			 left outer join TSPL_NIR_QC ON TSPL_NIR_QC.MRN_No=TSPL_MRN_HEAD.MRN_No
-			 left outer join TSPL_QC_CHECK_HEAD ON TSPL_QC_CHECK_HEAD.Gate_Entry_No = TSPL_GRN_HEAD.GRN_No
+			 left outer join TSPL_QC_CHECK_HEAD ON TSPL_QC_CHECK_HEAD.Gate_Entry_No = TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
              where convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) 
              and convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)<=convert(date,('" + txtToDate.Value + "'),103) "
                 If strcolm2 = "Auto Weighment" Then

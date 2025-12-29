@@ -150,8 +150,16 @@ Public Class rptQCAnalysisReport
             left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_ITEM_MASTER.Comp_code left outer join TSPL_MRN_Head on TSPL_MRN_DETAIL.MRN_No = TSPL_MRN_Head.MRN_No
             " & whrcls & "  ) xx  group by Document_Code , QC_Param_Code ) xxx
            PIVOT ( SUM(InputData) FOR param_desc IN (" & paramInputPivot & ") ) AS pivot_input
-         PIVOT (sum(InputDataDeductionPer) FOR param_desc_Ded IN (" & paramDedPivot & " ) ) AS pivot_ded  ) xxxx
-		  group by Document_Code order by Document_Code "
+         PIVOT (sum(InputDataDeductionPer) FOR param_desc_Ded IN (" & paramDedPivot & " ) ) AS pivot_ded  ) xxxx"
+            If rdbAccepted.IsChecked Then
+                qry += " where xxxx.Status = 'Accepted' "
+            ElseIf rdbRejected.IsChecked Then
+                qry += " where xxxx.Status = 'Rejected' "
+            ElseIf rdbUnderdeviation.IsChecked Then
+                qry += " where xxxx.Status = 'Under Deviation' "
+            End If
+
+            qry += " group by Document_Code order by Document_Code "
             Dim dt As DataTable = New DataTable()
             dt = clsDBFuncationality.GetDataTable(qry)
             gv1.DataSource = Nothing
@@ -880,5 +888,31 @@ ORDER BY PivotResult.Item_Code "
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub gv1_ViewRowFormatting(sender As Object, e As RowFormattingEventArgs) Handles gv1.ViewRowFormatting
+        Try
+            If rdbColored.IsChecked Then
+                If TypeOf e.RowElement Is GridDataRowElement Then
+                    Dim transactionType As String = e.RowElement.RowInfo.Cells("Status").Value.ToString()
+                    Select Case transactionType
+                        Case "Accepted"
+                            e.RowElement.BackColor = Color.White
+                        Case "Rejected"
+                            e.RowElement.BackColor = Color.Red
+                        Case "Under Deviation"
+                            e.RowElement.BackColor = Color.Orange
+
+                    End Select
+                    e.RowElement.ResetValue(LightVisualElement.BackColorProperty, ValueResetFlags.Inherited)
+                    e.RowElement.ResetValue(LightVisualElement.ForeColorProperty, ValueResetFlags.Inherited)
+                    e.RowElement.DrawFill = True
+                    e.RowElement.GradientStyle = Telerik.WinControls.GradientStyles.Solid
+                End If
+            End If
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
 
 End Class

@@ -352,6 +352,7 @@ Public Class clsUserMgtCode
     Public Const rptPendingQCReport As String = "PND_QC_RPT"
     Public Const QualitySummaryReport As String = "QTY_SUMY_RPT"
     Public Const rptQCAnalysisReport As String = "QC_ANLS_RPT"
+    Public Const rptNIRQC As String = "NIR_QC_RPT"
 
     'frmQualityCheckForSRN
     ''==================

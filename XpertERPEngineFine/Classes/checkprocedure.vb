@@ -2702,6 +2702,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptPendingQCReport, "QC Status Report", "1.23.03.01", clsUserMgtCode.SubModuleQCReport, 37)
         InsertDefaultValue(clsUserMgtCode.QualitySummaryReport, "Quality Summary Report", "1.23.03.02", clsUserMgtCode.SubModuleQCReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptQCAnalysisReport, "QC Analysis Report", "1.23.03.03", clsUserMgtCode.SubModuleQCReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptNIRQC, "NIR QC Report", "1.23.03.07", clsUserMgtCode.SubModuleQCReport, 37)
 
         ''===========================end QC===========================================================
 
