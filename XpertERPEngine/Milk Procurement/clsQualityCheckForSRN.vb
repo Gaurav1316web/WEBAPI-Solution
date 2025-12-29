@@ -30,11 +30,19 @@ Public Class clsQualityCheckForSRNHead
 
         Try
             StrWhere += "and TSPL_QC_CHECK_HEAD.posted=1"
-            StrWhere += " and TSPL_QC_CHECK_HEAD.Vendor_Code = '" + strVendor + "' 
-                                  and  TSPL_QC_CHECK_SRN_DETAIL.Item_Code = '" + strItem + "'
-                                  and TSPL_LOCATION_MASTER.Location_Code='" + strLocation + "'"
-            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                StrWhere += " and TSPL_QC_CHECK_HEAD.Bill_To_location in (" + objCommonVar.strCurrUserLocations + ")"
+            If clsCommon.myLen(strVendor) > 0 Then
+                StrWhere += " and TSPL_QC_CHECK_HEAD.Vendor_Code = '" + strVendor + "' "
+            End If
+            If clsCommon.myLen(strLocation) > 0 Then
+                StrWhere += "        And TSPL_LOCATION_MASTER.Location_Code ='" + strLocation + "'"
+
+            End If
+            'If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            '    StrWhere += " and TSPL_QC_CHECK_HEAD.Bill_To_location in (" + objCommonVar.strCurrUserLocations + ")"
+            'End If
+            If clsCommon.myLen(strItem) > 0 Then
+                StrWhere += " And  TSPL_QC_CHECK_SRN_DETAIL.Item_Code = '" + strItem + "'"
+
             End If
             If clsCommon.myLen(strral) > 0 Then
                 StrWhere += "and  TSPL_GRN_HEAD.Ref_No in (" + strral + ")"
@@ -77,14 +85,25 @@ Public Class clsQualityCheckForSRNHead
             Dim StrWhere As String = ""
 
             StrWhere += "and TSPL_QC_CHECK_HEAD.Posted=1 "
-            StrWhere += " and TSPL_QC_CHECK_HEAD.Vendor_Code = '" + strVendor + "' 
-                              and  TSPL_QC_CHECK_SRN_DETAIL.Item_Code = '" + strItem + "'
-                               and TSPL_LOCATION_MASTER.Location_Code='" + strLocation + "'"
-            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                StrWhere += " and TSPL_QC_CHECK_HEAD.Bill_To_location in (" + objCommonVar.strCurrUserLocations + ")"
-            End If
+            'StrWhere += " and TSPL_QC_CHECK_HEAD.Vendor_Code = '" + strVendor + "' 
+            '                  and  TSPL_QC_CHECK_SRN_DETAIL.Item_Code = '" + strItem + "'
+            '                   and TSPL_LOCATION_MASTER.Location_Code='" + strLocation + "'"
+            'If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            '    StrWhere += " and TSPL_QC_CHECK_HEAD.Bill_To_location in (" + objCommonVar.strCurrUserLocations + ")"
+            'End If
             If clsCommon.myLen(strral) > 0 Then
                 StrWhere += " and  TSPL_GRN_HEAD.Ref_No in (" + strral + ")"
+            End If
+            If clsCommon.myLen(strVendor) > 0 Then
+                StrWhere += " and TSPL_QC_CHECK_HEAD.Vendor_Code = '" + strVendor + "' "
+            End If
+            If clsCommon.myLen(strLocation) > 0 Then
+                StrWhere += " And TSPL_LOCATION_MASTER.Location_Code ='" + strLocation + "'"
+
+            End If
+            If clsCommon.myLen(strItem) > 0 Then
+                StrWhere += " And  TSPL_QC_CHECK_SRN_DETAIL.Item_Code = '" + strItem + "'"
+
             End If
             If rbtnQCdate Then
                 StrWhere += " and convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103) >= convert(date,('" & FromDate & "'),103) and convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103) <= convert(date,('" & ToDate & "'),103) "

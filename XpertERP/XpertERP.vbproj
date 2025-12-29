@@ -331,8 +331,9 @@
       <HintPath>lib\RCWF\2022.1.222.20.Trial\TelerikData.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="XpertCommon">
-      <HintPath>..\..\XpertCommon\common\bin\Debug\XpertCommon.dll</HintPath>
+    <Reference Include="XpertCommon, Version=2.1.6.95, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPAdminServices">
       <HintPath>..\XpertERPAdminServices\bin\Debug\XpertERPAdminServices.dll</HintPath>
