@@ -115,6 +115,9 @@ Public Class rptSalesReport
             Dim itemNames3 As String = Nothing
             Dim itemNames4 As String = Nothing
             Itemqry = " Select price_code from TSPL_PRICE_COMPONENT_MAPPING "
+            If rbnPricegroup.Checked Then
+                Itemqry += "union select  'Other' as price_code"
+            End If
             Dim dtitemName As DataTable = clsDBFuncationality.GetDataTable(Itemqry)
             If dtitemName.Rows.Count > 0 Then
                 For i As Integer = 0 To dtitemName.Rows.Count - 1
@@ -319,7 +322,7 @@ Public Class rptSalesReport
   FROM
                                    (SELECT XX.Location,MAX(XX.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add4)Add4,(xx.Document_Date)Document_Date,
                                    Cast(sum(xx.Quantity) as Decimal(10,2))Quantity,Cast(Sum(xx.QuantityBag) as Decimal(10,2))QuantityBag,
-                                    price_CodeNon FROM (SELECT TSPL_SD_SHIPMENT_DETAIL.Location,max(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,max(TSPL_LOCATION_MASTER.Add4)Add4,
+                                    case when isnull(price_CodeNon,'')= '' then 'Other' else price_CodeNon end as price_CodeNon FROM (SELECT TSPL_SD_SHIPMENT_DETAIL.Location,max(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,max(TSPL_LOCATION_MASTER.Add4)Add4,
                                     convert (date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty/TSPL_ITEM_UOM_QTL.Conversion_Factor) as Quantity,
                                     Sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty/TSPL_ITEM_UOM_BAG.Conversion_Factor) as QuantityBag, price_CodeNon 
                                     FROM TSPL_SD_SHIPMENT_DETAIL
@@ -657,7 +660,7 @@ SELECT TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code,max(TSPL_LOCATION_MASTER.Location_Des
 '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'as ToDate,
 max([Location Description])[Location Description],max(Add1)Add1,max(Add4)Add4,
                            (Document_Date)Document_Date, Sum(IsNull([CFP],0)) As [CFP], Sum(IsNull([DCS],0)) As [DCS], Sum(IsNull([GOSHALA],0)) As [GOSHALA], Sum(IsNull([GOVTCR],0)) As [GOVTCR], Sum(IsNull([KVSS],0)) As [KVSS], Sum(IsNull([MILKUNION],0)) As [MILKUNION], 
-Sum(IsNull([SPAREPART],0)) As [SPAREPART],Sum([Total Sale])[Total Sale],sum([Total BagSale])[Total BagSale] from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'as ToDate,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date,ISNULL ([UNION], 0) as [MILKUNION] ,ISNULL ([DEALER], 0) as [DEALER],ISNULL ([GOSHAL], 0) as [GOSHALA] ,ISNULL ([DCS], 0) as [DCS],ISNULL ([GOV], 0) as [GOVT],ISNULL ([KVSS], 0) as [KVSS], ISNULL ([AGENCY],0) AS [AGENCY],ISNULL ([RETAIL], 0) AS [RETAIL],ISNULL ([CFP], 0) AS [CFP],ISNULL ([MISC], 0) as [OTHER],
+Sum(IsNull([SPAREPART],0)) As [SPAREPART],Sum(IsNull(OTHER,0)) As [OTHER],Sum(IsNull([DEALER],0)) As [DEALER],Sum(IsNull(RETAIL,0)) As RETAIL,Sum([Total Sale])[Total Sale],sum([Total BagSale])[Total BagSale] from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'as ToDate,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date,ISNULL ([UNION], 0) as [MILKUNION],ISNULL([GOVTCR],0) as [GOVTCR],ISNULL([SPAREPART],0) as [SPAREPART] ,ISNULL ([DEALER], 0) as [DEALER],ISNULL ([GOSHAL], 0) as [GOSHALA] ,ISNULL ([DCS], 0) as [DCS],ISNULL ([GOV], 0) as [GOVT],ISNULL ([KVSS], 0) as [KVSS], ISNULL ([AGENCY],0) AS [AGENCY],ISNULL ([RETAIL], 0) AS [RETAIL],ISNULL ([CFP], 0) AS [CFP],ISNULL ([MISC], 0) as [OTHER],
                           (ISNULL ([UNION], 0) +ISNULL ([DEALER], 0)+ ISNULL ([GOSHAL], 0) + ISNULL ([DCS], 0) + ISNULL ([GOV], 0) + ISNULL ([KVSS], 0) + ISNULL ([RETAIL], 0)+ ISNULL ([CFP], 0)+ ISNULL ([AGENCY], 0)+ ISNULL ([MISC], 0)) as [Total Sale],
                            QuantityBag as [Total BagSale]
                            FROM (SELECT XX.Location,MAX(XX.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add4)Add4,(xx.Document_Date)Document_Date,
@@ -718,7 +721,7 @@ Sum(IsNull([SPAREPART],0)) As [SPAREPART],Sum([Total Sale])[Total Sale],sum([Tot
                     End If
 
                     qry += " group by convert (date,TSPL_SCRAPSALE_HEAD.shipment_Date,103),Cust_Group_Code,Loc_Code )XX GROUP BY xx.Document_Date,XX.Cust_Group_Code,XX.Location )Tab1
-                             PIVOT (SUM(Quantity) FOR Cust_Group_Code IN ([UNION],[DEALER],[GOSHAL],[DCS],[GOV],[KVSS],[AGENCY],[RETAIL],[CFP],[MISC]))AS Tab2)tmp 
+                             PIVOT (SUM(Quantity) FOR Cust_Group_Code IN ([UNION],[SPAREPART],[GOVTCR],[DEALER],[GOSHAL],[DCS],[GOV],[KVSS],[AGENCY],[RETAIL],[CFP],[MISC]))AS Tab2)tmp 
 group by Document_Date  ORDER BY MonthNumber "
                 ElseIf rbnCustgroup.Checked AndAlso rdbInvoice.IsChecked = True Then
 
@@ -959,6 +962,9 @@ union all
 
         Gv1.Columns("Document_Date").HeaderText = "Invoice Date"
 
+        If rbnPricegroup.Checked AndAlso rdbDispatch.IsChecked = True Then
+            Gv1.Columns("Total Sale").HeaderText = "Total Sale(Qtl)"
+        End If
         'Gv1.Columns("Location").Width = 100
         'Gv1.Columns("Location").IsVisible = True
         'Gv1.Columns("Location").HeaderText = "Location"

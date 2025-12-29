@@ -1322,7 +1322,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCSMultipleDaysMerge, "DCS Milk Collection Multiple Days Merge", "1.29.02.52", clsUserMgtCode.SubModuleProductionTransactionDairy, 8)
         InsertDefaultValue(clsUserMgtCode.BulkProcurementUploader, "Bulk Procurement Uploader", "1.29.02.56", clsUserMgtCode.SubModuleProductionTransactionDairy, 8)
         InsertDefaultValue(clsUserMgtCode.ProductionShiftMgmt, "Shift Management", "1.29.02.57", clsUserMgtCode.SubModuleProductionTransactionDairy, "", 8, 0, "", "", "", False, False, True, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
-
+        InsertDefaultValue(clsUserMgtCode.frmGateEntryTransaction, "Weighment", "1.29.02.58", clsUserMgtCode.SubModuleProductionTransactionDairy, "", 8, Nothing, Nothing, Nothing, Nothing, False, False, True, "", Nothing, "", "Internal", "", "", "", False, "", 0, True, False)
 
         '----------------Preeti Gupta------------
         'Report-----------

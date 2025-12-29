@@ -163,8 +163,9 @@
       <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikData.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="XpertCommon">
-      <HintPath>..\..\..\XPERTAPI\XpertERPAPIEngine\bin\Debug\XpertCommon.dll</HintPath>
+    <Reference Include="XpertCommon, Version=2.1.6.94, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPBlankTableScript">
       <HintPath>..\XpertERP\bin\Debug\XpertERPBlankTableScript.dll</HintPath>
@@ -173,7 +174,7 @@
       <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
     </Reference>
     <Reference Include="zxing">
-      <HintPath>..\XpertERP\bin\Debug\zxing.dll</HintPath>
+      <HintPath>..\XpertERPBulkProcurement\bin\Debug\zxing.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

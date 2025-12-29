@@ -328,6 +328,7 @@ Partial Class rptQCAnalysisReport
         Me.rbtnQCdate.Name = "rbtnQCdate"
         Me.rbtnQCdate.Size = New System.Drawing.Size(62, 18)
         Me.rbtnQCdate.TabIndex = 1
+        Me.rbtnQCdate.TabStop = False
         Me.rbtnQCdate.Text = "QC Date"
         '
         'rbtnWeighmentDate
@@ -336,6 +337,7 @@ Partial Class rptQCAnalysisReport
         Me.rbtnWeighmentDate.Name = "rbtnWeighmentDate"
         Me.rbtnWeighmentDate.Size = New System.Drawing.Size(105, 18)
         Me.rbtnWeighmentDate.TabIndex = 0
+        Me.rbtnWeighmentDate.TabStop = False
         Me.rbtnWeighmentDate.Text = "Weighment Date"
         '
         'txtItemCode

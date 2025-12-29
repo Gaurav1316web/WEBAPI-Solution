@@ -564,7 +564,23 @@ Public Class rptSPItemConsumptionReport
                     left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE = PP.PROD_ENTRY_CODE
                     where TSPL_SPP_PRODUCTION_ENTRY.POSTED = 1 and convert (date , TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103) >= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and convert (date , TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'
                     " + whr + "
-                    )XXXFinal group by LOCATION_CODE, XXXFinal.CONSM_ITEM_CODE ,XXXFinal. UNIT_CODE order by  XXXFinal.LOCATION_CODE, XXXFinal.CONSM_ITEM_CODE "
+union all
+SELECT '' AS PROD_ENTRY_CODE,0 AS AVG_COST,'' AS BOM_CODE,	TSPL_INVENTORY_MOVEMENT.Item_Code AS CONSM_ITEM_CODE, TSPL_ITEM_MASTER.Item_Desc AS Consm_Item_Desc	,'' AS Consm_Product_Type,(ISNULL(Stock_Qty,0)* TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/KGUOM.Conversion_Factor AS	CONSM_QTY,0 AS	Fat_Amt,0 AS FAT_KG,0 AS FAT_Per,0 AS Fat_Rate,0 AS	FIFO_COST,0 AS LIFO_COST,TSPL_INVENTORY_MOVEMENT.LOCATION_CODE,	Location_Desc,	'' AS Main_ITEM_CODE	,'' AS MAIN_UOM,0 AS SNF_Amt, 0 AS SNF_KG,0 AS SNF_Per,0 AS SNF_Rate,KGUOM.UOM_Code AS UNIT_CODE,'' AS Main_ITEM_Desc,'' AS BOM_Desc,'' AS MAIN_UOM_Desc		
+			 FROM TSPL_INVENTORY_MOVEMENT  LEFT JOIN TSPL_ITEM_MASTER ON TSPL_INVENTORY_MOVEMENT.ITEM_CODE=TSPL_ITEM_MASTER.ITEM_CODE left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_INVENTORY_MOVEMENT.STOCK_UOM   left  join ( SELECT Item_Code,Conversion_Factor,UOM_Code FROM TSPL_ITEM_UOM_DETAIL WHERE UOM_Code='KG') AS KGUOM on KGUOM.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code  left join TSPL_LOCATION_MASTER ON TSPL_INVENTORY_MOVEMENT.LOCATION_CODE=TSPL_LOCATION_MASTER.LOCATION_CODE 
+WHERE CONVERT(DATE,TSPL_INVENTORY_MOVEMENT.Punching_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND CONVERT(DATE,TSPL_INVENTORY_MOVEMENT.Punching_Date,103) <= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'
+                         and TSPL_INVENTORY_MOVEMENT.InOut='O' AND Trans_Type='RM-PL'"
+             If txtItemMult.arrValueMember IsNot Nothing AndAlso txtItemMult.arrValueMember.Count > 0 Then
+               qry+= " AND TSPL_INVENTORY_MOVEMENT.Item_Code in (" + clsCommon.GetMulcallString(txtItemMult.arrValueMember) + ")  "
+            End If
+            If TxtMultiLocation.arrValueMember IsNot Nothing AndAlso TxtMultiLocation.arrValueMember.Count > 0 Then
+                qry += " AND TSPL_INVENTORY_MOVEMENT.LOCATION_CODE in (" + clsCommon.GetMulcallString(TxtMultiLocation.arrValueMember) + ") "
+            Else
+                qry += " and TSPL_LOCATION_MASTER.Location_Type='Physical'  "
+                If clsCommon.myLen(arrLoc) > 0 Then
+                    qry += "  and  TSPL_LOCATION_MASTER.Location_Code in (" + arrLoc + ")"
+                End If
+            End If
+            qry += " )XXXFinal group by LOCATION_CODE, XXXFinal.CONSM_ITEM_CODE ,XXXFinal. UNIT_CODE order by  XXXFinal.LOCATION_CODE, XXXFinal.CONSM_ITEM_CODE "
             If clsCommon.myLen(qry) > 0 Then
                 dt = clsDBFuncationality.GetDataTable(qry)
             End If

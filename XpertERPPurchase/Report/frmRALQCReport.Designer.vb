@@ -22,8 +22,8 @@ Partial Class frmRALQCReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -42,9 +42,9 @@ Partial Class frmRALQCReport
         Me.txtFromDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.gv1 = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gvDetails = New Telerik.WinControls.UI.RadGridView()
+        Me.gvDetails = New common.UserControls.MyRadGridView()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
@@ -53,10 +53,10 @@ Partial Class frmRALQCReport
         Me.btnExp = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.rmiExcelDetail = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiPDFDetail = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -337,11 +337,11 @@ Partial Class frmRALQCReport
         'RadPageViewPage2
         '
         Me.RadPageViewPage2.Controls.Add(Me.gv1)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(63.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(779, 343)
-        Me.RadPageViewPage2.Text = "Report"
+        Me.RadPageViewPage2.Text = "Summary"
         '
         'gv1
         '
@@ -350,13 +350,17 @@ Partial Class frmRALQCReport
         '
         '
         '
-        Me.gv1.MasterTemplate.AllowAddNewRow = False
-        Me.gv1.MasterTemplate.AllowColumnReorder = False
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv1.MasterTemplate.EnableFiltering = True
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
-        Me.gv1.ReadOnly = True
+        Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(779, 343)
-        Me.gv1.TabIndex = 0
+        Me.gv1.TabIndex = 1
+        Me.gv1.VarID = ""
         '
         'RadPageViewPage3
         '
@@ -374,13 +378,17 @@ Partial Class frmRALQCReport
         '
         '
         '
-        Me.gvDetails.MasterTemplate.AllowAddNewRow = False
-        Me.gvDetails.MasterTemplate.AllowColumnReorder = False
-        Me.gvDetails.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvDetails.MasterTemplate.EnableFiltering = True
+        Me.gvDetails.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvDetails.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvDetails.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvDetails.MyExportFilePath = ""
+        Me.gvDetails.MyStopExport = False
         Me.gvDetails.Name = "gvDetails"
-        Me.gvDetails.ReadOnly = True
+        Me.gvDetails.ShowHeaderCellButtons = True
         Me.gvDetails.Size = New System.Drawing.Size(779, 343)
         Me.gvDetails.TabIndex = 1
+        Me.gvDetails.VarID = ""
         '
         'RadMenu1
         '
@@ -432,14 +440,24 @@ Partial Class frmRALQCReport
         'rmiExcel
         '
         Me.rmiExcel.Name = "rmiExcel"
-        Me.rmiExcel.Text = "Excel"
+        Me.rmiExcel.Text = "Excel Summary"
         Me.rmiExcel.UseCompatibleTextRendering = False
         '
         'rmiPDF
         '
         Me.rmiPDF.Name = "rmiPDF"
-        Me.rmiPDF.Text = "PDF"
+        Me.rmiPDF.Text = "PDF Summary"
         Me.rmiPDF.UseCompatibleTextRendering = False
+        '
+        'rmiExcelDetail
+        '
+        Me.rmiExcelDetail.Name = "rmiExcelDetail"
+        Me.rmiExcelDetail.Text = "Excel Detail"
+        '
+        'rmiPDFDetail
+        '
+        Me.rmiPDFDetail.Name = "rmiPDFDetail"
+        Me.rmiPDFDetail.Text = "PDF Detail"
         '
         'btnReset
         '
@@ -460,16 +478,6 @@ Partial Class frmRALQCReport
         Me.btnGo.Size = New System.Drawing.Size(71, 22)
         Me.btnGo.TabIndex = 452
         Me.btnGo.Text = ">>>"
-        '
-        'rmiExcelDetail
-        '
-        Me.rmiExcelDetail.Name = "rmiExcelDetail"
-        Me.rmiExcelDetail.Text = "Excel Detail"
-        '
-        'rmiPDFDetail
-        '
-        Me.rmiPDFDetail.Name = "rmiPDFDetail"
-        Me.rmiPDFDetail.Text = "PDF Detail"
         '
         'frmRALQCReport
         '
@@ -547,9 +555,9 @@ Partial Class frmRALQCReport
     Friend WithEvents rmiPDF As RadMenuItem
     Friend WithEvents btnReset As RadButton
     Friend WithEvents btnGo As RadButton
-    Friend WithEvents gv1 As RadGridView
     Friend WithEvents RadPageViewPage3 As RadPageViewPage
-    Friend WithEvents gvDetails As RadGridView
     Friend WithEvents rmiExcelDetail As RadMenuItem
     Friend WithEvents rmiPDFDetail As RadMenuItem
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
+    Friend WithEvents gvDetails As common.UserControls.MyRadGridView
 End Class
