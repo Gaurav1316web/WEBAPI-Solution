@@ -28,10 +28,16 @@ Partial Class rptQCAnalysisReport
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rdbAll = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rdbUnderdeviation = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rdbAccepted = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rdbRejected = New Telerik.WinControls.UI.RadRadioButton()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtQcForRm = New Telerik.WinControls.UI.RadRadioButton()
         Me.rbtQcForFG = New Telerik.WinControls.UI.RadRadioButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rdbColored = New Telerik.WinControls.UI.RadRadioButton()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtItemCodeFG = New common.UserControls.txtFinder()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
@@ -76,12 +82,19 @@ Partial Class rptQCAnalysisReport
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel1.SuspendLayout()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox3.SuspendLayout()
+        CType(Me.rdbAll, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbUnderdeviation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbAccepted, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbRejected, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.rbtQcForRm, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtQcForFG, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.rdbColored, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox4.SuspendLayout()
@@ -139,6 +152,8 @@ Partial Class rptQCAnalysisReport
         '
         'RadPanel1
         '
+        Me.RadPanel1.Controls.Add(Me.rdbColored)
+        Me.RadPanel1.Controls.Add(Me.RadGroupBox3)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox2)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox1)
         Me.RadPanel1.Dock = System.Windows.Forms.DockStyle.Fill
@@ -146,6 +161,57 @@ Partial Class rptQCAnalysisReport
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(956, 310)
         Me.RadPanel1.TabIndex = 15
+        '
+        'RadGroupBox3
+        '
+        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.rdbAll)
+        Me.RadGroupBox3.Controls.Add(Me.rdbUnderdeviation)
+        Me.RadGroupBox3.Controls.Add(Me.rdbAccepted)
+        Me.RadGroupBox3.Controls.Add(Me.rdbRejected)
+        Me.RadGroupBox3.HeaderText = ""
+        Me.RadGroupBox3.Location = New System.Drawing.Point(222, 12)
+        Me.RadGroupBox3.Name = "RadGroupBox3"
+        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(314, 32)
+        Me.RadGroupBox3.TabIndex = 397
+        '
+        'rdbAll
+        '
+        Me.rdbAll.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rdbAll.Location = New System.Drawing.Point(252, 7)
+        Me.rdbAll.Name = "rdbAll"
+        Me.rdbAll.Size = New System.Drawing.Size(33, 18)
+        Me.rdbAll.TabIndex = 3
+        Me.rdbAll.Text = "All"
+        Me.rdbAll.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'rdbUnderdeviation
+        '
+        Me.rdbUnderdeviation.Location = New System.Drawing.Point(147, 7)
+        Me.rdbUnderdeviation.Name = "rdbUnderdeviation"
+        Me.rdbUnderdeviation.Size = New System.Drawing.Size(101, 18)
+        Me.rdbUnderdeviation.TabIndex = 2
+        Me.rdbUnderdeviation.TabStop = False
+        Me.rdbUnderdeviation.Text = "Under Deviation"
+        '
+        'rdbAccepted
+        '
+        Me.rdbAccepted.Location = New System.Drawing.Point(9, 7)
+        Me.rdbAccepted.Name = "rdbAccepted"
+        Me.rdbAccepted.Size = New System.Drawing.Size(67, 18)
+        Me.rdbAccepted.TabIndex = 1
+        Me.rdbAccepted.TabStop = False
+        Me.rdbAccepted.Text = "Accepted"
+        '
+        'rdbRejected
+        '
+        Me.rdbRejected.Location = New System.Drawing.Point(78, 7)
+        Me.rdbRejected.Name = "rdbRejected"
+        Me.rdbRejected.Size = New System.Drawing.Size(63, 18)
+        Me.rdbRejected.TabIndex = 0
+        Me.rdbRejected.TabStop = False
+        Me.rdbRejected.Text = "Rejected"
         '
         'RadGroupBox2
         '
@@ -198,6 +264,15 @@ Partial Class rptQCAnalysisReport
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Size = New System.Drawing.Size(559, 168)
         Me.RadGroupBox1.TabIndex = 389
+        '
+        'rdbColored
+        '
+        Me.rdbColored.Location = New System.Drawing.Point(553, 19)
+        Me.rdbColored.Name = "rdbColored"
+        Me.rdbColored.Size = New System.Drawing.Size(86, 18)
+        Me.rdbColored.TabIndex = 398
+        Me.rdbColored.TabStop = False
+        Me.rdbColored.Text = "Colored Data"
         '
         'MyLabel1
         '
@@ -675,6 +750,14 @@ Partial Class rptQCAnalysisReport
         Me.RadPageViewPage1.ResumeLayout(False)
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
+        Me.RadPanel1.PerformLayout()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox3.ResumeLayout(False)
+        Me.RadGroupBox3.PerformLayout()
+        CType(Me.rdbAll, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbUnderdeviation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbAccepted, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbRejected, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
@@ -683,6 +766,7 @@ Partial Class rptQCAnalysisReport
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.rdbColored, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox4.ResumeLayout(False)
@@ -761,6 +845,12 @@ Partial Class rptQCAnalysisReport
     Friend WithEvents btnRejected As RadSplitButton
     Friend WithEvents rmiEnglish As RadMenuItem
     Friend WithEvents rmiHindi As RadMenuItem
+    Friend WithEvents RadGroupBox3 As RadGroupBox
+    Friend WithEvents rdbAccepted As RadRadioButton
+    Friend WithEvents rdbRejected As RadRadioButton
+    Friend WithEvents rdbUnderdeviation As RadRadioButton
+    Friend WithEvents rdbAll As RadRadioButton
+    Friend WithEvents rdbColored As RadRadioButton
 End Class
 
 
