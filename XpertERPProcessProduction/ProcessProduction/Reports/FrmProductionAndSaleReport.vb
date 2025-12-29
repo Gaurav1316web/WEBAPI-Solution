@@ -773,7 +773,7 @@ TSPL_SCRAPINVOICE_HEAD.Loc_Code FROM
                     query += "union all
 					
 
-					SELECT 0 as sn,max(TSPL_LOCATION_MASTER.Loc_Short_Name)Location,'' as Date,'' as 	Date1,0 as 	Capacity,0 as 	NoOfShift,0 as 	ProdDailyQty,0 as 	ProdCumQty,0 as CUD,0 as 	CUM,0 as 	CUY,	0 as SaleDailyQty,0 as	SaleCumQty,	0 as FGS,0 as	PSO,0 as	BreakdownHRS,0 as	BreakdownREASON	,
+					SELECT 0 as sn,max(TSPL_LOCATION_MASTER.Loc_Short_Name)Location,'' as Date,'' as 	Date1,0 as 	Capacity,0 as 	NoOfShift,0 as 	ProdDailyQty,0 as 	ProdCumQty,0 as CUD,0 as 	CUM,0 as 	CUY,	0 as SaleDailyQty,0 as	SaleCumQty,	0 as FGS,0 as	PSO,0 as	BreakdownHRS,'' as	BreakdownREASON	,
 										MAX(CASE WHEN rn = 1 THEN DcsSeqNo END) AS DcsSeqNo_1, MAX(CASE WHEN rn = 2 THEN DcsSeqNo END) AS DcsSeqNo_2, MAX(CASE WHEN rn = 3 THEN DcsSeqNo END) AS DcsSeqNo_3
 FROM
 (select xc.Location_Code,xc.DcsSeqNo, ROW_NUMBER() OVER (PARTITION BY xc.Location_Code  ORDER BY xc.DcsSeqNo ) AS rn from (Select  * from (
