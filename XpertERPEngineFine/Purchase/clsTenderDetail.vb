@@ -119,6 +119,26 @@ Public Class clsTenderSchedule
     Public Arr As List(Of clsTenderSchedulePenelty) = Nothing
 #End Region
 
+    Public Shared Function UpdateScheduleData(ByVal strDocNo As String, ByVal Arr As List(Of clsTenderSchedule), ByVal trans As SqlTransaction) As Boolean
+        Try
+            trans = clsDBFuncationality.GetTransactin()
+            Dim Qry As String = Nothing
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_TENDER_SCHEDULE_PENALTY", "DocumentCode", trans)
+            Qry = "delete from TSPL_TENDER_SCHEDULE_PENALTY where DocumentCode='" & strDocNo & "'"
+            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_TENDER_SCHEDULE", "DocumentCode", trans)
+            Qry = "delete from TSPL_TENDER_SCHEDULE where DocumentCode='" & strDocNo & "'"
+            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+            SaveData(strDocNo, Arr, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+    End Function
+
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsTenderSchedule), ByVal trans As SqlTransaction) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsTenderSchedule In Arr
