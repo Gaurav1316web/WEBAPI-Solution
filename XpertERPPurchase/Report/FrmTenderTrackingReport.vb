@@ -22,7 +22,7 @@ Public Class FrmTenderTrackingReport
     Private Sub FrmTenderTrackingReport_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.R AndAlso btnReport.Enabled Then
             fillGridReport()
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.E AndAlso btnreset.Enabled Then
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.N AndAlso btnreset.Enabled Then
             reset()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C Then
             Close()
@@ -31,7 +31,7 @@ Public Class FrmTenderTrackingReport
     Private Sub FrmTenderTrackingReport_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         SetUserMgmtNew()
         buttontooltip.SetToolTip(btnReport, "Press Alt+R for Summary ")
-        buttontooltip.SetToolTip(btnreset, "Press Alt+E for Reset ")
+        buttontooltip.SetToolTip(btnreset, "Press Alt+N for Reset ")
         buttontooltip.SetToolTip(btnclose, "Press Alt+C Close the Window")
         txtDate.Value = clsCommon.GETSERVERDATE()
     End Sub

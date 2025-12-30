@@ -11421,8 +11421,35 @@ left outer join TSPL_ITEM_TYPE_MASTER on TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_CODE=TS
     End Sub
 
     Private Sub btnUpdateSchedule_Click(sender As Object, e As EventArgs) Handles btnUpdateSchedule.Click
+        UpadateSchedule()
+    End Sub
+
+    Sub UpadateSchedule()
         Try
-            SavingData(True)
+            Dim obj As New clsPurchaseOrderHead()
+            obj.ArrSchedule = New List(Of clsTenderSchedulePO)
+            For Each grow As GridViewRowInfo In gvSchedule.Rows
+                Dim objTr As New clsTenderSchedulePO()
+                objTr.SNo = clsCommon.myCDecimal(grow.Cells(colScheduleSNo).Value)
+                objTr.PSNo = clsCommon.myCDecimal(grow.Cells(colScheduleParentSNo).Value)
+                objTr.Schedule_No = clsCommon.myCDecimal(grow.Cells(colScheduleNo).Value)
+                objTr.From_Date = clsCommon.myCDate(grow.Cells(colScheduleFromDate).Value)
+                objTr.To_Date = clsCommon.myCDate(grow.Cells(colScheduleToDate).Value)
+                objTr.Item_Code = clsCommon.myCstr(grow.Cells(colScheduleICode).Value)
+                objTr.Schedule_Qty_Per = clsCommon.myCDecimal(grow.Cells(colScheduleQtyPer).Value)
+                objTr.Schedule_Qty = clsCommon.myCDecimal(grow.Cells(colScheduleQty).Value)
+                objTr.Schedule_Short_Per = clsCommon.myCDecimal(grow.Cells(colScheduleShortPer).Value)
+                objTr.Schedule_Short = clsCommon.myCDecimal(grow.Cells(colScheduleShort).Value)
+                objTr.Late_Days = clsCommon.myCDecimal(grow.Cells(colScheduleLateDays).Value)
+                objTr.Extension_Days = clsCommon.myCDecimal(grow.Cells(colScheduleExtensionDays).Value)
+                objTr.Arr = TryCast(grow.Cells(colScheduleLateDays).Tag, List(Of clsTenderSchedulePeneltyPO))
+                obj.ArrSchedule.Add(objTr)
+            Next
+            If obj IsNot Nothing AndAlso obj.ArrSchedule.Count > 0 Then
+                If clsTenderSchedulePO.SaveScheduleData(txtDocNo.Value, obj.ArrSchedule, Nothing) Then
+                    clsCommon.MyMessageBoxShow(Me, "Schedule updated successfully.", Me.Text)
+                End If
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

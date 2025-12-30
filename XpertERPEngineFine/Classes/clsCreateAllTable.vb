@@ -21051,7 +21051,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Schedule_Short", "decimal(18, 2) NULL")
             coll.Add("Late_Days", "integer NULL")
             coll.Add("Extension_Days", "integer NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TENDER_SCHEDULE_PO", coll, Nothing, False, False, "TSPL_PURCHASE_ORDER_HEAD", "PurchaseOrder_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TENDER_SCHEDULE_PO", coll, Nothing, True, False, "TSPL_PURCHASE_ORDER_HEAD", "PurchaseOrder_No", "")
 
             coll = New Dictionary(Of String, String)()
             coll.Add("DocumentCode", "varchar(30) not null References TSPL_PURCHASE_ORDER_HEAD(PurchaseOrder_No)")
@@ -21059,7 +21059,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Against_Tender_Schedule_PK_Id", "integer NOT NULL References TSPL_TENDER_SCHEDULE_PO(PK_Id)")
             coll.Add("Penalty_Date", "date NULL")
             coll.Add("Penalty", "Decimal(18,2) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TENDER_SCHEDULE_PENALTY_PO", coll, Nothing, False, False, "TSPL_PURCHASE_ORDER_HEAD", "PurchaseOrder_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TENDER_SCHEDULE_PENALTY_PO", coll, Nothing, True, False, "TSPL_PURCHASE_ORDER_HEAD", "PurchaseOrder_No", "")
 
 
             coll = New Dictionary(Of String, String)
