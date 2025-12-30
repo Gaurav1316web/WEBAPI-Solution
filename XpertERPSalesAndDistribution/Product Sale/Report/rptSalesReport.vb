@@ -30,8 +30,8 @@ Public Class rptSalesReport
         'lblBillToLocation.Text = ""
         'TxtMultiLocation.arrValueMember = Nothing
         Gv1.DataSource = Nothing
-        rbnCustgroup.Checked = False
-        rbnPricegroup.Checked = True
+        'rbnCustgroup.Checked = False
+        'rbnPricegroup.Checked = True
         EnableDisableCntrl(True)
         RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
