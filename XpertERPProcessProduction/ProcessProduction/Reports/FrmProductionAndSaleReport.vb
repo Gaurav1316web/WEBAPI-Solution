@@ -1021,7 +1021,13 @@ GROUP BY t.Location_Code
             qry = "WITH Numbered AS (SELECT
         Item_Desc,DcsSeqNo,  CAST(CAST(DcsSeqNo AS INT) AS VARCHAR(10)) + ' - ' + Item_Desc AS Item_Desc_DcsSeqNo,
         ROW_NUMBER() OVER (ORDER BY DcsSeqNo) AS rn FROM TSPL_ITEM_MASTER
-    WHERE Item_Type = 'R' AND DcsSeqNo IS NOT NULL AND DcsSeqNo <> 0)
+    WHERE Item_Type = 'R' AND DcsSeqNo IS NOT NULL and DcsSeqNo <> 0  AND DcsSeqNo <> 16 
+union all
+	SELECT
+         Top 1 Item_Desc, DcsSeqNo,  CAST(CAST(DcsSeqNo AS INT) AS VARCHAR(10)) + ' - Any Other'  AS Item_Desc_DcsSeqNo,
+        16 AS rn FROM TSPL_ITEM_MASTER
+    WHERE Item_Type = 'R' AND DcsSeqNo = 16
+)
     SELECT MAX(CASE WHEN rn_mod = 1 THEN Item_Desc_DcsSeqNo END) AS Item_1, MAX(CASE WHEN rn_mod = 2 THEN Item_Desc_DcsSeqNo END) AS Item_2, MAX(CASE WHEN rn_mod = 3 THEN Item_Desc_DcsSeqNo END) AS Item_3
 ,MAX(CASE WHEN rn_mod = 4 THEN Item_Desc_DcsSeqNo END) AS Item_4
   --  MAX(CASE WHEN rn_mod = 5 THEN Item_Desc_DcsSeqNo END) AS Item_5, 
