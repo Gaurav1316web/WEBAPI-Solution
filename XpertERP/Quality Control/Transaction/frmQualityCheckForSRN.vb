@@ -2133,9 +2133,9 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
             Dim qry As String = Nothing
             Dim frmCRV As New frmCrystalReportViewer()
             Dim strral As String = Nothing
-            Dim QCdate As String = Nothing
+            Dim QCdate As Boolean
             Dim StrWhere As String = ""
-            Dim WeighmentDate As String = Nothing
+            Dim WeighmentDate As Boolean
             If clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage1.Name) = CompairStringResult.Equal Then
                 If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                     common.clsCommon.MyMessageBoxShow(Me, "Document number not found", Me.Text)

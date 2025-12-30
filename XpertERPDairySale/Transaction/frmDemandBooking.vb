@@ -652,6 +652,7 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
                 Next
                 view.ColumnGroups.Add(New GridViewColumnGroup("Total"))
                 view.ColumnGroups(TempColGroupCount).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colCrate).Name)
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") <> CompairStringResult.Equal Then
                     'view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colCrate).Name)
                     view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colLitre).Name)
@@ -664,7 +665,7 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
                 '    view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colCrate).Name)
                 'End If
                 ''17/12 add crate for visibility for GNG 
-                view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colCrate).Name)
+                'view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colCrate).Name)
                 view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colAmt).Name)
                 view.ColumnGroups(TempColGroupCount).IsPinned = True
                 view.ColumnGroups(TempColGroupCount).PinPosition = PinnedColumnPosition.Right

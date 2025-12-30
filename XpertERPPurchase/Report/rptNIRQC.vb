@@ -6,6 +6,14 @@ Imports System.IO
 Public Class rptNIRQC
     Inherits FrmMainTranScreen
 
+    Private Sub rptNIRQC_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Try
+            txtFromDate.Value = clsCommon.GETSERVERDATE()
+            txtToDate.Value = clsCommon.GETSERVERDATE()
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
     Private Sub txtLocation__My_Click(sender As Object, e As EventArgs) Handles txtLocation._My_Click
         Try
             Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER where Location_Type='Physical' "
@@ -96,7 +104,10 @@ Public Class rptNIRQC
         Try
             Dim qry As String = "select  tspl_tender_header.DocumentCode as RALNO ,max(tspl_tender_header.DocumentDate) as DocumentDate  from tspl_tender_header
                             left outer join TSPL_TENDER_DETAIL on TSPL_TENDER_DETAIL.DocumentCode=tspl_tender_header.DocumentCode "
-            qry += "where TSPL_TENDER_DETAIL.Location In (" + clsCommon.GetMulcallString(TxtRAL.arrValueMember) + ") group by tspl_tender_header.DocumentCode "
+            If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                qry += " where TSPL_TENDER_DETAIL.Location In (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
+            End If
+            qry += " group by tspl_tender_header.DocumentCode "
             TxtRAL.arrValueMember = clsCommon.ShowMultipleSelectForm(False, "QCAnalysisRpt", qry, "RALNO", "", TxtRAL.arrValueMember, Nothing)
 
         Catch ex As Exception
@@ -175,4 +186,6 @@ convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as [GRN Date],TSPL_GRN_HEAD.GRN_No 
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+
 End Class

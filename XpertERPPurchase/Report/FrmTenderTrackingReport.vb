@@ -126,7 +126,7 @@ Public Class FrmTenderTrackingReport
 				left outer join tspl_tender_header on tspl_tender_header.DocumentCode=TSPL_TENDER_DETAIL.DocumentCode
 				left outer join tspl_purchase_order_head on tspl_purchase_order_head.RefTendorNo=tspl_tender_header.DocumentCode 
 				and TSPL_TENDER_DETAIL.Location=tspl_purchase_order_head.Bill_To_Location
-                and tspl_purchase_order_head.Against_Tender='Y'
+                and tspl_purchase_order_head.Against_Tender='Y' And tspl_purchase_order_head.Vendor_Code=TSPL_TENDER_DETAIL.Vendor_Code
 				left outer join TSPL_PURCHASE_ORDER_DETAIL on TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No=tspl_purchase_order_head.PurchaseOrder_No
 				and TSPL_PURCHASE_ORDER_DETAIL.Item_Code=TSPL_TENDER_DETAIL.Item_Code
 				AND tspl_purchase_order_head.Bill_To_Location= TSPL_TENDER_DETAIL.Location

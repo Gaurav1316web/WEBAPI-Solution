@@ -134,7 +134,7 @@ Public Class rptQCAnalysisReport
                 strDate = "Weighment Date"
             End If
             qry = ""
-            qry = "select '" & strDate & "' as [" & strDate & "] ,  max(Location_Code)Location_Code,max(Location_Desc)[Location Desc],max(Vendor_Code)Vendor_Code,max(Vendor_Name)[Vendor Name], max(Item_Code)Item_Code,max(Item_Desc)[Item Desc],max(RAL_NO)RAL_NO , Document_Code,max(Document_Date)Document_Date,
+            qry = "select '" & strDate & "' as [" & strDate & "] ,  max(Location_Code)Location_Code,max(Location_Desc)[Location Desc],max(Vendor_Code)Vendor_Code,max(Vendor_Name)[Vendor Name], (Item_Code)Item_Code,max(Item_Desc)[Item Desc],max(RAL_NO)RAL_NO , Document_Code,max(Document_Date)Document_Date,
             MAX(Item_Desc)[Item Name] ,max(Weighment_Code)Weighment_Code , max(Weighment_Date)Weighment_Date,max(VehicleNo)VehicleNo ," & SumParamInput & ", '' as Qc," & SumParamDed & ", sum(" & TotalDed & ") as [Total Deduction],max(Status) as [Status]
             from ( select VehicleNo,Item_Desc,Location_Desc,Vendor_Name, Location_Code,Document_Code,Document_Date, Vendor_Code ,Item_Code , Weighment_Code , Weighment_Date , QC_Param_Code ,Gate_Entry_No, Gate_Entry_Date,RAL_NO ," & paramNameInput & ", " & paramNameDed & ",Status
             from ( select max(VehicleNo)VehicleNo, max(Location_Code)Location_Code,max(Location_Desc)Location_Desc , Document_Code,max(Document_Date)Document_Date,max(Vendor_Code)Vendor_Code,max(Vendor_Name)Vendor_Name, max(Item_Code)Item_Code,max(Weighment_Code)Weighment_Code , max(Weighment_Date)Weighment_Date , max(QC_Param_Code)QC_Param_Code ,
@@ -159,7 +159,8 @@ Public Class rptQCAnalysisReport
                 qry += " where xxxx.Status = 'Under Deviation' "
             End If
 
-            qry += " group by Document_Code order by Document_Code "
+            'qry += " group by Document_Code order by Document_Code "
+            qry += " group by Document_Code ,Item_Code order by Document_Code "
             Dim dt As DataTable = New DataTable()
             dt = clsDBFuncationality.GetDataTable(qry)
             gv1.DataSource = Nothing
