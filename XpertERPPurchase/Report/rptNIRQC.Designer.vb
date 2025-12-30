@@ -22,10 +22,12 @@ Partial Class rptNIRQC
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.TxtRAL = New common.UserControls.txtMultiSelectFinder()
         Me.chkIncludeQC = New Telerik.WinControls.UI.RadCheckBox()
         Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtWeightment = New System.Windows.Forms.RadioButton()
@@ -39,20 +41,19 @@ Partial Class rptNIRQC
         Me.lblfromDate = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv1 = New common.UserControls.MyRadGridView()
-        Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.TxtRAL = New common.UserControls.txtMultiSelectFinder()
-        Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.BtnReset = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnSplit = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.BtnReset = New Telerik.WinControls.UI.RadButton()
+        Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkIncludeQC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox7.SuspendLayout()
@@ -66,11 +67,10 @@ Partial Class rptNIRQC
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnSplit, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnSplit, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -121,6 +121,29 @@ Partial Class rptNIRQC
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 363)
         Me.RadPageViewPage1.Text = "Filter"
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(31, 103)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(26, 18)
+        Me.MyLabel1.TabIndex = 1586
+        Me.MyLabel1.Text = "RAL"
+        '
+        'TxtRAL
+        '
+        Me.TxtRAL.arrDispalyMember = Nothing
+        Me.TxtRAL.arrValueMember = Nothing
+        Me.TxtRAL.Location = New System.Drawing.Point(113, 102)
+        Me.TxtRAL.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtRAL.MyLinkLable1 = Nothing
+        Me.TxtRAL.MyLinkLable2 = Nothing
+        Me.TxtRAL.MyNullText = "All"
+        Me.TxtRAL.Name = "TxtRAL"
+        Me.TxtRAL.Size = New System.Drawing.Size(309, 19)
+        Me.TxtRAL.TabIndex = 1585
         '
         'chkIncludeQC
         '
@@ -305,7 +328,7 @@ Partial Class rptNIRQC
         Me.gv1.MasterTemplate.EnableFiltering = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -316,48 +339,15 @@ Partial Class rptNIRQC
         Me.gv1.TabIndex = 5
         Me.gv1.VarID = ""
         '
-        'MyLabel1
+        'btnclose
         '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(31, 103)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(26, 18)
-        Me.MyLabel1.TabIndex = 1586
-        Me.MyLabel1.Text = "RAL"
-        '
-        'TxtRAL
-        '
-        Me.TxtRAL.arrDispalyMember = Nothing
-        Me.TxtRAL.arrValueMember = Nothing
-        Me.TxtRAL.Location = New System.Drawing.Point(113, 102)
-        Me.TxtRAL.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtRAL.MyLinkLable1 = Nothing
-        Me.TxtRAL.MyLinkLable2 = Nothing
-        Me.TxtRAL.MyNullText = "All"
-        Me.TxtRAL.Name = "TxtRAL"
-        Me.TxtRAL.Size = New System.Drawing.Size(309, 19)
-        Me.TxtRAL.TabIndex = 1585
-        '
-        'btnGo
-        '
-        Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGo.Location = New System.Drawing.Point(10, 6)
-        Me.btnGo.Name = "btnGo"
-        Me.btnGo.Size = New System.Drawing.Size(71, 22)
-        Me.btnGo.TabIndex = 354
-        Me.btnGo.Text = ">>>"
-        '
-        'BtnReset
-        '
-        Me.BtnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.BtnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnReset.Location = New System.Drawing.Point(87, 6)
-        Me.BtnReset.Name = "BtnReset"
-        Me.BtnReset.Size = New System.Drawing.Size(71, 22)
-        Me.BtnReset.TabIndex = 355
-        Me.BtnReset.Text = "Reset"
+        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnclose.Location = New System.Drawing.Point(689, 6)
+        Me.btnclose.Name = "btnclose"
+        Me.btnclose.Size = New System.Drawing.Size(84, 22)
+        Me.btnclose.TabIndex = 358
+        Me.btnclose.Text = "Close"
         '
         'btnSplit
         '
@@ -381,15 +371,25 @@ Partial Class rptNIRQC
         Me.rmiPDF.Text = "PDF"
         Me.rmiPDF.UseCompatibleTextRendering = False
         '
-        'btnclose
+        'BtnReset
         '
-        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnclose.Location = New System.Drawing.Point(689, 6)
-        Me.btnclose.Name = "btnclose"
-        Me.btnclose.Size = New System.Drawing.Size(84, 22)
-        Me.btnclose.TabIndex = 358
-        Me.btnclose.Text = "Close"
+        Me.BtnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.BtnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnReset.Location = New System.Drawing.Point(87, 6)
+        Me.BtnReset.Name = "BtnReset"
+        Me.BtnReset.Size = New System.Drawing.Size(71, 22)
+        Me.BtnReset.TabIndex = 355
+        Me.BtnReset.Text = "Reset"
+        '
+        'btnGo
+        '
+        Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnGo.Location = New System.Drawing.Point(10, 6)
+        Me.btnGo.Name = "btnGo"
+        Me.btnGo.Size = New System.Drawing.Size(71, 22)
+        Me.btnGo.TabIndex = 354
+        Me.btnGo.Text = ">>>"
         '
         'rptNIRQC
         '
@@ -410,6 +410,7 @@ Partial Class rptNIRQC
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkIncludeQC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox7.ResumeLayout(False)
@@ -425,11 +426,10 @@ Partial Class rptNIRQC
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnSplit, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnSplit, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
