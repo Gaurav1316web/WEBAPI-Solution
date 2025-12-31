@@ -23,22 +23,47 @@ Partial Class FrmEwaybill
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.txtDate = New common.Controls.MyDateTimePicker()
+        Me.lblDate = New common.Controls.MyLabel()
+        Me.txtewbno = New common.UserControls.txtFinder()
+        Me.txtRemaningDistance = New common.Controls.MyTextBox()
+        Me.lblRemDistrance = New common.Controls.MyLabel()
+        Me.cmbConsignmentStatus = New System.Windows.Forms.ComboBox()
+        Me.lblConsignmentstatus = New common.Controls.MyLabel()
+        Me.RadLabel15 = New common.Controls.MyLabel()
+        Me.txtLocation = New common.UserControls.txtFinder()
+        Me.txtVehicleNo = New common.UserControls.txtFinder()
+        Me.lblVehicleNo = New common.Controls.MyLabel()
+        Me.cmbExtendValidityReason = New System.Windows.Forms.ComboBox()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.cmbReasonForUpdateVehicle = New System.Windows.Forms.ComboBox()
+        Me.lblReasoncode = New common.Controls.MyLabel()
+        Me.txtTransID = New common.UserControls.txtFinder()
+        Me.lblTransID = New common.Controls.MyLabel()
+        Me.lblewbno = New common.Controls.MyLabel()
         Me.cmbEwaybillType = New common.Controls.MyComboBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnreset = New Telerik.WinControls.UI.RadButton()
-        Me.txtewbno = New common.Controls.MyTextBox()
-        Me.lblewbno = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtRemaningDistance, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblRemDistrance, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblConsignmentstatus, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblVehicleNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblReasoncode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTransID, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblewbno, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmbEwaybillType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtewbno, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblewbno, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -51,7 +76,23 @@ Partial Class FrmEwaybill
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtDate)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblDate)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtewbno)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtRemaningDistance)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblRemDistrance)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.cmbConsignmentStatus)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblConsignmentstatus)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadLabel15)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtLocation)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtVehicleNo)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblVehicleNo)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.cmbExtendValidityReason)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel1)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.cmbReasonForUpdateVehicle)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblReasoncode)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtTransID)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblTransID)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblewbno)
         Me.SplitContainer1.Panel1.Controls.Add(Me.cmbEwaybillType)
         Me.SplitContainer1.Panel1.Controls.Add(Me.Label1)
@@ -64,6 +105,278 @@ Partial Class FrmEwaybill
         Me.SplitContainer1.Size = New System.Drawing.Size(800, 450)
         Me.SplitContainer1.SplitterDistance = 413
         Me.SplitContainer1.TabIndex = 0
+        '
+        'txtDate
+        '
+        Me.txtDate.CalculationExpression = Nothing
+        Me.txtDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtDate.FieldCode = Nothing
+        Me.txtDate.FieldDesc = Nothing
+        Me.txtDate.FieldMaxLength = 0
+        Me.txtDate.FieldName = Nothing
+        Me.txtDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtDate.isCalculatedField = False
+        Me.txtDate.IsSourceFromTable = False
+        Me.txtDate.IsSourceFromValueList = False
+        Me.txtDate.IsUnique = False
+        Me.txtDate.Location = New System.Drawing.Point(127, 135)
+        Me.txtDate.MendatroryField = False
+        Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDate.MyLinkLable1 = Nothing
+        Me.txtDate.MyLinkLable2 = Nothing
+        Me.txtDate.Name = "txtDate"
+        Me.txtDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDate.ReferenceFieldDesc = Nothing
+        Me.txtDate.ReferenceFieldName = Nothing
+        Me.txtDate.ReferenceTableName = Nothing
+        Me.txtDate.Size = New System.Drawing.Size(124, 18)
+        Me.txtDate.TabIndex = 1493
+        Me.txtDate.TabStop = False
+        Me.txtDate.Text = "13/06/2011"
+        Me.txtDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'lblDate
+        '
+        Me.lblDate.FieldName = Nothing
+        Me.lblDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDate.Location = New System.Drawing.Point(30, 138)
+        Me.lblDate.Name = "lblDate"
+        Me.lblDate.Size = New System.Drawing.Size(82, 16)
+        Me.lblDate.TabIndex = 1492
+        Me.lblDate.Text = "Eway Bill Date"
+        '
+        'txtewbno
+        '
+        Me.txtewbno.CalculationExpression = Nothing
+        Me.txtewbno.FieldCode = Nothing
+        Me.txtewbno.FieldDesc = Nothing
+        Me.txtewbno.FieldMaxLength = 0
+        Me.txtewbno.FieldName = Nothing
+        Me.txtewbno.isCalculatedField = False
+        Me.txtewbno.IsSourceFromTable = False
+        Me.txtewbno.IsSourceFromValueList = False
+        Me.txtewbno.IsUnique = False
+        Me.txtewbno.Location = New System.Drawing.Point(126, 66)
+        Me.txtewbno.MendatroryField = False
+        Me.txtewbno.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtewbno.MyLinkLable1 = Nothing
+        Me.txtewbno.MyLinkLable2 = Nothing
+        Me.txtewbno.MyReadOnly = False
+        Me.txtewbno.MyShowMasterFormButton = False
+        Me.txtewbno.Name = "txtewbno"
+        Me.txtewbno.ReferenceFieldDesc = Nothing
+        Me.txtewbno.ReferenceFieldName = Nothing
+        Me.txtewbno.ReferenceTableName = Nothing
+        Me.txtewbno.Size = New System.Drawing.Size(125, 19)
+        Me.txtewbno.TabIndex = 1491
+        Me.txtewbno.Value = ""
+        '
+        'txtRemaningDistance
+        '
+        Me.txtRemaningDistance.CalculationExpression = Nothing
+        Me.txtRemaningDistance.FieldCode = Nothing
+        Me.txtRemaningDistance.FieldDesc = Nothing
+        Me.txtRemaningDistance.FieldMaxLength = 0
+        Me.txtRemaningDistance.FieldName = Nothing
+        Me.txtRemaningDistance.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRemaningDistance.isCalculatedField = False
+        Me.txtRemaningDistance.IsSourceFromTable = False
+        Me.txtRemaningDistance.IsSourceFromValueList = False
+        Me.txtRemaningDistance.IsUnique = False
+        Me.txtRemaningDistance.Location = New System.Drawing.Point(386, 137)
+        Me.txtRemaningDistance.MaxLength = 200
+        Me.txtRemaningDistance.MendatroryField = False
+        Me.txtRemaningDistance.MyLinkLable1 = Nothing
+        Me.txtRemaningDistance.MyLinkLable2 = Nothing
+        Me.txtRemaningDistance.Name = "txtRemaningDistance"
+        Me.txtRemaningDistance.ReferenceFieldDesc = Nothing
+        Me.txtRemaningDistance.ReferenceFieldName = Nothing
+        Me.txtRemaningDistance.ReferenceTableName = Nothing
+        Me.txtRemaningDistance.Size = New System.Drawing.Size(125, 18)
+        Me.txtRemaningDistance.TabIndex = 1490
+        '
+        'lblRemDistrance
+        '
+        Me.lblRemDistrance.FieldName = Nothing
+        Me.lblRemDistrance.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblRemDistrance.Location = New System.Drawing.Point(259, 137)
+        Me.lblRemDistrance.Name = "lblRemDistrance"
+        Me.lblRemDistrance.Size = New System.Drawing.Size(105, 16)
+        Me.lblRemDistrance.TabIndex = 1489
+        Me.lblRemDistrance.Text = "Remaning Distance"
+        '
+        'cmbConsignmentStatus
+        '
+        Me.cmbConsignmentStatus.FormattingEnabled = True
+        Me.cmbConsignmentStatus.Location = New System.Drawing.Point(386, 110)
+        Me.cmbConsignmentStatus.Name = "cmbConsignmentStatus"
+        Me.cmbConsignmentStatus.Size = New System.Drawing.Size(232, 21)
+        Me.cmbConsignmentStatus.TabIndex = 1488
+        '
+        'lblConsignmentstatus
+        '
+        Me.lblConsignmentstatus.FieldName = Nothing
+        Me.lblConsignmentstatus.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblConsignmentstatus.Location = New System.Drawing.Point(257, 115)
+        Me.lblConsignmentstatus.Name = "lblConsignmentstatus"
+        Me.lblConsignmentstatus.Size = New System.Drawing.Size(108, 16)
+        Me.lblConsignmentstatus.TabIndex = 1487
+        Me.lblConsignmentstatus.Text = "Consignment Status"
+        '
+        'RadLabel15
+        '
+        Me.RadLabel15.FieldName = Nothing
+        Me.RadLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel15.Location = New System.Drawing.Point(30, 45)
+        Me.RadLabel15.Name = "RadLabel15"
+        Me.RadLabel15.Size = New System.Drawing.Size(49, 16)
+        Me.RadLabel15.TabIndex = 1486
+        Me.RadLabel15.Text = "Location"
+        '
+        'txtLocation
+        '
+        Me.txtLocation.CalculationExpression = Nothing
+        Me.txtLocation.FieldCode = Nothing
+        Me.txtLocation.FieldDesc = Nothing
+        Me.txtLocation.FieldMaxLength = 0
+        Me.txtLocation.FieldName = Nothing
+        Me.txtLocation.isCalculatedField = False
+        Me.txtLocation.IsSourceFromTable = False
+        Me.txtLocation.IsSourceFromValueList = False
+        Me.txtLocation.IsUnique = False
+        Me.txtLocation.Location = New System.Drawing.Point(127, 41)
+        Me.txtLocation.MendatroryField = True
+        Me.txtLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocation.MyLinkLable1 = Me.RadLabel15
+        Me.txtLocation.MyLinkLable2 = Nothing
+        Me.txtLocation.MyReadOnly = False
+        Me.txtLocation.MyShowMasterFormButton = False
+        Me.txtLocation.Name = "txtLocation"
+        Me.txtLocation.ReferenceFieldDesc = Nothing
+        Me.txtLocation.ReferenceFieldName = Nothing
+        Me.txtLocation.ReferenceTableName = Nothing
+        Me.txtLocation.Size = New System.Drawing.Size(125, 20)
+        Me.txtLocation.TabIndex = 1485
+        Me.txtLocation.Value = ""
+        '
+        'txtVehicleNo
+        '
+        Me.txtVehicleNo.CalculationExpression = Nothing
+        Me.txtVehicleNo.FieldCode = Nothing
+        Me.txtVehicleNo.FieldDesc = Nothing
+        Me.txtVehicleNo.FieldMaxLength = 0
+        Me.txtVehicleNo.FieldName = Nothing
+        Me.txtVehicleNo.isCalculatedField = False
+        Me.txtVehicleNo.IsSourceFromTable = False
+        Me.txtVehicleNo.IsSourceFromValueList = False
+        Me.txtVehicleNo.IsUnique = False
+        Me.txtVehicleNo.Location = New System.Drawing.Point(126, 112)
+        Me.txtVehicleNo.MendatroryField = False
+        Me.txtVehicleNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtVehicleNo.MyLinkLable1 = Nothing
+        Me.txtVehicleNo.MyLinkLable2 = Nothing
+        Me.txtVehicleNo.MyReadOnly = False
+        Me.txtVehicleNo.MyShowMasterFormButton = False
+        Me.txtVehicleNo.Name = "txtVehicleNo"
+        Me.txtVehicleNo.ReferenceFieldDesc = Nothing
+        Me.txtVehicleNo.ReferenceFieldName = Nothing
+        Me.txtVehicleNo.ReferenceTableName = Nothing
+        Me.txtVehicleNo.Size = New System.Drawing.Size(125, 19)
+        Me.txtVehicleNo.TabIndex = 1484
+        Me.txtVehicleNo.Value = ""
+        '
+        'lblVehicleNo
+        '
+        Me.lblVehicleNo.FieldName = Nothing
+        Me.lblVehicleNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblVehicleNo.Location = New System.Drawing.Point(27, 111)
+        Me.lblVehicleNo.Name = "lblVehicleNo"
+        Me.lblVehicleNo.Size = New System.Drawing.Size(61, 16)
+        Me.lblVehicleNo.TabIndex = 1483
+        Me.lblVehicleNo.Text = "Vehicle No"
+        '
+        'cmbExtendValidityReason
+        '
+        Me.cmbExtendValidityReason.FormattingEnabled = True
+        Me.cmbExtendValidityReason.Location = New System.Drawing.Point(386, 88)
+        Me.cmbExtendValidityReason.Name = "cmbExtendValidityReason"
+        Me.cmbExtendValidityReason.Size = New System.Drawing.Size(232, 21)
+        Me.cmbExtendValidityReason.TabIndex = 1482
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(257, 93)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(123, 16)
+        Me.MyLabel1.TabIndex = 1481
+        Me.MyLabel1.Text = "Extend Validity Reason"
+        '
+        'cmbReasonForUpdateVehicle
+        '
+        Me.cmbReasonForUpdateVehicle.FormattingEnabled = True
+        Me.cmbReasonForUpdateVehicle.Location = New System.Drawing.Point(386, 64)
+        Me.cmbReasonForUpdateVehicle.Name = "cmbReasonForUpdateVehicle"
+        Me.cmbReasonForUpdateVehicle.Size = New System.Drawing.Size(232, 21)
+        Me.cmbReasonForUpdateVehicle.TabIndex = 1480
+        '
+        'lblReasoncode
+        '
+        Me.lblReasoncode.FieldName = Nothing
+        Me.lblReasoncode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblReasoncode.Location = New System.Drawing.Point(257, 68)
+        Me.lblReasoncode.Name = "lblReasoncode"
+        Me.lblReasoncode.Size = New System.Drawing.Size(75, 16)
+        Me.lblReasoncode.TabIndex = 1479
+        Me.lblReasoncode.Text = "Reason Code"
+        '
+        'txtTransID
+        '
+        Me.txtTransID.CalculationExpression = Nothing
+        Me.txtTransID.FieldCode = Nothing
+        Me.txtTransID.FieldDesc = Nothing
+        Me.txtTransID.FieldMaxLength = 0
+        Me.txtTransID.FieldName = Nothing
+        Me.txtTransID.isCalculatedField = False
+        Me.txtTransID.IsSourceFromTable = False
+        Me.txtTransID.IsSourceFromValueList = False
+        Me.txtTransID.IsUnique = False
+        Me.txtTransID.Location = New System.Drawing.Point(126, 90)
+        Me.txtTransID.MendatroryField = False
+        Me.txtTransID.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTransID.MyLinkLable1 = Nothing
+        Me.txtTransID.MyLinkLable2 = Nothing
+        Me.txtTransID.MyReadOnly = False
+        Me.txtTransID.MyShowMasterFormButton = False
+        Me.txtTransID.Name = "txtTransID"
+        Me.txtTransID.ReferenceFieldDesc = Nothing
+        Me.txtTransID.ReferenceFieldName = Nothing
+        Me.txtTransID.ReferenceTableName = Nothing
+        Me.txtTransID.Size = New System.Drawing.Size(125, 19)
+        Me.txtTransID.TabIndex = 1478
+        Me.txtTransID.Value = ""
+        '
+        'lblTransID
+        '
+        Me.lblTransID.FieldName = Nothing
+        Me.lblTransID.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTransID.Location = New System.Drawing.Point(27, 89)
+        Me.lblTransID.Name = "lblTransID"
+        Me.lblTransID.Size = New System.Drawing.Size(75, 16)
+        Me.lblTransID.TabIndex = 1477
+        Me.lblTransID.Text = "Transpoter ID"
+        '
+        'lblewbno
+        '
+        Me.lblewbno.FieldName = Nothing
+        Me.lblewbno.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblewbno.Location = New System.Drawing.Point(27, 67)
+        Me.lblewbno.Name = "lblewbno"
+        Me.lblewbno.Size = New System.Drawing.Size(73, 16)
+        Me.lblewbno.TabIndex = 1475
+        Me.lblewbno.Text = "Eway Bill No."
         '
         'cmbEwaybillType
         '
@@ -127,41 +440,6 @@ Partial Class FrmEwaybill
         Me.btnreset.TabIndex = 87
         Me.btnreset.Text = "Reset"
         '
-        'txtewbno
-        '
-        Me.txtewbno.CalculationExpression = Nothing
-        Me.txtewbno.FieldCode = Nothing
-        Me.txtewbno.FieldDesc = Nothing
-        Me.txtewbno.FieldMaxLength = 0
-        Me.txtewbno.FieldName = Nothing
-        Me.txtewbno.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtewbno.isCalculatedField = False
-        Me.txtewbno.IsSourceFromTable = False
-        Me.txtewbno.IsSourceFromValueList = False
-        Me.txtewbno.IsUnique = False
-        Me.txtewbno.Location = New System.Drawing.Point(126, 66)
-        Me.txtewbno.MaxLength = 200
-        Me.txtewbno.MendatroryField = False
-        Me.txtewbno.MyLinkLable1 = Nothing
-        Me.txtewbno.MyLinkLable2 = Nothing
-        Me.txtewbno.Name = "txtewbno"
-        Me.txtewbno.ReadOnly = True
-        Me.txtewbno.ReferenceFieldDesc = Nothing
-        Me.txtewbno.ReferenceFieldName = Nothing
-        Me.txtewbno.ReferenceTableName = Nothing
-        Me.txtewbno.Size = New System.Drawing.Size(125, 18)
-        Me.txtewbno.TabIndex = 1476
-        '
-        'lblewbno
-        '
-        Me.lblewbno.FieldName = Nothing
-        Me.lblewbno.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblewbno.Location = New System.Drawing.Point(27, 67)
-        Me.lblewbno.Name = "lblewbno"
-        Me.lblewbno.Size = New System.Drawing.Size(73, 16)
-        Me.lblewbno.TabIndex = 1475
-        Me.lblewbno.Text = "Eway Bill No."
-        '
         'FrmEwaybill
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -178,12 +456,21 @@ Partial Class FrmEwaybill
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtRemaningDistance, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblRemDistrance, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblConsignmentstatus, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblVehicleNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblReasoncode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTransID, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblewbno, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmbEwaybillType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtewbno, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblewbno, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -195,6 +482,22 @@ Partial Class FrmEwaybill
     Friend WithEvents btnclose As RadButton
     Friend WithEvents btnreset As RadButton
     Friend WithEvents cmbEwaybillType As common.Controls.MyComboBox
-    Friend WithEvents txtewbno As common.Controls.MyTextBox
     Friend WithEvents lblewbno As common.Controls.MyLabel
+    Friend WithEvents lblTransID As common.Controls.MyLabel
+    Friend WithEvents txtTransID As common.UserControls.txtFinder
+    Friend WithEvents lblReasoncode As common.Controls.MyLabel
+    Friend WithEvents cmbReasonForUpdateVehicle As ComboBox
+    Friend WithEvents cmbExtendValidityReason As ComboBox
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents txtVehicleNo As common.UserControls.txtFinder
+    Friend WithEvents lblVehicleNo As common.Controls.MyLabel
+    Friend WithEvents RadLabel15 As common.Controls.MyLabel
+    Friend WithEvents txtLocation As common.UserControls.txtFinder
+    Friend WithEvents cmbConsignmentStatus As ComboBox
+    Friend WithEvents lblConsignmentstatus As common.Controls.MyLabel
+    Friend WithEvents txtRemaningDistance As common.Controls.MyTextBox
+    Friend WithEvents lblRemDistrance As common.Controls.MyLabel
+    Friend WithEvents txtewbno As common.UserControls.txtFinder
+    Friend WithEvents txtDate As common.Controls.MyDateTimePicker
+    Friend WithEvents lblDate As common.Controls.MyLabel
 End Class
