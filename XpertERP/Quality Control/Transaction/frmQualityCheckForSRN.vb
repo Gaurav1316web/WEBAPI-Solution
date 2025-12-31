@@ -2077,7 +2077,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
             'End If
             Dim Qry As String = Nothing
             'clsQualityCheckForSRNHead.funCheckSRN(MyBase.Form_ID, True, fromDate.Value, ToDate.Value, txtLoationPrintFinder.Value, TxtFinderVendorPrint.Value, TxtFinderItemPrint.Value, arrrRAL, rbtnQCdate.IsChecked, rbtnWeighmentDate.IsChecked, RadPageView1.SelectedPage, RadPageViewPage.VALUE)
-            Qry = clsQualityCheckForSRNHead.AnalysisData(MyBase.Form_ID, fromDate.Value, ToDate.Value, txtLoationPrintFinder.Value, TxtFinderVendorPrint.Value, TxtFinderItemPrint.Value, strral, QCdate, WeighmentDate)
+            Qry = clsQualityCheckForSRNHead.AnalysisData(MyBase.Form_ID, fromDate.Value, ToDate.Value, txtLoationPrintFinder.Value, TxtFinderVendorPrint.Value, TxtFinderItemPrint.Value, strral, QCdate, WeighmentDate, False, False, False)
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
 
 
@@ -2190,7 +2190,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                     ' StrWhere += " and convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) >= convert(date,('" & fromDate.Value & "'),103) and convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) <= convert(date,('" & ToDate.Value & "'),103) "
                 End If
             End If
-            qry = clsQualityCheckForSRNHead.AnalysisPrint(MyBase.Form_ID, fromDate.Value, ToDate.Value, txtLoationPrintFinder.Value, TxtFinderVendorPrint.Value, TxtFinderItemPrint.Value, strral, QCdate, WeighmentDate)
+            qry = clsQualityCheckForSRNHead.AnalysisPrint(MyBase.Form_ID, fromDate.Value, ToDate.Value, txtLoationPrintFinder.Value, TxtFinderVendorPrint.Value, TxtFinderItemPrint.Value, strral, QCdate, WeighmentDate, False, False, False)
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
 
 
