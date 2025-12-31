@@ -880,6 +880,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.WeightmentAutoAndManualReport, "Weightment Auto And Manual Report", "1.08.03.53", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptRejectionReport, "Rejection Detail Report", "1.08.03.57", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.CancelPurchaseInvoiceReport, "Cancel Purchase Invoice Report", "1.08.03.58", clsUserMgtCode.SubModulePurchaseReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmRALQCReport, "RAL QC Report", "1.08.03.59", clsUserMgtCode.SubModulePurchaseReport, 37)
         '=================End=====================
 
 
@@ -1321,7 +1322,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCSMultipleDaysMerge, "DCS Milk Collection Multiple Days Merge", "1.29.02.52", clsUserMgtCode.SubModuleProductionTransactionDairy, 8)
         InsertDefaultValue(clsUserMgtCode.BulkProcurementUploader, "Bulk Procurement Uploader", "1.29.02.56", clsUserMgtCode.SubModuleProductionTransactionDairy, 8)
         InsertDefaultValue(clsUserMgtCode.ProductionShiftMgmt, "Shift Management", "1.29.02.57", clsUserMgtCode.SubModuleProductionTransactionDairy, "", 8, 0, "", "", "", False, False, True, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
-
+        InsertDefaultValue(clsUserMgtCode.frmGateEntryTransaction, "Weighment", "1.29.02.58", clsUserMgtCode.SubModuleProductionTransactionDairy, "", 8, Nothing, Nothing, Nothing, Nothing, False, False, True, "", Nothing, "", "Internal", "", "", "", False, "", 0, True, False)
 
         '----------------Preeti Gupta------------
         'Report-----------
@@ -2701,6 +2702,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptPendingQCReport, "QC Status Report", "1.23.03.01", clsUserMgtCode.SubModuleQCReport, 37)
         InsertDefaultValue(clsUserMgtCode.QualitySummaryReport, "Quality Summary Report", "1.23.03.02", clsUserMgtCode.SubModuleQCReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptQCAnalysisReport, "QC Analysis Report", "1.23.03.03", clsUserMgtCode.SubModuleQCReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptNIRQC, "NIR QC Report", "1.23.03.07", clsUserMgtCode.SubModuleQCReport, 37)
 
         ''===========================end QC===========================================================
 

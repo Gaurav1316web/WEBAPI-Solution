@@ -1159,7 +1159,7 @@ Public Class MDI
                 lblOTPCode.Visible = False
             Else
                 If Not clsCommon.CompairString(Pwd, clsCommon.EncryptString(txtPassword.Text)) = CompairStringResult.Equal Then
-                    If clsCommon.CompairString("DeveLoper", txtPassword.Text, True) = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_MASTER.DBO.TSPL_FIXED_PARAMETER where code='Master PWD'")), txtPassword.Text, True) = CompairStringResult.Equal Then
                         clsCommon.MyMessageBoxShow(Me, "Correct Password is: " & clsCommon.DecryptString(Pwd), Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
                     Else
                         clsCommon.MyMessageBoxShow(Me, "Please enter Correct User ID and Password ", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
@@ -6515,6 +6515,9 @@ Public Class MDI
                     Case clsUserMgtCode.CancelPurchaseInvoiceReport
                         frm = New CancelPurchaseInvoiceReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmRALQCReport
+                        frm = New frmRALQCReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptUnpostedPO
                         frm = New frmRptUnpostedPO()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -7162,6 +7165,10 @@ Public Class MDI
 
                     Case clsUserMgtCode.rptQCAnalysisReport
                         frm = New rptQCAnalysisReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.rptNIRQC
+                        frm = New rptNIRQC
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.frmOperationMaster
@@ -7976,6 +7983,9 @@ Public Class MDI
                         'Case clsUserMgtCode.MilkRetesting
                         ' frm = New frmMilkRetesting
                         'formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmGateEntryTransaction
+                        frm = New frmGateEntryTransaction
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.MilkGateEntryWeightment
                         frm = New frmMilkGateEntryWeighment
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

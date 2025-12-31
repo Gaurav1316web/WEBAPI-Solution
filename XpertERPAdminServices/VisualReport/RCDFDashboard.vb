@@ -1850,7 +1850,7 @@ order by TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No desc"
     Public Sub Load_Report_Raw_Material()
         Try
             If dtRMStock Is Nothing OrElse dtRMStock.Rows.Count <= 0 Then
-                Dim sQuery As String = "select xx.Item_Desc,
+                Dim sQuery As String = "select max(xxx.Item_Desc)Item_Desc,max(Unit)Unit,sum(STOCK_QTY)STOCK_QTY,sum(QTY_FOR_DAYS)QTY_FOR_DAYS from ( " & Environment.NewLine & "select xx.item_code,xx.Item_Desc,
                 case when xx.UOM='KG' THEN 
 		                CASE WHEN ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,0)=0 THEN xx.UOM ELSE TSPL_ITEM_UOM_DETAIL.UOM_Code END 
 	                 WHEN xx.UOM='GM' THEN 
@@ -1870,10 +1870,10 @@ order by TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No desc"
 	            CASE WHEN SUM(ISNULL(RM_STOCK_DAYS.REQ_STOCK,0))<>0 THEN SUM(ISNULL(RM_STOCK_DAYS.STOCK_QTY,0))/SUM(ISNULL(RM_STOCK_DAYS.REQ_STOCK,0)) ELSE 
 	            CASE WHEN SUM(ISNULL(RM_STOCK_DAYS.MIN_LEVEL,0))<>0 THEN SUM(ISNULL(RM_STOCK_DAYS.STOCK_QTY,0))/SUM(ISNULL(RM_STOCK_DAYS.MIN_LEVEL,0)) ELSE 0 END END AS 'QTY_FOR_DAYS' 
 	            FROM  (
-	            SELECT RM_STOCK.ITEM_CODE,max(RM_STOCK.Item_Desc) as Item_Desc,MAX(RM_STOCK.UOM) AS 'UOM',SUM(ISNULL(RM_STOCK.IN_STOCK_QTY,0))-SUM(ISNULL(RM_STOCK.OUT_STOCK_QTY,0)) AS 'STOCK_QTY',0 AS 'REQ_STOCK', 0 AS 'MIN_LEVEL' FROM (
+	            SELECT RM_STOCK.ITEM_CODE,RM_STOCK.Location_Code,max(RM_STOCK.Item_Desc) as Item_Desc,MAX(RM_STOCK.UOM) AS 'UOM',SUM(ISNULL(RM_STOCK.IN_STOCK_QTY,0))-SUM(ISNULL(RM_STOCK.OUT_STOCK_QTY,0)) AS 'STOCK_QTY',0 AS 'REQ_STOCK', 0 AS 'MIN_LEVEL' FROM (
 	            SELECT TSPL_INVENTORY_MOVEMENT.Item_Code AS 'ITEM_CODE',TSPL_ITEM_MASTER.Short_Description AS 'ITEM_DESC',TSPL_ITEM_MASTER.Unit_Code AS 'UOM',
 	            CASE WHEN INOUT='I' THEN STOCK_QTY END AS 'IN_STOCK_QTY',
-	            CASE WHEN INOUT='O' THEN STOCK_QTY END AS 'OUT_STOCK_QTY'
+	            CASE WHEN INOUT='O' THEN STOCK_QTY END AS 'OUT_STOCK_QTY',TSPL_INVENTORY_MOVEMENT.Location_Code
 	             FROM TSPL_INVENTORY_MOVEMENT
 	            LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code
 	            WHERE 2=2 "
@@ -1881,10 +1881,10 @@ order by TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No desc"
                     sQuery += " And TSPL_INVENTORY_MOVEMENT.Location_Code='" + txtLocation.Value + "' "
                 End If
                 sQuery += "  AND TSPL_ITEM_MASTER.Structure_Code IN ('RM','PM')) RM_STOCK
-	GROUP BY  RM_STOCK.Item_Code
+	GROUP BY  RM_STOCK.Item_Code,RM_STOCK.Location_Code
 	UNION ALL
 	SELECT  
-	TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE,max(TSPL_ITEM_MASTER.Short_Description) as Item_Desc,max(TSPL_ITEM_MASTER.Unit_Code) as 'UOM',
+	TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE,TSPL_MF_BOM_HEAD.Location_Code,max(TSPL_ITEM_MASTER.Short_Description) as Item_Desc,max(TSPL_ITEM_MASTER.Unit_Code) as 'UOM',
 	0 AS 'STOCK_QTY',
 	AVG(CASE WHEN TSPL_MF_BOM_DETAIL.Percentage>0 THEN 
     (TSPL_MF_BOM_DETAIL.Percentage*TSPL_LOCATION_MASTER.Silo_Capacity*1000)/100 ELSE 
@@ -1900,7 +1900,7 @@ order by TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No desc"
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " and TSPL_MF_BOM_HEAD.LOCATION_CODE='" + txtLocation.Value + "' "
                 End If
-                sQuery += " GROUP BY PROD_ITEM_CODE
+                sQuery += " GROUP BY PROD_ITEM_CODE,LOCATION_CODE
 	) BOM_LATEST ON BOM_LATEST.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE AND BOM_LATEST.REVISION_NO=TSPL_MF_BOM_HEAD.REVISION_NO
 	WHERE  TSPL_ITEM_MASTER.Structure_Code IN ('RM','PM')  "
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
@@ -1908,9 +1908,9 @@ order by TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No desc"
                 End If
 
                 sQuery += "GROUP BY  
-	TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE
+	TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE,TSPL_MF_BOM_HEAD.Location_Code
 	UNION ALL
-	select TSPL_ITEM_REORDER_LEVEL_NEW.Item_Code ,TSPL_ITEM_MASTER.Short_Description AS 'ITEM_DESC',TSPL_ITEM_MASTER.Unit_Code AS 'UOM',
+	select TSPL_ITEM_REORDER_LEVEL_NEW.Item_Code,TSPL_ITEM_REORDER_LEVEL_NEW.Location_Code ,TSPL_ITEM_MASTER.Short_Description AS 'ITEM_DESC',TSPL_ITEM_MASTER.Unit_Code AS 'UOM',
 	0 AS 'STOCK_QTY', 
 	0 AS 'REQ_STOCK',
 	TSPL_ITEM_REORDER_LEVEL_NEW.Min_Level AS 'MIN_LEVEL' 
@@ -1921,12 +1921,11 @@ order by TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No desc"
                     sQuery += " AND TSPL_ITEM_REORDER_LEVEL_NEW.Location_Code='" + txtLocation.Value + "' "
                 End If
                 sQuery += " ) RM_STOCK_DAYS
-GROUP BY  RM_STOCK_DAYS.ITEM_CODE
+GROUP BY  RM_STOCK_DAYS.ITEM_CODE,RM_STOCK_DAYS.Location_Code
 )xx 
 left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=xx.ITEM_CODE and UPPER(TSPL_ITEM_UOM_DETAIL.UOM_Code)='QTL'
 left outer join TSPL_ITEM_UOM_DETAIL KG_UOM_DETAIL on KG_UOM_DETAIL.Item_Code=xx.ITEM_CODE and UPPER(KG_UOM_DETAIL.UOM_Code)='KG'
-WHERE XX.ITEM_CODE NOT IN ('PM0001','PM0002') and xx.STOCK_QTY>0
-ORDER BY  XX.ITEM_DESC"
+WHERE XX.ITEM_CODE NOT IN ('PM0001','PM0002') and xx.STOCK_QTY>0  " & Environment.NewLine & ")xxx group by xxx.ITEM_CODE ORDER BY MAX(XXX.ITEM_DESC) "
                 dtRMStock = clsDBFuncationality.GetDataTable(sQuery)
             End If
 
@@ -1962,15 +1961,19 @@ ORDER BY  XX.ITEM_DESC"
 
         Try
             If dtRMSupply Is Nothing OrElse dtRMSupply.Rows.Count <= 0 Then
-                Dim sQuery As String = "select final.Ref_No,final.ITEM_DESC,final.UOM,final.Vendor_Name,final.RAL_QTY,final.GRNQTY,final.Pending_Qty from (
+                Dim sQuery As String = "select final.Ref_No,final.ITEM_DESC,final.UOM,final.Vendor_Name,final.RAL_QTY,--final.GRNQTY,
+                IsNull(final.SRN_Qty,0)SRN_Qty,Case When final.Pending_Qty>0 Then final.Pending_Qty Else 0 End As Pending_Qty from (
                 Select  TSPL_GRN_HEAD.Ref_No ,TSPL_ITEM_MASTER.Short_Description As 'ITEM_DESC',TSPL_PO_WEIGHTMENT_DETAIL.UOM,TSPL_GRN_HEAD.Vendor_Name,
                 cast(RM_RAL.RAL_QTY as numeric (18,0)) as 'RAL_QTY',
                 max(TendorSeqNo) as TendorSeqNo,
-                SUM(CASE WHEN TSPL_QC_CHECK_HEAD.QC_Status='Rejected' or TSPL_GRN_HEAD.VisualQCStatusSecond=2 or TSPL_GRN_HEAD.VisualQCStatus=2 then 0 else cast(TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight as numeric (18,0)) END) AS GRNQTY,
-                (RM_RAL.RAL_QTY - sum((CASE WHEN TSPL_QC_CHECK_HEAD.QC_Status='Rejected' or TSPL_GRN_HEAD.VisualQCStatusSecond=2 or TSPL_GRN_HEAD.VisualQCStatus=2 then 0 else cast(TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight as numeric (18,0)) END))) as 'Pending_Qty'
+                ---SUM(CASE WHEN TSPL_QC_CHECK_HEAD.QC_Status='Rejected' or TSPL_GRN_HEAD.VisualQCStatusSecond=2 or TSPL_GRN_HEAD.VisualQCStatus=2 then 0 else cast(TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight as numeric (18,0)) END) AS GRNQTY,
+                Round(Sum(TSPL_SRN_DETAIL.MRN_Qty-TSPL_SRN_DETAIL.Rejected_Qty),0) As SRN_Qty,
+                RM_RAL.RAL_QTY-Round(Sum((TSPL_SRN_DETAIL.MRN_Qty-TSPL_SRN_DETAIL.Rejected_Qty)),0) as 'Pending_Qty'
                 from TSPL_PO_WEIGHTMENT_HEAD
                 left outer join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code
                 left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
+                left outer join TSPL_SRN_HEAD On TSPL_SRN_HEAD.Against_GRN=TSPL_GRN_HEAD.GRN_No and TSPL_SRN_HEAD.Status=1
+				left outer Join TSPL_SRN_DETAIL On TSPL_SRN_DETAIL.SRN_No=TSPL_SRN_HEAD.SRN_No
                 left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_PO_WEIGHTMENT_DETAIL.Item_Code
                 LEFT JOIN TSPL_QC_CHECK_HEAD ON TSPL_QC_CHECK_HEAD.Gate_Entry_No=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
                 INNER JOIN 
@@ -2011,7 +2014,8 @@ ORDER BY  XX.ITEM_DESC"
                 gvRMSupply.Columns("UOM").HeaderText = "Unit"
                 gvRMSupply.Columns("Vendor_Name").HeaderText = "Vendor"
                 gvRMSupply.Columns("RAL_QTY").HeaderText = "Ordered" + Environment.NewLine + "Quantity"
-                gvRMSupply.Columns("GRNQTY").HeaderText = "Received" + Environment.NewLine + "Quantity"
+                'gvRMSupply.Columns("GRNQTY").HeaderText = "Received" + Environment.NewLine + "Quantity"
+                gvRMSupply.Columns("SRN_Qty").HeaderText = "Received" + Environment.NewLine + "Quantity"
                 gvRMSupply.Columns("Pending_Qty").HeaderText = "Pending" + Environment.NewLine + "Quantity"
 
 

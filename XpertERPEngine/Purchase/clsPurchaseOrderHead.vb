@@ -7079,28 +7079,51 @@ Public Class clsTenderSchedulePO
     Public Arr As List(Of clsTenderSchedulePeneltyPO) = Nothing
 #End Region
 
-    Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsTenderSchedulePO), ByVal trans As SqlTransaction) As Boolean
-        If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
-            For Each obj As clsTenderSchedulePO In Arr
-                Dim coll As New Hashtable()
-                clsCommon.AddColumnsForChange(coll, "DocumentCode", strDocNo)
-                clsCommon.AddColumnsForChange(coll, "PSNo", obj.PSNo)
-                clsCommon.AddColumnsForChange(coll, "Schedule_No", obj.Schedule_No)
-                clsCommon.AddColumnsForChange(coll, "From_Date", clsCommon.GetPrintDate(obj.From_Date, "dd/MMM/yyyy"))
-                clsCommon.AddColumnsForChange(coll, "To_Date", clsCommon.GetPrintDate(obj.To_Date, "dd/MMM/yyyy"))
-                clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
-                clsCommon.AddColumnsForChange(coll, "Schedule_Qty_Per", obj.Schedule_Qty_Per)
-                clsCommon.AddColumnsForChange(coll, "Schedule_Qty", obj.Schedule_Qty)
-                clsCommon.AddColumnsForChange(coll, "Schedule_Short_Per", obj.Schedule_Short_Per)
-                clsCommon.AddColumnsForChange(coll, "Schedule_Short", obj.Schedule_Short)
-                clsCommon.AddColumnsForChange(coll, "Late_Days", obj.Late_Days)
-                clsCommon.AddColumnsForChange(coll, "Extension_Days", obj.Extension_Days)
-                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TENDER_SCHEDULE_PO", OMInsertOrUpdate.Insert, "", trans)
+    Public Shared Function SaveScheduleData(ByVal strDocNo As String, ByVal Arr As List(Of clsTenderSchedulePO), ByVal trans As SqlTransaction) As Boolean
+        Try
+            trans = clsDBFuncationality.GetTransactin()
+            Dim qry As String = Nothing
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_TENDER_SCHEDULE_PENALTY_PO", "DocumentCode", trans)
+            qry = "delete from TSPL_TENDER_SCHEDULE_PENALTY_PO where DocumentCode='" & strDocNo & "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_TENDER_SCHEDULE_PO", "DocumentCode", trans)
+            qry = "delete from TSPL_TENDER_SCHEDULE_PO where DocumentCode='" & strDocNo & "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            SaveData(strDocNo, Arr, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
 
-                Dim PK As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select MAX(PK_ID) from TSPL_TENDER_SCHEDULE_PO where DocumentCode='" + strDocNo + "'", trans))
-                clsTenderSchedulePeneltyPO.SaveData(strDocNo, PK, obj.Arr, trans)
-            Next
-        End If
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsTenderSchedulePO), ByVal trans As SqlTransaction) As Boolean
+        Try
+            If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
+                For Each obj As clsTenderSchedulePO In Arr
+                    Dim coll As New Hashtable()
+                    clsCommon.AddColumnsForChange(coll, "DocumentCode", strDocNo)
+                    clsCommon.AddColumnsForChange(coll, "PSNo", obj.PSNo)
+                    clsCommon.AddColumnsForChange(coll, "Schedule_No", obj.Schedule_No)
+                    clsCommon.AddColumnsForChange(coll, "From_Date", clsCommon.GetPrintDate(obj.From_Date, "dd/MMM/yyyy"))
+                    clsCommon.AddColumnsForChange(coll, "To_Date", clsCommon.GetPrintDate(obj.To_Date, "dd/MMM/yyyy"))
+                    clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
+                    clsCommon.AddColumnsForChange(coll, "Schedule_Qty_Per", obj.Schedule_Qty_Per)
+                    clsCommon.AddColumnsForChange(coll, "Schedule_Qty", obj.Schedule_Qty)
+                    clsCommon.AddColumnsForChange(coll, "Schedule_Short_Per", obj.Schedule_Short_Per)
+                    clsCommon.AddColumnsForChange(coll, "Schedule_Short", obj.Schedule_Short)
+                    clsCommon.AddColumnsForChange(coll, "Late_Days", obj.Late_Days)
+                    clsCommon.AddColumnsForChange(coll, "Extension_Days", obj.Extension_Days)
+                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TENDER_SCHEDULE_PO", OMInsertOrUpdate.Insert, "", trans)
+
+                    Dim PK As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select MAX(PK_ID) from TSPL_TENDER_SCHEDULE_PO where DocumentCode='" + strDocNo + "'", trans))
+                    clsTenderSchedulePeneltyPO.SaveData(strDocNo, PK, obj.Arr, trans)
+                Next
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
         Return True
     End Function
 

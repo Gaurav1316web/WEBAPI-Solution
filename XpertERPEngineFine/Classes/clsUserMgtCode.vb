@@ -1,5 +1,6 @@
 ﻿Imports common
 Public Class clsUserMgtCode
+    Public Const frmRALQCReport As String = "RAL-QC-RPT"
     Public Const frmUnionWiseAppUserReport As String = "UNN-APP-RPT"
     Public Const FrmCmSambalYojanaSunsidy As String = "CM-SAM-YO"
     Public Const rptDBTBankResponse As String = "DBT-BAN-RE"
@@ -351,6 +352,7 @@ Public Class clsUserMgtCode
     Public Const rptPendingQCReport As String = "PND_QC_RPT"
     Public Const QualitySummaryReport As String = "QTY_SUMY_RPT"
     Public Const rptQCAnalysisReport As String = "QC_ANLS_RPT"
+    Public Const rptNIRQC As String = "NIR_QC_RPT"
 
     'frmQualityCheckForSRN
     ''==================
@@ -2249,7 +2251,7 @@ Public Class clsUserMgtCode
     Public Const MilkCollectionDCSMultipleDays As String = "MLK-DCS-MLD"
     Public Const AMCUMaster As String = "AMCU-MAS"
     Public Const WEIGHINGMaster As String = "WEI-Mas"
-
+    Public Const frmGateEntryTransaction As String = "GT-ENT-TRNS"
     Public Const MilkCollectionDCSMultipleDaysMerge As String = "MLK-MLD-MRG"
     Public Const DCSMilkCollectionSetting As String = "MLK-CLN-STN"
     Public Const MilkCollectionMCC As String = "MLK-COL-MCC"

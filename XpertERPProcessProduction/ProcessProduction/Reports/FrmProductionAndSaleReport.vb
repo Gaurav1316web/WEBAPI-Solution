@@ -210,7 +210,19 @@ Public Class FrmProductionAndSaleReport
 
 
                 'Dim StrQry As String = " " + itemcode + " "
-                query = "select ROW_NUMBER() OVER(ORDER BY TSPL_LOCATION_MASTER.Location_code ASC) as SNo
+                'varsha added stockqty less then 3days data
+                If rdbDaily.IsChecked Then
+
+
+                    query = "Select ROW_NUMBER() OVER(ORDER BY yy.Location ASC) as SNo, max(Location)Location,Max(Date)date,max(date1)date1,sum(Capacity)Capacity,sum(Noofshift)Noofshift, sum(ProdDailyQty)ProdDailyQty,
+sum(ProdCumQty)ProdCumQty,sum(CUD)CUD,sum(cum)CUM,sum(CUY)CUY,
+sum(saleDailyQty)saleDailyQty,	sum(SaleCumQty)SaleCumQty	,sum(FGS)FGS,	sum(PSO)PSO,sum(BreakdownHRS)BreakdownHRS,	max(BreakdownREASON)BreakdownREASON
+	, CAST(ROUND(MAX(DcsSeqNo_1), 0) AS INT) AS DcsSeqNo_1,CAST(ROUND(MAX(DcsSeqNo_2), 0) AS INT) AS DcsSeqNo_2,CAST(ROUND(MAX(DcsSeqNo_3), 0) AS INT) AS DcsSeqNo_3
+
+from ("
+
+                End If
+                query += "select ROW_NUMBER() OVER(ORDER BY TSPL_LOCATION_MASTER.Location_code ASC) as SNo
                         ,TSPL_LOCATION_MASTER.Loc_Short_Name as [Location],format(convert(date,'" + fromDate.Value + "',103), 'dd MMMM yyyy') as Date,upper(format(convert(date,'" + fromDate.Value + "',103), 'MMMM yyyy'))as Date1,
                         cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "'))) AS DECIMAL(18,0)) as [Capacity],
                         NoOfShift
@@ -224,8 +236,11 @@ Public Class FrmProductionAndSaleReport
                         ,CAST(FGS.Qty AS DECIMAL(18,0)) as FGS
                         ,case when isnull(PSO.Qty,0)<0 then 0 else CAST(isnull(PSO.Qty,0) AS DECIMAL(18,0)) end as PSO
                         ,BreakDown.BreakdownHRS
-                        ,BreakDown.BreakdownREASON
-                        FROM TSPL_LOCATION_MASTER 
+                        ,BreakDown.BreakdownREASON"
+                If rdbDaily.IsChecked Then
+                    query += "  ,0 AS DcsSeqNo_1, 0 AS DcsSeqNo_2, 0 AS DcsSeqNo_3"
+                End If
+                query += " FROM TSPL_LOCATION_MASTER 
 
                         Left outer join 
 						(select count (distinct TSPL_SPP_PRODUCTION_ENTRY.Shift_Code) as NoOfShift,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE  from TSPL_SPP_PRODUCTION_ENTRY 
@@ -733,7 +748,7 @@ TSPL_SCRAPINVOICE_HEAD.Loc_Code FROM
 
 
 
-                query += " LEFT OUTER JOIN (select Location_Code,sum(CLQty)Qty from (
+                query += " LEFT OUTER JOIN (Select Location_Code,case when Qty < 0 then 0 else Qty end as Qty from (select Location_Code,sum(CLQty)Qty from (
                         select Item_Code,xxx.Location_Code,cast(sum(xxx.StockQTYY * RI) as decimal(18,2)) as CLQty
                         from (
                         select Avg_Cost,(case when TSPL_PURCHASE_ACCOUNTS.Costing_Method=3 then TSPL_INVENTORY_MOVEMENT.FIFO_Cost else case when TSPL_PURCHASE_ACCOUNTS.Costing_Method=2 then TSPL_INVENTORY_MOVEMENT.LIFO_Cost else TSPL_INVENTORY_MOVEMENT.Avg_Cost end end ) as Cost,Basic_Cost,TSPL_INVENTORY_MOVEMENT.Item_Desc,TSPL_INVENTORY_MOVEMENT.Item_Code,Trans_Type,Punching_Date,Location_Code,Stock_UOM,case when TSPL_INVENTORY_MOVEMENT.InOut='I' then 1 else -1 end as RI,
@@ -750,18 +765,99 @@ TSPL_SCRAPINVOICE_HEAD.Loc_Code FROM
                 query += "" + FG + " " + SFG + " " + FGSFG + ""
 
                 query += " )xxx 
-					group by xxx.Item_Code,xxx.Location_Code)YYY group by Location_Code) FGS ON TSPL_LOCATION_MASTER.LOCATION_CODE =FGS.Location_Code"
+					group by xxx.Item_Code,xxx.Location_Code)YYY group by Location_Code) FGS1)FGS ON TSPL_LOCATION_MASTER.LOCATION_CODE =FGS.Location_Code"
 
                 query += " where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N'"
+                'varsha added Stock qty less then 3 days case
+                If rdbDaily.IsChecked Then
+                    query += "union all
+					
+
+					SELECT 0 as sn,max(TSPL_LOCATION_MASTER.Loc_Short_Name)Location,'' as Date,'' as 	Date1,0 as 	Capacity,0 as 	NoOfShift,0 as 	ProdDailyQty,0 as 	ProdCumQty,0 as CUD,0 as 	CUM,0 as 	CUY,	0 as SaleDailyQty,0 as	SaleCumQty,	0 as FGS,0 as	PSO,0 as	BreakdownHRS,'' as	BreakdownREASON	,
+										MAX(CASE WHEN rn = 1 THEN DcsSeqNo END) AS DcsSeqNo_1, MAX(CASE WHEN rn = 2 THEN DcsSeqNo END) AS DcsSeqNo_2, MAX(CASE WHEN rn = 3 THEN DcsSeqNo END) AS DcsSeqNo_3
+FROM
+(select xc.Location_Code,xc.DcsSeqNo, ROW_NUMBER() OVER (PARTITION BY xc.Location_Code  ORDER BY xc.DcsSeqNo ) AS rn from (Select  * from (
+  SELECT max(RM_STOCK_DAYS.DcsSeqNo)DcsSeqNo,RM_STOCK_DAYS.Location_Code,RM_STOCK_DAYS.ITEM_CODE,max(RM_STOCK_DAYS.Item_Desc) as Item_Desc,
+  max(RM_STOCK_DAYS.UOM)  AS 'UOM', SUM(ISNULL(RM_STOCK_DAYS.STOCK_QTY,0))  AS 'STOCK_QTY', SUM(ISNULL(RM_STOCK_DAYS.REQ_STOCK,0)) AS REQ_STOCK,SUM(ISNULL(RM_STOCK_DAYS.MIN_LEVEL,0)) AS MIN_LEVEL, CASE WHEN SUM(ISNULL(RM_STOCK_DAYS.REQ_STOCK,0))<>0 THEN SUM(ISNULL(RM_STOCK_DAYS.STOCK_QTY,0))/SUM(ISNULL(RM_STOCK_DAYS.REQ_STOCK,0)) ELSE  CASE WHEN SUM(ISNULL(RM_STOCK_DAYS.MIN_LEVEL,0))<>0 THEN SUM(ISNULL(RM_STOCK_DAYS.STOCK_QTY,0))/SUM(ISNULL(RM_STOCK_DAYS.MIN_LEVEL,0)) ELSE 0 END END AS 'QTY_FOR_DAYS' 
+	            FROM  (
+	            SELECT max(RM_STOCK.DcsSeqNo)DcsSeqNo,RM_STOCK.Location_Code,RM_STOCK.ITEM_CODE,max(RM_STOCK.Item_Desc) as Item_Desc,MAX(RM_STOCK.UOM) AS 'UOM',SUM(ISNULL(RM_STOCK.IN_STOCK_QTY,0))-SUM(ISNULL(RM_STOCK.OUT_STOCK_QTY,0)) AS 'STOCK_QTY',0 AS 'REQ_STOCK', 0 AS 'MIN_LEVEL' FROM (
+	            SELECT TSPL_ITEM_MASTER.DcsSeqNo,TSPL_INVENTORY_MOVEMENT.Location_Code,TSPL_INVENTORY_MOVEMENT.Item_Code AS 'ITEM_CODE',TSPL_ITEM_MASTER.Short_Description AS 'ITEM_DESC',TSPL_ITEM_MASTER.Unit_Code AS 'UOM',
+	            CASE WHEN INOUT='I' THEN STOCK_QTY END AS 'IN_STOCK_QTY',
+	            CASE WHEN INOUT='O' THEN STOCK_QTY END AS 'OUT_STOCK_QTY'
+	             FROM TSPL_INVENTORY_MOVEMENT
+	            LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code
+	            WHERE 2=2  --And TSPL_INVENTORY_MOVEMENT.Location_Code='AJMR' 
+				AND TSPL_ITEM_MASTER.Structure_Code IN ('RM','PM')) RM_STOCK
+	GROUP BY  RM_STOCK.Location_Code,RM_STOCK.Item_Code
+
+	UNION ALL
+
+	SELECT  
+	max(TSPL_ITEM_MASTER.DcsSeqNo)DcsSeqNo,TSPL_MF_BOM_HEAD.LOCATION_CODE,TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE,max(TSPL_ITEM_MASTER.Short_Description) as Item_Desc,max(TSPL_ITEM_MASTER.Unit_Code) as 'UOM',
+	0 AS 'STOCK_QTY',
+	AVG(CASE WHEN TSPL_MF_BOM_DETAIL.Percentage>0 THEN 
+    (TSPL_MF_BOM_DETAIL.Percentage*TSPL_LOCATION_MASTER.Silo_Capacity*1000)/100 ELSE 
+    CASE WHEN TSPL_MF_BOM_DETAIL.CONSM_QUANTITY>0 THEN
+    ((TSPL_MF_BOM_DETAIL.CONSM_QUANTITY*TSPL_LOCATION_MASTER.Silo_Capacity*1000)/TSPL_MF_BOM_HEAD.PROD_QUANTITY) ELSE 0 END
+    END)  AS 'REQ_STOCK',
+	0 AS 'MIN_LEVEL'
+	FROM TSPL_MF_BOM_HEAD 
+	LEFT OUTER JOIN TSPL_MF_BOM_DETAIL ON TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
+	LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE
+	left outer join TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_MF_BOM_HEAD.LOCATION_CODE
+	INNER join (select PROD_ITEM_CODE,MAX(BOM_CODE) AS 'BOM_CODE',MAX(REVISION_NO) AS 'REVISION_NO' from TSPL_MF_BOM_HEAD WHERE 2=2  --and TSPL_MF_BOM_HEAD.LOCATION_CODE='AJMR' 
+	GROUP BY PROD_ITEM_CODE
+	) BOM_LATEST ON BOM_LATEST.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE AND BOM_LATEST.REVISION_NO=TSPL_MF_BOM_HEAD.REVISION_NO
+	WHERE  TSPL_ITEM_MASTER.Structure_Code IN ('RM','PM')  -- and 	TSPL_MF_BOM_HEAD.LOCATION_CODE='AJMR' 
+	GROUP BY  
+	TSPL_MF_BOM_HEAD.LOCATION_CODE,TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE
+
+	UNION ALL
+	select TSPL_ITEM_MASTER.DcsSeqNo,TSPL_ITEM_REORDER_LEVEL_NEW.Location_Code,TSPL_ITEM_REORDER_LEVEL_NEW.Item_Code ,TSPL_ITEM_MASTER.Short_Description AS 'ITEM_DESC',TSPL_ITEM_MASTER.Unit_Code AS 'UOM',
+	0 AS 'STOCK_QTY', 
+	0 AS 'REQ_STOCK',
+	TSPL_ITEM_REORDER_LEVEL_NEW.Min_Level AS 'MIN_LEVEL' 
+	from TSPL_ITEM_REORDER_LEVEL_NEW 
+	left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_ITEM_REORDER_LEVEL_NEW.Item_Code
+	where TSPL_ITEM_MASTER.Structure_Code IN ('RM','PM') and Apply='Y' --AND TSPL_ITEM_REORDER_LEVEL_NEW.Location_Code='AJMR' 
+	) RM_STOCK_DAYS
+GROUP BY  RM_STOCK_DAYS.Location_Code,RM_STOCK_DAYS.ITEM_CODE
+) XX where xx.QTY_FOR_DAYS < 3 and xx.QTY_FOR_DAYS <> 0 and DcsSeqNo <> 0 )xc
+) t
+LEFT JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = t.Location_Code
+WHERE rn <= 3
+GROUP BY t.Location_Code
+)YY group by YY.Location"
+
+                End If
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             ElseIf rdbWeekly.IsChecked = True OrElse rbdDateRange.IsChecked Then
-                'fDate = CDate(clsDBFuncationality.getSingleValue("select DATEADD(DAY,2-DATEPART(WEEKDAY,convert(date,'" + fromDate.Value + "',103)),convert(date,'" + fromDate.Value + "',103))"))
-                'tDate = CDate(clsDBFuncationality.getSingleValue("select DATEADD(DAY,8-DATEPART(WEEKDAY,convert(date,'" + fromDate.Value + "',103)),convert(date,'" + fromDate.Value + "',103))"))
-                'dtpFrom.Value = fDate
-                'toDate.Value = tDate
-                'dtcurrent = fromDate.Value
-                'dtnext = toDate.Value
-                fDate = fromDate.Value
+                    'fDate = CDate(clsDBFuncationality.getSingleValue("select DATEADD(DAY,2-DATEPART(WEEKDAY,convert(date,'" + fromDate.Value + "',103)),convert(date,'" + fromDate.Value + "',103))"))
+                    'tDate = CDate(clsDBFuncationality.getSingleValue("select DATEADD(DAY,8-DATEPART(WEEKDAY,convert(date,'" + fromDate.Value + "',103)),convert(date,'" + fromDate.Value + "',103))"))
+                    'dtpFrom.Value = fDate
+                    'toDate.Value = tDate
+                    'dtcurrent = fromDate.Value
+                    'dtnext = toDate.Value
+                    fDate = fromDate.Value
                 tDate = ToDate.Value
                 DayCount = DateDiff(DateInterval.Day, fDate, tDate) + 1
 
@@ -787,12 +883,19 @@ TSPL_SCRAPINVOICE_HEAD.Loc_Code FROM
                     as Alies_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N' FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')"
                 Dim strMaxLocation As String = clsDBFuncationality.getSingleValue(StrTempQry)
                 query = " SELECT * FROM (
-							SELECT 'Capacity / Day' AS Production, TSPL_LOCATION_MASTER.Location_Code,  (TSPL_LOCATION_MASTER.Silo_Capacity ) Capacity
+							SELECT 'Capacity / Day' AS Production, TSPL_LOCATION_MASTER.Location_Code, 
+cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "'))) AS DECIMAL(18,0)) as [Capacity]
                         FROM  TSPL_LOCATION_MASTER where IsMainPlant=0
-						
-						union all
-						SELECT 'Capacity / Day' AS Production, 'RCDF' AS Location_Code,  SUM(TSPL_LOCATION_MASTER.Silo_Capacity) Capacity
-                        FROM  TSPL_LOCATION_MASTER where IsMainPlant=0  ) AS XXXProduction
+							union all
+	
+							SELECT 'Capacity / Day' AS Production, 'rcdf' as Location_Code, 
+sum(cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('31/Jan/2024'))) AS DECIMAL(18,0))) as [Capacity]
+                        FROM  TSPL_LOCATION_MASTER where IsMainPlant=0 
+						--union all
+						--SELECT 'Capacity / Day' AS Production, 'RCDF' AS Location_Code,  SUM(TSPL_LOCATION_MASTER.Silo_Capacity) Capacity
+    --                FROM  TSPL_LOCATION_MASTER where IsMainPlant=0 
+
+) AS XXXProduction
                             PIVOT (    MAX(Capacity)     FOR Location_Code IN ([AJMR],[BIKR],[JODH],[KALR],[LAMB],[NADB],[PALI],[RCDF]) ) AS zpivot "
                 query += " UNION ALL
                         select Production," + strSumLocation + "," + strTotalLocation + " as " + strMainLocation + "
@@ -920,6 +1023,32 @@ TSPL_SCRAPINVOICE_HEAD.Loc_Code FROM
             'End If
 
 
+            Dim dt3 As New DataTable
+            Dim qry As String = Nothing
+            qry = "WITH Numbered AS (SELECT
+        Item_Desc,DcsSeqNo,  CAST(CAST(DcsSeqNo AS INT) AS VARCHAR(10)) + ' - ' + Item_Desc AS Item_Desc_DcsSeqNo,
+        ROW_NUMBER() OVER (ORDER BY DcsSeqNo) AS rn FROM TSPL_ITEM_MASTER
+    WHERE Item_Type = 'R' AND DcsSeqNo IS NOT NULL and DcsSeqNo <> 0  AND DcsSeqNo <> 16 
+union all
+	SELECT
+         Top 1 Item_Desc, DcsSeqNo,  CAST(CAST(DcsSeqNo AS INT) AS VARCHAR(10)) + ' - Any Other'  AS Item_Desc_DcsSeqNo,
+        16 AS rn FROM TSPL_ITEM_MASTER
+    WHERE Item_Type = 'R' AND DcsSeqNo = 16
+)
+    SELECT MAX(CASE WHEN rn_mod = 1 THEN Item_Desc_DcsSeqNo END) AS Item_1, MAX(CASE WHEN rn_mod = 2 THEN Item_Desc_DcsSeqNo END) AS Item_2, MAX(CASE WHEN rn_mod = 3 THEN Item_Desc_DcsSeqNo END) AS Item_3
+,MAX(CASE WHEN rn_mod = 4 THEN Item_Desc_DcsSeqNo END) AS Item_4
+  --  MAX(CASE WHEN rn_mod = 5 THEN Item_Desc_DcsSeqNo END) AS Item_5, 
+--MAX(CASE WHEN rn_mod = 6 THEN Item_Desc_DcsSeqNo END) AS Item_6
+FROM ( SELECT Item_Desc,Item_Desc_DcsSeqNo, rn,
+        (rn - 1) / 3 AS grp,           -- integer division → row group
+        (rn - 1) % 3 + 1 AS rn_mod     -- column position 1–6
+    FROM Numbered
+) d
+GROUP BY grp
+ORDER BY grp;
+"
+            dt3 = clsDBFuncationality.GetDataTable(qry)
+
             If (dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0) Then
                 If Print = True And rdbDaily.IsChecked = True Then
                     Gv1.Visible = True
@@ -933,9 +1062,11 @@ TSPL_SCRAPINVOICE_HEAD.Loc_Code FROM
                     RadPageView1.SelectedPage = RadPageViewPage2
                     EnableDisableCntrl(False)
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt2, "Daily_Production_sale_FG_stock_BD_report", "Daily Production Sale Report")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt2, dt3, "Daily_Production_sale_FG_stock_BD_report", "Daily Production Sale Report", "rptStockItemDetail.rpt")
+
+                    ' frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt2, "Daily_Production_sale_FG_stock_BD_report", "Daily Production Sale Report")
                     frmCRV = Nothing
-                ElseIf Print = True And rdbWeekly.IsChecked = True OrElse rbdDateRange.IsChecked = True Then
+                ElseIf Print = True And rbdDateRange.IsChecked = True Then
                     Gv1.Visible = True
                     Gv1.DataSource = dt2
                     Gv1.ReadOnly = True
@@ -999,21 +1130,26 @@ TSPL_SCRAPINVOICE_HEAD.Loc_Code FROM
 
         If rdbDaily.IsChecked = True Then
             'Gv1.Columns("NoOfShift").HeaderText = "NoOfShift" + Environment.NewLine + "Operated"
-            Gv1.Columns("NoOfShift").HeaderText = "NoOfShift"
+            Gv1.Columns("Noofshift").HeaderText = "NoOfShift"
             Gv1.Columns("ProdDailyQty").HeaderText = "Daily"
             Gv1.Columns("ProdCumQty").HeaderText = "Cummulative" + Environment.NewLine + "(MTD)"
             Gv1.Columns("CUD").HeaderText = "DLY %"
             Gv1.Columns("CUM").HeaderText = "MTD %"
             Gv1.Columns("CUY").HeaderText = "YTD %"
-            Gv1.Columns("SaleDailyQty").HeaderText = "Daily"
+            Gv1.Columns("saleDailyQty").HeaderText = "Daily"
             Gv1.Columns("SaleCumQty").HeaderText = "Cummulative" + Environment.NewLine + "(MTD)"
             Gv1.Columns("PSO").HeaderText = "Pending" + Environment.NewLine + "Supply Orders"
             Gv1.Columns("BreakdownHRS").HeaderText = "HRS"
             Gv1.Columns("BreakdownREASON").HeaderText = "Reason"
+            Gv1.Columns("DcsSeqNo_1").HeaderText = ""
+            Gv1.Columns("DcsSeqNo_2").HeaderText = ""
+            Gv1.Columns("DcsSeqNo_3").HeaderText = ""
             Dim summaryRowItem As New GridViewSummaryRowItem()
             Dim item1 As New GridViewSummaryItem("Capacity", "{0:F0}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item1)
-            Dim item2 As New GridViewSummaryItem("No of Shift", "{0:F0}", GridAggregateFunction.Sum)
+            'Dim item2 As New GridViewSummaryItem("No of Shift", "{0:F0}", GridAggregateFunction.Sum)
+            'summaryRowItem.Add(item2)
+            Dim item2 As New GridViewSummaryItem("Noofshift", "{0:F0}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item2)
             Dim item3 As New GridViewSummaryItem("ProdDailyQty", "{0:F0}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item3)
@@ -1040,7 +1176,7 @@ TSPL_SCRAPINVOICE_HEAD.Loc_Code FROM
 
 
 
-            Dim item8 As New GridViewSummaryItem("SaleDailyQty", "{0:F0}", GridAggregateFunction.Sum)
+            Dim item8 As New GridViewSummaryItem("saleDailyQty", "{0:F0}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item8)
             Dim item9 As New GridViewSummaryItem("SaleCumQty", "{0:F0}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item9)
@@ -1051,6 +1187,7 @@ TSPL_SCRAPINVOICE_HEAD.Loc_Code FROM
 
             Dim item21 As New GridViewSummaryItem("BreakdownHRS", "{0:F0}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item21)
+
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
             Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Else
@@ -1069,7 +1206,15 @@ TSPL_SCRAPINVOICE_HEAD.Loc_Code FROM
             Gv1.Columns("RCDF").HeaderText = "RCDF"
 
 
-            Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable("SELECT TSPL_LOCATION_MASTER.location_code,TSPL_LOCATION_MASTER.Loc_Short_Name,cast(TSPL_LOCATION_MASTER.Silo_Capacity as int) as Silo_Capacity FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant=0 and TSPL_LOCATION_MASTER.Rejected_Type='N'")
+            'Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable("SELECT TSPL_LOCATION_MASTER.location_code,TSPL_LOCATION_MASTER.Loc_Short_Name,cast(TSPL_LOCATION_MASTER.Silo_Capacity as int) as Silo_Capacity FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant=0 and TSPL_LOCATION_MASTER.Rejected_Type='N'")
+            Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable("SELECT TSPL_LOCATION_MASTER.location_code,TSPL_LOCATION_MASTER.Loc_Short_Name,
+cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(fromDate.Value), "dd/MMM/yyyy") + "'))) AS DECIMAL(18,0)) as Silo_Capacity
+--cast(TSPL_LOCATION_MASTER.Silo_Capacity as int) as Silo_Capacity
+
+FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant=0 and TSPL_LOCATION_MASTER.Rejected_Type='N'
+
+          
+          ")
             Dim strMainLocation As DataTable = clsDBFuncationality.GetDataTable("SELECT TSPL_LOCATION_MASTER.location_code,TSPL_LOCATION_MASTER.Loc_Short_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant=1 and TSPL_LOCATION_MASTER.Rejected_Type='N'")
 
             For i As Int16 = 0 To dtLocation.Rows.Count - 1
@@ -1323,16 +1468,34 @@ TSPL_SCRAPINVOICE_HEAD.Loc_Code FROM
             groupRow4.MinHeight = 30
             view.ColumnGroups(4).Rows.Add(groupRow4)
             view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("FGS").Name)
-            view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns("PSO").Name)
+            view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("PSO").Name)
+
+
+
+            view.ColumnGroups.Add(New GridViewColumnGroup("Code of Raw Material(s) having stock of less then 3 days"))
+            Dim groupRow5 = New GridViewColumnGroupRow()
+            groupRow5.MinHeight = 15
+            view.ColumnGroups(5).Rows.Add(groupRow5)
+            view.ColumnGroups(5).Rows(0).ColumnNames.Add(Gv1.Columns("DcsSeqNo_1").Name)
+            view.ColumnGroups(5).Rows(0).ColumnNames.Add(Gv1.Columns("DcsSeqNo_2").Name)
+            view.ColumnGroups(5).Rows(0).ColumnNames.Add(Gv1.Columns("DcsSeqNo_3").Name)
 
             view.ColumnGroups.Add(New GridViewColumnGroup("Breakdown"))
-            Dim groupRow5 = New GridViewColumnGroupRow()
-            groupRow5.MinHeight = 30
-            view.ColumnGroups(5).Rows.Add(groupRow5)
-            view.ColumnGroups(5).Rows(0).ColumnNames.Add(gv1.Columns("BreakdownHRS").Name)
-            view.ColumnGroups(5).Rows(0).ColumnNames.Add(gv1.Columns("BreakdownREASON").Name)
+            Dim groupRow6 = New GridViewColumnGroupRow()
+            groupRow6.MinHeight = 30
+            view.ColumnGroups(6).Rows.Add(groupRow6)
+            view.ColumnGroups(6).Rows(0).ColumnNames.Add(Gv1.Columns("BreakdownHRS").Name)
+            view.ColumnGroups(6).Rows(0).ColumnNames.Add(Gv1.Columns("BreakdownREASON").Name)
 
-            gv1.ViewDefinition = view
+
+            'view.ColumnGroups.Add(New GridViewColumnGroup("Code of Raw Material(s) having stock of less then 3 days"))
+            'Dim groupRow6 = New GridViewColumnGroupRow()
+            'groupRow6.MinHeight = 10
+            'view.ColumnGroups(6).Rows.Add(groupRow6)
+            'view.ColumnGroups(6).Rows(0).ColumnNames.Add(Gv1.Columns("DcsSeqNo_1").Name)
+            'view.ColumnGroups(6).Rows(0).ColumnNames.Add(Gv1.Columns("DcsSeqNo_2").Name)
+            'view.ColumnGroups(6).Rows(0).ColumnNames.Add(Gv1.Columns("DcsSeqNo_3").Name)
+            Gv1.ViewDefinition = view
         End If
     End Sub
 

@@ -138,7 +138,7 @@ Public Class Weightment_Auto_and_Manual_Report
             PageSetupReport_ID = MyBase.Form_ID
             TemplateGridview = gv1
             If rbtWeightment.Checked = True AndAlso chkIncludeQC.Checked Then
-                strqry = "  SELECT aa.Location_Code as Location,
+                strqry = " SELECT aa.Location_Code as Location,
     ISNULL(SUM(aa.Auto_wt), 0) AS [Auto Weighment],
     ISNULL(SUM(aa.Manual_wt), 0) AS [Manual Weighment],
     ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0) AS [Pending],
@@ -146,40 +146,21 @@ Public Class Weightment_Auto_and_Manual_Report
      CAST(ROUND((ISNULL(SUM(aa.Auto_wt), 0) * 100.0) / NULLIF(SUM(aa.Total_wt), 0),2) AS DECIMAL(5, 2)) AS [Auto%],
     CAST(ROUND((ISNULL(SUM(aa.Manual_wt), 0) * 100.0) / NULLIF(SUM(aa.Total_wt), 0),2) AS DECIMAL(5, 2)) AS [Manual%],
     CAST(ROUND((ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0)) * 100.0 / NULLIF(SUM(aa.Total_wt), 0),2) AS DECIMAL(5, 2)) AS [Pending%],
-    isnull(sum(aa.Visual_QC),0) as [Visual QC],
-	isnull(sum(aa.NIR_QC),0) as [NIR QC],
-	isnull(sum(aa.WET_QC),0) as [WET QC]
-             FROM
-			 
-			 (SELECT Location_Code,
+    ISNULL(SUM(aa.Visual_QC), 0) AS [Visual QC],
+	ISNULL(SUM(aa.NIR_QC), 0) AS [NIR QC],
+	ISNULL(SUM(aa.WET_QC), 0) AS [WET QC]
+             FROM (SELECT Location_Code,
              CASE WHEN (Is_Auto_Gross_Weight = 1 AND Is_Auto_Tare_Weight = 1) THEN COUNT(*)END AS Auto_wt,
              CASE WHEN (Is_Auto_Gross_Weight = 0 AND Is_Auto_Tare_Weight = 0) OR (Is_Auto_Gross_Weight = 0 AND Is_Auto_Tare_Weight = 1) OR (Is_Auto_Gross_Weight = 1 AND Is_Auto_Tare_Weight = 0) THEN COUNT(*) 
-             END AS Manual_wt, COUNT(*) AS Total_wt,'' as Visual_QC,'' as NIR_QC,'' as WET_QC
+             END AS Manual_wt, COUNT(*) AS Total_wt,case when (VisualQCStatus)=1 then count(*) end as Visual_QC,case when (TSPL_NIR_QC.QC_Status)=1 then count(*) end as NIR_QC,
+			 case when (TSPL_QC_CHECK_HEAD.QC_Status) is not null then count(*) end as WET_QC
              FROM TSPL_PO_WEIGHTMENT_HEAD 
-             where convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) 
-             and convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)<=convert(date,('" + txtToDate.Value + "'),103)
-             GROUP BY Location_Code,Is_Auto_Gross_Weight,Is_Auto_Tare_Weight
-			 
-			 Union all
-
-			 Select Bill_To_Location AS Location_Code,'' AS Auto_wt,'' AS Manual_wt,'' AS Total_wt,case when VisualQCStatus=1 then count(*) end as Visual_QC,'' AS NIR_QC,'' as WET_QC  from TSPL_GRN_HEAD
-			 where convert(date,TSPL_GRN_HEAD.GRN_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) 
-             and convert(date,TSPL_GRN_HEAD.GRN_Date,103)<=convert(date,('" + txtToDate.Value + "'),103)
-             GROUP BY Bill_To_Location,VisualQCStatus
-
-			 Union all
-			 
-		select TSPL_MRN_HEAD.Bill_To_Location,'' AS Auto_wt,'' AS Manual_wt,'' AS Total_wt,'' as Visual_QC ,case when TSPL_NIR_QC.QC_Status=1 then count(*) end as NIR_QC,'' as WET_QC from TSPL_NIR_QC
-                                    left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.mrn_no=TSPL_NIR_QC.mrn_no
-									 where convert(date,TSPL_NIR_QC.Document_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103)  
-            and convert(date,TSPL_NIR_QC.Document_Date,103)<=convert(date,('" + txtToDate.Value + "'),103)
-             GROUP BY Bill_To_Location,QC_Status
-			 union all
-			 Select Bill_To_location,'' AS Auto_wt,'' AS Manual_wt,'' AS Total_wt,'' as Visual_QC,'' as NIR_QC,case when QC_Status is not null then count(*) end as WET_QC from TSPL_QC_CHECK_HEAD
-			  where convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) 
-             and convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103)<=convert(date,('" + txtToDate.Value + "'),103)
-             GROUP BY Bill_To_Location,QC_Status
-			 ) aa  "
+             left outer join tspl_grn_head on tspl_grn_head.GRN_No=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
+			 left outer join TSPL_MRN_HEAD ON TSPL_MRN_HEAD.Against_GRN=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
+			 left outer join TSPL_NIR_QC ON TSPL_NIR_QC.MRN_No=TSPL_MRN_HEAD.MRN_No
+			 left outer join TSPL_QC_CHECK_HEAD ON TSPL_QC_CHECK_HEAD.Gate_Entry_No = TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
+             where convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) and convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)<=convert(date,('" + txtToDate.Value + "'),103)
+             GROUP BY Location_Code,Is_Auto_Gross_Weight,Is_Auto_Tare_Weight,VisualQCStatus,TSPL_NIR_QC.QC_Status,TSPL_QC_CHECK_HEAD.QC_Status) aa  "
             ElseIf rbtWeightment.Checked = True Then
                 strqry = " SELECT aa.Location_Code as Location,
     ISNULL(SUM(aa.Auto_wt), 0) AS [Auto Weighment],
@@ -197,44 +178,44 @@ Public Class Weightment_Auto_and_Manual_Report
              where convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) and convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)<=convert(date,('" + txtToDate.Value + "'),103)
              GROUP BY Location_Code,Is_Auto_Gross_Weight,Is_Auto_Tare_Weight) aa  "
 
-            ElseIf rbtLoadSlip.Checked = True AndAlso chkIncludeQC.Checked Then
-                strqry = "  SELECT aa.Location_Code as Location,
-    ISNULL(SUM(aa.Auto_wt), 0) AS [Auto Weighment],
-    ISNULL(SUM(aa.Manual_wt), 0) AS [Manual Weighment],
-    ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0) AS [Pending],
-    ISNULL(SUM(aa.Total_wt), 0) AS Total,
-    CAST(ROUND((ISNULL(SUM(aa.Auto_wt), 0) * 100.0) / NULLIF(SUM(aa.Total_wt), 0),2) AS DECIMAL(5, 2)) AS [Auto%],
-    CAST(ROUND((ISNULL(SUM(aa.Manual_wt), 0) * 100.0) / NULLIF(SUM(aa.Total_wt), 0),2) AS DECIMAL(5, 2)) AS [Manual%],
-    CAST(ROUND((ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0)) * 100.0 / NULLIF(SUM(aa.Total_wt), 0),2) AS DECIMAL(5, 2)) AS [Pending%],
-	isnull(sum(aa.Visual_QC),0) as [Visual QC],
-	isnull(sum(aa.NIR_QC),0) as [NIR QC],
-	isnull(sum(aa.WET_QC),0) as [WET QC]
-             FROM (SELECT Location_Code,
-             CASE WHEN (Is_Auto_Gross_Weight = 1 AND Is_Auto_Tare_Weight = 1) THEN COUNT(*)END AS Auto_wt,
-             CASE WHEN (Is_Auto_Gross_Weight = 0 AND Is_Auto_Tare_Weight = 0) OR (Is_Auto_Gross_Weight = 0 AND Is_Auto_Tare_Weight = 1) OR (Is_Auto_Gross_Weight = 1 AND Is_Auto_Tare_Weight = 0) THEN COUNT(*) 
-             END AS Manual_wt, COUNT(*) AS Total_wt,'' as Visual_QC,'' as NIR_QC,'' as WET_QC
-             FROM TSPL_RCDF_LOAD_IN 
-             where convert(date,TSPL_RCDF_LOAD_IN.Document_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) 
-             and convert(date,TSPL_RCDF_LOAD_IN.Document_Date,103)<=convert(date,('" + txtToDate.Value + "'),103)
-             GROUP BY Location_Code,Is_Auto_Gross_Weight,Is_Auto_Tare_Weight
-			  Union all
-			 Select Bill_To_Location AS Location_Code,'' AS Auto_wt,'' AS Manual_wt,'' AS Total_wt,case when VisualQCStatus=1 then count(*) end as Visual_QC,'' AS NIR_QC,'' as WET_QC  from TSPL_GRN_HEAD
-			 where convert(date,TSPL_GRN_HEAD.GRN_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) 
-             and convert(date,TSPL_GRN_HEAD.GRN_Date,103)<=convert(date,('" + txtToDate.Value + "'),103)
-             GROUP BY Bill_To_Location,VisualQCStatus
-			  Union all
-			 select TSPL_MRN_HEAD.Bill_To_Location,'' AS Auto_wt,'' AS Manual_wt,'' AS Total_wt,'' as Visual_QC ,case when TSPL_NIR_QC.QC_Status=1 then count(*) end as NIR_QC,'' as WET_QC from TSPL_NIR_QC
-               left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.mrn_no=TSPL_NIR_QC.mrn_no
-                 where convert(date,TSPL_NIR_QC.Document_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) 
-                and convert(date,TSPL_NIR_QC.Document_Date,103)<=convert(date,('" + txtToDate.Value + "'),103)
-             GROUP BY Bill_To_Location,QC_Status
-			 union all
-			 Select Bill_To_location,'' AS Auto_wt,'' AS Manual_wt,'' AS Total_wt,'' as Visual_QC,'' as NIR_QC,case when QC_Status is not null then count(*) end as WET_QC from TSPL_QC_CHECK_HEAD
-			  where convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) 
-              and convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103)<=convert(date,('" + txtToDate.Value + "'),103)
-             GROUP BY Bill_To_Location,QC_Status ) aa 
-			 
-			 ) aa  "
+                '           ElseIf rbtLoadSlip.Checked = True AndAlso chkIncludeQC.Checked Then
+                '               strqry = "  SELECT aa.Location_Code as Location,
+                '   ISNULL(SUM(aa.Auto_wt), 0) AS [Auto Weighment],
+                '   ISNULL(SUM(aa.Manual_wt), 0) AS [Manual Weighment],
+                '   ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0) AS [Pending],
+                '   ISNULL(SUM(aa.Total_wt), 0) AS Total,
+                '   CAST(ROUND((ISNULL(SUM(aa.Auto_wt), 0) * 100.0) / NULLIF(SUM(aa.Total_wt), 0),2) AS DECIMAL(5, 2)) AS [Auto%],
+                '   CAST(ROUND((ISNULL(SUM(aa.Manual_wt), 0) * 100.0) / NULLIF(SUM(aa.Total_wt), 0),2) AS DECIMAL(5, 2)) AS [Manual%],
+                '   CAST(ROUND((ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0)) * 100.0 / NULLIF(SUM(aa.Total_wt), 0),2) AS DECIMAL(5, 2)) AS [Pending%],
+                'isnull(sum(aa.Visual_QC),0) as [Visual QC],
+                'isnull(sum(aa.NIR_QC),0) as [NIR QC],
+                'isnull(sum(aa.WET_QC),0) as [WET QC]
+                '            FROM (SELECT Location_Code,
+                '            CASE WHEN (Is_Auto_Gross_Weight = 1 AND Is_Auto_Tare_Weight = 1) THEN COUNT(*)END AS Auto_wt,
+                '            CASE WHEN (Is_Auto_Gross_Weight = 0 AND Is_Auto_Tare_Weight = 0) OR (Is_Auto_Gross_Weight = 0 AND Is_Auto_Tare_Weight = 1) OR (Is_Auto_Gross_Weight = 1 AND Is_Auto_Tare_Weight = 0) THEN COUNT(*) 
+                '            END AS Manual_wt, COUNT(*) AS Total_wt,'' as Visual_QC,'' as NIR_QC,'' as WET_QC
+                '            FROM TSPL_RCDF_LOAD_IN 
+                '            where convert(date,TSPL_RCDF_LOAD_IN.Document_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) 
+                '            and convert(date,TSPL_RCDF_LOAD_IN.Document_Date,103)<=convert(date,('" + txtToDate.Value + "'),103)
+                '            GROUP BY Location_Code,Is_Auto_Gross_Weight,Is_Auto_Tare_Weight
+                '		  Union all
+                '		 Select Bill_To_Location AS Location_Code,'' AS Auto_wt,'' AS Manual_wt,'' AS Total_wt,case when VisualQCStatus=1 then count(*) end as Visual_QC,'' AS NIR_QC,'' as WET_QC  from TSPL_GRN_HEAD
+                '		 where convert(date,TSPL_GRN_HEAD.GRN_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) 
+                '            and convert(date,TSPL_GRN_HEAD.GRN_Date,103)<=convert(date,('" + txtToDate.Value + "'),103)
+                '            GROUP BY Bill_To_Location,VisualQCStatus
+                '		  Union all
+                '		 select TSPL_MRN_HEAD.Bill_To_Location,'' AS Auto_wt,'' AS Manual_wt,'' AS Total_wt,'' as Visual_QC ,case when TSPL_NIR_QC.QC_Status=1 then count(*) end as NIR_QC,'' as WET_QC from TSPL_NIR_QC
+                '              left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.mrn_no=TSPL_NIR_QC.mrn_no
+                '                where convert(date,TSPL_NIR_QC.Document_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) 
+                '               and convert(date,TSPL_NIR_QC.Document_Date,103)<=convert(date,('" + txtToDate.Value + "'),103)
+                '            GROUP BY Bill_To_Location,QC_Status
+                '		 union all
+                '		 Select Bill_To_location,'' AS Auto_wt,'' AS Manual_wt,'' AS Total_wt,'' as Visual_QC,'' as NIR_QC,case when QC_Status is not null then count(*) end as WET_QC from TSPL_QC_CHECK_HEAD
+                '		  where convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) 
+                '             and convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103)<=convert(date,('" + txtToDate.Value + "'),103)
+                '            GROUP BY Bill_To_Location,QC_Status ) aa 
+
+                '		 ) aa  "
             Else
                 strqry = " SELECT aa.Location_Code as Location,
     ISNULL(SUM(aa.Auto_wt), 0) AS [Auto Weighment],
@@ -321,24 +302,59 @@ Public Class Weightment_Auto_and_Manual_Report
             End If
             Dim strqry As String = ""
             'TemplateGridview = gv1
+            '        If rbtWeightment.Checked = True AndAlso chkIncludeQC.Checked AndAlso strcolm2 = "Visual QC" Then
+            '            strqry = " 	 Select ROW_NUMBER() OVER (PARTITION BY TSPL_GRN_HEAD.Bill_To_Location ORDER BY TSPL_GRN_HEAD.Bill_To_Location) AS SrNo,TSPL_GRN_HEAD.Bill_To_Location as Location ,tspl_grn_head.VehicleNo [Vehicle NO],
+            'tspl_grn_head.Vendor_Code[Vendor Code],tspl_grn_head.Vendor_Name[Vendor Name],tspl_grn_head.GRN_No[GRN No],tspl_grn_head.GRN_Date[GRN Date],
+            'CASE WHEN TSPL_GRN_HEAD.VisualQCStatus=1 THEN 'APPROVED' else 'PENDING' end as Visual_QC from tspl_grn_head
+            ' where TSPL_GRN_HEAD.VisualQCStatus=1 AND convert(date,TSPL_GRN_HEAD.GRN_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) 
+            '         and convert(date,TSPL_GRN_HEAD.GRN_Date,103)<=convert(date,('" + txtToDate.Value + "'),103)  
+            'and TSPL_GRN_HEAD.Bill_To_Location=('" + strloc + "') "
+            '        ElseIf rbtWeightment.Checked = True AndAlso chkIncludeQC.Checked AndAlso strcolm2 = "NIR QC" Then
+            '            strqry = " Select ROW_NUMBER() OVER (PARTITION BY TSPL_MRN_HEAD.Bill_To_Location ORDER BY TSPL_MRN_HEAD.Bill_To_Location) AS SrNo,TSPL_MRN_HEAD.Bill_To_Location as Location,
+            '                        Document_No as [NIR No],Document_Date as [NIR Date],TSPL_MRN_HEAD.MRN_No as [MRN No],TSPL_MRN_HEAD.MRN_Date as [MRN Date],TSPL_MRN_HEAD.VehicleNo,TSPL_MRN_HEAD.Vendor_Code[Vendor Code],TSPL_MRN_HEAD.Vendor_Name[Vendor Name],case when TSPL_NIR_QC.QC_Status=1 then 'APPROVED' else 'Pending' end as [QC Status] from TSPL_NIR_QC
+            '                        left outer join TSPL_MRN_HEAD ON TSPL_MRN_HEAD.MRN_No = TSPL_NIR_QC.MRN_No
+            '                        where  convert(date,TSPL_NIR_QC.Document_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) 
+            '                         and convert(date,TSPL_NIR_QC.Document_Date,103)<=convert(date,('" + txtToDate.Value + "'),103)  
+            '                and TSPL_MRN_HEAD.Bill_To_Location=('" + strloc + "') "
+            '        ElseIf rbtWeightment.Checked = True AndAlso chkIncludeQC.Checked AndAlso strcolm2 = "WET QC" Then
+            '            strqry = "  Select ROW_NUMBER() OVER (PARTITION BY TSPL_QC_CHECK_HEAD.Bill_To_Location ORDER BY TSPL_QC_CHECK_HEAD.Bill_To_Location) AS SrNo,TSPL_QC_CHECK_HEAD.Bill_To_Location as Location,TSPL_QC_CHECK_HEAD.Document_Code as [WET QC No],Document_Date as [WET QC Date],tspl_grn_head.VehicleNo [Vehicle NO],
+            'tspl_grn_head.Vendor_Code[Vendor Code],tspl_grn_head.Vendor_Name[Vendor Name],tspl_grn_head.GRN_No[GRN No],tspl_grn_head.GRN_Date[GRN Date],TSPL_QC_CHECK_HEAD.QC_Status as [QC Status] from TSPL_QC_CHECK_HEAD
+            '        left outer join TSPL_GRN_HEAD ON TSPL_GRN_HEAD.GRN_No = TSPL_QC_CHECK_HEAD.Gate_Entry_No
+            '        where  convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) 
+            '         and convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103)<=convert(date,('" + txtToDate.Value + "'),103)  
+            'and TSPL_QC_CHECK_HEAD.Bill_To_Location=('" + strloc + "') "
             If rbtWeightment.Checked = True AndAlso chkIncludeQC.Checked Then
                 strqry = "  SELECT ROW_NUMBER() OVER (PARTITION BY TSPL_PO_WEIGHTMENT_HEAD.Location_Code ORDER BY TSPL_PO_WEIGHTMENT_HEAD.Location_Code) AS SrNo, 
              TSPL_PO_WEIGHTMENT_HEAD.Location_Code Location,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code [Document Code],TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date [Document Date],
              TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No [Gate Entry No],tspl_grn_head.GRN_Date[Gate Entry Date],tspl_grn_head.VehicleNo [Vehicle NO],tspl_grn_head.Vendor_Code[Vendor Code],tspl_grn_head.Vendor_Name[Vendor Name],
              TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight[Gross Weight],
              TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight[Tare Weight],TSPL_PO_WEIGHTMENT_DETAIL.Extra_Weight[Extra Weight],TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight[Net Weight]
-			 ,CASE WHEN TSPL_GRN_HEAD.VisualQCStatus=1 THEN 'APPROVED' else 'PENDING' end as Visual_QC,
+			 ,tspl_grn_head.GRN_No[GRN No],CASE WHEN TSPL_GRN_HEAD.VisualQCStatus=1 THEN 'APPROVED' else 'PENDING' end as Visual_QC,
 			 CASE WHEN TSPL_NIR_QC.QC_Status=1 THEN 'APPROVED' else 'PENDING' end as NIR_QC,
 			 TSPL_QC_CHECK_HEAD.QC_Status AS WET_QC
              FROM TSPL_PO_WEIGHTMENT_HEAD 
 			 left outer join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code
 			 left outer join tspl_grn_head on tspl_grn_head.GRN_No=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
-			 left outer join TSPL_MRN_HEAD ON TSPL_MRN_HEAD.Against_GRN=TSPL_GRN_HEAD.GRN_No
+			 left outer join TSPL_MRN_HEAD ON TSPL_MRN_HEAD.Against_GRN=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
 			 left outer join TSPL_NIR_QC ON TSPL_NIR_QC.MRN_No=TSPL_MRN_HEAD.MRN_No
-			 left outer join TSPL_QC_CHECK_HEAD ON TSPL_QC_CHECK_HEAD.Gate_Entry_No = TSPL_GRN_HEAD.GRN_No
+			 left outer join TSPL_QC_CHECK_HEAD ON TSPL_QC_CHECK_HEAD.Gate_Entry_No = TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
              where convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) 
-             and convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)<=convert(date,('" + txtToDate.Value + "'),103) 
-             And (Is_Auto_Gross_Weight = 1 AND Is_Auto_Tare_Weight = 1)    and TSPL_PO_WEIGHTMENT_HEAD.location_code=('BIKR') "
+             and convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)<=convert(date,('" + txtToDate.Value + "'),103) "
+                If strcolm2 = "Auto Weighment" Then
+                    strqry += "  And (Is_Auto_Gross_Weight = 1 AND Is_Auto_Tare_Weight = 1)   "
+                End If
+                If strcolm2 = "Manual Weighment" Then
+                    strqry += "  And ((Is_Auto_Gross_Weight = 0 AND Is_Auto_Tare_Weight = 0) OR (Is_Auto_Gross_Weight = 0 AND Is_Auto_Tare_Weight = 1) OR (Is_Auto_Gross_Weight = 1 AND Is_Auto_Tare_Weight = 0))  "
+                End If
+                If strcolm2 = "Pending" Then
+                    strqry += "  and (isnull(Is_Auto_Gross_Weight,2)=2 or isnull(Is_Auto_Tare_Weight,2)=2)  "
+                End If
+                If strcolm = "Location" Then
+                    strqry += " and TSPL_PO_WEIGHTMENT_HEAD.location_code=('" + strloc + "')"
+                End If
+
+                'If strcolm2 = "   " Then
+                'And (Is_Auto_Gross_Weight = 1 AND Is_Auto_Tare_Weight = 1)    and TSPL_PO_WEIGHTMENT_HEAD.location_code=('BIKR') "
             ElseIf rbtWeightment.Checked = True Then
                 strqry = " SELECT ROW_NUMBER() OVER (PARTITION BY TSPL_PO_WEIGHTMENT_HEAD.Location_Code ORDER BY TSPL_PO_WEIGHTMENT_HEAD.Location_Code) AS SrNo, 
              TSPL_PO_WEIGHTMENT_HEAD.Location_Code Location,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code [Document Code],TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date [Document Date],
@@ -348,7 +364,8 @@ Public Class Weightment_Auto_and_Manual_Report
              FROM TSPL_PO_WEIGHTMENT_HEAD 
 			 left outer join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code
 			 left outer join tspl_grn_head on tspl_grn_head.GRN_No=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
-             where convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) and convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)<=convert(date,('" + txtToDate.Value + "'),103) "
+             where convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) 
+             and convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)<=convert(date,('" + txtToDate.Value + "'),103) "
                 If strcolm2 = "Auto Weighment" Then
                     strqry += "  And (Is_Auto_Gross_Weight = 1 AND Is_Auto_Tare_Weight = 1)   "
                 End If
@@ -401,10 +418,16 @@ Public Class Weightment_Auto_and_Manual_Report
                 gv2.MasterView.Refresh()
 
                 gv2.DataSource = dt
-                For ii As Integer = 0 To gv1.Columns.Count - 1
+                'For ii As Integer = 0 To gv1.Columns.Count - 1
+                '    gv2.Columns(ii).ReadOnly = True
+                'Next
+                For ii As Integer = 0 To gv2.Columns.Count - 1
                     gv2.Columns(ii).ReadOnly = True
                 Next
+                ' If rbtWeightment.Checked = True AndAlso chkIncludeQC.Checked AndAlso strcolm2 <> "NIR QC" AndAlso strcolm2 <> "Visual QC" AndAlso strcolm2 <> "WET QC" Then
                 summaryDrill()
+                ' End If
+                'summaryDrill()
                 RadPageView1.SelectedPage = RadPageViewPage3
                 gv2.BestFitColumns()
                 gv2.EnableFiltering = True
@@ -671,7 +694,7 @@ ORDER BY aa.Location_Code  "
     Private Sub gv1_ViewCellFormatting(sender As Object, e As UI.CellFormattingEventArgs) Handles gv1.ViewCellFormatting
         If TypeOf e.CellElement Is GridSummaryCellElement Then
             Dim summaryCell As GridSummaryCellElement = DirectCast(e.CellElement, GridSummaryCellElement)
-            If e.CellElement.ColumnInfo.Name = "Auto Weighment" Or e.CellElement.ColumnInfo.Name = "Manual Weighment" Or e.CellElement.ColumnInfo.Name = "Pending" Or e.CellElement.ColumnInfo.Name = "Total" Or e.CellElement.ColumnInfo.Name = "Auto%" Or e.CellElement.ColumnInfo.Name = "Manual%" Or e.CellElement.ColumnInfo.Name = "Pending%" Then
+            If e.CellElement.ColumnInfo.Name = "Auto Weighment" Or e.CellElement.ColumnInfo.Name = "Manual Weighment" Or e.CellElement.ColumnInfo.Name = "Pending" Or e.CellElement.ColumnInfo.Name = "Total" Or e.CellElement.ColumnInfo.Name = "Auto%" Or e.CellElement.ColumnInfo.Name = "Manual%" Or e.CellElement.ColumnInfo.Name = "Pending%" Or e.CellElement.ColumnInfo.Name = "Visual QC" Or e.CellElement.ColumnInfo.Name = "NIR QC" Or e.CellElement.ColumnInfo.Name = "WET QC" Then
                 e.CellElement.TextAlignment = ContentAlignment.MiddleRight
             End If
             e.CellElement.Font = New Font("Arial", 8, FontStyle.Bold)

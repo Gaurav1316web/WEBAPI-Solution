@@ -312,6 +312,12 @@
     <Compile Include="Report\frmPurchaseOrderRagister1.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\frmRALQCReport.Designer.vb">
+      <DependentUpon>frmRALQCReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmRALQCReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\frmRptAPInvoice.Designer.vb">
       <DependentUpon>frmRptAPInvoice.vb</DependentUpon>
     </Compile>
@@ -376,6 +382,12 @@
       <DependentUpon>rptGSTR.vb</DependentUpon>
     </Compile>
     <Compile Include="Report\rptGSTR.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\rptNIRQC.Designer.vb">
+      <DependentUpon>rptNIRQC.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptNIRQC.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Report\rptPurchaseMaterialRegister.Designer.vb">
@@ -620,6 +632,9 @@
     <EmbeddedResource Include="Report\frmPurchaseOrderRagister1.resx">
       <DependentUpon>frmPurchaseOrderRagister1.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmRALQCReport.resx">
+      <DependentUpon>frmRALQCReport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\frmRptAPInvoice.resx">
       <DependentUpon>frmRptAPInvoice.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -653,6 +668,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptGSTR.resx">
       <DependentUpon>rptGSTR.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptNIRQC.resx">
+      <DependentUpon>rptNIRQC.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptPurchaseMaterialRegister.resx">
       <DependentUpon>rptPurchaseMaterialRegister.vb</DependentUpon>

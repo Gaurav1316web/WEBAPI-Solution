@@ -2,6 +2,7 @@
 Imports System.Data.SqlClient
 Imports common
 Public Class clsGateEntry
+    Public Ref_PK_Id As Integer
     Public Weight As Double = 0
     Public No_Of_CAN As Integer = 0
     Public Transpoter_Id As String = Nothing
@@ -98,6 +99,7 @@ Public Class clsGateEntry
             clsCommon.AddColumnsForChange(coll, "No_Of_CAN", obj.No_Of_CAN)
             clsCommon.AddColumnsForChange(coll, "Weight", obj.Weight)
             clsCommon.AddColumnsForChange(coll, "Transpoter_Id", obj.Transpoter_Id, True)
+            clsCommon.AddColumnsForChange(coll, "Ref_PK_Id", obj.Ref_PK_Id, True)
             clsCommon.AddColumnsForChange(coll, "AcknowEntryDocument_No", obj.AcknowEntryDocument_No, True)
             clsCommon.AddColumnsForChange(coll, "Bulk_ROUTE_NO", obj.Bulk_ROUTE_NO)
             clsCommon.AddColumnsForChange(coll, "Distance", obj.Distance)
@@ -245,7 +247,7 @@ Public Class clsGateEntry
         objProv.Prog_Code = FormId
         objProv.Prov_Month = Month(obj.Date_And_Time)
         objProv.Prov_Year = Year(obj.Date_And_Time)
-        objProv.Comp_Code = obj.Comp_Code
+        objProv.Comp_Code = obj.comp_code
         objProv.Created_By = obj.Created_By
         objProv.Created_Date = obj.Created_Date
         objProv.Modified_By = obj.Modify_By
@@ -345,11 +347,11 @@ Public Class clsGateEntry
                 Dim strPriceCode As String = ""
                 If AllowPriceMappingOnBulkSRNinChamberBulkProc = 0 Then
                     If AllowGateEntryAgainstPO = 0 AndAlso clsCommon.myLen(obj.PO_No) = 0 Then
-                        strPriceCode = clsDBFuncationality.getSingleValue("select top 1 TSPL_Bulk_Price_MASTER.Price_Code from  TSPL_Bulk_Price_MASTER left outer join " & _
-                                           "TSPL_BULK_PRICE_DETAIL on TSPL_Bulk_Price_MASTER.Price_Code=TSPL_BULK_PRICE_DETAIL.Price_Code " & _
-                                           "where  TSPL_Bulk_Price_MASTER.Posted=1  and effective_Date<='" & clsCommon.GetPrintDate(obj.Date_And_Time, "dd/MMM/yyyy hh:mm tt") & "' and  expirydate >= '" & clsCommon.GetPrintDate(obj.Date_And_Time, "dd/MMM/yyyy hh:mm tt") & "' and TSPL_Bulk_Price_MASTER.Milk_Type_Code='" & obj.MIKL_TYPE_CODE & "'   and " & _
-                                           "TSPL_Bulk_Price_MASTER.Price_Code in (select Tspl_Vendor_Price_Chart_mapping.PriceCode from " & _
-                                           "Tspl_Vendor_Price_Chart_mapping where TSPL_VENDOR_PRICE_CHART_MAPPING.Posted=1 and " & _
+                        strPriceCode = clsDBFuncationality.getSingleValue("select top 1 TSPL_Bulk_Price_MASTER.Price_Code from  TSPL_Bulk_Price_MASTER left outer join " &
+                                           "TSPL_BULK_PRICE_DETAIL on TSPL_Bulk_Price_MASTER.Price_Code=TSPL_BULK_PRICE_DETAIL.Price_Code " &
+                                           "where  TSPL_Bulk_Price_MASTER.Posted=1  and effective_Date<='" & clsCommon.GetPrintDate(obj.Date_And_Time, "dd/MMM/yyyy hh:mm tt") & "' and  expirydate >= '" & clsCommon.GetPrintDate(obj.Date_And_Time, "dd/MMM/yyyy hh:mm tt") & "' and TSPL_Bulk_Price_MASTER.Milk_Type_Code='" & obj.MIKL_TYPE_CODE & "'   and " &
+                                           "TSPL_Bulk_Price_MASTER.Price_Code in (select Tspl_Vendor_Price_Chart_mapping.PriceCode from " &
+                                           "Tspl_Vendor_Price_Chart_mapping where TSPL_VENDOR_PRICE_CHART_MAPPING.Posted=1 and " &
                                            "Tspl_Vendor_Price_Chart_mapping.VendorCode='" & obj.Vendor_Code & "' " & ZeroRate & "  )  order by Price_Date desc", trans)
                         If clsCommon.myLen(strPriceCode) = 0 Then
                             Throw New Exception("Please create price chart for Vendor : " + obj.Vendor_Code)
@@ -373,7 +375,7 @@ Public Class clsGateEntry
             If obj.Amount > 0 And clsCommon.myLen(obj.Transpoter_Id) > 0 Then
                 CreateProvision(obj, trans)
             End If
-          
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

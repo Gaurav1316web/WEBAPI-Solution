@@ -1,5 +1,9 @@
 ﻿Imports common
+Imports Newtonsoft.Json
 Imports System.Data.SqlClient
+Imports System.IO
+Imports System.Net
+Imports System.Text
 
 Public Class FrmSendDBTToJanaadhar
     Inherits FrmMainTranScreen
@@ -62,49 +66,106 @@ left outer join " + DBName + ".dbo.TSPL_MP_INCENTIVE_ENTRY_DETAIL on " + DBName 
 left outer join " + DBName + ".dbo.TSPL_MP_MASTER on  " + DBName + ".dbo.TSPL_MP_MASTER.MP_Code = " + DBName + ".dbo.TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code
 inner join " + DBName + ".dbo.TSPL_DBT_NEFT_BANK_RESPONSE on " + DBName + ".dbo.TSPL_DBT_NEFT_BANK_RESPONSE.Ref_PK_Id = " + DBName + ".dbo.TSPL_DBT_NEFT_DETAIL.PK_Id
 left outer join " + DBName + ".dbo.TSPL_DBT_NEFT_REJECT_DETAIL on " + DBName + ".dbo.TSPL_DBT_NEFT_REJECT_DETAIL.Against_DBT_NEFT_TR= " + DBName + ".dbo.TSPL_DBT_NEFT_DETAIL.PK_Id
-where isnull(" + DBName + ".dbo.TSPL_MP_MASTER.Jan_Aadhar_No_Verified,0)=1 and ISNULL(" + DBName + ".dbo.TSPL_DBT_NEFT_BANK_RESPONSE.JA_Is_Saved,'N')='N' and len(TSPL_MP_MASTER.JA_jan_mid)>0 "
-            'and TSPL_DBT_NEFT_DETAIL.PK_Id=11499"
+where isnull(" + DBName + ".dbo.TSPL_MP_MASTER.Jan_Aadhar_No_Verified,0)=1 and ISNULL(" + DBName + ".dbo.TSPL_DBT_NEFT_BANK_RESPONSE.JA_Is_Saved,'')='' and len(TSPL_MP_MASTER.JA_jan_mid)>0 "
+            'and TSPL_DBT_NEFT_DETAIL.PK_Id=623203"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim ii As Int32 = 0
+
                 For Each dr As DataRow In dt.Rows
                     Dim LastEx As String = ""
                     Try
                         ii += 1
                         qry = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(JA_Is_Saved,'N') as JA_Is_Saved from " + DBName + ".dbo.TSPL_DBT_NEFT_BANK_RESPONSE where Ref_PK_Id=" & clsCommon.myCstr(dr("PK_Id")) & ""))
                         If clsCommon.CompairString(clsCommon.myCstr(qry), "N") = CompairStringResult.Equal Then
-                            Dim obj As clsXMLSendDBTDataToJanAadharHead = New clsXMLSendDBTDataToJanAadharHead()
-                            obj.Transaction = New clsXMLSendDBTDataToJanAadharDetail()
-                            obj.Transaction.EntitlementId = PortNo & clsCommon.myCstr(dr("MP_Code"))
-                            obj.Transaction.EntitlementMemId = PortNo & clsCommon.myCstr(dr("MP_Code"))
-                            obj.Transaction.JanaadhaarId = clsCommon.myCstr(dr("JA_janaadhaarId"))
-                            obj.Transaction.JanaadhaarMemId = clsCommon.myCstr(dr("JA_jan_mid"))
-                            obj.Transaction.TransactionId = PortNo & clsCommon.myCstr(dr("PK_Id"))
-                            obj.Transaction.DueTransactionId = PortNo & clsCommon.myCstr(dr("PK_Id"))
-                            obj.Transaction.AadharNo = ""
-                            obj.Transaction.Eid = ""
-                            obj.Transaction.BankAccNo = clsCommon.myCstr(dr("MP_Account_No"))
-                            obj.Transaction.Ifsc = clsCommon.myCstr(dr("MP_IFSC_No"))
-                            obj.Transaction.Micr = ""
-                            obj.Transaction.PaymentAmount = clsCommon.myCstr(dr("Amount"))
-                            obj.Transaction.PaymentDate = clsCommon.myCstr(dr("Created_Date"))
-                            obj.Transaction.Status = clsCommon.myCstr(dr("Bank_Response"))
-                            Dim flag As Boolean = False
-                            Dim objReturn As clsXMLSendDBTDataToJanAadharResponseRoot = clsSendDBTDataToJanAadhar.SendData(obj)
-                            If objReturn IsNot Nothing Then
-                                Dim hashtable As Hashtable = New Hashtable()
-                                clsCommon.AddColumnsForChange(hashtable, "JA_Request_ID", objReturn.RequestId)
-                                clsCommon.AddColumnsForChange(hashtable, "JA_CMSG", objReturn.Cmsg)
+                            Dim url As String = "http://saras.rajasthan.gov.in:7888/api/JanAadhar/JanAadharSendDBTDataToJanAadhar"
+                            Dim boundary As String = "---------------------------" & DateTime.Now.Ticks.ToString("x")
+                            Dim request As HttpWebRequest = CType(WebRequest.Create(url), HttpWebRequest)
+                            request.Method = "POST"
+                            request.ContentType = "multipart/form-data; boundary=" & boundary
+                            request.KeepAlive = True
+                            request.Timeout = 60000
 
-                                If objReturn.Transaction IsNot Nothing Then
-                                    clsCommon.AddColumnsForChange(hashtable, "JA_Is_Saved", objReturn.Transaction.IsSaved)
-                                    clsCommon.AddColumnsForChange(hashtable, "JA_Msg", objReturn.Transaction.Msg)
-                                    flag = (clsCommon.CompairString(objReturn.Transaction.IsSaved, "Y") = CompairStringResult.Equal)
+                            Dim postData As New StringBuilder()
+                            AddFormField(postData, boundary, "PortNo", PortNo)
+                            AddFormField(postData, boundary, "Key", "Tecxpert@MP#123$456%789^")
+                            AddFormField(postData, boundary, "EntitlementId", PortNo & clsCommon.myCstr(dr("MP_Code")))
+                            AddFormField(postData, boundary, "EntitlementMemId", PortNo & clsCommon.myCstr(dr("MP_Code")))
+                            AddFormField(postData, boundary, "JanaadhaarId", clsCommon.myCstr(dr("JA_janaadhaarId")))
+                            AddFormField(postData, boundary, "JanaadhaarMemId", clsCommon.myCstr(dr("JA_jan_mid")))
+                            AddFormField(postData, boundary, "BankAccNo", clsCommon.myCstr(dr("MP_Account_No")))
+                            AddFormField(postData, boundary, "IFSC", clsCommon.myCstr(dr("MP_IFSC_No")))
+                            AddFormField(postData, boundary, "MICR", "")
+                            AddFormField(postData, boundary, "AadharNo", "")
+                            AddFormField(postData, boundary, "PaymentAmount", clsCommon.myCstr(dr("Amount")))
+                            AddFormField(postData, boundary, "PaymentDate", clsCommon.myCstr(dr("Created_Date")))
+                            postData.Append("--" & boundary & "--" & vbCrLf)
+
+                            Dim dataBytes As Byte() = Encoding.UTF8.GetBytes(postData.ToString())
+                            request.ContentLength = dataBytes.Length
+
+                            Using requestStream = request.GetRequestStream()
+                                requestStream.Write(dataBytes, 0, dataBytes.Length)
+                            End Using
+
+                            Dim response As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
+                            Dim responseText As String = ""
+
+                            Using reader As New StreamReader(response.GetResponseStream())
+                                responseText = reader.ReadToEnd()
+                            End Using
+                            Dim flag As Boolean = False
+                            Dim objReturn As SendDBTDataToJanAadharApiResponse = JsonConvert.DeserializeObject(Of SendDBTDataToJanAadharApiResponse)(responseText)
+                            If objReturn IsNot Nothing Then
+                                If objReturn.Response IsNot Nothing Then
+                                    flag = (clsCommon.CompairString(objReturn.Response.Status, "true") = CompairStringResult.Equal)
+
+                                    Dim hashtable As Hashtable = New Hashtable()
+                                    clsCommon.AddColumnsForChange(hashtable, "JA_Is_Saved", IIf(flag, "Y", "N"))
+                                    clsCommon.AddColumnsForChange(hashtable, "JA_Msg", objReturn.Response.Message)
+                                    clsCommon.AddColumnsForChange(hashtable, "JA_Request_ID", objReturn.Response.TransactionId)
+                                    clsCommon.AddColumnsForChange(hashtable, "JA_CMSG", clsCommon.myCstr(objReturn.Response.ResponseCode) + "#" + clsCommon.myCstr(objReturn.Response.Data))
+                                    clsCommon.AddColumnsForChange(hashtable, "JA_Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm:ss tt"))
+                                    clsCommon.AddColumnsForChange(hashtable, "JA_Created_By", objCommonVar.CurrentUserCode)
+                                    clsCommonFunctionality.UpdateDataTable(hashtable, "" + DBName + ".dbo.TSPL_DBT_NEFT_BANK_RESPONSE", OMInsertOrUpdate.Update, "Ref_PK_Id=" & clsCommon.myCstr(dr("PK_Id")) & "")
                                 End If
-                                clsCommon.AddColumnsForChange(hashtable, "JA_Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm:ss tt"))
-                                clsCommon.AddColumnsForChange(hashtable, "JA_Created_By", objCommonVar.CurrentUserCode)
-                                clsCommonFunctionality.UpdateDataTable(hashtable, "" + DBName + ".dbo.TSPL_DBT_NEFT_BANK_RESPONSE", OMInsertOrUpdate.Update, "Ref_PK_Id=" & clsCommon.myCstr(dr("PK_Id")) & "")
                             End If
+
+
+                            'Dim obj As JSONClsSendDBTToJanaadhar = New JSONClsSendDBTToJanaadhar()
+                            'obj.TransactionId = PortNo & clsCommon.myCstr(dr("PK_Id"))
+                            'obj.SchemeCode = "CDUSY"
+                            'obj.AppCode = "JAN7351580"
+                            'obj.EntitlementId = PortNo & clsCommon.myCstr(dr("MP_Code"))
+                            'obj.EntitlementMemId = PortNo & clsCommon.myCstr(dr("MP_Code"))
+                            'obj.JanaadhaarId = clsCommon.myCstr(dr("JA_janaadhaarId"))
+                            'obj.JanaadhaarMemId = clsCommon.myCstr(dr("JA_jan_mid"))
+                            'obj.TransactionMode = "AC"
+                            'obj.AadharNo = ""
+                            'obj.BankAccNo = clsCommon.myCstr(dr("MP_Account_No"))
+                            'obj.IFSC = clsCommon.myCstr(dr("MP_IFSC_No"))
+                            'obj.MICR = ""
+                            'obj.PaymentAmount = clsCommon.myCstr(dr("Amount"))
+                            'obj.PaymentDate = clsCommon.myCstr(dr("Created_Date"))
+                            'clsSendDBTDataToJanAadhar20.SendData(obj)
+
+
+                            'Dim flag As Boolean = False
+                            'Dim objReturn As JSONClsSendDBTToJanaadharResponse = JSONClsSendDBTToJanaadharResponse.SendData(obj)
+                            'If objReturn IsNot Nothing Then
+                            '    Dim hashtable As Hashtable = New Hashtable()
+                            '    clsCommon.AddColumnsForChange(hashtable, "JA_Request_ID", objReturn.RequestId)
+                            '    clsCommon.AddColumnsForChange(hashtable, "JA_CMSG", objReturn.Cmsg)
+
+                            '    If objReturn.Transaction IsNot Nothing Then
+                            '        clsCommon.AddColumnsForChange(hashtable, "JA_Is_Saved", objReturn.Transaction.IsSaved)
+                            '        clsCommon.AddColumnsForChange(hashtable, "JA_Msg", objReturn.Transaction.Msg)
+                            '        flag = (clsCommon.CompairString(objReturn.Transaction.IsSaved, "Y") = CompairStringResult.Equal)
+                            '    End If
+                            '    clsCommon.AddColumnsForChange(hashtable, "JA_Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm:ss tt"))
+                            '    clsCommon.AddColumnsForChange(hashtable, "JA_Created_By", objCommonVar.CurrentUserCode)
+                            '    clsCommonFunctionality.UpdateDataTable(hashtable, "" + DBName + ".dbo.TSPL_DBT_NEFT_BANK_RESPONSE", OMInsertOrUpdate.Update, "Ref_PK_Id=" & clsCommon.myCstr(dr("PK_Id")) & "")
+                            'End If
                             If flag Then
                                 ResponceSucess += 1
                             Else
@@ -124,6 +185,12 @@ where isnull(" + DBName + ".dbo.TSPL_MP_MASTER.Jan_Aadhar_No_Verified,0)=1 and I
             clsCommon.ProgressBarPercentHide()
             Throw New Exception(ex.Message)
         End Try
+    End Sub
+
+    Private Sub AddFormField(sb As StringBuilder, boundary As String, name As String, value As String)
+        sb.Append("--" & boundary & vbCrLf)
+        sb.Append("Content-Disposition: form-data; name=""" & name & """" & vbCrLf & vbCrLf)
+        sb.Append(value & vbCrLf)
     End Sub
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         CloseForm()
@@ -240,3 +307,6 @@ where 2=2 "
     End Sub
 
 End Class
+
+
+
