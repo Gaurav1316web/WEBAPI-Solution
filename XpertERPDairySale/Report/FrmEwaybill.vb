@@ -287,7 +287,7 @@ Public Class FrmEwaybill
                             Dim objExtend As New clsextendvalidity()
                             Dim EwbExtendTimeValid As Int64 = 0
                             EwbExtendTimeValid = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" Select  isnull (DATEDIFF(hour,EWayBillValidDate,GETDATE()),0) as validTill from tspl_sd_sale_invoice_head where  document_code = '" & strDocNo & "'"))
-                            If EwbExtendTimeValid > -8 OrElse EwbExtendTimeValid < 8 Then
+                            If EwbExtendTimeValid >= 8 OrElse EwbExtendTimeValid < -8 Then
                                 Throw New Exception("The validity of EWB can be extended between 8 hours before expiry time and 8 hours after expiry time.")
                             End If
                             objExtend.ewbNo = clsCommon.myCdbl(obj.ewbno)
