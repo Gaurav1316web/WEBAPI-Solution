@@ -130,7 +130,7 @@ Partial Class rptQCAnalysisReport
         'gvDB
         '
         Me.gvDB.AllowAddNewRow = False
-        Me.gvDB.ViewDefinition = TableViewDefinition1
+        'Me.gvDB.ViewDefinition = TableViewDefinition1
         '
         'RadPageView1
         '
@@ -575,7 +575,7 @@ Partial Class rptQCAnalysisReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
