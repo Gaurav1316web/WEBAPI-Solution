@@ -213,13 +213,13 @@ convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as [GRN Date],TSPL_GRN_HEAD.GRN_No 
         Next
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
-        Dim item1 As New GridViewSummaryItem("Weighment Gross Weight", "{0:F0}", GridAggregateFunction.Sum)
+        Dim item1 As New GridViewSummaryItem("Weighment Gross Weight", "{0:F3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item1)
-        Dim item2 As New GridViewSummaryItem("Weighment Net Weight", "{0:F0}", GridAggregateFunction.Sum)
+        Dim item2 As New GridViewSummaryItem("Weighment Net Weight", "{0:F3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item2)
-        Dim item3 As New GridViewSummaryItem("Weighment Tare Weight", "{0:F0}", GridAggregateFunction.Sum)
+        Dim item3 As New GridViewSummaryItem("Weighment Tare Weight", "{0:F3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item3)
-        Dim item4 As New GridViewSummaryItem("GRN Qty", "{0:F0}", GridAggregateFunction.Sum)
+        Dim item4 As New GridViewSummaryItem("GRN Qty", "{0:F3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item4)
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
