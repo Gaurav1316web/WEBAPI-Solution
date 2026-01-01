@@ -50,8 +50,10 @@ Public Class FrmTenderTrackingReport
                 TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_TENDER_DETAIL.Item_Code"
             Dim StrWhere As String = " TSPL_TENDER_DETAIL.DocumentCode='" + txtTenderNo.Value + "'"
             fndSrcCode.Value = clsCommon.ShowSelectForm("TTRItemD", qry, "Code", StrWhere, fndSrcCode.Value, "Code", True)
-            txtItem.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Item_code  from TSPL_ITEM_MASTER   where Item_Code ='" + fndSrcCode.Value + "' or Short_Description ='" + fndSrcCode.Value + "' "))
-            txtSrcDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Item_Desc  from TSPL_ITEM_MASTER   where Item_Code ='" + fndSrcCode.Value + "' or Short_Description ='" + fndSrcCode.Value + "' "))
+            If clsCommon.myLen(fndSrcCode.Value) > 0 Then
+                txtItem.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Item_code  from TSPL_ITEM_MASTER   where Item_Code ='" + fndSrcCode.Value + "' or Short_Description ='" + fndSrcCode.Value + "' "))
+                txtSrcDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Item_Desc  from TSPL_ITEM_MASTER   where Item_Code ='" + fndSrcCode.Value + "' or Short_Description ='" + fndSrcCode.Value + "' "))
+            End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
