@@ -22,9 +22,9 @@ Partial Class frmTender
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition13 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition14 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition15 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -91,6 +91,7 @@ Partial Class frmTender
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvSchedule = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.btnUpdateSchedule = New Telerik.WinControls.UI.RadButton()
         Me.chkMonthEndDate = New System.Windows.Forms.CheckBox()
         Me.lblExtensionDays = New common.Controls.MyLabel()
         Me.txtExtensionDays = New common.MyNumBox()
@@ -129,7 +130,6 @@ Partial Class frmTender
         Me.ExportData = New Telerik.WinControls.UI.RadMenuItem()
         Me.ExportBlankSheet = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem6 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnUpdateSchedule = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -195,6 +195,7 @@ Partial Class frmTender
         CType(Me.gvSchedule, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvSchedule.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.btnUpdateSchedule, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblExtensionDays, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtExtensionDays, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExtensionUpdate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -217,7 +218,6 @@ Partial Class frmTender
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnUpdateSchedule, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -261,7 +261,7 @@ Partial Class frmTender
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1098, 492)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -898,7 +898,7 @@ Partial Class frmTender
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition13
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -939,7 +939,7 @@ Partial Class frmTender
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition14
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
@@ -1185,7 +1185,7 @@ Partial Class frmTender
         Me.gvSchedule.MasterTemplate.AllowDeleteRow = False
         Me.gvSchedule.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSchedule.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition15
+        Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvSchedule.MyExportFilePath = ""
         Me.gvSchedule.MyStopExport = False
         Me.gvSchedule.Name = "gvSchedule"
@@ -1213,6 +1213,14 @@ Partial Class frmTender
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1077, 28)
         Me.Panel1.TabIndex = 0
+        '
+        'btnUpdateSchedule
+        '
+        Me.btnUpdateSchedule.Location = New System.Drawing.Point(485, 3)
+        Me.btnUpdateSchedule.Name = "btnUpdateSchedule"
+        Me.btnUpdateSchedule.Size = New System.Drawing.Size(107, 22)
+        Me.btnUpdateSchedule.TabIndex = 1526
+        Me.btnUpdateSchedule.Text = "Update Schedule"
         '
         'chkMonthEndDate
         '
@@ -1593,14 +1601,6 @@ Partial Class frmTender
         Me.RadMenuItem6.Text = "Close"
         Me.RadMenuItem6.UseCompatibleTextRendering = False
         '
-        'btnUpdateSchedule
-        '
-        Me.btnUpdateSchedule.Location = New System.Drawing.Point(485, 3)
-        Me.btnUpdateSchedule.Name = "btnUpdateSchedule"
-        Me.btnUpdateSchedule.Size = New System.Drawing.Size(107, 22)
-        Me.btnUpdateSchedule.TabIndex = 1526
-        Me.btnUpdateSchedule.Text = "Update Schedule"
-        '
         'frmTender
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1685,6 +1685,7 @@ Partial Class frmTender
         CType(Me.gvSchedule, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.btnUpdateSchedule, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblExtensionDays, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtExtensionDays, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExtensionUpdate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1708,7 +1709,6 @@ Partial Class frmTender
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnUpdateSchedule, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

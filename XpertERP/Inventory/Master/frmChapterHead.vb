@@ -110,6 +110,7 @@ Public Class frmChapterHead
                 End If
             End If
             connectSql.RunSp("sp_chapterhead_insert", New SqlParameter("@chapterhead", fndchapterhead.Value), New SqlParameter("@chapterheaddesc", rdtxtchapterdesc.Text), New SqlParameter("@CreatedBy", userCode), New SqlParameter("@CreatedDate", connectSql.serverDate()), New SqlParameter("@ModifyBy", userCode), New SqlParameter("@ModifyDate", connectSql.serverDate()), New SqlParameter("@ComCode", companyCode))
+            SaveAndUpdate()
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndchapterhead.Value, "tspl_chapter_head", "chapter_head_code", Nothing)
 
             myMessages.insert()
@@ -147,6 +148,12 @@ Public Class frmChapterHead
         '    If funSetUserAccess() = False Then Exit Sub
         'End If
     End Sub
+
+    Sub SaveAndUpdate()
+        Dim Qry As String = "Update tspl_chapter_head Set Seq_No='" & txtSeqNo.Value & "' Where Chapter_Head_Code='" & fndchapterhead.Value & "'"
+        clsDBFuncationality.ExecuteNonQuery(Qry)
+    End Sub
+
     'update vendor Type Details
     Private Sub funUpdate()
         If fndchapterhead.Value = "" Then
@@ -154,8 +161,8 @@ Public Class frmChapterHead
         Else
             Try
                 connectSql.RunSp("sp_chapterhead_update", New SqlParameter("@chapterhead", fndchapterhead.Value), New SqlParameter("@chapterheaddesc", rdtxtchapterdesc.Text), New SqlParameter("@CreatedBy", userCode), New SqlParameter("@CreatedDate", connectSql.serverDate()), New SqlParameter("@ModifyBy", userCode), New SqlParameter("@ModifyDate", connectSql.serverDate()), New SqlParameter("@ComCode", companyCode))
+                SaveAndUpdate()
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndchapterhead.Value, "tspl_chapter_head", "chapter_head_code", Nothing)
-
                 myMessages.update()
                 rdbtnSave.Text = "Update"
                 fndchapterhead.MyReadOnly = True
@@ -172,6 +179,7 @@ Public Class frmChapterHead
         fndchapterhead.MyReadOnly = False
         rdbtnDelete.Enabled = False
         fndchapterhead.Focus()
+        txtSeqNo.Value = 0
         'If userCode <> "ADMIN" Then
         '    If funSetUserAccess() = False Then Exit Sub
         'End If
@@ -195,19 +203,17 @@ Public Class frmChapterHead
     End Sub
     Public Sub funfill()
         'changes by abhishek as on 15/10/2012 for sqldatareader
-        Dim query As String = "select description from tspl_chapter_head where chapter_head_code='" + fndchapterhead.Value() + "'"
+        Dim query As String = "select description,Seq_No from tspl_chapter_head where chapter_head_code='" + fndchapterhead.Value() + "'"
         dt = clsDBFuncationality.GetDataTable(query)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             For Each dr As DataRow In dt.Rows
                 rdtxtchapterdesc.Text = dr(0).ToString()
+                txtSeqNo.Value = clsCommon.myCDecimal(dr(1))
                 rdbtnSave.Text = "Update"
                 fndchapterhead.MyReadOnly = True
                 rdbtnDelete.Enabled = True
-
             Next
-
         End If
-
         'If userCode <> "ADMIN" Then
         '    If funSetUserAccess() = False Then Exit Sub
         'End If
@@ -334,7 +340,7 @@ Public Class frmChapterHead
         Me.Close()
     End Sub
 
-    
+
 
     Private Sub fndchapterhead__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndchapterhead._MYValidating
         Dim str As String = "select count(*) from tspl_chapter_head where chapter_head_Code ='" + fndchapterhead.Value + "' "
@@ -346,8 +352,8 @@ Public Class frmChapterHead
         End If
 
         If fndchapterhead.MyReadOnly OrElse isButtonClicked Then
-            Dim qry As String = "select chapter_head_Code as Code,Description as [Description] from tspl_chapter_head"
-            fndchapterhead.Value = clsCommon.ShowSelectForm("fmItemLocation", qry, "Code", "", fndchapterhead.Value, "", isButtonClicked)
+            Dim qry As String = "select chapter_head_Code as Code,Description as [Description],Seq_No As [Seq No] from tspl_chapter_head"
+            fndchapterhead.Value = clsCommon.ShowSelectForm("fmItemLocation", qry, "Code", "", fndchapterhead.Value, "Seq_No", isButtonClicked)
             LoadData()
         End If
     End Sub
@@ -385,7 +391,7 @@ Public Class frmChapterHead
     End Sub
 
     Private Sub fndchapterhead__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles fndchapterhead._MYNavigator
-        Dim qst As String = "select chapter_head_Code as Code,Description as [Description] from tspl_chapter_head where 2=2 "
+        Dim qst As String = "select chapter_head_Code as Code,Description as [Description],Seq_No As [Seq No] from tspl_chapter_head where 2=2 "
         Select Case NavType
             Case NavigatorType.Current
                 qst += " and tspl_chapter_head .chapter_head_Code in ('" + fndchapterhead.Value + "')"
@@ -403,6 +409,7 @@ Public Class frmChapterHead
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             fndchapterhead.Value = clsCommon.myCstr(dt.Rows(0)("Code"))
             rdtxtchapterdesc.Text = clsCommon.myCstr(dt.Rows(0)("Description"))
+            txtSeqNo.Value = clsCommon.myCDecimal(dt.Rows(0)("Seq No"))
         End If
         LoadData()
     End Sub
