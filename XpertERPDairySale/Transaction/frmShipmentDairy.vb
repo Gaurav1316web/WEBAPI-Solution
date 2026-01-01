@@ -17216,6 +17216,8 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
         End Try
 
     End Sub
+
+
 End Class
 Class tempSchemStructrue
     Public StructureCode As String

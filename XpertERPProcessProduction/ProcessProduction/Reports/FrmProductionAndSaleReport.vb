@@ -748,7 +748,7 @@ TSPL_SCRAPINVOICE_HEAD.Loc_Code FROM
 
 
 
-                query += " LEFT OUTER JOIN (select Location_Code,sum(CLQty)Qty from (
+                query += " LEFT OUTER JOIN (Select Location_Code,case when Qty < 0 then 0 else Qty end as Qty from (select Location_Code,sum(CLQty)Qty from (
                         select Item_Code,xxx.Location_Code,cast(sum(xxx.StockQTYY * RI) as decimal(18,2)) as CLQty
                         from (
                         select Avg_Cost,(case when TSPL_PURCHASE_ACCOUNTS.Costing_Method=3 then TSPL_INVENTORY_MOVEMENT.FIFO_Cost else case when TSPL_PURCHASE_ACCOUNTS.Costing_Method=2 then TSPL_INVENTORY_MOVEMENT.LIFO_Cost else TSPL_INVENTORY_MOVEMENT.Avg_Cost end end ) as Cost,Basic_Cost,TSPL_INVENTORY_MOVEMENT.Item_Desc,TSPL_INVENTORY_MOVEMENT.Item_Code,Trans_Type,Punching_Date,Location_Code,Stock_UOM,case when TSPL_INVENTORY_MOVEMENT.InOut='I' then 1 else -1 end as RI,
@@ -765,7 +765,7 @@ TSPL_SCRAPINVOICE_HEAD.Loc_Code FROM
                 query += "" + FG + " " + SFG + " " + FGSFG + ""
 
                 query += " )xxx 
-					group by xxx.Item_Code,xxx.Location_Code)YYY group by Location_Code) FGS ON TSPL_LOCATION_MASTER.LOCATION_CODE =FGS.Location_Code"
+					group by xxx.Item_Code,xxx.Location_Code)YYY group by Location_Code) FGS1)FGS ON TSPL_LOCATION_MASTER.LOCATION_CODE =FGS.Location_Code"
 
                 query += " where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N'"
                 'varsha added Stock qty less then 3 days case
@@ -831,33 +831,14 @@ GROUP BY t.Location_Code
 
                 End If
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             ElseIf rdbWeekly.IsChecked = True OrElse rbdDateRange.IsChecked Then
-                    'fDate = CDate(clsDBFuncationality.getSingleValue("select DATEADD(DAY,2-DATEPART(WEEKDAY,convert(date,'" + fromDate.Value + "',103)),convert(date,'" + fromDate.Value + "',103))"))
-                    'tDate = CDate(clsDBFuncationality.getSingleValue("select DATEADD(DAY,8-DATEPART(WEEKDAY,convert(date,'" + fromDate.Value + "',103)),convert(date,'" + fromDate.Value + "',103))"))
-                    'dtpFrom.Value = fDate
-                    'toDate.Value = tDate
-                    'dtcurrent = fromDate.Value
-                    'dtnext = toDate.Value
-                    fDate = fromDate.Value
+                'fDate = CDate(clsDBFuncationality.getSingleValue("select DATEADD(DAY,2-DATEPART(WEEKDAY,convert(date,'" + fromDate.Value + "',103)),convert(date,'" + fromDate.Value + "',103))"))
+                'tDate = CDate(clsDBFuncationality.getSingleValue("select DATEADD(DAY,8-DATEPART(WEEKDAY,convert(date,'" + fromDate.Value + "',103)),convert(date,'" + fromDate.Value + "',103))"))
+                'dtpFrom.Value = fDate
+                'toDate.Value = tDate
+                'dtcurrent = fromDate.Value
+                'dtnext = toDate.Value
+                fDate = fromDate.Value
                 tDate = ToDate.Value
                 DayCount = DateDiff(DateInterval.Day, fDate, tDate) + 1
 
@@ -885,10 +866,16 @@ GROUP BY t.Location_Code
                 query = " SELECT * FROM (
 							SELECT 'Capacity / Day' AS Production, TSPL_LOCATION_MASTER.Location_Code,  (TSPL_LOCATION_MASTER.Silo_Capacity ) Capacity
                         FROM  TSPL_LOCATION_MASTER where IsMainPlant=0
-						
-						union all
-						SELECT 'Capacity / Day' AS Production, 'RCDF' AS Location_Code,  SUM(TSPL_LOCATION_MASTER.Silo_Capacity) Capacity
-                        FROM  TSPL_LOCATION_MASTER where IsMainPlant=0  ) AS XXXProduction
+							union all
+	
+							SELECT 'Capacity / Day' AS Production, 'rcdf' as Location_Code, 
+sum(cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('31/Jan/2024'))) AS DECIMAL(18,0))) as [Capacity]
+                        FROM  TSPL_LOCATION_MASTER where IsMainPlant=0 
+						--union all
+						--SELECT 'Capacity / Day' AS Production, 'RCDF' AS Location_Code,  SUM(TSPL_LOCATION_MASTER.Silo_Capacity) Capacity
+    --                FROM  TSPL_LOCATION_MASTER where IsMainPlant=0 
+
+) AS XXXProduction
                             PIVOT (    MAX(Capacity)     FOR Location_Code IN ([AJMR],[BIKR],[JODH],[KALR],[LAMB],[NADB],[PALI],[RCDF]) ) AS zpivot "
                 query += " UNION ALL
                         select Production," + strSumLocation + "," + strTotalLocation + " as " + strMainLocation + "
@@ -1059,7 +1046,7 @@ ORDER BY grp;
 
                     ' frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt2, "Daily_Production_sale_FG_stock_BD_report", "Daily Production Sale Report")
                     frmCRV = Nothing
-                ElseIf Print = True And rdbWeekly.IsChecked = True OrElse rbdDateRange.IsChecked = True Then
+                ElseIf Print = True And rbdDateRange.IsChecked = True Then
                     Gv1.Visible = True
                     Gv1.DataSource = dt2
                     Gv1.ReadOnly = True
@@ -1123,13 +1110,13 @@ ORDER BY grp;
 
         If rdbDaily.IsChecked = True Then
             'Gv1.Columns("NoOfShift").HeaderText = "NoOfShift" + Environment.NewLine + "Operated"
-            Gv1.Columns("NoOfShift").HeaderText = "NoOfShift"
+            Gv1.Columns("Noofshift").HeaderText = "NoOfShift"
             Gv1.Columns("ProdDailyQty").HeaderText = "Daily"
             Gv1.Columns("ProdCumQty").HeaderText = "Cummulative" + Environment.NewLine + "(MTD)"
             Gv1.Columns("CUD").HeaderText = "DLY %"
             Gv1.Columns("CUM").HeaderText = "MTD %"
             Gv1.Columns("CUY").HeaderText = "YTD %"
-            Gv1.Columns("SaleDailyQty").HeaderText = "Daily"
+            Gv1.Columns("saleDailyQty").HeaderText = "Daily"
             Gv1.Columns("SaleCumQty").HeaderText = "Cummulative" + Environment.NewLine + "(MTD)"
             Gv1.Columns("PSO").HeaderText = "Pending" + Environment.NewLine + "Supply Orders"
             Gv1.Columns("BreakdownHRS").HeaderText = "HRS"
@@ -1140,7 +1127,9 @@ ORDER BY grp;
             Dim summaryRowItem As New GridViewSummaryRowItem()
             Dim item1 As New GridViewSummaryItem("Capacity", "{0:F0}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item1)
-            Dim item2 As New GridViewSummaryItem("No of Shift", "{0:F0}", GridAggregateFunction.Sum)
+            'Dim item2 As New GridViewSummaryItem("No of Shift", "{0:F0}", GridAggregateFunction.Sum)
+            'summaryRowItem.Add(item2)
+            Dim item2 As New GridViewSummaryItem("Noofshift", "{0:F0}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item2)
             Dim item3 As New GridViewSummaryItem("ProdDailyQty", "{0:F0}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item3)
@@ -1167,7 +1156,7 @@ ORDER BY grp;
 
 
 
-            Dim item8 As New GridViewSummaryItem("SaleDailyQty", "{0:F0}", GridAggregateFunction.Sum)
+            Dim item8 As New GridViewSummaryItem("saleDailyQty", "{0:F0}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item8)
             Dim item9 As New GridViewSummaryItem("SaleCumQty", "{0:F0}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item9)
@@ -1178,6 +1167,7 @@ ORDER BY grp;
 
             Dim item21 As New GridViewSummaryItem("BreakdownHRS", "{0:F0}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item21)
+
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
             Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Else
@@ -1195,6 +1185,9 @@ ORDER BY grp;
             Gv1.Columns("PALI").HeaderText = "PALI"
             Gv1.Columns("RCDF").HeaderText = "RCDF"
 
+
+            ' Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable("SELECT TSPL_LOCATION_MASTER.location_code,TSPL_LOCATION_MASTER.Loc_Short_Name,cast(TSPL_LOCATION_MASTER.Silo_Capacity as int) as Silo_Capacity FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant=0 and TSPL_LOCATION_MASTER.Rejected_Type='N'")
+            Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable("SELECT TSPL_LOCATION_MASTER.location_code,TSPL_LOCATION_MASTER.Loc_Short_Name,cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('10/Dec/2025'))) AS DECIMAL(18,0)) as Silo_Capacity FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant=0 and TSPL_LOCATION_MASTER.Rejected_Type='N'")
 
             Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable("SELECT TSPL_LOCATION_MASTER.location_code,TSPL_LOCATION_MASTER.Loc_Short_Name,cast(TSPL_LOCATION_MASTER.Silo_Capacity as int) as Silo_Capacity FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant=0 and TSPL_LOCATION_MASTER.Rejected_Type='N'")
             Dim strMainLocation As DataTable = clsDBFuncationality.GetDataTable("SELECT TSPL_LOCATION_MASTER.location_code,TSPL_LOCATION_MASTER.Loc_Short_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant=1 and TSPL_LOCATION_MASTER.Rejected_Type='N'")

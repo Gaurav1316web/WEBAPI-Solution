@@ -12793,6 +12793,7 @@ FROM TSPL_ITEM_MASTER"
             coll = New Dictionary(Of String, String)()
             coll.Add("Chapter_Head_Code", "varchar(20)  NOT NULL PRIMARY KEY")
             coll.Add("Description", "varchar(100)  NOT NULL")
+            coll.Add("Seq_No", "integer NULL")
             coll.Add("Created_By", "varchar(12)  NOT NULL")
             coll.Add("Created_Date", "varchar(10)  NOT NULL")
             coll.Add("Modify_By", "varchar(12)  NOT NULL")
@@ -33676,6 +33677,10 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Send_By", "varchar(12)  NULL")
             coll.Add("Send_Date", "datetime  NULL")
             coll.Add("IsReplacement", "integer null")
+            coll.Add("Ewb_cancelDate", "datetime  NULL")
+            coll.Add("transUpdateDate", "datetime  NULL")
+            coll.Add("vehUpdDate", "datetime  NULL")
+            coll.Add("ExtendValidityUpdate", "datetime  NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_INVOICE_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)

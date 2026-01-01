@@ -24,6 +24,15 @@ Partial Class FrmTenderTrackingReport
     Private Sub InitializeComponent()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.txtPenQty = New common.MyNumBox()
+        Me.txtRejQty = New common.MyNumBox()
+        Me.txtAccQty = New common.MyNumBox()
+        Me.txtQty = New common.MyNumBox()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtItem = New common.Controls.MyTextBox()
         Me.txtTenderNo = New common.UserControls.txtFinder()
         Me.lblTenderNo = New common.Controls.MyLabel()
@@ -48,18 +57,18 @@ Partial Class FrmTenderTrackingReport
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.MyLabel2 = New common.Controls.MyLabel()
-        Me.MyLabel3 = New common.Controls.MyLabel()
-        Me.MyLabel4 = New common.Controls.MyLabel()
-        Me.txtQty = New common.MyNumBox()
-        Me.txtAccQty = New common.MyNumBox()
-        Me.txtRejQty = New common.MyNumBox()
-        Me.txtPenQty = New common.MyNumBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
+        CType(Me.txtPenQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtRejQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtAccQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtItem, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTenderNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -82,15 +91,6 @@ Partial Class FrmTenderTrackingReport
         Me.SplitContainer3.Panel2.SuspendLayout()
         Me.SplitContainer3.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox1.SuspendLayout()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtQty, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtAccQty, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtRejQty, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtPenQty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -123,6 +123,179 @@ Partial Class FrmTenderTrackingReport
         Me.SplitContainer1.Size = New System.Drawing.Size(1078, 483)
         Me.SplitContainer1.SplitterDistance = 85
         Me.SplitContainer1.TabIndex = 0
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.txtPenQty)
+        Me.GroupBox1.Controls.Add(Me.txtRejQty)
+        Me.GroupBox1.Controls.Add(Me.txtAccQty)
+        Me.GroupBox1.Controls.Add(Me.txtQty)
+        Me.GroupBox1.Controls.Add(Me.MyLabel4)
+        Me.GroupBox1.Controls.Add(Me.MyLabel3)
+        Me.GroupBox1.Controls.Add(Me.MyLabel2)
+        Me.GroupBox1.Controls.Add(Me.MyLabel1)
+        Me.GroupBox1.Location = New System.Drawing.Point(670, 12)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(396, 68)
+        Me.GroupBox1.TabIndex = 1523
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "RAL Detail"
+        '
+        'txtPenQty
+        '
+        Me.txtPenQty.BackColor = System.Drawing.Color.White
+        Me.txtPenQty.CalculationExpression = Nothing
+        Me.txtPenQty.DecimalPlaces = 2
+        Me.txtPenQty.FieldCode = Nothing
+        Me.txtPenQty.FieldDesc = Nothing
+        Me.txtPenQty.FieldMaxLength = 0
+        Me.txtPenQty.FieldName = Nothing
+        Me.txtPenQty.isCalculatedField = False
+        Me.txtPenQty.IsSourceFromTable = False
+        Me.txtPenQty.IsSourceFromValueList = False
+        Me.txtPenQty.IsUnique = False
+        Me.txtPenQty.Location = New System.Drawing.Point(282, 43)
+        Me.txtPenQty.MaxLength = 2
+        Me.txtPenQty.MendatroryField = False
+        Me.txtPenQty.MyLinkLable1 = Nothing
+        Me.txtPenQty.MyLinkLable2 = Nothing
+        Me.txtPenQty.Name = "txtPenQty"
+        Me.txtPenQty.ReadOnly = True
+        Me.txtPenQty.ReferenceFieldDesc = Nothing
+        Me.txtPenQty.ReferenceFieldName = Nothing
+        Me.txtPenQty.ReferenceTableName = Nothing
+        Me.txtPenQty.Size = New System.Drawing.Size(108, 20)
+        Me.txtPenQty.TabIndex = 1528
+        Me.txtPenQty.Text = "0"
+        Me.txtPenQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtPenQty.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        '
+        'txtRejQty
+        '
+        Me.txtRejQty.BackColor = System.Drawing.Color.White
+        Me.txtRejQty.CalculationExpression = Nothing
+        Me.txtRejQty.DecimalPlaces = 2
+        Me.txtRejQty.FieldCode = Nothing
+        Me.txtRejQty.FieldDesc = Nothing
+        Me.txtRejQty.FieldMaxLength = 0
+        Me.txtRejQty.FieldName = Nothing
+        Me.txtRejQty.isCalculatedField = False
+        Me.txtRejQty.IsSourceFromTable = False
+        Me.txtRejQty.IsSourceFromValueList = False
+        Me.txtRejQty.IsUnique = False
+        Me.txtRejQty.Location = New System.Drawing.Point(282, 20)
+        Me.txtRejQty.MaxLength = 2
+        Me.txtRejQty.MendatroryField = False
+        Me.txtRejQty.MyLinkLable1 = Nothing
+        Me.txtRejQty.MyLinkLable2 = Nothing
+        Me.txtRejQty.Name = "txtRejQty"
+        Me.txtRejQty.ReadOnly = True
+        Me.txtRejQty.ReferenceFieldDesc = Nothing
+        Me.txtRejQty.ReferenceFieldName = Nothing
+        Me.txtRejQty.ReferenceTableName = Nothing
+        Me.txtRejQty.Size = New System.Drawing.Size(108, 20)
+        Me.txtRejQty.TabIndex = 1527
+        Me.txtRejQty.Text = "0"
+        Me.txtRejQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtRejQty.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        '
+        'txtAccQty
+        '
+        Me.txtAccQty.BackColor = System.Drawing.Color.White
+        Me.txtAccQty.CalculationExpression = Nothing
+        Me.txtAccQty.DecimalPlaces = 2
+        Me.txtAccQty.FieldCode = Nothing
+        Me.txtAccQty.FieldDesc = Nothing
+        Me.txtAccQty.FieldMaxLength = 0
+        Me.txtAccQty.FieldName = Nothing
+        Me.txtAccQty.isCalculatedField = False
+        Me.txtAccQty.IsSourceFromTable = False
+        Me.txtAccQty.IsSourceFromValueList = False
+        Me.txtAccQty.IsUnique = False
+        Me.txtAccQty.Location = New System.Drawing.Point(86, 43)
+        Me.txtAccQty.MaxLength = 2
+        Me.txtAccQty.MendatroryField = False
+        Me.txtAccQty.MyLinkLable1 = Nothing
+        Me.txtAccQty.MyLinkLable2 = Nothing
+        Me.txtAccQty.Name = "txtAccQty"
+        Me.txtAccQty.ReadOnly = True
+        Me.txtAccQty.ReferenceFieldDesc = Nothing
+        Me.txtAccQty.ReferenceFieldName = Nothing
+        Me.txtAccQty.ReferenceTableName = Nothing
+        Me.txtAccQty.Size = New System.Drawing.Size(109, 20)
+        Me.txtAccQty.TabIndex = 1526
+        Me.txtAccQty.Text = "0"
+        Me.txtAccQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtAccQty.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        '
+        'txtQty
+        '
+        Me.txtQty.BackColor = System.Drawing.Color.White
+        Me.txtQty.CalculationExpression = Nothing
+        Me.txtQty.DecimalPlaces = 2
+        Me.txtQty.FieldCode = Nothing
+        Me.txtQty.FieldDesc = Nothing
+        Me.txtQty.FieldMaxLength = 0
+        Me.txtQty.FieldName = Nothing
+        Me.txtQty.isCalculatedField = False
+        Me.txtQty.IsSourceFromTable = False
+        Me.txtQty.IsSourceFromValueList = False
+        Me.txtQty.IsUnique = False
+        Me.txtQty.Location = New System.Drawing.Point(86, 20)
+        Me.txtQty.MaxLength = 2
+        Me.txtQty.MendatroryField = False
+        Me.txtQty.MyLinkLable1 = Nothing
+        Me.txtQty.MyLinkLable2 = Nothing
+        Me.txtQty.Name = "txtQty"
+        Me.txtQty.ReadOnly = True
+        Me.txtQty.ReferenceFieldDesc = Nothing
+        Me.txtQty.ReferenceFieldName = Nothing
+        Me.txtQty.ReferenceTableName = Nothing
+        Me.txtQty.Size = New System.Drawing.Size(109, 20)
+        Me.txtQty.TabIndex = 1525
+        Me.txtQty.Text = "0"
+        Me.txtQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtQty.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel4.Location = New System.Drawing.Point(204, 23)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(72, 16)
+        Me.MyLabel4.TabIndex = 1524
+        Me.MyLabel4.Text = "Rejected Qty"
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(204, 46)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(69, 16)
+        Me.MyLabel3.TabIndex = 1523
+        Me.MyLabel3.Text = "Pending Qty"
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(6, 46)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(74, 16)
+        Me.MyLabel2.TabIndex = 1522
+        Me.MyLabel2.Text = "Accepted Qty"
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(6, 23)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(74, 16)
+        Me.MyLabel1.TabIndex = 1521
+        Me.MyLabel1.Text = "RAL Quantity"
         '
         'txtItem
         '
@@ -337,6 +510,7 @@ Partial Class FrmTenderTrackingReport
         Me.RadPageView1.Size = New System.Drawing.Size(1078, 355)
         Me.RadPageView1.TabIndex = 0
         Me.RadPageView1.ThemeName = "ControlDefault"
+        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
@@ -359,11 +533,14 @@ Partial Class FrmTenderTrackingReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(1057, 307)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'btnExport
         '
@@ -446,179 +623,6 @@ Partial Class FrmTenderTrackingReport
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Delete Layout"
         '
-        'GroupBox1
-        '
-        Me.GroupBox1.Controls.Add(Me.txtPenQty)
-        Me.GroupBox1.Controls.Add(Me.txtRejQty)
-        Me.GroupBox1.Controls.Add(Me.txtAccQty)
-        Me.GroupBox1.Controls.Add(Me.txtQty)
-        Me.GroupBox1.Controls.Add(Me.MyLabel4)
-        Me.GroupBox1.Controls.Add(Me.MyLabel3)
-        Me.GroupBox1.Controls.Add(Me.MyLabel2)
-        Me.GroupBox1.Controls.Add(Me.MyLabel1)
-        Me.GroupBox1.Location = New System.Drawing.Point(670, 12)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(396, 68)
-        Me.GroupBox1.TabIndex = 1523
-        Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "RAL Detail"
-        '
-        'MyLabel1
-        '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(6, 23)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(74, 16)
-        Me.MyLabel1.TabIndex = 1521
-        Me.MyLabel1.Text = "RAL Quantity"
-        '
-        'MyLabel2
-        '
-        Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(6, 46)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(74, 16)
-        Me.MyLabel2.TabIndex = 1522
-        Me.MyLabel2.Text = "Accepted Qty"
-        '
-        'MyLabel3
-        '
-        Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(204, 46)
-        Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(69, 16)
-        Me.MyLabel3.TabIndex = 1523
-        Me.MyLabel3.Text = "Pending Qty"
-        '
-        'MyLabel4
-        '
-        Me.MyLabel4.FieldName = Nothing
-        Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(204, 23)
-        Me.MyLabel4.Name = "MyLabel4"
-        Me.MyLabel4.Size = New System.Drawing.Size(72, 16)
-        Me.MyLabel4.TabIndex = 1524
-        Me.MyLabel4.Text = "Rejected Qty"
-        '
-        'txtQty
-        '
-        Me.txtQty.BackColor = System.Drawing.Color.White
-        Me.txtQty.CalculationExpression = Nothing
-        Me.txtQty.DecimalPlaces = 2
-        Me.txtQty.FieldCode = Nothing
-        Me.txtQty.FieldDesc = Nothing
-        Me.txtQty.FieldMaxLength = 0
-        Me.txtQty.FieldName = Nothing
-        Me.txtQty.isCalculatedField = False
-        Me.txtQty.IsSourceFromTable = False
-        Me.txtQty.IsSourceFromValueList = False
-        Me.txtQty.IsUnique = False
-        Me.txtQty.Location = New System.Drawing.Point(86, 20)
-        Me.txtQty.MaxLength = 2
-        Me.txtQty.MendatroryField = False
-        Me.txtQty.MyLinkLable1 = Nothing
-        Me.txtQty.MyLinkLable2 = Nothing
-        Me.txtQty.Name = "txtQty"
-        Me.txtQty.ReadOnly = True
-        Me.txtQty.ReferenceFieldDesc = Nothing
-        Me.txtQty.ReferenceFieldName = Nothing
-        Me.txtQty.ReferenceTableName = Nothing
-        Me.txtQty.Size = New System.Drawing.Size(109, 20)
-        Me.txtQty.TabIndex = 1525
-        Me.txtQty.Text = "0"
-        Me.txtQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtQty.Value = 0R
-        '
-        'txtAccQty
-        '
-        Me.txtAccQty.BackColor = System.Drawing.Color.White
-        Me.txtAccQty.CalculationExpression = Nothing
-        Me.txtAccQty.DecimalPlaces = 2
-        Me.txtAccQty.FieldCode = Nothing
-        Me.txtAccQty.FieldDesc = Nothing
-        Me.txtAccQty.FieldMaxLength = 0
-        Me.txtAccQty.FieldName = Nothing
-        Me.txtAccQty.isCalculatedField = False
-        Me.txtAccQty.IsSourceFromTable = False
-        Me.txtAccQty.IsSourceFromValueList = False
-        Me.txtAccQty.IsUnique = False
-        Me.txtAccQty.Location = New System.Drawing.Point(86, 43)
-        Me.txtAccQty.MaxLength = 2
-        Me.txtAccQty.MendatroryField = False
-        Me.txtAccQty.MyLinkLable1 = Nothing
-        Me.txtAccQty.MyLinkLable2 = Nothing
-        Me.txtAccQty.Name = "txtAccQty"
-        Me.txtAccQty.ReadOnly = True
-        Me.txtAccQty.ReferenceFieldDesc = Nothing
-        Me.txtAccQty.ReferenceFieldName = Nothing
-        Me.txtAccQty.ReferenceTableName = Nothing
-        Me.txtAccQty.Size = New System.Drawing.Size(109, 20)
-        Me.txtAccQty.TabIndex = 1526
-        Me.txtAccQty.Text = "0"
-        Me.txtAccQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAccQty.Value = 0R
-        '
-        'txtRejQty
-        '
-        Me.txtRejQty.BackColor = System.Drawing.Color.White
-        Me.txtRejQty.CalculationExpression = Nothing
-        Me.txtRejQty.DecimalPlaces = 2
-        Me.txtRejQty.FieldCode = Nothing
-        Me.txtRejQty.FieldDesc = Nothing
-        Me.txtRejQty.FieldMaxLength = 0
-        Me.txtRejQty.FieldName = Nothing
-        Me.txtRejQty.isCalculatedField = False
-        Me.txtRejQty.IsSourceFromTable = False
-        Me.txtRejQty.IsSourceFromValueList = False
-        Me.txtRejQty.IsUnique = False
-        Me.txtRejQty.Location = New System.Drawing.Point(282, 20)
-        Me.txtRejQty.MaxLength = 2
-        Me.txtRejQty.MendatroryField = False
-        Me.txtRejQty.MyLinkLable1 = Nothing
-        Me.txtRejQty.MyLinkLable2 = Nothing
-        Me.txtRejQty.Name = "txtRejQty"
-        Me.txtRejQty.ReadOnly = True
-        Me.txtRejQty.ReferenceFieldDesc = Nothing
-        Me.txtRejQty.ReferenceFieldName = Nothing
-        Me.txtRejQty.ReferenceTableName = Nothing
-        Me.txtRejQty.Size = New System.Drawing.Size(108, 20)
-        Me.txtRejQty.TabIndex = 1527
-        Me.txtRejQty.Text = "0"
-        Me.txtRejQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtRejQty.Value = 0R
-        '
-        'txtPenQty
-        '
-        Me.txtPenQty.BackColor = System.Drawing.Color.White
-        Me.txtPenQty.CalculationExpression = Nothing
-        Me.txtPenQty.DecimalPlaces = 2
-        Me.txtPenQty.FieldCode = Nothing
-        Me.txtPenQty.FieldDesc = Nothing
-        Me.txtPenQty.FieldMaxLength = 0
-        Me.txtPenQty.FieldName = Nothing
-        Me.txtPenQty.isCalculatedField = False
-        Me.txtPenQty.IsSourceFromTable = False
-        Me.txtPenQty.IsSourceFromValueList = False
-        Me.txtPenQty.IsUnique = False
-        Me.txtPenQty.Location = New System.Drawing.Point(282, 43)
-        Me.txtPenQty.MaxLength = 2
-        Me.txtPenQty.MendatroryField = False
-        Me.txtPenQty.MyLinkLable1 = Nothing
-        Me.txtPenQty.MyLinkLable2 = Nothing
-        Me.txtPenQty.Name = "txtPenQty"
-        Me.txtPenQty.ReadOnly = True
-        Me.txtPenQty.ReferenceFieldDesc = Nothing
-        Me.txtPenQty.ReferenceFieldName = Nothing
-        Me.txtPenQty.ReferenceTableName = Nothing
-        Me.txtPenQty.Size = New System.Drawing.Size(108, 20)
-        Me.txtPenQty.TabIndex = 1528
-        Me.txtPenQty.Text = "0"
-        Me.txtPenQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtPenQty.Value = 0R
-        '
         'FrmTenderTrackingReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -636,6 +640,16 @@ Partial Class FrmTenderTrackingReport
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
+        CType(Me.txtPenQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtRejQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtAccQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtItem, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTenderNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -659,16 +673,6 @@ Partial Class FrmTenderTrackingReport
         Me.SplitContainer3.Panel2.ResumeLayout(False)
         Me.SplitContainer3.ResumeLayout(False)
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox1.ResumeLayout(False)
-        Me.GroupBox1.PerformLayout()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtQty, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtAccQty, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtRejQty, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtPenQty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

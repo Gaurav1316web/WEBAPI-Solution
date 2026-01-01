@@ -129,7 +129,7 @@ Public Class rptNIRQC
             strqry = " Select ROW_NUMBER() OVER(ORDER BY convert(varchar, final.[GRN Date],103),[GRN NO] ASC) as SNo,final.*
 from (select TSPL_GRN_HEAD.bill_to_location as [Location Code],TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as [Tender No],TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No as [PO No],convert(varchar,TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_Date,103) as [PO Date],TSPL_GRN_HEAD.Vendor_Code as [Vendor Code],TSPL_VENDOR_MASTER.Vendor_Name as [Vendor Name], 
 TSPL_GRN_DETAIL.Item_Code  as [Item Code],tspl_item_master.Item_Desc as [Item Name],TSPL_GRN_DETAIL.Unit_code as UOM,TSPL_GRN_HEAD.VehicleNo as [Vehicle No],
-convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as [GRN Date],TSPL_GRN_HEAD.GRN_No as [GRN No]
+convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as [GRN Date],TSPL_GRN_HEAD.GRN_No as [GRN No],cast(TSPL_GRN_DETAIL.GRN_Qty as decimal(18,2)) AS [GRN Qty]
                   ,convert(varchar, TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as [Weighment Date],TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code as [Weighment No]
                 ,TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight as [Weighment Gross Weight],TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight as [Weighment Tare Weight]
                 ,TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight as [Weighment Net Weight]
@@ -178,6 +178,7 @@ convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as [GRN Date],TSPL_GRN_HEAD.GRN_No 
                 For ii As Integer = 0 To gv1.Columns.Count - 1
                     gv1.Columns(ii).ReadOnly = True
                 Next
+                SetGridFormat(gv1)
                 RadPageView1.SelectedPage = RadPageViewPage2
                 gv1.BestFitColumns()
                 gv1.EnableFiltering = True
@@ -185,6 +186,46 @@ convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as [GRN Date],TSPL_GRN_HEAD.GRN_No 
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Sub SetGridFormat(ByRef Gv1 As RadGridView)
+        'Gv1.ShowGroupPanel = False
+        'Gv1.ShowRowHeaderColumn = False
+        'Gv1.AllowAddNewRow = False
+        'Gv1.AllowDeleteRow = False
+        'Gv1.EnableFiltering = True
+        'Gv1.ShowFilteringRow = True
+
+        Gv1.AutoExpandGroups = True
+        Gv1.ShowGroupPanel = True
+        Gv1.ShowRowHeaderColumn = False
+        Gv1.AllowAddNewRow = False
+        Gv1.AllowDeleteRow = False
+        Gv1.EnableFiltering = True
+        Gv1.ShowFilteringRow = True
+        'Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+
+        Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+
+        For ii As Integer = 0 To Gv1.Columns.Count - 1
+            Gv1.Columns(ii).ReadOnly = True
+            Gv1.Columns(ii).BestFit()
+        Next
+
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        Dim item1 As New GridViewSummaryItem("Weighment Gross Weight", "{0:F0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        Dim item2 As New GridViewSummaryItem("Weighment Net Weight", "{0:F0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item2)
+        Dim item3 As New GridViewSummaryItem("Weighment Tare Weight", "{0:F0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item3)
+        Dim item4 As New GridViewSummaryItem("GRN Qty", "{0:F0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item4)
+        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+
+        Gv1.AutoSizeRows = False
+        Gv1.BestFitColumns()
     End Sub
 
 
