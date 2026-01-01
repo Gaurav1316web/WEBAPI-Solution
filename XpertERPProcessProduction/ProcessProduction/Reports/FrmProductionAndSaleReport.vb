@@ -748,7 +748,7 @@ TSPL_SCRAPINVOICE_HEAD.Loc_Code FROM
 
 
 
-                query += " LEFT OUTER JOIN (select Location_Code,sum(CLQty)Qty from (
+                query += " LEFT OUTER JOIN (Select Location_Code,case when Qty < 0 then 0 else Qty end as Qty from (select Location_Code,sum(CLQty)Qty from (
                         select Item_Code,xxx.Location_Code,cast(sum(xxx.StockQTYY * RI) as decimal(18,2)) as CLQty
                         from (
                         select Avg_Cost,(case when TSPL_PURCHASE_ACCOUNTS.Costing_Method=3 then TSPL_INVENTORY_MOVEMENT.FIFO_Cost else case when TSPL_PURCHASE_ACCOUNTS.Costing_Method=2 then TSPL_INVENTORY_MOVEMENT.LIFO_Cost else TSPL_INVENTORY_MOVEMENT.Avg_Cost end end ) as Cost,Basic_Cost,TSPL_INVENTORY_MOVEMENT.Item_Desc,TSPL_INVENTORY_MOVEMENT.Item_Code,Trans_Type,Punching_Date,Location_Code,Stock_UOM,case when TSPL_INVENTORY_MOVEMENT.InOut='I' then 1 else -1 end as RI,
@@ -765,7 +765,7 @@ TSPL_SCRAPINVOICE_HEAD.Loc_Code FROM
                 query += "" + FG + " " + SFG + " " + FGSFG + ""
 
                 query += " )xxx 
-					group by xxx.Item_Code,xxx.Location_Code)YYY group by Location_Code) FGS ON TSPL_LOCATION_MASTER.LOCATION_CODE =FGS.Location_Code"
+					group by xxx.Item_Code,xxx.Location_Code)YYY group by Location_Code) FGS1) FGS ON TSPL_LOCATION_MASTER.LOCATION_CODE =FGS.Location_Code"
 
                 query += " where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N'"
                 'varsha added Stock qty less then 3 days case
@@ -831,25 +831,6 @@ GROUP BY t.Location_Code
 
                 End If
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             ElseIf rdbWeekly.IsChecked = True OrElse rbdDateRange.IsChecked Then
                     'fDate = CDate(clsDBFuncationality.getSingleValue("select DATEADD(DAY,2-DATEPART(WEEKDAY,convert(date,'" + fromDate.Value + "',103)),convert(date,'" + fromDate.Value + "',103))"))
                     'tDate = CDate(clsDBFuncationality.getSingleValue("select DATEADD(DAY,8-DATEPART(WEEKDAY,convert(date,'" + fromDate.Value + "',103)),convert(date,'" + fromDate.Value + "',103))"))
@@ -883,7 +864,8 @@ GROUP BY t.Location_Code
                     as Alies_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N' FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')"
                 Dim strMaxLocation As String = clsDBFuncationality.getSingleValue(StrTempQry)
                 query = " SELECT * FROM (
-							SELECT 'Capacity / Day' AS Production, TSPL_LOCATION_MASTER.Location_Code,  (TSPL_LOCATION_MASTER.Silo_Capacity ) Capacity
+							SELECT 'Capacity / Day' AS Production, TSPL_LOCATION_MASTER.Location_Code,
+cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "'))) AS DECIMAL(18,0)) as [Capacity]
                         FROM  TSPL_LOCATION_MASTER where IsMainPlant=0
 						
 						union all
@@ -1196,7 +1178,9 @@ ORDER BY grp;
             Gv1.Columns("RCDF").HeaderText = "RCDF"
 
 
-            Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable("SELECT TSPL_LOCATION_MASTER.location_code,TSPL_LOCATION_MASTER.Loc_Short_Name,cast(TSPL_LOCATION_MASTER.Silo_Capacity as int) as Silo_Capacity FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant=0 and TSPL_LOCATION_MASTER.Rejected_Type='N'")
+            ' Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable("SELECT TSPL_LOCATION_MASTER.location_code,TSPL_LOCATION_MASTER.Loc_Short_Name,cast(TSPL_LOCATION_MASTER.Silo_Capacity as int) as Silo_Capacity FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant=0 and TSPL_LOCATION_MASTER.Rejected_Type='N'")
+            Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable("SELECT TSPL_LOCATION_MASTER.location_code,TSPL_LOCATION_MASTER.Loc_Short_Name,cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('10/Dec/2025'))) AS DECIMAL(18,0)) as Silo_Capacity FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant=0 and TSPL_LOCATION_MASTER.Rejected_Type='N'")
+
             Dim strMainLocation As DataTable = clsDBFuncationality.GetDataTable("SELECT TSPL_LOCATION_MASTER.location_code,TSPL_LOCATION_MASTER.Loc_Short_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant=1 and TSPL_LOCATION_MASTER.Rejected_Type='N'")
 
             For i As Int16 = 0 To dtLocation.Rows.Count - 1

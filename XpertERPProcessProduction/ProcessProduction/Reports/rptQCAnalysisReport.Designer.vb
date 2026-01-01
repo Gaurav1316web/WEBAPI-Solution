@@ -22,12 +22,13 @@ Partial Class rptQCAnalysisReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.gvDB = New Telerik.WinControls.UI.MasterGridViewTemplate()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.rdbColored = New Telerik.WinControls.UI.RadRadioButton()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rdbAll = New Telerik.WinControls.UI.RadRadioButton()
         Me.rdbUnderdeviation = New Telerik.WinControls.UI.RadRadioButton()
@@ -37,7 +38,6 @@ Partial Class rptQCAnalysisReport
         Me.rbtQcForRm = New Telerik.WinControls.UI.RadRadioButton()
         Me.rbtQcForFG = New Telerik.WinControls.UI.RadRadioButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rdbColored = New Telerik.WinControls.UI.RadRadioButton()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtItemCodeFG = New common.UserControls.txtFinder()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
@@ -82,6 +82,7 @@ Partial Class rptQCAnalysisReport
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel1.SuspendLayout()
+        CType(Me.rdbColored, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         CType(Me.rdbAll, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -94,7 +95,6 @@ Partial Class rptQCAnalysisReport
         CType(Me.rbtQcForFG, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
-        CType(Me.rdbColored, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox4.SuspendLayout()
@@ -127,7 +127,7 @@ Partial Class rptQCAnalysisReport
         'gvDB
         '
         Me.gvDB.AllowAddNewRow = False
-        Me.gvDB.ViewDefinition = TableViewDefinition1
+        Me.gvDB.ViewDefinition = TableViewDefinition3
         '
         'RadPageView1
         '
@@ -161,6 +161,15 @@ Partial Class rptQCAnalysisReport
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(956, 310)
         Me.RadPanel1.TabIndex = 15
+        '
+        'rdbColored
+        '
+        Me.rdbColored.Location = New System.Drawing.Point(553, 19)
+        Me.rdbColored.Name = "rdbColored"
+        Me.rdbColored.Size = New System.Drawing.Size(86, 18)
+        Me.rdbColored.TabIndex = 398
+        Me.rdbColored.TabStop = False
+        Me.rdbColored.Text = "Colored Data"
         '
         'RadGroupBox3
         '
@@ -264,15 +273,6 @@ Partial Class rptQCAnalysisReport
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Size = New System.Drawing.Size(559, 168)
         Me.RadGroupBox1.TabIndex = 389
-        '
-        'rdbColored
-        '
-        Me.rdbColored.Location = New System.Drawing.Point(553, 19)
-        Me.rdbColored.Name = "rdbColored"
-        Me.rdbColored.Size = New System.Drawing.Size(86, 18)
-        Me.rdbColored.TabIndex = 398
-        Me.rdbColored.TabStop = False
-        Me.rdbColored.Text = "Colored Data"
         '
         'MyLabel1
         '
@@ -571,7 +571,7 @@ Partial Class rptQCAnalysisReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -600,9 +600,9 @@ Partial Class rptQCAnalysisReport
         '
         Me.btnRejected.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnRejected.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiEnglish, Me.rmiHindi})
-        Me.btnRejected.Location = New System.Drawing.Point(610, 0)
+        Me.btnRejected.Location = New System.Drawing.Point(623, 0)
         Me.btnRejected.Name = "btnRejected"
-        Me.btnRejected.Size = New System.Drawing.Size(83, 22)
+        Me.btnRejected.Size = New System.Drawing.Size(138, 22)
         Me.btnRejected.TabIndex = 163
         Me.btnRejected.Text = "Rejected Analysis Print"
         '
@@ -623,9 +623,9 @@ Partial Class rptQCAnalysisReport
         Me.btnRALWiseAnaysisPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnRALWiseAnaysisPrint.Location = New System.Drawing.Point(484, 0)
         Me.btnRALWiseAnaysisPrint.Name = "btnRALWiseAnaysisPrint"
-        Me.btnRALWiseAnaysisPrint.Size = New System.Drawing.Size(120, 22)
+        Me.btnRALWiseAnaysisPrint.Size = New System.Drawing.Size(133, 22)
         Me.btnRALWiseAnaysisPrint.TabIndex = 162
-        Me.btnRALWiseAnaysisPrint.Text = "RAL Wise Anaysis Print"
+        Me.btnRALWiseAnaysisPrint.Text = "RAL Wise Analysis Print"
         '
         'btnAnalysisPrintVertical
         '
@@ -751,6 +751,7 @@ Partial Class rptQCAnalysisReport
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
         Me.RadPanel1.PerformLayout()
+        CType(Me.rdbColored, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
         Me.RadGroupBox3.PerformLayout()
@@ -766,7 +767,6 @@ Partial Class rptQCAnalysisReport
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
-        CType(Me.rdbColored, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox4.ResumeLayout(False)
