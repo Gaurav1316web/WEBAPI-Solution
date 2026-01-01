@@ -168,10 +168,14 @@ Public Class rptSalesReport
                 'End If
             End If
             If rbnPricegroup.Checked AndAlso rdbDispatch.IsChecked = True AndAlso rdbSaleTransfer.IsChecked = True Then
-                qry = " Select * from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date," & itemNames2 & ",
+                If Not PCGroup Then
+                    qry = " Select * from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date," & itemNames2 & ",
                       (" & itemNames3 & ") as [Total Sale],
                     QuantityBag as [Total BagSale]
-                      FROM (Select Location,max(Location_Desc)Location_Desc,max(Add1)Add1,max(Add4)Add4,Document_Date,Sum(SaleQty-ReturnQty)Quantity,Sum(SaleQtyBag-ReturnQtyBag)QuantityBag,price_CodeNon
+                      FROM ( "
+                End If
+
+                qry += " Select Location,max(Location_Desc)Location_Desc,max(Add1)Add1,max(Add4)Add4,Document_Date,Sum(SaleQty-ReturnQty)Quantity,Sum(SaleQtyBag-ReturnQtyBag)QuantityBag,price_CodeNon
                       from (Select Location,max(xx.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add4)Add4,xx.Document_Date,Sum(xx.SaleQty)SaleQty,sum(xx.SaleQtyBag)SaleQtyBag,
                       sum(xx.ReturnQty)ReturnQty,sum(xx.ReturnQtyBag)ReturnQtyBag,case when isnull(xx.price_CodeNon,'')= '' then 'Other' else xx.price_CodeNon end as price_CodeNon from
                       (Select TSPL_SD_SHIPMENT_DETAIL.Location,max(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,max(TSPL_LOCATION_MASTER.Add4)Add4,convert (date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty/TSPL_ITEM_UOM_QTL.Conversion_Factor) as SaleQty,
@@ -191,7 +195,10 @@ Public Class rptSalesReport
 						      		 left outer join TSPL_SD_SHIPMENT_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE                            
 									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_DETAIL.Location
 	                                 WHERE  convert (date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= Convert (date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)  
-                                     and  convert (date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert (date, '" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) and TSPL_SD_SHIPMENT_DETAIL.Location In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
+                                     and  convert (date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert (date, '" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) "
+                If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                    qry += " and TSPL_SD_SHIPMENT_DETAIL.Location In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
+                End If
                 qry += " " + Status + " " + FG + " " + SFG + " " + FGSFG + " "
 
                 qry += " group by convert (date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103),price_CodeNon,Location
@@ -241,17 +248,26 @@ Public Class rptSalesReport
 						      		 left outer join TSPL_SD_SALE_INVOICE_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE                            
 									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_RETURN_DETAIL.Location
 	                                 WHERE  convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)   
-                                     and  convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) and TSPL_SD_SALE_RETURN_DETAIL.Location In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
+                                     and  convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) "
+                If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                    qry += "and TSPL_SD_SALE_RETURN_DETAIL.Location In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
+                End If
                 qry += " " + StatusReturn + " " + FG + " " + SFG + " " + FGSFG + " "
                 qry += "	 group by convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103),price_CodeNon,Location)XX group by xx.Location,xx.Document_Date,
-                             xx.price_CodeNon )Tab1
-                                    PIVOT (SUM(Quantity) FOR price_CodeNon IN (" & itemNames1 & "))AS Tab2)tmp  "
+                             xx.price_CodeNon )Tab1 "
+                If Not PCGroup Then
+                    qry += "    PIVOT (SUM(Quantity) FOR price_CodeNon IN (" & itemNames1 & "))AS Tab2)tmp  "
+                End If
 
             ElseIf rbnPricegroup.Checked AndAlso rdbInvoice.IsChecked = True AndAlso rdbSaleTransfer.IsChecked = True Then
-                qry = " Select * from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date," & itemNames2 & ",
+                If Not PCGroup Then
+                    qry = " Select * from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date," & itemNames2 & ",
                       (" & itemNames3 & ") as [Total Sale],
                     QuantityBag as [Total BagSale]
-                      FROM (Select Location,max(Location_Desc)Location_Desc,max(Add1)Add1,max(Add4)Add4,Document_Date,Sum(SaleQty-ReturnQty)Quantity,Sum(SaleQtyBag-ReturnQtyBag)QuantityBag,price_CodeNon 
+                      FROM ("
+                End If
+
+                qry += " Select Location,max(Location_Desc)Location_Desc,max(Add1)Add1,max(Add4)Add4,Document_Date,Sum(SaleQty-ReturnQty)Quantity,Sum(SaleQtyBag-ReturnQtyBag)QuantityBag,price_CodeNon 
 					  from (Select Location,max(xx.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add4)Add4,xx.Document_Date,Sum(xx.SaleQty)SaleQty,sum(xx.SaleQtyBag)SaleQtyBag,
                       sum(xx.ReturnQty)ReturnQty,sum(xx.ReturnQtyBag)ReturnQtyBag,case when isnull(xx.price_CodeNon,'')= '' then 'Other' else xx.price_CodeNon end as price_CodeNon from
 					  (SELECT TSPL_SD_SALE_INVOICE_DETAIL.Location,max(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,
@@ -296,7 +312,10 @@ Public Class rptSalesReport
                                      AND TSPL_ITEM_UOM_BAG.UOM_Code= 'BAG' 
 						      		left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SCRAPINVOICE_HEAD.Loc_Code
 	                                 WHERE convert(date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)
-                                     and  convert(date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) and TSPL_SCRAPINVOICE_HEAD.Loc_Code In (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
+                                     and  convert(date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) "
+                If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                    qry += " and TSPL_SCRAPINVOICE_HEAD.Loc_Code In (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
+                End If
                 qry += " " + statusScrapInvoice + " " + FG + " " + SFG + " " + FGSFG + " "
                 qry += " group by convert (date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103),price_CodeNon,Loc_Code)XX Group by XX.Location,xx.Document_Date,xx.price_CodeNon "
 
@@ -319,22 +338,32 @@ Public Class rptSalesReport
 						      		 left outer join TSPL_SD_SALE_INVOICE_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE                            
 									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_RETURN_DETAIL.Location
 	                                 WHERE  convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)   
-                                     and  convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) and TSPL_SD_SALE_RETURN_DETAIL.Location In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
+                                     and  convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) "
+                If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                    qry += "and TSPL_SD_SALE_RETURN_DETAIL.Location In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
+                End If
                 qry += " " + StatusReturn + " " + FG + " " + SFG + " " + FGSFG + " "
                 qry += "	 group by convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103),price_CodeNon,Location
 									 
-									 )XX group by xx.Location,xx.Document_Date,xx.price_CodeNon )Tab1
-                                    PIVOT (SUM(Quantity) FOR price_CodeNon IN (" & itemNames1 & "))AS Tab2)tmp  "
+									 )XX group by xx.Location,xx.Document_Date,xx.price_CodeNon )Tab1 "
+                 If Not PCGroup Then
+                    qry += " PIVOT (SUM(Quantity) FOR price_CodeNon IN (" & itemNames1 & "))AS Tab2)tmp  "
+
+                End If
 
             ElseIf rbnPricegroup.Checked AndAlso rdbDispatch.IsChecked = True Then
-                qry = "   Select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,MONTH(convert(date,Document_Date,103)) AS MonthNumber,max(Location)Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate,
+                If Not PCGroup Then
+                    qry = "   Select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,MONTH(convert(date,Document_Date,103)) AS MonthNumber,max(Location)Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate,
                           '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,max([Location Description])[Location Description],max(Add1)Add1,max(Add4)Add4,
                            (Document_Date)Document_Date," & itemNames4 & ",Sum([Total Sale])[Total Sale],sum([Total BagSale])[Total BagSale]
                           from (SELECT  Location,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date,
                           " & itemNames2 & ", " & itemNames3 & " as [Total Sale],
                             QuantityBag as [Total BagSale]
-  FROM
-                                   (SELECT XX.Location,MAX(XX.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add4)Add4,(xx.Document_Date)Document_Date,
+  FROM ("
+                End If
+
+
+                qry += " SELECT XX.Location,MAX(XX.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add4)Add4,(xx.Document_Date)Document_Date,
                                    Cast(sum(xx.Quantity) as Decimal(10,2))Quantity,Cast(Sum(xx.QuantityBag) as Decimal(10,2))QuantityBag,
                                     case when isnull(price_CodeNon,'')= '' then 'Other' else price_CodeNon end as price_CodeNon FROM (SELECT TSPL_SD_SHIPMENT_DETAIL.Location,max(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,max(TSPL_LOCATION_MASTER.Add4)Add4,
                                     convert (date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty/TSPL_ITEM_UOM_QTL.Conversion_Factor) as Quantity,
@@ -391,18 +420,24 @@ Public Class rptSalesReport
                     qry += " and TSPL_SCRAPSALE_HEAD.Inter_unit_sale =0 "
                 End If
 
-                qry += " group by convert (date,TSPL_SCRAPSALE_HEAD.shipment_Date,103),price_CodeNon,Loc_Code )XX GROUP BY xx.Document_Date,XX.price_CodeNon,XX.Location )Tab1
-                                    PIVOT (SUM(Quantity) FOR price_CodeNon IN (" & itemNames1 & "))AS Tab2)tmp group by Document_Date ,Location order by Document_Date    "
+                qry += " group by convert (date,TSPL_SCRAPSALE_HEAD.shipment_Date,103),price_CodeNon,Loc_Code )XX GROUP BY xx.Document_Date,XX.price_CodeNon,XX.Location )Tab1 "
+                If Not PCGroup Then
+                    qry += "   PIVOT (SUM(Quantity) FOR price_CodeNon IN (" & itemNames1 & "))AS Tab2)tmp group by Document_Date ,Location order by Document_Date    "
+                End If
 
             ElseIf rbnPricegroup.Checked AndAlso rdbInvoice.IsChecked = True Then
-                qry = "   Select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,MONTH(convert(date,Document_Date,103)) AS MonthNumber,max(Location)Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate,
+
+                If Not PCGroup Then
+                    qry = "   Select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,MONTH(convert(date,Document_Date,103)) AS MonthNumber,max(Location)Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate,
                           '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,max([Location Description])[Location Description],max(Add1)Add1,max(Add4)Add4,
                            (Document_Date)Document_Date," & itemNames4 & ",Sum([Total Sale])[Total Sale],sum([Total BagSale])[Total BagSale]
                           from (SELECT  Location,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date,
                           " & itemNames2 & ", " & itemNames3 & " as [Total Sale],
                             QuantityBag as [Total BagSale]
-  FROM
-                                   (SELECT XX.Location,MAX(XX.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add4)Add4,(xx.Document_Date)Document_Date,
+  FROM ("
+                End If
+
+                qry += " SELECT XX.Location,MAX(XX.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add4)Add4,(xx.Document_Date)Document_Date,
                                    Cast(sum(xx.Quantity) as Decimal(10,2))Quantity,Cast(Sum(xx.QuantityBag) as Decimal(10,2))QuantityBag,
                                     case when isnull(xx.price_CodeNon,'')= '' then 'Other' else xx.price_CodeNon end as price_CodeNon FROM (SELECT TSPL_SD_SALE_INVOICE_DETAIL.Location,max(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,max(TSPL_LOCATION_MASTER.Add4)Add4,
                                     convert (date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Document_Date,
@@ -423,14 +458,14 @@ Public Class rptSalesReport
 									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_DETAIL.Location
 	                                 WHERE  convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)  
                                      and  convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)" + whr + " "
-                qry += " " + StatusInvoice + " " + FG + " " + SFG + " " + FGSFG + "  "
-                If rdbStockTransfer.IsChecked = True Then
-                    qry += "" + stocktransferinvoice + ""
-                Else
-                    qry += " and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale=0 "
-                End If
+                    qry += " " + StatusInvoice + " " + FG + " " + SFG + " " + FGSFG + "  "
+                    If rdbStockTransfer.IsChecked = True Then
+                        qry += "" + stocktransferinvoice + ""
+                    Else
+                        qry += " and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale=0 "
+                    End If
 
-                qry += " group by convert (date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103),price_CodeNon,Location
+                    qry += " group by convert (date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103),price_CodeNon,Location
                           union all
                          
 									 SELECT TSPL_SCRAPINVOICE_HEAD.Loc_Code as Location,max(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,max(TSPL_LOCATION_MASTER.Add4)Add4,convert (date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) as Document_Date,
@@ -451,26 +486,32 @@ Public Class rptSalesReport
 	                                 WHERE convert(date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103) 
                                      and  convert(date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)
                                      and TSPL_SCRAPINVOICE_HEAD.Loc_Code In (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
-                qry += " " + statusScrapInvoice + " " + FG + " " + SFG + " " + FGSFG + " "
+                    qry += " " + statusScrapInvoice + " " + FG + " " + SFG + " " + FGSFG + " "
 
-                If rdbStockTransfer.IsChecked = True Then
-                    qry += " and TSPL_SCRAPINVOICE_HEAD.Inter_unit_sale=1 "
-                Else
-                    qry += " and TSPL_SCRAPINVOICE_HEAD.Inter_unit_sale=0 "
+                    If rdbStockTransfer.IsChecked = True Then
+                        qry += " and TSPL_SCRAPINVOICE_HEAD.Inter_unit_sale=1 "
+                    Else
+                        qry += " and TSPL_SCRAPINVOICE_HEAD.Inter_unit_sale=0 "
+                    End If
+
+                qry += " group by convert (date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103),price_CodeNon,Loc_Code )XX GROUP BY xx.Document_Date,XX.price_CodeNon,XX.Location )Tab1 "
+                If Not PCGroup Then
+                    qry += " PIVOT (SUM(Quantity) FOR price_CodeNon IN (" & itemNames1 & "))AS Tab2)tmp group by Document_Date ,Location order by Document_Date    "
                 End If
 
-                qry += " group by convert (date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103),price_CodeNon,Loc_Code )XX GROUP BY xx.Document_Date,XX.price_CodeNon,XX.Location )Tab1
-                                    PIVOT (SUM(Quantity) FOR price_CodeNon IN (" & itemNames1 & "))AS Tab2)tmp group by Document_Date ,Location order by Document_Date    "
 
             ElseIf rbnPricegroup.Checked AndAlso rdbSaleReturn.IsChecked = True Then
-                qry = "   Select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,MONTH(convert(date,Document_Date,103)) AS MonthNumber,max(Location)Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate,
+                    If Not PCGroup Then
+                        qry = "   Select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,MONTH(convert(date,Document_Date,103)) AS MonthNumber,max(Location)Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate,
                           '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,max([Location Description])[Location Description],max(Add1)Add1,max(Add4)Add4,
                            (Document_Date)Document_Date," & itemNames4 & ",Sum([Total Sale])[Total Sale],sum([Total BagSale])[Total BagSale]
                           from (SELECT  Location,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date,
                           " & itemNames2 & ", " & itemNames3 & " as [Total Sale],
                             QuantityBag as [Total BagSale]
-                              FROM 
-                            (SELECT XX.Location,MAX(XX.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add4)Add4,(xx.Document_Date)Document_Date,
+                              FROM ("
+                    End If
+
+                    qry += " SELECT XX.Location,MAX(XX.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add4)Add4,(xx.Document_Date)Document_Date,
                                    Cast(sum(xx.Quantity) as Decimal(10,2))Quantity,Cast(Sum(xx.QuantityBag) as Decimal(10,2))QuantityBag,
                                     case when isnull(xx.price_CodeNon,'')= '' then 'Other' else xx.price_CodeNon end as price_CodeNon FROM 
                                    (SELECT TSPL_SD_SALE_RETURN_DETAIL.Location,MAX(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,
@@ -492,7 +533,11 @@ Public Class rptSalesReport
 						      		 left outer join TSPL_SD_SALE_RETURN_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE                            
 									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_RETURN_DETAIL.Location
 	                                 WHERE  convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)  
-                                     and  convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) and TSPL_SD_SALE_RETURN_DETAIL.Location In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
+                                     and  convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) "
+
+                If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                    qry += "and TSPL_SD_SALE_RETURN_DETAIL.Location In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
+                End If
                 qry += " " + StatusReturn + " " + FG + " " + SFG + " " + FGSFG + " "
                 qry += " group by convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103),price_CodeNon,Location
 
@@ -516,19 +561,29 @@ SELECT TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code,max(TSPL_LOCATION_MASTER.Location_Des
                                      AND TSPL_ITEM_UOM_BAG.UOM_Code= 'BAG'
 						      		 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code
 	                                 WHERE  convert(date,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)  
-                                     and  convert(date,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) and TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
+                                     and  convert(date,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) "
+                If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                    qry += " TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
+                End If
                 qry += " " + StatusReturn1 + " " + FG + " " + SFG + " " + FGSFG + " "
                 qry += " group by convert (date,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103),price_CodeNon,Loc_Code)XX  GROUP BY xx.Document_Date,XX.price_CodeNon,XX.Location
-)Tab1
-                                    PIVOT (SUM(Quantity) FOR price_CodeNon IN (" & itemNames1 & "))AS Tab2)tmp group by Document_Date ,Location order by Document_Date    "
+)Tab1 "
+                    If Not PCGroup Then
+                        qry += "  PIVOT (SUM(Quantity) FOR price_CodeNon IN (" & itemNames1 & "))AS Tab2)tmp group by Document_Date ,Location order by Document_Date    "
+                    End If
 
-            Else
-                If rbnCustgroup.Checked AndAlso rdbDispatch.IsChecked = True AndAlso rdbSaleTransfer.IsChecked = True Then
-                    qry = " Select * from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'as ToDate,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date," & itemNames2 & ",
+
+                Else
+                    If rbnCustgroup.Checked AndAlso rdbDispatch.IsChecked = True AndAlso rdbSaleTransfer.IsChecked = True Then
+                    If Not PCGroup Then
+                        qry = " Select * from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'as ToDate,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date," & itemNames2 & ",
   (" & itemNames3 & ") as [Total Sale],(" & itemSumBagName & ") as [Total BagSale]
-  FROM (Select Location,max(Location_Desc)Location_Desc,max(Add1)Add1,max(Add4)Add4,Document_Date,Sum(SaleQty-ReturnQty)Quantity,Sum(SaleQtyBag-ReturnQtyBag)QuantityBag,Cust_Group_Code
+  FROM ( "
+                    End If
+
+                    qry += " Select Location,max(Location_Desc)Location_Desc,max(Add1)Add1,max(Add4)Add4,Document_Date,Sum(SaleQty-ReturnQty)Quantity,Sum(SaleQtyBag-ReturnQtyBag)QuantityBag,Cust_Group_Code,case when isnull(Cust_Group_Code,'')= '' THEN 'OtherBag' else Cust_Group_Code + 'Bag' end as Cust_Group_CodeBag
                       from (Select Location,max(xx.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add4)Add4,xx.Document_Date,Sum(xx.SaleQty)SaleQty,sum(xx.SaleQtyBag)SaleQtyBag,
-                      sum(xx.ReturnQty)ReturnQty,sum(xx.ReturnQtyBag)ReturnQtyBag,case when isnull(xx.Cust_Group_Code,'')= '' THEN 'Other' else xx.Cust_Group_Code end as Cust_Group_Code,case when isnull(Cust_Group_Code,'')= '' THEN 'OtherBag' else Cust_Group_Code + 'Bag' end as Cust_Group_CodeBag from
+                      sum(xx.ReturnQty)ReturnQty,sum(xx.ReturnQtyBag)ReturnQtyBag,case when isnull(xx.Cust_Group_Code,'')= '' THEN 'Other' else xx.Cust_Group_Code end as Cust_Group_Code from
                                    ( Select TSPL_SD_SHIPMENT_DETAIL.Location,max(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,max(TSPL_LOCATION_MASTER.Add4)Add4,convert (date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty/TSPL_ITEM_UOM_QTL.Conversion_Factor) as SaleQty,
 					  sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty/TSPL_ITEM_UOM_BAG.Conversion_Factor) as SaleQtyBag,
 					  0 as ReturnQty,0 as ReturnQtyBag,Cust_Group_Code								   
@@ -546,7 +601,10 @@ SELECT TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code,max(TSPL_LOCATION_MASTER.Location_Des
 						      		 left outer join TSPL_SD_SHIPMENT_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE                            
 									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_DETAIL.Location
 	                                 WHERE convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103) 
-                                     and  convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) and TSPL_SD_SHIPMENT_DETAIL.Location In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
+                                     and  convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)  "
+                    If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                        qry += " and TSPL_SD_SHIPMENT_DETAIL.Location In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
+                    End If
                     qry += " " + Status + " " + FG + " " + SFG + " " + FGSFG + " "
                     qry += " group by convert (date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103),Cust_Group_Code,Location
 
@@ -595,21 +653,31 @@ SELECT TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code,max(TSPL_LOCATION_MASTER.Location_Des
 						      		 left outer join TSPL_SD_SALE_INVOICE_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE                            
 									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_RETURN_DETAIL.Location
 	                                 WHERE convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103) 
-                                     and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)  and TSPL_SD_SALE_RETURN_DETAIL.Location In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
+                                     and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)"
+                    If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                        qry += "and TSPL_SD_SALE_RETURN_DETAIL.Location In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
+                    End If
                     qry += " " + StatusReturn + " " + FG + " " + SFG + " " + FGSFG + " "
                     qry += " group by convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103),Cust_Group_Code,Location 
                              )XX group by xx.Location,xx.Document_Date,
-                             xx.Cust_Group_Code)Tab1 PIVOT (SUM(Quantity) FOR Cust_Group_Code IN (" & itemNames1 & "))AS Tab2
+                             xx.Cust_Group_Code)Tab1 "
+                    If Not PCGroup Then
+                        qry += " PIVOT (SUM(Quantity) FOR Cust_Group_Code IN (" & itemNames1 & "))AS Tab2
 PIVOT (SUM(QuantityBag) FOR Cust_Group_CodeBag IN (" & itemPivBagName & ")) as PivBag
 )tmp      "
+                    End If
 
                 ElseIf rbnCustgroup.Checked AndAlso rdbInvoice.IsChecked = True AndAlso rdbSaleTransfer.IsChecked = True Then
-                    qry = " Select * from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'as ToDate,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date," & itemNames2 & ",
+                    If Not PCGroup Then
+                        qry = " Select * from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'as ToDate,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date," & itemNames2 & ",
   (" & itemNames3 & ")) as [Total Sale],
  (" & itemSumBagName & ") as [Total BagSale]
-  FROM (Select Location,max(Location_Desc)Location_Desc,max(Add1)Add1,max(Add4)Add4,Document_Date,Sum(SaleQty-ReturnQty)Quantity,Sum(SaleQtyBag-ReturnQtyBag)QuantityBag,Cust_Group_Code 
+  FROM ( "
+                    End If
+
+                    qry += " Select Location,max(Location_Desc)Location_Desc,max(Add1)Add1,max(Add4)Add4,Document_Date,Sum(SaleQty-ReturnQty)Quantity,Sum(SaleQtyBag-ReturnQtyBag)QuantityBag,Cust_Group_Code ,case when isnull(Cust_Group_Code,'')= '' THEN 'OtherBag' else Cust_Group_Code + 'Bag' end as Cust_Group_CodeBag
 					  from (Select Location,max(xx.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add4)Add4,xx.Document_Date,Sum(xx.SaleQty)SaleQty,sum(xx.SaleQtyBag)SaleQtyBag,
-                      sum(xx.ReturnQty)ReturnQty,sum(xx.ReturnQtyBag)ReturnQtyBag,case when isnull(xx.Cust_Group_Code,'')= '' THEN 'Other' else xx.Cust_Group_Code end as Cust_Group_Code ,case when isnull(Cust_Group_Code,'')= '' THEN 'OtherBag' else Cust_Group_Code + 'Bag' end as Cust_Group_CodeBag
+                      sum(xx.ReturnQty)ReturnQty,sum(xx.ReturnQtyBag)ReturnQtyBag,case when isnull(xx.Cust_Group_Code,'')= '' THEN 'Other' else xx.Cust_Group_Code end as Cust_Group_Code 
                                   from ( SELECT TSPL_SD_SALE_INVOICE_DETAIL.Location,max(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,
                       max(TSPL_LOCATION_MASTER.Add4)Add4,convert (date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Document_Date,
                       sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_INVOICE_DETAIL.Qty/TSPL_ITEM_UOM_QTL.Conversion_Factor) as SaleQty,
@@ -649,7 +717,10 @@ PIVOT (SUM(QuantityBag) FOR Cust_Group_CodeBag IN (" & itemPivBagName & ")) as P
                                      AND TSPL_ITEM_UOM_BAG.UOM_Code= 'BAG' 
 						      		left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SCRAPINVOICE_HEAD.Loc_Code
                                     WHERE convert(date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)
-                                     and  convert(date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) and TSPL_SCRAPINVOICE_HEAD.Loc_Code In (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
+                                     and  convert(date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) "
+                    If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count < 0 Then
+                        qry += " and TSPL_SCRAPINVOICE_HEAD.Loc_Code In (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
+                    End If
                     qry += " " + statusScrapInvoice + " " + FG + " " + SFG + " " + FGSFG + " "
 
 
@@ -673,21 +744,31 @@ PIVOT (SUM(QuantityBag) FOR Cust_Group_CodeBag IN (" & itemPivBagName & ")) as P
 						      		 left outer join TSPL_SD_SALE_INVOICE_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE                            
 									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_RETURN_DETAIL.Location
 	                                 WHERE convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103) 
-                                     and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)  and TSPL_SD_SALE_RETURN_DETAIL.Location In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")  "
+                                     and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) "
+                    If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                        qry += "and TSPL_SD_SALE_RETURN_DETAIL.Location In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
+                    End If
                     qry += " " + StatusReturn + " " + FG + " " + SFG + " " + FGSFG + " "
                     qry += " group by convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103),Cust_Group_Code,Location 
-                             )XX group by xx.Location,xx.Document_Date,xx.Cust_Group_Code )Tab1 PIVOT (SUM(Quantity) FOR Cust_Group_Code IN (" & itemNames1 & "))AS Tab2
+                             )XX group by xx.Location,xx.Document_Date,xx.Cust_Group_Code )Tab1  "
+                    If Not PCGroup Then
+                        qry += " PIVOT (SUM(Quantity) FOR Cust_Group_Code IN (" & itemNames1 & "))AS Tab2
 PIVOT (SUM(QuantityBag) FOR Cust_Group_CodeBag IN (" & itemPivBagName & ")) as PivBag
 )tmp"
+                    End If
+
 
                 ElseIf rbnCustgroup.Checked AndAlso rdbDispatch.IsChecked = True Then
-                    qry = "Select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,MONTH(convert(date,Document_Date,103)) AS MonthNumber,
+                    If Not PCGroup Then
+                        qry = "Select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,MONTH(convert(date,Document_Date,103)) AS MonthNumber,
 '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'as ToDate,
 Location,max([Location Description])[Location Description],max(Add1)Add1,max(Add4)Add4,
                            (Document_Date)Document_Date, " & itemNames4 & ",Sum([Total Sale])[Total Sale],sum([Total BagSale])[Total BagSale] from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'as ToDate,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date," & itemNames2 & ",
                           (" & itemNames3 & ") as [Total Sale],
                            (" & itemSumBagName & ") as [Total BagSale]
-                           FROM (SELECT XX.Location,MAX(XX.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add4)Add4,(xx.Document_Date)Document_Date,
+                           FROM ( "
+                    End If
+                    qry += " SELECT XX.Location,MAX(XX.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add4)Add4,(xx.Document_Date)Document_Date,
                                    Cast(sum(xx.Quantity) as Decimal(10,2))Quantity,
 								   Cast(Sum(xx.QuantityBag) as Decimal(10,2))QuantityBag,
                                     case when isnull(Cust_Group_Code,'')= '' THEN 'Other' else Cust_Group_Code end as Cust_Group_Code,case when isnull(Cust_Group_Code,'')= '' THEN 'OtherBag' else Cust_Group_Code + 'Bag' end as Cust_Group_CodeBag from    
@@ -747,21 +828,28 @@ Location,max([Location Description])[Location Description],max(Add1)Add1,max(Add
                         qry += " and TSPL_SCRAPSALE_HEAD.Inter_unit_sale =0 "
                     End If
 
-                    qry += " group by convert (date,TSPL_SCRAPSALE_HEAD.shipment_Date,103),Cust_Group_Code,Loc_Code )XX GROUP BY xx.Document_Date,XX.Cust_Group_Code,XX.Location )Tab1
-                             PIVOT (SUM(Quantity) FOR Cust_Group_Code IN (" & itemNames1 & "))AS Tab2
+                    qry += " group by convert (date,TSPL_SCRAPSALE_HEAD.shipment_Date,103),Cust_Group_Code,Loc_Code )XX GROUP BY xx.Document_Date,XX.Cust_Group_Code,XX.Location )Tab1 "
+
+                    If Not PCGroup Then
+                        qry += "  PIVOT (SUM(Quantity) FOR Cust_Group_Code IN (" & itemNames1 & "))AS Tab2
 PIVOT (SUM(QuantityBag) FOR Cust_Group_CodeBag IN (" & itemPivBagName & ")) as PivBag
 )tmp 
 group by Document_Date ,Location order by Document_Date   "
-                ElseIf rbnCustgroup.Checked AndAlso rdbInvoice.IsChecked = True Then
+                    End If
 
-                    qry = " Select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,MONTH(convert(date,Document_Date,103)) AS MonthNumber,
+                ElseIf rbnCustgroup.Checked AndAlso rdbInvoice.IsChecked = True Then
+                    If Not PCGroup Then
+                        qry = " Select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,MONTH(convert(date,Document_Date,103)) AS MonthNumber,
 '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'as ToDate,
 Location,max([Location Description])[Location Description],max(Add1)Add1,max(Add4)Add4,
                            (Document_Date)Document_Date, " & itemNames4 & ",Sum([Total Sale])[Total Sale],sum([Total BagSale])[Total BagSale]
 from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'as ToDate,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date," & itemNames2 & ",
   (" & itemNames3 & ") as [Total Sale],
 (" & itemSumBagName & ") as [Total BagSale]
-  FROM                     (SELECT XX.Location,MAX(XX.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add4)Add4,(xx.Document_Date)Document_Date,
+  FROM                     ( "
+                    End If
+
+                    qry += " SELECT XX.Location,MAX(XX.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add4)Add4,(xx.Document_Date)Document_Date,
                                    Cast(sum(xx.Quantity) as Decimal(10,2))Quantity,
 								   Cast(Sum(xx.QuantityBag) as Decimal(10,2))QuantityBag,
                                     case when isnull(Cust_Group_Code,'')= '' THEN 'Other' else Cust_Group_Code end as Cust_Group_Code,case when isnull(Cust_Group_Code,'')= '' THEN 'OtherBag' else Cust_Group_Code + 'Bag' end as Cust_Group_CodeBag FROM               ( SELECT TSPL_SD_SALE_INVOICE_DETAIL.Location,max(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,max(TSPL_LOCATION_MASTER.Add4)Add4,
@@ -784,12 +872,12 @@ from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Loca
 	                                 WHERE convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103) 
                                      and  convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)" + whr + " "
                     qry += " " + StatusInvoice + " " + FG + " " + SFG + " " + FGSFG + " "
-                    If rdbStockTransfer.IsChecked = True Then
-                        qry += " and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale=1 "
-                    Else
-                        qry += " and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale=0 "
-                    End If
-                    qry += " group by convert (date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103),Cust_Group_Code,Location
+                        If rdbStockTransfer.IsChecked = True Then
+                            qry += " and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale=1 "
+                        Else
+                            qry += " and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale=0 "
+                        End If
+                        qry += " group by convert (date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103),Cust_Group_Code,Location
 
  union all
 							 SELECT TSPL_SCRAPINVOICE_HEAD.Loc_Code as Location,max(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,max(TSPL_LOCATION_MASTER.Add4)Add4,convert (date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) as Document_Date,
@@ -810,28 +898,35 @@ from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Loca
                                     WHERE convert(date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103) 
                                      and  convert(date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)
                                      and TSPL_SCRAPINVOICE_HEAD.Loc_Code In (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
-                    qry += " " + statusScrapInvoice + " " + FG + " " + SFG + " " + FGSFG + " "
-                    If rdbStockTransfer.IsChecked = True Then
-                        qry += " and TSPL_SCRAPINVOICE_HEAD.Inter_unit_sale=1 "
-                    Else
-                        qry += " and TSPL_SCRAPINVOICE_HEAD.Inter_unit_sale=0 "
-                    End If
-                    qry += " group by convert (date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103),Cust_Group_Code,Loc_Code )XX GROUP BY xx.Document_Date,XX.Cust_Group_Code,XX.Location "
+                        qry += " " + statusScrapInvoice + " " + FG + " " + SFG + " " + FGSFG + " "
+                        If rdbStockTransfer.IsChecked = True Then
+                            qry += " and TSPL_SCRAPINVOICE_HEAD.Inter_unit_sale=1 "
+                        Else
+                            qry += " and TSPL_SCRAPINVOICE_HEAD.Inter_unit_sale=0 "
+                        End If
+                        qry += " group by convert (date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103),Cust_Group_Code,Loc_Code )XX GROUP BY xx.Document_Date,XX.Cust_Group_Code,XX.Location "
 
-                    qry += " )Tab1
-                             PIVOT (SUM(Quantity) FOR Cust_Group_Code IN (" & itemNames1 & "))AS Tab2
+                        qry += " )Tab1 "
+                    If Not PCGroup Then
+                        qry += "         PIVOT (SUM(Quantity) FOR Cust_Group_Code IN (" & itemNames1 & "))AS Tab2
 PIVOT (SUM(QuantityBag) FOR Cust_Group_CodeBag IN (" & itemPivBagName & ")) as PivBag
 )tmp 
 group by Document_Date ,Location order by Document_Date   "
+                    End If
+
 
                 ElseIf rbnCustgroup.Checked AndAlso rdbSaleReturn.IsChecked = True Then
-                    qry = "Select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,max(Location)Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate,
+                    If Not PCGroup Then
+                        qry = "Select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,max(Location)Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate,
                           '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,max([Location Description])[Location Description],max(Add1)Add1,max(Add4)Add4,
                            (Document_Date)Document_Date," & itemNames4 & ",Sum([Total Sale])[Total Sale],sum([Total BagSale])[Total BagSale] 
                            from (SELECT  Location,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date,
                            " & itemNames2 & "," & itemNames3 & " as [Total Sale],
                         (" & itemSumBagName & ") as [Total BagSale]
-                          FROM       (SELECT XX.Location,MAX(XX.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add4)Add4,(xx.Document_Date)Document_Date,
+                          FROM       ( "
+                    End If
+
+                    qry += " SELECT XX.Location,MAX(XX.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add4)Add4,(xx.Document_Date)Document_Date,
                                    sum(xx.Quantity)Quantity,sum(xx.QuantityBag)QuantityBag,case when isnull(Cust_Group_Code,'')= '' THEN 'Other' else Cust_Group_Code end as Cust_Group_Code,case when isnull(Cust_Group_Code,'')= '' THEN 'OtherBag' else Cust_Group_Code + 'Bag' end as Cust_Group_CodeBag	 FROM 
              ( SELECT TSPL_SD_SALE_RETURN_DETAIL.Location,max(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,
                                     max(TSPL_LOCATION_MASTER.Add4)Add4,convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) as Document_Date,
@@ -858,7 +953,6 @@ group by Document_Date ,Location order by Document_Date   "
                     qry += " group by convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103),Cust_Group_Code,Location 
 
 union all
-
                                     SELECT TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code,max(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,
                                     max(TSPL_LOCATION_MASTER.Add4)Add4,convert (date,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103) as Document_Date,
                                     sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SCRAPSALE_DETAIL_RETURN.shipped_Qty/TSPL_ITEM_UOM_QTL.Conversion_Factor) as Quantity,
@@ -877,15 +971,20 @@ union all
                                      AND TSPL_ITEM_UOM_BAG.UOM_Code= 'BAG'
 						      		 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code
                                      WHERE convert(date,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103) 
-                                     and  convert(date,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)  And TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code In (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
-
+                                     and  convert(date,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) "
+                    If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                        qry += " TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
+                    End If
                     qry += " " + StatusReturn1 + " " + FG + " " + SFG + " " + FGSFG + " "
                     qry += " group by convert (date,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103),Cust_Group_Code,Loc_Code)XX GROUP BY xx.Document_Date,XX.Cust_Group_Code,XX.Location  "
 
-                    qry += " )Tab1
-                             PIVOT (SUM(Quantity) FOR Cust_Group_Code IN (" & itemNames1 & "))AS Tab2
+                    qry += " )Tab1 "
+                    If Not PCGroup Then
+                        qry += "  PIVOT (SUM(Quantity) FOR Cust_Group_Code IN (" & itemNames1 & "))AS Tab2
 PIVOT (SUM(QuantityBag) FOR Cust_Group_CodeBag IN (" & itemPivBagName & ")) as PivBag
 )tmp group by Document_Date ,Location order by Document_Date "
+                    End If
+
                 End If
 
 
@@ -911,6 +1010,19 @@ PIVOT (SUM(QuantityBag) FOR Cust_Group_CodeBag IN (" & itemPivBagName & ")) as P
 
             End If
             If clsCommon.myLen(qry) > 0 Then
+                If PCGroup Then
+                    If rbnPricegroup.Checked Then
+                        qry = " SELECT '" & objCommonVar.CurrentUser & "' as UserName, 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName ,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,Location,Document_Date,max(Location_Desc) as [Location Description],max(Add1) as Add1,max(Add4) as Add4
+,sum(case when price_CodeNon='MILKUNION' then Quantity else 0 end) as MILKUNIONQty,sum(case when price_CodeNon='GOSHALA' then Quantity else 0 end) as GOSHALAQty,sum(case when price_CodeNon='DCS' then Quantity else 0 end) as DCSQty
+,sum(case when price_CodeNon='GOVTCR' then Quantity else 0 end) as GOVTCRQty,sum(case when price_CodeNon='KVSS' then Quantity else 0 end) as KVSSQty,sum(case when price_CodeNon  in ('MILKUNION','GOSHALA','DCS','GOVTCR','KVSS') then 0 else Quantity end) as OtherQty,sum(Quantity) as [Total Sale],sum(QuantityBag) as [Total BagSale]
+ FROM  ( " & Environment.NewLine & qry & " group by Location,Document_Date order by Document_Date "
+                    Else
+                        qry = "  SELECT '" & objCommonVar.CurrentUser & "' as UserName, 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName ,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,Location,Document_Date,max(Location_Desc) as [Location Description],max(Add1) as Add1,max(Add4) as Add4,sum(case when Cust_Group_Code='UNION' then Quantity else 0 end) as UNIONQty,
+sum(case when Cust_Group_Code='DEALER' then Quantity else 0 end) as DEALERQty,sum(case when Cust_Group_Code='GOSHAL' then Quantity else 0 end) as GOSHALQty,sum(case when Cust_Group_Code='DCS' then Quantity else 0 end) as DCSQty
+,sum(case when Cust_Group_Code='GOV' then Quantity else 0 end) as GOVQty,sum(case when Cust_Group_Code='KVSS' then Quantity else 0 end) as KVSSQty,sum(case when Cust_Group_Code='AGENCY' then Quantity else 0 end) as AGENCYQty,sum(case when Cust_Group_Code='RETAIL' then Quantity else 0 end) as RETAILQty,sum(case when Cust_Group_Code='CFP' then Quantity else 0 end) as CFPQty,sum(case when Cust_Group_Code  in ('UNION','DEALER','GOSHAL','DCS','GOV','KVSS','AGENCY','RETAIL','CFP') then 0 else Quantity end) as OtherQty,sum(Quantity) as [Total Sale],sum(QuantityBag) as [Total BagSale]
+ FROM (   " & Environment.NewLine & qry & " group by Location,Document_Date order by Document_Date "
+                    End If
+                End If
                 dt = clsDBFuncationality.GetDataTable(qry)
             End If
 
