@@ -39,6 +39,8 @@ Partial Class frmChapterHead
         Me.rdbtnreset = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.txtSeqNo = New common.MyNumBox()
+        Me.MyLabel24 = New common.Controls.MyLabel()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -53,6 +55,8 @@ Partial Class frmChapterHead
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtSeqNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -128,6 +132,8 @@ Partial Class frmChapterHead
         'grpCustomer
         '
         Me.grpCustomer.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.grpCustomer.Controls.Add(Me.MyLabel24)
+        Me.grpCustomer.Controls.Add(Me.txtSeqNo)
         Me.grpCustomer.Controls.Add(Me.fndchapterhead)
         Me.grpCustomer.Controls.Add(Me.lblDescription)
         Me.grpCustomer.Controls.Add(Me.lblCustomerId)
@@ -137,7 +143,7 @@ Partial Class frmChapterHead
         Me.grpCustomer.Location = New System.Drawing.Point(6, 9)
         Me.grpCustomer.Name = "grpCustomer"
         Me.grpCustomer.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.grpCustomer.Size = New System.Drawing.Size(413, 91)
+        Me.grpCustomer.Size = New System.Drawing.Size(413, 109)
         Me.grpCustomer.TabIndex = 0
         '
         'fndchapterhead
@@ -222,8 +228,8 @@ Partial Class frmChapterHead
         Me.SplitContainer1.Panel2.Controls.Add(Me.rdbtnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.rdbtnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.rdbtnDelete)
-        Me.SplitContainer1.Size = New System.Drawing.Size(427, 133)
-        Me.SplitContainer1.SplitterDistance = 104
+        Me.SplitContainer1.Size = New System.Drawing.Size(427, 160)
+        Me.SplitContainer1.SplitterDistance = 131
         Me.SplitContainer1.TabIndex = 1
         '
         'btnHistory
@@ -236,11 +242,47 @@ Partial Class frmChapterHead
         Me.btnHistory.TabIndex = 3
         Me.btnHistory.Text = "History"
         '
+        'txtSeqNo
+        '
+        Me.txtSeqNo.BackColor = System.Drawing.Color.White
+        Me.txtSeqNo.CalculationExpression = Nothing
+        Me.txtSeqNo.DecimalPlaces = 2
+        Me.txtSeqNo.FieldCode = Nothing
+        Me.txtSeqNo.FieldDesc = Nothing
+        Me.txtSeqNo.FieldMaxLength = 0
+        Me.txtSeqNo.FieldName = Nothing
+        Me.txtSeqNo.isCalculatedField = False
+        Me.txtSeqNo.IsSourceFromTable = False
+        Me.txtSeqNo.IsSourceFromValueList = False
+        Me.txtSeqNo.IsUnique = False
+        Me.txtSeqNo.Location = New System.Drawing.Point(91, 74)
+        Me.txtSeqNo.MendatroryField = False
+        Me.txtSeqNo.MyLinkLable1 = Me.MyLabel24
+        Me.txtSeqNo.MyLinkLable2 = Nothing
+        Me.txtSeqNo.Name = "txtSeqNo"
+        Me.txtSeqNo.ReferenceFieldDesc = Nothing
+        Me.txtSeqNo.ReferenceFieldName = Nothing
+        Me.txtSeqNo.ReferenceTableName = Nothing
+        Me.txtSeqNo.Size = New System.Drawing.Size(88, 20)
+        Me.txtSeqNo.TabIndex = 31
+        Me.txtSeqNo.Text = "0"
+        Me.txtSeqNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtSeqNo.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        '
+        'MyLabel24
+        '
+        Me.MyLabel24.FieldName = Nothing
+        Me.MyLabel24.Location = New System.Drawing.Point(13, 74)
+        Me.MyLabel24.Name = "MyLabel24"
+        Me.MyLabel24.Size = New System.Drawing.Size(45, 18)
+        Me.MyLabel24.TabIndex = 30
+        Me.MyLabel24.Text = "Seq No."
+        '
         'frmChapterHead
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(427, 153)
+        Me.ClientSize = New System.Drawing.Size(427, 180)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Name = "frmChapterHead"
@@ -264,6 +306,8 @@ Partial Class frmChapterHead
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtSeqNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -285,5 +329,7 @@ Partial Class frmChapterHead
     Friend WithEvents fndchapterhead As common.UserControls.txtNavigator
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents MyLabel24 As common.Controls.MyLabel
+    Friend WithEvents txtSeqNo As common.MyNumBox
 End Class
 
