@@ -864,7 +864,7 @@ GROUP BY t.Location_Code
                     as Alies_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N' FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')"
                 Dim strMaxLocation As String = clsDBFuncationality.getSingleValue(StrTempQry)
                 query = " SELECT * FROM (
-							SELECT 'Capacity / Day' AS Production, TSPL_LOCATION_MASTER.Location_Code,  (TSPL_LOCATION_MASTER.Silo_Capacity ) Capacity
+							SELECT 'Capacity / Day' AS Production, TSPL_LOCATION_MASTER.Location_Code,  (cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('31/Jan/2024'))) AS DECIMAL(18,0))) Capacity
                         FROM  TSPL_LOCATION_MASTER where IsMainPlant=0
 							union all
 	
