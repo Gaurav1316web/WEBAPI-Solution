@@ -1,6 +1,8 @@
 ﻿Imports System.Data.SqlClient
+Imports System.Globalization
 Imports System.IO
 Imports System.Net
+Imports System.Web
 Imports Newtonsoft.Json
 Imports Newtonsoft.Json.Linq
 Public Class ClsEInvoiceOFAPIs
@@ -483,73 +485,7 @@ Public Class ClsEInvoiceOFAPIs
         End Try
         Return objResult
     End Function
-    Public Shared Function CancelEWayBill(ByVal strCompCode As String, ByVal strEwayBillNo As String, ByVal strRemark As String, ByVal strLocation As String, ByVal trans As SqlTransaction) As Object
-        Dim httpRequest As HttpWebRequest = Nothing
-        Dim httpResponse As HttpWebResponse = Nothing
-        Dim objResult As Object = Nothing
-        Try
-            Dim qry As String = String.Empty
-            Dim strEInvoiceVendor As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.EInvoiceVendor, clsFixedParameterCode.EInvoiceVendor, trans))
-            If clsCommon.myLen(clsCommon.myCstr(strEInvoiceVendor)) > 0 Then
-                If clsCommon.CompairString(strEInvoiceVendor.ToUpper(), "MASTERGST") = CompairStringResult.Equal Then
-                    Dim IsAuthenticate As Boolean = IsEWayBillAPIAuthenticate(strCompCode, strLocation, trans)
-                    If IsAuthenticate Then
-                        qry = "Select * from TSPL_EInvoiceHeader_Info where Comp_Code='" & strCompCode & "' and RequiredFor ='Cancelewaybill' and Location_Code='" & strLocation & ""
-                    End If
-                End If
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-                If dt IsNot Nothing AndAlso dt.Rows.Count >> 0 Then
-                    Const Tls12Value As Integer = &HC00
-                    Dim Tls12Protocol As System.Net.SecurityProtocolType = CType(Tls12Value, System.Net.SecurityProtocolType)
-                    ' Set the security protocol globally for all HTTPS requests
-                    System.Net.ServicePointManager.SecurityProtocol = Tls12Protocol
-                    httpRequest = CType(WebRequest.Create(clsCommon.myCstr(dt.Rows(0)("Url"))), HttpWebRequest)
-                    httpRequest.ContentType = "application/json"
-                    If clsCommon.CompairString(strEInvoiceVendor.ToUpper(), "MASTERGST") = CompairStringResult.Equal Then
-                        httpRequest.Headers.Add("ip_address", clsCommon.myCstr(dt.Rows(0)("ip_address")))
-                        httpRequest.Headers.Add("client_id", clsCommon.myCstr(dt.Rows(0)("client_id")))
-                        httpRequest.Headers.Add("client_secret", clsCommon.myCstr(dt.Rows(0)("client_secret")))
-                        httpRequest.Headers.Add("gstin", clsCommon.myCstr(dt.Rows(0)("gstin")))
-                        httpRequest.Method = "POST"
-                    End If
-                    httpRequest.KeepAlive = True
-                    Dim strEwbCancelDetails As String = String.Empty
-                    Using streamWriter = New StreamWriter(httpRequest.GetRequestStream())
-                        Dim objEWayBill As Object = New clsEwayBillCancel()
-                        objEWayBill.ewbno = clsCommon.myCdbl(strEwayBillNo)
-                        objEWayBill.cancelRsnCode = clsCommon.myCdbl(2)
-                        objEWayBill.cancelRmrk = clsCommon.myCstr(strRemark)
-                        strEwbCancelDetails = JsonConvert.SerializeObject(objEWayBill)
-                        streamWriter.Write(strEwbCancelDetails)
-                    End Using
-                    httpResponse = CType(httpRequest.GetResponse(), HttpWebResponse)
-                    '' required validation httresponse
-                    Dim strResult As String = String.Empty
-                    Using streamReader = New StreamReader(httpResponse.GetResponseStream())
-                        strResult = streamReader.ReadToEnd()
-                    End Using
-                    Dim jObj As JObject = JObject.Parse(strResult)
-                    If TypeOf jObj.SelectToken("") Is JObject Then
-                        objResult = jObj.SelectToken("")
-                        Dim Status_cd As String = objResult.SelectToken("status_cd").ToString
-                        If clsCommon.CompairString(Status_cd, "0") = CompairStringResult.Equal Then
-                            Dim statusDec As String = objResult.SelectToken("error").ToString
-                            objResult = Nothing
-                            Throw New Exception(statusDec)
-                        End If
-                        Return objResult
-                    Else
-                        Dim strStatusDesc As String = (jObj.SelectToken("status_desc")).ToString()
-                        objResult = Nothing
-                        Throw New Exception(strStatusDesc)
-                    End If
-                End If
-            End If
-        Catch ex As Exception
-            Throw New Exception(ex.Message)
-        End Try
-        Return objResult
-    End Function
+
     Public Shared Function PostAuthTokenNo_withInvoiceData(ByVal strCompCode As String, ByVal strTokenNo As String, ByVal strQry As String, ByVal strLocation As String, ByVal trans As SqlTransaction) As Object
         Return PostAuthTokenNo_withInvoiceData(strCompCode, strTokenNo, strQry, strLocation, trans, False)
     End Function
@@ -1136,6 +1072,454 @@ Public Class ClsEInvoiceOFAPIs
         End Try
         Return objResult
     End Function
+    Public Shared Function GetEwayBillDetail(ByVal strCompCode As String, ByVal strewbno As String, ByVal strLocation As String, ByVal trans As SqlTransaction) As Object
+        Dim httpRequest As HttpWebRequest = Nothing
+        Dim httpResponse As HttpWebResponse = Nothing
+        Dim objResult As Object = Nothing
+        Try
+            Dim qry As String = String.Empty
+            Dim strEInvoiceVendor As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.EInvoiceVendor, clsFixedParameterCode.EInvoiceVendor, trans))
+            If clsCommon.myLen(clsCommon.myCstr(strEInvoiceVendor)) > 0 Then
+                If clsCommon.CompairString(strEInvoiceVendor.ToUpper(), "MASTERGST") = CompairStringResult.Equal Then
+                    Dim IsAuthenticate As Boolean = IsEWayBillAPIAuthenticate(strCompCode, strLocation, trans)
+                    If IsAuthenticate Then
+                        qry = "Select * from TSPL_EInvoiceHeader_Info where Comp_Code='" & strCompCode & "' and RequiredFor ='getewaybill' and Location_Code='" & strLocation & "'"
+                    End If
+                End If
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count >> 0 Then
+                    Const Tls12Value As Integer = &HC00
+                    Dim Tls12Protocol As System.Net.SecurityProtocolType = CType(Tls12Value, System.Net.SecurityProtocolType)
+                    ' Set the security protocol globally for all HTTPS requests
+                    System.Net.ServicePointManager.SecurityProtocol = Tls12Protocol
+                    Dim Url As String = clsCommon.myCstr(dt.Rows(0)("Url")) + "&ewbNo=" + strewbno
+                    httpRequest = CType(WebRequest.Create(clsCommon.myCstr(Url)), HttpWebRequest)
+                    httpRequest.ContentType = "application/json"
+                    If clsCommon.CompairString(strEInvoiceVendor.ToUpper(), "MASTERGST") = CompairStringResult.Equal Then
+                        httpRequest.Headers.Add("ip_address", clsCommon.myCstr(dt.Rows(0)("ip_address")))
+                        httpRequest.Headers.Add("client_id", clsCommon.myCstr(dt.Rows(0)("client_id")))
+                        httpRequest.Headers.Add("client_secret", clsCommon.myCstr(dt.Rows(0)("client_secret")))
+                        httpRequest.Headers.Add("gstin", clsCommon.myCstr(dt.Rows(0)("gstin")))
+                        httpRequest.Method = "GET"
+                    End If
+                    httpRequest.KeepAlive = True
+                    httpResponse = CType(httpRequest.GetResponse(), HttpWebResponse)
+                    '' required validation httresponse
+                    Dim strResult1 As String = String.Empty
+                    Using streamReader = New StreamReader(httpResponse.GetResponseStream())
+                        strResult1 = streamReader.ReadToEnd()
+                    End Using
+                    If clsCommon.CompairString(strEInvoiceVendor.ToUpper(), "CLEARTAX") = CompairStringResult.Equal Then
+                        ''
+                        Dim jSONObj As JArray = JArray.Parse(strResult1)
+                        Dim jObj As JObject = jSONObj(0)
+                        If TypeOf jObj.SelectToken("govt_response") Is JObject Then
+                            objResult = jObj.SelectToken("govt_response")
+                            Dim status As String = objResult.SelectToken("Success").ToString
+                            If clsCommon.CompairString(status, "N") = CompairStringResult.Equal Then
+                                Dim strStatusDesc As String = (objResult.SelectToken("ErrorDetails")).ToString()
+                                objResult = Nothing
+                                Throw New Exception(strStatusDesc)
+                            End If
+                            Return objResult
+                        Else
+                            Dim strStatusDesc As String = (jObj.SelectToken("status_desc")).ToString()
+                            objResult = Nothing
+                            Throw New Exception(strStatusDesc)
+                        End If
+                    Else
+                        Dim jObj As JObject = JObject.Parse(strResult1)
+                        If TypeOf jObj.SelectToken("") Is JObject Then
+                            objResult = jObj.SelectToken("")
+                            Dim Status_cd As String = objResult.SelectToken("status_cd").ToString
+                            If clsCommon.CompairString(Status_cd, "0") = CompairStringResult.Equal Then
+                                Dim statusDec As String = objResult.SelectToken("error").ToString
+                                objResult = Nothing
+                                Throw New Exception(statusDec)
+                            End If
+                            Return objResult
+                        Else
+                            Dim strStatusDesc As String = (jObj.SelectToken("status_desc")).ToString()
+                            objResult = Nothing
+                            Throw New Exception(strStatusDesc)
+                        End If
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return objResult
+    End Function
+    Public Shared Function GetEwayBillByDate(ByVal strCompCode As String, ByVal strewbDate As DateTime, ByVal strLocation As String, ByVal trans As SqlTransaction) As Object
+        Dim httpRequest As HttpWebRequest = Nothing
+        Dim httpResponse As HttpWebResponse = Nothing
+        Dim objResult As Object = Nothing
+        Try
+            Dim originalDate As DateTime = clsCommon.GetPrintDate(strewbDate, "dd/MM/yyyy")
+            Dim formattedDate As String = originalDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)
+            Dim urlEncodedDate As String = HttpUtility.UrlEncode(formattedDate)
+            Dim qry As String = String.Empty
+            Dim strEInvoiceVendor As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.EInvoiceVendor, clsFixedParameterCode.EInvoiceVendor, trans))
+            If clsCommon.myLen(clsCommon.myCstr(strEInvoiceVendor)) > 0 Then
+                If clsCommon.CompairString(strEInvoiceVendor.ToUpper(), "MASTERGST") = CompairStringResult.Equal Then
+                    Dim IsAuthenticate As Boolean = IsEWayBillAPIAuthenticate(strCompCode, strLocation, trans)
+                    If IsAuthenticate Then
+                        qry = "Select * from TSPL_EInvoiceHeader_Info where Comp_Code='" & strCompCode & "' and RequiredFor ='getewaybillsbydate' and Location_Code='" & strLocation & "'"
+                    End If
+                End If
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count >> 0 Then
+                    Const Tls12Value As Integer = &HC00
+                    Dim Tls12Protocol As System.Net.SecurityProtocolType = CType(Tls12Value, System.Net.SecurityProtocolType)
+                    ' Set the security protocol globally for all HTTPS requests
+                    System.Net.ServicePointManager.SecurityProtocol = Tls12Protocol
+                    Dim Url As String = clsCommon.myCstr(dt.Rows(0)("Url")) + "&date=" + urlEncodedDate
+                    httpRequest = CType(WebRequest.Create(clsCommon.myCstr(Url)), HttpWebRequest)
+                    httpRequest.ContentType = "application/json"
+                    If clsCommon.CompairString(strEInvoiceVendor.ToUpper(), "MASTERGST") = CompairStringResult.Equal Then
+                        httpRequest.Headers.Add("ip_address", clsCommon.myCstr(dt.Rows(0)("ip_address")))
+                        httpRequest.Headers.Add("client_id", clsCommon.myCstr(dt.Rows(0)("client_id")))
+                        httpRequest.Headers.Add("client_secret", clsCommon.myCstr(dt.Rows(0)("client_secret")))
+                        httpRequest.Headers.Add("gstin", clsCommon.myCstr(dt.Rows(0)("gstin")))
+                        httpRequest.Method = "GET"
+                    End If
+                    httpRequest.KeepAlive = True
+                    httpResponse = CType(httpRequest.GetResponse(), HttpWebResponse)
+                    '' required validation httresponse
+                    Dim strResult1 As String = String.Empty
+                    Using streamReader = New StreamReader(httpResponse.GetResponseStream())
+                        strResult1 = streamReader.ReadToEnd()
+                    End Using
+                    If clsCommon.CompairString(strEInvoiceVendor.ToUpper(), "CLEARTAX") = CompairStringResult.Equal Then
+                        ''
+                        Dim jSONObj As JArray = JArray.Parse(strResult1)
+                        Dim jObj As JObject = jSONObj(0)
+                        If TypeOf jObj.SelectToken("govt_response") Is JObject Then
+                            objResult = jObj.SelectToken("govt_response")
+                            Dim status As String = objResult.SelectToken("Success").ToString
+                            If clsCommon.CompairString(status, "N") = CompairStringResult.Equal Then
+                                Dim strStatusDesc As String = (objResult.SelectToken("ErrorDetails")).ToString()
+                                objResult = Nothing
+                                Throw New Exception(strStatusDesc)
+                            End If
+                            Return objResult
+                        Else
+                            Dim strStatusDesc As String = (jObj.SelectToken("status_desc")).ToString()
+                            objResult = Nothing
+                            Throw New Exception(strStatusDesc)
+                        End If
+                    Else
+                        Dim jObj As JObject = JObject.Parse(strResult1)
+                        If TypeOf jObj.SelectToken("") Is JObject Then
+                            objResult = jObj.SelectToken("")
+                            Dim Status_cd As String = objResult.SelectToken("status_cd").ToString
+                            If clsCommon.CompairString(Status_cd, "0") = CompairStringResult.Equal Then
+                                Dim statusDec As String = objResult.SelectToken("error").ToString
+                                objResult = Nothing
+                                Throw New Exception(statusDec)
+                            End If
+                            Return objResult
+                        Else
+                            Dim strStatusDesc As String = (jObj.SelectToken("status_desc")).ToString()
+                            objResult = Nothing
+                            Throw New Exception(strStatusDesc)
+                        End If
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return objResult
+    End Function
+    Public Shared Function CancelEWayBill(ByVal strCompCode As String, ByVal strEwayBillNo As String, ByVal strRemark As String, ByVal strLocation As String, ByVal trans As SqlTransaction) As Object
+        Dim httpRequest As HttpWebRequest = Nothing
+        Dim httpResponse As HttpWebResponse = Nothing
+        Dim objResult As Object = Nothing
+        Try
+            Dim qry As String = String.Empty
+            Dim strEInvoiceVendor As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.EInvoiceVendor, clsFixedParameterCode.EInvoiceVendor, trans))
+            If clsCommon.myLen(clsCommon.myCstr(strEInvoiceVendor)) > 0 Then
+                If clsCommon.CompairString(strEInvoiceVendor.ToUpper(), "MASTERGST") = CompairStringResult.Equal Then
+                    Dim IsAuthenticate As Boolean = IsEWayBillAPIAuthenticate(strCompCode, strLocation, trans)
+                    If IsAuthenticate Then
+                        qry = "Select * from TSPL_EInvoiceHeader_Info where Comp_Code='" & strCompCode & "' and RequiredFor ='Cancelewaybill' and Location_Code='" & strLocation & "'"
+                    End If
+                End If
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count >> 0 Then
+                    Const Tls12Value As Integer = &HC00
+                    Dim Tls12Protocol As System.Net.SecurityProtocolType = CType(Tls12Value, System.Net.SecurityProtocolType)
+                    ' Set the security protocol globally for all HTTPS requests
+                    System.Net.ServicePointManager.SecurityProtocol = Tls12Protocol
+                    httpRequest = CType(WebRequest.Create(clsCommon.myCstr(dt.Rows(0)("Url"))), HttpWebRequest)
+                    httpRequest.ContentType = "application/json"
+                    If clsCommon.CompairString(strEInvoiceVendor.ToUpper(), "MASTERGST") = CompairStringResult.Equal Then
+                        httpRequest.Headers.Add("ip_address", clsCommon.myCstr(dt.Rows(0)("ip_address")))
+                        httpRequest.Headers.Add("client_id", clsCommon.myCstr(dt.Rows(0)("client_id")))
+                        httpRequest.Headers.Add("client_secret", clsCommon.myCstr(dt.Rows(0)("client_secret")))
+                        httpRequest.Headers.Add("gstin", clsCommon.myCstr(dt.Rows(0)("gstin")))
+                        httpRequest.Method = "POST"
+                    End If
+                    httpRequest.KeepAlive = True
+                    Dim strEwbCancelDetails As String = String.Empty
+                    Using streamWriter = New StreamWriter(httpRequest.GetRequestStream())
+                        Dim objEWayBill As Object = New clsEwayBillCancel()
+                        objEWayBill.ewbno = clsCommon.myCdbl(strEwayBillNo)
+                        objEWayBill.cancelRsnCode = clsCommon.myCdbl(2)
+                        objEWayBill.cancelRmrk = clsCommon.myCstr(strRemark)
+                        strEwbCancelDetails = JsonConvert.SerializeObject(objEWayBill)
+                        streamWriter.Write(strEwbCancelDetails)
+                    End Using
+                    httpResponse = CType(httpRequest.GetResponse(), HttpWebResponse)
+                    '' required validation httresponse
+                    Dim strResult As String = String.Empty
+                    Using streamReader = New StreamReader(httpResponse.GetResponseStream())
+                        strResult = streamReader.ReadToEnd()
+                    End Using
+                    Dim jObj As JObject = JObject.Parse(strResult)
+                    If TypeOf jObj.SelectToken("") Is JObject Then
+                        objResult = jObj.SelectToken("")
+                        Dim Status_cd As String = objResult.SelectToken("status_cd").ToString
+                        If clsCommon.CompairString(Status_cd, "0") = CompairStringResult.Equal Then
+                            Dim statusDec As String = objResult.SelectToken("error").ToString
+                            objResult = Nothing
+                            Throw New Exception(statusDec)
+                        End If
+                        Return objResult
+                    Else
+                        Dim strStatusDesc As String = (jObj.SelectToken("status_desc")).ToString()
+                        objResult = Nothing
+                        Throw New Exception(strStatusDesc)
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return objResult
+    End Function
+    Public Shared Function EWayBill_Update_Transporter(ByVal strCompCode As String, ByVal strEwayBillNo As String, ByVal strTranspoterID As String, ByVal strLocation As String, ByVal trans As SqlTransaction) As Object
+        Dim httpRequest As HttpWebRequest = Nothing
+        Dim httpResponse As HttpWebResponse = Nothing
+        Dim objResult As Object = Nothing
+        Try
+            Dim qry As String = String.Empty
+            Dim strEInvoiceVendor As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.EInvoiceVendor, clsFixedParameterCode.EInvoiceVendor, trans))
+            If clsCommon.myLen(clsCommon.myCstr(strEInvoiceVendor)) > 0 Then
+                If clsCommon.CompairString(strEInvoiceVendor.ToUpper(), "MASTERGST") = CompairStringResult.Equal Then
+                    Dim IsAuthenticate As Boolean = IsEWayBillAPIAuthenticate(strCompCode, strLocation, trans)
+                    If IsAuthenticate Then
+                        qry = "Select * from TSPL_EInvoiceHeader_Info where Comp_Code='" & strCompCode & "' and RequiredFor ='updatetransporter' and Location_Code='" & strLocation & "'"
+                    End If
+                End If
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count >> 0 Then
+                    Const Tls12Value As Integer = &HC00
+                    Dim Tls12Protocol As System.Net.SecurityProtocolType = CType(Tls12Value, System.Net.SecurityProtocolType)
+                    ' Set the security protocol globally for all HTTPS requests
+                    System.Net.ServicePointManager.SecurityProtocol = Tls12Protocol
+                    httpRequest = CType(WebRequest.Create(clsCommon.myCstr(dt.Rows(0)("Url"))), HttpWebRequest)
+                    httpRequest.ContentType = "application/json"
+                    If clsCommon.CompairString(strEInvoiceVendor.ToUpper(), "MASTERGST") = CompairStringResult.Equal Then
+                        httpRequest.Headers.Add("ip_address", clsCommon.myCstr(dt.Rows(0)("ip_address")))
+                        httpRequest.Headers.Add("client_id", clsCommon.myCstr(dt.Rows(0)("client_id")))
+                        httpRequest.Headers.Add("client_secret", clsCommon.myCstr(dt.Rows(0)("client_secret")))
+                        httpRequest.Headers.Add("gstin", clsCommon.myCstr(dt.Rows(0)("gstin")))
+                        httpRequest.Method = "POST"
+                    End If
+                    httpRequest.KeepAlive = True
+                    Dim strEwbUpdateTranspoter As String = String.Empty
+                    Using streamWriter = New StreamWriter(httpRequest.GetRequestStream())
+                        Dim objUpdateTranspoter As Object = New clsEwayBillUpdateTranspoter()
+                        objUpdateTranspoter.ewbno = clsCommon.myCdbl(strEwayBillNo)
+                        objUpdateTranspoter.transporterId = clsCommon.myCstr(strTranspoterID)
+                        strEwbUpdateTranspoter = JsonConvert.SerializeObject(objUpdateTranspoter)
+                        streamWriter.Write(strEwbUpdateTranspoter)
+                    End Using
+                    httpResponse = CType(httpRequest.GetResponse(), HttpWebResponse)
+                    '' required validation httresponse
+                    Dim strResult As String = String.Empty
+                    Using streamReader = New StreamReader(httpResponse.GetResponseStream())
+                        strResult = streamReader.ReadToEnd()
+                    End Using
+                    Dim jObj As JObject = JObject.Parse(strResult)
+                    If TypeOf jObj.SelectToken("") Is JObject Then
+                        objResult = jObj.SelectToken("")
+                        Dim Status_cd As String = objResult.SelectToken("status_cd").ToString
+                        If clsCommon.CompairString(Status_cd, "0") = CompairStringResult.Equal Then
+                            Dim statusDec As String = objResult.SelectToken("error").ToString
+                            objResult = Nothing
+                            Throw New Exception(statusDec)
+                        End If
+                        Return objResult
+                    Else
+                        Dim strStatusDesc As String = (jObj.SelectToken("status_desc")).ToString()
+                        objResult = Nothing
+                        Throw New Exception(strStatusDesc)
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return objResult
+    End Function
+    Public Shared Function EWayBill_Update_PartB(ByVal strCompCode As String, ByVal obj As clsEwayBillUpdatePartB_Vehicle, ByVal strLocation As String, ByVal trans As SqlTransaction) As Object
+        Dim httpRequest As HttpWebRequest = Nothing
+        Dim httpResponse As HttpWebResponse = Nothing
+        Dim objResult As Object = Nothing
+        Try
+            Dim qry As String = String.Empty
+            Dim strEInvoiceVendor As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.EInvoiceVendor, clsFixedParameterCode.EInvoiceVendor, trans))
+            If clsCommon.myLen(clsCommon.myCstr(strEInvoiceVendor)) > 0 Then
+                If clsCommon.CompairString(strEInvoiceVendor.ToUpper(), "MASTERGST") = CompairStringResult.Equal Then
+                    Dim IsAuthenticate As Boolean = IsEWayBillAPIAuthenticate(strCompCode, strLocation, trans)
+                    If IsAuthenticate Then
+                        qry = "Select * from TSPL_EInvoiceHeader_Info where Comp_Code='" & strCompCode & "' and RequiredFor ='vehewb' and Location_Code='" & strLocation & "'"
+                    End If
+                End If
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count >> 0 Then
+                    Const Tls12Value As Integer = &HC00
+                    Dim Tls12Protocol As System.Net.SecurityProtocolType = CType(Tls12Value, System.Net.SecurityProtocolType)
+                    ' Set the security protocol globally for all HTTPS requests
+                    System.Net.ServicePointManager.SecurityProtocol = Tls12Protocol
+                    httpRequest = CType(WebRequest.Create(clsCommon.myCstr(dt.Rows(0)("Url"))), HttpWebRequest)
+                    httpRequest.ContentType = "application/json"
+                    If clsCommon.CompairString(strEInvoiceVendor.ToUpper(), "MASTERGST") = CompairStringResult.Equal Then
+                        httpRequest.Headers.Add("ip_address", clsCommon.myCstr(dt.Rows(0)("ip_address")))
+                        httpRequest.Headers.Add("client_id", clsCommon.myCstr(dt.Rows(0)("client_id")))
+                        httpRequest.Headers.Add("client_secret", clsCommon.myCstr(dt.Rows(0)("client_secret")))
+                        httpRequest.Headers.Add("gstin", clsCommon.myCstr(dt.Rows(0)("gstin")))
+                        httpRequest.Method = "POST"
+                    End If
+                    httpRequest.KeepAlive = True
+                    Dim strUpdateVehicle As String = String.Empty
+                    Using streamWriter = New StreamWriter(httpRequest.GetRequestStream())
+                        Dim objUpdateVehicle As Object = New clsEwayBillUpdatePartB_Vehicle()
+                        objUpdateVehicle.ewbno = clsCommon.myCdbl(obj.ewbNo)
+                        objUpdateVehicle.vehicleNo = clsCommon.myCstr(obj.vehicleNo)
+                        objUpdateVehicle.fromPlace = clsCommon.myCstr(obj.fromPlace)
+                        objUpdateVehicle.fromState = clsCommon.myCdbl(obj.fromState)
+                        objUpdateVehicle.reasonCode = clsCommon.myCstr(obj.reasonCode)
+                        objUpdateVehicle.reasonRem = clsCommon.myCstr(obj.reasonRem)
+                        objUpdateVehicle.transDocNo = clsCommon.myCstr(obj.transDocNo)
+                        objUpdateVehicle.transDocDate = clsCommon.myCstr(obj.transDocDate)
+                        objUpdateVehicle.transMode = clsCommon.myCstr(obj.transMode)
+                        strUpdateVehicle = JsonConvert.SerializeObject(objUpdateVehicle)
+                        streamWriter.Write(strUpdateVehicle)
+                    End Using
+                    httpResponse = CType(httpRequest.GetResponse(), HttpWebResponse)
+                    '' required validation httresponse
+                    Dim strResult As String = String.Empty
+                    Using streamReader = New StreamReader(httpResponse.GetResponseStream())
+                        strResult = streamReader.ReadToEnd()
+                    End Using
+                    Dim jObj As JObject = JObject.Parse(strResult)
+                    If TypeOf jObj.SelectToken("") Is JObject Then
+                        objResult = jObj.SelectToken("")
+                        Dim Status_cd As String = objResult.SelectToken("status_cd").ToString
+                        If clsCommon.CompairString(Status_cd, "0") = CompairStringResult.Equal Then
+                            Dim statusDec As String = objResult.SelectToken("error").ToString
+                            objResult = Nothing
+                            Throw New Exception(statusDec)
+                        End If
+                        Return objResult
+                    Else
+                        Dim strStatusDesc As String = (jObj.SelectToken("status_desc")).ToString()
+                        objResult = Nothing
+                        Throw New Exception(strStatusDesc)
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return objResult
+    End Function
+
+    Public Shared Function EWayBill_ExtendValidity(ByVal strCompCode As String, ByVal obj As clsextendvalidity, ByVal strLocation As String, ByVal trans As SqlTransaction) As Object
+        Dim httpRequest As HttpWebRequest = Nothing
+        Dim httpResponse As HttpWebResponse = Nothing
+        Dim objResult As Object = Nothing
+        Try
+            Dim qry As String = String.Empty
+            Dim strEInvoiceVendor As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.EInvoiceVendor, clsFixedParameterCode.EInvoiceVendor, trans))
+            If clsCommon.myLen(clsCommon.myCstr(strEInvoiceVendor)) > 0 Then
+                If clsCommon.CompairString(strEInvoiceVendor.ToUpper(), "MASTERGST") = CompairStringResult.Equal Then
+                    Dim IsAuthenticate As Boolean = IsEWayBillAPIAuthenticate(strCompCode, strLocation, trans)
+                    If IsAuthenticate Then
+                        qry = "Select * from TSPL_EInvoiceHeader_Info where Comp_Code='" & strCompCode & "' and RequiredFor ='extendvalidity' and Location_Code='" & strLocation & "'"
+                    End If
+                End If
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count >> 0 Then
+                    Const Tls12Value As Integer = &HC00
+                    Dim Tls12Protocol As System.Net.SecurityProtocolType = CType(Tls12Value, System.Net.SecurityProtocolType)
+                    ' Set the security protocol globally for all HTTPS requests
+                    System.Net.ServicePointManager.SecurityProtocol = Tls12Protocol
+                    httpRequest = CType(WebRequest.Create(clsCommon.myCstr(dt.Rows(0)("Url"))), HttpWebRequest)
+                    httpRequest.ContentType = "application/json"
+                    If clsCommon.CompairString(strEInvoiceVendor.ToUpper(), "MASTERGST") = CompairStringResult.Equal Then
+                        httpRequest.Headers.Add("ip_address", clsCommon.myCstr(dt.Rows(0)("ip_address")))
+                        httpRequest.Headers.Add("client_id", clsCommon.myCstr(dt.Rows(0)("client_id")))
+                        httpRequest.Headers.Add("client_secret", clsCommon.myCstr(dt.Rows(0)("client_secret")))
+                        httpRequest.Headers.Add("gstin", clsCommon.myCstr(dt.Rows(0)("gstin")))
+                        httpRequest.Method = "POST"
+                    End If
+                    httpRequest.KeepAlive = True
+                    Dim strextendvalidity As String = String.Empty
+                    Using streamWriter = New StreamWriter(httpRequest.GetRequestStream())
+                        Dim objextendvalidity As Object = New clsextendvalidity()
+                        objextendvalidity.ewbno = clsCommon.myCdbl(obj.ewbNo)
+                        objextendvalidity.vehicleNo = clsCommon.myCstr(obj.vehicleNo)
+                        objextendvalidity.fromPlace = clsCommon.myCstr(obj.fromPlace)
+                        objextendvalidity.fromState = clsCommon.myCdbl(obj.fromState)
+                        objextendvalidity.remainingDistance = clsCommon.myCdbl(obj.remainingDistance)
+                        objextendvalidity.transDocNo = clsCommon.myCstr(obj.transDocNo)
+                        objextendvalidity.transDocDate = clsCommon.myCstr(obj.transDocDate)
+                        objextendvalidity.transMode = clsCommon.myCstr(obj.transMode)
+                        objextendvalidity.extnRsnCode = clsCommon.myCstr(obj.extnRsnCode)
+                        objextendvalidity.extnRemarks = clsCommon.myCstr(obj.extnRemarks)
+                        objextendvalidity.fromPincode = clsCommon.myCstr(obj.fromPincode)
+                        objextendvalidity.consignmentStatus = clsCommon.myCstr(obj.consignmentStatus)
+                        objextendvalidity.transitType = clsCommon.myCstr(obj.transitType)
+                        objextendvalidity.addressLine1 = clsCommon.myCstr(obj.addressLine1)
+                        objextendvalidity.addressLine2 = clsCommon.myCstr(obj.addressLine2)
+                        objextendvalidity.addressLine3 = clsCommon.myCstr(obj.addressLine3)
+                        strextendvalidity = JsonConvert.SerializeObject(objextendvalidity)
+                        streamWriter.Write(strextendvalidity)
+                    End Using
+                    httpResponse = CType(httpRequest.GetResponse(), HttpWebResponse)
+                    '' required validation httresponse
+                    Dim strResult As String = String.Empty
+                    Using streamReader = New StreamReader(httpResponse.GetResponseStream())
+                        strResult = streamReader.ReadToEnd()
+                    End Using
+                    Dim jObj As JObject = JObject.Parse(strResult)
+                    If TypeOf jObj.SelectToken("") Is JObject Then
+                        objResult = jObj.SelectToken("")
+                        Dim Status_cd As String = objResult.SelectToken("status_cd").ToString
+                        If clsCommon.CompairString(Status_cd, "0") = CompairStringResult.Equal Then
+                            Dim statusDec As String = objResult.SelectToken("error").ToString
+                            objResult = Nothing
+                            Throw New Exception(statusDec)
+                        End If
+                        Return objResult
+                    Else
+                        Dim strStatusDesc As String = (jObj.SelectToken("status_desc")).ToString()
+                        objResult = Nothing
+                        Throw New Exception(strStatusDesc)
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return objResult
+    End Function
 End Class
 Public Class clsEInvoiceCancelDetails
     Public Property Irn As String = String.Empty
@@ -1246,6 +1630,23 @@ Public Class clsEwayBillCancel
     Public Property cancelRmrk As String
 
 End Class
+Public Class clsEwayBillUpdateTranspoter
+    Public Property ewbNo As Long
+    Public Property transporterId As String
+
+End Class
+Public Class clsEwayBillUpdatePartB_Vehicle
+    Public Property ewbNo As Long
+    Public Property vehicleNo As String
+    Public Property fromPlace As String
+    Public Property fromState As Integer
+    Public Property reasonCode As String
+    Public Property reasonRem As String
+    Public Property transDocNo As String
+    Public Property transDocDate As String
+    Public Property transMode As String
+
+End Class
 Public Class clsItem
     Public Property productName As String
     Public Property productDesc As String
@@ -1258,3 +1659,26 @@ Public Class clsItem
     Public Property igstRate As Double
     Public Property cessRate As Double
 End Class
+Public Class clsextendvalidity
+    Public Property ewbNo As Long
+    Public Property vehicleNo As String
+    Public Property fromPlace As String
+    Public Property fromState As Integer
+    Public Property remainingDistance As Integer
+    Public Property transDocNo As String
+    Public Property transDocDate As String
+    Public Property transMode As String
+    Public Property extnRsnCode As Integer
+    Public Property extnRemarks As String
+    Public Property fromPincode As Integer
+    Public Property consignmentStatus As String
+    Public Property transitType As String
+    Public Property addressLine1 As String
+    Public Property addressLine2 As String
+    Public Property addressLine3 As String
+End Class
+Public Class clsUpdateTranspoter
+    Public Property ewbNo As Long
+    Public Property transporterId As String
+End Class
+

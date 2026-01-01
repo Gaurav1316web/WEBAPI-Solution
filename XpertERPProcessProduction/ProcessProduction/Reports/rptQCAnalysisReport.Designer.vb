@@ -22,12 +22,13 @@ Partial Class rptQCAnalysisReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.gvDB = New Telerik.WinControls.UI.MasterGridViewTemplate()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.rdbColored = New Telerik.WinControls.UI.RadRadioButton()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rdbAll = New Telerik.WinControls.UI.RadRadioButton()
         Me.rdbUnderdeviation = New Telerik.WinControls.UI.RadRadioButton()
@@ -37,7 +38,6 @@ Partial Class rptQCAnalysisReport
         Me.rbtQcForRm = New Telerik.WinControls.UI.RadRadioButton()
         Me.rbtQcForFG = New Telerik.WinControls.UI.RadRadioButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rdbColored = New Telerik.WinControls.UI.RadRadioButton()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtItemCodeFG = New common.UserControls.txtFinder()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
@@ -76,12 +76,14 @@ Partial Class rptQCAnalysisReport
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.txtMulLocation = New common.UserControls.txtMultiSelectFinder()
         CType(Me.gvDB, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel1.SuspendLayout()
+        CType(Me.rdbColored, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         CType(Me.rdbAll, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -94,7 +96,6 @@ Partial Class rptQCAnalysisReport
         CType(Me.rbtQcForFG, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
-        CType(Me.rdbColored, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox4.SuspendLayout()
@@ -127,7 +128,7 @@ Partial Class rptQCAnalysisReport
         'gvDB
         '
         Me.gvDB.AllowAddNewRow = False
-        Me.gvDB.ViewDefinition = TableViewDefinition1
+        Me.gvDB.ViewDefinition = TableViewDefinition9
         '
         'RadPageView1
         '
@@ -152,6 +153,7 @@ Partial Class rptQCAnalysisReport
         '
         'RadPanel1
         '
+        Me.RadPanel1.Controls.Add(Me.txtMulLocation)
         Me.RadPanel1.Controls.Add(Me.rdbColored)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox3)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox2)
@@ -161,6 +163,15 @@ Partial Class rptQCAnalysisReport
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(956, 310)
         Me.RadPanel1.TabIndex = 15
+        '
+        'rdbColored
+        '
+        Me.rdbColored.Location = New System.Drawing.Point(553, 19)
+        Me.rdbColored.Name = "rdbColored"
+        Me.rdbColored.Size = New System.Drawing.Size(86, 18)
+        Me.rdbColored.TabIndex = 398
+        Me.rdbColored.TabStop = False
+        Me.rdbColored.Text = "Colored Data"
         '
         'RadGroupBox3
         '
@@ -264,15 +275,6 @@ Partial Class rptQCAnalysisReport
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Size = New System.Drawing.Size(559, 168)
         Me.RadGroupBox1.TabIndex = 389
-        '
-        'rdbColored
-        '
-        Me.rdbColored.Location = New System.Drawing.Point(553, 19)
-        Me.rdbColored.Name = "rdbColored"
-        Me.rdbColored.Size = New System.Drawing.Size(86, 18)
-        Me.rdbColored.TabIndex = 398
-        Me.rdbColored.TabStop = False
-        Me.rdbColored.Text = "Colored Data"
         '
         'MyLabel1
         '
@@ -571,7 +573,7 @@ Partial Class rptQCAnalysisReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition10
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -729,6 +731,20 @@ Partial Class rptQCAnalysisReport
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Delete Layout"
         '
+        'txtMulLocation
+        '
+        Me.txtMulLocation.arrDispalyMember = Nothing
+        Me.txtMulLocation.arrValueMember = Nothing
+        Me.txtMulLocation.Location = New System.Drawing.Point(383, 146)
+        Me.txtMulLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMulLocation.MyLinkLable1 = Me.lblBMC
+        Me.txtMulLocation.MyLinkLable2 = Nothing
+        Me.txtMulLocation.MyNullText = "All"
+        Me.txtMulLocation.Name = "txtMulLocation"
+        Me.txtMulLocation.Size = New System.Drawing.Size(190, 19)
+        Me.txtMulLocation.TabIndex = 399
+        Me.txtMulLocation.Visible = False
+        '
         'rptQCAnalysisReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -751,6 +767,7 @@ Partial Class rptQCAnalysisReport
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
         Me.RadPanel1.PerformLayout()
+        CType(Me.rdbColored, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
         Me.RadGroupBox3.PerformLayout()
@@ -766,7 +783,6 @@ Partial Class rptQCAnalysisReport
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
-        CType(Me.rdbColored, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox4.ResumeLayout(False)
@@ -851,6 +867,7 @@ Partial Class rptQCAnalysisReport
     Friend WithEvents rdbUnderdeviation As RadRadioButton
     Friend WithEvents rdbAll As RadRadioButton
     Friend WithEvents rdbColored As RadRadioButton
+    Friend WithEvents txtMulLocation As common.UserControls.txtMultiSelectFinder
 End Class
 
 

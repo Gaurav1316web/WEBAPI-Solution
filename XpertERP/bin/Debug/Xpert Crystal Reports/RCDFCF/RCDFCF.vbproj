@@ -1409,6 +1409,7 @@
     <None Include="Crystal Reports\PRODUCTION\rptPerformanceReport.rpt" />
     <None Include="Crystal Reports\PRODUCTION\rptProductionReport.rpt" />
     <None Include="Crystal Reports\PRODUCTION\rptSalesReport.rpt" />
+    <None Include="Crystal Reports\PRODUCTION\Weekly Production and Sale Report.rpt" />
     <None Include="Crystal Reports\Purchase Order\ConsumptionReport.rpt" />
     <None Include="Crystal Reports\Purchase Order\crptAdditionalCharge.rpt" />
     <None Include="Crystal Reports\Purchase Order\crptAdjustmentCustomReceiptVizag.rpt" />
