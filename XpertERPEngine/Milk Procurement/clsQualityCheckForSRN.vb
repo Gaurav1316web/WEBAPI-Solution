@@ -25,10 +25,19 @@ Public Class clsQualityCheckForSRNHead
     Public Arr_item As List(Of clsQualityCheckForSRNDetail) = Nothing
     Public Arr_MRN As List(Of clsQualityCheckForSRN_MRNDetail) = Nothing
 #End Region
-    Public Shared Function AnalysisPrint(ByVal Form_ID As String, ByVal FromDate As DateTime, ByVal ToDate As DateTime, ByVal strLocation As String, ByVal strVendor As String, ByVal strItem As String, ByVal strral As String, ByVal rbtnQCdate As Boolean, ByVal rbtnWeighmentDate As Boolean) As String
+    Public Shared Function AnalysisPrint(ByVal Form_ID As String, ByVal FromDate As DateTime, ByVal ToDate As DateTime, ByVal strLocation As String, ByVal strVendor As String, ByVal strItem As String, ByVal strral As String, ByVal rbtnQCdate As Boolean, ByVal rbtnWeighmentDate As Boolean, ByVal Accepted As Boolean, ByVal Rejected As Boolean, ByVal Underdeviation As Boolean) As String
         Dim StrWhere As String = ""
 
         Try
+            If Accepted Then
+                StrWhere += " and TSPL_QC_CHECK_HEAD.QC_Status = 'Accepted' "
+            ElseIf Rejected Then
+                StrWhere += " and TSPL_QC_CHECK_HEAD.QC_Status = 'Rejected' "
+            ElseIf Underdeviation Then
+                StrWhere += " and TSPL_QC_CHECK_HEAD.QC_Status = 'Under Deviation' "
+            End If
+
+
             StrWhere += "and TSPL_QC_CHECK_HEAD.posted=1"
             If clsCommon.myLen(strVendor) > 0 Then
                 StrWhere += " and TSPL_QC_CHECK_HEAD.Vendor_Code = '" + strVendor + "' "
@@ -80,9 +89,19 @@ Public Class clsQualityCheckForSRNHead
         Return True
     End Function
 
-    Public Shared Function AnalysisData(ByVal Form_ID As String, ByVal FromDate As DateTime, ByVal ToDate As DateTime, ByVal strLocation As String, ByVal strVendor As String, ByVal strItem As String, ByVal strral As String, ByVal rbtnQCdate As Boolean, ByVal rbtnWeighmentDate As Boolean) As String
+    Public Shared Function AnalysisData(ByVal Form_ID As String, ByVal FromDate As DateTime, ByVal ToDate As DateTime, ByVal strLocation As String, ByVal strVendor As String, ByVal strItem As String, ByVal strral As String, ByVal rbtnQCdate As Boolean, ByVal rbtnWeighmentDate As Boolean, ByVal Accepted As Boolean, ByVal Rejected As Boolean, ByVal Underdeviation As Boolean) As String
         Try
             Dim StrWhere As String = ""
+
+
+            If Accepted Then
+                StrWhere += " and TSPL_QC_CHECK_HEAD.QC_Status = 'Accepted' "
+            ElseIf Rejected Then
+                StrWhere += " and TSPL_QC_CHECK_HEAD.QC_Status = 'Rejected' "
+            ElseIf Underdeviation Then
+                StrWhere += " and TSPL_QC_CHECK_HEAD.QC_Status = 'Under Deviation' "
+            End If
+
 
             StrWhere += "and TSPL_QC_CHECK_HEAD.Posted=1 "
             'StrWhere += " and TSPL_QC_CHECK_HEAD.Vendor_Code = '" + strVendor + "' 

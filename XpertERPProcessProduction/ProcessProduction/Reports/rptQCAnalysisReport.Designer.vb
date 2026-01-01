@@ -24,6 +24,8 @@ Partial Class rptQCAnalysisReport
     Private Sub InitializeComponent()
         Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.gvDB = New Telerik.WinControls.UI.MasterGridViewTemplate()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -76,6 +78,7 @@ Partial Class rptQCAnalysisReport
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.txtMulLocation = New common.UserControls.txtMultiSelectFinder()
         CType(Me.gvDB, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
@@ -127,7 +130,7 @@ Partial Class rptQCAnalysisReport
         'gvDB
         '
         Me.gvDB.AllowAddNewRow = False
-        Me.gvDB.ViewDefinition = TableViewDefinition3
+        Me.gvDB.ViewDefinition = TableViewDefinition1
         '
         'RadPageView1
         '
@@ -152,6 +155,7 @@ Partial Class rptQCAnalysisReport
         '
         'RadPanel1
         '
+        Me.RadPanel1.Controls.Add(Me.txtMulLocation)
         Me.RadPanel1.Controls.Add(Me.rdbColored)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox3)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox2)
@@ -571,7 +575,7 @@ Partial Class rptQCAnalysisReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -729,6 +733,20 @@ Partial Class rptQCAnalysisReport
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Delete Layout"
         '
+        'txtMulLocation
+        '
+        Me.txtMulLocation.arrDispalyMember = Nothing
+        Me.txtMulLocation.arrValueMember = Nothing
+        Me.txtMulLocation.Location = New System.Drawing.Point(383, 146)
+        Me.txtMulLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMulLocation.MyLinkLable1 = Me.lblBMC
+        Me.txtMulLocation.MyLinkLable2 = Nothing
+        Me.txtMulLocation.MyNullText = "All"
+        Me.txtMulLocation.Name = "txtMulLocation"
+        Me.txtMulLocation.Size = New System.Drawing.Size(190, 19)
+        Me.txtMulLocation.TabIndex = 399
+        Me.txtMulLocation.Visible = False
+        '
         'rptQCAnalysisReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -851,6 +869,7 @@ Partial Class rptQCAnalysisReport
     Friend WithEvents rdbUnderdeviation As RadRadioButton
     Friend WithEvents rdbAll As RadRadioButton
     Friend WithEvents rdbColored As RadRadioButton
+    Friend WithEvents txtMulLocation As common.UserControls.txtMultiSelectFinder
 End Class
 
 

@@ -71,6 +71,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -320,6 +321,7 @@
     <Compile Include="Common\MIlkComponentType.vb" />
     <Compile Include="Dairy Sales\clsCustomerPenalty.vb" />
     <Compile Include="Dairy Sales\clsDemandBookingSale.vb" />
+    <Compile Include="Dairy Sales\clsEwayBillReportHead.vb" />
     <Compile Include="Dairy Sales\clsRouteWiseSaleTarget.vb" />
     <Compile Include="DA_Arrear\clsDA_Arrear.vb" />
     <Compile Include="DemandUploaderClass\clsDairyBookingCustomerbyUploader.vb" />
