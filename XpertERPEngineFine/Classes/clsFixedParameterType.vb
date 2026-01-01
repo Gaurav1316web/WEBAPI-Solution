@@ -1380,6 +1380,7 @@ Public Class clsFixedParameterType
     Public Const AllowToCheckEntryUOMForProduct = "Allow To Check Entry UOM For Product"
     Public Const AllowToCheckZeroQtyonDispatch = "Allow To Check Zero Qty on Dispatch"
     Public Const DefaultEnableEWayBill = "Default Enable EWay Bill"
+    Public Const CreateAutoGatePass = "Create Auto Gate Pass"
 End Class
 Public Class clsFixedParameterCode
     Public Const TransactionModify As String = "Transaction Modify"
@@ -2919,6 +2920,7 @@ Public Class clsFixedParameterCode
     Public Const AllowToCheckEntryUOMForProduct = "Allow To Check Entry UOM For Product"
     Public Const AllowToCheckZeroQtyonDispatch = "Allow To Check Zero Qty on Dispatch"
     Public Const DefaultEnableEWayBill = "Default Enable EWay Bill"
+    Public Const CreateAutoGatePass = "Create Auto Gate Pass"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4632,6 +4634,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowToCheckEntryUOMForProduct, clsFixedParameterCode.AllowToCheckEntryUOMForProduct, "0", "0:Off, 1:On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowToCheckZeroQtyonDispatch, clsFixedParameterCode.AllowToCheckZeroQtyonDispatch, "0", "0:Off, 1:On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.DefaultEnableEWayBill, clsFixedParameterCode.DefaultEnableEWayBill, "0", "0:Off, 1:On")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.CreateAutoGatePass, clsFixedParameterCode.CreateAutoGatePass, "0", "0:Off, 1:On")
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
     End Function
@@ -6539,5 +6542,6 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.userMaster, clsFixedParameterType.AllowToCheckEntryUOMForProduct, clsFixedParameterCode.AllowToCheckEntryUOMForProduct, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.AllowToCheckZeroQtyonDispatch, clsFixedParameterCode.AllowToCheckZeroQtyonDispatch, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.DefaultEnableEWayBill, clsFixedParameterCode.DefaultEnableEWayBill, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.CreateAutoGatePass, clsFixedParameterCode.CreateAutoGatePass, EnumControlType.CheckBox)
     End Sub
 End Class
