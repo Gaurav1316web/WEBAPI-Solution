@@ -472,6 +472,7 @@ Public Class frmTender
         AddNew()
     End Sub
     Sub AddNew()
+        btnUpdateSchedule.Visible = False
         chkMonthEndDate.Checked = True
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtScheduleStartDate.Value = txtDate.Value
@@ -2526,42 +2527,42 @@ where   TSPL_LOCATION_MASTER.Location_Category<>'MCC' and TSPL_LOCATION_MASTER.I
 
     Private Sub btnUpdateSchedule_Click(sender As Object, e As EventArgs) Handles btnUpdateSchedule.Click
         Try
-            Dim obj As New clsTenderHead()
-            obj.ArrSchedule = New List(Of clsTenderSchedule)
-            Dim lstVendor As New List(Of String)
-            Dim lstItem As New List(Of String)
-            For Each grow As GridViewRowInfo In gvSchedule.Rows
-                Dim objTr As New clsTenderSchedule()
-                objTr.SNo = clsCommon.myCDecimal(grow.Cells(colScheduleSNo).Value)
-                objTr.PSNo = clsCommon.myCDecimal(grow.Cells(colScheduleParentSNo).Value)
-                objTr.Schedule_No = clsCommon.myCDecimal(grow.Cells(colScheduleNo).Value)
-                objTr.From_Date = clsCommon.myCDate(grow.Cells(colScheduleFromDate).Value)
-                objTr.To_Date = clsCommon.myCDate(grow.Cells(colScheduleToDate).Value)
-                objTr.Vendor_Code = clsCommon.myCstr(grow.Cells(colScheduleVCode).Value)
-                objTr.Location_Code = clsCommon.myCstr(grow.Cells(colScheduleLCode).Value)
-                objTr.Item_Code = clsCommon.myCstr(grow.Cells(colScheduleICode).Value)
-                objTr.Item_Type = clsCommon.myCstr(grow.Cells(colScheduleITypeCode).Value)
-                objTr.Schedule_Qty_Per = clsCommon.myCDecimal(grow.Cells(colScheduleQtyPer).Value)
-                objTr.Schedule_Qty = clsCommon.myCDecimal(grow.Cells(colScheduleQty).Value)
-                objTr.Schedule_Tolerance_Qty = clsCommon.myCDecimal(grow.Cells(colScheduleToleranceQty).Value)
-                objTr.Schedule_Short_Per = clsCommon.myCDecimal(grow.Cells(colScheduleShortPer).Value)
-                objTr.Schedule_Short = clsCommon.myCDecimal(grow.Cells(colScheduleShort).Value)
-                objTr.Late_Days = clsCommon.myCDecimal(grow.Cells(colScheduleLateDays).Value)
-                objTr.Extension_Days = clsCommon.myCDecimal(grow.Cells(colScheduleExtensionDays).Value)
-                objTr.Arr = TryCast(grow.Cells(colScheduleLateDays).Tag, List(Of clsTenderSchedulePenelty))
-                obj.ArrSchedule.Add(objTr)
-                lstVendor.Add(objTr.Vendor_Code)
-                lstItem.Add(objTr.Item_Code)
-            Next
+            If gvSchedule IsNot Nothing AndAlso gvSchedule.Rows.Count > 0 Then
+                Dim obj As New clsTenderHead()
+                obj.ArrSchedule = New List(Of clsTenderSchedule)
+                For Each grow As GridViewRowInfo In gvSchedule.Rows
+                    Dim objTr As New clsTenderSchedule()
+                    objTr.SNo = clsCommon.myCDecimal(grow.Cells(colScheduleSNo).Value)
+                    objTr.PSNo = clsCommon.myCDecimal(grow.Cells(colScheduleParentSNo).Value)
+                    objTr.Schedule_No = clsCommon.myCDecimal(grow.Cells(colScheduleNo).Value)
+                    objTr.From_Date = clsCommon.myCDate(grow.Cells(colScheduleFromDate).Value)
+                    objTr.To_Date = clsCommon.myCDate(grow.Cells(colScheduleToDate).Value)
+                    objTr.Vendor_Code = clsCommon.myCstr(grow.Cells(colScheduleVCode).Value)
+                    objTr.Location_Code = clsCommon.myCstr(grow.Cells(colScheduleLCode).Value)
+                    objTr.Item_Code = clsCommon.myCstr(grow.Cells(colScheduleICode).Value)
+                    objTr.Item_Type = clsCommon.myCstr(grow.Cells(colScheduleITypeCode).Value)
+                    objTr.Schedule_Qty_Per = clsCommon.myCDecimal(grow.Cells(colScheduleQtyPer).Value)
+                    objTr.Schedule_Qty = clsCommon.myCDecimal(grow.Cells(colScheduleQty).Value)
+                    objTr.Schedule_Tolerance_Qty = clsCommon.myCDecimal(grow.Cells(colScheduleToleranceQty).Value)
+                    objTr.Schedule_Short_Per = clsCommon.myCDecimal(grow.Cells(colScheduleShortPer).Value)
+                    objTr.Schedule_Short = clsCommon.myCDecimal(grow.Cells(colScheduleShort).Value)
+                    objTr.Late_Days = clsCommon.myCDecimal(grow.Cells(colScheduleLateDays).Value)
+                    objTr.Extension_Days = clsCommon.myCDecimal(grow.Cells(colScheduleExtensionDays).Value)
+                    objTr.Arr = TryCast(grow.Cells(colScheduleLateDays).Tag, List(Of clsTenderSchedulePenelty))
+                    obj.ArrSchedule.Add(objTr)
+                Next
 
-            Dim strChk As String = "select Count(1) from TSPL_SRN_TENDER_CALC Where Against_Tender_Schedule_PK_Id In (Select PK_Id from TSPL_TENDER_SCHEDULE where DocumentCode='" & txtDocNo.Value & "' And Vendor_code In (" & clsCommon.GetMulcallString(lstVendor) & ") And Item_Code in (" & clsCommon.GetMulcallString(lstItem) & "))"
-            Dim chkInt As Integer = clsDBFuncationality.getSingleValue(strChk)
-            If chkInt > 0 Then
-                clsCommon.MyMessageBoxShow(Me, "RAL penalty already exist.", Me.Text)
-            Else
-                If clsTenderSchedule.UpdateScheduleData(txtDocNo.Value, obj.ArrSchedule, Nothing) Then
-                    clsCommon.MyMessageBoxShow(Me, "Schedule updated successfully.", Me.Text)
+                Dim strChk As String = "select Count(1) from TSPL_SRN_TENDER_CALC Where Against_TenderNo ='" & txtDocNo.Value & "'"
+                Dim chkInt As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(strChk))
+                If chkInt > 0 Then
+                    clsCommon.MyMessageBoxShow(Me, "RAL already exist in RAL Penalty !", Me.Text)
+                Else
+                    If clsTenderSchedule.UpdateScheduleData(txtDocNo.Value, obj.ArrSchedule, Nothing) Then
+                        clsCommon.MyMessageBoxShow(Me, "Schedule updated successfully.", Me.Text)
+                    End If
                 End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Data not found !", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

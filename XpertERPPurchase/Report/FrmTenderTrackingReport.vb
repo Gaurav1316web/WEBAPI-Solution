@@ -226,7 +226,7 @@ Public Class FrmTenderTrackingReport
         For ii As Integer = 0 To Gv1.Columns.Count - 1
             Gv1.Columns(ii).ReadOnly = True
             Gv1.Columns(ii).BestFit()
-            If Gv1.Columns(ii).HeaderText.Contains("Qty") = True OrElse Gv1.Columns(ii).HeaderText.Contains("Amount") = True Then
+            If Gv1.Columns(ii).HeaderText.Contains("Qty") = True OrElse Gv1.Columns(ii).HeaderText.Contains("Weight") = True OrElse Gv1.Columns(ii).HeaderText.Contains("Amount") = True Then
                 Dim TempQtyAmount As String = Gv1.Columns(ii).HeaderText
                 Dim TempSumQtyAmount As New GridViewSummaryItem(TempQtyAmount, "{0:n2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(TempSumQtyAmount)

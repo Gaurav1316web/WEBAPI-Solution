@@ -12793,6 +12793,7 @@ FROM TSPL_ITEM_MASTER"
             coll = New Dictionary(Of String, String)()
             coll.Add("Chapter_Head_Code", "varchar(20)  NOT NULL PRIMARY KEY")
             coll.Add("Description", "varchar(100)  NOT NULL")
+            coll.Add("Seq_No", "integer NULL")
             coll.Add("Created_By", "varchar(12)  NOT NULL")
             coll.Add("Created_Date", "varchar(10)  NOT NULL")
             coll.Add("Modify_By", "varchar(12)  NOT NULL")

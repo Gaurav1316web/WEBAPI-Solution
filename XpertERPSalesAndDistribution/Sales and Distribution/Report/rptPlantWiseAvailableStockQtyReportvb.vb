@@ -107,7 +107,7 @@ Public Class rptPlantWiseAvailableStockQtyReport
             Dim dt As DataTable = New DataTable()
             Dim dtPrint As DataTable = New DataTable()
             If isPrint Then
-                dtPrint = clsDBFuncationality.GetDataTable("select Comp_Name,'" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' as Date, xxxxx.* from ( SELECT Item_Desc,ITEM_CODE,sum(Total_Stock_Qty)Total_Stock_Qty," & strLocationPrint & " ,sum(Total_QTY_FOR_Days)Total_QTY_FOR_Days  FROM (  " & qry & " Group by ITEM_CODE,Item_Desc ) xxxxx left join TSPL_COMPANY_MASTER on 1= 1 ORDER BY  ITEM_DESC  ")
+                dtPrint = clsDBFuncationality.GetDataTable("select Comp_Name, Logo_Img,'" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' as Date,'" & objCommonVar.CurrentUser & "' as UserName, xxxxx.* from ( SELECT  max(unit)Unit,Item_Desc,ITEM_CODE,sum(Total_Stock_Qty)Total_Stock_Qty," & strLocationPrint & " ,sum(Total_QTY_FOR_Days)Total_QTY_FOR_Days  FROM (  " & qry & " Group by ITEM_CODE,Item_Desc ) xxxxx left join TSPL_COMPANY_MASTER on 1= 1 ORDER BY  ITEM_DESC  ")
             End If
             qry += " PIVOT(SUM(STOCK_QTY) For Location_Code_Qty In ( " & LocationCodesQty & ")) As  PIVOTQTY  PIVOT(SUM(QTY_FOR_DAYS) For Location_Code_Days In ( " & LocationCodesDays & ")) As  PIVOTDays  Group by ITEM_CODE,Item_Desc ORDER BY  ITEM_DESC "
             dt = clsDBFuncationality.GetDataTable("SELECT ITEM_CODE as [Item Code],Item_Desc,max(unit)Unit,sum(Total_Stock_Qty)Total_Stock_Qty," & strLocationQty & " ,sum(Total_QTY_FOR_Days)Total_QTY_FOR_Days  FROM (  " & qry & " ")

@@ -831,33 +831,14 @@ GROUP BY t.Location_Code
 
                 End If
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             ElseIf rdbWeekly.IsChecked = True OrElse rbdDateRange.IsChecked Then
-                    'fDate = CDate(clsDBFuncationality.getSingleValue("select DATEADD(DAY,2-DATEPART(WEEKDAY,convert(date,'" + fromDate.Value + "',103)),convert(date,'" + fromDate.Value + "',103))"))
-                    'tDate = CDate(clsDBFuncationality.getSingleValue("select DATEADD(DAY,8-DATEPART(WEEKDAY,convert(date,'" + fromDate.Value + "',103)),convert(date,'" + fromDate.Value + "',103))"))
-                    'dtpFrom.Value = fDate
-                    'toDate.Value = tDate
-                    'dtcurrent = fromDate.Value
-                    'dtnext = toDate.Value
-                    fDate = fromDate.Value
+                'fDate = CDate(clsDBFuncationality.getSingleValue("select DATEADD(DAY,2-DATEPART(WEEKDAY,convert(date,'" + fromDate.Value + "',103)),convert(date,'" + fromDate.Value + "',103))"))
+                'tDate = CDate(clsDBFuncationality.getSingleValue("select DATEADD(DAY,8-DATEPART(WEEKDAY,convert(date,'" + fromDate.Value + "',103)),convert(date,'" + fromDate.Value + "',103))"))
+                'dtpFrom.Value = fDate
+                'toDate.Value = tDate
+                'dtcurrent = fromDate.Value
+                'dtnext = toDate.Value
+                fDate = fromDate.Value
                 tDate = ToDate.Value
                 DayCount = DateDiff(DateInterval.Day, fDate, tDate) + 1
 
@@ -883,8 +864,7 @@ GROUP BY t.Location_Code
                     as Alies_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N' FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')"
                 Dim strMaxLocation As String = clsDBFuncationality.getSingleValue(StrTempQry)
                 query = " SELECT * FROM (
-							SELECT 'Capacity / Day' AS Production, TSPL_LOCATION_MASTER.Location_Code, 
-cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "'))) AS DECIMAL(18,0)) as [Capacity]
+							SELECT 'Capacity / Day' AS Production, TSPL_LOCATION_MASTER.Location_Code,  (cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('31/Jan/2024'))) AS DECIMAL(18,0))) Capacity
                         FROM  TSPL_LOCATION_MASTER where IsMainPlant=0
 							union all
 	

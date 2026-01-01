@@ -15,45 +15,48 @@ Public Class FrmPWD
     End Sub
 
     Private Sub btnOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOK.Click
-
-        If clsCommon.myLen(txtPWd.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please enter password", Me.Text)
-            Exit Sub
-        End If
-        Dim qry As String = Nothing
-        Dim Pwd As String = Nothing
-        If clsCommon.myLen(strType) > 0 AndAlso clsCommon.myLen(strCode) > 0 Then
-            qry = "select Description from TSPL_FIXED_PARAMETER where Type='" + strType + "' and Code='" + strCode + "'"
-            Pwd = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, tran))
-            If clsCommon.CompairString(Pwd, txtPWd.Text, True) = CompairStringResult.Equal Then
-                isPasswordCorrect = True
-                Me.Close()
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_MASTER.DBO.TSPL_FIXED_PARAMETER where code='Master PWD'", tran)), txtPWd.Text, True) = CompairStringResult.Equal Then
-                common.clsCommon.MyMessageBoxShow(Me, "Correct Password is:   " & Pwd, Me.Text)
-                Exit Sub
-            Else
-                common.clsCommon.MyMessageBoxShow(Me, "Wrong password", Me.Text)
+        Try
+            If clsCommon.myLen(txtPWd.Text) <= 0 Then
+                common.clsCommon.MyMessageBoxShow(Me, "Please enter password", Me.Text)
                 Exit Sub
             End If
-        Else
-            qry = "select Amendment_Pwd from TSPL_PROGRAM_MASTER where Program_Code='" + clsCommon.myCstr(FormId) + "'"
-            Pwd = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, tran))
-            If clsCommon.myLen(txtPWd.Text) > 0 AndAlso clsCommon.myLen(Pwd) > 0 Then
-                If clsCommon.CompairString(Pwd, clsCommon.EncryptString(txtPWd.Text), True) = CompairStringResult.Equal Then
+            Dim qry As String = Nothing
+            Dim Pwd As String = Nothing
+            If clsCommon.myLen(strType) > 0 AndAlso clsCommon.myLen(strCode) > 0 Then
+                qry = "select Description from TSPL_FIXED_PARAMETER where Type='" + strType + "' and Code='" + strCode + "'"
+                Pwd = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, tran))
+                If clsCommon.CompairString(Pwd, txtPWd.Text, True) = CompairStringResult.Equal Then
                     isPasswordCorrect = True
                     Me.Close()
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_MASTER.DBO.TSPL_FIXED_PARAMETER where code='Master PWD'", tran)), txtPWd.Text, True) = CompairStringResult.Equal Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Correct Password is:   " & clsCommon.DecryptString(Pwd), Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Correct Password is:   " & Pwd, Me.Text)
                     Exit Sub
                 Else
                     common.clsCommon.MyMessageBoxShow(Me, "Wrong password", Me.Text)
                     Exit Sub
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow(Me, "Password is not set for amendment", Me.Text)
-                Exit Sub
+                qry = "select Amendment_Pwd from TSPL_PROGRAM_MASTER where Program_Code='" + clsCommon.myCstr(FormId) + "'"
+                Pwd = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, tran))
+                If clsCommon.myLen(txtPWd.Text) > 0 AndAlso clsCommon.myLen(Pwd) > 0 Then
+                    If clsCommon.CompairString(Pwd, clsCommon.EncryptString(txtPWd.Text), True) = CompairStringResult.Equal Then
+                        isPasswordCorrect = True
+                        Me.Close()
+                    ElseIf clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_MASTER.DBO.TSPL_FIXED_PARAMETER where code='Master PWD'", tran)), txtPWd.Text, True) = CompairStringResult.Equal Then
+                        common.clsCommon.MyMessageBoxShow(Me, "Correct Password is:   " & clsCommon.DecryptString(Pwd), Me.Text)
+                        Exit Sub
+                    Else
+                        common.clsCommon.MyMessageBoxShow(Me, "Wrong password", Me.Text)
+                        Exit Sub
+                    End If
+                Else
+                    common.clsCommon.MyMessageBoxShow(Me, "Password is not set for amendment", Me.Text)
+                    Exit Sub
+                End If
             End If
-        End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, "Something went wrong !", Me.Text)
+        End Try
     End Sub
 
     Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click

@@ -22,6 +22,8 @@ Partial Class rptQCAnalysisReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.gvDB = New Telerik.WinControls.UI.MasterGridViewTemplate()
@@ -128,7 +130,7 @@ Partial Class rptQCAnalysisReport
         'gvDB
         '
         Me.gvDB.AllowAddNewRow = False
-        Me.gvDB.ViewDefinition = TableViewDefinition9
+        'Me.gvDB.ViewDefinition = TableViewDefinition1
         '
         'RadPageView1
         '
@@ -573,7 +575,7 @@ Partial Class rptQCAnalysisReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -602,9 +604,9 @@ Partial Class rptQCAnalysisReport
         '
         Me.btnRejected.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnRejected.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiEnglish, Me.rmiHindi})
-        Me.btnRejected.Location = New System.Drawing.Point(610, 0)
+        Me.btnRejected.Location = New System.Drawing.Point(623, 0)
         Me.btnRejected.Name = "btnRejected"
-        Me.btnRejected.Size = New System.Drawing.Size(83, 22)
+        Me.btnRejected.Size = New System.Drawing.Size(138, 22)
         Me.btnRejected.TabIndex = 163
         Me.btnRejected.Text = "Rejected Analysis Print"
         '
@@ -625,9 +627,9 @@ Partial Class rptQCAnalysisReport
         Me.btnRALWiseAnaysisPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnRALWiseAnaysisPrint.Location = New System.Drawing.Point(484, 0)
         Me.btnRALWiseAnaysisPrint.Name = "btnRALWiseAnaysisPrint"
-        Me.btnRALWiseAnaysisPrint.Size = New System.Drawing.Size(120, 22)
+        Me.btnRALWiseAnaysisPrint.Size = New System.Drawing.Size(133, 22)
         Me.btnRALWiseAnaysisPrint.TabIndex = 162
-        Me.btnRALWiseAnaysisPrint.Text = "RAL Wise Anaysis Print"
+        Me.btnRALWiseAnaysisPrint.Text = "RAL Wise Analysis Print"
         '
         'btnAnalysisPrintVertical
         '
