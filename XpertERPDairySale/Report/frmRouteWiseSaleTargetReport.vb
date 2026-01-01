@@ -394,7 +394,7 @@ Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_M
             Dim ToDate As String = clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy")
             Dim fromDate As String = "01/" & clsCommon.GetPrintDate(txtToDate.Value.AddYears(-1), "MMM/yyyy")
             strQry.Append(ReturnDatailsDataQry(True, fromDate, ToDate))
-            strQry.Append(" Select * from (")
+            strQry.Append(" Select [S.No.],MAX(Details)Details,MAX(Item_Sub_Group_Type)Item_Sub_Group_Type,Sum([Details Qty])[Details Qty],Seq_No from (")
             If dtItem IsNot Nothing AndAlso dtItem.Rows.Count > 0 Then
                 Dim i As Integer = 0
                 For Each rows In dtItem.Rows
@@ -447,7 +447,7 @@ Group BY Item_Sub_Group_Type,Seq_No ")
                     i += 1
                 Next
             End If
-            strQry.Append(" )final Order By [S.No.],Seq_No")
+            strQry.Append(" )final Group By [S.No.],Seq_No Order By [S.No.],Seq_No")
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(clsCommon.myCstr(strQry))
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frm As New frmCrystalReportViewer()
