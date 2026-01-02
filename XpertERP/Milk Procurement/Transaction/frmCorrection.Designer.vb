@@ -22,8 +22,6 @@ Partial Class frmCorrection
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem15 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem16 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -36,6 +34,9 @@ Partial Class frmCorrection
         Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -104,6 +105,7 @@ Partial Class frmCorrection
         Me.RadButton290 = New Telerik.WinControls.UI.RadButton()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.GroupBox76 = New System.Windows.Forms.GroupBox()
+        Me.chkDeleteDCSCollection = New common.Controls.MyCheckBox()
         Me.chkPreviousShift = New common.Controls.MyCheckBox()
         Me.chkDeleteBMCCollection = New common.Controls.MyCheckBox()
         Me.TxtMultiSelectFinder8 = New common.UserControls.txtMultiSelectFinder()
@@ -215,8 +217,43 @@ Partial Class frmCorrection
         Me.txtCAPSNF = New common.MyNumBox()
         Me.MyLabel54 = New common.Controls.MyLabel()
         Me.txtCAPFAT = New common.MyNumBox()
+        Me.RadPageViewPage8 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadButton11 = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel65 = New common.Controls.MyLabel()
+        Me.lblSABMCName = New common.Controls.MyLabel()
+        Me.lblSABMCCode = New common.Controls.MyLabel()
+        Me.lblSABMCUploaderNo = New common.Controls.MyLabel()
+        Me.MyLabel57 = New common.Controls.MyLabel()
+        Me.gvSA = New common.UserControls.MyRadGridView()
+        Me.lblSAAdjustAmount = New common.Controls.MyLabel()
+        Me.lblSAPendingAmount = New common.Controls.MyLabel()
+        Me.MyLabel67 = New common.Controls.MyLabel()
+        Me.lblSAAmount = New common.Controls.MyLabel()
+        Me.lblSAAdjustSNFPer = New common.Controls.MyLabel()
+        Me.lblSAAdjustFATPer = New common.Controls.MyLabel()
+        Me.lblSAPendingSNFPer = New common.Controls.MyLabel()
+        Me.lblSAPendingFATPer = New common.Controls.MyLabel()
+        Me.MyLabel58 = New common.Controls.MyLabel()
+        Me.lblSASNFPer = New common.Controls.MyLabel()
+        Me.lblSAFATPer = New common.Controls.MyLabel()
+        Me.MyLabel62 = New common.Controls.MyLabel()
+        Me.lblSADate = New common.Controls.MyLabel()
+        Me.MyLabel56 = New common.Controls.MyLabel()
+        Me.lblSAPendingSNFKG = New common.Controls.MyLabel()
+        Me.lblSAAdjustSNFKG = New common.Controls.MyLabel()
+        Me.lblSASNFKg = New common.Controls.MyLabel()
+        Me.MyLabel49 = New common.Controls.MyLabel()
+        Me.lblSAPendingFATKG = New common.Controls.MyLabel()
+        Me.lblSAAdjustFATKG = New common.Controls.MyLabel()
+        Me.MyLabel48 = New common.Controls.MyLabel()
+        Me.lblSAFATKg = New common.Controls.MyLabel()
+        Me.lblSAPendingQty = New common.Controls.MyLabel()
+        Me.lblSAAdjustQty = New common.Controls.MyLabel()
+        Me.lblSAQty = New common.Controls.MyLabel()
+        Me.MyLabel46 = New common.Controls.MyLabel()
+        Me.txtSATruckSheet = New common.UserControls.txtFinder()
+        Me.MyLabel37 = New common.Controls.MyLabel()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.chkDeleteDCSCollection = New common.Controls.MyCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -284,6 +321,7 @@ Partial Class frmCorrection
         CType(Me.RadButton290, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
         Me.GroupBox76.SuspendLayout()
+        CType(Me.chkDeleteDCSCollection, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkPreviousShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkDeleteBMCCollection, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel40, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -395,8 +433,43 @@ Partial Class frmCorrection
         CType(Me.txtCAPSNF, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel54, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCAPFAT, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage8.SuspendLayout()
+        CType(Me.RadButton11, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel65, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSABMCName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSABMCCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSABMCUploaderNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel57, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvSA, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvSA.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSAAdjustAmount, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSAPendingAmount, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel67, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSAAmount, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSAAdjustSNFPer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSAAdjustFATPer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSAPendingSNFPer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSAPendingFATPer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel58, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSASNFPer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSAFATPer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSADate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel56, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSAPendingSNFKG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSAAdjustSNFKG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSASNFKg, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel49, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSAPendingFATKG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSAAdjustFATKG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel48, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSAFATKg, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSAPendingQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSAAdjustQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSAQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel46, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel37, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkDeleteDCSCollection, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -429,10 +502,11 @@ Partial Class frmCorrection
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage4)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage6)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage7)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage8)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage8
         Me.RadPageView1.Size = New System.Drawing.Size(667, 424)
         Me.RadPageView1.TabIndex = 2
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -516,10 +590,10 @@ Partial Class frmCorrection
         Me.cboShift.IsSourceFromTable = False
         Me.cboShift.IsSourceFromValueList = False
         Me.cboShift.IsUnique = False
-        RadListDataItem15.Text = "M"
-        RadListDataItem16.Text = "E"
-        Me.cboShift.Items.Add(RadListDataItem15)
-        Me.cboShift.Items.Add(RadListDataItem16)
+        RadListDataItem1.Text = "M"
+        RadListDataItem2.Text = "E"
+        Me.cboShift.Items.Add(RadListDataItem1)
+        Me.cboShift.Items.Add(RadListDataItem2)
         Me.cboShift.Location = New System.Drawing.Point(273, 16)
         Me.cboShift.MendatroryField = True
         Me.cboShift.MyLinkLable1 = Me.lblBOMStatus
@@ -814,10 +888,10 @@ Partial Class frmCorrection
         Me.cboRejectType.IsSourceFromTable = False
         Me.cboRejectType.IsSourceFromValueList = False
         Me.cboRejectType.IsUnique = False
-        RadListDataItem1.Text = "M"
-        RadListDataItem2.Text = "E"
-        Me.cboRejectType.Items.Add(RadListDataItem1)
-        Me.cboRejectType.Items.Add(RadListDataItem2)
+        RadListDataItem3.Text = "M"
+        RadListDataItem4.Text = "E"
+        Me.cboRejectType.Items.Add(RadListDataItem3)
+        Me.cboRejectType.Items.Add(RadListDataItem4)
         Me.cboRejectType.Location = New System.Drawing.Point(209, 91)
         Me.cboRejectType.MendatroryField = True
         Me.cboRejectType.MyLinkLable1 = Nothing
@@ -934,10 +1008,10 @@ Partial Class frmCorrection
         Me.cboMilkType.IsSourceFromTable = False
         Me.cboMilkType.IsSourceFromValueList = False
         Me.cboMilkType.IsUnique = False
-        RadListDataItem3.Text = "M"
-        RadListDataItem4.Text = "E"
-        Me.cboMilkType.Items.Add(RadListDataItem3)
-        Me.cboMilkType.Items.Add(RadListDataItem4)
+        RadListDataItem5.Text = "M"
+        RadListDataItem6.Text = "E"
+        Me.cboMilkType.Items.Add(RadListDataItem5)
+        Me.cboMilkType.Items.Add(RadListDataItem6)
         Me.cboMilkType.Location = New System.Drawing.Point(72, 91)
         Me.cboMilkType.MendatroryField = True
         Me.cboMilkType.MyLinkLable1 = Me.MyLabel4
@@ -1475,6 +1549,20 @@ Partial Class frmCorrection
         Me.GroupBox76.TabIndex = 80
         Me.GroupBox76.TabStop = False
         Me.GroupBox76.Text = "Delete MCC Milk Procurement Shift Collection"
+        '
+        'chkDeleteDCSCollection
+        '
+        Me.chkDeleteDCSCollection.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkDeleteDCSCollection.Location = New System.Drawing.Point(40, 83)
+        Me.chkDeleteDCSCollection.MyLinkLable1 = Nothing
+        Me.chkDeleteDCSCollection.MyLinkLable2 = Nothing
+        Me.chkDeleteDCSCollection.Name = "chkDeleteDCSCollection"
+        Me.chkDeleteDCSCollection.Size = New System.Drawing.Size(130, 18)
+        Me.chkDeleteDCSCollection.TabIndex = 372
+        Me.chkDeleteDCSCollection.Tag1 = Nothing
+        Me.chkDeleteDCSCollection.Text = "Delete DCS Collection"
+        Me.chkDeleteDCSCollection.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        Me.chkDeleteDCSCollection.Visible = False
         '
         'chkPreviousShift
         '
@@ -2022,10 +2110,10 @@ Partial Class frmCorrection
         Me.cboBMCCorrMilkType.IsSourceFromTable = False
         Me.cboBMCCorrMilkType.IsSourceFromValueList = False
         Me.cboBMCCorrMilkType.IsUnique = False
-        RadListDataItem5.Text = "M"
-        RadListDataItem6.Text = "E"
-        Me.cboBMCCorrMilkType.Items.Add(RadListDataItem5)
-        Me.cboBMCCorrMilkType.Items.Add(RadListDataItem6)
+        RadListDataItem7.Text = "M"
+        RadListDataItem8.Text = "E"
+        Me.cboBMCCorrMilkType.Items.Add(RadListDataItem7)
+        Me.cboBMCCorrMilkType.Items.Add(RadListDataItem8)
         Me.cboBMCCorrMilkType.Location = New System.Drawing.Point(71, 94)
         Me.cboBMCCorrMilkType.MendatroryField = True
         Me.cboBMCCorrMilkType.MyLinkLable1 = Me.MyLabel24
@@ -2677,10 +2765,10 @@ Partial Class frmCorrection
         Me.cboCAPShift.IsSourceFromTable = False
         Me.cboCAPShift.IsSourceFromValueList = False
         Me.cboCAPShift.IsUnique = False
-        RadListDataItem7.Text = "M"
-        RadListDataItem8.Text = "E"
-        Me.cboCAPShift.Items.Add(RadListDataItem7)
-        Me.cboCAPShift.Items.Add(RadListDataItem8)
+        RadListDataItem9.Text = "M"
+        RadListDataItem10.Text = "E"
+        Me.cboCAPShift.Items.Add(RadListDataItem9)
+        Me.cboCAPShift.Items.Add(RadListDataItem10)
         Me.cboCAPShift.Location = New System.Drawing.Point(273, 16)
         Me.cboCAPShift.MendatroryField = True
         Me.cboCAPShift.MyLinkLable1 = Me.MyLabel30
@@ -2907,10 +2995,10 @@ Partial Class frmCorrection
         Me.cboCAPRejectType.IsSourceFromTable = False
         Me.cboCAPRejectType.IsSourceFromValueList = False
         Me.cboCAPRejectType.IsUnique = False
-        RadListDataItem9.Text = "M"
-        RadListDataItem10.Text = "E"
-        Me.cboCAPRejectType.Items.Add(RadListDataItem9)
-        Me.cboCAPRejectType.Items.Add(RadListDataItem10)
+        RadListDataItem11.Text = "M"
+        RadListDataItem12.Text = "E"
+        Me.cboCAPRejectType.Items.Add(RadListDataItem11)
+        Me.cboCAPRejectType.Items.Add(RadListDataItem12)
         Me.cboCAPRejectType.Location = New System.Drawing.Point(209, 92)
         Me.cboCAPRejectType.MendatroryField = True
         Me.cboCAPRejectType.MyLinkLable1 = Nothing
@@ -2998,10 +3086,10 @@ Partial Class frmCorrection
         Me.cboCAPMilkType.IsSourceFromTable = False
         Me.cboCAPMilkType.IsSourceFromValueList = False
         Me.cboCAPMilkType.IsUnique = False
-        RadListDataItem11.Text = "M"
-        RadListDataItem12.Text = "E"
-        Me.cboCAPMilkType.Items.Add(RadListDataItem11)
-        Me.cboCAPMilkType.Items.Add(RadListDataItem12)
+        RadListDataItem13.Text = "M"
+        RadListDataItem14.Text = "E"
+        Me.cboCAPMilkType.Items.Add(RadListDataItem13)
+        Me.cboCAPMilkType.Items.Add(RadListDataItem14)
         Me.cboCAPMilkType.Location = New System.Drawing.Point(72, 92)
         Me.cboCAPMilkType.MendatroryField = True
         Me.cboCAPMilkType.MyLinkLable1 = Me.MyLabel50
@@ -3194,6 +3282,477 @@ Partial Class frmCorrection
         Me.txtCAPFAT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.txtCAPFAT.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
+        'RadPageViewPage8
+        '
+        Me.RadPageViewPage8.Controls.Add(Me.RadButton11)
+        Me.RadPageViewPage8.Controls.Add(Me.MyLabel65)
+        Me.RadPageViewPage8.Controls.Add(Me.lblSABMCName)
+        Me.RadPageViewPage8.Controls.Add(Me.lblSABMCCode)
+        Me.RadPageViewPage8.Controls.Add(Me.lblSABMCUploaderNo)
+        Me.RadPageViewPage8.Controls.Add(Me.MyLabel57)
+        Me.RadPageViewPage8.Controls.Add(Me.gvSA)
+        Me.RadPageViewPage8.Controls.Add(Me.lblSAAdjustAmount)
+        Me.RadPageViewPage8.Controls.Add(Me.lblSAPendingAmount)
+        Me.RadPageViewPage8.Controls.Add(Me.MyLabel67)
+        Me.RadPageViewPage8.Controls.Add(Me.lblSAAmount)
+        Me.RadPageViewPage8.Controls.Add(Me.lblSAAdjustSNFPer)
+        Me.RadPageViewPage8.Controls.Add(Me.lblSAAdjustFATPer)
+        Me.RadPageViewPage8.Controls.Add(Me.lblSAPendingSNFPer)
+        Me.RadPageViewPage8.Controls.Add(Me.lblSAPendingFATPer)
+        Me.RadPageViewPage8.Controls.Add(Me.MyLabel58)
+        Me.RadPageViewPage8.Controls.Add(Me.lblSASNFPer)
+        Me.RadPageViewPage8.Controls.Add(Me.lblSAFATPer)
+        Me.RadPageViewPage8.Controls.Add(Me.MyLabel62)
+        Me.RadPageViewPage8.Controls.Add(Me.lblSADate)
+        Me.RadPageViewPage8.Controls.Add(Me.MyLabel56)
+        Me.RadPageViewPage8.Controls.Add(Me.lblSAPendingSNFKG)
+        Me.RadPageViewPage8.Controls.Add(Me.lblSAAdjustSNFKG)
+        Me.RadPageViewPage8.Controls.Add(Me.lblSASNFKg)
+        Me.RadPageViewPage8.Controls.Add(Me.MyLabel49)
+        Me.RadPageViewPage8.Controls.Add(Me.lblSAPendingFATKG)
+        Me.RadPageViewPage8.Controls.Add(Me.lblSAAdjustFATKG)
+        Me.RadPageViewPage8.Controls.Add(Me.MyLabel48)
+        Me.RadPageViewPage8.Controls.Add(Me.lblSAFATKg)
+        Me.RadPageViewPage8.Controls.Add(Me.lblSAPendingQty)
+        Me.RadPageViewPage8.Controls.Add(Me.lblSAAdjustQty)
+        Me.RadPageViewPage8.Controls.Add(Me.lblSAQty)
+        Me.RadPageViewPage8.Controls.Add(Me.MyLabel46)
+        Me.RadPageViewPage8.Controls.Add(Me.txtSATruckSheet)
+        Me.RadPageViewPage8.Controls.Add(Me.MyLabel37)
+        Me.RadPageViewPage8.ItemSize = New System.Drawing.SizeF(124.0!, 28.0!)
+        Me.RadPageViewPage8.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage8.Name = "RadPageViewPage8"
+        Me.RadPageViewPage8.Size = New System.Drawing.Size(646, 376)
+        Me.RadPageViewPage8.Text = "Suspense Adjustment"
+        '
+        'RadButton11
+        '
+        Me.RadButton11.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadButton11.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadButton11.Location = New System.Drawing.Point(3, 353)
+        Me.RadButton11.Name = "RadButton11"
+        Me.RadButton11.Size = New System.Drawing.Size(88, 21)
+        Me.RadButton11.TabIndex = 56
+        Me.RadButton11.Text = "Save"
+        '
+        'MyLabel65
+        '
+        Me.MyLabel65.FieldName = Nothing
+        Me.MyLabel65.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel65.Location = New System.Drawing.Point(305, 35)
+        Me.MyLabel65.Name = "MyLabel65"
+        Me.MyLabel65.Size = New System.Drawing.Size(65, 16)
+        Me.MyLabel65.TabIndex = 55
+        Me.MyLabel65.Text = "BMC Name"
+        '
+        'lblSABMCName
+        '
+        Me.lblSABMCName.AutoSize = False
+        Me.lblSABMCName.BorderVisible = True
+        Me.lblSABMCName.FieldName = Nothing
+        Me.lblSABMCName.Location = New System.Drawing.Point(371, 33)
+        Me.lblSABMCName.Name = "lblSABMCName"
+        Me.lblSABMCName.Size = New System.Drawing.Size(215, 20)
+        Me.lblSABMCName.TabIndex = 54
+        Me.lblSABMCName.TextWrap = False
+        '
+        'lblSABMCCode
+        '
+        Me.lblSABMCCode.AutoSize = False
+        Me.lblSABMCCode.BorderVisible = True
+        Me.lblSABMCCode.FieldName = Nothing
+        Me.lblSABMCCode.Location = New System.Drawing.Point(158, 33)
+        Me.lblSABMCCode.Name = "lblSABMCCode"
+        Me.lblSABMCCode.Size = New System.Drawing.Size(142, 20)
+        Me.lblSABMCCode.TabIndex = 53
+        Me.lblSABMCCode.TextWrap = False
+        '
+        'lblSABMCUploaderNo
+        '
+        Me.lblSABMCUploaderNo.AutoSize = False
+        Me.lblSABMCUploaderNo.BorderVisible = True
+        Me.lblSABMCUploaderNo.FieldName = Nothing
+        Me.lblSABMCUploaderNo.Location = New System.Drawing.Point(85, 33)
+        Me.lblSABMCUploaderNo.Name = "lblSABMCUploaderNo"
+        Me.lblSABMCUploaderNo.Size = New System.Drawing.Size(69, 20)
+        Me.lblSABMCUploaderNo.TabIndex = 51
+        Me.lblSABMCUploaderNo.TextWrap = False
+        '
+        'MyLabel57
+        '
+        Me.MyLabel57.FieldName = Nothing
+        Me.MyLabel57.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel57.Location = New System.Drawing.Point(12, 35)
+        Me.MyLabel57.Name = "MyLabel57"
+        Me.MyLabel57.Size = New System.Drawing.Size(31, 16)
+        Me.MyLabel57.TabIndex = 52
+        Me.MyLabel57.Text = "BMC"
+        '
+        'gvSA
+        '
+        Me.gvSA.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.gvSA.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gvSA.Cursor = System.Windows.Forms.Cursors.Default
+        Me.gvSA.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gvSA.ForeColor = System.Drawing.Color.Black
+        Me.gvSA.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.gvSA.Location = New System.Drawing.Point(3, 129)
+        '
+        '
+        '
+        Me.gvSA.MasterTemplate.AllowDeleteRow = False
+        Me.gvSA.MasterTemplate.EnableAlternatingRowColor = True
+        Me.gvSA.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvSA.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvSA.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvSA.MyExportFilePath = ""
+        Me.gvSA.MyStopExport = False
+        Me.gvSA.Name = "gvSA"
+        Me.gvSA.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gvSA.ShowGroupPanel = False
+        Me.gvSA.ShowHeaderCellButtons = True
+        Me.gvSA.Size = New System.Drawing.Size(639, 219)
+        Me.gvSA.TabIndex = 50
+        Me.gvSA.TabStop = False
+        Me.gvSA.VarID = ""
+        '
+        'lblSAAdjustAmount
+        '
+        Me.lblSAAdjustAmount.AutoSize = False
+        Me.lblSAAdjustAmount.BorderVisible = True
+        Me.lblSAAdjustAmount.FieldName = Nothing
+        Me.lblSAAdjustAmount.Location = New System.Drawing.Point(444, 55)
+        Me.lblSAAdjustAmount.Name = "lblSAAdjustAmount"
+        Me.lblSAAdjustAmount.Size = New System.Drawing.Size(69, 20)
+        Me.lblSAAdjustAmount.TabIndex = 49
+        Me.lblSAAdjustAmount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblSAAdjustAmount.TextWrap = False
+        '
+        'lblSAPendingAmount
+        '
+        Me.lblSAPendingAmount.AutoSize = False
+        Me.lblSAPendingAmount.BorderVisible = True
+        Me.lblSAPendingAmount.FieldName = Nothing
+        Me.lblSAPendingAmount.Location = New System.Drawing.Point(517, 55)
+        Me.lblSAPendingAmount.Name = "lblSAPendingAmount"
+        Me.lblSAPendingAmount.Size = New System.Drawing.Size(69, 20)
+        Me.lblSAPendingAmount.TabIndex = 48
+        Me.lblSAPendingAmount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblSAPendingAmount.TextWrap = False
+        '
+        'MyLabel67
+        '
+        Me.MyLabel67.FieldName = Nothing
+        Me.MyLabel67.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel67.Location = New System.Drawing.Point(305, 57)
+        Me.MyLabel67.Name = "MyLabel67"
+        Me.MyLabel67.Size = New System.Drawing.Size(45, 16)
+        Me.MyLabel67.TabIndex = 46
+        Me.MyLabel67.Text = "Amount"
+        '
+        'lblSAAmount
+        '
+        Me.lblSAAmount.AutoSize = False
+        Me.lblSAAmount.BorderVisible = True
+        Me.lblSAAmount.FieldName = Nothing
+        Me.lblSAAmount.Location = New System.Drawing.Point(371, 55)
+        Me.lblSAAmount.Name = "lblSAAmount"
+        Me.lblSAAmount.Size = New System.Drawing.Size(69, 20)
+        Me.lblSAAmount.TabIndex = 47
+        Me.lblSAAmount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblSAAmount.TextWrap = False
+        '
+        'lblSAAdjustSNFPer
+        '
+        Me.lblSAAdjustSNFPer.AutoSize = False
+        Me.lblSAAdjustSNFPer.BorderVisible = True
+        Me.lblSAAdjustSNFPer.FieldName = Nothing
+        Me.lblSAAdjustSNFPer.Location = New System.Drawing.Point(444, 99)
+        Me.lblSAAdjustSNFPer.Name = "lblSAAdjustSNFPer"
+        Me.lblSAAdjustSNFPer.Size = New System.Drawing.Size(69, 20)
+        Me.lblSAAdjustSNFPer.TabIndex = 45
+        Me.lblSAAdjustSNFPer.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblSAAdjustSNFPer.TextWrap = False
+        '
+        'lblSAAdjustFATPer
+        '
+        Me.lblSAAdjustFATPer.AutoSize = False
+        Me.lblSAAdjustFATPer.BorderVisible = True
+        Me.lblSAAdjustFATPer.FieldName = Nothing
+        Me.lblSAAdjustFATPer.Location = New System.Drawing.Point(444, 77)
+        Me.lblSAAdjustFATPer.Name = "lblSAAdjustFATPer"
+        Me.lblSAAdjustFATPer.Size = New System.Drawing.Size(69, 20)
+        Me.lblSAAdjustFATPer.TabIndex = 44
+        Me.lblSAAdjustFATPer.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblSAAdjustFATPer.TextWrap = False
+        '
+        'lblSAPendingSNFPer
+        '
+        Me.lblSAPendingSNFPer.AutoSize = False
+        Me.lblSAPendingSNFPer.BorderVisible = True
+        Me.lblSAPendingSNFPer.FieldName = Nothing
+        Me.lblSAPendingSNFPer.Location = New System.Drawing.Point(517, 99)
+        Me.lblSAPendingSNFPer.Name = "lblSAPendingSNFPer"
+        Me.lblSAPendingSNFPer.Size = New System.Drawing.Size(69, 20)
+        Me.lblSAPendingSNFPer.TabIndex = 42
+        Me.lblSAPendingSNFPer.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblSAPendingSNFPer.TextWrap = False
+        '
+        'lblSAPendingFATPer
+        '
+        Me.lblSAPendingFATPer.AutoSize = False
+        Me.lblSAPendingFATPer.BorderVisible = True
+        Me.lblSAPendingFATPer.FieldName = Nothing
+        Me.lblSAPendingFATPer.Location = New System.Drawing.Point(517, 77)
+        Me.lblSAPendingFATPer.Name = "lblSAPendingFATPer"
+        Me.lblSAPendingFATPer.Size = New System.Drawing.Size(69, 20)
+        Me.lblSAPendingFATPer.TabIndex = 43
+        Me.lblSAPendingFATPer.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblSAPendingFATPer.TextWrap = False
+        '
+        'MyLabel58
+        '
+        Me.MyLabel58.FieldName = Nothing
+        Me.MyLabel58.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel58.Location = New System.Drawing.Point(305, 101)
+        Me.MyLabel58.Name = "MyLabel58"
+        Me.MyLabel58.Size = New System.Drawing.Size(42, 16)
+        Me.MyLabel58.TabIndex = 38
+        Me.MyLabel58.Text = "SNF %"
+        '
+        'lblSASNFPer
+        '
+        Me.lblSASNFPer.AutoSize = False
+        Me.lblSASNFPer.BorderVisible = True
+        Me.lblSASNFPer.FieldName = Nothing
+        Me.lblSASNFPer.Location = New System.Drawing.Point(371, 99)
+        Me.lblSASNFPer.Name = "lblSASNFPer"
+        Me.lblSASNFPer.Size = New System.Drawing.Size(69, 20)
+        Me.lblSASNFPer.TabIndex = 39
+        Me.lblSASNFPer.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblSASNFPer.TextWrap = False
+        '
+        'lblSAFATPer
+        '
+        Me.lblSAFATPer.AutoSize = False
+        Me.lblSAFATPer.BorderVisible = True
+        Me.lblSAFATPer.FieldName = Nothing
+        Me.lblSAFATPer.Location = New System.Drawing.Point(371, 77)
+        Me.lblSAFATPer.Name = "lblSAFATPer"
+        Me.lblSAFATPer.Size = New System.Drawing.Size(69, 20)
+        Me.lblSAFATPer.TabIndex = 40
+        Me.lblSAFATPer.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblSAFATPer.TextWrap = False
+        '
+        'MyLabel62
+        '
+        Me.MyLabel62.FieldName = Nothing
+        Me.MyLabel62.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel62.Location = New System.Drawing.Point(305, 79)
+        Me.MyLabel62.Name = "MyLabel62"
+        Me.MyLabel62.Size = New System.Drawing.Size(41, 16)
+        Me.MyLabel62.TabIndex = 41
+        Me.MyLabel62.Text = "FAT %"
+        '
+        'lblSADate
+        '
+        Me.lblSADate.AutoSize = False
+        Me.lblSADate.BorderVisible = True
+        Me.lblSADate.FieldName = Nothing
+        Me.lblSADate.Location = New System.Drawing.Point(371, 10)
+        Me.lblSADate.Name = "lblSADate"
+        Me.lblSADate.Size = New System.Drawing.Size(69, 20)
+        Me.lblSADate.TabIndex = 35
+        Me.lblSADate.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.lblSADate.TextWrap = False
+        '
+        'MyLabel56
+        '
+        Me.MyLabel56.FieldName = Nothing
+        Me.MyLabel56.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel56.Location = New System.Drawing.Point(305, 12)
+        Me.MyLabel56.Name = "MyLabel56"
+        Me.MyLabel56.Size = New System.Drawing.Size(30, 16)
+        Me.MyLabel56.TabIndex = 36
+        Me.MyLabel56.Text = "Date"
+        '
+        'lblSAPendingSNFKG
+        '
+        Me.lblSAPendingSNFKG.AutoSize = False
+        Me.lblSAPendingSNFKG.BorderVisible = True
+        Me.lblSAPendingSNFKG.FieldName = Nothing
+        Me.lblSAPendingSNFKG.Location = New System.Drawing.Point(231, 99)
+        Me.lblSAPendingSNFKG.Name = "lblSAPendingSNFKG"
+        Me.lblSAPendingSNFKG.Size = New System.Drawing.Size(69, 20)
+        Me.lblSAPendingSNFKG.TabIndex = 34
+        Me.lblSAPendingSNFKG.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblSAPendingSNFKG.TextWrap = False
+        '
+        'lblSAAdjustSNFKG
+        '
+        Me.lblSAAdjustSNFKG.AutoSize = False
+        Me.lblSAAdjustSNFKG.BorderVisible = True
+        Me.lblSAAdjustSNFKG.FieldName = Nothing
+        Me.lblSAAdjustSNFKG.Location = New System.Drawing.Point(158, 99)
+        Me.lblSAAdjustSNFKG.Name = "lblSAAdjustSNFKG"
+        Me.lblSAAdjustSNFKG.Size = New System.Drawing.Size(69, 20)
+        Me.lblSAAdjustSNFKG.TabIndex = 33
+        Me.lblSAAdjustSNFKG.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblSAAdjustSNFKG.TextWrap = False
+        '
+        'lblSASNFKg
+        '
+        Me.lblSASNFKg.AutoSize = False
+        Me.lblSASNFKg.BorderVisible = True
+        Me.lblSASNFKg.FieldName = Nothing
+        Me.lblSASNFKg.Location = New System.Drawing.Point(85, 99)
+        Me.lblSASNFKg.Name = "lblSASNFKg"
+        Me.lblSASNFKg.Size = New System.Drawing.Size(69, 20)
+        Me.lblSASNFKg.TabIndex = 32
+        Me.lblSASNFKg.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblSASNFKg.TextWrap = False
+        '
+        'MyLabel49
+        '
+        Me.MyLabel49.FieldName = Nothing
+        Me.MyLabel49.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel49.Location = New System.Drawing.Point(12, 101)
+        Me.MyLabel49.Name = "MyLabel49"
+        Me.MyLabel49.Size = New System.Drawing.Size(48, 16)
+        Me.MyLabel49.TabIndex = 31
+        Me.MyLabel49.Text = "SNF KG"
+        '
+        'lblSAPendingFATKG
+        '
+        Me.lblSAPendingFATKG.AutoSize = False
+        Me.lblSAPendingFATKG.BorderVisible = True
+        Me.lblSAPendingFATKG.FieldName = Nothing
+        Me.lblSAPendingFATKG.Location = New System.Drawing.Point(231, 77)
+        Me.lblSAPendingFATKG.Name = "lblSAPendingFATKG"
+        Me.lblSAPendingFATKG.Size = New System.Drawing.Size(69, 20)
+        Me.lblSAPendingFATKG.TabIndex = 27
+        Me.lblSAPendingFATKG.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblSAPendingFATKG.TextWrap = False
+        '
+        'lblSAAdjustFATKG
+        '
+        Me.lblSAAdjustFATKG.AutoSize = False
+        Me.lblSAAdjustFATKG.BorderVisible = True
+        Me.lblSAAdjustFATKG.FieldName = Nothing
+        Me.lblSAAdjustFATKG.Location = New System.Drawing.Point(158, 77)
+        Me.lblSAAdjustFATKG.Name = "lblSAAdjustFATKG"
+        Me.lblSAAdjustFATKG.Size = New System.Drawing.Size(69, 20)
+        Me.lblSAAdjustFATKG.TabIndex = 28
+        Me.lblSAAdjustFATKG.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblSAAdjustFATKG.TextWrap = False
+        '
+        'MyLabel48
+        '
+        Me.MyLabel48.FieldName = Nothing
+        Me.MyLabel48.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel48.Location = New System.Drawing.Point(12, 79)
+        Me.MyLabel48.Name = "MyLabel48"
+        Me.MyLabel48.Size = New System.Drawing.Size(47, 16)
+        Me.MyLabel48.TabIndex = 30
+        Me.MyLabel48.Text = "FAT KG"
+        '
+        'lblSAFATKg
+        '
+        Me.lblSAFATKg.AutoSize = False
+        Me.lblSAFATKg.BorderVisible = True
+        Me.lblSAFATKg.FieldName = Nothing
+        Me.lblSAFATKg.Location = New System.Drawing.Point(85, 77)
+        Me.lblSAFATKg.Name = "lblSAFATKg"
+        Me.lblSAFATKg.Size = New System.Drawing.Size(69, 20)
+        Me.lblSAFATKg.TabIndex = 29
+        Me.lblSAFATKg.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblSAFATKg.TextWrap = False
+        '
+        'lblSAPendingQty
+        '
+        Me.lblSAPendingQty.AutoSize = False
+        Me.lblSAPendingQty.BorderVisible = True
+        Me.lblSAPendingQty.FieldName = Nothing
+        Me.lblSAPendingQty.Location = New System.Drawing.Point(231, 55)
+        Me.lblSAPendingQty.Name = "lblSAPendingQty"
+        Me.lblSAPendingQty.Size = New System.Drawing.Size(69, 20)
+        Me.lblSAPendingQty.TabIndex = 23
+        Me.lblSAPendingQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblSAPendingQty.TextWrap = False
+        '
+        'lblSAAdjustQty
+        '
+        Me.lblSAAdjustQty.AutoSize = False
+        Me.lblSAAdjustQty.BorderVisible = True
+        Me.lblSAAdjustQty.FieldName = Nothing
+        Me.lblSAAdjustQty.Location = New System.Drawing.Point(158, 55)
+        Me.lblSAAdjustQty.Name = "lblSAAdjustQty"
+        Me.lblSAAdjustQty.Size = New System.Drawing.Size(69, 20)
+        Me.lblSAAdjustQty.TabIndex = 24
+        Me.lblSAAdjustQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblSAAdjustQty.TextWrap = False
+        '
+        'lblSAQty
+        '
+        Me.lblSAQty.AutoSize = False
+        Me.lblSAQty.BorderVisible = True
+        Me.lblSAQty.FieldName = Nothing
+        Me.lblSAQty.Location = New System.Drawing.Point(85, 55)
+        Me.lblSAQty.Name = "lblSAQty"
+        Me.lblSAQty.Size = New System.Drawing.Size(69, 20)
+        Me.lblSAQty.TabIndex = 25
+        Me.lblSAQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblSAQty.TextWrap = False
+        '
+        'MyLabel46
+        '
+        Me.MyLabel46.FieldName = Nothing
+        Me.MyLabel46.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel46.Location = New System.Drawing.Point(12, 57)
+        Me.MyLabel46.Name = "MyLabel46"
+        Me.MyLabel46.Size = New System.Drawing.Size(48, 16)
+        Me.MyLabel46.TabIndex = 26
+        Me.MyLabel46.Text = "Quantity"
+        '
+        'txtSATruckSheet
+        '
+        Me.txtSATruckSheet.CalculationExpression = Nothing
+        Me.txtSATruckSheet.FieldCode = Nothing
+        Me.txtSATruckSheet.FieldDesc = Nothing
+        Me.txtSATruckSheet.FieldMaxLength = 0
+        Me.txtSATruckSheet.FieldName = Nothing
+        Me.txtSATruckSheet.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtSATruckSheet.isCalculatedField = False
+        Me.txtSATruckSheet.IsSourceFromTable = False
+        Me.txtSATruckSheet.IsSourceFromValueList = False
+        Me.txtSATruckSheet.IsUnique = False
+        Me.txtSATruckSheet.Location = New System.Drawing.Point(85, 10)
+        Me.txtSATruckSheet.MendatroryField = True
+        Me.txtSATruckSheet.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSATruckSheet.MyLinkLable1 = Me.MyLabel37
+        Me.txtSATruckSheet.MyLinkLable2 = Me.lblCAPMcc
+        Me.txtSATruckSheet.MyReadOnly = False
+        Me.txtSATruckSheet.MyShowMasterFormButton = False
+        Me.txtSATruckSheet.Name = "txtSATruckSheet"
+        Me.txtSATruckSheet.ReferenceFieldDesc = Nothing
+        Me.txtSATruckSheet.ReferenceFieldName = Nothing
+        Me.txtSATruckSheet.ReferenceTableName = Nothing
+        Me.txtSATruckSheet.Size = New System.Drawing.Size(215, 21)
+        Me.txtSATruckSheet.TabIndex = 8
+        Me.txtSATruckSheet.Value = ""
+        '
+        'MyLabel37
+        '
+        Me.MyLabel37.FieldName = Nothing
+        Me.MyLabel37.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.MyLabel37.Location = New System.Drawing.Point(12, 11)
+        Me.MyLabel37.Name = "MyLabel37"
+        Me.MyLabel37.Size = New System.Drawing.Size(65, 18)
+        Me.MyLabel37.TabIndex = 9
+        Me.MyLabel37.Text = "Trcuk Sheet"
+        '
         'btnclose
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -3203,20 +3762,6 @@ Partial Class frmCorrection
         Me.btnclose.Size = New System.Drawing.Size(66, 21)
         Me.btnclose.TabIndex = 0
         Me.btnclose.Text = "Close"
-        '
-        'chkDeleteDCSCollection
-        '
-        Me.chkDeleteDCSCollection.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkDeleteDCSCollection.Location = New System.Drawing.Point(40, 83)
-        Me.chkDeleteDCSCollection.MyLinkLable1 = Nothing
-        Me.chkDeleteDCSCollection.MyLinkLable2 = Nothing
-        Me.chkDeleteDCSCollection.Name = "chkDeleteDCSCollection"
-        Me.chkDeleteDCSCollection.Size = New System.Drawing.Size(130, 18)
-        Me.chkDeleteDCSCollection.TabIndex = 372
-        Me.chkDeleteDCSCollection.Tag1 = Nothing
-        Me.chkDeleteDCSCollection.Text = "Delete DCS Collection"
-        Me.chkDeleteDCSCollection.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
-        Me.chkDeleteDCSCollection.Visible = False
         '
         'frmCorrection
         '
@@ -3302,6 +3847,7 @@ Partial Class frmCorrection
         Me.RadPageViewPage2.ResumeLayout(False)
         Me.GroupBox76.ResumeLayout(False)
         Me.GroupBox76.PerformLayout()
+        CType(Me.chkDeleteDCSCollection, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkPreviousShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkDeleteBMCCollection, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel40, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3419,8 +3965,44 @@ Partial Class frmCorrection
         CType(Me.txtCAPSNF, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel54, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtCAPFAT, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage8.ResumeLayout(False)
+        Me.RadPageViewPage8.PerformLayout()
+        CType(Me.RadButton11, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel65, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSABMCName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSABMCCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSABMCUploaderNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel57, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvSA.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvSA, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSAAdjustAmount, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSAPendingAmount, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel67, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSAAmount, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSAAdjustSNFPer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSAAdjustFATPer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSAPendingSNFPer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSAPendingFATPer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel58, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSASNFPer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSAFATPer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSADate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel56, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSAPendingSNFKG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSAAdjustSNFKG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSASNFKg, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel49, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSAPendingFATKG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSAAdjustFATKG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel48, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSAFATKg, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSAPendingQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSAAdjustQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSAQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel46, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel37, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkDeleteDCSCollection, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -3606,4 +4188,40 @@ Partial Class frmCorrection
     Friend WithEvents MyLabel36 As common.Controls.MyLabel
     Friend WithEvents txtRoute As common.UserControls.txtFinder
     Friend WithEvents chkDeleteDCSCollection As common.Controls.MyCheckBox
+    Friend WithEvents RadPageViewPage8 As RadPageViewPage
+    Friend WithEvents txtSATruckSheet As common.UserControls.txtFinder
+    Friend WithEvents MyLabel37 As common.Controls.MyLabel
+    Friend WithEvents lblSAPendingQty As common.Controls.MyLabel
+    Friend WithEvents lblSAAdjustQty As common.Controls.MyLabel
+    Friend WithEvents lblSAQty As common.Controls.MyLabel
+    Friend WithEvents MyLabel46 As common.Controls.MyLabel
+    Friend WithEvents lblSAPendingFATKG As common.Controls.MyLabel
+    Friend WithEvents lblSAAdjustFATKG As common.Controls.MyLabel
+    Friend WithEvents MyLabel48 As common.Controls.MyLabel
+    Friend WithEvents lblSAFATKg As common.Controls.MyLabel
+    Friend WithEvents lblSAPendingSNFKG As common.Controls.MyLabel
+    Friend WithEvents lblSAAdjustSNFKG As common.Controls.MyLabel
+    Friend WithEvents lblSASNFKg As common.Controls.MyLabel
+    Friend WithEvents MyLabel49 As common.Controls.MyLabel
+    Friend WithEvents lblSADate As common.Controls.MyLabel
+    Friend WithEvents MyLabel56 As common.Controls.MyLabel
+    Friend WithEvents MyLabel58 As common.Controls.MyLabel
+    Friend WithEvents lblSASNFPer As common.Controls.MyLabel
+    Friend WithEvents lblSAFATPer As common.Controls.MyLabel
+    Friend WithEvents MyLabel62 As common.Controls.MyLabel
+    Friend WithEvents lblSAAdjustAmount As common.Controls.MyLabel
+    Friend WithEvents lblSAPendingAmount As common.Controls.MyLabel
+    Friend WithEvents MyLabel67 As common.Controls.MyLabel
+    Friend WithEvents lblSAAmount As common.Controls.MyLabel
+    Friend WithEvents lblSAAdjustSNFPer As common.Controls.MyLabel
+    Friend WithEvents lblSAAdjustFATPer As common.Controls.MyLabel
+    Friend WithEvents lblSAPendingSNFPer As common.Controls.MyLabel
+    Friend WithEvents lblSAPendingFATPer As common.Controls.MyLabel
+    Friend WithEvents gvSA As common.UserControls.MyRadGridView
+    Friend WithEvents MyLabel65 As common.Controls.MyLabel
+    Friend WithEvents lblSABMCName As common.Controls.MyLabel
+    Friend WithEvents lblSABMCCode As common.Controls.MyLabel
+    Friend WithEvents lblSABMCUploaderNo As common.Controls.MyLabel
+    Friend WithEvents MyLabel57 As common.Controls.MyLabel
+    Friend WithEvents RadButton11 As RadButton
 End Class
