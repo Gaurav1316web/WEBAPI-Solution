@@ -7,7 +7,8 @@ Imports System.Text.RegularExpressions
 Public Class rptItemWiseBillReport
     Inherits FrmMainTranScreen
     Private Sub rptItemWiseBillReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
+        txtToDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy")
+        txtFromDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy")
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
@@ -76,7 +77,8 @@ LEFT JOIN TSPL_CUSTOMER_MASTER
     ) AS ItemCF 
          ON ItemCF.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code 
         AND ItemCF.UOM_Code = TSPL_SD_SALE_INVOICE_DETAIL.Billing_Unit_code
-" + whrcls + "
+WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >=(convert(date,(''" & txtFromDate.Value & "''),103))
+  AND CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) < (convert(date,(''" & txtToDate.Value & "''),103))
 GROUP BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code, TSPL_SD_SALE_INVOICE_HEAD.Document_Date
 ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Date;';
 
@@ -114,6 +116,18 @@ EXEC sp_executesql @sql; "
         End Try
     End Sub
     Sub EnableDisableCntrl(ByVal val As Boolean)
+        RadGroupBox1.Enabled = False
+    End Sub
+    Sub Reset()
+        gv1.DataSource = Nothing
+        RadPageView1.SelectedPage = RadPageViewPage1
+        RadGroupBox1.Enabled = True
+        txtToDate.Value = clsCommon.GETSERVERDATE()
+        txtFromDate.Value = clsCommon.GETSERVERDATE()
 
+    End Sub
+
+    Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
+        Reset()
     End Sub
 End Class

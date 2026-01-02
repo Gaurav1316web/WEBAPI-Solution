@@ -74,18 +74,17 @@ Partial Class rptItemWiseBillReport
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
         Me.SplitContainer1.Size = New System.Drawing.Size(800, 450)
-        Me.SplitContainer1.SplitterDistance = 408
+        Me.SplitContainer1.SplitterDistance = 407
         Me.SplitContainer1.TabIndex = 0
         '
         'RadPageView1
         '
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
-        Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(800, 408)
+        Me.RadPageView1.Size = New System.Drawing.Size(800, 418)
         Me.RadPageView1.TabIndex = 4
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -95,7 +94,7 @@ Partial Class rptItemWiseBillReport
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(41.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 360)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 370)
         Me.RadPageViewPage1.Text = "Filter"
         '
         'RadPanel1
@@ -104,7 +103,7 @@ Partial Class rptItemWiseBillReport
         Me.RadPanel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPanel1.Location = New System.Drawing.Point(0, 0)
         Me.RadPanel1.Name = "RadPanel1"
-        Me.RadPanel1.Size = New System.Drawing.Size(779, 360)
+        Me.RadPanel1.Size = New System.Drawing.Size(779, 370)
         Me.RadPanel1.TabIndex = 15
         '
         'RadGroupBox1
@@ -231,7 +230,7 @@ Partial Class rptItemWiseBillReport
         '
         'btnGo
         '
-        Me.btnGo.Location = New System.Drawing.Point(18, 8)
+        Me.btnGo.Location = New System.Drawing.Point(18, 11)
         Me.btnGo.Name = "btnGo"
         Me.btnGo.Size = New System.Drawing.Size(68, 18)
         Me.btnGo.TabIndex = 4
@@ -239,7 +238,7 @@ Partial Class rptItemWiseBillReport
         '
         'btnReset
         '
-        Me.btnReset.Location = New System.Drawing.Point(92, 8)
+        Me.btnReset.Location = New System.Drawing.Point(92, 10)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(68, 18)
         Me.btnReset.TabIndex = 3
