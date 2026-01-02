@@ -12,157 +12,184 @@ Public Class FrmEwaybill
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
         End If
-
     End Sub
     Private Sub FrmEwaybill_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        SetUserMgmtNew()
-        CreateTable()
-        LoadEwaybillType()
-        LoadvechicleReasonType()
-        LoadExtendValidity()
-        LoadConsignmentType()
-        Reset()
+        Try
+            SetUserMgmtNew()
+            CreateTable()
+            LoadEwaybillType()
+            LoadvechicleReasonType()
+            LoadExtendValidity()
+            LoadConsignmentType()
+            Reset()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Sub LoadEwaybillType()
-        Dim dt As New DataTable()
-        dt.Columns.Add("Code", GetType(String))
-        dt.Columns.Add("Name", GetType(String))
-        Dim dr As DataRow = Nothing
-        dr = dt.NewRow()
-        dr("Code") = ""
-        dr("Name") = "-- Select Eway Bill Types --"
-        dt.Rows.Add(dr)
-        dr = dt.NewRow()
-        dr("Code") = "Eway Bill Details"
-        dr("Name") = "Eway Bill Details"
-        dt.Rows.Add(dr)
-        dr = dt.NewRow()
-        dr("Code") = "Update Transpoter"
-        dr("Name") = "Update Transpoter"
-        dt.Rows.Add(dr)
-        dr = dt.NewRow()
-        dr("Code") = "Update PART-B"
-        dr("Name") = "Update PART-B/Vehicle Number"
-        dt.Rows.Add(dr)
-        dr = dt.NewRow()
-        dr("Code") = "Cancel Eway Bill"
-        dr("Name") = "Cancel Eway Bill"
-        dt.Rows.Add(dr)
-        dr = dt.NewRow()
-        dr("Code") = "Eway Bills By Date"
-        dr("Name") = "Eway Bills By Date"
-        dt.Rows.Add(dr)
-        dr = dt.NewRow()
-        dr("Code") = "Extend Validity of Eway Bill"
-        dr("Name") = "Extend Validity of Eway Bill"
-        dt.Rows.Add(dr)
-        dr = dt.NewRow()
-        dr("Code") = "Error List"
-        dr("Name") = "Error List"
-        dt.Rows.Add(dr)
-        cmbEwaybillType.ValueMember = "Code"
-        cmbEwaybillType.DisplayMember = "Name"
-        cmbEwaybillType.DataSource = dt
+        Try
+            Dim dt As New DataTable()
+            dt.Columns.Add("Code", GetType(String))
+            dt.Columns.Add("Name", GetType(String))
+            Dim dr As DataRow = Nothing
+            dr = dt.NewRow()
+            dr("Code") = ""
+            dr("Name") = "-- Select Eway Bill Types --"
+            dt.Rows.Add(dr)
+            dr = dt.NewRow()
+            dr("Code") = "Eway Bill Details"
+            dr("Name") = "Eway Bill Details"
+            dt.Rows.Add(dr)
+            dr = dt.NewRow()
+            dr("Code") = "Update Transpoter"
+            dr("Name") = "Update Transpoter"
+            dt.Rows.Add(dr)
+            dr = dt.NewRow()
+            dr("Code") = "Update PART-B"
+            dr("Name") = "Update PART-B/Vehicle Number"
+            dt.Rows.Add(dr)
+            dr = dt.NewRow()
+            dr("Code") = "Cancel Eway Bill"
+            dr("Name") = "Cancel Eway Bill"
+            dt.Rows.Add(dr)
+            dr = dt.NewRow()
+            dr("Code") = "Eway Bills By Date"
+            dr("Name") = "Eway Bills By Date"
+            dt.Rows.Add(dr)
+            dr = dt.NewRow()
+            dr("Code") = "Extend Validity of Eway Bill"
+            dr("Name") = "Extend Validity of Eway Bill"
+            dt.Rows.Add(dr)
+            dr = dt.NewRow()
+            dr("Code") = "Error List"
+            dr("Name") = "Error List"
+            dt.Rows.Add(dr)
+            cmbEwaybillType.ValueMember = "Code"
+            cmbEwaybillType.DisplayMember = "Name"
+            cmbEwaybillType.DataSource = dt
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
     Sub LoadvechicleReasonType()
-        Dim dt As New DataTable()
-        dt.Columns.Add("Code", GetType(String))
-        dt.Columns.Add("Name", GetType(String))
-        Dim dr As DataRow = Nothing
-        dr = dt.NewRow()
-        dr("Code") = ""
-        dr("Name") = "-- Select Reason Type --"
-        dt.Rows.Add(dr)
-        dr = dt.NewRow()
-        dr("Code") = "1"
-        dr("Name") = "Due to Breakdown"
-        dt.Rows.Add(dr)
-        dr = dt.NewRow()
-        dr("Code") = "2"
-        dr("Name") = "Due to Transshipment"
-        dt.Rows.Add(dr)
-        'dr = dt.NewRow()
-        'dr("Code") = "4"
-        'dr("Name") = "First Time "
-        'dt.Rows.Add(dr)
-        dr = dt.NewRow()
-        dr("Code") = "3"
-        dr("Name") = "Others"
-        dt.Rows.Add(dr)
-        cmbReasonForUpdateVehicle.ValueMember = "Code"
-        cmbReasonForUpdateVehicle.DisplayMember = "Name"
-        cmbReasonForUpdateVehicle.DataSource = dt
+        Try
+            Dim dt As New DataTable()
+            dt.Columns.Add("Code", GetType(String))
+            dt.Columns.Add("Name", GetType(String))
+            Dim dr As DataRow = Nothing
+            dr = dt.NewRow()
+            dr("Code") = ""
+            dr("Name") = "-- Select Reason Type --"
+            dt.Rows.Add(dr)
+            dr = dt.NewRow()
+            dr("Code") = "1"
+            dr("Name") = "Due to Breakdown"
+            dt.Rows.Add(dr)
+            dr = dt.NewRow()
+            dr("Code") = "2"
+            dr("Name") = "Due to Transshipment"
+            dt.Rows.Add(dr)
+            'dr = dt.NewRow()
+            'dr("Code") = "4"
+            'dr("Name") = "First Time "
+            'dt.Rows.Add(dr)
+            dr = dt.NewRow()
+            dr("Code") = "3"
+            dr("Name") = "Others"
+            dt.Rows.Add(dr)
+            cmbReasonForUpdateVehicle.ValueMember = "Code"
+            cmbReasonForUpdateVehicle.DisplayMember = "Name"
+            cmbReasonForUpdateVehicle.DataSource = dt
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
     Sub LoadExtendValidity()
-        Dim dt As New DataTable()
-        dt.Columns.Add("Code", GetType(String))
-        dt.Columns.Add("Name", GetType(String))
-        Dim dr As DataRow = Nothing
-        dr = dt.NewRow()
-        dr("Code") = ""
-        dr("Name") = "-- Select Extend Validity Reason --"
-        dt.Rows.Add(dr)
-        dr = dt.NewRow()
-        dr("Code") = "1"
-        dr("Name") = "Natural Calamity"
-        dt.Rows.Add(dr)
-        dr = dt.NewRow()
-        dr("Code") = "2"
-        dr("Name") = "Law and Order Situation"
-        dt.Rows.Add(dr)
-        dr = dt.NewRow()
-        dr("Code") = "4"
-        dr("Name") = "Transshipment"
-        dt.Rows.Add(dr)
-        dr = dt.NewRow()
-        dr("Code") = "5"
-        dr("Name") = "Accident"
-        dt.Rows.Add(dr)
-        dr = dt.NewRow()
-        dr("Code") = "99"
-        dr("Name") = "Others"
-        dt.Rows.Add(dr)
-        cmbExtendValidityReason.ValueMember = "Code"
-        cmbExtendValidityReason.DisplayMember = "Name"
-        cmbExtendValidityReason.DataSource = dt
+        Try
+            Dim dt As New DataTable()
+            dt.Columns.Add("Code", GetType(String))
+            dt.Columns.Add("Name", GetType(String))
+            Dim dr As DataRow = Nothing
+            dr = dt.NewRow()
+            dr("Code") = ""
+            dr("Name") = "-- Select Extend Validity Reason --"
+            dt.Rows.Add(dr)
+            dr = dt.NewRow()
+            dr("Code") = "1"
+            dr("Name") = "Natural Calamity"
+            dt.Rows.Add(dr)
+            dr = dt.NewRow()
+            dr("Code") = "2"
+            dr("Name") = "Law and Order Situation"
+            dt.Rows.Add(dr)
+            dr = dt.NewRow()
+            dr("Code") = "4"
+            dr("Name") = "Transshipment"
+            dt.Rows.Add(dr)
+            dr = dt.NewRow()
+            dr("Code") = "5"
+            dr("Name") = "Accident"
+            dt.Rows.Add(dr)
+            dr = dt.NewRow()
+            dr("Code") = "99"
+            dr("Name") = "Others"
+            dt.Rows.Add(dr)
+            cmbExtendValidityReason.ValueMember = "Code"
+            cmbExtendValidityReason.DisplayMember = "Name"
+            cmbExtendValidityReason.DataSource = dt
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
     Sub LoadConsignmentType()
-        Dim dt As New DataTable()
-        dt.Columns.Add("Code", GetType(String))
-        dt.Columns.Add("Name", GetType(String))
-        Dim dr As DataRow = Nothing
-        dr = dt.NewRow()
-        dr("Code") = ""
-        dr("Name") = "-- Select Consignment Status --"
-        dt.Rows.Add(dr)
-        dr = dt.NewRow()
-        dr("Code") = "M"
-        dr("Name") = "inMovement"
-        dt.Rows.Add(dr)
-        dr = dt.NewRow()
-        dr("Code") = "T"
-        dr("Name") = "inTransit"
-        dt.Rows.Add(dr)
-        cmbConsignmentStatus.ValueMember = "Code"
-        cmbConsignmentStatus.DisplayMember = "Name"
-        cmbConsignmentStatus.DataSource = dt
+        Try
+            Dim dt As New DataTable()
+            dt.Columns.Add("Code", GetType(String))
+            dt.Columns.Add("Name", GetType(String))
+            Dim dr As DataRow = Nothing
+            dr = dt.NewRow()
+            dr("Code") = ""
+            dr("Name") = "-- Select Consignment Status --"
+            dt.Rows.Add(dr)
+            dr = dt.NewRow()
+            dr("Code") = "M"
+            dr("Name") = "inMovement"
+            dt.Rows.Add(dr)
+            dr = dt.NewRow()
+            dr("Code") = "T"
+            dr("Name") = "inTransit"
+            dt.Rows.Add(dr)
+            cmbConsignmentStatus.ValueMember = "Code"
+            cmbConsignmentStatus.DisplayMember = "Name"
+            cmbConsignmentStatus.DataSource = dt
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
     Private Sub btnreset_Click(sender As Object, e As EventArgs) Handles btnreset.Click
-        Reset()
+        Try
+            Reset()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Private Sub Reset()
-        cmbEwaybillType.SelectedValue = ""
-        txtewbno.Enabled = False
-        txtewbno.Value = ""
-        txtTransID.Value = ""
-        txtVehicleNo.Value = ""
-        cmbExtendValidityReason.SelectedValue = ""
-        cmbReasonForUpdateVehicle.SelectedValue = ""
-        cmbConsignmentStatus.SelectedValue = ""
-        txtRemaningDistance.Text = ""
-        txtDate.Value = clsCommon.GETSERVERDATE()
-        txtDate.Enabled = False
-        txtLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+        Try
+            cmbEwaybillType.SelectedValue = ""
+            txtewbno.Enabled = False
+            txtewbno.Value = ""
+            txtTransID.Value = ""
+            txtVehicleNo.Value = ""
+            cmbExtendValidityReason.SelectedValue = ""
+            cmbReasonForUpdateVehicle.SelectedValue = ""
+            cmbConsignmentStatus.SelectedValue = ""
+            txtRemaningDistance.Text = ""
+            txtDate.Value = clsCommon.GETSERVERDATE()
+            txtDate.Enabled = False
+            txtLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
     Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
         Me.Close()
