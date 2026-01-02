@@ -117,28 +117,24 @@ Public Class rptSalesReport
             Dim itemSumBagName As String = Nothing
             Dim itemPivBagName As String = Nothing
             If rbnPricegroup.Checked Then
-                Itemqry = " Select price_code from TSPL_PRICE_COMPONENT_MAPPING union select  'Other' as price_code "
+                Itemqry = " Select price_code,price_code + 'Bag' as price_code_Bag from TSPL_PRICE_COMPONENT_MAPPING union select  'Other' as price_code,'OtherBag' as price_code_Bag "
             ElseIf rbnCustgroup.Checked Then
                 Itemqry = " Select cust_group_code as price_code,cust_group_code +'Bag' as price_code_Bag from tspl_Customer_Group_Master union select 'Other' as price_code,'OtherBag' as price_code_Bag "
             End If
             Dim dtitemName As DataTable = clsDBFuncationality.GetDataTable(Itemqry)
             If dtitemName.Rows.Count > 0 Then
-                For i As Integer = 0 To dtitemName.Rows.Count - 1   
+                For i As Integer = 0 To dtitemName.Rows.Count - 1
                     If i = 0 Then
                         itemNames1 += "[" + clsCommon.myCstr(dtitemName.Rows(i)("price_code")) + "] "
                         itemNames2 += " IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("price_code")) + "],0) As [" + clsCommon.myCstr(dtitemName.Rows(i)("price_code")) + "]"
                         itemNames3 += " ISNULL([" + clsCommon.myCstr(dtitemName.Rows(i)("price_code")) + "],0)"
                         itemNames4 += " Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("price_code")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("price_code")) + "]"
-                        If rbnCustgroup.Checked Then
-                            itemPivBagName += " [" + clsCommon.myCstr(dtitemName.Rows(i)("price_code_Bag")) + "] "
-                            itemSumBagName += " ISNULL([" + clsCommon.myCstr(dtitemName.Rows(i)("price_code_Bag")) + "],0)"
-                        End If
+                        itemPivBagName += " [" + clsCommon.myCstr(dtitemName.Rows(i)("price_code_Bag")) + "] "
+                        itemSumBagName += " ISNULL([" + clsCommon.myCstr(dtitemName.Rows(i)("price_code_Bag")) + "],0)"
                     Else
                         itemNames1 += ", [" + clsCommon.myCstr(dtitemName.Rows(i)("price_code")) + "] "
-                        If rbnCustgroup.Checked Then
-                            itemPivBagName += ", [" + clsCommon.myCstr(dtitemName.Rows(i)("price_code_Bag")) + "] "
-                            itemSumBagName += "+" + "ISNULL([" + clsCommon.myCstr(dtitemName.Rows(i)("price_code_Bag")) + "],0)"
-                        End If
+                        itemPivBagName += ", [" + clsCommon.myCstr(dtitemName.Rows(i)("price_code_Bag")) + "] "
+                        itemSumBagName += "+" + "ISNULL([" + clsCommon.myCstr(dtitemName.Rows(i)("price_code_Bag")) + "],0)"
                         itemNames2 += ", IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("price_code")) + "],0) As [" + clsCommon.myCstr(dtitemName.Rows(i)("price_code")) + "]"
                         itemNames3 += "+" + "ISNULL([" + clsCommon.myCstr(dtitemName.Rows(i)("price_code")) + "],0)"
                         itemNames4 += ", Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("price_code")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("price_code")) + "]"
@@ -171,11 +167,11 @@ Public Class rptSalesReport
                 If Not PCGroup Then
                     qry = " Select * from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date," & itemNames2 & ",
                       (" & itemNames3 & ") as [Total Sale],
-                    QuantityBag as [Total BagSale]
+                    (" & itemSumBagName & ") as [Total BagSale]
                       FROM ( "
                 End If
 
-                qry += " Select Location,max(Location_Desc)Location_Desc,max(Add1)Add1,max(Add4)Add4,Document_Date,Sum(SaleQty-ReturnQty)Quantity,Sum(SaleQtyBag-ReturnQtyBag)QuantityBag,price_CodeNon
+                qry += " Select Location,max(Location_Desc)Location_Desc,max(Add1)Add1,max(Add4)Add4,Document_Date,Sum(SaleQty-ReturnQty)Quantity,Sum(SaleQtyBag-ReturnQtyBag)QuantityBag,price_CodeNon,case when isnull(price_CodeNon,'')= '' then 'OtherBag' else price_CodeNon + 'Bag' end as price_CodeNonBag
                       from (Select Location,max(xx.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add4)Add4,xx.Document_Date,Sum(xx.SaleQty)SaleQty,sum(xx.SaleQtyBag)SaleQtyBag,
                       sum(xx.ReturnQty)ReturnQty,sum(xx.ReturnQtyBag)ReturnQtyBag,case when isnull(xx.price_CodeNon,'')= '' then 'Other' else xx.price_CodeNon end as price_CodeNon from
                       (Select TSPL_SD_SHIPMENT_DETAIL.Location,max(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,max(TSPL_LOCATION_MASTER.Add4)Add4,convert (date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty/TSPL_ITEM_UOM_QTL.Conversion_Factor) as SaleQty,
@@ -256,18 +252,17 @@ Public Class rptSalesReport
                 qry += "	 group by convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103),price_CodeNon,Location)XX group by xx.Location,xx.Document_Date,
                              xx.price_CodeNon )Tab1 "
                 If Not PCGroup Then
-                    qry += "    PIVOT (SUM(Quantity) FOR price_CodeNon IN (" & itemNames1 & "))AS Tab2)tmp  "
+                    qry += "    PIVOT (SUM(Quantity) FOR price_CodeNon IN (" & itemNames1 & "))AS Tab2   PIVOT (SUM(QuantityBag) FOR price_CodeNonBag IN (" & itemPivBagName & " ))AS PivBag )tmp  "
                 End If
 
             ElseIf rbnPricegroup.Checked AndAlso rdbInvoice.IsChecked = True AndAlso rdbSaleTransfer.IsChecked = True Then
                 If Not PCGroup Then
                     qry = " Select * from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date," & itemNames2 & ",
                       (" & itemNames3 & ") as [Total Sale],
-                    QuantityBag as [Total BagSale]
+                     (" & itemSumBagName & ") as [Total BagSale]
                       FROM ("
                 End If
-
-                qry += " Select Location,max(Location_Desc)Location_Desc,max(Add1)Add1,max(Add4)Add4,Document_Date,Sum(SaleQty-ReturnQty)Quantity,Sum(SaleQtyBag-ReturnQtyBag)QuantityBag,price_CodeNon 
+                qry += " Select Location,max(Location_Desc)Location_Desc,max(Add1)Add1,max(Add4)Add4,Document_Date,Sum(SaleQty-ReturnQty)Quantity,Sum(SaleQtyBag-ReturnQtyBag)QuantityBag,price_CodeNon ,case when isnull(price_CodeNon,'')= '' then 'OtherBag' else price_CodeNon + 'Bag' end as price_CodeNonBag
 					  from (Select Location,max(xx.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add4)Add4,xx.Document_Date,Sum(xx.SaleQty)SaleQty,sum(xx.SaleQtyBag)SaleQtyBag,
                       sum(xx.ReturnQty)ReturnQty,sum(xx.ReturnQtyBag)ReturnQtyBag,case when isnull(xx.price_CodeNon,'')= '' then 'Other' else xx.price_CodeNon end as price_CodeNon from
 					  (SELECT TSPL_SD_SALE_INVOICE_DETAIL.Location,max(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,
@@ -347,7 +342,7 @@ Public Class rptSalesReport
 									 
 									 )XX group by xx.Location,xx.Document_Date,xx.price_CodeNon )Tab1 "
                  If Not PCGroup Then
-                    qry += " PIVOT (SUM(Quantity) FOR price_CodeNon IN (" & itemNames1 & "))AS Tab2)tmp  "
+                    qry += " PIVOT (SUM(Quantity) FOR price_CodeNon IN (" & itemNames1 & "))AS Tab2 PIVOT (SUM(QuantityBag) FOR price_CodeNonBag IN (" & itemPivBagName & " ))AS PivBag  )tmp  "
 
                 End If
 
@@ -358,14 +353,14 @@ Public Class rptSalesReport
                            (Document_Date)Document_Date," & itemNames4 & ",Sum([Total Sale])[Total Sale],sum([Total BagSale])[Total BagSale]
                           from (SELECT  Location,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date,
                           " & itemNames2 & ", " & itemNames3 & " as [Total Sale],
-                            QuantityBag as [Total BagSale]
+                             (" & itemSumBagName & ") as [Total BagSale]
   FROM ("
                 End If
 
 
                 qry += " SELECT XX.Location,MAX(XX.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add4)Add4,(xx.Document_Date)Document_Date,
                                    Cast(sum(xx.Quantity) as Decimal(10,2))Quantity,Cast(Sum(xx.QuantityBag) as Decimal(10,2))QuantityBag,
-                                    case when isnull(price_CodeNon,'')= '' then 'Other' else price_CodeNon end as price_CodeNon FROM (SELECT TSPL_SD_SHIPMENT_DETAIL.Location,max(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,max(TSPL_LOCATION_MASTER.Add4)Add4,
+                                    case when isnull(price_CodeNon,'')= '' then 'Other' else price_CodeNon end as price_CodeNon,case when isnull(price_CodeNon,'')= '' then 'OtherBag' else price_CodeNon + 'Bag' end as price_CodeNonBag FROM (SELECT TSPL_SD_SHIPMENT_DETAIL.Location,max(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,max(TSPL_LOCATION_MASTER.Add4)Add4,
                                     convert (date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty/TSPL_ITEM_UOM_QTL.Conversion_Factor) as Quantity,
                                     Sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty/TSPL_ITEM_UOM_BAG.Conversion_Factor) as QuantityBag, price_CodeNon 
                                     FROM TSPL_SD_SHIPMENT_DETAIL
@@ -422,7 +417,7 @@ Public Class rptSalesReport
 
                 qry += " group by convert (date,TSPL_SCRAPSALE_HEAD.shipment_Date,103),price_CodeNon,Loc_Code )XX GROUP BY xx.Document_Date,XX.price_CodeNon,XX.Location )Tab1 "
                 If Not PCGroup Then
-                    qry += "   PIVOT (SUM(Quantity) FOR price_CodeNon IN (" & itemNames1 & "))AS Tab2)tmp group by Document_Date ,Location order by Document_Date    "
+                    qry += "   PIVOT (SUM(Quantity) FOR price_CodeNon IN (" & itemNames1 & "))AS Tab2 PIVOT (SUM(QuantityBag) FOR price_CodeNonBag IN (" & itemPivBagName & " ))AS PivBag )tmp group by Document_Date ,Location order by Document_Date    "
                 End If
 
             ElseIf rbnPricegroup.Checked AndAlso rdbInvoice.IsChecked = True Then
@@ -433,13 +428,13 @@ Public Class rptSalesReport
                            (Document_Date)Document_Date," & itemNames4 & ",Sum([Total Sale])[Total Sale],sum([Total BagSale])[Total BagSale]
                           from (SELECT  Location,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date,
                           " & itemNames2 & ", " & itemNames3 & " as [Total Sale],
-                            QuantityBag as [Total BagSale]
+                             (" & itemSumBagName & ") as [Total BagSale]
   FROM ("
                 End If
 
                 qry += " SELECT XX.Location,MAX(XX.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add4)Add4,(xx.Document_Date)Document_Date,
                                    Cast(sum(xx.Quantity) as Decimal(10,2))Quantity,Cast(Sum(xx.QuantityBag) as Decimal(10,2))QuantityBag,
-                                    case when isnull(xx.price_CodeNon,'')= '' then 'Other' else xx.price_CodeNon end as price_CodeNon FROM (SELECT TSPL_SD_SALE_INVOICE_DETAIL.Location,max(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,max(TSPL_LOCATION_MASTER.Add4)Add4,
+                                    case when isnull(xx.price_CodeNon,'')= '' then 'Other' else xx.price_CodeNon end as price_CodeNon,case when isnull(price_CodeNon,'')= '' then 'OtherBag' else price_CodeNon + 'Bag' end as price_CodeNonBag FROM (SELECT TSPL_SD_SALE_INVOICE_DETAIL.Location,max(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,max(TSPL_LOCATION_MASTER.Add4)Add4,
                                     convert (date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Document_Date,
                                    sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_INVOICE_DETAIL.Qty/TSPL_ITEM_UOM_QTL.Conversion_Factor) as Quantity,
                                     Sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_INVOICE_DETAIL.Qty/TSPL_ITEM_UOM_BAG.Conversion_Factor) as QuantityBag,price_CodeNon 
@@ -496,24 +491,24 @@ Public Class rptSalesReport
 
                 qry += " group by convert (date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103),price_CodeNon,Loc_Code )XX GROUP BY xx.Document_Date,XX.price_CodeNon,XX.Location )Tab1 "
                 If Not PCGroup Then
-                    qry += " PIVOT (SUM(Quantity) FOR price_CodeNon IN (" & itemNames1 & "))AS Tab2)tmp group by Document_Date ,Location order by Document_Date    "
+                    qry += " PIVOT (SUM(Quantity) FOR price_CodeNon IN (" & itemNames1 & "))AS Tab2 PIVOT (SUM(QuantityBag) FOR price_CodeNonBag IN (" & itemPivBagName & " ))AS PivBag  )tmp group by Document_Date ,Location order by Document_Date    "
                 End If
 
 
             ElseIf rbnPricegroup.Checked AndAlso rdbSaleReturn.IsChecked = True Then
                     If Not PCGroup Then
-                        qry = "   Select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,MONTH(convert(date,Document_Date,103)) AS MonthNumber,max(Location)Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate,
+                    qry = "   Select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,MONTH(convert(date,Document_Date,103)) AS MonthNumber,max(Location)Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate,
                           '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,max([Location Description])[Location Description],max(Add1)Add1,max(Add4)Add4,
                            (Document_Date)Document_Date," & itemNames4 & ",Sum([Total Sale])[Total Sale],sum([Total BagSale])[Total BagSale]
                           from (SELECT  Location,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date,
                           " & itemNames2 & ", " & itemNames3 & " as [Total Sale],
-                            QuantityBag as [Total BagSale]
+                             (" & itemSumBagName & ") as [Total BagSale]
                               FROM ("
-                    End If
+                End If
 
                     qry += " SELECT XX.Location,MAX(XX.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add4)Add4,(xx.Document_Date)Document_Date,
                                    Cast(sum(xx.Quantity) as Decimal(10,2))Quantity,Cast(Sum(xx.QuantityBag) as Decimal(10,2))QuantityBag,
-                                    case when isnull(xx.price_CodeNon,'')= '' then 'Other' else xx.price_CodeNon end as price_CodeNon FROM 
+                                    case when isnull(xx.price_CodeNon,'')= '' then 'Other' else xx.price_CodeNon end as price_CodeNon,case when isnull(price_CodeNon,'')= '' then 'OtherBag' else price_CodeNon + 'Bag' end as price_CodeNonBag FROM 
                                    (SELECT TSPL_SD_SALE_RETURN_DETAIL.Location,MAX(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,
                                     max(TSPL_LOCATION_MASTER.Add4)Add4,convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) as Document_Date,
                                     sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_RETURN_DETAIL.Qty/TSPL_ITEM_UOM_QTL.Conversion_Factor) as Quantity,
@@ -569,8 +564,8 @@ SELECT TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code,max(TSPL_LOCATION_MASTER.Location_Des
                 qry += " group by convert (date,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103),price_CodeNon,Loc_Code)XX  GROUP BY xx.Document_Date,XX.price_CodeNon,XX.Location
 )Tab1 "
                     If Not PCGroup Then
-                        qry += "  PIVOT (SUM(Quantity) FOR price_CodeNon IN (" & itemNames1 & "))AS Tab2)tmp group by Document_Date ,Location order by Document_Date    "
-                    End If
+                    qry += "  PIVOT (SUM(Quantity) FOR price_CodeNon IN (" & itemNames1 & "))AS Tab2 PIVOT (SUM(QuantityBag) FOR price_CodeNonBag IN (" & itemPivBagName & " ))AS PivBag  )tmp group by Document_Date ,Location order by Document_Date    "
+                End If
 
 
                 Else
