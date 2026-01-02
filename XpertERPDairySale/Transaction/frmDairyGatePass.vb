@@ -59,6 +59,7 @@ Public Class frmDairyGatePass
     Dim isCTQtyUpdate As Boolean = False
     Dim SettCreateProvisionOnOpeningAndClosingKM As Boolean = False
     Dim IsLoadingSlipMandatory As Boolean = False
+    Dim CreateAutoGatePass As Boolean = False
     Dim CreateGatePassFromDemand As Boolean = False
     Public arrShipmentFromMultiple As ArrayList
     Public Property routeno As String
@@ -134,6 +135,7 @@ Public Class frmDairyGatePass
         SetDefaultShiftTime = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SetDefaultShiftTime, clsFixedParameterCode.SetDefaultShiftTime, Nothing))
         ApplyDepartmentRoute = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, Nothing)) = 1, True, False)
         DifferentCrateTypeForFGItem = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DifferentCrateTypeForFGItem, clsFixedParameterCode.DifferentCrateTypeForFGItem, Nothing)) = 1, True, False)
+        CreateAutoGatePass = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateAutoGatePass, clsFixedParameterCode.CreateAutoGatePass, Nothing)) = 1, True, False)
 
         Addnew()
         LoadBlankGrid()
@@ -197,10 +199,20 @@ Public Class frmDairyGatePass
             rbtnMorning.IsChecked = True
             txtTripNo.Text = "1"
             funFillGrid()
+            If CreateAutoGatePass Then
+                txtLoadingSlip.Text = "1"
+                btnSave_Click(btnSave, New EventArgs())
+                Me.Close()
+            End If
         ElseIf clsCommon.CompairString(Shifttype, "PM") = CompairStringResult.Equal Then
             rbtnEvening.IsChecked = True
             txtTripNo.Text = "1"
             funFillGrid()
+            If CreateAutoGatePass Then
+                txtLoadingSlip.Text = "1"
+                btnSave_Click(btnSave, New EventArgs())
+                Me.Close()
+            End If
         End If
         '  LoadData(txtCode.Value, NavigatorType.Current)
     End Sub

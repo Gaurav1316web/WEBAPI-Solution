@@ -9,6 +9,7 @@ Public Class frmShipmentDairy
     Dim ParentDocNo As String = ""
     Dim CreditCustDoc As String = ""
     Dim defaultScreenstartup As Boolean = True
+    Dim CreateAutoGatePass As Boolean = False
     Dim DefaultEnableEWayBill As Boolean = False
     Dim DispatchCommissionDecimalPlaces As Decimal = 4
     Dim EnableProductSaleForJPR As Boolean = False
@@ -796,6 +797,7 @@ Public Class frmShipmentDairy
         EnableProductSaleForJPR = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = 1, True, False)
         AllowToCheckZeroQtyonDispatch = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowToCheckZeroQtyonDispatch, clsFixedParameterCode.AllowToCheckZeroQtyonDispatch, Nothing)) = 1, True, False)
         DefaultEnableEWayBill = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultEnableEWayBill, clsFixedParameterCode.DefaultEnableEWayBill, Nothing)) = 1, True, False)
+        CreateAutoGatePass = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateAutoGatePass, clsFixedParameterCode.CreateAutoGatePass, Nothing)) = 1, True, False)
 
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = dtpChallan.Value
@@ -10402,6 +10404,16 @@ order by TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code"
                 If trans Is Nothing Then
                     If (clsPSShipmentHead.PostData(MyBase.Form_ID, txtDocNo.Value, True)) Then
                         msg = "Successfully Posted"
+                        If CreateAutoGatePass Then
+                            Dim frm As New frmDairyGatePass
+                            frm.routeno = txtRouteNo.Value
+                            frm.txtlocation = txtBillToLocation.Value
+                            frm.vehicleno = txtVehicleCode.Value
+                            frm.docdate = txtDate.Value
+                            frm.Supplydate = txtSupplyDate.Value
+                            frm.Shifttype = cmbShift.SelectedValue
+                            frm.ShowDialog()
+                        End If
                         clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                         'If (clsCommon.MyMessageBoxShow(Me, "Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
                         '    funPrint(txtDocNo.Value)

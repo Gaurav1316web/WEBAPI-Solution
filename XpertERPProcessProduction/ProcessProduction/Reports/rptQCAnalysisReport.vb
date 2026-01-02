@@ -890,7 +890,7 @@ ORDER BY PivotResult.Item_Code "
             If clsCommon.myLen(txtItemCode.Value) > 0 Then
                 StrWhere += " and TSPL_QC_CHECK_DETAIL.Item_Code = '" + txtItemCode.Value + "'"
             End If
-            If clsCommon.myLen(txtItemCode.Value) > 0 Then
+            If clsCommon.myLen(txtLocation.Value) > 0 Then
                 StrWhere += " And TSPL_LOCATION_MASTER.Location_Code='" + txtLocation.Value + "' "
             End If
             If clsCommon.myLen((txtRALNo.arrValueMember)) > 0 Then
