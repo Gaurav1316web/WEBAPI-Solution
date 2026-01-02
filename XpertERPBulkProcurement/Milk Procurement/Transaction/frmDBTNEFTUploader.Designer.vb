@@ -21,10 +21,10 @@ Partial Class frmDBTNEFTUploader
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
@@ -466,7 +466,7 @@ Partial Class frmDBTNEFTUploader
         Me.txtMCC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMCC.MyLinkLable1 = Me.MyLabel16
         Me.txtMCC.MyLinkLable2 = Nothing
-        Me.txtMCC.MyNullText = "Please select MCC"
+        Me.txtMCC.MyNullText = "All BMC/MCC"
         Me.txtMCC.Name = "txtMCC"
         Me.txtMCC.Size = New System.Drawing.Size(509, 19)
         Me.txtMCC.TabIndex = 1
@@ -693,7 +693,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvFarmer.MasterTemplate.AllowAddNewRow = False
         Me.gvFarmer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvFarmer.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvFarmer.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvFarmer.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvFarmer.MyExportFilePath = ""
         Me.gvFarmer.MyStopExport = False
         Me.gvFarmer.Name = "gvFarmer"
@@ -723,7 +723,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvItem.MasterTemplate.AllowAddNewRow = False
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvItem.MyExportFilePath = ""
         Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
@@ -767,7 +767,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvInvalid.MasterTemplate.AllowAddNewRow = False
         Me.gvInvalid.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvInvalid.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvInvalid.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvInvalid.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvInvalid.MyExportFilePath = ""
         Me.gvInvalid.MyStopExport = False
         Me.gvInvalid.Name = "gvInvalid"
@@ -816,7 +816,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvHold.MasterTemplate.AllowAddNewRow = False
         Me.gvHold.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvHold.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvHold.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvHold.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gvHold.MyExportFilePath = ""
         Me.gvHold.MyStopExport = False
         Me.gvHold.Name = "gvHold"

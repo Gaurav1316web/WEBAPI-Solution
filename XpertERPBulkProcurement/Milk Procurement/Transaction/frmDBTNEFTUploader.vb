@@ -214,7 +214,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
     End Sub
 
     Private Function AllowToSave() As Boolean
-        Xtra.TransactionValidity(txtdate.Value)
+        'Xtra.TransactionValidity(txtdate.Value)
         clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocumentNo.Value))
         If clsCommon.GetDateWithStartTime(txtBankLetterDate.Value) < clsCommon.GetDateWithStartTime(txtdate.Value) Then
             txtBankLetterDate.Focus()
@@ -554,14 +554,17 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
             If Not IsinsideLoadData Then
                 Dim PaymentCycleType As String = ""
                 Dim PaymentCycleValue As Integer = 0
-                If txtMCC.arrValueMember Is Nothing OrElse txtMCC.arrValueMember.Count <= 0 Then
-                    Throw New Exception("Please select the MCC first")
+                Dim arrMCC As ArrayList = txtMCC.arrValueMember
+                If arrMCC Is Nothing OrElse arrMCC.Count <= 0 Then
+                    Dim str As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 MCC_Code from TSPL_MCC_MASTER"))
+                    arrMCC = New ArrayList()
+                    arrMCC.Add(str)
                 End If
                 If SettMPIncentiveEntryApplyMonthly OrElse SettMPIncentiveEntryCycleWiseButNEFTMonthly Then
                     txtFromDate.Value = New Date(txtFromDate.Value.Year, txtFromDate.Value.Month, 1)
                     txtToDate.Value = txtFromDate.Value.AddMonths(1).AddDays(-1)
                 Else
-                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select Payment_Cycle,PC_TYPE,PC_VALUE from ( select TSPL_MCC_MASTER.Payment_Cycle,TSPL_PAYMENT_CYCLE_MASTER.PC_TYPE,TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE  from TSPL_MCC_MASTER left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle   where TSPL_MCC_MASTER.MCC_Code  in (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") ) xx group by Payment_Cycle,PC_TYPE,PC_VALUE")
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select Payment_Cycle,PC_TYPE,PC_VALUE from ( select TSPL_MCC_MASTER.Payment_Cycle,TSPL_PAYMENT_CYCLE_MASTER.PC_TYPE,TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE  from TSPL_MCC_MASTER left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle   where TSPL_MCC_MASTER.MCC_Code  in (" + clsCommon.GetMulcallString(arrMCC) + ") ) xx group by Payment_Cycle,PC_TYPE,PC_VALUE")
                     If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                         Throw New Exception("No Payment Cycle found on current MCC/Location")
                     End If
@@ -646,7 +649,8 @@ where 2=2 "
     End Sub
     Sub fillMPS()
         Try
-            If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
+            'If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
+            If True Then
                 Dim flag As Boolean = True
                 Dim dtCheck As DataTable = clsDBFuncationality.GetDataTable(GetMpQry(True, False, True))
                 If dtCheck IsNot Nothing AndAlso dtCheck.Rows.Count > 0 Then
@@ -799,7 +803,10 @@ and 2=(case when ISNULL(TSPL_DCS_MP_INCENTIVE_RECO_HEAD.DBT_Capping_Apply,0)=1 t
                 BaseQry += " and TSPL_MP_INCENTIVE_ENTRY_DETAIL.Mark_Invalid>0"
             End If
         End If
-        BaseQry += " and TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code in (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") and  TSPL_MP_INCENTIVE_ENTRY_HEAD.From_Date >='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' "
+        If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
+            BaseQry += " and TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code in (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") "
+        End If
+        BaseQry += " and  TSPL_MP_INCENTIVE_ENTRY_HEAD.From_Date >='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' "
         If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count > 0 Then
             BaseQry += "  and TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code in (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ") "
         End If

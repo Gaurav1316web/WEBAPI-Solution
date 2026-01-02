@@ -25,11 +25,38 @@ Public Class frmCorrection
     Dim isCorrection As Integer = 0
     Dim StrPermission As String
     Dim Remark As String
+
+    Const colSAVLCUploaderCode As String = "colSAVLCUploaderCode"
+    Const colSAVLCCode As String = "colSAVLCCode"
+    Const colSAVLCName As String = "colSAVLCName"
+    Const colSAQty As String = "colSAQty"
+    Const colSAFATPer As String = "colSAFATPer"
+    Const colSASNFPer As String = "colSASNFPer"
+    Const colSAFATKG As String = "colSAFATKG"
+    Const colSASNFKG As String = "colSASNFKG"
+    Const colSARate As String = "colSARate"
+    Const colSAAmount As String = "colSAAmount"
+    Dim SettShowAllDCS As Boolean
 #End Region
 
     Private Sub frmMilkGateEntryIn_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim id As String = Form_ID
         Try
+            Dim coll As Dictionary(Of String, String)
+            coll = New Dictionary(Of String, String)
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Document_No", "Varchar(30) not null references TSPL_MILK_COLLECTION_DCS(Document_No)")
+            coll.Add("VLC_Code", "Varchar(30) not null references TSPL_VLC_MASTER_HEAD(VLC_Code)")
+            coll.Add("Qty", "Decimal(18,2) null")
+            coll.Add("FAT", "Decimal(18,2) null")
+            coll.Add("SNF", "Decimal(18,2) null")
+            coll.Add("FATKG", "Decimal(18,3) null")
+            coll.Add("SNFKG", "Decimal(18,3) null")
+            coll.Add("Rate", "Decimal(18,2) null")
+            coll.Add("Amount", "Decimal(18,2) null")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_SUSPENSE_ADJUSTMENT", coll, Nothing, False, False, "", "", "", False)
+
+            SettShowAllDCS = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowAllDCS, clsFixedParameterCode.ShowAllDCS, Nothing))
             SettMilkCollectionFATSNFType = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkCollectionFATSNFType, clsFixedParameterCode.MilkCollectionFATSNFType, Nothing))
             SettFATSNFNoDecimalMCC = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FATSNFNoDecimalMCC, clsFixedParameterCode.FATSNFNoDecimalMCC, Nothing))
             SettShowAllMCC = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowAllMCC, clsFixedParameterCode.ShowAllMCC, Nothing))
@@ -401,20 +428,20 @@ Public Class frmCorrection
                 RadPageView1.Pages("RadPageViewPage2").Item.Visibility = ElementVisibility.Collapsed
                 RadPageView1.SelectedPage = RadPageViewPage1
             End If
-        ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.F7 Then
-            Dim pwd As New FrmPWD(Nothing)
-            pwd.strCode = clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF
-            pwd.strType = clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF
-            pwd.ShowDialog()
-            If pwd.isPasswordCorrect Then
-                Dim frm As New frmSetting
-                frm.strFormID = Me.Form_ID
-                frm.ShowDialog()
-                If frm.isDataSaved Then
-                    clsCommon.MyMessageBoxShow("Setting saved successfully." + Environment.NewLine + Me.Text + " will close automatic For apply new settings")
-                    clsERPFuncationality.closeForm(Me)
-                End If
-            End If
+            'ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.F7 Then
+            '    Dim pwd As New FrmPWD(Nothing)
+            '    pwd.strCode = clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF
+            '    pwd.strType = clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF
+            '    pwd.ShowDialog()
+            '    If pwd.isPasswordCorrect Then
+            '        Dim frm As New frmSetting
+            '        frm.strFormID = Me.Form_ID
+            '        frm.ShowDialog()
+            '        If frm.isDataSaved Then
+            '            clsCommon.MyMessageBoxShow("Setting saved successfully." + Environment.NewLine + Me.Text + " will close automatic For apply new settings")
+            '            clsERPFuncationality.closeForm(Me)
+            '        End If
+            '    End If
         End If
     End Sub
 
@@ -2904,4 +2931,346 @@ select TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Created_Date, Qty, FAT_PER,SNF_PER
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub txtSATruckSheet__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtSATruckSheet._MYValidating
+        Try
+            Dim qry As String = "select * from (select DocumentNo,max(DocumentDate) as DocumentDate,max(BMCCode) as BMCCode,max(BMCUploaderNo) as BMCUploaderNo,max(BMC) as BMC,sum(Qty) as Qty,case when sum(Qty)=0 then 0.0 else cast( sum(FATKG)*100/sum(Qty) as decimal(18,2)) end as FAT
+,case when sum(Qty)=0 then 0.0 else cast( sum(SNFKG)*100/sum(Qty) as decimal(18,2)) end as SNF
+,sum(FATKG) as FATKG,sum(SNFKG) as SNFKG,max(Price_Code) as Price_Code,sum(AMOUNT) as AMOUNT
+ from (
+select TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No as DocumentNo,TSPL_MILK_COLLECTION_DCS.Document_Date as DocumentDate
+,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code as BMCCode,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as BMCUploaderNo,TSPL_MCC_MASTER.MCC_NAME as BMC
+,TSPL_MILK_COLLECTION_DCS_DETAIL.Qty,TSPL_MILK_COLLECTION_DCS_DETAIL.FAT,TSPL_MILK_COLLECTION_DCS_DETAIL.SNF,TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG,TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG
+,COALESCE(TSPL_MILK_SRN_DETAIL_SUP.Price_Code,TSPL_MILK_SRN_DETAIL_UP.Price_Code) as Price_Code
+,COALESCE(TSPL_MILK_SRN_DETAIL_SUP.AMOUNT,TSPL_MILK_SRN_DETAIL_UP.AMOUNT) as AMOUNT
+from TSPL_MILK_COLLECTION_DCS_DETAIL
+left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No=TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
+left outer join (select Document_No,min(Against_Milk_Collection_MCC_Detail)Against_Milk_Collection_MCC_Detail from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL group by Document_No ) as TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
+left outer join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail
+left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
+left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail=TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id
+left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail=TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id
+left join TSPL_MILK_SRN_HEAD as TSPL_MILK_SRN_HEAD_UP on  TSPL_MILK_SRN_HEAD_UP.Against_Uploader_TR_No= TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No
+left outer join TSPL_MILK_SRN_DETAIL as TSPL_MILK_SRN_DETAIL_UP on TSPL_MILK_SRN_DETAIL_UP.DOC_CODE=TSPL_MILK_SRN_HEAD_UP.DOC_CODE
+left join TSPL_MILK_SRN_HEAD as TSPL_MILK_SRN_HEAD_SUP on  TSPL_MILK_SRN_HEAD_SUP.Against_Shift_Uploader_TR_No= TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No
+left outer join TSPL_MILK_SRN_DETAIL as TSPL_MILK_SRN_DETAIL_SUP on TSPL_MILK_SRN_DETAIL_SUP.DOC_CODE=TSPL_MILK_SRN_HEAD_SUP.DOC_CODE
+where  TSPL_MILK_COLLECTION_DCS.Status=1  and TSPL_MILK_COLLECTION_DCS_DETAIL.Suspence=1
+)xx group by DocumentNo)xxx"
+            txtSATruckSheet.Value = clsCommon.ShowSelectForm("CorrSATrShet", qry, "DocumentNo", "", txtSATruckSheet.Value, "DocumentNo", isButtonClicked, "DocumentDate")
+            If clsCommon.myLen(txtSATruckSheet.Value) > 0 Then
+                qry += " where DocumentNo='" + txtSATruckSheet.Value + "'"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    lblSADate.Text = clsCommon.GetPrintDate(dt.Rows(0)("DocumentDate"), "dd/MM/yyyy")
+
+                    lblSABMCUploaderNo.Text = clsCommon.myCstr(dt.Rows(0)("BMCUploaderNo"))
+                    lblSABMCCode.Text = clsCommon.myCstr(dt.Rows(0)("BMCCode"))
+                    lblSABMCName.Text = clsCommon.myCstr(dt.Rows(0)("BMC"))
+
+                    lblSAQty.Text = clsCommon.myCstr(dt.Rows(0)("Qty"))
+                    'lblSAAdjustQty.Text = clsCommon.myCstr(dt.Rows(0)(""))
+                    'lblSAPendingQty.Text = clsCommon.myCstr(dt.Rows(0)(""))
+
+                    lblSAFATKg.Text = clsCommon.myCstr(dt.Rows(0)("FATKG"))
+                    'lblSAAdjustFATKG.Text = clsCommon.myCstr(dt.Rows(0)(""))
+                    'lblSAPendingFATKG.Text = clsCommon.myCstr(dt.Rows(0)(""))
+
+                    lblSASNFKg.Text = clsCommon.myCstr(dt.Rows(0)("SNFKG"))
+                    'lblSAAdjustSNFKG.Text = clsCommon.myCstr(dt.Rows(0)(""))
+                    'lblSAPendingSNFKG.Text = clsCommon.myCstr(dt.Rows(0)(""))
+
+                    lblSAAmount.Text = clsCommon.myCstr(dt.Rows(0)("AMOUNT"))
+                    'lblSAAdjustAmount.Text = clsCommon.myCstr(dt.Rows(0)(""))
+                    'lblSAPendingAmount.Text = clsCommon.myCstr(dt.Rows(0)(""))
+
+
+                    lblSAFATPer.Text = clsCommon.myCstr(dt.Rows(0)("FAT"))
+                    'lblSAAdjustFATPer.Text = clsCommon.myCstr(dt.Rows(0)(""))
+                    'lblSAPendingFATPer.Text = clsCommon.myCstr(dt.Rows(0)(""))
+
+                    lblSASNFPer.Text = clsCommon.myCstr(dt.Rows(0)("SNF"))
+                    'lblSAAdjustSNFPer.Text = clsCommon.myCstr(dt.Rows(0)(""))
+                    'lblSAPendingSNFPer.Text = clsCommon.myCstr(dt.Rows(0)(""))
+                End If
+            End If
+            LoadBlankGridSA()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub RadButton11_Click_1(sender As Object, e As EventArgs) Handles RadButton11.Click
+
+    End Sub
+
+    Sub LoadBlankGridSA()
+        gvSA.Rows.Clear()
+        gvSA.Columns.Clear()
+
+        Dim repoNumBox As GridViewDecimalColumn = New GridViewDecimalColumn()
+
+
+        Dim repoTextBox2 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoTextBox2.FormatString = ""
+        repoTextBox2.HeaderText = "DCS"
+        repoTextBox2.Name = colSAVLCUploaderCode
+        repoTextBox2.HeaderImage = Global.ERP.My.Resources.Resources.search4
+        repoTextBox2.TextImageRelation = TextImageRelation.TextBeforeImage
+        repoTextBox2.Width = 150
+        gvSA.MasterTemplate.Columns.Add(repoTextBox2)
+
+        Dim repoTextBox As New GridViewTextBoxColumn()
+        repoTextBox.FormatString = ""
+        repoTextBox.HeaderText = "DCS Code"
+        repoTextBox.Name = colSAVLCCode
+        repoTextBox.IsVisible = False
+        repoTextBox.TextImageRelation = TextImageRelation.TextBeforeImage
+        repoTextBox.ReadOnly = True
+        gvSA.MasterTemplate.Columns.Add(repoTextBox)
+
+        repoTextBox = New GridViewTextBoxColumn()
+        repoTextBox.FormatString = ""
+        repoTextBox.HeaderText = "DCS Name"
+        repoTextBox.Name = colSAVLCName
+        repoTextBox.Width = 200
+        repoTextBox.IsVisible = True
+        repoTextBox.ReadOnly = True
+        gvSA.MasterTemplate.Columns.Add(repoTextBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.FormatString = "{0:n3}"
+        repoNumBox.HeaderText = "Qty"
+        repoNumBox.Name = colSAQty
+        repoNumBox.Width = 100
+        repoNumBox.Minimum = 0
+        repoNumBox.ShowUpDownButtons = False
+        repoNumBox.Step = 0
+        repoNumBox.DecimalPlaces = 3
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumBox.IsVisible = True
+        gvSA.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.FormatString = "{0:n1}"
+        repoNumBox.HeaderText = "Fat %"
+        repoNumBox.Name = colSAFATPer
+        repoNumBox.Width = 100
+        repoNumBox.Minimum = 0
+        repoNumBox.Maximum = 100
+        repoNumBox.ShowUpDownButtons = False
+        repoNumBox.Step = 0
+        repoNumBox.DecimalPlaces = 1
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumBox.IsVisible = True
+        repoNumBox.ReadOnly = False
+        gvSA.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.FormatString = "{0:n1}"
+        repoNumBox.HeaderText = "SNF %"
+        repoNumBox.Name = colSASNFPer
+        repoNumBox.Width = 100
+        repoNumBox.Minimum = 0
+        repoNumBox.Maximum = 100
+        repoNumBox.ShowUpDownButtons = False
+        repoNumBox.Step = 0
+        repoNumBox.DecimalPlaces = 1
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumBox.IsVisible = True
+        repoNumBox.ReadOnly = False
+        gvSA.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.FormatString = "{0:n3}"
+        repoNumBox.HeaderText = "Fat KG"
+        repoNumBox.Name = colSAFATKG
+        repoNumBox.Width = 100
+        repoNumBox.Minimum = 0
+        repoNumBox.Maximum = 9999
+        repoNumBox.ShowUpDownButtons = False
+        repoNumBox.Step = 0
+        repoNumBox.DecimalPlaces = 3
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumBox.IsVisible = True
+        repoNumBox.ReadOnly = True
+        gvSA.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.FormatString = "{0:n3}"
+        repoNumBox.HeaderText = "SNF KG"
+        repoNumBox.Name = colSASNFKG
+        repoNumBox.Width = 100
+        repoNumBox.Minimum = 0
+        repoNumBox.Maximum = 9999
+        repoNumBox.ShowUpDownButtons = False
+        repoNumBox.Step = 0
+        repoNumBox.DecimalPlaces = 3
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumBox.IsVisible = True
+        repoNumBox.ReadOnly = True
+        gvSA.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.FormatString = "{0:n3}"
+        repoNumBox.HeaderText = "Rate"
+        repoNumBox.Name = colSARate
+        repoNumBox.Width = 100
+        repoNumBox.ShowUpDownButtons = False
+        repoNumBox.Step = 0
+        repoNumBox.DecimalPlaces = 2
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumBox.IsVisible = True
+        repoNumBox.ReadOnly = True
+        gvSA.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.FormatString = "{0:n2}"
+        repoNumBox.HeaderText = "Amount"
+        repoNumBox.Name = colSAAmount
+        repoNumBox.Width = 100
+        repoNumBox.ShowUpDownButtons = False
+        repoNumBox.Step = 0
+        repoNumBox.DecimalPlaces = 2
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumBox.IsVisible = True
+        repoNumBox.ReadOnly = True
+        gvSA.MasterTemplate.Columns.Add(repoNumBox)
+
+        gvSA.AllowAddNewRow = False
+        gvSA.ShowGroupPanel = False
+        gvSA.AllowColumnReorder = False
+        gvSA.AllowRowReorder = False
+        gvSA.EnableSorting = False
+        gvSA.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
+        gvSA.MasterTemplate.ShowRowHeaderColumn = False
+        gvSA.TableElement.TableHeaderHeight = 40
+
+        gvSA.AllowDeleteRow = True
+        gvSA.Rows.AddNew()
+    End Sub
+
+    Dim isInsideLoadData As Boolean = False
+    Dim isCellValueChangedOpen As Boolean = False
+    Private Sub gvSA_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvSA.CellValueChanged
+        Try
+            If (Not isInsideLoadData) Then
+                If Not isCellValueChangedOpen Then
+                    isCellValueChangedOpen = True
+                    If e.Column Is gvSA.Columns(colSAVLCUploaderCode) Then
+                        OpenVLCFinder(False)
+                    ElseIf e.Column Is gvSA.Columns(colSAQty) OrElse e.Column Is gvSA.Columns(colSAFATPer) OrElse e.Column Is gvSA.Columns(colSASNFPer) Then
+                        UpdateCurrentRow(gvSA.CurrentRow.Index)
+                    End If
+                    isCellValueChangedOpen = False
+                End If
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            isCellValueChangedOpen = False
+        End Try
+    End Sub
+
+    Sub UpdateCurrentRow(ByVal ii As Integer)
+        gvSA.Rows(ii).Cells(colSAFATKG).Value = Math.Round(clsCommon.myCDecimal(gvSA.Rows(ii).Cells(colSAQty).Value) * clsCommon.myCDecimal(gvSA.Rows(ii).Cells(colSAFATPer).Value) / 100, 3, MidpointRounding.ToEven)
+        gvSA.Rows(ii).Cells(colSASNFKG).Value = Math.Round(clsCommon.myCDecimal(gvSA.Rows(ii).Cells(colSAQty).Value) * clsCommon.myCDecimal(gvSA.Rows(ii).Cells(colSASNFPer).Value) / 100, 3, MidpointRounding.ToEven)
+        Dim strPriceCode As String = ""
+        gvSA.Rows(ii).Cells(colSARate).Value = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(clsCommon.myCdbl(gvSA.Rows(ii).Cells(colSAQty).Value), strPriceCode, clsCommon.myCdbl(gvSA.Rows(ii).Cells(colSAFATPer).Value), clsCommon.myCdbl(gvSA.Rows(ii).Cells(colSASNFPer).Value), lblMCCCode.Text, clsCommon.myCstr(gvSA.Rows(ii).Cells(colSAVLCCode).Value), "M", clsCommon.myCDate(lblSADate.Text), Nothing, "M")
+        gvSA.Rows(ii).Cells(colSAAmount).Value = clsCommon.myCDecimal(gvSA.Rows(ii).Cells(colSAQty).Value) * clsCommon.myCDecimal(gvSA.Rows(ii).Cells(colSARate).Value)
+        UpdateAllTotal()
+    End Sub
+
+    Private Sub UpdateAllTotal()
+        Dim TotSAQty As Decimal = clsCommon.myCDecimal(lblSAAdjustQty.Tag)
+        Dim TotSAFATKG As Decimal = clsCommon.myCDecimal(lblSAAdjustFATKG.Tag)
+        Dim TotSASNFKG As Decimal = clsCommon.myCDecimal(lblSAAdjustSNFKG.Tag)
+        Dim TotSAAmt As Decimal = clsCommon.myCDecimal(lblSAAdjustAmount.Tag)
+
+        For ii As Integer = 0 To gvSA.Rows.Count - 1
+            If clsCommon.myCDecimal(gvSA.Rows(ii).Cells(colSAQty).Value) > 0 Then
+                TotSAQty += clsCommon.myCDecimal(gvSA.Rows(ii).Cells(colSAQty).Value)
+                TotSAFATKG += clsCommon.myCDecimal(gvSA.Rows(ii).Cells(colSAFATKG).Value)
+                TotSASNFKG += clsCommon.myCDecimal(gvSA.Rows(ii).Cells(colSASNFKG).Value)
+                TotSAAmt += clsCommon.myCDecimal(gvSA.Rows(ii).Cells(colSAAmount).Value)
+            End If
+        Next
+
+        lblSAAdjustQty.Text = clsCommon.myCstr(Math.Round(TotSAQty, 2, MidpointRounding.ToEven))
+        lblSAAdjustFATKG.Text = clsCommon.myCstr(Math.Round((TotSAFATKG), 3, MidpointRounding.ToEven))
+        lblSAAdjustSNFKG.Text = clsCommon.myCstr(Math.Round((TotSASNFKG), 3, MidpointRounding.ToEven))
+        lblSAAdjustAmount.Text = clsCommon.myCstr(Math.Round(TotSAAmt, 2, MidpointRounding.ToEven))
+
+        lblSAPendingQty.Text = clsCommon.myCstr(Math.Round((clsCommon.myCDecimal(lblSAQty.Text) - clsCommon.myCDecimal(lblSAAdjustQty.Text)), 2, MidpointRounding.ToEven))
+        lblSAPendingFATKG.Text = clsCommon.myCstr(Math.Round((clsCommon.myCDecimal(lblSAFATKg.Text) - clsCommon.myCDecimal(lblSAAdjustFATKG.Text)), 3, MidpointRounding.ToEven))
+        lblSAPendingSNFKG.Text = clsCommon.myCstr(Math.Round((clsCommon.myCDecimal(lblSASNFKg.Text) - clsCommon.myCDecimal(lblSAAdjustSNFKG.Text)), 3, MidpointRounding.ToEven))
+        lblSAPendingAmount.Text = clsCommon.myCstr(Math.Round((clsCommon.myCDecimal(lblSAAmount.Text) - clsCommon.myCDecimal(lblSAAdjustAmount.Text)), 2, MidpointRounding.ToEven))
+
+        lblSAAdjustFATPer.Text = clsCommon.myCstr(Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(lblSAAdjustFATKG.Text) * 100, clsCommon.myCDecimal(lblSAAdjustQty.Text)), 1, MidpointRounding.ToEven))
+        lblSAAdjustSNFPer.Text = clsCommon.myCstr(Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(lblSAAdjustSNFKG.Text) * 100, clsCommon.myCDecimal(lblSAAdjustQty.Text)), 1, MidpointRounding.ToEven))
+
+        lblSAPendingFATPer.Text = clsCommon.myCstr(Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(lblSAPendingFATKG.Text) * 100, clsCommon.myCDecimal(lblSAPendingQty.Text)), 1, MidpointRounding.ToEven))
+        lblSAPendingSNFPer.Text = clsCommon.myCstr(Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(lblSAPendingSNFKG.Text) * 100, clsCommon.myCDecimal(lblSAPendingQty.Text)), 1, MidpointRounding.ToEven))
+    End Sub
+
+    Sub OpenVLCFinder(ByVal isButtonClick As Boolean)
+        If clsCommon.myLen(lblSABMCCode.Text) <= 0 Then
+            txtSATruckSheet.Focus()
+            Throw New Exception("Please select Truck Sheet")
+        End If
+
+        Dim qry As String = "select TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [Uploader_Code],TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VENDOR_MASTER.Vendor_Name as [VSP Name] " + Environment.NewLine +
+        " from TSPL_VLC_MASTER_HEAD" + Environment.NewLine +
+        " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code  " + Environment.NewLine +
+        " left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC " + Environment.NewLine
+        Dim whrCls As String = " isnull(TSPL_VLC_MASTER_HEAD.Active,0)=1 "
+        If Not SettShowAllDCS Then
+            whrCls += " and TSPL_VLC_MASTER_HEAD.MCC  ='" + lblSABMCCode.Text + "'"
+        End If
+        gvSA.CurrentRow.Cells(colSAVLCUploaderCode).Value = clsCommon.ShowSelectForm("CorrVuSA", qry, "Uploader_Code", whrCls, clsCommon.myCstr(gvSA.CurrentRow.Cells(colSAVLCUploaderCode).Value), "Uploader_Code", isButtonClick)
+
+        qry = "select TSPL_VLC_MASTER_HEAD.VLC_Code,VLC_Name,Apply_Cow_Price,MCC,(case when isnull(TSPL_VLC_MASTER_HEAD.isOwnBMC,0)=1 and TSPL_VLC_MASTER_HEAD.MCCOwnBMC='" + clsCommon.myCstr(txtMCC.Tag) + "' then 1 else 0 end) as isOwnBMC from TSPL_VLC_MASTER_HEAD where TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader='" + clsCommon.myCstr(gvSA.CurrentRow.Cells(colSAVLCUploaderCode).Value) + "'"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            gvSA.CurrentRow.Cells(colSAVLCCode).Value = clsCommon.myCstr(dt.Rows(0)("VLC_Code"))
+            gvSA.CurrentRow.Cells(colSAVLCName).Value = clsCommon.myCstr(dt.Rows(0)("VLC_Name"))
+            If Not clsCommon.CompairString(lblSABMCCode.Text, clsCommon.myCstr(dt.Rows(0)("MCC"))) = CompairStringResult.Equal Then
+                If clsCommon.MyMessageBoxShow(Me, "DCS does not belong to BMC [" + txtMCC.Value + "]" + Environment.NewLine + "Do You Want To Continue? ", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+                    gvSA.Rows.Remove(gvSA.CurrentRow)
+                End If
+            End If
+        End If
+    End Sub
+    Private Sub gv1_CellValidated(sender As Object, e As CellValidatedEventArgs) Handles gvSA.CellValidated
+        Try
+            SetGridFocus()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Sub SetGridFocus()
+        If gvSA.CurrentCell IsNot Nothing Then
+            If gvSA.CurrentCell.ColumnInfo.Name = colSAVLCUploaderCode Then
+                gvSA.CurrentColumn = gvSA.Columns(colSAQty)
+            ElseIf (gvSA.CurrentCell.ColumnInfo.Name = colSAQty) Then
+                gvSA.CurrentColumn = gvSA.Columns(colSAFATPer)
+            ElseIf (gvSA.CurrentCell.ColumnInfo.Name = colSAFATPer) Then
+                gvSA.CurrentColumn = gvSA.Columns(colSASNFPer)
+            ElseIf (gvSA.CurrentCell.ColumnInfo.Name = colSASNFPer) Then
+                If gvSA.Rows.Count > gvSA.CurrentRow.Index + 1 Then
+                    gvSA.CurrentRow = gvSA.Rows(gvSA.CurrentRow.Index + 1)
+                    gvSA.CurrentColumn = gvSA.Columns(colSAVLCUploaderCode)
+                End If
+            End If
+        End If
+    End Sub
+
+    Private Sub gv1_CurrentColumnChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CurrentColumnChangedEventArgs) Handles gvSA.CurrentColumnChanged
+        If gvSA.RowCount > 0 Then
+            Dim intCurrRow As Integer = gvSA.CurrentRow.Index
+            If intCurrRow = gvSA.Rows.Count - 1 Then
+                gvSA.Rows.AddNew()
+                gvSA.CurrentRow = gvSA.Rows(intCurrRow)
+            End If
+        End If
+    End Sub
+
 End Class
