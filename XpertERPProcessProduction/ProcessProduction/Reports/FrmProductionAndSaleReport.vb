@@ -869,7 +869,7 @@ GROUP BY t.Location_Code
 							union all
 	
 							SELECT 'Capacity / Day' AS Production, 'rcdf' as Location_Code, 
-sum(cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('31/Jan/2024'))) AS DECIMAL(18,0))) as [Capacity]
+sum(cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(fromDate.Value), "dd/MMM/yyyy") + "'))) AS DECIMAL(18,0))) as [Capacity]
                         FROM  TSPL_LOCATION_MASTER where IsMainPlant=0 
 						--union all
 						--SELECT 'Capacity / Day' AS Production, 'RCDF' AS Location_Code,  SUM(TSPL_LOCATION_MASTER.Silo_Capacity) Capacity
