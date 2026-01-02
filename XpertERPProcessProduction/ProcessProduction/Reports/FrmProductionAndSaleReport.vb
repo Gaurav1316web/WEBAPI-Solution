@@ -850,6 +850,13 @@ GROUP BY t.Location_Code
                      +' as ' + QUOTENAME( TSPL_LOCATION_MASTER.location_code)
                     as Alies_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N'  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')"
                 Dim strSumLocation As String = clsDBFuncationality.getSingleValue(StrTempQry)
+
+                Dim StrTempQry1 As String = "DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT  
+                     STUFF((SELECT distinct ',' +'(isnull('  + QUOTENAME(TSPL_LOCATION_MASTER.location_code)+',0))'
+                     +' as ' + QUOTENAME( TSPL_LOCATION_MASTER.location_code)
+                    as Alies_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N'  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')"
+                Dim strSumLocation1 As String = clsDBFuncationality.getSingleValue(StrTempQry1)
+
                 StrTempQry = "DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT  
                               STUFF((SELECT distinct '+' +'Sum(isnull(' + QUOTENAME(TSPL_LOCATION_MASTER.Location_Code) +',0))' as Alies_Name
                               FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N'  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')"
@@ -961,7 +968,8 @@ sum(cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + 
                           pivot ( sum(BreakDownQty) for Location_Code in (" + strLocation + ") )as zpivot group by zpivot.Production "
 
                 query += " union all
-                         select Production," + strSumLocation + "," + strTotalLocation + " as " + strMainLocation + "
+                          Select Production," + strSumLocation1 + ",RCDF/7 AS RCDF from (
+                            select Production," + strSumLocation + "," + strTotalLocation + " as " + strMainLocation + "
                          from (select 'Capacity Utilization' as Production,TSPL_LOCATION_MASTER.Location_Code
                         ,case when TSPL_LOCATION_MASTER.Silo_Capacity=0 then 0 else isnull(CAST(((ProdCumQty.Qty/1000)" + "/(" + clsCommon.myCstr(DayCount) + "*TSPL_LOCATION_MASTER.Silo_Capacity))*100 AS DECIMAL(18,0)),0) end as ProdCumQty
                          FROM TSPL_LOCATION_MASTER 
@@ -974,7 +982,7 @@ sum(cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + 
                           GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE) ProdCumQty
                           ON TSPL_LOCATION_MASTER.LOCATION_CODE =ProdCumQty.LOCATION_CODE
                           where TSPL_LOCATION_MASTER.IsMainPlant='0')XXXProduction
-                          pivot ( sum(ProdCumQty) for Location_Code in (" + strLocation + ") )as zpivot group by zpivot.Production "
+                          pivot ( sum(ProdCumQty) for Location_Code in (" + strLocation + ") )as zpivot group by zpivot.Production )XX "
 
 
                 query = "select format(convert(date,'" + fromDate.Value + "',103), 'dd/MMM/yyyy') as Date,(format(convert(date,'" + ToDate.Value + "',103), 'dd/MMM/yyyy'))as Date1,* from (" + query + ")final "
@@ -1005,28 +1013,38 @@ sum(cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + 
 
             Dim dt3 As New DataTable
             Dim qry As String = Nothing
-            qry = "WITH Numbered AS (SELECT
-        Item_Desc,DcsSeqNo,  CAST(CAST(DcsSeqNo AS INT) AS VARCHAR(10)) + ' - ' + Item_Desc AS Item_Desc_DcsSeqNo,
-        ROW_NUMBER() OVER (ORDER BY DcsSeqNo) AS rn FROM TSPL_ITEM_MASTER
-    WHERE Item_Type = 'R' AND DcsSeqNo IS NOT NULL and DcsSeqNo <> 0  AND DcsSeqNo <> 16 
-union all
-	SELECT
-         Top 1 Item_Desc, DcsSeqNo,  CAST(CAST(DcsSeqNo AS INT) AS VARCHAR(10)) + ' - Any Other'  AS Item_Desc_DcsSeqNo,
-        16 AS rn FROM TSPL_ITEM_MASTER
-    WHERE Item_Type = 'R' AND DcsSeqNo = 16
-)
-    SELECT MAX(CASE WHEN rn_mod = 1 THEN Item_Desc_DcsSeqNo END) AS Item_1, MAX(CASE WHEN rn_mod = 2 THEN Item_Desc_DcsSeqNo END) AS Item_2, MAX(CASE WHEN rn_mod = 3 THEN Item_Desc_DcsSeqNo END) AS Item_3
-,MAX(CASE WHEN rn_mod = 4 THEN Item_Desc_DcsSeqNo END) AS Item_4
-  --  MAX(CASE WHEN rn_mod = 5 THEN Item_Desc_DcsSeqNo END) AS Item_5, 
---MAX(CASE WHEN rn_mod = 6 THEN Item_Desc_DcsSeqNo END) AS Item_6
-FROM ( SELECT Item_Desc,Item_Desc_DcsSeqNo, rn,
-        (rn - 1) / 3 AS grp,           -- integer division → row group
-        (rn - 1) % 3 + 1 AS rn_mod     -- column position 1–6
-    FROM Numbered
-) d
-GROUP BY grp
-ORDER BY grp;
+            qry = "WITH BaseData AS ( SELECT DcsSeqNo,  Item_Desc FROM TSPL_ITEM_MASTER
+    WHERE Item_Type = 'R' AND DcsSeqNo IS NOT NULL AND DcsSeqNo <> 0 AND DcsSeqNo <> 16
+	   UNION ALL
+ SELECT 16 AS DcsSeqNo, 'Any Other' AS Item_Desc
+),Numbered AS (  SELECT DcsSeqNo, Item_Desc,  ROW_NUMBER() OVER ( ORDER BY DcsSeqNo, Item_Desc ) AS rn
+    FROM BaseData)
+SELECT MAX(CASE WHEN rn_mod = 1 THEN DcsSeqNo END)   AS Item1_No,MAX(CASE WHEN rn_mod = 1 THEN Item_Desc END) AS Item1_Name, MAX(CASE WHEN rn_mod = 2 THEN DcsSeqNo END)   AS Item2_No,MAX(CASE WHEN rn_mod = 2 THEN Item_Desc END) AS Item2_Name
+FROM ( SELECT DcsSeqNo, Item_Desc, (rn - 1) / 2 AS grp, (rn - 1) % 2 + 1 AS rn_mod
+    FROM Numbered) d GROUP BY grp ORDER BY grp;
 "
+            '            qry = "WITH Numbered AS (SELECT
+            '        Item_Desc,DcsSeqNo,  CAST(CAST(DcsSeqNo AS INT) AS VARCHAR(10)) + ' - ' + Item_Desc AS Item_Desc_DcsSeqNo,
+            '        ROW_NUMBER() OVER (ORDER BY DcsSeqNo) AS rn FROM TSPL_ITEM_MASTER
+            '    WHERE Item_Type = 'R' AND DcsSeqNo IS NOT NULL and DcsSeqNo <> 0  AND DcsSeqNo <> 16 
+            'union all
+            '	SELECT
+            '         Top 1 Item_Desc, DcsSeqNo,  CAST(CAST(DcsSeqNo AS INT) AS VARCHAR(10)) + ' - Any Other'  AS Item_Desc_DcsSeqNo,
+            '        16 AS rn FROM TSPL_ITEM_MASTER
+            '    WHERE Item_Type = 'R' AND DcsSeqNo = 16
+            ')
+            '    SELECT MAX(CASE WHEN rn_mod = 1 THEN Item_Desc_DcsSeqNo END) AS Item_1, MAX(CASE WHEN rn_mod = 2 THEN Item_Desc_DcsSeqNo END) AS Item_2, MAX(CASE WHEN rn_mod = 3 THEN Item_Desc_DcsSeqNo END) AS Item_3
+            ',MAX(CASE WHEN rn_mod = 4 THEN Item_Desc_DcsSeqNo END) AS Item_4
+            '  --  MAX(CASE WHEN rn_mod = 5 THEN Item_Desc_DcsSeqNo END) AS Item_5, 
+            '--MAX(CASE WHEN rn_mod = 6 THEN Item_Desc_DcsSeqNo END) AS Item_6
+            'FROM ( SELECT Item_Desc,Item_Desc_DcsSeqNo, rn,
+            '        (rn - 1) / 3 AS grp,           -- integer division → row group
+            '        (rn - 1) % 3 + 1 AS rn_mod     -- column position 1–6
+            '    FROM Numbered
+            ') d
+            'GROUP BY grp
+            'ORDER BY grp;
+            '"
             dt3 = clsDBFuncationality.GetDataTable(qry)
 
             If (dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0) Then
@@ -1195,7 +1213,8 @@ FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant=0 and TSPL_LOCA
 
           
           ")
-            Dim strMainLocation As DataTable = clsDBFuncationality.GetDataTable("SELECT TSPL_LOCATION_MASTER.location_code,TSPL_LOCATION_MASTER.Loc_Short_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant=1 and TSPL_LOCATION_MASTER.Rejected_Type='N'")
+            'Dim strMainLocation As DataTable = clsDBFuncationality.GetDataTable("SELECT TSPL_LOCATION_MASTER.location_code,TSPL_LOCATION_MASTER.Loc_Short_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant=1 and TSPL_LOCATION_MASTER.Rejected_Type='N'")
+            Dim strMainLocation As DataTable = clsDBFuncationality.GetDataTable("SELECT TSPL_LOCATION_MASTER.location_code,'TOTAL' AS Loc_Short_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant=1 and TSPL_LOCATION_MASTER.Rejected_Type='N'")
 
             For i As Int16 = 0 To dtLocation.Rows.Count - 1
                 Gv1.Columns(clsCommon.myCstr(dtLocation.Rows(i).Item("location_code"))).HeaderText = clsCommon.myCstr(dtLocation.Rows(i).Item("Loc_Short_Name")) + Environment.NewLine + clsCommon.myCstr(dtLocation.Rows(i).Item("Silo_Capacity"))
