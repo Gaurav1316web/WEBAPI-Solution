@@ -8,7 +8,14 @@ Public Class FrmEwaybill
     Inherits FrmMainTranScreen
 #Region "Variables"
 #End Region
+    Private Sub SetUserMgmtNew()
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
+        End If
+
+    End Sub
     Private Sub FrmEwaybill_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        SetUserMgmtNew()
         CreateTable()
         LoadEwaybillType()
         LoadvechicleReasonType()
