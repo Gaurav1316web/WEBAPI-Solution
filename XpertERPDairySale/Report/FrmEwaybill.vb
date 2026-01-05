@@ -402,21 +402,27 @@ Public Class FrmEwaybill
             '    End If
             'ElseIf clsCommon.CompairString(cmbEwaybillType.SelectedValue, "Update Transpoter") = CompairStringResult.Equal Then
             'End If
-            Dim Qry As String = " select cast(TSPL_SD_SALE_INVOICE_HEAD.EWayBill_QR_Code as image) as EWayBill_QR_Code,TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD.ewayBillDate,TSPL_COMPANY_MASTER.GSTReg_No +' ' + TSPL_COMPANY_MASTER.Comp_Name as Generated_By,TSPL_SD_SALE_INVOICE_HEAD.EWayBillValidDate,
-TSPL_SD_SALE_INVOICE_HEAD.EWayBillRemarks,TSPL_SD_SALE_INVOICE_HEAD.Freight_Distance,TSPL_SD_SALE_INVOICE_HEAD.IRN_No,TSPL_SD_SALE_INVOICE_HEAD.Ack_No,TSPL_SD_SALE_INVOICE_HEAD.Ack_Date,TSPL_CUSTOMER_MASTER.GSTNO+' '+ TSPL_CUSTOMER_MASTER.Customer_Name+' '+TSPL_CUSTOMER_MASTER.City_Code as GSTIN_Of_Recipient,TSPL_COMPANY_MASTER.City_Code+' - '+TSPL_COMPANY_MASTER.State+' - '+TSPL_COMPANY_MASTER.Pincode as Place_Of_Dispatch, TSPL_CUSTOMER_MASTER.City_Code+' '+TSPL_CUSTOMER_MASTER.State +' '+CONVERT(varchar(10),isNull(TSPL_CUSTOMER_MASTER.PIN_Code,'')) as Place_Of_delivery,
-TSPL_SD_SALE_INVOICE_HEAD.Document_Code,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,'Regular' as Transaction_Type,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt,TSPL_ITEM_MASTER.HSN_Code +' '+TSPL_ITEM_MASTER.Short_Description  as HsnCode,
---convert(VARCHAR(10), case when(select COUNT(*) from TSPL_SD_SALE_INVOICE_DETAIL where Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Document_Code)-1>0 then (select COUNT(*) from TSPL_SD_SALE_INVOICE_DETAIL where Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Document_Code)-1  else '' end) as countofItem,
-'Outward - Supply' as ResonofTransport,TSPL_SD_SALE_INVOICE_HEAD.Trans_Type,TSPL_SD_SALE_INVOICE_HEAD.Transporter_Name,'Road' As Mode_of_Trans,TSPL_SD_SALE_INVOICE_HEAD.VehicleNo,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
-from TSPL_SD_SALE_INVOICE_HEAD
-left join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE= TSPL_SD_SALE_INVOICE_HEAD.Document_Code
-left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
-left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "'
-left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
-where TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo='" & strewbno & "' "
+            Dim QrCodeLen As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select DATALENGTH(EWayBill_QR_Code) as EWayBill_QR_Code from TSPL_EWAY_BILL_REPORT_DETAIL where ewbNo='" & strewbno & "'"))
+            If QrCodeLen = 0 Then
+                Dim CompGSTNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select userGstin from TSPL_EWAY_BILL_REPORT_DETAIL where ewbNo='" & strewbno & "'"))
+                Dim EwbDt As String = clsCommon.GetPrintDate(clsDBFuncationality.getSingleValue("select ewayBillDate from TSPL_EWAY_BILL_REPORT_DETAIL where ewbNo='" & strewbno & "'"), "dd/MMM/yyyy hh:mm tt")
+                Dim TempByte As Byte() = clsERPFuncationalityOLD.GenerateMyQCCode(strewbno + "/" + CompGSTNo + "/" + EwbDt)
+                clsDBFuncationality.UpdateImage("EWayBill_QR_Code", TempByte, "TSPL_EWAY_BILL_REPORT_DETAIL", "TSPL_EWAY_BILL_REPORT_DETAIL.ewbno='" & strewbno & "'")
+            End If
+            Dim Qry As String = "select cast(TSPL_EWAY_BILL_REPORT_DETAIL.EWayBill_QR_Code as image) as EWayBill_QR_Code, TSPL_SD_SALE_INVOICE_HEAD.IRN_No,
+TSPL_EWAY_BILL_REPORT_DETAIL.ewbNo,TSPL_EWAY_BILL_REPORT_DETAIL.ewayBillDate,TSPL_EWAY_BILL_REPORT_DETAIL.genMode,TSPL_EWAY_BILL_REPORT_DETAIL.userGstin,TSPL_EWAY_BILL_REPORT_DETAIL.supplyType,TSPL_EWAY_BILL_REPORT_DETAIL.subSupplyType,
+TSPL_EWAY_BILL_REPORT_DETAIL.docType,TSPL_EWAY_BILL_REPORT_DETAIL.docNo,TSPL_EWAY_BILL_REPORT_DETAIL.docDate,TSPL_EWAY_BILL_REPORT_DETAIL.fromGstin,TSPL_EWAY_BILL_REPORT_DETAIL.fromTrdName,TSPL_EWAY_BILL_REPORT_DETAIL.fromAddr1,TSPL_EWAY_BILL_REPORT_DETAIL.fromAddr2,TSPL_EWAY_BILL_REPORT_DETAIL.fromPlace,TSPL_EWAY_BILL_REPORT_DETAIL.fromPincode,TSPL_EWAY_BILL_REPORT_DETAIL.fromStateCode,TSPL_EWAY_BILL_REPORT_DETAIL.toGstin,TSPL_EWAY_BILL_REPORT_DETAIL.toTrdName,TSPL_EWAY_BILL_REPORT_DETAIL.toAddr1,TSPL_EWAY_BILL_REPORT_DETAIL.toAddr2,TSPL_EWAY_BILL_REPORT_DETAIL.toPlace,TSPL_EWAY_BILL_REPORT_DETAIL.toPincode,TSPL_EWAY_BILL_REPORT_DETAIL.toStateCode,totalValue,TSPL_EWAY_BILL_REPORT_DETAIL.totInvValue,TSPL_EWAY_BILL_REPORT_DETAIL.cgstValue,TSPL_EWAY_BILL_REPORT_DETAIL.sgstValue,TSPL_EWAY_BILL_REPORT_DETAIL.igstValue,TSPL_EWAY_BILL_REPORT_DETAIL.cessValue,TSPL_EWAY_BILL_REPORT_DETAIL.transporterId,TSPL_EWAY_BILL_REPORT_DETAIL.transporterName,TSPL_EWAY_BILL_REPORT_DETAIL.status,TSPL_EWAY_BILL_REPORT_DETAIL.actualDist,TSPL_EWAY_BILL_REPORT_DETAIL.noValidDays,TSPL_EWAY_BILL_REPORT_DETAIL.validUpto,TSPL_EWAY_BILL_REPORT_DETAIL.extendedTimes,TSPL_EWAY_BILL_REPORT_DETAIL.rejectStatus,TSPL_EWAY_BILL_REPORT_DETAIL.vehicleType,TSPL_EWAY_BILL_REPORT_DETAIL.actFromStateCode,TSPL_EWAY_BILL_REPORT_DETAIL.actToStateCode,TSPL_EWAY_BILL_REPORT_DETAIL.transactionType,TSPL_EWAY_BILL_REPORT_DETAIL.otherValue,TSPL_EWAY_BILL_REPORT_DETAIL.cessNonAdvolValue,
+TSPL_EWAY_BILL_REPORT_Item_DETAIL.itemNo,TSPL_EWAY_BILL_REPORT_Item_DETAIL.productId,TSPL_EWAY_BILL_REPORT_Item_DETAIL.productDesc,TSPL_EWAY_BILL_REPORT_Item_DETAIL.hsnCode,TSPL_EWAY_BILL_REPORT_Item_DETAIL.quantity,TSPL_EWAY_BILL_REPORT_Item_DETAIL.qtyUnit,TSPL_EWAY_BILL_REPORT_Item_DETAIL.cgstRate,TSPL_EWAY_BILL_REPORT_Item_DETAIL.sgstRate,TSPL_EWAY_BILL_REPORT_Item_DETAIL.cessRate,TSPL_EWAY_BILL_REPORT_Item_DETAIL.cessNonAdvol,TSPL_EWAY_BILL_REPORT_Item_DETAIL.taxableAmount,
+TSPL_EWAY_BILL_REPORT_VEHICLE_DETAIL.updMode,TSPL_EWAY_BILL_REPORT_VEHICLE_DETAIL.vehicleNo,TSPL_EWAY_BILL_REPORT_VEHICLE_DETAIL.fromPlace as vfromPlace,TSPL_EWAY_BILL_REPORT_VEHICLE_DETAIL.fromState as vfromState,TSPL_EWAY_BILL_REPORT_VEHICLE_DETAIL.userGSTINTransin,TSPL_EWAY_BILL_REPORT_VEHICLE_DETAIL.enteredDate,TSPL_EWAY_BILL_REPORT_VEHICLE_DETAIL.transMode,TSPL_EWAY_BILL_REPORT_VEHICLE_DETAIL.transDocNo,TSPL_EWAY_BILL_REPORT_VEHICLE_DETAIL.transDocDate,TSPL_EWAY_BILL_REPORT_VEHICLE_DETAIL.groupNo
+from TSPL_EWAY_BILL_REPORT_DETAIL
+left join TSPL_EWAY_BILL_REPORT_Item_DETAIL on TSPL_EWAY_BILL_REPORT_Item_DETAIL.ewbNo=TSPL_EWAY_BILL_REPORT_DETAIL.ewbNo
+left join TSPL_EWAY_BILL_REPORT_VEHICLE_DETAIL on TSPL_EWAY_BILL_REPORT_VEHICLE_DETAIL.ewbNo=TSPL_EWAY_BILL_REPORT_DETAIL.ewbNo
+left join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo=TSPL_EWAY_BILL_REPORT_DETAIL.ewbNo
+where TSPL_EWAY_BILL_REPORT_DETAIL.ewbNo='" & strewbno & "' "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rpte-waybill", "E-WayBill", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptewbprint", "E-WayBill", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 frmCRV = Nothing
             Else
                 Throw New Exception("No Data Found ")
@@ -534,6 +540,7 @@ where TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo='" & strewbno & "' "
             coll.Add("transactionType", "varchar(30) NULL")
             coll.Add("otherValue", "varchar(30) NULL")
             coll.Add("cessNonAdvolValue", "varchar(30) NULL")
+            coll.Add("EWayBill_QR_Code", "image null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_EWAY_BILL_REPORT_DETAIL", coll)
             coll = New Dictionary(Of String, String)()
             coll.Add("ewbNo", "Varchar(30) not null References TSPL_EWAY_BILL_REPORT_DETAIL(ewbNo)")

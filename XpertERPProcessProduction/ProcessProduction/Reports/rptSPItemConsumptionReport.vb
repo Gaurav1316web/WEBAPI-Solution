@@ -525,66 +525,11 @@ Public Class rptSPItemConsumptionReport
     End Sub
 
     Private Sub Load_ItemWise_Report()
-        Dim qry As String = ""
         Dim dt As New DataTable()
         Try
-
-            'qry = " select max(TransType) as TransType,(Date) , [Item Code],max(Description) as [Description],max(LOCATION_CODE) as [Location Code],max(UOM) as [UOM],sum([Production Qty]) as [Production Qty],sum([Production Fat KG]) as [Production Fat KG],sum([Production SNF KG]) as [Production SNF KG],sum([Production Fat KG]) + sum([Production SNF KG]) as [Production TS KG] ,sum([Consumption Qty]) as [Consumption Qty],sum([Consumption Fat KG]) as [Consumption Fat KG],sum([Consumption SNF KG]) as [Consumption SNF KG],sum([Consumption Fat KG]) +sum([Consumption SNF KG]) as [Consumption TS KG],sum([Issue Qty]) as [Issue Qty],sum([Issue Fat KG]) as [Issue Fat KG],sum([Issue SNF KG]) as [Issue SNF KG],sum([Issue Fat KG])+sum([Issue SNF KG]) as [Issue TS KG] ,max(PROD_ENTRY_CODE) as PROD_ENTRY_CODE "
-            'qry += " from (select ('Production') as TransType,convert(varchar(10),TSPL_PP_PRODUCTION_ENTRY.PROD_DATE,103)  as [Date], (TSPL_PP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE) as [Item Code],(TSPL_PP_PRODUCTION_ENTRY_DETAIL.ITEM_DESCRIPTION) as [Description],(TSPL_PP_PRODUCTION_ENTRY_DETAIL.UNIT_CODE) as [UOM],(TSPL_PP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) as [Production Qty],(TSPL_PP_PRODUCTION_ENTRY_DETAIL.FAT_KG) as [Production Fat KG],(TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_KG) as [Production SNF KG] ,'' as [Consumption Qty],'' as [Consumption Fat KG],'' as [Consumption SNF KG],'' as [Issue Qty],'' as [Issue Fat KG],'' as [Issue SNF KG],TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE,TSPL_PP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE from TSPL_PP_PRODUCTION_ENTRY left join TSPL_PP_PRODUCTION_RETURN on TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_PP_PRODUCTION_RETURN.PROD_ENTRY_CODE  left outer join TSPL_PP_PRODUCTION_ENTRY_DETAIL on TSPL_PP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE=TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE left outer join TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL on TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.CONSM_ITEM_CODE=TSPL_PP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE and TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE=TSPL_PP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE left outer join TSPL_PP_PE_ISSUE_ITEM_DETAIL on TSPL_PP_PE_ISSUE_ITEM_DETAIL.Item_Code=TSPL_PP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE and TSPL_PP_PE_ISSUE_ITEM_DETAIL.PROD_ENTRY_CODE= TSPL_PP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE WHERE TSPL_PP_PRODUCTION_RETURN.PROD_RETURN_CODE is null"
-
-            'qry += "  union all"
-
-            'qry += " select ('Consumption') as TransType,convert(varchar(10),TSPL_PP_PRODUCTION_ENTRY.PROD_DATE,103) as [Date],(TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.CONSM_ITEM_CODE) as RawItem,(TSPL_ITEM_MASTER.item_desc) as [Description],(TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.UNIT_CODE) as [UOM],'' as [Production Qty],'' as [Production Fat KG],'' as [Production SNF KG],(TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.CONSM_QTY) as [Consumption Qty],(TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.FAT_KG) as [Consumption Fat KG],(TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.SNF_KG) as [Consumption SNF KG],'' as [Issue Qty],'' as [Issue Fat KG],'' as [Issue SNF KG] ,TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE,TSPL_PP_PRODUCTION_ENTRY.CONSM_LOCATION_CODE as Location_Code from TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.CONSM_ITEM_CODE left outer join TSPL_PP_PRODUCTION_ENTRY on TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE left join TSPL_PP_PRODUCTION_RETURN on TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_PP_PRODUCTION_RETURN.PROD_ENTRY_CODE where TSPL_PP_PRODUCTION_RETURN.PROD_RETURN_CODE is null "
-
-            'qry += " union all"
-
-            'qry += " select ('Issue') as TransType,convert(varchar(10),TSPL_PP_PRODUCTION_ENTRY.PROD_DATE,103) as [Date],(TSPL_PP_PE_ISSUE_ITEM_DETAIL.ITEM_CODE) as RawItem,(TSPL_ITEM_MASTER.item_desc) as [Description],(TSPL_PP_PE_ISSUE_ITEM_DETAIL.UNIT_CODE) as [UOM],'' as [Production Qty],'' as [Production Fat KG],'' as [Production SNF KG],'' as [Consumption Qty],'' as [Consumption Fat KG],'' as [Consumption SNF KG],(TSPL_PP_PE_ISSUE_ITEM_DETAIL.Avail_Qty) as [Issue Qty],(TSPL_PP_PE_ISSUE_ITEM_DETAIL.Avail_FAT_KG) as [Issue Fat KG],(TSPL_PP_PE_ISSUE_ITEM_DETAIL.Avail_SNF_KG) as [Issue SNF KG],TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE,TSPL_PP_PE_ISSUE_ITEM_DETAIL.To_Location_Code as Location_Code from TSPL_PP_PE_ISSUE_ITEM_DETAIL left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_PP_PE_ISSUE_ITEM_DETAIL.Item_Code left outer join TSPL_PP_PRODUCTION_ENTRY on TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_PP_PE_ISSUE_ITEM_DETAIL.PROD_ENTRY_CODE )xx "
-
-            'qry += " where 1=1 and convert(date,xx.Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and convert(date,xx.Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'"
-            'If txtItemMult.arrValueMember IsNot Nothing AndAlso txtItemMult.arrValueMember.Count > 0 Then
-            '    qry += " AND xx.[Item Code] in (" + clsCommon.GetMulcallString(txtItemMult.arrValueMember) + ")  "
-            'End If
-            'qry += " group by xx.[Item Code],xx.Date,xx.PROD_ENTRY_CODE order by xx.PROD_ENTRY_CODE "
-            Dim whr As String = ""
-
-            If txtItemMult.arrValueMember IsNot Nothing AndAlso txtItemMult.arrValueMember.Count > 0 Then
-                whr += " AND PP.CONSM_ITEM_CODE in (" + clsCommon.GetMulcallString(txtItemMult.arrValueMember) + ")  "
+            If clsCommon.myLen(ReturnGridQuery) > 0 Then
+                dt = clsDBFuncationality.GetDataTable(ReturnGridQuery)
             End If
-            If TxtMultiLocation.arrValueMember IsNot Nothing AndAlso TxtMultiLocation.arrValueMember.Count > 0 Then
-                whr += " AND PP.LOCATION_CODE in (" + clsCommon.GetMulcallString(TxtMultiLocation.arrValueMember) + ") "
-            Else
-                whr += " and TSPL_LOCATION_MASTER.Location_Type='Physical'  "
-                If clsCommon.myLen(arrLoc) > 0 Then
-                    whr += "  and  TSPL_LOCATION_MASTER.Location_Code in (" + arrLoc + ")"
-                End If
-            End If
-
-            qry = " select XXXFinal.LOCATION_CODE as [Location Code], max(XXXFinal.Location_Desc) as [Location Desc], XXXFinal.CONSM_ITEM_CODE as [Material Code] , max( XXXFinal.Consm_Item_Desc) as [Material Name] ,UNIT_CODE as [UNIT] ,sum(CONSM_QTY)  as [QTY]  from (
-                    select PP.PROD_ENTRY_CODE,PP.AVG_COST,PP.BOM_CODE,PP.CONSM_ITEM_CODE,Consm_Item.Item_Desc as Consm_Item_Desc,Consm_Item.Product_Type as Consm_Product_Type,PP.CONSM_QTY,PP.Fat_Amt,PP.FAT_KG,PP.FAT_Per,PP.Fat_Rate,PP.FIFO_COST,PP.LIFO_COST,PP.LOCATION_CODE,TSPL_LOCATION_MASTER.Location_Desc, PP.Main_ITEM_CODE,PP.MAIN_UOM,PP.SNF_Amt,PP.SNF_KG,PP.SNF_Per,PP.SNF_Rate,PP.UNIT_CODE,TSPL_ITEM_MASTER.ITEM_DESC AS Main_ITEM_Desc,TSPL_MF_BOM_HEAD.DESCRIPTION AS BOM_Desc,TSPL_UNIT_MASTER.UNIT_DESC AS  MAIN_UOM_Desc from TSPL_SPP_CONSUMPTION_WITHOUT_BATCH PP  LEFT JOIN TSPL_ITEM_MASTER ON PP.Main_ITEM_CODE=TSPL_ITEM_MASTER.ITEM_CODE  LEFT JOIN TSPL_MF_BOM_HEAD ON PP.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE  LEFT JOIN TSPL_UNIT_MASTER ON PP.MAIN_UOM=TSPL_UNIT_MASTER.UNIT_CODE  LEFT JOIN TSPL_ITEM_MASTER Consm_Item ON PP.CONSM_ITEM_CODE=Consm_Item.ITEM_CODE  left join TSPL_LOCATION_MASTER ON PP.LOCATION_CODE=TSPL_LOCATION_MASTER.LOCATION_CODE  
-                    left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE = PP.PROD_ENTRY_CODE
-                    where TSPL_SPP_PRODUCTION_ENTRY.POSTED = 1 and convert (date , TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103) >= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and convert (date , TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'
-                    " + whr + "
-union all
-SELECT '' AS PROD_ENTRY_CODE,0 AS AVG_COST,'' AS BOM_CODE,	TSPL_INVENTORY_MOVEMENT.Item_Code AS CONSM_ITEM_CODE, TSPL_ITEM_MASTER.Item_Desc AS Consm_Item_Desc	,'' AS Consm_Product_Type,(ISNULL(Stock_Qty,0)* TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/KGUOM.Conversion_Factor AS	CONSM_QTY,0 AS	Fat_Amt,0 AS FAT_KG,0 AS FAT_Per,0 AS Fat_Rate,0 AS	FIFO_COST,0 AS LIFO_COST,TSPL_INVENTORY_MOVEMENT.LOCATION_CODE,	Location_Desc,	'' AS Main_ITEM_CODE	,'' AS MAIN_UOM,0 AS SNF_Amt, 0 AS SNF_KG,0 AS SNF_Per,0 AS SNF_Rate,KGUOM.UOM_Code AS UNIT_CODE,'' AS Main_ITEM_Desc,'' AS BOM_Desc,'' AS MAIN_UOM_Desc		
-			 FROM TSPL_INVENTORY_MOVEMENT  LEFT JOIN TSPL_ITEM_MASTER ON TSPL_INVENTORY_MOVEMENT.ITEM_CODE=TSPL_ITEM_MASTER.ITEM_CODE left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_INVENTORY_MOVEMENT.STOCK_UOM   left  join ( SELECT Item_Code,Conversion_Factor,UOM_Code FROM TSPL_ITEM_UOM_DETAIL WHERE UOM_Code='KG') AS KGUOM on KGUOM.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code  left join TSPL_LOCATION_MASTER ON TSPL_INVENTORY_MOVEMENT.LOCATION_CODE=TSPL_LOCATION_MASTER.LOCATION_CODE 
-WHERE CONVERT(DATE,TSPL_INVENTORY_MOVEMENT.Punching_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND CONVERT(DATE,TSPL_INVENTORY_MOVEMENT.Punching_Date,103) <= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'
-                         and TSPL_INVENTORY_MOVEMENT.InOut='O' AND Trans_Type='RM-PL'"
-             If txtItemMult.arrValueMember IsNot Nothing AndAlso txtItemMult.arrValueMember.Count > 0 Then
-               qry+= " AND TSPL_INVENTORY_MOVEMENT.Item_Code in (" + clsCommon.GetMulcallString(txtItemMult.arrValueMember) + ")  "
-            End If
-            If TxtMultiLocation.arrValueMember IsNot Nothing AndAlso TxtMultiLocation.arrValueMember.Count > 0 Then
-                qry += " AND TSPL_INVENTORY_MOVEMENT.LOCATION_CODE in (" + clsCommon.GetMulcallString(TxtMultiLocation.arrValueMember) + ") "
-            Else
-                qry += " and TSPL_LOCATION_MASTER.Location_Type='Physical'  "
-                If clsCommon.myLen(arrLoc) > 0 Then
-                    qry += "  and  TSPL_LOCATION_MASTER.Location_Code in (" + arrLoc + ")"
-                End If
-            End If
-            qry += " )XXXFinal group by LOCATION_CODE, XXXFinal.CONSM_ITEM_CODE ,XXXFinal. UNIT_CODE order by  XXXFinal.LOCATION_CODE, XXXFinal.CONSM_ITEM_CODE "
-            If clsCommon.myLen(qry) > 0 Then
-                dt = clsDBFuncationality.GetDataTable(qry)
-            End If
-
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 gv1.DataSource = Nothing
                 gv1.GroupDescriptors.Clear()
@@ -603,6 +548,62 @@ WHERE CONVERT(DATE,TSPL_INVENTORY_MOVEMENT.Punching_Date,103)>='" + clsCommon.Ge
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
     End Sub
+
+    Function ReturnGridQuery() As String
+        'qry = " select max(TransType) as TransType,(Date) , [Item Code],max(Description) as [Description],max(LOCATION_CODE) as [Location Code],max(UOM) as [UOM],sum([Production Qty]) as [Production Qty],sum([Production Fat KG]) as [Production Fat KG],sum([Production SNF KG]) as [Production SNF KG],sum([Production Fat KG]) + sum([Production SNF KG]) as [Production TS KG] ,sum([Consumption Qty]) as [Consumption Qty],sum([Consumption Fat KG]) as [Consumption Fat KG],sum([Consumption SNF KG]) as [Consumption SNF KG],sum([Consumption Fat KG]) +sum([Consumption SNF KG]) as [Consumption TS KG],sum([Issue Qty]) as [Issue Qty],sum([Issue Fat KG]) as [Issue Fat KG],sum([Issue SNF KG]) as [Issue SNF KG],sum([Issue Fat KG])+sum([Issue SNF KG]) as [Issue TS KG] ,max(PROD_ENTRY_CODE) as PROD_ENTRY_CODE "
+        'qry += " from (select ('Production') as TransType,convert(varchar(10),TSPL_PP_PRODUCTION_ENTRY.PROD_DATE,103)  as [Date], (TSPL_PP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE) as [Item Code],(TSPL_PP_PRODUCTION_ENTRY_DETAIL.ITEM_DESCRIPTION) as [Description],(TSPL_PP_PRODUCTION_ENTRY_DETAIL.UNIT_CODE) as [UOM],(TSPL_PP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) as [Production Qty],(TSPL_PP_PRODUCTION_ENTRY_DETAIL.FAT_KG) as [Production Fat KG],(TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_KG) as [Production SNF KG] ,'' as [Consumption Qty],'' as [Consumption Fat KG],'' as [Consumption SNF KG],'' as [Issue Qty],'' as [Issue Fat KG],'' as [Issue SNF KG],TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE,TSPL_PP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE from TSPL_PP_PRODUCTION_ENTRY left join TSPL_PP_PRODUCTION_RETURN on TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_PP_PRODUCTION_RETURN.PROD_ENTRY_CODE  left outer join TSPL_PP_PRODUCTION_ENTRY_DETAIL on TSPL_PP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE=TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE left outer join TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL on TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.CONSM_ITEM_CODE=TSPL_PP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE and TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE=TSPL_PP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE left outer join TSPL_PP_PE_ISSUE_ITEM_DETAIL on TSPL_PP_PE_ISSUE_ITEM_DETAIL.Item_Code=TSPL_PP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE and TSPL_PP_PE_ISSUE_ITEM_DETAIL.PROD_ENTRY_CODE= TSPL_PP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE WHERE TSPL_PP_PRODUCTION_RETURN.PROD_RETURN_CODE is null"
+
+        'qry += "  union all"
+
+        'qry += " select ('Consumption') as TransType,convert(varchar(10),TSPL_PP_PRODUCTION_ENTRY.PROD_DATE,103) as [Date],(TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.CONSM_ITEM_CODE) as RawItem,(TSPL_ITEM_MASTER.item_desc) as [Description],(TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.UNIT_CODE) as [UOM],'' as [Production Qty],'' as [Production Fat KG],'' as [Production SNF KG],(TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.CONSM_QTY) as [Consumption Qty],(TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.FAT_KG) as [Consumption Fat KG],(TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.SNF_KG) as [Consumption SNF KG],'' as [Issue Qty],'' as [Issue Fat KG],'' as [Issue SNF KG] ,TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE,TSPL_PP_PRODUCTION_ENTRY.CONSM_LOCATION_CODE as Location_Code from TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.CONSM_ITEM_CODE left outer join TSPL_PP_PRODUCTION_ENTRY on TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE left join TSPL_PP_PRODUCTION_RETURN on TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_PP_PRODUCTION_RETURN.PROD_ENTRY_CODE where TSPL_PP_PRODUCTION_RETURN.PROD_RETURN_CODE is null "
+
+        'qry += " union all"
+
+        'qry += " select ('Issue') as TransType,convert(varchar(10),TSPL_PP_PRODUCTION_ENTRY.PROD_DATE,103) as [Date],(TSPL_PP_PE_ISSUE_ITEM_DETAIL.ITEM_CODE) as RawItem,(TSPL_ITEM_MASTER.item_desc) as [Description],(TSPL_PP_PE_ISSUE_ITEM_DETAIL.UNIT_CODE) as [UOM],'' as [Production Qty],'' as [Production Fat KG],'' as [Production SNF KG],'' as [Consumption Qty],'' as [Consumption Fat KG],'' as [Consumption SNF KG],(TSPL_PP_PE_ISSUE_ITEM_DETAIL.Avail_Qty) as [Issue Qty],(TSPL_PP_PE_ISSUE_ITEM_DETAIL.Avail_FAT_KG) as [Issue Fat KG],(TSPL_PP_PE_ISSUE_ITEM_DETAIL.Avail_SNF_KG) as [Issue SNF KG],TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE,TSPL_PP_PE_ISSUE_ITEM_DETAIL.To_Location_Code as Location_Code from TSPL_PP_PE_ISSUE_ITEM_DETAIL left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_PP_PE_ISSUE_ITEM_DETAIL.Item_Code left outer join TSPL_PP_PRODUCTION_ENTRY on TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_PP_PE_ISSUE_ITEM_DETAIL.PROD_ENTRY_CODE )xx "
+
+        'qry += " where 1=1 and convert(date,xx.Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and convert(date,xx.Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'"
+        'If txtItemMult.arrValueMember IsNot Nothing AndAlso txtItemMult.arrValueMember.Count > 0 Then
+        '    qry += " AND xx.[Item Code] in (" + clsCommon.GetMulcallString(txtItemMult.arrValueMember) + ")  "
+        'End If
+        'qry += " group by xx.[Item Code],xx.Date,xx.PROD_ENTRY_CODE order by xx.PROD_ENTRY_CODE "
+        Dim whr As String = ""
+        Dim qry As String = ""
+        If txtItemMult.arrValueMember IsNot Nothing AndAlso txtItemMult.arrValueMember.Count > 0 Then
+            whr += " AND PP.CONSM_ITEM_CODE in (" + clsCommon.GetMulcallString(txtItemMult.arrValueMember) + ")  "
+        End If
+        If TxtMultiLocation.arrValueMember IsNot Nothing AndAlso TxtMultiLocation.arrValueMember.Count > 0 Then
+            whr += " AND PP.LOCATION_CODE in (" + clsCommon.GetMulcallString(TxtMultiLocation.arrValueMember) + ") "
+        Else
+            whr += " and TSPL_LOCATION_MASTER.Location_Type='Physical'  "
+            If clsCommon.myLen(arrLoc) > 0 Then
+                whr += "  and  TSPL_LOCATION_MASTER.Location_Code in (" + arrLoc + ")"
+            End If
+        End If
+
+        qry = " select XXXFinal.LOCATION_CODE as [Location Code], max(XXXFinal.Location_Desc) as [Location Desc], XXXFinal.CONSM_ITEM_CODE as [Material Code] , max( XXXFinal.Consm_Item_Desc) as [Material Name] ,UNIT_CODE as [UNIT] ,sum(CONSM_QTY)  as [QTY]  from (
+                    select PP.PROD_ENTRY_CODE,PP.AVG_COST,PP.BOM_CODE,PP.CONSM_ITEM_CODE,Consm_Item.Item_Desc as Consm_Item_Desc,Consm_Item.Product_Type as Consm_Product_Type,PP.CONSM_QTY,PP.Fat_Amt,PP.FAT_KG,PP.FAT_Per,PP.Fat_Rate,PP.FIFO_COST,PP.LIFO_COST,PP.LOCATION_CODE,TSPL_LOCATION_MASTER.Location_Desc, PP.Main_ITEM_CODE,PP.MAIN_UOM,PP.SNF_Amt,PP.SNF_KG,PP.SNF_Per,PP.SNF_Rate,PP.UNIT_CODE,TSPL_ITEM_MASTER.ITEM_DESC AS Main_ITEM_Desc,TSPL_MF_BOM_HEAD.DESCRIPTION AS BOM_Desc,TSPL_UNIT_MASTER.UNIT_DESC AS  MAIN_UOM_Desc from TSPL_SPP_CONSUMPTION_WITHOUT_BATCH PP  LEFT JOIN TSPL_ITEM_MASTER ON PP.Main_ITEM_CODE=TSPL_ITEM_MASTER.ITEM_CODE  LEFT JOIN TSPL_MF_BOM_HEAD ON PP.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE  LEFT JOIN TSPL_UNIT_MASTER ON PP.MAIN_UOM=TSPL_UNIT_MASTER.UNIT_CODE  LEFT JOIN TSPL_ITEM_MASTER Consm_Item ON PP.CONSM_ITEM_CODE=Consm_Item.ITEM_CODE  left join TSPL_LOCATION_MASTER ON PP.LOCATION_CODE=TSPL_LOCATION_MASTER.LOCATION_CODE  
+                    left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE = PP.PROD_ENTRY_CODE
+                    where TSPL_SPP_PRODUCTION_ENTRY.POSTED = 1 and convert (date , TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103) >= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and convert (date , TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'
+                    " + whr + "
+union all
+SELECT '' AS PROD_ENTRY_CODE,0 AS AVG_COST,'' AS BOM_CODE,	TSPL_INVENTORY_MOVEMENT.Item_Code AS CONSM_ITEM_CODE, TSPL_ITEM_MASTER.Item_Desc AS Consm_Item_Desc	,'' AS Consm_Product_Type,(ISNULL(Stock_Qty,0)* TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/KGUOM.Conversion_Factor AS	CONSM_QTY,0 AS	Fat_Amt,0 AS FAT_KG,0 AS FAT_Per,0 AS Fat_Rate,0 AS	FIFO_COST,0 AS LIFO_COST,TSPL_INVENTORY_MOVEMENT.LOCATION_CODE,	Location_Desc,	'' AS Main_ITEM_CODE	,'' AS MAIN_UOM,0 AS SNF_Amt, 0 AS SNF_KG,0 AS SNF_Per,0 AS SNF_Rate,KGUOM.UOM_Code AS UNIT_CODE,'' AS Main_ITEM_Desc,'' AS BOM_Desc,'' AS MAIN_UOM_Desc		
+			 FROM TSPL_INVENTORY_MOVEMENT  LEFT JOIN TSPL_ITEM_MASTER ON TSPL_INVENTORY_MOVEMENT.ITEM_CODE=TSPL_ITEM_MASTER.ITEM_CODE left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_INVENTORY_MOVEMENT.STOCK_UOM   left  join ( SELECT Item_Code,Conversion_Factor,UOM_Code FROM TSPL_ITEM_UOM_DETAIL WHERE UOM_Code='KG') AS KGUOM on KGUOM.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code  left join TSPL_LOCATION_MASTER ON TSPL_INVENTORY_MOVEMENT.LOCATION_CODE=TSPL_LOCATION_MASTER.LOCATION_CODE 
+WHERE CONVERT(DATE,TSPL_INVENTORY_MOVEMENT.Punching_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND CONVERT(DATE,TSPL_INVENTORY_MOVEMENT.Punching_Date,103) <= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'
+                         and TSPL_INVENTORY_MOVEMENT.InOut='O' AND Trans_Type='RM-PL'"
+        If txtItemMult.arrValueMember IsNot Nothing AndAlso txtItemMult.arrValueMember.Count > 0 Then
+            qry += " AND TSPL_INVENTORY_MOVEMENT.Item_Code in (" + clsCommon.GetMulcallString(txtItemMult.arrValueMember) + ")  "
+        End If
+        If TxtMultiLocation.arrValueMember IsNot Nothing AndAlso TxtMultiLocation.arrValueMember.Count > 0 Then
+            qry += " AND TSPL_INVENTORY_MOVEMENT.LOCATION_CODE in (" + clsCommon.GetMulcallString(TxtMultiLocation.arrValueMember) + ") "
+        Else
+            qry += " and TSPL_LOCATION_MASTER.Location_Type='Physical'  "
+            If clsCommon.myLen(arrLoc) > 0 Then
+                qry += "  and  TSPL_LOCATION_MASTER.Location_Code in (" + arrLoc + ")"
+            End If
+        End If
+        qry += " )XXXFinal group by LOCATION_CODE, XXXFinal.CONSM_ITEM_CODE ,XXXFinal. UNIT_CODE order by  XXXFinal.LOCATION_CODE, XXXFinal.CONSM_ITEM_CODE "
+        Return qry
+    End Function
     Sub FormatGrid()
         ' Dim strItemCode, head2 As String
 
@@ -954,13 +955,6 @@ WHERE CONVERT(DATE,TSPL_INVENTORY_MOVEMENT.Punching_Date,103)>='" + clsCommon.Ge
 
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
         Try
-            If TxtMultiLocation.arrValueMember Is Nothing OrElse TxtMultiLocation.arrValueMember.Count <= 0 Then
-                Throw New Exception("Please select Location")
-            End If
-            If txtItemMult.arrValueMember Is Nothing OrElse txtItemMult.arrValueMember.Count <= 0 Then
-                Throw New Exception("Please select item")
-            End If
-
             'Dim qry As String = "select Item_Code,Short_Description, * from TSPL_ITEM_MASTER where  FG_for_CF_PL=1"
             Dim qry As String = "select Item_Code,Short_Description from TSPL_ITEM_MASTER where  FG_for_CF_PL=1"
             Dim dtItem As DataTable = clsDBFuncationality.GetDataTable(qry)
@@ -978,7 +972,14 @@ left outer join TSPL_ITEM_TYPE_MASTER on TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_CODE=TS
 left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_ITEM_TYPE_MASTER.UOM
 left outer join (  select PROD_ENTRY_CODE,max(Main_ITEM_CODE) as Main_ITEM_CODE,CONSM_ITEM_CODE from TSPL_SPP_CONSUMPTION_WITHOUT_BATCH where CONSM_ITEM_CODE in (" + clsCommon.GetMulcallString(txtItemMult.arrValueMember) + ") group by PROD_ENTRY_CODE,CONSM_ITEM_CODE ) as TabMainItem on TabMainItem.PROD_ENTRY_CODE=TSPL_INVENTORY_MOVEMENT.Source_Doc_No and TabMainItem.CONSM_ITEM_CODE=TSPL_INVENTORY_MOVEMENT.Item_Code and TSPL_INVENTORY_MOVEMENT.Trans_Type='STD_PRO_ENT'  
 left outer join TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_INVENTORY_MOVEMENT.Location_Code
-where TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_CODE ='R' and TSPL_INVENTORY_MOVEMENT.Location_Code in (" + clsCommon.GetMulcallString(TxtMultiLocation.arrValueMember) + ") and TSPL_INVENTORY_MOVEMENT.Item_Code in (" + clsCommon.GetMulcallString(txtItemMult.arrValueMember) + ") and CONVERT(date, TSPL_INVENTORY_MOVEMENT.Punching_Date,103) <= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'
+where TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_CODE ='R' "
+            If TxtMultiLocation.arrValueMember IsNot Nothing AndAlso TxtMultiLocation.arrValueMember.Count > 0 Then
+                qry += " and TSPL_INVENTORY_MOVEMENT.Location_Code in (" & clsCommon.GetMulcallString(TxtMultiLocation.arrValueMember) & ") "
+            End If
+            If txtItemMult.arrValueMember IsNot Nothing AndAlso txtItemMult.arrValueMember.Count > 0 Then
+                qry += " and TSPL_INVENTORY_MOVEMENT.Item_Code in (" & clsCommon.GetMulcallString(txtItemMult.arrValueMember) & ") "
+            End If
+            qry += " and CONVERT(date, TSPL_INVENTORY_MOVEMENT.Punching_Date,103) <= '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "'
 )
 
 select '" + objCommonVar.CurrentUser + "' as CurrUser, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " - " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "' as DateRange,convert(varchar, CTE.Punching_Date,103) as IDate,CTE.Punching_Date,CTE.Location_Code,max(CTE.Location_Desc) as Location_Desc,CTE.Item_Code,max(CTE.Item_Desc) as Item_Desc
@@ -1000,11 +1001,12 @@ select '" + objCommonVar.CurrentUser + "' as CurrUser, '" + clsCommon.GetPrintDa
 from CTE where Punching_Date >= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'
 group by Location_Code,Item_Code,Punching_Date order by Location_Code,Item_Code,Punching_Date"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(ReturnGridQuery())
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 Throw New Exception("No Data Found")
             Else
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt, "DaywiseMaterialConsumptionReport", "Daywise Material Consumption Report")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt, dt2, "DaywiseMaterialConsumptionReport", "Daywise Material Consumption Report", "DaywiseMaterialConsumptionSubReport.rpt")
                 frmCRV = Nothing
             End If
         Catch ex As Exception

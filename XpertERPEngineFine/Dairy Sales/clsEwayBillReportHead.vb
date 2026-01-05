@@ -112,11 +112,11 @@ Public Class clsEwayBillReportHead
                 clsCommon.AddColumnsForChange(coll, "transactionType", ewayBill.transactionType)
                 clsCommon.AddColumnsForChange(coll, "otherValue", ewayBill.otherValue)
                 clsCommon.AddColumnsForChange(coll, "cessNonAdvolValue", ewayBill.cessNonAdvolValue)
-
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EWAY_BILL_REPORT_DETAIL", OMInsertOrUpdate.Insert, "", trans)
 
                 clsEwayBillItem.SaveData(ewayBill.ewbno, ewayBill.ItemList, trans)
                 clsEwayBillVehicle.SaveData(ewayBill.ewbno, ewayBill.VehiclListDetails, trans)
+
             End If
 
 

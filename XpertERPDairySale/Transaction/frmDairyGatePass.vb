@@ -1979,17 +1979,17 @@ left outer join " & tbl_TSPL_SD_SHIPMENT_DETAIL & " ON  TSPL_SD_SHIPMENT_DETAIL.
         If isDepartmentRoute Then
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                 Qry = "  Select
- CASE WHEN Conversion_FactorCrt > 0 THEN CAST(LTRQty AS DECIMAL(18,0)) -
-    ( CASE WHEN CAST(LTRQty AS DECIMAL(18,0)) % CAST(Conversion_FactorCrt AS DECIMAL(18,0)) >= CAST(Conversion_FactorCrt AS DECIMAL(18,0)) / 2.0
-        THEN (CAST(CAST(LTRQty AS DECIMAL(18,0)) / CAST(Conversion_FactorCrt AS DECIMAL(18,0)) AS INT) + 1) * CAST(Conversion_FactorCrt AS DECIMAL(18,0))
-        ELSE CAST(CAST(LTRQty AS DECIMAL(18,0)) / CAST(Conversion_FactorCrt AS DECIMAL(18,0)) AS INT) * CAST(Conversion_FactorCrt AS DECIMAL(18,0))
-      END) ELSE 0 END AS LooseLTR,
-
-	   CASE WHEN Conversion_FactorCrt > 0 THEN CAST(KGQty AS DECIMAL(18,0)) -
-    ( CASE WHEN CAST(KGQty AS DECIMAL(18,0)) % CAST(Conversion_FactorCrt AS DECIMAL(18,0)) >= CAST(Conversion_FactorCrt AS DECIMAL(18,0)) / 2.0
-        THEN (CAST(CAST(KGQty AS DECIMAL(18,0)) / CAST(Conversion_FactorCrt AS DECIMAL(18,0)) AS INT) + 1) * CAST(Conversion_FactorCrt AS DECIMAL(18,0))
-        ELSE CAST(CAST(KGQty AS DECIMAL(18,0)) / CAST(Conversion_FactorCrt AS DECIMAL(18,0)) AS INT) * CAST(Conversion_FactorCrt AS DECIMAL(18,0))
-      END) ELSE 0 END AS Loosekg,
+ 	  CASE WHEN CFinLTR > 0 AND Conversion_FactorCrt > 0 THEN CASE -- Less than one carton
+            WHEN LTRQty < Conversion_FactorCrt THEN CASE WHEN LTRQty >= Conversion_FactorCrt / 2.0 THEN -LTRQty ELSE MilkQuantityltr END
+			-- One or more cartons
+            ELSE CASE WHEN LTRQty % Conversion_FactorCrt = 0 THEN 0 WHEN LTRQty % Conversion_FactorCrt < Conversion_FactorCrt / 2.0
+                    THEN LTRQty % Conversion_FactorCrt ELSE -(Conversion_FactorCrt - (LTRQty % Conversion_FactorCrt)) END END ELSE MilkQuantityltr END AS LooseLTR
+,
+CASE WHEN CFinKG > 0 AND Conversion_FactorCrt > 0 THEN CASE -- Less than one carton
+            WHEN KGQty < Conversion_FactorCrt THEN CASE WHEN KGQty >= Conversion_FactorCrt / 2.0 THEN -KGQty ELSE MilkQuantityKG END
+			-- One or more cartons
+            ELSE CASE WHEN KGQty % Conversion_FactorCrt = 0 THEN 0 WHEN KGQty % Conversion_FactorCrt < Conversion_FactorCrt / 2.0
+                    THEN KGQty % Conversion_FactorCrt ELSE -(Conversion_FactorCrt - (KGQty % Conversion_FactorCrt)) END END ELSE MilkQuantityKG END AS LooseKG,
 		
 		* from ( Select CASE WHEN CFinLTR > 0 AND Conversion_FactorCrt > 0 THEN
         CAST(MilkQuantityltr * CFinLTR AS DECIMAL(18,0)) else 0 end as LTRQty,
@@ -2015,17 +2015,17 @@ tbl_Brand.Brand, tbl_Brand.BRANDDESC, TSPL_COMPANY_MASTER.Logo_Img,"
         Else
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                 Qry = "  Select
- CASE WHEN Conversion_FactorCrt > 0 THEN CAST(LTRQty AS DECIMAL(18,0)) -
-    ( CASE WHEN CAST(LTRQty AS DECIMAL(18,0)) % CAST(Conversion_FactorCrt AS DECIMAL(18,0)) >= CAST(Conversion_FactorCrt AS DECIMAL(18,0)) / 2.0
-        THEN (CAST(CAST(LTRQty AS DECIMAL(18,0)) / CAST(Conversion_FactorCrt AS DECIMAL(18,0)) AS INT) + 1) * CAST(Conversion_FactorCrt AS DECIMAL(18,0))
-        ELSE CAST(CAST(LTRQty AS DECIMAL(18,0)) / CAST(Conversion_FactorCrt AS DECIMAL(18,0)) AS INT) * CAST(Conversion_FactorCrt AS DECIMAL(18,0))
-      END) ELSE 0 END AS LooseLTR,
-
-	   CASE WHEN Conversion_FactorCrt > 0 THEN CAST(KGQty AS DECIMAL(18,0)) -
-    ( CASE WHEN CAST(KGQty AS DECIMAL(18,0)) % CAST(Conversion_FactorCrt AS DECIMAL(18,0)) >= CAST(Conversion_FactorCrt AS DECIMAL(18,0)) / 2.0
-        THEN (CAST(CAST(KGQty AS DECIMAL(18,0)) / CAST(Conversion_FactorCrt AS DECIMAL(18,0)) AS INT) + 1) * CAST(Conversion_FactorCrt AS DECIMAL(18,0))
-        ELSE CAST(CAST(KGQty AS DECIMAL(18,0)) / CAST(Conversion_FactorCrt AS DECIMAL(18,0)) AS INT) * CAST(Conversion_FactorCrt AS DECIMAL(18,0))
-      END) ELSE 0 END AS Loosekg,
+ 	  CASE WHEN CFinLTR > 0 AND Conversion_FactorCrt > 0 THEN CASE -- Less than one carton
+            WHEN LTRQty < Conversion_FactorCrt THEN CASE WHEN LTRQty >= Conversion_FactorCrt / 2.0 THEN -LTRQty ELSE MilkQuantityltr END
+			-- One or more cartons
+            ELSE CASE WHEN LTRQty % Conversion_FactorCrt = 0 THEN 0 WHEN LTRQty % Conversion_FactorCrt < Conversion_FactorCrt / 2.0
+                    THEN LTRQty % Conversion_FactorCrt ELSE -(Conversion_FactorCrt - (LTRQty % Conversion_FactorCrt)) END END ELSE MilkQuantityltr END AS LooseLTR
+,
+CASE WHEN CFinKG > 0 AND Conversion_FactorCrt > 0 THEN CASE -- Less than one carton
+            WHEN KGQty < Conversion_FactorCrt THEN CASE WHEN KGQty >= Conversion_FactorCrt / 2.0 THEN -KGQty ELSE MilkQuantityKG END
+			-- One or more cartons
+            ELSE CASE WHEN KGQty % Conversion_FactorCrt = 0 THEN 0 WHEN KGQty % Conversion_FactorCrt < Conversion_FactorCrt / 2.0
+                    THEN KGQty % Conversion_FactorCrt ELSE -(Conversion_FactorCrt - (KGQty % Conversion_FactorCrt)) END END ELSE MilkQuantityKG END AS LooseKG,
 		
 		* from ( Select CASE WHEN CFinLTR > 0 AND Conversion_FactorCrt > 0 THEN
         CAST(MilkQuantityltr * CFinLTR AS DECIMAL(18,0)) else 0 end as LTRQty,
