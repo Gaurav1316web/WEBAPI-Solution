@@ -44,7 +44,10 @@ Public Class rptRejectionReport
                                 ISNULL(xx.InputData, '')), ' , ') AS [Param_Desc_InputData]
 		                    FROM ( SELECT TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No AS RAL,TSPL_GRN_HEAD.GRN_No,TSPL_GRN_HEAD.GRN_Date,TSPL_MRN_HEAD.MRN_Date,TSPL_MRN_HEAD.MRN_No,TSPL_GRN_DETAIL.Item_Code,
                             TSPL_GRN_DETAIL.Item_Desc,TSPL_GRN_HEAD.Vendor_Code,TSPL_GRN_HEAD.Vendor_Name,TSPL_GRN_HEAD.VehicleNo,CAST(TSPL_GRN_DETAIL.GRN_Qty AS DECIMAL(18,2)) AS [Challan Weight],TSPL_GRN_DETAIL.Unit_code,
-                            CASE WHEN TSPL_GRN_HEAD.VisualQCStatus = 1 THEN 'Ok' WHEN TSPL_GRN_HEAD.VisualQCStatus = 2 THEN 'Not Ok' WHEN TSPL_GRN_HEAD.VisualQCStatus = 3 THEN 'Partial Ok' WHEN TSPL_GRN_HEAD.VisualQCStatus = 4 THEN 'On Hold' ELSE 'Pending' END AS [QC Status],
+                            CASE WHEN (TSPL_GRN_HEAD.VisualQCStatus = 2 Or TSPL_GRN_HEAD.VisualQCStatusSecond=2) THEN 'Not Ok'
+WHEN (TSPL_GRN_HEAD.VisualQCStatus = 3 Or TSPL_GRN_HEAD.VisualQCStatusSecond=3) THEN 'Partial Ok' 
+WHEN (TSPL_GRN_HEAD.VisualQCStatus = 4 Or TSPL_GRN_HEAD.VisualQCStatusSecond=4) THEN 'On Hold' 
+WHEN (TSPL_GRN_HEAD.VisualQCStatus = 1 or TSPL_GRN_HEAD.VisualQCStatusSecond = 1 ) THEN 'Ok' ELSE 'Pending' END AS [QC Status],
                             TSPL_QC_CHECK_SRN_DETAIL.InputDataDeductionPer,TSPL_SRN_DETAIL.SRN_Qty,tspl_qc_log_sheet_master.Description AS Param_Desc,
                             TSPL_QC_CHECK_SRN_DETAIL.InputData
                         FROM TSPL_GRN_DETAIL
