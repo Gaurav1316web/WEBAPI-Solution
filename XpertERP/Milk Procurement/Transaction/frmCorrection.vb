@@ -43,28 +43,6 @@ Public Class frmCorrection
     Private Sub frmMilkGateEntryIn_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim id As String = Form_ID
         Try
-            Dim coll As Dictionary(Of String, String)
-            coll = New Dictionary(Of String, String)
-            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-            coll.Add("Document_No", "Varchar(30) not null references TSPL_MILK_COLLECTION_DCS(Document_No)")
-            coll.Add("VLC_Code", "Varchar(30) not null references TSPL_VLC_MASTER_HEAD(VLC_Code)")
-            coll.Add("Qty", "Decimal(18,2) null")
-            coll.Add("FAT", "Decimal(18,2) null")
-            coll.Add("SNF", "Decimal(18,2) null")
-            coll.Add("FATKG", "Decimal(18,3) null")
-            coll.Add("SNFKG", "Decimal(18,3) null")
-            coll.Add("Rate", "Decimal(18,2) null")
-            coll.Add("Amount", "Decimal(18,2) null")
-            coll.Add("Created_By", "varchar(12)  Not NULL")
-            coll.Add("Created_Date", "datetime  Not NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_SUSPENSE_ADJUSTMENT", coll, Nothing, False, False, "", "", "", False)
-
-            coll = New Dictionary(Of String, String)()
-            coll.Add("Is_Suspense_Adjustment_CR_Note", "integer not null default 0")
-            coll.Add("Is_Suspense_Adjustment_DR_Note", "integer not null default 0")
-            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_DEDUCTION_MASTER", coll, "", True, False, "", "", "", True)
-
-
             SettShowAllDCS = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowAllDCS, clsFixedParameterCode.ShowAllDCS, Nothing))
             SettMilkCollectionFATSNFType = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkCollectionFATSNFType, clsFixedParameterCode.MilkCollectionFATSNFType, Nothing))
             SettFATSNFNoDecimalMCC = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FATSNFNoDecimalMCC, clsFixedParameterCode.FATSNFNoDecimalMCC, Nothing))
