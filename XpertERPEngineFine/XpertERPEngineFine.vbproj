@@ -319,8 +319,11 @@
     <Compile Include="Common\clsFinder.vb" />
     <Compile Include="Common\clsStateMaster.vb" />
     <Compile Include="Common\MIlkComponentType.vb" />
+    <Compile Include="Dairy Sales\ClsAgencyMaster.vb" />
+    <Compile Include="Dairy Sales\clsConsumerMaster.vb" />
     <Compile Include="Dairy Sales\clsCustomerPenalty.vb" />
     <Compile Include="Dairy Sales\clsDemandBookingSale.vb" />
+    <Compile Include="Dairy Sales\clsDesignationHierarcy.vb" />
     <Compile Include="Dairy Sales\clsEwayBillReportHead.vb" />
     <Compile Include="Dairy Sales\clsRouteWiseSaleTarget.vb" />
     <Compile Include="DA_Arrear\clsDA_Arrear.vb" />
