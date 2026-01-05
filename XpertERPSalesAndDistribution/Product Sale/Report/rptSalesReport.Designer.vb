@@ -22,10 +22,11 @@ Partial Class rptSalesReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtLocation = New common.UserControls.txtMultiSelectFinder()
         Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rdbSaleTransfer = New common.Controls.MyRadioButton()
         Me.rdbStockTransfer = New common.Controls.MyRadioButton()
@@ -60,7 +61,6 @@ Partial Class rptSalesReport
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.txtLocation = New common.UserControls.txtMultiSelectFinder()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -154,6 +154,19 @@ Partial Class rptSalesReport
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 357)
         Me.RadPageViewPage1.Text = "Filters"
         '
+        'txtLocation
+        '
+        Me.txtLocation.arrDispalyMember = Nothing
+        Me.txtLocation.arrValueMember = Nothing
+        Me.txtLocation.Location = New System.Drawing.Point(78, 70)
+        Me.txtLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocation.MyLinkLable1 = Nothing
+        Me.txtLocation.MyLinkLable2 = Nothing
+        Me.txtLocation.MyNullText = "All"
+        Me.txtLocation.Name = "txtLocation"
+        Me.txtLocation.Size = New System.Drawing.Size(191, 19)
+        Me.txtLocation.TabIndex = 63
+        '
         'RadGroupBox6
         '
         Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
@@ -178,7 +191,6 @@ Partial Class rptSalesReport
         Me.rdbSaleTransfer.TabIndex = 4
         Me.rdbSaleTransfer.TabStop = False
         Me.rdbSaleTransfer.Text = "All(Sale+Transfer)"
-        Me.rdbSaleTransfer.Visible = False
         '
         'rdbStockTransfer
         '
@@ -492,7 +504,7 @@ Partial Class rptSalesReport
         '
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
@@ -562,19 +574,6 @@ Partial Class rptSalesReport
         Me.btnGo.Size = New System.Drawing.Size(57, 17)
         Me.btnGo.TabIndex = 43
         Me.btnGo.Text = ">>"
-        '
-        'txtLocation
-        '
-        Me.txtLocation.arrDispalyMember = Nothing
-        Me.txtLocation.arrValueMember = Nothing
-        Me.txtLocation.Location = New System.Drawing.Point(78, 70)
-        Me.txtLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtLocation.MyLinkLable1 = Nothing
-        Me.txtLocation.MyLinkLable2 = Nothing
-        Me.txtLocation.MyNullText = "All"
-        Me.txtLocation.Name = "txtLocation"
-        Me.txtLocation.Size = New System.Drawing.Size(191, 19)
-        Me.txtLocation.TabIndex = 63
         '
         'rptSalesReport
         '
