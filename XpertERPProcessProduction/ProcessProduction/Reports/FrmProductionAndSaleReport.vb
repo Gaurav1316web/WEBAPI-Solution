@@ -845,6 +845,12 @@ GROUP BY t.Location_Code
 
                 'Dim strLocation As String = clsDBFuncationality.getSingleValue("  DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' + QUOTENAME(TSPL_LOCATION_MASTER.location_code) as Alies_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
                 'Dim strMainLocation As String = clsDBFuncationality.getSingleValue("SELECT TSPL_LOCATION_MASTER.Loc_Short_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='1'")
+                Dim StrTempQry2 As String = "DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT  
+                     STUFF((SELECT distinct ',' +'Sum(isnull('  + QUOTENAME(TSPL_LOCATION_MASTER.location_code)+',0))'
+                     +' as ' + QUOTENAME( TSPL_LOCATION_MASTER.location_code)
+                    as Alies_Name FROM TSPL_LOCATION_MASTER where 2=2 and TSPL_LOCATION_MASTER.Rejected_Type='N'  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')"
+                Dim strSumLocation2 As String = clsDBFuncationality.getSingleValue(StrTempQry2)
+
                 Dim StrTempQry As String = "DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT  
                      STUFF((SELECT distinct ',' +'Sum(isnull('  + QUOTENAME(TSPL_LOCATION_MASTER.location_code)+',0))'
                      +' as ' + QUOTENAME( TSPL_LOCATION_MASTER.location_code)
@@ -864,6 +870,7 @@ GROUP BY t.Location_Code
 
                 Dim strLocation As String = clsDBFuncationality.getSingleValue("  DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' + QUOTENAME(TSPL_LOCATION_MASTER.location_code) as Alies_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N' FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
                 Dim strMainLocation As String = clsDBFuncationality.getSingleValue("SELECT '[' + TSPL_LOCATION_MASTER.location_code + ']' FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='1'")
+                Dim strLocation1 As String = clsDBFuncationality.getSingleValue("  DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' + QUOTENAME(TSPL_LOCATION_MASTER.location_code) as Alies_Name FROM TSPL_LOCATION_MASTER where 2=2 and TSPL_LOCATION_MASTER.Rejected_Type='N' FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
 
                 StrTempQry = "DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT  
                      STUFF((SELECT distinct ',' +'max('  + QUOTENAME(TSPL_LOCATION_MASTER.location_code)+')'
@@ -969,7 +976,7 @@ sum(cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + 
                 'CAPACITY UTILIZATION
 
                 query += " Union all
-                            select Production,Sum(isnull([AJMR],0)) as [AJMR],Sum(isnull([BIKR],0)) as [BIKR],Sum(isnull([JODH],0)) as [JODH],Sum(isnull([KALR],0)) as [KALR],Sum(isnull([LAMB],0)) as [LAMB],Sum(isnull([NADB],0)) as [NADB],Sum(isnull([PALI],0)) as [PALI],Sum(isnull([RCDF],0)) as [RCDF]
+                            select Production," + strSumLocation2 + "
 							
                          from (select 'Capacity Utilization' as Production,TSPL_LOCATION_MASTER.Location_Code
                         ,case when TSPL_LOCATION_MASTER.Silo_Capacity=0 then 0 else isnull(CAST(((ProdCumQty.Qty/1000)*100/(1*TSPL_LOCATION_MASTER.target/(day(eomonth('" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy") + "'))))/" + clsCommon.myCstr(DayCount) + ") AS DECIMAL(18,0)),0) end as ProdCumQty
@@ -1019,7 +1026,7 @@ sum(cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + 
                           ON TSPL_LOCATION_MASTER.LOCATION_CODE =ProdCumQty.LOCATION_CODE
                           where TSPL_LOCATION_MASTER.IsMainPlant='0' 
 						  )XX Group by LOCATION_CODE)XXXProduction
-                          pivot ( sum(ProdCumQty) for Location_Code in ([AJMR],[BIKR],[JODH],[KALR],[LAMB],[NADB],[PALI],[RCDF]) )as zpivot group by zpivot.Production
+                          pivot ( sum(ProdCumQty) for Location_Code in (" + strLocation1 + ") )as zpivot group by zpivot.Production
 
 
 
