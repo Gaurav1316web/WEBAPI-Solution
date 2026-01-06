@@ -346,3 +346,23 @@ Public Class clsEwayBillVehicle
         Return arr
     End Function
 End Class
+
+Public Class clsEwayBillsByDateDetail
+    Public Property ewbNo As Object
+    Public Property ewbDate As String
+    Public Property status As String
+    Public Property genGstin As String
+    Public Property docNo As String
+    Public Property docDate As String
+    Public Property delPinCode As Integer
+    Public Property delStateCode As Integer
+    Public Property delPlace As String
+    Public Property validUpto As String
+    Public Property extendedTimes As Integer
+    Public Property rejectStatus As String
+End Class
+
+Public Class clsEwayBillsByDate
+    Public Property data As List(Of clsEwayBillsByDateDetail)
+End Class
+

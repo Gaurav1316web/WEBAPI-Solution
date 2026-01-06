@@ -22,6 +22,7 @@ Partial Class FrmEwaybill
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.lblDate = New common.Controls.MyLabel()
@@ -32,7 +33,6 @@ Partial Class FrmEwaybill
         Me.lblConsignmentstatus = New common.Controls.MyLabel()
         Me.RadLabel15 = New common.Controls.MyLabel()
         Me.txtLocation = New common.UserControls.txtFinder()
-        Me.txtVehicleNo = New common.UserControls.txtFinder()
         Me.lblVehicleNo = New common.Controls.MyLabel()
         Me.cmbExtendValidityReason = New System.Windows.Forms.ComboBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
@@ -46,6 +46,9 @@ Partial Class FrmEwaybill
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnreset = New Telerik.WinControls.UI.RadButton()
+        Me.txtVehicleNo = New common.Controls.MyTextBox()
+        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.gv1 = New common.UserControls.MyRadGridView()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -64,6 +67,12 @@ Partial Class FrmEwaybill
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtVehicleNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer2.Panel1.SuspendLayout()
+        Me.SplitContainer2.Panel2.SuspendLayout()
+        Me.SplitContainer2.SuspendLayout()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -76,26 +85,7 @@ Partial Class FrmEwaybill
         '
         'SplitContainer1.Panel1
         '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.txtDate)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.lblDate)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.txtewbno)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.txtRemaningDistance)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.lblRemDistrance)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.cmbConsignmentStatus)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.lblConsignmentstatus)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.RadLabel15)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.txtLocation)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.txtVehicleNo)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.lblVehicleNo)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.cmbExtendValidityReason)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel1)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.cmbReasonForUpdateVehicle)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.lblReasoncode)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.txtTransID)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.lblTransID)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.lblewbno)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.cmbEwaybillType)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.Label1)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.SplitContainer2)
         '
         'SplitContainer1.Panel2
         '
@@ -120,7 +110,7 @@ Partial Class FrmEwaybill
         Me.txtDate.IsSourceFromTable = False
         Me.txtDate.IsSourceFromValueList = False
         Me.txtDate.IsUnique = False
-        Me.txtDate.Location = New System.Drawing.Point(127, 135)
+        Me.txtDate.Location = New System.Drawing.Point(125, 126)
         Me.txtDate.MendatroryField = False
         Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtDate.MyLinkLable1 = Nothing
@@ -140,9 +130,9 @@ Partial Class FrmEwaybill
         '
         Me.lblDate.FieldName = Nothing
         Me.lblDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDate.Location = New System.Drawing.Point(30, 138)
+        Me.lblDate.Location = New System.Drawing.Point(28, 129)
         Me.lblDate.Name = "lblDate"
-        Me.lblDate.Size = New System.Drawing.Size(82, 16)
+        Me.lblDate.Size = New System.Drawing.Size(79, 16)
         Me.lblDate.TabIndex = 1492
         Me.lblDate.Text = "Eway Bill Date"
         '
@@ -157,7 +147,7 @@ Partial Class FrmEwaybill
         Me.txtewbno.IsSourceFromTable = False
         Me.txtewbno.IsSourceFromValueList = False
         Me.txtewbno.IsUnique = False
-        Me.txtewbno.Location = New System.Drawing.Point(126, 66)
+        Me.txtewbno.Location = New System.Drawing.Point(124, 57)
         Me.txtewbno.MendatroryField = False
         Me.txtewbno.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtewbno.MyLinkLable1 = Nothing
@@ -184,7 +174,7 @@ Partial Class FrmEwaybill
         Me.txtRemaningDistance.IsSourceFromTable = False
         Me.txtRemaningDistance.IsSourceFromValueList = False
         Me.txtRemaningDistance.IsUnique = False
-        Me.txtRemaningDistance.Location = New System.Drawing.Point(386, 137)
+        Me.txtRemaningDistance.Location = New System.Drawing.Point(384, 128)
         Me.txtRemaningDistance.MaxLength = 200
         Me.txtRemaningDistance.MendatroryField = False
         Me.txtRemaningDistance.MyLinkLable1 = Nothing
@@ -200,7 +190,7 @@ Partial Class FrmEwaybill
         '
         Me.lblRemDistrance.FieldName = Nothing
         Me.lblRemDistrance.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRemDistrance.Location = New System.Drawing.Point(259, 137)
+        Me.lblRemDistrance.Location = New System.Drawing.Point(257, 128)
         Me.lblRemDistrance.Name = "lblRemDistrance"
         Me.lblRemDistrance.Size = New System.Drawing.Size(105, 16)
         Me.lblRemDistrance.TabIndex = 1489
@@ -209,7 +199,7 @@ Partial Class FrmEwaybill
         'cmbConsignmentStatus
         '
         Me.cmbConsignmentStatus.FormattingEnabled = True
-        Me.cmbConsignmentStatus.Location = New System.Drawing.Point(386, 110)
+        Me.cmbConsignmentStatus.Location = New System.Drawing.Point(384, 103)
         Me.cmbConsignmentStatus.Name = "cmbConsignmentStatus"
         Me.cmbConsignmentStatus.Size = New System.Drawing.Size(232, 21)
         Me.cmbConsignmentStatus.TabIndex = 1488
@@ -218,7 +208,7 @@ Partial Class FrmEwaybill
         '
         Me.lblConsignmentstatus.FieldName = Nothing
         Me.lblConsignmentstatus.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblConsignmentstatus.Location = New System.Drawing.Point(257, 115)
+        Me.lblConsignmentstatus.Location = New System.Drawing.Point(255, 106)
         Me.lblConsignmentstatus.Name = "lblConsignmentstatus"
         Me.lblConsignmentstatus.Size = New System.Drawing.Size(108, 16)
         Me.lblConsignmentstatus.TabIndex = 1487
@@ -228,7 +218,7 @@ Partial Class FrmEwaybill
         '
         Me.RadLabel15.FieldName = Nothing
         Me.RadLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel15.Location = New System.Drawing.Point(30, 45)
+        Me.RadLabel15.Location = New System.Drawing.Point(28, 36)
         Me.RadLabel15.Name = "RadLabel15"
         Me.RadLabel15.Size = New System.Drawing.Size(49, 16)
         Me.RadLabel15.TabIndex = 1486
@@ -245,7 +235,7 @@ Partial Class FrmEwaybill
         Me.txtLocation.IsSourceFromTable = False
         Me.txtLocation.IsSourceFromValueList = False
         Me.txtLocation.IsUnique = False
-        Me.txtLocation.Location = New System.Drawing.Point(127, 41)
+        Me.txtLocation.Location = New System.Drawing.Point(125, 32)
         Me.txtLocation.MendatroryField = True
         Me.txtLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtLocation.MyLinkLable1 = Me.RadLabel15
@@ -260,37 +250,11 @@ Partial Class FrmEwaybill
         Me.txtLocation.TabIndex = 1485
         Me.txtLocation.Value = ""
         '
-        'txtVehicleNo
-        '
-        Me.txtVehicleNo.CalculationExpression = Nothing
-        Me.txtVehicleNo.FieldCode = Nothing
-        Me.txtVehicleNo.FieldDesc = Nothing
-        Me.txtVehicleNo.FieldMaxLength = 0
-        Me.txtVehicleNo.FieldName = Nothing
-        Me.txtVehicleNo.isCalculatedField = False
-        Me.txtVehicleNo.IsSourceFromTable = False
-        Me.txtVehicleNo.IsSourceFromValueList = False
-        Me.txtVehicleNo.IsUnique = False
-        Me.txtVehicleNo.Location = New System.Drawing.Point(126, 112)
-        Me.txtVehicleNo.MendatroryField = False
-        Me.txtVehicleNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtVehicleNo.MyLinkLable1 = Nothing
-        Me.txtVehicleNo.MyLinkLable2 = Nothing
-        Me.txtVehicleNo.MyReadOnly = False
-        Me.txtVehicleNo.MyShowMasterFormButton = False
-        Me.txtVehicleNo.Name = "txtVehicleNo"
-        Me.txtVehicleNo.ReferenceFieldDesc = Nothing
-        Me.txtVehicleNo.ReferenceFieldName = Nothing
-        Me.txtVehicleNo.ReferenceTableName = Nothing
-        Me.txtVehicleNo.Size = New System.Drawing.Size(125, 19)
-        Me.txtVehicleNo.TabIndex = 1484
-        Me.txtVehicleNo.Value = ""
-        '
         'lblVehicleNo
         '
         Me.lblVehicleNo.FieldName = Nothing
         Me.lblVehicleNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblVehicleNo.Location = New System.Drawing.Point(27, 111)
+        Me.lblVehicleNo.Location = New System.Drawing.Point(25, 105)
         Me.lblVehicleNo.Name = "lblVehicleNo"
         Me.lblVehicleNo.Size = New System.Drawing.Size(61, 16)
         Me.lblVehicleNo.TabIndex = 1483
@@ -299,7 +263,7 @@ Partial Class FrmEwaybill
         'cmbExtendValidityReason
         '
         Me.cmbExtendValidityReason.FormattingEnabled = True
-        Me.cmbExtendValidityReason.Location = New System.Drawing.Point(386, 88)
+        Me.cmbExtendValidityReason.Location = New System.Drawing.Point(384, 79)
         Me.cmbExtendValidityReason.Name = "cmbExtendValidityReason"
         Me.cmbExtendValidityReason.Size = New System.Drawing.Size(232, 21)
         Me.cmbExtendValidityReason.TabIndex = 1482
@@ -308,7 +272,7 @@ Partial Class FrmEwaybill
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(257, 93)
+        Me.MyLabel1.Location = New System.Drawing.Point(255, 84)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(123, 16)
         Me.MyLabel1.TabIndex = 1481
@@ -317,7 +281,7 @@ Partial Class FrmEwaybill
         'cmbReasonForUpdateVehicle
         '
         Me.cmbReasonForUpdateVehicle.FormattingEnabled = True
-        Me.cmbReasonForUpdateVehicle.Location = New System.Drawing.Point(386, 64)
+        Me.cmbReasonForUpdateVehicle.Location = New System.Drawing.Point(384, 55)
         Me.cmbReasonForUpdateVehicle.Name = "cmbReasonForUpdateVehicle"
         Me.cmbReasonForUpdateVehicle.Size = New System.Drawing.Size(232, 21)
         Me.cmbReasonForUpdateVehicle.TabIndex = 1480
@@ -326,7 +290,7 @@ Partial Class FrmEwaybill
         '
         Me.lblReasoncode.FieldName = Nothing
         Me.lblReasoncode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblReasoncode.Location = New System.Drawing.Point(257, 68)
+        Me.lblReasoncode.Location = New System.Drawing.Point(255, 59)
         Me.lblReasoncode.Name = "lblReasoncode"
         Me.lblReasoncode.Size = New System.Drawing.Size(75, 16)
         Me.lblReasoncode.TabIndex = 1479
@@ -343,7 +307,7 @@ Partial Class FrmEwaybill
         Me.txtTransID.IsSourceFromTable = False
         Me.txtTransID.IsSourceFromValueList = False
         Me.txtTransID.IsUnique = False
-        Me.txtTransID.Location = New System.Drawing.Point(126, 90)
+        Me.txtTransID.Location = New System.Drawing.Point(124, 81)
         Me.txtTransID.MendatroryField = False
         Me.txtTransID.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtTransID.MyLinkLable1 = Nothing
@@ -362,7 +326,7 @@ Partial Class FrmEwaybill
         '
         Me.lblTransID.FieldName = Nothing
         Me.lblTransID.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTransID.Location = New System.Drawing.Point(27, 89)
+        Me.lblTransID.Location = New System.Drawing.Point(25, 80)
         Me.lblTransID.Name = "lblTransID"
         Me.lblTransID.Size = New System.Drawing.Size(75, 16)
         Me.lblTransID.TabIndex = 1477
@@ -372,7 +336,7 @@ Partial Class FrmEwaybill
         '
         Me.lblewbno.FieldName = Nothing
         Me.lblewbno.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblewbno.Location = New System.Drawing.Point(27, 67)
+        Me.lblewbno.Location = New System.Drawing.Point(25, 58)
         Me.lblewbno.Name = "lblewbno"
         Me.lblewbno.Size = New System.Drawing.Size(73, 16)
         Me.lblewbno.TabIndex = 1475
@@ -393,7 +357,7 @@ Partial Class FrmEwaybill
         Me.cmbEwaybillType.IsSourceFromTable = False
         Me.cmbEwaybillType.IsSourceFromValueList = False
         Me.cmbEwaybillType.IsUnique = False
-        Me.cmbEwaybillType.Location = New System.Drawing.Point(141, 9)
+        Me.cmbEwaybillType.Location = New System.Drawing.Point(140, 5)
         Me.cmbEwaybillType.MendatroryField = True
         Me.cmbEwaybillType.MyLinkLable1 = Nothing
         Me.cmbEwaybillType.MyLinkLable2 = Nothing
@@ -407,7 +371,7 @@ Partial Class FrmEwaybill
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(14, 9)
+        Me.Label1.Location = New System.Drawing.Point(13, 5)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(121, 13)
         Me.Label1.TabIndex = 1
@@ -440,6 +404,88 @@ Partial Class FrmEwaybill
         Me.btnreset.TabIndex = 87
         Me.btnreset.Text = "Reset"
         '
+        'txtVehicleNo
+        '
+        Me.txtVehicleNo.CalculationExpression = Nothing
+        Me.txtVehicleNo.FieldCode = Nothing
+        Me.txtVehicleNo.FieldDesc = Nothing
+        Me.txtVehicleNo.FieldMaxLength = 0
+        Me.txtVehicleNo.FieldName = Nothing
+        Me.txtVehicleNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtVehicleNo.isCalculatedField = False
+        Me.txtVehicleNo.IsSourceFromTable = False
+        Me.txtVehicleNo.IsSourceFromValueList = False
+        Me.txtVehicleNo.IsUnique = False
+        Me.txtVehicleNo.Location = New System.Drawing.Point(124, 104)
+        Me.txtVehicleNo.MaxLength = 200
+        Me.txtVehicleNo.MendatroryField = False
+        Me.txtVehicleNo.MyLinkLable1 = Nothing
+        Me.txtVehicleNo.MyLinkLable2 = Nothing
+        Me.txtVehicleNo.Name = "txtVehicleNo"
+        Me.txtVehicleNo.ReferenceFieldDesc = Nothing
+        Me.txtVehicleNo.ReferenceFieldName = Nothing
+        Me.txtVehicleNo.ReferenceTableName = Nothing
+        Me.txtVehicleNo.Size = New System.Drawing.Size(125, 18)
+        Me.txtVehicleNo.TabIndex = 1494
+        '
+        'SplitContainer2
+        '
+        Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer2.Name = "SplitContainer2"
+        Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer2.Panel1
+        '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.Label1)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtVehicleNo)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.cmbEwaybillType)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtDate)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblewbno)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblDate)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblTransID)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtewbno)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtTransID)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtRemaningDistance)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblReasoncode)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblRemDistrance)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.cmbReasonForUpdateVehicle)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.cmbConsignmentStatus)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel1)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblConsignmentstatus)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.cmbExtendValidityReason)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.RadLabel15)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblVehicleNo)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtLocation)
+        '
+        'SplitContainer2.Panel2
+        '
+        Me.SplitContainer2.Panel2.Controls.Add(Me.gv1)
+        Me.SplitContainer2.Size = New System.Drawing.Size(800, 413)
+        Me.SplitContainer2.SplitterDistance = 162
+        Me.SplitContainer2.TabIndex = 1495
+        '
+        'gv1
+        '
+        Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gv1.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gv1.MasterTemplate.AllowAddNewRow = False
+        Me.gv1.MasterTemplate.EnableFiltering = True
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
+        Me.gv1.MyStopExport = False
+        Me.gv1.Name = "gv1"
+        Me.gv1.ShowHeaderCellButtons = True
+        Me.gv1.Size = New System.Drawing.Size(800, 247)
+        Me.gv1.TabIndex = 2
+        Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
+        '
         'FrmEwaybill
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -453,7 +499,6 @@ Partial Class FrmEwaybill
         Me.RootElement.ApplyShapeToControl = True
         Me.Text = "Eway Bill API"
         Me.SplitContainer1.Panel1.ResumeLayout(False)
-        Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -471,6 +516,13 @@ Partial Class FrmEwaybill
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtVehicleNo, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer2.Panel1.ResumeLayout(False)
+        Me.SplitContainer2.Panel1.PerformLayout()
+        Me.SplitContainer2.Panel2.ResumeLayout(False)
+        Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -489,7 +541,6 @@ Partial Class FrmEwaybill
     Friend WithEvents cmbReasonForUpdateVehicle As ComboBox
     Friend WithEvents cmbExtendValidityReason As ComboBox
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
-    Friend WithEvents txtVehicleNo As common.UserControls.txtFinder
     Friend WithEvents lblVehicleNo As common.Controls.MyLabel
     Friend WithEvents RadLabel15 As common.Controls.MyLabel
     Friend WithEvents txtLocation As common.UserControls.txtFinder
@@ -500,4 +551,7 @@ Partial Class FrmEwaybill
     Friend WithEvents txtewbno As common.UserControls.txtFinder
     Friend WithEvents txtDate As common.Controls.MyDateTimePicker
     Friend WithEvents lblDate As common.Controls.MyLabel
+    Friend WithEvents txtVehicleNo As common.Controls.MyTextBox
+    Friend WithEvents SplitContainer2 As SplitContainer
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
 End Class
