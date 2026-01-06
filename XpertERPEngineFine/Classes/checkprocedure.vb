@@ -2416,6 +2416,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmProductQuickDemand, "Product Quick Demand", "1.36.02.37", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmCustomerPenalty, "Customer Penalty", "1.36.02.38", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmRouteWiseSaleTarget, "Route Wise Sale Target", "1.36.02.39", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmEwaybill, "Eway Bill Update", "1.36.02.39", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
 
         '' end of transaction
 
@@ -2508,8 +2509,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptNewTenderPartyListReport, "New Tender Party List Report", "1.06.03.67", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptCrateRegister, "Crate Balance Register", "1.06.03.69", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptSaleInvoiceStatusReport, "Sale Invoice Status Report", "1.06.03.71", clsUserMgtCode.SubModuleSaleDairyReport, 37)
-        InsertDefaultValue(clsUserMgtCode.frmEwaybill, "Eway Bill API", "1.06.03.72", clsUserMgtCode.SubModuleSaleDairyReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptItemWiseBillReport, "Customer Item Wise Bill Report", "1.06.03.73", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        'InsertDefaultValue(clsUserMgtCode.frmEwaybill, "Eway Bill API", "1.06.03.72", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptItemWiseBillReport, "ITEM WISE BILL REPORT", "1.06.03.73", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         '-------------------------SERVICE MODULE END----------------------------------------
 
