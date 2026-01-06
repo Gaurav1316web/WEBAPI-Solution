@@ -45,6 +45,7 @@ Partial Class FrmDeductionMaster
         Me.chkOTHERS = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkShowFATSNF = New Telerik.WinControls.UI.RadCheckBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.chkHeadLoad = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkCorrectionAfterProcessCrNote = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkCorrectionAfterProcessDrNote = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkTransferToSaving = New Telerik.WinControls.UI.RadCheckBox()
@@ -81,7 +82,8 @@ Partial Class FrmDeductionMaster
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.chkHeadLoad = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkSuspenseAdjustmentCrNote = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkSuspenseAdjustmentDrNote = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -102,6 +104,7 @@ Partial Class FrmDeductionMaster
         CType(Me.chkOTHERS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkShowFATSNF, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
+        CType(Me.chkHeadLoad, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkCorrectionAfterProcessCrNote, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkCorrectionAfterProcessDrNote, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkTransferToSaving, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -134,7 +137,8 @@ Partial Class FrmDeductionMaster
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkHeadLoad, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSuspenseAdjustmentCrNote, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSuspenseAdjustmentDrNote, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -304,7 +308,7 @@ Partial Class FrmDeductionMaster
         '
         'chkAddition
         '
-        Me.chkAddition.Location = New System.Drawing.Point(17, 312)
+        Me.chkAddition.Location = New System.Drawing.Point(17, 332)
         Me.chkAddition.Name = "chkAddition"
         Me.chkAddition.Size = New System.Drawing.Size(63, 18)
         Me.chkAddition.TabIndex = 622
@@ -312,7 +316,7 @@ Partial Class FrmDeductionMaster
         '
         'chkFEED
         '
-        Me.chkFEED.Location = New System.Drawing.Point(17, 290)
+        Me.chkFEED.Location = New System.Drawing.Point(17, 310)
         Me.chkFEED.Name = "chkFEED"
         Me.chkFEED.Size = New System.Drawing.Size(45, 18)
         Me.chkFEED.TabIndex = 621
@@ -320,7 +324,7 @@ Partial Class FrmDeductionMaster
         '
         'chkGHEE
         '
-        Me.chkGHEE.Location = New System.Drawing.Point(94, 290)
+        Me.chkGHEE.Location = New System.Drawing.Point(94, 310)
         Me.chkGHEE.Name = "chkGHEE"
         Me.chkGHEE.Size = New System.Drawing.Size(47, 18)
         Me.chkGHEE.TabIndex = 620
@@ -328,7 +332,7 @@ Partial Class FrmDeductionMaster
         '
         'chkMILK
         '
-        Me.chkMILK.Location = New System.Drawing.Point(160, 290)
+        Me.chkMILK.Location = New System.Drawing.Point(160, 310)
         Me.chkMILK.Name = "chkMILK"
         Me.chkMILK.Size = New System.Drawing.Size(45, 18)
         Me.chkMILK.TabIndex = 619
@@ -372,7 +376,7 @@ Partial Class FrmDeductionMaster
         '
         'chkHO
         '
-        Me.chkHO.Location = New System.Drawing.Point(17, 271)
+        Me.chkHO.Location = New System.Drawing.Point(17, 291)
         Me.chkHO.Name = "chkHO"
         Me.chkHO.Size = New System.Drawing.Size(37, 18)
         Me.chkHO.TabIndex = 88
@@ -380,7 +384,7 @@ Partial Class FrmDeductionMaster
         '
         'chkVLC
         '
-        Me.chkVLC.Location = New System.Drawing.Point(94, 271)
+        Me.chkVLC.Location = New System.Drawing.Point(94, 291)
         Me.chkVLC.Name = "chkVLC"
         Me.chkVLC.Size = New System.Drawing.Size(41, 18)
         Me.chkVLC.TabIndex = 87
@@ -388,7 +392,7 @@ Partial Class FrmDeductionMaster
         '
         'chkOTHERS
         '
-        Me.chkOTHERS.Location = New System.Drawing.Point(160, 271)
+        Me.chkOTHERS.Location = New System.Drawing.Point(160, 291)
         Me.chkOTHERS.Name = "chkOTHERS"
         Me.chkOTHERS.Size = New System.Drawing.Size(61, 18)
         Me.chkOTHERS.TabIndex = 86
@@ -396,7 +400,7 @@ Partial Class FrmDeductionMaster
         '
         'chkShowFATSNF
         '
-        Me.chkShowFATSNF.Location = New System.Drawing.Point(17, 253)
+        Me.chkShowFATSNF.Location = New System.Drawing.Point(17, 273)
         Me.chkShowFATSNF.Name = "chkShowFATSNF"
         Me.chkShowFATSNF.Size = New System.Drawing.Size(124, 18)
         Me.chkShowFATSNF.TabIndex = 85
@@ -404,6 +408,8 @@ Partial Class FrmDeductionMaster
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.chkSuspenseAdjustmentDrNote)
+        Me.GroupBox1.Controls.Add(Me.chkSuspenseAdjustmentCrNote)
         Me.GroupBox1.Controls.Add(Me.chkHeadLoad)
         Me.GroupBox1.Controls.Add(Me.chkCorrectionAfterProcessCrNote)
         Me.GroupBox1.Controls.Add(Me.chkCorrectionAfterProcessDrNote)
@@ -428,10 +434,18 @@ Partial Class FrmDeductionMaster
         Me.GroupBox1.Controls.Add(Me.chkCompany)
         Me.GroupBox1.Location = New System.Drawing.Point(12, 138)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(670, 113)
+        Me.GroupBox1.Size = New System.Drawing.Size(670, 133)
         Me.GroupBox1.TabIndex = 84
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Default Deduction Type"
+        '
+        'chkHeadLoad
+        '
+        Me.chkHeadLoad.Location = New System.Drawing.Point(426, 44)
+        Me.chkHeadLoad.Name = "chkHeadLoad"
+        Me.chkHeadLoad.Size = New System.Drawing.Size(74, 18)
+        Me.chkHeadLoad.TabIndex = 98
+        Me.chkHeadLoad.Text = "Head Load"
         '
         'chkCorrectionAfterProcessCrNote
         '
@@ -824,13 +838,21 @@ Partial Class FrmDeductionMaster
         Me.btnClose.TabIndex = 73
         Me.btnClose.Text = "Close"
         '
-        'chkHeadLoad
+        'chkSuspenseAdjustmentCrNote
         '
-        Me.chkHeadLoad.Location = New System.Drawing.Point(426, 44)
-        Me.chkHeadLoad.Name = "chkHeadLoad"
-        Me.chkHeadLoad.Size = New System.Drawing.Size(74, 18)
-        Me.chkHeadLoad.TabIndex = 98
-        Me.chkHeadLoad.Text = "Head Load"
+        Me.chkSuspenseAdjustmentCrNote.Location = New System.Drawing.Point(5, 111)
+        Me.chkSuspenseAdjustmentCrNote.Name = "chkSuspenseAdjustmentCrNote"
+        Me.chkSuspenseAdjustmentCrNote.Size = New System.Drawing.Size(189, 18)
+        Me.chkSuspenseAdjustmentCrNote.TabIndex = 99
+        Me.chkSuspenseAdjustmentCrNote.Text = "Suspense Adjustment Credit Note"
+        '
+        'chkSuspenseAdjustmentDrNote
+        '
+        Me.chkSuspenseAdjustmentDrNote.Location = New System.Drawing.Point(245, 111)
+        Me.chkSuspenseAdjustmentDrNote.Name = "chkSuspenseAdjustmentDrNote"
+        Me.chkSuspenseAdjustmentDrNote.Size = New System.Drawing.Size(186, 18)
+        Me.chkSuspenseAdjustmentDrNote.TabIndex = 100
+        Me.chkSuspenseAdjustmentDrNote.Text = "Suspense Adjustment Debit Note"
         '
         'FrmDeductionMaster
         '
@@ -867,6 +889,7 @@ Partial Class FrmDeductionMaster
         CType(Me.chkShowFATSNF, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        CType(Me.chkHeadLoad, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkCorrectionAfterProcessCrNote, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkCorrectionAfterProcessDrNote, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkTransferToSaving, System.ComponentModel.ISupportInitialize).EndInit()
@@ -899,7 +922,8 @@ Partial Class FrmDeductionMaster
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkHeadLoad, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkSuspenseAdjustmentCrNote, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkSuspenseAdjustmentDrNote, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -964,5 +988,7 @@ Partial Class FrmDeductionMaster
     Friend WithEvents chkCorrectionAfterProcessCrNote As RadCheckBox
     Friend WithEvents chkCorrectionAfterProcessDrNote As RadCheckBox
     Friend WithEvents chkHeadLoad As RadCheckBox
+    Friend WithEvents chkSuspenseAdjustmentDrNote As RadCheckBox
+    Friend WithEvents chkSuspenseAdjustmentCrNote As RadCheckBox
 End Class
 

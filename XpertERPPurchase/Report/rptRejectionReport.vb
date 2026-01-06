@@ -44,7 +44,10 @@ Public Class rptRejectionReport
                                 ISNULL(xx.InputData, '')), ' , ') AS [Param_Desc_InputData]
 		                    FROM ( SELECT TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No AS RAL,TSPL_GRN_HEAD.GRN_No,TSPL_GRN_HEAD.GRN_Date,TSPL_MRN_HEAD.MRN_Date,TSPL_MRN_HEAD.MRN_No,TSPL_GRN_DETAIL.Item_Code,
                             TSPL_GRN_DETAIL.Item_Desc,TSPL_GRN_HEAD.Vendor_Code,TSPL_GRN_HEAD.Vendor_Name,TSPL_GRN_HEAD.VehicleNo,CAST(TSPL_GRN_DETAIL.GRN_Qty AS DECIMAL(18,2)) AS [Challan Weight],TSPL_GRN_DETAIL.Unit_code,
-                            CASE WHEN TSPL_GRN_HEAD.VisualQCStatus = 1 THEN 'Ok' WHEN TSPL_GRN_HEAD.VisualQCStatus = 2 THEN 'Not Ok' WHEN TSPL_GRN_HEAD.VisualQCStatus = 3 THEN 'Partial Ok' WHEN TSPL_GRN_HEAD.VisualQCStatus = 4 THEN 'On Hold' ELSE 'Pending' END AS [QC Status],
+                            CASE WHEN (TSPL_GRN_HEAD.VisualQCStatus = 2 Or TSPL_GRN_HEAD.VisualQCStatusSecond=2) THEN 'Not Ok'
+WHEN (TSPL_GRN_HEAD.VisualQCStatus = 3 Or TSPL_GRN_HEAD.VisualQCStatusSecond=3) THEN 'Partial Ok' 
+WHEN (TSPL_GRN_HEAD.VisualQCStatus = 4 Or TSPL_GRN_HEAD.VisualQCStatusSecond=4) THEN 'On Hold' 
+WHEN (TSPL_GRN_HEAD.VisualQCStatus = 1 or TSPL_GRN_HEAD.VisualQCStatusSecond = 1 ) THEN 'Ok' ELSE 'Pending' END AS [QC Status],
                             TSPL_QC_CHECK_SRN_DETAIL.InputDataDeductionPer,TSPL_SRN_DETAIL.SRN_Qty,tspl_qc_log_sheet_master.Description AS Param_Desc,
                             TSPL_QC_CHECK_SRN_DETAIL.InputData
                         FROM TSPL_GRN_DETAIL
@@ -79,11 +82,11 @@ Public Class rptRejectionReport
             If clsCommon.CompairString(txtQCStatus.SelectedValue, "FA") = CompairStringResult.Equal Then
                 qry += " and yy.[Accepted Qty]>0 "
             ElseIf clsCommon.CompairString(txtQCStatus.SelectedValue, "PA") = CompairStringResult.Equal Then
-                qry += " and yy.[Partial Accepted]>0  "
+                qry += " and yy.[Partial Accepted Qty]>0  "
             ElseIf clsCommon.CompairString(txtQCStatus.SelectedValue, "FR") = CompairStringResult.Equal Then
                 qry += " and yy.[Rejected Qty]>0 "
             ElseIf clsCommon.CompairString(txtQCStatus.SelectedValue, "PR") = CompairStringResult.Equal Then
-                qry += " and yy.[Partial Rejected]>0 "
+                qry += " and yy.[Partial Rejected Qty]>0 "
             End If
             If rdbSummary.Checked Then
                 qry += "  )YYZ "
@@ -321,7 +324,7 @@ Public Class rptRejectionReport
         dt.Rows.Add("Full Accepted", "FA")
         dt.Rows.Add("Partial Accepted", "PA")
         dt.Rows.Add("Full Rejected", "FR")
-        dt.Rows.Add("Partial Rejected", "PR")
+        'dt.Rows.Add("Partial Rejected", "PR")
         txtQCStatus.DataSource = dt
         txtQCStatus.DisplayMember = "Code"
         txtQCStatus.ValueMember = "Value"

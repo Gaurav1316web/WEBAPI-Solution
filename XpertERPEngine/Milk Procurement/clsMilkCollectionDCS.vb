@@ -920,3 +920,273 @@ where  TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + strPONo + "' "
     End Function
 End Class
 
+
+Public Class clsMilkCollectionDCSSuspenceAdjustment
+#Region "Variables"
+    Public PK_Id As Integer
+    Public Document_No As String
+    Public VLC_Code As String
+    Public Qty As Decimal
+    Public FAT As Decimal
+    Public SNF As Decimal
+    Public FATKG As Decimal
+    Public SNFKG As Decimal
+    Public Rate As Decimal
+    Public Amount As Decimal
+#End Region
+
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal SuspenceDCSCode As String, ByVal BMCCode As String, ByVal Arr As List(Of clsMilkCollectionDCSSuspenceAdjustment)) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            If clsCommon.myLen(strDocNo) <= 0 Then
+                Throw New Exception("Please provide DCS Truck Sheet No")
+            End If
+            If Arr Is Nothing OrElse Arr.Count <= 0 Then
+                Throw New Exception("Please provide DCS Details")
+            End If
+            Dim servdate As DateTime = clsCommon.GETSERVERDATE(trans)
+            For ii As Integer = 0 To Arr.Count - 1
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
+                clsCommon.AddColumnsForChange(coll, "VLC_Code", Arr(ii).VLC_Code)
+                clsCommon.AddColumnsForChange(coll, "Qty", Arr(ii).Qty)
+                clsCommon.AddColumnsForChange(coll, "FAT", Arr(ii).FAT)
+                clsCommon.AddColumnsForChange(coll, "SNF", Arr(ii).SNF)
+                clsCommon.AddColumnsForChange(coll, "FATKG", Arr(ii).FATKG)
+                clsCommon.AddColumnsForChange(coll, "SNFKG", Arr(ii).SNFKG)
+                clsCommon.AddColumnsForChange(coll, "Rate", Arr(ii).Rate)
+                clsCommon.AddColumnsForChange(coll, "Amount", Arr(ii).Amount)
+                clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
+                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(servdate, "dd/MMM/yyyy hh:mm:ss tt"))
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_SUSPENSE_ADJUSTMENT", OMInsertOrUpdate.Insert, "", trans)
+                Arr(ii).PK_Id = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select SCOPE_IDENTITY()", trans))
+            Next
+
+            Dim qry As String = "select sum(AMOUNT*RI) as AMOUNT from (
+select TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No as DocumentNo,TSPL_MILK_COLLECTION_DCS.Document_Date as DocumentDate
+,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code as BMCCode,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as BMCUploaderNo,TSPL_MCC_MASTER.MCC_NAME as BMC
+,TSPL_MILK_COLLECTION_DCS_DETAIL.Qty,TSPL_MILK_COLLECTION_DCS_DETAIL.FAT,TSPL_MILK_COLLECTION_DCS_DETAIL.SNF,TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG,TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG
+,COALESCE(TSPL_MILK_SRN_DETAIL_SUP.Price_Code,TSPL_MILK_SRN_DETAIL_UP.Price_Code) as Price_Code
+,COALESCE(TSPL_MILK_SRN_DETAIL_SUP.AMOUNT,TSPL_MILK_SRN_DETAIL_UP.AMOUNT) as AMOUNT,1 as RI
+from TSPL_MILK_COLLECTION_DCS_DETAIL
+left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No=TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
+left outer join (select Document_No,min(Against_Milk_Collection_MCC_Detail)Against_Milk_Collection_MCC_Detail from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL group by Document_No ) as TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
+left outer join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail
+left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
+left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail=TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id
+left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail=TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id
+left join TSPL_MILK_SRN_HEAD as TSPL_MILK_SRN_HEAD_UP on  TSPL_MILK_SRN_HEAD_UP.Against_Uploader_TR_No= TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No
+left outer join TSPL_MILK_SRN_DETAIL as TSPL_MILK_SRN_DETAIL_UP on TSPL_MILK_SRN_DETAIL_UP.DOC_CODE=TSPL_MILK_SRN_HEAD_UP.DOC_CODE
+left join TSPL_MILK_SRN_HEAD as TSPL_MILK_SRN_HEAD_SUP on  TSPL_MILK_SRN_HEAD_SUP.Against_Shift_Uploader_TR_No= TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No
+left outer join TSPL_MILK_SRN_DETAIL as TSPL_MILK_SRN_DETAIL_SUP on TSPL_MILK_SRN_DETAIL_SUP.DOC_CODE=TSPL_MILK_SRN_HEAD_SUP.DOC_CODE
+where  TSPL_MILK_COLLECTION_DCS.Status=1  and TSPL_MILK_COLLECTION_DCS_DETAIL.Suspence=1
+and TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No='" + strDocNo + "'
+union all
+select Document_No,null as DocumentDate,null as BMCCode,null as BMCUploaderNo,null as BMC,Qty,FAT,SNF,FATKG,SNFKG, null as Price_Code,Amount,-1 as RI  From TSPL_MILK_COLLECTION_DCS_SUSPENSE_ADJUSTMENT
+where  Document_No='" + strDocNo + "'
+) xx group by DocumentNo"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                If clsCommon.myCDecimal(dt.Rows(0)("AMOUNT")) < 0 Then
+                    Throw New Exception("The suspense adjustment amount is going into negative.")
+                End If
+            End If
+
+
+            For Each obj As clsMilkCollectionDCSSuspenceAdjustment In Arr
+                Dim objVendorInvHead As New clsVedorInvoiceHead()
+                'objVendorInvHead.isDeduction = 1
+                objVendorInvHead.Invoice_Entry_Date = clsCommon.GetPrintDate(servdate, "dd/MMM/yyyy")
+                qry = "select vsp_code from tspl_Vlc_master_head where vlc_code='" + obj.VLC_Code + "' "
+                objVendorInvHead.Vendor_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+                objVendorInvHead.Vendor_Name = clsVendorMaster.GetName(objVendorInvHead.Vendor_Code, trans)
+                objVendorInvHead.Vendor_Invoice_No = "" ''No Need to send vendor invoice no because it is of debit note type
+                objVendorInvHead.Invoice_Type = "AP"
+                objVendorInvHead.Vendor_Invoice_Date = objVendorInvHead.Invoice_Entry_Date
+                objVendorInvHead.loc_code = clsLocation.GetSegmentCode(BMCCode, trans) 'obj.MCC_CODE
+                objVendorInvHead.Description = "AP Credit Note of Suspense Adjustment"
+                objVendorInvHead.Account_Set = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  Vendor_Account from TSPL_VENDOR_MASTER where Vendor_Code ='" + objVendorInvHead.Vendor_Code + "'", trans))
+                If (clsCommon.myLen(objVendorInvHead.Account_Set) < 0) Then
+                    Throw New Exception("Please set the vendor Account Set For Vendor : " + objVendorInvHead.Vendor_Name)
+                End If
+                objVendorInvHead.Document_Type = "C" ''For Purchase Invoice Type
+                objVendorInvHead.RefDocType = "SUS-ADJC"
+                objVendorInvHead.RefDocNo = obj.PK_Id
+                objVendorInvHead.On_Hold = False
+                objVendorInvHead.Due_Date = objVendorInvHead.Invoice_Entry_Date
+                dt = clsDBFuncationality.GetDataTable("select Acct_Set_Code,Payable_Account,Discount_Account,Deduction_ACCOUNT from TSPL_VENDOR_ACCOUNT_SET  where Acct_Set_Code='" + objVendorInvHead.Account_Set + "'", trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
+                    objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, BMCCode, trans)
+                    If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
+                        objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
+                        objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, BMCCode, trans)
+                    End If
+                End If
+                If clsCommon.myLen(objVendorInvHead.Vendor_Control_AC) <= 0 Then
+                    Throw New Exception("Please set the vendor payable Account")
+                End If
+                objVendorInvHead.Arr = New List(Of clsVedorInvoiceDetail)
+                Dim ii As Integer = 0
+                objVendorInvHead.Total_Landed_Amt = 0
+                objVendorInvHead.ArrAssetEMI = New List(Of clsAPInvoiceAssetEMIDetails)()
+                If True Then
+                    ''Set AP Invvoice Detail Table
+                    Dim dtDed As DataTable = clsDBFuncationality.GetDataTable("select code,GL_Account_Code from TSPL_DEDUCTION_MASTER  where Is_Suspense_Adjustment_CR_Note=1", trans)
+                    If dtDed Is Nothing OrElse dtDed.Rows.Count <= 0 Then
+                        Throw New Exception("Please make Deduction of Suspense Adjustment CR Note")
+                    End If
+                    If clsCommon.myLen(clsCommon.myCstr(dtDed.Rows(0)("GL_Account_Code"))) <= 0 Then
+                        Throw New Exception("Please set GL Account for deduction [" + clsCommon.myCstr(dtDed.Rows(0)("code")) + "]")
+                    End If
+
+                    ii = ii + 1
+                    Dim objVendorInvDetail As New clsVedorInvoiceDetail()
+                    objVendorInvDetail.Detail_Line_No = ii
+                    objVendorInvDetail.DeductionCode = clsCommon.myCstr(dtDed.Rows(0)("code"))
+                    objVendorInvDetail.DeductionDesc = ClsDeductionMaster.GetName(objVendorInvDetail.DeductionCode, trans)
+                    objVendorInvDetail.GL_Account_Code = clsCommon.myCstr(dtDed.Rows(0)("GL_Account_Code"))
+                    objVendorInvDetail.GL_Account_Code = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvDetail.GL_Account_Code, BMCCode, trans)
+                    objVendorInvDetail.GL_Account_Desc = clsGLAccount.GetName(objVendorInvDetail.GL_Account_Code, trans)
+                    objVendorInvDetail.Amount = obj.Amount
+                    objVendorInvDetail.Discount_Per = 0
+                    objVendorInvDetail.Discount = 0
+                    objVendorInvDetail.Amount_less_Discount = obj.Amount
+                    objVendorInvDetail.Total_Tax = 0
+                    objVendorInvDetail.Total_Amount = obj.Amount
+                    objVendorInvDetail.Landed_Amount = obj.Amount
+                    ''End of Set AP Invvoice Detail Table
+                    If (clsCommon.myLen(objVendorInvDetail.GL_Account_Code) > 0) Then
+                        objVendorInvHead.Arr.Add(objVendorInvDetail)
+                    End If
+
+                    ''Set AP Invvoice Header Table
+                    objVendorInvHead.Total_Landed_Amt += obj.Amount
+                    objVendorInvHead.Discount_Base += obj.Amount
+                    objVendorInvHead.Discount_Amount += 0
+                    objVendorInvHead.Amount_Less_Discount += obj.Amount
+                    objVendorInvHead.Document_Total += obj.Amount
+                    objVendorInvHead.Balance_Amt += obj.Amount
+                    ''End of Set AP Invvoice Header Table
+                    objVendorInvHead.Empty_Amount = 0 'obj.Tot_Empty_Amount
+                    If objVendorInvHead.Empty_Amount > 0 Then
+                        If clsCommon.myLen(objVendorInvHead.Empty_Account) <= 0 Then
+                            Throw New Exception("Please set Inventory Control Empties")
+                        End If
+                        objVendorInvHead.Document_Total += objVendorInvHead.Empty_Amount
+                    End If
+                End If
+                If (objVendorInvHead.Arr Is Nothing OrElse objVendorInvHead.Arr.Count <= 0) Then
+                    Throw New Exception("No GL Account Found For AP Invoice")
+                End If
+                objVendorInvHead.ApplicableFrom = objVendorInvHead.Invoice_Entry_Date
+                'objVendorInvHead.Main_VSP_Milk_AP_Invoice_No = clsVedorInvoiceHead.GetMainVSPMilkAPInvoiceNo(ToDate, objVendorInvHead.Vendor_Code, trans)
+                objVendorInvHead.SaveData(objVendorInvHead, True, trans)
+                clsVedorInvoiceHead.PostData("", objVendorInvHead.Document_No, "", trans)
+
+
+
+
+                objVendorInvHead = New clsVedorInvoiceHead()
+                objVendorInvHead.isDeduction = 1
+                objVendorInvHead.Invoice_Entry_Date = clsCommon.GetPrintDate(servdate, "dd/MMM/yyyy")
+                qry = "select vsp_code from tspl_Vlc_master_head where vlc_code='" + SuspenceDCSCode + "' "
+                objVendorInvHead.Vendor_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+                objVendorInvHead.Vendor_Name = clsVendorMaster.GetName(objVendorInvHead.Vendor_Code, trans)
+                objVendorInvHead.Vendor_Invoice_No = "" ''No Need to send vendor invoice no because it is of debit note type
+                objVendorInvHead.Invoice_Type = "AP"
+                objVendorInvHead.Vendor_Invoice_Date = objVendorInvHead.Invoice_Entry_Date
+                objVendorInvHead.loc_code = clsLocation.GetSegmentCode(BMCCode, trans) 'obj.MCC_CODE
+                objVendorInvHead.Description = "AP Debit Note Against Suspense Adjustment"
+                objVendorInvHead.Account_Set = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  Vendor_Account from TSPL_VENDOR_MASTER where Vendor_Code ='" + objVendorInvHead.Vendor_Code + "'", trans))
+                If (clsCommon.myLen(objVendorInvHead.Account_Set) < 0) Then
+                    Throw New Exception("Please set the vendor Account Set For Vendor : " + objVendorInvHead.Vendor_Name)
+                End If
+                objVendorInvHead.Document_Type = "D" ''For Purchase Invoice Type
+                objVendorInvHead.RefDocType = "SUS-ADJD"
+                objVendorInvHead.RefDocNo = obj.PK_Id
+                objVendorInvHead.On_Hold = False
+                objVendorInvHead.Due_Date = objVendorInvHead.Invoice_Entry_Date
+                dt = clsDBFuncationality.GetDataTable("select Acct_Set_Code,Payable_Account,Discount_Account,Deduction_ACCOUNT from TSPL_VENDOR_ACCOUNT_SET  where Acct_Set_Code='" + objVendorInvHead.Account_Set + "'", trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
+                    objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, BMCCode, trans)
+                    If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
+                        objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
+                        objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, BMCCode, trans)
+                    End If
+                End If
+                If clsCommon.myLen(objVendorInvHead.Vendor_Control_AC) <= 0 Then
+                    Throw New Exception("Please set the vendor payable Account")
+                End If
+                objVendorInvHead.Arr = New List(Of clsVedorInvoiceDetail)
+                ii = 0
+                objVendorInvHead.Total_Landed_Amt = 0
+                objVendorInvHead.ArrAssetEMI = New List(Of clsAPInvoiceAssetEMIDetails)()
+                If True Then
+                    ''Set AP Invvoice Detail Table
+                    Dim dtDed As DataTable = clsDBFuncationality.GetDataTable("select code,GL_Account_Code from TSPL_DEDUCTION_MASTER  where Is_Suspense_Adjustment_DR_Note=1", trans)
+                    If dtDed Is Nothing OrElse dtDed.Rows.Count <= 0 Then
+                        Throw New Exception("Please make Deduction of Suspense Adjustment DR Note")
+                    End If
+                    If clsCommon.myLen(clsCommon.myCstr(dtDed.Rows(0)("GL_Account_Code"))) <= 0 Then
+                        Throw New Exception("Please set GL Account for deduction [" + clsCommon.myCstr(dtDed.Rows(0)("code")) + "]")
+                    End If
+
+                    ii = ii + 1
+                    Dim objVendorInvDetail As New clsVedorInvoiceDetail()
+                    objVendorInvDetail.Detail_Line_No = ii
+                    objVendorInvDetail.DeductionCode = clsCommon.myCstr(dtDed.Rows(0)("code"))
+                    objVendorInvDetail.DeductionDesc = ClsDeductionMaster.GetName(objVendorInvDetail.DeductionCode, trans)
+                    objVendorInvDetail.GL_Account_Code = clsCommon.myCstr(dtDed.Rows(0)("GL_Account_Code"))
+                    objVendorInvDetail.GL_Account_Code = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvDetail.GL_Account_Code, BMCCode, trans)
+                    objVendorInvDetail.GL_Account_Desc = clsGLAccount.GetName(objVendorInvDetail.GL_Account_Code, trans)
+
+
+                    objVendorInvDetail.Amount = obj.Amount
+                    objVendorInvDetail.Discount_Per = 0
+                    objVendorInvDetail.Discount = 0
+                    objVendorInvDetail.Amount_less_Discount = obj.Amount
+                    objVendorInvDetail.Total_Tax = 0
+                    objVendorInvDetail.Total_Amount = obj.Amount
+                    objVendorInvDetail.Landed_Amount = obj.Amount
+                    ''End of Set AP Invvoice Detail Table
+                    If (clsCommon.myLen(objVendorInvDetail.GL_Account_Code) > 0) Then
+                        objVendorInvHead.Arr.Add(objVendorInvDetail)
+                    End If
+
+                    ''Set AP Invvoice Header Table
+                    objVendorInvHead.Total_Landed_Amt += obj.Amount
+                    objVendorInvHead.Discount_Base += obj.Amount
+                    objVendorInvHead.Discount_Amount += 0
+                    objVendorInvHead.Amount_Less_Discount += obj.Amount
+                    objVendorInvHead.Document_Total += obj.Amount
+                    objVendorInvHead.Balance_Amt += obj.Amount
+                    ''End of Set AP Invvoice Header Table
+
+                    objVendorInvHead.Empty_Amount = 0 'obj.Tot_Empty_Amount
+                    If objVendorInvHead.Empty_Amount > 0 Then
+                        If clsCommon.myLen(objVendorInvHead.Empty_Account) <= 0 Then
+                            Throw New Exception("Please set Inventory Control Empties")
+                        End If
+                        objVendorInvHead.Document_Total += objVendorInvHead.Empty_Amount
+                    End If
+                End If
+                If (objVendorInvHead.Arr Is Nothing OrElse objVendorInvHead.Arr.Count <= 0) Then
+                    Throw New Exception("No GL Account Found For AP Invoice")
+                End If
+                objVendorInvHead.ApplicableFrom = objVendorInvHead.Invoice_Entry_Date
+                'objVendorInvHead.Main_VSP_Milk_AP_Invoice_No = clsVedorInvoiceHead.GetMainVSPMilkAPInvoiceNo(ToDate, objVendorInvHead.Vendor_Code, trans)
+                objVendorInvHead.SaveData(objVendorInvHead, True, trans)
+                clsVedorInvoiceHead.PostData("", objVendorInvHead.Document_No, "", trans)
+            Next
+
+
+            trans.Commit()
+        Catch err As Exception
+            trans.Rollback()
+            Throw New Exception(err.Message)
+        End Try
+        Return True
+    End Function
+End Class

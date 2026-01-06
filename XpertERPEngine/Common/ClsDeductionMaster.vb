@@ -35,6 +35,9 @@ Public Class ClsDeductionMaster
     Public Is_Correction_After_Process_DR_Note As Boolean
     Public Is_Correction_After_Process_CR_Note As Boolean
 
+    Public Is_Suspense_Adjustment_DR_Note As Boolean
+    Public Is_Suspense_Adjustment_CR_Note As Boolean
+
     Public Show_FAT_SNF As Boolean
     Public HO_TYPE As Boolean
     Public VLC_TYPE As Boolean
@@ -195,6 +198,18 @@ Public Class ClsDeductionMaster
                 End If
                 qry += " Is_Correction_After_Process_CR_Note=0 "
             End If
+            If obj.Is_Suspense_Adjustment_CR_Note Then
+                If clsCommon.myLen(qry) > 0 Then
+                    qry += ","
+                End If
+                qry += " Is_Suspense_Adjustment_CR_Note=0 "
+            End If
+            If obj.Is_Suspense_Adjustment_DR_Note Then
+                If clsCommon.myLen(qry) > 0 Then
+                    qry += ","
+                End If
+                qry += " Is_Suspense_Adjustment_DR_Note=0 "
+            End If
             If clsCommon.myLen(qry) > 0 Then
                 clsDBFuncationality.ExecuteNonQuery("Update TSPL_DEDUCTION_MASTER set " + qry, trans)
             End If
@@ -219,6 +234,10 @@ Public Class ClsDeductionMaster
 
             clsCommon.AddColumnsForChange(coll, "Is_Correction_After_Process_DR_Note", IIf(obj.Is_Correction_After_Process_DR_Note, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Is_Correction_After_Process_CR_Note", IIf(obj.Is_Correction_After_Process_CR_Note, 1, 0))
+
+            clsCommon.AddColumnsForChange(coll, "Is_Suspense_Adjustment_CR_Note", IIf(obj.Is_Suspense_Adjustment_CR_Note, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "Is_Suspense_Adjustment_DR_Note", IIf(obj.Is_Suspense_Adjustment_DR_Note, 1, 0))
+
 
             clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
@@ -299,6 +318,10 @@ Public Class ClsDeductionMaster
 
                 obj.Is_Correction_After_Process_CR_Note = IIf(clsCommon.myCdbl(dt1.Rows(0)("Is_Correction_After_Process_CR_Note")) > 0, True, False)
                 obj.Is_Correction_After_Process_DR_Note = IIf(clsCommon.myCdbl(dt1.Rows(0)("Is_Correction_After_Process_DR_Note")) > 0, True, False)
+
+                obj.Is_Suspense_Adjustment_CR_Note = IIf(clsCommon.myCdbl(dt1.Rows(0)("Is_Suspense_Adjustment_CR_Note")) > 0, True, False)
+                obj.Is_Suspense_Adjustment_DR_Note = IIf(clsCommon.myCdbl(dt1.Rows(0)("Is_Suspense_Adjustment_DR_Note")) > 0, True, False)
+
 
                 obj.Show_FAT_SNF = IIf(clsCommon.myCdbl(dt1.Rows(0)("Show_FAT_SNF")) > 0, True, False)
                 obj.HO_TYPE = IIf(clsCommon.myCdbl(dt1.Rows(0)("HO_TYPE")) > 0, True, False)

@@ -103,8 +103,10 @@ Public Class rptSalesReport
             If rdbStockTransfer.IsChecked = True Then
                 Stocktransferdispatch = " and TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale=1 "
                 stocktransferinvoice = " and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale=1 "
-            End If
-            If rdbSaleTransfer.IsChecked = True Then
+            ElseIf rdbSaleTransfer.IsChecked = True Then
+                Stocktransferdispatch = ""
+                stocktransferinvoice = ""
+            Else
                 Stocktransferdispatch = " and TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale=0 "
                 stocktransferinvoice = " and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale=0 "
             End If
@@ -176,7 +178,7 @@ Public Class rptSalesReport
                       sum(xx.ReturnQty)ReturnQty,sum(xx.ReturnQtyBag)ReturnQtyBag,case when isnull(xx.price_CodeNon,'')= '' then 'Other' else xx.price_CodeNon end as price_CodeNon from
                       (Select TSPL_SD_SHIPMENT_DETAIL.Location,max(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,max(TSPL_LOCATION_MASTER.Add4)Add4,convert (date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty/TSPL_ITEM_UOM_QTL.Conversion_Factor) as SaleQty,
 					  sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty/TSPL_ITEM_UOM_BAG.Conversion_Factor) as SaleQtyBag,
-					  0 as ReturnQty,0 as ReturnQtyBag, price_CodeNon								   
+					  0 as ReturnQty,0 as ReturnQtyBag, TSPL_SD_SHIPMENT_HEAD.price_Code as price_CodeNon							   
 								   FROM TSPL_SD_SHIPMENT_DETAIL
 								     left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code =TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
                                      left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
@@ -197,7 +199,7 @@ Public Class rptSalesReport
                 End If
                 qry += " " + Status + " " + FG + " " + SFG + " " + FGSFG + " "
 
-                qry += " group by convert (date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103),price_CodeNon,Location
+                qry += " group by convert (date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103),TSPL_SD_SHIPMENT_HEAD.price_Code,Location
 
                          union all
 									
@@ -230,7 +232,7 @@ Public Class rptSalesReport
                                     max(TSPL_LOCATION_MASTER.Add4)Add4,convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) as Document_Date,0 as SaleQty,0 as SaleQtyBag,
                                     sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_RETURN_DETAIL.Qty/TSPL_ITEM_UOM_QTL.Conversion_Factor) as ReturnQty,
 									 sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_RETURN_DETAIL.Qty/TSPL_ITEM_UOM_BAG.Conversion_Factor) as ReturnQtyBag,
-                                    price_CodeNon FROM TSPL_SD_SALE_RETURN_DETAIL
+                                    TSPL_SD_SALE_RETURN_HEAD.price_Code as price_CodeNon FROM TSPL_SD_SALE_RETURN_DETAIL
 								     left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code =TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE
                                      left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_RETURN_HEAD.Customer_Code
                                      LEFT OUTER JOIN TSPL_PRICE_COMPONENT_MAPPING ON TSPL_PRICE_COMPONENT_MAPPING.Price_Code=TSPL_CUSTOMER_MASTER.price_CodeNon
@@ -249,7 +251,7 @@ Public Class rptSalesReport
                     qry += "and TSPL_SD_SALE_RETURN_DETAIL.Location In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
                 End If
                 qry += " " + StatusReturn + " " + FG + " " + SFG + " " + FGSFG + " "
-                qry += "	 group by convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103),price_CodeNon,Location)XX group by xx.Location,xx.Document_Date,
+                qry += "	 group by convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103),TSPL_SD_SALE_RETURN_HEAD.price_Code,Location)XX group by xx.Location,xx.Document_Date,
                              xx.price_CodeNon )Tab1 "
                 If Not PCGroup Then
                     qry += "    PIVOT (SUM(Quantity) FOR price_CodeNon IN (" & itemNames1 & "))AS Tab2   PIVOT (SUM(QuantityBag) FOR price_CodeNonBag IN (" & itemPivBagName & " ))AS PivBag )tmp  "
@@ -269,7 +271,7 @@ Public Class rptSalesReport
                       max(TSPL_LOCATION_MASTER.Add4)Add4,convert (date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Document_Date,
                       sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_INVOICE_DETAIL.Qty/TSPL_ITEM_UOM_QTL.Conversion_Factor) as SaleQty,
 					  sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_INVOICE_DETAIL.Qty/TSPL_ITEM_UOM_BAG.Conversion_Factor) as SaleQtyBag
-					  ,0 as ReturnQty,0 as ReturnQtyBag,price_CodeNon		   
+					  ,0 as ReturnQty,0 as ReturnQtyBag,TSPL_SD_SALE_INVOICE_HEAD.price_Code as price_CodeNon		   
                       FROM TSPL_SD_SALE_INVOICE_DETAIL
 								     left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE
                                      left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
@@ -284,10 +286,14 @@ Public Class rptSalesReport
 						      		 left outer join TSPL_SD_SALE_INVOICE_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE                            
 									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_DETAIL.Location
 	                                 WHERE  convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)  
-                                     and  convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) and TSPL_SD_SALE_INVOICE_DETAIL.Location In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
+                                     and  convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)"
+
+                If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                    qry += " and TSPL_SD_SALE_INVOICE_DETAIL.Location In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
+                End If
                 qry += " " + StatusInvoice + " " + FG + " " + SFG + " " + FGSFG + " "
 
-                qry += " group by convert (date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103),price_CodeNon,Location
+                qry += " group by convert (date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103),TSPL_SD_SALE_INVOICE_HEAD.price_Code,Location
 
                           union all
 									
@@ -319,7 +325,7 @@ Public Class rptSalesReport
                                     max(TSPL_LOCATION_MASTER.Add4)Add4,convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) as Document_Date,0 as SaleQty,0 as SaleQtyBag,
                                     sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_RETURN_DETAIL.Qty/TSPL_ITEM_UOM_QTL.Conversion_Factor) as ReturnQty,
 									 sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_RETURN_DETAIL.Qty/TSPL_ITEM_UOM_BAG.Conversion_Factor) as ReturnQtyBag,
-                                    price_CodeNon FROM TSPL_SD_SALE_RETURN_DETAIL
+                                    TSPL_SD_SALE_RETURN_HEAD.price_Code as price_CodeNon FROM TSPL_SD_SALE_RETURN_DETAIL
 								     left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code =TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE
                                      left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_RETURN_HEAD.Customer_Code
                                      LEFT OUTER JOIN TSPL_PRICE_COMPONENT_MAPPING ON TSPL_PRICE_COMPONENT_MAPPING.Price_Code=TSPL_CUSTOMER_MASTER.price_CodeNon
@@ -338,10 +344,10 @@ Public Class rptSalesReport
                     qry += "and TSPL_SD_SALE_RETURN_DETAIL.Location In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
                 End If
                 qry += " " + StatusReturn + " " + FG + " " + SFG + " " + FGSFG + " "
-                qry += "	 group by convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103),price_CodeNon,Location
+                qry += "	 group by convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103),TSPL_SD_SALE_RETURN_HEAD.price_Code,Location
 									 
 									 )XX group by xx.Location,xx.Document_Date,xx.price_CodeNon )Tab1 "
-                 If Not PCGroup Then
+                If Not PCGroup Then
                     qry += " PIVOT (SUM(Quantity) FOR price_CodeNon IN (" & itemNames1 & "))AS Tab2 PIVOT (SUM(QuantityBag) FOR price_CodeNonBag IN (" & itemPivBagName & " ))AS PivBag  )tmp  "
 
                 End If
@@ -362,7 +368,7 @@ Public Class rptSalesReport
                                    Cast(sum(xx.Quantity) as Decimal(10,2))Quantity,Cast(Sum(xx.QuantityBag) as Decimal(10,2))QuantityBag,
                                     case when isnull(price_CodeNon,'')= '' then 'Other' else price_CodeNon end as price_CodeNon,case when isnull(price_CodeNon,'')= '' then 'OtherBag' else price_CodeNon + 'Bag' end as price_CodeNonBag FROM (SELECT TSPL_SD_SHIPMENT_DETAIL.Location,max(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,max(TSPL_LOCATION_MASTER.Add4)Add4,
                                     convert (date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty/TSPL_ITEM_UOM_QTL.Conversion_Factor) as Quantity,
-                                    Sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty/TSPL_ITEM_UOM_BAG.Conversion_Factor) as QuantityBag, price_CodeNon 
+                                    Sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty/TSPL_ITEM_UOM_BAG.Conversion_Factor) as QuantityBag, TSPL_SD_SHIPMENT_HEAD.price_Code as price_CodeNon 
                                     FROM TSPL_SD_SHIPMENT_DETAIL
 								     left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code =TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
                                      left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
@@ -380,11 +386,13 @@ Public Class rptSalesReport
                 qry += " " + Status + " " + FG + " " + SFG + " " + FGSFG + "  "
                 If rdbStockTransfer.IsChecked = True Then
                     qry += "" + Stocktransferdispatch + ""
+                ElseIf rdbSaleTransfer.IsChecked Then
+
                 Else
                     qry += " And TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale=0 "
                 End If
 
-                qry += " group by convert (date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103),price_CodeNon,Location
+                qry += " group by convert (date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103),TSPL_SD_SHIPMENT_HEAD.price_Code,Location
                          union all
                          
 									 SELECT TSPL_SCRAPSALE_HEAD.Loc_Code as Location,max(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,max(TSPL_LOCATION_MASTER.Add4)Add4,convert (date,TSPL_SCRAPSALE_HEAD.shipment_Date,103) as Document_Date,
@@ -411,6 +419,7 @@ Public Class rptSalesReport
                 qry += " " + statusScrap + " " + FG + " " + SFG + " " + FGSFG + ""
                 If rdbStockTransfer.IsChecked = True Then
                     qry += " and TSPL_SCRAPSALE_HEAD.Inter_unit_sale =1 "
+                ElseIf rdbSaleTransfer.IsChecked Then
                 Else
                     qry += " and TSPL_SCRAPSALE_HEAD.Inter_unit_sale =0 "
                 End If
@@ -437,7 +446,7 @@ Public Class rptSalesReport
                                     case when isnull(xx.price_CodeNon,'')= '' then 'Other' else xx.price_CodeNon end as price_CodeNon,case when isnull(price_CodeNon,'')= '' then 'OtherBag' else price_CodeNon + 'Bag' end as price_CodeNonBag FROM (SELECT TSPL_SD_SALE_INVOICE_DETAIL.Location,max(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,max(TSPL_LOCATION_MASTER.Add4)Add4,
                                     convert (date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Document_Date,
                                    sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_INVOICE_DETAIL.Qty/TSPL_ITEM_UOM_QTL.Conversion_Factor) as Quantity,
-                                    Sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_INVOICE_DETAIL.Qty/TSPL_ITEM_UOM_BAG.Conversion_Factor) as QuantityBag,price_CodeNon 
+                                    Sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_INVOICE_DETAIL.Qty/TSPL_ITEM_UOM_BAG.Conversion_Factor) as QuantityBag,TSPL_SD_SALE_INVOICE_HEAD.price_Code as price_CodeNon 
                                    FROM TSPL_SD_SALE_INVOICE_DETAIL
 								     left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE
                                      left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
@@ -455,12 +464,13 @@ Public Class rptSalesReport
                                      and  convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)" + whr + " "
                     qry += " " + StatusInvoice + " " + FG + " " + SFG + " " + FGSFG + "  "
                     If rdbStockTransfer.IsChecked = True Then
-                        qry += "" + stocktransferinvoice + ""
-                    Else
+                    qry += "" + stocktransferinvoice + ""
+                ElseIf rdbSaleTransfer.IsChecked Then
+                Else
                         qry += " and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale=0 "
                     End If
 
-                    qry += " group by convert (date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103),price_CodeNon,Location
+                qry += " group by convert (date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103),TSPL_SD_SALE_INVOICE_HEAD.price_Code,Location
                           union all
                          
 									 SELECT TSPL_SCRAPINVOICE_HEAD.Loc_Code as Location,max(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,max(TSPL_LOCATION_MASTER.Add4)Add4,convert (date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) as Document_Date,
@@ -479,13 +489,17 @@ Public Class rptSalesReport
                                      AND TSPL_ITEM_UOM_BAG.UOM_Code= 'BAG'
 						      		left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SCRAPINVOICE_HEAD.Loc_Code
 	                                 WHERE convert(date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103) 
-                                     and  convert(date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)
-                                     and TSPL_SCRAPINVOICE_HEAD.Loc_Code In (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
-                    qry += " " + statusScrapInvoice + " " + FG + " " + SFG + " " + FGSFG + " "
+                                     and  convert(date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)"
+
+                If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                    qry += " and TSPL_SCRAPINVOICE_HEAD.Loc_Code In (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
+                End If
+                qry += " " + statusScrapInvoice + " " + FG + " " + SFG + " " + FGSFG + " "
 
                     If rdbStockTransfer.IsChecked = True Then
-                        qry += " and TSPL_SCRAPINVOICE_HEAD.Inter_unit_sale=1 "
-                    Else
+                    qry += " and TSPL_SCRAPINVOICE_HEAD.Inter_unit_sale=1 "
+                ElseIf rdbSaleTransfer.IsChecked Then
+                Else
                         qry += " and TSPL_SCRAPINVOICE_HEAD.Inter_unit_sale=0 "
                     End If
 
@@ -513,7 +527,7 @@ Public Class rptSalesReport
                                     max(TSPL_LOCATION_MASTER.Add4)Add4,convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) as Document_Date,
                                     sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_RETURN_DETAIL.Qty/TSPL_ITEM_UOM_QTL.Conversion_Factor) as Quantity,
 									Sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_RETURN_DETAIL.Qty/TSPL_ITEM_UOM_BAG.Conversion_Factor) as QuantityBag,
-									price_CodeNon								   
+									TSPL_SD_SALE_RETURN_HEAD.price_Code as price_CodeNon								   
 								   FROM TSPL_SD_SALE_RETURN_DETAIL
 								     left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code =TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE
                                      left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_RETURN_HEAD.Customer_Code
@@ -531,10 +545,10 @@ Public Class rptSalesReport
                                      and  convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) "
 
                 If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
-                    qry += "and TSPL_SD_SALE_RETURN_DETAIL.Location In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
+                    qry += " and TSPL_SD_SALE_RETURN_DETAIL.Location In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
                 End If
                 qry += " " + StatusReturn + " " + FG + " " + SFG + " " + FGSFG + " "
-                qry += " group by convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103),price_CodeNon,Location
+                qry += " group by convert (date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103),TSPL_SD_SALE_RETURN_HEAD.price_Code,Location
 
 UNION ALL
 
@@ -558,7 +572,7 @@ SELECT TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code,max(TSPL_LOCATION_MASTER.Location_Des
 	                                 WHERE  convert(date,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)  
                                      and  convert(date,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) "
                 If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
-                    qry += " TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
+                    qry += " AND TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
                 End If
                 qry += " " + StatusReturn1 + " " + FG + " " + SFG + " " + FGSFG + " "
                 qry += " group by convert (date,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103),price_CodeNon,Loc_Code)XX  GROUP BY xx.Document_Date,XX.price_CodeNon,XX.Location
@@ -648,7 +662,7 @@ SELECT TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code,max(TSPL_LOCATION_MASTER.Location_Des
 						      		 left outer join TSPL_SD_SALE_INVOICE_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE                            
 									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_RETURN_DETAIL.Location
 	                                 WHERE convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103) 
-                                     and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)"
+                                     and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)"
                     If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
                         qry += "and TSPL_SD_SALE_RETURN_DETAIL.Location In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
                     End If
@@ -665,7 +679,7 @@ PIVOT (SUM(QuantityBag) FOR Cust_Group_CodeBag IN (" & itemPivBagName & ")) as P
                 ElseIf rbnCustgroup.Checked AndAlso rdbInvoice.IsChecked = True AndAlso rdbSaleTransfer.IsChecked = True Then
                     If Not PCGroup Then
                         qry = " Select * from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'as ToDate,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date," & itemNames2 & ",
-  (" & itemNames3 & ")) as [Total Sale],
+  (" & itemNames3 & ") as [Total Sale],
  (" & itemSumBagName & ") as [Total BagSale]
   FROM ( "
                     End If
@@ -691,7 +705,10 @@ PIVOT (SUM(QuantityBag) FOR Cust_Group_CodeBag IN (" & itemPivBagName & ")) as P
                                      AND TSPL_ITEM_UOM_BAG.UOM_Code= 'BAG' 
 						      		 left outer join TSPL_SD_SALE_INVOICE_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE                            
 									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_DETAIL.Location	                                 WHERE convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103) 
-                                     and  convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) and TSPL_SD_SALE_INVOICE_DETAIL.Location In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
+                                     and  convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)"
+                    If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                        qry += " and TSPL_SD_SALE_INVOICE_DETAIL.Location In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
+                    End If
                     qry += " " + StatusInvoice + " " + FG + " " + SFG + " " + FGSFG + " "
                     qry += " group by convert (date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103),Cust_Group_Code,Location 
                              union all
@@ -739,7 +756,7 @@ PIVOT (SUM(QuantityBag) FOR Cust_Group_CodeBag IN (" & itemPivBagName & ")) as P
 						      		 left outer join TSPL_SD_SALE_INVOICE_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE                            
 									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_RETURN_DETAIL.Location
 	                                 WHERE convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103) 
-                                     and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) "
+                                     and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) "
                     If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
                         qry += "and TSPL_SD_SALE_RETURN_DETAIL.Location In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
                     End If
@@ -789,6 +806,7 @@ Location,max([Location Description])[Location Description],max(Add1)Add1,max(Add
                     qry += " " + Status + " " + FG + " " + SFG + " " + FGSFG + " " + Stocktransferdispatch + " "
                     If rdbStockTransfer.IsChecked = True Then
                         qry += " and TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale =1 "
+                        ElseIf rdbSaleTransfer.IsChecked Then
                     Else
                         qry += " and TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale =0 "
                     End If
@@ -819,6 +837,7 @@ Location,max([Location Description])[Location Description],max(Add1)Add1,max(Add
                     qry += " " + statusScrap + " " + FG + " " + SFG + " " + FGSFG + ""
                     If rdbStockTransfer.IsChecked = True Then
                         qry += " and TSPL_SCRAPSALE_HEAD.Inter_unit_sale =1 "
+                    ElseIf rdbSaleTransfer.IsChecked Then
                     Else
                         qry += " and TSPL_SCRAPSALE_HEAD.Inter_unit_sale =0 "
                     End If
@@ -868,11 +887,12 @@ from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Loca
                                      and  convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)" + whr + " "
                     qry += " " + StatusInvoice + " " + FG + " " + SFG + " " + FGSFG + " "
                         If rdbStockTransfer.IsChecked = True Then
-                            qry += " and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale=1 "
-                        Else
+                        qry += " and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale=1 "
+                    ElseIf rdbSaleTransfer.IsChecked Then
+                    Else
                             qry += " and TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale=0 "
                         End If
-                        qry += " group by convert (date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103),Cust_Group_Code,Location
+                    qry += " group by convert (date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103),Cust_Group_Code,Location
 
  union all
 							 SELECT TSPL_SCRAPINVOICE_HEAD.Loc_Code as Location,max(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,max(TSPL_LOCATION_MASTER.Add1)Add1,max(TSPL_LOCATION_MASTER.Add4)Add4,convert (date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) as Document_Date,
@@ -891,12 +911,15 @@ from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Loca
                                      AND TSPL_ITEM_UOM_BAG.UOM_Code= 'BAG'
 						      		left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SCRAPINVOICE_HEAD.Loc_Code
                                     WHERE convert(date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103) 
-                                     and  convert(date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)
-                                     and TSPL_SCRAPINVOICE_HEAD.Loc_Code In (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
-                        qry += " " + statusScrapInvoice + " " + FG + " " + SFG + " " + FGSFG + " "
-                        If rdbStockTransfer.IsChecked = True Then
-                            qry += " and TSPL_SCRAPINVOICE_HEAD.Inter_unit_sale=1 "
-                        Else
+                                     and  convert(date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) "
+                    If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                        qry += " and TSPL_SCRAPINVOICE_HEAD.Loc_Code In (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
+                    End If
+                    qry += " " + statusScrapInvoice + " " + FG + " " + SFG + " " + FGSFG + " "
+                    If rdbStockTransfer.IsChecked = True Then
+                        qry += " and TSPL_SCRAPINVOICE_HEAD.Inter_unit_sale=1 "
+                    ElseIf rdbSaleTransfer.IsChecked Then
+                    Else
                             qry += " and TSPL_SCRAPINVOICE_HEAD.Inter_unit_sale=0 "
                         End If
                         qry += " group by convert (date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103),Cust_Group_Code,Loc_Code )XX GROUP BY xx.Document_Date,XX.Cust_Group_Code,XX.Location "
@@ -968,7 +991,7 @@ union all
                                      WHERE convert(date,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103) 
                                      and  convert(date,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103) "
                     If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
-                        qry += " TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
+                        qry += " AND TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
                     End If
                     qry += " " + StatusReturn1 + " " + FG + " " + SFG + " " + FGSFG + " "
                     qry += " group by convert (date,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103),Cust_Group_Code,Loc_Code)XX GROUP BY xx.Document_Date,XX.Cust_Group_Code,XX.Location  "
@@ -1087,7 +1110,9 @@ sum(case when Cust_Group_Code='DEALER' then Quantity else 0 end) as DEALERQty,su
         Gv1.Columns("FromDate").IsVisible = False
         Gv1.Columns("FromDate").HeaderText = "FromDate"
 
-        Gv1.Columns("MonthNumber").IsVisible = False
+        If clsCommon.myLen(Gv1.Columns("MonthNumber")) > 0 Then
+            Gv1.Columns("MonthNumber").IsVisible = False
+        End If
 
         Gv1.Columns("ToDate").Width = 100
         Gv1.Columns("ToDate").IsVisible = False
