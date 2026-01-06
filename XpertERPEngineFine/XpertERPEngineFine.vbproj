@@ -193,7 +193,7 @@
       <HintPath>..\XpertERP\bin\Debug\Telerik.WinControls.UI.Design.dll</HintPath>
     </Reference>
     <Reference Include="XpertCommon">
-      <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
+      <HintPath>..\..\Git\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

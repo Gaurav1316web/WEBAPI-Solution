@@ -8960,7 +8960,7 @@ Public Class MDI
                     Case clsUserMgtCode.frmUnionWiseAppUserReport
                         frm = New frmUnionWiseAppUserReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
-                    Case clsUserMgtCode.FrmCmSambalYojanaSunsidy
+                    Case clsUserMgtCode.FrmCmSambalYojanaSubsidy
                         frm = New FrmCmSambalYojanaSunsidy
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptDBTBankResponse
