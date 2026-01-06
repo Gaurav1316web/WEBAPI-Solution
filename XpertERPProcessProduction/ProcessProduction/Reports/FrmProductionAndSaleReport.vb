@@ -876,7 +876,7 @@ GROUP BY t.Location_Code
 							union all
 	
 							SELECT 'Capacity / Day' AS Production, 'rcdf' as Location_Code, 
-sum(cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(fromDate.Value), "dd/MMM/yyyy") + "'))) AS DECIMAL(18,0))) as [Capacity]
+sum(cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy") + "'))) AS DECIMAL(18,0))) as [Capacity]
                         FROM  TSPL_LOCATION_MASTER where IsMainPlant=0 
 						--union all
 						--SELECT 'Capacity / Day' AS Production, 'RCDF' AS Location_Code,  SUM(TSPL_LOCATION_MASTER.Silo_Capacity) Capacity
@@ -972,7 +972,7 @@ sum(cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + 
                             select Production,Sum(isnull([AJMR],0)) as [AJMR],Sum(isnull([BIKR],0)) as [BIKR],Sum(isnull([JODH],0)) as [JODH],Sum(isnull([KALR],0)) as [KALR],Sum(isnull([LAMB],0)) as [LAMB],Sum(isnull([NADB],0)) as [NADB],Sum(isnull([PALI],0)) as [PALI],Sum(isnull([RCDF],0)) as [RCDF]
 							
                          from (select 'Capacity Utilization' as Production,TSPL_LOCATION_MASTER.Location_Code
-                        ,case when TSPL_LOCATION_MASTER.Silo_Capacity=0 then 0 else isnull(CAST(((ProdCumQty.Qty/1000)*100/(1*TSPL_LOCATION_MASTER.target/(day(eomonth('" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(fromDate.Value), "dd/MMM/yyyy") + "'))))/" + clsCommon.myCstr(DayCount) + ") AS DECIMAL(18,0)),0) end as ProdCumQty
+                        ,case when TSPL_LOCATION_MASTER.Silo_Capacity=0 then 0 else isnull(CAST(((ProdCumQty.Qty/1000)*100/(1*TSPL_LOCATION_MASTER.target/(day(eomonth('" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy") + "'))))/" + clsCommon.myCstr(DayCount) + ") AS DECIMAL(18,0)),0) end as ProdCumQty
 						
                          FROM TSPL_LOCATION_MASTER 
                          LEFT OUTER JOIN
@@ -990,7 +990,7 @@ sum(cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + 
  
 						  from 
 						 ( select 'Capacity Utilization' as Production,'RCDF' as Location_Code
-                        ,0 as ProdCumQty,Sum(ProdCumQty.Qty/1000)Qty,Sum(TSPL_LOCATION_MASTER.Target/(day(eomonth('" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(fromDate.Value), "dd/MMM/yyyy") + "'))))Target
+                        ,0 as ProdCumQty,Sum(ProdCumQty.Qty/1000)Qty,Sum(TSPL_LOCATION_MASTER.Target/(day(eomonth('" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy") + "'))))Target
 						
                          FROM TSPL_LOCATION_MASTER 
                          LEFT OUTER JOIN
@@ -1007,7 +1007,7 @@ sum(cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + 
 						  union all
 
 						   select 'Capacity Utilization' as Production,'RCDF' as Location_Code
-                        ,0 as ProdCumQty,0 as Qty,Sum(TSPL_LOCATION_MASTER.Target/(day(eomonth('" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(fromDate.Value), "dd/MMM/yyyy") + "'))))Target
+                        ,0 as ProdCumQty,0 as Qty,Sum(TSPL_LOCATION_MASTER.Target/(day(eomonth('" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy") + "'))))Target
 						 FROM TSPL_LOCATION_MASTER 
                          LEFT OUTER JOIN
                         (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) as Qty,'RCDF' as LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL
