@@ -1007,7 +1007,7 @@ sum(cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + 
 						  union all
 
 						   select 'Capacity Utilization' as Production,'RCDF' as Location_Code
-                        ,0 as ProdCumQty,0 as Qty,Sum(TSPL_LOCATION_MASTER.Target/(day(eomonth('31/Jan/2024'))))Target
+                        ,0 as ProdCumQty,0 as Qty,Sum(TSPL_LOCATION_MASTER.Target/(day(eomonth('" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(fromDate.Value), "dd/MMM/yyyy") + "'))))Target
 						 FROM TSPL_LOCATION_MASTER 
                          LEFT OUTER JOIN
                         (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) as Qty,'RCDF' as LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL
