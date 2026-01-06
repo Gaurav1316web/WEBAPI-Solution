@@ -576,7 +576,7 @@ Public Class MSIProductionSaleReport
 
         txtLocation.Value = clsCommon.ShowSelectForm("VendorMafnd", qry, "Code", WhrCls, txtLocation.Value, "Code", isButtonClicked)
         lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
-    End Sub
+            End Sub
 
     Private Sub fromDate_ValueChanged(sender As Object, e As EventArgs) Handles FromDate.ValueChanged
         Dim selectedMonth As Integer = FromDate.Value.Month

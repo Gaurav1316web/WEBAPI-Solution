@@ -11524,6 +11524,8 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Is_Correction_After_Process_DR_Note", "integer not null default 0")
             coll.Add("Is_Correction_After_Process_CR_Note", "integer not null default 0")
             coll.Add("Is_Default_HeadLoad", "integer not null default 0")
+            coll.Add("Is_Suspense_Adjustment_CR_Note", "integer not null default 0")
+            coll.Add("Is_Suspense_Adjustment_DR_Note", "integer not null default 0")
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_DEDUCTION_MASTER", coll, "", True, False, "", "", "", True)
 
 
@@ -25035,6 +25037,21 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Document_No", "Varchar(30) not null references TSPL_MILK_COLLECTION_DCS(Document_No)")
             coll.Add("Against_Milk_Collection_MCC_Detail", "integer NOT NULL unique references TSPL_MILK_COLLECTION_MCC_DETAIL(PK_Id)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_MCC_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_DCS", "Document_No", "", True)
+
+            coll = New Dictionary(Of String, String)
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Document_No", "Varchar(30) not null references TSPL_MILK_COLLECTION_DCS(Document_No)")
+            coll.Add("VLC_Code", "Varchar(30) not null references TSPL_VLC_MASTER_HEAD(VLC_Code)")
+            coll.Add("Qty", "Decimal(18,2) null")
+            coll.Add("FAT", "Decimal(18,2) null")
+            coll.Add("SNF", "Decimal(18,2) null")
+            coll.Add("FATKG", "Decimal(18,3) null")
+            coll.Add("SNFKG", "Decimal(18,3) null")
+            coll.Add("Rate", "Decimal(18,2) null")
+            coll.Add("Amount", "Decimal(18,2) null")
+            coll.Add("Created_By", "varchar(12)  Not NULL")
+            coll.Add("Created_Date", "datetime  Not NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_SUSPENSE_ADJUSTMENT", coll, Nothing, False, False, "", "", "", False)
 
 
             coll = New Dictionary(Of String, String)

@@ -937,11 +937,8 @@
     <Compile Include="Sale\BulkSale\ClsInvoiceBulkSale.vb" />
     <Compile Include="Sale\BulkSale\ClsQualityCheckBulkSale.vb" />
     <Compile Include="Sale\BulkSale\ClsSalesOrderBulkSale_Pavitra.vb" />
-    <Compile Include="Sale\ClsAgencyMaster.vb" />
     <Compile Include="Sale\clsBookingEntry.vb" />
-    <Compile Include="Sale\clsConsumerMaster.vb" />
     <Compile Include="Sale\clsCreditLimitApprovalHead.vb" />
-    <Compile Include="Sale\clsDesignationHierarcy.vb" />
     <Compile Include="Sale\clsDiscountCategoryCode.vb" />
     <Compile Include="Sale\clsDiscountMaster.vb" />
     <Compile Include="Sale\clsDispatchHead.vb" />
@@ -1642,7 +1639,6 @@
   <ItemGroup>
     <Folder Include="AdminServices\" />
     <Folder Include="EngAndPlantManagement\" />
-    <Folder Include="ServiceAndWarranty\" />
     <Folder Include="TDS Module\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

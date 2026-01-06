@@ -79,6 +79,10 @@ Public Class FrmDeductionMaster
         txtOwnBMCMilkRejectType.Value = ""
         chkCorrectionAfterProcessCrNote.Checked = False
         chkCorrectionAfterProcessDrNote.Checked = False
+
+        chkSuspenseAdjustmentCrNote.Checked = False
+        chkSuspenseAdjustmentDrNote.Checked = False
+
         'loadTransType()
     End Sub
     Private Function AllowToSave() As Boolean
@@ -188,6 +192,9 @@ Public Class FrmDeductionMaster
             obj.Is_Correction_After_Process_CR_Note = chkCorrectionAfterProcessCrNote.Checked
             obj.Is_Correction_After_Process_DR_Note = chkCorrectionAfterProcessDrNote.Checked
 
+            obj.Is_Suspense_Adjustment_CR_Note = chkSuspenseAdjustmentCrNote.Checked
+            obj.Is_Suspense_Adjustment_DR_Note = chkSuspenseAdjustmentDrNote.Checked
+
             obj.Show_FAT_SNF = chkShowFATSNF.Checked
             obj.HO_TYPE = chkHO.Checked
             obj.VLC_TYPE = chkVLC.Checked
@@ -266,6 +273,9 @@ Public Class FrmDeductionMaster
 
                 chkCorrectionAfterProcessCrNote.Checked = obj.Is_Correction_After_Process_CR_Note
                 chkCorrectionAfterProcessDrNote.Checked = obj.Is_Correction_After_Process_DR_Note
+
+                chkSuspenseAdjustmentCrNote.Checked = obj.Is_Suspense_Adjustment_CR_Note
+                chkSuspenseAdjustmentDrNote.Checked = obj.Is_Suspense_Adjustment_DR_Note
 
                 lblDedGrpName.Text = clsDBFuncationality.getSingleValue("select Ded_Description from TSPL_DEDUCTION_GROUP where Ded_Code='" & fndDedGrp.Value & "'")
                 lblGLAcctName.Text = clsDBFuncationality.getSingleValue("select Description from TSPL_GL_ACCOUNTS where Account_Code='" & FndGLAcct.Value & "'")

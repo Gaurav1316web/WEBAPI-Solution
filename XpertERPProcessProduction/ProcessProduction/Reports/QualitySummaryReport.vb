@@ -60,7 +60,7 @@ Public Class QualitySummaryReport
                 count((CASE WHEN TSPL_QC_CHECK_HEAD.QC_Status='Rejected' or TSPL_GRN_HEAD.VisualQCStatusSecond=2 or TSPL_GRN_HEAD.VisualQCStatus=2 THEN 'FULL_REJECT'  end)) AS 'FULL_REJECT',
                 count((case when TSPL_GRN_HEAD.VisualQCStatus=3  OR TSPL_GRN_HEAD.VisualQCStatusSecond=3 then 'Partial Ok'  end)) AS 'PARTIAL_REJECT',
                 count((case when TSPL_QC_CHECK_HEAD.QC_Status='Rejected' or TSPL_GRN_HEAD.VisualQCStatusSecond=2 or TSPL_GRN_HEAD.VisualQCStatus=2 OR TSPL_GRN_HEAD.VisualQCStatus=3  OR TSPL_GRN_HEAD.VisualQCStatusSecond=3 then 'Partial Ok'  end)) AS 'TOTALL_REJECT',
-                count((case when TSPL_GRN_HEAD.VisualQCStatus=1 AND (TSPL_GRN_HEAD.VisualQCStatusSecond<>3 OR TSPL_GRN_HEAD.VisualQCStatusSecond<>2 or TSPL_QC_CHECK_HEAD.QC_Status<>'Rejected')then 'Ok'  end)) AS 'TOTAL_ACCEPTED',
+                count((case when TSPL_GRN_HEAD.VisualQCStatus=1 AND (TSPL_GRN_HEAD.VisualQCStatusSecond not in(3,2) or TSPL_QC_CHECK_HEAD.QC_Status<>'Rejected')then 'Ok'  end)) AS 'TOTAL_ACCEPTED',
                 Sum(Case When TSPL_NIR_QC.QC_Status=1 Then 1 Else 0 End) As 'Accepted',
                 Sum(Case When TSPL_NIR_QC.QC_Status=2 Then 1 Else 0 End) As 'Rejected',
 				count(case when TSPL_QC_CHECK_SRN_DETAIL.deduction>0 and TSPL_QC_CHECK_HEAD.QC_Status='Under Deviation' then 'Accepted With Deduction' end) as 'Accepted With Deduction',

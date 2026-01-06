@@ -2509,7 +2509,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptCrateRegister, "Crate Balance Register", "1.06.03.69", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptSaleInvoiceStatusReport, "Sale Invoice Status Report", "1.06.03.71", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmEwaybill, "Eway Bill API", "1.06.03.72", clsUserMgtCode.SubModuleSaleDairyReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptItemWiseBillReport, "ITEM WISE BILL REPORT", "1.06.03.73", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptItemWiseBillReport, "Customer Item Wise Bill Report", "1.06.03.73", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         '-------------------------SERVICE MODULE END----------------------------------------
 
