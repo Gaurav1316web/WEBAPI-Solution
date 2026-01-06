@@ -82,11 +82,11 @@ WHEN (TSPL_GRN_HEAD.VisualQCStatus = 1 or TSPL_GRN_HEAD.VisualQCStatusSecond = 1
             If clsCommon.CompairString(txtQCStatus.SelectedValue, "FA") = CompairStringResult.Equal Then
                 qry += " and yy.[Accepted Qty]>0 "
             ElseIf clsCommon.CompairString(txtQCStatus.SelectedValue, "PA") = CompairStringResult.Equal Then
-                qry += " and yy.[Partial Accepted]>0  "
+                qry += " and yy.[Partial Accepted Qty]>0  "
             ElseIf clsCommon.CompairString(txtQCStatus.SelectedValue, "FR") = CompairStringResult.Equal Then
                 qry += " and yy.[Rejected Qty]>0 "
             ElseIf clsCommon.CompairString(txtQCStatus.SelectedValue, "PR") = CompairStringResult.Equal Then
-                qry += " and yy.[Partial Rejected]>0 "
+                qry += " and yy.[Partial Rejected Qty]>0 "
             End If
             If rdbSummary.Checked Then
                 qry += "  )YYZ "
@@ -324,7 +324,7 @@ WHEN (TSPL_GRN_HEAD.VisualQCStatus = 1 or TSPL_GRN_HEAD.VisualQCStatusSecond = 1
         dt.Rows.Add("Full Accepted", "FA")
         dt.Rows.Add("Partial Accepted", "PA")
         dt.Rows.Add("Full Rejected", "FR")
-        dt.Rows.Add("Partial Rejected", "PR")
+        'dt.Rows.Add("Partial Rejected", "PR")
         txtQCStatus.DataSource = dt
         txtQCStatus.DisplayMember = "Code"
         txtQCStatus.ValueMember = "Value"
