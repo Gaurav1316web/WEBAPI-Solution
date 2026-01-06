@@ -1943,7 +1943,7 @@ Public Class clsMCCMaterialSale
         obj.Discount_Base = objShipment.Discount_Base
         obj.Discount_Amt = objShipment.Discount_Amt
         obj.Amount_Less_Discount = objShipment.Amount_Less_Discount
-        obj.Total_Amt = objShipment.Total_Amt
+        obj.Total_Amt = objShipment.Gross_Amount
         obj.Comments = objShipment.Comments
         obj.Comp_Code = objShipment.Comp_Code
         obj.Terms_Code = objShipment.Terms_Code
