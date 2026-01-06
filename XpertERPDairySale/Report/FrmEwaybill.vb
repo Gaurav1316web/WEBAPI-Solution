@@ -7,6 +7,19 @@ Imports Newtonsoft.Json.Linq
 Public Class FrmEwaybill
     Inherits FrmMainTranScreen
 #Region "Variables"
+    Const colewbNo As String = "colewbNo"
+    Const colewbDate As String = "colewbDate"
+    Const colstatus As String = "colstatus"
+    Const colgenGstin As String = "colgenGstin"
+    Const coldocNo As String = "coldocNo"
+    Const coldocDate As String = "coldocDate"
+    Const coldelPinCode As String = "coldelPinCode"
+    Const coldelStateCode As String = "coldelStateCode"
+    Const coldelPlace As String = "coldelPlace"
+    Const colvalidUpto As String = "colvalidUpto"
+    Const colextendedTimes As String = "colextendedTimes"
+    Const colrejectStatus As String = "colrejectStatus"
+
 #End Region
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
@@ -25,6 +38,123 @@ Public Class FrmEwaybill
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+    Private Sub LoadBlankGrid()
+        gv1.Rows.Clear()
+        gv1.Columns.Clear()
+        gv1.DataSource = Nothing
+        gv1.Rows.AddNew()
+        Dim repoewbNo As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoewbNo.FormatString = ""
+        repoewbNo.HeaderText = "EWB No"
+        repoewbNo.Name = colewbNo
+        repoewbNo.Width = 130
+        repoewbNo.ReadOnly = True
+        repoewbNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoewbNo)
+
+        Dim repoewbDate As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoewbDate.FormatString = ""
+        repoewbDate.HeaderText = "Ewb Date"
+        repoewbDate.Name = colewbDate
+        repoewbDate.Width = 150
+        repoewbDate.ReadOnly = True
+        repoewbDate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoewbDate)
+        Dim repostaus As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repostaus.FormatString = ""
+        repostaus.HeaderText = "Status"
+        repostaus.Name = colstatus
+        repostaus.Width = 50
+        repostaus.ReadOnly = True
+        repostaus.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repostaus)
+        Dim repoGenGST As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoGenGST.FormatString = ""
+        repoGenGST.HeaderText = "Gen GSTIN"
+        repoGenGST.Name = colgenGstin
+        repoGenGST.Width = 120
+        repoGenGST.ReadOnly = True
+        repoGenGST.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoGenGST)
+        Dim repoDocno As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoDocno.FormatString = ""
+        repoDocno.HeaderText = "Dco No"
+        repoDocno.Name = coldocNo
+        repoDocno.Width = 120
+        repoDocno.ReadOnly = True
+        repoDocno.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoDocno)
+        Dim repoDocDate As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoDocDate.FormatString = ""
+        repoDocDate.HeaderText = "Doc Date"
+        repoDocDate.Name = coldocDate
+        repoDocDate.Width = 150
+        repoDocDate.ReadOnly = True
+        repoDocDate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoDocDate)
+        Dim repoPCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoPCode.FormatString = ""
+        repoPCode.HeaderText = "Pin Code"
+        repoPCode.Name = coldelPinCode
+        repoPCode.Width = 50
+        repoPCode.ReadOnly = True
+        repoPCode.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoPCode)
+        Dim repoScode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoScode.FormatString = ""
+        repoScode.HeaderText = "State Code"
+        repoScode.Name = coldelStateCode
+        repoScode.Width = 50
+        repoScode.ReadOnly = True
+        repoScode.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoScode)
+        Dim repoPlace As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoPlace.FormatString = ""
+        repoPlace.HeaderText = "Place"
+        repoPlace.Name = coldelPlace
+        repoPlace.Width = 100
+        repoPlace.ReadOnly = True
+        repoPlace.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoPlace)
+        Dim repoVupto As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoVupto.FormatString = ""
+        repoVupto.HeaderText = "Valid Upto"
+        repoVupto.Name = colvalidUpto
+        repoVupto.Width = 150
+        repoVupto.ReadOnly = True
+        repoVupto.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoVupto)
+        Dim repoextTime As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoextTime.FormatString = ""
+        repoextTime.HeaderText = "Extended Times"
+        repoextTime.Name = colextendedTimes
+        repoextTime.Width = 50
+        repoextTime.ReadOnly = True
+        repoextTime.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoextTime)
+        Dim repoRejstatus As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoRejstatus.FormatString = ""
+        repoRejstatus.HeaderText = "Reject Status"
+        repoRejstatus.Name = colrejectStatus
+        repoRejstatus.Width = 50
+        repoRejstatus.ReadOnly = True
+        repoRejstatus.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoRejstatus)
+
+
+
+        gv1.AllowDeleteRow = True
+        gv1.AllowAddNewRow = False
+        gv1.ShowGroupPanel = False
+        gv1.AllowColumnReorder = False
+        gv1.AllowRowReorder = False
+        gv1.EnableSorting = False
+        gv1.EnableFiltering = False
+        gv1.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
+        gv1.MasterTemplate.ShowRowHeaderColumn = False
+        gv1.TableElement.TableHeaderHeight = 40
+
     End Sub
     Sub LoadEwaybillType()
         Try
@@ -179,14 +309,17 @@ Public Class FrmEwaybill
             txtewbno.Enabled = False
             txtewbno.Value = ""
             txtTransID.Value = ""
-            txtVehicleNo.Value = ""
+            txtVehicleNo.Text = ""
             cmbExtendValidityReason.SelectedValue = ""
             cmbReasonForUpdateVehicle.SelectedValue = ""
             cmbConsignmentStatus.SelectedValue = ""
             txtRemaningDistance.Text = ""
             txtDate.Value = clsCommon.GETSERVERDATE()
             txtDate.Enabled = False
-            txtLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            LoadBlankGrid()
+            gv1.Visible = False
+
+            txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -238,9 +371,9 @@ Public Class FrmEwaybill
                     Throw New Exception("Please Enter ewb no/select Transpoter")
                 End If
             ElseIf clsCommon.CompairString(cmbEwaybillType.SelectedValue, "Update PART-B") = CompairStringResult.Equal Then
-                If clsCommon.myLen(txtewbno.Value) > 0 AndAlso clsCommon.CompairString(cmbReasonForUpdateVehicle.SelectedValue, "") <> CompairStringResult.Equal AndAlso clsCommon.myLen(txtVehicleNo.Value) > 0 Then
+                If clsCommon.myLen(txtewbno.Value) > 0 AndAlso clsCommon.CompairString(cmbReasonForUpdateVehicle.SelectedValue, "") <> CompairStringResult.Equal AndAlso clsCommon.myLen(txtVehicleNo.Text) > 0 Then
                     Dim isewbno As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(EWBNO) from TSPL_EWAY_BILL_REPORT_DETAIL where EWBNO='" & txtewbno.Value & "' "))
-                    Dim vehicleNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Number from TSPL_VEHICLE_MASTER where Vehicle_Id='" & txtVehicleNo.Value & "' "))
+                    'Dim vehicleNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Number from TSPL_VEHICLE_MASTER where Vehicle_Id='" & txtVehicleNo.Text & "' "))
                     Dim strDocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from tspl_sd_sale_invoice_head where EWayBillNo='" & clsCommon.myCstr(txtewbno.Value) & "'", Nothing))
                     If isewbno = 0 Then
                         GetEwayBill(txtewbno.Value, False)
@@ -250,7 +383,7 @@ Public Class FrmEwaybill
                         If obj IsNot Nothing AndAlso clsCommon.myLen(obj.ewbno) > 0 Then
                             Dim ObjVehicle As New clsEwayBillUpdatePartB_Vehicle()
                             ObjVehicle.ewbNo = obj.ewbno
-                            ObjVehicle.vehicleNo = vehicleNo
+                            ObjVehicle.vehicleNo = txtVehicleNo.Text
                             ObjVehicle.fromPlace = obj.fromPlace
                             ObjVehicle.fromState = obj.fromStateCode
                             ObjVehicle.reasonCode = clsCommon.myCstr(cmbReasonForUpdateVehicle.SelectedValue)
@@ -267,7 +400,7 @@ Public Class FrmEwaybill
                                 Dim josnReult As String = objResult.SelectToken("data").ToString
                                 Dim vehUpdDate As String = objResult.SelectToken("data.vehUpdDate").ToString
                                 Dim validUpto As String = objResult.SelectToken("data.validUpto").ToString
-                                Dim strUpdateQry As String = "update tspl_sd_sale_invoice_head set vehUpdDate='" & clsCommon.GetPrintDate(clsCommon.myCDate(vehUpdDate), "dd/MMM/yyyy hh:mm tt") & "',EWayBillValidDate='" & clsCommon.GetPrintDate(clsCommon.myCDate(validUpto), "dd/MMM/yyyy hh:mm tt") & "' where EWayBillNo='" & clsCommon.myCstr(txtewbno.Value) & "'"
+                                Dim strUpdateQry As String = "update tspl_sd_sale_invoice_head set VehicleNo='" & txtVehicleNo.Text & "', vehUpdDate='" & clsCommon.GetPrintDate(clsCommon.myCDate(vehUpdDate), "dd/MMM/yyyy hh:mm tt") & "',EWayBillValidDate='" & clsCommon.GetPrintDate(clsCommon.myCDate(validUpto), "dd/MMM/yyyy hh:mm tt") & "' where EWayBillNo='" & clsCommon.myCstr(txtewbno.Value) & "'"
                                 clsDBFuncationality.ExecuteNonQuery(strUpdateQry)
                                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_SD_SALE_INVOICE_HEAD", "Document_Code", "TSPL_SD_SALE_INVOICE_DETAIL", "Document_Code", Nothing)
                                 clsCommon.MyMessageBoxShow(Me, "Update Prat-B/Vehicle number Successfully." & Environment.NewLine & "Vehicle Update Date :" & vehUpdDate & " " & Environment.NewLine & "validUpto :" & validUpto, Me.Text)
@@ -299,11 +432,32 @@ Public Class FrmEwaybill
                     If objResult Is Nothing Then
                         Throw New Exception("Get Ewb Bills failed!")
                     Else
-                        Dim ewayBillNo As String = objResult.SelectToken("data").ToString
-                        'Dim transporterId As String = objResult.SelectToken("data.transporterId").ToString
-                        'Dim transUpdateDate As String = objResult.SelectToken("data.transUpdateDate").ToString
-                        'Dim strTransCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Code from TSPL_VENDOR_MASTER where GSTFinalNo='" & transporterId & "'"))
-                        clsCommon.MyMessageBoxShow(Me, ewayBillNo, Me.Text)
+                        Dim ewayBillJson As String = objResult.SelectToken("data").ToString
+                        'Dim ewayBill As clsEwayBillsByDate = JsonConvert.DeserializeObject(Of clsEwayBillsByDate)(ewayBillNo)
+                        Dim ewayBill As List(Of clsEwayBillsByDateDetail) =
+    JsonConvert.DeserializeObject(Of List(Of clsEwayBillsByDateDetail))(ewayBillJson)
+                        If ewayBill IsNot Nothing And ewayBill.Count > 0 Then
+                            LoadBlankGrid()
+                            Dim dblrow As Integer = 0
+                            For Each items As clsEwayBillsByDateDetail In ewayBill
+                                gv1.Rows(dblrow).Cells(colewbNo).Value = items.ewbNo
+                                gv1.Rows(dblrow).Cells(colewbDate).Value = items.ewbDate
+                                gv1.Rows(dblrow).Cells(colstatus).Value = items.status
+                                gv1.Rows(dblrow).Cells(colgenGstin).Value = items.genGstin
+                                gv1.Rows(dblrow).Cells(coldocNo).Value = items.docNo
+                                gv1.Rows(dblrow).Cells(coldocDate).Value = items.docDate
+                                gv1.Rows(dblrow).Cells(coldelPinCode).Value = items.delPinCode
+                                gv1.Rows(dblrow).Cells(coldelStateCode).Value = items.delStateCode
+                                gv1.Rows(dblrow).Cells(coldelPlace).Value = items.delPlace
+                                gv1.Rows(dblrow).Cells(colvalidUpto).Value = items.validUpto
+                                gv1.Rows(dblrow).Cells(colextendedTimes).Value = items.extendedTimes
+                                gv1.Rows(dblrow).Cells(colrejectStatus).Value = items.rejectStatus
+                                gv1.Rows.AddNew()
+                                dblrow += 1
+
+                            Next
+                        End If
+                        'clsCommon.MyMessageBoxShow(Me, ewayBillNo, Me.Text)
                     End If
                 Else
                     Throw New Exception("Please Select Locaiton!")
@@ -442,6 +596,7 @@ where TSPL_EWAY_BILL_REPORT_DETAIL.ewbNo='" & strewbno & "' "
                 txtRemaningDistance.Enabled = False
                 cmbConsignmentStatus.Enabled = False
                 txtDate.Enabled = False
+                gv1.Visible = False
             ElseIf clsCommon.CompairString(cmbEwaybillType.SelectedValue, "Update Transpoter") = CompairStringResult.Equal Then
                 txtewbno.Enabled = True
                 txtTransID.Enabled = True
@@ -451,6 +606,7 @@ where TSPL_EWAY_BILL_REPORT_DETAIL.ewbNo='" & strewbno & "' "
                 txtRemaningDistance.Enabled = False
                 cmbConsignmentStatus.Enabled = False
                 txtDate.Enabled = False
+                gv1.Visible = False
             ElseIf clsCommon.CompairString(cmbEwaybillType.SelectedValue, "Update PART-B") = CompairStringResult.Equal Then
                 txtewbno.Enabled = True
                 txtTransID.Enabled = False
@@ -460,6 +616,7 @@ where TSPL_EWAY_BILL_REPORT_DETAIL.ewbNo='" & strewbno & "' "
                 txtRemaningDistance.Enabled = False
                 cmbConsignmentStatus.Enabled = False
                 txtDate.Enabled = False
+                gv1.Visible = False
             ElseIf clsCommon.CompairString(cmbEwaybillType.SelectedValue, "Cancel Eway Bill") = CompairStringResult.Equal Then
                 txtewbno.Enabled = True
                 txtTransID.Enabled = False
@@ -469,6 +626,7 @@ where TSPL_EWAY_BILL_REPORT_DETAIL.ewbNo='" & strewbno & "' "
                 txtRemaningDistance.Enabled = False
                 cmbConsignmentStatus.Enabled = False
                 txtDate.Enabled = False
+                gv1.Visible = False
             ElseIf clsCommon.CompairString(cmbEwaybillType.SelectedValue, "Eway Bills By Date") = CompairStringResult.Equal Then
                 txtewbno.Enabled = False
                 txtTransID.Enabled = False
@@ -478,6 +636,7 @@ where TSPL_EWAY_BILL_REPORT_DETAIL.ewbNo='" & strewbno & "' "
                 txtRemaningDistance.Enabled = False
                 cmbConsignmentStatus.Enabled = False
                 txtDate.Enabled = True
+                gv1.Visible = True
             ElseIf clsCommon.CompairString(cmbEwaybillType.SelectedValue, "Extend Validity of Eway Bill") = CompairStringResult.Equal Then
                 txtewbno.Enabled = True
                 txtTransID.Enabled = False
@@ -487,6 +646,7 @@ where TSPL_EWAY_BILL_REPORT_DETAIL.ewbNo='" & strewbno & "' "
                 txtRemaningDistance.Enabled = True
                 cmbConsignmentStatus.Enabled = True
                 txtDate.Enabled = False
+                gv1.Visible = False
             ElseIf clsCommon.CompairString(cmbEwaybillType.SelectedValue, "Error List") = CompairStringResult.Equal Then
             End If
         Catch ex As Exception
@@ -596,18 +756,18 @@ where TSPL_EWAY_BILL_REPORT_DETAIL.ewbNo='" & strewbno & "' "
         Catch ex As Exception
         End Try
     End Sub
-    Private Sub txtVehicleNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtVehicleNo._MYValidating
-        Try
-            Dim qry As String = "Select distinct  vehicle_id ,Number,Description from TSPL_VEHICLE_MASTER"
-            txtVehicleNo.Value = clsCommon.ShowSelectForm("Vehicle No", qry, "vehicle_id", "", txtVehicleNo.Value, "vehicle_id", isButtonClicked)
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
+    'Private Sub txtVehicleNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtVehicleNo._MYValidating
+    '    Try
+    '        Dim qry As String = "Select distinct  vehicle_id ,Number,Description from TSPL_VEHICLE_MASTER"
+    '         txtVehicleNo.Text = clsCommon.ShowSelectForm("Vehicle No", qry, "vehicle_id", "",  txtVehicleNo.Text, "vehicle_id", isButtonClicked)
+    '    Catch ex As Exception
+    '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '    End Try
+    'End Sub
     Private Sub txtewbno__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtewbno._MYValidating
         Try
             Dim strqry As String = "select EWayBillNo as ewbno,Document_Code as Invoice_no,Document_Date as Invoice_Date from TSPL_SD_SALE_INVOICE_HEAD"
-            Dim Whrcls As String = " EWayBillNo is not null and convert(date,document_date,103)>='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE().AddDays(-30)) & "' and convert(date,document_date,103)<='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE()) & "'"
+            Dim Whrcls As String = " EWayBillNo is not null and convert(date,EWayBillValidDate,103)>='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE()) & "' "
             txtewbno.Value = clsCommon.ShowSelectForm("ewbno", strqry, "ewbno", Whrcls, txtewbno.Value, "Document_Date desc", isButtonClicked)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

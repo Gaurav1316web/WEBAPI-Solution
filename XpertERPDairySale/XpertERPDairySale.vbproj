@@ -1037,6 +1037,12 @@
     <Compile Include="Transaction\frmDairyBookingUploader.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Transaction\FrmDispatchReturn.Designer.vb">
+      <DependentUpon>FrmDispatchReturn.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\FrmDispatchReturn.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\FrmInvoiceDetails.Designer.vb">
       <DependentUpon>FrmInvoiceDetails.vb</DependentUpon>
     </Compile>
@@ -1727,6 +1733,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmDairyBookingUploader.resx">
       <DependentUpon>frmDairyBookingUploader.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\FrmDispatchReturn.resx">
+      <DependentUpon>FrmDispatchReturn.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\FrmInvoiceDetails.resx">
       <DependentUpon>FrmInvoiceDetails.vb</DependentUpon>

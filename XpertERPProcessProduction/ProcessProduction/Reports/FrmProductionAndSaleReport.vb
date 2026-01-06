@@ -214,7 +214,7 @@ Public Class FrmProductionAndSaleReport
                 If rdbDaily.IsChecked Then
 
 
-                    query = "Select ROW_NUMBER() OVER(ORDER BY yy.Location ASC) as SNo, max(Location)Location,Max(Date)date,max(date1)date1,sum(Capacity)Capacity,sum(Noofshift)Noofshift, sum(ProdDailyQty)ProdDailyQty,
+                    query = "Select  '" + objCommonVar.CurrentUserCode + "' as UserName,  ROW_NUMBER() OVER(ORDER BY yy.Location ASC) as SNo, max(Location)Location,Max(Date)date,max(date1)date1,sum(Capacity)Capacity,sum(Noofshift)Noofshift, sum(ProdDailyQty)ProdDailyQty,
 sum(ProdCumQty)ProdCumQty,sum(CUD)CUD,sum(cum)CUM,sum(CUY)CUY,
 sum(saleDailyQty)saleDailyQty,	sum(SaleCumQty)SaleCumQty	,sum(FGS)FGS,	sum(PSO)PSO,sum(BreakdownHRS)BreakdownHRS,	max(BreakdownREASON)BreakdownREASON
 	, CAST(ROUND(MAX(DcsSeqNo_1), 0) AS INT) AS DcsSeqNo_1,CAST(ROUND(MAX(DcsSeqNo_2), 0) AS INT) AS DcsSeqNo_2,CAST(ROUND(MAX(DcsSeqNo_3), 0) AS INT) AS DcsSeqNo_3
@@ -870,13 +870,13 @@ GROUP BY t.Location_Code
                      +' as ' + QUOTENAME( TSPL_LOCATION_MASTER.location_code)
                     as Alies_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N' FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')"
                 Dim strMaxLocation As String = clsDBFuncationality.getSingleValue(StrTempQry)
-                query = " SELECT * FROM (
-							SELECT 'Capacity / Day' AS Production, TSPL_LOCATION_MASTER.Location_Code,  (cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('31/Jan/2024'))) AS DECIMAL(18,0))) Capacity
+                query = " SELECT   * FROM (
+							SELECT 'Capacity / Day' AS Production, TSPL_LOCATION_MASTER.Location_Code,  (cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy") + "'))) AS DECIMAL(18,0))) Capacity
                         FROM  TSPL_LOCATION_MASTER where IsMainPlant=0
 							union all
 	
 							SELECT 'Capacity / Day' AS Production, 'rcdf' as Location_Code, 
-sum(cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(fromDate.Value), "dd/MMM/yyyy") + "'))) AS DECIMAL(18,0))) as [Capacity]
+sum(cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy") + "'))) AS DECIMAL(18,0))) as [Capacity]
                         FROM  TSPL_LOCATION_MASTER where IsMainPlant=0 
 						--union all
 						--SELECT 'Capacity / Day' AS Production, 'RCDF' AS Location_Code,  SUM(TSPL_LOCATION_MASTER.Silo_Capacity) Capacity
@@ -966,12 +966,14 @@ sum(cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + 
                           ON TSPL_LOCATION_MASTER.LOCATION_CODE =BreakDown.LOCATION_CODE
                           where TSPL_LOCATION_MASTER.IsMainPlant='0')XXXBreakDown
                           pivot ( sum(BreakDownQty) for Location_Code in (" + strLocation + ") )as zpivot group by zpivot.Production "
+                'CAPACITY UTILIZATION
 
-                query += " union all
-                          Select Production," + strSumLocation1 + ",RCDF/7 AS RCDF from (
-                            select Production," + strSumLocation + "," + strTotalLocation + " as " + strMainLocation + "
+                query += " Union all
+                            select Production,Sum(isnull([AJMR],0)) as [AJMR],Sum(isnull([BIKR],0)) as [BIKR],Sum(isnull([JODH],0)) as [JODH],Sum(isnull([KALR],0)) as [KALR],Sum(isnull([LAMB],0)) as [LAMB],Sum(isnull([NADB],0)) as [NADB],Sum(isnull([PALI],0)) as [PALI],Sum(isnull([RCDF],0)) as [RCDF]
+							
                          from (select 'Capacity Utilization' as Production,TSPL_LOCATION_MASTER.Location_Code
-                        ,case when TSPL_LOCATION_MASTER.Silo_Capacity=0 then 0 else isnull(CAST(((ProdCumQty.Qty/1000)" + "/(" + clsCommon.myCstr(DayCount) + "*TSPL_LOCATION_MASTER.Silo_Capacity))*100 AS DECIMAL(18,0)),0) end as ProdCumQty
+                        ,case when TSPL_LOCATION_MASTER.Silo_Capacity=0 then 0 else isnull(CAST(((ProdCumQty.Qty/1000)*100/(1*TSPL_LOCATION_MASTER.target/(day(eomonth('" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy") + "'))))/" + clsCommon.myCstr(DayCount) + ") AS DECIMAL(18,0)),0) end as ProdCumQty
+						
                          FROM TSPL_LOCATION_MASTER 
                          LEFT OUTER JOIN
                         (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) as Qty,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL
@@ -981,11 +983,66 @@ sum(cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + 
                          and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
                           GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE) ProdCumQty
                           ON TSPL_LOCATION_MASTER.LOCATION_CODE =ProdCumQty.LOCATION_CODE
-                          where TSPL_LOCATION_MASTER.IsMainPlant='0')XXXProduction
-                          pivot ( sum(ProdCumQty) for Location_Code in (" + strLocation + ") )as zpivot group by zpivot.Production )XX "
+                          where TSPL_LOCATION_MASTER.IsMainPlant='0' 
+						  
+						  Union all
+						  select 'Capacity Utilization' as Production,'RCDF' as Location_Code ,CAST((SUM(XX.Qty) * 100.0) / NULLIF(SUM(XX.Target), 0)AS DECIMAL(18,0))/" + clsCommon.myCstr(DayCount) + " AS ProdCumQty
+ 
+						  from 
+						 ( select 'Capacity Utilization' as Production,'RCDF' as Location_Code
+                        ,0 as ProdCumQty,Sum(ProdCumQty.Qty/1000)Qty,Sum(TSPL_LOCATION_MASTER.Target/(day(eomonth('" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy") + "'))))Target
+						
+                         FROM TSPL_LOCATION_MASTER 
+                         LEFT OUTER JOIN
+                        (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) as Qty,'RCDF' as LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL
+                         left join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
+                         LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
+                         where TSPL_Item_Master.FG_for_CF_RPT=1 and TSPL_SPP_PRODUCTION_ENTRY.posted=1 and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
+                         and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
+                          --GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE
+						  ) ProdCumQty
+                          ON TSPL_LOCATION_MASTER.LOCATION_CODE =ProdCumQty.LOCATION_CODE
+                          where TSPL_LOCATION_MASTER.IsMainPlant='1'
+
+						  union all
+
+						   select 'Capacity Utilization' as Production,'RCDF' as Location_Code
+                        ,0 as ProdCumQty,0 as Qty,Sum(TSPL_LOCATION_MASTER.Target/(day(eomonth('" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy") + "'))))Target
+						 FROM TSPL_LOCATION_MASTER 
+                         LEFT OUTER JOIN
+                        (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) as Qty,'RCDF' as LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL
+                         left join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
+                         LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
+                         where TSPL_Item_Master.FG_for_CF_RPT=1 and TSPL_SPP_PRODUCTION_ENTRY.posted=1 and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
+                         and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
+                          ) ProdCumQty
+                          ON TSPL_LOCATION_MASTER.LOCATION_CODE =ProdCumQty.LOCATION_CODE
+                          where TSPL_LOCATION_MASTER.IsMainPlant='0' 
+						  )XX Group by LOCATION_CODE)XXXProduction
+                          pivot ( sum(ProdCumQty) for Location_Code in ([AJMR],[BIKR],[JODH],[KALR],[LAMB],[NADB],[PALI],[RCDF]) )as zpivot group by zpivot.Production
 
 
-                query = "select format(convert(date,'" + fromDate.Value + "',103), 'dd/MMM/yyyy') as Date,(format(convert(date,'" + ToDate.Value + "',103), 'dd/MMM/yyyy'))as Date1,* from (" + query + ")final "
+
+"
+                'query += " union all
+                '          Select Production," + strSumLocation1 + ",RCDF/7 AS RCDF from (
+                '            select Production," + strSumLocation + "," + strTotalLocation + " as " + strMainLocation + "
+                '         from (select 'Capacity Utilization' as Production,TSPL_LOCATION_MASTER.Location_Code
+                '        ,case when TSPL_LOCATION_MASTER.Silo_Capacity=0 then 0 else isnull(CAST(((ProdCumQty.Qty/1000)" + "/(" + clsCommon.myCstr(DayCount) + "*TSPL_LOCATION_MASTER.Silo_Capacity))*100 AS DECIMAL(18,0)),0) end as ProdCumQty
+                '         FROM TSPL_LOCATION_MASTER 
+                '         LEFT OUTER JOIN
+                '        (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) as Qty,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL
+                '         left join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
+                '         LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
+                '         where TSPL_Item_Master.FG_for_CF_RPT=1 and TSPL_SPP_PRODUCTION_ENTRY.posted=1 and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
+                '         and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
+                '          GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE) ProdCumQty
+                '          ON TSPL_LOCATION_MASTER.LOCATION_CODE =ProdCumQty.LOCATION_CODE
+                '          where TSPL_LOCATION_MASTER.IsMainPlant='0')XXXProduction
+                '          pivot ( sum(ProdCumQty) for Location_Code in (" + strLocation + ") )as zpivot group by zpivot.Production )XX "
+
+
+                query = "select '" + objCommonVar.CurrentUserCode + "' as UserName,format(convert(date,'" + fromDate.Value + "',103), 'dd/MMM/yyyy') as Date,(format(convert(date,'" + ToDate.Value + "',103), 'dd/MMM/yyyy'))as Date1,* from (" + query + ")final "
 
                 'Dim queryBreakDownCode As String = "   select Production," + strMaxLocation + ",max('') as " + strMainLocation + "
                 '         from (select 'Breakdown Reason Code' as Production,TSPL_LOCATION_MASTER.Location_Code
@@ -1013,7 +1070,7 @@ sum(cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + 
 
             Dim dt3 As New DataTable
             Dim qry As String = Nothing
-            qry = "WITH BaseData AS ( SELECT DcsSeqNo,  Item_Desc FROM TSPL_ITEM_MASTER
+            qry = "WITH BaseData AS ( SELECT  DcsSeqNo,  Item_Desc FROM TSPL_ITEM_MASTER
     WHERE Item_Type = 'R' AND DcsSeqNo IS NOT NULL AND DcsSeqNo <> 0 AND DcsSeqNo <> 16
 	   UNION ALL
  SELECT 16 AS DcsSeqNo, 'Any Other' AS Item_Desc

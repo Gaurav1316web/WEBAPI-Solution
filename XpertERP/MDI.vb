@@ -8960,7 +8960,7 @@ Public Class MDI
                     Case clsUserMgtCode.frmUnionWiseAppUserReport
                         frm = New frmUnionWiseAppUserReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
-                    Case clsUserMgtCode.FrmCmSambalYojanaSunsidy
+                    Case clsUserMgtCode.FrmCmSambalYojanaSubsidy
                         frm = New FrmCmSambalYojanaSunsidy
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptDBTBankResponse
@@ -9750,6 +9750,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmSaleReturndairy
                         frm = New frmSaleReturnDairy
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmDispatchReturn
+                        frm = New FrmDispatchReturn
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmCrateReceviedDairySale
                         frm = New frmCreateReceivedDairySale

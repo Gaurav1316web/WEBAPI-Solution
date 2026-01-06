@@ -1625,8 +1625,8 @@ Public Class clsEwayBillDetail
     Public Property itemList As List(Of clsItem)
 End Class
 Public Class clsEwayBillCancel
-    Public Property ewbNo As String
-    Public Property cancelRsnCode As String
+    Public Property ewbNo As Long
+    Public Property cancelRsnCode As Integer
     Public Property cancelRmrk As String
 
 End Class
