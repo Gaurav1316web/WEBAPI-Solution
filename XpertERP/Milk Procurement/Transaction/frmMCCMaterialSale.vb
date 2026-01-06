@@ -3223,6 +3223,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
         End If
         lblTotRAmt1.Text = lblTotRAmt.Text
         txtTPTAmt.Text = dblTotalTPTAmt
+        'lblGrossAmount.Text =
     End Sub
     Private Function GetBaseOtherTaxableAmount(ByVal intEndCol As Integer) As Decimal
         ''Dim dblRetVal As Decimal = 0
@@ -9140,14 +9141,14 @@ a:          End If
                 'End If
                 If MultiplySubsidyWithQuantity Then
                     lblTotalSubsidy.Text = clsCommon.myCdbl(txtRateAmt.Text) * TotalItemQty
-                    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text) - clsCommon.myCdbl(lblTotalSubsidy.Text)
+                    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text) - clsCommon.myCdbl(lblTotalSubsidy.Text) - clsCommon.myCdbl(txtTPTAmt.Text)
 
                 Else
-                    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - txtRateAmt.Text)
+                    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - txtRateAmt.Text) - clsCommon.myCdbl(txtTPTAmt.Text)
                 End If
             Else
                 lblTotalSubsidy.Text = clsCommon.myCdbl(lblTotRAmt.Text * txtRatePer.Text) / 100
-                lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - lblTotalSubsidy.Text)
+                lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - lblTotalSubsidy.Text) - clsCommon.myCdbl(txtTPTAmt.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

@@ -2401,13 +2401,22 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
                                     ArryLst.Add(AccDiscTaxDR)
                                 End If
                                 If objTR.Transporter_Commission_Amt > 0 Then
-                                    Dim strLocationt As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Account_Seg_Code7 from TSPL_GL_ACCOUNTS where Account_Code='" + obj.Arr(0).GL_Account_Code + "'", trans))
-                                    Dim strACWithLocationt As String = clsERPFuncationality.ChangeGLAccountLocationSegment(obj.Customer_Control_AC, strLocationt, True, trans)
+                                    Dim strLocationt As String = ""
+                                    Dim strACWithLocationt As String = ""
+                                    Dim AccDiscDR() As String = Nothing
+                                    Dim AccDiscTaxDR() As String = Nothing
+                                    If clsCommon.CompairString(obj.Trans_Type, "MCC") = CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                                        AccDiscTaxDR = {objTR.Transporter_GL_Account_Code, 1 * (objTR.Transporter_Commission_Amt)}
+                                        ArryLst.Add(AccDiscTaxDR)
+                                    Else
+                                        strLocationt = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Account_Seg_Code7 from TSPL_GL_ACCOUNTS where Account_Code='" + obj.Arr(0).GL_Account_Code + "'", trans))
+                                        strACWithLocationt = clsERPFuncationality.ChangeGLAccountLocationSegment(obj.Customer_Control_AC, strLocationt, True, trans)
+                                        AccDiscDR = {strACWithLocationt, 1 * (objTR.Transporter_Commission_Amt)}
+                                        ArryLst.Add(AccDiscDR)
+                                        AccDiscTaxDR = {objTR.Transporter_GL_Account_Code, -1 * (objTR.Transporter_Commission_Amt)}
+                                        ArryLst.Add(AccDiscTaxDR)
+                                    End If
 
-                                    Dim AccDiscDR() As String = {strACWithLocationt, 1 * (objTR.Transporter_Commission_Amt)}
-                                    ArryLst.Add(AccDiscDR)
-                                    Dim AccDiscTaxDR() As String = {objTR.Transporter_GL_Account_Code, -1 * (objTR.Transporter_Commission_Amt)}
-                                    ArryLst.Add(AccDiscTaxDR)
                                 End If
                                 If objTR.Security_Amt > 0 Then
                                     Dim strLocations As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Account_Seg_Code7 from TSPL_GL_ACCOUNTS where Account_Code='" + obj.Arr(0).GL_Account_Code + "'", trans))
