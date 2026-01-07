@@ -898,7 +898,7 @@ Public Class clsShipmentReturnHead
             '    Return False
             'End If
             Dim qry As String = ""
-            UpdateInventoryMovement(obj, trans, False)
+            'UpdateInventoryMovement(obj, trans, False)
 
 
 
