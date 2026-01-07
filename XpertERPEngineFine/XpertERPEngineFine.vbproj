@@ -326,6 +326,7 @@
     <Compile Include="Dairy Sales\clsDesignationHierarcy.vb" />
     <Compile Include="Dairy Sales\clsEwayBillReportHead.vb" />
     <Compile Include="Dairy Sales\clsRouteWiseSaleTarget.vb" />
+    <Compile Include="Dairy Sales\clsShipmentReturnHead.vb" />
     <Compile Include="DA_Arrear\clsDA_Arrear.vb" />
     <Compile Include="DemandUploaderClass\clsDairyBookingCustomerbyUploader.vb" />
     <Compile Include="DemandUploaderClass\clsDemandBookingUploader.vb" />
