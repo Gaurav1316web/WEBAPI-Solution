@@ -4,7 +4,7 @@ Public Class clsUserMgtCode
     Public Const frmUnionWiseAppUserReport As String = "UNN-APP-RPT"
     Public Const FrmCmSambalYojanaSubsidy As String = "CM-SAM-YO"
     Public Const rptDBTBankResponse As String = "DBT-BAN-RE"
-
+    Public Const ZoneWiseReport As String = "ZONE_Q_R"
     Public Const frmRouteWiseSaleTargetReport As String = "RSL-TGT-RPT"
     Public Const frmRouteWiseSaleTarget As String = "RTWS-SL-TGT"
     Public Const frmPDAccountSummariesReport As String = "PD-ACC-SRPT"

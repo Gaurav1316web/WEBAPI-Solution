@@ -400,6 +400,12 @@
     <Compile Include="Milk Procurement\Report\YearlyDBTSummaryReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\ZoneWiseReport.Designer.vb">
+      <DependentUpon>ZoneWiseReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\ZoneWiseReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Transaction\AMCUMaster.Designer.vb">
       <DependentUpon>AMCUMaster.vb</DependentUpon>
     </Compile>
@@ -1350,6 +1356,9 @@
     <EmbeddedResource Include="Milk Procurement\Report\YearlyDBTSummaryReport.resx">
       <DependentUpon>YearlyDBTSummaryReport.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\ZoneWiseReport.resx">
+      <DependentUpon>ZoneWiseReport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\AMCUMaster.resx">
       <DependentUpon>AMCUMaster.vb</DependentUpon>
     </EmbeddedResource>
@@ -1817,7 +1826,9 @@
   <ItemGroup>
     <None Include="Resources\search41.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
