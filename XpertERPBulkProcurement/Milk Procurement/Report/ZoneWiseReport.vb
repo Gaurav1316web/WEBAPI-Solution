@@ -34,7 +34,7 @@ Public Class ZoneWiseReport
                 whrcls += " WHERE XX.Zone_Code in (" + clsCommon.GetMulcallString(TxtZone.arrValueMember) + ")"
             End If
             Dim BaseQuery As String = Nothing
-            BaseQuery = " select '" + objCommonVar.CurrentUserCode + "' as UserName, max(xx.Document_No)documnet_no , max(xx.Document_Date)Document_Date ,XX.Zone_Code, "
+            BaseQuery = " select '" + fromDate.Value + "' AS FROMDATE,'" + ToDate.Value + "' AS TODATE, '" + objCommonVar.CurrentUserCode + "' as UserName, max(xx.Document_No)documnet_no , max(xx.Document_Date)Document_Date ,XX.Zone_Code, "
             If rbtnDock.Checked Then
                 BaseQuery += "sum(xx.QTYUploader)QTYUploader,
 (sum(xx.QTYUploader)) as TotalQty,"
@@ -128,6 +128,7 @@ GROUP BY Zone_Code"
         RadGroupBox1.Enabled = False
         TxtZone.Enabled = False
         RadGroupBox3.Enabled = False
+
     End Sub
     Sub SetGridFormationOFGV1Collection()
         Gv1.AutoExpandGroups = False
@@ -144,9 +145,10 @@ GROUP BY Zone_Code"
             Gv1.Columns(ii).ReadOnly = True
             Gv1.Columns(ii).IsVisible = True
             Gv1.Columns("UserName").IsVisible = False
-
+            Gv1.Columns("FROMDATE").IsVisible = False
+            Gv1.Columns("TODATE").IsVisible = False
             Gv1.Columns("Zone_Code").IsVisible = True
-            Gv1.Columns("Zone_Code").HeaderText = "Zone Code"
+            Gv1.Columns("Zone_Code").HeaderText = "Zone Name"
             Gv1.Columns("documnet_no").IsVisible = False
             Gv1.Columns("documnet_no").HeaderText = "Documnet No"
             Gv1.Columns("Document_Date").IsVisible = False
@@ -193,20 +195,25 @@ GROUP BY Zone_Code"
         Gv1.DataSource = Nothing
         RadPageView1.SelectedPage = RadPageViewPage1
         RadGroupBox3.Enabled = True
-        fromDate.Value = clsCommon.GETSERVERDATE()
-        ToDate.Value = clsCommon.GETSERVERDATE()
+        'fromDate.Value = clsCommon.GETSERVERDATE()
+        'ToDate.Value = clsCommon.GETSERVERDATE()
         RadGroupBox1.Enabled = True
         TxtZone.Enabled = True
         btnPrint.Visible = False
-        TxtZone.arrValueMember = Nothing
+        'TxtZone.arrValueMember = Nothing
+        If rbtnBoth.Checked Then
+            btnPrint.Visible = True
+        Else
+            btnPrint.Visible = False
+        End If
     End Sub
 
     Private Sub TxtZone__My_Click(sender As Object, e As EventArgs) Handles TxtZone._My_Click
 
         Dim strQry As String = "select Zone_Code as Code ,Description as Name from TSPL_ZONE_MASTER where 1=1"
-        If TxtZone.arrValueMember IsNot Nothing AndAlso TxtZone.arrValueMember.Count > 0 Then
-            strQry += " and TSPL_ZONE_MASTER. Zone_Code in (Select TSPL_CUSTOMER_MASTER.Zone_Code from TSPL_CUSTOMER_MASTER where TSPL_CUSTOMER_MASTER.Cust_Code in (" + clsCommon.GetMulcallString(TxtZone.arrValueMember) + ") )"
-        End If
+        'If TxtZone.arrValueMember IsNot Nothing AndAlso TxtZone.arrValueMember.Count > 0 Then
+        '    strQry += " and TSPL_ZONE_MASTER. Zone_Code in (Select TSPL_CUSTOMER_MASTER.Zone_Code from TSPL_CUSTOMER_MASTER where TSPL_CUSTOMER_MASTER.Cust_Code in (" + clsCommon.GetMulcallString(TxtZone.arrValueMember) + ") )"
+        'End If
         TxtZone.arrValueMember = clsCommon.ShowMultipleSelectForm("ZoneMulSel", strQry, "Code", "Name", TxtZone.arrValueMember, TxtZone.arrDispalyMember)
     End Sub
 
@@ -229,5 +236,35 @@ GROUP BY Zone_Code"
 
     Private Sub rdbtnBMC_Click(sender As Object, e As EventArgs) Handles rdbtnBMC.Click
         btnPrint.Visible = False
+    End Sub
+
+    Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click
+        ExportGrid(EnumExportTo.Excel)
+    End Sub
+    Private Sub ExportGrid(ByVal exporter As EnumExportTo)
+        Try
+            If Gv1.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
+                Exit Sub
+            End If
+            Dim strHeading As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.ZoneWiseReport & "'"))
+            Dim arrHeader As List(Of String) = New List(Of String)()
+            'arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+            arrHeader.Add("Report Name : " + strHeading)
+            arrHeader.Add("Date Range from : " + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy"))
+            transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
+            If exporter = EnumExportTo.Excel Then
+                'transportSql.QuickExportToExcel(Gv1, "", Me.Text,, arrHeader)
+                transportSql.exportdata(Gv1, "", Me.Text, , arrHeader, False, True)
+            Else
+                clsCommon.MyExportToPDF(strHeading, Gv1, Nothing, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
+        End Try
+    End Sub
+
+    Private Sub RadMenuItem1_Click(sender As Object, e As EventArgs) Handles RadMenuItem1.Click
+        ExportGrid(EnumExportTo.PDF)
     End Sub
 End Class
