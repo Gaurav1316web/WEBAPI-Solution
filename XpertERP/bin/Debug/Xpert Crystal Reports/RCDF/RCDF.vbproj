@@ -139,6 +139,7 @@
     <None Include="Crystal Reports GST\Dairy Sales Report\crptDairySaleGatePassEntriesJDP.rpt" />
     <None Include="Crystal Reports GST\Dairy Sales Report\crptDairySaleGatePassEntryNewJPR-DRP.rpt" />
     <None Include="Crystal Reports GST\Dairy Sales Report\crptTaxableNonTaxableInvoiceGNG1.rpt" />
+    <None Include="Crystal Reports GST\Dairy Sales Report\crptTaxableNonTaxableInvoiceIGST.rpt" />
     <None Include="Crystal Reports GST\Dairy Sales Report\crptTaxableNonTaxableInvoiceJAL.rpt" />
     <None Include="Crystal Reports GST\Dairy Sales Report\crptTaxableNonTaxableInvoiceJALNEW.rpt" />
     <None Include="Crystal Reports GST\Dairy Sales Report\rptewbprint.rpt" />
