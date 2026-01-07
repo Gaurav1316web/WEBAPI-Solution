@@ -137,7 +137,7 @@ WHERE  Convert(Date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")
     Convert(Date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.To_Date,103)<=Convert(Date,'" & (txtToDate.Value) & "',103)
                 AND [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response IS NOT NULL 
 
-AND [JPR].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response LIKE '%STATUS : %'"
+AND [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response LIKE '%STATUS : %'"
                 If txtDoc.arrValueMember IsNot Nothing AndAlso txtDoc.arrValueMember.Count > 0 Then
                     baseqry += " and [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIl.Document_Code in (" + clsCommon.GetMulcallString(txtDoc.arrValueMember) + ") "
                 End If

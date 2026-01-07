@@ -16,14 +16,16 @@ Public Class rptItemWiseBillReport
     End Sub
     Private Sub LoadData()
         Try
+            Dim itemsWithZeroUOM As New List(Of String)
+
+            Dim qry1 As String = Nothing
 
 
-            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("(
+
+            Dim qry2 As String = "(
     SELECT DISTINCT 
-           TSPL_ITEM_MASTER.Item_Desc,
-           TSPL_ITEM_UOM_DETAIL.Conversion_Factor,
-           ItemCF.Conversion_Factor AS IMCF,
-           TSPL_ITEM_UOM_DETAIL.UOM_Code,TSPL_ITEM_UOM_DETAIL.Report_UOM
+           TSPL_ITEM_MASTER.Item_Code,
+          ISNULL(TSPL_ITEM_UOM_DETAIL.Report_UOM,0)Report_UOM
     FROM TSPL_SD_SALE_INVOICE_HEAD
     JOIN TSPL_SD_SALE_INVOICE_DETAIL
          ON TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE = TSPL_SD_SALE_INVOICE_HEAD.Document_Code
@@ -37,14 +39,35 @@ Public Class rptItemWiseBillReport
     ) AS ItemCF 
          ON ItemCF.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code 
         AND ItemCF.UOM_Code = TSPL_SD_SALE_INVOICE_DETAIL.Billing_Unit_code
-    WHERE TSPL_ITEM_MASTER.Item_Type = 'F' 
+    WHERE TSPL_ITEM_MASTER.Item_Type = 'F'  AND TSPL_ITEM_UOM_DETAIL.Report_UOM = 0
       and ItemCF.UOM_Code=TSPL_ITEM_UOM_DETAIL.UOM_Code
-)")
-            If (dt1 Is Nothing OrElse dt1.Rows.Count <= 0) Then
-                common.clsCommon.MyMessageBoxShow(Me, "Report UOM Is Of That item")
-                For ii As Integer = 0 To dt1.Rows.Count - 1
+	  and CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= '" & txtFromDate.Value & "'
+  AND CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <'" & txtToDate.Value & "'
 
+  AND NOT EXISTS (
+        SELECT 1
+        FROM TSPL_ITEM_UOM_DETAIL U
+        WHERE U.Item_Code = TSPL_ITEM_MASTER.Item_Code
+          AND U.Report_UOM = 1
+  )
+);"
+            Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(QRY2)
+
+            If dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0 Then
+
+                Dim msg As New System.Text.StringBuilder()
+
+                For Each dr As DataRow In dt2.Rows
+                    msg.AppendLine(
+            "Report UOM is 0 for item " &
+            dr("Item_Code").ToString() &
+            " please set it first"
+        )
                 Next
+
+                common.clsCommon.MyMessageBoxShow(Me, msg.ToString())
+
+                Exit Sub   ' stop further processing
             End If
 
             Dim whrcls As String = Nothing
