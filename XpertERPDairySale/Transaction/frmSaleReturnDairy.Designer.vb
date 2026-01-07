@@ -128,7 +128,6 @@ Partial Class frmSaleReturnDairy
         Me.txtDocNo = New common.UserControls.txtNavigator()
         Me.txtRefNo = New common.Controls.MyTextBox()
         Me.txtDesc = New common.Controls.MyTextBox()
-        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvBooth = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -212,6 +211,7 @@ Partial Class frmSaleReturnDairy
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
+        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -306,7 +306,6 @@ Partial Class frmSaleReturnDairy
         CType(Me.txtInvNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRefNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage5.SuspendLayout()
         CType(Me.gvBooth, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvBooth.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -384,6 +383,7 @@ Partial Class frmSaleReturnDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -515,10 +515,10 @@ Partial Class frmSaleReturnDairy
         Me.RadPageViewPage1.Controls.Add(Me.txtDesc)
         Me.RadPageViewPage1.Controls.Add(Me.btnAddNew)
         Me.RadPageViewPage1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(76.0!, 26.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(72.0!, 22.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 31)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1197, 353)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1197, 357)
         Me.RadPageViewPage1.Text = "Sale Return"
         '
         'Panel3
@@ -958,7 +958,7 @@ Partial Class frmSaleReturnDairy
         Me.RadGroupBox2.Location = New System.Drawing.Point(2, 216)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1192, 96)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1192, 100)
         Me.RadGroupBox2.TabIndex = 29
         Me.RadGroupBox2.Text = "Item Details"
         '
@@ -986,7 +986,7 @@ Partial Class frmSaleReturnDairy
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(1172, 66)
+        Me.gv1.Size = New System.Drawing.Size(1172, 70)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         Me.gv1.VarID = ""
@@ -1214,7 +1214,7 @@ Partial Class frmSaleReturnDairy
         Me.MyLabel7.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.MyLabel7.FieldName = Nothing
         Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel7.Location = New System.Drawing.Point(3, 318)
+        Me.MyLabel7.Location = New System.Drawing.Point(3, 322)
         Me.MyLabel7.Name = "MyLabel7"
         Me.MyLabel7.Size = New System.Drawing.Size(100, 16)
         Me.MyLabel7.TabIndex = 34
@@ -1254,7 +1254,7 @@ Partial Class frmSaleReturnDairy
         Me.lblTotRAmt1.BorderVisible = True
         Me.lblTotRAmt1.FieldName = Nothing
         Me.lblTotRAmt1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotRAmt1.Location = New System.Drawing.Point(105, 317)
+        Me.lblTotRAmt1.Location = New System.Drawing.Point(105, 321)
         Me.lblTotRAmt1.Name = "lblTotRAmt1"
         Me.lblTotRAmt1.Size = New System.Drawing.Size(110, 18)
         Me.lblTotRAmt1.TabIndex = 35
@@ -1544,7 +1544,7 @@ Partial Class frmSaleReturnDairy
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel5.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.MyLabel5.Location = New System.Drawing.Point(1001, 328)
+        Me.MyLabel5.Location = New System.Drawing.Point(1001, 332)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(196, 16)
         Me.MyLabel5.TabIndex = 57
@@ -1604,7 +1604,7 @@ Partial Class frmSaleReturnDairy
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.ForeColor = System.Drawing.Color.Blue
-        Me.MyLabel2.Location = New System.Drawing.Point(1, 341)
+        Me.MyLabel2.Location = New System.Drawing.Point(1, 345)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(438, 16)
         Me.MyLabel2.TabIndex = 25
@@ -1800,7 +1800,7 @@ Partial Class frmSaleReturnDairy
         Me.RadLabel12.FieldName = Nothing
         Me.RadLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel12.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel12.Location = New System.Drawing.Point(879, 341)
+        Me.RadLabel12.Location = New System.Drawing.Point(879, 345)
         Me.RadLabel12.Name = "RadLabel12"
         Me.RadLabel12.Size = New System.Drawing.Size(318, 16)
         Me.RadLabel12.TabIndex = 24
@@ -2082,20 +2082,10 @@ Partial Class frmSaleReturnDairy
         Me.txtDesc.Size = New System.Drawing.Size(320, 36)
         Me.txtDesc.TabIndex = 6
         '
-        'btnAddNew
-        '
-        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddNew.Image = Global.XpertERPDairySale.My.Resources.Resources._new
-        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(350, 0)
-        Me.btnAddNew.Name = "btnAddNew"
-        Me.btnAddNew.Size = New System.Drawing.Size(20, 21)
-        Me.btnAddNew.TabIndex = 1
-        '
         'RadPageViewPage5
         '
         Me.RadPageViewPage5.Controls.Add(Me.gvBooth)
-        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(78.0!, 26.0!)
+        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(74.0!, 22.0!)
         Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
         Me.RadPageViewPage5.Size = New System.Drawing.Size(1197, 353)
@@ -2138,10 +2128,10 @@ Partial Class frmSaleReturnDairy
         Me.RadPageViewPage2.Controls.Add(Me.gv2)
         Me.RadPageViewPage2.Controls.Add(Me.RadLabel11)
         Me.RadPageViewPage2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(47.0!, 26.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(43.0!, 22.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(949, 353)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1197, 353)
         Me.RadPageViewPage2.Text = "Taxes"
         '
         'GroupBox1
@@ -2229,7 +2219,7 @@ Partial Class frmSaleReturnDairy
         Me.RadLabel10.FieldName = Nothing
         Me.RadLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel10.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel10.Location = New System.Drawing.Point(791, 249)
+        Me.RadLabel10.Location = New System.Drawing.Point(1039, 249)
         Me.RadLabel10.Name = "RadLabel10"
         Me.RadLabel10.Size = New System.Drawing.Size(155, 16)
         Me.RadLabel10.TabIndex = 4
@@ -2250,7 +2240,7 @@ Partial Class frmSaleReturnDairy
         Me.RadGroupBox1.Location = New System.Drawing.Point(1, 262)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(949, 87)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(1197, 87)
         Me.RadGroupBox1.TabIndex = 3
         Me.RadGroupBox1.Text = "Terms"
         '
@@ -2367,7 +2357,7 @@ Partial Class frmSaleReturnDairy
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
-        Me.gv2.Size = New System.Drawing.Size(944, 211)
+        Me.gv2.Size = New System.Drawing.Size(1192, 211)
         Me.gv2.TabIndex = 2
         Me.gv2.TabStop = False
         Me.gv2.VarID = ""
@@ -2375,10 +2365,10 @@ Partial Class frmSaleReturnDairy
         'RadPageViewPage3
         '
         Me.RadPageViewPage3.Controls.Add(Me.SplitContainer2)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(112.0!, 26.0!)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(108.0!, 22.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(949, 353)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(1197, 353)
         Me.RadPageViewPage3.Text = "Additional Charges"
         '
         'SplitContainer2
@@ -2396,7 +2386,7 @@ Partial Class frmSaleReturnDairy
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.RadLabel31)
         Me.SplitContainer2.Panel2.Controls.Add(Me.lblAddCharges)
-        Me.SplitContainer2.Size = New System.Drawing.Size(949, 353)
+        Me.SplitContainer2.Size = New System.Drawing.Size(1197, 353)
         Me.SplitContainer2.SplitterDistance = 319
         Me.SplitContainer2.TabIndex = 0
         '
@@ -2422,7 +2412,7 @@ Partial Class frmSaleReturnDairy
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAC.ShowGroupPanel = False
         Me.gvAC.ShowHeaderCellButtons = True
-        Me.gvAC.Size = New System.Drawing.Size(949, 319)
+        Me.gvAC.Size = New System.Drawing.Size(1197, 319)
         Me.gvAC.TabIndex = 0
         Me.gvAC.TabStop = False
         Me.gvAC.VarID = ""
@@ -2432,7 +2422,7 @@ Partial Class frmSaleReturnDairy
         Me.RadLabel31.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadLabel31.FieldName = Nothing
         Me.RadLabel31.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel31.Location = New System.Drawing.Point(704, 3)
+        Me.RadLabel31.Location = New System.Drawing.Point(952, 3)
         Me.RadLabel31.Name = "RadLabel31"
         Me.RadLabel31.Size = New System.Drawing.Size(130, 16)
         Me.RadLabel31.TabIndex = 126
@@ -2445,7 +2435,7 @@ Partial Class frmSaleReturnDairy
         Me.lblAddCharges.BorderVisible = True
         Me.lblAddCharges.FieldName = Nothing
         Me.lblAddCharges.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblAddCharges.Location = New System.Drawing.Point(836, 3)
+        Me.lblAddCharges.Location = New System.Drawing.Point(1084, 3)
         Me.lblAddCharges.Name = "lblAddCharges"
         Me.lblAddCharges.Size = New System.Drawing.Size(110, 18)
         Me.lblAddCharges.TabIndex = 127
@@ -2454,10 +2444,10 @@ Partial Class frmSaleReturnDairy
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(89.0!, 26.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(85.0!, 22.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 35)
         Me.pvpCustomFields.Name = "pvpCustomFields"
-        Me.pvpCustomFields.Size = New System.Drawing.Size(949, 353)
+        Me.pvpCustomFields.Size = New System.Drawing.Size(1197, 353)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
         'UcCustomFields1
@@ -2465,16 +2455,16 @@ Partial Class frmSaleReturnDairy
         Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
         Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(949, 353)
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1197, 353)
         Me.UcCustomFields1.TabIndex = 2
         '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 26.0!)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 22.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 35)
         Me.Attachments.Name = "Attachments"
-        Me.Attachments.Size = New System.Drawing.Size(949, 353)
+        Me.Attachments.Size = New System.Drawing.Size(1197, 353)
         Me.Attachments.Text = "Attachments"
         '
         'UcAttachment1
@@ -2482,7 +2472,7 @@ Partial Class frmSaleReturnDairy
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
         Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(949, 353)
+        Me.UcAttachment1.Size = New System.Drawing.Size(1197, 353)
         Me.UcAttachment1.TabIndex = 0
         '
         'RadPageViewPage4
@@ -2512,7 +2502,7 @@ Partial Class frmSaleReturnDairy
         Me.RadPageViewPage4.Controls.Add(Me.RadLabel22)
         Me.RadPageViewPage4.Controls.Add(Me.RadLabel19)
         Me.RadPageViewPage4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(41.0!, 26.0!)
+        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(37.0!, 22.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1197, 353)
@@ -3149,6 +3139,16 @@ Partial Class frmSaleReturnDairy
         WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
         Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
+        'btnAddNew
+        '
+        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAddNew.Image = Global.XpertERPDairySale.My.Resources.Resources._new
+        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnAddNew.Location = New System.Drawing.Point(350, 0)
+        Me.btnAddNew.Name = "btnAddNew"
+        Me.btnAddNew.Size = New System.Drawing.Size(20, 21)
+        Me.btnAddNew.TabIndex = 1
+        '
         'frmSaleReturnDairy
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3266,7 +3266,6 @@ Partial Class frmSaleReturnDairy
         CType(Me.txtInvNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRefNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage5.ResumeLayout(False)
         CType(Me.gvBooth.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvBooth, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3351,6 +3350,7 @@ Partial Class frmSaleReturnDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

@@ -34706,6 +34706,8 @@ LL")
 
             End Try
 
+
+
             coll = New Dictionary(Of String, String)()
             coll.Add("Transaction_Type", "Varchar(20) NULL")
             coll.Add("Emp_code", "Varchar(12) not NULL References TSPL_EMPLOYEE_MASTER(EMP_CODE)")

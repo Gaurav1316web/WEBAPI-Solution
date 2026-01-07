@@ -524,6 +524,7 @@ Public Class clsDocType
     Public Const frmDairySaleShipment As String = "Dairy Sale Shipment"
     Public Const frmDairySaleInvoice As String = "Dairy Sale Invoice"
     Public Const frmDairySaleReturn As String = "Dairy Sale Return"
+    Public Const frmDairyShipmentReturn As String = "Dairy Shipment Return"
     Public Const FrmDairyGatePass As String = "Dairy GatePass"
     Public Const frmCustomerComplain As String = "Customer Complain"
     Public Const frmTranspoterDeductionEntry As String = "TranspoterDedEntry"
@@ -1813,6 +1814,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.ScrapReturn, clsDocTransactionType.SaleReturnCancel, False, True)
             InsertDefaultValue(clsDocType.CSASALERETURN, clsDocTransactionType.NA, False, True)
             InsertDefaultValue(clsDocType.CSASALERETURN, clsDocTransactionType.SaleReturnCancel, False, True)
+            InsertDefaultValue(clsDocType.frmDairyShipmentReturn, clsDocTransactionType.NA, False, True)
 
             InsertDefaultValue(clsDocType.FrmMCCScrapGatePass, clsDocTransactionType.frmMccScrapgatePass, False, True)
 
