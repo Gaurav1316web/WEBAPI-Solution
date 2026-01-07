@@ -37,7 +37,7 @@ from TSPL_MILK_PROCUREMENT_UPLOADER_detail
 left outer join TSPL_MILK_PROCUREMENT_UPLOADER_head  on TSPL_MILK_PROCUREMENT_UPLOADER_head.Document_No=TSPL_MILK_PROCUREMENT_UPLOADER_detail.Document_No
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.VLC_Code  
 left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code
-convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_head.Document_Date,103)>=convert(date,'" + fromDate.Value + "',103) and convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_head.Document_Date,103) <=convert(date,'" + ToDate.Value + "' ,103) 
+WHERE convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_head.Document_Date,103)>=convert(date,'" + fromDate.Value + "',103) and convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_head.Document_Date,103) <=convert(date,'" + ToDate.Value + "' ,103) 
 
 --where TSPL_MILK_PROCUREMENT_UPLOADER_head.Document_No='BMC/0000010000000064'
 union all
@@ -99,7 +99,7 @@ GROUP BY Zone_Code"
         For ii As Integer = 0 To Gv1.Columns.Count - 1
             Gv1.Columns(ii).ReadOnly = True
             Gv1.Columns(ii).IsVisible = True
-            Gv1.Columns("Zone_Code").IsVisible = False
+            Gv1.Columns("Zone_Code").IsVisible = True
             Gv1.Columns("Zone_Code").HeaderText = "Zone Code"
             Gv1.Columns("documnet_no").IsVisible = False
             Gv1.Columns("documnet_no").HeaderText = "Documnet No"
