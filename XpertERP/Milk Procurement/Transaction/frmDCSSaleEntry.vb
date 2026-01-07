@@ -234,12 +234,14 @@ Public Class frmDCSSaleEntry
     Const ColCommAmt As String = "ColCommAmt"
     Const ColTPTRate As String = "ColTPTRate"
     Const ColTPTAmt As String = "ColTPTAmt"
+    Const ColRoundOffAmt As String = "ColRoundOffAmt"
     Const ColAmtAfterCOmm As String = "ColAmtAfterCOmm"
     Dim atchqry As String = ""
     Public gvExcel As New RadGridView
     Public row_index As Integer
     Dim isTaxExempted As Boolean = False
     Dim AllowRoundOff_onInvoice As Boolean = False
+    Dim AllowRoundOffAmountOnDCSSale As Boolean = False
     Dim AllowPlandDeptMCCLocation As Boolean = False
     Dim AreaWiseBilling As Boolean = False
     Dim ShowAllCustomer As Boolean = False
@@ -289,8 +291,9 @@ Public Class frmDCSSaleEntry
         UseDescInsteadOFCodeOnMCCMAterialSale = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.UseDescInsteadOFCodeOnMCCMAterialSale, clsFixedParameterCode.UseDescInsteadOFCodeOnMCCMAterialSale, Nothing)) = "1", True, False)
         CreateAutoMCCPriceChat = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.CreateAutoMCCPriceChat, clsFixedParameterCode.CreateAutoMCCPriceChat, Nothing)) = "1", True, False)
         AllowRoundOff_onInvoice = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowRoundOff_OnCSASalePatti, clsFixedParameterCode.AllowRoundOff_OnCSASalePatti, Nothing)) = "1", True, False))
-        lblRound_Off.Visible = AllowRoundOff_onInvoice
-        txtRoundOff.Visible = AllowRoundOff_onInvoice
+        AllowRoundOffAmountOnDCSSale = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowRoundOffAmountOnDCSSale, clsFixedParameterCode.AllowRoundOffAmountOnDCSSale, Nothing)) = "1", True, False))
+        lblRound_Off.Visible = AllowRoundOffAmountOnDCSSale
+        txtRoundOff.Visible = AllowRoundOffAmountOnDCSSale
         ShowAllCustomer = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowAllCustomerOnMccMaterialSale, clsFixedParameterCode.ShowAllCustomerOnMccMaterialSale, Nothing)) = "1", True, False))
         AllowPlandDeptMCCLocation = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.Allow_Plant_Depot_MCC_typeLocation, clsFixedParameterCode.Allow_Plant_Depot_MCC_typeLocation, Nothing)) = "1", True, False))
         AreaWiseBilling = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = "1", True, False))
@@ -1160,6 +1163,20 @@ Public Class frmDCSSaleEntry
         repoTPTAmt.ReadOnly = True
         repoTPTAmt.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoTPTAmt)
+
+        Dim repoRoundOffAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoRoundOffAmt = New GridViewDecimalColumn()
+        repoRoundOffAmt.FormatString = ""
+        repoRoundOffAmt.HeaderText = "Round Off Amt"
+        repoRoundOffAmt.WrapText = True
+        repoRoundOffAmt.Name = ColRoundOffAmt
+        repoRoundOffAmt.Width = 120
+        repoRoundOffAmt.ReadOnly = True
+        repoRoundOffAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoRoundOffAmt.ReadOnly = True
+        repoRoundOffAmt.IsVisible = True
+        gv1.MasterTemplate.Columns.Add(repoRoundOffAmt)
+
 
         Dim repoPrincipleCOde As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoPrincipleCOde.FormatString = ""
@@ -2994,6 +3011,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
         Dim dblTaxTotAmt As Decimal = 0
         Dim dblNetAmt As Decimal = 0
         Dim dblTotalTPTAmt As Double = 0
+        Dim dblTotalRoundOffAmt As Double = 0
         For ii As Integer = 0 To gv1.Rows.Count - 1
             If (clsCommon.myLen(gv1.Rows(ii).Cells(colICode).Value) > 0) And clsCommon.myCdbl(gv1.Rows(ii).Cells(ColFOC).Value) = 0 Then
                 dblTotAmt = dblTotAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(colAmt).Value)
@@ -3028,6 +3046,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 dblNetAmt = dblNetAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(colAmtAfterTax).Value)
                 dblTotLandedCost = dblTotLandedCost + clsCommon.myCdbl(gv1.Rows(ii).Cells(colLandedAmt).Value)
                 dblTotalTPTAmt = dblTotalTPTAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(ColTPTAmt).Value)
+                dblTotalRoundOffAmt = dblTotalRoundOffAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(ColRoundOffAmt).Value)
             End If
         Next
 
@@ -3062,12 +3081,12 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
             lblTotRAmt.Text = clsCommon.myFormat(dblNetAmt)
         End If
         lblCommAmt.Text = clsCommon.myFormat(dblCommAmt)
-        If AllowRoundOff_onInvoice Then
+        If AllowRoundOffAmountOnDCSSale Then
             Dim lstDecml As New List(Of Decimal)
             lstDecml = ClsScrapSaleHead.Calculate_RoundOffAmt(clsCommon.myCdbl(lblTotRAmt.Text), Nothing)
             If lstDecml IsNot Nothing AndAlso lstDecml.Count > 0 Then
-                lblTotRAmt.Text = clsCommon.myCdbl(lstDecml(0))
-                txtRoundOff.Text = clsCommon.myCdbl(lstDecml(1))
+                txtRoundOff.Text = dblTotalRoundOffAmt
+                lblTotRAmt.Text = clsCommon.myCdbl(lblTotRAmt.Text) + dblTotalRoundOffAmt
             End If
         Else
             txtRoundOff.Text = 0
@@ -3833,6 +3852,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     objTr.Transporter_Commission_Rate = clsCommon.myCdbl(grow.Cells(ColTPTRate).Value)
                     objTr.REF_TPT_PK_ID = clsCommon.myCdbl(grow.Cells(ColTPTRate).Tag)
                     objTr.Transporter_Commission_Amt = clsCommon.myCdbl(grow.Cells(ColTPTAmt).Value)
+                    objTr.RoundOffAmount = clsCommon.myCdbl(grow.Cells(ColRoundOffAmt).Value)
                     objTr.arrSrItem = TryCast(grow.Tag, List(Of clsSerializeInvenotry))
                     objTr.arrBatchItem = TryCast(grow.Cells(colICode).Tag, List(Of clsBatchInventory))  ' Change By prabhakar
                     If (clsCommon.myLen(objTr.Item_Code) > 0) Then
@@ -4297,6 +4317,8 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                             gv1.Rows(gv1.Rows.Count - 1).Cells(ColTPTRate).Tag = objTr.REF_TPT_PK_ID
                             gv1.Rows(gv1.Rows.Count - 1).Cells(ColTPTAmt).Value = objTr.Transporter_Commission_Amt
                         End If
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColRoundOffAmt).Value = objTr.RoundOffAmount
+
                         If obj.Status = ERPTransactionStatus.Pending Then
                             If clsCommon.myLen(objTr.TAX1) > 0 Then
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRecoverable1).Value = clsTaxMaster.IsTaxRecoverableAC(objTr.TAX1)
@@ -5814,6 +5836,18 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
             Dim dblTPTRate As Decimal = gv1.Rows(IntRowNo).Cells(ColTPTRate).Value
             Dim dblTPTAmt As Decimal = dblTPTRate * dblQty
             Dim dblGrossAmt As Decimal = dblAmtAfterTax - dblRateDiffAmt - dblTPTAmt
+            Dim dblRoundOffAmt As Decimal = 0
+            If AllowRoundOffAmountOnDCSSale Then
+                Dim lstDecml As New List(Of Decimal)
+                lstDecml = ClsScrapSaleHead.Calculate_RoundOffAmt(clsCommon.myCdbl(dblGrossAmt), Nothing)
+                If lstDecml IsNot Nothing AndAlso lstDecml.Count > 0 Then
+                    dblGrossAmt = clsCommon.myCdbl(lstDecml(0))
+                    dblRoundOffAmt = clsCommon.myCdbl(lstDecml(1))
+                End If
+            Else
+                dblRoundOffAmt = 0
+            End If
+
             gv1.Rows(IntRowNo).Cells(colDisAmt).Value = Math.Round(dblDisAmt, 2)
             gv1.Rows(IntRowNo).Cells(colAmtAfterDis).Value = Math.Round(dblAmtAfterDis, 6)
             gv1.Rows(IntRowNo).Cells(colRateDiffAmt).Value = Math.Round(dblRateDiffAmt, 6)
@@ -5834,6 +5868,7 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
             gv1.Rows(IntRowNo).Cells(colOrgUnit).Value = strOrgUnit
             gv1.Rows(IntRowNo).Cells(colMRP).Value = Math.Round(dblMRP, 2)
             gv1.Rows(IntRowNo).Cells(ColTPTAmt).Value = Math.Round(dblTPTAmt, 2)
+            gv1.Rows(IntRowNo).Cells(ColRoundOffAmt).Value = dblRoundOffAmt
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

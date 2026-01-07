@@ -31371,6 +31371,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Gross_Amount", "decimal(18, 2) NULL")
             coll.Add("TotalSubsidyDisAmt", "decimal(18, 2) NULL")
             coll.Add("REF_TPT_PK_ID", "integer null references TSPL_DCS_Transportation_Charges_Detail(PK_ID)")
+            coll.Add("RoundOffAmount", "decimal(18,2) not null default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DCS_SALE_ENTRY_DETAIL", coll, Nothing, True, True, "TSPL_DCS_SALE_ENTRY", "DOCUMENT_CODE", "", True)
 
             coll = New Dictionary(Of String, String)()
