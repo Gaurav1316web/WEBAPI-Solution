@@ -268,6 +268,7 @@ where 1=1 "
             Dim messageText As String = "Hii Alok"
             ' --- Build JSON safely ---
 
+
             Dim payload As New Dictionary(Of String, Object) From {
     {"messaging_product", "whatsapp"},
     {"to", mobile},
@@ -289,12 +290,23 @@ where 1=1 "
                         }}
                     }
                 }}
+            },
+            New Dictionary(Of String, Object) From {
+                {"type", "body"},
+                {"parameters", New Object() {
+                    New Dictionary(Of String, Object) From {
+                        {"type", "text"},
+                        {"text", customerName}
+                    },
+                    New Dictionary(Of String, Object) From {
+                        {"type", "text"},
+                        {"text", messageText}
+                    }
+                }}
             }
         }}
     }}
 }
-
-
 
 
 

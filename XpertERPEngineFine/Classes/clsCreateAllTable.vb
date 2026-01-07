@@ -24661,6 +24661,28 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Posted_By", "varchar(12)  NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BULK_PROCUREMENT_DISPATCH_UPLOADER", coll, Nothing, False, False, "", "Document_No", "Document_Date")
 
+            coll = New Dictionary(Of String, String)
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("MCC_Code", "Varchar(30) not null references TSPL_MCC_MASTER(MCC_Code)")
+            coll.Add("IDate", "Date NOT NULL")
+            coll.Add("Created_By", "varchar(12) NOT NULL")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Modify_By", "varchar(12) NULL")
+            coll.Add("Modify_Date", "Datetime NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_MILK_COLLECTION_DCS_MOBILE", coll, "", True, False, "", "", "", False)
+
+            coll = New Dictionary(Of String, String)
+            coll.Add("REF_PK_ID", "integer NOT NULL references TSPL_MILK_COLLECTION_DCS_MOBILE(PK_ID)")
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("VLC_Code", "Varchar(30) not null references TSPL_VLC_MASTER_HEAD(VLC_Code)")
+            coll.Add("IShift", "char(1) not null")
+            coll.Add("Qty", "Decimal(18,2) null")
+            coll.Add("FAT", "Decimal(18,1) null")
+            coll.Add("SNF", "Decimal(18,1) null")
+            coll.Add("FATKG", "Decimal(18,3) null")
+            coll.Add("SNFKG", "Decimal(18,3) null")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_MILK_COLLECTION_DCS_MOBILE_DETAIL", coll, "", True)
+
             qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where table_name='TSPL_MILK_COLLECTION_BMCDCS' and COLUMN_NAME='Own_BMC_Qty_E'"
             dt = clsDBFuncationality.GetDataTable(qry)
             coll = New Dictionary(Of String, String)
@@ -24745,6 +24767,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("SNF", "Decimal(18,1) null")
             coll.Add("FATKG", "Decimal(18,3) null")
             coll.Add("SNFKG", "Decimal(18,3) null")
+            coll.Add("Against_DCS_Mobile_PK_ID", "integer NULL references TSPL_MILK_COLLECTION_DCS_MOBILE(PK_ID)")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_MILK_COLLECTION_BMCDCS_DCS", coll, "", True)
 
             coll = New Dictionary(Of String, String)

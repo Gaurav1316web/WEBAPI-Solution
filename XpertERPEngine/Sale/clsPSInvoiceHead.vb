@@ -1587,7 +1587,9 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             Dim ECustomerType = clsERPFuncationality.GetCustomerEInvoiceType(obj.Customer_Code, trans)
             If clsCommon.CompairString(obj.Trans_type, "MCC") = CompairStringResult.Equal Then
                 If obj.Transporter_Commission_TotalAmt > 0 Then
-                    createAPInvoiceDCSSale(obj, trans, strARInvoiceNoRecreateOnly, strVoucherNoForRecreateOnly, FormId, IsDairyModule)
+                    If Not clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                        createAPInvoiceDCSSale(obj, trans, strARInvoiceNoRecreateOnly, strVoucherNoForRecreateOnly, FormId, IsDairyModule)
+                    End If
                 End If
             Else
                 Dim FinancialImpactForTPT As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FinancialImpactForTPT, clsFixedParameterCode.FinancialImpactForTPT, trans)) = 1, True, False)

@@ -193,7 +193,7 @@
       <HintPath>..\XpertERP\bin\Debug\Telerik.WinControls.UI.Design.dll</HintPath>
     </Reference>
     <Reference Include="XpertCommon">
-      <HintPath>..\..\Git\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
+      <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -446,9 +446,7 @@
     <Compile Include="Silage Production\clsSilageFormerProduction.vb" />
     <Compile Include="Silage Production\clsSilageProductionApplication.vb" />
     <Compile Include="Silage Production\clsSilageProductionAreaMaster.vb" />
-    <Compile Include="UserControl1.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="UserControl1.vb" />
     <Compile Include="UserControl1.Designer.vb">
       <DependentUpon>UserControl1.vb</DependentUpon>
     </Compile>
