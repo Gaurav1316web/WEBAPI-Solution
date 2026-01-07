@@ -90,15 +90,16 @@ Public Class rptSaleInvoiceStatusReport
     Private Sub txtMultiCustomer__My_Click(sender As Object, e As EventArgs) Handles txtMultiCustomer._My_Click
         Dim qry As String = " select cust_code as [Code], Customer_Name as [Name] from tspl_customer_master  "
         If TxtCustomerType.arrValueMember IsNot Nothing AndAlso TxtCustomerType.arrValueMember.Count > 0 Then
-            qry += " Where Cust_Group_Code In (" + clsCommon.GetMulcallString(TxtCustomerType.arrValueMember) + ")"
+            qry += " Where Cust_Type_Code In (" + clsCommon.GetMulcallString(TxtCustomerType.arrValueMember) + ")"
         End If
         txtMultiCustomer.arrValueMember = clsCommon.ShowMultipleSelectForm("CustMulSel", qry, "Code", "Name", txtMultiCustomer.arrValueMember, txtMultiCustomer.arrDispalyMember)
     End Sub
 
     Private Sub TxtCustomerType__My_Click(sender As Object, e As EventArgs) Handles TxtCustomerType._My_Click
-        Dim qry As String = " select Cust_Group_Code as [Code], Customer_Name as [Name],Cust_Type,Cust_Group_Code,Cust_Category_Code,Cust_Type_Code from tspl_customer_master "
+        Dim qry As String = " SELECT  [Cust_Type_Code] as Code,[Cust_Type_Desc] as Name FROM [TSPL_CUSTOMER_TYPE_MASTER] Where 2=2  "
         TxtCustomerType.arrValueMember = clsCommon.ShowMultipleSelectForm("CustMulSel", qry, "Code", "Name", txtMultiCustomer.arrValueMember, txtMultiCustomer.arrDispalyMember)
 
+        txtMultiCustomer.arrValueMember = Nothing
     End Sub
 
     Private Sub TxtTransaction__My_Click(sender As Object, e As EventArgs) Handles TxtTransaction._My_Click

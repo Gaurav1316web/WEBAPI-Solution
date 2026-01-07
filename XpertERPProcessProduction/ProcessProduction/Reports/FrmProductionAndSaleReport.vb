@@ -249,7 +249,7 @@ from ("
                            Group By LOCATION_CODE,CONVERT(DATE,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)) NoOfShift
 						   ON TSPL_LOCATION_MASTER.LOCATION_CODE = NoOfShift.LOCATION_CODE
 
-                         LEFT OUTER JOIN"
+                         LEFT OUTER JOIN (Select Sum(Qty)Qty,Sum(ProdCumQty)ProdCumQty,LOCATION_CODE FROM "
                 If Productionchk.IsChecked = True Then
                     query += " (select sum(case when convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103) then  TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY else 0  end) as Qty, 
 						 sum(case when (convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
@@ -278,7 +278,20 @@ from ("
 
                 query += "  and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
                          and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103) 
-                          GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE) ProdDailyQty
+                          GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE
+union all
+						   Select sum(case when convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103) then TSPL_ADJUSTMENT_DETAIL.Item_Quantity else 0 end) as Qty,
+						  sum(case when (convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
+                         and convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)) then  TSPL_ADJUSTMENT_DETAIL.Item_Quantity else 0  end) as ProdCumQty,
+						 TSPL_ADJUSTMENT_HEADER.Loc_Code as LOCATION_CODE
+						  from TSPL_ADJUSTMENT_DETAIL
+						  left join TSPL_ADJUSTMENT_HEADER on TSPL_ADJUSTMENT_HEADER.Adjustment_No=TSPL_ADJUSTMENT_DETAIL.Adjustment_No
+						                           LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_ADJUSTMENT_DETAIL.ITEM_CODE
+												    where    TSPL_Item_Master.FG_for_CF_RPT=1     AND TSPL_ADJUSTMENT_HEADER.posted='Y'    and convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
+                         and convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103) 
+                          GROUP BY TSPL_ADJUSTMENT_HEADER.Loc_Code 
+
+)XX Group by LOCATION_CODE) ProdDailyQty
                           ON TSPL_LOCATION_MASTER.LOCATION_CODE =ProdDailyQty.LOCATION_CODE "
 
                 If rdbSaleTransfer.IsChecked = True AndAlso rdbDispatch.IsChecked = True Then
@@ -897,12 +910,23 @@ sum(cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + 
                         ,isnull(CAST((ProdCumQty.Qty/1000) AS DECIMAL(18,0)),0) as ProdCumQty
                          FROM TSPL_LOCATION_MASTER 
                          LEFT OUTER JOIN
+                        ( Select Sum(Qty)Qty,LOCATION_CODE from
                         (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) as Qty,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL
                          left join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
                          LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
                          where TSPL_Item_Master.FG_for_CF_RPT=1 and TSPL_SPP_PRODUCTION_ENTRY.posted=1 and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
                          and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
-                          GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE) ProdCumQty
+                          GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE
+                          union all
+						  Select sum(TSPL_ADJUSTMENT_DETAIL.Item_Quantity) as Qty,TSPL_ADJUSTMENT_HEADER.Loc_Code as LOCATION_CODE
+						  from TSPL_ADJUSTMENT_DETAIL
+						  left join TSPL_ADJUSTMENT_HEADER on TSPL_ADJUSTMENT_HEADER.Adjustment_No=TSPL_ADJUSTMENT_DETAIL.Adjustment_No
+						                           LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_ADJUSTMENT_DETAIL.ITEM_CODE
+												    where    TSPL_Item_Master.FG_for_CF_RPT=1     AND TSPL_ADJUSTMENT_HEADER.posted='Y'    and convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
+                         and convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103) 
+                          GROUP BY TSPL_ADJUSTMENT_HEADER.Loc_Code 
+						  
+						  )XX Group by LOCATION_CODE ) ProdCumQty
                           ON TSPL_LOCATION_MASTER.LOCATION_CODE =ProdCumQty.LOCATION_CODE
                           where TSPL_LOCATION_MASTER.IsMainPlant='0')XXXProduction
                           pivot ( sum(ProdCumQty) for Location_Code in (" + strLocation + ") )as zpivot group by zpivot.Production"
@@ -912,12 +936,23 @@ sum(cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + 
                         ,isnull(CAST(((ProdCumQty.Qty/1000)" + "/" + clsCommon.myCstr(DayCount) + ") AS DECIMAL(18,0)),0) as ProdCumQty
                          FROM TSPL_LOCATION_MASTER 
                          LEFT OUTER JOIN
+                        ( Select Sum(Qty)Qty,LOCATION_CODE from
                         (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) as Qty,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL
                          left join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
                          LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
                          where TSPL_Item_Master.FG_for_CF_RPT=1 and TSPL_SPP_PRODUCTION_ENTRY.posted=1 and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
                          and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
-                          GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE) ProdCumQty
+                          GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE
+                           union all
+						  Select sum(TSPL_ADJUSTMENT_DETAIL.Item_Quantity) as Qty,TSPL_ADJUSTMENT_HEADER.Loc_Code as LOCATION_CODE
+						  from TSPL_ADJUSTMENT_DETAIL
+						  left join TSPL_ADJUSTMENT_HEADER on TSPL_ADJUSTMENT_HEADER.Adjustment_No=TSPL_ADJUSTMENT_DETAIL.Adjustment_No
+						                           LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_ADJUSTMENT_DETAIL.ITEM_CODE
+												    where    TSPL_Item_Master.FG_for_CF_RPT=1     AND TSPL_ADJUSTMENT_HEADER.posted='Y'    and convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
+                         and convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103) 
+                          GROUP BY TSPL_ADJUSTMENT_HEADER.Loc_Code 
+						  
+						  )XX Group by LOCATION_CODE   ) ProdCumQty
                           ON TSPL_LOCATION_MASTER.LOCATION_CODE =ProdCumQty.LOCATION_CODE
                           where TSPL_LOCATION_MASTER.IsMainPlant='0')XXXProduction
                           pivot ( sum(ProdCumQty) for Location_Code in (" + strLocation + ") )as zpivot group by zpivot.Production "
