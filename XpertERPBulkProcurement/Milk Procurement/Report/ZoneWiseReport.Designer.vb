@@ -22,7 +22,7 @@ Partial Class ZoneWiseReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -40,6 +40,13 @@ Partial Class ZoneWiseReport
         Me.BulkCSV = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.TxtZone = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.rdbtnBMC = New System.Windows.Forms.RadioButton()
+        Me.rbtnDock = New System.Windows.Forms.RadioButton()
+        Me.rbtnBoth = New System.Windows.Forms.RadioButton()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -58,6 +65,10 @@ Partial Class ZoneWiseReport
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -74,6 +85,7 @@ Partial Class ZoneWiseReport
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadSplitButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
@@ -95,6 +107,9 @@ Partial Class ZoneWiseReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel4)
+        Me.RadPageViewPage1.Controls.Add(Me.TxtZone)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
@@ -181,7 +196,7 @@ Partial Class ZoneWiseReport
         '
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition10
         Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
@@ -242,6 +257,83 @@ Partial Class ZoneWiseReport
         Me.btnReset.TabIndex = 154
         Me.btnReset.Text = "Reset"
         '
+        'TxtZone
+        '
+        Me.TxtZone.arrDispalyMember = Nothing
+        Me.TxtZone.arrValueMember = Nothing
+        Me.TxtZone.Location = New System.Drawing.Point(60, 59)
+        Me.TxtZone.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtZone.MyLinkLable1 = Nothing
+        Me.TxtZone.MyLinkLable2 = Nothing
+        Me.TxtZone.MyNullText = "All"
+        Me.TxtZone.Name = "TxtZone"
+        Me.TxtZone.Size = New System.Drawing.Size(344, 19)
+        Me.TxtZone.TabIndex = 402
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel4.Location = New System.Drawing.Point(16, 60)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(32, 18)
+        Me.MyLabel4.TabIndex = 403
+        Me.MyLabel4.Text = "Zone"
+        '
+        'rdbtnBMC
+        '
+        Me.rdbtnBMC.AutoSize = True
+        Me.rdbtnBMC.Location = New System.Drawing.Point(133, 9)
+        Me.rdbtnBMC.Name = "rdbtnBMC"
+        Me.rdbtnBMC.Size = New System.Drawing.Size(48, 17)
+        Me.rdbtnBMC.TabIndex = 405
+        Me.rdbtnBMC.Text = "BMC"
+        Me.rdbtnBMC.UseVisualStyleBackColor = True
+        '
+        'rbtnDock
+        '
+        Me.rbtnDock.AutoSize = True
+        Me.rbtnDock.Location = New System.Drawing.Point(62, 10)
+        Me.rbtnDock.Name = "rbtnDock"
+        Me.rbtnDock.Size = New System.Drawing.Size(51, 17)
+        Me.rbtnDock.TabIndex = 404
+        Me.rbtnDock.Text = "Dock"
+        Me.rbtnDock.UseVisualStyleBackColor = True
+        '
+        'rbtnBoth
+        '
+        Me.rbtnBoth.AutoSize = True
+        Me.rbtnBoth.Checked = True
+        Me.rbtnBoth.Location = New System.Drawing.Point(7, 10)
+        Me.rbtnBoth.Name = "rbtnBoth"
+        Me.rbtnBoth.Size = New System.Drawing.Size(49, 17)
+        Me.rbtnBoth.TabIndex = 406
+        Me.rbtnBoth.TabStop = True
+        Me.rbtnBoth.Text = "Both"
+        Me.rbtnBoth.UseVisualStyleBackColor = True
+        '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Location = New System.Drawing.Point(247, 15)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(77, 18)
+        Me.btnPrint.TabIndex = 332
+        Me.btnPrint.Text = "Print"
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.rbtnDock)
+        Me.RadGroupBox1.Controls.Add(Me.rbtnBoth)
+        Me.RadGroupBox1.Controls.Add(Me.rdbtnBMC)
+        Me.RadGroupBox1.HeaderText = ""
+        Me.RadGroupBox1.Location = New System.Drawing.Point(332, 9)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(194, 34)
+        Me.RadGroupBox1.TabIndex = 407
+        '
         'ZoneWiseReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -260,6 +352,7 @@ Partial Class ZoneWiseReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
+        Me.RadPageViewPage1.PerformLayout()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
         Me.RadGroupBox3.PerformLayout()
@@ -273,6 +366,11 @@ Partial Class ZoneWiseReport
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -295,4 +393,11 @@ Partial Class ZoneWiseReport
     Friend WithEvents BulkCSV As RadMenuItem
     Friend WithEvents btnGo As RadButton
     Friend WithEvents btnReset As RadButton
+    Friend WithEvents TxtZone As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents MyLabel4 As common.Controls.MyLabel
+    Friend WithEvents rdbtnBMC As RadioButton
+    Friend WithEvents rbtnDock As RadioButton
+    Friend WithEvents rbtnBoth As RadioButton
+    Friend WithEvents btnPrint As RadButton
+    Friend WithEvents RadGroupBox1 As RadGroupBox
 End Class
