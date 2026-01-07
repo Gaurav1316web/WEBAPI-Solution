@@ -9758,6 +9758,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmSaleReturndairy
                         frm = New frmSaleReturnDairy
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmDispatchReturn
+                        frm = New FrmDispatchReturn
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmCrateReceviedDairySale
                         frm = New frmCreateReceivedDairySale
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

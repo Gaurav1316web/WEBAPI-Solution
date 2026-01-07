@@ -2789,7 +2789,7 @@ left outer join  TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VAL
             whrcls = " TSPL_ITEM_MASTER.Active = 1 And Is_FreshItem = 0 And coalesce(Product_Type,'') not in ('MI') and Item_Type not in ('A') and coalesce(Item_used_as,'')='S' "
             whrcls += " ) as s pivot(max(cat_value) for description in ([BRAND],[ITEM TYPE1],[MAIN GROUP],[PACKING],[PRODUCT CATEGORY],[SKU],[SUB GROUP]))t  "
             ' Dim dr As DataRow = clsCommon.ShowSelectFormForRow("MSA@Items", qry)
-            gv1.CurrentRow.Cells(colICode).Value = clsCommon.ShowSelectForm("ITMMSTFND", qry, "Item", whrcls, gv1.CurrentRow.Cells(colICode).Value, "Item", False)
+            gv1.CurrentRow.Cells(colICode).Value = clsCommon.ShowSelectForm("DCSSENTITM", qry, "Item", whrcls, gv1.CurrentRow.Cells(colICode).Value, "Item", False)
 
             qry += " where " & whrcls & ""
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
@@ -5811,10 +5811,9 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
             Else
                 dblTotalSubsidyDisAmt = dblHeadPerDisAmt * dblQty
             End If
-            Dim dblGrossAmt As Decimal = dblAmtAfterTax - dblRateDiffAmt
             Dim dblTPTRate As Decimal = gv1.Rows(IntRowNo).Cells(ColTPTRate).Value
             Dim dblTPTAmt As Decimal = dblTPTRate * dblQty
-
+            Dim dblGrossAmt As Decimal = dblAmtAfterTax - dblRateDiffAmt - dblTPTAmt
             gv1.Rows(IntRowNo).Cells(colDisAmt).Value = Math.Round(dblDisAmt, 2)
             gv1.Rows(IntRowNo).Cells(colAmtAfterDis).Value = Math.Round(dblAmtAfterDis, 6)
             gv1.Rows(IntRowNo).Cells(colRateDiffAmt).Value = Math.Round(dblRateDiffAmt, 6)
@@ -6998,14 +6997,14 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
                 'End If
                 If MultiplySubsidyWithQuantity Then
                     lblTotalSubsidy.Text = clsCommon.myCdbl(txtRateAmt.Text) * TotalItemQty
-                    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text) - clsCommon.myCdbl(lblTotalSubsidy.Text)
+                    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text) - clsCommon.myCdbl(lblTotalSubsidy.Text) - clsCommon.myCdbl(txtTPTAmt.Text)
 
                 Else
-                    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - txtRateAmt.Text)
+                    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - txtRateAmt.Text - clsCommon.myCdbl(txtTPTAmt.Text))
                 End If
             Else
                 lblTotalSubsidy.Text = clsCommon.myCdbl(lblTotRAmt.Text * txtRatePer.Text) / 100
-                lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - lblTotalSubsidy.Text)
+                lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - lblTotalSubsidy.Text) - clsCommon.myCdbl(txtTPTAmt.Text)
             End If
 
         Catch ex As Exception
