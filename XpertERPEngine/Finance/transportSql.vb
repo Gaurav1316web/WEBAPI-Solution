@@ -1160,11 +1160,13 @@ xxx:
                         Dim startCell As String = "A" & rowIndex.ToString()
                         Dim endCell As String = ColumnIndexToColumnLetter(gv.Columns.Count) & rowIndex.ToString()
                         Dim mergeRange As String = startCell & ":" & endCell
-                        excel.Cells(rowIndex, (gv.Columns.Count / 2)) = Str
-                        excel.Rows(rowIndex).Font.Bold = True
-                        excel.Range(mergeRange).Merge()
-                        excel.Range(mergeRange).HorizontalAlignment = -4131 ' Left Align
-                        excel.Cells(rowIndex, colIndex) = Str
+                        excel.Cells(rowIndex, (gv.Columns.Count \ 2)) = Str
+                        With excel.Range(mergeRange)
+                            .Merge()
+                            .HorizontalAlignment = -4108   ' Center Align
+                            .Font.Bold = True
+                            .Font.Size = 14
+                        End With
                         rowIndex += 1
                     Next
                 Else
@@ -1371,6 +1373,7 @@ xxx:
             End If
 
             If AllCellsInString Then
+                wSheet.Rows.AutoFit()
                 wSheet.Columns.AutoFit()
             End If
 
