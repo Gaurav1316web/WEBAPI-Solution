@@ -1112,15 +1112,24 @@ sum(cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + 
 
             Dim dt3 As New DataTable
             Dim qry As String = Nothing
-            qry = "WITH BaseData AS ( SELECT  DcsSeqNo,  Item_Desc FROM TSPL_ITEM_MASTER
-    WHERE Item_Type = 'R' AND DcsSeqNo IS NOT NULL AND DcsSeqNo <> 0 AND DcsSeqNo <> 16
-	   UNION ALL
- SELECT 16 AS DcsSeqNo, 'Any Other' AS Item_Desc
-),Numbered AS (  SELECT DcsSeqNo, Item_Desc,  ROW_NUMBER() OVER ( ORDER BY DcsSeqNo, Item_Desc ) AS rn
-    FROM BaseData)
-SELECT MAX(CASE WHEN rn_mod = 1 THEN DcsSeqNo END)   AS Item1_No,MAX(CASE WHEN rn_mod = 1 THEN Item_Desc END) AS Item1_Name, MAX(CASE WHEN rn_mod = 2 THEN DcsSeqNo END)   AS Item2_No,MAX(CASE WHEN rn_mod = 2 THEN Item_Desc END) AS Item2_Name
-FROM ( SELECT DcsSeqNo, Item_Desc, (rn - 1) / 2 AS grp, (rn - 1) % 2 + 1 AS rn_mod
-    FROM Numbered) d GROUP BY grp ORDER BY grp;
+            qry = "WITH CTE AS
+(
+
+select DcsSeqNo,max(Item_Desc) as Item_Desc ,ROW_NUMBER() OVER (ORDER BY DcsSeqNo) AS RN from (
+SELECT  DcsSeqNo,CASE WHEN DcsSeqNo > 15 THEN 'Any Other' ELSE Item_Desc END AS Item_Desc FROM TSPL_ITEM_MASTER
+    WHERE Item_Type = 'R' AND ISNULL(DcsSeqNo,0) > 0
+) xx group by DcsSeqNo
+)
+SELECT  
+    A.DcsSeqNo AS Item1_Name,
+    A.Item_Desc AS Item1_Name,
+    B.DcsSeqNo AS Item2_No,
+    B.Item_Desc AS Item2_Name
+FROM CTE A
+LEFT JOIN CTE B 
+    ON B.RN = A.RN + (SELECT COUNT(*)/2 FROM CTE)
+WHERE A.RN <= (SELECT COUNT(*)/2 FROM CTE)
+ORDER BY A.RN;
 "
             '            qry = "WITH Numbered AS (SELECT
             '        Item_Desc,DcsSeqNo,  CAST(CAST(DcsSeqNo AS INT) AS VARCHAR(10)) + ' - ' + Item_Desc AS Item_Desc_DcsSeqNo,
