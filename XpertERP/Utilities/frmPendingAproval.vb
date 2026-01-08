@@ -971,7 +971,10 @@ Public Class FrmPendingAproval
         dr("Code") = "Milk Shift Uploader"
         dr("Name") = "Milk Shift Uploader"
         dt1.Rows.Add(dr)
-
+        dr = dt1.NewRow()
+        dr("Code") = "Milk Procurement Uploader"
+        dr("Name") = "Milk Procurement Uploader"
+        dt1.Rows.Add(dr)
         dr = dt1.NewRow()
         dr("Code") = "MCC Milk Collection"
         dr("Name") = "MCC Milk Collection"
@@ -1063,7 +1066,7 @@ Public Class FrmPendingAproval
             '    txtCustomer.Visible = False
             'Else
             lblCustomer.Visible = True
-                txtCustomer.Visible = True
+            txtCustomer.Visible = True
             'End If
             'lblCustomer.Visible = True
             'txtCustomer.Visible = True
@@ -1088,88 +1091,88 @@ Public Class FrmPendingAproval
             'btnPost.Enabled = False
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Material Management") = CompairStringResult.Equal Then
             cboTransaction.DataSource = Nothing
-                LaodModuleMaterialMgmt()
-                'btnPost.Enabled = False
-                'ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Sales And Distribution") = CompairStringResult.Equal Then
-                '    cboTransaction.DataSource = Nothing
-                '    LaodModuleSalesNDistribution()
-                '    'btnPost.Enabled = False
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "General Ledger") = CompairStringResult.Equal Then
-                cboTransaction.DataSource = Nothing
-                LaodModuleGeneralLedger()
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Product Sale") = CompairStringResult.Equal Then
-                cboTransaction.DataSource = Nothing
-                LaodModuleProductSale()
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Fresh Sale") = CompairStringResult.Equal Then
-                cboTransaction.DataSource = Nothing
-                LaodModuleFreshSale()
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Dairy Sale") = CompairStringResult.Equal Then
-                cboTransaction.DataSource = Nothing
-                LaodModuleDairySale()
-                If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Demand") = CompairStringResult.Equal Then
-                    lblCustomer.Text = "Route"
-                    gbStatus.Text = "Shift "
-                    rbtnStatusPending.Text = "Morning"
-                    rbtnStatusPosted.Text = "Evening"
-                    RadLabel3.Visible = False
-                    dtpToDate.Visible = False
+            LaodModuleMaterialMgmt()
+            'btnPost.Enabled = False
+            'ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Sales And Distribution") = CompairStringResult.Equal Then
+            '    cboTransaction.DataSource = Nothing
+            '    LaodModuleSalesNDistribution()
+            '    'btnPost.Enabled = False
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "General Ledger") = CompairStringResult.Equal Then
+            cboTransaction.DataSource = Nothing
+            LaodModuleGeneralLedger()
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Product Sale") = CompairStringResult.Equal Then
+            cboTransaction.DataSource = Nothing
+            LaodModuleProductSale()
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Fresh Sale") = CompairStringResult.Equal Then
+            cboTransaction.DataSource = Nothing
+            LaodModuleFreshSale()
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Dairy Sale") = CompairStringResult.Equal Then
+            cboTransaction.DataSource = Nothing
+            LaodModuleDairySale()
+            If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Demand") = CompairStringResult.Equal Then
+                lblCustomer.Text = "Route"
+                gbStatus.Text = "Shift "
+                rbtnStatusPending.Text = "Morning"
+                rbtnStatusPosted.Text = "Evening"
+                RadLabel3.Visible = False
+                dtpToDate.Visible = False
 
-                Else
-                    lblCustomer.Text = "Customer"
-                    gbStatus.Text = "Status"
-                    rbtnStatusPending.Text = "Pending"
-                    rbtnStatusPosted.Text = "Posted"
-                    RadLabel3.Visible = True
-                    dtpToDate.Visible = True
-                End If
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Tax Deducted At Source") = CompairStringResult.Equal Then
-                cboTransaction.DataSource = Nothing
-                LaodModuleTaxDeductedAtSource()
-                'btnPost.Enabled = False
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Payables") = CompairStringResult.Equal Then
-                cboTransaction.DataSource = Nothing
-                LaodModulePayables()
-                'btnPost.Enabled = False
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Receivables") = CompairStringResult.Equal Then
-                cboTransaction.DataSource = Nothing
-                LaodModuleReceivables()
-                'btnPost.Enabled = False
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Common Services") = CompairStringResult.Equal Then
-                cboTransaction.DataSource = Nothing
-                LaodModuleCommonServices()
-                'btnPost.Enabled = False
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "HR and Payroll") = CompairStringResult.Equal Then
-                cboTransaction.DataSource = Nothing
-                LaodModuleHRAndPayroll()
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Production") = CompairStringResult.Equal Then
-                cboTransaction.DataSource = Nothing
-                LaodModuleProduction()
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Bulk Sale") = CompairStringResult.Equal Then
-                cboTransaction.DataSource = Nothing
-                LaodModuleBulkSale()
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "MCC Procurement") = CompairStringResult.Equal Then
-                cboTransaction.DataSource = Nothing
-                LoadMccProcurement()
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Milk Procurement Bulk") = CompairStringResult.Equal Then
-                cboTransaction.DataSource = Nothing
-                LoadMilkProcurementBulk()
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Farmer Payment") = CompairStringResult.Equal Then
-                cboTransaction.DataSource = Nothing
-                LoadModuleFarmerPayment()
-
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Fixed Assets") = CompairStringResult.Equal Then
-                cboTransaction.DataSource = Nothing
-                LaodModuleFixedAsset()
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Dairy Production") = CompairStringResult.Equal Then
-                cboTransaction.DataSource = Nothing
-                LaodDairyProduction()
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Complaint") = CompairStringResult.Equal Then
-                cboTransaction.DataSource = Nothing
-                LoadModuleComplaint()
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Sales And Distribution") = CompairStringResult.Equal Then
-                cboTransaction.DataSource = Nothing
-                LoadModuleSalesAndDistribution()
+            Else
+                lblCustomer.Text = "Customer"
+                gbStatus.Text = "Status"
+                rbtnStatusPending.Text = "Pending"
+                rbtnStatusPosted.Text = "Posted"
+                RadLabel3.Visible = True
+                dtpToDate.Visible = True
             End If
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Tax Deducted At Source") = CompairStringResult.Equal Then
+            cboTransaction.DataSource = Nothing
+            LaodModuleTaxDeductedAtSource()
+            'btnPost.Enabled = False
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Payables") = CompairStringResult.Equal Then
+            cboTransaction.DataSource = Nothing
+            LaodModulePayables()
+            'btnPost.Enabled = False
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Receivables") = CompairStringResult.Equal Then
+            cboTransaction.DataSource = Nothing
+            LaodModuleReceivables()
+            'btnPost.Enabled = False
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Common Services") = CompairStringResult.Equal Then
+            cboTransaction.DataSource = Nothing
+            LaodModuleCommonServices()
+            'btnPost.Enabled = False
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "HR and Payroll") = CompairStringResult.Equal Then
+            cboTransaction.DataSource = Nothing
+            LaodModuleHRAndPayroll()
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Production") = CompairStringResult.Equal Then
+            cboTransaction.DataSource = Nothing
+            LaodModuleProduction()
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Bulk Sale") = CompairStringResult.Equal Then
+            cboTransaction.DataSource = Nothing
+            LaodModuleBulkSale()
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "MCC Procurement") = CompairStringResult.Equal Then
+            cboTransaction.DataSource = Nothing
+            LoadMccProcurement()
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Milk Procurement Bulk") = CompairStringResult.Equal Then
+            cboTransaction.DataSource = Nothing
+            LoadMilkProcurementBulk()
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Farmer Payment") = CompairStringResult.Equal Then
+            cboTransaction.DataSource = Nothing
+            LoadModuleFarmerPayment()
+
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Fixed Assets") = CompairStringResult.Equal Then
+            cboTransaction.DataSource = Nothing
+            LaodModuleFixedAsset()
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Dairy Production") = CompairStringResult.Equal Then
+            cboTransaction.DataSource = Nothing
+            LaodDairyProduction()
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Complaint") = CompairStringResult.Equal Then
+            cboTransaction.DataSource = Nothing
+            LoadModuleComplaint()
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Sales And Distribution") = CompairStringResult.Equal Then
+            cboTransaction.DataSource = Nothing
+            LoadModuleSalesAndDistribution()
+        End If
 
     End Sub
 
@@ -3987,7 +3990,32 @@ WHERE  convert(date,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date,103) >= convert(dat
                     qry += " ORDER BY TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date, TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No "
                 End If
             End If
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Milk Procurement Uploader") = CompairStringResult.Equal Then
+            Load_Authorisation(clsUserMgtCode.MilkProcurementUploader)
+            If dtAuthen.Rows.Count > 0 Then
+                If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
+                    gv1.DataSource = Nothing
+                    qry = "select CAST(TSPL_MILK_PROCUREMENT_UPLOADER_head.Status as BIT) as Status, TSPL_MILK_PROCUREMENT_UPLOADER_head.Document_No as [Document Id], TSPL_MILK_PROCUREMENT_UPLOADER_head.Document_Date as [Document Date],TSPL_MILK_PROCUREMENT_UPLOADER_head.MCC_Code as [MCC],TSPL_MCC_MASTER.MCC_NAME as [MCC Name] , TSPL_MILK_PROCUREMENT_UPLOADER_head.Created_By as 'Created BY',TSPL_MILK_PROCUREMENT_UPLOADER_head.Description FROM TSPL_MILK_PROCUREMENT_UPLOADER_head 
+left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_PROCUREMENT_UPLOADER_head.MCC_Code
+WHERE  convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_head.Document_Date,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_head.Document_Date ,103) <= convert(date,'" + dtpToDate.Value + "',103) "
+                    If rbtnStatusPending.IsChecked = True Then
+                        qry += " and TSPL_MILK_PROCUREMENT_UPLOADER_head.Status=0  "
+                        Isrefreshed = False
+                    ElseIf rbtnStatusPosted.IsChecked = True Then
+                        qry += " and TSPL_MILK_PROCUREMENT_UPLOADER_head.Status=1  "
+                        Isrefreshed = True
+                    End If
 
+                    If ChkAllowBulkPosting.Equals(0) Then
+                        If chkUserSelect.IsChecked AndAlso cbgUser.CheckedValue.Count > 0 Then
+                            qry += " and TSPL_MILK_PROCUREMENT_UPLOADER_head.Created_By IN (" + clsCommon.GetMulcallString(cbgUser.CheckedValue) + ")"
+                        Else
+                            qry += " and TSPL_MILK_PROCUREMENT_UPLOADER_head.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
+                        End If
+                    End If
+                    qry += " ORDER BY TSPL_MILK_PROCUREMENT_UPLOADER_head.Document_Date, TSPL_MILK_PROCUREMENT_UPLOADER_head.Document_No "
+                End If
+            End If
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "MCC Milk Collection") = CompairStringResult.Equal Then
             Load_Authorisation(clsUserMgtCode.MilkCollectionMCC)
             If dtAuthen.Rows.Count > 0 Then
@@ -5103,7 +5131,7 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                     Try
                         clsCommon.ProgressBarPercentUpdate((((j + 1) * 100) / (trnsLst.Count)), "Document Posting " + clsCommon.myCstr(j + 1) + "/" + clsCommon.myCstr(trnsLst.Count))
                         strDocNo = trnsLst.Item(j)
-                        clsNIRQC.PostData(strDocNo)
+                        clsNIRQC.postdata(strDocNo)
                         countPostedDoc = countPostedDoc + 1 '  Added By [Pankaj Kumar]-for Counting Posted Documents, And Creating Error Record-18/06/2012
                     Catch ex As Exception
                         dr = DtError.NewRow()
@@ -5519,7 +5547,21 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                         DtError.Rows.Add(dr)
                     End Try
                 Next
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Milk Procurement Uploader") = CompairStringResult.Equal Then
+                For j As Integer = 0 To trnsLst.Count - 1
+                    Try
+                        clsCommon.ProgressBarPercentUpdate((((j + 1) * 100) / (trnsLst.Count)), "Document Posting " + clsCommon.myCstr(j + 1) + "/" + clsCommon.myCstr(trnsLst.Count))
+                        strDocNo = trnsLst.Item(j)
+                        clsMilkProcurementUploaderHead.PostData(strDocNo)
 
+                        countPostedDoc = countPostedDoc + 1
+                    Catch ex As Exception
+                        dr = DtError.NewRow()
+                        dr("Code") = strDocNo
+                        dr("Error") = ex.Message
+                        DtError.Rows.Add(dr)
+                    End Try
+                Next
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "MCC Milk Collection") = CompairStringResult.Equal Then
                 For j As Integer = 0 To trnsLst.Count - 1
                     Try
