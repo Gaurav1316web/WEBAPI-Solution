@@ -2,6 +2,7 @@
 Imports System.Data
 Imports System.Data.SqlClient
 Imports System.IO
+Imports System.Text
 Public Class MSIProductionSaleReport
     Inherits FrmMainTranScreen
 
@@ -12,6 +13,9 @@ Public Class MSIProductionSaleReport
     Dim Slot2TD As DateTime = Nothing
     Dim Slot3FD As DateTime = Nothing
     Dim Slot3TD As DateTime = Nothing
+    Dim arrLoc As String = Nothing
+    Dim Loc_Desc_Code As New StringBuilder()
+    Dim Loc_Desc_Name As New StringBuilder()
 #End Region
 
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles BtnReset.Click
@@ -461,21 +465,33 @@ Public Class MSIProductionSaleReport
 
             Dim Productionrptdaily As String = " Select Sum(XX.Qty)Qty FROM ( SELECT "
             If Productionchk.IsChecked = True Then
-                Productionrptdaily += " SUM(FINAL_PRODUCTION_QTY)/1000 AS QTY "
+                'Productionrptdaily += " SUM(FINAL_PRODUCTION_QTY)/1000 AS QTY "
+                Productionrptdaily += " SUM(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*FINAL_PRODUCTION_QTY/TSPL_ITEM_UOM_MT.Conversion_Factor) AS QTY "
             ElseIf RePrdntchk.IsChecked = True Then
-                Productionrptdaily += " SUM(FINAL_PRODUCTION_QTY-Reprocess_Qty)/1000 AS QTY "
+                'Productionrptdaily += " SUM(FINAL_PRODUCTION_QTY-Reprocess_Qty)/1000 AS QTY "
+                Productionrptdaily += " SUM(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*(FINAL_PRODUCTION_QTY-isnull(Reprocess_Qty,0))/TSPL_ITEM_UOM_MT.Conversion_Factor) AS QTY "
             ElseIf Prdncreallchk.IsChecked = True Then
-                Productionrptdaily += " SUM(Reprocess_Qty)/1000 AS QTY "
+                'Productionrptdaily += " SUM(Reprocess_Qty)/1000 AS QTY "
+                Productionrptdaily += " SUM(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*isnull(Reprocess_Qty,0)/TSPL_ITEM_UOM_MT.Conversion_Factor) AS QTY "
             End If
             Productionrptdaily += "  FROM TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
                                          LEFT OUTER JOIN TSPL_SPP_PRODUCTION_ENTRY ON TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
                                          LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Item_Code
+                                         LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Item_Code 
+                                
+AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Unit_code
+						                  LEFT JOIN  TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_MT ON  TSPL_ITEM_UOM_MT.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Item_Code 
+                                          AND TSPL_ITEM_UOM_MT.UOM_Code= 'MT'
                                          WHERE convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103) AND TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE IN ('" + clsCommon.myCstr(txtLocation.Value) + "')  AND FG_for_CF_RPT=1
 
 union all
-									 Select sum(TSPL_ADJUSTMENT_DETAIL.Item_Quantity)/1000 as Qty  from TSPL_ADJUSTMENT_DETAIL
+									 Select sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_ADJUSTMENT_DETAIL.Item_Quantity/TSPL_ITEM_UOM_MT.Conversion_Factor) as Qty  from TSPL_ADJUSTMENT_DETAIL
 						  left join TSPL_ADJUSTMENT_HEADER on TSPL_ADJUSTMENT_HEADER.Adjustment_No=TSPL_ADJUSTMENT_DETAIL.Adjustment_No
 						  LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_ADJUSTMENT_DETAIL.ITEM_CODE
+                          LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ADJUSTMENT_DETAIL.Item_Code 
+                          AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_ADJUSTMENT_DETAIL.Unit_code
+						  LEFT JOIN  TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_MT ON  TSPL_ITEM_UOM_MT.Item_Code=TSPL_ADJUSTMENT_DETAIL.Item_Code 
+                          AND TSPL_ITEM_UOM_MT.UOM_Code= 'MT' 
 						  where    TSPL_Item_Master.FG_for_CF_RPT=1  and convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103)=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103)
                           and TSPL_ADJUSTMENT_HEADER.Loc_Code In ('" + clsCommon.myCstr(txtLocation.Value) + "') )XX
 "
@@ -485,25 +501,36 @@ union all
             Dim Productionrptperiodically As String = " Select Sum(XX.Qty)Qty FROM ( SELECT "
 
             If Productionchk.IsChecked = True Then
-                Productionrptperiodically += " SUM(FINAL_PRODUCTION_QTY)/1000 AS QTY "
+                'Productionrptperiodically += " SUM(FINAL_PRODUCTION_QTY)/1000 AS QTY "
+                Productionrptperiodically += " SUM(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*FINAL_PRODUCTION_QTY/TSPL_ITEM_UOM_MT.Conversion_Factor) AS QTY "
             ElseIf RePrdntchk.IsChecked = True Then
-                Productionrptperiodically += " SUM(FINAL_PRODUCTION_QTY-Reprocess_Qty)/1000 AS QTY "
+                'Productionrptperiodically += " SUM(FINAL_PRODUCTION_QTY-Reprocess_Qty)/1000 AS QTY "
+                Productionrptperiodically += " SUM(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*(FINAL_PRODUCTION_QTY-isnull(Reprocess_Qty,0))/TSPL_ITEM_UOM_MT.Conversion_Factor) AS QTY "
             ElseIf Prdncreallchk.IsChecked = True Then
-                Productionrptperiodically += " SUM(Reprocess_Qty)/1000 AS QTY "
+                'Productionrptperiodically += " SUM(Reprocess_Qty)/1000 AS QTY "
+                Productionrptperiodically += " SUM(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*isnull(Reprocess_Qty,0)/TSPL_ITEM_UOM_MT.Conversion_Factor) AS QTY "
             End If
 
             Productionrptperiodically += " FROM TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
                                             LEFT OUTER JOIN TSPL_SPP_PRODUCTION_ENTRY ON TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
                                             LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Item_Code
+                                            LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Item_Code 
+                                          AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Unit_code
+						                  LEFT JOIN  TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_MT ON  TSPL_ITEM_UOM_MT.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Item_Code 
+                                          AND TSPL_ITEM_UOM_MT.UOM_Code= 'MT'
                                             WHERE   FG_for_CF_RPT=1  AND convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(Slot1FD) + "',103) 
                                             AND convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103) 
                                             AND TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE IN ('" + clsCommon.myCstr(txtLocation.Value) + "')
 union all
 									
-						  Select sum(TSPL_ADJUSTMENT_DETAIL.Item_Quantity)/1000 as Qty
+						  Select sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_ADJUSTMENT_DETAIL.Item_Quantity/TSPL_ITEM_UOM_MT.Conversion_Factor) as Qty
 						  from TSPL_ADJUSTMENT_DETAIL
 						  left join TSPL_ADJUSTMENT_HEADER on TSPL_ADJUSTMENT_HEADER.Adjustment_No=TSPL_ADJUSTMENT_DETAIL.Adjustment_No
 						  LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_ADJUSTMENT_DETAIL.ITEM_CODE
+                          LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ADJUSTMENT_DETAIL.Item_Code 
+                          AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_ADJUSTMENT_DETAIL.Unit_code
+						  LEFT JOIN  TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_MT ON  TSPL_ITEM_UOM_MT.Item_Code=TSPL_ADJUSTMENT_DETAIL.Item_Code 
+                          AND TSPL_ITEM_UOM_MT.UOM_Code= 'MT' 
 						  where    TSPL_Item_Master.FG_for_CF_RPT=1  and convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(Slot1FD) + "',103)
                          and convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103)
 						 and TSPL_ADJUSTMENT_HEADER.Loc_Code In ('" + clsCommon.myCstr(txtLocation.Value) + "') )XX "
@@ -612,8 +639,36 @@ union all
 
     Private Sub MSIProductionSaleReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         FromDate.Value = clsCommon.GETSERVERDATE()
+        LOCATIONRIGTHS()
     End Sub
 
+    Private Sub LOCATIONRIGTHS()
+        Dim obj As New clsMCCCodes()
+        Try
+            obj = clsMCCCodes.GetData()
+            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
+                If obj.arrLocCodes IsNot Nothing AndAlso clsCommon.myLen(obj.arrLocCodes) > 0 Then
+                    arrLoc = obj.arrLocCodes
+                End If
+            End If
+            Dim Loc_Desc As String = " Select Loc_Short_Name from TSPL_LOCATION_MASTER WHERE LOCATION_CODE In (" & arrLoc & ")  "
+            Dim dt As DataTable = (clsDBFuncationality.GetDataTable(Loc_Desc))
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                For i As Integer = 0 To dt.Rows.Count - 1
+                    If i = 0 Then
+                        Loc_Desc_Name.Append("'" & clsCommon.myCstr(dt.Rows(i)("Loc_Short_Name")) & "' ")
+                    Else
+                        Loc_Desc_Name.Append(", '" & clsCommon.myCstr(dt.Rows(i)("Loc_Short_Name")) & "' ")
+                    End If
+                Next
+                'Loc_Desc_Code = 
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
+        Finally
+            obj = Nothing
+        End Try
+    End Sub
     Private Sub rdbSaleReturn_CheckStateChanged(sender As Object, e As EventArgs) Handles rdbSaleReturn.CheckStateChanged
         If rdbSaleReturn.IsChecked = True Then
             rdbDispatch.IsChecked = False

@@ -104,17 +104,37 @@ Public Class rptSaleInvoiceStatusReport
 
     Private Sub TxtTransaction__My_Click(sender As Object, e As EventArgs) Handles TxtTransaction._My_Click
         'Dim qry As String = " select Cust_Group_Code as [Code], Customer_Name as [Name],Cust_Type,Cust_Group_Code,Cust_Category_Code,Cust_Type_Code from tspl_customer_master "
-        Dim qry As String = " Select coalesce(Re_Name,Program_Name)Code,Program_Code as Name from TSPL_PROGRAM_MASTER where Program_Code='" + clsUserMgtCode.frmDairyBookingCustomer + "'
+        Dim qry As String = ""
+        If rdbSaleReturn.IsChecked Then
+            qry = " Select coalesce(Re_Name,Program_Name)Code,Program_Code as Name from TSPL_PROGRAM_MASTER where Program_Code='" + clsUserMgtCode.saleReturn + "'
+union all
+Select coalesce(Re_Name,Program_Name)Code,Program_Code as Name from TSPL_PROGRAM_MASTER where Program_Code='" + clsUserMgtCode.frmMCCMaterialSaleReturn + "'
+union all
+Select coalesce(Re_Name,Program_Name)Code,Program_Code as Name from TSPL_PROGRAM_MASTER where Program_Code='" + clsUserMgtCode.ScrapSaleRetrun + "' "
+        Else
+            qry = " Select coalesce(Re_Name,Program_Name)Code,Program_Code as Name from TSPL_PROGRAM_MASTER where Program_Code='" + clsUserMgtCode.frmDairyBookingCustomer + "'
                               union all
                               Select coalesce(Re_Name,Program_Name)Code,Program_Code as Name from TSPL_PROGRAM_MASTER where Program_Code='" + clsUserMgtCode.frmSaleDispatchDairy + "'
                               union all
                               Select coalesce(Re_Name,Program_Name)Code,Program_Code as Name from TSPL_PROGRAM_MASTER where Program_Code='" + clsUserMgtCode.FrmSalesOrderDispatch + "'
                               union all
                               Select coalesce(Re_Name,Program_Name)Code,Program_Code as Name from TSPL_PROGRAM_MASTER where Program_Code='" + clsUserMgtCode.frmMCCMaterial + "'"
-        If EnableProductSaleForJPR Then
-            qry += "          Union all 
+            If EnableProductSaleForJPR Then
+                qry += "          Union all 
                               Select coalesce(Re_Name,Program_Name)Code,Program_Code as Name from TSPL_PROGRAM_MASTER where Program_Code='" + clsUserMgtCode.FrmProductDispatch + "'"
+            End If
         End If
+        'qry = " Select coalesce(Re_Name,Program_Name)Code,Program_Code as Name from TSPL_PROGRAM_MASTER where Program_Code='" + clsUserMgtCode.frmDairyBookingCustomer + "'
+        '                      union all
+        '                      Select coalesce(Re_Name,Program_Name)Code,Program_Code as Name from TSPL_PROGRAM_MASTER where Program_Code='" + clsUserMgtCode.frmSaleDispatchDairy + "'
+        '                      union all
+        '                      Select coalesce(Re_Name,Program_Name)Code,Program_Code as Name from TSPL_PROGRAM_MASTER where Program_Code='" + clsUserMgtCode.FrmSalesOrderDispatch + "'
+        '                      union all
+        '                      Select coalesce(Re_Name,Program_Name)Code,Program_Code as Name from TSPL_PROGRAM_MASTER where Program_Code='" + clsUserMgtCode.frmMCCMaterial + "'"
+        'If EnableProductSaleForJPR Then
+        '    qry += "          Union all 
+        '                      Select coalesce(Re_Name,Program_Name)Code,Program_Code as Name from TSPL_PROGRAM_MASTER where Program_Code='" + clsUserMgtCode.FrmProductDispatch + "'"
+        'End If
         TxtTransaction.arrValueMember = clsCommon.ShowMultipleSelectForm("CustMulSel", qry, "Code", "Name", TxtTransaction.arrValueMember, TxtTransaction.arrDispalyMember)
 
     End Sub
