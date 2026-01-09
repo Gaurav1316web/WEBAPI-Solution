@@ -2256,8 +2256,12 @@ Public Class frmMCCMaterialSale
                             End If
                             UpdateAllTotals()
                         ElseIf e.Column Is gv1.Columns(colICode) Then
-                            OpenICodeListCurrentCalaculation(False)
-                            setBalance()
+                            If clsCommon.myLen(txtVendorNo.Value) > 0 Then
+                                OpenICodeListCurrentCalaculation(False)
+                                setBalance()
+                            Else
+                                Throw New Exception("Please select Customer first")
+                            End If
                         ElseIf e.Column Is gv1.Columns(colShortDesc) Then
                             If UseDescInsteadOFCodeOnMCCMAterialSale Then
                                 OpenICodeListShortDesc(False, clsCommon.myCstr(gv1.CurrentRow.Cells(colShortDesc).Value))
@@ -5418,7 +5422,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
 
 
         '-----------------------------------------------------
-         LoadData(clsCommon.ShowSelectForm("ShipmentCofnd", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked, "Document_Date"), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("ShipmentCofnd", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked, "Document_Date"), NavigatorType.Current)
     End Sub
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.F2 AndAlso gv1.CurrentCell IsNot Nothing AndAlso gv1.CurrentColumn Is gv1.Columns(colUnit) Then
@@ -5847,6 +5851,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
                 If UseDescInsteadOFCodeOnMCCMAterialSale = True Then
                     txtVendorNo.Value = clsCommon.myCstr(dt.Rows(0)("Code"))
                 End If
+                txtVendorNo.Enabled = False
                 txtVendorNo.Value = clsCommon.myCstr(dt.Rows(0)("Code"))
                 lblVendorName.Text = clsCommon.myCstr(dt.Rows(0)("Name"))
                 txtTermCode.Value = clsCommon.myCstr(dt.Rows(0)("Term Code"))
