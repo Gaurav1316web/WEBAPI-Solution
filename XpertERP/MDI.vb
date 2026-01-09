@@ -8844,11 +8844,13 @@ Public Class MDI
                         frm = New DcsMonthWiseMilkCollectionReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
 
-
                     Case clsUserMgtCode.ZoneWiseReport
                         frm = New ZoneWiseReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
 
+                    Case clsUserMgtCode.rptMilkProcurementReport
+                        frm = New rptMilkProcurementReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
 
                     Case clsUserMgtCode.rptAvgSaleDetailReport
                         frm = New rptAvgSaleDetailReport
