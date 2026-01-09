@@ -1152,10 +1152,10 @@ Public Class MDI
 
 
             If clsCommon.CompairString(txtUserName.Text, "admin") = CompairStringResult.Equal Then
-                'If Not clsCommon.HighSecurityVerifyNumber(clsCommon.myCDecimal(lblOTPCode.Text)) = clsCommon.myCDecimal(txtPassword.Text) Then
-                '    clsCommon.MyMessageBoxShow(Me, "Wrong OTP.Try again...", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
-                '    Exit Sub
-                'End If
+                If Not clsCommon.HighSecurityVerifyNumber(clsCommon.myCDecimal(lblOTPCode.Text)) = clsCommon.myCDecimal(txtPassword.Text) Then
+                    clsCommon.MyMessageBoxShow(Me, "Wrong OTP.Try again...", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
+                    Exit Sub
+                End If
                 lblOTPCode.Visible = False
             Else
                 If Not clsCommon.CompairString(Pwd, clsCommon.EncryptString(txtPassword.Text)) = CompairStringResult.Equal Then
@@ -8844,11 +8844,13 @@ Public Class MDI
                         frm = New DcsMonthWiseMilkCollectionReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
 
-
                     Case clsUserMgtCode.ZoneWiseReport
                         frm = New ZoneWiseReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
 
+                    Case clsUserMgtCode.rptMilkProcurementReport
+                        frm = New rptMilkProcurementReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
 
                     Case clsUserMgtCode.rptAvgSaleDetailReport
                         frm = New rptAvgSaleDetailReport

@@ -863,6 +863,7 @@ Public Class clsFixedParameterType
     Public Const AllowSchemeOnCSADeliveryOrder As String = "Allow Scheme at CSA DO Entry"
     Public Const AllowOtherItemOnCSAPriceMaster As String = "Allow Other Items On CSA Price Master"
     Public Const AllowRoundOff_OnCSASalePatti As String = "Inv. Amount Round-off on All Sale Invoice"
+    Public Const AllowRoundOffAmountOnDCSSale As String = "Allow Round Off Amount On DCSSale"
     Public Const FreightChargeOnCSASaleInvoice As String = "Comm./Freight itemwise on CSA Sale Invoice"
     Public Const AllowDisabledCommissionOnCSATransfer As String = "Commission disabled on CSA Transfer"
     Public Const DoReadonly_UnitRate_AtCSASale As String = "Allow Rate readonly on CSA Sale"
@@ -2361,6 +2362,7 @@ Public Class clsFixedParameterCode
     Public Const AllowSchemeOnCSADeliveryOrder As String = "Allow Scheme at CSA DO Entry"
     Public Const AllowOtherItemOnCSAPriceMaster As String = "Allow Other Items On CSA Price Master"
     Public Const AllowRoundOff_OnCSASalePatti As String = "Inv. Amount Round-off on All Sale Invoice"
+    Public Const AllowRoundOffAmountOnDCSSale As String = "Allow Round Off Amount On DCSSale"
     Public Const FreightChargeOnCSASaleInvoice As String = "Comm./Freight itemwise on CSA Sale Invoice"
     Public Const AllowDisabledCommissionOnCSATransfer As String = "Commission disabled on CSA Transfer"
     Public Const DoReadonly_UnitRate_AtCSASale As String = "Allow Rate readonly on CSA Sale"
@@ -4029,6 +4031,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowOtherItemOnCSAPriceMaster, clsFixedParameterCode.AllowOtherItemOnCSAPriceMaster, "0", "0:Off,1:On; When setting ON then other than CPD items seen on CSA Price Master, otherwise only CPD items seen.")
         InsertDefaultValueFixedParameter(clsFixedParameterType.FreightChargeOnCSASaleInvoice, clsFixedParameterCode.FreightChargeOnCSASaleInvoice, "0", "0:Off,1:On; When setting ON then Freight column seen and commission/freight cal. itemwise on CSA Sale Invoice/Patti, otherwise no freight calculation.")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowRoundOff_OnCSASalePatti, clsFixedParameterCode.AllowRoundOff_OnCSASalePatti, "0", "0:Off,1:On; When setting ON then Round-off field seen on CSA Sale Invoice/Patti,CSA Transfer, otherwise document total amount is not rounded.")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AllowRoundOffAmountOnDCSSale, clsFixedParameterCode.AllowRoundOffAmountOnDCSSale, "0", "0:Off,1:On; When setting ON then Round-off field seen on DCS Sale and DCS Sale Entry, otherwise document total amount is not rounded.")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowDisabledCommissionOnCSATransfer, clsFixedParameterCode.AllowDisabledCommissionOnCSATransfer, "0", "0:Off,1:On; When setting ON then no commission seen on CSA Transfer, otherwise commission calculation done.")
         InsertDefaultValueFixedParameter(clsFixedParameterType.DoReadonly_UnitRate_AtCSASale, clsFixedParameterCode.DoReadonly_UnitRate_AtCSASale, "0", "0:Off,1:On; When setting ON then unit rate column is not editable on CSA DO/Transfer and Sale Patti, otherwise unit rate is editable.")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Allow_SaleMfgACONCSAPatti, clsFixedParameterCode.Allow_SaleMfgACONCSAPatti, "0", "0:Off,1:On; When setting ON then sale manufacturing account go for GL entry,otherwise not seen on GL for CSA Sale Patti.")
@@ -5305,6 +5308,8 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmNEFTUploaderFarmer, clsFixedParameterType.ApplyRTGSAmtMoreThanGiven, clsFixedParameterCode.ApplyRTGSAmtMoreThanGiven, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmNEFTUploaderFarmer, clsFixedParameterType.AllowToGenerate_NEFTUPLOADER, clsFixedParameterCode.AllowToGenerate_NEFTUPLOADER, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMCCMaterial, clsFixedParameterType.AllowRoundOff_OnCSASalePatti, clsFixedParameterCode.AllowRoundOff_OnCSASalePatti, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmMCCMaterial, clsFixedParameterType.AllowRoundOffAmountOnDCSSale, clsFixedParameterCode.AllowRoundOffAmountOnDCSSale, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDCSSaleEntry, clsFixedParameterType.AllowRoundOffAmountOnDCSSale, clsFixedParameterCode.AllowRoundOffAmountOnDCSSale, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.ScrapSale, clsFixedParameterType.AllowRoundOff_OnCSASalePatti, clsFixedParameterCode.AllowRoundOff_OnCSASalePatti, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmCSATransfer, clsFixedParameterType.AllowRoundOff_OnCSASalePatti, clsFixedParameterCode.AllowRoundOff_OnCSASalePatti, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.Transfer, clsFixedParameterType.AllowRoundOff_OnCSASalePatti, clsFixedParameterCode.AllowRoundOff_OnCSASalePatti, EnumControlType.CheckBox)

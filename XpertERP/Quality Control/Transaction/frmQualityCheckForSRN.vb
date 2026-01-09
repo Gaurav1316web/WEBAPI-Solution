@@ -2010,6 +2010,16 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
             Dim StrWhere As String = ""
             Dim WeighmentDate As Boolean
             Dim QCdate As Boolean
+            Dim Doc As String = ""
+            'If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+            '    common.clsCommon.MyMessageBoxShow(Me, "Document number not found", Me.Text)
+            '    txtDocNo.Focus()
+            '    Exit Sub
+            'End If
+            'StrWhere += " AND TSPL_QC_CHECK_SRN_DETAIL.Document_Code = '" + txtDocNo.Value + "'"
+            'If clsCommon.myLen(txtDocNo.Value) > 0 Then
+            '    Doc = clsCommon.myCstr(txtDocNo.Value)
+            'End If
             If clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage1.Name) = CompairStringResult.Equal Then
                 If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                     common.clsCommon.MyMessageBoxShow(Me, "Document number not found", Me.Text)
@@ -2017,12 +2027,16 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                     Exit Sub
                 End If
                 StrWhere += " AND TSPL_QC_CHECK_SRN_DETAIL.Document_Code = '" + txtDocNo.Value + "'"
+                If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                    Doc = clsCommon.myCstr(txtDocNo.Value)
+                End If
             ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage3.Name) = CompairStringResult.Equal Then
                 If fromDate.Value > ToDate.Value Then
                     common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
                     fromDate.Focus()
                     Exit Sub
                 End If
+
                 If clsCommon.myLen(txtLoationPrintFinder.Value) <= 0 Then
                     common.clsCommon.MyMessageBoxShow(Me, "Select Location first", Me.Text)
                     txtLoationPrintFinder.Focus()
@@ -2060,6 +2074,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                     'If rbtnQCdate.IsChecked = True Then
                     StrWhere += " and convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103) >= convert(date,('" & fromDate.Value & "'),103) and convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103) <= convert(date,('" & ToDate.Value & "'),103) "
                 End If
+
                 If rbtnWeighmentDate.IsChecked = True Then
                     WeighmentDate = True
                 Else
@@ -2076,8 +2091,13 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
             '    Exit Sub
             'End If
             Dim Qry As String = Nothing
-            'clsQualityCheckForSRNHead.funCheckSRN(MyBase.Form_ID, True, fromDate.Value, ToDate.Value, txtLoationPrintFinder.Value, TxtFinderVendorPrint.Value, TxtFinderItemPrint.Value, arrrRAL, rbtnQCdate.IsChecked, rbtnWeighmentDate.IsChecked, RadPageView1.SelectedPage, RadPageViewPage.VALUE)
-            Qry = clsQualityCheckForSRNHead.AnalysisData(MyBase.Form_ID, fromDate.Value, ToDate.Value, txtLoationPrintFinder.Value, TxtFinderVendorPrint.Value, TxtFinderItemPrint.Value, strral, QCdate, WeighmentDate, False, False, False)
+            'If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+            '    Qry = clsQualityCheckForSRNHead.AnalysisDocumentData(MyBase.Form_ID, fromDate.Value, ToDate.Value, txtLoationPrintFinder.Value, TxtFinderVendorPrint.Value, TxtFinderItemPrint.Value, strral, QCdate, WeighmentDate, False, False, False, Doc)
+            'Else
+            Qry = clsQualityCheckForSRNHead.AnalysisData(MyBase.Form_ID, fromDate.Value, ToDate.Value, txtLoationPrintFinder.Value, TxtFinderVendorPrint.Value, TxtFinderItemPrint.Value, strral, QCdate, WeighmentDate, False, False, False, Doc)
+
+            'End If
+            ' Qry = clsQualityCheckForSRNHead.AnalysisData(MyBase.Form_ID, fromDate.Value, ToDate.Value, txtLoationPrintFinder.Value, TxtFinderVendorPrint.Value, TxtFinderItemPrint.Value, strral, QCdate, WeighmentDate, False, False, False)
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
 
 
@@ -2136,6 +2156,16 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
             Dim QCdate As Boolean
             Dim StrWhere As String = ""
             Dim WeighmentDate As Boolean
+            Dim doc As String = ""
+            'If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+            '    common.clsCommon.MyMessageBoxShow(Me, "Document number not found", Me.Text)
+            '    txtDocNo.Focus()
+            '    Exit Sub
+            'End If
+            'If clsCommon.myLen(txtDocNo.Value) > 0 Then
+            '    doc = clsCommon.myCstr(txtDocNo.Value)
+            'End If
+            StrWhere += " AND TSPL_QC_CHECK_SRN_DETAIL.Document_Code = '" + txtDocNo.Value + "'"
             If clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage1.Name) = CompairStringResult.Equal Then
                 If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                     common.clsCommon.MyMessageBoxShow(Me, "Document number not found", Me.Text)
@@ -2143,6 +2173,9 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                     Exit Sub
                 End If
                 StrWhere += " AND TSPL_QC_CHECK_SRN_DETAIL.Document_Code = '" + txtDocNo.Value + "'"
+                If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                    doc = clsCommon.myCstr(txtDocNo.Value)
+                End If
             ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage3.Name) = CompairStringResult.Equal Then
                 If fromDate.Value > ToDate.Value Then
                     common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
@@ -2177,6 +2210,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                 'If clsCommon.myLen(TxtFinderRalPrint.arrValueMember) > 0 Then
                 '    StrWhere += "and  TSPL_GRN_HEAD.Ref_No in (" + clsCommon.GetMulcallString(TxtFinderRalPrint.arrValueMember) + ")"
                 'End If
+
                 If rbtnQCdate.IsChecked = True Then
                     QCdate = True
                 Else
@@ -2190,7 +2224,14 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                     ' StrWhere += " and convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) >= convert(date,('" & fromDate.Value & "'),103) and convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) <= convert(date,('" & ToDate.Value & "'),103) "
                 End If
             End If
-            qry = clsQualityCheckForSRNHead.AnalysisPrint(MyBase.Form_ID, fromDate.Value, ToDate.Value, txtLoationPrintFinder.Value, TxtFinderVendorPrint.Value, TxtFinderItemPrint.Value, strral, QCdate, WeighmentDate, False, False, False)
+            'If clsCommon.myLen(txtDocNo.Value) > 0 Then
+            '    qry = clsQualityCheckForSRNHead.AnalysisDocPrint(MyBase.Form_ID, fromDate.Value, ToDate.Value, txtLoationPrintFinder.Value, TxtFinderVendorPrint.Value, TxtFinderItemPrint.Value, strral, QCdate, WeighmentDate, False, False, False, doc)
+
+            'Else
+            qry = clsQualityCheckForSRNHead.AnalysisPrint(MyBase.Form_ID, fromDate.Value, ToDate.Value, txtLoationPrintFinder.Value, TxtFinderVendorPrint.Value, TxtFinderItemPrint.Value, strral, QCdate, WeighmentDate, False, False, False, doc)
+
+            'End If
+            'qry = clsQualityCheckForSRNHead.AnalysisPrint(MyBase.Form_ID, fromDate.Value, ToDate.Value, txtLoationPrintFinder.Value, TxtFinderVendorPrint.Value, TxtFinderItemPrint.Value, strral, QCdate, WeighmentDate, False, False, False)
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
 
 

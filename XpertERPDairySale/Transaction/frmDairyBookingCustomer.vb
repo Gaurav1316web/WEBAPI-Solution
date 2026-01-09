@@ -9247,6 +9247,13 @@ from
             frm.docdate = txtDate.Value
             frm.Supplydate = txtSupplyDate.Value
             frm.Shifttype = cmbGatePassType.Text
+            Dim qry As String = clsDBFuncationality.getSingleValue("  Select Credit_Customer from tspl_customer_master where cust_code =  '" & txtVendorNo.Value & "' ")
+            If qry = "Y" Then
+                frm.CreditCustomer = lblVendorName.Text
+            Else
+                frm.CreditCustomer = ""
+            End If
+            'frm.CreditCustomer = lblVendorName.Text
             frm.ShowDialog()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

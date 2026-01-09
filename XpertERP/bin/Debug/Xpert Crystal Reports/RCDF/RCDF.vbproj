@@ -1595,6 +1595,7 @@
     <None Include="Crystal Reports\Milk Procurement\rptMccMilkRate.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptMilkAnalysis.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptMilkPaymentSummary.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\rptMilkProcurement.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptMilkProcurementSocietySummary.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptMilkPurchaseInvoice.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptMilkTransferIn.rpt" />
@@ -1609,6 +1610,7 @@
     <None Include="Crystal Reports\Milk Procurement\rptTankerReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTruckSheetDailySummaryReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptVlcDailyLanded.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\rptZoneWiseReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\SubMilkPurchaseBill.rpt" />
     <None Include="Crystal Reports\Milk Procurement\SubMilkPurchaseBillFATSNFDebitCreditNote.rpt" />
     <None Include="Crystal Reports\Milk Procurement\SubMilkPurchaseBillMCCSale.rpt" />

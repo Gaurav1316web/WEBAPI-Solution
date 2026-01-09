@@ -4,6 +4,7 @@ Imports System.Data.SqlClient
 Imports System
 Imports System.IO
 Imports Telerik.WinControls.UI.Export
+Imports System.Text
 
 Public Class FrmProductionAndSaleReport
     Inherits FrmMainTranScreen
@@ -18,6 +19,10 @@ Public Class FrmProductionAndSaleReport
 #Region "Variables"
     Dim buttontooltip As ToolTip = New ToolTip()
     Dim DayCount As Int16 = 0
+    Dim arrLoc As String
+    'Dim Loc_Desc_Name As String = Nothing
+    Dim Loc_Desc_Code As String = Nothing
+    Dim Loc_Desc_Name As New StringBuilder()
 #End Region
 
 
@@ -37,15 +42,68 @@ Public Class FrmProductionAndSaleReport
         End If
     End Sub
     Private Sub FrmProductionAndSaleReport_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        LOCATIONRIGTHS()
         SetUserMgmtNew()
         buttontooltip.SetToolTip(btnReport, "Press Alt+R for Summary ")
-        buttontooltip.SetToolTip(btnreset, "Press Alt+E for Reset ")
-        buttontooltip.SetToolTip(btnclose, "Press Alt+C Close the Window")
+        buttontooltip.SetToolTip(btnReset, "Press Alt+E for Reset ")
+        buttontooltip.SetToolTip(btnClose, "Press Alt+C Close the Window")
         fromDate.Value = clsCommon.GETSERVERDATE()
-        toDate.Value = clsCommon.GETSERVERDATE()
+        ToDate.Value = clsCommon.GETSERVERDATE()
         'lbltoDate.Visible = False
         'ToDate.Visible = False
 
+    End Sub
+
+    Private Sub LOCATIONRIGTHS()
+        Dim obj As New clsMCCCodes()
+        Try
+            obj = clsMCCCodes.GetData()
+            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
+                If obj.arrLocCodes IsNot Nothing AndAlso clsCommon.myLen(obj.arrLocCodes) > 0 Then
+                    arrLoc = obj.arrLocCodes
+                End If
+            End If
+
+            'If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
+            '    If obj.arrLocCodes IsNot Nothing AndAlso clsCommon.myLen(obj.arrLocCodes) > 0 Then
+            '        Dim locList As New List(Of String)
+            '        For Each loc As String In obj.arrLocCodes.Split(","c)
+            '            Dim cleanVal As String = loc.Replace("'", "").Trim()
+            '            If cleanVal.ToUpper() <> "RCDF" Then
+            '                locList.Add("'" & cleanVal & "'")
+            '            End If
+            '        Next
+            '        'arrLoc = obj.arrLocCodes
+            '        arrLoc = String.Join(",", locList)
+            '        'arrLoc = clsCommon.myCstr(locList)
+            '    End If
+            'End If
+
+
+
+            Dim Loc_Desc As String = " Select Loc_Short_Name,Location_Code from TSPL_LOCATION_MASTER WHERE LOCATION_CODE In (" & arrLoc & ") and isMainPlant=0  "
+            Dim dt As DataTable = (clsDBFuncationality.GetDataTable(Loc_Desc))
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                For i As Integer = 0 To dt.Rows.Count - 1
+                    If i = 0 Then
+                        Loc_Desc_Name.Append("'" & clsCommon.myCstr(dt.Rows(i)("Loc_Short_Name")) & "' ")
+                        'Loc_Desc_Code.Append("'" & clsCommon.myCstr(dt.Rows(i)("Location_Code")) & "' ")
+                        Loc_Desc_Code += " '" + clsCommon.myCstr(dt.Rows(i)("Location_Code")) + "'"
+
+                    Else
+                        Loc_Desc_Name.Append(", '" & clsCommon.myCstr(dt.Rows(i)("Loc_Short_Name")) & "' ")
+                        'Loc_Desc_Code.Append("'" & clsCommon.myCstr(dt.Rows(i)("Location_Code")) & "' ")
+                        Loc_Desc_Code += " ,'" + clsCommon.myCstr(dt.Rows(i)("Location_Code")) + "'"
+
+                    End If
+                Next
+                'Loc_Desc_Code = 
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
+        Finally
+            obj = Nothing
+        End Try
     End Sub
 
     'Public Class clsDateDetail
@@ -214,7 +272,7 @@ Public Class FrmProductionAndSaleReport
                 If rdbDaily.IsChecked Then
 
 
-                    query = "Select  '" + objCommonVar.CurrentUserCode + "' as UserName,  ROW_NUMBER() OVER(ORDER BY yy.Location ASC) as SNo, max(Location)Location,Max(Date)date,max(date1)date1,sum(Capacity)Capacity,sum(Noofshift)Noofshift, sum(ProdDailyQty)ProdDailyQty,
+                    query = " Select* from ( Select  '" + objCommonVar.CurrentUserCode + "' as UserName,  ROW_NUMBER() OVER(ORDER BY yy.Location ASC) as SNo, max(Location)Location,Max(Date)date,max(date1)date1,sum(Capacity)Capacity,sum(Noofshift)Noofshift, sum(ProdDailyQty)ProdDailyQty,
 sum(ProdCumQty)ProdCumQty,sum(CUD)CUD,sum(cum)CUM,sum(CUY)CUY,
 sum(saleDailyQty)saleDailyQty,	sum(SaleCumQty)SaleCumQty	,sum(FGS)FGS,	sum(PSO)PSO,sum(BreakdownHRS)BreakdownHRS,	max(BreakdownREASON)BreakdownREASON
 	, CAST(ROUND(MAX(DcsSeqNo_1), 0) AS INT) AS DcsSeqNo_1,CAST(ROUND(MAX(DcsSeqNo_2), 0) AS INT) AS DcsSeqNo_2,CAST(ROUND(MAX(DcsSeqNo_3), 0) AS INT) AS DcsSeqNo_3
@@ -249,7 +307,7 @@ from ("
                            Group By LOCATION_CODE,CONVERT(DATE,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)) NoOfShift
 						   ON TSPL_LOCATION_MASTER.LOCATION_CODE = NoOfShift.LOCATION_CODE
 
-                         LEFT OUTER JOIN"
+                         LEFT OUTER JOIN (Select Sum(Qty)Qty,Sum(ProdCumQty)ProdCumQty,LOCATION_CODE FROM "
                 If Productionchk.IsChecked = True Then
                     query += " (select sum(case when convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103) then  TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY else 0  end) as Qty, 
 						 sum(case when (convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
@@ -278,7 +336,20 @@ from ("
 
                 query += "  and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
                          and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103) 
-                          GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE) ProdDailyQty
+                          GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE
+union all
+						   Select sum(case when convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103) then TSPL_ADJUSTMENT_DETAIL.Item_Quantity else 0 end) as Qty,
+						  sum(case when (convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
+                         and convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)) then  TSPL_ADJUSTMENT_DETAIL.Item_Quantity else 0  end) as ProdCumQty,
+						 TSPL_ADJUSTMENT_HEADER.Loc_Code as LOCATION_CODE
+						  from TSPL_ADJUSTMENT_DETAIL
+						  left join TSPL_ADJUSTMENT_HEADER on TSPL_ADJUSTMENT_HEADER.Adjustment_No=TSPL_ADJUSTMENT_DETAIL.Adjustment_No
+						                           LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_ADJUSTMENT_DETAIL.ITEM_CODE
+												    where    TSPL_Item_Master.FG_for_CF_RPT=1     AND TSPL_ADJUSTMENT_HEADER.posted='Y'    and convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
+                         and convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103) 
+                          GROUP BY TSPL_ADJUSTMENT_HEADER.Loc_Code 
+
+)XX Group by LOCATION_CODE) ProdDailyQty
                           ON TSPL_LOCATION_MASTER.LOCATION_CODE =ProdDailyQty.LOCATION_CODE "
 
                 If rdbSaleTransfer.IsChecked = True AndAlso rdbDispatch.IsChecked = True Then
@@ -827,7 +898,8 @@ GROUP BY  RM_STOCK_DAYS.Location_Code,RM_STOCK_DAYS.ITEM_CODE
 LEFT JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = t.Location_Code
 WHERE rn <= 3
 GROUP BY t.Location_Code
-)YY group by YY.Location"
+)YY group by YY.Location "
+                    query += " )Final  where Final.Location In (" & clsCommon.myCstr(Loc_Desc_Name) & ")"
 
                 End If
 
@@ -842,41 +914,64 @@ GROUP BY t.Location_Code
                 tDate = ToDate.Value
                 DayCount = DateDiff(DateInterval.Day, fDate, tDate) + 1
 
+                Dim LocationPivot As String = " Select Location_Code from TSPL_LOCATION_MASTER where Location_Code In (" & clsCommon.myCstr(Loc_Desc_Code) & ")
+                                    UNION ALL
+                                    Select Location_Code from TSPL_LOCATION_MASTER where IsMainPlant=1 "
+
+                Dim dtlocation As DataTable = clsDBFuncationality.GetDataTable(LocationPivot)
+                Dim locpivot As String = Nothing
+                Dim strloc1pivot As String = Nothing
+                Dim sumlocpivot As String = Nothing
+                If dtlocation.Rows.Count > 0 Then
+                    For i As Integer = 0 To dtlocation.Rows.Count - 1
+                        If i = 0 Then
+                            locpivot += "[" + clsCommon.myCstr(dtlocation.Rows(i)("Location_Code")) + "] "
+                            strloc1pivot += " '" + clsCommon.myCstr(dtlocation.Rows(i)("Location_Code")) + "'"
+                            sumlocpivot += " Sum(IsNull([" + clsCommon.myCstr(dtlocation.Rows(i)("Location_Code")) + "], 0))"
+                        Else
+                            locpivot += " ,[" + clsCommon.myCstr(dtlocation.Rows(i)("Location_Code")) + "] "
+                            strloc1pivot += " ,'" + clsCommon.myCstr(dtlocation.Rows(i)("Location_Code")) + "'"
+                            sumlocpivot += " ,Sum(IsNull([" + clsCommon.myCstr(dtlocation.Rows(i)("Location_Code")) + "], 0))"
+                        End If
+                    Next
+                End If
+
 
                 'Dim strLocation As String = clsDBFuncationality.getSingleValue("  DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' + QUOTENAME(TSPL_LOCATION_MASTER.location_code) as Alies_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
                 'Dim strMainLocation As String = clsDBFuncationality.getSingleValue("SELECT TSPL_LOCATION_MASTER.Loc_Short_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='1'")
                 Dim StrTempQry2 As String = "DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT  
                      STUFF((SELECT distinct ',' +'Sum(isnull('  + QUOTENAME(TSPL_LOCATION_MASTER.location_code)+',0))'
                      +' as ' + QUOTENAME( TSPL_LOCATION_MASTER.location_code)
-                    as Alies_Name FROM TSPL_LOCATION_MASTER where 2=2 and TSPL_LOCATION_MASTER.Rejected_Type='N'  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')"
+                    as Alies_Name FROM TSPL_LOCATION_MASTER where 2=2 and TSPL_LOCATION_MASTER.Rejected_Type='N' And Location_Code in (" & clsCommon.myCstr(Loc_Desc_Code) & ")  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')"
                 Dim strSumLocation2 As String = clsDBFuncationality.getSingleValue(StrTempQry2)
 
                 Dim StrTempQry As String = "DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT  
                      STUFF((SELECT distinct ',' +'Sum(isnull('  + QUOTENAME(TSPL_LOCATION_MASTER.location_code)+',0))'
                      +' as ' + QUOTENAME( TSPL_LOCATION_MASTER.location_code)
-                    as Alies_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N'  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')"
+                    as Alies_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N' And Location_Code in (" & clsCommon.myCstr(Loc_Desc_Code) & ")  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')"
                 Dim strSumLocation As String = clsDBFuncationality.getSingleValue(StrTempQry)
 
                 Dim StrTempQry1 As String = "DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT  
                      STUFF((SELECT distinct ',' +'(isnull('  + QUOTENAME(TSPL_LOCATION_MASTER.location_code)+',0))'
                      +' as ' + QUOTENAME( TSPL_LOCATION_MASTER.location_code)
-                    as Alies_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N'  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')"
+                    as Alies_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N' And Location_Code in (" & clsCommon.myCstr(Loc_Desc_Code) & ")  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')"
                 Dim strSumLocation1 As String = clsDBFuncationality.getSingleValue(StrTempQry1)
 
                 StrTempQry = "DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT  
                               STUFF((SELECT distinct '+' +'Sum(isnull(' + QUOTENAME(TSPL_LOCATION_MASTER.Location_Code) +',0))' as Alies_Name
-                              FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N'  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')"
+                              FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N' And Location_Code in (" & clsCommon.myCstr(Loc_Desc_Code) & ")  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')"
                 Dim strTotalLocation As String = clsDBFuncationality.getSingleValue(StrTempQry)
 
-                Dim strLocation As String = clsDBFuncationality.getSingleValue("  DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' + QUOTENAME(TSPL_LOCATION_MASTER.location_code) as Alies_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N' FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
+                Dim strLocation As String = clsDBFuncationality.getSingleValue("  DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' + QUOTENAME(TSPL_LOCATION_MASTER.location_code) as Alies_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N' And Location_Code in (" & clsCommon.myCstr(Loc_Desc_Code) & ") FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
                 Dim strMainLocation As String = clsDBFuncationality.getSingleValue("SELECT '[' + TSPL_LOCATION_MASTER.location_code + ']' FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='1'")
-                Dim strLocation1 As String = clsDBFuncationality.getSingleValue("  DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' + QUOTENAME(TSPL_LOCATION_MASTER.location_code) as Alies_Name FROM TSPL_LOCATION_MASTER where 2=2 and TSPL_LOCATION_MASTER.Rejected_Type='N' FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
+                Dim strLocation1 As String = clsDBFuncationality.getSingleValue("  DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' + QUOTENAME(TSPL_LOCATION_MASTER.location_code) as Alies_Name FROM TSPL_LOCATION_MASTER where 2=2 and TSPL_LOCATION_MASTER.Rejected_Type='N' And Location_Code in (" & strloc1pivot & ") FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
 
                 StrTempQry = "DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT  
                      STUFF((SELECT distinct ',' +'max('  + QUOTENAME(TSPL_LOCATION_MASTER.location_code)+')'
                      +' as ' + QUOTENAME( TSPL_LOCATION_MASTER.location_code)
-                    as Alies_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N' FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')"
+                    as Alies_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N' And Location_Code in (" & clsCommon.myCstr(Loc_Desc_Code) & ") FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')"
                 Dim strMaxLocation As String = clsDBFuncationality.getSingleValue(StrTempQry)
+
                 query = " SELECT   * FROM (
 							SELECT 'Capacity / Day' AS Production, TSPL_LOCATION_MASTER.Location_Code,  (cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy") + "'))) AS DECIMAL(18,0))) Capacity
                         FROM  TSPL_LOCATION_MASTER where IsMainPlant=0
@@ -884,25 +979,36 @@ GROUP BY t.Location_Code
 	
 							SELECT 'Capacity / Day' AS Production, 'rcdf' as Location_Code, 
 sum(cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy") + "'))) AS DECIMAL(18,0))) as [Capacity]
-                        FROM  TSPL_LOCATION_MASTER where IsMainPlant=0 
+                        FROM  TSPL_LOCATION_MASTER where IsMainPlant=0  And Location_Code in (" & clsCommon.myCstr(Loc_Desc_Code) & ")
 						--union all
 						--SELECT 'Capacity / Day' AS Production, 'RCDF' AS Location_Code,  SUM(TSPL_LOCATION_MASTER.Silo_Capacity) Capacity
     --                FROM  TSPL_LOCATION_MASTER where IsMainPlant=0 
 
 ) AS XXXProduction
-                            PIVOT (    MAX(Capacity)     FOR Location_Code IN ([AJMR],[BIKR],[JODH],[KALR],[LAMB],[NADB],[PALI],[RCDF]) ) AS zpivot "
+                            PIVOT (    MAX(Capacity)     FOR Location_Code IN (" & locpivot & ") ) AS zpivot "
                 query += " UNION ALL
                         select Production," + strSumLocation + "," + strTotalLocation + " as " + strMainLocation + "
                          from (select 'Production' as Production,TSPL_LOCATION_MASTER.Location_Code
                         ,isnull(CAST((ProdCumQty.Qty/1000) AS DECIMAL(18,0)),0) as ProdCumQty
                          FROM TSPL_LOCATION_MASTER 
                          LEFT OUTER JOIN
+                        ( Select Sum(Qty)Qty,LOCATION_CODE from
                         (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) as Qty,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL
                          left join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
                          LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
                          where TSPL_Item_Master.FG_for_CF_RPT=1 and TSPL_SPP_PRODUCTION_ENTRY.posted=1 and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
                          and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
-                          GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE) ProdCumQty
+                          GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE
+                          union all
+						  Select sum(TSPL_ADJUSTMENT_DETAIL.Item_Quantity) as Qty,TSPL_ADJUSTMENT_HEADER.Loc_Code as LOCATION_CODE
+						  from TSPL_ADJUSTMENT_DETAIL
+						  left join TSPL_ADJUSTMENT_HEADER on TSPL_ADJUSTMENT_HEADER.Adjustment_No=TSPL_ADJUSTMENT_DETAIL.Adjustment_No
+						                           LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_ADJUSTMENT_DETAIL.ITEM_CODE
+												    where    TSPL_Item_Master.FG_for_CF_RPT=1     AND TSPL_ADJUSTMENT_HEADER.posted='Y'    and convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
+                         and convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103) 
+                          GROUP BY TSPL_ADJUSTMENT_HEADER.Loc_Code 
+						  
+						  )XX Group by LOCATION_CODE ) ProdCumQty
                           ON TSPL_LOCATION_MASTER.LOCATION_CODE =ProdCumQty.LOCATION_CODE
                           where TSPL_LOCATION_MASTER.IsMainPlant='0')XXXProduction
                           pivot ( sum(ProdCumQty) for Location_Code in (" + strLocation + ") )as zpivot group by zpivot.Production"
@@ -912,12 +1018,23 @@ sum(cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + 
                         ,isnull(CAST(((ProdCumQty.Qty/1000)" + "/" + clsCommon.myCstr(DayCount) + ") AS DECIMAL(18,0)),0) as ProdCumQty
                          FROM TSPL_LOCATION_MASTER 
                          LEFT OUTER JOIN
+                        ( Select Sum(Qty)Qty,LOCATION_CODE from
                         (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) as Qty,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL
                          left join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
                          LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
                          where TSPL_Item_Master.FG_for_CF_RPT=1 and TSPL_SPP_PRODUCTION_ENTRY.posted=1 and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
                          and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
-                          GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE) ProdCumQty
+                          GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE
+                           union all
+						  Select sum(TSPL_ADJUSTMENT_DETAIL.Item_Quantity) as Qty,TSPL_ADJUSTMENT_HEADER.Loc_Code as LOCATION_CODE
+						  from TSPL_ADJUSTMENT_DETAIL
+						  left join TSPL_ADJUSTMENT_HEADER on TSPL_ADJUSTMENT_HEADER.Adjustment_No=TSPL_ADJUSTMENT_DETAIL.Adjustment_No
+						                           LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_ADJUSTMENT_DETAIL.ITEM_CODE
+												    where    TSPL_Item_Master.FG_for_CF_RPT=1     AND TSPL_ADJUSTMENT_HEADER.posted='Y'    and convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
+                         and convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103) 
+                          GROUP BY TSPL_ADJUSTMENT_HEADER.Loc_Code 
+						  
+						  )XX Group by LOCATION_CODE   ) ProdCumQty
                           ON TSPL_LOCATION_MASTER.LOCATION_CODE =ProdCumQty.LOCATION_CODE
                           where TSPL_LOCATION_MASTER.IsMainPlant='0')XXXProduction
                           pivot ( sum(ProdCumQty) for Location_Code in (" + strLocation + ") )as zpivot group by zpivot.Production "
@@ -976,7 +1093,7 @@ sum(cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + 
                 'CAPACITY UTILIZATION
 
                 query += " Union all
-                            select Production," + strSumLocation2 + "
+                            select Production," + sumlocpivot + "
 							
                          from (select 'Capacity Utilization' as Production,TSPL_LOCATION_MASTER.Location_Code
                         ,case when TSPL_LOCATION_MASTER.Silo_Capacity=0 then 0 else isnull(CAST(((ProdCumQty.Qty/1000)*100/(1*TSPL_LOCATION_MASTER.target/(day(eomonth('" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy") + "'))))/" + clsCommon.myCstr(DayCount) + ") AS DECIMAL(18,0)),0) end as ProdCumQty
@@ -1077,15 +1194,24 @@ sum(cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + 
 
             Dim dt3 As New DataTable
             Dim qry As String = Nothing
-            qry = "WITH BaseData AS ( SELECT  DcsSeqNo,  Item_Desc FROM TSPL_ITEM_MASTER
-    WHERE Item_Type = 'R' AND DcsSeqNo IS NOT NULL AND DcsSeqNo <> 0 AND DcsSeqNo <> 16
-	   UNION ALL
- SELECT 16 AS DcsSeqNo, 'Any Other' AS Item_Desc
-),Numbered AS (  SELECT DcsSeqNo, Item_Desc,  ROW_NUMBER() OVER ( ORDER BY DcsSeqNo, Item_Desc ) AS rn
-    FROM BaseData)
-SELECT MAX(CASE WHEN rn_mod = 1 THEN DcsSeqNo END)   AS Item1_No,MAX(CASE WHEN rn_mod = 1 THEN Item_Desc END) AS Item1_Name, MAX(CASE WHEN rn_mod = 2 THEN DcsSeqNo END)   AS Item2_No,MAX(CASE WHEN rn_mod = 2 THEN Item_Desc END) AS Item2_Name
-FROM ( SELECT DcsSeqNo, Item_Desc, (rn - 1) / 2 AS grp, (rn - 1) % 2 + 1 AS rn_mod
-    FROM Numbered) d GROUP BY grp ORDER BY grp;
+            qry = "WITH CTE AS
+(
+
+select DcsSeqNo,max(Item_Desc) as Item_Desc ,ROW_NUMBER() OVER (ORDER BY DcsSeqNo) AS RN from (
+SELECT  DcsSeqNo,CASE WHEN DcsSeqNo > 15 THEN 'Any Other' ELSE Item_Desc END AS Item_Desc FROM TSPL_ITEM_MASTER
+    WHERE Item_Type = 'R' AND ISNULL(DcsSeqNo,0) > 0
+) xx group by DcsSeqNo
+)
+SELECT  
+    A.DcsSeqNo AS Item1_Name,
+    A.Item_Desc AS Item1_Name,
+    B.DcsSeqNo AS Item2_No,
+    B.Item_Desc AS Item2_Name
+FROM CTE A
+LEFT JOIN CTE B 
+    ON B.RN = A.RN + (SELECT COUNT(*)/2 FROM CTE)
+WHERE A.RN <= (SELECT COUNT(*)/2 FROM CTE)
+ORDER BY A.RN;
 "
             '            qry = "WITH Numbered AS (SELECT
             '        Item_Desc,DcsSeqNo,  CAST(CAST(DcsSeqNo AS INT) AS VARCHAR(10)) + ' - ' + Item_Desc AS Item_Desc_DcsSeqNo,
@@ -1258,14 +1384,14 @@ FROM ( SELECT DcsSeqNo, Item_Desc, (rn - 1) / 2 AS grp, (rn - 1) % 2 + 1 AS rn_m
             Gv1.Columns("Date1").HeaderText = "To Date"
             Gv1.Columns("Date1").IsVisible = False
             Gv1.Columns("Production").HeaderText = "Production"
-            Gv1.Columns("AJMR").HeaderText = "AJMR"
-            Gv1.Columns("BIKR").HeaderText = "BIKR"
-            Gv1.Columns("JODH").HeaderText = "JODH"
-            Gv1.Columns("KALR").HeaderText = "KALR"
-            Gv1.Columns("LAMB").HeaderText = "LAMB"
-            Gv1.Columns("NADB").HeaderText = "NADB"
-            Gv1.Columns("PALI").HeaderText = "PALI"
-            Gv1.Columns("RCDF").HeaderText = "RCDF"
+            'Gv1.Columns("AJMR").HeaderText = "AJMR"
+            'Gv1.Columns("BIKR").HeaderText = "BIKR"
+            'Gv1.Columns("JODH").HeaderText = "JODH"
+            'Gv1.Columns("KALR").HeaderText = "KALR"
+            'Gv1.Columns("LAMB").HeaderText = "LAMB"
+            'Gv1.Columns("NADB").HeaderText = "NADB"
+            'Gv1.Columns("PALI").HeaderText = "PALI"
+            'Gv1.Columns("RCDF").HeaderText = "RCDF"
 
 
             'Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable("SELECT TSPL_LOCATION_MASTER.location_code,TSPL_LOCATION_MASTER.Loc_Short_Name,cast(TSPL_LOCATION_MASTER.Silo_Capacity as int) as Silo_Capacity FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant=0 and TSPL_LOCATION_MASTER.Rejected_Type='N'")
@@ -1273,7 +1399,7 @@ FROM ( SELECT DcsSeqNo, Item_Desc, (rn - 1) / 2 AS grp, (rn - 1) % 2 + 1 AS rn_m
 cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(fromDate.Value), "dd/MMM/yyyy") + "'))) AS DECIMAL(18,0)) as Silo_Capacity
 --cast(TSPL_LOCATION_MASTER.Silo_Capacity as int) as Silo_Capacity
 
-FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant=0 and TSPL_LOCATION_MASTER.Rejected_Type='N'
+FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant=0 and TSPL_LOCATION_MASTER.Rejected_Type='N' and LOCATION_CODE In (" & clsCommon.myCstr(Loc_Desc_Code) & ")
 
           
           ")

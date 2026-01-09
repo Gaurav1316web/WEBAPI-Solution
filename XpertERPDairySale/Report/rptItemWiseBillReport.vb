@@ -41,8 +41,8 @@ Public Class rptItemWiseBillReport
         AND ItemCF.UOM_Code = TSPL_SD_SALE_INVOICE_DETAIL.Billing_Unit_code
     WHERE TSPL_ITEM_MASTER.Item_Type = 'F'  AND TSPL_ITEM_UOM_DETAIL.Report_UOM = 0
       and ItemCF.UOM_Code=TSPL_ITEM_UOM_DETAIL.UOM_Code
-	  and CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= '" & txtFromDate.Value & "'
-  AND CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <'" & txtToDate.Value & "'
+	  and CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "',103)
+  AND CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103)
 
   AND NOT EXISTS (
         SELECT 1
@@ -145,8 +145,10 @@ LEFT JOIN TSPL_CUSTOMER_MASTER
     ) AS ItemCF 
          ON ItemCF.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code 
         AND ItemCF.UOM_Code = TSPL_SD_SALE_INVOICE_DETAIL.Billing_Unit_code
-WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >=(convert(date,(''" & txtFromDate.Value & "''),103))
-  AND CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) < (convert(date,(''" & txtToDate.Value & "''),103)) " + whrcls + "
+WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= convert(date,''" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "'',103)
+  AND CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <=convert(date,''" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "'',103)
+  
+  " + whrcls + "
 GROUP BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code, TSPL_SD_SALE_INVOICE_HEAD.Document_Date
 ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Date;';
 
@@ -192,8 +194,8 @@ EXEC sp_executesql @sql; "
         gv1.DataSource = Nothing
         RadPageView1.SelectedPage = RadPageViewPage1
         RadGroupBox1.Enabled = True
-        txtToDate.Value = clsCommon.GETSERVERDATE()
-        txtFromDate.Value = clsCommon.GETSERVERDATE()
+        'txtToDate.Value = clsCommon.GETSERVERDATE()
+        'txtFromDate.Value = clsCommon.GETSERVERDATE()
         txtItem.Enabled = True
         txtCustomer.Enabled = True
     End Sub
@@ -251,7 +253,7 @@ EXEC sp_executesql @sql; "
                 'transportSql.QuickExportToExcel(Gv1, "", Me.Text,, arrHeader)
                 transportSql.exportdata(gv1, "", Me.Text, , arrHeader, False, True)
             Else
-                clsCommon.MyExportToPDF(strHeading, gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+                clsCommon.MyExportToPDF(strHeading, gv1, Nothing, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
@@ -267,8 +269,8 @@ EXEC sp_executesql @sql; "
     End Sub
 
     Private Sub txtItem__My_Click(sender As Object, e As EventArgs) Handles txtItem._My_Click
-        Dim qry As String = " select Item_Code,Item_Desc from TSPL_ITEM_MASTER order by Item_Code "
-        txtItem.arrValueMember = clsCommon.ShowMultipleSelectForm("ItemMulSel", qry, "Item_Code", "Item_Code", txtItem.arrValueMember, txtItem.arrDispalyMember)
+        Dim qry As String = " select Item_Code as [Code],Item_Desc as [Name] from TSPL_ITEM_MASTER order by Item_Code "
+        txtItem.arrValueMember = clsCommon.ShowMultipleSelectForm("ItemMulSel", qry, "Code", "Name", txtItem.arrValueMember, txtItem.arrDispalyMember)
     End Sub
 
     Private Sub txtCustomer__My_Click(sender As Object, e As EventArgs) Handles txtCustomer._My_Click

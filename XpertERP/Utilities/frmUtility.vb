@@ -27400,8 +27400,8 @@ where TR_Code='" & clsCommon.myCstr(dr("TR_Code")) & "'"
                             Dim dtShipmentDetail = clsDBFuncationality.GetDataTable(qry, trans)
                             If dtShipmentDetail IsNot Nothing AndAlso dtShipmentDetail.Rows.Count > 0 Then
                                 For j As Integer = 0 To dtShipmentDetail.Rows.Count - 1
-                                    Dim strDocNo As String = clsCommon.myCstr(dtShipmentDetail.Rows(ii)("DocumentNo"))
-                                    Dim strShipmentJVNo As String = clsCommon.myCstr(dtShipmentDetail.Rows(ii)("Shipment_JV_NO"))
+                                    Dim strDocNo As String = clsCommon.myCstr(dtShipmentDetail.Rows(j)("DocumentNo"))
+                                    Dim strShipmentJVNo As String = clsCommon.myCstr(dtShipmentDetail.Rows(j)("Shipment_JV_NO"))
                                     ''Shipment
                                     clsBatchInventory.ReverseAndUnpost("SD-SH", strDocNo, trans)
                                     qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No = '" & strDocNo & "' and Trans_Type ='SD-SH'"
