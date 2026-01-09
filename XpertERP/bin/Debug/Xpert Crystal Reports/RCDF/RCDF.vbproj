@@ -139,6 +139,7 @@
     <None Include="Crystal Reports GST\Dairy Sales Report\crptDairySaleGatePassEntriesJDP.rpt" />
     <None Include="Crystal Reports GST\Dairy Sales Report\crptDairySaleGatePassEntryNewJPR-DRP.rpt" />
     <None Include="Crystal Reports GST\Dairy Sales Report\crptTaxableNonTaxableInvoiceGNG1.rpt" />
+    <None Include="Crystal Reports GST\Dairy Sales Report\crptTaxableNonTaxableInvoiceIGST.rpt" />
     <None Include="Crystal Reports GST\Dairy Sales Report\crptTaxableNonTaxableInvoiceJAL.rpt" />
     <None Include="Crystal Reports GST\Dairy Sales Report\crptTaxableNonTaxableInvoiceJALNEW.rpt" />
     <None Include="Crystal Reports GST\Dairy Sales Report\rptewbprint.rpt" />
@@ -1492,6 +1493,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptDcsSecurity.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDCSWiseDeductionDetail.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDCSWiseDeductionSummary.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptFarmerChangeACNumber.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptIncentiveEntryBySRN.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMarginPerAmt.rpt" />
     <None Include="Crystal Reports\Milk Procurement\CrptMCCMilkBillDetails%28MccWise%29.rpt" />
@@ -1594,6 +1596,7 @@
     <None Include="Crystal Reports\Milk Procurement\rptMccMilkRate.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptMilkAnalysis.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptMilkPaymentSummary.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\rptMilkProcurement.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptMilkProcurementSocietySummary.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptMilkPurchaseInvoice.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptMilkTransferIn.rpt" />
@@ -1608,6 +1611,7 @@
     <None Include="Crystal Reports\Milk Procurement\rptTankerReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTruckSheetDailySummaryReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptVlcDailyLanded.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\rptZoneWiseReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\SubMilkPurchaseBill.rpt" />
     <None Include="Crystal Reports\Milk Procurement\SubMilkPurchaseBillFATSNFDebitCreditNote.rpt" />
     <None Include="Crystal Reports\Milk Procurement\SubMilkPurchaseBillMCCSale.rpt" />

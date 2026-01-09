@@ -1938,6 +1938,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptDBTMonthWiseFarmerDetail, "DBT Month Wise Farmer Detail", "1.17.03.160", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.DcsMonthWiseMilkCollectionReport, "Dcs Month Wise Milk Collection Report", "1.17.03.159", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.ZoneWiseReport, "Zone Wise Report", "1.17.03.151", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptMilkProcurementReport, "Milk Procurement Report", "1.17.03.152", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
         '' Anubhooti 05-Aug-2014
         '=================================================Human Resource================================================================
@@ -2511,7 +2512,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptCrateRegister, "Crate Balance Register", "1.06.03.69", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptSaleInvoiceStatusReport, "Sale Invoice Status Report", "1.06.03.71", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         'InsertDefaultValue(clsUserMgtCode.frmEwaybill, "Eway Bill API", "1.06.03.72", clsUserMgtCode.SubModuleSaleDairyReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptItemWiseBillReport, "ITEM WISE BILL REPORT", "1.06.03.73", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptItemWiseBillReport, "Customer Item Wise Bill Report", "1.06.03.73", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         '-------------------------SERVICE MODULE END----------------------------------------
 

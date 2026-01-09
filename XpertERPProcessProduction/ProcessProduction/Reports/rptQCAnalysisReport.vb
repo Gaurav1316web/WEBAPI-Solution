@@ -643,7 +643,7 @@ ORDER BY PivotResult.Item_Code "
             End If
 
             'End If
-            qry = clsQualityCheckForSRNHead.AnalysisPrint(MyBase.Form_ID, txtFromDate.Value, txtToDate.Value, txtLocation.Value, txtVendor.Value, txtItemCode.Value, strral, QCdate, WeighmentDate, Accepted, Rejected, Underdeviation)
+            qry = clsQualityCheckForSRNHead.AnalysisPrint(MyBase.Form_ID, txtFromDate.Value, txtToDate.Value, txtLocation.Value, txtVendor.Value, txtItemCode.Value, strral, QCdate, WeighmentDate, Accepted, Rejected, Underdeviation, Nothing)
 
             'qry = clsQualityCheckForSRNHead.AnalysisPrint(MyBase.Form_ID, txtFromDate.Value, txtToDate.Value, txtLocation.Value, txtVendor.Value, txtItemCode.Value, strral, QCdate, WeighmentDate)
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
@@ -802,7 +802,7 @@ ORDER BY PivotResult.Item_Code "
 
             Dim qry As String = Nothing
             'qry = clsQualityCheckForSRNHead.AnalysisData(MyBase.Form_ID, txtFromDate.Value, txtToDate.Value, txtLocation.Value, txtVendor.Value, txtItemCode.Value, strral, rbtnQCdate.IsChecked, rbtnWeighmentDate.IsChecked)
-            qry = clsQualityCheckForSRNHead.AnalysisData(MyBase.Form_ID, txtFromDate.Value, txtToDate.Value, txtLocation.Value, txtVendor.Value, txtItemCode.Value, strral, QCdate, WeighmentDate, Accepted, Rejected, Underdeviation)
+            qry = clsQualityCheckForSRNHead.AnalysisData(MyBase.Form_ID, txtFromDate.Value, txtToDate.Value, txtLocation.Value, txtVendor.Value, txtItemCode.Value, strral, QCdate, WeighmentDate, Accepted, Rejected, Underdeviation, Nothing)
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             ''ROW_NUMBER() OVER(PARTITION BY TSPL_QC_CHECK_HEAD.Document_Code ORDER BY TSPL_QC_CHECK_HEAD.Document_Code ASC)

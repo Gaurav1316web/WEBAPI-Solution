@@ -90,16 +90,16 @@ Public Class rptMonthlyBillSummary
                 maxroute = " Route_No, MAX(Zone_Code) Zone_Code,  "
                 Group += " GROUP BY 
                         Item_Code,Route_No,cust_Code,ReportRate ,VLC_Code,VLC_Name,VLC_Code_VLC_Uploader"
-                order += " ORDER BY Supply_Date,Shift_Type "
+                order += " ORDER BY Print_Sequence,Supply_Date,Shift_Type "
             ElseIf rbtnCustomerWise.IsChecked Then
                 maxroute = " Max(Route_No)Route_No, MAX(Zone_Code) Zone_Code,  "
                 Group += "GROUP BY  Item_Code,cust_Code,ReportRate,VLC_Code,VLC_Name,VLC_Code_VLC_Uploader "
-                order += " ORDER BY Supply_Date,Shift_Type"
+                order += " ORDER BY Print_Sequence,Supply_Date,Shift_Type"
             ElseIf rbtnZone.IsChecked Then
                 maxroute = " Max(Route_No)Route_No, Zone_Code as Zone_Code,  "
                 Group += " GROUP BY 
                         Item_Code,Zone_Code,cust_Code,ReportRate ,VLC_Code,VLC_Name,VLC_Code_VLC_Uploader"
-                order += " ORDER BY Supply_Date,Shift_Type "
+                order += " ORDER BY Print_Sequence,Supply_Date,Shift_Type "
             End If
             If rbtnCustomerWise.IsChecked Then
                 Route = ",max(Routes)Routes"
@@ -142,34 +142,34 @@ sum(Base_Amt)Base_Amt,sum(TotalAmt)TotalAmt,ReportRate,
   MAX(Shift_Type) Shift_Type, 
    
   MAX(ITAX1) ITAX1, 
-  SUM(ITAX1_RATE) ITAX1_RATE, 
+  MAX(ITAX1_RATE) ITAX1_RATE, 
   SUM(ITAX1_Amt) ITAX1_Amt, 
   MAX(ITAX2) ITAX2, 
-  SUM(ITAX2_RATE) ITAX2_RATE, 
+  MAX(ITAX2_RATE) ITAX2_RATE, 
   SUM(ITAX2_Amt) ITAX2_Amt, 
   MAX(ITAX3) ITAX3, 
-  SUM(ITAX3_RATE) ITAX3_RATE, 
+  MAX(ITAX3_RATE) ITAX3_RATE, 
   SUM(ITAX3_Amt) ITAX3_Amt, 
   MAX(ITAX4) ITAX4, 
-  SUM(ITAX4_RATE) ITAX4_RATE, 
+  MAX(ITAX4_RATE) ITAX4_RATE, 
   SUM(ITAX4_Amt) ITAX4_Amt, 
   MAX(ITAX5) ITAX5, 
-  SUM(ITAX5_RATE) ITAX5_RATE, 
+  MAX(ITAX5_RATE) ITAX5_RATE, 
   SUM(ITAX5_Amt) ITAX5_Amt, 
   MAX(ITAX6) ITAX6, 
-  SUM(ITAX6_RATE) ITAX6_RATE, 
+  MAX(ITAX6_RATE) ITAX6_RATE, 
   SUM(ITAX6_Amt) ITAX6_Amt, 
   MAX(ITAX7) ITAX7, 
-  SUM(ITAX7_RATE) ITAX7_RATE, 
+  MAX(ITAX7_RATE) ITAX7_RATE, 
   SUM(ITAX7_Amt) ITAX7_Amt, 
   MAX(ITAX8) ITAX8, 
-  SUM(ITAX8_RATE) ITAX8_RATE, 
+  MAX(ITAX8_RATE) ITAX8_RATE, 
   SUM(ITAX8_Amt) ITAX8_Amt, 
   MAX(ITAX9) ITAX9, 
-  SUM(ITAX9_RATE) ITAX9_RATE, 
+  MAX(ITAX9_RATE) ITAX9_RATE, 
   SUM(ITAX9_Amt) ITAX9_Amt, 
   MAX(ITAX10) ITAX10, 
-  SUM(ITAX10_RATE) ITAX10_RATE, 
+  MAX(ITAX10_RATE) ITAX10_RATE, 
   SUM(ITAX10_Amt) ITAX10_Amt, 
  
    
@@ -244,19 +244,19 @@ sum(Base_Amt)Base_Amt,sum(TotalAmt)TotalAmt,ReportRate,
   MAX(TaxableNonTaxable) TaxableNonTaxable, 
   MAX(TAX1) TAX1, 
   MAX(TaxType1) TaxType1, 
-  SUM(TAX1_Rate) TAX1_Rate, 
+  MAX(TAX1_Rate) TAX1_Rate, 
   SUM(TAX1_Amt) TAX1_Amt, 
   MAX(TAX2) TAX2, 
   MAX(TaxType2) TaxType2, 
-  SUM(TAX2_Rate) TAX2_Rate, 
+  MAX(TAX2_Rate) TAX2_Rate, 
   SUM(TAX2_Amt) TAX2_Amt, 
   MAX(TAX3) TAX3, 
   MAX(TaxType3) TaxType3, 
-  SUM(TAX3_Rate) TAX3_Rate, 
+  MAX(TAX3_Rate) TAX3_Rate, 
   SUM(TAX3_Amt) TAX3_Amt, 
   MAX(TAX4) TAX4, 
   MAX(TaxType4) TaxType4, 
-  SUM(TAX4_Rate) TAX4_Rate, 
+  MAX(TAX4_Rate) TAX4_Rate, 
   SUM(TAX4_Amt) TAX4_Amt, 
   MAX(TAX5) TAX5, 
   MAX(TaxType5) TaxType5, 
@@ -281,7 +281,7 @@ sum(Base_Amt)Base_Amt,sum(TotalAmt)TotalAmt,ReportRate,
   MAX(Pan_No) Pan_No ,
  VLC_Code as DCS_CODE,
   VLC_Name AS DCS_Name,
-  VLC_Code_VLC_Uploader as DCS_Uploader_Code
+  VLC_Code_VLC_Uploader as DCS_Uploader_Code,MAX(Print_Sequence)Print_Sequence
 from 
   (
     select 
@@ -564,7 +564,7 @@ ISNULL( Convert(decimal(18,2), TSPL_SD_sale_invoice_DETAIL.Amt_Less_Discount / N
               IsNull(
                 TSPL_SD_SHIPMENT_DETAIL.Booth_Security_Amt, 
                 0
-              ) Booth_Security_Amt 
+              ) Booth_Security_Amt,IsNull(TSPL_ITEM_MASTER.Print_Sequence,99999)Print_Sequence 
             from 
 TSPL_SD_SALE_INVOICE_DETAIL 
 LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_sale_invoice_DETAIL.DOCUMENT_CODE 
@@ -604,27 +604,28 @@ where 2=2 "
 
   "
             If Not isprint Then
-                qry = " select FinalXX.FromDate,FinalXX.todate,FinalXX.cust_Code,FinalXX.Customer_Name,FinalXX.Zone_Code," + IIf(rbtnZone.IsChecked, "(SELECT STRING_AGG(Route_No, ',') AS Route_No FROM TSPL_ROUTE_MASTER WHERE Zone_Code = FinalXX.Zone_Code) as Route_No", "FinalXX.Route_No") + ",FinalXX.Item_Code,FinalXX.Item_Desc,FinalXX.DCS_CODE,FinalXX.DCS_Name,FinalXX.DCS_Uploader_Code,FinalXX.UOM_Code,FinalXX.ReportRate,FinalXX.QtyAccToReportUOM,FinalXX.Base_Amt,FinalXX.KKF,FinalXX.KKF_Rate,FinalXX.KKF_Amt,FinalXX.Mandi_Tax,FinalXX.Mandi_Rate,FinalXX.Mandi_Amt,(FinalXX.Base_Amt+FinalXX.KKF_Amt+FinalXX.Mandi_Amt) as Taxable_Amt,FinalXX.CGST,FinalXX.CGST_Rate,FinalXX.CGST_Amt,FinalXX.SGST,FinalXX.SGST_Rate,FinalXX.SGST_Amt,FinalXX.TCS,FinalXX.TCS_Rate,FinalXX.TCS_Amt,FinalXX.TotalAmt
+                qry = " select FinalXX.FromDate,FinalXX.todate,FinalXX.cust_Code,FinalXX.Customer_Name,FinalXX.Zone_Code," + IIf(rbtnZone.IsChecked, "(SELECT STRING_AGG(Route_No, ',') AS Route_No FROM TSPL_ROUTE_MASTER WHERE Zone_Code = FinalXX.Zone_Code) as Route_No", "FinalXX.Route_No") + ",FinalXX.Item_Code,FinalXX.Item_Desc,FinalXX.DCS_CODE,FinalXX.DCS_Name,FinalXX.DCS_Uploader_Code,FinalXX.UOM_Code,FinalXX.ReportRate,FinalXX.QtyAccToReportUOM,FinalXX.Base_Amt,FinalXX.KKF,FinalXX.KKF_Rate,FinalXX.KKF_Amt,FinalXX.Mandi_Tax,FinalXX.Mandi_Rate,FinalXX.Mandi_Amt,(FinalXX.Base_Amt+FinalXX.KKF_Amt+FinalXX.Mandi_Amt) as Taxable_Amt,FinalXX.CGST,FinalXX.CGST_Rate,FinalXX.CGST_Amt,FinalXX.SGST,FinalXX.SGST_Rate,FinalXX.SGST_Amt,FinalXX.IGST,FinalXX.IGST_Rate,FinalXX.IGST_Amt,FinalXX.TCS,FinalXX.TCS_Rate,FinalXX.TCS_Amt,FinalXX.TotalAmt
 from(
 select FinalQ.*,
 case when FinalQ.Taxtype1='K' then 'KKF' else (case when FinalQ.Taxtype2='K' then 'KKF' else(case when FinalQ.Taxtype3='K' then 'KKF' else(case when FinalQ.Taxtype4='K' then 'KKF' else(case when FinalQ.Taxtype5='K' then 'KKF' else'' end)end)end)end)end as KKF,
 case when FinalQ.Taxtype1='M' then 'Mandi Tax' else (case when FinalQ.Taxtype2='M' then 'Mandi Tax' else(case when FinalQ.Taxtype3='M' then 'Mandi Tax' else(case when FinalQ.Taxtype4='M' then 'Mandi Tax' else(case when FinalQ.Taxtype5='M' then 'Mandi Tax' else'' end)end)end)end)end as Mandi_Tax,
 case when FinalQ.Taxtype1='CGST' then 'CGST' else (case when FinalQ.Taxtype2='CGST' then 'CGST' else(case when FinalQ.Taxtype3='CGST' then 'CGST' else(case when FinalQ.Taxtype4='CGST' then 'CGST' else(case when FinalQ.Taxtype5='CGST' then 'CGST' else'' end)end)end)end)end as CGST,
 case when FinalQ.Taxtype1='SGST' then 'SGST' else (case when FinalQ.Taxtype2='SGST' then 'SGST' else(case when FinalQ.Taxtype3='SGST' then 'SGST' else(case when FinalQ.Taxtype4='SGST' then 'SGST' else(case when FinalQ.Taxtype5='SGST' then 'SGST' else'' end)end)end)end)end as SGST,
+case when FinalQ.Taxtype1='IGST' then 'IGST' else (case when FinalQ.Taxtype2='IGST' then 'IGST' else(case when FinalQ.Taxtype3='IGST' then 'IGST' else(case when FinalQ.Taxtype4='IGST' then 'IGST' else(case when FinalQ.Taxtype5='IGST' then 'IGST' else'' end)end)end)end)end as IGST,
 case when FinalQ.Taxtype1='TCS' then 'TCS' else (case when FinalQ.Taxtype2='TCS' then 'TCS' else(case when FinalQ.Taxtype3='TCS' then 'TCS' else(case when FinalQ.Taxtype4='TCS' then 'TCS' else(case when FinalQ.Taxtype5='TCS' then 'TCS' else'' end)end)end)end)end as TCS,
 
-case when FinalQ.Taxtype1='K' then FinalQ.TAX1_Rate else (case when FinalQ.Taxtype2='K' then FinalQ.TAX2_Rate else(case when FinalQ.Taxtype3='K' then FinalQ.TAX3_Rate else(case when FinalQ.Taxtype4='K' then FinalQ.TAX4_Rate else(case when FinalQ.Taxtype5='K' then FinalQ.TAX1_Rate else 0 end)end)end)end)end as KKF_Rate,
-case when FinalQ.Taxtype1='M' then FinalQ.TAX1_Rate else (case when FinalQ.Taxtype2='M' then FinalQ.TAX2_Rate else(case when FinalQ.Taxtype3='M' then FinalQ.TAX3_Rate else(case when FinalQ.Taxtype4='M' then FinalQ.TAX4_Rate else(case when FinalQ.Taxtype5='M' then FinalQ.TAX1_Rate else 0 end)end)end)end)end as Mandi_Rate,
-case when FinalQ.Taxtype1='CGST' then FinalQ.TAX1_Rate else (case when FinalQ.Taxtype2='CGST' then FinalQ.TAX2_Rate else(case when FinalQ.Taxtype3='CGST' then FinalQ.TAX3_Rate else(case when FinalQ.Taxtype4='CGST' then FinalQ.TAX4_Rate else(case when FinalQ.Taxtype5='CGST' then FinalQ.TAX1_Rate else 0 end)end)end)end)end as CGST_Rate,
-case when FinalQ.Taxtype1='SGST' then FinalQ.TAX1_Rate else (case when FinalQ.Taxtype2='SGST' then FinalQ.TAX2_Rate else(case when FinalQ.Taxtype3='SGST' then FinalQ.TAX3_Rate else(case when FinalQ.Taxtype4='SGST' then FinalQ.TAX4_Rate else(case when FinalQ.Taxtype5='SGST' then FinalQ.TAX1_Rate else 0 end)end)end)end)end as SGST_Rate,
-case when FinalQ.Taxtype1='TCS' then isnull(FinalQ.TAX1_Rate,0) else (case when FinalQ.Taxtype2='TCS' then FinalQ.TAX2_Rate else(case when FinalQ.Taxtype3='TCS' then FinalQ.TAX3_Rate else(case when FinalQ.Taxtype4='TCS' then FinalQ.TAX4_Rate else(case when FinalQ.Taxtype5='TCS' then isnull(FinalQ.ITAX5_RATE,0) else 0 end)end)end)end)end as TCS_Rate,
-
-case when FinalQ.Taxtype1='K' then FinalQ.TAX1_Amt else (case when FinalQ.Taxtype2='K' then FinalQ.TAX2_Amt else(case when FinalQ.Taxtype3='K' then FinalQ.TAX3_Amt else(case when FinalQ.Taxtype4='K' then FinalQ.TAX4_Amt else(case when FinalQ.Taxtype5='K' then FinalQ.TAX1_Amt else 0 end)end)end)end)end as KKF_Amt,
-case when FinalQ.Taxtype1='M' then FinalQ.TAX1_Amt else (case when FinalQ.Taxtype2='M' then FinalQ.TAX2_Amt else(case when FinalQ.Taxtype3='M' then FinalQ.TAX3_Amt else(case when FinalQ.Taxtype4='M' then FinalQ.TAX4_Amt else(case when FinalQ.Taxtype5='M' then FinalQ.TAX1_Amt else 0 end)end)end)end)end as Mandi_Amt,
-case when FinalQ.Taxtype1='CGST' then FinalQ.TAX1_Amt else (case when FinalQ.Taxtype2='CGST' then FinalQ.TAX2_Amt else(case when FinalQ.Taxtype3='CGST' then FinalQ.TAX3_Amt else(case when FinalQ.Taxtype4='CGST' then FinalQ.TAX4_Amt else(case when FinalQ.Taxtype5='CGST' then FinalQ.TAX1_Amt else 0 end)end)end)end)end as CGST_Amt,
-case when FinalQ.Taxtype1='SGST' then FinalQ.TAX1_Amt else (case when FinalQ.Taxtype2='SGST' then FinalQ.TAX2_Amt else(case when FinalQ.Taxtype3='SGST' then FinalQ.TAX3_Amt else(case when FinalQ.Taxtype4='SGST' then FinalQ.TAX4_Amt else(case when FinalQ.Taxtype5='SGST' then FinalQ.TAX1_Amt else 0 end)end)end)end)end as SGST_Amt,
-case when FinalQ.Taxtype1='TCS' then FinalQ.TAX1_Amt else (case when FinalQ.Taxtype2='TCS' then FinalQ.TAX2_Amt else(case when FinalQ.Taxtype3='TCS' then FinalQ.TAX3_Amt else(case when FinalQ.Taxtype4='TCS' then FinalQ.TAX4_Amt else(case when FinalQ.Taxtype5='TCS' then isnull(FinalQ.ITAX5_Amt,0) else 0 end)end)end)end)end as TCS_Amt
-
+case when FinalQ.Taxtype1='K' then FinalQ.ITAX1_RATE else (case when FinalQ.Taxtype2='K' then FinalQ.ITAX2_RATE else(case when FinalQ.Taxtype3='K' then FinalQ.ITAX3_RATE else(case when FinalQ.Taxtype4='K' then FinalQ.ITAX4_RATE else(case when FinalQ.Taxtype5='K' then FinalQ.ITAX5_RATE else 0 end)end)end)end)end as KKF_Rate,
+case when FinalQ.Taxtype1='M' then FinalQ.ITAX1_RATE else (case when FinalQ.Taxtype2='M' then FinalQ.ITAX2_RATE else(case when FinalQ.Taxtype3='M' then FinalQ.ITAX3_RATE else(case when FinalQ.Taxtype4='M' then FinalQ.ITAX4_RATE else(case when FinalQ.Taxtype5='M' then FinalQ.ITAX5_RATE else 0 end)end)end)end)end as Mandi_Rate,
+case when FinalQ.TaxType1='CGST' then FinalQ.ITAX1_RATE else (case when FinalQ.Taxtype2='CGST' then FinalQ.ITAX2_RATE else(case when FinalQ.Taxtype3='CGST' then FinalQ.ITAX3_RATE else(case when FinalQ.Taxtype4='CGST' then FinalQ.ITAX4_RATE else(case when FinalQ.Taxtype5='CGST' then FinalQ.ITAX5_RATE else 0 end)end)end)end)end as CGST_Rate,
+case when FinalQ.Taxtype1='SGST' then FinalQ.ITAX1_RATE else (case when FinalQ.Taxtype2='SGST' then FinalQ.ITAX2_RATE else(case when FinalQ.Taxtype3='SGST' then FinalQ.ITAX3_RATE else(case when FinalQ.Taxtype4='SGST' then FinalQ.ITAX4_RATE else(case when FinalQ.Taxtype5='SGST' then FinalQ.ITAX5_RATE else 0 end)end)end)end)end as SGST_Rate,
+case when FinalQ.Taxtype1='IGST' then FinalQ.ITAX1_RATE else (case when FinalQ.Taxtype2='IGST' then FinalQ.ITAX2_RATE else(case when FinalQ.Taxtype3='IGST' then FinalQ.ITAX3_RATE else(case when FinalQ.Taxtype4='IGST' then FinalQ.ITAX4_RATE else(case when FinalQ.Taxtype5='IGST' then FinalQ.ITAX5_RATE else 0 end)end)end)end)end as IGST_Rate,
+case when FinalQ.Taxtype1='TCS' then isnull(FinalQ.ITAX1_RATE,0) else (case when FinalQ.Taxtype2='TCS' then FinalQ.ITAX2_RATE else(case when FinalQ.Taxtype3='TCS' then FinalQ.ITAX3_RATE else(case when FinalQ.Taxtype4='TCS' then FinalQ.ITAX4_RATE else(case when FinalQ.Taxtype5='TCS' then isnull(FinalQ.ITAX5_RATE,0) else 0 end)end)end)end)end as TCS_Rate,
+case when FinalQ.Taxtype1='K' then FinalQ.ITAX1_Amt else (case when FinalQ.Taxtype2='K' then FinalQ.ITAX2_Amt else(case when FinalQ.Taxtype3='K' then FinalQ.ITAX3_Amt else(case when FinalQ.Taxtype4='K' then FinalQ.ITAX4_Amt else(case when FinalQ.Taxtype5='K' then FinalQ.ITAX5_Amt else 0 end)end)end)end)end as KKF_Amt,
+case when FinalQ.Taxtype1='M' then FinalQ.ITAX1_Amt else (case when FinalQ.Taxtype2='M' then FinalQ.ITAX2_Amt else(case when FinalQ.Taxtype3='M' then FinalQ.ITAX3_Amt else(case when FinalQ.Taxtype4='M' then FinalQ.ITAX4_Amt else(case when FinalQ.Taxtype5='M' then FinalQ.ITAX5_Amt else 0 end)end)end)end)end as Mandi_Amt,
+case when FinalQ.TaxType1='CGST' then FinalQ.ITAX1_Amt else (case when FinalQ.TaxType2='CGST' then FinalQ.ITAX2_Amt else(case when FinalQ.Taxtype3='CGST' then FinalQ.ITAX3_Amt else(case when FinalQ.Taxtype4='CGST' then FinalQ.ITAX4_Amt else(case when FinalQ.Taxtype5='CGST' then FinalQ.ITAX5_Amt else 0 end)end)end)end)end as CGST_Amt,
+case when FinalQ.Taxtype1='SGST' then FinalQ.ITAX1_Amt else (case when FinalQ.Taxtype2='SGST' then FinalQ.ITAX2_Amt else(case when FinalQ.Taxtype3='SGST' then FinalQ.ITAX3_Amt else(case when FinalQ.Taxtype4='SGST' then FinalQ.ITAX4_Amt else(case when FinalQ.Taxtype5='SGST' then FinalQ.ITAX5_Amt else 0 end)end)end)end)end as SGST_Amt,
+case when FinalQ.Taxtype1='IGST' then FinalQ.ITAX1_Amt else (case when FinalQ.Taxtype2='IGST' then FinalQ.ITAX2_Amt else(case when FinalQ.Taxtype3='IGST' then FinalQ.ITAX3_Amt else(case when FinalQ.Taxtype4='IGST' then FinalQ.ITAX4_Amt else(case when FinalQ.Taxtype5='IGST' then isnull(FinalQ.ITAX5_Amt,0) else 0 end)end)end)end)end as IGST_Amt,
+case when FinalQ.Taxtype1='TCS' then FinalQ.ITAX1_Amt else (case when FinalQ.Taxtype2='TCS' then FinalQ.ITAX2_Amt else(case when FinalQ.Taxtype3='TCS' then FinalQ.ITAX3_Amt else(case when FinalQ.Taxtype4='TCS' then FinalQ.ITAX4_Amt else(case when FinalQ.Taxtype5='TCS' then isnull(FinalQ.ITAX5_Amt,0) else 0 end)end)end)end)end as TCS_Amt 
 from( " + qry + " )FinalQ )FinalXX " + order
             Else
                 'qry += order
@@ -635,24 +636,25 @@ case when FinalQ.Taxtype1='K' then 'KKF' else (case when FinalQ.Taxtype2='K' the
 case when FinalQ.Taxtype1='M' then 'Mandi Tax' else (case when FinalQ.Taxtype2='M' then 'Mandi Tax' else(case when FinalQ.Taxtype3='M' then 'Mandi Tax' else(case when FinalQ.Taxtype4='M' then 'Mandi Tax' else(case when FinalQ.Taxtype5='M' then 'Mandi Tax' else'' end)end)end)end)end as Mandi_Tax,
 case when FinalQ.Taxtype1='CGST' then 'CGST' else (case when FinalQ.Taxtype2='CGST' then 'CGST' else(case when FinalQ.Taxtype3='CGST' then 'CGST' else(case when FinalQ.Taxtype4='CGST' then 'CGST' else(case when FinalQ.Taxtype5='CGST' then 'CGST' else'' end)end)end)end)end as CGST,
 case when FinalQ.Taxtype1='SGST' then 'SGST' else (case when FinalQ.Taxtype2='SGST' then 'SGST' else(case when FinalQ.Taxtype3='SGST' then 'SGST' else(case when FinalQ.Taxtype4='SGST' then 'SGST' else(case when FinalQ.Taxtype5='SGST' then 'SGST' else'' end)end)end)end)end as SGST,
+case when FinalQ.Taxtype1='IGST' then 'IGST' else (case when FinalQ.Taxtype2='IGST' then 'IGST' else(case when FinalQ.Taxtype3='IGST' then 'IGST' else(case when FinalQ.Taxtype4='IGST' then 'IGST' else(case when FinalQ.Taxtype5='IGST' then 'IGST' else'' end)end)end)end)end as IGST,
 case when FinalQ.Taxtype1='TCS' then 'TCS' else (case when FinalQ.Taxtype2='TCS' then 'TCS' else(case when FinalQ.Taxtype3='TCS' then 'TCS' else(case when FinalQ.Taxtype4='TCS' then 'TCS' else(case when FinalQ.Taxtype5='TCS' then 'TCS' else'' end)end)end)end)end as TCS,
 
-case when FinalQ.Taxtype1='K' then FinalQ.TAX1_Rate else (case when FinalQ.Taxtype2='K' then FinalQ.TAX2_Rate else(case when FinalQ.Taxtype3='K' then FinalQ.TAX3_Rate else(case when FinalQ.Taxtype4='K' then FinalQ.TAX4_Rate else(case when FinalQ.Taxtype5='K' then FinalQ.TAX1_Rate else 0 end)end)end)end)end as KKF_Rate,
-case when FinalQ.Taxtype1='M' then FinalQ.TAX1_Rate else (case when FinalQ.Taxtype2='M' then FinalQ.TAX2_Rate else(case when FinalQ.Taxtype3='M' then FinalQ.TAX3_Rate else(case when FinalQ.Taxtype4='M' then FinalQ.TAX4_Rate else(case when FinalQ.Taxtype5='M' then FinalQ.TAX1_Rate else 0 end)end)end)end)end as Mandi_Rate,
-case when FinalQ.Taxtype1='CGST' then FinalQ.TAX1_Rate else (case when FinalQ.Taxtype2='CGST' then FinalQ.TAX2_Rate else(case when FinalQ.Taxtype3='CGST' then FinalQ.TAX3_Rate else(case when FinalQ.Taxtype4='CGST' then FinalQ.TAX4_Rate else(case when FinalQ.Taxtype5='CGST' then FinalQ.TAX1_Rate else 0 end)end)end)end)end as CGST_Rate,
-case when FinalQ.Taxtype1='SGST' then FinalQ.TAX1_Rate else (case when FinalQ.Taxtype2='SGST' then FinalQ.TAX2_Rate else(case when FinalQ.Taxtype3='SGST' then FinalQ.TAX3_Rate else(case when FinalQ.Taxtype4='SGST' then FinalQ.TAX4_Rate else(case when FinalQ.Taxtype5='SGST' then FinalQ.TAX1_Rate else 0 end)end)end)end)end as SGST_Rate,
-case when FinalQ.Taxtype1='TCS' then isnull(FinalQ.TAX1_Rate,0) else (case when FinalQ.Taxtype2='TCS' then FinalQ.TAX2_Rate else(case when FinalQ.Taxtype3='TCS' then FinalQ.TAX3_Rate else(case when FinalQ.Taxtype4='TCS' then FinalQ.TAX4_Rate else(case when FinalQ.Taxtype5='TCS' then isnull(FinalQ.ITAX5_RATE,0) else 0 end)end)end)end)end as TCS_Rate,
-
-case when FinalQ.Taxtype1='K' then FinalQ.TAX1_Amt else (case when FinalQ.Taxtype2='K' then FinalQ.TAX2_Amt else(case when FinalQ.Taxtype3='K' then FinalQ.TAX3_Amt else(case when FinalQ.Taxtype4='K' then FinalQ.TAX4_Amt else(case when FinalQ.Taxtype5='K' then FinalQ.TAX1_Amt else 0 end)end)end)end)end as KKF_Amt,
-case when FinalQ.Taxtype1='M' then FinalQ.TAX1_Amt else (case when FinalQ.Taxtype2='M' then FinalQ.TAX2_Amt else(case when FinalQ.Taxtype3='M' then FinalQ.TAX3_Amt else(case when FinalQ.Taxtype4='M' then FinalQ.TAX4_Amt else(case when FinalQ.Taxtype5='M' then FinalQ.TAX1_Amt else 0 end)end)end)end)end as Mandi_Amt,
-case when FinalQ.Taxtype1='CGST' then FinalQ.TAX1_Amt else (case when FinalQ.Taxtype2='CGST' then FinalQ.TAX2_Amt else(case when FinalQ.Taxtype3='CGST' then FinalQ.TAX3_Amt else(case when FinalQ.Taxtype4='CGST' then FinalQ.TAX4_Amt else(case when FinalQ.Taxtype5='CGST' then FinalQ.TAX1_Amt else 0 end)end)end)end)end as CGST_Amt,
-case when FinalQ.Taxtype1='SGST' then FinalQ.TAX1_Amt else (case when FinalQ.Taxtype2='SGST' then FinalQ.TAX2_Amt else(case when FinalQ.Taxtype3='SGST' then FinalQ.TAX3_Amt else(case when FinalQ.Taxtype4='SGST' then FinalQ.TAX4_Amt else(case when FinalQ.Taxtype5='SGST' then FinalQ.TAX1_Amt else 0 end)end)end)end)end as SGST_Amt,
-case when FinalQ.Taxtype1='TCS' then FinalQ.TAX1_Amt else (case when FinalQ.Taxtype2='TCS' then FinalQ.TAX2_Amt else(case when FinalQ.Taxtype3='TCS' then FinalQ.TAX3_Amt else(case when FinalQ.Taxtype4='TCS' then FinalQ.TAX4_Amt else(case when FinalQ.Taxtype5='TCS' then isnull(FinalQ.ITAX5_Amt,0) else 0 end)end)end)end)end as TCS_Amt
-
+case when FinalQ.Taxtype1='K' then FinalQ.ITAX1_RATE else (case when FinalQ.Taxtype2='K' then FinalQ.ITAX2_RATE else(case when FinalQ.Taxtype3='K' then FinalQ.ITAX3_RATE else(case when FinalQ.Taxtype4='K' then FinalQ.ITAX4_RATE else(case when FinalQ.Taxtype5='K' then FinalQ.ITAX5_RATE else 0 end)end)end)end)end as KKF_Rate,
+case when FinalQ.Taxtype1='M' then FinalQ.ITAX1_RATE else (case when FinalQ.Taxtype2='M' then FinalQ.ITAX2_RATE else(case when FinalQ.Taxtype3='M' then FinalQ.ITAX3_RATE else(case when FinalQ.Taxtype4='M' then FinalQ.ITAX4_RATE else(case when FinalQ.Taxtype5='M' then FinalQ.ITAX5_RATE else 0 end)end)end)end)end as Mandi_Rate,
+case when FinalQ.TaxType1='CGST' then FinalQ.ITAX1_RATE else (case when FinalQ.Taxtype2='CGST' then FinalQ.ITAX2_RATE else(case when FinalQ.Taxtype3='CGST' then FinalQ.ITAX3_RATE else(case when FinalQ.Taxtype4='CGST' then FinalQ.ITAX4_RATE else(case when FinalQ.Taxtype5='CGST' then FinalQ.ITAX5_RATE else 0 end)end)end)end)end as CGST_Rate,
+case when FinalQ.Taxtype1='SGST' then FinalQ.ITAX1_RATE else (case when FinalQ.Taxtype2='SGST' then FinalQ.ITAX2_RATE else(case when FinalQ.Taxtype3='SGST' then FinalQ.ITAX3_RATE else(case when FinalQ.Taxtype4='SGST' then FinalQ.ITAX4_RATE else(case when FinalQ.Taxtype5='SGST' then FinalQ.ITAX5_RATE else 0 end)end)end)end)end as SGST_Rate,
+case when FinalQ.Taxtype1='IGST' then FinalQ.ITAX1_RATE else (case when FinalQ.Taxtype2='IGST' then FinalQ.ITAX2_RATE else(case when FinalQ.Taxtype3='IGST' then FinalQ.ITAX3_RATE else(case when FinalQ.Taxtype4='IGST' then FinalQ.ITAX4_RATE else(case when FinalQ.Taxtype5='IGST' then FinalQ.ITAX5_RATE else 0 end)end)end)end)end as IGST_Rate,
+case when FinalQ.Taxtype1='TCS' then isnull(FinalQ.ITAX1_RATE,0) else (case when FinalQ.Taxtype2='TCS' then FinalQ.ITAX2_RATE else(case when FinalQ.Taxtype3='TCS' then FinalQ.ITAX3_RATE else(case when FinalQ.Taxtype4='TCS' then FinalQ.ITAX4_RATE else(case when FinalQ.Taxtype5='TCS' then isnull(FinalQ.ITAX5_RATE,0) else 0 end)end)end)end)end as TCS_Rate,
+case when FinalQ.Taxtype1='K' then FinalQ.ITAX1_Amt else (case when FinalQ.Taxtype2='K' then FinalQ.ITAX2_Amt else(case when FinalQ.Taxtype3='K' then FinalQ.ITAX3_Amt else(case when FinalQ.Taxtype4='K' then FinalQ.ITAX4_Amt else(case when FinalQ.Taxtype5='K' then FinalQ.ITAX5_Amt else 0 end)end)end)end)end as KKF_Amt,
+case when FinalQ.Taxtype1='M' then FinalQ.ITAX1_Amt else (case when FinalQ.Taxtype2='M' then FinalQ.ITAX2_Amt else(case when FinalQ.Taxtype3='M' then FinalQ.ITAX3_Amt else(case when FinalQ.Taxtype4='M' then FinalQ.ITAX4_Amt else(case when FinalQ.Taxtype5='M' then FinalQ.ITAX5_Amt else 0 end)end)end)end)end as Mandi_Amt,
+case when FinalQ.TaxType1='CGST' then FinalQ.ITAX1_Amt else (case when FinalQ.TaxType2='CGST' then FinalQ.ITAX2_Amt else(case when FinalQ.Taxtype3='CGST' then FinalQ.ITAX3_Amt else(case when FinalQ.Taxtype4='CGST' then FinalQ.ITAX4_Amt else(case when FinalQ.Taxtype5='CGST' then FinalQ.ITAX5_Amt else 0 end)end)end)end)end as CGST_Amt,
+case when FinalQ.Taxtype1='SGST' then FinalQ.ITAX1_Amt else (case when FinalQ.Taxtype2='SGST' then FinalQ.ITAX2_Amt else(case when FinalQ.Taxtype3='SGST' then FinalQ.ITAX3_Amt else(case when FinalQ.Taxtype4='SGST' then FinalQ.ITAX4_Amt else(case when FinalQ.Taxtype5='SGST' then FinalQ.ITAX5_Amt else 0 end)end)end)end)end as SGST_Amt,
+case when FinalQ.Taxtype1='IGST' then FinalQ.ITAX1_Amt else (case when FinalQ.Taxtype2='IGST' then FinalQ.ITAX2_Amt else(case when FinalQ.Taxtype3='IGST' then FinalQ.ITAX3_Amt else(case when FinalQ.Taxtype4='IGST' then FinalQ.ITAX4_Amt else(case when FinalQ.Taxtype5='IGST' then isnull(FinalQ.ITAX5_Amt,0) else 0 end)end)end)end)end as IGST_Amt,
+case when FinalQ.Taxtype1='TCS' then FinalQ.ITAX1_Amt else (case when FinalQ.Taxtype2='TCS' then FinalQ.ITAX2_Amt else(case when FinalQ.Taxtype3='TCS' then FinalQ.ITAX3_Amt else(case when FinalQ.Taxtype4='TCS' then FinalQ.ITAX4_Amt else(case when FinalQ.Taxtype5='TCS' then isnull(FinalQ.ITAX5_Amt,0) else 0 end)end)end)end)end as TCS_Amt 
 from( " + qry + " )FinalQ )FinalXX " + order
             End If
             dt = clsDBFuncationality.GetDataTable(qry)
-            If dt IsNot Nothing And dt.Rows.Count > 0 Then
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 If isprint Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     If rbtnrouteWise.IsChecked Then
@@ -804,10 +806,10 @@ from( " + qry + " )FinalQ )FinalXX " + order
             gvData.Columns("CGST").HeaderText = "CGST"
             gvData.Columns("CGST").Width = 100
             gvData.Columns("CGST").IsVisible = True
-            gvData.Columns("CGST_Rate").HeaderText = "CGST"
+            gvData.Columns("CGST_Rate").HeaderText = "CGST %"
             gvData.Columns("CGST_Rate").Width = 100
             gvData.Columns("CGST_Rate").IsVisible = True
-            gvData.Columns("CGST_Amt").HeaderText = "CGST"
+            gvData.Columns("CGST_Amt").HeaderText = "CGST Amt"
             gvData.Columns("CGST_Amt").Width = 100
             gvData.Columns("CGST_Amt").IsVisible = True
             gvData.Columns("SGST").HeaderText = "SGST"
@@ -819,6 +821,15 @@ from( " + qry + " )FinalQ )FinalXX " + order
             gvData.Columns("SGST_Amt").HeaderText = "SGST Amt"
             gvData.Columns("SGST_Amt").Width = 100
             gvData.Columns("SGST_Amt").IsVisible = True
+            gvData.Columns("IGST").HeaderText = "IGST"
+            gvData.Columns("IGST").Width = 100
+            gvData.Columns("IGST").IsVisible = True
+            gvData.Columns("IGST_Rate").HeaderText = "IGST %"
+            gvData.Columns("IGST_Rate").Width = 100
+            gvData.Columns("IGST_Rate").IsVisible = True
+            gvData.Columns("IGST_Amt").HeaderText = "IGST Amt"
+            gvData.Columns("IGST_Amt").Width = 100
+            gvData.Columns("IGST_Amt").IsVisible = True
             gvData.Columns("TCS").HeaderText = "TCS"
             gvData.Columns("TCS").Width = 100
             gvData.Columns("TCS").IsVisible = True
@@ -884,11 +895,14 @@ from( " + qry + " )FinalQ )FinalXX " + order
         Dim item85 As New GridViewSummaryItem("SGST_Amt", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item85)
 
-        Dim item86 As New GridViewSummaryItem("TCS_Amt", "{0:F2}", GridAggregateFunction.Sum)
+        Dim item86 As New GridViewSummaryItem("IGST_Amt", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item86)
 
-        Dim item87 As New GridViewSummaryItem("TotalAmt", "{0:F2}", GridAggregateFunction.Sum)
+        Dim item87 As New GridViewSummaryItem("TCS_Amt", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item87)
+
+        Dim item88 As New GridViewSummaryItem("TotalAmt", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item88)
 
         gvData.ShowGroupPanel = True
         gvData.MasterTemplate.AutoExpandGroups = True

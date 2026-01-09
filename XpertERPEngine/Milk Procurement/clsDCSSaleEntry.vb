@@ -723,7 +723,7 @@ Public Class clsDCSSaleEntry
             "TSPL_DCS_SALE_ENTRY_DETAIL.TAX7,TSPL_DCS_SALE_ENTRY_DETAIL.TAX7_Rate,TSPL_DCS_SALE_ENTRY_DETAIL.TAX7_Amt,TSPL_DCS_SALE_ENTRY_DETAIL.TAX8, " &
             "TSPL_DCS_SALE_ENTRY_DETAIL.TAX8_Rate,TSPL_DCS_SALE_ENTRY_DETAIL.TAX8_Amt,TSPL_DCS_SALE_ENTRY_DETAIL.TAX9,TSPL_DCS_SALE_ENTRY_DETAIL.TAX9_Rate, " &
             "TSPL_DCS_SALE_ENTRY_DETAIL.TAX9_Amt,TSPL_DCS_SALE_ENTRY_DETAIL.TAX10,TSPL_DCS_SALE_ENTRY_DETAIL.TAX10_Rate,TSPL_DCS_SALE_ENTRY_DETAIL.TAX10_Amt, " &
-            "TSPL_DCS_SALE_ENTRY_DETAIL.Amount,TSPL_DCS_SALE_ENTRY_DETAIL.Gross_Amount,TSPL_DCS_SALE_ENTRY_DETAIL.TotalSubsidyDisAmt,TSPL_DCS_SALE_ENTRY_DETAIL.Transporter_Commission_Rate,TSPL_DCS_SALE_ENTRY_DETAIL.Transporter_Commission_Amt,TSPL_DCS_SALE_ENTRY_DETAIL.REF_TPT_PK_ID,TSPL_DCS_SALE_ENTRY_DETAIL.RateDiff_Per,TSPL_DCS_SALE_ENTRY_DETAIL.RateDiff_Amt,TSPL_DCS_SALE_ENTRY_DETAIL.TotalSubsidyAmt,TSPL_DCS_SALE_ENTRY_DETAIL.Disc_Per,TSPL_DCS_SALE_ENTRY_DETAIL.Disc_Amt,TSPL_DCS_SALE_ENTRY_DETAIL.Amt_Less_Discount, " &
+            "TSPL_DCS_SALE_ENTRY_DETAIL.Amount,TSPL_DCS_SALE_ENTRY_DETAIL.Gross_Amount,TSPL_DCS_SALE_ENTRY_DETAIL.TotalSubsidyDisAmt,TSPL_DCS_SALE_ENTRY_DETAIL.Transporter_Commission_Rate,TSPL_DCS_SALE_ENTRY_DETAIL.Transporter_Commission_Amt,TSPL_DCS_SALE_ENTRY_DETAIL.RoundOffAmount,TSPL_DCS_SALE_ENTRY_DETAIL.REF_TPT_PK_ID,TSPL_DCS_SALE_ENTRY_DETAIL.RateDiff_Per,TSPL_DCS_SALE_ENTRY_DETAIL.RateDiff_Amt,TSPL_DCS_SALE_ENTRY_DETAIL.TotalSubsidyAmt,TSPL_DCS_SALE_ENTRY_DETAIL.Disc_Per,TSPL_DCS_SALE_ENTRY_DETAIL.Disc_Amt,TSPL_DCS_SALE_ENTRY_DETAIL.Amt_Less_Discount, " &
             "TSPL_DCS_SALE_ENTRY_DETAIL.Total_Tax_Amt,TSPL_DCS_SALE_ENTRY_DETAIL.Item_Net_Amt,TSPL_LOCATION_MASTER.Location_Desc as LocationName, " &
             "TSPL_DCS_SALE_ENTRY_DETAIL.TAX1_Base_Amt,TSPL_DCS_SALE_ENTRY_DETAIL.TAX2_Base_Amt,TSPL_DCS_SALE_ENTRY_DETAIL.TAX3_Base_Amt , " &
             "TSPL_DCS_SALE_ENTRY_DETAIL.TAX4_Base_Amt,TSPL_DCS_SALE_ENTRY_DETAIL.TAX5_Base_Amt,TSPL_DCS_SALE_ENTRY_DETAIL.TAX6_Base_Amt, " &
@@ -827,6 +827,7 @@ Public Class clsDCSSaleEntry
                     objTr.TotalSubsidyDisAmt = clsCommon.myCdbl(dr("TotalSubsidyDisAmt"))
                     objTr.Transporter_Commission_Rate = clsCommon.myCdbl(dr("Transporter_Commission_Rate"))
                     objTr.Transporter_Commission_Amt = clsCommon.myCdbl(dr("Transporter_Commission_Amt"))
+                    objTr.RoundOffAmount = clsCommon.myCdbl(dr("RoundOffAmount"))
                     objTr.REF_TPT_PK_ID = clsCommon.myCdbl(dr("REF_TPT_PK_ID"))
                     objTr.RateDiff_Per = clsCommon.myCdbl(dr("RateDiff_Per"))
                     objTr.RateDiff_Amt = clsCommon.myCdbl(dr("RateDiff_Amt"))
@@ -1012,7 +1013,7 @@ Public Class clsDCSSaleEntry
                     Next
                 End If
             End If
-            Dim AllowRoundOff_onInvoice As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowRoundOff_OnCSASalePatti, clsFixedParameterCode.AllowRoundOff_OnCSASalePatti, trans)) = "1", True, False))
+            Dim AllowRoundOffAmountOnDCSSale As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowRoundOffAmountOnDCSSale, clsFixedParameterCode.AllowRoundOffAmountOnDCSSale, trans)) = "1", True, False))
             Dim Arr As New Dictionary(Of String, clsMCCMaterialSale)
             Dim strDedTaxGroup As String = ""
             Dim objDCSSale As New clsMCCMaterialSale()
@@ -1350,7 +1351,7 @@ Public Class clsDCSSaleEntry
                 Arr(strDedTaxGroup).TotCashDiscAmt += objDCSEntrySale.Total_Cust_Discount
                 Arr(strDedTaxGroup).Total_Comm_Amt += objDCSEntrySale.Commission_Amt
 
-                If AllowRoundOff_onInvoice Then
+                If AllowRoundOffAmountOnDCSSale Then
                     Dim lstDecml As New List(Of Decimal)
                     lstDecml = ClsScrapSaleHead.Calculate_RoundOffAmt(clsCommon.myCdbl(objDCSEntrySale.Item_Net_Amt), Nothing)
                     If lstDecml IsNot Nothing AndAlso lstDecml.Count > 0 Then
@@ -1753,6 +1754,7 @@ Public Class clsDCSSaleEntryDetail
     Public TotalSubsidyDisAmt As Double = 0
     Public Transporter_Commission_Rate As Double = 0
     Public Transporter_Commission_Amt As Double = 0
+    Public RoundOffAmount As Double = 0
     Public REF_TPT_PK_ID As Integer = 0
     Public RateDiff_Per As Double = 0
     Public RateDiff_Amt As Double = 0
@@ -1863,6 +1865,7 @@ Public Class clsDCSSaleEntryDetail
                 clsCommon.AddColumnsForChange(coll, "TotalSubsidyDisAmt", obj.TotalSubsidyDisAmt)
                 clsCommon.AddColumnsForChange(coll, "Transporter_Commission_Rate", obj.Transporter_Commission_Rate)
                 clsCommon.AddColumnsForChange(coll, "Transporter_Commission_Amt", obj.Transporter_Commission_Amt)
+                clsCommon.AddColumnsForChange(coll, "RoundOffAmount", obj.RoundOffAmount)
                 clsCommon.AddColumnsForChange(coll, "REF_TPT_PK_ID", obj.REF_TPT_PK_ID, True)
                 clsCommon.AddColumnsForChange(coll, "RateDiff_Per", obj.RateDiff_Per)
                 clsCommon.AddColumnsForChange(coll, "RateDiff_Amt", obj.RateDiff_Amt)

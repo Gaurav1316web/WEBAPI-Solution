@@ -34,7 +34,10 @@ Partial Class frmMCCProcurementSetting
         Me.mnclose = New Telerik.WinControls.UI.RadMenuItem()
         Me.groupbox = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.MyLabel11 = New common.Controls.MyLabel()
+        Me.dbtBMCStartDate1 = New common.Controls.MyDateTimePicker()
+        Me.MyLabel12 = New common.Controls.MyLabel()
+        Me.txtDcsEndTime = New common.MyNumBox()
+        Me.txtBMCEndtime = New common.MyNumBox()
         Me.lblDcsEndTime = New common.Controls.MyLabel()
         Me.lblBmcEndTime = New common.Controls.MyLabel()
         Me.MyDateTimePicker1 = New common.Controls.MyDateTimePicker()
@@ -47,6 +50,7 @@ Partial Class frmMCCProcurementSetting
         Me.MyLabel10 = New common.Controls.MyLabel()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gv2 = New common.UserControls.MyRadGridView()
+        Me.txtBMCStartDate = New common.MyNumBox()
         Me.chkStdFATSNFRate = New common.Controls.MyCheckBox()
         Me.ChkFarmerPaymentCycle = New common.Controls.MyCheckBox()
         Me.chkPriceChartGradeWise = New common.Controls.MyCheckBox()
@@ -73,13 +77,13 @@ Partial Class frmMCCProcurementSetting
         Me.MyLabel13 = New common.Controls.MyLabel()
         Me.chkDisAllowTankerDispatchTopalnt = New common.Controls.MyCheckBox()
         Me.DtpSendSMSTime = New common.Controls.MyDateTimePicker()
-        Me.MyLabel12 = New common.Controls.MyLabel()
         Me.ChkSendSMS = New common.Controls.MyCheckBox()
         Me.txtItemDescForTankerDisp = New common.Controls.MyTextBox()
         Me.lblItemDescForTankerDisp = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.DtpTime = New common.Controls.MyDateTimePicker()
         Me.TxtInterval = New common.MyNumBox()
+        Me.MyLabel11 = New common.Controls.MyLabel()
         Me.DtpStartingDate = New common.Controls.MyDateTimePicker()
         Me.TxtMinKMDiff = New common.MyNumBox()
         Me.MyLabel9 = New common.Controls.MyLabel()
@@ -104,17 +108,16 @@ Partial Class frmMCCProcurementSetting
         Me.fndMCCItemCode = New common.UserControls.txtFinder()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.txtBMCEndtime = New common.MyNumBox()
-        Me.txtDcsEndTime = New common.MyNumBox()
-        Me.txtBMCStartDate = New common.MyNumBox()
-        Me.dbtBMCStartDate1 = New common.Controls.MyDateTimePicker()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.groupbox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.groupbox.SuspendLayout()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox4.SuspendLayout()
-        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dbtBMCStartDate1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDcsEndTime, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtBMCEndtime, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDcsEndTime, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBmcEndTime, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyDateTimePicker1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -130,6 +133,7 @@ Partial Class frmMCCProcurementSetting
         CType(Me.gv2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gv2.SuspendLayout()
+        CType(Me.txtBMCStartDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkStdFATSNFRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ChkFarmerPaymentCycle, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkPriceChartGradeWise, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -159,7 +163,6 @@ Partial Class frmMCCProcurementSetting
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkDisAllowTankerDispatchTopalnt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DtpSendSMSTime, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ChkSendSMS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtItemDescForTankerDisp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblItemDescForTankerDisp, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -167,6 +170,7 @@ Partial Class frmMCCProcurementSetting
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.DtpTime, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TxtInterval, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DtpStartingDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TxtMinKMDiff, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -192,10 +196,6 @@ Partial Class frmMCCProcurementSetting
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtBMCEndtime, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtDcsEndTime, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtBMCStartDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dbtBMCStartDate1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -315,15 +315,98 @@ Partial Class frmMCCProcurementSetting
         Me.RadGroupBox4.TabIndex = 162
         Me.RadGroupBox4.Text = "Android Milk Collection BMC DCS"
         '
-        'MyLabel11
+        'dbtBMCStartDate1
         '
-        Me.MyLabel11.FieldName = Nothing
-        Me.MyLabel11.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.MyLabel11.Location = New System.Drawing.Point(348, 21)
-        Me.MyLabel11.Name = "MyLabel11"
-        Me.MyLabel11.Size = New System.Drawing.Size(74, 18)
-        Me.MyLabel11.TabIndex = 63
-        Me.MyLabel11.Text = "Interval(Days)"
+        Me.dbtBMCStartDate1.CalculationExpression = Nothing
+        Me.dbtBMCStartDate1.CustomFormat = "hh:mm:sstt"
+        Me.dbtBMCStartDate1.FieldCode = Nothing
+        Me.dbtBMCStartDate1.FieldDesc = Nothing
+        Me.dbtBMCStartDate1.FieldMaxLength = 0
+        Me.dbtBMCStartDate1.FieldName = Nothing
+        Me.dbtBMCStartDate1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dbtBMCStartDate1.isCalculatedField = False
+        Me.dbtBMCStartDate1.IsSourceFromTable = False
+        Me.dbtBMCStartDate1.IsSourceFromValueList = False
+        Me.dbtBMCStartDate1.IsUnique = False
+        Me.dbtBMCStartDate1.Location = New System.Drawing.Point(93, 25)
+        Me.dbtBMCStartDate1.MendatroryField = True
+        Me.dbtBMCStartDate1.MinDate = New Date(1973, 1, 1, 0, 0, 0, 0)
+        Me.dbtBMCStartDate1.MyLinkLable1 = Me.MyLabel12
+        Me.dbtBMCStartDate1.MyLinkLable2 = Nothing
+        Me.dbtBMCStartDate1.Name = "dbtBMCStartDate1"
+        Me.dbtBMCStartDate1.NullText = "01/01/1973"
+        Me.dbtBMCStartDate1.ReferenceFieldDesc = Nothing
+        Me.dbtBMCStartDate1.ReferenceFieldName = Nothing
+        Me.dbtBMCStartDate1.ReferenceTableName = Nothing
+        Me.dbtBMCStartDate1.Size = New System.Drawing.Size(114, 20)
+        Me.dbtBMCStartDate1.TabIndex = 74
+        Me.dbtBMCStartDate1.TabStop = False
+        Me.dbtBMCStartDate1.Text = "02:13:57PM"
+        Me.dbtBMCStartDate1.Value = New Date(2014, 6, 11, 14, 13, 57, 495)
+        '
+        'MyLabel12
+        '
+        Me.MyLabel12.FieldName = Nothing
+        Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel12.Location = New System.Drawing.Point(582, 22)
+        Me.MyLabel12.Name = "MyLabel12"
+        Me.MyLabel12.Size = New System.Drawing.Size(74, 16)
+        Me.MyLabel12.TabIndex = 66
+        Me.MyLabel12.Text = "Starting Time"
+        '
+        'txtDcsEndTime
+        '
+        Me.txtDcsEndTime.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtDcsEndTime.CalculationExpression = Nothing
+        Me.txtDcsEndTime.DecimalPlaces = 2
+        Me.txtDcsEndTime.FieldCode = Nothing
+        Me.txtDcsEndTime.FieldDesc = Nothing
+        Me.txtDcsEndTime.FieldMaxLength = 0
+        Me.txtDcsEndTime.FieldName = Nothing
+        Me.txtDcsEndTime.isCalculatedField = False
+        Me.txtDcsEndTime.IsSourceFromTable = False
+        Me.txtDcsEndTime.IsSourceFromValueList = False
+        Me.txtDcsEndTime.IsUnique = False
+        Me.txtDcsEndTime.Location = New System.Drawing.Point(93, 77)
+        Me.txtDcsEndTime.MendatroryField = True
+        Me.txtDcsEndTime.MyLinkLable1 = Nothing
+        Me.txtDcsEndTime.MyLinkLable2 = Nothing
+        Me.txtDcsEndTime.Name = "txtDcsEndTime"
+        Me.txtDcsEndTime.ReferenceFieldDesc = Nothing
+        Me.txtDcsEndTime.ReferenceFieldName = Nothing
+        Me.txtDcsEndTime.ReferenceTableName = Nothing
+        Me.txtDcsEndTime.Size = New System.Drawing.Size(114, 20)
+        Me.txtDcsEndTime.TabIndex = 73
+        Me.txtDcsEndTime.Text = "0"
+        Me.txtDcsEndTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtDcsEndTime.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        '
+        'txtBMCEndtime
+        '
+        Me.txtBMCEndtime.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtBMCEndtime.CalculationExpression = Nothing
+        Me.txtBMCEndtime.DecimalPlaces = 2
+        Me.txtBMCEndtime.FieldCode = Nothing
+        Me.txtBMCEndtime.FieldDesc = Nothing
+        Me.txtBMCEndtime.FieldMaxLength = 0
+        Me.txtBMCEndtime.FieldName = Nothing
+        Me.txtBMCEndtime.isCalculatedField = False
+        Me.txtBMCEndtime.IsSourceFromTable = False
+        Me.txtBMCEndtime.IsSourceFromValueList = False
+        Me.txtBMCEndtime.IsUnique = False
+        Me.txtBMCEndtime.Location = New System.Drawing.Point(93, 51)
+        Me.txtBMCEndtime.MendatroryField = True
+        Me.txtBMCEndtime.MyLinkLable1 = Nothing
+        Me.txtBMCEndtime.MyLinkLable2 = Nothing
+        Me.txtBMCEndtime.Name = "txtBMCEndtime"
+        Me.txtBMCEndtime.ReferenceFieldDesc = Nothing
+        Me.txtBMCEndtime.ReferenceFieldName = Nothing
+        Me.txtBMCEndtime.ReferenceTableName = Nothing
+        Me.txtBMCEndtime.Size = New System.Drawing.Size(114, 20)
+        Me.txtBMCEndtime.TabIndex = 72
+        Me.txtBMCEndtime.Text = "0"
+        Me.txtBMCEndtime.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtBMCEndtime.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblDcsEndTime
         '
@@ -521,6 +604,34 @@ Partial Class frmMCCProcurementSetting
         Me.gv2.TabIndex = 156
         Me.gv2.TabStop = False
         Me.gv2.VarID = ""
+        '
+        'txtBMCStartDate
+        '
+        Me.txtBMCStartDate.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtBMCStartDate.CalculationExpression = Nothing
+        Me.txtBMCStartDate.DecimalPlaces = 2
+        Me.txtBMCStartDate.FieldCode = Nothing
+        Me.txtBMCStartDate.FieldDesc = Nothing
+        Me.txtBMCStartDate.FieldMaxLength = 0
+        Me.txtBMCStartDate.FieldName = Nothing
+        Me.txtBMCStartDate.isCalculatedField = False
+        Me.txtBMCStartDate.IsSourceFromTable = False
+        Me.txtBMCStartDate.IsSourceFromValueList = False
+        Me.txtBMCStartDate.IsUnique = False
+        Me.txtBMCStartDate.Location = New System.Drawing.Point(41, 63)
+        Me.txtBMCStartDate.MendatroryField = True
+        Me.txtBMCStartDate.MyLinkLable1 = Nothing
+        Me.txtBMCStartDate.MyLinkLable2 = Nothing
+        Me.txtBMCStartDate.Name = "txtBMCStartDate"
+        Me.txtBMCStartDate.ReferenceFieldDesc = Nothing
+        Me.txtBMCStartDate.ReferenceFieldName = Nothing
+        Me.txtBMCStartDate.ReferenceTableName = Nothing
+        Me.txtBMCStartDate.Size = New System.Drawing.Size(114, 20)
+        Me.txtBMCStartDate.TabIndex = 71
+        Me.txtBMCStartDate.Text = "0"
+        Me.txtBMCStartDate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtBMCStartDate.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        Me.txtBMCStartDate.Visible = False
         '
         'chkStdFATSNFRate
         '
@@ -920,16 +1031,6 @@ Partial Class frmMCCProcurementSetting
         Me.DtpSendSMSTime.Text = "02:13:57 PM"
         Me.DtpSendSMSTime.Value = New Date(2014, 6, 11, 14, 13, 57, 495)
         '
-        'MyLabel12
-        '
-        Me.MyLabel12.FieldName = Nothing
-        Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel12.Location = New System.Drawing.Point(582, 22)
-        Me.MyLabel12.Name = "MyLabel12"
-        Me.MyLabel12.Size = New System.Drawing.Size(74, 16)
-        Me.MyLabel12.TabIndex = 66
-        Me.MyLabel12.Text = "Starting Time"
-        '
         'ChkSendSMS
         '
         Me.ChkSendSMS.Location = New System.Drawing.Point(676, 181)
@@ -1046,6 +1147,16 @@ Partial Class frmMCCProcurementSetting
         Me.TxtInterval.Text = "0"
         Me.TxtInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.TxtInterval.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        '
+        'MyLabel11
+        '
+        Me.MyLabel11.FieldName = Nothing
+        Me.MyLabel11.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.MyLabel11.Location = New System.Drawing.Point(348, 21)
+        Me.MyLabel11.Name = "MyLabel11"
+        Me.MyLabel11.Size = New System.Drawing.Size(74, 18)
+        Me.MyLabel11.TabIndex = 63
+        Me.MyLabel11.Text = "Interval(Days)"
         '
         'DtpStartingDate
         '
@@ -1475,117 +1586,6 @@ Partial Class frmMCCProcurementSetting
         Me.RadMenu1.Size = New System.Drawing.Size(987, 20)
         Me.RadMenu1.TabIndex = 1
         '
-        'txtBMCEndtime
-        '
-        Me.txtBMCEndtime.BackColor = System.Drawing.Color.LightGoldenrodYellow
-        Me.txtBMCEndtime.CalculationExpression = Nothing
-        Me.txtBMCEndtime.DecimalPlaces = 2
-        Me.txtBMCEndtime.FieldCode = Nothing
-        Me.txtBMCEndtime.FieldDesc = Nothing
-        Me.txtBMCEndtime.FieldMaxLength = 0
-        Me.txtBMCEndtime.FieldName = Nothing
-        Me.txtBMCEndtime.isCalculatedField = False
-        Me.txtBMCEndtime.IsSourceFromTable = False
-        Me.txtBMCEndtime.IsSourceFromValueList = False
-        Me.txtBMCEndtime.IsUnique = False
-        Me.txtBMCEndtime.Location = New System.Drawing.Point(93, 51)
-        Me.txtBMCEndtime.MendatroryField = True
-        Me.txtBMCEndtime.MyLinkLable1 = Nothing
-        Me.txtBMCEndtime.MyLinkLable2 = Nothing
-        Me.txtBMCEndtime.Name = "txtBMCEndtime"
-        Me.txtBMCEndtime.ReferenceFieldDesc = Nothing
-        Me.txtBMCEndtime.ReferenceFieldName = Nothing
-        Me.txtBMCEndtime.ReferenceTableName = Nothing
-        Me.txtBMCEndtime.Size = New System.Drawing.Size(114, 20)
-        Me.txtBMCEndtime.TabIndex = 72
-        Me.txtBMCEndtime.Text = "0"
-        Me.txtBMCEndtime.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtBMCEndtime.Value = New Decimal(New Integer() {0, 0, 0, 0})
-        '
-        'txtDcsEndTime
-        '
-        Me.txtDcsEndTime.BackColor = System.Drawing.Color.LightGoldenrodYellow
-        Me.txtDcsEndTime.CalculationExpression = Nothing
-        Me.txtDcsEndTime.DecimalPlaces = 2
-        Me.txtDcsEndTime.FieldCode = Nothing
-        Me.txtDcsEndTime.FieldDesc = Nothing
-        Me.txtDcsEndTime.FieldMaxLength = 0
-        Me.txtDcsEndTime.FieldName = Nothing
-        Me.txtDcsEndTime.isCalculatedField = False
-        Me.txtDcsEndTime.IsSourceFromTable = False
-        Me.txtDcsEndTime.IsSourceFromValueList = False
-        Me.txtDcsEndTime.IsUnique = False
-        Me.txtDcsEndTime.Location = New System.Drawing.Point(93, 77)
-        Me.txtDcsEndTime.MendatroryField = True
-        Me.txtDcsEndTime.MyLinkLable1 = Nothing
-        Me.txtDcsEndTime.MyLinkLable2 = Nothing
-        Me.txtDcsEndTime.Name = "txtDcsEndTime"
-        Me.txtDcsEndTime.ReferenceFieldDesc = Nothing
-        Me.txtDcsEndTime.ReferenceFieldName = Nothing
-        Me.txtDcsEndTime.ReferenceTableName = Nothing
-        Me.txtDcsEndTime.Size = New System.Drawing.Size(114, 20)
-        Me.txtDcsEndTime.TabIndex = 73
-        Me.txtDcsEndTime.Text = "0"
-        Me.txtDcsEndTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDcsEndTime.Value = New Decimal(New Integer() {0, 0, 0, 0})
-        '
-        'txtBMCStartDate
-        '
-        Me.txtBMCStartDate.BackColor = System.Drawing.Color.LightGoldenrodYellow
-        Me.txtBMCStartDate.CalculationExpression = Nothing
-        Me.txtBMCStartDate.DecimalPlaces = 2
-        Me.txtBMCStartDate.FieldCode = Nothing
-        Me.txtBMCStartDate.FieldDesc = Nothing
-        Me.txtBMCStartDate.FieldMaxLength = 0
-        Me.txtBMCStartDate.FieldName = Nothing
-        Me.txtBMCStartDate.isCalculatedField = False
-        Me.txtBMCStartDate.IsSourceFromTable = False
-        Me.txtBMCStartDate.IsSourceFromValueList = False
-        Me.txtBMCStartDate.IsUnique = False
-        Me.txtBMCStartDate.Location = New System.Drawing.Point(41, 63)
-        Me.txtBMCStartDate.MendatroryField = True
-        Me.txtBMCStartDate.MyLinkLable1 = Nothing
-        Me.txtBMCStartDate.MyLinkLable2 = Nothing
-        Me.txtBMCStartDate.Name = "txtBMCStartDate"
-        Me.txtBMCStartDate.ReferenceFieldDesc = Nothing
-        Me.txtBMCStartDate.ReferenceFieldName = Nothing
-        Me.txtBMCStartDate.ReferenceTableName = Nothing
-        Me.txtBMCStartDate.Size = New System.Drawing.Size(114, 20)
-        Me.txtBMCStartDate.TabIndex = 71
-        Me.txtBMCStartDate.Text = "0"
-        Me.txtBMCStartDate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtBMCStartDate.Value = New Decimal(New Integer() {0, 0, 0, 0})
-        Me.txtBMCStartDate.Visible = False
-        '
-        'dbtBMCStartDate1
-        '
-        Me.dbtBMCStartDate1.CalculationExpression = Nothing
-        Me.dbtBMCStartDate1.CustomFormat = "hh:mm:ss tt"
-        Me.dbtBMCStartDate1.FieldCode = Nothing
-        Me.dbtBMCStartDate1.FieldDesc = Nothing
-        Me.dbtBMCStartDate1.FieldMaxLength = 0
-        Me.dbtBMCStartDate1.FieldName = Nothing
-        Me.dbtBMCStartDate1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dbtBMCStartDate1.isCalculatedField = False
-        Me.dbtBMCStartDate1.IsSourceFromTable = False
-        Me.dbtBMCStartDate1.IsSourceFromValueList = False
-        Me.dbtBMCStartDate1.IsUnique = False
-        Me.dbtBMCStartDate1.Location = New System.Drawing.Point(93, 25)
-        Me.dbtBMCStartDate1.MendatroryField = True
-        Me.dbtBMCStartDate1.MinDate = New Date(1973, 1, 1, 0, 0, 0, 0)
-        Me.dbtBMCStartDate1.MyLinkLable1 = Me.MyLabel12
-        Me.dbtBMCStartDate1.MyLinkLable2 = Nothing
-        Me.dbtBMCStartDate1.Name = "dbtBMCStartDate1"
-        Me.dbtBMCStartDate1.NullText = "01/01/1973"
-        Me.dbtBMCStartDate1.ReferenceFieldDesc = Nothing
-        Me.dbtBMCStartDate1.ReferenceFieldName = Nothing
-        Me.dbtBMCStartDate1.ReferenceTableName = Nothing
-        Me.dbtBMCStartDate1.Size = New System.Drawing.Size(114, 20)
-        Me.dbtBMCStartDate1.TabIndex = 74
-        Me.dbtBMCStartDate1.TabStop = False
-        Me.dbtBMCStartDate1.Text = "02:13:57 PM"
-        Me.dbtBMCStartDate1.Value = New Date(2014, 6, 11, 14, 13, 57, 495)
-        '
         'frmMCCProcurementSetting
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1607,7 +1607,10 @@ Partial Class frmMCCProcurementSetting
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox4.ResumeLayout(False)
         Me.RadGroupBox4.PerformLayout()
-        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dbtBMCStartDate1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDcsEndTime, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtBMCEndtime, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDcsEndTime, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBmcEndTime, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyDateTimePicker1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1624,6 +1627,7 @@ Partial Class frmMCCProcurementSetting
         CType(Me.gv2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gv2.ResumeLayout(False)
         Me.gv2.PerformLayout()
+        CType(Me.txtBMCStartDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkStdFATSNFRate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ChkFarmerPaymentCycle, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkPriceChartGradeWise, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1655,7 +1659,6 @@ Partial Class frmMCCProcurementSetting
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkDisAllowTankerDispatchTopalnt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DtpSendSMSTime, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ChkSendSMS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtItemDescForTankerDisp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblItemDescForTankerDisp, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1664,6 +1667,7 @@ Partial Class frmMCCProcurementSetting
         Me.RadGroupBox1.PerformLayout()
         CType(Me.DtpTime, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TxtInterval, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DtpStartingDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TxtMinKMDiff, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1689,10 +1693,6 @@ Partial Class frmMCCProcurementSetting
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtBMCEndtime, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtDcsEndTime, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtBMCStartDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dbtBMCStartDate1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

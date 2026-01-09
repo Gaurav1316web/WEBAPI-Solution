@@ -31,6 +31,10 @@ Partial Class rptNewTenderPartyListReport
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.gbStatus = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnAll = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnDistributor = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnCreditCustomer = New Telerik.WinControls.UI.RadRadioButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.cmbShift = New common.Controls.MyComboBox()
         Me.lblShiftType = New common.Controls.MyLabel()
@@ -46,10 +50,10 @@ Partial Class rptNewTenderPartyListReport
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.MyDateTimePicker1 = New common.Controls.MyDateTimePicker()
-        Me.gbStatus = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnDistributor = New Telerik.WinControls.UI.RadRadioButton()
-        Me.rbtnCreditCustomer = New Telerik.WinControls.UI.RadRadioButton()
-        Me.rbtnAll = New Telerik.WinControls.UI.RadRadioButton()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.TxtCustomerType = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel13 = New common.Controls.MyLabel()
+        Me.txtMultiCustomer = New common.UserControls.txtMultiSelectFinder()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -59,6 +63,11 @@ Partial Class rptNewTenderPartyListReport
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel1.SuspendLayout()
+        CType(Me.gbStatus, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gbStatus.SuspendLayout()
+        CType(Me.rbtnAll, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnDistributor, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnCreditCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.cmbShift, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -74,11 +83,8 @@ Partial Class rptNewTenderPartyListReport
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyDateTimePicker1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gbStatus, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gbStatus.SuspendLayout()
-        CType(Me.rbtnDistributor, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnCreditCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnAll, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -153,6 +159,10 @@ Partial Class rptNewTenderPartyListReport
         '
         'RadPanel1
         '
+        Me.RadPanel1.Controls.Add(Me.MyLabel2)
+        Me.RadPanel1.Controls.Add(Me.TxtCustomerType)
+        Me.RadPanel1.Controls.Add(Me.MyLabel13)
+        Me.RadPanel1.Controls.Add(Me.txtMultiCustomer)
         Me.RadPanel1.Controls.Add(Me.gbStatus)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox1)
         Me.RadPanel1.Dock = System.Windows.Forms.DockStyle.Fill
@@ -160,6 +170,47 @@ Partial Class rptNewTenderPartyListReport
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(834, 382)
         Me.RadPanel1.TabIndex = 15
+        '
+        'gbStatus
+        '
+        Me.gbStatus.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.gbStatus.Controls.Add(Me.rbtnAll)
+        Me.gbStatus.Controls.Add(Me.rbtnDistributor)
+        Me.gbStatus.Controls.Add(Me.rbtnCreditCustomer)
+        Me.gbStatus.HeaderText = ""
+        Me.gbStatus.Location = New System.Drawing.Point(370, 16)
+        Me.gbStatus.Name = "gbStatus"
+        Me.gbStatus.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.gbStatus.Size = New System.Drawing.Size(256, 35)
+        Me.gbStatus.TabIndex = 446
+        '
+        'rbtnAll
+        '
+        Me.rbtnAll.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnAll.Location = New System.Drawing.Point(190, 7)
+        Me.rbtnAll.Name = "rbtnAll"
+        Me.rbtnAll.Size = New System.Drawing.Size(33, 18)
+        Me.rbtnAll.TabIndex = 2
+        Me.rbtnAll.Text = "All"
+        Me.rbtnAll.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'rbtnDistributor
+        '
+        Me.rbtnDistributor.Location = New System.Drawing.Point(110, 7)
+        Me.rbtnDistributor.Name = "rbtnDistributor"
+        Me.rbtnDistributor.Size = New System.Drawing.Size(74, 18)
+        Me.rbtnDistributor.TabIndex = 1
+        Me.rbtnDistributor.TabStop = False
+        Me.rbtnDistributor.Text = "Distributor"
+        '
+        'rbtnCreditCustomer
+        '
+        Me.rbtnCreditCustomer.Location = New System.Drawing.Point(3, 7)
+        Me.rbtnCreditCustomer.Name = "rbtnCreditCustomer"
+        Me.rbtnCreditCustomer.Size = New System.Drawing.Size(102, 18)
+        Me.rbtnCreditCustomer.TabIndex = 0
+        Me.rbtnCreditCustomer.TabStop = False
+        Me.rbtnCreditCustomer.Text = "Credit Customer"
         '
         'RadGroupBox1
         '
@@ -372,46 +423,51 @@ Partial Class rptNewTenderPartyListReport
         Me.MyDateTimePicker1.Text = "17-12-2011"
         Me.MyDateTimePicker1.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
         '
-        'gbStatus
+        'MyLabel2
         '
-        Me.gbStatus.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.gbStatus.Controls.Add(Me.rbtnAll)
-        Me.gbStatus.Controls.Add(Me.rbtnDistributor)
-        Me.gbStatus.Controls.Add(Me.rbtnCreditCustomer)
-        Me.gbStatus.HeaderText = ""
-        Me.gbStatus.Location = New System.Drawing.Point(370, 16)
-        Me.gbStatus.Name = "gbStatus"
-        Me.gbStatus.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.gbStatus.Size = New System.Drawing.Size(256, 35)
-        Me.gbStatus.TabIndex = 446
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(6, 57)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(82, 18)
+        Me.MyLabel2.TabIndex = 457
+        Me.MyLabel2.Text = "Customer Type"
         '
-        'rbtnDistributor
+        'TxtCustomerType
         '
-        Me.rbtnDistributor.Location = New System.Drawing.Point(110, 7)
-        Me.rbtnDistributor.Name = "rbtnDistributor"
-        Me.rbtnDistributor.Size = New System.Drawing.Size(74, 18)
-        Me.rbtnDistributor.TabIndex = 1
-        Me.rbtnDistributor.TabStop = False
-        Me.rbtnDistributor.Text = "Distributor"
+        Me.TxtCustomerType.arrDispalyMember = Nothing
+        Me.TxtCustomerType.arrValueMember = Nothing
+        Me.TxtCustomerType.Location = New System.Drawing.Point(90, 58)
+        Me.TxtCustomerType.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtCustomerType.MyLinkLable1 = Me.MyLabel2
+        Me.TxtCustomerType.MyLinkLable2 = Nothing
+        Me.TxtCustomerType.MyNullText = "All"
+        Me.TxtCustomerType.Name = "TxtCustomerType"
+        Me.TxtCustomerType.Size = New System.Drawing.Size(299, 19)
+        Me.TxtCustomerType.TabIndex = 456
         '
-        'rbtnCreditCustomer
+        'MyLabel13
         '
-        Me.rbtnCreditCustomer.Location = New System.Drawing.Point(3, 7)
-        Me.rbtnCreditCustomer.Name = "rbtnCreditCustomer"
-        Me.rbtnCreditCustomer.Size = New System.Drawing.Size(102, 18)
-        Me.rbtnCreditCustomer.TabIndex = 0
-        Me.rbtnCreditCustomer.TabStop = False
-        Me.rbtnCreditCustomer.Text = "Credit Customer"
+        Me.MyLabel13.FieldName = Nothing
+        Me.MyLabel13.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel13.Location = New System.Drawing.Point(5, 81)
+        Me.MyLabel13.Name = "MyLabel13"
+        Me.MyLabel13.Size = New System.Drawing.Size(55, 18)
+        Me.MyLabel13.TabIndex = 455
+        Me.MyLabel13.Text = "Customer"
         '
-        'rbtnAll
+        'txtMultiCustomer
         '
-        Me.rbtnAll.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnAll.Location = New System.Drawing.Point(190, 7)
-        Me.rbtnAll.Name = "rbtnAll"
-        Me.rbtnAll.Size = New System.Drawing.Size(33, 18)
-        Me.rbtnAll.TabIndex = 2
-        Me.rbtnAll.Text = "All"
-        Me.rbtnAll.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        Me.txtMultiCustomer.arrDispalyMember = Nothing
+        Me.txtMultiCustomer.arrValueMember = Nothing
+        Me.txtMultiCustomer.Location = New System.Drawing.Point(91, 82)
+        Me.txtMultiCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMultiCustomer.MyLinkLable1 = Me.MyLabel13
+        Me.txtMultiCustomer.MyLinkLable2 = Nothing
+        Me.txtMultiCustomer.MyNullText = "All"
+        Me.txtMultiCustomer.Name = "txtMultiCustomer"
+        Me.txtMultiCustomer.Size = New System.Drawing.Size(299, 19)
+        Me.txtMultiCustomer.TabIndex = 454
         '
         'rptNewTenderPartyListReport
         '
@@ -435,6 +491,13 @@ Partial Class rptNewTenderPartyListReport
         Me.RadPageViewPage1.ResumeLayout(False)
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
+        Me.RadPanel1.PerformLayout()
+        CType(Me.gbStatus, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.gbStatus.ResumeLayout(False)
+        Me.gbStatus.PerformLayout()
+        CType(Me.rbtnAll, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnDistributor, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnCreditCustomer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
@@ -451,12 +514,8 @@ Partial Class rptNewTenderPartyListReport
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyDateTimePicker1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gbStatus, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gbStatus.ResumeLayout(False)
-        Me.gbStatus.PerformLayout()
-        CType(Me.rbtnDistributor, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnCreditCustomer, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnAll, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -489,5 +548,9 @@ Partial Class rptNewTenderPartyListReport
     Friend WithEvents rbtnAll As RadRadioButton
     Friend WithEvents rbtnDistributor As RadRadioButton
     Friend WithEvents rbtnCreditCustomer As RadRadioButton
+    Friend WithEvents MyLabel2 As common.Controls.MyLabel
+    Friend WithEvents TxtCustomerType As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents MyLabel13 As common.Controls.MyLabel
+    Friend WithEvents txtMultiCustomer As common.UserControls.txtMultiSelectFinder
 End Class
 

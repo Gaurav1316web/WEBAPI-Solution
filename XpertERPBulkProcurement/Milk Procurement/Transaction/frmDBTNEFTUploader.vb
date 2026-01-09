@@ -1769,5 +1769,101 @@ where TSPL_DBT_NEFT_DETAIL.Document_Code='" + txtDocumentNo.Value + "' order by 
     Private Sub RadButton3_Click(sender As Object, e As EventArgs) Handles RadButton3.Click
         fillMPS()
     End Sub
+
+    Private Sub RadButton4_Click(sender As Object, e As EventArgs) Handles RadButton4.Click
+        PrintChangeAC(txtDocumentNo.Value)
+    End Sub
+
+    Public Sub PrintChangeAC(ByVal strDocNo As String)
+        Try
+            Try
+                Dim qry As String = "WITH CTE_ALL_DBT_DATA AS(SELECT
+                                TSPL_DBT_NEFT_DETAIL.Document_Code,
+                                TSPL_DBT_NEFT_DETAIL.MP_Uploader_Code AS Farmer_Uploder_Number,
+                                TSPL_DBT_NEFT_DETAIL.MP_Name AS Farmer_Name,
+                                TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader AS DCS_Uploder_Code,
+                                TSPL_VLC_MASTER_HEAD.VLC_Name AS DCS_Name,
+                                TSPL_DBT_NEFT_DETAIL.MP_Account_No,
+                                TSPL_DBT_NEFT_DETAIL.MP_IFSC_No,
+                                TSPL_DBT_NEFT_DETAIL.MP_Bank,
+                                TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code
+                            FROM TSPL_DBT_NEFT_DETAIL
+                            LEFT JOIN TSPL_MP_INCENTIVE_ENTRY_DETAIL
+                                ON TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id =
+                                   TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR
+                            LEFT JOIN TSPL_VLC_MASTER_HEAD
+                                ON TSPL_DBT_NEFT_DETAIL.VLC_Uploader_Code =
+                                   TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader
+                            UNION ALL
+                            SELECT
+                                TSPL_DBT_NEFT_DETAIL_INVALID.Document_Code,
+                                TSPL_DBT_NEFT_DETAIL_INVALID.MP_Uploader_Code,
+                                TSPL_DBT_NEFT_DETAIL_INVALID.MP_Name,
+                                TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,
+                                TSPL_VLC_MASTER_HEAD.VLC_Name,
+                                TSPL_DBT_NEFT_DETAIL_INVALID.MP_Account_No,
+                                TSPL_DBT_NEFT_DETAIL_INVALID.MP_IFSC_No,
+                                TSPL_DBT_NEFT_DETAIL_INVALID.MP_Bank,
+                                TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code
+                            FROM TSPL_DBT_NEFT_DETAIL_INVALID
+                            LEFT JOIN TSPL_MP_INCENTIVE_ENTRY_DETAIL
+                                ON TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id =
+                                   TSPL_DBT_NEFT_DETAIL_INVALID.Against_MP_Incentive_TR
+                            LEFT JOIN TSPL_VLC_MASTER_HEAD
+                                ON TSPL_DBT_NEFT_DETAIL_INVALID.VLC_Uploader_Code =
+                                   TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader
+                            UNION ALL
+                            SELECT
+                                TSPL_DBT_NEFT_DETAIL_HOLD.Document_Code,
+                                TSPL_DBT_NEFT_DETAIL_HOLD.MP_Uploader_Code,
+                                TSPL_DBT_NEFT_DETAIL_HOLD.MP_Name,
+                                TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,
+                                TSPL_VLC_MASTER_HEAD.VLC_Name,
+                                TSPL_DBT_NEFT_DETAIL_HOLD.MP_Account_No,
+                                TSPL_DBT_NEFT_DETAIL_HOLD.MP_IFSC_No,
+                                TSPL_DBT_NEFT_DETAIL_HOLD.MP_Bank,
+                                TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code
+                            FROM TSPL_DBT_NEFT_DETAIL_HOLD
+                            LEFT JOIN TSPL_MP_INCENTIVE_ENTRY_DETAIL
+                                ON TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id =
+                                   TSPL_DBT_NEFT_DETAIL_HOLD.Against_MP_Incentive_TR
+                            LEFT JOIN TSPL_VLC_MASTER_HEAD
+                                ON TSPL_DBT_NEFT_DETAIL_HOLD.VLC_Uploader_Code =
+                                   TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader)
+                        SELECT
+                            NEW_DATA.Farmer_Uploder_Number,
+                            NEW_DATA.Farmer_Name,
+                            NEW_DATA.DCS_Uploder_Code,
+                            NEW_DATA.DCS_Name,
+
+                            NEW_DATA.MP_Account_No AS New_Account_Number,
+                            NEW_DATA.MP_IFSC_No    AS New_IFSC_Code,
+                            NEW_DATA.MP_Bank       AS New_Bank_Name,
+
+                            OLD_DATA.MP_Account_No AS Old_Account_Number,
+                            OLD_DATA.MP_IFSC_No    AS Old_IFSC_Code,
+                            OLD_DATA.MP_Bank       AS Old_Bank_Name
+
+                        FROM CTE_ALL_DBT_DATA AS NEW_DATA
+                        LEFT JOIN CTE_ALL_DBT_DATA AS OLD_DATA
+                            ON NEW_DATA.MP_Code = OLD_DATA.MP_Code
+                           AND OLD_DATA.Document_Code = '" + txtDocumentNo.Value + "'
+                        WHERE NEW_DATA.Document_Code = '" + txtDocumentNo.Value + "' "
+
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptFarmerChangeACNumber", "Farmer Change AC Number")
+                frmCRV = Nothing
+            Catch ex As Exception
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            End Try
+
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+
+
 End Class
 

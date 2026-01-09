@@ -479,6 +479,7 @@ Public Class frmPurchaseOrder
         AddNew()
         'MyLabel7.Text = ""
         LoadDefaultTermDetail()
+        LoadDescriptionDetail()
 
         'SANJAY
         'If clsCommon.myLen(PurchaseOrderNo) > 0 Then
@@ -4369,6 +4370,7 @@ Public Class frmPurchaseOrder
     Private Sub btnAddNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddNew.Click
         AddNew()
         MyLabel7.Text = "Entered Purchase Order"
+        LoadDescriptionDetail()
     End Sub
 
     Sub AddNew()
@@ -9471,6 +9473,15 @@ Public Class frmPurchaseOrder
             SetTermDetails()
         End If
     End Sub
+    Sub LoadDescriptionDetail()
+        Dim qry As String = "select top 1 Description from TSPL_PURCHASE_ORDER_HEAD where ISNULL(Description,'')<>'' order by PurchaseOrder_No"
+        txtDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
+
+        'If clsCommon.myLen(txtDesc.Value) > 0 Then
+        '    SetTermDetails()
+        'End If
+    End Sub
+
 
     Private Sub btnForm_Update_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnForm_Update.Click
         Try

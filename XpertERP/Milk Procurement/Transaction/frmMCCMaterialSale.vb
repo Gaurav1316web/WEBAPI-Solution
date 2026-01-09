@@ -238,6 +238,7 @@ Public Class frmMCCMaterialSale
     Dim objsr As New clsSerialPort
     Dim isTaxExempted As Boolean = False
     Dim AllowRoundOff_onInvoice As Boolean = False
+    Dim AllowRoundOffAmountOnDCSSale As Boolean = False
     Dim AllowPlandDeptMCCLocation As Boolean = False
     Dim AreaWiseBilling As Boolean = False
     Dim ShowAllCustomer As Boolean = False
@@ -291,8 +292,9 @@ Public Class frmMCCMaterialSale
         UseDescInsteadOFCodeOnMCCMAterialSale = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.UseDescInsteadOFCodeOnMCCMAterialSale, clsFixedParameterCode.UseDescInsteadOFCodeOnMCCMAterialSale, Nothing)) = "1", True, False)
         CreateAutoMCCPriceChat = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.CreateAutoMCCPriceChat, clsFixedParameterCode.CreateAutoMCCPriceChat, Nothing)) = "1", True, False)
         AllowRoundOff_onInvoice = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowRoundOff_OnCSASalePatti, clsFixedParameterCode.AllowRoundOff_OnCSASalePatti, Nothing)) = "1", True, False))
-        lblRound_Off.Visible = AllowRoundOff_onInvoice
-        txtRoundOff.Visible = AllowRoundOff_onInvoice
+        AllowRoundOffAmountOnDCSSale = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowRoundOffAmountOnDCSSale, clsFixedParameterCode.AllowRoundOffAmountOnDCSSale, Nothing)) = "1", True, False))
+        lblRound_Off.Visible = AllowRoundOffAmountOnDCSSale
+        txtRoundOff.Visible = AllowRoundOffAmountOnDCSSale
         ShowAllCustomer = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowAllCustomerOnMccMaterialSale, clsFixedParameterCode.ShowAllCustomerOnMccMaterialSale, Nothing)) = "1", True, False))
         AreaWiseBilling = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = "1", True, False))
         AllowPlandDeptMCCLocation = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.Allow_Plant_Depot_MCC_typeLocation, clsFixedParameterCode.Allow_Plant_Depot_MCC_typeLocation, Nothing)) = "1", True, False))
@@ -3211,7 +3213,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
             lblTotRAmt.Text = clsCommon.myFormat(dblNetAmt)
         End If
         lblCommAmt.Text = clsCommon.myFormat(dblCommAmt)
-        If AllowRoundOff_onInvoice Then
+        If AllowRoundOffAmountOnDCSSale Then
             Dim lstDecml As New List(Of Decimal)
             lstDecml = ClsScrapSaleHead.Calculate_RoundOffAmt(clsCommon.myCdbl(lblTotRAmt.Text), Nothing)
             If lstDecml IsNot Nothing AndAlso lstDecml.Count > 0 Then
