@@ -925,4 +925,912 @@ Public Class clsMultipleInvoice
         Return obj
     End Function
 
+    Public Shared Function GetShipmentReturnHead(ByVal lstDoc As List(Of String), ByVal trans As SqlTransaction) As clsShipmentReturnHead
+        Dim obj As New clsShipmentReturnHead
+        Try
+            Dim strQry As String = "SELECT TSPL_SD_SHIPMENT_RETURN_HEAD.Sub_Location_code,TSPL_SD_SHIPMENT_RETURN_HEAD.RoundOffAmount,TSPL_SD_SHIPMENT_RETURN_HEAD.TotalCAN,TSPL_SD_SHIPMENT_RETURN_HEAD.ShippedCAN, TSPL_SD_SHIPMENT_RETURN_HEAD.CrateQty,TSPL_SD_SHIPMENT_RETURN_HEAD.Is_Taxable,TSPL_SD_SHIPMENT_RETURN_HEAD.Gate_ReturnNo,TSPL_SD_SHIPMENT_RETURN_HEAD.CrateMan,TSPL_SD_SHIPMENT_RETURN_HEAD.Jaali,TSPL_SD_SHIPMENT_RETURN_HEAD.Box , TSPL_SD_SHIPMENT_RETURN_HEAD.Trans_Type,TSPL_SD_SHIPMENT_RETURN_HEAD.Return_Type,TSPL_SD_SHIPMENT_RETURN_HEAD.Shift_Type,TSPL_SD_SHIPMENT_RETURN_HEAD.Damage_Type,TSPL_SD_SHIPMENT_RETURN_HEAD.HeadDisc_PerAmt,TSPL_SD_SHIPMENT_RETURN_HEAD.Cust_PO_No,TSPL_SD_SHIPMENT_RETURN_HEAD.VehicleNo, TSPL_SD_SHIPMENT_RETURN_HEAD.Vehicle_Code,TSPL_SD_SHIPMENT_RETURN_HEAD.price_group_code , 
+        TSPL_SD_SHIPMENT_RETURN_HEAD.Invoice_Type,TSPL_SD_SHIPMENT_RETURN_HEAD.HeadDisc_Per,TSPL_SD_SHIPMENT_RETURN_HEAD.HeadDisc_Amt,TSPL_SD_SHIPMENT_RETURN_HEAD.TotCashDiscAmt,TSPL_SD_SHIPMENT_RETURN_HEAD.Route_No,TSPL_SD_SHIPMENT_RETURN_HEAD.Route_Desc,TSPL_SD_SHIPMENT_RETURN_HEAD.Price_Code, TSPL_SD_SHIPMENT_RETURN_HEAD.Document_Code,TSPL_SD_SHIPMENT_RETURN_HEAD.Document_Date,TSPL_SD_SHIPMENT_RETURN_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SHIPMENT_RETURN_HEAD.Status,TSPL_SD_SHIPMENT_RETURN_HEAD.On_Hold,TSPL_SD_SHIPMENT_RETURN_HEAD.Ref_No,TSPL_SD_SHIPMENT_RETURN_HEAD.Description,TSPL_SD_SHIPMENT_RETURN_HEAD.Remarks,TSPL_SD_SHIPMENT_RETURN_HEAD.Tax_Group,TSPL_SD_SHIPMENT_RETURN_HEAD.Bill_To_Location,TSPL_SD_SHIPMENT_RETURN_HEAD.Ship_To_Location,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX1,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX1_Rate,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX1_Amt,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX1_Base_Amt,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX2,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX2_Rate,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX2_Amt,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX2_Base_Amt,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX3,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX3_Rate,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX3_Amt,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX3_Base_Amt,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX4,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX4_Rate,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX4_Amt,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX4_Base_Amt,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX5,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX5_Rate,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX5_Amt,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX5_Base_Amt,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX6,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX6_Rate,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX6_Amt,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX6_Base_Amt,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX7,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX7_Rate,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX7_Amt,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX7_Base_Amt,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX8,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX8_Rate,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX8_Amt,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX8_Base_Amt,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX9,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX9_Rate,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX9_Amt,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX9_Base_Amt,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX10,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX10_Rate,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX10_Amt,TSPL_SD_SHIPMENT_RETURN_HEAD.TAX10_Base_Amt,TSPL_SD_SHIPMENT_RETURN_HEAD.Discount_Base,TSPL_SD_SHIPMENT_RETURN_HEAD.Discount_Amt,TSPL_SD_SHIPMENT_RETURN_HEAD.Amount_Less_Discount,TSPL_SD_SHIPMENT_RETURN_HEAD.Total_Tax_Amt,TSPL_SD_SHIPMENT_RETURN_HEAD.Comments,TSPL_SD_SHIPMENT_RETURN_HEAD.Comp_Code,TSPL_SD_SHIPMENT_RETURN_HEAD.Terms_Code,TSPL_SD_SHIPMENT_RETURN_HEAD.Due_Date ,TSPL_LOCATION_MASTER.Location_Desc as BillToLocationName,TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipToLocationName,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as TaxGroupName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_SD_SHIPMENT_RETURN_HEAD.Posting_Date,TSPL_SD_SHIPMENT_RETURN_HEAD.Total_Amt,TSPL_SD_SHIPMENT_RETURN_HEAD.Carrier,TSPL_SD_SHIPMENT_RETURN_HEAD.VehicleNo,TSPL_SD_SHIPMENT_RETURN_HEAD.GRNo,TSPL_SD_SHIPMENT_RETURN_HEAD.GENo,TSPL_SD_SHIPMENT_RETURN_HEAD.GEDate, TSPL_SD_SHIPMENT_RETURN_HEAD.Dept,TSPL_SD_SHIPMENT_RETURN_HEAD.Dept_Desc,TSPL_SD_SHIPMENT_RETURN_HEAD.Item_Type,TSPL_SD_SHIPMENT_RETURN_HEAD.Against_Invoice_No ,TSPL_SD_SHIPMENT_RETURN_HEAD.Against_Invoice_No,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Code1,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Name1,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Amt1,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Code2,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Name2,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Amt2,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Code3,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Name3,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Amt3,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Code4,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Name4,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Amt4,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Code5,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Name5,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Amt5,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Code6,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Name6,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Amt6,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Code7,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Name7,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Amt7,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Code8,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Name8,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Amt8,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Code9 ,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Name9,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Amt9 ,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Code10 ,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Name10,TSPL_SD_SHIPMENT_RETURN_HEAD.Add_Charge_Amt10,TSPL_SD_SHIPMENT_RETURN_HEAD.Total_Add_Charge,TSPL_SD_SHIPMENT_RETURN_HEAD.Tax_Calculation_Type,TSPL_SD_SHIPMENT_RETURN_HEAD.Challan_No, TSPL_SD_SHIPMENT_RETURN_HEAD.Challan_Date, TSPL_SD_SHIPMENT_RETURN_HEAD.Inv_Date,TSPL_SD_SHIPMENT_RETURN_HEAD.Inv_No,TSPL_SD_SHIPMENT_RETURN_HEAD.Is_Internal ,TSPL_SD_SHIPMENT_RETURN_HEAD.Salesman_Code ,TSPL_SD_SHIPMENT_RETURN_HEAD.Salesman_Name,
+     TSPL_SD_SHIPMENT_RETURN_HEAD.CURRENCY_CODE,TSPL_SD_SHIPMENT_RETURN_HEAD.CONVRATE,TSPL_SD_SHIPMENT_RETURN_HEAD.APPLICABLEFROM,TSPL_SD_SHIPMENT_RETURN_HEAD.PROJECT_ID ,TSPL_SD_SHIPMENT_RETURN_HEAD.Is_Cancelled,TSPL_SD_SHIPMENT_RETURN_HEAD.Screen_Type 
+         FROM TSPL_SD_SHIPMENT_RETURN_HEAD
+         left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_RETURN_HEAD.Bill_To_Location 
+         left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_SD_SHIPMENT_RETURN_HEAD.Ship_To_Location 
+         left outer join  TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code= TSPL_SD_SHIPMENT_RETURN_HEAD.Tax_Group 
+         left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=TSPL_SD_SHIPMENT_RETURN_HEAD.Terms_Code 
+         left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_RETURN_HEAD.Customer_Code 
+where Document_Code in(" + clsCommon.GetMulcallString(lstDoc) + ")"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                For Each dr As DataRow In dt.Rows
+                    obj.TotalCAN = clsCommon.myCdbl(dr("TotalCAN"))
+                    obj.ShippedCAN = clsCommon.myCdbl(dr("ShippedCAN"))
+                    obj.CrateQty = clsCommon.myCdbl(dr("CrateQty"))
+                    obj.Is_Cancelled = clsCommon.myCdbl(dr("Is_Cancelled"))
+                    obj.Is_Taxable = clsCommon.myCdbl(dr("Is_Taxable"))
+                    obj.Gate_ReturnNo = clsCommon.myCstr(dr("Gate_ReturnNo"))
+                    obj.CrateMan = clsCommon.myCdbl(dr("CrateMan"))
+                    obj.jaali = clsCommon.myCdbl(dr("jaali"))
+                    obj.Box = clsCommon.myCdbl(dr("Box"))
+                    obj.Screen_Type = clsCommon.myCstr(dr("Screen_Type"))
+
+                    obj.Trans_type = clsCommon.myCstr(dr("Trans_type"))
+                    'Trans_type_Str = clsCommon.myCstr(dr("Trans_type")) + "-SR"
+                    obj.Invoice_Type = clsCommon.myCstr(dr("Invoice_Type"))
+                    obj.Cust_PO_No = clsCommon.myCstr(dr("Cust_PO_No"))
+                    obj.Price_Group_Code = clsCommon.myCstr(dr("Price_Group_Code"))
+                    obj.Price_Code = clsCommon.myCstr(dr("Price_Code"))
+                    obj.Sub_Location_code = clsCommon.myCstr(dr("Sub_Location_code"))
+                    obj.Route_No = clsCommon.myCstr(dr("Route_No"))
+                    obj.Route_Desc = clsCommon.myCstr(dr("Route_Desc"))
+                    obj.Document_Code = clsCommon.myCstr(dr("Document_Code"))
+                    obj.Document_Date = clsCommon.myCDate(dr("Document_Date"))
+                    obj.Customer_Code = clsCommon.myCstr(dr("Customer_Code"))
+                    obj.Customer_Name = clsCommon.myCstr(dr("Customer_Name"))
+                    obj.Status = IIf(clsCommon.myCdbl(dr("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
+                    obj.On_Hold = IIf(clsCommon.myCdbl(dr("On_Hold")) = 1, True, False)
+                    obj.Is_Internal = IIf(clsCommon.myCdbl(dr("Is_Internal")) = 1, True, False)
+                    obj.Ref_No = clsCommon.myCstr(dr("Ref_No"))
+                    obj.Description = clsCommon.myCstr(dr("Description"))
+                    obj.Remarks = clsCommon.myCstr(dr("Remarks"))
+                    obj.Bill_To_Location = clsCommon.myCstr(dr("Bill_To_Location"))
+                    obj.Ship_To_Location = clsCommon.myCstr(dr("Ship_To_Location"))
+                    obj.Tax_Group = clsCommon.myCstr(dr("Tax_Group"))
+                    obj.TAX1 = clsCommon.myCstr(dr("TAX1"))
+                    obj.TAX1_Rate = clsCommon.myCdbl(dr("TAX1_Rate"))
+                    obj.TAX1_Base_Amt = clsCommon.myCdbl(dr("TAX1_Base_Amt"))
+                    obj.TAX1_Amt = clsCommon.myCdbl(dr("TAX1_Amt"))
+                    obj.TAX2 = clsCommon.myCstr(dr("TAX2"))
+                    obj.TAX2_Rate = clsCommon.myCdbl(dr("TAX2_Rate"))
+                    obj.TAX2_Base_Amt = clsCommon.myCdbl(dr("TAX2_Base_Amt"))
+                    obj.TAX2_Amt = clsCommon.myCdbl(dr("TAX2_Amt"))
+                    obj.TAX3 = clsCommon.myCstr(dr("TAX3"))
+                    obj.TAX3_Base_Amt = clsCommon.myCdbl(dr("TAX3_Base_Amt"))
+                    obj.TAX3_Rate = clsCommon.myCdbl(dr("TAX3_Rate"))
+                    obj.TAX3_Amt = clsCommon.myCdbl(dr("TAX3_Amt"))
+                    obj.TAX4 = clsCommon.myCstr(dr("TAX4"))
+                    obj.TAX4_Rate = clsCommon.myCdbl(dr("TAX4_Rate"))
+                    obj.TAX4_Base_Amt = clsCommon.myCdbl(dr("TAX4_Base_Amt"))
+                    obj.TAX4_Amt = clsCommon.myCdbl(dr("TAX4_Amt"))
+                    obj.TAX5 = clsCommon.myCstr(dr("TAX5"))
+                    obj.TAX5_Rate = clsCommon.myCdbl(dr("TAX5_Rate"))
+                    obj.TAX5_Base_Amt = clsCommon.myCdbl(dr("TAX5_Base_Amt"))
+                    obj.TAX5_Amt = clsCommon.myCdbl(dr("TAX5_Amt"))
+                    obj.TAX6 = clsCommon.myCstr(dr("TAX6"))
+                    obj.TAX6_Rate = clsCommon.myCdbl(dr("TAX6_Rate"))
+                    obj.TAX6_Base_Amt = clsCommon.myCdbl(dr("TAX6_Base_Amt"))
+                    obj.TAX6_Amt = clsCommon.myCdbl(dr("TAX6_Amt"))
+                    obj.TAX7 = clsCommon.myCstr(dr("TAX7"))
+                    obj.TAX7_Rate = clsCommon.myCdbl(dr("TAX7_Rate"))
+                    obj.TAX7_Base_Amt = clsCommon.myCdbl(dr("TAX7_Base_Amt"))
+                    obj.TAX7_Amt = clsCommon.myCdbl(dr("TAX7_Amt"))
+                    obj.TAX8 = clsCommon.myCstr(dr("TAX8"))
+                    obj.TAX8_Rate = clsCommon.myCdbl(dr("TAX8_Rate"))
+                    obj.TAX8_Base_Amt = clsCommon.myCdbl(dr("TAX8_Base_Amt"))
+                    obj.TAX8_Amt = clsCommon.myCdbl(dr("TAX8_Amt"))
+                    obj.TAX9 = clsCommon.myCstr(dr("TAX9"))
+                    obj.TAX9_Rate = clsCommon.myCdbl(dr("TAX9_Rate"))
+                    obj.TAX9_Base_Amt = clsCommon.myCdbl(dr("TAX9_Base_Amt"))
+                    obj.TAX9_Amt = clsCommon.myCdbl(dr("TAX9_Amt"))
+                    obj.TAX10 = clsCommon.myCstr(dr("TAX10"))
+                    obj.TAX10_Rate = clsCommon.myCdbl(dr("TAX10_Rate"))
+                    obj.TAX10_Base_Amt = clsCommon.myCdbl(dr("TAX10_Base_Amt"))
+                    obj.TAX10_Amt = clsCommon.myCdbl(dr("TAX10_Amt"))
+                    obj.Total_Tax_Amt = clsCommon.myCdbl(dr("Total_Tax_Amt"))
+                    obj.Discount_Base = clsCommon.myCdbl(dr("Discount_Base"))
+                    obj.Discount_Amt = clsCommon.myCdbl(dr("Discount_Amt"))
+                    obj.Amount_Less_Discount = clsCommon.myCdbl(dr("Amount_Less_Discount"))
+                    obj.Total_Amt = clsCommon.myCdbl(dr("Total_Amt"))
+                    obj.RoundOffAmount = clsCommon.myCdbl(dr("RoundOffAmount"))
+                    obj.Comments = clsCommon.myCstr(dr("Comments"))
+                    obj.Comp_Code = clsCommon.myCstr(dr("Comp_Code"))
+                    obj.Terms_Code = clsCommon.myCstr(dr("Terms_Code"))
+                    obj.Due_Date = clsCommon.myCstr(dr("Due_Date"))
+                    obj.BillToLocationName = clsCommon.myCstr(dr("BillToLocationName"))
+                    obj.ShipToLocationName = clsCommon.myCstr(dr("ShipToLocationName"))
+                    obj.TaxGroupName = clsCommon.myCstr(dr("TaxGroupName"))
+                    obj.TermsName = clsCommon.myCstr(dr("TermsName"))
+                    obj.PROJECT_ID = clsCommon.myCstr(dr("PROJECT_ID"))
+                    obj.Vehicle_Code = clsCommon.myCstr(dr("Vehicle_Code"))
+                    obj.VehicleNo = clsCommon.myCstr(dr("VehicleNo"))
+                    If dr("Posting_Date") IsNot DBNull.Value Then
+                        obj.Posting_Date = clsCommon.myCDate(dr("Posting_Date"))
+                    End If
+
+
+                    obj.Challan_No = clsCommon.myCdbl(dr("Challan_No"))
+                    obj.Carrier = clsCommon.myCstr(dr("Carrier"))
+                    obj.Vehicle_Code = clsCommon.myCstr(dr("Vehicle_Code"))
+                    obj.VehicleNo = clsCommon.myCstr(dr("VehicleNo"))
+                    obj.GRNo = clsCommon.myCstr(dr("GRNo"))
+                    obj.GENo = clsCommon.myCstr(dr("GENo"))
+                    If dr("GEDate") IsNot DBNull.Value Then
+                        obj.GEDate = clsCommon.myCDate(dr("GEDate"))
+                    End If
+
+
+
+
+                    obj.Dept = clsCommon.myCstr(dr("Dept"))
+                    obj.Dept_Desc = clsCommon.myCstr(dr("Dept_Desc"))
+                    obj.Item_Type = clsCommon.myCstr(dr("Item_Type"))
+
+                    obj.Against_Invoice_No = clsCommon.myCstr(dr("Against_Invoice_No"))
+
+
+                    obj.Add_Charge_Code1 = clsCommon.myCstr(dr("Add_Charge_Code1"))
+                    obj.Add_Charge_Name1 = clsCommon.myCstr(dr("Add_Charge_Name1"))
+                    obj.Add_Charge_Amt1 = clsCommon.myCdbl(dr("Add_Charge_Amt1"))
+
+                    obj.Add_Charge_Code2 = clsCommon.myCstr(dr("Add_Charge_Code2"))
+                    obj.Add_Charge_Name2 = clsCommon.myCstr(dr("Add_Charge_Name2"))
+                    obj.Add_Charge_Amt2 = clsCommon.myCdbl(dr("Add_Charge_Amt2"))
+
+                    obj.Add_Charge_Code3 = clsCommon.myCstr(dr("Add_Charge_Code3"))
+                    obj.Add_Charge_Name3 = clsCommon.myCstr(dr("Add_Charge_Name3"))
+                    obj.Add_Charge_Amt3 = clsCommon.myCdbl(dr("Add_Charge_Amt3"))
+
+                    obj.Add_Charge_Code4 = clsCommon.myCstr(dr("Add_Charge_Code4"))
+                    obj.Add_Charge_Name4 = clsCommon.myCstr(dr("Add_Charge_Name4"))
+                    obj.Add_Charge_Amt4 = clsCommon.myCdbl(dr("Add_Charge_Amt4"))
+
+                    obj.Add_Charge_Code5 = clsCommon.myCstr(dr("Add_Charge_Code5"))
+                    obj.Add_Charge_Name5 = clsCommon.myCstr(dr("Add_Charge_Name5"))
+                    obj.Add_Charge_Amt5 = clsCommon.myCdbl(dr("Add_Charge_Amt5"))
+
+                    obj.Add_Charge_Code6 = clsCommon.myCstr(dr("Add_Charge_Code6"))
+                    obj.Add_Charge_Name6 = clsCommon.myCstr(dr("Add_Charge_Name6"))
+                    obj.Add_Charge_Amt6 = clsCommon.myCdbl(dr("Add_Charge_Amt6"))
+
+                    obj.Add_Charge_Code7 = clsCommon.myCstr(dr("Add_Charge_Code7"))
+                    obj.Add_Charge_Name7 = clsCommon.myCstr(dr("Add_Charge_Name7"))
+                    obj.Add_Charge_Amt7 = clsCommon.myCdbl(dr("Add_Charge_Amt7"))
+
+                    obj.Add_Charge_Code8 = clsCommon.myCstr(dr("Add_Charge_Code8"))
+                    obj.Add_Charge_Name8 = clsCommon.myCstr(dr("Add_Charge_Name8"))
+                    obj.Add_Charge_Amt8 = clsCommon.myCdbl(dr("Add_Charge_Amt8"))
+
+                    obj.Add_Charge_Code9 = clsCommon.myCstr(dr("Add_Charge_Code9"))
+                    obj.Add_Charge_Name9 = clsCommon.myCstr(dr("Add_Charge_Name9"))
+                    obj.Add_Charge_Amt9 = clsCommon.myCdbl(dr("Add_Charge_Amt9"))
+
+                    obj.Add_Charge_Code10 = clsCommon.myCstr(dr("Add_Charge_Code10"))
+                    obj.Add_Charge_Name10 = clsCommon.myCstr(dr("Add_Charge_Name10"))
+                    obj.Add_Charge_Amt10 = clsCommon.myCdbl(dr("Add_Charge_Amt10"))
+
+                    obj.Total_Add_Charge = clsCommon.myCdbl(dr("Total_Add_Charge"))
+                    obj.Inv_No = clsCommon.myCstr(dr("Inv_No"))
+                    If clsCommon.myLen((dr("Challan_Date"))) <= 0 Then
+                        obj.Challan_Date = ""
+                    Else
+                        obj.Challan_Date = clsCommon.GetPrintDate((dr("Challan_Date")), "dd/MMM/yyyy")
+                    End If
+
+                    If clsCommon.myLen((dr("Inv_Date"))) <= 0 Then
+                        obj.Inv_Date = ""
+                    Else
+                        obj.Inv_Date = clsCommon.GetPrintDate((dr("Inv_Date")), "dd/MMM/yyyy")
+                    End If
+
+                    obj.Tax_Calculation_Type = IIf(clsCommon.myCdbl(dr("Tax_Calculation_Type")) = 0, EnumTaxCalucationType.Automatic, EnumTaxCalucationType.Mannual)
+
+                    obj.Salesman_Code = clsCommon.myCstr(dr("Salesman_Code"))
+                    obj.Salesman_Name = clsCommon.myCstr(dr("Salesman_Name"))
+                    obj.HeadDisc_Per = clsCommon.myCdbl(dr("HeadDisc_Per"))
+                    obj.HeadDisc_PerAmt = clsCommon.myCdbl(dr("HeadDisc_PerAmt"))
+                    obj.HeadDisc_Amt = clsCommon.myCdbl(dr("HeadDisc_Amt"))
+                    obj.Return_Type = clsCommon.myCstr(dr("Return_Type"))
+                    obj.Shift_Type = clsCommon.myCstr(dr("Shift_Type"))
+                    obj.Damage_Type = clsCommon.myCstr(dr("Damage_Type"))
+
+                    '' CURRENCYCONVERSION 
+                    obj.CURRENCY_CODE = clsCommon.myCstr(dr("CURRENCY_CODE"))
+                    obj.ConvRate = clsCommon.myCdbl(dr("ConvRate"))
+                    If IsDBNull(dr("ApplicableFrom")) = True Then
+                        obj.ApplicableFrom = Nothing
+                    Else
+                        obj.ApplicableFrom = clsCommon.GetPrintDate(dr("ApplicableFrom"), "dd/MMM/yyyy")
+                    End If
+                Next
+            End If
+            'strQry = "Select * From TSPL_SD_SHIPMENT_RETURN_DETAIL Where Document_Code In(" + clsCommon.GetMulcallString(lstDoc) + ")"
+            strQry = "SELECT isnull(TSPL_SD_SHIPMENT_RETURN_DETAIL.Delivery_Code,'') as Delivery_Code,TSPL_SD_SHIPMENT_RETURN_DETAIL.CAN,  TSPL_SD_SHIPMENT_RETURN_DETAIL.Crate,TSPL_SD_SHIPMENT_RETURN_DETAIL.InvoiceCashScheme_Code,  TSPL_SD_SHIPMENT_RETURN_DETAIL.ItemwiseTaxCode,TSPL_SD_SHIPMENT_RETURN_DETAIL.Alter_UnitQty,TSPL_SD_SHIPMENT_RETURN_DETAIL.Rate_UnitQty,TSPL_SD_SHIPMENT_RETURN_DETAIL.InvoiceScheme_Code,TSPL_SD_SHIPMENT_RETURN_DETAIL.Cash_Scheme_Amount,TSPL_SD_SHIPMENT_RETURN_DETAIL.Cash_Scheme_Type,TSPL_SD_SHIPMENT_RETURN_DETAIL.Cash_Scheme_Pers,TSPL_SD_SHIPMENT_RETURN_DETAIL.Cash_Scheme_Code,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX_PAID ,TSPL_SD_SHIPMENT_RETURN_DETAIL.Item_Group, " &
+            "TSPL_SD_SHIPMENT_RETURN_DETAIL.Scheme_Item_UOM,TSPL_SD_SHIPMENT_RETURN_DETAIL.Scheme_Qty,TSPL_SD_SHIPMENT_RETURN_DETAIL.Scheme_Item_Code,TSPL_SD_SHIPMENT_RETURN_DETAIL.Scheme_Type,TSPL_SD_SHIPMENT_RETURN_DETAIL.Alternate_UOM,TSPL_SD_SHIPMENT_RETURN_DETAIL.RATE_UOM , TSPL_SD_SHIPMENT_RETURN_DETAIL.OrgUnit_code,TSPL_SD_SHIPMENT_RETURN_DETAIL.Is_Mannual_Amt,TSPL_SD_SHIPMENT_RETURN_DETAIL.Document_Code,TSPL_SD_SHIPMENT_RETURN_DETAIL.Line_No, " &
+            "TSPL_SD_SHIPMENT_RETURN_DETAIL.Status,TSPL_SD_SHIPMENT_RETURN_DETAIL.Row_Type,TSPL_SD_SHIPMENT_RETURN_DETAIL.status,TSPL_SD_SHIPMENT_RETURN_DETAIL.Item_Code, " &
+            "TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SHIPMENT_RETURN_DETAIL.Qty,TSPL_SD_SHIPMENT_RETURN_DETAIL.Free_Qty,TSPL_SD_SHIPMENT_RETURN_DETAIL.SHIPMENT_Code, " &
+            "TSPL_SD_SHIPMENT_RETURN_DETAIL.Shipment_Code,TSPL_SD_SHIPMENT_RETURN_DETAIL.Balance_Qty,TSPL_SD_SHIPMENT_RETURN_DETAIL.Unit_code, " &
+            "TSPL_SD_SHIPMENT_RETURN_DETAIL.Location,TSPL_SD_SHIPMENT_RETURN_DETAIL.Item_Cost,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX1,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX1_Rate, " &
+            "TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX1_Amt,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX2,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX2_Rate,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX2_Amt, " &
+            "TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX3,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX3_Rate,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX3_Amt,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX4, " &
+            "TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX4_Rate,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX4_Amt,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX5,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX5_Rate, " &
+            "TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX5_Amt,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX6,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX6_Rate,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX6_Amt, " &
+            "TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX7,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX7_Rate,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX7_Amt,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX8, " &
+            "TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX8_Rate,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX8_Amt,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX9,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX9_Rate, " &
+            "TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX9_Amt,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX10,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX10_Rate,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX10_Amt, " &
+            "TSPL_SD_SHIPMENT_RETURN_DETAIL.Amount,TSPL_SD_SHIPMENT_RETURN_DETAIL.Disc_Per,TSPL_SD_SHIPMENT_RETURN_DETAIL.Disc_Amt, " &
+            "TSPL_SD_SHIPMENT_RETURN_DETAIL.Amt_Less_Discount,TSPL_SD_SHIPMENT_RETURN_DETAIL.Total_Tax_Amt,TSPL_SD_SHIPMENT_RETURN_DETAIL.Item_Net_Amt, " &
+            "TSPL_LOCATION_MASTER.Location_Desc as LocationName,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX1_Base_Amt,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX2_Base_Amt, " &
+            "TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX3_Base_Amt,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX4_Base_Amt,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX5_Base_Amt, " &
+            "TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX6_Base_Amt,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX7_Base_Amt,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX8_Base_Amt, " &
+            "TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX9_Base_Amt,TSPL_SD_SHIPMENT_RETURN_DETAIL.TAX10_Base_Amt,TSPL_SD_SHIPMENT_RETURN_DETAIL.MRP , " &
+            "TSPL_SD_SHIPMENT_RETURN_DETAIL.Batch_No,TSPL_SD_SHIPMENT_RETURN_DETAIL.MFG_Date,TSPL_SD_SHIPMENT_RETURN_DETAIL.Expiry_Date, " &
+            "TSPL_SD_SHIPMENT_RETURN_DETAIL.Specification,TSPL_SD_SHIPMENT_RETURN_DETAIL.Remarks,TSPL_SD_SHIPMENT_RETURN_DETAIL.Assessable, " &
+            "TSPL_SD_SHIPMENT_RETURN_DETAIL.AssessableAmt,TSPL_SD_SHIPMENT_RETURN_DETAIL.DamageQty,TSPL_SD_SHIPMENT_RETURN_DETAIL.Return_Amount,TSPL_SD_SHIPMENT_RETURN_DETAIL.Damage_Amount, " &
+             "TSPL_SD_SHIPMENT_RETURN_DETAIL.Scheme_Applicable,TSPL_SD_SHIPMENT_RETURN_DETAIL.Scheme_Code, " &
+            "TSPL_SD_SHIPMENT_RETURN_DETAIL.Scheme_Item,TSPL_SD_SHIPMENT_RETURN_DETAIL.Item_Tax,TSPL_SD_SHIPMENT_RETURN_DETAIL.Total_MRP_Amt, " &
+            "TSPL_SD_SHIPMENT_RETURN_DETAIL.Total_Basic_Amt,TSPL_SD_SHIPMENT_RETURN_DETAIL.Total_Disc_Amt,TSPL_SD_SHIPMENT_RETURN_DETAIL.Cust_Discount, " &
+            "TSPL_SD_SHIPMENT_RETURN_DETAIL.Total_Cust_Discount,TSPL_SD_SHIPMENT_RETURN_DETAIL.ActualRate,TSPL_SD_SHIPMENT_RETURN_DETAIL.Cust_DiscountQty, " &
+            "TSPL_SD_SHIPMENT_RETURN_DETAIL.Price_code,TSPL_SD_SHIPMENT_RETURN_DETAIL.Abatement_Per,TSPL_SD_SHIPMENT_RETURN_DETAIL.Abatement_Amt, " &
+            "TSPL_SD_SHIPMENT_RETURN_DETAIL.FOC_Item,TSPL_SD_SHIPMENT_RETURN_DETAIL.Item_Weight,TSPL_SD_SHIPMENT_RETURN_DETAIL.Price_Date, " &
+            "TSPL_SD_SHIPMENT_RETURN_DETAIL.Bin_No,TSPL_SD_SHIPMENT_RETURN_DETAIL.vendor_code,TSPL_SD_SHIPMENT_RETURN_DETAIL.vendor_desc,TSPL_SD_SHIPMENT_RETURN_DETAIL.PrincipleCode,TSPL_SD_SHIPMENT_RETURN_DETAIL.PrincipleDesc,TSPL_SD_SHIPMENT_RETURN_DETAIL.TotalItem_Weight,TSPL_SD_SHIPMENT_RETURN_DETAIL.Conv_Factor,TSPL_SD_SHIPMENT_RETURN_DETAIL.Purchase_Cost,TSPL_SD_SHIPMENT_RETURN_DETAIL.OrgRate,  " &
+            "TSPL_SD_SHIPMENT_RETURN_DETAIL.HeadDiscPer,TSPL_SD_SHIPMENT_RETURN_DETAIL.HeadDiscPerAmt,TSPL_SD_SHIPMENT_RETURN_DETAIL.Markup_On,TSPL_SD_SHIPMENT_RETURN_DETAIL.Markup_Percent,TSPL_SD_SHIPMENT_RETURN_DETAIL.Landing_Cost,TSPL_SD_SHIPMENT_RETURN_DETAIL.HeadDiscAmt,TSPL_SD_SHIPMENT_RETURN_DETAIL.CustDiscPer,TSPL_SD_SHIPMENT_RETURN_DETAIL.CasdDiscScheme_Code,TSPL_SD_SHIPMENT_RETURN_DETAIL.ActualUOM,TSPL_SD_SHIPMENT_RETURN_DETAIL.ActualQty,TSPL_SD_SHIPMENT_RETURN_DETAIL.ActualConvAmt,TSPL_SD_SHIPMENT_RETURN_DETAIL.Distributor_Commission_PKID,TSPL_SD_SHIPMENT_RETURN_DETAIL.Distributor_Commission_Rate,TSPL_SD_SHIPMENT_RETURN_DETAIL.Distributor_Commission_RateWithTax,TSPL_SD_SHIPMENT_RETURN_DETAIL.Distributor_Commission_Amt,TSPL_SD_SHIPMENT_RETURN_DETAIL.Transporter_Commission_Rate,TSPL_SD_SHIPMENT_RETURN_DETAIL.Transporter_Commission_Amt,TSPL_SD_SHIPMENT_RETURN_DETAIL.Security_Rate,TSPL_SD_SHIPMENT_RETURN_DETAIL.Security_Amt,TSPL_SD_SHIPMENT_RETURN_DETAIL.Transporter,TSPL_SD_SHIPMENT_RETURN_DETAIL.Price_with_tax "
+            strQry += " FROM TSPL_SD_SHIPMENT_RETURN_DETAIL "
+            strQry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_RETURN_DETAIL.Location "
+            strQry += " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_RETURN_DETAIL.Item_Code"
+            strQry += " where TSPL_SD_SHIPMENT_RETURN_DETAIL.Document_Code in(" + clsCommon.GetMulcallString(lstDoc) + ") ORDER BY TSPL_SD_SHIPMENT_RETURN_DETAIL.Line_No"
+
+            dt = clsDBFuncationality.GetDataTable(strQry, trans)
+            If dt IsNot Nothing And dt.Rows.Count > 0 Then
+                obj.Arr = New List(Of clsShipmentReturnDetail)
+                For Each dr As DataRow In dt.Rows
+                    Dim objtr As New clsShipmentReturnDetail
+                    objtr.Delivery_Code = clsCommon.myCstr(dr("Delivery_Code"))
+                    objtr.CAN = clsCommon.myCdbl(dr("CAN"))
+                    objtr.Crate = clsCommon.myCdbl(dr("Crate"))
+                    objtr.ItemwiseTaxCode = clsCommon.myCstr(dr("ItemwiseTaxCode"))
+                    objtr.Alter_UnitQty = clsCommon.myCdbl(dr("Alter_UnitQty"))
+                    objtr.Rate_UnitQty = clsCommon.myCdbl(dr("Rate_UnitQty"))
+                    objtr.InvoiceCashScheme_Code = clsCommon.myCstr(dr("InvoiceCashScheme_Code"))
+                    objtr.InvoiceScheme_Code = clsCommon.myCstr(dr("InvoiceScheme_Code"))
+                    objtr.Cash_Scheme_Code = clsCommon.myCstr(dr("Cash_Scheme_Code"))
+                    objtr.Cash_Scheme_Type = clsCommon.myCstr(dr("Cash_Scheme_Type"))
+                    objtr.Cash_Scheme_Pers = clsCommon.myCdbl(dr("Cash_Scheme_Pers"))
+                    objtr.Cash_Scheme_Amount = clsCommon.myCdbl(dr("Cash_Scheme_Amount"))
+                    objtr.Scheme_Type = clsCommon.myCstr(dr("Scheme_Type"))
+                    objtr.Scheme_Qty = clsCommon.myCdbl(dr("Scheme_Qty"))
+                    objtr.Scheme_Item_UOM = clsCommon.myCstr(dr("Scheme_Item_UOM"))
+                    objtr.Scheme_Item_Code = clsCommon.myCstr(dr("Scheme_Item_Code"))
+                    objtr.Alternate_UOM = clsCommon.myCstr(dr("Alternate_UOM"))
+                    objtr.RATE_UOM = clsCommon.myCstr(dr("RATE_UOM"))
+                    objtr.Item_Group = clsCommon.myCstr(dr("Item_Group"))
+                    objtr.TAX_PAID = clsCommon.myCstr(dr("TAX_PAID"))
+                    objtr.Price_with_tax = clsCommon.myCdbl(dr("Price_with_tax"))
+
+                    objtr.OrgUnit_code = clsCommon.myCstr(dr("OrgUnit_code"))
+                    objtr.Document_Code = clsCommon.myCstr(dr("Document_Code"))
+                    objtr.Row_Type = clsCommon.myCstr(dr("Row_Type"))
+                    objtr.Line_No = clsCommon.myCstr(dr("Line_No"))
+                    objtr.Status = Convert.ToInt32(clsCommon.myCdbl(dr("Status")))
+                    objtr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
+                    objtr.Item_Desc = clsCommon.myCstr(dr("Item_Desc"))
+                    objtr.Qty = clsCommon.myCdbl(dr("Qty"))
+                    objtr.DamageQty = clsCommon.myCdbl(dr("DamageQty"))
+                    objtr.Return_Amount = clsCommon.myCdbl(dr("Return_Amount"))
+                    objtr.Damage_Amount = clsCommon.myCdbl(dr("Damage_Amount"))
+                    objtr.Free_Qty = clsCommon.myCdbl(dr("Free_Qty"))
+                    objtr.Shipment_Code = clsCommon.myCstr(dr("Shipment_Code"))
+
+                    objtr.Balance_Qty = clsCommon.myCdbl(dr("Balance_Qty"))
+                    objtr.Unit_code = clsCommon.myCstr(dr("Unit_code"))
+                    objtr.Location = clsCommon.myCstr(dr("Location"))
+                    objtr.LocationName = clsCommon.myCstr(dr("LocationName"))
+                    objtr.Item_Cost = clsCommon.myCdbl(dr("Item_Cost"))
+                    objtr.TAX1 = clsCommon.myCstr(dr("TAX1"))
+                    objtr.TAX1_Base_Amt = clsCommon.myCdbl(dr("TAX1_Base_Amt"))
+                    objtr.TAX1_Rate = clsCommon.myCdbl(dr("TAX1_Rate"))
+                    objtr.TAX1_Amt = clsCommon.myCdbl(dr("TAX1_Amt"))
+                    objtr.TAX2 = clsCommon.myCstr(dr("TAX2"))
+                    objtr.TAX2_Base_Amt = clsCommon.myCdbl(dr("TAX2_Base_Amt"))
+                    objtr.TAX2_Rate = clsCommon.myCdbl(dr("TAX2_Rate"))
+                    objtr.TAX2_Amt = clsCommon.myCdbl(dr("TAX2_Amt"))
+                    objtr.TAX3 = clsCommon.myCstr(dr("TAX3"))
+                    objtr.TAX3_Base_Amt = clsCommon.myCdbl(dr("TAX3_Base_Amt"))
+                    objtr.TAX3_Rate = clsCommon.myCdbl(dr("TAX3_Rate"))
+                    objtr.TAX3_Amt = clsCommon.myCdbl(dr("TAX3_Amt"))
+                    objtr.TAX4 = clsCommon.myCstr(dr("TAX4"))
+                    objtr.TAX4_Base_Amt = clsCommon.myCdbl(dr("TAX4_Base_Amt"))
+                    objtr.TAX4_Rate = clsCommon.myCdbl(dr("TAX4_Rate"))
+                    objtr.TAX4_Amt = clsCommon.myCdbl(dr("TAX4_Amt"))
+                    objtr.TAX5 = clsCommon.myCstr(dr("TAX5"))
+                    objtr.TAX5_Base_Amt = clsCommon.myCdbl(dr("TAX5_Base_Amt"))
+                    objtr.TAX5_Rate = clsCommon.myCdbl(dr("TAX5_Rate"))
+                    objtr.TAX5_Amt = clsCommon.myCdbl(dr("TAX5_Amt"))
+                    objtr.TAX6 = clsCommon.myCstr(dr("TAX6"))
+                    objtr.TAX6_Base_Amt = clsCommon.myCdbl(dr("TAX6_Base_Amt"))
+                    objtr.TAX6_Rate = clsCommon.myCdbl(dr("TAX6_Rate"))
+                    objtr.TAX6_Amt = clsCommon.myCdbl(dr("TAX6_Amt"))
+                    objtr.TAX7 = clsCommon.myCstr(dr("TAX7"))
+                    objtr.TAX7_Base_Amt = clsCommon.myCdbl(dr("TAX7_Base_Amt"))
+                    objtr.TAX7_Rate = clsCommon.myCdbl(dr("TAX7_Rate"))
+                    objtr.TAX7_Amt = clsCommon.myCdbl(dr("TAX7_Amt"))
+                    objtr.TAX8 = clsCommon.myCstr(dr("TAX8"))
+                    objtr.TAX8_Base_Amt = clsCommon.myCdbl(dr("TAX8_Base_Amt"))
+                    objtr.TAX8_Rate = clsCommon.myCdbl(dr("TAX8_Rate"))
+                    objtr.TAX8_Amt = clsCommon.myCdbl(dr("TAX8_Amt"))
+                    objtr.TAX9 = clsCommon.myCstr(dr("TAX9"))
+                    objtr.TAX9_Base_Amt = clsCommon.myCdbl(dr("TAX9_Base_Amt"))
+                    objtr.TAX9_Rate = clsCommon.myCdbl(dr("TAX9_Rate"))
+                    objtr.TAX9_Amt = clsCommon.myCdbl(dr("TAX9_Amt"))
+                    objtr.TAX10 = clsCommon.myCstr(dr("TAX10"))
+                    objtr.TAX10_Base_Amt = clsCommon.myCdbl(dr("TAX10_Base_Amt"))
+                    objtr.TAX10_Rate = clsCommon.myCdbl(dr("TAX10_Rate"))
+                    objtr.TAX10_Amt = clsCommon.myCdbl(dr("TAX10_Amt"))
+                    objtr.Amount = clsCommon.myCdbl(dr("Amount"))
+                    objtr.Disc_Per = clsCommon.myCdbl(dr("Disc_Per"))
+                    objtr.Disc_Amt = clsCommon.myCdbl(dr("Disc_Amt"))
+                    objtr.Amt_Less_Discount = clsCommon.myCdbl(dr("Amt_Less_Discount"))
+                    objtr.Total_Tax_Amt = clsCommon.myCdbl(dr("Total_Tax_Amt"))
+                    objtr.Item_Net_Amt = clsCommon.myCdbl(dr("Item_Net_Amt"))
+
+
+                    objtr.Is_Mannual_Amt = clsCommon.myCdbl(dr("Is_Mannual_Amt"))
+
+                    ' ''objTr.Landed_Cost_Rate = clsCommon.myCdbl(dr("Landed_Cost_Rate"))
+                    ' ''objTr.Landed_Cost_Amount = clsCommon.myCdbl(dr("Landed_Cost_Amount"))
+
+                    objtr.MRP = clsCommon.myCdbl(dr("MRP"))
+                    objtr.Assessable = clsCommon.myCdbl(dr("Assessable"))
+                    objtr.AssessableAmt = clsCommon.myCdbl(dr("AssessableAmt"))
+                    objtr.Batch_No = clsCommon.myCstr(dr("Batch_No"))
+                    If dr("MFG_Date") IsNot DBNull.Value Then
+                        objtr.MFG_Date = clsCommon.myCDate(dr("MFG_Date"))
+                    End If
+                    If dr("Expiry_Date") IsNot DBNull.Value Then
+                        objtr.Expiry_Date = clsCommon.myCDate(dr("Expiry_Date"))
+                    End If
+                    objtr.Specification = clsCommon.myCstr(dr("Specification"))
+                    objtr.Remarks = clsCommon.myCstr(dr("Remarks"))
+
+
+                    objtr.Scheme_Applicable = clsCommon.myCstr(dr("Scheme_Applicable"))
+                    objtr.Scheme_Code = clsCommon.myCstr(dr("Scheme_Code"))
+                    objtr.Scheme_Item = clsCommon.myCstr(dr("Scheme_Item"))
+                    objtr.Item_Tax = clsCommon.myCdbl(dr("Item_Tax"))
+                    objtr.Total_MRP_Amt = clsCommon.myCdbl(dr("Total_MRP_Amt"))
+                    objtr.Total_Basic_Amt = clsCommon.myCdbl(dr("Total_Basic_Amt"))
+                    objtr.Total_Disc_Amt = clsCommon.myCdbl(dr("Total_Disc_Amt"))
+                    objtr.Cust_Discount = clsCommon.myCdbl(dr("Cust_Discount"))
+                    objtr.Total_Cust_Discount = clsCommon.myCdbl(dr("Total_Cust_Discount"))
+                    objtr.ActualRate = clsCommon.myCdbl(dr("ActualRate"))
+                    objtr.Cust_DiscountQty = clsCommon.myCdbl(dr("Cust_DiscountQty"))
+                    objtr.Price_code = clsCommon.myCstr(dr("Price_code"))
+                    If dr("Price_Date") IsNot DBNull.Value Then
+                        'If IsDBNull(dr("Price_Date")).ToString() = "" Then
+                        objtr.Price_Date = clsCommon.myCDate(dr("Price_Date"))
+                    End If
+
+
+                    objtr.Abatement_Per = clsCommon.myCdbl(dr("Abatement_Per"))
+                    objtr.Abatement_Amt = clsCommon.myCdbl(dr("Abatement_Amt"))
+                    objtr.FOC_Item = clsCommon.myCdbl(dr("FOC_Item"))
+                    objtr.Markup_On = clsCommon.myCstr(dr("Markup_On"))
+                    objtr.Markup_Percent = clsCommon.myCdbl(dr("Markup_Percent"))
+                    objtr.Landing_Cost = clsCommon.myCdbl(dr("Landing_Cost"))
+                    objtr.HeadDiscAmt = clsCommon.myCdbl(dr("HeadDiscAmt"))
+                    objtr.CustDiscPer = clsCommon.myCdbl(dr("CustDiscPer"))
+                    objtr.CasdDiscScheme_Code = clsCommon.myCstr(dr("CasdDiscScheme_Code"))
+                    objtr.Item_Weight = clsCommon.myCdbl(dr("Item_Weight"))
+                    objtr.TotalItem_Weight = clsCommon.myCdbl(dr("TotalItem_Weight"))
+                    objtr.Conv_Factor = clsCommon.myCdbl(dr("Conv_Factor"))
+                    objtr.Purchase_Cost = clsCommon.myCdbl(dr("Purchase_Cost"))
+                    objtr.OrgRate = clsCommon.myCdbl(dr("OrgRate"))
+                    objtr.Bin_No = clsCommon.myCstr(dr("Bin_No"))
+                    objtr.PrincipleCode = clsCommon.myCstr(dr("PrincipleCode"))
+                    objtr.PrincipleDesc = clsCommon.myCstr(dr("PrincipleDesc"))
+                    objtr.vendor_code = clsCommon.myCstr(dr("vendor_code"))
+                    objtr.vendor_desc = clsCommon.myCstr(dr("vendor_desc"))
+                    objtr.HeadDiscPer = clsCommon.myCdbl(dr("HeadDiscPer"))
+                    objtr.HeadDiscPerAmt = clsCommon.myCdbl(dr("HeadDiscPerAmt"))
+                    objtr.ActuaQty = clsCommon.myCdbl(dr("ActualQty"))
+                    objtr.ActualUOM = clsCommon.myCstr(dr("ActualUOM"))
+                    objtr.ActualReturnQty = clsCommon.myCdbl(dr("ActualConvAmt"))
+                    objtr.Distributor_Commission_PKID = clsCommon.myCstr(dr("Distributor_Commission_PKID"))
+                    objtr.Distributor_Commission_Rate = clsCommon.myCdbl(dr("Distributor_Commission_Rate"))
+                    objtr.Distributor_Commission_RateWithTax = clsCommon.myCdbl(dr("Distributor_Commission_RateWithTax"))
+                    objtr.Distributor_Commission_Amt = clsCommon.myCdbl(dr("Distributor_Commission_Amt"))
+                    objtr.Transporter_Commission_Rate = clsCommon.myCdbl(dr("Transporter_Commission_Rate"))
+                    objtr.Transporter_Commission_Amt = clsCommon.myCdbl(dr("Transporter_Commission_Amt"))
+                    objtr.Security_Rate = clsCommon.myCdbl(dr("Security_Rate"))
+                    objtr.Security_Amt = clsCommon.myCdbl(dr("Security_Amt"))
+                    objtr.Transporter = clsCommon.myCdbl(dr("Transporter"))
+                    'objtr.arrSrItem = clsSerializeInvenotry.GetData("Sale Return", objtr.Document_Code, objtr.Item_Code, objtr.Line_No, trans)
+                    'objtr.arrBatchItem = clsBatchInventory.GetData(Trans_type_Str, objtr.Document_Code, objtr.Item_Code, objtr.Line_No, trans)
+                    obj.Arr.Add(objtr)
+                Next
+            End If
+
+
+
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return obj
+    End Function
+
+    Public Shared Function ConvertShipmentReutnToSaleReturn(ByVal objShipment As clsShipmentReturnHead, ByVal IsDairyModule As Boolean, ByVal trans As SqlTransaction) As clsDSSalesReturnHead 'sanjay
+        Dim obj As New clsDSSalesReturnHead()
+        obj = New clsDSSalesReturnHead()
+        Dim Taxable As Integer = 0
+        Try
+            'obj.Nine_NR_No = objShipment.Nine_NR_No
+            'If clsCommon.CompairString(objShipment.DO_Item_Type, "NT") = CompairStringResult.Equal Then
+            '    Taxable = 0
+            '    obj.Is_Taxable = 0
+            'ElseIf clsCommon.CompairString(objShipment.DO_Item_Type, "T") = CompairStringResult.Equal Then
+            '    Taxable = 1
+            '    obj.Is_Taxable = 1
+            'End If\
+            obj.isMultipleReturn = 1
+
+            obj.Is_Taxable = objShipment.Is_Taxable
+            obj.Trans_type = objShipment.Trans_type
+            obj.TotalCAN = objShipment.TotalCAN
+            obj.IsSampling = objShipment.IsSampling
+            obj.ShippedCAN = objShipment.ShippedCAN
+            obj.CrateQty = objShipment.CrateQty
+            'obj.OPKm = objShipment.OPKm
+            'obj.CLKm = objShipment.CLKm
+            obj.Screen_Type = objShipment.Screen_Type
+            'obj.IsSameBillShipParty = objShipment.IsSameBillShipParty
+            'obj.Ship_To_Party = objShipment.Ship_To_Party
+            'obj.Including_Insurance = objShipment.Including_Insurance
+            'obj.Crate = objShipment.Crate
+            obj.jaali = objShipment.jaali
+            obj.Box = objShipment.Box
+            'obj.isCardSale = objShipment.isCardSale
+            'obj.IsEwaybill = objShipment.IsEwaybill
+            'obj.podate = objShipment.Document_Date
+            obj.RoundOffAmount = objShipment.RoundOffAmount
+            obj.Total_Comm_Amt = objShipment.Total_Comm_Amt
+            obj.Invoice_Type = objShipment.Invoice_Type
+            obj.Document_Date = clsCommon.GETSERVERDATE(trans)
+            obj.Customer_Code = objShipment.Customer_Code
+            obj.Customer_Name = objShipment.Customer_Name
+            obj.Status = ERPTransactionStatus.Pending
+            obj.On_Hold = IIf(objShipment.On_Hold = 1, True, False)
+            obj.Is_Internal = IIf(objShipment.Is_Internal = 1, True, False)
+            obj.Ref_No = objShipment.Ref_No
+            obj.Description = objShipment.Description
+            obj.Remarks = objShipment.Remarks
+            obj.Bill_To_Location = objShipment.Bill_To_Location
+            obj.Ship_To_Location = objShipment.Ship_To_Location
+            obj.Sub_Location_code = objShipment.Sub_Location_code
+            obj.Tax_Group = objShipment.Tax_Group
+            'obj.ActualTCSBaseAmount = objShipment.ActualTCSBaseAmount
+            'obj.ChangedTCSBaseAmount = objShipment.ChangedTCSBaseAmount
+            obj.TAX1 = objShipment.TAX1
+            obj.TAX1_Rate = objShipment.TAX1_Rate
+            obj.TAX1_Base_Amt = objShipment.TAX1_Base_Amt
+            obj.TAX1_Amt = objShipment.TAX1_Amt
+            obj.TAX2 = objShipment.TAX2
+            obj.TAX2_Rate = objShipment.TAX2_Rate
+            obj.TAX2_Base_Amt = objShipment.TAX2_Base_Amt
+            obj.TAX2_Amt = objShipment.TAX2_Amt
+            obj.TAX3 = objShipment.TAX3
+            obj.TAX3_Base_Amt = objShipment.TAX3_Base_Amt
+            obj.TAX3_Rate = objShipment.TAX3_Rate
+            obj.TAX3_Amt = objShipment.TAX3_Amt
+            obj.TAX4 = objShipment.TAX4
+            obj.TAX4_Rate = objShipment.TAX4_Rate
+            obj.TAX4_Base_Amt = objShipment.TAX4_Base_Amt
+            obj.TAX4_Amt = objShipment.TAX4_Amt
+            obj.TAX5 = objShipment.TAX5
+            obj.TAX5_Rate = objShipment.TAX5_Rate
+            obj.TAX5_Base_Amt = objShipment.TAX5_Base_Amt
+            obj.TAX5_Amt = objShipment.TAX5_Amt
+            obj.TAX6 = objShipment.TAX6
+            obj.TAX6_Rate = objShipment.TAX6_Rate
+            obj.TAX6_Base_Amt = objShipment.TAX6_Base_Amt
+            obj.TAX6_Amt = objShipment.TAX6_Amt
+            obj.TAX7 = objShipment.TAX7
+            obj.TAX7_Rate = objShipment.TAX7_Rate
+            obj.TAX7_Base_Amt = objShipment.TAX7_Base_Amt
+            obj.TAX7_Amt = objShipment.TAX7_Amt
+            obj.TAX8 = objShipment.TAX8
+            obj.TAX8_Rate = objShipment.TAX8_Rate
+            obj.TAX8_Base_Amt = objShipment.TAX8_Base_Amt
+            obj.TAX8_Amt = objShipment.TAX8_Amt
+            obj.TAX9 = objShipment.TAX9
+            obj.TAX9_Rate = objShipment.TAX9_Rate
+            obj.TAX9_Base_Amt = objShipment.TAX9_Base_Amt
+            obj.TAX9_Amt = objShipment.TAX9_Amt
+            obj.TAX10 = objShipment.TAX10
+            obj.TAX10_Rate = objShipment.TAX10_Rate
+            obj.TAX10_Base_Amt = objShipment.TAX10_Base_Amt
+            obj.TAX10_Amt = objShipment.TAX10_Amt
+            obj.Total_Tax_Amt = objShipment.Total_Tax_Amt
+            obj.Discount_Base = objShipment.Discount_Base
+            obj.Discount_Amt = objShipment.Discount_Amt
+            obj.Amount_Less_Discount = objShipment.Amount_Less_Discount
+            obj.Total_Amt = objShipment.Total_Amt
+            obj.Comments = objShipment.Comments
+            obj.Comp_Code = objShipment.Comp_Code
+            obj.Terms_Code = objShipment.Terms_Code
+            obj.Due_Date = objShipment.Due_Date
+            obj.BillToLocationName = objShipment.BillToLocationName
+            obj.ShipToLocationName = objShipment.ShipToLocationName
+            obj.TaxGroupName = objShipment.TaxGroupName
+            obj.TermsName = objShipment.TermsName
+            obj.PROJECT_ID = objShipment.PROJECT_ID
+            obj.Route_No = objShipment.Route_No
+            obj.Route_Desc = objShipment.Route_Desc
+            obj.Price_Code = objShipment.Price_Code
+            obj.HeadDisc_Per = objShipment.HeadDisc_Per
+            obj.HeadDisc_Amt = objShipment.HeadDisc_Amt
+            obj.HeadDisc_PerAmt = objShipment.HeadDisc_PerAmt
+            obj.TotCashDiscAmt = objShipment.TotCashDiscAmt
+            obj.Cust_PO_No = objShipment.Cust_PO_No
+            'obj.podate = objShipment.Podate
+            'obj.VAT_InvoiceNo = objShipment.VAT_InvoiceNo
+
+            If objShipment.Posting_Date IsNot Nothing Then
+                obj.Posting_Date = objShipment.Posting_Date
+            End If
+
+            'obj.Manual_Driver_Name = objShipment.Manual_Driver_Name
+            'obj.Manual_Salesman_Name = objShipment.Manual_Salesman_Name
+
+            obj.Salesman_Code = objShipment.Salesman_Code
+            obj.Salesman_Name = objShipment.Salesman_Name
+
+            obj.Challan_No = objShipment.Challan_No
+            obj.Carrier = objShipment.Carrier
+            obj.Vehicle_Code = objShipment.Vehicle_Code
+            obj.VehicleNo = objShipment.VehicleNo
+
+            'obj.Transport_Code = objShipment.Transport_Id
+            'obj.Transporter_Name = objShipment.Transporter_Name
+            'obj.Freight_Distance = objShipment.Freight_Distance
+
+            obj.GRNo = objShipment.GRNo
+            obj.GENo = objShipment.GENo
+            If objShipment.GEDate IsNot Nothing Then
+                obj.GEDate = objShipment.GEDate
+            End If
+
+
+
+
+            obj.Dept = objShipment.Dept
+            obj.Dept_Desc = objShipment.Dept_Desc
+            obj.Item_Type = objShipment.Item_Type
+
+            'obj.Against_Shipment_No = objShipment.Document_Code
+
+
+            obj.Add_Charge_Code1 = objShipment.Add_Charge_Code1
+            obj.Add_Charge_Name1 = objShipment.Add_Charge_Name1
+            obj.Add_Charge_Amt1 = objShipment.Add_Charge_Amt1
+
+            obj.Add_Charge_Code2 = objShipment.Add_Charge_Code2
+            obj.Add_Charge_Name2 = objShipment.Add_Charge_Name2
+            obj.Add_Charge_Amt2 = objShipment.Add_Charge_Amt2
+
+            obj.Add_Charge_Code3 = objShipment.Add_Charge_Code3
+            obj.Add_Charge_Name3 = objShipment.Add_Charge_Name3
+            obj.Add_Charge_Amt3 = objShipment.Add_Charge_Amt3
+
+            obj.Add_Charge_Code4 = objShipment.Add_Charge_Code4
+            obj.Add_Charge_Name4 = objShipment.Add_Charge_Name4
+            obj.Add_Charge_Amt4 = objShipment.Add_Charge_Amt4
+
+            obj.Add_Charge_Code5 = objShipment.Add_Charge_Code5
+            obj.Add_Charge_Name5 = objShipment.Add_Charge_Name5
+            obj.Add_Charge_Amt5 = objShipment.Add_Charge_Amt5
+
+            obj.Add_Charge_Code6 = objShipment.Add_Charge_Code6
+            obj.Add_Charge_Name6 = objShipment.Add_Charge_Name6
+            obj.Add_Charge_Amt6 = objShipment.Add_Charge_Amt6
+
+            obj.Add_Charge_Code7 = objShipment.Add_Charge_Code7
+            obj.Add_Charge_Name7 = objShipment.Add_Charge_Name7
+            obj.Add_Charge_Amt7 = objShipment.Add_Charge_Amt7
+
+            obj.Add_Charge_Code8 = objShipment.Add_Charge_Code8
+            obj.Add_Charge_Name8 = objShipment.Add_Charge_Name8
+            obj.Add_Charge_Amt8 = objShipment.Add_Charge_Amt8
+
+            obj.Add_Charge_Code9 = objShipment.Add_Charge_Code9
+            obj.Add_Charge_Name9 = objShipment.Add_Charge_Name9
+            obj.Add_Charge_Amt9 = objShipment.Add_Charge_Amt9
+
+            obj.Add_Charge_Code10 = objShipment.Add_Charge_Code10
+            obj.Add_Charge_Name10 = objShipment.Add_Charge_Name10
+            obj.Add_Charge_Amt10 = objShipment.Add_Charge_Amt10
+
+            obj.Total_Add_Charge = objShipment.Total_Add_Charge
+            obj.Inv_No = objShipment.Inv_No
+            If clsCommon.myLen(objShipment.Challan_Date) <= 0 Then
+                obj.Challan_Date = ""
+            Else
+                obj.Challan_Date = clsCommon.GetPrintDate(objShipment.Challan_Date, "dd/MMM/yyyy")
+            End If
+
+            If clsCommon.myLen(objShipment.Inv_Date) <= 0 Then
+                obj.Inv_Date = clsCommon.GETSERVERDATE(trans)
+            Else
+                obj.Inv_Date = clsCommon.GetPrintDate(objShipment.Inv_Date, "dd/MMM/yyyy")
+            End If
+            'obj.SO_Validity = objShipment.SO_Validity
+            'obj.Commission_Apply = objShipment.Commission_Apply
+            'obj.Dispatch_date = objShipment.Dispatch_date
+            'obj.Vehicle_Capacity = objShipment.Vehicle_Capacity
+            'obj.Dispatch_Terms = objShipment.Dispatch_Terms
+            'obj.Payment_Terms = objShipment.Payment_Terms
+            'obj.Dispatch_Period = objShipment.Dispatch_Period
+            'obj.WayBillNo = objShipment.WayBillNo
+            'obj.WayBillDate = objShipment.WayBillDate
+            obj.Tax_Calculation_Type = IIf(objShipment.Tax_Calculation_Type = 0, EnumTaxCalucationType.Automatic, EnumTaxCalucationType.Mannual)
+            'obj.Is_Create_Auto_Receipt = objShipment.Is_Create_Auto_Receipt
+
+            'obj.Mannual_Document_Code = objShipment.Mannual_Invoice_No
+            'obj.InvoiceManualNowithPrefix = objShipment.InvoiceManualNowithPrefix
+            If Taxable = 1 Then
+                'obj.Scheme_Tax_Group = objShipment.Scheme_Tax_Group
+                'obj.Tax_Group = objShipment.Scheme_Tax_Group
+                'obj.RoundOffAmount = 0
+            ElseIf Taxable = 0 Then
+                'obj.Scheme_Tax_Group = objShipment.Scheme_Tax_Group
+                obj.Total_Tax_Amt = 0
+                obj.TAX1_Rate = 0
+                obj.TAX2_Rate = 0
+                obj.TAX3_Rate = 0
+                obj.TAX4_Rate = 0
+                obj.TAX5_Rate = 0
+                obj.TAX6_Rate = 0
+                obj.TAX7_Rate = 0
+                obj.TAX8_Rate = 0
+                obj.TAX9_Rate = 0
+                obj.TAX10_Rate = 0
+                'obj.RoundOffAmount = 0
+
+            End If
+            'obj.IsMultipleInvoice = 1
+            obj.Discount_Amt = 0
+            obj.Amount_Less_Discount = 0
+            obj.Total_Amt = 0
+            obj.Discount_Base = 0
+            obj.Distributor_Commission_TotalAmt = 0
+            obj.Security_TotalAmt = 0
+            obj.Transporter_Commission_TotalAmt = 0
+
+
+
+            '-------------------------------------------------------------------
+            If (objShipment.Arr IsNot Nothing AndAlso objShipment.Arr.Count > 0) Then
+                obj.Arr = New List(Of clsDSSalesReturnDetail)
+                Dim objTr As clsDSSalesReturnDetail
+                For Each objShipmentDetail As clsShipmentReturnDetail In objShipment.Arr
+                    objTr = New clsDSSalesReturnDetail
+                    'Dim IsTaxable As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsTaxable from TSPL_ITEM_MASTER where item_code='" & objShipmentDetail.Item_Code & "'"))
+                    'If (SingleInvoice = True OrElse (SingleInvoice = False AndAlso IIf(Taxable = 0, IsTaxable = 0, IsTaxable = 1))) Then
+                    objTr.Sampling = objShipmentDetail.Sampling
+                    objTr.Crate = objShipmentDetail.Crate
+                    objTr.CAN = objShipmentDetail.CAN
+                    objTr.ItemwiseTaxCode = objShipmentDetail.ItemwiseTaxCode
+                    objTr.Alter_UnitQty = objShipmentDetail.Alter_UnitQty
+                    objTr.Cash_Scheme_Code = objShipmentDetail.Cash_Scheme_Code
+                    objTr.Cash_Scheme_Type = objShipmentDetail.Cash_Scheme_Type
+                    objTr.Cash_Scheme_Pers = objShipmentDetail.Cash_Scheme_Pers
+                    objTr.Cash_Scheme_Amount = objShipmentDetail.Cash_Scheme_Amount
+                    objTr.Scheme_Type = objShipmentDetail.Scheme_Type
+                    objTr.Scheme_Qty = objShipmentDetail.Scheme_Qty
+                    objTr.Scheme_Item_UOM = objShipmentDetail.Scheme_Item_UOM
+                    objTr.Scheme_Item_Code = objShipmentDetail.Scheme_Item_Code
+                    objTr.Return_Amount = objShipmentDetail.Return_Amount
+
+
+                    objTr.RATE_UOM = objShipmentDetail.RATE_UOM
+                    objTr.Alternate_UOM = objShipmentDetail.Alternate_UOM
+                    objTr.PrincipleCode = objShipmentDetail.PrincipleCode
+                    objTr.PrincipleDesc = objShipmentDetail.PrincipleDesc
+                    objTr.vendor_code = objShipmentDetail.vendor_code
+                    objTr.vendor_desc = objShipmentDetail.vendor_desc
+                    objTr.Document_Code = objShipmentDetail.Document_Code
+                    objTr.Row_Type = objShipmentDetail.Row_Type
+                    objTr.Line_No = objShipmentDetail.Line_No
+                    objTr.Status = Convert.ToInt32(objShipmentDetail.Status)
+                    objTr.Item_Code = objShipmentDetail.Item_Code
+                    objTr.Item_Desc = objShipmentDetail.Item_Desc
+                    objTr.Qty = objShipmentDetail.Qty
+                    objTr.Free_Qty = objShipmentDetail.Free_Qty
+                    objTr.Against_Dispatch = objShipmentDetail.Document_Code
+                    objTr.Balance_Qty = objShipmentDetail.Balance_Qty
+                    objTr.Unit_code = objShipmentDetail.Unit_code
+                    objTr.ActualUOM = objShipmentDetail.ActualUOM
+                    objTr.ActuaQty = objShipmentDetail.ActuaQty
+                    objTr.Location = objShipmentDetail.Location
+                    objTr.LocationName = objShipmentDetail.LocationName
+                    objTr.Item_Cost = objShipmentDetail.Item_Cost
+                    objTr.TAX1 = objShipmentDetail.TAX1
+                    objTr.TAX1_Base_Amt = objShipmentDetail.TAX1_Base_Amt
+                    objTr.TAX1_Rate = objShipmentDetail.TAX1_Rate
+                    objTr.TAX1_Amt = objShipmentDetail.TAX1_Amt
+                    objTr.TAX2 = objShipmentDetail.TAX2
+                    objTr.TAX2_Base_Amt = objShipmentDetail.TAX2_Base_Amt
+                    objTr.TAX2_Rate = objShipmentDetail.TAX2_Rate
+                    objTr.TAX2_Amt = objShipmentDetail.TAX2_Amt
+                    objTr.TAX3 = objShipmentDetail.TAX3
+                    objTr.TAX3_Base_Amt = objShipmentDetail.TAX3_Base_Amt
+                    objTr.TAX3_Rate = objShipmentDetail.TAX3_Rate
+                    objTr.TAX3_Amt = objShipmentDetail.TAX3_Amt
+                    objTr.TAX4 = objShipmentDetail.TAX4
+                    objTr.TAX4_Base_Amt = objShipmentDetail.TAX4_Base_Amt
+                    objTr.TAX4_Rate = objShipmentDetail.TAX4_Rate
+                    objTr.TAX4_Amt = objShipmentDetail.TAX4_Amt
+                    objTr.TAX5 = objShipmentDetail.TAX5
+                    objTr.TAX5_Base_Amt = objShipmentDetail.TAX5_Base_Amt
+                    objTr.TAX5_Rate = objShipmentDetail.TAX5_Rate
+                    objTr.TAX5_Amt = objShipmentDetail.TAX5_Amt
+                    objTr.TAX6 = objShipmentDetail.TAX6
+                    objTr.TAX6_Base_Amt = objShipmentDetail.TAX6_Base_Amt
+                    objTr.TAX6_Rate = objShipmentDetail.TAX6_Rate
+                    objTr.TAX6_Amt = objShipmentDetail.TAX6_Amt
+                    objTr.TAX7 = objShipmentDetail.TAX7
+                    objTr.TAX7_Base_Amt = objShipmentDetail.TAX7_Base_Amt
+                    objTr.TAX7_Rate = objShipmentDetail.TAX7_Rate
+                    objTr.TAX7_Amt = objShipmentDetail.TAX7_Amt
+                    objTr.TAX8 = objShipmentDetail.TAX8
+                    objTr.TAX8_Base_Amt = objShipmentDetail.TAX8_Base_Amt
+                    objTr.TAX8_Rate = objShipmentDetail.TAX8_Rate
+                    objTr.TAX8_Amt = objShipmentDetail.TAX8_Amt
+                    objTr.TAX9 = objShipmentDetail.TAX9
+                    objTr.TAX9_Base_Amt = objShipmentDetail.TAX9_Base_Amt
+                    objTr.TAX9_Rate = objShipmentDetail.TAX9_Rate
+                    objTr.TAX9_Amt = objShipmentDetail.TAX9_Amt
+                    objTr.TAX10 = objShipmentDetail.TAX10
+                    objTr.TAX10_Base_Amt = objShipmentDetail.TAX10_Base_Amt
+                    objTr.TAX10_Rate = objShipmentDetail.TAX10_Rate
+                    objTr.TAX10_Amt = objShipmentDetail.TAX10_Amt
+                    objTr.Amount = objShipmentDetail.Amount
+                    objTr.Disc_Per = objShipmentDetail.Disc_Per
+                    objTr.Disc_Amt = objShipmentDetail.Disc_Amt
+                    objTr.Amt_Less_Discount = objShipmentDetail.Amt_Less_Discount
+                    objTr.Total_Tax_Amt = objShipmentDetail.Total_Tax_Amt
+                    objTr.Item_Net_Amt = objShipmentDetail.Item_Net_Amt
+
+
+                    objTr.Is_Mannual_Amt = objShipmentDetail.Is_Mannual_Amt
+
+                    objTr.MRP = objShipmentDetail.MRP
+                    objTr.Assessable = objShipmentDetail.Assessable
+                    objTr.AssessableAmt = objShipmentDetail.AssessableAmt
+                    objTr.Batch_No = objShipmentDetail.Batch_No
+
+                    objTr.Specification = objShipmentDetail.Specification
+                    objTr.Remarks = objShipmentDetail.Remarks
+
+                    objTr.Scheme_Applicable = objShipmentDetail.Scheme_Applicable
+                    objTr.Scheme_Code = objShipmentDetail.Scheme_Code
+                    objTr.Scheme_Item = objShipmentDetail.Scheme_Item
+                    objTr.Item_Tax = objShipmentDetail.Item_Tax
+                    objTr.Total_MRP_Amt = objShipmentDetail.Total_MRP_Amt
+                    objTr.Total_Basic_Amt = objShipmentDetail.Total_Basic_Amt
+                    objTr.Total_Disc_Amt = objShipmentDetail.Total_Disc_Amt
+                    objTr.Cust_Discount = objShipmentDetail.Cust_Discount
+                    objTr.Total_Cust_Discount = objShipmentDetail.Total_Cust_Discount
+                    objTr.ActualRate = objShipmentDetail.ActualRate
+                    objTr.Cust_DiscountQty = objShipmentDetail.Cust_DiscountQty
+                    objTr.Price_code = objShipmentDetail.Price_code
+                    objTr.Price_Date = objShipmentDetail.Price_Date
+                    objTr.Abatement_Per = objShipmentDetail.Abatement_Per
+                    objTr.Abatement_Amt = objShipmentDetail.Abatement_Amt
+                    objTr.FOC_Item = objShipmentDetail.FOC_Item
+                    objTr.Markup_On = objShipmentDetail.Markup_On
+                    objTr.Markup_Percent = objShipmentDetail.Markup_Percent
+                    objTr.Landing_Cost = objShipmentDetail.Landing_Cost
+                    objTr.HeadDiscAmt = objShipmentDetail.HeadDiscAmt
+                    objTr.HeadDiscPer = objShipmentDetail.HeadDiscPer
+                    objTr.HeadDiscPerAmt = objShipmentDetail.HeadDiscPerAmt
+                    objTr.CustDiscPer = objShipmentDetail.CustDiscPer
+                    objTr.CasdDiscScheme_Code = objShipmentDetail.CasdDiscScheme_Code
+
+                    objTr.Item_Weight = objShipmentDetail.Item_Weight
+                    objTr.TotalItem_Weight = objShipmentDetail.TotalItem_Weight
+                    objTr.Conv_Factor = objShipmentDetail.Conv_Factor
+                    objTr.Purchase_Cost = objShipmentDetail.Purchase_Cost
+                    objTr.OrgRate = objShipmentDetail.OrgRate
+
+                    objTr.Price_Amount1 = objShipmentDetail.Price_Amount1
+                    objTr.Price_Amount2 = objShipmentDetail.Price_Amount2
+                    objTr.Price_Amount3 = objShipmentDetail.Price_Amount3
+                    objTr.Price_Amount4 = objShipmentDetail.Price_Amount4
+                    objTr.Price_Amount5 = objShipmentDetail.Price_Amount5
+                    objTr.Price_Amount6 = objShipmentDetail.Price_Amount6
+                    objTr.Price_Amount7 = objShipmentDetail.Price_Amount7
+                    objTr.Price_Amount8 = objShipmentDetail.Price_Amount8
+                    objTr.Price_Amount9 = objShipmentDetail.Price_Amount9
+                    objTr.Price_Amount10 = objShipmentDetail.Price_Amount10
+
+                    objTr.TAX1_Base_Amt = objShipmentDetail.TAX1_Base_Amt
+                    objTr.TAX2_Base_Amt = objShipmentDetail.TAX2_Base_Amt
+                    objTr.TAX3_Base_Amt = objShipmentDetail.TAX3_Base_Amt
+                    objTr.TAX4_Base_Amt = objShipmentDetail.TAX4_Base_Amt
+                    objTr.TAX5_Base_Amt = objShipmentDetail.TAX5_Base_Amt
+                    objTr.TAX6_Base_Amt = objShipmentDetail.TAX6_Base_Amt
+                    objTr.TAX7_Base_Amt = objShipmentDetail.TAX7_Base_Amt
+                    objTr.TAX8_Base_Amt = objShipmentDetail.TAX8_Base_Amt
+                    objTr.TAX9_Base_Amt = objShipmentDetail.TAX9_Base_Amt
+                    objTr.TAX10_Base_Amt = objShipmentDetail.TAX10_Base_Amt
+                    objTr.Distributor_Commission_PKID = objShipmentDetail.Distributor_Commission_PKID
+                    objTr.Distributor_Commission_Rate = objShipmentDetail.Distributor_Commission_Rate
+                    objTr.Distributor_Commission_RateWithTax = objShipmentDetail.Distributor_Commission_RateWithTax
+                    objTr.Distributor_Commission_Amt = objShipmentDetail.Distributor_Commission_Amt
+                    objTr.Transporter_Commission_Rate = objShipmentDetail.Transporter_Commission_Rate
+                    objTr.Transporter_Commission_Amt = objShipmentDetail.Transporter_Commission_Amt
+                    objTr.Security_Rate = objShipmentDetail.Security_Rate
+                    objTr.Security_Amt = objShipmentDetail.Security_Amt
+
+
+                    'objTr.Commission_Rate = objShipmentDetail.Commission_Rate
+                    'objTr.Commission_Party = objShipmentDetail.Commission_Party
+                    'objTr.Commission_Amt = objShipmentDetail.Commission_Amt
+                    'objTr.Amt_Less_Commission = objShipmentDetail.Amt_Less_Commission
+                    'objTr.Delivery_Code = objShipmentDetail.Delivery_Code
+
+                    'If objShipmentDetail.FOC_Item = 1 Then
+                    '    obj.Discount_Amt += objShipmentDetail.Amt_Less_Discount
+                    'Else
+                    obj.Discount_Base += objShipmentDetail.Amount
+                    obj.Discount_Amt += objShipmentDetail.Disc_Amt
+                    obj.Amount_Less_Discount += objShipmentDetail.Amt_Less_Discount
+                    obj.Total_Tax_Amt += objShipmentDetail.Total_Tax_Amt
+                    obj.Total_Amt += objShipmentDetail.Item_Net_Amt
+                    'End If
+                    'obj.Discount_Base += objShipmentDetail.Amt_Less_Discount
+
+
+
+                    obj.TAX1 = objShipmentDetail.TAX1
+                    obj.TAX1_Base_Amt += objShipmentDetail.TAX1_Base_Amt
+                    obj.TAX1_Rate = objShipmentDetail.TAX1_Rate
+                    obj.TAX1_Amt += objShipmentDetail.TAX1_Amt
+                    obj.TAX2 = objShipmentDetail.TAX2
+                    obj.TAX2_Base_Amt += objShipmentDetail.TAX2_Base_Amt
+                    obj.TAX2_Rate = objShipmentDetail.TAX2_Rate
+                    obj.TAX2_Amt += objShipmentDetail.TAX2_Amt
+                    obj.TAX3 = objShipmentDetail.TAX3
+                    obj.TAX3_Base_Amt += objShipmentDetail.TAX3_Base_Amt
+                    obj.TAX3_Rate = objShipmentDetail.TAX3_Rate
+                    obj.TAX3_Amt += objShipmentDetail.TAX3_Amt
+                    obj.TAX4 = objShipmentDetail.TAX4
+                    obj.TAX4_Base_Amt += objShipmentDetail.TAX4_Base_Amt
+                    obj.TAX4_Rate = objShipmentDetail.TAX4_Rate
+                    obj.TAX4_Amt += objShipmentDetail.TAX4_Amt
+                    obj.TAX5 = objShipmentDetail.TAX5
+                    obj.TAX5_Base_Amt += objShipmentDetail.TAX5_Base_Amt
+                    obj.TAX5_Rate = objShipmentDetail.TAX5_Rate
+                    obj.TAX5_Amt += objShipmentDetail.TAX5_Amt
+                    obj.TAX6 = objShipmentDetail.TAX6
+                    obj.TAX6_Base_Amt += objShipmentDetail.TAX6_Base_Amt
+                    obj.TAX6_Rate = objShipmentDetail.TAX6_Rate
+                    obj.TAX6_Amt += objShipmentDetail.TAX6_Amt
+                    obj.TAX7 = objShipmentDetail.TAX7
+                    obj.TAX7_Base_Amt += objShipmentDetail.TAX7_Base_Amt
+                    obj.TAX7_Rate = objShipmentDetail.TAX7_Rate
+                    obj.TAX7_Amt += objShipmentDetail.TAX7_Amt
+                    obj.TAX8 = objShipmentDetail.TAX8
+                    obj.TAX8_Base_Amt += objShipmentDetail.TAX8_Base_Amt
+                    obj.TAX8_Rate = objShipmentDetail.TAX8_Rate
+                    obj.TAX8_Amt += objShipmentDetail.TAX8_Amt
+                    obj.TAX9 = objShipmentDetail.TAX9
+                    obj.TAX9_Base_Amt += objShipmentDetail.TAX9_Base_Amt
+                    obj.TAX9_Rate = objShipmentDetail.TAX9_Rate
+                    obj.TAX9_Amt += objShipmentDetail.TAX9_Amt
+                    obj.TAX10 = objShipmentDetail.TAX10
+                    obj.TAX10_Base_Amt += objShipmentDetail.TAX10_Base_Amt
+                    obj.TAX10_Rate = objShipmentDetail.TAX10_Rate
+                    obj.TAX10_Amt += objShipmentDetail.TAX10_Amt
+                    obj.Distributor_Commission_TotalAmt += objShipmentDetail.Distributor_Commission_Amt
+                    obj.Security_TotalAmt += objShipmentDetail.Security_Amt
+                    obj.Transporter_Commission_TotalAmt += objShipmentDetail.Transporter_Commission_Amt
+                    obj.Arr.Add(objTr)
+
+                Next
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+
+        Return obj
+    End Function
 End Class

@@ -145,12 +145,10 @@
       <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikData.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="XpertCommon, Version=2.1.6.81, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
+    <Reference Include="XpertCommon">
+      <HintPath>C:\Users\Dell\Downloads\New folder (5)\XpertCommon.dll</HintPath>
     </Reference>
-    <Reference Include="XpertERPEngine, Version=7.1.5.29, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="XpertERPEngine">
       <HintPath>..\XpertERPEngine\bin\Debug\XpertERPEngine.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPEngineFine">
@@ -1187,16 +1185,34 @@
     <Compile Include="Transaction\frmPendingSaleInvoiceDairy.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Transaction\frmPendingSaleInvoiceDS.Designer.vb">
+      <DependentUpon>frmPendingSaleInvoiceDS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmPendingSaleInvoiceDS.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\frmPendingSaleOrderDairy.Designer.vb">
       <DependentUpon>frmPendingSaleOrderDairy.vb</DependentUpon>
     </Compile>
     <Compile Include="Transaction\frmPendingSaleOrderDairy.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Transaction\frmPendingSaleOrderPS.Designer.vb">
+      <DependentUpon>frmPendingSaleOrderPS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmPendingSaleOrderPS.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\frmPendingShipmentDairy.Designer.vb">
       <DependentUpon>frmPendingShipmentDairy.vb</DependentUpon>
     </Compile>
     <Compile Include="Transaction\frmPendingShipmentDairy.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\frmPendingShipmentPS.Designer.vb">
+      <DependentUpon>frmPendingShipmentPS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmPendingShipmentPS.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Transaction\frmPerformaInvoiceDairy.Designer.vb">
@@ -1251,6 +1267,12 @@
       <DependentUpon>frmSaleInvoiceDairy.vb</DependentUpon>
     </Compile>
     <Compile Include="Transaction\frmSaleInvoiceDairy.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\frmSaleInvoiceProductSale.Designer.vb">
+      <DependentUpon>frmSaleInvoiceProductSale.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmSaleInvoiceProductSale.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Transaction\frmSaleOrderDairy.Designer.vb">
@@ -1815,11 +1837,20 @@
     <EmbeddedResource Include="Transaction\frmPendingSaleInvoiceDairy.resx">
       <DependentUpon>frmPendingSaleInvoiceDairy.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmPendingSaleInvoiceDS.resx">
+      <DependentUpon>frmPendingSaleInvoiceDS.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmPendingSaleOrderDairy.resx">
       <DependentUpon>frmPendingSaleOrderDairy.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmPendingSaleOrderPS.resx">
+      <DependentUpon>frmPendingSaleOrderPS.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmPendingShipmentDairy.resx">
       <DependentUpon>frmPendingShipmentDairy.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmPendingShipmentPS.resx">
+      <DependentUpon>frmPendingShipmentPS.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmPerformaInvoiceDairy.resx">
       <DependentUpon>frmPerformaInvoiceDairy.vb</DependentUpon>
@@ -1847,6 +1878,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmSaleInvoiceDairy.resx">
       <DependentUpon>frmSaleInvoiceDairy.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmSaleInvoiceProductSale.resx">
+      <DependentUpon>frmSaleInvoiceProductSale.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmSaleOrderDairy.resx">
       <DependentUpon>frmSaleOrderDairy.vb</DependentUpon>
