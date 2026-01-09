@@ -3,7 +3,7 @@ Imports CrystalDecisions.Shared
 Imports CrystalDecisions.Windows.Forms
 Imports common
 Imports System.IO
-Imports XpertERPDairySale
+
 
 Public Class FrmPrintProductInvoiceStatement
     Inherits FrmMainTranScreen
