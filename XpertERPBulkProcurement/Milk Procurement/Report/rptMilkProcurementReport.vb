@@ -154,6 +154,12 @@ LEFT JOIN TSPL_ZONE_MASTER ON TSPL_ZONE_MASTER.Zone_Code = TSPL_VENDOR_MASTER.ZO
             gv1.Columns(ii).IsVisible = True
             gv1.Columns(ii).FormatString = "{0:n2}"
         Next
+        If isPrint Then
+            gv1.Columns("Comp_Name").IsVisible = False
+            gv1.Columns("Logo_Img").IsVisible = False
+            gv1.Columns("Month").IsVisible = False
+            gv1.Columns("UserName").IsVisible = False
+        End If
         gv1.Columns("Zone_Code").IsVisible = False
         gv1.Columns("Zone_Name").HeaderText = "AREA"
         gv1.Columns("Sweet_Qty").HeaderText = "QTY"
@@ -172,7 +178,7 @@ LEFT JOIN TSPL_ZONE_MASTER ON TSPL_ZONE_MASTER.Zone_Code = TSPL_VENDOR_MASTER.ZO
         gv1.Columns("Avg_SNF").HeaderText = "SNF%"
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
-        For ii As Integer = IIf(isPrint, 7, 3) To gv1.Columns.Count - 1
+        For ii As Integer = IIf(isPrint, 7, 3) To gv1.Columns.Count - 3
             summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "", GridAggregateFunction.Sum))
         Next
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
