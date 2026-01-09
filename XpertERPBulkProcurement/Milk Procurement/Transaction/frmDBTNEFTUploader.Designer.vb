@@ -21,10 +21,10 @@ Partial Class frmDBTNEFTUploader
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
@@ -82,6 +82,7 @@ Partial Class frmDBTNEFTUploader
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
         Me.UcAttachment2 = New XpertERPEngine.ucAttachment()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
+        Me.RadButton4 = New Telerik.WinControls.UI.RadButton()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnClrApproval = New Telerik.WinControls.UI.RadButton()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
@@ -144,6 +145,7 @@ Partial Class frmDBTNEFTUploader
         Me.SplitContainer3.Panel1.SuspendLayout()
         Me.SplitContainer3.Panel2.SuspendLayout()
         Me.SplitContainer3.SuspendLayout()
+        CType(Me.RadButton4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClrApproval, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -172,6 +174,7 @@ Partial Class frmDBTNEFTUploader
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.RadButton4)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClrApproval)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
@@ -669,7 +672,7 @@ Partial Class frmDBTNEFTUploader
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(860, 288)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -693,7 +696,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvFarmer.MasterTemplate.AllowAddNewRow = False
         Me.gvFarmer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvFarmer.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvFarmer.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvFarmer.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvFarmer.MyExportFilePath = ""
         Me.gvFarmer.MyStopExport = False
         Me.gvFarmer.Name = "gvFarmer"
@@ -723,7 +726,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvItem.MasterTemplate.AllowAddNewRow = False
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvItem.MyExportFilePath = ""
         Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
@@ -767,7 +770,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvInvalid.MasterTemplate.AllowAddNewRow = False
         Me.gvInvalid.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvInvalid.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvInvalid.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvInvalid.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvInvalid.MyExportFilePath = ""
         Me.gvInvalid.MyStopExport = False
         Me.gvInvalid.Name = "gvInvalid"
@@ -816,7 +819,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvHold.MasterTemplate.AllowAddNewRow = False
         Me.gvHold.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvHold.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvHold.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvHold.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvHold.MyExportFilePath = ""
         Me.gvHold.MyStopExport = False
         Me.gvHold.Name = "gvHold"
@@ -903,12 +906,21 @@ Partial Class frmDBTNEFTUploader
         Me.UcAttachment1.TabIndex = 1
         Me.UcAttachment1.TabStop = False
         '
+        'RadButton4
+        '
+        Me.RadButton4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadButton4.Location = New System.Drawing.Point(366, 6)
+        Me.RadButton4.Name = "RadButton4"
+        Me.RadButton4.Size = New System.Drawing.Size(109, 20)
+        Me.RadButton4.TabIndex = 164
+        Me.RadButton4.Text = "Farmer Change AC"
+        '
         'btnHistory
         '
         Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(661, 5)
+        Me.btnHistory.Location = New System.Drawing.Point(744, 5)
         Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(93, 22)
+        Me.btnHistory.Size = New System.Drawing.Size(53, 22)
         Me.btnHistory.TabIndex = 163
         Me.btnHistory.Text = "History"
         Me.btnHistory.Visible = False
@@ -916,7 +928,7 @@ Partial Class frmDBTNEFTUploader
         'btnClrApproval
         '
         Me.btnClrApproval.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClrApproval.Location = New System.Drawing.Point(563, 5)
+        Me.btnClrApproval.Location = New System.Drawing.Point(649, 5)
         Me.btnClrApproval.Name = "btnClrApproval"
         Me.btnClrApproval.Size = New System.Drawing.Size(93, 22)
         Me.btnClrApproval.TabIndex = 162
@@ -926,9 +938,9 @@ Partial Class frmDBTNEFTUploader
         'btnReverse
         '
         Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(488, 5)
+        Me.btnReverse.Location = New System.Drawing.Point(584, 5)
         Me.btnReverse.Name = "btnReverse"
-        Me.btnReverse.Size = New System.Drawing.Size(69, 22)
+        Me.btnReverse.Size = New System.Drawing.Size(63, 22)
         Me.btnReverse.TabIndex = 161
         Me.btnReverse.Text = "Reverse"
         Me.btnReverse.Visible = False
@@ -937,7 +949,7 @@ Partial Class frmDBTNEFTUploader
         '
         Me.btnPrintBankLetter.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrintBankLetter.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintBankLetter.Location = New System.Drawing.Point(386, 5)
+        Me.btnPrintBankLetter.Location = New System.Drawing.Point(481, 5)
         Me.btnPrintBankLetter.Name = "btnPrintBankLetter"
         Me.btnPrintBankLetter.Size = New System.Drawing.Size(100, 22)
         Me.btnPrintBankLetter.TabIndex = 160
@@ -947,9 +959,9 @@ Partial Class frmDBTNEFTUploader
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(313, 5)
+        Me.btnPrint.Location = New System.Drawing.Point(303, 5)
         Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(71, 22)
+        Me.btnPrint.Size = New System.Drawing.Size(58, 22)
         Me.btnPrint.TabIndex = 159
         Me.btnPrint.Text = "Print"
         '
@@ -957,7 +969,7 @@ Partial Class frmDBTNEFTUploader
         '
         Me.btnNEFTUploader.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnNEFTUploader.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2})
-        Me.btnNEFTUploader.Location = New System.Drawing.Point(228, 5)
+        Me.btnNEFTUploader.Location = New System.Drawing.Point(217, 5)
         Me.btnNEFTUploader.Name = "btnNEFTUploader"
         Me.btnNEFTUploader.Size = New System.Drawing.Size(83, 22)
         Me.btnNEFTUploader.TabIndex = 158
@@ -977,27 +989,27 @@ Partial Class frmDBTNEFTUploader
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(157, 6)
+        Me.btnPost.Location = New System.Drawing.Point(150, 6)
         Me.btnPost.Name = "btnPost"
-        Me.btnPost.Size = New System.Drawing.Size(69, 20)
+        Me.btnPost.Size = New System.Drawing.Size(65, 20)
         Me.btnPost.TabIndex = 4
         Me.btnPost.Text = "Post"
         '
         'btnclose
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnclose.Location = New System.Drawing.Point(788, 6)
+        Me.btnclose.Location = New System.Drawing.Point(799, 6)
         Me.btnclose.Name = "btnclose"
-        Me.btnclose.Size = New System.Drawing.Size(69, 20)
+        Me.btnclose.Size = New System.Drawing.Size(58, 20)
         Me.btnclose.TabIndex = 3
         Me.btnclose.Text = "Close"
         '
         'btndelete
         '
         Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btndelete.Location = New System.Drawing.Point(82, 6)
+        Me.btndelete.Location = New System.Drawing.Point(78, 6)
         Me.btndelete.Name = "btndelete"
-        Me.btndelete.Size = New System.Drawing.Size(73, 20)
+        Me.btndelete.Size = New System.Drawing.Size(69, 20)
         Me.btndelete.TabIndex = 1
         Me.btndelete.Text = "Delete"
         '
@@ -1006,7 +1018,7 @@ Partial Class frmDBTNEFTUploader
         Me.btnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnsave.Location = New System.Drawing.Point(7, 6)
         Me.btnsave.Name = "btnsave"
-        Me.btnsave.Size = New System.Drawing.Size(73, 20)
+        Me.btnsave.Size = New System.Drawing.Size(69, 20)
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
@@ -1073,6 +1085,7 @@ Partial Class frmDBTNEFTUploader
         Me.SplitContainer3.Panel1.ResumeLayout(False)
         Me.SplitContainer3.Panel2.ResumeLayout(False)
         Me.SplitContainer3.ResumeLayout(False)
+        CType(Me.RadButton4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClrApproval, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1156,5 +1169,6 @@ Partial Class frmDBTNEFTUploader
     Friend WithEvents RadMenuItem10 As RadMenuItem
     Friend WithEvents RadMenuItem11 As RadMenuItem
     Friend WithEvents RadButton3 As RadButton
+    Friend WithEvents RadButton4 As RadButton
 End Class
 
