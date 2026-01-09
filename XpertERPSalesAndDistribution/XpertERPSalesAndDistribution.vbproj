@@ -282,6 +282,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
+    <Reference Include="XpertERPDairySale, Version=7.1.5.53, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERPDairySale\bin\Debug\XpertERPDairySale.dll</HintPath>
+    </Reference>
     <Reference Include="XpertERPEngine">
       <HintPath>..\XpertERPEngine\bin\Debug\XpertERPEngine.dll</HintPath>
     </Reference>

@@ -332,24 +332,6 @@
     <Compile Include="frmPaymentDetail.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmPendingSaleInvoiceDS.Designer.vb">
-      <DependentUpon>frmPendingSaleInvoiceDS.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmPendingSaleInvoiceDS.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmPendingSaleOrderPS.Designer.vb">
-      <DependentUpon>frmPendingSaleOrderPS.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmPendingSaleOrderPS.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmPendingShipmentPS.Designer.vb">
-      <DependentUpon>frmPendingShipmentPS.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmPendingShipmentPS.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="frmPOItemTaxDetails.Designer.vb">
       <DependentUpon>frmPOItemTaxDetails.vb</DependentUpon>
     </Compile>
@@ -366,12 +348,6 @@
       <DependentUpon>frmSaleHistory.vb</DependentUpon>
     </Compile>
     <Compile Include="frmSaleHistory.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmSaleInvoiceProductSale.Designer.vb">
-      <DependentUpon>frmSaleInvoiceProductSale.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmSaleInvoiceProductSale.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmSerializeItemOutCheckBox.Designer.vb">
@@ -544,6 +520,7 @@
     <Compile Include="Sale\clsMultipleInvoice.vb" />
     <Compile Include="Sale\ClsScrapSaleInvoice.vb" />
     <Compile Include="Sale\ClsScrapSaleReturn.vb" />
+    <Compile Include="Sale\clsShipmentReturnHead.vb" />
     <Compile Include="Sale\DairySale\clsAcknowledgementOfGRN.vb" />
     <Compile Include="Sale\DairySale\clsCustomerDeduction.vb" />
     <Compile Include="Sale\DairySale\clsCustomerIncentiveEntry.vb" />
@@ -1393,15 +1370,6 @@
     <EmbeddedResource Include="frmPaymentDetail.resx">
       <DependentUpon>frmPaymentDetail.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmPendingSaleInvoiceDS.resx">
-      <DependentUpon>frmPendingSaleInvoiceDS.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmPendingSaleOrderPS.resx">
-      <DependentUpon>frmPendingSaleOrderPS.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmPendingShipmentPS.resx">
-      <DependentUpon>frmPendingShipmentPS.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="frmPOItemTaxDetails.resx">
       <DependentUpon>frmPOItemTaxDetails.vb</DependentUpon>
     </EmbeddedResource>
@@ -1410,9 +1378,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmSaleHistory.resx">
       <DependentUpon>frmSaleHistory.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmSaleInvoiceProductSale.resx">
-      <DependentUpon>frmSaleInvoiceProductSale.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSerializeItemOutCheckBox.resx">
       <DependentUpon>frmSerializeItemOutCheckBox.vb</DependentUpon>

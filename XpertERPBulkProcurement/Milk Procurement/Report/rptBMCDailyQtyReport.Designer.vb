@@ -22,7 +22,7 @@ Partial Class rptBMCDailyQtyReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -31,7 +31,11 @@ Partial Class rptBMCDailyQtyReport
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnDateRange = New System.Windows.Forms.RadioButton()
+        Me.rbtnMonth = New System.Windows.Forms.RadioButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtToDate = New common.Controls.MyDateTimePicker()
         Me.txtRoute = New common.UserControls.txtMultiSelectFinder()
         Me.lblMCC = New common.Controls.MyLabel()
         Me.txtFromDate = New common.Controls.MyDateTimePicker()
@@ -44,7 +48,6 @@ Partial Class rptBMCDailyQtyReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.txtToDate = New common.Controls.MyDateTimePicker()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -54,8 +57,11 @@ Partial Class rptBMCDailyQtyReport
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel1.SuspendLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblMCC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -66,7 +72,6 @@ Partial Class rptBMCDailyQtyReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -140,12 +145,47 @@ Partial Class rptBMCDailyQtyReport
         '
         'RadPanel1
         '
+        Me.RadPanel1.Controls.Add(Me.RadGroupBox2)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox1)
         Me.RadPanel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPanel1.Location = New System.Drawing.Point(0, 0)
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(671, 278)
         Me.RadPanel1.TabIndex = 15
+        '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbtnDateRange)
+        Me.RadGroupBox2.Controls.Add(Me.rbtnMonth)
+        Me.RadGroupBox2.HeaderText = ""
+        Me.RadGroupBox2.Location = New System.Drawing.Point(6, 9)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Size = New System.Drawing.Size(274, 26)
+        Me.RadGroupBox2.TabIndex = 390
+        '
+        'rbtnDateRange
+        '
+        Me.rbtnDateRange.AutoSize = True
+        Me.rbtnDateRange.Location = New System.Drawing.Point(134, 4)
+        Me.rbtnDateRange.Name = "rbtnDateRange"
+        Me.rbtnDateRange.Size = New System.Drawing.Size(85, 17)
+        Me.rbtnDateRange.TabIndex = 1
+        Me.rbtnDateRange.TabStop = True
+        Me.rbtnDateRange.Text = "Date Range"
+        Me.rbtnDateRange.UseVisualStyleBackColor = True
+        '
+        'rbtnMonth
+        '
+        Me.rbtnMonth.AutoSize = True
+        Me.rbtnMonth.Checked = True
+        Me.rbtnMonth.Location = New System.Drawing.Point(45, 4)
+        Me.rbtnMonth.Name = "rbtnMonth"
+        Me.rbtnMonth.Size = New System.Drawing.Size(60, 17)
+        Me.rbtnMonth.TabIndex = 0
+        Me.rbtnMonth.TabStop = True
+        Me.rbtnMonth.Text = "Month"
+        Me.rbtnMonth.UseVisualStyleBackColor = True
         '
         'RadGroupBox1
         '
@@ -156,22 +196,51 @@ Partial Class rptBMCDailyQtyReport
         Me.RadGroupBox1.Controls.Add(Me.txtFromDate)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel2)
         Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(6, 13)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(6, 38)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(265, 58)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(274, 58)
         Me.RadGroupBox1.TabIndex = 389
+        '
+        'txtToDate
+        '
+        Me.txtToDate.CalculationExpression = Nothing
+        Me.txtToDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtToDate.FieldCode = Nothing
+        Me.txtToDate.FieldDesc = Nothing
+        Me.txtToDate.FieldMaxLength = 0
+        Me.txtToDate.FieldName = Nothing
+        Me.txtToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtToDate.isCalculatedField = False
+        Me.txtToDate.IsSourceFromTable = False
+        Me.txtToDate.IsSourceFromValueList = False
+        Me.txtToDate.IsUnique = False
+        Me.txtToDate.Location = New System.Drawing.Point(174, 7)
+        Me.txtToDate.MendatroryField = False
+        Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtToDate.MyLinkLable1 = Nothing
+        Me.txtToDate.MyLinkLable2 = Nothing
+        Me.txtToDate.Name = "txtToDate"
+        Me.txtToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtToDate.ReferenceFieldDesc = Nothing
+        Me.txtToDate.ReferenceFieldName = Nothing
+        Me.txtToDate.ReferenceTableName = Nothing
+        Me.txtToDate.Size = New System.Drawing.Size(94, 20)
+        Me.txtToDate.TabIndex = 447
+        Me.txtToDate.TabStop = False
+        Me.txtToDate.Text = "28/06/2012"
+        Me.txtToDate.Value = New Date(2012, 6, 28, 14, 31, 57, 31)
         '
         'txtRoute
         '
         Me.txtRoute.arrDispalyMember = Nothing
         Me.txtRoute.arrValueMember = Nothing
-        Me.txtRoute.Location = New System.Drawing.Point(65, 31)
+        Me.txtRoute.Location = New System.Drawing.Point(75, 31)
         Me.txtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtRoute.MyLinkLable1 = Nothing
         Me.txtRoute.MyLinkLable2 = Nothing
         Me.txtRoute.MyNullText = "All"
         Me.txtRoute.Name = "txtRoute"
-        Me.txtRoute.Size = New System.Drawing.Size(191, 19)
+        Me.txtRoute.Size = New System.Drawing.Size(193, 19)
         Me.txtRoute.TabIndex = 446
         '
         'lblMCC
@@ -187,7 +256,7 @@ Partial Class rptBMCDailyQtyReport
         'txtFromDate
         '
         Me.txtFromDate.CalculationExpression = Nothing
-        Me.txtFromDate.CustomFormat = "MMM-yyyy"
+        Me.txtFromDate.CustomFormat = "dd/MM/yyyy"
         Me.txtFromDate.FieldCode = Nothing
         Me.txtFromDate.FieldDesc = Nothing
         Me.txtFromDate.FieldMaxLength = 0
@@ -197,7 +266,7 @@ Partial Class rptBMCDailyQtyReport
         Me.txtFromDate.IsSourceFromTable = False
         Me.txtFromDate.IsSourceFromValueList = False
         Me.txtFromDate.IsUnique = False
-        Me.txtFromDate.Location = New System.Drawing.Point(65, 7)
+        Me.txtFromDate.Location = New System.Drawing.Point(75, 7)
         Me.txtFromDate.MendatroryField = False
         Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtFromDate.MyLinkLable1 = Me.MyLabel2
@@ -210,7 +279,7 @@ Partial Class rptBMCDailyQtyReport
         Me.txtFromDate.Size = New System.Drawing.Size(94, 20)
         Me.txtFromDate.TabIndex = 390
         Me.txtFromDate.TabStop = False
-        Me.txtFromDate.Text = "Jun-2012"
+        Me.txtFromDate.Text = "28/06/2012"
         Me.txtFromDate.Value = New Date(2012, 6, 28, 14, 31, 57, 31)
         '
         'MyLabel2
@@ -245,7 +314,7 @@ Partial Class rptBMCDailyQtyReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -306,36 +375,6 @@ Partial Class rptBMCDailyQtyReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'txtToDate
-        '
-        Me.txtToDate.CalculationExpression = Nothing
-        Me.txtToDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtToDate.FieldCode = Nothing
-        Me.txtToDate.FieldDesc = Nothing
-        Me.txtToDate.FieldMaxLength = 0
-        Me.txtToDate.FieldName = Nothing
-        Me.txtToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtToDate.isCalculatedField = False
-        Me.txtToDate.IsSourceFromTable = False
-        Me.txtToDate.IsSourceFromValueList = False
-        Me.txtToDate.IsUnique = False
-        Me.txtToDate.Location = New System.Drawing.Point(165, 7)
-        Me.txtToDate.MendatroryField = False
-        Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtToDate.MyLinkLable1 = Nothing
-        Me.txtToDate.MyLinkLable2 = Nothing
-        Me.txtToDate.Name = "txtToDate"
-        Me.txtToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtToDate.ReferenceFieldDesc = Nothing
-        Me.txtToDate.ReferenceFieldName = Nothing
-        Me.txtToDate.ReferenceTableName = Nothing
-        Me.txtToDate.Size = New System.Drawing.Size(81, 20)
-        Me.txtToDate.TabIndex = 447
-        Me.txtToDate.TabStop = False
-        Me.txtToDate.Text = "28/06/2012"
-        Me.txtToDate.Value = New Date(2012, 6, 28, 14, 31, 57, 31)
-        Me.txtToDate.Visible = False
-        '
         'rptBMCDailyQtyReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -358,9 +397,13 @@ Partial Class rptBMCDailyQtyReport
         Me.RadPageViewPage1.ResumeLayout(False)
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblMCC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -371,7 +414,6 @@ Partial Class rptBMCDailyQtyReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -399,5 +441,8 @@ Partial Class rptBMCDailyQtyReport
     Friend WithEvents lblMCC As common.Controls.MyLabel
     Friend WithEvents txtRoute As common.UserControls.txtMultiSelectFinder
     Friend WithEvents txtToDate As common.Controls.MyDateTimePicker
+    Friend WithEvents RadGroupBox2 As RadGroupBox
+    Friend WithEvents rbtnDateRange As RadioButton
+    Friend WithEvents rbtnMonth As RadioButton
 End Class
 

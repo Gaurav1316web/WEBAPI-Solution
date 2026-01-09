@@ -1493,6 +1493,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptDcsSecurity.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDCSWiseDeductionDetail.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDCSWiseDeductionSummary.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptFarmerChangeACNumber.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptIncentiveEntryBySRN.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMarginPerAmt.rpt" />
     <None Include="Crystal Reports\Milk Procurement\CrptMCCMilkBillDetails%28MccWise%29.rpt" />
