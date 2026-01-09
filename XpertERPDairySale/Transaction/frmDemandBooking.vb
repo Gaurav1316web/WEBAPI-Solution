@@ -4400,7 +4400,7 @@ from (" & BaseQry & ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
                 End If
                 dtNew.Rows.Add(dtNew.NewRow)
 
-                Dim colk As Integer = -1
+                Dim colk As Integer = 1
                 colk = GetNextvisibleColumn(GVTruckSheet, colk)
                 Dim headerRow As DataRow = dtNew.NewRow()
                 If dtFresh IsNot Nothing Then
@@ -4436,13 +4436,17 @@ from (" & BaseQry & ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
                 End If
                 If maxLoop > 0 Then
                     For ii As Integer = 0 To maxLoop - 1
-                        Dim kk As Integer = -1
+                        Dim kk As Integer = 1
                         kk = GetNextvisibleColumn(GVTruckSheet, kk)
                         Dim dr As DataRow = dtNew.NewRow
                         If dtFresh IsNot Nothing AndAlso dtFresh.Rows.Count > 0 Then
                             If ii < dtFresh.Rows.Count Then
                                 For cc As Integer = 0 To dtFresh.Columns.Count - 1
-                                    dr(kk) = clsCommon.myCstr(dtFresh.Rows(ii)(cc))
+                                    If clsCommon.CompairString(clsCommon.myCstr(dtFresh.Rows(ii)(cc)), "0") <> CompairStringResult.Equal Then
+                                        dr(kk) = clsCommon.myCstr(dtFresh.Rows(ii)(cc))
+                                    Else
+                                        dr(kk) = ""
+                                    End If
                                     kk = GetNextvisibleColumn(GVTruckSheet, kk)
                                 Next
                             Else
@@ -4454,7 +4458,11 @@ from (" & BaseQry & ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
                         If dtAmbient IsNot Nothing AndAlso dtAmbient.Rows.Count > 0 AndAlso ii < dtAmbient.Rows.Count Then
                             'If ii < dtAmbient.Rows.Count Then
                             For cc As Integer = 0 To dtAmbient.Columns.Count - 1
-                                dr(kk) = clsCommon.myCstr(dtAmbient.Rows(ii)(cc))
+                                If clsCommon.CompairString(clsCommon.myCstr(dtAmbient.Rows(ii)(cc)), "0") <> CompairStringResult.Equal Then
+                                    dr(kk) = clsCommon.myCstr(dtAmbient.Rows(ii)(cc))
+                                Else
+                                    dr(kk) = ""
+                                End If
                                 kk = GetNextvisibleColumn(GVTruckSheet, kk)
                             Next
                             'End If
@@ -4467,7 +4475,7 @@ from (" & BaseQry & ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
 
 
                     Dim i As Integer = 0
-                    Dim tt As Integer = -1
+                    Dim tt As Integer = 1
                     tt = GetNextvisibleColumn(GVTruckSheet, tt)
                     Dim drt As DataRow = dtNew.NewRow
                     If dtFreshTotal IsNot Nothing AndAlso dtFreshTotal.Rows.Count > 0 Then
@@ -4535,6 +4543,7 @@ from (" & BaseQry & ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
                 'arrHeader.Add("Shift : " & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening"))
                 'arrHeader.Add("Distributor : " & lblTransporterName.Text)
                 'arrHeader.Add("Trip : " & clsCommon.myCstr(txtTripNo.Text))
+                'clsCommon.MyExportToExcelGrid(Nothing, GVTruckSheet, arrHeader, "Truck Sheet")
                 transportSql.exportdata(True, Nothing, GVTruckSheet, "", "Truck Sheet", 0, GVTruckSheet.Rows.Count, False, arrHeader, False, False, True, False, False, Nothing, True)
             Else
                 'doc.HeaderHeight = 60
