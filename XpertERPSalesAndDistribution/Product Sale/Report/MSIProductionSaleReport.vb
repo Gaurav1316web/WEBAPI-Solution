@@ -32,6 +32,12 @@ Public Class MSIProductionSaleReport
         Try
             Dim dt As DataTable = Nothing
 
+            If clsCommon.myLen(txtLocation.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Plz Select Location.", Me.Text)
+                txtLocation.Focus()
+                Exit Sub
+            End If
+
             Dim whr As String = ""
             If txtLocation.Value IsNot Nothing AndAlso txtLocation.Value.Count > 0 Then
                 whr += " and LOCATION_CODE IN ('" + clsCommon.myCstr(txtLocation.Value) + "') "
