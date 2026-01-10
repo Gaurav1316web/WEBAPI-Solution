@@ -128,10 +128,6 @@
     <Reference Include="XpertCommon">
       <HintPath>..\XpertERPEngine\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
-    <Reference Include="XpertERPDairySale, Version=7.1.5.53, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\XpertERPDairySale\bin\Debug\XpertERPDairySale.dll</HintPath>
-    </Reference>
     <Reference Include="XpertERPEngine, Version=5.1.7.14, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERPEngine\bin\Debug\XpertERPEngine.dll</HintPath>

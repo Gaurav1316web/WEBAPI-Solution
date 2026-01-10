@@ -12,7 +12,7 @@ Imports Telerik.WinControls.UI
 Imports Telerik.WinControls.Enumerations
 Imports Telerik.WinControls
 Imports Telerik.WinControls.Data
-Imports XpertERPDairySale
+
 
 Public Class frmMCCMaterialSaleFarmer
     Inherits FrmMainTranScreen
