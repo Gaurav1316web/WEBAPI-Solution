@@ -49,9 +49,10 @@ Public Class clsJWOTransferOtherReturn
                     clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
                     isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_JOB_WORK_OUTWARD_TRANSFER_RETURN", OMInsertOrUpdate.Insert, "", trans)
                 Else
-                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_No), "TSPL_JOB_WORK_OUTWARD_TRANSFER_RETURN", "Document_No", trans)
                     isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_JOB_WORK_OUTWARD_TRANSFER_RETURN", OMInsertOrUpdate.Update, "TSPL_JOB_WORK_OUTWARD_TRANSFER_RETURN.Document_No='" + obj.Document_No + "'", trans)
                 End If
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_No), "TSPL_JOB_WORK_OUTWARD_TRANSFER_RETURN", "Document_No", trans)
+
                 isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.Document_No, obj.arrCustomFields, trans)
 
 

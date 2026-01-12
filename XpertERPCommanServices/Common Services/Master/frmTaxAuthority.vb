@@ -488,6 +488,8 @@ Public Class frmTaxAuthority
                             clsDBFuncationality.ExecuteNonQuery(" UPDATE TSPL_TAX_MASTER SET PayableControl = '" & (fndpayable.Value) & "', DepositControl = '" & (txtDepositControl.Value) & "' where Tax_code='" & findTaxAuthority.Value & "'", trans)
                             clsDBFuncationality.ExecuteNonQuery(" UPDATE TSPL_TAX_MASTER SET Type = '" & taxtype & "' where Tax_code='" & findTaxAuthority.Value & "'", trans)
                         End If
+                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(findTaxAuthority.Value), "TSPL_TAX_CSA_DETAIL", "Tax_Code", trans)
+
                         ''-----------End
                         btnAdd.Text = "Update"
                         trans.Commit()

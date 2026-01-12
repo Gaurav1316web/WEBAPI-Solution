@@ -358,7 +358,7 @@ Public Class clsLeakedSaleReturnHead
                 qry = "Update TSPL_LEAKED_SALE_RETURN_Head set  Status=1, Posting_Date='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt") + "',Modify_By='" + objCommonVar.CurrentUserCode + "'"
                 qry += " where Document_Code='" + strCode + "'"
                 isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_LEAKED_SALE_RETURN_HEAD", "Document_Code", "TSPL_LEAKED_SALE_RETURN_DETAIL", "Document_Code", "TSPL_LEAKED_SALE_RETURN_Main_Item", "Document_Code", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_LEAKED_SALE_RETURN_HEAD", "Document_Code", trans)
 
             End If
         Catch ex As Exception
@@ -486,8 +486,8 @@ Public Class clsLeakedSaleReturnHead
                 Throw New Exception("Document No not found to Delete")
             End If
             Dim obj As clsLeakedSaleReturnHead = clsLeakedSaleReturnHead.GetData(strCode, NavigatorType.Current, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_bank_book", "SOURCEDOC_NO", trans)
-            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_bank_book", "SOURCEDOC_NO", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_LEAKED_SALE_RETURN_Head", "Document_Code", trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_LEAKED_SALE_RETURN_Head", "Document_Code", trans)
 
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
                 If (obj.Status = 1) Then

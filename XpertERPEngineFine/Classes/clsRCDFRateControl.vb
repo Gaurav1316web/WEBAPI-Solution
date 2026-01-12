@@ -148,9 +148,9 @@ Public Class clsRCDFRateControl
             If (clsCommon.myLen(StrCode) <= 0) Then
                 Throw New Exception("Code No. not found to Delete")
             End If
-            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, StrCode, "TSPL_RCDF_RATE_CONTROL", "Code", "TSPL_RCDF_RATE_CONTROL_DETAIL", "Code", trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, StrCode, "TSPL_RCDF_RATE_CONTROL", "Code", "TSPL_RCDF_RATE_CONTROL_DETAIL", "Code", "TSPL_RCDF_RATE_CONTROL_DETAIL_ALL_UOM", "Code", trans)
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, StrCode, "TSPL_RCDF_RATE_CONTROL", "Code", "TSPL_RCDF_RATE_CONTROL_DETAIL", "Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, StrCode, "TSPL_RCDF_RATE_CONTROL", "Code", "TSPL_RCDF_RATE_CONTROL_DETAIL", "Code", "TSPL_RCDF_RATE_CONTROL_DETAIL_ALL_UOM", "Code", trans)
 
             Dim qry As String = ""
             qry = "delete from TSPL_RCDF_RATE_CONTROL_DETAIL_ALL_UOM where Code='" + StrCode + "'"

@@ -43,10 +43,12 @@ Public Class ClsSACWiseTax
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SAC_WISE_TAX", OMInsertOrUpdate.Update, "HCODE='" & obj.HCODE & "'", trans)
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.HCODE, "TSPL_SAC_WISE_TAX", "HCODE", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.HCODE, "TSPL_SAC_WISE_TAX", "HCODE", trans)
 
             Dim objtr As New clsSACWiseTaxGroup
             objtr.SaveData(obj.HCODE, obj.ArrGroup, obj.ArrAuth, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.HCODE, "TSPL_SAC_WISE_TAX", "HCODE", "TSPL_SAC_WISE_TAX_GROUP", "HCODE", trans)
+
             trans.Commit()
             Return True
         Catch ex As Exception

@@ -96,9 +96,9 @@ Public Class clsChillingCharges
         Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
         Dim qry As String = ""
         Try
-            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_CHILLING_CHARGES", "Code", tran)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_CHILLING_CHARGES", "Code", "TSPL_CHILLING_CHARGES_SLAB", "Code", tran)
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_CHILLING_CHARGES", "Code", tran)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_CHILLING_CHARGES", "Code", "TSPL_CHILLING_CHARGES_SLAB", "Code", tran)
 
             qry = "Delete from TSPL_CHILLING_CHARGES_SLAB where Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, tran)

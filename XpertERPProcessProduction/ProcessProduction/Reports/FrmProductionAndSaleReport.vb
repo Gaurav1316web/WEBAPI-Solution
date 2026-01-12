@@ -1250,7 +1250,7 @@ ORDER BY A.RN;
                     RadPageView1.SelectedPage = RadPageViewPage2
                     EnableDisableCntrl(False)
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt2, dt3, "Daily_Production_sale_FG_stock_BD_report", "Daily Production Sale Report", "rptStockItemDetail.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt2, dt3, "Daily_Production_sale_FG_stock_BD_reportNEW", "Daily Production Sale Report", "rptStockItemDetail.rpt")
 
                     ' frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt2, "Daily_Production_sale_FG_stock_BD_report", "Daily Production Sale Report")
                     frmCRV = Nothing

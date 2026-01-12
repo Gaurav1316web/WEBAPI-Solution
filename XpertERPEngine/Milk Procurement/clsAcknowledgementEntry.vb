@@ -131,7 +131,7 @@ Public Class clsAcknowledgementEntry
 
 
             clsAcknowledgementEntryDetail.SaveData(obj.Document_No, obj.arr, tran)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_ACKNOWLEDGENT_ENTRY_HEADER", "Document_No", "TSPL_ACKNOWLEDGENT_ENTRY_Detail", "Document_No", tran)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_ACKNOWLEDGENT_ENTRY_HEADER", "Document_No", "TSPL_ACKNOWLEDGENT_ENTRY_Detail", "Document_No", "TSPL_Acknowlegement_Entry_Parameter_Detail", "Document_No", tran)
 
 
         Catch ex As Exception

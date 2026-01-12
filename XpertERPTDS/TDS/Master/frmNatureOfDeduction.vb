@@ -140,6 +140,8 @@ Public Class frmNatureOfDeduction
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(Fnd_DeductionNew.Value), "TSPL_TDS_DEDUCTION_HEAD", "Deduction_Code", trans)
 
             UpdateOtherColumnsDetails(trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(Fnd_DeductionNew.Value), "TSPL_TDS_DEDUCTION_Detail", "Deduction_Code", trans)
+
             trans.Commit()
             myMessages.insert()
             btnsave.Text = "Update"

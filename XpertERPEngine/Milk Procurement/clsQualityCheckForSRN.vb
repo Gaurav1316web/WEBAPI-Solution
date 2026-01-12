@@ -1,5 +1,4 @@
-﻿Imports common
-Imports System.Data.SqlClient
+﻿Imports System.Data.SqlClient
 
 Public Class clsQualityCheckForSRNHead
 #Region "variables"
@@ -533,7 +532,8 @@ Public Class clsQualityCheckForSRNHead
             clsQualityCheckForSRNDetail.SaveData(obj.Document_Code, obj.Arr_item, trans)
             clsQualityCheckForSRN_MRNDetail.SaveData(obj.Document_Code, obj.Arr_MRN, trans)
             clsQualityCheckDetail.SaveData(obj.Document_Code, obj.Arr, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_QC_CHECK_HEAD", "Document_Code", "TSPL_QC_CHECK_DETAIL", "Document_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_QC_CHECK_HEAD", "Document_Code", "TSPL_QC_CHECK_DETAIL", "Document_Code", "TSPL_QC_CHECK_SRN_DETAIL", "Document_Code", "TSPL_QC_CHECK_MRN_DETAIL", "Document_Code", "", "", "", "", "", "", trans)
+
             'If Not isNewEntry Then
             'End If
             '===Sanjeet(03/01/2017) for notifiaction====

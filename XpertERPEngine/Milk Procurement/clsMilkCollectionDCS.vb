@@ -64,7 +64,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
             End If
             clsMilkCollectionDCSMCCDetail.SaveData(obj.Document_No, obj.ArrMCC, trans)
             clsMilkCollectionDCSDetail.SaveData(obj.Document_No, obj.Arr, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_COLLECTION_DCS", "Document_No", "TSPL_MILK_COLLECTION_DCS_DETAIL", "Document_No", "", "Document_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_COLLECTION_DCS", "Document_No", "TSPL_MILK_COLLECTION_DCS_DETAIL", "Document_No", "TSPL_MILK_COLLECTION_DCS_MCC_DETAIL", "Document_No", trans)
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
