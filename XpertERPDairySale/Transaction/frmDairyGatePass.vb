@@ -1994,19 +1994,13 @@ left outer join " & tbl_TSPL_SD_SHIPMENT_DETAIL & " ON  TSPL_SD_SHIPMENT_DETAIL.
         If isDepartmentRoute Then
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                 Qry = "  Select
- 	  CASE WHEN CFinLTR > 0 AND Conversion_FactorCrt > 0 THEN CASE -- Less than one carton
-            WHEN LTRQty < Conversion_FactorCrt THEN CASE WHEN LTRQty >= Conversion_FactorCrt / 2.0 THEN -LTRQty/ CFinLTR ELSE MilkQuantityltr END
-			-- One or more cartons
-            ELSE CASE WHEN LTRQty % Conversion_FactorCrt = 0 THEN 0 WHEN LTRQty % Conversion_FactorCrt < Conversion_FactorCrt / 2.0
-                    THEN LTRQty % Conversion_FactorCrt ELSE -(Conversion_FactorCrt - (LTRQty % Conversion_FactorCrt)) END END ELSE MilkQuantityltr END AS LooseLTR
-,
-CASE WHEN CFinKG > 0 AND Conversion_FactorCrt > 0 THEN CASE -- Less than one carton
-            WHEN KGQty < Conversion_FactorCrt THEN CASE WHEN KGQty >= Conversion_FactorCrt / 2.0 THEN -KGQty/CFinKG ELSE MilkQuantityKG END
-			-- One or more cartons
-            ELSE CASE WHEN KGQty % Conversion_FactorCrt = 0 THEN 0 WHEN KGQty % Conversion_FactorCrt < Conversion_FactorCrt / 2.0
-                    THEN KGQty % Conversion_FactorCrt ELSE -(Conversion_FactorCrt - (KGQty % Conversion_FactorCrt)) END END ELSE MilkQuantityKG END AS LooseKG,
+ 	  CAST(case when (Round(Qtycrate,0)*ConverLTR) > MilkQuantityltr and MilkQuantityltr > 0  then 
+  ( MilkQuantityltr - (Round(Qtycrate,0)*ConverLTR))  when (Round(Qtycrate,0)*ConverLTR) < MilkQuantityltr and MilkQuantityltr > 0 then (MilkQuantityltr-(Round(Qtycrate,0)*ConverLTR)  ) else 0 end AS DECIMAL(18,2)
+) as LooseLtr,
+     Cast(case when (Round(Qtycrate,0)*ConverKG) > MilkQuantityKG and MilkQuantityKG > 0   then 
+  ( MilkQuantityKG - (Round(Qtycrate,0)*ConverKG))   when (Round(Qtycrate,0)*ConverKG) < MilkQuantityKG and MilkQuantityKG > 0 then  (MilkQuantityKG-(Round(Qtycrate,0)*ConverKG) ) else 0  end as Decimal(18,2)) as Loosekg,
 		
-		* from ( Select CASE WHEN CFinLTR > 0 AND Conversion_FactorCrt > 0 THEN
+		* from ( Select Cast((Conversion_FactorCrt/CFinLTR) as decimal(18,6)  ) as ConverLTR,Cast((Conversion_FactorCrt/CFinKG) as decimal(18,6)  ) as ConverKG,CASE WHEN CFinLTR > 0 AND Conversion_FactorCrt > 0 THEN
         CAST(MilkQuantityltr * CFinLTR AS DECIMAL(18,0)) else 0 end as LTRQty,
 		case when CFinKG > 0 and Conversion_FactorCrt > 0 then
 		CAST(MilkQuantityKG * CFinKG as decimal(18,0)) else 0 end as KGQty,* from ( "
@@ -2030,19 +2024,13 @@ tbl_Brand.Brand, tbl_Brand.BRANDDESC, TSPL_COMPANY_MASTER.Logo_Img,"
         Else
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                 Qry = "  Select
- 	  CASE WHEN CFinLTR > 0 AND Conversion_FactorCrt > 0 THEN CASE -- Less than one carton
-            WHEN LTRQty < Conversion_FactorCrt THEN CASE WHEN LTRQty >= Conversion_FactorCrt / 2.0 THEN -LTRQty/ CFinLTR ELSE MilkQuantityltr END
-			-- One or more cartons
-            ELSE CASE WHEN LTRQty % Conversion_FactorCrt = 0 THEN 0 WHEN LTRQty % Conversion_FactorCrt < Conversion_FactorCrt / 2.0
-                    THEN LTRQty % Conversion_FactorCrt ELSE -(Conversion_FactorCrt - (LTRQty % Conversion_FactorCrt)) END END ELSE MilkQuantityltr END AS LooseLTR
-,
-CASE WHEN CFinKG > 0 AND Conversion_FactorCrt > 0 THEN CASE -- Less than one carton
-            WHEN KGQty < Conversion_FactorCrt THEN CASE WHEN KGQty >= Conversion_FactorCrt / 2.0 THEN -KGQty/CFinKG ELSE MilkQuantityKG END
-			-- One or more cartons
-            ELSE CASE WHEN KGQty % Conversion_FactorCrt = 0 THEN 0 WHEN KGQty % Conversion_FactorCrt < Conversion_FactorCrt / 2.0
-                    THEN KGQty % Conversion_FactorCrt ELSE -(Conversion_FactorCrt - (KGQty % Conversion_FactorCrt)) END END ELSE MilkQuantityKG END AS LooseKG,
+ 	  CAST(case when (Round(Qtycrate,0)*ConverLTR) > MilkQuantityltr and MilkQuantityltr > 0  then 
+  ( MilkQuantityltr - (Round(Qtycrate,0)*ConverLTR))  when (Round(Qtycrate,0)*ConverLTR) < MilkQuantityltr and MilkQuantityltr > 0 then (MilkQuantityltr-(Round(Qtycrate,0)*ConverLTR)  ) else 0 end AS DECIMAL(18,2)
+) as LooseLtr,
+     Cast(case when (Round(Qtycrate,0)*ConverKG) > MilkQuantityKG and MilkQuantityKG > 0   then 
+  ( MilkQuantityKG - (Round(Qtycrate,0)*ConverKG))   when (Round(Qtycrate,0)*ConverKG) < MilkQuantityKG and MilkQuantityKG > 0 then  (MilkQuantityKG-(Round(Qtycrate,0)*ConverKG) ) else 0  end as Decimal(18,2)) as Loosekg,
 		
-		* from ( Select CASE WHEN CFinLTR > 0 AND Conversion_FactorCrt > 0 THEN
+		* from ( Select Cast((Conversion_FactorCrt/CFinLTR) as decimal(18,6)  ) as ConverLTR,Cast((Conversion_FactorCrt/CFinKG) as decimal(18,6)  ) as ConverKG,CASE WHEN CFinLTR > 0 AND Conversion_FactorCrt > 0 THEN
         CAST(MilkQuantityltr * CFinLTR AS DECIMAL(18,0)) else 0 end as LTRQty,
 		case when CFinKG > 0 and Conversion_FactorCrt > 0 then
 		CAST(MilkQuantityKG * CFinKG as decimal(18,0)) else 0 end as KGQty,* from ( "
@@ -3491,8 +3479,14 @@ where IsNull(TSPL_CUSTOMER_MASTER.Credit_Customer,'N')='N'  And TSPL_SD_SHIPMENT
                     qry += " and Shift_Type = '" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "' "
                     qry += " And Route_No = '" + clsCommon.myCstr(fndRouteNo.Value) + "' "
                 End If
-                qry += " and status=1 )
-Union
+
+                If AllowGatePassDemandTripWise Then
+                    qry += " and status=1 and TSPL_SD_SHIPMENT_BOOKING_DETAIL.Trip_No = '" + txtTripNo.Text + "') "
+                Else
+                    qry += " and status=1 ) "
+                End If
+
+                qry += "  Union
 select Distinct '' as TR_Code,TSPL_CUSTOMER_MASTER.Cust_Code,
 IsNull(TSPL_CUSTOMER_MASTER.Customer_Name_Hindi,TSPL_CUSTOMER_MASTER.Customer_Name)Customer_Name,isnull(TSPL_CUSTOMER_MASTER.Display_Seq,0) as Display_Seq,'' As Item_Code,'' As Short_Description,0 As Sku_Seq,0 As Qty,0 As ItemNetAmount,'' As Unit_code ,'' As ShiftType,TSPL_ROUTE_MASTER.Route_No, TSPL_ROUTE_MASTER.Route_Desc,    TSPL_COMPANY_MASTER.Comp_Name  as CompanyName,  TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, 
   TSPL_VEHICLE_MASTER.DriverName,TSPL_VEHICLE_MASTER.Number as Vehicle_No ,0 as KG_QTY , 0 as KG_QTY1, 0 as LTR_QTY,'' AS Product_Item,'' as Fresh_Item
@@ -3565,7 +3559,13 @@ where IsNull(TSPL_CUSTOMER_MASTER.Credit_Customer,'N')='N'  And TSPL_SD_SHIPMENT
                     qry += " and Shift_Type = '" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "' "
                     qry += " And Route_No = '" + clsCommon.myCstr(fndRouteNo.Value) + "' "
                 End If
-                qry += "and status=1 ) )XXFinal group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code )XXXX "
+                'qry += "and status=1 ) )XXFinal group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code )XXXX "
+                If AllowGatePassDemandTripWise Then
+                    qry += " and status=1 and TSPL_SD_SHIPMENT_BOOKING_DETAIL.Trip_No = '" + txtTripNo.Text + "' ) )XXFinal group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code )XXXX  "
+                Else
+                    qry += " and status=1 ) )XXFinal group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code )XXXX "
+                End If
+
                 If dtFresh.Rows.Count > 0 Then
                     qry += " PIVOT (SUM(LTR_QTY)  For Fresh_Item In (" & FreshItemsName & ") ) As pivot_fresh "
                 End If
