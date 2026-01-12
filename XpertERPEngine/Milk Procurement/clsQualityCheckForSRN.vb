@@ -867,8 +867,10 @@ Public Class clsQualityCheckForSRNHead
                 Return True
                 Exit Function
             End If
-            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_QC_CHECK_HEAD", "document_code", "TSPL_QC_CHECK_DETAIL", "document_code", trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_QC_CHECK_HEAD", "document_code", "TSPL_QC_CHECK_DETAIL", "document_code", trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_QC_CHECK_HEAD", "document_code", "TSPL_QC_CHECK_DETAIL", "document_code", "TSPL_QC_CHECK_MRN_DETAIL", "document_code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_QC_CHECK_HEAD", "document_code", "TSPL_QC_CHECK_DETAIL", "document_code", "TSPL_QC_CHECK_MRN_DETAIL", "document_code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_QC_CHECK_SRN_DETAIL", "document_code", trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_QC_CHECK_SRN_DETAIL", "document_code", trans)
 
 
             Dim qry As String = "delete from TSPL_QC_CHECK_APPROVAL_ENTRY where document_code='" + strCode + "'"
@@ -1029,7 +1031,9 @@ Public Class clsQualityCheckForSRNHead
 
             Dim qry As String = "update TSPL_QC_CHECK_HEAD set Posted='1',Modified_By='" + objCommonVar.CurrentUserCode + "',Modified_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy") + "' where document_code='" + obj.Document_Code + "' and QC_Type='" + QC_Type + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_QC_CHECK_HEAD", "Document_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_QC_CHECK_HEAD", "Document_Code", "TSPL_QC_CHECK_DETAIL", "Document_Code", "TSPL_QC_CHECK_SRN_DETAIL", "Document_Code", "TSPL_QC_CHECK_MRN_DETAIL", "Document_Code", "", "", "", "", "", "", trans)
+
+            ' clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_QC_CHECK_HEAD", "Document_Code", trans)
             If clsCommon.CompairString(obj.QC_Status, "Rejected") = CompairStringResult.Equal Then
                 qry = "select TSPL_MRN_DETAIL.GRN_Id,TSPL_MRN_DETAIL.MRN_No ,tspl_srn_Detail.SRN_No,TSPL_SRN_HEAD.Status as SRNStatus,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,TSPL_NIR_QC.Document_No as NIRQCNo
 from TSPL_MRN_DETAIL 
@@ -1303,7 +1307,9 @@ where TSPL_MRN_DETAIL.MRN_No in (select MRN_No from TSPL_QC_CHECK_MRN_DETAIL whe
                 'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleQualityControl, clsUserMgtCode.frmQualityCheckForSRN, clsCommon.myCstr(dt.Rows(0)("Bill_To_location")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
 
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_QC_CHECK_HEAD", "Document_Code", "TSPL_QC_CHECK_DETAIL", "Document_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, strCode, "TSPL_QC_CHECK_HEAD", "Document_Code", "TSPL_QC_CHECK_DETAIL", "Document_Code", "TSPL_QC_CHECK_SRN_DETAIL", "Document_Code", "TSPL_QC_CHECK_MRN_DETAIL", "Document_Code", "", "", "", "", "", "", trans)
+
+            ' clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_QC_CHECK_HEAD", "Document_Code", "TSPL_QC_CHECK_DETAIL", "Document_Code", trans)
             Dim Qry As String = "select Posted from TSPL_QC_CHECK_HEAD where Document_Code='" + strCode + "'"
             If Not clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry, trans)) = 1 Then
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
