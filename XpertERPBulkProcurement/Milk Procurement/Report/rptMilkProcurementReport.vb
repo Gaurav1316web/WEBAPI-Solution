@@ -164,22 +164,33 @@ LEFT JOIN TSPL_ZONE_MASTER ON TSPL_ZONE_MASTER.Zone_Code = TSPL_VENDOR_MASTER.ZO
         gv1.Columns("Zone_Name").HeaderText = "AREA"
         gv1.Columns("Sweet_Qty").HeaderText = "QTY"
         gv1.Columns("Sweet_FATKG").HeaderText = "KG-FAT"
+        gv1.Columns("Sweet_FATKG").FormatString = "{0:n3}"
         gv1.Columns("Sweet_SNFKG").HeaderText = "KG-SNF"
+        gv1.Columns("Sweet_SNFKG").FormatString = "{0:n3}"
         gv1.Columns("Sour_Qty").HeaderText = "QTY"
         gv1.Columns("Sour_FATKG").HeaderText = "KG-FAT"
+        gv1.Columns("Sour_FATKG").FormatString = "{0:n3}"
         gv1.Columns("Sour_SNFKG").HeaderText = "KG-SNF"
+        gv1.Columns("Sour_SNFKG").FormatString = "{0:n3}"
         gv1.Columns("Curd_Qty").HeaderText = "QTY"
         gv1.Columns("Total_Qty").HeaderText = "QTY"
         gv1.Columns("Total_FAT_KG").HeaderText = "KG-FAT"
+        gv1.Columns("Total_FAT_KG").FormatString = "{0:n3}"
         gv1.Columns("Total_SNF_KG").HeaderText = "KG-SNF"
-
+        gv1.Columns("Total_SNF_KG").FormatString = "{0:n3}"
         gv1.Columns("Avg_Qty").HeaderText = "AVG"
         gv1.Columns("Avg_FAT").HeaderText = "FAT%"
+        gv1.Columns("Avg_FAT").FormatString = "{0:n3}"
         gv1.Columns("Avg_SNF").HeaderText = "SNF%"
+        gv1.Columns("Avg_SNF").FormatString = "{0:n3}"
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
         For ii As Integer = IIf(isPrint, 7, 3) To gv1.Columns.Count - 3
-            summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "", GridAggregateFunction.Sum))
+            If gv1.Columns(ii).Name.Contains("FAT") Then
+                summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F3}", GridAggregateFunction.Sum))
+            Else
+                summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
+            End If
         Next
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
 
