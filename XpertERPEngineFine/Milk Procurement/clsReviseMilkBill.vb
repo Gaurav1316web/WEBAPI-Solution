@@ -78,7 +78,7 @@ Public Class clsReviseMilkBill
             issaved = issaved AndAlso clsReviseMilkBillDeduction.SaveData(obj.Document_No, obj.arrClsReviseMilkBillDeductions, trans)
             issaved = issaved AndAlso clsReviseMilkBillAddition.SaveData(obj.Document_No, obj.arrClsReviseMilkBillAddition, trans)
             issaved = issaved AndAlso clsReviseMilkBillDetail.SaveData(obj.Document_No, obj.ArrReviseMilkBillDetail, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_BILL_REVISE", "Document_No", "TSPL_MILK_BILL_REVISE_DETAIL", "Document_No", trans)
+            clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_BILL_REVISE", "Document_No", "TSPL_MILK_BILL_REVISE_DETAIL", "Document_No", "TSPL_MILK_BILL_REVISE_DEDUCTION", "Document_No", "TSPL_MILK_BILL_REVISE_ADDITION", "Document_No", "", "", "", "", "", "", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

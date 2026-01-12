@@ -61,7 +61,7 @@ Public Class clsDeductionMappingHead
             Dim objtrVLC As New clsDeductionMappingVLC
             objtrVLC.SaveData(obj.Doc_Code, obj.ArrVLC, trans)
             objtrVLC = Nothing
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_Code, "TSPL_DEDUCTION_MAPPING_HEAD", "Doc_Code", "TSPL_DEDUCTION_MAPPING_DETAIL", "Doc_Code", "TSPL_DEDUCTION_MAPPING_MCC", "Doc_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, obj.Doc_Code, "TSPL_DEDUCTION_MAPPING_HEAD", "Doc_Code", "TSPL_DEDUCTION_MAPPING_DETAIL", "Doc_Code", "TSPL_DEDUCTION_MAPPING_MCC", "Doc_Code", "TSPL_DEDUCTION_MAPPING_VLC", "Doc_Code", "", "", "", "", "", "", trans)
 
             trans.Commit()
         Catch ex As Exception

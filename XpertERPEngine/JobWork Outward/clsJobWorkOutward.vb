@@ -133,8 +133,8 @@ Public Class clsVendorItemChargeMaster
     Public Function SaveData(ByVal obj As clsVendorItemChargeMaster, ByVal isNewEntry As Boolean, ByVal isMakeAbandomentNo As Boolean, ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = True
         Try
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_JOB_OUTWARD_PRICE_HEAD", "Price_Code", trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_JOB_OUTWARD_PRICE_DETAIL", "Price_Code", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_JOB_OUTWARD_PRICE_HEAD", "Price_Code", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_JOB_OUTWARD_PRICE_DETAIL", "Price_Code", trans)
 
             Dim qry As String = "delete from TSPL_JOB_OUTWARD_PRICE_DETAIL where Price_Code='" + obj.Code + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -172,6 +172,9 @@ Public Class clsVendorItemChargeMaster
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_JOB_OUTWARD_PRICE_HEAD", OMInsertOrUpdate.Update, "TSPL_JOB_OUTWARD_PRICE_HEAD.Price_Code='" + obj.Code + "'", trans)
             End If
             isSaved = isSaved AndAlso clsVendorItemChargeDetail.SaveData(obj.Code, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_JOB_OUTWARD_PRICE_HEAD", "Price_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_JOB_OUTWARD_PRICE_DETAIL", "Price_Code", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try

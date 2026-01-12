@@ -88,7 +88,7 @@ Public Class clsMccScrapGatePass
             '    qry = "Update TSPL_SD_SHIPMENT_HEAD set GPCode='" & obj.GPCode & "' where  convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(obj.GPDate, "") & "' and isnull(GPCode,'') = '' and Trans_Type='FS' and Bill_To_Location='" & obj.Location_Code & "' and Vehicle_Code='" & obj.Vehicle_Id & "' and TSPL_SD_SHIPMENT_HEAD.Document_Code  in (" + AgainstDocumentCode + ")"
             '    clsDBFuncationality.ExecuteNonQuery(qry, trans)
             'End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.GPCode, "TSPL_MCC_SCRAP_GATEPASS_MASTER", "GPCode", "TSPL_MCC_SCRAP_GATEPASS_DETAIL", "GPCode", trans)
+            clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, obj.GPCode, "TSPL_MCC_SCRAP_GATEPASS_MASTER", "GPCode", "TSPL_MCC_SCRAP_GATEPASS_DETAIL", "GPCode", "TSPL_Mcc_Scrap_Invoice_GATEPASS_DETAIL", "GPCode", "TSPL_MCC_SCRAP_ROUTE_GATEPASS_DETAIL", "GPCode", "", "", "", "", "", "", trans)
             If isSaved Then
                 trans.Commit()
             End If

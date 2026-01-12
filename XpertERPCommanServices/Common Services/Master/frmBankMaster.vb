@@ -1193,13 +1193,15 @@ End if
                     End If
                     clsDBFuncationality.ExecuteNonQuery("Update TSPL_BANK_MASTER set Email = '" + txtEmail.Text + "',BANK_GROUP_CODE = " + IIf(clsCommon.myLen(txtBankGroup.Value) > 0, "'" + txtBankGroup.Value + "'", "NULL") + " where bank_code='" & clsCommon.myCstr(fndbank.Value) & "' ")
 
-                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(fndbank.Value), "TSPL_BANK_MASTER", "bank_code", Nothing)
                     '' work done client Bharat on 29/08/2018
                     SaveBankSlab(Me.fndbank.Value, Nothing)
+                    'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(fndbank.Value), "TSPL_BANK_MASTER", "bank_code", "TSPL_BANK_MASTER_Slab", "bank_code", Nothing)
 
                     If SaveBankCheckData(Me.fndbank.Value.ToString) Then
                         myMessages.update()
                     End If
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(fndbank.Value), "TSPL_BANK_MASTER", "bank_code", "TSPL_BANK_MASTER_Slab", "bank_code", "TSPL_BANK_CHECK_PRINTING", "bank_code", Nothing)
+
                 End If
             End If
         Catch ex As Exception

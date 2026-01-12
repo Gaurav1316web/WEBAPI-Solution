@@ -64,7 +64,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
             End If
             clsMilkCollectionDCSMCCDetail.SaveData(obj.Document_No, obj.ArrMCC, trans)
             clsMilkCollectionDCSDetail.SaveData(obj.Document_No, obj.Arr, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_COLLECTION_DCS", "Document_No", "TSPL_MILK_COLLECTION_DCS_DETAIL", "Document_No", "", "Document_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_COLLECTION_DCS", "Document_No", "TSPL_MILK_COLLECTION_DCS_DETAIL", "Document_No", "TSPL_MILK_COLLECTION_DCS_MCC_DETAIL", "Document_No", trans)
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -944,6 +944,7 @@ Public Class clsMilkCollectionDCSSuspenceAdjustment
             If Arr Is Nothing OrElse Arr.Count <= 0 Then
                 Throw New Exception("Please provide DCS Details")
             End If
+            Dim SettFATKGSuspenceTollerance As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SuspenceAdjusmtmentFATSNFTolerancePercentage, clsFixedParameterCode.SuspenceAdjusmtmentFATSNFTolerancePercentage, trans))
             Dim servdate As DateTime = clsCommon.GETSERVERDATE(trans)
             For ii As Integer = 0 To Arr.Count - 1
                 Dim coll As New Hashtable()
@@ -962,7 +963,7 @@ Public Class clsMilkCollectionDCSSuspenceAdjustment
                 Arr(ii).PK_Id = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select SCOPE_IDENTITY()", trans))
             Next
 
-            Dim qry As String = "select sum(AMOUNT*RI) as AMOUNT from (
+            Dim qry As String = "select sum(AMOUNT*RI) as AMOUNT,sum(Qty*RI) as Qty,sum(FATKG * case when RI=1 then 1 else 0 end) as CollFATKG ,sum(FATKG*RI) as FATKG ,sum(SNFKG * case when RI=1 then 1 else 0 end) as CollSNFKG,sum(SNFKG*RI) as SNFKG from (
 select TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No as DocumentNo,TSPL_MILK_COLLECTION_DCS.Document_Date as DocumentDate
 ,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code as BMCCode,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as BMCUploaderNo,TSPL_MCC_MASTER.MCC_NAME as BMC
 ,TSPL_MILK_COLLECTION_DCS_DETAIL.Qty,TSPL_MILK_COLLECTION_DCS_DETAIL.FAT,TSPL_MILK_COLLECTION_DCS_DETAIL.SNF,TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG,TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG
@@ -989,6 +990,23 @@ where  Document_No='" + strDocNo + "'
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 If clsCommon.myCDecimal(dt.Rows(0)("AMOUNT")) < 0 Then
                     Throw New Exception("The suspense adjustment amount is going into negative.")
+                End If
+                If clsCommon.myCDecimal(dt.Rows(0)("Qty")) < 0 Then
+                    Throw New Exception("The suspense adjustment Qty is going into negative.")
+                End If
+                If SettFATKGSuspenceTollerance > 0 Then
+                    If clsCommon.myCDecimal(dt.Rows(0)("FATKG")) < 0 Then
+                        Dim Suspencekg As Decimal = clsCommon.myCDecimal(dt.Rows(0)("CollFATKG")) * SettFATKGSuspenceTollerance / 100
+                        If Math.Abs(clsCommon.myCDecimal(dt.Rows(0)("FATKG"))) > Suspencekg Then
+                            Throw New Exception("The suspense FAT KG is going into negative.")
+                        End If
+                    End If
+                    If clsCommon.myCDecimal(dt.Rows(0)("SNFKG")) < 0 Then
+                        Dim Suspencekg As Decimal = clsCommon.myCDecimal(dt.Rows(0)("CollSNFKG")) * SettFATKGSuspenceTollerance / 100
+                        If Math.Abs(clsCommon.myCDecimal(dt.Rows(0)("SNFKG"))) > Suspencekg Then
+                            Throw New Exception("The suspense SNF KG is going into negative.")
+                        End If
+                    End If
                 End If
             End If
 

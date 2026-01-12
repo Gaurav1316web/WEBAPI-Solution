@@ -273,7 +273,7 @@ Public Class clsFFSettlement
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_FF_SETTLEMENT_HEAD", OMInsertOrUpdate.Update, "TSPL_FF_SETTLEMENT_HEAD.EMP_CODE='" + obj.EMP_CODE + "'", trans)
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.EMP_CODE, "TSPL_FF_SETTLEMENT_HEAD", "EMP_CODE", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.EMP_CODE, "TSPL_FF_SETTLEMENT_HEAD", "EMP_CODE", "TSPL_FF_SALARY", "EMP_CODE", trans)
 
             '' saving ff salary
             If Not obj.ObjListSalary Is Nothing Then
