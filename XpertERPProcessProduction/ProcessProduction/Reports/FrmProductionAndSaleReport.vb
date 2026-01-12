@@ -1203,7 +1203,7 @@ SELECT  DcsSeqNo,CASE WHEN DcsSeqNo > 15 THEN 'Any Other' ELSE Item_Desc END AS 
 ) xx group by DcsSeqNo
 )
 SELECT  
-    A.DcsSeqNo AS Item1_Name,
+    A.DcsSeqNo AS Item1_No,
     A.Item_Desc AS Item1_Name,
     B.DcsSeqNo AS Item2_No,
     B.Item_Desc AS Item2_Name

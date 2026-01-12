@@ -818,7 +818,7 @@ Public Class clsMccMaterialSaleReturn
             UpdateInventoryMovement(obj, trans, False)
             createARInvoice(obj, trans, strARInvoiceNoRecreateOnly, strVoucherNoForRecreateOnly, FormId)
             Dim ECustomerType = clsERPFuncationality.GetCustomerEInvoiceTypeFromTransationTable("TSPL_SD_SALE_INVOICE_HEAD", "Document_Code", obj.Against_Invoice_No, trans)
-            If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.Is_Taxable), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True Then
+            If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso obj.Is_Taxable AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True Then
                 If clsDSSalesReturnHead.EInvoice_Implementation(obj.Document_Code, obj.Bill_To_Location, trans) = True Then
                 Else
                     Throw New Exception("Invalid JSON Value")

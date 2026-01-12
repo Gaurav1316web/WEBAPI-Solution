@@ -8236,6 +8236,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Against_Gate_Out", "varchar(30) NULL REFERENCES TSPL_MCC_TANKER_GATE_OUT(GATE_OUT_NO)")
             coll.Add("ROUTE_NO", "Varchar(30) null REFERENCES TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
             coll.Add("MCC", "varchar(30)  NULL References TSPL_MCC_MASTER(MCC_Code)")
+            coll.Add("REF_PK_ID", "integer null references TSPL_GATE_ENTRY(PK_ID)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GATE_ENTRY_DETAILS", coll, Nothing, True, True, "", "Gate_Entry_No", "Date_And_Time", True)
 
             coll = New Dictionary(Of String, String)()
@@ -34304,6 +34305,7 @@ inner JOIN tspl_sd_sale_Invoice_detail ON TSPL_Customer_Invoice_Head.Against_Sal
             coll.Add("TotalSubsidyAmt", "Decimal(18,2) NULL")
             coll.Add("TotalSubsidyDisAmt", "Decimal(18,2) NULL")
             coll.Add("Shift_Type", "Varchar(12) NULL")
+            coll.Add("isMultipleReturn", "integer NULL")
 
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_RETURN_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
 
@@ -34383,8 +34385,7 @@ inner JOIN tspl_sd_sale_Invoice_detail ON TSPL_Customer_Invoice_Head.Against_Sal
             coll.Add("Item_Code", "varchar(50) NOT NULL")
             coll.Add("Qty", "decimal(18, 2) NULL")
             coll.Add("DamageQty", "decimal(18, 2) NULL")
-            coll.Add("Balance_Qty", "decimal(18, 2) NU
-LL")
+            coll.Add("Balance_Qty", "decimal(18, 2) NULL")
             coll.Add("Invoice_Code", "Varchar(30) null References TSPL_SD_SALE_INVOICE_HEAD(DOCUMENT_CODE)")
             coll.Add("Unit_code", "varchar(12) NULL")
             coll.Add("Location", "varchar(12) NOT NULL")
@@ -34552,6 +34553,8 @@ LL")
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("Transporter", "varchar(12) NULL")
             coll.Add("price_with_tax", "decimal(18,6) NULL")
+            coll.Add("Against_Dispatch", "Varchar(30) NULL References TSPL_SD_SHIPMENT_RETURN_HEAD(Document_Code)")
+
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_RETURN_DETAIL", coll, Nothing, True, True, "TSPL_SD_SALE_RETURN_HEAD", "DOCUMENT_CODE", "", True)
 
             coll = New Dictionary(Of String, String)
@@ -34560,6 +34563,7 @@ LL")
             coll.Add("Item_Code", "varchar(12) NULL")
             coll.Add("Unit_Code", "varchar(12) NULL")
             coll.Add("Return_Qty", "decimal(18,2) null")
+
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_RETURN_Booking_DETAIL", coll, Nothing, True, True, "TSPL_SD_SALE_RETURN_HEAD", "DOCUMENT_CODE", "", True)
 
             Try
