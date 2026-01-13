@@ -559,7 +559,7 @@ left join TSPL_MCC_SCRAP_GATEPASS_DETAIL on TSPL_MCC_SCRAP_GATEPASS_DETAIL.GPCod
         'btnPost.Visible = MyBase.isPostFlag
         btnPrint.Visible = MyBase.isPrintFlag
 
-        btnDelete.Visible = MyBase.isCancel_Flag
+        btnDelete.Visible = MyBase.isDeleteFlag
     End Sub
 
     Private Sub frmDairyGatePass_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
