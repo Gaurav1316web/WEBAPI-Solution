@@ -423,11 +423,14 @@ left join TSPL_MCC_SCRAP_GATEPASS_DETAIL on TSPL_MCC_SCRAP_GATEPASS_DETAIL.GPCod
                     objTr.InvoiceNo = Multi
                     obj.InvoiceArr.Add(objTr)
                 Next
-                For Each Route As String In txtRouteNo.arrValueMember
-                    Dim objTr As New clsMccScrapGatepassDetail()
-                    objTr.Route_No = Route
-                    obj.RouteArr.Add(objTr)
-                Next
+                If txtRouteNo.arrValueMember IsNot Nothing AndAlso txtRouteNo.arrValueMember.Count > 0 Then
+                    For Each Route As String In txtRouteNo.arrValueMember
+                        Dim objTr As New clsMccScrapGatepassDetail()
+                        objTr.Route_No = Route
+                        obj.RouteArr.Add(objTr)
+                    Next
+                End If
+
                 '' End
                 For Each grow As GridViewRowInfo In Gv1.Rows
                     Dim objTr As New clsMccScrapGatepassDetail()
@@ -556,7 +559,7 @@ left join TSPL_MCC_SCRAP_GATEPASS_DETAIL on TSPL_MCC_SCRAP_GATEPASS_DETAIL.GPCod
         'btnPost.Visible = MyBase.isPostFlag
         btnPrint.Visible = MyBase.isPrintFlag
 
-
+        btnDelete.Visible = MyBase.isCancel_Flag
     End Sub
 
     Private Sub frmDairyGatePass_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
@@ -569,8 +572,8 @@ left join TSPL_MCC_SCRAP_GATEPASS_DETAIL on TSPL_MCC_SCRAP_GATEPASS_DETAIL.GPCod
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             Me.Close()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
-                                         "TSPL_DAIRYSALE_GATEPASS_MASTER " + Environment.NewLine + _
+            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                         "TSPL_DAIRYSALE_GATEPASS_MASTER " + Environment.NewLine +
                                          "TSPL_DAIRYSALE_GATEPASS_DETAIL  ")
         End If
 
@@ -745,7 +748,7 @@ left join TSPL_MCC_SCRAP_GATEPASS_DETAIL on TSPL_MCC_SCRAP_GATEPASS_DETAIL.GPCod
         End If
     End Sub
 
-   
+
 
     Private Sub txtmultiBooking__My_Click(sender As Object, e As EventArgs) Handles txtmultiBooking._My_Click
         Try
@@ -865,6 +868,21 @@ left join TSPL_MCC_SCRAP_GATEPASS_DETAIL on TSPL_MCC_SCRAP_GATEPASS_DETAIL.GPCod
                 End If
             End If
             funFillGrid2()
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
+        CancelData()
+    End Sub
+    Sub CancelData()
+        Try
+            If (myMessages.deleteConfirm()) Then
+                If (clsMccScrapGatePass.DeleteData(MyBase.Form_ID, txtCode.Value)) Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
+                    Addnew()
+                End If
+            End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

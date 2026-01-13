@@ -186,7 +186,7 @@ LEFT JOIN TSPL_ZONE_MASTER ON TSPL_ZONE_MASTER.Zone_Code = TSPL_VENDOR_MASTER.ZO
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
         For ii As Integer = IIf(isPrint, 7, 3) To gv1.Columns.Count - 3
-            If gv1.Columns(ii).Name.Contains("FAT") Then
+            If gv1.Columns(ii).Name.Contains("FAT") OrElse gv1.Columns(ii).Name.Contains("SNF") Then
                 summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F3}", GridAggregateFunction.Sum))
             Else
                 summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
