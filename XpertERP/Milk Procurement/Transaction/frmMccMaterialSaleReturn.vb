@@ -352,6 +352,7 @@ Public Class frmMccMaterialSaleReturn
         End If
         fndProject.Enabled = False
         lblProject.Enabled = False
+        RadPageViewPage5.Item.Visibility = ElementVisibility.Collapsed
         RadMenuItem5.Visibility = ElementVisibility.Collapsed
     End Sub
     Sub SetMultiCurrencyVisibility()
@@ -5139,6 +5140,18 @@ Public Class frmMccMaterialSaleReturn
         ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.T Then
             chkRateDefaultSetting.Visible = Not chkRateDefaultSetting.Visible
             chkRateUserCustomer.Visible = Not chkRateUserCustomer.Visible
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control AndAlso e.KeyCode = Keys.F11 Then
+            If RadPageViewPage5.Item.Visibility = ElementVisibility.Visible Then
+                RadPageViewPage5.Item.Visibility = ElementVisibility.Collapsed
+            Else
+                Dim pwd As New FrmPWD(Nothing)
+                pwd.strCode = clsFixedParameterCode.MilkSetting
+                pwd.strType = clsFixedParameterType.MCCMilkSRNRepost
+                pwd.ShowDialog()
+                If pwd.isPasswordCorrect Then
+                    RadPageViewPage5.Item.Visibility = ElementVisibility.Visible
+                End If
+            End If
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             If MyBase.isReverse Then
 
@@ -7375,5 +7388,40 @@ Public Class frmMccMaterialSaleReturn
     End Sub
     Private Sub txtRateAmt_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtRateAmt.KeyPress
         lblTotalSubsidy.Text = clsCommon.myCdbl(txtRateAmt.Text) * TotalItemQty
+    End Sub
+
+    Private Sub btnUpdateEinvoice_Click(sender As Object, e As EventArgs) Handles btnUpdateEinvoice.Click
+        Dim Tran As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                Throw New Exception("Please provice " + txtDocNo.MyLinkLable1.Text)
+            End If
+            If clsCommon.myLen(TxtEInvoiceUpdateIRNNo.Text) <= 0 Then
+                Throw New Exception("Please provice " + TxtEInvoiceUpdateIRNNo.MyLinkLable1.Text)
+            End If
+            If clsCommon.myLen(TxtEInvoiceUpdateAckNo.Text) <= 0 Then
+                Throw New Exception("Please provice " + TxtEInvoiceUpdateAckNo.MyLinkLable1.Text)
+            End If
+            If clsCommon.myLen(TxtEInvoiceUpdateQCCode.Text) <= 0 Then
+                Throw New Exception("Please provice " + TxtEInvoiceUpdateQCCode.MyLinkLable1.Text)
+            End If
+            If Not UsLock1.Status = ERPTransactionStatus.Pending Then
+                Throw New Exception("Transaction should be Pending ")
+            End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtDocNo.Value, "TSPL_SD_SALE_Return_HEAD", "Document_Code", "TSPL_SD_SALE_Return_DETAIL", "Document_Code", Tran)
+            Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "IRN_no", TxtEInvoiceUpdateIRNNo.Text)
+            clsCommon.AddColumnsForChange(coll, "Ack_No", TxtEInvoiceUpdateAckNo.Text)
+            clsCommon.AddColumnsForChange(coll, "Ack_Date", clsCommon.GetPrintDate(TxtEInvoiceUpdateAckDate.Value, "dd/MMM/yyyy hh:mm:ss tt"))
+            clsCommon.AddColumnsForChange(coll, "QR_Code", TxtEInvoiceUpdateQCCode.Text)
+            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SALE_Return_HEAD", OMInsertOrUpdate.Update, "TSPL_SD_SALE_Return_HEAD.Document_Code='" + txtDocNo.Value + "'", Tran)
+            Dim TempByte As Byte() = clsERPFuncationalityOLD.GenerateMyQCCode(TxtEInvoiceUpdateQCCode.Text)
+            clsDBFuncationality.UpdateImage("BarCode_Img", TempByte, "TSPL_SD_SALE_Return_HEAD", "TSPL_SD_SALE_Return_HEAD.Document_Code='" & txtDocNo.Value & "'", Tran)
+            Tran.Commit()
+            clsCommon.MyMessageBoxShow(Me, "E-Invoice Details Updated successfully", Me.Text)
+        Catch ex As Exception
+            Tran.Rollback()
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class
