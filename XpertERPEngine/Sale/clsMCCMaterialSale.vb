@@ -1429,7 +1429,24 @@ Public Class clsMCCMaterialSale
                 SMSSENDONLY(obj, trans, True)
             End If
             Dim ECustomerType = clsERPFuncationality.GetCustomerEInvoiceType(obj.Customer_Code, trans)
-            If clsCommon.CompairString(ECustomerType, "BC") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.Is_Taxable), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True Then
+                If clsCommon.myLen(GetIRNNo(obj.Sale_Invoice_No, trans)) <= 0 Then
+                    clsPSInvoiceHead.EInvoice_Implementation(obj.Sale_Invoice_No, obj.Bill_To_Location, trans, False)
+                    If clsCommon.myLen(GetIRNNo(obj.Sale_Invoice_No, trans)) <= 0 Then
+                        Throw New Exception("IRN No For Sales Invoice No [" + obj.Sale_Invoice_No + "] is not generated")
+                    End If
+                End If
+                'If obj.IsEwaybill = 1 Then
+                '    If objCommonVar.GenerateEWayBillWithEInvoice Then
+                '        If clsCommon.myLen(GetEWayBillNo(strDocNo, trans)) <= 0 Then
+                '            clsPSInvoiceHead.EInvoice_Implementation(obj.Document_Code, obj.Bill_To_Location, trans, True)
+                '            If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" + strDocNo + "'", trans)) <= 0 Then
+                '                'Throw New Exception("E-Way Bill For Sales Invoice No [" + strDocNo + "] is not generated")
+                '            End If
+                '        End If
+                '    End If
+                'End If
+            ElseIf clsCommon.CompairString(ECustomerType, "BC") = CompairStringResult.Equal Then
                 Dim EnableDynamicQRCodeForB2CInvoice As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.EnableDynamicQRCodeForB2CInvoice, clsFixedParameterCode.EnableDynamicQRCodeForB2CInvoice, trans)) = 1, True, False))
                 If EnableDynamicQRCodeForB2CInvoice = True AndAlso clsERPFuncationality.GetQRCodeStatus(obj.Document_Date, trans) = True Then
                     clsPSInvoiceHead.EInvoice_ImplementationFor_CustomerType_BC(obj.Document_Code, obj.Bill_To_Location, trans)
@@ -1439,6 +1456,9 @@ Public Class clsMCCMaterialSale
             Throw New Exception(ex.Message)
         End Try
         Return True
+    End Function
+    Public Shared Function GetIRNNo(strDocNo As String, trans As SqlTransaction) As String
+        Return clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  isnull(IRN_No,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" + strDocNo + "'", trans))
     End Function
 
     Public Shared Sub UpdateFileInfo(ByVal FormId As String, ByVal strDocNo As String)

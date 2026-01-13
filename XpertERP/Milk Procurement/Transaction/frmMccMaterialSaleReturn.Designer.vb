@@ -22,10 +22,10 @@ Partial Class frmMccMaterialSaleReturn
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim WindowsSettings2 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -200,6 +200,17 @@ Partial Class frmMccMaterialSaleReturn
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
+        Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.TxtEInvoiceUpdateAckDate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel64 = New common.Controls.MyLabel()
+        Me.MyLabel63 = New common.Controls.MyLabel()
+        Me.TxtEInvoiceUpdateAckNo = New common.Controls.MyTextBox()
+        Me.MyLabel62 = New common.Controls.MyLabel()
+        Me.TxtEInvoiceUpdateIRNNo = New common.Controls.MyTextBox()
+        Me.MyLabel61 = New common.Controls.MyLabel()
+        Me.btnUpdateEinvoice = New Telerik.WinControls.UI.RadButton()
+        Me.TxtEInvoiceUpdateQCCode = New common.Controls.MyTextBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -362,6 +373,17 @@ Partial Class frmMccMaterialSaleReturn
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage5.SuspendLayout()
+        Me.GroupBox2.SuspendLayout()
+        CType(Me.TxtEInvoiceUpdateAckDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel64, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel63, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtEInvoiceUpdateAckNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtEInvoiceUpdateIRNNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel61, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnUpdateEinvoice, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtEInvoiceUpdateQCCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -406,11 +428,12 @@ Partial Class frmMccMaterialSaleReturn
         Me.RadPageView1.Controls.Add(Me.pvpCustomFields)
         Me.RadPageView1.Controls.Add(Me.Attachments)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage4)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage5)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage5
         Me.RadPageView1.Size = New System.Drawing.Size(970, 498)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -896,7 +919,7 @@ Partial Class frmMccMaterialSaleReturn
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -1776,7 +1799,7 @@ Partial Class frmMccMaterialSaleReturn
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(47.0!, 26.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(949, 353)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(949, 452)
         Me.RadPageViewPage2.Text = "Taxes"
         '
         'GroupBox1
@@ -1864,7 +1887,7 @@ Partial Class frmMccMaterialSaleReturn
         Me.RadLabel10.FieldName = Nothing
         Me.RadLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel10.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel10.Location = New System.Drawing.Point(791, 249)
+        Me.RadLabel10.Location = New System.Drawing.Point(791, 348)
         Me.RadLabel10.Name = "RadLabel10"
         Me.RadLabel10.Size = New System.Drawing.Size(155, 16)
         Me.RadLabel10.TabIndex = 4
@@ -1882,7 +1905,7 @@ Partial Class frmMccMaterialSaleReturn
         Me.RadGroupBox1.Controls.Add(Me.lblTermName)
         Me.RadGroupBox1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox1.HeaderText = "Terms"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(1, 262)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(1, 361)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(949, 87)
@@ -1996,13 +2019,13 @@ Partial Class frmMccMaterialSaleReturn
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
-        Me.gv2.Size = New System.Drawing.Size(944, 211)
+        Me.gv2.Size = New System.Drawing.Size(944, 310)
         Me.gv2.TabIndex = 2
         Me.gv2.TabStop = False
         Me.gv2.VarID = ""
@@ -2013,7 +2036,7 @@ Partial Class frmMccMaterialSaleReturn
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(112.0!, 26.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(949, 353)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(949, 452)
         Me.RadPageViewPage3.Text = "Additional Charges"
         '
         'SplitContainer2
@@ -2031,8 +2054,8 @@ Partial Class frmMccMaterialSaleReturn
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.RadLabel31)
         Me.SplitContainer2.Panel2.Controls.Add(Me.lblAddCharges)
-        Me.SplitContainer2.Size = New System.Drawing.Size(949, 353)
-        Me.SplitContainer2.SplitterDistance = 319
+        Me.SplitContainer2.Size = New System.Drawing.Size(949, 452)
+        Me.SplitContainer2.SplitterDistance = 408
         Me.SplitContainer2.TabIndex = 0
         '
         'gvAC
@@ -2050,14 +2073,14 @@ Partial Class frmMccMaterialSaleReturn
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvAC.MyExportFilePath = ""
         Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAC.ShowGroupPanel = False
         Me.gvAC.ShowHeaderCellButtons = True
-        Me.gvAC.Size = New System.Drawing.Size(949, 319)
+        Me.gvAC.Size = New System.Drawing.Size(949, 408)
         Me.gvAC.TabIndex = 0
         Me.gvAC.TabStop = False
         Me.gvAC.VarID = ""
@@ -2092,7 +2115,7 @@ Partial Class frmMccMaterialSaleReturn
         Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(89.0!, 26.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 35)
         Me.pvpCustomFields.Name = "pvpCustomFields"
-        Me.pvpCustomFields.Size = New System.Drawing.Size(949, 353)
+        Me.pvpCustomFields.Size = New System.Drawing.Size(949, 452)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
         'UcCustomFields1
@@ -2100,7 +2123,7 @@ Partial Class frmMccMaterialSaleReturn
         Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
         Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(949, 353)
+        Me.UcCustomFields1.Size = New System.Drawing.Size(949, 452)
         Me.UcCustomFields1.TabIndex = 2
         '
         'Attachments
@@ -2109,7 +2132,7 @@ Partial Class frmMccMaterialSaleReturn
         Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 26.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 35)
         Me.Attachments.Name = "Attachments"
-        Me.Attachments.Size = New System.Drawing.Size(949, 353)
+        Me.Attachments.Size = New System.Drawing.Size(949, 452)
         Me.Attachments.Text = "Attachments"
         '
         'UcAttachment1
@@ -2117,7 +2140,7 @@ Partial Class frmMccMaterialSaleReturn
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
         Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(949, 353)
+        Me.UcAttachment1.Size = New System.Drawing.Size(949, 452)
         Me.UcAttachment1.TabIndex = 0
         '
         'RadPageViewPage4
@@ -2944,9 +2967,192 @@ Partial Class frmMccMaterialSaleReturn
         Me.RadMenuItem2.TabIndex = 0
         Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenuItem2.Visible = False
-        WindowsSettings1.EnableRoundedCorners = Nothing
-        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
-        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
+        WindowsSettings2.EnableRoundedCorners = Nothing
+        WindowsSettings2.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings2
+        '
+        'RadPageViewPage5
+        '
+        Me.RadPageViewPage5.Controls.Add(Me.GroupBox2)
+        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(63.0!, 26.0!)
+        Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage5.Name = "RadPageViewPage5"
+        Me.RadPageViewPage5.Size = New System.Drawing.Size(949, 452)
+        Me.RadPageViewPage5.Text = "E Invoice"
+        '
+        'GroupBox2
+        '
+        Me.GroupBox2.Controls.Add(Me.TxtEInvoiceUpdateAckDate)
+        Me.GroupBox2.Controls.Add(Me.MyLabel64)
+        Me.GroupBox2.Controls.Add(Me.MyLabel63)
+        Me.GroupBox2.Controls.Add(Me.TxtEInvoiceUpdateAckNo)
+        Me.GroupBox2.Controls.Add(Me.MyLabel62)
+        Me.GroupBox2.Controls.Add(Me.TxtEInvoiceUpdateIRNNo)
+        Me.GroupBox2.Controls.Add(Me.MyLabel61)
+        Me.GroupBox2.Controls.Add(Me.btnUpdateEinvoice)
+        Me.GroupBox2.Controls.Add(Me.TxtEInvoiceUpdateQCCode)
+        Me.GroupBox2.Location = New System.Drawing.Point(3, 3)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(759, 281)
+        Me.GroupBox2.TabIndex = 1443
+        Me.GroupBox2.TabStop = False
+        Me.GroupBox2.Text = "E-Invoice Details"
+        '
+        'TxtEInvoiceUpdateAckDate
+        '
+        Me.TxtEInvoiceUpdateAckDate.CalculationExpression = Nothing
+        Me.TxtEInvoiceUpdateAckDate.CustomFormat = "dd/MM/yyyy hh:mm tt"
+        Me.TxtEInvoiceUpdateAckDate.FieldCode = Nothing
+        Me.TxtEInvoiceUpdateAckDate.FieldDesc = Nothing
+        Me.TxtEInvoiceUpdateAckDate.FieldMaxLength = 0
+        Me.TxtEInvoiceUpdateAckDate.FieldName = Nothing
+        Me.TxtEInvoiceUpdateAckDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtEInvoiceUpdateAckDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.TxtEInvoiceUpdateAckDate.isCalculatedField = False
+        Me.TxtEInvoiceUpdateAckDate.IsSourceFromTable = False
+        Me.TxtEInvoiceUpdateAckDate.IsSourceFromValueList = False
+        Me.TxtEInvoiceUpdateAckDate.IsUnique = False
+        Me.TxtEInvoiceUpdateAckDate.Location = New System.Drawing.Point(71, 63)
+        Me.TxtEInvoiceUpdateAckDate.MendatroryField = False
+        Me.TxtEInvoiceUpdateAckDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.TxtEInvoiceUpdateAckDate.MyLinkLable1 = Me.MyLabel64
+        Me.TxtEInvoiceUpdateAckDate.MyLinkLable2 = Nothing
+        Me.TxtEInvoiceUpdateAckDate.Name = "TxtEInvoiceUpdateAckDate"
+        Me.TxtEInvoiceUpdateAckDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.TxtEInvoiceUpdateAckDate.ReferenceFieldDesc = Nothing
+        Me.TxtEInvoiceUpdateAckDate.ReferenceFieldName = Nothing
+        Me.TxtEInvoiceUpdateAckDate.ReferenceTableName = Nothing
+        Me.TxtEInvoiceUpdateAckDate.Size = New System.Drawing.Size(125, 18)
+        Me.TxtEInvoiceUpdateAckDate.TabIndex = 1446
+        Me.TxtEInvoiceUpdateAckDate.TabStop = False
+        Me.TxtEInvoiceUpdateAckDate.Text = "13/06/2011 11:29 AM"
+        Me.TxtEInvoiceUpdateAckDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'MyLabel64
+        '
+        Me.MyLabel64.FieldName = Nothing
+        Me.MyLabel64.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel64.Location = New System.Drawing.Point(6, 64)
+        Me.MyLabel64.Name = "MyLabel64"
+        Me.MyLabel64.Size = New System.Drawing.Size(52, 16)
+        Me.MyLabel64.TabIndex = 1445
+        Me.MyLabel64.Text = "Ack Date"
+        '
+        'MyLabel63
+        '
+        Me.MyLabel63.FieldName = Nothing
+        Me.MyLabel63.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel63.Location = New System.Drawing.Point(6, 43)
+        Me.MyLabel63.Name = "MyLabel63"
+        Me.MyLabel63.Size = New System.Drawing.Size(43, 16)
+        Me.MyLabel63.TabIndex = 1444
+        Me.MyLabel63.Text = "Ack No"
+        '
+        'TxtEInvoiceUpdateAckNo
+        '
+        Me.TxtEInvoiceUpdateAckNo.CalculationExpression = Nothing
+        Me.TxtEInvoiceUpdateAckNo.FieldCode = Nothing
+        Me.TxtEInvoiceUpdateAckNo.FieldDesc = Nothing
+        Me.TxtEInvoiceUpdateAckNo.FieldMaxLength = 0
+        Me.TxtEInvoiceUpdateAckNo.FieldName = Nothing
+        Me.TxtEInvoiceUpdateAckNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtEInvoiceUpdateAckNo.isCalculatedField = False
+        Me.TxtEInvoiceUpdateAckNo.IsSourceFromTable = False
+        Me.TxtEInvoiceUpdateAckNo.IsSourceFromValueList = False
+        Me.TxtEInvoiceUpdateAckNo.IsUnique = False
+        Me.TxtEInvoiceUpdateAckNo.Location = New System.Drawing.Point(71, 42)
+        Me.TxtEInvoiceUpdateAckNo.MaxLength = 0
+        Me.TxtEInvoiceUpdateAckNo.MendatroryField = False
+        Me.TxtEInvoiceUpdateAckNo.MyLinkLable1 = Me.MyLabel63
+        Me.TxtEInvoiceUpdateAckNo.MyLinkLable2 = Nothing
+        Me.TxtEInvoiceUpdateAckNo.Name = "TxtEInvoiceUpdateAckNo"
+        Me.TxtEInvoiceUpdateAckNo.ReferenceFieldDesc = Nothing
+        Me.TxtEInvoiceUpdateAckNo.ReferenceFieldName = Nothing
+        Me.TxtEInvoiceUpdateAckNo.ReferenceTableName = Nothing
+        Me.TxtEInvoiceUpdateAckNo.Size = New System.Drawing.Size(288, 18)
+        Me.TxtEInvoiceUpdateAckNo.TabIndex = 1443
+        '
+        'MyLabel62
+        '
+        Me.MyLabel62.FieldName = Nothing
+        Me.MyLabel62.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel62.Location = New System.Drawing.Point(6, 22)
+        Me.MyLabel62.Name = "MyLabel62"
+        Me.MyLabel62.Size = New System.Drawing.Size(43, 16)
+        Me.MyLabel62.TabIndex = 1442
+        Me.MyLabel62.Text = "IRN No"
+        '
+        'TxtEInvoiceUpdateIRNNo
+        '
+        Me.TxtEInvoiceUpdateIRNNo.CalculationExpression = Nothing
+        Me.TxtEInvoiceUpdateIRNNo.FieldCode = Nothing
+        Me.TxtEInvoiceUpdateIRNNo.FieldDesc = Nothing
+        Me.TxtEInvoiceUpdateIRNNo.FieldMaxLength = 0
+        Me.TxtEInvoiceUpdateIRNNo.FieldName = Nothing
+        Me.TxtEInvoiceUpdateIRNNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtEInvoiceUpdateIRNNo.isCalculatedField = False
+        Me.TxtEInvoiceUpdateIRNNo.IsSourceFromTable = False
+        Me.TxtEInvoiceUpdateIRNNo.IsSourceFromValueList = False
+        Me.TxtEInvoiceUpdateIRNNo.IsUnique = False
+        Me.TxtEInvoiceUpdateIRNNo.Location = New System.Drawing.Point(71, 21)
+        Me.TxtEInvoiceUpdateIRNNo.MaxLength = 0
+        Me.TxtEInvoiceUpdateIRNNo.MendatroryField = False
+        Me.TxtEInvoiceUpdateIRNNo.MyLinkLable1 = Me.MyLabel62
+        Me.TxtEInvoiceUpdateIRNNo.MyLinkLable2 = Nothing
+        Me.TxtEInvoiceUpdateIRNNo.Name = "TxtEInvoiceUpdateIRNNo"
+        Me.TxtEInvoiceUpdateIRNNo.ReferenceFieldDesc = Nothing
+        Me.TxtEInvoiceUpdateIRNNo.ReferenceFieldName = Nothing
+        Me.TxtEInvoiceUpdateIRNNo.ReferenceTableName = Nothing
+        Me.TxtEInvoiceUpdateIRNNo.Size = New System.Drawing.Size(288, 18)
+        Me.TxtEInvoiceUpdateIRNNo.TabIndex = 1441
+        '
+        'MyLabel61
+        '
+        Me.MyLabel61.FieldName = Nothing
+        Me.MyLabel61.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel61.Location = New System.Drawing.Point(6, 84)
+        Me.MyLabel61.Name = "MyLabel61"
+        Me.MyLabel61.Size = New System.Drawing.Size(53, 16)
+        Me.MyLabel61.TabIndex = 1439
+        Me.MyLabel61.Text = "QR Code"
+        '
+        'btnUpdateEinvoice
+        '
+        Me.btnUpdateEinvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnUpdateEinvoice.Location = New System.Drawing.Point(72, 253)
+        Me.btnUpdateEinvoice.Name = "btnUpdateEinvoice"
+        Me.btnUpdateEinvoice.Size = New System.Drawing.Size(156, 20)
+        Me.btnUpdateEinvoice.TabIndex = 1440
+        Me.btnUpdateEinvoice.Text = "Update"
+        '
+        'TxtEInvoiceUpdateQCCode
+        '
+        Me.TxtEInvoiceUpdateQCCode.CalculationExpression = Nothing
+        Me.TxtEInvoiceUpdateQCCode.FieldCode = Nothing
+        Me.TxtEInvoiceUpdateQCCode.FieldDesc = Nothing
+        Me.TxtEInvoiceUpdateQCCode.FieldMaxLength = 0
+        Me.TxtEInvoiceUpdateQCCode.FieldName = Nothing
+        Me.TxtEInvoiceUpdateQCCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtEInvoiceUpdateQCCode.isCalculatedField = False
+        Me.TxtEInvoiceUpdateQCCode.IsSourceFromTable = False
+        Me.TxtEInvoiceUpdateQCCode.IsSourceFromValueList = False
+        Me.TxtEInvoiceUpdateQCCode.IsUnique = False
+        Me.TxtEInvoiceUpdateQCCode.Location = New System.Drawing.Point(71, 84)
+        Me.TxtEInvoiceUpdateQCCode.MaxLength = 0
+        Me.TxtEInvoiceUpdateQCCode.MendatroryField = False
+        Me.TxtEInvoiceUpdateQCCode.Multiline = True
+        Me.TxtEInvoiceUpdateQCCode.MyLinkLable1 = Me.RadLabel6
+        Me.TxtEInvoiceUpdateQCCode.MyLinkLable2 = Nothing
+        Me.TxtEInvoiceUpdateQCCode.Name = "TxtEInvoiceUpdateQCCode"
+        Me.TxtEInvoiceUpdateQCCode.ReferenceFieldDesc = Nothing
+        Me.TxtEInvoiceUpdateQCCode.ReferenceFieldName = Nothing
+        Me.TxtEInvoiceUpdateQCCode.ReferenceTableName = Nothing
+        '
+        '
+        '
+        Me.TxtEInvoiceUpdateQCCode.RootElement.StretchVertically = True
+        Me.TxtEInvoiceUpdateQCCode.Size = New System.Drawing.Size(682, 164)
+        Me.TxtEInvoiceUpdateQCCode.TabIndex = 1438
         '
         'frmMccMaterialSaleReturn
         '
@@ -3136,6 +3342,18 @@ Partial Class frmMccMaterialSaleReturn
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage5.ResumeLayout(False)
+        Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox2.PerformLayout()
+        CType(Me.TxtEInvoiceUpdateAckDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel64, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel63, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtEInvoiceUpdateAckNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtEInvoiceUpdateIRNNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel61, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnUpdateEinvoice, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtEInvoiceUpdateQCCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -3315,5 +3533,16 @@ Partial Class frmMccMaterialSaleReturn
     Friend WithEvents MyLabel17 As common.Controls.MyLabel
     Friend WithEvents txtRateAmt As common.MyNumBox
     Friend WithEvents txtRatePer As common.MyNumBox
+    Friend WithEvents RadPageViewPage5 As RadPageViewPage
+    Friend WithEvents GroupBox2 As GroupBox
+    Friend WithEvents TxtEInvoiceUpdateAckDate As common.Controls.MyDateTimePicker
+    Friend WithEvents MyLabel64 As common.Controls.MyLabel
+    Friend WithEvents MyLabel63 As common.Controls.MyLabel
+    Friend WithEvents TxtEInvoiceUpdateAckNo As common.Controls.MyTextBox
+    Friend WithEvents MyLabel62 As common.Controls.MyLabel
+    Friend WithEvents TxtEInvoiceUpdateIRNNo As common.Controls.MyTextBox
+    Friend WithEvents MyLabel61 As common.Controls.MyLabel
+    Friend WithEvents btnUpdateEinvoice As RadButton
+    Friend WithEvents TxtEInvoiceUpdateQCCode As common.Controls.MyTextBox
 End Class
 
