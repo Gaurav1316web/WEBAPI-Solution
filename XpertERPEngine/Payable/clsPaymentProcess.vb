@@ -3551,7 +3551,7 @@ where 2=2 and RefDocType In('SUS-ADJD') and TSPL_PAYMENT_PROCESS_DEDUCTION.doc_n
                     dtDeductionOther.Rows.Add(dr)
                 End If
 
-                PDFPath = frmCRV.funsubreportWithdt(clsUserMgtCode.frmPaymentProcess, isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAdditionFinance, "crptMilkPurchaseBillPaymentProcessNewJPR", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeductionFinance, "subReduceDeduction.rpt", dtReduceDeduction, "subSaving.rpt", dtSaving, "SubAdditionOther.rpt", dtAdditionOther, "SubDeductionOther.rpt", dtDeductionOther, "SubCorrectionWise.rpt", dtCorrection)
+                PDFPath = frmCRV.funsubreportWithdt(clsUserMgtCode.frmPaymentProcess, isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAdditionFinance, "crptMilkPurchaseBillPaymentProcessNewJPR", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeductionFinance, "subReduceDeduction.rpt", dtReduceDeduction, "subSaving.rpt", dtSaving, "SubAdditionOther.rpt", dtAdditionOther, "SubDeductionOther.rpt", dtDeductionOther, "SubCorrectionWise.rpt", dtCorrection, "SubMilkCorrectionDetail.rpt", dtsuspense)
             ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                 PDFPath = frmCRV.funsubreportWithdt(clsUserMgtCode.frmPaymentProcess, isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewGNG", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
             ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal AndAlso PaymentProcessInHindi = True AndAlso isprintHindi Then

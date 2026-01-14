@@ -392,8 +392,10 @@ Public Class frmCrystalReportViewer
         Return funsubreportWithdt(Form_ID, False, crpfolder, dt1, dt2, strReportName, strCaption, dtTransDate, strSubReport1, strSubReport2, dt3, strSubReport3, dt4, strSubReport4, dt5)
     End Function
 
+    Public Function funsubreportWithdt(ByVal Form_ID As String, ByVal isPDFPath As Boolean, ByVal crpfolder As CrystalReportFolder, ByVal dt1 As DataTable, ByVal dt2 As DataTable, ByVal strReportName As String, ByVal strCaption As String, ByVal dtTransDate? As Date, Optional ByVal strSubReport1 As String = vbNullString, Optional ByVal strSubReport2 As String = vbNullString, Optional ByVal dt3 As DataTable = Nothing, Optional ByVal strSubReport3 As String = vbNullString, Optional ByVal dt4 As DataTable = Nothing, Optional ByVal strSubReport4 As String = vbNullString, Optional ByVal dt5 As DataTable = Nothing, Optional ByVal strSubReport5 As String = vbNullString, Optional ByVal dt6 As DataTable = Nothing, Optional ByVal strSubReport6 As String = vbNullString, Optional ByVal dt7 As DataTable = Nothing, Optional ByVal strSubReport7 As String = vbNullString, Optional ByVal dt8 As DataTable = Nothing, Optional ByVal strSubReport8 As String = vbNullString, Optional ByVal dt9 As DataTable = Nothing) As String
 
-    Public Function funsubreportWithdt(ByVal Form_ID As String, ByVal isPDFPath As Boolean, ByVal crpfolder As CrystalReportFolder, ByVal dt1 As DataTable, ByVal dt2 As DataTable, ByVal strReportName As String, ByVal strCaption As String, ByVal dtTransDate? As Date, Optional ByVal strSubReport1 As String = vbNullString, Optional ByVal strSubReport2 As String = vbNullString, Optional ByVal dt3 As DataTable = Nothing, Optional ByVal strSubReport3 As String = vbNullString, Optional ByVal dt4 As DataTable = Nothing, Optional ByVal strSubReport4 As String = vbNullString, Optional ByVal dt5 As DataTable = Nothing, Optional ByVal strSubReport5 As String = vbNullString, Optional ByVal dt6 As DataTable = Nothing, Optional ByVal strSubReport6 As String = vbNullString, Optional ByVal dt7 As DataTable = Nothing, Optional ByVal strSubReport7 As String = vbNullString, Optional ByVal dt8 As DataTable = Nothing) As String
+        'Public Function funsubreportWithdt(ByVal Form_ID As String, ByVal isPDFPath As Boolean, ByVal crpfolder As CrystalReportFolder, ByVal dt1 As DataTable, ByVal dt2 As DataTable, ByVal strReportName As String, ByVal strCaption As String, ByVal dtTransDate? As Date, Optional ByVal strSubReport1 As String = vbNullString, Optional ByVal strSubReport2 As String = vbNullString, Optional ByVal dt3 As DataTable = Nothing, Optional ByVal strSubReport3 As String = vbNullString, Optional ByVal dt4 As DataTable = Nothing, Optional ByVal strSubReport4 As String = vbNullString, Optional ByVal dt5 As DataTable = Nothing, Optional ByVal strSubReport5 As String = vbNullString, Optional ByVal dt6 As DataTable = Nothing, Optional ByVal strSubReport6 As String = vbNullString, Optional ByVal dt7 As DataTable = Nothing, Optional ByVal strSubReport7 As String = vbNullString, Optional ByVal dt8 As DataTable = Nothing) As String
+
         Dim PDFPath As String = ""
         Dim strReportPath As String = Nothing
         Dim isPDFPathOrg As Boolean = isPDFPath
@@ -513,7 +515,7 @@ Public Class frmCrystalReportViewer
                         clsCommon.MyMessageBoxShow(Me, "PDF generated successfully", Me.Text)
                     End If
                 Else
-                        rpdoc.ReportOptions.EnableSaveDataWithReport = False
+                    rpdoc.ReportOptions.EnableSaveDataWithReport = False
                     rpdoc.Refresh()
                     rptshow = True
                     Me.Text = strReportPath

@@ -1646,7 +1646,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
 select Against_Booking_No from TSPL_SD_SHIPMENT_HEAD where Against_Booking_No is not null and Sale_Invoice_No='" & obj.Document_Code & "') and TSPL_BOOKING_MATSER.Is_APS=1 ", trans))
             'Throw New Exception("BALWINDER Sales Invoice No [" + strDocNo + "]")
             ''richa agarwal 21 Dec,2020 check eInvoice Implementation
-            If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.Is_Taxable), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True AndAlso obj.IsSampling = 0 AndAlso clsCommon.CompairString(obj.Screen_Type, "CT") <> CompairStringResult.Equal Then
+            If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.Is_Taxable), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True AndAlso obj.IsSampling = 0 AndAlso clsCommon.CompairString(obj.Screen_Type, "CT") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(obj.Trans_type, "MCC") <> CompairStringResult.Equal Then
                 If clsCommon.myLen(GetIRNNo(strDocNo, trans)) <= 0 Then
                     clsPSInvoiceHead.EInvoice_Implementation(obj.Document_Code, obj.Bill_To_Location, trans, False)
                     If clsCommon.myLen(GetIRNNo(strDocNo, trans)) <= 0 Then
