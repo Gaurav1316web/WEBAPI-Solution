@@ -22,8 +22,6 @@ Partial Class frmCorrection
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem15 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem16 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -36,7 +34,9 @@ Partial Class frmCorrection
         Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -590,10 +590,10 @@ Partial Class frmCorrection
         Me.cboShift.IsSourceFromTable = False
         Me.cboShift.IsSourceFromValueList = False
         Me.cboShift.IsUnique = False
-        RadListDataItem15.Text = "M"
-        RadListDataItem16.Text = "E"
-        Me.cboShift.Items.Add(RadListDataItem15)
-        Me.cboShift.Items.Add(RadListDataItem16)
+        RadListDataItem1.Text = "M"
+        RadListDataItem2.Text = "E"
+        Me.cboShift.Items.Add(RadListDataItem1)
+        Me.cboShift.Items.Add(RadListDataItem2)
         Me.cboShift.Location = New System.Drawing.Point(273, 16)
         Me.cboShift.MendatroryField = True
         Me.cboShift.MyLinkLable1 = Me.lblBOMStatus
@@ -888,10 +888,10 @@ Partial Class frmCorrection
         Me.cboRejectType.IsSourceFromTable = False
         Me.cboRejectType.IsSourceFromValueList = False
         Me.cboRejectType.IsUnique = False
-        RadListDataItem1.Text = "M"
-        RadListDataItem2.Text = "E"
-        Me.cboRejectType.Items.Add(RadListDataItem1)
-        Me.cboRejectType.Items.Add(RadListDataItem2)
+        RadListDataItem3.Text = "M"
+        RadListDataItem4.Text = "E"
+        Me.cboRejectType.Items.Add(RadListDataItem3)
+        Me.cboRejectType.Items.Add(RadListDataItem4)
         Me.cboRejectType.Location = New System.Drawing.Point(209, 91)
         Me.cboRejectType.MendatroryField = True
         Me.cboRejectType.MyLinkLable1 = Nothing
@@ -1008,10 +1008,10 @@ Partial Class frmCorrection
         Me.cboMilkType.IsSourceFromTable = False
         Me.cboMilkType.IsSourceFromValueList = False
         Me.cboMilkType.IsUnique = False
-        RadListDataItem3.Text = "M"
-        RadListDataItem4.Text = "E"
-        Me.cboMilkType.Items.Add(RadListDataItem3)
-        Me.cboMilkType.Items.Add(RadListDataItem4)
+        RadListDataItem5.Text = "M"
+        RadListDataItem6.Text = "E"
+        Me.cboMilkType.Items.Add(RadListDataItem5)
+        Me.cboMilkType.Items.Add(RadListDataItem6)
         Me.cboMilkType.Location = New System.Drawing.Point(72, 91)
         Me.cboMilkType.MendatroryField = True
         Me.cboMilkType.MyLinkLable1 = Me.MyLabel4
@@ -2110,10 +2110,10 @@ Partial Class frmCorrection
         Me.cboBMCCorrMilkType.IsSourceFromTable = False
         Me.cboBMCCorrMilkType.IsSourceFromValueList = False
         Me.cboBMCCorrMilkType.IsUnique = False
-        RadListDataItem5.Text = "M"
-        RadListDataItem6.Text = "E"
-        Me.cboBMCCorrMilkType.Items.Add(RadListDataItem5)
-        Me.cboBMCCorrMilkType.Items.Add(RadListDataItem6)
+        RadListDataItem7.Text = "M"
+        RadListDataItem8.Text = "E"
+        Me.cboBMCCorrMilkType.Items.Add(RadListDataItem7)
+        Me.cboBMCCorrMilkType.Items.Add(RadListDataItem8)
         Me.cboBMCCorrMilkType.Location = New System.Drawing.Point(71, 94)
         Me.cboBMCCorrMilkType.MendatroryField = True
         Me.cboBMCCorrMilkType.MyLinkLable1 = Me.MyLabel24
@@ -2765,10 +2765,10 @@ Partial Class frmCorrection
         Me.cboCAPShift.IsSourceFromTable = False
         Me.cboCAPShift.IsSourceFromValueList = False
         Me.cboCAPShift.IsUnique = False
-        RadListDataItem7.Text = "M"
-        RadListDataItem8.Text = "E"
-        Me.cboCAPShift.Items.Add(RadListDataItem7)
-        Me.cboCAPShift.Items.Add(RadListDataItem8)
+        RadListDataItem9.Text = "M"
+        RadListDataItem10.Text = "E"
+        Me.cboCAPShift.Items.Add(RadListDataItem9)
+        Me.cboCAPShift.Items.Add(RadListDataItem10)
         Me.cboCAPShift.Location = New System.Drawing.Point(273, 16)
         Me.cboCAPShift.MendatroryField = True
         Me.cboCAPShift.MyLinkLable1 = Me.MyLabel30
@@ -2995,10 +2995,10 @@ Partial Class frmCorrection
         Me.cboCAPRejectType.IsSourceFromTable = False
         Me.cboCAPRejectType.IsSourceFromValueList = False
         Me.cboCAPRejectType.IsUnique = False
-        RadListDataItem9.Text = "M"
-        RadListDataItem10.Text = "E"
-        Me.cboCAPRejectType.Items.Add(RadListDataItem9)
-        Me.cboCAPRejectType.Items.Add(RadListDataItem10)
+        RadListDataItem11.Text = "M"
+        RadListDataItem12.Text = "E"
+        Me.cboCAPRejectType.Items.Add(RadListDataItem11)
+        Me.cboCAPRejectType.Items.Add(RadListDataItem12)
         Me.cboCAPRejectType.Location = New System.Drawing.Point(209, 92)
         Me.cboCAPRejectType.MendatroryField = True
         Me.cboCAPRejectType.MyLinkLable1 = Nothing
@@ -3086,10 +3086,10 @@ Partial Class frmCorrection
         Me.cboCAPMilkType.IsSourceFromTable = False
         Me.cboCAPMilkType.IsSourceFromValueList = False
         Me.cboCAPMilkType.IsUnique = False
-        RadListDataItem11.Text = "M"
-        RadListDataItem12.Text = "E"
-        Me.cboCAPMilkType.Items.Add(RadListDataItem11)
-        Me.cboCAPMilkType.Items.Add(RadListDataItem12)
+        RadListDataItem13.Text = "M"
+        RadListDataItem14.Text = "E"
+        Me.cboCAPMilkType.Items.Add(RadListDataItem13)
+        Me.cboCAPMilkType.Items.Add(RadListDataItem14)
         Me.cboCAPMilkType.Location = New System.Drawing.Point(72, 92)
         Me.cboCAPMilkType.MendatroryField = True
         Me.cboCAPMilkType.MyLinkLable1 = Me.MyLabel50
@@ -3406,7 +3406,7 @@ Partial Class frmCorrection
         Me.gvSA.MasterTemplate.EnableAlternatingRowColor = True
         Me.gvSA.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSA.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSA.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvSA.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvSA.MyExportFilePath = ""
         Me.gvSA.MyStopExport = False
         Me.gvSA.Name = "gvSA"
@@ -3751,7 +3751,7 @@ Partial Class frmCorrection
         Me.MyLabel37.Name = "MyLabel37"
         Me.MyLabel37.Size = New System.Drawing.Size(65, 18)
         Me.MyLabel37.TabIndex = 9
-        Me.MyLabel37.Text = "Trcuk Sheet"
+        Me.MyLabel37.Text = "Truck Sheet"
         '
         'btnclose
         '

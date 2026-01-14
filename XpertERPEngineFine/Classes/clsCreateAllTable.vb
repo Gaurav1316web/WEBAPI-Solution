@@ -29543,7 +29543,7 @@ FROM TSPL_ITEM_MASTER"
             coll = New Dictionary(Of String, String)
             coll.Add("PK_Id", "Integer Not NULL identity primary key")
             coll.Add("Document_Date", "Date NOT NULL")
-            coll.Add("Route_No", "varchar(12)  NULL REFERENCES TSPL_ROUTE_MASTER(Route_No)")
+            coll.Add("Route_No", "varchar(12)  NULL REFERENCES TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
             coll.Add("Tanker_No", "varchar(20) NULL REFERENCES TSPL_TANKER_MASTER(Tanker_No)")
             coll.Add("Trip", "integer not null ")
             coll.Add("BMC_Code", "varchar(30) NULL REFERENCES TSPL_MCC_MASTER(MCC_Code)")
