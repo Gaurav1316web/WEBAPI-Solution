@@ -988,9 +988,9 @@ where  Document_No='" + strDocNo + "'
 ) xx group by DocumentNo"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If clsCommon.myCDecimal(dt.Rows(0)("AMOUNT")) < 0 Then
-                    Throw New Exception("The suspense adjustment amount is going into negative.")
-                End If
+                'If clsCommon.myCDecimal(dt.Rows(0)("AMOUNT")) < 0 Then
+                '    Throw New Exception("The suspense adjustment amount is going into negative.")
+                'End If
                 If clsCommon.myCDecimal(dt.Rows(0)("Qty")) < 0 Then
                     Throw New Exception("The suspense adjustment Qty is going into negative.")
                 End If

@@ -8525,7 +8525,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("TAX10_Amt", "decimal(18, 2) NULL")
             coll.Add("Created_By", "varchar(30) NULL")
             coll.Add("REF_PK_ID", "integer null references TSPL_DEMAND_SHEET(PK_ID)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_DETAIL", coll, "", True, False, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_DETAIL", coll, "", False, False, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "", True)
 
             'If dt Is Nothing AndAlso dt.Rows.Count <= 0 Then
             '    qry = "Update TSPL_DEMAND_BOOKING_MASTER set Posted_Morning=Posted,Posted_Evening=Posted "
