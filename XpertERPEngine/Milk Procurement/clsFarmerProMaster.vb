@@ -210,7 +210,8 @@ Public Class clsFarmerPro
 
             Dim qry As String = "Update TSPL_FARMER_PRO set Posted=1,Posted_By='" + objCommonVar.CurrentUserCode + "',Posted_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt") + "' where Code='" + obj.Code + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_FARMER_PRO", "Code", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_FARMER_PRO", "Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_FARMER_PRO", "Code", "TSPL_FARMER_PRO_MCC", "Code", "TSPL_FARMER_PRO_VSP", "Code", trans)
 
         Catch err As Exception
             Throw New Exception(err.Message)

@@ -576,9 +576,9 @@ Public Class clsFAMergeHead
                 If (obj.Status = ERPTransactionStatus.Approved) Then
                     Throw New Exception("Already Posted on :" + clsCommon.GetPrintDate(obj.Post_Date, "dd/MM/yyyy"))
                 End If
-                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_ACQUISITION_HEAD", "Acquisition_Code", "TSPL_ACQUISITION_DETAIL", "Acquisition_Code", trans)
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_ACQUISITION_HEAD", "Acquisition_Code", "TSPL_ACQUISITION_DETAIL", "Acquisition_Code", "TSPL_ACQUISITION_ASSET_MERGE_DETAIL", "Acquisition_Code", trans)
 
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ACQUISITION_HEAD", "Acquisition_Code", "TSPL_ACQUISITION_DETAIL", "Acquisition_Code", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ACQUISITION_HEAD", "Acquisition_Code", "TSPL_ACQUISITION_DETAIL", "Acquisition_Code", "TSPL_ACQUISITION_ASSET_MERGE_DETAIL", "Acquisition_Code", trans)
 
                 Dim qry As String = "delete from TSPL_ACQUISITION_DETAIL where Acquisition_Code='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)

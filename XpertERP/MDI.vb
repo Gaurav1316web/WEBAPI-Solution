@@ -3017,6 +3017,13 @@ Public Class MDI
             End If
         End If
     End Sub
+    Public Function CountCounter(ByVal strProgramCode As String)
+        clsDBFuncationality.ExecuteNonQuery("INSERT TSPL_PROGRAM_COUNTER(program_code ,Created_By,Created_Date) values ('" & strProgramCode & "','" + objCommonVar.CurrentUserCode + "',getdate() )")
+
+        clsDBFuncationality.ExecuteNonQuery(" Select count(*) FROM TSPL_PROGRAM_COUNTER WHERE Created_By='" + objCommonVar.CurrentUserCode + "'")
+
+
+    End Function
     Public Function setCountertoblockforOpenForm(ByVal strProgramCode As String)
         Try
             clsDBFuncationality.ExecuteNonQuery("Update TSPL_PROGRAM_MASTER set Form_Open_Counter=Form_Open_Counter+1  where program_code ='" & strProgramCode & "' ")
@@ -3093,6 +3100,7 @@ Public Class MDI
         Dim strProgramCodeToOpen As String = strProgramCode
         If Not strProgramCode Is Nothing Then
             If setCountertoblockforOpenForm(strProgramCode) = True Then
+                CountCounter(strProgramCode)
                 If IsOriginalName = True Then
                     strProgramName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  Program_Name as Program_Name from TSPL_PROGRAM_MASTER where Program_Code='" + strProgramCode + "'"))
                 Else
