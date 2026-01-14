@@ -818,6 +818,103 @@ left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=tspl_scrapsale
         End Try
         Return True
     End Function
+    Public Shared Function PrintEWayBill(ByVal strInvoiceNO As String, ByVal strCust As String) As String
+
+        If clsCommon.myLen(strInvoiceNO) <= 0 Then
+            Throw New Exception("Document not found !")
+        End If
+        Dim Qry As String = " select cast(TSPL_SCRAPINVOICE_HEAD.EWayBill_QR_Code as image) as EWayBill_QR_Code,
+TSPL_SCRAPINVOICE_HEAD.EWayBillNo,TSPL_SCRAPINVOICE_HEAD.ewayBillDate,TSPL_COMPANY_MASTER.GSTReg_No +' ' + TSPL_COMPANY_MASTER.Comp_Name as Generated_By,TSPL_SCRAPINVOICE_HEAD.EWayBillValidDate,
+TSPL_SCRAPINVOICE_HEAD.EWayBillRemarks,TSPL_SCRAPINVOICE_HEAD.Freight_Distance,TSPL_SCRAPINVOICE_HEAD.IRN_No,TSPL_SCRAPINVOICE_HEAD.Ack_No,TSPL_SCRAPINVOICE_HEAD.Ack_Date,TSPL_CUSTOMER_MASTER.GSTNO+' '+ TSPL_CUSTOMER_MASTER.Customer_Name+' '+TSPL_CUSTOMER_MASTER.City_Code as GSTIN_Of_Recipient,TSPL_COMPANY_MASTER.City_Code+' - '+TSPL_COMPANY_MASTER.State+' - '+TSPL_COMPANY_MASTER.Pincode as Place_Of_Dispatch, TSPL_CUSTOMER_MASTER.City_Code+' '+TSPL_CUSTOMER_MASTER.State +' '+CONVERT(varchar(10),isNull(TSPL_CUSTOMER_MASTER.PIN_Code,'')) as Place_Of_delivery,
+TSPL_SCRAPINVOICE_HEAD.invoice_No,TSPL_SCRAPINVOICE_HEAD.shipment_Date,'Regular' as Transaction_Type,TSPL_SCRAPINVOICE_HEAD.Doc_Amt,TSPL_ITEM_MASTER.HSN_Code +' '+TSPL_ITEM_MASTER.Short_Description  as HsnCode,
+--convert(VARCHAR(10), case when(select COUNT(*) from TSPL_SCRAPINVOICE_DETAIL where Document_Code=TSPL_SCRAPINVOICE_HEAD.Document_Code)-1>0 then (select COUNT(*) from TSPL_SCRAPINVOICE_DETAIL where Document_Code=TSPL_SCRAPINVOICE_HEAD.Document_Code)-1  else '' end) as countofItem,
+'Outward - Supply' as ResonofTransport,'' as Trans_Type,TSPL_SCRAPINVOICE_HEAD.Transporter_Name_Manual,'Road' As Mode_of_Trans,TSPL_VEHICLE_MASTER.Vehicle_No,TSPL_SCRAPINVOICE_HEAD.shipment_Date,TSPL_SCRAPINVOICE_HEAD.Loc_Code
+from TSPL_SCRAPINVOICE_HEAD
+left join TSPL_SCRAPINVOICE_DETAIL on TSPL_SCRAPINVOICE_DETAIL.invoice_No= TSPL_SCRAPINVOICE_HEAD.invoice_No
+left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SCRAPINVOICE_DETAIL.Item_Code
+left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_SCRAPINVOICE_HEAD.Vehicle_Code
+left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "'
+left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SCRAPINVOICE_HEAD.cust_Code
+where TSPL_SCRAPINVOICE_HEAD.invoice_No='" & strInvoiceNO & "' "
+        Return Qry
+    End Function
+    Public Shared Function EWayBill_Implementation(ByVal strDocNo As String, ByVal strLocation As String, ByVal trans As SqlTransaction, ByVal OnlyEWayBill As Boolean) As Boolean
+        Try
+            Dim isSaved As Boolean = True
+            If (clsCommon.myLen(strDocNo) <= 0) Then
+                Throw New Exception("Code not found to Post")
+            End If
+            If Not clsCommon.myInternetWork() Then
+                Throw New Exception("Internet is not working while uploading Invoice on portal")
+            End If
+            Dim strQry As String = "select 'O' as supplyType,'1' as subSupplyType,TSPL_SCRAPINVOICE_HEAD.Description as subSupplyDesc,
+    'INV' as DocType,TSPL_Customer_master.Cust_Code, TSPL_SCRAPINVOICE_HEAD.invoice_No As DocNo, convert( Date, TSPL_SCRAPINVOICE_HEAD.shipment_Date, 103 ) As DocDate, 
+    Bill_To_Location.GSTNO as fromGstin,  TSPL_COMPANY_MASTER.Comp_Name as fromTrdName, Bill_To_Location.Add1 as fromAddr1, Bill_To_Location.Add2 as fromAddr2, Bill_To_Location.City_Code as fromPlace, Bill_To_Location.Pin_Code as fromPincode, BillToLocation_State_Master.GST_STATE_Code as actFromStateCode, BillToLocation_State_Master.GST_STATE_Code as fromStateCode, 
+    --TSPL_Customer_master.GSTNo as toGstin,
+'URP' as toGstin,
+TSPL_Customer_master.Alies_name as toTrdName,
+    TSPL_Customer_master.Add1 as toAddr1,TSPL_Customer_master.Add2 as toAddr2,tspl_city_master.City_Name as toPlace,
+    Case when isnull( TSPL_SCRAPINVOICE_HEAD.Loc_Code, '' )= '' then Customer_State_Master.GST_STATE_Code else Ship_To_Location_State_Master.GST_STATE_Code end as actToStateCode,Customer_State_Master.GST_STATE_Code as toStateCode,
+    cast( TSPL_Customer_master.PIN_NO as int ) as toPincode,'1' as transactionType,
+     Bill_To_Location.GSTNO as dispatchFromGSTIN,TSPL_COMPANY_MASTER.Comp_Name as dispatchFromTradeName,TSPL_Customer_master.GSTNo AS shipToGSTIN, TSPL_Customer_master.Alies_name AS shipToTradeName, 
+    Case when ISNULL(TSPL_SCRAPINVOICE_HEAD.tax1,'')='KKF' or ISNULL(TSPL_SCRAPINVOICE_HEAD.tax2,'')='KKF' then TSPL_SCRAPINVOICE_HEAD.TAX3_Base_Amt else TSPL_SCRAPINVOICE_HEAD.TAX1_Base_Amt end as totalValue,
+    Case when ISNULL(TSPL_SCRAPINVOICE_HEAD.tax1,'')='KKF' or ISNULL(TSPL_SCRAPINVOICE_HEAD.tax2,'')='KKF' then (case when TSPL_SCRAPINVOICE_HEAD.TAX3 = 'CGST' AND TSPL_SCRAPINVOICE_HEAD.TAX4 = 'SGST' then TSPL_SCRAPINVOICE_HEAD.TAX3_Amt  when TSPL_SCRAPINVOICE_HEAD.TAX3 = 'CGST' AND TSPL_SCRAPINVOICE_HEAD.TAX4 = 'SGST' then TSPL_SCRAPINVOICE_HEAD.TAX4_Amt else 0 end) else (case when TSPL_SCRAPINVOICE_HEAD.TAX1 = 'CGST' AND TSPL_SCRAPINVOICE_HEAD.TAX2 = 'SGST' then TSPL_SCRAPINVOICE_HEAD.TAX1_Amt when TSPL_SCRAPINVOICE_HEAD.TAX1 = 'CGST' AND TSPL_SCRAPINVOICE_HEAD.TAX2 = 'SGST' then TSPL_SCRAPINVOICE_HEAD.TAX2_Amt else 0 end) end cgstValue,
+    Case when ISNULL(TSPL_SCRAPINVOICE_HEAD.tax1,'')='KKF' or ISNULL(TSPL_SCRAPINVOICE_HEAD.tax2,'')='KKF' then (case when TSPL_SCRAPINVOICE_HEAD.TAX3 = 'CGST' AND TSPL_SCRAPINVOICE_HEAD.TAX4 = 'SGST' then TSPL_SCRAPINVOICE_HEAD.TAX3_Amt when TSPL_SCRAPINVOICE_HEAD.TAX3 = 'CGST' AND TSPL_SCRAPINVOICE_HEAD.TAX4 = 'SGST' then TSPL_SCRAPINVOICE_HEAD.TAX4_Amt else 0 end) else (case when TSPL_SCRAPINVOICE_HEAD.TAX1 = 'CGST' AND TSPL_SCRAPINVOICE_HEAD.TAX2 = 'SGST' then TSPL_SCRAPINVOICE_HEAD.TAX1_Amt when TSPL_SCRAPINVOICE_HEAD.TAX1 = 'CGST' AND TSPL_SCRAPINVOICE_HEAD.TAX2 = 'SGST' then TSPL_SCRAPINVOICE_HEAD.TAX2_Amt else 0 end) end sgstValue,
+    Case when TSPL_SCRAPINVOICE_HEAD.TAX1 = 'IGST' then TSPL_SCRAPINVOICE_HEAD.TAX1_Amt else (case when ISNULL(TSPL_SCRAPINVOICE_HEAD.tax1,'')='KKF' or ISNULL(TSPL_SCRAPINVOICE_HEAD.tax2,'')='KKF' then (case when TSPL_SCRAPINVOICE_HEAD.TAX3 = 'IGST' then TSPL_SCRAPINVOICE_HEAD.TAX3_Amt else 0 end) else 0 end )end igstValue, 
+    0 as cessValue,0 as cessNonAdvolValue,
+     TSPL_SCRAPINVOICE_HEAD.Doc_Amt AS totInvValue,
+     '1' as transMode,0 as transDistance,'' as transporterName,isnull(TSPL_VENDOR_MASTER.GSTFinalNo,'') as transporterId,'' as transDocNo,
+     '' as transDocDate,
+      TSPL_VEHICLE_MASTER.Number as vehicleNo,
+      'R' as vehicleType,
+     TSPL_ITEM_MASTER.Item_Desc AS productName,TSPL_ITEM_MASTER.Item_Desc AS productDesc,TSPL_ITEM_MASTER.HSN_Code AS hsnCode,TSPL_SCRAPINVOICE_DETAIL.shipped_Qty as quantity, TSPL_SCRAPINVOICE_DETAIL.Unit_code as qtyUnit,
+    ( case when ISNULL(TSPL_SCRAPINVOICE_DETAIL.tax1,'')='KKF' or ISNULL(TSPL_SCRAPINVOICE_DETAIL.tax2,'')='KKF' then TSPL_SCRAPINVOICE_DETAIL.TAX3_Base_Amt else TSPL_SCRAPINVOICE_DETAIL.ItemNetAmt end ) as taxableAmount, 
+    Case when ISNULL( TSPL_SCRAPINVOICE_DETAIL.tax1, '' ) = 'IGST' THEN TSPL_SCRAPINVOICE_DETAIL.TAX1_Rate else
+     (case when ISNULL(TSPL_SCRAPINVOICE_DETAIL.tax1,'')='KKF' or ISNULL(TSPL_SCRAPINVOICE_DETAIL.tax2,'')='KKF' then (case when TSPL_SCRAPINVOICE_DETAIL.TAX3 = 'IGST' then TSPL_SCRAPINVOICE_DETAIL.TAX3_Rate ELSE 0 end) else 0 end) end  as igstRate,
+    Case when ISNULL(TSPL_SCRAPINVOICE_DETAIL.tax1,'')='KKF' or ISNULL(TSPL_SCRAPINVOICE_DETAIL.tax2,'')='KKF' then (case when TSPL_SCRAPINVOICE_DETAIL.TAX3 = 'CGST' AND TSPL_SCRAPINVOICE_DETAIL.TAX4 = 'SGST' then TSPL_SCRAPINVOICE_DETAIL.TAX3_Rate  when TSPL_SCRAPINVOICE_DETAIL.TAX3 = 'CGST' AND TSPL_SCRAPINVOICE_DETAIL.TAX4 = 'SGST' then TSPL_SCRAPINVOICE_DETAIL.TAX4_Rate else 0 end) else (case when TSPL_SCRAPINVOICE_DETAIL.TAX1 = 'CGST' AND TSPL_SCRAPINVOICE_DETAIL.TAX2 = 'SGST' then TSPL_SCRAPINVOICE_DETAIL.TAX1_Rate when TSPL_SCRAPINVOICE_DETAIL.TAX1 = 'CGST' AND TSPL_SCRAPINVOICE_DETAIL.TAX2 = 'SGST' then TSPL_SCRAPINVOICE_DETAIL.TAX2_Rate else 0 end) end sgstRate,
+    Case when ISNULL(TSPL_SCRAPINVOICE_DETAIL.tax1,'')='KKF' or ISNULL(TSPL_SCRAPINVOICE_DETAIL.tax2,'')='KKF' then (case when TSPL_SCRAPINVOICE_DETAIL.TAX3 = 'CGST' AND TSPL_SCRAPINVOICE_DETAIL.TAX4 = 'SGST' then TSPL_SCRAPINVOICE_DETAIL.TAX3_Rate  when TSPL_SCRAPINVOICE_DETAIL.TAX3 = 'CGST' AND TSPL_SCRAPINVOICE_DETAIL.TAX4 = 'SGST' then TSPL_SCRAPINVOICE_DETAIL.TAX4_Rate else 0 end) else (case when TSPL_SCRAPINVOICE_DETAIL.TAX1 = 'CGST' AND TSPL_SCRAPINVOICE_DETAIL.TAX2 = 'SGST' then TSPL_SCRAPINVOICE_DETAIL.TAX1_Rate when TSPL_SCRAPINVOICE_DETAIL.TAX1 = 'CGST' AND TSPL_SCRAPINVOICE_DETAIL.TAX2 = 'SGST' then TSPL_SCRAPINVOICE_DETAIL.TAX2_Rate else 0 end) end as cgstRate,
+    0 as cessRate
+    from TSPL_SCRAPINVOICE_HEAD 
+    Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No = TSPL_SCRAPINVOICE_HEAD.invoice_No Left Outer Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = '" & objCommonVar.CurrentCompanyCode & "'
+    Left Outer Join TSPL_Customer_master on TSPL_Customer_master.Cust_Code = TSPL_SCRAPINVOICE_HEAD.cust_Code
+    left Outer Join TSPL_LOCATION_MASTER as Bill_To_Location on Bill_To_Location.Location_Code = TSPL_SCRAPINVOICE_HEAD.Loc_Code
+    left Outer Join TSPL_SHIP_TO_LOCATION as Ship_To_Location on Ship_To_Location.Ship_To_Code = TSPL_SCRAPINVOICE_HEAD.Loc_Code 
+    left outer join TSPL_SCRAPINVOICE_DETAIL on TSPL_SCRAPINVOICE_DETAIL.invoice_No = TSPL_SCRAPINVOICE_HEAD.invoice_No 
+    left outer join tspl_item_master on tspl_item_master.Item_code = TSPL_SCRAPINVOICE_DETAIL.Item_code 
+    left outer join TSPL_ADDITIONAL_CHARGES on TSPL_ADDITIONAL_CHARGES.CODE = TSPL_SCRAPINVOICE_DETAIL.Item_code 
+    left outer join TSPL_STATE_MASTER as BillToLocation_State_Master on BillToLocation_State_Master.STATE_CODE = Bill_To_Location.State 
+    left outer join TSPL_STATE_MASTER as Ship_To_Location_State_Master on Ship_To_Location_State_Master.STATE_CODE = Ship_To_Location.State 
+    left outer join TSPL_STATE_MASTER as Customer_State_Master on Customer_State_Master.STATE_CODE = TSPL_Customer_master.State 
+    left outer join tspl_city_master on tspl_city_master.city_code = TSPL_Customer_master.City_Code left outer join tspl_tax_master as TCS1 on TCS1.Tax_Code = TSPL_SCRAPINVOICE_HEAD.Tax2 
+    left outer join tspl_tax_master as TCS2 on TCS2.Tax_Code = TSPL_SCRAPINVOICE_HEAD.Tax3 Left Outer Join tspl_vendor_master on tspl_vendor_master.vendor_code = TSPL_SCRAPINVOICE_HEAD.Transport_Code 
+    left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_SCRAPINVOICE_HEAD.Vehicle_Code
+        where TSPL_SCRAPINVOICE_HEAD.invoice_No = '" & strDocNo & "'"
+            Dim objResult As Object = ClsEInvoiceOFAPIs.PostEWayBill(objCommonVar.CurrentCompanyCode, strQry, strLocation, trans)
+            If objResult IsNot Nothing Then
+                Dim EWayBillNo As String = objResult.SelectToken("data.ewayBillNo").ToString
+                Dim EWayBillDate As String = objResult.SelectToken("data.ewayBillDate").ToString
+                Dim EWayBillValidDate As String = objResult.SelectToken("data.validUpto").ToString
+                Dim EWayBillRemarks As String = objResult.SelectToken("data.alert").ToString
+                'Dim CompGSTNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select GSTReg_No from TSPL_COMPANY_MASTER ", trans))
+                Dim CompGSTNo As String = objResult.SelectToken("header.gstin").ToString
+                Try
+                    Dim TempByte As Byte() = clsERPFuncationalityOLD.GenerateMyQCCode(EWayBillNo & "/" & CompGSTNo & "/" & clsCommon.GetPrintDate(EWayBillValidDate, "dd/MMM/yyyy hh:mm tt"))
+                    clsDBFuncationality.ExecuteNonQuery("update TSPL_SCRAPINVOICE_HEAD set  EWayBillNo ='" & EWayBillNo & "',EWayBillDate='" & clsCommon.GetPrintDate(clsCommon.myCDate(EWayBillDate), "dd/MMM/yyyy hh:mm tt") & "',EWayBillValidDate='" & clsCommon.GetPrintDate(clsCommon.myCDate(EWayBillValidDate), "dd/MMM/yyyy hh:mm tt") & "',EWayBillRemarks='" & EWayBillRemarks & "' where TSPL_SCRAPINVOICE_HEAD.invoice_No ='" & strDocNo & "'", trans)
+                    clsDBFuncationality.UpdateImage("EWayBill_QR_Code", TempByte, "TSPL_SCRAPINVOICE_HEAD", "TSPL_SCRAPINVOICE_HEAD.invoice_No='" & strDocNo & "'", trans)
+
+                Catch ex As Exception
+
+                End Try
+                Dim ii As Integer = 0
+            Else
+                Throw New Exception("eWayBill- Invalid JSON Value")
+            End If
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
     Public Shared Function EInvoice_Implementation(ByVal strDocNo As String, ByVal strLocation As String, ByVal trans As SqlTransaction, ByVal stopEWayBill As Boolean) As Boolean
         Try
             Dim isSaved As Boolean = True

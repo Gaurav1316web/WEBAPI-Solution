@@ -6618,5 +6618,59 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
     Private Sub txtVatInvNo_Click(sender As Object, e As EventArgs) Handles txtVatInvNo.Click
 
     End Sub
+
+    Private Sub btnEwb_Click(sender As Object, e As EventArgs) Handles btnEwb.Click
+        Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Create_Ewb(tran)
+            tran.Commit()
+        Catch ex As Exception
+            tran.Rollback()
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Function Create_Ewb(ByVal trans As SqlTransaction) As Boolean
+
+        Try
+            If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso clsCommon.myLen(lblInvoiceNo.Text) > 0 Then
+                Dim EwbNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select EWayBillNo from TSPL_SCRAPINVOICE_HEAD where  document_code = '" & lblInvoiceNo.Text & "' ", trans))
+                If clsCommon.myLen(EwbNo) = 0 Then
+
+                    If clsCommon.myLen(GetEWayBillNo(lblInvoiceNo.Text, trans)) <= 0 Then
+                        ClsScrapInvoiceHead.EWayBill_Implementation(lblInvoiceNo.Text, fndLocation.Value, trans, True)
+                        If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SCRAPINVOICE_HEAD where Document_Code='" & lblInvoiceNo.Text & "'", trans)) <= 0 Then
+                            Throw New Exception("E-Way Bill For Sales Invoice No [" + lblInvoiceNo.Text + "] is not generated")
+                        End If
+                    End If
+                Else
+                    Throw New Exception("Ewb no [" & clsCommon.myCstr(EwbNo) & "] is already exists")
+                End If
+
+            Else
+                Throw New Exception("Please Select Document/Invoice ")
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function GetEWayBillNo(strDocNo As String, trans As SqlTransaction) As String
+        Return clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SCRAPINVOICE_HEAD where Document_Code='" + strDocNo + "'", trans))
+    End Function
+
+    Private Sub btnPrintEWB_Click(sender As Object, e As EventArgs) Handles btnPrintEWB.Click
+        Try
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(ClsScrapInvoiceHead.PrintEWayBill(txtDocNo.Value, fndcustNo.Value))
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rpte-waybill", "E-WayBill", clsCommon.GetPrintDate(dtpshipment.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                frmCRV = Nothing
+            Else
+                Throw New Exception("No Data Found ")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class
 

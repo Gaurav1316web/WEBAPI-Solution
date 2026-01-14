@@ -22,13 +22,13 @@ Partial Class frmScrapSale
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmScrapSale))
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim GridViewTextBoxColumn1 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn2 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewDecimalColumn1 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim GridViewTextBoxColumn3 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn4 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewDecimalColumn2 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -204,6 +204,8 @@ Partial Class frmScrapSale
         Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.btnEwb = New Telerik.WinControls.UI.RadButton()
+        Me.btnPrintEWB = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -370,6 +372,8 @@ Partial Class frmScrapSale
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.btnEwb, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrintEWB, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -389,6 +393,8 @@ Partial Class frmScrapSale
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintEWB)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnEwb)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
@@ -1728,7 +1734,7 @@ Partial Class frmScrapSale
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -1993,7 +1999,7 @@ Partial Class frmScrapSale
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
@@ -2041,20 +2047,20 @@ Partial Class frmScrapSale
         '
         '
         Me.gvadd.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
-        GridViewTextBoxColumn1.HeaderText = "Additional Charges"
-        GridViewTextBoxColumn1.Name = "coladdcode"
-        GridViewTextBoxColumn1.Width = 125
-        GridViewTextBoxColumn2.HeaderText = "Description"
-        GridViewTextBoxColumn2.Name = "coladddesc"
-        GridViewTextBoxColumn2.Width = 300
-        GridViewDecimalColumn1.HeaderText = "Amount"
-        GridViewDecimalColumn1.Name = "coladdamt"
-        GridViewDecimalColumn1.Width = 78
-        Me.gvadd.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn1, GridViewTextBoxColumn2, GridViewDecimalColumn1})
+        GridViewTextBoxColumn3.HeaderText = "Additional Charges"
+        GridViewTextBoxColumn3.Name = "coladdcode"
+        GridViewTextBoxColumn3.Width = 125
+        GridViewTextBoxColumn4.HeaderText = "Description"
+        GridViewTextBoxColumn4.Name = "coladddesc"
+        GridViewTextBoxColumn4.Width = 300
+        GridViewDecimalColumn2.HeaderText = "Amount"
+        GridViewDecimalColumn2.Name = "coladdamt"
+        GridViewDecimalColumn2.Width = 78
+        Me.gvadd.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn3, GridViewTextBoxColumn4, GridViewDecimalColumn2})
         Me.gvadd.MasterTemplate.EnableGrouping = False
         Me.gvadd.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvadd.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvadd.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvadd.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvadd.MyExportFilePath = ""
         Me.gvadd.MyStopExport = False
         Me.gvadd.Name = "gvadd"
@@ -2168,7 +2174,7 @@ Partial Class frmScrapSale
         Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(41.0!, 26.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(1105, 425)
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(1340, 425)
         Me.RadPageViewPage4.Text = "Total"
         '
         'txtTCSTaxRate
@@ -2993,6 +2999,22 @@ Partial Class frmScrapSale
         Me.Panel1.Size = New System.Drawing.Size(1361, 503)
         Me.Panel1.TabIndex = 3
         '
+        'btnEwb
+        '
+        Me.btnEwb.Location = New System.Drawing.Point(776, 2)
+        Me.btnEwb.Name = "btnEwb"
+        Me.btnEwb.Size = New System.Drawing.Size(113, 22)
+        Me.btnEwb.TabIndex = 39
+        Me.btnEwb.Text = "Create E-Way Bill"
+        '
+        'btnPrintEWB
+        '
+        Me.btnPrintEWB.Location = New System.Drawing.Point(896, 2)
+        Me.btnPrintEWB.Name = "btnPrintEWB"
+        Me.btnPrintEWB.Size = New System.Drawing.Size(96, 22)
+        Me.btnPrintEWB.TabIndex = 40
+        Me.btnPrintEWB.Text = "Print E-Way Bill"
+        '
         'frmScrapSale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3181,6 +3203,8 @@ Partial Class frmScrapSale
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
+        CType(Me.btnEwb, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrintEWB, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -3364,6 +3388,8 @@ Partial Class frmScrapSale
     Friend WithEvents txtDrAmt As common.Controls.MyLabel
     Friend WithEvents lblOpeningBal As common.Controls.MyLabel
     Friend WithEvents txtOpeningbal As common.Controls.MyLabel
+    Friend WithEvents btnPrintEWB As RadButton
+    Friend WithEvents btnEwb As RadButton
     '>>>>>>> d1ec586fa3c5d6f2c6903ff02c7d5301aea8f361
 End Class
 
