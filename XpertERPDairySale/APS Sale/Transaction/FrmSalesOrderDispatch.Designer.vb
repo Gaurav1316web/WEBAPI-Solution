@@ -27,6 +27,7 @@ Partial Class FrmSalesOrderDispatch
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer5 = New System.Windows.Forms.SplitContainer()
+        Me.chkewaybill = New System.Windows.Forms.CheckBox()
         Me.lblInvnoForReplacement = New common.Controls.MyLabel()
         Me.txtInvoice_for_replacement = New common.UserControls.txtFinder()
         Me.lblorderNo = New common.Controls.MyLabel()
@@ -96,7 +97,7 @@ Partial Class FrmSalesOrderDispatch
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.chkewaybill = New System.Windows.Forms.CheckBox()
+        Me.btnEWB = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
@@ -166,6 +167,7 @@ Partial Class FrmSalesOrderDispatch
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnEWB, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -249,6 +251,16 @@ Partial Class FrmSalesOrderDispatch
         Me.SplitContainer5.Size = New System.Drawing.Size(979, 367)
         Me.SplitContainer5.SplitterDistance = 177
         Me.SplitContainer5.TabIndex = 1578
+        '
+        'chkewaybill
+        '
+        Me.chkewaybill.AutoSize = True
+        Me.chkewaybill.Location = New System.Drawing.Point(638, 69)
+        Me.chkewaybill.Name = "chkewaybill"
+        Me.chkewaybill.Size = New System.Drawing.Size(109, 18)
+        Me.chkewaybill.TabIndex = 1630
+        Me.chkewaybill.Text = "Create E-way Bill"
+        Me.chkewaybill.UseVisualStyleBackColor = True
         '
         'lblInvnoForReplacement
         '
@@ -1131,6 +1143,7 @@ Partial Class FrmSalesOrderDispatch
         '
         'SplitContainer4.Panel2
         '
+        Me.SplitContainer4.Panel2.Controls.Add(Me.btnEWB)
         Me.SplitContainer4.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer4.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer4.Panel2.Controls.Add(Me.btnprinte_wayBill)
@@ -1234,15 +1247,15 @@ Partial Class FrmSalesOrderDispatch
         Me.btnSave.TabIndex = 18
         Me.btnSave.Text = "Save"
         '
-        'chkewaybill
+        'btnEWB
         '
-        Me.chkewaybill.AutoSize = True
-        Me.chkewaybill.Location = New System.Drawing.Point(638, 69)
-        Me.chkewaybill.Name = "chkewaybill"
-        Me.chkewaybill.Size = New System.Drawing.Size(109, 18)
-        Me.chkewaybill.TabIndex = 1630
-        Me.chkewaybill.Text = "Create E-way Bill"
-        Me.chkewaybill.UseVisualStyleBackColor = True
+        Me.btnEWB.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnEWB.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnEWB.Location = New System.Drawing.Point(534, 5)
+        Me.btnEWB.Name = "btnEWB"
+        Me.btnEWB.Size = New System.Drawing.Size(97, 22)
+        Me.btnEWB.TabIndex = 1631
+        Me.btnEWB.Text = "Create E-Way Bill"
         '
         'FrmSalesOrderDispatch
         '
@@ -1331,6 +1344,7 @@ Partial Class FrmSalesOrderDispatch
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnEWB, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1409,4 +1423,5 @@ Partial Class FrmSalesOrderDispatch
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents btnHistory As RadButton
     Friend WithEvents chkewaybill As CheckBox
+    Friend WithEvents btnEWB As RadButton
 End Class

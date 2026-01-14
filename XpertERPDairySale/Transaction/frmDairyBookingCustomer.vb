@@ -10256,6 +10256,42 @@ where  TSPL_BOOKING_DETAIL.Cust_Code='" & strVendorno & "' and convert(date,TSPL
         End Try
     End Sub
 
+    Private Function Create_EWB(ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim strInvoiceNO As String = ""
+            strInvoiceNO = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_head  where Against_Shipment_No in ( select Document_Code from TSPL_SD_SHIPMENT_HEAD where Against_Booking_No='" & txtDocNo.Value & "'  and Customer_Code='" & txtVendorNo.Value & "') ", trans))
+            If clsCommon.myLen(strInvoiceNO) > 0 Then
+                Dim EwbNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select EWayBillNo from TSPL_SD_SALE_INVOICE_HEAD where  document_code = '" & strInvoiceNO & "' ", trans))
+                If clsCommon.myLen(EwbNo) = 0 Then
+                    If rbtnTaxable.IsChecked AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value, trans) Then
+                        Dim EInvoiceCancelTimeValid As Int64 = 0
+                        EInvoiceCancelTimeValid = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" Select  isnull (DATEDIFF(hour,EInvoice_Posting_Date,GETDATE()),0) as PostedHours from tspl_sd_sale_invoice_head where  document_code = '" & strInvoiceNO & "'", trans))
+                        If EInvoiceCancelTimeValid >= 24 Then
+                            Throw New Exception("E-Way Bill can not be Generated.It has been more than 24 hours.")
+                        End If
+                    End If
+                    If clsCommon.myLen(GetEWayBillNo(strInvoiceNO, trans)) <= 0 Then
+                        clsPSInvoiceHead.EWayBill_Implementation(strInvoiceNO, txtLocation.Value, trans, True)
+                        If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" & strInvoiceNO & "'", trans)) <= 0 Then
+                            Throw New Exception("E-Way Bill For Sales Invoice No [" + strInvoiceNO + "] is not generated")
+                        End If
+                    End If
+                Else
+                    Throw New Exception("Ewb no [" & clsCommon.myCstr(EwbNo) & "] is already exists")
+                End If
+            Else
+                Throw New Exception("Invoice Not Found!")
+            End If
+
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function GetEWayBillNo(strDocNo As String, trans As SqlTransaction) As String
+        Return clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" + strDocNo + "'", trans))
+    End Function
     Private Sub btnHistory_Click_1(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
@@ -10275,5 +10311,16 @@ where  TSPL_BOOKING_DETAIL.Cust_Code='" & strVendorno & "' and convert(date,TSPL
             chkDistributor.Enabled = False
 
         End If
+    End Sub
+
+    Private Sub btnCreateEWB_Click(sender As Object, e As EventArgs) Handles btnCreateEWB.Click
+        Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Create_EWB(tran)
+            tran.Commit()
+        Catch ex As Exception
+            tran.Rollback()
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

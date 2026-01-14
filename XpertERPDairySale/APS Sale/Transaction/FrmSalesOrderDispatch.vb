@@ -1,4 +1,5 @@
-﻿Imports common
+﻿Imports System.Data.SqlClient
+Imports common
 
 Public Class FrmSalesOrderDispatch
     Inherits FrmMainTranScreen
@@ -3098,5 +3099,44 @@ from TSPL_SD_SHIPMENT_HEAD left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
+    End Function
+
+    Private Sub btnEWB_Click(sender As Object, e As EventArgs) Handles btnEWB.Click
+        Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Create_Ewb(tran)
+            tran.Commit()
+        Catch ex As Exception
+            tran.Rollback()
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Function Create_Ewb(ByVal trans As SqlTransaction) As Boolean
+
+        Try
+            If clsCommon.myLen(txtDocCode.Value) > 0 AndAlso clsCommon.myLen(txtInvoiceno.Text) > 0 Then
+                Dim EwbNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select EWayBillNo from TSPL_SD_SALE_INVOICE_HEAD where  document_code = '" & txtInvoiceno.Text & "' ", trans))
+                If clsCommon.myLen(EwbNo) = 0 Then
+
+                    If clsCommon.myLen(GetEWayBillNo(txtInvoiceno.Text, trans)) <= 0 Then
+                        clsPSInvoiceHead.EWayBill_Implementation(txtInvoiceno.Text, txtLocation.Value, trans, True)
+                        If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" & txtInvoiceno.Text & "'", trans)) <= 0 Then
+                            Throw New Exception("E-Way Bill For Sales Invoice No [" + txtInvoiceno.Text + "] is not generated")
+                        End If
+                    End If
+                Else
+                    Throw New Exception("Ewb no [" & clsCommon.myCstr(EwbNo) & "] is already exists")
+                End If
+
+            Else
+                Throw New Exception("Please Select Document/Invoice ")
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function GetEWayBillNo(strDocNo As String, trans As SqlTransaction) As String
+        Return clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" + strDocNo + "'", trans))
     End Function
 End Class
