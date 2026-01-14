@@ -171,6 +171,9 @@ Public Class clsDSSalesReturnHead
         ElseIf clsCommon.CompairString(strCancelDelete, "Delete") = CompairStringResult.Equal Then
             TSPL_SD_SALE_RETURN_HEAD = "TSPL_SD_SALE_RETURN_HEAD_Delete_data"
             TSPL_SD_SALE_RETURN_detail = "TSPL_SD_SALE_RETURN_detail_Delete_data"
+        ElseIf clsCommon.CompairString(strCancelDelete, "Dispatch_Return") = CompairStringResult.Equal Then
+            TSPL_SD_SALE_RETURN_HEAD = "TSPL_SD_SHIPMENT_RETURN_HEAD"
+            TSPL_SD_SALE_RETURN_detail = "TSPL_SD_SHIPMENT_RETURN_detail"
         Else
             TSPL_SD_SALE_RETURN_HEAD = "TSPL_SD_SALE_RETURN_HEAD"
             TSPL_SD_SALE_RETURN_detail = "TSPL_SD_SALE_RETURN_detail"
