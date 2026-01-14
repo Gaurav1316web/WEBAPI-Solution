@@ -2617,7 +2617,7 @@ SELECT  MRN_No FROM TSPL_QC_CHECK_DETAIL WHERE Document_Code='" + clsCommon.myCs
                 clsCommon.MyMessageBoxShow("Select Document No")
                 Exit Sub
             End If
-            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Document_Code", "TSPL_QC_CHECK_HEAD", "TSPL_QC_CHECK_DETAIL")
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Document_Code", "TSPL_QC_CHECK_HEAD", "TSPL_QC_CHECK_SRN_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
