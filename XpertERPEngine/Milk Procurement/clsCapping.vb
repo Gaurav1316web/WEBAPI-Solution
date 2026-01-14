@@ -209,7 +209,8 @@ Public Class clsCapping
 
             Dim qry As String = "Update TSPL_CAPPING set Posted=1,Posted_By='" + objCommonVar.CurrentUserCode + "',Posted_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt") + "' where Code='" + obj.Code + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_CAPPING", "Code", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_CAPPING", "Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_CAPPING", "Code", "TSPL_CAPPING_MCC", "Code", "TSPL_CAPPING_VSP", "Code", trans)
 
         Catch err As Exception
             Throw New Exception(err.Message)

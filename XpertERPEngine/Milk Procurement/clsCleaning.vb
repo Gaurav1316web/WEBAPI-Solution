@@ -148,6 +148,9 @@ where TSPL_Cleaning.Doc_No ='" + StrDocNo + "'", trans))
 
     Public Shared Function deleteData(ByVal isCheckForPost As Boolean, ByVal strDocNo As String, ByVal trans As SqlTransaction) As Boolean
         Try
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Cleaning", "Doc_no", trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Cleaning", "Doc_no", trans)
             If isCheckForPost Then
                 Dim Status As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select isPosted from TSPL_Cleaning Where Doc_No='" + strDocNo + "'", trans))
                 If Status = 1 Then
@@ -160,9 +163,7 @@ where TSPL_Cleaning.Doc_No ='" + StrDocNo + "'", trans))
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmUnloading, clsCommon.myCstr(dt.Rows(0)("location_Code")), clsCommon.myCDate(dt.Rows(0)("Start_Date_Time")), trans)
             End If
-            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Cleaning", "Doc_no", trans)
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Cleaning", "Doc_no", trans)
 
             Dim qry As String = "delete from TSPL_cleaning where doc_No='" & strDocNo & "'"
             Dim isDeleted As Boolean = True

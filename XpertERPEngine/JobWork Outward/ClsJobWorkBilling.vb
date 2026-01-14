@@ -278,7 +278,8 @@ Public Class ClsJobWorkBilling
             Qry = "Update TSPL_JOBWORK_BILLING_HEAD set status = 0 where Document_Code='" + strInvoiceCode + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strInvoiceCode, "TSPL_JOBWORK_BILLING_HEAD", "Document_Code", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strInvoiceCode, "TSPL_JOBWORK_BILLING_HEAD", "Document_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strInvoiceCode, "TSPL_JOBWORK_BILLING_HEAD", "Document_Code", "TSPL_JOBWORK_BILLING_DETAIL", "Document_Code", trans)
 
             trans.Commit()
         Catch ex As Exception
@@ -637,8 +638,9 @@ where TSPL_JOBWORK_BILLING_HEAD.Document_Code ='" & strDocNo & "'"
             Dim qry = "Update TSPL_JOBWORK_BILLING_HEAD set Status=1,Modify_By='" + objCommonVar.CurrentUserCode + "',Posting_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "',EInvoice_Type='" + ECustomerType + "'"
             qry += " where Document_Code='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_JOBWORK_BILLING_HEAD", "Document_Code", "TSPL_JOBWORK_BILLING_DETAIL", "Document_Code", trans)
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_JOBWORK_BILLING_HEAD", "Document_Code", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_JOBWORK_BILLING_HEAD", "Document_Code", trans)
             '---------------------For AR-Invoice Entry-----------------------------
 
             Dim Auto_Gen_No As Boolean = True

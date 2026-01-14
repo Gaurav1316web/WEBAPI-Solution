@@ -494,6 +494,7 @@ Public Class clsGateEntry
             End If
 
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strGateEntryNo), "TSPL_GATE_ENTRY_DETAILS", "Gate_Entry_No", "TSPL_Bulk_Gate_Entry_Chember_Details", "GE_Code", "TSPL_Gate_Entry_Chember_Details", "GE_Code", trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strGateEntryNo), "TSPL_Gate_Entry_Price_Chart", "GE_Code", trans)
 
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strGateEntryNo), "TSPL_GATE_ENTRY_DETAILS", "Gate_Entry_No", "TSPL_Bulk_Gate_Entry_Chember_Details", "GE_Code", "TSPL_Gate_Entry_Chember_Details", "GE_Code", trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strGateEntryNo), "TSPL_Gate_Entry_Price_Chart", "GE_Code", trans)

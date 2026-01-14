@@ -54,10 +54,11 @@ Public Class clsDAArrear
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DA_Arrear_Header", OMInsertOrUpdate.Update, "  Document_Code='" + obj.document_code + "'", trans)
             End If
             ClsDAArrearDetail.SaveData(obj.document_code, obj.ArrD, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.document_code, "TSPL_DA_Arrear_Header", "Document_Code", "TSPL_DA_Arrear_Detail", "Document_Code", trans)
 
             clsPayPeriod_detail.SaveData(obj.document_code, obj.Arr_PayPeriod, trans)
             clsDALocation_detail.SaveData(obj.document_code, obj.Arr_Location, trans)
+            clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, obj.document_code, "TSPL_DA_Arrear_Header", "Document_Code", "TSPL_DA_Arrear_Detail", "Document_Code", "TSPL_DAAREAR_PAYPERIOD_DETAIL", "Document_Code", "TSPL_DAAREAR_Location_DETAIL", "Document_Code", "", "", "", "", "", "", trans)
+
             'ClsRmProcessLossDetail.SaveData(obj.document_code, obj.Arr_Pd, trans)
             'clsProductionEntry.SaveData(obj.document_code, obj.Arr_Prod, trans)
             Return True
@@ -140,7 +141,7 @@ Public Class clsDAArrear
             End If
             Dim qry As String = "Update TSPL_DA_Arrear_Header set Status=1, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "'  where Document_code ='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_DA_Arrear_Header", "Document_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, obj.document_code, "TSPL_DA_Arrear_Header", "Document_Code", "TSPL_DA_Arrear_Detail", "Document_Code", "TSPL_DAAREAR_PAYPERIOD_DETAIL", "Document_Code", "TSPL_DAAREAR_Location_DETAIL", "Document_Code", "", "", "", "", "", "", trans)
 
             'clsDBFuncationality.ExecuteNonQuery("Update TSPL_PROD_QC_CHECK_HEAD set posted='1', Modified_By = '" + objCommonVar.CurrentUserCode + "',Modified_Date = '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "yyyy-MM-dd") + "'  where document_code='" & obj.document_code & "'", trans)
             trans.Commit()
@@ -165,7 +166,7 @@ Public Class clsDAArrear
                 Throw New Exception("Already Posted on :" + obj.Posting_Date)
             End If
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_DA_Arrear_Header", "Document_Code", "TSPL_DA_Arrear_Detail", "Document_Code", trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_DA_Arrear_Header", "Document_Code", "TSPL_DA_Arrear_Detail", "Document_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, obj.document_code, "TSPL_DA_Arrear_Header", "Document_Code", "TSPL_DA_Arrear_Detail", "Document_Code", "TSPL_DAAREAR_PAYPERIOD_DETAIL", "Document_Code", "TSPL_DAAREAR_Location_DETAIL", "Document_Code", "", "", "", "", "", "", trans)
 
             Dim qry As String
             qry = "delete from TSPL_DAAREAR_PAYPERIOD_DETAIL where Document_code ='" + strCode + "'"
@@ -199,7 +200,7 @@ Public Class clsDAArrear
                 qry = "update TSPL_DA_Arrear_Header set Status=0,Posted_Date=null,Posted_By=null where document_code='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_DA_Arrear_Header", "Document_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, obj.document_code, "TSPL_DA_Arrear_Header", "Document_Code", "TSPL_DA_Arrear_Detail", "Document_Code", "TSPL_DAAREAR_PAYPERIOD_DETAIL", "Document_Code", "TSPL_DAAREAR_Location_DETAIL", "Document_Code", "", "", "", "", "", "", trans)
 
             trans.Commit()
         Catch ex As Exception

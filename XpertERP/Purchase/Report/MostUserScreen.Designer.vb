@@ -22,24 +22,30 @@ Partial Class MostUserScreen
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem15 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem16 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem17 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem18 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkDateRange = New Telerik.WinControls.UI.RadCheckBox()
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.lbltoDate = New common.Controls.MyLabel()
+        Me.ToDate = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.RadLabel1 = New common.Controls.MyLabel()
+        Me.fromDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.MyComboBox1 = New common.Controls.MyComboBox()
         Me.ddlBankType = New common.Controls.MyComboBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
@@ -55,6 +61,13 @@ Partial Class MostUserScreen
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkDateRange, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox3.SuspendLayout()
+        CType(Me.lbltoDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ToDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.fromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyComboBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ddlBankType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -102,6 +115,8 @@ Partial Class MostUserScreen
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkDateRange)
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
         Me.RadPageViewPage1.Controls.Add(Me.MyComboBox1)
         Me.RadPageViewPage1.Controls.Add(Me.ddlBankType)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
@@ -111,6 +126,75 @@ Partial Class MostUserScreen
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(510, 234)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'chkDateRange
+        '
+        Me.chkDateRange.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkDateRange.Location = New System.Drawing.Point(238, 12)
+        Me.chkDateRange.Name = "chkDateRange"
+        Me.chkDateRange.Size = New System.Drawing.Size(121, 16)
+        Me.chkDateRange.TabIndex = 1588
+        Me.chkDateRange.Text = "Counter DateRange"
+        '
+        'RadGroupBox3
+        '
+        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.lbltoDate)
+        Me.RadGroupBox3.Controls.Add(Me.ToDate)
+        Me.RadGroupBox3.Controls.Add(Me.RadLabel1)
+        Me.RadGroupBox3.Controls.Add(Me.fromDate)
+        Me.RadGroupBox3.HeaderText = ""
+        Me.RadGroupBox3.Location = New System.Drawing.Point(28, 66)
+        Me.RadGroupBox3.Name = "RadGroupBox3"
+        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(350, 42)
+        Me.RadGroupBox3.TabIndex = 440
+        '
+        'lbltoDate
+        '
+        Me.lbltoDate.FieldName = Nothing
+        Me.lbltoDate.Location = New System.Drawing.Point(186, 12)
+        Me.lbltoDate.Name = "lbltoDate"
+        Me.lbltoDate.Size = New System.Drawing.Size(45, 18)
+        Me.lbltoDate.TabIndex = 4
+        Me.lbltoDate.Text = "To Date"
+        '
+        'ToDate
+        '
+        Me.ToDate.CustomFormat = "dd/MM/yyyy"
+        Me.ToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.ToDate.Location = New System.Drawing.Point(236, 11)
+        Me.ToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.ToDate.Name = "ToDate"
+        Me.ToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.ToDate.Size = New System.Drawing.Size(107, 20)
+        Me.ToDate.TabIndex = 3
+        Me.ToDate.TabStop = False
+        Me.ToDate.Text = "24/10/2011"
+        Me.ToDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
+        '
+        'RadLabel1
+        '
+        Me.RadLabel1.FieldName = Nothing
+        Me.RadLabel1.Location = New System.Drawing.Point(5, 12)
+        Me.RadLabel1.Name = "RadLabel1"
+        Me.RadLabel1.Size = New System.Drawing.Size(59, 18)
+        Me.RadLabel1.TabIndex = 2
+        Me.RadLabel1.Text = "From Date"
+        '
+        'fromDate
+        '
+        Me.fromDate.CustomFormat = "dd/MM/yyyy"
+        Me.fromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.fromDate.Location = New System.Drawing.Point(67, 11)
+        Me.fromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.fromDate.Name = "fromDate"
+        Me.fromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.fromDate.Size = New System.Drawing.Size(107, 20)
+        Me.fromDate.TabIndex = 0
+        Me.fromDate.TabStop = False
+        Me.fromDate.Text = "24/10/2011"
+        Me.fromDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
         '
         'MyComboBox1
         '
@@ -127,15 +211,15 @@ Partial Class MostUserScreen
         Me.MyComboBox1.IsSourceFromTable = False
         Me.MyComboBox1.IsSourceFromValueList = False
         Me.MyComboBox1.IsUnique = False
-        RadListDataItem9.Text = "Setup"
-        RadListDataItem10.Text = "Transaction"
-        RadListDataItem11.Text = "Report"
-        RadListDataItem12.Text = "All"
-        Me.MyComboBox1.Items.Add(RadListDataItem9)
-        Me.MyComboBox1.Items.Add(RadListDataItem10)
-        Me.MyComboBox1.Items.Add(RadListDataItem11)
-        Me.MyComboBox1.Items.Add(RadListDataItem12)
-        Me.MyComboBox1.Location = New System.Drawing.Point(112, 66)
+        RadListDataItem1.Text = "Setup"
+        RadListDataItem2.Text = "Transaction"
+        RadListDataItem3.Text = "Report"
+        RadListDataItem4.Text = "All"
+        Me.MyComboBox1.Items.Add(RadListDataItem1)
+        Me.MyComboBox1.Items.Add(RadListDataItem2)
+        Me.MyComboBox1.Items.Add(RadListDataItem3)
+        Me.MyComboBox1.Items.Add(RadListDataItem4)
+        Me.MyComboBox1.Location = New System.Drawing.Point(112, 40)
         Me.MyComboBox1.MendatroryField = False
         Me.MyComboBox1.MyLinkLable1 = Nothing
         Me.MyComboBox1.MyLinkLable2 = Nothing
@@ -161,27 +245,27 @@ Partial Class MostUserScreen
         Me.ddlBankType.IsSourceFromTable = False
         Me.ddlBankType.IsSourceFromValueList = False
         Me.ddlBankType.IsUnique = False
-        RadListDataItem1.Text = "10"
-        RadListDataItem2.Text = "20"
-        RadListDataItem3.Text = "30"
-        RadListDataItem4.Text = "40"
-        RadListDataItem13.Text = "50"
-        RadListDataItem14.Text = "60"
-        RadListDataItem15.Text = "70"
-        RadListDataItem16.Text = "80"
-        RadListDataItem17.Text = "90"
-        RadListDataItem18.Text = "100"
-        Me.ddlBankType.Items.Add(RadListDataItem1)
-        Me.ddlBankType.Items.Add(RadListDataItem2)
-        Me.ddlBankType.Items.Add(RadListDataItem3)
-        Me.ddlBankType.Items.Add(RadListDataItem4)
+        RadListDataItem5.Text = "10"
+        RadListDataItem6.Text = "20"
+        RadListDataItem7.Text = "30"
+        RadListDataItem8.Text = "40"
+        RadListDataItem9.Text = "50"
+        RadListDataItem10.Text = "60"
+        RadListDataItem11.Text = "70"
+        RadListDataItem12.Text = "80"
+        RadListDataItem13.Text = "90"
+        RadListDataItem14.Text = "100"
+        Me.ddlBankType.Items.Add(RadListDataItem5)
+        Me.ddlBankType.Items.Add(RadListDataItem6)
+        Me.ddlBankType.Items.Add(RadListDataItem7)
+        Me.ddlBankType.Items.Add(RadListDataItem8)
+        Me.ddlBankType.Items.Add(RadListDataItem9)
+        Me.ddlBankType.Items.Add(RadListDataItem10)
+        Me.ddlBankType.Items.Add(RadListDataItem11)
+        Me.ddlBankType.Items.Add(RadListDataItem12)
         Me.ddlBankType.Items.Add(RadListDataItem13)
         Me.ddlBankType.Items.Add(RadListDataItem14)
-        Me.ddlBankType.Items.Add(RadListDataItem15)
-        Me.ddlBankType.Items.Add(RadListDataItem16)
-        Me.ddlBankType.Items.Add(RadListDataItem17)
-        Me.ddlBankType.Items.Add(RadListDataItem18)
-        Me.ddlBankType.Location = New System.Drawing.Point(112, 26)
+        Me.ddlBankType.Location = New System.Drawing.Point(112, 12)
         Me.ddlBankType.MendatroryField = False
         Me.ddlBankType.MyLinkLable1 = Nothing
         Me.ddlBankType.MyLinkLable2 = Nothing
@@ -196,7 +280,7 @@ Partial Class MostUserScreen
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(29, 68)
+        Me.MyLabel1.Location = New System.Drawing.Point(28, 40)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(67, 18)
         Me.MyLabel1.TabIndex = 437
@@ -206,7 +290,7 @@ Partial Class MostUserScreen
         '
         Me.Txt2.FieldName = Nothing
         Me.Txt2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Txt2.Location = New System.Drawing.Point(29, 26)
+        Me.Txt2.Location = New System.Drawing.Point(28, 15)
         Me.Txt2.Name = "Txt2"
         Me.Txt2.Size = New System.Drawing.Size(27, 18)
         Me.Txt2.TabIndex = 436
@@ -236,7 +320,7 @@ Partial Class MostUserScreen
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
@@ -295,6 +379,14 @@ Partial Class MostUserScreen
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkDateRange, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox3.ResumeLayout(False)
+        Me.RadGroupBox3.PerformLayout()
+        CType(Me.lbltoDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ToDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.fromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyComboBox1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ddlBankType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -322,4 +414,10 @@ Partial Class MostUserScreen
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents MyComboBox1 As common.Controls.MyComboBox
     Friend WithEvents ddlBankType As common.Controls.MyComboBox
+    Friend WithEvents RadGroupBox3 As RadGroupBox
+    Friend WithEvents lbltoDate As common.Controls.MyLabel
+    Friend WithEvents ToDate As RadDateTimePicker
+    Friend WithEvents RadLabel1 As common.Controls.MyLabel
+    Friend WithEvents fromDate As RadDateTimePicker
+    Friend WithEvents chkDateRange As RadCheckBox
 End Class

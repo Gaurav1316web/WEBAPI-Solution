@@ -40,6 +40,11 @@ Public Class rptBMCTankerTesting
         dr("Type") = "Correction After Process All Detail"
         dtType.Rows.Add(dr)
 
+        dr = dtType.NewRow()
+        dr("Code") = "MSE"
+        dr("Type") = "Milk Suspense Details"
+        dtType.Rows.Add(dr)
+
         txtReportType.DataSource = dtType
         txtReportType.ValueMember = "Code"
         txtReportType.DisplayMember = "Type"
@@ -248,6 +253,43 @@ and convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) <= CONVERT(date
                 End If
                 qry += " ) XX  where SRNNO is not null and Document_No is not null order by SRNNO  "
 
+            ElseIf clsCommon.CompairString(txtReportType.SelectedItem.Value, "MSE") = CompairStringResult.Equal Then
+                qry = " 	Select Format(Document_date,'dd/MMM/yyyy')Document_date,Document_No,Shiftt,VSP_Code,VLC_Code_VLC_Uploader,Qty,FATKG,SNFKG,(FATKG*100/Qty)Fat_Per,(SNFKG*100/Qty)Snf_Per,[TO DCS] as TO_DCS,Suspense_Qty,SuspenseFatkg,SuspenseSnfkg,Suspense_Fatper,Suspense_SnfPer,
+	                    Case when ADJDDocumentType='D' then ADJDDocumentTotal else 0 end as AP_Invoice_DR,
+	                    Case when Document_Type='C' then Document_Total else 0 end as AP_Invoice_CR,
+	                    SuspenseCreated_By,SuspenseCreated_Date,Suspence_Remarks from 
+                    ( SELECT Document_date,Document_No,Shiftt,VSP_Code,VLC_Code_VLC_Uploader,CASE WHEN rn = 1 THEN Qty ELSE Qty - Prev_Suspense END AS Qty,
+	                CASE WHEN rn = 1 THEN FATKG ELSE FATKG - Prev_Fatkg END AS FATKG,CASE WHEN rn = 1 THEN SNFKG ELSE SNFKG - Prev_snfkg END AS SNFKG,
+	                FAT_PER,SNF_PER,[TO DCS],Suspense_Qty,SuspenseFatkg,SuspenseSnfkg,Suspense_Fatper,Suspense_SnfPer,RefDocNo,RefDocType,Document_Total,
+	                Document_Type,ADJDREFDOCNO,ADJDREFDOCtype,ADJDDocumentType,ADJDDocumentTotal,Suspence_Remarks,SuspenseCreated_Date,SuspenseCreated_By
+	                FROM (
+                     SELECT DCS.Document_date,DCS.Document_No,DETAIL.Shift as Shiftt,VLC.VSP_Code,VLC.VLC_Code_VLC_Uploader,DETAIL.Qty,DETAIL.FAT as FAT_PER,DETAIL.SNF as SNF_PER,DETAIL.FATKG,DETAIL.SNFKG,
+        SuspenseVLC.VLC_Code_VLC_Uploader AS [TO DCS],SA.Qty AS Suspense_Qty,SA.FATKG as SuspenseFatkg,SA.SNFKG as SuspenseSnfkg,sa.FAT as Suspense_Fatper,sa.SNF as Suspense_SnfPer,
+		sa.Created_Date as SuspenseCreated_Date,sa.Created_By as SuspenseCreated_By,DETAIL.Suspence_Remarks,ADJD.RefDocNo as ADJDREFDOCNO,ADJD.RefDocType AS ADJDREFDOCtype,
+		ADJD.Document_Type as ADJDDocumentType,ADJD.Document_Total as ADJDDocumentTotal,
+		TSPL_VENDOR_INVOICE_HEAD.RefDocNo,TSPL_VENDOR_INVOICE_HEAD.RefDocType,TSPL_VENDOR_INVOICE_HEAD.Document_Total,TSPL_VENDOR_INVOICE_HEAD.Document_Type,
+        ROW_NUMBER() OVER (PARTITION BY DCS.Document_No, VLC.VLC_Code_VLC_Uploader ORDER BY sa.pk_id) AS rn,
+		-- sum of suspense till PREVIOUS row
+        Sum(SA.Qty) OVER (PARTITION BY DCS.Document_No, VLC.VLC_Code_VLC_Uploader ORDER BY sa.pk_id ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING) AS Prev_Suspense,
+		Sum(SA.FATKG) OVER (PARTITION BY DCS.Document_No, VLC.VLC_Code_VLC_Uploader ORDER BY sa.pk_id ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING) AS Prev_Fatkg,
+		 Sum(SA.SNFKG) OVER (PARTITION BY DCS.Document_No, VLC.VLC_Code_VLC_Uploader ORDER BY sa.pk_id ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING) AS Prev_snfkg
+		 FROM TSPL_MILK_COLLECTION_DCS_SUSPENSE_ADJUSTMENT SA
+        LEFT JOIN TSPL_MILK_COLLECTION_DCS DCS
+            ON DCS.Document_No = SA.Document_No
+        LEFT JOIN TSPL_MILK_COLLECTION_DCS_DETAIL DETAIL    
+            ON DETAIL.Document_No = DCS.Document_No
+        LEFT JOIN TSPL_VLC_MASTER_HEAD VLC
+            ON VLC.VLC_Code = DETAIL.VLC_Code
+        LEFT JOIN TSPL_VLC_MASTER_HEAD SuspenseVLC
+            ON SuspenseVLC.VLC_Code = SA.VLC_Code
+	    left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.RefDocNo = CAST(SA.PK_ID AS varchar(50)) and TSPL_VENDOR_INVOICE_HEAD.Vendor_Code=SuspenseVLC.VSP_Code and RefDocType='SUS-ADJC'
+		    left outer join TSPL_VENDOR_INVOICE_HEAD ADJD on ADJD.RefDocNo = CAST(SA.PK_ID AS varchar(50)) and ADJD.RefDocType='SUS-ADJD'
+    WHERE DETAIL.Suspence = 1 ) X )XX where convert( date ,XX.Document_Date , 103) >= CONVERT(date, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "', 103)
+                            and convert( date ,XX.Document_Date , 103) <= CONVERT(date, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "', 103)  "
+                If clsCommon.myLen(TxtDcsCode.arrValueMember) > 0 Then
+                    qry += " and xx.VSP_Code in (" + clsCommon.GetMulcallString(TxtDcsCode.arrValueMember) + ")"
+                End If
+
             Else
                 qry = "select convert(varchar,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) as Document_Date, ROW_NUMBER() OVER(PARTITION BY 1 ORDER BY TSPL_MILK_COLLECTION_MCC.Document_No) AS SNo, TSPL_MILK_COLLECTION_MCC.Tanker_No , TSPL_MILK_COLLECTION_MCC.Route_Code, TSPL_MILK_COLLECTION_MCC.Trip_No,TSPL_MILK_COLLECTION_MCC.Original_Qty AS Qty
                        ,Case When TSPL_MILK_COLLECTION_MCC.Original_Qty >0 Then cast(TSPL_MILK_COLLECTION_MCC.Original_FATKg * 100/TSPL_MILK_COLLECTION_MCC.Original_Qty as decimal(18,2)) Else 0 End as FAT
@@ -344,6 +386,33 @@ and convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) <= CONVERT(date
             gv1.Columns("Document_Total").HeaderText = "Total"
             gv1.Columns("Created_By").HeaderText = "Correction After Process By"
             gv1.Columns("Created_Date").HeaderText = "Correction After Process Date"
+
+        ElseIf clsCommon.CompairString(txtReportType.SelectedItem.Value, "MSE") = CompairStringResult.Equal Then
+            gv1.Columns("Document_Date").HeaderText = "Suspense Date"
+            gv1.Columns("Document_No").HeaderText = "DCS TruckSheet No"
+            gv1.Columns("Shiftt").HeaderText = "Shift"
+            gv1.Columns("VSP_Code").HeaderText = "Suspense Date"
+            gv1.Columns("VSP_Code").IsVisible = False
+            gv1.Columns("VLC_Code_VLC_Uploader").HeaderText = "Suspense DCS Code"
+            gv1.Columns("Qty").HeaderText = "Suspense Qty"
+            gv1.Columns("FATKG").HeaderText = "Suspense FATKG"
+            gv1.Columns("SNFKG").HeaderText = "Suspense SNFKG"
+            gv1.Columns("Fat_Per").HeaderText = "Suspense FAT%"
+            gv1.Columns("Snf_Per").HeaderText = "Suspense SNF%"
+            gv1.Columns("TO_DCS").HeaderText = "TO DCS"
+            gv1.Columns("Suspense_Qty").HeaderText = "QTY Transfer"
+            gv1.Columns("SuspenseFatkg").HeaderText = "FATKG Transfer"
+            gv1.Columns("SuspenseSnfkg").HeaderText = "SNFKF Transfer"
+            gv1.Columns("Suspense_Fatper").HeaderText = "FAT%"
+            gv1.Columns("Suspense_SnfPer").HeaderText = "SNF%"
+            gv1.Columns("AP_Invoice_DR").HeaderText = "AP Invoice DR"
+            gv1.Columns("AP_Invoice_CR").HeaderText = "AP Invoice CR"
+            gv1.Columns("SuspenseCreated_By").HeaderText = "Modified By"
+            gv1.Columns("SuspenseCreated_Date").HeaderText = "Modified Date"
+            gv1.Columns("Suspence_Remarks").HeaderText = "Remarks"
+
+
+
 
         Else
             gv1.Columns("Document_Date").HeaderText = "Date"
@@ -588,6 +657,9 @@ and convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) <= CONVERT(date
             lblBMC.Visible = False
             txtRoute.Visible = False
             lblLocation.Visible = False
+        ElseIf txtReportType.SelectedIndex = 4 Then
+            TxtDcsCode.Visible = True
+            lblDCS.Visible = True
         Else
             lblBMC.Visible = False
             txtBMC.Visible = False

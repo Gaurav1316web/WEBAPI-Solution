@@ -6123,6 +6123,8 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Created_Date", "Datetime not null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_PROGRAM_MASTER_COUNTER", coll)
 
+
+
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_No", "varchar(30) not null Primary Key")
             coll.Add("Document_Date", "Datetime not null")
@@ -6230,6 +6232,12 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Sale_Account_Amount", "decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SALE_RETURN_INTER_HEAD", coll, Nothing, False, False, "", "Document_No", "Document_Date")
 
+            coll = New Dictionary(Of String, String)
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION")
+            coll.Add("Created_By", "varchar(12)  NOT NULL")
+            coll.Add("Created_Date", "Datetime  NOT NULL")
+            coll.Add("Program_Code", "varchar(12) References TSPL_PROGRAM_MASTER(Program_Code)")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_PROGRAM_COUNTER", coll)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Line_No", "Int null")
@@ -8291,7 +8299,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("GE_Code", "varchar(50) NOT NULL references TSPL_GATE_ENTRY_DETAILS(Gate_Entry_No)")
             coll.Add("Price_Code", "varchar(30) not NULL ")
             coll.Add("Milk_Grade_code", "varchar(30)  NULL ")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Gate_Entry_Price_Chart", coll, Nothing, True, False, "Tspl_Gate_Entry_Details", "GE_Code", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Gate_Entry_Price_Chart", coll, Nothing, True, False, "Tspl_Gate_Entry_Details", "GE_Code", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Gate_Entry_No", "varchar(50) not NULL  ")
@@ -8550,7 +8558,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("TAX10_Amt", "decimal(18, 2) NULL")
             coll.Add("Created_By", "varchar(30) NULL")
             coll.Add("REF_PK_ID", "integer null references TSPL_DEMAND_SHEET(PK_ID)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_DETAIL", coll, "", True, False, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_DETAIL", coll, "", False, False, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "", True)
 
             'If dt Is Nothing AndAlso dt.Rows.Count <= 0 Then
             '    qry = "Update TSPL_DEMAND_BOOKING_MASTER set Posted_Morning=Posted,Posted_Evening=Posted "
@@ -35314,7 +35322,7 @@ inner JOIN tspl_sd_sale_Invoice_detail ON TSPL_Customer_Invoice_Head.Against_Sal
             coll.Add("Old_Asset_Code", "varchar(50) null") ''from whom new asset created
             coll.Add("Net_Amt_After_Dep", "float null")
             coll.Add("Calc_Type", "char(1) null") 'B-Book,T-Tax
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_ACQUISITION_ASSET_MERGE_DETAIL", coll, "", False, False)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_ACQUISITION_ASSET_MERGE_DETAIL", coll, "", True, False, "", "", "", True)
 
             Try
                 Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_ACQUISITION_DETAIL'"))
