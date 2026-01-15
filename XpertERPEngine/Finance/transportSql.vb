@@ -928,7 +928,7 @@ xxx:
         Return exportdata(False, MaxRowExport, gv, flname, sname, fromRow, ToRow, isblanksheet, arrHeader, ExportWithoutHeader, FormatCellofExcel, doubleheadershowninExcel, MultipleFiles, UseFilePath, manadatoryField, AllCellsInString)
     End Function
 
-    Public Function exportdata(ByVal isArrHeaderMerged As Boolean, ByVal MaxRowExport As Integer, ByVal gv As MyRadGridView, ByVal flname As String, ByVal sname As String, ByVal fromRow As Integer, ToRow As Integer, Optional ByVal isblanksheet As Boolean = False, Optional ByVal arrHeader As List(Of String) = Nothing, Optional ExportWithoutHeader As Boolean = False, Optional FormatCellofExcel As Boolean = False, Optional doubleheadershowninExcel As Boolean = False, Optional ByVal MultipleFiles As Boolean = False, Optional ByVal UseFilePath As Boolean = False, Optional ByVal manadatoryField As List(Of String) = Nothing, Optional ByVal AllCellsInString As Boolean = False) As Integer
+    Public Function exportdata(ByVal isArrHeaderMerged As Boolean, ByVal MaxRowExport As Integer, ByVal gv As MyRadGridView, ByVal flname As String, ByVal sname As String, ByVal fromRow As Integer, ToRow As Integer, Optional ByVal isblanksheet As Boolean = False, Optional ByVal arrHeader As List(Of String) = Nothing, Optional ExportWithoutHeader As Boolean = False, Optional FormatCellofExcel As Boolean = False, Optional doubleheadershowninExcel As Boolean = False, Optional ByVal MultipleFiles As Boolean = False, Optional ByVal UseFilePath As Boolean = False, Optional ByVal manadatoryField As List(Of String) = Nothing, Optional ByVal AllCellsInString As Boolean = False, Optional isFontSizeIncrease As Boolean = False) As Integer
         Dim FileCount As Integer = 1
         If AllCellsInString Then
             MaxRowExport = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxRowsInExcelExport, clsFixedParameterCode.MaxRowsInExcelExport, Nothing))
@@ -1104,6 +1104,19 @@ xxx:
             Dim ColNums(0 To gv.Columns.Count - 1) As Integer
             Dim MaxRowsToExport As Integer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.QuickExport, clsFixedParameterCode.MaxRowsForQuickExport, Nothing))
             Dim jk As Integer = 0
+
+            If isFontSizeIncrease Then
+                For i As Integer = arrHeader.Count To gv.Rows.Count + arrHeader.Count + 2
+                    'If i = arrHeader.Count + 2 Then
+                    '    wSheet.Rows(i).font.bold = True
+                    '    wSheet.Rows(i).font.size = 14
+                    'Else
+                    wSheet.Rows(i).font.bold = True
+                    wSheet.Rows(i).font.size = 14
+                    'End If
+                Next
+            End If
+
             For i As Integer = 0 To gv.Columns.Count - 1
                 jk += 1
                 ''richa agarwal 12jan BM00000008685
@@ -1112,6 +1125,9 @@ xxx:
                         If gv.Columns(i).FormatString = "{0:n2}" Then
                             wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "@"
                             wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).HorizontalAlignment = -4152 ' Right Align
+                        ElseIf gv.Columns(i).FormatString = "" Then
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "@"
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).HorizontalAlignment = -4108 ' Center Align
                         Else
                             wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "@"
                             wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).HorizontalAlignment = -4131 ' Left Align
@@ -1123,6 +1139,7 @@ xxx:
                         wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "@"
                         wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).HorizontalAlignment = -4108 ' Center Align
                     End If
+                    wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Borders.LineStyle = True
                 Else
                     If FormatCellofExcel = False Then
                         If TypeOf gv.Columns(i) Is GridViewTextBoxColumn Then
@@ -1165,7 +1182,7 @@ xxx:
                             .Merge()
                             .HorizontalAlignment = -4108   ' Center Align
                             .Font.Bold = True
-                            .Font.Size = 14
+                            .Font.Size = 18
                         End With
                         rowIndex += 1
                     Next

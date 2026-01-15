@@ -4387,8 +4387,8 @@ from (" & BaseQry & ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
                 If dtAmbient IsNot Nothing AndAlso dtAmbient.Columns.Count > 0 Then
                     totFreshAmbCol += dtAmbient.Columns.Count
                 End If
-                If isVisibleCol < totFreshAmbCol Then
-                    Dim colToAdd As Integer = totFreshAmbCol - isVisibleCol
+                If isVisibleCol <= totFreshAmbCol Then
+                    Dim colToAdd As Integer = (totFreshAmbCol - isVisibleCol) + 5
                     For i As Integer = 1 To colToAdd
                         Dim newCol As New GridViewTextBoxColumn("ExtraCol" & i)
                         newCol.HeaderText = ""
@@ -4544,7 +4544,7 @@ from (" & BaseQry & ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
                 'arrHeader.Add("Distributor : " & lblTransporterName.Text)
                 'arrHeader.Add("Trip : " & clsCommon.myCstr(txtTripNo.Text))
                 'clsCommon.MyExportToExcelGrid(Nothing, GVTruckSheet, arrHeader, "Truck Sheet")
-                transportSql.exportdata(True, Nothing, GVTruckSheet, "", "Truck Sheet", 0, GVTruckSheet.Rows.Count, False, arrHeader, False, False, True, False, False, Nothing, True)
+                transportSql.exportdata(True, Nothing, GVTruckSheet, "", "Truck Sheet", 0, GVTruckSheet.Rows.Count, False, arrHeader, False, False, True, False, False, Nothing, True, True)
             Else
                 'doc.HeaderHeight = 60
                 'doc.Landscape = True
