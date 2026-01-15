@@ -94,7 +94,14 @@ Public Class RptKDILSalarySlip
             Qry += " TSPL_DEPARTMENT_MASTER.DEPARTMENT_NAME ,TSPL_BANK_MASTER.BANK_CODE ,t1.Bank_Name,T1.BANK_ACC_NO ,T1.PAN_NO as Emp_Pan_no,"
             Qry += "  TSPL_LOCATION_MASTER.Add1+Case When ISNULL(TSPL_LOCATION_MASTER.Add2,'')='' Then '' else ', '+TSPL_LOCATION_MASTER.Add2+"
             Qry += "  Case When ISNULL(TSPL_LOCATION_MASTER.Add3,'')='' Then '' Else ', '+TSPL_LOCATION_MASTER.Add3+ Case When ISNULL(TSPL_STATE_MASTER.State_Name ,'')='' Then '' else '-'+CONVERT(varchar, TSPL_STATE_MASTER.State_Name) End End End as Location_Address"
-            Qry += " ,t1.Joining_date ,t7.PAY_PERIOD_CODE,T6.PAYPERIOD_DAYS,HOLIDAY_DAYS,PAYABLE_DAYS,CAST(PAYABLE_DAYS AS INT) AS PAYABLE_DAYS1,(T6.PAYPERIOD_DAYS-HOLIDAY_DAYS) as Working_days,T6.Present_Days as [Present Days],(T6.PAYPERIOD_DAYS-Present_Days-HOLIDAY_DAYS-LEAVE_DAYS-LOP_DAYS) as Weekly_off,D1.DEVISION_CODE AS DevCode,TSPL_LOCATION_MASTER.PF_NO as Firm_PF_No,isnull(Card_No,'') as Card_No,T1.Birth_date from TSPL_EMPLOYEE_MASTER T1"
+            Qry += " ,t1.Joining_date ,t7.PAY_PERIOD_CODE,T6.PAYPERIOD_DAYS,HOLIDAY_DAYS,PAYABLE_DAYS,CAST(PAYABLE_DAYS AS INT) AS PAYABLE_DAYS1,(T6.PAYPERIOD_DAYS-HOLIDAY_DAYS) as Working_days,T6.Present_Days as [Present Days],(T6.PAYPERIOD_DAYS-Present_Days-HOLIDAY_DAYS-LEAVE_DAYS-LOP_DAYS) as Weekly_off,D1.DEVISION_CODE AS DevCode,TSPL_LOCATION_MASTER.PF_NO as Firm_PF_No,isnull(Card_No,'') as Card_No,T1.Birth_date "
+
+            If txtEmployeeMult.arrValueMember IsNot Nothing AndAlso txtEmployeeMult.arrValueMember.Count > 0 Then
+                Qry += " , 1 AS Supress  "
+            Else
+                Qry += " , 0 AS Supress  "
+            End If
+            Qry += " from TSPL_EMPLOYEE_MASTER T1"
             Qry += " left Outer join tspl_company_Master T2 on T2.Comp_Code =T1.Comp_Code  "
             Qry += " left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = T1.LOCATION_CODE "
             Qry += " left join TSPL_STATE_MASTER on TSPL_STATE_MASTER.State_Code = TSPL_LOCATION_MASTER.State "
@@ -199,6 +206,9 @@ Public Class RptKDILSalarySlip
                 dtFinal.Columns.Add("HPL_Closeing", GetType(String))
                 dtFinal.Columns.Add("OL_Closeing", GetType(String))
                 dtFinal.Columns.Add("WECL_Closeing", GetType(String))
+                dtFinal.Columns.Add("Birth_date", GetType(String))
+                dtFinal.Columns.Add("Supress", GetType(String))
+
                 dtFinal.AcceptChanges()
 
                 Dim DrFinal As DataRow = dtFinal.NewRow()
@@ -407,8 +417,16 @@ Public Class RptKDILSalarySlip
                     '                        AND T3.ISEARNING = 0
                     '                        GROUP BY T2.PAY_PERIOD_CODE, T3.PAY_HEAD_NAME
                     '                     )yy"
+
+
                     dtsub = clsDBFuncationality.GetDataTable(qrySub)
                     dtsub2 = clsDBFuncationality.GetDataTable(qrySub2)
+                    If txtEmployeeMult.arrValueMember IsNot Nothing AndAlso txtEmployeeMult.arrValueMember.Count > 0 Then
+                        dtsub.Clear()
+                        dtsub2.Clear()
+                        '   Qry += " and T1.EMP_CODE  in (" + clsCommon.GetMulcallString(txtEmployeeMult.arrValueMember) + ") "
+                    End If
+
 
                     '===============================
                     Dim MyDataRow As DataRow
@@ -458,6 +476,9 @@ Public Class RptKDILSalarySlip
                         End If
 
                         DrFinal = dtFinal.NewRow()
+                        DrFinal.Item("Birth_date") = clsCommon.myCstr(DrHead("Birth_date"))
+                        DrFinal.Item("Supress") = clsCommon.myCstr(DrHead("Supress"))
+
                         DrFinal.Item("Bank_Branch") = clsCommon.myCstr(DrHead("Bank_Branch"))
                         DrFinal.Item("onePagePrint") = clsCommon.myCstr(DrHead("onePagePrint"))
                         DrFinal.Item("Code") = clsCommon.myCstr(DrHead("Code"))
@@ -567,9 +588,18 @@ Public Class RptKDILSalarySlip
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
                         frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtFinal, "crptKDILSalarySlipFormat1AJM", "Employee Salary Slip Report")
                     Else
+                        'If txtEmployeeMult.arrValueMember IsNot Nothing AndAlso txtEmployeeMult.arrValueMember.Count > 0 Then
+
+                        '    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtFinal, "crptKDILSalarySlipFormat1EMP", "Employee Salary Slip Report")
+
+                        'Else
+                        '    frmcrystal.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtFinal, dtsub, "crptKDILSalarySlipFormat1", "Employee Salary Slip Report", "CrpSalaryAbstractReport", "subDeductionReport", dtsub2)
+
+                        'End If
+
                         frmcrystal.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtFinal, dtsub, "crptKDILSalarySlipFormat1", "Employee Salary Slip Report", "CrpSalaryAbstractReport", "subDeductionReport", dtsub2)
                     End If
-                    frmcrystal = Nothing
+                        frmcrystal = Nothing
                 Else
                     Dim frmcrystal As New frmCrystalReportViewer()
                     frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtFinal, "crptKDILSalarySlip ForSingleEmployee", "Employee Salary Slip Report")
