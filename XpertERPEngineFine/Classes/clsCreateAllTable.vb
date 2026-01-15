@@ -29559,10 +29559,13 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
-            coll.Add("Is_IceBox", "char(1) default 'N'")
+            coll.Add("Is_IceBox", "int null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BMC_DCS_SAMPLE_RECEIVING", coll, "UNIQUE ( Document_Date, BMC_Code,Trip)", True, True, "", "", "", True)
 
-
+            coll = New Dictionary(Of String, String)
+            coll.Add("Active_Date", "date not null")
+            coll.Add("No_Of_Active_BMC", "int null")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_ACTIVE_BMC", coll, "", False, True, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Category_Code", "Varchar(12) NOT NULL Primary Key ")

@@ -344,7 +344,16 @@ Public Class Frmreceiptvoucher2
 
             Dim frmcrystal As New frmCrystalReportViewer()
             Dim strReceiptDate As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Receipt_Date from TSPL_RECEIPT_HEADER where Receipt_No='" + recvalue1 + "'"))
-            frmcrystal.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.SalesReport, dttemp, clsDBFuncationality.GetDataTable(adjustSubReport), "receipt", "Receipt Report", clsCommon.myCDate(strReceiptDate), "AdjustmentSubReport.rpt", "rptReceiptDetailWithInvoice.rpt", clsDBFuncationality.GetDataTable(InvoiceSubReport))
+
+            If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDFCF") = CompairStringResult.Equal Then
+                frmcrystal.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.SalesReport, dttemp, clsDBFuncationality.GetDataTable(adjustSubReport), "receipt1", "Receipt Report", clsCommon.myCDate(strReceiptDate), "AdjustmentSubReport.rpt", "rptReceiptDetailWithInvoice.rpt", clsDBFuncationality.GetDataTable(InvoiceSubReport))
+
+            Else
+                frmcrystal.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.SalesReport, dttemp, clsDBFuncationality.GetDataTable(adjustSubReport), "receipt", "Receipt Report", clsCommon.myCDate(strReceiptDate), "AdjustmentSubReport.rpt", "rptReceiptDetailWithInvoice.rpt", clsDBFuncationality.GetDataTable(InvoiceSubReport))
+
+            End If
+
+            ' frmcrystal.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.SalesReport, dttemp, clsDBFuncationality.GetDataTable(adjustSubReport), "receipt", "Receipt Report", clsCommon.myCDate(strReceiptDate), "AdjustmentSubReport.rpt", "rptReceiptDetailWithInvoice.rpt", clsDBFuncationality.GetDataTable(InvoiceSubReport))
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message.ToString())
         End Try

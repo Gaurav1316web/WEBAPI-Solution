@@ -285,7 +285,7 @@ and convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) <= CONVERT(date
 	    left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.RefDocNo = CAST(SA.PK_ID AS varchar(50)) and TSPL_VENDOR_INVOICE_HEAD.Vendor_Code=SuspenseVLC.VSP_Code and RefDocType='SUS-ADJC'
 		    left outer join TSPL_VENDOR_INVOICE_HEAD ADJD on ADJD.RefDocNo = CAST(SA.PK_ID AS varchar(50)) and ADJD.RefDocType='SUS-ADJD'
     WHERE DETAIL.Suspence = 1 ) X )XX where convert( date ,XX.Document_Date , 103) >= CONVERT(date, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "', 103)
-                            and convert( date ,XX.Document_Date , 103) <= CONVERT(date, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "', 103)  "
+                            and convert( date ,XX.Document_Date , 103) <= CONVERT(date, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "', 103)  "
                 If clsCommon.myLen(TxtDcsCode.arrValueMember) > 0 Then
                     qry += " and xx.VSP_Code in (" + clsCommon.GetMulcallString(TxtDcsCode.arrValueMember) + ")"
                 End If
