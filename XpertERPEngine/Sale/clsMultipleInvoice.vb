@@ -727,6 +727,8 @@ Public Class clsMultipleInvoice
                     objTr.Location = objShipmentDetail.Location
                     objTr.LocationName = objShipmentDetail.LocationName
                     objTr.Item_Cost = objShipmentDetail.Item_Cost
+                    objTr.Billing_Qty = objShipmentDetail.Billing_Qty
+                    objTr.Billing_Unit_code = objShipmentDetail.Billing_Unit_code
                     objTr.TAX1 = objShipmentDetail.TAX1
                     objTr.TAX1_Base_Amt = objShipmentDetail.TAX1_Base_Amt
                     objTr.TAX1_Rate = objShipmentDetail.TAX1_Rate
