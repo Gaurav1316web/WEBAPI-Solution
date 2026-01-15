@@ -54,6 +54,7 @@ Public Class frmTender
     Const colScheduleLateDays As String = "colScheduleLateDays"
     Const colScheduleExtensionDays As String = "colScheduleExtensionDays"
     Dim ButtonToolTip As ToolTip = New ToolTip()
+    Public ShowUpto6DecimalPlaces As Boolean = False
 #End Region
     Public Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
@@ -83,6 +84,8 @@ Public Class frmTender
         ButtonToolTip.SetToolTip(Cancel_btn, "Press Alt+L Cancel the Trasnaction")
 
         RadPageView1.SelectedPage = RadPageViewPage1
+        ShowUpto6DecimalPlaces = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowUpto6DecimalPlaces, clsFixedParameterCode.ShowUpto6DecimalPlaces, Nothing)) > 0)
+
         LoadItemType()
         LoadTenderType()
         LoadMode()
@@ -92,6 +95,8 @@ Public Class frmTender
         AddNew()
         isPageLoadData = False
         Cancel_btn.Enabled = False
+        'ShowUpto6DecimalPlaces = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowUpto6DecimalPlaces, clsFixedParameterCode.ShowUpto6DecimalPlaces, Nothing)) = 1, True, False)
+
     End Sub
     Sub LoadTenderOn()
         Dim dt As DataTable = New DataTable()
@@ -307,6 +312,9 @@ Public Class frmTender
         repoRate.Minimum = 0
         repoRate.ReadOnly = False
         repoRate.IsVisible = True
+        If ShowUpto6DecimalPlaces Then
+            repoRate.DecimalPlaces = 6
+        End If
         repoRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv.MasterTemplate.Columns.Add(repoRate)
 

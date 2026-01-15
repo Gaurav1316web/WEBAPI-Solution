@@ -691,6 +691,7 @@ Public Class clsFixedParameterType
     Public Const ShowCostCenterAndHierarchyLevelInPurchaseModule As String = "ShowCostCenterAndHierarchyLevelInPurchaseModule"
     Public Const IsQCColumnRequiredonMRN As String = "IsQCColumnRequiredonMRN"
     Public Const ShowItemAllStructureWise As String = "ShowItemAllStructureWise"
+    Public Const ShowUpto6DecimalPlaces As String = "ShowUpto6DecimalPlaces"
     Public Const PurchaseModule As String = "Purchase Module"
     Public Const IsRGPAfterPurchaseOrder As String = "Do RGP After Purchase Order"
     Public Const AllowQualityModuleInERP As String = "On Quality Module"
@@ -2177,6 +2178,7 @@ Public Class clsFixedParameterCode
     Public Const ShowCostCenterAndHierarchyLevelInPurchaseModule As String = "ShowCostCenterAndHierarchyLevelInPurchaseModule"
     Public Const IsQCColumnRequiredonMRN As String = "IsQCColumnRequiredonMRN"
     Public Const ShowItemAllStructureWise As String = "ShowItemAllStructureWise"
+    Public Const ShowUpto6DecimalPlaces As String = "ShowUpto6DecimalPlaces"
     Public Const RateDecimalPlaces As String = "Rate Decimal Places"
     Public Const AllowQcDateAfterCurrentDate As String = "AllowQcDateAfterCurrentDate"
     Public Const AllowWeighmentDateAfterCurrentDate As String = "AllowWeighmentDateAfterCurrentDate"
@@ -3815,6 +3817,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowCostCenterAndHierarchyLevelInPurchaseModule, clsFixedParameterCode.ShowCostCenterAndHierarchyLevelInPurchaseModule, "0", "0 :Off, 1: On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.IsQCColumnRequiredonMRN, clsFixedParameterCode.IsQCColumnRequiredonMRN, "0", "0 :Off, 1: On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, "0", "0 :Off, 1: On")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ShowUpto6DecimalPlaces, clsFixedParameterCode.ShowUpto6DecimalPlaces, "0", "0 :Off, 1: On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PurchaseModule, clsFixedParameterCode.RateDecimalPlaces, "3", "Allow user to input rate decimal places [0-10]")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowPOScheduling, clsFixedParameterCode.AllowPOScheduling, "0", "0:Off, 1:On for allow PO Scheduling in system.")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MilkProc, clsFixedParameterCode.AllowQcDateAfterCurrentDate, "0", "0:Off, 1:On ")
@@ -5627,6 +5630,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.mbtnIssueReturn, clsFixedParameterType.ShowCostCenterAndHierarchyLevelInPurchaseModule, clsFixedParameterCode.ShowCostCenterAndHierarchyLevelInPurchaseModule, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmStoreRequistion, clsFixedParameterType.ShowCostCenterAndHierarchyLevelInPurchaseModule, clsFixedParameterCode.ShowCostCenterAndHierarchyLevelInPurchaseModule, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.mbtnPurchaseRequistion, clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmTender, clsFixedParameterType.ShowUpto6DecimalPlaces, clsFixedParameterCode.ShowUpto6DecimalPlaces, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.mbtnPurchaseOrder, clsFixedParameterType.PurchaseModule, clsFixedParameterCode.RateDecimalPlaces, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmStoreRequistion, clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.mbtnMRN, clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, EnumControlType.CheckBox)
