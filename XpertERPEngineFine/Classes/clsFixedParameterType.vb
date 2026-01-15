@@ -2,6 +2,7 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
+    Public Const AndroidFarmerCollection As String = "Android Farmer Collection"
     Public Const SuspenceAdjusmtmentFATSNFTolerancePercentage = "Suspence Adjusmtment FAT SNF Tolerance %"
     Public Const TransactionModify As String = "Transaction Modify"
     Public Const TransactionValidity As String = "Transaction Validity"
@@ -3006,6 +3007,9 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MaxFATPerLimit, "15", "Android Farmer Collection Max FAT Per")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MaxSNFPerLimit, "15", "Android Farmer Collection Max SNF Per")
+
         InsertDefaultValueFixedParameter(clsFixedParameterType.SuspenceAdjusmtmentFATSNFTolerancePercentage, clsFixedParameterCode.SuspenceAdjusmtmentFATSNFTolerancePercentage, "1.5", "Suspence Adjusmtment FAT SNF Tolerance Percentage")
         InsertDefaultValueFixedParameter(clsFixedParameterType.TransactionModify, clsFixedParameterCode.TransactionModify, "Trans@123", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.TransactionValidity, clsFixedParameterCode.TransactionValidity, "30", "Set Transaction Validity Day")
@@ -4673,6 +4677,8 @@ Public Class clsFixedParameterProgramMapping
     End Function
     Public Shared Sub SetDefaultValues()
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_FIXED_PARAMETER_PROGRAM_MAPPING")
+        InsertDefaultValue(clsUserMgtCode.frmVlcdataUploadar, clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MaxFATPerLimit, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.frmVlcdataUploadar, clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MaxSNFPerLimit, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.PickcompanyBankCodeFromPaymentProcess, clsFixedParameterCode.PickcompanyBankCodeFromPaymentProcess, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.isThereOnlyOneRowOfOwnDCS, clsFixedParameterCode.isThereOnlyOneRowOfOwnDCS, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.PrintOnlyPostedDocument, clsFixedParameterCode.PrintOnlyPostedDocument, EnumControlType.CheckBox)

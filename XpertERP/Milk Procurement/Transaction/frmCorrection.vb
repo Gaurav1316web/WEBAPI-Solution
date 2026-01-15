@@ -3167,6 +3167,22 @@ where  Document_No='" + txtSATruckSheet.Value + "'"
                     If e.Column Is gvSA.Columns(colSAVLCUploaderCode) Then
                         OpenVLCFinder(False)
                     ElseIf e.Column Is gvSA.Columns(colSAQty) OrElse e.Column Is gvSA.Columns(colSAFATPer) OrElse e.Column Is gvSA.Columns(colSASNFPer) Then
+                        If e.Column Is gvSA.Columns(colSAFATPer) Then
+                            If settMaxFATPerLimit > 0 Then
+                                If clsCommon.myCdbl(gvSA.CurrentRow.Cells(colSAFATPer).Value) > settMaxFATPerLimit Then
+                                    clsCommon.MyMessageBoxShow(Me, "FAT % Can't be more than " + clsCommon.myCstr(settMaxFATPerLimit) + ".", Me.Text)
+                                    gvSA.CurrentRow.Cells(colSAFATPer).Value = settMaxFATPerLimit
+                                End If
+                            End If
+                        End If
+                        If e.Column Is gvSA.Columns(colSASNFPer) Then
+                            If settMaxSNFPerLimit > 0 Then
+                                If clsCommon.myCdbl(gvSA.CurrentRow.Cells(colSASNFPer).Value) > settMaxSNFPerLimit Then
+                                    clsCommon.MyMessageBoxShow(Me, "SNF % Can't be more than " + clsCommon.myCstr(settMaxSNFPerLimit) + ".", Me.Text)
+                                    gvSA.CurrentRow.Cells(colSASNFPer).Value = settMaxSNFPerLimit
+                                End If
+                            End If
+                        End If
                         UpdateCurrentRow(gvSA.CurrentRow.Index)
                     End If
                     isCellValueChangedOpen = False
