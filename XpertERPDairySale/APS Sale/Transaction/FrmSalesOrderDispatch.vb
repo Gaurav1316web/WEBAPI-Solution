@@ -10,6 +10,7 @@ Public Class FrmSalesOrderDispatch
     Dim isCellValueChangedOpen As Boolean = False
     Dim GSTStatus As Boolean = False
     Dim OneTimeCheck As Boolean = False
+    Dim DefaultEnableEWayBill As Boolean = False
     Dim CalculateTaxRatefromItemwsieTaxOnSale As Integer = 0
     Const colLineNo As String = "colLineNo"
     Const colRowType As String = "colRowType"
@@ -102,6 +103,8 @@ Public Class FrmSalesOrderDispatch
         RunBatchFifowise = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowise, clsFixedParameterCode.RunBatchFifowise, Nothing))
         RunBatchFifowisewithmodifyfunctionality = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowisewithModifyfunctionality, clsFixedParameterCode.RunBatchFifowisewithModifyfunctionality, Nothing)) = 1, True, False)
         checkstockmrpwise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.checkstockMRPwise, clsFixedParameterCode.checkstockMRPwise, Nothing)) = 0, False, True)
+        DefaultEnableEWayBill = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultEnableEWayBill, clsFixedParameterCode.DefaultEnableEWayBill, Nothing)) = 1, True, False)
+
         btnprinte_wayBill.Visible = True
         lblInvnoForReplacement.Visible = False
         txtInvoice_for_replacement.Visible = False
@@ -758,7 +761,11 @@ Public Class FrmSalesOrderDispatch
         btnSave.Enabled = True
         btnDelete.Enabled = True
         btnPost.Enabled = True
-        chkewaybill.Checked = False
+        If DefaultEnableEWayBill Then
+            chkewaybill.Checked = True
+        Else
+            chkewaybill.Checked = False
+        End If
         ControlEnableDisable(True)
 
     End Sub
@@ -2036,7 +2043,7 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
                 obj.Tax_Group = txtTaxGroup.Value
                 obj.TaxGroupName = lblTaxGrpName.Text
                 obj.Route_No = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_CUSTOMER_MASTER where Cust_Code='" & txtCustomerCode.Value & "'"))
-                obj.IsEwaybill = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsGoverment from TSPL_CUSTOMER_GROUP_MASTER where Cust_Group_Code in(select Cust_Group_Code from TSPL_CUSTOMER_MASTER where Cust_Code='" & txtCustomerCode.Value & "')"))
+                'obj.IsEwaybill = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsGoverment from TSPL_CUSTOMER_GROUP_MASTER where Cust_Group_Code in(select Cust_Group_Code from TSPL_CUSTOMER_MASTER where Cust_Code='" & txtCustomerCode.Value & "')"))
                 If rbtnTaxCalAutomatic.IsChecked Then
                     obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic
                 ElseIf rbtnTaxCalManual.IsChecked Then
