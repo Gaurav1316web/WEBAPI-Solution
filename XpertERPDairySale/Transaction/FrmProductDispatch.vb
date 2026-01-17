@@ -871,7 +871,7 @@ Public Class FrmProductDispatch
         cmbDisItemType.SelectedValue = "T"
         cmbDisItemType.Enabled = True
         txtRouteNo.Enabled = True
-
+        chkIsEWayBill.Enabled = True
         txtBillToLocation.Enabled = True
         btnUpdateCustomer.Enabled = False
         strOrginalCust = ""
