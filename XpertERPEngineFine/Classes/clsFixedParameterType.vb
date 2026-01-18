@@ -523,6 +523,7 @@ Public Class clsFixedParameterType
     Public Const IsItemRateEditableOnSalesForAprilOnly As String = "ForAprilOnly"
     Public Const PWD As String = "PWD"
     Public Const AllowMilkReceiptAfterSettingsisOn As String = "AllowMilkReceiptAfterSettingsisOn"
+    Public Const BMCMilkQCManualPassword As String = "BMCMilkQCManualPassword"
     Public Const MilkReceiptTolerancePwd As String = "MilkReceiptTolerancePwd"
     Public Const MCC_DLTDATA_PWD As String = "MCC_DLTDATA_PWD"
     Public Const Allow_Excel_Code_on_Mcc_Master As String = "AllowExCodeONMcc"
@@ -2034,6 +2035,7 @@ Public Class clsFixedParameterCode
     Public Const PT As String = "PT"
     Public Const UserPWD As String = "UserPWD"
     Public Const AllowMilkReceiptAfterSettingsisOn As String = "AllowMilkReceiptAfterSettingsisOn"
+    Public Const BMCMilkQCManualPassword As String = "BMCMilkQCManualPassword"
     Public Const MilkReceiptTolerancePwd As String = "MilkReceiptTolerancePwd"
     Public Const MCCDLTPWD As String = "MCCDLTPWD"
     Public Const Allow_ExcelCode_On_Mcc As String = "Allow_ExcelCode_On_Mcc"
@@ -3625,6 +3627,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.GLACAccordingToTaxRate, clsFixedParameterCode.GLACAccordingToTaxRate, "0", "0-OFF;1-On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PWD, clsFixedParameterCode.UserPWD, "dont type password", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowMilkReceiptAfterSettingsisOn, clsFixedParameterCode.AllowMilkReceiptAfterSettingsisOn, "kdil123", "")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.BMCMilkQCManualPassword, clsFixedParameterCode.BMCMilkQCManualPassword, "c106", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MilkReceiptTolerancePwd, clsFixedParameterCode.MilkReceiptTolerancePwd, "udl@123", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MCC_DLTDATA_PWD, clsFixedParameterCode.MCCDLTPWD, "TecXpertb12sec2", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Allow_Excel_Code_on_Mcc_Master, clsFixedParameterCode.Allow_ExcelCode_On_Mcc, "0", "")

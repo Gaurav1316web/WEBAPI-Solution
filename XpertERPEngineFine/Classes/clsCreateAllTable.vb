@@ -25023,6 +25023,10 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Retesting_By", "varchar(12)  NULL")
             coll.Add("Retesting_Date", "Datetime  NULL")
             coll.Add("Remark", "varchar(200) NULL")
+            coll.Add("Manual_Sample", "Integer null")
+            coll.Add("Manual_By", "varchar(12)  NULL")
+            coll.Add("Manual_Date", "Datetime NULL")
+            coll.Add("Source_API", "Integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC_DETAIL", coll, Nothing, True, True, "TSPL_MILK_COLLECTION_MCC", "Document_No", "", True)
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_MILK_COLLECTION_MCC_DETAIL add Retesting_By varchar(12) NULL")
