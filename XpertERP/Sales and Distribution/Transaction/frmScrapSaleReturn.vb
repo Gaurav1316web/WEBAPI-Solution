@@ -3834,6 +3834,7 @@ Public Class frmScrapSaleReturn
                                 dblOtherTaxAmt = GetCurrentRowOtherTaxAmt(IntRowNo, Strii, arrTaxableAuth)
                             ElseIf Not IsTaxOnBaseAmt AndAlso clsCommon.CompairString(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value, "TCS") = CompairStringResult.Equal Then
                                 dblOtherTaxAmt = GetCurrentRowOtherTaxAmt(IntRowNo, Strii, arrTaxableAuth1)
+                                dblTaxAmt = dblOtherTaxAmt
                             End If
                         End If
 
@@ -3846,7 +3847,13 @@ Public Class frmScrapSaleReturn
                             '        dblTotalBasicPrice = dblTotalBasicPrice + clsCommon.myCdbl(gv1.Rows(n).Cells(colAmt).Value)
                             '    End If
                             'Next
-                            dblBaseAmt = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colAmt).Value) ' * clsCommon.myCdbl(txttcstaxbaseamount.Value)) / dblTotalBasicPrice
+                            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value, "TCS") = CompairStringResult.Equal Then
+                                dblBaseAmt = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colAmt).Value) + dblTaxAmt ' * clsCommon.myCdbl(txttcstaxbaseamount.Value)) / dblTotalBasicPrice
+
+                            Else
+                                dblBaseAmt = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colAmt).Value) ' * clsCommon.myCdbl(txttcstaxbaseamount.Value)) / dblTotalBasicPrice
+
+                            End If
                         Else
                             dblBaseAmt = (dblAmtAfterDis + dblOtherTaxAmt)
                         End If

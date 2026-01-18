@@ -7,6 +7,7 @@ Public Class frmMCCMaterialSale
     Dim FlagDocumentIsTaxable As Integer = 0
     Dim ConvertIntoBillingUOM As Boolean = False
     Dim chkTaxGroup As String
+    Dim DefaultEnableEWayBill As Boolean = False
     Dim arrMCCRights As ArrayList
     Dim CalculateTaxRatefromItemwsieTaxOnSale As Integer = 0
     Dim UseDescInsteadOFCodeOnMCCMAterialSale As Boolean = False
@@ -302,6 +303,7 @@ Public Class frmMCCMaterialSale
         AmountToCheckCustomerOutstandingForTCSTax = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AmountToCheckCustomerOutstandingForTCSTax, clsFixedParameterCode.AmountToCheckCustomerOutstandingForTCSTax, Nothing))
         EnableTCSRateValidityFrom01July2021 = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableTCSRateValidityFrom01July2021, clsFixedParameterCode.EnableTCSRateValidityFrom01July2021, Nothing)) = 0, False, True)
         ConvertIntoBillingUOM = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConvertTOBillingUOM, clsFixedParameterCode.ConvertTOBillingUOM, Nothing)) = 1, True, False)
+        DefaultEnableEWayBill = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultEnableEWayBill, clsFixedParameterCode.DefaultEnableEWayBill, Nothing)) = 1, True, False)
 
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = clsCommon.GETSERVERDATE
@@ -3312,6 +3314,11 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
         txtRatePer.Text = 0
         lblGrossAmount.Text = ""
         cmbPaymentType.SelectedIndex = 0
+        If DefaultEnableEWayBill Then
+            chkIsEwayBill.Checked = True
+        Else
+            chkIsEwayBill.Checked = False
+        End If
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
             If Not chkcashsale.Checked Then
                 txtReceiptNo.Visible = False
@@ -3711,6 +3718,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 obj.HeadDisc_Per = clsCommon.myCdbl(txtDiscPer.Text)
                 obj.IS_TCS = IIf(chkisTCS.Checked, 1, 0)
                 obj.Deduction = clsCommon.myCstr(cboDeductionType.SelectedValue)
+                obj.IsEwayBill = IIf(chkIsEwayBill.Checked, 1, 0)
                 If obj.HeadDisc_Per > 0 Then
                     If MultiplySubsidyWithQuantity Then
                         obj.HeadDisc_PerAmt = obj.TotalSubsidyDisAmt
@@ -4261,16 +4269,20 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     btnDelete.Enabled = False
                     repoComplete.IsVisible = True
                     repoBalQty.IsVisible = True
+                    chkIsEwayBill.Enabled = False
                     If obj.Is_Delivered = 1 Then
                         btnDeliveredTo.Enabled = False
                     Else
                         btnDeliveredTo.Enabled = True
                     End If
+                Else
+                    chkIsEwayBill.Enabled = True
                 End If
                 'txtWayBillno.Text = obj.WayBillNo
                 'If clsCommon.myLen(obj.WayBillDate) > 0 Then
                 '    txtWaybillDate.Value = obj.WayBillDate
                 'End If
+                chkIsEwayBill.Checked = IIf(obj.IsEwayBill = 1, True, False)
                 chkisTCS.Checked = IIf(obj.IS_TCS = 1, True, False)
                 txtEWayBillNo.Text = obj.EWayBillNo
                 If obj.EWayBillDate IsNot Nothing Then

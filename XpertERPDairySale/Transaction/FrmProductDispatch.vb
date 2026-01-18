@@ -871,7 +871,7 @@ Public Class FrmProductDispatch
         cmbDisItemType.SelectedValue = "T"
         cmbDisItemType.Enabled = True
         txtRouteNo.Enabled = True
-
+        chkIsEWayBill.Enabled = True
         txtBillToLocation.Enabled = True
         btnUpdateCustomer.Enabled = False
         strOrginalCust = ""
@@ -8007,7 +8007,6 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                 txtFrom_Date.Enabled = False
                 txtTo_Date.Enabled = False
                 txtRouteNo.Enabled = False
-                chkIsEWayBill.Enabled = False
                 If obj.Status = ERPTransactionStatus.Approved Then
                     btnSave.Enabled = False
                     btnPost.Enabled = False
@@ -8015,6 +8014,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                     btnPrintsvl.Enabled = True
                     repoComplete.IsVisible = True
                     repoBalQty.IsVisible = True
+                    chkIsEWayBill.Enabled = False
                     If obj.Is_Delivered = 1 Then
                         btnDeliveredTo.Enabled = False
                     Else

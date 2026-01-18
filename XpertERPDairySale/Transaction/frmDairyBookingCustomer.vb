@@ -14,7 +14,7 @@ Public Class frmDairyBookingCustomer
     Dim ApplyDefaultTCSIsChecked As Boolean = False
     Dim ConvertIntoBillingUOM As Boolean = False
     Dim ApplyPricePlanOnDocumentDate As Boolean = False
-
+    Dim DefaultEnableEWayBill As Boolean = False
     Dim HideOutstanding As Boolean = False
     Dim ApplyManualScheme As Boolean = False
     Dim ApplyItemCapacityLimit As Boolean = False
@@ -318,6 +318,7 @@ Public Class frmDairyBookingCustomer
         ApplyItemCapacityLimit = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyItemCapacityLimit, clsFixedParameterCode.ApplyItemCapacityLimit, Nothing)) = 1, True, False)
         ConvertIntoBillingUOM = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConvertTOBillingUOM, clsFixedParameterCode.ConvertTOBillingUOM, Nothing)) = 1, True, False)
         ApplyPricePlanOnDocumentDate = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyPricePlanOnDocumentDate, clsFixedParameterCode.ApplyPricePlanOnDocumentDate, Nothing)) = 1, True, False)
+        DefaultEnableEWayBill = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultEnableEWayBill, clsFixedParameterCode.DefaultEnableEWayBill, Nothing)) = 1, True, False)
 
         'SetMailRight()
         SetUserMgmtNew()
@@ -2829,7 +2830,11 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         txtDCSDemandNo.Text = ""
         lblDCSDemand.Visible = False
         txtDCSDemandNo.Visible = False
-        chkIsEwayBill.Checked = True
+        If DefaultEnableEWayBill Then
+            chkIsEwayBill.Checked = True
+        Else
+            chkIsEwayBill.Checked = False
+        End If
         chkBPL.Checked = False
         chkAPS.Checked = False
         chkGhee.Checked = False

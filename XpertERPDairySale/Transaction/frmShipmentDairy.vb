@@ -772,7 +772,7 @@ Public Class frmShipmentDairy
         ApplyTPT = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyTPT, clsFixedParameterCode.ApplyTPT, Nothing)) = 1, True, False)
         ApplyCommissionRateWithTax = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyCommissionRateWithTax, clsFixedParameterCode.ApplyCommissionRateWithTax, Nothing)) = 1, True, False)
         DispatchPriceCodeForCreditCustomer = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DispatchPriceCodeForCreditCustomer, clsFixedParameterCode.DispatchPriceCodeForCreditCustomer, Nothing)) = 1, True, False)
-        ApplyCommissionTPTForCreditCustomer = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyCommissionTPTForCreditCustomer, clsFixedParameterCode.ApplyCommissionTPTForCreditCustomer, Nothing)) = 0, True, False)
+        ApplyCommissionTPTForCreditCustomer = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyCommissionTPTForCreditCustomer, clsFixedParameterCode.ApplyCommissionTPTForCreditCustomer, Nothing)) = 1, True, False)
         FinancialImpactForDistributor = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FinancialImpactForDistributor, clsFixedParameterCode.FinancialImpactForDistributor, Nothing)) = 1, True, False)
         FinancialImpactForTPT = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FinancialImpactForTPT, clsFixedParameterCode.FinancialImpactForTPT, Nothing)) = 1, True, False)
         OPkmMandatoryonDS = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.OPkmMandatoryonDS, clsFixedParameterCode.OPkmMandatoryonDS, Nothing)) = 1, True, False)
