@@ -221,7 +221,7 @@ Public Class ClsLoadingTanker
 
 
         End If
-        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_LOADING_TANKER_DETAIL_BULKSALE", "LoadingTanker_No", trans)
+        clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_LOADING_TANKER_DETAIL_BULKSALE", "LoadingTanker_No", trans)
         clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_LOADING_TANKER_DETAIL_BULKSALE", "LoadingTanker_No", trans)
         Try
             Dim qry As String = "delete from TSPL_LOADING_TANKER_DETAIL_BULKSALE where LoadingTanker_No='" + strDocNo + "'"

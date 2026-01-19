@@ -772,7 +772,7 @@ Public Class frmShipmentDairy
         ApplyTPT = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyTPT, clsFixedParameterCode.ApplyTPT, Nothing)) = 1, True, False)
         ApplyCommissionRateWithTax = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyCommissionRateWithTax, clsFixedParameterCode.ApplyCommissionRateWithTax, Nothing)) = 1, True, False)
         DispatchPriceCodeForCreditCustomer = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DispatchPriceCodeForCreditCustomer, clsFixedParameterCode.DispatchPriceCodeForCreditCustomer, Nothing)) = 1, True, False)
-        ApplyCommissionTPTForCreditCustomer = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyCommissionTPTForCreditCustomer, clsFixedParameterCode.ApplyCommissionTPTForCreditCustomer, Nothing)) = 0, True, False)
+        ApplyCommissionTPTForCreditCustomer = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyCommissionTPTForCreditCustomer, clsFixedParameterCode.ApplyCommissionTPTForCreditCustomer, Nothing)) = 1, True, False)
         FinancialImpactForDistributor = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FinancialImpactForDistributor, clsFixedParameterCode.FinancialImpactForDistributor, Nothing)) = 1, True, False)
         FinancialImpactForTPT = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FinancialImpactForTPT, clsFixedParameterCode.FinancialImpactForTPT, Nothing)) = 1, True, False)
         OPkmMandatoryonDS = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.OPkmMandatoryonDS, clsFixedParameterCode.OPkmMandatoryonDS, Nothing)) = 1, True, False)
@@ -17232,7 +17232,50 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
 
     End Sub
 
+    Private Sub btnEWB_Click(sender As Object, e As EventArgs) Handles btnEWB.Click
+        Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Create_Ewb(tran)
+            tran.Commit()
+        Catch ex As Exception
+            tran.Rollback()
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Function Create_Ewb(ByVal trans As SqlTransaction) As Boolean
 
+        Try
+            If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso clsCommon.myLen(txtInvoiceNo.Text) > 0 Then
+                Dim EwbNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select EWayBillNo from TSPL_SD_SALE_INVOICE_HEAD where  document_code = '" & txtInvoiceNo.Text & "' ", trans))
+                If clsCommon.myLen(EwbNo) = 0 Then
+                    If FlagDocumentIsTaxable = 1 AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value, trans) Then
+                        Dim EInvoiceCancelTimeValid As Int64 = 0
+                        EInvoiceCancelTimeValid = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" Select  isnull (DATEDIFF(hour,EInvoice_Posting_Date,GETDATE()),0) as PostedHours from tspl_sd_sale_invoice_head where  document_code = '" & txtInvoiceNo.Text & "'", trans))
+                        If EInvoiceCancelTimeValid >= 24 Then
+                            Throw New Exception("E-Way Bill can not be Generated.It has been more than 24 hours.")
+                        End If
+                    End If
+                    If clsCommon.myLen(GetEWayBillNo(txtInvoiceNo.Text, trans)) <= 0 Then
+                        clsPSInvoiceHead.EWayBill_Implementation(txtInvoiceNo.Text, txtBillToLocation.Value, trans, True)
+                        If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" & txtInvoiceNo.Text & "'", trans)) <= 0 Then
+                            Throw New Exception("E-Way Bill For Sales Invoice No [" + txtInvoiceNo.Text + "] is not generated")
+                        End If
+                    End If
+                Else
+                    Throw New Exception("Ewb no [" & clsCommon.myCstr(EwbNo) & "] is already exists")
+                End If
+
+            Else
+                Throw New Exception("Please Select Document/Invoice ")
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function GetEWayBillNo(strDocNo As String, trans As SqlTransaction) As String
+        Return clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" + strDocNo + "'", trans))
+    End Function
 End Class
 Class tempSchemStructrue
     Public StructureCode As String

@@ -235,7 +235,7 @@ left outer join TSPL_VENDOR_INVOICE_HEAD  on TSPL_VENDOR_INVOICE_HEAD.Document_N
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
 left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code = TSPL_VENDOR_INVOICE_DETAIL.DeductionCode
-where TSPL_VENDOR_INVOICE_HEAD.RefDocType in ('CAP-MSN-CDCS','CAP-MSN','CAP-OMSN') 
+where TSPL_VENDOR_INVOICE_HEAD.RefDocType in ('CAP-MSN-CDCS','CAP-MSN','CAP-OMSN','SUS-ADJD','SUS-ADJC') 
 and convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) >=convert(date,('" + fromDate.Value + "'),103) and convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) <= convert(date,('" + ToDate.Value + "'),103) 
 and  TSPL_VENDOR_INVOICE_HEAD.Posting_Date is not null "
                     If TxtDeductionCode.arrValueMember IsNot Nothing AndAlso TxtDeductionCode.arrValueMember.Count > 0 Then

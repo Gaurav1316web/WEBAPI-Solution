@@ -88,7 +88,7 @@ Public Class clsMccScrapGatePass
             '    qry = "Update TSPL_SD_SHIPMENT_HEAD set GPCode='" & obj.GPCode & "' where  convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(obj.GPDate, "") & "' and isnull(GPCode,'') = '' and Trans_Type='FS' and Bill_To_Location='" & obj.Location_Code & "' and Vehicle_Code='" & obj.Vehicle_Id & "' and TSPL_SD_SHIPMENT_HEAD.Document_Code  in (" + AgainstDocumentCode + ")"
             '    clsDBFuncationality.ExecuteNonQuery(qry, trans)
             'End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.GPCode, "TSPL_MCC_SCRAP_GATEPASS_MASTER", "GPCode", "TSPL_MCC_SCRAP_GATEPASS_DETAIL", "GPCode", trans)
+            clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, obj.GPCode, "TSPL_MCC_SCRAP_GATEPASS_MASTER", "GPCode", "TSPL_MCC_SCRAP_GATEPASS_DETAIL", "GPCode", "TSPL_Mcc_Scrap_Invoice_GATEPASS_DETAIL", "GPCode", "TSPL_MCC_SCRAP_ROUTE_GATEPASS_DETAIL", "GPCode", "", "", "", "", "", "", trans)
             If isSaved Then
                 trans.Commit()
             End If
@@ -139,6 +139,46 @@ Public Class clsMccScrapGatePass
 
         End If
         Return obj
+    End Function
+    Public Shared Function DeleteData(ByVal FormId As String, ByVal strDocNo As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            DeleteData(FormId, strDocNo, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function DeleteData(ByVal FormId As String, ByVal strDocNo As String, ByVal trans As SqlTransaction) As Boolean
+
+        Try
+            Dim isSaved As Boolean = True
+            Dim obj As clsMccScrapGatePass = clsMccScrapGatePass.GetData(strDocNo, NavigatorType.Current, "Mcc", trans)
+            If (obj Is Nothing OrElse clsCommon.myLen(obj.GPCode) <= 0) Then
+                Throw New Exception("No Data found to Cancel")
+            End If
+
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_MCC_SCRAP_GATEPASS_MASTER", "GPCode", "TSPL_MCC_SCRAP_GATEPASS_DETAIL", "GPCode", trans)
+
+            Dim qry As String = "delete from TSPL_MCC_SCRAP_GATEPASS_DETAIL where GPCode='" + strDocNo + "'"
+            isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_MCC_SCRAP_INVOICE_GATEPASS_DETAIL where GPcode='" + obj.GPCode + "'"
+            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_MCC_SCRAP_ROUTE_GATEPASS_DETAIL where GPcode='" + obj.GPCode + "'"
+            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_MCC_SCRAP_GATEPASS_MASTER where GPCode='" + strDocNo + "'"
+            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "Update TSPL_SD_SHIPMENT_HEAD set GPCode = null  where GPCode='" + strDocNo + "'"
+            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
     End Function
 End Class
 Public Class clsMccScrapGatepassDetail

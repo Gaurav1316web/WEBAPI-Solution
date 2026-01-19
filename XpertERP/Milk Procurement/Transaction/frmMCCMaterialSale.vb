@@ -7,6 +7,7 @@ Public Class frmMCCMaterialSale
     Dim FlagDocumentIsTaxable As Integer = 0
     Dim ConvertIntoBillingUOM As Boolean = False
     Dim chkTaxGroup As String
+    Dim DefaultEnableEWayBill As Boolean = False
     Dim arrMCCRights As ArrayList
     Dim CalculateTaxRatefromItemwsieTaxOnSale As Integer = 0
     Dim UseDescInsteadOFCodeOnMCCMAterialSale As Boolean = False
@@ -302,6 +303,7 @@ Public Class frmMCCMaterialSale
         AmountToCheckCustomerOutstandingForTCSTax = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AmountToCheckCustomerOutstandingForTCSTax, clsFixedParameterCode.AmountToCheckCustomerOutstandingForTCSTax, Nothing))
         EnableTCSRateValidityFrom01July2021 = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableTCSRateValidityFrom01July2021, clsFixedParameterCode.EnableTCSRateValidityFrom01July2021, Nothing)) = 0, False, True)
         ConvertIntoBillingUOM = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConvertTOBillingUOM, clsFixedParameterCode.ConvertTOBillingUOM, Nothing)) = 1, True, False)
+        DefaultEnableEWayBill = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultEnableEWayBill, clsFixedParameterCode.DefaultEnableEWayBill, Nothing)) = 1, True, False)
 
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = clsCommon.GETSERVERDATE
@@ -2256,8 +2258,12 @@ Public Class frmMCCMaterialSale
                             End If
                             UpdateAllTotals()
                         ElseIf e.Column Is gv1.Columns(colICode) Then
-                            OpenICodeListCurrentCalaculation(False)
-                            setBalance()
+                            If clsCommon.myLen(txtVendorNo.Value) > 0 Then
+                                OpenICodeListCurrentCalaculation(False)
+                                setBalance()
+                            Else
+                                Throw New Exception("Please select Customer first")
+                            End If
                         ElseIf e.Column Is gv1.Columns(colShortDesc) Then
                             If UseDescInsteadOFCodeOnMCCMAterialSale Then
                                 OpenICodeListShortDesc(False, clsCommon.myCstr(gv1.CurrentRow.Cells(colShortDesc).Value))
@@ -3308,6 +3314,11 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
         txtRatePer.Text = 0
         lblGrossAmount.Text = ""
         cmbPaymentType.SelectedIndex = 0
+        If DefaultEnableEWayBill Then
+            chkIsEwayBill.Checked = True
+        Else
+            chkIsEwayBill.Checked = False
+        End If
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
             If Not chkcashsale.Checked Then
                 txtReceiptNo.Visible = False
@@ -3707,6 +3718,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 obj.HeadDisc_Per = clsCommon.myCdbl(txtDiscPer.Text)
                 obj.IS_TCS = IIf(chkisTCS.Checked, 1, 0)
                 obj.Deduction = clsCommon.myCstr(cboDeductionType.SelectedValue)
+                obj.IsEwayBill = IIf(chkIsEwayBill.Checked, 1, 0)
                 If obj.HeadDisc_Per > 0 Then
                     If MultiplySubsidyWithQuantity Then
                         obj.HeadDisc_PerAmt = obj.TotalSubsidyDisAmt
@@ -4257,16 +4269,20 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     btnDelete.Enabled = False
                     repoComplete.IsVisible = True
                     repoBalQty.IsVisible = True
+                    chkIsEwayBill.Enabled = False
                     If obj.Is_Delivered = 1 Then
                         btnDeliveredTo.Enabled = False
                     Else
                         btnDeliveredTo.Enabled = True
                     End If
+                Else
+                    chkIsEwayBill.Enabled = True
                 End If
                 'txtWayBillno.Text = obj.WayBillNo
                 'If clsCommon.myLen(obj.WayBillDate) > 0 Then
                 '    txtWaybillDate.Value = obj.WayBillDate
                 'End If
+                chkIsEwayBill.Checked = IIf(obj.IsEwayBill = 1, True, False)
                 chkisTCS.Checked = IIf(obj.IS_TCS = 1, True, False)
                 txtEWayBillNo.Text = obj.EWayBillNo
                 If obj.EWayBillDate IsNot Nothing Then
@@ -5418,7 +5434,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
 
 
         '-----------------------------------------------------
-         LoadData(clsCommon.ShowSelectForm("ShipmentCofnd", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked, "Document_Date"), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("ShipmentCofnd", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked, "Document_Date"), NavigatorType.Current)
     End Sub
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.F2 AndAlso gv1.CurrentCell IsNot Nothing AndAlso gv1.CurrentColumn Is gv1.Columns(colUnit) Then
@@ -5847,6 +5863,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
                 If UseDescInsteadOFCodeOnMCCMAterialSale = True Then
                     txtVendorNo.Value = clsCommon.myCstr(dt.Rows(0)("Code"))
                 End If
+                txtVendorNo.Enabled = False
                 txtVendorNo.Value = clsCommon.myCstr(dt.Rows(0)("Code"))
                 lblVendorName.Text = clsCommon.myCstr(dt.Rows(0)("Name"))
                 txtTermCode.Value = clsCommon.myCstr(dt.Rows(0)("Term Code"))
@@ -9309,7 +9326,7 @@ a:          End If
         End Try
     End Sub
 
-    Private Sub btnHistory1_Click(sender As Object, e As EventArgs) Handles btnHistory1.Click
+    Private Sub btnHistory1_Click(sender As Object, e As EventArgs)
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 clsCommon.MyMessageBoxShow("Select Document No")
@@ -9442,4 +9459,49 @@ a:          End If
             chkcashsale.Enabled = True
         End If
     End Sub
+
+    Private Sub btnCreateEWB_Click(sender As Object, e As EventArgs) Handles btnCreateEWB.Click
+        Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Create_Ewb(tran)
+            tran.Commit()
+        Catch ex As Exception
+            tran.Rollback()
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Function Create_Ewb(ByVal trans As SqlTransaction) As Boolean
+
+        Try
+            If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso clsCommon.myLen(txtInvoiceNo.Text) > 0 Then
+                Dim EwbNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select EWayBillNo from TSPL_SD_SALE_INVOICE_HEAD where  document_code = '" & txtInvoiceNo.Text & "' ", trans))
+                If clsCommon.myLen(EwbNo) = 0 Then
+                    If FlagDocumentIsTaxable = 1 AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value, trans) Then
+                        Dim EInvoiceCancelTimeValid As Int64 = 0
+                        EInvoiceCancelTimeValid = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" Select  isnull (DATEDIFF(hour,EInvoice_Posting_Date,GETDATE()),0) as PostedHours from tspl_sd_sale_invoice_head where  document_code = '" & txtInvoiceNo.Text & "'", trans))
+                        If EInvoiceCancelTimeValid >= 24 Then
+                            Throw New Exception("E-Way Bill can not be Generated.It has been more than 24 hours.")
+                        End If
+                    End If
+                    If clsCommon.myLen(GetEWayBillNo(txtInvoiceNo.Text, trans)) <= 0 Then
+                        clsPSInvoiceHead.EWayBill_Implementation(txtInvoiceNo.Text, txtBillToLocation.Value, trans, True)
+                        If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" & txtInvoiceNo.Text & "'", trans)) <= 0 Then
+                            Throw New Exception("E-Way Bill For Sales Invoice No [" + txtInvoiceNo.Text + "] is not generated")
+                        End If
+                    End If
+                Else
+                    Throw New Exception("Ewb no [" & clsCommon.myCstr(EwbNo) & "] is already exists")
+                End If
+
+            Else
+                Throw New Exception("Please Select Document/Invoice ")
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function GetEWayBillNo(strDocNo As String, trans As SqlTransaction) As String
+        Return clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" + strDocNo + "'", trans))
+    End Function
 End Class

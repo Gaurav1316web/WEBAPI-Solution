@@ -1322,7 +1322,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCSMultipleDaysMerge, "DCS Milk Collection Multiple Days Merge", "1.29.02.52", clsUserMgtCode.SubModuleProductionTransactionDairy, 8)
         InsertDefaultValue(clsUserMgtCode.BulkProcurementUploader, "Bulk Procurement Uploader", "1.29.02.56", clsUserMgtCode.SubModuleProductionTransactionDairy, 8)
         InsertDefaultValue(clsUserMgtCode.ProductionShiftMgmt, "Shift Management", "1.29.02.57", clsUserMgtCode.SubModuleProductionTransactionDairy, "", 8, 0, "", "", "", False, False, True, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
-        InsertDefaultValue(clsUserMgtCode.frmGateEntryTransaction, "Weighment", "1.29.02.58", clsUserMgtCode.SubModuleProductionTransactionDairy, "", 8, Nothing, Nothing, Nothing, Nothing, False, False, True, "", Nothing, "", "Internal", "", "", "", False, "", 0, True, False)
+        InsertDefaultValue(clsUserMgtCode.frmGateEntryTransaction, "Gate Entry Transaction", "1.29.02.58", clsUserMgtCode.SubModuleProductionTransactionDairy, "", 8, Nothing, Nothing, Nothing, Nothing, False, False, True, "", Nothing, "", "Internal", "", "", "", False, "", 0, True, False)
 
         '----------------Preeti Gupta------------
         'Report-----------
@@ -3043,6 +3043,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.XpertAPIDairyGatePass, "Dairy GatePass", "1.48.02.12", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPIBMCDCSSamplingReceiving, "BMC DCS Sampling Receiving", "1.48.02.13", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPIGateEntry, "Gate Entry", "1.48.02.14", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
+        InsertDefaultValue(clsUserMgtCode.XpertAPIBMCMilkQC, "BMC Milk QC", "1.48.02.15", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
 
         InsertDefaultValue(clsUserMgtCode.SubModuleXpertAPIReport, "Report", "1.48.03", clsUserMgtCode.ModuleXpertAPI, "SM", 30, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPIMilkMilkRegister, "Milk Register", "1.48.03.01", clsUserMgtCode.SubModuleXpertAPIReport, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)

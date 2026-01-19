@@ -154,6 +154,7 @@ Partial Class frmDairyBookingCustomer
         Me.lblTaxGrpName = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.btnCreateEWB = New Telerik.WinControls.UI.RadButton()
         Me.txtTCAmt = New common.Controls.MyLabel()
         Me.lblTCAmt = New common.Controls.MyLabel()
         Me.txtSecurity = New common.Controls.MyLabel()
@@ -448,6 +449,7 @@ Partial Class frmDairyBookingCustomer
         CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTaxGrpName, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage4.SuspendLayout()
+        CType(Me.btnCreateEWB, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTCAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTCAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtSecurity, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -2544,6 +2546,7 @@ Partial Class frmDairyBookingCustomer
         '
         'RadPageViewPage4
         '
+        Me.RadPageViewPage4.Controls.Add(Me.btnCreateEWB)
         Me.RadPageViewPage4.Controls.Add(Me.txtTCAmt)
         Me.RadPageViewPage4.Controls.Add(Me.lblTCAmt)
         Me.RadPageViewPage4.Controls.Add(Me.txtSecurity)
@@ -2584,6 +2587,16 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1260, 409)
         Me.RadPageViewPage4.Text = "Total"
+        '
+        'btnCreateEWB
+        '
+        Me.btnCreateEWB.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnCreateEWB.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnCreateEWB.Location = New System.Drawing.Point(903, 373)
+        Me.btnCreateEWB.Name = "btnCreateEWB"
+        Me.btnCreateEWB.Size = New System.Drawing.Size(140, 22)
+        Me.btnCreateEWB.TabIndex = 1413
+        Me.btnCreateEWB.Text = "Create E-Way Bill"
         '
         'txtTCAmt
         '
@@ -4900,6 +4913,7 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblTaxGrpName, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage4.ResumeLayout(False)
         Me.RadPageViewPage4.PerformLayout()
+        CType(Me.btnCreateEWB, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTCAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTCAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtSecurity, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5388,5 +5402,6 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents lblCrAmt As common.Controls.MyLabel
     Friend WithEvents txtCrAmt As common.Controls.MyLabel
     Friend WithEvents chkAPS As RadCheckBox
+    Friend WithEvents btnCreateEWB As RadButton
 End Class
 

@@ -105,9 +105,9 @@ Public Class clsDBTNEFTReject
             Throw New Exception("Document No not found to Delete")
         End If
         Try
-            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_DBT_NEFT_REJECT", "Document_Code", "TSPL_DBT_NEFT_REJECT_DETAIL", "Document_Code", trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_DBT_NEFT_REJECT", "Document_Code", "TSPL_DBT_NEFT_REJECT_DETAIL", "Document_Code", "TSPL_DBT_NEFT_REJECT_SUCESS", "Document_Code", trans)
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_DBT_NEFT_REJECT", "Document_Code", "TSPL_DBT_NEFT_REJECT_DETAIL", "Document_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_DBT_NEFT_REJECT", "Document_Code", "TSPL_DBT_NEFT_REJECT_DETAIL", "Document_Code", "TSPL_DBT_NEFT_REJECT_SUCESS", "Document_Code", trans)
             Dim qry As String = ""
             qry = "delete from TSPL_DBT_NEFT_REJECT_DETAIL where Document_Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)

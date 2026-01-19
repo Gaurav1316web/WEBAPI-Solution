@@ -141,9 +141,10 @@ Public Class clsMilkWeighment_JOW
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
                 issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_JWO_Weighment", OMInsertOrUpdate.Insert, "", trans)
             Else
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Weighment_No, "TSPL_JWO_Weighment", "Weighment_No", trans)
+                'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Weighment_No, "TSPL_JWO_Weighment", "Weighment_No", trans)
                 issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_JWO_Weighment", OMInsertOrUpdate.Update, "TSPL_JWO_Weighment.Weighment_No='" + obj.Weighment_No + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Weighment_No, "TSPL_JWO_Weighment", "Weighment_No", trans)
 
             If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_JWO_QUALITY_CHECK where isposted=1 and gate_entry_no='" & obj.Gate_Entry_No & "'  and weighment_no=''", trans)) > 0 Then
                 issaved = issaved AndAlso clsDBFuncationality.ExecuteNonQuery("update TSPL_JWO_QUALITY_CHECK set weighment_no='" & obj.Weighment_No & "',weighment_date='" & clsCommon.GetPrintDate(obj.Weighment_Date, "dd/MMM/yyyy") & "' where gate_entry_no='" & obj.Gate_Entry_No & "'", trans)

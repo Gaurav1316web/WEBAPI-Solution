@@ -31,6 +31,10 @@ Public Class frmMilkCollectionMCC
     Const colTemp As String = "colTemp"
     Const ColMilkNotPicked As String = "ColMilkNotPicked"
     Const ColRequiredRetesting As String = "ColRequiredRetesting"
+    Const colManualSample As String = "colManualSample"
+    Const colSourceAPI As String = "colSourceAPI"
+    Const colManualBy As String = "colManualBy"
+    Const colManualDate As String = "colManualDate"
 
     Dim isInsideLoadData As Boolean = False
     Dim isCellValueChangedOpen As Boolean = False
@@ -779,6 +783,43 @@ Public Class frmMilkCollectionMCC
         repoNumBox.IsVisible = SettShowTemprature
         repoNumBox.ReadOnly = False
         gv1.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoTextBox2 = New GridViewTextBoxColumn()
+        repoTextBox2.FormatString = ""
+        repoTextBox2.HeaderText = "Manual Sample"
+        repoTextBox2.Name = colManualSample
+        repoTextBox2.Width = 100
+        repoTextBox2.IsVisible = False
+        repoTextBox2.ReadOnly = True
+        gv1.MasterTemplate.Columns.Add(repoTextBox2)
+
+        repoTextBox2 = New GridViewTextBoxColumn()
+        repoTextBox2.FormatString = ""
+        repoTextBox2.HeaderText = "Source API"
+        repoTextBox2.Name = colSourceAPI
+        repoTextBox2.Width = 100
+        repoTextBox2.IsVisible = False
+        repoTextBox2.ReadOnly = True
+        gv1.MasterTemplate.Columns.Add(repoTextBox2)
+
+        repoTextBox2 = New GridViewTextBoxColumn()
+        repoTextBox2.FormatString = ""
+        repoTextBox2.HeaderText = "Manual By"
+        repoTextBox2.Name = colManualBy
+        repoTextBox2.Width = 100
+        repoTextBox2.IsVisible = False
+        repoTextBox2.ReadOnly = True
+        gv1.MasterTemplate.Columns.Add(repoTextBox2)
+
+        repoTextBox2 = New GridViewTextBoxColumn()
+        repoTextBox2.FormatString = ""
+        repoTextBox2.HeaderText = "Manual Date"
+        repoTextBox2.Name = colManualDate
+        repoTextBox2.Width = 100
+        repoTextBox2.IsVisible = False
+        repoTextBox2.ReadOnly = True
+        gv1.MasterTemplate.Columns.Add(repoTextBox2)
+
         gv1.AllowAddNewRow = False
         gv1.ShowGroupPanel = False
         gv1.AllowColumnReorder = False
@@ -1167,6 +1208,10 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
                         objTr.Original_FATKg = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colFATKG).Value)
                         objTr.Original_SNFKg = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colSNFKG).Value)
                         objTr.Temp = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colTemp).Value)
+                        objTr.Manual_Sample = clsCommon.myCdbl(gv1.Rows(ii).Cells(colManualSample).Value)
+                        objTr.Manual_By = clsCommon.myCstr(gv1.Rows(ii).Cells(colManualBy).Value)
+                        objTr.Manual_Date = clsCommon.myCstr(gv1.Rows(ii).Cells(colManualDate).Value)
+                        objTr.Source_API = clsCommon.myCdbl(gv1.Rows(ii).Cells(colSourceAPI).Value)
                         objTr.Gaze_Reading_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colGazeReadingCode).Value)
                         objTr.Gaze_Reading = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colGazeReading).Value)
                         objTr.Silo_Capacity = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMCCSiloCapacity).Value)
@@ -1244,6 +1289,10 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colGazeQty).Value = objTr.Gaze_Qty
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colMCCSiloCapacity).Value = objTr.Silo_Capacity
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTemp).Value = objTr.Temp
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colManualSample).Value = objTr.Manual_Sample
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colManualBy).Value = objTr.Manual_By
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colManualDate).Value = objTr.Manual_Date
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colSourceAPI).Value = objTr.Source_API
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColMilkNotPicked).Value = objTr.Milk_Not_Picked
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColRequiredRetesting).Value = objTr.Required_Retesting
                     Next

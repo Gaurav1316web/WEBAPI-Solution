@@ -22,7 +22,7 @@ Partial Class CancelPurchaseInvoiceReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -30,8 +30,8 @@ Partial Class CancelPurchaseInvoiceReport
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.chkAllData = New System.Windows.Forms.CheckBox()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnCycleWise = New System.Windows.Forms.RadioButton()
-        Me.C = New System.Windows.Forms.RadioButton()
+        Me.rbtnCancel = New System.Windows.Forms.RadioButton()
+        Me.rbtnDelete = New System.Windows.Forms.RadioButton()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.TxtVendor = New common.UserControls.txtMultiSelectFinder()
         Me.lblRAL = New common.Controls.MyLabel()
@@ -116,7 +116,7 @@ Partial Class CancelPurchaseInvoiceReport
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 20)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(800, 394)
         Me.RadPageView1.TabIndex = 27
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -171,39 +171,40 @@ Partial Class CancelPurchaseInvoiceReport
         Me.chkAllData.TabIndex = 449
         Me.chkAllData.Text = "All Data"
         Me.chkAllData.UseVisualStyleBackColor = True
+        Me.chkAllData.Visible = False
         '
         'RadGroupBox2
         '
         Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox2.Controls.Add(Me.rbtnCycleWise)
-        Me.RadGroupBox2.Controls.Add(Me.C)
+        Me.RadGroupBox2.Controls.Add(Me.rbtnCancel)
+        Me.RadGroupBox2.Controls.Add(Me.rbtnDelete)
         Me.RadGroupBox2.HeaderText = ""
         Me.RadGroupBox2.Location = New System.Drawing.Point(95, 12)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Size = New System.Drawing.Size(243, 27)
         Me.RadGroupBox2.TabIndex = 448
         '
-        'rbtnCycleWise
+        'rbtnCancel
         '
-        Me.rbtnCycleWise.AutoSize = True
-        Me.rbtnCycleWise.Location = New System.Drawing.Point(151, 5)
-        Me.rbtnCycleWise.Name = "rbtnCycleWise"
-        Me.rbtnCycleWise.Size = New System.Drawing.Size(86, 17)
-        Me.rbtnCycleWise.TabIndex = 439
-        Me.rbtnCycleWise.Text = "Cancel Date"
-        Me.rbtnCycleWise.UseVisualStyleBackColor = True
+        Me.rbtnCancel.AutoSize = True
+        Me.rbtnCancel.Location = New System.Drawing.Point(151, 5)
+        Me.rbtnCancel.Name = "rbtnCancel"
+        Me.rbtnCancel.Size = New System.Drawing.Size(59, 17)
+        Me.rbtnCancel.TabIndex = 439
+        Me.rbtnCancel.Text = "Cancel"
+        Me.rbtnCancel.UseVisualStyleBackColor = True
         '
-        'C
+        'rbtnDelete
         '
-        Me.C.AutoSize = True
-        Me.C.Checked = True
-        Me.C.Location = New System.Drawing.Point(5, 5)
-        Me.C.Name = "C"
-        Me.C.Size = New System.Drawing.Size(137, 17)
-        Me.C.TabIndex = 438
-        Me.C.TabStop = True
-        Me.C.Text = "Purchase Invoice Date"
-        Me.C.UseVisualStyleBackColor = True
+        Me.rbtnDelete.AutoSize = True
+        Me.rbtnDelete.Checked = True
+        Me.rbtnDelete.Location = New System.Drawing.Point(28, 5)
+        Me.rbtnDelete.Name = "rbtnDelete"
+        Me.rbtnDelete.Size = New System.Drawing.Size(58, 17)
+        Me.rbtnDelete.TabIndex = 438
+        Me.rbtnDelete.TabStop = True
+        Me.rbtnDelete.Text = "Delete"
+        Me.rbtnDelete.UseVisualStyleBackColor = True
         '
         'MyLabel2
         '
@@ -397,7 +398,7 @@ Partial Class CancelPurchaseInvoiceReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -563,7 +564,7 @@ Partial Class CancelPurchaseInvoiceReport
     Friend WithEvents rmiPDF As RadMenuItem
     Friend WithEvents RadButton1 As RadButton
     Friend WithEvents RadGroupBox2 As RadGroupBox
-    Friend WithEvents rbtnCycleWise As RadioButton
-    Friend WithEvents C As RadioButton
+    Friend WithEvents rbtnCancel As RadioButton
+    Friend WithEvents rbtnDelete As RadioButton
     Friend WithEvents chkAllData As CheckBox
 End Class

@@ -1122,7 +1122,7 @@ sum(cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + 
                          left join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
                          LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
                          where TSPL_Item_Master.FG_for_CF_RPT=1 and TSPL_SPP_PRODUCTION_ENTRY.posted=1 and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
-                         and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
+                         and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103) And TSPL_SPP_PRODUCTION_ENTRY.Location_Code in (" & clsCommon.myCstr(Loc_Desc_Code) & ")
                           --GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE
 						  ) ProdCumQty
                           ON TSPL_LOCATION_MASTER.LOCATION_CODE =ProdCumQty.LOCATION_CODE
@@ -1141,7 +1141,7 @@ sum(cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + 
                          and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
                           ) ProdCumQty
                           ON TSPL_LOCATION_MASTER.LOCATION_CODE =ProdCumQty.LOCATION_CODE
-                          where TSPL_LOCATION_MASTER.IsMainPlant='0' 
+                          where TSPL_LOCATION_MASTER.IsMainPlant='0'  And TSPL_LOCATION_MASTER.Location_Code in (" & clsCommon.myCstr(Loc_Desc_Code) & ")
 						  )XX Group by LOCATION_CODE)XXXProduction
                           pivot ( sum(ProdCumQty) for Location_Code in (" + strLocation1 + ") )as zpivot group by zpivot.Production
 
@@ -1203,7 +1203,7 @@ SELECT  DcsSeqNo,CASE WHEN DcsSeqNo > 15 THEN 'Any Other' ELSE Item_Desc END AS 
 ) xx group by DcsSeqNo
 )
 SELECT  
-    A.DcsSeqNo AS Item1_Name,
+    A.DcsSeqNo AS Item1_No,
     A.Item_Desc AS Item1_Name,
     B.DcsSeqNo AS Item2_No,
     B.Item_Desc AS Item2_Name
@@ -1250,7 +1250,7 @@ ORDER BY A.RN;
                     RadPageView1.SelectedPage = RadPageViewPage2
                     EnableDisableCntrl(False)
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt2, dt3, "Daily_Production_sale_FG_stock_BD_report", "Daily Production Sale Report", "rptStockItemDetail.rpt")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt2, dt3, "Daily_Production_sale_FG_stock_BD_reportNEW", "Daily Production Sale Report", "rptStockItemDetail.rpt")
 
                     ' frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt2, "Daily_Production_sale_FG_stock_BD_report", "Daily Production Sale Report")
                     frmCRV = Nothing

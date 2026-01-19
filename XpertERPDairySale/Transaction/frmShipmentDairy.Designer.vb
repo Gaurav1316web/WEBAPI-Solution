@@ -432,6 +432,7 @@ Partial Class frmShipmentDairy
         Me.Export_Head = New Telerik.WinControls.UI.RadMenuItem()
         Me.Export_details = New Telerik.WinControls.UI.RadMenuItem()
         Me.Import = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnEWB = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit
         Me.Panel1.SuspendLayout
         CType(Me.radScrollablePanel1, System.ComponentModel.ISupportInitialize).BeginInit
@@ -825,6 +826,7 @@ Partial Class frmShipmentDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadMenu1.SuspendLayout
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.btnEWB, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
@@ -946,7 +948,7 @@ Partial Class frmShipmentDairy
         '
         '
         Me.RadPageView1.RootElement.MinSize = New System.Drawing.Size(0, 0)
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
         Me.RadPageView1.Size = New System.Drawing.Size(1110, 462)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -4833,6 +4835,7 @@ Partial Class frmShipmentDairy
         '
         'RadPageViewPage4
         '
+        Me.RadPageViewPage4.Controls.Add(Me.btnEWB)
         Me.RadPageViewPage4.Controls.Add(Me.txtBoothSecurity)
         Me.RadPageViewPage4.Controls.Add(Me.MyLabel72)
         Me.RadPageViewPage4.Controls.Add(Me.txtTCAmt)
@@ -7125,6 +7128,16 @@ Partial Class frmShipmentDairy
         Me.Import.Text = "Import"
         Me.Import.Visibility = Telerik.WinControls.ElementVisibility.Hidden
         '
+        'btnEWB
+        '
+        Me.btnEWB.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnEWB.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnEWB.Location = New System.Drawing.Point(383, 198)
+        Me.btnEWB.Name = "btnEWB"
+        Me.btnEWB.Size = New System.Drawing.Size(131, 22)
+        Me.btnEWB.TabIndex = 1417
+        Me.btnEWB.Text = "Create E-Way Bill"
+        '
         'frmShipmentDairy
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -7556,6 +7569,7 @@ Partial Class frmShipmentDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit
         Me.RadMenu1.ResumeLayout(False)
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.btnEWB, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(False)
         Me.PerformLayout
@@ -7960,5 +7974,6 @@ Partial Class frmShipmentDairy
     Friend WithEvents chkExcludeKKFMND As RadCheckBox
     Friend WithEvents rpvpCrateTypeItem As RadPageViewPage
     Friend WithEvents gvCrateType As common.UserControls.MyRadGridView
+    Friend WithEvents btnEWB As RadButton
 End Class
 

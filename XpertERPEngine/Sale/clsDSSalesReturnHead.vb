@@ -158,6 +158,8 @@ Public Class clsDSSalesReturnHead
     Public Distributor_Commission_TotalAmt As Decimal = 0
     Public Transporter_Commission_TotalAmt As Decimal = 0
     Public Security_TotalAmt As Decimal = 0
+    Public isMultipleReturn As Decimal = 0
+
 #End Region
     Public Shared Function funsaleReturnDairyPrint(ByVal Form_ID As String, ByVal strCancelDelete As String, ByVal txtDate As DateTime, ByVal StrCode As String, ByVal IsPDF As Boolean) As Boolean
 
@@ -169,6 +171,9 @@ Public Class clsDSSalesReturnHead
         ElseIf clsCommon.CompairString(strCancelDelete, "Delete") = CompairStringResult.Equal Then
             TSPL_SD_SALE_RETURN_HEAD = "TSPL_SD_SALE_RETURN_HEAD_Delete_data"
             TSPL_SD_SALE_RETURN_detail = "TSPL_SD_SALE_RETURN_detail_Delete_data"
+        ElseIf clsCommon.CompairString(strCancelDelete, "Dispatch_Return") = CompairStringResult.Equal Then
+            TSPL_SD_SALE_RETURN_HEAD = "TSPL_SD_SHIPMENT_RETURN_HEAD"
+            TSPL_SD_SALE_RETURN_detail = "TSPL_SD_SHIPMENT_RETURN_detail"
         Else
             TSPL_SD_SALE_RETURN_HEAD = "TSPL_SD_SALE_RETURN_HEAD"
             TSPL_SD_SALE_RETURN_detail = "TSPL_SD_SALE_RETURN_detail"
@@ -921,11 +926,21 @@ from
         End If
         Return True
     End Function
-
     Public Function SaveData(ByVal obj As clsDSSalesReturnHead, ByVal isNewEntry As Boolean) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            SaveData(obj, isNewEntry, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Function SaveData(ByVal obj As clsDSSalesReturnHead, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Dim Trans_type_Str As String = ""
         Dim isSaved As Boolean = True
-        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Trans_type_Str = clsCommon.myCstr(obj.Trans_type) + "-SR"
         Try
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmSaleReturndairy, obj.Bill_To_Location, obj.Document_Date, trans)
@@ -962,7 +977,7 @@ from
                 'Else
                 '    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.SNSaleReturn, clsDocTransactionType.SNQuotationOther, obj.Bill_To_Location)
                 'End If
-                End If
+            End If
             If (clsCommon.myLen(obj.Document_Code) <= 0) Then
                 Throw New Exception("Error in Document Code Generation")
             End If
@@ -1050,6 +1065,7 @@ from
             clsCommon.AddColumnsForChange(coll, "Dept_Desc", obj.Dept_Desc)
             clsCommon.AddColumnsForChange(coll, "Item_Type", obj.Item_Type)
             clsCommon.AddColumnsForChange(coll, "Against_Invoice_No", obj.Against_Invoice_No, True)
+            clsCommon.AddColumnsForChange(coll, "isMultipleReturn", obj.isMultipleReturn)
             If obj.GEDate.HasValue Then
                 clsCommon.AddColumnsForChange(coll, "GEDate", clsCommon.GetPrintDate(obj.GEDate, "dd/MMM/yyyy"))
             Else
@@ -1152,11 +1168,11 @@ from
             'Save Cancel Ticket No- ALF/16/05/18-000064
 
             isSaved = isSaved AndAlso clsApprovalScreen.SaveApprovalAtTransLevel(obj.Form_ID, "Document_Code", obj.Document_Code, "TSPL_SD_SALE_RETURN_HEAD", trans)
-            If isSaved Then
-                trans.Commit()
-            End If
+            'If isSaved Then
+            '    trans.Commit()
+            'End If
         Catch err As Exception
-            trans.Rollback()
+            'trans.Rollback()
             Throw New Exception(err.Message)
         End Try
         Return isSaved
@@ -1177,7 +1193,7 @@ from
         Dim Trans_type As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Trans_Type from TSPL_SD_SALE_RETURN_HEAD where document_code='" + strPONo + "'", trans))
         Dim qry As String = "SELECT TSPL_SD_SALE_RETURN_HEAD.Sub_Location_code,TSPL_SD_SALE_RETURN_HEAD.RoundOffAmount,TSPL_SD_SALE_RETURN_HEAD.TotalCAN,TSPL_SD_SALE_RETURN_HEAD.ShippedCAN, TSPL_SD_SALE_RETURN_HEAD.CrateQty,TSPL_SD_SALE_RETURN_HEAD.Is_Taxable,TSPL_SD_SALE_RETURN_HEAD.Gate_ReturnNo,TSPL_SD_SALE_RETURN_HEAD.CrateMan,TSPL_SD_SALE_RETURN_HEAD.Jaali,TSPL_SD_SALE_RETURN_HEAD.Box , TSPL_SD_SALE_RETURN_HEAD.Trans_Type,TSPL_SD_SALE_RETURN_HEAD.Return_Type,TSPL_SD_SALE_RETURN_HEAD.Shift_Type,TSPL_SD_SALE_RETURN_HEAD.Damage_Type,TSPL_SD_SALE_RETURN_HEAD.HeadDisc_PerAmt,TSPL_SD_SALE_RETURN_HEAD.Cust_PO_No,TSPL_SD_SALE_RETURN_HEAD.VehicleNo, TSPL_SD_SALE_RETURN_HEAD.Vehicle_Code,TSPL_SD_SALE_RETURN_HEAD.price_group_code , " &
         "TSPL_SD_SALE_RETURN_HEAD.Invoice_Type,TSPL_SD_SALE_RETURN_HEAD.HeadDisc_Per,TSPL_SD_SALE_RETURN_HEAD.HeadDisc_Amt,TSPL_SD_SALE_RETURN_HEAD.TotCashDiscAmt,TSPL_SD_SALE_RETURN_HEAD.Route_No,TSPL_SD_SALE_RETURN_HEAD.Route_Desc,TSPL_SD_SALE_RETURN_HEAD.Price_Code, TSPL_SD_SALE_RETURN_HEAD.Document_Code,TSPL_SD_SALE_RETURN_HEAD.Document_Date,TSPL_SD_SALE_RETURN_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SALE_RETURN_HEAD.Status,TSPL_SD_SALE_RETURN_HEAD.On_Hold,TSPL_SD_SALE_RETURN_HEAD.Ref_No,TSPL_SD_SALE_RETURN_HEAD.Description,TSPL_SD_SALE_RETURN_HEAD.Remarks,TSPL_SD_SALE_RETURN_HEAD.Tax_Group,TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location,TSPL_SD_SALE_RETURN_HEAD.Ship_To_Location,TSPL_SD_SALE_RETURN_HEAD.TAX1,TSPL_SD_SALE_RETURN_HEAD.TAX1_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX1_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX1_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX2,TSPL_SD_SALE_RETURN_HEAD.TAX2_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX2_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX2_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX3,TSPL_SD_SALE_RETURN_HEAD.TAX3_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX3_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX3_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX4,TSPL_SD_SALE_RETURN_HEAD.TAX4_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX4_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX4_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX5,TSPL_SD_SALE_RETURN_HEAD.TAX5_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX5_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX5_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX6,TSPL_SD_SALE_RETURN_HEAD.TAX6_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX6_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX6_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX7,TSPL_SD_SALE_RETURN_HEAD.TAX7_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX7_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX7_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX8,TSPL_SD_SALE_RETURN_HEAD.TAX8_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX8_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX8_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX9,TSPL_SD_SALE_RETURN_HEAD.TAX9_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX9_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX9_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX10,TSPL_SD_SALE_RETURN_HEAD.TAX10_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX10_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX10_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.Discount_Base,TSPL_SD_SALE_RETURN_HEAD.Discount_Amt,TSPL_SD_SALE_RETURN_HEAD.Amount_Less_Discount,TSPL_SD_SALE_RETURN_HEAD.Total_Tax_Amt,TSPL_SD_SALE_RETURN_HEAD.Comments,TSPL_SD_SALE_RETURN_HEAD.Comp_Code,TSPL_SD_SALE_RETURN_HEAD.Terms_Code,TSPL_SD_SALE_RETURN_HEAD.Due_Date ,TSPL_LOCATION_MASTER.Location_Desc as BillToLocationName,TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipToLocationName,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as TaxGroupName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_SD_SALE_RETURN_HEAD.Posting_Date,TSPL_SD_SALE_RETURN_HEAD.Total_Amt,TSPL_SD_SALE_RETURN_HEAD.Carrier,TSPL_SD_SALE_RETURN_HEAD.VehicleNo,TSPL_SD_SALE_RETURN_HEAD.GRNo,TSPL_SD_SALE_RETURN_HEAD.GENo,TSPL_SD_SALE_RETURN_HEAD.GEDate, TSPL_SD_SALE_RETURN_HEAD.Dept,TSPL_SD_SALE_RETURN_HEAD.Dept_Desc,TSPL_SD_SALE_RETURN_HEAD.Item_Type,TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No ,TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code1,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name1,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt1,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code2,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name2,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt2,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code3,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name3,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt3,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code4,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name4,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt4,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code5,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name5,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt5,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code6,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name6,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt6,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code7,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name7,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt7,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code8,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name8,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt8,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code9 ,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name9,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt9 ,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code10 ,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name10,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt10,TSPL_SD_SALE_RETURN_HEAD.Total_Add_Charge,TSPL_SD_SALE_RETURN_HEAD.Tax_Calculation_Type,TSPL_SD_SALE_RETURN_HEAD.Challan_No, TSPL_SD_SALE_RETURN_HEAD.Challan_Date, TSPL_SD_SALE_RETURN_HEAD.Inv_Date,TSPL_SD_SALE_RETURN_HEAD.Inv_No,TSPL_SD_SALE_RETURN_HEAD.Is_Internal ,TSPL_SD_SALE_RETURN_HEAD.Salesman_Code ,TSPL_SD_SALE_RETURN_HEAD.Salesman_Name,"
-        qry += " TSPL_SD_SALE_RETURN_HEAD.CURRENCY_CODE,TSPL_SD_SALE_RETURN_HEAD.CONVRATE,TSPL_SD_SALE_RETURN_HEAD.APPLICABLEFROM,TSPL_SD_SALE_RETURN_HEAD.PROJECT_ID ,TSPL_SD_SALE_RETURN_HEAD.Is_Cancelled "
+        qry += " TSPL_SD_SALE_RETURN_HEAD.CURRENCY_CODE,TSPL_SD_SALE_RETURN_HEAD.CONVRATE,TSPL_SD_SALE_RETURN_HEAD.APPLICABLEFROM,TSPL_SD_SALE_RETURN_HEAD.PROJECT_ID ,TSPL_SD_SALE_RETURN_HEAD.Is_Cancelled,TSPL_SD_SALE_RETURN_HEAD.isMultipleReturn "
         qry += " FROM TSPL_SD_SALE_RETURN_HEAD"
         qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location "
         qry += " left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_SD_SALE_RETURN_HEAD.Ship_To_Location "
@@ -1245,6 +1261,7 @@ from
             obj.Is_Internal = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Internal")) = 1, True, False)
             obj.Ref_No = clsCommon.myCstr(dt.Rows(0)("Ref_No"))
             obj.Description = clsCommon.myCstr(dt.Rows(0)("Description"))
+            obj.isMultipleReturn = clsCommon.myCdbl(dt.Rows(0)("isMultipleReturn"))
             obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
             obj.Bill_To_Location = clsCommon.myCstr(dt.Rows(0)("Bill_To_Location"))
             obj.Ship_To_Location = clsCommon.myCstr(dt.Rows(0)("Ship_To_Location"))
@@ -1921,7 +1938,9 @@ from
                 Return False
             End If
             Dim qry As String = ""
-            UpdateInventoryMovement(obj, trans, False)
+            If obj.isMultipleReturn = 0 Then
+                UpdateInventoryMovement(obj, trans, False)
+            End If
 
             Dim dblcount As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count (*) as rowno from tspl_sd_sale_return_detail where document_Code ='" & obj.Document_Code & "' and scheme_item='N'", trans))
             If dblcount > 0 Then
@@ -3067,177 +3086,187 @@ Public Class clsDSSalesReturnDetail
     Public Transporter As String = ""
     Public arrSrItem As List(Of clsSerializeInvenotry) = Nothing
     Public arrBatchItem As List(Of clsBatchInventory) = Nothing
+    Public Against_Dispatch As String = ""
 #End Region
 
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal dtDocDate As DateTime, ByVal Arr As List(Of clsDSSalesReturnDetail), ByVal Trans_Type As String, ByVal trans As SqlTransaction) As Boolean
         Dim Trans_type_Str As String = ""
         Trans_type_Str = clsCommon.myCstr(Trans_Type) + "-SR"
-        If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
-            For Each obj As clsDSSalesReturnDetail In Arr
-                Dim coll As New Hashtable()
-                clsCommon.AddColumnsForChange(coll, "Sampling", obj.Sampling)
-                clsCommon.AddColumnsForChange(coll, "Delivery_Code", obj.Delivery_Code, True)
-                clsCommon.AddColumnsForChange(coll, "CAN", obj.CAN)
-                clsCommon.AddColumnsForChange(coll, "Crate", obj.Crate)
-                clsCommon.AddColumnsForChange(coll, "ItemwiseTaxCode", obj.ItemwiseTaxCode)
-                clsCommon.AddColumnsForChange(coll, "Alter_UnitQty", obj.Alter_UnitQty)
-                clsCommon.AddColumnsForChange(coll, "Rate_UnitQty", obj.Rate_UnitQty)
-                clsCommon.AddColumnsForChange(coll, "InvoiceScheme_Code", obj.InvoiceScheme_Code)
-                clsCommon.AddColumnsForChange(coll, "InvoiceCashScheme_Code", obj.InvoiceCashScheme_Code)
-                clsCommon.AddColumnsForChange(coll, "Cash_Scheme_Code", obj.Cash_Scheme_Code)
-                clsCommon.AddColumnsForChange(coll, "Cash_Scheme_Type", obj.Cash_Scheme_Type)
-                clsCommon.AddColumnsForChange(coll, "Cash_Scheme_Pers", obj.Cash_Scheme_Pers)
-                clsCommon.AddColumnsForChange(coll, "Cash_Scheme_Amount", obj.Cash_Scheme_Amount)
+        Try
+            If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
+                For Each obj As clsDSSalesReturnDetail In Arr
+                    Dim coll As New Hashtable()
+                    clsCommon.AddColumnsForChange(coll, "Sampling", obj.Sampling)
+                    clsCommon.AddColumnsForChange(coll, "Delivery_Code", obj.Delivery_Code, True)
+                    clsCommon.AddColumnsForChange(coll, "CAN", obj.CAN)
+                    clsCommon.AddColumnsForChange(coll, "Crate", obj.Crate)
+                    clsCommon.AddColumnsForChange(coll, "ItemwiseTaxCode", obj.ItemwiseTaxCode)
+                    clsCommon.AddColumnsForChange(coll, "Alter_UnitQty", obj.Alter_UnitQty)
+                    clsCommon.AddColumnsForChange(coll, "Rate_UnitQty", obj.Rate_UnitQty)
+                    clsCommon.AddColumnsForChange(coll, "InvoiceScheme_Code", obj.InvoiceScheme_Code)
+                    clsCommon.AddColumnsForChange(coll, "InvoiceCashScheme_Code", obj.InvoiceCashScheme_Code)
+                    clsCommon.AddColumnsForChange(coll, "Cash_Scheme_Code", obj.Cash_Scheme_Code)
+                    clsCommon.AddColumnsForChange(coll, "Cash_Scheme_Type", obj.Cash_Scheme_Type)
+                    clsCommon.AddColumnsForChange(coll, "Cash_Scheme_Pers", obj.Cash_Scheme_Pers)
+                    clsCommon.AddColumnsForChange(coll, "Cash_Scheme_Amount", obj.Cash_Scheme_Amount)
 
-                clsCommon.AddColumnsForChange(coll, "Scheme_Item_Code", obj.Scheme_Item_Code)
-                clsCommon.AddColumnsForChange(coll, "Scheme_Item_UOM", obj.Scheme_Item_UOM)
-                clsCommon.AddColumnsForChange(coll, "Scheme_Qty", obj.Scheme_Qty)
-                clsCommon.AddColumnsForChange(coll, "Scheme_Type", obj.Scheme_Type)
-                clsCommon.AddColumnsForChange(coll, "Alternate_UOM", obj.Alternate_UOM, True)
-                clsCommon.AddColumnsForChange(coll, "RATE_UOM", obj.RATE_UOM, True)
-                clsCommon.AddColumnsForChange(coll, "Item_Group", obj.Item_Group)
-                clsCommon.AddColumnsForChange(coll, "TAX_PAID", obj.TAX_PAID)
+                    clsCommon.AddColumnsForChange(coll, "Scheme_Item_Code", obj.Scheme_Item_Code)
+                    clsCommon.AddColumnsForChange(coll, "Scheme_Item_UOM", obj.Scheme_Item_UOM)
+                    clsCommon.AddColumnsForChange(coll, "Scheme_Qty", obj.Scheme_Qty)
+                    clsCommon.AddColumnsForChange(coll, "Scheme_Type", obj.Scheme_Type)
+                    clsCommon.AddColumnsForChange(coll, "Alternate_UOM", obj.Alternate_UOM, True)
+                    clsCommon.AddColumnsForChange(coll, "RATE_UOM", obj.RATE_UOM, True)
+                    clsCommon.AddColumnsForChange(coll, "Item_Group", obj.Item_Group)
+                    clsCommon.AddColumnsForChange(coll, "TAX_PAID", obj.TAX_PAID)
 
-                clsCommon.AddColumnsForChange(coll, "Document_Code", strDocNo)
-                clsCommon.AddColumnsForChange(coll, "Line_No", obj.Line_No)
-                clsCommon.AddColumnsForChange(coll, "Row_Type", obj.Row_Type)
-                clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
-                clsCommon.AddColumnsForChange(coll, "OrgUnit_code", obj.OrgUnit_code)
-                clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
+                    clsCommon.AddColumnsForChange(coll, "Document_Code", strDocNo)
+                    clsCommon.AddColumnsForChange(coll, "Line_No", obj.Line_No)
+                    clsCommon.AddColumnsForChange(coll, "Row_Type", obj.Row_Type)
+                    clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
+                    clsCommon.AddColumnsForChange(coll, "OrgUnit_code", obj.OrgUnit_code)
+                    clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
 
-                clsCommon.AddColumnsForChange(coll, "Free_qty", obj.Free_Qty)
+                    clsCommon.AddColumnsForChange(coll, "Free_qty", obj.Free_Qty)
 
-                clsCommon.AddColumnsForChange(coll, "Invoice_Code", obj.Invoice_Code, True)
+                    clsCommon.AddColumnsForChange(coll, "Invoice_Code", obj.Invoice_Code, True)
 
-                clsCommon.AddColumnsForChange(coll, "Balance_Qty", obj.Balance_Qty)
-                clsCommon.AddColumnsForChange(coll, "Unit_code", obj.Unit_code)
-                clsCommon.AddColumnsForChange(coll, "Location", obj.Location)
-                clsCommon.AddColumnsForChange(coll, "Item_Cost", obj.Item_Cost)
+                    clsCommon.AddColumnsForChange(coll, "Balance_Qty", obj.Balance_Qty)
+                    clsCommon.AddColumnsForChange(coll, "Unit_code", obj.Unit_code)
+                    clsCommon.AddColumnsForChange(coll, "Location", obj.Location)
+                    clsCommon.AddColumnsForChange(coll, "Item_Cost", obj.Item_Cost)
 
-                clsCommon.AddColumnsForChange(coll, "Amount", obj.Amount)
-                clsCommon.AddColumnsForChange(coll, "Disc_Per", obj.Disc_Per)
-                clsCommon.AddColumnsForChange(coll, "Disc_Amt", obj.Disc_Amt)
-                clsCommon.AddColumnsForChange(coll, "Amt_Less_Discount", obj.Amt_Less_Discount)
-                clsCommon.AddColumnsForChange(coll, "TAX1", obj.TAX1)
-                clsCommon.AddColumnsForChange(coll, "TAX1_Base_Amt", obj.TAX1_Base_Amt)
-                clsCommon.AddColumnsForChange(coll, "TAX1_Rate", obj.TAX1_Rate)
-                clsCommon.AddColumnsForChange(coll, "TAX1_Amt", obj.TAX1_Amt)
-                clsCommon.AddColumnsForChange(coll, "TAX2", obj.TAX2)
-                clsCommon.AddColumnsForChange(coll, "TAX2_Base_Amt", obj.TAX2_Base_Amt)
-                clsCommon.AddColumnsForChange(coll, "TAX2_Rate", obj.TAX2_Rate)
-                clsCommon.AddColumnsForChange(coll, "TAX2_Amt", obj.TAX2_Amt)
-                clsCommon.AddColumnsForChange(coll, "TAX3", obj.TAX3)
-                clsCommon.AddColumnsForChange(coll, "TAX3_Base_Amt", obj.TAX3_Base_Amt)
-                clsCommon.AddColumnsForChange(coll, "TAX3_Rate", obj.TAX3_Rate)
-                clsCommon.AddColumnsForChange(coll, "TAX3_Amt", obj.TAX3_Amt)
-                clsCommon.AddColumnsForChange(coll, "TAX4", obj.TAX4)
-                clsCommon.AddColumnsForChange(coll, "TAX4_Base_Amt", obj.TAX4_Base_Amt)
-                clsCommon.AddColumnsForChange(coll, "TAX4_Rate", obj.TAX4_Rate)
-                clsCommon.AddColumnsForChange(coll, "TAX4_Amt", obj.TAX4_Amt)
-                clsCommon.AddColumnsForChange(coll, "TAX5", obj.TAX5)
-                clsCommon.AddColumnsForChange(coll, "TAX5_Base_Amt", obj.TAX5_Base_Amt)
-                clsCommon.AddColumnsForChange(coll, "TAX5_Rate", obj.TAX5_Rate)
-                clsCommon.AddColumnsForChange(coll, "TAX5_Amt", obj.TAX5_Amt)
-                clsCommon.AddColumnsForChange(coll, "TAX6", obj.TAX6)
-                clsCommon.AddColumnsForChange(coll, "TAX6_Base_Amt", obj.TAX6_Base_Amt)
-                clsCommon.AddColumnsForChange(coll, "TAX6_Rate", obj.TAX6_Rate)
-                clsCommon.AddColumnsForChange(coll, "TAX6_Amt", obj.TAX6_Amt)
-                clsCommon.AddColumnsForChange(coll, "TAX7", obj.TAX7)
-                clsCommon.AddColumnsForChange(coll, "TAX7_Base_Amt", obj.TAX7_Base_Amt)
-                clsCommon.AddColumnsForChange(coll, "TAX7_Rate", obj.TAX7_Rate)
-                clsCommon.AddColumnsForChange(coll, "TAX7_Amt", obj.TAX7_Amt)
-                clsCommon.AddColumnsForChange(coll, "TAX8", obj.TAX8)
-                clsCommon.AddColumnsForChange(coll, "TAX8_Base_Amt", obj.TAX8_Base_Amt)
-                clsCommon.AddColumnsForChange(coll, "TAX8_Rate", obj.TAX8_Rate)
-                clsCommon.AddColumnsForChange(coll, "TAX8_Amt", obj.TAX8_Amt)
-                clsCommon.AddColumnsForChange(coll, "TAX9", obj.TAX9)
-                clsCommon.AddColumnsForChange(coll, "TAX9_Base_Amt", obj.TAX9_Base_Amt)
-                clsCommon.AddColumnsForChange(coll, "TAX9_Rate", obj.TAX9_Rate)
-                clsCommon.AddColumnsForChange(coll, "TAX9_Amt", obj.TAX9_Amt)
-                clsCommon.AddColumnsForChange(coll, "TAX10", obj.TAX10)
-                clsCommon.AddColumnsForChange(coll, "TAX10_Base_Amt", obj.TAX10_Base_Amt)
-                clsCommon.AddColumnsForChange(coll, "TAX10_Rate", obj.TAX10_Rate)
-                clsCommon.AddColumnsForChange(coll, "TAX10_Amt", obj.TAX10_Amt)
-                clsCommon.AddColumnsForChange(coll, "Total_Tax_Amt", obj.Total_Tax_Amt)
-                clsCommon.AddColumnsForChange(coll, "Item_Net_Amt", obj.Item_Net_Amt)
-                clsCommon.AddColumnsForChange(coll, "MRP", obj.MRP)
-                clsCommon.AddColumnsForChange(coll, "Batch_No", obj.Batch_No)
+                    clsCommon.AddColumnsForChange(coll, "Amount", obj.Amount)
+                    clsCommon.AddColumnsForChange(coll, "Disc_Per", obj.Disc_Per)
+                    clsCommon.AddColumnsForChange(coll, "Disc_Amt", obj.Disc_Amt)
+                    clsCommon.AddColumnsForChange(coll, "Amt_Less_Discount", obj.Amt_Less_Discount)
+                    clsCommon.AddColumnsForChange(coll, "TAX1", obj.TAX1)
+                    clsCommon.AddColumnsForChange(coll, "TAX1_Base_Amt", obj.TAX1_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX1_Rate", obj.TAX1_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX1_Amt", obj.TAX1_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX2", obj.TAX2)
+                    clsCommon.AddColumnsForChange(coll, "TAX2_Base_Amt", obj.TAX2_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX2_Rate", obj.TAX2_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX2_Amt", obj.TAX2_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX3", obj.TAX3)
+                    clsCommon.AddColumnsForChange(coll, "TAX3_Base_Amt", obj.TAX3_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX3_Rate", obj.TAX3_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX3_Amt", obj.TAX3_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX4", obj.TAX4)
+                    clsCommon.AddColumnsForChange(coll, "TAX4_Base_Amt", obj.TAX4_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX4_Rate", obj.TAX4_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX4_Amt", obj.TAX4_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX5", obj.TAX5)
+                    clsCommon.AddColumnsForChange(coll, "TAX5_Base_Amt", obj.TAX5_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX5_Rate", obj.TAX5_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX5_Amt", obj.TAX5_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX6", obj.TAX6)
+                    clsCommon.AddColumnsForChange(coll, "TAX6_Base_Amt", obj.TAX6_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX6_Rate", obj.TAX6_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX6_Amt", obj.TAX6_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX7", obj.TAX7)
+                    clsCommon.AddColumnsForChange(coll, "TAX7_Base_Amt", obj.TAX7_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX7_Rate", obj.TAX7_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX7_Amt", obj.TAX7_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX8", obj.TAX8)
+                    clsCommon.AddColumnsForChange(coll, "TAX8_Base_Amt", obj.TAX8_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX8_Rate", obj.TAX8_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX8_Amt", obj.TAX8_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX9", obj.TAX9)
+                    clsCommon.AddColumnsForChange(coll, "TAX9_Base_Amt", obj.TAX9_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX9_Rate", obj.TAX9_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX9_Amt", obj.TAX9_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX10", obj.TAX10)
+                    clsCommon.AddColumnsForChange(coll, "TAX10_Base_Amt", obj.TAX10_Base_Amt)
+                    clsCommon.AddColumnsForChange(coll, "TAX10_Rate", obj.TAX10_Rate)
+                    clsCommon.AddColumnsForChange(coll, "TAX10_Amt", obj.TAX10_Amt)
+                    clsCommon.AddColumnsForChange(coll, "Total_Tax_Amt", obj.Total_Tax_Amt)
+                    clsCommon.AddColumnsForChange(coll, "Item_Net_Amt", obj.Item_Net_Amt)
+                    clsCommon.AddColumnsForChange(coll, "MRP", obj.MRP)
+                    clsCommon.AddColumnsForChange(coll, "Batch_No", obj.Batch_No, True)
 
-                clsCommon.AddColumnsForChange(coll, "Specification", obj.Specification)
-                clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
-                clsCommon.AddColumnsForChange(coll, "Is_Mannual_Amt", obj.Is_Mannual_Amt)
-                If obj.MFG_Date.HasValue Then
-                    clsCommon.AddColumnsForChange(coll, "MFG_Date", clsCommon.GetPrintDate(obj.MFG_Date, "dd-MMM-yyyy"))
-                End If
-                If obj.Expiry_Date.HasValue Then
-                    clsCommon.AddColumnsForChange(coll, "Expiry_Date", clsCommon.GetPrintDate(obj.Expiry_Date, "dd-MMM-yyyy"))
-                End If
-                clsCommon.AddColumnsForChange(coll, "Assessable", obj.Assessable)
-                clsCommon.AddColumnsForChange(coll, "AssessableAmt", obj.AssessableAmt)
+                    clsCommon.AddColumnsForChange(coll, "Specification", obj.Specification)
+                    clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
+                    clsCommon.AddColumnsForChange(coll, "Is_Mannual_Amt", obj.Is_Mannual_Amt)
+                    If obj.MFG_Date.HasValue Then
+                        clsCommon.AddColumnsForChange(coll, "MFG_Date", clsCommon.GetPrintDate(obj.MFG_Date, "dd-MMM-yyyy"))
+                    End If
+                    If obj.Expiry_Date.HasValue Then
+                        clsCommon.AddColumnsForChange(coll, "Expiry_Date", clsCommon.GetPrintDate(obj.Expiry_Date, "dd-MMM-yyyy"))
+                    End If
+                    clsCommon.AddColumnsForChange(coll, "Assessable", obj.Assessable)
+                    clsCommon.AddColumnsForChange(coll, "AssessableAmt", obj.AssessableAmt)
 
-                clsCommon.AddColumnsForChange(coll, "Scheme_Applicable", IIf(obj.Scheme_Applicable = "Yes", "Y", "N"))
-                clsCommon.AddColumnsForChange(coll, "Scheme_Code", obj.Scheme_Code)
-                clsCommon.AddColumnsForChange(coll, "Scheme_Item", IIf(obj.Scheme_Item = "Yes", "Y", "N"))
-                clsCommon.AddColumnsForChange(coll, "Item_Tax", obj.Item_Tax)
-                clsCommon.AddColumnsForChange(coll, "Total_MRP_Amt", obj.Total_MRP_Amt)
-                clsCommon.AddColumnsForChange(coll, "Total_Basic_Amt", obj.Total_Basic_Amt)
-                clsCommon.AddColumnsForChange(coll, "Total_Disc_Amt", obj.Total_Disc_Amt)
-                clsCommon.AddColumnsForChange(coll, "Cust_Discount", obj.Cust_Discount)
-                clsCommon.AddColumnsForChange(coll, "Total_Cust_Discount", obj.Total_Cust_Discount)
-                clsCommon.AddColumnsForChange(coll, "Price_Amount1", obj.Price_Amount1)
-                clsCommon.AddColumnsForChange(coll, "Price_Amount2", obj.Price_Amount2)
-                clsCommon.AddColumnsForChange(coll, "Price_Amount3", obj.Price_Amount3)
-                clsCommon.AddColumnsForChange(coll, "Price_Amount4", obj.Price_Amount4)
-                clsCommon.AddColumnsForChange(coll, "Price_Amount5", obj.Price_Amount5)
-                clsCommon.AddColumnsForChange(coll, "Price_Amount6", obj.Price_Amount6)
-                clsCommon.AddColumnsForChange(coll, "Price_Amount7", obj.Price_Amount7)
-                clsCommon.AddColumnsForChange(coll, "Price_Amount8", obj.Price_Amount8)
-                clsCommon.AddColumnsForChange(coll, "Price_Amount9", obj.Price_Amount9)
-                clsCommon.AddColumnsForChange(coll, "Price_Amount10", obj.Price_Amount10)
-                clsCommon.AddColumnsForChange(coll, "ActualRate", obj.ActualRate)
-                clsCommon.AddColumnsForChange(coll, "Cust_DiscountQty", obj.Cust_DiscountQty)
-                clsCommon.AddColumnsForChange(coll, "Price_code", obj.Price_code)
-                clsCommon.AddColumnsForChange(coll, "Price_Date", clsCommon.GetPrintDate(obj.Price_Date, "dd/MMM/yyyy"))
-                clsCommon.AddColumnsForChange(coll, "Abatement_Per", obj.Abatement_Per)
-                clsCommon.AddColumnsForChange(coll, "Abatement_Amt", obj.Abatement_Amt)
-                clsCommon.AddColumnsForChange(coll, "FOC_Item", obj.FOC_Item)
+                    clsCommon.AddColumnsForChange(coll, "Scheme_Applicable", IIf(obj.Scheme_Applicable = "Yes", "Y", "N"))
+                    clsCommon.AddColumnsForChange(coll, "Scheme_Code", obj.Scheme_Code)
+                    clsCommon.AddColumnsForChange(coll, "Scheme_Item", IIf(obj.Scheme_Item = "Yes", "Y", "N"))
+                    clsCommon.AddColumnsForChange(coll, "Item_Tax", obj.Item_Tax)
+                    clsCommon.AddColumnsForChange(coll, "Total_MRP_Amt", obj.Total_MRP_Amt)
+                    clsCommon.AddColumnsForChange(coll, "Total_Basic_Amt", obj.Total_Basic_Amt)
+                    clsCommon.AddColumnsForChange(coll, "Total_Disc_Amt", obj.Total_Disc_Amt)
+                    clsCommon.AddColumnsForChange(coll, "Cust_Discount", obj.Cust_Discount)
+                    clsCommon.AddColumnsForChange(coll, "Total_Cust_Discount", obj.Total_Cust_Discount)
+                    clsCommon.AddColumnsForChange(coll, "Price_Amount1", obj.Price_Amount1)
+                    clsCommon.AddColumnsForChange(coll, "Price_Amount2", obj.Price_Amount2)
+                    clsCommon.AddColumnsForChange(coll, "Price_Amount3", obj.Price_Amount3)
+                    clsCommon.AddColumnsForChange(coll, "Price_Amount4", obj.Price_Amount4)
+                    clsCommon.AddColumnsForChange(coll, "Price_Amount5", obj.Price_Amount5)
+                    clsCommon.AddColumnsForChange(coll, "Price_Amount6", obj.Price_Amount6)
+                    clsCommon.AddColumnsForChange(coll, "Price_Amount7", obj.Price_Amount7)
+                    clsCommon.AddColumnsForChange(coll, "Price_Amount8", obj.Price_Amount8)
+                    clsCommon.AddColumnsForChange(coll, "Price_Amount9", obj.Price_Amount9)
+                    clsCommon.AddColumnsForChange(coll, "Price_Amount10", obj.Price_Amount10)
+                    clsCommon.AddColumnsForChange(coll, "ActualRate", obj.ActualRate)
+                    clsCommon.AddColumnsForChange(coll, "Cust_DiscountQty", obj.Cust_DiscountQty)
+                    clsCommon.AddColumnsForChange(coll, "Price_code", obj.Price_code)
+                    clsCommon.AddColumnsForChange(coll, "Price_Date", clsCommon.GetPrintDate(obj.Price_Date, "dd/MMM/yyyy"))
+                    clsCommon.AddColumnsForChange(coll, "Abatement_Per", obj.Abatement_Per)
+                    clsCommon.AddColumnsForChange(coll, "Abatement_Amt", obj.Abatement_Amt)
+                    clsCommon.AddColumnsForChange(coll, "FOC_Item", obj.FOC_Item)
 
-                clsCommon.AddColumnsForChange(coll, "Item_Weight", obj.Item_Weight)
-                clsCommon.AddColumnsForChange(coll, "Conv_Factor", obj.Conv_Factor)
-                clsCommon.AddColumnsForChange(coll, "TotalItem_Weight", obj.TotalItem_Weight)
-                clsCommon.AddColumnsForChange(coll, "Purchase_Cost", obj.Purchase_Cost)
-                clsCommon.AddColumnsForChange(coll, "OrgRate", obj.OrgRate)
-                clsCommon.AddColumnsForChange(coll, "DamageQty", obj.DamageQty)
-                clsCommon.AddColumnsForChange(coll, "Return_Amount", obj.Return_Amount)
-                clsCommon.AddColumnsForChange(coll, "Damage_Amount", obj.Damage_Amount)
-                clsCommon.AddColumnsForChange(coll, "Bin_No", obj.Bin_No)
-                clsCommon.AddColumnsForChange(coll, "PrincipleCode", obj.PrincipleCode)
-                clsCommon.AddColumnsForChange(coll, "PrincipleDesc", obj.PrincipleDesc)
-                clsCommon.AddColumnsForChange(coll, "vendor_code", obj.vendor_code)
-                clsCommon.AddColumnsForChange(coll, "vendor_desc", obj.vendor_desc)
-                clsCommon.AddColumnsForChange(coll, "HeadDiscAmt", obj.HeadDiscAmt)
-                clsCommon.AddColumnsForChange(coll, "HeadDiscPer", obj.HeadDiscPer)
-                clsCommon.AddColumnsForChange(coll, "HeadDiscPerAmt", obj.HeadDiscPerAmt)
-                clsCommon.AddColumnsForChange(coll, "ActualUOM", obj.ActualUOM)
-                clsCommon.AddColumnsForChange(coll, "ActualQty", obj.ActuaQty)
-                clsCommon.AddColumnsForChange(coll, "ActualConvAmt", obj.ActualReturnQty)
-                clsCommon.AddColumnsForChange(coll, "Distributor_Commission_PKID", obj.Distributor_Commission_PKID, True)
-                clsCommon.AddColumnsForChange(coll, "Distributor_Commission_Rate", obj.Distributor_Commission_Rate, True)
-                clsCommon.AddColumnsForChange(coll, "Distributor_Commission_RateWithTax", obj.Distributor_Commission_RateWithTax, True)
-                clsCommon.AddColumnsForChange(coll, "Distributor_Commission_Amt", obj.Distributor_Commission_Amt, True)
-                clsCommon.AddColumnsForChange(coll, "Transporter_Commission_Rate", obj.Transporter_Commission_Rate, True)
-                clsCommon.AddColumnsForChange(coll, "Transporter_Commission_Amt", obj.Transporter_Commission_Amt, True)
-                clsCommon.AddColumnsForChange(coll, "Security_Rate", obj.Security_Rate, True)
-                clsCommon.AddColumnsForChange(coll, "Security_Amt", obj.Security_Amt, True)
-                clsCommon.AddColumnsForChange(coll, "Transporter", obj.Transporter, True)
-                clsCommon.AddColumnsForChange(coll, "Price_with_tax", obj.Price_with_tax, True)
+                    clsCommon.AddColumnsForChange(coll, "Item_Weight", obj.Item_Weight)
+                    clsCommon.AddColumnsForChange(coll, "Conv_Factor", obj.Conv_Factor)
+                    clsCommon.AddColumnsForChange(coll, "TotalItem_Weight", obj.TotalItem_Weight)
+                    clsCommon.AddColumnsForChange(coll, "Purchase_Cost", obj.Purchase_Cost)
+                    clsCommon.AddColumnsForChange(coll, "OrgRate", obj.OrgRate)
+                    clsCommon.AddColumnsForChange(coll, "DamageQty", obj.DamageQty)
+                    clsCommon.AddColumnsForChange(coll, "Return_Amount", obj.Return_Amount)
+                    clsCommon.AddColumnsForChange(coll, "Damage_Amount", obj.Damage_Amount)
+                    clsCommon.AddColumnsForChange(coll, "Bin_No", obj.Bin_No)
+                    clsCommon.AddColumnsForChange(coll, "PrincipleCode", obj.PrincipleCode)
+                    clsCommon.AddColumnsForChange(coll, "PrincipleDesc", obj.PrincipleDesc)
+                    clsCommon.AddColumnsForChange(coll, "vendor_code", obj.vendor_code)
+                    clsCommon.AddColumnsForChange(coll, "vendor_desc", obj.vendor_desc)
+                    clsCommon.AddColumnsForChange(coll, "HeadDiscAmt", obj.HeadDiscAmt)
+                    clsCommon.AddColumnsForChange(coll, "HeadDiscPer", obj.HeadDiscPer)
+                    clsCommon.AddColumnsForChange(coll, "HeadDiscPerAmt", obj.HeadDiscPerAmt)
+                    clsCommon.AddColumnsForChange(coll, "ActualUOM", obj.ActualUOM)
+                    clsCommon.AddColumnsForChange(coll, "ActualQty", obj.ActuaQty)
+                    clsCommon.AddColumnsForChange(coll, "ActualConvAmt", obj.ActualReturnQty)
+                    clsCommon.AddColumnsForChange(coll, "Distributor_Commission_PKID", obj.Distributor_Commission_PKID, True)
+                    clsCommon.AddColumnsForChange(coll, "Distributor_Commission_Rate", obj.Distributor_Commission_Rate, True)
+                    clsCommon.AddColumnsForChange(coll, "Distributor_Commission_RateWithTax", obj.Distributor_Commission_RateWithTax, True)
+                    clsCommon.AddColumnsForChange(coll, "Distributor_Commission_Amt", obj.Distributor_Commission_Amt, True)
+                    clsCommon.AddColumnsForChange(coll, "Transporter_Commission_Rate", obj.Transporter_Commission_Rate, True)
+                    clsCommon.AddColumnsForChange(coll, "Transporter_Commission_Amt", obj.Transporter_Commission_Amt, True)
+                    clsCommon.AddColumnsForChange(coll, "Security_Rate", obj.Security_Rate, True)
+                    clsCommon.AddColumnsForChange(coll, "Security_Amt", obj.Security_Amt, True)
+                    clsCommon.AddColumnsForChange(coll, "Transporter", obj.Transporter, True)
+                    clsCommon.AddColumnsForChange(coll, "Price_with_tax", obj.Price_with_tax, True)
+                    clsCommon.AddColumnsForChange(coll, "Against_Dispatch", obj.Against_Dispatch, True)
 
-                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SALE_RETURN_DETAIL", OMInsertOrUpdate.Insert, "", trans)
-                clsSerializeInvenotry.SaveData("Sale Return", strDocNo, dtDocDate, "I", obj.Item_Code, obj.Location, obj.Line_No, obj.arrSrItem, trans)
-                clsBatchInventory.SaveData(Trans_type_Str, strDocNo, dtDocDate, "I", obj.Item_Code, obj.Location, obj.Line_No, obj.MRP, obj.Unit_code, obj.arrBatchItem, trans)
+                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SALE_RETURN_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+                    If clsCommon.myLen(obj.Against_Dispatch) = 0 Then
+                        clsSerializeInvenotry.SaveData("Sale Return", strDocNo, dtDocDate, "I", obj.Item_Code, obj.Location, obj.Line_No, obj.arrSrItem, trans)
+                        clsBatchInventory.SaveData(Trans_type_Str, strDocNo, dtDocDate, "I", obj.Item_Code, obj.Location, obj.Line_No, obj.MRP, obj.Unit_code, obj.arrBatchItem, trans)
+                    End If
 
-            Next
-        End If
+
+                Next
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+
         Return True
     End Function
 

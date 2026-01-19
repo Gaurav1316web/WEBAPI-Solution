@@ -12,6 +12,8 @@ Public Class MostUserScreen
         End Try
     End Sub
     Sub Reset()
+        chkDateRange.Enabled = True
+        RadGroupBox3.Enabled = True
         Gv1.DataSource = Nothing
         Gv1.Rows.Clear()
         ddlBankType.SelectedIndex = 0
@@ -40,7 +42,7 @@ Public Class MostUserScreen
                 topCount = 10
             End If
 
-
+            Dim DateWhcls As String = "and  Convert(date,TSPL_PROGRAM_COUNTER.created_date,103)>= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm tt") + "'  and Convert(date,TSPL_PROGRAM_COUNTER.created_date,103) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy hh:mm tt") + "'"
             Dim whereCondition As String = ""
 
             Select Case MyComboBox1.Text
@@ -51,15 +53,23 @@ Public Class MostUserScreen
                 Case "Report"
                     whereCondition = " and Image_Number = '37'"
             End Select
-
-            Dim strQry As String = "
-            SELECT TOP " & topCount & " 
-                Program_Code AS [Screen Code],
-                Program_Name AS [Screen Name],
-                Form_Open_Counter AS [Count]
+            Dim strQry As String = ""
+            If chkDateRange.Checked Then
+                strQry = " SELECT TOP 10  TSPL_PROGRAM_COUNTER.Created_Date [Created Date],TSPL_PROGRAM_COUNTER.Created_By as [Created By],
+                TSPL_PROGRAM_COUNTER.Program_Code AS [Screen Code],
+                TSPL_PROGRAM_MASTER.Program_Name AS [Screen Name],
+                TSPL_PROGRAM_MASTER.Form_Open_Counter AS [Count]
+            FROM TSPL_PROGRAM_COUNTER 
+			left outer join TSPL_PROGRAM_MASTER on TSPL_PROGRAM_MASTER.Program_Code=TSPL_PROGRAM_COUNTER.program_code  WHERE 2 = 2
+      " & whereCondition & "
+     ORDER BY Form_Open_Counter DESC"
+            Else
+                strQry = " SELECT TOP " & topCount & " Program_Code AS [Screen Code], Program_Name AS [Screen Name], Form_Open_Counter AS [Count]
             FROM TSPL_PROGRAM_MASTER WHERE 2 = 2 
-            " & whereCondition & "
+            " & whereCondition & " " & DateWhcls & "
             ORDER BY Form_Open_Counter DESC"
+            End If
+
 
             dt = clsDBFuncationality.GetDataTable(strQry)
 
@@ -69,7 +79,7 @@ Public Class MostUserScreen
             Gv1.GroupDescriptors.Clear()
             Gv1.MasterTemplate.SummaryRowsBottom.Clear()
             Gv1.MasterView.Refresh()
-
+            RadGroupBox3.Enabled = False
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Gv1.DataSource = dt
                 RadPageView1.SelectedPage = RadPageViewPage2
@@ -84,6 +94,21 @@ Public Class MostUserScreen
         End Try
     End Sub
 
+    Private Sub chkDateRange_Click(sender As Object, e As EventArgs) Handles chkDateRange.Click
+        If chkDateRange.Checked Then
+            RadGroupBox3.Visible = False
+            'RadGroupBox3.Visible = True
+        Else
+            RadGroupBox3.Visible = True
+            'RadGroupBox3.Visible = False
+        End If
 
 
+    End Sub
+
+    Private Sub MostUserScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        RadGroupBox3.Visible = False
+        ToDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy")
+        fromDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy")
+    End Sub
 End Class

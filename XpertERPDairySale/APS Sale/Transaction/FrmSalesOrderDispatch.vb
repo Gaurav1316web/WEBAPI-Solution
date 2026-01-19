@@ -1,4 +1,5 @@
-﻿Imports common
+﻿Imports System.Data.SqlClient
+Imports common
 
 Public Class FrmSalesOrderDispatch
     Inherits FrmMainTranScreen
@@ -9,6 +10,7 @@ Public Class FrmSalesOrderDispatch
     Dim isCellValueChangedOpen As Boolean = False
     Dim GSTStatus As Boolean = False
     Dim OneTimeCheck As Boolean = False
+    Dim DefaultEnableEWayBill As Boolean = False
     Dim CalculateTaxRatefromItemwsieTaxOnSale As Integer = 0
     Const colLineNo As String = "colLineNo"
     Const colRowType As String = "colRowType"
@@ -101,6 +103,8 @@ Public Class FrmSalesOrderDispatch
         RunBatchFifowise = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowise, clsFixedParameterCode.RunBatchFifowise, Nothing))
         RunBatchFifowisewithmodifyfunctionality = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowisewithModifyfunctionality, clsFixedParameterCode.RunBatchFifowisewithModifyfunctionality, Nothing)) = 1, True, False)
         checkstockmrpwise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.checkstockMRPwise, clsFixedParameterCode.checkstockMRPwise, Nothing)) = 0, False, True)
+        DefaultEnableEWayBill = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultEnableEWayBill, clsFixedParameterCode.DefaultEnableEWayBill, Nothing)) = 1, True, False)
+
         btnprinte_wayBill.Visible = True
         lblInvnoForReplacement.Visible = False
         txtInvoice_for_replacement.Visible = False
@@ -757,7 +761,11 @@ Public Class FrmSalesOrderDispatch
         btnSave.Enabled = True
         btnDelete.Enabled = True
         btnPost.Enabled = True
-        chkewaybill.Checked = False
+        If DefaultEnableEWayBill Then
+            chkewaybill.Checked = True
+        Else
+            chkewaybill.Checked = False
+        End If
         ControlEnableDisable(True)
 
     End Sub
@@ -2035,7 +2043,7 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
                 obj.Tax_Group = txtTaxGroup.Value
                 obj.TaxGroupName = lblTaxGrpName.Text
                 obj.Route_No = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_CUSTOMER_MASTER where Cust_Code='" & txtCustomerCode.Value & "'"))
-                obj.IsEwaybill = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsGoverment from TSPL_CUSTOMER_GROUP_MASTER where Cust_Group_Code in(select Cust_Group_Code from TSPL_CUSTOMER_MASTER where Cust_Code='" & txtCustomerCode.Value & "')"))
+                'obj.IsEwaybill = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsGoverment from TSPL_CUSTOMER_GROUP_MASTER where Cust_Group_Code in(select Cust_Group_Code from TSPL_CUSTOMER_MASTER where Cust_Code='" & txtCustomerCode.Value & "')"))
                 If rbtnTaxCalAutomatic.IsChecked Then
                     obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic
                 ElseIf rbtnTaxCalManual.IsChecked Then
@@ -3098,5 +3106,44 @@ from TSPL_SD_SHIPMENT_HEAD left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
+    End Function
+
+    Private Sub btnEWB_Click(sender As Object, e As EventArgs) Handles btnEWB.Click
+        Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Create_Ewb(tran)
+            tran.Commit()
+        Catch ex As Exception
+            tran.Rollback()
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Function Create_Ewb(ByVal trans As SqlTransaction) As Boolean
+
+        Try
+            If clsCommon.myLen(txtDocCode.Value) > 0 AndAlso clsCommon.myLen(txtInvoiceno.Text) > 0 Then
+                Dim EwbNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select EWayBillNo from TSPL_SD_SALE_INVOICE_HEAD where  document_code = '" & txtInvoiceno.Text & "' ", trans))
+                If clsCommon.myLen(EwbNo) = 0 Then
+
+                    If clsCommon.myLen(GetEWayBillNo(txtInvoiceno.Text, trans)) <= 0 Then
+                        clsPSInvoiceHead.EWayBill_Implementation(txtInvoiceno.Text, txtLocation.Value, trans, True)
+                        If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" & txtInvoiceno.Text & "'", trans)) <= 0 Then
+                            Throw New Exception("E-Way Bill For Sales Invoice No [" + txtInvoiceno.Text + "] is not generated")
+                        End If
+                    End If
+                Else
+                    Throw New Exception("Ewb no [" & clsCommon.myCstr(EwbNo) & "] is already exists")
+                End If
+
+            Else
+                Throw New Exception("Please Select Document/Invoice ")
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function GetEWayBillNo(strDocNo As String, trans As SqlTransaction) As String
+        Return clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" + strDocNo + "'", trans))
     End Function
 End Class

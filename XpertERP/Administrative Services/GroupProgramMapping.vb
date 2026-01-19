@@ -412,6 +412,7 @@ Public Class GroupProgramMapping
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DASHBOARD_GROUP_PROGRAM_MAPPING", OMInsertOrUpdate.Insert, "")
                 Next
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndgroup.Value, "TSPL_GROUP_PROGRAM_MAPPING", "Group_Code", "TSPL_DASHBOARD_GROUP_PROGRAM_MAPPING", "Group_Code", Nothing)
 
 
             myMessages.insert()
@@ -569,7 +570,7 @@ Public Class GroupProgramMapping
 
 
             Next
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndgroup.Value, "TSPL_GROUP_PROGRAM_MAPPING", "Group_Code", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndgroup.Value, "TSPL_GROUP_PROGRAM_MAPPING", "Group_Code", trans)
 
 
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_DASHBOARD_GROUP_PROGRAM_MAPPING where Group_Code='" + fndgroup.Value + "'")
@@ -582,6 +583,7 @@ Public Class GroupProgramMapping
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DASHBOARD_GROUP_PROGRAM_MAPPING", OMInsertOrUpdate.Insert, "")
                 Next
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndgroup.Value, "TSPL_GROUP_PROGRAM_MAPPING", "Group_Code", "TSPL_DASHBOARD_GROUP_PROGRAM_MAPPING", "Group_Code", trans)
 
             myMessages.update()
 

@@ -22,14 +22,14 @@ Partial Class FrmProductDispatch
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim WindowsSettings2 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition13 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition14 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -37,6 +37,7 @@ Partial Class FrmProductDispatch
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkIsEWayBill = New Telerik.WinControls.UI.RadCheckBox()
         Me.RadLabel3 = New common.Controls.MyLabel()
         Me.txtDesc = New common.Controls.MyTextBox()
         Me.lblNetbalance = New common.Controls.MyLabel()
@@ -175,6 +176,8 @@ Partial Class FrmProductDispatch
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.btnEWB = New Telerik.WinControls.UI.RadButton()
+        Me.btnprinte_wayBill = New Telerik.WinControls.UI.RadButton()
         Me.txtBoothSecurity = New common.Controls.MyLabel()
         Me.MyLabel72 = New common.Controls.MyLabel()
         Me.txtTCAmt = New common.Controls.MyLabel()
@@ -433,7 +436,6 @@ Partial Class FrmProductDispatch
         Me.Export_Head = New Telerik.WinControls.UI.RadMenuItem()
         Me.Export_details = New Telerik.WinControls.UI.RadMenuItem()
         Me.Import = New Telerik.WinControls.UI.RadMenuItem()
-        Me.chkIsEWayBill = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit
         Me.Panel1.SuspendLayout
         CType(Me.radScrollablePanel1, System.ComponentModel.ISupportInitialize).BeginInit
@@ -445,6 +447,7 @@ Partial Class FrmProductDispatch
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadPageView1.SuspendLayout
         Me.RadPageViewPage1.SuspendLayout
+        CType(Me.chkIsEWayBill, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.lblNetbalance, System.ComponentModel.ISupportInitialize).BeginInit
@@ -579,6 +582,8 @@ Partial Class FrmProductDispatch
         Me.pvpCustomFields.SuspendLayout
         Me.Attachments.SuspendLayout
         Me.RadPageViewPage4.SuspendLayout
+        CType(Me.btnEWB, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.btnprinte_wayBill, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.txtBoothSecurity, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel72, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.txtTCAmt, System.ComponentModel.ISupportInitialize).BeginInit
@@ -828,7 +833,6 @@ Partial Class FrmProductDispatch
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadMenu1.SuspendLayout
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.chkIsEWayBill, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
@@ -859,9 +863,9 @@ Partial Class FrmProductDispatch
         Me.RadMenuItem2.TabIndex = 0
         Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenuItem2.Visible = False
-        WindowsSettings2.EnableRoundedCorners = Nothing
-        WindowsSettings2.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
-        Me.RadMenuItem2.WindowsSettings = WindowsSettings2
+        WindowsSettings1.EnableRoundedCorners = Nothing
+        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
         'Panel1
         '
@@ -1034,6 +1038,15 @@ Partial Class FrmProductDispatch
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1089, 416)
         Me.RadPageViewPage1.Text = "Shipment"
+        '
+        'chkIsEWayBill
+        '
+        Me.chkIsEWayBill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkIsEWayBill.Location = New System.Drawing.Point(543, 173)
+        Me.chkIsEWayBill.Name = "chkIsEWayBill"
+        Me.chkIsEWayBill.Size = New System.Drawing.Size(107, 16)
+        Me.chkIsEWayBill.TabIndex = 1570
+        Me.chkIsEWayBill.Text = "Create E-way Bill"
         '
         'RadLabel3
         '
@@ -2419,7 +2432,7 @@ Partial Class FrmProductDispatch
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -2806,7 +2819,7 @@ Partial Class FrmProductDispatch
         Me.gvDistributor.MasterTemplate.AllowDeleteRow = False
         Me.gvDistributor.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDistributor.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvDistributor.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gvDistributor.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvDistributor.MyExportFilePath = ""
         Me.gvDistributor.MyStopExport = False
         Me.gvDistributor.Name = "gvDistributor"
@@ -3102,7 +3115,7 @@ Partial Class FrmProductDispatch
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
@@ -3156,7 +3169,7 @@ Partial Class FrmProductDispatch
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvAC.MyExportFilePath = ""
         Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
@@ -3228,6 +3241,8 @@ Partial Class FrmProductDispatch
         '
         'RadPageViewPage4
         '
+        Me.RadPageViewPage4.Controls.Add(Me.btnEWB)
+        Me.RadPageViewPage4.Controls.Add(Me.btnprinte_wayBill)
         Me.RadPageViewPage4.Controls.Add(Me.txtBoothSecurity)
         Me.RadPageViewPage4.Controls.Add(Me.MyLabel72)
         Me.RadPageViewPage4.Controls.Add(Me.txtTCAmt)
@@ -3277,6 +3292,26 @@ Partial Class FrmProductDispatch
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1089, 416)
         Me.RadPageViewPage4.Text = "Total"
+        '
+        'btnEWB
+        '
+        Me.btnEWB.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnEWB.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnEWB.Location = New System.Drawing.Point(383, 205)
+        Me.btnEWB.Name = "btnEWB"
+        Me.btnEWB.Size = New System.Drawing.Size(131, 22)
+        Me.btnEWB.TabIndex = 1530
+        Me.btnEWB.Text = "Create E-Way Bill"
+        '
+        'btnprinte_wayBill
+        '
+        Me.btnprinte_wayBill.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnprinte_wayBill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnprinte_wayBill.Location = New System.Drawing.Point(383, 234)
+        Me.btnprinte_wayBill.Name = "btnprinte_wayBill"
+        Me.btnprinte_wayBill.Size = New System.Drawing.Size(94, 20)
+        Me.btnprinte_wayBill.TabIndex = 1531
+        Me.btnprinte_wayBill.Text = "Print E-Way Bill"
         '
         'txtBoothSecurity
         '
@@ -4120,7 +4155,7 @@ Partial Class FrmProductDispatch
         Me.gv_Uploader_Temp.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_Uploader_Temp.MasterTemplate.ShowGroupedColumns = True
         Me.gv_Uploader_Temp.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_Uploader_Temp.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.gv_Uploader_Temp.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv_Uploader_Temp.MyExportFilePath = ""
         Me.gv_Uploader_Temp.MyStopExport = False
         Me.gv_Uploader_Temp.Name = "gv_Uploader_Temp"
@@ -4142,7 +4177,7 @@ Partial Class FrmProductDispatch
         Me.gv_Uploader.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_Uploader.MasterTemplate.ShowGroupedColumns = True
         Me.gv_Uploader.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_Uploader.MasterTemplate.ViewDefinition = TableViewDefinition13
+        Me.gv_Uploader.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gv_Uploader.MyExportFilePath = ""
         Me.gv_Uploader.MyStopExport = False
         Me.gv_Uploader.Name = "gv_Uploader"
@@ -4718,7 +4753,7 @@ Partial Class FrmProductDispatch
         '
         '
         '
-        Me.gvCC.MasterTemplate.ViewDefinition = TableViewDefinition14
+        Me.gvCC.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvCC.Name = "gvCC"
         Me.gvCC.Size = New System.Drawing.Size(1089, 318)
         Me.gvCC.TabIndex = 0
@@ -7167,15 +7202,6 @@ Partial Class FrmProductDispatch
         Me.Import.Text = "Import"
         Me.Import.Visibility = Telerik.WinControls.ElementVisibility.Hidden
         '
-        'chkIsEWayBill
-        '
-        Me.chkIsEWayBill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkIsEWayBill.Location = New System.Drawing.Point(543, 173)
-        Me.chkIsEWayBill.Name = "chkIsEWayBill"
-        Me.chkIsEWayBill.Size = New System.Drawing.Size(107, 16)
-        Me.chkIsEWayBill.TabIndex = 1570
-        Me.chkIsEWayBill.Text = "Create E-way Bill"
-        '
         'FrmProductDispatch
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -7202,6 +7228,7 @@ Partial Class FrmProductDispatch
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout
+        CType(Me.chkIsEWayBill, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.lblNetbalance, System.ComponentModel.ISupportInitialize).EndInit
@@ -7345,6 +7372,8 @@ Partial Class FrmProductDispatch
         Me.Attachments.ResumeLayout(False)
         Me.RadPageViewPage4.ResumeLayout(False)
         Me.RadPageViewPage4.PerformLayout
+        CType(Me.btnEWB, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.btnprinte_wayBill, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.txtBoothSecurity, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel72, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.txtTCAmt, System.ComponentModel.ISupportInitialize).EndInit
@@ -7609,7 +7638,6 @@ Partial Class FrmProductDispatch
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit
         Me.RadMenu1.ResumeLayout(False)
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.chkIsEWayBill, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(False)
         Me.PerformLayout
@@ -8019,4 +8047,6 @@ Partial Class FrmProductDispatch
     Friend WithEvents RadLabel3 As common.Controls.MyLabel
     Friend WithEvents txtDesc As common.Controls.MyTextBox
     Friend WithEvents chkIsEWayBill As RadCheckBox
+    Friend WithEvents btnEWB As RadButton
+    Friend WithEvents btnprinte_wayBill As RadButton
 End Class

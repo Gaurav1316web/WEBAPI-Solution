@@ -23,6 +23,7 @@ Public Class FrmDispatchReturn
     Dim AllowCrateCanPhysicalStock As Integer = 0
     Dim AutoCalculateCrate As Integer = 0
     Dim AutoCalculateCAN As Integer = 0
+    Dim DispatchCommissionDecimalPlaces As Decimal = 4
     Dim ShowMulMRPOfSameItemOnDairyBookingCustomer As Boolean = False
     Const colCrate As String = "colCrate"
     Const colCan As String = "colCan"
@@ -345,7 +346,8 @@ Public Class FrmDispatchReturn
         ApplyRoundOffZero = If(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyRoundOffZero, clsFixedParameterCode.ApplyRoundOffZero, Nothing)) = 1, True, False)
         'ApplyBoothWiseReturn = If(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyBoothWiseReturn, clsFixedParameterCode.ApplyBoothWiseReturn, Nothing)) = 1, True, False)
         CalculateTaxRatefromItemwsieTaxOnSale = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CalculateTaxRatefromItemwsieTaxOnSale, clsFixedParameterCode.CalculateTaxRatefromItemwsieTaxOnSale, Nothing))
-        crateTable()
+        DispatchCommissionDecimalPlaces = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DispatchCommissionDecimalPlaces, clsFixedParameterCode.DispatchCommissionDecimalPlaces, Nothing))
+        'crateTable()
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = clsCommon.GETSERVERDATE
         chkVendorGrossReceipt.Visible = False
@@ -2600,10 +2602,14 @@ Public Class FrmDispatchReturn
         ReStoreGridLayout()
     End Sub
     Public Sub GetDCDetails(ByVal intRow As Integer)
+        Dim docDate As DateTime = Nothing
+        If clsCommon.myLen(txtReqNo.Value) > 0 Then
+            docDate = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select Document_Date from TSPL_SD_SHIPMENT_HEAD where Document_Code='" & txtReqNo.Value & "'"))
+        End If
         Dim DCQry As String = "select top 1 TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Commision_UOM,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.PK_ID,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Rate,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Transporter_Rate,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Security_Rate from TSPL_DISTRIBUTOR_COMMISSION_HEAD
 left join TSPL_DISTRIBUTOR_COMMISSION_DETAIL on TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
 left join TSPL_DISTRIBUTOR_COMMISSION_ITEMS on TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
-where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code='" + clsCommon.myCstr(gv1.Rows(intRow).Cells(colICode).Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_HEAD.IsPosted=1 and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Route_Code='" + clsCommon.myCstr(txtRouteNo.Value) + "' 
+where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" & IIf(clsCommon.myLen(txtReqNo.Value) > 0, clsCommon.GetPrintDate(docDate), clsCommon.GetPrintDate(txtDate.Value)) & "' and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code='" + clsCommon.myCstr(gv1.Rows(intRow).Cells(colICode).Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_HEAD.IsPosted=1 and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Route_Code='" + clsCommon.myCstr(txtRouteNo.Value) + "' 
  order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No desc"
         Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(DCQry)
         If (dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0) Then
@@ -3982,15 +3988,31 @@ Where TSPL_ITEM_MASTER.Item_Code='" + itemCode + "' And TSPL_ITEM_UOM_DETAIL.UOM
             End If
         Next
     End Sub
+    Private Function GetCurrentRowTotalTCSTaxAmt(ByVal IntRowNo As Integer) As Double
+        Dim dblTotTax As Double = 0
+        For ii As Integer = 1 To 10
+            Dim strii As String = clsCommon.myCstr(ii)
+            If clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(clsCommon.myCstr("colTax" + strii)).Value), "TCS") = CompairStringResult.Equal Then
+                If IntRowNo < 0 Then
+                    dblTotTax = dblTotTax + Math.Round(clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXAMT" + strii)).Value), 2)
+                Else
+                    dblTotTax = dblTotTax + Math.Round(clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXAMT" + strii)).Value), 2)
+                End If
+            End If
 
+        Next
+        Return dblTotTax
+    End Function
     Private Function GetCurrentRowTotalTaxAmt(ByVal IntRowNo As Integer) As Double
         Dim dblTotTax As Double = 0
         For ii As Integer = 1 To 10
             Dim strii As String = clsCommon.myCstr(ii)
-            If IntRowNo < 0 Then
-                dblTotTax = dblTotTax + clsCommon.myCdbl(gv1.CurrentRow.Cells(clsCommon.myCstr("COLTAXAMT" + strii)).Value)
-            Else
-                dblTotTax = dblTotTax + clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXAMT" + strii)).Value)
+            If Not clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(clsCommon.myCstr("colTax" + strii)).Value), "TCS") = CompairStringResult.Equal Then
+                If IntRowNo < 0 Then
+                    dblTotTax = dblTotTax + Math.Round(clsCommon.myCdbl(gv1.CurrentRow.Cells(clsCommon.myCstr("COLTAXAMT" + strii)).Value), 2)
+                Else
+                    dblTotTax = dblTotTax + Math.Round(clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXAMT" + strii)).Value), 2)
+                End If
             End If
         Next
         Return dblTotTax
@@ -5915,9 +5937,9 @@ Where TSPL_ITEM_MASTER.Item_Code='" + itemCode + "' And TSPL_ITEM_UOM_DETAIL.UOM
                     SMSSENDONLY(True)
                 End If
 
-                If (common.clsCommon.MyMessageBoxShow(Me, "Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
-                    funPrint(txtDocNo.Value)
-                End If
+                'If (common.clsCommon.MyMessageBoxShow(Me, "Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
+                '    funPrint(txtDocNo.Value)
+                'End If
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -7241,7 +7263,7 @@ left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DI
 
     Public Sub funPrint(ByVal StrCode As String, Optional ByVal IsPDF As Boolean = False)
         Try
-            clsDSSalesReturnHead.funsaleReturnDairyPrint(MyBase.Form_ID, Nothing, txtDate.Value, StrCode, IsPDF)
+            clsDSSalesReturnHead.funsaleReturnDairyPrint(MyBase.Form_ID, "Dispatch_Return", txtDate.Value, StrCode, IsPDF)
 
 
         Catch ex As Exception
@@ -7741,7 +7763,7 @@ left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DI
                 If Not ApplyCommissionRateWithTax Then
                     gv1.Rows(IntRowNo).Cells(ColDCRateWithTax).Value = gv1.Rows(IntRowNo).Cells(ColDCRate).Value
                 Else
-                    gv1.Rows(IntRowNo).Cells(ColDCRateWithTax).Value = Math.Round(gv1.Rows(IntRowNo).Cells(ColDCRate).Value * 100 / (100 + dblTotTaxRate), 4)
+                    gv1.Rows(IntRowNo).Cells(ColDCRateWithTax).Value = clsCommon.myRoundOFF(gv1.Rows(IntRowNo).Cells(ColDCRate).Value * 100 / (100 + dblTotTaxRate), DispatchCommissionDecimalPlaces, 4)
                 End If
                 gv1.Rows(IntRowNo).Cells(ColDCQtyinSU).Value = (clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colActualQty).Value) * clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColDCUnitCF).Value)) / gv1.Rows(IntRowNo).Cells(ColDCCFUOM).Value
                 gv1.Rows(IntRowNo).Cells(ColDCAmt).Value = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColDCQtyinSU).Value) * clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColDCRateWithTax).Value)
@@ -7804,13 +7826,13 @@ left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DI
                             dblBaseAmt = (dblAmtAfterDis + dblOtherTaxAmt)
                             ''End If
                         End If
-                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = Math.Round(dblBaseAmt, 2)
+                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = Math.Round(dblBaseAmt, 3)
                         dblTaxAmt = (dblBaseAmt * dblTaxRate) / 100
                         ' gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = Math.Round(dblTaxAmt, 2)
                         'If IsTaxable AndAlso Not arrTaxableAuth.Contains(strTaxCode.ToUpper()) Then
                         '    arrTaxableAuth.Add(strTaxCode.ToUpper())
                         'End If
-                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = Math.Round(dblTaxAmt, 2)
+                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = Math.Round(dblTaxAmt, 6)
                         If (IsTaxable AndAlso Not arrTaxableAuth.Contains(strTaxCode.ToUpper())) AndAlso (clsCommon.CompairString(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value, "CGST") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value, "SGST") <> CompairStringResult.Equal) Then
                             arrTaxableAuth.Add(strTaxCode.ToUpper())
                             'ElseIf clsCommon.CompairString(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value, "TCS") = CompairStringResult.Equal Then
@@ -7851,7 +7873,8 @@ left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DI
                 dblTotDiscAmt = 0
             End If
             Dim dblTotTaxAmt As Double = GetCurrentRowTotalTaxAmt(IntRowNo)
-            Dim dblAmtAfterTax As Double = dblAmtAfterDis + dblTotTaxAmt
+            Dim dblTotTCSTaxAmt As Double = GetCurrentRowTotalTCSTaxAmt(IntRowNo)
+            Dim dblAmtAfterTax As Double = dblAmtAfterDis + dblTotTaxAmt + dblTotTCSTaxAmt
             gv1.Rows(IntRowNo).Cells(colAlterUnitQty).Value = Math.Round(dblAlterQty, 2)
             gv1.Rows(IntRowNo).Cells(colRateUnitQty).Value = Math.Round(dblQty, 2)
 

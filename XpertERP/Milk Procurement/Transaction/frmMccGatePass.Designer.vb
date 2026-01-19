@@ -33,7 +33,9 @@ Partial Class frmMccGatePass
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.txtDriverName = New common.Controls.MyTextBox()
         Me.txtRouteNo = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel1 = New common.Controls.MyLabel()
         Me.lblRoute = New common.Controls.MyLabel()
         Me.txtmultiBooking = New common.UserControls.txtMultiSelectFinder()
         Me.lblInvoiceNo = New common.Controls.MyLabel()
@@ -53,6 +55,7 @@ Partial Class frmMccGatePass
         Me.txtVehicle = New common.UserControls.txtFinder()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
@@ -61,8 +64,6 @@ Partial Class frmMccGatePass
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSelect = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.txtDriverName = New common.Controls.MyTextBox()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSalesman, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -71,6 +72,8 @@ Partial Class frmMccGatePass
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.txtDriverName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblInvoiceNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -88,14 +91,13 @@ Partial Class frmMccGatePass
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSelect, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtDriverName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -200,6 +202,30 @@ Partial Class frmMccGatePass
         Me.Panel1.Size = New System.Drawing.Size(1076, 176)
         Me.Panel1.TabIndex = 0
         '
+        'txtDriverName
+        '
+        Me.txtDriverName.CalculationExpression = Nothing
+        Me.txtDriverName.FieldCode = Nothing
+        Me.txtDriverName.FieldDesc = Nothing
+        Me.txtDriverName.FieldMaxLength = 0
+        Me.txtDriverName.FieldName = Nothing
+        Me.txtDriverName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDriverName.isCalculatedField = False
+        Me.txtDriverName.IsSourceFromTable = False
+        Me.txtDriverName.IsSourceFromValueList = False
+        Me.txtDriverName.IsUnique = False
+        Me.txtDriverName.Location = New System.Drawing.Point(527, 57)
+        Me.txtDriverName.MaxLength = 200
+        Me.txtDriverName.MendatroryField = False
+        Me.txtDriverName.MyLinkLable1 = Me.lblSalesman
+        Me.txtDriverName.MyLinkLable2 = Nothing
+        Me.txtDriverName.Name = "txtDriverName"
+        Me.txtDriverName.ReferenceFieldDesc = Nothing
+        Me.txtDriverName.ReferenceFieldName = Nothing
+        Me.txtDriverName.ReferenceTableName = Nothing
+        Me.txtDriverName.Size = New System.Drawing.Size(198, 18)
+        Me.txtDriverName.TabIndex = 1463
+        '
         'txtRouteNo
         '
         Me.txtRouteNo.arrDispalyMember = Nothing
@@ -213,6 +239,16 @@ Partial Class frmMccGatePass
         Me.txtRouteNo.Size = New System.Drawing.Size(633, 19)
         Me.txtRouteNo.TabIndex = 1461
         Me.txtRouteNo.Visible = False
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(447, 57)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(70, 16)
+        Me.MyLabel1.TabIndex = 1462
+        Me.MyLabel1.Text = "Driver Name"
         '
         'lblRoute
         '
@@ -547,6 +583,7 @@ Partial Class frmMccGatePass
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadSplitButton1)
@@ -557,6 +594,16 @@ Partial Class frmMccGatePass
         Me.SplitContainer1.Size = New System.Drawing.Size(1076, 519)
         Me.SplitContainer1.SplitterDistance = 475
         Me.SplitContainer1.TabIndex = 3
+        '
+        'btnDelete
+        '
+        Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnDelete.Location = New System.Drawing.Point(466, 8)
+        Me.btnDelete.Name = "btnDelete"
+        Me.btnDelete.Size = New System.Drawing.Size(82, 24)
+        Me.btnDelete.TabIndex = 57
+        Me.btnDelete.Text = "Delete"
         '
         'btnHistory
         '
@@ -628,40 +675,6 @@ Partial Class frmMccGatePass
         Me.RadMenu1.Size = New System.Drawing.Size(1076, 20)
         Me.RadMenu1.TabIndex = 0
         '
-        'MyLabel1
-        '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(447, 57)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(70, 16)
-        Me.MyLabel1.TabIndex = 1462
-        Me.MyLabel1.Text = "Driver Name"
-        '
-        'txtDriverName
-        '
-        Me.txtDriverName.CalculationExpression = Nothing
-        Me.txtDriverName.FieldCode = Nothing
-        Me.txtDriverName.FieldDesc = Nothing
-        Me.txtDriverName.FieldMaxLength = 0
-        Me.txtDriverName.FieldName = Nothing
-        Me.txtDriverName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDriverName.isCalculatedField = False
-        Me.txtDriverName.IsSourceFromTable = False
-        Me.txtDriverName.IsSourceFromValueList = False
-        Me.txtDriverName.IsUnique = False
-        Me.txtDriverName.Location = New System.Drawing.Point(527, 57)
-        Me.txtDriverName.MaxLength = 200
-        Me.txtDriverName.MendatroryField = False
-        Me.txtDriverName.MyLinkLable1 = Me.lblSalesman
-        Me.txtDriverName.MyLinkLable2 = Nothing
-        Me.txtDriverName.Name = "txtDriverName"
-        Me.txtDriverName.ReferenceFieldDesc = Nothing
-        Me.txtDriverName.ReferenceFieldName = Nothing
-        Me.txtDriverName.ReferenceTableName = Nothing
-        Me.txtDriverName.Size = New System.Drawing.Size(198, 18)
-        Me.txtDriverName.TabIndex = 1463
-        '
         'frmMccGatePass
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -684,6 +697,8 @@ Partial Class frmMccGatePass
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.txtDriverName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblInvoiceNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -701,14 +716,13 @@ Partial Class frmMccGatePass
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSelect, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtDriverName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -751,5 +765,6 @@ Partial Class frmMccGatePass
     Friend WithEvents lblRoute As common.Controls.MyLabel
     Friend WithEvents txtDriverName As common.Controls.MyTextBox
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents btnDelete As RadButton
 End Class
 

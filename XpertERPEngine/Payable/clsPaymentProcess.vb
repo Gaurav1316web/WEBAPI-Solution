@@ -3424,6 +3424,35 @@ left join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_VENDOR_INVOICE_
 where 2=2 and RefDocType In('CAP-MSN-CDCS','CAP-MSN','CAP-OMSN') and TSPL_PAYMENT_PROCESS_DEDUCTION.doc_no  in (" + strDocNo + ") )XX order by SRNDate  "
         Dim dtCorrection As DataTable = clsDBFuncationality.GetDataTable(sQuery)
 
+        ''SUSPENSE QUERY
+
+        sQuery = " Select * from ( Select TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No as Document_No, TSPL_PAYMENT_PROCESS_HEAD.To_Date as Doc_Date,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No,
+TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,
+TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount,0 as Reduce_Deduc_Amt, 
+CAST(TSPL_MILK_SRN_HEAD.DOC_DATE AS DATE) AS SRNDate
+from TSPL_PAYMENT_PROCESS_CREDIT_NOTE
+left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
+left join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No
+left  join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No
+left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+left join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_VENDOR_INVOICE_HEAD.RefDocNo
+where 2=2  and RefDocType In('SUS-ADJC') and TSPL_PAYMENT_PROCESS_CREDIT_NOTE.doc_no  in (" + strDocNo + ") 
+
+union all
+Select TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No as Document_No, TSPL_PAYMENT_PROCESS_HEAD.To_Date as Doc_Date,TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No ,
+TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,
+TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_DEDUCTION.Amount,
+TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt,CAST(TSPL_MILK_SRN_HEAD.DOC_DATE AS DATE) AS SRNDate
+from TSPL_PAYMENT_PROCESS_DEDUCTION
+left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
+left join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No
+left  join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No
+left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+left join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_VENDOR_INVOICE_HEAD.RefDocNo
+where 2=2 and RefDocType In('SUS-ADJD') and TSPL_PAYMENT_PROCESS_DEDUCTION.doc_no  in (" + strDocNo + ") )XX order by SRNDate  "
+        Dim dtsuspense As DataTable = clsDBFuncationality.GetDataTable(sQuery)
+
+
         If dt IsNot Nothing And dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
             'If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDF") = CompairStringResult.Equal Then
@@ -3522,7 +3551,7 @@ where 2=2 and RefDocType In('CAP-MSN-CDCS','CAP-MSN','CAP-OMSN') and TSPL_PAYMEN
                     dtDeductionOther.Rows.Add(dr)
                 End If
 
-                PDFPath = frmCRV.funsubreportWithdt(clsUserMgtCode.frmPaymentProcess, isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAdditionFinance, "crptMilkPurchaseBillPaymentProcessNewJPR", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeductionFinance, "subReduceDeduction.rpt", dtReduceDeduction, "subSaving.rpt", dtSaving, "SubAdditionOther.rpt", dtAdditionOther, "SubDeductionOther.rpt", dtDeductionOther, "SubCorrectionWise.rpt", dtCorrection)
+                PDFPath = frmCRV.funsubreportWithdt(clsUserMgtCode.frmPaymentProcess, isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAdditionFinance, "crptMilkPurchaseBillPaymentProcessNewJPR", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeductionFinance, "subReduceDeduction.rpt", dtReduceDeduction, "subSaving.rpt", dtSaving, "SubAdditionOther.rpt", dtAdditionOther, "SubDeductionOther.rpt", dtDeductionOther, "SubCorrectionWise.rpt", dtCorrection, "SubMilkCorrectionDetail.rpt", dtsuspense)
             ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                 PDFPath = frmCRV.funsubreportWithdt(clsUserMgtCode.frmPaymentProcess, isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewGNG", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
             ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal AndAlso PaymentProcessInHindi = True AndAlso isprintHindi Then

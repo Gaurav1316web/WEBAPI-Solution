@@ -2,6 +2,8 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
+    Public Const AndroidFarmerCollection As String = "Android Farmer Collection"
+    Public Const SuspenceAdjusmtmentFATSNFTolerancePercentage = "Suspence Adjusmtment FAT SNF Tolerance %"
     Public Const TransactionModify As String = "Transaction Modify"
     Public Const TransactionValidity As String = "Transaction Validity"
     Public Const AutoGenerateFarmerPriceFromDCSPrice As String = "Auto Generate Farmer Price From DCS Price"
@@ -521,6 +523,7 @@ Public Class clsFixedParameterType
     Public Const IsItemRateEditableOnSalesForAprilOnly As String = "ForAprilOnly"
     Public Const PWD As String = "PWD"
     Public Const AllowMilkReceiptAfterSettingsisOn As String = "AllowMilkReceiptAfterSettingsisOn"
+    Public Const BMCMilkQCManualPassword As String = "BMCMilkQCManualPassword"
     Public Const MilkReceiptTolerancePwd As String = "MilkReceiptTolerancePwd"
     Public Const MCC_DLTDATA_PWD As String = "MCC_DLTDATA_PWD"
     Public Const Allow_Excel_Code_on_Mcc_Master As String = "AllowExCodeONMcc"
@@ -690,6 +693,7 @@ Public Class clsFixedParameterType
     Public Const ShowCostCenterAndHierarchyLevelInPurchaseModule As String = "ShowCostCenterAndHierarchyLevelInPurchaseModule"
     Public Const IsQCColumnRequiredonMRN As String = "IsQCColumnRequiredonMRN"
     Public Const ShowItemAllStructureWise As String = "ShowItemAllStructureWise"
+    Public Const ShowUpto6DecimalPlaces As String = "ShowUpto6DecimalPlaces"
     Public Const PurchaseModule As String = "Purchase Module"
     Public Const IsRGPAfterPurchaseOrder As String = "Do RGP After Purchase Order"
     Public Const AllowQualityModuleInERP As String = "On Quality Module"
@@ -1384,6 +1388,7 @@ Public Class clsFixedParameterType
     Public Const CreateAutoGatePass = "Create Auto Gate Pass"
 End Class
 Public Class clsFixedParameterCode
+    Public Const SuspenceAdjusmtmentFATSNFTolerancePercentage = "Suspence Adjusmtment FAT SNF Tolerance %"
     Public Const TransactionModify As String = "Transaction Modify"
     Public Const TransactionValidity As String = "Transaction Validity"
     Public Const AutoGenerateFarmerPriceFromDCSPrice As String = "Auto Generate Farmer Price From DCS Price"
@@ -2030,6 +2035,7 @@ Public Class clsFixedParameterCode
     Public Const PT As String = "PT"
     Public Const UserPWD As String = "UserPWD"
     Public Const AllowMilkReceiptAfterSettingsisOn As String = "AllowMilkReceiptAfterSettingsisOn"
+    Public Const BMCMilkQCManualPassword As String = "BMCMilkQCManualPassword"
     Public Const MilkReceiptTolerancePwd As String = "MilkReceiptTolerancePwd"
     Public Const MCCDLTPWD As String = "MCCDLTPWD"
     Public Const Allow_ExcelCode_On_Mcc As String = "Allow_ExcelCode_On_Mcc"
@@ -2175,6 +2181,7 @@ Public Class clsFixedParameterCode
     Public Const ShowCostCenterAndHierarchyLevelInPurchaseModule As String = "ShowCostCenterAndHierarchyLevelInPurchaseModule"
     Public Const IsQCColumnRequiredonMRN As String = "IsQCColumnRequiredonMRN"
     Public Const ShowItemAllStructureWise As String = "ShowItemAllStructureWise"
+    Public Const ShowUpto6DecimalPlaces As String = "ShowUpto6DecimalPlaces"
     Public Const RateDecimalPlaces As String = "Rate Decimal Places"
     Public Const AllowQcDateAfterCurrentDate As String = "AllowQcDateAfterCurrentDate"
     Public Const AllowWeighmentDateAfterCurrentDate As String = "AllowWeighmentDateAfterCurrentDate"
@@ -3002,6 +3009,10 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MaxFATPerLimit, "15", "Android Farmer Collection Max FAT Per")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MaxSNFPerLimit, "15", "Android Farmer Collection Max SNF Per")
+
+        InsertDefaultValueFixedParameter(clsFixedParameterType.SuspenceAdjusmtmentFATSNFTolerancePercentage, clsFixedParameterCode.SuspenceAdjusmtmentFATSNFTolerancePercentage, "1.5", "Suspence Adjusmtment FAT SNF Tolerance Percentage")
         InsertDefaultValueFixedParameter(clsFixedParameterType.TransactionModify, clsFixedParameterCode.TransactionModify, "Trans@123", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.TransactionValidity, clsFixedParameterCode.TransactionValidity, "30", "Set Transaction Validity Day")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AutoGenerateFarmerPriceFromDCSPrice, clsFixedParameterCode.AutoGenerateFarmerPriceFromDCSPrice, "1", "0:OFF,1:ON;if on then Auto Genrate Farmer Price on Post dcs Price of Transaction")
@@ -3616,6 +3627,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.GLACAccordingToTaxRate, clsFixedParameterCode.GLACAccordingToTaxRate, "0", "0-OFF;1-On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PWD, clsFixedParameterCode.UserPWD, "dont type password", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowMilkReceiptAfterSettingsisOn, clsFixedParameterCode.AllowMilkReceiptAfterSettingsisOn, "kdil123", "")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.BMCMilkQCManualPassword, clsFixedParameterCode.BMCMilkQCManualPassword, "c106", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MilkReceiptTolerancePwd, clsFixedParameterCode.MilkReceiptTolerancePwd, "udl@123", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MCC_DLTDATA_PWD, clsFixedParameterCode.MCCDLTPWD, "TecXpertb12sec2", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Allow_Excel_Code_on_Mcc_Master, clsFixedParameterCode.Allow_ExcelCode_On_Mcc, "0", "")
@@ -3812,6 +3824,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowCostCenterAndHierarchyLevelInPurchaseModule, clsFixedParameterCode.ShowCostCenterAndHierarchyLevelInPurchaseModule, "0", "0 :Off, 1: On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.IsQCColumnRequiredonMRN, clsFixedParameterCode.IsQCColumnRequiredonMRN, "0", "0 :Off, 1: On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, "0", "0 :Off, 1: On")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ShowUpto6DecimalPlaces, clsFixedParameterCode.ShowUpto6DecimalPlaces, "0", "0 :Off, 1: On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PurchaseModule, clsFixedParameterCode.RateDecimalPlaces, "3", "Allow user to input rate decimal places [0-10]")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowPOScheduling, clsFixedParameterCode.AllowPOScheduling, "0", "0:Off, 1:On for allow PO Scheduling in system.")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MilkProc, clsFixedParameterCode.AllowQcDateAfterCurrentDate, "0", "0:Off, 1:On ")
@@ -4667,6 +4680,8 @@ Public Class clsFixedParameterProgramMapping
     End Function
     Public Shared Sub SetDefaultValues()
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_FIXED_PARAMETER_PROGRAM_MAPPING")
+        InsertDefaultValue(clsUserMgtCode.frmVlcdataUploadar, clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MaxFATPerLimit, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.frmVlcdataUploadar, clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MaxSNFPerLimit, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.PickcompanyBankCodeFromPaymentProcess, clsFixedParameterCode.PickcompanyBankCodeFromPaymentProcess, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.isThereOnlyOneRowOfOwnDCS, clsFixedParameterCode.isThereOnlyOneRowOfOwnDCS, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.PrintOnlyPostedDocument, clsFixedParameterCode.PrintOnlyPostedDocument, EnumControlType.CheckBox)
@@ -5624,6 +5639,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.mbtnIssueReturn, clsFixedParameterType.ShowCostCenterAndHierarchyLevelInPurchaseModule, clsFixedParameterCode.ShowCostCenterAndHierarchyLevelInPurchaseModule, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmStoreRequistion, clsFixedParameterType.ShowCostCenterAndHierarchyLevelInPurchaseModule, clsFixedParameterCode.ShowCostCenterAndHierarchyLevelInPurchaseModule, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.mbtnPurchaseRequistion, clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmTender, clsFixedParameterType.ShowUpto6DecimalPlaces, clsFixedParameterCode.ShowUpto6DecimalPlaces, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.mbtnPurchaseOrder, clsFixedParameterType.PurchaseModule, clsFixedParameterCode.RateDecimalPlaces, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmStoreRequistion, clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.mbtnMRN, clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, EnumControlType.CheckBox)
@@ -6548,5 +6564,6 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.AllowToCheckZeroQtyonDispatch, clsFixedParameterCode.AllowToCheckZeroQtyonDispatch, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.DefaultEnableEWayBill, clsFixedParameterCode.DefaultEnableEWayBill, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.CreateAutoGatePass, clsFixedParameterCode.CreateAutoGatePass, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.MilkProcurementCorrection, clsFixedParameterType.SuspenceAdjusmtmentFATSNFTolerancePercentage, clsFixedParameterCode.SuspenceAdjusmtmentFATSNFTolerancePercentage, EnumControlType.NumericBox)
     End Sub
 End Class

@@ -1392,8 +1392,8 @@ Public Class clsEmpFamilieDetails
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
-            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMPLOYEE_MASTER", "EMP_CODE", "TSPL_EMPLOYEE_MASTER", "EMP_CODE", trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMPLOYEE_MASTER", "EMP_CODE", "TSPL_EMPLOYEE_MASTER", "EMP_CODE", trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMPLOYEE_FAMILIES", "EMP_CODE", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_EMPLOYEE_FAMILIES", "EMP_CODE", trans)
 
             Dim qry As String
             qry = " delete from TSPL_EMPLOYEE_FAMILIES where EMP_CODE ='" + strCode + "'"
@@ -1566,7 +1566,7 @@ Public Class clsEmpLanguageDetails
                     Else
                         isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_LANGUAGES", OMInsertOrUpdate.Update, " EMP_CODE = '" & strCode & "' and LINE_NO = '" & obj.LINE_NO & "'  ", trans)
                     End If
-                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.LINE_NO), "TSPL_EMPLOYEE_LANGUAGES", "LINE_NO", "TSPL_TENDER_DETAIL", "LINE_NO", trans)
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.LINE_NO), "TSPL_EMPLOYEE_LANGUAGES", "LINE_NO", trans)
 
 
                 Next

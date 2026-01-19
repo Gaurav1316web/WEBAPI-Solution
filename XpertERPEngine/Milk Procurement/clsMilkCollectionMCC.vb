@@ -502,10 +502,10 @@ Public Class clsMilkCollectionMCCDetail
     Public Retesting_On As String
     Public Remark As String
     Public isNewEntry As Boolean
-
-
-
-
+    Public Manual_Sample As Integer
+    Public Source_API As Integer
+    Public Manual_By As String
+    Public Manual_Date As String
 #End Region
 
     Public Shared Function AddMissing(ByVal strDocNo As String, ByVal Arr As List(Of clsMilkCollectionMCCDetail)) As Boolean
@@ -614,6 +614,13 @@ Public Class clsMilkCollectionMCCDetail
                 clsCommon.AddColumnsForChange(coll, "Against_Multiple_Days_Merge_Day_Detail", obj.Against_Multiple_Days_Merge_Day_Detail, True)
                 clsCommon.AddColumnsForChange(coll, "REF_PK_ID_BMCDCS_TRIP", obj.REF_PK_ID_BMCDCS_TRIP, True)
                 clsCommon.AddColumnsForChange(coll, "IsUpdatedFromCorrection", IIf(IsUpdatedFromCorrection = True, 1, 0))
+                clsCommon.AddColumnsForChange(coll, "Manual_Sample", obj.Manual_Sample, True)
+                clsCommon.AddColumnsForChange(coll, "Manual_By", obj.Manual_By, True)
+                If clsCommon.myLen(obj.Manual_Date) > 0 Then
+                    clsCommon.AddColumnsForChange(coll, "Manual_Date", clsCommon.GetPrintDate(obj.Manual_Date, "dd/MMM/yyyy hh:mm:ss tt"), True)
+                End If
+                clsCommon.AddColumnsForChange(coll, "Source_API", obj.Source_API, True)
+
                 If obj.PK_Id > 0 Then
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC_DETAIL", OMInsertOrUpdate.Update, "PK_Id='" + clsCommon.myCstr(obj.PK_Id) + "' ", trans)
                 Else
@@ -682,8 +689,10 @@ where  TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No='" + strPONo + "' "
                 objTr.REF_PK_ID_BMCDCS_TRIP = clsCommon.myCDecimal(dr("REF_PK_ID_BMCDCS_TRIP"))
                 objTr.Milk_Not_Picked = (clsCommon.myCDecimal(dr("Milk_Not_Picked")) = 1)
                 objTr.Required_Retesting = (clsCommon.myCDecimal(dr("Required_Retesting")) = 1)
-                objTr.Against_Multiple_Days_Merge_Day_Detail = clsCommon.myCDecimal(dr("Against_Multiple_Days_Merge_Day_Detail"))
-
+                objTr.Manual_Sample = clsCommon.myCdbl(dr("Manual_Sample"))
+                objTr.Manual_By = clsCommon.myCstr(dr("Manual_By"))
+                objTr.Manual_Date = clsCommon.myCstr(dr("Manual_Date"))
+                objTr.Source_API = clsCommon.myCdbl(dr("Source_API"))
                 arr.Add(objTr)
             Next
         End If

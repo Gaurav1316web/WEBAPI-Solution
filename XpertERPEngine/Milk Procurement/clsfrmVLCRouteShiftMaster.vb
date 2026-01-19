@@ -96,6 +96,8 @@ Public Class clsfrmVLCRouteShiftMaster
                         Else
                             isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll2, "TSPL_MCC_ROUTE_VLC_MAPPING", OMInsertOrUpdate.Update, " TSPL_MCC_ROUTE_VLC_MAPPING.VLC_Code='" + obj.vlccode + "' and TSPL_MCC_ROUTE_VLC_MAPPING.route_code='" + obj.exroutecode + "'", trans)
                         End If
+                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_MCC_ROUTE_VLC_MAPPING", "doc_no", trans)
+
                     End If
                 Next
             End If
