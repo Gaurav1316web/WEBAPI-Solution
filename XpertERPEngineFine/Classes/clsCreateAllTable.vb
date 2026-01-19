@@ -6103,6 +6103,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Lock_Location", "integer not null default 0")
             coll.Add("Lock_Location_Segment", "integer not null default 0")
             coll.Add("Form_Open_Counter", "integer not null default 0")
+            coll.Add("Web_Implemented", "integer null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_PROGRAM_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
