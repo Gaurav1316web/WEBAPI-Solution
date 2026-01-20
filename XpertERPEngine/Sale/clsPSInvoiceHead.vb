@@ -862,7 +862,7 @@ left join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CO
 left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
 left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "'
 left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
-where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" & strInvoiceNO & "' "
+where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" & strInvoiceNO & "' and (TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo<>'' or TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo is not null)  "
         Return Qry
     End Function
     Public Shared Function GetData(ByVal strDocumentNo As String, ByVal strInvoiceType As String, ByVal NavType As NavigatorType) As clsPSInvoiceHead

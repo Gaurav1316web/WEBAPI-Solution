@@ -835,7 +835,7 @@ left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SCRAPINVOICE_DETAI
 left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_SCRAPINVOICE_HEAD.Vehicle_Code
 left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "'
 left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SCRAPINVOICE_HEAD.cust_Code
-where TSPL_SCRAPINVOICE_HEAD.invoice_No='" & strInvoiceNO & "' "
+where TSPL_SCRAPINVOICE_HEAD.invoice_No='" & strInvoiceNO & "' and (TSPL_SCRAPINVOICE_HEAD.EWayBillNo<>'' or TSPL_SCRAPINVOICE_HEAD.EWayBillNo is not null) "
         Return Qry
     End Function
     Public Shared Function EWayBill_Implementation(ByVal strDocNo As String, ByVal strLocation As String, ByVal trans As SqlTransaction, ByVal OnlyEWayBill As Boolean) As Boolean

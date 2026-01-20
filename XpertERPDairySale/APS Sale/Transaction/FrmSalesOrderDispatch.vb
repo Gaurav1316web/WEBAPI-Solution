@@ -2254,11 +2254,13 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
                     UsLock1.Status = ERPTransactionStatus.Approved
                     btnDelete.Enabled = False
                     ControlEnableDisable(False)
+                    btnEWB.Enabled = True
                 Else
                     btnSave.Enabled = True
                     btnPost.Enabled = True
                     btnDelete.Enabled = True
                     UsLock1.Status = ERPTransactionStatus.Pending
+                    btnEWB.Enabled = False
                     ControlEnableDisable(True)
 
                 End If
@@ -3092,13 +3094,13 @@ from TSPL_SD_SHIPMENT_HEAD left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT
                 Throw New Exception("You cannot cancelled this document because Gate Pass (" + clsCommon.myCstr(strDairyGAtePassCount) + ") has been created.")
             End If
 
-            'If FlagDocumentIsTaxable = 1 AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value) AndAlso clsCommon.CompairString(EInvoiceType, "BB") = CompairStringResult.Equal AndAlso Not isEinvoiceCancelled Then
-            '    Dim EInvoiceCancelTimeValid As Int64 = 0
-            '    EInvoiceCancelTimeValid = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" Select  isnull (DATEDIFF(hour,EInvoice_Posting_Date,GETDATE()),0) as PostedHours from tspl_sd_sale_invoice_head where  document_code = '" + txtInvoiceno.Text + "'"))
-            '    If EInvoiceCancelTimeValid >= 24 Then
-            '        Throw New Exception("Invoice can not be cancelled.It has been more than 24 hours.")
-            '    End If
-            'End If
+            If chkewaybill.Checked Then
+                Dim EWBCancelTimeValid As Int64 = 0
+                EWBCancelTimeValid = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" Select  isnull (DATEDIFF(hour,EWayBillDate,GETDATE()),0) as PostedHours from tspl_sd_sale_invoice_head where  document_code = '" + txtInvoiceno.Text + "'"))
+                If EWBCancelTimeValid >= 24 Then
+                    Throw New Exception("e-Way Bill can not be cancelled.It has been more than 24 hours.")
+                End If
+            End If
             clsPSShipmentHead.CancelData(Me.Form_ID, txtDocCode.Value, txtInvoiceno.Text, NavigatorType.Current)
             clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
             AddNew()

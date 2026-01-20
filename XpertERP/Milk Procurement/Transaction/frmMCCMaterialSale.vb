@@ -4275,8 +4275,10 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     Else
                         btnDeliveredTo.Enabled = True
                     End If
+                    btnCreateEWB.Enabled = True
                 Else
                     chkIsEwayBill.Enabled = True
+                    btnCreateEWB.Enabled = False
                 End If
                 'txtWayBillno.Text = obj.WayBillNo
                 'If clsCommon.myLen(obj.WayBillDate) > 0 Then

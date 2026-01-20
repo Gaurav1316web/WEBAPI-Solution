@@ -179,6 +179,19 @@ Public Class ClsScrapSaleHead
             If obj Is Nothing OrElse clsCommon.myLen(obj.shipment_No) <= 0 Then
                 Throw New Exception("Document- " & Doc_No & " not found")
             End If
+            '' Cancel E-way bill
+            Dim ewbno As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select EWayBillNo from TSPL_SCRAPINVOICE_HEAD where Document_Code='" & InvoiceNo & "' and Ewb_cancelDate is null ", trans))
+            If clsCommon.myLen(ewbno) > 0 Then
+                Dim objResut As Object = ClsEInvoiceOFAPIs.CancelEWayBill(objCommonVar.CurrentCompanyCode, ewbno, "Order Cancelled", obj.Loc_Code, trans)
+                If objResut Is Nothing Then
+                    Throw New Exception("e-way bill cancellation failed!")
+                Else
+                    Dim CancelDate As String = objResut.SelectToken("data.cancelDate").ToString
+                    Dim strUpdateQry As String = "update TSPL_SCRAPINVOICE_HEAD set Ewb_cancelDate='" & clsCommon.myCstr(CancelDate) & "'' where EWayBillNo='" & clsCommon.myCstr(ewbno) & "''"
+                    clsDBFuncationality.ExecuteNonQuery(strUpdateQry, trans)
+                End If
+            End If
+            '' end of Camcel e-way bill
 
             ''richa agarwal 24 Dec,2020
             Dim dtirn As DataTable = clsDBFuncationality.GetDataTable("select Einvoice_type,IRN_No,Is_Taxable,loc_code from TSPL_SCRAPINVOICE_HEAD where invoice_No='" & InvoiceNo & "'", trans)

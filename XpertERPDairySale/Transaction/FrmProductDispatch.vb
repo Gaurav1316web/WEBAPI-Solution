@@ -8025,10 +8025,11 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                     txtDrAmt.Text = obj.DrAmt
                     txtCrAmt.Text = obj.CrAmt
                     txtClosingBal.Text = obj.ClosingBal
+                    btnEWB.Enabled = True
                 Else
                     btnCancel.Enabled = False
+                    btnEWB.Enabled = False
                     GetOpeningClosingAndReceivedAmt(obj.Customer_Code, obj.Document_Date)
-
                 End If
                 ParentDocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select ParentDocNo from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + obj.Document_Code + "'"))
                 If clsCommon.myLen(ParentDocNo) > 0 Then

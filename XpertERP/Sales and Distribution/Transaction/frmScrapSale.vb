@@ -2999,8 +2999,10 @@ Public Class frmScrapSale
                 'chkOnHold.Checked = obj.Status
                 If obj.Status = 1 Then
                     chkOnHold.Checked = True
+                    btnEwb.Enabled = True
                 Else
                     chkOnHold.Checked = False
+                    btnEwb.Enabled = False
                 End If
                 chkIsEwaybill.Checked = IIf(obj.IsEwaybill, True, False)
                 txtGWeighmentNo.Value = obj.Weighment_Code
