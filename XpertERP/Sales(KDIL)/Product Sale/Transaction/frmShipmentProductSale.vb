@@ -4400,9 +4400,9 @@ Public Class frmShipmentProductSale
             Dim ECustomerType As String = clsERPFuncationality.GetCustomerEInvoiceType(txtVendorNo.Value, Nothing)
 
             If objCommonVar.GenerateEWayBillWithEInvoice = True AndAlso clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso chkIsTaxable.Checked = True AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value) = True Then
-                If clsCommon.myCdbl(txtFreightDistance.Value) <= 0 Then
-                    Throw New Exception("Please define Freight Distance in EWay Bill Distance Master.")
-                End If
+                'If clsCommon.myCdbl(txtFreightDistance.Value) <= 0 Then
+                '    Throw New Exception("Please define Freight Distance in EWay Bill Distance Master.")
+                'End If
 
                 If chkownVehicle.Checked = False Then
                     If clsCommon.myLen(lblTransporterName.Text) <= 0 Then
