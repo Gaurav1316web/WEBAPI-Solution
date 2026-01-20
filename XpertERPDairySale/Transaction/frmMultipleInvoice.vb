@@ -510,29 +510,10 @@ Public Class frmMultipleInvoice
         Try
             txtInvoiceNo.Value = strInvoiceNo
             Dim strQry As String = "select TSPL_SD_SALE_INVOICE_HEAD.Document_Code as Invoice_NO,convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Docuemnt_Date,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SALE_INVOICE_HEAD.Route_No,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location,case when TSPL_SD_SALE_INVOICE_HEAD.Status=0 then 'Pending' else 'Approved' end as Status,TSPL_SD_SALE_INVOICE_HEAD.Amount_Less_Discount,TSPL_SD_SALE_INVOICE_HEAD.total_tax_Amt,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt
-,Case 
-When TAX1.Type ='IGST' Then TAX1.Type 
-When TAX2.Type ='IGST' Then TAX2.Type 
-When TAX3.Type ='IGST' Then TAX3.Type 
-When TAX4.Type ='IGST' Then TAX4.Type 
-When TAX5.Type ='IGST' Then TAX5.Type 
-When TAX6.Type ='IGST' Then TAX6.Type 
-When TAX7.Type ='IGST' Then TAX7.Type 
-When TAX8.Type ='IGST' Then TAX8.Type 
-When TAX9.Type ='IGST' Then TAX9.Type 
-When TAX10.Type='IGST' Then TAX10.Type Else Null End As [Tax Type]
+,Null As [Tax Type]
 from TSPL_SD_SALE_INVOICE_HEAD 
 left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
-Left Outer Join TSPL_TAX_MASTER As TAX1 On TAX1.Type=TSPL_SD_SALE_INVOICE_HEAD.TAX1
-Left Outer Join TSPL_TAX_MASTER As TAX2 On TAX2.Type=TSPL_SD_SALE_INVOICE_HEAD.TAX2
-Left Outer Join TSPL_TAX_MASTER As TAX3 On TAX3.Type=TSPL_SD_SALE_INVOICE_HEAD.TAX3
-Left Outer Join TSPL_TAX_MASTER As TAX4 On TAX4.Type=TSPL_SD_SALE_INVOICE_HEAD.TAX4
-Left Outer Join TSPL_TAX_MASTER As TAX5 On TAX5.Type=TSPL_SD_SALE_INVOICE_HEAD.TAX5
-Left Outer Join TSPL_TAX_MASTER As TAX6 On TAX6.Type=TSPL_SD_SALE_INVOICE_HEAD.TAX6
-Left Outer Join TSPL_TAX_MASTER As TAX7 On TAX7.Type=TSPL_SD_SALE_INVOICE_HEAD.TAX7
-Left Outer Join TSPL_TAX_MASTER As TAX8 On TAX8.Type=TSPL_SD_SALE_INVOICE_HEAD.TAX8
-Left Outer Join TSPL_TAX_MASTER As TAX9 On TAX9.Type=TSPL_SD_SALE_INVOICE_HEAD.TAX9
-Left Outer Join TSPL_TAX_MASTER As TAX10 On TAX10.Type=TSPL_SD_SALE_INVOICE_HEAD.Tax10 where isMultipleInvoice = 1  "
+ where isMultipleInvoice = 1  "
             Dim whrCls As String = ""
             whrCls = " and isMultipleInvoice = 1 "
             Select Case NavType
