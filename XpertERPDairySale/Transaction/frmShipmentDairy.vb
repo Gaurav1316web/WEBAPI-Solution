@@ -17240,6 +17240,7 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
         Try
             Create_Ewb(tran)
             tran.Commit()
+            clsCommon.MyMessageBoxShow(Me, "EWB Created Successfully", Me.Text)
         Catch ex As Exception
             tran.Rollback()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

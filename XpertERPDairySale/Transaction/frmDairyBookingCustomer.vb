@@ -10325,6 +10325,7 @@ where  TSPL_BOOKING_DETAIL.Cust_Code='" & strVendorno & "' and convert(date,TSPL
         Try
             Create_EWB(tran)
             tran.Commit()
+            clsCommon.MyMessageBoxShow(Me, "EWB Created Successfully", Me.Text)
         Catch ex As Exception
             tran.Rollback()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

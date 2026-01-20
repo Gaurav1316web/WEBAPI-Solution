@@ -3115,6 +3115,7 @@ from TSPL_SD_SHIPMENT_HEAD left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT
         Try
             Create_Ewb(tran)
             tran.Commit()
+            clsCommon.MyMessageBoxShow(Me, "EWB Created Successfully", Me.Text)
         Catch ex As Exception
             tran.Rollback()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
