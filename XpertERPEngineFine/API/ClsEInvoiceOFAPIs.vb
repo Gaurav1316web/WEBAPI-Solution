@@ -414,7 +414,7 @@ Public Class ClsEInvoiceOFAPIs
                                 item.productDesc = clsCommon.myCstr(dr("productDesc"))
                                 item.hsnCode = clsCommon.myCdbl(dr("hsnCode"))
                                 item.quantity = clsCommon.myCdbl(dr("quantity"))
-                                item.qtyUnit = clsCommon.myCstr(dr("qtyUnit"))
+                                item.qtyUnit = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT ISNULL(GST_UNIT_CODE ,'') FROM TSPL_UNIT_MASTER WHERE UNIT_CODE='" & clsCommon.myCstr(dr("qtyUnit")).ToUpper & "'", trans))
                                 item.taxableAmount = clsCommon.myCdbl(dr("taxableAmount"))
                                 item.sgstRate = clsCommon.myCdbl(dr("sgstRate"))
                                 item.cgstRate = clsCommon.myCdbl(dr("cgstRate"))

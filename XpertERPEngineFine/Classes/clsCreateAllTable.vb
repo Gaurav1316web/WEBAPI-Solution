@@ -28170,6 +28170,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Inter_unit_sale", "Integer default 0")
             coll.Add("Sub_Location_code", "varchar(12) NULL")
             coll.Add("EWayBill_QR_Code", "image null")
+            coll.Add("Ewb_cancelDate", "datetime null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPINVOICE_HEAD", coll, Nothing, True, True, "", "invoice_No", "posting_Date", True)
 
             qry = "alter table TSPL_SCRAPINVOICE_HEAD alter column AddCode1 varchar(35) null "
