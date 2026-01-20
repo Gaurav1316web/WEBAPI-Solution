@@ -769,6 +769,8 @@ Public Class frmLocationMaster
             obj.Phone2 = clsCommon.myCstr(txtPhone2.Text)
             If chkGITType.Checked = True Then
                 obj.GIT_Type = "Y"
+            Else
+                obj.GIT_Type = "N"
             End If
             obj.GIT_Location = clsCommon.myCstr(fndGITLocation.Value)
             obj.Rejected_Type = IIf(chkRejected.Checked, "Y", "N")
