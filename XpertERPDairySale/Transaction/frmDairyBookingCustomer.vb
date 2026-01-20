@@ -4350,6 +4350,7 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                     txtCrAmt.Text = obj.CrAmt
                     txtClosingBal.Text = obj.ClosingBal
                     btnCreateAndPrintInvoice.Enabled = True
+                    btnCreateEWB.Enabled = True
                     'End If
                     btnCreateDO.Enabled = True
                     Dim DOStatus1 = clsDBFuncationality.getSingleValue("select top 1  Document_No from TSPL_BOOKING_DETAIL where DO_Posted <> 4 and Document_No='" & txtDocNo.Value & "'")
@@ -4357,6 +4358,7 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                         btnCreateDO.Enabled = False
                     End If
                 Else
+                    btnCreateEWB.Enabled = False
                     btnCreateAndPrintInvoice.Enabled = False
                     UsLock1.Status = ERPTransactionStatus.Pending
                 End If

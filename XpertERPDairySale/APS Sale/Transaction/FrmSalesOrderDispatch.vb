@@ -2254,11 +2254,13 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
                     UsLock1.Status = ERPTransactionStatus.Approved
                     btnDelete.Enabled = False
                     ControlEnableDisable(False)
+                    btnEWB.Enabled = True
                 Else
                     btnSave.Enabled = True
                     btnPost.Enabled = True
                     btnDelete.Enabled = True
                     UsLock1.Status = ERPTransactionStatus.Pending
+                    btnEWB.Enabled = False
                     ControlEnableDisable(True)
 
                 End If

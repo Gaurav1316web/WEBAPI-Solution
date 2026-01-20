@@ -9109,6 +9109,7 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                     End If
                     txtSupplyDate.Enabled = False
                     btnCancel.Enabled = True
+                    btnEWB.Enabled = True
                 Else
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
                         txtSupplyDate.Enabled = True
@@ -9116,7 +9117,9 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                         txtSupplyDate.Enabled = False
                     End If
                     btnCancel.Enabled = False
+                    btnEWB.Enabled = False
                 End If
+
                 ParentDocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select ParentDocNo from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + obj.Document_Code + "'"))
                 If clsCommon.myLen(ParentDocNo) > 0 Then
                     IsCreditCustomer = True
