@@ -86,7 +86,7 @@ Public Class rptGheeAndCattleFeedDeductionStatementReport
                 txtFromDate.Value = "01/" & DatePart(DateInterval.Month, txtFromDate.Value) & "/" & DatePart(DateInterval.Year, txtFromDate.Value)
             End If
             Dim whrcls As String = " and  trans_type='MCC' and TSPL_SD_SHIPMENT_HEAD.Status=1 and TSPL_DEDUCTION_MASTER.Ded_Grp_Code='DEDUCTION' and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' "
-            If txtMCC.arrValueMember.Count > 0 AndAlso txtMCC.arrValueMember IsNot Nothing Then
+            If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
                 whrcls += " and TSPL_SD_SHIPMENT_HEAD.Sub_Location_Code in  (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
             End If
             If txtDeduction.arrValueMember IsNot Nothing Then
