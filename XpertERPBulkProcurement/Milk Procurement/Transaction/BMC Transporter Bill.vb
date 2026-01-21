@@ -23,6 +23,7 @@ Public Class BMC_Transporter_Bill
     Const ColStation2 As String = "ColStation2"
     Const ColStation3 As String = "ColStation3"
     Const ColStation4 As String = "ColStation4"
+    Const ColIceBox As String = "ColIceBox"
     Const ColGPSKM As String = "ColGPSKM"
     Dim TotalAmount As Decimal = 0
     Dim TotalDiesel As Decimal = 0
@@ -33,6 +34,7 @@ Public Class BMC_Transporter_Bill
     Dim Total_BMC_TOTAL As Decimal = 0
     Dim Total_fat_snf_shortage As Decimal = 0
     Dim Total_Amount As Decimal = 0
+    Public EnableOnPrivateChkbox As Boolean = False
 
 
 #End Region
@@ -109,6 +111,12 @@ Public Class BMC_Transporter_Bill
         coll.Add("Diesel_RD", "decimal (18,2) NULL")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BMC_TRANSPORTER_BILL_DETAIL", coll, Nothing, True, False, "TSPL_BMC_TRANSPORTER_BILL_HEAD", "Document_Code", "", True)
 
+        Try
+            clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_BMC_TRANSPORTER_BILL_DETAIL ALTER COLUMN MCC_Document_Code varchar(30) NULL  References TSPL_MILK_COLLECTION_MCC(Document_No)")
+        Catch ex As Exception
+        End Try
+
+        EnableOnPrivateChkbox = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableOnPrivateChkbox, clsFixedParameterCode.EnableOnPrivateChkbox, Nothing)) > 0)
 
         SetUserMgmtNew()
         RadPageView1.SelectedPage = RadPageViewPage1
@@ -117,6 +125,10 @@ Public Class BMC_Transporter_Bill
         RadGroupBox3.Enabled = False
         ReStoreGridLayout()
         LoadHeadData()
+
+        'If ShowUpto6DecimalPlaces Then
+        '    repoRate.DecimalPlaces = 6
+        'End If
 
     End Sub
 
@@ -204,6 +216,14 @@ Public Class BMC_Transporter_Bill
         repoTrip.IsVisible = True
         repoTrip.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoTrip)
+
+        Dim IceBox As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        IceBox.FormatString = ""
+        IceBox.HeaderText = "Ice Box"
+        IceBox.Name = ColIceBox
+        IceBox.Width = 150
+        IceBox.IsVisible = True
+        gv1.MasterTemplate.Columns.Add(IceBox)
 
         Dim repoKM As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoKM = New GridViewDecimalColumn()
@@ -294,6 +314,7 @@ Public Class BMC_Transporter_Bill
         BlankAllControls()
         LoadBlankGrid()
         ReStoreGridLayout()
+        RadGroupBox3.Enabled = False
     End Sub
 
     Sub BlankAllControls()
@@ -339,7 +360,7 @@ Public Class BMC_Transporter_Bill
         FatSnfShortageDetail()
         FatSnfRate()
         FatSnfCalculation()
-        IceCharge()
+        'IceCharge(Nothing)
         AddSummaryRowToGrid()
 
     End Sub
@@ -354,9 +375,24 @@ Public Class BMC_Transporter_Bill
         TxtTotalFatSnfShortage.Text = clsCommon.myCdbl(FatAmt + SnfAmt)
     End Sub
 
-    Sub IceCharge()
+    Sub IceCharge(ByVal IntRowNo As Integer)
         Try
-            Dim rowCount As Integer = gv1.Rows.Count
+            ' gv1.Rows(IntRowNo).Cells(ColIceBox).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Case when Is_IceBox=1 then 'Y' else 'N' end as Ice_Box from TSPL_BMC_DCS_SAMPLE_RECEIVING where Tanker_No= '" + txtTankerNo.Value + "' and Trip = '" + gv1.Rows(IntRowNo).Cells(ColTrip).Value + "' and Document_Date= '" + gv1.Rows(IntRowNo).Cells(colDate).Value + "'  "))
+
+
+            Dim IceChargeAmt As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Ice_Charge from TSPL_TANKER_MASTER where Tanker_No = '" + clsCommon.myCstr(txtTankerNo.Value) + "' "))
+            TxtIceCharge.Text = clsCommon.myCdbl(IceChargeAmt)
+
+            Dim Iceboxqry As String = "Select Count(*)Ice_Box from TSPL_BMC_DCS_SAMPLE_RECEIVING where Tanker_No = '" + clsCommon.myCstr(txtTankerNo.Value) + "' 
+            and CONVERT(DATE, Document_Date, 103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "', 103)
+            and CONVERT(DATE, Document_Date, 103) <= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value) + "', 103) and Trip = '" + gv1.Rows(IntRowNo).Cells(ColTrip).Value + "' and Is_IceBox=1   "
+            Dim dataicebox As DataTable = clsDBFuncationality.GetDataTable(Iceboxqry)
+
+            Dim rowCount As Integer = clsCommon.myCstr(dataicebox.Rows(0)("Ice_Box"))
+            'Dim rowCount As Integer = clsDBFuncationality.getSingleValue("Select Count(*) from TSPL_BMC_DCS_SAMPLE_RECEIVING where Tanker_No = '" + clsCommon.myCstr(txtTankerNo.Value) + "' 
+            'and CONVERT(DATE, Document_Date, 103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "', 103)
+            'and CONVERT(DATE, Document_Date, 103) <= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value) + "', 103) and Trip = '" + gv1.Rows(IntRowNo).Cells(ColTrip).Value + "' and Is_IceBox=1 ")
+            'Dim rowCount As Integer = gv1.Rows.Count
             Dim GrossAmt As Double = 0
             Dim totalAmt As Double = 0
             Dim Icecharge As Double = clsCommon.myCdbl(TxtIceCharge.Text)
@@ -476,7 +512,8 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
             Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry1)
             qry2 = " Select Storage_Capacity from TSPL_TANKER_MASTER where Tanker_No='" + clsCommon.myCstr(txtTankerNo.Value) + "' "
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(qry2)
-            For ii As Integer = 0 To dt.Rows.Count - 1
+            Dim ii As Integer = 0
+            For ii = 0 To dt.Rows.Count - 1
                 gv1.Rows.AddNew()
                 gv1.CurrentRow.Cells(colDocumentNo).Value = clsCommon.myCstr(dt.Rows(ii)("Document_No"))
                 gv1.CurrentRow.Cells(colDate).Value = clsCommon.myCstr(dt.Rows(ii)("Document_Date"))
@@ -491,6 +528,13 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                 gv1.CurrentRow.Cells(ColAmount).Value = clsCommon.myCdbl(clsCommon.myCdbl(dt.Rows(ii)("Distance"))) * clsCommon.myCdbl(TxtKMRate.Text)
                 'gv1.CurrentRow.Cells(ColAmount).Value = clsCommon.myCdbl(clsCommon.myCdbl(dt.Rows(ii)("Distance")))
                 'gv1.CurrentRow.Cells(ColDiesel).Value = clsCommon.myCdbl(clsCommon.myCdbl(dt.Rows(ii)("Distance")))
+                'gv1.Rows(IntRowNo).Cells(ColIceBox).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Case when Is_IceBox=1 then 'Y' else 'N' end as Ice_Box from TSPL_BMC_DCS_SAMPLE_RECEIVING where Tanker_No= '" + txtTankerNo.Value + "' and Trip = '" + gv1.Rows(IntRowNo).Cells(ColTrip).Value + "' and Document_Date= '" + gv1.Rows(IntRowNo).Cells(colDate).Value + "'  "))
+                Dim Iceboxqry As String = "Select Case when Is_IceBox=1 then 'Y' else 'N' end as Ice_Box from TSPL_BMC_DCS_SAMPLE_RECEIVING where Tanker_No= '" + txtTankerNo.Value + "' and Trip = '" + gv1.CurrentRow.Cells(ColTrip).Value + "' and Document_Date= '" + clsCommon.GetPrintDate(gv1.CurrentRow.Cells(colDate).Value, "dd/MMM/yyyy") + "'  "
+                Dim dataicebox As DataTable = clsDBFuncationality.GetDataTable(Iceboxqry)
+                gv1.CurrentRow.Cells(ColIceBox).Value = clsCommon.myCstr(dataicebox.Rows(0)("Ice_Box"))
+
+                gv1.CurrentRow.Cells(ColIceBox).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Case when Is_IceBox=1 then 'Y' else 'N' end as Ice_Box from TSPL_BMC_DCS_SAMPLE_RECEIVING where Tanker_No= '" + txtTankerNo.Value + "' and Trip = '" + gv1.CurrentRow.Cells(ColTrip).Value + "' and Document_Date= '" + clsCommon.GetPrintDate(gv1.CurrentRow.Cells(colDate).Value, "dd/MMM/yyyy") + "'  "))
+                'gv1.CurrentRow.Cells(ColIceBox).Value = Iceboxqry
                 If clsCommon.myLen(txtDieselplus.Text) > 0 Then
                     gv1.CurrentRow.Cells(ColDiesel).Value = clsCommon.myCdbl(clsCommon.myCdbl(dt.Rows(ii)("Distance")) * clsCommon.myCdbl(txtDieselplus.Text))
                 Else
@@ -498,7 +542,7 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                 End If
 
             Next
-
+            IceCharge(ii)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -506,7 +550,7 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
 
 
     Private Sub TxtIceCharge_TextChanged(sender As Object, e As EventArgs) Handles TxtIceCharge.TextChanged
-        IceCharge()
+        'IceCharge()
         'Dim fromDate As Date = txtFromDate.Value
         'Dim toDate As Date = txtToDate.Value
         'Dim totalDays As Integer = DateDiff(DateInterval.Day, fromDate, toDate) + 1
@@ -607,6 +651,9 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
             gv1.Rows(IntRowNo).Cells(ColAmount).Value = clsCommon.myCdbl(dblBasicAmt)
             gv1.Rows(IntRowNo).Cells(ColDiesel).Value = clsCommon.myCdbl(dblBasicDiesel)
 
+            'gv1.Rows(IntRowNo).Cells(ColIceBox).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Case when Is_IceBox=1 then 'Y' else 'N' end as Ice_Box from TSPL_BMC_DCS_SAMPLE_RECEIVING where Tanker_No= '" + txtTankerNo.Value + "' and Trip = '" + gv1.Rows(IntRowNo).Cells(ColTrip).Value + "' and Document_Date= '" + gv1.Rows(IntRowNo).Cells(colDate).Value + "'  "))
+
+            'IceCharge(IntRowNo)
             isCellValueChangedOpen = False
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -1412,6 +1459,22 @@ where TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code='" & txtDocNo.Value & "'  "
         '    End Try
         'End If
         'Me.Controls.Remove(gvimport)
+    End Sub
+
+    Private Sub chkPrivate_CheckStateChanged(sender As Object, e As EventArgs) Handles chkPrivate.CheckStateChanged
+        Try
+            If chkPrivate.Checked Then
+                btnGo.Enabled = False
+                RadGroupBox3.Enabled = True
+                If gv1.Rows.Count = 0 Then
+                    gv1.Rows.AddNew()
+                End If
+            Else
+                btnGo.Enabled = True
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     'Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click

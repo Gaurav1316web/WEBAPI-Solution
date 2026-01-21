@@ -120,6 +120,8 @@ Partial Class FrmTankerMaster
         Me.txt_ltr_kg = New common.MyNumBox()
         Me.MyLabel7 = New common.Controls.MyLabel()
         Me.MyLabel12 = New common.Controls.MyLabel()
+        Me.MyLabel17 = New common.Controls.MyLabel()
+        Me.TxtIceCharge = New common.MyNumBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -216,6 +218,8 @@ Partial Class FrmTankerMaster
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MyLabel12.SuspendLayout()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtIceCharge, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -320,6 +324,8 @@ Partial Class FrmTankerMaster
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.TxtIceCharge)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel17)
         Me.RadGroupBox1.Controls.Add(Me.chkInactive)
         Me.RadGroupBox1.Controls.Add(Me.txtProvMinQty)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel16)
@@ -500,9 +506,9 @@ Partial Class FrmTankerMaster
         Me.RadGroupBox4.Controls.Add(Me.GroupBox2)
         Me.RadGroupBox4.Controls.Add(Me.GroupBox1)
         Me.RadGroupBox4.HeaderText = "Basic of Freight Payments"
-        Me.RadGroupBox4.Location = New System.Drawing.Point(8, 97)
+        Me.RadGroupBox4.Location = New System.Drawing.Point(8, 120)
         Me.RadGroupBox4.Name = "RadGroupBox4"
-        Me.RadGroupBox4.Size = New System.Drawing.Size(758, 327)
+        Me.RadGroupBox4.Size = New System.Drawing.Size(758, 332)
         Me.RadGroupBox4.TabIndex = 17
         Me.RadGroupBox4.Text = "Basic of Freight Payments"
         '
@@ -656,6 +662,7 @@ Partial Class FrmTankerMaster
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyExportAPI = False
         Me.gv.MyExportFilePath = ""
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
@@ -1341,6 +1348,7 @@ Partial Class FrmTankerMaster
         Me.gvChamber.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvChamber.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvChamber.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvChamber.MyExportAPI = False
         Me.gvChamber.MyExportFilePath = ""
         Me.gvChamber.MyStopExport = False
         Me.gvChamber.Name = "gvChamber"
@@ -1626,6 +1634,43 @@ Partial Class FrmTankerMaster
         Me.MyLabel12.Text = "Rental per Week"
         Me.MyLabel12.Visible = False
         '
+        'MyLabel17
+        '
+        Me.MyLabel17.FieldName = Nothing
+        Me.MyLabel17.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel17.Location = New System.Drawing.Point(11, 98)
+        Me.MyLabel17.Name = "MyLabel17"
+        Me.MyLabel17.Size = New System.Drawing.Size(62, 16)
+        Me.MyLabel17.TabIndex = 97
+        Me.MyLabel17.Text = "Ice Charge"
+        '
+        'TxtIceCharge
+        '
+        Me.TxtIceCharge.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.TxtIceCharge.CalculationExpression = Nothing
+        Me.TxtIceCharge.DecimalPlaces = 2
+        Me.TxtIceCharge.FieldCode = Nothing
+        Me.TxtIceCharge.FieldDesc = Nothing
+        Me.TxtIceCharge.FieldMaxLength = 0
+        Me.TxtIceCharge.FieldName = Nothing
+        Me.TxtIceCharge.isCalculatedField = False
+        Me.TxtIceCharge.IsSourceFromTable = False
+        Me.TxtIceCharge.IsSourceFromValueList = False
+        Me.TxtIceCharge.IsUnique = False
+        Me.TxtIceCharge.Location = New System.Drawing.Point(158, 98)
+        Me.TxtIceCharge.MendatroryField = True
+        Me.TxtIceCharge.MyLinkLable1 = Nothing
+        Me.TxtIceCharge.MyLinkLable2 = Nothing
+        Me.TxtIceCharge.Name = "TxtIceCharge"
+        Me.TxtIceCharge.ReferenceFieldDesc = Nothing
+        Me.TxtIceCharge.ReferenceFieldName = Nothing
+        Me.TxtIceCharge.ReferenceTableName = Nothing
+        Me.TxtIceCharge.Size = New System.Drawing.Size(137, 20)
+        Me.TxtIceCharge.TabIndex = 10
+        Me.TxtIceCharge.Text = "0"
+        Me.TxtIceCharge.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TxtIceCharge.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        '
         'FrmTankerMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1748,6 +1793,8 @@ Partial Class FrmTankerMaster
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         Me.MyLabel12.ResumeLayout(False)
         Me.MyLabel12.PerformLayout()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtIceCharge, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1841,5 +1888,7 @@ Partial Class FrmTankerMaster
     Friend WithEvents MyLabel16 As common.Controls.MyLabel
     Friend WithEvents chkInactive As common.Controls.MyCheckBox
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents TxtIceCharge As common.MyNumBox
+    Friend WithEvents MyLabel17 As common.Controls.MyLabel
 End Class
 
