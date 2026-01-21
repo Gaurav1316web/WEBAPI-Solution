@@ -137,10 +137,12 @@ Public Class rptSaleReportCustomerWise
             End If
 
             Dim Itemqry As String = ""
-            Itemqry = "select  Item_Code,max(Item_Desc)Item_Desc from  ( " & Baseqry & "  )xx group by Item_Code "
+            Itemqry = "select  Item_Code,max(Item_Desc)Item_Desc from  ( " & Baseqry & "  "
             If TxtItem.arrValueMember IsNot Nothing Then
                 Itemqry += " and TSPL_Item_Master.Item_Code in (" + clsCommon.GetMulcallString(TxtItem.arrValueMember) + ")  "
             End If
+
+            Itemqry += " )xx group by Item_Code "
 
             dtItem = clsDBFuncationality.GetDataTable(Itemqry)
 
@@ -189,6 +191,9 @@ Public Class rptSaleReportCustomerWise
                         QtyName += " ,Sum([" + clsCommon.myCstr(dtItem.Rows(i)("Item_Desc")) + " Amt]) As [" + clsCommon.myCstr(dtItem.Rows(i)("Item_Desc")) + " Amt] "
                     End If
                 Next
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
+                Exit Sub
             End If
             ''-- ===== Sale Invoice =====   -- ===== Scrap Invoice =====
 

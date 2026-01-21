@@ -835,7 +835,7 @@ left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SCRAPINVOICE_DETAI
 left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_SCRAPINVOICE_HEAD.Vehicle_Code
 left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "'
 left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SCRAPINVOICE_HEAD.cust_Code
-where TSPL_SCRAPINVOICE_HEAD.invoice_No='" & strInvoiceNO & "' "
+where TSPL_SCRAPINVOICE_HEAD.invoice_No='" & strInvoiceNO & "' and (TSPL_SCRAPINVOICE_HEAD.EWayBillNo<>'' or TSPL_SCRAPINVOICE_HEAD.EWayBillNo is not null) "
         Return Qry
     End Function
     Public Shared Function EWayBill_Implementation(ByVal strDocNo As String, ByVal strLocation As String, ByVal trans As SqlTransaction, ByVal OnlyEWayBill As Boolean) As Boolean
@@ -1014,7 +1014,19 @@ Left Outer Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id  =TSPL_SCR
                             If clsCommon.myLen(EwbValidTill) > 0 Then
                                 EwbValidTill = clsCommon.GetPrintDate(EwbValidTill, "dd/MMM/yyyy hh:mm tt")
                             End If
-                            clsDBFuncationality.ExecuteNonQuery("update TSPL_SCRAPINVOICE_HEAD set  EWayBillNo ='" & EwbNo & "',EwayBillDate=(CASE WHEN LEN('" & EwbDt & "')>0   THEN '" & EwbDt & "' ELSE NULL END) ,EwayBillValidDate=(CASE WHEN LEN('" & EwbValidTill & "')>0   THEN '" & EwbValidTill & "' ELSE NULL END)  , EWayBillRemarks = '" & Remarks & "'  where invoice_No ='" & strDocNo & "' ", trans)
+                            Try
+                                If clsCommon.myLen(EwbNo) > 0 Then
+                                    clsDBFuncationality.ExecuteNonQuery("update TSPL_SCRAPINVOICE_HEAD set  EWayBillNo ='" & EwbNo & "',EwayBillDate=(CASE WHEN LEN('" & EwbDt & "')>0   THEN '" & EwbDt & "' ELSE NULL END) ,EwayBillValidDate=(CASE WHEN LEN('" & EwbValidTill & "')>0   THEN '" & EwbValidTill & "' ELSE NULL END)  , EWayBillRemarks = '" & Remarks & "'  where invoice_No ='" & strDocNo & "' ", trans)
+                                    Dim CompGSTNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select GSTReg_No from TSPL_COMPANY_MASTER ", trans))
+                                    TempByte = clsERPFuncationalityOLD.GenerateMyQCCode(EwbNo + "/" + CompGSTNo + "/" + EwbDt)
+                                    clsDBFuncationality.UpdateImage("EWayBill_QR_Code", TempByte, "TSPL_SCRAPINVOICE_HEAD", "TSPL_SCRAPINVOICE_HEAD.invoice_No ='" & strDocNo & "'", trans)
+                                Else
+                                    clsDBFuncationality.ExecuteNonQuery("update TSPL_SCRAPINVOICE_HEAD set IsEwaybill=0  where invoice_No ='" & strDocNo & "' ", trans)
+                                End If
+                            Catch ex As Exception
+
+                            End Try
+
                         End If
 
                     End If

@@ -6103,6 +6103,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Lock_Location", "integer not null default 0")
             coll.Add("Lock_Location_Segment", "integer not null default 0")
             coll.Add("Form_Open_Counter", "integer not null default 0")
+            coll.Add("Web_Implemented", "integer null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_PROGRAM_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -25028,6 +25029,10 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Manual_By", "varchar(12)  NULL")
             coll.Add("Manual_Date", "Datetime NULL")
             coll.Add("Source_API", "Integer null")
+            coll.Add("API_FAT", "Decimal(18,2) null")
+            coll.Add("API_SNF", "Decimal(18,2) null")
+            coll.Add("API_FATKG", "Decimal(18,3) null")
+            coll.Add("API_SNFKG", "Decimal(18,3) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC_DETAIL", coll, Nothing, True, True, "TSPL_MILK_COLLECTION_MCC", "Document_No", "", True)
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_MILK_COLLECTION_MCC_DETAIL add Retesting_By varchar(12) NULL")
@@ -28166,6 +28171,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Inter_unit_sale", "Integer default 0")
             coll.Add("Sub_Location_code", "varchar(12) NULL")
             coll.Add("EWayBill_QR_Code", "image null")
+            coll.Add("Ewb_cancelDate", "datetime null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPINVOICE_HEAD", coll, Nothing, True, True, "", "invoice_No", "posting_Date", True)
 
             qry = "alter table TSPL_SCRAPINVOICE_HEAD alter column AddCode1 varchar(35) null "
@@ -29549,7 +29555,7 @@ FROM TSPL_ITEM_MASTER"
             coll = New Dictionary(Of String, String)
             coll.Add("PK_Id", "Integer Not NULL identity primary key")
             coll.Add("Document_Date", "Date NOT NULL")
-            coll.Add("Route_No", "varchar(12)  NULL REFERENCES TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
+            coll.Add("Route_No", "varchar(30)  NULL REFERENCES TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
             coll.Add("Tanker_No", "varchar(20) NULL REFERENCES TSPL_TANKER_MASTER(Tanker_No)")
             coll.Add("Trip", "integer not null ")
             coll.Add("BMC_Code", "varchar(30) NULL REFERENCES TSPL_MCC_MASTER(MCC_Code)")

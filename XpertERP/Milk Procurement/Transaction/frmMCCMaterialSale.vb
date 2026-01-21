@@ -4275,8 +4275,10 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     Else
                         btnDeliveredTo.Enabled = True
                     End If
+                    btnCreateEWB.Enabled = True
                 Else
                     chkIsEwayBill.Enabled = True
+                    btnCreateEWB.Enabled = False
                 End If
                 'txtWayBillno.Text = obj.WayBillNo
                 'If clsCommon.myLen(obj.WayBillDate) > 0 Then
@@ -9465,6 +9467,7 @@ a:          End If
         Try
             Create_Ewb(tran)
             tran.Commit()
+            clsCommon.MyMessageBoxShow(Me, "EWB Created Successfully", Me.Text)
         Catch ex As Exception
             tran.Rollback()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

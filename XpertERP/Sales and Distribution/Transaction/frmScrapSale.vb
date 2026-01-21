@@ -2999,8 +2999,10 @@ Public Class frmScrapSale
                 'chkOnHold.Checked = obj.Status
                 If obj.Status = 1 Then
                     chkOnHold.Checked = True
+                    btnEwb.Enabled = True
                 Else
                     chkOnHold.Checked = False
+                    btnEwb.Enabled = False
                 End If
                 chkIsEwaybill.Checked = IIf(obj.IsEwaybill, True, False)
                 txtGWeighmentNo.Value = obj.Weighment_Code
@@ -6624,6 +6626,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
         Try
             Create_Ewb(tran)
             tran.Commit()
+            clsCommon.MyMessageBoxShow(Me, "EWB Created Successfully", Me.Text)
         Catch ex As Exception
             tran.Rollback()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

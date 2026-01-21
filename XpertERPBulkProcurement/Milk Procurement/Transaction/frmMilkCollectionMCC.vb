@@ -28,6 +28,10 @@ Public Class frmMilkCollectionMCC
     Const colSNFPer As String = "colSNFPer"
     Const colFATKG As String = "colFATKG"
     Const colSNFKG As String = "colSNFKG"
+    Const colAPIFATPer As String = "colAPIFATPer"
+    Const colAPISNFPer As String = "colAPISNFPer"
+    Const colAPIFATKG As String = "colAPIFATKG"
+    Const colAPISNFKG As String = "colAPISNFKG"
     Const colTemp As String = "colTemp"
     Const ColMilkNotPicked As String = "ColMilkNotPicked"
     Const ColRequiredRetesting As String = "ColRequiredRetesting"
@@ -774,6 +778,66 @@ Public Class frmMilkCollectionMCC
         gv1.MasterTemplate.Columns.Add(repoNumBox)
 
         repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.FormatString = "{0:n" + clsCommon.myCstr(settFATDecimalPlace) + "}"
+        repoNumBox.HeaderText = "API FAT %"
+        repoNumBox.Name = colAPIFATPer
+        repoNumBox.Width = 100
+        repoNumBox.Minimum = 0
+        repoNumBox.Maximum = 15
+        repoNumBox.ShowUpDownButtons = False
+        repoNumBox.Step = 0
+        repoNumBox.DecimalPlaces = settFATDecimalPlace
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumBox.IsVisible = False
+        repoNumBox.ReadOnly = True
+        gv1.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.FormatString = "{0:n" + clsCommon.myCstr(settSNFDecimalPlace) + "}"
+        repoNumBox.HeaderText = "API SNF %"
+        repoNumBox.Name = colAPISNFPer
+        repoNumBox.Width = 100
+        repoNumBox.Minimum = 0
+        repoNumBox.Maximum = IIf(isPickCLRInsteadOfSNF, 50, 15)
+        repoNumBox.ShowUpDownButtons = False
+        repoNumBox.Step = 0
+        repoNumBox.DecimalPlaces = settSNFDecimalPlace
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumBox.IsVisible = False
+        repoNumBox.ReadOnly = True
+        gv1.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.FormatString = "{0:n3}"
+        repoNumBox.HeaderText = "API FAT KG"
+        repoNumBox.Name = colAPIFATKG
+        repoNumBox.Width = 100
+        repoNumBox.Minimum = 0
+        repoNumBox.Maximum = 9999
+        repoNumBox.ShowUpDownButtons = False
+        repoNumBox.Step = 0
+        repoNumBox.DecimalPlaces = 3
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumBox.IsVisible = False
+        repoNumBox.ReadOnly = True
+        gv1.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.FormatString = "{0:n3}"
+        repoNumBox.HeaderText = "API SNF KG"
+        repoNumBox.Name = colAPISNFKG
+        repoNumBox.Width = 100
+        repoNumBox.Minimum = 0
+        repoNumBox.Maximum = 9999
+        repoNumBox.ShowUpDownButtons = False
+        repoNumBox.Step = 0
+        repoNumBox.DecimalPlaces = 3
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumBox.IsVisible = False
+        repoNumBox.ReadOnly = True
+        gv1.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
         repoNumBox.FormatString = "{0:n2}"
         repoNumBox.HeaderText = "Temperature"
         repoNumBox.Step = 0
@@ -1204,6 +1268,12 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
                         objTr.SNF = Math.Round(clsCommon.myCDecimal(gv1.Rows(ii).Cells(colSNFPer).Value), 2, MidpointRounding.ToEven)
                         objTr.FATKG = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colFATKG).Value)
                         objTr.SNFKG = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colSNFKG).Value)
+
+                        objTr.API_FAT = Math.Round(clsCommon.myCDecimal(gv1.Rows(ii).Cells(colAPIFATPer).Value), 2, MidpointRounding.ToEven)
+                        objTr.API_SNF = Math.Round(clsCommon.myCDecimal(gv1.Rows(ii).Cells(colAPISNFPer).Value), 2, MidpointRounding.ToEven)
+                        objTr.API_FATKG = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colAPIFATKG).Value)
+                        objTr.API_SNFKG = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colAPISNFKG).Value)
+
                         objTr.Original_Qty = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colQty).Value)
                         objTr.Original_FATKg = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colFATKG).Value)
                         objTr.Original_SNFKg = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colSNFKG).Value)
@@ -1282,6 +1352,12 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colSNFPer).Value = objTr.SNF
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colFATKG).Value = objTr.FATKG
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colSNFKG).Value = objTr.SNFKG
+
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colAPIFATPer).Value = objTr.API_FAT
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colAPISNFPer).Value = objTr.API_SNF
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colAPIFATKG).Value = objTr.API_FATKG
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colAPISNFKG).Value = objTr.API_SNFKG
+
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colFATPerNoDecimal).Value = clsCommon.myCstr(objTr.FAT).Replace(".", "")
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colSNFPerNoDecimal).Value = clsCommon.myCstr(objTr.SNF).Replace(".", "")
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colGazeReadingCode).Value = objTr.Gaze_Reading_Code

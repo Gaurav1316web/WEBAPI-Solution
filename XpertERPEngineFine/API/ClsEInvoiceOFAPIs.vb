@@ -50,7 +50,7 @@ Public Class ClsEInvoiceOFAPIs
         Dim httpResponse As HttpWebResponse = Nothing
         Try
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select * from TSPL_EInvoiceHeader_Info where Comp_Code='" & strCompCode & "' and RequiredFor ='GenerateAuthToken_Get' and Location_Code='" & strLocation & "'", trans)
-            If dt IsNot Nothing AndAlso dt.Rows.Count >> 0 Then
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Const Tls12Value As Integer = &HC00
                 Dim Tls12Protocol As System.Net.SecurityProtocolType = CType(Tls12Value, System.Net.SecurityProtocolType)
                 ' Set the security protocol globally for all HTTPS requests
@@ -114,7 +114,7 @@ Public Class ClsEInvoiceOFAPIs
                     qry = "Select * from TSPL_EInvoiceHeader_Info where Comp_Code='" & strCompCode & "' and RequiredFor ='GenerateDynamicQRCode' and VendorName='CLEARTAX' and Location_Code='" & strLocation & "'"
                 End If
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-                If dt IsNot Nothing AndAlso dt.Rows.Count >> 0 Then
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Const Tls12Value As Integer = &HC00
                     Dim Tls12Protocol As System.Net.SecurityProtocolType = CType(Tls12Value, System.Net.SecurityProtocolType)
                     ' Set the security protocol globally for all HTTPS requests
@@ -248,7 +248,7 @@ Public Class ClsEInvoiceOFAPIs
         Dim httpResponse As HttpWebResponse = Nothing
         Try
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select * from TSPL_EInvoiceHeader_Info where Comp_Code='" & strCompCode & "' and RequiredFor ='authenticateEwayBill_Get' and Location_Code='" & strLocation & "' ", trans)
-            If dt IsNot Nothing AndAlso dt.Rows.Count >> 0 Then
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 ' Set the TLS protocol version
                 Const Tls12Value As Integer = &HC00
                 Dim Tls12Protocol As System.Net.SecurityProtocolType = CType(Tls12Value, System.Net.SecurityProtocolType)
@@ -310,11 +310,11 @@ Public Class ClsEInvoiceOFAPIs
                 If clsCommon.CompairString(strEInvoiceVendor.ToUpper(), "MASTERGST") = CompairStringResult.Equal Then
                     Dim IsAuthenticate As Boolean = IsEWayBillAPIAuthenticate(strCompCode, strLocation, trans)
                     If IsAuthenticate Then
-                        qry = "Select * from TSPL_EInvoiceHeader_Info where Comp_Code='" & strCompCode & "' and RequiredFor ='genewaybill' and Location_Code='" & strLocation & ""
+                        qry = "Select * from TSPL_EInvoiceHeader_Info where Comp_Code='" & strCompCode & "' and RequiredFor ='genewaybill' and Location_Code='" & strLocation & "'"
                     End If
                 End If
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-                If dt IsNot Nothing AndAlso dt.Rows.Count >> 0 Then
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Const Tls12Value As Integer = &HC00
                     Dim Tls12Protocol As System.Net.SecurityProtocolType = CType(Tls12Value, System.Net.SecurityProtocolType)
                     ' Set the security protocol globally for all HTTPS requests
@@ -414,7 +414,7 @@ Public Class ClsEInvoiceOFAPIs
                                 item.productDesc = clsCommon.myCstr(dr("productDesc"))
                                 item.hsnCode = clsCommon.myCdbl(dr("hsnCode"))
                                 item.quantity = clsCommon.myCdbl(dr("quantity"))
-                                item.qtyUnit = clsCommon.myCstr(dr("qtyUnit"))
+                                item.qtyUnit = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT ISNULL(GST_UNIT_CODE ,'') FROM TSPL_UNIT_MASTER WHERE UNIT_CODE='" & clsCommon.myCstr(dr("qtyUnit")).ToUpper & "'", trans))
                                 item.taxableAmount = clsCommon.myCdbl(dr("taxableAmount"))
                                 item.sgstRate = clsCommon.myCdbl(dr("sgstRate"))
                                 item.cgstRate = clsCommon.myCdbl(dr("cgstRate"))
@@ -771,7 +771,7 @@ Public Class ClsEInvoiceOFAPIs
                     qry = "Select * from TSPL_EInvoiceHeader_Info where Comp_Code='" & strCompCode & "' and RequiredFor ='GenerateAuthToken_IRN' and VendorName='CLEARTAX' and Location_Code='" & strLocation & "'"
                 End If
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-                If dt IsNot Nothing AndAlso dt.Rows.Count >> 0 Then
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Const Tls12Value As Integer = &HC00
                     Dim Tls12Protocol As System.Net.SecurityProtocolType = CType(Tls12Value, System.Net.SecurityProtocolType)
                     ' Set the security protocol globally for all HTTPS requests
@@ -884,7 +884,7 @@ Public Class ClsEInvoiceOFAPIs
                     qry = "Select * from TSPL_EInvoiceHeader_Info where Comp_Code='" & strCompCode & "' and RequiredFor ='CancelIRN' and VendorName='CLEARTAX' and Location_Code='" & strLocation & "' "
                 End If
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-                If dt IsNot Nothing AndAlso dt.Rows.Count >> 0 Then
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Const Tls12Value As Integer = &HC00
                     Dim Tls12Protocol As System.Net.SecurityProtocolType = CType(Tls12Value, System.Net.SecurityProtocolType)
                     ' Set the security protocol globally for all HTTPS requests
@@ -1008,7 +1008,7 @@ Public Class ClsEInvoiceOFAPIs
                     End If
                 End If
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-                If dt IsNot Nothing AndAlso dt.Rows.Count >> 0 Then
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Const Tls12Value As Integer = &HC00
                     Dim Tls12Protocol As System.Net.SecurityProtocolType = CType(Tls12Value, System.Net.SecurityProtocolType)
                     ' Set the security protocol globally for all HTTPS requests
@@ -1087,7 +1087,7 @@ Public Class ClsEInvoiceOFAPIs
                     End If
                 End If
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-                If dt IsNot Nothing AndAlso dt.Rows.Count >> 0 Then
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Const Tls12Value As Integer = &HC00
                     Dim Tls12Protocol As System.Net.SecurityProtocolType = CType(Tls12Value, System.Net.SecurityProtocolType)
                     ' Set the security protocol globally for all HTTPS requests
@@ -1169,7 +1169,7 @@ Public Class ClsEInvoiceOFAPIs
                     End If
                 End If
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-                If dt IsNot Nothing AndAlso dt.Rows.Count >> 0 Then
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Const Tls12Value As Integer = &HC00
                     Dim Tls12Protocol As System.Net.SecurityProtocolType = CType(Tls12Value, System.Net.SecurityProtocolType)
                     ' Set the security protocol globally for all HTTPS requests
@@ -1248,7 +1248,7 @@ Public Class ClsEInvoiceOFAPIs
                     End If
                 End If
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-                If dt IsNot Nothing AndAlso dt.Rows.Count >> 0 Then
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Const Tls12Value As Integer = &HC00
                     Dim Tls12Protocol As System.Net.SecurityProtocolType = CType(Tls12Value, System.Net.SecurityProtocolType)
                     ' Set the security protocol globally for all HTTPS requests
@@ -1315,7 +1315,7 @@ Public Class ClsEInvoiceOFAPIs
                     End If
                 End If
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-                If dt IsNot Nothing AndAlso dt.Rows.Count >> 0 Then
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Const Tls12Value As Integer = &HC00
                     Dim Tls12Protocol As System.Net.SecurityProtocolType = CType(Tls12Value, System.Net.SecurityProtocolType)
                     ' Set the security protocol globally for all HTTPS requests
@@ -1381,7 +1381,7 @@ Public Class ClsEInvoiceOFAPIs
                     End If
                 End If
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-                If dt IsNot Nothing AndAlso dt.Rows.Count >> 0 Then
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Const Tls12Value As Integer = &HC00
                     Dim Tls12Protocol As System.Net.SecurityProtocolType = CType(Tls12Value, System.Net.SecurityProtocolType)
                     ' Set the security protocol globally for all HTTPS requests
@@ -1455,7 +1455,7 @@ Public Class ClsEInvoiceOFAPIs
                     End If
                 End If
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-                If dt IsNot Nothing AndAlso dt.Rows.Count >> 0 Then
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Const Tls12Value As Integer = &HC00
                     Dim Tls12Protocol As System.Net.SecurityProtocolType = CType(Tls12Value, System.Net.SecurityProtocolType)
                     ' Set the security protocol globally for all HTTPS requests
