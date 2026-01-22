@@ -22,7 +22,7 @@ Partial Class rptSaleInvoiceStatusReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -60,6 +60,7 @@ Partial Class rptSaleInvoiceStatusReport
         Me.rmenuPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.chkItemWiseCustomer = New System.Windows.Forms.CheckBox()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -159,6 +160,7 @@ Partial Class rptSaleInvoiceStatusReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkItemWiseCustomer)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel2)
         Me.RadPageViewPage1.Controls.Add(Me.TxtCustomerType)
@@ -459,7 +461,7 @@ Partial Class rptSaleInvoiceStatusReport
         '
         Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvData.MyExportFilePath = ""
         Me.gvData.MyStopExport = False
         Me.gvData.Name = "gvData"
@@ -516,6 +518,16 @@ Partial Class rptSaleInvoiceStatusReport
         Me.btnGo.Size = New System.Drawing.Size(68, 18)
         Me.btnGo.TabIndex = 162
         Me.btnGo.Text = ">>>"
+        '
+        'chkItemWiseCustomer
+        '
+        Me.chkItemWiseCustomer.AutoSize = True
+        Me.chkItemWiseCustomer.Location = New System.Drawing.Point(453, 16)
+        Me.chkItemWiseCustomer.Name = "chkItemWiseCustomer"
+        Me.chkItemWiseCustomer.Size = New System.Drawing.Size(122, 17)
+        Me.chkItemWiseCustomer.TabIndex = 1506
+        Me.chkItemWiseCustomer.Text = "ItemWiseCustomer"
+        Me.chkItemWiseCustomer.UseVisualStyleBackColor = True
         '
         'rptSaleInvoiceStatusReport
         '
@@ -611,4 +623,5 @@ Partial Class rptSaleInvoiceStatusReport
     Friend WithEvents rdbGstInvoice As common.Controls.MyRadioButton
     Friend WithEvents rdbCancelInvoice As common.Controls.MyRadioButton
     Friend WithEvents rdbSaleReturn As common.Controls.MyRadioButton
+    Friend WithEvents chkItemWiseCustomer As CheckBox
 End Class

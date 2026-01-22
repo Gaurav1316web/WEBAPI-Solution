@@ -119,6 +119,7 @@ Public Class FrmTankerMaster
         fndNo.Value = ""
         txttank_transcode.Value = ""
         txtstorage.Value = 0
+        TxtIceCharge.Value = 0
         txtyear.Text = ""
         rbtninner_yes.IsChecked = False
         rbtinner_no.IsChecked = False
@@ -297,6 +298,15 @@ Public Class FrmTankerMaster
                 Throw New Exception("Please Enter storage capacity")
             Else
                 Errorcontrol.ResetError(txtstorage)
+            End If
+
+            If clsCommon.myCdbl(TxtIceCharge.Value) <= 0 Then
+                TxtIceCharge.Focus()
+                TxtIceCharge.Select()
+                Errorcontrol.SetError(TxtIceCharge, "Please Enter Ice Charge")
+                Throw New Exception("Please Enter Ice Charge")
+            Else
+                Errorcontrol.ResetError(TxtIceCharge)
             End If
 
             If clsCommon.myLen(ddlStorageCapacityDescription.Text) = 0 Then
@@ -494,6 +504,7 @@ Public Class FrmTankerMaster
             obj.desc = clsCommon.myCstr(txtname.Text)
             obj.tankerno = clsCommon.myCstr(fndNo.Value)
             obj.storagecap = clsCommon.myCdbl(txtstorage.Value)
+            obj.IceCharge = clsCommon.myCdbl(TxtIceCharge.Value)
             obj.year = clsCommon.myCstr(txtyear.Text)
             obj.tanker_name = clsCommon.myCstr(txtdesc.Text.Replace("'", "`"))
             ''richa Against Ticket No. BM00000003713 on 03/09/2014
@@ -724,6 +735,7 @@ Public Class FrmTankerMaster
                     '-------------------------
                     txtProvMinQty.Value = clsCommon.myCdbl(grow.Cells("Provision_Min_Qty").Value)
                     txtstorage.Value = clsCommon.myCdbl(grow.Cells("Storage_Capacity").Value)
+                    TxtIceCharge.Value = clsCommon.myCdbl(grow.Cells("Ice_Charge").Value)
                     txtyear.Text = clsCommon.myCstr(grow.Cells("Year of Manufacturing").Value)
                     ''richa Against Ticket No. BM00000003713 on 03/09/2014
                     If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("StorageCapacityDesc").Value).ToUpper(), "LITRE") = CompairStringResult.Equal Then
@@ -760,6 +772,13 @@ Public Class FrmTankerMaster
                         End If
                     Catch exx As Exception
                         Throw New Exception("Storage Capacity Should Be In Numeric See At Line No. " + clsCommon.myCstr(counter) + "")
+                    End Try
+                    Try
+                        If clsCommon.myLen(TxtIceCharge.Value) > 0 Then
+                            Convert.ToDecimal(TxtIceCharge.Value)
+                        End If
+                    Catch exx As Exception
+                        Throw New Exception("Ice Charge Should Be In Numeric See At Line No. " + clsCommon.myCstr(counter) + "")
                     End Try
 
                     rbtinner_no.IsChecked = False
@@ -980,6 +999,7 @@ Public Class FrmTankerMaster
                 txtname.Text = obj.desc
                 txttank_transcode.Value = obj.code
                 txtstorage.Value = obj.storagecap
+                TxtIceCharge.Value = obj.IceCharge
                 ''richa Against Ticket No. BM00000003713 on 03/09/2014
                 ddlStorageCapacityDescription.Text = obj.StorageCapacityDesc
                 ''----------------------------------------------------

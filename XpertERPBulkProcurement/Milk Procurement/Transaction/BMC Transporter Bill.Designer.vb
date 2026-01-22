@@ -23,7 +23,7 @@ Partial Class BMC_Transporter_Bill
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -135,6 +135,7 @@ Partial Class BMC_Transporter_Bill
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.chkPrivate = New System.Windows.Forms.CheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -288,6 +289,7 @@ Partial Class BMC_Transporter_Bill
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkPrivate)
         Me.RadPageViewPage1.Controls.Add(Me.UsLock1)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
@@ -918,7 +920,8 @@ Partial Class BMC_Transporter_Bill
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MyExportAPI = False
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -1149,7 +1152,7 @@ Partial Class BMC_Transporter_Bill
         Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(41.0!, 26.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(779, 367)
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(779, 359)
         Me.RadPageViewPage4.Text = "Total"
         '
         'MyLabel47
@@ -1811,6 +1814,16 @@ Partial Class BMC_Transporter_Bill
         Me.btnSave.TabIndex = 2
         Me.btnSave.Text = "Save"
         '
+        'chkPrivate
+        '
+        Me.chkPrivate.AutoSize = True
+        Me.chkPrivate.Location = New System.Drawing.Point(631, 2)
+        Me.chkPrivate.Name = "chkPrivate"
+        Me.chkPrivate.Size = New System.Drawing.Size(59, 18)
+        Me.chkPrivate.TabIndex = 1507
+        Me.chkPrivate.Text = "Private"
+        Me.chkPrivate.UseVisualStyleBackColor = True
+        '
         'BMC_Transporter_Bill
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2052,4 +2065,5 @@ Partial Class BMC_Transporter_Bill
     Friend WithEvents RadSplitButton1 As RadSplitButton
     Friend WithEvents btnImport As RadMenuItem
     Friend WithEvents btnExport As RadMenuItem
+    Friend WithEvents chkPrivate As CheckBox
 End Class
