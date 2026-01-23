@@ -135,7 +135,6 @@ LEFT JOIN TSPL_ZONE_MASTER ON TSPL_ZONE_MASTER.Zone_Code = TSPL_VENDOR_MASTER.ZO
                 view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(gv1.Columns("Avg_Qty").Name)
                 view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(gv1.Columns("Avg_FAT").Name)
                 view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(gv1.Columns("Avg_SNF").Name)
-
                 gv1.ViewDefinition = view
 
             End If
@@ -185,11 +184,25 @@ LEFT JOIN TSPL_ZONE_MASTER ON TSPL_ZONE_MASTER.Zone_Code = TSPL_VENDOR_MASTER.ZO
         gv1.Columns("Avg_SNF").FormatString = "{0:n3}"
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
-        For ii As Integer = IIf(isPrint, 7, 3) To gv1.Columns.Count - 3
+        For ii As Integer = IIf(isPrint, 7, 3) To gv1.Columns.Count - 1
             If gv1.Columns(ii).Name.Contains("FAT") OrElse gv1.Columns(ii).Name.Contains("SNF") Then
-                summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F3}", GridAggregateFunction.Sum))
+                If clsCommon.CompairString(gv1.Columns(ii).Name, "Avg_FAT") = CompairStringResult.Equal Then
+                    Dim summaryItem1 As New GridViewSummaryItem()
+                    summaryItem1.FormatString = "{0:F3}"
+                    summaryItem1.Name = "Avg_FAT"
+                    summaryItem1.AggregateExpression = "sum(Total_FAT_KG)*100/sum(Sweet_Qty+Sour_Qty)"
+                    summaryRowItem.Add(summaryItem1)
+                ElseIf clsCommon.CompairString(gv1.Columns(ii).Name, "Avg_SNF") = CompairStringResult.Equal Then
+                    Dim summaryItem2 As New GridViewSummaryItem()
+                    summaryItem2.FormatString = "{0:F3}"
+                    summaryItem2.Name = "Avg_SNF"
+                    summaryItem2.AggregateExpression = "(sum(Total_SNF_KG)/sum(Sweet_Qty+Sour_Qty))*100"
+                    summaryRowItem.Add(summaryItem2)
+                Else
+                    summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F3}", GridAggregateFunction.Sum))
+                End If
             Else
-                summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
+                    summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
             End If
         Next
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
