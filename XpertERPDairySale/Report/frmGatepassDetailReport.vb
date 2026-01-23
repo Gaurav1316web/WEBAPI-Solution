@@ -19,6 +19,11 @@ Public Class frmGatepassDetailReport
                 rbtnIceCream.Visible = False
                 rbtnBoth.Visible = True
             End If
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                RadGroupBox5.Visible = True
+            Else
+                RadGroupBox5.Visible = False
+            End If
             RadPageView1.SelectedPage = RadPageViewPage1
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -34,6 +39,7 @@ Public Class frmGatepassDetailReport
             RadGroupBox2.Enabled = True
             RadGroupBox3.Enabled = True
             RadGroupBox4.Enabled = True
+            RadGroupBox5.Enabled = True
             btnGo.Enabled = True
             BlankGrid()
             rbtnMilk.Checked = True
@@ -75,7 +81,11 @@ Public Class frmGatepassDetailReport
 
         Dim Qry As String = "select TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode As [Gatepass No],case when TSPL_DAIRYSALE_GATEPASS_MASTER.item_type = 'M' then 'Milk' when TSPL_DAIRYSALE_GATEPASS_MASTER.item_type = 'P' then 'Product' when TSPL_DAIRYSALE_GATEPASS_MASTER.item_type = 'I' then 'Ice Cream' end  as [Item Type] ,Format(TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,'dd/MM/yyyy hh:mm tt') as [Gatepass Date],Format(TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date,'dd/MM/yyyy') as [Supply Date],"
         Qry += "TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType As [Shift Type],TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No As [Route No],TSPL_ROUTE_MASTER.Route_Desc As [Route Desc],
-TSPL_DAIRYSALE_GATEPASS_MASTER.DistributorName As [Distributor Name],TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number As [Vehicle Number],TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_Name As [Driver Name],TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_ContactNo As [Driver Contact No.],TSPL_DAIRYSALE_GATEPASS_MASTER.Loading_Slip As [Loading Slip],TSPL_DAIRYSALE_GATEPASS_MASTER.Remarks,TSPL_DAIRYSALE_GATEPASS_MASTER.Comments,TSPL_DAIRYSALE_GATEPASS_MASTER.Trip_No As [Trip No],TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCrate As [Total Crate],
+TSPL_DAIRYSALE_GATEPASS_MASTER.DistributorName As [Distributor Name],"
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+            Qry += "TSPL_DAIRYSALE_GATEPASS_MASTER.Demand_UniqueID As [Demand UniqueID],TSPL_CUSTOMER_MASTER.Customer_Name As [Customer Name],"
+        End If
+        Qry += " TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number As [Vehicle Number],TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_Name As [Driver Name],TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_ContactNo As [Driver Contact No.],TSPL_DAIRYSALE_GATEPASS_MASTER.Loading_Slip As [Loading Slip],TSPL_DAIRYSALE_GATEPASS_MASTER.Remarks,TSPL_DAIRYSALE_GATEPASS_MASTER.Comments,TSPL_DAIRYSALE_GATEPASS_MASTER.Trip_No As [Trip No],TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCrate As [Total Crate],
 TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code As [Item Code],TSPL_ITEM_MASTER.Short_Description As [Short Description],TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code As [Unit Code],
 TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty,
 (TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty*ItemConvinUOM.Conversion_Factor/ItemConvReportUOM.Conversion_Factor) as [QtyAccReportUOM],ItemConvReportUOM.UOM_Code As [ReportUOM]
@@ -85,6 +95,13 @@ left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code= TSPL_DAIRYSALE_GATEPAS
 left join TSPL_ITEM_UOM_DETAIL as ItemConvReportUOM on TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code = ItemConvReportUOM.Item_Code and ItemConvReportUOM.Report_UOM=1
 left join TSPL_ITEM_UOM_DETAIL as ItemConvinUOM on TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code = ItemConvinUOM.Item_Code and TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code = ItemConvinUOM.UOM_Code 
 left join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No "
+
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+            Qry += " Left Outer Join (select TSPL_DEMAND_BOOKING_MASTER.Demand_UniqueID,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code from TSPL_DEMAND_BOOKING_DETAIL
+Left Outer Join TSPL_DEMAND_BOOKING_MASTER On TSPL_DEMAND_BOOKING_MASTER.document_no=TSPL_DEMAND_BOOKING_DETAIL.document_no
+Group By TSPL_DEMAND_BOOKING_MASTER.Demand_UniqueID,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code) TSPL_DEMAND_BOOKING On TSPL_DEMAND_BOOKING.Demand_UniqueID=TSPL_DAIRYSALE_GATEPASS_MASTER.Demand_UniqueID
+Left Outer Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING.Cust_Code "
+        End If
 
         If rbtnGatepassDate.Checked Then
             Qry += " Where convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103)>='" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' And convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103)<='" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "' "
@@ -119,6 +136,11 @@ left join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DAIRYSALE_GATEPAS
             Qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No In (" & clsCommon.GetMulcallString(txtMultRoute.arrValueMember) & ") "
         End If
         Qry += " and ItemConvReportUOM.Report_UOM=1"
+
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal AndAlso rbtnOnlyIndiCust.Checked Then
+            Qry += " And TSPL_DAIRYSALE_GATEPASS_MASTER.IsIndividualCustomer=1 "
+        End If
+
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry + " Order By IsNull(TSPL_ITEM_MASTER.Sku_Seq,0) ASC")
 
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -144,12 +166,20 @@ left join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DAIRYSALE_GATEPAS
         End If
 
         dt = Nothing
-        Dim finalQry As String = "Select xxxfinal.[Gatepass No],xxxfinal.[Item Type],xxxfinal.[Gatepass Date],xxxfinal.[Supply Date],xxxfinal.[Shift Type],xxxfinal.[Route No],Max(xxxfinal.[Route Desc])[Route Desc],Max([Distributor Name])[Distributor Name],Max(xxxfinal.[Vehicle Number])[Vehicle Number],Max(xxxfinal.[Driver Name])[Driver Name],Max(xxxfinal.[Driver Contact No.])[Driver Contact No.],Max(xxxfinal.[Loading Slip])[Loading Slip],Max(xxxfinal.Remarks)[Remarks],Max(xxxfinal.Comments)[Comments],Max(xxxfinal.[Trip No])[Trip No],Max(xxxfinal.[Total Crate])[Total Crate] "
+        Dim finalQry As String = "Select xxxfinal.[Gatepass No],xxxfinal.[Item Type],xxxfinal.[Gatepass Date],xxxfinal.[Supply Date],xxxfinal.[Shift Type],xxxfinal.[Route No],Max(xxxfinal.[Route Desc])[Route Desc],Max([Distributor Name])[Distributor Name],"
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+            finalQry += " MAX(xxxfinal.[Demand UniqueID]) As [Demand UniqueID],MAX(xxxfinal.[Customer Name]) As [Customer Name],"
+        End If
+        finalQry += " Max(xxxfinal.[Vehicle Number])[Vehicle Number],Max(xxxfinal.[Driver Name])[Driver Name],Max(xxxfinal.[Driver Contact No.])[Driver Contact No.],Max(xxxfinal.[Loading Slip])[Loading Slip],Max(xxxfinal.Remarks)[Remarks],Max(xxxfinal.Comments)[Comments],Max(xxxfinal.[Trip No])[Trip No],Max(xxxfinal.[Total Crate])[Total Crate] "
         finalQry += "" + ItemName + ""
         finalQry += " from (" + Qry + ") As xxxfinal  Group By xxxfinal.[Gatepass No],xxxfinal.[Item Type],xxxfinal.[Gatepass Date],xxxfinal.[Supply Date],xxxfinal.[Shift Type],xxxfinal.[Route No],xxxfinal.[Item Code]"
 
         Qry = "Select MainFinal.[Gatepass No]," & ItemType & " MainFinal.[Gatepass Date],MainFinal.[Supply Date],"
-        Qry += "MainFinal.[Shift Type],MainFinal.[Route No],Max(MainFinal.[Route Desc])[Route Desc],Max(MainFinal.[Distributor Name])[Distributor Name],Max(MainFinal.[Vehicle Number])[Vehicle Number],Max(MainFinal.[Driver Name])[Driver Name],Max(MainFinal.[Driver Contact No.])[Driver Contact No.],Max(MainFinal.[Loading Slip])[Loading Slip],Max(MainFinal.Remarks)[Remarks],Max(MainFinal.Comments)[Comments],Max(MainFinal.[Trip No])[Trip No],Max(MainFinal.[Total Crate])[Total Crate] "
+        Qry += "MainFinal.[Shift Type],MainFinal.[Route No],Max(MainFinal.[Route Desc])[Route Desc],Max(MainFinal.[Distributor Name])[Distributor Name],"
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+            Qry += " MAX(MainFinal.[Demand UniqueID]) As [Demand UniqueID],MAX(MainFinal.[Customer Name]) As [Customer Name],"
+        End If
+        Qry += " Max(MainFinal.[Vehicle Number])[Vehicle Number],Max(MainFinal.[Driver Name])[Driver Name],Max(MainFinal.[Driver Contact No.])[Driver Contact No.],Max(MainFinal.[Loading Slip])[Loading Slip],Max(MainFinal.Remarks)[Remarks],Max(MainFinal.Comments)[Comments],Max(MainFinal.[Trip No])[Trip No],Max(MainFinal.[Total Crate])[Total Crate] "
         Qry += "" + tItem + ""
         Qry += "from (" + finalQry + ")As MainFinal Group By MainFinal.[Gatepass No]," & ItemType & "MainFinal.[Gatepass Date],MainFinal.[Supply Date],MainFinal.[Shift Type],MainFinal.[Route No],MainFinal.[Vehicle Number],MainFinal.[Loading Slip]"
         dt = clsDBFuncationality.GetDataTable(Qry)
@@ -249,6 +279,7 @@ left join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DAIRYSALE_GATEPAS
         RadGroupBox2.Enabled = False
         RadGroupBox3.Enabled = False
         RadGroupBox4.Enabled = False
+        RadGroupBox5.Enabled = False
         btnGo.Enabled = False
     End Sub
 
