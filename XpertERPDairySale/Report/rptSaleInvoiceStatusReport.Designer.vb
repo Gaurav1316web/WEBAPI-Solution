@@ -22,7 +22,7 @@ Partial Class rptSaleInvoiceStatusReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -30,6 +30,7 @@ Partial Class rptSaleInvoiceStatusReport
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkItemWiseCustomer = New System.Windows.Forms.CheckBox()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rdbSaleReturn = New common.Controls.MyRadioButton()
         Me.rdbGstInvoice = New common.Controls.MyRadioButton()
@@ -60,7 +61,9 @@ Partial Class rptSaleInvoiceStatusReport
         Me.rmenuPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.chkItemWiseCustomer = New System.Windows.Forms.CheckBox()
+        Me.rdbItemWiseCustomer = New common.Controls.MyRadioButton()
+        Me.rdbProductSummary = New common.Controls.MyRadioButton()
+        Me.rdbInvoiceCount = New common.Controls.MyRadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -95,6 +98,9 @@ Partial Class rptSaleInvoiceStatusReport
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbItemWiseCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbProductSummary, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbInvoiceCount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -180,9 +186,23 @@ Partial Class rptSaleInvoiceStatusReport
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 340)
         Me.RadPageViewPage1.Text = "Filters"
         '
+        'chkItemWiseCustomer
+        '
+        Me.chkItemWiseCustomer.AutoSize = True
+        Me.chkItemWiseCustomer.Location = New System.Drawing.Point(453, 16)
+        Me.chkItemWiseCustomer.Name = "chkItemWiseCustomer"
+        Me.chkItemWiseCustomer.Size = New System.Drawing.Size(122, 17)
+        Me.chkItemWiseCustomer.TabIndex = 1506
+        Me.chkItemWiseCustomer.Text = "ItemWiseCustomer"
+        Me.chkItemWiseCustomer.UseVisualStyleBackColor = True
+        Me.chkItemWiseCustomer.Visible = False
+        '
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.rdbInvoiceCount)
+        Me.RadGroupBox1.Controls.Add(Me.rdbProductSummary)
+        Me.RadGroupBox1.Controls.Add(Me.rdbItemWiseCustomer)
         Me.RadGroupBox1.Controls.Add(Me.rdbSaleReturn)
         Me.RadGroupBox1.Controls.Add(Me.rdbGstInvoice)
         Me.RadGroupBox1.Controls.Add(Me.rdbCancelInvoice)
@@ -190,7 +210,7 @@ Partial Class rptSaleInvoiceStatusReport
         Me.RadGroupBox1.Location = New System.Drawing.Point(419, 52)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(333, 39)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(357, 65)
         Me.RadGroupBox1.TabIndex = 455
         '
         'rdbSaleReturn
@@ -461,7 +481,7 @@ Partial Class rptSaleInvoiceStatusReport
         '
         Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvData.MyExportFilePath = ""
         Me.gvData.MyStopExport = False
         Me.gvData.Name = "gvData"
@@ -519,15 +539,37 @@ Partial Class rptSaleInvoiceStatusReport
         Me.btnGo.TabIndex = 162
         Me.btnGo.Text = ">>>"
         '
-        'chkItemWiseCustomer
+        'rdbItemWiseCustomer
         '
-        Me.chkItemWiseCustomer.AutoSize = True
-        Me.chkItemWiseCustomer.Location = New System.Drawing.Point(453, 16)
-        Me.chkItemWiseCustomer.Name = "chkItemWiseCustomer"
-        Me.chkItemWiseCustomer.Size = New System.Drawing.Size(122, 17)
-        Me.chkItemWiseCustomer.TabIndex = 1506
-        Me.chkItemWiseCustomer.Text = "ItemWiseCustomer"
-        Me.chkItemWiseCustomer.UseVisualStyleBackColor = True
+        Me.rdbItemWiseCustomer.Location = New System.Drawing.Point(15, 34)
+        Me.rdbItemWiseCustomer.MyLinkLable1 = Nothing
+        Me.rdbItemWiseCustomer.MyLinkLable2 = Nothing
+        Me.rdbItemWiseCustomer.Name = "rdbItemWiseCustomer"
+        Me.rdbItemWiseCustomer.Size = New System.Drawing.Size(118, 18)
+        Me.rdbItemWiseCustomer.TabIndex = 398
+        Me.rdbItemWiseCustomer.Text = "ItemWise Customer"
+        '
+        'rdbProductSummary
+        '
+        Me.rdbProductSummary.Location = New System.Drawing.Point(139, 34)
+        Me.rdbProductSummary.MyLinkLable1 = Nothing
+        Me.rdbProductSummary.MyLinkLable2 = Nothing
+        Me.rdbProductSummary.Name = "rdbProductSummary"
+        Me.rdbProductSummary.Size = New System.Drawing.Size(109, 18)
+        Me.rdbProductSummary.TabIndex = 399
+        Me.rdbProductSummary.TabStop = False
+        Me.rdbProductSummary.Text = "Product Summary"
+        '
+        'rdbInvoiceCount
+        '
+        Me.rdbInvoiceCount.Location = New System.Drawing.Point(254, 33)
+        Me.rdbInvoiceCount.MyLinkLable1 = Nothing
+        Me.rdbInvoiceCount.MyLinkLable2 = Nothing
+        Me.rdbInvoiceCount.Name = "rdbInvoiceCount"
+        Me.rdbInvoiceCount.Size = New System.Drawing.Size(89, 18)
+        Me.rdbInvoiceCount.TabIndex = 400
+        Me.rdbInvoiceCount.TabStop = False
+        Me.rdbInvoiceCount.Text = "Invoice Count"
         '
         'rptSaleInvoiceStatusReport
         '
@@ -580,6 +622,9 @@ Partial Class rptSaleInvoiceStatusReport
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbItemWiseCustomer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbProductSummary, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbInvoiceCount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -624,4 +669,7 @@ Partial Class rptSaleInvoiceStatusReport
     Friend WithEvents rdbCancelInvoice As common.Controls.MyRadioButton
     Friend WithEvents rdbSaleReturn As common.Controls.MyRadioButton
     Friend WithEvents chkItemWiseCustomer As CheckBox
+    Friend WithEvents rdbInvoiceCount As common.Controls.MyRadioButton
+    Friend WithEvents rdbProductSummary As common.Controls.MyRadioButton
+    Friend WithEvents rdbItemWiseCustomer As common.Controls.MyRadioButton
 End Class

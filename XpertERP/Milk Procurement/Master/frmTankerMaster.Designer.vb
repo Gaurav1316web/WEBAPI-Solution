@@ -40,6 +40,8 @@ Partial Class FrmTankerMaster
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.TxtIceCharge = New common.MyNumBox()
+        Me.MyLabel17 = New common.Controls.MyLabel()
         Me.chkInactive = New common.Controls.MyCheckBox()
         Me.txtProvMinQty = New common.MyNumBox()
         Me.MyLabel16 = New common.Controls.MyLabel()
@@ -120,8 +122,6 @@ Partial Class FrmTankerMaster
         Me.txt_ltr_kg = New common.MyNumBox()
         Me.MyLabel7 = New common.Controls.MyLabel()
         Me.MyLabel12 = New common.Controls.MyLabel()
-        Me.MyLabel17 = New common.Controls.MyLabel()
-        Me.TxtIceCharge = New common.MyNumBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -134,6 +134,8 @@ Partial Class FrmTankerMaster
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.TxtIceCharge, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkInactive, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtProvMinQty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -218,8 +220,6 @@ Partial Class FrmTankerMaster
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MyLabel12.SuspendLayout()
-        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TxtIceCharge, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -353,6 +353,43 @@ Partial Class FrmTankerMaster
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Size = New System.Drawing.Size(769, 429)
         Me.RadGroupBox1.TabIndex = 0
+        '
+        'TxtIceCharge
+        '
+        Me.TxtIceCharge.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.TxtIceCharge.CalculationExpression = Nothing
+        Me.TxtIceCharge.DecimalPlaces = 2
+        Me.TxtIceCharge.FieldCode = Nothing
+        Me.TxtIceCharge.FieldDesc = Nothing
+        Me.TxtIceCharge.FieldMaxLength = 0
+        Me.TxtIceCharge.FieldName = Nothing
+        Me.TxtIceCharge.isCalculatedField = False
+        Me.TxtIceCharge.IsSourceFromTable = False
+        Me.TxtIceCharge.IsSourceFromValueList = False
+        Me.TxtIceCharge.IsUnique = False
+        Me.TxtIceCharge.Location = New System.Drawing.Point(158, 98)
+        Me.TxtIceCharge.MendatroryField = True
+        Me.TxtIceCharge.MyLinkLable1 = Nothing
+        Me.TxtIceCharge.MyLinkLable2 = Nothing
+        Me.TxtIceCharge.Name = "TxtIceCharge"
+        Me.TxtIceCharge.ReferenceFieldDesc = Nothing
+        Me.TxtIceCharge.ReferenceFieldName = Nothing
+        Me.TxtIceCharge.ReferenceTableName = Nothing
+        Me.TxtIceCharge.Size = New System.Drawing.Size(137, 20)
+        Me.TxtIceCharge.TabIndex = 10
+        Me.TxtIceCharge.Text = "0"
+        Me.TxtIceCharge.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TxtIceCharge.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        '
+        'MyLabel17
+        '
+        Me.MyLabel17.FieldName = Nothing
+        Me.MyLabel17.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel17.Location = New System.Drawing.Point(11, 98)
+        Me.MyLabel17.Name = "MyLabel17"
+        Me.MyLabel17.Size = New System.Drawing.Size(62, 16)
+        Me.MyLabel17.TabIndex = 97
+        Me.MyLabel17.Text = "Ice Charge"
         '
         'chkInactive
         '
@@ -1634,43 +1671,6 @@ Partial Class FrmTankerMaster
         Me.MyLabel12.Text = "Rental per Week"
         Me.MyLabel12.Visible = False
         '
-        'MyLabel17
-        '
-        Me.MyLabel17.FieldName = Nothing
-        Me.MyLabel17.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel17.Location = New System.Drawing.Point(11, 98)
-        Me.MyLabel17.Name = "MyLabel17"
-        Me.MyLabel17.Size = New System.Drawing.Size(62, 16)
-        Me.MyLabel17.TabIndex = 97
-        Me.MyLabel17.Text = "Ice Charge"
-        '
-        'TxtIceCharge
-        '
-        Me.TxtIceCharge.BackColor = System.Drawing.Color.LightGoldenrodYellow
-        Me.TxtIceCharge.CalculationExpression = Nothing
-        Me.TxtIceCharge.DecimalPlaces = 2
-        Me.TxtIceCharge.FieldCode = Nothing
-        Me.TxtIceCharge.FieldDesc = Nothing
-        Me.TxtIceCharge.FieldMaxLength = 0
-        Me.TxtIceCharge.FieldName = Nothing
-        Me.TxtIceCharge.isCalculatedField = False
-        Me.TxtIceCharge.IsSourceFromTable = False
-        Me.TxtIceCharge.IsSourceFromValueList = False
-        Me.TxtIceCharge.IsUnique = False
-        Me.TxtIceCharge.Location = New System.Drawing.Point(158, 98)
-        Me.TxtIceCharge.MendatroryField = True
-        Me.TxtIceCharge.MyLinkLable1 = Nothing
-        Me.TxtIceCharge.MyLinkLable2 = Nothing
-        Me.TxtIceCharge.Name = "TxtIceCharge"
-        Me.TxtIceCharge.ReferenceFieldDesc = Nothing
-        Me.TxtIceCharge.ReferenceFieldName = Nothing
-        Me.TxtIceCharge.ReferenceTableName = Nothing
-        Me.TxtIceCharge.Size = New System.Drawing.Size(137, 20)
-        Me.TxtIceCharge.TabIndex = 10
-        Me.TxtIceCharge.Text = "0"
-        Me.TxtIceCharge.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtIceCharge.Value = New Decimal(New Integer() {0, 0, 0, 0})
-        '
         'FrmTankerMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1698,6 +1698,8 @@ Partial Class FrmTankerMaster
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.TxtIceCharge, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkInactive, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtProvMinQty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1793,8 +1795,6 @@ Partial Class FrmTankerMaster
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         Me.MyLabel12.ResumeLayout(False)
         Me.MyLabel12.PerformLayout()
-        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TxtIceCharge, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
