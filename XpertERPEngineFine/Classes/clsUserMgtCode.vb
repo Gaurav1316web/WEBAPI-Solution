@@ -1,5 +1,6 @@
 ﻿Imports common
 Public Class clsUserMgtCode
+    Public Const rptDBTStatusReport As String = "RPT-DBT-STS"
     Public Const frmRALQCReport As String = "RAL-QC-RPT"
     Public Const frmUnionWiseAppUserReport As String = "UNN-APP-RPT"
     Public Const FrmCmSambalYojanaSubsidy As String = "CM-SAM-YO"

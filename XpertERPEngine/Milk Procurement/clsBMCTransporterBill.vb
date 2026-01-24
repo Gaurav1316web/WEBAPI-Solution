@@ -188,9 +188,10 @@ Public Class clsBMCTransporterBill
                         objTr.KM = clsCommon.myCdbl(dr("KM"))
                         objTr.Quantity_KG = clsCommon.myCdbl(dr("Quantity_KG"))
                         objTr.Diesel_RD = clsCommon.myCdbl(dr("Diesel_RD"))
-                        objTr.Amount = clsCommon.myCdbl(dr("Amount"))
-                        'objTr.BalanceAmount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Balance_Amt from TSPL_VENDOR_INVOICE_HEAD left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code where TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader= '" + clsCommon.myCstr(dr("VLC_Code_VLC_Uploader")) + "' and Transfer_To_Saving=1"))
-                        obj.Arr.Add(objTr)
+                    objTr.Amount = clsCommon.myCdbl(dr("Amount"))
+                    objTr.BMC_Date = clsCommon.myCdbl(dr("BMC_Date"))
+                    'objTr.BalanceAmount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Balance_Amt from TSPL_VENDOR_INVOICE_HEAD left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code where TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader= '" + clsCommon.myCstr(dr("VLC_Code_VLC_Uploader")) + "' and Transfer_To_Saving=1"))
+                    obj.Arr.Add(objTr)
                     Next
                 End If
 
@@ -424,6 +425,7 @@ Public Class clsBMCTransporterBillDetail
 #Region "Variables"
     Public PK_ID As Integer = 0
     Public Document_Code As String = Nothing
+    Public Amount As Decimal = 0
     Public MCC_Document_Code As String = Nothing
     Public Station_1 As String = Nothing
     Public Station_2 As String = Nothing
@@ -434,7 +436,7 @@ Public Class clsBMCTransporterBillDetail
     Public KM As Decimal = 0
     Public Quantity_KG As Decimal = 0
     Public Diesel_RD As Decimal = 0
-    Public Amount As Decimal = 0
+    Public BMC_Date As String = Nothing
     Public arr As List(Of clsfrmVLCMaster) = Nothing
 
     'Public BalanceAmount As Decimal = 0
@@ -455,6 +457,7 @@ Public Class clsBMCTransporterBillDetail
                 clsCommon.AddColumnsForChange(coll, "Quantity_KG", obj.Quantity_KG)
                 clsCommon.AddColumnsForChange(coll, "Diesel_RD", obj.Diesel_RD)
                 clsCommon.AddColumnsForChange(coll, "Amount", obj.Amount)
+                clsCommon.AddColumnsForChange(coll, "BMC_Date", obj.BMC_Date)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BMC_TRANSPORTER_BILL_DETAIL", OMInsertOrUpdate.Insert, "", trans)
             Next
         End If
