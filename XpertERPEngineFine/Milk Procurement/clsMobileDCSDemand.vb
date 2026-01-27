@@ -20,17 +20,18 @@ Public Class clsMobileDCSDemand
     Public Amount As Decimal = 0
     Public Status As Integer = 0
     Public Arr As List(Of clsMobileDCSDemand) = Nothing
+    Public dtError As DataTable = New DataTable()
 #End Region
     Public Function SaveData(ByVal Arr As List(Of clsMobileDCSDemand)) As Boolean
         Dim isSaved As Boolean = True
-        Dim dtError As DataTable = New DataTable()
+
         dtError.Columns.Add("RowNo", GetType(Integer))
         dtError.Columns.Add("Error", GetType(String))
         Dim trans As SqlTransaction = Nothing
         Try
+            Dim linno As Integer = 0
             If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
                 For Each obj As clsMobileDCSDemand In Arr
-                    Dim linno As Integer = 0
                     Dim coll As New Hashtable()
                     Dim isApproved As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select isnull(Status,0) as Status from TSPL_MOBILE_DCS_DEMAND where PK_ID = " & obj.PK_ID & "", trans) > 0)
                     If isApproved Then

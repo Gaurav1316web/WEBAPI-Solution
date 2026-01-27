@@ -31,7 +31,6 @@ Public Class frmMobileDCSDemand
     Const colRate As String = "colRate"
     Const colAmount As String = "colAmount"
     Const ColShowOSAmt As String = "ColShowOSAmt"
-    Const colStatus As String = "colStatus"
 
 #End Region
 
@@ -69,8 +68,7 @@ Public Class frmMobileDCSDemand
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
         End If
-        btnApprove.Visible = MyBase.isModifyFlag
-        btnDelete.Visible = MyBase.isDeleteFlag
+        btnApprove.Visible = MyBase.isPostFlag
     End Sub
 
     Sub LoadBlankGrid()
@@ -109,7 +107,7 @@ Public Class frmMobileDCSDemand
         repoTextBox.FormatString = ""
         repoTextBox.HeaderText = "Vendor code"
         repoTextBox.Name = colVendorCode
-        repoTextBox.Width = 140
+        repoTextBox.Width = 120
         repoTextBox.ReadOnly = True
         repoTextBox.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTextBox)
@@ -118,7 +116,7 @@ Public Class frmMobileDCSDemand
         repoDCSUploader.FormatString = ""
         repoDCSUploader.HeaderText = "DCS Uploader No"
         repoDCSUploader.Name = colDCSUploaderNo
-        repoDCSUploader.Width = 140
+        repoDCSUploader.Width = 120
         repoDCSUploader.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoDCSUploader)
 
@@ -135,7 +133,7 @@ Public Class frmMobileDCSDemand
         repoDCSName.FormatString = ""
         repoDCSName.HeaderText = "DCS Name"
         repoDCSName.Name = colDCSName
-        repoDCSName.Width = 180
+        repoDCSName.Width = 160
         repoDCSName.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoDCSName)
 
@@ -162,6 +160,7 @@ Public Class frmMobileDCSDemand
         repoTextBox.Name = colItemCode
         repoTextBox.Width = 120
         repoTextBox.ReadOnly = True
+        repoTextBox.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTextBox)
 
         repoTextBox = New GridViewTextBoxColumn()
@@ -174,9 +173,9 @@ Public Class frmMobileDCSDemand
 
         Dim repoDecimal As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoDecimal.FormatString = ""
-        repoDecimal.HeaderText = "Approve Qty"
-        repoDecimal.Name = colApproveQty
-        repoDecimal.ReadOnly = False
+        repoDecimal.HeaderText = "Qty"
+        repoDecimal.Name = colQty
+        repoDecimal.ReadOnly = True
         repoDecimal.Width = 100
         repoDecimal.WrapText = True
         repoDecimal.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
@@ -184,9 +183,9 @@ Public Class frmMobileDCSDemand
 
         repoDecimal = New GridViewDecimalColumn()
         repoDecimal.FormatString = ""
-        repoDecimal.HeaderText = "Qty"
-        repoDecimal.Name = colQty
-        repoDecimal.ReadOnly = True
+        repoDecimal.HeaderText = "Approve Qty"
+        repoDecimal.Name = colApproveQty
+        repoDecimal.ReadOnly = False
         repoDecimal.Width = 100
         repoDecimal.WrapText = True
         repoDecimal.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
@@ -204,7 +203,7 @@ Public Class frmMobileDCSDemand
         repoTextBox.FormatString = ""
         repoTextBox.HeaderText = "Price"
         repoTextBox.Name = colPriceCode
-        repoTextBox.Width = 120
+        repoTextBox.Width = 100
         repoTextBox.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoTextBox)
 
@@ -213,7 +212,7 @@ Public Class frmMobileDCSDemand
         repoDecimal.HeaderText = "Rate"
         repoDecimal.Name = colRate
         repoDecimal.ReadOnly = True
-        repoDecimal.Width = 100
+        repoDecimal.Width = 90
         repoDecimal.WrapText = True
         repoDecimal.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoDecimal)
@@ -227,14 +226,6 @@ Public Class frmMobileDCSDemand
         repoDecimal.WrapText = True
         repoDecimal.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoDecimal)
-
-        repoTextBox = New GridViewTextBoxColumn()
-        repoTextBox.FormatString = ""
-        repoTextBox.HeaderText = "Status"
-        repoTextBox.Name = colStatus
-        repoTextBox.Width = 100
-        repoTextBox.ReadOnly = True
-        gv1.MasterTemplate.Columns.Add(repoTextBox)
 
         Dim repoShowOSAmt As GridViewCommandColumn = New GridViewCommandColumn()
         repoShowOSAmt.FormatString = ""
@@ -331,24 +322,34 @@ Public Class frmMobileDCSDemand
             If clsCommon.MyMessageBoxShow(Me, "Are you sure to Approve [" & clsCommon.myCstr(ArrCheck.Count) & "] Records?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                 Exit Sub
             End If
-
             Dim obj As New clsMobileDCSDemand()
             obj.Arr = New List(Of clsMobileDCSDemand)
+
             For Each grow As GridViewRowInfo In gv1.Rows
-                obj = New clsMobileDCSDemand()
-                If clsCommon.myLen(clsCommon.myCdbl(grow.Cells(colPKID).Value)) > 0 Then
-                    obj.PK_ID = clsCommon.myCdbl(grow.Cells(colPKID).Value)
-                    obj.Approve_Qty = clsCommon.myCDecimal(grow.Cells(colApproveQty).Value)
-                    obj.Price_Code = clsCommon.myCDecimal(grow.Cells(colPriceCode).Value)
-                    obj.Rate = clsCommon.myCDecimal(grow.Cells(colRate).Value)
-                    obj.Amount = clsCommon.myCDecimal(grow.Cells(colAmount).Value)
-                    obj.Arr.Add(obj)
+                If clsCommon.myLen(clsCommon.myCdbl(grow.Cells(colPKID).Value)) > 0 AndAlso (clsCommon.myCBool(grow.Cells(colDSelect).Value)) Then
+                    Dim rowObj As New clsMobileDCSDemand()
+                    rowObj.PK_ID = clsCommon.myCdbl(grow.Cells(colPKID).Value)
+                    rowObj.Approve_Qty = clsCommon.myCDecimal(grow.Cells(colApproveQty).Value)
+                    rowObj.Price_Code = clsCommon.myCDecimal(grow.Cells(colPriceCode).Value)
+                    rowObj.Rate = clsCommon.myCDecimal(grow.Cells(colRate).Value)
+                    rowObj.Amount = clsCommon.myCDecimal(grow.Cells(colAmount).Value)
+                    obj.Arr.Add(rowObj)
                 End If
             Next
+
             If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                 If obj.SaveData(obj.Arr) Then
-                    clsCommon.MyMessageBoxShow(Me, "Successfully Approved", Me.Text)
-                    LoadGridData()
+                    If obj.dtError.Rows.Count > 0 Then
+                        Dim ff As New FrmFreeGrid
+                        ff.ReportID = "MobileDCSDemand"
+                        ff.Text = "Mobile DCS Demand Errors"
+                        ff.dt = obj.dtError
+                        ff.ShowDialog()
+                        clsCommon.MyMessageBoxShow(Me, "[" & clsCommon.myCstr(obj.Arr.Count - obj.dtError.Rows.Count) & "] No of Documents Successfully Approved", Me.Text)
+                    Else
+                        clsCommon.MyMessageBoxShow(Me, "Successfully Approved", Me.Text)
+                    End If
+                    LoadGridData(False)
                 End If
             End If
         Catch ex As Exception
@@ -442,31 +443,31 @@ Public Class frmMobileDCSDemand
         Me.Close()
     End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
-        LoadGridData()
+        LoadGridData(True)
     End Sub
 
-    Private Sub LoadGridData()
+    Private Sub LoadGridData(ByVal ShowMessage As Boolean)
         Try
             Dim qry As String = ""
             LoadBlankGrid()
             qry = " select TSPL_MOBILE_DCS_DEMAND.PK_Id,TSPL_MOBILE_DCS_DEMAND.Document_Date,TSPL_MOBILE_DCS_DEMAND.Vendor_Code, VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Code,VLC_Name,TSPL_USER_CUSTOMER_ZONE.Zone_Code,TSPL_ZONE_MASTER.Description as Zone_Name,TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_MOBILE_DCS_DEMAND.Approve_Qty,TSPL_MOBILE_DCS_DEMAND.Qty,TSPL_MOBILE_DCS_DEMAND.UOM,
             TSPL_MOBILE_DCS_DEMAND.Price_code,TSPL_MOBILE_DCS_DEMAND.Rate,TSPL_MOBILE_DCS_DEMAND.Amount,case when isnull(TSPL_MOBILE_DCS_DEMAND.Status,0)= 1 then 'Approved' else  'Pending' end as Status  from TSPL_MOBILE_DCS_DEMAND  left join TSPL_USER_CUSTOMER_ZONE on TSPL_USER_CUSTOMER_ZONE.User_Code = '" & objCommonVar.CurrentUserCode & "' inner join TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code = TSPL_MOBILE_DCS_DEMAND.VENDOR_CODE and TSPL_VENDOR_MASTER.ZONE_CODE= TSPL_USER_CUSTOMER_ZONE.ZONE_CODE left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_VENDOR_MASTER.Vendor_Code left outer join TSPL_ZONE_MASTER ON TSPL_ZONE_MASTER.Zone_Code = TSPL_VENDOR_MASTER.Zone_Code
-            left outer join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_MOBILE_DCS_DEMAND.Item_Code where isnull(TSPL_MOBILE_DCS_DEMAND.Status,0)= 0 and convert(date,TSPL_MOBILE_DCS_DEMAND.Document_Date,103) >= '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "' and convert(date,TSPL_MOBILE_DCS_DEMAND.Document_Date,103) <= '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "' "
+            left outer join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_MOBILE_DCS_DEMAND.Item_Code where isnull(TSPL_MOBILE_DCS_DEMAND.Status,0)= 0 and convert(date,TSPL_MOBILE_DCS_DEMAND.Document_Date,103) >= '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "' and convert(date,TSPL_MOBILE_DCS_DEMAND.Document_Date,103) <= '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "' "
             If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
                 qry += " and TSPL_VLC_MASTER_HEAD.VLC_CODE IN (" & clsCommon.GetMulcallString(txtDCS.arrValueMember) & ")"
             End If
+            qry += " order by TSPL_MOBILE_DCS_DEMAND.PK_Id "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
             If dt.Rows.Count > 0 Then
                 Dim Rate As Double = 0
                 For ii As Integer = 0 To dt.Rows.Count - 1
-                    ' gv1.Rows(gv1.Rows.Count - 1).Cells(colSNo).Value = ii + 1
                     gv1.Rows.AddNew()
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colPKID).Value = dt.Rows(ii)("PK_Id")
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colDate).Value = dt.Rows(ii)("Document_Date")
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colVendorCode).Value = dt.Rows(ii)("Vendor_Code")
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colDCSUploaderNo).Value = dt.Rows(ii)("VLC_Code_VLC_Uploader")
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDCSCode).Tag = dt.Rows(ii)("VLC_Code")
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDCSCode).Value = dt.Rows(ii)("VLC_Code")
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colDCSName).Value = dt.Rows(ii)("VLC_Name")
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colZoneCode).Value = dt.Rows(ii)("Zone_Code")
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colZoneName).Value = dt.Rows(ii)("Zone_Name")
@@ -481,7 +482,7 @@ Public Class frmMobileDCSDemand
                 Next
                 CheckAll()
                 EnableDisableControls(False)
-            Else
+            ElseIf ShowMessage Then
                 Throw New Exception("No Data Found")
             End If
         Catch ex As Exception
@@ -520,7 +521,7 @@ Public Class frmMobileDCSDemand
     End Function
     Private Sub UpdateCurrentRow(ByVal IntRowNo As Integer)
         Dim dblRate As Double = 0
-        If clsCommon.myLen(clsCommon.myCDate(gv1.Rows(IntRowNo).Cells(colDCSCode).Value)) > 0 Then
+        If clsCommon.myLen(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colDCSCode).Value)) > 0 Then
             dblRate = gv1.Rows(IntRowNo).Cells(colRate).Value
             gv1.Rows(IntRowNo).Cells(colAmount).Value = (dblRate * gv1.Rows(IntRowNo).Cells(colApproveQty).Value)
         End If
@@ -545,8 +546,8 @@ Public Class frmMobileDCSDemand
 
     Private Sub txtDCS__My_Click(sender As Object, e As EventArgs) Handles txtDCS._My_Click
         Try
-            Dim qry As String = " select VLC_Code_VLC_Uploader as [DCS Uploader Code],VLC_Code as [DCS Code],VLC_Name as [DCS Name] from TSPL_VLC_MASTER_HEAD "
-            txtDCS.arrValueMember = clsCommon.ShowMultipleSelectForm("DCSMulS", qry, "DCS Uploader Code", "DCS Name", txtDCS.arrValueMember, txtDCS.arrDispalyMember)
+            Dim qry As String = " select VLC_Code_VLC_Uploader as [DCS Uploader Code],VLC_Code as [DCS Code],VLC_Name as [DCS Name],tspl_vendor_master.Vendor_Code as [Vendor Code] from TSPL_VLC_MASTER_HEAD left join tspl_vendor_master on tspl_vendor_master.Vendor_Code = TSPL_VLC_MASTER_HEAD.VSP_CODE "
+            txtDCS.arrValueMember = clsCommon.ShowMultipleSelectForm("DCSMulS", qry, "DCS Code", "DCS Name", txtDCS.arrValueMember, txtDCS.arrDispalyMember)
         Catch ex As Exception
 
         End Try

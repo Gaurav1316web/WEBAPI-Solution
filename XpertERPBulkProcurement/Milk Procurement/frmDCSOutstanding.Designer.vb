@@ -62,11 +62,16 @@ Partial Class frmDCSOutstanding
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(282, 86)
         Me.Controls.Add(Me.FlowLayoutPanel2)
+        Me.MaximizeBox = False
+        Me.MaximumSize = New System.Drawing.Size(290, 116)
+        Me.MinimizeBox = False
+        Me.MinimumSize = New System.Drawing.Size(290, 116)
         Me.Name = "frmDCSOutstanding"
         '
         '
         '
         Me.RootElement.ApplyShapeToControl = True
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "frmDCSOutstanding"
         Me.FlowLayoutPanel2.ResumeLayout(False)
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()

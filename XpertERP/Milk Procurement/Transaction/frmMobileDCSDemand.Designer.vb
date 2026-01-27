@@ -37,7 +37,6 @@ Partial Class frmMobileDCSDemand
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.btnUnselectAll = New Telerik.WinControls.UI.RadButton()
         Me.btnSelectAll = New Telerik.WinControls.UI.RadButton()
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnApprove = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
@@ -60,7 +59,6 @@ Partial Class frmMobileDCSDemand
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnUnselectAll, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSelectAll, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnApprove, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -83,7 +81,6 @@ Partial Class frmMobileDCSDemand
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnUnselectAll)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSelectAll)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnApprove)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Size = New System.Drawing.Size(766, 436)
@@ -288,7 +285,7 @@ Partial Class frmMobileDCSDemand
         '
         Me.btnUnselectAll.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnUnselectAll.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUnselectAll.Location = New System.Drawing.Point(267, 9)
+        Me.btnUnselectAll.Location = New System.Drawing.Point(198, 9)
         Me.btnUnselectAll.Name = "btnUnselectAll"
         Me.btnUnselectAll.Size = New System.Drawing.Size(94, 24)
         Me.btnUnselectAll.TabIndex = 281
@@ -298,22 +295,11 @@ Partial Class frmMobileDCSDemand
         '
         Me.btnSelectAll.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSelectAll.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSelectAll.Location = New System.Drawing.Point(164, 9)
+        Me.btnSelectAll.Location = New System.Drawing.Point(95, 9)
         Me.btnSelectAll.Name = "btnSelectAll"
         Me.btnSelectAll.Size = New System.Drawing.Size(98, 24)
         Me.btnSelectAll.TabIndex = 280
         Me.btnSelectAll.Text = "Select All"
-        '
-        'btnDelete
-        '
-        Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(93, 9)
-        Me.btnDelete.Name = "btnDelete"
-        Me.btnDelete.Size = New System.Drawing.Size(68, 24)
-        Me.btnDelete.TabIndex = 6
-        Me.btnDelete.Text = "Delete"
-        Me.btnDelete.Visible = False
         '
         'btnApprove
         '
@@ -375,7 +361,6 @@ Partial Class frmMobileDCSDemand
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnUnselectAll, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSelectAll, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnApprove, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -388,7 +373,6 @@ Partial Class frmMobileDCSDemand
     Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
     Friend WithEvents RadMenu1 As Telerik.WinControls.UI.RadMenu
-    Friend WithEvents btnDelete As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnReset As RadButton
     Friend WithEvents btnGo As RadButton
     Friend WithEvents SplitContainer2 As SplitContainer
