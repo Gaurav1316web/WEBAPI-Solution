@@ -903,20 +903,28 @@ Public Class frmMilkProcurementUploader
                         objTr.Vehicle_No = clsCommon.myCstr(gv1.Rows(ii).Cells(colVehicleNo).Value)
                         objTr.No_Of_Cans = clsCommon.myCdbl(gv1.Rows(ii).Cells(colNoOfCan).Value)
                         objTr.Milk_Weight = clsCommon.myCdbl(gv1.Rows(ii).Cells(colMilkWeight).Value)
+                        objTr.Reject_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colRejectRejectType).Value)
                         objTr.FAT = Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colFATPer).Value), 1, MidpointRounding.ToEven)
                         objTr.SNF = Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colSNFPer).Value), IIf(objCommonVar.MilkProcurementSNF2DecimalPlaces, 2, 1), MidpointRounding.ToEven)
-                        If objTr.FAT <= 0 Then
-                            Throw New Exception("FAT % Should be greater than zero")
-                        End If
+                        'If objTr.FAT <= 0 Then
+                        '    Throw New Exception("FAT % Should be greater than zero")
+                        'End If
 
-                        If objTr.SNF <= 0 Then
-                            Throw New Exception("SNF % Should be greater than zero")
+                        'If objTr.SNF <= 0 Then
+                        '    Throw New Exception("SNF % Should be greater than zero")
+                        'End If
+                        If Not clsCommon.CompairString(objTr.Reject_Type, "CURD") = CompairStringResult.Equal Then
+                            If objTr.FAT <= 0 Then
+                                Throw New Exception("FAT % Should be greater than zero")
+                            End If
+                            If objTr.SNF <= 0 Then
+                                Throw New Exception("SNF % Should be greater than zero")
+                            End If
                         End If
                         'If obj.Document_Date > objTr.Shift_Date Then
                         '    obj.Document_Date = objTr.Shift_Date
                         'End If
                         objTr.Reject_Defaulter = clsCommon.myCstr(gv1.Rows(ii).Cells(colRejectDefaulter).Value)
-                        objTr.Reject_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colRejectRejectType).Value)
                         If chkMilkReject.Checked Then
                             objTr.Manual_Weight = 1
                             objTr.Manual_Sample = 1
