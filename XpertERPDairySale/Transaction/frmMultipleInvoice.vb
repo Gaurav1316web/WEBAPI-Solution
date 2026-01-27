@@ -20,7 +20,7 @@ Public Class frmMultipleInvoice
         'btnSave.Visible = MyBase.isModifyFlag
         'btnPost.Visible = MyBase.isPostFlag
         'btnPrint.Visible = MyBase.isPrintFlag
-        'btnDelete.Visible = False
+        btnDelete.Visible = False
         'If MyBase.isReverse Then
         '    btnReverseAndUnpost.Enabled = True
         'Else
@@ -37,7 +37,7 @@ Public Class frmMultipleInvoice
     Public Sub AddNew()
         isInvoice = False
         btnDelete.Visible = False
-        btnDelete.Enabled = False
+        'btnDelete.Enabled = False
         btnCancel.Visible = False
         btnCancel.Enabled = False
         btnPrintMultipleInvoice.Visible = False
@@ -554,8 +554,8 @@ left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_IN
                 gv1.BestFitColumns()
                 btnSave.Enabled = False
                 btnPost.Enabled = True
-                btnDelete.Visible = True
-                btnDelete.Enabled = True
+                'btnDelete.Visible = True
+                'btnDelete.Enabled = True
                 btnCancel.Visible = True
                 btnCancel.Enabled = True
                 btnSave.Enabled = False
