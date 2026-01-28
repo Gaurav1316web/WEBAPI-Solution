@@ -125,6 +125,7 @@ Public Class clsCustomerInvoiceHead
     Public Add_Charge_Amt10 As Double = 0
     Public Total_Add_Charge As Double = 0
     Public RoundOffAmount As Double = 0
+    Public TotalSubsidyAmt As Double = 0
     Public AgainstScrap As String = Nothing
     Public AgainstScrapReturn As String = Nothing
     Public Against_Sale_No As String = Nothing
@@ -442,8 +443,9 @@ Public Class clsCustomerInvoiceHead
         clsCommon.AddColumnsForChange(coll, "Add_Charge_Amt10", obj.Add_Charge_Amt10)
 
         clsCommon.AddColumnsForChange(coll, "Total_Add_Charge", obj.Total_Add_Charge)
-        clsCommon.AddColumnsForChange(coll, "RoundOffAmount", obj.RoundOffAmount)
-        clsCommon.AddColumnsForChange(coll, "Tax_Calculation_Type", IIf(obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic, 0, 1))
+            clsCommon.AddColumnsForChange(coll, "RoundOffAmount", obj.RoundOffAmount)
+            clsCommon.AddColumnsForChange(coll, "TotalSubsidyAmt", obj.TotalSubsidyAmt)
+            clsCommon.AddColumnsForChange(coll, "Tax_Calculation_Type", IIf(obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic, 0, 1))
         clsCommon.AddColumnsForChange(coll, "AgainstScrap", obj.AgainstScrap)
             clsCommon.AddColumnsForChange(coll, "Against_Sale_No", obj.Against_Sale_No, True)
             clsCommon.AddColumnsForChange(coll, "Against_Sale_Return_No", obj.Against_Sale_Return_No)
@@ -696,6 +698,7 @@ Public Class clsCustomerInvoiceHead
             obj.Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
             obj.Total_Add_Charge = clsCommon.myCdbl(dt.Rows(0)("Total_Add_Charge"))
             obj.RoundOffAmount = clsCommon.myCdbl(dt.Rows(0)("RoundOffAmount"))
+            obj.TotalSubsidyAmt = clsCommon.myCdbl(dt.Rows(0)("TotalSubsidyAmt"))
             obj.Tax_Calculation_Type = IIf(clsCommon.myCdbl(dt.Rows(0)("Tax_Calculation_Type")) = 0, EnumTaxCalucationType.Automatic, EnumTaxCalucationType.Mannual)
             obj.AgainstScrap = clsCommon.myCstr(dt.Rows(0)("AgainstScrap"))
             obj.Against_Sale_No = clsCommon.myCstr(dt.Rows(0)("Against_Sale_No"))
@@ -2405,7 +2408,7 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
                                     Dim strACWithLocationt As String = ""
                                     Dim AccDiscDR() As String = Nothing
                                     Dim AccDiscTaxDR() As String = Nothing
-                                    If clsCommon.CompairString(obj.Trans_Type, "MCC") = CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                                    If clsCommon.CompairString(obj.Trans_Type, "MCC") = CompairStringResult.Equal Then
                                         AccDiscTaxDR = {objTR.Transporter_GL_Account_Code, 1 * (objTR.Transporter_Commission_Amt)}
                                         ArryLst.Add(AccDiscTaxDR)
                                     Else
@@ -2418,6 +2421,7 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
                                     End If
 
                                 End If
+
                                 If objTR.Security_Amt > 0 Then
                                     Dim strLocations As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Account_Seg_Code7 from TSPL_GL_ACCOUNTS where Account_Code='" + obj.Arr(0).GL_Account_Code + "'", trans))
                                     Dim strACWithLocations As String = clsERPFuncationality.ChangeGLAccountLocationSegment(obj.Customer_Control_AC, strLocations, True, trans)
@@ -2530,6 +2534,17 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
                                     ArryLst.Add(AccInvCR)
                                 End If
                             Else
+                                If clsCommon.CompairString(obj.Trans_Type, "MCC") = CompairStringResult.Equal AndAlso obj.TotalSubsidyAmt > 0 Then
+                                    Dim strLocationt As String = ""
+                                    Dim strRate_Difference_act As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_CUSTOMER_ACCOUNT_SET.Rate_Difference ,'') as Rate_Difference from TSPL_CUSTOMER_ACCOUNT_SET left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Account  =TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account where TSPL_CUSTOMER_MASTER.Cust_Code ='" & obj.Customer_Code & "'", trans))
+                                    If clsCommon.myLen(strRate_Difference_act) = 0 Then
+                                        Throw New Exception("Please set Rate Difference Account for customer - " + obj.Customer_Code)
+                                    End If
+                                    strRate_Difference_act = clsERPFuncationality.ChangeGLAccountLocationSegment(strRate_Difference_act, obj.loc_code, True, trans)
+                                    Dim Acc1() As String = {strRate_Difference_act, (obj.TotalSubsidyAmt)}
+                                    ArryLst.Add(Acc1)
+                                End If
+
                                 Dim AccInvCR() As String = {strACWithLocation, obj.Document_Total}
                                 ArryLst.Add(AccInvCR)
 

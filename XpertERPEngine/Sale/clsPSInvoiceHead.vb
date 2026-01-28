@@ -2213,6 +2213,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "' and TSP
             ''objCustInv.Status
             ''objCustInv.AgainstScrap
             objCustInv.Against_Sale_No = obj.Document_Code
+            objCustInv.TotalSubsidyAmt = obj.TotalSubsidyAmt
             Dim FinancialImpactForDistributor As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FinancialImpactForDistributor, clsFixedParameterCode.FinancialImpactForDistributor, trans)) = 1, True, False)
             Dim FinancialImpactForSecurity As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FinancialImpactForSecurity, clsFixedParameterCode.FinancialImpactForSecurity, trans)) = 1, True, False)
             Dim FinancialImpactForTPT As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FinancialImpactForTPT, clsFixedParameterCode.FinancialImpactForTPT, trans)) = 1, True, False)
