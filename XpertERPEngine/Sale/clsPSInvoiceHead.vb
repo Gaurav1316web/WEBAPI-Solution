@@ -1426,7 +1426,7 @@ TSPL_Customer_master.Alies_name as toTrdName,
      TSPL_SD_SALE_INVOICE_HEAD.Total_Amt AS totInvValue,
      '1' as transMode,0 as transDistance,'' as transporterName,isnull(TSPL_VENDOR_MASTER.GSTFinalNo,'') as transporterId,'' as transDocNo,
      '' as transDocDate,
-      TSPL_VEHICLE_MASTER.Number as vehicleNo,
+      TSPL_SD_SALE_INVOICE_HEAD.VehicleNo as vehicleNo,
       'R' as vehicleType,
      TSPL_ITEM_MASTER.Item_Desc AS productName,TSPL_ITEM_MASTER.Item_Desc AS productDesc,TSPL_ITEM_MASTER.HSN_Code AS hsnCode,TSPL_SD_SALE_INVOICE_DETAIL.Qty as quantity, TSPL_SD_SALE_INVOICE_DETAIL.Unit_code as qtyUnit,
     ( case when ISNULL(TSPL_SD_SALE_INVOICE_DETAIL.tax1,'')='KKF' or ISNULL(TSPL_SD_SALE_INVOICE_DETAIL.tax2,'')='KKF' then TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Base_Amt else TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Discount end -( case when isnull( TSPL_SD_SALE_INVOICE_DETAIL.FOC_Item, 0 )= 1 then TSPL_SD_SALE_INVOICE_DETAIL.total_disc_amt else 0 end ) ) as taxableAmount, 
@@ -2213,6 +2213,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "' and TSP
             ''objCustInv.Status
             ''objCustInv.AgainstScrap
             objCustInv.Against_Sale_No = obj.Document_Code
+            objCustInv.TotalSubsidyAmt = obj.TotalSubsidyAmt
             Dim FinancialImpactForDistributor As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FinancialImpactForDistributor, clsFixedParameterCode.FinancialImpactForDistributor, trans)) = 1, True, False)
             Dim FinancialImpactForSecurity As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FinancialImpactForSecurity, clsFixedParameterCode.FinancialImpactForSecurity, trans)) = 1, True, False)
             Dim FinancialImpactForTPT As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FinancialImpactForTPT, clsFixedParameterCode.FinancialImpactForTPT, trans)) = 1, True, False)

@@ -109,10 +109,11 @@ Public Class BMC_Transporter_Bill
         coll.Add("Quantity_KG", "decimal (18,2) NULL")
         coll.Add("Amount", "decimal (18,2) NULL")
         coll.Add("Diesel_RD", "decimal (18,2) NULL")
+        coll.Add("Document_Date", "datetime NULL")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BMC_TRANSPORTER_BILL_DETAIL", coll, Nothing, True, False, "TSPL_BMC_TRANSPORTER_BILL_HEAD", "Document_Code", "", True)
 
         Try
-            clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_BMC_TRANSPORTER_BILL_DETAIL ALTER COLUMN MCC_Document_Code varchar(30) NULL  References TSPL_MILK_COLLECTION_MCC(Document_No)")
+            clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_BMC_TRANSPORTER_BILL_DETAIL ALTER COLUMN MCC_Document_Code varchar(30) NULL UNIQUE References TSPL_MILK_COLLECTION_MCC(Document_No)")
         Catch ex As Exception
         End Try
 
@@ -146,18 +147,41 @@ Public Class BMC_Transporter_Bill
         gv1.Rows.Clear()
         gv1.Columns.Clear()
 
-        Dim repoDate As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoDate.FormatString = ""
-        repoDate.HeaderText = "Date"
+        Dim repoDate As GridViewDateTimeColumn = New GridViewDateTimeColumn()
+        repoDate.Format = DateTimePickerFormat.Custom
+        'repoDate.CustomFormat = "dd-MM-yyyy"
+        repoDate.CustomFormat = "yyyy-MM-dd"
+        repoDate.HeaderText = "Price Date"
+        repoDate.WrapText = True
+        repoDate.FormatString = "{0:d}"
         repoDate.Name = colDate
-        repoDate.Width = 150
-        repoDate.ReadOnly = True
+        If chkPrivate.Checked Then
+            repoDate.ReadOnly = False
+        Else
+            repoDate.ReadOnly = True
+        End If
+        'repoDate.ReadOnly = True
         repoDate.IsVisible = True
-
-        ' Set only the date format (e.g., "dd/MM/yyyy")
-        repoDate.FormatString = "{0:dd/MM/yyyy}"
-        repoDate.FormatInfo = Globalization.CultureInfo.InvariantCulture
+        repoDate.Width = 150
         gv1.MasterTemplate.Columns.Add(repoDate)
+
+        'Dim repoDate As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        'repoDate.FormatString = ""
+        'repoDate.HeaderText = "Date"
+        'repoDate.Name = colDate
+        'repoDate.Width = 150
+        'If chkPrivate.Checked Then
+        '    repoDate.ReadOnly = False
+        'Else
+        '    repoDate.ReadOnly = True
+        'End If
+        ''repoDate.ReadOnly = True
+        'repoDate.IsVisible = True
+
+        '' Set only the date format (e.g., "dd/MM/yyyy")
+        'repoDate.FormatString = "{0:dd/MM/yyyy}"
+        'repoDate.FormatInfo = Globalization.CultureInfo.InvariantCulture
+        'gv1.MasterTemplate.Columns.Add(repoDate)
 
         Dim repoDocumentNo As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoDocumentNo.FormatString = ""
@@ -173,7 +197,12 @@ Public Class BMC_Transporter_Bill
         repoCategory.Name = ColCategory
         repoCategory.Width = 150
         repoCategory.IsVisible = True
-        repoCategory.ReadOnly = True
+        If chkPrivate.Checked Then
+            repoCategory.ReadOnly = False
+        Else
+            repoCategory.ReadOnly = True
+        End If
+        'repoCategory.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoCategory)
 
         Dim repoStation As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -214,7 +243,12 @@ Public Class BMC_Transporter_Bill
         repoTrip.Name = ColTrip
         repoTrip.Width = 150
         repoTrip.IsVisible = True
-        repoTrip.ReadOnly = True
+        If chkPrivate.Checked Then
+            repoTrip.ReadOnly = False
+        Else
+            repoTrip.ReadOnly = True
+        End If
+        'repoTrip.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoTrip)
 
         Dim IceBox As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -223,6 +257,11 @@ Public Class BMC_Transporter_Bill
         IceBox.Name = ColIceBox
         IceBox.Width = 150
         IceBox.IsVisible = True
+        If chkPrivate.Checked Then
+            IceBox.ReadOnly = True
+        Else
+            IceBox.ReadOnly = True
+        End If
         gv1.MasterTemplate.Columns.Add(IceBox)
 
         Dim repoKM As GridViewDecimalColumn = New GridViewDecimalColumn()
@@ -258,7 +297,12 @@ Public Class BMC_Transporter_Bill
         repoQuantity.Width = 150
         repoQuantity.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoQuantity.VisibleInColumnChooser = False
-        repoQuantity.ReadOnly = True
+        If chkPrivate.Checked Then
+            repoQuantity.ReadOnly = False
+        Else
+            repoQuantity.ReadOnly = True
+        End If
+        'repoQuantity.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoQuantity)
 
         Dim repoAmount As GridViewDecimalColumn = New GridViewDecimalColumn()
@@ -270,7 +314,12 @@ Public Class BMC_Transporter_Bill
         repoAmount.Width = 150
         repoAmount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoAmount.VisibleInColumnChooser = False
-        repoAmount.ReadOnly = True
+        If chkPrivate.Checked Then
+            repoAmount.ReadOnly = False
+        Else
+            repoAmount.ReadOnly = True
+        End If
+        'repoAmount.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoAmount)
 
         Dim repoDiesel As GridViewDecimalColumn = New GridViewDecimalColumn()
@@ -282,7 +331,12 @@ Public Class BMC_Transporter_Bill
         repoDiesel.Width = 150
         repoDiesel.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoDiesel.VisibleInColumnChooser = False
-        repoDiesel.ReadOnly = True
+        If chkPrivate.Checked Then
+            repoDiesel.ReadOnly = False
+        Else
+            repoDiesel.ReadOnly = True
+        End If
+        'repoDiesel.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoDiesel)
 
         gv1.AllowDeleteRow = True
@@ -393,6 +447,7 @@ Public Class BMC_Transporter_Bill
             'and CONVERT(DATE, Document_Date, 103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "', 103)
             'and CONVERT(DATE, Document_Date, 103) <= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value) + "', 103) and Trip = '" + gv1.Rows(IntRowNo).Cells(ColTrip).Value + "' and Is_IceBox=1 ")
             'Dim rowCount As Integer = gv1.Rows.Count
+            'Dim rowCount As Integer += IntRowNo
             Dim GrossAmt As Double = 0
             Dim totalAmt As Double = 0
             Dim Icecharge As Double = clsCommon.myCdbl(TxtIceCharge.Text)
@@ -568,6 +623,12 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
 
     Private Sub txtToDate_ValueChanged(sender As Object, e As EventArgs) Handles txtToDate.ValueChanged
         RadGroupBox3.Enabled = True
+        If chkPrivate.Checked Then
+            txtFatShortage.ReadOnly = False
+            TxtSnfShortage.ReadOnly = False
+            FatSnfRate()
+        End If
+        ' FatSnfRate()
     End Sub
 
     Private Sub gv1_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellValueChanged
@@ -577,6 +638,7 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                     isCellValueChangedOpen = True
                     UpdateCurrentRow(gv1.CurrentRow.Index, Nothing)
                     UpdateAllTotals(Nothing)
+                    'isCellValueChangedOpen = False
                 End If
 
             End If
@@ -651,9 +713,9 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
             gv1.Rows(IntRowNo).Cells(ColAmount).Value = clsCommon.myCdbl(dblBasicAmt)
             gv1.Rows(IntRowNo).Cells(ColDiesel).Value = clsCommon.myCdbl(dblBasicDiesel)
 
-            'gv1.Rows(IntRowNo).Cells(ColIceBox).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Case when Is_IceBox=1 then 'Y' else 'N' end as Ice_Box from TSPL_BMC_DCS_SAMPLE_RECEIVING where Tanker_No= '" + txtTankerNo.Value + "' and Trip = '" + gv1.Rows(IntRowNo).Cells(ColTrip).Value + "' and Document_Date= '" + gv1.Rows(IntRowNo).Cells(colDate).Value + "'  "))
+            gv1.Rows(IntRowNo).Cells(ColIceBox).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Case when Is_IceBox=1 then 'Y' else 'N' end as Ice_Box from TSPL_BMC_DCS_SAMPLE_RECEIVING where Tanker_No= '" + txtTankerNo.Value + "' and Trip = '" + gv1.Rows(IntRowNo).Cells(ColTrip).Value + "' and Document_Date= '" + gv1.Rows(IntRowNo).Cells(colDate).Value + "'  "))
 
-            'IceCharge(IntRowNo)
+            IceCharge(IntRowNo)
             isCellValueChangedOpen = False
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -721,6 +783,7 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                     objTr.Quantity_KG = clsCommon.myCdbl(grow.Cells(ColQuantity).Value)
                     objTr.Amount = clsCommon.myCdbl(grow.Cells(ColAmount).Value)
                     objTr.Diesel_RD = clsCommon.myCdbl(grow.Cells(ColDiesel).Value)
+                    objTr.BMC_Date = clsCommon.myCDate(grow.Cells(colDate).Value)
 
                     totalTrip += objTr.Trip
                     totalGPSKM += objTr.GPS_KM
@@ -876,8 +939,9 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColTrip).Value = objrow.Trip
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColQuantity).Value = objrow.Quantity_KG
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColCategory).Value = "BMC"
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDate).Value = objrow.BMC_Date
                         If dt.Rows.Count > i Then
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colDate).Value = clsCommon.myCstr(dt.Rows(i)("Document_Date"))
+                            'gv1.Rows(gv1.Rows.Count - 1).Cells(colDate).Value = clsCommon.myCstr(dt.Rows(i)("Document_Date"))
                         End If
                         i += 1
                         AddSummaryRowToGrid()
@@ -1319,11 +1383,11 @@ where TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code='" & txtDocNo.Value & "'  "
                 Exit Sub
             End If
 
-            qry1 = "select Document_No as [Document No] from TSPL_MILK_COLLECTION_MCC
-        WHERE CONVERT(DATE, TSPL_MILK_COLLECTION_MCC.Document_Date, 103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "', 103) and
-                           CONVERT(DATE, TSPL_MILK_COLLECTION_MCC.Document_Date, 103) <= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value) + "', 103)
-                           AND TSPL_MILK_COLLECTION_MCC.Tanker_No = '" + clsCommon.myCstr(txtTankerNo.Value) + "'"
-            dt = clsDBFuncationality.GetDataTable(qry1)
+            '    qry1 = "select Document_No as [Document No] from TSPL_MILK_COLLECTION_MCC
+            'WHERE CONVERT(DATE, TSPL_MILK_COLLECTION_MCC.Document_Date, 103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "', 103) and
+            '                   CONVERT(DATE, TSPL_MILK_COLLECTION_MCC.Document_Date, 103) <= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value) + "', 103)
+            '                   AND TSPL_MILK_COLLECTION_MCC.Tanker_No = '" + clsCommon.myCstr(txtTankerNo.Value) + "'"
+            '    dt = clsDBFuncationality.GetDataTable(qry1)
             If transportSql.importExcel(gvimport, "Date", "Category", "Station 1", "Station 2", "Station 3", "Station 4", "Trip", "GPS KM", "KM", "Quantity KG", "Amount", "Diesel RD") Then
 
                 Try
@@ -1335,7 +1399,7 @@ where TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code='" & txtDocNo.Value & "'  "
                             clsCommon.ProgressBarPercentUpdate((gvimport.Rows(ii).Index + 1) * 100 / (gvimport.Rows.Count + 1), "Importing  : " & (gvimport.Rows(ii).Index + 1) & "/" & gvimport.Rows.Count & "")
                             Try
                                 ' gv1.Rows(ii).Cells(colDocumentNo).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Document No").Value)
-                                gv1.Rows(ii).Cells(colDocumentNo).Value = clsCommon.myCstr(dt.Rows(ii)("Document No"))
+                                'gv1.Rows(ii).Cells(colDocumentNo).Value = clsCommon.myCstr(dt.Rows(ii)("Document No"))
 
                                 gv1.Rows(ii).Cells(colDate).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Date").Value)
                                 gv1.Rows(ii).Cells(ColCategory).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Category").Value)
@@ -1466,11 +1530,16 @@ where TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code='" & txtDocNo.Value & "'  "
             If chkPrivate.Checked Then
                 btnGo.Enabled = False
                 RadGroupBox3.Enabled = True
+                LoadBlankGrid()
                 If gv1.Rows.Count = 0 Then
                     gv1.Rows.AddNew()
                 End If
+                txtFatShortage.ReadOnly = False
+                TxtSnfShortage.ReadOnly = False
             Else
                 btnGo.Enabled = True
+                txtFatShortage.ReadOnly = True
+                TxtSnfShortage.ReadOnly = True
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

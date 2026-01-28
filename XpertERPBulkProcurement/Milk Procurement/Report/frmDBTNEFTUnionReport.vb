@@ -1155,21 +1155,89 @@ Public Class frmDBTNEFTUnionReport
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+    Public Function ReturnSelectTypeYEAR() As DataTable
+
+        Dim dt As New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Name", GetType(String))
+
+        Dim dr As DataRow
+
+        dr = dt.NewRow()
+        dr("Code") = "YEARLY AMOUNT"
+        dr("Name") = "YEARLY AMOUNT"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "YEARLY Print"
+        dr("Name") = "YEARLY Print"
+        dt.Rows.Add(dr)
+
+        Return dt
+
+    End Function
+    Public Function ReturnSelectTypeQuarterly() As DataTable
+
+        Dim dt As New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Name", GetType(String))
+
+        Dim dr As DataRow
+
+        dr = dt.NewRow()
+        dr("Code") = "Farmer AND Amount Print"
+        dr("Name") = "Farmer AND Amount Print"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "Quarterly Print"
+        dr("Name") = "Quarterly Print"
+        dt.Rows.Add(dr)
+
+        Return dt
+
+    End Function
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
             Dim query = ReportQry()
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
+            Dim frmCRV As New frmCrystalReportViewer()
+
+            Dim frmNew As New XpertERPEngine.FrmFreeComboBox()
+            If rbtnYearly.IsChecked Then
+                frmNew.ComboSource = ReturnSelectTypeYEAR()
+                frmNew.ComboValueMember = "Code"
+                frmNew.ComboDisplayMember = "Name"
+                frmNew.ShowDialog()
+                If clsCommon.CompairString(frmNew.strRetValue, "YEARLY AMOUNT") = CompairStringResult.Equal Then
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptDBT_NEFTUnionReportYearlyNEW", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
+                Else
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptDBT_NEFTUnionReportYearly", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
+                End If
+                frmCRV = Nothing
+            ElseIf rbtnQuarterly.IsChecked Then
+                frmNew.ComboSource = ReturnSelectTypeQuarterly()
+                frmNew.ComboValueMember = "Code"
+                frmNew.ComboDisplayMember = "Name"
+                frmNew.ShowDialog()
+                If clsCommon.CompairString(frmNew.strRetValue, "Farmer AND Amount Print") = CompairStringResult.Equal Then
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptDBT_NEFTUnionReportNEW", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
+                Else
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptDBT_NEFTUnionReport", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
+                End If
+                frmCRV = Nothing
+            End If
+
             If (dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0) Then
-                Dim frmCRV As New frmCrystalReportViewer()
                 If chkOnlyReject.Checked Then
                     frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptDBT_NEFT_RejectUnionReport", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
-                Else
-                    If rbtnQuarterly.IsChecked Then
-                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptDBT_NEFTUnionReport", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
-                    ElseIf rbtnYearly.IsChecked Then
-                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptDBT_NEFTUnionReportYearly", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
-                    End If
+                    'Else
+                    '    If rbtnQuarterly.IsChecked Then
+                    '        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptDBT_NEFTUnionReport", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
+                    '    ElseIf rbtnYearly.IsChecked Then
+                    '        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptDBT_NEFTUnionReportYearly", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
+                    '    End If
                 End If
                 frmCRV = Nothing
             Else

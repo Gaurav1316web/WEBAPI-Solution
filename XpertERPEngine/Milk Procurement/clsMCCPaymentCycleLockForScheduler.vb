@@ -4060,63 +4060,65 @@ where  TSPL_MILK_SRN_HEAD.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No)
                     objHeadLoad = clsHeadLoadDCS.GetDcsData(strVLCCode, objHead.DOC_DATE, trans)
                     'Dim Head_Load_Rate As Decimal = objHeadLoad.Head_Load_Rate
                     'Dim Head_Load_Type As String = clsCommon.myCstr(objHeadLoad.Head_Load_Basis)
-
-                    For Each dr As DataRow In dt.Rows
-                        'Dim dclQty As Decimal = clsCommon.myCDecimal(dr("Qty"))
-                        Head_Load_Cycle = 0
-                        Head_Load_Amount_Exact = 0
-                        Dim Head_Load_Amount As Decimal = 0
-                        Dim ApplicableQty As Decimal = clsCommon.myCDecimal(dr("ACC_Qty_LTR"))
-                        If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CK") = CompairStringResult.Equal Then
-                            ApplicableQty = clsCommon.myCDecimal(dr("ACC_Qty"))
-                        End If
-                        If objHeadLoad.Deduction_Per > 0 Then
-                            Dim dclCapacity As Decimal = clsMccMaster.GetSiloCapacity(objHead.MCC_CODE, trans)
-                            If dclCapacity <= 0 Then
-                                Throw New Exception("Please define silo capacity of BMC [" + objHead.MCC_CODE + "]")
+                    If objHeadLoad IsNot Nothing AndAlso objHeadLoad.PK_Id > 0 Then
+                        For Each dr As DataRow In dt.Rows
+                            'Dim dclQty As Decimal = clsCommon.myCDecimal(dr("Qty"))
+                            Head_Load_Cycle = 0
+                            Head_Load_Amount_Exact = 0
+                            Dim Head_Load_Amount As Decimal = 0
+                            Dim ApplicableQty As Decimal = clsCommon.myCDecimal(dr("ACC_Qty_LTR"))
+                            If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CK") = CompairStringResult.Equal Then
+                                ApplicableQty = clsCommon.myCDecimal(dr("ACC_Qty"))
                             End If
-                            If ApplicableQty > dclCapacity Then
-                                ApplicableQty = dclCapacity
+                            If objHeadLoad.Deduction_Per > 0 Then
+                                Dim dclCapacity As Decimal = clsMccMaster.GetSiloCapacity(objHead.MCC_CODE, trans)
+                                If dclCapacity <= 0 Then
+                                    Throw New Exception("Please define silo capacity of BMC [" + objHead.MCC_CODE + "]")
+                                End If
+                                If ApplicableQty > dclCapacity Then
+                                    ApplicableQty = dclCapacity
+                                End If
+                                ApplicableQty = ApplicableQty - (dclCapacity * objHeadLoad.Deduction_Per / 100)
                             End If
-                            ApplicableQty = ApplicableQty - (dclCapacity * objHeadLoad.Deduction_Per / 100)
-                        End If
 
-                        If ApplicableQty < 0 Then
-                            ApplicableQty = 0
-                        End If
-                        If ApplicableQty > objHeadLoad.Header_Cycle_Min_Qty Then
-                            MinmumQtyCheck = False
-                        Else
-                            TotalApplicableQty += ApplicableQty
-                            ApplicableQty = 0
-                        End If
-
-                        If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "L") = CompairStringResult.Equal Then
-                            If ApplicableQty >= MinimumQtyForHeadLoad Then
-                                Head_Load_Amount_Exact = Math.Round(ApplicableQty * objHeadLoad.Head_Load_Rate * dclDistanceKM, 6)
+                            If ApplicableQty < 0 Then
+                                ApplicableQty = 0
                             End If
-                        ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CK") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CL") = CompairStringResult.Equal Then
-                            Head_Load_Cycle = Math.Ceiling(clsCommon.myCDivide(ApplicableQty, objHeadLoad.Cycle_Frequency))
-                            If Head_Load_Cycle < 0 Then
-                                Head_Load_Cycle = 0
+                            If ApplicableQty > objHeadLoad.Header_Cycle_Min_Qty Then
+                                MinmumQtyCheck = False
+                            Else
+                                TotalApplicableQty += ApplicableQty
+                                ApplicableQty = 0
                             End If
-                            Head_Load_Amount_Exact = Math.Round(Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 6)
-                        End If
-                        Head_Load_Amount = Math.Round(Head_Load_Amount_Exact, 2)
-                        If Head_Load_Amount < 0 Then
-                            Head_Load_Amount = 0
-                        End If
 
-                        Dim coll As New Hashtable()
-                        clsCommon.AddColumnsForChange(coll, "InvoiceNo", objHead.DOC_CODE)
-                        clsCommon.AddColumnsForChange(coll, "Apply_Date", clsCommon.GetPrintDate(clsCommon.myCDate(dr("DOC_DATE")), "dd/MMM/yyyy"))
-                        clsCommon.AddColumnsForChange(coll, "Against_Head_Load_PKID", objHeadLoad.PK_Id)
-                        clsCommon.AddColumnsForChange(coll, "Qty", ApplicableQty)
-                        clsCommon.AddColumnsForChange(coll, "Rate", objHeadLoad.Head_Load_Rate)
-                        clsCommon.AddColumnsForChange(coll, "Amt", Head_Load_Amount)
-                        clsCommon.AddColumnsForChange(coll, "Head_Load_Cycle", Head_Load_Cycle)
-                        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_PURCHASE_INVOICE_DAY_WISE_HEAD_LOAD", OMInsertOrUpdate.Insert, "", trans)
-                    Next
+                            If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "L") = CompairStringResult.Equal Then
+                                If ApplicableQty >= MinimumQtyForHeadLoad Then
+                                    Head_Load_Amount_Exact = Math.Round(ApplicableQty * objHeadLoad.Head_Load_Rate * dclDistanceKM, 6)
+                                End If
+                            ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CK") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CL") = CompairStringResult.Equal Then
+                                Head_Load_Cycle = Math.Ceiling(clsCommon.myCDivide(ApplicableQty, objHeadLoad.Cycle_Frequency))
+                                If Head_Load_Cycle < 0 Then
+                                    Head_Load_Cycle = 0
+                                End If
+                                Head_Load_Amount_Exact = Math.Round(Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 6)
+                            End If
+                            Head_Load_Amount = Math.Round(Head_Load_Amount_Exact, 2)
+                            If Head_Load_Amount < 0 Then
+                                Head_Load_Amount = 0
+                            End If
+
+                            Dim coll As New Hashtable()
+                            clsCommon.AddColumnsForChange(coll, "InvoiceNo", objHead.DOC_CODE)
+                            clsCommon.AddColumnsForChange(coll, "Apply_Date", clsCommon.GetPrintDate(clsCommon.myCDate(dr("DOC_DATE")), "dd/MMM/yyyy"))
+                            clsCommon.AddColumnsForChange(coll, "Against_Head_Load_PKID", objHeadLoad.PK_Id)
+                            clsCommon.AddColumnsForChange(coll, "Qty", ApplicableQty)
+                            clsCommon.AddColumnsForChange(coll, "Rate", objHeadLoad.Head_Load_Rate)
+                            clsCommon.AddColumnsForChange(coll, "Amt", Head_Load_Amount)
+                            clsCommon.AddColumnsForChange(coll, "Head_Load_Cycle", Head_Load_Cycle)
+                            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_PURCHASE_INVOICE_DAY_WISE_HEAD_LOAD", OMInsertOrUpdate.Insert, "", trans)
+                        Next
+                    End If
+
 
 
                     ''Now Create Cr Note
