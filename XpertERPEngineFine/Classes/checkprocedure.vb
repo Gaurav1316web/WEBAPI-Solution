@@ -1738,7 +1738,6 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmCancelDCSSale, "Cancel DCS Sale", "1.17.02.58", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", True, True, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.WEIGHINGMaster, "WEIGHING Master", "1.17.02.59", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
 
-
         '=========================================================================================
         '--Reportsmdi
         InsertDefaultValue(clsUserMgtCode.SubModuleMCCMilkProcurementReport, "Report", "1.17.03", clsUserMgtCode.ModuleMCCMilkProcurement, "SM", 30)
@@ -1816,6 +1815,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.MonthlyProgressReport, "Monthly Progress Report", "1.17.03.48", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         'InsertDefaultValue(clsUserMgtCode.DCSDeductionBalanceReport, "DCS Deduction Balance Amount", "1.17.03.49", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmPDAccountSummariesReport, "PD Account Summaries Report", "1.17.03.50", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmDCSDeductionReport, "DCS Deduction Report", "1.17.03.51", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
         '===sanjeet(21/11/2016)====================
 
