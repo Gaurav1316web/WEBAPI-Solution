@@ -420,6 +420,8 @@ Public Class frmArrear
                     gv2.BestFitColumns()
                     gv2.EnableFiltering = True
                     gv2.ShowGroupPanel = False
+                    SetGridFormation()
+                    SetGridFormationGV2()
                     If dt2 Is Nothing OrElse dt2.Rows.Count <= 0 Then
                         clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                         Exit Sub
@@ -432,6 +434,69 @@ Public Class frmArrear
         Finally
             obj = Nothing
             isInsideLoadData = False
+        End Try
+    End Sub
+
+    Sub SetGridFormationGV2()
+        Try
+            gv2.AutoExpandGroups = True
+            gv2.ShowGroupPanel = True
+            gv2.ShowRowHeaderColumn = False
+            gv2.AllowAddNewRow = False
+            gv2.AllowDeleteRow = False
+            gv2.EnableFiltering = True
+            gv2.ShowFilteringRow = True
+            For ii As Integer = 0 To gv2.Columns.Count - 1
+                gv2.Columns(ii).ReadOnly = True
+                gv2.Columns(ii).BestFit()
+            Next
+
+            Dim index As Integer = 2
+            Dim summaryRowItem As New GridViewSummaryRowItem()
+            For ii As Integer = index To gv2.Columns.Count - 1
+                'If clsCommon.CompairString(gv1.Columns(ii).Name, "Zone_Code") <> CompairStringResult.Equal Then
+                summaryRowItem.Add(New GridViewSummaryItem(gv2.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
+                ' End If
+            Next
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Sub SetGridFormation()
+        Try
+            gv1.AutoExpandGroups = True
+            gv1.ShowGroupPanel = True
+            gv1.ShowRowHeaderColumn = False
+            gv1.AllowAddNewRow = False
+            gv1.AllowDeleteRow = False
+            gv1.EnableFiltering = True
+            gv1.ShowFilteringRow = True
+            For ii As Integer = 0 To gv1.Columns.Count - 1
+                gv1.Columns(ii).ReadOnly = True
+                gv1.Columns(ii).BestFit()
+            Next
+
+            Dim summaryRowItem As New GridViewSummaryRowItem()
+            Dim item1 As New GridViewSummaryItem("Basic", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item1)
+
+            Dim item2 As New GridViewSummaryItem("DA", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item2)
+
+            'Dim item3 As New GridViewSummaryItem("DA Arrear %", "{0:n2}", GridAggregateFunction.Sum)
+            Dim item3 As New GridViewSummaryItem(gv1.Columns(colDAArrearPer).Name, "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item3)
+
+            'Dim item4 As New GridViewSummaryItem("PF", "{0:n2}", GridAggregateFunction.Sum)
+            Dim item4 As New GridViewSummaryItem(gv1.Columns(colEPF).Name, "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item4)
+
+
+            gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
