@@ -313,4 +313,8 @@ And CONVERT(DATE,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>='" & clsCommon.GetPri
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         ReportQry(True)
     End Sub
+
+    Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
+        Me.Close()
+    End Sub
 End Class

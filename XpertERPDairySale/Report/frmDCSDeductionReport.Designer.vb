@@ -22,10 +22,11 @@ Partial Class frmDCSDeductionReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkGSTReport = New common.Controls.MyCheckBox()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.lblArea = New common.Controls.MyLabel()
         Me.MyLabel3 = New common.Controls.MyLabel()
@@ -49,13 +50,13 @@ Partial Class frmDCSDeductionReport
         Me.btnreset = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.chkGSTReport = New common.Controls.MyCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkGSTReport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.lblArea, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -76,7 +77,6 @@ Partial Class frmDCSDeductionReport
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkGSTReport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -125,6 +125,17 @@ Partial Class frmDCSDeductionReport
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 359)
         Me.RadPageViewPage1.Text = "Details"
+        '
+        'chkGSTReport
+        '
+        Me.chkGSTReport.Location = New System.Drawing.Point(432, 20)
+        Me.chkGSTReport.MyLinkLable1 = Nothing
+        Me.chkGSTReport.MyLinkLable2 = Nothing
+        Me.chkGSTReport.Name = "chkGSTReport"
+        Me.chkGSTReport.Size = New System.Drawing.Size(77, 18)
+        Me.chkGSTReport.TabIndex = 458
+        Me.chkGSTReport.Tag1 = Nothing
+        Me.chkGSTReport.Text = "GST Report"
         '
         'RadGroupBox2
         '
@@ -349,7 +360,7 @@ Partial Class frmDCSDeductionReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -416,17 +427,6 @@ Partial Class frmDCSDeductionReport
         Me.btnclose.TabIndex = 341
         Me.btnclose.Text = "Close"
         '
-        'chkGSTReport
-        '
-        Me.chkGSTReport.Location = New System.Drawing.Point(432, 20)
-        Me.chkGSTReport.MyLinkLable1 = Nothing
-        Me.chkGSTReport.MyLinkLable2 = Nothing
-        Me.chkGSTReport.Name = "chkGSTReport"
-        Me.chkGSTReport.Size = New System.Drawing.Size(77, 18)
-        Me.chkGSTReport.TabIndex = 458
-        Me.chkGSTReport.Tag1 = Nothing
-        Me.chkGSTReport.Text = "GST Report"
-        '
         'frmDCSDeductionReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -446,6 +446,7 @@ Partial Class frmDCSDeductionReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkGSTReport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
@@ -468,7 +469,6 @@ Partial Class frmDCSDeductionReport
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkGSTReport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
