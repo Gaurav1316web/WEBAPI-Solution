@@ -26,6 +26,7 @@ Partial Class frmShiftMaster
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmShiftMaster))
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkInActive = New Telerik.WinControls.UI.RadCheckBox()
         Me.dtpTo = New common.Controls.MyDateTimePicker()
         Me.RadLabel3 = New common.Controls.MyLabel()
         Me.txtSndAdjMin = New common.MyNumBox()
@@ -57,6 +58,7 @@ Partial Class frmShiftMaster
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.chkInActive, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpTo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtSndAdjMin, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -86,6 +88,7 @@ Partial Class frmShiftMaster
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.chkInActive)
         Me.RadGroupBox1.Controls.Add(Me.dtpTo)
         Me.RadGroupBox1.Controls.Add(Me.txtSndAdjMin)
         Me.RadGroupBox1.Controls.Add(Me.txtFstAdjMin)
@@ -109,6 +112,15 @@ Partial Class frmShiftMaster
         Me.RadGroupBox1.Size = New System.Drawing.Size(519, 206)
         Me.RadGroupBox1.TabIndex = 0
         Me.RadGroupBox1.Text = " "
+        '
+        'chkInActive
+        '
+        Me.chkInActive.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkInActive.Location = New System.Drawing.Point(307, 73)
+        Me.chkInActive.Name = "chkInActive"
+        Me.chkInActive.Size = New System.Drawing.Size(59, 16)
+        Me.chkInActive.TabIndex = 27
+        Me.chkInActive.Text = "Inactive"
         '
         'dtpTo
         '
@@ -506,6 +518,7 @@ Partial Class frmShiftMaster
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.chkInActive, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpTo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtSndAdjMin, System.ComponentModel.ISupportInitialize).EndInit()
@@ -564,5 +577,6 @@ Partial Class frmShiftMaster
     Friend WithEvents txtFstAdjMin As common.MyNumBox
     Friend WithEvents dtpTo As common.Controls.MyDateTimePicker
     Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
+    Friend WithEvents chkInActive As Telerik.WinControls.UI.RadCheckBox
 End Class
 
