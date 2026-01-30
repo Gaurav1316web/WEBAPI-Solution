@@ -3077,6 +3077,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmCmSambalYojanaSubsidy, "Cm Sambal Yojana Subsidy", "1.49.03.23", clsUserMgtCode.SubModuleMilkUnion, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, False, False, True)
         InsertDefaultValue(clsUserMgtCode.rptDBTBankResponse, "DBT Bank Response", "1.49.03.24", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.rptDBTStatusReport, "DBT Status Report", "1.49.03.25", clsUserMgtCode.SubModuleMilkUnion, 8)
+        InsertDefaultValue(clsUserMgtCode.rptMachineSurveyRegister, "Machine Survey Register", "1.49.03.26", clsUserMgtCode.SubModuleMilkUnion, 8)
 
         InsertDefaultValue(clsUserMgtCode.ModuleBullManagement, "Bull Management", "1.50", clsUserMgtCode.ExpertERP, "M", 23)
 

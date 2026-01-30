@@ -8344,6 +8344,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Against_Gate_Out", "varchar(30) NULL REFERENCES TSPL_MCC_TANKER_GATE_OUT(GATE_OUT_NO)")
             coll.Add("ROUTE_NO", "Varchar(30) null REFERENCES TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
             coll.Add("MCC", "varchar(30)  NULL References TSPL_MCC_MASTER(MCC_Code)")
+            coll.Add("REF_PK_ID", "integer null references TSPL_GATE_ENTRY(PK_ID)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "Tspl_Gate_Entry_Details_History", coll, Nothing, False, False)
 
             coll = New Dictionary(Of String, String)()

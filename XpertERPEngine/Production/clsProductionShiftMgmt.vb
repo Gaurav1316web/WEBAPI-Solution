@@ -15,6 +15,7 @@ Public Class clsProductionShiftMgmt
     Public ArrOP As List(Of clsProductionShiftMgmtOpen) = Nothing
     Public ArrRecPlant As List(Of clsProductionShiftMgmtReceiptPlantMilk) = Nothing
     Public ArrRecBulk As List(Of clsProductionShiftMgmtReceiptBulkMilk) = Nothing
+    Public ArrProSFG As List(Of clsProductionShiftMgmtProductionSFG) = Nothing
     Public ArrPro As List(Of clsProductionShiftMgmtProduction) = Nothing
     Public ArrProRMSummary As List(Of clsProductionShiftMgmtProductionRMSummary) = Nothing
     Public ArrDisBulk As List(Of clsProductionShiftMgmtDisposalBulkMilk) = Nothing
@@ -38,6 +39,16 @@ Public Class clsProductionShiftMgmt
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_SHIFT_MGMT_PRODUCTION where Document_No='" + obj.Document_No + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+
+            qry = "delete from TSPL_SHIFT_MGMT_PRODUCTION_SFG_ITEM_ADD_REMOVE where Document_No='" + obj.Document_No + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_SHIFT_MGMT_PRODUCTION_SFG_RM where Document_No='" + obj.Document_No + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_SHIFT_MGMT_PRODUCTION_SFG where Document_No='" + obj.Document_No + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+
             qry = "delete from TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK where Document_No='" + obj.Document_No + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_SHIFT_MGMT_RECEIPT_PLANT_MILK where Document_No='" + obj.Document_No + "'"
@@ -81,6 +92,7 @@ Public Class clsProductionShiftMgmt
             clsProductionShiftMgmtReceiptPlantMilk.SaveData(obj.Document_No, obj.ArrRecPlant, trans)
             clsProductionShiftMgmtReceiptBulkMilk.SaveData(obj.Document_No, obj.ArrRecBulk, trans)
             clsProductionShiftMgmtProduction.SaveData(obj.Document_No, obj.ArrPro, trans)
+            clsProductionShiftMgmtProductionSFG.SaveData(obj.Document_No, obj.ArrProSFG, trans)
             clsProductionShiftMgmtProductionRMSummary.SaveData(obj.Document_No, obj.ArrProRMSummary, trans)
             clsProductionShiftMgmtDisposalBulkMilk.SaveData(obj.Document_No, obj.ArrDisBulk, trans)
             clsProductionShiftMgmtClose.SaveData(obj.Document_No, obj.ArrCL, trans)
@@ -130,6 +142,7 @@ where 2=2 "
             obj.ArrRecPlant = clsProductionShiftMgmtReceiptPlantMilk.GetData(obj.Document_No, "", trans)
             obj.ArrRecBulk = clsProductionShiftMgmtReceiptBulkMilk.GetData(obj.Document_No, "", trans)
             obj.ArrPro = clsProductionShiftMgmtProduction.GetData(obj.Document_No, "", trans)
+            obj.ArrProSFG = clsProductionShiftMgmtProductionSFG.GetData(obj.Document_No, "", trans)
             obj.ArrProRMSummary = clsProductionShiftMgmtProductionRMSummary.GetData(obj.Document_No, "", trans)
             obj.ArrDisBulk = clsProductionShiftMgmtDisposalBulkMilk.GetData(obj.Document_No, "", trans)
             obj.ArrCL = clsProductionShiftMgmtClose.GetData(obj.Document_No, "", trans)
@@ -163,6 +176,11 @@ where 2=2 "
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_SHIFT_MGMT_PRODUCTION_RM_SUMMARY where Document_No='" + obj.Document_No + "'", trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_SHIFT_MGMT_PRODUCTION_RM where Document_No='" + obj.Document_No + "'", trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_SHIFT_MGMT_PRODUCTION where Document_No='" + obj.Document_No + "'", trans)
+
+            clsDBFuncationality.ExecuteNonQuery("delete from TSPL_SHIFT_MGMT_PRODUCTION_SFG_ITEM_ADD_REMOVE where Document_No='" + obj.Document_No + "'", trans)
+            clsDBFuncationality.ExecuteNonQuery("delete from TSPL_SHIFT_MGMT_PRODUCTION_SFG_RM where Document_No='" + obj.Document_No + "'", trans)
+            clsDBFuncationality.ExecuteNonQuery("delete from TSPL_SHIFT_MGMT_PRODUCTION_SFG where Document_No='" + obj.Document_No + "'", trans)
+
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK where Document_No='" + obj.Document_No + "'", trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_SHIFT_MGMT_RECEIPT_PLANT_MILK where Document_No='" + obj.Document_No + "'", trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_SHIFT_MGMT_OPEN where Document_No='" + strCode + "'", trans)
@@ -211,6 +229,14 @@ where 2=2 "
         Try
             Dim qry As String = ""
             Dim dt As DataTable = Nothing
+            For Each objtr As clsProductionShiftMgmtProductionSFG In obj.ArrProSFG
+                If clsCommon.myLen(objtr.BOM_Code) <= 0 Then
+                    Throw New Exception("BOM not found for SFG item [" + objtr.Item_Code + "] and LTR Qty [" + clsCommon.myCstr(objtr.Qty_LTR) + "]")
+                End If
+                If objtr.ArrRM Is Nothing OrElse objtr.ArrRM.Count <= 0 Then
+                    Throw New Exception("Raw material not found for SFG item [" + objtr.Item_Code + "] and LTR Qty [" + clsCommon.myCstr(objtr.Qty_LTR) + "]")
+                End If
+            Next
             For Each objtr As clsProductionShiftMgmtProduction In obj.ArrPro
                 If clsCommon.myLen(objtr.BOM_Code) <= 0 Then
                     Throw New Exception("BOM not found for produce item [" + objtr.Item_Code + "] and LTR Qty [" + clsCommon.myCstr(objtr.Qty_LTR) + "]")
@@ -1726,6 +1752,7 @@ Public Class clsProductionShiftMgmtClose
     Public COB As Integer
     Public Alcohol_Test As String
     Public Remarks As String
+    Public Is_Calculate As Integer
 
 #End Region
 
@@ -1747,6 +1774,7 @@ Public Class clsProductionShiftMgmtClose
                 clsCommon.AddColumnsForChange(coll, "COB", objTR.COB)
                 clsCommon.AddColumnsForChange(coll, "Alcohol_Test", objTR.Alcohol_Test)
                 clsCommon.AddColumnsForChange(coll, "Remarks", objTR.Remarks)
+                clsCommon.AddColumnsForChange(coll, "Is_Calculate", objTR.Is_Calculate)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SHIFT_MGMT_CLOSE", OMInsertOrUpdate.Insert, "", trans)
             Next
         End If
@@ -1787,6 +1815,7 @@ where  TSPL_SHIFT_MGMT_CLOSE.Document_No='" + DocumentNo + "' "
                 objTr.COB = clsCommon.myCDecimal(dt.Rows(0)("COB"))
                 objTr.Alcohol_Test = clsCommon.myCstr(dr("Alcohol_Test"))
                 objTr.Remarks = clsCommon.myCstr(dr("Remarks"))
+                objTr.Is_Calculate = clsCommon.myCDecimal(dr("Is_Calculate"))
                 arr.Add(objTr)
             Next
         End If
@@ -1795,4 +1824,239 @@ where  TSPL_SHIFT_MGMT_CLOSE.Document_No='" + DocumentNo + "' "
 End Class
 
 
+Public Class clsProductionShiftMgmtProductionSFG
+#Region "Variables"
+    Public PK_ID As Integer
+    Public Document_No As String
+    Public Item_Code As String
+    Public Item_Name As String
+    Public Location_code As String
+    Public Location_Name As String
+    Public Batch_No As String
+    Public Qty_KG As Decimal
+    Public Qty_LTR As Decimal
+    Public FAT As Decimal
+    Public SNF As Decimal
+    Public FAT_KG As Decimal
+    Public SNF_KG As Decimal
+    Public Remarks As String
+    Public BOM_Code As String
+    Public Entered_UOM As Integer ''1 LTR 2'KG
+    Public ArrRM As List(Of clsProductionShiftMgmtProductionSFGRM)
+    Public ArrAdd As List(Of clsProductionShiftMgmtProductionSFGItemAddRemove)
+    Public ArrRemove As List(Of clsProductionShiftMgmtProductionSFGItemAddRemove)
+
+#End Region
+    Public Shared Function SaveData(ByVal DocumentNo As String, ByVal Arr As List(Of clsProductionShiftMgmtProductionSFG), ByVal trans As SqlTransaction) As Boolean
+        If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
+            For Each objTR As clsProductionShiftMgmtProductionSFG In Arr
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "Document_No", DocumentNo)
+                clsCommon.AddColumnsForChange(coll, "Item_Code", objTR.Item_Code)
+                clsCommon.AddColumnsForChange(coll, "Location_code", objTR.Location_code)
+                clsCommon.AddColumnsForChange(coll, "Batch_No", objTR.Batch_No)
+                clsCommon.AddColumnsForChange(coll, "Qty_KG", objTR.Qty_KG)
+                clsCommon.AddColumnsForChange(coll, "Qty_LTR", objTR.Qty_LTR)
+                clsCommon.AddColumnsForChange(coll, "FAT", objTR.FAT)
+                clsCommon.AddColumnsForChange(coll, "SNF", objTR.SNF)
+                clsCommon.AddColumnsForChange(coll, "FAT_KG", objTR.FAT_KG)
+                clsCommon.AddColumnsForChange(coll, "SNF_KG", objTR.SNF_KG)
+                clsCommon.AddColumnsForChange(coll, "Remarks", objTR.Remarks)
+                clsCommon.AddColumnsForChange(coll, "BOM_Code", objTR.BOM_Code)
+                clsCommon.AddColumnsForChange(coll, "Entered_UOM", objTR.Entered_UOM)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SHIFT_MGMT_PRODUCTION_SFG", OMInsertOrUpdate.Insert, "", trans)
+                objTR.PK_ID = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select SCOPE_IDENTITY()", trans))
+
+                clsProductionShiftMgmtProductionSFGRM.SaveData(DocumentNo, objTR.PK_ID, objTR.ArrRM, trans)
+                clsProductionShiftMgmtProductionSFGItemAddRemove.SaveData(DocumentNo, objTR.PK_ID, 1, objTR.ArrAdd, trans)
+                clsProductionShiftMgmtProductionSFGItemAddRemove.SaveData(DocumentNo, objTR.PK_ID, 2, objTR.ArrRemove, trans)
+            Next
+        End If
+        Return True
+    End Function
+    Public Shared Function GetData(ByVal strPONo As String, ByVal strExtraWhrclas As String, ByVal trans As SqlTransaction) As List(Of clsProductionShiftMgmtProductionSFG)
+        Dim arr As List(Of clsProductionShiftMgmtProductionSFG) = Nothing
+        Dim qry As String = "SELECT TSPL_SHIFT_MGMT_PRODUCTION_SFG.*,TSPL_ITEM_MASTER.Item_Desc,TSPL_LOCATION_MASTER.Location_Desc FROM TSPL_SHIFT_MGMT_PRODUCTION_SFG " + Environment.NewLine +
+            " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SHIFT_MGMT_PRODUCTION_SFG.Item_Code " + Environment.NewLine +
+            " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SHIFT_MGMT_PRODUCTION_SFG.Location_code " + Environment.NewLine +
+            " where  TSPL_SHIFT_MGMT_PRODUCTION_SFG.Document_No='" + strPONo + "' "
+        If clsCommon.myLen(strExtraWhrclas) > 0 Then
+            qry += " and " + strExtraWhrclas
+        End If
+        qry += " ORDER BY TSPL_SHIFT_MGMT_PRODUCTION_SFG.PK_ID"
+
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+            arr = New List(Of clsProductionShiftMgmtProductionSFG)
+            Dim objTr As clsProductionShiftMgmtProductionSFG
+            For Each dr As DataRow In dt.Rows
+                objTr = New clsProductionShiftMgmtProductionSFG
+                objTr.PK_ID = clsCommon.myCstr(dr("PK_ID"))
+                objTr.Document_No = clsCommon.myCstr(dr("Document_No"))
+                objTr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
+                objTr.Item_Name = clsCommon.myCstr(dr("Item_Desc"))
+                objTr.Location_code = clsCommon.myCstr(dr("Location_code"))
+                objTr.Location_Name = clsCommon.myCstr(dr("Location_Desc"))
+                objTr.Batch_No = clsCommon.myCstr(dr("Batch_No"))
+                objTr.Qty_LTR = clsCommon.myCDecimal(dr("Qty_LTR"))
+                objTr.Qty_KG = clsCommon.myCDecimal(dr("Qty_KG"))
+                objTr.FAT = clsCommon.myCDecimal(dr("FAT"))
+                objTr.SNF = clsCommon.myCDecimal(dr("SNF"))
+                objTr.FAT_KG = clsCommon.myCDecimal(dr("FAT_KG"))
+                objTr.SNF_KG = clsCommon.myCDecimal(dr("SNF_KG"))
+                objTr.Remarks = clsCommon.myCstr(dr("Remarks"))
+                objTr.BOM_Code = clsCommon.myCstr(dr("BOM_Code"))
+                objTr.Entered_UOM = clsCommon.myCDecimal(dr("Entered_UOM"))
+                objTr.ArrRM = clsProductionShiftMgmtProductionSFGRM.GetData(objTr.Document_No, objTr.PK_ID, "", trans)
+                objTr.ArrAdd = clsProductionShiftMgmtProductionSFGItemAddRemove.GetData(objTr.Document_No, objTr.PK_ID, 1, "", trans)
+                objTr.ArrRemove = clsProductionShiftMgmtProductionSFGItemAddRemove.GetData(objTr.Document_No, objTr.PK_ID, 2, "", trans)
+                arr.Add(objTr)
+            Next
+        End If
+        Return arr
+    End Function
+End Class
+
+Public Class clsProductionShiftMgmtProductionSFGRM
+#Region "Variables"
+    Public PK_ID As Integer
+    Public Against_PK_ID As Integer
+    Public Document_No As String
+    Public Item_Code As String
+    Public Item_Name As String
+    Public Qty As Decimal
+    Public UOM As String
+    Public FAT As Decimal
+    Public SNF As Decimal
+    Public FAT_KG As Decimal
+    Public SNF_KG As Decimal
+#End Region
+    Public Shared Function SaveData(ByVal DocumentNo As String, ByVal AgainstPKID As Integer, ByVal Arr As List(Of clsProductionShiftMgmtProductionSFGRM), ByVal trans As SqlTransaction) As Boolean
+        If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
+            For Each objTR As clsProductionShiftMgmtProductionSFGRM In Arr
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "Against_PK_ID", AgainstPKID)
+                clsCommon.AddColumnsForChange(coll, "Document_No", DocumentNo)
+                clsCommon.AddColumnsForChange(coll, "Item_Code", objTR.Item_Code)
+                clsCommon.AddColumnsForChange(coll, "Qty", objTR.Qty)
+                clsCommon.AddColumnsForChange(coll, "UOM", objTR.UOM)
+                clsCommon.AddColumnsForChange(coll, "FAT", objTR.FAT)
+                clsCommon.AddColumnsForChange(coll, "SNF", objTR.SNF)
+                clsCommon.AddColumnsForChange(coll, "FAT_KG", objTR.FAT_KG)
+                clsCommon.AddColumnsForChange(coll, "SNF_KG", objTR.SNF_KG)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SHIFT_MGMT_PRODUCTION_SFG_RM", OMInsertOrUpdate.Insert, "", trans)
+            Next
+        End If
+        Return True
+    End Function
+    Public Shared Function GetData(ByVal strPONo As String, ByVal AgainstPKID As Integer, ByVal strExtraWhrclas As String, ByVal trans As SqlTransaction) As List(Of clsProductionShiftMgmtProductionSFGRM)
+        Dim arr As List(Of clsProductionShiftMgmtProductionSFGRM) = Nothing
+        Dim qry As String = "SELECT TSPL_SHIFT_MGMT_PRODUCTION_SFG_RM.*,TSPL_ITEM_MASTER.Item_Desc FROM TSPL_SHIFT_MGMT_PRODUCTION_SFG_RM " + Environment.NewLine +
+            " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SHIFT_MGMT_PRODUCTION_SFG_RM.Item_Code " + Environment.NewLine +
+            " where  TSPL_SHIFT_MGMT_PRODUCTION_SFG_RM.Document_No='" + strPONo + "' and TSPL_SHIFT_MGMT_PRODUCTION_SFG_RM.Against_PK_ID=" + clsCommon.myCstr(AgainstPKID) + " "
+        If clsCommon.myLen(strExtraWhrclas) > 0 Then
+            qry += " and " + strExtraWhrclas
+        End If
+        qry += " ORDER BY TSPL_SHIFT_MGMT_PRODUCTION_SFG_RM.PK_ID"
+
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+            arr = New List(Of clsProductionShiftMgmtProductionSFGRM)
+            Dim objTr As clsProductionShiftMgmtProductionSFGRM
+            For Each dr As DataRow In dt.Rows
+                objTr = New clsProductionShiftMgmtProductionSFGRM
+                objTr.PK_ID = clsCommon.myCstr(dr("PK_ID"))
+                objTr.Against_PK_ID = clsCommon.myCstr(dr("Against_PK_ID"))
+                objTr.Document_No = clsCommon.myCstr(dr("Document_No"))
+                objTr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
+                objTr.Item_Name = clsCommon.myCstr(dr("Item_Desc"))
+                objTr.Qty = clsCommon.myCDecimal(dr("Qty"))
+                objTr.UOM = clsCommon.myCstr(dr("UOM"))
+                objTr.FAT = clsCommon.myCDecimal(dr("FAT"))
+                objTr.SNF = clsCommon.myCDecimal(dr("SNF"))
+                objTr.FAT_KG = clsCommon.myCDecimal(dr("FAT_KG"))
+                objTr.SNF_KG = clsCommon.myCDecimal(dr("SNF_KG"))
+                arr.Add(objTr)
+            Next
+        End If
+        Return arr
+    End Function
+End Class
+
+Public Class clsProductionShiftMgmtProductionSFGItemAddRemove
+#Region "Variables"
+    Public PK_ID As Integer
+    Public Against_PK_ID As Integer
+    Public Document_No As String
+    'Public Type As Integer ''1-Add 2-Remove
+    Public Location_Code As String
+    Public Location_Name As String
+    Public Item_Code As String
+    Public Item_Name As String
+    Public ItemProductType As String
+    Public ItemItemType As String
+    Public Qty As Decimal
+    Public UOM As String
+    Public FAT As Decimal
+    Public SNF As Decimal
+    Public FAT_KG As Decimal
+    Public SNF_KG As Decimal
+#End Region
+    Public Shared Function SaveData(ByVal DocumentNo As String, ByVal AgainstPKID As Integer, ByVal Type As Integer, ByVal Arr As List(Of clsProductionShiftMgmtProductionSFGItemAddRemove), ByVal trans As SqlTransaction) As Boolean
+        If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
+            For Each objTR As clsProductionShiftMgmtProductionSFGItemAddRemove In Arr
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "Against_PK_ID", AgainstPKID)
+                clsCommon.AddColumnsForChange(coll, "Document_No", DocumentNo)
+                clsCommon.AddColumnsForChange(coll, "Type", Type)
+                clsCommon.AddColumnsForChange(coll, "Location_Code", objTR.Location_Code)
+                clsCommon.AddColumnsForChange(coll, "Item_Code", objTR.Item_Code)
+                clsCommon.AddColumnsForChange(coll, "Qty", objTR.Qty)
+                clsCommon.AddColumnsForChange(coll, "UOM", objTR.UOM)
+                clsCommon.AddColumnsForChange(coll, "FAT", objTR.FAT)
+                clsCommon.AddColumnsForChange(coll, "SNF", objTR.SNF)
+                clsCommon.AddColumnsForChange(coll, "FAT_KG", objTR.FAT_KG)
+                clsCommon.AddColumnsForChange(coll, "SNF_KG", objTR.SNF_KG)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SHIFT_MGMT_PRODUCTION_SFG_ITEM_ADD_REMOVE", OMInsertOrUpdate.Insert, "", trans)
+            Next
+        End If
+        Return True
+    End Function
+    Public Shared Function GetData(ByVal strPONo As String, ByVal AgainstPKID As Integer, ByVal Type As Integer, ByVal strExtraWhrclas As String, ByVal trans As SqlTransaction) As List(Of clsProductionShiftMgmtProductionSFGItemAddRemove)
+        Dim arr As List(Of clsProductionShiftMgmtProductionSFGItemAddRemove) = Nothing
+        Dim qry As String = "SELECT TSPL_SHIFT_MGMT_PRODUCTION_SFG_ITEM_ADD_REMOVE.*,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.Product_Type,TSPL_ITEM_MASTER.Item_Type,TSPL_LOCATION_MASTER.Location_Desc FROM TSPL_SHIFT_MGMT_PRODUCTION_SFG_ITEM_ADD_REMOVE 
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SHIFT_MGMT_PRODUCTION_SFG_ITEM_ADD_REMOVE.Item_Code 
+left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SHIFT_MGMT_PRODUCTION_SFG_ITEM_ADD_REMOVE.Location_Code 
+where  TSPL_SHIFT_MGMT_PRODUCTION_SFG_ITEM_ADD_REMOVE.Document_No='" + strPONo + "' and TSPL_SHIFT_MGMT_PRODUCTION_SFG_ITEM_ADD_REMOVE.Against_PK_ID=" + clsCommon.myCstr(AgainstPKID) + " and TSPL_SHIFT_MGMT_PRODUCTION_SFG_ITEM_ADD_REMOVE.Type=" + clsCommon.myCstr(Type) + " "
+        If clsCommon.myLen(strExtraWhrclas) > 0 Then
+            qry += " and " + strExtraWhrclas
+        End If
+        qry += " ORDER BY TSPL_SHIFT_MGMT_PRODUCTION_SFG_ITEM_ADD_REMOVE.PK_ID"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+            arr = New List(Of clsProductionShiftMgmtProductionSFGItemAddRemove)
+            Dim objTr As clsProductionShiftMgmtProductionSFGItemAddRemove
+            For Each dr As DataRow In dt.Rows
+                objTr = New clsProductionShiftMgmtProductionSFGItemAddRemove
+                objTr.PK_ID = clsCommon.myCstr(dr("PK_ID"))
+                objTr.Against_PK_ID = clsCommon.myCstr(dr("Against_PK_ID"))
+                objTr.Document_No = clsCommon.myCstr(dr("Document_No"))
+                objTr.Location_Code = clsCommon.myCstr(dr("Location_Code"))
+                objTr.Location_Name = clsCommon.myCstr(dr("Location_Desc"))
+                objTr.ItemProductType = clsCommon.myCstr(dr("Product_Type"))
+                objTr.ItemItemType = clsCommon.myCstr(dr("Item_Type"))
+                objTr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
+                objTr.Item_Name = clsCommon.myCstr(dr("Item_Desc"))
+                objTr.Qty = clsCommon.myCDecimal(dr("Qty"))
+                objTr.UOM = clsCommon.myCstr(dr("UOM"))
+                objTr.FAT = clsCommon.myCDecimal(dr("FAT"))
+                objTr.SNF = clsCommon.myCDecimal(dr("SNF"))
+                objTr.FAT_KG = clsCommon.myCDecimal(dr("FAT_KG"))
+                objTr.SNF_KG = clsCommon.myCDecimal(dr("SNF_KG"))
+                arr.Add(objTr)
+            Next
+        End If
+        Return arr
+    End Function
+End Class
 

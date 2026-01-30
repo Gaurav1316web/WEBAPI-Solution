@@ -388,6 +388,12 @@
     <Compile Include="Milk Procurement\Report\rptGheeAndCattleFeedDeductionStatementReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptMachineSurveyRegister.Designer.vb">
+      <DependentUpon>rptMachineSurveyRegister.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptMachineSurveyRegister.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptMilkProcurementReport.Designer.vb">
       <DependentUpon>rptMilkProcurementReport.vb</DependentUpon>
     </Compile>
@@ -1373,6 +1379,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptGheeAndCattleFeedDeductionStatementReport.resx">
       <DependentUpon>rptGheeAndCattleFeedDeductionStatementReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptMachineSurveyRegister.resx">
+      <DependentUpon>rptMachineSurveyRegister.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptMilkProcurementReport.resx">
       <DependentUpon>rptMilkProcurementReport.vb</DependentUpon>
