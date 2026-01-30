@@ -1,8 +1,15 @@
 ﻿Imports common
 Public Class frmDCSDeductionReport
     Dim AreaWiseBilling As Boolean = False
+
+    Private Sub SetUserMgmtNew()
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
+        End If
+    End Sub
     Private Sub frmDCSDeductionReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
+            SetUserMgmtNew()
             txtFromDate.Value = clsCommon.GETSERVERDATE()
             txtToDate.Value = txtFromDate.Value.AddMonths(1)
             AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
@@ -31,7 +38,7 @@ Public Class frmDCSDeductionReport
     Sub EnableDisableFields(ByVal isBool As Boolean)
         RadGroupBox1.Enabled = isBool
         RadGroupBox2.Enabled = isBool
-        btngo.Enabled = isBool
+        'btngo.Enabled = isBool
     End Sub
 
     Sub BlankGrid()
@@ -90,7 +97,7 @@ Public Class frmDCSDeductionReport
     Sub ReportQry(ByVal isPrint As Boolean)
         Try
             Dim Qry As String = Nothing
-            Qry = "Select ROW_NUMBER() Over (Order By (Select 1)) As SNo,Bill_No As [Bill No],Document_Date As [Date],VLC_Name As [DCS Name],VLC_Code_VLC_Uploader As [Code],"
+            Qry = "Select ROW_NUMBER() Over (Order By (Select 1)) As SNo,Bill_No As [Bill No],Convert(Varchar(10),Document_Date,103) As [Date],VLC_Name As [DCS Name],VLC_Code_VLC_Uploader As [Code],"
             If chkGSTReport.Checked Then
                 Qry &= " GSTFinalNo As [GST No],Deduction As [Deduction Code],Description As [Deduction Name],"
             Else
@@ -153,7 +160,7 @@ When TAX9 ='IGST' Then TAX9_Amt
 When TAX10 ='IGST' Then TAX10_Amt Else 0 End) As [IGST],
 IsNull(Transporter_Commission_TotalAmt,0) As TPT,"
             End If
-            Qry &= " Total_Amt As [Total Amount]"
+            Qry &= " IsNull(TotalSubsidyAmt,0) As [Subsidy Amt],Total_Amt As [Total Amount]"
             If Not chkGSTReport.Checked OrElse isPrint Then
                 Qry &= " ,Recommended_By As [Recommendance]"
             End If
@@ -161,6 +168,9 @@ IsNull(Transporter_Commission_TotalAmt,0) As TPT,"
                 Qry &= " ,Logo_Img,Logo_Img2,Comp_Name,Add1,Add2,Add3,STATE_NAME,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") & "' As fromDate, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") & "' As todate,'" & objCommonVar.CurrentUser & "' As PrintBy "
             End If
             Qry &= " from(" & ReturnBaseQry() & ")finalQry"
+            If chkGSTReport.Checked Then
+                Qry &= "  where ISNULL(GSTFinalNo,'')<>'' "
+            End If
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -242,7 +252,7 @@ TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt8,
 TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt9,
 TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt10,
 TSPL_SD_SHIPMENT_HEAD.Amount_Less_Discount,TSPL_SD_SHIPMENT_HEAD.Total_Tax_Amt,
-TSPL_SD_SHIPMENT_HEAD.Transporter_Commission_TotalAmt,
+TSPL_SD_SHIPMENT_HEAD.Transporter_Commission_TotalAmt,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt,
 TSPL_SD_SHIPMENT_HEAD.Total_Amt,
 TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,TSPL_STATE_MASTER.STATE_NAME
 from TSPL_SD_SHIPMENT_DETAIL

@@ -1,5 +1,6 @@
 ﻿Imports common
 Public Class clsUserMgtCode
+    Public Const rptMachineSurveyRegister As String = "MH-SRV-RGSR"
     Public Const frmDCSDeductionReport As String = "DCS-DED-RPT"
     Public Const rptDBTStatusReport As String = "RPT-DBT-STS"
     Public Const frmRALQCReport As String = "RAL-QC-RPT"
