@@ -880,7 +880,7 @@ Public Class clsCreateAllTable
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("comp_code", "varchar(8) NULL")
-
+            coll.Add("InActive", "Integer Not NULL Default 0")
             coll.Add("FROM_Date", "datetime NULL")
             coll.Add("TO_Date", "datetime NULL")
             coll.Add("Posted", "char(1) NULL")
