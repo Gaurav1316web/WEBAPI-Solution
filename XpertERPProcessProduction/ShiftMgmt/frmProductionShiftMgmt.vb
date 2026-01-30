@@ -65,27 +65,6 @@ Public Class frmProductionShiftMgmt
     Const ColRecBulkAlcohol As String = "ColRecBulkAlcohol"
     Const ColRecBulkRemarks As String = "ColRecBulkRemarks"
 
-    Const ColProSFGPKID As String = "ColProSFGPKID"
-    Const ColProSFGSNo As String = "ColProSFGSNo"
-    Const ColProSFGItemCode As String = "ColProSFGItemCode"
-    Const ColProSFGItemName As String = "ColProSFGItemName"
-    Const ColProSFGBatchNo As String = "ColProSFGBatchNo"
-    Const ColProSFGQtyKG As String = "ColProSFGQtyKG"
-    Const ColProSFGQtyLTR As String = "ColProSFGQtyLTR"
-    Const ColProSFGLocationCode As String = "ColProSFGLocationCode"
-    Const ColProSFGLocationName As String = "ColProSFGLocationName"
-    Const ColProSFGFAT As String = "ColProSFGFAT"
-    Const ColProSFGSNF As String = "ColProSFGSNF"
-    Const ColProSFGFATKG As String = "ColProSFGFATKG"
-    Const ColProSFGSNFKG As String = "ColProSFGSNFKG"
-    Const ColProSFGAdd As String = "ColProSFGAdd"
-    Const ColProSFGRemove As String = "ColProSFGRemove"
-    Const ColProSFGRemarks As String = "ColProSFGRemarks"
-    Const ColProSFGEnteredUOM As String = "ColProSFGEnteredUOM"
-    Const ColProSFGBOMCode As String = "ColProSFGBOMCode"
-
-
-
     Const ColProPKID As String = "ColProPKID"
     Const ColProSNo As String = "ColProSNo"
     Const ColProItemCode As String = "ColProItemCode"
@@ -166,83 +145,23 @@ Public Class frmProductionShiftMgmt
     Const colCLCOB As String = "colCLCOB"
     Const colCLAlcohol As String = "colCLAlcohol"
     Const colCLRemarks As String = "colCLRemarks"
-    Const colCLIsCalculate As String = "colCLIsCalculate"
 
     Const ReportID As String = "ShftMgmt"
     Dim isInsideLoadData As Boolean = False
     Dim isCellValueChangedOpen As Boolean = False
     Dim arrLoc As String = Nothing
 #End Region
+
     Private Sub frmDairyProductionUploader_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll = New Dictionary(Of String, String)
-
-        coll = New Dictionary(Of String, String)
-        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("Document_No", "Varchar(30) not null references TSPL_SHIFT_MGMT(Document_No)")
-        coll.Add("Item_Code", "Varchar(50) not null references TSPL_ITEM_MASTER(Item_Code)")
-        coll.Add("Location_code", "Varchar(12) not null references TSPL_LOCATION_MASTER(Location_Code)")
-        coll.Add("Batch_No", "Varchar(50) null")
-        coll.Add("Qty_KG", "Decimal(18,2) null")
-        coll.Add("Qty_LTR", "Decimal(18,2) null")
-        coll.Add("FAT", "Decimal(18,2) null")
-        coll.Add("SNF", "Decimal(18,2) null")
-        coll.Add("FAT_KG", "Decimal(18,3) null")
-        coll.Add("SNF_KG", "Decimal(18,3) null")
-        coll.Add("Remarks", "Varchar(200) null")
-        coll.Add("BOM_Code", "Varchar(30) not null references TSPL_PP_BOM_HEAD(BOM_CODE)")
-        coll.Add("Entered_UOM", "integer null") ''1 LTR 2'KG
-
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SHIFT_MGMT_PRODUCTION_SFG", coll, Nothing, True, False, "TSPL_SHIFT_MGMT", "Document_No", "")
-
-
-
-        coll = New Dictionary(Of String, String)
-        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("Against_PK_ID", "integer not null references TSPL_SHIFT_MGMT_PRODUCTION_SFG(PK_ID)")
-        coll.Add("Document_No", "Varchar(30) not null references TSPL_SHIFT_MGMT(Document_No)")
-        coll.Add("Item_Code", "Varchar(50) not null references TSPL_ITEM_MASTER(Item_Code)")
-        coll.Add("Qty", "Decimal(18,2) null")
-        coll.Add("UOM", "Varchar(20) null")
-        coll.Add("FAT", "Decimal(18,2) null")
-        coll.Add("SNF", "Decimal(18,2) null")
-        coll.Add("FAT_KG", "Decimal(18,3) null")
-        coll.Add("SNF_KG", "Decimal(18,3) null")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SHIFT_MGMT_PRODUCTION_SFG_RM", coll, Nothing, True, False, "TSPL_SHIFT_MGMT", "Document_No", "")
-
-
-        coll = New Dictionary(Of String, String)
-        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("Against_PK_ID", "integer not null references TSPL_SHIFT_MGMT_PRODUCTION_SFG(PK_ID)")
-        coll.Add("Document_No", "Varchar(30) not null references TSPL_SHIFT_MGMT(Document_No)")
-        coll.Add("Type", "integer not null ") ''1-Add;2-Remove
-        coll.Add("Location_Code", "Varchar(12) not null references TSPL_LOCATION_MASTER(Location_Code)")
-        coll.Add("Item_Code", "Varchar(50) not null references TSPL_ITEM_MASTER(Item_Code)")
-        coll.Add("Qty", "Decimal(18,2) null")
-        coll.Add("UOM", "Varchar(20) null")
-        coll.Add("FAT", "Decimal(18,2) null")
-        coll.Add("SNF", "Decimal(18,2) null")
-        coll.Add("FAT_KG", "Decimal(18,3) null")
-        coll.Add("SNF_KG", "Decimal(18,3) null")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SHIFT_MGMT_PRODUCTION_SFG_ITEM_ADD_REMOVE", coll, Nothing, True, False, "TSPL_SHIFT_MGMT", "Document_No", "")
-
-        coll = New Dictionary(Of String, String)
-        coll.Add("Is_Calculate", "integer NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SHIFT_MGMT_CLOSE", coll, Nothing, True, False, "TSPL_SHIFT_MGMT", "Document_No", "")
 
         RadPageView1.SelectedPage = RadPageViewPage1
         RadPageView2.SelectedPage = RadPageViewPage5
-        RadPageView3.SelectedPage = RadPageViewPage10
-        LoadShift()
+        RadPageView3.SelectedPage = RadPageViewPage7
         LOCATIONRIGTHS()
         AddNew()
         btnReverse.Visible = False
     End Sub
-    Sub LoadShift()
-        Dim qry As String = " select  SHIFT_CODE,SHIFT_NAME from TSPL_SHIFT_MASTER "
-        cboShift.DataSource = clsDBFuncationality.GetDataTable(qry)
-        cboShift.ValueMember = "SHIFT_CODE"
-        cboShift.DisplayMember = "SHIFT_NAME"
-    End Sub
+
     Private Sub LOCATIONRIGTHS()
         Dim obj As New clsMCCCodes()
         Try
@@ -258,17 +177,49 @@ Public Class frmProductionShiftMgmt
     End Sub
     Private Sub RadButton1_Click_1(sender As Object, e As EventArgs) Handles RadButton1.Click
         Try
-            If clsCommon.myLen(cboShift.SelectedValue) <= 0 Then
-                Throw New Exception("Please select " + cboShift.MyLinkLable1.Text)
+            If clsCommon.myLen(txtShift.Value) <= 0 Then
+                Throw New Exception("Please select " + txtShift.MyLinkLable1.Text)
             End If
             If clsCommon.myLen(txtLocation.Value) <= 0 Then
                 Throw New Exception("Please select " + txtLocation.MyLinkLable1.Text)
             End If
 
+            Dim qry As String = "select Document_No,Status from TSPL_SHIFT_MGMT_SFG where Document_Date='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' and Shift_Code='" + txtShift.Value + "' and Location_Code='" + txtLocation.Value + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            Dim flag As Boolean = True
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                If clsCommon.MyMessageBoxShow(Me, "SFG Production is not created.Do you want to continue?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.No Then
+                    flag = False
+                End If
+            Else
+                If clsCommon.myCDecimal(dt.Rows(0)("Status")) = 0 Then
+                    If clsCommon.MyMessageBoxShow(Me, "SFG Production is created but not posted.Do you want to Post it?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
+                        flag = False
+                    Else
+                        Exit Sub
+                    End If
+                End If
+            End If
+            If Not flag Then
+                Dim frm As New frmProductionShiftMgmtSFG
+                frm.FilterDate = txtDate.Value
+                frm.FilterLocation = txtLocation.Value
+                frm.FilterShift = txtShift.Value
+                frm.WindowState = FormWindowState.Normal
+                frm.ShowDialog()
+                qry = "select Document_No from TSPL_SHIFT_MGMT_SFG where Document_Date='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' and Shift_Code='" + txtShift.Value + "' and Location_Code='" + txtLocation.Value + "' and Status=1"
+                dt = clsDBFuncationality.GetDataTable(qry)
+                If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                    Exit Sub
+                End If
+            End If
+
+
+
             SetShiftStartEndDateTime()
 
-            Dim qry As String = "select Document_No from TSPL_SHIFT_MGMT where Document_Date='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' and Shift_Code='" + clsCommon.myCstr(cboShift.SelectedValue) + "' and Location_Code='" + txtLocation.Value + "'"
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            qry = "select Document_No from TSPL_SHIFT_MGMT where Document_Date='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' and Shift_Code='" + clsCommon.myCstr(txtShift.Value) + "' and Location_Code='" + txtLocation.Value + "'"
+            dt = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 LoadBlankGrid()
                 qry = "select ROW_NUMBER() OVER(ORDER BY Location_Code,Item_Code) AS SNo, xxxx.*,case when Stock_Qty_KG>0 then cast((Fat_KG*100/Stock_Qty_KG) as decimal(18,2)) else 0 end FAT,case when Stock_Qty_KG>0 then cast((SNF_KG*100/Stock_Qty_KG) as decimal(18,2)) else 0 end SNF from (
@@ -282,7 +233,7 @@ cast( TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG as decimal(18,3)) as Fat_KG ,cast(TSPL_
  from TSPL_INVENTORY_MOVEMENT_NEW 
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT_NEW.Item_Code
 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_INVENTORY_MOVEMENT_NEW.Location_Code
-where TSPL_ITEM_MASTER.Product_Type='MI' and TSPL_LOCATION_MASTER.Main_Location_Code='" + txtLocation.Value + "' and isnull(TSPL_LOCATION_MASTER.csa_type,'N')<>'Y' and isnull(TSPL_LOCATION_MASTER.Is_Section,'N')<>'Y'  and TSPL_LOCATION_MASTER.Location_Category<>'MCC' and  isnull(TSPL_LOCATION_MASTER.Is_Jobwork,0)=0 and isnull(TSPL_LOCATION_MASTER.GIT_Type,'N')='N' and Punching_Date<'" + clsCommon.GetPrintDate(txtShiftStart.Value, "dd/MMM/yyyy hh:mm tt") + "' and TSPL_INVENTORY_MOVEMENT_NEW.Stock_UOM in ('LTR','KG')
+where TSPL_ITEM_MASTER.Product_Type='MI' and TSPL_LOCATION_MASTER.Main_Location_Code='" + txtLocation.Value + "' and isnull(TSPL_LOCATION_MASTER.csa_type,'N')<>'Y' and isnull(TSPL_LOCATION_MASTER.Is_Section,'N')<>'Y'  and TSPL_LOCATION_MASTER.Location_Category<>'MCC' and  isnull(TSPL_LOCATION_MASTER.Is_Jobwork,0)=0 and isnull(TSPL_LOCATION_MASTER.GIT_Type,'N')='N' and Punching_Date<='" + clsCommon.GetPrintDate(txtShiftStart.Value, "dd/MMM/yyyy hh:mm tt") + "' and TSPL_INVENTORY_MOVEMENT_NEW.Stock_UOM in ('LTR','KG')
 )xx group by Location_Code,Item_Code,Stock_UOM
 )xxx 
 left outer join TSPL_ITEM_UOM_DETAIL as TabUOMLTR on TabUOMLTR.Item_Code=xxx.Item_Code and TabUOMLTR.UOM_Code='LTR'
@@ -489,7 +440,7 @@ where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
         txtShiftStart.Enabled = v
         txtShiftEnd.Enabled = v
         txtLocation.Enabled = v
-        cboShift.Enabled = v
+        txtShift.Enabled = v
         RadButton1.Enabled = v
     End Sub
     Private Sub btnAddNew_Click(sender As Object, e As EventArgs) Handles btnAddNew.Click
@@ -500,6 +451,7 @@ where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
         btnPost.Enabled = True
         btnDelete.Enabled = True
         txtDocNo.Value = ""
+        txtShift.Value = ""
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtShiftStart.Value = txtDate.Value
         txtShiftEnd.Value = txtDate.Value
@@ -541,7 +493,6 @@ where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
         LoadBlankGridRecPlant()
         LoadBlankGridRecBulk()
         LoadBlankGridPro()
-        LoadBlankGridProSFG()
         LoadBlankGridDisBulk()
         LoadBlankGridCL()
     End Sub
@@ -1496,235 +1447,6 @@ where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
         gvPro.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         gvPro.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
-
-    Sub LoadBlankGridProSFG()
-        gvProSFG.Columns.Clear()
-        gvProSFG.DataSource = Nothing
-        gvProSFG.Rows.Clear()
-
-
-
-        Dim repoTextBox As New GridViewTextBoxColumn()
-        repoTextBox.FormatString = ""
-        repoTextBox.HeaderText = "PK ID"
-        repoTextBox.Name = ColProSFGPKID
-        repoTextBox.TextImageRelation = TextImageRelation.TextBeforeImage
-        repoTextBox.Width = 200
-        repoTextBox.ReadOnly = True
-        repoTextBox.IsVisible = False
-        gvProSFG.MasterTemplate.Columns.Add(repoTextBox)
-
-        Dim repoNumBox As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoNumBox = New GridViewDecimalColumn()
-        repoNumBox.FormatString = ""
-        repoNumBox.HeaderText = "SNo"
-        repoNumBox.Name = ColProSFGSNo
-        repoNumBox.Width = 40
-        repoNumBox.ReadOnly = True
-        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        gvProSFG.MasterTemplate.Columns.Add(repoNumBox)
-
-        repoTextBox = New GridViewTextBoxColumn()
-        repoTextBox.FormatString = ""
-        repoTextBox.HeaderText = "Item Code"
-        repoTextBox.Name = ColProSFGItemCode
-        repoTextBox.HeaderImage = Global.XpertERPProcessProduction.My.Resources.Resources.search4
-        repoTextBox.TextImageRelation = TextImageRelation.TextBeforeImage
-        repoTextBox.Width = 100
-        repoTextBox.IsVisible = True
-        gvProSFG.MasterTemplate.Columns.Add(repoTextBox)
-
-        repoTextBox = New GridViewTextBoxColumn()
-        repoTextBox.FormatString = ""
-        repoTextBox.HeaderText = "Item"
-        repoTextBox.Name = ColProSFGItemName
-        repoTextBox.Width = 150
-        repoTextBox.ReadOnly = True
-        gvProSFG.MasterTemplate.Columns.Add(repoTextBox)
-
-        repoTextBox = New GridViewTextBoxColumn()
-        repoTextBox.FormatString = ""
-        repoTextBox.HeaderText = "Silo Location Code"
-        repoTextBox.Name = ColProSFGLocationCode
-        repoTextBox.HeaderImage = Global.XpertERPProcessProduction.My.Resources.Resources.search4
-        repoTextBox.TextImageRelation = TextImageRelation.TextBeforeImage
-        repoTextBox.Width = 100
-        repoTextBox.IsVisible = True
-        gvProSFG.MasterTemplate.Columns.Add(repoTextBox)
-
-        repoTextBox = New GridViewTextBoxColumn()
-        repoTextBox.FormatString = ""
-        repoTextBox.HeaderText = "Silo Location"
-        repoTextBox.Name = ColProSFGLocationName
-        repoTextBox.Width = 150
-        repoTextBox.ReadOnly = True
-        gvProSFG.MasterTemplate.Columns.Add(repoTextBox)
-
-        repoTextBox = New GridViewTextBoxColumn()
-        repoTextBox.FormatString = ""
-        repoTextBox.HeaderText = "Batch No"
-        repoTextBox.Name = ColProSFGBatchNo
-        repoTextBox.Width = 100
-        repoTextBox.IsVisible = True
-        gvProSFG.MasterTemplate.Columns.Add(repoTextBox)
-
-        repoNumBox = New GridViewDecimalColumn()
-        repoNumBox.FormatString = ""
-        repoNumBox.HeaderText = "Qty LTR"
-        repoNumBox.Name = ColProSFGQtyLTR
-        repoNumBox.Width = 80
-        repoNumBox.Minimum = 0
-        repoNumBox.ShowUpDownButtons = False
-        repoNumBox.Step = 0
-        repoNumBox.DecimalPlaces = 2
-        repoNumBox.ReadOnly = False
-        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        gvProSFG.MasterTemplate.Columns.Add(repoNumBox)
-
-        repoNumBox = New GridViewDecimalColumn()
-        repoNumBox.FormatString = ""
-        repoNumBox.HeaderText = "Qty KG"
-        repoNumBox.Name = ColProSFGQtyKG
-        repoNumBox.Width = 80
-        repoNumBox.Minimum = 0
-        repoNumBox.ShowUpDownButtons = False
-        repoNumBox.Step = 0
-        repoNumBox.DecimalPlaces = 2
-        repoNumBox.ReadOnly = False
-        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        gvProSFG.MasterTemplate.Columns.Add(repoNumBox)
-
-
-
-        repoNumBox = New GridViewDecimalColumn()
-        repoNumBox.FormatString = ""
-        repoNumBox.HeaderText = "FAT %"
-        repoNumBox.Name = ColProSFGFAT
-        repoNumBox.Width = 100
-        repoNumBox.Minimum = 0
-        repoNumBox.ShowUpDownButtons = False
-        repoNumBox.Step = 0
-        repoNumBox.DecimalPlaces = 0
-        repoNumBox.ReadOnly = True
-        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        gvProSFG.MasterTemplate.Columns.Add(repoNumBox)
-
-        repoNumBox = New GridViewDecimalColumn()
-        repoNumBox.FormatString = ""
-        repoNumBox.HeaderText = "FAT KG"
-        repoNumBox.Name = ColProSFGFATKG
-        repoNumBox.Width = 100
-        repoNumBox.Minimum = 0
-        repoNumBox.ShowUpDownButtons = False
-        repoNumBox.Step = 0
-        repoNumBox.DecimalPlaces = 3
-        repoNumBox.ReadOnly = True
-        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        gvProSFG.MasterTemplate.Columns.Add(repoNumBox)
-
-        repoNumBox = New GridViewDecimalColumn()
-        repoNumBox.FormatString = ""
-        repoNumBox.HeaderText = "SNF %"
-        repoNumBox.Name = ColProSFGSNF
-        repoNumBox.Width = 100
-        repoNumBox.Minimum = 0
-        repoNumBox.ShowUpDownButtons = False
-        repoNumBox.Step = 0
-        repoNumBox.DecimalPlaces = 2
-        repoNumBox.ReadOnly = True
-        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        gvProSFG.MasterTemplate.Columns.Add(repoNumBox)
-
-        repoNumBox = New GridViewDecimalColumn()
-        repoNumBox.FormatString = ""
-        repoNumBox.HeaderText = "SNF KG"
-        repoNumBox.Name = ColProSFGSNFKG
-        repoNumBox.Width = 100
-        repoNumBox.Minimum = 0
-        repoNumBox.ShowUpDownButtons = False
-        repoNumBox.Step = 0
-        repoNumBox.DecimalPlaces = 3
-        repoNumBox.ReadOnly = True
-        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        gvProSFG.MasterTemplate.Columns.Add(repoNumBox)
-
-        Dim ShowBtn As New GridViewCommandColumn()
-        ShowBtn.FormatString = ""
-        ShowBtn.UseDefaultText = True
-        ShowBtn.DefaultText = "Add"
-        ShowBtn.HeaderText = ""
-        ShowBtn.Name = ColProSFGAdd
-        ShowBtn.FieldName = ColProSFGAdd
-        ShowBtn.Width = 80
-        ShowBtn.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        gvProSFG.MasterTemplate.Columns.Add(ShowBtn)
-
-        ShowBtn = New GridViewCommandColumn()
-        ShowBtn.FormatString = ""
-        ShowBtn.UseDefaultText = True
-        ShowBtn.DefaultText = "Remove"
-        ShowBtn.HeaderText = ""
-        ShowBtn.Name = ColProSFGRemove
-        ShowBtn.FieldName = ColProSFGRemove
-        ShowBtn.Width = 80
-        ShowBtn.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        gvProSFG.MasterTemplate.Columns.Add(ShowBtn)
-
-
-
-        repoTextBox = New GridViewTextBoxColumn()
-        repoTextBox.FormatString = ""
-        repoTextBox.HeaderText = "Remarks"
-        repoTextBox.Name = ColProSFGRemarks
-        repoTextBox.Width = 150
-        repoTextBox.ReadOnly = False
-        gvProSFG.MasterTemplate.Columns.Add(repoTextBox)
-
-        repoNumBox = New GridViewDecimalColumn()
-        repoNumBox.FormatString = ""
-        repoNumBox.HeaderText = "Entered UOM"
-        repoNumBox.Name = ColProSFGEnteredUOM
-        repoNumBox.Width = 40
-        repoNumBox.ReadOnly = True
-        repoNumBox.IsVisible = False
-        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        gvProSFG.MasterTemplate.Columns.Add(repoNumBox)
-
-        repoTextBox = New GridViewTextBoxColumn()
-        repoTextBox.FormatString = ""
-        repoTextBox.HeaderText = "BOM Code"
-        repoTextBox.Name = ColProSFGBOMCode
-        repoTextBox.Width = 100
-        repoTextBox.ReadOnly = True
-        repoTextBox.IsVisible = False
-        gvProSFG.MasterTemplate.Columns.Add(repoTextBox)
-
-        gvProSFG.AllowAddNewRow = False
-        gvProSFG.ShowGroupPanel = False
-        gvProSFG.AllowColumnReorder = True
-        gvProSFG.AllowRowReorder = False
-        gvProSFG.EnableSorting = False
-        gvProSFG.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
-        gvProSFG.MasterTemplate.ShowRowHeaderColumn = False
-        gvProSFG.TableElement.TableHeaderHeight = 40
-
-        gvProSFG.AllowDeleteRow = True
-
-        gvProSFG.Rows.AddNew()
-        gvProSFG.MasterTemplate.SummaryRowsBottom.Clear()
-
-        Dim summaryRowItem As New GridViewSummaryRowItem()
-        Dim item1 As New GridViewSummaryItem(ColProSFGQtyKG, "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item1)
-        item1 = New GridViewSummaryItem(ColProSFGQtyLTR, "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item1)
-        item1 = New GridViewSummaryItem(ColProSFGFATKG, "{0:F3}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item1)
-        item1 = New GridViewSummaryItem(ColProSFGSNFKG, "{0:F3}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item1)
-        gvProSFG.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-        gvProSFG.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
-    End Sub
     Sub LoadBlankGridProRM()
         gvProRM.Columns.Clear()
         gvProRM.DataSource = Nothing
@@ -2433,19 +2155,6 @@ where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
         repoTextBox.ReadOnly = False
         gvCL.MasterTemplate.Columns.Add(repoTextBox)
 
-        repoNumBox = New GridViewDecimalColumn()
-        repoNumBox.FormatString = ""
-        repoNumBox.HeaderText = "Is Calculate"
-        repoNumBox.Name = colCLIsCalculate
-        repoNumBox.Width = 80
-        repoNumBox.Minimum = 0
-        repoNumBox.ShowUpDownButtons = False
-        repoNumBox.Step = 0
-        repoNumBox.DecimalPlaces = 0
-        repoNumBox.ReadOnly = True
-        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        gvCL.MasterTemplate.Columns.Add(repoNumBox)
-
         gvCL.AllowAddNewRow = False
         gvCL.ShowGroupPanel = False
         gvCL.AllowColumnReorder = True
@@ -2595,44 +2304,9 @@ left outer join TSPL_ITEM_UOM_DETAIL as TabStockUOM on TabStockUOM.item_code=xxx
             Throw New Exception(ex.Message)
         End Try
     End Sub
+
     Sub CalcuateProuctionRawMilk()
         LoadBlankGridProRM()
-        For ii As Integer = 0 To gvProSFG.Rows.Count - 1
-            Dim ArrRM As List(Of clsProductionShiftMgmtProductionSFGRM) = TryCast(gvProSFG.Rows(ii).Cells(ColProSFGBOMCode).Tag, List(Of clsProductionShiftMgmtProductionSFGRM))
-            If ArrRM IsNot Nothing AndAlso ArrRM.Count > 0 Then
-                For Each objtr As clsProductionShiftMgmtProductionSFGRM In ArrRM
-                    Dim idx As Integer = -1
-                    For jj As Integer = 0 To gvProRM.Rows.Count - 1
-                        If clsCommon.CompairString(clsCommon.myCstr(gvProRM.Rows(jj).Cells(ColProRMItemCode).Value), objtr.Item_Code) = CompairStringResult.Equal Then
-                            idx = jj
-                        End If
-                    Next
-                    If idx < 0 Then
-                        gvProRM.Rows.AddNew()
-                        idx = gvProRM.Rows.Count - 1
-                        gvProRM.Rows(idx).Cells(ColProRMSNo).Value = idx + 1
-                        gvProRM.Rows(idx).Cells(ColProRMItemCode).Value = objtr.Item_Code
-                        gvProRM.Rows(idx).Cells(ColProRMItemName).Value = objtr.Item_Name
-                        gvProRM.Rows(idx).Cells(ColProRMUOM).Value = objtr.UOM
-                        gvProRM.Rows(idx).Cells(ColProRMQty).Value = 0
-                        gvProRM.Rows(idx).Cells(ColProRMFAT).Value = 0
-                        gvProRM.Rows(idx).Cells(ColProRMSNF).Value = 0
-                        gvProRM.Rows(idx).Cells(ColProRMFATKG).Value = 0
-                        gvProRM.Rows(idx).Cells(ColProRMSNFKG).Value = 0
-                    End If
-                    gvProRM.Rows(idx).Cells(ColProRMQty).Value += objtr.Qty
-                    gvProRM.Rows(idx).Cells(ColProRMFATKG).Value += objtr.FAT_KG
-                    gvProRM.Rows(idx).Cells(ColProRMSNFKG).Value += objtr.SNF_KG
-
-                    Dim dclKGQty As Decimal = clsItemMaster.Convert(clsCommon.myCstr(gvProRM.Rows(idx).Cells(ColProRMItemCode).Value), clsCommon.myCDecimal(gvProRM.Rows(idx).Cells(ColProRMQty).Value), clsCommon.myCstr(gvProRM.Rows(idx).Cells(ColProRMUOM).Value), "KG")
-                    If dclKGQty > 0 Then
-                        gvProRM.Rows(idx).Cells(ColProRMFAT).Value = clsCommon.myCDivide(clsCommon.myCDecimal(gvProRM.Rows(idx).Cells(ColProRMFATKG).Value) * 100, dclKGQty)
-                        gvProRM.Rows(idx).Cells(ColProRMSNF).Value = clsCommon.myCDivide(clsCommon.myCDecimal(gvProRM.Rows(idx).Cells(ColProRMSNFKG).Value) * 100, dclKGQty)
-                    End If
-                Next
-            End If
-        Next
-
         For ii As Integer = 0 To gvPro.Rows.Count - 1
             Dim ArrRM As List(Of clsProductionShiftMgmtProductionRM) = TryCast(gvPro.Rows(ii).Cells(ColProBOMCode).Tag, List(Of clsProductionShiftMgmtProductionRM))
             If ArrRM IsNot Nothing AndAlso ArrRM.Count > 0 Then
@@ -2669,6 +2343,7 @@ left outer join TSPL_ITEM_UOM_DETAIL as TabStockUOM on TabStockUOM.item_code=xxx
             End If
         Next
     End Sub
+
     Sub OpenShiftCode(ByVal isButtonClicked As Boolean)
         'Dim qry As String = "select shift_code as Code,shift_name as Description,from_time as [From Time],to_time as [To Time],interval_time as [Interval Time],fsthalf_adjust_min as [First Half Adjustment],sechalf_adjust_min as [Second Half Adjustment] from tspl_shift_master"
         'gvDisposal.CurrentRow.Cells(colShift).Value = clsCommon.ShowSelectForm("PUSFTFND", qry, "Code", "", clsCommon.myCstr(gvDisposal.CurrentRow.Cells(colShift).Value), "Code", isButtonClicked)
@@ -2826,7 +2501,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                 Dim obj As New clsProductionShiftMgmt()
                 obj.Document_No = txtDocNo.Value
                 obj.Document_Date = txtDate.Value
-                obj.Shift_Code = clsCommon.myCstr(cboShift.SelectedValue)
+                obj.Shift_Code = clsCommon.myCstr(txtShift.Value)
                 obj.Shift_Start_Date = txtShiftStart.Value
                 obj.Shift_End_Date = txtShiftEnd.Value
                 obj.Location_Code = txtLocation.Value
@@ -2902,40 +2577,6 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                         obj.ArrRecBulk.Add(objTr)
                     End If
                 Next
-
-                obj.ArrProSFG = New List(Of clsProductionShiftMgmtProductionSFG)
-                For ii As Integer = 0 To gvProSFG.RowCount - 1
-                    If clsCommon.myLen(gvProSFG.Rows(ii).Cells(ColProSFGItemCode).Value) > 0 Then
-                        Dim objTr As New clsProductionShiftMgmtProductionSFG()
-                        objTr.Item_Code = clsCommon.myCstr(gvProSFG.Rows(ii).Cells(ColProSFGItemCode).Value)
-                        objTr.Location_code = clsCommon.myCstr(gvProSFG.Rows(ii).Cells(ColProSFGLocationCode).Value)
-                        If clsCommon.myLen(objTr.Location_code) <= 0 Then
-                            Throw New Exception("Please provide location for SFG item [" + objTr.Item_Code + "]")
-                        End If
-                        objTr.Batch_No = clsCommon.myCstr(gvProSFG.Rows(ii).Cells(ColProSFGBatchNo).Value)
-                        objTr.Qty_KG = clsCommon.myCDecimal(gvProSFG.Rows(ii).Cells(ColProSFGQtyKG).Value)
-                        objTr.Qty_LTR = clsCommon.myCDecimal(gvProSFG.Rows(ii).Cells(ColProSFGQtyLTR).Value)
-                        objTr.FAT = clsCommon.myCDecimal(gvProSFG.Rows(ii).Cells(ColProSFGFAT).Value)
-                        objTr.SNF = clsCommon.myCDecimal(gvProSFG.Rows(ii).Cells(ColProSFGSNF).Value)
-                        objTr.FAT_KG = clsCommon.myCDecimal(gvProSFG.Rows(ii).Cells(ColProSFGFATKG).Value)
-                        objTr.SNF_KG = clsCommon.myCDecimal(gvProSFG.Rows(ii).Cells(ColProSFGSNFKG).Value)
-                        objTr.Remarks = clsCommon.myCstr(gvProSFG.Rows(ii).Cells(ColProSFGRemarks).Value)
-                        objTr.BOM_Code = clsCommon.myCstr(gvProSFG.Rows(ii).Cells(ColProSFGBOMCode).Value)
-                        objTr.Entered_UOM = clsCommon.myCstr(gvProSFG.Rows(ii).Cells(ColProSFGEnteredUOM).Value)
-
-                        objTr.ArrRM = New List(Of clsProductionShiftMgmtProductionSFGRM)
-                        objTr.ArrRM = TryCast(gvProSFG.Rows(ii).Cells(ColProSFGBOMCode).Tag, List(Of clsProductionShiftMgmtProductionSFGRM))
-
-                        objTr.ArrAdd = New List(Of clsProductionShiftMgmtProductionSFGItemAddRemove)
-                        objTr.ArrAdd = TryCast(gvProSFG.Rows(ii).Cells(ColProSFGAdd).Tag, List(Of clsProductionShiftMgmtProductionSFGItemAddRemove))
-
-                        objTr.ArrRemove = New List(Of clsProductionShiftMgmtProductionSFGItemAddRemove)
-                        objTr.ArrRemove = TryCast(gvProSFG.Rows(ii).Cells(ColProSFGRemove).Tag, List(Of clsProductionShiftMgmtProductionSFGItemAddRemove))
-
-                        obj.ArrProSFG.Add(objTr)
-                    End If
-                Next
-
 
                 obj.ArrPro = New List(Of clsProductionShiftMgmtProduction)
                 For ii As Integer = 0 To gvPro.RowCount - 1
@@ -3032,7 +2673,6 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                         objTr.COB = clsCommon.myCDecimal(gvCL.Rows(ii).Cells(colCLCOB).Value)
                         objTr.Alcohol_Test = clsCommon.myCstr(gvCL.Rows(ii).Cells(colCLAlcohol).Value)
                         objTr.Remarks = clsCommon.myCstr(gvCL.Rows(ii).Cells(colCLRemarks).Value)
-                        objTr.Is_Calculate = clsCommon.myCstr(gvCL.Rows(ii).Cells(colCLIsCalculate).Value)
                         obj.ArrCL.Add(objTr)
                     End If
                 Next
@@ -3071,7 +2711,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                 txtDate.Value = obj.Document_Date
                 txtShiftStart.Value = obj.Shift_Start_Date
                 txtShiftEnd.Value = obj.Shift_End_Date
-                cboShift.SelectedValue = obj.Shift_Code
+                txtShift.Value = obj.Shift_Code
                 txtLocation.Value = obj.Location_Code
                 txtComment.Text = obj.Comment
                 txtRemarks.Text = obj.Remarks
@@ -3153,31 +2793,6 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                         gvRecBulk.Rows(gvRecBulk.Rows.Count - 1).Cells(ColRecBulkCOB).Value = objTr.COB
                         gvRecBulk.Rows(gvRecBulk.Rows.Count - 1).Cells(ColRecBulkAlcohol).Value = objTr.Alcohol_Test
                         gvRecBulk.Rows(gvRecBulk.Rows.Count - 1).Cells(ColRecBulkRemarks).Value = objTr.Remarks
-                    Next
-                End If
-
-                If obj.ArrProSFG IsNot Nothing AndAlso obj.ArrProSFG.Count > 0 Then
-                    For Each objTr As clsProductionShiftMgmtProductionSFG In obj.ArrProSFG
-                        gvProSFG.Rows(gvProSFG.Rows.Count - 1).Cells(ColProSFGPKID).Value = objTr.PK_ID
-                        gvProSFG.Rows(gvProSFG.Rows.Count - 1).Cells(ColProSFGSNo).Value = gvProSFG.Rows.Count
-                        gvProSFG.Rows(gvProSFG.Rows.Count - 1).Cells(ColProSFGItemCode).Value = objTr.Item_Code
-                        gvProSFG.Rows(gvProSFG.Rows.Count - 1).Cells(ColProSFGItemName).Value = objTr.Item_Name
-                        gvProSFG.Rows(gvProSFG.Rows.Count - 1).Cells(ColProSFGLocationCode).Value = objTr.Location_code
-                        gvProSFG.Rows(gvProSFG.Rows.Count - 1).Cells(ColProSFGLocationName).Value = objTr.Location_Name
-                        gvProSFG.Rows(gvProSFG.Rows.Count - 1).Cells(ColProSFGBatchNo).Value = objTr.Batch_No
-                        gvProSFG.Rows(gvProSFG.Rows.Count - 1).Cells(ColProSFGQtyKG).Value = objTr.Qty_KG
-                        gvProSFG.Rows(gvProSFG.Rows.Count - 1).Cells(ColProSFGQtyLTR).Value = objTr.Qty_LTR
-                        gvProSFG.Rows(gvProSFG.Rows.Count - 1).Cells(ColProSFGFAT).Value = objTr.FAT
-                        gvProSFG.Rows(gvProSFG.Rows.Count - 1).Cells(ColProSFGSNF).Value = objTr.SNF
-                        gvProSFG.Rows(gvProSFG.Rows.Count - 1).Cells(ColProSFGFATKG).Value = objTr.FAT_KG
-                        gvProSFG.Rows(gvProSFG.Rows.Count - 1).Cells(ColProSFGSNFKG).Value = objTr.SNF_KG
-                        gvProSFG.Rows(gvProSFG.Rows.Count - 1).Cells(ColProSFGRemarks).Value = objTr.Remarks
-                        gvProSFG.Rows(gvProSFG.Rows.Count - 1).Cells(ColProSFGBOMCode).Value = objTr.BOM_Code
-                        gvProSFG.Rows(gvProSFG.Rows.Count - 1).Cells(ColProSFGEnteredUOM).Value = objTr.Entered_UOM
-                        gvProSFG.Rows(gvProSFG.Rows.Count - 1).Cells(ColProSFGBOMCode).Tag = objTr.ArrRM
-                        gvProSFG.Rows(gvProSFG.Rows.Count - 1).Cells(ColProSFGAdd).Tag = objTr.ArrAdd
-                        gvProSFG.Rows(gvProSFG.Rows.Count - 1).Cells(ColProSFGRemove).Tag = objTr.ArrRemove
-                        gvProSFG.Rows.AddNew()
                     Next
                 End If
 
@@ -3278,8 +2893,6 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                         gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLCOB).Value = objTr.COB
                         gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLAlcohol).Value = objTr.Alcohol_Test
                         gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLRemarks).Value = objTr.Remarks
-                        gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLIsCalculate).Value = objTr.Is_Calculate
-                        Dim flag As Boolean = False
                         If obj.ArrOP IsNot Nothing AndAlso obj.ArrOP.Count > 0 Then
                             For Each objTrOP As clsProductionShiftMgmtOpen In obj.ArrOP
                                 If clsCommon.CompairString(objTr.Item_Code, objTrOP.Item_Code) = CompairStringResult.Equal AndAlso
@@ -3290,18 +2903,9 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                                     gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLOPSNF).Value = objTrOP.SNF
                                     gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLOPFATKG).Value = objTrOP.FAT_KG
                                     gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLOPSNFKG).Value = objTrOP.SNF_KG
-                                    flag = True
                                     Exit For
                                 End If
                             Next
-                        End If
-                        If Not flag Then
-                            gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLOPQtyKG).Value = objTr.Qty_KG
-                            gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLOPQtyLtr).Value = objTr.Qty_LTR
-                            gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLOPFAT).Value = objTr.FAT
-                            gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLOPSNF).Value = objTr.SNF
-                            gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLOPFATKG).Value = objTr.FAT_KG
-                            gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLOPSNFKG).Value = objTr.SNF_KG
                         End If
                     Next
                 End If
@@ -3394,6 +2998,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
     Private Sub btnShowInventory_Click(sender As Object, e As EventArgs) Handles btnShowInventory.Click
         clsOpenInventory.ShowInventoryDatails(txtDocNo.Value)
     End Sub
+
     Private Sub btnPrintNew_Click(sender As Object, e As EventArgs) Handles btnPrintNew.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
             clsCommon.MyMessageBoxShow(Me, "No data found to Print", Me.Text)
@@ -3477,6 +3082,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
             If gvProRM.CurrentColumn Is gvProRM.Columns(ColProRMIssue) Then
                 If clsCommon.myLen(gvProRM.CurrentRow.Cells(ColProRMItemCode).Value) > 0 Then
                     Dim frm As New frmStockBalance
+                    frm.ArrRMIssueSFG = Nothing
                     frm.ArrRMIssue = TryCast(gvProRM.CurrentRow.Cells(ColProRMIssue).Tag, List(Of clsProductionShiftMgmtProductionRMIssue))
                     frm.FilterItemCode = clsCommon.myCstr(gvProRM.CurrentRow.Cells(ColProRMItemCode).Value)
                     frm.FilterUOM = clsCommon.myCstr(gvProRM.CurrentRow.Cells(ColProRMUOM).Value)
@@ -3486,27 +3092,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                     frm.FilterLocationCode = txtLocation.Value
                     frm.FilterDate = txtShiftEnd.Value
                     frm.WindowState = FormWindowState.Normal
-                    frm.FilterSFGItems = ""
-                    If gvProSFG.Rows.Count > 0 Then
-                        For ii As Integer = 0 To gvProSFG.RowCount - 1
-                            If clsCommon.myLen(gvProSFG.Rows(ii).Cells(ColProSFGItemCode).Value) > 0 AndAlso clsCommon.myLen(gvProSFG.Rows(ii).Cells(ColProSFGLocationCode).Value) > 0 Then
-                                If clsCommon.CompairString(frm.FilterItemCode, clsCommon.myCstr(gvProSFG.Rows(ii).Cells(ColProSFGItemCode).Value)) = CompairStringResult.Equal Then
-                                    frm.FilterSFGItems += Environment.NewLine + " union all
-select '" + clsCommon.myCstr(gvProSFG.Rows(ii).Cells(ColProSFGLocationCode).Value) + "' as Location_Code,'" + clsCommon.myCstr(gvProSFG.Rows(ii).Cells(ColProSFGLocationName).Value) + "' as Location_Desc,'" + clsCommon.myCstr(gvProSFG.Rows(ii).Cells(ColProSFGItemCode).Value) + "' as Item_Code,'" + clsCommon.myCstr(gvProSFG.Rows(ii).Cells(ColProSFGItemName).Value) + "' as Item_Desc, 1 as RI,0 as Avg_Cost"
-                                    If clsCommon.CompairString(frm.FilterUOM, "KG") = CompairStringResult.Equal Then
-                                        frm.FilterSFGItems += "," + clsCommon.myCstr(clsCommon.myCDecimal(gvProSFG.Rows(ii).Cells(ColProSFGQtyKG).Value)) + " as Stock_Qty,'KG' as Stock_UOM "
-                                    ElseIf clsCommon.CompairString(frm.FilterUOM, "LTR") = CompairStringResult.Equal Then
-                                        frm.FilterSFGItems += "," + clsCommon.myCstr(clsCommon.myCDecimal(gvProSFG.Rows(ii).Cells(ColProSFGQtyLTR).Value)) + " as Stock_Qty,'LTR' as Stock_UOM "
-                                    Else
-                                        frm.FilterSFGItems += ",0 as Stock_Qty,'' as Stock_UOM"
-                                    End If
-                                    frm.FilterSFGItems += "," + clsCommon.myCstr(clsCommon.myCDecimal(gvProSFG.Rows(ii).Cells(ColProSFGFATKG).Value)) + " as Fat_KG ," + clsCommon.myCstr(clsCommon.myCDecimal(gvProSFG.Rows(ii).Cells(ColProSFGSNFKG).Value)) + " as SNF_KG " + Environment.NewLine
-                                End If
-                            End If
-                        Next
-                    End If
                     frm.ShowDialog()
-
                     If frm.isOKClicked = 1 Then
                         gvProRM.CurrentRow.Cells(ColProRMIssue).Tag = frm.ArrRMIssue
                     ElseIf frm.isOKClicked = 2 Then
@@ -3519,57 +3105,13 @@ select '" + clsCommon.myCstr(gvProSFG.Rows(ii).Cells(ColProSFGLocationCode).Valu
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Private Sub CalculateClosing()
-        For jj As Integer = gvCL.Rows.Count - 1 To 0 Step -1
-            If clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLIsCalculate).Value) = 1 Then
-                gvCL.Rows.RemoveAt(jj)
-            End If
-        Next
 
+    Private Sub CalculateClosing()
         For jj As Integer = 0 To gvCL.Rows.Count - 1
             gvCL.Rows(jj).Cells(colCLQtyLtr).Value = 0
             gvCL.Rows(jj).Cells(colCLQtyKG).Value = 0
             gvCL.Rows(jj).Cells(colCLFATKG).Value = 0
             gvCL.Rows(jj).Cells(colCLSNFKG).Value = 0
-        Next
-        For ii As Integer = 0 To gvProSFG.RowCount - 1
-            Dim flag As Boolean = False
-            If clsCommon.myLen(gvProSFG.Rows(ii).Cells(ColProSFGItemCode).Value) > 0 AndAlso clsCommon.myLen(gvProSFG.Rows(ii).Cells(ColProSFGLocationCode).Value) > 0 Then
-                For jj As Integer = 0 To gvCL.Rows.Count - 1
-                    If clsCommon.CompairString(clsCommon.myCstr(gvProSFG.Rows(ii).Cells(ColProSFGItemCode).Value), clsCommon.myCstr(gvCL.Rows(jj).Cells(colCLItemCode).Value)) = CompairStringResult.Equal AndAlso
-                                clsCommon.CompairString(clsCommon.myCstr(gvProSFG.Rows(ii).Cells(ColProSFGLocationCode).Value), clsCommon.myCstr(gvCL.Rows(jj).Cells(colCLLocationCode).Value)) = CompairStringResult.Equal Then
-                        gvCL.Rows(jj).Cells(colCLQtyLtr).Value += clsCommon.myCDecimal(gvProSFG.Rows(ii).Cells(ColProSFGQtyLTR).Value)
-                        gvCL.Rows(jj).Cells(colCLQtyKG).Value += clsCommon.myCDecimal(gvProSFG.Rows(ii).Cells(ColProSFGQtyKG).Value)
-                        gvCL.Rows(jj).Cells(colCLFATKG).Value += clsCommon.myCDecimal(gvProSFG.Rows(ii).Cells(ColProSFGFATKG).Value)
-                        gvCL.Rows(jj).Cells(colCLSNFKG).Value += clsCommon.myCDecimal(gvProSFG.Rows(ii).Cells(ColProSFGSNFKG).Value)
-                        flag = True
-                    End If
-                Next
-
-                If Not flag Then
-                    gvCL.Rows.AddNew()
-                    gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLSNo).Value = gvCL.Rows.Count
-                    gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLLocationCode).Value = clsCommon.myCstr(gvProSFG.Rows(ii).Cells(ColProSFGLocationCode).Value)
-                    gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLLocationName).Value = clsCommon.myCstr(gvProSFG.Rows(ii).Cells(ColProSFGLocationName).Value)
-                    gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLItemCode).Value = clsCommon.myCstr(gvProSFG.Rows(ii).Cells(ColProSFGItemCode).Value)
-                    gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLItemName).Value = clsCommon.myCstr(gvProSFG.Rows(ii).Cells(ColProSFGItemName).Value)
-                    gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLQtyKG).Value = clsCommon.myCDecimal(gvProSFG.Rows(ii).Cells(ColProSFGQtyKG).Value)
-                    gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLQtyLtr).Value = clsCommon.myCDecimal(gvProSFG.Rows(ii).Cells(ColProSFGQtyLTR).Value)
-                    gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLFAT).Value = clsCommon.myCDecimal(gvProSFG.Rows(ii).Cells(ColProSFGFAT).Value)
-                    gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLSNF).Value = clsCommon.myCDecimal(gvProSFG.Rows(ii).Cells(ColProSFGSNF).Value)
-                    gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLFATKG).Value = clsCommon.myCDecimal(gvProSFG.Rows(ii).Cells(ColProSFGFATKG).Value)
-                    gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLSNFKG).Value = clsCommon.myCDecimal(gvProSFG.Rows(ii).Cells(ColProSFGSNFKG).Value)
-
-                    gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLOPQtyKG).Value = clsCommon.myCDecimal(gvProSFG.Rows(ii).Cells(ColProSFGQtyKG).Value)
-                    gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLOPQtyLtr).Value = clsCommon.myCDecimal(gvProSFG.Rows(ii).Cells(ColProSFGQtyLTR).Value)
-                    gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLOPFAT).Value = clsCommon.myCDecimal(gvProSFG.Rows(ii).Cells(ColProSFGFAT).Value)
-                    gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLOPSNF).Value = clsCommon.myCDecimal(gvProSFG.Rows(ii).Cells(ColProSFGSNF).Value)
-                    gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLOPFATKG).Value = clsCommon.myCDecimal(gvProSFG.Rows(ii).Cells(ColProSFGFATKG).Value)
-                    gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLOPSNFKG).Value = clsCommon.myCDecimal(gvProSFG.Rows(ii).Cells(ColProSFGSNFKG).Value)
-                    gvCL.Rows(gvCL.Rows.Count - 1).Cells(colCLIsCalculate).Value = 1
-                End If
-            End If
-
         Next
 
         For ii As Integer = 0 To gvProRM.RowCount - 1
@@ -3638,47 +3180,7 @@ select '" + clsCommon.myCstr(gvProSFG.Rows(ii).Cells(ColProSFGLocationCode).Valu
             End If
         Next
 
-        For ii As Integer = 0 To gvProSFG.RowCount - 1
-            Dim ArrRemove As List(Of clsProductionShiftMgmtProductionSFGItemAddRemove) = TryCast(gvProSFG.Rows(ii).Cells(ColProSFGRemove).Tag, List(Of clsProductionShiftMgmtProductionSFGItemAddRemove))
-            If ArrRemove IsNot Nothing AndAlso ArrRemove.Count > 0 Then
-                For Each obj As clsProductionShiftMgmtProductionSFGItemAddRemove In ArrRemove
-                    For jj As Integer = 0 To gvCL.Rows.Count - 1
-                        If clsCommon.CompairString(obj.Item_Code, clsCommon.myCstr(gvCL.Rows(jj).Cells(colCLItemCode).Value)) = CompairStringResult.Equal AndAlso
-                            clsCommon.CompairString(obj.Location_Code, clsCommon.myCstr(gvCL.Rows(jj).Cells(colCLLocationCode).Value)) = CompairStringResult.Equal Then
-                            If clsCommon.CompairString(obj.UOM, "KG") = CompairStringResult.Equal Then
-                                gvCL.Rows(jj).Cells(colCLQtyKG).Value += obj.Qty
-                                gvCL.Rows(jj).Cells(colCLQtyLtr).Value += clsCommon.myCDivide(clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyKG).Value), clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyLtr).Value)) * obj.Qty
-                            Else
-                                gvCL.Rows(jj).Cells(colCLQtyLtr).Value += obj.Qty
-                                gvCL.Rows(jj).Cells(colCLQtyKG).Value += clsCommon.myCDivide(clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyLtr).Value), clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyKG).Value)) * obj.Qty
-                            End If
-                            gvCL.Rows(jj).Cells(colCLFATKG).Value += obj.FAT_KG
-                            gvCL.Rows(jj).Cells(colCLSNFKG).Value += obj.SNF_KG
-                        End If
-                    Next
-                Next
-            End If
 
-            Dim ArrAdd As List(Of clsProductionShiftMgmtProductionSFGItemAddRemove) = TryCast(gvProSFG.Rows(ii).Cells(ColProSFGAdd).Tag, List(Of clsProductionShiftMgmtProductionSFGItemAddRemove))
-            If ArrAdd IsNot Nothing AndAlso ArrAdd.Count > 0 Then
-                For Each obj As clsProductionShiftMgmtProductionSFGItemAddRemove In ArrAdd
-                    For jj As Integer = 0 To gvCL.Rows.Count - 1
-                        If clsCommon.CompairString(obj.Item_Code, clsCommon.myCstr(gvCL.Rows(jj).Cells(colCLItemCode).Value)) = CompairStringResult.Equal AndAlso
-                            clsCommon.CompairString(obj.Location_Code, clsCommon.myCstr(gvCL.Rows(jj).Cells(colCLLocationCode).Value)) = CompairStringResult.Equal Then
-                            If clsCommon.CompairString(obj.UOM, "KG") = CompairStringResult.Equal Then
-                                gvCL.Rows(jj).Cells(colCLQtyKG).Value -= obj.Qty
-                                gvCL.Rows(jj).Cells(colCLQtyLtr).Value -= clsCommon.myCDivide(clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyKG).Value), clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyLtr).Value)) * obj.Qty
-                            Else
-                                gvCL.Rows(jj).Cells(colCLQtyLtr).Value -= obj.Qty
-                                gvCL.Rows(jj).Cells(colCLQtyKG).Value -= clsCommon.myCDivide(clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyLtr).Value), clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyKG).Value)) * obj.Qty
-                            End If
-                            gvCL.Rows(jj).Cells(colCLFATKG).Value -= obj.FAT_KG
-                            gvCL.Rows(jj).Cells(colCLSNFKG).Value -= obj.SNF_KG
-                        End If
-                    Next
-                Next
-            End If
-        Next
 
         For ii As Integer = 0 To gvDisBulk.RowCount - 1
             For jj As Integer = 0 To gvCL.Rows.Count - 1
@@ -3716,14 +3218,13 @@ select '" + clsCommon.myCstr(gvProSFG.Rows(ii).Cells(ColProSFGLocationCode).Valu
         Next
 
         For jj As Integer = 0 To gvCL.Rows.Count - 1
-            If clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLIsCalculate).Value) = 0 Then
-                gvCL.Rows(jj).Cells(colCLQtyLtr).Value = clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyLtr).Value) + clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLQtyLtr).Value)
-                gvCL.Rows(jj).Cells(colCLQtyKG).Value = clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyKG).Value) + clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLQtyKG).Value)
-                gvCL.Rows(jj).Cells(colCLFATKG).Value = clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPFATKG).Value) + clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLFATKG).Value)
-                gvCL.Rows(jj).Cells(colCLSNFKG).Value = clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPSNFKG).Value) + clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLSNFKG).Value)
-            End If
+            gvCL.Rows(jj).Cells(colCLQtyLtr).Value = clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyLtr).Value) + clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLQtyLtr).Value)
+            gvCL.Rows(jj).Cells(colCLQtyKG).Value = clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyKG).Value) + clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLQtyKG).Value)
+            gvCL.Rows(jj).Cells(colCLFATKG).Value = clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPFATKG).Value) + clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLFATKG).Value)
+            gvCL.Rows(jj).Cells(colCLSNFKG).Value = clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPSNFKG).Value) + clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLSNFKG).Value)
         Next
     End Sub
+
     Private Sub gvPro_CommandCellClick(sender As Object, e As EventArgs) Handles gvPro.CommandCellClick
         Try
             If clsCommon.myLen(gvPro.CurrentRow.Cells(ColProItemCode).Value) > 0 Then
@@ -3759,148 +3260,28 @@ select '" + clsCommon.myCstr(gvProSFG.Rows(ii).Cells(ColProSFGLocationCode).Valu
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Private Sub cboShift_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles cboShift.Validating
+
+    Private Sub cboShift_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs)
         SetShiftStartEndDateTime()
     End Sub
+
     Private Sub txtDate_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtDate.Validating
         SetShiftStartEndDateTime()
     End Sub
+
     Sub SetShiftStartEndDateTime()
         Try
             If Not isInsideLoadData Then
                 txtShiftStart.Value = txtDate.Value
-                txtShiftEnd.Value = clsShiftMaster.GetShiftTime(clsCommon.myCstr(cboShift.SelectedValue), txtDate.Value, txtShiftStart.Value)
+                txtShiftEnd.Value = clsShiftMaster.GetShiftTime(clsCommon.myCstr(txtShift.Value), txtDate.Value, txtShiftStart.Value)
             End If
         Catch ex As Exception
         End Try
     End Sub
-    Private Sub gvProSFG_UserDeletingRow(sender As Object, e As GridViewRowCancelEventArgs) Handles gvProSFG.UserDeletingRow
 
-    End Sub
-    Private Sub gvProSFG_UserDeletedRow(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewRowEventArgs) Handles gvProSFG.UserDeletedRow
-        RefeshSNOSFG()
-    End Sub
-    Sub RefeshSNOSFG()
-        For ii As Integer = 1 To gvProSFG.Rows.Count
-            gvProSFG.Rows(ii - 1).Cells(ColProSFGSNo).Value = ii
-        Next
-    End Sub
-    Private Sub gvProSFG_CellValueChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvProSFG.CellValueChanged
-        Try
-            If (Not isInsideLoadData) Then
-                If Not isCellValueChangedOpen Then
-                    isCellValueChangedOpen = True
-                    If e.Column Is gvProSFG.Columns(ColProSFGItemCode) Then
-                        OpenSFGItem(False)
-                    ElseIf e.Column Is gvProSFG.Columns(ColProSFGLocationCode) Then
-                        OpenSFGLocation(False)
-                    ElseIf e.Column Is gvProSFG.Columns(ColProSFGQtyLTR) Then
-                        CalculateQtySFG(True)
-                    ElseIf e.Column Is gvProSFG.Columns(ColProSFGQtyKG) Then
-                        CalculateQtySFG(False)
-                    End If
-                    isCellValueChangedOpen = False
-                End If
-            End If
-        Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
-    Sub OpenSFGLocation(ByVal isButtonClicked As Boolean)
-        gvProSFG.CurrentRow.Cells(ColProSFGLocationCode).Value = clsLocation.getFinder(" isnull(TSPL_LOCATION_MASTER.csa_type,'N')<>'Y' and isnull(TSPL_LOCATION_MASTER.Is_Section,'N')<>'Y'  and TSPL_LOCATION_MASTER.Location_Category<>'MCC' and  isnull(TSPL_LOCATION_MASTER.Is_Jobwork,0)=0 and isnull(TSPL_LOCATION_MASTER.GIT_Type,'N')='N' ", clsCommon.myCstr(gvProSFG.CurrentRow.Cells(ColProSFGLocationCode).Value), isButtonClicked)
-        gvProSFG.CurrentRow.Cells(ColProSFGLocationName).Value = clsLocation.GetName(clsCommon.myCstr(gvProSFG.CurrentRow.Cells(ColProSFGLocationCode).Value), Nothing)
-    End Sub
-    Sub OpenSFGItem(ByVal isButtonClicked As Boolean)
-        gvProSFG.CurrentRow.Cells(ColProSFGItemCode).Value = clsItemMaster.getFinder(" tspl_item_master.item_type in ('S') and tspl_item_master.Active='1' ", clsCommon.myCstr(gvProSFG.CurrentRow.Cells(ColProSFGItemCode).Value), isButtonClicked)
-        gvProSFG.CurrentRow.Cells(ColProSFGItemName).Value = clsItemMaster.GetItemName(clsCommon.myCstr(gvProSFG.CurrentRow.Cells(ColProSFGItemCode).Value), Nothing)
-    End Sub
-    Sub CalculateQtySFG(ByVal FromLTR As Boolean)
-        If clsCommon.myLen(gvProSFG.CurrentRow.Cells(ColProSFGItemCode).Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please first select item.")
-            Exit Sub
-        End If
-        Dim strColumn As String = ColProSFGQtyKG
-        Dim strUOM As String = "KG"
-        Try
-            If FromLTR Then
-                strColumn = ColProSFGQtyLTR
-                strUOM = "LTR"
-            End If
-            Dim qry As String = "select 1 from TSPL_ITEM_UOM_DETAIL where item_code='" + clsCommon.myCstr(gvProSFG.CurrentRow.Cells(ColProSFGItemCode).Value) + "' and UOM_Code='" + strUOM + "'"
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                Throw New Exception(strUOM + " is invalid UOM for Item [" + clsCommon.myCstr(gvProSFG.CurrentRow.Cells(ColProSFGItemCode).Value) + "]")
-            End If
-
-            qry = "select top 1 BOM_CODE from TSPL_PP_BOM_HEAD 
-where isnull(TSPL_PP_BOM_HEAD.is_osp,0)<>1 and TSPL_PP_BOM_HEAD.prod_item_code='" + clsCommon.myCstr(gvProSFG.CurrentRow.Cells(ColProSFGItemCode).Value) + "'  and '" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' between cast(TSPL_PP_BOM_HEAD.Valid_FROM_DATE as date) and cast(TSPL_PP_BOM_HEAD.Valid_UPTO_Date as date) order by BOM_CODE desc"
-            dt = clsDBFuncationality.GetDataTable(qry)
-            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                Throw New Exception("BOM Not Found for Item [" + clsCommon.myCstr(gvProSFG.CurrentRow.Cells(ColProSFGItemCode).Value) + "] and Date [" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "]")
-            End If
-            gvProSFG.CurrentRow.Cells(ColProSFGBOMCode).Value = clsCommon.myCstr(dt.Rows(0)("BOM_CODE"))
-
-            qry = "select xxx.ITEM_CODE,xxx.Item_Desc,xxx.Item_Type,TabStockUOM.UOM_Code as UNIT_CODE,xxx.Product_Type,(xxx.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor) as Qty,xxx.fat,xxx.snf,xxx.fat_kg,xxx.snf_kg from (
-select xx.ITEM_CODE,xx.Item_Desc,xx.Item_Type,xx.UNIT_CODE,xx.Product_Type,(xx.prod_qty * (xx.quantity/xx.build_qty)) as Qty,xx.fat,xx.snf,(xx.fat_kg*xx.Prod_Qty/xx.build_qty) as fat_kg,(xx.snf_kg*xx.prod_qty/xx.build_qty) as snf_kg from (
-select  (" + clsCommon.myCstr(clsCommon.myCDecimal(gvProSFG.CurrentRow.Cells(strColumn).Value)) + " * TabConvFatMul.Conversion_Factor/ TabConvFatDiv.Conversion_Factor) as Prod_Qty,tspl_pp_bom_head.bom_code,tspl_pp_bom_head.prod_item_code,tspl_pp_bom_head.prod_quantity as build_qty,TSPL_PP_BOM_ITEM_DETAIL.deactive,TSPL_PP_BOM_ITEM_DETAIL.effective_date
-,TSPL_PP_BOM_ITEM_DETAIL.ITEM_CODE,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.Item_Type,TSPL_PP_BOM_ITEM_DETAIL.UNIT_CODE,TSPL_ITEM_MASTER.Product_Type
-,(TSPL_PP_BOM_ITEM_DETAIL.QUANTITY+TSPL_PP_BOM_ITEM_DETAIL.QUANTITY*coalesce(TSPL_PP_BOM_ITEM_DETAIL.ProcessLossPer,0)/100) as QUANTITY
-,(TSPL_PP_BOM_ITEM_DETAIL.FAT) as fat,(TSPL_PP_BOM_ITEM_DETAIL.SNF) as snf
-,(TSPL_PP_BOM_ITEM_DETAIL.fat_kg+TSPL_PP_BOM_ITEM_DETAIL.fat_kg*coalesce(TSPL_PP_BOM_ITEM_DETAIL.ProcessLossPer,0)/100) as fat_kg
-,(TSPL_PP_BOM_ITEM_DETAIL.snf_kg+TSPL_PP_BOM_ITEM_DETAIL.snf_kg*coalesce(TSPL_PP_BOM_ITEM_DETAIL.ProcessLossPer,0)/100) as snf_kg 
-from   TSPL_PP_BOM_HEAD  
-left outer join TSPL_PP_BOM_ITEM_DETAIL on TSPL_PP_BOM_ITEM_DETAIL.BOM_CODE=TSPL_PP_BOM_HEAD.BOM_CODE
-left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_PP_BOM_ITEM_DETAIL.ITEM_CODE 
-left outer join TSPL_ITEM_UOM_DETAIL as  TabConvFatDiv on TabConvFatDiv.Item_Code=TSPL_PP_BOM_HEAD.PROD_ITEM_CODE and TabConvFatDiv.UOM_Code=TSPL_PP_BOM_HEAD.PROD_ITEM_UNIT_CODE 
-left outer join TSPL_ITEM_UOM_DETAIL as  TabConvFatMul on TabConvFatMul.item_code=TSPL_PP_BOM_HEAD.PROD_ITEM_CODE and TabConvFatMul.UOM_Code='" + strUOM + "'
-where  TSPL_PP_BOM_HEAD.BOM_CODE='" + clsCommon.myCstr(gvProSFG.CurrentRow.Cells(ColProSFGBOMCode).Value) + "'
-)xx  
-)xxx 
-left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=xxx.ITEM_CODE and TSPL_ITEM_UOM_DETAIL.UOM_Code=xxx.UNIT_CODE 
-left outer join TSPL_ITEM_UOM_DETAIL as TabStockUOM on TabStockUOM.item_code=xxx.ITEM_CODE and TabStockUOM.Stocking_Unit='Y'"
-            dt = clsDBFuncationality.GetDataTable(qry)
-            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                Throw New Exception("Raw items for BOM [" + clsCommon.myCstr(gvProSFG.CurrentRow.Cells(ColProSFGBOMCode).Value) + "] not found")
-            End If
-            Dim arrRM As New List(Of clsProductionShiftMgmtProductionSFGRM)
-            Dim dblFATKG As Decimal = 0
-            Dim dblSNFKG As Decimal = 0
-            For Each dr As DataRow In dt.Rows
-                Dim obj As New clsProductionShiftMgmtProductionSFGRM
-                obj.Item_Code = clsCommon.myCstr(dr("ITEM_CODE"))
-                obj.Item_Name = clsCommon.myCstr(dr("Item_Desc"))
-                obj.Qty = clsCommon.myCDecimal(dr("Qty"))
-                obj.UOM = clsCommon.myCstr(dr("UNIT_CODE"))
-                obj.FAT = clsCommon.myCDecimal(dr("fat"))
-                obj.SNF = clsCommon.myCDecimal(dr("snf"))
-                obj.FAT_KG = clsCommon.myCDecimal(dr("fat_kg"))
-                obj.SNF_KG = clsCommon.myCDecimal(dr("snf_kg"))
-                arrRM.Add(obj)
-
-                dblFATKG += clsCommon.myCDecimal(dr("fat_kg"))
-                dblSNFKG += clsCommon.myCDecimal(dr("snf_kg"))
-            Next
-            gvProSFG.CurrentRow.Cells(ColProSFGBOMCode).Tag = arrRM
-            gvProSFG.CurrentRow.Cells(ColProSFGFATKG).Value = dblFATKG
-            gvProSFG.CurrentRow.Cells(ColProSFGSNFKG).Value = dblSNFKG
-            If FromLTR Then
-                gvProSFG.CurrentRow.Cells(ColProSFGQtyKG).Value = clsItemMaster.Convert(clsCommon.myCstr(gvProSFG.CurrentRow.Cells(ColProSFGItemCode).Value), clsCommon.myCDecimal(gvProSFG.CurrentRow.Cells(ColProSFGQtyLTR).Value), "LTR", "KG")
-            Else
-                gvProSFG.CurrentRow.Cells(ColProSFGQtyLTR).Value = clsItemMaster.Convert(clsCommon.myCstr(gvProSFG.CurrentRow.Cells(ColProSFGItemCode).Value), clsCommon.myCDecimal(gvProSFG.CurrentRow.Cells(ColProSFGQtyKG).Value), "KG", "LTR")
-            End If
-            gvProSFG.CurrentRow.Cells(ColProSFGFAT).Value = clsCommon.myCDivide(dblFATKG * 100, clsCommon.myCDecimal(gvProSFG.CurrentRow.Cells(ColProSFGQtyKG).Value))
-            gvProSFG.CurrentRow.Cells(ColProSFGSNF).Value = clsCommon.myCDivide(dblSNFKG * 100, clsCommon.myCDecimal(gvProSFG.CurrentRow.Cells(ColProSFGQtyKG).Value))
-            If FromLTR Then
-                gvProSFG.CurrentRow.Cells(ColProSFGEnteredUOM).Value = 1
-            Else
-                gvProSFG.CurrentRow.Cells(ColProSFGEnteredUOM).Value = 2
-            End If
-            CalcuateProuctionRawMilk()
-        Catch ex As Exception
-            gvProSFG.CurrentRow.Cells(ColProSFGQtyLTR).Value = 0
-            gvProSFG.CurrentRow.Cells(ColProSFGQtyKG).Value = 0
-            gvProSFG.CurrentRow.Cells(ColProSFGEnteredUOM).Value = 0
-            Throw New Exception(ex.Message)
-        End Try
+    Private Sub txtShift__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtShift._MYValidating
+        Dim qry As String = " select  SHIFT_CODE as Code,SHIFT_NAME as Name from TSPL_SHIFT_MASTER"
+        txtShift.Value = clsCommon.ShowSelectForm("Shift@shiftM", qry, "Code", "InActive=0", txtShift.Value, "Code", isButtonClicked)
+        SetShiftStartEndDateTime()
     End Sub
 End Class
