@@ -96,15 +96,23 @@ Public Class rptMachineSurveyRegister
             Qry = "Select Row_Number() Over (Order By (Select 1)) As [S.No.],[Union],COUNT(VLC_Code_VLC_Uploader) As [Total DCS],Sum(Case When isnull(IsAMCU,0)=1 Then 1 Else 0 End) As [AnalyzerYes],Sum(Case When isnull(IsAMCU,0)=0 Then 1 Else 0 End) As [AnalyzerNo],Sum(Case When isnull(IsWeighing,0)=1 Then 1 Else 0 End) As [WeighingYes],Sum(Case When isnull(IsWeighing,0)=0 Then 1 Else 0 End) As [WeighingNo]  from(" & ReturnBaseQry() & ")finalQry Group By [Union]"
         Else
             Qry = "; With BaseQry As (" & ReturnBaseQry() & ")"
+            If isPrint AndAlso rbtnUnionWise.Checked Then
+                Qry &= "Select printQry.*,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,TSPL_STATE_MASTER.STATE_NAME,'" & objCommonVar.CurrentUser & "' As PrintBy from ("
+            End If
+
             Qry &= "Select ROW_NUMBER() Over (Order By (Select 1)) As [S.No.],[Union],MachineName As [Machine Name],MachineType As [Machine Type],SUM(MachineCount) As [No of Machine] from (
 Select [Union],BrandName As MachineName,Case When IsAMCU=1 Then 'Analyzer' Else Null End As MachineType,Case When IsAMCU=1 Then 1 Else 0 End As MachineCount from BaseQry
 Union All
 Select [Union],Weighing_BrandName As MachineName,Case When IsWeighing=1 Then 'Weighing Scale' Else Null End As MachineType,Case When IsWeighing=1 Then 1 Else 0 End As MachineCount from BaseQry
 )finalQry
 Group By [Union],MachineName,MachineType"
+            If isPrint AndAlso rbtnUnionWise.Checked Then
+                Qry &= ")printQry Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "'
+Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_MASTER.State"
+            End If
         End If
 
-        If isPrint Then
+        If isPrint AndAlso Not rbtnUnionWise.Checked Then
             Qry = "Select printQry.*,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,TSPL_STATE_MASTER.STATE_NAME,'" & objCommonVar.CurrentUser & "' As PrintBy from(" & Qry & ")printQry
 Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "'
 Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_MASTER.State"
@@ -328,8 +336,10 @@ Left Outer Join " & clsCommon.myCstr(strUnion("DataBase_Name")) & ".dbo.TSPL_WEI
                 Dim frm As New frmCrystalReportViewer()
                 If rbtnDetail.Checked Then
                     frm.funreport(Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dt, "crptUnionWiseMachineDetail", "Union Wise Machine Details")
-                Else
-                    'frm.funreport(Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptDCSDeductionReport", "DCS Deduction Report")
+                ElseIf rbtnMachineWise.Checked Then
+                    frm.funreport(Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dt, "crptUnionWiseDCSMachineSummary", "Milk Union Wise Analyzer & Weighing Scal Count")
+                ElseIf rbtnUnionWise.Checked Then
+                    frm.funreport(Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dt, "crptAnalyzerandWeighingScalWise", "Analyzer And Weighing Scal Wise")
                 End If
                 frm = Nothing
             Else

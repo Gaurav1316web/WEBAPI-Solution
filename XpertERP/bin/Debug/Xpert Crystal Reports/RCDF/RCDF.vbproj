@@ -102,11 +102,14 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Crystal Reports Common\crptAnalyzerandWeighingScalWise.rpt" />
     <None Include="Crystal Reports Common\crptDBT_NEFTUnionReportNEW.rpt" />
     <None Include="Crystal Reports Common\crptDBT_NEFTUnionReportYearly.rpt" />
     <None Include="Crystal Reports Common\crptDBT_NEFTUnionReportYearlyNEW.rpt" />
     <None Include="Crystal Reports Common\crptmilkunionAvgreport.rpt" />
     <None Include="Crystal Reports Common\crptmilkunionreport.rpt" />
+    <None Include="Crystal Reports Common\crptUnionWiseDCSMachineSummary.rpt" />
+    <None Include="Crystal Reports Common\crptUnionWiseMachineDetail.rpt" />
     <None Include="Crystal Reports Common\rptAllUnionBookingReport.rpt" />
     <None Include="Crystal Reports Common\rptMilkSRNALLUnion.rpt" />
     <None Include="Crystal Reports Common\rptMilkSRNUnion.rpt" />
