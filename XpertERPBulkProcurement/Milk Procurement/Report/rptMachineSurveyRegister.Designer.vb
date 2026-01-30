@@ -22,25 +22,29 @@ Partial Class rptMachineSurveyRegister
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.txtMultUnion = New common.UserControls.txtMultiSelectFinder()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.txtMultWeighingMachine = New common.UserControls.txtMultiSelectFinder()
         Me.lblUnion = New common.Controls.MyLabel()
+        Me.lblMilkAnalyzer = New common.Controls.MyLabel()
+        Me.txtMultMilkAnalyzer = New common.UserControls.txtMultiSelectFinder()
+        Me.txtMultZone = New common.UserControls.txtMultiSelectFinder()
+        Me.txtMultUnion = New common.UserControls.txtMultiSelectFinder()
+        Me.lblWeighmentMachine = New common.Controls.MyLabel()
+        Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtMultDCS = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.txtMultBMC = New common.UserControls.txtMultiSelectFinder()
-        Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.lblWeighmentMachine = New common.Controls.MyLabel()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnUnionWise = New System.Windows.Forms.RadioButton()
         Me.rbtnMachineWise = New System.Windows.Forms.RadioButton()
         Me.rbtnDetail = New System.Windows.Forms.RadioButton()
-        Me.txtMultZone = New common.UserControls.txtMultiSelectFinder()
-        Me.MyLabel3 = New common.Controls.MyLabel()
-        Me.lblMilkAnalyzer = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gv1 = New common.UserControls.MyRadGridView()
         Me.btnExport = New Telerik.WinControls.UI.RadSplitButton()
         Me.btnExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnPDF = New Telerik.WinControls.UI.RadMenuItem()
@@ -48,31 +52,30 @@ Partial Class rptMachineSurveyRegister
         Me.btnreset = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.txtMultMilkAnalyzer = New common.UserControls.txtMultiSelectFinder()
-        Me.txtMultWeighingMachine = New common.UserControls.txtMultiSelectFinder()
-        Me.gv1 = New common.UserControls.MyRadGridView()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblUnion, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblMilkAnalyzer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblWeighmentMachine, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblMilkAnalyzer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btngo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -106,37 +109,116 @@ Partial Class rptMachineSurveyRegister
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(800, 405)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
-        Me.RadPageViewPage1.Controls.Add(Me.txtMultWeighingMachine)
-        Me.RadPageViewPage1.Controls.Add(Me.txtMultMilkAnalyzer)
-        Me.RadPageViewPage1.Controls.Add(Me.txtMultUnion)
-        Me.RadPageViewPage1.Controls.Add(Me.lblUnion)
-        Me.RadPageViewPage1.Controls.Add(Me.txtMultDCS)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel2)
-        Me.RadPageViewPage1.Controls.Add(Me.txtMultBMC)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
-        Me.RadPageViewPage1.Controls.Add(Me.lblWeighmentMachine)
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
-        Me.RadPageViewPage1.Controls.Add(Me.txtMultZone)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel3)
-        Me.RadPageViewPage1.Controls.Add(Me.lblMilkAnalyzer)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 357)
         Me.RadPageViewPage1.Text = "Details"
         '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel3)
+        Me.RadGroupBox1.Controls.Add(Me.txtMultWeighingMachine)
+        Me.RadGroupBox1.Controls.Add(Me.lblMilkAnalyzer)
+        Me.RadGroupBox1.Controls.Add(Me.txtMultMilkAnalyzer)
+        Me.RadGroupBox1.Controls.Add(Me.txtMultZone)
+        Me.RadGroupBox1.Controls.Add(Me.txtMultUnion)
+        Me.RadGroupBox1.Controls.Add(Me.lblWeighmentMachine)
+        Me.RadGroupBox1.Controls.Add(Me.lblUnion)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel1)
+        Me.RadGroupBox1.Controls.Add(Me.txtMultDCS)
+        Me.RadGroupBox1.Controls.Add(Me.txtMultBMC)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel2)
+        Me.RadGroupBox1.HeaderText = ""
+        Me.RadGroupBox1.Location = New System.Drawing.Point(10, 6)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(405, 145)
+        Me.RadGroupBox1.TabIndex = 464
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel3.Location = New System.Drawing.Point(9, 11)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(32, 16)
+        Me.MyLabel3.TabIndex = 451
+        Me.MyLabel3.Text = "Zone"
+        '
+        'txtMultWeighingMachine
+        '
+        Me.txtMultWeighingMachine.arrDispalyMember = Nothing
+        Me.txtMultWeighingMachine.arrValueMember = Nothing
+        Me.txtMultWeighingMachine.Location = New System.Drawing.Point(121, 119)
+        Me.txtMultWeighingMachine.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMultWeighingMachine.MyLinkLable1 = Me.lblUnion
+        Me.txtMultWeighingMachine.MyLinkLable2 = Nothing
+        Me.txtMultWeighingMachine.MyNullText = "All"
+        Me.txtMultWeighingMachine.Name = "txtMultWeighingMachine"
+        Me.txtMultWeighingMachine.Size = New System.Drawing.Size(276, 19)
+        Me.txtMultWeighingMachine.TabIndex = 463
+        '
+        'lblUnion
+        '
+        Me.lblUnion.FieldName = Nothing
+        Me.lblUnion.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.lblUnion.Location = New System.Drawing.Point(9, 78)
+        Me.lblUnion.Name = "lblUnion"
+        Me.lblUnion.Size = New System.Drawing.Size(36, 16)
+        Me.lblUnion.TabIndex = 460
+        Me.lblUnion.Text = "Union"
+        '
+        'lblMilkAnalyzer
+        '
+        Me.lblMilkAnalyzer.FieldName = Nothing
+        Me.lblMilkAnalyzer.Location = New System.Drawing.Point(9, 97)
+        Me.lblMilkAnalyzer.Name = "lblMilkAnalyzer"
+        Me.lblMilkAnalyzer.Size = New System.Drawing.Size(73, 18)
+        Me.lblMilkAnalyzer.TabIndex = 449
+        Me.lblMilkAnalyzer.Text = "Milk Analyzer"
+        '
+        'txtMultMilkAnalyzer
+        '
+        Me.txtMultMilkAnalyzer.arrDispalyMember = Nothing
+        Me.txtMultMilkAnalyzer.arrValueMember = Nothing
+        Me.txtMultMilkAnalyzer.Location = New System.Drawing.Point(121, 97)
+        Me.txtMultMilkAnalyzer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMultMilkAnalyzer.MyLinkLable1 = Me.lblUnion
+        Me.txtMultMilkAnalyzer.MyLinkLable2 = Nothing
+        Me.txtMultMilkAnalyzer.MyNullText = "All"
+        Me.txtMultMilkAnalyzer.Name = "txtMultMilkAnalyzer"
+        Me.txtMultMilkAnalyzer.Size = New System.Drawing.Size(276, 19)
+        Me.txtMultMilkAnalyzer.TabIndex = 462
+        '
+        'txtMultZone
+        '
+        Me.txtMultZone.arrDispalyMember = Nothing
+        Me.txtMultZone.arrValueMember = Nothing
+        Me.txtMultZone.Location = New System.Drawing.Point(121, 8)
+        Me.txtMultZone.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMultZone.MyLinkLable1 = Me.MyLabel3
+        Me.txtMultZone.MyLinkLable2 = Nothing
+        Me.txtMultZone.MyNullText = "All"
+        Me.txtMultZone.Name = "txtMultZone"
+        Me.txtMultZone.Size = New System.Drawing.Size(276, 19)
+        Me.txtMultZone.TabIndex = 452
+        '
         'txtMultUnion
         '
         Me.txtMultUnion.arrDispalyMember = Nothing
         Me.txtMultUnion.arrValueMember = Nothing
-        Me.txtMultUnion.Location = New System.Drawing.Point(126, 73)
+        Me.txtMultUnion.Location = New System.Drawing.Point(121, 75)
         Me.txtMultUnion.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMultUnion.MyLinkLable1 = Me.lblUnion
         Me.txtMultUnion.MyLinkLable2 = Nothing
@@ -145,21 +227,30 @@ Partial Class rptMachineSurveyRegister
         Me.txtMultUnion.Size = New System.Drawing.Size(276, 19)
         Me.txtMultUnion.TabIndex = 461
         '
-        'lblUnion
+        'lblWeighmentMachine
         '
-        Me.lblUnion.FieldName = Nothing
-        Me.lblUnion.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.lblUnion.Location = New System.Drawing.Point(14, 76)
-        Me.lblUnion.Name = "lblUnion"
-        Me.lblUnion.Size = New System.Drawing.Size(36, 16)
-        Me.lblUnion.TabIndex = 460
-        Me.lblUnion.Text = "Union"
+        Me.lblWeighmentMachine.FieldName = Nothing
+        Me.lblWeighmentMachine.Location = New System.Drawing.Point(9, 118)
+        Me.lblWeighmentMachine.Name = "lblWeighmentMachine"
+        Me.lblWeighmentMachine.Size = New System.Drawing.Size(83, 18)
+        Me.lblWeighmentMachine.TabIndex = 454
+        Me.lblWeighmentMachine.Text = "Weighing Scale"
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel1.Location = New System.Drawing.Point(9, 34)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(31, 16)
+        Me.MyLabel1.TabIndex = 456
+        Me.MyLabel1.Text = "BMC"
         '
         'txtMultDCS
         '
         Me.txtMultDCS.arrDispalyMember = Nothing
         Me.txtMultDCS.arrValueMember = Nothing
-        Me.txtMultDCS.Location = New System.Drawing.Point(126, 51)
+        Me.txtMultDCS.Location = New System.Drawing.Point(121, 53)
         Me.txtMultDCS.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMultDCS.MyLinkLable1 = Me.MyLabel2
         Me.txtMultDCS.MyLinkLable2 = Nothing
@@ -172,7 +263,7 @@ Partial Class rptMachineSurveyRegister
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel2.Location = New System.Drawing.Point(14, 54)
+        Me.MyLabel2.Location = New System.Drawing.Point(9, 56)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(30, 16)
         Me.MyLabel2.TabIndex = 458
@@ -182,7 +273,7 @@ Partial Class rptMachineSurveyRegister
         '
         Me.txtMultBMC.arrDispalyMember = Nothing
         Me.txtMultBMC.arrValueMember = Nothing
-        Me.txtMultBMC.Location = New System.Drawing.Point(126, 29)
+        Me.txtMultBMC.Location = New System.Drawing.Point(121, 31)
         Me.txtMultBMC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMultBMC.MyLinkLable1 = Me.MyLabel1
         Me.txtMultBMC.MyLinkLable2 = Nothing
@@ -190,25 +281,6 @@ Partial Class rptMachineSurveyRegister
         Me.txtMultBMC.Name = "txtMultBMC"
         Me.txtMultBMC.Size = New System.Drawing.Size(276, 19)
         Me.txtMultBMC.TabIndex = 457
-        '
-        'MyLabel1
-        '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel1.Location = New System.Drawing.Point(14, 32)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(31, 16)
-        Me.MyLabel1.TabIndex = 456
-        Me.MyLabel1.Text = "BMC"
-        '
-        'lblWeighmentMachine
-        '
-        Me.lblWeighmentMachine.FieldName = Nothing
-        Me.lblWeighmentMachine.Location = New System.Drawing.Point(14, 116)
-        Me.lblWeighmentMachine.Name = "lblWeighmentMachine"
-        Me.lblWeighmentMachine.Size = New System.Drawing.Size(83, 18)
-        Me.lblWeighmentMachine.TabIndex = 454
-        Me.lblWeighmentMachine.Text = "Weighing Scale"
         '
         'RadGroupBox2
         '
@@ -255,38 +327,6 @@ Partial Class rptMachineSurveyRegister
         Me.rbtnDetail.Text = "Details"
         Me.rbtnDetail.UseVisualStyleBackColor = True
         '
-        'txtMultZone
-        '
-        Me.txtMultZone.arrDispalyMember = Nothing
-        Me.txtMultZone.arrValueMember = Nothing
-        Me.txtMultZone.Location = New System.Drawing.Point(126, 6)
-        Me.txtMultZone.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtMultZone.MyLinkLable1 = Me.MyLabel3
-        Me.txtMultZone.MyLinkLable2 = Nothing
-        Me.txtMultZone.MyNullText = "All"
-        Me.txtMultZone.Name = "txtMultZone"
-        Me.txtMultZone.Size = New System.Drawing.Size(276, 19)
-        Me.txtMultZone.TabIndex = 452
-        '
-        'MyLabel3
-        '
-        Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel3.Location = New System.Drawing.Point(14, 9)
-        Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(32, 16)
-        Me.MyLabel3.TabIndex = 451
-        Me.MyLabel3.Text = "Zone"
-        '
-        'lblMilkAnalyzer
-        '
-        Me.lblMilkAnalyzer.FieldName = Nothing
-        Me.lblMilkAnalyzer.Location = New System.Drawing.Point(14, 95)
-        Me.lblMilkAnalyzer.Name = "lblMilkAnalyzer"
-        Me.lblMilkAnalyzer.Size = New System.Drawing.Size(73, 18)
-        Me.lblMilkAnalyzer.TabIndex = 449
-        Me.lblMilkAnalyzer.Text = "Milk Analyzer"
-        '
         'RadPageViewPage2
         '
         Me.RadPageViewPage2.Controls.Add(Me.gv1)
@@ -295,6 +335,29 @@ Partial Class rptMachineSurveyRegister
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(779, 357)
         Me.RadPageViewPage2.Text = "Report"
+        '
+        'gv1
+        '
+        Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gv1.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gv1.MasterTemplate.AllowAddNewRow = False
+        Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.AllowDragToGroup = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowGroupedColumns = True
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportAPI = False
+        Me.gv1.MyExportFilePath = ""
+        Me.gv1.MyStopExport = False
+        Me.gv1.Name = "gv1"
+        Me.gv1.ShowHeaderCellButtons = True
+        Me.gv1.Size = New System.Drawing.Size(779, 357)
+        Me.gv1.TabIndex = 5
+        Me.gv1.VarID = ""
         '
         'btnExport
         '
@@ -354,55 +417,6 @@ Partial Class rptMachineSurveyRegister
         Me.btnclose.TabIndex = 346
         Me.btnclose.Text = "Close"
         '
-        'txtMultMilkAnalyzer
-        '
-        Me.txtMultMilkAnalyzer.arrDispalyMember = Nothing
-        Me.txtMultMilkAnalyzer.arrValueMember = Nothing
-        Me.txtMultMilkAnalyzer.Location = New System.Drawing.Point(126, 95)
-        Me.txtMultMilkAnalyzer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtMultMilkAnalyzer.MyLinkLable1 = Me.lblUnion
-        Me.txtMultMilkAnalyzer.MyLinkLable2 = Nothing
-        Me.txtMultMilkAnalyzer.MyNullText = "All"
-        Me.txtMultMilkAnalyzer.Name = "txtMultMilkAnalyzer"
-        Me.txtMultMilkAnalyzer.Size = New System.Drawing.Size(276, 19)
-        Me.txtMultMilkAnalyzer.TabIndex = 462
-        '
-        'txtMultWeighingMachine
-        '
-        Me.txtMultWeighingMachine.arrDispalyMember = Nothing
-        Me.txtMultWeighingMachine.arrValueMember = Nothing
-        Me.txtMultWeighingMachine.Location = New System.Drawing.Point(126, 117)
-        Me.txtMultWeighingMachine.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtMultWeighingMachine.MyLinkLable1 = Me.lblUnion
-        Me.txtMultWeighingMachine.MyLinkLable2 = Nothing
-        Me.txtMultWeighingMachine.MyNullText = "All"
-        Me.txtMultWeighingMachine.Name = "txtMultWeighingMachine"
-        Me.txtMultWeighingMachine.Size = New System.Drawing.Size(276, 19)
-        Me.txtMultWeighingMachine.TabIndex = 463
-        '
-        'gv1
-        '
-        Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gv1.Location = New System.Drawing.Point(0, 0)
-        '
-        '
-        '
-        Me.gv1.MasterTemplate.AllowAddNewRow = False
-        Me.gv1.MasterTemplate.AllowDeleteRow = False
-        Me.gv1.MasterTemplate.AllowDragToGroup = False
-        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gv1.MasterTemplate.ShowGroupedColumns = True
-        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
-        Me.gv1.MyExportAPI = False
-        Me.gv1.MyExportFilePath = ""
-        Me.gv1.MyStopExport = False
-        Me.gv1.Name = "gv1"
-        Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(779, 357)
-        Me.gv1.TabIndex = 5
-        Me.gv1.VarID = ""
-        '
         'rptMachineSurveyRegister
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -421,24 +435,26 @@ Partial Class rptMachineSurveyRegister
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
-        Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblUnion, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblMilkAnalyzer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblWeighmentMachine, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblMilkAnalyzer, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btngo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -472,4 +488,5 @@ Partial Class rptMachineSurveyRegister
     Friend WithEvents txtMultMilkAnalyzer As common.UserControls.txtMultiSelectFinder
     Friend WithEvents txtMultWeighingMachine As common.UserControls.txtMultiSelectFinder
     Friend WithEvents gv1 As common.UserControls.MyRadGridView
+    Friend WithEvents RadGroupBox1 As RadGroupBox
 End Class
