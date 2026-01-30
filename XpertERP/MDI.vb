@@ -1178,7 +1178,7 @@ Public Class MDI
                     Exit Sub
                 End If
             End If
-                
+
             If clsCommon.CompairString("Y", clsCommon.myCstr(dt.Rows(0)("InActive"))) = CompairStringResult.Equal Then
                 clsCommon.MyMessageBoxShow(Me, "You are not active user.", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
                 Exit Sub
