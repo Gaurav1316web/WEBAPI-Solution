@@ -439,7 +439,22 @@ Public Class frmOTSheet
         Dim qry As String = " select OT_CODE as Code, OT_NAME as Name, DESCRIPTION as Description  ,HOUR_MULTIPLIER as 'Hours Multiplier', OT_RATE as 'OT Rate', IS_ASPER_ACTUAL_CALC as 'Is as per actual calculation' from TSPL_OT_MASTER"
         txtOTCode.Value = clsCommon.ShowSelectForm("OT_FINDER", qry, "Code", "", txtOTCode.Value, "OT_CODE", isButtonClicked)
         lblOtName.Text = clsOTMaster.GetName(txtOTCode.Value, Nothing)
-        txtOtRate.Text = clsOTMaster.GetOTRate_ByOTCode(txtOTCode.Value, Nothing)
+        Dim chkCal As String = " select IS_ASPER_ACTUAL_CALC from TSPL_OT_MASTER where OT_CODE = '" + txtOTCode.Value + "'  "
+        Dim DT As DataTable = clsDBFuncationality.GetDataTable(chkCal)
+        Dim Rate As String = Nothing
+        If DT IsNot Nothing AndAlso DT.Rows.Count > 0 Then
+            For Each dr As DataRow In DT.Rows
+                Rate = clsCommon.myCstr(dr("IS_ASPER_ACTUAL_CALC"))
+            Next
+        End If
+
+        'Dim ChkactCal As Integer = clsDBFuncationality.getSingleValue(" select IS_ASPER_ACTUAL_CALC from TSPL_OT_MASTER where OT_CODE = '" + txtOTCode.Value + "' ")
+        If Rate = True Then
+            txtOtRate.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Sum(ACTUAL_AMOUNT) from TSPL_SALARY_CALCULATION where EMP_CODE='" + txtEmpCode.Value + "' and PAY_PERIOD_CODE='" + txtPayPeriod.Value + "' AND Is_Earning_Payhead=1"))
+        Else
+            txtOtRate.Text = clsOTMaster.GetOTRate_ByOTCode(txtOTCode.Value, Nothing)
+        End If
+
     End Sub
     Private Sub CalculateTotalAmount(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtOtRate.Validated, txtOTHours.Validated
         If clsCommon.myLen(txtOtRate.Text) > 0 And clsCommon.myLen(txtOTHours.Text) > 0 Then
@@ -453,6 +468,22 @@ Public Class frmOTSheet
         'Dim qry As String = "select PAY_PERIOD_CODE as Code , PAY_PERIOD_NAME as Name, DATE_FROM as 'From Date', DATE_TO AS 'To Date', DESCRIPTION as Description  from TSPL_PAYPERIOD_MASTER"
         txtPayPeriod.Value = clsCommon.ShowSelectForm("PAYPERIOD_Master", qry, "Code", "POSTED=1 and FREEZED=0 and convert(date, date_from,103) <= Convert (date,SYSDATETIME(),103)", txtPayPeriod.Value, "PAY_PERIOD_CODE", isButtonClicked)
         lblPayPeriod.Text = clsPayPeriodMaster.GetName(txtPayPeriod.Value, Nothing)
+
+        Dim chkCal As String = " select IS_ASPER_ACTUAL_CALC from TSPL_OT_MASTER where OT_CODE = '" + txtOTCode.Value + "'  "
+        Dim DT As DataTable = clsDBFuncationality.GetDataTable(chkCal)
+        Dim Rate As String = Nothing
+        If DT IsNot Nothing AndAlso DT.Rows.Count > 0 Then
+            For Each dr As DataRow In DT.Rows
+                Rate = clsCommon.myCstr(dr("IS_ASPER_ACTUAL_CALC"))
+            Next
+        End If
+
+        'Dim ChkactCal As Integer = clsDBFuncationality.getSingleValue(" select IS_ASPER_ACTUAL_CALC from TSPL_OT_MASTER where OT_CODE = '" + txtOTCode.Value + "' ")
+        If Rate = True Then
+            txtOtRate.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Sum(ACTUAL_AMOUNT) from TSPL_SALARY_CALCULATION where EMP_CODE='" + txtEmpCode.Value + "' and PAY_PERIOD_CODE='" + txtPayPeriod.Value + "' AND Is_Earning_Payhead=1"))
+            'Else
+            '    txtOtRate.Text = clsOTMaster.GetOTRate_ByOTCode(txtOTCode.Value, Nothing)
+        End If
     End Sub
 
     Private Sub fndLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndLocation._MYValidating

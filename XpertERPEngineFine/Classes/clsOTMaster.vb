@@ -129,6 +129,7 @@ Public Class clsOTMaster
     Public Shared Function GetOTRate_ByOTCode(ByVal strCode As String, ByVal trans As SqlTransaction) As String
         Dim qry As String = "select OT_RATE from TSPL_OT_MASTER where OT_CODE = '" + strCode + "'"
         Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+
     End Function
 
     Public Shared Function CheckNewEntry(ByVal Code As String, Optional ByVal trans As SqlTransaction = Nothing) As String
