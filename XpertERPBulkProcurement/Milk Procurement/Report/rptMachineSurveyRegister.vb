@@ -329,7 +329,7 @@ Left Outer Join " & clsCommon.myCstr(strUnion("DataBase_Name")) & ".dbo.TSPL_WEI
                 If rbtnDetail.Checked Then
                     frm.funreport(Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dt, "crptUnionWiseMachineDetail", "Union Wise Machine Details")
                 Else
-                    frm.funreport(Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptDCSDeductionReport", "DCS Deduction Report")
+                    'frm.funreport(Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptDCSDeductionReport", "DCS Deduction Report")
                 End If
                 frm = Nothing
             Else
