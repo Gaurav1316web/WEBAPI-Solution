@@ -9,6 +9,8 @@ Public Class frmStockBalance
     Public FilterReqSNFKg As Decimal
     Public FilterLocationCode As String
     Public FilterDate As DateTime
+
+    Public FilterSFGItems As String = ""
     Public ArrRMIssue As List(Of clsProductionShiftMgmtProductionRMIssue) = Nothing
     Public isOKClicked As Integer = 0
     Dim isProductTypeMI As Boolean = False
@@ -60,6 +62,7 @@ cast( TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG as decimal(18,3)) as Fat_KG ,cast(TSPL_
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT_NEW.Item_Code
 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_INVENTORY_MOVEMENT_NEW.Location_Code
 where TSPL_INVENTORY_MOVEMENT_NEW.Item_Code='" + FilterItemCode + "' and TSPL_INVENTORY_MOVEMENT_NEW.Stock_UOM in ('LTR','KG') and TSPL_ITEM_MASTER.Product_Type='MI' and isnull(TSPL_LOCATION_MASTER.csa_type,'N')<>'Y' and isnull(TSPL_LOCATION_MASTER.Is_Section,'N')<>'Y'  and TSPL_LOCATION_MASTER.Location_Category<>'MCC' and  isnull(TSPL_LOCATION_MASTER.Is_Jobwork,0)=0 and isnull(TSPL_LOCATION_MASTER.GIT_Type,'N')='N' and  TSPL_LOCATION_MASTER.Main_Location_Code='" + FilterLocationCode + "' and Punching_Date<='" + clsCommon.GetPrintDate(FilterDate, "dd/MMM/yyyy hh:mm tt") + "' 
+" + FilterSFGItems + "
 )xx group by Location_Code,Item_Code,Stock_UOM
 )xxx 
 left outer join TSPL_ITEM_UOM_DETAIL as TabUOMKG on TabUOMKG.Item_Code=xxx.Item_Code and TabUOMKG.UOM_Code='KG'
