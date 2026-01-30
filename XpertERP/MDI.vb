@@ -8983,6 +8983,10 @@ Public Class MDI
                     Case clsUserMgtCode.frmDCSDeductionReport
                         frm = New frmDCSDeductionReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptTankerMilkQcVsERPEntry
+                        frm = New rptTankerMilkQcVsERPEntry
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+
                     Case clsUserMgtCode.frmUnionWiseAppUserReport
                         frm = New frmUnionWiseAppUserReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)

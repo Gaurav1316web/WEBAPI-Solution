@@ -1817,6 +1817,7 @@ Public Class ProgramCodeNew
         'InsertDefaultValue(clsUserMgtCode.DCSDeductionBalanceReport, "DCS Deduction Balance Amount", "1.17.03.49", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmPDAccountSummariesReport, "PD Account Summaries Report", "1.17.03.50", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmDCSDeductionReport, "DCS Deduction Report", "1.17.03.51", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptTankerMilkQcVsERPEntry, "Tanker Milk Qc Vs ERP Entry Report", "1.17.03.53", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
         '===sanjeet(21/11/2016)====================
 
