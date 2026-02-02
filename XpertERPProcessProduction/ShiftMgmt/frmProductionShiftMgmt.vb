@@ -198,6 +198,10 @@ Public Class frmProductionShiftMgmt
                     Else
                         Exit Sub
                     End If
+                ElseIf clsCommon.myCDecimal(dt.Rows(0)("Status")) = 1 Then
+                    If clsCommon.MyMessageBoxShow(Me, "Do you want to view SFG Produce items?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
+                        flag = False
+                    End If
                 End If
             End If
             If Not flag Then

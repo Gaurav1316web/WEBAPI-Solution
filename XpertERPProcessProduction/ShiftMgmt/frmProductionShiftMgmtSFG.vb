@@ -961,4 +961,40 @@ left outer join TSPL_ITEM_UOM_DETAIL as TabStockUOM on TabStockUOM.item_code=xxx
         txtShift.Value = clsCommon.ShowSelectForm("Shift@shiftM", qry, "Code", "InActive=0", txtShift.Value, "Code", isButtonClicked)
         SetShiftStartEndDateTime()
     End Sub
+
+    Private Sub gvProSFG_CommandCellClick(sender As Object, e As EventArgs) Handles gvProSFG.CommandCellClick
+        Try
+            If clsCommon.myLen(gvProSFG.CurrentRow.Cells(ColProSFGItemCode).Value) > 0 Then
+                If gvProSFG.CurrentColumn Is gvProSFG.Columns(ColProSFGAdd) Then
+                    Dim frm As New frmProductionShiftMgmtAdd()
+                    frm.isSFG = True
+                    frm.ArrSFG = TryCast(gvProSFG.CurrentRow.Cells(ColProSFGAdd).Tag, List(Of clsProductionShiftMgmtSFGProductionItemAddRemove))
+                    frm.FilterDate = txtShiftEnd.Value
+                    frm.FilterLocationCode = txtLocation.Value
+                    frm.WindowState = FormWindowState.Normal
+                    frm.ShowDialog()
+                    If frm.isOKClicked = 1 Then
+                        gvProSFG.CurrentRow.Cells(ColProSFGAdd).Tag = frm.ArrSFG
+                    ElseIf frm.isOKClicked = 2 Then
+                        gvProSFG.CurrentRow.Cells(ColProSFGAdd).Tag = Nothing
+                    End If
+                ElseIf gvProSFG.CurrentColumn Is gvProSFG.Columns(ColProSFGRemove) Then
+                    Dim frm As New frmProductionShiftMgmtRemove()
+                    frm.isSFG = True
+                    frm.ArrSFG = TryCast(gvProSFG.CurrentRow.Cells(ColProSFGRemove).Tag, List(Of clsProductionShiftMgmtSFGProductionItemAddRemove))
+                    frm.FilterDate = txtShiftEnd.Value
+                    frm.FilterLocationCode = txtLocation.Value
+                    frm.WindowState = FormWindowState.Normal
+                    frm.ShowDialog()
+                    If frm.isOKClicked = 1 Then
+                        gvProSFG.CurrentRow.Cells(ColProSFGRemove).Tag = frm.ArrSFG
+                    ElseIf frm.isOKClicked = 2 Then
+                        gvProSFG.CurrentRow.Cells(ColProSFGRemove).Tag = Nothing
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

@@ -527,7 +527,7 @@ Partial Class frmProductionShiftMgmtSFG
         '
         Me.RootElement.ApplyShapeToControl = True
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Production Shift Mgmt"
+        Me.Text = "Produce SFG Items"
         Me.Panel2.ResumeLayout(False)
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
