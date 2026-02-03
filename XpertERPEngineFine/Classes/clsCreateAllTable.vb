@@ -59333,7 +59333,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll = New Dictionary(Of String, String)
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("Document_No", "Varchar(30) not null references TSPL_SHIFT_MGMT_SFG(Document_No)")
-            coll.Add("Against_PK_ID", "integer not null references TSPL_SHIFT_MGMT_PRODUCTION(PK_ID)")
+            coll.Add("Against_PK_ID", "integer not null references TSPL_SHIFT_MGMT_SFG_PRODUCTION(PK_ID)")
             coll.Add("Source_ID", "integer not null") ''1-RM(Milk),2-RM(Other),3-OverheadCost,4-Add(Milk),5-Add(Other),6-Remove(Milk),7-Remove(Other),8-Produce(Milk),9-Produce(Other)
             coll.Add("Source_Code", "Varchar(50) null")
             coll.Add("Qty", "Decimal(18,6) null")

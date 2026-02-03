@@ -4,6 +4,8 @@ Public Class frmProductionShiftMgmtRemove
     Public ReportID As String = "AddF"
     Public FilterLocationCode As String
     Public FilterDate As DateTime
+    Public isSFG As Boolean = False
+    Public ArrSFG As List(Of clsProductionShiftMgmtSFGProductionItemAddRemove) = Nothing
     Public Arr As List(Of clsProductionShiftMgmtProductionItemAddRemove) = Nothing
     Public isOKClicked As Integer = 0
 
@@ -29,20 +31,38 @@ Public Class frmProductionShiftMgmtRemove
                 Throw New Exception("Report ID Not found")
             End If
             LoadBlankGrid()
-            If Arr IsNot Nothing AndAlso Arr.Count > 0 Then
-                For Each obj As clsProductionShiftMgmtProductionItemAddRemove In Arr
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(ColLocationCode).Value = obj.Location_Code
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(ColLocationName).Value = obj.Location_Name
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(ColItemCode).Value = obj.Item_Code
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(ColItemName).Value = obj.Item_Name
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(ColProductType).Value = obj.ItemProductType
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(ColUOM).Value = obj.UOM
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(ColQty).Value = obj.Qty
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(ColFATKG).Value = obj.FAT_KG
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(ColSNFKG).Value = obj.SNF_KG
-                    gv1.Rows.AddNew()
-                Next
+            If isSFG Then
+                If ArrSFG IsNot Nothing AndAlso ArrSFG.Count > 0 Then
+                    For Each obj As clsProductionShiftMgmtSFGProductionItemAddRemove In ArrSFG
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColLocationCode).Value = obj.Location_Code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColLocationName).Value = obj.Location_Name
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColItemCode).Value = obj.Item_Code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColItemName).Value = obj.Item_Name
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColProductType).Value = obj.ItemProductType
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColUOM).Value = obj.UOM
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColQty).Value = obj.Qty
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColFATKG).Value = obj.FAT_KG
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColSNFKG).Value = obj.SNF_KG
+                        gv1.Rows.AddNew()
+                    Next
+                End If
+            Else
+                If Arr IsNot Nothing AndAlso Arr.Count > 0 Then
+                    For Each obj As clsProductionShiftMgmtProductionItemAddRemove In Arr
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColLocationCode).Value = obj.Location_Code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColLocationName).Value = obj.Location_Name
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColItemCode).Value = obj.Item_Code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColItemName).Value = obj.Item_Name
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColProductType).Value = obj.ItemProductType
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColUOM).Value = obj.UOM
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColQty).Value = obj.Qty
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColFATKG).Value = obj.FAT_KG
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColSNFKG).Value = obj.SNF_KG
+                        gv1.Rows.AddNew()
+                    Next
+                End If
             End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Me.Close()
@@ -218,33 +238,62 @@ Public Class frmProductionShiftMgmtRemove
     End Sub
     Private Sub btnopen_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnopen.Click
         isOKClicked = 1
-        Arr = New List(Of clsProductionShiftMgmtProductionItemAddRemove)
-        For ii As Integer = 0 To gv1.Rows.Count - 1
-            If clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColQty).Value) > 0 Then
-                If clsCommon.myLen(gv1.Rows(ii).Cells(ColItemCode).Value) > 0 AndAlso clsCommon.myLen(gv1.Rows(ii).Cells(ColLocationCode).Value) Then
-                    Dim obj As New clsProductionShiftMgmtProductionItemAddRemove
-                    obj.Location_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(ColLocationCode).Value)
-                    obj.Location_Name = clsCommon.myCstr(gv1.Rows(ii).Cells(ColLocationName).Value)
-                    obj.Item_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(ColItemCode).Value)
-                    obj.Item_Name = clsCommon.myCstr(gv1.Rows(ii).Cells(ColItemName).Value)
-                    obj.ItemProductType = clsCommon.myCstr(gv1.Rows(ii).Cells(ColProductType).Value)
-                    obj.Qty = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColQty).Value)
-                    obj.UOM = clsCommon.myCstr(gv1.Rows(ii).Cells(ColUOM).Value)
-                    If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(ColProductType).Value), "MI") = CompairStringResult.Equal Then
-                        obj.FAT = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColFAT).Value)
-                        obj.FAT_KG = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColFATKG).Value)
-                        obj.SNF = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColSNF).Value)
-                        obj.SNF_KG = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColSNFKG).Value)
+        If isSFG Then
+            ArrSFG = New List(Of clsProductionShiftMgmtSFGProductionItemAddRemove)
+            For ii As Integer = 0 To gv1.Rows.Count - 1
+                If clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColQty).Value) > 0 Then
+                    If clsCommon.myLen(gv1.Rows(ii).Cells(ColItemCode).Value) > 0 AndAlso clsCommon.myLen(gv1.Rows(ii).Cells(ColLocationCode).Value) Then
+                        Dim obj As New clsProductionShiftMgmtSFGProductionItemAddRemove
+                        obj.Location_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(ColLocationCode).Value)
+                        obj.Location_Name = clsCommon.myCstr(gv1.Rows(ii).Cells(ColLocationName).Value)
+                        obj.Item_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(ColItemCode).Value)
+                        obj.Item_Name = clsCommon.myCstr(gv1.Rows(ii).Cells(ColItemName).Value)
+                        obj.ItemProductType = clsCommon.myCstr(gv1.Rows(ii).Cells(ColProductType).Value)
+                        obj.Qty = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColQty).Value)
+                        obj.UOM = clsCommon.myCstr(gv1.Rows(ii).Cells(ColUOM).Value)
+                        If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(ColProductType).Value), "MI") = CompairStringResult.Equal Then
+                            obj.FAT = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColFAT).Value)
+                            obj.FAT_KG = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColFATKG).Value)
+                            obj.SNF = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColSNF).Value)
+                            obj.SNF_KG = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColSNFKG).Value)
+                        End If
+                        ArrSFG.Add(obj)
                     End If
-                    Arr.Add(obj)
                 End If
-            End If
-        Next
+            Next
+        Else
+            Arr = New List(Of clsProductionShiftMgmtProductionItemAddRemove)
+            For ii As Integer = 0 To gv1.Rows.Count - 1
+                If clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColQty).Value) > 0 Then
+                    If clsCommon.myLen(gv1.Rows(ii).Cells(ColItemCode).Value) > 0 AndAlso clsCommon.myLen(gv1.Rows(ii).Cells(ColLocationCode).Value) Then
+                        Dim obj As New clsProductionShiftMgmtProductionItemAddRemove
+                        obj.Location_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(ColLocationCode).Value)
+                        obj.Location_Name = clsCommon.myCstr(gv1.Rows(ii).Cells(ColLocationName).Value)
+                        obj.Item_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(ColItemCode).Value)
+                        obj.Item_Name = clsCommon.myCstr(gv1.Rows(ii).Cells(ColItemName).Value)
+                        obj.ItemProductType = clsCommon.myCstr(gv1.Rows(ii).Cells(ColProductType).Value)
+                        obj.Qty = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColQty).Value)
+                        obj.UOM = clsCommon.myCstr(gv1.Rows(ii).Cells(ColUOM).Value)
+                        If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(ColProductType).Value), "MI") = CompairStringResult.Equal Then
+                            obj.FAT = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColFAT).Value)
+                            obj.FAT_KG = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColFATKG).Value)
+                            obj.SNF = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColSNF).Value)
+                            obj.SNF_KG = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColSNFKG).Value)
+                        End If
+                        Arr.Add(obj)
+                    End If
+                End If
+            Next
+        End If
         Me.Close()
     End Sub
     Private Sub RadButton2_Click(sender As Object, e As EventArgs) Handles RadButton2.Click
         isOKClicked = 2
-        Arr = Nothing
+        If isSFG Then
+            ArrSFG = Nothing
+        Else
+            Arr = Nothing
+        End If
         Me.Close()
     End Sub
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
