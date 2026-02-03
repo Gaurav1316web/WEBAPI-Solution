@@ -1616,6 +1616,7 @@
     <None Include="Crystal Reports\Milk Procurement\rptRouteWiseTimeTable.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptSavingBalanceReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTankerGainLossReport.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\rptTankerMilkQcVsERPEntry.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTankerProfitLoss.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTankerProfitLossPrint2.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTankerReport.rpt" />
