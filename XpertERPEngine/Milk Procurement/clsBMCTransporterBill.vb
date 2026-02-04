@@ -189,7 +189,8 @@ Public Class clsBMCTransporterBill
                         objTr.Quantity_KG = clsCommon.myCdbl(dr("Quantity_KG"))
                         objTr.Diesel_RD = clsCommon.myCdbl(dr("Diesel_RD"))
                     objTr.Amount = clsCommon.myCdbl(dr("Amount"))
-                    objTr.BMC_Date = clsCommon.myCdbl(dr("BMC_Date"))
+                    'objTr.BMC_Date = clsCommon.myCdbl(dr("Document_Date"))
+                    objTr.BMC_Date = clsCommon.myCstr(dr("Document_Date"))
                     'objTr.BalanceAmount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Balance_Amt from TSPL_VENDOR_INVOICE_HEAD left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code where TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader= '" + clsCommon.myCstr(dr("VLC_Code_VLC_Uploader")) + "' and Transfer_To_Saving=1"))
                     obj.Arr.Add(objTr)
                     Next
@@ -457,7 +458,7 @@ Public Class clsBMCTransporterBillDetail
                 clsCommon.AddColumnsForChange(coll, "Quantity_KG", obj.Quantity_KG)
                 clsCommon.AddColumnsForChange(coll, "Diesel_RD", obj.Diesel_RD)
                 clsCommon.AddColumnsForChange(coll, "Amount", obj.Amount)
-                clsCommon.AddColumnsForChange(coll, "BMC_Date", obj.BMC_Date)
+                clsCommon.AddColumnsForChange(coll, "Document_Date", obj.BMC_Date)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BMC_TRANSPORTER_BILL_DETAIL", OMInsertOrUpdate.Insert, "", trans)
             Next
         End If
@@ -483,6 +484,7 @@ Public Class clsBMCTransporterBillDetail
                 clsCommon.AddColumnsForChange(coll, "Quantity_KG", obj.Quantity_KG)
                 clsCommon.AddColumnsForChange(coll, "Diesel_RD", obj.Diesel_RD)
                 clsCommon.AddColumnsForChange(coll, "Amount", obj.Amount)
+                clsCommon.AddColumnsForChange(coll, "Document_Date", obj.BMC_Date)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BMC_TRANSPORTER_BILL_DETAIL", OMInsertOrUpdate.Insert, "", trans)
             Next
         End If

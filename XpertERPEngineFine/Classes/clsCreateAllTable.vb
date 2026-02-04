@@ -15800,6 +15800,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Provision_Min_Qty", "integer null")
             coll.Add("Inactive", "integer null")
             coll.Add("Ice_Charge", "float")
+            coll.Add("Private_Tanker", "integer null")
             'clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_TANKER_MASTER", coll, Nothing, True)
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_TANKER_MASTER", coll, "", True, False, "", "", "", True)
 
