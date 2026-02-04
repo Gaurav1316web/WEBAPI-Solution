@@ -106,6 +106,9 @@
     <None Include="Crystal Reports Common\crptDBT_NEFTUnionReportNEW.rpt" />
     <None Include="Crystal Reports Common\crptDBT_NEFTUnionReportYearly.rpt" />
     <None Include="Crystal Reports Common\crptDBT_NEFTUnionReportYearlyNEW.rpt" />
+    <None Include="Crystal Reports Common\crptFarmerCollectionEntryStatus.rpt" />
+    <None Include="Crystal Reports Common\crptFarmerCollectionReportForUnion.rpt" />
+    <None Include="Crystal Reports Common\crptFarmerWiseCollectionAtDCS.rpt" />
     <None Include="Crystal Reports Common\crptmilkunionAvgreport.rpt" />
     <None Include="Crystal Reports Common\crptmilkunionreport.rpt" />
     <None Include="Crystal Reports Common\crptUnionWiseDCSMachineSummary.rpt" />

@@ -1795,7 +1795,7 @@ Public Class ProgramCodeNew
         ' Ticket : BHA/15/02/19-000816 by prabhakar for [VSP Wise data report] delete from menu 
         'InsertDefaultValue(clsUserMgtCode.FrmVSPWiseDataReport, "VSP Wise Data Report", "1.17.03.32", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptMemberPaymentSlip, "Member Payment Slip", "1.17.03.33", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptMPWiseMilkCollectionATPoolingPoint, "MP Wise Milk Collection At Pooling Point", "1.17.03.34", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptMPWiseMilkCollectionATPoolingPoint, "Farmer Purchase Register", "1.17.03.34", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptMPWiseMilkCollection, "Milk Collection As Per Data Entry", "1.17.03.35", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.RptVillageDiffReport, "Village Difference Report", "1.17.03.36", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptPrimaryTransporter, "Primary Transporter Report", "1.17.03.37", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
