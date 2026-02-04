@@ -10882,6 +10882,9 @@ FROM TSPL_ITEM_MASTER"
 
             coll.Add("Manual_Weighment", "int null")
             coll.Add("Manual_Milk_Analyzer", "int null")
+            coll.Add("Latitude", "varchar(20) NULL")
+            coll.Add("Longitude", "varchar(20) NULL")
+            coll.Add("Entry_Date", "Datetime NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VLC_DATA_UPLOADER", coll, "Primary Key (Doc_No,PK_Id)", False, False, "", "Doc_No", "Doc_Date")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VLC_DATA_UPLOADER_SYNC", coll, "Primary Key (Doc_No,PK_Id)", False, False)
 
