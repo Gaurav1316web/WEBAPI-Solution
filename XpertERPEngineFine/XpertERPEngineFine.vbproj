@@ -369,6 +369,7 @@
     <Compile Include="Milk Procurement\clsDeductionTypeMaster.vb" />
     <Compile Include="Milk Procurement\clsFreightChargesMaster.vb" />
     <Compile Include="Milk Procurement\clsMilkUnion.vb" />
+    <Compile Include="Milk Procurement\clsMobileDCSDemand.vb" />
     <Compile Include="Milk Procurement\clsPDAccountBankResponse.vb" />
     <Compile Include="Milk Procurement\clsReviseMilkBill.vb" />
     <Compile Include="Milk Procurement\clsSendDBTDataToJanAadhar.vb" />
@@ -450,7 +451,9 @@
     <Compile Include="Silage Production\clsSilageFormerProduction.vb" />
     <Compile Include="Silage Production\clsSilageProductionApplication.vb" />
     <Compile Include="Silage Production\clsSilageProductionAreaMaster.vb" />
-    <Compile Include="UserControl1.vb" />
+    <Compile Include="UserControl1.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserControl1.Designer.vb">
       <DependentUpon>UserControl1.vb</DependentUpon>
     </Compile>

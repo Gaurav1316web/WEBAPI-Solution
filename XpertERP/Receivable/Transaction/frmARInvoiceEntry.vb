@@ -2720,18 +2720,20 @@ Public Class FrmARInvoiceEntry
                     btnCancel.Enabled = False
                     butCostCenterAndHirerachy_Update_AfterPost.Visible = False
                 End If
-                If clsCommon.myLen(obj.irn_no) > 0 Then
-                    EInvoiceIRNNo.Text = obj.irn_no
-                    EinvoiceAckNo.Text = obj.Ack_No
-                    If clsCommon.myLen(obj.Ack_Date) > 0 Then
-                        txtAckDate.Value = obj.Ack_Date
+
+                Dim qry As String = "select IRN_No,Ack_No,Ack_Date,QR_Code from TSPL_Customer_Invoice_Head where Document_No = '" + obj.Document_No + "'"
+                Dim dtInv As DataTable = clsDBFuncationality.GetDataTable(qry)
+                If dtInv IsNot Nothing AndAlso dtInv.Rows.Count > 0 Then
+                    EInvoiceIRNNo.Text = clsCommon.myCstr(dtInv.Rows(0)("IRN_no"))
+                    EinvoiceAckNo.Text = clsCommon.myCstr(dtInv.Rows(0)("Ack_No"))
+                    If dtInv.Rows(0)("Ack_Date") IsNot DBNull.Value Then
+                        txtAckDate.Value = clsCommon.myCDate(dtInv.Rows(0)("Ack_Date"))
                     End If
-                    EInvoiceQrCode.Text = obj.QR_Code
+                    EInvoiceQrCode.Text = clsCommon.myCstr(dtInv.Rows(0)("QR_Code"))
                     EinvoiceBtnUpdate.Enabled = False
                 Else
                     EinvoiceBtnUpdate.Enabled = True
                 End If
-
                 UsLock1.Status = obj.Status
                 txtDocNo.Value = obj.Document_No
                 txtDate.Value = obj.Document_Date

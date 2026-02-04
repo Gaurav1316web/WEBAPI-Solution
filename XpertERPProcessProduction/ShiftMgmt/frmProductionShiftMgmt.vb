@@ -157,17 +157,11 @@ Public Class frmProductionShiftMgmt
         RadPageView1.SelectedPage = RadPageViewPage1
         RadPageView2.SelectedPage = RadPageViewPage5
         RadPageView3.SelectedPage = RadPageViewPage7
-        LoadShift()
         LOCATIONRIGTHS()
         AddNew()
         btnReverse.Visible = False
     End Sub
-    Sub LoadShift()
-        Dim qry As String = " select  SHIFT_CODE,SHIFT_NAME from TSPL_SHIFT_MASTER "
-        cboShift.DataSource = clsDBFuncationality.GetDataTable(qry)
-        cboShift.ValueMember = "SHIFT_CODE"
-        cboShift.DisplayMember = "SHIFT_NAME"
-    End Sub
+
     Private Sub LOCATIONRIGTHS()
         Dim obj As New clsMCCCodes()
         Try
@@ -183,17 +177,53 @@ Public Class frmProductionShiftMgmt
     End Sub
     Private Sub RadButton1_Click_1(sender As Object, e As EventArgs) Handles RadButton1.Click
         Try
-            If clsCommon.myLen(cboShift.SelectedValue) <= 0 Then
-                Throw New Exception("Please select " + cboShift.MyLinkLable1.Text)
+            If clsCommon.myLen(txtShift.Value) <= 0 Then
+                Throw New Exception("Please select " + txtShift.MyLinkLable1.Text)
             End If
             If clsCommon.myLen(txtLocation.Value) <= 0 Then
                 Throw New Exception("Please select " + txtLocation.MyLinkLable1.Text)
             End If
 
+            Dim qry As String = "select Document_No,Status from TSPL_SHIFT_MGMT_SFG where Document_Date='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' and Shift_Code='" + txtShift.Value + "' and Location_Code='" + txtLocation.Value + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            Dim flag As Boolean = True
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                If clsCommon.MyMessageBoxShow(Me, "SFG Production is not created.Do you want to continue?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.No Then
+                    flag = False
+                End If
+            Else
+                If clsCommon.myCDecimal(dt.Rows(0)("Status")) = 0 Then
+                    If clsCommon.MyMessageBoxShow(Me, "SFG Production is created but not posted.Do you want to Post it?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
+                        flag = False
+                    Else
+                        Exit Sub
+                    End If
+                ElseIf clsCommon.myCDecimal(dt.Rows(0)("Status")) = 1 Then
+                    If clsCommon.MyMessageBoxShow(Me, "Do you want to view SFG Produce items?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
+                        flag = False
+                    End If
+                End If
+            End If
+            If Not flag Then
+                Dim frm As New frmProductionShiftMgmtSFG
+                frm.FilterDate = txtDate.Value
+                frm.FilterLocation = txtLocation.Value
+                frm.FilterShift = txtShift.Value
+                frm.WindowState = FormWindowState.Normal
+                frm.ShowDialog()
+                qry = "select Document_No from TSPL_SHIFT_MGMT_SFG where Document_Date='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' and Shift_Code='" + txtShift.Value + "' and Location_Code='" + txtLocation.Value + "' and Status=1"
+                dt = clsDBFuncationality.GetDataTable(qry)
+                If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                    Exit Sub
+                End If
+            End If
+
+
+
             SetShiftStartEndDateTime()
 
-            Dim qry As String = "select Document_No from TSPL_SHIFT_MGMT where Document_Date='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' and Shift_Code='" + clsCommon.myCstr(cboShift.SelectedValue) + "' and Location_Code='" + txtLocation.Value + "'"
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            qry = "select Document_No from TSPL_SHIFT_MGMT where Document_Date='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' and Shift_Code='" + clsCommon.myCstr(txtShift.Value) + "' and Location_Code='" + txtLocation.Value + "'"
+            dt = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 LoadBlankGrid()
                 qry = "select ROW_NUMBER() OVER(ORDER BY Location_Code,Item_Code) AS SNo, xxxx.*,case when Stock_Qty_KG>0 then cast((Fat_KG*100/Stock_Qty_KG) as decimal(18,2)) else 0 end FAT,case when Stock_Qty_KG>0 then cast((SNF_KG*100/Stock_Qty_KG) as decimal(18,2)) else 0 end SNF from (
@@ -207,7 +237,7 @@ cast( TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG as decimal(18,3)) as Fat_KG ,cast(TSPL_
  from TSPL_INVENTORY_MOVEMENT_NEW 
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT_NEW.Item_Code
 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_INVENTORY_MOVEMENT_NEW.Location_Code
-where TSPL_ITEM_MASTER.Product_Type='MI' and TSPL_LOCATION_MASTER.Main_Location_Code='" + txtLocation.Value + "' and isnull(TSPL_LOCATION_MASTER.csa_type,'N')<>'Y' and isnull(TSPL_LOCATION_MASTER.Is_Section,'N')<>'Y'  and TSPL_LOCATION_MASTER.Location_Category<>'MCC' and  isnull(TSPL_LOCATION_MASTER.Is_Jobwork,0)=0 and isnull(TSPL_LOCATION_MASTER.GIT_Type,'N')='N' and Punching_Date<'" + clsCommon.GetPrintDate(txtShiftStart.Value, "dd/MMM/yyyy hh:mm tt") + "' and TSPL_INVENTORY_MOVEMENT_NEW.Stock_UOM in ('LTR','KG')
+where TSPL_ITEM_MASTER.Product_Type='MI' and TSPL_LOCATION_MASTER.Main_Location_Code='" + txtLocation.Value + "' and isnull(TSPL_LOCATION_MASTER.csa_type,'N')<>'Y' and isnull(TSPL_LOCATION_MASTER.Is_Section,'N')<>'Y'  and TSPL_LOCATION_MASTER.Location_Category<>'MCC' and  isnull(TSPL_LOCATION_MASTER.Is_Jobwork,0)=0 and isnull(TSPL_LOCATION_MASTER.GIT_Type,'N')='N' and Punching_Date<='" + clsCommon.GetPrintDate(txtShiftStart.Value, "dd/MMM/yyyy hh:mm tt") + "' and TSPL_INVENTORY_MOVEMENT_NEW.Stock_UOM in ('LTR','KG')
 )xx group by Location_Code,Item_Code,Stock_UOM
 )xxx 
 left outer join TSPL_ITEM_UOM_DETAIL as TabUOMLTR on TabUOMLTR.Item_Code=xxx.Item_Code and TabUOMLTR.UOM_Code='LTR'
@@ -414,7 +444,7 @@ where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
         txtShiftStart.Enabled = v
         txtShiftEnd.Enabled = v
         txtLocation.Enabled = v
-        cboShift.Enabled = v
+        txtShift.Enabled = v
         RadButton1.Enabled = v
     End Sub
     Private Sub btnAddNew_Click(sender As Object, e As EventArgs) Handles btnAddNew.Click
@@ -425,6 +455,7 @@ where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
         btnPost.Enabled = True
         btnDelete.Enabled = True
         txtDocNo.Value = ""
+        txtShift.Value = ""
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtShiftStart.Value = txtDate.Value
         txtShiftEnd.Value = txtDate.Value
@@ -2474,7 +2505,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                 Dim obj As New clsProductionShiftMgmt()
                 obj.Document_No = txtDocNo.Value
                 obj.Document_Date = txtDate.Value
-                obj.Shift_Code = clsCommon.myCstr(cboShift.SelectedValue)
+                obj.Shift_Code = clsCommon.myCstr(txtShift.Value)
                 obj.Shift_Start_Date = txtShiftStart.Value
                 obj.Shift_End_Date = txtShiftEnd.Value
                 obj.Location_Code = txtLocation.Value
@@ -2684,7 +2715,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                 txtDate.Value = obj.Document_Date
                 txtShiftStart.Value = obj.Shift_Start_Date
                 txtShiftEnd.Value = obj.Shift_End_Date
-                cboShift.SelectedValue = obj.Shift_Code
+                txtShift.Value = obj.Shift_Code
                 txtLocation.Value = obj.Location_Code
                 txtComment.Text = obj.Comment
                 txtRemarks.Text = obj.Remarks
@@ -3055,6 +3086,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
             If gvProRM.CurrentColumn Is gvProRM.Columns(ColProRMIssue) Then
                 If clsCommon.myLen(gvProRM.CurrentRow.Cells(ColProRMItemCode).Value) > 0 Then
                     Dim frm As New frmStockBalance
+                    frm.ArrRMIssueSFG = Nothing
                     frm.ArrRMIssue = TryCast(gvProRM.CurrentRow.Cells(ColProRMIssue).Tag, List(Of clsProductionShiftMgmtProductionRMIssue))
                     frm.FilterItemCode = clsCommon.myCstr(gvProRM.CurrentRow.Cells(ColProRMItemCode).Value)
                     frm.FilterUOM = clsCommon.myCstr(gvProRM.CurrentRow.Cells(ColProRMUOM).Value)
@@ -3085,6 +3117,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
             gvCL.Rows(jj).Cells(colCLFATKG).Value = 0
             gvCL.Rows(jj).Cells(colCLSNFKG).Value = 0
         Next
+
         For ii As Integer = 0 To gvProRM.RowCount - 1
             If clsCommon.myLen(gvProRM.Rows(ii).Cells(ColProRMItemCode).Value) > 0 Then
                 Dim ArrIssue As List(Of clsProductionShiftMgmtProductionRMIssue) = TryCast(gvProRM.Rows(ii).Cells(ColProRMIssue).Tag, List(Of clsProductionShiftMgmtProductionRMIssue))
@@ -3095,10 +3128,10 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                                 clsCommon.CompairString(obj.Location_Code, clsCommon.myCstr(gvCL.Rows(jj).Cells(colCLLocationCode).Value)) = CompairStringResult.Equal Then
                                 If clsCommon.CompairString(obj.UOM, "KG") = CompairStringResult.Equal Then
                                     gvCL.Rows(jj).Cells(colCLQtyKG).Value -= obj.Qty
-                                    gvCL.Rows(jj).Cells(colCLQtyLtr).Value -= clsCommon.myCDivide(clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyKG).Value), clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyLtr).Value)) * obj.Qty
+                                    gvCL.Rows(jj).Cells(colCLQtyLtr).Value -= clsCommon.myCDivide(clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyLtr).Value), clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyKG).Value)) * obj.Qty
                                 Else
                                     gvCL.Rows(jj).Cells(colCLQtyLtr).Value -= obj.Qty
-                                    gvCL.Rows(jj).Cells(colCLQtyKG).Value -= clsCommon.myCDivide(clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyLtr).Value), clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyKG).Value)) * obj.Qty
+                                    gvCL.Rows(jj).Cells(colCLQtyKG).Value -= clsCommon.myCDivide(clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyKG).Value), clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyLtr).Value)) * obj.Qty
                                 End If
                                 gvCL.Rows(jj).Cells(colCLFATKG).Value -= obj.FAT_KG
                                 gvCL.Rows(jj).Cells(colCLSNFKG).Value -= obj.SNF_KG
@@ -3108,6 +3141,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                 End If
             End If
         Next
+
         For ii As Integer = 0 To gvPro.RowCount - 1
             Dim ArrRemove As List(Of clsProductionShiftMgmtProductionItemAddRemove) = TryCast(gvPro.Rows(ii).Cells(ColProRemove).Tag, List(Of clsProductionShiftMgmtProductionItemAddRemove))
             If ArrRemove IsNot Nothing AndAlso ArrRemove.Count > 0 Then
@@ -3149,6 +3183,8 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                 Next
             End If
         Next
+
+
 
         For ii As Integer = 0 To gvDisBulk.RowCount - 1
             For jj As Integer = 0 To gvCL.Rows.Count - 1
@@ -3229,7 +3265,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
         End Try
     End Sub
 
-    Private Sub cboShift_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles cboShift.Validating
+    Private Sub cboShift_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs)
         SetShiftStartEndDateTime()
     End Sub
 
@@ -3241,9 +3277,15 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
         Try
             If Not isInsideLoadData Then
                 txtShiftStart.Value = txtDate.Value
-                txtShiftEnd.Value = clsShiftMaster.GetShiftTime(clsCommon.myCstr(cboShift.SelectedValue), txtDate.Value, txtShiftStart.Value)
+                txtShiftEnd.Value = clsShiftMaster.GetShiftTime(clsCommon.myCstr(txtShift.Value), txtDate.Value, txtShiftStart.Value)
             End If
         Catch ex As Exception
         End Try
+    End Sub
+
+    Private Sub txtShift__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtShift._MYValidating
+        Dim qry As String = " select  SHIFT_CODE as Code,SHIFT_NAME as Name from TSPL_SHIFT_MASTER"
+        txtShift.Value = clsCommon.ShowSelectForm("Shift@shiftM", qry, "Code", "InActive=0", txtShift.Value, "Code", isButtonClicked)
+        SetShiftStartEndDateTime()
     End Sub
 End Class

@@ -489,6 +489,10 @@ Public Class clsMilkCollectionMCCDetail
     Public Machine_SNF As Decimal
     Public FATKG As Decimal
     Public SNFKG As Decimal
+    Public API_FAT As Decimal
+    Public API_SNF As Decimal
+    Public API_FATKG As Decimal
+    Public API_SNFKG As Decimal
     Public Temp As Decimal
     Public Gaze_Reading As Decimal
     Public Gaze_Qty As Decimal
@@ -591,7 +595,10 @@ Public Class clsMilkCollectionMCCDetail
                 clsCommon.AddColumnsForChange(coll, "SNF", obj.SNF)
                 clsCommon.AddColumnsForChange(coll, "FATKG", obj.FATKG)
                 clsCommon.AddColumnsForChange(coll, "SNFKG", obj.SNFKG)
-
+                clsCommon.AddColumnsForChange(coll, "API_FAT", obj.API_FAT, True)
+                clsCommon.AddColumnsForChange(coll, "API_SNF", obj.API_SNF, True)
+                clsCommon.AddColumnsForChange(coll, "API_FATKG", obj.API_FATKG, True)
+                clsCommon.AddColumnsForChange(coll, "API_SNFKG", obj.API_SNFKG, True)
 
                 If obj.Retesting_OR_Correction = 1 Then
                     clsCommon.AddColumnsForChange(coll, "Retesting_FAT", obj.Retesting_FAT)
@@ -679,6 +686,10 @@ where  TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No='" + strPONo + "' "
                 objTr.SNF = clsCommon.myCDecimal(dr("SNF"))
                 objTr.FATKG = clsCommon.myCDecimal(dr("FATKG"))
                 objTr.SNFKG = clsCommon.myCDecimal(dr("SNFKG"))
+                objTr.API_FAT = clsCommon.myCDecimal(dr("API_FAT"))
+                objTr.API_SNF = clsCommon.myCDecimal(dr("API_SNF"))
+                objTr.API_FATKG = clsCommon.myCDecimal(dr("API_FATKG"))
+                objTr.API_SNFKG = clsCommon.myCDecimal(dr("API_SNFKG"))
                 objTr.Milk_Type = clsCommon.myCstr(dr("Milk_Type"))
                 objTr.Temp = clsCommon.myCDecimal(dr("Temp"))
                 objTr.Gaze_Reading = clsCommon.myCDecimal(dr("Gaze_Reading"))

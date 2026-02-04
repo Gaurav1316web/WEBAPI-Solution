@@ -6892,10 +6892,10 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             End If
             txtFreightDistance.Value = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Distance from TSPL_LOCATION_DISTANCE_MAPPING where TransType='S' and Location_Code='" & txtBillToLocation.Value & "' and Customer_Code='" & txtVendorNo.Value & "'", Nothing))
             Dim ECustomerType As String = clsERPFuncationality.GetCustomerEInvoiceType(txtVendorNo.Value, Nothing)
-            If objCommonVar.GenerateEWayBillWithEInvoice = True AndAlso clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(IIf(ddlInvoiceType.SelectedValue = "T", "1", "0"), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value) = True Then
-                If clsCommon.myCdbl(txtFreightDistance.Value) <= 0 Then
-                    Throw New Exception("Please define Freight Distance in EWay Bill Distance Master !")
-                End If
+            If objCommonVar.GenerateEWayBillWithEInvoice = True AndAlso clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(IIf(ddlInvoiceType.SelectedValue = "T", "1", "0"), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value) = True AndAlso chkIsEWayBill.Checked Then
+                'If clsCommon.myCdbl(txtFreightDistance.Value) <= 0 Then
+                '    Throw New Exception("Please define Freight Distance in EWay Bill Distance Master !")
+                'End If
                 If chkownVehicle.Checked = False Then
                     If clsCommon.myLen(txtTransporterCode.Value) <= 0 Then
                         Throw New Exception("Pls Select Transporter")
@@ -8025,10 +8025,11 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                     txtDrAmt.Text = obj.DrAmt
                     txtCrAmt.Text = obj.CrAmt
                     txtClosingBal.Text = obj.ClosingBal
+                    btnEWB.Enabled = True
                 Else
                     btnCancel.Enabled = False
+                    btnEWB.Enabled = False
                     GetOpeningClosingAndReceivedAmt(obj.Customer_Code, obj.Document_Date)
-
                 End If
                 ParentDocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select ParentDocNo from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + obj.Document_Code + "'"))
                 If clsCommon.myLen(ParentDocNo) > 0 Then
@@ -15121,6 +15122,7 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
         Try
             Create_Ewb(tran)
             tran.Commit()
+            clsCommon.MyMessageBoxShow(Me, "EWB Created Successfully", Me.Text)
         Catch ex As Exception
             tran.Rollback()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

@@ -102,9 +102,14 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Crystal Reports Common\crptAnalyzerandWeighingScalWise.rpt" />
+    <None Include="Crystal Reports Common\crptDBT_NEFTUnionReportNEW.rpt" />
     <None Include="Crystal Reports Common\crptDBT_NEFTUnionReportYearly.rpt" />
+    <None Include="Crystal Reports Common\crptDBT_NEFTUnionReportYearlyNEW.rpt" />
     <None Include="Crystal Reports Common\crptmilkunionAvgreport.rpt" />
     <None Include="Crystal Reports Common\crptmilkunionreport.rpt" />
+    <None Include="Crystal Reports Common\crptUnionWiseDCSMachineSummary.rpt" />
+    <None Include="Crystal Reports Common\crptUnionWiseMachineDetail.rpt" />
     <None Include="Crystal Reports Common\rptAllUnionBookingReport.rpt" />
     <None Include="Crystal Reports Common\rptMilkSRNALLUnion.rpt" />
     <None Include="Crystal Reports Common\rptMilkSRNUnion.rpt" />
@@ -511,8 +516,10 @@
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_Local.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_LocalJDH.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_LocalRJS.rpt" />
+    <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_LocalSKR.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_Local_WithMandi.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_NonTaxable.rpt" />
+    <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_NonTaxableCHU.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_NonTaxableRJS.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_NonTaxables.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMccMilkRate.rpt" />
@@ -1155,6 +1162,8 @@
     <None Include="Crystal Reports\crptExciseSummary.rpt" />
     <None Include="Crystal Reports\Dairy Sales Report\BatchWise_PrintChallan.rpt" />
     <None Include="Crystal Reports\Dairy Sales Report\crptBPLprint.rpt" />
+    <None Include="Crystal Reports\Dairy Sales Report\crptDCSDeductionGSTReport.rpt" />
+    <None Include="Crystal Reports\Dairy Sales Report\crptDCSDeductionReport.rpt" />
     <None Include="Crystal Reports\Dairy Sales Report\rptVendorServiceInvoice_Union.rpt" />
     <None Include="Crystal Reports\Fixed Assets\frmAcquisionEntryReport.rpt" />
     <None Include="Crystal Reports\Fixed Assets\frmAssetScrapSale.rpt" />
@@ -1607,6 +1616,7 @@
     <None Include="Crystal Reports\Milk Procurement\rptRouteWiseTimeTable.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptSavingBalanceReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTankerGainLossReport.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\rptTankerMilkQcVsERPEntry.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTankerProfitLoss.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTankerProfitLossPrint2.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTankerReport.rpt" />

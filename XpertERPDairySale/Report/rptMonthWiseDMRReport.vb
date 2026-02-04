@@ -144,7 +144,7 @@ Public Class rptMonthWiseDMRReport
 ,case when max(TSPL_SD_SHIPMENT_DETAIL.TAX3_Rate) <>  0 then TSPL_ITEM_MASTER.Short_Description + ' ' + max(TSPL_SD_SHIPMENT_DETAIL.TAX3) + convert(varchar,convert(decimal(18,1),max(TSPL_SD_SHIPMENT_DETAIL.TAX3_Rate),103)) + '%' else TSPL_ITEM_MASTER.Short_Description+'0.00%'  end as Product_Item_Tax3 
 ,case when max(TSPL_SD_SHIPMENT_DETAIL.TAX4_Rate) <>  0 then TSPL_ITEM_MASTER.Short_Description + ' ' + max(TSPL_SD_SHIPMENT_DETAIL.TAX4) + convert(varchar,convert(decimal(18,1),max(TSPL_SD_SHIPMENT_DETAIL.TAX4_Rate),103)) + '%' else TSPL_ITEM_MASTER.Short_Description+'0.0%'  end as Product_Item_Tax4
 ,case when max(TSPL_SD_SHIPMENT_DETAIL.TAX5_Rate) <>  0 then  TSPL_ITEM_MASTER.Short_Description + ' ' + max(TSPL_SD_SHIPMENT_DETAIL.TAX5) + convert(varchar,convert(decimal(18,1),max(TSPL_SD_SHIPMENT_DETAIL.TAX5_Rate),103)) + '%' else TSPL_ITEM_MASTER.Short_Description+'0%'   end as Product_Item_Tax5
-," & qry & " and TSPL_ITEM_MASTER.IsTaxable = 1 group by TSPL_ITEM_MASTER.Item_Code,Short_Description,Sku_Seq ORDER BY Sku_Seq ")
+," & qry & " and TSPL_ITEM_MASTER.Is_Ambient = 1 or (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable=1) group by TSPL_ITEM_MASTER.Item_Code,Short_Description,Sku_Seq ORDER BY Sku_Seq ")
             End If
             Dim FreshItem As String = Nothing
             Dim ReturnFreshItem As String = Nothing

@@ -326,6 +326,7 @@ Public Class clsfrmTankerMaster
     Public desc As String = Nothing
     Public tankerno As String = Nothing
     Public storagecap As Decimal = Nothing
+    Public IceCharge As Decimal = Nothing
     Public year As String = Nothing
     Public inner As String = Nothing
     Public outer As String = Nothing
@@ -392,6 +393,7 @@ Public Class clsfrmTankerMaster
             clsCommon.AddColumnsForChange(coll, "Tanker_No", obj.tankerno)
             clsCommon.AddColumnsForChange(coll, "Tanker_Name", obj.tanker_name)
             clsCommon.AddColumnsForChange(coll, "Storage_Capacity", obj.storagecap)
+            clsCommon.AddColumnsForChange(coll, "Ice_Charge", obj.IceCharge)
             ''richa Against Ticket No. BM00000003713 on 03/09/2014
             clsCommon.AddColumnsForChange(coll, "StorageCapacityDesc", obj.StorageCapacityDesc)
             ''----------------------------------------------------
@@ -437,7 +439,7 @@ Public Class clsfrmTankerMaster
     Public Shared Function GetData(ByVal tankerno As String, ByVal NavType As NavigatorType) As clsfrmTankerMaster
         Try
             Dim obj As New clsfrmTankerMaster()
-            Dim qry As String = "select TSPL_TANKER_MASTER.tanker_transporter_code as Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_TANKER_MASTER.Tanker_No,TSPL_TANKER_MASTER.tanker_name,TSPL_TANKER_MASTER.Storage_Capacity,TSPL_TANKER_MASTER.StorageCapacityDesc,TSPL_TANKER_MASTER.Year,TSPL_TANKER_MASTER.Inner_SS,TSPL_TANKER_MASTER.Outer_SS,TSPL_TANKER_MASTER.Shift_Charges,TSPL_TANKER_MASTER.Avg_KM_Ltr,TSPL_TANKER_MASTER.Diesel_Rate,TSPL_TANKER_MASTER.Price_KM,TSPL_TANKER_MASTER.Rate_Type,TSPL_TANKER_MASTER.Price_Ltr_Kg,TSPL_TANKER_MASTER.Rental_Type,TSPL_TANKER_MASTER.Rental_Amount,TSPL_TANKER_MASTER.Status,TSPL_TANKER_MASTER.Total_Chamber ,TSPL_TANKER_MASTER.Provision_Min_Qty,TSPL_TANKER_MASTER.Inactive 
+            Dim qry As String = "select TSPL_TANKER_MASTER.tanker_transporter_code as Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_TANKER_MASTER.Tanker_No,TSPL_TANKER_MASTER.tanker_name,TSPL_TANKER_MASTER.Storage_Capacity,TSPL_TANKER_MASTER.Ice_Charge,TSPL_TANKER_MASTER.StorageCapacityDesc,TSPL_TANKER_MASTER.Year,TSPL_TANKER_MASTER.Inner_SS,TSPL_TANKER_MASTER.Outer_SS,TSPL_TANKER_MASTER.Shift_Charges,TSPL_TANKER_MASTER.Avg_KM_Ltr,TSPL_TANKER_MASTER.Diesel_Rate,TSPL_TANKER_MASTER.Price_KM,TSPL_TANKER_MASTER.Rate_Type,TSPL_TANKER_MASTER.Price_Ltr_Kg,TSPL_TANKER_MASTER.Rental_Type,TSPL_TANKER_MASTER.Rental_Amount,TSPL_TANKER_MASTER.Status,TSPL_TANKER_MASTER.Total_Chamber ,TSPL_TANKER_MASTER.Provision_Min_Qty,TSPL_TANKER_MASTER.Inactive 
 from TSPL_VENDOR_MASTER 
 right outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_Transporter_Code=TSPL_VENDOR_MASTER.Vendor_Code "
 
@@ -462,6 +464,7 @@ right outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_Transporter_Cod
                 obj.tankerno = clsCommon.myCstr(dt.Rows(0)("tanker_no"))
                 obj.tanker_name = clsCommon.myCstr(dt.Rows(0)("tanker_name"))
                 obj.storagecap = clsCommon.myCdbl(dt.Rows(0)("storage_capacity"))
+                obj.IceCharge = clsCommon.myCdbl(dt.Rows(0)("Ice_Charge"))
                 obj.shift_chrg = clsCommon.myCdbl(dt.Rows(0)("Shift_Charges"))
                 obj.avg_km_rate = clsCommon.myCdbl(dt.Rows(0)("Avg_KM_Ltr"))
                 obj.diesel_rate = clsCommon.myCdbl(dt.Rows(0)("Diesel_Rate"))

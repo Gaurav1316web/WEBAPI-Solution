@@ -220,6 +220,12 @@
     <Compile Include="FrmOneDayStop.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\frmDCSOutstanding.Designer.vb">
+      <DependentUpon>frmDCSOutstanding.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\frmDCSOutstanding.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Master\frmChillingChargesSlab.Designer.vb">
       <DependentUpon>frmChillingChargesSlab.vb</DependentUpon>
     </Compile>
@@ -370,16 +376,34 @@
     <Compile Include="Milk Procurement\Report\rptDBTMonthWiseFarmerDetail.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptDBTStatusReport.Designer.vb">
+      <DependentUpon>rptDBTStatusReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptDBTStatusReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptGheeAndCattleFeedDeductionStatementReport.Designer.vb">
       <DependentUpon>rptGheeAndCattleFeedDeductionStatementReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Report\rptGheeAndCattleFeedDeductionStatementReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptMachineSurveyRegister.Designer.vb">
+      <DependentUpon>rptMachineSurveyRegister.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptMachineSurveyRegister.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptMilkProcurementReport.Designer.vb">
       <DependentUpon>rptMilkProcurementReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Report\rptMilkProcurementReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptTankerMilkQcVsERPEntry.Designer.vb">
+      <DependentUpon>rptTankerMilkQcVsERPEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptTankerMilkQcVsERPEntry.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Milk Procurement\Report\rptUnionMilkRegister.Designer.vb">
@@ -1272,6 +1296,9 @@
     <EmbeddedResource Include="FrmOneDayStop.resx">
       <DependentUpon>FrmOneDayStop.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\frmDCSOutstanding.resx">
+      <DependentUpon>frmDCSOutstanding.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Master\frmChillingChargesSlab.resx">
       <DependentUpon>frmChillingChargesSlab.vb</DependentUpon>
     </EmbeddedResource>
@@ -1347,11 +1374,20 @@
     <EmbeddedResource Include="Milk Procurement\Report\rptDBTMonthWiseFarmerDetail.resx">
       <DependentUpon>rptDBTMonthWiseFarmerDetail.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptDBTStatusReport.resx">
+      <DependentUpon>rptDBTStatusReport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptGheeAndCattleFeedDeductionStatementReport.resx">
       <DependentUpon>rptGheeAndCattleFeedDeductionStatementReport.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptMachineSurveyRegister.resx">
+      <DependentUpon>rptMachineSurveyRegister.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptMilkProcurementReport.resx">
       <DependentUpon>rptMilkProcurementReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptTankerMilkQcVsERPEntry.resx">
+      <DependentUpon>rptTankerMilkQcVsERPEntry.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptUnionBookingReport.resx">
       <DependentUpon>rptUnionBookingReport.vb</DependentUpon>

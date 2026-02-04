@@ -26,7 +26,7 @@ Partial Class frmGatepassDetailReport
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -61,6 +61,9 @@ Partial Class frmGatepassDetailReport
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnWithIndiCust = New System.Windows.Forms.RadioButton()
+        Me.rbtnOnlyIndiCust = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -89,6 +92,8 @@ Partial Class frmGatepassDetailReport
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox5.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -129,6 +134,7 @@ Partial Class frmGatepassDetailReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox5)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox4)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
@@ -418,7 +424,8 @@ Partial Class frmGatepassDetailReport
         Me.Gv1.MasterTemplate.AllowEditRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
@@ -504,6 +511,42 @@ Partial Class frmGatepassDetailReport
         Me.btnReset.TabIndex = 160
         Me.btnReset.Text = "Reset"
         '
+        'RadGroupBox5
+        '
+        Me.RadGroupBox5.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox5.Controls.Add(Me.rbtnWithIndiCust)
+        Me.RadGroupBox5.Controls.Add(Me.rbtnOnlyIndiCust)
+        Me.RadGroupBox5.HeaderText = ""
+        Me.RadGroupBox5.Location = New System.Drawing.Point(356, 7)
+        Me.RadGroupBox5.Margin = New System.Windows.Forms.Padding(4)
+        Me.RadGroupBox5.Name = "RadGroupBox5"
+        Me.RadGroupBox5.Padding = New System.Windows.Forms.Padding(13, 25, 13, 12)
+        Me.RadGroupBox5.Size = New System.Drawing.Size(342, 41)
+        Me.RadGroupBox5.TabIndex = 363
+        '
+        'rbtnWithIndiCust
+        '
+        Me.rbtnWithIndiCust.AutoSize = True
+        Me.rbtnWithIndiCust.Location = New System.Drawing.Point(170, 12)
+        Me.rbtnWithIndiCust.Name = "rbtnWithIndiCust"
+        Me.rbtnWithIndiCust.Size = New System.Drawing.Size(156, 17)
+        Me.rbtnWithIndiCust.TabIndex = 1
+        Me.rbtnWithIndiCust.TabStop = True
+        Me.rbtnWithIndiCust.Text = "With Individual Customer"
+        Me.rbtnWithIndiCust.UseVisualStyleBackColor = True
+        '
+        'rbtnOnlyIndiCust
+        '
+        Me.rbtnOnlyIndiCust.AutoSize = True
+        Me.rbtnOnlyIndiCust.Checked = True
+        Me.rbtnOnlyIndiCust.Location = New System.Drawing.Point(9, 12)
+        Me.rbtnOnlyIndiCust.Name = "rbtnOnlyIndiCust"
+        Me.rbtnOnlyIndiCust.Size = New System.Drawing.Size(155, 17)
+        Me.rbtnOnlyIndiCust.TabIndex = 0
+        Me.rbtnOnlyIndiCust.TabStop = True
+        Me.rbtnOnlyIndiCust.Text = "Only Individual Customer"
+        Me.rbtnOnlyIndiCust.UseVisualStyleBackColor = True
+        '
         'frmGatepassDetailReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -550,6 +593,9 @@ Partial Class frmGatepassDetailReport
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox5.ResumeLayout(False)
+        Me.RadGroupBox5.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -589,4 +635,7 @@ Partial Class frmGatepassDetailReport
     Friend WithEvents rmSaveLayout As RadMenuItem
     Friend WithEvents rmDeleteLayout As RadMenuItem
     Friend WithEvents rbtnIceCream As RadioButton
+    Friend WithEvents RadGroupBox5 As RadGroupBox
+    Friend WithEvents rbtnWithIndiCust As RadioButton
+    Friend WithEvents rbtnOnlyIndiCust As RadioButton
 End Class

@@ -27396,7 +27396,7 @@ where TR_Code='" & clsCommon.myCstr(dr("TR_Code")) & "'"
                         Dim strInvoiceARJENo As String = clsCommon.myCstr(dt.Rows(ii)("Invoice_No_AR_JV_NO"))
                         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                         Try
-                            qry = "select * from TEMP_DELETED_CF_SALE_INVOICE_DETAIL where Invoice_No not in (select Invoice_No from TEMP_CREATED_CF_SALE_INVOICE)"
+                            qry = "select * from TEMP_DELETED_CF_SALE_INVOICE_DETAIL where Invoice_No = '" & strInvoiceNo & "'"
                             Dim dtShipmentDetail = clsDBFuncationality.GetDataTable(qry, trans)
                             If dtShipmentDetail IsNot Nothing AndAlso dtShipmentDetail.Rows.Count > 0 Then
                                 For j As Integer = 0 To dtShipmentDetail.Rows.Count - 1

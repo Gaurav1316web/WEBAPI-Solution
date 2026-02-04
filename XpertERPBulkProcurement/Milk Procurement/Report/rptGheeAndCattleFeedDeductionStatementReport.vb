@@ -86,8 +86,8 @@ Public Class rptGheeAndCattleFeedDeductionStatementReport
                 txtFromDate.Value = "01/" & DatePart(DateInterval.Month, txtFromDate.Value) & "/" & DatePart(DateInterval.Year, txtFromDate.Value)
             End If
             Dim whrcls As String = " and  trans_type='MCC' and TSPL_SD_SHIPMENT_HEAD.Status=1 and TSPL_DEDUCTION_MASTER.Ded_Grp_Code='DEDUCTION' and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' "
-            If txtMCC.arrValueMember.Count > 0 AndAlso txtMCC.arrValueMember IsNot Nothing Then
-                whrcls += " and TSPL_SD_SHIPMENT_HEAD.Sub_Location_Code in  (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+            If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
+                whrcls += " and TSPL_SD_SHIPMENT_HEAD.bill_to_location in  (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
             End If
             If txtDeduction.arrValueMember IsNot Nothing Then
                 whrcls += " and TSPL_SD_SHIPMENT_HEAD.Deduction in  (" + clsCommon.GetMulcallString(txtDeduction.arrValueMember) + ")"
@@ -370,7 +370,7 @@ isnull(sum ((isnull(TSPL_PAYMENT_PROCESS_MCC_SALE.Amount,0)-isnull(TSPL_PAYMENT_
                     Throw New Exception("Please select the Location first")
                     Exit Sub
                 End If
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_MCC_MASTER.Payment_Cycle,TSPL_PAYMENT_CYCLE_MASTER.PC_TYPE,TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE  from TSPL_MCC_MASTER left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle   where TSPL_MCC_MASTER.MCC_Code =(select Location_Code  from TSPL_LOCATION_MASTER where Loc_Segment_Code in (" & clsCommon.GetMulcallString(txtMCC.arrValueMember) & ") and Location_Category='MCC' and Rejected_Type='N') ")
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_MCC_MASTER.Payment_Cycle,TSPL_PAYMENT_CYCLE_MASTER.PC_TYPE,TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE  from TSPL_MCC_MASTER left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle   where TSPL_MCC_MASTER.MCC_Code =(select Location_Code  from TSPL_LOCATION_MASTER where Location_Code in (" & clsCommon.GetMulcallString(txtMCC.arrValueMember) & ") and Location_Category='MCC' and Rejected_Type='N') ")
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                     Throw New Exception("No Payment Cycle found on current MCC/Location")
                     Exit Sub

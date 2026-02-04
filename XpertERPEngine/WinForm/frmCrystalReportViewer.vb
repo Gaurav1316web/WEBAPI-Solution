@@ -471,6 +471,13 @@ Public Class frmCrystalReportViewer
                 Catch ex As Exception
                 End Try
 
+                Try
+                    If clsCommon.myLen(strSubReport8) > 0 Then
+                        rpdoc.OpenSubreport(strSubReport8).SetDataSource(dt9)
+                    End If
+                Catch ex As Exception
+                End Try
+
                 rpdoc.SetDataSource(dt1)
                 crptViewer.ReportSource = rpdoc
                 crptViewer.ShowPrintButton = ShowCystalReportToolbar

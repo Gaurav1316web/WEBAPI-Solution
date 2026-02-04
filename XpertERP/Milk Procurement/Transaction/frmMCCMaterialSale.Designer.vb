@@ -39,6 +39,7 @@ Partial Class frmMCCMaterialSale
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkIsEwayBill = New Telerik.WinControls.UI.RadCheckBox()
         Me.UcDCSBalance1 = New XpertERPEngine.ucDCSBalance()
         Me.chkExcludeKKFMandi = New Telerik.WinControls.UI.RadCheckBox()
         Me.lblBankCode = New common.Controls.MyLabel()
@@ -282,13 +283,13 @@ Partial Class frmMCCMaterialSale
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.chkIsEwayBill = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkIsEwayBill, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkExcludeKKFMandi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBankCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTPTVendor, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -513,7 +514,6 @@ Partial Class frmMCCMaterialSale
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkIsEwayBill, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -673,6 +673,15 @@ Partial Class frmMCCMaterialSale
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1337, 439)
         Me.RadPageViewPage1.Text = "MCC Material Sale"
+        '
+        'chkIsEwayBill
+        '
+        Me.chkIsEwayBill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkIsEwayBill.Location = New System.Drawing.Point(948, 2)
+        Me.chkIsEwayBill.Name = "chkIsEwayBill"
+        Me.chkIsEwayBill.Size = New System.Drawing.Size(110, 16)
+        Me.chkIsEwayBill.TabIndex = 1584
+        Me.chkIsEwayBill.Text = "Create E-Way Bill"
         '
         'UcDCSBalance1
         '
@@ -2734,7 +2743,7 @@ Partial Class frmMCCMaterialSale
         Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(41.0!, 26.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(1271, 439)
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(1337, 439)
         Me.RadPageViewPage4.Text = "Total"
         '
         'btnHistory1
@@ -3061,7 +3070,7 @@ Partial Class frmMCCMaterialSale
         '
         Me.btnReverseAndUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnReverseAndUnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverseAndUnpost.Location = New System.Drawing.Point(984, 70)
+        Me.btnReverseAndUnpost.Location = New System.Drawing.Point(1050, 70)
         Me.btnReverseAndUnpost.Name = "btnReverseAndUnpost"
         Me.btnReverseAndUnpost.Size = New System.Drawing.Size(268, 18)
         Me.btnReverseAndUnpost.TabIndex = 9
@@ -3395,7 +3404,7 @@ Partial Class frmMCCMaterialSale
         'chkVendorGrossReceipt
         '
         Me.chkVendorGrossReceipt.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.chkVendorGrossReceipt.Location = New System.Drawing.Point(1140, 3)
+        Me.chkVendorGrossReceipt.Location = New System.Drawing.Point(1206, 3)
         Me.chkVendorGrossReceipt.MyLinkLable1 = Nothing
         Me.chkVendorGrossReceipt.MyLinkLable2 = Nothing
         Me.chkVendorGrossReceipt.Name = "chkVendorGrossReceipt"
@@ -3523,7 +3532,7 @@ Partial Class frmMCCMaterialSale
         Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(121.0!, 26.0!)
         Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
-        Me.RadPageViewPage5.Size = New System.Drawing.Size(1271, 439)
+        Me.RadPageViewPage5.Size = New System.Drawing.Size(1337, 439)
         Me.RadPageViewPage5.Text = "E-Invoice / E-Waybill"
         '
         'GroupBox3
@@ -4251,15 +4260,6 @@ Partial Class frmMCCMaterialSale
         Me.RadMenu1.Size = New System.Drawing.Size(1358, 20)
         Me.RadMenu1.TabIndex = 3
         '
-        'chkIsEwayBill
-        '
-        Me.chkIsEwayBill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkIsEwayBill.Location = New System.Drawing.Point(948, 2)
-        Me.chkIsEwayBill.Name = "chkIsEwayBill"
-        Me.chkIsEwayBill.Size = New System.Drawing.Size(110, 16)
-        Me.chkIsEwayBill.TabIndex = 1584
-        Me.chkIsEwayBill.Text = "Create E-Way Bill"
-        '
         'frmMCCMaterialSale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4282,6 +4282,7 @@ Partial Class frmMCCMaterialSale
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkIsEwayBill, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkExcludeKKFMandi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBankCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTPTVendor, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4522,7 +4523,6 @@ Partial Class frmMCCMaterialSale
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkIsEwayBill, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

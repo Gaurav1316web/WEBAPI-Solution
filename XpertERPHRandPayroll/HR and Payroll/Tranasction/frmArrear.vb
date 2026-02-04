@@ -420,6 +420,8 @@ Public Class frmArrear
                     gv2.BestFitColumns()
                     gv2.EnableFiltering = True
                     gv2.ShowGroupPanel = False
+                    SetGridFormation()
+                    SetGridFormationGV2()
                     If dt2 Is Nothing OrElse dt2.Rows.Count <= 0 Then
                         clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                         Exit Sub
@@ -432,6 +434,71 @@ Public Class frmArrear
         Finally
             obj = Nothing
             isInsideLoadData = False
+        End Try
+    End Sub
+
+    Sub SetGridFormationGV2()
+        Try
+            gv2.AutoExpandGroups = True
+            gv2.ShowGroupPanel = True
+            gv2.ShowRowHeaderColumn = False
+            gv2.AllowAddNewRow = False
+            gv2.AllowDeleteRow = False
+            gv2.EnableFiltering = True
+            gv2.ShowFilteringRow = True
+            For ii As Integer = 0 To gv2.Columns.Count - 1
+                gv2.Columns(ii).ReadOnly = True
+                gv2.Columns(ii).BestFit()
+            Next
+
+            Dim index As Integer = 2
+            Dim summaryRowItem As New GridViewSummaryRowItem()
+            For ii As Integer = index To gv2.Columns.Count - 1
+                'If clsCommon.CompairString(gv1.Columns(ii).Name, "Zone_Code") <> CompairStringResult.Equal Then
+                summaryRowItem.Add(New GridViewSummaryItem(gv2.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
+                ' End If
+            Next
+
+            gv2.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv2.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Sub SetGridFormation()
+        Try
+            gv1.AutoExpandGroups = True
+            gv1.ShowGroupPanel = True
+            gv1.ShowRowHeaderColumn = False
+            gv1.AllowAddNewRow = False
+            gv1.AllowDeleteRow = False
+            gv1.EnableFiltering = True
+            gv1.ShowFilteringRow = True
+            For ii As Integer = 0 To gv1.Columns.Count - 1
+                gv1.Columns(ii).ReadOnly = True
+                gv1.Columns(ii).BestFit()
+            Next
+
+            Dim summaryRowItem As New GridViewSummaryRowItem()
+            Dim item1 As New GridViewSummaryItem("Basic", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item1)
+
+            Dim item2 As New GridViewSummaryItem("DA", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item2)
+
+            'Dim item3 As New GridViewSummaryItem("DA Arrear %", "{0:n2}", GridAggregateFunction.Sum)
+            Dim item3 As New GridViewSummaryItem(gv1.Columns(colDAArrearPer).Name, "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item3)
+
+            'Dim item4 As New GridViewSummaryItem("PF", "{0:n2}", GridAggregateFunction.Sum)
+            Dim item4 As New GridViewSummaryItem(gv1.Columns(colEPF).Name, "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item4)
+
+
+            gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -605,6 +672,65 @@ Public Class frmArrear
             clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, " Document_Code", "TSPL_DA_Arrear_Header", "TSPL_DA_Arrear_Detail")
         Catch ex As Exception
             Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub btnExcelExport_Click(sender As Object, e As EventArgs) Handles btnExcelExport.Click
+        If RadPageView1.SelectedPage.Text = "Filter" Then
+            ExportToExcel(EnumExportTo.Excel)
+        Else
+            ExportToExcel1(EnumExportTo.Excel)
+        End If
+        'If gv1.Rows.Count > 0 Then
+        '    ExportToExcel(EnumExportTo.Excel)
+        'Else
+        '    RadMessageBox.Show("No Data Found to Display", Me.Text)
+        'End If
+    End Sub
+
+    Private Sub ExportToExcel(ByVal exporter As EnumExportTo)
+        Try
+
+            Dim arrHeader As List(Of String) = New List(Of String)()
+            'Dim strtemp As String = "Date Range : " + clsCommon.GetPrintDate(txtfDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")
+            'arrHeader.Add(strtemp)
+            arrHeader.Add("Company : " + objCommonVar.CurrentCompanyName)
+            arrHeader.Add(" Location : " + clsCommon.GetMulcallStringWithComma(txtmulLocation.arrDispalyMember))
+
+            'If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+            '    arrHeader.Add(" Customer : " + clsCommon.GetMulcallStringWithComma(txtMultiCustomer.arrDispalyMember))
+            'End If
+            If exporter = EnumExportTo.Excel Then
+                clsCommon.MyExportToExcelGrid("DA Arrear", gv1, arrHeader, Me.Text)
+                'Else
+                '    clsCommon.MyExportToPDF("Sale Invoice Status Report", gvData, arrHeader, "Sale Invoice Status Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
+            End If
+
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub ExportToExcel1(ByVal exporter As EnumExportTo)
+        Try
+
+            Dim arrHeader As List(Of String) = New List(Of String)()
+            'Dim strtemp As String = "Date Range : " + clsCommon.GetPrintDate(txtfDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")
+            'arrHeader.Add(strtemp)
+            arrHeader.Add("Company : " + objCommonVar.CurrentCompanyName)
+            arrHeader.Add(" Location : " + clsCommon.GetMulcallStringWithComma(txtmulLocation.arrDispalyMember))
+
+            'If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+            '    arrHeader.Add(" Customer : " + clsCommon.GetMulcallStringWithComma(txtMultiCustomer.arrDispalyMember))
+            'End If
+            If exporter = EnumExportTo.Excel Then
+                clsCommon.MyExportToExcelGrid("DA Arrear Detail", gv2, arrHeader, Me.Text)
+                'Else
+                '    clsCommon.MyExportToPDF("Sale Invoice Status Report", gvData, arrHeader, "Sale Invoice Status Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
+            End If
+
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
 End Class

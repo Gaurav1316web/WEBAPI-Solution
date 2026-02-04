@@ -2933,9 +2933,9 @@ Public Class FrmTransferKDIL
             txtFreightDistance.Value = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select MAX(Distance) AS Distance from TSPL_LOCATION_DISTANCE_MAPPING where TransType='T' and ((Location_Code='" & txtFromLocation.Value & "' and Customer_Code='" & txtToLoc.Value & "') OR (Customer_Code='" & txtToLoc.Value & "' and Location_Code='" & txtFromLocation.Value & "'))", Nothing))
             'Dim ELocationType As String = clsDBFuncationality.getSingleValue("select CASE WHEN TSPL_LOCATION_MASTER.Registered=1 then 'BB' else 'BC' end AS Type from TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.Location_Code='" + txtToLoc.Value + "'", Nothing)
             If chkJobWork.Checked = False AndAlso (clsCommon.CompairString(cboTransferType.SelectedValue, "O") = CompairStringResult.Equal OrElse clsCommon.CompairString(cboTransferType.SelectedValue, "T") = CompairStringResult.Equal) AndAlso objCommonVar.GenerateEWayBillWithEInvoice = True AndAlso chkTaxable.Checked = True AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value) = True Then
-                If clsCommon.myCdbl(txtFreightDistance.Value) <= 0 Then
-                    Throw New Exception("Please define Freight Distance in EWay Bill Distance Master.")
-                End If
+                'If clsCommon.myCdbl(txtFreightDistance.Value) <= 0 Then
+                '    Throw New Exception("Please define Freight Distance in EWay Bill Distance Master.")
+                'End If
                 If chkOwnVehicle.Checked = False Then
                     If clsCommon.myLen(txtTransporter_desc.Text) <= 0 Then
                         Throw New Exception("Pls Select Transporter")

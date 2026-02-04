@@ -20,7 +20,7 @@ Public Class frmMultipleInvoice
         'btnSave.Visible = MyBase.isModifyFlag
         'btnPost.Visible = MyBase.isPostFlag
         'btnPrint.Visible = MyBase.isPrintFlag
-        'btnDelete.Visible = False
+        btnDelete.Visible = False
         'If MyBase.isReverse Then
         '    btnReverseAndUnpost.Enabled = True
         'Else
@@ -32,11 +32,12 @@ Public Class frmMultipleInvoice
     End Sub
     Private Sub frmMultipleInvoice_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         AddNew()
+        btnDelete.Visible = False
     End Sub
     Public Sub AddNew()
         isInvoice = False
         btnDelete.Visible = False
-        btnDelete.Enabled = False
+        'btnDelete.Enabled = False
         btnCancel.Visible = False
         btnCancel.Enabled = False
         btnPrintMultipleInvoice.Visible = False
@@ -326,6 +327,8 @@ Public Class frmMultipleInvoice
                             clsPSInvoiceHead.PostData(Me.Form_ID, clsCommon.myCstr(gv1.Rows(intRow).Cells(0).Value), True)
                             'Dim RetrunDocNO As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_Sale_RETURN_head where Against_Invoice_No='" & clsCommon.myCstr(gv1.Rows(intRow).Cells(0).Value) & "'"))
                             'clsDSSalesReturnHead.PostData(Me.Form_ID, RetrunDocNO)
+                        Else
+                            Throw New Exception("Already Posted")
                         End If
                     End If
                 Next
@@ -510,29 +513,10 @@ Public Class frmMultipleInvoice
         Try
             txtInvoiceNo.Value = strInvoiceNo
             Dim strQry As String = "select TSPL_SD_SALE_INVOICE_HEAD.Document_Code as Invoice_NO,convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Docuemnt_Date,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SALE_INVOICE_HEAD.Route_No,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location,case when TSPL_SD_SALE_INVOICE_HEAD.Status=0 then 'Pending' else 'Approved' end as Status,TSPL_SD_SALE_INVOICE_HEAD.Amount_Less_Discount,TSPL_SD_SALE_INVOICE_HEAD.total_tax_Amt,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt
-,Case 
-When TAX1.Type ='IGST' Then TAX1.Type 
-When TAX2.Type ='IGST' Then TAX2.Type 
-When TAX3.Type ='IGST' Then TAX3.Type 
-When TAX4.Type ='IGST' Then TAX4.Type 
-When TAX5.Type ='IGST' Then TAX5.Type 
-When TAX6.Type ='IGST' Then TAX6.Type 
-When TAX7.Type ='IGST' Then TAX7.Type 
-When TAX8.Type ='IGST' Then TAX8.Type 
-When TAX9.Type ='IGST' Then TAX9.Type 
-When TAX10.Type='IGST' Then TAX10.Type Else Null End As [Tax Type]
+,Null As [Tax Type]
 from TSPL_SD_SALE_INVOICE_HEAD 
 left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
-Left Outer Join TSPL_TAX_MASTER As TAX1 On TAX1.Type=TSPL_SD_SALE_INVOICE_HEAD.TAX1
-Left Outer Join TSPL_TAX_MASTER As TAX2 On TAX2.Type=TSPL_SD_SALE_INVOICE_HEAD.TAX2
-Left Outer Join TSPL_TAX_MASTER As TAX3 On TAX3.Type=TSPL_SD_SALE_INVOICE_HEAD.TAX3
-Left Outer Join TSPL_TAX_MASTER As TAX4 On TAX4.Type=TSPL_SD_SALE_INVOICE_HEAD.TAX4
-Left Outer Join TSPL_TAX_MASTER As TAX5 On TAX5.Type=TSPL_SD_SALE_INVOICE_HEAD.TAX5
-Left Outer Join TSPL_TAX_MASTER As TAX6 On TAX6.Type=TSPL_SD_SALE_INVOICE_HEAD.TAX6
-Left Outer Join TSPL_TAX_MASTER As TAX7 On TAX7.Type=TSPL_SD_SALE_INVOICE_HEAD.TAX7
-Left Outer Join TSPL_TAX_MASTER As TAX8 On TAX8.Type=TSPL_SD_SALE_INVOICE_HEAD.TAX8
-Left Outer Join TSPL_TAX_MASTER As TAX9 On TAX9.Type=TSPL_SD_SALE_INVOICE_HEAD.TAX9
-Left Outer Join TSPL_TAX_MASTER As TAX10 On TAX10.Type=TSPL_SD_SALE_INVOICE_HEAD.Tax10 where isMultipleInvoice = 1  "
+ where isMultipleInvoice = 1  "
             Dim whrCls As String = ""
             whrCls = " and isMultipleInvoice = 1 "
             Select Case NavType
@@ -570,8 +554,8 @@ Left Outer Join TSPL_TAX_MASTER As TAX10 On TAX10.Type=TSPL_SD_SALE_INVOICE_HEAD
                 gv1.BestFitColumns()
                 btnSave.Enabled = False
                 btnPost.Enabled = True
-                btnDelete.Visible = True
-                btnDelete.Enabled = True
+                'btnDelete.Visible = True
+                'btnDelete.Enabled = True
                 btnCancel.Visible = True
                 btnCancel.Enabled = True
                 btnSave.Enabled = False
@@ -660,26 +644,26 @@ where isMultipleInvoice=1"
         End If
     End Sub
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
-        Try
-            If common.clsCommon.MyMessageBoxShow(Me, "Do you want to delete ", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
-                For intRow As Integer = 0 To gv1.Rows.Count - 1
-                    If clsCommon.myLen(gv1.Rows(intRow).Cells(0).Value) > 0 Then
-                        If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(intRow).Cells(6).Value), "Approved") = CompairStringResult.Equal Then
-                            clsPSInvoiceHead.ReverseAndUnpost(clsCommon.myCstr(gv1.Rows(intRow).Cells(0).Value))
-                        End If
-                        Dim status As Boolean = clsPSInvoiceHead.DeleteData(clsCommon.myCstr(gv1.Rows(intRow).Cells(0).Value))
-                        If status Then
-                            Dim Qry As String = " update TSPL_SD_SHIPMENT_HEAD set Sale_Invoice_No='' where Sale_Invoice_No =('" + clsCommon.myCstr(gv1.Rows(intRow).Cells(0).Value) + "')"
-                            clsDBFuncationality.ExecuteNonQuery(Qry)
-                        End If
-                    End If
-                Next
-                clsCommon.MyMessageBoxShow(Me, "Delete Successfully", Me.Text)
-                LoadData(False)
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
+        'Try
+        '    If common.clsCommon.MyMessageBoxShow(Me, "Do you want to delete ", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+        '        For intRow As Integer = 0 To gv1.Rows.Count - 1
+        '            If clsCommon.myLen(gv1.Rows(intRow).Cells(0).Value) > 0 Then
+        '                If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(intRow).Cells(6).Value), "Approved") = CompairStringResult.Equal Then
+        '                    clsPSInvoiceHead.ReverseAndUnpost(clsCommon.myCstr(gv1.Rows(intRow).Cells(0).Value))
+        '                End If
+        '                Dim status As Boolean = clsPSInvoiceHead.DeleteData(clsCommon.myCstr(gv1.Rows(intRow).Cells(0).Value))
+        '                If status Then
+        '                    Dim Qry As String = " update TSPL_SD_SHIPMENT_HEAD set Sale_Invoice_No='' where Sale_Invoice_No =('" + clsCommon.myCstr(gv1.Rows(intRow).Cells(0).Value) + "')"
+        '                    clsDBFuncationality.ExecuteNonQuery(Qry)
+        '                End If
+        '            End If
+        '        Next
+        '        clsCommon.MyMessageBoxShow(Me, "Delete Successfully", Me.Text)
+        '        LoadData(False)
+        '    End If
+        'Catch ex As Exception
+        '    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        'End Try
     End Sub
     Private Sub gv1_DoubleClick(sender As Object, e As EventArgs) Handles gv1.DoubleClick
         Try

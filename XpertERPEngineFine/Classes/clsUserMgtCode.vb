@@ -1,5 +1,10 @@
 ﻿Imports common
 Public Class clsUserMgtCode
+    Public Const rptMachineSurveyRegister As String = "MH-SRV-RGSR"
+    Public Const frmDCSDeductionReport As String = "DCS-DED-RPT"
+    Public Const rptTankerMilkQcVsERPEntry As String = "TAN-ERP"
+
+    Public Const rptDBTStatusReport As String = "RPT-DBT-STS"
     Public Const frmRALQCReport As String = "RAL-QC-RPT"
     Public Const frmUnionWiseAppUserReport As String = "UNN-APP-RPT"
     Public Const FrmCmSambalYojanaSubsidy As String = "CM-SAM-YO"
@@ -2209,6 +2214,7 @@ Public Class clsUserMgtCode
     Public Const frmMilkReasonMaster As String = "M-Reason"
     Public Const frmMCCMaterial As String = "M-Material"
     Public Const frmDCSSaleEntry As String = "DCS-SAL-ENT"
+    Public Const frmMobileDCSDemand As String = "MOB-DCS-DMD"
     Public Const frmCancelDCSSale As String = "CNL-DCS-SAL"
     Public Const frmMCCMaterialSaleReturn As String = "M-Material-R"
     Public Const frmMCCMaterialFarmer As String = "M-MaterialF"
@@ -2835,6 +2841,7 @@ Public Class clsUserMgtCode
     Public Const XpertAPITruckSheet As String = "API-TS-RPT"
     Public Const XpertAPIBMCDCSSamplingReceiving As String = "BMC-DCS-SR"
     Public Const XpertAPIBMCDCSSampleReceivedRegister As String = "API-DCS-SMR"
+    Public Const XpertAPITankerCollectionReport As String = "API-TNK-CLN"
     Public Const XpertAPIGateEntry As String = "API-GT-ENT"
     Public Const XpertAPIBMCMilkQC As String = "API-BM-MK-QC"
     ''=================== MIS start here============
