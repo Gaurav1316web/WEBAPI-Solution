@@ -35,6 +35,7 @@ Public Class BMC_Transporter_Bill
     Dim Total_fat_snf_shortage As Decimal = 0
     Dim Total_Amount As Decimal = 0
     Public EnableOnPrivateChkbox As Boolean = False
+    Public tripValue As String = ""
 
 
 #End Region
@@ -433,13 +434,18 @@ Public Class BMC_Transporter_Bill
         Try
             ' gv1.Rows(IntRowNo).Cells(ColIceBox).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Case when Is_IceBox=1 then 'Y' else 'N' end as Ice_Box from TSPL_BMC_DCS_SAMPLE_RECEIVING where Tanker_No= '" + txtTankerNo.Value + "' and Trip = '" + gv1.Rows(IntRowNo).Cells(ColTrip).Value + "' and Document_Date= '" + gv1.Rows(IntRowNo).Cells(colDate).Value + "'  "))
 
+            'Dim tripValue As String = ""
+
+            'If gv1.Rows(IntRowNo).Cells(ColTrip).Value IsNot Nothing Then
+            '    tripValue = gv1.Rows(IntRowNo).Cells(ColTrip).Value.ToString()
+            'End If
 
             Dim IceChargeAmt As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Ice_Charge from TSPL_TANKER_MASTER where Tanker_No = '" + clsCommon.myCstr(txtTankerNo.Value) + "' "))
             TxtIceCharge.Text = clsCommon.myCdbl(IceChargeAmt)
 
             Dim Iceboxqry As String = "Select Count(*)Ice_Box from TSPL_BMC_DCS_SAMPLE_RECEIVING where Tanker_No = '" + clsCommon.myCstr(txtTankerNo.Value) + "' 
             and CONVERT(DATE, Document_Date, 103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "', 103)
-            and CONVERT(DATE, Document_Date, 103) <= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value) + "', 103) and Trip = '" + gv1.Rows(IntRowNo).Cells(ColTrip).Value + "' and Is_IceBox=1   "
+            and CONVERT(DATE, Document_Date, 103) <= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value) + "', 103) and Trip = '" + tripValue + "' and Is_IceBox=1   "
             Dim dataicebox As DataTable = clsDBFuncationality.GetDataTable(Iceboxqry)
 
             Dim rowCount As Integer = clsCommon.myCstr(dataicebox.Rows(0)("Ice_Box"))
@@ -584,9 +590,11 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                 'gv1.CurrentRow.Cells(ColAmount).Value = clsCommon.myCdbl(clsCommon.myCdbl(dt.Rows(ii)("Distance")))
                 'gv1.CurrentRow.Cells(ColDiesel).Value = clsCommon.myCdbl(clsCommon.myCdbl(dt.Rows(ii)("Distance")))
                 'gv1.Rows(IntRowNo).Cells(ColIceBox).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Case when Is_IceBox=1 then 'Y' else 'N' end as Ice_Box from TSPL_BMC_DCS_SAMPLE_RECEIVING where Tanker_No= '" + txtTankerNo.Value + "' and Trip = '" + gv1.Rows(IntRowNo).Cells(ColTrip).Value + "' and Document_Date= '" + gv1.Rows(IntRowNo).Cells(colDate).Value + "'  "))
-                Dim Iceboxqry As String = "Select Case when Is_IceBox=1 then 'Y' else 'N' end as Ice_Box from TSPL_BMC_DCS_SAMPLE_RECEIVING where Tanker_No= '" + txtTankerNo.Value + "' and Trip = '" + gv1.CurrentRow.Cells(ColTrip).Value + "' and Document_Date= '" + clsCommon.GetPrintDate(gv1.CurrentRow.Cells(colDate).Value, "dd/MMM/yyyy") + "'  "
-                Dim dataicebox As DataTable = clsDBFuncationality.GetDataTable(Iceboxqry)
-                gv1.CurrentRow.Cells(ColIceBox).Value = clsCommon.myCstr(dataicebox.Rows(0)("Ice_Box"))
+                'Dim Iceboxqry As String = "Select Case when Is_IceBox=1 then 'Y' else 'N' end as Ice_Box from TSPL_BMC_DCS_SAMPLE_RECEIVING where Tanker_No= '" + txtTankerNo.Value + "' and Trip = '" + gv1.CurrentRow.Cells(ColTrip).Value + "' and Document_Date= '" + clsCommon.GetPrintDate(gv1.CurrentRow.Cells(colDate).Value, "dd/MMM/yyyy") + "'  "
+                'Dim dataicebox As DataTable = clsDBFuncationality.GetDataTable(Iceboxqry)
+                'gv1.CurrentRow.Cells(ColIceBox).Value = clsCommon.myCstr(dataicebox.Rows(0)("Ice_Box"))
+                gv1.CurrentRow.Cells(ColIceBox).Value = "Y"
+
 
                 gv1.CurrentRow.Cells(ColIceBox).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Case when Is_IceBox=1 then 'Y' else 'N' end as Ice_Box from TSPL_BMC_DCS_SAMPLE_RECEIVING where Tanker_No= '" + txtTankerNo.Value + "' and Trip = '" + gv1.CurrentRow.Cells(ColTrip).Value + "' and Document_Date= '" + clsCommon.GetPrintDate(gv1.CurrentRow.Cells(colDate).Value, "dd/MMM/yyyy") + "'  "))
                 'gv1.CurrentRow.Cells(ColIceBox).Value = Iceboxqry
@@ -597,6 +605,11 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                 End If
 
             Next
+
+
+            'If gv1.Rows(IntRowNo).Cells(ColTrip).Value IsNot Nothing Then
+            tripValue = gv1.CurrentRow.Cells(ColTrip).Value.ToString()
+            'End If
             IceCharge(ii)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

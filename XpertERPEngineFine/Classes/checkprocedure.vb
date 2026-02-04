@@ -877,7 +877,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptTransactionWiseStock, "Transaction Wise Stock", "1.08.03.50", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.Rptralwisematerialreceivedandpayment, "Ral Wise Material Received And Payment", "1.08.03.51", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.RmSecurityDeduction, "Rm Security Deduction", "1.08.03.52", clsUserMgtCode.SubModulePurchaseReport, 37)
-        InsertDefaultValue(clsUserMgtCode.WeightmentAutoAndManualReport, "Weightment Auto And Manual Report", "1.08.03.53", clsUserMgtCode.SubModulePurchaseReport, 37)
+        InsertDefaultValue(clsUserMgtCode.WeightmentAutoAndManualReport, "Weightment Auto And Manual Report", "1.08.03.53", clsUserMgtCode.SubModulePurchaseReport, "", 37, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, False, False, True)
         InsertDefaultValue(clsUserMgtCode.rptRejectionReport, "Rejection Detail Report", "1.08.03.57", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.CancelPurchaseInvoiceReport, "Cancel Purchase Invoice Report", "1.08.03.58", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmRALQCReport, "RAL QC Report", "1.08.03.59", clsUserMgtCode.SubModulePurchaseReport, 37)
@@ -2707,7 +2707,7 @@ Public Class ProgramCodeNew
 
         InsertDefaultValue(clsUserMgtCode.SubModuleQCReport, "Report", "1.23.03", clsUserMgtCode.ModuleQualityControl, "SM", 30)
         InsertDefaultValue(clsUserMgtCode.rptPendingQCReport, "QC Status Report", "1.23.03.01", clsUserMgtCode.SubModuleQCReport, 37)
-        InsertDefaultValue(clsUserMgtCode.QualitySummaryReport, "Quality Summary Report", "1.23.03.02", clsUserMgtCode.SubModuleQCReport, 37)
+        InsertDefaultValue(clsUserMgtCode.QualitySummaryReport, "Quality Summary Report", "1.23.03.02", clsUserMgtCode.SubModuleQCReport, "", 37, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, False, False, True)
         InsertDefaultValue(clsUserMgtCode.rptQCAnalysisReport, "QC Analysis Report", "1.23.03.03", clsUserMgtCode.SubModuleQCReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptNIRQC, "NIR QC Report", "1.23.03.07", clsUserMgtCode.SubModuleQCReport, 37)
 
