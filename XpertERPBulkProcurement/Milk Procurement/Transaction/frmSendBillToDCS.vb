@@ -329,8 +329,7 @@ Public Class frmSendBillToDCS
                             If isMilkcollection Then
                                 clsCommon.ProgressBarPercentUpdate(stepCounter, totalSteps, $"MP Collection [{docDateFormattedShort}][{strShift}][{strVLCUploader}][{vlcName}]")
                                 Try
-                                    'ProcessMilkCollection(dtStart, docDateFormattedForQuery, strShift, strMCC, strVLCUploader, vlcCode, strMsgBuilder)
-                                    ProcessMilkCollection_Bulk(dtStart, strShift, strMCC, strVLCUploader, vlcCode, strMsgBuilder)
+                                    ProcessMilkCollection(dtStart, docDateFormattedForQuery, strShift, strMCC, strVLCUploader, vlcCode, strMsgBuilder)
                                 Catch ex As Exception
                                     strMsgBuilder.AppendLine($"MilkCollection [{docDateFormattedShort}][{strShift}][{strVLCUploader}] : {ex.Message}")
                                 End Try
