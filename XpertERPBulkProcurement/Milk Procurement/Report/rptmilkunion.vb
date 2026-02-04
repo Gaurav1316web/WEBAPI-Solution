@@ -372,6 +372,8 @@ Public Class rptmilkunion
                     Dim status15 As String
                     Dim status16 As String
                     Dim status17 As String
+                    Dim status18 As String
+                    Dim status19 As String
                     If rdbPosted.Checked Then
                         status1 = " and  sh.Status=1 "
                         status2 = " and pe.POSTED= 1 "
@@ -390,6 +392,8 @@ Public Class rptmilkunion
                         status15 = " and TSPL_BOOKING_MATSER.Posted=1 "
                         status16 = " and TSPL_GRN_HEAD.Status=1"
                         status17 = " and tspl_shift_mgmt.Status = 1 "
+                        status18 = " and TSPL_MILK_COLLECTION_BMCDCS.Status=1"
+                        status19 = " and TSPL_MILK_COLLECTION_DCS.Status=1"
                     ElseIf rdbUnposted.Checked Then
                         status1 = " and  sh.Status= 0 "
                         status2 = " and pe.POSTED= 0 "
@@ -408,6 +412,8 @@ Public Class rptmilkunion
                         status15 = " and TSPL_BOOKING_MATSER.Posted=0 "
                         status16 = " and TSPL_GRN_HEAD.Status= 0 "
                         status17 = " and tspl_shift_mgmt.Status = 0 "
+                        status18 = " and TSPL_MILK_COLLECTION_BMCDCS.Status=0"
+                        status19 = " and TSPL_MILK_COLLECTION_DCS.Status=0"
                     Else
                         status1 = " "
                         status2 = " "
@@ -426,6 +432,8 @@ Public Class rptmilkunion
                         status15 = " "
                         status16 = " "
                         status17 = "  "
+                        status18 = "  "
+                        status19 = "  "
                     End If
                     If clsCommon.CompairString(ddlReportType.SelectedValue, "UWSR") = CompairStringResult.Equal Then
 
@@ -625,7 +633,16 @@ Public Class rptmilkunion
                            mcs.Status = 0
                            AND
                             CONVERT(DATE, mcs.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
-                        ) AS Procurement
+                         UNION ALL
+                        Select IsNull(Sum(TSPL_MILK_COLLECTION_BMCDCS_DCS.Qty),0)Qty,IsNull(Sum(TSPL_MILK_COLLECTION_BMCDCS_DCS.FATKG),0)FATKG,IsNull(Sum(TSPL_MILK_COLLECTION_BMCDCS_DCS.SNFKG),0)SNFKG 
+                        from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_BMCDCS_DCS
+                        Left Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_BMCDCS On TSPL_MILK_COLLECTION_BMCDCS.PK_ID=TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID
+                        Where CONVERT(DATE, TSPL_MILK_COLLECTION_BMCDCS.IDate, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " & status18 & "
+                        And TSPL_MILK_COLLECTION_BMCDCS.PK_ID Not In (select TSPL_MILK_COLLECTION_DCS_detail.PK_ID from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS_detail
+                        Left Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS On TSPL_MILK_COLLECTION_DCS.Document_No=TSPL_MILK_COLLECTION_DCS_detail.document_no
+                         where CONVERT(DATE, TSPL_MILK_COLLECTION_DCS.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " & status19 & ")
+
+                            ) AS Procurement
                     ) AS Dis_Procurement,
                     (select sum([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_DETAIL.Total_Basic_Amt) as Sale_Voucher from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_DETAIL
                     left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_HEAD on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_HEAD.Document_Code
@@ -786,7 +803,7 @@ Public Class rptmilkunion
                            mcs.Status = 0
                            AND
                             CONVERT(DATE, mcs.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
-                        ) AS Procurement
+                            ) AS Procurement
                     ) AS Dis_Procurement,
                     (select sum([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_DETAIL.Total_Basic_Amt) as Sale_Voucher from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_DETAIL
                     left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_HEAD on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_HEAD.Document_Code
@@ -800,31 +817,31 @@ Public Class rptmilkunion
             If dt2 IsNot Nothing OrElse dt2.Rows.Count > 0 Then
 
                 gv1.DataSource = Nothing
-                    gv1.Rows.Clear()
-                    gv1.Columns.Clear()
-                    gv1.GroupDescriptors.Clear()
-                    gv1.MasterTemplate.SummaryRowsBottom.Clear()
-                    gv1.MasterView.Refresh()
-                    gv1.DataSource = dt2
-                    For ii As Integer = 0 To gv1.Columns.Count - 1
-                        gv1.Columns(ii).ReadOnly = True
-                    Next
+                gv1.Rows.Clear()
+                gv1.Columns.Clear()
+                gv1.GroupDescriptors.Clear()
+                gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                gv1.MasterView.Refresh()
+                gv1.DataSource = dt2
+                For ii As Integer = 0 To gv1.Columns.Count - 1
+                    gv1.Columns(ii).ReadOnly = True
+                Next
                 RadPageView1.SelectedPage = RadPageViewPage2
                 gv1.EnableFiltering = True
-                    gv1.MasterTemplate.SummaryRowsBottom.Clear()
-                    SetGridFormat1()
-                    gv1.BestFitColumns()
-                    If print Then
-                        If clsCommon.CompairString(ddlReportType.SelectedValue, "UWASR") = CompairStringResult.Equal Then
-                            Dim frmCRV As New frmCrystalReportViewer()
+                gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                SetGridFormat1()
+                gv1.BestFitColumns()
+                If print Then
+                    If clsCommon.CompairString(ddlReportType.SelectedValue, "UWASR") = CompairStringResult.Equal Then
+                        Dim frmCRV As New frmCrystalReportViewer()
                         frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptmilkunionAvgreport", "") ''report for both (RCDF And RCDFCF)
                     Else
-                            Dim frmCRV As New frmCrystalReportViewer()
+                        Dim frmCRV As New frmCrystalReportViewer()
                         frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptmilkunionreport", "") ''report for both (RCDF And RCDFCF)
                     End If
 
-                    End If
-                Else
+                End If
+            Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
