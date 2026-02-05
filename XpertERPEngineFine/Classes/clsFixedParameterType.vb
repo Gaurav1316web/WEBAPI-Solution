@@ -2667,6 +2667,11 @@ Public Class clsFixedParameterCode
     Public Const MaxSNFPerLimit As String = "Max SNF Per Limit"
     Public Const MinFATPerLimit As String = "Min FAT Per Limit"
     Public Const MinSNFPerLimit As String = "Min SNF Per Limit"
+
+    Public Const MorningShiftStartTime As String = "Morning Shift Start Time"
+    Public Const MorningShiftEndHours As String = "Morning Shift End Hours"
+    Public Const EveningShiftStartTime As String = "Evening Shift Start Time"
+    Public Const EveningShiftEndHours As String = "Evening Shift End Hours"
     Public Const LockDate As String = "Lock Date"
     Public Const ApplyTransFATSNFRateForCalculateFATSNFRate As String = "Apply Trans FAT SNF Rate For Calculate FATSNF Rate"
     Public Const GrossWeightChangePWD As String = "Gross Weight Change PWD"
@@ -3013,6 +3018,12 @@ Public Class clsFixedParameter
     Public Shared Function FixedParameterValues() As Boolean
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MaxFATPerLimit, "15", "Android Farmer Collection Max FAT Per")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MaxSNFPerLimit, "15", "Android Farmer Collection Max SNF Per")
+
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MorningShiftStartTime, "06:00:00AM", "Farmer Milk Collection Morning Shift Start Time")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MorningShiftEndHours, "4", "Morning Shift End Time =Morning Shift Start Time + Hours")
+
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.EveningShiftStartTime, "06:00:00PM", "Farmer Milk Collection Evening Shift Start Time")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MorningShiftEndHours, "4", "Evening Shift End Time =Evening Shift Start Time + Hours")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.SuspenceAdjusmtmentFATSNFTolerancePercentage, clsFixedParameterCode.SuspenceAdjusmtmentFATSNFTolerancePercentage, "1.5", "Suspence Adjusmtment FAT SNF Tolerance Percentage")
         InsertDefaultValueFixedParameter(clsFixedParameterType.TransactionModify, clsFixedParameterCode.TransactionModify, "Trans@123", "")
