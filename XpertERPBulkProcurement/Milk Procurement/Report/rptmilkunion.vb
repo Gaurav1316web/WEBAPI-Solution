@@ -637,10 +637,10 @@ Public Class rptmilkunion
                         Select IsNull(Sum(TSPL_MILK_COLLECTION_BMCDCS_DCS.Qty),0)Qty,IsNull(Sum(TSPL_MILK_COLLECTION_BMCDCS_DCS.FATKG),0)FATKG,IsNull(Sum(TSPL_MILK_COLLECTION_BMCDCS_DCS.SNFKG),0)SNFKG 
                         from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_BMCDCS_DCS
                         Left Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_BMCDCS On TSPL_MILK_COLLECTION_BMCDCS.PK_ID=TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID
-                        Where CONVERT(DATE, TSPL_MILK_COLLECTION_BMCDCS.IDate, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " & status18 & "
-                        And TSPL_MILK_COLLECTION_BMCDCS.PK_ID Not In (select TSPL_MILK_COLLECTION_DCS_detail.PK_ID from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS_detail
-                        Left Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS On TSPL_MILK_COLLECTION_DCS.Document_No=TSPL_MILK_COLLECTION_DCS_detail.document_no
-                         where CONVERT(DATE, TSPL_MILK_COLLECTION_DCS.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " & status19 & ")
+                        Left Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS_detail On TSPL_MILK_COLLECTION_DCS_detail.PK_Id=TSPL_MILK_COLLECTION_BMCDCS.PK_ID
+Left Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS On TSPL_MILK_COLLECTION_DCS.Document_No=TSPL_MILK_COLLECTION_DCS_detail.document_no
+                        Where  IsNull(TSPL_MILK_COLLECTION_BMCDCS.PK_ID,'') = '' And CONVERT(DATE, TSPL_MILK_COLLECTION_BMCDCS.IDate, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " & status18 & status19 & "
+                        
 
                             ) AS Procurement
                     ) AS Dis_Procurement,
