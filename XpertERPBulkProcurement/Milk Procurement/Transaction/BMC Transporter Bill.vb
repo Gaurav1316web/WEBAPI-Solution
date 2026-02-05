@@ -111,6 +111,7 @@ Public Class BMC_Transporter_Bill
         coll.Add("Amount", "decimal (18,2) NULL")
         coll.Add("Diesel_RD", "decimal (18,2) NULL")
         coll.Add("Document_Date", "datetime NULL")
+        coll.Add("Ice_Box", "Char(1) NULL")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BMC_TRANSPORTER_BILL_DETAIL", coll, Nothing, True, False, "TSPL_BMC_TRANSPORTER_BILL_HEAD", "Document_Code", "", True)
 
         Try
@@ -574,43 +575,45 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
             qry2 = " Select Storage_Capacity from TSPL_TANKER_MASTER where Tanker_No='" + clsCommon.myCstr(txtTankerNo.Value) + "' "
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(qry2)
             Dim ii As Integer = 0
-            For ii = 0 To dt.Rows.Count - 1
-                gv1.Rows.AddNew()
-                gv1.CurrentRow.Cells(colDocumentNo).Value = clsCommon.myCstr(dt.Rows(ii)("Document_No"))
-                gv1.CurrentRow.Cells(colDate).Value = clsCommon.myCstr(dt.Rows(ii)("Document_Date"))
-                gv1.CurrentRow.Cells(ColCategory).Value = "BMC"
-                gv1.CurrentRow.Cells(ColStation).Value = "Jaipur>>" & clsCommon.myCstr(dt.Rows(0)("Station_1"))
-                gv1.CurrentRow.Cells(ColStation2).Value = clsCommon.myCstr(dt.Rows(0)("Station_2"))
-                gv1.CurrentRow.Cells(ColStation3).Value = clsCommon.myCstr(dt.Rows(0)("Station_3"))
-                gv1.CurrentRow.Cells(ColStation4).Value = clsCommon.myCstr(dt.Rows(0)("Station_4"))
-                gv1.CurrentRow.Cells(ColTrip).Value = clsCommon.myCstr(dt.Rows(ii)("Trip_No"))
-                gv1.CurrentRow.Cells(ColKM).Value = clsCommon.myCdbl(dt.Rows(ii)("Distance"))
-                gv1.CurrentRow.Cells(ColQuantity).Value = clsCommon.myCdbl(dt.Rows(ii)("Storage_Capacity"))
-                gv1.CurrentRow.Cells(ColAmount).Value = clsCommon.myCdbl(clsCommon.myCdbl(dt.Rows(ii)("Distance"))) * clsCommon.myCdbl(TxtKMRate.Text)
-                'gv1.CurrentRow.Cells(ColAmount).Value = clsCommon.myCdbl(clsCommon.myCdbl(dt.Rows(ii)("Distance")))
-                'gv1.CurrentRow.Cells(ColDiesel).Value = clsCommon.myCdbl(clsCommon.myCdbl(dt.Rows(ii)("Distance")))
-                'gv1.Rows(IntRowNo).Cells(ColIceBox).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Case when Is_IceBox=1 then 'Y' else 'N' end as Ice_Box from TSPL_BMC_DCS_SAMPLE_RECEIVING where Tanker_No= '" + txtTankerNo.Value + "' and Trip = '" + gv1.Rows(IntRowNo).Cells(ColTrip).Value + "' and Document_Date= '" + gv1.Rows(IntRowNo).Cells(colDate).Value + "'  "))
-                'Dim Iceboxqry As String = "Select Case when Is_IceBox=1 then 'Y' else 'N' end as Ice_Box from TSPL_BMC_DCS_SAMPLE_RECEIVING where Tanker_No= '" + txtTankerNo.Value + "' and Trip = '" + gv1.CurrentRow.Cells(ColTrip).Value + "' and Document_Date= '" + clsCommon.GetPrintDate(gv1.CurrentRow.Cells(colDate).Value, "dd/MMM/yyyy") + "'  "
-                'Dim dataicebox As DataTable = clsDBFuncationality.GetDataTable(Iceboxqry)
-                'gv1.CurrentRow.Cells(ColIceBox).Value = clsCommon.myCstr(dataicebox.Rows(0)("Ice_Box"))
-                gv1.CurrentRow.Cells(ColIceBox).Value = "Y"
+            If dt.Rows.Count > 0 Then
+                For ii = 0 To dt.Rows.Count - 1
+                    gv1.Rows.AddNew()
+                    gv1.CurrentRow.Cells(colDocumentNo).Value = clsCommon.myCstr(dt.Rows(ii)("Document_No"))
+                    gv1.CurrentRow.Cells(colDate).Value = clsCommon.myCstr(dt.Rows(ii)("Document_Date"))
+                    gv1.CurrentRow.Cells(ColCategory).Value = "BMC"
+                    gv1.CurrentRow.Cells(ColStation).Value = "Jaipur>>" & clsCommon.myCstr(dt.Rows(0)("Station_1"))
+                    gv1.CurrentRow.Cells(ColStation2).Value = clsCommon.myCstr(dt.Rows(0)("Station_2"))
+                    gv1.CurrentRow.Cells(ColStation3).Value = clsCommon.myCstr(dt.Rows(0)("Station_3"))
+                    gv1.CurrentRow.Cells(ColStation4).Value = clsCommon.myCstr(dt.Rows(0)("Station_4"))
+                    gv1.CurrentRow.Cells(ColTrip).Value = clsCommon.myCstr(dt.Rows(ii)("Trip_No"))
+                    gv1.CurrentRow.Cells(ColKM).Value = clsCommon.myCdbl(dt.Rows(ii)("Distance"))
+                    gv1.CurrentRow.Cells(ColQuantity).Value = clsCommon.myCdbl(dt.Rows(ii)("Storage_Capacity"))
+                    gv1.CurrentRow.Cells(ColAmount).Value = clsCommon.myCdbl(clsCommon.myCdbl(dt.Rows(ii)("Distance"))) * clsCommon.myCdbl(TxtKMRate.Text)
+                    'gv1.CurrentRow.Cells(ColAmount).Value = clsCommon.myCdbl(clsCommon.myCdbl(dt.Rows(ii)("Distance")))
+                    'gv1.CurrentRow.Cells(ColDiesel).Value = clsCommon.myCdbl(clsCommon.myCdbl(dt.Rows(ii)("Distance")))
+                    'gv1.Rows(IntRowNo).Cells(ColIceBox).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Case when Is_IceBox=1 then 'Y' else 'N' end as Ice_Box from TSPL_BMC_DCS_SAMPLE_RECEIVING where Tanker_No= '" + txtTankerNo.Value + "' and Trip = '" + gv1.Rows(IntRowNo).Cells(ColTrip).Value + "' and Document_Date= '" + gv1.Rows(IntRowNo).Cells(colDate).Value + "'  "))
+                    'Dim Iceboxqry As String = "Select Case when Is_IceBox=1 then 'Y' else 'N' end as Ice_Box from TSPL_BMC_DCS_SAMPLE_RECEIVING where Tanker_No= '" + txtTankerNo.Value + "' and Trip = '" + gv1.CurrentRow.Cells(ColTrip).Value + "' and Document_Date= '" + clsCommon.GetPrintDate(gv1.CurrentRow.Cells(colDate).Value, "dd/MMM/yyyy") + "'  "
+                    'Dim dataicebox As DataTable = clsDBFuncationality.GetDataTable(Iceboxqry)
+                    'gv1.CurrentRow.Cells(ColIceBox).Value = clsCommon.myCstr(dataicebox.Rows(0)("Ice_Box"))
+                    'gv1.CurrentRow.Cells(ColIceBox).Value = "Y"
 
 
-                gv1.CurrentRow.Cells(ColIceBox).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Case when Is_IceBox=1 then 'Y' else 'N' end as Ice_Box from TSPL_BMC_DCS_SAMPLE_RECEIVING where Tanker_No= '" + txtTankerNo.Value + "' and Trip = '" + gv1.CurrentRow.Cells(ColTrip).Value + "' and Document_Date= '" + clsCommon.GetPrintDate(gv1.CurrentRow.Cells(colDate).Value, "dd/MMM/yyyy") + "'  "))
-                'gv1.CurrentRow.Cells(ColIceBox).Value = Iceboxqry
-                If clsCommon.myLen(txtDieselplus.Text) > 0 Then
-                    gv1.CurrentRow.Cells(ColDiesel).Value = clsCommon.myCdbl(clsCommon.myCdbl(dt.Rows(ii)("Distance")) * clsCommon.myCdbl(txtDieselplus.Text))
-                Else
-                    gv1.CurrentRow.Cells(ColDiesel).Value = -1 * clsCommon.myCdbl(clsCommon.myCdbl(dt.Rows(ii)("Distance")) * clsCommon.myCdbl(TxtDieselMinus.Text))
-                End If
+                    gv1.CurrentRow.Cells(ColIceBox).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Case when Is_IceBox=1 then 'Y' else 'N' end as Ice_Box from TSPL_BMC_DCS_SAMPLE_RECEIVING where Tanker_No= '" + txtTankerNo.Value + "' and Trip = '" + gv1.CurrentRow.Cells(ColTrip).Value + "' and Document_Date= '" + clsCommon.GetPrintDate(gv1.CurrentRow.Cells(colDate).Value, "dd/MMM/yyyy") + "'  "))
+                    'gv1.CurrentRow.Cells(ColIceBox).Value = Iceboxqry
+                    If clsCommon.myLen(txtDieselplus.Text) > 0 Then
+                        gv1.CurrentRow.Cells(ColDiesel).Value = clsCommon.myCdbl(clsCommon.myCdbl(dt.Rows(ii)("Distance")) * clsCommon.myCdbl(txtDieselplus.Text))
+                    Else
+                        gv1.CurrentRow.Cells(ColDiesel).Value = -1 * clsCommon.myCdbl(clsCommon.myCdbl(dt.Rows(ii)("Distance")) * clsCommon.myCdbl(TxtDieselMinus.Text))
+                    End If
 
-            Next
-
-
-            'If gv1.Rows(IntRowNo).Cells(ColTrip).Value IsNot Nothing Then
-            tripValue = gv1.CurrentRow.Cells(ColTrip).Value.ToString()
-            'End If
-            IceCharge(ii)
+                Next
+                'If gv1.Rows(IntRowNo).Cells(ColTrip).Value IsNot Nothing Then
+                tripValue = gv1.CurrentRow.Cells(ColTrip).Value.ToString()
+                'End If
+                IceCharge(ii)
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -797,6 +800,8 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                     objTr.Amount = clsCommon.myCdbl(grow.Cells(ColAmount).Value)
                     objTr.Diesel_RD = clsCommon.myCdbl(grow.Cells(ColDiesel).Value)
                     objTr.BMC_Date = clsCommon.myCDate(grow.Cells(colDate).Value)
+                    objTr.Ice_Box = clsCommon.myCDate(grow.Cells(ColIceBox).Value)
+
 
                     totalTrip += objTr.Trip
                     totalGPSKM += objTr.GPS_KM
@@ -953,6 +958,8 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColQuantity).Value = objrow.Quantity_KG
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColCategory).Value = "BMC"
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDate).Value = objrow.BMC_Date
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColIceBox).Value = objrow.Ice_Box
+
                         If dt.Rows.Count > i Then
                             'gv1.Rows(gv1.Rows.Count - 1).Cells(colDate).Value = clsCommon.myCstr(dt.Rows(i)("Document_Date"))
                         End If

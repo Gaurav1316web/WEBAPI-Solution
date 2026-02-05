@@ -35,6 +35,7 @@ Public Class rptTemporaryPaymentDeductionSummary
         rbtnAll.Checked = True
         txtMCC.Value = ""
         fndArea.Value = ""
+        'fndMultDCS.arrValueMember = Nothing
     End Sub
 
     Private Sub EnableDisableControl(ByVal val As Boolean)
@@ -44,6 +45,7 @@ Public Class rptTemporaryPaymentDeductionSummary
         txtMCC.Enabled = val
         chkDCSWise.Enabled = val
         RadGroupBox1.Enabled = val
+        fndMultDCS.Enabled = val
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
@@ -1785,4 +1787,24 @@ left  join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.Vendor_Code "
         End If
         Return qry
     End Function
+
+    Private Sub rdbDocumentWise_CheckedChanged(sender As Object, e As EventArgs) Handles rdbDocumentWise.CheckedChanged
+        If rdbDocumentWise.Checked Then
+            MyLabel3.Visible = True
+            fndMultDCS.Visible = True
+        Else
+            MyLabel3.Visible = False
+            fndMultDCS.Visible = False
+        End If
+    End Sub
+
+    Private Sub rdbDocumentWiseDetail_CheckedChanged(sender As Object, e As EventArgs) Handles rdbDocumentWiseDetail.CheckedChanged
+        If rdbDocumentWise.Checked Then
+            MyLabel3.Visible = True
+            fndMultDCS.Visible = True
+        Else
+            MyLabel3.Visible = False
+            fndMultDCS.Visible = False
+        End If
+    End Sub
 End Class

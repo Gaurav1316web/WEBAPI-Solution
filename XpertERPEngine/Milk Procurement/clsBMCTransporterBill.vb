@@ -191,6 +191,8 @@ Public Class clsBMCTransporterBill
                     objTr.Amount = clsCommon.myCdbl(dr("Amount"))
                     'objTr.BMC_Date = clsCommon.myCdbl(dr("Document_Date"))
                     objTr.BMC_Date = clsCommon.myCstr(dr("Document_Date"))
+                    objTr.Ice_Box = clsCommon.myCstr(dr("Ice_Box"))
+                    'clsCommon.AddColumnsForChange(coll, "Ice_Box", obj.Ice_Box)
                     'objTr.BalanceAmount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Balance_Amt from TSPL_VENDOR_INVOICE_HEAD left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code where TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader= '" + clsCommon.myCstr(dr("VLC_Code_VLC_Uploader")) + "' and Transfer_To_Saving=1"))
                     obj.Arr.Add(objTr)
                     Next
@@ -438,6 +440,7 @@ Public Class clsBMCTransporterBillDetail
     Public Quantity_KG As Decimal = 0
     Public Diesel_RD As Decimal = 0
     Public BMC_Date As String = Nothing
+    Public Ice_Box As String = Nothing
     Public arr As List(Of clsfrmVLCMaster) = Nothing
 
     'Public BalanceAmount As Decimal = 0
@@ -459,6 +462,7 @@ Public Class clsBMCTransporterBillDetail
                 clsCommon.AddColumnsForChange(coll, "Diesel_RD", obj.Diesel_RD)
                 clsCommon.AddColumnsForChange(coll, "Amount", obj.Amount)
                 clsCommon.AddColumnsForChange(coll, "Document_Date", obj.BMC_Date)
+                clsCommon.AddColumnsForChange(coll, "Ice_Box", obj.Ice_Box)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BMC_TRANSPORTER_BILL_DETAIL", OMInsertOrUpdate.Insert, "", trans)
             Next
         End If
@@ -485,6 +489,7 @@ Public Class clsBMCTransporterBillDetail
                 clsCommon.AddColumnsForChange(coll, "Diesel_RD", obj.Diesel_RD)
                 clsCommon.AddColumnsForChange(coll, "Amount", obj.Amount)
                 clsCommon.AddColumnsForChange(coll, "Document_Date", obj.BMC_Date)
+                clsCommon.AddColumnsForChange(coll, "Ice_Box", obj.Ice_Box)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BMC_TRANSPORTER_BILL_DETAIL", OMInsertOrUpdate.Insert, "", trans)
             Next
         End If
