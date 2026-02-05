@@ -495,14 +495,19 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
         End Try
     End Sub
 
+
+
     Private Sub FarmerCollectionEntryStatus()
         Try
             Dim Qry As String = "Select finalQry.* "
             If isPrint Then
                 Qry &= " , TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,TSPL_COMPANY_MASTER.State,TSPL_STATE_MASTER.STATE_NAME,'" & objCommonVar.CurrentUser & "' As PrintBy "
             End If
-            Qry &= " from( Select ROW_NUMBER() Over (Order By (Select 1)) As [S.No.],[Union],Max(Convert(Varchar(10),Doc_Date,103))Doc_Date,SUM(Case When shift='M' Then 1 Else 0 End) As MorningQty,SUM(Case When shift='E' Then 1 Else 0 End) As EveningQty"
-            Qry &= " from(" & GetQryUploader() & Environment.NewLine & " Union All " & GetQryManual() & ")final Group By [Union] "
+            Qry &= " from( Select ROW_NUMBER() Over (Order By (Select 1)) As [S.No.],
+ [Union],MAX(Doc_Date)Doc_Date,SUM(MorningQty)MorningQty,SUM(EveningQty)EveningQty from (Select
+[Union],Max(Convert(Varchar(10),Doc_Date,103))Doc_Date,(Case When shift='M' Then Count(Distinct MP_Code) Else 0 End) As MorningQty,
+(Case When shift='E' Then Count(Distinct MP_Code) Else 0 End) As EveningQty "
+            Qry &= " from(" & ReturnFarmerBaseQry() & ")final Group By [Union],shift)BAseQry group by [Union]  "
             Qry &= ")finalQry "
             If isPrint Then
                 Qry &= " Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "'
@@ -545,19 +550,57 @@ Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_M
         End Try
     End Sub
 
+    Function ReturnFarmerBaseQry() As String
+        Dim i As Integer = 0
+        Dim qry As String = ""
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            For Each strUnion As DataRow In dt.Rows
+                Dim dcsCount As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Count(Distinct TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code) from " & clsCommon.myCstr(strUnion("Database_Name")) & ".dbo.TSPL_MP_INCENTIVE_ENTRY_DETAIL
+Left Join " & clsCommon.myCstr(strUnion("Database_Name")) & ".dbo.TSPL_MP_INCENTIVE_ENTRY_HEAD On TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
+Where TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Date>='" & clsCommon.GetPrintDate(txtToDate.Value.AddMonths(-6), "dd/MMM/yyyy") & "' And TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Date<='" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "'"))
+                If dcsCount <= 0 Then
+                    dcsCount = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(" Select COUNT(1) from " & clsCommon.myCstr(strUnion("Database_Name")) & ".dbo.TSPL_VLC_MASTER_HEAD where Active=1"))
+                End If
+                If i <> 0 Then
+                    qry &= " Union All "
+                End If
+                qry &= " Select * from ("
+                qry &= "select '" & strUnion("Location_Name") & "' As [Union],Cast('" & clsCommon.myCstr(dcsCount) & "' As Int) As DCSCount,Doc_No,Doc_Date,File_Date,shift,
+TSPL_VLC_MASTER_HEAD.Vlc_Code_VLC_Uploader,
+TSPL_VLC_MASTER_HEAD.VLC_Name,
+TSPl_MP_MAster.MP_CODE,TSPl_MP_MAster.MP_Name,
+TSPl_MP_MAster.MP_Code_VLC_Uploader As MP_Uploader_Code,qty,fat,snf,Rate,Amount,fat_KG,snf_KG,Entry_Source As tttype from " & strUnion("Database_Name") & ".dbo.TSPL_VLC_DATA_UPLOADER
+Left Join " & strUnion("Database_Name") & ".dbo.TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.Vlc_Code_VLC_Uploader=TSPL_VLC_DATA_UPLOADER.VLC_CODE
+Left Join " & strUnion("Database_Name") & ".dbo.TSPl_MP_MAster On TSPl_MP_MAster.MP_Code_VLC_Uploader=TSPL_VLC_DATA_UPLOADER.MP_CODE and TSPl_MP_MAster.VLC_Code=TSPL_VLC_MASTER_HEAD.VLC_Code
+where Doc_Date>='" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "' And Doc_Date<='" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "' "
+                If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
+                    qry &= " and 2=( case when Doc_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and Doc_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and shift='M' then 3 else 2 end  )"
+                End If
+                If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
+                    qry &= " and 2=( case when Doc_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and Doc_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and shift='E' then 3 else 2 end  )"
+                End If
+                qry &= Environment.NewLine & " Union All " & Environment.NewLine
+                qry &= "select '" & strUnion("Location_Name") & "' As [Union],Cast('" & clsCommon.myCstr(dcsCount) & "' As Int) As DCSCount,'' As Doc_No,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") & "' As Doc_Date,'' As File_Date,'' As shift,
+'' As Vlc_Code_VLC_Uploader,'' As VLC_Name,'' As MP_CODE,'' As MP_Name,'' As MP_Uploader_Code,0 As qty,0 As fat,0 As snf,0 As Rate,0 As Amount,0 As fat_KG,0 As snf_KG,'' As  tttype ) As " & strUnion("Database_Name")
+                i += 1
+            Next
+        End If
+        Return qry
+    End Function
+
     Private Sub FarmerWiseCollectionAtDCS()
         Try
             Dim Qry As String = "Select finalQry.* "
             If isPrint Then
                 Qry &= " , TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,TSPL_COMPANY_MASTER.State,TSPL_STATE_MASTER.STATE_NAME,'" & objCommonVar.CurrentUser & "' As PrintBy "
             End If
-            Qry &= " from(Select Row_Number() Over (Order By (Select 1)) As [S.No.],[Union],Max([DCSCount]) As [DCS], Case When Max(shift)='M' And Max(tttype) IN ('MOBILE APP','MANUAL') Then COUNT(Distinct VLC_uploader_CODE) Else 0 End As [MorningManual], 
-Case When Max(shift)='M' And Max(tttype)='REIL' Then COUNT(Distinct VLC_uploader_CODE) Else 0 End As [MorningAuto],Max([DCSCount])-(Case When Max(shift)='M' And Max(tttype) In ('REIL','MOBILE APP','MANUAL') Then COUNT(Distinct VLC_uploader_CODE) Else 0 End) As [MorningPending],
- Case When Max(shift)='E' And Max(tttype) IN ('MOBILE APP','MANUAL') Then COUNT(Distinct VLC_uploader_CODE) Else 0 End As [EveningManual], 
-Case When Max(shift)='E' And Max(tttype)='REIL' Then COUNT(Distinct VLC_uploader_CODE) Else 0 End As [EveningAuto],
-Max([DCSCount])-(Case When Max(shift)='E' And Max(tttype) In ('REIL','MOBILE APP','MANUAL') Then COUNT(Distinct VLC_uploader_CODE) Else 0 End) As [EveningPending]"
+            Qry &= " from(Select Row_Number() Over (Order By (Select 1)) As [S.No.],[Union],Convert(Varchar(10),Max([Date]),103)[Date],Max([DCS])[DCS],Sum([MorningManual])[MorningManual],Sum([MorningAuto])[MorningAuto],Min([MorningPending])[MorningPending],Sum([EveningManual])[EveningManual],Sum([EveningAuto])[EveningAuto],Min([EveningPending])[EveningPending] from (Select [Union],Max([DCSCount]) As [DCS],Max(Doc_Date) As [Date], Case When Max(shift)='M' And Max(tttype) IN ('MOBILE APP','MANUAL') Then COUNT(Distinct vlc_code_vlc_Uploader) Else 0 End As [MorningManual], 
+Case When (shift)='M' And Max(tttype)='REIL' Then COUNT(Distinct vlc_code_vlc_Uploader) Else 0 End As [MorningAuto],Max([DCSCount])-(Case When (shift)='M' And Max(tttype) In ('REIL','MOBILE APP','MANUAL') Then COUNT(Distinct vlc_code_vlc_Uploader) Else 0 End) As [MorningPending],
+ Case When (shift)='E' And Max(tttype) IN ('MOBILE APP','MANUAL') Then COUNT(Distinct vlc_code_vlc_Uploader) Else 0 End As [EveningManual], 
+Case When (shift)='E' And Max(tttype)='REIL' Then COUNT(Distinct vlc_code_vlc_Uploader) Else 0 End As [EveningAuto],
+Max([DCSCount])-(Case When Max(shift)='E' And Max(tttype) In ('REIL','MOBILE APP','MANUAL') Then COUNT(Distinct vlc_code_vlc_Uploader) Else 0 End) As [EveningPending]"
 
-            Qry &= "from(" & GetQryUploader() & Environment.NewLine & " Union All " & GetQryManual() & ")final Group By [Union] "
+            Qry &= "from(" & ReturnFarmerBaseQry() & ")final Group By [Union],Shift)BaseQry Group By [Union] "
             Qry &= ")finalQry "
             If isPrint Then
                 Qry &= " Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "'
@@ -656,12 +699,12 @@ Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_M
     Private Sub FarmerCollectionDetails()
         Try
             Dim qry As String = " Select ROW_NUMBER() Over (Order By (Select 1)) As SNo,[Union],Convert(Varchar(10),Doc_Date,103) As [Date],
- VLC_uploader_CODE As [DCS],VLC_Name As [DCS Name],MP_Code_uploader As [Farmer Code],MP_Name As [Farmer Name],shift As [Shift],qty As [Qty],fat As [Fat %],snf As [Snf %],Convert(Decimal(18,2),Case When qty>0 Then Amount/qty Else 0 End) As [Rate],Amount,tttype As [Source]"
+ Vlc_Code_VLC_Uploader As [DCS],VLC_Name As [DCS Name],MP_Uploader_Code As [Farmer Code],MP_Name As [Farmer Name],shift As [Shift],qty As [Qty],fat As [Fat %],snf As [Snf %],Convert(Decimal(18,2),Case When qty>0 Then Amount/qty Else 0 End) As [Rate],Amount,tttype As [Source]"
             If isPrint Then
                 qry &= " ,'" & objCommonVar.CurrentUser & "' As PrintBy,TSPL_COMPANY_MASTER.Logo_Img, TSPL_COMPANY_MASTER.Logo_Img2, TSPL_COMPANY_MASTER.Comp_Name, TSPL_COMPANY_MASTER.Add1, TSPL_COMPANY_MASTER.Add2, TSPL_COMPANY_MASTER.Add3, TSPL_COMPANY_MASTER.State, TSPL_STATE_MASTER.STATE_NAME"
             End If
             qry &= " from("
-            qry &= GetQryUploader() & Environment.NewLine & " Union All " & GetQryManual()
+            qry &= ReturnFarmerBaseQry()
             qry &= ")final"
             If isPrint Then
                 qry &= " Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "'
