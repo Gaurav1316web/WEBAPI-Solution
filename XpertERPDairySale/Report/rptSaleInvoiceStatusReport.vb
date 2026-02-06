@@ -935,7 +935,7 @@ LEFT JOIN TSPL_SD_SALE_INVOICE_HEAD H ON D.DOCUMENT_CODE = H.Document_Code
 LEFT JOIN TSPL_ITEM_MASTER IM ON IM.Item_Code = D.Item_Code
 LEFT JOIN TSPL_ITEM_UOM_DETAIL U ON U.Item_Code = D.Item_Code
 WHERE CONVERT(date, H.Document_Date, 103)  BETWEEN CONVERT(date,'" & clsCommon.GetPrintDate(txtfDate.Value, "dd/MMM/yyyy") & "',103) AND CONVERT(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103)
-GROUP BY D.Item_Code HAVING SUM(CASE WHEN U.Report_UOM = 1 THEN 1 ELSE 0 END) = 0"
+GROUP BY D.Item_Code HAVING SUM(CASE WHEN U.Report_UOM = 1 THEN 1 ELSE 0 END) = 0 "
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(qry2)
 
             If dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0 Then

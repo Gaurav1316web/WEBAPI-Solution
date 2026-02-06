@@ -54,8 +54,13 @@ Public Class rptTemporaryPaymentDeductionSummary
         GetReportID()
         If chkCurrntCycle.Checked Then
             Print(False)
-           ' PrintChkwiseData(False)
+            ' PrintChkwiseData(False)
             Exit Sub
+        End If
+        If rdbDocumentWise.Checked Then
+            DocumentWiseQuery()
+        ElseIf rdbDocumentWiseDetail.Checked Then
+
         End If
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse
                 clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal OrElse
@@ -69,6 +74,120 @@ Public Class rptTemporaryPaymentDeductionSummary
         btnPrint.Text = "Print"
     End Sub
 
+    Sub DocumentWiseQuery()
+        Try
+            Dim Qry As String = ""
+            Dim dt As New DataTable
+
+            Qry = "  Select *,(Document_Total-ConsumedAmt)FinalBal from ( Select ROW_NUMBER() OVER (ORDER BY AP_Invoice_No)SNo,AP_Invoice_No,AP_Invoice_Date,Isnull((Description),'') as DeductionName,
+                            VLC_Code_VLC_Uploader as DCSCode,Document_Total,Balance_Amt,Amount,Reduce_Deduc_Amt,(Amount-Reduce_Deduc_Amt) as ConsumedAmt
+                            from (
+                            select TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No as Document_No, TSPL_PAYMENT_PROCESS_HEAD.To_Date as Document_Date,TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No ,
+                            TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Total,TSPL_VENDOR_INVOICE_HEAD.Balance_Amt,TSPL_VENDOR_INVOICE_HEAD.Document_Type,
+                            TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code as DeductionCode,TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc as Description,
+                            TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_DEDUCTION.Amount,
+                            TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt,2 as RI,TSPL_VLC_MASTER_HEAD.Active   
+                            from TSPL_PAYMENT_PROCESS_DEDUCTION
+                            left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
+                            left  join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No
+                            left join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No 
+                            left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+                            left join tspl_dcs_addition_deduction on tspl_dcs_addition_deduction.code=TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code
+                            where 2=2  
+
+                            Union all
+
+                            select TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No as Document_No, TSPL_PAYMENT_PROCESS_HEAD.To_Date as Document_Date,
+                            TSPL_PAYMENT_PROCESS_MCC_SALE.AR_Invoice_No as AP_Invoice_No ,TSPL_Customer_Invoice_Head.Posting_Date as AP_Invoice_Date,
+                            TSPL_Customer_Invoice_Head.Document_Total,TSPL_Customer_Invoice_Head.Balance_Amt,'D' as Document_Type,
+                            TSPL_SD_SHIPMENT_HEAD.Deduction as DeductionCode,TSPL_DEDUCTION_MASTER.description,
+                            TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_MCC_SALE.Amount,TSPL_PAYMENT_PROCESS_MCC_SALE.Reduce_Deduc_Amt,
+                            5 as RI,TSPL_VLC_MASTER_HEAD.Active
+                            from TSPL_PAYMENT_PROCESS_MCC_SALE
+                            left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_PAYMENT_PROCESS_MCC_SALE.Shipment_Doc_No
+                            left outer join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Document_No=TSPL_PAYMENT_PROCESS_MCC_SALE.AR_Invoice_No
+                            left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No
+                            left outer join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+                            left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code
+                            left  join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_SD_SHIPMENT_HEAD.Deduction
+                            where 2=2 )  XX
+                            left  join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.Vendor_Code 
+                            Where  XX.Document_Date>='" & clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy ") & "' 
+                            and XX.Document_Date<='" & clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy ") & "'  "
+
+            If fndMultDCS.arrValueMember IsNot Nothing AndAlso fndMultDCS.arrValueMember.Count > 0 Then
+                Qry += " and XX.VLC_Code_VLC_Uploader In(" + clsCommon.GetMulcallString(fndMultDCS.arrValueMember) + ")" + Environment.NewLine
+            End If
+            Qry += " )XX "
+
+            dt = clsDBFuncationality.GetDataTable(Qry)
+            Gv1.DataSource = Nothing
+            Gv1.Rows.Clear()
+            Gv1.Columns.Clear()
+            Gv1.GroupDescriptors.Clear()
+            Gv1.MasterView.Refresh()
+            Gv1.GroupDescriptors.Clear()
+            Gv1.EnableFiltering = True
+            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+            If dt.Rows.Count > 0 Then
+                Gv1.DataSource = dt
+                Gv1.BestFitColumns()
+                SetGridFormation()
+                ReStoreGridLayout()
+                Gv1.MasterTemplate.AutoExpandGroups = True
+                RadPageView1.SelectedPage = RadPageViewPage2
+                Gv1.BestFitColumns()
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data found to Display", Me.Text)
+
+                Exit Sub
+            End If
+
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Sub SetGridFormation()
+        Gv1.AutoExpandGroups = True
+        Gv1.ShowGroupPanel = True
+        Gv1.ShowRowHeaderColumn = False
+        Gv1.AllowAddNewRow = False
+        Gv1.AllowDeleteRow = False
+        Gv1.EnableFiltering = True
+        Gv1.ShowFilteringRow = True
+        For ii As Integer = 0 To Gv1.Columns.Count - 1
+            Gv1.Columns(ii).ReadOnly = True
+            Gv1.Columns(ii).BestFit()
+        Next
+
+        Gv1.Columns("Reduce_Deduc_Amt").HeaderText = "Reduce Deduc Amt"
+        Gv1.Columns("Reduce_Deduc_Amt").IsVisible = False
+        Gv1.Columns("Reduce_Deduc_Amt").VisibleInColumnChooser = True
+        Gv1.Columns("AP_Invoice_No").HeaderText = "AP Invoice No"
+        Gv1.Columns("AP_Invoice_Date").HeaderText = "AP Invoice Date"
+        Gv1.Columns("DeductionName").HeaderText = "Deduction"
+        Gv1.Columns("DCSCode").HeaderText = "DCS Code"
+        Gv1.Columns("Document_Total").HeaderText = "Document Total"
+        Gv1.Columns("Balance_Amt").HeaderText = "Balance Amt"
+        Gv1.Columns("Amount").HeaderText = "Amount"
+        Gv1.Columns("ConsumedAmt").HeaderText = "Consumed Amt"
+        Gv1.Columns("FinalBal").HeaderText = "Final Balance"
+
+        Gv1.ShowGroupPanel = True
+        Gv1.MasterTemplate.AutoExpandGroups = True
+
+        'Dim summaryRowItem As New GridViewSummaryRowItem()
+        'Dim index As Integer = 7
+        'For ii As Integer = index To Gv1.Columns.Count - 1
+        '    'If clsCommon.CompairString(gvData.Columns(ii).Name, "Zone_Code") <> CompairStringResult.Equal Then
+        '    summaryRowItem.Add(New GridViewSummaryItem(Gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
+        '    'End If
+        'Next
+        'Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        'Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+    End Sub
     Sub GetReportID()
         Dim VarID As String = ""
         If chkDCSWise.Checked Then

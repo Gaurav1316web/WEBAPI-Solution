@@ -800,7 +800,7 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                     objTr.Amount = clsCommon.myCdbl(grow.Cells(ColAmount).Value)
                     objTr.Diesel_RD = clsCommon.myCdbl(grow.Cells(ColDiesel).Value)
                     objTr.BMC_Date = clsCommon.myCDate(grow.Cells(colDate).Value)
-                    objTr.Ice_Box = clsCommon.myCDate(grow.Cells(ColIceBox).Value)
+                    objTr.Ice_Box = clsCommon.myCstr(grow.Cells(ColIceBox).Value)
 
 
                     totalTrip += objTr.Trip
