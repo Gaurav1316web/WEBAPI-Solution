@@ -2461,8 +2461,12 @@ Public Class FrmInvoiceBulkSale
                 qry += " TSPL_Dispatch_Detail_BulkSale.Chamber_Desc,TSPL_Dispatch_Detail_BulkSale.Seal_No,TSPL_Dispatch_Detail_BulkSale.Type,"
             End If
 
-            qry += " tspl_company_master.Logo_Img,tspl_company_master.Logo_Img2 , TSPL_INVOICE_MASTER_BULKSALE.Electronic_Ref_No,ISNULL(TSPL_INVOICE_DETAIL_BULKSALE.CLR,0) AS CLR,TSPL_COMPANY_MASTER.Bank_Name as Comp_Bank_Name , TSPL_COMPANY_MASTER.BankAccountNo as Comp_BankAccountNo , TSPL_COMPANY_MASTER.BankIFSCCode as Comp_BankIFSCCode , TSPL_COMPANY_MASTER.BankBranchAddress as Comp_BankBranchAddress,TSPL_INVOICE_MASTER_BULKSALE.Total_Add_Charge " &
-                " from TSPL_INVOICE_DETAIL_BULKSALE Left Outer Join TSPL_INVOICE_MASTER_BULKSALE  on TSPL_INVOICE_DETAIL_BULKSALE.Document_No =TSPL_INVOICE_MASTER_BULKSALE.Document_No" &
+            qry += " tspl_company_master.Logo_Img,tspl_company_master.Logo_Img2 , TSPL_INVOICE_MASTER_BULKSALE.Electronic_Ref_No,ISNULL(TSPL_INVOICE_DETAIL_BULKSALE.CLR,0) AS CLR,TSPL_COMPANY_MASTER.Bank_Name as Comp_Bank_Name , TSPL_COMPANY_MASTER.BankAccountNo as Comp_BankAccountNo , TSPL_COMPANY_MASTER.BankIFSCCode as Comp_BankIFSCCode , TSPL_COMPANY_MASTER.BankBranchAddress as Comp_BankBranchAddress,TSPL_INVOICE_MASTER_BULKSALE.Total_Add_Charge "
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                qry += ",'" + objCommonVar.CurrentUserCode + "' as UserName, Fat_KG,SNF_KG,FatAmount,SNFAmount "
+            End If
+
+            qry += " from TSPL_INVOICE_DETAIL_BULKSALE Left Outer Join TSPL_INVOICE_MASTER_BULKSALE  on TSPL_INVOICE_DETAIL_BULKSALE.Document_No =TSPL_INVOICE_MASTER_BULKSALE.Document_No" &
         " Left Outer Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code =TSPL_INVOICE_MASTER_BULKSALE.Comp_Code Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_INVOICE_MASTER_BULKSALE.Customer_Code" &
         " left Outer Join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVOICE_DETAIL_BULKSALE .Item_Code "
 
@@ -2505,6 +2509,8 @@ Public Class FrmInvoiceBulkSale
             Dim frmCRV As New frmCrystalReportViewer()
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SWM") = CompairStringResult.Equal Then
                 filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptbulkinvoiceSWM", "Milk Sales Dispatch", "Bulk dispath")
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptBulkInvoiceJPR", "Milk Sales Dispatch", "Bulk dispath")
             Else
                 filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptbulkinvoice", "Milk Sales Dispatch", "Bulk dispath")
             End If
