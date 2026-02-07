@@ -59255,6 +59255,18 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("Posted_Date", "datetime null")
             coll.Add("Posted_By", "varchar(12)  NULL")
+            coll.Add("Tot_Produce_FATKG", "decimal (18,2) NULL")
+            coll.Add("Tot_Produce_SNFKG", "decimal (18,2) NULL")
+            coll.Add("Tot_Issue_FATKG", "decimal (18,2) NULL")
+            coll.Add("Tot_Issue_SNFKG", "decimal (18,2) NULL")
+            coll.Add("Tot_Difference_FATKG", "decimal (18,2) NULL")
+            coll.Add("Tot_Difference_SNFKG", "decimal (18,2) NULL")
+            coll.Add("Tot_Added_FATKG", "decimal (18,2) NULL")
+            coll.Add("Tot_Added_SNFKG", "decimal (18,2) NULL")
+            coll.Add("Tot_Removed_FATKG", "decimal (18,2) NULL")
+            coll.Add("Tot_Removed_SNFKG", "decimal (18,2) NULL")
+            coll.Add("Tot_Net_FATKG", "decimal (18,2) NULL")
+            coll.Add("Tot_Net_SNFKG", "decimal (18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SHIFT_MGMT_SFG", coll, "UNIQUE ( Document_Date, Shift_Code)", True, False, "", "Document_No", "Document_Date", True)
 
 
