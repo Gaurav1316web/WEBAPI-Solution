@@ -3080,6 +3080,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptDBTBankResponse, "DBT Bank Response", "1.49.03.24", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.rptDBTStatusReport, "DBT Status Report", "1.49.03.25", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.rptMachineSurveyRegister, "Machine Survey Register", "1.49.03.26", clsUserMgtCode.SubModuleMilkUnion, 8)
+        InsertDefaultValue(clsUserMgtCode.rptUnionWiseMilkTankerCollectionDetail, "Union Wise Milk Tanker Collection Detail", "1.49.03.27", clsUserMgtCode.SubModuleMilkUnion, 8)
 
         InsertDefaultValue(clsUserMgtCode.ModuleBullManagement, "Bull Management", "1.50", clsUserMgtCode.ExpertERP, "M", 23)
 

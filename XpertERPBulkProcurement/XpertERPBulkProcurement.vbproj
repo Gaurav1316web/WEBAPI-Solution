@@ -418,6 +418,12 @@
     <Compile Include="Milk Procurement\Report\rptUnionBookingReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptUnionWiseMilkTankerCollectionDetail.Designer.vb">
+      <DependentUpon>rptUnionWiseMilkTankerCollectionDetail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptUnionWiseMilkTankerCollectionDetail.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\YearlyBillReport.Designer.vb">
       <DependentUpon>YearlyBillReport.vb</DependentUpon>
     </Compile>
@@ -1394,6 +1400,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptUnionMilkRegister.resx">
       <DependentUpon>rptUnionMilkRegister.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptUnionWiseMilkTankerCollectionDetail.resx">
+      <DependentUpon>rptUnionWiseMilkTankerCollectionDetail.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\YearlyBillReport.resx">
       <DependentUpon>YearlyBillReport.vb</DependentUpon>

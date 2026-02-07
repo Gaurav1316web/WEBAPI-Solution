@@ -1165,6 +1165,7 @@
     <None Include="Crystal Reports\crptExciseSummary.rpt" />
     <None Include="Crystal Reports\Dairy Sales Report\BatchWise_PrintChallan.rpt" />
     <None Include="Crystal Reports\Dairy Sales Report\crptBPLprint.rpt" />
+    <None Include="Crystal Reports\Dairy Sales Report\crptBulkInvoiceJPR.rpt" />
     <None Include="Crystal Reports\Dairy Sales Report\crptDCSDeductionGSTReport.rpt" />
     <None Include="Crystal Reports\Dairy Sales Report\crptDCSDeductionReport.rpt" />
     <None Include="Crystal Reports\Dairy Sales Report\rptVendorServiceInvoice_Union.rpt" />
