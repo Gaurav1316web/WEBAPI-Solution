@@ -24,6 +24,7 @@ Partial Class rptmilkunion
     Private Sub InitializeComponent()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
@@ -109,7 +110,7 @@ Partial Class rptmilkunion
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(800, 411)
         Me.RadPageView1.TabIndex = 4
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -144,10 +145,10 @@ Partial Class rptmilkunion
         Me.RadGroupBox3.Controls.Add(Me.txtToDate)
         Me.RadGroupBox3.Controls.Add(Me.txtFromDate)
         Me.RadGroupBox3.HeaderText = "Date Range"
-        Me.RadGroupBox3.Location = New System.Drawing.Point(15, 39)
+        Me.RadGroupBox3.Location = New System.Drawing.Point(89, 36)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox3.Size = New System.Drawing.Size(304, 57)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(301, 57)
         Me.RadGroupBox3.TabIndex = 446
         Me.RadGroupBox3.Text = "Date Range"
         '
@@ -235,11 +236,13 @@ Partial Class rptmilkunion
         Me.ddlReportType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         RadListDataItem1.Text = "Union Wise Status Report"
         RadListDataItem2.Text = "Union Wise Average Status Report"
+        RadListDataItem3.Text = "Union Tanker Wise Status Report"
         Me.ddlReportType.Items.Add(RadListDataItem1)
         Me.ddlReportType.Items.Add(RadListDataItem2)
-        Me.ddlReportType.Location = New System.Drawing.Point(116, 13)
+        Me.ddlReportType.Items.Add(RadListDataItem3)
+        Me.ddlReportType.Location = New System.Drawing.Point(89, 13)
         Me.ddlReportType.Name = "ddlReportType"
-        Me.ddlReportType.Size = New System.Drawing.Size(203, 20)
+        Me.ddlReportType.Size = New System.Drawing.Size(299, 20)
         Me.ddlReportType.TabIndex = 445
         '
         'MyLabel15
@@ -253,7 +256,7 @@ Partial Class rptmilkunion
         '
         'chkRJSBNS
         '
-        Me.chkRJSBNS.Location = New System.Drawing.Point(615, 16)
+        Me.chkRJSBNS.Location = New System.Drawing.Point(394, 48)
         Me.chkRJSBNS.Name = "chkRJSBNS"
         Me.chkRJSBNS.Size = New System.Drawing.Size(64, 18)
         Me.chkRJSBNS.TabIndex = 443
@@ -266,7 +269,7 @@ Partial Class rptmilkunion
         Me.RadGroupBox2.Controls.Add(Me.rdbPosted)
         Me.RadGroupBox2.Controls.Add(Me.rdbUnposted)
         Me.RadGroupBox2.HeaderText = ""
-        Me.RadGroupBox2.Location = New System.Drawing.Point(329, 14)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(394, 13)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox2.Size = New System.Drawing.Size(269, 29)
@@ -277,7 +280,7 @@ Partial Class rptmilkunion
         Me.rbdAllTrans.AutoSize = True
         Me.rbdAllTrans.Location = New System.Drawing.Point(165, 6)
         Me.rbdAllTrans.Name = "rbdAllTrans"
-        Me.rbdAllTrans.Size = New System.Drawing.Size(94, 17)
+        Me.rbdAllTrans.Size = New System.Drawing.Size(95, 17)
         Me.rbdAllTrans.TabIndex = 439
         Me.rbdAllTrans.Text = "All Transation"
         Me.rbdAllTrans.UseVisualStyleBackColor = True
@@ -328,6 +331,7 @@ Partial Class rptmilkunion
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportAPI = False
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"

@@ -541,6 +541,14 @@ Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_M
                     ReStoreGridLayout()
                     EnableDisableControl(False)
                     View()
+                    Dim summaryRowItem As New GridViewSummaryRowItem()
+                    For i As Integer = 2 To gv.Columns.Count - 1
+                        summaryRowItem.Add(New GridViewSummaryItem(gv.Columns(i).Name, "{0:N2}", GridAggregateFunction.Sum))
+                    Next
+                    gv.ShowGroupPanel = False
+                    gv.MasterTemplate.AutoExpandGroups = True
+                    gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "Data Not found !", Me.Text)
@@ -565,7 +573,7 @@ Where TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Date>='" & clsCommon.GetPrintDate(tx
                     qry &= " Union All "
                 End If
                 qry &= " Select * from ("
-                qry &= "select '" & strUnion("Location_Name") & "' As [Union],Cast('" & clsCommon.myCstr(dcsCount) & "' As Int) As DCSCount,Doc_No,Doc_Date,File_Date,shift,
+                qry &= "select '" & strUnion("Location_Name") & "' As [Union],Cast('" & clsCommon.myCstr(dcsCount) & "' As Int) As DCSCount,Doc_No,Convert(Varchar(10),Doc_Date,103)Doc_Date,File_Date,shift,
 TSPL_VLC_MASTER_HEAD.Vlc_Code_VLC_Uploader,
 TSPL_VLC_MASTER_HEAD.VLC_Name,
 TSPl_MP_MAster.MP_CODE,TSPl_MP_MAster.MP_Name,
@@ -635,6 +643,14 @@ Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_M
                     ReStoreGridLayout()
                     EnableDisableControl(False)
                     View()
+                    Dim summaryRowItem As New GridViewSummaryRowItem()
+                    For i As Integer = 2 To gv.Columns.Count - 1
+                        summaryRowItem.Add(New GridViewSummaryItem(gv.Columns(i).Name, "{0:N2}", GridAggregateFunction.Sum))
+                    Next
+                    gv.ShowGroupPanel = False
+                    gv.MasterTemplate.AutoExpandGroups = True
+                    gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "Data not found !", Me.Text)
@@ -736,6 +752,16 @@ Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_M
                     RadPageView1.SelectedPage = RadPageViewPage2
                     ReStoreGridLayout()
                     EnableDisableControl(False)
+                    Dim summaryRowItem As New GridViewSummaryRowItem()
+                    Dim item1 As New GridViewSummaryItem("QTY", "{0:N2}", GridAggregateFunction.Sum)
+                    summaryRowItem.Add(item1)
+
+                    Dim item2 As New GridViewSummaryItem("Amount", "{0:N2}", GridAggregateFunction.Sum)
+                    summaryRowItem.Add(item2)
+                    gv.ShowGroupPanel = False
+                    gv.MasterTemplate.AutoExpandGroups = True
+                    gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "Data not found !", Me.Text)

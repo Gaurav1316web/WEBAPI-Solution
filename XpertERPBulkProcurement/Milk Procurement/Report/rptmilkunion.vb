@@ -1,4 +1,5 @@
 ﻿Imports common
+Imports System.Globalization
 Public Class rptmilkunion
     Inherits FrmMainTranScreen
     Dim dt As DataTable
@@ -42,8 +43,9 @@ Public Class rptmilkunion
             gv1.Columns(ii).ReadOnly = True
             gv1.Columns(ii).BestFit()
         Next
+
         gv1.Columns("SNo").Name = "SNo"
-        gv1.Columns("SNo").IsVisible = False '
+        gv1.Columns("SNo").IsVisible = False
         gv1.Columns("username").IsVisible = False
         gv1.Columns("Union Name").HeaderText = "Union Name"
         gv1.Columns("Union Name").Width = 500
@@ -117,9 +119,10 @@ Public Class rptmilkunion
             gv1.Columns("Last DBT App. Month").IsVisible = True
 
         Else
+            gv1.Columns("Tab").IsVisible = False
             gv1.Columns("Dis_QtyInLTR").HeaderText = "Dis QTY"
             gv1.Columns("Dis_QtyInLTR").Width = 200
-            gv1.Columns("Dis_QtyInLTR").FormatString = "{0:n3}"
+            gv1.Columns("Dis_QtyInLTR").FormatString = "{0:N2}"
 
             gv1.Columns("Dis_FATKG").HeaderText = "Dis FATKG"
             gv1.Columns("Dis_FATKG").FormatString = "{0:n3}"
@@ -130,7 +133,7 @@ Public Class rptmilkunion
 
             gv1.Columns("Prod_QTY").HeaderText = "Prod QTY"
             gv1.Columns("Prod_QTY").IsVisible = True
-            gv1.Columns("Prod_QTY").FormatString = ""
+            gv1.Columns("Prod_QTY").FormatString = "{0:N2}"
 
             gv1.Columns("Prod_FATkg").HeaderText = "Prod FATKG"
             gv1.Columns("Prod_FATkg").IsVisible = True
@@ -143,7 +146,7 @@ Public Class rptmilkunion
 
             gv1.Columns("TotalLtr_ItemWiseDemand").HeaderText = "Demand QTY"
             gv1.Columns("TotalLtr_ItemWiseDemand").IsVisible = True
-            gv1.Columns("TotalLtr_ItemWiseDemand").FormatString = ""
+            gv1.Columns("TotalLtr_ItemWiseDemand").FormatString = "{0:N2}"
 
             gv1.Columns("FATKGDemand").HeaderText = "Demand FATKG"
             gv1.Columns("FATKGDemand").IsVisible = True
@@ -154,25 +157,25 @@ Public Class rptmilkunion
             gv1.Columns("SNFKGDemand").FormatString = "{0:n3}"
 
 
-            gv1.Columns("Milk_WeightProc").HeaderText = "Proc QTY"
+            gv1.Columns("Milk_WeightProc").HeaderText = clsCommon.myCstr(IIf(clsCommon.CompairString(ddlReportType.SelectedValue, "UTWSR") = CompairStringResult.Equal, "QTY", "Proc Qty"))
             gv1.Columns("Milk_WeightProc").IsVisible = True
-            gv1.Columns("Milk_WeightProc").FormatString = "{0:n3}"
+            gv1.Columns("Milk_WeightProc").FormatString = "{0:N2}"
 
-            gv1.Columns("FATKGProc").HeaderText = "Proc FATKG"
+            gv1.Columns("FATKGProc").HeaderText = clsCommon.myCstr(IIf(clsCommon.CompairString(ddlReportType.SelectedValue, "UTWSR") = CompairStringResult.Equal, "FATKG", "Proc FATKG"))
             gv1.Columns("FATKGProc").IsVisible = True
             gv1.Columns("FATKGProc").FormatString = "{0:n3}"
 
-            gv1.Columns("SNFKGProc").HeaderText = "Proc SNFKG"
+            gv1.Columns("SNFKGProc").HeaderText = clsCommon.myCstr(IIf(clsCommon.CompairString(ddlReportType.SelectedValue, "UTWSR") = CompairStringResult.Equal, "SNFKG", "Proc SNFKG"))
             gv1.Columns("SNFKGProc").IsVisible = True
             gv1.Columns("SNFKGProc").FormatString = "{0:n3}"
 
             gv1.Columns("Sale_Voucher").HeaderText = "Sale Voucher"
             gv1.Columns("Sale_Voucher").IsVisible = True
-            gv1.Columns("Sale_Voucher").FormatString = "{0:n3}"
+            gv1.Columns("Sale_Voucher").FormatString = "{0:N2}"
 
             gv1.Columns("Purchase_Voucher").HeaderText = "Purchase Voucher"
             gv1.Columns("Purchase_Voucher").IsVisible = True
-            gv1.Columns("Purchase_Voucher").FormatString = "{0:n3}"
+            gv1.Columns("Purchase_Voucher").FormatString = "{0:N2}"
 
             gv1.Columns("Last_Salary").HeaderText = "Last Salary"
             gv1.Columns("Last_Salary").IsVisible = True
@@ -183,13 +186,13 @@ Public Class rptmilkunion
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
         Dim i As Integer = 0
-        If clsCommon.CompairString(ddlReportType.SelectedValue, "UWSR") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(ddlReportType.SelectedValue, "UWSR") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlReportType.SelectedValue, "UTWSR") = CompairStringResult.Equal Then
             i = 2
         Else
             i = 7
         End If
         For ii As Integer = 2 To gv1.Columns.Count - i
-            summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:n2}", GridAggregateFunction.Sum))
+            summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:N2}", GridAggregateFunction.Sum))
         Next
 
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
@@ -224,13 +227,16 @@ Public Class rptmilkunion
 
         If gv1.Rows.Count > 0 Then
             Dim view As New ColumnGroupsViewDefinition()
-            If clsCommon.CompairString(ddlReportType.SelectedValue, "UWSR") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(ddlReportType.SelectedValue, "UWSR") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlReportType.SelectedValue, "UTWSR") = CompairStringResult.Equal Then
                 view.ColumnGroups.Add(New GridViewColumnGroup("Union"))
                 view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Union Name").Name)
 
-
-                view.ColumnGroups.Add(New GridViewColumnGroup(" Milk Procurement"))
+                If clsCommon.CompairString(ddlReportType.SelectedValue, "UTWSR") = CompairStringResult.Equal Then
+                    view.ColumnGroups.Add(New GridViewColumnGroup("Milk Procurement(Tanker)"))
+                Else
+                    view.ColumnGroups.Add(New GridViewColumnGroup("Milk Procurement(Truck Sheet)"))
+                End If
                 view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
                 view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Milk_WeightProc").Name)
                 view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("FATKGProc").Name)
@@ -435,9 +441,15 @@ Public Class rptmilkunion
                         status18 = "  "
                         status19 = "  "
                     End If
-                    If clsCommon.CompairString(ddlReportType.SelectedValue, "UWSR") = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(ddlReportType.SelectedValue, "UWSR") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlReportType.SelectedValue, "UTWSR") = CompairStringResult.Equal Then
 
-                        query = " select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                        query = " select "
+                        If clsCommon.CompairString(ddlReportType.SelectedValue, "UTWSR") = CompairStringResult.Equal Then
+                            query &= " 'MILK PROCUREMENT(TANKER)' As Tab, "
+                        Else
+                            query &= " 'MILK PROCUREMENT(TRUCK SHEET)' As Tab, "
+                        End If
+                        query &= " * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
                         '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
                                       ISNULL(SUM(Dis_Procurement.Milk_WeightProc), 0) AS Milk_WeightProc,
                     ISNULL(SUM(Dis_Procurement.FATKGProc), 0) AS FATKGProc,
@@ -539,6 +551,14 @@ Public Class rptmilkunion
                 left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_master on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_master.Item_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SHIFT_MGMT_PRODUCTION.Item_Code
                     where  CONVERT(DATE, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].tspl_shift_mgmt.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'  " + status17 + "
                        ) xx ) xxx 
+                    Union All
+					   select isnull(sum(Item_Quantity),0)Prod_QTY,isnull(sum(FAT_KG),0)Prod_FATkg,isnull(sum(SNF_KG),0)Prod_SNFkg from (
+					   select TSPL_ADJUSTMENT_DETAIL.Item_Quantity,TSPL_ADJUSTMENT_DETAIL.FAT_KG,TSPL_ADJUSTMENT_DETAIL.SNF_KG 
+					   from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ADJUSTMENT_DETAIL
+Left Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ADJUSTMENT_HEADER On TSPL_ADJUSTMENT_HEADER.Adjustment_No=TSPL_ADJUSTMENT_DETAIL.Adjustment_No
+Left Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code=TSPL_ADJUSTMENT_DETAIL.Item_Code
+Where TSPL_ITEM_MASTER.Item_Type='F' And TSPL_ADJUSTMENT_HEADER.Trans_Type='IN'
+And Convert(Date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' )Adjstment
                       ))Prod_Uploder ) AS Dis_Production,
                         (SELECT 
                         SUM(TotalLtr_ItemWiseDemand) AS TotalLtr_ItemWiseDemand,
@@ -596,8 +616,14 @@ Public Class rptmilkunion
                         SUM(milk_weight) AS Milk_WeightProc,
                         SUM(fatkg) AS FATKGProc,
                         SUM(SNFKG) AS SNFKGProc
-                    FROM (
-                        SELECT 
+                    FROM ("
+
+                        If clsCommon.CompairString(ddlReportType.SelectedValue, "UTWSR") = CompairStringResult.Equal Then
+                            query &= " select (Qty) As milk_weight,(Fat_KG) As fatkg,(SNF_KG) As SNFKG from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_INVENTORY_MOVEMENT_new 
+						Where Trans_Type In ('MilkTransferIn','MCC-MSRN') 
+						 And  CONVERT(DATE, TSPL_INVENTORY_MOVEMENT_new.Entry_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' "
+                        Else
+                            query &= "  Select 
                             SUM(Milk_Weight) AS Milk_Weight,
                             SUM(CAST(Milk_Weight * FAT / 100 AS DECIMAL(18,3))) AS FATKg,
                             SUM(CAST(Milk_Weight * SNF / 100 AS DECIMAL(18,3))) AS SNFKG
@@ -639,10 +665,10 @@ Public Class rptmilkunion
                         Left Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_BMCDCS On TSPL_MILK_COLLECTION_BMCDCS.PK_ID=TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID
                         Left Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS_detail On TSPL_MILK_COLLECTION_DCS_detail.PK_Id=TSPL_MILK_COLLECTION_BMCDCS.PK_ID
 Left Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS On TSPL_MILK_COLLECTION_DCS.Document_No=TSPL_MILK_COLLECTION_DCS_detail.document_no
-                        Where  IsNull(TSPL_MILK_COLLECTION_BMCDCS.PK_ID,'') = '' And CONVERT(DATE, TSPL_MILK_COLLECTION_BMCDCS.IDate, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " & status18 & status19 & "
-                        
+                        Where  IsNull(TSPL_MILK_COLLECTION_BMCDCS.PK_ID,'') = '' And CONVERT(DATE, TSPL_MILK_COLLECTION_BMCDCS.IDate, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " & status18 & status19 & " "
+                        End If
 
-                            ) AS Procurement
+                        query &= " ) AS Procurement
                     ) AS Dis_Procurement,
                     (select sum([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_DETAIL.Total_Basic_Amt) as Sale_Voucher from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_DETAIL
                     left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_HEAD on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_HEAD.Document_Code
@@ -726,6 +752,13 @@ Left Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TS
 
                     where  CONVERT(DATE, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].tspl_shift_mgmt.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'  " + status17 + "
                        ) xx
+                    Union All
+                    select isnull(sum(Item_Quantity),0) as Prod_QTY	 from (
+                       select TSPL_ADJUSTMENT_DETAIL.Item_Quantity,TSPL_ADJUSTMENT_DETAIL.FAT_KG,TSPL_ADJUSTMENT_DETAIL.SNF_KG from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ADJUSTMENT_DETAIL
+Left Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ADJUSTMENT_HEADER On TSPL_ADJUSTMENT_HEADER.Adjustment_No=TSPL_ADJUSTMENT_DETAIL.Adjustment_No
+Left Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code=TSPL_ADJUSTMENT_DETAIL.Item_Code
+Where TSPL_ITEM_MASTER.Item_Type='F' And TSPL_ADJUSTMENT_HEADER.Trans_Type='IN'
+And Convert(Date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "')Adjsment
                   ))Prod_Uploder
                     ) AS Dis_Production,
                         (SELECT  SUM(TotalLtr_ItemWiseDemand) AS TotalLtr_ItemWiseDemand FROM (
@@ -879,7 +912,8 @@ Left Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TS
         dt.Columns.Add("Code", GetType(String))
         dt.Columns.Add("Value", GetType(String))
         dt.Rows.Add("Union Wise Status Report", "UWSR")
-        dt.Rows.Add("Union Wise Average Status Repor", "UWASR")
+        dt.Rows.Add("Union Wise Average Status Report", "UWASR")
+        dt.Rows.Add("Union Tanker Wise Status Report", "UTWSR")
         ddlReportType.DataSource = dt
         ddlReportType.DisplayMember = "Code"
         ddlReportType.ValueMember = "Value"
@@ -1109,6 +1143,12 @@ Left Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TS
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
         End Try
+    End Sub
+
+    Private Sub gv1_CellFormatting(sender As Object, e As CellFormattingEventArgs) Handles gv1.CellFormatting
+        If e.CellElement.Value IsNot Nothing AndAlso IsNumeric(e.CellElement.Value) Then
+            e.CellElement.Text = Convert.ToDecimal(e.CellElement.Value).ToString("N2", New CultureInfo("en-IN"))
+        End If
     End Sub
 
     'Private Sub gv1_CellFormatting(sender As Object, e As CellFormattingEventArgs) Handles gv1.CellFormatting
