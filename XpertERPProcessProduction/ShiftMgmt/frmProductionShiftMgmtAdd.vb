@@ -239,7 +239,7 @@ Public Class frmProductionShiftMgmtAdd
         repoNumBox.ShowUpDownButtons = False
         repoNumBox.Step = 0
         repoNumBox.DecimalPlaces = 3
-        repoNumBox.ReadOnly = True
+        repoNumBox.ReadOnly = False
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoNumBox.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoNumBox)
@@ -281,7 +281,7 @@ Public Class frmProductionShiftMgmtAdd
         repoNumBox.ShowUpDownButtons = False
         repoNumBox.Step = 0
         repoNumBox.DecimalPlaces = 3
-        repoNumBox.ReadOnly = True
+        repoNumBox.ReadOnly = False
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoNumBox.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoNumBox)
@@ -407,11 +407,29 @@ Public Class frmProductionShiftMgmtAdd
                     ElseIf e.Column Is gv1.Columns(ColEnteredQty) Then
                         If gv1.CurrentRow.Cells(ColEnteredQty).Value > gv1.CurrentRow.Cells(ColAvailQty).Value Then
                             gv1.CurrentRow.Cells(ColEnteredQty).Value = 0
-                            Throw New Exception("Entered Qty Cant be more thant [" + clsCommon.myCstr(gv1.CurrentRow.Cells(ColAvailQty).Value) + "] ")
+                            Throw New Exception("Entered Qty Can't be more than [" + clsCommon.myCstr(gv1.CurrentRow.Cells(ColAvailQty).Value) + "] ")
                         End If
                         If clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(ColProductType).Value), "MI") = CompairStringResult.Equal Then
                             gv1.CurrentRow.Cells(ColEnteredFATKG).Value = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColFATKG).Value) * clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColEnteredQty).Value), clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColAvailQty).Value)), 3, MidpointRounding.ToEven)
                             gv1.CurrentRow.Cells(ColEnteredSNFKG).Value = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColSNFKG).Value) * clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColEnteredQty).Value), clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColAvailQty).Value)), 3, MidpointRounding.ToEven)
+                        End If
+                    ElseIf e.Column Is gv1.Columns(ColEnteredFATKG) Then
+                        If gv1.CurrentRow.Cells(ColEnteredFATKG).Value > gv1.CurrentRow.Cells(ColFATKG).Value Then
+                            gv1.CurrentRow.Cells(ColEnteredQty).Value = 0
+                            Throw New Exception("Entered FAT KG Can't be more than [" + clsCommon.myCstr(gv1.CurrentRow.Cells(ColFATKG).Value) + "] ")
+                        End If
+                        If clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(ColProductType).Value), "MI") = CompairStringResult.Equal Then
+                            gv1.CurrentRow.Cells(ColEnteredQty).Value = Math.Round(clsCommon.myCDivide((clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColEnteredFATKG).Value) * 100), clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColFAT).Value)), 2, MidpointRounding.ToEven)
+                            gv1.CurrentRow.Cells(ColEnteredSNFKG).Value = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColSNFKG).Value) * clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColEnteredQty).Value), clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColAvailQty).Value)), 3, MidpointRounding.ToEven)
+                        End If
+                    ElseIf e.Column Is gv1.Columns(ColEnteredSNFKG) Then
+                        If gv1.CurrentRow.Cells(ColEnteredSNFKG).Value > gv1.CurrentRow.Cells(ColSNFKG).Value Then
+                            gv1.CurrentRow.Cells(ColEnteredQty).Value = 0
+                            Throw New Exception("Entered SNF KG Can't be more than [" + clsCommon.myCstr(gv1.CurrentRow.Cells(ColSNFKG).Value) + "] ")
+                        End If
+                        If clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(ColProductType).Value), "MI") = CompairStringResult.Equal Then
+                            gv1.CurrentRow.Cells(ColEnteredQty).Value = Math.Round(clsCommon.myCDivide((clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColEnteredSNFKG).Value) * 100), clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColSNF).Value)), 2, MidpointRounding.ToEven)
+                            gv1.CurrentRow.Cells(ColEnteredFATKG).Value = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColFATKG).Value) * clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColEnteredQty).Value), clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColAvailQty).Value)), 3, MidpointRounding.ToEven)
                         End If
                     End If
                     isCellValueChangedOpen = False
@@ -443,5 +461,19 @@ Public Class frmProductionShiftMgmtAdd
                 gv1.CurrentRow = gv1.Rows(intCurrRow)
             End If
         End If
+    End Sub
+
+    Private Sub gv1_CellFormatting(sender As Object, e As CellFormattingEventArgs) Handles gv1.CellFormatting
+        Try
+            If Not isInsideLoadData Then
+                If e.RowIndex >= 0 Then
+                    If e.Column Is gv1.Columns(ColEnteredFATKG) OrElse e.Column Is gv1.Columns(ColEnteredSNFKG) Then
+                        gv1.CurrentRow.Cells(e.Column.Name).ReadOnly = Not (clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(ColProductType).Value), "MI") = CompairStringResult.Equal)
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

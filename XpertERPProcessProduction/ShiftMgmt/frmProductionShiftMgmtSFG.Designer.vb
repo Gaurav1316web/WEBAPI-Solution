@@ -52,6 +52,33 @@ Partial Class frmProductionShiftMgmtSFG
         Me.gvProSFG = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage8 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvProRM = New common.UserControls.MyRadGridView()
+        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel43 = New common.Controls.MyLabel()
+        Me.MyLabel42 = New common.Controls.MyLabel()
+        Me.MyLabel41 = New common.Controls.MyLabel()
+        Me.MyLabel40 = New common.Controls.MyLabel()
+        Me.MyLabel39 = New common.Controls.MyLabel()
+        Me.MyLabel38 = New common.Controls.MyLabel()
+        Me.lblTotNetSNFKG = New common.Controls.MyLabel()
+        Me.lblTotNetFATKG = New common.Controls.MyLabel()
+        Me.MyLabel37 = New common.Controls.MyLabel()
+        Me.lblTotAddedSNFKG = New common.Controls.MyLabel()
+        Me.lblTotAddedFATKG = New common.Controls.MyLabel()
+        Me.lblTotDifferenceSNFKG = New common.Controls.MyLabel()
+        Me.lblTotDifferenceFATKG = New common.Controls.MyLabel()
+        Me.MyLabel33 = New common.Controls.MyLabel()
+        Me.MyLabel29 = New common.Controls.MyLabel()
+        Me.lblTotIssueSNFKG = New common.Controls.MyLabel()
+        Me.lblTotProduceSNFKG = New common.Controls.MyLabel()
+        Me.lblTotIssueFATKG = New common.Controls.MyLabel()
+        Me.lblTotProduceFATKG = New common.Controls.MyLabel()
+        Me.MyLabel25 = New common.Controls.MyLabel()
+        Me.lblTotRemoveSNFKG = New common.Controls.MyLabel()
+        Me.lblTotRemoveFATKG = New common.Controls.MyLabel()
+        Me.MyLabel21 = New common.Controls.MyLabel()
+        Me.MyLabel15 = New common.Controls.MyLabel()
+        Me.MyLabel12 = New common.Controls.MyLabel()
+        Me.MyLabel7 = New common.Controls.MyLabel()
         Me.Panel2.SuspendLayout()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -80,6 +107,33 @@ Partial Class frmProductionShiftMgmtSFG
         Me.RadPageViewPage8.SuspendLayout()
         CType(Me.gvProRM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvProRM.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel42, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel41, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel40, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel39, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotNetSNFKG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotNetFATKG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel37, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotAddedSNFKG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotAddedFATKG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotDifferenceSNFKG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotDifferenceFATKG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel33, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotIssueSNFKG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotProduceSNFKG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotIssueFATKG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotProduceFATKG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotRemoveSNFKG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotRemoveFATKG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -429,6 +483,7 @@ Partial Class frmProductionShiftMgmtSFG
         '
         Me.RadPageView3.Controls.Add(Me.RadPageViewPage10)
         Me.RadPageView3.Controls.Add(Me.RadPageViewPage8)
+        Me.RadPageView3.Controls.Add(Me.RadPageViewPage1)
         Me.RadPageView3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView3.Location = New System.Drawing.Point(0, 74)
         Me.RadPageView3.Name = "RadPageView3"
@@ -481,7 +536,7 @@ Partial Class frmProductionShiftMgmtSFG
         Me.RadPageViewPage8.ItemSize = New System.Drawing.SizeF(95.0!, 28.0!)
         Me.RadPageViewPage8.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage8.Name = "RadPageViewPage8"
-        Me.RadPageViewPage8.Size = New System.Drawing.Size(763, 226)
+        Me.RadPageViewPage8.Size = New System.Drawing.Size(1097, 357)
         Me.RadPageViewPage8.Text = "Issue Raw Items"
         '
         'gvProRM
@@ -508,9 +563,319 @@ Partial Class frmProductionShiftMgmtSFG
         Me.gvProRM.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvProRM.ShowGroupPanel = False
         Me.gvProRM.ShowHeaderCellButtons = True
-        Me.gvProRM.Size = New System.Drawing.Size(763, 226)
+        Me.gvProRM.Size = New System.Drawing.Size(1097, 357)
         Me.gvProRM.TabIndex = 4
         Me.gvProRM.VarID = ""
+        '
+        'RadPageViewPage1
+        '
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel43)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel42)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel41)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel40)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel39)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel38)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotNetSNFKG)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotNetFATKG)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel37)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotAddedSNFKG)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotAddedFATKG)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotDifferenceSNFKG)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotDifferenceFATKG)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel33)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel29)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotIssueSNFKG)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotProduceSNFKG)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotIssueFATKG)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotProduceFATKG)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel25)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotRemoveSNFKG)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotRemoveFATKG)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel21)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel15)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel12)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel7)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(41.0!, 28.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage1.Name = "RadPageViewPage1"
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1097, 357)
+        Me.RadPageViewPage1.Text = "Total"
+        '
+        'MyLabel43
+        '
+        Me.MyLabel43.FieldName = Nothing
+        Me.MyLabel43.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel43.Location = New System.Drawing.Point(435, 149)
+        Me.MyLabel43.Name = "MyLabel43"
+        Me.MyLabel43.Size = New System.Drawing.Size(57, 16)
+        Me.MyLabel43.TabIndex = 80
+        Me.MyLabel43.Text = "F [C+D-E]"
+        '
+        'MyLabel42
+        '
+        Me.MyLabel42.FieldName = Nothing
+        Me.MyLabel42.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel42.Location = New System.Drawing.Point(435, 129)
+        Me.MyLabel42.Name = "MyLabel42"
+        Me.MyLabel42.Size = New System.Drawing.Size(14, 16)
+        Me.MyLabel42.TabIndex = 81
+        Me.MyLabel42.Text = "E"
+        '
+        'MyLabel41
+        '
+        Me.MyLabel41.FieldName = Nothing
+        Me.MyLabel41.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel41.Location = New System.Drawing.Point(435, 105)
+        Me.MyLabel41.Name = "MyLabel41"
+        Me.MyLabel41.Size = New System.Drawing.Size(14, 16)
+        Me.MyLabel41.TabIndex = 82
+        Me.MyLabel41.Text = "D"
+        '
+        'MyLabel40
+        '
+        Me.MyLabel40.FieldName = Nothing
+        Me.MyLabel40.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel40.Location = New System.Drawing.Point(435, 85)
+        Me.MyLabel40.Name = "MyLabel40"
+        Me.MyLabel40.Size = New System.Drawing.Size(43, 16)
+        Me.MyLabel40.TabIndex = 83
+        Me.MyLabel40.Text = "C [B-A]"
+        '
+        'MyLabel39
+        '
+        Me.MyLabel39.FieldName = Nothing
+        Me.MyLabel39.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel39.Location = New System.Drawing.Point(435, 61)
+        Me.MyLabel39.Name = "MyLabel39"
+        Me.MyLabel39.Size = New System.Drawing.Size(14, 16)
+        Me.MyLabel39.TabIndex = 84
+        Me.MyLabel39.Text = "B"
+        '
+        'MyLabel38
+        '
+        Me.MyLabel38.FieldName = Nothing
+        Me.MyLabel38.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel38.Location = New System.Drawing.Point(435, 39)
+        Me.MyLabel38.Name = "MyLabel38"
+        Me.MyLabel38.Size = New System.Drawing.Size(14, 16)
+        Me.MyLabel38.TabIndex = 107
+        Me.MyLabel38.Text = "A"
+        '
+        'lblTotNetSNFKG
+        '
+        Me.lblTotNetSNFKG.AutoSize = False
+        Me.lblTotNetSNFKG.BorderVisible = True
+        Me.lblTotNetSNFKG.FieldName = Nothing
+        Me.lblTotNetSNFKG.Location = New System.Drawing.Point(281, 148)
+        Me.lblTotNetSNFKG.Name = "lblTotNetSNFKG"
+        Me.lblTotNetSNFKG.Size = New System.Drawing.Size(153, 19)
+        Me.lblTotNetSNFKG.TabIndex = 105
+        Me.lblTotNetSNFKG.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'lblTotNetFATKG
+        '
+        Me.lblTotNetFATKG.AutoSize = False
+        Me.lblTotNetFATKG.BorderVisible = True
+        Me.lblTotNetFATKG.FieldName = Nothing
+        Me.lblTotNetFATKG.Location = New System.Drawing.Point(125, 148)
+        Me.lblTotNetFATKG.Name = "lblTotNetFATKG"
+        Me.lblTotNetFATKG.Size = New System.Drawing.Size(153, 19)
+        Me.lblTotNetFATKG.TabIndex = 106
+        Me.lblTotNetFATKG.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'MyLabel37
+        '
+        Me.MyLabel37.FieldName = Nothing
+        Me.MyLabel37.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel37.Location = New System.Drawing.Point(45, 149)
+        Me.MyLabel37.Name = "MyLabel37"
+        Me.MyLabel37.Size = New System.Drawing.Size(24, 16)
+        Me.MyLabel37.TabIndex = 103
+        Me.MyLabel37.Text = "Net"
+        '
+        'lblTotAddedSNFKG
+        '
+        Me.lblTotAddedSNFKG.AutoSize = False
+        Me.lblTotAddedSNFKG.BorderVisible = True
+        Me.lblTotAddedSNFKG.FieldName = Nothing
+        Me.lblTotAddedSNFKG.Location = New System.Drawing.Point(281, 104)
+        Me.lblTotAddedSNFKG.Name = "lblTotAddedSNFKG"
+        Me.lblTotAddedSNFKG.Size = New System.Drawing.Size(153, 19)
+        Me.lblTotAddedSNFKG.TabIndex = 101
+        Me.lblTotAddedSNFKG.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'lblTotAddedFATKG
+        '
+        Me.lblTotAddedFATKG.AutoSize = False
+        Me.lblTotAddedFATKG.BorderVisible = True
+        Me.lblTotAddedFATKG.FieldName = Nothing
+        Me.lblTotAddedFATKG.Location = New System.Drawing.Point(125, 104)
+        Me.lblTotAddedFATKG.Name = "lblTotAddedFATKG"
+        Me.lblTotAddedFATKG.Size = New System.Drawing.Size(153, 19)
+        Me.lblTotAddedFATKG.TabIndex = 102
+        Me.lblTotAddedFATKG.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'lblTotDifferenceSNFKG
+        '
+        Me.lblTotDifferenceSNFKG.AutoSize = False
+        Me.lblTotDifferenceSNFKG.BorderVisible = True
+        Me.lblTotDifferenceSNFKG.FieldName = Nothing
+        Me.lblTotDifferenceSNFKG.Location = New System.Drawing.Point(281, 82)
+        Me.lblTotDifferenceSNFKG.Name = "lblTotDifferenceSNFKG"
+        Me.lblTotDifferenceSNFKG.Size = New System.Drawing.Size(153, 19)
+        Me.lblTotDifferenceSNFKG.TabIndex = 97
+        Me.lblTotDifferenceSNFKG.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'lblTotDifferenceFATKG
+        '
+        Me.lblTotDifferenceFATKG.AutoSize = False
+        Me.lblTotDifferenceFATKG.BorderVisible = True
+        Me.lblTotDifferenceFATKG.FieldName = Nothing
+        Me.lblTotDifferenceFATKG.Location = New System.Drawing.Point(125, 82)
+        Me.lblTotDifferenceFATKG.Name = "lblTotDifferenceFATKG"
+        Me.lblTotDifferenceFATKG.Size = New System.Drawing.Size(153, 19)
+        Me.lblTotDifferenceFATKG.TabIndex = 98
+        Me.lblTotDifferenceFATKG.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'MyLabel33
+        '
+        Me.MyLabel33.FieldName = Nothing
+        Me.MyLabel33.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel33.Location = New System.Drawing.Point(45, 107)
+        Me.MyLabel33.Name = "MyLabel33"
+        Me.MyLabel33.Size = New System.Drawing.Size(39, 16)
+        Me.MyLabel33.TabIndex = 99
+        Me.MyLabel33.Text = "Added"
+        '
+        'MyLabel29
+        '
+        Me.MyLabel29.FieldName = Nothing
+        Me.MyLabel29.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel29.Location = New System.Drawing.Point(45, 83)
+        Me.MyLabel29.Name = "MyLabel29"
+        Me.MyLabel29.Size = New System.Drawing.Size(58, 16)
+        Me.MyLabel29.TabIndex = 95
+        Me.MyLabel29.Text = "Difference"
+        '
+        'lblTotIssueSNFKG
+        '
+        Me.lblTotIssueSNFKG.AutoSize = False
+        Me.lblTotIssueSNFKG.BorderVisible = True
+        Me.lblTotIssueSNFKG.FieldName = Nothing
+        Me.lblTotIssueSNFKG.Location = New System.Drawing.Point(281, 60)
+        Me.lblTotIssueSNFKG.Name = "lblTotIssueSNFKG"
+        Me.lblTotIssueSNFKG.Size = New System.Drawing.Size(153, 19)
+        Me.lblTotIssueSNFKG.TabIndex = 93
+        Me.lblTotIssueSNFKG.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'lblTotProduceSNFKG
+        '
+        Me.lblTotProduceSNFKG.AutoSize = False
+        Me.lblTotProduceSNFKG.BorderVisible = True
+        Me.lblTotProduceSNFKG.FieldName = Nothing
+        Me.lblTotProduceSNFKG.Location = New System.Drawing.Point(281, 38)
+        Me.lblTotProduceSNFKG.Name = "lblTotProduceSNFKG"
+        Me.lblTotProduceSNFKG.Size = New System.Drawing.Size(153, 19)
+        Me.lblTotProduceSNFKG.TabIndex = 89
+        Me.lblTotProduceSNFKG.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'lblTotIssueFATKG
+        '
+        Me.lblTotIssueFATKG.AutoSize = False
+        Me.lblTotIssueFATKG.BorderVisible = True
+        Me.lblTotIssueFATKG.FieldName = Nothing
+        Me.lblTotIssueFATKG.Location = New System.Drawing.Point(125, 60)
+        Me.lblTotIssueFATKG.Name = "lblTotIssueFATKG"
+        Me.lblTotIssueFATKG.Size = New System.Drawing.Size(153, 19)
+        Me.lblTotIssueFATKG.TabIndex = 94
+        Me.lblTotIssueFATKG.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'lblTotProduceFATKG
+        '
+        Me.lblTotProduceFATKG.AutoSize = False
+        Me.lblTotProduceFATKG.BorderVisible = True
+        Me.lblTotProduceFATKG.FieldName = Nothing
+        Me.lblTotProduceFATKG.Location = New System.Drawing.Point(125, 38)
+        Me.lblTotProduceFATKG.Name = "lblTotProduceFATKG"
+        Me.lblTotProduceFATKG.Size = New System.Drawing.Size(153, 19)
+        Me.lblTotProduceFATKG.TabIndex = 90
+        Me.lblTotProduceFATKG.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'MyLabel25
+        '
+        Me.MyLabel25.FieldName = Nothing
+        Me.MyLabel25.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel25.Location = New System.Drawing.Point(45, 61)
+        Me.MyLabel25.Name = "MyLabel25"
+        Me.MyLabel25.Size = New System.Drawing.Size(33, 16)
+        Me.MyLabel25.TabIndex = 91
+        Me.MyLabel25.Text = "Issue"
+        '
+        'lblTotRemoveSNFKG
+        '
+        Me.lblTotRemoveSNFKG.AutoSize = False
+        Me.lblTotRemoveSNFKG.BorderVisible = True
+        Me.lblTotRemoveSNFKG.FieldName = Nothing
+        Me.lblTotRemoveSNFKG.Location = New System.Drawing.Point(281, 126)
+        Me.lblTotRemoveSNFKG.Name = "lblTotRemoveSNFKG"
+        Me.lblTotRemoveSNFKG.Size = New System.Drawing.Size(153, 19)
+        Me.lblTotRemoveSNFKG.TabIndex = 86
+        Me.lblTotRemoveSNFKG.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'lblTotRemoveFATKG
+        '
+        Me.lblTotRemoveFATKG.AutoSize = False
+        Me.lblTotRemoveFATKG.BorderVisible = True
+        Me.lblTotRemoveFATKG.FieldName = Nothing
+        Me.lblTotRemoveFATKG.Location = New System.Drawing.Point(125, 126)
+        Me.lblTotRemoveFATKG.Name = "lblTotRemoveFATKG"
+        Me.lblTotRemoveFATKG.Size = New System.Drawing.Size(153, 19)
+        Me.lblTotRemoveFATKG.TabIndex = 85
+        Me.lblTotRemoveFATKG.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'MyLabel21
+        '
+        Me.MyLabel21.FieldName = Nothing
+        Me.MyLabel21.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel21.Location = New System.Drawing.Point(45, 39)
+        Me.MyLabel21.Name = "MyLabel21"
+        Me.MyLabel21.Size = New System.Drawing.Size(48, 16)
+        Me.MyLabel21.TabIndex = 87
+        Me.MyLabel21.Text = "Produce"
+        '
+        'MyLabel15
+        '
+        Me.MyLabel15.FieldName = Nothing
+        Me.MyLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel15.Location = New System.Drawing.Point(45, 127)
+        Me.MyLabel15.Name = "MyLabel15"
+        Me.MyLabel15.Size = New System.Drawing.Size(55, 16)
+        Me.MyLabel15.TabIndex = 78
+        Me.MyLabel15.Text = "Removed"
+        '
+        'MyLabel12
+        '
+        Me.MyLabel12.AutoSize = False
+        Me.MyLabel12.BorderVisible = True
+        Me.MyLabel12.FieldName = Nothing
+        Me.MyLabel12.Location = New System.Drawing.Point(281, 16)
+        Me.MyLabel12.Name = "MyLabel12"
+        Me.MyLabel12.Size = New System.Drawing.Size(153, 19)
+        Me.MyLabel12.TabIndex = 77
+        Me.MyLabel12.Text = "SNF KG"
+        Me.MyLabel12.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'MyLabel7
+        '
+        Me.MyLabel7.AutoSize = False
+        Me.MyLabel7.BorderVisible = True
+        Me.MyLabel7.FieldName = Nothing
+        Me.MyLabel7.Location = New System.Drawing.Point(125, 16)
+        Me.MyLabel7.Name = "MyLabel7"
+        Me.MyLabel7.Size = New System.Drawing.Size(153, 19)
+        Me.MyLabel7.TabIndex = 75
+        Me.MyLabel7.Text = "FAT KG"
+        Me.MyLabel7.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         '
         'frmProductionShiftMgmtSFG
         '
@@ -557,6 +922,34 @@ Partial Class frmProductionShiftMgmtSFG
         Me.RadPageViewPage8.ResumeLayout(False)
         CType(Me.gvProRM.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvProRM, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage1.ResumeLayout(False)
+        Me.RadPageViewPage1.PerformLayout()
+        CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel42, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel41, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel40, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel39, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotNetSNFKG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotNetFATKG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel37, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotAddedSNFKG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotAddedFATKG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotDifferenceSNFKG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotDifferenceFATKG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel33, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotIssueSNFKG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotProduceSNFKG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotIssueFATKG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotProduceFATKG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotRemoveSNFKG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotRemoveFATKG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -589,5 +982,32 @@ Partial Class frmProductionShiftMgmtSFG
     Friend WithEvents gvProSFG As common.UserControls.MyRadGridView
     Friend WithEvents txtShift As common.UserControls.txtFinder
     Friend WithEvents txtDocNo As common.Controls.MyLabel
+    Friend WithEvents RadPageViewPage1 As RadPageViewPage
+    Friend WithEvents MyLabel43 As common.Controls.MyLabel
+    Friend WithEvents MyLabel42 As common.Controls.MyLabel
+    Friend WithEvents MyLabel41 As common.Controls.MyLabel
+    Friend WithEvents MyLabel40 As common.Controls.MyLabel
+    Friend WithEvents MyLabel39 As common.Controls.MyLabel
+    Friend WithEvents MyLabel38 As common.Controls.MyLabel
+    Friend WithEvents lblTotNetSNFKG As common.Controls.MyLabel
+    Friend WithEvents lblTotNetFATKG As common.Controls.MyLabel
+    Friend WithEvents MyLabel37 As common.Controls.MyLabel
+    Friend WithEvents lblTotAddedSNFKG As common.Controls.MyLabel
+    Friend WithEvents lblTotAddedFATKG As common.Controls.MyLabel
+    Friend WithEvents lblTotDifferenceSNFKG As common.Controls.MyLabel
+    Friend WithEvents lblTotDifferenceFATKG As common.Controls.MyLabel
+    Friend WithEvents MyLabel33 As common.Controls.MyLabel
+    Friend WithEvents MyLabel29 As common.Controls.MyLabel
+    Friend WithEvents lblTotIssueSNFKG As common.Controls.MyLabel
+    Friend WithEvents lblTotProduceSNFKG As common.Controls.MyLabel
+    Friend WithEvents lblTotIssueFATKG As common.Controls.MyLabel
+    Friend WithEvents lblTotProduceFATKG As common.Controls.MyLabel
+    Friend WithEvents MyLabel25 As common.Controls.MyLabel
+    Friend WithEvents lblTotRemoveSNFKG As common.Controls.MyLabel
+    Friend WithEvents lblTotRemoveFATKG As common.Controls.MyLabel
+    Friend WithEvents MyLabel21 As common.Controls.MyLabel
+    Friend WithEvents MyLabel15 As common.Controls.MyLabel
+    Friend WithEvents MyLabel12 As common.Controls.MyLabel
+    Friend WithEvents MyLabel7 As common.Controls.MyLabel
 End Class
 

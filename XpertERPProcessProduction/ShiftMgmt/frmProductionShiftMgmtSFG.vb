@@ -48,25 +48,43 @@ Public Class frmProductionShiftMgmtSFG
     Dim arrLoc As String = Nothing
 #End Region
     Private Sub frmDairyProductionUploader_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Try
+            Dim coll As New Dictionary(Of String, String)
+            coll.Add("Tot_Produce_FATKG", "decimal (18,2) NULL")
+            coll.Add("Tot_Produce_SNFKG", "decimal (18,2) NULL")
+            coll.Add("Tot_Issue_FATKG", "decimal (18,2) NULL")
+            coll.Add("Tot_Issue_SNFKG", "decimal (18,2) NULL")
+            coll.Add("Tot_Difference_FATKG", "decimal (18,2) NULL")
+            coll.Add("Tot_Difference_SNFKG", "decimal (18,2) NULL")
+            coll.Add("Tot_Added_FATKG", "decimal (18,2) NULL")
+            coll.Add("Tot_Added_SNFKG", "decimal (18,2) NULL")
+            coll.Add("Tot_Removed_FATKG", "decimal (18,2) NULL")
+            coll.Add("Tot_Removed_SNFKG", "decimal (18,2) NULL")
+            coll.Add("Tot_Net_FATKG", "decimal (18,2) NULL")
+            coll.Add("Tot_Net_SNFKG", "decimal (18,2) NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SHIFT_MGMT_SFG", coll, "UNIQUE ( Document_Date, Shift_Code)", True, False, "", "Document_No", "Document_Date", True)
 
-        Me.SetUserMgmt(clsUserMgtCode.ProductionShiftMgmt)
-        Dim qry As String = "select Document_No from TSPL_SHIFT_MGMT_SFG where Document_Date='" + clsCommon.GetPrintDate(FilterDate, "dd/MMM/yyyy") + "' and Shift_Code='" + FilterShift + "' and Location_Code='" + FilterLocation + "'"
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            LoadData(clsCommon.myCstr(dt.Rows(0)("Document_No")), NavigatorType.Current)
-        Else
-            isNewEntry = True
-            AddNew()
-            txtDate.Value = FilterDate
-            txtShift.Value = FilterShift
-            SetShiftStartEndDateTime()
-            txtLocation.Value = FilterLocation
-            lblLocationFG.Text = clsLocation.GetName(txtLocation.Value, Nothing)
-        End If
-        RadPageView3.SelectedPage = RadPageViewPage10
-        EnableDisableControl(False)
-        LOCATIONRIGTHS()
-        btnReverse.Visible = False
+            Me.SetUserMgmt(clsUserMgtCode.ProductionShiftMgmt)
+            Dim qry As String = "select Document_No from TSPL_SHIFT_MGMT_SFG where Document_Date='" + clsCommon.GetPrintDate(FilterDate, "dd/MMM/yyyy") + "' and Shift_Code='" + FilterShift + "' and Location_Code='" + FilterLocation + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                LoadData(clsCommon.myCstr(dt.Rows(0)("Document_No")), NavigatorType.Current)
+            Else
+                isNewEntry = True
+                AddNew()
+                txtDate.Value = FilterDate
+                txtShift.Value = FilterShift
+                SetShiftStartEndDateTime()
+                txtLocation.Value = FilterLocation
+                lblLocationFG.Text = clsLocation.GetName(txtLocation.Value, Nothing)
+            End If
+            RadPageView3.SelectedPage = RadPageViewPage10
+            EnableDisableControl(False)
+            LOCATIONRIGTHS()
+            btnReverse.Visible = False
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Private Sub LOCATIONRIGTHS()
         Dim obj As New clsMCCCodes()
@@ -102,6 +120,25 @@ Public Class frmProductionShiftMgmtSFG
         txtShiftEnd.Value = txtDate.Value
         txtLocation.Value = ""
         lblLocationFG.Text = ""
+
+        lblTotProduceFATKG.Text = ""
+        lblTotProduceSNFKG.Text = ""
+
+        lblTotIssueFATKG.Text = ""
+        lblTotIssueSNFKG.Text = ""
+
+        lblTotDifferenceFATKG.Text = ""
+        lblTotDifferenceSNFKG.Text = ""
+
+        lblTotAddedFATKG.Text = ""
+        lblTotAddedSNFKG.Text = ""
+
+        lblTotRemoveFATKG.Text = ""
+        lblTotRemoveSNFKG.Text = ""
+
+        lblTotNetFATKG.Text = ""
+        lblTotNetSNFKG.Text = ""
+
         isNewEntry = True
         UsLock1.Status = ERPTransactionStatus.Pending
         LoadBlankGrid()
@@ -534,6 +571,7 @@ Public Class frmProductionShiftMgmtSFG
         SaveData()
     End Sub
     Private Function AllowToSave() As Boolean
+        calculateALL()
         Return True
     End Function
     Private Sub FrmSerializeItemIn_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
@@ -589,6 +627,25 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                 obj.Shift_Start_Date = txtShiftStart.Value
                 obj.Shift_End_Date = txtShiftEnd.Value
                 obj.Location_Code = txtLocation.Value
+
+                obj.Tot_Produce_FATKG = lblTotProduceFATKG.Text
+                obj.Tot_Produce_SNFKG = lblTotProduceSNFKG.Text
+
+                obj.Tot_Issue_FATKG = lblTotIssueFATKG.Text
+                obj.Tot_Issue_SNFKG = lblTotIssueSNFKG.Text
+
+                obj.Tot_Difference_FATKG = lblTotDifferenceFATKG.Text
+                obj.Tot_Difference_SNFKG = lblTotDifferenceSNFKG.Text
+
+                obj.Tot_Added_FATKG = lblTotAddedFATKG.Text
+                obj.Tot_Added_SNFKG = lblTotAddedSNFKG.Text
+
+                obj.Tot_Removed_FATKG = lblTotRemoveFATKG.Text
+                obj.Tot_Removed_SNFKG = lblTotRemoveSNFKG.Text
+
+                obj.Tot_Net_FATKG = lblTotNetFATKG.Text
+                obj.Tot_Net_SNFKG = lblTotNetSNFKG.Text
+
                 obj.ArrProSFG = New List(Of clsProductionShiftMgmtSFGProduction)
 
                 For ii As Integer = 0 To gvProSFG.RowCount - 1
@@ -674,6 +731,24 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                 txtShiftEnd.Value = obj.Shift_End_Date
                 txtShift.Value = obj.Shift_Code
                 txtLocation.Value = obj.Location_Code
+
+                lblTotProduceFATKG.Text = obj.Tot_Produce_FATKG
+                lblTotProduceSNFKG.Text = obj.Tot_Produce_SNFKG
+
+                lblTotIssueFATKG.Text = obj.Tot_Issue_FATKG
+                lblTotIssueSNFKG.Text = obj.Tot_Issue_SNFKG
+
+                lblTotDifferenceFATKG.Text = obj.Tot_Difference_FATKG
+                lblTotDifferenceSNFKG.Text = obj.Tot_Difference_SNFKG
+
+                lblTotAddedFATKG.Text = obj.Tot_Added_FATKG
+                lblTotAddedSNFKG.Text = obj.Tot_Added_SNFKG
+
+                lblTotRemoveFATKG.Text = obj.Tot_Removed_FATKG
+                lblTotRemoveSNFKG.Text = obj.Tot_Removed_SNFKG
+
+                lblTotNetFATKG.Text = obj.Tot_Net_FATKG
+                lblTotNetSNFKG.Text = obj.Tot_Net_SNFKG
 
 
                 If obj.ArrProSFG IsNot Nothing AndAlso obj.ArrProSFG.Count > 0 Then
@@ -811,6 +886,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                     End If
                 End If
             End If
+            calculateALL()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -949,6 +1025,7 @@ left outer join TSPL_ITEM_UOM_DETAIL as TabStockUOM on TabStockUOM.item_code=xxx
                 gvProSFG.CurrentRow.Cells(ColProSFGEnteredUOM).Value = 2
             End If
             CalcuateProuctionRawMilk()
+            calculateALL()
         Catch ex As Exception
             gvProSFG.CurrentRow.Cells(ColProSFGQtyLTR).Value = 0
             gvProSFG.CurrentRow.Cells(ColProSFGQtyKG).Value = 0
@@ -978,6 +1055,7 @@ left outer join TSPL_ITEM_UOM_DETAIL as TabStockUOM on TabStockUOM.item_code=xxx
                     ElseIf frm.isOKClicked = 2 Then
                         gvProSFG.CurrentRow.Cells(ColProSFGAdd).Tag = Nothing
                     End If
+                    calculateALL()
                 ElseIf gvProSFG.CurrentColumn Is gvProSFG.Columns(ColProSFGRemove) Then
                     Dim frm As New frmProductionShiftMgmtRemove()
                     frm.isSFG = True
@@ -991,10 +1069,77 @@ left outer join TSPL_ITEM_UOM_DETAIL as TabStockUOM on TabStockUOM.item_code=xxx
                     ElseIf frm.isOKClicked = 2 Then
                         gvProSFG.CurrentRow.Cells(ColProSFGRemove).Tag = Nothing
                     End If
+                    calculateALL()
                 End If
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Sub calculateALL()
+        Dim dblProduceFATKG As Decimal = 0
+        Dim dblProduceSNFKG As Decimal = 0
+        Dim dblAddedFATKG As Decimal = 0
+        Dim dblAddedSNFKG As Decimal = 0
+        Dim dblRemovedFATKG As Decimal = 0
+        Dim dblRemovedSNFKG As Decimal = 0
+        Dim dblIssuedFATKG As Decimal = 0
+        Dim dblIssuedSNFKG As Decimal = 0
+
+        For ii As Integer = 0 To gvProSFG.Rows.Count - 1
+            dblProduceFATKG += clsCommon.myCdbl(gvProSFG.Rows(ii).Cells(ColProSFGFATKG).Value)
+            dblProduceSNFKG += clsCommon.myCdbl(gvProSFG.Rows(ii).Cells(ColProSFGSNFKG).Value)
+
+            Dim ArrAdd As New List(Of clsProductionShiftMgmtSFGProductionItemAddRemove)
+            ArrAdd = TryCast(gvProSFG.Rows(ii).Cells(ColProSFGAdd).Tag, List(Of clsProductionShiftMgmtSFGProductionItemAddRemove))
+            If ArrAdd IsNot Nothing AndAlso ArrAdd.Count > 0 Then
+                For Each objtr As clsProductionShiftMgmtSFGProductionItemAddRemove In ArrAdd
+                    dblAddedFATKG += clsCommon.myCdbl(objtr.FAT_KG)
+                    dblAddedSNFKG += clsCommon.myCdbl(objtr.SNF_KG)
+                Next
+            End If
+
+            Dim ArrRemove As New List(Of clsProductionShiftMgmtSFGProductionItemAddRemove)
+            ArrRemove = TryCast(gvProSFG.Rows(ii).Cells(ColProSFGRemove).Tag, List(Of clsProductionShiftMgmtSFGProductionItemAddRemove))
+            If ArrRemove IsNot Nothing AndAlso ArrRemove.Count > 0 Then
+                For Each objtr As clsProductionShiftMgmtSFGProductionItemAddRemove In ArrRemove
+                    dblRemovedFATKG += clsCommon.myCdbl(objtr.FAT_KG)
+                    dblRemovedSNFKG += clsCommon.myCdbl(objtr.SNF_KG)
+                Next
+            End If
+        Next
+        For ii As Integer = 0 To gvProRM.Rows.Count - 1
+            Dim Arr As New List(Of clsProductionShiftMgmtSFGProductionRMIssue)
+            Arr = TryCast(gvProRM.Rows(ii).Cells(ColProRMIssue).Tag, List(Of clsProductionShiftMgmtSFGProductionRMIssue))
+            If Arr IsNot Nothing AndAlso Arr.Count > 0 Then
+                For Each objtr As clsProductionShiftMgmtSFGProductionRMIssue In Arr
+                    dblIssuedFATKG += clsCommon.myCdbl(objtr.FAT_KG)
+                    dblIssuedSNFKG += clsCommon.myCdbl(objtr.SNF_KG)
+                Next
+            End If
+        Next
+
+        lblTotProduceFATKG.Text = clsCommon.myFormat(Math.Round(dblProduceFATKG, 2, MidpointRounding.ToEven))
+        lblTotProduceSNFKG.Text = clsCommon.myFormat(Math.Round(dblProduceSNFKG, 2, MidpointRounding.ToEven))
+
+        lblTotIssueFATKG.Text = clsCommon.myFormat(Math.Round(dblIssuedFATKG, 2, MidpointRounding.ToEven))
+        lblTotIssueSNFKG.Text = clsCommon.myFormat(Math.Round(dblIssuedSNFKG, 2, MidpointRounding.ToEven))
+
+        lblTotDifferenceFATKG.Text = clsCommon.myFormat(Math.Round((dblIssuedFATKG - dblProduceFATKG), 2, MidpointRounding.ToEven))
+        lblTotDifferenceSNFKG.Text = clsCommon.myFormat(Math.Round((dblIssuedSNFKG - dblProduceSNFKG), 2, MidpointRounding.ToEven))
+
+        lblTotAddedFATKG.Text = clsCommon.myFormat(Math.Round(dblAddedFATKG, 2, MidpointRounding.ToEven))
+        lblTotAddedSNFKG.Text = clsCommon.myFormat(Math.Round(dblAddedSNFKG, 2, MidpointRounding.ToEven))
+
+        lblTotRemoveFATKG.Text = clsCommon.myFormat(Math.Round(dblRemovedFATKG, 2, MidpointRounding.ToEven))
+        lblTotRemoveSNFKG.Text = clsCommon.myFormat(Math.Round(dblRemovedSNFKG, 2, MidpointRounding.ToEven))
+
+        lblTotNetFATKG.Text = clsCommon.myFormat(Math.Round((dblIssuedFATKG - dblProduceFATKG + dblAddedFATKG - dblRemovedFATKG), 2, MidpointRounding.ToEven))
+        lblTotNetSNFKG.Text = clsCommon.myFormat(Math.Round((dblIssuedSNFKG - dblProduceSNFKG + dblAddedSNFKG - dblRemovedSNFKG), 2, MidpointRounding.ToEven))
+    End Sub
+
+    Private Sub gvProRM_CommandCellClick(sender As Object, e As GridViewCellEventArgs) Handles gvProRM.CommandCellClick
+
     End Sub
 End Class

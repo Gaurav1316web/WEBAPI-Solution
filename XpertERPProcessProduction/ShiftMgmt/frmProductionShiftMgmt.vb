@@ -188,18 +188,18 @@ Public Class frmProductionShiftMgmt
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim flag As Boolean = True
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                If clsCommon.MyMessageBoxShow(Me, "SFG Production is not created.Do you want to continue?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.No Then
+                If clsCommon.MyMessageBoxShow(Me, "SFG production has not been created. Do you want to continue without SFG production??", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.No Then
                     flag = False
                 End If
             Else
                 If clsCommon.myCDecimal(dt.Rows(0)("Status")) = 0 Then
-                    If clsCommon.MyMessageBoxShow(Me, "SFG Production is created but not posted.Do you want to Post it?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
+                    If clsCommon.MyMessageBoxShow(Me, "SFG Production has been successfully created but not posted. Do you want to post it now?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
                         flag = False
                     Else
                         Exit Sub
                     End If
                 ElseIf clsCommon.myCDecimal(dt.Rows(0)("Status")) = 1 Then
-                    If clsCommon.MyMessageBoxShow(Me, "Do you want to view SFG Produce items?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
+                    If clsCommon.MyMessageBoxShow(Me, "Do you want to view the SFG produced items?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
                         flag = False
                     End If
                 End If
@@ -352,7 +352,7 @@ left outer join TSPL_Bulk_MILK_SRN on TSPL_Bulk_MILK_SRN.SRN_NO=TSPL_INVENTORY_M
 left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_Bulk_MILK_SRN.Vendor_Code
 where TSPL_ITEM_MASTER.Product_Type='MI' and TSPL_LOCATION_MASTER.Main_Location_Code='" + txtLocation.Value + "' 
 and Punching_Date>='" + clsCommon.GetPrintDate(txtShiftStart.Value, "dd/MMM/yyyy hh:mm:ss tt") + "' and Punching_Date<='" + clsCommon.GetPrintDate(txtShiftEnd.Value, "dd/MMM/yyyy hh:mm:ss tt") + "' and TSPL_INVENTORY_MOVEMENT_NEW.Stock_UOM in ('LTR','KG')
-and 2= (case when TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type in ('MilkTransferIn','BulkSRN') then 2 else case when TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type ='IC-AD' and TSPL_ADJUSTMENT_HEADER.Adjustment_Type='FLG' then 2 else 3 end end )
+and 2= (case when TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type in ('MilkTransferIn','BulkSRN','IC-AD') then 2 else case when TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type ='IC-AD' and TSPL_ADJUSTMENT_HEADER.Adjustment_Type='FLG' then 2 else 3 end end )
 ) xxx 
 left outer join TSPL_ITEM_UOM_DETAIL as TabUOMLTR on TabUOMLTR.Item_Code=xxx.Item_Code and TabUOMLTR.UOM_Code='LTR'
 left outer join TSPL_ITEM_UOM_DETAIL as TabUOMKG on TabUOMKG.Item_Code=xxx.Item_Code and TabUOMKG.UOM_Code='KG'

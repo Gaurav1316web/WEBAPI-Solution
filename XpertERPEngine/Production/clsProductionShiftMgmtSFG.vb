@@ -10,6 +10,20 @@ Public Class clsProductionShiftMgmtSFG
     Public Shift_End_Date As DateTime
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
     Public Posted_Date As DateTime? = Nothing
+
+    Public Tot_Produce_FATKG As Decimal
+    Public Tot_Produce_SNFKG As Decimal
+    Public Tot_Issue_FATKG As Decimal
+    Public Tot_Issue_SNFKG As Decimal
+    Public Tot_Difference_FATKG As Decimal
+    Public Tot_Difference_SNFKG As Decimal
+    Public Tot_Added_FATKG As Decimal
+    Public Tot_Added_SNFKG As Decimal
+    Public Tot_Removed_FATKG As Decimal
+    Public Tot_Removed_SNFKG As Decimal
+    Public Tot_Net_FATKG As Decimal
+    Public Tot_Net_SNFKG As Decimal
+
     Public ArrProSFG As List(Of clsProductionShiftMgmtSFGProduction) = Nothing
     Public ArrProRMSummary As List(Of clsProductionShiftMgmtSFGProductionRMSummary) = Nothing
 
@@ -44,6 +58,25 @@ Public Class clsProductionShiftMgmtSFG
             clsCommon.AddColumnsForChange(coll, "Shift_End_Date", clsCommon.GetPrintDate(obj.Shift_End_Date, "dd/MMM/yyyy hh:mm:ss tt"))
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
+
+            clsCommon.AddColumnsForChange(coll, "Tot_Produce_FATKG", obj.Tot_Produce_FATKG)
+            clsCommon.AddColumnsForChange(coll, "Tot_Produce_SNFKG", obj.Tot_Produce_SNFKG)
+
+            clsCommon.AddColumnsForChange(coll, "Tot_Issue_FATKG", obj.Tot_Issue_FATKG)
+            clsCommon.AddColumnsForChange(coll, "Tot_Issue_SNFKG", obj.Tot_Issue_SNFKG)
+
+            clsCommon.AddColumnsForChange(coll, "Tot_Difference_FATKG", obj.Tot_Difference_FATKG)
+            clsCommon.AddColumnsForChange(coll, "Tot_Difference_SNFKG", obj.Tot_Difference_SNFKG)
+
+            clsCommon.AddColumnsForChange(coll, "Tot_Added_FATKG", obj.Tot_Added_FATKG)
+            clsCommon.AddColumnsForChange(coll, "Tot_Added_SNFKG", obj.Tot_Added_SNFKG)
+
+            clsCommon.AddColumnsForChange(coll, "Tot_Removed_FATKG", obj.Tot_Removed_FATKG)
+            clsCommon.AddColumnsForChange(coll, "Tot_Removed_SNFKG", obj.Tot_Removed_SNFKG)
+
+            clsCommon.AddColumnsForChange(coll, "Tot_Net_FATKG", obj.Tot_Net_FATKG)
+            clsCommon.AddColumnsForChange(coll, "Tot_Net_SNFKG", obj.Tot_Net_SNFKG)
+
             If isNewEntry Then
                 obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.ShiftMgmtSFG, "", obj.Location_Code)
                 If (clsCommon.myLen(obj.Document_No) <= 0) Then
@@ -100,6 +133,26 @@ where 2=2 "
             If dt.Rows(0)("Posted_Date") IsNot DBNull.Value Then
                 obj.Posted_Date = clsCommon.myCDate(dt.Rows(0)("Posted_Date"))
             End If
+
+            obj.Tot_Produce_FATKG = clsCommon.myCdbl(dt.Rows(0)("Tot_Produce_FATKG"))
+            obj.Tot_Produce_SNFKG = clsCommon.myCdbl(dt.Rows(0)("Tot_Produce_SNFKG"))
+
+            obj.Tot_Issue_FATKG = clsCommon.myCdbl(dt.Rows(0)("Tot_Issue_FATKG"))
+            obj.Tot_Issue_SNFKG = clsCommon.myCdbl(dt.Rows(0)("Tot_Issue_SNFKG"))
+
+            obj.Tot_Difference_FATKG = clsCommon.myCdbl(dt.Rows(0)("Tot_Difference_FATKG"))
+            obj.Tot_Difference_SNFKG = clsCommon.myCdbl(dt.Rows(0)("Tot_Difference_SNFKG"))
+
+            obj.Tot_Added_FATKG = clsCommon.myCdbl(dt.Rows(0)("Tot_Added_FATKG"))
+            obj.Tot_Added_SNFKG = clsCommon.myCdbl(dt.Rows(0)("Tot_Added_SNFKG"))
+
+            obj.Tot_Removed_FATKG = clsCommon.myCdbl(dt.Rows(0)("Tot_Removed_FATKG"))
+            obj.Tot_Removed_SNFKG = clsCommon.myCdbl(dt.Rows(0)("Tot_Removed_SNFKG"))
+
+            obj.Tot_Net_FATKG = clsCommon.myCdbl(dt.Rows(0)("Tot_Net_FATKG"))
+            obj.Tot_Net_SNFKG = clsCommon.myCdbl(dt.Rows(0)("Tot_Net_SNFKG"))
+
+
             obj.ArrProSFG = clsProductionShiftMgmtSFGProduction.GetData(obj.Document_No, "", trans)
             obj.ArrProRMSummary = clsProductionShiftMgmtSFGProductionRMSummary.GetData(obj.Document_No, "", trans)
         End If
