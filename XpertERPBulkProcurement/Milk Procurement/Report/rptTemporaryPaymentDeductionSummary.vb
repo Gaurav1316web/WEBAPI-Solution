@@ -146,7 +146,7 @@ Public Class rptTemporaryPaymentDeductionSummary
     WHERE
         X.Document_Date BETWEEN '" & clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy ") & "' AND '" & clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy ") & "' "
             If fndMultDCS.arrValueMember IsNot Nothing AndAlso fndMultDCS.arrValueMember.Count > 0 Then
-                qry += " and X.VLC_Code_VLC_Uploader In(" + clsCommon.GetMulcallString(fndMultDCS.arrValueMember) + ")" + Environment.NewLine
+                qry += " and X.VLC_Code_VLC_Uploader In(" + clsCommon.GetMulcallString(fndMultDCS.arrDispalyMember) + ")" + Environment.NewLine
             End If
             qry += " )
 
@@ -183,7 +183,7 @@ FROM
         NULL AS AP_Invoice_Date,
 	        'BALANCE' AS DeductionName,
         NULL AS DCSCode,
-        NULL as Document_Total,
+        MAX(Document_Total) - SUM(ConsumedAmt) as Document_Total,
         NULL,
         MAX(Document_Total) - SUM(ConsumedAmt) AS FinalBal,
         2 AS SortOrder
@@ -226,7 +226,7 @@ ORDER BY
             Dim Qry As String = ""
             Dim dt As New DataTable
 
-            Qry = "  Select *,(Document_Total-ConsumedAmt)FinalBal from ( Select ROW_NUMBER() OVER (ORDER BY AP_Invoice_No)SNo,AP_Invoice_No,AP_Invoice_Date,Isnull((Description),'') as DeductionName,
+            Qry = "  Select *,(Document_Total-ConsumedAmt)FinalBal from ( Select ROW_NUMBER() OVER (ORDER BY AP_Invoice_No)SNo,AP_Invoice_No,(CONVERT(varchar(20), AP_Invoice_Date, 103))AP_Invoice_Date,Isnull((Description),'') as DeductionName,
                             VLC_Code_VLC_Uploader as DCSCode,Document_Total,Balance_Amt,Amount,Reduce_Deduc_Amt,(Amount-Reduce_Deduc_Amt) as ConsumedAmt
                             from (
                             select TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No as Document_No, TSPL_PAYMENT_PROCESS_HEAD.To_Date as Document_Date,TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No ,
@@ -320,7 +320,9 @@ ORDER BY
             Gv1.Columns("Document_Total").HeaderText = "Document Total"
             'Gv1.Columns("Balance_Amt").HeaderText = "Balance Amt"
             'Gv1.Columns("Amount").HeaderText = "Amount"
+            Gv1.Columns("ConsumedAmt").IsVisible = False
             Gv1.Columns("ConsumedAmt").HeaderText = "Consumed Amt"
+            Gv1.Columns("FinalBal").IsVisible = False
             Gv1.Columns("FinalBal").HeaderText = "Final Balance"
 
             Gv1.ShowGroupPanel = True
@@ -2158,5 +2160,18 @@ left  join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.Vendor_Code "
             chkCurrntCycle.Visible = True
             ToDate.ReadOnly = True
         End If
+    End Sub
+
+    Private Sub fndMultDCS__My_Click(sender As Object, e As EventArgs) Handles fndMultDCS._My_Click
+        Try
+            Dim qry As String = " select VSP_Code as Code,VLC_Code_VLC_Uploader as Name,VLC_Name,VLC_Code from TSPL_VLC_MASTER_HEAD  "
+            'If TxtCustomerType.arrValueMember IsNot Nothing AndAlso TxtCustomerType.arrValueMember.Count > 0 Then
+            '    qry += " Where Cust_Type_Code In (" + clsCommon.GetMulcallString(TxtCustomerType.arrValueMember) + ")"
+            'End If
+            fndMultDCS.arrValueMember = clsCommon.ShowMultipleSelectForm("CustMulSel", qry, "Code", "Name", fndMultDCS.arrValueMember, fndMultDCS.arrDispalyMember)
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class
