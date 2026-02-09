@@ -28,6 +28,10 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.TxtMultiTanker = New common.UserControls.txtMultiSelectFinder()
+        Me.lblRoute = New common.Controls.MyLabel()
+        Me.lblTanker = New common.Controls.MyLabel()
+        Me.txtRoute = New common.UserControls.txtMultiSelectFinder()
         Me.txtUnion = New common.UserControls.txtMultiSelectFinder()
         Me.lblLocation = New common.Controls.MyLabel()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
@@ -42,10 +46,7 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btngo = New Telerik.WinControls.UI.RadButton()
-        Me.txtRoute = New common.UserControls.txtMultiSelectFinder()
-        Me.lblRoute = New common.Controls.MyLabel()
-        Me.lblTanker = New common.Controls.MyLabel()
-        Me.TxtMultiTanker = New common.UserControls.txtMultiSelectFinder()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -54,6 +55,8 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel1.SuspendLayout()
+        CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTanker, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
@@ -68,8 +71,7 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btngo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblTanker, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -86,6 +88,7 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSplitExport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
@@ -129,6 +132,52 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(779, 352)
         Me.RadPanel1.TabIndex = 15
+        '
+        'TxtMultiTanker
+        '
+        Me.TxtMultiTanker.arrDispalyMember = Nothing
+        Me.TxtMultiTanker.arrValueMember = Nothing
+        Me.TxtMultiTanker.Location = New System.Drawing.Point(87, 135)
+        Me.TxtMultiTanker.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtMultiTanker.MyLinkLable1 = Me.lblRoute
+        Me.TxtMultiTanker.MyLinkLable2 = Nothing
+        Me.TxtMultiTanker.MyNullText = "All"
+        Me.TxtMultiTanker.Name = "TxtMultiTanker"
+        Me.TxtMultiTanker.Size = New System.Drawing.Size(232, 19)
+        Me.TxtMultiTanker.TabIndex = 452
+        '
+        'lblRoute
+        '
+        Me.lblRoute.FieldName = Nothing
+        Me.lblRoute.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblRoute.Location = New System.Drawing.Point(17, 112)
+        Me.lblRoute.Name = "lblRoute"
+        Me.lblRoute.Size = New System.Drawing.Size(36, 18)
+        Me.lblRoute.TabIndex = 450
+        Me.lblRoute.Text = "Route"
+        '
+        'lblTanker
+        '
+        Me.lblTanker.FieldName = Nothing
+        Me.lblTanker.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTanker.Location = New System.Drawing.Point(17, 136)
+        Me.lblTanker.Name = "lblTanker"
+        Me.lblTanker.Size = New System.Drawing.Size(40, 18)
+        Me.lblTanker.TabIndex = 451
+        Me.lblTanker.Text = "Tanker"
+        '
+        'txtRoute
+        '
+        Me.txtRoute.arrDispalyMember = Nothing
+        Me.txtRoute.arrValueMember = Nothing
+        Me.txtRoute.Location = New System.Drawing.Point(87, 112)
+        Me.txtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRoute.MyLinkLable1 = Me.lblRoute
+        Me.txtRoute.MyLinkLable2 = Nothing
+        Me.txtRoute.MyNullText = "All"
+        Me.txtRoute.Name = "txtRoute"
+        Me.txtRoute.Size = New System.Drawing.Size(232, 19)
+        Me.txtRoute.TabIndex = 449
         '
         'txtUnion
         '
@@ -281,11 +330,12 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         '
         Me.btnSplitExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSplitExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel})
-        Me.btnSplitExport.Location = New System.Drawing.Point(187, 12)
+        Me.btnSplitExport.Location = New System.Drawing.Point(405, 16)
         Me.btnSplitExport.Name = "btnSplitExport"
         Me.btnSplitExport.Size = New System.Drawing.Size(81, 18)
         Me.btnSplitExport.TabIndex = 458
         Me.btnSplitExport.Text = "Export"
+        Me.btnSplitExport.Visible = False
         '
         'rmiExcel
         '
@@ -322,51 +372,15 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.btngo.TabIndex = 455
         Me.btngo.Text = ">>>"
         '
-        'txtRoute
+        'btnPrint
         '
-        Me.txtRoute.arrDispalyMember = Nothing
-        Me.txtRoute.arrValueMember = Nothing
-        Me.txtRoute.Location = New System.Drawing.Point(87, 112)
-        Me.txtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtRoute.MyLinkLable1 = Me.lblRoute
-        Me.txtRoute.MyLinkLable2 = Nothing
-        Me.txtRoute.MyNullText = "All"
-        Me.txtRoute.Name = "txtRoute"
-        Me.txtRoute.Size = New System.Drawing.Size(232, 19)
-        Me.txtRoute.TabIndex = 449
-        '
-        'lblRoute
-        '
-        Me.lblRoute.FieldName = Nothing
-        Me.lblRoute.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRoute.Location = New System.Drawing.Point(17, 112)
-        Me.lblRoute.Name = "lblRoute"
-        Me.lblRoute.Size = New System.Drawing.Size(36, 18)
-        Me.lblRoute.TabIndex = 450
-        Me.lblRoute.Text = "Route"
-        '
-        'lblTanker
-        '
-        Me.lblTanker.FieldName = Nothing
-        Me.lblTanker.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTanker.Location = New System.Drawing.Point(17, 136)
-        Me.lblTanker.Name = "lblTanker"
-        Me.lblTanker.Size = New System.Drawing.Size(40, 18)
-        Me.lblTanker.TabIndex = 451
-        Me.lblTanker.Text = "Tanker"
-        '
-        'TxtMultiTanker
-        '
-        Me.TxtMultiTanker.arrDispalyMember = Nothing
-        Me.TxtMultiTanker.arrValueMember = Nothing
-        Me.TxtMultiTanker.Location = New System.Drawing.Point(87, 135)
-        Me.TxtMultiTanker.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtMultiTanker.MyLinkLable1 = Me.lblRoute
-        Me.TxtMultiTanker.MyLinkLable2 = Nothing
-        Me.TxtMultiTanker.MyNullText = "All"
-        Me.TxtMultiTanker.Name = "TxtMultiTanker"
-        Me.TxtMultiTanker.Size = New System.Drawing.Size(232, 19)
-        Me.TxtMultiTanker.TabIndex = 452
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint.Location = New System.Drawing.Point(187, 14)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(81, 18)
+        Me.btnPrint.TabIndex = 459
+        Me.btnPrint.Text = "Print"
         '
         'rptUnionWiseMilkTankerCollectionDetail
         '
@@ -389,6 +403,8 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
         Me.RadPanel1.PerformLayout()
+        CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTanker, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
@@ -404,8 +420,7 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btngo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblTanker, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -433,4 +448,5 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
     Friend WithEvents lblRoute As common.Controls.MyLabel
     Friend WithEvents TxtMultiTanker As common.UserControls.txtMultiSelectFinder
     Friend WithEvents lblTanker As common.Controls.MyLabel
+    Friend WithEvents btnPrint As RadButton
 End Class
