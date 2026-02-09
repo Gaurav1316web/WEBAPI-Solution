@@ -24,7 +24,6 @@ Partial Class rptmilkunion
     Private Sub InitializeComponent()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
@@ -107,10 +106,11 @@ Partial Class rptmilkunion
         '
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
+        Me.RadPageView1.DefaultPage = Me.RadPageViewPage1
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(800, 411)
         Me.RadPageView1.TabIndex = 4
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -193,7 +193,7 @@ Partial Class rptmilkunion
         Me.txtToDate.ReferenceFieldDesc = Nothing
         Me.txtToDate.ReferenceFieldName = Nothing
         Me.txtToDate.ReferenceTableName = Nothing
-        Me.txtToDate.Size = New System.Drawing.Size(82, 20)
+        Me.txtToDate.Size = New System.Drawing.Size(83, 20)
         Me.txtToDate.TabIndex = 2
         Me.txtToDate.TabStop = False
         Me.txtToDate.Text = "30/05/2011"
@@ -212,7 +212,7 @@ Partial Class rptmilkunion
         Me.txtFromDate.IsSourceFromTable = False
         Me.txtFromDate.IsSourceFromValueList = False
         Me.txtFromDate.IsUnique = False
-        Me.txtFromDate.Location = New System.Drawing.Point(70, 23)
+        Me.txtFromDate.Location = New System.Drawing.Point(69, 23)
         Me.txtFromDate.MendatroryField = False
         Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtFromDate.MyLinkLable1 = Nothing
@@ -222,7 +222,7 @@ Partial Class rptmilkunion
         Me.txtFromDate.ReferenceFieldDesc = Nothing
         Me.txtFromDate.ReferenceFieldName = Nothing
         Me.txtFromDate.ReferenceTableName = Nothing
-        Me.txtFromDate.Size = New System.Drawing.Size(78, 20)
+        Me.txtFromDate.Size = New System.Drawing.Size(83, 20)
         Me.txtFromDate.TabIndex = 1
         Me.txtFromDate.TabStop = False
         Me.txtFromDate.Text = "30/05/2011"
@@ -236,10 +236,8 @@ Partial Class rptmilkunion
         Me.ddlReportType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         RadListDataItem1.Text = "Union Wise Status Report"
         RadListDataItem2.Text = "Union Wise Average Status Report"
-        RadListDataItem3.Text = "Union Tanker Wise Status Report"
         Me.ddlReportType.Items.Add(RadListDataItem1)
         Me.ddlReportType.Items.Add(RadListDataItem2)
-        Me.ddlReportType.Items.Add(RadListDataItem3)
         Me.ddlReportType.Location = New System.Drawing.Point(89, 13)
         Me.ddlReportType.Name = "ddlReportType"
         Me.ddlReportType.Size = New System.Drawing.Size(299, 20)
