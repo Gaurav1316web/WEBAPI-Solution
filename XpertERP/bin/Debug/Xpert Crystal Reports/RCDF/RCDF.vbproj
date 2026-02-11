@@ -1037,6 +1037,7 @@
     <None Include="Crystal Reports GST\Sales Report\PendingSaleOrder.rpt" />
     <None Include="Crystal Reports GST\Sales Report\QuickSettlement.rpt" />
     <None Include="Crystal Reports GST\Sales Report\receipt.rpt" />
+    <None Include="Crystal Reports GST\Sales Report\receipt1.rpt" />
     <None Include="Crystal Reports GST\Sales Report\ReceiptAdjustmentReport.rpt" />
     <None Include="Crystal Reports GST\Sales Report\receiptold28052012.rpt" />
     <None Include="Crystal Reports GST\Sales Report\RouteMonthwiseSaleRpt.rpt" />

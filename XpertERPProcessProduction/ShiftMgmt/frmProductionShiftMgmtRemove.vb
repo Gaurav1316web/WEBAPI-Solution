@@ -43,6 +43,7 @@ Public Class frmProductionShiftMgmtRemove
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColQty).Value = obj.Qty
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColFATKG).Value = obj.FAT_KG
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColSNFKG).Value = obj.SNF_KG
+
                         gv1.Rows.AddNew()
                     Next
                 End If
@@ -58,11 +59,11 @@ Public Class frmProductionShiftMgmtRemove
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColQty).Value = obj.Qty
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColFATKG).Value = obj.FAT_KG
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColSNFKG).Value = obj.SNF_KG
+
                         gv1.Rows.AddNew()
                     Next
                 End If
             End If
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Me.Close()
@@ -153,7 +154,7 @@ Public Class frmProductionShiftMgmtRemove
         repoNumBox.ShowUpDownButtons = False
         repoNumBox.Step = 0
         repoNumBox.DecimalPlaces = 2
-        repoNumBox.ReadOnly = False
+        repoNumBox.ReadOnly = True
         repoNumBox.IsVisible = True
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoNumBox)
@@ -181,7 +182,7 @@ Public Class frmProductionShiftMgmtRemove
         repoNumBox.ShowUpDownButtons = False
         repoNumBox.Step = 0
         repoNumBox.DecimalPlaces = 2
-        repoNumBox.ReadOnly = False
+        repoNumBox.ReadOnly = True
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoNumBox.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoNumBox)
@@ -309,7 +310,7 @@ Public Class frmProductionShiftMgmtRemove
                         OpenLocation()
                     ElseIf e.Column Is gv1.Columns(ColItemCode) Then
                         OpenItem(False)
-                    ElseIf e.Column Is gv1.Columns(ColQty) OrElse e.Column Is gv1.Columns(ColFAT) OrElse e.Column Is gv1.Columns(ColSNF) Then
+                    ElseIf e.Column Is gv1.Columns(ColQty) Then
                         If clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(ColProductType).Value), "MI") = CompairStringResult.Equal Then
                             Dim dclQty As Decimal = clsItemMaster.Convert(clsCommon.myCstr(gv1.CurrentRow.Cells(ColItemCode).Value), clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColQty).Value), clsCommon.myCstr(gv1.CurrentRow.Cells(ColUOM).Value), "KG")
                             gv1.CurrentRow.Cells(ColFATKG).Value = Math.Round(clsCommon.myCDivide(dclQty * clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColFAT).Value), 100), 3, MidpointRounding.ToEven)
@@ -317,13 +318,15 @@ Public Class frmProductionShiftMgmtRemove
                         End If
                     ElseIf e.Column Is gv1.Columns(ColFATKG) Then
                         If clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(ColProductType).Value), "MI") = CompairStringResult.Equal Then
-                            Dim dclQty As Decimal = clsItemMaster.Convert(clsCommon.myCstr(gv1.CurrentRow.Cells(ColItemCode).Value), clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColQty).Value), clsCommon.myCstr(gv1.CurrentRow.Cells(ColUOM).Value), "KG")
-                            gv1.CurrentRow.Cells(ColFAT).Value = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColFATKG).Value) * 100, dclQty), 2, MidpointRounding.ToEven)
+                            Dim dclQtyKG As Decimal = Math.Round(clsCommon.myCDivide((clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColFATKG).Value) * 100), clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColFAT).Value)), 2, MidpointRounding.ToEven)
+                            gv1.CurrentRow.Cells(ColQty).Value = clsItemMaster.Convert(clsCommon.myCstr(gv1.CurrentRow.Cells(ColItemCode).Value), dclQtyKG, "KG", clsCommon.myCstr(gv1.CurrentRow.Cells(ColUOM).Value))
+                            gv1.CurrentRow.Cells(ColSNFKG).Value = Math.Round(clsCommon.myCDivide(dclQtyKG * clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColSNF).Value), 100), 3, MidpointRounding.ToEven)
                         End If
                     ElseIf e.Column Is gv1.Columns(ColSNFKG) Then
                         If clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(ColProductType).Value), "MI") = CompairStringResult.Equal Then
-                            Dim dclQty As Decimal = clsItemMaster.Convert(clsCommon.myCstr(gv1.CurrentRow.Cells(ColItemCode).Value), clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColQty).Value), clsCommon.myCstr(gv1.CurrentRow.Cells(ColUOM).Value), "KG")
-                            gv1.CurrentRow.Cells(ColSNF).Value = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColSNFKG).Value) * 100, dclQty), 2, MidpointRounding.ToEven)
+                            Dim dclQtyKG As Decimal = Math.Round(clsCommon.myCDivide((clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColSNFKG).Value) * 100), clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColSNF).Value)), 2, MidpointRounding.ToEven)
+                            gv1.CurrentRow.Cells(ColQty).Value = clsItemMaster.Convert(clsCommon.myCstr(gv1.CurrentRow.Cells(ColItemCode).Value), dclQtyKG, "KG", clsCommon.myCstr(gv1.CurrentRow.Cells(ColUOM).Value))
+                            gv1.CurrentRow.Cells(ColFATKG).Value = Math.Round(clsCommon.myCDivide(dclQtyKG * clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColFAT).Value), 100), 3, MidpointRounding.ToEven)
                         End If
                     End If
                     isCellValueChangedOpen = False
@@ -337,9 +340,21 @@ Public Class frmProductionShiftMgmtRemove
     Sub OpenItem(ByVal isButtonClicked As Boolean)
         gv1.CurrentRow.Cells(ColItemCode).Value = clsItemMaster.getFinder(" tspl_item_master.Active='1' ", clsCommon.myCstr(gv1.CurrentRow.Cells(ColItemCode).Value), isButtonClicked)
         gv1.CurrentRow.Cells(ColItemName).Value = clsItemMaster.GetItemName(clsCommon.myCstr(gv1.CurrentRow.Cells(ColItemCode).Value), Nothing)
-        gv1.CurrentRow.Cells(ColProductType).Value = clsItemMaster.GetItemProductType(clsCommon.myCstr(gv1.CurrentRow.Cells(ColItemCode).Value), Nothing)
         gv1.CurrentRow.Cells(ColUOM).Value = clsItemMaster.GetStockUnit(clsCommon.myCstr(gv1.CurrentRow.Cells(ColItemCode).Value), Nothing)
+        gv1.CurrentRow.Cells(ColProductType).Value = clsItemMaster.GetItemProductType(clsCommon.myCstr(gv1.CurrentRow.Cells(ColItemCode).Value), Nothing)
+        SetFATSNFParameter(gv1.CurrentRow.Index)
     End Sub
+
+    Private Sub SetFATSNFParameter(ByVal idx As Integer)
+        If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(idx).Cells(ColProductType).Value), "MI") = CompairStringResult.Equal Then
+            Dim obj As MIlkComponentType = clsItemMaster.GetItemFatSNF(clsCommon.myCstr(gv1.Rows(idx).Cells(ColItemCode).Value), Nothing)
+            If obj IsNot Nothing Then
+                gv1.Rows(idx).Cells(ColFAT).Value = obj.FAT_Per
+                gv1.Rows(idx).Cells(ColSNF).Value = obj.SNF_Per
+            End If
+        End If
+    End Sub
+
     Sub OpenLocation()
         Dim whrCls As String = " (location_code in ('" + FilterLocationCode + "') or ( Main_Location_Code='" + FilterLocationCode + "' and isnull(csa_type,'N')<>'Y' and isnull(Is_Section,'N')<>'Y' and isnull(Is_Sub_Location,'N')<>'N' and Location_Category<>'MCC'  ))"
         gv1.CurrentRow.Cells(ColLocationCode).Value = clsCommon.myCstr(clsLocation.getFinder(whrCls, gv1.CurrentRow.Cells(ColLocationCode).Value, False))
