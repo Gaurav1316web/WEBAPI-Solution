@@ -5090,15 +5090,15 @@ Public Class frmMccMaterialSaleReturn
         '    whrClas = " Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
         'End If
 
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 And clsCommon.myLen(strwherecls) > 0 Then
-            whrClas = " TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and TSPL_SD_SALE_RETURN_HEAD.Trans_Type='MCC' and TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC' and TSPL_SD_SALE_RETURN_HEAD.Customer_Code in (" + strwherecls + ") "
-        ElseIf clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrClas = " TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and TSPL_SD_SALE_RETURN_HEAD.Trans_Type='MCC' and TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC' "
-        ElseIf clsCommon.myLen(strwherecls) > 0 Then
-            whrClas = " TSPL_SD_SALE_RETURN_HEAD.Customer_Code in (" + strwherecls + ") and TSPL_SD_SALE_RETURN_HEAD.Trans_Type='MCC' and TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC' "
-        Else
-            whrClas = " TSPL_SD_SALE_RETURN_HEAD.Trans_Type='MCC' and TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC'"
-        End If
+        'If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 And clsCommon.myLen(strwherecls) > 0 Then
+        '   whrClas = " TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and TSPL_SD_SALE_RETURN_HEAD.Trans_Type='MCC' and TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC' and TSPL_SD_SALE_RETURN_HEAD.Customer_Code in (" + strwherecls + ") "
+        'ElseIf clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+        '    whrClas = " TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and TSPL_SD_SALE_RETURN_HEAD.Trans_Type='MCC' and TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC' "
+        'ElseIf clsCommon.myLen(strwherecls) > 0 Then
+        '   whrClas = " TSPL_SD_SALE_RETURN_HEAD.Customer_Code in (" + strwherecls + ") and TSPL_SD_SALE_RETURN_HEAD.Trans_Type='MCC' and TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC' "
+        'Else
+        '   whrClas = " TSPL_SD_SALE_RETURN_HEAD.Trans_Type='MCC' and TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC'"
+        'End If
         '-----------------------------------------------------
 
         LoadData(clsCommon.ShowSelectForm("PSSaleReturnDocfnd", qry, "Code", whrClas, txtDocNo.Value, "TSPL_SD_SALE_RETURN_HEAD.Document_Date", isButtonClicked, "TSPL_SD_SALE_RETURN_HEAD.Document_Date"), NavigatorType.Current)
@@ -5990,9 +5990,12 @@ Public Class frmMccMaterialSaleReturn
                                     " ISNULL(TSPL_SD_SALE_RETURN_DETAIL.TAX3_Rate,0)as DTax3_Rate,ISNULL(TSPL_SD_SALE_RETURN_DETAIL.TAX4_Rate,0)as DTax4_Rate," &
                               " ISNULL(TSPL_SD_SALE_RETURN_DETAIL.TAX5_Rate,0)as DTax5_Rate,ISNULL(TSPL_SD_SALE_RETURN_DETAIL.TAX6_Rate,0)as DTax6_Rate," &
                              " ISNULL(TSPL_SD_SALE_RETURN_DETAIL.TAX7_Rate,0)as DTax7_Rate,ISNULL(TSPL_SD_SALE_RETURN_DETAIL.TAX8_Rate,0)as DTax8_Rate," &
-                            " ISNULL(TSPL_SD_SALE_RETURN_DETAIL.TAX9_Rate,0)as DTax9_Rate,ISNULL(TSPL_SD_SALE_RETURN_DETAIL.TAX10_Rate,0)as DTax10_Rate," &
-                              "  dtax1.Type as tax1Type,dtax2.Type as tax2Type,dtax3.Type as tax3Type,dtax4.Type as tax4Type,dtax5.Type as tax5Type,dtax6.Type as tax6Type,dtax7.Type as tax7Type," &
-               "   dtax8.Type as tax8Type,dtax9.Type as tax9Type,dtax10.Type as tax10Type,  "
+                            " ISNULL(TSPL_SD_SALE_RETURN_DETAIL.TAX9_Rate,0)as DTax9_Rate,ISNULL(TSPL_SD_SALE_RETURN_DETAIL.TAX10_Rate,0)as DTax10_Rate,"
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") <> CompairStringResult.Equal Then
+                Qry += "  dtax1.Type As tax1Type,dtax2.Type As tax2Type,dtax3.Type As tax3Type,dtax4.Type As tax4Type,dtax5.Type As tax5Type,dtax6.Type As tax6Type,dtax7.Type As tax7Type," &
+             "   dtax8.Type As tax8Type,dtax9.Type As tax9Type,dtax10.Type As tax10Type,  "
+            End If
+
             Qry += "  '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy") + "' as RunDate, TSPL_LOCATION_MASTER.Add1 [Loc_ADd1], TSPL_LOCATION_MASTER.Add2 [LOC_ADD2], TSPL_LOCATION_MASTER.Add3 [LOC_ADD3], TSPL_LOCATION_MASTER.State [STATE],   TSPL_STATE_MASTER.STATE_NAME [LocationState], TSPL_SD_SALE_RETURN_HEAD.Inv_No, TSPL_SD_SALE_RETURN_HEAD.Dept_Desc , TSPL_SD_SALE_RETURN_HEAD.Remarks ,  TSPL_SD_SALE_RETURN_HEAD.Terms_Code,TSPL_SD_SALE_RETURN_HEAD.VehicleNo , "
             Qry += " TSPL_SD_SALE_RETURN_DETAIL .Specification as  specification,   TSPL_SD_SALE_RETURN_HEAD.Document_Code as DocNo , TSPL_SD_SALE_RETURN_HEAD.Description, "
             Qry += " convert(varchar(15),TSPL_SD_SALE_RETURN_HEAD.Document_Date,106) as Document_Date, TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No, TSPL_SD_SALE_INVOICE_HEAD.Total_Amt as SaleInvoiceAmt , TSPL_SD_SALE_RETURN_HEAD.Item_Type ,  TSPL_SD_SALE_RETURN_HEAD.Customer_Code, "
@@ -6019,7 +6022,14 @@ Public Class frmMccMaterialSaleReturn
                    " case when ISNULL(TSPL_COMPANY_MASTER.ADD3,'')<> '' then ', ' +TSPL_COMPANY_MASTER.ADD3 else '' end ) as CompAddress, " &
                    " COALESCE(TSPL_SD_SALES_ORDER_DETAIL.Qty,0) as OrdQty, COALESCE(TSPL_SD_SALE_RETURN_DETAIL.MRP,0) AS MRP, TSPL_SD_SALE_RETURN_DETAIL.unit_code as UOM, " &
                    " COALESCE(TSPL_SD_SALE_RETURN_DETAIL.Qty,0) as ReturnQty, COALESCE(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0) as CustInvQty, (COALESCE(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0) - COALESCE(TSPL_SD_SALE_RETURN_DETAIL.Qty,0)) as Difference, TSPL_SD_SALE_RETURN_DETAIL.Remarks, TSPL_ITEM_BARCODE.Bar_Code "
-            Qry += " " & colsTaxRateType & ",TSPL_SD_SALE_RETURN_DETAIL.Amount,TSPL_SD_SALE_RETURN_DETAIL.tax1_rate as VAT,TSPL_SD_SALE_RETURN_DETAIL.tax1_amt as VAT_Amt,TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location as Location_Code,TSPL_LOCATION_MASTER.Location_Desc as Location_Name  from TSPL_SD_SALE_RETURN_DETAIL  "
+            Qry += " " & colsTaxRateType & ",TSPL_SD_SALE_RETURN_DETAIL.Amount,TSPL_SD_SALE_RETURN_DETAIL.tax1_rate as VAT,TSPL_SD_SALE_RETURN_DETAIL.tax1_amt as VAT_Amt,TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location as Location_Code,TSPL_LOCATION_MASTER.Location_Desc as Location_Name "
+
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                Qry += " ,TSPL_CUSTOMER_MASTER.PAN AS P_Cust_PAN,TSPL_SD_SALE_INVOICE_HEAD.Ack_No,TSPL_SD_SALE_INVOICE_HEAD.Ack_Date
+                       , TSPL_COMPANY_MASTER.Pan_No as Comp_PANNO,TSPL_SD_SHIPMENT_HEAD.Is_CashSale,TSPL_VENDOR_MASTER.Zone_Code  ,tspl_vlc_master_head.vlc_code_vlc_uploader as Vlc_code "
+            End If
+
+            Qry += "from TSPL_SD_SALE_RETURN_DETAIL  "
             Qry += " LEFT outer join TSPL_SD_SALE_RETURN_HEAD  on TSPL_SD_SALE_RETURN_HEAD.Document_Code  =TSPL_SD_SALE_RETURN_DETAIL.Document_Code   "
             Qry += " LEFT outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_SD_SALE_RETURN_HEAD.tax1  "
             Qry += " left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_SD_SALE_RETURN_HEAD.tax2  "
@@ -6033,6 +6043,10 @@ Public Class frmMccMaterialSaleReturn
             Qry += " left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_SD_SALE_RETURN_HEAD .TAX10     "
             Qry += " left outer join TSPL_COMPANY_MASTER on  tspl_company_Master.Comp_Code = TSPL_SD_SALE_RETURN_HEAD.comp_code  "
             Qry += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_SD_SALE_RETURN_HEAD.Customer_Code   "
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                Qry += " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_CUSTOMER_MASTER.Cust_Code 
+    	                LEFT OUTER JOIN tspl_vlc_master_head ON TSPL_VENDOR_MASTER.Vendor_Code =tspl_vlc_master_head.vsp_code "
+            End If
             Qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code=  TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location LEFT OUTER JOIN  TSPL_STATE_MASTER ON TSPL_LOCATION_MASTER.State = TSPL_STATE_MASTER.STATE_CODE  "
             Qry += " Left Outer Join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code "
             Qry += " LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No "
@@ -6042,8 +6056,9 @@ Public Class frmMccMaterialSaleReturn
                    " LEFT OUTER JOIN TSPL_SD_SALES_ORDER_DETAIL on TSPL_SD_SALES_ORDER_DETAIL.Document_Code = TSPL_SD_SALES_ORDER_HEAD.Document_Code and TSPL_SD_SALES_ORDER_DETAIL.LINE_NO = TSPL_SD_SALE_RETURN_DETAIL.LINE_NO and TSPL_SD_SALES_ORDER_DETAIL.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code " &
                    " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Against_Sale_Return_No = TSPL_SD_SALE_RETURN_HEAD.Document_Code " &
                    " LEFT OUTER JOIN TSPL_ITEM_BARCODE ON TSPL_ITEM_BARCODE.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code AND " &
-                   " TSPL_ITEM_BARCODE.Item_MRP = TSPL_SD_SALE_RETURN_DETAIL.MRP " &
-                   " left outer join TSPL_TAX_MASTER as dtax1 on dtax1.tax_code =TSPL_SD_SALE_RETURN_DETAIL.tax1 " &
+                   " TSPL_ITEM_BARCODE.Item_MRP = TSPL_SD_SALE_RETURN_DETAIL.MRP "
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") <> CompairStringResult.Equal Then
+                Qry += " left outer join TSPL_TAX_MASTER as dtax1 on dtax1.tax_code =TSPL_SD_SALE_RETURN_DETAIL.tax1 " &
                     "  left outer join tspl_tax_master as dtax2 on dtax2.tax_code = TSPL_SD_SALE_RETURN_DETAIL.tax2 " &
                     "   left outer join tspl_tax_master as dtax3 on dtax3.Tax_Code=TSPL_SD_SALE_RETURN_DETAIL.TAX3  " &
                     " left outer join TSPL_TAX_MASTER as dtax4 on tax4.Tax_Code= TSPL_SD_SALE_RETURN_DETAIL.tax4   " &
@@ -6052,8 +6067,10 @@ Public Class frmMccMaterialSaleReturn
                     "  left outer join TSPL_TAX_MASTER as dtax7 on dtax7.Tax_Code =TSPL_SD_SALE_RETURN_DETAIL.TAX7  " &
                     "  left outer join TSPL_TAX_MASTER as dtax8 on dtax8.Tax_Code =TSPL_SD_SALE_RETURN_DETAIL.TAX8  " &
                     "  left outer join TSPL_TAX_MASTER as dtax9 on dtax9.Tax_Code =TSPL_SD_SALE_RETURN_DETAIL.TAX9 " &
-                    " left outer join TSPL_TAX_MASTER as dtax10 on dtax10.Tax_Code =TSPL_SD_SALE_RETURN_DETAIL.TAX10 " &
-                    " left join TSPL_STATE_MASTER as Customer_State_Master on Customer_State_Master.STATE_CODE =TSPL_CUSTOMER_MASTER .State "
+                    " left outer join TSPL_TAX_MASTER as dtax10 on dtax10.Tax_Code =TSPL_SD_SALE_RETURN_DETAIL.TAX10 "
+            End If
+
+            Qry += " left join TSPL_STATE_MASTER as Customer_State_Master on Customer_State_Master.STATE_CODE =TSPL_CUSTOMER_MASTER .State "
 
             Qry += " where 2=2  and  TSPL_SD_SALE_RETURN_HEAD.Document_Code = '" + txtDocNo.Value + "'"
 
@@ -6064,13 +6081,20 @@ Public Class frmMccMaterialSaleReturn
 
                 If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt.Rows(0)("document_Date"))) Then
                     If clsCommon.myCdbl(dt.Rows(0)("Is_Taxable")) = 1 Then
-                        If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("STATE")), clsCommon.myCstr(dt.Rows(0)("STATE_CODE"))) = CompairStringResult.Equal Then
+                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                            StrPDFPath = frmCRV.funsubreportWithdt(MyBase.Form_ID, IsPDF, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleReturn_Localjpr", "MCC Material Sale Local", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+
+                        ElseIf clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("STATE")), clsCommon.myCstr(dt.Rows(0)("STATE_CODE"))) = CompairStringResult.Equal Then
                             StrPDFPath = frmCRV.funsubreportWithdt(MyBase.Form_ID, IsPDF, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleReturn_Local", "MCC Material Sale Local", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
                         Else
                             StrPDFPath = frmCRV.funsubreportWithdt(MyBase.Form_ID, IsPDF, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleReturnInterState", "MCC Material Sale InterState", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
                         End If
                     Else
-                        StrPDFPath = frmCRV.funsubreportWithdt(MyBase.Form_ID, IsPDF, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleReturnNonTaxable", "MCC Material Sale Non Taxable", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                            StrPDFPath = frmCRV.funsubreportWithdt(MyBase.Form_ID, IsPDF, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleReturn_LocaljprNonTaxable", "MCC Material Sale Local", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                        Else
+                            StrPDFPath = frmCRV.funsubreportWithdt(MyBase.Form_ID, IsPDF, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleReturnNonTaxable", "MCC Material Sale Non Taxable", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                        End If
                     End If
                 Else
                     StrPDFPath = frmCRV.funsubreportWithdt(MyBase.Form_ID, IsPDF, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleReturn", "MCC Material Sale", "rptCompanyAddress.rpt")
