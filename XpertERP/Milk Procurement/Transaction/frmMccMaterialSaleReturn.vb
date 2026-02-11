@@ -6026,7 +6026,7 @@ Public Class frmMccMaterialSaleReturn
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                 Qry += " ,TSPL_CUSTOMER_MASTER.PAN AS P_Cust_PAN,TSPL_SD_SALE_INVOICE_HEAD.Ack_No,TSPL_SD_SALE_INVOICE_HEAD.Ack_Date
-                       , TSPL_COMPANY_MASTER.Pan_No as Comp_PANNO,TSPL_SD_SHIPMENT_HEAD.Is_CashSale,TSPL_VENDOR_MASTER.Zone_Code  ,tspl_vlc_master_head.vlc_code_vlc_uploader as Vlc_code "
+                       , TSPL_COMPANY_MASTER.Pan_No as Comp_PANNO,TSPL_SD_SHIPMENT_HEAD.Is_CashSale,TSPL_VENDOR_MASTER.Zone_Code  ,tspl_vlc_master_head.vlc_code_vlc_uploader as Vlc_code  ,isnull(TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt,0) as TotalSubsidyAmt  ,TSPL_SD_SHIPMENT_HEAD.Transporter_Commission_TotalAmt "
             End If
 
             Qry += "from TSPL_SD_SALE_RETURN_DETAIL  "
