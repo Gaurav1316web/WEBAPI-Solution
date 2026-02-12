@@ -27507,6 +27507,72 @@ where Against_Shipment_No in (select Document_Code from TSPL_SD_SHIPMENT_HEAD wh
 
         End Try
     End Sub
+
+    Private Sub txtGateEntryNo__My_Click(sender As Object, e As EventArgs) Handles txtGateEntryNo._My_Click
+        Try
+            CreateUnlCleaningGateOutQry = " select Gate_Entry_No as GateEntryNo,UnloadingNo,CleaningNo,GateOutNo,MilkTransferNo from (
+select case when isnull(TSPL_Weighment_Detail.Weighment_No,'')='' then 0 else 1 end as WeighmentNo,case when isnull(TSPL_QUALITY_CHECK.QC_No ,'')='' then 0 else 1 end as QCNO,case when isnull(TSPL_MILK_UNLOADING.Unloading_No ,'')='' then '' else TSPL_MILK_UNLOADING.Unloading_No end as UnloadingNo,case when isnull(TSPL_Cleaning.Doc_No ,'')='' then '' else TSPL_Cleaning.Doc_No end as CleaningNo,case when isnull(TSPL_Gate_Out.Doc_No ,'')='' then '' else TSPL_Gate_Out.Doc_No end as GateOutNo,
+case when isnull(TSPL_MILK_TRANSFER_IN.Receipt_Challan_No ,'')='' then '' else TSPL_MILK_TRANSFER_IN.Receipt_Challan_No end as MilkTransferNo,
+Tspl_Gate_Entry_Details.Gate_Entry_No from Tspl_Gate_Entry_Details
+inner join TSPL_Weighment_Detail on TSPL_Weighment_Detail.Gate_Entry_No = Tspl_Gate_Entry_Details.Gate_Entry_No
+inner join TSPL_QUALITY_CHECK on TSPL_QUALITY_CHECK.Gate_Entry_No = Tspl_Gate_Entry_Details.Gate_Entry_No
+left join TSPL_MILK_UNLOADING on TSPL_MILK_UNLOADING.Gate_Entry_No = Tspl_Gate_Entry_Details.Gate_Entry_No
+left join TSPL_Cleaning on TSPL_Cleaning.Gate_Entry_No = Tspl_Gate_Entry_Details.Gate_Entry_No
+left join TSPL_Gate_Out on TSPL_Gate_Out.Gate_Entry_No = Tspl_Gate_Entry_Details.Gate_Entry_No
+left join TSPL_MILK_TRANSFER_IN on TSPL_MILK_TRANSFER_IN.Gate_Entry_No = Tspl_Gate_Entry_Details.Gate_Entry_No
+where TSPL_Weighment_Detail.isPosted=1  ) xx  where (len(UnloadingNo)<= 0 or len(CleaningNo)<= 0 or len(GateOutNo)<= 0 or len(MilkTransferNo)<= 0 ) "
+            txtGateEntryNo.arrValueMember = clsCommon.ShowMultipleSelectForm("GTEMulSel", CreateUnlCleaningGateOutQry, "GateEntryNo", "GateEntryNo", txtGateEntryNo.arrValueMember, txtGateEntryNo.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnCreateUnloadingCleaningGateOutMilkTransferIn_Click(sender As Object, e As EventArgs) Handles btnCreateUnloadingCleaningGateOutMilkTransferIn.Click
+        Dim trans As SqlTransaction = Nothing
+        Try
+            If txtGateEntryNo.arrValueMember IsNot Nothing AndAlso txtGateEntryNo.arrValueMember.Count > 0 Then
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(CreateUnlCleaningGateOutQry & "and Gate_Entry_No in  (" & clsCommon.GetMulcallString(txtGateEntryNo.arrValueMember) & ") ")
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    clsCommon.ProgressBarShow()
+                    For ii As Integer = 0 To dt.Rows.Count - 1
+                        Try
+                            trans = clsDBFuncationality.GetTransactin()
+                            clsCommon.ProgressBarPercentUpdate(((ii + 1) * 100) / dt.Rows.Count, " Processing " & (ii + 1) & "  Of " & dt.Rows.Count & " Gate Entry No " & dt.Rows(ii)("GateEntryNo").ToString)
+                            If clsCommon.myLen(clsCommon.myCstr(dt.Rows(ii)("UnloadingNo"))) <= 0 Then
+                                clsQualityCheck.SaveAndPostUnloadingData(clsCommon.myCstr(dt.Rows(ii)("GateEntryNo")), trans)
+                            End If
+                            If clsCommon.myLen(clsCommon.myCstr(dt.Rows(ii)("CleaningNo"))) <= 0 Then
+                                clsQualityCheck.SaveAndPostCleaningData(clsCommon.myCstr(dt.Rows(ii)("GateEntryNo")), trans)
+                            End If
+                            If clsCommon.myLen(clsCommon.myCstr(dt.Rows(ii)("GateOutNo"))) <= 0 Then
+                                clsQualityCheck.SaveGateOutData(clsCommon.myCstr(dt.Rows(ii)("GateEntryNo")), trans)
+                            End If
+                            If clsCommon.myLen(clsCommon.myCstr(dt.Rows(ii)("MilkTransferNo"))) <= 0 Then
+                                clsQualityCheck.SaveAndPostTransferInData(clsCommon.myCstr(dt.Rows(ii)("GateEntryNo")), trans)
+                            End If
+                            trans.Commit()
+                        Catch ex As Exception
+                             clsCommon.ProgressBarHide()
+                            trans.Rollback()
+                            Throw New Exception(ex.Message)
+                        End Try
+                    Next
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
+                    txtGateEntryNo.arrValueMember = Nothing
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Please select Gate Entry No.", Me.Text)
+                txtGateEntryNo.arrValueMember = Nothing
+            End If
+        Catch ex As Exception
+            'clsCommon.ProgressBarHide()
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        Finally
+            clsCommon.ProgressBarHide()
+        End Try
+    End Sub
+
 End Class
 Public Class clsDCDetail
 #Region "Varibales"
