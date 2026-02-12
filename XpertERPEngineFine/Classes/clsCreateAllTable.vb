@@ -28829,6 +28829,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Route_No", " VARCHAR(12) NULL REFERENCES TSPL_ROUTE_MASTER (Route_No)")
             coll.Add("Is_Einvoice", "integer null")
             coll.Add("TotalSubsidyAmt", "Decimal(18,2) NULL")
+            coll.Add("Is_Add_TPT", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Customer_Invoice_Head", coll, Nothing, True, True, "", "Document_No", "Document_Date", True)
 
 
@@ -31458,6 +31459,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("TotalSubsidyDisAmt", "decimal(18, 2) NULL")
             coll.Add("REF_TPT_PK_ID", "integer null references TSPL_DCS_Transportation_Charges_Detail(PK_ID)")
             coll.Add("RoundOffAmount", "decimal(18,2) not null default 0")
+            coll.Add("Is_Add_TPT", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DCS_SALE_ENTRY_DETAIL", coll, Nothing, True, True, "TSPL_DCS_SALE_ENTRY", "DOCUMENT_CODE", "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -31953,6 +31955,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("DrAmt", "varchar(20)  NULL")
             coll.Add("CrAmt", "varchar(20)  NULL")
             coll.Add("ClosingBal", "varchar(20) NULL")
+            coll.Add("Is_Add_TPT", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
             Try
                 qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo=Document_Code where ParentDocNo is null "
@@ -33785,6 +33788,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("transUpdateDate", "datetime  NULL")
             coll.Add("vehUpdDate", "datetime  NULL")
             coll.Add("ExtendValidityUpdate", "datetime  NULL")
+            coll.Add("Is_Add_TPT", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_INVOICE_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)

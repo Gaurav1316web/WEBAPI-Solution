@@ -213,6 +213,7 @@ Public Class clsPSInvoiceHead
     Public Transporter_Commission_TotalAmt As Decimal = 0
     Public Security_TotalAmt As Decimal = 0
     Public Is_Apply_TPT As Boolean = False
+    Public Is_Add_TPT As Boolean = False
     Public TPT_Vendor As String = Nothing
     Public Recommended_By As String = Nothing
     Public Bank_Code As String = Nothing
@@ -585,6 +586,7 @@ Public Class clsPSInvoiceHead
             clsCommon.AddColumnsForChange(coll, "Transporter_Commission_TotalAmt", obj.Transporter_Commission_TotalAmt, True)
             clsCommon.AddColumnsForChange(coll, "Security_TotalAmt", obj.Security_TotalAmt, True)
             clsCommon.AddColumnsForChange(coll, "Is_Apply_TPT", IIf(obj.Is_Apply_TPT, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "Is_Add_TPT", IIf(obj.Is_Add_TPT, 1, 0))
             clsCommon.AddColumnsForChange(coll, "TPT_Vendor", obj.TPT_Vendor, True)
             clsCommon.AddColumnsForChange(coll, "Recommended_By", obj.Recommended_By, True)
             clsCommon.AddColumnsForChange(coll, "Bank_Code", obj.Bank_Code, True)
@@ -877,7 +879,7 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" & strInvoiceNO & "' and (TSPL_S
     " TSPL_SD_SALE_INVOICE_HEAD.CURRENCY_CODE,TSPL_SD_SALE_INVOICE_HEAD.CONVRATE,TSPL_SD_SALE_INVOICE_HEAD.APPLICABLEFROM,Against_C_Form,TSPL_SD_SALE_INVOICE_HEAD.PROJECT_ID, TSPL_SD_SALE_INVOICE_HEAD.Form_38_No " &
     " ,TSPL_SD_SALE_INVOICE_HEAD.SO_Validity,TSPL_SD_SALE_INVOICE_HEAD.Commission_Apply,TSPL_SD_SALE_INVOICE_HEAD.Total_Comm_Amt,TSPL_SD_SALE_INVOICE_HEAD.Dispatch_date " &
     " ,TSPL_SD_SALE_INVOICE_HEAD.Dispatch_Terms,TSPL_SD_SALE_INVOICE_HEAD.Payment_Terms,TSPL_SD_SALE_INVOICE_HEAD.Dispatch_Period,TSPL_SD_SALE_INVOICE_HEAD.Vehicle_Capacity " &
-    " ,TSPL_SD_SALE_INVOICE_HEAD.trans_type,TSPL_SD_SALE_INVOICE_HEAD.IsReplacement,TSPL_SD_SALE_INVOICE_HEAD.CancelFlag,TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary,TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type,Transport_Code,Transporter_Name,Freight_Distance,TSPL_SD_SALE_INVOICE_HEAD.Deduction_Type ,TSPL_SD_SALE_INVOICE_HEAD.Deduction,TSPL_SD_SALE_INVOICE_HEAD.IsEwaybill,TSPL_SD_SALE_INVOICE_HEAD.Distributor_Commission_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.Transporter_Commission_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.Security_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.Is_Apply_TPT,TSPL_SD_SALE_INVOICE_HEAD.Recommended_By,TSPL_SD_SALE_INVOICE_HEAD.TPT_Vendor,TSPL_SD_SALE_INVOICE_HEAD.IsMultipleInvoice  
+    " ,TSPL_SD_SALE_INVOICE_HEAD.trans_type,TSPL_SD_SALE_INVOICE_HEAD.IsReplacement,TSPL_SD_SALE_INVOICE_HEAD.CancelFlag,TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary,TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type,Transport_Code,Transporter_Name,Freight_Distance,TSPL_SD_SALE_INVOICE_HEAD.Deduction_Type ,TSPL_SD_SALE_INVOICE_HEAD.Deduction,TSPL_SD_SALE_INVOICE_HEAD.IsEwaybill,TSPL_SD_SALE_INVOICE_HEAD.Distributor_Commission_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.Transporter_Commission_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.Security_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.Is_Apply_TPT,TSPL_SD_SALE_INVOICE_HEAD.Is_Add_TPT,TSPL_SD_SALE_INVOICE_HEAD.Recommended_By,TSPL_SD_SALE_INVOICE_HEAD.TPT_Vendor,TSPL_SD_SALE_INVOICE_HEAD.IsMultipleInvoice  
      FROM TSPL_SD_SALE_INVOICE_HEAD " &
     " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location " &
     " left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_SD_SALE_INVOICE_HEAD.Ship_To_Location " &
@@ -1055,6 +1057,7 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" & strInvoiceNO & "' and (TSPL_S
             obj.Transporter_Commission_TotalAmt = clsCommon.myCdbl(dt.Rows(0)("Transporter_Commission_TotalAmt"))
             obj.Security_TotalAmt = clsCommon.myCdbl(dt.Rows(0)("Security_TotalAmt"))
             obj.Is_Apply_TPT = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Apply_TPT")) = 1, True, False)
+            obj.Is_Add_TPT = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Add_TPT")) = 1, True, False)
             obj.TPT_Vendor = clsCommon.myCstr(dt.Rows(0)("TPT_Vendor"))
             obj.Recommended_By = clsCommon.myCstr(dt.Rows(0)("Recommended_By"))
             If dt.Rows(0)("Posting_Date") IsNot DBNull.Value Then
@@ -2053,7 +2056,11 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "' and TSP
                 objCustInv.Document_Type = "I"
             End If
             objCustInv.Trans_Type = obj.Trans_type '"PS"
-            objCustInv.Document_Total = obj.Total_Amt
+            If clsCommon.CompairString(obj.Trans_type, "MCC") = CompairStringResult.Equal Then
+                objCustInv.Document_Total = obj.Gross_Amount
+            Else
+                objCustInv.Document_Total = obj.Total_Amt
+            End If
             objCustInv.isCardSale = obj.isCardSale
             objCustInv.Customer_Code = obj.Customer_Code
             objCustInv.Customer_Name = obj.Customer_Name
@@ -2068,6 +2075,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "' and TSP
             objCustInv.Location_Code_Prefix = obj.Bill_To_Location
             objCustInv.On_Hold = 0
             objCustInv.Remarks = obj.Remarks
+            objCustInv.Is_Add_TPT = obj.Is_Add_TPT
             objCustInv.Description = obj.Description
             objCustInv.Tax_Group = obj.Tax_Group
             objCustInv.TAX1 = obj.TAX1

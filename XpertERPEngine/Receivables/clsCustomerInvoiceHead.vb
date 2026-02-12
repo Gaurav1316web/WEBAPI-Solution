@@ -126,6 +126,7 @@ Public Class clsCustomerInvoiceHead
     Public Total_Add_Charge As Double = 0
     Public RoundOffAmount As Double = 0
     Public TotalSubsidyAmt As Double = 0
+    Public Is_Add_TPT As Boolean = False
     Public AgainstScrap As String = Nothing
     Public AgainstScrapReturn As String = Nothing
     Public Against_Sale_No As String = Nothing
@@ -445,6 +446,7 @@ Public Class clsCustomerInvoiceHead
         clsCommon.AddColumnsForChange(coll, "Total_Add_Charge", obj.Total_Add_Charge)
             clsCommon.AddColumnsForChange(coll, "RoundOffAmount", obj.RoundOffAmount)
             clsCommon.AddColumnsForChange(coll, "TotalSubsidyAmt", obj.TotalSubsidyAmt)
+            clsCommon.AddColumnsForChange(coll, "Is_Add_TPT", IIf(obj.Is_Add_TPT, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Tax_Calculation_Type", IIf(obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic, 0, 1))
         clsCommon.AddColumnsForChange(coll, "AgainstScrap", obj.AgainstScrap)
             clsCommon.AddColumnsForChange(coll, "Against_Sale_No", obj.Against_Sale_No, True)
@@ -699,6 +701,7 @@ Public Class clsCustomerInvoiceHead
             obj.Total_Add_Charge = clsCommon.myCdbl(dt.Rows(0)("Total_Add_Charge"))
             obj.RoundOffAmount = clsCommon.myCdbl(dt.Rows(0)("RoundOffAmount"))
             obj.TotalSubsidyAmt = clsCommon.myCdbl(dt.Rows(0)("TotalSubsidyAmt"))
+            obj.Is_Add_TPT = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Add_TPT")) = 1, True, False)
             obj.Tax_Calculation_Type = IIf(clsCommon.myCdbl(dt.Rows(0)("Tax_Calculation_Type")) = 0, EnumTaxCalucationType.Automatic, EnumTaxCalucationType.Mannual)
             obj.AgainstScrap = clsCommon.myCstr(dt.Rows(0)("AgainstScrap"))
             obj.Against_Sale_No = clsCommon.myCstr(dt.Rows(0)("Against_Sale_No"))
@@ -2409,7 +2412,12 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
                                     Dim AccDiscDR() As String = Nothing
                                     Dim AccDiscTaxDR() As String = Nothing
                                     If clsCommon.CompairString(obj.Trans_Type, "MCC") = CompairStringResult.Equal Then
-                                        AccDiscTaxDR = {objTR.Transporter_GL_Account_Code, 1 * (objTR.Transporter_Commission_Amt)}
+
+                                        If obj.Is_Add_TPT Then
+                                            AccDiscTaxDR = {objTR.Transporter_GL_Account_Code, -1 * (objTR.Transporter_Commission_Amt)}
+                                        Else
+                                            AccDiscTaxDR = {objTR.Transporter_GL_Account_Code, (objTR.Transporter_Commission_Amt)}
+                                        End If
                                         ArryLst.Add(AccDiscTaxDR)
                                     Else
                                         strLocationt = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Account_Seg_Code7 from TSPL_GL_ACCOUNTS where Account_Code='" + obj.Arr(0).GL_Account_Code + "'", trans))

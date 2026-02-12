@@ -564,7 +564,9 @@ Public Class clsGateEntry
                 obj.IsAgainstGateOut = clsCommon.myCdbl(dt.Rows(0)("IsAgainstGateOut"))
                 obj.ROUTE_NO = clsCommon.myCstr(dt.Rows(0)("ROUTE_NO"))
                 If obj.isPosted = 1 Then
-                    obj.Posting_Date = clsCommon.myCDate(dt.Rows(0)("Posting_Date"))
+                    If clsCommon.myLen(clsCommon.myCstr(dt.Rows(0)("Posting_Date"))) Then
+                        obj.Posting_Date = clsCommon.myCDate(dt.Rows(0)("Posting_Date"))
+                    End If
                 End If
                 obj.Dispatched_From_Mcc = clsCommon.myCstr(dt.Rows(0)("Dispatched_From_Mcc"))
                 obj.location_Code = clsCommon.myCstr(dt.Rows(0)("location_Code"))

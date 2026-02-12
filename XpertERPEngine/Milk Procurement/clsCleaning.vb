@@ -27,20 +27,31 @@ Public Class clsCleaning
     Public InTime As DateTime?
     Public OutTime As DateTime?
 #End Region
-    
     Public Shared Function postData(ByVal StrDocNo As String, ByVal formId As String) As Boolean
-        Dim trans As SqlTransaction = Nothing
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            If postData(StrDocNo, formId, trans) Then
+                trans.Commit()
+            Else
+                trans.Rollback()
+            End If
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function postData(ByVal StrDocNo As String, ByVal formId As String, ByVal trans As SqlTransaction) As Boolean
         Try
             Dim isPosted As Boolean = True
             If (clsCommon.myLen(StrDocNo) <= 0) Then
                 Throw New Exception("Cleaning Doc No not found to Post")
             End If
 
-            Dim obj As clsCleaning = clsCleaning.getData(StrDocNo, NavigatorType.Current)
+            Dim obj As clsCleaning = clsCleaning.getData(StrDocNo, NavigatorType.Current, trans)
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Doc_No) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
-            trans = clsDBFuncationality.GetTransactin()
             Dim strLocation_Code As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select tspl_gate_entry_details.location_Code from tspl_gate_entry_details 
 left outer join TSPL_Cleaning on TSPL_Cleaning.Gate_Entry_No= tspl_gate_entry_details.Gate_Entry_No 
 where TSPL_Cleaning.Doc_No ='" + StrDocNo + "'", trans))
@@ -70,11 +81,11 @@ where TSPL_Cleaning.Doc_No ='" + StrDocNo + "'", trans))
             isPosted = isPosted AndAlso clsDBFuncationality.ExecuteNonQuery(strQry, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Doc_No, "TSPL_Cleaning", "Doc_no", trans)
 
-            If isPosted Then
-                trans.Commit()
-            Else
-                trans.Rollback()
-            End If
+            'If isPosted Then
+            '    trans.Commit()
+            'Else
+            '    trans.Rollback()
+            'End If
             Return isPosted
         Catch ex As Exception
             trans.Rollback()
@@ -220,7 +231,13 @@ where TSPL_Cleaning.Doc_No ='" + StrDocNo + "'", trans))
         End Try
         Return str
     End Function
-
+    Public Shared Function GetCleaningDocNoFromGateEntry(ByVal strGateEntryNo As String, ByVal trans As SqlTransaction) As String
+        Dim qry As String = String.Empty
+        Dim Doc_No As String = ""
+        qry = "select Doc_No from TSPL_Cleaning where gate_entry_no='" & strGateEntryNo & "' "
+        Doc_No = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+        Return Doc_No
+    End Function
     Public Shared Function saveData(ByVal obj As clsCleaning, ByVal trans As SqlTransaction, Optional ByVal isHistory As Boolean = False) As Boolean
         Dim issaved As Boolean = True
         Dim DateTime As String = clsFixedParameter.GetData(clsFixedParameterType.AllowToSaveTimeWithDocumentDate, clsFixedParameterCode.AllowToSaveTimeWithDocumentDate, trans)
