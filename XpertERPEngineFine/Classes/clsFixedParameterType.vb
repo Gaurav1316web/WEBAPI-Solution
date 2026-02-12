@@ -3,6 +3,7 @@ Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
     Public Const AndroidFarmerCollection As String = "Android Farmer Collection"
+    Public Const RefreshTimeForUnionWiseMilkCollectionInms As String = "Refresh Time For Union Wise MilkCollection In MS"
     Public Const SuspenceAdjusmtmentFATSNFTolerancePercentage = "Suspence Adjusmtment FAT SNF Tolerance %"
     Public Const TransactionModify As String = "Transaction Modify"
     Public Const TransactionValidity As String = "Transaction Validity"
@@ -1395,6 +1396,7 @@ Public Class clsFixedParameterCode
     Public Const AutoGenerateFarmerPriceFromDCSPrice As String = "Auto Generate Farmer Price From DCS Price"
     Public Const AutoGenrateBatchInventoryOnPost As String = "Auto Genrate Batch Inventory On Post"
     Public Const PickcompanyBankCodeFromPaymentProcess As String = "Pick company BankCode From Payment Process"
+    Public Const RefreshTimeForUnionWiseMilkCollectionInms As String = "Refresh Time For Union Wise MilkCollection In MS"
     Public Const isThereOnlyOneRowOfOwnDCS As String = "is There Only One Row Of Own DCS"
     Public Const StopYesBankVirtualAccount As String = "Stop Yes Bank virtual Account"
     Public Const MaxFATPerLimitforReport As String = "Max FAT Per Limit for Report"
@@ -3035,6 +3037,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAMCUDetails, clsFixedParameterCode.AMCUDetailsHeading3, "Heading 3", "Dynamic Heading 3 for AMCU Detail")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickcompanyBankCodeFromPaymentProcess, clsFixedParameterCode.PickcompanyBankCodeFromPaymentProcess, "0", "0:OFF,1:ON;Pick company BankCode From Payment Process")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.RefreshTimeForUnionWiseMilkCollectionInms, clsFixedParameterCode.RefreshTimeForUnionWiseMilkCollectionInms, "60000", "Insert time for refreshing ")
         InsertDefaultValueFixedParameter(clsFixedParameterType.isThereOnlyOneRowOfOwnDCS, clsFixedParameterCode.isThereOnlyOneRowOfOwnDCS, "0", "0:OFF,1:ON;Adjust qty of own DCS when there is only one row")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PrintOnlyPostedDocument, clsFixedParameterCode.PrintOnlyPostedDocument, "0", "0:OFF,1:ON; Print Only Posted Document")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MaxFATPerLimitforReport, clsFixedParameterCode.MaxFATPerLimitforReport, "3.2", "MaxFatPerLimitForReport")
