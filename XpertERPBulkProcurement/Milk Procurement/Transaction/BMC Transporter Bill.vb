@@ -732,6 +732,22 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
             gv1.Rows(IntRowNo).Cells(ColIceBox).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Case when Is_IceBox=1 then 'Y' else 'N' end as Ice_Box from TSPL_BMC_DCS_SAMPLE_RECEIVING where Tanker_No= '" + txtTankerNo.Value + "' and Trip = '" + gv1.Rows(IntRowNo).Cells(ColTrip).Value + "' and Document_Date= '" + gv1.Rows(IntRowNo).Cells(colDate).Value + "'  "))
 
             IceCharge(IntRowNo)
+            'If chkPrivate.Checked = True AndAlso gv1.Rows(IntRowNo).Cells(ColAmount) Then
+            '    gv1.Rows.AddNew()
+            'End If
+            If chkPrivate.Checked = True Then
+                If gv1.CurrentColumn Is gv1.Columns(ColQuantity) Then
+                    gv1.Rows.AddNew()
+                    'gv1.CurrentRow = gv1.Rows(IntRowNo)
+                    gv1.CurrentColumn = gv1.Columns(colDate)
+                End If
+                'AndAlso
+                'gv1.CurrentRow IsNot Nothing AndAlso
+                'Convert.ToDecimal(gv1.CurrentRow.Cells("Amount").Value) > 0 Then
+                ' Your Code Here
+
+            End If
+
             isCellValueChangedOpen = False
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
