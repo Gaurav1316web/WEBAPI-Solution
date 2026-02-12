@@ -59,7 +59,7 @@ Public Class FrmSendDBTToJanaadhar
 
             Dim ResponceSucess As Integer = 0
             Dim ResponceFailure As Integer = 0
-            qry = "select TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,TSPL_MP_MASTER.JA_janaadhaarId,TSPL_MP_MASTER.JA_jan_mid,TSPL_DBT_NEFT_DETAIL.MP_Account_No,TSPL_DBT_NEFT_DETAIL.MP_IFSC_No,TSPL_DBT_NEFT_DETAIL.PK_Id,convert(varchar,COALESCE(TSPL_DBT_NEFT.RCDF_Post_Date, TSPL_DBT_NEFT_BANK_RESPONSE.Created_Date),103) as Created_Date,TSPL_DBT_NEFT_DETAIL.Amount" & Environment.NewLine & ",(case when TSPL_DBT_NEFT_REJECT_DETAIL.PK_Id is not null then 'Failure' else (case when Bank_Response like 'STATUS : SUCCESS%' then 'Success' else 'Failure' end) end) as Bank_Response 
+            qry = "select TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,TSPL_MP_MASTER.JA_janaadhaarId,TSPL_MP_MASTER.JA_jan_mid,TSPL_DBT_NEFT_DETAIL.MP_Account_No,TSPL_DBT_NEFT_DETAIL.MP_IFSC_No,TSPL_DBT_NEFT_DETAIL.PK_Id,replace(convert(varchar,COALESCE(TSPL_DBT_NEFT.RCDF_Post_Date, TSPL_DBT_NEFT_BANK_RESPONSE.Created_Date),103),'/','-') as Created_Date,TSPL_DBT_NEFT_DETAIL.Amount" & Environment.NewLine & ",(case when TSPL_DBT_NEFT_REJECT_DETAIL.PK_Id is not null then 'Failure' else (case when Bank_Response like 'STATUS : SUCCESS%' then 'Success' else 'Failure' end) end) as Bank_Response 
 from " + DBName + ".dbo.TSPL_DBT_NEFT_DETAIL 
 left outer join " + DBName + ".dbo.TSPL_DBT_NEFT on " + DBName + ".dbo.TSPL_DBT_NEFT.Document_Code = " + DBName + ".dbo.TSPL_DBT_NEFT_DETAIL.Document_Code
 left outer join " + DBName + ".dbo.TSPL_MP_INCENTIVE_ENTRY_DETAIL on " + DBName + ".dbo.TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id = " + DBName + ".dbo.TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR
