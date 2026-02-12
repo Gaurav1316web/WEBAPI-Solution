@@ -1432,7 +1432,7 @@ Public Class clsMCCMaterialSale
                 SMSSENDONLY(obj, trans, True)
             End If
             Dim ECustomerType = clsERPFuncationality.GetCustomerEInvoiceType(obj.Customer_Code, trans)
-            If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso obj.Is_Taxable AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True Then
+            If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso obj.Is_Taxable AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True AndAlso obj.Total_Amt > 0 Then
                 If clsCommon.myLen(GetIRNNo(obj.Sale_Invoice_No, trans)) <= 0 Then
                     clsPSInvoiceHead.EInvoice_Implementation(obj.Sale_Invoice_No, obj.Bill_To_Location, trans, False)
                     If clsCommon.myLen(GetIRNNo(obj.Sale_Invoice_No, trans)) <= 0 Then
