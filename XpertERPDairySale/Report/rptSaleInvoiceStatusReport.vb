@@ -945,7 +945,7 @@ GROUP BY D.Item_Code HAVING SUM(CASE WHEN U.Report_UOM = 1 THEN 1 ELSE 0 END) = 
                 For Each dr As DataRow In dt2.Rows
                     itemList.Add(dr("Item_Code").ToString())
                 Next
-                Dim errorMessage As String = "Report UOM = 1 is missing for Item Code(s): " & String.Join(", ", itemList.ToArray())
+                Dim errorMessage As String = "Report UOM not define for Item Code(s): " & String.Join(", ", itemList.ToArray())
                 'Throw New ApplicationException(errorMessage)
                 clsCommon.MyMessageBoxShow(Me, errorMessage, Me.Text)
                 Exit Sub
@@ -987,7 +987,7 @@ GROUP BY D.Item_Code HAVING SUM(CASE WHEN U.Report_UOM = 1 THEN 1 ELSE 0 END) = 
             If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
                 itemqry += "  and TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Customer_Code in (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")"
             End If
-            itemqry += "  )XX "
+            itemqry += "  )XX order by Item_Desc "
 
             Dim dtitem As DataTable = clsDBFuncationality.GetDataTable(itemqry)
             If dtitem.Rows.Count > 0 Then
@@ -1010,11 +1010,13 @@ GROUP BY D.Item_Code HAVING SUM(CASE WHEN U.Report_UOM = 1 THEN 1 ELSE 0 END) = 
             If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
                 whrcls += "  and TSPL_SD_SALE_INVOICE_DETAIL.Item_code in (" + clsCommon.GetMulcallString(txtItem.arrValueMember) + ")"
             End If
+            Dim qry As String = ""
+            If dtitem.Rows.Count > 0 Then
 
-            Dim qry As String = "  Select Document_Code,max(BillNo)BillNo,max(BillDate)BillDate,max(Party_Code)Party_Code,max(PARTY_Name)PARTY_Name,
+                qry = "  Select Document_Code,max(BillNo)BillNo,max(BillDate)BillDate,max(Party_Code)Party_Code,max(PARTY_Name)PARTY_Name,
 max(Customer_Type)Customer_Type,max(Status)Status,sum([ItemBasic Amt])[ItemBasic Amt],
 sum([Margin Amt])[Margin Amt], " & SumItemCode & ",sum(KKF)[KKF Amt],SUM([Mandi Tax Amt])[Mandi Tax Amt],sum([Party TCS Amt])[Party TCS Amt],sum([CGST Amt])[CGST Amt],sum([SGST Amt])[SGST Amt],sum([IGST Amt])[IGST Amt],sum([Total Tax Amt])[Total Tax Amt],
-Sum([Total Amt])[Total Amt]
+Sum([Total Amt])[Total Amt],max(Created_By)[Created By],max(Created_Date)[Created Date]
 from (
 
 SELECT 
@@ -1093,7 +1095,7 @@ Convert(decimal(18,2),CASE WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX1='KKF'  THEN TSP
     				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX9='IGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Amt
     				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX10='IGST' THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Amt  else 0 END )AS [IGST Amt],
 					 TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt as [Total Tax Amt],
-					TSPL_SD_SALE_INVOICE_Detail.Item_Net_Amt as [Total Amt]
+					TSPL_SD_SALE_INVOICE_Detail.Item_Net_Amt as [Total Amt],TSPL_SD_SALE_INVOICE_HEAD.Created_By,TSPL_SD_SALE_INVOICE_HEAD.Created_Date
 FROM TSPL_SD_SALE_INVOICE_HEAD
 LEFT JOIN TSPL_SD_SALE_INVOICE_DETAIL
        ON TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE = TSPL_SD_SALE_INVOICE_HEAD.Document_Code
@@ -1111,13 +1113,13 @@ LEFT JOIN TSPL_CUSTOMER_MASTER
         AND ItemCF.UOM_Code = TSPL_SD_SALE_INVOICE_DETAIL.Billing_Unit_code
 WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(txtfDate.Value, "dd/MMM/yyyy") & "',103)
   AND CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103) "
-            If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
-                qry += "  and TSPL_CUSTOMER_MASTER.Cust_Code in (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")"
-            End If
-            If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
-                qry += "  and TSPL_SD_SALE_INVOICE_DETAIL.Item_code in (" + clsCommon.GetMulcallString(txtItem.arrValueMember) + ")"
-            End If
-            qry += " Union all
+                If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                    qry += "  and TSPL_CUSTOMER_MASTER.Cust_Code in (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")"
+                End If
+                If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
+                    qry += "  and TSPL_SD_SALE_INVOICE_DETAIL.Item_code in (" + clsCommon.GetMulcallString(txtItem.arrValueMember) + ")"
+                End If
+                qry += " Union all
                       
   SELECT 
 TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Code AS Document_Code,
@@ -1195,7 +1197,7 @@ Convert(decimal(18,2),CASE WHEN TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.TAX1='KK
     				WHEN TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.TAX9='IGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.TAX9_Amt
     				WHEN TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.TAX10='IGST' THEN TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.TAX10_Amt  else 0 END )AS [IGST Amt],
 					 TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.Total_Tax_Amt as [Total Tax Amt],
-					TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.Item_Net_Amt as [Total Amt]
+					TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.Item_Net_Amt as [Total Amt],TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Cancel_By as Created_By,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Cancel_On as Created_Date
 FROM TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data
 LEFT JOIN TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data
        ON TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.DOCUMENT_CODE = TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Code
@@ -1213,14 +1215,14 @@ LEFT JOIN TSPL_CUSTOMER_MASTER
         AND ItemCF.UOM_Code = TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.Billing_Unit_code
 WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(txtfDate.Value, "dd/MMM/yyyy") & "',103)
   AND CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103) "
-            If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
-                qry += "  and TSPL_CUSTOMER_MASTER.Cust_Code in (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")"
-            End If
-            If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
-                qry += "  and TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.Item_code in (" + clsCommon.GetMulcallString(txtItem.arrValueMember) + ")"
-            End If
+                If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                    qry += "  and TSPL_CUSTOMER_MASTER.Cust_Code in (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")"
+                End If
+                If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
+                    qry += "  and TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.Item_code in (" + clsCommon.GetMulcallString(txtItem.arrValueMember) + ")"
+                End If
 
-            qry += " union all
+                qry += " union all
                      SELECT 
 TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Code AS Document_Code,
     RIGHT(TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Code, 6) AS BillNo,
@@ -1297,7 +1299,7 @@ Convert(decimal(18,2),CASE WHEN TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.TAX1='KK
     				WHEN TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.TAX9='IGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.TAX9_Amt
     				WHEN TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.TAX10='IGST' THEN TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.TAX10_Amt  else 0 END )AS [IGST Amt],
 					 TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.Total_Tax_Amt as [Total Tax Amt],
-					TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.Item_Net_Amt as [Total Amt]
+					TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.Item_Net_Amt as [Total Amt],TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Cancel_By as Created_By,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Cancel_On as Created_Date
 FROM TSPL_SD_SALE_INVOICE_HEAD_Delete_Data
 LEFT JOIN TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data
        ON TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.DOCUMENT_CODE = TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Code
@@ -1316,44 +1318,73 @@ LEFT JOIN TSPL_CUSTOMER_MASTER
 WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(txtfDate.Value, "dd/MMM/yyyy") & "',103)
   AND CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103) "
 
-            If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
-                qry += "  and TSPL_CUSTOMER_MASTER.Cust_Code in (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")"
-            End If
-            If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
-                qry += "  and TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.Item_code in (" + clsCommon.GetMulcallString(txtItem.arrValueMember) + ")"
-            End If
+                If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                    qry += "  and TSPL_CUSTOMER_MASTER.Cust_Code in (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")"
+                End If
+                If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
+                    qry += "  and TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.Item_code in (" + clsCommon.GetMulcallString(txtItem.arrValueMember) + ")"
+                End If
 
-            qry += " )XX 
+                qry += " )XX 
   PIVOT (SUM(QtyUom)  For Item_Code In (" & ItemCode & ") ) As pivot_Code
   PIVOT (SUM(Amt_Less_Discount)  For Item_Code1 In (" & ItemDesc & ") ) As pivot_Desc
   
   GROUP BY Document_Code "
 
-            'qry += " group by Document_Code order by Document_Code "
-            ' qry += " group by Document_Code ,Item_Code order by Document_Code "
-            Dim dt As DataTable = New DataTable()
-            dt = clsDBFuncationality.GetDataTable(qry)
-            gvData.DataSource = Nothing
-            gvData.Rows.Clear()
-            gvData.Columns.Clear()
-            gvData.GroupDescriptors.Clear()
-            gvData.MasterView.Refresh()
-            Dim viewBlank As New TableViewDefinition()
-            gvData.ViewDefinition = viewBlank
-            If dt.Rows.Count > 0 Then
-                gvData.DataSource = dt
+                Dim dt As DataTable = New DataTable()
+                dt = clsDBFuncationality.GetDataTable(qry)
+                gvData.DataSource = Nothing
+                gvData.Rows.Clear()
+                gvData.Columns.Clear()
                 gvData.GroupDescriptors.Clear()
-                gvData.EnableFiltering = True
-                gvData.MasterTemplate.SummaryRowsBottom.Clear()
-                SetGridFormation()
-                EnableDisableCntrl(False)
-                gvData.MasterTemplate.AutoExpandGroups = True
-                RadPageView1.SelectedPage = RadPageViewPage2
-                gvData.BestFitColumns()
+                gvData.MasterView.Refresh()
+                Dim viewBlank As New TableViewDefinition()
+                gvData.ViewDefinition = viewBlank
+                If dt.Rows.Count > 0 Then
+                    gvData.DataSource = dt
+                    gvData.GroupDescriptors.Clear()
+                    gvData.EnableFiltering = True
+                    gvData.MasterTemplate.SummaryRowsBottom.Clear()
+                    SetGridFormation()
+                    EnableDisableCntrl(False)
+                    gvData.MasterTemplate.AutoExpandGroups = True
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    gvData.BestFitColumns()
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                    Exit Sub
+                End If
+
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
+
+            'qry += " group by Document_Code order by Document_Code "
+            ' qry += " group by Document_Code ,Item_Code order by Document_Code "
+            'Dim dt As DataTable = New DataTable()
+            'dt = clsDBFuncationality.GetDataTable(qry)
+            'gvData.DataSource = Nothing
+            'gvData.Rows.Clear()
+            'gvData.Columns.Clear()
+            'gvData.GroupDescriptors.Clear()
+            'gvData.MasterView.Refresh()
+            'Dim viewBlank As New TableViewDefinition()
+            'gvData.ViewDefinition = viewBlank
+            'If dt.Rows.Count > 0 Then
+            '    gvData.DataSource = dt
+            '    gvData.GroupDescriptors.Clear()
+            '    gvData.EnableFiltering = True
+            '    gvData.MasterTemplate.SummaryRowsBottom.Clear()
+            '    SetGridFormation()
+            '    EnableDisableCntrl(False)
+            '    gvData.MasterTemplate.AutoExpandGroups = True
+            '    RadPageView1.SelectedPage = RadPageViewPage2
+            '    gvData.BestFitColumns()
+            'Else
+            '    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+            '    Exit Sub
+            'End If
 
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -1569,7 +1600,7 @@ TSPL_SD_SALE_INVOICE_HEAD.Ack_No,TSPL_SD_SALE_INVOICE_HEAD.Ack_Date,TSPL_SD_SALE
 Report_UOM.UOM_Code as Report_UOM,
 (Billing_Qty * tspl_item_uom_detail.Conversion_Factor/Report_UOM.Conversion_Factor ) as ReportUOM_Qty
 ,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt as [Subsidy Amt],Case when TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable=1 then 'Taxable' else 'Non-Taxable' end as [Invoice Type],
-TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader
+TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SD_SALE_INVOICE_HEAD.Created_By,TSPL_SD_SALE_INVOICE_HEAD.Created_Date
                          from TSPL_SD_SALE_INVOICE_HEAD
 left join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.Document_Code
 left  join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
@@ -1686,7 +1717,7 @@ TSPL_SCRAPINVOICE_Detail.Unit_code as [Measure of Qty],
 TSPL_SCRAPINVOICE_HEAD.Ack_No,TSPL_SCRAPINVOICE_HEAD.Ack_Date,TSPL_SCRAPINVOICE_HEAD.IRN_No
 ,Report_UOM.UOM_Code as Report_UOM,
 (shipped_Qty * tspl_item_uom_detail.Conversion_Factor/Report_UOM.Conversion_Factor ) as ReportUOM_Qty,0 as [Subsidy Amt], TSPL_SCRAPINVOICE_HEAD.Invoice_Type as [Invoice Type],
-TSPL_SCRAPINVOICE_HEAD.EWayBillNo,TSPL_SCRAPINVOICE_HEAD.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader
+TSPL_SCRAPINVOICE_HEAD.EWayBillNo,TSPL_SCRAPINVOICE_HEAD.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SCRAPINVOICE_HEAD.Created_By,TSPL_SCRAPINVOICE_HEAD.Created_Date
                            from TSPL_SCRAPINVOICE_HEAD
                     left join TSPL_SCRAPINVOICE_Detail on TSPL_SCRAPINVOICE_Detail.invoice_No=TSPL_SCRAPINVOICE_HEAD.invoice_No
                     LEFT JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SCRAPINVOICE_Detail.Item_Code
@@ -1714,7 +1745,9 @@ TSPL_SCRAPINVOICE_HEAD.EWayBillNo,TSPL_SCRAPINVOICE_HEAD.EWayBillDate,TSPL_VLC_M
             If rbtnDetail.IsChecked AndAlso rdbGstInvoice.IsChecked Then
                 qry = "Select (Transcation_Type)[Transcation Type],([Customer Type])[Customer Type],(Doc_Status)[Doc Status],(Location)Location,([GST No])[Location GST],([Sub Location])[Sub Location],(Invoice_Date)Invoice_Date,Invoice_No,([Invoice Type])[Invoice Type],([Route No])[Route No],([Party Code])[Party Code],VLC_Code_VLC_Uploader as [DCS Uploader],([Party Name])[Party Name],
                     ([Customer GSTNo])[Customer GSTNo],([State Code])[Party State Code],[Item Code],[Item Name],HSN_Code AS [HSN Code],([Measure of Qty])[Measure of Qty],([Product Qty])[Product Qty],(Report_UOM)[Report UOM],CAST(ReportUOM_Qty AS DECIMAL(18,2)) AS [ReportUOM Qty],Cast(([IGST Rate]) as decimal(10,2))[GST Rate],cast(([ItemBasic Amt]) as decimal(10,2))[ItemBasic Amt],cast(([Margin Amt]) as decimal(10,2))[Margin Amt],Cast(([Basic Amt]) as Decimal(10,2))[Basic Amt],Cast((KKF) as decimal(10,2))KKF,Cast(([Mandi Tax Amt]) as Decimal(10,2))[Mandi Tax Amt],Cast(([Party TCS Amt]) as Decimal(10,2))[Party TCS Amt],
-                        Cast(([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(([IGST Amt]) as decimal(10,2))[IGST Amt],cast(([Total Tax Amt]) as decimal(10,2))[Total Tax Amt],cast(([Total Amt]) as decimal(10,2))[Total Amt],([Subsidy Amt])[Subsidy Amt],([B2B/B2C])[B2B/B2C],(Ack_No)[Ack No],(Ack_Date)[Ack Date],(IRN_No)[IRN No],EWayBillNo,EWayBillDate from (" + Baseqry + ")XX   "
+                        Cast(([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(([IGST Amt]) as decimal(10,2))[IGST Amt],cast(([Total Tax Amt]) as decimal(10,2))[Total Tax Amt],cast(([Total Amt]) as decimal(10,2))[Total Amt],([Subsidy Amt])[Subsidy Amt],([B2B/B2C])[B2B/B2C],(Ack_No)[Ack No],(Ack_Date)[Ack Date],(IRN_No)[IRN No],EWayBillNo,EWayBillDate
+                    ,(Created_By)[Created By],(Created_Date)[Created Date]
+                    from (" + Baseqry + ")XX   "
                 If TxtTransaction.arrValueMember IsNot Nothing AndAlso TxtTransaction.arrValueMember.Count > 0 Then
                     qry += " where XX.Transcation_Type In(" + clsCommon.GetMulcallString(TxtTransaction.arrValueMember) + ")" + Environment.NewLine
                 End If
@@ -1723,6 +1756,7 @@ TSPL_SCRAPINVOICE_HEAD.EWayBillNo,TSPL_SCRAPINVOICE_HEAD.EWayBillDate,TSPL_VLC_M
                 qry = " Select max(Transcation_Type)[Transcation Type],max([Customer Type])[Customer Type],max(Doc_Status)[Doc Status],max(Location)Location,max([GST No])[Location GST],max([Sub Location])[Sub Location],max(Invoice_Date)Invoice_Date,Invoice_No,max([Invoice Type])[Invoice Type],MAX([Route No])[Route No],max([Party Code])[Party Code],max(VLC_Code_VLC_Uploader) as [DCS Uploader],max([Party Name])[Party Name],
                         max([Customer GSTNo])[Customer GSTNo],max([State Code])[Party State Code],cast(sum([ItemBasic Amt]) as decimal(10,2))[ItemBasic Amt],cast(sum([Margin Amt]) as decimal(10,2))[Margin Amt],Cast(sum([Basic Amt]) as Decimal(10,2))[Basic Amt],Cast(sum(KKF) as decimal(10,2))KKF,Cast(sum([Mandi Tax Amt]) as Decimal(10,2))[Mandi Tax Amt],Cast(sum([Party TCS Amt]) as Decimal(10,2))[Party TCS Amt],
                         Cast(sum([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(sum([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(sum([IGST Amt]) as decimal(10,2))[IGST Amt],cast(sum([Total Tax Amt]) as decimal(10,2))[Total Tax Amt],cast(sum([Total Amt]) as decimal(10,2))[Total Amt],sum([Subsidy Amt])[Subsidy Amt],max([B2B/B2C])[B2B/B2C],max(Ack_No)[Ack No],max(Ack_Date)[Ack Date],max(IRN_No)[IRN No],max(EWayBillNo)EWayBillNo,max(EWayBillDate)EWayBillDate
+                        ,max(Created_By)[Created By],max(Created_Date)[Created Date]
                         from ( " + Baseqry + " )XX  "
                 If TxtTransaction.arrValueMember IsNot Nothing AndAlso TxtTransaction.arrValueMember.Count > 0 Then
                     qry += " where XX.Transcation_Type In(" + clsCommon.GetMulcallString(TxtTransaction.arrValueMember) + ")" + Environment.NewLine
@@ -1844,7 +1878,7 @@ TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.Billing_Unit_code as [Measure of Qty],
 Report_UOM.UOM_Code as Report_UOM,
 (Billing_Qty * tspl_item_uom_detail.Conversion_Factor/Report_UOM.Conversion_Factor ) as ReportUOM_Qty
 ,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.TotalSubsidyAmt as [Subsidy Amt],Case when TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Is_Taxable=1 then 'Taxable' else 'Non-Taxable' end as [Invoice Type],
-TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader
+TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Created_By,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Created_Date
                               from TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data
 left join TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data on TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Code
 left  join TSPL_SD_SHIPMENT_HEAD_Cancel_Data on TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_Code = TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Against_Shipment_No
@@ -1981,7 +2015,7 @@ TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.Billing_Unit_code as [Measure of Qty],
 Report_UOM.UOM_Code as Report_UOM,
 (Billing_Qty * tspl_item_uom_detail.Conversion_Factor/Report_UOM.Conversion_Factor ) as ReportUOM_Qty
 ,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.TotalSubsidyAmt as [Subsidy Amt],Case when TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Is_Taxable=1 then 'Taxable' else 'Non-Taxable' end as [Invoice Type],
-TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader
+TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Created_By,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Created_Date
                               from TSPL_SD_SALE_INVOICE_HEAD_Delete_Data
 left join TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data on TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Code
 left  join TSPL_SD_SHIPMENT_HEAD_Cancel_Data on TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_Code = TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Against_Shipment_No
@@ -2100,7 +2134,7 @@ TSPL_SCRAPINVOICE_DETAIL_Cancel_Data.Unit_code as [Measure of Qty],
 ,TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Ack_No,TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Ack_Date,TSPL_SCRAPINVOICE_HEAD_Cancel_Data.IRN_No
 ,Report_UOM.UOM_Code as Report_UOM,
 (shipped_Qty * tspl_item_uom_detail.Conversion_Factor/Report_UOM.Conversion_Factor ) as ReportUOM_Qty,0 as [Subsidy Amt], TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Invoice_Type as [Invoice Type],
-TSPL_SCRAPINVOICE_HEAD_Cancel_Data.EWayBillNo,TSPL_SCRAPINVOICE_HEAD_Cancel_Data.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader
+TSPL_SCRAPINVOICE_HEAD_Cancel_Data.EWayBillNo,TSPL_SCRAPINVOICE_HEAD_Cancel_Data.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Created_By,TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Created_Date
                          from TSPL_SCRAPINVOICE_HEAD_Cancel_Data
 left join TSPL_SCRAPINVOICE_DETAIL_Cancel_Data on TSPL_SCRAPINVOICE_DETAIL_Cancel_Data.invoice_No=TSPL_SCRAPINVOICE_HEAD_Cancel_Data.invoice_No
 LEFT JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SCRAPINVOICE_DETAIL_Cancel_Data.Item_Code
@@ -2216,7 +2250,7 @@ TSPL_SCRAPINVOICE_DETAIL_Delete_Data.Unit_code as [Measure of Qty],
 ,TSPL_SCRAPINVOICE_HEAD_Delete_Data.Ack_No,TSPL_SCRAPINVOICE_HEAD_Delete_Data.Ack_Date,TSPL_SCRAPINVOICE_HEAD_Delete_Data.IRN_No
 ,Report_UOM.UOM_Code as Report_UOM,
 (shipped_Qty * tspl_item_uom_detail.Conversion_Factor/Report_UOM.Conversion_Factor ) as ReportUOM_Qty,0 as [Subsidy Amt], TSPL_SCRAPINVOICE_HEAD_Delete_Data.Invoice_Type as [Invoice Type],
-TSPL_SCRAPINVOICE_HEAD_Delete_Data.EWayBillNo,TSPL_SCRAPINVOICE_HEAD_Delete_Data.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader
+TSPL_SCRAPINVOICE_HEAD_Delete_Data.EWayBillNo,TSPL_SCRAPINVOICE_HEAD_Delete_Data.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SCRAPINVOICE_HEAD_Delete_Data.Created_By,TSPL_SCRAPINVOICE_HEAD_Delete_Data.Created_Date
                          from TSPL_SCRAPINVOICE_HEAD_Delete_Data
 left join TSPL_SCRAPINVOICE_DETAIL_Delete_Data on TSPL_SCRAPINVOICE_DETAIL_Delete_Data.invoice_No=TSPL_SCRAPINVOICE_HEAD_Delete_Data.invoice_No
 LEFT JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SCRAPINVOICE_DETAIL_Delete_Data.Item_Code
@@ -2245,7 +2279,8 @@ where convert(date,shipment_Date,103)>=Convert( Date,'" + strtxtfDate + "',103) 
             If rbtnDetail.IsChecked AndAlso rdbCancelInvoice.IsChecked Then
                 qry = "Select (Transcation_Type)[Transcation Type],([Customer Type])[Customer Type],(Doc_Status)[Doc Status],(Location)Location,([GST No])[Location GST],([Sub Location])[Sub Location],(Invoice_Date)Invoice_Date,Invoice_No,([Invoice Type])[Invoice Type],([Route No])[Route No],([Party Code])[Party Code],VLC_Code_VLC_Uploader as [DCS Uploader],([Party Name])[Party Name],
                        ([Customer GSTNo])[Customer GSTNo],([State Code])[Party State Code],[Item Code],[Item Name],HSN_Code AS [HSN Code],([Measure of Qty])[Measure of Qty],([Product Qty])[Product Qty],(Report_UOM)[Report UOM],CAST(ReportUOM_Qty AS DECIMAL(18,2)) AS [ReportUOM Qty],Cast(([IGST Rate]) as decimal(10,2))[GST Rate],cast(([ItemBasic Amt]) as decimal(10,2))[ItemBasic Amt],cast(([Margin Amt]) as decimal(10,2))[Margin Amt],Cast(([Basic Amt]) as Decimal(10,2))[Basic Amt],Cast((KKF) as decimal(10,2))KKF,Cast(([Mandi Tax Amt]) as Decimal(10,2))[Mandi Tax Amt],Cast(([Party TCS Amt]) as Decimal(10,2))[Party TCS Amt],
-                        Cast(([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(([IGST Amt]) as decimal(10,2))[IGST Amt],cast(([Total Tax Amt]) as decimal(10,2))[Total Tax Amt],cast(([Total Amt]) as decimal(10,2))[Total Amt],([Subsidy Amt])[Subsidy Amt],([B2B/B2C])[B2B/B2C],(Ack_No)[Ack No],(Ack_Date)[Ack Date],(IRN_No)[IRN No],EWayBillNo,EWayBillDate from (" + BaseQryCancel + ")XX   "
+                        Cast(([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(([IGST Amt]) as decimal(10,2))[IGST Amt],cast(([Total Tax Amt]) as decimal(10,2))[Total Tax Amt],cast(([Total Amt]) as decimal(10,2))[Total Amt],([Subsidy Amt])[Subsidy Amt],([B2B/B2C])[B2B/B2C],(Ack_No)[Ack No],(Ack_Date)[Ack Date],(IRN_No)[IRN No],EWayBillNo,EWayBillDate
+                        ,(Created_By)[Created By],(Created_Date)[Created Date] from (" + BaseQryCancel + ")XX   "
                 If TxtTransaction.arrValueMember IsNot Nothing AndAlso TxtTransaction.arrValueMember.Count > 0 Then
                     qry += " where XX.Transcation_Type In(" + clsCommon.GetMulcallString(TxtTransaction.arrValueMember) + ")" + Environment.NewLine
                 End If
@@ -2254,7 +2289,8 @@ where convert(date,shipment_Date,103)>=Convert( Date,'" + strtxtfDate + "',103) 
             ElseIf rbtnSummary.IsChecked AndAlso rdbCancelInvoice.IsChecked Then
                 qry = " Select max(Transcation_Type)[Transcation Type],max([Customer Type])[Customer Type],max(Doc_Status)[Doc Status],max(Location)Location,max([GST No])[Location GST],max([Sub Location])[Sub Location],max(Invoice_Date)Invoice_Date,Invoice_No,max([Invoice Type])[Invoice Type],MAX([Route No])[Route No],max([Party Code])[Party Code],max(VLC_Code_VLC_Uploader) as [DCS Uploader],max([Party Name])[Party Name],
                         max([Customer GSTNo])[Customer GSTNo],max([State Code])[Party State Code],cast(sum([ItemBasic Amt]) as decimal(10,2))[ItemBasic Amt],cast(sum([Margin Amt]) as decimal(10,2))[Margin Amt],Cast(sum([Basic Amt]) as Decimal(10,2))[Basic Amt],Cast(sum(KKF) as decimal(10,2))KKF,Cast(sum([Mandi Tax Amt]) as Decimal(10,2))[Mandi Tax Amt],Cast(sum([Party TCS Amt]) as Decimal(10,2))[Party TCS Amt],
-                        Cast(sum([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(sum([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(sum([IGST Amt]) as decimal(10,2))[IGST Amt],cast(sum([Total Tax Amt]) as decimal(10,2))[Total Tax Amt],cast(sum([Total Amt]) as decimal(10,2))[Total Amt],sum([Subsidy Amt])[Subsidy Amt],max([B2B/B2C])[B2B/B2C],max(Ack_No)[Ack No],max(Ack_Date)[Ack Date],max(IRN_No)[IRN No],max(EWayBillNo)EWayBillNo,max(EWayBillDate)EWayBillDate from (" + BaseQryCancel + " )XX  "
+                        Cast(sum([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(sum([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(sum([IGST Amt]) as decimal(10,2))[IGST Amt],cast(sum([Total Tax Amt]) as decimal(10,2))[Total Tax Amt],cast(sum([Total Amt]) as decimal(10,2))[Total Amt],sum([Subsidy Amt])[Subsidy Amt],max([B2B/B2C])[B2B/B2C],max(Ack_No)[Ack No],max(Ack_Date)[Ack Date],max(IRN_No)[IRN No],max(EWayBillNo)EWayBillNo,max(EWayBillDate)EWayBillDate
+                        ,max(Created_By)[Created By],max(Created_Date)[Created Date] from (" + BaseQryCancel + " )XX  "
                 If TxtTransaction.arrValueMember IsNot Nothing AndAlso TxtTransaction.arrValueMember.Count > 0 Then
                     qry += " where XX.Transcation_Type In(" + clsCommon.GetMulcallString(TxtTransaction.arrValueMember) + ")" + Environment.NewLine
                 End If
@@ -2355,7 +2391,7 @@ TSPL_SD_SALE_RETURN_HEAD.Ack_No,TSPL_SD_SALE_RETURN_HEAD.Ack_Date,TSPL_SD_SALE_R
 Report_UOM.UOM_Code as Report_UOM,
 (Qty * tspl_item_uom_detail.Conversion_Factor/Report_UOM.Conversion_Factor ) as ReportUOM_Qty
 ,TSPL_SD_SALE_RETURN_HEAD.TotalSubsidyAmt as [Subsidy Amt],Case when TSPL_SD_SALE_RETURN_HEAD.Is_Taxable=1 then 'Taxable' else 'Non-Taxable' end as [Invoice Type],
-'' AS EWayBillNo,'' AS EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No,Convert(varchar(20),TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Invoice_Date1
+'' AS EWayBillNo,'' AS EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No,Convert(varchar(20),TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Invoice_Date1,TSPL_SD_SALE_RETURN_HEAD.Created_By,TSPL_SD_SALE_RETURN_HEAD.Created_Date
                            from TSPL_SD_SALE_RETURN_HEAD
 left join TSPL_SD_SALE_RETURN_DETAIL on TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_RETURN_HEAD.Document_Code
 left join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE=TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No
@@ -2385,7 +2421,8 @@ where convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)>=Convert( Date,'"
             If rbtnDetail.IsChecked AndAlso rdbSaleReturn.IsChecked Then
                 qry = "Select (Transaction_Type)[Transcation Type],([Customer Type])[Customer Type],(Doc_Status)[Doc Status],(Location)Location,([GST No])[Location GST],([Sub Location])[Sub Location],(Invoice_Date)Return_Date,Invoice_No,([Invoice Type])[Invoice Type],([Route No])[Route No],([Party Code])[Party Code],VLC_Code_VLC_Uploader as [DCS Uploader],([Party Name])[Party Name],([GST No])[GST No],
                        ([Customer GSTNo])[Customer GSTNo],([State Code])[Party State Code],[Item Code],[Item Name],HSN_Code AS [HSN Code],([Product Qty])[Product Qty],(Report_UOM)[Report UOM],CAST(ReportUOM_Qty AS DECIMAL(18,2)) AS [ReportUOM Qty],Cast(([IGST Rate]) as decimal(10,2))[GST Rate],cast(([ItemBasic Amt]) as decimal(10,2))[ItemBasic Amt],cast(([Margin Amt]) as decimal(10,2))[Margin Amt],Cast(([Basic Amt]) as Decimal(10,2))[Basic Amt],Cast((KKF) as decimal(10,2))KKF,Cast(([Mandi Tax Amt]) as Decimal(10,2))[Mandi Tax Amt],Cast(([Party TCS Amt]) as Decimal(10,2))[Party TCS Amt],
-                        Cast(([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(([IGST Amt]) as decimal(10,2))[IGST Amt],cast(([Total Tax Amt]) as decimal(10,2))[Total Tax Amt],cast(([Total Amt]) as decimal(10,2))[Total Amt],([Subsidy Amt])[Subsidy Amt],([B2B/B2C])[B2B/B2C],(Ack_No)[Ack No],(Ack_Date)[Ack Date],(IRN_No)[IRN No],EWayBillNo,EWayBillDate,Against_Invoice_No as[Against Invoice No],Invoice_Date1 as [Invoice Date] from (" + qryreturn + ")XX  "
+                        Cast(([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(([IGST Amt]) as decimal(10,2))[IGST Amt],cast(([Total Tax Amt]) as decimal(10,2))[Total Tax Amt],cast(([Total Amt]) as decimal(10,2))[Total Amt],([Subsidy Amt])[Subsidy Amt],([B2B/B2C])[B2B/B2C],(Ack_No)[Ack No],(Ack_Date)[Ack Date],(IRN_No)[IRN No],EWayBillNo,EWayBillDate,Against_Invoice_No as[Against Invoice No],Invoice_Date1 as [Invoice Date] 
+                        ,(Created_By)[Created By],(Created_Date)[Created Date] from (" + qryreturn + ")XX  "
                 If TxtTransaction.arrValueMember IsNot Nothing AndAlso TxtTransaction.arrValueMember.Count > 0 Then
                     qry += " where XX.Transaction_Type In(" + clsCommon.GetMulcallString(TxtTransaction.arrValueMember) + ")" + Environment.NewLine
                 End If
@@ -2393,7 +2430,8 @@ where convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)>=Convert( Date,'"
             ElseIf rbtnSummary.IsChecked AndAlso rdbSaleReturn.IsChecked Then
                 qry = " Select  max(Transaction_Type)[Transcation Type],max([Customer Type])[Customer Type],max(Doc_Status)[Doc Status],max(Location)Location,max([GST No])[Location GST],max([Sub Location])[Sub Location],max(Invoice_Date)Return_Date,Invoice_No,max([Invoice Type])[Invoice Type],MAX([Route No])[Route No],max([Party Code])[Party Code],max(VLC_Code_VLC_Uploader) as [DCS Uploader],max([Party Name])[Party Name],
                         max([Customer GSTNo])[Customer GSTNo],max([State Code])[Party State Code],cast(Sum([ItemBasic Amt]) as decimal(10,2))[ItemBasic Amt],cast(Sum([Margin Amt]) as decimal(10,2))[Margin Amt],Cast(sum([Basic Amt]) as Decimal(10,2))[Basic Amt],Cast(sum(KKF) as decimal(10,2))KKF,Cast(sum([Mandi Tax Amt]) as Decimal(10,2))[Mandi Tax Amt],Cast(sum([Party TCS Amt]) as Decimal(10,2))[Party TCS Amt],
-                        Cast(sum([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(sum([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(sum([IGST Amt]) as decimal(10,2))[GST Amt],cast(sum([Total Tax Amt]) as decimal(10,2))[Total Tax Amt],cast(sum([Total Amt]) as decimal(10,2))[Total Amt],sum([Subsidy Amt])[Subsidy Amt],max([B2B/B2C])[B2B/B2C],max(Ack_No)[Ack No],max(Ack_Date)[Ack Date],max(IRN_No)[IRN No],Max(EWayBillNo)EWayBillNo,max(EWayBillDate)EWayBillDate,max(Against_Invoice_No) as[Against Invoice No],max(Invoice_Date1) as [Invoice Date] from (" + qryreturn + " )XX  "
+                        Cast(sum([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(sum([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(sum([IGST Amt]) as decimal(10,2))[GST Amt],cast(sum([Total Tax Amt]) as decimal(10,2))[Total Tax Amt],cast(sum([Total Amt]) as decimal(10,2))[Total Amt],sum([Subsidy Amt])[Subsidy Amt],max([B2B/B2C])[B2B/B2C],max(Ack_No)[Ack No],max(Ack_Date)[Ack Date],max(IRN_No)[IRN No],Max(EWayBillNo)EWayBillNo,max(EWayBillDate)EWayBillDate,max(Against_Invoice_No) as[Against Invoice No],max(Invoice_Date1) as [Invoice Date] 
+                        ,max(Created_By)[Created By],max(Created_Date)[Created Date] from (" + qryreturn + " )XX  "
                 If TxtTransaction.arrValueMember IsNot Nothing AndAlso TxtTransaction.arrValueMember.Count > 0 Then
                     qry += " where XX.Transaction_Type In(" + clsCommon.GetMulcallString(TxtTransaction.arrValueMember) + ")" + Environment.NewLine
                 End If

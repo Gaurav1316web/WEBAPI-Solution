@@ -1346,7 +1346,7 @@ where TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code='" & txtDocNo.Value & "'  "
             '                   CONVERT(DATE, TSPL_MILK_COLLECTION_MCC.Document_Date, 103) <= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value) + "', 103)
             '                   AND TSPL_MILK_COLLECTION_MCC.Tanker_No = '" + clsCommon.myCstr(txtTankerNo.Value) + "'"
             '    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry1)
-            If transportSql.importExcel(gvimport, "Date", "Category", "Station 1", "Station 2", "Station 3", "Station 4", "Trip", "GPS KM", "KM", "Quantity KG", "Amount", "Diesel RD") Then
+            If transportSql.importExcel(gvimport, "Date", "Category", "Station 1", "Station 2", "Station 3", "Station 4", "Trip", "Ice Box", "GPS KM", "KM", "Quantity KG", "Amount", "Diesel RD") Then
 
                 Try
                     clsCommon.ProgressBarPercentShow()
@@ -1364,6 +1364,7 @@ where TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code='" & txtDocNo.Value & "'  "
                             gv1.Rows(ii).Cells(ColStation3).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Station 3").Value)
                             gv1.Rows(ii).Cells(ColStation4).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Station 4").Value)
                             gv1.Rows(ii).Cells(ColTrip).Value = clsCommon.myCdbl(gvimport.Rows(ii).Cells("Trip").Value)
+                            gv1.Rows(ii).Cells(ColIceBox).Value = clsCommon.myCdbl(gvimport.Rows(ii).Cells("Ice Box").Value)
                             gv1.Rows(ii).Cells(ColGPSKM).Value = clsCommon.myCdbl(gvimport.Rows(ii).Cells("GPS KM").Value)
                             gv1.Rows(ii).Cells(ColKM).Value = clsCommon.myCdbl(gvimport.Rows(ii).Cells("KM").Value)
                             gv1.Rows(ii).Cells(ColQuantity).Value = clsCommon.myCdbl(gvimport.Rows(ii).Cells("Quantity KG").Value)
