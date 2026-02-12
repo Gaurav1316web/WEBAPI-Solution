@@ -466,7 +466,7 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
     Private Sub LoadData()
         Try
             Dim arrUnion As New ArrayList()
-            arrUnion.Add(objCommonVar.CurrComp_Code1)
+            arrUnion.Add(objCommonVar.CurrDatabase)
             If objCommonVar.RCDFCFP Then
                 dt = clsMilkUnion.UnionDBName()
             Else
