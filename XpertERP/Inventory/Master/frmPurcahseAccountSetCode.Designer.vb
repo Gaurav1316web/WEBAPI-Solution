@@ -708,7 +708,7 @@ Partial Class frmPurcahseAccountSetCode
         '
         'UcCustomFields1
         '
-        Me.UcCustomFields1.Location = New System.Drawing.Point(606, 289)
+        Me.UcCustomFields1.Location = New System.Drawing.Point(733, 376)
         Me.UcCustomFields1.Name = "UcCustomFields1"
         Me.UcCustomFields1.Size = New System.Drawing.Size(87, 8)
         Me.UcCustomFields1.TabIndex = 88

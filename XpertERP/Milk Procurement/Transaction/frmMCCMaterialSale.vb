@@ -477,6 +477,7 @@ Public Class frmMCCMaterialSale
         chkcashsale.Checked = False
         chkOther.Checked = False
         chkcashsale.Enabled = True
+        chkAddTPT.Checked = True
         chkApplyTPT.Checked = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select count (1) from TSPL_DCS_TRANSPORTATION_CHARGES_HEAD ") > 0)
         txtTPTVendor.Value = ""
         chkOnHold.Checked = False
@@ -3766,6 +3767,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 If chkApplyTPT.Checked Then
                     obj.TPT_Vendor = txtTPTVendor.Value
                 End If
+                obj.Is_Add_TPT = chkAddTPT.Checked
                 obj.Recommended_By = txtRecommBy.Text
                 obj.Is_Internal = chkInternal.Checked
                 obj.PROJECT_ID = fndProject.Value
@@ -4320,6 +4322,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 txtTaxGroup.Value = obj.Tax_Group
                 chkcashsale.Checked = IIf(obj.Is_CashSale = "Y", True, False)
                 chkApplyTPT.Checked = IIf(obj.Is_Apply_TPT = "1", True, False)
+                chkAddTPT.Checked = obj.Is_Add_TPT
                 txtRecommBy.Text = obj.Recommended_By
                 If chkApplyTPT.Checked Then
                     txtTPTVendor.Value = obj.TPT_Vendor
@@ -9162,14 +9165,30 @@ a:          End If
                 'End If
                 If MultiplySubsidyWithQuantity Then
                     lblTotalSubsidy.Text = clsCommon.myCdbl(txtRateAmt.Text) * TotalItemQty
-                    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text) - clsCommon.myCdbl(lblTotalSubsidy.Text) - clsCommon.myCdbl(txtTPTAmt.Text)
+                    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text) - clsCommon.myCdbl(lblTotalSubsidy.Text)
+                    If chkAddTPT.Checked Then
+                        lblGrossAmount.Text = clsCommon.myCdbl(lblGrossAmount.Text) + clsCommon.myCdbl(txtTPTAmt.Text)
+                    Else
+                        lblGrossAmount.Text = clsCommon.myCdbl(lblGrossAmount.Text) - clsCommon.myCdbl(txtTPTAmt.Text)
+                    End If
 
                 Else
-                    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - txtRateAmt.Text) - clsCommon.myCdbl(txtTPTAmt.Text)
+                    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - txtRateAmt.Text) '
+
+                    If chkAddTPT.Checked Then
+                        lblGrossAmount.Text = clsCommon.myCdbl(lblGrossAmount.Text) + clsCommon.myCdbl(txtTPTAmt.Text)
+                    Else
+                        lblGrossAmount.Text = clsCommon.myCdbl(lblGrossAmount.Text) - clsCommon.myCdbl(txtTPTAmt.Text)
+                    End If
                 End If
             Else
                 lblTotalSubsidy.Text = clsCommon.myCdbl(lblTotRAmt.Text * txtRatePer.Text) / 100
-                lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - lblTotalSubsidy.Text) - clsCommon.myCdbl(txtTPTAmt.Text)
+                lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - lblTotalSubsidy.Text) '
+                If chkAddTPT.Checked Then
+                    lblGrossAmount.Text = clsCommon.myCdbl(lblGrossAmount.Text) + clsCommon.myCdbl(txtTPTAmt.Text)
+                Else
+                    lblGrossAmount.Text = clsCommon.myCdbl(lblGrossAmount.Text) - clsCommon.myCdbl(txtTPTAmt.Text)
+                End If
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

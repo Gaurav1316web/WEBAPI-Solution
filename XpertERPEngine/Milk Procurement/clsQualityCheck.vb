@@ -758,6 +758,56 @@ Public Class clsQualityCheck
         Return isSaved
     End Function
 
+    Public Shared Function SaveAndPostCleaningData(ByVal GateEntryNo As String, Optional ByVal trans As SqlTransaction = Nothing) As Boolean
+        Dim isSaved As Boolean = False
+        Try
+            Dim obj As clsCleaning = New clsCleaning()
+            Dim objGt As clsGateEntry = clsGateEntry.getData(GateEntryNo, NavigatorType.Current, trans)
+            Dim Cleaning_Doc As String = clsCleaning.GetCleaningDocNoFromGateEntry(GateEntryNo, trans)
+            If clsCommon.myLen(Cleaning_Doc) > 0 Then
+                obj.isNewEntry = False
+                obj = clsCleaning.getData(Cleaning_Doc, NavigatorType.Current, trans)
+                If obj.isPosted = 1 Then
+                    Return True
+                End If
+            Else
+                obj.isNewEntry = True
+            End If
+
+
+            Dim dt As Date = clsCommon.GetPrintDate(clsQualityCheck.getWeighmentDate(GateEntryNo, trans), "dd/MMM/yyyy hh:mm:ss tt")
+            If obj.isNewEntry Then
+                obj.Doc_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.Cleaning, clsDocTransactionType.NA, objGt.location_Code)
+                If clsCommon.myLen(obj.Doc_No) <= 0 Then
+                    Throw New Exception("Error In Cleaning Document No Generation")
+                End If
+            End If
+            obj.Gate_Entry_No = clsCommon.myCstr(objGt.Gate_Entry_No)
+
+            obj.Start_Date_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
+            obj.End_Date_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
+            obj.Tanker_No = clsCommon.myCstr(objGt.Tanker_No)
+            obj.Weighment_No = clsQualityCheck.getWeighmentNo(GateEntryNo, trans)
+            obj.QC_No = clsQualityCheck.getQCNo(GateEntryNo, trans)
+            obj.Status = "OK"
+            obj.Remarks = ""
+            obj.isPosted = 0
+            obj.Posting_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy")
+            obj.Modify_By = objCommonVar.CurrentUserCode
+            obj.Modify_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+            obj.comp_code = objCommonVar.CurrentCompanyCode
+            obj.Created_By = objCommonVar.CurrentUserCode
+            obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+            obj.InTime = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+            obj.OutTime = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+            isSaved = clsCleaning.saveData(obj, trans)
+            isSaved = clsCleaning.postData(obj.Doc_No, "", trans)
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return isSaved
+    End Function
+
     Public Shared Function SaveAndPostUnloadingGateOutMilkTransferIn(ByVal GateEntryNo As String, Optional ByVal trans As SqlTransaction = Nothing) As Boolean
         '' change done by Panch Raj against ticket No:BM00000008730
         Dim isSaved As Boolean = True
@@ -768,8 +818,9 @@ Public Class clsQualityCheck
                         Dim objGt As clsGateEntry = clsGateEntry.getData(GateEntryNo, NavigatorType.Current, trans)
                     'If clsQualityCheck.isVirtualSiloFound(objGt.location_Code, trans) Then
                     isSaved = clsQualityCheck.SaveAndPostUnloadingData(GateEntryNo, trans)
-                            isSaved = clsQualityCheck.SaveGateOutData(GateEntryNo, trans)
-                            isSaved = clsQualityCheck.SaveAndPostTransferInData(GateEntryNo, trans)
+                    isSaved = clsQualityCheck.SaveAndPostCleaningData(GateEntryNo, trans)
+                    isSaved = clsQualityCheck.SaveGateOutData(GateEntryNo, trans)
+                    isSaved = clsQualityCheck.SaveAndPostTransferInData(GateEntryNo, trans)
                     'Else            
                     'Throw New Exception(" Please Create Virtual Silo for location  " & objGt.location_Code)
                     'End If
@@ -822,7 +873,7 @@ Public Class clsQualityCheck
             obj.Comp_Code = objCommonVar.CurrentCompanyCode
             obj.Created_By = objCommonVar.CurrentUserCode
             obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-            obj.PriceCode = clsDBFuncationality.getSingleValue("select top 1 Price_Code from TSPL_BULK_PRICE_master order by price_date desc")
+            obj.PriceCode = clsDBFuncationality.getSingleValue("select top 1 Price_Code from TSPL_BULK_PRICE_master order by price_date desc", trans)
             isSaved = clsMilkTransferIn.saveData(obj, trans)
             isSaved = clsMilkTransferIn.postData(obj.Receipt_Challan_No, trans)
 

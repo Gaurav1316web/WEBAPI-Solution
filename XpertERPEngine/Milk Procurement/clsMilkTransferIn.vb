@@ -732,9 +732,8 @@ Public Class clsMilkTransferIn
                     'Else
                     '    subLocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Sub_location_Code from TSPL_MILK_UNLOADING where weighment_no='" & objW.Weighment_No & "'", trans))
                     'End If
-                    subLocCode = clsDBFuncationality.getSingleValue("select CASE WHEN ISNULL(TSPL_Milk_unloading_Chember_Details.Sublocation_Code,'')='' THEN isnull(TSPL_MILK_UNLOADING.Sub_location_Code,'') ELSE TSPL_Milk_unloading_Chember_Details.Sublocation_Code END   from TSPL_MILK_UNLOADING left join " &
-                                    "TSPL_Milk_unloading_Chember_Details on TSPL_MILK_UNLOADING.Unloading_No =TSPL_Milk_unloading_Chember_Details.Unloading_No " &
-                                    "where TSPL_Milk_unloading_Chember_Details.line_no='" & objTr.Line_No & "' and Gate_Entry_No='" & obj.Gate_Entry_no & "'", trans)
+                    subLocCode = clsDBFuncationality.getSingleValue("select CASE WHEN ISNULL(TSPL_Weighment_Chember_Details.Sublocation_Code,'')='' THEN isnull(TSPL_Weighment_Chember_Details.Sublocation_Code,'') ELSE TSPL_Weighment_Chember_Details.Sublocation_Code END   from TSPL_Weighment_Detail left join TSPL_Weighment_Chember_Details on TSPL_Weighment_Chember_Details.Weighment_No =TSPL_Weighment_Detail.Weighment_No
+where TSPL_Weighment_Chember_Details.line_no ='" & objTr.Line_No & "' and TSPL_Weighment_Detail.Gate_Entry_No='" & obj.Gate_Entry_no & "'", trans)
 
                     objInventoryMovemnt = New clsInventoryMovementNew
                     objInventoryMovemnt.InOut = "I"
