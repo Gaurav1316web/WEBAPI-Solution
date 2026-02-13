@@ -118,6 +118,7 @@
     <None Include="Crystal Reports Common\rptMilkSRNUnion.rpt" />
     <None Include="Crystal Reports Common\rptUnionBookingReport.rpt" />
     <None Include="Crystal Reports Common\rptUnionWiseMilkTankerCollection.rpt" />
+    <None Include="Crystal Reports Common\rptUnionWiseMilkTankerCollectionSummary.rpt" />
     <None Include="Crystal Reports GST\Common Services\CashVoucher.rpt" />
     <None Include="Crystal Reports GST\Common Services\CashVoucherold.rpt" />
     <None Include="Crystal Reports GST\Common Services\crptBankBook.rpt" />
@@ -586,6 +587,8 @@
     <None Include="Crystal Reports GST\New Sales Reports\crptSaleReturnInterState.rpt" />
     <None Include="Crystal Reports GST\New Sales Reports\crptSaleReturnNonTaxable.rpt" />
     <None Include="Crystal Reports GST\New Sales Reports\crptSaleReturn_Local.rpt" />
+    <None Include="Crystal Reports GST\New Sales Reports\crptSaleReturn_Localjpr.rpt" />
+    <None Include="Crystal Reports GST\New Sales Reports\crptSaleReturn_LocaljprNonTaxable.rpt" />
     <None Include="Crystal Reports GST\New Sales Reports\crptSalesOrderReport.rpt" />
     <None Include="Crystal Reports GST\New Sales Reports\crptSalesQuotation.rpt" />
     <None Include="Crystal Reports GST\New Sales Reports\crptServiceTaxInvoice.rpt" />
