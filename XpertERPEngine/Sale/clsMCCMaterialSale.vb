@@ -1415,9 +1415,11 @@ Public Class clsMCCMaterialSale
                 clsPSInvoiceHead.PostData("", obj.Invoice_No, trans)   ''obj.Sale_Invoice_No remove because it has not value.by bulk posting.
             End If
 
-            If (obj.TotalSubsidyAmt > 0) Then
-                CreateARAdjustmentEntryAgainstSubsidy(obj, trans)
-            End If
+            'Comment by balwinder on 13/02/2026 as AR Invoice created after reduce the subsidy amount.
+            'If (obj.TotalSubsidyAmt > 0) Then
+            '    CreateARAdjustmentEntryAgainstSubsidy(obj, trans)
+            'End If
+
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", trans)
             ''richa BHO/08/07/21-000019
             Dim CreateARAdjAPDebitnoteforEmployeesinMCCMS As Boolean = IIf(clsFixedParameter.GetData(clsFixedParameterType.CreateARAdjAPDebitnoteforEmployeesinMCCMS, clsFixedParameterCode.CreateARAdjAPDebitnoteforEmployeesinMCCMS, trans) = 1, True, False)
