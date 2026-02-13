@@ -173,7 +173,7 @@ and convert(date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) +
             Next
             Dim SummaryQry As String = ""
             If chkSummary.Checked Then
-                SummaryQry += "  SELECT ROW_NUMBER() OVER (ORDER BY XX.Weighment_Date) AS SNo,'ADMIN' as UserName,  
+                SummaryQry += "  SELECT ROW_NUMBER() OVER (ORDER BY XX.Weighment_Date) AS SNo,'" + objCommonVar.CurrentUserCode + "' as UserName,  
                 xx.UnionName, xx.Weighment_Date,count(XX.Tanker_No) AS Tanker_No,max(XX.ROUTE_NO) AS ROUTE_NO,--MAX(XX.WEIGHMENT_NO) AS Weighment_No, 				 	 
 				 count(XX.Gate_Entry_No) AS Gate_Entry_No,SUM(XX.Gross_Weight) AS Gross_Weight, SUM(XX.tare_weight) AS Tare_Weight,MAX(XX.manual_Tare_Weight) AS Manual_Tare_Weight, MAX(XX.Manual_Entry_Qc) AS Manual_Entry_QC,
                 SUM(XX.Net_Weight) AS Net_Weight,sum(isnull(XX.Fat_Kg,0)) AS Fat_Kg,sum(isnull(XX.SNF_Kg,0))  AS SNF_Kg,							
