@@ -7803,6 +7803,10 @@ Public Class MDI
                         frm = New frmDCSTransportationCharges
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.frmManualIoTFarmerCollection
+                        frm = New frmDCSTransportationCharges
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.GazeReading
                         frm = New frmGazeReading
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
