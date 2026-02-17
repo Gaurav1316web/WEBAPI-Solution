@@ -7,6 +7,7 @@ Imports Telerik.WinControls.UI
 Imports System.Drawing
 Imports System.Net
 Imports Newtonsoft.Json
+Imports Newtonsoft.Json.Linq
 
 Public Class Xtra
 
@@ -274,7 +275,9 @@ Public Class Xtra
         Try
             If clsCommon.myInternetWork() Then
                 Dim baseAddress As String = ""
+                Dim method As String = "POST"
                 Dim reqparm As New System.Collections.Specialized.NameValueCollection
+                Dim c As WebClient = New WebClient()
                 Select Case API
                     Case EnumAPI.BankIFSC
                         If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
@@ -289,17 +292,35 @@ Public Class Xtra
                     Case EnumAPI.REIL
                         baseAddress = clsCommon.myCstr("http://www.ajmerdairy.in/erp/api.aspx")
                         reqparm.Add("atoken", "RdpFJyPO1avewbecVD32tTr9kuyHJtq5")
+                    Case EnumAPI.KTPL
+                        method = "GET"
+                        baseAddress = clsCommon.myCstr("https://app.ktplindia.com/integration" & "/" & APIName)
+                        c.Headers.Add("Authorization", "34654795-5D9F-43B3-BC14-FFD521364BAB")
+                        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
                 End Select
-                If ArrFilter IsNot Nothing AndAlso ArrFilter.Count > 0 Then
-                    For Each key As String In ArrFilter.Keys
-                        reqparm.Add(key, ArrFilter(key))
-                    Next
+                If clsCommon.CompairString(method, "POST") = CompairStringResult.Equal Then
+                    If ArrFilter IsNot Nothing AndAlso ArrFilter.Count > 0 Then
+                        For Each key As String In ArrFilter.Keys
+                            reqparm.Add(key, ArrFilter(key))
+                        Next
+                    End If
+                Else
+                    If ArrFilter IsNot Nothing AndAlso ArrFilter.Count > 0 Then
+                        For ii As Integer = 0 To ArrFilter.Keys.Count - 1
+                            Dim key As String = ArrFilter.Keys(ii)
+                            If ii = 0 Then
+                                baseAddress += "?" & key & "=" & ArrFilter(key)
+                            Else
+                                baseAddress += "&" & key & "=" & ArrFilter(key)
+                            End If
+                        Next
+                    End If
                 End If
 
                 If objCommonVar.JSONTrack Then
                     Dim logFile As String = "JSONLog.txt"
                     Dim objWriter As New System.IO.StreamWriter(logFile, True)
-                    objWriter.WriteLine(APIName + " Hit @ " + clsCommon.GetPrintDate(DateTime.Now, "dd/MM/yyyy hh:mm:ss tt"))
+                    objWriter.WriteLine(APIName + " Hit @ " + clsCommon.GetPrintDate(DateTime.Now, "dd/MM/yyyy hh: mm:ss tt"))
                     objWriter.WriteLine(baseAddress)
                     For Each key As String In reqparm.AllKeys
                         objWriter.WriteLine(key + ":" + reqparm(key))
@@ -307,12 +328,21 @@ Public Class Xtra
                     objWriter.Close()
                 End If
 
-                Dim c As WebClient = New WebClient()
-                Dim responsebytes = c.UploadValues(baseAddress, "POST", reqparm)
-                responsebody = (New System.Text.UTF8Encoding()).GetString(responsebytes)
-                Dim jArray = Newtonsoft.Json.Linq.JArray.Parse(responsebody)
-                dt = JsonConvert.DeserializeObject(Of DataTable)(jArray.ToString())
-                Dim a As Integer = 0
+                If clsCommon.CompairString(method, "POST") = CompairStringResult.Equal Then
+                    Dim responsebytes = c.UploadValues(baseAddress, method, reqparm)
+                    responsebody = (New System.Text.UTF8Encoding()).GetString(responsebytes)
+                    Dim jArray = Newtonsoft.Json.Linq.JArray.Parse(responsebody)
+                    dt = JsonConvert.DeserializeObject(Of DataTable)(jArray.ToString())
+                Else
+                    Dim ss As String = c.DownloadString(baseAddress)
+                    Dim obj As JObject = JObject.Parse(ss)
+                    If obj("success").ToObject(Of Boolean) = True Then
+                        'Convert data array directly to DataTable
+                        dt = JsonConvert.DeserializeObject(Of DataTable)(obj("data").ToString())
+                    End If
+                    Dim x As Integer = 0
+                End If
+
                 If objCommonVar.JSONTrack Then
                     Dim logFile As String = "JSONLog.txt"
                     Dim objWriter As New System.IO.StreamWriter(logFile, True)
