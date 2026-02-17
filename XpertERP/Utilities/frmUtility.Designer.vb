@@ -23,10 +23,10 @@ Partial Class FrmUtility
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.btnCreateAdjustment = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
@@ -71,10 +71,6 @@ Partial Class FrmUtility
         Me.Label1 = New System.Windows.Forms.Label()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadScrollablePanel1 = New Telerik.WinControls.UI.RadScrollablePanel()
-        Me.GroupBox117 = New System.Windows.Forms.GroupBox()
-        Me.MyLabel74 = New common.Controls.MyLabel()
-        Me.txtGateEntryNo = New common.UserControls.txtMultiSelectFinder()
-        Me.btnCreateUnloadingCleaningGateOutMilkTransferIn = New Telerik.WinControls.UI.RadButton()
         Me.GroupBox116 = New System.Windows.Forms.GroupBox()
         Me.rbtnCashToCredit = New System.Windows.Forms.RadioButton()
         Me.MyLabel72 = New common.Controls.MyLabel()
@@ -891,9 +887,6 @@ Partial Class FrmUtility
         CType(Me.RadScrollablePanel1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadScrollablePanel1.PanelContainer.SuspendLayout
         Me.RadScrollablePanel1.SuspendLayout
-        Me.GroupBox117.SuspendLayout
-        CType(Me.MyLabel74, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnCreateUnloadingCleaningGateOutMilkTransferIn, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox116.SuspendLayout
         CType(Me.MyLabel72, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1746,7 +1739,7 @@ Partial Class FrmUtility
         '
         Me.gvShipment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvShipment.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvShipment.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvShipment.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvShipment.MyExportAPI = False
         Me.gvShipment.MyExportFilePath = ""
         Me.gvShipment.MyStopExport = False
@@ -2076,7 +2069,6 @@ Partial Class FrmUtility
         '
         'RadScrollablePanel1.PanelContainer
         '
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.GroupBox117)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.GroupBox116)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton312)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.GroupBox114)
@@ -2135,49 +2127,6 @@ Partial Class FrmUtility
         Me.RadScrollablePanel1.PanelContainer.Size = New System.Drawing.Size(1072, 519)
         Me.RadScrollablePanel1.Size = New System.Drawing.Size(1091, 521)
         Me.RadScrollablePanel1.TabIndex = 627
-        '
-        'GroupBox117
-        '
-        Me.GroupBox117.Controls.Add(Me.MyLabel74)
-        Me.GroupBox117.Controls.Add(Me.txtGateEntryNo)
-        Me.GroupBox117.Controls.Add(Me.btnCreateUnloadingCleaningGateOutMilkTransferIn)
-        Me.GroupBox117.Location = New System.Drawing.Point(664, 667)
-        Me.GroupBox117.Name = "GroupBox117"
-        Me.GroupBox117.Size = New System.Drawing.Size(381, 71)
-        Me.GroupBox117.TabIndex = 1576
-        Me.GroupBox117.TabStop = False
-        Me.GroupBox117.Text = "Create Auto Unloading Cleaning Gate Out and Milk Transfer In"
-        '
-        'MyLabel74
-        '
-        Me.MyLabel74.FieldName = Nothing
-        Me.MyLabel74.Location = New System.Drawing.Point(11, 20)
-        Me.MyLabel74.Name = "MyLabel74"
-        Me.MyLabel74.Size = New System.Drawing.Size(76, 18)
-        Me.MyLabel74.TabIndex = 55
-        Me.MyLabel74.Text = "Gate Entry No"
-        '
-        'txtGateEntryNo
-        '
-        Me.txtGateEntryNo.arrDispalyMember = Nothing
-        Me.txtGateEntryNo.arrValueMember = Nothing
-        Me.txtGateEntryNo.Location = New System.Drawing.Point(103, 21)
-        Me.txtGateEntryNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtGateEntryNo.MyLinkLable1 = Me.MyLabel74
-        Me.txtGateEntryNo.MyLinkLable2 = Nothing
-        Me.txtGateEntryNo.MyNullText = "Please Select"
-        Me.txtGateEntryNo.Name = "txtGateEntryNo"
-        Me.txtGateEntryNo.Size = New System.Drawing.Size(226, 19)
-        Me.txtGateEntryNo.TabIndex = 54
-        '
-        'btnCreateUnloadingCleaningGateOutMilkTransferIn
-        '
-        Me.btnCreateUnloadingCleaningGateOutMilkTransferIn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnCreateUnloadingCleaningGateOutMilkTransferIn.Location = New System.Drawing.Point(103, 41)
-        Me.btnCreateUnloadingCleaningGateOutMilkTransferIn.Name = "btnCreateUnloadingCleaningGateOutMilkTransferIn"
-        Me.btnCreateUnloadingCleaningGateOutMilkTransferIn.Size = New System.Drawing.Size(226, 22)
-        Me.btnCreateUnloadingCleaningGateOutMilkTransferIn.TabIndex = 17
-        Me.btnCreateUnloadingCleaningGateOutMilkTransferIn.Text = ">>>"
         '
         'GroupBox116
         '
@@ -2455,7 +2404,7 @@ Partial Class FrmUtility
         '
         'RadButton234
         '
-        Me.RadButton234.Location = New System.Drawing.Point(7, 743)
+        Me.RadButton234.Location = New System.Drawing.Point(7, 669)
         Me.RadButton234.Name = "RadButton234"
         Me.RadButton234.Size = New System.Drawing.Size(1023, 24)
         Me.RadButton234.TabIndex = 72
@@ -6810,12 +6759,12 @@ Partial Class FrmUtility
         Me.cmbDepartmnt.IsSourceFromTable = False
         Me.cmbDepartmnt.IsSourceFromValueList = False
         Me.cmbDepartmnt.IsUnique = False
-        RadListDataItem1.Text = "Select"
-        RadListDataItem2.Text = "LMS"
-        RadListDataItem3.Text = "Marketing"
-        Me.cmbDepartmnt.Items.Add(RadListDataItem1)
-        Me.cmbDepartmnt.Items.Add(RadListDataItem2)
-        Me.cmbDepartmnt.Items.Add(RadListDataItem3)
+        RadListDataItem4.Text = "Select"
+        RadListDataItem5.Text = "LMS"
+        RadListDataItem6.Text = "Marketing"
+        Me.cmbDepartmnt.Items.Add(RadListDataItem4)
+        Me.cmbDepartmnt.Items.Add(RadListDataItem5)
+        Me.cmbDepartmnt.Items.Add(RadListDataItem6)
         Me.cmbDepartmnt.Location = New System.Drawing.Point(68, 16)
         Me.cmbDepartmnt.MendatroryField = False
         Me.cmbDepartmnt.MyLinkLable1 = Nothing
@@ -10652,11 +10601,11 @@ Partial Class FrmUtility
         '
         'btnCreateEinvoiceForDCSSAle
         '
-        Me.btnCreateEinvoiceForDCSSAle.Location = New System.Drawing.Point(16, 48)
+        Me.btnCreateEinvoiceForDCSSAle.Location = New System.Drawing.Point(7, 47)
         Me.btnCreateEinvoiceForDCSSAle.Name = "btnCreateEinvoiceForDCSSAle"
         Me.btnCreateEinvoiceForDCSSAle.Size = New System.Drawing.Size(154, 24)
         Me.btnCreateEinvoiceForDCSSAle.TabIndex = 64
-        Me.btnCreateEinvoiceForDCSSAle.Text = "Create E-Invoice For DCS Sale"
+        Me.btnCreateEinvoiceForDCSSAle.Text = "Create E-Invoice For DCS Sale "
         '
         'FrmUtility
         '
@@ -10721,10 +10670,6 @@ Partial Class FrmUtility
         Me.RadScrollablePanel1.PanelContainer.PerformLayout
         CType(Me.RadScrollablePanel1, System.ComponentModel.ISupportInitialize).EndInit
         Me.RadScrollablePanel1.ResumeLayout(False)
-        Me.GroupBox117.ResumeLayout(False)
-        Me.GroupBox117.PerformLayout
-        CType(Me.MyLabel74, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnCreateUnloadingCleaningGateOutMilkTransferIn, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox116.ResumeLayout(False)
         Me.GroupBox116.PerformLayout
         CType(Me.MyLabel72, System.ComponentModel.ISupportInitialize).EndInit
@@ -12317,9 +12262,5 @@ Partial Class FrmUtility
     Friend WithEvents btnResetMatSalesDoc As RadButton
     Friend WithEvents btnReCreateInventory As RadButton
     Friend WithEvents btnCreateEinvoiceForDCSSAle As RadButton
-    Friend WithEvents GroupBox117 As GroupBox
-    Friend WithEvents MyLabel74 As common.Controls.MyLabel
-    Friend WithEvents txtGateEntryNo As common.UserControls.txtMultiSelectFinder
-    Friend WithEvents btnCreateUnloadingCleaningGateOutMilkTransferIn As RadButton
 End Class
 
