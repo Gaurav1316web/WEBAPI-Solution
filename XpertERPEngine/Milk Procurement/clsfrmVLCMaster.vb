@@ -36,6 +36,7 @@ Public Class clsfrmVLCMaster
     Public OwnBMCDate As Date?
     Public OwnBMC As String = Nothing
     Public REIL_Integrated As Integer
+    Public Manual_Farmer_Collection As Integer
     Public HeadLoad As Boolean = False
     Public HeadLoadRate As Decimal
     Public HeadLoadBasis As String = Nothing
@@ -1179,4 +1180,28 @@ Public Class clsfrmVLCMaster
         End Try
         Return True
     End Function
+
+    Public Function UpdateDCSManualFarmerCollection(ByVal arr As List(Of clsfrmVLCMaster)) As Boolean
+        Dim isSaved As Boolean = False
+        Dim trans = Nothing
+        Try
+            If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                trans = clsDBFuncationality.GetTransactin()
+                For Each obj As clsfrmVLCMaster In arr
+                    Dim coll As New Hashtable()
+                    clsCommon.AddColumnsForChange(coll, "vlc_code", obj.vlcCode)
+                    clsCommon.AddColumnsForChange(coll, "Manual_Farmer_Collection", obj.Manual_Farmer_Collection)
+                    clsCommon.AddColumnsForChange(coll, "REIL_Integrated", obj.REIL_Integrated)
+                    isSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VLC_MASTER_HEAD", OMInsertOrUpdate.Update, " TSPL_VLC_MASTER_HEAD.vlc_code='" + obj.vlcCode + "'", trans)
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.vlcCode), "TSPL_VLC_MASTER_HEAD", "vlc_code", trans)
+                Next
+                trans.commit()
+            End If
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return isSaved
+    End Function
+
 End Class

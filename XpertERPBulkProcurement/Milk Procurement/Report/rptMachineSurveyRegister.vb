@@ -97,10 +97,13 @@ Public Class rptMachineSurveyRegister
         Else
             Qry = "; With BaseQry As (" & ReturnBaseQry() & ")"
             If isPrint AndAlso rbtnUnionWise.Checked Then
-                Qry &= "Select printQry.*,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,TSPL_STATE_MASTER.STATE_NAME,'" & objCommonVar.CurrentUser & "' As PrintBy from ("
+                Qry &= "Select ROW_NUMBER() Over (Order By (Select 1)) As [S.No.],printQry.*,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,TSPL_STATE_MASTER.STATE_NAME,'" & objCommonVar.CurrentUser & "' As PrintBy from ("
             End If
-
-            Qry &= "Select ROW_NUMBER() Over (Order By (Select 1)) As [S.No.],[Union],MachineName As [Machine Name],MachineType As [Machine Type],SUM(MachineCount) As [No of Machine] from (
+            Qry &= "Select "
+            If Not isPrint Then
+                Qry &= " ROW_NUMBER() Over (Order By (Select 1)) As [S.No.],"
+            End If
+            Qry &= " [Union],IsNull(MachineName,'') As [Machine Name],IsNull(MachineType,'') As [Machine Type],SUM(MachineCount) As [No of Machine] from (
 Select [Union],BrandName As MachineName,Case When IsAMCU=1 Then 'Analyzer' Else Null End As MachineType,Case When IsAMCU=1 Then 1 Else 0 End As MachineCount from BaseQry
 Union All
 Select [Union],Weighing_BrandName As MachineName,Case When IsWeighing=1 Then 'Weighing Scale' Else Null End As MachineType,Case When IsWeighing=1 Then 1 Else 0 End As MachineCount from BaseQry
@@ -108,7 +111,7 @@ Select [Union],Weighing_BrandName As MachineName,Case When IsWeighing=1 Then 'We
 Group By [Union],MachineName,MachineType"
             If isPrint AndAlso rbtnUnionWise.Checked Then
                 Qry &= ")printQry Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "'
-Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_MASTER.State"
+Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_MASTER.State Order By [Union]"
             End If
         End If
 
@@ -126,7 +129,7 @@ Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_M
             dt = clsMilkUnion.UnionDBName1(txtMultUnion.arrValueMember)
         Else
             Dim arrUnion As New ArrayList()
-            arrUnion.Add(objCommonVar.CurrComp_Code1)
+            arrUnion.Add(objCommonVar.CurrDatabase)
             If objCommonVar.RCDFCFP Then
                 dt = clsMilkUnion.UnionDBName()
             Else
@@ -134,14 +137,14 @@ Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_M
             End If
         End If
 
-        Dim Qry As String = Nothing
+        Dim Qry As String = ""
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             Dim i As Integer = 0
             For Each strUnion In dt.Rows
                 If i <> 0 Then
-                    Qry &= " Union All "
+                    Qry &= Environment.NewLine & " Union All " & Environment.NewLine
                 End If
-                Qry = "Select Row_Number() Over (Order By (Select 1)) As [S.No.],'" & clsCommon.myCstr(strUnion("DataBase_Name")) & "' As [Union],TSPL_MCC_MASTER.MCC_Code,TSPL_MCC_MASTER.MCC_NAME ,TSPL_ZONE_MASTER.Zone_Code ,TSPL_ZONE_MASTER.Description,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_VENDOR_MASTER.IsAMCU,TSPL_VENDOR_MASTER.BrandName,TSPL_VENDOR_MASTER.IsWeighing,TSPL_VENDOR_MASTER.Weighing_BrandName
+                Qry &= "Select Row_Number() Over (Order By (Select 1)) As [S.No.],'" & clsCommon.myCstr(strUnion("Location_Name")) & "' As [Union],TSPL_MCC_MASTER.MCC_Code,TSPL_MCC_MASTER.MCC_NAME ,TSPL_ZONE_MASTER.Zone_Code ,TSPL_ZONE_MASTER.Description,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_VENDOR_MASTER.IsAMCU,TSPL_VENDOR_MASTER.BrandName,TSPL_VENDOR_MASTER.IsWeighing,TSPL_VENDOR_MASTER.Weighing_BrandName
 from " & clsCommon.myCstr(strUnion("DataBase_Name")) & ".dbo.TSPL_VLC_MASTER_HEAD
 Left Outer Join " & clsCommon.myCstr(strUnion("DataBase_Name")) & ".dbo.TSPL_VENDOR_MASTER On TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code And TSPL_VLC_MASTER_HEAD.Active=1
 Left Outer Join " & clsCommon.myCstr(strUnion("DataBase_Name")) & ".dbo.TSPL_MCC_MASTER On TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
@@ -164,6 +167,7 @@ Left Outer Join " & clsCommon.myCstr(strUnion("DataBase_Name")) & ".dbo.TSPL_WEI
                 If txtMultWeighingMachine.arrValueMember IsNot Nothing AndAlso txtMultWeighingMachine.arrValueMember.Count > 0 Then
                     Qry &= " And TSPL_WEIGHING_MASTER.Code In (" & clsCommon.GetMulcallString(txtMultWeighingMachine.arrValueMember) & ")"
                 End If
+                i += 1
             Next
         End If
         Return Qry

@@ -7803,6 +7803,10 @@ Public Class MDI
                         frm = New frmDCSTransportationCharges
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.frmManualIoTFarmerCollection
+                        frm = New frmDCSTransportationCharges
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.GazeReading
                         frm = New frmGazeReading
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8975,6 +8979,9 @@ Public Class MDI
 
                     Case clsUserMgtCode.rptMilkUnion
                         frm = New rptmilkunion
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptMilkUnion2
+                        frm = New rptmilkunion2
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptMachineSurveyRegister
                         frm = New rptMachineSurveyRegister

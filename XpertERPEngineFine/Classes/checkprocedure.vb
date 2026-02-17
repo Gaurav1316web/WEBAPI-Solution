@@ -1655,6 +1655,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.MPMilkPrice, "MP Milk Price", "1.17.01.79", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmUnpostBmcDcs, "Unpost BMC DCS", "1.17.01.80", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmDCSTransportationCharges, "DCS Transportation Charges", "1.17.01.81", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.frmManualIoTFarmerCollection, "Manaul/IoT Farmer Collection", "1.17.01.82", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
 
         '=============================Mcc Transaction===========================================================
         InsertDefaultValue(clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "MCC Transaction", "1.17.02", clsUserMgtCode.ModuleMCCMilkProcurement, "SM", 26)
@@ -3081,6 +3082,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptDBTStatusReport, "DBT Status Report", "1.49.03.25", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.rptMachineSurveyRegister, "Machine Survey Register", "1.49.03.26", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.rptUnionWiseMilkTankerCollectionDetail, "Union Wise Milk Tanker Collection Detail", "1.49.03.27", clsUserMgtCode.SubModuleMilkUnion, 8)
+        InsertDefaultValue(clsUserMgtCode.rptMilkUnion2, "New Milk Union Report", "1.49.03.28", clsUserMgtCode.SubModuleMilkUnion, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, False, False, True)
 
         InsertDefaultValue(clsUserMgtCode.ModuleBullManagement, "Bull Management", "1.50", clsUserMgtCode.ExpertERP, "M", 23)
 

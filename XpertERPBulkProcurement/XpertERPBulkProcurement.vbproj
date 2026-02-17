@@ -250,6 +250,12 @@
     <Compile Include="Milk Procurement\Master\frmHeadLoadMaster.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Master\frmManualIoTFarmerCollection.Designer.vb">
+      <DependentUpon>frmManualIoTFarmerCollection.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmManualIoTFarmerCollection.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Master\FrmOwnBmcExpanse.Designer.vb">
       <DependentUpon>FrmOwnBmcExpanse.vb</DependentUpon>
     </Compile>
@@ -398,6 +404,12 @@
       <DependentUpon>rptMilkProcurementReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Report\rptMilkProcurementReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptmilkunion2.Designer.vb">
+      <DependentUpon>rptmilkunion2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptmilkunion2.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Milk Procurement\Report\rptTankerMilkQcVsERPEntry.Designer.vb">
@@ -1317,6 +1329,9 @@
     <EmbeddedResource Include="Milk Procurement\Master\frmHeadLoadMaster.resx">
       <DependentUpon>frmHeadLoadMaster.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Master\frmManualIoTFarmerCollection.resx">
+      <DependentUpon>frmManualIoTFarmerCollection.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Master\FrmOwnBmcExpanse.resx">
       <DependentUpon>FrmOwnBmcExpanse.vb</DependentUpon>
     </EmbeddedResource>
@@ -1391,6 +1406,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptMilkProcurementReport.resx">
       <DependentUpon>rptMilkProcurementReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptmilkunion2.resx">
+      <DependentUpon>rptmilkunion2.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptTankerMilkQcVsERPEntry.resx">
       <DependentUpon>rptTankerMilkQcVsERPEntry.vb</DependentUpon>

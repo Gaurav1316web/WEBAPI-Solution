@@ -14157,6 +14157,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Shift_Cow_Limit", "integer null")
             coll.Add("REIL_Integrated", "integer null")
             coll.Add("Integrate_Milk_Collection", "Integer NULL")
+            coll.Add("Manual_Farmer_Collection", "Integer NULL")
             ' clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VLC_MASTER_HEAD", coll, Nothing, True)
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_VLC_MASTER_HEAD", coll, "", True, False, "", "", "", True)
 

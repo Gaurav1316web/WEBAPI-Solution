@@ -111,6 +111,7 @@
     <None Include="Crystal Reports Common\crptFarmerWiseCollectionAtDCS.rpt" />
     <None Include="Crystal Reports Common\crptmilkunionAvgreport.rpt" />
     <None Include="Crystal Reports Common\crptmilkunionreport.rpt" />
+    <None Include="Crystal Reports Common\crptmilkunionreportNEW.rpt" />
     <None Include="Crystal Reports Common\crptUnionWiseDCSMachineSummary.rpt" />
     <None Include="Crystal Reports Common\crptUnionWiseMachineDetail.rpt" />
     <None Include="Crystal Reports Common\rptAllUnionBookingReport.rpt" />

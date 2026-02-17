@@ -2,6 +2,8 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
+    Public Const ExportTruckSheet As String = "Export Truck Sheet"
+    Public Const ThirtPartyFarmerCollectionIntegration As String = "Thirt Party Farmer Collection Integration"
     Public Const AndroidFarmerCollection As String = "Android Farmer Collection"
     Public Const RefreshTimeForUnionWiseMilkCollectionInms As String = "Refresh Time For Union Wise MilkCollection In MS"
     Public Const SuspenceAdjusmtmentFATSNFTolerancePercentage = "Suspence Adjusmtment FAT SNF Tolerance %"
@@ -1390,6 +1392,8 @@ Public Class clsFixedParameterType
     Public Const CreateAutoGatePass = "Create Auto Gate Pass"
 End Class
 Public Class clsFixedParameterCode
+    Public Const ExportTruckSheet As String = "Export Truck Sheet"
+    Public Const ThirtPartyFarmerCollectionIntegration As String = "Thirt Party Farmer Collection Integration"
     Public Const SuspenceAdjusmtmentFATSNFTolerancePercentage = "Suspence Adjusmtment FAT SNF Tolerance %"
     Public Const TransactionModify As String = "Transaction Modify"
     Public Const TransactionValidity As String = "Transaction Validity"
@@ -3018,6 +3022,8 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ExportTruckSheet, clsFixedParameterCode.ExportTruckSheet, "0", "0:Off;1-ON")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ThirtPartyFarmerCollectionIntegration, clsFixedParameterCode.ThirtPartyFarmerCollectionIntegration, "0", "0:Off;1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MaxFATPerLimit, "15", "Android Farmer Collection Max FAT Per")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MaxSNFPerLimit, "15", "Android Farmer Collection Max SNF Per")
 
@@ -4697,6 +4703,7 @@ Public Class clsFixedParameterProgramMapping
     End Function
     Public Shared Sub SetDefaultValues()
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_FIXED_PARAMETER_PROGRAM_MAPPING")
+        InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.ExportTruckSheet, clsFixedParameterCode.ExportTruckSheet, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmVlcdataUploadar, clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MaxFATPerLimit, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmVlcdataUploadar, clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MaxSNFPerLimit, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.PickcompanyBankCodeFromPaymentProcess, clsFixedParameterCode.PickcompanyBankCodeFromPaymentProcess, EnumControlType.CheckBox)
@@ -6583,5 +6590,6 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.DefaultEnableEWayBill, clsFixedParameterCode.DefaultEnableEWayBill, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.CreateAutoGatePass, clsFixedParameterCode.CreateAutoGatePass, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkProcurementCorrection, clsFixedParameterType.SuspenceAdjusmtmentFATSNFTolerancePercentage, clsFixedParameterCode.SuspenceAdjusmtmentFATSNFTolerancePercentage, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.frmSendBillToDCS, clsFixedParameterType.ThirtPartyFarmerCollectionIntegration, clsFixedParameterCode.ThirtPartyFarmerCollectionIntegration, EnumControlType.CheckBox)
     End Sub
 End Class
