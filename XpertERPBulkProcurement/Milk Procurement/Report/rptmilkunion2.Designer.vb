@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class rptmilkunion
+Partial Class rptmilkunion2
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
