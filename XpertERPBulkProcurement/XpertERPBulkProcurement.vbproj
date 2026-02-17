@@ -400,6 +400,12 @@
     <Compile Include="Milk Procurement\Report\rptMilkProcurementReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptmilkunion2.Designer.vb">
+      <DependentUpon>rptmilkunion2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptmilkunion2.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptTankerMilkQcVsERPEntry.Designer.vb">
       <DependentUpon>rptTankerMilkQcVsERPEntry.vb</DependentUpon>
     </Compile>
@@ -1391,6 +1397,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptMilkProcurementReport.resx">
       <DependentUpon>rptMilkProcurementReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptmilkunion2.resx">
+      <DependentUpon>rptmilkunion2.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptTankerMilkQcVsERPEntry.resx">
       <DependentUpon>rptTankerMilkQcVsERPEntry.vb</DependentUpon>

@@ -2284,6 +2284,7 @@ Public Class clsUserMgtCode
     Public Const rptDBTSummaryMonthlyWise As String = "DBT-Monthly"
     Public Const rptBMCTankerTestingReport As String = "BMCTan_Tes_R"
     Public Const rptMilkPaymentSummary As String = "Milk-PS"
+    Public Const rptMilkUnion2 As String = "UN_MLK_RPT2"
     Public Const rptMilkUnion As String = "UNN_MLK_RPT"
     Public Const rptUnionMilkPurchase As String = "MLK_PURU_RPT"
     Public Const latestPaymentProcess As String = "LA_PA_PRS"
