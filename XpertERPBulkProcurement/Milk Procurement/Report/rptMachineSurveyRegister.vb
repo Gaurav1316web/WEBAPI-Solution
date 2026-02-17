@@ -293,12 +293,15 @@ Left Outer Join " & clsCommon.myCstr(strUnion("DataBase_Name")) & ".dbo.TSPL_WEI
     Private Sub txtMultUnion__My_Click(sender As Object, e As EventArgs) Handles txtMultUnion._My_Click
         Try
             Dim arrUnion As New ArrayList()
-            arrUnion.Add(objCommonVar.CurrComp_Code1)
+            arrUnion.Add(objCommonVar.CurrDatabase)
             Dim dt As DataTable = Nothing
             If objCommonVar.RCDFCFP Then
                 dt = clsMilkUnion.UnionDBName()
             Else
                 dt = clsMilkUnion.UnionDBName1(arrUnion)
+                If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                    dt = clsMilkUnion.GetUnionDBandLocName(objCommonVar.CurrDatabase)
+                End If
             End If
             arrUnion = Nothing
             Dim lstUnion As New List(Of String)
