@@ -1,4 +1,5 @@
 ﻿Imports common
+Imports System.Globalization
 Public Class rptmilkunion
     Inherits FrmMainTranScreen
     Dim dt As DataTable
@@ -1092,6 +1093,12 @@ Public Class rptmilkunion
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
         End Try
+    End Sub
+
+    Private Sub gv1_CellFormatting(sender As Object, e As CellFormattingEventArgs) Handles gv1.CellFormatting
+        If e.CellElement.Value IsNot Nothing AndAlso IsNumeric(e.CellElement.Value) Then
+            e.CellElement.Text = Convert.ToDecimal(e.CellElement.Value).ToString("N2", New CultureInfo("en-IN"))
+        End If
     End Sub
 
     'Private Sub gv1_CellFormatting(sender As Object, e As CellFormattingEventArgs) Handles gv1.CellFormatting

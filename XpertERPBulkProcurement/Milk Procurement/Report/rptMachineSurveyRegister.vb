@@ -128,11 +128,13 @@ Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_M
         If txtMultUnion.arrValueMember IsNot Nothing AndAlso txtMultUnion.arrValueMember.Count > 0 Then
             dt = clsMilkUnion.UnionDBName1(txtMultUnion.arrValueMember)
         Else
-            Dim arrUnion As New ArrayList()
-            arrUnion.Add(objCommonVar.CurrDatabase)
+
+
             If objCommonVar.RCDFCFP Then
                 dt = clsMilkUnion.UnionDBName()
             Else
+                Dim arrUnion As New ArrayList()
+                arrUnion.Add(objCommonVar.CurrDatabase)
                 dt = clsMilkUnion.UnionDBName1(arrUnion)
             End If
         End If
@@ -144,7 +146,7 @@ Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_M
                 If i <> 0 Then
                     Qry &= Environment.NewLine & " Union All " & Environment.NewLine
                 End If
-                Qry &= "Select Row_Number() Over (Order By (Select 1)) As [S.No.],'" & clsCommon.myCstr(strUnion("Location_Name")) & "' As [Union],TSPL_MCC_MASTER.MCC_Code,TSPL_MCC_MASTER.MCC_NAME ,TSPL_ZONE_MASTER.Zone_Code ,TSPL_ZONE_MASTER.Description,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_VENDOR_MASTER.IsAMCU,TSPL_VENDOR_MASTER.BrandName,TSPL_VENDOR_MASTER.IsWeighing,TSPL_VENDOR_MASTER.Weighing_BrandName
+                Qry &= "Select Row_Number() Over (Order By (Select 1)) As [S.No.],'" & clsCommon.myCstr(strUnion("Location_Name")) & "' As [Union],TSPL_MCC_MASTER.MCC_Code,TSPL_MCC_MASTER.MCC_NAME ,TSPL_ZONE_MASTER.Zone_Code ,TSPL_ZONE_MASTER.Description,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_VENDOR_MASTER.IsAMCU,TSPL_AMCU_MASTER.Name As BrandName,TSPL_VENDOR_MASTER.IsWeighing,TSPL_WEIGHING_MASTER.Name As Weighing_BrandName
 from " & clsCommon.myCstr(strUnion("DataBase_Name")) & ".dbo.TSPL_VLC_MASTER_HEAD
 Left Outer Join " & clsCommon.myCstr(strUnion("DataBase_Name")) & ".dbo.TSPL_VENDOR_MASTER On TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code And TSPL_VLC_MASTER_HEAD.Active=1
 Left Outer Join " & clsCommon.myCstr(strUnion("DataBase_Name")) & ".dbo.TSPL_MCC_MASTER On TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
@@ -169,6 +171,8 @@ Left Outer Join " & clsCommon.myCstr(strUnion("DataBase_Name")) & ".dbo.TSPL_WEI
                 End If
                 i += 1
             Next
+        Else
+            Throw New Exception("Database name not found !")
         End If
         Return Qry
     End Function
