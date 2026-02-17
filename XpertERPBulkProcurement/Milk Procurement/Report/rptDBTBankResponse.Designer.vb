@@ -27,6 +27,12 @@ Partial Class rptDBTBankResponse
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnDetail = New common.Controls.MyRadioButton()
+        Me.rbtnCycleWiseSummary = New common.Controls.MyRadioButton()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnBankResponse = New common.Controls.MyRadioButton()
+        Me.rbtnJA = New common.Controls.MyRadioButton()
         Me.txtStatus = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
@@ -56,12 +62,6 @@ Partial Class rptDBTBankResponse
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.rbtnBankResponse = New common.Controls.MyRadioButton()
-        Me.rbtnJA = New common.Controls.MyRadioButton()
-        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnDetail = New common.Controls.MyRadioButton()
-        Me.rbtnCycleWiseSummary = New common.Controls.MyRadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -70,6 +70,14 @@ Partial Class rptDBTBankResponse
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel1.SuspendLayout()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox3.SuspendLayout()
+        CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnCycleWiseSummary, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.rbtnBankResponse, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnJA, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
@@ -90,14 +98,6 @@ Partial Class rptDBTBankResponse
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnBankResponse, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnJA, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox2.SuspendLayout()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox3.SuspendLayout()
-        CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnCycleWiseSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -155,6 +155,74 @@ Partial Class rptDBTBankResponse
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(779, 334)
         Me.RadPanel1.TabIndex = 15
+        '
+        'RadGroupBox3
+        '
+        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.rbtnDetail)
+        Me.RadGroupBox3.Controls.Add(Me.rbtnCycleWiseSummary)
+        Me.RadGroupBox3.HeaderText = ""
+        Me.RadGroupBox3.Location = New System.Drawing.Point(359, 3)
+        Me.RadGroupBox3.Name = "RadGroupBox3"
+        Me.RadGroupBox3.Size = New System.Drawing.Size(240, 44)
+        Me.RadGroupBox3.TabIndex = 458
+        '
+        'rbtnDetail
+        '
+        Me.rbtnDetail.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnDetail.Location = New System.Drawing.Point(18, 11)
+        Me.rbtnDetail.MyLinkLable1 = Nothing
+        Me.rbtnDetail.MyLinkLable2 = Nothing
+        Me.rbtnDetail.Name = "rbtnDetail"
+        Me.rbtnDetail.Size = New System.Drawing.Size(49, 18)
+        Me.rbtnDetail.TabIndex = 454
+        Me.rbtnDetail.Text = "Detail"
+        Me.rbtnDetail.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'rbtnCycleWiseSummary
+        '
+        Me.rbtnCycleWiseSummary.Location = New System.Drawing.Point(111, 11)
+        Me.rbtnCycleWiseSummary.MyLinkLable1 = Nothing
+        Me.rbtnCycleWiseSummary.MyLinkLable2 = Nothing
+        Me.rbtnCycleWiseSummary.Name = "rbtnCycleWiseSummary"
+        Me.rbtnCycleWiseSummary.Size = New System.Drawing.Size(124, 18)
+        Me.rbtnCycleWiseSummary.TabIndex = 455
+        Me.rbtnCycleWiseSummary.TabStop = False
+        Me.rbtnCycleWiseSummary.Text = "Cycle Wise Summary"
+        '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbtnBankResponse)
+        Me.RadGroupBox2.Controls.Add(Me.rbtnJA)
+        Me.RadGroupBox2.HeaderText = ""
+        Me.RadGroupBox2.Location = New System.Drawing.Point(6, 5)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Size = New System.Drawing.Size(347, 44)
+        Me.RadGroupBox2.TabIndex = 457
+        '
+        'rbtnBankResponse
+        '
+        Me.rbtnBankResponse.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnBankResponse.Location = New System.Drawing.Point(18, 11)
+        Me.rbtnBankResponse.MyLinkLable1 = Nothing
+        Me.rbtnBankResponse.MyLinkLable2 = Nothing
+        Me.rbtnBankResponse.Name = "rbtnBankResponse"
+        Me.rbtnBankResponse.Size = New System.Drawing.Size(119, 18)
+        Me.rbtnBankResponse.TabIndex = 454
+        Me.rbtnBankResponse.Text = "DBT Bank Response"
+        Me.rbtnBankResponse.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'rbtnJA
+        '
+        Me.rbtnJA.Location = New System.Drawing.Point(186, 11)
+        Me.rbtnJA.MyLinkLable1 = Nothing
+        Me.rbtnJA.MyLinkLable2 = Nothing
+        Me.rbtnJA.Name = "rbtnJA"
+        Me.rbtnJA.Size = New System.Drawing.Size(78, 18)
+        Me.rbtnJA.TabIndex = 455
+        Me.rbtnJA.TabStop = False
+        Me.rbtnJA.Text = "JA Reponse"
         '
         'txtStatus
         '
@@ -512,74 +580,6 @@ Partial Class rptDBTBankResponse
         Me.btnReset.TabIndex = 156
         Me.btnReset.Text = "Reset"
         '
-        'rbtnBankResponse
-        '
-        Me.rbtnBankResponse.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnBankResponse.Location = New System.Drawing.Point(18, 11)
-        Me.rbtnBankResponse.MyLinkLable1 = Nothing
-        Me.rbtnBankResponse.MyLinkLable2 = Nothing
-        Me.rbtnBankResponse.Name = "rbtnBankResponse"
-        Me.rbtnBankResponse.Size = New System.Drawing.Size(119, 18)
-        Me.rbtnBankResponse.TabIndex = 454
-        Me.rbtnBankResponse.Text = "DBT Bank Response"
-        Me.rbtnBankResponse.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
-        '
-        'rbtnJA
-        '
-        Me.rbtnJA.Location = New System.Drawing.Point(186, 11)
-        Me.rbtnJA.MyLinkLable1 = Nothing
-        Me.rbtnJA.MyLinkLable2 = Nothing
-        Me.rbtnJA.Name = "rbtnJA"
-        Me.rbtnJA.Size = New System.Drawing.Size(78, 18)
-        Me.rbtnJA.TabIndex = 455
-        Me.rbtnJA.TabStop = False
-        Me.rbtnJA.Text = "JA Reponse"
-        '
-        'RadGroupBox2
-        '
-        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox2.Controls.Add(Me.rbtnBankResponse)
-        Me.RadGroupBox2.Controls.Add(Me.rbtnJA)
-        Me.RadGroupBox2.HeaderText = ""
-        Me.RadGroupBox2.Location = New System.Drawing.Point(6, 5)
-        Me.RadGroupBox2.Name = "RadGroupBox2"
-        Me.RadGroupBox2.Size = New System.Drawing.Size(347, 44)
-        Me.RadGroupBox2.TabIndex = 457
-        '
-        'RadGroupBox3
-        '
-        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox3.Controls.Add(Me.rbtnDetail)
-        Me.RadGroupBox3.Controls.Add(Me.rbtnCycleWiseSummary)
-        Me.RadGroupBox3.HeaderText = ""
-        Me.RadGroupBox3.Location = New System.Drawing.Point(359, 3)
-        Me.RadGroupBox3.Name = "RadGroupBox3"
-        Me.RadGroupBox3.Size = New System.Drawing.Size(240, 44)
-        Me.RadGroupBox3.TabIndex = 458
-        '
-        'rbtnDetail
-        '
-        Me.rbtnDetail.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnDetail.Location = New System.Drawing.Point(18, 11)
-        Me.rbtnDetail.MyLinkLable1 = Nothing
-        Me.rbtnDetail.MyLinkLable2 = Nothing
-        Me.rbtnDetail.Name = "rbtnDetail"
-        Me.rbtnDetail.Size = New System.Drawing.Size(49, 18)
-        Me.rbtnDetail.TabIndex = 454
-        Me.rbtnDetail.Text = "Detail"
-        Me.rbtnDetail.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
-        '
-        'rbtnCycleWiseSummary
-        '
-        Me.rbtnCycleWiseSummary.Location = New System.Drawing.Point(111, 11)
-        Me.rbtnCycleWiseSummary.MyLinkLable1 = Nothing
-        Me.rbtnCycleWiseSummary.MyLinkLable2 = Nothing
-        Me.rbtnCycleWiseSummary.Name = "rbtnCycleWiseSummary"
-        Me.rbtnCycleWiseSummary.Size = New System.Drawing.Size(124, 18)
-        Me.rbtnCycleWiseSummary.TabIndex = 455
-        Me.rbtnCycleWiseSummary.TabStop = False
-        Me.rbtnCycleWiseSummary.Text = "Cycle Wise Summary"
-        '
         'rptDBTBankResponse
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -601,6 +601,16 @@ Partial Class rptDBTBankResponse
         Me.RadPageViewPage1.ResumeLayout(False)
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox3.ResumeLayout(False)
+        Me.RadGroupBox3.PerformLayout()
+        CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnCycleWiseSummary, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
+        CType(Me.rbtnBankResponse, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnJA, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
@@ -622,16 +632,6 @@ Partial Class rptDBTBankResponse
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnBankResponse, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnJA, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox2.ResumeLayout(False)
-        Me.RadGroupBox2.PerformLayout()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox3.ResumeLayout(False)
-        Me.RadGroupBox3.PerformLayout()
-        CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnCycleWiseSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

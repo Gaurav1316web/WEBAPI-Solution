@@ -125,7 +125,7 @@ Public Class rptUnionWiseMilkTankerCollectionDetail
                     baseqry += "union all"
                 End If
 
-                baseqry = "  select '" + objCommonVar.CurrentUserCode + "' as UserName, '" + FromDate + "' AS FromDate, '" + TODate + " ' as ToDate,'" + clsCommon.myCstr(dtunion.Rows(ii).Item("Location_Name")) + "' AS [UnionName] ,
+                baseqry += "  select '" + objCommonVar.CurrentUserCode + "' as UserName, '" + FromDate + "' AS FromDate, '" + TODate + " ' as ToDate,'" + clsCommon.myCstr(dtunion.Rows(ii).Item("Location_Name")) + "' AS [UnionName] ,
 [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GATE_ENTRY_DETAILS.location_Code  ,convert(varchar(12),[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Document_Date,103) as Weighment_Date, 
  [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GATE_ENTRY_DETAILS.ROUTE_NO,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GATE_ENTRY_DETAILS.Tanker_No,
  ROW_NUMBER () OVER(ORDER BY  [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GATE_ENTRY_DETAILS.Gate_Entry_No  ) as SNo,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER.Comp_Name,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER.add1,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER.add2,
