@@ -25,6 +25,7 @@ Partial Class rptmilkunion
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -43,6 +44,8 @@ Partial Class rptmilkunion
         Me.rdbUnposted = New System.Windows.Forms.RadioButton()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gvDetails = New common.UserControls.MyRadGridView()
         Me.btnExport = New Telerik.WinControls.UI.RadSplitButton()
         Me.btnExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnPDF = New Telerik.WinControls.UI.RadMenuItem()
@@ -72,6 +75,9 @@ Partial Class rptmilkunion
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage3.SuspendLayout()
+        CType(Me.gvDetails, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvDetails.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btngo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -106,11 +112,12 @@ Partial Class rptmilkunion
         '
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
         Me.RadPageView1.DefaultPage = Me.RadPageViewPage1
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
         Me.RadPageView1.Size = New System.Drawing.Size(800, 411)
         Me.RadPageView1.TabIndex = 4
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -338,6 +345,37 @@ Partial Class rptmilkunion
         Me.gv1.TabIndex = 2
         Me.gv1.VarID = ""
         '
+        'RadPageViewPage3
+        '
+        Me.RadPageViewPage3.Controls.Add(Me.gvDetails)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(87.0!, 28.0!)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage3.Name = "RadPageViewPage3"
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(779, 363)
+        Me.RadPageViewPage3.Text = "Report Details"
+        '
+        'gvDetails
+        '
+        Me.gvDetails.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvDetails.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvDetails.MasterTemplate.AllowAddNewRow = False
+        Me.gvDetails.MasterTemplate.AllowDeleteRow = False
+        Me.gvDetails.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvDetails.MasterTemplate.ShowGroupedColumns = True
+        Me.gvDetails.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvDetails.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvDetails.MyExportAPI = False
+        Me.gvDetails.MyExportFilePath = ""
+        Me.gvDetails.MyStopExport = False
+        Me.gvDetails.Name = "gvDetails"
+        Me.gvDetails.ShowHeaderCellButtons = True
+        Me.gvDetails.Size = New System.Drawing.Size(779, 363)
+        Me.gvDetails.TabIndex = 3
+        Me.gvDetails.VarID = ""
+        '
         'btnExport
         '
         Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -432,6 +470,9 @@ Partial Class rptmilkunion
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage3.ResumeLayout(False)
+        CType(Me.gvDetails.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvDetails, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btngo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -467,4 +508,6 @@ Partial Class rptmilkunion
     Friend WithEvents btnExport As RadSplitButton
     Friend WithEvents btnExcel As RadMenuItem
     Friend WithEvents btnPDF As RadMenuItem
+    Friend WithEvents RadPageViewPage3 As RadPageViewPage
+    Friend WithEvents gvDetails As common.UserControls.MyRadGridView
 End Class
