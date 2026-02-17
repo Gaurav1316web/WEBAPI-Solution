@@ -15958,8 +15958,26 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("SYNC_STATUS", "int Null")
             coll.Add("Dock_Collection_Milk_Type", "char(1) NOT NULL Default 'M'")
+            coll.Add("Latitude", "varchar(20) NULL")
+            coll.Add("Longitude", "varchar(20) NULL")
+            coll.Add("Entry_Date", "Datetime NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VLC_DATA_UPLOADER_MASTER", coll, Nothing, False, False, "", "Document_Code", "Document_Date")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VLC_DATA_UPLOADER_MASTER_SYNC", coll, Nothing, False, False)
+            Try
+                Dim chkValuesDetail As Integer =
+                clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_VLC_DATA_UPLOADER_MASTER'"))
+                If chkValuesDetail = 1 Then
+                    Dim QryForeign As String = clsDBFuncationality.getSingleValue("SELECT  A.CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A,
+                                                                                    INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B WHERE CONSTRAINT_TYPE = 'FOREIGN KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME 
+                                                                                    and a.TABLE_NAME='TSPL_VLC_DATA_UPLOADER_MASTER' and b.COLUMN_NAME='Route_Code' ORDER BY A.TABLE_NAME")
+                    If clsCommon.myLen(QryForeign) > 0 Then
+                        clsDBFuncationality.ExecuteNonQuery("alter table TSPL_VLC_DATA_UPLOADER_MASTER drop constraint " & QryForeign & "")
+                        clsDBFuncationality.ExecuteNonQuery("alter table TSPL_VLC_DATA_UPLOADER_MASTER add CONSTRAINT FK__TSPL_VLC___Route__2EB33B24 
+							                                 FOREIGN KEY (Route_Code) REFERENCES tspl_bulk_route_master(ROUTE_NO)")
+                    End If
+                End If
+            Catch ex As Exception
+            End Try
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_Code", "varchar(30) not NULL references TSPL_VLC_DATA_UPLOADER_MASTER (Document_Code) ")
