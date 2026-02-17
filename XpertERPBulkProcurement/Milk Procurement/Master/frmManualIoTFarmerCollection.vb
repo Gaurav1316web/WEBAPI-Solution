@@ -12,9 +12,7 @@ Public Class frmManualIoTFarmerCollection
     Const ColBMCUploaderCode As String = "BMC Uploader Code"
     Const colBMCCode As String = "BMC Code"
     Const ColBMCName As String = "BMC Name"
-    Private isCellValueChangedOpen As Boolean = False
-    Private isInsideLoadData As Boolean = False
-    Public isInActive As Boolean = False
+    Public ThirtPartyFarmerCollectionIntegration As Boolean = False
 #End Region
     Public Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
@@ -23,6 +21,7 @@ Public Class frmManualIoTFarmerCollection
         btnSave.Visible = MyBase.isModifyFlag
     End Sub
     Private Sub frmManualIoTFarmerCollection_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ThirtPartyFarmerCollectionIntegration = clsCommon.myCBool(clsFixedParameter.GetData(clsFixedParameterType.ThirtPartyFarmerCollectionIntegration, clsFixedParameterCode.ThirtPartyFarmerCollectionIntegration, Nothing) > 0)
         SetUserMgmtNew()
         AddNew()
     End Sub
@@ -35,7 +34,8 @@ Public Class frmManualIoTFarmerCollection
         repoManaulFarmerCollection.HeaderText = "Manaul Farmer Collection"
         repoManaulFarmerCollection.Name = ColManaulFarmerCollection
         repoManaulFarmerCollection.ReadOnly = False
-        repoManaulFarmerCollection.Width = 25
+        repoManaulFarmerCollection.Width = 100
+        repoManaulFarmerCollection.ReadOnly = False
         repoManaulFarmerCollection.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoManaulFarmerCollection)
 
@@ -46,6 +46,8 @@ Public Class frmManualIoTFarmerCollection
         repoCombobox.DataSource = clsDBFuncationality.GetDataTable("select 0 as Code,'Select' as Name union all select 1 as Code,'REIL' as Name union all select 2 as Code,'KTPL' as Name")
         repoCombobox.ValueMember = "Code"
         repoCombobox.DisplayMember = "Name"
+        repoCombobox.IsVisible = ThirtPartyFarmerCollectionIntegration
+        repoCombobox.ReadOnly = False
         repoCombobox.Width = 100
         repoCombobox.WrapText = True
         gv1.MasterTemplate.Columns.Add(repoCombobox)
@@ -106,7 +108,7 @@ Public Class frmManualIoTFarmerCollection
         TxtBoxCol.HeaderText = "BMC Name"
         TxtBoxCol.Width = 120
         TxtBoxCol.Name = ColBMCName
-        TxtBoxCol.Width = 130
+        TxtBoxCol.Width = 150
         TxtBoxCol.IsVisible = True
         TxtBoxCol.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(TxtBoxCol)
@@ -116,23 +118,17 @@ Public Class frmManualIoTFarmerCollection
         gv1.AllowAddNewRow = False
         gv1.ShowGroupPanel = False
         gv1.AllowColumnReorder = False
-        gv1.AllowRowReorder = False
-        gv1.EnableSorting = False
+        gv1.EnableFiltering = True
+        gv1.EnableSorting = True
         gv1.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         gv1.MasterTemplate.ShowRowHeaderColumn = False
         gv1.TableElement.TableHeaderHeight = 40
-        gv1.AllowDeleteRow = True
+        gv1.AllowDeleteRow = False
         gv1.BestFitColumns()
     End Sub
-    Private Sub btnAddNew_Click(sender As Object, e As EventArgs)
-        AddNew()
-    End Sub
     Public Sub AddNew()
-        isNewEntry = True
-        txtZone.arrValueMember = Nothing
-        txtZone.arrDispalyMember = Nothing
-        btnSave.Enabled = True
-        btnGo.Enabled = True
+        'txtZone.arrValueMember = Nothing
+        'txtZone.arrDispalyMember = Nothing
         LoadBlankGrid()
         RadGroupBox1.Enabled = True
     End Sub
@@ -144,13 +140,13 @@ Public Class frmManualIoTFarmerCollection
                 qry += " inner join TSPL_USER_CUSTOMER_ZONE On TSPL_USER_CUSTOMER_ZONE.User_Code = '" & objCommonVar.CurrentUserCode & "' and TSPL_USER_CUSTOMER_ZONE.Zone_Code =TSPL_ZONE_MASTER.Zone_Code "
             End If
 
-            txtZone.arrValueMember = clsCommon.ShowMultipleSelectForm("ITEMSMUL", qry, "Item", "ItemDesc", txtZone.arrValueMember, txtZone.arrDispalyMember)
+            txtZone.arrValueMember = clsCommon.ShowMultipleSelectForm("ITEMSMUL", qry, "ZoneCode", "Zone Name", txtZone.arrValueMember, txtZone.arrDispalyMember)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Private Sub btnGo_Click(sender As Object, e As EventArgs)
-
+    Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        LoadGridData()
     End Sub
     Public Sub LoadGridData()
         Try
@@ -164,7 +160,7 @@ Public Class frmManualIoTFarmerCollection
             If txtZone.arrValueMember IsNot Nothing AndAlso txtZone.arrValueMember.Count > 0 Then
                 qry += " and TSPL_VENDOR_MASTER.Zone_Code in (" & clsCommon.GetMulcallString(txtZone.arrValueMember) & ") "
             End If
-
+            qry += " order by cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as int) "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
                 LoadBlankGrid()
@@ -175,7 +171,17 @@ Public Class frmManualIoTFarmerCollection
                     For Each dr As DataRow In dt.Rows
                         gv1.Rows.AddNew()
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColManaulFarmerCollection).Value = clsCommon.myCdbl(dr("Manual_Farmer_Collection"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColReilIntegrated).Value = clsCommon.myCdbl(dr("REIL_Integrated"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColManaulFarmerCollection).Tag = clsCommon.myCBool(dr("Manual_Farmer_Collection"))
+                        If clsCommon.CompairString(clsCommon.myCstr(dr("REIL_Integrated")), "Select") = CompairStringResult.Equal Then
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(ColReilIntegrated).Value = 0
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(ColReilIntegrated).Tag = 0
+                        ElseIf clsCommon.CompairString(clsCommon.myCstr(dr("REIL_Integrated")), "REIL") = CompairStringResult.Equal Then
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(ColReilIntegrated).Value = 1
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(ColReilIntegrated).Tag = 1
+                        ElseIf clsCommon.CompairString(clsCommon.myCstr(dr("REIL_Integrated")), "KTPL") = CompairStringResult.Equal Then
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(ColReilIntegrated).Value = 2
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(ColReilIntegrated).Tag = 2
+                        End If
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColDCSUploaderCode).Value = clsCommon.myCstr(dr("VLC_Code_VLC_Uploader"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDCSCode).Value = clsCommon.myCstr(dr("VLC_Code"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColDCSName).Value = clsCommon.myCstr(dr("VLC_Name"))
@@ -200,7 +206,7 @@ Public Class frmManualIoTFarmerCollection
     Public Sub SaveData()
         Try
             Dim obj As New clsfrmVLCMaster()
-
+            obj.arr = New List(Of clsfrmVLCMaster)
             For Each grow As GridViewRowInfo In gv1.Rows
                 Dim objTr As New clsfrmVLCMaster()
                 objTr.vlcCode = clsCommon.myCstr(grow.Cells(colDCSCode).Value)

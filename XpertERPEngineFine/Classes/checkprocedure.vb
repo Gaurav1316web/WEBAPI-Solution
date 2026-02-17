@@ -1655,7 +1655,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.MPMilkPrice, "MP Milk Price", "1.17.01.79", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmUnpostBmcDcs, "Unpost BMC DCS", "1.17.01.80", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmDCSTransportationCharges, "DCS Transportation Charges", "1.17.01.81", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
-        InsertDefaultValue(clsUserMgtCode.frmManualIoTFarmerCollection, "Manaul/IoT Farmer Collection", "1.17.01.82", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.frmManualIoTFarmerCollection, "Manual/IoT Farmer Collection", "1.17.01.82", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
 
         '=============================Mcc Transaction===========================================================
         InsertDefaultValue(clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "MCC Transaction", "1.17.02", clsUserMgtCode.ModuleMCCMilkProcurement, "SM", 26)
