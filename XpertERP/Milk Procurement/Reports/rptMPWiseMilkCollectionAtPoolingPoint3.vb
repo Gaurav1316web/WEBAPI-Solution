@@ -465,12 +465,15 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
 
     Private Sub LoadData()
         Try
-            Dim arrUnion As New ArrayList()
-            arrUnion.Add(objCommonVar.CurrDatabase)
             If objCommonVar.RCDFCFP Then
                 dt = clsMilkUnion.UnionDBName()
             Else
+                Dim arrUnion As New ArrayList()
+                arrUnion.Add(objCommonVar.CurrDatabase)
                 dt = clsMilkUnion.UnionDBName1(arrUnion)
+                If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                    dt = clsMilkUnion.GetUnionDBandLocName(objCommonVar.CurrDatabase)
+                End If
             End If
             If clsCommon.GetDateWithStartTime(txtFromDate.Value) > clsCommon.GetDateWithStartTime(txtToDate.Value) Then
                 txtFromDate.Focus()
