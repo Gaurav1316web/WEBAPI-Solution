@@ -4250,7 +4250,7 @@ Public Class clsPSShipmentDemand
             Next
         End If
     End Sub
-    Public Shared Function GetData(ByVal DocCode As String, ByVal ShiftType As String, ByVal supplyDate As DateTime, ByVal Route_No As String, ByVal billtoLoc As String, ByVal ItemType As String, ByVal trans As SqlTransaction) As List(Of clsPSShipmentDemand)
+    Public Shared Function GetData(ByVal DocCode As String, ByVal ShiftType As String, ByVal supplyDate As DateTime, ByVal Route_No As String, ByVal billtoLoc As String, ByVal ItemType As String, ByVal isSkipBilling As Integer, ByVal trans As SqlTransaction) As List(Of clsPSShipmentDemand)
         Dim Arr As List(Of clsPSShipmentDemand) = Nothing
         Try
             Dim obj As clsPSShipmentDemand = Nothing
@@ -4274,9 +4274,9 @@ where TSPL_Demand_Booking_Master.ShiftType='" + IIf(clsCommon.CompairString(clsC
 and TSPL_Demand_Booking_Master.Route_No='" + Route_No + "' and TSPL_Demand_Booking_Master.Location_Code='" + billtoLoc + "' 
  "
             If clsCommon.CompairString(clsCommon.myCstr(ItemType), "T") = CompairStringResult.Equal Then
-                strQry += " and TSPL_ITEM_MASTER_TAXABLE.Is_Taxable=1 "
+                strQry += " and TSPL_ITEM_MASTER_TAXABLE.Is_Taxable=1 and isnull(TSPL_ITEM_MASTER.IsSplitBilling,0)='" & clsCommon.myCstr(isSkipBilling) & "' "
             Else
-                strQry += " and TSPL_ITEM_MASTER_TAXABLE.Is_Taxable=0 "
+                strQry += " and TSPL_ITEM_MASTER_TAXABLE.Is_Taxable=0 and isnull(TSPL_ITEM_MASTER.IsSplitBilling,0)='" & clsCommon.myCstr(isSkipBilling) & "' "
             End If
             strQry += " and  TSPL_CUSTOMER_MASTER.Credit_Customer='Y' and TSPL_Demand_Booking_Detail.TR_Code is not null and TSPL_Demand_Booking_Detail.Qty>0   and not exists(select 1 from TSPL_SD_SHIPMENT_BOOKING_DETAIL where TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_Demand_Booking_Detail.TR_Code  and TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE not in ('" & DocCode & "'))  
 group by TSPL_Demand_Booking_Detail.Cust_Code "
