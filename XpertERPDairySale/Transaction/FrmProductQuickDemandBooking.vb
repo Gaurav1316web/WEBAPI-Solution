@@ -612,7 +612,7 @@ where TSPL_PRODUCT_DEMAND_BOOKING_MASTER.Route_No='" & clsCommon.myCstr(gv1.Curr
                     Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                     Try
                         Dim obj As clsProductDemandBookingSale = clsProductDemandBookingSale.GetData(DocumentNO, NavigatorType.Current, trans)
-                        qry = "delete from TSPL_PRODUCT_DEMAND_BOOKING_DETAIL where tr_code in (select tr_code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" & obj.Document_No & "' and Cust_Code='" & strCustCode & "') "
+                        qry = "delete from TSPL_PRODUCT_DEMAND_BOOKING_DETAIL where tr_code in (select tr_code from TSPL_PRODUCT_DEMAND_BOOKING_DETAIL where Document_No='" & obj.Document_No & "' and Cust_Code='" & strCustCode & "') "
                         clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         clsProductDemandBookingSaleDetail.SaveData(DocumentNO, DemandData, DObj, trans, location_Code, True, RouteNo)
                         'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, DocumentNO, "TSPL_PRODUCT_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_Product_DEMAND_BOOKING_DETAIL", "Document_No", trans)
