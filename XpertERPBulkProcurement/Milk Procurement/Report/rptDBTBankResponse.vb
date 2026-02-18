@@ -79,6 +79,8 @@ Public Class rptDBTBankResponse
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
+            RadGroupBox2.Enabled = False
+            RadGroupBox3.Enabled = False
             Dim baseqry As String = Nothing
             Dim qry1 As String = Nothing
             Dim dtunion As New DataTable
@@ -300,6 +302,12 @@ AND [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSP
 
     Sub Reset()
         Try
+            rbtnBankResponse.IsChecked = True
+            rbtnDetail.IsChecked = True
+            rbtnJA.IsChecked = False
+            rbtnCycleWiseSummary.IsChecked = True
+            RadGroupBox2.Enabled = True
+            RadGroupBox3.Enabled = True
             gv1.DataSource = Nothing
             gv1.Rows.Clear()
             gv1.Columns.Clear()
