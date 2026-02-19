@@ -4,6 +4,7 @@ Imports System.Data.SqlClient
 Imports System.IO
 Imports System.Net
 Imports System.Text
+Imports System.Threading
 
 Public Class FrmSendDBTToJanaadhar
     Inherits FrmMainTranScreen
@@ -51,7 +52,7 @@ Public Class FrmSendDBTToJanaadhar
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Private Sub SendRemaingDBTToJanAadhaar(ByVal Task As String, ByVal PortNo As String)
+    Private Sub SendRemaingDBTToJanAadhaarOLD(ByVal Task As String, ByVal PortNo As String)
         clsCommon.ProgressBarPercentShow()
         Try
             Dim qry As String = "select DataBase_Name  from TSPL_MASTER.dbo.TSPL_APP_LOCATION  where Code='" + PortNo + "'"
@@ -201,6 +202,9 @@ where isnull(" + DBName + ".dbo.TSPL_MP_MASTER.Jan_Aadhar_No_Verified,0)=1 and I
     Private Sub FrmDBTPayment_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
+        ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.F12 Then
+            lblTop.Visible = True
+            txtTop.Visible = True
         End If
     End Sub
 
@@ -306,6 +310,130 @@ where 2=2 "
         End Try
     End Sub
 
+    Private successCount As Integer = 0
+    Private failureCount As Integer = 0
+    Private processedCount As Integer = 0
+    Private totalCount As Integer = 0
+    Private lockObj As New Object()
+    Private throttle As Semaphore = New Semaphore(40, 40) ' Max 40 parallel threads
+    Private DBName_Global As String
+    Private PortNo_Global As String
+    Public Sub SendRemaingDBTToJanAadhaar(ByVal Task As String, ByVal PortNo As String)
+        clsCommon.ProgressBarPercentShow()
+        Try
+            ServicePointManager.DefaultConnectionLimit = 200
+            ServicePointManager.Expect100Continue = False
+            ServicePointManager.UseNagleAlgorithm = False
+            PortNo_Global = PortNo
+
+            Dim qry As String = "select DataBase_Name from TSPL_MASTER.dbo.TSPL_APP_LOCATION where Code='" & PortNo & "'"
+            DBName_Global = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
+
+            qry = "select "
+            If clsCommon.myLen(txtTop.Text) > 0 Then
+                qry += " top " + txtTop.Text + " "
+            End If
+            qry += " TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code, TSPL_MP_MASTER.JA_janaadhaarId, TSPL_MP_MASTER.JA_jan_mid, TSPL_DBT_NEFT_DETAIL.MP_Account_No, TSPL_DBT_NEFT_DETAIL.MP_IFSC_No, TSPL_DBT_NEFT_DETAIL.PK_Id, replace(convert(varchar, COALESCE(TSPL_DBT_NEFT.RCDF_Post_Date, TSPL_DBT_NEFT_BANK_RESPONSE.Created_Date), 103),'/','-') as Created_Date,TSPL_DBT_NEFT_DETAIL.Amount" & Environment.NewLine & ",(case when TSPL_DBT_NEFT_REJECT_DETAIL.PK_Id is not null then 'Failure' else (case when Bank_Response like 'STATUS : SUCCESS%' then 'Success' else 'Failure' end) end) as Bank_Response 
+from " + DBName_Global + ".dbo.TSPL_DBT_NEFT_DETAIL 
+left outer join " + DBName_Global + ".dbo.TSPL_DBT_NEFT on " + DBName_Global + ".dbo.TSPL_DBT_NEFT.Document_Code = " + DBName_Global + ".dbo.TSPL_DBT_NEFT_DETAIL.Document_Code
+left outer join " + DBName_Global + ".dbo.TSPL_MP_INCENTIVE_ENTRY_DETAIL on " + DBName_Global + ".dbo.TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id = " + DBName_Global + ".dbo.TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR
+left outer join " + DBName_Global + ".dbo.TSPL_MP_MASTER on  " + DBName_Global + ".dbo.TSPL_MP_MASTER.MP_Code = " + DBName_Global + ".dbo.TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code
+inner join " + DBName_Global + ".dbo.TSPL_DBT_NEFT_BANK_RESPONSE on " + DBName_Global + ".dbo.TSPL_DBT_NEFT_BANK_RESPONSE.Ref_PK_Id = " + DBName_Global + ".dbo.TSPL_DBT_NEFT_DETAIL.PK_Id
+left outer join " + DBName_Global + ".dbo.TSPL_DBT_NEFT_REJECT_DETAIL on " + DBName_Global + ".dbo.TSPL_DBT_NEFT_REJECT_DETAIL.Against_DBT_NEFT_TR= " + DBName_Global + ".dbo.TSPL_DBT_NEFT_DETAIL.PK_Id
+where isnull(" + DBName_Global + ".dbo.TSPL_MP_MASTER.Jan_Aadhar_No_Verified,0)=1 and ISNULL(" + DBName_Global + ".dbo.TSPL_DBT_NEFT_BANK_RESPONSE.JA_Is_Saved,'')='' and len(TSPL_MP_MASTER.JA_jan_mid)>0 "
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt Is Nothing OrElse dt.Rows.Count = 0 Then Exit Sub
+            totalCount = dt.Rows.Count
+            successCount = 0
+            failureCount = 0
+            processedCount = 0
+            For Each dr As DataRow In dt.Rows
+                throttle.WaitOne()
+                ThreadPool.QueueUserWorkItem(AddressOf ProcessRecord, dr)
+            Next
+            ' Wait until all finished
+            Do While processedCount < totalCount
+                Thread.Sleep(200)
+            Loop
+        Catch ex As Exception
+            Throw
+        Finally
+            clsCommon.ProgressBarPercentHide()
+        End Try
+
+    End Sub
+
+    Private Sub ProcessRecord(ByVal state As Object)
+        Dim dr As DataRow = CType(state, DataRow)
+        Dim flag As Boolean = False
+        Dim msg As String = ""
+        Dim transId As String = ""
+        Dim code As String = ""
+        Try
+            Dim url As String = "http://saras.rajasthan.gov.in:7888/api/JanAadhar/JanAadharSendDBTDataToJanAadhar"
+            Dim boundary As String = "----------------" & DateTime.Now.Ticks.ToString("x")
+            Dim request As HttpWebRequest = CType(WebRequest.Create(url), HttpWebRequest)
+
+            request.Method = "POST"
+            request.ContentType = "multipart/form-data; boundary=" & boundary
+            request.KeepAlive = True
+            request.Timeout = 30000
+
+            Dim postData As New StringBuilder()
+            AddFormField(postData, boundary, "PortNo", PortNo_Global)
+            AddFormField(postData, boundary, "Key", "Tecxpert@MP#123$456%789^")
+            AddFormField(postData, boundary, "EntitlementId", PortNo_Global & dr("MP_Code").ToString())
+            AddFormField(postData, boundary, "EntitlementMemId", PortNo_Global & dr("MP_Code").ToString())
+            AddFormField(postData, boundary, "JanaadhaarId", dr("JA_janaadhaarId").ToString())
+            AddFormField(postData, boundary, "JanaadhaarMemId", dr("JA_jan_mid").ToString())
+            AddFormField(postData, boundary, "BankAccNo", dr("MP_Account_No").ToString())
+            AddFormField(postData, boundary, "IFSC", dr("MP_IFSC_No").ToString())
+            AddFormField(postData, boundary, "PaymentAmount", dr("Amount").ToString())
+            AddFormField(postData, boundary, "PaymentDate", dr("Created_Date").ToString())
+            postData.Append("--" & boundary & "--")
+
+            Dim bytes = Encoding.UTF8.GetBytes(postData.ToString())
+            request.ContentLength = bytes.Length
+            Using stream = request.GetRequestStream()
+                stream.Write(bytes, 0, bytes.Length)
+            End Using
+            Dim response = CType(request.GetResponse(), HttpWebResponse)
+            Dim responseText As String
+            Using reader As New StreamReader(response.GetResponseStream())
+                responseText = reader.ReadToEnd()
+            End Using
+            Dim obj = JsonConvert.DeserializeObject(Of SendDBTDataToJanAadharApiResponse)(responseText)
+            If obj IsNot Nothing AndAlso obj.Response IsNot Nothing Then
+                flag = (obj.Response.Status = "true")
+                msg = obj.Response.Message
+                transId = obj.Response.TransactionId
+                code = obj.Response.ResponseCode & "#" & obj.Response.Data
+            End If
+        Catch ex As Exception
+            flag = False
+            msg = ex.Message
+        End Try
+
+        SyncLock lockObj
+            processedCount += 1
+            If flag Then
+                successCount += 1
+            Else
+                failureCount += 1
+            End If
+            Dim hashtable As New Hashtable()
+            clsCommon.AddColumnsForChange(hashtable, "JA_Is_Saved", If(flag, "Y", "N"))
+            clsCommon.AddColumnsForChange(hashtable, "JA_Msg", msg)
+            clsCommon.AddColumnsForChange(hashtable, "JA_Request_ID", transId)
+            clsCommon.AddColumnsForChange(hashtable, "JA_CMSG", code)
+            clsCommon.AddColumnsForChange(hashtable, "JA_Created_Date", clsCommon.GetPrintDate(DateTime.Now, "dd/MMM/yyyy hh:mm:ss tt"))
+            clsCommon.AddColumnsForChange(hashtable, "JA_Created_By", objCommonVar.CurrentUserCode)
+            clsCommonFunctionality.UpdateDataTable(hashtable, DBName_Global & ".dbo.TSPL_DBT_NEFT_BANK_RESPONSE", OMInsertOrUpdate.Update, "Ref_PK_Id=" & dr("PK_Id").ToString())
+            clsCommon.ProgressBarPercentUpdate(processedCount, totalCount, "Success [" & successCount & "] Failure [" & failureCount & "]")
+        End SyncLock
+        throttle.Release()
+    End Sub
 End Class
 
 

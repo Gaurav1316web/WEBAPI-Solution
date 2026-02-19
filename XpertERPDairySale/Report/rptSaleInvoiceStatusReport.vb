@@ -1174,7 +1174,8 @@ TSPL_SD_SALE_INVOICE_HEAD.Ack_No,TSPL_SD_SALE_INVOICE_HEAD.Ack_Date,TSPL_SD_SALE
 Report_UOM.UOM_Code as Report_UOM,
 (Billing_Qty * tspl_item_uom_detail.Conversion_Factor/Report_UOM.Conversion_Factor ) as ReportUOM_Qty
 ,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt as [Subsidy Amt],Case when TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable=1 then 'Taxable' else 'Non-Taxable' end as [Invoice Type],
-TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SD_SALE_INVOICE_HEAD.Created_By,TSPL_SD_SALE_INVOICE_HEAD.Created_Date
+TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SD_SALE_INVOICE_HEAD.Created_By,Convert(varchar(20),TSPL_SD_SALE_INVOICE_HEAD.Created_Date,103) as Created_Date
+
                          from TSPL_SD_SALE_INVOICE_HEAD
 left join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.Document_Code
 left  join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
@@ -1291,7 +1292,8 @@ TSPL_SCRAPINVOICE_Detail.Unit_code as [Measure of Qty],
 TSPL_SCRAPINVOICE_HEAD.Ack_No,TSPL_SCRAPINVOICE_HEAD.Ack_Date,TSPL_SCRAPINVOICE_HEAD.IRN_No
 ,Report_UOM.UOM_Code as Report_UOM,
 (shipped_Qty * tspl_item_uom_detail.Conversion_Factor/Report_UOM.Conversion_Factor ) as ReportUOM_Qty,0 as [Subsidy Amt], TSPL_SCRAPINVOICE_HEAD.Invoice_Type as [Invoice Type],
-TSPL_SCRAPINVOICE_HEAD.EWayBillNo,TSPL_SCRAPINVOICE_HEAD.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SCRAPINVOICE_HEAD.Created_By,TSPL_SCRAPINVOICE_HEAD.Created_Date
+TSPL_SCRAPINVOICE_HEAD.EWayBillNo,TSPL_SCRAPINVOICE_HEAD.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SCRAPINVOICE_HEAD.Created_By,Convert(varchar(20),TSPL_SCRAPINVOICE_HEAD.Created_Date,103) as Created_Date
+
                            from TSPL_SCRAPINVOICE_HEAD
                     left join TSPL_SCRAPINVOICE_Detail on TSPL_SCRAPINVOICE_Detail.invoice_No=TSPL_SCRAPINVOICE_HEAD.invoice_No
                     LEFT JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SCRAPINVOICE_Detail.Item_Code
@@ -1451,7 +1453,9 @@ TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.Billing_Unit_code as [Measure of Qty],
 Report_UOM.UOM_Code as Report_UOM,
 (Billing_Qty * tspl_item_uom_detail.Conversion_Factor/Report_UOM.Conversion_Factor ) as ReportUOM_Qty
 ,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.TotalSubsidyAmt as [Subsidy Amt],Case when TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Is_Taxable=1 then 'Taxable' else 'Non-Taxable' end as [Invoice Type],
-TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Created_By,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Created_Date
+TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Created_By,
+ Convert(varchar(20),TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Created_Date,103) as Created_Date
+
                               from TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data
 left join TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data on TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Code
 left  join TSPL_SD_SHIPMENT_HEAD_Cancel_Data on TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_Code = TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Against_Shipment_No
@@ -1588,7 +1592,9 @@ TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.Billing_Unit_code as [Measure of Qty],
 Report_UOM.UOM_Code as Report_UOM,
 (Billing_Qty * tspl_item_uom_detail.Conversion_Factor/Report_UOM.Conversion_Factor ) as ReportUOM_Qty
 ,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.TotalSubsidyAmt as [Subsidy Amt],Case when TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Is_Taxable=1 then 'Taxable' else 'Non-Taxable' end as [Invoice Type],
-TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Created_By,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Created_Date
+TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Created_By,
+ Convert(varchar(20),TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Created_Date ,103) as Created_Date
+
                               from TSPL_SD_SALE_INVOICE_HEAD_Delete_Data
 left join TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data on TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Code
 left  join TSPL_SD_SHIPMENT_HEAD_Cancel_Data on TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_Code = TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Against_Shipment_No
@@ -1707,7 +1713,9 @@ TSPL_SCRAPINVOICE_DETAIL_Cancel_Data.Unit_code as [Measure of Qty],
 ,TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Ack_No,TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Ack_Date,TSPL_SCRAPINVOICE_HEAD_Cancel_Data.IRN_No
 ,Report_UOM.UOM_Code as Report_UOM,
 (shipped_Qty * tspl_item_uom_detail.Conversion_Factor/Report_UOM.Conversion_Factor ) as ReportUOM_Qty,0 as [Subsidy Amt], TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Invoice_Type as [Invoice Type],
-TSPL_SCRAPINVOICE_HEAD_Cancel_Data.EWayBillNo,TSPL_SCRAPINVOICE_HEAD_Cancel_Data.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Created_By,TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Created_Date
+TSPL_SCRAPINVOICE_HEAD_Cancel_Data.EWayBillNo,TSPL_SCRAPINVOICE_HEAD_Cancel_Data.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Created_By,
+Convert(varchar(20),TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Created_Date  ,103) as Created_Date
+
                          from TSPL_SCRAPINVOICE_HEAD_Cancel_Data
 left join TSPL_SCRAPINVOICE_DETAIL_Cancel_Data on TSPL_SCRAPINVOICE_DETAIL_Cancel_Data.invoice_No=TSPL_SCRAPINVOICE_HEAD_Cancel_Data.invoice_No
 LEFT JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SCRAPINVOICE_DETAIL_Cancel_Data.Item_Code
@@ -1823,7 +1831,9 @@ TSPL_SCRAPINVOICE_DETAIL_Delete_Data.Unit_code as [Measure of Qty],
 ,TSPL_SCRAPINVOICE_HEAD_Delete_Data.Ack_No,TSPL_SCRAPINVOICE_HEAD_Delete_Data.Ack_Date,TSPL_SCRAPINVOICE_HEAD_Delete_Data.IRN_No
 ,Report_UOM.UOM_Code as Report_UOM,
 (shipped_Qty * tspl_item_uom_detail.Conversion_Factor/Report_UOM.Conversion_Factor ) as ReportUOM_Qty,0 as [Subsidy Amt], TSPL_SCRAPINVOICE_HEAD_Delete_Data.Invoice_Type as [Invoice Type],
-TSPL_SCRAPINVOICE_HEAD_Delete_Data.EWayBillNo,TSPL_SCRAPINVOICE_HEAD_Delete_Data.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SCRAPINVOICE_HEAD_Delete_Data.Created_By,TSPL_SCRAPINVOICE_HEAD_Delete_Data.Created_Date
+TSPL_SCRAPINVOICE_HEAD_Delete_Data.EWayBillNo,TSPL_SCRAPINVOICE_HEAD_Delete_Data.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SCRAPINVOICE_HEAD_Delete_Data.Created_By,
+ Convert(varchar(20),TSPL_SCRAPINVOICE_HEAD_Delete_Data.Created_Date  ,103) as Created_Date
+
                          from TSPL_SCRAPINVOICE_HEAD_Delete_Data
 left join TSPL_SCRAPINVOICE_DETAIL_Delete_Data on TSPL_SCRAPINVOICE_DETAIL_Delete_Data.invoice_No=TSPL_SCRAPINVOICE_HEAD_Delete_Data.invoice_No
 LEFT JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SCRAPINVOICE_DETAIL_Delete_Data.Item_Code
@@ -1958,7 +1968,9 @@ TSPL_SD_SALE_RETURN_HEAD.Ack_No,TSPL_SD_SALE_RETURN_HEAD.Ack_Date,TSPL_SD_SALE_R
 Report_UOM.UOM_Code as Report_UOM,
 (Qty * tspl_item_uom_detail.Conversion_Factor/Report_UOM.Conversion_Factor ) as ReportUOM_Qty
 ,TSPL_SD_SALE_RETURN_HEAD.TotalSubsidyAmt as [Subsidy Amt],Case when TSPL_SD_SALE_RETURN_HEAD.Is_Taxable=1 then 'Taxable' else 'Non-Taxable' end as [Invoice Type],
-'' AS EWayBillNo,'' AS EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No,Convert(varchar(20),TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Invoice_Date1,TSPL_SD_SALE_RETURN_HEAD.Created_By,TSPL_SD_SALE_RETURN_HEAD.Created_Date
+'' AS EWayBillNo,'' AS EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No,Convert(varchar(20),TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Invoice_Date1,TSPL_SD_SALE_RETURN_HEAD.Created_By,
+Convert(varchar(20),TSPL_SD_SALE_RETURN_HEAD.Created_Date,103) as Created_Date
+
                            from TSPL_SD_SALE_RETURN_HEAD
 left join TSPL_SD_SALE_RETURN_DETAIL on TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_RETURN_HEAD.Document_Code
 left join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE=TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No
@@ -2077,7 +2089,9 @@ TSPL_SD_SALE_RETURN_HEAD_Cancel_Data.Ack_No,TSPL_SD_SALE_RETURN_HEAD_Cancel_Data
 Report_UOM.UOM_Code as Report_UOM,
 (Qty * tspl_item_uom_detail.Conversion_Factor/Report_UOM.Conversion_Factor ) as ReportUOM_Qty
 ,TSPL_SD_SALE_RETURN_HEAD_Cancel_Data.TotalSubsidyAmt as [Subsidy Amt],Case when TSPL_SD_SALE_RETURN_HEAD_Cancel_Data.Is_Taxable=1 then 'Taxable' else 'Non-Taxable' end as [Invoice Type],
-'' AS EWayBillNo,'' AS EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SD_SALE_RETURN_HEAD_Cancel_Data.Against_Invoice_No,Convert(varchar(20),TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Invoice_Date1,TSPL_SD_SALE_RETURN_HEAD_Cancel_Data.Cancel_By as Created_By,TSPL_SD_SALE_RETURN_HEAD_Cancel_Data.Cancel_On as Created_Date
+'' AS EWayBillNo,'' AS EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SD_SALE_RETURN_HEAD_Cancel_Data.Against_Invoice_No,Convert(varchar(20),TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Invoice_Date1,TSPL_SD_SALE_RETURN_HEAD_Cancel_Data.Cancel_By as Created_By,
+Convert(varchar(20),TSPL_SD_SALE_RETURN_HEAD_Cancel_Data.Cancel_On,103) as Created_Date
+
                            from TSPL_SD_SALE_RETURN_HEAD_Cancel_Data
 left join TSPL_SD_SALE_RETURN_DETAIL_Cancel_Data on TSPL_SD_SALE_RETURN_DETAIL_Cancel_Data.DOCUMENT_CODE=TSPL_SD_SALE_RETURN_HEAD_Cancel_Data.Document_Code
 left join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE=TSPL_SD_SALE_RETURN_HEAD_Cancel_Data.Against_Invoice_No
@@ -2195,7 +2209,9 @@ TSPL_SD_SALE_RETURN_HEAD_Delete_Data.Ack_No,TSPL_SD_SALE_RETURN_HEAD_Delete_Data
 Report_UOM.UOM_Code as Report_UOM,
 (Qty * tspl_item_uom_detail.Conversion_Factor/Report_UOM.Conversion_Factor ) as ReportUOM_Qty
 ,TSPL_SD_SALE_RETURN_HEAD_Delete_Data.TotalSubsidyAmt as [Subsidy Amt],Case when TSPL_SD_SALE_RETURN_HEAD_Delete_Data.Is_Taxable=1 then 'Taxable' else 'Non-Taxable' end as [Invoice Type],
-'' AS EWayBillNo,'' AS EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SD_SALE_RETURN_HEAD_Delete_Data.Against_Invoice_No,Convert(varchar(20),TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Invoice_Date1,TSPL_SD_SALE_RETURN_HEAD_Delete_Data.Delete_By as Created_By,TSPL_SD_SALE_RETURN_HEAD_Delete_Data.Delete_On as Created_Date
+'' AS EWayBillNo,'' AS EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SD_SALE_RETURN_HEAD_Delete_Data.Against_Invoice_No,Convert(varchar(20),TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Invoice_Date1,TSPL_SD_SALE_RETURN_HEAD_Delete_Data.Delete_By as Created_By,
+Convert(varchar(20),TSPL_SD_SALE_RETURN_HEAD_Delete_Data.Delete_On,103) as Created_Date
+
                            from TSPL_SD_SALE_RETURN_HEAD_Delete_Data
 left join TSPL_SD_SALE_RETURN_DETAIL_Delete_Data on TSPL_SD_SALE_RETURN_DETAIL_Delete_Data.DOCUMENT_CODE=TSPL_SD_SALE_RETURN_HEAD_Delete_Data.Document_Code
 left join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE=TSPL_SD_SALE_RETURN_HEAD_Delete_Data.Against_Invoice_No
