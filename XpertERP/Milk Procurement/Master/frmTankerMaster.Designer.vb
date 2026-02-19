@@ -40,6 +40,7 @@ Partial Class FrmTankerMaster
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.ChkPrivate = New common.Controls.MyCheckBox()
         Me.TxtIceCharge = New common.MyNumBox()
         Me.MyLabel17 = New common.Controls.MyLabel()
         Me.chkInactive = New common.Controls.MyCheckBox()
@@ -134,6 +135,7 @@ Partial Class FrmTankerMaster
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.ChkPrivate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TxtIceCharge, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkInactive, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -324,6 +326,7 @@ Partial Class FrmTankerMaster
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.ChkPrivate)
         Me.RadGroupBox1.Controls.Add(Me.TxtIceCharge)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel17)
         Me.RadGroupBox1.Controls.Add(Me.chkInactive)
@@ -353,6 +356,17 @@ Partial Class FrmTankerMaster
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Size = New System.Drawing.Size(769, 429)
         Me.RadGroupBox1.TabIndex = 0
+        '
+        'ChkPrivate
+        '
+        Me.ChkPrivate.Location = New System.Drawing.Point(692, 35)
+        Me.ChkPrivate.MyLinkLable1 = Nothing
+        Me.ChkPrivate.MyLinkLable2 = Nothing
+        Me.ChkPrivate.Name = "ChkPrivate"
+        Me.ChkPrivate.Size = New System.Drawing.Size(54, 18)
+        Me.ChkPrivate.TabIndex = 98
+        Me.ChkPrivate.Tag1 = Nothing
+        Me.ChkPrivate.Text = "Private"
         '
         'TxtIceCharge
         '
@@ -1698,6 +1712,7 @@ Partial Class FrmTankerMaster
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.ChkPrivate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TxtIceCharge, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkInactive, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1890,5 +1905,6 @@ Partial Class FrmTankerMaster
     Friend WithEvents btnHistory As RadButton
     Friend WithEvents TxtIceCharge As common.MyNumBox
     Friend WithEvents MyLabel17 As common.Controls.MyLabel
+    Friend WithEvents ChkPrivate As common.Controls.MyCheckBox
 End Class
 

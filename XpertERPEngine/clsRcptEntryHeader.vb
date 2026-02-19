@@ -3895,8 +3895,20 @@ Public Class clsRcptEntryHeader
                                 Return False
                             End If
                             strBankChargesOtherAcc = clsERPFuncationality.ChangeGLAccountLocationSegment(strBankChargesOtherAcc, IIf(clsCommon.myCstr(dtReceipt.Rows(0)("Receipt_Type")) = "R", strBankLocation, clsCommon.myCstr(dtReceipt.Rows(0)("Location_GL_Code"))), True, trans)
-                            BankChargesAcc = New String() {strBankChargesOtherAcc, clsCommon.myCdbl(dtReceipt.Rows(0)("TDS_Recoverable_Amt").ToString()) * ConvRate * -1}
+                            BankChargesAcc = New String() {strBankChargesOtherAcc, clsCommon.myCdbl(dtReceipt.Rows(0)("TDS_Recoverable_Amt")) * ConvRate}
                             ArrList.Add(BankChargesAcc)
+
+                            If clsCommon.myLen(dtReceipt.Rows(0)("Location_GL_Code").ToString()) > 0 Then
+                                Dim strTemp As String = clsERPFuncationality.ChangeGLAccountLocationSegment(strRcvblAcc, dtReceipt.Rows(0)("Location_GL_Code").ToString(), True, trans)
+                                If clsCommon.myLen(strTemp) <= 0 Then
+                                    Throw New Exception("Please set Branch account mapping with from location " + strBankAcc + " and to location " + dtReceipt.Rows(0)("Location_GL_Code"))
+                                End If
+                                RcvblAcc = New String() {strTemp, clsCommon.myCdbl(dtReceipt.Rows(0)("TDS_Recoverable_Amt")) * ConvRate * -1}
+                                ArrList.Add(RcvblAcc)
+                            Else
+                                RcvblAcc = New String() {strRcvblAcc, clsCommon.myCdbl(dtReceipt.Rows(0)("TDS_Recoverable_Amt")) * ConvRate * -1}
+                                ArrList.Add(RcvblAcc)
+                            End If
                         End If
                     End If
                 Else

@@ -161,7 +161,7 @@ Public Class rptBatchItemReport1
                   " Left Outer Join TSPL_SCRAPSALE_HEAD_Return on TSPL_SCRAPSALE_HEAD_Return.Document_No = TSPL_BATCH_ITEM_New.Document_Code   " &
                   "  " &
                   " where convert(date,TSPL_BATCH_ITEM_New.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,TSPL_BATCH_ITEM_New.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)  " + strItemType + "  " &
-                  " ) Final where 2= 2 "
+                  " ) Final where 2= 2 and  Final.[In Out Type] <> 'X' "
 
 
             If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then

@@ -30,12 +30,15 @@ Partial Class FrmSendDBTToJanaadhar
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.cboUnion = New common.Controls.MyComboBox()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.txtTop = New System.Windows.Forms.TextBox()
+        Me.lblTop = New common.Controls.MyLabel()
         CType(Me.btnGenerateBill, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboUnion, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTop, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -114,11 +117,32 @@ Partial Class FrmSendDBTToJanaadhar
         Me.RadButton1.TabIndex = 34
         Me.RadButton1.Text = "Receive Bank Response from PD Account"
         '
+        'txtTop
+        '
+        Me.txtTop.Location = New System.Drawing.Point(510, 107)
+        Me.txtTop.Name = "txtTop"
+        Me.txtTop.Size = New System.Drawing.Size(90, 20)
+        Me.txtTop.TabIndex = 392
+        Me.txtTop.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtTop.Visible = False
+        '
+        'lblTop
+        '
+        Me.lblTop.FieldName = Nothing
+        Me.lblTop.Location = New System.Drawing.Point(479, 108)
+        Me.lblTop.Name = "lblTop"
+        Me.lblTop.Size = New System.Drawing.Size(25, 18)
+        Me.lblTop.TabIndex = 391
+        Me.lblTop.Text = "Top"
+        Me.lblTop.Visible = False
+        '
         'FrmSendDBTToJanaadhar
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(612, 312)
+        Me.Controls.Add(Me.txtTop)
+        Me.Controls.Add(Me.lblTop)
         Me.Controls.Add(Me.RadButton1)
         Me.Controls.Add(Me.MyLabel2)
         Me.Controls.Add(Me.cboUnion)
@@ -137,6 +161,7 @@ Partial Class FrmSendDBTToJanaadhar
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboUnion, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTop, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -148,5 +173,7 @@ Partial Class FrmSendDBTToJanaadhar
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents cboUnion As common.Controls.MyComboBox
     Friend WithEvents RadButton1 As RadButton
+    Friend WithEvents txtTop As TextBox
+    Friend WithEvents lblTop As common.Controls.MyLabel
 End Class
 

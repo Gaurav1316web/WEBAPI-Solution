@@ -1226,7 +1226,8 @@ xxx:
 
                         k = k + clsCommon.myCdbl(view.ColumnGroups(i).Rows(0).ColumnNames.Count) - l
                         chartRange = wSheet.Range(wSheet.Cells(rowIndex, j1), wSheet.Cells(rowIndex, k))
-                        chartRange.Merge()
+                        'chartRange.Merge()
+                        chartRange.MergeCells = False
                         chartRange.VerticalAlignment = 2
                         chartRange.HorizontalAlignment = 3
 

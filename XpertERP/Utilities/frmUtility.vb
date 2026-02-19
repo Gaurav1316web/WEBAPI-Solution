@@ -5589,7 +5589,7 @@ Public Class FrmUtility
                             End If
 
                             clsDBFuncationality.ExecuteNonQuery("Insert into TEMP_CREATED_RECEIPT values('" + strDocNo + "')", trans)
-                                trans.Commit()
+                            trans.Commit()
                         Catch ex As Exception
                             trans.Rollback()
                             strErro += "Receipt No - " + strDocNo + " Voucher No - " + strVoucherNo + " Exception -" + ex.Message + Environment.NewLine
@@ -27329,7 +27329,7 @@ where TR_Code='" & clsCommon.myCstr(dr("TR_Code")) & "'"
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-      Private Sub btnResetCFSaleInvoiceDoc_Click(sender As Object, e As EventArgs) Handles btnResetCFSaleInvoiceDoc.Click
+    Private Sub btnResetCFSaleInvoiceDoc_Click(sender As Object, e As EventArgs) Handles btnResetCFSaleInvoiceDoc.Click
         Dim coll As Dictionary(Of String, String)
         coll = New Dictionary(Of String, String)()
 
@@ -27452,6 +27452,58 @@ where TR_Code='" & clsCommon.myCstr(dr("TR_Code")) & "'"
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnCreateEinvoiceForDCSSAle_Click(sender As Object, e As EventArgs) Handles btnCreateEinvoiceForDCSSAle.Click
+        Dim DtError As DataTable
+        Dim dr As DataRow
+        DtError = New DataTable
+        DtError.Columns.Add("Code", GetType(String))
+        DtError.Columns.Add("Error", GetType(String))
+        Try
+            Dim msg As New List(Of String)
+            Dim Qry As String = "select Against_Shipment_No,Document_Code,Document_Date,Customer_Code,EInvoice_Type from TSPL_SD_SALE_INVOICE_HEAD 
+where Against_Shipment_No in (select Document_Code from TSPL_SD_SHIPMENT_HEAD where TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC' and Is_Taxable=1 and status=1 
+) and IRN_No is null and EInvoice_Type='BB'  order by TSPL_SD_SALE_INVOICE_HEAD.Document_Date desc"
+            Dim arr As ArrayList = Nothing
+            arr = clsCommon.ShowMultipleSelectForm("E-invoiceDCS", Qry, "Against_Shipment_No", "", Nothing, Nothing)
+            If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                clsCommon.ProgressBarPercentShow()
+                Try
+                    Dim ii As Integer = 0
+                    For Each docno As String In arr
+                        clsCommon.ProgressBarPercentUpdate((ii = 1) * 100 / (arr.Count), "Create E-invoice of Doc no :" & docno)
+                        Try
+                            clsMCCMaterialSale.GenereateDCSEInvoice(docno)
+
+                        Catch ex As Exception
+                            dr = DtError.NewRow()
+                            dr("Code") = docno
+                            dr("Error") = ex.Message
+                            DtError.Rows.Add(dr)
+                        End Try
+                        ii += 1
+                    Next
+
+                    clsCommon.ProgressBarPercentHide()
+                    clsCommon.MyMessageBoxShow(Me, "Saved Successfully", Me.Text)
+
+                Catch ex As Exception
+
+                End Try
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+            End If
+            If DtError IsNot Nothing AndAlso DtError.Rows.Count > 0 Then
+                Dim frm As New FrmFreeGrid()
+                frm.strFormName = "Errors Documents"
+                frm.dt = DtError
+                frm.ReportID = "Create E-Invoice for DS SAle"
+                frm.ShowDialog()
+            End If
+        Catch ex As Exception
+
         End Try
     End Sub
 End Class

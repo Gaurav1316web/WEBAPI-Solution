@@ -250,6 +250,12 @@
     <Compile Include="Milk Procurement\Master\frmHeadLoadMaster.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Master\frmManualIoTFarmerCollection.Designer.vb">
+      <DependentUpon>frmManualIoTFarmerCollection.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmManualIoTFarmerCollection.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Master\FrmOwnBmcExpanse.Designer.vb">
       <DependentUpon>FrmOwnBmcExpanse.vb</DependentUpon>
     </Compile>
@@ -388,10 +394,28 @@
     <Compile Include="Milk Procurement\Report\rptGheeAndCattleFeedDeductionStatementReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptMachineSurveyRegister.Designer.vb">
+      <DependentUpon>rptMachineSurveyRegister.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptMachineSurveyRegister.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptMilkProcurementReport.Designer.vb">
       <DependentUpon>rptMilkProcurementReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Report\rptMilkProcurementReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptmilkunion2.Designer.vb">
+      <DependentUpon>rptmilkunion2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptmilkunion2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptTankerMilkQcVsERPEntry.Designer.vb">
+      <DependentUpon>rptTankerMilkQcVsERPEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptTankerMilkQcVsERPEntry.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Milk Procurement\Report\rptUnionMilkRegister.Designer.vb">
@@ -404,6 +428,12 @@
       <DependentUpon>rptUnionBookingReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Report\rptUnionBookingReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptUnionWiseMilkTankerCollectionDetail.Designer.vb">
+      <DependentUpon>rptUnionWiseMilkTankerCollectionDetail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptUnionWiseMilkTankerCollectionDetail.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Milk Procurement\Report\YearlyBillReport.Designer.vb">
@@ -1299,6 +1329,9 @@
     <EmbeddedResource Include="Milk Procurement\Master\frmHeadLoadMaster.resx">
       <DependentUpon>frmHeadLoadMaster.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Master\frmManualIoTFarmerCollection.resx">
+      <DependentUpon>frmManualIoTFarmerCollection.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Master\FrmOwnBmcExpanse.resx">
       <DependentUpon>FrmOwnBmcExpanse.vb</DependentUpon>
     </EmbeddedResource>
@@ -1368,14 +1401,26 @@
     <EmbeddedResource Include="Milk Procurement\Report\rptGheeAndCattleFeedDeductionStatementReport.resx">
       <DependentUpon>rptGheeAndCattleFeedDeductionStatementReport.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptMachineSurveyRegister.resx">
+      <DependentUpon>rptMachineSurveyRegister.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptMilkProcurementReport.resx">
       <DependentUpon>rptMilkProcurementReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptmilkunion2.resx">
+      <DependentUpon>rptmilkunion2.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptTankerMilkQcVsERPEntry.resx">
+      <DependentUpon>rptTankerMilkQcVsERPEntry.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptUnionBookingReport.resx">
       <DependentUpon>rptUnionBookingReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptUnionMilkRegister.resx">
       <DependentUpon>rptUnionMilkRegister.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptUnionWiseMilkTankerCollectionDetail.resx">
+      <DependentUpon>rptUnionWiseMilkTankerCollectionDetail.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\YearlyBillReport.resx">
       <DependentUpon>YearlyBillReport.vb</DependentUpon>

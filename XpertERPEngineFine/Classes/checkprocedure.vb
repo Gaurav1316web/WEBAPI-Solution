@@ -877,7 +877,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptTransactionWiseStock, "Transaction Wise Stock", "1.08.03.50", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.Rptralwisematerialreceivedandpayment, "Ral Wise Material Received And Payment", "1.08.03.51", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.RmSecurityDeduction, "Rm Security Deduction", "1.08.03.52", clsUserMgtCode.SubModulePurchaseReport, 37)
-        InsertDefaultValue(clsUserMgtCode.WeightmentAutoAndManualReport, "Weightment Auto And Manual Report", "1.08.03.53", clsUserMgtCode.SubModulePurchaseReport, 37)
+        InsertDefaultValue(clsUserMgtCode.WeightmentAutoAndManualReport, "Weightment Auto And Manual Report", "1.08.03.53", clsUserMgtCode.SubModulePurchaseReport, "", 37, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, False, False, True)
         InsertDefaultValue(clsUserMgtCode.rptRejectionReport, "Rejection Detail Report", "1.08.03.57", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.CancelPurchaseInvoiceReport, "Cancel Purchase Invoice Report", "1.08.03.58", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmRALQCReport, "RAL QC Report", "1.08.03.59", clsUserMgtCode.SubModulePurchaseReport, 37)
@@ -1655,6 +1655,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.MPMilkPrice, "MP Milk Price", "1.17.01.79", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmUnpostBmcDcs, "Unpost BMC DCS", "1.17.01.80", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmDCSTransportationCharges, "DCS Transportation Charges", "1.17.01.81", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.frmManualIoTFarmerCollection, "Manual/IoT Farmer Collection", "1.17.01.82", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
 
         '=============================Mcc Transaction===========================================================
         InsertDefaultValue(clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "MCC Transaction", "1.17.02", clsUserMgtCode.ModuleMCCMilkProcurement, "SM", 26)
@@ -1739,7 +1740,6 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmCancelDCSSale, "Cancel DCS Sale", "1.17.02.59", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", True, True, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.WEIGHINGMaster, "WEIGHING Master", "1.17.02.60", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
 
-
         '=========================================================================================
         '--Reportsmdi
         InsertDefaultValue(clsUserMgtCode.SubModuleMCCMilkProcurementReport, "Report", "1.17.03", clsUserMgtCode.ModuleMCCMilkProcurement, "SM", 30)
@@ -1796,7 +1796,7 @@ Public Class ProgramCodeNew
         ' Ticket : BHA/15/02/19-000816 by prabhakar for [VSP Wise data report] delete from menu 
         'InsertDefaultValue(clsUserMgtCode.FrmVSPWiseDataReport, "VSP Wise Data Report", "1.17.03.32", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptMemberPaymentSlip, "Member Payment Slip", "1.17.03.33", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptMPWiseMilkCollectionATPoolingPoint, "MP Wise Milk Collection At Pooling Point", "1.17.03.34", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptMPWiseMilkCollectionATPoolingPoint, "Farmer Milk Purchase Register", "1.17.03.34", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptMPWiseMilkCollection, "Milk Collection As Per Data Entry", "1.17.03.35", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.RptVillageDiffReport, "Village Difference Report", "1.17.03.36", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptPrimaryTransporter, "Primary Transporter Report", "1.17.03.37", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
@@ -1817,6 +1817,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.MonthlyProgressReport, "Monthly Progress Report", "1.17.03.48", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         'InsertDefaultValue(clsUserMgtCode.DCSDeductionBalanceReport, "DCS Deduction Balance Amount", "1.17.03.49", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmPDAccountSummariesReport, "PD Account Summaries Report", "1.17.03.50", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmDCSDeductionReport, "DCS Deduction Report", "1.17.03.51", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptTankerMilkQcVsERPEntry, "Tanker Milk Qc Vs ERP Entry Report", "1.17.03.53", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
         '===sanjeet(21/11/2016)====================
 
@@ -2706,7 +2708,7 @@ Public Class ProgramCodeNew
 
         InsertDefaultValue(clsUserMgtCode.SubModuleQCReport, "Report", "1.23.03", clsUserMgtCode.ModuleQualityControl, "SM", 30)
         InsertDefaultValue(clsUserMgtCode.rptPendingQCReport, "QC Status Report", "1.23.03.01", clsUserMgtCode.SubModuleQCReport, 37)
-        InsertDefaultValue(clsUserMgtCode.QualitySummaryReport, "Quality Summary Report", "1.23.03.02", clsUserMgtCode.SubModuleQCReport, 37)
+        InsertDefaultValue(clsUserMgtCode.QualitySummaryReport, "Quality Summary Report", "1.23.03.02", clsUserMgtCode.SubModuleQCReport, "", 37, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, False, False, True)
         InsertDefaultValue(clsUserMgtCode.rptQCAnalysisReport, "QC Analysis Report", "1.23.03.03", clsUserMgtCode.SubModuleQCReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptNIRQC, "NIR QC Report", "1.23.03.07", clsUserMgtCode.SubModuleQCReport, 37)
 
@@ -3050,6 +3052,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.XpertAPIMilkMilkRegister, "Milk Register", "1.48.03.01", clsUserMgtCode.SubModuleXpertAPIReport, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPITruckSheet, "Truck Sheet Report", "1.48.03.02", clsUserMgtCode.SubModuleXpertAPIReport, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPIBMCDCSSampleReceivedRegister, "BMC DCS Sample Received Register", "1.48.03.03", clsUserMgtCode.SubModuleXpertAPIReport, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
+        InsertDefaultValue(clsUserMgtCode.XpertAPITankerCollectionReport, "Tanker Collection Report", "1.48.03.04", clsUserMgtCode.SubModuleXpertAPIReport, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
+
         ' 
 
         InsertDefaultValue(clsUserMgtCode.ModuleMilkUnion, "Milk Union", "1.49", clsUserMgtCode.ExpertERP, "M", 23)
@@ -3076,6 +3080,9 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmCmSambalYojanaSubsidy, "Cm Sambal Yojana Subsidy", "1.49.03.23", clsUserMgtCode.SubModuleMilkUnion, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, False, False, True)
         InsertDefaultValue(clsUserMgtCode.rptDBTBankResponse, "DBT Bank Response", "1.49.03.24", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.rptDBTStatusReport, "DBT Status Report", "1.49.03.25", clsUserMgtCode.SubModuleMilkUnion, 8)
+        InsertDefaultValue(clsUserMgtCode.rptMachineSurveyRegister, "Machine Survey Register", "1.49.03.26", clsUserMgtCode.SubModuleMilkUnion, 8)
+        InsertDefaultValue(clsUserMgtCode.rptUnionWiseMilkTankerCollectionDetail, "Union Wise Milk Tanker Collection Detail", "1.49.03.27", clsUserMgtCode.SubModuleMilkUnion, 8)
+        InsertDefaultValue(clsUserMgtCode.rptMilkUnion2, "New Milk Union Report", "1.49.03.28", clsUserMgtCode.SubModuleMilkUnion, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, False, False, True)
 
         InsertDefaultValue(clsUserMgtCode.ModuleBullManagement, "Bull Management", "1.50", clsUserMgtCode.ExpertERP, "M", 23)
 

@@ -5006,6 +5006,17 @@ Group By EMP.EMP_CODE)xxx Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MA
            & " IS_OT_APPL,OT_CODE,OT_HOURS,OT_RATE,HOUR_MULTIPLIER,IS_ASPER_ACTUAL_CALC,IS_BONUS_APPL,BONUS_CODE,ACTUAL_AMOUNT,ACTUL_AMT,PAYABLE_AMOUNT,ROUND_OFF_TYPE,MAX_AMOUNT,EMP_STATUS_CODE,ESI_MAX_LIM,EPF_RATE,ESI_RATE,PAY_PERIOD_CODE," _
            & " PF_Calculation_Type,PF_Rule_Max_Lim,Custom_PF_Max_Lim,PF_No,ESI_Calculation_Type,ESI_Rule_Max_Lim,Custom_ESI_Max_Lim,ESI_No,OD_Applicable,Is_Earning_Payhead,Is_Professional_Tax_Applicable,ISESI " _
            & " )( " _
+           & " Select  Emp_CODE,max(EMP_SAL_CODE)EMP_SAL_CODE,max(SALARY_STRUCTURE_CODE)SALARY_STRUCTURE_CODE,
+                MAX(CAST(ISHIDDENCOMPONENT AS INT)) AS ISHIDDENCOMPONENT,PAY_HEAD_CODE,max(LINE_NO)LINE_NO,max(HEAD_TYPE)HEAD_TYPE,max(SUB_HEAD_TYPE)SUB_HEAD_TYPE,max(CALC_BASIS)CALC_BASIS,max(PAYHEAD_FORMULA)PAYHEAD_FORMULA,sum(RATE)RATE,sum(STD_AMOUNT)STD_AMOUNT,max(PAYPERIOD_DAYS)PAYPERIOD_DAYS,max(PRESENT_DAYS)PRESENT_DAYS,max(ABSENT_DAYS)ABSENT_DAYS,max(LEAVE_DAYS)LEAVE_DAYS,max(HOLIDAY_DAYS)HOLIDAY_DAYS,max(PAYABLE_DAYS)PAYABLE_DAYS,max(LOP_DAYS)LOP_DAYS,max(cast(IS_PF_APPL as int))IS_PF_APPL,
+                max(cast(IS_PF_ATTN_ENABLE as int))IS_PF_ATTN_ENABLE,max(EPF_MAX_LIM)EPF_MAX_LIM,max(EPS_TO_EPF)EPS_TO_EPF,max(EPS_MAX)EPS_MAX,max(COEPF_ROUNDOFF_YPE)COEPF_ROUNDOFF_YPE,
+                max(EMPEPF_ROUNDOFF_YPE)EMPEPF_ROUNDOFF_YPE,max(cast(IS_ESI_APPL as int))IS_ESI_APPL,max(FORMULA_HEAD)FORMULA_HEAD,
+                max(cast(IS_OT_APPL as int))IS_OT_APPL,max(isnull(OT_CODE,NULL))OT_CODE,MAX(ISNULL(OT_HOURS, 0)) AS OT_HOURS,max(isnull(OT_RATE,0))OT_RATE,
+                max(HOUR_MULTIPLIER)HOUR_MULTIPLIER,max(cast(IS_ASPER_ACTUAL_CALC as int))IS_ASPER_ACTUAL_CALC,max(cast(IS_BONUS_APPL as int))IS_BONUS_APPL,
+                max(isnull(BONUS_CODE,NULL))BONUS_CODE,sum(ACTUAL_AMOUNT)ACTUAL_AMOUNT,sum(ACTUL_AMT)ACTUL_AMT,sum(PAYABLE_AMOUNT)PAYABLE_AMOUNT,
+                max(ROUND_OFF_TYPE)ROUND_OFF_TYPE,max(MAX_AMOUNT)MAX_AMOUNT,max(EMP_STATUS_CODE)EMP_STATUS_CODE,max(ESI_MAX_LIM)ESI_MAX_LIM,max(EPF_RATE)EPF_RATE,
+                max(isnull(ESI_RATE,0))ESI_RATE,max(Payperiodcode1)Payperiodcode1,max(PF_Calculation_Type)PF_Calculation_Type,max(PF_Rule_Max_Lim)PF_Rule_Max_Lim,max(Custom_PF_Max_Lim)Custom_PF_Max_Lim,max(PF_No)PF_No,max(ESI_Calculation_Type)ESI_Calculation_Type,max(ESI_Rule_Max_Lim)ESI_Rule_Max_Lim,
+                max(isnull(Custom_ESI_Max_Lim,0))Custom_ESI_Max_Lim,max(ESI_No)ESI_No,max(cast(OD_Applicable as int))OD_Applicable,
+                max(cast(ISEARNING as int))ISEARNING,max(cast(Is_Professional_Tax_Applicable as int))Is_Professional_Tax_Applicable,max(cast(ISESI as int))ISESI from ( " _
            & " SELECT DISTINCT(T1.EMP_CODE),T1.EMP_SAL_CODE,T1.SALARY_STRUCTURE_CODE,T2.ISHIDDENCOMPONENT,T2.PAY_HEAD_CODE,T2.LINE_NO,T4.HEAD_TYPE,T4.SUB_HEAD_TYPE," _
            & " T4.CALC_BASIS,T2.PAYHEAD_FORMULA, " _
            & " (CASE when ((t4.SUB_HEAD_TYPE)='DAARREAR' and t4.ISEARNING=1) then isnull(daarrear.da_arrear,0) WHEN T4.HEAD_TYPE IN ('ATTN', 'FIXED','F') and (t4.SUB_HEAD_TYPE not in('COPF')) THEN T2.RATE_AMOUNT WHEN (t4.SUB_HEAD_TYPE in('COPF') and t4.ISEARNING=0) THEN T7.EMPEPF_PER WHEN T4.HEAD_TYPE = 'UD' THEN COALESCE(T8.ALLOWANCE_AMOUNT,0)  ELSE 0 End) AS RATE , " _
@@ -5015,30 +5026,19 @@ Group By EMP.EMP_CODE)xxx Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MA
            & " T7.IS_ESI_APPL,T2.PAYHEAD_FORMULA AS FORMULA_HEAD,T7.IS_OT_APPL,T7.OT_CODE,NULL AS OT_HOURS,NULL AS OT_RATE, " _
            & " COALESCE(T9.HOUR_MULTIPLIER,1) AS HOUR_MULTIPLIER ,COALESCE(T9.IS_ASPER_ACTUAL_CALC,0) AS IS_ASPER_ACTUAL_CALC,T7.IS_BONUS_APPL,T7.BONUS_CODE, " _
            & " (ROUND(CASE WHEN T4.HEAD_TYPE ='ATTN' THEN T2.RATE_AMOUNT  * T6.PAYABLE_DAYS / T6.PAYPERIOD_DAYS WHEN T4.HEAD_TYPE ='FIXED' THEN T2.RATE_AMOUNT WHEN T4.HEAD_TYPE = 'UD' THEN COALESCE(T8.ALLOWANCE_AMOUNT,0) ELSE 0 End ,3)) AS ACTUAL_AMOUNT,(ROUND(CASE WHEN T4.HEAD_TYPE ='ATTN' THEN T2.RATE_AMOUNT  * T6.PAYABLE_DAYS / T6.PAYPERIOD_DAYS WHEN T4.HEAD_TYPE ='FIXED' THEN T2.RATE_AMOUNT WHEN T4.HEAD_TYPE = 'UD' THEN COALESCE(T8.ALLOWANCE_AMOUNT,0) ELSE 0 End ,3)) AS ACTUL_AMT, " _
-           & " 0 AS PAYABLE_AMOUNT,T4.ROUND_OFF_TYPE,T2.MAX_AMOUNT,T7.EMP_STATUS_CODE,(CASE WHEN T7.Max_Amount_ESI>0 THEN T7.Max_Amount_ESI ELSE " & drESI.Item("TOTALEARNING_MAX") & " END) AS ESI_MAX_LIM,T7.EPF_RATE,T7.ESI_RATE,'" & Pay_Period_Code & "',T7.PF_Calculation_Type,T7.PF_Rule_Max_Lim,T7.Custom_PF_Max_Lim,T7.PF_No,T7.ESI_Calculation_Type,T7.ESI_Rule_Max_Lim,T7.Custom_ESI_Max_Lim,T7.ESI_No,T7.OD_Applicable,T4.ISEARNING,T7.Is_Professional_Tax_Applicable,T7.ISESI FROM " _
+           & " 0 AS PAYABLE_AMOUNT,T4.ROUND_OFF_TYPE,T2.MAX_AMOUNT,T7.EMP_STATUS_CODE,(CASE WHEN T7.Max_Amount_ESI>0 THEN T7.Max_Amount_ESI ELSE " & drESI.Item("TOTALEARNING_MAX") & " END) AS ESI_MAX_LIM,T7.EPF_RATE,T7.ESI_RATE,'" & Pay_Period_Code & "' as Payperiodcode1,T7.PF_Calculation_Type,T7.PF_Rule_Max_Lim,T7.Custom_PF_Max_Lim,T7.PF_No,T7.ESI_Calculation_Type,T7.ESI_Rule_Max_Lim,T7.Custom_ESI_Max_Lim,T7.ESI_No,T7.OD_Applicable,T4.ISEARNING,T7.Is_Professional_Tax_Applicable,T7.ISESI FROM " _
            & " ( " _
            & " SELECT T1.EMP_SAL_CODE,T1.EMP_CODE,T1.SALARY_STRUCTURE_CODE,T1.APPLICABLE_FROM AS APP_DATE " _
            & " FROM TSPL_EMPLOYEE_SALARY T1 " _
            & " INNER JOIN ( " _
            & "  " _
            & "  " _
-           & " select TSPL_EMPLOYEE_SALARY.EMP_CODE,TSPL_EMPLOYEE_SALARY.REVISION_NO,TSPL_EMPLOYEE_SALARY.APPLICABLE_FROM,TSPL_EMPLOYEE_SALARY.EMP_SAL_CODE from  " _
-           & " (SELECT  tt.EMP_CODE,max(REVISION_NO) as REVISION_NO,max(convert(date,tt.APPLICABLE_FROM,103)) as APPLICABLE_FROM " _
-           & " FROM 	 (select EMP_CODE,max(convert(date,APPLICABLE_FROM,103)) as APPLICABLE_FROM From  " & QryArrear & " as TSPL_EMPLOYEE_SALARY " _
-           & " where  convert(date,APPLICABLE_FROM,103) <= convert(date,'" & clsCommon.GetPrintDate(PP_END_DATE, "dd/MMM/yyyy") & "',103) " _
-           & " group by EMP_CODE " _
-           & " )dt " _
-           & "        Left Join " _
-           & " TSPL_EMPLOYEE_SALARY as tt	" _
-           & " on dt.EMP_CODE=tt.EMP_CODE " _
-           & " and convert(date,dt.APPLICABLE_FROM,103)=convert(date,tt.APPLICABLE_FROM,103) " _
-           & " group by tt.EMP_CODE  " _
-           & " )tt  " _
-           & " left join 	TSPL_EMPLOYEE_SALARY " _
-           & " on tt.REVISION_NO=TSPL_EMPLOYEE_SALARY.REVISION_NO and tt.APPLICABLE_FROM=TSPL_EMPLOYEE_SALARY.APPLICABLE_FROM  " _
-           & " and tt.EMP_CODE=TSPL_EMPLOYEE_SALARY.EMP_CODE " _
-           & "        where 1 = 1  " _
-           & " group by TSPL_EMPLOYEE_SALARY.emp_code,TSPL_EMPLOYEE_SALARY.REVISION_NO,TSPL_EMPLOYEE_SALARY.APPLICABLE_FROM,TSPL_EMPLOYEE_SALARY.emp_sal_code " _
+           & "  SELECT EMP_CODE,REVISION_NO,APPLICABLE_FROM,EMP_SAL_CODE
+                FROM
+                (SELECT EMP_CODE,REVISION_NO,APPLICABLE_FROM,EMP_SAL_CODE,ROW_NUMBER() OVER(PARTITION BY EMP_CODE ORDER BY CONVERT(date, APPLICABLE_FROM, 103) DESC ) AS RN,
+                        MAX(CONVERT(date, APPLICABLE_FROM, 103)) OVER ( PARTITION BY EMP_CODE ) AS MAX_APP_DATE FROM TSPL_EMPLOYEE_SALARY
+                    WHERE CONVERT(date, APPLICABLE_FROM, 103) <= CONVERT(date, '" & clsCommon.GetPrintDate(PP_END_DATE, "dd/MMM/yyyy") & "', 103) ) X
+                WHERE X.RN = 1 OR ( X.RN = 2 AND DAY(X.MAX_APP_DATE) NOT IN (1,DAY(EOMONTH(X.MAX_APP_DATE)) ))      " _
            & "  " _
            & "  " _
            & "  " _
@@ -5076,7 +5076,7 @@ where TSPL_DA_ARREAR_HEADER.Pay_Period='" + Pay_Period_Code + "' )DAArrear on DA
            & " ON DN.DEDUCTION_CODE=DND.DEDUCTION_CODE WHERE PAY_PERIOD_CODE='" & Pay_Period_Code & "' ) T8 " _
            & " ON T1.EMP_CODE=T8.EMP_CODE AND T2.PAY_HEAD_CODE=T8.PAY_HEAD_CODE " _
            & " LEFT JOIN (select OT_CODE,HOUR_MULTIPLIER,OT_RATE as OT_RATE,IS_ASPER_ACTUAL_CALC from TSPL_OT_MASTER) AS  T9 ON T7.OT_CODE=T9.OT_CODE " _
-           & " WHERE T2.PAY_HEAD_CODE IS NOT NULL AND T1.EMP_CODE IN " & strEmp & ") "
+           & " WHERE T2.PAY_HEAD_CODE IS NOT NULL AND T1.EMP_CODE IN " & strEmp & ") XX GROUP BY XX.EMP_CODE,PAY_HEAD_CODE) "
 
         If Not clsDBFuncationality.ExecuteNonQuery(strq, trans) Then
             Throw New Exception("Error in inserting Salary Calculation Table !")

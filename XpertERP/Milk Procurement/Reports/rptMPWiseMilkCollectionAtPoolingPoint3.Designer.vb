@@ -28,6 +28,7 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -35,6 +36,7 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkSupervisor = New common.Controls.MyCheckBox()
         Me.txtMinDays = New common.MyNumBox()
         Me.lblConvRate = New common.Controls.MyLabel()
         Me.cboReportType = New common.Controls.MyComboBox()
@@ -65,7 +67,6 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.chkSupervisor = New common.Controls.MyCheckBox()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -73,6 +74,7 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkSupervisor, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtMinDays, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblConvRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboReportType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -98,7 +100,6 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkSupervisor, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -109,27 +110,20 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(776, 20)
         Me.RadMenu1.TabIndex = 4
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmSaveLayout, Me.rmDeleteLayout})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
         '
         'rmSaveLayout
         '
-        Me.rmSaveLayout.AccessibleDescription = "Save Layout"
-        Me.rmSaveLayout.AccessibleName = "Save Layout"
         Me.rmSaveLayout.Name = "rmSaveLayout"
         Me.rmSaveLayout.Text = "Save Layout"
         '
         'rmDeleteLayout
         '
-        Me.rmDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.rmDeleteLayout.AccessibleName = "Delete Layout"
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '
@@ -169,15 +163,13 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         '
         Me.RadPageView1.RootElement.AccessibleDescription = "Report1"
         Me.RadPageView1.RootElement.AccessibleName = "Report1"
-        Me.RadPageView1.RootElement.Text = "Report1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(776, 398)
         Me.RadPageView1.TabIndex = 0
         Me.RadPageView1.TabStop = False
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
-        CType(Me.RadPageView1.GetChildAt(0).GetChildAt(2), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Filter"
-        CType(Me.RadPageView1.GetChildAt(0).GetChildAt(3), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Filter"
+        CType(Me.RadPageView1.GetChildAt(0).GetChildAt(2), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Report"
+        CType(Me.RadPageView1.GetChildAt(0).GetChildAt(3), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Report"
         '
         'RadPageViewPage1
         '
@@ -209,6 +201,18 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.RadPageViewPage1.Size = New System.Drawing.Size(755, 350)
         Me.RadPageViewPage1.Text = "Filter"
         '
+        'chkSupervisor
+        '
+        Me.chkSupervisor.Location = New System.Drawing.Point(428, 38)
+        Me.chkSupervisor.MyLinkLable1 = Nothing
+        Me.chkSupervisor.MyLinkLable2 = Nothing
+        Me.chkSupervisor.Name = "chkSupervisor"
+        Me.chkSupervisor.Size = New System.Drawing.Size(73, 18)
+        Me.chkSupervisor.TabIndex = 343
+        Me.chkSupervisor.Tag1 = Nothing
+        Me.chkSupervisor.Text = "Supervisor"
+        Me.chkSupervisor.Visible = False
+        '
         'txtMinDays
         '
         Me.txtMinDays.BackColor = System.Drawing.Color.White
@@ -222,7 +226,7 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.txtMinDays.IsSourceFromTable = False
         Me.txtMinDays.IsSourceFromValueList = False
         Me.txtMinDays.IsUnique = False
-        Me.txtMinDays.Location = New System.Drawing.Point(322, 36)
+        Me.txtMinDays.Location = New System.Drawing.Point(536, 58)
         Me.txtMinDays.MendatroryField = False
         Me.txtMinDays.MyLinkLable1 = Nothing
         Me.txtMinDays.MyLinkLable2 = Nothing
@@ -234,14 +238,14 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.txtMinDays.TabIndex = 341
         Me.txtMinDays.Text = "1"
         Me.txtMinDays.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMinDays.Value = 1.0R
+        Me.txtMinDays.Value = New Decimal(New Integer() {1, 0, 0, 0})
         Me.txtMinDays.Visible = False
         '
         'lblConvRate
         '
         Me.lblConvRate.FieldName = Nothing
         Me.lblConvRate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblConvRate.Location = New System.Drawing.Point(214, 38)
+        Me.lblConvRate.Location = New System.Drawing.Point(428, 60)
         Me.lblConvRate.Name = "lblConvRate"
         Me.lblConvRate.Size = New System.Drawing.Size(105, 16)
         Me.lblConvRate.TabIndex = 342
@@ -254,6 +258,7 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.cboReportType.AutoCompleteValueMember = Nothing
         Me.cboReportType.BackColor = System.Drawing.Color.Transparent
         Me.cboReportType.CalculationExpression = Nothing
+        Me.cboReportType.DropDownAnimationEnabled = True
         Me.cboReportType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboReportType.FieldCode = Nothing
         Me.cboReportType.FieldDesc = Nothing
@@ -280,7 +285,7 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         '
         '
         Me.cboReportType.RootElement.StretchVertically = True
-        Me.cboReportType.Size = New System.Drawing.Size(150, 18)
+        Me.cboReportType.Size = New System.Drawing.Size(327, 18)
         Me.cboReportType.TabIndex = 4
         '
         'MyLabel4
@@ -307,7 +312,7 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.MyLabel34.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel34.Location = New System.Drawing.Point(15, 123)
         Me.MyLabel34.Name = "MyLabel34"
-        Me.MyLabel34.Size = New System.Drawing.Size(26, 18)
+        Me.MyLabel34.Size = New System.Drawing.Size(27, 18)
         Me.MyLabel34.TabIndex = 10
         Me.MyLabel34.Text = "DCS"
         '
@@ -317,6 +322,7 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.cboUnit.AutoCompleteValueMember = Nothing
         Me.cboUnit.BackColor = System.Drawing.Color.Transparent
         Me.cboUnit.CalculationExpression = Nothing
+        Me.cboUnit.DropDownAnimationEnabled = True
         Me.cboUnit.FieldCode = Nothing
         Me.cboUnit.FieldDesc = Nothing
         Me.cboUnit.FieldMaxLength = 0
@@ -362,6 +368,7 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         '
         Me.txtToShift.AutoCompleteDisplayMember = Nothing
         Me.txtToShift.AutoCompleteValueMember = Nothing
+        Me.txtToShift.DropDownAnimationEnabled = True
         Me.txtToShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.txtToShift.Location = New System.Drawing.Point(322, 14)
         Me.txtToShift.Name = "txtToShift"
@@ -395,6 +402,7 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         '
         Me.txtFromShift.AutoCompleteDisplayMember = Nothing
         Me.txtFromShift.AutoCompleteValueMember = Nothing
+        Me.txtFromShift.DropDownAnimationEnabled = True
         Me.txtFromShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.txtFromShift.Location = New System.Drawing.Point(145, 14)
         Me.txtFromShift.Name = "txtFromShift"
@@ -436,6 +444,7 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.cmbEntrySource.AutoCompleteValueMember = Nothing
         Me.cmbEntrySource.BackColor = System.Drawing.Color.Transparent
         Me.cmbEntrySource.CalculationExpression = Nothing
+        Me.cmbEntrySource.DropDownAnimationEnabled = True
         Me.cmbEntrySource.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbEntrySource.FieldCode = Nothing
         Me.cmbEntrySource.FieldDesc = Nothing
@@ -516,7 +525,7 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         '
         Me.txtReportType.Location = New System.Drawing.Point(428, 15)
         Me.txtReportType.Name = "txtReportType"
-        Me.txtReportType.Size = New System.Drawing.Size(151, 20)
+        Me.txtReportType.Size = New System.Drawing.Size(174, 20)
         Me.txtReportType.TabIndex = 340
         Me.txtReportType.Visible = False
         '
@@ -576,14 +585,19 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.gv.MasterTemplate.AllowAddNewRow = False
         Me.gv.MasterTemplate.AllowDeleteRow = False
         Me.gv.MasterTemplate.EnableFiltering = True
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv.MyExportAPI = False
+        Me.gv.MyExportFilePath = ""
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowGroupPanel = False
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(755, 350)
         Me.gv.TabIndex = 4
-        Me.gv.Text = "gv"
+        Me.gv.VarID = ""
         '
         'RadSplitButton1
         '
@@ -597,15 +611,11 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         '
         'rmiExcel
         '
-        Me.rmiExcel.AccessibleDescription = "Excel"
-        Me.rmiExcel.AccessibleName = "Excel"
         Me.rmiExcel.Name = "rmiExcel"
         Me.rmiExcel.Text = "Excel"
         '
         'rmiPDF
         '
-        Me.rmiPDF.AccessibleDescription = "PDF"
-        Me.rmiPDF.AccessibleName = "PDF"
         Me.rmiPDF.Name = "rmiPDF"
         Me.rmiPDF.Text = "PDF"
         '
@@ -649,18 +659,6 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.btnGo.TabIndex = 27
         Me.btnGo.Text = ">>>"
         '
-        'chkSupervisor
-        '
-        Me.chkSupervisor.Location = New System.Drawing.Point(428, 38)
-        Me.chkSupervisor.MyLinkLable1 = Nothing
-        Me.chkSupervisor.MyLinkLable2 = Nothing
-        Me.chkSupervisor.Name = "chkSupervisor"
-        Me.chkSupervisor.Size = New System.Drawing.Size(73, 18)
-        Me.chkSupervisor.TabIndex = 343
-        Me.chkSupervisor.Tag1 = Nothing
-        Me.chkSupervisor.Text = "Supervisor"
-        Me.chkSupervisor.Visible = False
-        '
         'RptMPWiseMilkCollectionAtPoolingPoint3
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -682,6 +680,7 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkSupervisor, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtMinDays, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblConvRate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboReportType, System.ComponentModel.ISupportInitialize).EndInit()
@@ -707,7 +706,6 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkSupervisor, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

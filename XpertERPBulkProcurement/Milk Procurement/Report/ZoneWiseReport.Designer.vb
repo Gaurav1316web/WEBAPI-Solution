@@ -22,7 +22,7 @@ Partial Class ZoneWiseReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -42,9 +42,9 @@ Partial Class ZoneWiseReport
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -250,7 +250,7 @@ Partial Class ZoneWiseReport
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1020, 420)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(779, 353)
         Me.RadPageViewPage2.Text = "Report"
         '
         'Gv1
@@ -262,12 +262,13 @@ Partial Class ZoneWiseReport
         '
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MyExportAPI = False
         Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
-        Me.Gv1.Size = New System.Drawing.Size(1020, 420)
+        Me.Gv1.Size = New System.Drawing.Size(779, 353)
         Me.Gv1.TabIndex = 0
         Me.Gv1.VarID = ""
         '
@@ -296,6 +297,11 @@ Partial Class ZoneWiseReport
         Me.RadMenuItem2.Text = "Excel"
         Me.RadMenuItem2.UseCompatibleTextRendering = False
         '
+        'RadMenuItem1
+        '
+        Me.RadMenuItem1.Name = "RadMenuItem1"
+        Me.RadMenuItem1.Text = "PDF"
+        '
         'btnGo
         '
         Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -313,11 +319,6 @@ Partial Class ZoneWiseReport
         Me.btnReset.Size = New System.Drawing.Size(68, 18)
         Me.btnReset.TabIndex = 154
         Me.btnReset.Text = "Reset"
-        '
-        'RadMenuItem1
-        '
-        Me.RadMenuItem1.Name = "RadMenuItem1"
-        Me.RadMenuItem1.Text = "PDF"
         '
         'ZoneWiseReport
         '

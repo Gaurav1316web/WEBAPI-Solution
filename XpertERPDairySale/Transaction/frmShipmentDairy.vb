@@ -400,6 +400,7 @@ Public Class frmShipmentDairy
     Dim FlagDocumentIsTaxable As Integer = 0
     Dim EInvoiceType As String = ""
     Dim lstobj As List(Of clsPSShipmentDemand) = Nothing
+    Dim lstSkipobj As List(Of clsPSShipmentDemand) = Nothing
     Public Property routeno As String
     Public Property LocationCode As String
     Public Property subLocationCode As String
@@ -8110,24 +8111,47 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
 
                 End If
                 Dim BoothCode As String = ""
-                If Not IsOnlyCreditCust Then
-                    txtTransNo.Text = txtVendorNo.Value
-                    SaveData(False, trans)
-                Else
-                    'txtTransNo.Text = txtVendorNo.Value
+                'If Not IsOnlyCreditCust Then
+                txtTransNo.Text = txtVendorNo.Value
+                    If gvDistributor IsNot Nothing AndAlso gvDistributor.Rows.Count > 0 Then
+                        SaveData(False, trans)
+                    End If
+                    LoadDemandData(trans, 1)
+                    MergeDistributorItems(True, False, trans)
+                    If gvDistributor IsNot Nothing AndAlso gvDistributor.Rows.Count > 0 Then
+                        SaveData(False, trans)
+                        clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SHIPMENT_HEAD set ParentDocNo='" + ParentDocNo + "' where Document_Code='" + CreditCustDoc + "'", trans)
 
-                    'txtVendorNo.Value = clsCommon.myCstr(gvDistributor.Rows(0).Cells("Cust_Code").Value)
-                    'lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtVendorNo.Value + "'", trans))
-                    'BoothCode = txtVendorNo.Value
-                    'MergeDistributorItems(True, True, trans)
-                    'SaveData(False, trans)
+                    End If
                     lstobj = New List(Of clsPSShipmentDemand)
-                    For Each lst As clsPSShipmentDemand In clsPSShipmentDemand.GetData(ParentDocNo, cmbShift.SelectedValue, txtSupplyDate.Value, txtRouteNo.Value, txtBillToLocation.Value, cmbDisItemType.SelectedValue, trans)
+                    lstSkipobj = New List(Of clsPSShipmentDemand)
+
+                    For Each lst As clsPSShipmentDemand In clsPSShipmentDemand.GetData(ParentDocNo, cmbShift.SelectedValue, txtSupplyDate.Value, txtRouteNo.Value, txtBillToLocation.Value, cmbDisItemType.SelectedValue, 0, trans)
                         lstobj.Add(lst)
                     Next
-                End If
+                    For Each lst As clsPSShipmentDemand In clsPSShipmentDemand.GetData(ParentDocNo, cmbShift.SelectedValue, txtSupplyDate.Value, txtRouteNo.Value, txtBillToLocation.Value, cmbDisItemType.SelectedValue, 1, trans)
+                        lstSkipobj.Add(lst)
+                    Next
+                    'Else
+                    '    'txtTransNo.Text = txtVendorNo.Value
 
-                If lstobj IsNot Nothing AndAlso lstobj.Count > 0 AndAlso clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                    '    'txtVendorNo.Value = clsCommon.myCstr(gvDistributor.Rows(0).Cells("Cust_Code").Value)
+                    '    'lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtVendorNo.Value + "'", trans))
+                    '    'BoothCode = txtVendorNo.Value
+                    '    'MergeDistributorItems(True, True, trans)
+                    '    'SaveData(False, trans)
+                    '    lstobj = New List(Of clsPSShipmentDemand)
+                    '    lstSkipobj = New List(Of clsPSShipmentDemand)
+                    '    For Each lst As clsPSShipmentDemand In clsPSShipmentDemand.GetData(ParentDocNo, cmbShift.SelectedValue, txtSupplyDate.Value, txtRouteNo.Value, txtBillToLocation.Value, cmbDisItemType.SelectedValue, 0, trans)
+                    '        lstobj.Add(lst)
+                    '    Next
+                    '    For Each lst As clsPSShipmentDemand In clsPSShipmentDemand.GetData(ParentDocNo, cmbShift.SelectedValue, txtSupplyDate.Value, txtRouteNo.Value, txtBillToLocation.Value, cmbDisItemType.SelectedValue, 1, trans)
+                    '        lstSkipobj.Add(lst)
+                    '    Next
+
+                    'End If
+
+                    If lstobj IsNot Nothing AndAlso lstobj.Count > 0 AndAlso clsCommon.myLen(txtDocNo.Value) <= 0 Then
                     For Each lst As clsPSShipmentDemand In lstobj
                         If Not clsCommon.CompairString(BoothCode, lst.Booth_Code) = CompairStringResult.Equal Then
                             '                            Dim strQry As String = "select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code as TR_Code,
@@ -8160,9 +8184,9 @@ where TSPL_Demand_Booking_Master.ShiftType='" + IIf(clsCommon.CompairString(clsC
 and TSPL_Demand_Booking_Master.Route_No='" + txtRouteNo.Value + "' and TSPL_Demand_Booking_Master.Location_Code='" + txtBillToLocation.Value + "' 
  "
                             If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal Then
-                                strQry += " and TSPL_ITEM_MASTER_TAXABLE.Is_Taxable=1 "
+                                strQry += " and TSPL_ITEM_MASTER_TAXABLE.Is_Taxable=1 and isnull(TSPL_ITEM_MASTER.IsSplitBilling,0)=0 "
                             Else
-                                strQry += " and TSPL_ITEM_MASTER_TAXABLE.Is_Taxable=0"
+                                strQry += " and TSPL_ITEM_MASTER_TAXABLE.Is_Taxable=0 and isnull(TSPL_ITEM_MASTER.IsSplitBilling,0)=0 "
                             End If
 
                             strQry += " and  TSPL_CUSTOMER_MASTER.Credit_Customer='Y' and TSPL_CUSTOMER_MASTER.Cust_Code='" + lst.Booth_Code + "' and TSPL_Demand_Booking_Detail.TR_Code is not null and TSPL_Demand_Booking_Detail.Qty>0   and not exists(select 1 from TSPL_SD_SHIPMENT_BOOKING_DETAIL where TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_Demand_Booking_Detail.TR_Code  and TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE not in ('" & txtDocNo.Value & "'))  
@@ -8206,6 +8230,86 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
 
                     Next
                 End If
+                If lstSkipobj IsNot Nothing AndAlso lstSkipobj.Count > 0 AndAlso clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                    For Each lst As clsPSShipmentDemand In lstSkipobj
+                        If Not clsCommon.CompairString(BoothCode, lst.Booth_Code) = CompairStringResult.Equal Then
+                            '                            Dim strQry As String = "select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code as TR_Code,
+                            'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code as Cust_Code,
+                            'TSPL_CUSTOMER_MASTER.Customer_Name as Customer_Name,
+                            'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code as Item_Code,
+                            'TSPL_ITEM_MASTER.Item_Desc as Item_Desc,
+                            'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty as DemandQty,
+                            'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty as Qty,
+                            'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code as Unit_code,
+                            'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Trip_No as Trip_No,
+                            'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Commission_Amt,
+                            'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Security_Amt
+                            'from TSPL_SD_SHIPMENT_BOOKING_DETAIL
+                            'left join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code=TSPL_CUSTOMER_MASTER.Cust_Code
+                            'left join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+                            'where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_code='" + lst.Booth_Code + "'"
+                            Dim strQry As String = "select 
+TSPL_Demand_Booking_Detail.TR_Code as TR_CODE,TSPL_Demand_Booking_Detail.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_Demand_Booking_Detail.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_Demand_Booking_Detail.Qty as DemandQty,TSPL_Demand_Booking_Detail.Qty as Qty,TSPL_Demand_Booking_Detail.Unit_code,TSPL_DEMAND_BOOKING_DETAIL.trip_No,0 as Commission_Amt,0 as Security_Amt,TSPL_Demand_Booking_Master.NoCrateIssue 
+from TSPL_Demand_Booking_Master
+left join TSPL_Demand_Booking_Detail on TSPL_Demand_Booking_Master.Document_No=TSPL_Demand_Booking_Detail.Document_No
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_Demand_Booking_Detail.Item_Code 
+OUTER APPLY ( SELECT TOP 1 * FROM TSPL_ITEM_MASTER_TAXABLE  
+WHERE TSPL_ITEM_MASTER_TAXABLE.Item_Code = TSPL_Demand_Booking_Detail.Item_Code  AND TSPL_ITEM_MASTER_TAXABLE.EFFECTIVE_DATE <= '" & clsCommon.GetPrintDate(txtSupplyDate.Value) & "'
+    ORDER BY TSPL_ITEM_MASTER_TAXABLE.EFFECTIVE_DATE DESC
+) TSPL_ITEM_MASTER_TAXABLE
+ left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_Demand_Booking_Detail.Cust_Code 
+where TSPL_Demand_Booking_Master.ShiftType='" + IIf(clsCommon.CompairString(clsCommon.myCstr(cmbShift.SelectedValue), "AM") = CompairStringResult.Equal, "Morning", "Evening") + "'  and TSPL_Demand_Booking_Master.Document_Date>='" + clsCommon.GetPrintDate(txtSupplyDate.Value) + "' and TSPL_Demand_Booking_Master.Document_Date<'" + clsCommon.GetPrintDate(txtSupplyDate.Value.AddDays(1)) + "' 
+   and TSPL_Demand_Booking_Master.Posted=1
+and TSPL_Demand_Booking_Master.Route_No='" + txtRouteNo.Value + "' and TSPL_Demand_Booking_Master.Location_Code='" + txtBillToLocation.Value + "' 
+ "
+                            If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal Then
+                                strQry += " and TSPL_ITEM_MASTER_TAXABLE.Is_Taxable=1 and isnull(TSPL_ITEM_MASTER.IsSplitBilling,0)=1 "
+                            Else
+                                strQry += " and TSPL_ITEM_MASTER_TAXABLE.Is_Taxable=0 and isnull(TSPL_ITEM_MASTER.IsSplitBilling,0)=1 "
+                            End If
+
+                            strQry += " and  TSPL_CUSTOMER_MASTER.Credit_Customer='Y' and TSPL_CUSTOMER_MASTER.Cust_Code='" + lst.Booth_Code + "' and TSPL_Demand_Booking_Detail.TR_Code is not null and TSPL_Demand_Booking_Detail.Qty>0   and not exists(select 1 from TSPL_SD_SHIPMENT_BOOKING_DETAIL where TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_Demand_Booking_Detail.TR_Code  and TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE not in ('" & txtDocNo.Value & "'))  
+order by   TSPL_Demand_Booking_Detail.TR_Code "
+
+
+                            LoadDistributorGrid(strQry, trans)
+                            If ApplyBoothWiseScheme Then
+                                GetBoothWiseScheme(trans)
+                            End If
+
+                            If DispatchPriceCodeForCreditCustomer Then
+                                txtVendorNo.Value = lst.Booth_Code
+                                lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + lst.Booth_Code + "'", trans))
+
+                            End If
+
+
+                            MergeDistributorItems(True, True, trans)
+                            If RunBatchFifowise = 1 Then
+                                OpenBatchItemForCreditCust(trans)
+                            End If
+                            If Not DispatchPriceCodeForCreditCustomer Then
+                                txtVendorNo.Value = lst.Booth_Code
+                                lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + lst.Booth_Code + "'", trans))
+                            End If
+                            'Dim dts As DataTable = clsDBFuncationality.GetDataTable("select Document_Code,Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" + ParentDocNo + "' and Customer_Code='" + lst.Booth_Code + "'", trans)
+                            'If dts IsNot Nothing AndAlso dts.Rows.Count > 0 Then
+                            '    txtDocNo.Value = clsCommon.myCstr(dts.Rows(0)("Document_Code"))
+                            '    txtInvoiceNo.Text = clsCommon.myCstr(dts.Rows(0)("Sale_Invoice_No"))
+                            'End If
+
+                            SaveData(False, trans)
+                            If Not DispatchPriceCodeForCreditCustomer Then
+                                txtVendorNo.Value = txtTransNo.Text
+                            End If
+
+                            clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SHIPMENT_HEAD set ParentDocNo='" + ParentDocNo + "' where Document_Code='" + CreditCustDoc + "'", trans)
+
+                        End If
+
+                    Next
+                End If
+
 
                 Dim strupdate As String = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo='" & ParentDocNo & "' where Document_Code='" & ParentDocNo & "'"
                 clsDBFuncationality.ExecuteNonQuery(strupdate, trans)
@@ -8322,10 +8426,10 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal AndAlso chkIndividualCustomer.Checked Then
                 'If chkIndividualCustomer.Checked Then
                 If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal Then
-                        obj.Demand_UniqueID = txtDemandNo.Value & "-T"
-                    ElseIf clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "NT") = CompairStringResult.Equal Then
-                        obj.Demand_UniqueID = txtDemandNo.Value & "-NT"
-                    End If
+                    obj.Demand_UniqueID = txtDemandNo.Value & "-T"
+                ElseIf clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "NT") = CompairStringResult.Equal Then
+                    obj.Demand_UniqueID = txtDemandNo.Value & "-NT"
+                End If
                 'obj.Demand_UniqueID = txtDemandNo.Value
                 'End If
             End If
@@ -8997,19 +9101,19 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
             End If
             ' If clsCommon.CompairString(ParentDocNo, obj.Document_Code) = CompairStringResult.Equal Then
             obj.ArrDemand = New List(Of clsPSShipmentDemand)
-                For ii As Integer = 0 To gvDistributor.Rows.Count - 1
-                    Dim objD As New clsPSShipmentDemand
-                    objD.Booking_TR_Code = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("TR_Code").Value)
-                    objD.Booth_Code = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Cust_Code").Value)
-                    objD.Item_Code = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value)
-                    objD.Unit_Code = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_Code").Value)
-                    objD.Qty = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Qty").Value)
-                    objD.Trip_No = clsCommon.myCdbl(gvDistributor.Rows(ii).Cells("Trip_No").Value)
-                    objD.Commission_Amt = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Commission_Amt").Value)
+            For ii As Integer = 0 To gvDistributor.Rows.Count - 1
+                Dim objD As New clsPSShipmentDemand
+                objD.Booking_TR_Code = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("TR_Code").Value)
+                objD.Booth_Code = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Cust_Code").Value)
+                objD.Item_Code = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value)
+                objD.Unit_Code = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_Code").Value)
+                objD.Qty = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Qty").Value)
+                objD.Trip_No = clsCommon.myCdbl(gvDistributor.Rows(ii).Cells("Trip_No").Value)
+                objD.Commission_Amt = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Commission_Amt").Value)
                 objD.Security_Amt = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Security_Amt").Value)
                 objD.NoCrateIssue = clsCommon.myCdbl(gvDistributor.Rows(ii).Cells("NoCrateIssue").Value)
                 obj.ArrDemand.Add(objD)
-                Next
+            Next
             'End If
             If ApplyBoothWiseScheme Then
                 obj.ArrBoothScheme = New List(Of clsPSShipmentBoothWiseScheme)
@@ -9095,9 +9199,9 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
 
                         If clsCommon.myLen(ParentDocNo) <= 0 AndAlso Not IsOnlyCreditCust Then
                             ParentDocNo = obj.Document_Code
-                            For Each lst As clsPSShipmentDemand In clsPSShipmentDemand.GetData(ParentDocNo, obj.Shift_Type, obj.Supply_Date, obj.Route_No, obj.Bill_To_Location, obj.DO_Item_Type, trans)
-                                lstobj.Add(lst)
-                            Next
+                            'For Each lst As clsPSShipmentDemand In clsPSShipmentDemand.GetData(ParentDocNo, obj.Shift_Type, obj.Supply_Date, obj.Route_No, obj.Bill_To_Location, obj.DO_Item_Type, 0, trans)
+                            '    lstobj.Add(lst)
+                            'Next
                         Else
                             If clsCommon.myLen(ParentDocNo) <= 0 Then
                                 ParentDocNo = obj.Document_Code
@@ -9107,7 +9211,7 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
 
                         End If
                     End If
-                    End If
+                End If
             End If
             'Return True
         Catch ex As Exception
@@ -11277,7 +11381,7 @@ left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=
                 'strOrginalCust = clsDBFuncationality.getSingleValue("select Customer_Code from  TSPL_DELIVERY_NOTE_MASTER_FRESHSALE  where Document_No='" & clsCommon.myCstr(gv1.Rows(0).Cells(colOrderNo).Value) & "'")
                 strOrginalCust = txtVendorNo.Value
             End If
-            LoadDemandData(Nothing)
+            LoadDemandData(Nothing, 0)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -13688,7 +13792,7 @@ left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DI
                     txtVendorNo.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
                     fndRouteNo_TextChanged()
                 End If
-                LoadDemandData(Nothing)
+                LoadDemandData(Nothing, 0)
             Else
                 Dim qry As String = "Select Route_No as Code,Route_Desc as Description,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER"
                 txtRouteNo.Value = clsCommon.ShowSelectForm("DShipRouteFinder", qry, "Code", "", txtRouteNo.Value, "", isButtonClicked)
@@ -14111,28 +14215,30 @@ and TSPL_Demand_Booking_Master.Route_No='" + txtRouteNo.Value + "' and TSPL_Dema
                         filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceIGST", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     Else
                         filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceGNG1", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                        End If
-                        'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceGNG", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BHR") = CompairStringResult.Equal Then
-                        filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceNew", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal Then
-                        filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJAL", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
-                        filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceSKR", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal AndAlso dt.Rows(0)("TaxableNonTaxable").ToString() = "T" Then
-                        filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceALW1", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-                        filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoiceALW1", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("TaxableNonTaxable")), "T") = CompairStringResult.Equal Then
-                        filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice_AJM", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
-                        filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoice_AJM", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
-                        'frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJDH", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                        filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJDHNEW", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    End If
+                    'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceGNG", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BHR") = CompairStringResult.Equal Then
+                    filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceNew", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal Then
+                    filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJAL", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
+                    filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceSKR", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal AndAlso dt.Rows(0)("TaxableNonTaxable").ToString() = "T" Then
+                    filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceALW1", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                    filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoiceALW1", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("TaxableNonTaxable")), "T") = CompairStringResult.Equal Then
+                    filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice_AJM", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+                    filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoice_AJM", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
+                    'frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJDH", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJDHNEW", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
+                    filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceRJS", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
 
-                    Else
-                        filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                Else
+                    filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 End If
                 'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 frmCRV = Nothing
@@ -16220,9 +16326,9 @@ On TabBatch.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code And  TabBatch.Ite
         End Try
     End Sub
     Private Sub RadButton3_Click(sender As Object, e As EventArgs) Handles RadButton3.Click
-        LoadDemandData(Nothing)
+        LoadDemandData(Nothing, 0)
     End Sub
-    Private Sub LoadDemandData(ByVal trans As SqlTransaction)
+    Private Sub LoadDemandData(ByVal trans As SqlTransaction, ByVal IsSkipBilling As Integer)
         Try
             If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "NT") = CompairStringResult.Equal Then
                 If SettDistributorWiseBilling AndAlso
@@ -16245,9 +16351,9 @@ where TSPL_Demand_Booking_Master.ShiftType='" & IIf(clsCommon.CompairString(clsC
 and TSPL_Demand_Booking_Master.Route_No='" & txtRouteNo.Value & "' and TSPL_Demand_Booking_Master.Location_Code='" + txtBillToLocation.Value + "' 
  "
                     If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal Then
-                        qry += " and TSPL_ITEM_MASTER_TAXABLE.Is_Taxable=1 "
+                        qry += " and TSPL_ITEM_MASTER_TAXABLE.Is_Taxable=1 and isnull(TSPL_ITEM_MASTER.IsSplitBilling,0)='" & clsCommon.myCstr(IsSkipBilling) & "' "
                     Else
-                        qry += " and TSPL_ITEM_MASTER_TAXABLE.Is_Taxable=0 "
+                        qry += " and TSPL_ITEM_MASTER_TAXABLE.Is_Taxable=0 and isnull(TSPL_ITEM_MASTER.IsSplitBilling,0)='" & clsCommon.myCstr(IsSkipBilling) & "' "
                     End If
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
                         If chkIndividualCustomer.Checked Then

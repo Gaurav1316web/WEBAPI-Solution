@@ -4,6 +4,8 @@ Public Class frmProductionShiftMgmtAdd
     Public ReportID As String = "AddF"
     Public FilterLocationCode As String
     Public FilterDate As DateTime
+    Public isSFG As Boolean = False
+    Public ArrSFG As List(Of clsProductionShiftMgmtSFGProductionItemAddRemove) = Nothing
     Public Arr As List(Of clsProductionShiftMgmtProductionItemAddRemove) = Nothing
     Public isOKClicked As Integer = 0
 
@@ -32,21 +34,40 @@ Public Class frmProductionShiftMgmtAdd
                 Throw New Exception("Report ID Not found")
             End If
             LoadBlankGrid()
-            If Arr IsNot Nothing AndAlso Arr.Count > 0 Then
-                For Each obj As clsProductionShiftMgmtProductionItemAddRemove In Arr
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(ColLocationCode).Value = obj.Location_Code
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(ColLocationName).Value = obj.Location_Name
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(ColItemCode).Value = obj.Item_Code
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(ColItemName).Value = obj.Item_Name
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(ColProductType).Value = obj.ItemProductType
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(ColUOM).Value = obj.UOM
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(ColEnteredQty).Value = obj.Qty
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(ColEnteredFATKG).Value = obj.FAT_KG
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(ColEnteredSNFKG).Value = obj.SNF_KG
-                    SetBalance(gv1.Rows.Count - 1)
-                    gv1.Rows.AddNew()
-                Next
+            If isSFG Then
+                If ArrSFG IsNot Nothing AndAlso ArrSFG.Count > 0 Then
+                    For Each obj As clsProductionShiftMgmtSFGProductionItemAddRemove In ArrSFG
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColLocationCode).Value = obj.Location_Code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColLocationName).Value = obj.Location_Name
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColItemCode).Value = obj.Item_Code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColItemName).Value = obj.Item_Name
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColProductType).Value = obj.ItemProductType
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColUOM).Value = obj.UOM
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColEnteredQty).Value = obj.Qty
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColEnteredFATKG).Value = obj.FAT_KG
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColEnteredSNFKG).Value = obj.SNF_KG
+                        SetBalance(gv1.Rows.Count - 1)
+                        gv1.Rows.AddNew()
+                    Next
+                End If
+            Else
+                If Arr IsNot Nothing AndAlso Arr.Count > 0 Then
+                    For Each obj As clsProductionShiftMgmtProductionItemAddRemove In Arr
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColLocationCode).Value = obj.Location_Code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColLocationName).Value = obj.Location_Name
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColItemCode).Value = obj.Item_Code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColItemName).Value = obj.Item_Name
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColProductType).Value = obj.ItemProductType
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColUOM).Value = obj.UOM
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColEnteredQty).Value = obj.Qty
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColEnteredFATKG).Value = obj.FAT_KG
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColEnteredSNFKG).Value = obj.SNF_KG
+                        SetBalance(gv1.Rows.Count - 1)
+                        gv1.Rows.AddNew()
+                    Next
+                End If
             End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Me.Close()
@@ -218,7 +239,7 @@ Public Class frmProductionShiftMgmtAdd
         repoNumBox.ShowUpDownButtons = False
         repoNumBox.Step = 0
         repoNumBox.DecimalPlaces = 3
-        repoNumBox.ReadOnly = True
+        repoNumBox.ReadOnly = False
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoNumBox.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoNumBox)
@@ -260,7 +281,7 @@ Public Class frmProductionShiftMgmtAdd
         repoNumBox.ShowUpDownButtons = False
         repoNumBox.Step = 0
         repoNumBox.DecimalPlaces = 3
-        repoNumBox.ReadOnly = True
+        repoNumBox.ReadOnly = False
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoNumBox.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoNumBox)
@@ -311,33 +332,63 @@ Public Class frmProductionShiftMgmtAdd
     End Sub
     Private Sub btnopen_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnopen.Click
         isOKClicked = 1
-        Arr = New List(Of clsProductionShiftMgmtProductionItemAddRemove)
-        For ii As Integer = 0 To gv1.Rows.Count - 1
-            If clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColEnteredQty).Value) > 0 Then
-                If clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColEnteredQty).Value) <= clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColAvailQty).Value) Then
-                    Dim obj As New clsProductionShiftMgmtProductionItemAddRemove
-                    obj.Location_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(ColLocationCode).Value)
-                    obj.Location_Name = clsCommon.myCstr(gv1.Rows(ii).Cells(ColLocationName).Value)
-                    obj.Item_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(ColItemCode).Value)
-                    obj.Item_Name = clsCommon.myCstr(gv1.Rows(ii).Cells(ColItemName).Value)
-                    obj.ItemProductType = clsCommon.myCstr(gv1.Rows(ii).Cells(ColProductType).Value)
-                    obj.Qty = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColEnteredQty).Value)
-                    obj.UOM = clsCommon.myCstr(gv1.Rows(ii).Cells(ColUOM).Value)
-                    If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(ColProductType).Value), "MI") = CompairStringResult.Equal Then
-                        obj.FAT = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColFAT).Value)
-                        obj.FAT_KG = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColEnteredFATKG).Value)
-                        obj.SNF = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColSNF).Value)
-                        obj.SNF_KG = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColEnteredSNFKG).Value)
+        If isSFG Then
+            ArrSFG = New List(Of clsProductionShiftMgmtSFGProductionItemAddRemove)
+            For ii As Integer = 0 To gv1.Rows.Count - 1
+                If clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColEnteredQty).Value) > 0 Then
+                    If clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColEnteredQty).Value) <= clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColAvailQty).Value) Then
+                        Dim obj As New clsProductionShiftMgmtSFGProductionItemAddRemove
+                        obj.Location_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(ColLocationCode).Value)
+                        obj.Location_Name = clsCommon.myCstr(gv1.Rows(ii).Cells(ColLocationName).Value)
+                        obj.Item_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(ColItemCode).Value)
+                        obj.Item_Name = clsCommon.myCstr(gv1.Rows(ii).Cells(ColItemName).Value)
+                        obj.ItemProductType = clsCommon.myCstr(gv1.Rows(ii).Cells(ColProductType).Value)
+                        obj.Qty = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColEnteredQty).Value)
+                        obj.UOM = clsCommon.myCstr(gv1.Rows(ii).Cells(ColUOM).Value)
+                        If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(ColProductType).Value), "MI") = CompairStringResult.Equal Then
+                            obj.FAT = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColFAT).Value)
+                            obj.FAT_KG = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColEnteredFATKG).Value)
+                            obj.SNF = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColSNF).Value)
+                            obj.SNF_KG = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColEnteredSNFKG).Value)
+                        End If
+                        ArrSFG.Add(obj)
                     End If
-                    Arr.Add(obj)
                 End If
-            End If
-        Next
+            Next
+        Else
+            Arr = New List(Of clsProductionShiftMgmtProductionItemAddRemove)
+            For ii As Integer = 0 To gv1.Rows.Count - 1
+                If clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColEnteredQty).Value) > 0 Then
+                    If clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColEnteredQty).Value) <= clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColAvailQty).Value) Then
+                        Dim obj As New clsProductionShiftMgmtProductionItemAddRemove
+                        obj.Location_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(ColLocationCode).Value)
+                        obj.Location_Name = clsCommon.myCstr(gv1.Rows(ii).Cells(ColLocationName).Value)
+                        obj.Item_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(ColItemCode).Value)
+                        obj.Item_Name = clsCommon.myCstr(gv1.Rows(ii).Cells(ColItemName).Value)
+                        obj.ItemProductType = clsCommon.myCstr(gv1.Rows(ii).Cells(ColProductType).Value)
+                        obj.Qty = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColEnteredQty).Value)
+                        obj.UOM = clsCommon.myCstr(gv1.Rows(ii).Cells(ColUOM).Value)
+                        If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(ColProductType).Value), "MI") = CompairStringResult.Equal Then
+                            obj.FAT = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColFAT).Value)
+                            obj.FAT_KG = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColEnteredFATKG).Value)
+                            obj.SNF = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColSNF).Value)
+                            obj.SNF_KG = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColEnteredSNFKG).Value)
+                        End If
+                        Arr.Add(obj)
+                    End If
+                End If
+            Next
+        End If
+
         Me.Close()
     End Sub
     Private Sub RadButton2_Click(sender As Object, e As EventArgs) Handles RadButton2.Click
         isOKClicked = 2
-        Arr = Nothing
+        If isSFG Then
+            ArrSFG = Nothing
+        Else
+            Arr = Nothing
+        End If
         Me.Close()
     End Sub
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
@@ -356,11 +407,29 @@ Public Class frmProductionShiftMgmtAdd
                     ElseIf e.Column Is gv1.Columns(ColEnteredQty) Then
                         If gv1.CurrentRow.Cells(ColEnteredQty).Value > gv1.CurrentRow.Cells(ColAvailQty).Value Then
                             gv1.CurrentRow.Cells(ColEnteredQty).Value = 0
-                            Throw New Exception("Entered Qty Cant be more thant [" + clsCommon.myCstr(gv1.CurrentRow.Cells(ColAvailQty).Value) + "] ")
+                            Throw New Exception("Entered Qty Can't be more than [" + clsCommon.myCstr(gv1.CurrentRow.Cells(ColAvailQty).Value) + "] ")
                         End If
                         If clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(ColProductType).Value), "MI") = CompairStringResult.Equal Then
                             gv1.CurrentRow.Cells(ColEnteredFATKG).Value = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColFATKG).Value) * clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColEnteredQty).Value), clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColAvailQty).Value)), 3, MidpointRounding.ToEven)
                             gv1.CurrentRow.Cells(ColEnteredSNFKG).Value = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColSNFKG).Value) * clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColEnteredQty).Value), clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColAvailQty).Value)), 3, MidpointRounding.ToEven)
+                        End If
+                    ElseIf e.Column Is gv1.Columns(ColEnteredFATKG) Then
+                        If gv1.CurrentRow.Cells(ColEnteredFATKG).Value > gv1.CurrentRow.Cells(ColFATKG).Value Then
+                            gv1.CurrentRow.Cells(ColEnteredQty).Value = 0
+                            Throw New Exception("Entered FAT KG Can't be more than [" + clsCommon.myCstr(gv1.CurrentRow.Cells(ColFATKG).Value) + "] ")
+                        End If
+                        If clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(ColProductType).Value), "MI") = CompairStringResult.Equal Then
+                            gv1.CurrentRow.Cells(ColEnteredQty).Value = Math.Round(clsCommon.myCDivide((clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColEnteredFATKG).Value) * 100), clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColFAT).Value)), 2, MidpointRounding.ToEven)
+                            gv1.CurrentRow.Cells(ColEnteredSNFKG).Value = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColSNFKG).Value) * clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColEnteredQty).Value), clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColAvailQty).Value)), 3, MidpointRounding.ToEven)
+                        End If
+                    ElseIf e.Column Is gv1.Columns(ColEnteredSNFKG) Then
+                        If gv1.CurrentRow.Cells(ColEnteredSNFKG).Value > gv1.CurrentRow.Cells(ColSNFKG).Value Then
+                            gv1.CurrentRow.Cells(ColEnteredQty).Value = 0
+                            Throw New Exception("Entered SNF KG Can't be more than [" + clsCommon.myCstr(gv1.CurrentRow.Cells(ColSNFKG).Value) + "] ")
+                        End If
+                        If clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(ColProductType).Value), "MI") = CompairStringResult.Equal Then
+                            gv1.CurrentRow.Cells(ColEnteredQty).Value = Math.Round(clsCommon.myCDivide((clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColEnteredSNFKG).Value) * 100), clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColSNF).Value)), 2, MidpointRounding.ToEven)
+                            gv1.CurrentRow.Cells(ColEnteredFATKG).Value = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColFATKG).Value) * clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColEnteredQty).Value), clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColAvailQty).Value)), 3, MidpointRounding.ToEven)
                         End If
                     End If
                     isCellValueChangedOpen = False
@@ -392,5 +461,19 @@ Public Class frmProductionShiftMgmtAdd
                 gv1.CurrentRow = gv1.Rows(intCurrRow)
             End If
         End If
+    End Sub
+
+    Private Sub gv1_CellFormatting(sender As Object, e As CellFormattingEventArgs) Handles gv1.CellFormatting
+        Try
+            If Not isInsideLoadData Then
+                If e.RowIndex >= 0 Then
+                    If e.Column Is gv1.Columns(ColEnteredFATKG) OrElse e.Column Is gv1.Columns(ColEnteredSNFKG) Then
+                        gv1.CurrentRow.Cells(e.Column.Name).ReadOnly = Not (clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(ColProductType).Value), "MI") = CompairStringResult.Equal)
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

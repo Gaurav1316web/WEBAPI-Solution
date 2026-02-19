@@ -169,6 +169,7 @@ Public Class FrmTankerMaster
         loadBlankgv()
         gv.Rows.AddNew()
         chkInactive.Checked = False
+        ChkPrivate.Checked = False
     End Sub
     Function isBlankGV() As Boolean
         Dim rValue As Boolean = True
@@ -300,14 +301,17 @@ Public Class FrmTankerMaster
                 Errorcontrol.ResetError(txtstorage)
             End If
 
-            If clsCommon.myCdbl(TxtIceCharge.Value) <= 0 Then
-                TxtIceCharge.Focus()
-                TxtIceCharge.Select()
-                Errorcontrol.SetError(TxtIceCharge, "Please Enter Ice Charge")
-                Throw New Exception("Please Enter Ice Charge")
-            Else
-                Errorcontrol.ResetError(TxtIceCharge)
+            If ChkPrivate.Checked = False Then
+                If clsCommon.myCdbl(TxtIceCharge.Value) <= 0 Then
+                    TxtIceCharge.Focus()
+                    TxtIceCharge.Select()
+                    Errorcontrol.SetError(TxtIceCharge, "Please Enter Ice Charge")
+                    Throw New Exception("Please Enter Ice Charge")
+                Else
+                    Errorcontrol.ResetError(TxtIceCharge)
+                End If
             End If
+
 
             If clsCommon.myLen(ddlStorageCapacityDescription.Text) = 0 Then
                 ddlStorageCapacityDescription.Focus()
@@ -504,7 +508,11 @@ Public Class FrmTankerMaster
             obj.desc = clsCommon.myCstr(txtname.Text)
             obj.tankerno = clsCommon.myCstr(fndNo.Value)
             obj.storagecap = clsCommon.myCdbl(txtstorage.Value)
-            obj.IceCharge = clsCommon.myCdbl(TxtIceCharge.Value)
+            If ChkPrivate.Checked = True Then
+                obj.IceCharge = 0
+            Else
+                obj.IceCharge = clsCommon.myCdbl(TxtIceCharge.Value)
+            End If
             obj.year = clsCommon.myCstr(txtyear.Text)
             obj.tanker_name = clsCommon.myCstr(txtdesc.Text.Replace("'", "`"))
             ''richa Against Ticket No. BM00000003713 on 03/09/2014
@@ -560,6 +568,7 @@ Public Class FrmTankerMaster
                 End If
             End If
             obj.Inactive = chkInactive.Checked
+            obj.PrivateTanker = ChkPrivate.Checked
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             Try
                 If clsfrmTankerMaster.SaveData(obj.tankerno, isNewEntry, obj, trans) Then
@@ -1051,6 +1060,7 @@ Public Class FrmTankerMaster
                     txtRentalAmt.Text = ""
                 End If
                 chkInactive.Checked = obj.Inactive
+                ChkPrivate.Checked = obj.PrivateTanker
 
                 Dim kmRange As Boolean = False
                 Dim arrObjSlab As List(Of clsSlabRangeDetail) = clsSlabRangeDetail.getData(Me.Form_ID, obj.tankerno)

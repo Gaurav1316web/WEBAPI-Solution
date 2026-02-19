@@ -25,6 +25,7 @@ Partial Class rptmilkunion
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -43,6 +44,8 @@ Partial Class rptmilkunion
         Me.rdbUnposted = New System.Windows.Forms.RadioButton()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gvDetails = New common.UserControls.MyRadGridView()
         Me.btnExport = New Telerik.WinControls.UI.RadSplitButton()
         Me.btnExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnPDF = New Telerik.WinControls.UI.RadMenuItem()
@@ -72,6 +75,9 @@ Partial Class rptmilkunion
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage3.SuspendLayout()
+        CType(Me.gvDetails, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvDetails.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btngo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -106,10 +112,12 @@ Partial Class rptmilkunion
         '
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
+        Me.RadPageView1.DefaultPage = Me.RadPageViewPage1
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(800, 411)
         Me.RadPageView1.TabIndex = 4
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -144,10 +152,10 @@ Partial Class rptmilkunion
         Me.RadGroupBox3.Controls.Add(Me.txtToDate)
         Me.RadGroupBox3.Controls.Add(Me.txtFromDate)
         Me.RadGroupBox3.HeaderText = "Date Range"
-        Me.RadGroupBox3.Location = New System.Drawing.Point(15, 39)
+        Me.RadGroupBox3.Location = New System.Drawing.Point(89, 36)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox3.Size = New System.Drawing.Size(304, 57)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(301, 57)
         Me.RadGroupBox3.TabIndex = 446
         Me.RadGroupBox3.Text = "Date Range"
         '
@@ -192,7 +200,7 @@ Partial Class rptmilkunion
         Me.txtToDate.ReferenceFieldDesc = Nothing
         Me.txtToDate.ReferenceFieldName = Nothing
         Me.txtToDate.ReferenceTableName = Nothing
-        Me.txtToDate.Size = New System.Drawing.Size(82, 20)
+        Me.txtToDate.Size = New System.Drawing.Size(83, 20)
         Me.txtToDate.TabIndex = 2
         Me.txtToDate.TabStop = False
         Me.txtToDate.Text = "30/05/2011"
@@ -211,7 +219,7 @@ Partial Class rptmilkunion
         Me.txtFromDate.IsSourceFromTable = False
         Me.txtFromDate.IsSourceFromValueList = False
         Me.txtFromDate.IsUnique = False
-        Me.txtFromDate.Location = New System.Drawing.Point(70, 23)
+        Me.txtFromDate.Location = New System.Drawing.Point(69, 23)
         Me.txtFromDate.MendatroryField = False
         Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtFromDate.MyLinkLable1 = Nothing
@@ -221,7 +229,7 @@ Partial Class rptmilkunion
         Me.txtFromDate.ReferenceFieldDesc = Nothing
         Me.txtFromDate.ReferenceFieldName = Nothing
         Me.txtFromDate.ReferenceTableName = Nothing
-        Me.txtFromDate.Size = New System.Drawing.Size(78, 20)
+        Me.txtFromDate.Size = New System.Drawing.Size(83, 20)
         Me.txtFromDate.TabIndex = 1
         Me.txtFromDate.TabStop = False
         Me.txtFromDate.Text = "30/05/2011"
@@ -237,9 +245,9 @@ Partial Class rptmilkunion
         RadListDataItem2.Text = "Union Wise Average Status Report"
         Me.ddlReportType.Items.Add(RadListDataItem1)
         Me.ddlReportType.Items.Add(RadListDataItem2)
-        Me.ddlReportType.Location = New System.Drawing.Point(116, 13)
+        Me.ddlReportType.Location = New System.Drawing.Point(89, 13)
         Me.ddlReportType.Name = "ddlReportType"
-        Me.ddlReportType.Size = New System.Drawing.Size(203, 20)
+        Me.ddlReportType.Size = New System.Drawing.Size(299, 20)
         Me.ddlReportType.TabIndex = 445
         '
         'MyLabel15
@@ -253,7 +261,7 @@ Partial Class rptmilkunion
         '
         'chkRJSBNS
         '
-        Me.chkRJSBNS.Location = New System.Drawing.Point(615, 16)
+        Me.chkRJSBNS.Location = New System.Drawing.Point(394, 48)
         Me.chkRJSBNS.Name = "chkRJSBNS"
         Me.chkRJSBNS.Size = New System.Drawing.Size(64, 18)
         Me.chkRJSBNS.TabIndex = 443
@@ -266,7 +274,7 @@ Partial Class rptmilkunion
         Me.RadGroupBox2.Controls.Add(Me.rdbPosted)
         Me.RadGroupBox2.Controls.Add(Me.rdbUnposted)
         Me.RadGroupBox2.HeaderText = ""
-        Me.RadGroupBox2.Location = New System.Drawing.Point(329, 14)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(394, 13)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox2.Size = New System.Drawing.Size(269, 29)
@@ -277,7 +285,7 @@ Partial Class rptmilkunion
         Me.rbdAllTrans.AutoSize = True
         Me.rbdAllTrans.Location = New System.Drawing.Point(165, 6)
         Me.rbdAllTrans.Name = "rbdAllTrans"
-        Me.rbdAllTrans.Size = New System.Drawing.Size(94, 17)
+        Me.rbdAllTrans.Size = New System.Drawing.Size(95, 17)
         Me.rbdAllTrans.TabIndex = 439
         Me.rbdAllTrans.Text = "All Transation"
         Me.rbdAllTrans.UseVisualStyleBackColor = True
@@ -328,6 +336,7 @@ Partial Class rptmilkunion
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportAPI = False
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -335,6 +344,37 @@ Partial Class rptmilkunion
         Me.gv1.Size = New System.Drawing.Size(779, 363)
         Me.gv1.TabIndex = 2
         Me.gv1.VarID = ""
+        '
+        'RadPageViewPage3
+        '
+        Me.RadPageViewPage3.Controls.Add(Me.gvDetails)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(87.0!, 28.0!)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage3.Name = "RadPageViewPage3"
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(779, 363)
+        Me.RadPageViewPage3.Text = "Report Details"
+        '
+        'gvDetails
+        '
+        Me.gvDetails.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvDetails.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvDetails.MasterTemplate.AllowAddNewRow = False
+        Me.gvDetails.MasterTemplate.AllowDeleteRow = False
+        Me.gvDetails.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvDetails.MasterTemplate.ShowGroupedColumns = True
+        Me.gvDetails.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvDetails.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvDetails.MyExportAPI = False
+        Me.gvDetails.MyExportFilePath = ""
+        Me.gvDetails.MyStopExport = False
+        Me.gvDetails.Name = "gvDetails"
+        Me.gvDetails.ShowHeaderCellButtons = True
+        Me.gvDetails.Size = New System.Drawing.Size(779, 363)
+        Me.gvDetails.TabIndex = 3
+        Me.gvDetails.VarID = ""
         '
         'btnExport
         '
@@ -430,6 +470,9 @@ Partial Class rptmilkunion
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage3.ResumeLayout(False)
+        CType(Me.gvDetails.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvDetails, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btngo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -465,4 +508,6 @@ Partial Class rptmilkunion
     Friend WithEvents btnExport As RadSplitButton
     Friend WithEvents btnExcel As RadMenuItem
     Friend WithEvents btnPDF As RadMenuItem
+    Friend WithEvents RadPageViewPage3 As RadPageViewPage
+    Friend WithEvents gvDetails As common.UserControls.MyRadGridView
 End Class

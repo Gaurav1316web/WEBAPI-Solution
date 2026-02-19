@@ -737,7 +737,7 @@ Public Class clsDCSSaleEntry
             "TSPL_DCS_SALE_ENTRY_DETAIL.Total_Cust_Discount,TSPL_DCS_SALE_ENTRY_DETAIL.ActualRate,TSPL_DCS_SALE_ENTRY_DETAIL.Cust_DiscountQty, " &
             "TSPL_DCS_SALE_ENTRY_DETAIL.Price_code,TSPL_DCS_SALE_ENTRY_DETAIL.Abatement_Per,TSPL_DCS_SALE_ENTRY_DETAIL.Abatement_Amt, " &
             "TSPL_DCS_SALE_ENTRY_DETAIL.FOC_Item,TSPL_DCS_SALE_ENTRY_DETAIL.Item_Weight,TSPL_DCS_SALE_ENTRY_DETAIL.Price_Date, " &
-            "TSPL_DCS_SALE_ENTRY_DETAIL.HeadDiscPer,TSPL_DCS_SALE_ENTRY_DETAIL.HeadDiscPerAmt,TSPL_DCS_SALE_ENTRY_DETAIL.Bin_No,TSPL_DCS_SALE_ENTRY_DETAIL.TotalItem_Weight,TSPL_DCS_SALE_ENTRY_DETAIL.Conv_Factor,TSPL_DCS_SALE_ENTRY_DETAIL.Purchase_Cost,TSPL_DCS_SALE_ENTRY_DETAIL.OrgRate,  " &
+            "TSPL_DCS_SALE_ENTRY_DETAIL.HeadDiscPer,TSPL_DCS_SALE_ENTRY_DETAIL.HeadDiscPerAmt,TSPL_DCS_SALE_ENTRY_DETAIL.Is_Add_TPT,TSPL_DCS_SALE_ENTRY_DETAIL.Bin_No,TSPL_DCS_SALE_ENTRY_DETAIL.TotalItem_Weight,TSPL_DCS_SALE_ENTRY_DETAIL.Conv_Factor,TSPL_DCS_SALE_ENTRY_DETAIL.Purchase_Cost,TSPL_DCS_SALE_ENTRY_DETAIL.OrgRate,  " &
             "TSPL_DCS_SALE_ENTRY_DETAIL.vendor_code,TSPL_DCS_SALE_ENTRY_DETAIL.vendor_desc,TSPL_DCS_SALE_ENTRY_DETAIL.PrincipleCode,TSPL_DCS_SALE_ENTRY_DETAIL.PrincipleDesc,TSPL_DCS_SALE_ENTRY_DETAIL.Markup_On,TSPL_DCS_SALE_ENTRY_DETAIL.Markup_Percent,TSPL_DCS_SALE_ENTRY_DETAIL.Landing_Cost,TSPL_DCS_SALE_ENTRY_DETAIL.HeadDiscAmt,TSPL_DCS_SALE_ENTRY_DETAIL.CustDiscPer,TSPL_DCS_SALE_ENTRY_DETAIL.CasdDiscScheme_Code " &
             ",TSPL_DCS_SALE_ENTRY_DETAIL.Commission_Rate,TSPL_DCS_SALE_ENTRY_DETAIL.Commission_Party,TSPL_DCS_SALE_ENTRY_DETAIL.Commission_Amt,TSPL_DCS_SALE_ENTRY_DETAIL.Amt_Less_Commission,TSPL_DCS_SALE_ENTRY_DETAIL.Disc_Per_Unit,TSPL_DCS_SALE_ENTRY_DETAIL.Disc_Unit_Amt,TSPL_DCS_SALE_ENTRY_DETAIL.Deduction_Type ,TSPL_DCS_SALE_ENTRY_DETAIL.Deduction,TSPL_DEDUCTION_MASTER.Description as Deduction_Name ,TSPL_DCS_SALE_ENTRY_DETAIL.Tax_Group,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as TaxGroupName "
             qry += " FROM TSPL_DCS_SALE_ENTRY_DETAIL "
@@ -896,6 +896,7 @@ Public Class clsDCSSaleEntry
                     objTr.Bin_No = clsCommon.myCstr(dr("Bin_No"))
                     objTr.HeadDiscPer = clsCommon.myCdbl(dr("HeadDiscPer"))
                     objTr.HeadDiscPerAmt = clsCommon.myCdbl(dr("HeadDiscPerAmt"))
+                    objTr.Is_Add_TPT = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Add_TPT")) = 1, True, False)
                     objTr.arrSrItem = clsSerializeInvenotry.GetData("DCS-SAL-ENT", objTr.Document_Code, objTr.Item_Code, objTr.Line_No, trans)
                     objTr.arrBatchItem = clsBatchInventory.GetData("DCS-SAL-ENT", objTr.Document_Code, objTr.Item_Code, objTr.Line_No, trans)
                     obj.Arr.Add(objTr)
@@ -1024,6 +1025,7 @@ Public Class clsDCSSaleEntry
                     objDCSSale.Document_Date = obj.Podate
                     objDCSSale.Total_Comm_Amt = 0
                     objDCSSale.Is_Apply_TPT = obj.Is_Apply_TPT
+                    objDCSSale.Is_Add_TPT = objDCSEntrySale.Is_Add_TPT
                     objDCSSale.Recommended_By = obj.Recommended_By
                     objDCSSale.TPT_Vendor = obj.TPT_Vendor
                     objDCSSale.No_Of_Instalment = obj.No_Of_Instalment
@@ -1376,6 +1378,8 @@ Public Class clsDCSSaleEntry
 
             Next
 
+            qry = " update TSPL_BATCH_ITEM set In_Out_Type='X' where Document_Type='DCS-SAL-ENT' and Document_Code='" + strDocNo + "' "
+            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             For ii As Integer = 0 To Arr.Keys.Count - 1
                 Dim objShipment As clsMCCMaterialSale = Arr.Item(Arr.Keys(ii))
                 objShipment.SaveData(objShipment, True, trans)
@@ -1388,8 +1392,6 @@ Public Class clsDCSSaleEntry
             End If
             qry += "Against_Sales_Order=" & obj.Against_Sales_Order & ", Status=1, Posting_Date='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy") + "',Modify_By='" + objCommonVar.CurrentUserCode + "' "
             qry += " where Document_Code='" + strDocNo + "'"
-            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            qry = " update TSPL_BATCH_ITEM set In_Out_Type='X' where Document_Type='DCS-SAL-ENT' and Document_Code='" + strDocNo + "' "
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             trans.Commit()
 
@@ -1827,6 +1829,7 @@ Public Class clsDCSSaleEntryDetail
     Public Bin_No As String = Nothing
     Public HeadDiscPer As Double = 0
     Public HeadDiscPerAmt As Double = 0
+    Public Is_Add_TPT As Boolean = False
     Public arrBatchItem As List(Of clsBatchInventory) = Nothing
 #End Region
 
@@ -2000,6 +2003,7 @@ Public Class clsDCSSaleEntryDetail
                 clsCommon.AddColumnsForChange(coll, "Bin_No", obj.Bin_No)
                 clsCommon.AddColumnsForChange(coll, "HeadDiscPer", obj.HeadDiscPer)
                 clsCommon.AddColumnsForChange(coll, "HeadDiscPerAmt", obj.HeadDiscPerAmt)
+                clsCommon.AddColumnsForChange(coll, "Is_Add_TPT", IIf(obj.Is_Add_TPT, 1, 0))
                 'clsCommon.AddColumnsForChange(coll, "Unit_Cogs", clsItemLocationDetails.GetUnitCogs(obj.Item_Code, obj.Location, trans))
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DCS_SALE_ENTRY_DETAIL", OMInsertOrUpdate.Insert, "", trans)
                 clsSerializeInvenotry.SaveData("DCS-SAL-ENT", strDocNo, DocDate, "O", obj.Item_Code, obj.Location, obj.Line_No, obj.arrSrItem, trans)

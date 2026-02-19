@@ -283,6 +283,7 @@ Partial Class frmMCCMaterialSale
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.chkAddTPT = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -514,6 +515,7 @@ Partial Class frmMCCMaterialSale
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkAddTPT, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -567,7 +569,7 @@ Partial Class frmMCCMaterialSale
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage5
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1358, 485)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -576,6 +578,7 @@ Partial Class frmMCCMaterialSale
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkAddTPT)
         Me.RadPageViewPage1.Controls.Add(Me.chkIsEwayBill)
         Me.RadPageViewPage1.Controls.Add(Me.UcDCSBalance1)
         Me.RadPageViewPage1.Controls.Add(Me.chkExcludeKKFMandi)
@@ -4260,6 +4263,17 @@ Partial Class frmMCCMaterialSale
         Me.RadMenu1.Size = New System.Drawing.Size(1358, 20)
         Me.RadMenu1.TabIndex = 3
         '
+        'chkAddTPT
+        '
+        Me.chkAddTPT.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkAddTPT.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkAddTPT.Location = New System.Drawing.Point(1065, 1)
+        Me.chkAddTPT.Name = "chkAddTPT"
+        Me.chkAddTPT.Size = New System.Drawing.Size(65, 16)
+        Me.chkAddTPT.TabIndex = 1585
+        Me.chkAddTPT.Text = "Add TPT"
+        Me.chkAddTPT.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
         'frmMCCMaterialSale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4523,6 +4537,7 @@ Partial Class frmMCCMaterialSale
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkAddTPT, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -4775,5 +4790,6 @@ Partial Class frmMCCMaterialSale
     Friend WithEvents btnHistory1 As RadButton
     Friend WithEvents btnCreateEWB As RadButton
     Friend WithEvents chkIsEwayBill As RadCheckBox
+    Friend WithEvents chkAddTPT As RadCheckBox
 End Class
 

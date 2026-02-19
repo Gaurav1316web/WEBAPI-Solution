@@ -1,4 +1,5 @@
 ﻿Imports common
+Imports System.Globalization
 Public Class rptmilkunion
     Inherits FrmMainTranScreen
     Dim dt As DataTable
@@ -800,31 +801,31 @@ Public Class rptmilkunion
             If dt2 IsNot Nothing OrElse dt2.Rows.Count > 0 Then
 
                 gv1.DataSource = Nothing
-                    gv1.Rows.Clear()
-                    gv1.Columns.Clear()
-                    gv1.GroupDescriptors.Clear()
-                    gv1.MasterTemplate.SummaryRowsBottom.Clear()
-                    gv1.MasterView.Refresh()
-                    gv1.DataSource = dt2
-                    For ii As Integer = 0 To gv1.Columns.Count - 1
-                        gv1.Columns(ii).ReadOnly = True
-                    Next
+                gv1.Rows.Clear()
+                gv1.Columns.Clear()
+                gv1.GroupDescriptors.Clear()
+                gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                gv1.MasterView.Refresh()
+                gv1.DataSource = dt2
+                For ii As Integer = 0 To gv1.Columns.Count - 1
+                    gv1.Columns(ii).ReadOnly = True
+                Next
                 RadPageView1.SelectedPage = RadPageViewPage2
                 gv1.EnableFiltering = True
-                    gv1.MasterTemplate.SummaryRowsBottom.Clear()
-                    SetGridFormat1()
-                    gv1.BestFitColumns()
-                    If print Then
-                        If clsCommon.CompairString(ddlReportType.SelectedValue, "UWASR") = CompairStringResult.Equal Then
-                            Dim frmCRV As New frmCrystalReportViewer()
+                gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                SetGridFormat1()
+                gv1.BestFitColumns()
+                If print Then
+                    If clsCommon.CompairString(ddlReportType.SelectedValue, "UWASR") = CompairStringResult.Equal Then
+                        Dim frmCRV As New frmCrystalReportViewer()
                         frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptmilkunionAvgreport", "") ''report for both (RCDF And RCDFCF)
                     Else
-                            Dim frmCRV As New frmCrystalReportViewer()
+                        Dim frmCRV As New frmCrystalReportViewer()
                         frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "crptmilkunionreport", "") ''report for both (RCDF And RCDFCF)
                     End If
 
-                    End If
-                Else
+                End If
+            Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
@@ -1092,6 +1093,12 @@ Public Class rptmilkunion
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
         End Try
+    End Sub
+
+    Private Sub gv1_CellFormatting(sender As Object, e As CellFormattingEventArgs) Handles gv1.CellFormatting
+        If e.CellElement.Value IsNot Nothing AndAlso IsNumeric(e.CellElement.Value) Then
+            e.CellElement.Text = Convert.ToDecimal(e.CellElement.Value).ToString("N2", New CultureInfo("en-IN"))
+        End If
     End Sub
 
     'Private Sub gv1_CellFormatting(sender As Object, e As CellFormattingEventArgs) Handles gv1.CellFormatting

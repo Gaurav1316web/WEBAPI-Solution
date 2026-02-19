@@ -23,32 +23,17 @@ Partial Class frmProcessProductionStandardizationFinalQC
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmProcessProductionStandardizationFinalQC))
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.chkJobWorkInward = New Telerik.WinControls.UI.RadCheckBox()
-        Me.btnNew = New Telerik.WinControls.UI.RadButton()
-        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
-        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.pageIssueDetail = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.pageAddRemoveDetail = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.pageStageDetail = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.pageBatchDetail = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.pageParameterDetail = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.pageSectionStock = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.pageSectionStockHistory = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.pageAttachment = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
-        Me.btnunpost = New Telerik.WinControls.UI.RadButton()
-        Me.btnCancel = New Telerik.WinControls.UI.RadButton()
-        Me.btnUpdateParameters = New Telerik.WinControls.UI.RadButton()
-        Me.btnPost = New Telerik.WinControls.UI.RadButton()
-        Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.btndelete = New Telerik.WinControls.UI.RadButton()
-        Me.btngo = New Telerik.WinControls.UI.RadButton()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.RadLabel21 = New common.Controls.MyLabel()
         Me.cboStaus = New common.Controls.MyComboBox()
         Me.MyLabel9 = New common.Controls.MyLabel()
@@ -80,15 +65,27 @@ Partial Class frmProcessProductionStandardizationFinalQC
         Me.lblCode = New common.Controls.MyLabel()
         Me.lblBomDate = New common.Controls.MyLabel()
         Me.dtpDate = New common.Controls.MyDateTimePicker()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.txtCode = New common.UserControls.txtNavigator()
+        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
+        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvParam = New common.UserControls.MyRadGridView()
+        Me.pageIssueDetail = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvIssue = New common.UserControls.MyRadGridView()
+        Me.pageAddRemoveDetail = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvARDetail = New common.UserControls.MyRadGridView()
+        Me.pageStageDetail = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvStage = New common.UserControls.MyRadGridView()
+        Me.pageBatchDetail = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv = New common.UserControls.MyRadGridView()
+        Me.pageParameterDetail = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv_qc = New common.UserControls.MyRadGridView()
+        Me.pageSectionStock = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvSectionStock = New common.UserControls.MyRadGridView()
+        Me.pageSectionStockHistory = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvSectionStockHistory = New common.UserControls.MyRadGridView()
+        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.lblJWESNFAmt = New common.Controls.MyLabel()
         Me.lblJWEFATAmt = New common.Controls.MyLabel()
         Me.MyLabel24 = New common.Controls.MyLabel()
@@ -133,7 +130,18 @@ Partial Class frmProcessProductionStandardizationFinalQC
         Me.MyLabel14 = New common.Controls.MyLabel()
         Me.MyLabel12 = New common.Controls.MyLabel()
         Me.MyLabel7 = New common.Controls.MyLabel()
+        Me.pageAttachment = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
+        Me.btnunpost = New Telerik.WinControls.UI.RadButton()
+        Me.btnCancel = New Telerik.WinControls.UI.RadButton()
+        Me.btnUpdateParameters = New Telerik.WinControls.UI.RadButton()
+        Me.btnPost = New Telerik.WinControls.UI.RadButton()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btngo = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -142,30 +150,6 @@ Partial Class frmProcessProductionStandardizationFinalQC
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
         CType(Me.chkJobWorkInward, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageView1.SuspendLayout()
-        Me.RadPageViewPage2.SuspendLayout()
-        Me.pageIssueDetail.SuspendLayout()
-        Me.pageAddRemoveDetail.SuspendLayout()
-        Me.pageStageDetail.SuspendLayout()
-        Me.pageBatchDetail.SuspendLayout()
-        Me.pageParameterDetail.SuspendLayout()
-        Me.pageSectionStock.SuspendLayout()
-        Me.pageSectionStockHistory.SuspendLayout()
-        Me.RadPageViewPage1.SuspendLayout()
-        Me.GroupBox1.SuspendLayout()
-        Me.pageAttachment.SuspendLayout()
-        CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnunpost, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnCancel, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnUpdateParameters, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btngo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboStaus, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -193,22 +177,35 @@ Partial Class frmProcessProductionStandardizationFinalQC
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBomDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageView1.SuspendLayout()
+        Me.RadPageViewPage2.SuspendLayout()
         CType(Me.gvParam, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvParam.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pageIssueDetail.SuspendLayout()
         CType(Me.gvIssue, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvIssue.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pageAddRemoveDetail.SuspendLayout()
         CType(Me.gvARDetail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvARDetail.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pageStageDetail.SuspendLayout()
         CType(Me.gvStage, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvStage.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pageBatchDetail.SuspendLayout()
         CType(Me.gv, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pageParameterDetail.SuspendLayout()
         CType(Me.gv_qc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv_qc.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pageSectionStock.SuspendLayout()
         CType(Me.gvSectionStock, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvSectionStock.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pageSectionStockHistory.SuspendLayout()
         CType(Me.gvSectionStockHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvSectionStockHistory.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage1.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
         CType(Me.lblJWESNFAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblJWEFATAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -253,6 +250,17 @@ Partial Class frmProcessProductionStandardizationFinalQC
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pageAttachment.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnunpost, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnCancel, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnUpdateParameters, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btngo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -352,280 +360,6 @@ Partial Class frmProcessProductionStandardizationFinalQC
         Me.chkJobWorkInward.TabIndex = 91
         Me.chkJobWorkInward.Text = "Job Work Inward"
         '
-        'btnNew
-        '
-        Me.btnNew.Image = CType(resources.GetObject("btnNew.Image"), System.Drawing.Image)
-        Me.btnNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnNew.Location = New System.Drawing.Point(477, 13)
-        Me.btnNew.Name = "btnNew"
-        Me.btnNew.Size = New System.Drawing.Size(20, 21)
-        Me.btnNew.TabIndex = 0
-        Me.btnNew.Text = " "
-        '
-        'RadPageView1
-        '
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
-        Me.RadPageView1.Controls.Add(Me.pageIssueDetail)
-        Me.RadPageView1.Controls.Add(Me.pageAddRemoveDetail)
-        Me.RadPageView1.Controls.Add(Me.pageStageDetail)
-        Me.RadPageView1.Controls.Add(Me.pageBatchDetail)
-        Me.RadPageView1.Controls.Add(Me.pageParameterDetail)
-        Me.RadPageView1.Controls.Add(Me.pageSectionStock)
-        Me.RadPageView1.Controls.Add(Me.pageSectionStockHistory)
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
-        Me.RadPageView1.Controls.Add(Me.pageAttachment)
-        Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadPageView1.Location = New System.Drawing.Point(3, 3)
-        Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
-        Me.RadPageView1.Size = New System.Drawing.Size(818, 347)
-        Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
-        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
-        '
-        'RadPageViewPage2
-        '
-        Me.RadPageViewPage2.Controls.Add(Me.gvParam)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(54.0!, 24.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 33)
-        Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(797, 303)
-        Me.RadPageViewPage2.Text = "Final QC"
-        '
-        'pageIssueDetail
-        '
-        Me.pageIssueDetail.Controls.Add(Me.gvIssue)
-        Me.pageIssueDetail.ItemSize = New System.Drawing.SizeF(69.0!, 24.0!)
-        Me.pageIssueDetail.Location = New System.Drawing.Point(10, 37)
-        Me.pageIssueDetail.Name = "pageIssueDetail"
-        Me.pageIssueDetail.Size = New System.Drawing.Size(797, 299)
-        Me.pageIssueDetail.Text = "Issue Detail"
-        '
-        'pageAddRemoveDetail
-        '
-        Me.pageAddRemoveDetail.Controls.Add(Me.gvARDetail)
-        Me.pageAddRemoveDetail.ItemSize = New System.Drawing.SizeF(155.0!, 24.0!)
-        Me.pageAddRemoveDetail.Location = New System.Drawing.Point(10, 37)
-        Me.pageAddRemoveDetail.Name = "pageAddRemoveDetail"
-        Me.pageAddRemoveDetail.Size = New System.Drawing.Size(797, 299)
-        Me.pageAddRemoveDetail.Text = "Added/Removed Item Detail"
-        '
-        'pageStageDetail
-        '
-        Me.pageStageDetail.Controls.Add(Me.gvStage)
-        Me.pageStageDetail.ItemSize = New System.Drawing.SizeF(72.0!, 24.0!)
-        Me.pageStageDetail.Location = New System.Drawing.Point(10, 37)
-        Me.pageStageDetail.Name = "pageStageDetail"
-        Me.pageStageDetail.Size = New System.Drawing.Size(797, 299)
-        Me.pageStageDetail.Text = "Stage Detail"
-        '
-        'pageBatchDetail
-        '
-        Me.pageBatchDetail.Controls.Add(Me.gv)
-        Me.pageBatchDetail.ItemSize = New System.Drawing.SizeF(130.0!, 24.0!)
-        Me.pageBatchDetail.Location = New System.Drawing.Point(10, 37)
-        Me.pageBatchDetail.Name = "pageBatchDetail"
-        Me.pageBatchDetail.Size = New System.Drawing.Size(797, 299)
-        Me.pageBatchDetail.Text = "Batch Production Detail"
-        '
-        'pageParameterDetail
-        '
-        Me.pageParameterDetail.Controls.Add(Me.gv_qc)
-        Me.pageParameterDetail.ItemSize = New System.Drawing.SizeF(81.0!, 24.0!)
-        Me.pageParameterDetail.Location = New System.Drawing.Point(10, 37)
-        Me.pageParameterDetail.Name = "pageParameterDetail"
-        Me.pageParameterDetail.Size = New System.Drawing.Size(797, 170)
-        Me.pageParameterDetail.Text = "Quality Check"
-        '
-        'pageSectionStock
-        '
-        Me.pageSectionStock.Controls.Add(Me.gvSectionStock)
-        Me.pageSectionStock.ItemSize = New System.Drawing.SizeF(79.0!, 24.0!)
-        Me.pageSectionStock.Location = New System.Drawing.Point(10, 37)
-        Me.pageSectionStock.Name = "pageSectionStock"
-        Me.pageSectionStock.Size = New System.Drawing.Size(797, 170)
-        Me.pageSectionStock.Text = "Section Stock"
-        '
-        'pageSectionStockHistory
-        '
-        Me.pageSectionStockHistory.Controls.Add(Me.gvSectionStockHistory)
-        Me.pageSectionStockHistory.ItemSize = New System.Drawing.SizeF(118.0!, 24.0!)
-        Me.pageSectionStockHistory.Location = New System.Drawing.Point(10, 37)
-        Me.pageSectionStockHistory.Name = "pageSectionStockHistory"
-        Me.pageSectionStockHistory.Size = New System.Drawing.Size(797, 170)
-        Me.pageSectionStockHistory.Text = "Section Stock History"
-        '
-        'RadPageViewPage1
-        '
-        Me.RadPageViewPage1.Controls.Add(Me.GroupBox1)
-        Me.RadPageViewPage1.Controls.Add(Me.lblAvgRateSNF)
-        Me.RadPageViewPage1.Controls.Add(Me.lblAvgRateFAT)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel16)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel43)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel42)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel41)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel40)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel39)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel38)
-        Me.RadPageViewPage1.Controls.Add(Me.lblTotNetSNFKG)
-        Me.RadPageViewPage1.Controls.Add(Me.lblTotNetFATKG)
-        Me.RadPageViewPage1.Controls.Add(Me.lblTotNetQty)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel37)
-        Me.RadPageViewPage1.Controls.Add(Me.lblTotAddRemoveSNFKG)
-        Me.RadPageViewPage1.Controls.Add(Me.lblTotAddRemoveFATKG)
-        Me.RadPageViewPage1.Controls.Add(Me.lblTotDifferenceSNFKG)
-        Me.RadPageViewPage1.Controls.Add(Me.lblTotAddRemoveQty)
-        Me.RadPageViewPage1.Controls.Add(Me.lblTotDifferenceFATKG)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel33)
-        Me.RadPageViewPage1.Controls.Add(Me.lblTotDifferenceQty)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel29)
-        Me.RadPageViewPage1.Controls.Add(Me.lblTotIssueSNFKG)
-        Me.RadPageViewPage1.Controls.Add(Me.lblTotProduceSNFKG)
-        Me.RadPageViewPage1.Controls.Add(Me.lblTotIssueFATKG)
-        Me.RadPageViewPage1.Controls.Add(Me.lblTotIssueQty)
-        Me.RadPageViewPage1.Controls.Add(Me.lblTotProduceFATKG)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel25)
-        Me.RadPageViewPage1.Controls.Add(Me.lblTotBatchSNFKG)
-        Me.RadPageViewPage1.Controls.Add(Me.lblTotProduceQty)
-        Me.RadPageViewPage1.Controls.Add(Me.lblTotBatchFATKG)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel21)
-        Me.RadPageViewPage1.Controls.Add(Me.lblTotBatchQty)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel15)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel14)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel12)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel7)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(37.0!, 24.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(797, 299)
-        Me.RadPageViewPage1.Text = "Total"
-        '
-        'GroupBox1
-        '
-        Me.GroupBox1.Controls.Add(Me.lblJWESNFAmt)
-        Me.GroupBox1.Controls.Add(Me.lblJWEFATAmt)
-        Me.GroupBox1.Controls.Add(Me.MyLabel24)
-        Me.GroupBox1.Controls.Add(Me.MyLabel22)
-        Me.GroupBox1.Controls.Add(Me.lblJWESNFKg)
-        Me.GroupBox1.Controls.Add(Me.MyLabel19)
-        Me.GroupBox1.Controls.Add(Me.lblJWEFATKg)
-        Me.GroupBox1.Controls.Add(Me.MyLabel17)
-        Me.GroupBox1.Location = New System.Drawing.Point(19, 180)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(568, 64)
-        Me.GroupBox1.TabIndex = 79
-        Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Job Work Estimation"
-        '
-        'pageAttachment
-        '
-        Me.pageAttachment.Controls.Add(Me.UcAttachment1)
-        Me.pageAttachment.ItemSize = New System.Drawing.SizeF(71.0!, 24.0!)
-        Me.pageAttachment.Location = New System.Drawing.Point(10, 37)
-        Me.pageAttachment.Name = "pageAttachment"
-        Me.pageAttachment.Size = New System.Drawing.Size(797, 170)
-        Me.pageAttachment.Text = "Attahcment"
-        '
-        'btnShowInventory
-        '
-        Me.btnShowInventory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnShowInventory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnShowInventory.Location = New System.Drawing.Point(512, 5)
-        Me.btnShowInventory.Name = "btnShowInventory"
-        Me.btnShowInventory.Size = New System.Drawing.Size(91, 22)
-        Me.btnShowInventory.TabIndex = 36
-        Me.btnShowInventory.Text = "Show Inventory"
-        '
-        'btnunpost
-        '
-        Me.btnunpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnunpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnunpost.Location = New System.Drawing.Point(301, 5)
-        Me.btnunpost.Name = "btnunpost"
-        Me.btnunpost.Size = New System.Drawing.Size(60, 22)
-        Me.btnunpost.TabIndex = 35
-        Me.btnunpost.Text = "Unpost"
-        Me.btnunpost.Visible = False
-        '
-        'btnCancel
-        '
-        Me.btnCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnCancel.Location = New System.Drawing.Point(238, 5)
-        Me.btnCancel.Name = "btnCancel"
-        Me.btnCancel.Size = New System.Drawing.Size(61, 22)
-        Me.btnCancel.TabIndex = 34
-        Me.btnCancel.Text = "Cancel"
-        '
-        'btnUpdateParameters
-        '
-        Me.btnUpdateParameters.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnUpdateParameters.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUpdateParameters.Location = New System.Drawing.Point(363, 5)
-        Me.btnUpdateParameters.Name = "btnUpdateParameters"
-        Me.btnUpdateParameters.Size = New System.Drawing.Size(146, 22)
-        Me.btnUpdateParameters.TabIndex = 33
-        Me.btnUpdateParameters.Text = "Update Parameters Value"
-        '
-        'btnPost
-        '
-        Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(159, 5)
-        Me.btnPost.Name = "btnPost"
-        Me.btnPost.Size = New System.Drawing.Size(76, 22)
-        Me.btnPost.TabIndex = 2
-        Me.btnPost.Text = "Post"
-        '
-        'btnsave
-        '
-        Me.btnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnsave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnsave.Location = New System.Drawing.Point(3, 5)
-        Me.btnsave.Name = "btnsave"
-        Me.btnsave.Size = New System.Drawing.Size(76, 22)
-        Me.btnsave.TabIndex = 0
-        Me.btnsave.Text = "Save"
-        '
-        'btnclose
-        '
-        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnclose.Location = New System.Drawing.Point(747, 5)
-        Me.btnclose.Name = "btnclose"
-        Me.btnclose.Size = New System.Drawing.Size(78, 22)
-        Me.btnclose.TabIndex = 3
-        Me.btnclose.Text = "Close"
-        '
-        'btndelete
-        '
-        Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btndelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btndelete.Location = New System.Drawing.Point(81, 5)
-        Me.btndelete.Name = "btndelete"
-        Me.btndelete.Size = New System.Drawing.Size(76, 22)
-        Me.btndelete.TabIndex = 1
-        Me.btndelete.Text = "Delete"
-        '
-        'btngo
-        '
-        Me.btngo.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btngo.Location = New System.Drawing.Point(689, 5)
-        Me.btngo.Name = "btngo"
-        Me.btngo.Size = New System.Drawing.Size(47, 22)
-        Me.btngo.TabIndex = 6
-        Me.btngo.Text = ">>"
-        Me.btngo.Visible = False
-        '
-        'btnHistory
-        '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Location = New System.Drawing.Point(605, 6)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(71, 22)
-        Me.btnHistory.TabIndex = 6
-        Me.btnHistory.Text = "&History"
-        '
         'RadLabel21
         '
         Me.RadLabel21.FieldName = Nothing
@@ -641,6 +375,7 @@ Partial Class frmProcessProductionStandardizationFinalQC
         Me.cboStaus.AutoCompleteDisplayMember = Nothing
         Me.cboStaus.AutoCompleteValueMember = Nothing
         Me.cboStaus.CalculationExpression = Nothing
+        Me.cboStaus.DropDownAnimationEnabled = True
         Me.cboStaus.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboStaus.FieldCode = Nothing
         Me.cboStaus.FieldDesc = Nothing
@@ -706,7 +441,6 @@ Partial Class frmProcessProductionStandardizationFinalQC
         Me.lblChildBatchDesc.Name = "lblChildBatchDesc"
         Me.lblChildBatchDesc.Size = New System.Drawing.Size(221, 19)
         Me.lblChildBatchDesc.TabIndex = 40
-        Me.lblChildBatchDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblProfitCenterCode
         '
@@ -717,7 +451,6 @@ Partial Class frmProcessProductionStandardizationFinalQC
         Me.lblProfitCenterCode.Name = "lblProfitCenterCode"
         Me.lblProfitCenterCode.Size = New System.Drawing.Size(153, 19)
         Me.lblProfitCenterCode.TabIndex = 48
-        Me.lblProfitCenterCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'LblCostCenterCode
         '
@@ -728,7 +461,6 @@ Partial Class frmProcessProductionStandardizationFinalQC
         Me.LblCostCenterCode.Name = "LblCostCenterCode"
         Me.LblCostCenterCode.Size = New System.Drawing.Size(153, 19)
         Me.LblCostCenterCode.TabIndex = 48
-        Me.LblCostCenterCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblLineNo
         '
@@ -739,7 +471,6 @@ Partial Class frmProcessProductionStandardizationFinalQC
         Me.lblLineNo.Name = "lblLineNo"
         Me.lblLineNo.Size = New System.Drawing.Size(251, 19)
         Me.lblLineNo.TabIndex = 48
-        Me.lblLineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblCostCenterName
         '
@@ -750,7 +481,6 @@ Partial Class frmProcessProductionStandardizationFinalQC
         Me.lblCostCenterName.Name = "lblCostCenterName"
         Me.lblCostCenterName.Size = New System.Drawing.Size(544, 19)
         Me.lblCostCenterName.TabIndex = 80
-        Me.lblCostCenterName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel8
         '
@@ -781,7 +511,6 @@ Partial Class frmProcessProductionStandardizationFinalQC
         Me.lblProfitCenterName.Name = "lblProfitCenterName"
         Me.lblProfitCenterName.Size = New System.Drawing.Size(544, 19)
         Me.lblProfitCenterName.TabIndex = 76
-        Me.lblProfitCenterName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel11
         '
@@ -802,7 +531,6 @@ Partial Class frmProcessProductionStandardizationFinalQC
         Me.TxtManualBatchNo.Name = "TxtManualBatchNo"
         Me.TxtManualBatchNo.Size = New System.Drawing.Size(377, 19)
         Me.TxtManualBatchNo.TabIndex = 63
-        Me.TxtManualBatchNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel13
         '
@@ -834,7 +562,6 @@ Partial Class frmProcessProductionStandardizationFinalQC
         Me.lblConsmSectionLocCode.Name = "lblConsmSectionLocCode"
         Me.lblConsmSectionLocCode.Size = New System.Drawing.Size(377, 20)
         Me.lblConsmSectionLocCode.TabIndex = 50
-        Me.lblConsmSectionLocCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel5
         '
@@ -856,7 +583,6 @@ Partial Class frmProcessProductionStandardizationFinalQC
         Me.lblConsmSectionCode.Name = "lblConsmSectionCode"
         Me.lblConsmSectionCode.Size = New System.Drawing.Size(251, 20)
         Me.lblConsmSectionCode.TabIndex = 48
-        Me.lblConsmSectionCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtlocation
         '
@@ -867,7 +593,6 @@ Partial Class frmProcessProductionStandardizationFinalQC
         Me.txtlocation.Name = "txtlocation"
         Me.txtlocation.Size = New System.Drawing.Size(153, 19)
         Me.txtlocation.TabIndex = 47
-        Me.txtlocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'UsLock1
         '
@@ -888,7 +613,6 @@ Partial Class frmProcessProductionStandardizationFinalQC
         Me.lblMainBatchDesc.Name = "lblMainBatchDesc"
         Me.lblMainBatchDesc.Size = New System.Drawing.Size(221, 19)
         Me.lblMainBatchDesc.TabIndex = 43
-        Me.lblMainBatchDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel6
         '
@@ -945,7 +669,6 @@ Partial Class frmProcessProductionStandardizationFinalQC
         Me.txtlocationname.Name = "txtlocationname"
         Me.txtlocationname.Size = New System.Drawing.Size(431, 19)
         Me.txtlocationname.TabIndex = 37
-        Me.txtlocationname.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel4
         '
@@ -1033,6 +756,16 @@ Partial Class frmProcessProductionStandardizationFinalQC
         Me.dtpDate.Text = "03/05/2011"
         Me.dtpDate.Value = New Date(2011, 5, 3, 0, 0, 0, 0)
         '
+        'btnNew
+        '
+        Me.btnNew.Image = CType(resources.GetObject("btnNew.Image"), System.Drawing.Image)
+        Me.btnNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnNew.Location = New System.Drawing.Point(477, 13)
+        Me.btnNew.Name = "btnNew"
+        Me.btnNew.Size = New System.Drawing.Size(20, 21)
+        Me.btnNew.TabIndex = 0
+        Me.btnNew.Text = " "
+        '
         'txtCode
         '
         Me.txtCode.FieldName = Nothing
@@ -1049,19 +782,62 @@ Partial Class frmProcessProductionStandardizationFinalQC
         Me.txtCode.TabIndex = 3
         Me.txtCode.Value = ""
         '
+        'RadPageView1
+        '
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
+        Me.RadPageView1.Controls.Add(Me.pageIssueDetail)
+        Me.RadPageView1.Controls.Add(Me.pageAddRemoveDetail)
+        Me.RadPageView1.Controls.Add(Me.pageStageDetail)
+        Me.RadPageView1.Controls.Add(Me.pageBatchDetail)
+        Me.RadPageView1.Controls.Add(Me.pageParameterDetail)
+        Me.RadPageView1.Controls.Add(Me.pageSectionStock)
+        Me.RadPageView1.Controls.Add(Me.pageSectionStockHistory)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
+        Me.RadPageView1.Controls.Add(Me.pageAttachment)
+        Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RadPageView1.Location = New System.Drawing.Point(3, 3)
+        Me.RadPageView1.Name = "RadPageView1"
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.Size = New System.Drawing.Size(818, 347)
+        Me.RadPageView1.TabIndex = 0
+        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
+        '
+        'RadPageViewPage2
+        '
+        Me.RadPageViewPage2.Controls.Add(Me.gvParam)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(58.0!, 28.0!)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage2.Name = "RadPageViewPage2"
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(797, 299)
+        Me.RadPageViewPage2.Text = "Final QC"
+        '
         'gvParam
         '
         Me.gvParam.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvParam.Location = New System.Drawing.Point(0, 0)
         '
-        'gvParam
         '
+        '
+        Me.gvParam.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvParam.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvParam.MyExportAPI = False
+        Me.gvParam.MyExportFilePath = ""
+        Me.gvParam.MyStopExport = False
         Me.gvParam.Name = "gvParam"
         Me.gvParam.ShowHeaderCellButtons = True
-        Me.gvParam.Size = New System.Drawing.Size(797, 303)
+        Me.gvParam.Size = New System.Drawing.Size(797, 299)
         Me.gvParam.TabIndex = 265
-        Me.gvParam.Text = "RadGridView1"
+        Me.gvParam.VarID = ""
+        '
+        'pageIssueDetail
+        '
+        Me.pageIssueDetail.Controls.Add(Me.gvIssue)
+        Me.pageIssueDetail.ItemSize = New System.Drawing.SizeF(73.0!, 28.0!)
+        Me.pageIssueDetail.Location = New System.Drawing.Point(10, 37)
+        Me.pageIssueDetail.Name = "pageIssueDetail"
+        Me.pageIssueDetail.Size = New System.Drawing.Size(797, 299)
+        Me.pageIssueDetail.Text = "Issue Detail"
         '
         'gvIssue
         '
@@ -1079,14 +855,28 @@ Partial Class frmProcessProductionStandardizationFinalQC
         Me.gvIssue.MasterTemplate.AllowAddNewRow = False
         Me.gvIssue.MasterTemplate.AutoGenerateColumns = False
         Me.gvIssue.MasterTemplate.EnableGrouping = False
+        Me.gvIssue.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvIssue.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvIssue.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvIssue.MyExportAPI = False
+        Me.gvIssue.MyExportFilePath = ""
+        Me.gvIssue.MyStopExport = False
         Me.gvIssue.Name = "gvIssue"
         Me.gvIssue.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvIssue.ShowHeaderCellButtons = True
         Me.gvIssue.Size = New System.Drawing.Size(797, 299)
         Me.gvIssue.TabIndex = 1
         Me.gvIssue.TabStop = False
-        Me.gvIssue.Text = "RadGridView1"
+        Me.gvIssue.VarID = ""
+        '
+        'pageAddRemoveDetail
+        '
+        Me.pageAddRemoveDetail.Controls.Add(Me.gvARDetail)
+        Me.pageAddRemoveDetail.ItemSize = New System.Drawing.SizeF(159.0!, 28.0!)
+        Me.pageAddRemoveDetail.Location = New System.Drawing.Point(10, 37)
+        Me.pageAddRemoveDetail.Name = "pageAddRemoveDetail"
+        Me.pageAddRemoveDetail.Size = New System.Drawing.Size(797, 299)
+        Me.pageAddRemoveDetail.Text = "Added/Removed Item Detail"
         '
         'gvARDetail
         '
@@ -1104,14 +894,28 @@ Partial Class frmProcessProductionStandardizationFinalQC
         Me.gvARDetail.MasterTemplate.AllowAddNewRow = False
         Me.gvARDetail.MasterTemplate.AutoGenerateColumns = False
         Me.gvARDetail.MasterTemplate.EnableGrouping = False
+        Me.gvARDetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvARDetail.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvARDetail.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvARDetail.MyExportAPI = False
+        Me.gvARDetail.MyExportFilePath = ""
+        Me.gvARDetail.MyStopExport = False
         Me.gvARDetail.Name = "gvARDetail"
         Me.gvARDetail.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvARDetail.ShowHeaderCellButtons = True
         Me.gvARDetail.Size = New System.Drawing.Size(797, 299)
         Me.gvARDetail.TabIndex = 1
         Me.gvARDetail.TabStop = False
-        Me.gvARDetail.Text = "RadGridView1"
+        Me.gvARDetail.VarID = ""
+        '
+        'pageStageDetail
+        '
+        Me.pageStageDetail.Controls.Add(Me.gvStage)
+        Me.pageStageDetail.ItemSize = New System.Drawing.SizeF(76.0!, 28.0!)
+        Me.pageStageDetail.Location = New System.Drawing.Point(10, 37)
+        Me.pageStageDetail.Name = "pageStageDetail"
+        Me.pageStageDetail.Size = New System.Drawing.Size(797, 299)
+        Me.pageStageDetail.Text = "Stage Detail"
         '
         'gvStage
         '
@@ -1129,14 +933,28 @@ Partial Class frmProcessProductionStandardizationFinalQC
         Me.gvStage.MasterTemplate.AllowAddNewRow = False
         Me.gvStage.MasterTemplate.AutoGenerateColumns = False
         Me.gvStage.MasterTemplate.EnableGrouping = False
+        Me.gvStage.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvStage.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvStage.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvStage.MyExportAPI = False
+        Me.gvStage.MyExportFilePath = ""
+        Me.gvStage.MyStopExport = False
         Me.gvStage.Name = "gvStage"
         Me.gvStage.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvStage.ShowHeaderCellButtons = True
         Me.gvStage.Size = New System.Drawing.Size(797, 299)
         Me.gvStage.TabIndex = 2
         Me.gvStage.TabStop = False
-        Me.gvStage.Text = "RadGridView1"
+        Me.gvStage.VarID = ""
+        '
+        'pageBatchDetail
+        '
+        Me.pageBatchDetail.Controls.Add(Me.gv)
+        Me.pageBatchDetail.ItemSize = New System.Drawing.SizeF(134.0!, 28.0!)
+        Me.pageBatchDetail.Location = New System.Drawing.Point(10, 37)
+        Me.pageBatchDetail.Name = "pageBatchDetail"
+        Me.pageBatchDetail.Size = New System.Drawing.Size(797, 299)
+        Me.pageBatchDetail.Text = "Batch Production Detail"
         '
         'gv
         '
@@ -1154,14 +972,28 @@ Partial Class frmProcessProductionStandardizationFinalQC
         Me.gv.MasterTemplate.AllowAddNewRow = False
         Me.gv.MasterTemplate.AutoGenerateColumns = False
         Me.gv.MasterTemplate.EnableGrouping = False
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv.MyExportAPI = False
+        Me.gv.MyExportFilePath = ""
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(797, 299)
         Me.gv.TabIndex = 0
         Me.gv.TabStop = False
-        Me.gv.Text = "RadGridView1"
+        Me.gv.VarID = ""
+        '
+        'pageParameterDetail
+        '
+        Me.pageParameterDetail.Controls.Add(Me.gv_qc)
+        Me.pageParameterDetail.ItemSize = New System.Drawing.SizeF(85.0!, 28.0!)
+        Me.pageParameterDetail.Location = New System.Drawing.Point(10, 37)
+        Me.pageParameterDetail.Name = "pageParameterDetail"
+        Me.pageParameterDetail.Size = New System.Drawing.Size(797, 170)
+        Me.pageParameterDetail.Text = "Quality Check"
         '
         'gv_qc
         '
@@ -1179,14 +1011,28 @@ Partial Class frmProcessProductionStandardizationFinalQC
         Me.gv_qc.MasterTemplate.AllowAddNewRow = False
         Me.gv_qc.MasterTemplate.AutoGenerateColumns = False
         Me.gv_qc.MasterTemplate.EnableGrouping = False
+        Me.gv_qc.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_qc.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv_qc.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gv_qc.MyExportAPI = False
+        Me.gv_qc.MyExportFilePath = ""
+        Me.gv_qc.MyStopExport = False
         Me.gv_qc.Name = "gv_qc"
         Me.gv_qc.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv_qc.ShowHeaderCellButtons = True
         Me.gv_qc.Size = New System.Drawing.Size(797, 170)
         Me.gv_qc.TabIndex = 2
         Me.gv_qc.TabStop = False
-        Me.gv_qc.Text = "RadGridView1"
+        Me.gv_qc.VarID = ""
+        '
+        'pageSectionStock
+        '
+        Me.pageSectionStock.Controls.Add(Me.gvSectionStock)
+        Me.pageSectionStock.ItemSize = New System.Drawing.SizeF(83.0!, 28.0!)
+        Me.pageSectionStock.Location = New System.Drawing.Point(10, 37)
+        Me.pageSectionStock.Name = "pageSectionStock"
+        Me.pageSectionStock.Size = New System.Drawing.Size(797, 170)
+        Me.pageSectionStock.Text = "Section Stock"
         '
         'gvSectionStock
         '
@@ -1204,14 +1050,28 @@ Partial Class frmProcessProductionStandardizationFinalQC
         Me.gvSectionStock.MasterTemplate.AllowAddNewRow = False
         Me.gvSectionStock.MasterTemplate.AutoGenerateColumns = False
         Me.gvSectionStock.MasterTemplate.EnableGrouping = False
+        Me.gvSectionStock.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSectionStock.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvSectionStock.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvSectionStock.MyExportAPI = False
+        Me.gvSectionStock.MyExportFilePath = ""
+        Me.gvSectionStock.MyStopExport = False
         Me.gvSectionStock.Name = "gvSectionStock"
         Me.gvSectionStock.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSectionStock.ShowHeaderCellButtons = True
         Me.gvSectionStock.Size = New System.Drawing.Size(797, 170)
         Me.gvSectionStock.TabIndex = 3
         Me.gvSectionStock.TabStop = False
-        Me.gvSectionStock.Text = "RadGridView1"
+        Me.gvSectionStock.VarID = ""
+        '
+        'pageSectionStockHistory
+        '
+        Me.pageSectionStockHistory.Controls.Add(Me.gvSectionStockHistory)
+        Me.pageSectionStockHistory.ItemSize = New System.Drawing.SizeF(122.0!, 28.0!)
+        Me.pageSectionStockHistory.Location = New System.Drawing.Point(10, 37)
+        Me.pageSectionStockHistory.Name = "pageSectionStockHistory"
+        Me.pageSectionStockHistory.Size = New System.Drawing.Size(797, 299)
+        Me.pageSectionStockHistory.Text = "Section Stock History"
         '
         'gvSectionStockHistory
         '
@@ -1229,14 +1089,81 @@ Partial Class frmProcessProductionStandardizationFinalQC
         Me.gvSectionStockHistory.MasterTemplate.AllowAddNewRow = False
         Me.gvSectionStockHistory.MasterTemplate.AutoGenerateColumns = False
         Me.gvSectionStockHistory.MasterTemplate.EnableGrouping = False
+        Me.gvSectionStockHistory.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSectionStockHistory.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvSectionStockHistory.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvSectionStockHistory.MyExportAPI = False
+        Me.gvSectionStockHistory.MyExportFilePath = ""
+        Me.gvSectionStockHistory.MyStopExport = False
         Me.gvSectionStockHistory.Name = "gvSectionStockHistory"
         Me.gvSectionStockHistory.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSectionStockHistory.ShowHeaderCellButtons = True
-        Me.gvSectionStockHistory.Size = New System.Drawing.Size(797, 170)
+        Me.gvSectionStockHistory.Size = New System.Drawing.Size(797, 299)
         Me.gvSectionStockHistory.TabIndex = 4
         Me.gvSectionStockHistory.TabStop = False
-        Me.gvSectionStockHistory.Text = "RadGridView1"
+        Me.gvSectionStockHistory.VarID = ""
+        '
+        'RadPageViewPage1
+        '
+        Me.RadPageViewPage1.Controls.Add(Me.GroupBox1)
+        Me.RadPageViewPage1.Controls.Add(Me.lblAvgRateSNF)
+        Me.RadPageViewPage1.Controls.Add(Me.lblAvgRateFAT)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel16)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel43)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel42)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel41)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel40)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel39)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel38)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotNetSNFKG)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotNetFATKG)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotNetQty)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel37)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotAddRemoveSNFKG)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotAddRemoveFATKG)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotDifferenceSNFKG)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotAddRemoveQty)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotDifferenceFATKG)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel33)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotDifferenceQty)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel29)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotIssueSNFKG)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotProduceSNFKG)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotIssueFATKG)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotIssueQty)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotProduceFATKG)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel25)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotBatchSNFKG)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotProduceQty)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotBatchFATKG)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel21)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotBatchQty)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel15)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel14)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel12)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel7)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(41.0!, 28.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage1.Name = "RadPageViewPage1"
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(797, 299)
+        Me.RadPageViewPage1.Text = "Total"
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.lblJWESNFAmt)
+        Me.GroupBox1.Controls.Add(Me.lblJWEFATAmt)
+        Me.GroupBox1.Controls.Add(Me.MyLabel24)
+        Me.GroupBox1.Controls.Add(Me.MyLabel22)
+        Me.GroupBox1.Controls.Add(Me.lblJWESNFKg)
+        Me.GroupBox1.Controls.Add(Me.MyLabel19)
+        Me.GroupBox1.Controls.Add(Me.lblJWEFATKg)
+        Me.GroupBox1.Controls.Add(Me.MyLabel17)
+        Me.GroupBox1.Location = New System.Drawing.Point(19, 180)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(568, 64)
+        Me.GroupBox1.TabIndex = 79
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Job Work Estimation"
         '
         'lblJWESNFAmt
         '
@@ -1708,6 +1635,15 @@ Partial Class frmProcessProductionStandardizationFinalQC
         Me.MyLabel7.Text = "FAT KG"
         Me.MyLabel7.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         '
+        'pageAttachment
+        '
+        Me.pageAttachment.Controls.Add(Me.UcAttachment1)
+        Me.pageAttachment.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
+        Me.pageAttachment.Location = New System.Drawing.Point(10, 37)
+        Me.pageAttachment.Name = "pageAttachment"
+        Me.pageAttachment.Size = New System.Drawing.Size(797, 170)
+        Me.pageAttachment.Text = "Attahcment"
+        '
         'UcAttachment1
         '
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
@@ -1715,6 +1651,106 @@ Partial Class frmProcessProductionStandardizationFinalQC
         Me.UcAttachment1.Name = "UcAttachment1"
         Me.UcAttachment1.Size = New System.Drawing.Size(797, 170)
         Me.UcAttachment1.TabIndex = 5
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(605, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(71, 22)
+        Me.btnHistory.TabIndex = 6
+        Me.btnHistory.Text = "&History"
+        '
+        'btnShowInventory
+        '
+        Me.btnShowInventory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnShowInventory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnShowInventory.Location = New System.Drawing.Point(512, 5)
+        Me.btnShowInventory.Name = "btnShowInventory"
+        Me.btnShowInventory.Size = New System.Drawing.Size(91, 22)
+        Me.btnShowInventory.TabIndex = 36
+        Me.btnShowInventory.Text = "Show Inventory"
+        '
+        'btnunpost
+        '
+        Me.btnunpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnunpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnunpost.Location = New System.Drawing.Point(301, 5)
+        Me.btnunpost.Name = "btnunpost"
+        Me.btnunpost.Size = New System.Drawing.Size(60, 22)
+        Me.btnunpost.TabIndex = 35
+        Me.btnunpost.Text = "Unpost"
+        Me.btnunpost.Visible = False
+        '
+        'btnCancel
+        '
+        Me.btnCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnCancel.Location = New System.Drawing.Point(238, 5)
+        Me.btnCancel.Name = "btnCancel"
+        Me.btnCancel.Size = New System.Drawing.Size(61, 22)
+        Me.btnCancel.TabIndex = 34
+        Me.btnCancel.Text = "Cancel"
+        '
+        'btnUpdateParameters
+        '
+        Me.btnUpdateParameters.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnUpdateParameters.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnUpdateParameters.Location = New System.Drawing.Point(363, 5)
+        Me.btnUpdateParameters.Name = "btnUpdateParameters"
+        Me.btnUpdateParameters.Size = New System.Drawing.Size(146, 22)
+        Me.btnUpdateParameters.TabIndex = 33
+        Me.btnUpdateParameters.Text = "Update Parameters Value"
+        '
+        'btnPost
+        '
+        Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPost.Location = New System.Drawing.Point(159, 5)
+        Me.btnPost.Name = "btnPost"
+        Me.btnPost.Size = New System.Drawing.Size(76, 22)
+        Me.btnPost.TabIndex = 2
+        Me.btnPost.Text = "Post"
+        '
+        'btnsave
+        '
+        Me.btnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnsave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnsave.Location = New System.Drawing.Point(3, 5)
+        Me.btnsave.Name = "btnsave"
+        Me.btnsave.Size = New System.Drawing.Size(76, 22)
+        Me.btnsave.TabIndex = 0
+        Me.btnsave.Text = "Save"
+        '
+        'btnclose
+        '
+        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnclose.Location = New System.Drawing.Point(747, 5)
+        Me.btnclose.Name = "btnclose"
+        Me.btnclose.Size = New System.Drawing.Size(78, 22)
+        Me.btnclose.TabIndex = 3
+        Me.btnclose.Text = "Close"
+        '
+        'btndelete
+        '
+        Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btndelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btndelete.Location = New System.Drawing.Point(81, 5)
+        Me.btndelete.Name = "btndelete"
+        Me.btndelete.Size = New System.Drawing.Size(76, 22)
+        Me.btndelete.TabIndex = 1
+        Me.btndelete.Text = "Delete"
+        '
+        'btngo
+        '
+        Me.btngo.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btngo.Location = New System.Drawing.Point(689, 5)
+        Me.btngo.Name = "btngo"
+        Me.btngo.Size = New System.Drawing.Size(47, 22)
+        Me.btngo.TabIndex = 6
+        Me.btngo.Text = ">>"
+        Me.btngo.Visible = False
         '
         'MyLabel2
         '
@@ -1750,32 +1786,6 @@ Partial Class frmProcessProductionStandardizationFinalQC
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
         CType(Me.chkJobWorkInward, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageView1.ResumeLayout(False)
-        Me.RadPageViewPage2.ResumeLayout(False)
-        Me.pageIssueDetail.ResumeLayout(False)
-        Me.pageAddRemoveDetail.ResumeLayout(False)
-        Me.pageStageDetail.ResumeLayout(False)
-        Me.pageBatchDetail.ResumeLayout(False)
-        Me.pageParameterDetail.ResumeLayout(False)
-        Me.pageSectionStock.ResumeLayout(False)
-        Me.pageSectionStockHistory.ResumeLayout(False)
-        Me.RadPageViewPage1.ResumeLayout(False)
-        Me.RadPageViewPage1.PerformLayout()
-        Me.GroupBox1.ResumeLayout(False)
-        Me.GroupBox1.PerformLayout()
-        Me.pageAttachment.ResumeLayout(False)
-        CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnunpost, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnCancel, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnUpdateParameters, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btngo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboStaus, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1803,22 +1813,37 @@ Partial Class frmProcessProductionStandardizationFinalQC
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBomDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageView1.ResumeLayout(False)
+        Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.gvParam.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvParam, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pageIssueDetail.ResumeLayout(False)
         CType(Me.gvIssue.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvIssue, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pageAddRemoveDetail.ResumeLayout(False)
         CType(Me.gvARDetail.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvARDetail, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pageStageDetail.ResumeLayout(False)
         CType(Me.gvStage.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvStage, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pageBatchDetail.ResumeLayout(False)
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pageParameterDetail.ResumeLayout(False)
         CType(Me.gv_qc.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv_qc, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pageSectionStock.ResumeLayout(False)
         CType(Me.gvSectionStock.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvSectionStock, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pageSectionStockHistory.ResumeLayout(False)
         CType(Me.gvSectionStockHistory.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvSectionStockHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage1.ResumeLayout(False)
+        Me.RadPageViewPage1.PerformLayout()
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
         CType(Me.lblJWESNFAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblJWEFATAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1863,6 +1888,17 @@ Partial Class frmProcessProductionStandardizationFinalQC
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pageAttachment.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnunpost, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnCancel, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnUpdateParameters, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btngo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)

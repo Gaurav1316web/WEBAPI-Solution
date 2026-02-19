@@ -574,13 +574,21 @@ Public Class clsMilkSRNMCC
                 Throw New Exception("No Data found to Post")
             End If
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "MIlk Procurement", "Milk Store receipt Note", obj.MCC_CODE, obj.DOC_DATE, trans)
-            Dim dtMCC As DataTable = clsDBFuncationality.GetDataTable("select MCC_NAME,AllowAutoMilkIn,AutoIn_Location,SILOIn_Location from tspl_MCC_MASTER where MCC_CODE='" & obj.MCC_CODE & "'", trans)
+            Dim dtMCC As DataTable = clsDBFuncationality.GetDataTable("select MCC_NAME,AllowAutoMilkIn,AutoIn_Location,SILOIn_Location,FORMAT(Shift_Default_Time_Morning, 'hh:mm tt') as Shift_Default_Time_Morning ,FORMAT(Shift_Default_Time_Evening, 'hh:mm tt') as Shift_Default_Time_Evening from tspl_MCC_MASTER where MCC_CODE='" & obj.MCC_CODE & "'", trans)
             Dim Mcc_Name As String = clsCommon.myCstr(dtMCC.Rows(0)("MCC_NAME"))
             Dim settRejectedMilkSendToRejectLocation As Boolean = False
             Dim strRejectLocation As String = ""
+            Dim AllowAutoMilkIn As Boolean = False
+            Dim PunchTime As String = ""
             If clsCommon.myCDecimal(dtMCC.Rows(0)("AllowAutoMilkIn")) = 1 Then
                 settRejectedMilkSendToRejectLocation = True
                 strRejectLocation = clsCommon.myCstr(dtMCC.Rows(0)("SILOIn_Location"))
+                AllowAutoMilkIn = True
+                If clsCommon.CompairString(obj.SHIFT, "M") = CompairStringResult.Equal Then
+                    PunchTime = clsCommon.myCstr(dtMCC.Rows(0)("Shift_Default_Time_Morning"))
+                Else
+                    PunchTime = clsCommon.myCstr(dtMCC.Rows(0)("Shift_Default_Time_Evening"))
+                End If
             End If
 
             'If clsCommon.myLen(obj.Against_Reject_No) > 0 Then
@@ -603,8 +611,8 @@ Public Class clsMilkSRNMCC
             qry = "delete from TSPL_INVENTORY_MOVEMENT_NEW where Trans_Type='MCC-MSRN' and Source_Doc_No='" & obj.DOC_CODE & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            qry = "select AllowAutoMilkIn  from TSPL_MCC_MASTER where MCC_Code='" + obj.MCC_CODE + "'"
-            Dim AllowAutoMilkIn As Boolean = (clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, trans)) = 1)
+            qry = "select AllowAutoMilkIn,FORMAT(Shift_Default_Time_Morning, 'hh:mm tt') as Shift_Default_Time_Morning ,FORMAT(Shift_Default_Time_Evening, 'hh:mm tt') as Shift_Default_Time_Evening  from TSPL_MCC_MASTER where MCC_Code='" + obj.MCC_CODE + "'"
+
             If AllowAutoMilkIn Then
                 For Each objTr As clsMilkSRNMCCDetail In clsMilkSRNMCC.ObjList
                     intCounter = intCounter + 1
@@ -699,7 +707,8 @@ Public Class clsMilkSRNMCC
                     objInventoryMovemnt.CalculateAvgCost = False
                     ArrInventoryMovement.Add(objInventoryMovemnt)
                 Next
-                clsInventoryMovementNew.SaveData("MCC-MSRN", obj.DOC_CODE, obj.DOC_DATE, clsCommon.GetPrintDate(obj.DOC_DATE, "dd/MM/yyyy"), ArrInventoryMovement, trans)
+                Dim dtTranDate As DateTime = clsCommon.myCDate(clsCommon.GetPrintDate(obj.DOC_DATE, "dd/MMM/yyyy") + " " + PunchTime)
+                clsInventoryMovementNew.SaveData("MCC-MSRN", obj.DOC_CODE, dtTranDate, clsCommon.GetPrintDate(obj.DOC_DATE, "dd/MM/yyyy"), ArrInventoryMovement, trans)
                 CreateJournalEntry(obj, create_same_voucher_journal_entry, trans)
             End If
             qry = "Update TSPL_MILK_SRN_HEAD set POSTED=1, Posting_Date='" + clsCommon.GetPrintDate(obj.DOC_DATE, "dd/MMM/yyyy hh:mm tt") + "',Modified_By='" + objCommonVar.CurrentUserCode + "'"

@@ -76,8 +76,8 @@ Public Class clsDAArrear
         Try
             Dim obj As New clsDAArrear()
             obj.ArrD = New List(Of ClsDAArrearDetail)
-            Dim qry As String = "select TSPL_DA_Arrear_Header.document_Code,Document_Date,TSPL_DA_Arrear_Header.location,Status,DA_Arrear,Location_Desc,Pay_Period,TSPL_DA_Arrear_Header.Applicable_date from TSPL_DA_Arrear_Header
-            left outer join tspl_location_master on tspl_location_master.location_code=TSPL_DA_Arrear_Header.location "
+            Dim qry As String = "select TSPL_DA_Arrear_Header.document_Code,Document_Date,TSPL_DAAREAR_Location_DETAIL.location,Status,DA_Arrear,Pay_Period,TSPL_DA_Arrear_Header.Applicable_date from TSPL_DA_Arrear_Header
+            left outer join TSPL_DAAREAR_Location_DETAIL on TSPL_DAAREAR_Location_DETAIL.Document_Code=TSPL_DA_Arrear_Header.Document_Code "
             Select Case NavType
                 Case NavigatorType.Current
                     qry += " where TSPL_DA_Arrear_Header.document_code='" + strCode + "'"

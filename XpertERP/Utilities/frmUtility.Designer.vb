@@ -23,10 +23,10 @@ Partial Class FrmUtility
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.btnCreateAdjustment = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
@@ -838,6 +838,7 @@ Partial Class FrmUtility
         Me.RadButton285 = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.Timer3 = New System.Windows.Forms.Timer(Me.components)
+        Me.btnCreateEinvoiceForDCSSAle = New Telerik.WinControls.UI.RadButton()
         CType(Me.btnCreateAdjustment, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadGroupBox1.SuspendLayout
@@ -1627,6 +1628,7 @@ Partial Class FrmUtility
         Me.SplitContainer2.Panel1.SuspendLayout
         Me.SplitContainer2.Panel2.SuspendLayout
         Me.SplitContainer2.SuspendLayout
+        CType(Me.btnCreateEinvoiceForDCSSAle, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
@@ -1737,7 +1739,8 @@ Partial Class FrmUtility
         '
         Me.gvShipment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvShipment.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvShipment.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvShipment.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvShipment.MyExportAPI = False
         Me.gvShipment.MyExportFilePath = ""
         Me.gvShipment.MyStopExport = False
         Me.gvShipment.Name = "gvShipment"
@@ -2024,7 +2027,7 @@ Partial Class FrmUtility
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage8
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage6
         Me.RadPageView1.Size = New System.Drawing.Size(1112, 569)
         Me.RadPageView1.TabIndex = 44
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -6756,12 +6759,12 @@ Partial Class FrmUtility
         Me.cmbDepartmnt.IsSourceFromTable = False
         Me.cmbDepartmnt.IsSourceFromValueList = False
         Me.cmbDepartmnt.IsUnique = False
-        RadListDataItem1.Text = "Select"
-        RadListDataItem2.Text = "LMS"
-        RadListDataItem3.Text = "Marketing"
-        Me.cmbDepartmnt.Items.Add(RadListDataItem1)
-        Me.cmbDepartmnt.Items.Add(RadListDataItem2)
-        Me.cmbDepartmnt.Items.Add(RadListDataItem3)
+        RadListDataItem4.Text = "Select"
+        RadListDataItem5.Text = "LMS"
+        RadListDataItem6.Text = "Marketing"
+        Me.cmbDepartmnt.Items.Add(RadListDataItem4)
+        Me.cmbDepartmnt.Items.Add(RadListDataItem5)
+        Me.cmbDepartmnt.Items.Add(RadListDataItem6)
         Me.cmbDepartmnt.Location = New System.Drawing.Point(68, 16)
         Me.cmbDepartmnt.MendatroryField = False
         Me.cmbDepartmnt.MyLinkLable1 = Nothing
@@ -7308,6 +7311,7 @@ Partial Class FrmUtility
         '
         'GroupBox99
         '
+        Me.GroupBox99.Controls.Add(Me.btnCreateEinvoiceForDCSSAle)
         Me.GroupBox99.Controls.Add(Me.btnCreateCrateEntry)
         Me.GroupBox99.Controls.Add(Me.lblFromGPDate)
         Me.GroupBox99.Controls.Add(Me.txtFromGPDate)
@@ -10595,6 +10599,14 @@ Partial Class FrmUtility
         '
         Me.Timer3.Interval = 50000
         '
+        'btnCreateEinvoiceForDCSSAle
+        '
+        Me.btnCreateEinvoiceForDCSSAle.Location = New System.Drawing.Point(7, 47)
+        Me.btnCreateEinvoiceForDCSSAle.Name = "btnCreateEinvoiceForDCSSAle"
+        Me.btnCreateEinvoiceForDCSSAle.Size = New System.Drawing.Size(154, 24)
+        Me.btnCreateEinvoiceForDCSSAle.TabIndex = 64
+        Me.btnCreateEinvoiceForDCSSAle.Text = "Create E-Invoice For DCS Sale "
+        '
         'FrmUtility
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -11433,6 +11445,7 @@ Partial Class FrmUtility
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.btnCreateEinvoiceForDCSSAle, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(False)
 
@@ -12248,5 +12261,6 @@ Partial Class FrmUtility
     Friend WithEvents btnMatSalesPickDoc As RadButton
     Friend WithEvents btnResetMatSalesDoc As RadButton
     Friend WithEvents btnReCreateInventory As RadButton
+    Friend WithEvents btnCreateEinvoiceForDCSSAle As RadButton
 End Class
 

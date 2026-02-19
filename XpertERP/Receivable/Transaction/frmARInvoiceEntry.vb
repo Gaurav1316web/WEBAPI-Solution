@@ -447,6 +447,7 @@ Public Class FrmARInvoiceEntry
         lblTaxAmt.Text = ""
         lblTotRAmt.Text = ""
         lblTotRAmt1.Text = ""
+        lblTotalSubsidyAmt.Text = ""
         txtRefDocNo.Value = ""
         rbtnTaxCalAutomatic.IsChecked = True
         txtRefDocNo.Visible = False
@@ -2557,6 +2558,7 @@ Public Class FrmARInvoiceEntry
                 obj.Total_Add_Charge = clsCommon.myCdbl(lblAddCharges.Text)
                 ''richa agarwal 14/10/2014
                 obj.RoundOffAmount = clsCommon.myCdbl(lblRoundoffAmount.Text)
+                obj.TotalSubsidyAmt = clsCommon.myCdbl(lblTotalSubsidyAmt.Text)
                 ''===========================
 
                 obj.Is_Against_Security_Receipt = chkAgainstSecurityReceiptNo.Checked
@@ -3105,6 +3107,7 @@ Public Class FrmARInvoiceEntry
 
                 ''richa agarwal 14/10/2014
                 lblRoundoffAmount.Text = clsCommon.myFormat(obj.RoundOffAmount)
+                lblTotalSubsidyAmt.Text = clsCommon.myFormat(obj.TotalSubsidyAmt)
                 '========================
 
                 chkAgainstSecurityReceiptNo.Checked = obj.Is_Against_Security_Receipt

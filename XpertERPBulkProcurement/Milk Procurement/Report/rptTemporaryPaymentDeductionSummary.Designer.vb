@@ -30,6 +30,9 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.fndMultDCS = New common.UserControls.txtMultiSelectFinder()
+        Me.chkCurrntCycle = New System.Windows.Forms.CheckBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.fndArea = New common.UserControls.txtFinder()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
@@ -42,6 +45,8 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.txtMCC = New common.UserControls.txtFinder()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rdbDocumentWiseDetail = New System.Windows.Forms.RadioButton()
+        Me.rdbDocumentWise = New System.Windows.Forms.RadioButton()
         Me.chkORD_CD = New System.Windows.Forms.RadioButton()
         Me.chkWithOpening = New System.Windows.Forms.RadioButton()
         Me.rdbCurrentStanding = New System.Windows.Forms.RadioButton()
@@ -61,7 +66,6 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.chkCurrntCycle = New System.Windows.Forms.CheckBox()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -69,6 +73,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
@@ -155,6 +160,8 @@ Partial Class rptTemporaryPaymentDeductionSummary
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel3)
+        Me.RadPageViewPage1.Controls.Add(Me.fndMultDCS)
         Me.RadPageViewPage1.Controls.Add(Me.chkCurrntCycle)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel2)
         Me.RadPageViewPage1.Controls.Add(Me.fndArea)
@@ -171,6 +178,41 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(833, 278)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Location = New System.Drawing.Point(302, 89)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(27, 18)
+        Me.MyLabel3.TabIndex = 1523
+        Me.MyLabel3.Text = "DCS"
+        Me.MyLabel3.Visible = False
+        '
+        'fndMultDCS
+        '
+        Me.fndMultDCS.arrDispalyMember = Nothing
+        Me.fndMultDCS.arrValueMember = Nothing
+        Me.fndMultDCS.Location = New System.Drawing.Point(382, 88)
+        Me.fndMultDCS.Margin = New System.Windows.Forms.Padding(4)
+        Me.fndMultDCS.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndMultDCS.MyLinkLable1 = Nothing
+        Me.fndMultDCS.MyLinkLable2 = Nothing
+        Me.fndMultDCS.MyNullText = "All"
+        Me.fndMultDCS.Name = "fndMultDCS"
+        Me.fndMultDCS.Size = New System.Drawing.Size(296, 19)
+        Me.fndMultDCS.TabIndex = 1522
+        Me.fndMultDCS.Visible = False
+        '
+        'chkCurrntCycle
+        '
+        Me.chkCurrntCycle.AutoSize = True
+        Me.chkCurrntCycle.Location = New System.Drawing.Point(463, 114)
+        Me.chkCurrntCycle.Name = "chkCurrntCycle"
+        Me.chkCurrntCycle.Size = New System.Drawing.Size(94, 17)
+        Me.chkCurrntCycle.TabIndex = 1505
+        Me.chkCurrntCycle.Text = "Current Cycle"
+        Me.chkCurrntCycle.UseVisualStyleBackColor = True
         '
         'MyLabel2
         '
@@ -214,7 +256,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.RadGroupBox1.Controls.Add(Me.rbtnInActive)
         Me.RadGroupBox1.Controls.Add(Me.rbtnActive)
         Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(382, 113)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(382, 135)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Size = New System.Drawing.Size(194, 27)
         Me.RadGroupBox1.TabIndex = 446
@@ -287,7 +329,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
         'chkDCSWise
         '
         Me.chkDCSWise.AutoSize = True
-        Me.chkDCSWise.Location = New System.Drawing.Point(382, 89)
+        Me.chkDCSWise.Location = New System.Drawing.Point(382, 114)
         Me.chkDCSWise.Name = "chkDCSWise"
         Me.chkDCSWise.Size = New System.Drawing.Size(75, 17)
         Me.chkDCSWise.TabIndex = 443
@@ -332,6 +374,8 @@ Partial Class rptTemporaryPaymentDeductionSummary
         'RadGroupBox2
         '
         Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rdbDocumentWiseDetail)
+        Me.RadGroupBox2.Controls.Add(Me.rdbDocumentWise)
         Me.RadGroupBox2.Controls.Add(Me.chkORD_CD)
         Me.RadGroupBox2.Controls.Add(Me.chkWithOpening)
         Me.RadGroupBox2.Controls.Add(Me.rdbCurrentStanding)
@@ -341,9 +385,29 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.RadGroupBox2.Location = New System.Drawing.Point(15, 57)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(272, 130)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(272, 174)
         Me.RadGroupBox2.TabIndex = 440
         Me.RadGroupBox2.Text = "Select Option"
+        '
+        'rdbDocumentWiseDetail
+        '
+        Me.rdbDocumentWiseDetail.AutoSize = True
+        Me.rdbDocumentWiseDetail.Location = New System.Drawing.Point(13, 147)
+        Me.rdbDocumentWiseDetail.Name = "rdbDocumentWiseDetail"
+        Me.rdbDocumentWiseDetail.Size = New System.Drawing.Size(139, 17)
+        Me.rdbDocumentWiseDetail.TabIndex = 443
+        Me.rdbDocumentWiseDetail.Text = "Document Wise Detail"
+        Me.rdbDocumentWiseDetail.UseVisualStyleBackColor = True
+        '
+        'rdbDocumentWise
+        '
+        Me.rdbDocumentWise.AutoSize = True
+        Me.rdbDocumentWise.Location = New System.Drawing.Point(13, 124)
+        Me.rdbDocumentWise.Name = "rdbDocumentWise"
+        Me.rdbDocumentWise.Size = New System.Drawing.Size(106, 17)
+        Me.rdbDocumentWise.TabIndex = 442
+        Me.rdbDocumentWise.Text = "Document Wise"
+        Me.rdbDocumentWise.UseVisualStyleBackColor = True
         '
         'chkORD_CD
         '
@@ -484,6 +548,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyExportAPI = False
         Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
@@ -554,16 +619,6 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'chkCurrntCycle
-        '
-        Me.chkCurrntCycle.AutoSize = True
-        Me.chkCurrntCycle.Location = New System.Drawing.Point(463, 89)
-        Me.chkCurrntCycle.Name = "chkCurrntCycle"
-        Me.chkCurrntCycle.Size = New System.Drawing.Size(94, 17)
-        Me.chkCurrntCycle.TabIndex = 1505
-        Me.chkCurrntCycle.Text = "Current Cycle"
-        Me.chkCurrntCycle.UseVisualStyleBackColor = True
-        '
         'rptTemporaryPaymentDeductionSummary
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -585,6 +640,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
@@ -653,5 +709,9 @@ Partial Class rptTemporaryPaymentDeductionSummary
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents fndArea As common.UserControls.txtFinder
     Friend WithEvents chkCurrntCycle As CheckBox
+    Friend WithEvents rdbDocumentWiseDetail As RadioButton
+    Friend WithEvents rdbDocumentWise As RadioButton
+    Friend WithEvents MyLabel3 As common.Controls.MyLabel
+    Friend WithEvents fndMultDCS As common.UserControls.txtMultiSelectFinder
 End Class
 

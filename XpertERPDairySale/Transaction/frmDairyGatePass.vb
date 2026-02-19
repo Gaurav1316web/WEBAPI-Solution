@@ -2459,7 +2459,7 @@ xyz.Sale_Invoice_No, "
     End Function
 
     Function GatepassWithFilePath(ByVal Code As String, ByVal DocDate As DateTime, ByVal strShift As String, ByVal isFresh As Boolean, ByVal isAmbient As Boolean, ByVal strRoute As String, ByVal strLocation As String, ByVal isPDFPath As Boolean) As String
-        Return GatepassWithFilePath(Code, txtDate.Value, IIf(rbtnMorning.IsChecked, "Morning", "Evening"), Nothing, Nothing, Nothing, Nothing, isPDFPath, False)
+        Return GatepassWithFilePath(Code, txtDate.Value, IIf(rbtnMorning.IsChecked, "Morning", "Evening"), isFresh, isAmbient, strRoute, strLocation, isPDFPath, False)
     End Function
 
     Function GatepassWithFilePath(ByVal Code As String, ByVal DocDate As DateTime, ByVal strShift As String, ByVal isFresh As Boolean, ByVal isAmbient As Boolean, ByVal strRoute As String, ByVal strLocation As String, ByVal isPDFPath As Boolean, ByVal isCancel As Boolean) As String

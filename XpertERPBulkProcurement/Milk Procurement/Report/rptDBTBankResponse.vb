@@ -79,6 +79,8 @@ Public Class rptDBTBankResponse
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
+            RadGroupBox2.Enabled = False
+            RadGroupBox3.Enabled = False
             Dim baseqry As String = Nothing
             Dim qry1 As String = Nothing
             Dim dtunion As New DataTable
@@ -101,7 +103,7 @@ Public Class rptDBTBankResponse
                 End If
 
             Else
-                    uQry = " select  [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name
+                uQry = " select  [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name
                         from TSPL_MASTER.dbo.TSPL_APP_LOCATION WHERE [TSPL_APP_LOCATION].DataBase_Name  in (" + ss + ") 
                         order by [TSPL_APP_LOCATION].Location_Name "
             End If
@@ -138,9 +140,14 @@ case when  [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[d
   ,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Ref_PK_Id ,
   [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIl.Against_MP_Incentive_TR ,
   [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIl.sno ,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIl.Lot_No,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.UKID 
-  ,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.DBT_Revise_Payment,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Sanction_Number,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Sanction_Date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Sanction_Amount
-  
- from [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIl 
+  ,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.DBT_Revise_Payment,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Sanction_Number,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Sanction_Date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Sanction_Amount"
+                If rbtnJA.IsChecked Then
+                    baseqry += " ,CASE 
+        WHEN [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.JA_Is_Saved = 'Y' THEN 'Push to JA Server'
+        ELSE 'Pending to JA Server'
+    END AS [Send to Janaadhar]"
+                End If
+                baseqry += " from [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIl 
 left outer join [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT on [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Document_Code=[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Document_Code
 left outer join [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_detail on [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_detail.PK_Id=[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR
 left outer join [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_head on [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_head.Document_Code=[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_detail.Document_Code
@@ -181,22 +188,45 @@ AND [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSP
                 '    End If
 
                 'End If
-                If rbtnSuccess.IsChecked Then
-                    baseqry += " and  (CASE WHEN TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response LIKE '%STATUS : SUCCESS%' THEN 1 ELSE 0 END) = 1"
-                ElseIf rbtnFailed.IsChecked Then
-                    baseqry += " and (CASE WHEN TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response LIKE '%STATUS : SUCCESS%' THEN 1 ELSE 0 END) = 0"
-                Else
-                    baseqry += " and (CASE WHEN TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response LIKE '%STATUS : SUCCESS%' THEN 1 ELSE 0 END) in('1','0')"
+                If rbtnBankResponse.IsChecked Then
+                    If rbtnSuccess.IsChecked Then
+                        baseqry += " and  (CASE WHEN TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response LIKE '%STATUS : SUCCESS%' THEN 1 ELSE 0 END) = 1 "
+                    ElseIf rbtnFailed.IsChecked Then
+                        baseqry += " and (CASE WHEN TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response LIKE '%STATUS : SUCCESS%' THEN 1 ELSE 0 END) = 0 "
+                    Else
+                        baseqry += " and (CASE WHEN TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response LIKE '%STATUS : SUCCESS%' THEN 1 ELSE 0 END) in('1','0') "
+                    End If
+                End If
+                If rbtnJA.IsChecked Then
+                    If rbtnSuccess.IsChecked Then
+                        baseqry += " and  (CASE WHEN TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response LIKE '%STATUS : SUCCESS%' THEN 1 ELSE 0 END) = 1 AND  TSPL_DBT_NEFT_BANK_RESPONSE.JA_Is_Saved ='y'"
+                    ElseIf rbtnFailed.IsChecked Then
+                        baseqry += " and (CASE WHEN TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response LIKE '%STATUS : SUCCESS%' THEN 1 ELSE 0 END) = 0 AND   TSPL_DBT_NEFT_BANK_RESPONSE.JA_Is_Saved ='N'"
+                    Else
+                        baseqry += " and (CASE WHEN TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response LIKE '%STATUS : SUCCESS%' THEN 1 ELSE 0 END) in('1','0') AND   TSPL_DBT_NEFT_BANK_RESPONSE.JA_Is_Saved IN ('Y','N')"
+                    End If
                 End If
 
             Next
+            Dim SummaryQry As String = ""
+            If rbtnCycleWiseSummary.IsChecked Then
+                SummaryQry += "select max(Unionname)Unionname,max(status)status,count([Farmer Code])[Farmer Code],sum(Amount)Amount,Count([DCS CODE])[DCS CODE],COUNT( [DCS Uploader Code])[DCS Uploader Code],COUNT([MP CODE])[MP CODE],[Document Code],[From Date],[to Date],count(Bank_Response)Bank_Response,COUNT(UKID)UKID "
+                If rbtnJA.IsChecked Then
+                    SummaryQry += " ,MAX([Send to Janaadhar])[Send to Janaadhar]"
+                End If
+                SummaryQry += " From ( " & baseqry & ") XX GROUP BY XX.[Document Code] ,XX.[From Date],XX.[to Date]"
+            End If
 
             'qry1 += "WITH CTE AS(" + baseqry + " )SELECT (UnionName)UnionName,  MonthYear,MonthName, COUNT(DISTINCT ID) As TotalID, COUNT(Case When RN = 1 Then 1 End) As NewID FROM CTE
             '              GROUP BY MonthYear,MonthName,UnionName
             '   ORDER BY UnionName,MIN(IDate)"
 
-
-            Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(baseqry)
+            Dim dt2 As DataTable
+            If rbtnCycleWiseSummary.IsChecked Then
+                dt2 = clsDBFuncationality.GetDataTable(SummaryQry)
+            Else
+                dt2 = clsDBFuncationality.GetDataTable(baseqry)
+            End If
             If (dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0) Then
                 gv1.DataSource = Nothing
                 gv1.Rows.Clear()
@@ -212,7 +242,10 @@ AND [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSP
                 gv1.EnableFiltering = True
                 gv1.AllowAddNewRow = False
                 gv1.ShowGroupPanel = False
-                SetGridFormat()
+                If rbtnDetail.IsChecked Then
+                    SetGridFormat()
+
+                End If
 
                 gv1.BestFitColumns()
             Else
@@ -220,6 +253,8 @@ AND [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSP
             End If
             ' End If
         Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
+
         End Try
     End Sub
 
@@ -267,6 +302,12 @@ AND [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSP
 
     Sub Reset()
         Try
+            rbtnBankResponse.IsChecked = True
+            rbtnDetail.IsChecked = True
+            rbtnJA.IsChecked = False
+            rbtnCycleWiseSummary.IsChecked = True
+            RadGroupBox2.Enabled = True
+            RadGroupBox3.Enabled = True
             gv1.DataSource = Nothing
             gv1.Rows.Clear()
             gv1.Columns.Clear()

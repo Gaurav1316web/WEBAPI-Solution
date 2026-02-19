@@ -71,7 +71,7 @@ Public Class frmDCSSaleEntry
     Const colAmtAfterDis As String = "COLAMTAFTERDIS"
     Const colTaxGroup As String = "colTaxGroup"
     Const colTaxGroupDesc As String = "colTaxGroupDesc"
-
+    Const colIsAddTPT As String = "colIsAddTPT"
     Const colTax1 As String = "COLTAX1"
     Const colTaxBaseAmt1 As String = "COLTAXBASEAMT1"
     Const colTaxRate1 As String = "COLTAXRATE1"
@@ -1137,6 +1137,15 @@ Public Class frmDCSSaleEntry
         repoCommAmtAfterDis.ReadOnly = True
         repoCommAmtAfterDis.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoCommAmtAfterDis)
+
+        Dim repoIsAddTPT As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+        repoIsAddTPT.HeaderText = "Is Add TPT"
+        repoIsAddTPT.Name = colIsAddTPT
+        repoIsAddTPT.ReadOnly = False
+        repoIsAddTPT.IsVisible = True
+        repoIsAddTPT.Checked = True
+        repoIsAddTPT.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        gv1.MasterTemplate.Columns.Add(repoIsAddTPT)
 
         Dim repoTPTRate As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTPTRate = New GridViewDecimalColumn()
@@ -2826,6 +2835,7 @@ left outer join  TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VAL
                     gv1.CurrentRow.Cells(colOrgUnit).Value = clsCommon.myCstr(dr(0).Item("Unit"))
                     gv1.CurrentRow.Cells(colMRP).Value = clsCommon.myCdbl(dr(0).Item("MRP"))
                     gv1.CurrentRow.Cells(colDCSSaleZeroCost).Value = clsCommon.myCBool(dr(0).Item("DCS_Sale_Zero_Cost") = 1)
+                    gv1.CurrentRow.Cells(colIsAddTPT).Value = True
                     gv1.CurrentRow.Cells(colIsBatchItem).Value = clsItemMaster.IsBatchItem(gv1.CurrentRow.Cells(colICode).Value)
                     If gv1.CurrentRow.Cells(colDCSSaleZeroCost).Value Then
                         gv1.CurrentRow.Cells(colRate).Value = 0
@@ -3012,9 +3022,11 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
         Dim dblNetAmt As Decimal = 0
         Dim dblTotalTPTAmt As Double = 0
         Dim dblTotalRoundOffAmt As Double = 0
+        Dim dblGrossAmt As Double = 0
         For ii As Integer = 0 To gv1.Rows.Count - 1
             If (clsCommon.myLen(gv1.Rows(ii).Cells(colICode).Value) > 0) And clsCommon.myCdbl(gv1.Rows(ii).Cells(ColFOC).Value) = 0 Then
                 dblTotAmt = dblTotAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(colAmt).Value)
+                dblGrossAmt = dblGrossAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(colGrossAmount).Value)
                 dblTotDisAmt = dblTotDisAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(colDisAmt).Value)
                 dblCashDisAmt = dblCashDisAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTotalCustDiscount).Value)
                 dblHeadDisAmt = dblHeadDisAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(colHeadDiscamt).Value)
@@ -3093,6 +3105,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
         End If
         lblTotRAmt1.Text = lblTotRAmt.Text
         txtTPTAmt.Text = dblTotalTPTAmt
+        lblGrossAmount.Text = dblGrossAmt
     End Sub
     Private Sub btnAddNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddNew.Click
         AddNew()
@@ -3257,9 +3270,10 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
 
                 UpdateCurrentRow(ii)
             Next
-            UpdateAllTotals()
+
             CalculateDiscountAmount()
             CalculateRateDiffAmount()
+            UpdateAllTotals()
             If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
                 txtVendorNo.Focus()
@@ -3746,7 +3760,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     objTr.RateDiff_Amt = clsCommon.myCdbl(grow.Cells(colRateDiffAmt).Value)
                     objTr.TotalSubsidyAmt = clsCommon.myCdbl(grow.Cells(colTotalSubsidyAmt).Value)
                     objTr.Gross_Amount = clsCommon.myCdbl(grow.Cells(colGrossAmount).Value)
-
+                    objTr.Is_Add_TPT = clsCommon.myCBool(grow.Cells(colIsAddTPT).Value)
                     objTr.Disc_Per = clsCommon.myCdbl(grow.Cells(colDisPer).Value)
                     objTr.Disc_Amt = clsCommon.myCdbl(grow.Cells(colDisAmt).Value)
                     objTr.Disc_Per_Unit = clsCommon.myCdbl(grow.Cells(colDisPerUnit).Value)
@@ -4207,6 +4221,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colRateDiffAmt).Value = objTr.RateDiff_Amt
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTotalSubsidyAmt).Value = objTr.TotalSubsidyAmt
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colGrossAmount).Value = objTr.Gross_Amount
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colIsAddTPT).Value = objTr.Is_Add_TPT
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = objTr.Disc_Per
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDisAmt).Value = objTr.Disc_Amt
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPerUnit).Value = objTr.Disc_Per_Unit
@@ -5835,7 +5850,19 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
             End If
             Dim dblTPTRate As Decimal = gv1.Rows(IntRowNo).Cells(ColTPTRate).Value
             Dim dblTPTAmt As Decimal = dblTPTRate * dblQty
-            Dim dblGrossAmt As Decimal = dblAmtAfterTax - dblRateDiffAmt - dblTPTAmt
+            Dim dblTotalSubsidyAmt As Decimal = 0
+            If MultiplySubsidyWithQuantity Then
+                dblTotalSubsidyAmt = dblRateDiffAmt * dblQty
+            Else
+                dblTotalSubsidyAmt = dblRateDiffAmt
+            End If
+            Dim dblGrossAmt As Decimal = dblAmtAfterTax - dblTotalSubsidyAmt
+            If (clsCommon.myCBool(gv1.Rows(IntRowNo).Cells(colIsAddTPT).Value)) Then
+                dblGrossAmt = dblAmtAfterTax - dblTotalSubsidyAmt + dblTPTAmt
+            Else
+                dblGrossAmt = dblAmtAfterTax - dblTotalSubsidyAmt - dblTPTAmt
+            End If
+
             Dim dblRoundOffAmt As Decimal = 0
             If AllowRoundOffAmountOnDCSSale Then
                 Dim lstDecml As New List(Of Decimal)
@@ -5848,11 +5875,13 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
                 dblRoundOffAmt = 0
             End If
 
+
+
             gv1.Rows(IntRowNo).Cells(colDisAmt).Value = Math.Round(dblDisAmt, 2)
             gv1.Rows(IntRowNo).Cells(colAmtAfterDis).Value = Math.Round(dblAmtAfterDis, 6)
             gv1.Rows(IntRowNo).Cells(colRateDiffAmt).Value = Math.Round(dblRateDiffAmt, 6)
             gv1.Rows(IntRowNo).Cells(colTotalSubsidyDisAmt).Value = Math.Round(dblTotalSubsidyDisAmt, 6)
-            gv1.Rows(IntRowNo).Cells(colTotalSubsidyAmt).Value = Math.Round(dblRateDiffAmt, 6)
+            gv1.Rows(IntRowNo).Cells(colTotalSubsidyAmt).Value = Math.Round(dblTotalSubsidyAmt, 6)
             gv1.Rows(IntRowNo).Cells(colGrossAmount).Value = Math.Round(dblGrossAmt, 6)
             gv1.Rows(IntRowNo).Cells(colTotTaxAmt).Value = Math.Round(dblTotTaxAmt, 6)
             gv1.Rows(IntRowNo).Cells(colAmtAfterTax).Value = Math.Round(dblAmtAfterTax, 2)
@@ -7269,4 +7298,18 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
             chkcashsale.Enabled = True
         End If
     End Sub
+    'Private Sub gv1_CellEndEdit(sender As Object, e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv1.CellEndEdit
+    '    If e.Column.Name = colIsAddTPT Then
+    '        UpdateCurrentRow(e.Row.Index)
+    '    End If
+
+    'End Sub
+    'Private Sub gv1_CellClick(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellClick
+    '    If e.Column.Name = colIsAddTPT Then
+    '        gv1.EndInit()
+    '        UpdateCurrentRow(e.Row.Index)
+    '        UpdateAllTotals()
+    '    End If
+    'End Sub
+
 End Class

@@ -284,7 +284,7 @@ Public Class FrmItemMasterRMOther
         End If
         lblBBValue.Visible = False
         txtBBValue.Visible = False
-
+        chkIsSplitBill.Visible = True
     End Sub
 
     Sub LoadBlankGridCat()
@@ -1459,7 +1459,7 @@ Public Class FrmItemMasterRMOther
         ItemShortDesp()
         ' BM00000007910
 
-
+        chkIsSplitBill.Checked = False
         chkHighClass.Checked = False
         chkHighClass.Visible = True
         chkSkipSecurityDed.Checked = False
@@ -1721,7 +1721,11 @@ Public Class FrmItemMasterRMOther
                 If chkFGforCF.Checked = True Then
                     obj.BomBuildQty = txtBmBdQty.Text
                 End If
-
+                If chkIsSplitBill.Checked Then
+                    obj.IsSplitBilling = 1
+                Else
+                    obj.IsSplitBilling = 0
+                End If
                 obj.NIR_QC = chkNIRQC.Checked
                 ' Ticket No - BM00000003041 3/July/2014 by Puran
                 obj.Is_Scheme_Item = chkSchemeItem.Checked
@@ -2936,6 +2940,7 @@ Public Class FrmItemMasterRMOther
                 chkHighClass.Checked = IIf(obj.isHighClass = 1, True, False)
                 'Load buyBackTye and Value
                 chkIsRepeat.Checked = IIf(obj.IsRepeat = 1, True, False)
+                chkIsSplitBill.Checked = IIf(obj.IsSplitBilling = 1, True, False)
                 chkAllowDecimal.Checked = IIf(obj.AllowEntryInDecimal = 1, True, False)
                 If obj.BuyBackType = 1 Then
                     rbtnBBAmount.IsChecked = True

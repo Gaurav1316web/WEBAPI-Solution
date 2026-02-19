@@ -1757,6 +1757,9 @@ order by TSPL_Booth_Route_Mapping_Head.Document_No desc", trans))
             BaseQry += " and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=xx.Cust_Code ),0 ) ) else 0 end) else 0 end) + isnull((xx.PrevItemNetAmount),0)) as AmountBE,
  xx.Crate_Collect  as TotalCollectCrate,(case when xx.ShiftType='Morning' then (isnull(TCSAmount,0)) else 0 end )as TotalTCSAmt  from ( 
 select XXFinal.Cust_Code as Cust_Code,"
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal Then
+                BaseQry += " MAX(XXFinal.Customer_Name) AS Customer_Name, "
+            End If
             BaseQry += "max(XXFinal.ShiftType) as ShiftType, XXFinal.Sku_Seq as Sku_Seq ,max(XXFinal.Document_Date) as Document_Date,
 max(XXFinal.Short_Description) as Short_Description, sum(XXFinal.Qty) as Qty, max(XXFinal.Unit_code) as Unit_code, sum(XXFinal.Crate) as Crate, max(XXFinal.Pouch) as Pouch,
 sum(XXFinal.ItemNetAmount) as ItemNetAmount,max(XXFinal.Route_No) as Route_No, max(XXFinal.Route_Desc) as Route_Desc,sum(XXFinal.PrevCrate) as Crate_Collect,
@@ -1769,6 +1772,10 @@ sum(XXFinal.PrevItemNetAmount) as PrevItemNetAmount,ROW_NUMBER() over (Partition
             BaseQry += "from ( 
 select  TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,"
             BaseQry += " TSPL_DEMAND_BOOKING_DETAIL.ShiftType," & IIf(isDepartmentRoute, "ITEMDETAILInCrate.CFForLTR as CFCrate,ITEMDETAILInpouch.CFForLTR as CFPouch,", "") & " TSPL_ITEM_MASTER.Sku_Seq,TSPL_DEMAND_BOOKING_MASTER.Document_Date,TSPL_ITEM_MASTER.Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Qty as Qty,0 as PrevQty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code,"
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal Then
+                BaseQry += " TSPL_CUSTOMER_MASTER.Customer_Name, "
+            End If
+
             If isDepartmentRoute Then
                 BaseQry += " convert(int,TSPL_DEMAND_BOOKING_DETAIL.Qty*ITEMDETAIL.CFForLTR/ ITEMDETAILInCrate.CFForLTR) as Crate, 0 As PrevCrate, 
 			 TSPL_DEMAND_BOOKING_DETAIL.Qty*ITEMDETAIL.CFForLTR/ ITEMDETAILInpouch.CFForLTR -((convert(int,TSPL_DEMAND_BOOKING_DETAIL.Qty*ITEMDETAIL.CFForLTR/ ITEMDETAILInCrate.CFForLTR))* ITEMDETAILInCrate.CFForLTR) AS Pouch,
@@ -1831,6 +1838,11 @@ and CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= '" & clsCommon
             BaseQry += " select  TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,"
             BaseQry += "'" & strShift & "'  as ShiftType," & IIf(isDepartmentRoute, "ITEMDETAILInCrate.CFForLTR as CFCrate,ITEMDETAILInpouch.CFForLTR as CFPouch,", "") & "TSPL_ITEM_MASTER.Sku_Seq,'" & clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") & "' as Document_Date, 
 TSPL_ITEM_MASTER.Short_Description,0 as Qty,TSPL_DEMAND_BOOKING_DETAIL.Qty as PrevQty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code, "
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal Then
+                BaseQry += " TSPL_CUSTOMER_MASTER.Customer_Name, "
+            End If
+
+
             If isDepartmentRoute Then
                 BaseQry += "  0 As Crate, convert(int,TSPL_DEMAND_BOOKING_DETAIL.Qty*ITEMDETAIL.CFForLTR/ ITEMDETAILInCrate.CFForLTR) as PrevCrate,          
           0 As Pouch, 
@@ -1968,7 +1980,11 @@ where 2=2 "
             If dtItem IsNot Nothing AndAlso dtItem.Rows.Count <= 0 Then
                 Throw New Exception("No Data found to print")
             End If
+
             qry = "select Route_No ,max(Route_Desc) as Route_Desc,max(TranspoterName) as TranspoterName,max(DriverName) as DriverName,MAX(Vehicle_No) as Vehicle_No,convert(varchar, max(Document_Date),103) as Document_Date,FORMAT(GETDATE(), 'dd/MM/yyyy hh:mm tt') as PrintDateTime ,max(ShiftType) as ShiftType,max(DocStatus) as DocStatus,Cust_Code,case when Credit_Customer='Y' then 'Department Booth' else 'Normal Booth' end + ' ( '+ case when len(Split_Print)<=0 then 'Main' else Split_Print end +' )' as Credit_Customer "
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal Then
+                qry += " ,MAX(Customer_Name)Customer_Name "
+            End If
             For Each drItem As DataRow In dtItem.Rows
                 If isDepartmentRoute Then
                     qry += ",sum((QTYLtr) * (case when Short_Description='" & clsCommon.myCstr(drItem("Short_Description")) & "' then 1 else 0 end)) as [" & clsCommon.myCstr(drItem("Short_Description")) & "] "
@@ -2105,13 +2121,23 @@ group by XXXFinal.Short_Description,XXXFinal.Sku_Seq,XXXFinal.Conversion_Factor,
             obj.arrFilter = New List(Of clsDosPrintHeaderFilter)()
             obj.arrColumn = New List(Of clsDosPrintColumn)()
             obj.arrColumn.Add(clsDosPrintColumn.SetColumn("Cust_Code", "Booth", False, DosPrintAlignment.Left, 8, False, DecimalPlaces.NA))
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal Then
+                obj.arrColumn.Add(clsDosPrintColumn.SetColumn("Customer_Name", "Booth Name", False, DosPrintAlignment.Left, 8, False, DecimalPlaces.NA))
+            End If
+
             For Each drItem As DataRow In dtItem.Rows
                 obj.arrColumn.Add(clsDosPrintColumn.SetColumn(clsCommon.myCstr(drItem("Short_Description")), clsCommon.myCstr(drItem("Short_Description")), False, DosPrintAlignment.Right, 10, True, DecimalPlaces.One))
             Next
             obj.arrColumn.Add(clsDosPrintColumn.SetColumn("TotalCrate", "Total", False, DosPrintAlignment.Right, 9, True, DecimalPlaces.One))
-            obj.arrColumn.Add(clsDosPrintColumn.SetColumn("ItemNetAmount", "Shift Amt", True, DosPrintAlignment.Right, 12, True, DecimalPlaces.Two))
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal Then
+            Else
+                obj.arrColumn.Add(clsDosPrintColumn.SetColumn("ItemNetAmount", "Shift Amt", True, DosPrintAlignment.Right, 12, True, DecimalPlaces.Two))
+            End If
             obj.arrColumn.Add(clsDosPrintColumn.SetColumn("AmountBE", "Total Amt", True, DosPrintAlignment.Right, 12, True, DecimalPlaces.Two))
-            obj.arrColumn.Add(clsDosPrintColumn.SetColumn("TotalTCSAmt", "TCS", False, DosPrintAlignment.Right, 9, True, DecimalPlaces.Two))
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal Then
+            Else
+                obj.arrColumn.Add(clsDosPrintColumn.SetColumn("TotalTCSAmt", "TCS", False, DosPrintAlignment.Right, 9, True, DecimalPlaces.Two))
+            End If
             obj.arrColumn.Add(clsDosPrintColumn.SetColumn("TotalCollectCrate", "Crate", False, DosPrintAlignment.Right, 9, True, DecimalPlaces.One))
             'If EnumPageSize = DosPaperSize.Tecxpert15X12 Then
             '    obj.ApplyPrintCommand = False

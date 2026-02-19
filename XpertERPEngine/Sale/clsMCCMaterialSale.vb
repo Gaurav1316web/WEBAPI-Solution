@@ -149,6 +149,7 @@ Public Class clsMCCMaterialSale
     Public Sale_Invoice_No As String = Nothing
     Public Is_Create_Auto_Receipt As Boolean = False
     Public Is_Apply_TPT As Boolean = False
+    Public Is_Add_TPT As Boolean = False
     Public TPT_Vendor As String = Nothing
     Public Recommended_By As String = Nothing
     Public Against_POS As String = Nothing
@@ -599,6 +600,7 @@ Public Class clsMCCMaterialSale
             clsCommon.AddColumnsForChange(coll, "Sale_Invoice_No", obj.Sale_Invoice_No)
             clsCommon.AddColumnsForChange(coll, "Is_Create_Auto_Receipt", IIf(obj.Is_Create_Auto_Receipt, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Is_Apply_TPT", IIf(obj.Is_Apply_TPT, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "Is_Add_TPT", IIf(obj.Is_Add_TPT, 1, 0))
             clsCommon.AddColumnsForChange(coll, "TPT_Vendor", obj.TPT_Vendor, True)
             clsCommon.AddColumnsForChange(coll, "Exclude_KKF_And_Mandi", IIf(obj.Exclude_KKF_And_Mandi, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Recommended_By", obj.Recommended_By, True)
@@ -817,7 +819,7 @@ Public Class clsMCCMaterialSale
 
     Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsMCCMaterialSale
         Dim obj As clsMCCMaterialSale = Nothing
-        Dim qry As String = "SELECT TSPL_SD_SHIPMENT_HEAD.No_Of_Instalment,TSPL_SD_SHIPMENT_HEAD.IS_TCS, TSPL_SD_SHIPMENT_HEAD.EWayBillNo,TSPL_SD_SHIPMENT_HEAD.EWayBillDate,TSPL_SD_SHIPMENT_HEAD.Road_Permit_No,TSPL_SD_SHIPMENT_HEAD.Is_Delivered,TSPL_SD_SHIPMENT_HEAD.HeadDisc_PerAmt,TSPL_SD_SHIPMENT_HEAD.RateDiff_Per,TSPL_SD_SHIPMENT_HEAD.Gross_Amount,TSPL_SD_SHIPMENT_HEAD.RateDiff_Amt,TSPL_SD_SHIPMENT_HEAD.cust_po_date,TSPL_SD_SHIPMENT_HEAD.Cust_PO_No,TSPL_SD_SHIPMENT_HEAD.Vehicle_Code,TSPL_SD_SHIPMENT_HEAD.price_group_code,TSPL_SD_SHIPMENT_HEAD.Invoice_Type,TSPL_SD_SHIPMENT_HEAD.HeadDisc_Per,TSPL_SD_SHIPMENT_HEAD.HeadDisc_Amt,TSPL_SD_SHIPMENT_HEAD.TotCashDiscAmt,TSPL_SD_SHIPMENT_HEAD.Route_No,TSPL_SD_SHIPMENT_HEAD.Route_Desc,TSPL_SD_SHIPMENT_HEAD.Price_Code,TSPL_SD_SHIPMENT_HEAD.Document_Code,TSPL_SD_SHIPMENT_HEAD.Document_Date,TSPL_SD_SHIPMENT_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SHIPMENT_HEAD.Status,TSPL_SD_SHIPMENT_HEAD.On_Hold,TSPL_SD_SHIPMENT_HEAD.Bank_Code,TSPL_SD_SHIPMENT_HEAD.Ref_No,TSPL_SD_SHIPMENT_HEAD.Description,TSPL_SD_SHIPMENT_HEAD.Is_CashSale,TSPL_SD_SHIPMENT_HEAD.Remarks,TSPL_SD_SHIPMENT_HEAD.Tax_Group,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location,TSPL_SD_SHIPMENT_HEAD.Sub_Location_code,TSPL_SD_SHIPMENT_HEAD.Ship_To_Location,TSPL_SD_SHIPMENT_HEAD.TAX1,TSPL_SD_SHIPMENT_HEAD.TAX1_Rate,TSPL_SD_SHIPMENT_HEAD.TAX1_Amt,TSPL_SD_SHIPMENT_HEAD.TAX1_Base_Amt,TSPL_SD_SHIPMENT_HEAD.TAX2,TSPL_SD_SHIPMENT_HEAD.TAX2_Rate,TSPL_SD_SHIPMENT_HEAD.TAX2_Amt,TSPL_SD_SHIPMENT_HEAD.TAX2_Base_Amt,TSPL_SD_SHIPMENT_HEAD.TAX3,TSPL_SD_SHIPMENT_HEAD.TAX3_Rate,TSPL_SD_SHIPMENT_HEAD.TAX3_Amt,TSPL_SD_SHIPMENT_HEAD.TAX3_Base_Amt,TSPL_SD_SHIPMENT_HEAD.TAX4,TSPL_SD_SHIPMENT_HEAD.TAX4_Rate,TSPL_SD_SHIPMENT_HEAD.TAX4_Amt,TSPL_SD_SHIPMENT_HEAD.TAX4_Base_Amt,TSPL_SD_SHIPMENT_HEAD.TAX5,TSPL_SD_SHIPMENT_HEAD.TAX5_Rate,TSPL_SD_SHIPMENT_HEAD.TAX5_Amt,TSPL_SD_SHIPMENT_HEAD.TAX5_Base_Amt,TSPL_SD_SHIPMENT_HEAD.TAX6,TSPL_SD_SHIPMENT_HEAD.TAX6_Rate,TSPL_SD_SHIPMENT_HEAD.TAX6_Amt,TSPL_SD_SHIPMENT_HEAD.TAX6_Base_Amt,TSPL_SD_SHIPMENT_HEAD.TAX7,TSPL_SD_SHIPMENT_HEAD.TAX7_Rate,TSPL_SD_SHIPMENT_HEAD.TAX7_Amt,TSPL_SD_SHIPMENT_HEAD.TAX7_Base_Amt,TSPL_SD_SHIPMENT_HEAD.TAX8,TSPL_SD_SHIPMENT_HEAD.TAX8_Rate,TSPL_SD_SHIPMENT_HEAD.TAX8_Amt,TSPL_SD_SHIPMENT_HEAD.TAX8_Base_Amt,TSPL_SD_SHIPMENT_HEAD.TAX9,TSPL_SD_SHIPMENT_HEAD.TAX9_Rate,TSPL_SD_SHIPMENT_HEAD.TAX9_Amt,TSPL_SD_SHIPMENT_HEAD.TAX9_Base_Amt,TSPL_SD_SHIPMENT_HEAD.TAX10,TSPL_SD_SHIPMENT_HEAD.TAX10_Rate,TSPL_SD_SHIPMENT_HEAD.TAX10_Amt,TSPL_SD_SHIPMENT_HEAD.TAX10_Base_Amt,TSPL_SD_SHIPMENT_HEAD.Discount_Base,TSPL_SD_SHIPMENT_HEAD.Discount_Amt,TSPL_SD_SHIPMENT_HEAD.Amount_Less_Discount,TSPL_SD_SHIPMENT_HEAD.Total_Tax_Amt,TSPL_SD_SHIPMENT_HEAD.Comments,TSPL_SD_SHIPMENT_HEAD.Comp_Code,TSPL_SD_SHIPMENT_HEAD.Terms_Code,TSPL_SD_SHIPMENT_HEAD.Due_Date ,TSPL_LOCATION_MASTER.Location_Desc as BillToLocationName,TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipToLocationName,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as TaxGroupName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_SD_SHIPMENT_HEAD.Posting_Date,TSPL_SD_SHIPMENT_HEAD.Total_Amt,TSPL_SD_SHIPMENT_HEAD.Carrier,TSPL_SD_SHIPMENT_HEAD.VehicleNo,TSPL_SD_SHIPMENT_HEAD.GRNo,TSPL_SD_SHIPMENT_HEAD.GENo,TSPL_SD_SHIPMENT_HEAD.GEDate, TSPL_SD_SHIPMENT_HEAD.Dept,TSPL_SD_SHIPMENT_HEAD.Dept_Desc,TSPL_SD_SHIPMENT_HEAD.Item_Type,TSPL_SD_SHIPMENT_HEAD.Against_Sales_Order ,TSPL_SD_SHIPMENT_HEAD.Against_Sales_Order,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code1,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name1,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt1,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code2,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name2,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt2,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code3,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name3,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt3,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code4,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name4,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt4,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code5,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name5,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt5,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code6,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name6,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt6,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code7,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name7,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt7,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code8,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name8,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt8,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code9 ,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name9,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt9 ,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code10 ,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name10,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt10,TSPL_SD_SHIPMENT_HEAD.Total_Add_Charge,TSPL_SD_SHIPMENT_HEAD.Tax_Calculation_Type,TSPL_SD_SHIPMENT_HEAD.Challan_No, TSPL_SD_SHIPMENT_HEAD.Challan_Date, TSPL_SD_SHIPMENT_HEAD.Inv_Date,TSPL_SD_SHIPMENT_HEAD.Inv_No,TSPL_SD_SHIPMENT_HEAD.Is_Internal,TSPL_SD_SHIPMENT_HEAD.Is_Create_Auto_Invoice,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No,TSPL_SD_SHIPMENT_HEAD.Is_Create_Auto_Receipt,TSPL_SD_SHIPMENT_HEAD.Is_Apply_TPT,TSPL_SD_SHIPMENT_HEAD.Exclude_KKF_And_Mandi,TSPL_SD_SHIPMENT_HEAD.Recommended_By,TSPL_SD_SHIPMENT_HEAD.TPT_Vendor,TSPL_SD_SHIPMENT_HEAD.Salesman_Code ,TSPL_SD_SHIPMENT_HEAD.Salesman_Name,  "
+        Dim qry As String = "SELECT TSPL_SD_SHIPMENT_HEAD.No_Of_Instalment,TSPL_SD_SHIPMENT_HEAD.IS_TCS, TSPL_SD_SHIPMENT_HEAD.EWayBillNo,TSPL_SD_SHIPMENT_HEAD.EWayBillDate,TSPL_SD_SHIPMENT_HEAD.Road_Permit_No,TSPL_SD_SHIPMENT_HEAD.Is_Delivered,TSPL_SD_SHIPMENT_HEAD.HeadDisc_PerAmt,TSPL_SD_SHIPMENT_HEAD.RateDiff_Per,TSPL_SD_SHIPMENT_HEAD.Gross_Amount,TSPL_SD_SHIPMENT_HEAD.RateDiff_Amt,TSPL_SD_SHIPMENT_HEAD.cust_po_date,TSPL_SD_SHIPMENT_HEAD.Cust_PO_No,TSPL_SD_SHIPMENT_HEAD.Vehicle_Code,TSPL_SD_SHIPMENT_HEAD.price_group_code,TSPL_SD_SHIPMENT_HEAD.Invoice_Type,TSPL_SD_SHIPMENT_HEAD.HeadDisc_Per,TSPL_SD_SHIPMENT_HEAD.HeadDisc_Amt,TSPL_SD_SHIPMENT_HEAD.TotCashDiscAmt,TSPL_SD_SHIPMENT_HEAD.Route_No,TSPL_SD_SHIPMENT_HEAD.Route_Desc,TSPL_SD_SHIPMENT_HEAD.Price_Code,TSPL_SD_SHIPMENT_HEAD.Document_Code,TSPL_SD_SHIPMENT_HEAD.Document_Date,TSPL_SD_SHIPMENT_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SHIPMENT_HEAD.Status,TSPL_SD_SHIPMENT_HEAD.On_Hold,TSPL_SD_SHIPMENT_HEAD.Bank_Code,TSPL_SD_SHIPMENT_HEAD.Ref_No,TSPL_SD_SHIPMENT_HEAD.Description,TSPL_SD_SHIPMENT_HEAD.Is_CashSale,TSPL_SD_SHIPMENT_HEAD.Remarks,TSPL_SD_SHIPMENT_HEAD.Tax_Group,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location,TSPL_SD_SHIPMENT_HEAD.Sub_Location_code,TSPL_SD_SHIPMENT_HEAD.Ship_To_Location,TSPL_SD_SHIPMENT_HEAD.TAX1,TSPL_SD_SHIPMENT_HEAD.TAX1_Rate,TSPL_SD_SHIPMENT_HEAD.TAX1_Amt,TSPL_SD_SHIPMENT_HEAD.TAX1_Base_Amt,TSPL_SD_SHIPMENT_HEAD.TAX2,TSPL_SD_SHIPMENT_HEAD.TAX2_Rate,TSPL_SD_SHIPMENT_HEAD.TAX2_Amt,TSPL_SD_SHIPMENT_HEAD.TAX2_Base_Amt,TSPL_SD_SHIPMENT_HEAD.TAX3,TSPL_SD_SHIPMENT_HEAD.TAX3_Rate,TSPL_SD_SHIPMENT_HEAD.TAX3_Amt,TSPL_SD_SHIPMENT_HEAD.TAX3_Base_Amt,TSPL_SD_SHIPMENT_HEAD.TAX4,TSPL_SD_SHIPMENT_HEAD.TAX4_Rate,TSPL_SD_SHIPMENT_HEAD.TAX4_Amt,TSPL_SD_SHIPMENT_HEAD.TAX4_Base_Amt,TSPL_SD_SHIPMENT_HEAD.TAX5,TSPL_SD_SHIPMENT_HEAD.TAX5_Rate,TSPL_SD_SHIPMENT_HEAD.TAX5_Amt,TSPL_SD_SHIPMENT_HEAD.TAX5_Base_Amt,TSPL_SD_SHIPMENT_HEAD.TAX6,TSPL_SD_SHIPMENT_HEAD.TAX6_Rate,TSPL_SD_SHIPMENT_HEAD.TAX6_Amt,TSPL_SD_SHIPMENT_HEAD.TAX6_Base_Amt,TSPL_SD_SHIPMENT_HEAD.TAX7,TSPL_SD_SHIPMENT_HEAD.TAX7_Rate,TSPL_SD_SHIPMENT_HEAD.TAX7_Amt,TSPL_SD_SHIPMENT_HEAD.TAX7_Base_Amt,TSPL_SD_SHIPMENT_HEAD.TAX8,TSPL_SD_SHIPMENT_HEAD.TAX8_Rate,TSPL_SD_SHIPMENT_HEAD.TAX8_Amt,TSPL_SD_SHIPMENT_HEAD.TAX8_Base_Amt,TSPL_SD_SHIPMENT_HEAD.TAX9,TSPL_SD_SHIPMENT_HEAD.TAX9_Rate,TSPL_SD_SHIPMENT_HEAD.TAX9_Amt,TSPL_SD_SHIPMENT_HEAD.TAX9_Base_Amt,TSPL_SD_SHIPMENT_HEAD.TAX10,TSPL_SD_SHIPMENT_HEAD.TAX10_Rate,TSPL_SD_SHIPMENT_HEAD.TAX10_Amt,TSPL_SD_SHIPMENT_HEAD.TAX10_Base_Amt,TSPL_SD_SHIPMENT_HEAD.Discount_Base,TSPL_SD_SHIPMENT_HEAD.Discount_Amt,TSPL_SD_SHIPMENT_HEAD.Amount_Less_Discount,TSPL_SD_SHIPMENT_HEAD.Total_Tax_Amt,TSPL_SD_SHIPMENT_HEAD.Comments,TSPL_SD_SHIPMENT_HEAD.Comp_Code,TSPL_SD_SHIPMENT_HEAD.Terms_Code,TSPL_SD_SHIPMENT_HEAD.Due_Date ,TSPL_LOCATION_MASTER.Location_Desc as BillToLocationName,TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipToLocationName,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as TaxGroupName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_SD_SHIPMENT_HEAD.Posting_Date,TSPL_SD_SHIPMENT_HEAD.Total_Amt,TSPL_SD_SHIPMENT_HEAD.Carrier,TSPL_SD_SHIPMENT_HEAD.VehicleNo,TSPL_SD_SHIPMENT_HEAD.GRNo,TSPL_SD_SHIPMENT_HEAD.GENo,TSPL_SD_SHIPMENT_HEAD.GEDate, TSPL_SD_SHIPMENT_HEAD.Dept,TSPL_SD_SHIPMENT_HEAD.Dept_Desc,TSPL_SD_SHIPMENT_HEAD.Item_Type,TSPL_SD_SHIPMENT_HEAD.Against_Sales_Order ,TSPL_SD_SHIPMENT_HEAD.Against_Sales_Order,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code1,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name1,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt1,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code2,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name2,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt2,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code3,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name3,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt3,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code4,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name4,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt4,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code5,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name5,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt5,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code6,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name6,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt6,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code7,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name7,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt7,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code8,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name8,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt8,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code9 ,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name9,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt9 ,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code10 ,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name10,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt10,TSPL_SD_SHIPMENT_HEAD.Total_Add_Charge,TSPL_SD_SHIPMENT_HEAD.Tax_Calculation_Type,TSPL_SD_SHIPMENT_HEAD.Challan_No, TSPL_SD_SHIPMENT_HEAD.Challan_Date, TSPL_SD_SHIPMENT_HEAD.Inv_Date,TSPL_SD_SHIPMENT_HEAD.Inv_No,TSPL_SD_SHIPMENT_HEAD.Is_Internal,TSPL_SD_SHIPMENT_HEAD.Is_Create_Auto_Invoice,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No,TSPL_SD_SHIPMENT_HEAD.Is_Create_Auto_Receipt,TSPL_SD_SHIPMENT_HEAD.Is_Apply_TPT,TSPL_SD_SHIPMENT_HEAD.Is_Add_TPT,TSPL_SD_SHIPMENT_HEAD.Exclude_KKF_And_Mandi,TSPL_SD_SHIPMENT_HEAD.Recommended_By,TSPL_SD_SHIPMENT_HEAD.TPT_Vendor,TSPL_SD_SHIPMENT_HEAD.Salesman_Code ,TSPL_SD_SHIPMENT_HEAD.Salesman_Name,  "
         qry += " TSPL_SD_SHIPMENT_HEAD.CURRENCY_CODE,TSPL_SD_SHIPMENT_HEAD.CONVRATE,TSPL_SD_SHIPMENT_HEAD.APPLICABLEFROM,TSPL_SD_SHIPMENT_HEAD.PRoject_ID ,TSPL_SD_SHIPMENT_HEAD.Mannual_Invoice_No,TSPL_SD_SHIPMENT_HEAD. Mannual_Invoice_No_StringType,TSPL_SD_SHIPMENT_HEAD.Form_38_No " &
         " ,TSPL_SD_SHIPMENT_HEAD.SO_Validity,TSPL_SD_SHIPMENT_HEAD.Commission_Apply,TSPL_SD_SHIPMENT_HEAD.Total_Comm_Amt,TSPL_SD_SHIPMENT_HEAD.Dispatch_date,TSPL_SD_SHIPMENT_HEAD.WayBillNo,TSPL_SD_SHIPMENT_HEAD.WayBillDate " &
         " ,TSPL_SD_SHIPMENT_HEAD.Dispatch_Terms,TSPL_SD_SHIPMENT_HEAD.Payment_Terms,TSPL_SD_SHIPMENT_HEAD.Dispatch_Period,TSPL_SD_SHIPMENT_HEAD.Vehicle_Capacity,TSPL_SD_SHIPMENT_HEAD.RoundOffAmount,TSPL_SD_SHIPMENT_HEAD.Is_Taxable, TSPL_SD_SHIPMENT_HEAD.Electronic_Ref_No " &
@@ -1057,6 +1059,7 @@ Public Class clsMCCMaterialSale
             obj.Sale_Invoice_No = clsCommon.myCstr(dt.Rows(0)("Sale_Invoice_No"))
             obj.Is_Create_Auto_Receipt = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Create_Auto_Receipt")) = 1, True, False)
             obj.Is_Apply_TPT = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Apply_TPT")) = 1, True, False)
+            obj.Is_Add_TPT = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Add_TPT")) = 1, True, False)
             obj.Exclude_KKF_And_Mandi = IIf(clsCommon.myCdbl(dt.Rows(0)("Exclude_KKF_And_Mandi")) = 1, True, False)
             obj.TPT_Vendor = clsCommon.myCstr(dt.Rows(0)("TPT_Vendor"))
             obj.Recommended_By = clsCommon.myCstr(dt.Rows(0)("Recommended_By"))
@@ -1412,9 +1415,11 @@ Public Class clsMCCMaterialSale
                 clsPSInvoiceHead.PostData("", obj.Invoice_No, trans)   ''obj.Sale_Invoice_No remove because it has not value.by bulk posting.
             End If
 
-            If (obj.TotalSubsidyAmt > 0) Then
-                CreateARAdjustmentEntryAgainstSubsidy(obj, trans)
-            End If
+            'Comment by balwinder on 13/02/2026 as AR Invoice created after reduce the subsidy amount.
+            'If (obj.TotalSubsidyAmt > 0) Then
+            '    CreateARAdjustmentEntryAgainstSubsidy(obj, trans)
+            'End If
+
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", trans)
             ''richa BHO/08/07/21-000019
             Dim CreateARAdjAPDebitnoteforEmployeesinMCCMS As Boolean = IIf(clsFixedParameter.GetData(clsFixedParameterType.CreateARAdjAPDebitnoteforEmployeesinMCCMS, clsFixedParameterCode.CreateARAdjAPDebitnoteforEmployeesinMCCMS, trans) = 1, True, False)
@@ -1430,6 +1435,42 @@ Public Class clsMCCMaterialSale
 
             If clsCommon.myCBool(IIf(clsFixedParameter.GetData(clsFixedParameterType.Sale_SMSATPOST, clsFixedParameterCode.Sale_SMSATPOST, trans) = "1", True, False)) Then
                 SMSSENDONLY(obj, trans, True)
+            End If
+            Dim ECustomerType = clsERPFuncationality.GetCustomerEInvoiceType(obj.Customer_Code, trans)
+            If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso obj.Is_Taxable AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True AndAlso obj.Total_Amt > 0 Then
+                If clsCommon.myLen(GetIRNNo(obj.Sale_Invoice_No, trans)) <= 0 Then
+                    clsPSInvoiceHead.EInvoice_Implementation(obj.Sale_Invoice_No, obj.Bill_To_Location, trans, False)
+                    If clsCommon.myLen(GetIRNNo(obj.Sale_Invoice_No, trans)) <= 0 Then
+                        Throw New Exception("IRN No For Sales Invoice No [" + obj.Sale_Invoice_No + "] is not generated")
+                    End If
+                End If
+                If obj.IsEwayBill = 1 Then
+                    If objCommonVar.GenerateEWayBillWithEInvoice Then
+                        If clsCommon.myLen(GetEWayBillNo(strDocNo, trans)) <= 0 Then
+                            clsPSInvoiceHead.EInvoice_Implementation(obj.Sale_Invoice_No, obj.Bill_To_Location, trans, True)
+                            If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" + strDocNo + "'", trans)) <= 0 Then
+                                'Throw New Exception("E-Way Bill For Sales Invoice No [" + strDocNo + "] is not generated")
+                            End If
+                        End If
+                    End If
+                End If
+            ElseIf clsCommon.CompairString(ECustomerType, "BC") = CompairStringResult.Equal Then
+                Dim EnableDynamicQRCodeForB2CInvoice As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.EnableDynamicQRCodeForB2CInvoice, clsFixedParameterCode.EnableDynamicQRCodeForB2CInvoice, trans)) = 1, True, False))
+                If EnableDynamicQRCodeForB2CInvoice = True AndAlso clsERPFuncationality.GetQRCodeStatus(obj.Document_Date, trans) = True Then
+                    clsPSInvoiceHead.EInvoice_ImplementationFor_CustomerType_BC(obj.Document_Code, obj.Bill_To_Location, trans)
+                End If
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function GenereateDCSEInvoice(ByVal strDocNo As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Dim obj As clsMCCMaterialSale = clsMCCMaterialSale.GetData(strDocNo, NavigatorType.Current, trans)
+            If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
+                Throw New Exception("No Data found to Post")
             End If
             Dim ECustomerType = clsERPFuncationality.GetCustomerEInvoiceType(obj.Customer_Code, trans)
             If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso obj.Is_Taxable AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True Then
@@ -1455,7 +1496,9 @@ Public Class clsMCCMaterialSale
                     clsPSInvoiceHead.EInvoice_ImplementationFor_CustomerType_BC(obj.Document_Code, obj.Bill_To_Location, trans)
                 End If
             End If
+            trans.Commit()
         Catch ex As Exception
+            trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
         Return True
@@ -1976,7 +2019,7 @@ Public Class clsMCCMaterialSale
         obj.Discount_Base = objShipment.Discount_Base
         obj.Discount_Amt = objShipment.Discount_Amt
         obj.Amount_Less_Discount = objShipment.Amount_Less_Discount
-        obj.Total_Amt = objShipment.Gross_Amount
+        obj.Total_Amt = objShipment.Total_Amt
         obj.Comments = objShipment.Comments
         obj.Comp_Code = objShipment.Comp_Code
         obj.Terms_Code = objShipment.Terms_Code
@@ -2098,6 +2141,7 @@ Public Class clsMCCMaterialSale
         obj.Is_Taxable = IIf(objShipment.Is_Taxable, 1, 0)
         obj.Transporter_Commission_TotalAmt = objShipment.Transporter_Commission_TotalAmt
         obj.Is_Apply_TPT = objShipment.Is_Apply_TPT
+        obj.Is_Add_TPT = objShipment.Is_Add_TPT
         obj.Recommended_By = objShipment.Recommended_By
         obj.TPT_Vendor = objShipment.TPT_Vendor
         obj.Bank_Code = objShipment.Bank_Code
@@ -3106,6 +3150,12 @@ SELECT Document_Code, Batch_No, Qty, Parent_Line_No FROM TSPL_BATCH_ITEM WHERE T
                                     Else
                                         frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_LocalRJS", "MCC Material Sale Local", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
                                     End If
+                                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
+                                    If GetPDFPath Then
+                                        pdfPath = frmCRV.funsubreportWithdt(Form_ID, GetPDFPath, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_LocalSKR", "MCC Material Sale Local", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                                    Else
+                                        frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_LocalSKR", "MCC Material Sale Local", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                                    End If
                                 Else
                                     If GetPDFPath Then
                                         pdfPath = frmCRV.funsubreportWithdt(Form_ID, GetPDFPath, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_Local", "MCC Material Sale Local", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
@@ -3144,7 +3194,11 @@ SELECT Document_Code, Batch_No, Qty, Parent_Line_No FROM TSPL_BATCH_ITEM WHERE T
                         Else
                             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
                                 frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_NonTaxableRJS", "MCC Material Sale Non Taxable", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
+                                frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_NonTaxableCHU", "MCC Material Sale Non Taxable", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+
                             Else
+
                                 frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_NonTaxable", "MCC Material Sale Non Taxable", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
                             End If
                         End If

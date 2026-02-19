@@ -1,5 +1,9 @@
 ﻿Imports common
 Public Class clsUserMgtCode
+    Public Const rptMachineSurveyRegister As String = "MH-SRV-RGSR"
+    Public Const frmDCSDeductionReport As String = "DCS-DED-RPT"
+    Public Const rptTankerMilkQcVsERPEntry As String = "TAN-ERP"
+    Public Const rptUnionWiseMilkTankerCollectionDetail As String = "UNI-MI-TANK"
     Public Const rptDBTStatusReport As String = "RPT-DBT-STS"
     Public Const frmRALQCReport As String = "RAL-QC-RPT"
     Public Const frmUnionWiseAppUserReport As String = "UNN-APP-RPT"
@@ -56,6 +60,7 @@ Public Class clsUserMgtCode
     Public Const MPMilkPrice As String = "PCU-MCC"
     Public Const frmUnpostBmcDcs As String = "Unpo-BM-DC"
     Public Const frmDCSTransportationCharges As String = "DCS-TPT-CH"
+    Public Const frmManualIoTFarmerCollection As String = "MN-IoT-F-CL"
     Public Const ModulePayable As String = "MPayable"
     Public Const ModuleGL As String = "MGenLedger"
     Public Const ModuleSales As String = "MSales"
@@ -2280,6 +2285,7 @@ Public Class clsUserMgtCode
     Public Const rptDBTSummaryMonthlyWise As String = "DBT-Monthly"
     Public Const rptBMCTankerTestingReport As String = "BMCTan_Tes_R"
     Public Const rptMilkPaymentSummary As String = "Milk-PS"
+    Public Const rptMilkUnion2 As String = "UN_MLK_RPT2"
     Public Const rptMilkUnion As String = "UNN_MLK_RPT"
     Public Const rptUnionMilkPurchase As String = "MLK_PURU_RPT"
     Public Const latestPaymentProcess As String = "LA_PA_PRS"
@@ -2837,6 +2843,7 @@ Public Class clsUserMgtCode
     Public Const XpertAPITruckSheet As String = "API-TS-RPT"
     Public Const XpertAPIBMCDCSSamplingReceiving As String = "BMC-DCS-SR"
     Public Const XpertAPIBMCDCSSampleReceivedRegister As String = "API-DCS-SMR"
+    Public Const XpertAPITankerCollectionReport As String = "API-TNK-CLN"
     Public Const XpertAPIGateEntry As String = "API-GT-ENT"
     Public Const XpertAPIBMCMilkQC As String = "API-BM-MK-QC"
     ''=================== MIS start here============

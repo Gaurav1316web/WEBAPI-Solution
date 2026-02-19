@@ -42,7 +42,7 @@ Public Class frmShiftMaster
             obj.INTERVAL_Time = dtt.TimeOfDay.ToString()
             obj.FSTHALF_ADJUST_MIN = txtFstAdjMin.Value
             obj.SECHALF_ADJUST_MIN = txtSndAdjMin.Value
-
+            obj.Inactive = IIf(chkInActive.Checked = True, 1, 0)
             If (obj.SaveData(obj, isNewEntry)) Then
                 common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.Code, NavigatorType.Current)
@@ -88,6 +88,8 @@ Public Class frmShiftMaster
 
             txtFstAdjMin.Value = obj.FSTHALF_ADJUST_MIN
             txtSndAdjMin.Value = obj.SECHALF_ADJUST_MIN
+            chkInActive.Checked = IIf(clsCommon.myCstr(obj.Inactive) = 1, True, False)
+
         End If
 
     End Sub
@@ -192,6 +194,8 @@ Public Class frmShiftMaster
 
     Sub funReset()
         isNewEntry = True
+        chkInActive.Checked = False
+
         txtCode.MyReadOnly = False
         txtCode.Value = Nothing
         txtCode.Focus()
@@ -362,4 +366,6 @@ Public Class frmShiftMaster
             Throw New Exception(ex.Message)
         End Try
     End Sub
+
+
 End Class

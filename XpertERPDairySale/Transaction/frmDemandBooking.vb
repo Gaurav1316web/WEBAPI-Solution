@@ -8,6 +8,7 @@ Imports XpertERPEngine
 Public Class frmDemandBooking
     Inherits FrmMainTranScreen
 #Region "Variables"
+    Dim isExportTruckSheet As Boolean = False
     Dim PrintOnlyPostedDocument As Boolean = False
     Dim isIndent As Boolean = False
     Dim ApplyItemUOMOnDemand As Boolean = False
@@ -108,6 +109,7 @@ Public Class frmDemandBooking
 #End Region
     Private Sub FrmBookingEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Try
+            isExportTruckSheet = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ExportTruckSheet, clsFixedParameterCode.ExportTruckSheet, Nothing)) = 1, True, False)
             PrintOnlyPostedDocument = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PrintOnlyPostedDocument, clsFixedParameterCode.PrintOnlyPostedDocument, Nothing)) = 1, True, False)
             gv1.EnterKeyMode = RadGridViewEnterKeyMode.EnterMovesToNextRow
             blnPageLoad = True
@@ -4285,7 +4287,7 @@ and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= Convert(Date,'"
             view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(GVTruckSheet.Columns("Total Amount").Name)
             GVTruckSheet.ViewDefinition = view
 
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal OrElse isExportTruckSheet Then
                 Dim newRow As DataRow
                 Dim dtNew As New DataTable()
                 Dim strQry As String
@@ -4524,7 +4526,7 @@ from (" & BaseQry & ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
 
             Dim arrHeader As List(Of String) = New List(Of String)()
             If isExcelPDF Then
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse isExportTruckSheet Then
                     arrHeader.Add("Doc Date : " & clsCommon.myCstr(clsCommon.GetPrintDate(txtDate.Value, "dd-MMM-yyyy")) & "     " & "Shift : " & IIf(rbtnMorning.IsChecked, "Morning", "Evening") & "     " & "Trip No : " & clsCommon.myCstr(TripNo))
                     arrHeader.Add("Route : " & lblRouteDesc.Text & "     " & "City : " & lblCityName.Text & "     " & "Distributor : " & lblTransporterName.Text)
                     arrHeader.Add("")

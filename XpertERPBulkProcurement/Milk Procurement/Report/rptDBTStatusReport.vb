@@ -148,13 +148,14 @@ Where TSPL_DBT_NEFT.Document_Date>='" & clsCommon.GetPrintDate(txtFromDate.Value
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                 Exit Sub
             End If
-            Dim strHeading As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptMilkUnion & "'"))
+            Dim strHeading As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptDBTStatusReport & "'"))
 
             Dim arrHeader As List(Of String) = New List(Of String)()
             arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
-            arrHeader.Add("Report Name : " + strHeading)
-            arrHeader.Add("Date Range from : " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy"))
-            transportSql.exportdata(gv1, "", Me.Text, False, arrHeader, False, False, True)
+            arrHeader.Add("Report Name : " & strHeading)
+            arrHeader.Add("Date Range from : " & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") & " To " & clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy"))
+            'transportSql.exportdata(gv1, "", Me.Text, False, arrHeader, False, False, True)
+            clsCommon.MyExportToExcel(Nothing, gv1, arrHeader, strHeading)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -168,7 +169,7 @@ Where TSPL_DBT_NEFT.Document_Date>='" & clsCommon.GetPrintDate(txtFromDate.Value
         Try
             If gv1.Rows.Count > 0 Then
                 Dim arrHeader As List(Of String) = New List(Of String)()
-                arrHeader.Add("Date : " & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "  To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy"))
+                arrHeader.Add("Date : " & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "  To " & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy"))
                 clsCommon.MyExportToPDF(Me.Text, gv1, arrHeader, Me.Text)
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)

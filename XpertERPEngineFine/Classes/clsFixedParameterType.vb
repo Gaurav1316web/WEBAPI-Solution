@@ -2,7 +2,10 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
+    Public Const ExportTruckSheet As String = "Export Truck Sheet"
+    Public Const ThirtPartyFarmerCollectionIntegration As String = "Thirt Party Farmer Collection Integration"
     Public Const AndroidFarmerCollection As String = "Android Farmer Collection"
+    Public Const RefreshTimeForUnionWiseMilkCollectionInms As String = "Refresh Time For Union Wise MilkCollection In MS"
     Public Const SuspenceAdjusmtmentFATSNFTolerancePercentage = "Suspence Adjusmtment FAT SNF Tolerance %"
     Public Const TransactionModify As String = "Transaction Modify"
     Public Const TransactionValidity As String = "Transaction Validity"
@@ -1390,12 +1393,15 @@ Public Class clsFixedParameterType
     Public Const ApplyEWBThresholdLimit = "Apply EWB Threshold Limit"
 End Class
 Public Class clsFixedParameterCode
+    Public Const ExportTruckSheet As String = "Export Truck Sheet"
+    Public Const ThirtPartyFarmerCollectionIntegration As String = "Thirt Party Farmer Collection Integration"
     Public Const SuspenceAdjusmtmentFATSNFTolerancePercentage = "Suspence Adjusmtment FAT SNF Tolerance %"
     Public Const TransactionModify As String = "Transaction Modify"
     Public Const TransactionValidity As String = "Transaction Validity"
     Public Const AutoGenerateFarmerPriceFromDCSPrice As String = "Auto Generate Farmer Price From DCS Price"
     Public Const AutoGenrateBatchInventoryOnPost As String = "Auto Genrate Batch Inventory On Post"
     Public Const PickcompanyBankCodeFromPaymentProcess As String = "Pick company BankCode From Payment Process"
+    Public Const RefreshTimeForUnionWiseMilkCollectionInms As String = "Refresh Time For Union Wise MilkCollection In MS"
     Public Const isThereOnlyOneRowOfOwnDCS As String = "is There Only One Row Of Own DCS"
     Public Const StopYesBankVirtualAccount As String = "Stop Yes Bank virtual Account"
     Public Const MaxFATPerLimitforReport As String = "Max FAT Per Limit for Report"
@@ -2668,6 +2674,11 @@ Public Class clsFixedParameterCode
     Public Const MaxSNFPerLimit As String = "Max SNF Per Limit"
     Public Const MinFATPerLimit As String = "Min FAT Per Limit"
     Public Const MinSNFPerLimit As String = "Min SNF Per Limit"
+
+    Public Const MorningShiftStartTime As String = "Morning Shift Start Time"
+    Public Const MorningShiftEndHours As String = "Morning Shift End Hours"
+    Public Const EveningShiftStartTime As String = "Evening Shift Start Time"
+    Public Const EveningShiftEndHours As String = "Evening Shift End Hours"
     Public Const LockDate As String = "Lock Date"
     Public Const ApplyTransFATSNFRateForCalculateFATSNFRate As String = "Apply Trans FAT SNF Rate For Calculate FATSNF Rate"
     Public Const GrossWeightChangePWD As String = "Gross Weight Change PWD"
@@ -3016,8 +3027,16 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ExportTruckSheet, clsFixedParameterCode.ExportTruckSheet, "0", "0:Off;1-ON")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ThirtPartyFarmerCollectionIntegration, clsFixedParameterCode.ThirtPartyFarmerCollectionIntegration, "0", "0:Off;1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MaxFATPerLimit, "15", "Android Farmer Collection Max FAT Per")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MaxSNFPerLimit, "15", "Android Farmer Collection Max SNF Per")
+
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MorningShiftStartTime, "06:00:00AM", "Farmer Milk Collection Morning Shift Start Time")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MorningShiftEndHours, "4", "Morning Shift End Time =Morning Shift Start Time + Hours")
+
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.EveningShiftStartTime, "06:00:00PM", "Farmer Milk Collection Evening Shift Start Time")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MorningShiftEndHours, "4", "Evening Shift End Time =Evening Shift Start Time + Hours")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.SuspenceAdjusmtmentFATSNFTolerancePercentage, clsFixedParameterCode.SuspenceAdjusmtmentFATSNFTolerancePercentage, "1.5", "Suspence Adjusmtment FAT SNF Tolerance Percentage")
         InsertDefaultValueFixedParameter(clsFixedParameterType.TransactionModify, clsFixedParameterCode.TransactionModify, "Trans@123", "")
@@ -3029,6 +3048,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAMCUDetails, clsFixedParameterCode.AMCUDetailsHeading3, "Heading 3", "Dynamic Heading 3 for AMCU Detail")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickcompanyBankCodeFromPaymentProcess, clsFixedParameterCode.PickcompanyBankCodeFromPaymentProcess, "0", "0:OFF,1:ON;Pick company BankCode From Payment Process")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.RefreshTimeForUnionWiseMilkCollectionInms, clsFixedParameterCode.RefreshTimeForUnionWiseMilkCollectionInms, "60000", "Insert time for refreshing ")
         InsertDefaultValueFixedParameter(clsFixedParameterType.isThereOnlyOneRowOfOwnDCS, clsFixedParameterCode.isThereOnlyOneRowOfOwnDCS, "0", "0:OFF,1:ON;Adjust qty of own DCS when there is only one row")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PrintOnlyPostedDocument, clsFixedParameterCode.PrintOnlyPostedDocument, "0", "0:OFF,1:ON; Print Only Posted Document")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MaxFATPerLimitforReport, clsFixedParameterCode.MaxFATPerLimitforReport, "3.2", "MaxFatPerLimitForReport")
@@ -4692,6 +4712,7 @@ Public Class clsFixedParameterProgramMapping
     End Function
     Public Shared Sub SetDefaultValues()
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_FIXED_PARAMETER_PROGRAM_MAPPING")
+        InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.ExportTruckSheet, clsFixedParameterCode.ExportTruckSheet, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmVlcdataUploadar, clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MaxFATPerLimit, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmVlcdataUploadar, clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MaxSNFPerLimit, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.PickcompanyBankCodeFromPaymentProcess, clsFixedParameterCode.PickcompanyBankCodeFromPaymentProcess, EnumControlType.CheckBox)
@@ -6582,5 +6603,6 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraCity, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraState, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForInterState, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.frmSendBillToDCS, clsFixedParameterType.ThirtPartyFarmerCollectionIntegration, clsFixedParameterCode.ThirtPartyFarmerCollectionIntegration, EnumControlType.CheckBox)
     End Sub
 End Class

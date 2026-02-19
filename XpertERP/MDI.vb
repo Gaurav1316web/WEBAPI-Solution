@@ -5,24 +5,23 @@ Imports System.IO
 Imports System.Reflection
 Imports CgtFpAccessCSD200Dotnet
 Imports common
-
+Imports XpertErpBullManagement
 Imports XpertERPCustomerComplaint
 Imports XpertERPElectrical
 Imports XpertERPEngineeringAndPlantManagement
 Imports XpertERPFixedAssets
 Imports XpertERPHRandPayroll
 Imports XpertERPJobWorkOutward
+Imports XpertERPMIS
 Imports XpertERPParavetServices
 Imports XpertERPProcessProduction
 Imports XpertERPProjectManagement
+Imports XpertERPPurchase
 Imports XpertERPReco
 Imports XpertERPRiceProduction
 Imports XpertERPService
-Imports XpertERPTDS
-Imports XpertERPPurchase
-Imports XpertERPMIS
-Imports XpertErpBullManagement
 Imports XpertERPSheed
+Imports XpertERPTDS
 
 Public Class MDI
 #Region "Varaibles"
@@ -397,7 +396,7 @@ Public Class MDI
 
         Try
             Dim strTempVersion As String = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertCommon.dll").FileVersion
-            If Not clsCommon.CompairString(strTempVersion, "2.1.6.96") = CompairStringResult.Equal Then
+            If Not clsCommon.CompairString(strTempVersion, "2.1.6.97") = CompairStringResult.Equal Then
                 Throw New Exception("Wrong DLL Version" + Environment.NewLine + "XpertCommon ")
             End If
             strTempVersion = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertERPBlankTableScript.dll").FileVersion
@@ -1178,7 +1177,7 @@ Public Class MDI
                     Exit Sub
                 End If
             End If
-                
+
             If clsCommon.CompairString("Y", clsCommon.myCstr(dt.Rows(0)("InActive"))) = CompairStringResult.Equal Then
                 clsCommon.MyMessageBoxShow(Me, "You are not active user.", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
                 Exit Sub
@@ -7804,6 +7803,10 @@ Public Class MDI
                         frm = New frmDCSTransportationCharges
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.frmManualIoTFarmerCollection
+                        frm = New frmManualIoTFarmerCollection
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.GazeReading
                         frm = New frmGazeReading
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8977,9 +8980,25 @@ Public Class MDI
                     Case clsUserMgtCode.rptMilkUnion
                         frm = New rptmilkunion
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptMilkUnion2
+                        frm = New rptmilkunion2
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptMachineSurveyRegister
+                        frm = New rptMachineSurveyRegister
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptDBTStatusReport
                         frm = New rptDBTStatusReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptUnionWiseMilkTankerCollectionDetail
+                        frm = New rptUnionWiseMilkTankerCollectionDetail
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.frmDCSDeductionReport
+                        frm = New frmDCSDeductionReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptTankerMilkQcVsERPEntry
+                        frm = New rptTankerMilkQcVsERPEntry
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+
                     Case clsUserMgtCode.frmUnionWiseAppUserReport
                         frm = New frmUnionWiseAppUserReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
