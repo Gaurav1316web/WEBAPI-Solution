@@ -226,13 +226,16 @@ Public Class rptmilkunion2
         gv1.MasterTemplate.AutoExpandGroups = True
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
-        Dim i As Integer = 0
+        Dim fi As Integer = 0
+        Dim li As Integer = 0
         If clsCommon.CompairString(ddlReportType.SelectedValue, "UWSR") = CompairStringResult.Equal Then
-            i = 2
+            fi = 3
+            li = 3
         Else
-            i = 7
+            fi = 2
+            li = 7
         End If
-        For ii As Integer = 2 To gv1.Columns.Count - i
+        For ii As Integer = fi To gv1.Columns.Count - li
             summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:N2}", GridAggregateFunction.Sum))
         Next
 
@@ -485,9 +488,9 @@ Public Class rptmilkunion2
                 If clsCommon.CompairString(ddlReportType.SelectedValue, "UWSR") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlReportType.SelectedValue, "UTWSR") = CompairStringResult.Equal Then
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         If ii = dt.Rows.Count - 1 Then
-                            strUnion.Append("('" & clsCommon.myCstr(dt.Rows(ii)("Database_Name")) & "'," & clsCommon.myCstr(ii + 1) & ")")
+                            strUnion.Append("('" & clsCommon.myCstr(dt.Rows(ii)("Database_Name")) & "','" & clsCommon.myCstr(dt.Rows(ii)("Location_Name")) & "'," & clsCommon.myCstr(ii + 1) & ")")
                         Else
-                            strUnion.Append("('" & clsCommon.myCstr(dt.Rows(ii)("Database_Name")) & "'," & clsCommon.myCstr(ii + 1) & "),")
+                            strUnion.Append("('" & clsCommon.myCstr(dt.Rows(ii)("Database_Name")) & "','" & clsCommon.myCstr(dt.Rows(ii)("Location_Name")) & "'," & clsCommon.myCstr(ii + 1) & "),")
                         End If
                     Next
 
@@ -499,7 +502,7 @@ DECLARE @SQL NVARCHAR(MAX)=''
 ---------------------------------------------------------
 -- DATABASE LIST
 ---------------------------------------------------------
-DECLARE @DB TABLE(DBName SYSNAME,SNo INT)
+DECLARE @DB TABLE(DBName SYSNAME,LocName Varchar(50),SNo INT)
 
 INSERT INTO @DB Values " & clsCommon.myCstr(strUnion) & "
 
@@ -513,7 +516,7 @@ CASE WHEN @SQL='' THEN '' ELSE CHAR(13)+' UNION ALL '+CHAR(13) END +
 SELECT
  '''+DBName+''' AS UnionCode,
  '+CAST(SNo AS VARCHAR)+' AS SNo,
- '''+DBName+''' AS [Union Name],
+ '''+LocName+''' AS [Union Name],
  Convert(Varchar(10),@FromDate,103) AS FromDate,
  Convert(Varchar(10),@ToDate,103) AS ToDate,
  ''Administrator'' AS UserName,
@@ -1235,7 +1238,7 @@ from " & strUnion & ".[dbo].TSPL_MILK_COLLECTION_BMCDCS_DCS
 Left Join " & strUnion & ".[dbo].TSPL_MILK_COLLECTION_BMCDCS On TSPL_MILK_COLLECTION_BMCDCS.PK_ID=TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID 
 Left Join " & strUnion & ".[dbo].TSPL_MILK_COLLECTION_DCS_detail On TSPL_MILK_COLLECTION_DCS_detail.PK_Id=TSPL_MILK_COLLECTION_BMCDCS.PK_ID 
 Left Join " & strUnion & ".[dbo].TSPL_MILK_COLLECTION_DCS On TSPL_MILK_COLLECTION_DCS.Document_No=TSPL_MILK_COLLECTION_DCS_detail.document_no 
-Where IsNull(TSPL_MILK_COLLECTION_BMCDCS.PK_ID,0) = 0 And CONVERT(DATE, TSPL_MILK_COLLECTION_BMCDCS.IDate, 103) BETWEEN   " & status
+Where IsNull(TSPL_MILK_COLLECTION_BMCDCS.PK_ID,0) <> 0 And CONVERT(DATE, TSPL_MILK_COLLECTION_BMCDCS.IDate, 103) BETWEEN   " & status
         Return Qry
     End Function
 

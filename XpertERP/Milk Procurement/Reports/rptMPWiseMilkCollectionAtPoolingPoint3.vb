@@ -3,6 +3,7 @@ Imports CrystalDecisions.Shared
 Imports CrystalDecisions.Windows.Forms
 Imports common
 Imports System.IO
+Imports System.Globalization
 Public Class RptMPWiseMilkCollectionAtPoolingPoint3
 
     Inherits FrmMainTranScreen
@@ -87,19 +88,19 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
         dt.Columns.Add("Name")
 
         Dim dr As DataRow = dt.NewRow
-        dr("Code") = "Detail"
-        dr("Name") = "Detail"
-        dt.Rows.Add(dr)
+        'dr("Code") = "Detail"
+        'dr("Name") = "Detail"
+        'dt.Rows.Add(dr)
 
-        dr = dt.NewRow
-        dr("Code") = "Summary"
-        dr("Name") = "Summary"
-        dt.Rows.Add(dr)
+        'dr = dt.NewRow
+        'dr("Code") = "Summary"
+        'dr("Name") = "Summary"
+        'dt.Rows.Add(dr)
 
-        dr = dt.NewRow
-        dr("Code") = "MP Polling"
-        dr("Name") = "MP Polling"
-        dt.Rows.Add(dr)
+        'dr = dt.NewRow
+        'dr("Code") = "MP Polling"
+        'dr("Name") = "MP Polling"
+        'dt.Rows.Add(dr)
 
         If Not objCommonVar.RCDFCFP Then
             dr = dt.NewRow
@@ -116,6 +117,11 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
         dr = dt.NewRow
         dr("Code") = "Farmer Collection Entry Status"
         dr("Name") = "Farmer Collection Entry Status"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow
+        dr("Code") = "Farmer Wise Milk Collection"
+        dr("Name") = "Farmer Wise Milk Collection"
         dt.Rows.Add(dr)
 
         cboReportType.DataSource = dt
@@ -358,6 +364,7 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
         Dim viewBlank As New TableViewDefinition()
         gv.ViewDefinition = viewBlank
         EnableDisableControl(True)
+        CheckReportTypeforDateRange()
     End Sub
 
     Private Sub EnableDisableControl(ByVal val As Boolean)
@@ -492,12 +499,91 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
                 FarmerWiseCollectionAtDCS()
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Farmer Collection Entry Status") = CompairStringResult.Equal Then
                 FarmerCollectionEntryStatus()
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Farmer Wise Milk Collection") = CompairStringResult.Equal Then
+                FarmerWiseMilkCollection()
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
+    Private Sub FarmerWiseMilkCollection()
+        Try
+            Dim Qry As String = "Select finalQry.* "
+            If isPrint Then
+                Qry &= " , TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,TSPL_COMPANY_MASTER.State,TSPL_STATE_MASTER.STATE_NAME,'" & objCommonVar.CurrentUser & "' As PrintBy "
+            End If
+            Qry &= " from(Select ROW_NUMBER() Over (Order By (Select 1)) As [S.No.],[Union],MAX(Doc_Date)Doc_Date,
+CONVERT(decimal(18,2),Sum(MorningQty))MorningQty,
+CONVERT(decimal(18,2),Sum(case When (MorningFATKG)>0 Then ((MorningFATKG/MorningQty)*100) Else 0 End)) As MorningFAT,
+CONVERT(decimal(18,2),Sum(Case When (MorningSNFKG)>0 Then ((MorningSNFKG/MorningQty)*100) Else 0 End)) As MorningSNF,
+CONVERT(decimal(18,2),Sum(MorningAmount)) As MorningAmount,
+CONVERT(decimal(18,2),Sum(EveningQty))EveningQty,
+CONVERT(decimal(18,2),Sum(Case When (EveningFATKG)>0 Then ((EveningFATKG/EveningQty)*100) Else 0 End)) As EveningFAT,
+CONVERT(decimal(18,2),Sum(Case When (EveningSNFKG)>0 Then ((EveningSNFKG/EveningQty)*100) Else 0 End)) As EveningSNF,
+CONVERT(decimal(18,2),Sum(EveningAmount)) As EveningAmount,CONVERT(decimal(18,2),Sum(MorningQty + EveningQty)) As TotalQuantity
+from 
+(Select [Union],Max(Convert(Varchar(10),Doc_Date,103))Doc_Date,
+Sum(Case When shift='M' Then Qty Else 0 End) As MorningQty,
+Sum(Case When shift='M' Then fat_KG Else 0 End) As MorningFATKG,
+Sum(Case When shift='M' Then snf_KG Else 0 End) As MorningSNFKG,
+Sum(Case When shift='M' Then Amount Else 0 End) As MorningAmount,
+SUM(Case When shift='E' Then Qty Else 0 End) As EveningQty,  
+Sum(Case When shift='E' Then fat_KG Else 0 End) As EveningFATKG,
+Sum(Case When shift='E' Then snf_KG Else 0 End) As EveningSNFKG,
+Sum(Case When shift='E' Then Amount Else 0 End) As EveningAmount "
+            Qry &= " from(" & ReturnFarmerBaseQry() & ")final Group By [Union],shift)BAseQry group by [Union]  "
+            Qry &= ")finalQry "
+            If isPrint Then
+                Qry &= " Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "'
+Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_MASTER.State"
+            End If
+            dt = Nothing
+            dt = clsDBFuncationality.GetDataTable(Qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                If isPrint Then
+                    Dim frm As New frmCrystalReportViewer()
+                    frm.funreport(Me.Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dt, "crptFarmerWiseMilkCollection", "Farmer Wise Milk Collection")
+                    frm = Nothing
+                Else
+                    gv.DataSource = Nothing
+                    gv.Rows.Clear()
+                    gv.Columns.Clear()
+                    gv.DataSource = dt
+                    gv.GroupDescriptors.Clear()
+                    gv.MasterTemplate.SummaryRowsBottom.Clear()
+                    gv.TableElement.TableHeaderHeight = 25
+                    gv.MasterTemplate.ShowRowHeaderColumn = True
+                    For ii As Integer = 0 To gv.Columns.Count - 1
+                        gv.Columns(ii).ReadOnly = True
+                        gv.Columns(ii).IsVisible = True
+                    Next
+                    gv.ShowGroupPanel = False
+                    gv.MasterTemplate.AutoExpandGroups = True
+                    gv.BestFitColumns()
+                    setGridFormat()
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    ReStoreGridLayout()
+                    EnableDisableControl(False)
+                    View()
+                    Dim summaryRowItem As New GridViewSummaryRowItem()
+                    summaryRowItem.Add(New GridViewSummaryItem("MorningQty", "{0:N2}", GridAggregateFunction.Sum))
+                    summaryRowItem.Add(New GridViewSummaryItem("MorningAmount", "{0:N2}", GridAggregateFunction.Sum))
+                    summaryRowItem.Add(New GridViewSummaryItem("EveningQty", "{0:N2}", GridAggregateFunction.Sum))
+                    summaryRowItem.Add(New GridViewSummaryItem("EveningAmount", "{0:N2}", GridAggregateFunction.Sum))
+                    summaryRowItem.Add(New GridViewSummaryItem("TotalQuantity", "{0:N2}", GridAggregateFunction.Sum))
+                    gv.ShowGroupPanel = False
+                    gv.MasterTemplate.AutoExpandGroups = True
+                    gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Data Not found !", Me.Text)
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 
 
     Private Sub FarmerCollectionEntryStatus()
@@ -591,8 +677,31 @@ where Doc_Date>='" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & 
                     qry &= " and 2=( case when Doc_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and Doc_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and shift='E' then 3 else 2 end  )"
                 End If
                 qry &= Environment.NewLine & " Union All " & Environment.NewLine
+                qry &= " select '" & strUnion("Location_Name") & "' As [Union],Cast('" & clsCommon.myCstr(dcsCount) & "' As Int) As DCSCount,TSPL_VLC_DATA_UPLOADER_MASTER.Document_Code As Doc_No,
+Convert(Varchar(10),TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date,103) As Doc_Date,'' As File_Date,TSPL_VLC_DATA_UPLOADER_MASTER.Shift,
+TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPl_MP_MAster.MP_CODE,TSPl_MP_MAster.MP_Name,
+TSPl_MP_MAster.MP_Code_VLC_Uploader As MP_Uploader_Code,
+TSPL_VLC_DATA_UPLOADER_DETAIL.qty,TSPL_VLC_DATA_UPLOADER_DETAIL.FatPer,TSPL_VLC_DATA_UPLOADER_DETAIL.SNFPer,TSPL_VLC_DATA_UPLOADER_DETAIL.Rate,
+TSPL_VLC_DATA_UPLOADER_DETAIL.Amount,
+((TSPL_VLC_DATA_UPLOADER_DETAIL.qty*TSPL_VLC_DATA_UPLOADER_DETAIL.FatPer)/100) As FAT_KG,((TSPL_VLC_DATA_UPLOADER_DETAIL.qty*TSPL_VLC_DATA_UPLOADER_DETAIL.SNFPer)/100) As SNF_KG,
+TSPL_VLC_DATA_UPLOADER_MASTER.Dock_Collection_Milk_Type As  tttype
+from " & strUnion("Database_Name") & ".dbo.TSPL_VLC_DATA_UPLOADER_DETAIL
+Left Outer Join " & strUnion("Database_Name") & ".dbo.TSPL_VLC_DATA_UPLOADER_MASTER On TSPL_VLC_DATA_UPLOADER_MASTER.Document_Code=TSPL_VLC_DATA_UPLOADER_DETAIL.Document_Code
+Left Join " & strUnion("Database_Name") & ".dbo.TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.Vlc_Code_VLC_Uploader=TSPL_VLC_DATA_UPLOADER_MASTER.VLC_CODE
+Left Join " & strUnion("Database_Name") & ".dbo.TSPl_MP_MAster On TSPl_MP_MAster.MP_Code_VLC_Uploader=TSPL_VLC_DATA_UPLOADER_DETAIL.Farmer_Code and TSPl_MP_MAster.VLC_Code=TSPL_VLC_MASTER_HEAD.VLC_Code
+Where 1=1 "
+                If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
+                    qry &= " and 2=( case when TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and shift='M' then 3 else 2 end  )"
+                End If
+                If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
+                    qry &= " and 2=( case when TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and shift='E' then 3 else 2 end  )"
+                End If
+
+                qry &= Environment.NewLine & " Union All " & Environment.NewLine
                 qry &= "select '" & strUnion("Location_Name") & "' As [Union],Cast('" & clsCommon.myCstr(dcsCount) & "' As Int) As DCSCount,'' As Doc_No,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") & "' As Doc_Date,'' As File_Date,'' As shift,
 '' As Vlc_Code_VLC_Uploader,'' As VLC_Name,'' As MP_CODE,'' As MP_Name,'' As MP_Uploader_Code,0 As qty,0 As fat,0 As snf,0 As Rate,0 As Amount,0 As fat_KG,0 As snf_KG,'' As  tttype ) As " & strUnion("Database_Name")
+
+
                 i += 1
             Next
         Else
@@ -681,6 +790,18 @@ Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_M
                 gv.Columns("MorningQty").HeaderText = "Morning"
                 gv.Columns("EveningQty").HeaderText = "Evening"
             End If
+
+            If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Farmer Wise Milk Collection") = CompairStringResult.Equal Then
+                gv.Columns("MorningQty").HeaderText = "Quantity"
+                gv.Columns("MorningFat").HeaderText = "FAT %"
+                gv.Columns("MorningSnf").HeaderText = "SNF %"
+                gv.Columns("MorningAmount").HeaderText = "Amount"
+                gv.Columns("EveningQty").HeaderText = "Quantity"
+                gv.Columns("EveningFat").HeaderText = "FAT %"
+                gv.Columns("EveningSnf").HeaderText = "SNF %"
+                gv.Columns("EveningAmount").HeaderText = "Amount"
+                gv.Columns("TotalQuantity").HeaderText = "Total Quantity"
+            End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -711,6 +832,35 @@ Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_M
                     gv.ViewDefinition = view
                 End If
             End If
+            If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Farmer Wise Milk Collection") = CompairStringResult.Equal Then
+                If gv.Rows.Count > 0 Then
+                    Dim view As New ColumnGroupsViewDefinition()
+                    view.ColumnGroups.Add(New GridViewColumnGroup(""))
+                    view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
+                    view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns("S.No.").Name)
+                    view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns("Union").Name)
+
+                    view.ColumnGroups.Add(New GridViewColumnGroup("Morning"))
+                    view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+                    view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv.Columns("MorningQty").Name)
+                    view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv.Columns("MorningFat").Name)
+                    view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv.Columns("MorningSnf").Name)
+                    view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv.Columns("MorningAmount").Name)
+
+                    view.ColumnGroups.Add(New GridViewColumnGroup("Evening"))
+                    view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
+                    view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv.Columns("EveningQty").Name)
+                    view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv.Columns("EveningFat").Name)
+                    view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv.Columns("EveningSnf").Name)
+                    view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv.Columns("EveningAmount").Name)
+
+                    view.ColumnGroups.Add(New GridViewColumnGroup(""))
+                    view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
+                    view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv.Columns("TotalQuantity").Name)
+                    gv.ViewDefinition = view
+                End If
+            End If
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -1065,6 +1215,8 @@ Where TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Date>='" & clsCommon.GetPrintDate(tx
             PageSetupReport_ID = PageSetupReport_ID + "C"
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Farmer Collection Entry Status") = CompairStringResult.Equal Then
             PageSetupReport_ID = PageSetupReport_ID + "E"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Farmer Wise Milk Collection") = CompairStringResult.Equal Then
+            PageSetupReport_ID = PageSetupReport_ID + "M"
         End If
         TemplateGridview = gv
         GetReportID()
@@ -1085,6 +1237,8 @@ Where TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Date>='" & clsCommon.GetPrintDate(tx
             VarID += "_C"
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Farmer Collection Entry Status") = CompairStringResult.Equal Then
             VarID += "_E"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Farmer Collection Entry Status") = CompairStringResult.Equal Then
+            VarID += "_MC"
         End If
         gv.VarID = VarID
     End Sub
@@ -1507,7 +1661,7 @@ where [VLC Code]='" + clsCommon.myCstr(gv.CurrentRow.Cells("VLC Code").Value) + 
 
     Sub CheckReportTypeforDateRange()
         Try
-            If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Farmer Wise Collection at DCS") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Farmer Collection Entry Status") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Farmer Wise Collection at DCS") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Farmer Collection Entry Status") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Farmer Wise Milk Collection") = CompairStringResult.Equal Then
                 txtToDate.Value = txtFromDate.Value
                 txtToDate.Enabled = False
                 txtToShift.SelectedValue = "E"
@@ -1523,5 +1677,11 @@ where [VLC Code]='" + clsCommon.myCstr(gv.CurrentRow.Cells("VLC Code").Value) + 
 
     Private Sub txtFromDate_Validated(sender As Object, e As EventArgs) Handles txtFromDate.Validated
         CheckReportTypeforDateRange()
+    End Sub
+
+    Private Sub gv_CellFormatting(sender As Object, e As CellFormattingEventArgs) Handles gv.CellFormatting
+        If e.CellElement.Value IsNot Nothing AndAlso IsNumeric(e.CellElement.Value) AndAlso clsCommon.CompairString(e.Column.Name, "S.No.") <> CompairStringResult.Equal Then
+            e.CellElement.Text = Convert.ToDecimal(e.CellElement.Value).ToString("N2", New CultureInfo("en-IN"))
+        End If
     End Sub
 End Class

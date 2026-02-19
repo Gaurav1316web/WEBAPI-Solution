@@ -148,6 +148,7 @@ Public Class clsItemMaster
     Public BuyBackType As Integer = 0
     Public BuyBackValue As Decimal = 0
     Public IsRepeat As Integer = 0
+    Public IsSplitBilling As Integer = 0
     Public AllowEntryInDecimal As Integer = 0
     Public CrateType_Item As String = String.Empty
 
@@ -1641,6 +1642,7 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
                 clsCommon.AddColumnsForChange(coll, "Is_CrateType", IIf(obj.Is_CrateType, 1, 0))
                 clsCommon.AddColumnsForChange(coll, "GL_Account", obj.GL_Account, True)
                 clsCommon.AddColumnsForChange(coll, "IsRepeat", obj.IsRepeat)
+                clsCommon.AddColumnsForChange(coll, "IsSplitBilling", obj.IsSplitBilling)
                 clsCommon.AddColumnsForChange(coll, "AllowEntryInDecimal", obj.AllowEntryInDecimal)
                 clsCommon.AddColumnsForChange(coll, "CrateType_Item", obj.CrateType_Item, True)
                 ''
@@ -1952,6 +1954,7 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
                 obj.Is_Leakage_Not_Applicable = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Leakage_Not_Applicable")) = 1, True, False)
                 obj.Is_Insurance = clsCommon.myCdbl(dt.Rows(0)("Is_Insurance"))
                 obj.IsRepeat = clsCommon.myCdbl(dt.Rows(0)("IsRepeat"))
+                obj.IsSplitBilling = clsCommon.myCdbl(dt.Rows(0)("IsSplitBilling"))
                 obj.AllowEntryInDecimal = clsCommon.myCdbl(dt.Rows(0)("AllowEntryInDecimal"))
                 obj.CrateType_Item = clsCommon.myCstr(dt.Rows(0)("CrateType_Item"))
                 If clsCommon.myCdbl(dt.Rows(0)("Is_Insurance")) > 0 Then
