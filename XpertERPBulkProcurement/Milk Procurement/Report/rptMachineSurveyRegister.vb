@@ -104,14 +104,16 @@ Public Class rptMachineSurveyRegister
                 Qry &= " ROW_NUMBER() Over (Order By (Select 1)) As [S.No.],"
             End If
             Qry &= " [Union],IsNull(MachineName,'') As [Machine Name],IsNull(MachineType,'') As [Machine Type],SUM(MachineCount) As [No of Machine] from (
-Select [Union],BrandName As MachineName,Case When IsAMCU=1 Then 'Analyzer' Else Null End As MachineType,Case When IsAMCU=1 Then 1 Else 0 End As MachineCount from BaseQry
+Select [Union],BrandName As MachineName,Case When IsAMCU=1 Then 'Analyzer' Else Null End As MachineType,Case When IsAMCU=1 Then 1 Else 0 End As MachineCount from BaseQry where IsAMCU=1 
 Union All
-Select [Union],Weighing_BrandName As MachineName,Case When IsWeighing=1 Then 'Weighing Scale' Else Null End As MachineType,Case When IsWeighing=1 Then 1 Else 0 End As MachineCount from BaseQry
+Select [Union],Weighing_BrandName As MachineName,Case When IsWeighing=1 Then 'Weighing Scale' Else Null End As MachineType,Case When IsWeighing=1 Then 1 Else 0 End As MachineCount from BaseQry where IsWeighing=1
 )finalQry
 Group By [Union],MachineName,MachineType"
             If isPrint AndAlso rbtnUnionWise.Checked Then
                 Qry &= ")printQry Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "'
-Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_MASTER.State Order By [Union]"
+Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_MASTER.State Order By [Union],[Machine Name],[Machine Type]"
+            Else
+                Qry &= " order by [Union],MachineName,MachineType"
             End If
         End If
 

@@ -988,7 +988,7 @@ And Convert(Date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103) BETWEEN '" + clsCom
     Function ReturnShipDispatchQry(ByVal strUnion As String, ByVal status As String) As String
         Dim Qry As String = " select "
         If Not isSummary Then
-            Qry &= " sh.Trans_Type,sh.Screen_Type,sh.DOCUMENT_CODE,Convert(VArchar(10),sh.Document_Date,103) As Document_Date,"
+            Qry &= " case When sh.Trans_Type='FS' Then 'Fresh Sale' When sh.Trans_Type='MCC' Then 'DCS Sale' When sh.Trans_Type='PS' Then 'Product Sale' Else null End As Trans_Type,sh.Screen_Type,sh.DOCUMENT_CODE,Convert(VArchar(10),sh.Document_Date,103) As Document_Date,"
             status = "'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyy") & "' And '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyy") & "' " & status
         Else
             strUnion = "'+" & strUnion & "+'"
@@ -1005,7 +1005,7 @@ LEFT JOIN ( SELECT * FROM ( select item_code,uom_code,conversion_factor from " &
     Function ReturnBulkDispatchQry(ByVal strUnion As String, ByVal status As String) As String
         Dim Qry As String = "SELECT "
         If Not isSummary Then
-            Qry &= " '' As Trans_Type,'' As Screen_Type,TSPL_Dispatch_BulkSale.Document_No As DOCUMENT_CODE,Convert(Varchar(10),TSPL_Dispatch_BulkSale.Document_Date,103)Document_Date,"
+            Qry &= " 'Bulk Dispatch' As Trans_Type,'' As Screen_Type,TSPL_Dispatch_BulkSale.Document_No As DOCUMENT_CODE,Convert(Varchar(10),TSPL_Dispatch_BulkSale.Document_Date,103)Document_Date,"
             status = "'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyy") & "' And '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyy") & "' " & status
         Else
             strUnion = "'+" & strUnion & "+'"
@@ -1027,7 +1027,7 @@ inner join " & strUnion & ".[dbo].TSPL_ITEM_UOM_DETAIL as ConvertDiv on ConvertD
     Function ReturnPPProdProductionQry(ByVal strUnion As String, ByVal status As String) As String
         Dim Qry As String = "select "
         If Not isSummary Then
-            Qry &= " '' As Trans_Type,'' As Screen_Type,pe.PROD_ENTRY_CODE As Document_No,Convert(Varchar(10),pe.PROD_DATE,103)Document_DATE,"
+            Qry &= " 'Production Entry' As Trans_Type,'' As Screen_Type,pe.PROD_ENTRY_CODE As Document_No,Convert(Varchar(10),pe.PROD_DATE,103)Document_DATE,"
             status = "'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyy") & "' And '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyy") & "' " & status
         Else
             strUnion = "'+" & strUnion & "+'"
@@ -1044,7 +1044,7 @@ LEFT JOIN ( SELECT * FROM ( select item_code,uom_code,conversion_factor from " &
     Function ReturnProdUPProductionQry(ByVal strUnion As String, ByVal status As String) As String
         Dim Qry As String = "select "
         If Not isSummary Then
-            Qry &= "'' As Trans_Type,'' As Screen_Type,TSPL_PRODUCTION_UPLOADER_HEAD.Document_No,Convert(Varchar(10),TSPL_PRODUCTION_UPLOADER_HEAD.Document_Date,103)Document_Date,"
+            Qry &= "'Production Uploader' As Trans_Type,'' As Screen_Type,TSPL_PRODUCTION_UPLOADER_HEAD.Document_No,Convert(Varchar(10),TSPL_PRODUCTION_UPLOADER_HEAD.Document_Date,103)Document_Date,"
             status = "'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyy") & "' And '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyy") & "' " & status
         Else
             strUnion = "'+" & strUnion & "+'"
@@ -1061,7 +1061,7 @@ LEFT JOIN ( SELECT * FROM ( select item_code,uom_code,conversion_factor from " &
     Function ReturnShiftGMTProdcutionQry(ByVal strUnion As String, ByVal status As String) As String
         Dim Qry As String = "select "
         If Not isSummary Then
-            Qry &= " '' As Trans_Type,'' As Screen_Type,tspl_shift_mgmt.Document_No,Convert(Varchar(10),tspl_shift_mgmt.Document_Date,103)Document_Date, "
+            Qry &= " 'Shift Management' As Trans_Type,'' As Screen_Type,tspl_shift_mgmt.Document_No,Convert(Varchar(10),tspl_shift_mgmt.Document_Date,103)Document_Date, "
             status = "'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyy") & "' And '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyy") & "' " & status
         Else
             strUnion = "'+" & strUnion & "+'"
@@ -1077,7 +1077,7 @@ where CONVERT(DATE, tspl_shift_mgmt.Document_Date, 103) BETWEEN   " & status
     Function ReturnAdjstProductionQry(ByVal strUnion As String, ByVal status As String) As String
         Dim Qry As String = " select "
         If Not isSummary Then
-            Qry &= " '' As Trans_Type,'' As Screen_Type,TSPL_ADJUSTMENT_HEADER.Adjustment_No As Document_No,Convert(Varchar(10),TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103)Document_Date, "
+            Qry &= " 'Adjustment' As Trans_Type,'' As Screen_Type,TSPL_ADJUSTMENT_HEADER.Adjustment_No As Document_No,Convert(Varchar(10),TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103)Document_Date, "
             status = "'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyy") & "' And '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyy") & "' " & status
         Else
             strUnion = "'+" & strUnion & "+'"
@@ -1096,7 +1096,7 @@ Left Join " & strUnion & ".[dbo].TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code=
     Function ReturnDemandBookingDemandQry(ByVal strUnion As String, ByVal status As String) As String
         Dim Qry As String = "select "
         If Not isSummary Then
-            Qry &= " '' As Trans_Type,'' As Screen_Type,dbm.Document_No,Convert(Varchar(10),dbm.Document_Date,103)Document_Date,"
+            Qry &= " 'Demand' As Trans_Type,'' As Screen_Type,dbm.Document_No,Convert(Varchar(10),dbm.Document_Date,103)Document_Date,"
             status = "'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyy") & "' And '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyy") & "' " & status
         Else
             strUnion = "'+" & strUnion & "+'"
@@ -1114,7 +1114,7 @@ WHERE CONVERT(DATE, dbm.Document_Date, 103) BETWEEN   " & status
     Function ReturnDisBulkDemandQry(ByVal strUnion As String, ByVal status As String) As String
         Dim Qry As String = "SELECT "
         If Not isSummary Then
-            Qry &= " '' As Trans_Type,'' As Screen_Type,TSPL_Dispatch_BulkSale.Document_No,Convert(Varchar(10),TSPL_Dispatch_BulkSale.Document_Date,103)Document_Date,"
+            Qry &= " 'Bulk' As Trans_Type,'' As Screen_Type,TSPL_Dispatch_BulkSale.Document_No,Convert(Varchar(10),TSPL_Dispatch_BulkSale.Document_Date,103)Document_Date,"
             status = "'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyy") & "' And '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyy") & "' " & status
         Else
             strUnion = "'+" & strUnion & "+'"
@@ -1136,7 +1136,7 @@ inner join " & strUnion & ".[dbo].TSPL_ITEM_UOM_DETAIL as ConvertDiv on ConvertD
     Function ReturnBookingDemandQry(ByVal strUnion As String, ByVal status As String) As String
         Dim Qry As String = " select "
         If Not isSummary Then
-            Qry &= " '' As Trans_Type,TSPL_BOOKING_MATSER.From_Screen_Code As Screen_Type,TSPL_BOOKING_MATSER.Document_No,Convert(Varchar(10),TSPL_BOOKING_MATSER.Document_Date,103)Document_Date,"
+            Qry &= " 'Booking' As Trans_Type,TSPL_BOOKING_MATSER.From_Screen_Code As Screen_Type,TSPL_BOOKING_MATSER.Document_No,Convert(Varchar(10),TSPL_BOOKING_MATSER.Document_Date,103)Document_Date,"
             status = "'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyy") & "' And '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyy") & "' " & status
         Else
             strUnion = "'+" & strUnion & "+'"
@@ -1153,7 +1153,7 @@ LEFT JOIN ( SELECT * FROM ( select item_code,uom_code,conversion_factor from " &
     Function ReturnDCSSaleEntryDemandQry(ByVal strUnion As String, ByVal status As String) As String
         Dim Qry As String = "Select "
         If Not isSummary Then
-            Qry &= " Trans_Type,'' As Screen_Type,TSPL_DCS_SALE_ENTRY.Document_Code As Document_No,Convert(Varchar(10),TSPL_DCS_SALE_ENTRY.Document_Date,103)Document_Date,"
+            Qry &= " 'DCS Sale' As Trans_Type,'' As Screen_Type,TSPL_DCS_SALE_ENTRY.Document_Code As Document_No,Convert(Varchar(10),TSPL_DCS_SALE_ENTRY.Document_Date,103)Document_Date,"
             status = "'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyy") & "' And '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyy") & "' " & status
         Else
             strUnion = "'+" & strUnion & "+'"
@@ -1168,7 +1168,7 @@ Where CONVERT(DATE,TSPL_DCS_SALE_ENTRY.Document_Date, 103) BETWEEN   " & status
     Function ReturnProdDemandDemandQry(ByVal strUnion As String, ByVal status As String) As String
         Dim Qry As String = "Select "
         If Not isSummary Then
-            Qry &= " '' As Trans_Type,'' As Screen_Type,TSPL_PRODUCT_DEMAND_BOOKING_MASTER.Document_No,Convert(Varchar(10),TSPL_PRODUCT_DEMAND_BOOKING_MASTER.Document_Date,103)Document_Date,"
+            Qry &= " 'Product Demand' As Trans_Type,'' As Screen_Type,TSPL_PRODUCT_DEMAND_BOOKING_MASTER.Document_No,Convert(Varchar(10),TSPL_PRODUCT_DEMAND_BOOKING_MASTER.Document_Date,103)Document_Date,"
             status = "'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyy") & "' And '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyy") & "' " & status
         Else
             strUnion = "'+" & strUnion & "+'"
@@ -1184,7 +1184,7 @@ Where CONVERT(DATE,TSPL_PRODUCT_DEMAND_BOOKING_MASTER.Document_Date, 103) BETWEE
     Function ReturnMPUDProcurementQry(ByVal strUnion As String, ByVal status As String) As String
         Dim Qry As String = "Select "
         If Not isSummary Then
-            Qry &= " '' As Trans_Type,'' As Screen_Type,muh.Document_No,Convert(Varchar(10),(muh.Document_Date),103)Document_Date,"
+            Qry &= " 'Procurement Uploader' As Trans_Type,'' As Screen_Type,muh.Document_No,Convert(Varchar(10),(muh.Document_Date),103)Document_Date,"
             status = "'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyy") & "' And '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyy") & "' " & status
         Else
             strUnion = "'+" & strUnion & "+'"
@@ -1199,7 +1199,7 @@ WHERE CONVERT(DATE, muh.Document_Date, 103)BETWEEN   " & status
     Function ReturnMilkShiftUploaderProcurementQry(ByVal strUnion As String, ByVal status As String) As String
         Dim Qry As String = "SELECT "
         If Not isSummary Then
-            Qry &= " '' As Trans_Type,'' As Screen_Type,msh.Document_No,Convert(Varchar(10),(msh.Shift_Date),103)Document_Date,"
+            Qry &= " 'Shift Uploader' As Trans_Type,'' As Screen_Type,msh.Document_No,Convert(Varchar(10),(msh.Shift_Date),103)Document_Date,"
             status = "'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyy") & "' And '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyy") & "'" & status
         Else
             strUnion = "'+" & strUnion & "+'"
@@ -1214,7 +1214,7 @@ WHERE CONVERT(DATE, msh.Shift_Date, 103) BETWEEN   " & status
     Function ReturnMilkCollectionDCSProcurementQry(ByVal strUnion As String, ByVal status As String) As String
         Dim Qry As String = "SELECT"
         If Not isSummary Then
-            Qry &= " '' As Trans_Type,'' As Screen_Type,mcs.Document_No,Convert(Varchar(10),(mcs.document_date),103)Document_Date,"
+            Qry &= " 'DCS Truck Sheet' As Trans_Type,'' As Screen_Type,mcs.Document_No,Convert(Varchar(10),(mcs.document_date),103)Document_Date,"
             status = "'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyy") & "' And '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyy") & "'" & status
         Else
             strUnion = "'+" & strUnion & "+'"
@@ -1228,7 +1228,7 @@ LEFT JOIN " & strUnion & ".[dbo].TSPL_MILK_COLLECTION_DCS mcs ON mcs.Document_No
     Function ReturnMilkCollectionBMCDCSProcurementQry(ByVal strUnion As String, ByVal status As String) As String
         Dim Qry As String = "Select "
         If Not isSummary Then
-            Qry &= " '' As Trans_Type,'' As Screen_Type,'' As Document_No,Convert(Varchar(10),TSPL_MILK_COLLECTION_BMCDCS.IDate,103)Document_Date,"
+            Qry &= " 'Mobile-DCS Collection' As Trans_Type,'' As Screen_Type,'' As Document_No,Convert(Varchar(10),TSPL_MILK_COLLECTION_BMCDCS.IDate,103)Document_Date,"
             status = "'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyy") & "' And '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyy") & "'" & status
         Else
             strUnion = "'+" & strUnion & "+'"
@@ -1245,7 +1245,7 @@ Where IsNull(TSPL_MILK_COLLECTION_BMCDCS.PK_ID,0) <> 0 And CONVERT(DATE, TSPL_MI
     Function ReturnInventoryMovementProcurementTankerQry(ByVal strUnion As String, ByVal status As String) As String
         Dim Qry As String = "select "
         If Not isSummary Then
-            Qry &= "TSPL_INVENTORY_MOVEMENT_new.Trans_Type,'' As Screen_Type,TSPL_INVENTORY_MOVEMENT_new.Source_Doc_No As Document_No,Convert(Varchar(10),TSPL_INVENTORY_MOVEMENT_new.Source_Doc_Date,103)Document_Date,"
+            Qry &= " Case When TSPL_INVENTORY_MOVEMENT_new.Trans_Type='MilkTransferIn' Then 'Tanker' When TSPL_INVENTORY_MOVEMENT_new.Trans_Type='MCC-MSRN' Then 'Dock' Else Null End As Trans_Type ,'' As Screen_Type,TSPL_INVENTORY_MOVEMENT_new.Source_Doc_No As Document_No,Convert(Varchar(10),TSPL_INVENTORY_MOVEMENT_new.Source_Doc_Date,103)Document_Date,"
             status = "'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyy") & "' And '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyy") & "'" & status
         Else
             strUnion = "'+" & strUnion & "+'"
@@ -1264,7 +1264,7 @@ Where  CONVERT(DATE, TSPL_INVENTORY_MOVEMENT_new.Punching_Date, 103) BETWEEN   "
     Function ReturnSaleInvoiceQry(ByVal strUnion As String, ByVal status As String) As String
         Dim qry As String = "select "
         If Not isSummary Then
-            qry &= " Max(TSPL_SD_SALE_INVOICE_HEAD.Trans_Type)Trans_Type,Max(TSPL_SD_SALE_INVOICE_HEAD.Screen_Type)Screen_Type,TSPL_SD_SALE_INVOICE_HEAD.document_code As Document_No,Convert(Varchar(10),Max(TSPL_SD_SALE_INVOICE_HEAD.Document_Date),103)Document_Date,"
+            qry &= " 'Sale Invoice' As Trans_Type,Max(TSPL_SD_SALE_INVOICE_HEAD.Screen_Type)Screen_Type,TSPL_SD_SALE_INVOICE_HEAD.document_code As Document_No,Convert(Varchar(10),Max(TSPL_SD_SALE_INVOICE_HEAD.Document_Date),103)Document_Date,"
             status = "'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyy") & "' And '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyy") & "'" & status
         Else
             strUnion = "'+" & strUnion & "+'"
@@ -1282,7 +1282,7 @@ where CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date, 103) BETWEEN   " & s
     Function ReturnMilkPurchaseInvoiceQry(ByVal strUnion As String, ByVal status As String) As String
         Dim Qry As String = "select "
         If Not isSummary Then
-            Qry &= " '' As Trans_Type,'' As Screen_Type,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE As Document_No,Convert(Varchar(10),Max(TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE),103)Document_Date,"
+            Qry &= " 'Purchase Invoice' As Trans_Type,'' As Screen_Type,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE As Document_No,Convert(Varchar(10),Max(TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE),103)Document_Date,"
             status = "'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyy") & "' And '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyy") & "'" & status
         Else
             strUnion = "'+" & strUnion & "+'"
