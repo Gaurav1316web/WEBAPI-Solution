@@ -8054,13 +8054,18 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
 
                 End If
                 Dim BoothCode As String = ""
-                If Not IsOnlyCreditCust Then
-                    txtTransNo.Text = txtVendorNo.Value
-                    SaveData(False, trans)
+                'If Not IsOnlyCreditCust Then
+                txtTransNo.Text = txtVendorNo.Value
+                    If gvDistributor IsNot Nothing AndAlso gvDistributor.Rows.Count > 0 Then
+                        SaveData(False, trans)
+                    End If
                     LoadDemandData(trans, 1)
                     MergeDistributorItems(True, False, trans)
-                    SaveData(False, trans)
-                    clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SHIPMENT_HEAD set ParentDocNo='" + ParentDocNo + "' where Document_Code='" + CreditCustDoc + "'", trans)
+                    If gvDistributor IsNot Nothing AndAlso gvDistributor.Rows.Count > 0 Then
+                        SaveData(False, trans)
+                        clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SHIPMENT_HEAD set ParentDocNo='" + ParentDocNo + "' where Document_Code='" + CreditCustDoc + "'", trans)
+
+                    End If
                     lstobj = New List(Of clsPSShipmentDemand)
                     lstSkipobj = New List(Of clsPSShipmentDemand)
 
@@ -8070,26 +8075,26 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                     For Each lst As clsPSShipmentDemand In clsPSShipmentDemand.GetData(ParentDocNo, cmbShift.SelectedValue, txtSupplyDate.Value, txtRouteNo.Value, txtBillToLocation.Value, cmbDisItemType.SelectedValue, 1, trans)
                         lstSkipobj.Add(lst)
                     Next
-                Else
-                    'txtTransNo.Text = txtVendorNo.Value
+                    'Else
+                    '    'txtTransNo.Text = txtVendorNo.Value
 
-                    'txtVendorNo.Value = clsCommon.myCstr(gvDistributor.Rows(0).Cells("Cust_Code").Value)
-                    'lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtVendorNo.Value + "'", trans))
-                    'BoothCode = txtVendorNo.Value
-                    'MergeDistributorItems(True, True, trans)
-                    'SaveData(False, trans)
-                    lstobj = New List(Of clsPSShipmentDemand)
-                    lstSkipobj = New List(Of clsPSShipmentDemand)
-                    For Each lst As clsPSShipmentDemand In clsPSShipmentDemand.GetData(ParentDocNo, cmbShift.SelectedValue, txtSupplyDate.Value, txtRouteNo.Value, txtBillToLocation.Value, cmbDisItemType.SelectedValue, 0, trans)
-                        lstobj.Add(lst)
-                    Next
-                    For Each lst As clsPSShipmentDemand In clsPSShipmentDemand.GetData(ParentDocNo, cmbShift.SelectedValue, txtSupplyDate.Value, txtRouteNo.Value, txtBillToLocation.Value, cmbDisItemType.SelectedValue, 1, trans)
-                        lstSkipobj.Add(lst)
-                    Next
+                    '    'txtVendorNo.Value = clsCommon.myCstr(gvDistributor.Rows(0).Cells("Cust_Code").Value)
+                    '    'lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtVendorNo.Value + "'", trans))
+                    '    'BoothCode = txtVendorNo.Value
+                    '    'MergeDistributorItems(True, True, trans)
+                    '    'SaveData(False, trans)
+                    '    lstobj = New List(Of clsPSShipmentDemand)
+                    '    lstSkipobj = New List(Of clsPSShipmentDemand)
+                    '    For Each lst As clsPSShipmentDemand In clsPSShipmentDemand.GetData(ParentDocNo, cmbShift.SelectedValue, txtSupplyDate.Value, txtRouteNo.Value, txtBillToLocation.Value, cmbDisItemType.SelectedValue, 0, trans)
+                    '        lstobj.Add(lst)
+                    '    Next
+                    '    For Each lst As clsPSShipmentDemand In clsPSShipmentDemand.GetData(ParentDocNo, cmbShift.SelectedValue, txtSupplyDate.Value, txtRouteNo.Value, txtBillToLocation.Value, cmbDisItemType.SelectedValue, 1, trans)
+                    '        lstSkipobj.Add(lst)
+                    '    Next
 
-                End If
+                    'End If
 
-                If lstobj IsNot Nothing AndAlso lstobj.Count > 0 AndAlso clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                    If lstobj IsNot Nothing AndAlso lstobj.Count > 0 AndAlso clsCommon.myLen(txtDocNo.Value) <= 0 Then
                     For Each lst As clsPSShipmentDemand In lstobj
                         If Not clsCommon.CompairString(BoothCode, lst.Booth_Code) = CompairStringResult.Equal Then
                             '                            Dim strQry As String = "select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code as TR_Code,
@@ -14163,7 +14168,7 @@ and TSPL_Demand_Booking_Master.Route_No='" + txtRouteNo.Value + "' and TSPL_Dema
                     filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceRJS", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
 
                 Else
-                        filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 End If
                 'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 frmCRV = Nothing
