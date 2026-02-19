@@ -22,13 +22,13 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -269,10 +269,10 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.cboReportType.IsSourceFromTable = False
         Me.cboReportType.IsSourceFromValueList = False
         Me.cboReportType.IsUnique = False
-        RadListDataItem1.Text = "Kg"
-        RadListDataItem2.Text = "Ltr"
-        Me.cboReportType.Items.Add(RadListDataItem1)
-        Me.cboReportType.Items.Add(RadListDataItem2)
+        RadListDataItem5.Text = "Kg"
+        RadListDataItem6.Text = "Ltr"
+        Me.cboReportType.Items.Add(RadListDataItem5)
+        Me.cboReportType.Items.Add(RadListDataItem6)
         Me.cboReportType.Location = New System.Drawing.Point(60, 37)
         Me.cboReportType.MendatroryField = False
         Me.cboReportType.MyLinkLable1 = Nothing
@@ -332,10 +332,10 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.cboUnit.IsSourceFromTable = False
         Me.cboUnit.IsSourceFromValueList = False
         Me.cboUnit.IsUnique = False
-        RadListDataItem3.Text = "Kg"
-        RadListDataItem4.Text = "Ltr"
-        Me.cboUnit.Items.Add(RadListDataItem3)
-        Me.cboUnit.Items.Add(RadListDataItem4)
+        RadListDataItem7.Text = "Kg"
+        RadListDataItem8.Text = "Ltr"
+        Me.cboUnit.Items.Add(RadListDataItem7)
+        Me.cboUnit.Items.Add(RadListDataItem8)
         Me.cboUnit.Location = New System.Drawing.Point(243, 58)
         Me.cboUnit.MendatroryField = False
         Me.cboUnit.MyLinkLable1 = Nothing
@@ -455,10 +455,10 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.cmbEntrySource.IsSourceFromTable = False
         Me.cmbEntrySource.IsSourceFromValueList = False
         Me.cmbEntrySource.IsUnique = False
-        RadListDataItem5.Text = "Kg"
-        RadListDataItem6.Text = "Ltr"
-        Me.cmbEntrySource.Items.Add(RadListDataItem5)
-        Me.cmbEntrySource.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "Kg"
+        RadListDataItem2.Text = "Ltr"
+        Me.cmbEntrySource.Items.Add(RadListDataItem1)
+        Me.cmbEntrySource.Items.Add(RadListDataItem2)
         Me.cmbEntrySource.Location = New System.Drawing.Point(60, 58)
         Me.cmbEntrySource.MendatroryField = False
         Me.cmbEntrySource.MyLinkLable1 = Nothing
@@ -587,7 +587,7 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.gv.MasterTemplate.EnableFiltering = True
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv.MyExportAPI = False
         Me.gv.MyExportFilePath = ""
         Me.gv.MyStopExport = False

@@ -364,6 +364,7 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
         Dim viewBlank As New TableViewDefinition()
         gv.ViewDefinition = viewBlank
         EnableDisableControl(True)
+        CheckReportTypeforDateRange()
     End Sub
 
     Private Sub EnableDisableControl(ByVal val As Boolean)
@@ -676,8 +677,31 @@ where Doc_Date>='" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & 
                     qry &= " and 2=( case when Doc_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and Doc_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and shift='E' then 3 else 2 end  )"
                 End If
                 qry &= Environment.NewLine & " Union All " & Environment.NewLine
+                qry &= " select '" & strUnion("Location_Name") & "' As [Union],Cast('" & clsCommon.myCstr(dcsCount) & "' As Int) As DCSCount,TSPL_VLC_DATA_UPLOADER_MASTER.Document_Code As Doc_No,
+Convert(Varchar(10),TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date,103) As Doc_Date,'' As File_Date,TSPL_VLC_DATA_UPLOADER_MASTER.Shift,
+TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPl_MP_MAster.MP_CODE,TSPl_MP_MAster.MP_Name,
+TSPl_MP_MAster.MP_Code_VLC_Uploader As MP_Uploader_Code,
+TSPL_VLC_DATA_UPLOADER_DETAIL.qty,TSPL_VLC_DATA_UPLOADER_DETAIL.FatPer,TSPL_VLC_DATA_UPLOADER_DETAIL.SNFPer,TSPL_VLC_DATA_UPLOADER_DETAIL.Rate,
+TSPL_VLC_DATA_UPLOADER_DETAIL.Amount,
+((TSPL_VLC_DATA_UPLOADER_DETAIL.qty*TSPL_VLC_DATA_UPLOADER_DETAIL.FatPer)/100) As FAT_KG,((TSPL_VLC_DATA_UPLOADER_DETAIL.qty*TSPL_VLC_DATA_UPLOADER_DETAIL.SNFPer)/100) As SNF_KG,
+TSPL_VLC_DATA_UPLOADER_MASTER.Dock_Collection_Milk_Type As  tttype
+from " & strUnion("Database_Name") & ".dbo.TSPL_VLC_DATA_UPLOADER_DETAIL
+Left Outer Join " & strUnion("Database_Name") & ".dbo.TSPL_VLC_DATA_UPLOADER_MASTER On TSPL_VLC_DATA_UPLOADER_MASTER.Document_Code=TSPL_VLC_DATA_UPLOADER_DETAIL.Document_Code
+Left Join " & strUnion("Database_Name") & ".dbo.TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.Vlc_Code_VLC_Uploader=TSPL_VLC_DATA_UPLOADER_MASTER.VLC_CODE
+Left Join " & strUnion("Database_Name") & ".dbo.TSPl_MP_MAster On TSPl_MP_MAster.MP_Code_VLC_Uploader=TSPL_VLC_DATA_UPLOADER_DETAIL.Farmer_Code and TSPl_MP_MAster.VLC_Code=TSPL_VLC_MASTER_HEAD.VLC_Code
+Where 1=1 "
+                If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
+                    qry &= " and 2=( case when TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and shift='M' then 3 else 2 end  )"
+                End If
+                If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
+                    qry &= " and 2=( case when TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and shift='E' then 3 else 2 end  )"
+                End If
+
+                qry &= Environment.NewLine & " Union All " & Environment.NewLine
                 qry &= "select '" & strUnion("Location_Name") & "' As [Union],Cast('" & clsCommon.myCstr(dcsCount) & "' As Int) As DCSCount,'' As Doc_No,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") & "' As Doc_Date,'' As File_Date,'' As shift,
 '' As Vlc_Code_VLC_Uploader,'' As VLC_Name,'' As MP_CODE,'' As MP_Name,'' As MP_Uploader_Code,0 As qty,0 As fat,0 As snf,0 As Rate,0 As Amount,0 As fat_KG,0 As snf_KG,'' As  tttype ) As " & strUnion("Database_Name")
+
+
                 i += 1
             Next
         Else
@@ -1656,7 +1680,7 @@ where [VLC Code]='" + clsCommon.myCstr(gv.CurrentRow.Cells("VLC Code").Value) + 
     End Sub
 
     Private Sub gv_CellFormatting(sender As Object, e As CellFormattingEventArgs) Handles gv.CellFormatting
-        If e.CellElement.Value IsNot Nothing AndAlso IsNumeric(e.CellElement.Value) Then
+        If e.CellElement.Value IsNot Nothing AndAlso IsNumeric(e.CellElement.Value) AndAlso clsCommon.CompairString(e.Column.Name, "S.No.") <> CompairStringResult.Equal Then
             e.CellElement.Text = Convert.ToDecimal(e.CellElement.Value).ToString("N2", New CultureInfo("en-IN"))
         End If
     End Sub
