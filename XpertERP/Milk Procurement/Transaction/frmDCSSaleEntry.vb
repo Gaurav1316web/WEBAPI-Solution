@@ -5850,11 +5850,17 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
             End If
             Dim dblTPTRate As Decimal = gv1.Rows(IntRowNo).Cells(ColTPTRate).Value
             Dim dblTPTAmt As Decimal = dblTPTRate * dblQty
-            Dim dblGrossAmt As Decimal = dblAmtAfterTax - dblRateDiffAmt
-            If (clsCommon.myCBool(gv1.Rows(IntRowNo).Cells(colIsAddTPT).Value)) Then
-                dblGrossAmt = dblAmtAfterTax - dblRateDiffAmt + dblTPTAmt
+            Dim dblTotalSubsidyAmt As Decimal = 0
+            If MultiplySubsidyWithQuantity Then
+                dblTotalSubsidyAmt = dblRateDiffAmt * dblQty
             Else
-                dblGrossAmt = dblAmtAfterTax - dblRateDiffAmt - dblTPTAmt
+                dblTotalSubsidyAmt = dblRateDiffAmt
+            End If
+            Dim dblGrossAmt As Decimal = dblAmtAfterTax - dblTotalSubsidyAmt
+            If (clsCommon.myCBool(gv1.Rows(IntRowNo).Cells(colIsAddTPT).Value)) Then
+                dblGrossAmt = dblAmtAfterTax - dblTotalSubsidyAmt + dblTPTAmt
+            Else
+                dblGrossAmt = dblAmtAfterTax - dblTotalSubsidyAmt - dblTPTAmt
             End If
 
             Dim dblRoundOffAmt As Decimal = 0
@@ -5869,11 +5875,13 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
                 dblRoundOffAmt = 0
             End If
 
+
+
             gv1.Rows(IntRowNo).Cells(colDisAmt).Value = Math.Round(dblDisAmt, 2)
             gv1.Rows(IntRowNo).Cells(colAmtAfterDis).Value = Math.Round(dblAmtAfterDis, 6)
             gv1.Rows(IntRowNo).Cells(colRateDiffAmt).Value = Math.Round(dblRateDiffAmt, 6)
             gv1.Rows(IntRowNo).Cells(colTotalSubsidyDisAmt).Value = Math.Round(dblTotalSubsidyDisAmt, 6)
-            gv1.Rows(IntRowNo).Cells(colTotalSubsidyAmt).Value = Math.Round(dblRateDiffAmt, 6)
+            gv1.Rows(IntRowNo).Cells(colTotalSubsidyAmt).Value = Math.Round(dblTotalSubsidyAmt, 6)
             gv1.Rows(IntRowNo).Cells(colGrossAmount).Value = Math.Round(dblGrossAmt, 6)
             gv1.Rows(IntRowNo).Cells(colTotTaxAmt).Value = Math.Round(dblTotTaxAmt, 6)
             gv1.Rows(IntRowNo).Cells(colAmtAfterTax).Value = Math.Round(dblAmtAfterTax, 2)
