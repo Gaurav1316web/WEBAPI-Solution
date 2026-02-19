@@ -713,7 +713,8 @@ Public Class scrapinvoicehead
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SCRAPINVOICE_HEAD", OMInsertOrUpdate.Update, "TSPL_SCRAPINVOICE_HEAD.invoice_No='" + invoice + "'", trans)
             End If
 
-            scrapinvoicedetail.SaveDatainvoice(invoice, objin.shipment_No, objin.ArrIn, objin.shipment_Date, objin.Loc_Code, trans)
+
+            scrapinvoicedetail.SaveDatainvoice(invoice, objin.shipment_No, objin.ArrIn, objin.shipment_Date, IIf(clsCommon.myLen(objin.Sub_Location_code) > 0, objin.Sub_Location_code, objin.Loc_Code), trans)
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try

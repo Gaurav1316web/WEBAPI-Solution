@@ -1387,6 +1387,7 @@ Public Class clsFixedParameterType
     Public Const AllowToCheckZeroQtyonDispatch = "Allow To Check Zero Qty on Dispatch"
     Public Const DefaultEnableEWayBill = "Default Enable EWay Bill"
     Public Const CreateAutoGatePass = "Create Auto Gate Pass"
+    Public Const ApplyEWBThresholdLimit = "Apply EWB Threshold Limit"
 End Class
 Public Class clsFixedParameterCode
     Public Const SuspenceAdjusmtmentFATSNFTolerancePercentage = "Suspence Adjusmtment FAT SNF Tolerance %"
@@ -2932,6 +2933,10 @@ Public Class clsFixedParameterCode
     Public Const AllowToCheckZeroQtyonDispatch = "Allow To Check Zero Qty on Dispatch"
     Public Const DefaultEnableEWayBill = "Default Enable EWay Bill"
     Public Const CreateAutoGatePass = "Create Auto Gate Pass"
+    Public Const ApplyEWBThresholdLimit = "Apply EWB Threshold Limit"
+    Public Const EWBThresholdLimitForIntraCity = "EWB Threshold Limit For Intra-City"
+    Public Const EWBThresholdLimitForIntraState = "EWB Threshold Limit For Intra-State"
+    Public Const EWBThresholdLimitForInterState = "EWB Threshold Limit For Inter-State"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4654,6 +4659,10 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowToCheckZeroQtyonDispatch, clsFixedParameterCode.AllowToCheckZeroQtyonDispatch, "0", "0:Off, 1:On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.DefaultEnableEWayBill, clsFixedParameterCode.DefaultEnableEWayBill, "0", "0:Off, 1:On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CreateAutoGatePass, clsFixedParameterCode.CreateAutoGatePass, "0", "0:Off, 1:On")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.ApplyEWBThresholdLimit, "0", "0:Off, 1:On")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraCity, "0", "Enter Threshold Limit For Intra-City")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraState, "0", "Enter Threshold Limit For Intra-State")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForInterState, "0", "Enter Threshold Limit For Inter-State")
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
     End Function
@@ -6569,5 +6578,9 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.DefaultEnableEWayBill, clsFixedParameterCode.DefaultEnableEWayBill, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.CreateAutoGatePass, clsFixedParameterCode.CreateAutoGatePass, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkProcurementCorrection, clsFixedParameterType.SuspenceAdjusmtmentFATSNFTolerancePercentage, clsFixedParameterCode.SuspenceAdjusmtmentFATSNFTolerancePercentage, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.ApplyEWBThresholdLimit, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraCity, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraState, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForInterState, EnumControlType.NumericBox)
     End Sub
 End Class

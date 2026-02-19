@@ -49,6 +49,7 @@ Partial Class frmHSNMaster
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.chkScrapEwb = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -65,6 +66,7 @@ Partial Class frmHSNMaster
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkScrapEwb, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -143,6 +145,7 @@ Partial Class frmHSNMaster
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.chkScrapEwb)
         Me.RadGroupBox1.Controls.Add(Me.txtCode)
         Me.RadGroupBox1.Controls.Add(Me.RadButton1)
         Me.RadGroupBox1.Controls.Add(Me.btnNew)
@@ -317,6 +320,15 @@ Partial Class frmHSNMaster
         Me.btnHistory.TabIndex = 3
         Me.btnHistory.Text = "History"
         '
+        'chkScrapEwb
+        '
+        Me.chkScrapEwb.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkScrapEwb.Location = New System.Drawing.Point(380, 15)
+        Me.chkScrapEwb.Name = "chkScrapEwb"
+        Me.chkScrapEwb.Size = New System.Drawing.Size(96, 16)
+        Me.chkScrapEwb.TabIndex = 1480
+        Me.chkScrapEwb.Text = "Scrap EwayBill"
+        '
         'frmHSNMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -347,6 +359,7 @@ Partial Class frmHSNMaster
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkScrapEwb, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -375,5 +388,6 @@ Partial Class frmHSNMaster
     Friend WithEvents txtCode As common.UserControls.txtNavigator
     Friend WithEvents TxtNavigator1 As common.UserControls.txtNavigator
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents chkScrapEwb As RadCheckBox
 End Class
 

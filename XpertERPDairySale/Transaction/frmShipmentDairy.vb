@@ -57,6 +57,12 @@ Public Class frmShipmentDairy
     Dim strMessages As String = Nothing
     Public StrDocNo As String
     Public showSavedMessage As Boolean = True
+
+    Dim ApplyEWBThresholdLimit As Boolean = False
+    Dim EWBThresholdLimitForIntraCity As Integer = 0
+    Dim EWBThresholdLimitForIntraState As Integer = 0
+    Dim EWBThresholdLimitForInterState As Integer = 0
+
     Const colURoundOff As String = "colURoundOff"
     Const col_Is_Taxable As String = "col_Is_Taxable"
     Const colTransType As String = "colTransType"
@@ -798,6 +804,10 @@ Public Class frmShipmentDairy
         AllowToCheckZeroQtyonDispatch = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowToCheckZeroQtyonDispatch, clsFixedParameterCode.AllowToCheckZeroQtyonDispatch, Nothing)) = 1, True, False)
         DefaultEnableEWayBill = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultEnableEWayBill, clsFixedParameterCode.DefaultEnableEWayBill, Nothing)) = 1, True, False)
         CreateAutoGatePass = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateAutoGatePass, clsFixedParameterCode.CreateAutoGatePass, Nothing)) = 1, True, False)
+        ApplyEWBThresholdLimit = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.ApplyEWBThresholdLimit, Nothing)) = 1, True, False)
+        EWBThresholdLimitForIntraCity = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraCity, Nothing))
+        EWBThresholdLimitForIntraState = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraState, Nothing))
+        EWBThresholdLimitForInterState = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForInterState, Nothing))
 
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = dtpChallan.Value
@@ -7018,11 +7028,14 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         btnSave.Enabled = True
         btnPost.Enabled = True
         btnDelete.Enabled = True
-        If DefaultEnableEWayBill Then
-            chkIsEWayBill.Checked = True
-        Else
-            chkIsEWayBill.Checked = False
-        End If
+        'If DefaultEnableEWayBill Then
+        '    chkIsEWayBill.Checked = True
+        'Else
+        '    chkIsEWayBill.Checked = False
+        'End If
+        chkIsEWayBill.Checked = False
+        chkIsEWayBill.Enabled = True
+
         txtDate.Focus()
         gv1.Rows.AddNew()
         gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = RowTypeItem
@@ -7145,6 +7158,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             cmbDisItemType.SelectedValue = "T"
         End If
         btnprinte_wayBill.Visible = False
+        btnUpdateVehicle.Visible = False
     End Sub
     Private Sub isValid_CashScheme()
         Dim scheme_Code As String = ""
@@ -7253,6 +7267,49 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                 txtDocNo.Focus()
                 Return False
             End If
+            '' Check EWB Threshold Limit 28-Jan-2026
+            If ApplyEWBThresholdLimit AndAlso clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal Then
+
+                Dim EWBThresholdLimtCat As String = ""
+                Dim EWBThresholdLimtCatForCust As String = ""
+                chkIsEWayBill.Checked = False
+                Dim EwbNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select EWayBillNo from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" & txtInvoiceNo.Text & "'"))
+                If clsCommon.myLen(EwbNo) = 0 Then
+                    If clsCommon.myLen(clsCommon.myCstr(txtBillToLocation.Value)) > 0 Then
+                        If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtBillToLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
+                            If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(txtVendorNo.Value) & "' ")), "Others") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(txtVendorNo.Value) & "' ")), "") = CompairStringResult.Equal Then
+                                If clsCommon.myLen(txtSubLocation.Value) > 0 Then
+                                    EWBThresholdLimtCat = "select City_Code,State from TSPL_LOCATION_MASTER where Location_Code='" & txtSubLocation.Value & "'"
+
+                                End If
+                            End If
+                        Else
+                            EWBThresholdLimtCat = "select City_Code,State from TSPL_LOCATION_MASTER where Location_Code='" & txtBillToLocation.Value & "'"
+                        End If
+                        EWBThresholdLimtCatForCust = "select City_Code,State from TSPL_CUSTOMER_MASTER where Cust_Code='" & txtVendorNo.Value & "'"
+                        Dim dt_FromLocation As DataTable = clsDBFuncationality.GetDataTable(EWBThresholdLimtCat)
+                        Dim dt_CustLocation As DataTable = clsDBFuncationality.GetDataTable(EWBThresholdLimtCatForCust)
+                        If clsCommon.CompairString(clsCommon.myCstr(dt_FromLocation(0)("City_Code")), clsCommon.myCstr(dt_CustLocation(0)("City_Code"))) = CompairStringResult.Equal Then
+                            If clsCommon.myCdbl(lblTotRAmt1.Text) > EWBThresholdLimitForIntraCity Then
+                                chkIsEWayBill.Checked = True
+                            End If
+                        ElseIf clsCommon.CompairString(clsCommon.myCstr(dt_FromLocation(0)("State")), clsCommon.myCstr(dt_CustLocation(0)("State"))) = CompairStringResult.Equal Then
+                            If clsCommon.myCdbl(lblTotRAmt1.Text) > EWBThresholdLimitForIntraState Then
+                                chkIsEWayBill.Checked = True
+                            End If
+                        Else
+                            If clsCommon.myCdbl(lblTotRAmt1.Text) > EWBThresholdLimitForInterState Then
+                                chkIsEWayBill.Checked = True
+                            End If
+                        End If
+                    End If
+                Else
+                    chkIsEWayBill.Checked = True
+                End If
+
+            End If
+
+            '' End  of EWB Threshold Limit 
             If clsCommon.CompairString(ddlDispatchTerms.SelectedValue, "CIF") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlDispatchTerms.SelectedValue, "CF") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlDispatchTerms.SelectedValue, "FE") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlDispatchTerms.SelectedValue, "O") = CompairStringResult.Equal Then
                 If chkownVehicle.Checked = False Then
                     If clsCommon.myLen(txtTransporterCode.Value) <= 0 Then
@@ -9110,6 +9167,7 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                     txtSupplyDate.Enabled = False
                     btnCancel.Enabled = True
                     btnEWB.Enabled = True
+                    chkIsEWayBill.Enabled = False
                 Else
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
                         txtSupplyDate.Enabled = True
@@ -9118,6 +9176,7 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                     End If
                     btnCancel.Enabled = False
                     btnEWB.Enabled = False
+                    chkIsEWayBill.Enabled = True
                 End If
 
                 ParentDocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select ParentDocNo from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + obj.Document_Code + "'"))
@@ -9991,6 +10050,15 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                     End If
                     TxtEInvoiceUpdateQCCode.Text = clsCommon.myCstr(dtInv.Rows(0)("QR_Code"))
                     TxtEWayBillUpdateBillNo.Text = clsCommon.myCstr(dtInv.Rows(0)("EWayBillNo"))
+                    If clsCommon.myLen(clsCommon.myCstr(dtInv.Rows(0)("EWayBillNo"))) > 0 Then
+                        btnprinte_wayBill.Visible = True
+                        btnEWB.Enabled = False
+                        btnUpdateVehicle.Visible = False
+                    Else
+                        If obj.Status = ERPTransactionStatus.Approved Then
+                            btnEWB.Enabled = True
+                        End If
+                    End If
                     If dtInv.Rows(0)("EwayBillDate") IsNot DBNull.Value Then
                         TxtEWayBillUpdateBillDate.Value = clsCommon.myCDate(dtInv.Rows(0)("EwayBillDate"))
                     End If
@@ -10587,173 +10655,175 @@ left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=
             isCellValueChangedOpen = False
         ElseIf e.Alt AndAlso e.KeyCode = Keys.N AndAlso btnAddNew.Enabled Then
             AddNew()
-        ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.E Then
-            btnprinte_wayBill.Visible = True
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.V AndAlso Not btnPost.Enabled Then
+            If clsCommon.myLen(TxtEWayBillUpdateBillNo.Text) = 0 Then
+                btnUpdateVehicle.Visible = True
+            End If
         ElseIf e.Alt AndAlso e.KeyCode = Keys.S AndAlso btnSave.Enabled AndAlso MyBase.isModifyFlag Then
-            ' done by priti GKD/05/06/18-000144
-            '            If (AllowToSave(False)) Then
-            '                trans = clsDBFuncationality.GetTransactin()
-            '                Try
-            '                    txtTransNo.Text = txtVendorNo.Value
-            '                    SaveData(False, trans)
-            '                    If lstobj IsNot Nothing AndAlso lstobj.Count > 0 Then
-            '                        For Each lst As clsPSShipmentDemand In lstobj
-            '                            Dim strQry As String = "select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code as TR_Code,
-            'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code as Cust_Code,
-            'TSPL_CUSTOMER_MASTER.Customer_Name as Customer_Name,
-            'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code as Item_Code,
-            'TSPL_ITEM_MASTER.Item_Desc as Item_Desc,
-            'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty as DemandQty,
-            'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty as Qty,
-            'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code as Unit_code,
-            'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Trip_No as Trip_No,
-            'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Commission_Amt,
-            'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Security_Amt
-            'from TSPL_SD_SHIPMENT_BOOKING_DETAIL
-            'left join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code=TSPL_CUSTOMER_MASTER.Cust_Code
-            'left join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
-            'where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_code='" + lst.Booth_Code + "'"
-            '                            LoadDistributorGrid(strQry, trans)
-            '                            MergeDistributorItems(True, True, trans)
-            '                            txtVendorNo.Value = lst.Booth_Code
-            '                            lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + lst.Booth_Code + "'", trans))
-            '                            SaveData(False, trans)
-            '                        Next
-            '                    End If
-            '                    trans.Commit()
-            '                    Dim strupdate As String = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo='" + ParentDocNo + "' where Document_Code='" + ParentDocNo + "'"
-            '                    clsDBFuncationality.ExecuteNonQuery(strupdate)
-            '                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
-            '                    LoadData(ParentDocNo, NavigatorType.Current)
-            '                Catch ex As Exception
-            '                    trans.Rollback()
-            '                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-            '                End Try
-            '            End If
-            If (gvDistributor IsNot Nothing AndAlso gvDistributor.Rows.Count > 0) Then
-                btnSave_Click(btnSave, New EventArgs())
-            Else
-                txtRouteNo.Value = ""
-                txtVendorNo.Value = ""
-                lblVendorName.Text = ""
-                clsCommon.MyMessageBoxShow(Me, "Data not found!")
-            End If
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso btnPost.Enabled AndAlso MyBase.isPostFlag Then
-            PostData(Nothing, "", "", "")
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso btnDelete.Enabled AndAlso MyBase.isDeleteFlag Then
-            DeleteData()
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
-            CloseForm()
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.I AndAlso btnAddNew.Enabled Then
-            PrintInvoiveForAll(clsCommon.myCstr(txtDocNo.Value), txtDate.Value, clsCommon.myCstr(txtInvoiceNo.Text), False)
-        ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.T Then
-            chkRateDefaultSetting.Visible = Not chkRateDefaultSetting.Visible
-            chkRateUserCustomer.Visible = Not chkRateUserCustomer.Visible
-        ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.F6 Then
-            'If clsCommon.myLen(txtDocNo.Value) > 0 And btnPost.Enabled = False Then
-            '    Dim intCount As Integer = 0
-            '        For Each grow As GridViewRowInfo In gv1.Rows
-            '            If clsCommon.CompairString(grow.Cells(colSchemeItem).Value, "Yes") = CompairStringResult.Equal Then
-            '                intCount = 1
-            '        End If
-            '        Dim arr As New List(Of String)
-            '        Dim strCode = clsCommon.myCstr(grow.Cells(colOrderNo).Value)
-            '        If Not arr.Contains(strCode) Then
-            '            arr.Add(strCode)
-            '            Dim intExist As Integer = clsDBFuncationality.ExecuteNonQuery("select count(*) from TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE where Document_No='" & strCode & "' and scheme_qty > 0")
-            '            If intExist >= 1 Then
-            '                Exit For
-            '            End If
-            '        End If
-            '        Next
-            '    If intCount = 0 Then
-            '        blnChangeCustomer = True
-            '        txtVendorNo.Enabled = True
-            '        btnUpdateCustomer.Enabled = True
-            '    Else
-            '        clsCommon.MyMessageBoxShow(Me,"This functionality is not applicable on Scheme.")
-            '    End If
-            'End If
-        ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.F9 Then
-            If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso Not btnPost.Enabled Then
-                txtVendorNo.Enabled = True
-                btnUpdateCustomerWithRoute.Enabled = True
-                btnUpdateCustomerWithRoute.Visible = True
-            End If
-        ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.F8 Then
-            If clsCommon.myLen(txtDocNo.Value) > 0 And btnPost.Enabled = False Then
-                Dim intCount As Integer = 0
-                For Each grow As GridViewRowInfo In gv1.Rows
-                    If clsCommon.CompairString(grow.Cells(colSchemeItem).Value, "Yes") = CompairStringResult.Equal Then
-                        intCount = 1
-                    End If
-                    Dim arr As New List(Of String)
-                    Dim strCode = clsCommon.myCstr(grow.Cells(colOrderNo).Value)
-                    If Not arr.Contains(strCode) Then
-                        arr.Add(strCode)
-                        Dim intExist As Integer = clsDBFuncationality.ExecuteNonQuery("select count(*) from TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE where Document_No='" & strCode & "' and scheme_qty > 0")
-                        If intExist >= 1 Then
-                            Exit For
-                        End If
-                    End If
-                    grow.Cells(colICodeOLD).Value = clsCommon.myCstr(grow.Cells(colICode).Value)
-                Next
-                If intCount = 0 Then
-                    blnChangeCustomer = True
+                ' done by priti GKD/05/06/18-000144
+                '            If (AllowToSave(False)) Then
+                '                trans = clsDBFuncationality.GetTransactin()
+                '                Try
+                '                    txtTransNo.Text = txtVendorNo.Value
+                '                    SaveData(False, trans)
+                '                    If lstobj IsNot Nothing AndAlso lstobj.Count > 0 Then
+                '                        For Each lst As clsPSShipmentDemand In lstobj
+                '                            Dim strQry As String = "select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code as TR_Code,
+                'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code as Cust_Code,
+                'TSPL_CUSTOMER_MASTER.Customer_Name as Customer_Name,
+                'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code as Item_Code,
+                'TSPL_ITEM_MASTER.Item_Desc as Item_Desc,
+                'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty as DemandQty,
+                'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty as Qty,
+                'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code as Unit_code,
+                'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Trip_No as Trip_No,
+                'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Commission_Amt,
+                'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Security_Amt
+                'from TSPL_SD_SHIPMENT_BOOKING_DETAIL
+                'left join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code=TSPL_CUSTOMER_MASTER.Cust_Code
+                'left join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+                'where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_code='" + lst.Booth_Code + "'"
+                '                            LoadDistributorGrid(strQry, trans)
+                '                            MergeDistributorItems(True, True, trans)
+                '                            txtVendorNo.Value = lst.Booth_Code
+                '                            lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + lst.Booth_Code + "'", trans))
+                '                            SaveData(False, trans)
+                '                        Next
+                '                    End If
+                '                    trans.Commit()
+                '                    Dim strupdate As String = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo='" + ParentDocNo + "' where Document_Code='" + ParentDocNo + "'"
+                '                    clsDBFuncationality.ExecuteNonQuery(strupdate)
+                '                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
+                '                    LoadData(ParentDocNo, NavigatorType.Current)
+                '                Catch ex As Exception
+                '                    trans.Rollback()
+                '                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                '                End Try
+                '            End If
+                If (gvDistributor IsNot Nothing AndAlso gvDistributor.Rows.Count > 0) Then
+                    btnSave_Click(btnSave, New EventArgs())
+                Else
+                    txtRouteNo.Value = ""
+                    txtVendorNo.Value = ""
+                    lblVendorName.Text = ""
+                    clsCommon.MyMessageBoxShow(Me, "Data not found!")
+                End If
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso btnPost.Enabled AndAlso MyBase.isPostFlag Then
+                PostData(Nothing, "", "", "")
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso btnDelete.Enabled AndAlso MyBase.isDeleteFlag Then
+                DeleteData()
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
+                CloseForm()
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.I AndAlso btnAddNew.Enabled Then
+                PrintInvoiveForAll(clsCommon.myCstr(txtDocNo.Value), txtDate.Value, clsCommon.myCstr(txtInvoiceNo.Text), False)
+            ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.T Then
+                chkRateDefaultSetting.Visible = Not chkRateDefaultSetting.Visible
+                chkRateUserCustomer.Visible = Not chkRateUserCustomer.Visible
+            ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.F6 Then
+                'If clsCommon.myLen(txtDocNo.Value) > 0 And btnPost.Enabled = False Then
+                '    Dim intCount As Integer = 0
+                '        For Each grow As GridViewRowInfo In gv1.Rows
+                '            If clsCommon.CompairString(grow.Cells(colSchemeItem).Value, "Yes") = CompairStringResult.Equal Then
+                '                intCount = 1
+                '        End If
+                '        Dim arr As New List(Of String)
+                '        Dim strCode = clsCommon.myCstr(grow.Cells(colOrderNo).Value)
+                '        If Not arr.Contains(strCode) Then
+                '            arr.Add(strCode)
+                '            Dim intExist As Integer = clsDBFuncationality.ExecuteNonQuery("select count(*) from TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE where Document_No='" & strCode & "' and scheme_qty > 0")
+                '            If intExist >= 1 Then
+                '                Exit For
+                '            End If
+                '        End If
+                '        Next
+                '    If intCount = 0 Then
+                '        blnChangeCustomer = True
+                '        txtVendorNo.Enabled = True
+                '        btnUpdateCustomer.Enabled = True
+                '    Else
+                '        clsCommon.MyMessageBoxShow(Me,"This functionality is not applicable on Scheme.")
+                '    End If
+                'End If
+            ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.F9 Then
+                If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso Not btnPost.Enabled Then
                     txtVendorNo.Enabled = True
-                    btnUpdateCustomer.Enabled = True
-                Else
-                    clsCommon.MyMessageBoxShow(Me, "This functionality is not applicable on Scheme.", Me.Text)
+                    btnUpdateCustomerWithRoute.Enabled = True
+                    btnUpdateCustomerWithRoute.Visible = True
                 End If
-            End If
-        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            'Add Tool tip Task No- TEC/18/05/18-000237
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
-                                            "TSPL_SD_SHIPMENT_HEAD " + Environment.NewLine +
-                                            "TSPL_SD_shipment_DETAIL " + Environment.NewLine +
-                                            "TSPL_BATCH_ITEM ( If Item is batch type) " + Environment.NewLine +
-                                            "TSPL_SERIAL_ITEM ( If Item is Serial type)" + Environment.NewLine +
-                                            "TSPL_SD_SALE_INVOICE_HEAD (In case of Auto Sale Invoice) " + Environment.NewLine +
-                                            "TSPL_SD_SALE_INVOICE_DETAIL " + Environment.NewLine +
-                                            "TSPL_Customer_Invoice_Head ( For AR Invoice Entry - After Posting)  " + Environment.NewLine +
-                                            "TSPL_Customer_Invoice_Detail( After Posting)  " + Environment.NewLine +
-                                            "TSPL_JOURNAL_MASTER (Journal Voucher Entry - For dispatch and invoice  - After Posting )  " + Environment.NewLine +
-                                            "TSPL_JOURNAL_DETAILS ( After Posting) " + Environment.NewLine +
-                                            "TSPL_PROVISION_ENTRY (If Dispatch Terms-CIF / CF / FE / O  - After Posting )  " + Environment.NewLine +
-                                            "TSPL_INVENTORY_MOVEMENT  ( After Posting) ")
-            'Add Tool tip Task No- TEC/18/05/18-000237
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = clsFixedParameterType.SIRC
-            frm.strCode = clsFixedParameterCode.SIReversAndCreate
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                RadPageViewPage6.Item.Visibility = ElementVisibility.Visible
-                '-----------------richa 27/06/2014 Ticket No .BM00000002982------------
-                pnlMannualInvoiceNo.Visible = True
-                Dim desc As String = ""
-                Dim trans As SqlTransaction
-                trans = clsDBFuncationality.GetTransactin()
-                'desc = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.InvoiceManualNoWithPrefix & "'")) = 0, False, True)
-                desc = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.InvoiceManualNoWithPrefix, clsFixedParameterCode.InvoiceManualNoWithPrefix, trans))
-                If clsCommon.CompairString(desc, "0") = CompairStringResult.Equal Then
-                    txtMannaulInvoiceNo.Visible = True
-                    TxtInvoiceManualNoWithPrefix.Visible = False
-                Else
-                    txtMannaulInvoiceNo.Visible = False
-                    TxtInvoiceManualNoWithPrefix.Visible = True
+            ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.F8 Then
+                If clsCommon.myLen(txtDocNo.Value) > 0 And btnPost.Enabled = False Then
+                    Dim intCount As Integer = 0
+                    For Each grow As GridViewRowInfo In gv1.Rows
+                        If clsCommon.CompairString(grow.Cells(colSchemeItem).Value, "Yes") = CompairStringResult.Equal Then
+                            intCount = 1
+                        End If
+                        Dim arr As New List(Of String)
+                        Dim strCode = clsCommon.myCstr(grow.Cells(colOrderNo).Value)
+                        If Not arr.Contains(strCode) Then
+                            arr.Add(strCode)
+                            Dim intExist As Integer = clsDBFuncationality.ExecuteNonQuery("select count(*) from TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE where Document_No='" & strCode & "' and scheme_qty > 0")
+                            If intExist >= 1 Then
+                                Exit For
+                            End If
+                        End If
+                        grow.Cells(colICodeOLD).Value = clsCommon.myCstr(grow.Cells(colICode).Value)
+                    Next
+                    If intCount = 0 Then
+                        blnChangeCustomer = True
+                        txtVendorNo.Enabled = True
+                        btnUpdateCustomer.Enabled = True
+                    Else
+                        clsCommon.MyMessageBoxShow(Me, "This functionality is not applicable on Scheme.", Me.Text)
+                    End If
                 End If
-                '-----------------------------------------------------------
-                btnReverseAndUnpost.Visible = True
-                btnReversewithSameNo.Visible = True
-            ElseIf gv1.CurrentColumn Is gv1.Columns(ColCommParty) AndAlso gv1.CurrentColumn.ReadOnly = False Then
-                isCellValueChangedOpen = True
-                gv1.CurrentColumn = gv1.Columns(ColCommPartyName)
-                OpenCommParty(True)
-                gv1.CurrentColumn = gv1.Columns(ColCommParty)
-                isCellValueChangedOpen = False
-            End If
-        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control AndAlso e.KeyCode = Keys.F11 Then
-            If RadPageViewPage7.Item.Visibility = ElementVisibility.Visible Then
+            ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
+                'Add Tool tip Task No- TEC/18/05/18-000237
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                                "TSPL_SD_SHIPMENT_HEAD " + Environment.NewLine +
+                                                "TSPL_SD_shipment_DETAIL " + Environment.NewLine +
+                                                "TSPL_BATCH_ITEM ( If Item is batch type) " + Environment.NewLine +
+                                                "TSPL_SERIAL_ITEM ( If Item is Serial type)" + Environment.NewLine +
+                                                "TSPL_SD_SALE_INVOICE_HEAD (In case of Auto Sale Invoice) " + Environment.NewLine +
+                                                "TSPL_SD_SALE_INVOICE_DETAIL " + Environment.NewLine +
+                                                "TSPL_Customer_Invoice_Head ( For AR Invoice Entry - After Posting)  " + Environment.NewLine +
+                                                "TSPL_Customer_Invoice_Detail( After Posting)  " + Environment.NewLine +
+                                                "TSPL_JOURNAL_MASTER (Journal Voucher Entry - For dispatch and invoice  - After Posting )  " + Environment.NewLine +
+                                                "TSPL_JOURNAL_DETAILS ( After Posting) " + Environment.NewLine +
+                                                "TSPL_PROVISION_ENTRY (If Dispatch Terms-CIF / CF / FE / O  - After Posting )  " + Environment.NewLine +
+                                                "TSPL_INVENTORY_MOVEMENT  ( After Posting) ")
+                'Add Tool tip Task No- TEC/18/05/18-000237
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = clsFixedParameterType.SIRC
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    RadPageViewPage6.Item.Visibility = ElementVisibility.Visible
+                    '-----------------richa 27/06/2014 Ticket No .BM00000002982------------
+                    pnlMannualInvoiceNo.Visible = True
+                    Dim desc As String = ""
+                    Dim trans As SqlTransaction
+                    trans = clsDBFuncationality.GetTransactin()
+                    'desc = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.InvoiceManualNoWithPrefix & "'")) = 0, False, True)
+                    desc = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.InvoiceManualNoWithPrefix, clsFixedParameterCode.InvoiceManualNoWithPrefix, trans))
+                    If clsCommon.CompairString(desc, "0") = CompairStringResult.Equal Then
+                        txtMannaulInvoiceNo.Visible = True
+                        TxtInvoiceManualNoWithPrefix.Visible = False
+                    Else
+                        txtMannaulInvoiceNo.Visible = False
+                        TxtInvoiceManualNoWithPrefix.Visible = True
+                    End If
+                    '-----------------------------------------------------------
+                    btnReverseAndUnpost.Visible = True
+                    btnReversewithSameNo.Visible = True
+                ElseIf gv1.CurrentColumn Is gv1.Columns(ColCommParty) AndAlso gv1.CurrentColumn.ReadOnly = False Then
+                    isCellValueChangedOpen = True
+                    gv1.CurrentColumn = gv1.Columns(ColCommPartyName)
+                    OpenCommParty(True)
+                    gv1.CurrentColumn = gv1.Columns(ColCommParty)
+                    isCellValueChangedOpen = False
+                End If
+            ElseIf e.Alt AndAlso e.Shift AndAlso e.Control AndAlso e.KeyCode = Keys.F11 Then
+                If RadPageViewPage7.Item.Visibility = ElementVisibility.Visible Then
                 RadPageViewPage7.Item.Visibility = ElementVisibility.Collapsed
             Else
                 Dim pwd As New FrmPWD(Nothing)
@@ -16935,8 +17005,7 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Private Sub RadPageViewPage4_Paint(sender As Object, e As PaintEventArgs) Handles RadPageViewPage4.Paint
-    End Sub
+
     Private Sub LoadDataForCreditCust(ByVal qry As String, ByVal trans As SqlTransaction)
         gvCC.DataSource = Nothing
         gvCC.Rows.Clear()
@@ -17136,7 +17205,7 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
 
     Private Sub btnprinte_wayBill_Click(sender As Object, e As EventArgs) Handles btnprinte_wayBill.Click
         Try
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(clsPSInvoiceHead.PrintEWayBill(txtDocNo.Value, txtVendorNo.Value, False))
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(clsPSInvoiceHead.PrintEWayBill(TxtEWayBillUpdateBillNo.Text, txtBillToLocation.Value))
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rpte-waybill", "E-WayBill", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
@@ -17241,6 +17310,8 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
             Create_Ewb(tran)
             tran.Commit()
             clsCommon.MyMessageBoxShow(Me, "EWB Created Successfully", Me.Text)
+            LoadData(txtDocNo.Value, NavigatorType.Current)
+
         Catch ex As Exception
             tran.Rollback()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -17261,6 +17332,10 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
                     End If
                     If clsCommon.myLen(GetEWayBillNo(txtInvoiceNo.Text, trans)) <= 0 Then
                         clsPSInvoiceHead.EWayBill_Implementation(txtInvoiceNo.Text, txtBillToLocation.Value, trans, True)
+
+                        clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SALE_INVOICE_HEAD set IsEwaybill=1 where Document_Code='" & txtInvoiceNo.Text & "'", trans)
+                        clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SHIPMENT_HEAD set IsEwaybill=1 where Document_Code='" & txtDocNo.Value & "'", trans)
+
                         If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" & txtInvoiceNo.Text & "'", trans)) <= 0 Then
                             Throw New Exception("E-Way Bill For Sales Invoice No [" + txtInvoiceNo.Text + "] is not generated")
                         End If
@@ -17280,6 +17355,22 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
     Public Shared Function GetEWayBillNo(strDocNo As String, trans As SqlTransaction) As String
         Return clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" + strDocNo + "'", trans))
     End Function
+
+    Private Sub UcCustomFields1_Load(sender As Object, e As EventArgs) Handles UcCustomFields1.Load
+
+    End Sub
+
+    Private Sub btnUpdateVehicle_Click(sender As Object, e As EventArgs) Handles btnUpdateVehicle.Click
+        Try
+            If UsLock1.Status = 1 Then
+                If clsCommon.MyMessageBoxShow(Me, "Do you want to update vehicle no?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                    clsPSShipmentHead.UpdateVehicle(txtDocNo.Value, lblVhicleNo.Text)
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class
 Class tempSchemStructrue
     Public StructureCode As String
