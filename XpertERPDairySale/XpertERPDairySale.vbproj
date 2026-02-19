@@ -146,7 +146,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="XpertCommon">
-      <HintPath>C:\Users\Dell\Downloads\New folder (5)\XpertCommon.dll</HintPath>
+      <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPEngine">
       <HintPath>..\XpertERPEngine\bin\Debug\XpertERPEngine.dll</HintPath>

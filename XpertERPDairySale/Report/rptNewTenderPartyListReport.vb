@@ -84,7 +84,207 @@ Public Class rptNewTenderPartyListReport
         gbStatus.Enabled = val
     End Sub
 
-    Private Sub LoadData(isPrint As Boolean)
+    Private Sub LoadData(isprint As Boolean)
+        Try
+            Dim strPrintqry As String = ""
+            If clsCommon.CompairString(cmbShift.SelectedValue, "") = CompairStringResult.Equal Then
+                clsCommon.MyMessageBoxShow(Me, "Please select shift type", Me.Text)
+                Exit Sub
+            End If
+            If isprint Then
+                strPrintqry = " TSPL_COMPANY_MASTER.Comp_Name,'" & clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") & "' as Date, '" & txtDate.Value.AddDays(-1).Day & "' as Previous_Day,'" & clsCommon.GetPrintDate(txtDate.Value.AddDays(-2), "dd/MM/yyyy") & "' as Previous_Date,'" & objCommonVar.CurrentUser & "' as User_Code, "
+            End If
+            Dim qry As String = " Select *,isnull((op+Sale_Amt+Debit_Amt+Credit_Amt-RTGS_Amt-Return_Amt),0) as Closing_Bal from 
+(Select Customer_Code,
+Isnull(Sum(Case when (RI)=2 THEN (Total_Amt) END),0) AS Gurantee_Amt,
+--Case when max(RI)=2 THEN Sum(Total_Amt) END AS Gurantee_Amt,
+Sum(Total_Amt * case when RI IN(1,10,4) then 1 else case when RI In(7) then -1 else 0 end end 
+* case when convert(date,Supply_Date,103) < '11/Jan/2026 ' then 1 else 0 end) as OP,
+sum(case when (RI)=6  and convert(date,Supply_Date,103) <= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") & "'  then Total_Amt else 0 end )as Security_Amt,
+sum(case when (RI)=3  and convert(date,Supply_Date,103) <= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") & "'  then Total_Amt else 0 end )as Refund_Amt,
+sum(case when (RI)=7  and convert(date,Supply_Date,103) = '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") & "'  then Total_Amt else 0 end )as RTGS_Amt,
+sum(case when (RI)=8  and convert(date,Supply_Date,103) = '" & txtDate.Value.AddDays(-1).Day & "'  then Total_Amt else 0 end )as Closing_Rec_Amt,
+
+Sum ( case when (RI)=1 and  --((Convert(Date, Supply_Date,103) = Convert(Date, '10/Jan/2026',103))
+--OR 
+(Convert(Date, Supply_Date,103) = Convert(Date, '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") & "',103) )
+--)
+then Total_Amt else  0 end  ) as Sale_Amt, 
+
+Sum ( case when (RI)=11 and (Convert(Date, Supply_Date,103) = Convert(Date, '" & txtDate.Value.AddDays(-1).Day & "',103) )
+--OR (Convert(Date, Supply_Date,103) = Convert(Date, '10/Jan/2026 ',103) 
+ then Total_Amt else 0 end  ) as Closing_Sale_Amt,
+Sum(case when (RI)=12 and Convert(Date, Supply_Date,103) = Convert(Date, '" & txtDate.Value.AddDays(-1).Day & "',103)   then Total_Amt else 0  end )as Estimated_Avg_Sale,
+Sum(case when (RI)=5 and Convert(Date, Supply_Date,103) = Convert(Date, '" & txtDate.Value.AddDays(-1).Day & "',103)   then Total_Amt else 0  end )as PrevDay_Return_Amt,
+Sum(case when (RI)=9 and Convert(Date, Supply_Date,103) = Convert(Date, '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") & ",103)   then Total_Amt else 0  end )as Return_Amt,
+--Sum(Case when (RI)=5 THEN (Total_Amt) END) AS Return_Amt,
+sum(case when (RI)=10 and convert(date,Supply_Date,103) = '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") & "  then Total_Amt else 0 end )as Credit_Amt,
+sum(case when (RI)=4 and convert(date,Supply_Date,103) = '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") & "  then Total_Amt else 0 end )as Debit_Amt
+
+from (
+Select TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,case when  Shift_Type='PM' then DATEADD(DAY, 1, Supply_Date) else Supply_Date end Supply_Date,
+Shift_Type,TSPL_CUSTOMER_MASTER.Zone_Code as Zone_Code1,Route.Zone_Code,
+TSPL_SD_SALE_INVOICE_HEAD.Total_Amt,NULL AS AgainstScrapReturn,1 as RI 
+from TSPL_SD_SALE_INVOICE_HEAD
+left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
+left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No 
+LEFT JOIN TSPL_ROUTE_MASTER Route ON Route.Route_No = TSPL_SD_SALE_INVOICE_HEAD.Route_No 
+where TSPL_SD_SALE_INVOICE_HEAD.Customer_Code='D208' and
+CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= '" & clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value.AddDays(-2)), "dd/MMM/yyyy ") & "' 
+			and CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") & "'
+
+			union all
+
+			Select TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,case when  Shift_Type='PM' then DATEADD(DAY, 1, Supply_Date) else Supply_Date end Supply_Date,
+Shift_Type,TSPL_CUSTOMER_MASTER.Zone_Code as Zone_Code1,Route.Zone_Code,
+TSPL_SD_SALE_INVOICE_HEAD.Total_Amt,NULL AS AgainstScrapReturn,11 as RI 
+from TSPL_SD_SALE_INVOICE_HEAD
+left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
+left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No 
+LEFT JOIN TSPL_ROUTE_MASTER Route ON Route.Route_No = TSPL_SD_SALE_INVOICE_HEAD.Route_No 
+where TSPL_SD_SALE_INVOICE_HEAD.Customer_Code='D208' and
+CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= '" & clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value.AddDays(-2)), "dd/MMM/yyyy ") & "' 
+			and CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") & "'
+
+			union all
+
+			Select TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,case when  Shift_Type='PM' then DATEADD(DAY, 1, Supply_Date) else Supply_Date end Supply_Date,
+Shift_Type,TSPL_CUSTOMER_MASTER.Zone_Code as Zone_Code1,Route.Zone_Code,
+TSPL_SD_SALE_INVOICE_HEAD.Total_Amt,NULL AS AgainstScrapReturn,12 as RI 
+from TSPL_SD_SALE_INVOICE_HEAD
+left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
+left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No 
+LEFT JOIN TSPL_ROUTE_MASTER Route ON Route.Route_No = TSPL_SD_SALE_INVOICE_HEAD.Route_No 
+where TSPL_SD_SALE_INVOICE_HEAD.Customer_Code='D208' and
+CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= '" & clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value.AddDays(-2)), "dd/MMM/yyyy ") & "' 
+			and CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") & "'
+            union all
+
+select TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code as Customer_Code,'" & clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") & " as Supply_Date,NULL AS Shift_Type,null as Zone_Code1,null as Zone_Code,
+sum(Type * amount) Total_Amt,NULL AS AgainstScrapReturn,2 as RI
+ from ( 
+ Select 1 AS Type,vendor_code,Amount from TSPL_BANK_GUARANTEE_MASTER where Bank_Guarantee_Type = 'RC' AND CONVERT(date, '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") & ", 103) BETWEEN  CONVERT(date, start_date, 103) AND CONVERT(date, extended_date, 103) and status='Y'
+	        
+  union all 
+ Select -1 as Type, vendor_code,Amount from TSPL_BANK_GUARANTEE_MASTER where Bank_Guarantee_Type = 'RT' AND Receiving_code 
+ IN ( Select DocNo from TSPL_BANK_GUARANTEE_MASTER where Bank_Guarantee_Type = 'RC' AND CONVERT(date, '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") & ", 103) 
+ BETWEEN  CONVERT(date, start_date, 103) AND CONVERT(date, extended_date, 103)  and status='Y' ) 
+ AND  CONVERT(date, Date, 103)  < '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") & " and status='Y' 
+ ) xx 
+ left outer join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code=xx.vendor_code
+ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='D208'
+ group by TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code
+
+ union all
+  select cust_code as Customer_Code,Receipt_Date as Supply_Date,Receipt_Type as  Shift_Type, SecurityDeposit AS Zone_Code1,
+  NULL AS Zone_Code,Receipt_Amount AS Total_Amt,NULL AS AgainstScrapReturn,6 AS RI from TSPL_RECEIPT_HEADER
+  where Cust_Code='D208' and SecurityDeposit='Y' and Receipt_Type='P'
+
+   union all
+  select cust_code as Customer_Code,Receipt_Date as Supply_Date,Receipt_Type as  Shift_Type, SecurityDeposit AS Zone_Code1,
+  NULL AS Zone_Code,Receipt_Amount AS Total_Amt,NULL AS AgainstScrapReturn,3 AS RI from TSPL_RECEIPT_HEADER
+  where Cust_Code='D208' and SecurityDeposit='Y' and Receipt_Type='F' 
+
+   union all
+  select cust_code as Customer_Code,Receipt_Date as Supply_Date,Receipt_Type as  Shift_Type, SecurityDeposit AS Zone_Code1,
+  NULL AS Zone_Code,Receipt_Amount AS Total_Amt,NULL AS AgainstScrapReturn,7 AS RI from TSPL_RECEIPT_HEADER
+  where Cust_Code='D208' and SecurityDeposit='N'   
+
+     union all
+  select cust_code as Customer_Code,Receipt_Date as Supply_Date,Receipt_Type as  Shift_Type, SecurityDeposit AS Zone_Code1,
+  NULL AS Zone_Code,Receipt_Amount AS Total_Amt,NULL AS AgainstScrapReturn,8 AS RI from TSPL_RECEIPT_HEADER
+  where Cust_Code='D208'   and SecurityDeposit='N'
+
+  union all
+
+ select Customer_Code,Posting_Date as Supply_Date,Document_Type as  Shift_Type, Against_Sale_Return_No AS Zone_Code1, 
+ Against_MCC_Material_Sale_Return AS Zone_Code,Document_Total AS Total_Amt,AgainstScrapReturn AS AgainstScrapReturn,4 AS RI 
+ --AgainstScrapReturn 
+ from TSPL_Customer_Invoice_Head where  TSPL_Customer_Invoice_Head.Customer_Code='D208' and Document_Type='D' 
+ and (Against_Sale_Return_No is null or Against_Sale_Return_No='') and (Against_MCC_Material_Sale_Return is null or Against_MCC_Material_Sale_Return='')
+and (AgainstScrapReturn is null or AgainstScrapReturn='')
+ 
+  union all
+
+ select Customer_Code,Posting_Date as Supply_Date,Document_Type as  Shift_Type, Against_Sale_Return_No AS Zone_Code1, 
+ Against_MCC_Material_Sale_Return AS Zone_Code,Document_Total AS Total_Amt,AgainstScrapReturn AS AgainstScrapReturn,10 AS RI 
+ --AgainstScrapReturn 
+ from TSPL_Customer_Invoice_Head where  TSPL_Customer_Invoice_Head.Customer_Code='D208' and Document_Type='C' 
+ and (Against_Sale_Return_No is null or Against_Sale_Return_No='') and (Against_MCC_Material_Sale_Return is null or Against_MCC_Material_Sale_Return='')
+and (AgainstScrapReturn is null or AgainstScrapReturn='')
+
+ union all
+
+ (Select Customer_Code as Customer_Code,Document_Date as Supply_Date,NULL AS Shift_Type,null as Zone_Code1,null as Zone_Code,
+ Cast (Sum(Return_Amt) as decimal(18,2)) Total_Amt,NULL AS AgainstScrapReturn,5 as RI
+from (Select Customer_Code ,Document_Date,(Total_Amt)Return_Amt from TSPL_SD_SALE_RETURN_HEAD --where convert(date,Document_Date,103) = '12/Jan/2026 ' group by Customer_Code
+union all
+Select cust_Code ,Return_ship_Date as Document_Date,(Doc_Amt)Return_Amt from TSPL_SCRAPSALE_HEAD_RETURN --where convert(date,Return_ship_Date,103) = '12/Jan/2026 ' group by cust_Code
+)XX where  Customer_Code='D208' Group by Customer_Code,Document_Date ) 
+
+ union all
+
+ (Select Customer_Code as Customer_Code,Document_Date as Supply_Date,NULL AS Shift_Type,null as Zone_Code1,null as Zone_Code,
+ Cast (Sum(Return_Amt) as decimal(18,2)) Total_Amt,NULL AS AgainstScrapReturn,9 as RI
+from (Select Customer_Code ,Document_Date,(Total_Amt)Return_Amt from TSPL_SD_SALE_RETURN_HEAD 
+union all
+Select cust_Code ,Return_ship_Date as Document_Date,(Doc_Amt)Return_Amt from TSPL_SCRAPSALE_HEAD_RETURN 
+)XX where  Customer_Code='D208' Group by Customer_Code,Document_Date ) 
+ 
+ )XX GROUP BY Customer_Code) XY
+
+ "
+            If rbtnCreditCustomer.IsChecked Then
+                qry += " and Credit_Customer='Y' "
+            ElseIf rbtnDistributor.IsChecked Then
+                qry += " and IsDistributor='Y' "
+            End If
+            If TxtCustomerType.arrValueMember IsNot Nothing AndAlso TxtCustomerType.arrValueMember.Count > 0 Then
+                qry += " and xxfinal.Cust_Type_Code in(" + clsCommon.GetMulcallString(TxtCustomerType.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                qry += " and xxfinal.Customer_Code in(" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")" + Environment.NewLine
+            End If
+
+            ''''" & Environment.NewLine & "LEFT JOIN (Select Cust_Code,(Security_Amt-Refund_Amt)Security_Amt,RTGS_Amt,Closing_Rec_Amt from  (select Cust_Code, sum(case when SecurityDeposit='Y' and Receipt_Type='P' and convert(date,Receipt_Date,103) <= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy hh:mm tt") & "'  then Receipt_Amount else 0 end )as Security_Amt,sum(case when SecurityDeposit='Y' and Receipt_Type='F' and convert(date,Receipt_Date,103) <= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy hh:mm tt") & "'  then Receipt_Amount else 0 end )as Refund_Amt,  sum(case when SecurityDeposit='N' and convert(date,Receipt_Date,103) = '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy hh:mm tt") & "' then Receipt_Amount else 0 end )as RTGS_Amt, sum(case when SecurityDeposit='N' and convert(date,Receipt_Date,103) = '" & clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value.AddDays(-1)), "dd/MMM/yyyy hh:mm tt") & "' then Receipt_Amount else 0 end )as Closing_Rec_Amt from TSPL_RECEIPT_HEADER WHERE  convert(date,Receipt_Date,103) >= '" & clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value.AddDays(-1)), "dd/MMM/yyyy hh:mm tt") & "' and  convert(date,Receipt_Date,103) <= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy hh:mm tt") & "' and Posted='Y' group by Cust_Code ) XX ) Receipt ON Receipt.Cust_Code=xxx.Customer_Code " & Environment.NewLine & " )xxfinal  left join TSPL_COMPANY_MASTER on 1=1"
+            '''''left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No where  CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= '" & clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value.AddDays(-2)), "dd/MMM/yyyy hh:mm tt") & "' and  CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy hh:mm tt") & "'  ) xx group by xx.Customer_Code ) xxx " & Environment.NewLine & " left join ( select vendor_code,sum(Type * amount)Guarantee_Amount from ( " & Environment.NewLine & " Select 1 AS Type,vendor_code,Amount from TSPL_BANK_GUARANTEE_MASTER where Bank_Guarantee_Type = 'RC' AND CONVERT(date, '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy hh:mm tt") & "', 103) BETWEEN  CONVERT(date, start_date, 103) AND CONVERT(date, extended_date, 103) and status='Y'
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            gv1.DataSource = Nothing
+            gv1.Rows.Clear()
+            gv1.Columns.Clear()
+            gv1.GroupDescriptors.Clear()
+            gv1.MasterView.Refresh()
+            gv1.GroupDescriptors.Clear()
+            gv1.EnableFiltering = True
+            gv1.MasterTemplate.SummaryRowsBottom.Clear()
+            If dt.Rows.Count > 0 Then
+                gv1.DataSource = dt
+                gv1.BestFitColumns()
+                SetGridFormation(isprint)
+                ReStoreGridLayout()
+                gv1.MasterTemplate.AutoExpandGroups = True
+                RadPageView1.SelectedPage = RadPageViewPage2
+                gv1.BestFitColumns()
+                If isprint Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "rptNewTenderPartyList", "New Tender Party List ")
+                    frmCRV = Nothing
+                End If
+            Else
+                If isprint Then
+                    clsCommon.MyMessageBoxShow(Me, "No Data found to print", Me.Text)
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "No Data found to Display", Me.Text)
+                End If
+                Exit Sub
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+    End Sub
+    Private Sub LoadData1(isPrint As Boolean)
         Try
             Dim strPrintqry As String = ""
             If clsCommon.CompairString(cmbShift.SelectedValue, "") = CompairStringResult.Equal Then
