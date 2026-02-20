@@ -3015,33 +3015,41 @@ order by LEVEL"
     End Sub
 
     Private Sub btnSarasPro_Click(sender As Object, e As EventArgs) Handles btnSarasPro.Click
+
         Dim frm As New FrmPWD(Nothing)
-        frm.strType = clsFixedParameterType.Transactionupdate
-        frm.strCode = clsFixedParameterCode.UserMaster
-        frm.ShowDialog()
-        If frm.isPasswordCorrect Then
+            frm.strType = clsFixedParameterType.Transactionupdate
+            frm.strCode = clsFixedParameterCode.UserMaster
+            frm.ShowDialog()
+            If frm.isPasswordCorrect Then
             'ShowRemarks()
             OneTimeCheck = True
+
         End If
-        Dim StrQry As String = "select User_Code as Code,User_Name as Name from tspl_user_master  where  InActive='n' AND  ISNULL(Saras_Pro_Session_Expired,0)=0"
-        Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(StrQry))
 
-        Dim ARR As ArrayList = clsCommon.ShowMultipleSelectForm("mBuR@UMtr", StrQry, "Code", "Code", txtProSaras.arrValueMember, txtProSaras.arrDispalyMember)
+        If OneTimeCheck = True Then
+            Dim StrQry As String = "select User_Code as Code,User_Name as Name from tspl_user_master  where  InActive='n' AND  ISNULL(Saras_Pro_Session_Expired,0)=0"
+            Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(StrQry))
+            Dim ARR As ArrayList = clsCommon.ShowMultipleSelectForm("mBuR@UMtr", StrQry, "Code", "Code", txtProSaras.arrValueMember, txtProSaras.arrDispalyMember)
+            If clsCommon.myLen(ARR) > 0 Then
+                Dim arraylistcount As Integer = ARR.Count
+                If clsCommon.MyMessageBoxShow("Do you want to Logout " & arraylistcount & " User Of Sara Pro App?", "", MessageBoxButtons.YesNo) = DialogResult.Yes Then
 
-        If clsCommon.myLen(ARR) > 0 Then
-            Dim arraylistcount As Integer = ARR.Count
-            If clsCommon.MyMessageBoxShow("Do you want to Logout " & arraylistcount & " User Of Sara Pro App?", "", MessageBoxButtons.YesNo) = DialogResult.Yes Then
+                    Dim qry As String = Nothing
+                    qry = "update tspl_user_master set  Saras_PRO_Session_Expired='1' where User_Code in (" & clsCommon.GetMulcallString(ARR) & ")"
+                    Dim dtS As DataTable = clsDBFuncationality.GetDataTable(qry)
+                    If dtS Is Nothing OrElse dtS.Rows.Count <= 0 Then
+                        ' clsCommon.MyMessageBoxShow(Me, " Do you want to Logout " & arraylistcount & " User On Sara Pro App", Me.Text)
+                    End If
 
-                Dim qry As String = Nothing
-                qry = "update tspl_user_master set  Saras_PRO_Session_Expired='1' where User_Code in (" & clsCommon.GetMulcallString(ARR) & ")"
-                Dim dtS As DataTable = clsDBFuncationality.GetDataTable(qry)
-                If dtS Is Nothing OrElse dtS.Rows.Count <= 0 Then
-                    ' clsCommon.MyMessageBoxShow(Me, " Do you want to Logout " & arraylistcount & " User On Sara Pro App", Me.Text)
+                Else
+                    Exit Sub
                 End If
-            Else
-                Exit Sub
             End If
+        Else
+            Exit Sub
         End If
+
+
     End Sub
 
     Private Sub btnSarasOrder_Click(sender As Object, e As EventArgs) Handles btnSarasOrder.Click
@@ -3053,26 +3061,33 @@ order by LEVEL"
             'ShowRemarks()
             OneTimeCheck = True
         End If
-        'Dim qst As String = "select User_Code as Code,User_Name as Name from tspl_user_master where  InActive='n'  AND  ISNULL(Saras_order_Session_Expired,0)=0"
-        'Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qst))
+        If OneTimeCheck = True Then
 
-        Dim StrQry As String = "select User_Code as Code,User_Name as Name from tspl_user_master where  InActive='n'  AND  ISNULL(Saras_order_Session_Expired,0)=0"
+            'Dim qst As String = "select User_Code as Code,User_Name as Name from tspl_user_master where  InActive='n'  AND  ISNULL(Saras_order_Session_Expired,0)=0"
+            'Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qst))
 
-        Dim ARR As ArrayList = clsCommon.ShowMultipleSelectForm("mBuR@UMtr", StrQry, "Code", "Code", txtOrderSaras.arrValueMember, txtOrderSaras.arrDispalyMember)
+            Dim StrQry As String = "select User_Code as Code,User_Name as Name from tspl_user_master where  InActive='n'  AND  ISNULL(Saras_order_Session_Expired,0)=0"
 
-        If clsCommon.myLen(ARR) > 0 Then
+            Dim ARR As ArrayList = clsCommon.ShowMultipleSelectForm("mBuR@UMtr", StrQry, "Code", "Code", txtOrderSaras.arrValueMember, txtOrderSaras.arrDispalyMember)
+
+            If clsCommon.myLen(ARR) > 0 Then
                 Dim arraylistcount As Integer = ARR.Count
-            If clsCommon.MyMessageBoxShow("Do you want to Logout " & arraylistcount & " User Of Sara Order App?", "", MessageBoxButtons.YesNo) = DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Do you want to Logout " & arraylistcount & " User Of Sara Order App?", "", MessageBoxButtons.YesNo) = DialogResult.Yes Then
 
-                Dim qry As String = Nothing
-                qry = "update tspl_user_master set  Saras_order_Session_Expired='1' where User_Code in (" & clsCommon.GetMulcallString(ARR) & ")"
-                Dim dtS As DataTable = clsDBFuncationality.GetDataTable(qry)
-                If dtS Is Nothing OrElse dtS.Rows.Count <= 0 Then
+                    Dim qry As String = Nothing
+                    qry = "update tspl_user_master set  Saras_order_Session_Expired='1' where User_Code in (" & clsCommon.GetMulcallString(ARR) & ")"
+                    Dim dtS As DataTable = clsDBFuncationality.GetDataTable(qry)
+                    If dtS Is Nothing OrElse dtS.Rows.Count <= 0 Then
+                    End If
+
+                Else
+                    Exit Sub
                 End If
-            Else
-                Exit Sub
-            End If
 
+
+            End If
+        Else
+            Exit Sub
         End If
     End Sub
 
