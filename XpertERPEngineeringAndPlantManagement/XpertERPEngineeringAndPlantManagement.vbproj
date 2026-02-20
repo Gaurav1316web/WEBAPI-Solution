@@ -150,26 +150,37 @@
     <Compile Include="..\XpertERPService\My Project\SharedAssemblyInfo.vb">
       <Link>SharedAssemblyInfo.vb</Link>
     </Compile>
+    <Compile Include="clsScheduleForTraining.vb" />
     <Compile Include="Master\frmConsumptionTypeMaster.Designer.vb">
       <DependentUpon>frmConsumptionTypeMaster.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmConsumptionTypeMaster.vb" />
+    <Compile Include="Master\frmConsumptionTypeMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmParameterMasterEng.Designer.vb">
       <DependentUpon>frmParameterMasterEng.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmParameterMasterEng.vb" />
+    <Compile Include="Master\frmParameterMasterEng.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmSectionConsumptionMapping.Designer.vb">
       <DependentUpon>frmSectionConsumptionMapping.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmSectionConsumptionMapping.vb" />
+    <Compile Include="Master\frmSectionConsumptionMapping.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmSectionMasterEng.Designer.vb">
       <DependentUpon>frmSectionMasterEng.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmSectionMasterEng.vb" />
+    <Compile Include="Master\frmSectionMasterEng.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmSectionParameterMapping.Designer.vb">
       <DependentUpon>frmSectionParameterMapping.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmSectionParameterMapping.vb" />
+    <Compile Include="Master\frmSectionParameterMapping.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
@@ -187,15 +198,21 @@
     <Compile Include="Transaction\frmLogSheetEng.Designer.vb">
       <DependentUpon>frmLogSheetEng.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmLogSheetEng.vb" />
+    <Compile Include="Transaction\frmLogSheetEng.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\frmWorkEstimationEng.Designer.vb">
       <DependentUpon>frmWorkEstimationEng.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmWorkEstimationEng.vb" />
+    <Compile Include="Transaction\frmWorkEstimationEng.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\frmWorkOrderStatusEng.Designer.vb">
       <DependentUpon>frmWorkOrderStatusEng.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmWorkOrderStatusEng.vb" />
+    <Compile Include="Transaction\frmWorkOrderStatusEng.vb">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Master\frmConsumptionTypeMaster.resx">
