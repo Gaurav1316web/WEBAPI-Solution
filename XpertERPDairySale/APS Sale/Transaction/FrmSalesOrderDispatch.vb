@@ -2048,6 +2048,11 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
 
                     End If
                 End If
+                If (RunBatchFifowisewithmodifyfunctionality = True AndAlso clsCommon.myLen(clsCommon.myCstr(txtDocCode.Value)) <= 0) Then
+                    OpenBatchItem()
+                ElseIf RunBatchFifowise = 1 AndAlso RunBatchFifowisewithmodifyfunctionality = False Then
+                    OpenBatchItem()
+                End If
                 If clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value) <= 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colRowType).Value), clsItemRowType.RowTypeItem) = CompairStringResult.Equal AndAlso clsCommon.myLen(clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value)) > 0 Then
                     Throw New Exception("Enter Qty at line no -" & clsCommon.myCstr(ii + 1))
                 End If
@@ -3080,25 +3085,43 @@ from TSPL_SD_SHIPMENT_HEAD left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT
             If clsCommon.myLen(txtInvoiceno.Text) <= 0 Then
                 myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
             Else
+                Dim lstbatch As List(Of String) = Nothing
+                Dim strBatch As String = "select Document_Code,Parent_Line_No, STRING_AGG(Batch_No +'('+convert(varchar(8),Qty)+')', ',') as Batch_No 
+                from(
+SELECT Document_Code, Batch_No, Qty, Parent_Line_No FROM TSPL_BATCH_ITEM WHERE TSPL_BATCH_ITEM.Document_Type='FS-SH' and Document_Code='" & txtDocCode.Value & "'
+)x group by Document_Code,Parent_Line_No   "
+                Dim dtbatch As DataTable = clsDBFuncationality.GetDataTable(strBatch)
+                If dtbatch IsNot Nothing AndAlso dtbatch.Rows.Count > 0 Then
+                    lstbatch = New List(Of String)
+                    For Each dr As DataRow In dtbatch.Rows
+                        lstbatch.Add(clsCommon.myCstr(dr("Batch_No")))
+                    Next
+                End If
+                Dim Batchno As String = ""
+                If lstbatch IsNot Nothing AndAlso lstbatch.Count > 0 Then
+                    Batchno = clsCommon.GetMulcallStringWithComma(lstbatch)
+                End If
+
                 Dim dtDocdate As Date?
-                dtDocdate = Nothing
-                Dim StrSql = "Select Document_Code,Document_Date,Customer_Code,Bill_To_Location,is_taxable,Tax_Group from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" & txtInvoiceno.Text & "'"
-                Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(StrSql)
-                If dt1.Rows.Count > 0 Then
-                    dtDocdate = clsCommon.myCDate(dt1.Rows(0)("Document_Date"))
-                End If
-                Dim InvoiceNo As String = clsCommon.GetMulcallString(clsDBFuncationality.GetDataTable("select Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAd where Document_Code in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" + txtDocCode.Value + "')"), "Sale_Invoice_No")
+                    dtDocdate = Nothing
+                    Dim StrSql = "Select Document_Code,Document_Date,Customer_Code,Bill_To_Location,is_taxable,Tax_Group from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" & txtInvoiceno.Text & "'"
+                    Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(StrSql)
+                    If dt1.Rows.Count > 0 Then
+                        dtDocdate = clsCommon.myCDate(dt1.Rows(0)("Document_Date"))
+                    End If
+                    Dim InvoiceNo As String = clsCommon.GetMulcallString(clsDBFuncationality.GetDataTable("select Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAd where Document_Code in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" + txtDocCode.Value + "')"), "Sale_Invoice_No")
                 Qry = objMultPrintInvoice.PrintInvoiceForAll(InvoiceNo, txtDate.Value, txtCustomerCode.Value, ItemMain)
+                Qry = "select '" & Batchno & "' as PPBatchNo, XXFinal.* from (" & Qry & ") XXFinal"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
-                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptInvoiceForAPSSales", "TAX INVOICE", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptInvoiceForAPSSales", "TAX INVOICE", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
 
 
-                Else
-                    Throw New Exception("No data found")
+                    Else
+                        Throw New Exception("No data found")
+                    End If
+                    frmCRV = Nothing
                 End If
-                frmCRV = Nothing
-            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
