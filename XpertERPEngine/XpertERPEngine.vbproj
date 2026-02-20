@@ -410,6 +410,7 @@
     <Compile Include="frmViewTDS.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="HR\clsTaskMaster.vb" />
     <Compile Include="Inventory\ClsAdjustmentsQCC.vb" />
     <Compile Include="Inventory\clsItemLocationDetails.vb" />
     <Compile Include="Inventory\clsOutputEntry.vb" />
@@ -1182,7 +1183,6 @@
     <Compile Include="Sale\ClsSectionStageMapping.vb" />
     <Compile Include="Milk Procurement\clsShiftMaster.vb" />
     <Compile Include="HR\ClsShortlist.vb" />
-    <Compile Include="HR\clsSkillMaster.vb" />
     <Compile Include="Sale\clsSNSalesQuotation.vb" />
     <Compile Include="Finance\ClsSourceTypeDetail.vb" />
     <Compile Include="Finance\ClsSourceTypeMaster.vb" />
@@ -1190,12 +1190,9 @@
     <Compile Include="Common\clsSubDepartmentMaster.vb" />
     <Compile Include="Common\clsSubLocation.vb" />
     <Compile Include="Purchase\ClsSupplierRegistration.vb" />
-    <Compile Include="HR\clsTaskMaster.vb" />
     <Compile Include="Sale\clsTDMWiseTarget.vb" />
     <Compile Include="HR\clsTimeSheet.vb" />
     <Compile Include="Sale\ProductSale\clsTragetMasterProductSale.vb" />
-    <Compile Include="HR\clsTrainerfeedback.vb" />
-    <Compile Include="HR\clsTrainingAttendance.vb" />
     <Compile Include="Inventory\clsTransfer.vb" />
     <Compile Include="Inventory\ClsTransferIncompleteRemarks.vb" />
     <Compile Include="Inventory\clsTransferPost.vb" />

@@ -150,7 +150,6 @@
     <Compile Include="..\XpertERPService\My Project\SharedAssemblyInfo.vb">
       <Link>SharedAssemblyInfo.vb</Link>
     </Compile>
-    <Compile Include="clsScheduleForTraining.vb" />
     <Compile Include="Master\frmConsumptionTypeMaster.Designer.vb">
       <DependentUpon>frmConsumptionTypeMaster.vb</DependentUpon>
     </Compile>
