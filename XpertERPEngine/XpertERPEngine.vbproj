@@ -671,12 +671,6 @@
     <Compile Include="frmMasterHistory.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmViewTDS.Designer.vb">
-      <DependentUpon>frmViewTDS.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmViewTDS.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="HR\clsComplaintGroup.vb" />
     <Compile Include="Common\clsCreateAllTables.vb" />
     <Compile Include="Common\clsCustomFieldHead.vb" />
@@ -1480,9 +1474,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmMasterHistory.resx">
       <DependentUpon>frmMasterHistory.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmViewTDS.resx">
-      <DependentUpon>frmViewTDS.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Inventory\frmBatchItemIn.resx">
       <DependentUpon>frmBatchItemIn.vb</DependentUpon>
