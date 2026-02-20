@@ -338,6 +338,8 @@
     <Compile Include="Electrical\clsDGMaster.vb" />
     <Compile Include="Electrical\clsSlotMaster.vb" />
     <Compile Include="HRAndPayroll\clsLeaveEncashmentHead.vb" />
+    <Compile Include="HRAndPayroll\clsTrainerMaster.vb" />
+    <Compile Include="HRAndPayroll\clsTrainingMaster.vb" />
     <Compile Include="Inventory\clsBatchInventory.vb" />
     <Compile Include="Inventory\clsBatchInventoryNew.vb" />
     <Compile Include="Inventory\clsCode.vb" />

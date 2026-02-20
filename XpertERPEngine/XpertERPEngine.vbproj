@@ -1195,9 +1195,7 @@
     <Compile Include="HR\clsTimeSheet.vb" />
     <Compile Include="Sale\ProductSale\clsTragetMasterProductSale.vb" />
     <Compile Include="HR\clsTrainerfeedback.vb" />
-    <Compile Include="HR\clsTrainerMaster.vb" />
     <Compile Include="HR\clsTrainingAttendance.vb" />
-    <Compile Include="HR\clsTrainingMaster.vb" />
     <Compile Include="Inventory\clsTransfer.vb" />
     <Compile Include="Inventory\ClsTransferIncompleteRemarks.vb" />
     <Compile Include="Inventory\clsTransferPost.vb" />
