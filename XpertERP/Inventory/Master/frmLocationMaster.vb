@@ -120,7 +120,7 @@ Public Class frmLocationMaster
         txtAdd2.MaxLength = 50
         txtAdd3.MaxLength = 50
         txtAdd4.MaxLength = 50
-        txtCity.MaxLength = 12
+        'txtCity.MaxLength = 12
         TxtHOAdd1.MaxLength = 50
         TxtHoAdd2.MaxLength = 50
         txtNearestCity.MaxLength = 30
@@ -724,7 +724,7 @@ Public Class frmLocationMaster
             obj.Add4 = clsCommon.myCstr(txtAdd4.Text)
             obj.HOAdd1 = clsCommon.myCstr(TxtHOAdd1.Text)
             obj.HOAdd2 = clsCommon.myCstr(TxtHoAdd2.Text)
-            obj.City_Code = clsCommon.myCstr(txtCity.Text)
+            obj.City_Code = clsCommon.myCstr(txtCity.Value)
             obj.State = clsCommon.myCstr(fndstateprovince.Value)
             obj.Pin_Code = clsCommon.myCstr(txtZipPostalCode.Text)
             obj.Country = clsCommon.myCstr(txtCountry.Text)
@@ -1134,7 +1134,7 @@ Public Class frmLocationMaster
                 txtAdd2.Text = row(2).ToString()
                 txtAdd3.Text = row(3).ToString()
                 txtAdd4.Text = row(4).ToString()
-                txtCity.Text = row(5).ToString()
+                txtCity.Value = row(5).ToString()
                 TxtHOAdd1.Text = row("HOAdd1").ToString()
                 TxtHoAdd2.Text = row("HOAdd2").ToString()
                 txtNearestCity.Text = row("NearestCity").ToString()
@@ -1574,7 +1574,7 @@ Public Class frmLocationMaster
         txtAdd2.Text = ""
         txtAdd3.Text = ""
         txtAdd4.Text = ""
-        txtCity.Text = ""
+        txtCity.Value = ""
         TxtHOAdd1.Text = ""
         TxtHoAdd2.Text = ""
         txtcsa_commision.Text = 0
@@ -3889,6 +3889,17 @@ Public Class frmLocationMaster
             End If
         End If
     End Sub
+
+    Private Sub txtCity__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCity._MYValidating
+        Try
+            Dim qry As String = "SELECT [City_Code] as [CityCode],[City_Name] as [City Name]FROM [TSPL_CITY_MASTER]"
+            txtCity.Value = clsCityMaster.getFinder("", txtCity.Value, isButtonClicked)
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
     Private Sub chkInsurance_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkInsurance.ToggleStateChanged
         If chkInsurance.Checked = False Then
             txtFromDate.Value = clsCommon.GETSERVERDATE

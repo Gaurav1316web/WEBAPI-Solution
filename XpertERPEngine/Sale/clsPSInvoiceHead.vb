@@ -844,6 +844,43 @@ Public Class clsPSInvoiceHead
             Throw New Exception(ex.Message)
         End Try
     End Function
+    Public Shared Function PrintEWayBill(ByVal strEwb As String, ByVal strLocation As String) As String
+        Dim Qry As String = ""
+        Try
+            Dim isewbno As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(EWBNO) from TSPL_EWAY_BILL_REPORT_DETAIL where EWBNO='" & strEwb & "' "))
+            If isewbno = 0 Then
+                Dim objResult As Object = ClsEInvoiceOFAPIs.GetEwayBillDetail(objCommonVar.CurrentCompanyCode, strEwb, strLocation, Nothing)
+                If objResult IsNot Nothing Then
+                    Dim Ewb_Json As String = objResult.SelectToken("data").ToString
+                    clsEwayBillReportHead.SaveData(Ewb_Json)
+                Else
+                    Throw New Exception("Something went worng!")
+                End If
+
+            End If
+            Dim QrCodeLen As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select DATALENGTH(EWayBill_QR_Code) as EWayBill_QR_Code from TSPL_EWAY_BILL_REPORT_DETAIL where ewbNo='" & strEwb & "'"))
+            If QrCodeLen = 0 Then
+                Dim CompGSTNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select userGstin from TSPL_EWAY_BILL_REPORT_DETAIL where ewbNo='" & strEwb & "'"))
+                Dim EwbDt As String = clsCommon.GetPrintDate(clsDBFuncationality.getSingleValue("select ewayBillDate from TSPL_EWAY_BILL_REPORT_DETAIL where ewbNo='" & strEwb & "'"), "dd/MMM/yyyy hh:mm tt")
+                Dim TempByte As Byte() = clsERPFuncationalityOLD.GenerateMyQCCode(strEwb + "/" + CompGSTNo + "/" + EwbDt)
+                clsDBFuncationality.UpdateImage("EWayBill_QR_Code", TempByte, "TSPL_EWAY_BILL_REPORT_DETAIL", "TSPL_EWAY_BILL_REPORT_DETAIL.ewbno='" & strEwb & "'")
+            End If
+            Qry = "select cast(TSPL_EWAY_BILL_REPORT_DETAIL.EWayBill_QR_Code as image) as EWayBill_QR_Code, TSPL_SD_SALE_INVOICE_HEAD.IRN_No,
+TSPL_EWAY_BILL_REPORT_DETAIL.ewbNo,TSPL_EWAY_BILL_REPORT_DETAIL.ewayBillDate,TSPL_EWAY_BILL_REPORT_DETAIL.genMode,TSPL_EWAY_BILL_REPORT_DETAIL.userGstin,TSPL_EWAY_BILL_REPORT_DETAIL.supplyType,TSPL_EWAY_BILL_REPORT_DETAIL.subSupplyType,
+TSPL_EWAY_BILL_REPORT_DETAIL.docType,TSPL_EWAY_BILL_REPORT_DETAIL.docNo,TSPL_EWAY_BILL_REPORT_DETAIL.docDate,TSPL_EWAY_BILL_REPORT_DETAIL.fromGstin,TSPL_EWAY_BILL_REPORT_DETAIL.fromTrdName,TSPL_EWAY_BILL_REPORT_DETAIL.fromAddr1,TSPL_EWAY_BILL_REPORT_DETAIL.fromAddr2,TSPL_EWAY_BILL_REPORT_DETAIL.fromPlace,TSPL_EWAY_BILL_REPORT_DETAIL.fromPincode,TSPL_EWAY_BILL_REPORT_DETAIL.fromStateCode,TSPL_EWAY_BILL_REPORT_DETAIL.toGstin,TSPL_EWAY_BILL_REPORT_DETAIL.toTrdName,TSPL_EWAY_BILL_REPORT_DETAIL.toAddr1,TSPL_EWAY_BILL_REPORT_DETAIL.toAddr2,TSPL_EWAY_BILL_REPORT_DETAIL.toPlace,TSPL_EWAY_BILL_REPORT_DETAIL.toPincode,TSPL_EWAY_BILL_REPORT_DETAIL.toStateCode,totalValue,TSPL_EWAY_BILL_REPORT_DETAIL.totInvValue,TSPL_EWAY_BILL_REPORT_DETAIL.cgstValue,TSPL_EWAY_BILL_REPORT_DETAIL.sgstValue,TSPL_EWAY_BILL_REPORT_DETAIL.igstValue,TSPL_EWAY_BILL_REPORT_DETAIL.cessValue,TSPL_EWAY_BILL_REPORT_DETAIL.transporterId,TSPL_EWAY_BILL_REPORT_DETAIL.transporterName,TSPL_EWAY_BILL_REPORT_DETAIL.status,TSPL_EWAY_BILL_REPORT_DETAIL.actualDist,TSPL_EWAY_BILL_REPORT_DETAIL.noValidDays,TSPL_EWAY_BILL_REPORT_DETAIL.validUpto,TSPL_EWAY_BILL_REPORT_DETAIL.extendedTimes,TSPL_EWAY_BILL_REPORT_DETAIL.rejectStatus,TSPL_EWAY_BILL_REPORT_DETAIL.vehicleType,TSPL_EWAY_BILL_REPORT_DETAIL.actFromStateCode,TSPL_EWAY_BILL_REPORT_DETAIL.actToStateCode,TSPL_EWAY_BILL_REPORT_DETAIL.transactionType,TSPL_EWAY_BILL_REPORT_DETAIL.otherValue,TSPL_EWAY_BILL_REPORT_DETAIL.cessNonAdvolValue,
+TSPL_EWAY_BILL_REPORT_Item_DETAIL.itemNo,TSPL_EWAY_BILL_REPORT_Item_DETAIL.productId,TSPL_EWAY_BILL_REPORT_Item_DETAIL.productDesc,TSPL_EWAY_BILL_REPORT_Item_DETAIL.hsnCode,TSPL_EWAY_BILL_REPORT_Item_DETAIL.quantity,TSPL_EWAY_BILL_REPORT_Item_DETAIL.qtyUnit,TSPL_EWAY_BILL_REPORT_Item_DETAIL.cgstRate,TSPL_EWAY_BILL_REPORT_Item_DETAIL.sgstRate,TSPL_EWAY_BILL_REPORT_Item_DETAIL.cessRate,TSPL_EWAY_BILL_REPORT_Item_DETAIL.cessNonAdvol,TSPL_EWAY_BILL_REPORT_Item_DETAIL.taxableAmount,
+TSPL_EWAY_BILL_REPORT_VEHICLE_DETAIL.updMode,TSPL_EWAY_BILL_REPORT_VEHICLE_DETAIL.vehicleNo,TSPL_EWAY_BILL_REPORT_VEHICLE_DETAIL.fromPlace as vfromPlace,TSPL_EWAY_BILL_REPORT_VEHICLE_DETAIL.fromState as vfromState,TSPL_EWAY_BILL_REPORT_VEHICLE_DETAIL.userGSTINTransin,TSPL_EWAY_BILL_REPORT_VEHICLE_DETAIL.enteredDate,TSPL_EWAY_BILL_REPORT_VEHICLE_DETAIL.transMode,TSPL_EWAY_BILL_REPORT_VEHICLE_DETAIL.transDocNo,TSPL_EWAY_BILL_REPORT_VEHICLE_DETAIL.transDocDate,TSPL_EWAY_BILL_REPORT_VEHICLE_DETAIL.groupNo
+from TSPL_EWAY_BILL_REPORT_DETAIL
+left join TSPL_EWAY_BILL_REPORT_Item_DETAIL on TSPL_EWAY_BILL_REPORT_Item_DETAIL.ewbNo=TSPL_EWAY_BILL_REPORT_DETAIL.ewbNo
+left join TSPL_EWAY_BILL_REPORT_VEHICLE_DETAIL on TSPL_EWAY_BILL_REPORT_VEHICLE_DETAIL.ewbNo=TSPL_EWAY_BILL_REPORT_DETAIL.ewbNo
+left join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo=TSPL_EWAY_BILL_REPORT_DETAIL.ewbNo
+where TSPL_EWAY_BILL_REPORT_DETAIL.ewbNo='" & strEwb & "' "
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return Qry
+    End Function
+
     Public Shared Function PrintEWayBill(ByVal strDoc As String, ByVal strCust As String, ByVal isBooking As Boolean) As String
         Dim strInvoiceNO As String = ""
         If isBooking Then
@@ -1660,23 +1697,23 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
 select Against_Booking_No from TSPL_SD_SHIPMENT_HEAD where Against_Booking_No is not null and Sale_Invoice_No='" & obj.Document_Code & "') and TSPL_BOOKING_MATSER.Is_APS=1 ", trans))
             'Throw New Exception("BALWINDER Sales Invoice No [" + strDocNo + "]")
             ''richa agarwal 21 Dec,2020 check eInvoice Implementation
-            If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.Is_Taxable), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True AndAlso obj.IsSampling = 0 AndAlso clsCommon.CompairString(obj.Screen_Type, "CT") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(obj.Trans_type, "MCC") <> CompairStringResult.Equal Then
+            If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.Is_Taxable), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True AndAlso obj.IsSampling = 0 AndAlso clsCommon.CompairString(obj.Trans_type, "MCC") <> CompairStringResult.Equal Then
                 If clsCommon.myLen(GetIRNNo(strDocNo, trans)) <= 0 Then
                     clsPSInvoiceHead.EInvoice_Implementation(obj.Document_Code, obj.Bill_To_Location, trans, False)
                     If clsCommon.myLen(GetIRNNo(strDocNo, trans)) <= 0 Then
                         Throw New Exception("IRN No For Sales Invoice No [" + strDocNo + "] is not generated")
                     End If
                 End If
-                If obj.IsEwaybill = 1 Then
-                    If objCommonVar.GenerateEWayBillWithEInvoice Then
-                        If clsCommon.myLen(GetEWayBillNo(strDocNo, trans)) <= 0 Then
-                            clsPSInvoiceHead.EInvoice_Implementation(obj.Document_Code, obj.Bill_To_Location, trans, True)
-                            If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" + strDocNo + "'", trans)) <= 0 Then
-                                'Throw New Exception("E-Way Bill For Sales Invoice No [" + strDocNo + "] is not generated")
-                            End If
-                        End If
-                    End If
-                End If
+                'If obj.IsEwaybill = 1 Then
+                '    If objCommonVar.GenerateEWayBillWithEInvoice Then
+                '        If clsCommon.myLen(GetEWayBillNo(strDocNo, trans)) <= 0 Then
+                '            clsPSInvoiceHead.EInvoice_Implementation(obj.Document_Code, obj.Bill_To_Location, trans, True)
+                '            If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" + strDocNo + "'", trans)) <= 0 Then
+                '                'Throw New Exception("E-Way Bill For Sales Invoice No [" + strDocNo + "] is not generated")
+                '            End If
+                '        End If
+                '    End If
+                'End If
             ElseIf clsCommon.CompairString(ECustomerType, "BC") = CompairStringResult.Equal AndAlso (clsCommon.CompairString(obj.Screen_Type, "CT") = CompairStringResult.Equal OrElse isAPS = 1) AndAlso obj.IsReplacement = 0 AndAlso obj.IsEwaybill = 1 Then
                 If clsCommon.myLen(GetEWayBillNo(strDocNo, trans)) <= 0 Then
                     clsPSInvoiceHead.EWayBill_Implementation(obj.Document_Code, obj.Bill_To_Location, trans, True)

@@ -52026,6 +52026,7 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll = New Dictionary(Of String, String)()
             coll.Add("Code", "varchar(10) not null primary Key")
             coll.Add("Description", "varchar(100) null")
+            coll.Add("IsScrapEwb", "integer null")
             coll.Add("Created_By", "varchar(12) null")
             coll.Add("Created_Date", "datetime null")
             coll.Add("Modify_By", "varchar(12) null")

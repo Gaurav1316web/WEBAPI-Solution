@@ -114,6 +114,7 @@ Public Class ClsHSNMaster
 #Region "Variables"
     Public Code As String = Nothing
     Public Description As String = Nothing
+    Public IsScrapEwb As Integer = 0
 
 #End Region
 
@@ -131,6 +132,7 @@ Public Class ClsHSNMaster
         Try
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
+            clsCommon.AddColumnsForChange(coll, "IsScrapEwb", obj.IsScrapEwb)
             clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             If isNewEntry Then
@@ -173,6 +175,7 @@ Public Class ClsHSNMaster
             obj = New ClsHSNMaster()
             obj.Code = clsCommon.myCstr(dt.Rows(0)("Code"))
             obj.Description = clsCommon.myCstr(dt.Rows(0)("Description"))
+            obj.IsScrapEwb = clsCommon.myCdbl(dt.Rows(0)("IsScrapEwb"))
 
         End If
         Return obj

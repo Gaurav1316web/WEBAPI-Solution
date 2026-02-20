@@ -1378,6 +1378,8 @@ Public Class clsDCSSaleEntry
 
             Next
 
+            qry = " update TSPL_BATCH_ITEM set In_Out_Type='X' where Document_Type='DCS-SAL-ENT' and Document_Code='" + strDocNo + "' "
+            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             For ii As Integer = 0 To Arr.Keys.Count - 1
                 Dim objShipment As clsMCCMaterialSale = Arr.Item(Arr.Keys(ii))
                 objShipment.SaveData(objShipment, True, trans)
@@ -1390,8 +1392,6 @@ Public Class clsDCSSaleEntry
             End If
             qry += "Against_Sales_Order=" & obj.Against_Sales_Order & ", Status=1, Posting_Date='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy") + "',Modify_By='" + objCommonVar.CurrentUserCode + "' "
             qry += " where Document_Code='" + strDocNo + "'"
-            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            qry = " update TSPL_BATCH_ITEM set In_Out_Type='X' where Document_Type='DCS-SAL-ENT' and Document_Code='" + strDocNo + "' "
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             trans.Commit()
 

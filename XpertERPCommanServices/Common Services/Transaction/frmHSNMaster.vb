@@ -72,7 +72,7 @@ Public Class frmHSNMaster
             Dim obj As New ClsHSNMaster()
             obj.Code = txtCode.Value
             obj.Description = txtName.Text
-
+            obj.IsScrapEwb = IIf(chkScrapEwb.Checked, 1, 0)
             If (ClsHSNMaster.SaveData(obj, isNewEntry)) Then
                 common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.Code, NavigatorType.Current)
@@ -101,7 +101,7 @@ Public Class frmHSNMaster
             btnDelete.Enabled = True
             txtCode.Value = obj.Code
             txtName.Text = obj.Description
-
+            chkScrapEwb.Checked = IIf(obj.IsScrapEwb = 1, True, False)
         End If
     End Sub
 
@@ -259,6 +259,7 @@ Public Class frmHSNMaster
         btnSave.Text = "Save"
         btnSave.Enabled = True
         btnDelete.Enabled = False
+        chkScrapEwb.Checked = False
     End Sub
 
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click

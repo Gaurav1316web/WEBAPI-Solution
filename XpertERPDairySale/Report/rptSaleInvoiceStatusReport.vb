@@ -327,6 +327,9 @@ tspl_item_master.Item_Desc as [Item Name],
 )XX "
 
             If rbtnDetail.IsChecked Then
+                If TxtSubLocation.arrValueMember IsNot Nothing AndAlso TxtSubLocation.arrValueMember.Count > 0 Then
+                    qry += "  where xx.[Sub Location]  in (" + clsCommon.GetMulcallString(TxtSubLocation.arrValueMember) + ")"
+                End If
                 qry += "   Group by XX.[Sub Location],XX.[Item Code]    "
             ElseIf rbtnSummary.IsChecked Then
                 qry += "   Group by XX.[Item Code]    "
@@ -2238,18 +2241,18 @@ where convert(date,TSPL_SD_SALE_RETURN_HEAD_Delete_Data.Document_Date,103)>=Conv
                 qryreturn += " and TSPL_SD_SALE_RETURN_DETAIL_Delete_Data.Item_Code in(" + clsCommon.GetMulcallString(txtItem.arrValueMember) + ")" + Environment.NewLine
             End If
             If rbtnDetail.IsChecked AndAlso rdbSaleReturn.IsChecked Then
-                qry = "Select (Transaction_Type)[Transcation Type],([Customer Type])[Customer Type],(Doc_Status)[Doc Status],(Location)Location,([GST No])[Location GST],([Sub Location])[Sub Location],(Invoice_Date)Return_Date,Invoice_No,([Invoice Type])[Invoice Type],([Route No])[Route No],([Party Code])[Party Code],VLC_Code_VLC_Uploader as [DCS Uploader],([Party Name])[Party Name],([GST No])[GST No],
+                qry = "Select (Transaction_Type)[Transcation Type],([Customer Type])[Customer Type],(Doc_Status)[Doc Status],(Location)Location,([GST No])[Location GST],([Sub Location])[Sub Location],(Invoice_Date)[Return Date],Invoice_No,([Invoice Type])[Invoice Type],([Route No])[Route No],([Party Code])[Party Code],VLC_Code_VLC_Uploader as [DCS Uploader],([Party Name])[Party Name],([GST No])[GST No],
                        ([Customer GSTNo])[Customer GSTNo],([State Code])[Party State Code],[Item Code],[Item Name],HSN_Code AS [HSN Code],([Product Qty])[Product Qty],(Report_UOM)[Report UOM],CAST(ReportUOM_Qty AS DECIMAL(18,2)) AS [ReportUOM Qty],Cast(([IGST Rate]) as decimal(10,2))[GST Rate],cast(([ItemBasic Amt]) as decimal(10,2))[ItemBasic Amt],cast(([Margin Amt]) as decimal(10,2))[Margin Amt],Cast(([Basic Amt]) as Decimal(10,2))[Basic Amt],Cast((KKF) as decimal(10,2))KKF,Cast(([Mandi Tax Amt]) as Decimal(10,2))[Mandi Tax Amt],Cast(([Party TCS Amt]) as Decimal(10,2))[Party TCS Amt],
-                        Cast(([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(([IGST Amt]) as decimal(10,2))[IGST Amt],cast(([Total Tax Amt]) as decimal(10,2))[Total Tax Amt],cast(([Total Amt]) as decimal(10,2))[Total Amt],([Subsidy Amt])[Subsidy Amt],([B2B/B2C])[B2B/B2C],(Ack_No)[Ack No],(Ack_Date)[Ack Date],(IRN_No)[IRN No],EWayBillNo,EWayBillDate,Against_Invoice_No as[Against Invoice No],Invoice_Date1 as [Invoice Date] 
+                        Cast(([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(([IGST Amt]) as decimal(10,2))[IGST Amt],cast(([Total Tax Amt]) as decimal(10,2))[Total Tax Amt],cast(([Total Amt]) as decimal(10,2))[Total Amt],([Subsidy Amt])[Subsidy Amt],([B2B/B2C])[B2B/B2C],(Ack_No)[Ack No],(Ack_Date)[Ack Date],(IRN_No)[IRN No],EWayBillNo,EWayBillDate,Against_Invoice_No as[Against Invoice No],Invoice_Date1 as Invoice_Date
                         ,(Created_By)[Created By],(Created_Date)[Created Date] from (" + qryreturn + ")XX  "
                 If TxtTransaction.arrValueMember IsNot Nothing AndAlso TxtTransaction.arrValueMember.Count > 0 Then
                     qry += " where XX.Transaction_Type In(" + clsCommon.GetMulcallString(TxtTransaction.arrValueMember) + ")" + Environment.NewLine
                 End If
                 qry += " order by xx.Transaction_Type, xx.Invoice_Date   "
             ElseIf rbtnSummary.IsChecked AndAlso rdbSaleReturn.IsChecked Then
-                qry = " Select  max(Transaction_Type)[Transcation Type],max([Customer Type])[Customer Type],max(Doc_Status)[Doc Status],max(Location)Location,max([GST No])[Location GST],max([Sub Location])[Sub Location],max(Invoice_Date)Return_Date,Invoice_No,max([Invoice Type])[Invoice Type],MAX([Route No])[Route No],max([Party Code])[Party Code],max(VLC_Code_VLC_Uploader) as [DCS Uploader],max([Party Name])[Party Name],
+                qry = " Select  max(Transaction_Type)[Transcation Type],max([Customer Type])[Customer Type],max(Doc_Status)[Doc Status],max(Location)Location,max([GST No])[Location GST],max([Sub Location])[Sub Location],max(Invoice_Date)[  Return Date],Invoice_No,max([Invoice Type])[Invoice Type],MAX([Route No])[Route No],max([Party Code])[Party Code],max(VLC_Code_VLC_Uploader) as [DCS Uploader],max([Party Name])[Party Name],
                         max([Customer GSTNo])[Customer GSTNo],max([State Code])[Party State Code],cast(Sum([ItemBasic Amt]) as decimal(10,2))[ItemBasic Amt],cast(Sum([Margin Amt]) as decimal(10,2))[Margin Amt],Cast(sum([Basic Amt]) as Decimal(10,2))[Basic Amt],Cast(sum(KKF) as decimal(10,2))KKF,Cast(sum([Mandi Tax Amt]) as Decimal(10,2))[Mandi Tax Amt],Cast(sum([Party TCS Amt]) as Decimal(10,2))[Party TCS Amt],
-                        Cast(sum([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(sum([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(sum([IGST Amt]) as decimal(10,2))[GST Amt],cast(sum([Total Tax Amt]) as decimal(10,2))[Total Tax Amt],cast(sum([Total Amt]) as decimal(10,2))[Total Amt],sum([Subsidy Amt])[Subsidy Amt],max([B2B/B2C])[B2B/B2C],max(Ack_No)[Ack No],max(Ack_Date)[Ack Date],max(IRN_No)[IRN No],Max(EWayBillNo)EWayBillNo,max(EWayBillDate)EWayBillDate,max(Against_Invoice_No) as[Against Invoice No],max(Invoice_Date1) as [Invoice Date] 
+                        Cast(sum([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(sum([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(sum([IGST Amt]) as decimal(10,2))[GST Amt],cast(sum([Total Tax Amt]) as decimal(10,2))[Total Tax Amt],cast(sum([Total Amt]) as decimal(10,2))[Total Amt],sum([Subsidy Amt])[Subsidy Amt],max([B2B/B2C])[B2B/B2C],max(Ack_No)[Ack No],max(Ack_Date)[Ack Date],max(IRN_No)[IRN No],Max(EWayBillNo)EWayBillNo,max(EWayBillDate)EWayBillDate,max(Against_Invoice_No) as[Against Invoice No],max(Invoice_Date1) as Invoice_Date 
                         ,max(Created_By)[Created By],max(Created_Date)[Created Date] from (" + qryreturn + " )XX  "
                 If TxtTransaction.arrValueMember IsNot Nothing AndAlso TxtTransaction.arrValueMember.Count > 0 Then
                     qry += " where XX.Transaction_Type In(" + clsCommon.GetMulcallString(TxtTransaction.arrValueMember) + ")" + Environment.NewLine
