@@ -225,7 +225,7 @@ Public Class frmDBTRecoVsIncentiveReport
                     isnull(sum(INCENTIVE.RecoQty),0) as [Reco Qty]
                     , isnull(sum(INCENTIVE.MPCount),0) as [MP Count]
                     ,isnull(sum(INCENTIVE.Qty),0) as [Incentive Qty]"
-                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                         Qry += " ,(case when abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))<= 0.01 then 'Match' else 'Not Match' end) as [Status] "
                     Else
                         Qry += " ,(case when abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))<1 then 'Match' else 'Not Match' end) as [Status]  "
@@ -240,7 +240,7 @@ Public Class frmDBTRecoVsIncentiveReport
                     , isnull(sum(INCENTIVE.MPCount),0) as [MP Count]
                     ,isnull(sum(INCENTIVE.Qty),0) as [Incentive Qty]"
 
-                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                         Qry += " ,(case when abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))<= 0.01 then 'Match' else 'Not Match' end) as [Status] "
                     Else
                         Qry += " ,(case when abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))<1 then 'Match' else 'Not Match' end) as [Status]  "
@@ -251,13 +251,13 @@ Public Class frmDBTRecoVsIncentiveReport
                     group by INCENTIVE.Cycle_Year,INCENTIVE.Cycle_Month,INCENTIVE.Vendor_Code,INCENTIVE.VLC_Code_VLC_Uploader"
                 End If
                 If rbtnMatch.IsChecked = True Then
-                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                         Qry += " having abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))<= 0.01 "
                     Else
                         Qry += " having abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))<1"
                     End If
                 ElseIf rbtnNotMatch.IsChecked = True Then
-                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                         Qry += " having abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))>0.01 "
                     Else
                         Qry += " having abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))>=1"

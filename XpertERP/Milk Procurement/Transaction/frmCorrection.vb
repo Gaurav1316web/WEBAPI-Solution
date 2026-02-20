@@ -64,7 +64,7 @@ Public Class frmCorrection
                 chkDeleteBMCCollection.Visible = True
                 txtFromShift.Enabled = True
                 chkAvgFATSNF.Visible = False
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                     chkAvgFATSNF.Visible = True
                     chkAdjustOwnBMCFATSNF.Visible = False
                 End If
