@@ -141,8 +141,8 @@ Public Class rptUnionWiseMilkTankerCollectionDetail
 case when isnull([" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Manual_Gross_Weight,0)=1 then 'M' else 'A' end as Manual_Gross_Weight,--when [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Manual_Gross_Weight = 0 then 'A' else null end as Manual_Gross_Weight,
 [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Tare_Weight ,case when isnull([" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Manual_Tare_Weight,0)= 1 then 'M' else'A' end as Manual_Tare_Weight,--when [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Manual_Tare_Weight = 0 then 'A' else null  end as Manual_Tare_Weight,
 case when isnull([" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK.Manual_Entry,0)= 1 then 'M' when [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK.Manual_Entry = 0 then 'A' else null  end as Manual_Entry_QC,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Net_Weight,
-isnull(QCFAT.Param_Field_Value,0) AS Fat_Per,ISNULL((TSPL_PLANT_WEIGHMENT.Net_Weight * QCFAT.Param_Field_Value)/100,0) as Fat_Kg,ISNULL(QCSNF.Param_Field_Value,0) as SNF_Per,
-isnull((TSPL_PLANT_WEIGHMENT.Net_Weight * QCSNF.Param_Field_Value)/100,0) as SNF_Kg ,
+isnull(QCFAT.Param_Field_Value,0) AS Fat_Per,ISNULL(cast((TSPL_PLANT_WEIGHMENT.Net_Weight * QCFAT.Param_Field_Value)/100 as decimal(18,3)),0) as Fat_Kg,ISNULL(QCSNF.Param_Field_Value,0) as SNF_Per,
+isnull(cast((TSPL_PLANT_WEIGHMENT.Net_Weight * QCSNF.Param_Field_Value)/100 as decimal(18,3)),0) as SNF_Kg ,
 CASE
     WHEN [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK.is_Param_Accepted = 1 THEN 'Accept'
     ELSE 'Reject'  
@@ -187,7 +187,7 @@ FROM(  " & baseqry & ") xx "
                 SummaryQry += "  SELECT ROW_NUMBER() OVER (ORDER BY XX.Weighment_Date) AS SNo,'" + objCommonVar.CurrentUserCode + "' as UserName,  
                 xx.UnionName, xx.Weighment_Date,count(XX.Tanker_No) AS Tanker_No,max(XX.ROUTE_NO) AS ROUTE_NO,--MAX(XX.WEIGHMENT_NO) AS Weighment_No, 				 	 
 				 count(XX.Gate_Entry_No) AS Gate_Entry_No,SUM(XX.Gross_Weight) AS Gross_Weight, SUM(XX.tare_weight) AS Tare_Weight,MAX(XX.manual_Tare_Weight) AS Manual_Tare_Weight, MAX(XX.Manual_Entry_Qc) AS Manual_Entry_QC,
-                SUM(XX.Net_Weight) AS Net_Weight,sum(isnull(XX.Fat_Kg,0)) AS Fat_Kg,sum(isnull(XX.SNF_Kg,0))  AS SNF_Kg,							
+                SUM(XX.Net_Weight) AS Net_Weight,CAST(sum(isnull(XX.Fat_Kg,0)) AS DECIMAL(18,3)) AS Fat_Kg,CAST(sum(isnull(XX.SNF_Kg,0)) AS DECIMAL(18,3))  AS SNF_Kg,							
 			    SUM(CASE WHEN XX.QcStatus = 'Accept' THEN 1 ELSE 0 END) AS AcceptQC,
                 SUM(CASE WHEN XX.QcStatus = 'Reject' THEN 1 ELSE 0 END) AS RejectQC ,
 	            max(xx.Comp_Name)Comp_Name,max(xx.add1)add1,max(xx.add2)add2
@@ -370,9 +370,9 @@ FROM(  " & baseqry & ") xx "
 
 
             gv1.Columns("Fat_Per").IsVisible = True
-            gv1.Columns("Fat_Per").HeaderText = "Fat Per"
+            gv1.Columns("Fat_Per").HeaderText = "Fat %"
             gv1.Columns("SNF_Per").IsVisible = True
-            gv1.Columns("SNF_Per").HeaderText = "SNF Per"
+            gv1.Columns("SNF_Per").HeaderText = "SNF %"
             gv1.Columns("Fat_Kg").IsVisible = True
             gv1.Columns("Fat_Kg").HeaderText = "Fat Kg"
             gv1.Columns("SNF_Kg").IsVisible = True
