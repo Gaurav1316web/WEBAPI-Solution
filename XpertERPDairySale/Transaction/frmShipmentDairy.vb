@@ -12611,7 +12611,7 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                                     End If
                                 Else
                                     If IncreaseCrateQtyOnFiftyPercent = True Then
-                                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                                             Dim IntegerPart As Integer = Math.Floor(DispatchQty / CrateConvFactor)
                                             Dim fractionPart As Integer = ((DispatchQty / CrateConvFactor) - IntegerPart) * 100
                                             If fractionPart >= 50 Then
@@ -14139,7 +14139,7 @@ and TSPL_Demand_Booking_Master.Route_No='" + txtRouteNo.Value + "' and TSPL_Dema
 
                     '    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceALW1", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     ' frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceGNGNEW", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                     'If clsCommon.myCstr(dt.Rows(0)("TAX1")) = "IGST" OrElse clsCommon.myCstr(dt.Rows(0)("TAX2")) = "IGST" OrElse clsCommon.myCstr(dt.Rows(0)("TAX3")) = "IGST" OrElse clsCommon.myCstr(dt.Rows(0)("TAX4")) = "IGST" OrElse clsCommon.myCstr(dt.Rows(0)("TAX5")) = "IGST" OrElse clsCommon.myCstr(dt.Rows(0)("TAX6")) = "IGST" OrElse clsCommon.myCstr(dt.Rows(0)("TAX7")) = "IGST"  Then
                     If clsCommon.myCstr(dt.Rows(0)("TAX1")) = "IGST" OrElse clsCommon.myCstr(dt.Rows(0)("TAX2")) = "IGST" OrElse clsCommon.myCstr(dt.Rows(0)("TAX3")) = "IGST" OrElse clsCommon.myCstr(dt.Rows(0)("TAX4")) = "IGST" OrElse clsCommon.myCstr(dt.Rows(0)("TAX5")) = "IGST" OrElse clsCommon.myCstr(dt.Rows(0)("TAX6")) = "IGST" Then
                         filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceIGST", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())

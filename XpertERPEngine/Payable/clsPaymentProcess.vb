@@ -1992,6 +1992,8 @@ select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo
             Dim dt As New DataTable
             Dim Flag As Boolean = False
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse
+                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse
+                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal OrElse
                 clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse
                 clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal OrElse
                 clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal OrElse
@@ -2410,7 +2412,7 @@ Comp_Code,Comp_Name,max(MCC_NAME) as MCC_NAME,Regn_No
             'Else
             sQuery += " sum(SRN_NET_AMOUNT)+(sum(PPSRN_RO_Amount)*-1) As Amt, "
             'End If
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                 sQuery += " (sum (FATQTY))  As FATKG,(sum (SNFQTY)) As SNFKG "
             Else
                 sQuery += " round(sum (FATQTY),2,1)  As FATKG,round(sum (SNFQTY),2,1) As SNFKG  "
@@ -2493,7 +2495,7 @@ where  TSPL_PAYMENT_PROCESS_HEAD.From_Date >= Convert(Date, ('" + CycleFromDate 
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
                     frmCRV.funsubreportWithdt(clsUserMgtCode.frmPaymentProcess, False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreCHU", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType, "SubPPBA.rpt", dtAdvice)
                     'frmCRV.funsubreportWithdt(Nothing, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreCHU", "", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType, "SubPaymentProcessBankAdvice.rpt", dtAdvice)
-                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                     frmCRV.funsubreportWithdt(clsUserMgtCode.frmPaymentProcess, False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreGNG", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                     frmCRV.funsubreportWithdt(clsUserMgtCode.frmPaymentProcess, False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreJPR", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
@@ -2821,7 +2823,7 @@ where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ") "
         Else
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                 BaseQry += " isnull(TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO,'') AS ROUTE_CODE,isnull(TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,'') as Route_Name "
-            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                 BaseQry += " isnull(TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,'') as Route_Name ,isnull(TSPL_BULK_ROUTE_MASTER.ROUTE_NO,'') AS ROUTE_CODE,isnull(TSPL_BULK_ROUTE_MASTER.ROUTE_NAME_HINDI,'') as ROUTE_NAME_HINDI "
             ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
                 BaseQry += " TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE ,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as Route_Name ,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME_HINDI as ROUTE_NAME_HINDI "
@@ -2916,7 +2918,7 @@ TSPL_VLC_MASTER_HEAD.VLC_Name ,TSPL_VLC_MASTER_HEAD.VLC_Name_Hindi,coalesce(TSPL
         '       End If
         'BaseQry += " left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_Code " + Environment.NewLine
         BaseQry += " left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_PURCHASE_INVOICE_DETAIL.VLC_NO  " + Environment.NewLine
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
             BaseQry += "  Left Outer Join TSPL_BULK_ROUTE_MASTER On TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE =TSPL_BULK_ROUTE_MASTER.ROUTE_NO" + Environment.NewLine
         ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
             BaseQry += "  Left Outer Join TSPL_BULK_ROUTE_MASTER On TSPL_VLC_MASTER_HEAD.Route_Code =TSPL_BULK_ROUTE_MASTER.ROUTE_NO" + Environment.NewLine
@@ -3082,7 +3084,7 @@ left join TSPL_DCS_ADDITION_DEDUCTION as DEDUCTION on  DEDUCTION.Code=MAPPING.Ma
 
         BaseQry += "  " & whrcls & " "
         Dim dt As New DataTable
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
             sQuery = BaseQry + " order by  cast(VLC_Code_VLC_Uploader as int),BillNo,convert(datetime,coalesce(TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_head.DOC_DATE),103),shift desc"
         ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
             sQuery = BaseQry + " order by  cast(Mcc_Code_VLC_Uploader as int) asc, convert(datetime,coalesce(TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_head.DOC_DATE),103)"
@@ -3554,7 +3556,7 @@ where 2=2 and RefDocType In('SUS-ADJD') and TSPL_PAYMENT_PROCESS_DEDUCTION.doc_n
                 End If
 
                 PDFPath = frmCRV.funsubreportWithdt(clsUserMgtCode.frmPaymentProcess, isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAdditionFinance, "crptMilkPurchaseBillPaymentProcessNewJPR", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeductionFinance, "subReduceDeduction.rpt", dtReduceDeduction, "subSaving.rpt", dtSaving, "SubAdditionOther.rpt", dtAdditionOther, "SubDeductionOther.rpt", dtDeductionOther, "SubCorrectionWise.rpt", dtCorrection, "SubMilkCorrectionDetail.rpt", dtsuspense)
-            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                 PDFPath = frmCRV.funsubreportWithdt(clsUserMgtCode.frmPaymentProcess, isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewGNG", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
             ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal AndAlso PaymentProcessInHindi = True AndAlso isprintHindi Then
                 PDFPath = frmCRV.funsubreportWithdt(clsUserMgtCode.frmPaymentProcess, isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewJDHInHindi", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)

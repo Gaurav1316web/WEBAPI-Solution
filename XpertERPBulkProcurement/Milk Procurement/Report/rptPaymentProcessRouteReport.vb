@@ -2208,7 +2208,7 @@ left outer join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HE
             legerMainQuery += " ) as pp group by VSP_CODE,VLC_Code,PPNo 
 ) as PaymentProcess left join (  " + BaseQry + " ) Invoice on   PaymentProcess.vsp_code = Invoice.vsp_code And PaymentProcess.VLC_Code = Invoice.VLC_NO and PaymentProcess.PPNo = Invoice.DOCNO "
 
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                 legerMainQuery += " order by CAST(VLC_Code_VLC_Uploader AS int) asc"
             End If
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
@@ -2641,7 +2641,7 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
                                 AVGSNF1 = Math.Round(clsCommon.myCdbl(dt.Compute("MAX(SNF_PER)", strWhrcls)), 2)
                                 SumPayment1 = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", strWhrcls))
                                 SumDeduction1 = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", strWhrcls))
-                                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                                     SumNETPAYABLE1 = clsCommon.myRoundOFF(clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", strWhrcls)), 0)
                                 Else
                                     SumNETPAYABLE1 = clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", strWhrcls))
@@ -2782,7 +2782,7 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
                                 End If
                                 SumPayment1 = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
                                 SumDeduction1 = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
-                                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                                     SumNETPAYABLE1 = clsCommon.myRoundOFF(clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'")), 0)
                                 Else
                                     SumNETPAYABLE1 = clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
@@ -2975,7 +2975,7 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
                         AVGSNF1 = Math.Round(clsCommon.myCdbl(dt.Compute("MAX(SNF_PER)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'")), 2)
                         SumPayment1 = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
                         SumDeduction1 = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
-                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                             SumNETPAYABLE1 = clsCommon.myRoundOFF(clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'")), 0)
                         Else
                             SumNETPAYABLE1 = clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
@@ -3093,7 +3093,7 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
                 'Dim GSumPayment As Decimal = Math.Round(clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "")), 2)
                 'Dim GSumDeduction As Decimal = Math.Round(clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "")), 2)
                 Dim GSumNETPAYABLE As Decimal = 0
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                     GSumNETPAYABLE = Math.Round(clsCommon.myRoundOFF(clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "")), 0), 2)
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                     GSumNETPAYABLE = Math.Round(clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "")), 0)

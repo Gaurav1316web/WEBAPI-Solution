@@ -280,7 +280,7 @@ where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='" + strPPNo + "'  and (isnull(TSPL_PAY
                             Dim dt As DataTable = clsDBFuncationality.GetDataTable(BankAdviseQry, trans)
 
                             Dim frmCRViewer As New frmCrystalReportViewer()
-                            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                                 objSMSH.Attachment_1_Path = frmCRViewer.EmailAttachment(CrystalReportFolder.MilkProcurement, dt, "crptBankAdvice", "Bank Advice")
                             ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                                 objSMSH.Attachment_1_Path = frmCRViewer.EmailAttachment(CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNewJPR", "Bank Advice")

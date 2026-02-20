@@ -791,7 +791,7 @@ from
 
 
             Dim qry As String = ""
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                 If strInvoiceno.Count > 0 Then
                     If common.clsCommon.MyMessageBoxShow(" Do you want to print Invoice", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
 
@@ -811,7 +811,7 @@ from
 
 
                         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                             'If clsCommon.myCstr(dt.Rows(0)("TAX1")) = "IGST" OrElse clsCommon.myCstr(dt.Rows(0)("TAX2")) = "IGST" OrElse clsCommon.myCstr(dt.Rows(0)("TAX3")) = "IGST" OrElse clsCommon.myCstr(dt.Rows(0)("TAX4")) = "IGST" OrElse clsCommon.myCstr(dt.Rows(0)("TAX5")) = "IGST" OrElse clsCommon.myCstr(dt.Rows(0)("TAX6")) = "IGST" OrElse clsCommon.myCstr(dt.Rows(0)("TAX7")) = "IGST"  Then
                             If clsCommon.myCstr(dt.Rows(0)("TAX1")) = "IGST" OrElse clsCommon.myCstr(dt.Rows(0)("TAX2")) = "IGST" OrElse clsCommon.myCstr(dt.Rows(0)("TAX3")) = "IGST" OrElse clsCommon.myCstr(dt.Rows(0)("TAX4")) = "IGST" OrElse clsCommon.myCstr(dt.Rows(0)("TAX5")) = "IGST" OrElse clsCommon.myCstr(dt.Rows(0)("TAX6")) = "IGST" Then
                                 frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceIGST", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())

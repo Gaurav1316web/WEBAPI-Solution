@@ -536,8 +536,9 @@ Sum(Case When shift='E' Then Amount Else 0 End) As EveningAmount "
             Qry &= ")finalQry "
             If isPrint Then
                 Qry &= " Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "'
-Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_MASTER.State"
+Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_MASTER.State "
             End If
+            Qry &= " Order By [Union]"
             dt = Nothing
             dt = clsDBFuncationality.GetDataTable(Qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then

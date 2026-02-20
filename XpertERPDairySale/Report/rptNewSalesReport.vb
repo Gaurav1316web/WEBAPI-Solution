@@ -511,7 +511,7 @@ from (" + qry + strShift + ")x group by Credit_Customer,GrpColumn,Item_Code,Docu
                 Else
                     ShiftType = "Both"
                 End If
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                     Dim dr As DataRow = dt.NewRow
                     dr("OUTLET") = ShiftType 'clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MM/yyyy") + ", " + ShiftType
                     For ii As Integer = 0 To dtFreshItem.Rows.Count - 1
@@ -553,7 +553,7 @@ from (" + qry + strShift + ")x group by Credit_Customer,GrpColumn,Item_Code,Docu
                 gv1.DataSource = dt
 
                 If rbtnRouteAndCustomer.IsChecked Then
-                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                         ApplyFormattingManually()
                         For i As Integer = 0 To dtFreshItem.Rows.Count - 1
                             gv1.Columns("" + clsCommon.myCstr(dtFreshItem.Rows(i).Item("Fresh_Item")) + "").FormatString = "{0:n2}"
@@ -747,7 +747,7 @@ from (" + qry + strShift + ")x group by Credit_Customer,GrpColumn,Item_Code,Docu
         Try
             If gv1.Rows.Count > 0 AndAlso Not rbtnBoothSlip.IsChecked Then
                 Dim arrHeader As List(Of String) = New List(Of String)()
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal AndAlso rbtnRouteAndCustomer.IsChecked Then
+                If (clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal) AndAlso rbtnRouteAndCustomer.IsChecked Then
                     arrHeader.Add("Demand Chart")
                     arrHeader.Add("Date: " + clsCommon.myCstr(txtFromDate.Text) + " to " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + " ")
                     transportSql.exportdataBoothSlipGNG(Nothing, gv1, "", "Demand Chart", 0, gv1.Rows.Count, False, arrHeader, False, False, False, False, False, Nothing, True, True)
@@ -765,7 +765,7 @@ from (" + qry + strShift + ")x group by Credit_Customer,GrpColumn,Item_Code,Docu
                     End If
                     clsCommon.MyExportToExcelGrid(Me.Text, gv1, arrHeader, Me.Text)
                 End If
-            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal AndAlso rbtnBoothSlip.IsChecked Then
+            ElseIf (clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal) AndAlso rbtnBoothSlip.IsChecked Then
                 If txtRoute.arrValueMember IsNot Nothing Then
                     If txtRoute.arrValueMember.Count > 1 Then
                         Throw New Exception("Select only one route for booth slip")
