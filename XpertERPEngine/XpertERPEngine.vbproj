@@ -404,6 +404,12 @@
     <Compile Include="frmUserMaster.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="frmViewTDS.Designer.vb">
+      <DependentUpon>frmViewTDS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmViewTDS.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Inventory\ClsAdjustmentsQCC.vb" />
     <Compile Include="Inventory\clsItemLocationDetails.vb" />
     <Compile Include="Inventory\clsOutputEntry.vb" />
@@ -1420,6 +1426,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmUserMaster.resx">
       <DependentUpon>frmUserMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmViewTDS.resx">
+      <DependentUpon>frmViewTDS.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Inventory\frmBatchItemOutNew.resx">
       <DependentUpon>frmBatchItemOutNew.vb</DependentUpon>

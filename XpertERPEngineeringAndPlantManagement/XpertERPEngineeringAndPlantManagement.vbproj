@@ -150,12 +150,6 @@
     <Compile Include="..\XpertERPService\My Project\SharedAssemblyInfo.vb">
       <Link>SharedAssemblyInfo.vb</Link>
     </Compile>
-    <Compile Include="frmViewTDS.Designer.vb">
-      <DependentUpon>frmViewTDS.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmViewTDS.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Master\frmConsumptionTypeMaster.Designer.vb">
       <DependentUpon>frmConsumptionTypeMaster.vb</DependentUpon>
     </Compile>
@@ -204,9 +198,6 @@
     <Compile Include="Transaction\frmWorkOrderStatusEng.vb" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="frmViewTDS.resx">
-      <DependentUpon>frmViewTDS.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Master\frmConsumptionTypeMaster.resx">
       <DependentUpon>frmConsumptionTypeMaster.vb</DependentUpon>
     </EmbeddedResource>
