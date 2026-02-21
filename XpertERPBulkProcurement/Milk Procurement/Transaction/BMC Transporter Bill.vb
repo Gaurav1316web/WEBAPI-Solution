@@ -153,7 +153,7 @@ Public Class BMC_Transporter_Bill
         repoDate.Format = DateTimePickerFormat.Custom
         'repoDate.CustomFormat = "dd-MM-yyyy"
         repoDate.CustomFormat = "yyyy-MM-dd"
-        repoDate.HeaderText = "Price Date"
+        repoDate.HeaderText = "Document Date"
         repoDate.WrapText = True
         repoDate.FormatString = "{0:d}"
         repoDate.Name = colDate
@@ -1322,7 +1322,7 @@ where TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code='" & txtDocNo.Value & "'  "
         '=======Update By preeti Gupta Against Ticket No[BM00000008831]
         'sql = "select User_Code,User_Name,Password,Emp_Code,Emp_Name,User_Type,Level1_Code,Level2_Code,Level3_Code,Level4_Code from TSPL_USER_MASTER "
         Dim sql As String = Nothing
-        sql = "select '' as Date,'BMC' AS Category,'' AS [Station 1],'' AS [Station 2],'' AS [Station 3],''	AS [Station 4],0 AS [Trip],0 AS [GPS KM],0 AS [KM],0 AS [Quantity KG],0 AS [Amount]	,0 AS [Diesel RD]  "
+        sql = "select '' as Date,'BMC' AS Category,'' AS [Station 1],'' AS [Station 2],'' AS [Station 3],''	AS [Station 4],0 AS [Trip],0 as [Ice Box],0 AS [GPS KM],0 AS [KM],0 AS [Quantity KG],0 AS [Amount]	,0 AS [Diesel RD]  "
         ListImpExpColumnsMandatory = New List(Of String)({"Document_Code"})
         ListImpExpColumnsSuperMandatory = New List(Of String)({"Document_Code"})
         transportSql.ExporttoExcel(sql, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID)

@@ -3702,6 +3702,28 @@ Public Class clsPSShipmentHead
         End If
         Return dt
     End Function
+    Public Shared Function UpdateVehicle(ByVal strDocNo As String, ByVal strVehicleNo As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Dim obj As clsPSShipmentHead = Nothing
+            obj = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, False, False, False)
+            If obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0 Then
+                Throw New Exception("Data Not Found!")
+            End If
+            If clsCommon.myLen(strVehicleNo) <= 0 Then
+                Throw New Exception("Vehicle No. not Found!")
+            End If
+            clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SALE_INVOICE_HEAD set VehicleNo='" & strVehicleNo & "' where Document_Code='" & obj.Sale_Invoice_No & "'", trans)
+            clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SHIPMENT_HEAD set VehicleNo='" & strVehicleNo & "' where Document_Code='" & obj.Document_Code & "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_DETAIL", "Document_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Sale_Invoice_No, "TSPL_SD_SALE_INVOICE_HEAD", "Document_Code", "TSPL_SD_SALE_INVOICE_DETAIL", "Document_Code", trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
 End Class
 Public Class clsPSShipmentHeadDetail
 #Region "Variables"

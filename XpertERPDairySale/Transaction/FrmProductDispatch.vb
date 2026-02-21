@@ -12,7 +12,10 @@ Public Class FrmProductDispatch
     Dim ConvertIntoBulkUOM As Boolean = False
     Dim ConvertIntoBillingUOM As Boolean = False
     Dim EnableProductSaleForJPR As Boolean = False
-
+    Dim ApplyEWBThresholdLimit As Boolean = False
+    Dim EWBThresholdLimitForIntraCity As Integer = 0
+    Dim EWBThresholdLimitForIntraState As Integer = 0
+    Dim EWBThresholdLimitForInterState As Integer = 0
     Dim ConvertPouchtoCrateonDispatch As Boolean = True
     Dim EnableManualCrateonTaxableDairyDispatch As Integer = 0
     Dim EnableTCSRateValidityFrom01July2021 As Boolean = False
@@ -489,6 +492,12 @@ Public Class FrmProductDispatch
         EnableProductSaleForJPR = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = 1, True, False)
         DefaultEnableEWayBill = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultEnableEWayBill, clsFixedParameterCode.DefaultEnableEWayBill, Nothing)) = 1, True, False)
 
+        ApplyEWBThresholdLimit = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.ApplyEWBThresholdLimit, Nothing)) = 1, True, False)
+        EWBThresholdLimitForIntraCity = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraCity, Nothing))
+        EWBThresholdLimitForIntraState = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraState, Nothing))
+        EWBThresholdLimitForInterState = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForInterState, Nothing))
+
+
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = clsCommon.GETSERVERDATE
         txtFdate.Value = clsCommon.GETSERVERDATE
@@ -650,6 +659,7 @@ Public Class FrmProductDispatch
         If IsAutoClose Then
             Me.Close()
         End If
+        btnprinte_wayBill.Visible = False
     End Sub
     Sub LoadItemType()
         Dim dt As New DataTable()
@@ -6272,11 +6282,12 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = RowTypeItem
         ''gv1.Rows.AddNew()
         chkInternal.Checked = False
-        If DefaultEnableEWayBill Then
-            chkIsEWayBill.Checked = True
-        Else
-            chkIsEWayBill.Checked = False
-        End If
+        'If DefaultEnableEWayBill Then
+        '    chkIsEWayBill.Checked = True
+        'Else
+        '    chkIsEWayBill.Checked = False
+        'End If
+        chkIsEWayBill.Checked = False
         gvAC.Rows.AddNew()
         gvAC.Rows.AddNew()
         txtDate.Enabled = True
@@ -6448,6 +6459,46 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             '    End If
             '    UpdateAllTotals()
             'End If
+            If ApplyEWBThresholdLimit AndAlso clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal Then
+
+                Dim EWBThresholdLimtCat As String = ""
+                Dim EWBThresholdLimtCatForCust As String = ""
+                chkIsEWayBill.Checked = False
+                Dim EwbNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select EWayBillNo from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" & txtInvoiceNo.Text & "'"))
+                If clsCommon.myLen(EwbNo) = 0 Then
+                    If clsCommon.myLen(clsCommon.myCstr(txtBillToLocation.Value)) > 0 Then
+                        If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtBillToLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
+                            If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(txtVendorNo.Value) & "' ")), "Others") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(txtVendorNo.Value) & "' ")), "") = CompairStringResult.Equal Then
+                                If clsCommon.myLen(txtSubLocation.Value) > 0 Then
+                                    EWBThresholdLimtCat = "select City_Code,State from TSPL_LOCATION_MASTER where Location_Code='" & txtSubLocation.Value & "'"
+
+                                End If
+                            End If
+                        Else
+                            EWBThresholdLimtCat = "select City_Code,State from TSPL_LOCATION_MASTER where Location_Code='" & txtBillToLocation.Value & "'"
+                        End If
+                        EWBThresholdLimtCatForCust = "select City_Code,State from TSPL_CUSTOMER_MASTER where Cust_Code='" & txtVendorNo.Value & "'"
+                        Dim dt_FromLocation As DataTable = clsDBFuncationality.GetDataTable(EWBThresholdLimtCat)
+                        Dim dt_CustLocation As DataTable = clsDBFuncationality.GetDataTable(EWBThresholdLimtCatForCust)
+                        If clsCommon.CompairString(clsCommon.myCstr(dt_FromLocation(0)("City_Code")), clsCommon.myCstr(dt_CustLocation(0)("City_Code"))) = CompairStringResult.Equal Then
+                            If clsCommon.myCdbl(lblTotRAmt1.Text) > EWBThresholdLimitForIntraCity Then
+                                chkIsEWayBill.Checked = True
+                            End If
+                        ElseIf clsCommon.CompairString(clsCommon.myCstr(dt_FromLocation(0)("State")), clsCommon.myCstr(dt_CustLocation(0)("State"))) = CompairStringResult.Equal Then
+                            If clsCommon.myCdbl(lblTotRAmt1.Text) > EWBThresholdLimitForIntraState Then
+                                chkIsEWayBill.Checked = True
+                            End If
+                        Else
+                            If clsCommon.myCdbl(lblTotRAmt1.Text) > EWBThresholdLimitForInterState Then
+                                chkIsEWayBill.Checked = True
+                            End If
+                        End If
+                    End If
+                Else
+                    chkIsEWayBill.Checked = True
+                End If
+
+            End If
             For ii As Integer = 0 To gv1.Rows.Count - 1
                 If clsCommon.myLen(gv1.Rows(ii).Cells(colICode).Value) > 0 Then
                     UpdateCurrentRow(ii, Nothing)
@@ -8026,9 +8077,11 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                     txtCrAmt.Text = obj.CrAmt
                     txtClosingBal.Text = obj.ClosingBal
                     btnEWB.Enabled = True
+                    chkIsEWayBill.Enabled = False
                 Else
                     btnCancel.Enabled = False
                     btnEWB.Enabled = False
+                    chkIsEWayBill.Enabled = True
                     GetOpeningClosingAndReceivedAmt(obj.Customer_Code, obj.Document_Date)
                 End If
                 ParentDocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select ParentDocNo from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + obj.Document_Code + "'"))
@@ -8869,6 +8922,15 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                     End If
                     TxtEInvoiceUpdateQCCode.Text = clsCommon.myCstr(dtInv.Rows(0)("QR_Code"))
                     TxtEWayBillUpdateBillNo.Text = clsCommon.myCstr(dtInv.Rows(0)("EWayBillNo"))
+                    If clsCommon.myLen(clsCommon.myCstr(dtInv.Rows(0)("EWayBillNo"))) > 0 Then
+                        btnprinte_wayBill.Visible = True
+                        btnEWB.Enabled = False
+                        'btnUpdateVehicle.Visible = False
+                    Else
+                        If obj.Status = ERPTransactionStatus.Approved Then
+                            btnEWB.Enabled = True
+                        End If
+                    End If
                     If dtInv.Rows(0)("EwayBillDate") IsNot DBNull.Value Then
                         TxtEWayBillUpdateBillDate.Value = clsCommon.myCDate(dtInv.Rows(0)("EwayBillDate"))
                     End If
@@ -12610,7 +12672,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
                         filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isFilePath, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoiceBKN", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                         ' ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal AndAlso dt.Rows(0)("TaxableNonTaxable").ToString() = "T" Then
+                    ElseIf (clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal) AndAlso dt.Rows(0)("TaxableNonTaxable").ToString() = "T" Then
 
                         filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isFilePath, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceGNGNEW", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
 
@@ -15123,6 +15185,7 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
             Create_Ewb(tran)
             tran.Commit()
             clsCommon.MyMessageBoxShow(Me, "EWB Created Successfully", Me.Text)
+            LoadData(txtDocNo.Value, NavigatorType.Current)
         Catch ex As Exception
             tran.Rollback()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -15143,6 +15206,9 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
                     End If
                     If clsCommon.myLen(GetEWayBillNo(txtInvoiceNo.Text, trans)) <= 0 Then
                         clsPSInvoiceHead.EWayBill_Implementation(txtInvoiceNo.Text, txtBillToLocation.Value, trans, True)
+                        clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SALE_INVOICE_HEAD set IsEwaybill=1 where Document_Code='" & txtInvoiceNo.Text & "'", trans)
+                        clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SHIPMENT_HEAD set IsEwaybill=1 where Document_Code='" & txtDocNo.Value & "'", trans)
+
                         If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" & txtInvoiceNo.Text & "'", trans)) <= 0 Then
                             Throw New Exception("E-Way Bill For Sales Invoice No [" + txtInvoiceNo.Text + "] is not generated")
                         End If
@@ -15165,7 +15231,7 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
 
     Private Sub btnprinte_wayBill_Click(sender As Object, e As EventArgs) Handles btnprinte_wayBill.Click
         Try
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(clsPSInvoiceHead.PrintEWayBill(txtDocNo.Value, txtVendorNo.Value, False))
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(clsPSInvoiceHead.PrintEWayBill(TxtEWayBillUpdateBillNo.Text, txtBillToLocation.Value))
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rpte-waybill", "E-WayBill", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())

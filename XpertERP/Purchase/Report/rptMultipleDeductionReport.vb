@@ -547,7 +547,7 @@ Environment.NewLine + "Company : " & objCommonVar.CurrentCompanyName
             If clsCommon.myLen(fndArea.Value) > 0 Then
                 strQry5 += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
             End If
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                 strQry = " Select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As FromDate
                         ,'" + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy") + "' As ToDate,'" + objCommonVar.CurrentUser + "' as User_Name,Comp_Name as Company_Name,Regn_No,Phone1 AS Phone,[Vendor Code],[Vendor Name],[VLC Uploader Code],MCC_Name,[Document Date],[Document No],
                            Type,Addition,Deduction,[Deduction Code],[Deduction Desc],Reduce_Deduc_Amt,ReduceAmt,[SRN Qty],SRN_AMOUNT 
@@ -561,14 +561,14 @@ Environment.NewLine + "Company : " & objCommonVar.CurrentCompanyName
 
             'strQry = "  select xx.SNo,xx.company_name,xx.[Vendor Code],xx.[Vendor Name],xx.[VLC Uploader Code],"
             If AreaWiseBilling = True Then
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                     strQry += " max(xx.MCC_Name)MCC_Name,"
                 Else
                     strQry += " (xx.MCC_Name)MCC_Name,"
                 End If
             Else
                 'strQry += "max(xx.MCC_Name)MCC_Name,"'strQry += "xx.mcc_name,"
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                     strQry += "max(xx.MCC_Name)MCC_Name,"
                 Else
                     strQry += "(xx.MCC_Name)MCC_Name,"
@@ -576,7 +576,7 @@ Environment.NewLine + "Company : " & objCommonVar.CurrentCompanyName
 
             End If
             'End If
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                 strQry += "  max(xx.[Document Date])[Document Date],max(xx.[Document No])[Document No],max(xx.Type)Type,max(xx.Addition)Addition,max(xx.Deduction)Deduction,(xx.[Deduction Code])[Deduction Code],max(xx.[Deduction Desc])[Deduction Desc],sum(DISTINCT xx.[SRN_AMOUNT]) as [SRN_AMOUNT],sum(DISTINCT xx.[SRN Qty]) as [SRN Qty],
 						(xx.Reduce_Deduc_Amt)Reduce_Deduc_Amt,
 						sum(DISTINCT xx.ReduceAmts) as ReduceAmt  "
@@ -604,7 +604,7 @@ Environment.NewLine + "Company : " & objCommonVar.CurrentCompanyName
                 strQry += "  MAX(FINAL3.MCC_Name)MCC_Name,"
             End If
 
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                 strQry += "sum(XYZ.Reduce_Deduc_Amt) as Reduce_Deduc_Amt
 						,sum(xyz.amt)as ReduceAmt,
                         CASE
@@ -690,7 +690,7 @@ Environment.NewLine + "Company : " & objCommonVar.CurrentCompanyName
                         FINAL2.[Vendor Code],FINAL2.[Document Date],
                         FINAL2.[Document No])final3"
 
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                 strQry += "  left outer join
 						(Select TSPL_PAYMENT_PROCESS_DEDUCTION.Amount,TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE,TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt,TSPL_VENDOR_INVOICE_HEAD.Document_No 
 						,(TSPL_PAYMENT_PROCESS_DEDUCTION.Amount-TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt) AS Amt
@@ -710,7 +710,7 @@ WHERE convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) >=convert(date,('"
             strQry += " 
                         group by FINAL3.[Vendor Code],FINAL3.[Document Date],FINAL3.[Document No])xx 
                         "
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                 strQry += " group by [VLC Uploader Code],[Deduction Code],Reduce_Deduc_Amt )XY 
                             Union all
                         Select Customer_CODE,max(Customer_NAME)Customer_NAME,max([VLC Uploader Code])[VLC Uploader Code],max(MCC_Name)MCC_Name,max(Document_Date)Document_Date,

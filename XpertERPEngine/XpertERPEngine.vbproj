@@ -404,6 +404,13 @@
     <Compile Include="frmUserMaster.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="frmViewTDS.Designer.vb">
+      <DependentUpon>frmViewTDS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmViewTDS.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HR\clsTaskMaster.vb" />
     <Compile Include="Inventory\ClsAdjustmentsQCC.vb" />
     <Compile Include="Inventory\clsItemLocationDetails.vb" />
     <Compile Include="Inventory\clsOutputEntry.vb" />
@@ -669,12 +676,6 @@
       <DependentUpon>frmMasterHistory.vb</DependentUpon>
     </Compile>
     <Compile Include="frmMasterHistory.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmViewTDS.Designer.vb">
-      <DependentUpon>frmViewTDS.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmViewTDS.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="HR\clsComplaintGroup.vb" />
@@ -1182,7 +1183,6 @@
     <Compile Include="Sale\ClsSectionStageMapping.vb" />
     <Compile Include="Milk Procurement\clsShiftMaster.vb" />
     <Compile Include="HR\ClsShortlist.vb" />
-    <Compile Include="HR\clsSkillMaster.vb" />
     <Compile Include="Sale\clsSNSalesQuotation.vb" />
     <Compile Include="Finance\ClsSourceTypeDetail.vb" />
     <Compile Include="Finance\ClsSourceTypeMaster.vb" />
@@ -1190,14 +1190,9 @@
     <Compile Include="Common\clsSubDepartmentMaster.vb" />
     <Compile Include="Common\clsSubLocation.vb" />
     <Compile Include="Purchase\ClsSupplierRegistration.vb" />
-    <Compile Include="HR\clsTaskMaster.vb" />
     <Compile Include="Sale\clsTDMWiseTarget.vb" />
     <Compile Include="HR\clsTimeSheet.vb" />
     <Compile Include="Sale\ProductSale\clsTragetMasterProductSale.vb" />
-    <Compile Include="HR\clsTrainerfeedback.vb" />
-    <Compile Include="HR\clsTrainerMaster.vb" />
-    <Compile Include="HR\clsTrainingAttendance.vb" />
-    <Compile Include="HR\clsTrainingMaster.vb" />
     <Compile Include="Inventory\clsTransfer.vb" />
     <Compile Include="Inventory\ClsTransferIncompleteRemarks.vb" />
     <Compile Include="Inventory\clsTransferPost.vb" />
@@ -1427,6 +1422,9 @@
     <EmbeddedResource Include="frmUserMaster.resx">
       <DependentUpon>frmUserMaster.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmViewTDS.resx">
+      <DependentUpon>frmViewTDS.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Inventory\frmBatchItemOutNew.resx">
       <DependentUpon>frmBatchItemOutNew.vb</DependentUpon>
     </EmbeddedResource>
@@ -1480,9 +1478,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmMasterHistory.resx">
       <DependentUpon>frmMasterHistory.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmViewTDS.resx">
-      <DependentUpon>frmViewTDS.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Inventory\frmBatchItemIn.resx">
       <DependentUpon>frmBatchItemIn.vb</DependentUpon>

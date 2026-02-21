@@ -103,17 +103,17 @@ Public Class rptMachineSurveyRegister
             If Not isPrint Then
                 Qry &= " ROW_NUMBER() Over (Order By (Select 1)) As [S.No.],"
             End If
-            Qry &= " [Union],IsNull(MachineName,'') As [Machine Name],IsNull(MachineType,'') As [Machine Type],SUM(MachineCount) As [No of Machine] from (
-Select [Union],BrandName As MachineName,Case When IsAMCU=1 Then 'Analyzer' Else Null End As MachineType,Case When IsAMCU=1 Then 1 Else 0 End As MachineCount from BaseQry where IsAMCU=1 
+            Qry &= " [Union],Code,IsNull(MachineType,'') As [Machine Type],IsNull(MachineName,'') As [Machine Name],SUM(MachineCount) As [No of Machine] from (
+Select [Union],AMCU_Code As Code,BrandName As MachineName,Case When IsAMCU=1 Then 'Analyzer' Else Null End As MachineType,Case When IsAMCU=1 Then 1 Else 0 End As MachineCount from BaseQry where IsAMCU=1 And BrandName is not null
 Union All
-Select [Union],Weighing_BrandName As MachineName,Case When IsWeighing=1 Then 'Weighing Scale' Else Null End As MachineType,Case When IsWeighing=1 Then 1 Else 0 End As MachineCount from BaseQry where IsWeighing=1
+Select [Union],Weighing_Code As Code,Weighing_BrandName As MachineName,Case When IsWeighing=1 Then 'Weighing Scale' Else Null End As MachineType,Case When IsWeighing=1 Then 1 Else 0 End As MachineCount from BaseQry where IsWeighing=1 And Weighing_BrandName is not null
 )finalQry
-Group By [Union],MachineName,MachineType"
+Group By [Union],MachineType,Code,MachineName"
             If isPrint AndAlso rbtnUnionWise.Checked Then
                 Qry &= ")printQry Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "'
-Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_MASTER.State Order By [Union],[Machine Name],[Machine Type]"
+Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_MASTER.State Order By [Union],[Machine Type],[Machine Name]"
             Else
-                Qry &= " order by [Union],MachineName,MachineType"
+                Qry &= " order by [Union],MachineType,MachineName"
             End If
         End If
 
@@ -149,7 +149,7 @@ Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_M
                 If i <> 0 Then
                     Qry &= Environment.NewLine & " Union All " & Environment.NewLine
                 End If
-                Qry &= "Select Row_Number() Over (Order By (Select 1)) As [S.No.],'" & clsCommon.myCstr(strUnion("Location_Name")) & "' As [Union],TSPL_MCC_MASTER.MCC_Code,TSPL_MCC_MASTER.MCC_NAME ,TSPL_ZONE_MASTER.Zone_Code ,TSPL_ZONE_MASTER.Description,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_VENDOR_MASTER.IsAMCU,TSPL_AMCU_MASTER.Name As BrandName,TSPL_VENDOR_MASTER.IsWeighing,TSPL_WEIGHING_MASTER.Name As Weighing_BrandName
+                Qry &= "Select Row_Number() Over (Order By (Select 1)) As [S.No.],'" & clsCommon.myCstr(strUnion("Location_Name")) & "' As [Union],TSPL_MCC_MASTER.MCC_Code,TSPL_MCC_MASTER.MCC_NAME ,TSPL_ZONE_MASTER.Zone_Code ,TSPL_ZONE_MASTER.Description,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_VENDOR_MASTER.IsAMCU,TSPL_AMCU_MASTER.Code As AMCU_Code,TSPL_AMCU_MASTER.Name As BrandName,TSPL_VENDOR_MASTER.IsWeighing,TSPL_WEIGHING_MASTER.Code As Weighing_Code,TSPL_WEIGHING_MASTER.Name As Weighing_BrandName
 from " & clsCommon.myCstr(strUnion("DataBase_Name")) & ".dbo.TSPL_VLC_MASTER_HEAD
 Left Outer Join " & clsCommon.myCstr(strUnion("DataBase_Name")) & ".dbo.TSPL_VENDOR_MASTER On TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code And TSPL_VLC_MASTER_HEAD.Active=1
 Left Outer Join " & clsCommon.myCstr(strUnion("DataBase_Name")) & ".dbo.TSPL_MCC_MASTER On TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
@@ -198,6 +198,8 @@ Left Outer Join " & clsCommon.myCstr(strUnion("DataBase_Name")) & ".dbo.TSPL_WEI
                 gv1.Columns("AnalyzerNo").HeaderText = "No"
                 gv1.Columns("WeighingYes").HeaderText = "Yes"
                 gv1.Columns("WeighingNo").HeaderText = "No"
+            ElseIf rbtnUnionWise.Checked Then
+                gv1.Columns("Code").IsVisible = False
             End If
             gv1.ShowGroupPanel = False
             gv1.MasterTemplate.AutoExpandGroups = False

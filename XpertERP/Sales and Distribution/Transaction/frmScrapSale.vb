@@ -8,6 +8,10 @@ Public Class frmScrapSale
     Inherits FrmMainTranScreen
 
 #Region "Variables"
+    Dim ApplyEWBThresholdLimit As Boolean = False
+    Dim EWBThresholdLimitForIntraCity As Integer = 0
+    Dim EWBThresholdLimitForIntraState As Integer = 0
+    Dim EWBThresholdLimitForInterState As Integer = 0
     Dim RunBatchFifowise As Integer = 0
     Dim RunBatchFifowisewithmodifyfunctionality As Boolean = False
     Dim isLoadData As Boolean = False
@@ -215,6 +219,10 @@ Public Class frmScrapSale
         AmountToCheckCustomerOutstandingForTCSTax = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AmountToCheckCustomerOutstandingForTCSTax, clsFixedParameterCode.AmountToCheckCustomerOutstandingForTCSTax, Nothing))
         AllowtoChangeTCSBaseAmount = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowtoChangeTCSBaseAmount, clsFixedParameterCode.AllowtoChangeTCSBaseAmount, Nothing)) = 0, False, True)
         ConsiderPreviousandCurrentFYForTCSTaxCustOutstanding = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ConsiderPreviousCurrentFYForTCSTaxCustOutstanding, clsFixedParameterCode.ConsiderPreviousCurrentFYForTCSTaxCustOutstanding, Nothing)) = "1", True, False)
+        ApplyEWBThresholdLimit = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.ApplyEWBThresholdLimit, Nothing)) = 1, True, False)
+        EWBThresholdLimitForIntraCity = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraCity, Nothing))
+        EWBThresholdLimitForIntraState = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraState, Nothing))
+        EWBThresholdLimitForInterState = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForInterState, Nothing))
         chkCashSale.Visible = True
         SetUserMgmtNew()
         ApplyManualTCS = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsManualTCS, clsFixedParameterCode.IsManualTCS, Nothing)) = 1, True, False)
@@ -2057,6 +2065,10 @@ Public Class frmScrapSale
         UcAttachment1.BlankAllControls()
         chkEInvoice.Checked = False
         chkIsEwaybill.Checked = False
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
+            chkIsEwaybill.Enabled = True
+
+        End If
         'Inter_unit_salechk.Checked = False
     End Sub
 
@@ -2134,17 +2146,79 @@ Public Class frmScrapSale
             Return False
         End If
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-            If clsCommon.myLen(clsCommon.myCstr(fndLocation.Value)) > 0 Then
-                If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(fndLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
-                    If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(fndcustNo.Value) & "' ")), "Others") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(fndcustNo.Value) & "' ")), "") = CompairStringResult.Equal Then
-                        If clsCommon.myLen(txtSubLocation.Value) <= 0 Then
-                            Throw New Exception("Please select Sub Location")
-                            txtSubLocation.Focus()
-                            Return False
+            'If clsCommon.myLen(clsCommon.myCstr(fndLocation.Value)) > 0 Then
+            '    If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(fndLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
+            '        If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(fndcustNo.Value) & "' ")), "Others") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(fndcustNo.Value) & "' ")), "") = CompairStringResult.Equal Then
+            '            If clsCommon.myLen(txtSubLocation.Value) <= 0 Then
+            '                Throw New Exception("Please select Sub Location")
+            '                txtSubLocation.Focus()
+            '                Return False
+            '            End If
+            '        End If
+            '    End If
+            'End If
+            '' Check EWB Threshold Limit 28-Jan-2026
+            If ApplyEWBThresholdLimit AndAlso chkTaxable.Checked Then
+
+                Dim EWBThresholdLimtCat As String = ""
+                Dim EWBThresholdLimtCatForCust As String = ""
+                chkIsEwaybill.Checked = False
+                Dim EwbNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select EWayBillNo from TSPL_SCRAPINVOICE_HEAD where invoice_No='" & lblInvoiceNo.Text & "'"))
+                If clsCommon.myLen(EwbNo) = 0 Then
+                    If clsCommon.myLen(clsCommon.myCstr(fndLocation.Value)) > 0 Then
+                        If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(fndLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
+                            If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(fndcustNo.Value) & "' ")), "Others") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(fndcustNo.Value) & "' ")), "") = CompairStringResult.Equal Then
+                                If clsCommon.myLen(txtSubLocation.Value) > 0 Then
+                                    EWBThresholdLimtCat = "select City_Code,State from TSPL_LOCATION_MASTER where Location_Code='" & txtSubLocation.Value & "'"
+
+                                End If
+                            End If
+                        Else
+                            EWBThresholdLimtCat = "select City_Code,State from TSPL_LOCATION_MASTER where Location_Code='" & fndLocation.Value & "'"
                         End If
+                        EWBThresholdLimtCatForCust = "select City_Code,State from TSPL_CUSTOMER_MASTER where Cust_Code='" & fndcustNo.Value & "'"
+                        Dim dt_FromLocation As DataTable = clsDBFuncationality.GetDataTable(EWBThresholdLimtCat)
+                        Dim dt_CustLocation As DataTable = clsDBFuncationality.GetDataTable(EWBThresholdLimtCatForCust)
+                        Dim IsScrapEwb As Boolean = False
+                        For i As Integer = 0 To gv1.Rows.Count - 1
+                            Dim qty As Decimal = clsCommon.myCdbl(gv1.Rows(i).Cells(colQty).Value)
+                            If clsCommon.myLen(gv1.Rows(i).Cells(colICode).Value) > 0 And qty > 0 Then
+                                Dim strItemCode As String = clsCommon.myCstr(gv1.Rows(i).Cells(colICode).Value)
+                                IsScrapEwb = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select isnull(IsScrapEwb,0) as IsScrapEwb from TSPL_HSN_MASTER where Code in(select HSN_Code from TSPL_ITEM_MASTER where Item_Code='" & strItemCode & "')")) = 1, True, False)
+                                If IsScrapEwb Then
+                                    Exit For
+                                End If
+                            End If
+                        Next
+                        If IsScrapEwb Then
+                            If clsCommon.myCdbl(lbldocamt.Text) > EWBThresholdLimitForInterState Then
+                                chkIsEwaybill.Checked = True
+                            End If
+                        Else
+                            If clsCommon.CompairString(clsCommon.myCstr(dt_FromLocation(0)("City_Code")), clsCommon.myCstr(dt_CustLocation(0)("City_Code"))) = CompairStringResult.Equal Then
+                                If clsCommon.myCdbl(lbldocamt.Text) > EWBThresholdLimitForIntraCity Then
+                                    chkIsEwaybill.Checked = True
+                                End If
+                            ElseIf clsCommon.CompairString(clsCommon.myCstr(dt_FromLocation(0)("State")), clsCommon.myCstr(dt_CustLocation(0)("State"))) = CompairStringResult.Equal Then
+                                If clsCommon.myCdbl(lbldocamt.Text) > EWBThresholdLimitForIntraState Then
+                                    chkIsEwaybill.Checked = True
+                                End If
+                            Else
+                                If clsCommon.myCdbl(lbldocamt.Text) > EWBThresholdLimitForInterState Then
+                                    chkIsEwaybill.Checked = True
+                                End If
+                            End If
+
+                        End If
+
                     End If
+                Else
+                    chkIsEwaybill.Checked = True
                 End If
+
             End If
+
+            '' End  of EWB Threshold Limit
         End If
         If AllowtoChangeTCSBaseAmount Then
             If clsCommon.myCdbl(txttcstaxbaseamount.Value) > clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text) Then
@@ -2988,8 +3062,10 @@ Public Class frmScrapSale
                     txtDrAmt.Text = obj.DrAmt
                     txtCrAmt.Text = obj.CrAmt
                     txtClosingBal.Text = obj.ClosingBal
+                    chkIsEwaybill.Enabled = False
                 Else
                     btnCancel.Enabled = False
+                    chkIsEwaybill.Enabled = True
                     GetOpeningClosingAndReceivedAmt(obj.cust_Code, obj.shipment_Date)
                 End If
 
@@ -6663,13 +6739,19 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
 
     Private Sub btnPrintEWB_Click(sender As Object, e As EventArgs) Handles btnPrintEWB.Click
         Try
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(ClsScrapInvoiceHead.PrintEWayBill(txtDocNo.Value, fndcustNo.Value))
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rpte-waybill", "E-WayBill", clsCommon.GetPrintDate(dtpshipment.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                frmCRV = Nothing
+            If clsCommon.myLen(txtEWayBillNo.Text) > 0 Then
+
+
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(clsPSInvoiceHead.PrintEWayBill(txtEWayBillNo.Text, fndLocation.Value))
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rpte-waybill", "E-WayBill", clsCommon.GetPrintDate(dtpshipment.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    frmCRV = Nothing
+                Else
+                    Throw New Exception("No Data Found ")
+                End If
             Else
-                Throw New Exception("No Data Found ")
+
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

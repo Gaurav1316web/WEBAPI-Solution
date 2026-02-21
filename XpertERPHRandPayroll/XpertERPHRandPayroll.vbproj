@@ -1311,6 +1311,7 @@
     <Compile Include="HR and Payroll\Tranasction\frmWeeklyHolidays.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="HR\clsSkillMaster.vb" />
     <Compile Include="HR\Employee Equipment Tracking\frmAssetDetailAttachments.Designer.vb">
       <DependentUpon>frmAssetDetailAttachments.vb</DependentUpon>
     </Compile>
@@ -1677,7 +1678,10 @@
     <Compile Include="HR\Training Transaction\frmTrainingAttendance.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="HR\Transaction\clsScheduleForTraining.vb" />
     <Compile Include="HR\Transaction\clsTraineeFeedback.vb" />
+    <Compile Include="HR\Transaction\clsTrainerfeedback.vb" />
+    <Compile Include="HR\Transaction\clsTrainingAttendance.vb" />
     <Compile Include="HR\Transaction\frmAgencyMaster.Designer.vb">
       <DependentUpon>frmAgencyMaster.vb</DependentUpon>
     </Compile>

@@ -119,7 +119,12 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
         End If
         Me.Focus()
         txtdate.Focus()
-        btnPrint.Visible = (clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal)
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
+            btnPrint.Visible = True
+        Else
+            btnPrint.Visible = False
+        End If
+
         'btnPrint.Visible = True
         BtnBank.Visible = False
 
