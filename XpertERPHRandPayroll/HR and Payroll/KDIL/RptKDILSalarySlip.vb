@@ -67,9 +67,12 @@ Public Class RptKDILSalarySlip
             Dim LocAddress As String = ""
             Dim dtsub As DataTable = Nothing
             Dim dtsub2 As DataTable = Nothing
-            If clsCommon.myLen(txtFromPP.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Please Select Pay Period.", Me.Text)
-                Return
+            If ChkMonthlysalaryslip.Checked Then
+            Else
+                If clsCommon.myLen(txtFromPP.Value) <= 0 Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Select Pay Period.", Me.Text)
+                    Return
+                End If
             End If
 
             'If cbgLocation.CheckedValue.Count <= 0 Then
@@ -87,6 +90,12 @@ Public Class RptKDILSalarySlip
             'Ticket No  BHA/13/03/19-000842 sanjay, ADD Card No
             Dim Qry As String = ""
             Qry = ""
+            If ChkMonthlysalaryslip.Checked Then
+                Qry += "   Select max(Bank_Branch)Bank_Branch,max(Payment_Name)Payment_Name,max(onePagePrint)onePagePrint,Code,max(Name)Name,max(UIN_NO)UIN_NO,max(PFNo)PFNo,max(ESINo)ESINo,max(FathersName)FathersName,max(CompanyName)CompanyName,max(CompanyAddress)CompanyAddress,max(cast(Logo_Img as varbinary(max))) as Logo_Img,max(LocationDesc)LocationDesc,
+                           max(LocationCode)LocationCode,max(Designation_id)Designation_id,max(Designation_Desc)Designation_Desc,max(DEPARTMENT_CODE)DEPARTMENT_CODE,max(DEPARTMENT_NAME)DEPARTMENT_NAME,max(BANK_CODE)BANK_CODE,max(Bank_Name)Bank_Name,
+                           max(BANK_ACC_NO)BANK_ACC_NO,max(Emp_Pan_no)Emp_Pan_no,max(Location_Address)Location_Address,max(Joining_date)Joining_date,max(PAY_PERIOD_CODE)PAY_PERIOD_CODE,sum(PAYPERIOD_DAYS)PAYPERIOD_DAYS,sum(HOLIDAY_DAYS)HOLIDAY_DAYS,sum(PAYABLE_DAYS)PAYABLE_DAYS,
+                           sum(PAYABLE_DAYS1)PAYABLE_DAYS1,sum(Working_days)Working_days,sum([Present Days])[Present Days],sum(Weekly_off)Weekly_off,max(DevCode)DevCode,max(Firm_PF_No)Firm_PF_No,max(Card_No)Card_No,max(Birth_date)Birth_date,max(Supress)Supress from (  "
+            End If
             Qry += "  SELECT T1.Bank_Branch,TSPL_Payment_MODE.NAME as Payment_Name, '" + clsCommon.myCstr(onePagePrint) + "' as onePagePrint,T1.EMP_CODE As [Code] ,T1.Emp_Name as [Name],T1.UIN_NO,T1.PF_NO as [PFNo], T1.ESI_NO  as [ESINo], "
             Qry += " t1.FATHERS_NAME as [FathersName],'" & objCommonVar.CurrentCompanyName & "' as [CompanyName],  t2.Add1+Case When ISNULL(t2.Add2,'')='' Then ''  else ', '+t2.Add2+ Case When ISNULL(t2.Add3,'')='' Then '' Else ', '+t2.Add3+ Case When ISNULL(t2.Pincode,'')='' Then '' else '-'+CONVERT(varchar, t2.Pincode) End End End  as [CompanyAddress],Logo_Img,Location_Desc as LocationDesc,"
             Qry += " T1.Location_Code as LocationCode, "
@@ -138,6 +147,10 @@ Public Class RptKDILSalarySlip
             'End If
             If txtDepartment.arrValueMember IsNot Nothing AndAlso txtDepartment.arrValueMember.Count > 0 Then
                 Qry += " and T1.Department_Code  in (" + clsCommon.GetMulcallString(txtDepartment.arrValueMember) + ") "
+            End If
+
+            If ChkMonthlysalaryslip.Checked Then
+                Qry += " )XX Group by XX.Code"
             End If
 
             Dim Hader_Info As DataTable = clsDBFuncationality.GetDataTable(Qry)
@@ -259,12 +272,12 @@ Public Class RptKDILSalarySlip
 
                     If ChkMonthlysalaryslip.Checked Then
                         Qry = ""
-                        Qry += "select LINE_NO,head.PAY_HEAD_CODE,head.PAY_HEAD_NAME,EMP_CODE,RATE_AMOUNT,(ACTUAL_AMOUNT-head.Arrear_Amount) as ACTUAL_AMOUNT,COALESCE(detail.Arrear_Amount,head.Arrear_Amount) as Arrear_Amount from"
+                        Qry += " Select max(LINE_NO)LINE_NO,PAY_HEAD_CODE,max(PAY_HEAD_NAME)PAY_HEAD_NAME,EMP_CODE,sum(RATE_AMOUNT)RATE_AMOUNT,sum(ACTUAL_AMOUNT)ACTUAL_AMOUNT,sum(Arrear_Amount)Arrear_Amount from (select LINE_NO,head.PAY_HEAD_CODE,head.PAY_HEAD_NAME,EMP_CODE,RATE_AMOUNT,(ACTUAL_AMOUNT-head.Arrear_Amount) as ACTUAL_AMOUNT,COALESCE(detail.Arrear_Amount,head.Arrear_Amount) as Arrear_Amount from"
                         Qry += " (SELECT T2.LINE_NO,T1.PAY_HEAD_CODE,T1.PRINT_NAME As PAY_HEAD_NAME,T2.EMP_CODE,T2.RATE_AMOUNT,T2.ACTUAL_AMOUNT,COALESCE(T2.ARREAR_AMT,0) as Arrear_Amount FROM TSPL_PAYHEAD_MASTER T1  INNER JOIN ( SELECT T2.PAY_PERIOD_CODE,T1.LINE_NO,T1.PAY_HEAD_CODE,T1.EMP_CODE,T1.PAYABLE_AMOUNT as RATE_AMOUNT,T1.ACTUAL_AMOUNT,T1.ARREAR_AMT FROM TSPL_GENERATE_SALARY_PAYHEADS T1  JOIN TSPL_GENERATE_SALARY T2 ON T1.SALARY_GENERATION_CODE=T2.SALARY_GENERATION_CODE) AS T2 ON T1.PAY_HEAD_CODE=T2.PAY_HEAD_CODE WHERE(1 = 1) and T1.ISEARNING=1  AND T2.PAY_PERIOD_CODE In (" + clsCommon.GetMulcallString(TxtMultPayperiod.arrValueMember) + ") "
                         Qry += " AND T2.EMP_CODE ='" + DrHead("Code") + "' and t1.SUB_HEAD_TYPE <> 'Arrear'  and ACTUAL_AMOUNT <> 0  )as head"
                         Qry += " Left Join (SELECT T1.PAY_HEAD_CODE,T1.PAY_HEAD_NAME,T2.ACTUAL_AMOUNT as  Arrear_Amount,ARREAR_TYPE  FROM TSPL_PAYHEAD_MASTER T1  INNER JOIN ( SELECT T2.PAY_PERIOD_CODE,T1.LINE_NO,T1.PAY_HEAD_CODE,T1.EMP_CODE,T1. PAYABLE_AMOUNT as RATE_AMOUNT,T1.ACTUAL_AMOUNT,T1.ARREAR_AMT FROM TSPL_GENERATE_SALARY_PAYHEADS T1  JOIN TSPL_GENERATE_SALARY T2 ON T1.SALARY_GENERATION_CODE=T2.SALARY_GENERATION_CODE) AS T2 ON T1.PAY_HEAD_CODE=T2.PAY_HEAD_CODE WHERE(1 = 1) and T1.ISEARNING=1  AND T2.PAY_PERIOD_CODE In (" + clsCommon.GetMulcallString(TxtMultPayperiod.arrValueMember) + ") "
                         Qry += " AND T2.EMP_CODE ='" + DrHead("Code") + "' and  t1.SUB_HEAD_TYPE = 'Arrear'  and ACTUAL_AMOUNT <> 0 )as detail on  detail.ARREAR_TYPE=head.PAY_HEAD_CODE"
-                        Qry += "  ORDER BY EMP_CODE,LINE_NO"
+                        Qry += " ) xx group by EMP_CODE,PAY_HEAD_CODE ORDER BY EMP_CODE,LINE_NO"
                     Else
                         Qry = ""
                         Qry += "select LINE_NO,head.PAY_HEAD_CODE,head.PAY_HEAD_NAME,EMP_CODE,RATE_AMOUNT,(ACTUAL_AMOUNT-head.Arrear_Amount) as ACTUAL_AMOUNT,COALESCE(detail.Arrear_Amount,head.Arrear_Amount) as Arrear_Amount from"
@@ -286,7 +299,7 @@ Public Class RptKDILSalarySlip
 
                     If ChkMonthlysalaryslip.Checked Then
                         Qry = ""
-                        Qry += " SELECT T2.LINE_NO,T1.PAY_HEAD_CODE,T1.PRINT_NAME As PAY_HEAD_NAME,T2.EMP_CODE,T2.RATE_AMOUNT,T2.ACTUAL_AMOUNT FROM TSPL_PAYHEAD_MASTER T1 "
+                        Qry += "  Select max(LINE_NO)LINE_NO,PAY_HEAD_CODE,max(PAY_HEAD_NAME)PAY_HEAD_NAME,EMP_CODE,max(RATE_AMOUNT)RATE_AMOUNT,sum(ACTUAL_AMOUNT)ACTUAL_AMOUNT from (SELECT T2.LINE_NO,T1.PAY_HEAD_CODE,T1.PRINT_NAME As PAY_HEAD_NAME,T2.EMP_CODE,T2.RATE_AMOUNT,T2.ACTUAL_AMOUNT FROM TSPL_PAYHEAD_MASTER T1 "
                         Qry += " INNER JOIN ("
                         Qry += " SELECT T2.PAY_PERIOD_CODE,T1.* FROM TSPL_GENERATE_SALARY_PAYHEADS T1 "
                         Qry += " JOIN TSPL_GENERATE_SALARY T2 ON T1.SALARY_GENERATION_CODE=T2.SALARY_GENERATION_CODE) AS T2 ON T1.PAY_HEAD_CODE=T2.PAY_HEAD_CODE"
@@ -294,7 +307,7 @@ Public Class RptKDILSalarySlip
                         Qry += " and T1.ISEARNING=0 "
                         Qry += " AND T2.PAY_PERIOD_CODE In (" + clsCommon.GetMulcallString(TxtMultPayperiod.arrValueMember) + ") "
                         Qry += " AND T2.EMP_CODE ='" + DrHead("Code") + "'   AND ACTUAL_AMOUNT <> 0 "
-                        Qry += " ORDER BY T2.EMP_CODE,T2.LINE_NO "
+                        Qry += " ) XX  group by EMP_CODE,PAY_HEAD_CODE ORDER BY XX.EMP_CODE,XX.LINE_NO "
                     Else
                         Qry = ""
                         Qry += " SELECT T2.LINE_NO,T1.PAY_HEAD_CODE,T1.PRINT_NAME As PAY_HEAD_NAME,T2.EMP_CODE,T2.RATE_AMOUNT,T2.ACTUAL_AMOUNT FROM TSPL_PAYHEAD_MASTER T1 "
