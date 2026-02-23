@@ -105,11 +105,16 @@ Public Class RptKDILSalarySlip
             Qry += "  Case When ISNULL(TSPL_LOCATION_MASTER.Add3,'')='' Then '' Else ', '+TSPL_LOCATION_MASTER.Add3+ Case When ISNULL(TSPL_STATE_MASTER.State_Name ,'')='' Then '' else '-'+CONVERT(varchar, TSPL_STATE_MASTER.State_Name) End End End as Location_Address"
             Qry += " ,t1.Joining_date ,t7.PAY_PERIOD_CODE,T6.PAYPERIOD_DAYS,HOLIDAY_DAYS,PAYABLE_DAYS,CAST(PAYABLE_DAYS AS INT) AS PAYABLE_DAYS1,(T6.PAYPERIOD_DAYS-HOLIDAY_DAYS) as Working_days,T6.Present_Days as [Present Days],(T6.PAYPERIOD_DAYS-Present_Days-HOLIDAY_DAYS-LEAVE_DAYS-LOP_DAYS) as Weekly_off,D1.DEVISION_CODE AS DevCode,TSPL_LOCATION_MASTER.PF_NO as Firm_PF_No,isnull(Card_No,'') as Card_No,T1.Birth_date "
 
-            If txtEmployeeMult.arrValueMember IsNot Nothing AndAlso txtEmployeeMult.arrValueMember.Count > 0 Then
+            If ChkMonthlysalaryslip.Checked Then
                 Qry += " , 1 AS Supress  "
             Else
-                Qry += " , 0 AS Supress  "
+                If txtEmployeeMult.arrValueMember IsNot Nothing AndAlso txtEmployeeMult.arrValueMember.Count > 0 Then
+                    Qry += " , 1 AS Supress  "
+                Else
+                    Qry += " , 0 AS Supress  "
+                End If
             End If
+
             Qry += " from TSPL_EMPLOYEE_MASTER T1"
             Qry += " left Outer join tspl_company_Master T2 on T2.Comp_Code =T1.Comp_Code  "
             Qry += " left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = T1.LOCATION_CODE "
@@ -307,7 +312,7 @@ Public Class RptKDILSalarySlip
                         Qry += " and T1.ISEARNING=0 "
                         Qry += " AND T2.PAY_PERIOD_CODE In (" + clsCommon.GetMulcallString(TxtMultPayperiod.arrValueMember) + ") "
                         Qry += " AND T2.EMP_CODE ='" + DrHead("Code") + "'   AND ACTUAL_AMOUNT <> 0 "
-                        Qry += " ) XX  group by EMP_CODE,PAY_HEAD_CODE ORDER BY XX.EMP_CODE,XX.LINE_NO "
+                        Qry += " ) XX  group by EMP_CODE,PAY_HEAD_CODE ORDER BY XX.EMP_CODE,max(XX.LINE_NO)  "
                     Else
                         Qry = ""
                         Qry += " SELECT T2.LINE_NO,T1.PAY_HEAD_CODE,T1.PRINT_NAME As PAY_HEAD_NAME,T2.EMP_CODE,T2.RATE_AMOUNT,T2.ACTUAL_AMOUNT FROM TSPL_PAYHEAD_MASTER T1 "
@@ -727,7 +732,7 @@ Public Class RptKDILSalarySlip
             Dim whrcls As String = "  TSPL_GENERATE_SALARY.PAY_PERIOD_CODE In (" & clsCommon.GetMulcallString(TxtMultPayperiod.arrValueMember) & " ) "
             ' txtEmployeeMult.arrValueMember = clsCommon.ShowMultipleSelectForm("EMPMulSel", qry, "Code", "Name", txtEmployeeMult.arrValueMember, txtEmployeeMult.arrDispalyMember)
             TxtEmployee.Value = clsCommon.ShowSelectForm("TSPL_PAYPERIOD_MASTER", qry, "Code", whrcls, TxtEmployee.Value, "", isButtonClicked)
-            lblEmployee.Text = clsPayPeriodMaster.GetName(txtFromPP.Value, Nothing)
+            lblEmployee.Text = clsPayPeriodMaster.GetName(TxtEmployee.Value, Nothing)
 
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
