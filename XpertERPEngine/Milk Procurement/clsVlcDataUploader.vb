@@ -1,5 +1,25 @@
 ﻿Imports common
 Imports System.Data.SqlClient
+Public Class clsJSONVLCDataUploader
+    Public MCCCode As String
+    Public VLCUploaderCode As String
+    Public MPUploaderCode As String
+    Public [Date] As String
+    Public Shift As String
+    Public MilkType As String
+    Public Qty As Decimal
+    Public FAT As Decimal
+    Public SNF As Decimal
+    Public Manual_Weighment As Integer
+    Public Manual_Milk_Analyzer As Integer
+
+    Public Route_no As String
+    Public Rate As Decimal
+    Public Amount As Decimal
+    Public water As Decimal
+    Public Entry_Source As String
+    Public Uom_COde As String
+End Class
 Public Class clsVlcDataUploader
     Public Doc_No As String = Nothing
     Public Doc_Date As Date = Nothing
