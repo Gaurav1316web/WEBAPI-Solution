@@ -139,8 +139,11 @@ from TSPL_SD_SALE_INVOICE_HEAD
 left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
 left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No 
 LEFT JOIN TSPL_ROUTE_MASTER Route ON Route.Route_No = TSPL_SD_SALE_INVOICE_HEAD.Route_No 
-where TSPL_SD_SALE_INVOICE_HEAD.Customer_Code IN (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ") and
- CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'
+where "
+            If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                qry += " TSPL_SD_SALE_INVOICE_HEAD.Customer_Code IN (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ") and "
+            End If
+            qry += "   CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'
 
 			union all
 
@@ -151,8 +154,11 @@ from TSPL_SD_SALE_INVOICE_HEAD
 left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
 left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No 
 LEFT JOIN TSPL_ROUTE_MASTER Route ON Route.Route_No = TSPL_SD_SALE_INVOICE_HEAD.Route_No 
-where TSPL_SD_SALE_INVOICE_HEAD.Customer_Code IN (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ") and
- CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'
+where 2=2 "
+            If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code IN (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")  "
+            End If
+            qry += " and CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'
 
 			union all
 
@@ -163,8 +169,11 @@ from TSPL_SD_SALE_INVOICE_HEAD
 left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
 left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No 
 LEFT JOIN TSPL_ROUTE_MASTER Route ON Route.Route_No = TSPL_SD_SALE_INVOICE_HEAD.Route_No 
-where TSPL_SD_SALE_INVOICE_HEAD.Customer_Code IN (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ") and
- CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'
+where 2=2 "
+            If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code IN (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")  "
+            End If
+            qry += " and CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'
             union all
 
 select TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code as Customer_Code,'" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' as Supply_Date,NULL AS Shift_Type,null as Zone_Code1,null as Zone_Code,
@@ -179,46 +188,67 @@ sum(Type * amount) Total_Amt,NULL AS AgainstScrapReturn,2 as RI
  AND  CONVERT(date, Date, 103)  < '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' and status='Y' 
  ) xx 
  left outer join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code=xx.vendor_code
- where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code In (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")
- group by TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code
+ where 2=2 "
+            If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                qry += " and  TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code In (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ") "
+            End If
+            qry += "  group by TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code
 
  union all
   select cust_code as Customer_Code,Receipt_Date as Supply_Date,Receipt_Type as  Shift_Type, SecurityDeposit AS Zone_Code1,
   NULL AS Zone_Code,Receipt_Amount AS Total_Amt,NULL AS AgainstScrapReturn,6 AS RI from TSPL_RECEIPT_HEADER
-  where Cust_Code IN (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")
- and SecurityDeposit='Y' and Receipt_Type='P'
+  where 2=2 "
+            If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                qry += "  and Cust_Code IN (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")  "
+            End If
+            qry += " and SecurityDeposit='Y' and Receipt_Type='P'
 
    union all
   select cust_code as Customer_Code,Receipt_Date as Supply_Date,Receipt_Type as  Shift_Type, SecurityDeposit AS Zone_Code1,
   NULL AS Zone_Code,Receipt_Amount AS Total_Amt,NULL AS AgainstScrapReturn,3 AS RI from TSPL_RECEIPT_HEADER
-  where Cust_Code IN (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")
- and SecurityDeposit='Y' and Receipt_Type='F' 
+  where 2=2 "
+            If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                qry += "  and Cust_Code IN (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")  "
+            End If
+            qry += "  and SecurityDeposit='Y' and Receipt_Type='F' 
 
    union all
   select cust_code as Customer_Code,Receipt_Date as Supply_Date,Receipt_Type as  Shift_Type, SecurityDeposit AS Zone_Code1,
   NULL AS Zone_Code,Receipt_Amount AS Total_Amt,NULL AS AgainstScrapReturn,7 AS RI from TSPL_RECEIPT_HEADER
-  where Cust_Code IN (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")
- and SecurityDeposit='N' and Payment_Code <> 'CASH'  
+  where 2=2 "
+            If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                qry += "  and Cust_Code IN (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")  "
+            End If
+            qry += " and SecurityDeposit='N' and Payment_Code <> 'CASH'  
 
      union all
   select cust_code as Customer_Code,Receipt_Date as Supply_Date,Receipt_Type as  Shift_Type, SecurityDeposit AS Zone_Code1,
   NULL AS Zone_Code,Receipt_Amount AS Total_Amt,NULL AS AgainstScrapReturn,15 AS RI from TSPL_RECEIPT_HEADER
-  where Cust_Code IN (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")
- and  Payment_Code = 'CASH' 
+  where 2=2 "
+            If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                qry += " and  Cust_Code IN (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")  "
+            End If
+            qry += " and Payment_Code = 'CASH' 
 
      union all
   select cust_code as Customer_Code,Receipt_Date as Supply_Date,Receipt_Type as  Shift_Type, SecurityDeposit AS Zone_Code1,
   NULL AS Zone_Code,Receipt_Amount AS Total_Amt,NULL AS AgainstScrapReturn,8 AS RI from TSPL_RECEIPT_HEADER
-  where Cust_Code IN (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")   
- and SecurityDeposit='N'
+  where 2=2 "
+            If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                qry += "  and  Cust_Code IN (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")  "
+            End If
+            qry += " and SecurityDeposit='N'
 
   union all
 
  select Customer_Code,Document_Date as Supply_Date,Document_Type as  Shift_Type, Against_Sale_Return_No AS Zone_Code1, 
  Against_MCC_Material_Sale_Return AS Zone_Code,Document_Total AS Total_Amt,AgainstScrapReturn AS AgainstScrapReturn,4 AS RI 
  --AgainstScrapReturn 
- from TSPL_Customer_Invoice_Head where  TSPL_Customer_Invoice_Head.Customer_Code IN (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ") 
- and Document_Type='D' 
+ from TSPL_Customer_Invoice_Head where 2=2 "
+            If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                qry += " and  TSPL_Customer_Invoice_Head.Customer_Code IN (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")  "
+            End If
+            qry += " and Document_Type='D' 
  and (Against_Sale_Return_No is null or Against_Sale_Return_No='') and (Against_MCC_Material_Sale_Return is null or Against_MCC_Material_Sale_Return='')
 and (AgainstScrapReturn is null or AgainstScrapReturn='')
  
@@ -226,9 +256,11 @@ and (AgainstScrapReturn is null or AgainstScrapReturn='')
 
  select Customer_Code,Document_Date as Supply_Date,Document_Type as  Shift_Type, Against_Sale_Return_No AS Zone_Code1, 
  Against_MCC_Material_Sale_Return AS Zone_Code,Document_Total AS Total_Amt,AgainstScrapReturn AS AgainstScrapReturn,10 AS RI 
- --AgainstScrapReturn 
- from TSPL_Customer_Invoice_Head where  TSPL_Customer_Invoice_Head.Customer_Code IN (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")
- and Document_Type='C' 
+ from TSPL_Customer_Invoice_Head where 2=2 "
+            If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                qry += " and TSPL_Customer_Invoice_Head.Customer_Code IN (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")  "
+            End If
+            qry += " and Document_Type='C' 
  and (Against_Sale_Return_No is null or Against_Sale_Return_No='') and (Against_MCC_Material_Sale_Return is null or Against_MCC_Material_Sale_Return='')
 and (AgainstScrapReturn is null or AgainstScrapReturn='')
 
@@ -239,8 +271,11 @@ and (AgainstScrapReturn is null or AgainstScrapReturn='')
 from (Select Customer_Code ,Document_Date,(Total_Amt)Return_Amt from TSPL_SD_SALE_RETURN_HEAD --where convert(date,Document_Date,103) = '12/Jan/2026 ' group by Customer_Code
 union all
 Select cust_Code ,Return_ship_Date as Document_Date,(Doc_Amt)Return_Amt from TSPL_SCRAPSALE_HEAD_RETURN --where convert(date,Return_ship_Date,103) = '12/Jan/2026 ' group by cust_Code
-)XX where  Customer_Code IN (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")
- Group by Customer_Code,Document_Date ) 
+)XX where  2=2 "
+            If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                qry += "  and  Customer_Code IN (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")  "
+            End If
+            qry += " Group by Customer_Code,Document_Date ) 
 
  union all
 
@@ -249,8 +284,11 @@ Select cust_Code ,Return_ship_Date as Document_Date,(Doc_Amt)Return_Amt from TSP
 from (Select Customer_Code ,Document_Date,(Total_Amt)Return_Amt from TSPL_SD_SALE_RETURN_HEAD 
 union all
 Select cust_Code ,Return_ship_Date as Document_Date,(Doc_Amt)Return_Amt from TSPL_SCRAPSALE_HEAD_RETURN 
-)XX where  Customer_Code IN (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")
-Group by Customer_Code,Document_Date ) 
+)XX where 2=2 "
+            If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                qry += "  and Customer_Code IN (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")  "
+            End If
+            qry += " Group by Customer_Code,Document_Date ) 
  
  )XX GROUP BY Customer_Code) XY
  left outer join TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code= XY.Customer_Code
