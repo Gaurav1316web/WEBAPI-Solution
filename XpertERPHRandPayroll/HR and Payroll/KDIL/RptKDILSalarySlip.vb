@@ -723,13 +723,13 @@ Public Class RptKDILSalarySlip
 
     Private Sub TxtMultPayperiod__My_Click(sender As Object, e As EventArgs) Handles TxtMultPayperiod._My_Click
         Try
-            If TxtMultPayperiod.arrValueMember IsNot Nothing AndAlso TxtMultPayperiod.arrValueMember.Count > 0 Then
-                Dim qry As String = "SELECT PAY_PERIOD_CODE AS 'Code',(DATEDIFF(DAY,date_from,date_to)+1) as 'Total days', " _
+            'If TxtMultPayperiod.arrValueMember IsNot Nothing AndAlso TxtMultPayperiod.arrValueMember.Count > 0 Then
+            Dim qry As String = "SELECT PAY_PERIOD_CODE AS 'Code',(DATEDIFF(DAY,date_from,date_to)+1) as 'Total days', " _
             & " PAY_PERIOD_NAME as 'Name' FROM TSPL_PAYPERIOD_MASTER  "
                 TxtMultPayperiod.arrValueMember = clsCommon.ShowMultipleSelectForm("EMPMulSel", qry, "Code", "Name", TxtMultPayperiod.arrValueMember, TxtMultPayperiod.arrDispalyMember)
-            Else
-                clsCommon.MyMessageBoxShow(Me, "Please Select PayPeriod", Me.Text)
-            End If
+            'Else
+            '    clsCommon.MyMessageBoxShow(Me, "Please Select PayPeriod", Me.Text)
+            'End If
             'txtFromPP.Value = clsCommon.ShowSelectForm("TSPL_PAYPERIOD_MASTER", qry, "Code", "POSTED=1 AND FREEZED=0", txtFromPP.Value, "", isButtonClicked)
             'lblFrompp.Text = clsPayPeriodMaster.GetName(txtFromPP.Value, Nothing)
             'Loaddata()
