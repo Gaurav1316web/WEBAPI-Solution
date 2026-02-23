@@ -155,6 +155,7 @@
     <None Include="Crystal Reports GST\Dairy Sales Report\crptTaxableNonTaxableInvoiceIGST.rpt" />
     <None Include="Crystal Reports GST\Dairy Sales Report\crptTaxableNonTaxableInvoiceJAL.rpt" />
     <None Include="Crystal Reports GST\Dairy Sales Report\crptTaxableNonTaxableInvoiceJALNEW.rpt" />
+    <None Include="Crystal Reports GST\Dairy Sales Report\crptTaxableNonTaxableInvoiceNAG.rpt" />
     <None Include="Crystal Reports GST\Dairy Sales Report\rptewbprint.rpt" />
     <None Include="Crystal Reports GST\Dairy Sales Report\rptScrapSaleInvoiceForJPR.rpt" />
     <None Include="Crystal Reports GST\Fixed Assets\AssetScrapSale.rpt" />

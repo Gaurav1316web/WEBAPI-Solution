@@ -644,6 +644,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmItemCostMapping, "Item Cost Mapping", "1.07.01.40", clsUserMgtCode.SubModuleMaterialSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmWeightUomMaster, "Weight Uom Master", "1.07.01.41", clsUserMgtCode.SubModuleMaterialSetup, 27)
         InsertDefaultValue(clsUserMgtCode.TypeOfItemMaster, "Type Of Item", "1.07.01.42", clsUserMgtCode.SubModuleMaterialSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.frmBatchManufacturingMaster, "Batch Manufacturing Master", "1.07.01.43", clsUserMgtCode.SubModuleMaterialSetup, 27)
+
         ' Transaction 
         InsertDefaultValue(clsUserMgtCode.SubModuleMaterialTransaction, "Transaction", "1.07.02", clsUserMgtCode.ModuleMaterial, "SM", 26)
 
