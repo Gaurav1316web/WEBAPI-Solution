@@ -116,7 +116,7 @@ Partial Class frmBatchManufacturingMaster
         Me.gbgroupmaster.Controls.Add(Me.txtname)
         Me.gbgroupmaster.Controls.Add(Me.lblname)
         Me.gbgroupmaster.HeaderText = ""
-        Me.gbgroupmaster.Location = New System.Drawing.Point(12, 40)
+        Me.gbgroupmaster.Location = New System.Drawing.Point(12, 25)
         Me.gbgroupmaster.Name = "gbgroupmaster"
         Me.gbgroupmaster.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.gbgroupmaster.Size = New System.Drawing.Size(411, 87)
