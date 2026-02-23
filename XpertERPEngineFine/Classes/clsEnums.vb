@@ -7,6 +7,7 @@ Public Enum EnumAPI
     BankIFSC = 0
     REIL = 1
     KTPL = 2
+    XpertMilkCollection = 3
 End Enum
 
 Public Enum EnumControlType
