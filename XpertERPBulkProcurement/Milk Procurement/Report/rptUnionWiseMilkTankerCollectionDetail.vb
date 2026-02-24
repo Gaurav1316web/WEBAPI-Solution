@@ -497,5 +497,12 @@ and convert(date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) +
         txtUnion.Enabled = True
         RadGroupBox3.Enabled = True
         chkSummary.Checked = False
+        gv1.DataSource = Nothing
+        gv1.Rows.Clear()
+        gv1.Columns.Clear()
+        gv1.GroupDescriptors.Clear()
+        gv1.MasterTemplate.SummaryRowsBottom.Clear()
+        gv1.MasterView.Refresh()
+        RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
 End Class

@@ -23,11 +23,12 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.lblUnion = New common.Controls.MyLabel()
         Me.chkSummary = New Telerik.WinControls.UI.RadCheckBox()
         Me.TxtMultiTanker = New common.UserControls.txtMultiSelectFinder()
         Me.lblRoute = New common.Controls.MyLabel()
@@ -48,7 +49,6 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btngo = New Telerik.WinControls.UI.RadButton()
         Me.lblUnion1 = New common.Controls.MyLabel()
-        Me.lblUnion = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -57,6 +57,7 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel1.SuspendLayout()
+        CType(Me.lblUnion, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTanker, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -75,7 +76,6 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btngo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblUnion1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblUnion, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -108,7 +108,7 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(800, 400)
         Me.RadPageView1.TabIndex = 7
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -137,6 +137,16 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(779, 352)
         Me.RadPanel1.TabIndex = 15
+        '
+        'lblUnion
+        '
+        Me.lblUnion.FieldName = Nothing
+        Me.lblUnion.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblUnion.Location = New System.Drawing.Point(17, 89)
+        Me.lblUnion.Name = "lblUnion"
+        Me.lblUnion.Size = New System.Drawing.Size(36, 18)
+        Me.lblUnion.TabIndex = 454
+        Me.lblUnion.Text = "Union"
         '
         'chkSummary
         '
@@ -199,6 +209,7 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.txtUnion.arrValueMember = Nothing
         Me.txtUnion.Location = New System.Drawing.Point(89, 88)
         Me.txtUnion.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtUnion.MyLinkLable1 = Nothing
         Me.txtUnion.MyLinkLable2 = Nothing
         Me.txtUnion.MyNullText = "All"
         Me.txtUnion.Name = "txtUnion"
@@ -302,7 +313,7 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(779, 364)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(779, 352)
         Me.RadPageViewPage2.Text = "Report"
         '
         'gv1
@@ -319,13 +330,13 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyExportAPI = False
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(779, 364)
+        Me.gv1.Size = New System.Drawing.Size(779, 352)
         Me.gv1.TabIndex = 2
         Me.gv1.VarID = ""
         '
@@ -395,16 +406,6 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.lblUnion1.TabIndex = 448
         Me.lblUnion1.Text = "Union"
         '
-        'lblUnion
-        '
-        Me.lblUnion.FieldName = Nothing
-        Me.lblUnion.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblUnion.Location = New System.Drawing.Point(17, 89)
-        Me.lblUnion.Name = "lblUnion"
-        Me.lblUnion.Size = New System.Drawing.Size(36, 18)
-        Me.lblUnion.TabIndex = 454
-        Me.lblUnion.Text = "Union"
-        '
         'rptUnionWiseMilkTankerCollectionDetail
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -426,6 +427,7 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
         Me.RadPanel1.PerformLayout()
+        CType(Me.lblUnion, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTanker, System.ComponentModel.ISupportInitialize).EndInit()
@@ -445,7 +447,6 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btngo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblUnion1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblUnion, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
