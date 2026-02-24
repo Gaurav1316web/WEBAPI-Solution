@@ -67,9 +67,12 @@ Public Class RptKDILSalarySlip
             Dim LocAddress As String = ""
             Dim dtsub As DataTable = Nothing
             Dim dtsub2 As DataTable = Nothing
-            If clsCommon.myLen(txtFromPP.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Please Select Pay Period.", Me.Text)
-                Return
+            If ChkMonthlysalaryslip.Checked Then
+            Else
+                If clsCommon.myLen(txtFromPP.Value) <= 0 Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Select Pay Period.", Me.Text)
+                    Return
+                End If
             End If
 
             'If cbgLocation.CheckedValue.Count <= 0 Then
@@ -87,6 +90,12 @@ Public Class RptKDILSalarySlip
             'Ticket No  BHA/13/03/19-000842 sanjay, ADD Card No
             Dim Qry As String = ""
             Qry = ""
+            If ChkMonthlysalaryslip.Checked Then
+                Qry += "   Select max(Bank_Branch)Bank_Branch,max(Payment_Name)Payment_Name,max(onePagePrint)onePagePrint,Code,max(Name)Name,max(UIN_NO)UIN_NO,max(PFNo)PFNo,max(ESINo)ESINo,max(FathersName)FathersName,max(CompanyName)CompanyName,max(CompanyAddress)CompanyAddress,max(cast(Logo_Img as varbinary(max))) as Logo_Img,max(LocationDesc)LocationDesc,
+                           max(LocationCode)LocationCode,max(Designation_id)Designation_id,max(Designation_Desc)Designation_Desc,max(DEPARTMENT_CODE)DEPARTMENT_CODE,max(DEPARTMENT_NAME)DEPARTMENT_NAME,max(BANK_CODE)BANK_CODE,max(Bank_Name)Bank_Name,
+                           max(BANK_ACC_NO)BANK_ACC_NO,max(Emp_Pan_no)Emp_Pan_no,max(Location_Address)Location_Address,max(Joining_date)Joining_date,max(PAY_PERIOD_CODE)PAY_PERIOD_CODE,sum(PAYPERIOD_DAYS)PAYPERIOD_DAYS,sum(HOLIDAY_DAYS)HOLIDAY_DAYS,sum(PAYABLE_DAYS)PAYABLE_DAYS,
+                           sum(PAYABLE_DAYS1)PAYABLE_DAYS1,sum(Working_days)Working_days,sum([Present Days])[Present Days],sum(Weekly_off)Weekly_off,max(DevCode)DevCode,max(Firm_PF_No)Firm_PF_No,max(Card_No)Card_No,max(Birth_date)Birth_date,max(Supress)Supress from (  "
+            End If
             Qry += "  SELECT T1.Bank_Branch,TSPL_Payment_MODE.NAME as Payment_Name, '" + clsCommon.myCstr(onePagePrint) + "' as onePagePrint,T1.EMP_CODE As [Code] ,T1.Emp_Name as [Name],T1.UIN_NO,T1.PF_NO as [PFNo], T1.ESI_NO  as [ESINo], "
             Qry += " t1.FATHERS_NAME as [FathersName],'" & objCommonVar.CurrentCompanyName & "' as [CompanyName],  t2.Add1+Case When ISNULL(t2.Add2,'')='' Then ''  else ', '+t2.Add2+ Case When ISNULL(t2.Add3,'')='' Then '' Else ', '+t2.Add3+ Case When ISNULL(t2.Pincode,'')='' Then '' else '-'+CONVERT(varchar, t2.Pincode) End End End  as [CompanyAddress],Logo_Img,Location_Desc as LocationDesc,"
             Qry += " T1.Location_Code as LocationCode, "
@@ -96,11 +105,16 @@ Public Class RptKDILSalarySlip
             Qry += "  Case When ISNULL(TSPL_LOCATION_MASTER.Add3,'')='' Then '' Else ', '+TSPL_LOCATION_MASTER.Add3+ Case When ISNULL(TSPL_STATE_MASTER.State_Name ,'')='' Then '' else '-'+CONVERT(varchar, TSPL_STATE_MASTER.State_Name) End End End as Location_Address"
             Qry += " ,t1.Joining_date ,t7.PAY_PERIOD_CODE,T6.PAYPERIOD_DAYS,HOLIDAY_DAYS,PAYABLE_DAYS,CAST(PAYABLE_DAYS AS INT) AS PAYABLE_DAYS1,(T6.PAYPERIOD_DAYS-HOLIDAY_DAYS) as Working_days,T6.Present_Days as [Present Days],(T6.PAYPERIOD_DAYS-Present_Days-HOLIDAY_DAYS-LEAVE_DAYS-LOP_DAYS) as Weekly_off,D1.DEVISION_CODE AS DevCode,TSPL_LOCATION_MASTER.PF_NO as Firm_PF_No,isnull(Card_No,'') as Card_No,T1.Birth_date "
 
-            If txtEmployeeMult.arrValueMember IsNot Nothing AndAlso txtEmployeeMult.arrValueMember.Count > 0 Then
+            If ChkMonthlysalaryslip.Checked Then
                 Qry += " , 1 AS Supress  "
             Else
-                Qry += " , 0 AS Supress  "
+                If txtEmployeeMult.arrValueMember IsNot Nothing AndAlso txtEmployeeMult.arrValueMember.Count > 0 Then
+                    Qry += " , 1 AS Supress  "
+                Else
+                    Qry += " , 0 AS Supress  "
+                End If
             End If
+
             Qry += " from TSPL_EMPLOYEE_MASTER T1"
             Qry += " left Outer join tspl_company_Master T2 on T2.Comp_Code =T1.Comp_Code  "
             Qry += " left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = T1.LOCATION_CODE "
@@ -138,6 +152,10 @@ Public Class RptKDILSalarySlip
             'End If
             If txtDepartment.arrValueMember IsNot Nothing AndAlso txtDepartment.arrValueMember.Count > 0 Then
                 Qry += " and T1.Department_Code  in (" + clsCommon.GetMulcallString(txtDepartment.arrValueMember) + ") "
+            End If
+
+            If ChkMonthlysalaryslip.Checked Then
+                Qry += " )XX Group by XX.Code"
             End If
 
             Dim Hader_Info As DataTable = clsDBFuncationality.GetDataTable(Qry)
@@ -250,7 +268,7 @@ Public Class RptKDILSalarySlip
 
                     Dim dtAllocatedLeave As DataTable
                     If ChkMonthlysalaryslip.Checked Then
-                        dtAllocatedLeave = clsDBFuncationality.GetDataTable("select TSPL_LEAVE_ALLOTMENTDETAIL.LEAVE_CODE,TSPL_LEAVE_ALLOTMENTDETAIL.ALLOTED_LEAVE from TSPL_LEAVE_ALLOTMENTDETAIL left join TSPL_LEAVE_ALLOTMENT on TSPL_LEAVE_ALLOTMENT.LVALLOTMENT_CODE=TSPL_LEAVE_ALLOTMENTDETAIL.LVALLOTMENT_CODE  WHERE TSPL_LEAVE_ALLOTMENTDETAIL.EMP_CODE='" + clsCommon.myCstr(DrHead("Code")) + "' AND YEAR(TSPL_LEAVE_ALLOTMENT.ALLOTMENT_DATE)=(select year(date_to) from TSPL_PAYPERIOD_MASTER where pay_period_code In (" + clsCommon.GetMulcallString(TxtMultPayperiod.arrValueMember) + "))")
+                        dtAllocatedLeave = clsDBFuncationality.GetDataTable("select TSPL_LEAVE_ALLOTMENTDETAIL.LEAVE_CODE,TSPL_LEAVE_ALLOTMENTDETAIL.ALLOTED_LEAVE from TSPL_LEAVE_ALLOTMENTDETAIL left join TSPL_LEAVE_ALLOTMENT on TSPL_LEAVE_ALLOTMENT.LVALLOTMENT_CODE=TSPL_LEAVE_ALLOTMENTDETAIL.LVALLOTMENT_CODE  WHERE TSPL_LEAVE_ALLOTMENTDETAIL.EMP_CODE='" + clsCommon.myCstr(DrHead("Code")) + "' AND YEAR(TSPL_LEAVE_ALLOTMENT.ALLOTMENT_DATE)=(select Distinct year(date_to) from TSPL_PAYPERIOD_MASTER where pay_period_code In (" + clsCommon.GetMulcallString(TxtMultPayperiod.arrValueMember) + "))")
                     Else
                         dtAllocatedLeave = clsDBFuncationality.GetDataTable("select TSPL_LEAVE_ALLOTMENTDETAIL.LEAVE_CODE,TSPL_LEAVE_ALLOTMENTDETAIL.ALLOTED_LEAVE from TSPL_LEAVE_ALLOTMENTDETAIL left join TSPL_LEAVE_ALLOTMENT on TSPL_LEAVE_ALLOTMENT.LVALLOTMENT_CODE=TSPL_LEAVE_ALLOTMENTDETAIL.LVALLOTMENT_CODE  WHERE TSPL_LEAVE_ALLOTMENTDETAIL.EMP_CODE='" + clsCommon.myCstr(DrHead("Code")) + "' AND YEAR(TSPL_LEAVE_ALLOTMENT.ALLOTMENT_DATE)=(select year(date_to) from TSPL_PAYPERIOD_MASTER where pay_period_code= '" + txtFromPP.Value + "')")
                     End If
@@ -259,12 +277,12 @@ Public Class RptKDILSalarySlip
 
                     If ChkMonthlysalaryslip.Checked Then
                         Qry = ""
-                        Qry += "select LINE_NO,head.PAY_HEAD_CODE,head.PAY_HEAD_NAME,EMP_CODE,RATE_AMOUNT,(ACTUAL_AMOUNT-head.Arrear_Amount) as ACTUAL_AMOUNT,COALESCE(detail.Arrear_Amount,head.Arrear_Amount) as Arrear_Amount from"
+                        Qry += " Select max(LINE_NO)LINE_NO,PAY_HEAD_CODE,max(PAY_HEAD_NAME)PAY_HEAD_NAME,EMP_CODE,sum(RATE_AMOUNT)RATE_AMOUNT,sum(ACTUAL_AMOUNT)ACTUAL_AMOUNT,sum(Arrear_Amount)Arrear_Amount from (select LINE_NO,head.PAY_HEAD_CODE,head.PAY_HEAD_NAME,EMP_CODE,RATE_AMOUNT,(ACTUAL_AMOUNT-head.Arrear_Amount) as ACTUAL_AMOUNT,COALESCE(detail.Arrear_Amount,head.Arrear_Amount) as Arrear_Amount from"
                         Qry += " (SELECT T2.LINE_NO,T1.PAY_HEAD_CODE,T1.PRINT_NAME As PAY_HEAD_NAME,T2.EMP_CODE,T2.RATE_AMOUNT,T2.ACTUAL_AMOUNT,COALESCE(T2.ARREAR_AMT,0) as Arrear_Amount FROM TSPL_PAYHEAD_MASTER T1  INNER JOIN ( SELECT T2.PAY_PERIOD_CODE,T1.LINE_NO,T1.PAY_HEAD_CODE,T1.EMP_CODE,T1.PAYABLE_AMOUNT as RATE_AMOUNT,T1.ACTUAL_AMOUNT,T1.ARREAR_AMT FROM TSPL_GENERATE_SALARY_PAYHEADS T1  JOIN TSPL_GENERATE_SALARY T2 ON T1.SALARY_GENERATION_CODE=T2.SALARY_GENERATION_CODE) AS T2 ON T1.PAY_HEAD_CODE=T2.PAY_HEAD_CODE WHERE(1 = 1) and T1.ISEARNING=1  AND T2.PAY_PERIOD_CODE In (" + clsCommon.GetMulcallString(TxtMultPayperiod.arrValueMember) + ") "
                         Qry += " AND T2.EMP_CODE ='" + DrHead("Code") + "' and t1.SUB_HEAD_TYPE <> 'Arrear'  and ACTUAL_AMOUNT <> 0  )as head"
                         Qry += " Left Join (SELECT T1.PAY_HEAD_CODE,T1.PAY_HEAD_NAME,T2.ACTUAL_AMOUNT as  Arrear_Amount,ARREAR_TYPE  FROM TSPL_PAYHEAD_MASTER T1  INNER JOIN ( SELECT T2.PAY_PERIOD_CODE,T1.LINE_NO,T1.PAY_HEAD_CODE,T1.EMP_CODE,T1. PAYABLE_AMOUNT as RATE_AMOUNT,T1.ACTUAL_AMOUNT,T1.ARREAR_AMT FROM TSPL_GENERATE_SALARY_PAYHEADS T1  JOIN TSPL_GENERATE_SALARY T2 ON T1.SALARY_GENERATION_CODE=T2.SALARY_GENERATION_CODE) AS T2 ON T1.PAY_HEAD_CODE=T2.PAY_HEAD_CODE WHERE(1 = 1) and T1.ISEARNING=1  AND T2.PAY_PERIOD_CODE In (" + clsCommon.GetMulcallString(TxtMultPayperiod.arrValueMember) + ") "
                         Qry += " AND T2.EMP_CODE ='" + DrHead("Code") + "' and  t1.SUB_HEAD_TYPE = 'Arrear'  and ACTUAL_AMOUNT <> 0 )as detail on  detail.ARREAR_TYPE=head.PAY_HEAD_CODE"
-                        Qry += "  ORDER BY EMP_CODE,LINE_NO"
+                        Qry += " ) xx group by EMP_CODE,PAY_HEAD_CODE ORDER BY EMP_CODE,LINE_NO"
                     Else
                         Qry = ""
                         Qry += "select LINE_NO,head.PAY_HEAD_CODE,head.PAY_HEAD_NAME,EMP_CODE,RATE_AMOUNT,(ACTUAL_AMOUNT-head.Arrear_Amount) as ACTUAL_AMOUNT,COALESCE(detail.Arrear_Amount,head.Arrear_Amount) as Arrear_Amount from"
@@ -286,7 +304,7 @@ Public Class RptKDILSalarySlip
 
                     If ChkMonthlysalaryslip.Checked Then
                         Qry = ""
-                        Qry += " SELECT T2.LINE_NO,T1.PAY_HEAD_CODE,T1.PRINT_NAME As PAY_HEAD_NAME,T2.EMP_CODE,T2.RATE_AMOUNT,T2.ACTUAL_AMOUNT FROM TSPL_PAYHEAD_MASTER T1 "
+                        Qry += "  Select max(LINE_NO)LINE_NO,PAY_HEAD_CODE,max(PAY_HEAD_NAME)PAY_HEAD_NAME,EMP_CODE,max(RATE_AMOUNT)RATE_AMOUNT,sum(ACTUAL_AMOUNT)ACTUAL_AMOUNT from (SELECT T2.LINE_NO,T1.PAY_HEAD_CODE,T1.PRINT_NAME As PAY_HEAD_NAME,T2.EMP_CODE,T2.RATE_AMOUNT,T2.ACTUAL_AMOUNT FROM TSPL_PAYHEAD_MASTER T1 "
                         Qry += " INNER JOIN ("
                         Qry += " SELECT T2.PAY_PERIOD_CODE,T1.* FROM TSPL_GENERATE_SALARY_PAYHEADS T1 "
                         Qry += " JOIN TSPL_GENERATE_SALARY T2 ON T1.SALARY_GENERATION_CODE=T2.SALARY_GENERATION_CODE) AS T2 ON T1.PAY_HEAD_CODE=T2.PAY_HEAD_CODE"
@@ -294,7 +312,7 @@ Public Class RptKDILSalarySlip
                         Qry += " and T1.ISEARNING=0 "
                         Qry += " AND T2.PAY_PERIOD_CODE In (" + clsCommon.GetMulcallString(TxtMultPayperiod.arrValueMember) + ") "
                         Qry += " AND T2.EMP_CODE ='" + DrHead("Code") + "'   AND ACTUAL_AMOUNT <> 0 "
-                        Qry += " ORDER BY T2.EMP_CODE,T2.LINE_NO "
+                        Qry += " ) XX  group by EMP_CODE,PAY_HEAD_CODE ORDER BY XX.EMP_CODE,max(XX.LINE_NO)  "
                     Else
                         Qry = ""
                         Qry += " SELECT T2.LINE_NO,T1.PAY_HEAD_CODE,T1.PRINT_NAME As PAY_HEAD_NAME,T2.EMP_CODE,T2.RATE_AMOUNT,T2.ACTUAL_AMOUNT FROM TSPL_PAYHEAD_MASTER T1 "
@@ -322,14 +340,16 @@ Public Class RptKDILSalarySlip
                     Qry = ""
                     If ChangeLeaveDescriptionOnSalarySlip = True Then
                         If ChkMonthlysalaryslip.Checked Then
-                            Qry += "select 'P.P' as Leave_Code," & WD & " as AVAILED,0 as Balance Union All select 'H.D' as Leave_Code," & HD & " as AVAILED,0 as Balance  Union All select 'P.Holiday' as Leave_Code," & WF & " as AVAILED,0 as Balance Union All select Leave_Code,AVAILED,Balance from " + IIf(SalarySlipLeaveStatusOnTheBasisOfCalendarYear, "TSPL_FUN_LEAVE_STATUS_WO_PRV_BAL_CAL_YEAR", "TSPL_FUN_LEAVE_STATUS_WO_PRV_BAL") + " ((" + clsCommon.GetMulcallString(TxtMultPayperiod.arrValueMember) + ")) where Emp_Code='" + DrHead("Code") + "'  Union All select 'P.D' as Leave_Code," & PD & " as AVAILED,0 as Balance"
+                            'Qry += "select 'P.P' as Leave_Code," & WD & " as AVAILED,0 as Balance Union All select 'H.D' as Leave_Code," & HD & " as AVAILED,0 as Balance  Union All select 'P.Holiday' as Leave_Code," & WF & " as AVAILED,0 as Balance Union All select Leave_Code,AVAILED,Balance from " + IIf(SalarySlipLeaveStatusOnTheBasisOfCalendarYear, "TSPL_FUN_LEAVE_STATUS_WO_PRV_BAL_CAL_YEAR", "TSPL_FUN_LEAVE_STATUS_WO_PRV_BAL") + " ((" + clsCommon.GetMulcallString(TxtMultPayperiod.arrValueMember) + ")) where Emp_Code='" + DrHead("Code") + "'  Union All select 'P.D' as Leave_Code," & PD & " as AVAILED,0 as Balance"
+                            Qry += "select 'P.P' as Leave_Code," & WD & " as AVAILED,0 as Balance Union All select 'H.D' as Leave_Code," & HD & " as AVAILED,0 as Balance  Union All select 'P.Holiday' as Leave_Code," & WF & " as AVAILED,0 as Balance  Union All select 'P.D' as Leave_Code," & PD & " as AVAILED,0 as Balance"
                         Else
                             Qry += "select 'P.P' as Leave_Code," & WD & " as AVAILED,0 as Balance Union All select 'H.D' as Leave_Code," & HD & " as AVAILED,0 as Balance  Union All select 'P.Holiday' as Leave_Code," & WF & " as AVAILED,0 as Balance Union All select Leave_Code,AVAILED,Balance from " + IIf(SalarySlipLeaveStatusOnTheBasisOfCalendarYear, "TSPL_FUN_LEAVE_STATUS_WO_PRV_BAL_CAL_YEAR", "TSPL_FUN_LEAVE_STATUS_WO_PRV_BAL") + " ('" + txtFromPP.Value + "') where Emp_Code='" + DrHead("Code") + "'  Union All select 'P.D' as Leave_Code," & PD & " as AVAILED,0 as Balance"
                         End If
                         'Qry += "select 'P.P' as Leave_Code," & WD & " as AVAILED,0 as Balance Union All select 'H.D' as Leave_Code," & HD & " as AVAILED,0 as Balance  Union All select 'P.Holiday' as Leave_Code," & WF & " as AVAILED,0 as Balance Union All select Leave_Code,AVAILED,Balance from " + IIf(SalarySlipLeaveStatusOnTheBasisOfCalendarYear, "TSPL_FUN_LEAVE_STATUS_WO_PRV_BAL_CAL_YEAR", "TSPL_FUN_LEAVE_STATUS_WO_PRV_BAL") + " ('" + txtFromPP.Value + "') where Emp_Code='" + DrHead("Code") + "'  Union All select 'P.D' as Leave_Code," & PD & " as AVAILED,0 as Balance"
                     Else
                         If ChkMonthlysalaryslip.Checked Then
-                            Qry += "select 'W.D' as Leave_Code," & WD & " as AVAILED,0 as Balance Union All select 'H.D' as Leave_Code," & HD & " as AVAILED,0 as Balance  Union All select 'W.F' as Leave_Code," & WF & " as AVAILED,0 as Balance Union All select Leave_Code,AVAILED,Balance from " + IIf(SalarySlipLeaveStatusOnTheBasisOfCalendarYear, "TSPL_FUN_LEAVE_STATUS_WO_PRV_BAL_CAL_YEAR", "TSPL_FUN_LEAVE_STATUS_WO_PRV_BAL") + " ((" + clsCommon.GetMulcallString(TxtMultPayperiod.arrValueMember) + ")) where Emp_Code='" + DrHead("Code") + "'  Union All select 'P.D' as Leave_Code," & PD & " as AVAILED,0 as Balance"
+                            'Qry += "select 'W.D' as Leave_Code," & WD & " as AVAILED,0 as Balance Union All select 'H.D' as Leave_Code," & HD & " as AVAILED,0 as Balance  Union All select 'W.F' as Leave_Code," & WF & " as AVAILED,0 as Balance Union All select Leave_Code,AVAILED,Balance from " + IIf(SalarySlipLeaveStatusOnTheBasisOfCalendarYear, "TSPL_FUN_LEAVE_STATUS_WO_PRV_BAL_CAL_YEAR", "TSPL_FUN_LEAVE_STATUS_WO_PRV_BAL") + " ((" + clsCommon.GetMulcallString(TxtMultPayperiod.arrValueMember) + ")) where Emp_Code='" + DrHead("Code") + "'  Union All select 'P.D' as Leave_Code," & PD & " as AVAILED,0 as Balance"
+                            Qry += "select 'W.D' as Leave_Code," & WD & " as AVAILED,0 as Balance Union All select 'H.D' as Leave_Code," & HD & " as AVAILED,0 as Balance  Union All select 'W.F' as Leave_Code," & WF & " as AVAILED,0 as Balance Union All  select 'P.D' as Leave_Code," & PD & " as AVAILED,0 as Balance"
                         Else
                             Qry += "select 'W.D' as Leave_Code," & WD & " as AVAILED,0 as Balance Union All select 'H.D' as Leave_Code," & HD & " as AVAILED,0 as Balance  Union All select 'W.F' as Leave_Code," & WF & " as AVAILED,0 as Balance Union All select Leave_Code,AVAILED,Balance from " + IIf(SalarySlipLeaveStatusOnTheBasisOfCalendarYear, "TSPL_FUN_LEAVE_STATUS_WO_PRV_BAL_CAL_YEAR", "TSPL_FUN_LEAVE_STATUS_WO_PRV_BAL") + " ('" + txtFromPP.Value + "') where Emp_Code='" + DrHead("Code") + "'  Union All select 'P.D' as Leave_Code," & PD & " as AVAILED,0 as Balance"
                         End If
@@ -712,7 +732,7 @@ Public Class RptKDILSalarySlip
             Dim whrcls As String = "  TSPL_GENERATE_SALARY.PAY_PERIOD_CODE In (" & clsCommon.GetMulcallString(TxtMultPayperiod.arrValueMember) & " ) "
             ' txtEmployeeMult.arrValueMember = clsCommon.ShowMultipleSelectForm("EMPMulSel", qry, "Code", "Name", txtEmployeeMult.arrValueMember, txtEmployeeMult.arrDispalyMember)
             TxtEmployee.Value = clsCommon.ShowSelectForm("TSPL_PAYPERIOD_MASTER", qry, "Code", whrcls, TxtEmployee.Value, "", isButtonClicked)
-            lblEmployee.Text = clsPayPeriodMaster.GetName(txtFromPP.Value, Nothing)
+            lblEmployee.Text = clsPayPeriodMaster.GetName(TxtEmployee.Value, Nothing)
 
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -721,13 +741,13 @@ Public Class RptKDILSalarySlip
 
     Private Sub TxtMultPayperiod__My_Click(sender As Object, e As EventArgs) Handles TxtMultPayperiod._My_Click
         Try
-            If TxtMultPayperiod.arrValueMember IsNot Nothing AndAlso TxtMultPayperiod.arrValueMember.Count > 0 Then
-                Dim qry As String = "SELECT PAY_PERIOD_CODE AS 'Code',(DATEDIFF(DAY,date_from,date_to)+1) as 'Total days', " _
+            'If TxtMultPayperiod.arrValueMember IsNot Nothing AndAlso TxtMultPayperiod.arrValueMember.Count > 0 Then
+            Dim qry As String = "SELECT PAY_PERIOD_CODE AS 'Code',(DATEDIFF(DAY,date_from,date_to)+1) as 'Total days', " _
             & " PAY_PERIOD_NAME as 'Name' FROM TSPL_PAYPERIOD_MASTER  "
                 TxtMultPayperiod.arrValueMember = clsCommon.ShowMultipleSelectForm("EMPMulSel", qry, "Code", "Name", TxtMultPayperiod.arrValueMember, TxtMultPayperiod.arrDispalyMember)
-            Else
-                clsCommon.MyMessageBoxShow(Me, "Please Select PayPeriod", Me.Text)
-            End If
+            'Else
+            '    clsCommon.MyMessageBoxShow(Me, "Please Select PayPeriod", Me.Text)
+            'End If
             'txtFromPP.Value = clsCommon.ShowSelectForm("TSPL_PAYPERIOD_MASTER", qry, "Code", "POSTED=1 AND FREEZED=0", txtFromPP.Value, "", isButtonClicked)
             'lblFrompp.Text = clsPayPeriodMaster.GetName(txtFromPP.Value, Nothing)
             'Loaddata()

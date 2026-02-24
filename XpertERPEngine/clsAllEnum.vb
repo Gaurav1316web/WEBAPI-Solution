@@ -297,6 +297,10 @@ Public Class Xtra
                         baseAddress = clsCommon.myCstr("https://app.ktplindia.com/integration" & "/" & APIName)
                         c.Headers.Add("Authorization", "34654795-5D9F-43B3-BC14-FFD521364BAB")
                         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
+                    Case EnumAPI.XpertMilkCollection
+                        baseAddress = clsCommon.myCstr("http://localhost:7515/MilkProcurement.asmx" & "/" & APIName)
+                        reqparm.Add("Key", "Tecxpert@MP#123$456%789^")
+                        reqparm.Add("APPUserCode", objCommonVar.CurrentUserCode)
                 End Select
                 If clsCommon.CompairString(method, "POST") = CompairStringResult.Equal Then
                     If ArrFilter IsNot Nothing AndAlso ArrFilter.Count > 0 Then
