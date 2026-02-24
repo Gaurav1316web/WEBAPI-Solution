@@ -149,7 +149,7 @@ CASE
 END as QcStatus,isnull(QCCLR.Param_Field_Value,0) AS [CLR]
     ,CASE WHEN  [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GATE_ENTRY_DETAILS.Doc_Type ='MccProc' THEN 'Route'
 else 'Purchase' end as Source
-
+    ,'" & objCommonVar.CurrComp_Code1 & "' AS CompCode 
 from [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT
  left join [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GATE_ENTRY_DETAILS on [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GATE_ENTRY_DETAILS.Gate_Entry_No = [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Gate_Entry_No  
  left join [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK on [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK.Gate_Entry_No  =[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo]. TSPL_GATE_ENTRY_DETAILS.Gate_Entry_No 
@@ -179,21 +179,37 @@ and convert(date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) +
             Next
             Dim qryall As String = ""
 
-            qryall = " SELECT 
-      ROW_NUMBER() OVER (ORDER BY Weighment_Date) AS SNo, *
-FROM(  " & baseqry & ") xx "
+            qryall = " SELECT ROW_NUMBER() OVER (ORDER BY Weighment_Date) AS SNo,UserName,FromDate,ToDate,UnionName,location_Code,Weighment_Date,ROUTE_NO,Tanker_No,SNo,Weighment_No,QC_No,QC_Date,	Gate_Entry_No,	GATE_ENTRY_Date	,Gross_Weight,	Manual_Gross_Weight,Tare_Weight,Manual_Tare_Weight	,Manual_Entry_QC,Net_Weight,Fat_Per,Fat_Kg,	SNF_Per	,SNF_Kg	,QcStatus,CLR,Source,CompCode "
+            If objCommonVar.RCDFCFP Then
+                qryall += ",TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Comp_Name "
+            Else
+                qryall += ",Comp_Name, add1, add2 "
+            End If
+            If objCommonVar.RCDFCFP Then
+                qryall += " FROM(  " & baseqry & ") xx  LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_code1='RCDFCF' "
+            Else
+                qryall += " FROM(  " & baseqry & ") xx  "
+            End If
+
             Dim SummaryQry As String = ""
             If chkSummary.Checked Then
-                SummaryQry += "  SELECT ROW_NUMBER() OVER (ORDER BY XX.Weighment_Date) AS SNo,'" + objCommonVar.CurrentUserCode + "' as UserName,  
+                SummaryQry += "SELECT ROW_NUMBER() OVER (ORDER BY XX.Weighment_Date) AS SNo,'" + objCommonVar.CurrentUserCode + "' as UserName,  
                 xx.UnionName, xx.Weighment_Date,count(XX.Tanker_No) AS Tanker_No,max(XX.ROUTE_NO) AS ROUTE_NO,--MAX(XX.WEIGHMENT_NO) AS Weighment_No, 				 	 
 				 count(XX.Gate_Entry_No) AS Gate_Entry_No,SUM(XX.Gross_Weight) AS Gross_Weight, SUM(XX.tare_weight) AS Tare_Weight,MAX(XX.manual_Tare_Weight) AS Manual_Tare_Weight, MAX(XX.Manual_Entry_Qc) AS Manual_Entry_QC,
                 SUM(XX.Net_Weight) AS Net_Weight,CAST(sum(isnull(XX.Fat_Kg,0)) AS DECIMAL(18,3)) AS Fat_Kg,CAST(sum(isnull(XX.SNF_Kg,0)) AS DECIMAL(18,3))  AS SNF_Kg,							
 			    SUM(CASE WHEN XX.QcStatus = 'Accept' THEN 1 ELSE 0 END) AS AcceptQC,
-                SUM(CASE WHEN XX.QcStatus = 'Reject' THEN 1 ELSE 0 END) AS RejectQC ,
-	            max(xx.Comp_Name)Comp_Name,max(xx.add1)add1,max(xx.add2)add2
-			   From ( " & baseqry & ") XX GROUP BY XX.Weighment_Date, XX.UnionName  ORDER BY XX.Weighment_Date;"
-
+                SUM(CASE WHEN XX.QcStatus = 'Reject' THEN 1 ELSE 0 END) AS RejectQC ,max(CompCode)CompCode, "
+                 If objCommonVar.RCDFCFP Then
+                    SummaryQry += " max(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,max(TSPL_COMPANY_MASTER.add1)add1,max(TSPL_COMPANY_MASTER.add2)add2 "
+                Else
+                    SummaryQry += " max(xx.Comp_Name)Comp_Name,max(xx.add1)add1,max(xx.add2)add2,MAX(CompCode)CompCode "
+                End If
             End If
+
+            SummaryQry += " From ( " & baseqry & ") XX LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_code1='RCDFCF' "
+            SummaryQry += " GROUP BY XX.Weighment_Date, XX.UnionName  ORDER BY XX.Weighment_Date;"
+
+
             Dim dt2 As DataTable
             If chkSummary.Checked Then
                 dt2 = clsDBFuncationality.GetDataTable(SummaryQry)
@@ -254,6 +270,8 @@ FROM(  " & baseqry & ") xx "
         For ii As Integer = 0 To gv1.Columns.Count - 1
             gv1.Columns(ii).ReadOnly = True
             gv1.Columns(ii).IsVisible = True
+            gv1.Columns("CompCode").IsVisible = False
+
             gv1.Columns("UserName").IsVisible = False
             gv1.Columns("ROUTE_NO").IsVisible = False
             gv1.Columns("Weighment_Date").IsVisible = True
@@ -312,6 +330,7 @@ FROM(  " & baseqry & ") xx "
             'gv1.Columns(ii).ReadOnly = True
             ' gv1.Columns(ii).BestFit()
 
+            gv1.Columns("CompCode").IsVisible = False
 
             gv1.Columns("ToDate").IsVisible = False
             gv1.Columns("FromDate").IsVisible = False
