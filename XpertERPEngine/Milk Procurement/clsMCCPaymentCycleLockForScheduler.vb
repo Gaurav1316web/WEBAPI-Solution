@@ -3468,7 +3468,9 @@ and TSPL_DCS_ADDITION_DEDUCTION.Milk_Type like '%'''+trim(isnull(TAB_TSPL_MILK_C
                 ''Now Create Dr/Cr Note
                 qry = "select xxx.Against_DCS_ADDITION_DEDUCTION,xxx.Amt,TSPL_DCS_ADDITION_DEDUCTION.Dont_Generate_DR_CR_Note,TSPL_DCS_ADDITION_DEDUCTION.Apply_TDS,TSPL_DCS_ADDITION_DEDUCTION.Nature_Type,TSPL_DCS_ADDITION_DEDUCTION.GL_Account,TSPL_DCS_ADDITION_DEDUCTION.Saving,TSPL_DCS_ADDITION_DEDUCTION.Mapping_Matching,TSPL_DCS_ADDITION_DEDUCTION.RO_Decimal_Places,TSPL_DCS_ADDITION_DEDUCTION.RO_Increase_After
 ,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type,TSPL_DCS_ADDITION_DEDUCTION.Applicable_On
-,(select top 1 Add_Of_Add_Ded_Code from TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT where TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT.code=TSPL_DCS_ADDITION_DEDUCTION.Code) as Add_Of_Add_Ded_Code,TSPL_DCS_ADDITION_DEDUCTION.Include_Shortage_Own_BMC,TSPL_DCS_ADDITION_DEDUCTION.Subtract,TSPL_DCS_ADDITION_DEDUCTION.Apply_Formula from 
+,(select top 1 Add_Of_Add_Ded_Code from TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT where TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT.code=TSPL_DCS_ADDITION_DEDUCTION.Code) as Add_Of_Add_Ded_Code
+,(select top 1 Deduction_Code from TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT_MANUAL where TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT_MANUAL.code=TSPL_DCS_ADDITION_DEDUCTION.Code) as Add_Of_Add_Ded_Code_Manual
+,TSPL_DCS_ADDITION_DEDUCTION.Include_Shortage_Own_BMC,TSPL_DCS_ADDITION_DEDUCTION.Subtract,TSPL_DCS_ADDITION_DEDUCTION.SubtractManual,TSPL_DCS_ADDITION_DEDUCTION.Apply_Formula,TSPL_DCS_ADDITION_DEDUCTION.Apply_Formula_Manual from 
 (select Against_DCS_ADDITION_DEDUCTION, sum(Amt) as Amt  from TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED where InvoiceNo='" + objHead.DOC_CODE + "' group by Against_DCS_ADDITION_DEDUCTION having sum(Amt)>0 ) 
 xxx Left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=xxx.Against_DCS_ADDITION_DEDUCTION order by Mapping_Matching,Amt desc"
                 dtAmt = clsDBFuncationality.GetDataTable(qry, trans)
@@ -3499,6 +3501,33 @@ xxx Left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.C
                     For Each drAmt As DataRow In dtAmt.DefaultView.ToTable().Rows
                         'dblAmount = clsCommon.myRoundOFF(Math.Abs(clsCommon.myCDecimal(drAmt("Amt"))), IIf(clsCommon.myCDecimal(drAmt("RO_Decimal_Places")) >= 0, clsCommon.myCDecimal(drAmt("RO_Decimal_Places")), objCommonVar.DCSAddDedRODecimalPlace), IIf(clsCommon.myCDecimal(drAmt("RO_Increase_After")) >= 0, clsCommon.myCDecimal(drAmt("RO_Increase_After")), objCommonVar.DCSAddDedROIncreaseAfter))
                         dblAmount = Math.Abs(clsCommon.myCDecimal(drAmt("Amt")))
+
+                        If clsCommon.myLen(drAmt("Add_Of_Add_Ded_Code_Manual")) > 0 Then
+                            Dim dclAddBaseAmt As Decimal = 0
+                            qry = "select Deduction_Code from TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT_MANUAL where Code='" + clsCommon.myCstr(drAmt("Against_DCS_ADDITION_DEDUCTION")) + "'"
+                            Dim dtAdd As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                            If dtAdd IsNot Nothing AndAlso dtAdd.Rows.Count > 0 Then
+                                For Each drAdd As DataRow In dtAdd.Rows
+                                    qry = "select sum(TSPL_MULTIPLE_DEDUCTION_DETAIL.Amount) as Amount 
+from  TSPL_MULTIPLE_DEDUCTION_DETAIL
+left outer join TSPL_MULTIPLE_DEDUCTION_HEAD on TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
+where convert(date, TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) between '" + clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") + "' and '" + clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") + "' and len(isnull(Against_Deduction_DocNo,''))>0 and TSPL_MULTIPLE_DEDUCTION_DETAIL.Vendor_Code='" + objHead.VSP_CODE + "' and TSPL_MULTIPLE_DEDUCTION_DETAIL.DeductionCode = '" + clsCommon.myCstr(drAdd("Deduction_Code")) + "' and TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1"
+                                    dclAddBaseAmt += clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, trans))
+                                Next
+                                If clsCommon.myCDecimal(drAmt("Apply_Formula_Manual")) = 1 Then
+                                    dclAddBaseAmt = (clsCommon.myCDivide(dclAddBaseAmt * clsCommon.myCDecimal(drAmt("Applicable_Value")), IIf(clsCommon.myCDecimal(drAmt("Applicable_Type")) = 0, 1, 100)))
+                                End If
+                                If clsCommon.myCDecimal(drAmt("SubtractManual")) = 1 Then
+                                    dblAmount -= dclAddBaseAmt
+                                Else
+                                    dblAmount += dclAddBaseAmt
+                                End If
+                                If dblAmount < 0 Then
+                                    dblAmount = 0
+                                End If
+                            End If
+                        End If
+
                         If clsCommon.myCDecimal(drAmt("Include_Shortage_Own_BMC")) = 1 Then
                             If clsfrmVLCMaster.IsOwnBMC(strVLCCode, objHead.MCC_CODE, trans) Then
                                 Dim SettCalculateFATSNFLossCycleWise As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.CalculateFATSNFLossCycleWise, clsFixedParameterCode.CalculateFATSNFLossCycleWise, trans)) = 1)
@@ -3543,7 +3572,6 @@ select Amount from TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NO
 
                                 If clsCommon.myCDecimal(drAmt("Apply_Formula")) = 1 Then
                                     dclAddBaseAmt = (clsCommon.myCDivide(dclAddBaseAmt * clsCommon.myCDecimal(drAmt("Applicable_Value")), IIf(clsCommon.myCDecimal(drAmt("Applicable_Type")) = 0, 1, 100)))
-                                    'dclAddBaseAmt = clsCommon.myRoundOFF(dclAddBaseAmt, IIf(clsCommon.myCDecimal(drAmt("RO_Decimal_Places")) >= 0, clsCommon.myCDecimal(drAmt("RO_Decimal_Places")), objCommonVar.DCSAddDedRODecimalPlace), IIf(clsCommon.myCDecimal(drAmt("RO_Increase_After")) >= 0, clsCommon.myCDecimal(drAmt("RO_Increase_After")), objCommonVar.DCSAddDedROIncreaseAfter))
                                 End If
                                 If clsCommon.myCDecimal(drAmt("Subtract")) = 1 Then
                                     dblAmount -= dclAddBaseAmt
@@ -3552,6 +3580,8 @@ select Amount from TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NO
                                 End If
                             End If
                         End If
+
+
                         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
                             dblAmount = Math.Round(dblAmount, CInt(IIf(clsCommon.myCDecimal(drAmt("RO_Decimal_Places")) >= 0, clsCommon.myCDecimal(drAmt("RO_Decimal_Places")), objCommonVar.DCSAddDedRODecimalPlace)), MidpointRounding.AwayFromZero)
                         Else
