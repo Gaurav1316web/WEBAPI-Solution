@@ -1179,7 +1179,7 @@ From "
             Qry += " as inn "
             Qry += " Where DOCUMENT_CODE In (" + strinvoiceNo + ") And inn.Scheme_Item='Y'   group by DOCUMENT_CODE,Item_Code)  TSPL_SD_sale_invoice_DETAIL_Sub on TSPL_SD_sale_invoice_DETAIL_sub.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE and  TSPL_SD_sale_invoice_DETAIL_sub.Scheme_Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code 
 where 2=2 And  TSPL_SD_SALE_INVOICE_HEAD.Document_Code In   (" + strinvoiceNo + ") "
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") <> CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BAR") <> CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") <> CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BAR") <> CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") <> CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") <> CompairStringResult.Equal Then
                 Qry += "   And TSPL_SD_sale_invoice_DETAIL.Scheme_Item ='N'  "
             End If
             Qry += " )xx where xx.Item_Code = TSPL_SD_sale_invoice_DETAIL.item_CODE And xx.DOCUMENT_CODE = TSPL_SD_sale_invoice_DETAIL.DOCUMENT_CODE 
