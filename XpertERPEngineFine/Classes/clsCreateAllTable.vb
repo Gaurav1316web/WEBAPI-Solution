@@ -13654,6 +13654,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Modify_Date", "varchar(10)  NOT NULL")
             coll.Add("Comp_Code", "varchar(8)  NOT NULL")
             coll.Add("Bank_Code", "varchar(12) NULL ")
+            coll.Add("IsDefault", "int NULL default 0")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_PAYMENT_CODE", coll)
 
             coll = New Dictionary(Of String, String)()

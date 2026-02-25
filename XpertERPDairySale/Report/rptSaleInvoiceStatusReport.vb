@@ -150,7 +150,7 @@ Select coalesce(Re_Name,Program_Name)Code,Program_Code as Name from TSPL_PROGRAM
                 qry = " Select "
             End If
             qry += " max([Item Name])as [Product Name],max(HSN_Code)[HSN Code],max(Report_UOM)[Report UOM],Cast(SUM(ReportUOM_Qty) as decimal (18,2))[Report Qty], sum([ItemBasic Amt])[ItemBasic Amt],sum([Margin Amt])[Margin Amt],
-sum([Basic Amt])[Basic Amt],sum([KKF Amt])[KKF Amt],Cast(sum([Party TCS Amt]) as decimal(18,2))[TCS Amt],cast(sum([CGST Amt]) as decimal(18,2))[CGST Amt],cast(sum([SGST Amt]) as decimal(18,2))[SGST Amt],cast(sum([IGST Amt]) as decimal(18,2))[IGST Amt],sum([Total Tax Amt])[Total Tax Amt],
+sum([Basic Amt])[Basic Amt],sum([KKF Amt])[KKF Amt],sum([Mandi Tax Amt])[Mandi Tax Amt],Cast(sum([Party TCS Amt]) as decimal(18,2))[TCS Amt],cast(sum([CGST Amt]) as decimal(18,2))[CGST Amt],cast(sum([SGST Amt]) as decimal(18,2))[SGST Amt],cast(sum([IGST Amt]) as decimal(18,2))[IGST Amt],sum([Total Tax Amt])[Total Tax Amt],
 sum([Total Amt])[Total Amt],cast(Sum([Subsidy Amt]) as decimal(18,2))[Subsidy Amt] from (	select    
 						TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location AS [Location],
 TSPL_SD_SALE_INVOICE_HEAD.Sub_Location_code AS [Sub Location],
@@ -351,8 +351,8 @@ tspl_item_master.Item_Desc as [Item Name],
                 SetGridFormationProductSummary()
                 EnableDisableCntrl(False)
                 gvData.MasterTemplate.AutoExpandGroups = True
-                RadPageView1.SelectedPage = RadPageViewPage2
-                gvData.BestFitColumns()
+                RadPageView1.SelectedPage = RadPageViewPage3
+                gvdata.BestFitColumns()
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
@@ -542,8 +542,8 @@ WHERE CONVERT(DATE,TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Return_ship_Date,103) 
                 SetGridFormationInvoiceCount()
                 EnableDisableCntrl(False)
                 gvData.MasterTemplate.AutoExpandGroups = True
-                RadPageView1.SelectedPage = RadPageViewPage2
-                gvData.BestFitColumns()
+                RadPageView1.SelectedPage = RadPageViewPage3
+                gvdata.BestFitColumns()
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
@@ -632,10 +632,10 @@ GROUP BY D.Item_Code HAVING SUM(CASE WHEN U.Report_UOM = 1 THEN 1 ELSE 0 END) = 
             End If
             Dim qry As String = ""
             If dtitem.Rows.Count > 0 Then
-                qry = "  Select Document_Code,max(BillNo)BillNo,max(BillDate)BillDate,max(Party_Code)Party_Code,max(PARTY_Name)PARTY_Name,
-max(Customer_Type)Customer_Type,max(Status)Status,sum([ItemBasic Amt])[ItemBasic Amt],
-sum([Margin Amt])[Margin Amt], " & SumItemCode & ",sum(KKF)[KKF Amt],SUM([Mandi Tax Amt])[Mandi Tax Amt],sum([Party TCS Amt])[Party TCS Amt],sum([CGST Amt])[CGST Amt],sum([SGST Amt])[SGST Amt],sum([IGST Amt])[IGST Amt],sum(Amt_Less_Discount1)[Total Basic Amt],sum([Total Tax Amt])[Total Tax Amt],
-Sum([Total Amt])[Total Amt],max(Created_By)[Created By],max(Created_Date)[Created Date]
+                qry = "  Select Document_Code,max(BillNo)BillNo,max(BillDate)BillDate,max(Created_By)[Created By],max(Created_Date)[Created Date],max(Party_Code)Party_Code,max(PARTY_Name)PARTY_Name,
+max(ISNULL((Customer_Type),''))Customer_Type,max(Status)Status,sum([ItemBasic Amt])[ItemBasic Amt],
+sum([Margin Amt])[Margin Amt], " & SumItemCode & ",sum(Amt_Less_Discount1)[Total Basic Amt],sum(KKF)[KKF Amt],SUM([Mandi Tax Amt])[Mandi Tax Amt],sum([Party TCS Amt])[Party TCS Amt],sum([CGST Amt])[CGST Amt],sum([SGST Amt])[SGST Amt],sum([IGST Amt])[IGST Amt],sum([Total Tax Amt])[Total Tax Amt],
+Sum([Total Amt])[Total Amt]
 from (
 
 SELECT 
@@ -956,19 +956,26 @@ WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Date,103) >= c
                 gvData.Rows.Clear()
                 gvData.Columns.Clear()
                 gvData.GroupDescriptors.Clear()
-                gvData.MasterView.Refresh()
-                Dim viewBlank As New TableViewDefinition()
-                gvData.ViewDefinition = viewBlank
+                'gvData.MasterView.Refresh()
+                'Dim viewBlank As New TableViewDefinition()
+                'gvData.ViewDefinition = viewBlank
                 If dt.Rows.Count > 0 Then
-                    gvData.DataSource = dt
-                    gvData.GroupDescriptors.Clear()
-                    gvData.EnableFiltering = True
-                    gvData.MasterTemplate.SummaryRowsBottom.Clear()
-                    SetGridFormation()
-                    EnableDisableCntrl(False)
-                    gvData.MasterTemplate.AutoExpandGroups = True
-                    RadPageView1.SelectedPage = RadPageViewPage2
-                    gvData.BestFitColumns()
+
+                    Try
+                        gvdata.DataSource = dt
+                        gvdata.GroupDescriptors.Clear()
+                        gvdata.EnableFiltering = True
+                        gvdata.MasterTemplate.SummaryRowsBottom.Clear()
+                        SetGridFormation()
+                        EnableDisableCntrl(False)
+                        ' gvData.MasterTemplate.AutoExpandGroups = True
+                        'RadPageView1.SelectedPage = RadPageViewPage2
+                        RadPageView1.SelectedPage = RadPageViewPage3
+                        'gvdata.BestFitColumns()
+
+                    Catch ex As Exception
+                        Throw New Exception(ex.Message)
+                    End Try
                 Else
                     clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
@@ -1033,7 +1040,7 @@ WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Date,103) >= c
         gvData.ShowFilteringRow = True
         For ii As Integer = 0 To gvData.Columns.Count - 1
             gvData.Columns(ii).ReadOnly = True
-            gvData.Columns(ii).BestFit()
+            gvdata.Columns(ii).BestFit()
         Next
         gvData.Columns("Document_Code").HeaderText = "Invoice No"
         gvData.Columns("Document_Code").IsVisible = False
@@ -1050,11 +1057,14 @@ WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Date,103) >= c
         gvData.ShowGroupPanel = True
         gvData.MasterTemplate.AutoExpandGroups = True
         Dim summaryRowItem As New GridViewSummaryRowItem()
-        Dim index As Integer = 7
-        For ii As Integer = index To gvData.Columns.Count - 1
-            summaryRowItem.Add(New GridViewSummaryItem(gvData.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
+        Dim index As Integer = 9
+        For ii As Integer = index To gvdata.Columns.Count - 1
+            If clsCommon.CompairString(gvdata.Columns(ii).Name, "Created By") <> CompairStringResult.Equal OrElse clsCommon.CompairString(gvdata.Columns(ii).Name, "Created Date") <> CompairStringResult.Equal Then
+                summaryRowItem.Add(New GridViewSummaryItem(gvdata.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
+            End If
+            'summaryRowItem.Add(New GridViewSummaryItem(gvdata.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
         Next
-        gvData.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvdata.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         gvData.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Sub LoadData()
@@ -2271,8 +2281,8 @@ where convert(date,TSPL_SD_SALE_RETURN_HEAD_Delete_Data.Document_Date,103)>=Conv
                 common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             Else
-                RadPageView1.SelectedPage = RadPageViewPage2
-                gvData.GroupDescriptors.Clear()
+                RadPageView1.SelectedPage = RadPageViewPage3
+                gvdata.GroupDescriptors.Clear()
                 gvData.MasterTemplate.SummaryRowsBottom.Clear()
                 gvData.DataSource = dt
                 gvData.AutoExpandGroups = True

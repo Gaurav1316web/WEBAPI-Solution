@@ -152,6 +152,7 @@ Public Class FrmQuickEntry1
         PaymentMode.DataSource = loadPaymentMode()
         PaymentMode.ValueMember = "Payment_Code"
         PaymentMode.DisplayMember = "Payment_Code"
+        'PaymentMode.DisplayMember = "RTGS"
         PaymentMode.Width = 100
         PaymentMode.ReadOnly = False
         MasterTemplate.MasterTemplate.Columns.Add(PaymentMode)
@@ -218,7 +219,7 @@ Public Class FrmQuickEntry1
         DocNo.Name = "gvDocNo"
         DocNo.Width = 100
         DocNo.ReadOnly = True
-        DocNo.IsVisible = True
+        DocNo.IsVisible = False
         MasterTemplate.MasterTemplate.Columns.Add(DocNo)
 
 
@@ -230,6 +231,7 @@ Public Class FrmQuickEntry1
 
         If objCommonVar.IsDemoERP = True AndAlso (clsCommon.CompairString(ddlType.Text, "Receipt") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlType.Text, "Payment") = CompairStringResult.Equal) Then
             gvCForm.ReadOnly = False
+            gvCForm.IsVisible = False
         Else
             gvCForm.IsVisible = False
         End If
@@ -243,6 +245,7 @@ Public Class FrmQuickEntry1
         CFormDoc.Width = 100
         If objCommonVar.IsDemoERP = True AndAlso (clsCommon.CompairString(ddlType.Text, "Receipt") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlType.Text, "Payment") = CompairStringResult.Equal) Then
             CFormDoc.ReadOnly = False
+            CFormDoc.IsVisible = False
         Else
             CFormDoc.IsVisible = False
         End If
@@ -255,7 +258,7 @@ Public Class FrmQuickEntry1
         status.Name = "gvStatus"
         status.Width = 150
         status.ReadOnly = True
-        status.IsVisible = True
+        status.IsVisible = False
         MasterTemplate.MasterTemplate.Columns.Add(status)
 
         Dim Narration As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -270,6 +273,7 @@ Public Class FrmQuickEntry1
         MasterTemplate.AllowColumnReorder = False
         MasterTemplate.AllowRowReorder = False
         MasterTemplate.EnableSorting = False
+        MasterTemplate.EnableFiltering = True
         MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         MasterTemplate.MasterTemplate.ShowRowHeaderColumn = False
         MasterTemplate.AllowAddNewRow = False
@@ -277,6 +281,10 @@ Public Class FrmQuickEntry1
 
     Private Function loadPaymentMode() As DataTable
         Qry = "select TSPL_PAYMENT_CODE.Payment_Code   from TSPL_PAYMENT_CODE"
+        'Qry = "Select Payment_Code,SNo from (select 'RTGS' as Payment_Code,-1 as SNo
+        '        Union 
+        '        select TSPL_PAYMENT_CODE.Payment_Code,ROW_NUMBER() OVER (ORDER BY Payment_Code) as SNo   from TSPL_PAYMENT_CODE)XX order by Sno"
+
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
         Return dt
     End Function
@@ -355,7 +363,7 @@ Public Class FrmQuickEntry1
     Private Sub MasterTemplate_CellValueChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles MasterTemplate.CellValueChanged
         If IsLoadData = False Then
             If e.Column.Name = "gvSourceCode" Then
-                OpenICodeList(False)
+                'OpenICodeList(False)
                 ''richa agarwal 23 Jan,2020
                 If MasterTemplate.CurrentRow.Index > 0 Then
                     MasterTemplate.CurrentRow.Cells("gvPaymentMode").Value = clsCommon.myCstr(MasterTemplate.Rows(MasterTemplate.CurrentRow.Index - 1).Cells("gvPaymentMode").Value)
@@ -1386,7 +1394,7 @@ Public Class FrmQuickEntry1
 
 
         Catch ex As Exception
-
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1459,7 +1467,7 @@ Public Class FrmQuickEntry1
                 MasterTemplate.CurrentRow.Cells("gvType").Value = "On-Account"
             End If
         Catch ex As Exception
-
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtEntryNo__MYNavigator(ByVal sender As Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles txtEntryNo._MYNavigator
@@ -1694,6 +1702,15 @@ Public Class FrmQuickEntry1
         '        txtBankName.Text = ""
         '    End If
         'End If
+        Dim Qry As String = ""
+        Qry = " Select Payment_Code from TSPL_PAYMENT_CODE  WHERE IsDefault=1 "
+        Dim DT As DataTable = clsDBFuncationality.GetDataTable(Qry)
+        Dim paymentcode As String = Nothing
+        If DT.Rows.Count > 0 Then
+            paymentcode = clsCommon.myCstr(DT.Rows(0).Item("Payment_Code"))
+        End If
+        MasterTemplate.Rows(0).Cells("gvPaymentMode").Value = paymentcode
+        'MasterTemplate.Rows(0).Cells("gvPaymentMode").Value = "RTGS"
 
     End Sub
 
@@ -2168,7 +2185,7 @@ Public Class FrmQuickEntry1
                 grow.Cells("gvStatus").ReadOnly = True
             End If
         Catch ex As Exception
-
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
