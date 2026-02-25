@@ -3039,7 +3039,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         Else
             chkTPT.Visible = False
         End If
-
+        PaymentType()
     End Sub
     Sub ENABLEDISABLECONTROLS()
         If ShowBookingTypeDropDownonDairyBookingCustomer Then
@@ -3433,11 +3433,11 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                     txtCouponCode.Focus()
                     Return False
                 End If
-                If clsCommon.myLen(txtBPLName.Text) <= 0 Then
-                    Throw New Exception("Please enter Name")
-                    txtCouponCode.Focus()
-                    Return False
-                End If
+                'If clsCommon.myLen(txtBPLName.Text) <= 0 Then
+                '    Throw New Exception("Please enter Name")
+                '    txtCouponCode.Focus()
+                '    Return False
+                'End If
                 UcAttachment1.AllowToSave()
             End If
 
@@ -5264,7 +5264,7 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
     End Sub
     ' Ticket : TEC/05/09/19-001000 By Prabhakar
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocNo._MYValidating
-        Dim qry As String = "select distinct TSPL_BOOKING_MATSER.Document_No as DocumentNo,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No as [Invoice No],case when TSPL_SD_SALE_INVOICE_HEAD.Status=1 then 'posted' else 'Unposted' end as [Invoice Status] , CONVERT(VARCHAR(12), TSPL_BOOKING_MATSER.Document_date, 103) AS Document_date,TSPL_CUSTOMER_MASTER.Cust_Code as Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_BOOKING_MATSER.GatePass_Type as ShiftType,TSPL_BOOKING_MATSER.location_code as Location  ,case when isnull(TSPL_BOOKING_MATSER.Is_Cancelled,0)=1 then 'Cancel' when TSPL_BOOKING_MATSER.Posted=1 then 'posted' else 'Unposted' end as Posted ,case when isnull(TBL_DELIVERY_NO.Delivery_No,'')='' then NULL else TBL_DELIVERY_NO.Delivery_No end as [Delivery No],TSPL_CUSTOMER_MASTER.Cust_Category_Code as [Customer Category Code],TSPL_CUSTOMER_MASTER.CUSTOMER_CATEGORY as [Booking Type],TSPL_BOOKING_MATSER.against_demandBooking_no as [Against Demand Booking No],TSPL_BOOKING_MATSER.BPL_Coupon_Code as [Coupon Code],TSPL_BOOKING_MATSER.BPL_Coupon_Date as [Coupon Date] from TSPL_BOOKING_MATSER" &
+        Dim qry As String = "select distinct TSPL_BOOKING_MATSER.Document_No as DocumentNo,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No as [Invoice No],case when TSPL_SD_SALE_INVOICE_HEAD.Status=1 then 'posted' else 'Unposted' end as [Invoice Status] , CONVERT(VARCHAR(12), TSPL_BOOKING_MATSER.Document_date, 103) AS Document_date,TSPL_CUSTOMER_MASTER.Cust_Code as Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_BOOKING_MATSER.GatePass_Type as ShiftType,TSPL_BOOKING_MATSER.location_code as Location  ,case when isnull(TSPL_BOOKING_MATSER.Is_Cancelled,0)=1 then 'Cancel' when TSPL_BOOKING_MATSER.Posted=1 then 'posted' else 'Unposted' end as Posted ,case when isnull(TBL_DELIVERY_NO.Delivery_No,'')='' then NULL else TBL_DELIVERY_NO.Delivery_No end as [Delivery No],TSPL_CUSTOMER_MASTER.Cust_Category_Code as [Customer Category Code],TSPL_CUSTOMER_MASTER.CUSTOMER_CATEGORY as [Booking Type],TSPL_BOOKING_MATSER.against_demandBooking_no as [Against Demand Booking No],TSPL_BOOKING_MATSER.BPL_Coupon_Code as [Coupon Code],TSPL_BOOKING_MATSER.BPL_Coupon_Date as [Coupon Date],Case When TSPL_BOOKING_MATSER.Is_Taxable=2 Then 'Taxable'Else 'Non-Taxable' End As [Taxable/Non-Taxable],TSPL_BOOKING_MATSER.Total_Amt As [Amount] from TSPL_BOOKING_MATSER" &
          " left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.Document_No=TSPL_BOOKING_MATSER.Document_No " &
          " left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_BOOKING_DETAIL.Cust_Code " &
          " left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Against_Booking_No=TSPL_BOOKING_MATSER.Document_No left join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No " &
@@ -6793,6 +6793,27 @@ where TSPL_ITEM_CAPACITY_LIMIT_head.From_Date<='" & clsCommon.GetPrintDate(txtDa
             Throw New Exception(ex.Message)
         End Try
     End Sub
+
+    Sub PaymentType()
+        Try
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Payment_Type from TSPL_PAYMENT_CODE")
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                cmbPaymentType.DataSource = Nothing
+                cmbPaymentType.Items.Clear()
+                cmbPaymentType.DataSource = dt
+                cmbPaymentType.DisplayMember = "Payment_Type"
+                cmbPaymentType.ValueMember = "Payment_Type"
+                cmbPaymentType.SelectedIndex = -1
+            Else
+                cmbPaymentType.DataSource = Nothing
+                cmbPaymentType.Items.Clear()
+                clsCommon.MyMessageBoxShow(Me, "Payment Type not found !", Me.Text)
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Sub LoadBookingType()
         Try
             IsLoadBookingType = True
@@ -9163,6 +9184,8 @@ from
                         frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoiceBKN", "Bill of Supply", clsCommon.GetPrintDate(chkDate), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                         frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceGNG", "Bill of Supply", clsCommon.GetPrintDate(chkDate), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BAR") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceBAR", "Bill of Supply", clsCommon.GetPrintDate(chkDate), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                         frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJPR", "Bill of Supply", clsCommon.GetPrintDate(chkDate), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then

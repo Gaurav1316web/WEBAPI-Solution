@@ -150,7 +150,7 @@ Select coalesce(Re_Name,Program_Name)Code,Program_Code as Name from TSPL_PROGRAM
                 qry = " Select "
             End If
             qry += " max([Item Name])as [Product Name],max(HSN_Code)[HSN Code],max(Report_UOM)[Report UOM],Cast(SUM(ReportUOM_Qty) as decimal (18,2))[Report Qty], sum([ItemBasic Amt])[ItemBasic Amt],sum([Margin Amt])[Margin Amt],
-sum([Basic Amt])[Basic Amt],sum([KKF Amt])[KKF Amt],Cast(sum([Party TCS Amt]) as decimal(18,2))[TCS Amt],cast(sum([CGST Amt]) as decimal(18,2))[CGST Amt],cast(sum([SGST Amt]) as decimal(18,2))[SGST Amt],cast(sum([IGST Amt]) as decimal(18,2))[IGST Amt],sum([Total Tax Amt])[Total Tax Amt],
+sum([Basic Amt])[Basic Amt],sum([KKF Amt])[KKF Amt],sum([Mandi Tax Amt])[Mandi Tax Amt],Cast(sum([Party TCS Amt]) as decimal(18,2))[TCS Amt],cast(sum([CGST Amt]) as decimal(18,2))[CGST Amt],cast(sum([SGST Amt]) as decimal(18,2))[SGST Amt],cast(sum([IGST Amt]) as decimal(18,2))[IGST Amt],sum([Total Tax Amt])[Total Tax Amt],
 sum([Total Amt])[Total Amt],cast(Sum([Subsidy Amt]) as decimal(18,2))[Subsidy Amt] from (	select    
 						TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location AS [Location],
 TSPL_SD_SALE_INVOICE_HEAD.Sub_Location_code AS [Sub Location],
@@ -351,8 +351,8 @@ tspl_item_master.Item_Desc as [Item Name],
                 SetGridFormationProductSummary()
                 EnableDisableCntrl(False)
                 gvData.MasterTemplate.AutoExpandGroups = True
-                RadPageView1.SelectedPage = RadPageViewPage2
-                gvData.BestFitColumns()
+                RadPageView1.SelectedPage = RadPageViewPage3
+                gvdata.BestFitColumns()
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
@@ -542,8 +542,8 @@ WHERE CONVERT(DATE,TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Return_ship_Date,103) 
                 SetGridFormationInvoiceCount()
                 EnableDisableCntrl(False)
                 gvData.MasterTemplate.AutoExpandGroups = True
-                RadPageView1.SelectedPage = RadPageViewPage2
-                gvData.BestFitColumns()
+                RadPageView1.SelectedPage = RadPageViewPage3
+                gvdata.BestFitColumns()
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
@@ -632,10 +632,10 @@ GROUP BY D.Item_Code HAVING SUM(CASE WHEN U.Report_UOM = 1 THEN 1 ELSE 0 END) = 
             End If
             Dim qry As String = ""
             If dtitem.Rows.Count > 0 Then
-                qry = "  Select Document_Code,max(BillNo)BillNo,max(BillDate)BillDate,max(Party_Code)Party_Code,max(PARTY_Name)PARTY_Name,
-max(Customer_Type)Customer_Type,max(Status)Status,sum([ItemBasic Amt])[ItemBasic Amt],
-sum([Margin Amt])[Margin Amt], " & SumItemCode & ",sum(KKF)[KKF Amt],SUM([Mandi Tax Amt])[Mandi Tax Amt],sum([Party TCS Amt])[Party TCS Amt],sum([CGST Amt])[CGST Amt],sum([SGST Amt])[SGST Amt],sum([IGST Amt])[IGST Amt],sum(Amt_Less_Discount1)[Total Basic Amt],sum([Total Tax Amt])[Total Tax Amt],
-Sum([Total Amt])[Total Amt],max(Created_By)[Created By],max(Created_Date)[Created Date]
+                qry = "  Select Document_Code,max(BillNo)BillNo,max(BillDate)BillDate,max(Created_By)[Created By],max(Created_Date)[Created Date],max(Party_Code)Party_Code,max(PARTY_Name)PARTY_Name,
+max(ISNULL((Customer_Type),''))Customer_Type,max(Status)Status,sum([ItemBasic Amt])[ItemBasic Amt],
+sum([Margin Amt])[Margin Amt], " & SumItemCode & ",sum(Amt_Less_Discount1)[Total Basic Amt],sum(KKF)[KKF Amt],SUM([Mandi Tax Amt])[Mandi Tax Amt],sum([Party TCS Amt])[Party TCS Amt],sum([CGST Amt])[CGST Amt],sum([SGST Amt])[SGST Amt],sum([IGST Amt])[IGST Amt],sum([Total Tax Amt])[Total Tax Amt],
+Sum([Total Amt])[Total Amt]
 from (
 
 SELECT 
@@ -956,19 +956,26 @@ WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Date,103) >= c
                 gvData.Rows.Clear()
                 gvData.Columns.Clear()
                 gvData.GroupDescriptors.Clear()
-                gvData.MasterView.Refresh()
-                Dim viewBlank As New TableViewDefinition()
-                gvData.ViewDefinition = viewBlank
+                'gvData.MasterView.Refresh()
+                'Dim viewBlank As New TableViewDefinition()
+                'gvData.ViewDefinition = viewBlank
                 If dt.Rows.Count > 0 Then
-                    gvData.DataSource = dt
-                    gvData.GroupDescriptors.Clear()
-                    gvData.EnableFiltering = True
-                    gvData.MasterTemplate.SummaryRowsBottom.Clear()
-                    SetGridFormation()
-                    EnableDisableCntrl(False)
-                    gvData.MasterTemplate.AutoExpandGroups = True
-                    RadPageView1.SelectedPage = RadPageViewPage2
-                    gvData.BestFitColumns()
+
+                    Try
+                        gvdata.DataSource = dt
+                        gvdata.GroupDescriptors.Clear()
+                        gvdata.EnableFiltering = True
+                        gvdata.MasterTemplate.SummaryRowsBottom.Clear()
+                        SetGridFormation()
+                        EnableDisableCntrl(False)
+                        ' gvData.MasterTemplate.AutoExpandGroups = True
+                        'RadPageView1.SelectedPage = RadPageViewPage2
+                        RadPageView1.SelectedPage = RadPageViewPage3
+                        'gvdata.BestFitColumns()
+
+                    Catch ex As Exception
+                        Throw New Exception(ex.Message)
+                    End Try
                 Else
                     clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
@@ -1033,7 +1040,7 @@ WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Date,103) >= c
         gvData.ShowFilteringRow = True
         For ii As Integer = 0 To gvData.Columns.Count - 1
             gvData.Columns(ii).ReadOnly = True
-            gvData.Columns(ii).BestFit()
+            gvdata.Columns(ii).BestFit()
         Next
         gvData.Columns("Document_Code").HeaderText = "Invoice No"
         gvData.Columns("Document_Code").IsVisible = False
@@ -1050,11 +1057,14 @@ WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Date,103) >= c
         gvData.ShowGroupPanel = True
         gvData.MasterTemplate.AutoExpandGroups = True
         Dim summaryRowItem As New GridViewSummaryRowItem()
-        Dim index As Integer = 7
-        For ii As Integer = index To gvData.Columns.Count - 1
-            summaryRowItem.Add(New GridViewSummaryItem(gvData.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
+        Dim index As Integer = 9
+        For ii As Integer = index To gvdata.Columns.Count - 1
+            If clsCommon.CompairString(gvdata.Columns(ii).Name, "Created By") <> CompairStringResult.Equal OrElse clsCommon.CompairString(gvdata.Columns(ii).Name, "Created Date") <> CompairStringResult.Equal Then
+                summaryRowItem.Add(New GridViewSummaryItem(gvdata.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
+            End If
+            'summaryRowItem.Add(New GridViewSummaryItem(gvdata.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
         Next
-        gvData.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvdata.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         gvData.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Sub LoadData()
@@ -1457,8 +1467,8 @@ Report_UOM.UOM_Code as Report_UOM,
 (Billing_Qty * tspl_item_uom_detail.Conversion_Factor/Report_UOM.Conversion_Factor ) as ReportUOM_Qty
 ,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.TotalSubsidyAmt as [Subsidy Amt],Case when TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Is_Taxable=1 then 'Taxable' else 'Non-Taxable' end as [Invoice Type],
 TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Created_By,
- Convert(varchar(20),TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Created_Date,103) as Created_Date
-
+ Convert(varchar(20),TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Created_Date,103) as Created_Date,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Cancel_By as [Cancel By],
+TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Cancel_On as [Cancel Date]
                               from TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data
 left join TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data on TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Code
 left  join TSPL_SD_SHIPMENT_HEAD_Cancel_Data on TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_Code = TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Against_Shipment_No
@@ -1596,7 +1606,8 @@ Report_UOM.UOM_Code as Report_UOM,
 (Billing_Qty * tspl_item_uom_detail.Conversion_Factor/Report_UOM.Conversion_Factor ) as ReportUOM_Qty
 ,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.TotalSubsidyAmt as [Subsidy Amt],Case when TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Is_Taxable=1 then 'Taxable' else 'Non-Taxable' end as [Invoice Type],
 TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Created_By,
- Convert(varchar(20),TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Created_Date ,103) as Created_Date
+ Convert(varchar(20),TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Created_Date ,103) as Created_Date,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Delete_By as [Cancel By],
+TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Delete_On as [Cancel Date]
 
                               from TSPL_SD_SALE_INVOICE_HEAD_Delete_Data
 left join TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data on TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Code
@@ -1717,7 +1728,8 @@ TSPL_SCRAPINVOICE_DETAIL_Cancel_Data.Unit_code as [Measure of Qty],
 ,Report_UOM.UOM_Code as Report_UOM,
 (shipped_Qty * tspl_item_uom_detail.Conversion_Factor/Report_UOM.Conversion_Factor ) as ReportUOM_Qty,0 as [Subsidy Amt], TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Invoice_Type as [Invoice Type],
 TSPL_SCRAPINVOICE_HEAD_Cancel_Data.EWayBillNo,TSPL_SCRAPINVOICE_HEAD_Cancel_Data.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Created_By,
-Convert(varchar(20),TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Created_Date  ,103) as Created_Date
+Convert(varchar(20),TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Created_Date  ,103) as Created_Date,TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Cancel_By as [Cancel By],
+TSPL_SCRAPINVOICE_HEAD_Cancel_Data.Cancel_On as [Cancel Date]
 
                          from TSPL_SCRAPINVOICE_HEAD_Cancel_Data
 left join TSPL_SCRAPINVOICE_DETAIL_Cancel_Data on TSPL_SCRAPINVOICE_DETAIL_Cancel_Data.invoice_No=TSPL_SCRAPINVOICE_HEAD_Cancel_Data.invoice_No
@@ -1835,7 +1847,8 @@ TSPL_SCRAPINVOICE_DETAIL_Delete_Data.Unit_code as [Measure of Qty],
 ,Report_UOM.UOM_Code as Report_UOM,
 (shipped_Qty * tspl_item_uom_detail.Conversion_Factor/Report_UOM.Conversion_Factor ) as ReportUOM_Qty,0 as [Subsidy Amt], TSPL_SCRAPINVOICE_HEAD_Delete_Data.Invoice_Type as [Invoice Type],
 TSPL_SCRAPINVOICE_HEAD_Delete_Data.EWayBillNo,TSPL_SCRAPINVOICE_HEAD_Delete_Data.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SCRAPINVOICE_HEAD_Delete_Data.Created_By,
- Convert(varchar(20),TSPL_SCRAPINVOICE_HEAD_Delete_Data.Created_Date  ,103) as Created_Date
+ Convert(varchar(20),TSPL_SCRAPINVOICE_HEAD_Delete_Data.Created_Date  ,103) as Created_Date,TSPL_SCRAPINVOICE_HEAD_Delete_Data.Delete_By as [Cancel By],
+TSPL_SCRAPINVOICE_HEAD_Delete_Data.Delete_On as [Cancel Date]
 
                          from TSPL_SCRAPINVOICE_HEAD_Delete_Data
 left join TSPL_SCRAPINVOICE_DETAIL_Delete_Data on TSPL_SCRAPINVOICE_DETAIL_Delete_Data.invoice_No=TSPL_SCRAPINVOICE_HEAD_Delete_Data.invoice_No
@@ -1864,7 +1877,7 @@ where convert(date,shipment_Date,103)>=Convert( Date,'" + strtxtfDate + "',103) 
                 qry = "Select (Transcation_Type)[Transcation Type],([Customer Type])[Customer Type],(Doc_Status)[Doc Status],(Location)Location,([GST No])[Location GST],([Sub Location])[Sub Location],(Invoice_Date)Invoice_Date,Invoice_No,([Invoice Type])[Invoice Type],([Route No])[Route No],([Party Code])[Party Code],VLC_Code_VLC_Uploader as [DCS Uploader],([Party Name])[Party Name],
                        ([Customer GSTNo])[Customer GSTNo],([State Code])[Party State Code],[Item Code],[Item Name],HSN_Code AS [HSN Code],([Measure of Qty])[Measure of Qty],([Product Qty])[Product Qty],(Report_UOM)[Report UOM],CAST(ReportUOM_Qty AS DECIMAL(18,2)) AS [ReportUOM Qty],Cast(([IGST Rate]) as decimal(10,2))[GST Rate],cast(([ItemBasic Amt]) as decimal(10,2))[ItemBasic Amt],cast(([Margin Amt]) as decimal(10,2))[Margin Amt],Cast(([Basic Amt]) as Decimal(10,2))[Basic Amt],Cast((KKF) as decimal(10,2))KKF,Cast(([Mandi Tax Amt]) as Decimal(10,2))[Mandi Tax Amt],Cast(([Party TCS Amt]) as Decimal(10,2))[Party TCS Amt],
                         Cast(([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(([IGST Amt]) as decimal(10,2))[IGST Amt],cast(([Total Tax Amt]) as decimal(10,2))[Total Tax Amt],cast(([Total Amt]) as decimal(10,2))[Total Amt],([Subsidy Amt])[Subsidy Amt],([B2B/B2C])[B2B/B2C],(Ack_No)[Ack No],(Ack_Date)[Ack Date],(IRN_No)[IRN No],EWayBillNo,EWayBillDate
-                        ,(Created_By)[Created By],(Created_Date)[Created Date] from (" + BaseQryCancel + ")XX   "
+                        ,(Created_By)[Created By],(Created_Date)[Created Date],[Cancel By],[Cancel Date] from (" + BaseQryCancel + ")XX   "
                 If TxtTransaction.arrValueMember IsNot Nothing AndAlso TxtTransaction.arrValueMember.Count > 0 Then
                     qry += " where XX.Transcation_Type In(" + clsCommon.GetMulcallString(TxtTransaction.arrValueMember) + ")" + Environment.NewLine
                 End If
@@ -1873,7 +1886,7 @@ where convert(date,shipment_Date,103)>=Convert( Date,'" + strtxtfDate + "',103) 
                 qry = " Select max(Transcation_Type)[Transcation Type],max([Customer Type])[Customer Type],max(Doc_Status)[Doc Status],max(Location)Location,max([GST No])[Location GST],max([Sub Location])[Sub Location],max(Invoice_Date)Invoice_Date,Invoice_No,max([Invoice Type])[Invoice Type],MAX([Route No])[Route No],max([Party Code])[Party Code],max(VLC_Code_VLC_Uploader) as [DCS Uploader],max([Party Name])[Party Name],
                         max([Customer GSTNo])[Customer GSTNo],max([State Code])[Party State Code],cast(sum([ItemBasic Amt]) as decimal(10,2))[ItemBasic Amt],cast(sum([Margin Amt]) as decimal(10,2))[Margin Amt],Cast(sum([Basic Amt]) as Decimal(10,2))[Basic Amt],Cast(sum(KKF) as decimal(10,2))KKF,Cast(sum([Mandi Tax Amt]) as Decimal(10,2))[Mandi Tax Amt],Cast(sum([Party TCS Amt]) as Decimal(10,2))[Party TCS Amt],
                         Cast(sum([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(sum([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(sum([IGST Amt]) as decimal(10,2))[IGST Amt],cast(sum([Total Tax Amt]) as decimal(10,2))[Total Tax Amt],cast(sum([Total Amt]) as decimal(10,2))[Total Amt],sum([Subsidy Amt])[Subsidy Amt],max([B2B/B2C])[B2B/B2C],max(Ack_No)[Ack No],max(Ack_Date)[Ack Date],max(IRN_No)[IRN No],max(EWayBillNo)EWayBillNo,max(EWayBillDate)EWayBillDate
-                        ,max(Created_By)[Created By],max(Created_Date)[Created Date] from (" + BaseQryCancel + " )XX  "
+                        ,max(Created_By)[Created By],max(Created_Date)[Created Date],max([Cancel By])[Cancel By],max([Cancel Date])[Cancel Date] from (" + BaseQryCancel + " )XX  "
                 If TxtTransaction.arrValueMember IsNot Nothing AndAlso TxtTransaction.arrValueMember.Count > 0 Then
                     qry += " where XX.Transcation_Type In(" + clsCommon.GetMulcallString(TxtTransaction.arrValueMember) + ")" + Environment.NewLine
                 End If
@@ -2268,8 +2281,8 @@ where convert(date,TSPL_SD_SALE_RETURN_HEAD_Delete_Data.Document_Date,103)>=Conv
                 common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             Else
-                RadPageView1.SelectedPage = RadPageViewPage2
-                gvData.GroupDescriptors.Clear()
+                RadPageView1.SelectedPage = RadPageViewPage3
+                gvdata.GroupDescriptors.Clear()
                 gvData.MasterTemplate.SummaryRowsBottom.Clear()
                 gvData.DataSource = dt
                 gvData.AutoExpandGroups = True

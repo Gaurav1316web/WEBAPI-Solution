@@ -22,17 +22,17 @@ Partial Class frmShipmentDairy
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim WindowsSettings2 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
+        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition13 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition14 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition15 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition16 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition17 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition18 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition19 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition20 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -268,6 +268,15 @@ Partial Class frmShipmentDairy
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.rpOpening = New Telerik.WinControls.UI.RadPanel()
+        Me.lblCrAmt = New common.Controls.MyLabel()
+        Me.txtCrAmt = New common.Controls.MyLabel()
+        Me.lblNetbalance = New common.Controls.MyLabel()
+        Me.txtClosingBal = New common.Controls.MyLabel()
+        Me.lblOpeningBal = New common.Controls.MyLabel()
+        Me.txtOpeningbal = New common.Controls.MyLabel()
+        Me.lblDrAmt = New common.Controls.MyLabel()
+        Me.txtDrAmt = New common.Controls.MyLabel()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
         Me.btnUpdateCustomerWithRoute = New Telerik.WinControls.UI.RadButton()
         Me.btnHistory1 = New Telerik.WinControls.UI.RadButton()
@@ -671,6 +680,16 @@ Partial Class frmShipmentDairy
         Me.pvpCustomFields.SuspendLayout
         Me.Attachments.SuspendLayout
         Me.RadPageViewPage4.SuspendLayout
+        CType(Me.rpOpening, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.rpOpening.SuspendLayout
+        CType(Me.lblCrAmt, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.txtCrAmt, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.lblNetbalance, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.txtClosingBal, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.lblOpeningBal, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.txtOpeningbal, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.lblDrAmt, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.txtDrAmt, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox4.SuspendLayout
         CType(Me.btnUpdateCustomerWithRoute, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnHistory1, System.ComponentModel.ISupportInitialize).BeginInit
@@ -861,9 +880,9 @@ Partial Class frmShipmentDairy
         Me.RadMenuItem2.TabIndex = 0
         Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenuItem2.Visible = False
-        WindowsSettings1.EnableRoundedCorners = Nothing
-        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
-        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
+        WindowsSettings2.EnableRoundedCorners = Nothing
+        WindowsSettings2.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings2
         '
         'Panel1
         '
@@ -950,7 +969,7 @@ Partial Class frmShipmentDairy
         '
         '
         Me.RadPageView1.RootElement.MinSize = New System.Drawing.Size(0, 0)
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
         Me.RadPageView1.Size = New System.Drawing.Size(1110, 462)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -1623,7 +1642,8 @@ Partial Class frmShipmentDairy
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.gv1.MyExportAPI = False
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -4322,7 +4342,8 @@ Partial Class frmShipmentDairy
         Me.gvDistributor.MasterTemplate.AllowDeleteRow = False
         Me.gvDistributor.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDistributor.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvDistributor.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvDistributor.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.gvDistributor.MyExportAPI = False
         Me.gvDistributor.MyExportFilePath = ""
         Me.gvDistributor.MyStopExport = False
         Me.gvDistributor.Name = "gvDistributor"
@@ -4618,7 +4639,8 @@ Partial Class frmShipmentDairy
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition13
+        Me.gv2.MyExportAPI = False
         Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
@@ -4653,7 +4675,8 @@ Partial Class frmShipmentDairy
         Me.gvBoothScheme.MasterTemplate.AllowDeleteRow = False
         Me.gvBoothScheme.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBoothScheme.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvBoothScheme.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvBoothScheme.MasterTemplate.ViewDefinition = TableViewDefinition14
+        Me.gvBoothScheme.MyExportAPI = False
         Me.gvBoothScheme.MyExportFilePath = ""
         Me.gvBoothScheme.MyStopExport = False
         Me.gvBoothScheme.Name = "gvBoothScheme"
@@ -4689,7 +4712,8 @@ Partial Class frmShipmentDairy
         Me.gvCrateType.MasterTemplate.AllowDeleteRow = False
         Me.gvCrateType.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCrateType.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCrateType.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvCrateType.MasterTemplate.ViewDefinition = TableViewDefinition15
+        Me.gvCrateType.MyExportAPI = False
         Me.gvCrateType.MyExportFilePath = ""
         Me.gvCrateType.MyStopExport = False
         Me.gvCrateType.Name = "gvCrateType"
@@ -4717,7 +4741,7 @@ Partial Class frmShipmentDairy
         '
         '
         '
-        Me.gvManualscheme.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvManualscheme.MasterTemplate.ViewDefinition = TableViewDefinition16
         Me.gvManualscheme.Name = "gvManualscheme"
         Me.gvManualscheme.Size = New System.Drawing.Size(1089, 416)
         Me.gvManualscheme.TabIndex = 0
@@ -4765,7 +4789,8 @@ Partial Class frmShipmentDairy
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition17
+        Me.gvAC.MyExportAPI = False
         Me.gvAC.MyExportFilePath = ""
         Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
@@ -4837,6 +4862,7 @@ Partial Class frmShipmentDairy
         '
         'RadPageViewPage4
         '
+        Me.RadPageViewPage4.Controls.Add(Me.rpOpening)
         Me.RadPageViewPage4.Controls.Add(Me.GroupBox4)
         Me.RadPageViewPage4.Controls.Add(Me.txtBoothSecurity)
         Me.RadPageViewPage4.Controls.Add(Me.MyLabel72)
@@ -4886,6 +4912,110 @@ Partial Class frmShipmentDairy
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1089, 416)
         Me.RadPageViewPage4.Text = "Total"
+        '
+        'rpOpening
+        '
+        Me.rpOpening.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.rpOpening.Controls.Add(Me.lblCrAmt)
+        Me.rpOpening.Controls.Add(Me.txtCrAmt)
+        Me.rpOpening.Controls.Add(Me.lblNetbalance)
+        Me.rpOpening.Controls.Add(Me.txtClosingBal)
+        Me.rpOpening.Controls.Add(Me.lblOpeningBal)
+        Me.rpOpening.Controls.Add(Me.txtOpeningbal)
+        Me.rpOpening.Controls.Add(Me.lblDrAmt)
+        Me.rpOpening.Controls.Add(Me.txtDrAmt)
+        Me.rpOpening.Location = New System.Drawing.Point(522, 140)
+        Me.rpOpening.Name = "rpOpening"
+        Me.rpOpening.Size = New System.Drawing.Size(265, 98)
+        Me.rpOpening.TabIndex = 1569
+        '
+        'lblCrAmt
+        '
+        Me.lblCrAmt.FieldName = Nothing
+        Me.lblCrAmt.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.lblCrAmt.Location = New System.Drawing.Point(5, 52)
+        Me.lblCrAmt.Name = "lblCrAmt"
+        Me.lblCrAmt.Size = New System.Drawing.Size(60, 16)
+        Me.lblCrAmt.TabIndex = 141
+        Me.lblCrAmt.Text = "Credit Amt"
+        '
+        'txtCrAmt
+        '
+        Me.txtCrAmt.AutoSize = False
+        Me.txtCrAmt.BorderVisible = True
+        Me.txtCrAmt.FieldName = Nothing
+        Me.txtCrAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCrAmt.Location = New System.Drawing.Point(122, 50)
+        Me.txtCrAmt.Name = "txtCrAmt"
+        Me.txtCrAmt.Size = New System.Drawing.Size(132, 20)
+        Me.txtCrAmt.TabIndex = 142
+        Me.txtCrAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'lblNetbalance
+        '
+        Me.lblNetbalance.FieldName = Nothing
+        Me.lblNetbalance.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.lblNetbalance.Location = New System.Drawing.Point(5, 75)
+        Me.lblNetbalance.Name = "lblNetbalance"
+        Me.lblNetbalance.Size = New System.Drawing.Size(88, 16)
+        Me.lblNetbalance.TabIndex = 139
+        Me.lblNetbalance.Text = "Closing Balance"
+        '
+        'txtClosingBal
+        '
+        Me.txtClosingBal.AutoSize = False
+        Me.txtClosingBal.BorderVisible = True
+        Me.txtClosingBal.FieldName = Nothing
+        Me.txtClosingBal.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtClosingBal.Location = New System.Drawing.Point(122, 73)
+        Me.txtClosingBal.Name = "txtClosingBal"
+        Me.txtClosingBal.Size = New System.Drawing.Size(132, 20)
+        Me.txtClosingBal.TabIndex = 140
+        Me.txtClosingBal.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'lblOpeningBal
+        '
+        Me.lblOpeningBal.FieldName = Nothing
+        Me.lblOpeningBal.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.lblOpeningBal.Location = New System.Drawing.Point(5, 6)
+        Me.lblOpeningBal.Name = "lblOpeningBal"
+        Me.lblOpeningBal.Size = New System.Drawing.Size(93, 16)
+        Me.lblOpeningBal.TabIndex = 137
+        Me.lblOpeningBal.Text = "Opening Balance"
+        '
+        'txtOpeningbal
+        '
+        Me.txtOpeningbal.AutoSize = False
+        Me.txtOpeningbal.BorderVisible = True
+        Me.txtOpeningbal.FieldName = Nothing
+        Me.txtOpeningbal.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtOpeningbal.Location = New System.Drawing.Point(122, 4)
+        Me.txtOpeningbal.Name = "txtOpeningbal"
+        Me.txtOpeningbal.Size = New System.Drawing.Size(132, 20)
+        Me.txtOpeningbal.TabIndex = 138
+        Me.txtOpeningbal.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'lblDrAmt
+        '
+        Me.lblDrAmt.FieldName = Nothing
+        Me.lblDrAmt.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.lblDrAmt.Location = New System.Drawing.Point(5, 29)
+        Me.lblDrAmt.Name = "lblDrAmt"
+        Me.lblDrAmt.Size = New System.Drawing.Size(56, 16)
+        Me.lblDrAmt.TabIndex = 126
+        Me.lblDrAmt.Text = "Debit Amt"
+        '
+        'txtDrAmt
+        '
+        Me.txtDrAmt.AutoSize = False
+        Me.txtDrAmt.BorderVisible = True
+        Me.txtDrAmt.FieldName = Nothing
+        Me.txtDrAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDrAmt.Location = New System.Drawing.Point(122, 27)
+        Me.txtDrAmt.Name = "txtDrAmt"
+        Me.txtDrAmt.Size = New System.Drawing.Size(132, 20)
+        Me.txtDrAmt.TabIndex = 136
+        Me.txtDrAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
         'GroupBox4
         '
@@ -5028,9 +5158,9 @@ Partial Class frmShipmentDairy
         '
         Me.btnCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnCancel.Location = New System.Drawing.Point(383, 140)
+        Me.btnCancel.Location = New System.Drawing.Point(404, 143)
         Me.btnCancel.Name = "btnCancel"
-        Me.btnCancel.Size = New System.Drawing.Size(76, 22)
+        Me.btnCancel.Size = New System.Drawing.Size(85, 22)
         Me.btnCancel.TabIndex = 162
         Me.btnCancel.Text = "Cancel"
         '
@@ -5824,7 +5954,8 @@ Partial Class frmShipmentDairy
         Me.gv_Uploader_Temp.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_Uploader_Temp.MasterTemplate.ShowGroupedColumns = True
         Me.gv_Uploader_Temp.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_Uploader_Temp.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gv_Uploader_Temp.MasterTemplate.ViewDefinition = TableViewDefinition18
+        Me.gv_Uploader_Temp.MyExportAPI = False
         Me.gv_Uploader_Temp.MyExportFilePath = ""
         Me.gv_Uploader_Temp.MyStopExport = False
         Me.gv_Uploader_Temp.Name = "gv_Uploader_Temp"
@@ -5846,7 +5977,8 @@ Partial Class frmShipmentDairy
         Me.gv_Uploader.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_Uploader.MasterTemplate.ShowGroupedColumns = True
         Me.gv_Uploader.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_Uploader.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gv_Uploader.MasterTemplate.ViewDefinition = TableViewDefinition19
+        Me.gv_Uploader.MyExportAPI = False
         Me.gv_Uploader.MyExportFilePath = ""
         Me.gv_Uploader.MyStopExport = False
         Me.gv_Uploader.Name = "gv_Uploader"
@@ -6424,7 +6556,7 @@ Partial Class frmShipmentDairy
         '
         '
         '
-        Me.gvCC.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gvCC.MasterTemplate.ViewDefinition = TableViewDefinition20
         Me.gvCC.Name = "gvCC"
         Me.gvCC.Size = New System.Drawing.Size(1089, 318)
         Me.gvCC.TabIndex = 0
@@ -7427,6 +7559,17 @@ Partial Class frmShipmentDairy
         Me.Attachments.ResumeLayout(False)
         Me.RadPageViewPage4.ResumeLayout(False)
         Me.RadPageViewPage4.PerformLayout
+        CType(Me.rpOpening, System.ComponentModel.ISupportInitialize).EndInit
+        Me.rpOpening.ResumeLayout(False)
+        Me.rpOpening.PerformLayout
+        CType(Me.lblCrAmt, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.txtCrAmt, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.lblNetbalance, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.txtClosingBal, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.lblOpeningBal, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.txtOpeningbal, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.lblDrAmt, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.txtDrAmt, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox4.ResumeLayout(False)
         CType(Me.btnUpdateCustomerWithRoute, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnHistory1, System.ComponentModel.ISupportInitialize).EndInit
@@ -8003,5 +8146,14 @@ Partial Class frmShipmentDairy
     Friend WithEvents btnEWB As RadButton
     Friend WithEvents GroupBox4 As GroupBox
     Friend WithEvents btnUpdateVehicle As RadButton
+    Friend WithEvents rpOpening As RadPanel
+    Friend WithEvents lblCrAmt As common.Controls.MyLabel
+    Friend WithEvents txtCrAmt As common.Controls.MyLabel
+    Friend WithEvents lblNetbalance As common.Controls.MyLabel
+    Friend WithEvents txtClosingBal As common.Controls.MyLabel
+    Friend WithEvents lblOpeningBal As common.Controls.MyLabel
+    Friend WithEvents txtOpeningbal As common.Controls.MyLabel
+    Friend WithEvents lblDrAmt As common.Controls.MyLabel
+    Friend WithEvents txtDrAmt As common.Controls.MyLabel
 End Class
 

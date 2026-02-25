@@ -119,7 +119,7 @@ Partial Class FrmSendDBTToJanaadhar
         '
         'txtTop
         '
-        Me.txtTop.Location = New System.Drawing.Point(510, 107)
+        Me.txtTop.Location = New System.Drawing.Point(31, 105)
         Me.txtTop.Name = "txtTop"
         Me.txtTop.Size = New System.Drawing.Size(90, 20)
         Me.txtTop.TabIndex = 392
@@ -129,7 +129,7 @@ Partial Class FrmSendDBTToJanaadhar
         'lblTop
         '
         Me.lblTop.FieldName = Nothing
-        Me.lblTop.Location = New System.Drawing.Point(479, 108)
+        Me.lblTop.Location = New System.Drawing.Point(0, 106)
         Me.lblTop.Name = "lblTop"
         Me.lblTop.Size = New System.Drawing.Size(25, 18)
         Me.lblTop.TabIndex = 391

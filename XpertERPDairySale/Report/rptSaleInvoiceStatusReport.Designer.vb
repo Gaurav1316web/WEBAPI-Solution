@@ -22,7 +22,7 @@ Partial Class rptSaleInvoiceStatusReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -30,6 +30,9 @@ Partial Class rptSaleInvoiceStatusReport
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rdbDelete = New common.Controls.MyRadioButton()
+        Me.rdbCancel = New common.Controls.MyRadioButton()
         Me.chkItemWiseCustomer = New System.Windows.Forms.CheckBox()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rdbInvoiceCount = New common.Controls.MyRadioButton()
@@ -56,17 +59,14 @@ Partial Class rptSaleInvoiceStatusReport
         Me.MyLabel18 = New common.Controls.MyLabel()
         Me.txtToDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.txtfDate = New Telerik.WinControls.UI.RadDateTimePicker()
-        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gvData = New common.UserControls.MyRadGridView()
+        Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gvdata = New common.UserControls.MyRadGridView()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmenuExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmenuPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rdbDelete = New common.Controls.MyRadioButton()
-        Me.rdbCancel = New common.Controls.MyRadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -74,6 +74,10 @@ Partial Class rptSaleInvoiceStatusReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox3.SuspendLayout()
+        CType(Me.rdbDelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbCancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.rdbInvoiceCount, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -97,17 +101,13 @@ Partial Class rptSaleInvoiceStatusReport
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtfDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage2.SuspendLayout()
-        CType(Me.gvData, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gvData.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage3.SuspendLayout()
+        CType(Me.gvdata, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvdata.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox3.SuspendLayout()
-        CType(Me.rdbDelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rdbCancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -162,7 +162,7 @@ Partial Class rptSaleInvoiceStatusReport
         'RadPageView1
         '
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
@@ -193,6 +193,41 @@ Partial Class rptSaleInvoiceStatusReport
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 340)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'RadGroupBox3
+        '
+        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.rdbDelete)
+        Me.RadGroupBox3.Controls.Add(Me.rdbCancel)
+        Me.RadGroupBox3.HeaderText = ""
+        Me.RadGroupBox3.Location = New System.Drawing.Point(443, 7)
+        Me.RadGroupBox3.Name = "RadGroupBox3"
+        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(158, 39)
+        Me.RadGroupBox3.TabIndex = 1507
+        Me.RadGroupBox3.Visible = False
+        '
+        'rdbDelete
+        '
+        Me.rdbDelete.Location = New System.Drawing.Point(15, 9)
+        Me.rdbDelete.MyLinkLable1 = Nothing
+        Me.rdbDelete.MyLinkLable2 = Nothing
+        Me.rdbDelete.Name = "rdbDelete"
+        Me.rdbDelete.Size = New System.Drawing.Size(52, 18)
+        Me.rdbDelete.TabIndex = 396
+        Me.rdbDelete.TabStop = False
+        Me.rdbDelete.Text = "Delete"
+        '
+        'rdbCancel
+        '
+        Me.rdbCancel.Location = New System.Drawing.Point(79, 9)
+        Me.rdbCancel.MyLinkLable1 = Nothing
+        Me.rdbCancel.MyLinkLable2 = Nothing
+        Me.rdbCancel.Name = "rdbCancel"
+        Me.rdbCancel.Size = New System.Drawing.Size(53, 18)
+        Me.rdbCancel.TabIndex = 391
+        Me.rdbCancel.TabStop = False
+        Me.rdbCancel.Text = "Cancel"
         '
         'chkItemWiseCustomer
         '
@@ -503,32 +538,40 @@ Partial Class rptSaleInvoiceStatusReport
         Me.txtfDate.Text = "24/10/2011"
         Me.txtfDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
         '
-        'RadPageViewPage2
+        'RadPageViewPage3
         '
-        Me.RadPageViewPage2.Controls.Add(Me.gvData)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(779, 340)
-        Me.RadPageViewPage2.Text = "Report"
+        Me.RadPageViewPage3.Controls.Add(Me.gvdata)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage3.Name = "RadPageViewPage3"
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(779, 340)
+        Me.RadPageViewPage3.Text = "Report"
         '
-        'gvData
+        'gvdata
         '
-        Me.gvData.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gvData.Location = New System.Drawing.Point(0, 0)
+        Me.gvdata.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gvdata.Cursor = System.Windows.Forms.Cursors.Default
+        Me.gvdata.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvdata.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.gvdata.ForeColor = System.Drawing.Color.Black
+        Me.gvdata.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.gvdata.Location = New System.Drawing.Point(0, 0)
         '
         '
         '
-        Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition2
-        Me.gvData.MyExportFilePath = ""
-        Me.gvData.MyStopExport = False
-        Me.gvData.Name = "gvData"
-        Me.gvData.ShowHeaderCellButtons = True
-        Me.gvData.Size = New System.Drawing.Size(779, 340)
-        Me.gvData.TabIndex = 0
-        Me.gvData.VarID = ""
+        Me.gvdata.MasterTemplate.AllowAddNewRow = False
+        Me.gvdata.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvdata.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvdata.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvdata.MyExportAPI = False
+        Me.gvdata.MyExportFilePath = ""
+        Me.gvdata.MyStopExport = False
+        Me.gvdata.Name = "gvdata"
+        Me.gvdata.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gvdata.ShowHeaderCellButtons = True
+        Me.gvdata.Size = New System.Drawing.Size(779, 340)
+        Me.gvdata.TabIndex = 1
+        Me.gvdata.VarID = ""
         '
         'btnClose
         '
@@ -579,41 +622,6 @@ Partial Class rptSaleInvoiceStatusReport
         Me.btnGo.TabIndex = 162
         Me.btnGo.Text = ">>>"
         '
-        'RadGroupBox3
-        '
-        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox3.Controls.Add(Me.rdbDelete)
-        Me.RadGroupBox3.Controls.Add(Me.rdbCancel)
-        Me.RadGroupBox3.HeaderText = ""
-        Me.RadGroupBox3.Location = New System.Drawing.Point(443, 7)
-        Me.RadGroupBox3.Name = "RadGroupBox3"
-        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox3.Size = New System.Drawing.Size(158, 39)
-        Me.RadGroupBox3.TabIndex = 1507
-        Me.RadGroupBox3.Visible = False
-        '
-        'rdbDelete
-        '
-        Me.rdbDelete.Location = New System.Drawing.Point(15, 9)
-        Me.rdbDelete.MyLinkLable1 = Nothing
-        Me.rdbDelete.MyLinkLable2 = Nothing
-        Me.rdbDelete.Name = "rdbDelete"
-        Me.rdbDelete.Size = New System.Drawing.Size(52, 18)
-        Me.rdbDelete.TabIndex = 396
-        Me.rdbDelete.TabStop = False
-        Me.rdbDelete.Text = "Delete"
-        '
-        'rdbCancel
-        '
-        Me.rdbCancel.Location = New System.Drawing.Point(79, 9)
-        Me.rdbCancel.MyLinkLable1 = Nothing
-        Me.rdbCancel.MyLinkLable2 = Nothing
-        Me.rdbCancel.Name = "rdbCancel"
-        Me.rdbCancel.Size = New System.Drawing.Size(53, 18)
-        Me.rdbCancel.TabIndex = 391
-        Me.rdbCancel.TabStop = False
-        Me.rdbCancel.Text = "Cancel"
-        '
         'rptSaleInvoiceStatusReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -635,6 +643,11 @@ Partial Class rptSaleInvoiceStatusReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox3.ResumeLayout(False)
+        Me.RadGroupBox3.PerformLayout()
+        CType(Me.rdbDelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbCancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
@@ -661,18 +674,13 @@ Partial Class rptSaleInvoiceStatusReport
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtfDate, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage2.ResumeLayout(False)
-        CType(Me.gvData.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gvData, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage3.ResumeLayout(False)
+        CType(Me.gvdata.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvdata, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox3.ResumeLayout(False)
-        Me.RadGroupBox3.PerformLayout()
-        CType(Me.rdbDelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rdbCancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -700,8 +708,6 @@ Partial Class rptSaleInvoiceStatusReport
     Friend WithEvents MyLabel18 As common.Controls.MyLabel
     Friend WithEvents txtToDate As RadDateTimePicker
     Friend WithEvents txtfDate As RadDateTimePicker
-    Friend WithEvents RadPageViewPage2 As RadPageViewPage
-    Friend WithEvents gvData As common.UserControls.MyRadGridView
     Friend WithEvents btnGo As RadButton
     Friend WithEvents RadSplitButton1 As RadSplitButton
     Friend WithEvents rmenuExport As RadMenuItem
@@ -723,4 +729,6 @@ Partial Class rptSaleInvoiceStatusReport
     Friend WithEvents RadGroupBox3 As RadGroupBox
     Friend WithEvents rdbDelete As common.Controls.MyRadioButton
     Friend WithEvents rdbCancel As common.Controls.MyRadioButton
+    Friend WithEvents RadPageViewPage3 As RadPageViewPage
+    Friend WithEvents gvdata As common.UserControls.MyRadGridView
 End Class

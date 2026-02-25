@@ -698,6 +698,12 @@
     <Compile Include="frmServerConfig.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Inventory\Master\frmBatchManufacturingMaster.Designer.vb">
+      <DependentUpon>frmBatchManufacturingMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\Master\frmBatchManufacturingMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Inventory\Master\frmInventorySourceCode.Designer.vb">
       <DependentUpon>frmInventorySourceCode.vb</DependentUpon>
     </Compile>
@@ -5002,6 +5008,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmServerConfig.resx">
       <DependentUpon>frmServerConfig.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\Master\frmBatchManufacturingMaster.resx">
+      <DependentUpon>frmBatchManufacturingMaster.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Inventory\Master\frmInventorySourceCode.resx">
       <DependentUpon>frmInventorySourceCode.vb</DependentUpon>

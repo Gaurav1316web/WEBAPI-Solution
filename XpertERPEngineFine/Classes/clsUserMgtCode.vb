@@ -1,5 +1,7 @@
 ﻿Imports common
 Public Class clsUserMgtCode
+    Public Const frmBatchManufacturingMaster As String = "Bat-MAN-MA"
+
     Public Const rptMachineSurveyRegister As String = "MH-SRV-RGSR"
     Public Const frmDCSDeductionReport As String = "DCS-DED-RPT"
     Public Const rptTankerMilkQcVsERPEntry As String = "TAN-ERP"

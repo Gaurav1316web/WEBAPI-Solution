@@ -10,14 +10,6 @@ Public Class frmDCSAdditionDeduction
 #End Region
 
     Private Sub frmJWPriceCodeMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As New Dictionary(Of String, String)()
-        coll.Add("FAT_Range_From", "decimal(18,1) NULL")
-        coll.Add("FAT_Range_To", "decimal(18,1) NULL")
-        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_DCS_ADDITION_DEDUCTION", coll, "", True, False, "", "", "", True)
-
-
-
-
         SetUserMgmtNew()
         LoadApplyType()
         LoadApplyOn()
@@ -222,8 +214,10 @@ Public Class frmDCSAdditionDeduction
                 End If
                 obj.Applicable_On = clsCommon.myCDecimal(cboApplyOn.SelectedValue)
                 obj.Include_Shortage_Own_BMC = chkIncludeShortageOwnBMC.Checked
-                obj.Subtract = chkSubtract.Checked
+                obj.Subtract = chkSubtractAuto.Checked
+                obj.SubtractManual = chkSubtractManual.Checked
                 obj.Apply_Formula = chkApplyFormula.Checked
+                obj.Apply_Formula_Manual = chkApplyFormulaManual.Checked
                 obj.Dont_Generate_DR_CR_Note = chkDontGenerateDRCRNote.Checked
                 obj.Hide_In_Milk_Bill_Print = rdbHideInMilkBillPrint.Checked
                 If rbtnQtyUOMRec.IsChecked Then
@@ -261,7 +255,8 @@ Public Class frmDCSAdditionDeduction
                 End If
 
 
-                obj.Arr = txtAddAmount.arrValueMember
+                obj.Arr = txtAddAmountAuto.arrValueMember
+                obj.ArrManual = txtAddAmountManual.arrValueMember
                 obj.ArrDCSExclude = txtExcludeDCS.arrValueMember
                 If obj.SaveData(obj, isNewEntry) Then
                     clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
@@ -356,8 +351,10 @@ Public Class frmDCSAdditionDeduction
                     rbtnQtyUOMKG.IsChecked = True
                 End If
                 chkIncludeShortageOwnBMC.Checked = obj.Include_Shortage_Own_BMC
-                chkSubtract.Checked = obj.Subtract
+                chkSubtractAuto.Checked = obj.Subtract
+                chkSubtractManual.Checked = obj.SubtractManual
                 chkApplyFormula.Checked = obj.Apply_Formula
+                chkApplyFormulaManual.Checked = obj.Apply_Formula_Manual
                 chkDontGenerateDRCRNote.Checked = obj.Dont_Generate_DR_CR_Note
                 rdbHideInMilkBillPrint.Checked = obj.Hide_In_Milk_Bill_Print
                 If obj.Check_Saving_AC > 0 Then
@@ -379,7 +376,8 @@ Public Class frmDCSAdditionDeduction
 
                 cboRoundOFFDecimalPlaces.SelectedValue = clsCommon.myCstr(obj.RO_Decimal_Places)
                 cboROIncreaseAfter.SelectedValue = clsCommon.myCstr(obj.RO_Increase_After)
-                txtAddAmount.arrValueMember = obj.Arr
+                txtAddAmountAuto.arrValueMember = obj.Arr
+                txtAddAmountManual.arrValueMember = obj.ArrManual
                 Dim arr As ArrayList = Nothing
                 Try
                     If clsCommon.myLen(obj.Milk_Type) > 0 Then
@@ -578,14 +576,17 @@ Public Class frmDCSAdditionDeduction
         setNatureTypeAddition()
         cboRoundOFFDecimalPlaces.SelectedValue = "-1"
         cboROIncreaseAfter.SelectedValue = "-1"
-        txtAddAmount.arrValueMember = Nothing
+        txtAddAmountAuto.arrValueMember = Nothing
+        txtAddAmountManual.arrValueMember = Nothing
         rbtnQtyUOMRec.IsChecked = True
         txtMilkType.arrValueMember = Nothing
         txtExcludeDCS.arrValueMember = Nothing
         chkApplyTDS.Checked = False
         chkIncludeShortageOwnBMC.Checked = False
-        chkSubtract.Checked = False
+        chkSubtractAuto.Checked = False
+        chkSubtractManual.Checked = False
         chkApplyFormula.Checked = False
+        chkApplyFormulaManual.Checked = False
         chkDontGenerateDRCRNote.Checked = False
         rdbHideInMilkBillPrint.Checked = False
         chkSavingAC.Checked = False
@@ -724,9 +725,14 @@ Public Class frmDCSAdditionDeduction
         chkApplyTDS.Visible = rbtnNatureTypeAddition.IsChecked
     End Sub
 
-    Private Sub txtAddAmount__My_Click(sender As Object, e As EventArgs) Handles txtAddAmount._My_Click
+    Private Sub txtAddAmount__My_Click(sender As Object, e As EventArgs) Handles txtAddAmountAuto._My_Click
         Dim qry As String = "select Code,Description from TSPL_DCS_ADDITION_DEDUCTION where code Not in ('" + txtCode.Value + "') and not exists(select 1 from TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT where TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT.Code=TSPL_DCS_ADDITION_DEDUCTION.Code)"
-        txtAddAmount.arrValueMember = clsCommon.ShowMultipleSelectForm("MPISMCC", qry, "Code", "Description", txtAddAmount.arrValueMember, Nothing)
+        txtAddAmountAuto.arrValueMember = clsCommon.ShowMultipleSelectForm("MPISMCC", qry, "Code", "Description", txtAddAmountAuto.arrValueMember, Nothing)
+    End Sub
+
+    Private Sub txtAddAmountManual__My_Click(sender As Object, e As EventArgs) Handles txtAddAmountManual._My_Click
+        Dim qry As String = "select Code,Description from  TSPL_DEDUCTION_MASTER"
+        txtAddAmountManual.arrValueMember = clsCommon.ShowMultipleSelectForm("MPMISMCC", qry, "Code", "Description", txtAddAmountManual.arrValueMember, Nothing)
     End Sub
 
     Private Sub cboApplyOn_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles cboApplyOn.Validating
