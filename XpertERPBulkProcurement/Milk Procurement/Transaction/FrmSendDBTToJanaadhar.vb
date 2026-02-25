@@ -234,7 +234,7 @@ select '" + strPrefix + "'+FORMAT(TSPL_DBT_NEFT.UKID, '0000')+CAST(TSPL_DBT_NEFT
 from " + DBName + ".dbo.TSPL_DBT_NEFT_DETAIL
 left outer join " + DBName + ".dbo.TSPL_DBT_NEFT on " + DBName + ".dbo.TSPL_DBT_NEFT.Document_Code=" + DBName + ".dbo.TSPL_DBT_NEFT_DETAIL.Document_Code
 where TSPL_DBT_NEFT.Document_Date>'" + ApplyPDAccountDate + "' and isnull(TSPL_DBT_NEFT.RCDF_Status,0)=1 
-and TSPL_DBT_NEFT.RCDF_Post_Date < DATEADD(DAY, -90, GETDATE())
+and TSPL_DBT_NEFT.RCDF_Post_Date < DATEADD(DAY, -30, GETDATE())
 group by TSPL_DBT_NEFT.UKID,TSPL_DBT_NEFT_DETAIl.Lot_No
 union all
 select '" + strPrefix + "'+FORMAT(TSPL_DBT_NEFT.UKID, '0000')+CAST(TSPL_DBT_NEFT_DETAIl.Lot_No as varchar) as Refenceno,TSPL_DBT_NEFT_DETAIl.Lot_No,max(TSPL_DBT_NEFT.Document_Code) as DocumentCode,Max(TSPL_DBT_NEFT.From_Date) as FromDate,max(TSPL_DBT_NEFT.To_Date) as ToDate

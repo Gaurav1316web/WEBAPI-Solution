@@ -10,24 +10,6 @@ Public Class frmDCSAdditionDeduction
 #End Region
 
     Private Sub frmJWPriceCodeMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As New Dictionary(Of String, String)()
-        coll.Add("SubtractManual", "integer NULL")
-        coll.Add("Apply_Formula_Manual", "integer NULL")
-        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_DCS_ADDITION_DEDUCTION", coll, "", True, False, "", "", "", True)
-
-
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("Code", "Varchar(30) null References TSPL_DCS_ADDITION_DEDUCTION(Code)")
-        coll.Add("Deduction_Code", "Varchar(30) null References TSPL_DEDUCTION_MASTER(Code)")
-        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT_MANUAL", coll, "", True, False, "", "", "", True)
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("Skip_DrCr_Note", "integer null")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MULTIPLE_DEDUCTION_HEAD", coll, Nothing, True, False, "", "Document_No", "Document_Date", False)
-
-
-
         SetUserMgmtNew()
         LoadApplyType()
         LoadApplyOn()
