@@ -28,6 +28,10 @@ Partial Class FrmMultipleProcDeduction
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.pnlLocation = New System.Windows.Forms.Panel()
+        Me.RadLabel23 = New Telerik.WinControls.UI.RadLabel()
+        Me.txtLocationPrefixName = New common.Controls.MyLabel()
+        Me.txtLocationPrefix = New common.UserControls.txtFinder()
         Me.chkOpening = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtVoucherNo = New common.Controls.MyTextBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
@@ -77,10 +81,7 @@ Partial Class FrmMultipleProcDeduction
         Me.btnSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.pnlLocation = New System.Windows.Forms.Panel()
-        Me.RadLabel23 = New Telerik.WinControls.UI.RadLabel()
-        Me.txtLocationPrefixName = New common.Controls.MyLabel()
-        Me.txtLocationPrefix = New common.UserControls.txtFinder()
+        Me.chkSkipDrCrNote = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -90,6 +91,9 @@ Partial Class FrmMultipleProcDeduction
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        Me.pnlLocation.SuspendLayout()
+        CType(Me.RadLabel23, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkOpening, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtVoucherNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -127,9 +131,7 @@ Partial Class FrmMultipleProcDeduction
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
-        Me.pnlLocation.SuspendLayout()
-        CType(Me.RadLabel23, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSkipDrCrNote, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -198,6 +200,7 @@ Partial Class FrmMultipleProcDeduction
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.chkSkipDrCrNote)
         Me.SplitContainer2.Panel1.Controls.Add(Me.pnlLocation)
         Me.SplitContainer2.Panel1.Controls.Add(Me.chkOpening)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtVoucherNo)
@@ -230,9 +233,64 @@ Partial Class FrmMultipleProcDeduction
         Me.SplitContainer2.SplitterWidth = 3
         Me.SplitContainer2.TabIndex = 617
         '
+        'pnlLocation
+        '
+        Me.pnlLocation.Controls.Add(Me.RadLabel23)
+        Me.pnlLocation.Controls.Add(Me.txtLocationPrefixName)
+        Me.pnlLocation.Controls.Add(Me.txtLocationPrefix)
+        Me.pnlLocation.Location = New System.Drawing.Point(10, 121)
+        Me.pnlLocation.Name = "pnlLocation"
+        Me.pnlLocation.Size = New System.Drawing.Size(738, 23)
+        Me.pnlLocation.TabIndex = 12150
+        '
+        'RadLabel23
+        '
+        Me.RadLabel23.Location = New System.Drawing.Point(3, 3)
+        Me.RadLabel23.Name = "RadLabel23"
+        Me.RadLabel23.Size = New System.Drawing.Size(49, 18)
+        Me.RadLabel23.TabIndex = 12145
+        Me.RadLabel23.Text = "Location"
+        '
+        'txtLocationPrefixName
+        '
+        Me.txtLocationPrefixName.AutoSize = False
+        Me.txtLocationPrefixName.BorderVisible = True
+        Me.txtLocationPrefixName.FieldName = Nothing
+        Me.txtLocationPrefixName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocationPrefixName.Location = New System.Drawing.Point(274, 3)
+        Me.txtLocationPrefixName.Name = "txtLocationPrefixName"
+        Me.txtLocationPrefixName.Size = New System.Drawing.Size(461, 18)
+        Me.txtLocationPrefixName.TabIndex = 12146
+        '
+        'txtLocationPrefix
+        '
+        Me.txtLocationPrefix.CalculationExpression = Nothing
+        Me.txtLocationPrefix.FieldCode = Nothing
+        Me.txtLocationPrefix.FieldDesc = Nothing
+        Me.txtLocationPrefix.FieldMaxLength = 0
+        Me.txtLocationPrefix.FieldName = Nothing
+        Me.txtLocationPrefix.isCalculatedField = False
+        Me.txtLocationPrefix.IsSourceFromTable = False
+        Me.txtLocationPrefix.IsSourceFromValueList = False
+        Me.txtLocationPrefix.IsUnique = False
+        Me.txtLocationPrefix.Location = New System.Drawing.Point(125, 2)
+        Me.txtLocationPrefix.MendatroryField = True
+        Me.txtLocationPrefix.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocationPrefix.MyLinkLable1 = Nothing
+        Me.txtLocationPrefix.MyLinkLable2 = Nothing
+        Me.txtLocationPrefix.MyReadOnly = False
+        Me.txtLocationPrefix.MyShowMasterFormButton = False
+        Me.txtLocationPrefix.Name = "txtLocationPrefix"
+        Me.txtLocationPrefix.ReferenceFieldDesc = Nothing
+        Me.txtLocationPrefix.ReferenceFieldName = Nothing
+        Me.txtLocationPrefix.ReferenceTableName = Nothing
+        Me.txtLocationPrefix.Size = New System.Drawing.Size(143, 18)
+        Me.txtLocationPrefix.TabIndex = 12144
+        Me.txtLocationPrefix.Value = ""
+        '
         'chkOpening
         '
-        Me.chkOpening.Location = New System.Drawing.Point(768, 10)
+        Me.chkOpening.Location = New System.Drawing.Point(511, 32)
         Me.chkOpening.Name = "chkOpening"
         Me.chkOpening.Size = New System.Drawing.Size(64, 18)
         Me.chkOpening.TabIndex = 1519
@@ -250,7 +308,7 @@ Partial Class FrmMultipleProcDeduction
         Me.txtVoucherNo.IsSourceFromTable = False
         Me.txtVoucherNo.IsSourceFromValueList = False
         Me.txtVoucherNo.IsUnique = False
-        Me.txtVoucherNo.Location = New System.Drawing.Point(587, 95)
+        Me.txtVoucherNo.Location = New System.Drawing.Point(578, 95)
         Me.txtVoucherNo.MendatroryField = False
         Me.txtVoucherNo.MyLinkLable1 = Nothing
         Me.txtVoucherNo.MyLinkLable2 = Nothing
@@ -258,14 +316,14 @@ Partial Class FrmMultipleProcDeduction
         Me.txtVoucherNo.ReferenceFieldDesc = Nothing
         Me.txtVoucherNo.ReferenceFieldName = Nothing
         Me.txtVoucherNo.ReferenceTableName = Nothing
-        Me.txtVoucherNo.Size = New System.Drawing.Size(162, 20)
+        Me.txtVoucherNo.Size = New System.Drawing.Size(167, 20)
         Me.txtVoucherNo.TabIndex = 622
         '
         'MyLabel1
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(515, 97)
+        Me.MyLabel1.Location = New System.Drawing.Point(511, 97)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(66, 16)
         Me.MyLabel1.TabIndex = 621
@@ -398,7 +456,7 @@ Partial Class FrmMultipleProcDeduction
         Me.txtDate.ReferenceFieldDesc = Nothing
         Me.txtDate.ReferenceFieldName = Nothing
         Me.txtDate.ReferenceTableName = Nothing
-        Me.txtDate.Size = New System.Drawing.Size(114, 18)
+        Me.txtDate.Size = New System.Drawing.Size(113, 18)
         Me.txtDate.TabIndex = 9
         Me.txtDate.TabStop = False
         Me.txtDate.Text = "13/06/2011"
@@ -527,7 +585,7 @@ Partial Class FrmMultipleProcDeduction
         Me.LblLocDesp.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblLocDesp.Location = New System.Drawing.Point(284, 32)
         Me.LblLocDesp.Name = "LblLocDesp"
-        Me.LblLocDesp.Size = New System.Drawing.Size(464, 18)
+        Me.LblLocDesp.Size = New System.Drawing.Size(225, 18)
         Me.LblLocDesp.TabIndex = 41
         Me.LblLocDesp.TextWrap = False
         '
@@ -606,6 +664,8 @@ Partial Class FrmMultipleProcDeduction
         Me.gv1.MasterTemplate.ShowFilteringRow = False
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportAPI = False
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -809,60 +869,13 @@ Partial Class FrmMultipleProcDeduction
         Me.Panel1.Size = New System.Drawing.Size(1041, 498)
         Me.Panel1.TabIndex = 3
         '
-        'pnlLocation
+        'chkSkipDrCrNote
         '
-        Me.pnlLocation.Controls.Add(Me.RadLabel23)
-        Me.pnlLocation.Controls.Add(Me.txtLocationPrefixName)
-        Me.pnlLocation.Controls.Add(Me.txtLocationPrefix)
-        Me.pnlLocation.Location = New System.Drawing.Point(10, 121)
-        Me.pnlLocation.Name = "pnlLocation"
-        Me.pnlLocation.Size = New System.Drawing.Size(738, 23)
-        Me.pnlLocation.TabIndex = 12150
-        '
-        'RadLabel23
-        '
-        Me.RadLabel23.Location = New System.Drawing.Point(3, 3)
-        Me.RadLabel23.Name = "RadLabel23"
-        Me.RadLabel23.Size = New System.Drawing.Size(49, 18)
-        Me.RadLabel23.TabIndex = 12145
-        Me.RadLabel23.Text = "Location"
-        '
-        'txtLocationPrefixName
-        '
-        Me.txtLocationPrefixName.AutoSize = False
-        Me.txtLocationPrefixName.BorderVisible = True
-        Me.txtLocationPrefixName.FieldName = Nothing
-        Me.txtLocationPrefixName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtLocationPrefixName.Location = New System.Drawing.Point(274, 3)
-        Me.txtLocationPrefixName.Name = "txtLocationPrefixName"
-        Me.txtLocationPrefixName.Size = New System.Drawing.Size(461, 18)
-        Me.txtLocationPrefixName.TabIndex = 12146
-        '
-        'txtLocationPrefix
-        '
-        Me.txtLocationPrefix.CalculationExpression = Nothing
-        Me.txtLocationPrefix.FieldCode = Nothing
-        Me.txtLocationPrefix.FieldDesc = Nothing
-        Me.txtLocationPrefix.FieldMaxLength = 0
-        Me.txtLocationPrefix.FieldName = Nothing
-        Me.txtLocationPrefix.isCalculatedField = False
-        Me.txtLocationPrefix.IsSourceFromTable = False
-        Me.txtLocationPrefix.IsSourceFromValueList = False
-        Me.txtLocationPrefix.IsUnique = False
-        Me.txtLocationPrefix.Location = New System.Drawing.Point(125, 2)
-        Me.txtLocationPrefix.MendatroryField = True
-        Me.txtLocationPrefix.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtLocationPrefix.MyLinkLable1 = Nothing
-        Me.txtLocationPrefix.MyLinkLable2 = Nothing
-        Me.txtLocationPrefix.MyReadOnly = False
-        Me.txtLocationPrefix.MyShowMasterFormButton = False
-        Me.txtLocationPrefix.Name = "txtLocationPrefix"
-        Me.txtLocationPrefix.ReferenceFieldDesc = Nothing
-        Me.txtLocationPrefix.ReferenceFieldName = Nothing
-        Me.txtLocationPrefix.ReferenceTableName = Nothing
-        Me.txtLocationPrefix.Size = New System.Drawing.Size(143, 18)
-        Me.txtLocationPrefix.TabIndex = 12144
-        Me.txtLocationPrefix.Value = ""
+        Me.chkSkipDrCrNote.Location = New System.Drawing.Point(578, 32)
+        Me.chkSkipDrCrNote.Name = "chkSkipDrCrNote"
+        Me.chkSkipDrCrNote.Size = New System.Drawing.Size(170, 18)
+        Me.chkSkipDrCrNote.TabIndex = 12151
+        Me.chkSkipDrCrNote.Text = "Skip To Generate DR/CR Note"
         '
         'FrmMultipleProcDeduction
         '
@@ -889,6 +902,10 @@ Partial Class FrmMultipleProcDeduction
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        Me.pnlLocation.ResumeLayout(False)
+        Me.pnlLocation.PerformLayout()
+        CType(Me.RadLabel23, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkOpening, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtVoucherNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -927,10 +944,7 @@ Partial Class FrmMultipleProcDeduction
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
-        Me.pnlLocation.ResumeLayout(False)
-        Me.pnlLocation.PerformLayout()
-        CType(Me.RadLabel23, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkSkipDrCrNote, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -994,5 +1008,6 @@ Partial Class FrmMultipleProcDeduction
     Friend WithEvents RadLabel23 As RadLabel
     Friend WithEvents txtLocationPrefixName As common.Controls.MyLabel
     Friend WithEvents txtLocationPrefix As common.UserControls.txtFinder
+    Friend WithEvents chkSkipDrCrNote As RadCheckBox
 End Class
 

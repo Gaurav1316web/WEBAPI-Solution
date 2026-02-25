@@ -22,6 +22,10 @@ Public Class frmDCSAdditionDeduction
         coll.Add("Deduction_Code", "Varchar(30) null References TSPL_DEDUCTION_MASTER(Code)")
         clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT_MANUAL", coll, "", True, False, "", "", "", True)
 
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Skip_DrCr_Note", "integer null")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MULTIPLE_DEDUCTION_HEAD", coll, Nothing, True, False, "", "Document_No", "Document_Date", False)
+
 
 
         SetUserMgmtNew()
