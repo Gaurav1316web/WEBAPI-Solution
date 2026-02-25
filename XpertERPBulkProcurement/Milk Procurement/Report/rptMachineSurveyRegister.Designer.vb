@@ -292,27 +292,27 @@ Partial Class rptMachineSurveyRegister
         Me.RadGroupBox2.Location = New System.Drawing.Point(421, 6)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(291, 29)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(301, 29)
         Me.RadGroupBox2.TabIndex = 453
         '
         'rbtnUnionWise
         '
         Me.rbtnUnionWise.AutoSize = True
-        Me.rbtnUnionWise.Location = New System.Drawing.Point(194, 6)
+        Me.rbtnUnionWise.Location = New System.Drawing.Point(100, 6)
         Me.rbtnUnionWise.Name = "rbtnUnionWise"
-        Me.rbtnUnionWise.Size = New System.Drawing.Size(85, 17)
+        Me.rbtnUnionWise.Size = New System.Drawing.Size(97, 17)
         Me.rbtnUnionWise.TabIndex = 454
-        Me.rbtnUnionWise.Text = "Union Wise"
+        Me.rbtnUnionWise.Text = "Machine Wise"
         Me.rbtnUnionWise.UseVisualStyleBackColor = True
         '
         'rbtnMachineWise
         '
         Me.rbtnMachineWise.AutoSize = True
-        Me.rbtnMachineWise.Location = New System.Drawing.Point(91, 6)
+        Me.rbtnMachineWise.Location = New System.Drawing.Point(211, 6)
         Me.rbtnMachineWise.Name = "rbtnMachineWise"
-        Me.rbtnMachineWise.Size = New System.Drawing.Size(97, 17)
+        Me.rbtnMachineWise.Size = New System.Drawing.Size(85, 17)
         Me.rbtnMachineWise.TabIndex = 11
-        Me.rbtnMachineWise.Text = "Machine Wise"
+        Me.rbtnMachineWise.Text = "Union Wise"
         Me.rbtnMachineWise.UseVisualStyleBackColor = True
         '
         'rbtnDetail
