@@ -76,7 +76,7 @@ Public Class rptDBTStatusReport
                     If i <> 0 Then
                         query &= " Union All "
                     End If
-                    query &= "Select TSPL_DBT_NEFT.Document_Code, '" & clsCommon.myCstr(strUnion("DataBase_Name")) & "' As [Union],TSPL_DBT_NEFT.Document_Date As [Document Date],FORMAT(TSPL_DBT_NEFT.Document_Date, 'MMM-yyyy') As [From Date], TSPL_DBT_NEFT_DETAIL.Amount,
+                    query &= "Select TSPL_DBT_NEFT.Document_Code, '" & clsCommon.myCstr(strUnion("DataBase_Name")) & "' As [Union],TSPL_DBT_NEFT.Document_Date As [Document Date],FORMAT(TSPL_DBT_NEFT.From_Date, 'MMM-yyyy') As [From Date], TSPL_DBT_NEFT_DETAIL.Amount,
 Case When TSPL_DBT_NEFT.Status=1 Then 'Approved' Else 'Pending' End As [Union Status],
 Case When TSPL_DBT_NEFT.RCDF_Status=1 Then 'Approved' Else 'Pending' End As [RCDF Status] 
 from " & clsCommon.myCstr(strUnion("DataBase_Name")) & ".dbo.TSPL_DBT_NEFT_DETAIL
