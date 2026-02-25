@@ -26,7 +26,9 @@ Public Class clsDCSAdditionDeduction
     Public Apply_TDS As Boolean
     Public Include_Shortage_Own_BMC As Boolean
     Public Subtract As Boolean
+    Public SubtractManual As Boolean
     Public Apply_Formula As Boolean
+    Public Apply_Formula_Manual As Boolean
     Public Posted As ERPTransactionStatus = ERPTransactionStatus.Pending
     Public Check_Saving_AC As Integer = 0
     Public Conversion As Decimal = 0
@@ -34,6 +36,7 @@ Public Class clsDCSAdditionDeduction
     Public Hide_In_Milk_Bill_Print As Boolean
     Public Consider_Negative_Amt As Boolean
     Public Arr As ArrayList = Nothing
+    Public ArrManual As ArrayList = Nothing
     Public ArrDCSExclude As ArrayList = Nothing
     Public MarginDCS As Integer = 0
     Public Deduction As String = Nothing
@@ -56,6 +59,8 @@ Public Class clsDCSAdditionDeduction
     Public Function SaveData(ByVal obj As clsDCSAdditionDeduction, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
             Dim qry As String = "Delete from TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT  where Code='" + obj.Code + "' "
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "Delete from TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT_MANUAL where Code='" + obj.Code + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "Delete from TSPL_DCS_ADDITION_DEDUCTION_DCS_EXCLUDE  where Code='" + obj.Code + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -92,7 +97,9 @@ Public Class clsDCSAdditionDeduction
             clsCommon.AddColumnsForChange(coll, "Apply_TDS", IIf(obj.Apply_TDS, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Include_Shortage_Own_BMC", IIf(obj.Include_Shortage_Own_BMC, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Subtract", IIf(obj.Subtract, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "SubtractManual", IIf(obj.SubtractManual, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Apply_Formula", IIf(obj.Apply_Formula, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "Apply_Formula_Manual", IIf(obj.Apply_Formula_Manual, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Dont_Generate_DR_CR_Note", IIf(obj.Dont_Generate_DR_CR_Note, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Hide_In_Milk_Bill_Print", IIf(obj.Hide_In_Milk_Bill_Print, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Consider_Negative_Amt", IIf(obj.Consider_Negative_Amt, 1, 0))
@@ -125,8 +132,17 @@ Public Class clsDCSAdditionDeduction
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT", OMInsertOrUpdate.Insert, "", trans)
                 Next
             End If
+            If obj.ArrManual IsNot Nothing AndAlso obj.ArrManual.Count > 0 Then
+                For Each str As String In obj.ArrManual
+                    coll = New Hashtable()
+                    clsCommon.AddColumnsForChange(coll, "Code", obj.Code)
+                    clsCommon.AddColumnsForChange(coll, "Deduction_Code", str)
+                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT_MANUAL", OMInsertOrUpdate.Insert, "", trans)
+                Next
+            End If
+
             SaveDCSExcludeData(obj.Code, obj.ArrDCSExclude, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_DCS_ADDITION_DEDUCTION", "Code", "TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT", "Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_DCS_ADDITION_DEDUCTION", "Code", "TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT", "Code", "TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT_MANUAL", "Code", trans)
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -184,10 +200,13 @@ Public Class clsDCSAdditionDeduction
         Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
         Dim qry As String = ""
         Try
-            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_DCS_ADDITION_DEDUCTION", "Code", "TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT", "Code", tran)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_DCS_ADDITION_DEDUCTION", "Code", "TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT", "Code", tran)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_DCS_ADDITION_DEDUCTION", "Code", "TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT", "Code", "TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT_MANUAL", "Code", tran)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_DCS_ADDITION_DEDUCTION", "Code", "TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT", "Code", "TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT_MANUAL", "Code", tran)
 
             qry = "Delete from TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT  where Code='" + strCode + "' "
+            clsDBFuncationality.ExecuteNonQuery(qry, tran)
+
+            qry = "Delete from TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT_MANUAL  where Code='" + strCode + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
             qry = "Delete from TSPL_DCS_ADDITION_DEDUCTION_DCS_EXCLUDE  where Code='" + strCode + "' "
@@ -257,7 +276,9 @@ Public Class clsDCSAdditionDeduction
             obj.Apply_TDS = IIf(clsCommon.myCdbl(dt.Rows(0)("Apply_TDS")) = 1, True, False)
             obj.Include_Shortage_Own_BMC = IIf(clsCommon.myCdbl(dt.Rows(0)("Include_Shortage_Own_BMC")) = 1, True, False)
             obj.Subtract = IIf(clsCommon.myCdbl(dt.Rows(0)("Subtract")) = 1, True, False)
+            obj.SubtractManual = IIf(clsCommon.myCdbl(dt.Rows(0)("SubtractManual")) = 1, True, False)
             obj.Apply_Formula = IIf(clsCommon.myCdbl(dt.Rows(0)("Apply_Formula")) = 1, True, False)
+            obj.Apply_Formula_Manual = IIf(clsCommon.myCdbl(dt.Rows(0)("Apply_Formula_Manual")) = 1, True, False)
             obj.Dont_Generate_DR_CR_Note = IIf(clsCommon.myCdbl(dt.Rows(0)("Dont_Generate_DR_CR_Note")) = 1, True, False)
             obj.Hide_In_Milk_Bill_Print = IIf(clsCommon.myCdbl(dt.Rows(0)("Hide_In_Milk_Bill_Print")) = 1, True, False)
             obj.Consider_Negative_Amt = IIf(clsCommon.myCdbl(dt.Rows(0)("Consider_Negative_Amt")) = 1, True, False)
@@ -275,6 +296,16 @@ Public Class clsDCSAdditionDeduction
                 obj.Arr = New ArrayList()
                 For Each dr As DataRow In dt.Rows
                     obj.Arr.Add(clsCommon.myCstr(dr("Add_Of_Add_Ded_Code")))
+                Next
+            End If
+
+            obj.ArrManual = Nothing
+            qry = " select Deduction_Code from TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT_MANUAL where Code='" + obj.Code + "' "
+            dt = clsDBFuncationality.GetDataTable(qry, trans)
+            If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                obj.ArrManual = New ArrayList()
+                For Each dr As DataRow In dt.Rows
+                    obj.ArrManual.Add(clsCommon.myCstr(dr("Deduction_Code")))
                 Next
             End If
 

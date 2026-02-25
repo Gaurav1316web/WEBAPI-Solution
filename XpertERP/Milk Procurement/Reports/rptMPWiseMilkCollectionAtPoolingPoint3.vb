@@ -509,11 +509,11 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
 
     Private Sub FarmerWiseMilkCollection()
         Try
-            Dim Qry As String = "Select finalQry.* "
+            Dim Qry As String = "Select ROW_NUMBER() Over (Order By (Select 1)) As [S.No.],finalQry.* "
             If isPrint Then
                 Qry &= " , TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,TSPL_COMPANY_MASTER.State,TSPL_STATE_MASTER.STATE_NAME,'" & objCommonVar.CurrentUser & "' As PrintBy "
             End If
-            Qry &= " from(Select ROW_NUMBER() Over (Order By (Select 1)) As [S.No.],[Union],MAX(Doc_Date)Doc_Date,
+            Qry &= " from(Select [Union],MAX(Doc_Date)Doc_Date,
 CONVERT(decimal(18,2),Sum(MorningQty))MorningQty,
 CONVERT(decimal(18,2),Sum(case When (MorningFATKG)>0 Then ((MorningFATKG/MorningQty)*100) Else 0 End)) As MorningFAT,
 CONVERT(decimal(18,2),Sum(Case When (MorningSNFKG)>0 Then ((MorningSNFKG/MorningQty)*100) Else 0 End)) As MorningSNF,
@@ -589,12 +589,11 @@ Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_M
 
     Private Sub FarmerCollectionEntryStatus()
         Try
-            Dim Qry As String = "Select finalQry.* "
+            Dim Qry As String = "Select ROW_NUMBER() Over (Order By (Select 1)) As [S.No.],finalQry.* "
             If isPrint Then
                 Qry &= " , TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,TSPL_COMPANY_MASTER.State,TSPL_STATE_MASTER.STATE_NAME,'" & objCommonVar.CurrentUser & "' As PrintBy "
             End If
-            Qry &= " from( Select ROW_NUMBER() Over (Order By (Select 1)) As [S.No.],
- [Union],MAX(Doc_Date)Doc_Date,SUM(MorningQty)MorningQty,SUM(EveningQty)EveningQty from (Select
+            Qry &= " from( Select [Union],MAX(Doc_Date)Doc_Date,SUM(MorningQty)MorningQty,SUM(EveningQty)EveningQty from (Select
 [Union],Max(Convert(Varchar(10),Doc_Date,103))Doc_Date,(Case When shift='M' Then Count(Distinct MP_Code) Else 0 End) As MorningQty,
 (Case When shift='E' Then Count(Distinct MP_Code) Else 0 End) As EveningQty "
             Qry &= " from(" & ReturnFarmerBaseQry() & ")final Group By [Union],shift)BAseQry group by [Union]  "
@@ -603,6 +602,7 @@ Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_M
                 Qry &= " Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "'
 Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_MASTER.State"
             End If
+            Qry &= " Order By [Union] "
             dt = Nothing
             dt = clsDBFuncationality.GetDataTable(Qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -713,11 +713,11 @@ Where 1=1 "
 
     Private Sub FarmerWiseCollectionAtDCS()
         Try
-            Dim Qry As String = "Select finalQry.* "
+            Dim Qry As String = "Select Row_Number() Over (Order By (Select 1)) As [S.No.],finalQry.* "
             If isPrint Then
                 Qry &= " , TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,TSPL_COMPANY_MASTER.State,TSPL_STATE_MASTER.STATE_NAME,'" & objCommonVar.CurrentUser & "' As PrintBy "
             End If
-            Qry &= " from(Select Row_Number() Over (Order By (Select 1)) As [S.No.],[Union],Convert(Varchar(10),Max([Date]),103)[Date],Max([DCS])[DCS],Sum([MorningManual])[MorningManual],Sum([MorningAuto])[MorningAuto],Min([MorningPending])[MorningPending],Sum([EveningManual])[EveningManual],Sum([EveningAuto])[EveningAuto],Min([EveningPending])[EveningPending] from (Select [Union],Max([DCSCount]) As [DCS],Max(Doc_Date) As [Date], Case When Max(shift)='M' And Max(tttype) IN ('MOBILE APP','MANUAL') Then COUNT(Distinct vlc_code_vlc_Uploader) Else 0 End As [MorningManual], 
+            Qry &= " from(Select [Union],Convert(Varchar(10),Max([Date]),103)[Date],Max([DCS])[DCS],Sum([MorningManual])[MorningManual],Sum([MorningAuto])[MorningAuto],Min([MorningPending])[MorningPending],Sum([EveningManual])[EveningManual],Sum([EveningAuto])[EveningAuto],Min([EveningPending])[EveningPending] from (Select [Union],Max([DCSCount]) As [DCS],Max(Doc_Date) As [Date], Case When Max(shift)='M' And Max(tttype) IN ('MOBILE APP','MANUAL') Then COUNT(Distinct vlc_code_vlc_Uploader) Else 0 End As [MorningManual], 
 Case When (shift)='M' And Max(tttype)='REIL' Then COUNT(Distinct vlc_code_vlc_Uploader) Else 0 End As [MorningAuto],Max([DCSCount])-(Case When (shift)='M' And Max(tttype) In ('REIL','MOBILE APP','MANUAL') Then COUNT(Distinct vlc_code_vlc_Uploader) Else 0 End) As [MorningPending],
  Case When (shift)='E' And Max(tttype) IN ('MOBILE APP','MANUAL') Then COUNT(Distinct vlc_code_vlc_Uploader) Else 0 End As [EveningManual], 
 Case When (shift)='E' And Max(tttype)='REIL' Then COUNT(Distinct vlc_code_vlc_Uploader) Else 0 End As [EveningAuto],
@@ -729,7 +729,7 @@ Max([DCSCount])-(Case When Max(shift)='E' And Max(tttype) In ('REIL','MOBILE APP
                 Qry &= " Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "'
 Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_MASTER.State"
             End If
-
+            Qry &= " Order By [Union] "
             dt = Nothing
             dt = clsDBFuncationality.GetDataTable(Qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then

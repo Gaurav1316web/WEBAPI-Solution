@@ -4078,6 +4078,11 @@ Public Class MDI
                     Case clsUserMgtCode.TypeOfItemMaster
                         frm = New TypeOfItemMaster()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.frmBatchManufacturingMaster
+                        frm = New frmBatchManufacturingMaster()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.frmPartNoMaster
                         frm = New FrmPartNoMaster()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

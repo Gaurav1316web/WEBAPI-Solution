@@ -519,7 +519,7 @@ SELECT
  '''+LocName+''' AS [Union Name],
  Convert(Varchar(10),@FromDate,103) AS FromDate,
  Convert(Varchar(10),@ToDate,103) AS ToDate,
- ''Administrator'' AS UserName,
+ ''" & objCommonVar.CurrentUser & "'' AS UserName,
 
  ISNULL(P.Milk_WeightProc,0) AS Milk_WeightProc,
  ISNULL(P.FATKGProc,0) AS FATKGProc,
@@ -1228,17 +1228,32 @@ LEFT JOIN " & strUnion & ".[dbo].TSPL_MILK_COLLECTION_DCS mcs ON mcs.Document_No
     Function ReturnMilkCollectionBMCDCSProcurementQry(ByVal strUnion As String, ByVal status As String) As String
         Dim Qry As String = "Select "
         If Not isSummary Then
-            Qry &= " 'Mobile-DCS Collection' As Trans_Type,'' As Screen_Type,'' As Document_No,Convert(Varchar(10),TSPL_MILK_COLLECTION_BMCDCS.IDate,103)Document_Date,"
+            Qry &= " 'Mobile-DCS Collection' As Trans_Type,'' As Screen_Type,'' As Document_No,Convert(Varchar(10),Max(IDate),103)Document_Date,"
             status = "'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyy") & "' And '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyy") & "'" & status
         Else
             strUnion = "'+" & strUnion & "+'"
         End If
-        Qry &= "IsNull((TSPL_MILK_COLLECTION_BMCDCS_DCS.Qty),0)Milk_Weight,TSPL_MILK_COLLECTION_BMCDCS_DCS.FAT,TSPL_MILK_COLLECTION_BMCDCS_DCS.SNF
+        '        Qry &= "IsNull((TSPL_MILK_COLLECTION_BMCDCS_DCS.Qty),0)Milk_Weight,TSPL_MILK_COLLECTION_BMCDCS_DCS.FAT,TSPL_MILK_COLLECTION_BMCDCS_DCS.SNF
+        'from " & strUnion & ".[dbo].TSPL_MILK_COLLECTION_BMCDCS_DCS 
+        'Left Join " & strUnion & ".[dbo].TSPL_MILK_COLLECTION_BMCDCS On TSPL_MILK_COLLECTION_BMCDCS.PK_ID=TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID 
+        'Left Join " & strUnion & ".[dbo].TSPL_MILK_COLLECTION_DCS_detail On TSPL_MILK_COLLECTION_DCS_detail.PK_Id=TSPL_MILK_COLLECTION_BMCDCS.PK_ID 
+        'Left Join " & strUnion & ".[dbo].TSPL_MILK_COLLECTION_DCS On TSPL_MILK_COLLECTION_DCS.Document_No=TSPL_MILK_COLLECTION_DCS_detail.document_no 
+        'Where IsNull(TSPL_MILK_COLLECTION_BMCDCS.PK_ID,0) <> 0 And CONVERT(DATE, TSPL_MILK_COLLECTION_BMCDCS.IDate, 103) BETWEEN   " & status
+
+
+        Qry &= " case when MAX(RI)=2 then 0 else SUM(Qty) end as Qty,case when Max(RI)=2 then 0 else Max(FAT) end as FAT,case when Max(RI)=2 then 0 else Max(SNF) end as SNF from (
+select TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID,TSPL_MILK_COLLECTION_BMCDCS.iDate,TSPL_MILK_COLLECTION_BMCDCS_DCS.Qty,TSPL_MILK_COLLECTION_BMCDCS_DCS.FAT,TSPL_MILK_COLLECTION_BMCDCS_DCS.SNF,1 as RI
 from " & strUnion & ".[dbo].TSPL_MILK_COLLECTION_BMCDCS_DCS 
-Left Join " & strUnion & ".[dbo].TSPL_MILK_COLLECTION_BMCDCS On TSPL_MILK_COLLECTION_BMCDCS.PK_ID=TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID 
-Left Join " & strUnion & ".[dbo].TSPL_MILK_COLLECTION_DCS_detail On TSPL_MILK_COLLECTION_DCS_detail.PK_Id=TSPL_MILK_COLLECTION_BMCDCS.PK_ID 
-Left Join " & strUnion & ".[dbo].TSPL_MILK_COLLECTION_DCS On TSPL_MILK_COLLECTION_DCS.Document_No=TSPL_MILK_COLLECTION_DCS_detail.document_no 
-Where IsNull(TSPL_MILK_COLLECTION_BMCDCS.PK_ID,0) <> 0 And CONVERT(DATE, TSPL_MILK_COLLECTION_BMCDCS.IDate, 103) BETWEEN   " & status
+left outer join " & strUnion & ".[dbo].TSPL_MILK_COLLECTION_BMCDCS  on TSPL_MILK_COLLECTION_BMCDCS.PK_ID = TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID
+where  TSPL_MILK_COLLECTION_BMCDCS.IDate BETWEEN   " & status & " 
+        union all
+select TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID,TSPL_MILK_COLLECTION_BMCDCS.iDate,0 as Qty,0 as FAT,0 as SNF,2 as RI from " & strUnion & ".[dbo].TSPL_MILK_COLLECTION_BMCDCS_TRIP 
+left outer join " & strUnion & ".[dbo].TSPL_MILK_COLLECTION_BMCDCS  on TSPL_MILK_COLLECTION_BMCDCS.PK_ID = TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID
+inner join " & strUnion & ".[dbo].TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.REF_PK_ID_BMCDCS_TRIP=TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID
+where  TSPL_MILK_COLLECTION_BMCDCS.IDate BETWEEN   " & status & "
+) xx group by REF_PK_ID"
+
+
         Return Qry
     End Function
 

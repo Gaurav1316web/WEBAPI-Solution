@@ -7671,6 +7671,8 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Level", "Varchar(20) not null Default 'Screen'")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_NOTIFICATION_SETTING_CRITERIA", coll, "Primary Key (Screen_Code,Criteria, Level)")
 
+
+
             coll = New Dictionary(Of String, String)()
             coll.Add("Scheduling", "Char(1) NOT NULL Default 'N'")
             coll.Add("Module_Code", "Varchar(50) NOT NULL")
@@ -14888,6 +14890,13 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Modify_Date", "datetime NOT NULL")
             coll.Add("Comp_Code", "varchar(8)  NOT NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BANK_GROUP_MASTER", coll, Nothing, True)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Code", "Char(3)")
+            coll.Add("Name", "Varchar(50) NOT NULL ")
+            coll.Add("Created_Date", "datetime NOT NULL")
+            coll.Add("Modify_Date", "datetime NOT NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BATCH_MANUFECTURING_MASTER", coll, Nothing, True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("BANK_CODE", "varchar(12)  NOT NULL PRIMARY KEY")
@@ -31977,6 +31986,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("CrAmt", "varchar(20)  NULL")
             coll.Add("ClosingBal", "varchar(20) NULL")
             coll.Add("Is_Add_TPT", "integer null")
+            coll.Add("Rate_Diff_Amount_Type", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
             Try
                 qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo=Document_Code where ParentDocNo is null "

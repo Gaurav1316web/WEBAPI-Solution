@@ -22,14 +22,14 @@ Partial Class FrmProductDispatch
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim WindowsSettings2 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition13 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition14 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -176,8 +176,14 @@ Partial Class FrmProductDispatch
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.btnEWB = New Telerik.WinControls.UI.RadButton()
-        Me.btnprinte_wayBill = New Telerik.WinControls.UI.RadButton()
+        Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.btnUpdateCustomerWithRoute = New Telerik.WinControls.UI.RadButton()
+        Me.btnsetting = New Telerik.WinControls.UI.RadSplitButton()
+        Me.btnpreview = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnsend = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnSendForApproval = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnAddCost = New Telerik.WinControls.UI.RadButton()
+        Me.btnUpdateCustomer = New Telerik.WinControls.UI.RadButton()
         Me.txtBoothSecurity = New common.Controls.MyLabel()
         Me.MyLabel72 = New common.Controls.MyLabel()
         Me.txtTCAmt = New common.Controls.MyLabel()
@@ -191,7 +197,6 @@ Partial Class FrmProductDispatch
         Me.lblActualTCSTaxBaseAmt = New common.Controls.MyLabel()
         Me.MyLabel58 = New common.Controls.MyLabel()
         Me.txttcstaxbaseamount = New common.MyNumBox()
-        Me.btnUpdateCustomerWithRoute = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel56 = New common.Controls.MyLabel()
         Me.txtCustomerComplaintNo = New common.Controls.MyTextBox()
         Me.btnCancel = New Telerik.WinControls.UI.RadButton()
@@ -402,22 +407,18 @@ Partial Class FrmProductDispatch
         Me.cmbShift = New common.Controls.MyComboBox()
         Me.lblShiftType = New common.Controls.MyLabel()
         Me.btnPrintInvoice = New Telerik.WinControls.UI.RadButton()
+        Me.btnprinte_wayBill = New Telerik.WinControls.UI.RadButton()
+        Me.btnEWB = New Telerik.WinControls.UI.RadButton()
         Me.btnPrintsvl = New Telerik.WinControls.UI.RadButton()
         Me.RadSplitExp = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmChalan = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmInvoice = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.btnInvoiceJE = New Telerik.WinControls.UI.RadButton()
-        Me.btnUpdateCustomer = New Telerik.WinControls.UI.RadButton()
         Me.BtnPrintChallan = New Telerik.WinControls.UI.RadButton()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
-        Me.btnsetting = New Telerik.WinControls.UI.RadSplitButton()
-        Me.btnpreview = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnsend = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnSendForApproval = New Telerik.WinControls.UI.RadMenuItem()
         Me.chkRateUserCustomer = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkRateDefaultSetting = New Telerik.WinControls.UI.RadCheckBox()
-        Me.btnAddCost = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
@@ -436,7 +437,6 @@ Partial Class FrmProductDispatch
         Me.Export_Head = New Telerik.WinControls.UI.RadMenuItem()
         Me.Export_details = New Telerik.WinControls.UI.RadMenuItem()
         Me.Import = New Telerik.WinControls.UI.RadMenuItem()
-        Me.GroupBox4 = New System.Windows.Forms.GroupBox()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit
         Me.Panel1.SuspendLayout
         CType(Me.radScrollablePanel1, System.ComponentModel.ISupportInitialize).BeginInit
@@ -583,8 +583,11 @@ Partial Class FrmProductDispatch
         Me.pvpCustomFields.SuspendLayout
         Me.Attachments.SuspendLayout
         Me.RadPageViewPage4.SuspendLayout
-        CType(Me.btnEWB, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnprinte_wayBill, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GroupBox4.SuspendLayout
+        CType(Me.btnUpdateCustomerWithRoute, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.btnsetting, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.btnAddCost, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.btnUpdateCustomer, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.txtBoothSecurity, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel72, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.txtTCAmt, System.ComponentModel.ISupportInitialize).BeginInit
@@ -598,7 +601,6 @@ Partial Class FrmProductDispatch
         CType(Me.lblActualTCSTaxBaseAmt, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel58, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.txttcstaxbaseamount, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnUpdateCustomerWithRoute, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel56, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.txtCustomerComplaintNo, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnCancel, System.ComponentModel.ISupportInitialize).BeginInit
@@ -814,18 +816,17 @@ Partial Class FrmProductDispatch
         CType(Me.cmbShift, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.lblShiftType, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnPrintInvoice, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.btnprinte_wayBill, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.btnEWB, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnPrintsvl, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadSplitExp, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnUpdateCustomer, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.BtnPrintChallan, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnsetting, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.chkRateUserCustomer, System.ComponentModel.ISupportInitialize).BeginInit
         Me.chkRateUserCustomer.SuspendLayout
         CType(Me.chkRateDefaultSetting, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnAddCost, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit
@@ -834,7 +835,6 @@ Partial Class FrmProductDispatch
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadMenu1.SuspendLayout
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GroupBox4.SuspendLayout
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
@@ -865,9 +865,9 @@ Partial Class FrmProductDispatch
         Me.RadMenuItem2.TabIndex = 0
         Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenuItem2.Visible = False
-        WindowsSettings2.EnableRoundedCorners = Nothing
-        WindowsSettings2.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
-        Me.RadMenuItem2.WindowsSettings = WindowsSettings2
+        WindowsSettings1.EnableRoundedCorners = Nothing
+        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
         'Panel1
         '
@@ -952,7 +952,7 @@ Partial Class FrmProductDispatch
         '
         '
         Me.RadPageView1.RootElement.MinSize = New System.Drawing.Size(0, 0)
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1110, 462)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -2433,7 +2433,8 @@ Partial Class FrmProductDispatch
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportAPI = False
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -2820,7 +2821,8 @@ Partial Class FrmProductDispatch
         Me.gvDistributor.MasterTemplate.AllowDeleteRow = False
         Me.gvDistributor.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDistributor.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvDistributor.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gvDistributor.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvDistributor.MyExportAPI = False
         Me.gvDistributor.MyExportFilePath = ""
         Me.gvDistributor.MyStopExport = False
         Me.gvDistributor.Name = "gvDistributor"
@@ -3116,7 +3118,8 @@ Partial Class FrmProductDispatch
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv2.MyExportAPI = False
         Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
@@ -3170,7 +3173,8 @@ Partial Class FrmProductDispatch
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvAC.MyExportAPI = False
         Me.gvAC.MyExportFilePath = ""
         Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
@@ -3292,25 +3296,73 @@ Partial Class FrmProductDispatch
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1089, 416)
         Me.RadPageViewPage4.Text = "Total"
         '
-        'btnEWB
+        'GroupBox4
         '
-        Me.btnEWB.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnEWB.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnEWB.Location = New System.Drawing.Point(435, 4)
-        Me.btnEWB.Name = "btnEWB"
-        Me.btnEWB.Size = New System.Drawing.Size(98, 22)
-        Me.btnEWB.TabIndex = 1530
-        Me.btnEWB.Text = "Create E-Way Bill"
+        Me.GroupBox4.Controls.Add(Me.btnUpdateCustomerWithRoute)
+        Me.GroupBox4.Controls.Add(Me.btnsetting)
+        Me.GroupBox4.Controls.Add(Me.btnAddCost)
+        Me.GroupBox4.Controls.Add(Me.btnUpdateCustomer)
+        Me.GroupBox4.Location = New System.Drawing.Point(839, 225)
+        Me.GroupBox4.Name = "GroupBox4"
+        Me.GroupBox4.Size = New System.Drawing.Size(247, 164)
+        Me.GroupBox4.TabIndex = 1532
+        Me.GroupBox4.TabStop = False
         '
-        'btnprinte_wayBill
+        'btnUpdateCustomerWithRoute
         '
-        Me.btnprinte_wayBill.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnprinte_wayBill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnprinte_wayBill.Location = New System.Drawing.Point(534, 5)
-        Me.btnprinte_wayBill.Name = "btnprinte_wayBill"
-        Me.btnprinte_wayBill.Size = New System.Drawing.Size(88, 20)
-        Me.btnprinte_wayBill.TabIndex = 1531
-        Me.btnprinte_wayBill.Text = "Print E-Way Bill"
+        Me.btnUpdateCustomerWithRoute.Location = New System.Drawing.Point(14, 19)
+        Me.btnUpdateCustomerWithRoute.Name = "btnUpdateCustomerWithRoute"
+        Me.btnUpdateCustomerWithRoute.Size = New System.Drawing.Size(168, 22)
+        Me.btnUpdateCustomerWithRoute.TabIndex = 170
+        Me.btnUpdateCustomerWithRoute.Text = "Update Customer With Route"
+        '
+        'btnsetting
+        '
+        Me.btnsetting.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnsetting.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnpreview, Me.btnsend, Me.btnSendForApproval})
+        Me.btnsetting.Location = New System.Drawing.Point(15, 128)
+        Me.btnsetting.Name = "btnsetting"
+        Me.btnsetting.Size = New System.Drawing.Size(81, 20)
+        Me.btnsetting.TabIndex = 6
+        Me.btnsetting.Text = "E-Mail/SMS"
+        Me.btnsetting.Visible = False
+        '
+        'btnpreview
+        '
+        Me.btnpreview.Name = "btnpreview"
+        Me.btnpreview.Text = "Preview"
+        '
+        'btnsend
+        '
+        Me.btnsend.Name = "btnsend"
+        Me.btnsend.Text = "Send E-Mail/SMS"
+        '
+        'btnSendForApproval
+        '
+        Me.btnSendForApproval.Name = "btnSendForApproval"
+        Me.btnSendForApproval.Text = "Send For Approval"
+        '
+        'btnAddCost
+        '
+        Me.btnAddCost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnAddCost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAddCost.Location = New System.Drawing.Point(15, 102)
+        Me.btnAddCost.Name = "btnAddCost"
+        Me.btnAddCost.Size = New System.Drawing.Size(85, 20)
+        Me.btnAddCost.TabIndex = 4
+        Me.btnAddCost.Text = "Additional Cost"
+        Me.btnAddCost.Visible = False
+        '
+        'btnUpdateCustomer
+        '
+        Me.btnUpdateCustomer.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnUpdateCustomer.Enabled = False
+        Me.btnUpdateCustomer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnUpdateCustomer.Location = New System.Drawing.Point(14, 76)
+        Me.btnUpdateCustomer.Name = "btnUpdateCustomer"
+        Me.btnUpdateCustomer.Size = New System.Drawing.Size(84, 20)
+        Me.btnUpdateCustomer.TabIndex = 42
+        Me.btnUpdateCustomer.Text = "Update Customer"
         '
         'txtBoothSecurity
         '
@@ -3488,14 +3540,6 @@ Partial Class FrmProductDispatch
         Me.txttcstaxbaseamount.Text = "0"
         Me.txttcstaxbaseamount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.txttcstaxbaseamount.Value = New Decimal(New Integer() {0, 0, 0, 0})
-        '
-        'btnUpdateCustomerWithRoute
-        '
-        Me.btnUpdateCustomerWithRoute.Location = New System.Drawing.Point(14, 19)
-        Me.btnUpdateCustomerWithRoute.Name = "btnUpdateCustomerWithRoute"
-        Me.btnUpdateCustomerWithRoute.Size = New System.Drawing.Size(168, 22)
-        Me.btnUpdateCustomerWithRoute.TabIndex = 170
-        Me.btnUpdateCustomerWithRoute.Text = "Update Customer With Route"
         '
         'MyLabel56
         '
@@ -4154,7 +4198,8 @@ Partial Class FrmProductDispatch
         Me.gv_Uploader_Temp.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_Uploader_Temp.MasterTemplate.ShowGroupedColumns = True
         Me.gv_Uploader_Temp.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_Uploader_Temp.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.gv_Uploader_Temp.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv_Uploader_Temp.MyExportAPI = False
         Me.gv_Uploader_Temp.MyExportFilePath = ""
         Me.gv_Uploader_Temp.MyStopExport = False
         Me.gv_Uploader_Temp.Name = "gv_Uploader_Temp"
@@ -4176,7 +4221,8 @@ Partial Class FrmProductDispatch
         Me.gv_Uploader.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_Uploader.MasterTemplate.ShowGroupedColumns = True
         Me.gv_Uploader.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_Uploader.MasterTemplate.ViewDefinition = TableViewDefinition13
+        Me.gv_Uploader.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gv_Uploader.MyExportAPI = False
         Me.gv_Uploader.MyExportFilePath = ""
         Me.gv_Uploader.MyStopExport = False
         Me.gv_Uploader.Name = "gv_Uploader"
@@ -4752,7 +4798,7 @@ Partial Class FrmProductDispatch
         '
         '
         '
-        Me.gvCC.MasterTemplate.ViewDefinition = TableViewDefinition14
+        Me.gvCC.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvCC.Name = "gvCC"
         Me.gvCC.Size = New System.Drawing.Size(1089, 318)
         Me.gvCC.TabIndex = 0
@@ -6927,6 +6973,26 @@ Partial Class FrmProductDispatch
         Me.btnPrintInvoice.TabIndex = 1566
         Me.btnPrintInvoice.Text = "Print Invoice"
         '
+        'btnprinte_wayBill
+        '
+        Me.btnprinte_wayBill.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnprinte_wayBill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnprinte_wayBill.Location = New System.Drawing.Point(534, 5)
+        Me.btnprinte_wayBill.Name = "btnprinte_wayBill"
+        Me.btnprinte_wayBill.Size = New System.Drawing.Size(88, 20)
+        Me.btnprinte_wayBill.TabIndex = 1531
+        Me.btnprinte_wayBill.Text = "Print E-Way Bill"
+        '
+        'btnEWB
+        '
+        Me.btnEWB.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnEWB.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnEWB.Location = New System.Drawing.Point(435, 4)
+        Me.btnEWB.Name = "btnEWB"
+        Me.btnEWB.Size = New System.Drawing.Size(98, 22)
+        Me.btnEWB.TabIndex = 1530
+        Me.btnEWB.Text = "Create E-Way Bill"
+        '
         'btnPrintsvl
         '
         Me.btnPrintsvl.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -6979,17 +7045,6 @@ Partial Class FrmProductDispatch
         Me.btnInvoiceJE.TabIndex = 44
         Me.btnInvoiceJE.Text = "Show Invoice JE"
         '
-        'btnUpdateCustomer
-        '
-        Me.btnUpdateCustomer.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnUpdateCustomer.Enabled = False
-        Me.btnUpdateCustomer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUpdateCustomer.Location = New System.Drawing.Point(14, 76)
-        Me.btnUpdateCustomer.Name = "btnUpdateCustomer"
-        Me.btnUpdateCustomer.Size = New System.Drawing.Size(84, 20)
-        Me.btnUpdateCustomer.TabIndex = 42
-        Me.btnUpdateCustomer.Text = "Update Customer"
-        '
         'BtnPrintChallan
         '
         Me.BtnPrintChallan.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -7010,32 +7065,6 @@ Partial Class FrmProductDispatch
         Me.btnHistory.TabIndex = 39
         Me.btnHistory.Text = "History"
         Me.btnHistory.Visible = False
-        '
-        'btnsetting
-        '
-        Me.btnsetting.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnsetting.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnpreview, Me.btnsend, Me.btnSendForApproval})
-        Me.btnsetting.Location = New System.Drawing.Point(15, 128)
-        Me.btnsetting.Name = "btnsetting"
-        Me.btnsetting.Size = New System.Drawing.Size(81, 20)
-        Me.btnsetting.TabIndex = 6
-        Me.btnsetting.Text = "E-Mail/SMS"
-        Me.btnsetting.Visible = False
-        '
-        'btnpreview
-        '
-        Me.btnpreview.Name = "btnpreview"
-        Me.btnpreview.Text = "Preview"
-        '
-        'btnsend
-        '
-        Me.btnsend.Name = "btnsend"
-        Me.btnsend.Text = "Send E-Mail/SMS"
-        '
-        'btnSendForApproval
-        '
-        Me.btnSendForApproval.Name = "btnSendForApproval"
-        Me.btnSendForApproval.Text = "Send For Approval"
         '
         'chkRateUserCustomer
         '
@@ -7061,17 +7090,6 @@ Partial Class FrmProductDispatch
         Me.chkRateDefaultSetting.TabIndex = 7
         Me.chkRateDefaultSetting.Text = "Rate Default Setting"
         Me.chkRateDefaultSetting.Visible = False
-        '
-        'btnAddCost
-        '
-        Me.btnAddCost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnAddCost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddCost.Location = New System.Drawing.Point(15, 102)
-        Me.btnAddCost.Name = "btnAddCost"
-        Me.btnAddCost.Size = New System.Drawing.Size(85, 20)
-        Me.btnAddCost.TabIndex = 4
-        Me.btnAddCost.Text = "Additional Cost"
-        Me.btnAddCost.Visible = False
         '
         'btnPrint
         '
@@ -7200,18 +7218,6 @@ Partial Class FrmProductDispatch
         Me.Import.Name = "Import"
         Me.Import.Text = "Import"
         Me.Import.Visibility = Telerik.WinControls.ElementVisibility.Hidden
-        '
-        'GroupBox4
-        '
-        Me.GroupBox4.Controls.Add(Me.btnUpdateCustomerWithRoute)
-        Me.GroupBox4.Controls.Add(Me.btnsetting)
-        Me.GroupBox4.Controls.Add(Me.btnAddCost)
-        Me.GroupBox4.Controls.Add(Me.btnUpdateCustomer)
-        Me.GroupBox4.Location = New System.Drawing.Point(839, 225)
-        Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(247, 164)
-        Me.GroupBox4.TabIndex = 1532
-        Me.GroupBox4.TabStop = False
         '
         'FrmProductDispatch
         '
@@ -7383,8 +7389,11 @@ Partial Class FrmProductDispatch
         Me.Attachments.ResumeLayout(False)
         Me.RadPageViewPage4.ResumeLayout(False)
         Me.RadPageViewPage4.PerformLayout
-        CType(Me.btnEWB, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnprinte_wayBill, System.ComponentModel.ISupportInitialize).EndInit
+        Me.GroupBox4.ResumeLayout(False)
+        CType(Me.btnUpdateCustomerWithRoute, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.btnsetting, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.btnAddCost, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.btnUpdateCustomer, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.txtBoothSecurity, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel72, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.txtTCAmt, System.ComponentModel.ISupportInitialize).EndInit
@@ -7398,7 +7407,6 @@ Partial Class FrmProductDispatch
         CType(Me.lblActualTCSTaxBaseAmt, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel58, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.txttcstaxbaseamount, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnUpdateCustomerWithRoute, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel56, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.txtCustomerComplaintNo, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnCancel, System.ComponentModel.ISupportInitialize).EndInit
@@ -7628,19 +7636,18 @@ Partial Class FrmProductDispatch
         CType(Me.cmbShift, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.lblShiftType, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnPrintInvoice, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.btnprinte_wayBill, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.btnEWB, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnPrintsvl, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadSplitExp, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnUpdateCustomer, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.BtnPrintChallan, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnsetting, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.chkRateUserCustomer, System.ComponentModel.ISupportInitialize).EndInit
         Me.chkRateUserCustomer.ResumeLayout(False)
         Me.chkRateUserCustomer.PerformLayout
         CType(Me.chkRateDefaultSetting, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnAddCost, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit
@@ -7649,7 +7656,6 @@ Partial Class FrmProductDispatch
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit
         Me.RadMenu1.ResumeLayout(False)
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit
-        Me.GroupBox4.ResumeLayout(False)
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(False)
         Me.PerformLayout

@@ -471,6 +471,11 @@ Public Class frmMCCMaterialSale
         lblInvoiceDiscAmt.Text = 0
         chkDiscountOnAmt.IsChecked = True
         chkRateDiffAmt.IsChecked = True
+        If chkRateDiffRate.IsChecked Then
+            GroupBoxRateDiffAmtType.Visible = True
+        ElseIf chkRateDiffAmt.IsChecked Then
+            GroupBoxRateDiffAmtType.Visible = False
+        End If
         txtNoOfInsallment.Value = 0
         chkExcludeKKFMandi.Checked = False
         LblVlc_Code.Text = ""
@@ -3786,6 +3791,13 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     obj.HeadDisc_PerAmt = 0
                 End If
                 obj.RateDiff_Per = txtRatePer.Text
+                If obj.RateDiff_Per > 0 Then
+                    If rbtnTotalAmt.IsChecked Then
+                        obj.Rate_Diff_Amount_Type = 1
+                    ElseIf rbtnBasicAmt.IsChecked Then
+                        obj.Rate_Diff_Amount_Type = 2
+                    End If
+                End If
                 obj.RateDiff_Amt = clsCommon.myCdbl(txtRateAmt.Text)
                 obj.Gross_Amount = lblGrossAmount.Text
                 '-----------------richa 27/06/2014 Ticket No .BM00000002982-------  
@@ -4456,8 +4468,20 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 txtPriceCode.Text = obj.Price_Code
                 txtDiscPer.Text = obj.HeadDisc_Per
                 txtDiscAmt.Text = obj.HeadDisc_Amt
+
                 txtRatePer.Text = obj.RateDiff_Per
                 txtRateAmt.Text = obj.RateDiff_Amt
+
+                If obj.RateDiff_Per > 0 Then
+                    GroupBoxRateDiffAmtType.Visible = True
+                    If obj.Rate_Diff_Amount_Type = 1 Then
+                        rbtnTotalAmt.IsChecked = True
+                    ElseIf obj.Rate_Diff_Amount_Type = 2 Then
+                        rbtnBasicAmt.IsChecked = True
+                    End If
+                Else
+                    GroupBoxRateDiffAmtType.Visible = False
+                End If
                 If clsCommon.myLen(txtDiscAmt.Text) <= 0 OrElse clsCommon.myLen(txtDiscPer.Text) <= 0 OrElse clsCommon.myCdbl(txtDiscAmt.Text) = 0 OrElse clsCommon.myCdbl(txtDiscPer.Text) = 0 Then
                     txtDiscPer.Text = obj.HeadDisc_Per
                     If clsCommon.myCdbl(txtDiscPer.Text) = 0 Then
@@ -7325,6 +7349,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
     'End Sub
 
     Sub OpenBatchItem(ByVal isFromF5 As Boolean)
+        Dim idx As Integer = gv1.CurrentRow.Index
         Dim blnBatchqty As Boolean = False
         Dim isNewDocumentorExistingdoc As Boolean = True
         Dim isSubLocation As Boolean = False
@@ -7508,6 +7533,11 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
                 ' fifo ends here
             End If
         End If
+        Try
+            gv1.CurrentRow = gv1.Rows(idx)
+        Catch ex As Exception
+        End Try
+
     End Sub
 
     Public Shared Function GetConvQuantity(ByVal strItem As String, ByVal strCurrentUnit As String, ByVal strConvertedUnit As String, ByVal dblQty As Double) As Double
@@ -9178,10 +9208,12 @@ a:          End If
                 txtRateAmt.Enabled = True
                 txtRatePer.Enabled = False
                 txtRatePer.Text = 0
+                GroupBoxRateDiffAmtType.Visible = False
             Else
                 txtRateAmt.Enabled = False
                 txtRatePer.Enabled = True
                 txtRatePer.Text = 0
+                GroupBoxRateDiffAmtType.Visible = True
             End If
         End If
     End Sub
@@ -9199,7 +9231,12 @@ a:          End If
                 Throw New Exception("Rate Difference amount cannot be greater than sum of Discount after amount and Tax amount")
             End If
             If clsCommon.myCdbl(txtRatePer.Text) > 0 Then
-                txtRateAmt.Text = clsCommon.myCdbl(lblTotRAmt.Text) * clsCommon.myCdbl(txtRatePer.Text) / 100
+                If rbtnBasicAmt.IsChecked Then
+                    txtRateAmt.Text = clsCommon.myCdbl(lblAmtWithDiscount.Text) * clsCommon.myCdbl(txtRatePer.Text) / 100
+                ElseIf rbtnTotalAmt.IsChecked Then
+                    txtRateAmt.Text = clsCommon.myCdbl(lblTotRAmt.Text) * clsCommon.myCdbl(txtRatePer.Text) / 100
+                End If
+
             ElseIf clsCommon.myCdbl(txtRateAmt.Text) > 0 Then
                 txtRatePer.Text = 0
             End If
@@ -9232,7 +9269,12 @@ a:          End If
                     End If
                 End If
             Else
-                lblTotalSubsidy.Text = clsCommon.myCdbl(lblTotRAmt.Text * txtRatePer.Text) / 100
+                If rbtnTotalAmt.IsChecked Then
+                    lblTotalSubsidy.Text = clsCommon.myCdbl(lblTotRAmt.Text * txtRatePer.Text) / 100
+                ElseIf rbtnBasicAmt.IsChecked Then
+                    lblTotalSubsidy.Text = clsCommon.myCdbl(lblAmtWithDiscount.Text * txtRatePer.Text) / 100
+                End If
+
                 lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - lblTotalSubsidy.Text) '
                 If chkAddTPT.Checked Then
                     lblGrossAmount.Text = clsCommon.myCdbl(lblGrossAmount.Text) + clsCommon.myCdbl(txtTPTAmt.Text)
