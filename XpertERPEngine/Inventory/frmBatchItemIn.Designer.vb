@@ -22,42 +22,47 @@ Partial Class frmBatchItemIn
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.Panel2 = New System.Windows.Forms.Panel
-        Me.RadButton2 = New Telerik.WinControls.UI.RadButton
-        Me.btnOK = New Telerik.WinControls.UI.RadButton
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem
-        Me.Panel1 = New System.Windows.Forms.Panel
-        Me.RadTextBoxControl1 = New Telerik.WinControls.UI.RadTextBoxControl
-        Me.gv1 = New common.UserControls.MyRadGridView
-        Me.lblMRP = New common.Controls.MyLabel
-        Me.MyLabel5 = New common.Controls.MyLabel
-        Me.lblUOM = New common.Controls.MyLabel
-        Me.MyLabel2 = New common.Controls.MyLabel
-        Me.lblQty = New common.Controls.MyLabel
-        Me.MyLabel3 = New common.Controls.MyLabel
-        Me.lblItemCode = New common.Controls.MyLabel
-        Me.lblItemName = New common.Controls.MyLabel
-        Me.RadLabel28 = New common.Controls.MyLabel
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
+        Me.btnOK = New Telerik.WinControls.UI.RadButton()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.lblMRP = New common.Controls.MyLabel()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.lblUOM = New common.Controls.MyLabel()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.lblQty = New common.Controls.MyLabel()
+        Me.RadTextBoxControl1 = New Telerik.WinControls.UI.RadTextBoxControl()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.lblItemCode = New common.Controls.MyLabel()
+        Me.lblItemName = New common.Controls.MyLabel()
+        Me.RadLabel28 = New common.Controls.MyLabel()
+        Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.cmbManufacturer = New common.Controls.MyComboBox()
+        Me.lblManufacturer = New common.Controls.MyLabel()
         Me.Panel2.SuspendLayout()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnOK, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
-        CType(Me.RadTextBoxControl1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblMRP, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblUOM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadTextBoxControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblItemCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblItemName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel28, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbManufacturer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblManufacturer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -98,35 +103,27 @@ Partial Class frmBatchItemIn
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(595, 20)
         Me.RadMenu1.TabIndex = 3
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
-        Me.RadMenuItem3.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Save Layout"
-        Me.RadMenuItem1.AccessibleName = "Save Layout"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Save Layout"
-        Me.RadMenuItem1.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItem2.AccessibleName = "Delete Layout"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Delete Layout"
-        Me.RadMenuItem2.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.cmbManufacturer)
+        Me.Panel1.Controls.Add(Me.lblManufacturer)
         Me.Panel1.Controls.Add(Me.lblMRP)
         Me.Panel1.Controls.Add(Me.MyLabel5)
         Me.Panel1.Controls.Add(Me.lblUOM)
@@ -143,39 +140,11 @@ Partial Class frmBatchItemIn
         Me.Panel1.Size = New System.Drawing.Size(595, 60)
         Me.Panel1.TabIndex = 0
         '
-        'RadTextBoxControl1
-        '
-        Me.RadTextBoxControl1.Location = New System.Drawing.Point(554, 12)
-        Me.RadTextBoxControl1.Name = "RadTextBoxControl1"
-        Me.RadTextBoxControl1.Size = New System.Drawing.Size(10, 16)
-        Me.RadTextBoxControl1.TabIndex = 7
-        Me.RadTextBoxControl1.Text = "RadTextBoxControl1"
-        '
-        'gv1
-        '
-        Me.gv1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
-        Me.gv1.Cursor = System.Windows.Forms.Cursors.Default
-        Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gv1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gv1.ForeColor = System.Drawing.Color.Black
-        Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.gv1.Location = New System.Drawing.Point(0, 80)
-        '
-        'gv1
-        '
-        Me.gv1.MasterTemplate.AllowDeleteRow = False
-        Me.gv1.MasterTemplate.EnableAlternatingRowColor = True
-        Me.gv1.Name = "gv1"
-        Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.gv1.ShowGroupPanel = False
-        Me.gv1.Size = New System.Drawing.Size(595, 404)
-        Me.gv1.TabIndex = 2
-        Me.gv1.Text = "RadGridView1"
-        '
         'lblMRP
         '
         Me.lblMRP.AutoSize = False
         Me.lblMRP.BorderVisible = True
+        Me.lblMRP.FieldName = Nothing
         Me.lblMRP.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblMRP.Location = New System.Drawing.Point(519, 35)
         Me.lblMRP.Name = "lblMRP"
@@ -186,6 +155,7 @@ Partial Class frmBatchItemIn
         '
         'MyLabel5
         '
+        Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel5.Location = New System.Drawing.Point(461, 36)
         Me.MyLabel5.Name = "MyLabel5"
@@ -197,16 +167,17 @@ Partial Class frmBatchItemIn
         '
         Me.lblUOM.AutoSize = False
         Me.lblUOM.BorderVisible = True
+        Me.lblUOM.FieldName = Nothing
         Me.lblUOM.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblUOM.Location = New System.Drawing.Point(64, 35)
         Me.lblUOM.Name = "lblUOM"
         Me.lblUOM.Size = New System.Drawing.Size(126, 19)
         Me.lblUOM.TabIndex = 8
-        Me.lblUOM.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblUOM.TextWrap = False
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.Location = New System.Drawing.Point(3, 36)
         Me.MyLabel2.Name = "MyLabel2"
@@ -219,6 +190,7 @@ Partial Class frmBatchItemIn
         Me.lblQty.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblQty.AutoSize = False
         Me.lblQty.BorderVisible = True
+        Me.lblQty.FieldName = Nothing
         Me.lblQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblQty.Location = New System.Drawing.Point(519, 12)
         Me.lblQty.Name = "lblQty"
@@ -227,9 +199,18 @@ Partial Class frmBatchItemIn
         Me.lblQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         Me.lblQty.TextWrap = False
         '
+        'RadTextBoxControl1
+        '
+        Me.RadTextBoxControl1.Location = New System.Drawing.Point(554, 12)
+        Me.RadTextBoxControl1.Name = "RadTextBoxControl1"
+        Me.RadTextBoxControl1.Size = New System.Drawing.Size(10, 16)
+        Me.RadTextBoxControl1.TabIndex = 7
+        Me.RadTextBoxControl1.Text = "RadTextBoxControl1"
+        '
         'MyLabel3
         '
         Me.MyLabel3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel3.Location = New System.Drawing.Point(461, 13)
         Me.MyLabel3.Name = "MyLabel3"
@@ -241,34 +222,99 @@ Partial Class frmBatchItemIn
         '
         Me.lblItemCode.AutoSize = False
         Me.lblItemCode.BorderVisible = True
+        Me.lblItemCode.FieldName = Nothing
         Me.lblItemCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblItemCode.Location = New System.Drawing.Point(64, 12)
         Me.lblItemCode.Name = "lblItemCode"
         Me.lblItemCode.Size = New System.Drawing.Size(126, 19)
         Me.lblItemCode.TabIndex = 4
-        Me.lblItemCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblItemCode.TextWrap = False
         '
         'lblItemName
         '
         Me.lblItemName.AutoSize = False
         Me.lblItemName.BorderVisible = True
+        Me.lblItemName.FieldName = Nothing
         Me.lblItemName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblItemName.Location = New System.Drawing.Point(192, 12)
         Me.lblItemName.Name = "lblItemName"
         Me.lblItemName.Size = New System.Drawing.Size(257, 19)
         Me.lblItemName.TabIndex = 3
-        Me.lblItemName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblItemName.TextWrap = False
         '
         'RadLabel28
         '
+        Me.RadLabel28.FieldName = Nothing
         Me.RadLabel28.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel28.Location = New System.Drawing.Point(3, 13)
         Me.RadLabel28.Name = "RadLabel28"
         Me.RadLabel28.Size = New System.Drawing.Size(28, 16)
         Me.RadLabel28.TabIndex = 5
         Me.RadLabel28.Text = "Item"
+        '
+        'gv1
+        '
+        Me.gv1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gv1.Cursor = System.Windows.Forms.Cursors.Default
+        Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gv1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gv1.ForeColor = System.Drawing.Color.Black
+        Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.gv1.Location = New System.Drawing.Point(0, 80)
+        '
+        '
+        '
+        Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.EnableAlternatingRowColor = True
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MyExportAPI = False
+        Me.gv1.MyExportFilePath = ""
+        Me.gv1.MyStopExport = False
+        Me.gv1.Name = "gv1"
+        Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gv1.ShowGroupPanel = False
+        Me.gv1.ShowHeaderCellButtons = True
+        Me.gv1.Size = New System.Drawing.Size(595, 404)
+        Me.gv1.TabIndex = 2
+        Me.gv1.VarID = ""
+        '
+        'cmbManufacturer
+        '
+        Me.cmbManufacturer.AutoCompleteDisplayMember = Nothing
+        Me.cmbManufacturer.AutoCompleteValueMember = Nothing
+        Me.cmbManufacturer.CalculationExpression = Nothing
+        Me.cmbManufacturer.DropDownAnimationEnabled = True
+        Me.cmbManufacturer.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbManufacturer.FieldCode = Nothing
+        Me.cmbManufacturer.FieldDesc = Nothing
+        Me.cmbManufacturer.FieldMaxLength = 0
+        Me.cmbManufacturer.FieldName = Nothing
+        Me.cmbManufacturer.isCalculatedField = False
+        Me.cmbManufacturer.IsSourceFromTable = False
+        Me.cmbManufacturer.IsSourceFromValueList = False
+        Me.cmbManufacturer.IsUnique = False
+        Me.cmbManufacturer.Location = New System.Drawing.Point(285, 34)
+        Me.cmbManufacturer.MendatroryField = True
+        Me.cmbManufacturer.MyLinkLable1 = Nothing
+        Me.cmbManufacturer.MyLinkLable2 = Nothing
+        Me.cmbManufacturer.Name = "cmbManufacturer"
+        Me.cmbManufacturer.ReferenceFieldDesc = Nothing
+        Me.cmbManufacturer.ReferenceFieldName = Nothing
+        Me.cmbManufacturer.ReferenceTableName = Nothing
+        Me.cmbManufacturer.Size = New System.Drawing.Size(108, 20)
+        Me.cmbManufacturer.TabIndex = 41
+        '
+        'lblManufacturer
+        '
+        Me.lblManufacturer.FieldName = Nothing
+        Me.lblManufacturer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblManufacturer.Location = New System.Drawing.Point(200, 36)
+        Me.lblManufacturer.Name = "lblManufacturer"
+        Me.lblManufacturer.Size = New System.Drawing.Size(73, 16)
+        Me.lblManufacturer.TabIndex = 40
+        Me.lblManufacturer.Text = "Manufacturer"
         '
         'frmBatchItemIn
         '
@@ -294,18 +340,20 @@ Partial Class frmBatchItemIn
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
-        CType(Me.RadTextBoxControl1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblMRP, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblUOM, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadTextBoxControl1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblItemCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblItemName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel28, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbManufacturer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblManufacturer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -330,5 +378,7 @@ Partial Class frmBatchItemIn
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents lblUOM As common.Controls.MyLabel
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
+    Friend WithEvents cmbManufacturer As Controls.MyComboBox
+    Friend WithEvents lblManufacturer As Controls.MyLabel
 End Class
 

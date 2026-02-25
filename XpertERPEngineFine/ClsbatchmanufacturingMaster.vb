@@ -5,7 +5,7 @@ Imports System.Collections
 Public Class ClsbatchmanufacturingMaster
     Public CODE As String = Nothing
     Public Name As String = Nothing
-
+    Public Is_Default As Boolean = False
     Public Function SaveData(ByVal obj As ClsbatchmanufacturingMaster, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = True
         Try
@@ -13,9 +13,13 @@ Public Class ClsbatchmanufacturingMaster
                 Dim qry As String = "Delete from TSPL_BATCH_MANUFECTURING_MASTER where Code='" + obj.CODE + "'"
                 isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
+            If obj.Is_Default Then
+                isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery("Update TSPL_BATCH_MANUFECTURING_MASTER set Is_Default = 0 ")
+            End If
             Dim coll As New Hashtable()
             Dim objCommonVar As Object = New ClsbatchmanufacturingMaster()
             clsCommon.AddColumnsForChange(coll, "Name", obj.Name)
+            clsCommon.AddColumnsForChange(coll, "Is_Default", IIf(obj.Is_Default, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "Code", obj.CODE)
@@ -56,6 +60,7 @@ Public Class ClsbatchmanufacturingMaster
             obj = New ClsbatchmanufacturingMaster()
             obj.CODE = clsCommon.myCstr(dt.Rows(0)("Code"))
             obj.Name = clsCommon.myCstr(dt.Rows(0)("Name"))
+            obj.Is_Default = clsCommon.myCBool(dt.Rows(0)("Is_Default") = 1)
         End If
         Return obj
     End Function

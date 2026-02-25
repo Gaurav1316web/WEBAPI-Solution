@@ -14895,6 +14895,7 @@ FROM TSPL_ITEM_MASTER"
             coll = New Dictionary(Of String, String)()
             coll.Add("Code", "Char(3)")
             coll.Add("Name", "Varchar(50) NOT NULL ")
+            coll.Add("Is_Default", "integer NULL ")
             coll.Add("Created_Date", "datetime NOT NULL")
             coll.Add("Modify_Date", "datetime NOT NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BATCH_MANUFECTURING_MASTER", coll, Nothing, True)

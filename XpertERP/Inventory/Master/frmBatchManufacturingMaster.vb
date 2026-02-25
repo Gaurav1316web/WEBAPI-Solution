@@ -22,12 +22,12 @@ Public Class frmBatchManufacturingMaster
     End Sub
     Public Sub funreset()
         isNewEntry = True
-
         fndCode.MyReadOnly = False
         fndCode.Value = ""
         txtname.Text = ""
         btnsave.Text = "Save"
         btndelete.Enabled = False
+        chkisDefault.Checked = False
     End Sub
 
     Private Sub btnsave_Click(sender As Object, e As EventArgs) Handles btnsave.Click
@@ -36,6 +36,7 @@ Public Class frmBatchManufacturingMaster
                 Dim obj As New ClsbatchmanufacturingMaster()
                 obj.CODE = fndCode.Value
                 obj.Name = txtname.Text
+                obj.Is_Default = chkisDefault.Checked
                 Dim trans As SqlTransaction = Nothing
                 If (obj.SaveData(obj, True, trans)) Then
                     trans = clsDBFuncationality.GetTransactin()
@@ -113,7 +114,7 @@ Public Class frmBatchManufacturingMaster
             btnsave.Enabled = True
             btndelete.Enabled = True
             isNewEntry = False
-            Dim obj As Object = New ClsbatchmanufacturingMaster()
+            Dim obj As ClsbatchmanufacturingMaster = New ClsbatchmanufacturingMaster()
             obj = ClsbatchmanufacturingMaster.GetData(strCode, NavTyep)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.CODE) > 0) Then
                 'funreset()
@@ -122,6 +123,7 @@ Public Class frmBatchManufacturingMaster
                 btnsave.Text = "Update"
                 fndCode.Value = obj.CODE
                 txtname.Text = obj.Name
+                chkisDefault.Checked = obj.Is_Default
             End If
         Catch ex As Exception
             myMessages.myExceptions(ex)
