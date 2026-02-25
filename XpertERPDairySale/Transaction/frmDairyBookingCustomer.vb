@@ -3433,11 +3433,11 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                     txtCouponCode.Focus()
                     Return False
                 End If
-                If clsCommon.myLen(txtBPLName.Text) <= 0 Then
-                    Throw New Exception("Please enter Name")
-                    txtCouponCode.Focus()
-                    Return False
-                End If
+                'If clsCommon.myLen(txtBPLName.Text) <= 0 Then
+                '    Throw New Exception("Please enter Name")
+                '    txtCouponCode.Focus()
+                '    Return False
+                'End If
                 UcAttachment1.AllowToSave()
             End If
 
