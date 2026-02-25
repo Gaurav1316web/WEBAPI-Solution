@@ -2371,10 +2371,14 @@ Public Class clsDemandBookingSaleDetail
                     End If
                     If obj.Qty > 0 Then
                         Dim coll As New Hashtable()
+                        Dim dtyear As Integer = clsCommon.GETSERVERDATE(trans).Year
+                        Dim dtMonth As Integer = clsCommon.GETSERVERDATE(trans).Month
+                        Dim dtDay As Integer = clsCommon.GETSERVERDATE(trans).Day
+                        Dim myGuid As Guid = Guid.NewGuid()
                         If isUploader Then
-                            obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.DetailSale, clsDocTransactionType.Uploader, strRouteNo, False, True, False, False, False, True)
+                            obj.TR_CODE = "DU/" & dtyear & "" & dtMonth & "" & dtDay & "/" & myGuid.ToString("N").Substring(0, 16)
                         Else
-                            obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.DetailSale, clsDocTransactionType.Detail, strRouteNo, False, True, False, False, False, True)
+                            obj.TR_CODE = "DT/" & dtyear & "" & dtMonth & "" & dtDay & "/" & myGuid.ToString("N").Substring(0, 16)
                         End If
                         clsCommon.AddColumnsForChange(coll, "TR_CODE", obj.TR_CODE)
                         clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
@@ -2464,11 +2468,17 @@ group by Document_No,Cust_Code,Item_Code,Unit_code having sum(1)>1"
                     End If
                 End If
                 Dim coll As New Hashtable()
+                Dim dtyear As Integer = clsCommon.GETSERVERDATE(trans).Year
+                Dim dtMonth As Integer = clsCommon.GETSERVERDATE(trans).Month
+                Dim dtDay As Integer = clsCommon.GETSERVERDATE(trans).Day
+                Dim myGuid As Guid = Guid.NewGuid()
                 If isUploader Then
-                    obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.DetailSale, clsDocTransactionType.Uploader, strRouteNo, False, True, False, False, False, True)
+                    obj.TR_CODE = "DU/" & dtyear & "" & dtMonth & "" & dtDay & "/" & myGuid.ToString("N").Substring(0, 16)
                 Else
-                    obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.DetailSale, clsDocTransactionType.Detail, strRouteNo, False, True, False, False, False, True)
+                    obj.TR_CODE = "DT/" & dtyear & "" & dtMonth & "" & dtDay & "/" & myGuid.ToString("N").Substring(0, 16)
                 End If
+
+
                 clsCommon.AddColumnsForChange(coll, "TR_CODE", obj.TR_CODE)
                 clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
                 clsCommon.AddColumnsForChange(coll, "Line_No", obj.Line_No)

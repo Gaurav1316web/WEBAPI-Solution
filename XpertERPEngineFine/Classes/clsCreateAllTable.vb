@@ -13656,6 +13656,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Modify_Date", "varchar(10)  NOT NULL")
             coll.Add("Comp_Code", "varchar(8)  NOT NULL")
             coll.Add("Bank_Code", "varchar(12) NULL ")
+            coll.Add("IsDefault", "int NULL default 0")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_PAYMENT_CODE", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -26207,10 +26208,15 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("FAT_Range_From", "decimal(18,1) NULL")
             coll.Add("FAT_Range_To", "decimal(18,1) NULL")
             coll.Add("Hide_In_Milk_Bill_Print", "integer NULL")
+            coll.Add("SubtractManual", "integer NULL")
+            coll.Add("Apply_Formula_Manual", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_DCS_ADDITION_DEDUCTION", coll, "", True, False, "", "", "", True)
 
-            qry = "alter table TSPL_DCS_ADDITION_DEDUCTION alter column Applicable_Value Decimal(18,3) not null"
-            clsDBFuncationality.ExecuteNonQuery(qry)
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Code", "Varchar(30) null References TSPL_DCS_ADDITION_DEDUCTION(Code)")
+            coll.Add("Deduction_Code", "Varchar(30) null References TSPL_DEDUCTION_MASTER(Code)")
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT_MANUAL", coll, "", True, False, "", "", "", True)
+
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Code", "Varchar(30) null References TSPL_DCS_ADDITION_DEDUCTION(Code)")
@@ -27464,6 +27470,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Voucher_No", "varchar(50) NULL")
             coll.Add("IsOpening", "integer not null default 0")
             coll.Add("Location_Code_Prefix", "VARCHAR(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
+            coll.Add("Skip_DrCr_Note", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MULTIPLE_DEDUCTION_HEAD", coll, Nothing, True, False, "", "Document_No", "Document_Date", False)
 
             qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MULTIPLE_DEDUCTION_DETAIL' and COLUMN_NAME='Trans_Type'"

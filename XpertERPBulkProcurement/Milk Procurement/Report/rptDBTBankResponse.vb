@@ -96,10 +96,10 @@ Public Class rptDBTBankResponse
             If txtUnion.arrValueMember Is Nothing Then
                 If objCommonVar.RCDFCFP Then
                     uQry = " select  [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name
-                            from TSPL_MASTER.dbo.TSPL_APP_LOCATION WHERE 2=2 order by [TSPL_APP_LOCATION].Location_Name "
+                            from TSPL_MASTER.dbo.TSPL_APP_LOCATION WHERE 2=2  and  Union_Report=1  order by [TSPL_APP_LOCATION].Location_Name "
                 Else
                     uQry = " select  [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name
-                            from TSPL_MASTER.dbo.TSPL_APP_LOCATION WHERE 2=2 AND [TSPL_APP_LOCATION].DataBase_Name='" & objCommonVar.CurrComp_Code1 & "' order by [TSPL_APP_LOCATION].Location_Name "
+                            from TSPL_MASTER.dbo.TSPL_APP_LOCATION WHERE 2=2 AND [TSPL_APP_LOCATION].DataBase_Name='" & objCommonVar.CurrDatabase & "' order by [TSPL_APP_LOCATION].Location_Name "
                 End If
 
             Else
