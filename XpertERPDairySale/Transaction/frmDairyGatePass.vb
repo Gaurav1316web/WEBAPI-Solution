@@ -1926,7 +1926,7 @@ where TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode='" & strCode & "' order by Sku_Seq "
                         TSPL_SD_SHIPMENT_HEAD.FAT_Per,TSPL_SD_SHIPMENT_HEAD.SNF_Per,TSPL_SD_SHIPMENT_HEAD.Acidity,TSPL_SD_SHIPMENT_HEAD.Temperature,TSPL_SD_SHIPMENT_HEAD.MBRT_Hours, 
                         TSPL_Route_Master.Route_Desc,TSPL_VEHICLE_MASTER.Vehicle_Id,case when TSPL_SD_SHIPMENT_HEAD.VehicleNo > ''  then  TSPL_SD_SHIPMENT_HEAD.VehicleNo else TSPL_VEHICLE_MASTER.Number  end As Vehicle_Number,
                         TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_CUSTOMER_MASTER.Add1 As Cust_Add1,TSPL_CUSTOMER_MASTER.Add2 As Cust_Add2,TSPL_CUSTOMER_MASTER.Add3 As Cust_Add3,TSPL_CUSTOMER_MASTER.PIN_Code As Cust_PINCode,
-                        TSPL_CUSTOMER_MASTER.Phone1 As Cust_Phone1,TSPL_CUSTOMER_MASTER.Phone2 As Cust_Phone2,
+                        TSPL_CUSTOMER_MASTER.Phone1 As Cust_Phone1,TSPL_CUSTOMER_MASTER.Phone2 As Cust_Phone2,TSPL_CUSTOMER_MASTER.GSTNO,
                         TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Logo_Img As Comp_Logo1,TSPL_COMPANY_MASTER.Logo_Img2 As Comp_Logo2,TSPL_COMPANY_MASTER.Add1 As Comp_Add1,
 
 TSPL_COMPANY_MASTER.City_Code As Comp_City,TSPL_COMPANY_MASTER.State As Comp_State,TSPL_COMPANY_MASTER.GSTReg_No As Comp_GSTReg_No,TSPL_COMPANY_MASTER.Pan_No As Comp_PanNo,
