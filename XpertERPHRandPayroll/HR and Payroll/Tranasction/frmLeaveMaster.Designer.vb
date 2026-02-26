@@ -44,10 +44,11 @@ Partial Class frmLeaveMaster
         Me.MyLabel18 = New common.Controls.MyLabel()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.lblempcode = New common.Controls.MyLabel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.ChkLeaveIncashment = New System.Windows.Forms.CheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -64,10 +65,10 @@ Partial Class frmLeaveMaster
         CType(Me.txtName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblempcode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -82,6 +83,7 @@ Partial Class frmLeaveMaster
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.ChkLeaveIncashment)
         Me.SplitContainer1.Panel1.Controls.Add(Me.cboLeaveTypeDed)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel3)
         Me.SplitContainer1.Panel1.Controls.Add(Me.cboLeaveType)
@@ -352,6 +354,16 @@ Partial Class frmLeaveMaster
         Me.lblempcode.TabIndex = 56
         Me.lblempcode.Text = "Leave Code"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(423, 4)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 22)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
+        '
         'btnsave
         '
         Me.btnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -382,15 +394,15 @@ Partial Class frmLeaveMaster
         Me.btnclose.TabIndex = 2
         Me.btnclose.Text = "Close"
         '
-        'btnHistory
+        'ChkLeaveIncashment
         '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(423, 4)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(66, 22)
-        Me.btnHistory.TabIndex = 3
-        Me.btnHistory.Text = "History"
+        Me.ChkLeaveIncashment.AutoSize = True
+        Me.ChkLeaveIncashment.Location = New System.Drawing.Point(397, 32)
+        Me.ChkLeaveIncashment.Name = "ChkLeaveIncashment"
+        Me.ChkLeaveIncashment.Size = New System.Drawing.Size(116, 17)
+        Me.ChkLeaveIncashment.TabIndex = 345
+        Me.ChkLeaveIncashment.Text = "Leave Incashment"
+        Me.ChkLeaveIncashment.UseVisualStyleBackColor = True
         '
         'frmLeaveMaster
         '
@@ -421,10 +433,10 @@ Partial Class frmLeaveMaster
         CType(Me.txtName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblempcode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -452,4 +464,5 @@ Partial Class frmLeaveMaster
     Friend WithEvents cboLeaveTypeDed As common.Controls.MyComboBox
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
+    Friend WithEvents ChkLeaveIncashment As CheckBox
 End Class

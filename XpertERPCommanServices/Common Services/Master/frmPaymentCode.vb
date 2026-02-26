@@ -221,14 +221,18 @@ Public Class FrmPaymentCode
                     End If
                 End If
             End If
-            clsDBFuncationality.SaveAStorePorcedure("sp_tspl_paymentcode_insert", New SqlParameter("@Payment_Code", fnd_paymentcode.Value), New SqlParameter("@Payment_desc", txt_description.Text), New SqlParameter("@Payment_Type", ddl_paymenttype.Text), New SqlParameter("@Created_By", userCode), New SqlParameter("@Created_Date", connectSql.serverDate()), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate()), New SqlParameter("@Comp_Code", companyCode), New SqlParameter("@IsDefault", IIf(chkDefault.Checked, 1, 0)))
+            clsDBFuncationality.SaveAStorePorcedure("sp_tspl_paymentcode_insert", New SqlParameter("@Payment_Code", fnd_paymentcode.Value), New SqlParameter("@Payment_desc", txt_description.Text), New SqlParameter("@Payment_Type", ddl_paymenttype.Text), New SqlParameter("@Created_By", userCode), New SqlParameter("@Created_Date", connectSql.serverDate()), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate()), New SqlParameter("@Comp_Code", companyCode))
 
             If clsCommon.myLen(clsCommon.myCstr(fndBankCode.Value)) > 0 Then
                 clsDBFuncationality.ExecuteNonQuery("update tspl_payment_code set bank_code='" & clsCommon.myCstr(fndBankCode.Value) & "' where payment_code='" & clsCommon.myCstr(fnd_paymentcode.Value) & "'")
             Else
                 clsDBFuncationality.ExecuteNonQuery("update tspl_payment_code set bank_code=null where payment_code='" & clsCommon.myCstr(fnd_paymentcode.Value) & "'")
             End If
-
+            If chkDefault.Checked = True Then
+                clsDBFuncationality.ExecuteNonQuery("update tspl_payment_code set IsDefault= 1 where payment_code='" & clsCommon.myCstr(fnd_paymentcode.Value) & "'")
+            Else
+                clsDBFuncationality.ExecuteNonQuery("update tspl_payment_code set IsDefault= 0 where payment_code='" & clsCommon.myCstr(fnd_paymentcode.Value) & "'")
+            End If
 
 
             myMessages.insert()
@@ -240,11 +244,16 @@ Public Class FrmPaymentCode
     End Sub
     Private Sub funUpdate()
         Try
-            clsDBFuncationality.SaveAStorePorcedure("sp_tspl_paymentcode_update", New SqlParameter("@Payment_Code", fnd_paymentcode.Value), New SqlParameter("@Payment_desc", txt_description.Text), New SqlParameter("@Payment_Type", ddl_paymenttype.Text), New SqlParameter("@Created_By", userCode), New SqlParameter("@Created_Date", connectSql.serverDate()), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate()), New SqlParameter("@Comp_Code", companyCode), New SqlParameter("@IsDefault", IIf(chkDefault.Checked, 1, 0)))
+            clsDBFuncationality.SaveAStorePorcedure("sp_tspl_paymentcode_update", New SqlParameter("@Payment_Code", fnd_paymentcode.Value), New SqlParameter("@Payment_desc", txt_description.Text), New SqlParameter("@Payment_Type", ddl_paymenttype.Text), New SqlParameter("@Created_By", userCode), New SqlParameter("@Created_Date", connectSql.serverDate()), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate()), New SqlParameter("@Comp_Code", companyCode))
             If clsCommon.myLen(clsCommon.myCstr(fndBankCode.Value)) > 0 Then
                 clsDBFuncationality.ExecuteNonQuery("update tspl_payment_code set bank_code='" & clsCommon.myCstr(fndBankCode.Value) & "' where payment_code='" & clsCommon.myCstr(fnd_paymentcode.Value) & "'")
             Else
                 clsDBFuncationality.ExecuteNonQuery("update tspl_payment_code set bank_code=null where payment_code='" & clsCommon.myCstr(fnd_paymentcode.Value) & "'")
+            End If
+            If chkDefault.Checked = True Then
+                clsDBFuncationality.ExecuteNonQuery("update tspl_payment_code set IsDefault= 1 where payment_code='" & clsCommon.myCstr(fnd_paymentcode.Value) & "'")
+            Else
+                clsDBFuncationality.ExecuteNonQuery("update tspl_payment_code set IsDefault= 0 where payment_code='" & clsCommon.myCstr(fnd_paymentcode.Value) & "'")
             End If
 
             myMessages.update()

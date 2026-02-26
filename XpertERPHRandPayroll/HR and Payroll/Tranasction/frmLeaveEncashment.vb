@@ -15,6 +15,8 @@ Public Class frmLeaveEncashment
     Const colLeaveName As String = "colLeaveName"
     Const colNoOfDays As String = "colNoOfDays"
     Const colAmt As String = "colAmt"
+    Dim FYFromDate As Date
+    Dim FYToDate As Date
 
 #End Region
     Private Sub SetUserMgmtNew()
@@ -41,7 +43,8 @@ Public Class frmLeaveEncashment
 
         LoadBlankGrid()
         LoadDocType()
-        btnGo.Visible = False
+        LoadFinancialYear()
+        'btnGo.Visible = False
         isNewEntry = True
         btnSave.Enabled = True
         btnPost.Enabled = True
@@ -150,6 +153,22 @@ Public Class frmLeaveEncashment
         gv1.MasterTemplate.ShowRowHeaderColumn = False
         gv1.TableElement.TableHeaderHeight = 40
         gv1.Rows.AddNew()
+    End Sub
+    Private Sub LoadFinancialYear()
+        Try
+            Dim qry As String = ""
+            qry = " Select '' as Code,'' as Name,NULL as Start_Dt,NULL as End_Dt, 1 as RI 
+                    union all
+                    Select Fiscal_Code as Code,Fiscal_Name as Name,Start_Date as Start_Dt,End_Date as End_Dt ,2 as RI from TSPL_Fiscal_Year_Master "
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+
+            CmbFinancialYear.DataSource = dt
+            CmbFinancialYear.ValueMember = "Code"
+            CmbFinancialYear.DisplayMember = "Name"
+            'Return True
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
     Private Sub LoadDocType()
         Dim dt As New DataTable()
@@ -451,7 +470,32 @@ Public Class frmLeaveEncashment
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
-            ControlField(False)
+            Dim qry1 As String = " Select Start_Date,End_Date from TSPL_Fiscal_Year_Master where Fiscal_Code = '" + CmbFinancialYear.SelectedValue + "' "
+            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry1)
+            FYFromDate = clsCommon.GetPrintDate(dt1.Rows(0)("Start_Date"))
+            FYToDate = clsCommon.GetPrintDate(dt1.Rows(0)("End_Date"))
+
+            Dim qry As String = " Select MTA_CODE from TSPL_MONTHLY_ATTENDANCE where CONVERT(DATE,TSPL_MONTHLY_ATTENDANCE.Created_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(FYFromDate, "dd/MMM/yyyy") & "',103)
+                                  AND CONVERT(DATE,TSPL_MONTHLY_ATTENDANCE.Created_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(FYToDate, "dd/MMM/yyyy") & "',103) "
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            Dim codes As New List(Of String)
+
+            For Each row As DataRow In dt.Rows
+                codes.Add("'" & row("MTA_CODE").ToString() & "'")
+            Next
+            Dim finalString As String = "(" & String.Join(",", codes.ToArray()) & ")"
+
+            Dim QryAttendance As String = " "
+            QryAttendance = " SELECT EMP_CODE,SUM(Casual_Leave) AS CL FROM TSPL_MONTHLY_ATTENDANCE_DETAIL where MTA_CODE In (" + finalString + ")
+                              GROUP BY EMP_CODE HAVING SUM(Casual_Leave) >= 15 order by EMP_CODE "
+
+            Dim dtattend As DataTable = clsDBFuncationality.GetDataTable(QryAttendance)
+
+            For Each EMPDETAIL As DataRow In dtattend.Rows
+                Dim 
+            Next
+            'ControlField(False)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
