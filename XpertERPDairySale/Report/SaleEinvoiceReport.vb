@@ -4,26 +4,28 @@ Imports System.IO
 Public Class SaleEinvoiceReport
     Dim EnableProductSaleForJPR As Boolean = False
     Private Sub RmSecurityDeduction_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        txtfDate.Value = clsCommon.GETSERVERDATE()
-        txtToDate.Value = clsCommon.GETSERVERDATE()
-        ChkBoth.Checked = True
-        txtItem.Visible = False
-        MyLabel4.Visible = False
-        RadGroupBox3.Visible = False
-        EnableProductSaleForJPR = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = 1, True, False)
-        If EnableProductSaleForJPR Then
-            RadGroupBox6.Visible = True
-        Else
-            RadGroupBox6.Visible = False
-        End If
+        Try
+            txtfDate.Value = clsCommon.GETSERVERDATE()
+            txtToDate.Value = txtfDate.Value
+            ChkBoth.Checked = True
+            txtItem.Visible = False
+            MyLabel4.Visible = False
+            RadGroupBox3.Visible = False
+            EnableProductSaleForJPR = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = 1, True, False)
+            If EnableProductSaleForJPR Then
+                RadGroupBox6.Visible = True
+            Else
+                RadGroupBox6.Visible = False
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         reset()
     End Sub
     Private Sub reset()
         chkDCSSale.Checked = False
-        txtfDate.Value = clsCommon.GETSERVERDATE()
-        txtToDate.Value = clsCommon.GETSERVERDATE()
         txtMultiCustomer.arrValueMember = Nothing
         TxtRoute.arrValueMember = Nothing
         txtItem.arrValueMember = Nothing
@@ -33,6 +35,18 @@ Public Class SaleEinvoiceReport
         RadGroupBox3.Visible = False
         rbtnMilk.Checked = True
         chkBPL.Checked = False
+        enableDisable(True)
+    End Sub
+
+    Sub enableDisable(ByVal isBool As Boolean)
+        RadGroupBox1.Enabled = isBool
+        RadGroupBox2.Enabled = isBool
+        RadGroupBox3.Enabled = isBool
+        RadGroupBox4.Enabled = isBool
+        RadGroupBox5.Enabled = isBool
+        RadGroupBox6.Enabled = isBool
+        RadGroupBox7.Enabled = isBool
+        RadGroupBox8.Enabled = isBool
     End Sub
 
     'Private Sub txtMultiCustomer__My_Click(sender As Object, e As EventArgs)
@@ -272,7 +286,9 @@ Public Class SaleEinvoiceReport
     				WHEN max(TSPL_SD_SALE_INVOICE_HEAD.TAX7)='TCS'  THEN sum(TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Amt)
     				WHEN max(TSPL_SD_SALE_INVOICE_HEAD.TAX8)='TCS'  THEN sum(TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Amt)
     				WHEN max(TSPL_SD_SALE_INVOICE_HEAD.TAX9)='TCS'  THEN sum(TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Amt)
-    				WHEN max(TSPL_SD_SALE_INVOICE_HEAD.TAX10)='TCS' THEN sum(TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Amt) else 0 END  AS [TCS Amt]
+    				WHEN max(TSPL_SD_SALE_INVOICE_HEAD.TAX10)='TCS' THEN sum(TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Amt) else 0 END  AS [TCS Amt],
+Sum(TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt) As [Total Tax Amount],
+                                Sum(TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt) as [Total Amount]
                            FROM TSPL_SD_SALE_INVOICE_HEAD
                            LEFT OUTER JOIN TSPL_LOCATION_MASTER 
                            ON TSPL_LOCATION_MASTER.Location_Code = TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
@@ -464,6 +480,7 @@ Public Class SaleEinvoiceReport
     				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX8='TCS'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Amt
     				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX9='TCS'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Amt
     				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX10='TCS' THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Amt  else 0 END AS [TCS Amt],
+TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt As [Total Tax Amount],
                                 TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt as [Total Amount]
                                 FROM TSPL_SD_SALE_INVOICE_HEAD
                                 LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
@@ -490,22 +507,18 @@ Public Class SaleEinvoiceReport
 
             qry += " ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code"
 
-
-
             dt = clsDBFuncationality.GetDataTable(qry)
             gvData.GroupDescriptors.Clear()
             gvData.MasterTemplate.SummaryRowsBottom.Clear()
             gvData.DataSource = Nothing
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             Else
                 RadPageView1.SelectedPage = RadPageViewPage2
                 gvData.GroupDescriptors.Clear()
                 gvData.MasterTemplate.SummaryRowsBottom.Clear()
                 gvData.DataSource = dt
-
-
                 gvData.AutoExpandGroups = True
                 gvData.ShowGroupPanel = True
                 gvData.ShowRowHeaderColumn = False
@@ -516,7 +529,7 @@ Public Class SaleEinvoiceReport
                 SetGridFormat()
                 SetGridFormationOFGV1()
                 gvData.BestFitColumns()
-
+                enableDisable(False)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -676,6 +689,14 @@ Public Class SaleEinvoiceReport
                 gvData.Columns("TCS Amt").HeaderText = "TCS Amt"
                 gvData.Columns("TCS Amt").Width = 100
                 gvData.Columns("TCS Amt").IsVisible = True
+
+                gvData.Columns("Total Tax Amount").HeaderText = "Total Tax Amount"
+                gvData.Columns("Total Tax Amount").Width = 100
+                gvData.Columns("Total Tax Amount").IsVisible = True
+
+                gvData.Columns("Total Amount").HeaderText = "Total Amount"
+                gvData.Columns("Total Amount").Width = 100
+                gvData.Columns("Total Amount").IsVisible = True
 
                 'Dim summaryRowItem As New GridViewSummaryRowItem()
                 'Dim item1 As New GridViewSummaryItem("INWARDQTYReportUom", "{0:n2}", GridAggregateFunction.Sum)
@@ -875,6 +896,10 @@ Public Class SaleEinvoiceReport
                 gvData.Columns("TCS Amt").HeaderText = "TCS Amt"
                 gvData.Columns("TCS Amt").Width = 100
                 gvData.Columns("TCS Amt").IsVisible = True
+
+                gvData.Columns("Total Tax Amount").HeaderText = "Total Tax Amount"
+                gvData.Columns("Total Tax Amount").Width = 100
+                gvData.Columns("Total Tax Amount").IsVisible = True
 
                 gvData.Columns("Total Amount").HeaderText = "Total Amount"
                 gvData.Columns("Total Amount").Width = 100
@@ -1086,9 +1111,6 @@ Public Class SaleEinvoiceReport
 
         'Next
         'Dim aa = gvData.Columns(i).HeaderText()
-        Dim item81 As New GridViewSummaryItem("Total Amount", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item81)
-
         Dim item82 As New GridViewSummaryItem("TCS Amt", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item82)
 
@@ -1118,6 +1140,12 @@ Public Class SaleEinvoiceReport
 
         Dim item91 As New GridViewSummaryItem("Invoice Value", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item91)
+
+        Dim item92 As New GridViewSummaryItem("Total Tax Amount", "{0:N2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item92)
+
+        Dim item93 As New GridViewSummaryItem("Total Amount", "{0:N2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item93)
 
         gvData.ShowGroupPanel = True
         gvData.MasterTemplate.AutoExpandGroups = True

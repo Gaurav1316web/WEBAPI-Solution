@@ -1427,6 +1427,7 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
                 txtRouteNo.Enabled = True
                 txtVehicleNo.Enabled = True
             End If
+            isFreshAmbientBoth()
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
@@ -3744,6 +3745,10 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
     End Sub
 
     Private Sub rdbnBoth_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rdbnFreshAmbientBoth.ToggleStateChanged
+        isFreshAmbientBoth()
+    End Sub
+
+    Sub isFreshAmbientBoth()
         Try
             If Not isInsideLoadData Then
                 If rdbnFreshAmbientBoth.IsChecked Then
@@ -3768,6 +3773,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
     Private Sub Btn_TruckSheet_Click(sender As Object, e As EventArgs) Handles btn_TruckSheet.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then

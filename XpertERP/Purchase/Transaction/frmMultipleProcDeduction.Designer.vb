@@ -28,6 +28,7 @@ Partial Class FrmMultipleProcDeduction
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.chkSkipDrCrNote = New Telerik.WinControls.UI.RadCheckBox()
         Me.pnlLocation = New System.Windows.Forms.Panel()
         Me.RadLabel23 = New Telerik.WinControls.UI.RadLabel()
         Me.txtLocationPrefixName = New common.Controls.MyLabel()
@@ -81,7 +82,6 @@ Partial Class FrmMultipleProcDeduction
         Me.btnSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.chkSkipDrCrNote = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -91,6 +91,7 @@ Partial Class FrmMultipleProcDeduction
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.chkSkipDrCrNote, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlLocation.SuspendLayout()
         CType(Me.RadLabel23, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -131,7 +132,6 @@ Partial Class FrmMultipleProcDeduction
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
-        CType(Me.chkSkipDrCrNote, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -232,6 +232,15 @@ Partial Class FrmMultipleProcDeduction
         Me.SplitContainer2.SplitterDistance = 145
         Me.SplitContainer2.SplitterWidth = 3
         Me.SplitContainer2.TabIndex = 617
+        '
+        'chkSkipDrCrNote
+        '
+        Me.chkSkipDrCrNote.Location = New System.Drawing.Point(578, 32)
+        Me.chkSkipDrCrNote.Name = "chkSkipDrCrNote"
+        Me.chkSkipDrCrNote.Size = New System.Drawing.Size(170, 18)
+        Me.chkSkipDrCrNote.TabIndex = 12151
+        Me.chkSkipDrCrNote.Text = "Skip To Generate DR/CR Note"
+        Me.chkSkipDrCrNote.Visible = False
         '
         'pnlLocation
         '
@@ -869,14 +878,6 @@ Partial Class FrmMultipleProcDeduction
         Me.Panel1.Size = New System.Drawing.Size(1041, 498)
         Me.Panel1.TabIndex = 3
         '
-        'chkSkipDrCrNote
-        '
-        Me.chkSkipDrCrNote.Location = New System.Drawing.Point(578, 32)
-        Me.chkSkipDrCrNote.Name = "chkSkipDrCrNote"
-        Me.chkSkipDrCrNote.Size = New System.Drawing.Size(170, 18)
-        Me.chkSkipDrCrNote.TabIndex = 12151
-        Me.chkSkipDrCrNote.Text = "Skip To Generate DR/CR Note"
-        '
         'FrmMultipleProcDeduction
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -902,6 +903,7 @@ Partial Class FrmMultipleProcDeduction
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.chkSkipDrCrNote, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlLocation.ResumeLayout(False)
         Me.pnlLocation.PerformLayout()
         CType(Me.RadLabel23, System.ComponentModel.ISupportInitialize).EndInit()
@@ -944,7 +946,6 @@ Partial Class FrmMultipleProcDeduction
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
-        CType(Me.chkSkipDrCrNote, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

@@ -4309,7 +4309,7 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                 txtReceiverName.Text = obj.ReceiverName
                 If chkcashsale.Checked Then
                     txtChequeNo.Text = obj.ChequeNo
-                    cmbPaymentType.SelectedValue = obj.Payment_Terms
+                    cmbPaymentType.Text = obj.Payment_Terms
                 End If
                 chkDistributor.Checked = IIf(obj.Is_Distributor = 1, True, False)
                 If chkBPL.Checked Then
