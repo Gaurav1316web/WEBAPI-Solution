@@ -232,7 +232,7 @@ Public Class frmVSP_VLCMaster
         txtCredit.MaxLength = 9
         txtcollect.MaxLength = 30
         txtpan.MaxLength = 30
-
+        txtPayeName.MaxLength = 1000
     End Sub
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.frmVSPMaster)
@@ -499,6 +499,7 @@ Public Class frmVSP_VLCMaster
 
                 TxtAmCU.Text = clsCommon.myCstr(myDr("AMCU"))
                 TxtAmc_Charge.Text = clsCommon.myCdbl(myDr("AMC_Charge"))
+                txtPayeName.Text = clsCommon.myCstr(myDr("VSP_Payee_Name"))
                 '---------------------------------------------------------------------------------
 
                 Me.txtPhone1.Text = myDr(13).ToString()
@@ -904,7 +905,10 @@ Public Class frmVSP_VLCMaster
                 strq = "Update TSPL_VENDOR_MASTER set AMC_Charge ='" & clsCommon.myCstr(Me.TxtAmc_Charge.Text) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(strq, trans)
             End If
-
+            If clsCommon.myLen(txtPayeName.Text) > 0 Then
+                strq = "Update TSPL_VENDOR_MASTER set VSP_Payee_Name ='" & clsCommon.myCstr(txtPayeName.Text) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
+                clsDBFuncationality.ExecuteNonQuery(strq, trans)
+            End If
             If clsCommon.myLen(Me.fndpaymentCycle.Value) > 0 Then
                 strq = "Update TSPL_VENDOR_MASTER set PC_CODE ='" & clsCommon.myCstr(Me.fndpaymentCycle.Value) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(strq, trans)
@@ -1761,7 +1765,10 @@ Public Class frmVSP_VLCMaster
                 Dim qryVidhanSabha As String = " Update TSPL_VENDOR_MASTER set VIDHAN_SABHA_CODE =null where Vendor_Code='" + fndvendorNo.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qryVidhanSabha, trans)
             End If
-
+            If clsCommon.myLen(txtPayeName.Text) > 0 Then
+                strq = "Update TSPL_VENDOR_MASTER set VSP_Payee_Name ='" & clsCommon.myCstr(txtPayeName.Text) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
+                clsDBFuncationality.ExecuteNonQuery(strq, trans)
+            End If
             If clsCommon.myLen(txtAliesName.Text) > 0 Then
                 Dim AliesQry As String = "Update TSPL_VENDOR_MASTER set Alies_Name='" & clsCommon.myCstr(txtAliesName.Text) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(AliesQry, trans)
@@ -2808,6 +2815,7 @@ Public Class frmVSP_VLCMaster
         gv1.GroupDescriptors.Clear()
         gv1.EnableFiltering = True
         gv1.MasterTemplate.SummaryRowsBottom.Clear()
+        txtPayeName.Text = ""
         funSetDefaultData()
         'VLC
         VLC_reset()

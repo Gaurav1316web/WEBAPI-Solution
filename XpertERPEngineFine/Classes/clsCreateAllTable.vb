@@ -28353,6 +28353,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Transfer", "int DEFAULT 0")
             coll.Add("Inactive", "int Not Null DEFAULT 0")
             coll.Add("Default_Type", "integer null")
+            coll.Add("Default_For_Tarnsfer", "integer null")
 
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_PRICE_COMPONENT_MAPPING", coll, "PRIMARY KEY (Price_Code, Price_Comp_Code)", True, False, "", "", "", True)
 

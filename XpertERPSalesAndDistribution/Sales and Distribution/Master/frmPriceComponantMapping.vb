@@ -76,6 +76,7 @@ Public Class FrmPriceComponantMapping
     End Sub
 
     Private Sub ResetScreen()
+        chkDefault.Checked = False
         txtpri_code.Value = ""
         txtprinciple.Text = ""
         txtRemarks.Text = ""
@@ -122,6 +123,7 @@ Public Class FrmPriceComponantMapping
                     obj.Amount = clsCommon.myCdbl(grow.Cells("Amount").Value)
                     obj.Transfer = clsCommon.myCdbl(chkTransfer.Checked)
                     obj.Inactive = clsCommon.myCdbl(chkInActive.Checked)
+                    obj.Default_For_Tarnsfer = clsCommon.myCdbl(chkDefault.Checked)
                     If rbtnDefaultIGST.IsChecked Then
                         obj.Default_Type = "1"
                     ElseIf rbtnDefaultGST.IsChecked Then
@@ -190,6 +192,10 @@ Public Class FrmPriceComponantMapping
         Else
             Return True
         End If
+        ' If chkDefault.Checked = False Then
+        ''    ShowMsg("CHECK DEFAULT CHECKBOX")
+        ' Return False
+        'End If
         Return True
     End Function
 
@@ -428,6 +434,7 @@ Public Class FrmPriceComponantMapping
                         txtpri_code.Value = obj.principlecode
                         chkTransfer.Checked = obj.Transfer
                         chkInActive.Checked = obj.Inactive
+                        chkDefault.Checked = obj.Default_For_Tarnsfer
                         If obj.Default_Type = 1 Then
                             rbtnDefaultIGST.IsChecked = True
                         ElseIf obj.Default_Type = 2 Then
