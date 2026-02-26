@@ -3023,10 +3023,12 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
         Dim dblTotalTPTAmt As Double = 0
         Dim dblTotalRoundOffAmt As Double = 0
         Dim dblGrossAmt As Double = 0
+        Dim dblTotalSubsidyAmt As Double = 0
         For ii As Integer = 0 To gv1.Rows.Count - 1
             If (clsCommon.myLen(gv1.Rows(ii).Cells(colICode).Value) > 0) And clsCommon.myCdbl(gv1.Rows(ii).Cells(ColFOC).Value) = 0 Then
                 dblTotAmt = dblTotAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(colAmt).Value)
                 dblGrossAmt = dblGrossAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(colGrossAmount).Value)
+                dblTotalSubsidyAmt = dblTotalSubsidyAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTotalSubsidyAmt).Value)
                 dblTotDisAmt = dblTotDisAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(colDisAmt).Value)
                 dblCashDisAmt = dblCashDisAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTotalCustDiscount).Value)
                 dblHeadDisAmt = dblHeadDisAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(colHeadDiscamt).Value)
@@ -3105,6 +3107,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
         End If
         lblTotRAmt1.Text = lblTotRAmt.Text
         txtTPTAmt.Text = dblTotalTPTAmt
+        lblTotalSubsidy.Text = dblTotalSubsidyAmt
         lblGrossAmount.Text = dblGrossAmt
     End Sub
     Private Sub btnAddNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddNew.Click
