@@ -835,10 +835,14 @@ from
                 If strInvoiceno.Count > 0 Then
                     If common.clsCommon.MyMessageBoxShow(" Do you want to print Invoice", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
 
-                        qry = "select  TSPL_COMPANY_MASTER.GSTReg_No,TSPL_COMPANY_MASTER.Access_Officer as FassiLicNo,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Pan_No,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1+TSPL_COMPANY_MASTER.Add2+TSPL_COMPANY_MASTER.Add3 as CompAddress,TSPL_COMPANY_MASTER.Phone1,xxx.*
+                        qry = "select  '" & objCommonVar.CurrentUser & "' As PrintBy,TSPL_COMPANY_MASTER.GSTReg_No,TSPL_COMPANY_MASTER.Access_Officer as FassiLicNo,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Pan_No,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1+TSPL_COMPANY_MASTER.Add2+TSPL_COMPANY_MASTER.Add3 as CompAddress,TSPL_COMPANY_MASTER.Phone1,xxx.*
 from(
 select xx.Document_Code,max(xx.Document_Date) as BillDate,max(xx.Route_No)as Route_No,
-max(xx.Item_Desc) as Item_Desc,max(xx.HSN_Code) as HSN_Code,sum(xx.QtyInLtr) as QtyInLtr,sum(xx.QtyInPouch) as QtyInPouch,max(xx.Rate_Per_Pouch) as Rate_Per_Pouch,sum(xx.Item_Net_Amt) as Item_Net_Amt,max(xx.Customer_Name) as Customer_Name,max(xx.Add1) as Add1,max(xx.Add2)as Add2,max(xx.add3) as Add3,
+max(xx.Item_Desc) as Item_Desc,max(xx.HSN_Code) as HSN_Code,
+Sum(Case When xx.QtyInLtr IS Null Then xx.QtyInKG Else xx.QtyInLtr end) as QtyInLtr,
+Sum(Case When xx.QtyInPouch IS Null Then xx.QtyInPack Else xx.QtyInPouch end) as QtyInPouch,
+Max(Case When xx.Rate_Per_Pouch IS Null Then xx.Rate_Per_Pack Else xx.Rate_Per_Pouch end) as Rate_Per_Pouch,
+sum(xx.Item_Net_Amt) as Item_Net_Amt,max(xx.Customer_Name) as Customer_Name,max(xx.Add1) as Add1,max(xx.Add2)as Add2,max(xx.add3) as Add3,
 max(xx.GST_STATE_Code) as GST_STATE_Code,max(xx.STATE_NAME) as STATE_NAME,max(xx.GSTNO)as GSTNO,sum(xx.Transporter_Commission_TotalAmt)as TCAmt,min(xx.GPDate) as GPFromDate,max(xx.GPDate) as GPTodate
 ,STUFF(( SELECT DISTINCT ',' + GPCode FROM (SELECT DISTINCT RIGHT(TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode, 6) AS GPCode FROM TSPL_SD_SALE_INVOICE_DETAIL
               LEFT JOIN TSPL_SD_SHIPMENT_DETAIL ON TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE = TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code
@@ -846,7 +850,15 @@ max(xx.GST_STATE_Code) as GST_STATE_Code,max(xx.STATE_NAME) as STATE_NAME,max(xx
               WHERE TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE = xx.Document_Code ) AS subquery
         FOR XML PATH('')), 1, 1, '') AS GPCodes
 from (
-select TSPL_SD_SALE_INVOICE_HEAD.Document_Code, TSPL_SD_SALE_INVOICE_HEAD.Route_No,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.HSN_Code,TSPL_SD_SALE_INVOICE_DETAIL.Item_Code,TSPL_SD_SALE_INVOICE_DETAIL.Unit_code,TSPL_SD_SALE_INVOICE_DETAIL.Qty,((CurrentUnit.Conversion_Factor * TSPL_SD_SALE_INVOICE_DETAIL.Qty)/ItemConversionInLTR.Conversion_Factor) as QtyInLtr,((CurrentUnit.Conversion_Factor * TSPL_SD_SALE_INVOICE_DETAIL.Qty)/ItemConversionInPouch.Conversion_Factor) as QtyInPouch,TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost,TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt,(TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt/((CurrentUnit.Conversion_Factor * TSPL_SD_SALE_INVOICE_DETAIL.Qty)/ItemConversionInPouch.Conversion_Factor)) as Rate_Per_Pouch,CurrentUnit.Conversion_Factor as CNFCurrentUnit,ItemConversionInPouch.Conversion_Factor as ItemConversionInPouch,ItemConversionInLTR.Conversion_Factor as ItemConversionInLTR,
+select TSPL_SD_SALE_INVOICE_HEAD.Document_Code, TSPL_SD_SALE_INVOICE_HEAD.Route_No,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.HSN_Code,TSPL_SD_SALE_INVOICE_DETAIL.Item_Code,TSPL_SD_SALE_INVOICE_DETAIL.Unit_code,TSPL_SD_SALE_INVOICE_DETAIL.Qty,
+((CurrentUnit.Conversion_Factor * TSPL_SD_SALE_INVOICE_DETAIL.Qty)/ItemConversionInLTR.Conversion_Factor) as QtyInLtr,
+((CurrentUnit.Conversion_Factor * TSPL_SD_SALE_INVOICE_DETAIL.Qty)/ItemConversionInPouch.Conversion_Factor) as QtyInPouch,
+((CurrentUnit.Conversion_Factor * TSPL_SD_SALE_INVOICE_DETAIL.Qty)/ItemConversionInKG.Conversion_Factor) as QtyInKG,
+((CurrentUnit.Conversion_Factor * TSPL_SD_SALE_INVOICE_DETAIL.Qty)/ItemConversionInPACK.Conversion_Factor) as QtyInPack,
+TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost,TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt,
+(TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt/((CurrentUnit.Conversion_Factor * TSPL_SD_SALE_INVOICE_DETAIL.Qty)/ItemConversionInPouch.Conversion_Factor)) as Rate_Per_Pouch,
+(TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt/((CurrentUnit.Conversion_Factor * TSPL_SD_SALE_INVOICE_DETAIL.Qty)/ItemConversionInPACK.Conversion_Factor)) as Rate_Per_Pack,
+CurrentUnit.Conversion_Factor as CNFCurrentUnit,ItemConversionInPouch.Conversion_Factor as ItemConversionInPouch,ItemConversionInLTR.Conversion_Factor as ItemConversionInLTR,
 TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_CUSTOMER_MASTER.Add1,TSPL_CUSTOMER_MASTER.Add2,TSPL_CUSTOMER_MASTER.Add3 ,TSPL_STATE_MASTER.GST_STATE_Code, TSPL_STATE_MASTER.STATE_NAME ,TSPL_CUSTOMER_MASTER.GSTNO,isnull(TSPL_SD_SALE_INVOICE_HEAD.Transporter_Commission_TotalAmt,0) as Transporter_Commission_TotalAmt,
 TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,
 TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode
@@ -858,6 +870,8 @@ left join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE=TSPL_CUSTOMER_MASTER
 left join tspl_item_uom_detail CurrentUnit on CurrentUnit.item_code=TSPL_SD_SALE_INVOICE_DETAIL.item_code and 	CurrentUnit.uom_code=	TSPL_SD_SALE_INVOICE_DETAIL.unit_code  
 left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='Pouch') as ItemConversionInPouch on ItemConversionInPouch.Item_code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
 left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='LTR') as ItemConversionInLTR on ItemConversionInLTR.Item_code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
+left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='KG') as ItemConversionInKG on ItemConversionInKG.Item_code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
+left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='PACK') as ItemConversionInPACK on ItemConversionInPACK.Item_code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
 left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code  and TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
 left join TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL on TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID=TSPL_SD_SHIPMENT_DETAIL.PK_ID
 left join TSPL_DAIRYSALE_GATEPASS_MASTER on TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode=TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode

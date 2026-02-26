@@ -8979,6 +8979,7 @@ FROM TSPL_ITEM_MASTER"
                 clsDBFuncationality.ExecuteNonQuery("Alter Table TSPL_BOOKING_MATSER Alter Column Modified_Date datetime NOT NULL")
                 'clsDBFuncationality.ExecuteNonQuery("Alter Table TSPL_BOOKING_MATSER Alter Column Tax_Group varchar(12) NOT NULL")
                 clsDBFuncationality.ExecuteNonQuery("Alter Table TSPL_BOOKING_MATSER Alter Column Tax_Group varchar(12) NULL")
+                clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_BOOKING_MATSER ALTER COLUMN BPL_Coupon_Code VARCHAR(100) NULL")
                 'Dim qry As String = String.Empty
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                     qry = "CREATE UNIQUE INDEX Unique_Against_Receipt ON TSPL_BOOKING_MATSER (Against_Receipt_No) WHERE Against_Receipt_No IS NOT NULL;"
@@ -14894,6 +14895,7 @@ FROM TSPL_ITEM_MASTER"
             coll = New Dictionary(Of String, String)()
             coll.Add("Code", "Char(3)")
             coll.Add("Name", "Varchar(50) NOT NULL ")
+            coll.Add("Is_Default", "integer NULL ")
             coll.Add("Created_Date", "datetime NOT NULL")
             coll.Add("Modify_Date", "datetime NOT NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BATCH_MANUFECTURING_MASTER", coll, Nothing, True)
