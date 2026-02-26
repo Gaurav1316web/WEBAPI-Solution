@@ -536,6 +536,7 @@ where TSPL_PRODUCT_DEMAND_BOOKING_MASTER.Route_No='" & clsCommon.myCstr(gv1.Curr
                         objDBD.Qty = clsCommon.myCdbl(dr("Qty"))
                         objDBD.Price_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select tspl_customer_master.price_CodeNon from TSPL_CUSTOMER_MASTER where Cust_Code='" + strCustCode + "'"))
                         objDBD.Vehicle_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vehicle_No from TSPL_VEHICLE_MASTER left join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id where TSPL_ROUTE_MASTER.Route_No='" + RouteNo + "'"))
+                        objDBD.Source_By = "ERP"
 
                         qry = " Select Is_With_Tax, RowNo, Item_Price_ID, XXXE.Item_Code, UOM, Start_Date, Item_Basic_Price,Item_Basic_Net,Price_Code,Item_Selling_Price, XXXE.Tax_group,XXXE.TAX1_Rate, " &
                         " XXXE.TAX2_Rate,XXXE.TAX3_Rate,XXXE.TAX4_Rate,XXXE.TAX5_Rate, " &
