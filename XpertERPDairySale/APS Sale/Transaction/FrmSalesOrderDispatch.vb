@@ -3193,7 +3193,7 @@ SELECT Document_Code, Batch_No, Qty, Parent_Line_No FROM TSPL_BATCH_ITEM WHERE T
                     Throw New Exception("e-Way Bill can not be cancelled.It has been more than 24 hours.")
                 End If
             End If
-            clsPSShipmentHead.CancelData(Me.Form_ID, txtDocCode.Value, txtInvoiceno.Text, NavigatorType.Current)
+            clsPSShipmentHead.CancelData(Me.Form_ID, txtDocCode.Value, txtInvoiceno.Text, NavigatorType.Current, False)
             clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
             AddNew()
         Catch ex As Exception

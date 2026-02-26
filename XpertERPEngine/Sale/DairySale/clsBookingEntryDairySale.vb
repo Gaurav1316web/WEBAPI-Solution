@@ -1121,7 +1121,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                         Throw New Exception("Invoice can not be cancelled.It has been more than 24 hours.")
                     End If
                 End If
-                clsPSShipmentHead.CancelData(Form_Id, obj.Document_Code, obj.Invoice_No, NavigatorType.Current, trans)
+                clsPSShipmentHead.CancelData(Form_Id, obj.Document_Code, obj.Invoice_No, NavigatorType.Current, trans, False)
             End If
 
 
@@ -1203,7 +1203,7 @@ where TSPL_VENDOR_INVOICE_HEAD.RefDocType='BOK-CRD' and TSPL_VENDOR_INVOICE_HEAD
                         Throw New Exception("Invoice can not be cancelled.It has been more than 24 hours.")
                     End If
                 End If
-                clsPSShipmentHead.CancelData("BOOK-DS-CU", obj.Document_Code, obj.Invoice_No, NavigatorType.Current, trans)
+                clsPSShipmentHead.CancelData("BOOK-DS-CU", obj.Document_Code, obj.Invoice_No, NavigatorType.Current, trans, False)
 
                 Qry = "Update TSPL_BOOKING_MATSER set Posted = 0 where Document_No='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(Qry, trans)

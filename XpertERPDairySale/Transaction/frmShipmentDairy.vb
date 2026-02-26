@@ -737,6 +737,7 @@ Public Class frmShipmentDairy
         Else
             chkRoundoff.Visible = False
         End If
+        btnAdminCancel.Visible = False
     End Sub
     Public Sub LoadSettings()
         ApplyBoothSecurity = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyBoothSecurity, clsFixedParameterCode.ApplyBoothSecurity, Nothing)) = 1, True, False)
@@ -6985,6 +6986,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
     End Sub
     Sub AddNew()
         RadPageViewPage5.Item.Visibility = ElementVisibility.Collapsed
+
         txtPrintDiscountAmt.Text = "0"
         IsOnlyCreditCust = True
         lstobj = New List(Of clsPSShipmentDemand)
@@ -10969,6 +10971,7 @@ left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=
                 '-----------------------------------------------------------
                 btnReverseAndUnpost.Visible = True
                 btnReversewithSameNo.Visible = True
+                btnAdminCancel.Visible = True
             ElseIf gv1.CurrentColumn Is gv1.Columns(ColCommParty) AndAlso gv1.CurrentColumn.ReadOnly = False Then
                 isCellValueChangedOpen = True
                 gv1.CurrentColumn = gv1.Columns(ColCommPartyName)
@@ -15243,11 +15246,11 @@ On TabBatch.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code And  TabBatch.Ite
         frm1.strCode = clsFixedParameterCode.DispatchCancel
         frm1.ShowDialog()
         If frm1.isPasswordCorrect Then
-            CancelData()
+            CancelData(False)
             OneTimeCheck = True
         End If
     End Sub
-    Function CancelData() As Boolean
+    Function CancelData(ByVal IsCancelByAdmin As Boolean) As Boolean
         Try
             'If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
             '    Throw New Exception("Code is empty")
@@ -15256,12 +15259,16 @@ On TabBatch.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code And  TabBatch.Ite
             If clsCommon.MyMessageBoxShow(Me, "Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                 Return False
             End If
+
             Dim strIrnNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select IRN_No from tspl_sd_sale_invoice_head where Against_Shipment_No='" & txtDocNo.Value & "'"))
-            If clsCommon.myLen(strIrnNo) > 0 Then
-                If clsCommon.MyMessageBoxShow(Me, "Is E-invoice Cancelled on GST Portal?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
-                    isEinvoiceCancelled = True
+            If IsCancelByAdmin Then
+                If clsCommon.myLen(strIrnNo) > 0 Then
+                    If clsCommon.MyMessageBoxShow(Me, "Is E-invoice Cancelled on GST Portal?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                        isEinvoiceCancelled = True
+                    End If
                 End If
             End If
+
 
             Dim strSaleReturnNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Document_Code from TSPL_SD_SALE_RETURN_HEAD where Against_Invoice_No='" & txtInvoiceNo.Text & "' "))
             If clsCommon.myLen(strSaleReturnNo) > 0 Then
@@ -15284,7 +15291,7 @@ On TabBatch.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code And  TabBatch.Ite
                     Throw New Exception("Invoice can not be cancelled.It has been more than 24 hours.")
                 End If
             End If
-            clsPSShipmentHead.CancelData(Me.Form_ID, txtDocNo.Value, txtInvoiceNo.Text, NavigatorType.Current)
+            clsPSShipmentHead.CancelData(Me.Form_ID, txtDocNo.Value, txtInvoiceNo.Text, NavigatorType.Current, isEinvoiceCancelled)
             clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
             AddNew()
         Catch ex As Exception
@@ -17536,7 +17543,14 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub btnAdminCancel_Click(sender As Object, e As EventArgs) Handles btnAdminCancel.Click
+
+        CancelData(True)
+
+    End Sub
 End Class
+
 Class tempSchemStructrue
     Public StructureCode As String
     Public UOM As String
