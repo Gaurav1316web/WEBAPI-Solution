@@ -1647,6 +1647,7 @@ Public Class clsCreateAllTable
             coll.Add("LEAVE_NAME", "VARCHAR(100) not null ")
             coll.Add("PRINT_NAME", "VARCHAR(100)  NULL")
             coll.Add("AFFECTS_SALARY", "BIT  NULL")
+            coll.Add("IsApplyLeaveIncashment", "int NOT NULL default 0")
 
             coll.Add("Created_By", "varchar(12) NOT NULL")
             coll.Add("Created_Date", "Datetime NOT NULL")
