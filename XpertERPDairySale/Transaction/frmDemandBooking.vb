@@ -67,6 +67,7 @@ Public Class frmDemandBooking
     Const colbtncol As String = "colbtncol"
     Const colCustCode As String = "colCustCode"
     Const colCreated_By As String = "colCreated_By"
+    Const colSourceBy As String = "colSourceBy"
     Const colREF_PK_ID As String = "colREF_PK_ID"
     Const colCustName As String = "colCustName"
     Const colShiftName As String = "colShiftName"
@@ -544,6 +545,15 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
         repoREF_PKID.IsVisible = False
         repoREF_PKID.IsPinned = True
         gv1.MasterTemplate.Columns.Add(repoREF_PKID)
+        Dim repoSourceby As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoSourceby.FormatString = ""
+        repoSourceby.HeaderText = "Source By"
+        repoSourceby.Name = colSourceBy
+        repoSourceby.Width = 150
+        repoSourceby.ReadOnly = True
+        repoSourceby.IsVisible = False
+        repoSourceby.IsPinned = True
+        gv1.MasterTemplate.Columns.Add(repoSourceby)
 
         gv1.AllowDeleteRow = True
         gv1.AllowAddNewRow = False
@@ -563,7 +573,7 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
             intCurrRow = 0
             gv1.CurrentRow = gv1.Rows(intCurrRow)
         End If
-        'If gv1.CurrentColumn Is gv1.Columns(gv1.Columns.Count - 10) Then
+        'If gv1.CurrentColumn Is gv1.Columns(gv1.Columns.Count - 11) Then
         'End If
     End Sub
     Private Sub setGridFocusHome()
@@ -578,9 +588,9 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
     Private Sub setGridFocusEnd()
         Dim intCurrRow As Integer = gv1.CurrentRow.Index
         If gv1.Rows.Count > 0 Then
-            gv1.Rows(intCurrRow).Cells(gv1.Columns.Count - 10).IsSelected = True
+            gv1.Rows(intCurrRow).Cells(gv1.Columns.Count - 11).IsSelected = True
             gv1.Rows(intCurrRow).IsCurrent = True
-            gv1.Columns(gv1.Columns.Count - 10).IsCurrent = True
+            gv1.Columns(gv1.Columns.Count - 11).IsCurrent = True
         End If
     End Sub
     Private Sub setPagedown()
@@ -632,7 +642,7 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
                 Dim TempColGroupCount As Integer = 1
                 'Dim obj As ItemValueClass = New ItemValueClass()
                 'Dim i As Integer = 1
-                For dblcolumns As Integer = 9 To gv1.Columns.Count - 10
+                For dblcolumns As Integer = 9 To gv1.Columns.Count - 11
                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
                     If obj1 IsNot Nothing Then
                         If clsCommon.CompairString(obj1.IsFreshAmbient, "Fresh") = CompairStringResult.Equal Then
@@ -1084,7 +1094,7 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
                         End If
                         Dim k As Integer = 1
                         Dim isCustRouteNotChanged As Boolean = True
-                        For dblcolumns As Integer = 9 To gv1.Columns.Count - 10
+                        For dblcolumns As Integer = 9 To gv1.Columns.Count - 11
                             Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode & clsCommon.myCstr(k)).Tag, ItemValueClass)
                             k = k + 1
                             If obj1 IsNot Nothing AndAlso (clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 AndAlso clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) > 0) AndAlso isCustRouteNotChanged Then
@@ -1094,6 +1104,7 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
                                 objTr.Trip_No = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colTripNo).Value)
                                 objTr.Cust_Code = clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value)
                                 objTr.Created_By = clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCreated_By).Value)
+                                objTr.Source_By = clsCommon.myCstr(gv1.Rows(dblrows).Cells(colSourceBy).Value)
                                 objTr.REF_PK_ID = clsCommon.myCstr(gv1.Rows(dblrows).Cells(colREF_PK_ID).Value)
                                 objTr.ShiftType = clsCommon.myCstr(gv1.Rows(dblrows).Cells(colShiftName).Value)
                                 If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colIsItemUpdate).Value), "Yes") = CompairStringResult.Equal Then
@@ -1361,9 +1372,10 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
                         For dblrows As Integer = 0 To gv1.Rows.Count - 1
                             If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value), objTr.Cust_Code) = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colShiftName).Value), objTr.ShiftType) = CompairStringResult.Equal Then
                                 gv1.Rows(dblrows).Cells(colCreated_By).Value = objTr.Created_By
+                                gv1.Rows(dblrows).Cells(colSourceBy).Value = objTr.Source_By
                                 gv1.Rows(dblrows).Cells(colREF_PK_ID).Value = objTr.REF_PK_ID
                                 Dim k As Integer = 1
-                                For columns = 9 To gv1.Columns.Count - 10
+                                For columns = 9 To gv1.Columns.Count - 11
                                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
                                     k = k + 1
                                     If clsCommon.CompairString(objTr.Item_Code, clsCommon.myCstr(obj1.itemCode)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(objTr.Unit_code, clsCommon.myCstr(obj1.Unit_code)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(objTr.ShiftType, "Morning") = CompairStringResult.Equal Then
@@ -1376,6 +1388,8 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
                                         dblEveningCount = 1
                                     End If
                                 Next
+
+
                             End If
                         Next
                         'strCustCode = objTr.Cust_Code
@@ -1864,7 +1878,7 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
                 End If
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable("select isnull(Entry_UOM,0) as Entry_UOM from TSPL_ROUTE_MASTER where Route_No='" & txtRouteNo.Value & "' ")
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                    For dblcolumns As Integer = 9 To gv1.Columns.Count - 10
+                    For dblcolumns As Integer = 9 To gv1.Columns.Count - 11
                         Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
                         If obj1 IsNot Nothing AndAlso clsCommon.CompairString(obj1.IsFreshAmbient, "Fresh") = CompairStringResult.Equal Then
                             'If clsCommon.CompairString(obj1.IsFreshAmbient, "Fresh") = CompairStringResult.Equal Then
@@ -2182,7 +2196,7 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
                 '                                Throw New Exception(ex.Message)
                 '                            End Try
                 '                            Try
-                '                                For dblcolumns As Integer = 9 To gv1.Columns.Count - 10
+                '                                For dblcolumns As Integer = 9 To gv1.Columns.Count - 11
                 '                                    Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
                 '                                    If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Fresh") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj1.Unit_code).ToUpper, "POUCH") = CompairStringResult.Equal Then
                 '                                        gv1.Rows(n).Cells(dblcolumns).Style.DrawFill = True
@@ -2322,7 +2336,7 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
                 End If
             Next
             Dim k As Integer = 1
-            For dblcolumns As Integer = 9 To gv1.Columns.Count - 10
+            For dblcolumns As Integer = 9 To gv1.Columns.Count - 11
                 Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
                 If obj1 IsNot Nothing Then
                     If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 Then
@@ -2571,7 +2585,7 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
                 dblTotalMAmt = 0
                 strItemValueExist = "No"
                 strItemUpdateAfterSave = "No"
-                For dblcolumns As Integer = 9 To gv1.Columns.Count - 10
+                For dblcolumns As Integer = 9 To gv1.Columns.Count - 11
                     Dim obj1 As ItemValueClass = Nothing
                     Try
                         obj1 = TryCast(gv1.Columns(colItemCode & clsCommon.myCstr(k)).Tag, ItemValueClass)
@@ -2966,7 +2980,7 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
                 dblTotalMAmt = 0
                 strItemValueExist = "No"
                 strItemUpdateAfterSave = "No"
-                For dblcolumns As Integer = 9 To gv1.Columns.Count - 10
+                For dblcolumns As Integer = 9 To gv1.Columns.Count - 11
                     Dim obj1 As ItemValueClass = Nothing
                     Try
                         obj1 = TryCast(gv1.Columns(colItemCode & clsCommon.myCstr(k)).Tag, ItemValueClass)
@@ -6208,7 +6222,7 @@ left join TSPL_CUSTOMER_MASTER on XXXFinal.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_C
                                     Dim code As String = clsCommon.myCstr(gvImport.Rows(ii).Cells(1).Value)
                                     If arrCustCodeExist.Contains(code) Then
                                         If clsCommon.CompairString(clsCommon.myCstr(gvImport.Rows(ii).Cells(2).Value), clsCommon.myCstr(gv1.Rows(jj).Cells(colCustCode).Value)) = CompairStringResult.Equal Then
-                                            For kk As Integer = 5 To arrVisbleColumns.Count - 10
+                                            For kk As Integer = 5 To arrVisbleColumns.Count - 11
                                                 If clsCommon.myCDecimal(gv1.Rows(jj).Cells(arrVisbleColumns(kk)).Value) <> clsCommon.myCDecimal(gvImport.Rows(ii).Cells(kk).Value) Then
                                                     gv1.Rows(jj).Cells(arrVisbleColumns(kk)).Value = gvImport.Rows(ii).Cells(kk).Value
                                                 End If
@@ -6342,7 +6356,7 @@ left join TSPL_CUSTOMER_MASTER on XXXFinal.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_C
                     For dblrow As Integer = 0 To gv1.Rows.Count - 2
                         If clsCommon.CompairString(gv1.Rows(dblrow).Cells(colCustCode).Value, clsCommon.myCstr(dr.Item("Cust_Code"))) = CompairStringResult.Equal Then
                             Dim k As Integer = 1
-                            For dblcolumns As Integer = 9 To gv1.Columns.Count - 10
+                            For dblcolumns As Integer = 9 To gv1.Columns.Count - 11
                                 Dim obj1 As ItemValueClass = Nothing
                                 Try
                                     obj1 = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
