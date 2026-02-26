@@ -2362,9 +2362,6 @@ Public Class FrmTransferKDIL
         AddNew()
     End Sub
     Sub AddNew()
-
-
-
         isCellValueChangedOpen = False
         isInsideLoadData = False
         cboType.Enabled = True
@@ -2490,8 +2487,9 @@ Public Class FrmTransferKDIL
             lblpricecode.Visible = True
             Dim qry As String = " Select DISTINCT TSPL_PRICE_COMPONENT_MAPPING.Price_Code from TSPL_PRICE_COMPONENT_MAPPING   where TSPL_PRICE_COMPONENT_MAPPING.Default_For_Tarnsfer='1'  "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            fndPriceCode.Value = clsCommon.myCstr(dt.Rows(0)("Price_Code"))
-
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                fndPriceCode.Value = clsCommon.myCstr(dt.Rows(0)("Price_Code"))
+            End If
         End If
     End Sub
     Function AllowToSave() As Boolean
