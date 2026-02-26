@@ -23,6 +23,7 @@ Public Class frmBatchItemIn
     Public isCencelButtonClicked As Boolean = False
     Public isInsideLoadData As Boolean = False
     Public isCellValueChangedOpen As Boolean = False
+    Dim dtLocation As DataTable = New DataTable()
 #End Region
 
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -35,6 +36,16 @@ Public Class frmBatchItemIn
         lblMRP.Text = clsCommon.myFormat(dblMRP)
         lblUOM.Text = strUOM
         LoadBlankGrid()
+
+        dtLocation = clsDBFuncationality.GetDataTable("Select Code,Name from TSPL_BATCH_MANUFECTURING_MASTER")
+        If dtLocation IsNot Nothing AndAlso dtLocation.Rows.Count > 0 Then
+            lblManufacturer.Visible = True
+            cmbManufacturer.Visible = True
+            LoadManufacturer()
+        Else
+            lblManufacturer.Visible = False
+            cmbManufacturer.Visible = False
+        End If
 
         If arr IsNot Nothing AndAlso arr.Count > 0 Then
             For Each obj As clsBatchInventory In arr
@@ -57,7 +68,12 @@ Public Class frmBatchItemIn
 
         isInsideLoadData = False
     End Sub
-
+    Private Sub LoadManufacturer()
+        cmbManufacturer.DataSource = dtLocation
+        cmbManufacturer.DisplayMember = "Name"
+        cmbManufacturer.ValueMember = "Code"
+        cmbManufacturer.SelectedValue = clsDBFuncationality.getSingleValue("Select Code from TSPL_BATCH_MANUFECTURING_MASTER  where IS_DEFAULT=1 ")
+    End Sub
     Sub LoadBlankGrid()
         gv1.Rows.Clear()
         gv1.Columns.Clear()
@@ -301,6 +317,21 @@ Public Class frmBatchItemIn
                     End If
                     If e.Column Is gv1.Columns(colMfgDate) AndAlso intShelfLife > 0 Then
                         gv1.CurrentRow.Cells(colExpDate).Value = clsCommon.myCDate(gv1.CurrentRow.Cells(colMfgDate).Value).AddDays(intShelfLife)
+                    End If
+                    If e.Column Is gv1.Columns(colBatchNo) Then
+                        If cmbManufacturer.Visible Then
+                            Dim BatchNo As String = gv1.CurrentRow.Cells(colBatchNo).Value
+                            If BatchNo.Contains("-") Then
+                                BatchNo = BatchNo.Split("-"c)(0)
+                            End If
+                            If cmbManufacturer.SelectedValue IsNot Nothing Then
+                                gv1.CurrentRow.Cells(colBatchNo).Value = BatchNo + "-" + cmbManufacturer.SelectedValue
+                                gv1.CurrentRow.Cells(colManualBatch).Value = BatchNo + "-" + cmbManufacturer.SelectedValue
+                            Else
+                                gv1.CurrentRow.Cells(colBatchNo).Value = BatchNo
+                                gv1.CurrentRow.Cells(colManualBatch).Value = BatchNo
+                            End If
+                        End If
                     End If
                     isCellValueChangedOpen = False
                 End If
