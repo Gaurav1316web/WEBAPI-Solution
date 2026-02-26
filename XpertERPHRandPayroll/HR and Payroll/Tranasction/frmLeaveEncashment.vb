@@ -493,7 +493,7 @@ Public Class frmLeaveEncashment
             Dim dtattend As DataTable = clsDBFuncationality.GetDataTable(QryAttendance)
 
             For Each EMPDETAIL As DataRow In dtattend.Rows
-                Dim 
+                'Dim 
             Next
             'ControlField(False)
         Catch ex As Exception
