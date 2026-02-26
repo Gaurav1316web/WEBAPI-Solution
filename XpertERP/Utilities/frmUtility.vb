@@ -26623,7 +26623,7 @@ and TSPL_SD_SALE_INVOICE_HEAD.IRN_No is null"
                             'clsGatePassDairySale.DeleteData(GPCode, trans)
                             If chkExceptDoc.Checked Then
                                 Dim invoiceNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAD where Against_Booking_No='" + docno + "'", trans))
-                                clsPSShipmentHead.CancelData(Me.Form_ID, docno, invoiceNo, NavigatorType.Current, trans)
+                                clsPSShipmentHead.CancelData(Me.Form_ID, docno, invoiceNo, NavigatorType.Current, trans, False)
 
                             Else
                                 clsBookingEntryDairySale.CancelData(Me.Form_ID, docno, NavigatorType.Current, trans)
@@ -26695,13 +26695,13 @@ And TSPL_SD_SALE_INVOICE_HEAD.IRN_No Is null"
                             'clsGatePassDairySale.DeleteData(GPCode, trans)
                             If chkExceptDoc.Checked Then
                                 Dim invoiceNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAD where Against_Booking_No='" + docno + "'", trans))
-                                clsPSShipmentHead.CancelData(Me.Form_ID, docno, invoiceNo, NavigatorType.Current, trans)
+                                clsPSShipmentHead.CancelData(Me.Form_ID, docno, invoiceNo, NavigatorType.Current, trans, False)
                             Else
                                 Qry = " select ParentDocNo from TSPL_SD_SHIPMENT_HEAD where Document_Code in(select distinct document_Code from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Booking_TR_Code in(select TR_Code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + docno + "'))"
                                 'Dim invoiceNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAD where Document_Code in(select distinct document_Code from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Booking_TR_Code in(select TR_Code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + docno + "'))", trans))
                                 Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
                                 If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
-                                    clsPSShipmentHead.CancelData(Me.Form_ID, clsCommon.myCstr(dt1.Rows(0)("ParentDocNo")), "", NavigatorType.Current, trans)
+                                    clsPSShipmentHead.CancelData(Me.Form_ID, clsCommon.myCstr(dt1.Rows(0)("ParentDocNo")), "", NavigatorType.Current, trans, False)
 
                                 End If
 

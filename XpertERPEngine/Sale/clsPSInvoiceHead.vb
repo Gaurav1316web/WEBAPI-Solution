@@ -1587,7 +1587,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                                     clsDBFuncationality.UpdateImage("EWayBill_QR_Code", TempByte, "TSPL_SD_SALE_INVOICE_head", "TSPL_SD_SALE_INVOICE_head.document_code='" & strDocNo & "'", trans)
                                 Else
                                     clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SALE_INVOICE_HEAD set IsEwaybill=0  where DOCUMENT_CODE ='" & strDocNo & "' ", trans)
-                                    clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SALE_INVOICE_HEAD set IsEwaybill=0  where DOCUMENT_CODE ='" & strDocNo & "' ", trans)
+                                    clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SHIPMENT_HEAD set IsEwaybill=0  where Sale_Invoice_No ='" & strDocNo & "' ", trans)
                                     clsDBFuncationality.ExecuteNonQuery("update TSPL_BOOKING_MATSER set IsEwaybill=0 where Document_No in(select Against_Booking_No from TSPL_SD_SHIPMENT_HEAD where Sale_Invoice_No='" & strDocNo & "') ", trans)
                                 End If
                             Catch ex As Exception
