@@ -58,6 +58,7 @@ Partial Class FrmPaymentCode
         Me.gvDB = New common.UserControls.MyRadGridView()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.chkDefault = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.lbl_paymentcode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbl_description, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbl_paymenttype, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -80,6 +81,7 @@ Partial Class FrmPaymentCode
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkDefault, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -267,6 +269,7 @@ Partial Class FrmPaymentCode
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.chkDefault)
         Me.RadGroupBox1.Controls.Add(Me.LblBankName)
         Me.RadGroupBox1.Controls.Add(Me.fndBankCode)
         Me.RadGroupBox1.Controls.Add(Me.rdlblrouteno)
@@ -372,6 +375,8 @@ Partial Class FrmPaymentCode
         Me.gvDB.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDB.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvDB.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvDB.MyExportAPI = False
+        Me.gvDB.MyExportFilePath = ""
         Me.gvDB.MyStopExport = False
         Me.gvDB.Name = "gvDB"
         Me.gvDB.ShowGroupPanel = False
@@ -413,6 +418,14 @@ Partial Class FrmPaymentCode
         Me.btnHistory.TabIndex = 3
         Me.btnHistory.Text = "History"
         '
+        'chkDefault
+        '
+        Me.chkDefault.Location = New System.Drawing.Point(331, 17)
+        Me.chkDefault.Name = "chkDefault"
+        Me.chkDefault.Size = New System.Drawing.Size(56, 18)
+        Me.chkDefault.TabIndex = 1600
+        Me.chkDefault.Text = "Default"
+        '
         'FrmPaymentCode
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -449,6 +462,7 @@ Partial Class FrmPaymentCode
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkDefault, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -478,5 +492,6 @@ Partial Class FrmPaymentCode
     Friend WithEvents rdlblrouteno As common.Controls.MyLabel
     Friend WithEvents LblBankName As common.Controls.MyLabel
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents chkDefault As RadCheckBox
 End Class
 

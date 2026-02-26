@@ -156,6 +156,7 @@ Public Class clsDemandBookingSale
                     clsCommon.AddColumnsForChange(coll, "Trip_No", objTr.Trip_No)
                     clsCommon.AddColumnsForChange(coll, "Cust_Code", objTr.Cust_Code)
                     clsCommon.AddColumnsForChange(coll, "Created_By", objTr.Created_By)
+                    clsCommon.AddColumnsForChange(coll, "Source_By", objTr.Source_By)
                     clsCommon.AddColumnsForChange(coll, "Item_Code", objTr.Item_Code)
                     clsCommon.AddColumnsForChange(coll, "Unit_code", objTr.Unit_code)
                     clsCommon.AddColumnsForChange(coll, "Qty", objTr.Qty)
@@ -762,6 +763,7 @@ Public Class clsDemandBookingSale
                     objTr = New clsDemandBookingSaleDetail
                     objTr.Cust_Code = clsCommon.myCstr(dr("Cust_Code"))
                     objTr.Created_By = clsCommon.myCstr(dr("Created_By"))
+                    objTr.Source_By = clsCommon.myCstr(dr("Source_By"))
                     If clsCommon.myCdbl(dr("REF_PK_ID")) = 0 Then
                         objTr.REF_PK_ID = Nothing
                     Else
@@ -1167,6 +1169,7 @@ where TSPL_Booth_Route_Mapping_Detail.Booth_Code='" & clsCommon.myCstr(dr("Cust_
                                                             Mobj.Arr(ii).CustomerReorderCheck = True
                                                         End If
                                                         Mobj.Arr(ii).Created_By = ""
+                                                        Mobj.Arr(ii).Source_By = "ERP"
                                                     End If
                                                 Next
                                                 If Mobj.Arr IsNot Nothing AndAlso Mobj.Arr.Count > 0 Then
@@ -1183,6 +1186,7 @@ where TSPL_Booth_Route_Mapping_Detail.Booth_Code='" & clsCommon.myCstr(dr("Cust_
                                                             Mobj.Arr(ii).CustomerReorderCheck = True
                                                         End If
                                                         Mobj.Arr(ii).Created_By = ""
+                                                        Mobj.Arr(ii).Source_By = "ERP"
                                                     End If
                                                 Next
                                                 If Mobj.Arr IsNot Nothing AndAlso Mobj.Arr.Count > 0 Then
@@ -1273,6 +1277,7 @@ where TSPL_Booth_Route_Mapping_Detail.Booth_Code='" & clsCommon.myCstr(dr("Cust_
                                         obj.Arr(ii).TAX7_Amt = Math.Round(obj.Arr(ii).ItemNetAmount * (obj.Arr(ii).TAX7_Rate / 100), 2)
                                         obj.Arr(ii).TAX7_Base_Amt = obj.Arr(ii).ItemNetAmount
                                         obj.Arr(ii).Created_By = ""
+                                        obj.Arr(ii).Source_By = "ERP"
                                     End If
                                     If Not isNewEntry Then
                                         obj.Arr(ii).CustomerReorderCheck = True
@@ -1345,6 +1350,7 @@ where TSPL_Booth_Route_Mapping_Detail.Booth_Code='" & clsCommon.myCstr(dr("Cust_
                                         obj.Arr(ii).TAX7_Amt = Math.Round(obj.Arr(ii).ItemNetAmount * (obj.Arr(ii).TAX7_Rate / 100), 2)
                                         obj.Arr(ii).TAX7_Base_Amt = obj.Arr(ii).ItemNetAmount
                                         obj.Arr(ii).Created_By = ""
+                                        obj.Arr(ii).Source_By = "ERP"
                                     End If
                                     If Not isNewEntry Then
                                         obj.Arr(ii).CustomerReorderCheck = True
@@ -2301,6 +2307,7 @@ Public Class clsDemandBookingSaleDetail
     Public Item_Code As String = Nothing
     Public Cust_Code As String = Nothing
     Public Created_By As String = Nothing
+    Public Source_By As String = Nothing
     Public REF_PK_ID As String = Nothing
     Public Item_Desc As String = Nothing
     Public Unit_code As String = Nothing
@@ -2371,10 +2378,14 @@ Public Class clsDemandBookingSaleDetail
                     End If
                     If obj.Qty > 0 Then
                         Dim coll As New Hashtable()
+                        Dim dtyear As Integer = clsCommon.GETSERVERDATE(trans).Year
+                        Dim dtMonth As Integer = clsCommon.GETSERVERDATE(trans).Month
+                        Dim dtDay As Integer = clsCommon.GETSERVERDATE(trans).Day
+                        Dim myGuid As Guid = Guid.NewGuid()
                         If isUploader Then
-                            obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.DetailSale, clsDocTransactionType.Uploader, strRouteNo, False, True, False, False, False, True)
+                            obj.TR_CODE = "DU/" & dtyear & "" & dtMonth & "" & dtDay & "/" & myGuid.ToString("N").Substring(0, 16)
                         Else
-                            obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.DetailSale, clsDocTransactionType.Detail, strRouteNo, False, True, False, False, False, True)
+                            obj.TR_CODE = "DT/" & dtyear & "" & dtMonth & "" & dtDay & "/" & myGuid.ToString("N").Substring(0, 16)
                         End If
                         clsCommon.AddColumnsForChange(coll, "TR_CODE", obj.TR_CODE)
                         clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
@@ -2382,6 +2393,7 @@ Public Class clsDemandBookingSaleDetail
                         clsCommon.AddColumnsForChange(coll, "Trip_No", obj.Trip_No)
                         clsCommon.AddColumnsForChange(coll, "Cust_Code", obj.Cust_Code)
                         clsCommon.AddColumnsForChange(coll, "Created_By", obj.Created_By)
+                        clsCommon.AddColumnsForChange(coll, "Source_By", obj.Source_By)
                         If obj.REF_PK_ID IsNot Nothing AndAlso clsCommon.myLen(obj.REF_PK_ID) > 0 Then
                             clsCommon.AddColumnsForChange(coll, "REF_PK_ID", obj.REF_PK_ID, True)
 
@@ -2464,17 +2476,24 @@ group by Document_No,Cust_Code,Item_Code,Unit_code having sum(1)>1"
                     End If
                 End If
                 Dim coll As New Hashtable()
+                Dim dtyear As Integer = clsCommon.GETSERVERDATE(trans).Year
+                Dim dtMonth As Integer = clsCommon.GETSERVERDATE(trans).Month
+                Dim dtDay As Integer = clsCommon.GETSERVERDATE(trans).Day
+                Dim myGuid As Guid = Guid.NewGuid()
                 If isUploader Then
-                    obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.DetailSale, clsDocTransactionType.Uploader, strRouteNo, False, True, False, False, False, True)
+                    obj.TR_CODE = "DU/" & dtyear & "" & dtMonth & "" & dtDay & "/" & myGuid.ToString("N").Substring(0, 16)
                 Else
-                    obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.DetailSale, clsDocTransactionType.Detail, strRouteNo, False, True, False, False, False, True)
+                    obj.TR_CODE = "DT/" & dtyear & "" & dtMonth & "" & dtDay & "/" & myGuid.ToString("N").Substring(0, 16)
                 End If
+
+
                 clsCommon.AddColumnsForChange(coll, "TR_CODE", obj.TR_CODE)
                 clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
                 clsCommon.AddColumnsForChange(coll, "Line_No", obj.Line_No)
                 clsCommon.AddColumnsForChange(coll, "Trip_No", obj.Trip_No)
                 clsCommon.AddColumnsForChange(coll, "Cust_Code", obj.Cust_Code)
                 clsCommon.AddColumnsForChange(coll, "Created_By", obj.Created_By)
+                clsCommon.AddColumnsForChange(coll, "Source_By", obj.Source_By)
                 clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
                 clsCommon.AddColumnsForChange(coll, "Unit_code", obj.Unit_code)
                 clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)

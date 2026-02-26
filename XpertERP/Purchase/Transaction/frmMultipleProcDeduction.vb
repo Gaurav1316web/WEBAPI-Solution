@@ -1,8 +1,6 @@
 ﻿Imports System.Data.SqlClient
 Imports System.IO
 Imports common
-Imports System
-Imports XpertERPEngine
 Public Class FrmMultipleProcDeduction
     Inherits FrmMainTranScreen
 #Region "Variables"
@@ -79,10 +77,9 @@ Public Class FrmMultipleProcDeduction
     End Sub
 
     Private Sub FrmMultipleProcDeduction_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        'Dim coll As Dictionary(Of String, String)
-        'coll = New Dictionary(Of String, String)
-        'coll.Add("IsOpening", "integer not null default 0")
-        'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MULTIPLE_DEDUCTION_HEAD", coll, Nothing, False, False, "", "Document_No", "Document_Date", False)
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+            chkSkipDrCrNote.Visible = True
+        End If
         settRepeatDeductionAndVendor = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RepeatDeductionAndVendor, clsFixedParameterCode.RepeatDeductionAndVendor, Nothing)) = 1)
         SettShowMCCFinder = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowMCCFinderInPaymentProcess, clsFixedParameterCode.ShowMCCFinderInPaymentProcess, Nothing)) = 1)
         Try
@@ -496,6 +493,7 @@ left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_DEDUCTION
 
     Sub AddNew()
         chkOpening.Checked = False
+        chkSkipDrCrNote.Checked = False
         txtPaymentCycleNo.Text = ""
         txtFiscalYear.Text = ""
         txtlocation.Value = ""
@@ -604,6 +602,7 @@ left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_DEDUCTION
 
                 Dim GstStatus As Boolean = clsERPFuncationality.GetGSTStatus(clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy"))
                 obj.IsOpening = IIf(chkOpening.Checked = True, 1, 0)
+                obj.Skip_DrCr_Note = chkSkipDrCrNote.Checked
 
                 obj.Arr = New List(Of clsMultipleProcDeductionDetail)
                 For Each grow As GridViewRowInfo In gv1.Rows
@@ -700,6 +699,7 @@ left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_DEDUCTION
                 End If
 
                 chkOpening.Checked = IIf(obj.IsOpening = 1, True, False)
+                chkSkipDrCrNote.Checked = obj.Skip_DrCr_Note
                 gv1.Rows.Clear()
                 For Each objTr As clsMultipleProcDeductionDetail In obj.Arr
                     gv1.Rows.AddNew()

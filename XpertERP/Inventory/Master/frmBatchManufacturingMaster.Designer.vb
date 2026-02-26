@@ -29,27 +29,29 @@ Partial Class frmBatchManufacturingMaster
         Me.menuExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.menuClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.gbgroupmaster = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkisDefault = New Telerik.WinControls.UI.RadCheckBox()
         Me.fndCode = New common.UserControls.txtNavigator()
         Me.lblcode = New common.Controls.MyLabel()
         Me.txtname = New common.Controls.MyTextBox()
         Me.lblname = New common.Controls.MyLabel()
-        Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gbgroupmaster, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbgroupmaster.SuspendLayout()
+        CType(Me.chkisDefault, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblcode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtname, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblname, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -67,7 +69,6 @@ Partial Class frmBatchManufacturingMaster
         '
         'SplitContainer1.Panel2
         '
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
@@ -111,6 +112,8 @@ Partial Class frmBatchManufacturingMaster
         'gbgroupmaster
         '
         Me.gbgroupmaster.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.gbgroupmaster.Controls.Add(Me.btnReset)
+        Me.gbgroupmaster.Controls.Add(Me.chkisDefault)
         Me.gbgroupmaster.Controls.Add(Me.fndCode)
         Me.gbgroupmaster.Controls.Add(Me.lblcode)
         Me.gbgroupmaster.Controls.Add(Me.txtname)
@@ -121,6 +124,15 @@ Partial Class frmBatchManufacturingMaster
         Me.gbgroupmaster.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.gbgroupmaster.Size = New System.Drawing.Size(411, 87)
         Me.gbgroupmaster.TabIndex = 1
+        '
+        'chkisDefault
+        '
+        Me.chkisDefault.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkisDefault.Location = New System.Drawing.Point(339, 14)
+        Me.chkisDefault.Name = "chkisDefault"
+        Me.chkisDefault.Size = New System.Drawing.Size(56, 16)
+        Me.chkisDefault.TabIndex = 1586
+        Me.chkisDefault.Text = "Default"
         '
         'fndCode
         '
@@ -186,16 +198,6 @@ Partial Class frmBatchManufacturingMaster
         Me.lblname.TabIndex = 36
         Me.lblname.Text = "Name"
         '
-        'btnReset
-        '
-        Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Location = New System.Drawing.Point(157, 12)
-        Me.btnReset.Name = "btnReset"
-        Me.btnReset.Size = New System.Drawing.Size(66, 18)
-        Me.btnReset.TabIndex = 9
-        Me.btnReset.Text = "Reset"
-        '
         'btnsave
         '
         Me.btnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -226,6 +228,16 @@ Partial Class frmBatchManufacturingMaster
         Me.btnclose.TabIndex = 8
         Me.btnclose.Text = "Close"
         '
+        'btnReset
+        '
+        Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReset.Image = Global.ERP.My.Resources.Resources._new
+        Me.btnReset.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnReset.Location = New System.Drawing.Point(306, 12)
+        Me.btnReset.Name = "btnReset"
+        Me.btnReset.Size = New System.Drawing.Size(20, 20)
+        Me.btnReset.TabIndex = 1587
+        '
         'frmBatchManufacturingMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -246,13 +258,14 @@ Partial Class frmBatchManufacturingMaster
         CType(Me.gbgroupmaster, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbgroupmaster.ResumeLayout(False)
         Me.gbgroupmaster.PerformLayout()
+        CType(Me.chkisDefault, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblcode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtname, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblname, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -272,5 +285,6 @@ Partial Class frmBatchManufacturingMaster
     Friend WithEvents btnsave As RadButton
     Friend WithEvents btndelete As RadButton
     Friend WithEvents btnclose As RadButton
+    Friend WithEvents chkisDefault As RadCheckBox
     Friend WithEvents btnReset As RadButton
 End Class

@@ -30,61 +30,64 @@ Public Class frmRouteMaster
         companyCode = company
     End Sub
     Private Sub RouteMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Try
+            SetUserMgmtNew()
+            SettNoOFCustomerForImportExport = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.NoOFCustomerForImportExportOnRouteMaster, clsFixedParameterCode.NoOFCustomerForImportExportOnRouteMaster, Nothing))
+            EnableLocation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, Nothing)) = 1, True, False)
+            ApplyDepartmentRoute = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, Nothing)) = 1, True, False)
+            AllowRouteWiseDemandEntryInDecimal = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowRouteWiseDemandEntryInDecimal, clsFixedParameterCode.AllowRouteWiseDemandEntryInDecimal, Nothing)) = 1, True, False)
+            EnableProductSaleForJPR = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = "1", True, False)
 
-        SetUserMgmtNew()
-        SettNoOFCustomerForImportExport = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.NoOFCustomerForImportExportOnRouteMaster, clsFixedParameterCode.NoOFCustomerForImportExportOnRouteMaster, Nothing))
-        EnableLocation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, Nothing)) = 1, True, False)
-        ApplyDepartmentRoute = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, Nothing)) = 1, True, False)
-        AllowRouteWiseDemandEntryInDecimal = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowRouteWiseDemandEntryInDecimal, clsFixedParameterCode.AllowRouteWiseDemandEntryInDecimal, Nothing)) = 1, True, False)
-        EnableProductSaleForJPR = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = "1", True, False)
-
-        EnableLocation = True '' Update on 11-Jun-2025 (ASHOK Sir)
-        ButtonToolTip.SetToolTip(rbtnSave, "Press Alt+S for Save/Update ")
-        ButtonToolTip.SetToolTip(rbtnDelete, "Press Alt+D  for Delete ")
-        ButtonToolTip.SetToolTip(rbtnClose, "Press Alt+C Close the Window")
-        ButtonToolTip.SetToolTip(rbtnReset, "Press Alt+N Adding New ")
-        ButtonToolTip.SetToolTip(btnprint, "Press Alt+R for Print Preview")
-        rbtnDelete.Enabled = False
-        isInsideLoadData = True
-        If EnableProductSaleForJPR Then
-            lblitemType.Visible = True
-            cmbItemType.Visible = True
-            lblPStartTime.Visible = True
-            txtPStartTime.Visible = True
-            lblPEndTime.Visible = True
-            txtPEndTime.Visible = True
-            LoadItemType()
-        Else
-            lblitemType.Visible = False
-            cmbItemType.Visible = False
-            lblPStartTime.Visible = False
-            txtPStartTime.Visible = False
-            lblPEndTime.Visible = False
-            txtPEndTime.Visible = False
-        End If
-        funReset()
-        LoadBlankGrid()
-        FunAddHandler()
-        fun_ddl_category()
-        fun_ddl_Type()
-        fun_ddl_Routeoffday()
-        LoadEntryUOM()
-        ToolTipGP_Route_Master.SetToolTip(rbtnReset, "New")
-        rdoAC.IsChecked = True
-        dtpAcIn.Value = clsCommon.GETSERVERDATE()
-        isInsideLoadData = False
-        If EnableLocation Then
-            txtLocation.Enabled = True
-            txtLocationDesc.Enabled = True
-        Else
-            txtLocation.Enabled = False
-            txtLocationDesc.Enabled = False
-        End If
-        If AllowRouteWiseDemandEntryInDecimal Then
-            chkAllowDecimal.Visible = True
-        Else
-            chkAllowDecimal.Visible = False
-        End If
+            EnableLocation = True '' Update on 11-Jun-2025 (ASHOK Sir)
+            ButtonToolTip.SetToolTip(rbtnSave, "Press Alt+S for Save/Update ")
+            ButtonToolTip.SetToolTip(rbtnDelete, "Press Alt+D  for Delete ")
+            ButtonToolTip.SetToolTip(rbtnClose, "Press Alt+C Close the Window")
+            ButtonToolTip.SetToolTip(rbtnReset, "Press Alt+N Adding New ")
+            ButtonToolTip.SetToolTip(btnprint, "Press Alt+R for Print Preview")
+            rbtnDelete.Enabled = False
+            isInsideLoadData = True
+            If EnableProductSaleForJPR Then
+                lblitemType.Visible = True
+                cmbItemType.Visible = True
+                lblPStartTime.Visible = True
+                txtPStartTime.Visible = True
+                lblPEndTime.Visible = True
+                txtPEndTime.Visible = True
+                LoadItemType()
+            Else
+                lblitemType.Visible = False
+                cmbItemType.Visible = False
+                lblPStartTime.Visible = False
+                txtPStartTime.Visible = False
+                lblPEndTime.Visible = False
+                txtPEndTime.Visible = False
+            End If
+            funReset()
+            LoadBlankGrid()
+            FunAddHandler()
+            fun_ddl_category()
+            fun_ddl_Type()
+            fun_ddl_Routeoffday()
+            LoadEntryUOM()
+            ToolTipGP_Route_Master.SetToolTip(rbtnReset, "New")
+            rdoAC.IsChecked = True
+            dtpAcIn.Value = clsCommon.GETSERVERDATE()
+            isInsideLoadData = False
+            If EnableLocation Then
+                txtLocation.Enabled = True
+                txtLocationDesc.Enabled = True
+            Else
+                txtLocation.Enabled = False
+                txtLocationDesc.Enabled = False
+            End If
+            If AllowRouteWiseDemandEntryInDecimal Then
+                chkAllowDecimal.Visible = True
+            Else
+                chkAllowDecimal.Visible = False
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Private Sub LoadEntryUOM()
         Try
@@ -97,99 +100,111 @@ Public Class frmRouteMaster
         End Try
     End Sub
     Sub LoadBlankGrid()
-        Dim qry As String = String.Empty
-        dgv.Rows.Clear()
-        dgv.Columns.Clear()
+        Try
+            Dim qry As String = String.Empty
+            dgv.Rows.Clear()
+            dgv.Columns.Clear()
 
-        Dim repoLineNo As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoLineNo = New GridViewDecimalColumn()
-        repoLineNo.FormatString = ""
-        repoLineNo.HeaderText = "Seq No"
-        repoLineNo.Name = colSNo
-        repoLineNo.Width = 50
-        repoLineNo.IsVisible = True
-        repoLineNo.ReadOnly = True
-        repoLineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        dgv.MasterTemplate.Columns.Add(repoLineNo)
+            Dim repoLineNo As GridViewDecimalColumn = New GridViewDecimalColumn()
+            repoLineNo = New GridViewDecimalColumn()
+            repoLineNo.FormatString = ""
+            repoLineNo.HeaderText = "Seq No"
+            repoLineNo.Name = colSNo
+            repoLineNo.Width = 50
+            repoLineNo.IsVisible = True
+            repoLineNo.ReadOnly = True
+            repoLineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+            dgv.MasterTemplate.Columns.Add(repoLineNo)
 
-        Dim repoCustCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoCustCode.FormatString = ""
-        repoCustCode.HeaderText = "Customer Code"
-        repoCustCode.Name = colCustomerCode
-        repoCustCode.HeaderImage = My.Resources.search4
-        repoCustCode.TextImageRelation = TextImageRelation.TextBeforeImage
-        repoCustCode.Width = 100
-        repoCustCode.IsVisible = True
-        dgv.MasterTemplate.Columns.Add(repoCustCode)
+            Dim repoCustCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+            repoCustCode.FormatString = ""
+            repoCustCode.HeaderText = "Customer Code"
+            repoCustCode.Name = colCustomerCode
+            repoCustCode.HeaderImage = My.Resources.search4
+            repoCustCode.TextImageRelation = TextImageRelation.TextBeforeImage
+            repoCustCode.Width = 100
+            repoCustCode.IsVisible = True
+            dgv.MasterTemplate.Columns.Add(repoCustCode)
 
-        Dim repoCustName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoCustName.FormatString = ""
-        repoCustName.HeaderText = "Customer Name"
-        repoCustName.Name = colCustomerName
-        repoCustName.Width = 150
-        repoCustName.IsVisible = True
-        repoCustName.ReadOnly = True
-        dgv.MasterTemplate.Columns.Add(repoCustName)
+            Dim repoCustName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+            repoCustName.FormatString = ""
+            repoCustName.HeaderText = "Customer Name"
+            repoCustName.Name = colCustomerName
+            repoCustName.Width = 150
+            repoCustName.IsVisible = True
+            repoCustName.ReadOnly = True
+            dgv.MasterTemplate.Columns.Add(repoCustName)
 
-        dgv.AllowAddNewRow = False
-        dgv.AllowDeleteRow = True
-        dgv.AllowRowReorder = False
-        dgv.ShowGroupPanel = False
-        dgv.EnableFiltering = False
-        dgv.EnableSorting = False
-        dgv.EnableGrouping = False
-        dgv.AllowColumnChooser = True
-        dgv.AllowColumnReorder = True
-        dgv.Rows.AddNew()
+            dgv.AllowAddNewRow = False
+            dgv.AllowDeleteRow = True
+            dgv.AllowRowReorder = False
+            dgv.ShowGroupPanel = False
+            dgv.EnableFiltering = False
+            dgv.EnableSorting = False
+            dgv.EnableGrouping = False
+            dgv.AllowColumnChooser = True
+            dgv.AllowColumnReorder = True
+            dgv.Rows.AddNew()
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
     Private Sub SetUserMgmtNew()
-        'MyBase.SetUserMgmt(clsUserMgtCode.routeMaster)
-        If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
-            Me.Close()
-            Exit Sub
-        End If
-        rbtnSave.Visible = MyBase.isModifyFlag
-        '--------richa Ticket no. BM00000003014 03/07/2014 to enable/disable import/export option acc. to user mgmt setting -----------
-        If rbtnSave.Visible = True Then
-            RadMenuItem_import.Enabled = True
-            RadMenuItem_Export.Enabled = True
-        Else
-            RadMenuItem_import.Enabled = False
-            RadMenuItem_Export.Enabled = False
-        End If
-        '--------------------------------------------------
-        ' btnPost.Visible = MyBase.isPostFlag
-        rbtnDelete.Visible = MyBase.isDeleteFlag
+        Try
+            'MyBase.SetUserMgmt(clsUserMgtCode.routeMaster)
+            If Not (MyBase.isReadFlag) Then
+                common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
+                Me.Close()
+                Exit Sub
+            End If
+            rbtnSave.Visible = MyBase.isModifyFlag
+            '--------richa Ticket no. BM00000003014 03/07/2014 to enable/disable import/export option acc. to user mgmt setting -----------
+            If rbtnSave.Visible = True Then
+                RadMenuItem_import.Enabled = True
+                RadMenuItem_Export.Enabled = True
+            Else
+                RadMenuItem_import.Enabled = False
+                RadMenuItem_Export.Enabled = False
+            End If
+            '--------------------------------------------------
+            ' btnPost.Visible = MyBase.isPostFlag
+            rbtnDelete.Visible = MyBase.isDeleteFlag
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
     Private Sub FunAddHandler()
-        text_changed()
-        fndSalesman_code_Leave()
-        'text_changed1()
-        fndcity_id_Leave()
-        fndDepot_Leave()
-        fndPriceCode_text_changed()
-        fndPriceCode_leave()
-        NonPrice_Textchanged()
-        RoutePrice_Textchanged()
-        fndvcode_text_changed()
-        fndvcode_leave()
-        ' AddHandler fndRouteid.ValueChanged, AddressOf text_changed
-        'AddHandler fndRouteid.txtValue.KeyPress, AddressOf fndRouteid_KeyPress
-        '  AddHandler fndnonprice.ValueChanged, AddressOf NonPrice_Textchanged
-        '   AddHandler fndcity_id.txtValue.Leave, AddressOf fndcity_id_Leave
-        'AddHandler fndcity_id.txtValue.KeyPress, AddressOf fndcity_id_KeyPress
-        '  AddHandler fndSalesman_code.txtValue.Leave, AddressOf fndSalesman_code_Leave
-        ' AddHandler fndSalesman_code.ValueChanged, AddressOf text_changed1
-        ' AddHandler fndSalesman_code.txtValue.KeyPress, AddressOf fndSalesman_code_KeyPress
-        '  AddHandler fndPriceCode.ValueChanged, AddressOf fndPriceCode_text_changed
-        ' AddHandler fndPriceCode.txtValue.Leave, AddressOf fndPriceCode_leave
-        ' AddHandler fndPriceCode.txtValue.KeyPress, AddressOf fndPriceCode_KeyPress
-        '   AddHandler fndvcode.ValueChanged, AddressOf fndvcode_text_changed
-        '  AddHandler fndvcode.txtValue.Leave, AddressOf fndvcode_leave
-        '   AddHandler fndvcode.txtValue.KeyPress, AddressOf fndvcode_KeyPress
-        '  AddHandler fndDepot.txtValue.Leave, AddressOf fndDepot_Leave
-        ' AddHandler fndDepot.txtValue.KeyPress, AddressOf fndDepot_KeyPress
+        Try
+            text_changed()
+            fndSalesman_code_Leave()
+            'text_changed1()
+            fndcity_id_Leave()
+            fndDepot_Leave()
+            fndPriceCode_text_changed()
+            fndPriceCode_leave()
+            NonPrice_Textchanged()
+            RoutePrice_Textchanged()
+            fndvcode_text_changed()
+            fndvcode_leave()
+            ' AddHandler fndRouteid.ValueChanged, AddressOf text_changed
+            'AddHandler fndRouteid.txtValue.KeyPress, AddressOf fndRouteid_KeyPress
+            '  AddHandler fndnonprice.ValueChanged, AddressOf NonPrice_Textchanged
+            '   AddHandler fndcity_id.txtValue.Leave, AddressOf fndcity_id_Leave
+            'AddHandler fndcity_id.txtValue.KeyPress, AddressOf fndcity_id_KeyPress
+            '  AddHandler fndSalesman_code.txtValue.Leave, AddressOf fndSalesman_code_Leave
+            ' AddHandler fndSalesman_code.ValueChanged, AddressOf text_changed1
+            ' AddHandler fndSalesman_code.txtValue.KeyPress, AddressOf fndSalesman_code_KeyPress
+            '  AddHandler fndPriceCode.ValueChanged, AddressOf fndPriceCode_text_changed
+            ' AddHandler fndPriceCode.txtValue.Leave, AddressOf fndPriceCode_leave
+            ' AddHandler fndPriceCode.txtValue.KeyPress, AddressOf fndPriceCode_KeyPress
+            '   AddHandler fndvcode.ValueChanged, AddressOf fndvcode_text_changed
+            '  AddHandler fndvcode.txtValue.Leave, AddressOf fndvcode_leave
+            '   AddHandler fndvcode.txtValue.KeyPress, AddressOf fndvcode_KeyPress
+            '  AddHandler fndDepot.txtValue.Leave, AddressOf fndDepot_Leave
+            ' AddHandler fndDepot.txtValue.KeyPress, AddressOf fndDepot_KeyPress
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
     'It Is Used To Fill The City Code in fndcity_id From TSPL_CITY_MASTER
     Private Sub fndcity_id_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -202,41 +217,53 @@ Public Class frmRouteMaster
     End Sub
     'It Is Used To Save And Update All Record In TSPL_Route_Master
     Private Sub rbtnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbtnSave.Click
-        SaveData()
+        Try
+            SaveData()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Sub SaveData()
-        Dim arrCustCode As New List(Of String)
-        For irow As Integer = 0 To dgv.Rows.Count - 1
-            If clsCommon.myLen(clsCommon.myCstr(dgv.Rows(irow).Cells(colCustomerCode).Value)) > 0 Then
-                If arrCustCode.Contains(clsCommon.myCstr(dgv.Rows(irow).Cells(colCustomerCode).Value)) Then
-                    clsCommon.MyMessageBoxShow(Me, "Same Customer Repeated - " + clsCommon.myCstr(dgv.Rows(irow).Cells(colCustomerCode).Value) + " (" + clsCommon.myCstr(dgv.Rows(irow).Cells(colCustomerName).Value) + ")", Me.Text)
-                    Exit Sub
-                Else
-                    arrCustCode.Add(clsCommon.myCstr(dgv.Rows(irow).Cells(colCustomerCode).Value))
+        Try
+            Dim arrCustCode As New List(Of String)
+            For irow As Integer = 0 To dgv.Rows.Count - 1
+                If clsCommon.myLen(clsCommon.myCstr(dgv.Rows(irow).Cells(colCustomerCode).Value)) > 0 Then
+                    If arrCustCode.Contains(clsCommon.myCstr(dgv.Rows(irow).Cells(colCustomerCode).Value)) Then
+                        clsCommon.MyMessageBoxShow(Me, "Same Customer Repeated - " + clsCommon.myCstr(dgv.Rows(irow).Cells(colCustomerCode).Value) + " (" + clsCommon.myCstr(dgv.Rows(irow).Cells(colCustomerName).Value) + ")", Me.Text)
+                        Exit Sub
+                    Else
+                        arrCustCode.Add(clsCommon.myCstr(dgv.Rows(irow).Cells(colCustomerCode).Value))
+                    End If
                 End If
+            Next
+            If (IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowAutoGenerateDocNoInMaster, clsFixedParameterCode.AllowAutoGenerateDocNoInMaster, Nothing)) = "1", True, False) = False) AndAlso fndRouteid.Value = "" Then
+                myMessages.blankValue(Me, "Route Code", Me.Text)
+                fndRouteid.Focus()
+            ElseIf rtxtdescription.Text = "" Then
+                myMessages.blankValue(Me, "Description", Me.Text)
+                rtxtdescription.Focus()
+            ElseIf clsCommon.myLen(txtLocation.Value) <= 0 Then
+                myMessages.blankValue(Me, "Location Code", Me.Text)
+                txtLocation.Focus()
+            ElseIf clsCommon.myLen(fndcity_id.Value) <= 0 Then
+                myMessages.blankValue(Me, "City Code", Me.Text)
+                fndcity_id.Focus()
+            ElseIf rbtnSave.Text = "Save" Then
+                funInsert()
+            Else
+                funUpdate()
             End If
-        Next
-        If (IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowAutoGenerateDocNoInMaster, clsFixedParameterCode.AllowAutoGenerateDocNoInMaster, Nothing)) = "1", True, False) = False) AndAlso fndRouteid.Value = "" Then
-            myMessages.blankValue(Me, "Route Code", Me.Text)
-            fndRouteid.Focus()
-        ElseIf rtxtdescription.Text = "" Then
-            myMessages.blankValue(Me, "Description", Me.Text)
-            rtxtdescription.Focus()
-        ElseIf clsCommon.myLen(txtLocation.Value) <= 0 Then
-            myMessages.blankValue(Me, "Location Code", Me.Text)
-            txtLocation.Focus()
-        ElseIf clsCommon.myLen(fndcity_id.Value) <= 0 Then
-            myMessages.blankValue(Me, "City Code", Me.Text)
-            fndcity_id.Focus()
-        ElseIf rbtnSave.Text = "Save" Then
-            funInsert()
-        Else
-            funUpdate()
-        End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
     'It Is Used To Delete The Record From TSPL_Route_Master
     Private Sub rbtnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbtnDelete.Click
-        funDelete()
+        Try
+            funDelete()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     'It Is Used To Fill The EMP CODE and Emp Name in fndSalesman_code and rtxtsalesman_name Respectively from TSPL_EMPLOYEE_MASTER where Emp_type='SalesMan'
     Private Sub fndSalesman_code_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -258,21 +285,32 @@ Public Class frmRouteMaster
     End Sub
     'It Validate User To Press The Keys 
     Private Sub rtxtroute_length_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles rtxtroute_length.KeyPress
-        If ((e.KeyChar >= Chr(48) And e.KeyChar <= Chr(57)) Or e.KeyChar = Chr(8) Or e.KeyChar = Chr(48) Or e.KeyChar = Chr(45)) Then
-        Else
-            e.Handled = True
-        End If
+        Try
+            If ((e.KeyChar >= Chr(48) And e.KeyChar <= Chr(57)) Or e.KeyChar = Chr(8) Or e.KeyChar = Chr(48) Or e.KeyChar = Chr(45)) Then
+            Else
+                e.Handled = True
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     'It Is Used To Close The Current Windows Form
     Private Sub rbtnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbtnClose.Click
         Me.Close()
     End Sub
     Sub NonPrice_Textchanged()
-        txtnonprice.Text = connectSql.RunScalar("select distinct Price_Code_Desc  from TSPL_PRICE_COMPONENT_MAPPING where Price_Code= '" + Convert.ToString(fndnonprice.Value) + "'")
-
+        Try
+            txtnonprice.Text = connectSql.RunScalar("select distinct Price_Code_Desc  from TSPL_PRICE_COMPONENT_MAPPING where Price_Code= '" + Convert.ToString(fndnonprice.Value) + "'")
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Sub RoutePrice_Textchanged()
-        txtRoutePrice.Text = connectSql.RunScalar("select distinct Price_Code_Desc  from TSPL_ITEM_PRICE_MASTER where Price_Code= '" + Convert.ToString(fndRoutePrice.Value) + "'")
+        Try
+            txtRoutePrice.Text = connectSql.RunScalar("select distinct Price_Code_Desc  from TSPL_ITEM_PRICE_MASTER where Price_Code= '" + Convert.ToString(fndRoutePrice.Value) + "'")
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Private Sub NonPrice_Textchanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
     End Sub
@@ -635,58 +673,61 @@ Public Class frmRouteMaster
         End Try
     End Sub
     Private Sub ExtraUpdate(ByVal trans As SqlTransaction)
-        Dim coll1 As New Hashtable()
-        clsCommon.AddColumnsForChange(coll1, "Route_Desc", rtxtdescription.Text)
-        clsCommon.AddColumnsForChange(coll1, "RoutePrice_Code", fndRoutePrice.Value, True)
-        clsCommon.AddColumnsForChange(coll1, "vehicle_code", fndvcode.Value, True)
-        clsCommon.AddColumnsForChange(coll1, "NonPrice_Code", fndnonprice.Value, True)
-        clsCommon.AddColumnsForChange(coll1, "Distance", txtDistance.Value)
-        clsCommon.AddColumnsForChange(coll1, "TOLL_Amount", txtTollAmount.Value)
-        clsCommon.AddColumnsForChange(coll1, "IsEarlyRoute", IIf(chkIsEarlyRoute.Checked = True, 1, 0))
+        Try
+            Dim coll1 As New Hashtable()
+            clsCommon.AddColumnsForChange(coll1, "Route_Desc", rtxtdescription.Text)
+            clsCommon.AddColumnsForChange(coll1, "RoutePrice_Code", fndRoutePrice.Value, True)
+            clsCommon.AddColumnsForChange(coll1, "vehicle_code", fndvcode.Value, True)
+            clsCommon.AddColumnsForChange(coll1, "NonPrice_Code", fndnonprice.Value, True)
+            clsCommon.AddColumnsForChange(coll1, "Distance", txtDistance.Value)
+            clsCommon.AddColumnsForChange(coll1, "TOLL_Amount", txtTollAmount.Value)
+            clsCommon.AddColumnsForChange(coll1, "IsEarlyRoute", IIf(chkIsEarlyRoute.Checked = True, 1, 0))
 
-        If txtRouteTime.Checked Then
-            clsCommon.AddColumnsForChange(coll1, "Route_Time", clsCommon.GetPrintDate(txtRouteTime.Value, "dd/MMM/yyyy hh:mm tt"))
-        Else
-            clsCommon.AddColumnsForChange(coll1, "Route_Time", Nothing, True)
-        End If
-        ''------------------------
-        If txtMorningCOT.Checked Then
-            clsCommon.AddColumnsForChange(coll1, "MorningCutOff_Time", clsCommon.GetPrintDate(txtMorningCOT.Value, "dd/MMM/yyyy hh:mm tt"), True)
-        Else
-            clsCommon.AddColumnsForChange(coll1, "MorningCutOff_Time", Nothing, True)
-        End If
-        If txtEveningCOT.Checked Then
-            clsCommon.AddColumnsForChange(coll1, "EveningCutOff_Time", clsCommon.GetPrintDate(txtEveningCOT.Value, "dd/MMM/yyyy hh:mm tt"), True)
-        Else
-            clsCommon.AddColumnsForChange(coll1, "EveningCutOff_Time", Nothing, True)
-        End If
-        If txtPStartTime.Checked Then
-            clsCommon.AddColumnsForChange(coll1, "Pord_Start_Time", clsCommon.GetPrintDate(txtPStartTime.Value, "dd/MMM/yyyy hh:mm tt"), True)
-        Else
-            clsCommon.AddColumnsForChange(coll1, "Pord_Start_Time", Nothing, True)
-        End If
-        If txtPEndTime.Checked Then
-            clsCommon.AddColumnsForChange(coll1, "Pord_End_Time", clsCommon.GetPrintDate(txtPEndTime.Value, "dd/MMM/yyyy hh:mm tt"), True)
-        Else
-            clsCommon.AddColumnsForChange(coll1, "Pord_End_Time", Nothing, True)
-        End If
-        clsCommon.AddColumnsForChange(coll1, "Location_Code", txtLocation.Value, True)
-        clsCommon.AddColumnsForChange(coll1, "Route_Seq_No", txtSeqNo.Value)
-        clsCommon.AddColumnsForChange(coll1, "City_Code", fndcity_id.Value, True)
-        clsCommon.AddColumnsForChange(coll1, "Type", clsCommon.myCstr(ddltype.SelectedValue), True)
+            If txtRouteTime.Checked Then
+                clsCommon.AddColumnsForChange(coll1, "Route_Time", clsCommon.GetPrintDate(txtRouteTime.Value, "dd/MMM/yyyy hh:mm tt"))
+            Else
+                clsCommon.AddColumnsForChange(coll1, "Route_Time", Nothing, True)
+            End If
+            ''------------------------
+            If txtMorningCOT.Checked Then
+                clsCommon.AddColumnsForChange(coll1, "MorningCutOff_Time", clsCommon.GetPrintDate(txtMorningCOT.Value, "dd/MMM/yyyy hh:mm tt"), True)
+            Else
+                clsCommon.AddColumnsForChange(coll1, "MorningCutOff_Time", Nothing, True)
+            End If
+            If txtEveningCOT.Checked Then
+                clsCommon.AddColumnsForChange(coll1, "EveningCutOff_Time", clsCommon.GetPrintDate(txtEveningCOT.Value, "dd/MMM/yyyy hh:mm tt"), True)
+            Else
+                clsCommon.AddColumnsForChange(coll1, "EveningCutOff_Time", Nothing, True)
+            End If
+            If txtPStartTime.Checked Then
+                clsCommon.AddColumnsForChange(coll1, "Pord_Start_Time", clsCommon.GetPrintDate(txtPStartTime.Value, "dd/MMM/yyyy hh:mm tt"), True)
+            Else
+                clsCommon.AddColumnsForChange(coll1, "Pord_Start_Time", Nothing, True)
+            End If
+            If txtPEndTime.Checked Then
+                clsCommon.AddColumnsForChange(coll1, "Pord_End_Time", clsCommon.GetPrintDate(txtPEndTime.Value, "dd/MMM/yyyy hh:mm tt"), True)
+            Else
+                clsCommon.AddColumnsForChange(coll1, "Pord_End_Time", Nothing, True)
+            End If
+            clsCommon.AddColumnsForChange(coll1, "Location_Code", txtLocation.Value, True)
+            clsCommon.AddColumnsForChange(coll1, "Route_Seq_No", txtSeqNo.Value)
+            clsCommon.AddColumnsForChange(coll1, "City_Code", fndcity_id.Value, True)
+            clsCommon.AddColumnsForChange(coll1, "Type", clsCommon.myCstr(ddltype.SelectedValue), True)
 
-        clsCommon.AddColumnsForChange(coll1, "Entry_UOM", clsCommon.myCDecimal(cboEntryUOM.SelectedValue), True)
-        clsCommon.AddColumnsForChange(coll1, "Department_Route", IIf(chkDepartmentRoute.Checked = True, 1, 0), True)
-        clsCommon.AddColumnsForChange(coll1, "Area_Code", fndZone.Value, True)
-        clsCommon.AddColumnsForChange(coll1, "Zone_Code", txtZone.Text, True)
-        clsCommon.AddColumnsForChange(coll1, "Split_Print", IIf(rbtnSplitPrint.Checked, 1, 0), True)
-        clsCommon.AddColumnsForChange(coll1, "ExtraM_Time", clsCommon.myCdbl(txtExtraMTime.Text), True)
-        clsCommon.AddColumnsForChange(coll1, "ExtraE_Time", clsCommon.myCdbl(txtExtraETime.Text), True)
-        clsCommon.AddColumnsForChange(coll1, "AllowEntryInDecimal", IIf(chkAllowDecimal.Checked, 1, 0), True)
-        clsCommon.AddColumnsForChange(coll1, "Item_Type", cmbItemType.SelectedValue, True)
-        clsCommonFunctionality.UpdateDataTable(coll1, "TSPL_ROUTE_MASTER", OMInsertOrUpdate.Update, "TSPL_ROUTE_MASTER.Route_No='" + fndRouteid.Value + "' ", trans)
-        'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndRouteid.Value, "TSPL_ROUTE_MASTER", "Route_No", trans)
-
+            clsCommon.AddColumnsForChange(coll1, "Entry_UOM", clsCommon.myCDecimal(cboEntryUOM.SelectedValue), True)
+            clsCommon.AddColumnsForChange(coll1, "Department_Route", IIf(chkDepartmentRoute.Checked = True, 1, 0), True)
+            clsCommon.AddColumnsForChange(coll1, "Area_Code", fndZone.Value, True)
+            clsCommon.AddColumnsForChange(coll1, "Zone_Code", txtZone.Text, True)
+            clsCommon.AddColumnsForChange(coll1, "Split_Print", IIf(rbtnSplitPrint.Checked, 1, 0), True)
+            clsCommon.AddColumnsForChange(coll1, "ExtraM_Time", clsCommon.myCdbl(txtExtraMTime.Text), True)
+            clsCommon.AddColumnsForChange(coll1, "ExtraE_Time", clsCommon.myCdbl(txtExtraETime.Text), True)
+            clsCommon.AddColumnsForChange(coll1, "AllowEntryInDecimal", IIf(chkAllowDecimal.Checked, 1, 0), True)
+            clsCommon.AddColumnsForChange(coll1, "Item_Type", cmbItemType.SelectedValue, True)
+            clsCommonFunctionality.UpdateDataTable(coll1, "TSPL_ROUTE_MASTER", OMInsertOrUpdate.Update, "TSPL_ROUTE_MASTER.Route_No='" + fndRouteid.Value + "' ", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndRouteid.Value, "TSPL_ROUTE_MASTER", "Route_No", trans)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     'This is Update Function Used To Update Records In TSPL_ROUTE_MASTER
     Private Sub funUpdate()
@@ -785,26 +826,33 @@ Public Class frmRouteMaster
     End Sub
     'It Is Used To Check The Value Of Finder(fndcity_id),Is Present In Database Or Not
     Sub fndcity_id_Leave()
-        Dim strCitycode As String = "select City_Code from TSPL_CITY_MASTER where City_Code='" + fndcity_id.Value + "'"
-        Dim strcheck As String = clsDBFuncationality.getSingleValue(strCitycode)
-        If (strcheck <> "" Or fndcity_id.Value = "") Then
-            fndcity_id.Value = strcheck
-        Else
-            common.clsCommon.MyMessageBoxShow(Me, "City Id does not exist in master table", Me.Text)
-            fndcity_id.Value = ""
-            fndcity_id.Focus()
-        End If
+        Try
+            Dim strCitycode As String = "select City_Code from TSPL_CITY_MASTER where City_Code='" + fndcity_id.Value + "'"
+            Dim strcheck As String = clsDBFuncationality.getSingleValue(strCitycode)
+            If (strcheck <> "" Or fndcity_id.Value = "") Then
+                fndcity_id.Value = strcheck
+            Else
+                common.clsCommon.MyMessageBoxShow(Me, "City Id does not exist in master table", Me.Text)
+                fndcity_id.Value = ""
+                fndcity_id.Focus()
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
     Private Sub fndcity_id_Leave(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
     End Sub
     'It Validate User To Press The Keys 
     Private Sub fndRouteid_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
+        Try
+            If Microsoft.VisualBasic.Asc(e.KeyChar) = 39 Then
+                e.Handled = True
 
-        If Microsoft.VisualBasic.Asc(e.KeyChar) = 39 Then
-            e.Handled = True
-
-        End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     'It Validate User To Press The Keys 
     'Private Sub fndSalesman_code_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
@@ -815,10 +863,13 @@ Public Class frmRouteMaster
 
     'It Validate User To Press The Keys 
     Private Sub fndcity_id_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
-
-        If Microsoft.VisualBasic.Asc(e.KeyChar) = 39 Then
-            e.Handled = True
-        End If
+        Try
+            If Microsoft.VisualBasic.Asc(e.KeyChar) = 39 Then
+                e.Handled = True
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     'This is fun_ddl_category Function Used To Fill rddl_category From TSPL_FIXED_PARAMETER Where Description='Category'
     Private Sub fun_ddl_category()
@@ -853,228 +904,236 @@ Public Class frmRouteMaster
     End Sub
     'It Is Used To Export The Records From TSPL_ROUTE_MASTER
     Private Sub RadMenuItem_Export_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem_Export.Click
-        Dim strSql As String = "Select Route_No as [Route No],Route_Desc as [Route Desc], Type,Employee_Code as [Employee Code],Off_Day as [Off Day],City_Code as [City Code],District ,Category_Code as [Category Code],Length,Employee_Name as [Employee Name],Depot_Id as [Depot Id],Price_Code as [Price Code],Price_Code_Desc as[Price Code Desc],NONPrice_Code as [Non Price Code],vehicle_code as [Vehicle Code],Status as [Status],SDate as [Status Date],RoutePrice_Code as [Route Price Code], convert (varchar(15),cast(Route_time as time),100 ) as Time,Distance,TOLL_Amount as [Toll Amount],IsEarlyRoute, convert (varchar(15),cast(MorningCutOff_Time as time),100 ) as MorningCutOff_Time, convert (varchar(15),cast(EveningCutOff_Time as time),100 ) as EveningCutOff_Time "
-        For j As Integer = 1 To SettNoOFCustomerForImportExport
-            strSql += ",(select Customer_Code from (Select ROW_NUMBER () over (order by TSPL_ROUTE_CUSTOMER_SEQUENCE.Route_No,TSPL_ROUTE_CUSTOMER_SEQUENCE.sno ) As SNo,Route_No,Customer_Code From TSPL_ROUTE_CUSTOMER_SEQUENCE where TSPL_ROUTE_CUSTOMER_SEQUENCE.Route_No=TSPL_ROUTE_MASTER.Route_No)xxx where xxx.SNo=" & j & ") as CustomerCode" & j & ""
-        Next
-        strSql += " from TSPL_ROUTE_MASTER"
-        ListImpExpColumnsMandatory = New List(Of String)({"Route No", "Route Desc", "Employee Code", "Off Day", "Category Code"})
-        ListImpExpColumnsSuperMandatory = New List(Of String)({"Route No"})
-        transportSql.ExporttoExcel(strSql, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID)
+        Try
+            Dim strSql As String = "Select Route_No as [Route No],Route_Desc as [Route Desc], Type,Employee_Code as [Employee Code],Off_Day as [Off Day],City_Code as [City Code],District ,Category_Code as [Category Code],Length,Employee_Name as [Employee Name],Depot_Id as [Depot Id],Price_Code as [Price Code],Price_Code_Desc as[Price Code Desc],NONPrice_Code as [Non Price Code],vehicle_code as [Vehicle Code],Status as [Status],SDate as [Status Date],RoutePrice_Code as [Route Price Code], convert (varchar(15),cast(Route_time as time),100 ) as Time,Distance,TOLL_Amount as [Toll Amount],IsEarlyRoute, convert (varchar(15),cast(MorningCutOff_Time as time),100 ) as MorningCutOff_Time, convert (varchar(15),cast(EveningCutOff_Time as time),100 ) as EveningCutOff_Time "
+            For j As Integer = 1 To SettNoOFCustomerForImportExport
+                strSql += ",(select Customer_Code from (Select ROW_NUMBER () over (order by TSPL_ROUTE_CUSTOMER_SEQUENCE.Route_No,TSPL_ROUTE_CUSTOMER_SEQUENCE.sno ) As SNo,Route_No,Customer_Code From TSPL_ROUTE_CUSTOMER_SEQUENCE where TSPL_ROUTE_CUSTOMER_SEQUENCE.Route_No=TSPL_ROUTE_MASTER.Route_No)xxx where xxx.SNo=" & j & ") as CustomerCode" & j & ""
+            Next
+            strSql += " from TSPL_ROUTE_MASTER"
+            ListImpExpColumnsMandatory = New List(Of String)({"Route No", "Route Desc", "Employee Code", "Off Day", "Category Code"})
+            ListImpExpColumnsSuperMandatory = New List(Of String)({"Route No"})
+            transportSql.ExporttoExcel(strSql, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     'It Is Used To Import The Records From TSPL_ROUTE_MASTER
     Private Sub RadMenuItem_import_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem_import.Click
-        Dim gv As New UserControls.MyRadGridView
-        Me.Controls.Add(gv)
-        Dim Strs As List(Of String) = New List(Of String)
-        Strs.Add("Route No")
-        Strs.Add("Route Desc")
-        Strs.Add("Type")
-        Strs.Add("Employee Code")
-        Strs.Add("Off Day")
-        Strs.Add("City Code")
-        Strs.Add("District")
-        Strs.Add("Category Code")
-        Strs.Add("Length")
-        Strs.Add("Employee Name")
-        Strs.Add("Depot Id")
-        Strs.Add("Price Code")
-        Strs.Add("Price Code Desc")
-        Strs.Add("Non Price Code")
-        Strs.Add("Vehicle Code")
-        Strs.Add("Status")
-        Strs.Add("Status Date")
-        Strs.Add("Route Price Code")
-        Strs.Add("Time")
-        Strs.Add("Distance")
-        Strs.Add("Toll Amount")
-        Strs.Add("IsEarlyRoute")
-        Strs.Add("MorningCutOff_Time")
-        Strs.Add("EveningCutOff_Time")
-        For ii As Integer = 1 To SettNoOFCustomerForImportExport
-            Strs.Add("CustomerCode" + clsCommon.myCstr(ii))
-        Next
+        Try
+            Dim gv As New UserControls.MyRadGridView
+            Me.Controls.Add(gv)
+            Dim Strs As List(Of String) = New List(Of String)
+            Strs.Add("Route No")
+            Strs.Add("Route Desc")
+            Strs.Add("Type")
+            Strs.Add("Employee Code")
+            Strs.Add("Off Day")
+            Strs.Add("City Code")
+            Strs.Add("District")
+            Strs.Add("Category Code")
+            Strs.Add("Length")
+            Strs.Add("Employee Name")
+            Strs.Add("Depot Id")
+            Strs.Add("Price Code")
+            Strs.Add("Price Code Desc")
+            Strs.Add("Non Price Code")
+            Strs.Add("Vehicle Code")
+            Strs.Add("Status")
+            Strs.Add("Status Date")
+            Strs.Add("Route Price Code")
+            Strs.Add("Time")
+            Strs.Add("Distance")
+            Strs.Add("Toll Amount")
+            Strs.Add("IsEarlyRoute")
+            Strs.Add("MorningCutOff_Time")
+            Strs.Add("EveningCutOff_Time")
+            For ii As Integer = 1 To SettNoOFCustomerForImportExport
+                Strs.Add("CustomerCode" + clsCommon.myCstr(ii))
+            Next
 
 
-        Dim trans As SqlTransaction = Nothing
-        'If transportSql.importExcel(gv, "Route No", "Route Desc", "Type", "Employee Code", "Off Day", "City Code", "District", "Category Code", "Length", "Employee Name", "Depot Id", "Price Code", "Price Code Desc", "Non Price Code", "Vehicle Code", "Status", "Status Date", "Route Price Code", "Time") Then
-        If transportSql.importExcel(gv, Strs.ToArray()) Then
-            clsCommon.ProgressBarShow()
-            Try
-                Dim linno As Integer = 0
-                connectSql.OpenConnection()
-                trans = clsDBFuncationality.GetTransactin()
-                For Each grow As GridViewRowInfo In gv.Rows
-                    linno += 1
-                    Dim strRoute_no As String = clsCommon.myCstr(grow.Cells(0).Value)
+            Dim trans As SqlTransaction = Nothing
+            'If transportSql.importExcel(gv, "Route No", "Route Desc", "Type", "Employee Code", "Off Day", "City Code", "District", "Category Code", "Length", "Employee Name", "Depot Id", "Price Code", "Price Code Desc", "Non Price Code", "Vehicle Code", "Status", "Status Date", "Route Price Code", "Time") Then
+            If transportSql.importExcel(gv, Strs.ToArray()) Then
+                clsCommon.ProgressBarShow()
+                Try
+                    Dim linno As Integer = 0
+                    connectSql.OpenConnection()
+                    trans = clsDBFuncationality.GetTransactin()
+                    For Each grow As GridViewRowInfo In gv.Rows
+                        linno += 1
+                        Dim strRoute_no As String = clsCommon.myCstr(grow.Cells(0).Value)
 
-                    If clsCommon.myLen(strRoute_no) > 0 Then
-                        If clsCommon.myLen(strRoute_no) > 12 Then
-                            Throw New Exception("Route Code Can not be left Blank or size can not be grater than 12")
-                        End If
-                        Dim strstrRoute_desc As String = clsCommon.myCstr(grow.Cells(1).Value)
-                        If String.IsNullOrEmpty(strstrRoute_desc) Or clsCommon.myLen(strstrRoute_desc) > 50 Then
-                            Throw New Exception("Route Description Can not be left Blank or size can not be grater than 50")
-                        End If
-                        Dim strtypeTemp As String = clsCommon.myCstr(grow.Cells(2).Value)
-                        'If clsCommon.myLen(strtypeTemp) <= 0 Then
-                        '    Throw New Exception("Route type Can not be left Blank")
-                        'End If
-                        Dim qry As String = "select  * from TSPL_ROUTE_TYPE where Route_Type_Id='" + strtypeTemp + "'"
-                        Dim strtype As String = clsCommon.myCstr(connectSql.RunScalar(trans, qry))
-                        If clsCommon.myLen(strtype) <= 0 And clsCommon.myLen(strtypeTemp) > 0 Then
-                            Throw New Exception("Route type " + strtypeTemp + " is not Exist")
-                        End If
-                        ' ''If strtype = "Agency" Then
-                        ' ''    strtype = "Agency"
-                        ' ''ElseIf strtype = "Distributors" Then
-                        ' ''    strtype = "Distributors"
-                        ' ''Else
-                        ' ''    Throw New Exception("Route type Can not be left Blank or You must enter the value either Agency Or Distributors")
-                        ' ''End If
-                        Dim stremp_code As String = clsCommon.myCstr(grow.Cells(3).Value)
-                        If clsCommon.myLen(stremp_code) > 12 Then 'String.IsNullOrEmpty(stremp_code) Or 
-                            Throw New Exception("Employee Code Can not be left Blank or size can not be grater than 12")
-                        End If
-                        Dim stroffday As String = clsCommon.myCstr(grow.Cells(4).Value)
-                        If clsCommon.myLen(stroffday) > 12 Then 'String.IsNullOrEmpty(stroffday) Or 
-                            Throw New Exception("Off Day Can not be left Blank or size can not be grater than 12")
-                        End If
-                        Dim strCitycode As String = clsCommon.myCstr(grow.Cells(5).Value)
-                        If clsCommon.myLen(strCitycode) > 12 Then
-                            Throw New Exception("City code can not be greater than 12")
-                        End If
-                        Dim strDistrict As String = clsCommon.myCstr(grow.Cells(6).Value)
-                        If clsCommon.myLen(strDistrict) > 50 Then
-                            Throw New Exception("District can not be greater than 50")
-                        End If
-                        Dim strcat_code As String = clsCommon.myCstr(grow.Cells(7).Value)
-                        If clsCommon.myLen(strcat_code) > 12 Then 'String.IsNullOrEmpty(strcat_code) Or 
-                            Throw New Exception("Category Code Can not be left Blank or size can not be grater than 12")
-                        End If
-                        Dim re As Regex = New Regex("(^[0-9]*[1-9]+[0-9]*\.[0-9]*$)|(^[0-9]*\.[0-9]*[1-9]+[0-9]*$)|(^[0-9]*[1-9]+[0-9]*$)")
-                        Dim strLength As String = clsCommon.myCdbl(grow.Cells(8).Value)
-                        'Or Not re.IsMatch(strLength)
-                        If clsCommon.myLen(strLength) > 8 Or Not IsNumeric(strLength) Then
-                            Throw New Exception("Length can not be greater than 8 and You must Enter only Numeric Values")
-                        End If
-                        Dim stremp_name As String = clsCommon.myCstr(grow.Cells(9).Value)
-                        If clsCommon.myLen(stremp_name) > 50 Then
-                            Throw New Exception("Employee Name can not be greater than 50")
-                        End If
-                        Dim strDepoetID As String = clsCommon.myCstr(grow.Cells(10).Value)
-                        If clsCommon.myLen(strDepoetID) > 12 Then
-                            Throw New Exception("Depot ID can not be grater than 12")
-                        End If
-                        Dim strprice_code As String = clsCommon.myCstr(grow.Cells(11).Value)
-                        If clsCommon.myLen(strprice_code) > 12 Then 'String.IsNullOrEmpty(strprice_code) Or 
-                            Throw New Exception("Price Code Can not be left Blank or size can not be grater than 12")
-                        End If
-                        Dim strprice_code_desc As String = clsCommon.myCstr(grow.Cells(12).Value)
-                        If clsCommon.myLen(strprice_code_desc) > 100 Then 'String.IsNullOrEmpty(strprice_code_desc) Or 
-                            Throw New Exception("Price Code Description Can not be left Blank or size can not be grater than 100")
-                        End If
-                        Dim NOnPriceCode As String = clsCommon.myCstr(grow.Cells("Non Price Code").Value)
-
-                        Dim RoutePriceCode As String = clsCommon.myCstr(grow.Cells("Route Price Code").Value)
-
-                        If clsCommon.myLen(RoutePriceCode) > 0 Then
-                            Dim ExistRoutepricecode = clsDBFuncationality.getSingleValue("select 1 from TSPL_ITEM_PRICE_MASTER where Price_Code='" & RoutePriceCode & "'", trans)
-                            If clsCommon.myLen(ExistRoutepricecode) <= 0 Then
-                                Throw New Exception("Route Price Code does not exist")
+                        If clsCommon.myLen(strRoute_no) > 0 Then
+                            If clsCommon.myLen(strRoute_no) > 12 Then
+                                Throw New Exception("Route Code Can not be left Blank or size can not be grater than 12")
                             End If
-                        End If
-                        Dim VCode As String = clsCommon.myCstr(grow.Cells("Vehicle Code").Value)
-                        Dim StrStatus As String = IIf(clsCommon.myCstr(grow.Cells("Status").Value) = "", "A", clsCommon.myCstr(grow.Cells("Status").Value))
-
-
-                        Dim strDate As String = clsCommon.GetPrintDate(IIf(clsCommon.myLen(grow.Cells("Status Date").Value.ToString) <= 0, clsCommon.GetPrintDate(Now(), "yyyy-MM-dd"), grow.Cells("Status Date").Value), "yyyy-MM-dd")
-                        Dim strTime As String = clsCommon.myCstr(grow.Cells("Time").Value)
-                        If String.IsNullOrEmpty(strTime) = True Then
-                            strTime = Nothing
-                        Else
-                            Dim isValidTime As Boolean = IsDate(strTime)
-                            If isValidTime = False Then
-                                Throw New Exception("Invalid time. time formate should be hh:mm AM/PM.")
+                            Dim strstrRoute_desc As String = clsCommon.myCstr(grow.Cells(1).Value)
+                            If String.IsNullOrEmpty(strstrRoute_desc) Or clsCommon.myLen(strstrRoute_desc) > 50 Then
+                                Throw New Exception("Route Description Can not be left Blank or size can not be grater than 50")
                             End If
-                        End If
-
-                        Dim strMorningCOT As String = clsCommon.myCstr(grow.Cells("MorningCutOff_Time").Value)
-                        If String.IsNullOrEmpty(strMorningCOT) = True Then
-                            strMorningCOT = Nothing
-                        Else
-                            Dim isValidTime As Boolean = IsDate(strMorningCOT)
-                            If isValidTime = False Then
-                                Throw New Exception("Invalid time. Morning Cut Off Time formate should be hh:mm AM/PM.")
+                            Dim strtypeTemp As String = clsCommon.myCstr(grow.Cells(2).Value)
+                            'If clsCommon.myLen(strtypeTemp) <= 0 Then
+                            '    Throw New Exception("Route type Can not be left Blank")
+                            'End If
+                            Dim qry As String = "select  * from TSPL_ROUTE_TYPE where Route_Type_Id='" + strtypeTemp + "'"
+                            Dim strtype As String = clsCommon.myCstr(connectSql.RunScalar(trans, qry))
+                            If clsCommon.myLen(strtype) <= 0 And clsCommon.myLen(strtypeTemp) > 0 Then
+                                Throw New Exception("Route type " + strtypeTemp + " is not Exist")
                             End If
-                        End If
-
-                        Dim strEveningCOT As String = clsCommon.myCstr(grow.Cells("EveningCutOff_Time").Value)
-                        If String.IsNullOrEmpty(strEveningCOT) = True Then
-                            strEveningCOT = Nothing
-                        Else
-                            Dim isValidTime As Boolean = IsDate(strEveningCOT)
-                            If isValidTime = False Then
-                                Throw New Exception("Invalid time. Evening Cut Off Time formate should be hh:mm AM/PM.")
+                            ' ''If strtype = "Agency" Then
+                            ' ''    strtype = "Agency"
+                            ' ''ElseIf strtype = "Distributors" Then
+                            ' ''    strtype = "Distributors"
+                            ' ''Else
+                            ' ''    Throw New Exception("Route type Can not be left Blank or You must enter the value either Agency Or Distributors")
+                            ' ''End If
+                            Dim stremp_code As String = clsCommon.myCstr(grow.Cells(3).Value)
+                            If clsCommon.myLen(stremp_code) > 12 Then 'String.IsNullOrEmpty(stremp_code) Or 
+                                Throw New Exception("Employee Code Can not be left Blank or size can not be grater than 12")
                             End If
-                        End If
+                            Dim stroffday As String = clsCommon.myCstr(grow.Cells(4).Value)
+                            If clsCommon.myLen(stroffday) > 12 Then 'String.IsNullOrEmpty(stroffday) Or 
+                                Throw New Exception("Off Day Can not be left Blank or size can not be grater than 12")
+                            End If
+                            Dim strCitycode As String = clsCommon.myCstr(grow.Cells(5).Value)
+                            If clsCommon.myLen(strCitycode) > 12 Then
+                                Throw New Exception("City code can not be greater than 12")
+                            End If
+                            Dim strDistrict As String = clsCommon.myCstr(grow.Cells(6).Value)
+                            If clsCommon.myLen(strDistrict) > 50 Then
+                                Throw New Exception("District can not be greater than 50")
+                            End If
+                            Dim strcat_code As String = clsCommon.myCstr(grow.Cells(7).Value)
+                            If clsCommon.myLen(strcat_code) > 12 Then 'String.IsNullOrEmpty(strcat_code) Or 
+                                Throw New Exception("Category Code Can not be left Blank or size can not be grater than 12")
+                            End If
+                            Dim re As Regex = New Regex("(^[0-9]*[1-9]+[0-9]*\.[0-9]*$)|(^[0-9]*\.[0-9]*[1-9]+[0-9]*$)|(^[0-9]*[1-9]+[0-9]*$)")
+                            Dim strLength As String = clsCommon.myCdbl(grow.Cells(8).Value)
+                            'Or Not re.IsMatch(strLength)
+                            If clsCommon.myLen(strLength) > 8 Or Not IsNumeric(strLength) Then
+                                Throw New Exception("Length can not be greater than 8 and You must Enter only Numeric Values")
+                            End If
+                            Dim stremp_name As String = clsCommon.myCstr(grow.Cells(9).Value)
+                            If clsCommon.myLen(stremp_name) > 50 Then
+                                Throw New Exception("Employee Name can not be greater than 50")
+                            End If
+                            Dim strDepoetID As String = clsCommon.myCstr(grow.Cells(10).Value)
+                            If clsCommon.myLen(strDepoetID) > 12 Then
+                                Throw New Exception("Depot ID can not be grater than 12")
+                            End If
+                            Dim strprice_code As String = clsCommon.myCstr(grow.Cells(11).Value)
+                            If clsCommon.myLen(strprice_code) > 12 Then 'String.IsNullOrEmpty(strprice_code) Or 
+                                Throw New Exception("Price Code Can not be left Blank or size can not be grater than 12")
+                            End If
+                            Dim strprice_code_desc As String = clsCommon.myCstr(grow.Cells(12).Value)
+                            If clsCommon.myLen(strprice_code_desc) > 100 Then 'String.IsNullOrEmpty(strprice_code_desc) Or 
+                                Throw New Exception("Price Code Description Can not be left Blank or size can not be grater than 100")
+                            End If
+                            Dim NOnPriceCode As String = clsCommon.myCstr(grow.Cells("Non Price Code").Value)
 
-                        'Ticket No-VIJ/19/11/19-000063,Add Distance,Toll Amount in Import/Export
-                        Dim Distance As Decimal = clsCommon.myCdbl(grow.Cells("Distance").Value)
-                        Dim TOLLAmount As Decimal = clsCommon.myCdbl(grow.Cells("Toll Amount").Value)
-                        Dim IsEarlyRoute As Decimal = clsCommon.myCdbl(grow.Cells("IsEarlyRoute").Value)
-                        'If String.IsNullOrEmpty(NOnPriceCode) Or clsCommon.myLen(NOnPriceCode) > 12 Then
-                        '    Throw New Exception("Non Price Code  Can not be left Blank or size can not be grater than 12")
-                        'End If
-                        Dim strquery As String = "select count(*) from TSPL_Route_Master where Route_No='" + strRoute_no + "'"
-                        Dim i As Integer = CInt(connectSql.RunScalar(trans, strquery))
+                            Dim RoutePriceCode As String = clsCommon.myCstr(grow.Cells("Route Price Code").Value)
 
-                        If (i = 0) Then
-                            connectSql.RunSpTransaction(trans, "SP_TSPL_ROUTE_MASTER_INSERT", New SqlParameter("@Route_No", strRoute_no), New SqlParameter("@Route_Desc", strstrRoute_desc), New SqlParameter("@Type", strtype), New SqlParameter("@Employee_Code", stremp_code), New SqlParameter("@Off_Day", stroffday), New SqlParameter("@City_Code", strCitycode), New SqlParameter("@District", strDistrict), New SqlParameter("@Category_Code", strcat_code), New SqlParameter("@Length", strLength), New SqlParameter("@Employee_Name", stremp_name), New SqlParameter("@Depot_Id", fndDepot.Value), New SqlParameter("@Price_Code", strprice_code), New SqlParameter("@Price_Code_Desc", strprice_code_desc), New SqlParameter("@Created_By", userCode), New SqlParameter("@Created_Date", connectSql.serverDate(trans)), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate(trans)), New SqlParameter("@Comp_Code", companyCode), New SqlParameter("@Status", StrStatus), New SqlParameter("@SDate", strDate))
-                            connectSql.RunSqlTransaction(trans, "update TSPL_ROUTE_MASTER set RoutePrice_Code = '" + RoutePriceCode + "',NonPrice_Code = '" + NOnPriceCode + "',vehicle_code='" + VCode + "'," + IIf(strTime Is Nothing, "Route_time = NULL", "Route_time ='" + strTime + "'") + " ,Distance ='" + clsCommon.myCstr(Distance) + "' ,TOLL_Amount ='" + clsCommon.myCstr(TOLLAmount) + "', IsEarlyRoute ='" & IsEarlyRoute & "'," + IIf(strMorningCOT Is Nothing, "MorningCutOff_Time = NULL", "MorningCutOff_Time ='" + strMorningCOT + "'") + " ," + IIf(strEveningCOT Is Nothing, "EveningCutOff_Time = NULL", "EveningCutOff_Time ='" + strEveningCOT + "'") + "   where Route_No = '" + strRoute_no + "'")
-
-                        Else
-                            connectSql.RunSpTransaction(trans, "SP_TSPL_ROUTE_MASTER_UPDATE", New SqlParameter("@Route_No", strRoute_no), New SqlParameter("@Route_Desc", strstrRoute_desc), New SqlParameter("@Type", strtype), New SqlParameter("@Employee_Code", stremp_code), New SqlParameter("@Off_Day", stroffday), New SqlParameter("@City_Code", strCitycode), New SqlParameter("@District", strDistrict), New SqlParameter("@Category_Code", strcat_code), New SqlParameter("@Length", strLength), New SqlParameter("@Employee_Name", stremp_name), New SqlParameter("@Depot_Id", fndDepot.Value), New SqlParameter("@Price_Code", strprice_code), New SqlParameter("@Price_Code_Desc", strprice_code_desc), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate(trans)), New SqlParameter("@Comp_Code", companyCode), New SqlParameter("@Status", StrStatus), New SqlParameter("@SDate", strDate))
-                            connectSql.RunSqlTransaction(trans, "update TSPL_ROUTE_MASTER set RoutePrice_Code = '" + RoutePriceCode + "',NonPrice_Code = '" + NOnPriceCode + "',vehicle_code='" + VCode + "', " + IIf(strTime Is Nothing, "Route_time = NULL", "Route_time ='" + strTime + "'") + " ,Distance ='" + clsCommon.myCstr(Distance) + "' ,TOLL_Amount ='" + clsCommon.myCstr(TOLLAmount) + "', IsEarlyRoute ='" & IsEarlyRoute & "'," + IIf(strMorningCOT Is Nothing, "MorningCutOff_Time = NULL", "MorningCutOff_Time ='" + strMorningCOT + "'") + " ," + IIf(strEveningCOT Is Nothing, "EveningCutOff_Time = NULL", "EveningCutOff_Time ='" + strEveningCOT + "'") + "  where Route_No = '" + strRoute_no + "'")
-                        End If
-
-
-                        'Sanjay
-                        Dim obj As New clsRouteCustomerSequenceMaster()
-                        obj.ROUTE_NO = strRoute_no
-                        obj.DocDate = strDate
-                        obj.ArrRouteCustomerSequence = New List(Of clsRouteCustomerSequence)
-                        For j As Integer = 1 To SettNoOFCustomerForImportExport
-                            Dim CC_CODE As String
-                            CC_CODE = clsCommon.myCstr(grow.Cells("CustomerCode" & clsCommon.myCstr(j) & "").Value)
-                            If clsCommon.myLen(CC_CODE) > 0 Then
-                                Dim CustCode As String = ""
-                                CustCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select customer_name from TSPL_CUSTOMER_MASTER where cust_code='" + CC_CODE + "'", trans))
-                                If clsCommon.myLen(CustCode) <= 0 Then
-                                    Throw New Exception("Not a valid CustomerCode" & clsCommon.myCstr(j) & " : " + clsCommon.myCstr(grow.Cells("CustomerCode" & clsCommon.myCstr(j) & "").Value) + " at line " + clsCommon.myCstr(linno) + ".")
+                            If clsCommon.myLen(RoutePriceCode) > 0 Then
+                                Dim ExistRoutepricecode = clsDBFuncationality.getSingleValue("select 1 from TSPL_ITEM_PRICE_MASTER where Price_Code='" & RoutePriceCode & "'", trans)
+                                If clsCommon.myLen(ExistRoutepricecode) <= 0 Then
+                                    Throw New Exception("Route Price Code does not exist")
                                 End If
-                                Dim objTr As New clsRouteCustomerSequence()
-                                objTr.SNO = j
-                                objTr.CUSTOMER_CODE = clsCommon.myCstr(CC_CODE)
-                                obj.ArrRouteCustomerSequence.Add(objTr)
                             End If
-                        Next
-                        obj.SaveData(obj, trans)
-                        'Sanjay
+                            Dim VCode As String = clsCommon.myCstr(grow.Cells("Vehicle Code").Value)
+                            Dim StrStatus As String = IIf(clsCommon.myCstr(grow.Cells("Status").Value) = "", "A", clsCommon.myCstr(grow.Cells("Status").Value))
 
-                    End If
-                Next
-                trans.Commit()
-                clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
-            Catch ex As Exception
-                trans.Rollback()
-                clsCommon.ProgressBarHide()
 
-                myMessages.myExceptions(ex)
-            End Try
-        End If
-        Me.Controls.Remove(gv)
+                            Dim strDate As String = clsCommon.GetPrintDate(IIf(clsCommon.myLen(grow.Cells("Status Date").Value.ToString) <= 0, clsCommon.GetPrintDate(Now(), "yyyy-MM-dd"), grow.Cells("Status Date").Value), "yyyy-MM-dd")
+                            Dim strTime As String = clsCommon.myCstr(grow.Cells("Time").Value)
+                            If String.IsNullOrEmpty(strTime) = True Then
+                                strTime = Nothing
+                            Else
+                                Dim isValidTime As Boolean = IsDate(strTime)
+                                If isValidTime = False Then
+                                    Throw New Exception("Invalid time. time formate should be hh:mm AM/PM.")
+                                End If
+                            End If
+
+                            Dim strMorningCOT As String = clsCommon.myCstr(grow.Cells("MorningCutOff_Time").Value)
+                            If String.IsNullOrEmpty(strMorningCOT) = True Then
+                                strMorningCOT = Nothing
+                            Else
+                                Dim isValidTime As Boolean = IsDate(strMorningCOT)
+                                If isValidTime = False Then
+                                    Throw New Exception("Invalid time. Morning Cut Off Time formate should be hh:mm AM/PM.")
+                                End If
+                            End If
+
+                            Dim strEveningCOT As String = clsCommon.myCstr(grow.Cells("EveningCutOff_Time").Value)
+                            If String.IsNullOrEmpty(strEveningCOT) = True Then
+                                strEveningCOT = Nothing
+                            Else
+                                Dim isValidTime As Boolean = IsDate(strEveningCOT)
+                                If isValidTime = False Then
+                                    Throw New Exception("Invalid time. Evening Cut Off Time formate should be hh:mm AM/PM.")
+                                End If
+                            End If
+
+                            'Ticket No-VIJ/19/11/19-000063,Add Distance,Toll Amount in Import/Export
+                            Dim Distance As Decimal = clsCommon.myCdbl(grow.Cells("Distance").Value)
+                            Dim TOLLAmount As Decimal = clsCommon.myCdbl(grow.Cells("Toll Amount").Value)
+                            Dim IsEarlyRoute As Decimal = clsCommon.myCdbl(grow.Cells("IsEarlyRoute").Value)
+                            'If String.IsNullOrEmpty(NOnPriceCode) Or clsCommon.myLen(NOnPriceCode) > 12 Then
+                            '    Throw New Exception("Non Price Code  Can not be left Blank or size can not be grater than 12")
+                            'End If
+                            Dim strquery As String = "select count(*) from TSPL_Route_Master where Route_No='" + strRoute_no + "'"
+                            Dim i As Integer = CInt(connectSql.RunScalar(trans, strquery))
+
+                            If (i = 0) Then
+                                connectSql.RunSpTransaction(trans, "SP_TSPL_ROUTE_MASTER_INSERT", New SqlParameter("@Route_No", strRoute_no), New SqlParameter("@Route_Desc", strstrRoute_desc), New SqlParameter("@Type", strtype), New SqlParameter("@Employee_Code", stremp_code), New SqlParameter("@Off_Day", stroffday), New SqlParameter("@City_Code", strCitycode), New SqlParameter("@District", strDistrict), New SqlParameter("@Category_Code", strcat_code), New SqlParameter("@Length", strLength), New SqlParameter("@Employee_Name", stremp_name), New SqlParameter("@Depot_Id", fndDepot.Value), New SqlParameter("@Price_Code", strprice_code), New SqlParameter("@Price_Code_Desc", strprice_code_desc), New SqlParameter("@Created_By", userCode), New SqlParameter("@Created_Date", connectSql.serverDate(trans)), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate(trans)), New SqlParameter("@Comp_Code", companyCode), New SqlParameter("@Status", StrStatus), New SqlParameter("@SDate", strDate))
+                                connectSql.RunSqlTransaction(trans, "update TSPL_ROUTE_MASTER set RoutePrice_Code = '" + RoutePriceCode + "',NonPrice_Code = '" + NOnPriceCode + "',vehicle_code='" + VCode + "'," + IIf(strTime Is Nothing, "Route_time = NULL", "Route_time ='" + strTime + "'") + " ,Distance ='" + clsCommon.myCstr(Distance) + "' ,TOLL_Amount ='" + clsCommon.myCstr(TOLLAmount) + "', IsEarlyRoute ='" & IsEarlyRoute & "'," + IIf(strMorningCOT Is Nothing, "MorningCutOff_Time = NULL", "MorningCutOff_Time ='" + strMorningCOT + "'") + " ," + IIf(strEveningCOT Is Nothing, "EveningCutOff_Time = NULL", "EveningCutOff_Time ='" + strEveningCOT + "'") + "   where Route_No = '" + strRoute_no + "'")
+
+                            Else
+                                connectSql.RunSpTransaction(trans, "SP_TSPL_ROUTE_MASTER_UPDATE", New SqlParameter("@Route_No", strRoute_no), New SqlParameter("@Route_Desc", strstrRoute_desc), New SqlParameter("@Type", strtype), New SqlParameter("@Employee_Code", stremp_code), New SqlParameter("@Off_Day", stroffday), New SqlParameter("@City_Code", strCitycode), New SqlParameter("@District", strDistrict), New SqlParameter("@Category_Code", strcat_code), New SqlParameter("@Length", strLength), New SqlParameter("@Employee_Name", stremp_name), New SqlParameter("@Depot_Id", fndDepot.Value), New SqlParameter("@Price_Code", strprice_code), New SqlParameter("@Price_Code_Desc", strprice_code_desc), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate(trans)), New SqlParameter("@Comp_Code", companyCode), New SqlParameter("@Status", StrStatus), New SqlParameter("@SDate", strDate))
+                                connectSql.RunSqlTransaction(trans, "update TSPL_ROUTE_MASTER set RoutePrice_Code = '" + RoutePriceCode + "',NonPrice_Code = '" + NOnPriceCode + "',vehicle_code='" + VCode + "', " + IIf(strTime Is Nothing, "Route_time = NULL", "Route_time ='" + strTime + "'") + " ,Distance ='" + clsCommon.myCstr(Distance) + "' ,TOLL_Amount ='" + clsCommon.myCstr(TOLLAmount) + "', IsEarlyRoute ='" & IsEarlyRoute & "'," + IIf(strMorningCOT Is Nothing, "MorningCutOff_Time = NULL", "MorningCutOff_Time ='" + strMorningCOT + "'") + " ," + IIf(strEveningCOT Is Nothing, "EveningCutOff_Time = NULL", "EveningCutOff_Time ='" + strEveningCOT + "'") + "  where Route_No = '" + strRoute_no + "'")
+                            End If
+
+
+                            'Sanjay
+                            Dim obj As New clsRouteCustomerSequenceMaster()
+                            obj.ROUTE_NO = strRoute_no
+                            obj.DocDate = strDate
+                            obj.ArrRouteCustomerSequence = New List(Of clsRouteCustomerSequence)
+                            For j As Integer = 1 To SettNoOFCustomerForImportExport
+                                Dim CC_CODE As String
+                                CC_CODE = clsCommon.myCstr(grow.Cells("CustomerCode" & clsCommon.myCstr(j) & "").Value)
+                                If clsCommon.myLen(CC_CODE) > 0 Then
+                                    Dim CustCode As String = ""
+                                    CustCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select customer_name from TSPL_CUSTOMER_MASTER where cust_code='" + CC_CODE + "'", trans))
+                                    If clsCommon.myLen(CustCode) <= 0 Then
+                                        Throw New Exception("Not a valid CustomerCode" & clsCommon.myCstr(j) & " : " + clsCommon.myCstr(grow.Cells("CustomerCode" & clsCommon.myCstr(j) & "").Value) + " at line " + clsCommon.myCstr(linno) + ".")
+                                    End If
+                                    Dim objTr As New clsRouteCustomerSequence()
+                                    objTr.SNO = j
+                                    objTr.CUSTOMER_CODE = clsCommon.myCstr(CC_CODE)
+                                    obj.ArrRouteCustomerSequence.Add(objTr)
+                                End If
+                            Next
+                            obj.SaveData(obj, trans)
+                            'Sanjay
+
+                        End If
+                    Next
+                    trans.Commit()
+                    clsCommon.ProgressBarHide()
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                Catch ex As Exception
+                    trans.Rollback()
+                    clsCommon.ProgressBarHide()
+
+                    myMessages.myExceptions(ex)
+                End Try
+            End If
+            Me.Controls.Remove(gv)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     'It Is Used To Fill Or Clear The Records Bassed On EMP CODE( fndSalesman_code) From TSPL_EMPLOYEE_MASTER
     Sub text_changed1()
@@ -1281,22 +1340,25 @@ Public Class frmRouteMaster
     End Sub
     'It Is Used To Fill depot Number from TSPL_LOCATION_MASTER
     Sub fndDepot_Leave()
-        If fndDepot.Value = "" Then
-        Else
-            Dim strlocationcode As String = "select Location_Code from TSPL_LOCATION_MASTER where Location_Code='" + fndDepot.Value + "'"
-
-            Dim strcheck As String = clsDBFuncationality.getSingleValue(strlocationcode)
-
-
-            If (strcheck <> "") Then
-                fndDepot.Value = strcheck
+        Try
+            If fndDepot.Value = "" Then
             Else
-                common.clsCommon.MyMessageBoxShow(Me, "Depot Id does not exist in Master Table", Me.Text)
-                fndDepot.Value = ""
-                fndDepot.Focus()
-            End If
-        End If
+                Dim strlocationcode As String = "select Location_Code from TSPL_LOCATION_MASTER where Location_Code='" + fndDepot.Value + "'"
 
+                Dim strcheck As String = clsDBFuncationality.getSingleValue(strlocationcode)
+
+
+                If (strcheck <> "") Then
+                    fndDepot.Value = strcheck
+                Else
+                    common.clsCommon.MyMessageBoxShow(Me, "Depot Id does not exist in Master Table", Me.Text)
+                    fndDepot.Value = ""
+                    fndDepot.Focus()
+                End If
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
     Private Sub fndDepot_Leave(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
@@ -1328,139 +1390,150 @@ Public Class frmRouteMaster
 
     End Sub
     Private Sub frmRouteMaster_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
-        If e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag AndAlso rbtnSave.Enabled Then
-            SaveData()
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso MyBase.isPostFlag Then
-            'PostData()
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso MyBase.isDeleteFlag AndAlso rbtnDelete.Enabled Then
-            funDelete()
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.C Then
-            Close()
-        ElseIf e.Alt And e.KeyCode = Keys.N Then
-            funReset()
-        ElseIf e.Alt And e.KeyCode = Keys.R Then
-            printHistory()
-        End If
+        Try
+            If e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag AndAlso rbtnSave.Enabled Then
+                SaveData()
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso MyBase.isPostFlag Then
+                'PostData()
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso MyBase.isDeleteFlag AndAlso rbtnDelete.Enabled Then
+                funDelete()
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.C Then
+                Close()
+            ElseIf e.Alt And e.KeyCode = Keys.N Then
+                funReset()
+            ElseIf e.Alt And e.KeyCode = Keys.R Then
+                printHistory()
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Private Sub fndRouteid__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndRouteid._MYValidating
+        Try
+            Dim str As String = "select count(*) from TSPL_Route_Master where Route_No ='" + fndRouteid.Value + "' "
+            Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
+            If no = 0 Then
+                fndRouteid.MyReadOnly = False
+            Else
+                fndRouteid.MyReadOnly = True
+            End If
+            If fndRouteid.MyReadOnly OrElse isButtonClicked Then
 
-        Dim str As String = "select count(*) from TSPL_Route_Master where Route_No ='" + fndRouteid.Value + "' "
-        Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
-        If no = 0 Then
-            fndRouteid.MyReadOnly = False
-        Else
-            fndRouteid.MyReadOnly = True
-        End If
-        If fndRouteid.MyReadOnly OrElse isButtonClicked Then
+                'Dim qry As String = "select Route_No as [RouteNo],Route_Desc as [Route Desc],Type,Employee_Code as [Employee Code],Off_Day as [Off Day],City_Code as [City Code],District,Category_Code as [Category Code],Length from TSPL_Route_Master"
+                'fndRouteid.Value = clsCommon.ShowSelectForm("GpCodFND", qry, "RouteNo", "", fndRouteid.Value, "", isButtonClicked)
+                fndRouteid.Value = clsRouteMaster.getFinder("", fndRouteid.Value, isButtonClicked)
+                If fndRouteid.Value IsNot Nothing Then
+                    rbtnDelete.Enabled = True
+                Else
+                    rbtnDelete.Enabled = False
+                End If
 
-            'Dim qry As String = "select Route_No as [RouteNo],Route_Desc as [Route Desc],Type,Employee_Code as [Employee Code],Off_Day as [Off Day],City_Code as [City Code],District,Category_Code as [Category Code],Length from TSPL_Route_Master"
-            'fndRouteid.Value = clsCommon.ShowSelectForm("GpCodFND", qry, "RouteNo", "", fndRouteid.Value, "", isButtonClicked)
-            fndRouteid.Value = clsRouteMaster.getFinder("", fndRouteid.Value, isButtonClicked)
+                text_changed()
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub fndRouteid__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavigatorType As common.NavigatorType) Handles fndRouteid._MYNavigator
+        Try
+            Dim qst As String = "select Route_No as [Route No],Route_Desc as [Route Desc],Type,Employee_Code as [Employee Code],Off_Day as [Off Day],City_Code as [City Code],District,Category_Code as [Category Code],Length from TSPL_Route_Master   where  2=2 "
+            Select Case NavigatorType
+                Case NavigatorType.Current
+                '  qst += "and assign_to='" + txtassign.Value + "' "
+                ' qst += "and job_code in ('" + txtcode1.Value + "')"
+                Case NavigatorType.Next
+                    qst += "and Route_No in (select min(Route_No) from TSPL_Route_Master where Route_No>'" + fndRouteid.Value + "'   ) "
+                Case NavigatorType.First
+                    qst += "and Route_No in (select MIN(Route_No) from TSPL_Route_Master  )"
+                Case NavigatorType.Last
+                    qst += "and Route_No in (select Max(Route_No) from TSPL_Route_Master  )"
+                Case NavigatorType.Previous
+                    qst += "and Route_No in (select max(Route_No) from TSPL_Route_Master where Route_No<'" + fndRouteid.Value + "'   )"
+            End Select
+            ' fun_gridfill()
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qst)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                fndRouteid.Value = clsCommon.myCstr(dt.Rows(0)("Route No"))
+
+            End If
+            'TextChanged()
             If fndRouteid.Value IsNot Nothing Then
                 rbtnDelete.Enabled = True
             Else
                 rbtnDelete.Enabled = False
+
             End If
 
             text_changed()
-        End If
-    End Sub
-    Private Sub fndRouteid__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavigatorType As common.NavigatorType) Handles fndRouteid._MYNavigator
-        Dim qst As String = "select Route_No as [Route No],Route_Desc as [Route Desc],Type,Employee_Code as [Employee Code],Off_Day as [Off Day],City_Code as [City Code],District,Category_Code as [Category Code],Length from TSPL_Route_Master   where  2=2 "
-        Select Case NavigatorType
-            Case NavigatorType.Current
-                '  qst += "and assign_to='" + txtassign.Value + "' "
-                ' qst += "and job_code in ('" + txtcode1.Value + "')"
-            Case NavigatorType.Next
-                qst += "and Route_No in (select min(Route_No) from TSPL_Route_Master where Route_No>'" + fndRouteid.Value + "'   ) "
-            Case NavigatorType.First
-                qst += "and Route_No in (select MIN(Route_No) from TSPL_Route_Master  )"
-            Case NavigatorType.Last
-                qst += "and Route_No in (select Max(Route_No) from TSPL_Route_Master  )"
-            Case NavigatorType.Previous
-                qst += "and Route_No in (select max(Route_No) from TSPL_Route_Master where Route_No<'" + fndRouteid.Value + "'   )"
-        End Select
-        ' fun_gridfill()
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qst)
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            fndRouteid.Value = clsCommon.myCstr(dt.Rows(0)("Route No"))
-
-        End If
-        'TextChanged()
-        If fndRouteid.Value IsNot Nothing Then
-            rbtnDelete.Enabled = True
-        Else
-            rbtnDelete.Enabled = False
-
-        End If
-
-        text_changed()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Private Sub LoadItemType()
-        If EnableProductSaleForJPR Then
-            Dim dt As DataTable = New DataTable
-            dt.Columns.Add("Code", GetType(String))
-            dt.Columns.Add("Name", GetType(String))
+        Try
+            If EnableProductSaleForJPR Then
+                Dim dt As DataTable = New DataTable
+                dt.Columns.Add("Code", GetType(String))
+                dt.Columns.Add("Name", GetType(String))
 
-            Dim dr As DataRow = dt.NewRow()
-            dr("Code") = ""
-            dr("Name") = "Select"
-            dt.Rows.Add(dr)
+                Dim dr As DataRow = dt.NewRow()
+                dr("Code") = ""
+                dr("Name") = "Select"
+                dt.Rows.Add(dr)
 
-            dr = dt.NewRow()
-            dr("Code") = "M"
-            dr("Name") = "Milk"
-            dt.Rows.Add(dr)
+                dr = dt.NewRow()
+                dr("Code") = "M"
+                dr("Name") = "Milk"
+                dt.Rows.Add(dr)
 
-            dr = dt.NewRow()
-            dr("Code") = "P"
-            dr("Name") = "Product"
-            dt.Rows.Add(dr)
+                dr = dt.NewRow()
+                dr("Code") = "P"
+                dr("Name") = "Product"
+                dt.Rows.Add(dr)
 
-            dr = dt.NewRow()
-            dr("Code") = "I"
-            dr("Name") = "IceCream"
-            dt.Rows.Add(dr)
-            'dr = dt.NewRow()
-            'dr("Code") = "MP"
-            'dr("Name") = "Milk Product"
-            'dt.Rows.Add(dr)
-            'dr = dt.NewRow()
-            'dr("Code") = "MI"
-            'dr("Name") = "Milk IceCream"
-            'dt.Rows.Add(dr)
-            'dr = dt.NewRow()
-            'dr("Code") = "PI"
-            'dr("Name") = "Product IceCream"
-            'dt.Rows.Add(dr)
-            'dr = dt.NewRow()
-            'dr("Code") = "ALL"
-            'dr("Name") = "ALL"
-            'dt.Rows.Add(dr)
-            cmbItemType.DataSource = dt
-            cmbItemType.ValueMember = "Code"
-            cmbItemType.DisplayMember = "Name"
-            'Else
-            '    If ShowFreshAmbientItems Then
-            '    dr = dt.NewRow()
-            '    dr("Code") = "FProduct"
-            '    dr("Name") = "F Product"
-            '    dt.Rows.Add(dr)
-            '    dr = dt.NewRow()
-            '    dr("Code") = "ALL"
-            '    dr("Name") = "ALL"
-            '    dt.Rows.Add(dr)
-            'Else
-            '    dr = dt.NewRow()
-            '    dr("Code") = "Both"
-            '    dr("Name") = "Both"
-            '    dt.Rows.Add(dr)
-            'End If
-        End If
-
-
-
-
+                dr = dt.NewRow()
+                dr("Code") = "I"
+                dr("Name") = "IceCream"
+                dt.Rows.Add(dr)
+                'dr = dt.NewRow()
+                'dr("Code") = "MP"
+                'dr("Name") = "Milk Product"
+                'dt.Rows.Add(dr)
+                'dr = dt.NewRow()
+                'dr("Code") = "MI"
+                'dr("Name") = "Milk IceCream"
+                'dt.Rows.Add(dr)
+                'dr = dt.NewRow()
+                'dr("Code") = "PI"
+                'dr("Name") = "Product IceCream"
+                'dt.Rows.Add(dr)
+                'dr = dt.NewRow()
+                'dr("Code") = "ALL"
+                'dr("Name") = "ALL"
+                'dt.Rows.Add(dr)
+                cmbItemType.DataSource = dt
+                cmbItemType.ValueMember = "Code"
+                cmbItemType.DisplayMember = "Name"
+                'Else
+                '    If ShowFreshAmbientItems Then
+                '    dr = dt.NewRow()
+                '    dr("Code") = "FProduct"
+                '    dr("Name") = "F Product"
+                '    dt.Rows.Add(dr)
+                '    dr = dt.NewRow()
+                '    dr("Code") = "ALL"
+                '    dr("Name") = "ALL"
+                '    dt.Rows.Add(dr)
+                'Else
+                '    dr = dt.NewRow()
+                '    dr("Code") = "Both"
+                '    dr("Name") = "Both"
+                '    dt.Rows.Add(dr)
+                'End If
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
     'Private Sub fndSalesman_code__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean)
     '    Dim qry As String = "select distinct EMP_CODE as [EMPCODE],Emp_Name as [Emp Name], Designation,Pin_Code as [Pin Code],Phone,Card_No as [Card No],Cash from TSPL_EMPLOYEE_MASTER "
@@ -1469,31 +1542,51 @@ Public Class frmRouteMaster
     '    text_changed1()
     'End Sub
     Private Sub fndcity_id__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndcity_id._MYValidating
-        Dim qry As String = "select City_Code as [CityCode],City_Name as [City Name] from TSPL_CITY_MASTER "
-        fndcity_id.Value = clsCommon.ShowSelectForm("RotMastrCode2", qry, "CityCODE", "", fndcity_id.Value, "", isButtonClicked)
-        fndcity_id_Leave()
+        Try
+            Dim qry As String = "select City_Code as [CityCode],City_Name as [City Name] from TSPL_CITY_MASTER "
+            fndcity_id.Value = clsCommon.ShowSelectForm("RotMastrCode2", qry, "CityCODE", "", fndcity_id.Value, "", isButtonClicked)
+            fndcity_id_Leave()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Private Sub fndDepot__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndDepot._MYValidating
-        Dim qry As String = "select Location_Code as [LocationCode],Location_Desc as [Location Desc] from TSPL_LOCATION_MASTER "
-        fndDepot.Value = clsCommon.ShowSelectForm("RouteMasterCode3", qry, "LocationCODE", "Location_Type='Physical'", fndDepot.Value, "", isButtonClicked)
-        fndDepot_Leave()
+        Try
+            Dim qry As String = "select Location_Code as [LocationCode],Location_Desc as [Location Desc] from TSPL_LOCATION_MASTER "
+            fndDepot.Value = clsCommon.ShowSelectForm("RouteMasterCode3", qry, "LocationCODE", "Location_Type='Physical'", fndDepot.Value, "", isButtonClicked)
+            fndDepot_Leave()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Private Sub fndPriceCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndPriceCode._MYValidating
-        Dim qry As String = "select distinct Price_Code as [PriceCode],Price_Code_Desc as [Price Code Desc] from TSPL_PRICE_COMPONENT_MAPPING "
-        fndPriceCode.Value = clsCommon.ShowSelectForm("RouteMastID", qry, "PriceCode", "", fndPriceCode.Value, "", isButtonClicked)
-        fndPriceCode_text_changed()
-        fndPriceCode_leave()
+        Try
+            Dim qry As String = "select distinct Price_Code as [PriceCode],Price_Code_Desc as [Price Code Desc] from TSPL_PRICE_COMPONENT_MAPPING "
+            fndPriceCode.Value = clsCommon.ShowSelectForm("RouteMastID", qry, "PriceCode", "", fndPriceCode.Value, "", isButtonClicked)
+            fndPriceCode_text_changed()
+            fndPriceCode_leave()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Private Sub fndnonprice__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndnonprice._MYValidating
-        Dim qry As String = "select distinct Price_Code as [PriceCode],Price_Code_Desc as [Price Code Desc] from TSPL_PRICE_COMPONENT_MAPPING"
-        fndnonprice.Value = clsCommon.ShowSelectForm("RouFND", qry, "PriceCode", "", fndnonprice.Value, "", isButtonClicked)
-        NonPrice_Textchanged()
+        Try
+            Dim qry As String = "select distinct Price_Code as [PriceCode],Price_Code_Desc as [Price Code Desc] from TSPL_PRICE_COMPONENT_MAPPING"
+            fndnonprice.Value = clsCommon.ShowSelectForm("RouFND", qry, "PriceCode", "", fndnonprice.Value, "", isButtonClicked)
+            NonPrice_Textchanged()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Private Sub fndvcode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndvcode._MYValidating
-        Dim qry As String = "select vehicle_id as [VehicleCode],description as [Description] from tspl_vehicle_master"
-        fndvcode.Value = clsCommon.ShowSelectForm("RouteMFND", qry, "VehicleCode", "", fndvcode.Value, "", isButtonClicked)
-        fndvcode_text_changed()
-        fndvcode_leave()
+        Try
+            Dim qry As String = "select vehicle_id as [VehicleCode],description as [Description] from tspl_vehicle_master"
+            fndvcode.Value = clsCommon.ShowSelectForm("RouteMFND", qry, "VehicleCode", "", fndvcode.Value, "", isButtonClicked)
+            fndvcode_text_changed()
+            fndvcode_leave()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Private Sub btnprint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnprint.Click
         printHistory()
@@ -1528,9 +1621,13 @@ Public Class frmRouteMaster
         End Try
     End Sub
     Private Sub fndRoutePrice__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndRoutePrice._MYValidating
-        Dim qry As String = "select distinct Price_Code as [PriceCode],Price_Code_Desc as [Price Code Desc],Tax_group from TSPL_ITEM_PRICE_MASTER inner join TSPL_TAX_GROUP_MASTER on TSPL_ITEM_PRICE_MASTER.Tax_group=TSPL_TAX_GROUP_MASTER.Tax_Group_Code "
-        fndRoutePrice.Value = clsCommon.ShowSelectForm("RouFND", qry, "PriceCode", "TSPL_TAX_GROUP_MASTER.Is_Transfer=1 ", fndRoutePrice.Value, "", isButtonClicked)
-        RoutePrice_Textchanged()
+        Try
+            Dim qry As String = "select distinct Price_Code as [PriceCode],Price_Code_Desc as [Price Code Desc],Tax_group from TSPL_ITEM_PRICE_MASTER inner join TSPL_TAX_GROUP_MASTER on TSPL_ITEM_PRICE_MASTER.Tax_group=TSPL_TAX_GROUP_MASTER.Tax_Group_Code "
+            fndRoutePrice.Value = clsCommon.ShowSelectForm("RouFND", qry, "PriceCode", "TSPL_TAX_GROUP_MASTER.Is_Transfer=1 ", fndRoutePrice.Value, "", isButtonClicked)
+            RoutePrice_Textchanged()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Private Sub MyLabel1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyLabel1.Click
 
@@ -1562,14 +1659,18 @@ Public Class frmRouteMaster
         End Try
     End Sub
     Private Sub dgv_CurrentColumnChanged(sender As Object, e As CurrentColumnChangedEventArgs) Handles dgv.CurrentColumnChanged
-        If dgv.RowCount > 0 Then
-            Dim intCurrRow As Integer = dgv.CurrentRow.Index
-            dgv.CurrentRow.Cells(colSNo).Value = clsCommon.myCdbl(intCurrRow + 1)
-            If intCurrRow = dgv.Rows.Count - 1 Then
-                dgv.Rows.AddNew()
-                dgv.CurrentRow = dgv.Rows(intCurrRow)
+        Try
+            If dgv.RowCount > 0 Then
+                Dim intCurrRow As Integer = dgv.CurrentRow.Index
+                dgv.CurrentRow.Cells(colSNo).Value = clsCommon.myCdbl(intCurrRow + 1)
+                If intCurrRow = dgv.Rows.Count - 1 Then
+                    dgv.Rows.AddNew()
+                    dgv.CurrentRow = dgv.Rows(intCurrRow)
+                End If
             End If
-        End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub txtLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocation._MYValidating
@@ -1584,14 +1685,22 @@ Public Class frmRouteMaster
     End Sub
 
     Private Sub btnStatus_Click(sender As Object, e As EventArgs) Handles btnStatus.Click
-        Dim rptlockStatus As New rptLockStatus()
-        rptlockStatus.Show()
+        Try
+            Dim rptlockStatus As New rptLockStatus()
+            rptlockStatus.Show()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub fndZone__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndZone._MYValidating
-        Dim qry As String = "select TSPL_AREA_MASTER.Code,TSPL_AREA_MASTER.Name,TSPL_AREA_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description as ZoneName from TSPL_AREA_MASTER  left outer join  TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_AREA_MASTER.Zone_Code"
-        fndZone.Value = clsCommon.ShowSelectForm("ZoneFND", qry, "Code", "", fndZone.Value, "", isButtonClicked)
-        txtZone.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_AREA_MASTER.Zone_Code from TSPL_AREA_MASTER  left outer join  TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_AREA_MASTER.Zone_Code where TSPL_AREA_MASTER.Code='" + fndZone.Value + "' "))
+        Try
+            Dim qry As String = "select TSPL_AREA_MASTER.Code,TSPL_AREA_MASTER.Name,TSPL_AREA_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description as ZoneName from TSPL_AREA_MASTER  left outer join  TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_AREA_MASTER.Zone_Code"
+            fndZone.Value = clsCommon.ShowSelectForm("ZoneFND", qry, "Code", "", fndZone.Value, "", isButtonClicked)
+            txtZone.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_AREA_MASTER.Zone_Code from TSPL_AREA_MASTER  left outer join  TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_AREA_MASTER.Zone_Code where TSPL_AREA_MASTER.Code='" + fndZone.Value + "' "))
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub chkDepartmentRoute_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkDepartmentRoute.ToggleStateChanged
@@ -1627,12 +1736,16 @@ Public Class frmRouteMaster
     End Sub
 
     Private Sub dgv_CurrentRowChanged(sender As Object, e As CurrentRowChangedEventArgs) Handles dgv.CurrentRowChanged
-        If dgv.RowCount > 0 Then
-            Dim intCurrRow As Integer = dgv.CurrentRow.Index
-            dgv.CurrentRow.Cells(colSNo).Value = clsCommon.myCdbl(intCurrRow + 1)
-            If intCurrRow = dgv.Rows.Count - 1 Then
-                dgv.CurrentRow = dgv.Rows(intCurrRow)
+        Try
+            If dgv.RowCount > 0 Then
+                Dim intCurrRow As Integer = dgv.CurrentRow.Index
+                dgv.CurrentRow.Cells(colSNo).Value = clsCommon.myCdbl(intCurrRow + 1)
+                If intCurrRow = dgv.Rows.Count - 1 Then
+                    dgv.CurrentRow = dgv.Rows(intCurrRow)
+                End If
             End If
-        End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

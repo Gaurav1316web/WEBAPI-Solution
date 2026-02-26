@@ -2,6 +2,7 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
+    Public Const SkipDebitNoteforRejectInBMCTruckSheet As String = "Skip Debit Note for Reject In BMC Truck Sheet"
     Public Const ExportTruckSheet As String = "Export Truck Sheet"
     Public Const ThirtPartyFarmerCollectionIntegration As String = "Thirt Party Farmer Collection Integration"
     Public Const AndroidFarmerCollection As String = "Android Farmer Collection"
@@ -1394,6 +1395,7 @@ Public Class clsFixedParameterType
     Public Const ApplyEWBThresholdLimit = "Apply EWB Threshold Limit"
 End Class
 Public Class clsFixedParameterCode
+    Public Const SkipDebitNoteforRejectInBMCTruckSheet As String = "Skip Debit Note for Reject In BMC Truck Sheet"
     Public Const ExportTruckSheet As String = "Export Truck Sheet"
     Public Const ThirtPartyFarmerCollectionIntegration As String = "Thirt Party Farmer Collection Integration"
     Public Const SuspenceAdjusmtmentFATSNFTolerancePercentage = "Suspence Adjusmtment FAT SNF Tolerance %"
@@ -3029,6 +3031,7 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.SkipDebitNoteforRejectInBMCTruckSheet, clsFixedParameterCode.SkipDebitNoteforRejectInBMCTruckSheet, "0", "0:Off;1-ON Skip to Generate Debit Note for Reject In BMC Truck Sheet")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ExportTruckSheet, clsFixedParameterCode.ExportTruckSheet, "0", "0:Off;1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ThirtPartyFarmerCollectionIntegration, clsFixedParameterCode.ThirtPartyFarmerCollectionIntegration, "0", "0:Off;1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MaxFATPerLimit, "15", "Android Farmer Collection Max FAT Per")
@@ -4715,6 +4718,7 @@ Public Class clsFixedParameterProgramMapping
     End Function
     Public Shared Sub SetDefaultValues()
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_FIXED_PARAMETER_PROGRAM_MAPPING")
+        InsertDefaultValue(clsUserMgtCode.MilkVSPPayment, clsFixedParameterType.SkipDebitNoteforRejectInBMCTruckSheet, clsFixedParameterCode.SkipDebitNoteforRejectInBMCTruckSheet, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.ExportTruckSheet, clsFixedParameterCode.ExportTruckSheet, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmVlcdataUploadar, clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MaxFATPerLimit, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmVlcdataUploadar, clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MaxSNFPerLimit, EnumControlType.NumericBox)

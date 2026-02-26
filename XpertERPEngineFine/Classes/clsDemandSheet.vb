@@ -228,7 +228,12 @@ Public Class clsUpdateDemandDetails
         If clsCommon.myLen(obj.Document_No) > 0 Then
 
             Dim coll As New Hashtable()
-            obj.TR_CODE = clsERPFuncationality.GetNextCode(Nothing, DocDate, clsDocType.Detail, clsDocTransactionType.Detail, "")
+            Dim dtyear As Integer = clsCommon.GETSERVERDATE().Year
+            Dim dtMonth As Integer = clsCommon.GETSERVERDATE().Month
+            Dim dtDay As Integer = clsCommon.GETSERVERDATE().Day
+            Dim myGuid As Guid = Guid.NewGuid()
+
+            obj.TR_CODE = "DT/" & dtyear & "" & dtMonth & "" & dtDay & "/" & myGuid.ToString("N").Substring(0, 16)
             clsCommon.AddColumnsForChange(coll, "TR_CODE", obj.TR_CODE)
             clsCommon.AddColumnsForChange(coll, "Document_No", obj.Document_No)
             clsCommon.AddColumnsForChange(coll, "Line_No", obj.Line_No)
@@ -246,6 +251,7 @@ Public Class clsUpdateDemandDetails
             clsCommon.AddColumnsForChange(coll, "ItemNetAmount", obj.ItemNetAmount)
             clsCommon.AddColumnsForChange(coll, "IsGatePassGenerated", obj.IsGatePassGenerated)
             clsCommon.AddColumnsForChange(coll, "IsTruckSheetGenerated", obj.IsTruckSheetGenerated)
+            clsCommon.AddColumnsForChange(coll, "Source_By", "ERP")
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_BOOKING_DETAIL", OMInsertOrUpdate.Insert, "", Nothing)
         End If
 

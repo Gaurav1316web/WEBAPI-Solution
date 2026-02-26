@@ -143,6 +143,7 @@ Public Class clsProductDemandBookingSale
                     objTr = New clsProductDemandBookingSaleDetail
                     objTr.Cust_Code = clsCommon.myCstr(dr("Cust_Code"))
                     objTr.Created_By = clsCommon.myCstr(dr("Created_By"))
+                    objTr.Source_By = clsCommon.myCstr(dr("Source_By"))
                     objTr.Vehicle_Code = clsCommon.myCstr(dr("Vehicle_Code"))
                     objTr.Document_No = clsCommon.myCstr(dr("Document_No"))
                     objTr.Line_No = clsCommon.myCstr(dr("Line_No"))
@@ -630,6 +631,7 @@ Public Class clsProductDemandBookingSaleDetail
     Public Item_Code As String = Nothing
     Public Cust_Code As String = Nothing
     Public Created_By As String = Nothing
+    Public Source_By As String = Nothing
     Public Item_Desc As String = Nothing
     Public Unit_code As String = Nothing
     'Public TotalCrates_ItemWise As Decimal = 0
@@ -694,8 +696,14 @@ Public Class clsProductDemandBookingSaleDetail
 
                 If obj.Qty > 0 Then
                     Dim coll As New Hashtable()
+                    Dim dtyear As Integer = clsCommon.GETSERVERDATE(trans).Year
+                    Dim dtMonth As Integer = clsCommon.GETSERVERDATE(trans).Month
+                    Dim dtDay As Integer = clsCommon.GETSERVERDATE(trans).Day
+                    Dim myGuid As Guid = Guid.NewGuid()
 
-                    obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.DetailSale, clsDocTransactionType.ProductDetail, strRouteNo, False, True, False, False, False, True)
+                    obj.TR_CODE = "DP/" & dtyear & "" & dtMonth & "" & dtDay & "/" & myGuid.ToString("N").Substring(0, 16)
+
+                    'obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.DetailSale, clsDocTransactionType.ProductDetail, strRouteNo, False, True, False, False, False, True)
 
                     clsCommon.AddColumnsForChange(coll, "TR_CODE", obj.TR_CODE)
                     clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
@@ -703,6 +711,7 @@ Public Class clsProductDemandBookingSaleDetail
                     'clsCommon.AddColumnsForChange(coll, "Trip_No", obj.Trip_No)
                     clsCommon.AddColumnsForChange(coll, "Cust_Code", obj.Cust_Code)
                     clsCommon.AddColumnsForChange(coll, "Created_By", obj.Created_By)
+                    clsCommon.AddColumnsForChange(coll, "Source_By", obj.Source_By)
                     clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
                     clsCommon.AddColumnsForChange(coll, "Unit_code", obj.Unit_code)
                     clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
@@ -775,14 +784,20 @@ Public Class clsProductDemandBookingSaleDetail
 
 
                 Dim coll As New Hashtable()
+                Dim dtyear As Integer = clsCommon.GETSERVERDATE(trans).Year
+                Dim dtMonth As Integer = clsCommon.GETSERVERDATE(trans).Month
+                Dim dtDay As Integer = clsCommon.GETSERVERDATE(trans).Day
+                Dim myGuid As Guid = Guid.NewGuid()
 
-                obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.DetailSale, clsDocTransactionType.ProductDetail, strRouteNo, False, True, False, False, False, True)
+                obj.TR_CODE = "DP/" & dtyear & "" & dtMonth & "" & dtDay & "/" & myGuid.ToString("N").Substring(0, 16)
+                'obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.DetailSale, clsDocTransactionType.ProductDetail, strRouteNo, False, True, False, False, False, True)
                 clsCommon.AddColumnsForChange(coll, "TR_CODE", obj.TR_CODE)
                 clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
                 clsCommon.AddColumnsForChange(coll, "Line_No", obj.Line_No)
                 'clsCommon.AddColumnsForChange(coll, "Trip_No", obj.Trip_No)
                 clsCommon.AddColumnsForChange(coll, "Cust_Code", obj.Cust_Code)
                 clsCommon.AddColumnsForChange(coll, "Created_By", obj.Created_By)
+                clsCommon.AddColumnsForChange(coll, "Source_By", obj.Source_By)
                 clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
                 clsCommon.AddColumnsForChange(coll, "Unit_code", obj.Unit_code)
                 clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
