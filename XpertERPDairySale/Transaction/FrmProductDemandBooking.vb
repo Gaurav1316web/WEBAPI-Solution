@@ -47,6 +47,7 @@ Public Class FrmProductDemandBooking
     Const colbtncol As String = "colbtncol"
     Const colCustCode As String = "colCustCode"
     Const colCreated_By As String = "colCreated_By"
+    Const colSourceBy As String = "colSourceBy"
     Const colCustName As String = "colCustName"
     Const colShiftName As String = "colShiftName"
     Const colItemCode As String = "colItemCode"
@@ -402,6 +403,15 @@ Public Class FrmProductDemandBooking
         repoCreatedby.IsVisible = False
         repoCreatedby.IsPinned = True
         gv1.MasterTemplate.Columns.Add(repoCreatedby)
+        Dim repoSouceby As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoSouceby.FormatString = ""
+        repoSouceby.HeaderText = "Source By"
+        repoSouceby.Name = colSourceBy
+        repoSouceby.Width = 150
+        repoSouceby.ReadOnly = True
+        repoSouceby.IsVisible = False
+        repoSouceby.IsPinned = True
+        gv1.MasterTemplate.Columns.Add(repoSouceby)
         gv1.AllowDeleteRow = True
         gv1.AllowAddNewRow = False
         gv1.ShowGroupPanel = False
@@ -432,7 +442,7 @@ Public Class FrmProductDemandBooking
                 Dim TempColGroupCount As Integer = 1
                 Dim obj As ItemValueClass = New ItemValueClass()
                 Dim i As Integer = 1
-                For dblcolumns As Integer = 7 To gv1.Columns.Count - 5
+                For dblcolumns As Integer = 7 To gv1.Columns.Count - 6
                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
                     If obj1 IsNot Nothing Then
                         If clsCommon.CompairString(obj1.IsFreshAmbient, "Fresh") = CompairStringResult.Equal Then
@@ -1070,7 +1080,7 @@ group by TSPL_Product_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.displ
             Else
                 gv1.CurrentRow = gv1.Rows(intCurrRow + 1)
             End If
-            If gv1.CurrentColumn Is gv1.Columns(gv1.Columns.Count - 5) Then
+            If gv1.CurrentColumn Is gv1.Columns(gv1.Columns.Count - 6) Then
             End If
         End If
     End Sub
@@ -1086,9 +1096,9 @@ group by TSPL_Product_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.displ
     Private Sub setGridFocusEnd()
         Dim intCurrRow As Integer = gv1.CurrentRow.Index
         If gv1.Rows.Count > 0 Then
-            gv1.Rows(intCurrRow).Cells(gv1.Columns.Count - 5).IsSelected = True
+            gv1.Rows(intCurrRow).Cells(gv1.Columns.Count - 6).IsSelected = True
             gv1.Rows(intCurrRow).IsCurrent = True
-            gv1.Columns(gv1.Columns.Count - 5).IsCurrent = True
+            gv1.Columns(gv1.Columns.Count - 6).IsCurrent = True
         End If
     End Sub
     Private Sub gv1_CellValueChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv1.CellValueChanged
@@ -1152,7 +1162,7 @@ group by TSPL_Product_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.displ
                 dblTotalMAmt = 0
                 strItemValueExist = "No"
                 strItemUpdateAfterSave = "No"
-                For dblcolumns As Integer = 7 To gv1.Columns.Count - 5
+                For dblcolumns As Integer = 7 To gv1.Columns.Count - 6
                     Dim obj1 As ItemValueClass = Nothing
                     Try
                         obj1 = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
@@ -1453,7 +1463,7 @@ group by TSPL_Product_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.displ
                 dblTotalMAmt = 0
                 strItemValueExist = "No"
                 strItemUpdateAfterSave = "No"
-                For dblcolumns As Integer = 7 To gv1.Columns.Count - 5
+                For dblcolumns As Integer = 7 To gv1.Columns.Count - 6
                     Dim obj1 As ItemValueClass = Nothing
                     Try
                         obj1 = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
@@ -1567,7 +1577,7 @@ group by TSPL_Product_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.displ
         Try
             isLoadData = True
             Dim k As Integer = 1
-            For dblcolumns As Integer = 7 To gv1.Columns.Count - 5
+            For dblcolumns As Integer = 7 To gv1.Columns.Count - 6
                 Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
                 If obj1 IsNot Nothing Then
                     If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 Then
@@ -1725,7 +1735,7 @@ group by TSPL_Product_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.displ
                     If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colItemExist).Value), "Yes") = CompairStringResult.Equal AndAlso clsCommon.myLen(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value)) > 0 Then
                         Dim k As Integer = 1
                         Dim isCustRouteNotChanged As Boolean = True
-                        For dblcolumns As Integer = 7 To gv1.Columns.Count - 5
+                        For dblcolumns As Integer = 7 To gv1.Columns.Count - 6
                             Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
                             k = k + 1
                             If obj1 IsNot Nothing Then
@@ -1735,6 +1745,7 @@ group by TSPL_Product_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.displ
                                     'objTr.Trip_No = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colTripNo).Value)
                                     objTr.Cust_Code = clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value)
                                     objTr.Created_By = clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCreated_By).Value)
+                                    objTr.Source_By = clsCommon.myCstr(gv1.Rows(dblrows).Cells(colSourceBy).Value)
                                     'objTr.ShiftType = clsCommon.myCstr(gv1.Rows(dblrows).Cells(colShiftName).Value)
                                     If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colIsItemUpdate).Value), "Yes") = CompairStringResult.Equal Then
                                         objTr.IsItemUpdate = 1
@@ -1921,8 +1932,9 @@ group by TSPL_Product_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.displ
                         For dblrows As Integer = 0 To gv1.Rows.Count - 1
                             If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value), objTr.Cust_Code) = CompairStringResult.Equal Then
                                 gv1.Rows(dblrows).Cells(colCreated_By).Value = objTr.Created_By
+                                gv1.Rows(dblrows).Cells(colSourceBy).Value = objTr.Source_By
                                 Dim k As Integer = 1
-                                For columns = 7 To gv1.Columns.Count - 5
+                                For columns = 7 To gv1.Columns.Count - 6
                                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
                                     k = k + 1
                                     If clsCommon.CompairString(objTr.Item_Code, clsCommon.myCstr(obj1.itemCode)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(objTr.Unit_code, clsCommon.myCstr(obj1.Unit_code)) = CompairStringResult.Equal Then

@@ -8562,6 +8562,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("TAX10_Rate", "decimal(18, 2) NULL")
             coll.Add("TAX10_Amt", "decimal(18, 2) NULL")
             coll.Add("Created_By", "varchar(30) NULL")
+            coll.Add("Source_By", "varchar(30) NULL")
             coll.Add("REF_PK_ID", "integer null references TSPL_DEMAND_SHEET(PK_ID)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_DETAIL", coll, "", False, False, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "", True)
 
@@ -8572,6 +8573,9 @@ FROM TSPL_ITEM_MASTER"
             '    qry = "Update TSPL_DEMAND_BOOKING_DETAIL set Is_Posted=(select case when TSPL_DEMAND_BOOKING_MASTER.Posted=1 then 'Y' else 'N' end from TSPL_DEMAND_BOOKING_MASTER where TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No ) "
             '    clsDBFuncationality.ExecuteNonQuery(qry)
             'End If
+            clsDBFuncationality.ExecuteNonQuery("update TSPL_DEMAND_BOOKING_DETAIL set Source_By='APP' where Created_By is not null and Created_By <>''  and Source_By is null")
+            clsDBFuncationality.ExecuteNonQuery("update TSPL_DEMAND_BOOKING_DETAIL set Source_By='ERP' where (Created_By is null or Created_By ='') and Source_By is null")
+
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_No", "varchar(30) NOT NULL Primary key")
@@ -8670,7 +8674,14 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("TAX10_Rate", "decimal(18, 2) NULL")
             coll.Add("TAX10_Amt", "decimal(18, 2) NULL")
             coll.Add("Created_By", "varchar(30) NULL")
+            coll.Add("Source_By", "varchar(30) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PRODUCT_DEMAND_BOOKING_DETAIL", coll, "", True, False, "TSPL_PRODUCT_DEMAND_BOOKING_MASTER", "Document_No", "", True)
+            Try
+                clsDBFuncationality.ExecuteNonQuery("update TSPL_Product_DEMAND_BOOKING_DETAIL set Source_By='APP' where Created_By is not null and Created_By <>''  and Source_By is null")
+                clsDBFuncationality.ExecuteNonQuery("update TSPL_Product_DEMAND_BOOKING_DETAIL set Source_By='ERP' where (Created_By is null or Created_By ='') and Source_By is null")
+            Catch ex As Exception
+
+            End Try
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("DEMAND_Date", "datetime Not null")
@@ -8817,6 +8828,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("operation_Source", "VARCHAR(50)")
             coll.Add("Hist_Version", "integer NOT NULL")
             coll.Add("Hist_By", "VARCHAR(50) NOT NULL")
+            coll.Add("Source_By", "VARCHAR(30) NULL")
 
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_DETAIL_HISTORY", coll, "", False, False, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "")
             coll = New Dictionary(Of String, String)()
