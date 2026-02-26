@@ -95,7 +95,7 @@ Public Class rptNewTenderPartyListReport
             If isprint Then
                 strPrintqry = " TSPL_COMPANY_MASTER.Comp_Name,'" & clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") & "' as Date, '" & txtDate.Value.AddDays(-1).Day & "' as Previous_Day,'" & clsCommon.GetPrintDate(txtDate.Value.AddDays(-2), "dd/MM/yyyy") & "' as Previous_Date,'" & objCommonVar.CurrentUser & "' as User_Code, "
             End If
-            Dim qry As String = "  Select ROW_NUMBER() over (order by Customer_Code) as SNO,IsDistributor,Route_No,case when Credit_Customer='Y' then Zone_Code1 else Zone_Code end as Zone_Code1,Credit_Customer,Customer_Code,Customer_Name,Customer_Type,Zone_Code,ZZ.Phone1 as Phone1,
+            Dim qry As String = "  Select ROW_NUMBER() over (order by Customer_Code) as SNO,IsDistributor,Coalesce(CustRoute,Route_No)Route_No1,Route_No,case when Credit_Customer='Y' then Zone_Code1 else Zone_Code end as Zone_Code1,Credit_Customer,Customer_Code,Customer_Name,Customer_Type,Zone_Code,ZZ.Phone1 as Phone1,
  Gurantee_Amt as Gurantee_Amount ,Security_Amt, OP as Closing_Bal1,Debit_Amt,(Credit_Amt-Return_Amt)Credit_Amt,Sale_Amt,RTGS_Amt,Cash_Amt,Closing_Bal as Outstanding_Amt, 
  case when Closing_Bal < 0 then 'CR' else 'DR' end as Outstanding_drcr,Closing_Sale_Amt as Estimated_Avg_Sale,(Closing_Bal+Estimated_Avg_Sale)Estimated_OS_Amt
  
@@ -103,7 +103,7 @@ Public Class rptNewTenderPartyListReport
 Select XY.Customer_Code,XY.Gurantee_Amt,XY.OP,XY.Security_Amt,XY.Refund_Amt,XY.RTGS_Amt,XY.Cash_Amt,XY.Closing_Rec_Amt,XY.Sale_Amt,
  XY.Closing_Sale_Amt,XY.Estimated_Avg_Sale,XY.PrevDay_Return_Amt,XY.Return_Amt,XY.Credit_Amt ,XY.Debit_Amt,isnull((op+Sale_Amt+Debit_Amt+Credit_Amt-RTGS_Amt-Return_Amt),0) as Closing_Bal,
  TSPL_CUSTOMER_MASTER.Cust_Type_Code as Customer_Type,TSPL_CUSTOMER_MASTER.IsDistributor,TSPL_CUSTOMER_MASTER.Route_No,TSPL_CUSTOMER_MASTER.Zone_Code as Zone_Code1,Zone_Code,
- TSPL_CUSTOMER_MASTER.Credit_Customer,TSPL_CUSTOMER_MASTER.Customer_Name,replace(TSPL_CUSTOMER_MASTER.Phone1,'(+91)','') as Phone1 from 
+ TSPL_CUSTOMER_MASTER.Credit_Customer,TSPL_CUSTOMER_MASTER.Customer_Name,replace(TSPL_CUSTOMER_MASTER.Phone1,'(+91)','') as Phone1,CustRoute.Routesno as CustRoute from 
 (Select Customer_Code,
 Isnull(Sum(Case when (RI)=2 THEN (Total_Amt) END),0) AS Gurantee_Amt,
 --Case when max(RI)=2 THEN Sum(Total_Amt) END AS Gurantee_Amt,
@@ -289,6 +289,10 @@ Select cust_Code ,Return_ship_Date as Document_Date,(Doc_Amt)Return_Amt from TSP
  
  )XX GROUP BY Customer_Code) XY
  left outer join TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code= XY.Customer_Code
+left join (Select Cust_Code,STRING_AGG( Route_No, ',') AS Routesno from (select  DISTINCT TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No,TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code  from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER
+ left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DISTRIBUTOR_ROUTE.Code
+ where TSPL_DISTRIBUTOR_ROUTE.Status=1 and TSPL_DISTRIBUTOR_ROUTE.ItemType='M' and TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy ") & "'
+and 2=(Case when TSPL_DISTRIBUTOR_ROUTE.End_Date is null then 2 else (Case when TSPL_DISTRIBUTOR_ROUTE.End_Date>='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy ") & "' then 2 else 3 end) end) ) XX group by Cust_Code  ) CustRoute on CustRoute.Cust_Code =XY.Customer_Code
  ) ZZ
   "
             If rbtnCreditCustomer.IsChecked Then
@@ -369,7 +373,12 @@ and (Against_MCC_Material_Sale_Return is null or Against_MCC_Material_Sale_Retur
 
 left join (Select Customer_Code as Debit_Cust,Sum(Document_Total)Debit_Total from TSPL_Customer_Invoice_Head 
 where convert(date,Posting_Date,103) = '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy ") & "' and  Document_Type ='D' and (Against_Sale_Return_No is null or Against_Sale_Return_No='')
-and (Against_MCC_Material_Sale_Return is null or Against_MCC_Material_Sale_Return='') and (AgainstScrapReturn is null or AgainstScrapReturn='')   group by Customer_Code)Debit_Amt on Debit_Amt.Debit_Cust=xxx.Customer_Code " & Environment.NewLine & " )xxfinal  left join TSPL_COMPANY_MASTER on 1=1"
+and (Against_MCC_Material_Sale_Return is null or Against_MCC_Material_Sale_Return='') and (AgainstScrapReturn is null or AgainstScrapReturn='')   group by Customer_Code)Debit_Amt on Debit_Amt.Debit_Cust=xxx.Customer_Code " & Environment.NewLine & " )xxfinal  
+left join TSPL_COMPANY_MASTER on 1=1 
+left join (Select Cust_Code,STRING_AGG( Route_No, ',') AS Routesno from (select  DISTINCT TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No,TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code  from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER
+ left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DISTRIBUTOR_ROUTE.Code
+ where TSPL_DISTRIBUTOR_ROUTE.Status=1 and TSPL_DISTRIBUTOR_ROUTE.ItemType='M' and TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy ") & "'
+and 2=(Case when TSPL_DISTRIBUTOR_ROUTE.End_Date is null then 2 else (Case when TSPL_DISTRIBUTOR_ROUTE.End_Date>='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy ") & "' then 2 else 3 end) end) ) XX group by Cust_Code  ) CustRoute on CustRoute.Cust_Code =XY.Customer_Code"
             qry += " where 2=2 "
             If rbtnCreditCustomer.IsChecked Then
                 qry += " and Credit_Customer='Y' "
@@ -436,6 +445,7 @@ and (Against_MCC_Material_Sale_Return is null or Against_MCC_Material_Sale_Retur
         gv1.Columns("IsDistributor").IsVisible = False
         gv1.Columns("Route_No").IsVisible = False
         gv1.Columns("Zone_Code1").IsVisible = False
+        gv1.Columns("Zone_Code").IsVisible = False
         gv1.Columns("Credit_Customer").IsVisible = False
         gv1.Columns("SNO").HeaderText = "S.No"
         gv1.Columns("Customer_Code").HeaderText = "Customer Code"
@@ -454,7 +464,7 @@ and (Against_MCC_Material_Sale_Return is null or Against_MCC_Material_Sale_Retur
         gv1.Columns("Outstanding_drcr").HeaderText = "Outstanding " & Environment.NewLine & " (CR/DR) "
         gv1.Columns("Estimated_Avg_Sale").HeaderText = "Estimated One Day Average Sale " & Environment.NewLine & clsCommon.GetPrintDate(txtDate.Value.AddDays(-2), "dd/MM/yyyy") & ""
         gv1.Columns("Estimated_OS_Amt").HeaderText = "Estimated " & Environment.NewLine & " Outstanding " & Environment.NewLine & "Balance"
-        gv1.Columns("Zone_Code").HeaderText = "Zone.No/Area.No"
+        gv1.Columns("Route_No1").HeaderText = "Zone.No/Area.No"
 
         Dim index As Integer = 0
         If isPrint Then
