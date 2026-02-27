@@ -5035,10 +5035,11 @@ Group By EMP.EMP_CODE)xxx Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MA
            & "  " _
            & "  SELECT EMP_CODE,REVISION_NO,APPLICABLE_FROM,EMP_SAL_CODE
                 FROM
-                (SELECT EMP_CODE,REVISION_NO,APPLICABLE_FROM,EMP_SAL_CODE,ROW_NUMBER() OVER(PARTITION BY EMP_CODE ORDER BY CONVERT(date, APPLICABLE_FROM, 103) DESC ) AS RN,
-                        MAX(CONVERT(date, APPLICABLE_FROM, 103)) OVER ( PARTITION BY EMP_CODE ) AS MAX_APP_DATE FROM TSPL_EMPLOYEE_SALARY
+                (SELECT EMP_CODE,REVISION_NO,APPLICABLE_FROM,EMP_SAL_CODE,ROW_NUMBER() OVER(PARTITION BY EMP_CODE ORDER BY CONVERT(date, APPLICABLE_FROM, 103) DESC ) AS RN
+                        FROM TSPL_EMPLOYEE_SALARY
                     WHERE CONVERT(date, APPLICABLE_FROM, 103) <= CONVERT(date, '" & clsCommon.GetPrintDate(PP_END_DATE, "dd/MMM/yyyy") & "', 103) ) X
-                WHERE X.RN = 1 OR ( X.RN = 2 AND DAY(X.MAX_APP_DATE) NOT IN (1,DAY(EOMONTH(X.MAX_APP_DATE)) ))      " _
+                WHERE RN = 1 OR ( RN = 2 AND EXISTS (SELECT 1 FROM TSPL_EMPLOYEE_SALARY S WHERE S.EMP_CODE = X.EMP_CODE AND CONVERT(date, S.APPLICABLE_FROM, 103) 
+                BETWEEN '" & clsCommon.GetPrintDate(PP_START_DATE, "dd/MMM/yyyy") & "' AND '" & clsCommon.GetPrintDate(PP_END_DATE, "dd/MMM/yyyy") & "' ))         " _
            & "  " _
            & "  " _
            & "  " _
