@@ -22,7 +22,7 @@ Partial Class rptCustItemWiseSaleReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -50,6 +50,8 @@ Partial Class rptCustItemWiseSaleReport
         Me.rbtnDocumentDate = New common.Controls.MyRadioButton()
         Me.rbtnSupplyDate = New common.Controls.MyRadioButton()
         Me.BKNGroupBox = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnBoothSaleItemWise = New common.Controls.MyRadioButton()
+        Me.rbtnBoothSaleDateShiftWise = New common.Controls.MyRadioButton()
         Me.rbtnMilkSale = New common.Controls.MyRadioButton()
         Me.rbtnStockStatement = New common.Controls.MyRadioButton()
         Me.rbtnDistributorCollStatement = New common.Controls.MyRadioButton()
@@ -119,6 +121,8 @@ Partial Class rptCustItemWiseSaleReport
         CType(Me.rbtnSupplyDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BKNGroupBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.BKNGroupBox.SuspendLayout()
+        CType(Me.rbtnBoothSaleItemWise, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnBoothSaleDateShiftWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnMilkSale, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnStockStatement, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnDistributorCollStatement, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -263,7 +267,7 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadGroupBox1.HeaderText = ""
         Me.RadGroupBox1.Location = New System.Drawing.Point(6, 13)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(801, 240)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(801, 268)
         Me.RadGroupBox1.TabIndex = 389
         '
         'RadGroupBox4
@@ -529,6 +533,8 @@ Partial Class rptCustItemWiseSaleReport
         'BKNGroupBox
         '
         Me.BKNGroupBox.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.BKNGroupBox.Controls.Add(Me.rbtnBoothSaleItemWise)
+        Me.BKNGroupBox.Controls.Add(Me.rbtnBoothSaleDateShiftWise)
         Me.BKNGroupBox.Controls.Add(Me.rbtnMilkSale)
         Me.BKNGroupBox.Controls.Add(Me.rbtnStockStatement)
         Me.BKNGroupBox.Controls.Add(Me.rbtnDistributorCollStatement)
@@ -549,9 +555,33 @@ Partial Class rptCustItemWiseSaleReport
         Me.BKNGroupBox.Location = New System.Drawing.Point(344, 33)
         Me.BKNGroupBox.Name = "BKNGroupBox"
         Me.BKNGroupBox.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.BKNGroupBox.Size = New System.Drawing.Size(442, 203)
+        Me.BKNGroupBox.Size = New System.Drawing.Size(442, 230)
         Me.BKNGroupBox.TabIndex = 447
         Me.BKNGroupBox.Visible = False
+        '
+        'rbtnBoothSaleItemWise
+        '
+        Me.rbtnBoothSaleItemWise.Location = New System.Drawing.Point(235, 199)
+        Me.rbtnBoothSaleItemWise.MyLinkLable1 = Nothing
+        Me.rbtnBoothSaleItemWise.MyLinkLable2 = Nothing
+        Me.rbtnBoothSaleItemWise.Name = "rbtnBoothSaleItemWise"
+        Me.rbtnBoothSaleItemWise.Size = New System.Drawing.Size(127, 18)
+        Me.rbtnBoothSaleItemWise.TabIndex = 417
+        Me.rbtnBoothSaleItemWise.TabStop = False
+        Me.rbtnBoothSaleItemWise.Text = "Booth Sale Item Wise"
+        Me.rbtnBoothSaleItemWise.Visible = False
+        '
+        'rbtnBoothSaleDateShiftWise
+        '
+        Me.rbtnBoothSaleDateShiftWise.Location = New System.Drawing.Point(5, 200)
+        Me.rbtnBoothSaleDateShiftWise.MyLinkLable1 = Nothing
+        Me.rbtnBoothSaleDateShiftWise.MyLinkLable2 = Nothing
+        Me.rbtnBoothSaleDateShiftWise.Name = "rbtnBoothSaleDateShiftWise"
+        Me.rbtnBoothSaleDateShiftWise.Size = New System.Drawing.Size(165, 18)
+        Me.rbtnBoothSaleDateShiftWise.TabIndex = 416
+        Me.rbtnBoothSaleDateShiftWise.TabStop = False
+        Me.rbtnBoothSaleDateShiftWise.Text = "Booth Sale Date && Shift Wise"
+        Me.rbtnBoothSaleDateShiftWise.Visible = False
         '
         'rbtnMilkSale
         '
@@ -934,7 +964,8 @@ Partial Class rptCustItemWiseSaleReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportAPI = False
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -1081,6 +1112,8 @@ Partial Class rptCustItemWiseSaleReport
         CType(Me.BKNGroupBox, System.ComponentModel.ISupportInitialize).EndInit()
         Me.BKNGroupBox.ResumeLayout(False)
         Me.BKNGroupBox.PerformLayout()
+        CType(Me.rbtnBoothSaleItemWise, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnBoothSaleDateShiftWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnMilkSale, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnStockStatement, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnDistributorCollStatement, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1189,5 +1222,7 @@ Partial Class rptCustItemWiseSaleReport
     Friend WithEvents txtToDate1 As common.Controls.MyDateTimePicker
     Friend WithEvents txtToShift As RadDropDownList
     Friend WithEvents LblToDate As common.Controls.MyLabel
+    Friend WithEvents rbtnBoothSaleItemWise As common.Controls.MyRadioButton
+    Friend WithEvents rbtnBoothSaleDateShiftWise As common.Controls.MyRadioButton
 End Class
 

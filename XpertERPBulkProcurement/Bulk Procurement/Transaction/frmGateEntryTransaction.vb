@@ -78,388 +78,388 @@ Public Class frmGateEntryTransaction
                 dt = clsCommon.GetPrintDate(gv1.Rows(i).Cells("Gate_Entry_Date").Value, "dd/MMM/yyyy hh:mm:ss tt")
                 clsCommon.ProgressBarPercentUpdate(j / gv1.Rows.Count * 100, " Saving and posting Record(s) " & j & " of Total " & gv1.Rows.Count & " Gate Entry Document ")
 
-                If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(i).Cells("Type").Value), "Route") = CompairStringResult.Equal Then
-                    Dim intTDLastColumn As Integer = 0
-                    ' Gate Entry start here
-                    obj = New clsGateEntry()
-                    obj.Gate_Entry_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.GateEntry, clsDocTransactionType.MccProc, gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value)
-                    If clsCommon.myLen(obj.Gate_Entry_No) <= 0 Then
-                        Throw New Exception("Error in Gate Entry  No genertion")
-                    End If
-                    'obj.IsAgainstJobWork = clsCommon.myCstr(gv1.Rows(i).Cells("IsJobWork").Value)
-                    'obj.Sublocation_Code = clsCommon.myCstr(gv1.Rows(i).Cells("JobWork Location").Value)
-                    obj.Doc_Type = "MccProc"
-                    obj.Ref_PK_Id = clsCommon.myCdbl(gv1.Rows(i).Cells("PK_Id").Value)
-                    obj.Date_And_Time = clsCommon.GetPrintDate(gv1.Rows(i).Cells("Gate_Entry_Date").Value, "dd/MMM/yyyy hh:mm:ss tt")
-                    obj.Vendor_Code = ""
-                    obj.Vendor_Desc = ""
-                    obj.Dispatched_From_Mcc = clsCommon.myCstr(gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value)
-                    obj.location_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value)
-                    obj.Location_Desc = clsLocation.GetName(obj.location_Code, trans)
-                    'obj.Tanker_No = clsCommon.myCstr(gv1.Rows(i).Cells("Tanker No.").Value)
-                    obj.ROUTE_NO = clsCommon.myCstr(gv1.Rows(i).Cells("ROUTE_No").Value)
-                    obj.Challan_Date = clsCommon.GetPrintDate(gv1.Rows(i).Cells("Gate_Entry_Date").Value, "dd/MMM/yyyy")
-                    obj.Item_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Item_Code").Value)
-                    obj.Item_Desc = clsItemMaster.GetItemName(obj.Item_Code, trans)
-                    Dim DefaultUOm As String = clsItemMaster.GetItemDefaultUnit(obj.Item_Code, trans)
-                    obj.UOM = DefaultUOm
-                    obj.Qty_In_Kg = clsCommon.myCdbl(gv1.Rows(i).Cells("Qty").Value)
-                    obj.fat_per = clsCommon.myCdbl(gv1.Rows(i).Cells("FAT").Value)
-                    obj.snf_Per = clsCommon.myCdbl(gv1.Rows(i).Cells("SNF").Value)
-                    obj.isPosted = 1
-                    obj.Posting_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                    obj.isNewEntry = True
-                    obj.Modify_By = objCommonVar.CurrentUserCode
-                    obj.Modify_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                    obj.Created_By = objCommonVar.CurrentUserCode
-                    obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                    obj.comp_code = objCommonVar.CurrentCompanyCode
-                    obj.MIKL_TYPE_CODE = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 MILK_TYPE_CODE from TSPL_MILK_TYPE_MASTER where milk_type='Mix'", trans))
+                '                If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(i).Cells("Type").Value), "Route") = CompairStringResult.Equal Then
+                '                    Dim intTDLastColumn As Integer = 0
+                '                    ' Gate Entry start here
+                '                    obj = New clsGateEntry()
+                '                    obj.Gate_Entry_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.GateEntry, clsDocTransactionType.MccProc, gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value)
+                '                    If clsCommon.myLen(obj.Gate_Entry_No) <= 0 Then
+                '                        Throw New Exception("Error in Gate Entry  No genertion")
+                '                    End If
+                '                    'obj.IsAgainstJobWork = clsCommon.myCstr(gv1.Rows(i).Cells("IsJobWork").Value)
+                '                    'obj.Sublocation_Code = clsCommon.myCstr(gv1.Rows(i).Cells("JobWork Location").Value)
+                '                    obj.Doc_Type = "MccProc"
+                '                    obj.Ref_PK_Id = clsCommon.myCdbl(gv1.Rows(i).Cells("PK_Id").Value)
+                '                    obj.Date_And_Time = clsCommon.GetPrintDate(gv1.Rows(i).Cells("Gate_Entry_Date").Value, "dd/MMM/yyyy hh:mm:ss tt")
+                '                    obj.Vendor_Code = ""
+                '                    obj.Vendor_Desc = ""
+                '                    obj.Dispatched_From_Mcc = clsCommon.myCstr(gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value)
+                '                    obj.location_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value)
+                '                    obj.Location_Desc = clsLocation.GetName(obj.location_Code, trans)
+                '                    'obj.Tanker_No = clsCommon.myCstr(gv1.Rows(i).Cells("Tanker No.").Value)
+                '                    obj.ROUTE_NO = clsCommon.myCstr(gv1.Rows(i).Cells("ROUTE_No").Value)
+                '                    obj.Challan_Date = clsCommon.GetPrintDate(gv1.Rows(i).Cells("Gate_Entry_Date").Value, "dd/MMM/yyyy")
+                '                    obj.Item_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Item_Code").Value)
+                '                    obj.Item_Desc = clsItemMaster.GetItemName(obj.Item_Code, trans)
+                '                    Dim DefaultUOm As String = clsItemMaster.GetItemDefaultUnit(obj.Item_Code, trans)
+                '                    obj.UOM = DefaultUOm
+                '                    obj.Qty_In_Kg = clsCommon.myCdbl(gv1.Rows(i).Cells("Qty").Value)
+                '                    obj.fat_per = clsCommon.myCdbl(gv1.Rows(i).Cells("FAT").Value)
+                '                    obj.snf_Per = clsCommon.myCdbl(gv1.Rows(i).Cells("SNF").Value)
+                '                    obj.isPosted = 1
+                '                    obj.Posting_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                '                    obj.isNewEntry = True
+                '                    obj.Modify_By = objCommonVar.CurrentUserCode
+                '                    obj.Modify_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                '                    obj.Created_By = objCommonVar.CurrentUserCode
+                '                    obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                '                    obj.comp_code = objCommonVar.CurrentCompanyCode
+                '                    obj.MIKL_TYPE_CODE = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 MILK_TYPE_CODE from TSPL_MILK_TYPE_MASTER where milk_type='Mix'", trans))
 
-                    obj.Arr = New List(Of clsGateEntryChemberNoDetails)
-                    Dim objGateEntryTR As New clsGateEntryChemberNoDetails()
-                    objGateEntryTR.Line_No = 1
-                    objGateEntryTR.Chamber_Desc = "FRONT"
-                    objGateEntryTR.Item_Code = obj.Item_Code
-                    objGateEntryTR.UOM = obj.UOM
-                    objGateEntryTR.fat_per = obj.fat_per
-                    objGateEntryTR.snf_Per = obj.snf_Per
-                    objGateEntryTR.Chamber_Qty = obj.Qty_In_Kg
-                    objGateEntryTR.DIP_Status = "F"
-                    objGateEntryTR.Sample_Lifted = "Y"
-                    objGateEntryTR.MIKL_TYPE_CODE = obj.MIKL_TYPE_CODE
-                    objGateEntryTR.Dip_value = ""
-                    objGateEntryTR.Seal_No = ""
-                    obj.Arr.Add(objGateEntryTR)
-                    objCommonVar.CurrentUserCode = clsERPFuncationality.getRandomUserCode("Tspl_Gate_Entry_Details", "Created_By", clsCommon.myCstr(gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value), "location_Code", trans)
+                '                    obj.Arr = New List(Of clsGateEntryChemberNoDetails)
+                '                    Dim objGateEntryTR As New clsGateEntryChemberNoDetails()
+                '                    objGateEntryTR.Line_No = 1
+                '                    objGateEntryTR.Chamber_Desc = "FRONT"
+                '                    objGateEntryTR.Item_Code = obj.Item_Code
+                '                    objGateEntryTR.UOM = obj.UOM
+                '                    objGateEntryTR.fat_per = obj.fat_per
+                '                    objGateEntryTR.snf_Per = obj.snf_Per
+                '                    objGateEntryTR.Chamber_Qty = obj.Qty_In_Kg
+                '                    objGateEntryTR.DIP_Status = "F"
+                '                    objGateEntryTR.Sample_Lifted = "Y"
+                '                    objGateEntryTR.MIKL_TYPE_CODE = obj.MIKL_TYPE_CODE
+                '                    objGateEntryTR.Dip_value = ""
+                '                    objGateEntryTR.Seal_No = ""
+                '                    obj.Arr.Add(objGateEntryTR)
+                '                    objCommonVar.CurrentUserCode = clsERPFuncationality.getRandomUserCode("Tspl_Gate_Entry_Details", "Created_By", clsCommon.myCstr(gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value), "location_Code", trans)
 
-                    clsGateEntry.saveData(obj, trans)
-                    objCommonVar.CurrentUserCode = CurrentUserCode
-                    Dim GateEntryNo As String = obj.Gate_Entry_No
+                '                    clsGateEntry.saveData(obj, trans)
+                '                    objCommonVar.CurrentUserCode = CurrentUserCode
+                '                    Dim GateEntryNo As String = obj.Gate_Entry_No
 
-                    ' Weighment start here
+                '                    ' Weighment start here
 
-                    obj = New clsWeighment()
+                '                    obj = New clsWeighment()
 
-                    obj.Weighment_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.Weighment, clsDocTransactionType.MccProc, gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value)
-                    If clsCommon.myLen(obj.Weighment_No) <= 0 Then
-                        Throw New Exception("Error in Weighment No genertion")
-                    End If
-                    'obj.IsAgainstJobWork = clsCommon.myCstr(gv1.Rows(i).Cells("IsJobWork").Value)
-                    'obj.Joblocation_Code = clsCommon.myCstr(gv1.Rows(i).Cells("JobWork Location").Value)
-                    obj.Tare_Weight_date = dt
-                    obj.Weighment_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
-                    obj.Gate_Entry_No = clsCommon.myCstr(GateEntryNo)
-                    obj.Doc_Type = "MccProc"
-                    obj.Date_And_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
-                    'obj.Challan_No = ChallanNo
-                    'obj.Challan_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy")
-                    'obj.Tanker_No = clsCommon.myCstr(gv1.Rows(i).Cells("Tanker No.").Value)
-                    obj.Dispatched_From_Mcc = clsCommon.myCstr(gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value)
-                    obj.location_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value)
-                    obj.Location_Desc = clsLocation.GetName(obj.location_Code, trans)
-                    obj.Vendor_Code = ""
-                    obj.Vendor_Desc = ""
-                    obj.Item_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Item_Code").Value)
-                    obj.Item_Desc = clsItemMaster.GetItemName(obj.Item_Code, trans)
-                    obj.Qty_In_Kg = clsCommon.myCdbl(gv1.Rows(i).Cells("Qty").Value)
-                    obj.snf_Per = clsCommon.myCdbl(gv1.Rows(i).Cells("SNF").Value)
-                    obj.fat_per = clsCommon.myCdbl(gv1.Rows(i).Cells("FAT").Value)
-                    obj.Gross_Weight = clsCommon.myCdbl(gv1.Rows(i).Cells("Qty").Value)
-                    obj.Tare_Weight = 0
-                    obj.Net_Weight = clsCommon.myCdbl(gv1.Rows(i).Cells("Qty").Value)
-                    obj.UOM = DefaultUOm
-                    obj.Weighment_Slip_No = ""
-                    obj.isPosted = 1
-                    obj.Posting_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                    obj.isNewEntry = True
-                    obj.Modify_By = objCommonVar.CurrentUserCode
-                    obj.Modify_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                    obj.Created_By = objCommonVar.CurrentUserCode
-                    obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                    obj.comp_code = objCommonVar.CurrentCompanyCode
-                    obj.snf_KG = (obj.Qty_In_Kg * obj.snf_per) / 100
-                    obj.fat_KG = (obj.Qty_In_Kg * obj.fat_per) / 100
+                '                    obj.Weighment_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.Weighment, clsDocTransactionType.MccProc, gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value)
+                '                    If clsCommon.myLen(obj.Weighment_No) <= 0 Then
+                '                        Throw New Exception("Error in Weighment No genertion")
+                '                    End If
+                '                    'obj.IsAgainstJobWork = clsCommon.myCstr(gv1.Rows(i).Cells("IsJobWork").Value)
+                '                    'obj.Joblocation_Code = clsCommon.myCstr(gv1.Rows(i).Cells("JobWork Location").Value)
+                '                    obj.Tare_Weight_date = dt
+                '                    obj.Weighment_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
+                '                    obj.Gate_Entry_No = clsCommon.myCstr(GateEntryNo)
+                '                    obj.Doc_Type = "MccProc"
+                '                    obj.Date_And_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
+                '                    'obj.Challan_No = ChallanNo
+                '                    'obj.Challan_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy")
+                '                    'obj.Tanker_No = clsCommon.myCstr(gv1.Rows(i).Cells("Tanker No.").Value)
+                '                    obj.Dispatched_From_Mcc = clsCommon.myCstr(gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value)
+                '                    obj.location_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value)
+                '                    obj.Location_Desc = clsLocation.GetName(obj.location_Code, trans)
+                '                    obj.Vendor_Code = ""
+                '                    obj.Vendor_Desc = ""
+                '                    obj.Item_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Item_Code").Value)
+                '                    obj.Item_Desc = clsItemMaster.GetItemName(obj.Item_Code, trans)
+                '                    obj.Qty_In_Kg = clsCommon.myCdbl(gv1.Rows(i).Cells("Qty").Value)
+                '                    obj.snf_Per = clsCommon.myCdbl(gv1.Rows(i).Cells("SNF").Value)
+                '                    obj.fat_per = clsCommon.myCdbl(gv1.Rows(i).Cells("FAT").Value)
+                '                    obj.Gross_Weight = clsCommon.myCdbl(gv1.Rows(i).Cells("Qty").Value)
+                '                    obj.Tare_Weight = 0
+                '                    obj.Net_Weight = clsCommon.myCdbl(gv1.Rows(i).Cells("Qty").Value)
+                '                    obj.UOM = DefaultUOm
+                '                    obj.Weighment_Slip_No = ""
+                '                    obj.isPosted = 1
+                '                    obj.Posting_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                '                    obj.isNewEntry = True
+                '                    obj.Modify_By = objCommonVar.CurrentUserCode
+                '                    obj.Modify_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                '                    obj.Created_By = objCommonVar.CurrentUserCode
+                '                    obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                '                    obj.comp_code = objCommonVar.CurrentCompanyCode
+                '                    obj.snf_KG = (obj.Qty_In_Kg * obj.snf_per) / 100
+                '                    obj.fat_KG = (obj.Qty_In_Kg * obj.fat_per) / 100
 
-                    Dim PriceCode As String = clsDBFuncationality.getSingleValue("select top 1 Price_Code from TSPL_BULK_PRICE_master where effective_Date<='" & clsCommon.GetPrintDate(dt, "dd/MMM/yyyy") & "' and expirydate >= '" & clsCommon.GetPrintDate(dt.AddDays(AddDaysFOrExpiryDate), "dd/MMM/yyyy") & "' and
-IsDefaultForTankerDispatch =1 order by price_date desc", trans)
+                '                    Dim PriceCode As String = clsDBFuncationality.getSingleValue("select top 1 Price_Code from TSPL_BULK_PRICE_master where effective_Date<='" & clsCommon.GetPrintDate(dt, "dd/MMM/yyyy") & "' and expirydate >= '" & clsCommon.GetPrintDate(dt.AddDays(AddDaysFOrExpiryDate), "dd/MMM/yyyy") & "' and
+                'IsDefaultForTankerDispatch =1 order by price_date desc", trans)
 
-                    Dim dtPrice As DataTable = clsDBFuncationality.GetDataTable("Select  * from TSPL_Bulk_Price_MASTER where Price_Code='" & PriceCode & "'", trans)
-                    Dim NetRate As Double = 0
-                    Dim FatW As Double = 0
-                    Dim SNfW As Double = 0
-                    Dim FATRatio As Double = 0
-                    Dim SNFRatio As Double = 0
-                    If clsCommon.myLen(dtPrice) > 0 Then
-                        NetRate = clsCommon.myCdbl(dtPrice.Rows(0)("Standard_Rate"))
-                        FatW = clsCommon.myCdbl(dtPrice.Rows(0)("Fat_Weightage"))
-                        SNfW = clsCommon.myCdbl(dtPrice.Rows(0)("Snf_Weightage"))
-                        FATRatio = clsCommon.myCdbl(dtPrice.Rows(0)("Fat_Percentage"))
-                        SNFRatio = clsCommon.myCdbl(dtPrice.Rows(0)("Snf_Percentage"))
-                    Else
-                        clsCommon.MyMessageBoxShow(Me, "Please create price", Me.Text)
-                        Exit Sub
-                    End If
-                    obj.fat_Rate = MyMath.RoundDown(clsCommon.myCdbl(NetRate) * FatW / FATRatio, 2)
-                    obj.SNF_Rate = MyMath.RoundDown(clsCommon.myCdbl(NetRate) * SNfW / SNFRatio, 2)
-                    obj.FAT_Value = MyMath.RoundDown(obj.fat_KG * obj.fat_Rate, 2)
-                    obj.Snf_Value = MyMath.RoundDown(obj.snf_KG * obj.SNF_Rate, 2)
-                    obj.Amount = clsCommon.myFormat(Math.Round(obj.FAT_Value + obj.Snf_Value, 0))
-                    Dim lineNo As Integer = 1
+                '                    Dim dtPrice As DataTable = clsDBFuncationality.GetDataTable("Select  * from TSPL_Bulk_Price_MASTER where Price_Code='" & PriceCode & "'", trans)
+                '                    Dim NetRate As Double = 0
+                '                    Dim FatW As Double = 0
+                '                    Dim SNfW As Double = 0
+                '                    Dim FATRatio As Double = 0
+                '                    Dim SNFRatio As Double = 0
+                '                    If clsCommon.myLen(dtPrice) > 0 Then
+                '                        NetRate = clsCommon.myCdbl(dtPrice.Rows(0)("Standard_Rate"))
+                '                        FatW = clsCommon.myCdbl(dtPrice.Rows(0)("Fat_Weightage"))
+                '                        SNfW = clsCommon.myCdbl(dtPrice.Rows(0)("Snf_Weightage"))
+                '                        FATRatio = clsCommon.myCdbl(dtPrice.Rows(0)("Fat_Percentage"))
+                '                        SNFRatio = clsCommon.myCdbl(dtPrice.Rows(0)("Snf_Percentage"))
+                '                    Else
+                '                        clsCommon.MyMessageBoxShow(Me, "Please create price", Me.Text)
+                '                        Exit Sub
+                '                    End If
+                '                    obj.fat_Rate = MyMath.RoundDown(clsCommon.myCdbl(NetRate) * FatW / FATRatio, 2)
+                '                    obj.SNF_Rate = MyMath.RoundDown(clsCommon.myCdbl(NetRate) * SNfW / SNFRatio, 2)
+                '                    obj.FAT_Value = MyMath.RoundDown(obj.fat_KG * obj.fat_Rate, 2)
+                '                    obj.Snf_Value = MyMath.RoundDown(obj.snf_KG * obj.SNF_Rate, 2)
+                '                    obj.Amount = clsCommon.myFormat(Math.Round(obj.FAT_Value + obj.Snf_Value, 0))
+                '                    Dim lineNo As Integer = 1
 
-                    obj.Arr = New List(Of clsWeighmentChemberNoDetails)
-                    Dim objTr As New clsWeighmentChemberNoDetails()
-                    objTr.Line_No = lineNo
-                    objTr.snf_Per = clsCommon.myCdbl(gv1.Rows(i).Cells("SNF").Value)
-                    objTr.fat_per = clsCommon.myCdbl(gv1.Rows(i).Cells("FAT").Value)
-                    objTr.Item_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Item_Code").Value)
-                    objTr.UOM = DefaultUOm
-                    ' objTr.Sublocation_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Silo Code").Value)
-                    objTr.Tare_Weight = 0
-                    objTr.Net_Weight = clsCommon.myCdbl(gv1.Rows(i).Cells("Qty").Value)
-                    objTr.Gross_Weight = clsCommon.myCdbl(gv1.Rows(i).Cells("Qty").Value)
-                    objTr.CH_FAT_Kg = (obj.Net_Weight * obj.fat_per) / 100
-                    objTr.CH_SNF_Kg = (obj.Net_Weight * obj.snf_per) / 100
-                    objTr.CH_FAT_Rate = obj.fat_Rate
-                    objTr.CH_SNF_Rate = obj.SNF_Rate
-                    objTr.CH_FAT_Value = objTr.CH_FAT_Kg * objTr.CH_FAT_Rate
-                    objTr.CH_Amount = obj.Amount
-                    objTr.CH_SNF_Value = objTr.CH_SNF_Kg * objTr.CH_SNF_Rate
-                    obj.Arr.Add(objTr)
-
-
-                    clsWeighment.saveData(obj, trans)
-                    objCommonVar.CurrentUserCode = CurrentUserCode
-                    Dim weighmentNo As String = obj.Weighment_No
-
-                    ' Quality check start here
-                    obj = New clsQualityCheck()
-                    obj.QC_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.QualityCheck, clsDocTransactionType.MccProc, gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value)
-                    If clsCommon.myLen(obj.QC_No) <= 0 Then
-                        Throw New Exception("Error in QC No genertion")
-                    End If
-                    'obj.IsAgainstJobWork = clsCommon.myCstr(gv1.Rows(i).Cells("IsJobWork").Value)
-                    'obj.Joblocation_Code = clsCommon.myCstr(gv1.Rows(i).Cells("JobWork Location").Value)
-                    obj.Gate_Entry_No = clsCommon.myCstr(GateEntryNo)
-                    obj.Doc_Type = "MccProc"
-                    obj.Gate_Entry_Date_And_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
-                    obj.QC_In_Date_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
-                    obj.QC_Out_Date_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
-                    obj.Vendor_Code = ""
-                    obj.Vendor_Desc = ""
-                    obj.Dispatched_From_Mcc_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value)
-                    obj.Dispatched_From_Mcc_Desc = clsLocation.GetName(obj.Dispatched_From_Mcc_Code, trans)
-                    obj.location_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value)
-                    obj.Location_Desc = clsLocation.GetName(obj.location_Code, trans)
-                    'obj.Challan_No = ChallanNo
-                    'obj.Challan_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy")
-                    'obj.Tanker_No = clsCommon.myCstr(gv1.Rows(i).Cells("Tanker No.").Value)
-                    obj.Weighment_No = clsCommon.myCstr(weighmentNo)
-                    obj.Weighment_Date = clsCommon.myCDate(dt, "dd/MMM/yyyy")
-                    obj.Item_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Item_Code").Value)
-                    obj.Item_Desc = clsItemMaster.GetItemName(obj.Item_Code, trans)
-                    obj.Remarks = ""
-                    obj.UOM = DefaultUOm
-                    obj.Qty_In_Kg = clsCommon.myCdbl(gv1.Rows(i).Cells("Qty").Value)
-                    obj.snf_Per = clsCommon.myCdbl(gv1.Rows(i).Cells("SNF").Value)
-                    obj.fat_per = clsCommon.myCdbl(gv1.Rows(i).Cells("FAT").Value)
-                    obj.snf_KG = (obj.Qty_In_Kg * obj.snf_per) / 100
-                    obj.fat_KG = (obj.Qty_In_Kg * obj.fat_per) / 100
-                    obj.Receipt_Control_FAT = 0
-                    obj.Receipt_Control_SNF = 0
-                    obj.DeductionAmount = 0
-                    obj.isPosted = 1
-                    obj.Posting_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                    obj.isNewEntry = True
-                    obj.Modify_By = objCommonVar.CurrentUserCode
-                    obj.Modify_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                    obj.Created_By = objCommonVar.CurrentUserCode
-                    obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                    obj.comp_code = objCommonVar.CurrentCompanyCode
-                    obj.is_Param_Accepted = 1
-                    Dim intStartParam As Integer = 0
-
-                    Dim intQCstartrColumn As Integer = 0
-                    Dim paramcount As Integer = 0
-                    intTDLastColumn = intStartParam + paramcount
-                    Dim QcNo = obj.QC_No
-
-                    obj.arrQcParam = New List(Of clsQcParam)
-                    Dim index As Integer = 1
-
-                    Dim objQCParam As New clsQcParam()
-
-                    objQCParam.QC_No = clsCommon.myCstr(obj.QC_No)
-                    objQCParam.LINE_NO = index
-                    objQCParam.Param_Field_Code = "FAT"
-                    objQCParam.Param_Field_Desc = "FAT"
-                    objQCParam.Param_Field_Value = clsCommon.myCstr(gv1.Rows(i).Cells("FAT").Value)
-                    objQCParam.Param_Type = "FAT"
-                    obj.arrQcParam.Add(objQCParam)
-
-                    objQCParam = New clsQcParam()
-                    objQCParam.LINE_NO = index
-                    objQCParam.QC_No = clsCommon.myCstr(obj.QC_No)
-                    objQCParam.Param_Field_Code = "SNF"
-                    objQCParam.Param_Field_Desc = "SNF"
-                    objQCParam.Param_Field_Value = clsCommon.myCstr(gv1.Rows(i).Cells("SNF").Value)
-                    objQCParam.Param_Type = "SNF"
-
-                    obj.arrQcParam.Add(objQCParam)
-
-                    obj.Arr = New List(Of clsQualityChemberNoDetails)
-                    Dim objQcChamber As New clsQualityChemberNoDetails()
-                    objQcChamber.Line_No = lineNo
-                    objQcChamber.snf_Per = clsCommon.myCdbl(gv1.Rows(i).Cells("SNF").Value)
-                    objQcChamber.fat_per = clsCommon.myCdbl(gv1.Rows(i).Cells("FAT").Value)
-                    objQcChamber.Item_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Item_Code").Value)
-                    objQcChamber.UOM = DefaultUOm
-                    obj.Arr.Add(objQcChamber)
-
-                    clsQualityCheck.saveData(obj, trans)
-                    ' unloading start here 
-
-                    obj = New clsUnloading()
-                    obj.isNewEntry = True
-
-                    ''  Dim dt As Date = clsCommon.GETSERVERDATE(trans, "dd/MMM/yyyy hh:mm:ss tt")
-
-                    If obj.isNewEntry Then
-                        obj.Unloading_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.Unloading, clsDocTransactionType.NA, gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value)
-                        If clsCommon.myLen(obj.Unloading_No) <= 0 Then
-                            Throw New Exception("Error In Unloading  No Genertion")
-                        End If
-                    End If
-                    obj.Gate_Entry_No = GateEntryNo
-                    obj.Unloading_Date_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
-                    'obj.Tanker_No = clsCommon.myCstr(gv1.Rows(i).Cells("Tanker No.").Value)
-                    obj.Weighment_No = weighmentNo
-                    obj.QC_No = QcNo
-                    obj.location_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value)
-                    'obj.Sub_location_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select top 1 Location_Code   from TSPL_LOCATION_MASTER  where Is_Sub_Location='Y' and Main_Location_Code='" & (gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value) & "'", trans))
-                    obj.Item_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Item_Code").Value)
-                    obj.Item_Desc = clsItemMaster.GetItemName(obj.Item_Code, trans)
-                    obj.UOM = DefaultUOm
-                    obj.Qty = clsCommon.myCdbl(gv1.Rows(i).Cells("Qty").Value)
-                    obj.fat_per = clsCommon.myCdbl(gv1.Rows(i).Cells("FAT").Value)
-                    obj.snf_Per = clsCommon.myCdbl(gv1.Rows(i).Cells("SNF").Value)
-                    obj.snf_KG = (obj.qty * obj.snf_per) / 100
-                    obj.fat_KG = (obj.qty * obj.fat_per) / 100
-                    obj.isPosted = 0
-                    obj.isPosted = 1
-                    obj.Posting_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy")
-                    obj.Modify_By = objCommonVar.CurrentUserCode
-                    obj.Modify_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                    obj.comp_code = objCommonVar.CurrentCompanyCode
-                    obj.Created_By = objCommonVar.CurrentUserCode
-                    obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                    'obj.Sub_location_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Silo Code").Value)
-
-                    obj.Arr = New List(Of clsUnloadingChemberNoDetails)
-                    Dim Line As Integer = 1
-
-                    Dim objUnloading As New clsUnloadingChemberNoDetails()
-                    objUnloading.Item_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Item_Code").Value)
-                    objUnloading.UOM = DefaultUOm
-                    objUnloading.Line_No = Line
-                    objUnloading.fat_per = clsCommon.myCdbl(gv1.Rows(i).Cells("FAT").Value)
-                    objUnloading.snf_Per = clsCommon.myCstr(gv1.Rows(i).Cells("SNF").Value)
-                    'objUnloading.Sublocation_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Silo Code").Value)
-                    obj.Arr.Add(objUnloading)
+                '                    obj.Arr = New List(Of clsWeighmentChemberNoDetails)
+                '                    Dim objTr As New clsWeighmentChemberNoDetails()
+                '                    objTr.Line_No = lineNo
+                '                    objTr.snf_Per = clsCommon.myCdbl(gv1.Rows(i).Cells("SNF").Value)
+                '                    objTr.fat_per = clsCommon.myCdbl(gv1.Rows(i).Cells("FAT").Value)
+                '                    objTr.Item_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Item_Code").Value)
+                '                    objTr.UOM = DefaultUOm
+                '                    ' objTr.Sublocation_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Silo Code").Value)
+                '                    objTr.Tare_Weight = 0
+                '                    objTr.Net_Weight = clsCommon.myCdbl(gv1.Rows(i).Cells("Qty").Value)
+                '                    objTr.Gross_Weight = clsCommon.myCdbl(gv1.Rows(i).Cells("Qty").Value)
+                '                    objTr.CH_FAT_Kg = (obj.Net_Weight * obj.fat_per) / 100
+                '                    objTr.CH_SNF_Kg = (obj.Net_Weight * obj.snf_per) / 100
+                '                    objTr.CH_FAT_Rate = obj.fat_Rate
+                '                    objTr.CH_SNF_Rate = obj.SNF_Rate
+                '                    objTr.CH_FAT_Value = objTr.CH_FAT_Kg * objTr.CH_FAT_Rate
+                '                    objTr.CH_Amount = obj.Amount
+                '                    objTr.CH_SNF_Value = objTr.CH_SNF_Kg * objTr.CH_SNF_Rate
+                '                    obj.Arr.Add(objTr)
 
 
-                    clsUnloading.saveData(obj, trans)
-                    Dim Unloading = obj.Unloading_No
+                '                    clsWeighment.saveData(obj, trans)
+                '                    objCommonVar.CurrentUserCode = CurrentUserCode
+                '                    Dim weighmentNo As String = obj.Weighment_No
 
-                    'Gate out start here
-                    obj = New clsGateOut()
-                    obj.isNewEntry = True
-                    obj.Doc_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.GateOut, clsDocTransactionType.NA, clsCommon.myCstr(gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value))
-                    If clsCommon.myLen(obj.Doc_No) <= 0 Then
-                        Throw New Exception("Error In Document  No Genertion")
-                    End If
-                    obj.Gate_Entry_No = GateEntryNo
-                    obj.Doc_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
-                    ' obj.Tanker_No = clsCommon.myCstr(gv1.Rows(i).Cells("Tanker No.").Value)
-                    obj.Weighment_No = weighmentNo
-                    obj.QC_No = QcNo
-                    obj.Modify_By = objCommonVar.CurrentUserCode
-                    obj.Modify_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                    obj.comp_code = objCommonVar.CurrentCompanyCode
-                    obj.Created_By = objCommonVar.CurrentUserCode
-                    obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                    clsGateOut.saveData(obj, trans)
+                '                    ' Quality check start here
+                '                    obj = New clsQualityCheck()
+                '                    obj.QC_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.QualityCheck, clsDocTransactionType.MccProc, gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value)
+                '                    If clsCommon.myLen(obj.QC_No) <= 0 Then
+                '                        Throw New Exception("Error in QC No genertion")
+                '                    End If
+                '                    'obj.IsAgainstJobWork = clsCommon.myCstr(gv1.Rows(i).Cells("IsJobWork").Value)
+                '                    'obj.Joblocation_Code = clsCommon.myCstr(gv1.Rows(i).Cells("JobWork Location").Value)
+                '                    obj.Gate_Entry_No = clsCommon.myCstr(GateEntryNo)
+                '                    obj.Doc_Type = "MccProc"
+                '                    obj.Gate_Entry_Date_And_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
+                '                    obj.QC_In_Date_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
+                '                    obj.QC_Out_Date_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
+                '                    obj.Vendor_Code = ""
+                '                    obj.Vendor_Desc = ""
+                '                    obj.Dispatched_From_Mcc_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value)
+                '                    obj.Dispatched_From_Mcc_Desc = clsLocation.GetName(obj.Dispatched_From_Mcc_Code, trans)
+                '                    obj.location_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value)
+                '                    obj.Location_Desc = clsLocation.GetName(obj.location_Code, trans)
+                '                    'obj.Challan_No = ChallanNo
+                '                    'obj.Challan_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy")
+                '                    'obj.Tanker_No = clsCommon.myCstr(gv1.Rows(i).Cells("Tanker No.").Value)
+                '                    obj.Weighment_No = clsCommon.myCstr(weighmentNo)
+                '                    obj.Weighment_Date = clsCommon.myCDate(dt, "dd/MMM/yyyy")
+                '                    obj.Item_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Item_Code").Value)
+                '                    obj.Item_Desc = clsItemMaster.GetItemName(obj.Item_Code, trans)
+                '                    obj.Remarks = ""
+                '                    obj.UOM = DefaultUOm
+                '                    obj.Qty_In_Kg = clsCommon.myCdbl(gv1.Rows(i).Cells("Qty").Value)
+                '                    obj.snf_Per = clsCommon.myCdbl(gv1.Rows(i).Cells("SNF").Value)
+                '                    obj.fat_per = clsCommon.myCdbl(gv1.Rows(i).Cells("FAT").Value)
+                '                    obj.snf_KG = (obj.Qty_In_Kg * obj.snf_per) / 100
+                '                    obj.fat_KG = (obj.Qty_In_Kg * obj.fat_per) / 100
+                '                    obj.Receipt_Control_FAT = 0
+                '                    obj.Receipt_Control_SNF = 0
+                '                    obj.DeductionAmount = 0
+                '                    obj.isPosted = 1
+                '                    obj.Posting_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                '                    obj.isNewEntry = True
+                '                    obj.Modify_By = objCommonVar.CurrentUserCode
+                '                    obj.Modify_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                '                    obj.Created_By = objCommonVar.CurrentUserCode
+                '                    obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                '                    obj.comp_code = objCommonVar.CurrentCompanyCode
+                '                    obj.is_Param_Accepted = 1
+                '                    Dim intStartParam As Integer = 0
 
-                    'Cleaning start here
-                    obj = New clsCleaning()
-                    obj.isNewEntry = True
+                '                    Dim intQCstartrColumn As Integer = 0
+                '                    Dim paramcount As Integer = 0
+                '                    intTDLastColumn = intStartParam + paramcount
+                '                    Dim QcNo = obj.QC_No
 
-                    obj.Doc_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.Cleaning, clsDocTransactionType.NA, gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value)
-                    If clsCommon.myLen(obj.Doc_No) <= 0 Then
-                        Throw New Exception("Error in Cleaning No genertion")
-                    End If
-                    'obj.IsAgainstJobWork = clsCommon.myCstr(gv1.Rows(i).Cells("IsJobWork").Value)
-                    'obj.Joblocation_Code = clsCommon.myCstr(gv1.Rows(i).Cells("JobWork Location").Value)
-                    obj.Gate_Entry_No = GateEntryNo
-                    obj.Start_Date_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
-                    obj.End_Date_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
-                    'obj.Tanker_No = clsCommon.myCstr(gv1.Rows(i).Cells("Tanker No.").Value)
-                    obj.Weighment_No = weighmentNo
-                    obj.QC_No = QcNo
-                    obj.Status = "OK"
-                    obj.Remarks = ""
-                    obj.isPosted = 1
-                    obj.Posting_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy")
-                    obj.Modify_By = objCommonVar.CurrentUserCode
-                    obj.Modify_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                    obj.comp_code = objCommonVar.CurrentCompanyCode
-                    obj.Created_By = objCommonVar.CurrentUserCode
-                    obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                    obj.InTime = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                    obj.OutTime = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                    clsCleaning.saveData(obj, trans)
-                    'Milk Transfer In
-                    obj = New clsMilkTransferIn
-                    obj.isNewEntry = True
+                '                    obj.arrQcParam = New List(Of clsQcParam)
+                '                    Dim index As Integer = 1
 
-                    obj.Receipt_Challan_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.MilkTransferIn, clsDocTransactionType.NA, gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value)
-                    If clsCommon.myLen(obj.Receipt_Challan_No) <= 0 Then
-                        Throw New Exception("Error in Milk Transfer In genertion")
-                    End If
-                    obj.Receipt_Challan_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
-                    obj.Dispatch_Challan_No = ""
-                    obj.Weighment_No = weighmentNo
-                    obj.Qc_No = QcNo
-                    obj.Gate_Entry_no = GateEntryNo
-                    obj.location_code = clsCommon.myCstr(gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value)
-                    obj.km_reading_receipt = 0
-                    obj.Receipt_Control_FAT = 0
-                    obj.Receipt_Control_SNF = 0
-                    obj.PriceCode = PriceCode
-                    obj.FAT_W = clsCommon.myCdbl(dtPrice.Rows(0)("Fat_Weightage"))
-                    obj.FAT_R = clsCommon.myCdbl(dtPrice.Rows(0)("Fat_Percentage"))
-                    obj.SNf_W = clsCommon.myCdbl(dtPrice.Rows(0)("Snf_Weightage"))
-                    obj.SNf_R = clsCommon.myCdbl(dtPrice.Rows(0)("Snf_Percentage"))
+                '                    Dim objQCParam As New clsQcParam()
 
-                    'obj.fat_Rate = MyMath.RoundDown(clsCommon.myCdbl(NetRate) * FatW / FATRatio, 2)
-                    'obj.SNF_Rate = MyMath.RoundDown(clsCommon.myCdbl(NetRate) * SNfW / SNFRatio, 2)
-                    'obj.FAT_Value = MyMath.RoundDown(obj.fat_KG * obj.fat_Rate, 2)
-                    'obj.Snf_Value = MyMath.RoundDown(obj.snf_KG * obj.SNF_Rate, 2)
-                    'obj.Amount = clsCommon.myFormat(Math.Round(obj.FAT_Value + obj.Snf_Value, 0))
+                '                    objQCParam.QC_No = clsCommon.myCstr(obj.QC_No)
+                '                    objQCParam.LINE_NO = index
+                '                    objQCParam.Param_Field_Code = "FAT"
+                '                    objQCParam.Param_Field_Desc = "FAT"
+                '                    objQCParam.Param_Field_Value = clsCommon.myCstr(gv1.Rows(i).Cells("FAT").Value)
+                '                    objQCParam.Param_Type = "FAT"
+                '                    obj.arrQcParam.Add(objQCParam)
 
-                    obj.Document_Amount = 0
+                '                    objQCParam = New clsQcParam()
+                '                    objQCParam.LINE_NO = index
+                '                    objQCParam.QC_No = clsCommon.myCstr(obj.QC_No)
+                '                    objQCParam.Param_Field_Code = "SNF"
+                '                    objQCParam.Param_Field_Desc = "SNF"
+                '                    objQCParam.Param_Field_Value = clsCommon.myCstr(gv1.Rows(i).Cells("SNF").Value)
+                '                    objQCParam.Param_Type = "SNF"
 
-                    obj.Modified_By = objCommonVar.CurrentUserCode
-                    obj.Modified_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                    obj.Comp_Code = objCommonVar.CurrentCompanyCode
-                    obj.Created_By = objCommonVar.CurrentUserCode
-                    obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                '                    obj.arrQcParam.Add(objQCParam)
 
-                    clsMilkTransferIn.saveData(obj, trans)
-                    clsMilkTransferIn.postData(obj.Receipt_Challan_No, trans)
-                    clsDBFuncationality.ExecuteNonQuery("Update TSPL_GATE_ENTRY set Status = 1 where pk_id = " & clsCommon.myCdbl(gv1.Rows(i).Cells("PK_Id").Value) & "", trans)
-                    trans.Commit()
-                ElseIf clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(i).Cells("Type").Value), "Purchase") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(i).Cells("Type").Value), "Conversion In") = CompairStringResult.Equal Then
+                '                    obj.Arr = New List(Of clsQualityChemberNoDetails)
+                '                    Dim objQcChamber As New clsQualityChemberNoDetails()
+                '                    objQcChamber.Line_No = lineNo
+                '                    objQcChamber.snf_Per = clsCommon.myCdbl(gv1.Rows(i).Cells("SNF").Value)
+                '                    objQcChamber.fat_per = clsCommon.myCdbl(gv1.Rows(i).Cells("FAT").Value)
+                '                    objQcChamber.Item_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Item_Code").Value)
+                '                    objQcChamber.UOM = DefaultUOm
+                '                    obj.Arr.Add(objQcChamber)
+
+                '                    clsQualityCheck.saveData(obj, trans)
+                '                    ' unloading start here 
+
+                '                    obj = New clsUnloading()
+                '                    obj.isNewEntry = True
+
+                '                    ''  Dim dt As Date = clsCommon.GETSERVERDATE(trans, "dd/MMM/yyyy hh:mm:ss tt")
+
+                '                    If obj.isNewEntry Then
+                '                        obj.Unloading_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.Unloading, clsDocTransactionType.NA, gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value)
+                '                        If clsCommon.myLen(obj.Unloading_No) <= 0 Then
+                '                            Throw New Exception("Error In Unloading  No Genertion")
+                '                        End If
+                '                    End If
+                '                    obj.Gate_Entry_No = GateEntryNo
+                '                    obj.Unloading_Date_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
+                '                    'obj.Tanker_No = clsCommon.myCstr(gv1.Rows(i).Cells("Tanker No.").Value)
+                '                    obj.Weighment_No = weighmentNo
+                '                    obj.QC_No = QcNo
+                '                    obj.location_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value)
+                '                    'obj.Sub_location_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select top 1 Location_Code   from TSPL_LOCATION_MASTER  where Is_Sub_Location='Y' and Main_Location_Code='" & (gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value) & "'", trans))
+                '                    obj.Item_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Item_Code").Value)
+                '                    obj.Item_Desc = clsItemMaster.GetItemName(obj.Item_Code, trans)
+                '                    obj.UOM = DefaultUOm
+                '                    obj.Qty = clsCommon.myCdbl(gv1.Rows(i).Cells("Qty").Value)
+                '                    obj.fat_per = clsCommon.myCdbl(gv1.Rows(i).Cells("FAT").Value)
+                '                    obj.snf_Per = clsCommon.myCdbl(gv1.Rows(i).Cells("SNF").Value)
+                '                    obj.snf_KG = (obj.qty * obj.snf_per) / 100
+                '                    obj.fat_KG = (obj.qty * obj.fat_per) / 100
+                '                    obj.isPosted = 0
+                '                    obj.isPosted = 1
+                '                    obj.Posting_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy")
+                '                    obj.Modify_By = objCommonVar.CurrentUserCode
+                '                    obj.Modify_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                '                    obj.comp_code = objCommonVar.CurrentCompanyCode
+                '                    obj.Created_By = objCommonVar.CurrentUserCode
+                '                    obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                '                    'obj.Sub_location_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Silo Code").Value)
+
+                '                    obj.Arr = New List(Of clsUnloadingChemberNoDetails)
+                '                    Dim Line As Integer = 1
+
+                '                    Dim objUnloading As New clsUnloadingChemberNoDetails()
+                '                    objUnloading.Item_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Item_Code").Value)
+                '                    objUnloading.UOM = DefaultUOm
+                '                    objUnloading.Line_No = Line
+                '                    objUnloading.fat_per = clsCommon.myCdbl(gv1.Rows(i).Cells("FAT").Value)
+                '                    objUnloading.snf_Per = clsCommon.myCstr(gv1.Rows(i).Cells("SNF").Value)
+                '                    'objUnloading.Sublocation_Code = clsCommon.myCstr(gv1.Rows(i).Cells("Silo Code").Value)
+                '                    obj.Arr.Add(objUnloading)
+
+
+                '                    clsUnloading.saveData(obj, trans)
+                '                    Dim Unloading = obj.Unloading_No
+
+                '                    'Gate out start here
+                '                    obj = New clsGateOut()
+                '                    obj.isNewEntry = True
+                '                    obj.Doc_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.GateOut, clsDocTransactionType.NA, clsCommon.myCstr(gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value))
+                '                    If clsCommon.myLen(obj.Doc_No) <= 0 Then
+                '                        Throw New Exception("Error In Document  No Genertion")
+                '                    End If
+                '                    obj.Gate_Entry_No = GateEntryNo
+                '                    obj.Doc_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
+                '                    ' obj.Tanker_No = clsCommon.myCstr(gv1.Rows(i).Cells("Tanker No.").Value)
+                '                    obj.Weighment_No = weighmentNo
+                '                    obj.QC_No = QcNo
+                '                    obj.Modify_By = objCommonVar.CurrentUserCode
+                '                    obj.Modify_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                '                    obj.comp_code = objCommonVar.CurrentCompanyCode
+                '                    obj.Created_By = objCommonVar.CurrentUserCode
+                '                    obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                '                    clsGateOut.saveData(obj, trans)
+
+                '                    'Cleaning start here
+                '                    obj = New clsCleaning()
+                '                    obj.isNewEntry = True
+
+                '                    obj.Doc_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.Cleaning, clsDocTransactionType.NA, gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value)
+                '                    If clsCommon.myLen(obj.Doc_No) <= 0 Then
+                '                        Throw New Exception("Error in Cleaning No genertion")
+                '                    End If
+                '                    'obj.IsAgainstJobWork = clsCommon.myCstr(gv1.Rows(i).Cells("IsJobWork").Value)
+                '                    'obj.Joblocation_Code = clsCommon.myCstr(gv1.Rows(i).Cells("JobWork Location").Value)
+                '                    obj.Gate_Entry_No = GateEntryNo
+                '                    obj.Start_Date_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
+                '                    obj.End_Date_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
+                '                    'obj.Tanker_No = clsCommon.myCstr(gv1.Rows(i).Cells("Tanker No.").Value)
+                '                    obj.Weighment_No = weighmentNo
+                '                    obj.QC_No = QcNo
+                '                    obj.Status = "OK"
+                '                    obj.Remarks = ""
+                '                    obj.isPosted = 1
+                '                    obj.Posting_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy")
+                '                    obj.Modify_By = objCommonVar.CurrentUserCode
+                '                    obj.Modify_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                '                    obj.comp_code = objCommonVar.CurrentCompanyCode
+                '                    obj.Created_By = objCommonVar.CurrentUserCode
+                '                    obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                '                    obj.InTime = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                '                    obj.OutTime = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                '                    clsCleaning.saveData(obj, trans)
+                '                    'Milk Transfer In
+                '                    obj = New clsMilkTransferIn
+                '                    obj.isNewEntry = True
+
+                '                    obj.Receipt_Challan_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.MilkTransferIn, clsDocTransactionType.NA, gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value)
+                '                    If clsCommon.myLen(obj.Receipt_Challan_No) <= 0 Then
+                '                        Throw New Exception("Error in Milk Transfer In genertion")
+                '                    End If
+                '                    obj.Receipt_Challan_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
+                '                    obj.Dispatch_Challan_No = ""
+                '                    obj.Weighment_No = weighmentNo
+                '                    obj.Qc_No = QcNo
+                '                    obj.Gate_Entry_no = GateEntryNo
+                '                    obj.location_code = clsCommon.myCstr(gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value)
+                '                    obj.km_reading_receipt = 0
+                '                    obj.Receipt_Control_FAT = 0
+                '                    obj.Receipt_Control_SNF = 0
+                '                    obj.PriceCode = PriceCode
+                '                    obj.FAT_W = clsCommon.myCdbl(dtPrice.Rows(0)("Fat_Weightage"))
+                '                    obj.FAT_R = clsCommon.myCdbl(dtPrice.Rows(0)("Fat_Percentage"))
+                '                    obj.SNf_W = clsCommon.myCdbl(dtPrice.Rows(0)("Snf_Weightage"))
+                '                    obj.SNf_R = clsCommon.myCdbl(dtPrice.Rows(0)("Snf_Percentage"))
+
+                '                    'obj.fat_Rate = MyMath.RoundDown(clsCommon.myCdbl(NetRate) * FatW / FATRatio, 2)
+                '                    'obj.SNF_Rate = MyMath.RoundDown(clsCommon.myCdbl(NetRate) * SNfW / SNFRatio, 2)
+                '                    'obj.FAT_Value = MyMath.RoundDown(obj.fat_KG * obj.fat_Rate, 2)
+                '                    'obj.Snf_Value = MyMath.RoundDown(obj.snf_KG * obj.SNF_Rate, 2)
+                '                    'obj.Amount = clsCommon.myFormat(Math.Round(obj.FAT_Value + obj.Snf_Value, 0))
+
+                '                    obj.Document_Amount = 0
+
+                '                    obj.Modified_By = objCommonVar.CurrentUserCode
+                '                    obj.Modified_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                '                    obj.Comp_Code = objCommonVar.CurrentCompanyCode
+                '                    obj.Created_By = objCommonVar.CurrentUserCode
+                '                    obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+
+                '                    clsMilkTransferIn.saveData(obj, trans)
+                '                    clsMilkTransferIn.postData(obj.Receipt_Challan_No, trans)
+                '                    clsDBFuncationality.ExecuteNonQuery("Update TSPL_GATE_ENTRY set Status = 1 where pk_id = " & clsCommon.myCdbl(gv1.Rows(i).Cells("PK_Id").Value) & "", trans)
+                '                    trans.Commit()
+                If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(i).Cells("Type").Value), "Purchase") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(i).Cells("Type").Value), "Conversion In") = CompairStringResult.Equal Then
                     obj = New clsGateEntry()
                     obj.Gate_Entry_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.GateEntry, clsDocTransactionType.BulkProc, gv1.Rows(i).Cells("Gate_Entry_Location_Code").Value)
                     If clsCommon.myLen(obj.Gate_Entry_No) <= 0 Then
@@ -1008,6 +1008,7 @@ IsDefaultForTankerDispatch =1 order by price_date desc", trans)
  left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_GATE_ENTRY.Vendor_Code 
  where convert(date,TSPL_GATE_ENTRY.Gate_Entry_Date,103) = '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' and TSPL_GATE_ENTRY.status = 0  "
         If cmbReportType.SelectedIndex = 1 Then
+            Throw New Exception("This Feature is not for you")
             If clsCommon.myLen(txtRouteNo.Value) <= 0 Then
                 clsCommon.MyMessageBoxShow(Me, "Please select Route", Me.Text)
                 Exit Function
