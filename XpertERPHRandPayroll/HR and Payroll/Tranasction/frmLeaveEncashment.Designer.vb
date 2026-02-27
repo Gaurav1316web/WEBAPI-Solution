@@ -49,6 +49,8 @@ Partial Class frmLeaveEncashment
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
+        Me.CmbFinancialYear = New System.Windows.Forms.ComboBox()
+        Me.MyLabel1 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -72,6 +74,7 @@ Partial Class frmLeaveEncashment
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -109,6 +112,8 @@ Partial Class frmLeaveEncashment
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel1)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.CmbFinancialYear)
         Me.SplitContainer2.Panel1.Controls.Add(Me.UsLock1)
         Me.SplitContainer2.Panel1.Controls.Add(Me.btnGo)
         Me.SplitContainer2.Panel1.Controls.Add(Me.cmbDocType)
@@ -329,6 +334,7 @@ Partial Class frmLeaveEncashment
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportAPI = False
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -400,6 +406,24 @@ Partial Class frmLeaveEncashment
         Me.btnSave.TabIndex = 23
         Me.btnSave.Text = "Save"
         '
+        'CmbFinancialYear
+        '
+        Me.CmbFinancialYear.FormattingEnabled = True
+        Me.CmbFinancialYear.Location = New System.Drawing.Point(292, 51)
+        Me.CmbFinancialYear.Name = "CmbFinancialYear"
+        Me.CmbFinancialYear.Size = New System.Drawing.Size(121, 21)
+        Me.CmbFinancialYear.TabIndex = 1593
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(208, 56)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(79, 16)
+        Me.MyLabel1.TabIndex = 1595
+        Me.MyLabel1.Text = "Financial Year"
+        '
         'frmLeaveEncashment
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -436,6 +460,7 @@ Partial Class frmLeaveEncashment
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -465,4 +490,6 @@ Partial Class frmLeaveEncashment
     Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
     Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents UsLock1 As common.usLock
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents CmbFinancialYear As ComboBox
 End Class

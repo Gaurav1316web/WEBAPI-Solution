@@ -326,10 +326,10 @@ Public Class clsPSShipmentHead
         End Try
         Return True
     End Function
-    Public Shared Function CancelData(ByVal Form_Id As String, ByVal Doc_No As String, ByVal InvoiceNo As String, ByVal NavType As NavigatorType) As Boolean
+    Public Shared Function CancelData(ByVal Form_Id As String, ByVal Doc_No As String, ByVal InvoiceNo As String, ByVal NavType As NavigatorType, ByVal isCancelByAdmin As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            CancelData(Form_Id, Doc_No, InvoiceNo, NavType, trans)
+            CancelData(Form_Id, Doc_No, InvoiceNo, NavType, trans, isCancelByAdmin)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -337,7 +337,7 @@ Public Class clsPSShipmentHead
         End Try
         Return True
     End Function
-    Public Shared Function CancelData(ByVal Form_Id As String, ByVal Doc_No As String, ByVal InvoiceNo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As Boolean
+    Public Shared Function CancelData(ByVal Form_Id As String, ByVal Doc_No As String, ByVal InvoiceNo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction, ByVal isCancelByAdmin As Boolean) As Boolean
         '' created by Richa Agarwal against ticket No-ERO/09/09/19-001022  on date 09-09-2019
         'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
@@ -358,7 +358,7 @@ Public Class clsPSShipmentHead
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
                     If clsCommon.myLen(InvoiceNo) > 0 Then
-                        CancelData(clsCommon.myCstr(dr("Document_Code")), clsCommon.myCstr(dr("Sale_Invoice_No")), Form_Id, trans)
+                        CancelData(clsCommon.myCstr(dr("Document_Code")), clsCommon.myCstr(dr("Sale_Invoice_No")), Form_Id, trans, isCancelByAdmin)
                     Else
                         CancelData(clsCommon.myCstr(dr("Document_Code")), Form_Id, trans)
                     End If
@@ -376,7 +376,7 @@ Public Class clsPSShipmentHead
         End Try
         Return True
     End Function
-    Public Shared Function CancelData(ByVal Doc_No As String, ByVal InvoiceNo As String, ByVal Form_Id As String, ByVal trans As SqlTransaction) As Boolean
+    Public Shared Function CancelData(ByVal Doc_No As String, ByVal InvoiceNo As String, ByVal Form_Id As String, ByVal trans As SqlTransaction, ByVal isCancelByAdmin As Boolean) As Boolean
         Try
             Dim qry As String = ""
             Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(Doc_No, NavigatorType.Current, trans, False, False, True)
@@ -462,23 +462,25 @@ Public Class clsPSShipmentHead
             qry = "delete from TSPL_DAIRYSALE_GATEPASS_MASTER where GPCode='" & strDairyGAtePassCount & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             '' Cancel E-Way Bill --------------------------------------
+
             Dim ewbno As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select EWayBillNo from tspl_sd_sale_invoice_head where Document_Code='" & InvoiceNo & "' and Ewb_cancelDate is null ", trans))
-            If clsCommon.myLen(ewbno) > 0 Then
-                Dim objResut As Object = ClsEInvoiceOFAPIs.CancelEWayBill(objCommonVar.CurrentCompanyCode, ewbno, "Order Cancelled", obj.Bill_To_Location, trans)
-                If objResut Is Nothing Then
-                    Throw New Exception("e-way bill cancellation failed!")
-                Else
-                    Dim CancelDate As String = objResut.SelectToken("data.cancelDate").ToString
-                    Dim strUpdateQry As String = "update tspl_sd_sale_invoice_head set Ewb_cancelDate='" & clsCommon.myCstr(CancelDate) & "'' where EWayBillNo='" & clsCommon.myCstr(ewbno) & "''"
-                    clsDBFuncationality.ExecuteNonQuery(strUpdateQry, trans)
+                If clsCommon.myLen(ewbno) > 0 Then
+                    Dim objResut As Object = ClsEInvoiceOFAPIs.CancelEWayBill(objCommonVar.CurrentCompanyCode, ewbno, "Order Cancelled", obj.Bill_To_Location, trans)
+                    If objResut Is Nothing Then
+                        Throw New Exception("e-way bill cancellation failed!")
+                    Else
+                        Dim CancelDate As String = objResut.SelectToken("data.cancelDate").ToString
+                        Dim strUpdateQry As String = "update tspl_sd_sale_invoice_head set Ewb_cancelDate='" & clsCommon.myCstr(CancelDate) & "' where EWayBillNo='" & clsCommon.myCstr(ewbno) & "'"
+                        clsDBFuncationality.ExecuteNonQuery(strUpdateQry, trans)
+                    End If
                 End If
-            End If
+
             '' Cancel E-Invoice ----------------------------- 
             Dim strIrnNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select IRN_No from tspl_sd_sale_invoice_head where Document_Code='" & InvoiceNo & "'", trans))
             If clsCommon.myLen(strIrnNo) > 0 Then
                 Dim dtirn As DataTable = clsDBFuncationality.GetDataTable("select Einvoice_type,IRN_No,Is_Taxable,Bill_To_Location from TSPL_SD_SALE_INVOICE_HEAD where document_code='" & InvoiceNo & "'", trans)
                 If dtirn IsNot Nothing AndAlso dtirn.Rows.Count > 0 Then
-                    If clsCommon.CompairString(clsCommon.myCstr(dtirn.Rows(0)("Einvoice_type")), "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(dtirn.Rows(0)("Is_Taxable")), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True Then
+                    If clsCommon.CompairString(clsCommon.myCstr(dtirn.Rows(0)("Einvoice_type")), "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(dtirn.Rows(0)("Is_Taxable")), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True AndAlso Not isCancelByAdmin Then
                         If ClsEInvoiceOFAPIs.EInvoice_Cancellation(InvoiceNo, clsCommon.myCstr(dtirn.Rows(0)("IRN_No")), clsCommon.myCstr(dtirn.Rows(0)("Bill_To_Location")), trans) = True Then
                         Else
                             Throw New Exception("Invalid JSON Value")

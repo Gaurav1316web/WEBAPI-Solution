@@ -128,6 +128,9 @@
     <None Include="Crystal Reports GST\crptExciseDetails.rpt" />
     <None Include="Crystal Reports GST\crptExciseSummary.rpt" />
     <None Include="Crystal Reports GST\Dairy Sales Report\crptTaxableNonTaxableInvoiceJALNEW.rpt" />
+    <None Include="Crystal Reports GST\Dairy Sales Report\rptSaleReturn_Exempted.rpt" />
+    <None Include="Crystal Reports GST\Dairy Sales Report\rptSaleReturn_Interstate.rpt" />
+    <None Include="Crystal Reports GST\Dairy Sales Report\rptSaleReturn_IntrastateUGST.rpt" />
     <None Include="Crystal Reports GST\Fixed Assets\AssetScrapSale.rpt" />
     <None Include="Crystal Reports GST\Fixed Assets\frmAcquisionEntryReport.rpt" />
     <None Include="Crystal Reports GST\Fixed Assets\frmAssetScrapSale.rpt" />

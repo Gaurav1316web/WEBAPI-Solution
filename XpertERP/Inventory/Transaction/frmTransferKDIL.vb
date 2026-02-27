@@ -2481,6 +2481,16 @@ Public Class FrmTransferKDIL
         fndSRNO.Enabled = True
         txtTransferOutNo.Enabled = True
         txtLoadingAdviceNo.Text = ""
+
+        If clsCommon.CompairString(cboTransferType.SelectedValue, "O") = CompairStringResult.Equal Then
+            fndPriceCode.Visible = True
+            lblpricecode.Visible = True
+            Dim qry As String = " Select DISTINCT TSPL_PRICE_COMPONENT_MAPPING.Price_Code from TSPL_PRICE_COMPONENT_MAPPING   where TSPL_PRICE_COMPONENT_MAPPING.Default_For_Tarnsfer='1'  "
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                fndPriceCode.Value = clsCommon.myCstr(dt.Rows(0)("Price_Code"))
+            End If
+        End If
     End Sub
     Function AllowToSave() As Boolean
         Try

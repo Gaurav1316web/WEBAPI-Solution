@@ -63,6 +63,7 @@ Public Class frmMilkCollectionDCS
     Dim settApplySameDayShift As Boolean = False
     Dim isRouteInGrid As Boolean = False
     Dim settBMCDCSShiftWise As Boolean = False
+    Dim SettApplyGaze As Boolean = False
 
 #End Region
     Public Sub SetUserMgmtNew()
@@ -106,7 +107,7 @@ Public Class frmMilkCollectionDCS
         settMaxSNFPerLimit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxSNFPerLimit, clsFixedParameterCode.MaxSNFPerLimit, Nothing))
         settMaxFATPerLimitOwnDCS = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxFATPerLimit, clsFixedParameterCode.MaxFATPerLimitOwnDCS, Nothing))
         settMaxSNFPerLimitOwnDCS = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxSNFPerLimit, clsFixedParameterCode.MaxSNFPerLimitOwnDCS, Nothing))
-
+        SettApplyGaze = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyGaze, clsFixedParameterCode.ApplyGaze, Nothing)) = 1)
         SettMilkCollectionFATSNFType = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkCollectionFATSNFType, clsFixedParameterCode.MilkCollectionFATSNFType, Nothing))
         SettFATSNFNoDecimalDCS = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FATSNFNoDecimalDCS, clsFixedParameterCode.FATSNFNoDecimalDCS, Nothing))
         SettShowAllDCS = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowAllDCS, clsFixedParameterCode.ShowAllDCS, Nothing))
@@ -223,14 +224,17 @@ Public Class frmMilkCollectionDCS
 
         lblQty.Text = ""
         lblTotReceivedQty.Text = ""
+        lblTotReceivedQtyClustered.Text = ""
         lblTotPendingQty.Text = ""
         lblFATPer.Text = ""
         lblFATKg.Text = ""
         lblTotReceivedFATKg.Text = ""
+        lblTotReceivedFATKgClustered.Text = ""
         lblTotPendingFATKg.Text = ""
         lblFATKg.Text = ""
         lblSNFKg.Text = ""
         lblTotReceivedSNFKg.Text = ""
+        lblTotReceivedSNFKgClustered.Text = ""
         lblTotPendingSNFKg.Text = ""
         cboShift.SelectedValue = ""
         UsLock1.Status = ERPTransactionStatus.Pending
@@ -446,6 +450,9 @@ Public Class frmMilkCollectionDCS
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoNumBox.IsVisible = ((clsCommon.myCDecimal(cboFATSNFType.SelectedValue) = 1) AndAlso Not SettFATSNFNoDecimalDCS AndAlso (SettHideShiftCollection <> 1))
         repoNumBox.ReadOnly = Not repoNumBox.IsVisible
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+            repoNumBox.IsVisible = True
+        End If
         gv1.MasterTemplate.Columns.Add(repoNumBox)
 
         repoNumBox = New GridViewDecimalColumn()
@@ -461,6 +468,9 @@ Public Class frmMilkCollectionDCS
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoNumBox.IsVisible = ((clsCommon.myCDecimal(cboFATSNFType.SelectedValue) = 1) AndAlso Not SettFATSNFNoDecimalDCS AndAlso (SettHideShiftCollection <> 1))
         repoNumBox.ReadOnly = Not repoNumBox.IsVisible
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+            repoNumBox.IsVisible = True
+        End If
         gv1.MasterTemplate.Columns.Add(repoNumBox)
 
         repoCheckBox = New GridViewCheckBoxColumn()
@@ -617,6 +627,9 @@ Public Class frmMilkCollectionDCS
             repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
             repoNumBox.IsVisible = ((clsCommon.myCDecimal(cboFATSNFType.SelectedValue) = 1) AndAlso Not SettFATSNFNoDecimalDCS AndAlso (SettHideShiftCollection <> 2))
             repoNumBox.ReadOnly = Not repoNumBox.IsVisible
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                repoNumBox.IsVisible = True
+            End If
             gv1.MasterTemplate.Columns.Add(repoNumBox)
 
             repoNumBox = New GridViewDecimalColumn()
@@ -632,6 +645,9 @@ Public Class frmMilkCollectionDCS
             repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
             repoNumBox.IsVisible = ((clsCommon.myCDecimal(cboFATSNFType.SelectedValue) = 1) AndAlso Not SettFATSNFNoDecimalDCS AndAlso (SettHideShiftCollection <> 2))
             repoNumBox.ReadOnly = Not repoNumBox.IsVisible
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                repoNumBox.IsVisible = True
+            End If
             gv1.MasterTemplate.Columns.Add(repoNumBox)
         End If
 
@@ -695,14 +711,26 @@ Public Class frmMilkCollectionDCS
         Dim TotMorningFATKG As Decimal = 0
         Dim TotMorningSNFKG As Decimal = 0
 
+        Dim TotEveningQtyClustered As Decimal = 0
+        Dim TotEveningFATKGClustered As Decimal = 0
+        Dim TotEveningSNFKGClustered As Decimal = 0
+        Dim TotMorningQtyClustered As Decimal = 0
+        Dim TotMorningFATKGClustered As Decimal = 0
+        Dim TotMorningSNFKGClustered As Decimal = 0
+
         For ii As Integer = 0 To gv1.Rows.Count - 1
             If clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningQty).Value) > 0 OrElse clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningQty).Value) Then
-                TotEveningQty += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningQty).Value)
-                TotEveningFATKG += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningFATKG).Value)
-
-
-                TotMorningQty += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningQty).Value)
-                TotMorningFATKG += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningFATKG).Value)
+                If clsCommon.myCBool(gv1.Rows(ii).Cells(colOwnDCS).Value) Then
+                    TotEveningQty += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningQty).Value)
+                    TotEveningFATKG += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningFATKG).Value)
+                    TotMorningQty += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningQty).Value)
+                    TotMorningFATKG += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningFATKG).Value)
+                Else
+                    TotEveningQtyClustered += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningQty).Value)
+                    TotEveningFATKGClustered += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningFATKG).Value)
+                    TotMorningQtyClustered += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningQty).Value)
+                    TotMorningFATKGClustered += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningFATKG).Value)
+                End If
 
 
                 Dim dclCurrSNFKGE As Decimal = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningSNFKG).Value)
@@ -716,23 +744,29 @@ Public Class frmMilkCollectionDCS
                     dclCurrSNFKGM = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningQty).Value) * snfPer / 100
                     gv1.Rows(ii).Cells(colMorningSNFKG).Value = dclCurrSNFKGM
                 End If
-
-                TotEveningSNFKG += dclCurrSNFKGE
-                TotMorningSNFKG += dclCurrSNFKGM
+                If clsCommon.myCBool(gv1.Rows(ii).Cells(colOwnDCS).Value) Then
+                    TotEveningSNFKG += dclCurrSNFKGE
+                    TotMorningSNFKG += dclCurrSNFKGM
+                Else
+                    TotEveningSNFKGClustered += dclCurrSNFKGE
+                    TotMorningSNFKGClustered += dclCurrSNFKGM
+                End If
             End If
         Next
         lblTotReceivedQty.Text = (TotEveningQty + TotMorningQty)
+        lblTotReceivedQtyClustered.Text = (TotEveningQtyClustered + TotMorningQtyClustered)
         lblTotReceivedFATKg.Text = clsCommon.myCstr(Math.Round((TotEveningFATKG + TotMorningFATKG), SettHeaderFATSNFKGDecimalPlaces, MidpointRounding.ToEven))
+        lblTotReceivedFATKgClustered.Text = clsCommon.myCstr(Math.Round((TotEveningFATKGClustered + TotMorningFATKGClustered), SettHeaderFATSNFKGDecimalPlaces, MidpointRounding.ToEven))
         lblTotReceivedSNFKg.Text = clsCommon.myCstr(Math.Round((TotEveningSNFKG + TotMorningSNFKG), SettHeaderFATSNFKGDecimalPlaces, MidpointRounding.ToEven))
+        lblTotReceivedSNFKgClustered.Text = clsCommon.myCstr(Math.Round((TotEveningSNFKGClustered + TotMorningSNFKGClustered), SettHeaderFATSNFKGDecimalPlaces, MidpointRounding.ToEven))
 
-        lblTotPendingQty.Text = clsCommon.myCstr(clsCommon.myCDecimal(lblQty.Text) - (TotEveningQty + TotMorningQty))
-        lblTotPendingFATKg.Text = clsCommon.myCstr(Math.Round((clsCommon.myCDecimal(lblFATKg.Text) - (TotEveningFATKG + TotMorningFATKG)), SettHeaderFATSNFKGDecimalPlaces, MidpointRounding.ToEven))
-        lblTotPendingSNFKg.Text = clsCommon.myCstr(Math.Round((clsCommon.myCDecimal(lblSNFKg.Text) - (TotEveningSNFKG + TotMorningSNFKG)), SettHeaderFATSNFKGDecimalPlaces, MidpointRounding.ToEven))
+        lblTotPendingQty.Text = clsCommon.myCstr(clsCommon.myCDecimal(lblQty.Text) - (TotEveningQty + TotMorningQty + TotEveningQtyClustered + TotMorningQtyClustered))
+        lblTotPendingFATKg.Text = clsCommon.myCstr(Math.Round((clsCommon.myCDecimal(lblFATKg.Text) - (TotEveningFATKG + TotMorningFATKG + TotEveningFATKGClustered + TotMorningFATKGClustered)), SettHeaderFATSNFKGDecimalPlaces, MidpointRounding.ToEven))
+        lblTotPendingSNFKg.Text = clsCommon.myCstr(Math.Round((clsCommon.myCDecimal(lblSNFKg.Text) - (TotEveningSNFKG + TotMorningSNFKG + TotEveningSNFKGClustered + TotMorningSNFKGClustered)), SettHeaderFATSNFKGDecimalPlaces, MidpointRounding.ToEven))
 
 
         txtTotPendingFATPer.Text = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(lblTotPendingFATKg.Text) * 100, clsCommon.myCDecimal(lblTotPendingQty.Text)), 2, MidpointRounding.ToEven)
         txtTotPendingSNFPer.Text = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(lblTotPendingSNFKg.Text) * 100, clsCommon.myCDecimal(lblTotPendingQty.Text)), 2, MidpointRounding.ToEven)
-
     End Sub
 
     Private Sub gv1_CellValidated(sender As Object, e As CellValidatedEventArgs) Handles gv1.CellValidated
@@ -1640,7 +1674,7 @@ select max(UploaderNo) as UploaderNo,max(MCC_NAME) as MCC_NAME,MCC_Code,max(Tank
 
     Private Sub RefreshMCCCollectionDetail(ByVal strMCCUploaderNo As String, ByVal strMilkType As String, ByVal arrMCC As List(Of clsMilkCollectionDCSMCCDetail))
         Try
-            Dim qry As String = "select TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id,TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No,TSPL_MILK_COLLECTION_MCC.Trip_No,TSPL_MILK_COLLECTION_MCC_DETAIL.Sample_No,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as UploaderNo,TSPL_MCC_MASTER.MCC_NAME, TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code,TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC.Vehicle_No,TSPL_MILK_COLLECTION_MCC.Route_Code ,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,case when TSPL_MILK_COLLECTION_MCC.FAT_SNF_Type=0 then '%' else 'KG' end as FAT_SNF_Type_Name,TSPL_MILK_COLLECTION_MCC.FAT_SNF_Type ,case when TSPL_MILK_COLLECTION_MCC.Late=0 then 'No' else 'Yes' end as Late,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty,TSPL_MILK_COLLECTION_MCC_DETAIL.FAT,TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG,TSPL_MILK_COLLECTION_MCC_DETAIL.SNF, TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG
+            Dim qry As String = "select TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id,TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No,TSPL_MILK_COLLECTION_MCC.Trip_No,TSPL_MILK_COLLECTION_MCC_DETAIL.Sample_No,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as UploaderNo,TSPL_MCC_MASTER.MCC_NAME, TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code,TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC.Vehicle_No,TSPL_MILK_COLLECTION_MCC.Route_Code ,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,case when TSPL_MILK_COLLECTION_MCC.FAT_SNF_Type=0 then '%' else 'KG' end as FAT_SNF_Type_Name,TSPL_MILK_COLLECTION_MCC.FAT_SNF_Type ,case when TSPL_MILK_COLLECTION_MCC.Late=0 then 'No' else 'Yes' end as Late,TSPL_MILK_COLLECTION_MCC_DETAIL.Gaze_Reading,TSPL_MILK_COLLECTION_MCC_DETAIL.Gaze_Qty,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty,TSPL_MILK_COLLECTION_MCC_DETAIL.FAT,TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG,TSPL_MILK_COLLECTION_MCC_DETAIL.SNF, TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG
 from TSPL_MILK_COLLECTION_MCC_DETAIL
 left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
@@ -1735,11 +1769,17 @@ where 2=2 "
                 gv2.Columns("FAT_SNF_Type").IsVisible = False
                 gv2.Columns("FAT_SNF_Type_Name").HeaderText = "FAT/SNF Type"
                 gv2.Columns("Late").HeaderText = "Late"
+
                 gv2.Columns("Qty").HeaderText = "Qty"
                 gv2.Columns("FAT").HeaderText = "FAT %"
                 gv2.Columns("FATKG").HeaderText = "FAT KG"
                 gv2.Columns("SNF").HeaderText = "SNF %"
                 gv2.Columns("SNFKG").HeaderText = "SNF KG"
+                gv2.Columns("Gaze_Reading").HeaderText = "Gaze Reading"
+                gv2.Columns("Gaze_Qty").HeaderText = "Gaze Qty"
+
+                gv2.Columns("Gaze_Reading").IsVisible = SettApplyGaze
+                gv2.Columns("Gaze_Qty").IsVisible = SettApplyGaze
 
             End If
         Catch ex As Exception

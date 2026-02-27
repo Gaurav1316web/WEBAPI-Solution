@@ -77,10 +77,9 @@ Public Class FrmMultipleProcDeduction
     End Sub
 
     Private Sub FrmMultipleProcDeduction_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        'Dim coll As Dictionary(Of String, String)
-        'coll = New Dictionary(Of String, String)
-        'coll.Add("IsOpening", "integer not null default 0")
-        'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MULTIPLE_DEDUCTION_HEAD", coll, Nothing, False, False, "", "Document_No", "Document_Date", False)
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+            chkSkipDrCrNote.Visible = True
+        End If
         settRepeatDeductionAndVendor = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RepeatDeductionAndVendor, clsFixedParameterCode.RepeatDeductionAndVendor, Nothing)) = 1)
         SettShowMCCFinder = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowMCCFinderInPaymentProcess, clsFixedParameterCode.ShowMCCFinderInPaymentProcess, Nothing)) = 1)
         Try

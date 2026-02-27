@@ -36,6 +36,7 @@ Public Class frmLeaveMaster
             obj.AFFECTS_SALARY = CboAffectsSal.SelectedValue
             obj.LEAVE_TYPE = cboLeaveType.SelectedValue
             obj.APPLY_LEAVE_TYPE_DED = cboLeaveTypeDed.SelectedValue
+            obj.IsApplyLeaveIncashment = IIf(ChkLeaveIncashment.Checked, 1, 0)
             If (obj.SaveData(obj, isNewEntry)) Then
                 common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.Code, NavigatorType.Current)
@@ -63,6 +64,7 @@ Public Class frmLeaveMaster
             CboAffectsSal.SelectedValue = obj.AFFECTS_SALARY
             cboLeaveType.SelectedValue = obj.LEAVE_TYPE
             cboLeaveTypeDed.SelectedValue = obj.APPLY_LEAVE_TYPE_DED
+            ChkLeaveIncashment.Checked = IIf(obj.IsApplyLeaveIncashment = 1, True, False)
         End If
 
     End Sub
@@ -217,6 +219,7 @@ Public Class frmLeaveMaster
         btnsave.Text = "Save"
         btnsave.Enabled = True
         btndelete.Enabled = True
+        ChkLeaveIncashment.Checked = False
     End Sub
 
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnclose.Click

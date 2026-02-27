@@ -232,7 +232,7 @@ Public Class frmVSP_VLCMaster
         txtCredit.MaxLength = 9
         txtcollect.MaxLength = 30
         txtpan.MaxLength = 30
-
+        txtPayeName.MaxLength = 1000
     End Sub
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.frmVSPMaster)
@@ -499,6 +499,7 @@ Public Class frmVSP_VLCMaster
 
                 TxtAmCU.Text = clsCommon.myCstr(myDr("AMCU"))
                 TxtAmc_Charge.Text = clsCommon.myCdbl(myDr("AMC_Charge"))
+                txtPayeName.Text = clsCommon.myCstr(myDr("VSP_Payee_Name"))
                 '---------------------------------------------------------------------------------
 
                 Me.txtPhone1.Text = myDr(13).ToString()
@@ -904,7 +905,10 @@ Public Class frmVSP_VLCMaster
                 strq = "Update TSPL_VENDOR_MASTER set AMC_Charge ='" & clsCommon.myCstr(Me.TxtAmc_Charge.Text) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(strq, trans)
             End If
-
+            If clsCommon.myLen(txtPayeName.Text) > 0 Then
+                strq = "Update TSPL_VENDOR_MASTER set VSP_Payee_Name ='" & clsCommon.myCstr(txtPayeName.Text) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
+                clsDBFuncationality.ExecuteNonQuery(strq, trans)
+            End If
             If clsCommon.myLen(Me.fndpaymentCycle.Value) > 0 Then
                 strq = "Update TSPL_VENDOR_MASTER set PC_CODE ='" & clsCommon.myCstr(Me.fndpaymentCycle.Value) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(strq, trans)
@@ -1761,7 +1765,10 @@ Public Class frmVSP_VLCMaster
                 Dim qryVidhanSabha As String = " Update TSPL_VENDOR_MASTER set VIDHAN_SABHA_CODE =null where Vendor_Code='" + fndvendorNo.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qryVidhanSabha, trans)
             End If
-
+            If clsCommon.myLen(txtPayeName.Text) > 0 Then
+                strq = "Update TSPL_VENDOR_MASTER set VSP_Payee_Name ='" & clsCommon.myCstr(txtPayeName.Text) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
+                clsDBFuncationality.ExecuteNonQuery(strq, trans)
+            End If
             If clsCommon.myLen(txtAliesName.Text) > 0 Then
                 Dim AliesQry As String = "Update TSPL_VENDOR_MASTER set Alies_Name='" & clsCommon.myCstr(txtAliesName.Text) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(AliesQry, trans)
@@ -2808,6 +2815,7 @@ Public Class frmVSP_VLCMaster
         gv1.GroupDescriptors.Clear()
         gv1.EnableFiltering = True
         gv1.MasterTemplate.SummaryRowsBottom.Clear()
+        txtPayeName.Text = ""
         funSetDefaultData()
         'VLC
         VLC_reset()
@@ -7219,6 +7227,123 @@ Public Class frmVSP_VLCMaster
             End If
         End If
     End Sub
+
+    Private Sub ExportPayeeName_Click(sender As Object, e As EventArgs) Handles ExportPayeeName.Click
+        Try
+            Dim qry As String = ""
+            Dim settApplyEffectiveStartDate As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEffectiveStartDate, clsFixedParameterCode.ApplyEffectiveStartDate, Nothing)) > 0, True, False)
+            If settApplyEffectiveStartDate = True Then
+                qry = "select '' as [DCS Code],'' as [DCS Name],'' as [Uploader Code],'' as [Payee Name]"
+            Else
+                qry = "select '' as [DCS Code],'' as [DCS Name],'' as [Uploader Code],'' as [Payee Name]"
+            End If
+            transportSql.ExporttoExcel(qry, Me)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "", Me.Text)
+        End Try
+    End Sub
+
+    Private Sub ImportPayeeName_Click(sender As Object, e As EventArgs) Handles ImportPayeeName.Click
+        funimport1()
+    End Sub
+    Public Sub funImport1()
+        Try
+            Dim gv As New UserControls.MyRadGridView
+            Me.Controls.Add(gv)
+            Dim currentdate As Date = Date.Today
+            If transportSql.importExcel(gv, "DCS Code", "DCS Name", "Uploader Code", "Payee Name") Then
+                Dim linno As Integer = 0
+                Dim TempNewRecord As Boolean = False
+                Dim obj As New clsfrmVLCMaster
+                Dim arr As New List(Of clsfrmVLCMaster)
+                Dim strCode As String = ""
+                Dim strName As String = ""
+                Dim strUploader_No As String = ""
+                Dim strpayeename As String = ""
+                Dim DataTable As DataTable
+                Dim dtError As New DataTable
+                Dim UpdateQry As String = ""
+                Dim ii As Integer = 0
+                dtError.Columns.Add("RowNo", GetType(Integer))
+                dtError.Columns.Add("Error", GetType(String))
+                Try
+                    If gv IsNot Nothing AndAlso gv.Rows.Count > 0 Then
+                        clsCommon.ProgressBarPercentShow()
+                        For Each grow As GridViewRowInfo In gv.Rows
+                            Try
+                                linno += 1
+                                obj = New clsfrmVLCMaster()
+                                obj.vlcCode = clsCommon.myCstr(grow.Cells("DCS Code").Value)
+                                obj.vlcName = clsCommon.myCstr(grow.Cells("DCS Name").Value)
+                                obj.VSP_Payee_Name = clsCommon.myCstr(grow.Cells("Payee Name").Value)
+                                obj.VLC_CODE_VLC_UPLOADER = clsCommon.myCstr(grow.Cells("Uploader Code").Value)
+                                Dim objVCode As New clsfrmVLCMaster
+                                arr.Add(obj)
+                            Catch ex As Exception
+                                Dim dr As DataRow = dtError.NewRow()
+                                dr("RowNo") = linno
+                                dr("Error") = ex.Message
+                                dtError.Rows.Add(dr)
+                            End Try
+                        Next
+                        clsCommon.ProgressBarPercentHide()
+                    End If
+                    Try
+                        If dtError.Rows.Count > 0 Then
+                            Dim ff As New FrmFreeGrid
+                            ff.ReportID = "MilkShiftUploader"
+                            ff.Text = "DCS Master Errors"
+                            ff.dt = dtError
+                            ff.ShowDialog()
+                        ElseIf arr IsNot Nothing AndAlso arr.Count > 0 Then
+                            Dim qry As String = "Valid Row [" + clsCommon.myCstr(arr.Count) + "] Do You want to Proceed"
+                            If clsCommon.MyMessageBoxShow(Me, qry, Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
+                                clsCommon.ProgressBarPercentShow()
+                                ii = 0
+                                'Dim trans1 As SqlTransaction = clsDBFuncationality.GetTransactin()
+                                Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+
+                                Try
+                                    For Each obj1 As clsfrmVLCMaster In arr
+                                        ii += 1
+                                        clsCommon.ProgressBarPercentUpdate(ii, arr.Count, "Saving Details..." & clsCommon.myCstr(ii) & "/" & clsCommon.myCstr(arr.Count) & "")
+
+                                        clsfrmVLCMaster.SaveDataPayeeName(Nothing, False, obj1, arr, trans)
+                                        UpdateQry = "Update TSPL_VENDOR_MASTER Set Vendor_Name='" + obj.vlcName + "',VSP_Payee_Name='" + obj.VSP_Payee_Name + "' Where Vendor_Code='" + obj.vlcCode + "'"
+                                        DataTable = clsDBFuncationality.GetDataTable(UpdateQry, trans)
+
+                                        UpdateQry = "Update TSPL_VLC_MASTER_HEAD Set VLC_Code_VLC_Uploader='" + obj.VLC_CODE_VLC_UPLOADER + "' Where vsp_code='" + obj.vlcCode + "'"
+                                        DataTable = clsDBFuncationality.GetDataTable(UpdateQry, trans)
+
+                                    Next
+                                    trans.Commit()
+                                Catch ex As Exception
+                                    trans.Rollback()
+                                    Throw New Exception(ex.Message)
+                                Finally
+                                    clsCommon.ProgressBarPercentHide()
+                                End Try
+                                clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                            End If
+                        Else
+                            Throw New Exception("No Valid Rows Found to Save")
+                        End If
+                    Catch ex As Exception
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                    End Try
+                Catch ex As Exception
+                    Throw New Exception(ex.Message)
+                End Try
+                'Next
+                'clsCommon.ProgressBarPercentHide()
+            End If
+            'trans.Commit()
+            'clsCommon.ProgressBarHide()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
 
 
 

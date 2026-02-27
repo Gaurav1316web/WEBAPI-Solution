@@ -5,6 +5,7 @@ Public Class clsLeaveEncashmentHead
     Public Document_Date As Date = Nothing
     Public Location_Code As String = Nothing
     Public Doc_Type As String = Nothing
+    Public Fiscal_Code As String = Nothing
     Public Remarks As String = Nothing
     Public Posted As Integer = Nothing
     Public Arr As List(Of clsLeaveEncashmentDetail) = Nothing
@@ -28,6 +29,7 @@ Public Class clsLeaveEncashmentHead
             clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Location_Code", obj.Location_Code)
             clsCommon.AddColumnsForChange(coll, "Doc_Type", obj.Doc_Type)
+            clsCommon.AddColumnsForChange(coll, "Fiscal_Code", obj.Fiscal_Code)
             clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks, True)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
@@ -81,6 +83,7 @@ Public Class clsLeaveEncashmentHead
             obj.Document_Date = clsCommon.myCDate(dt.Rows(0)("Document_Date"))
             obj.Location_Code = clsCommon.myCstr(dt.Rows(0)("Location_Code"))
             obj.Doc_Type = clsCommon.myCstr(dt.Rows(0)("Doc_Type"))
+            obj.Fiscal_Code = clsCommon.myCstr(dt.Rows(0)("Fiscal_Code"))
             obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
             obj.Posted = clsCommon.myCdbl(dt.Rows(0)("Posted"))
 

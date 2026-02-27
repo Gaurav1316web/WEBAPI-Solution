@@ -15,6 +15,8 @@ Public Class frmLeaveEncashment
     Const colLeaveName As String = "colLeaveName"
     Const colNoOfDays As String = "colNoOfDays"
     Const colAmt As String = "colAmt"
+    Dim FYFromDate As Date
+    Dim FYToDate As Date
 
 #End Region
     Private Sub SetUserMgmtNew()
@@ -41,7 +43,8 @@ Public Class frmLeaveEncashment
 
         LoadBlankGrid()
         LoadDocType()
-        btnGo.Visible = False
+        LoadFinancialYear()
+        'btnGo.Visible = False
         isNewEntry = True
         btnSave.Enabled = True
         btnPost.Enabled = True
@@ -86,10 +89,11 @@ Public Class frmLeaveEncashment
         repoEmpCode.FormatString = ""
         repoEmpCode.HeaderText = "Employee Code"
         repoEmpCode.Name = colEmpCode
-        repoEmpCode.HeaderImage = My.Resources.search4
+        'repoEmpCode.HeaderImage = My.Resources.search4
         repoEmpCode.TextImageRelation = TextImageRelation.TextBeforeImage
         repoEmpCode.Width = 100
         repoEmpCode.IsVisible = True
+        repoEmpCode.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoEmpCode)
         Dim repoEmpName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoEmpName.FormatString = ""
@@ -103,11 +107,11 @@ Public Class frmLeaveEncashment
         repoLeaveType.FormatString = ""
         repoLeaveType.HeaderText = "Leave Type"
         repoLeaveType.Name = colLeaveType
-        repoLeaveType.HeaderImage = My.Resources.search4
+        'repoLeaveType.HeaderImage = My.Resources.search4
         repoLeaveType.TextImageRelation = TextImageRelation.TextBeforeImage
         repoLeaveType.Width = 100
         repoLeaveType.IsVisible = True
-        repoLeaveType.ReadOnly = False
+        repoLeaveType.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoLeaveType)
         Dim repoLeaveName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoLeaveName.FormatString = ""
@@ -126,7 +130,7 @@ Public Class frmLeaveEncashment
         repoNoofDays.ShowUpDownButtons = False
         repoNoofDays.DecimalPlaces = 2
         repoNoofDays.IsVisible = True
-        repoNoofDays.ReadOnly = False
+        repoNoofDays.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoNoofDays)
         Dim repoAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoAmt.FormatString = "{0:n2}"
@@ -150,6 +154,22 @@ Public Class frmLeaveEncashment
         gv1.MasterTemplate.ShowRowHeaderColumn = False
         gv1.TableElement.TableHeaderHeight = 40
         gv1.Rows.AddNew()
+    End Sub
+    Private Sub LoadFinancialYear()
+        Try
+            Dim qry As String = ""
+            qry = " Select '' as Code,'' as Name,NULL as Start_Dt,NULL as End_Dt, 1 as RI 
+                    union all
+                    Select Fiscal_Code as Code,Fiscal_Name as Name,Start_Date as Start_Dt,End_Date as End_Dt ,2 as RI from TSPL_Fiscal_Year_Master "
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+
+            CmbFinancialYear.DataSource = dt
+            CmbFinancialYear.ValueMember = "Code"
+            CmbFinancialYear.DisplayMember = "Name"
+            'Return True
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
     Private Sub LoadDocType()
         Dim dt As New DataTable()
@@ -259,6 +279,7 @@ Public Class frmLeaveEncashment
                 obj.Document_Date = txtDate.Value
                 obj.Location_Code = txtLocationCode.Value
                 obj.Doc_Type = cmbDocType.SelectedValue
+                obj.Fiscal_Code = CmbFinancialYear.SelectedValue
                 obj.Remarks = txtRemarks.Text
                 obj.Arr = New List(Of clsLeaveEncashmentDetail)
                 For Each grow As GridViewRowInfo In gv1.Rows
@@ -268,13 +289,14 @@ Public Class frmLeaveEncashment
                     objTr.LEAVE_CODE = clsCommon.myCstr(grow.Cells(colLeaveType).Value)
                     objTr.No_of_Days = clsCommon.myCdbl(grow.Cells(colNoOfDays).Value)
                     objTr.Amount = clsCommon.myCdbl(grow.Cells(colAmt).Value)
-                    If clsCommon.myLen(objTr.Emp_Code) > 0 Then
+                    If clsCommon.myLen(objTr.Emp_Code) > 0 AndAlso objTr.IsApplied = 1 Then
                         obj.Arr.Add(objTr)
                     End If
                 Next
                 If (obj.SaveData(obj, isNewEntry)) = True Then
                     clsCommon.MyMessageBoxShow(Me, "Data Save Successfully ", Me.Text)
                     LoadData(obj.Document_Code, NavigatorType.Current)
+                    btnSave.Enabled = False
                 End If
             End If
         Catch ex As Exception
@@ -306,6 +328,7 @@ Public Class frmLeaveEncashment
                 txtLocationCode.Value = obj.Location_Code
                 lblLocationDesc.Text = clsDBFuncationality.getSingleValue("select  Location_Desc  from TSPL_LOCATION_MASTER where Location_Code='" & txtLocationCode.Value & "'")
                 cmbDocType.SelectedValue = obj.Doc_Type
+                CmbFinancialYear.SelectedValue = obj.Fiscal_Code
                 txtRemarks.Text = obj.Remarks
                 Dim rowcount As Integer = 0
                 For Each items As clsLeaveEncashmentDetail In obj.Arr
@@ -422,21 +445,21 @@ Public Class frmLeaveEncashment
             If (Not isInsideLoadData) Then
                 If Not isCellValueChangedOpen Then
                     isCellValueChangedOpen = True
-                    If e.Column Is gv1.Columns(colEmpCode) Then
-                        Dim qry As String = " select EMP_CODE as Code,Emp_Name as Name,Designation  from TSPL_EMPLOYEE_MASTER "
-                        Dim Whrcls As String = " Emp_Status='Active' "
-                        gv1.CurrentRow.Cells(colEmpCode).Value = clsCommon.ShowSelectForm("fndEmployeecode", qry, "Code", Whrcls, gv1.CurrentRow.Cells(colEmpCode).Value, "Code", True)
-                        gv1.CurrentRow.Cells(colempName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Emp_Name from TSPL_EMPLOYEE_MASTER where EMP_CODE='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colEmpCode).Value) + "' "))
-                    ElseIf e.Column Is gv1.Columns(colLeaveType) Then
-                        Dim qry As String = " Select LEAVE_CODE As Code,LEAVE_NAME As [Leave Name] from TSPL_LEAVE_MASTER "
-                        Dim Whrcls As String = " "
-                        gv1.CurrentRow.Cells(colLeaveType).Value = clsCommon.ShowSelectForm("fndleavecode", qry, "Code", Whrcls, gv1.CurrentRow.Cells(colLeaveType).Value, "Code", True)
-                        gv1.CurrentRow.Cells(colLeaveName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select LEAVE_NAME from TSPL_LEAVE_MASTER where LEAVE_CODE='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colLeaveType).Value) + "' "))
-                    ElseIf e.Column Is gv1.Columns(colNoOfDays) Then
+                    'If e.Column Is gv1.Columns(colEmpCode) Then
+                    '    Dim qry As String = " select EMP_CODE as Code,Emp_Name as Name,Designation  from TSPL_EMPLOYEE_MASTER "
+                    '    Dim Whrcls As String = " Emp_Status='Active' "
+                    '    gv1.CurrentRow.Cells(colEmpCode).Value = clsCommon.ShowSelectForm("fndEmployeecode", qry, "Code", Whrcls, gv1.CurrentRow.Cells(colEmpCode).Value, "Code", True)
+                    '    gv1.CurrentRow.Cells(colempName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Emp_Name from TSPL_EMPLOYEE_MASTER where EMP_CODE='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colEmpCode).Value) + "' "))
+                    'ElseIf e.Column Is gv1.Columns(colLeaveType) Then
+                    '    Dim qry As String = " Select LEAVE_CODE As Code,LEAVE_NAME As [Leave Name] from TSPL_LEAVE_MASTER "
+                    '    Dim Whrcls As String = " "
+                    '    gv1.CurrentRow.Cells(colLeaveType).Value = clsCommon.ShowSelectForm("fndleavecode", qry, "Code", Whrcls, gv1.CurrentRow.Cells(colLeaveType).Value, "Code", True)
+                    '    gv1.CurrentRow.Cells(colLeaveName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select LEAVE_NAME from TSPL_LEAVE_MASTER where LEAVE_CODE='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colLeaveType).Value) + "' "))
+                    'ElseIf e.Column Is gv1.Columns(colNoOfDays) Then
 
-                    ElseIf e.Column Is gv1.Columns(colAmt) Then
+                    'ElseIf e.Column Is gv1.Columns(colAmt) Then
 
-                    End If
+                    'End If
 
 
                     isCellValueChangedOpen = False
@@ -451,7 +474,81 @@ Public Class frmLeaveEncashment
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
-            ControlField(False)
+            Dim rowCounter As Integer = 0
+            Dim qry1 As String = " Select Start_Date,End_Date from TSPL_Fiscal_Year_Master where Fiscal_Code = '" + CmbFinancialYear.SelectedValue + "' "
+            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry1)
+            FYFromDate = clsCommon.GetPrintDate(dt1.Rows(0)("Start_Date"))
+            FYToDate = clsCommon.GetPrintDate(dt1.Rows(0)("End_Date"))
+            Dim qry As String = ""
+            qry = " Select MTA_CODE from TSPL_MONTHLY_ATTENDANCE where CONVERT(DATE,TSPL_MONTHLY_ATTENDANCE.Created_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(FYFromDate, "dd/MMM/yyyy") & "',103)
+                                  AND CONVERT(DATE,TSPL_MONTHLY_ATTENDANCE.Created_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(FYToDate, "dd/MMM/yyyy") & "',103) "
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            Dim codes As New List(Of String)
+
+            For Each row As DataRow In dt.Rows
+                codes.Add("'" & row("MTA_CODE").ToString() & "'")
+            Next
+            Dim finalString As String = "(" & String.Join(",", codes.ToArray()) & ")"
+
+            Dim leaveQry As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" Select LEAVE_TYPE from TSPL_LEAVE_MASTER where IsApplyLeaveIncashment=1 "))
+            'leaveQry = " Select LEAVE_NAME from TSPL_LEAVE_MASTER where IsApplyLeaveIncashment=1 "
+            '"Dim Leavedt As DataTable = clsDBFuncationality.GetDataTable(leaveQry)
+
+            Dim leavename As String = ""
+            If leaveQry = "CL" Then
+                leavename = "Casual_Leave"
+            ElseIf leaveQry = "EL" Then
+                leavename = "Earned_Leave"
+            ElseIf leaveQry = "MED" Then
+                leavename = "Medical_Leave"
+            ElseIf leaveQry = "MATRL" Then
+                leavename = "Maternity_Leave"
+            ElseIf leaveQry = "COFF" Then
+                leavename = "Coff"
+            Else leaveqry = "Other"
+                leavename = "Other_Leave"
+            End If
+
+
+            Dim QryAttendance As String = " "
+            QryAttendance = " SELECT EMP_CODE,SUM(" + leavename + ") AS PL,'" + leaveQry + "' as LeaveCode FROM TSPL_MONTHLY_ATTENDANCE_DETAIL where MTA_CODE In " + finalString + "
+                              GROUP BY EMP_CODE HAVING SUM(" + leavename + ") >= 15 order by EMP_CODE "
+
+            Dim dtattend As DataTable = clsDBFuncationality.GetDataTable(QryAttendance)
+
+            For Each EMPDETAIL As DataRow In dtattend.Rows
+                Dim empCode As String = EMPDETAIL("EMP_CODE").ToString()
+                Dim PL As String = EMPDETAIL("PL").ToString()
+                qry = "  Select cast(1 as bit) as Sel,EMP_CODE,(Amount * " + PL + ") as Amount,'" + PL + "' as PL  From (Select EMP_CODE,(sum(ACTUAL_AMOUNT/2)/15) as Amount from (SELECT  P.EMP_CODE,P.ACTUAL_AMOUNT,
+                        S.Created_Date, P.PAY_HEAD_CODE FROM TSPL_GENERATE_SALARY_PAYHEADS P
+                LEFT OUTER JOIN TSPL_GENERATE_SALARY S ON S.SALARY_GENERATION_CODE = P.SALARY_GENERATION_CODE
+                WHERE P.EMP_CODE = '" + empCode + "' AND P.PAY_HEAD_CODE IN ('Basic','Da')
+                AND S.Created_Date = (SELECT MAX(S2.Created_Date) FROM TSPL_GENERATE_SALARY_PAYHEADS P2
+                        INNER JOIN TSPL_GENERATE_SALARY S2 ON S2.SALARY_GENERATION_CODE = P2.SALARY_GENERATION_CODE
+                        WHERE P2.EMP_CODE = '" + empCode + "' ) ) XX group by xx.EMP_CODE ) yy "
+
+                Dim dtdetail As DataTable = clsDBFuncationality.GetDataTable(qry)
+                If dtdetail.Rows.Count > 0 Then
+
+                    For ii = 0 To dtdetail.Rows.Count - 1
+                        rowCounter += 1
+                        gv1.CurrentRow.Cells(colCheck).Value = clsCommon.myCstr(dtdetail.Rows(ii)("Sel"))
+                        gv1.CurrentRow.Cells(colLineNo).Value = rowCounter
+                        gv1.CurrentRow.Cells(colEmpCode).Value = clsCommon.myCstr(dtdetail.Rows(ii)("EMP_CODE"))
+                        gv1.CurrentRow.Cells(colempName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Emp_Name from TSPL_EMPLOYEE_MASTER where EMP_CODE ='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colEmpCode).Value) + "' "))
+                        gv1.CurrentRow.Cells(colLeaveType).Value = clsCommon.myCstr(dtattend.Rows(0)("LeaveCode"))
+                        gv1.CurrentRow.Cells(colLeaveName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select LEAVE_NAME from TSPL_LEAVE_MASTER where LEAVE_CODE='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colLeaveType).Value) + "' "))
+                        'Select Case LEAVE_NAME from TSPL_LEAVE_MASTER where LEAVE_CODE='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colLeaveType).Value) + "' "clsCommon.myCstr(dtdetail.Rows(ii)("EMP_CODE"))
+                        gv1.CurrentRow.Cells(colNoOfDays).Value = clsCommon.myCstr(dtdetail.Rows(ii)("PL"))
+                        gv1.CurrentRow.Cells(colAmt).Value = clsCommon.myCstr(dtdetail.Rows(ii)("Amount"))
+                        gv1.Rows.AddNew()
+
+                    Next
+                End If
+
+            Next
+            'ControlField(False)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -520,6 +617,7 @@ Public Class frmLeaveEncashment
             coll.Add("Document_Code", "Varchar(30) not null  PRIMARY KEY")
             coll.Add("Document_Date", "datetime not NULL")
             coll.Add("Location_Code", "VARCHAR(12) Not NULL references TSPL_LOCATION_MASTER(Location_Code)")
+            coll.Add("Fiscal_Code", "Varchar(30) NOT NULL REFERENCES TSPL_Fiscal_Year_Master(Fiscal_Code)")
             coll.Add("Doc_Type", "varchar(20) Not NULL")
             coll.Add("Remarks", "varchar(200) NULL")
             coll.Add("Posted", "integer null")

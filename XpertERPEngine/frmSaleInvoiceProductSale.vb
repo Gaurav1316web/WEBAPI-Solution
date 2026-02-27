@@ -9059,7 +9059,7 @@ Left outer join TSPL_STATE_MASTER as TBL_FOR_SHIP_TO_LOCTION_GSTSTATE on TBL_FOR
                 End If
             End If
 
-            clsPSShipmentHead.CancelData(Me.Form_ID, txtReqNo.Value, txtDocNo.Value, NavigatorType.Current)
+            clsPSShipmentHead.CancelData(Me.Form_ID, txtReqNo.Value, txtDocNo.Value, NavigatorType.Current, False)
             clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
             AddNew()
         Catch ex As Exception
