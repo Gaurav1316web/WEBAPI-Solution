@@ -467,16 +467,16 @@ and not exists (select 1 from TSPL_MILK_SHIFT_UPLOADER_DETAIL where TSPL_MILK_SH
             strDecimalPlacesAmt = "0"
         End If
 
-        Dim BaseQry As String = " select xxx.MCC_Code,xxx.MCC_NAME,xxx.Mcc_Code_VLC_Uploader,cast(xxx.Document_Date as varchar) as Document_Date,xxx.MCCQty,xxx.MCCFATKG,xxx.MCCSNFKG,xxx.DCSQty,xxx.DCSFATKG,xxx.DCSSNFKG,xxx.DiffFATKG,xxx.DiffSNFKG
+        Dim BaseQry As String = " select xxx.MCC_Code,xxx.MCC_NAME,xxx.Mcc_Code_VLC_Uploader,xxx.Route_Code,cast(xxx.Document_Date as varchar) as Document_Date,xxx.MCCQty,xxx.MCCFATKG,xxx.MCCSNFKG,xxx.DCSQty,xxx.DCSFATKG,xxx.DCSSNFKG,xxx.DiffFATKG,xxx.DiffSNFKG
 ,cast((case when xxx.DiffFATKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_FAT_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_FAT_Rate end)*xxx.DiffFATKG as decimal(18," + strDecimalPlacesAmt + ")) as FatAmt 
 ,cast((case when xxx.DiffSNFKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_SNF_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_SNF_Rate end)*xxx.DiffSNFKG as decimal(18," + strDecimalPlacesAmt + ")) as SNFAmt 
 ,(cast(((case when xxx.DiffFATKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_FAT_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_FAT_Rate end)*xxx.DiffFATKG)as decimal(18," + strDecimalPlacesAmt + ")) + cast(((case when xxx.DiffSNFKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_SNF_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_SNF_Rate end)*xxx.DiffSNFKG)as decimal(18," + strDecimalPlacesAmt + "))) as Amt,(FindCode) as FindCode
 from (
-select  PK_Id,max(MCC_Code) as MCC_Code,max(MCC_NAME) as MCC_NAME,max(Mcc_Code_VLC_Uploader)Mcc_Code_VLC_Uploader,max(Document_Date) as Document_Date,sum(MCCQty) as MCCQty,sum(MCCFATKG) as MCCFATKG,sum(MCCSNFKG) as MCCSNFKG,sum(DCSQty) as DCSQty,sum(DCSFATKG) as DCSFATKG,sum(DCSSNFKG) as DCSSNFKG,-1*(sum(DCSFATKG) - max(MCCFATKG)) as DiffFATKG,-1*(sum(DCSSNFKG) - max(MCCSNFKG)) as DiffSNFKG,(select top 1 case when TSPL_OWN_BMC_GAIN_LOSS_RATE.Inactive=0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Code else '' end as  FindCode 
+select  PK_Id,max(MCC_Code) as MCC_Code,max(MCC_NAME) as MCC_NAME,max(Mcc_Code_VLC_Uploader)Mcc_Code_VLC_Uploader,max(Route_Code)  as Route_Code,max(Document_Date) as Document_Date,sum(MCCQty) as MCCQty,sum(MCCFATKG) as MCCFATKG,sum(MCCSNFKG) as MCCSNFKG,sum(DCSQty) as DCSQty,sum(DCSFATKG) as DCSFATKG,sum(DCSSNFKG) as DCSSNFKG,-1*(sum(DCSFATKG) - max(MCCFATKG)) as DiffFATKG,-1*(sum(DCSSNFKG) - max(MCCSNFKG)) as DiffSNFKG,(select top 1 case when TSPL_OWN_BMC_GAIN_LOSS_RATE.Inactive=0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Code else '' end as  FindCode 
 from TSPL_OWN_BMC_GAIN_LOSS_RATE where max(Document_Date)>=TSPL_OWN_BMC_GAIN_LOSS_RATE.Start_Date  and (2= case when TSPL_OWN_BMC_GAIN_LOSS_RATE.End_Date is null then 2 else case when max(Document_Date)<= TSPL_OWN_BMC_GAIN_LOSS_RATE.End_Date then 2 else 3 end end)  and TSPL_OWN_BMC_GAIN_LOSS_RATE.Posted=1 order by TSPL_OWN_BMC_GAIN_LOSS_RATE.Start_Date desc,TSPL_OWN_BMC_GAIN_LOSS_RATE.Code desc) as  FindCode
 from ( "
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
-            BaseQry += "select (MCC_Code+VDocument_Date) as PK_Id,MCC_Code,max(MCC_NAME) as MCC_NAME,max(Mcc_Code_VLC_Uploader) as Mcc_Code_VLC_Uploader,max(Document_Date) as Document_Date ,sum(Qty * case when RI=1 then 1 else 0 end) as MCCQty ,sum(FATKG * case when RI=1 then 1 else 0 end) as MCCFATKG ,sum(SNFKg * case when RI=1 then 1 else 0 end) as MCCSNFKG ,0 as MCCFAT ,0 as MCCSNF ,sum(Qty * case when RI=2 then 1 else 0 end) as DCSQty ,sum(FATKG * case when RI=2 then 1 else 0 end) as DCSFATKG ,sum(SNFKg * case when RI=2 then 1 else 0 end) as DCSSNFKG
+            BaseQry += "select (MCC_Code+VDocument_Date) as PK_Id,MCC_Code,max(MCC_NAME) as MCC_NAME,max(Mcc_Code_VLC_Uploader) as Mcc_Code_VLC_Uploader,'' as Route_Code,max(Document_Date) as Document_Date ,sum(Qty * case when RI=1 then 1 else 0 end) as MCCQty ,sum(FATKG * case when RI=1 then 1 else 0 end) as MCCFATKG ,sum(SNFKg * case when RI=1 then 1 else 0 end) as MCCSNFKG ,0 as MCCFAT ,0 as MCCSNF ,sum(Qty * case when RI=2 then 1 else 0 end) as DCSQty ,sum(FATKG * case when RI=2 then 1 else 0 end) as DCSFATKG ,sum(SNFKg * case when RI=2 then 1 else 0 end) as DCSSNFKG
 from (
 select TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code,TSPL_MCC_MASTER.MCC_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader ,convert(date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,103) as Document_Date,convert(varchar,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,103) as VDocument_Date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Entered_Qty as Qty,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Entered_FATKg as FATKg,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Entered_SNFKg as SNFKg,1 as RI
 from   TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS  
@@ -511,7 +511,7 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO = TSPL
             End If
             BaseQry += " )   xx group by MCC_Code,VDocument_Date  "
         Else
-            BaseQry += "select TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code,TSPL_MCC_MASTER.MCC_NAME,convert(date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) as Document_Date,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty as MCCQty,TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG as MCCFATKG,TSPL_MILK_COLLECTION_MCC_DETAIL.FAT as MCCFAT,TSPL_MILK_COLLECTION_MCC_DETAIL.SNF as MCCSNF,TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG as MCCSNFKG
+            BaseQry += "select TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code,TSPL_MCC_MASTER.MCC_NAME,TSPL_MILK_COLLECTION_MCC.Route_Code,convert(date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) as Document_Date,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty as MCCQty,TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG as MCCFATKG,TSPL_MILK_COLLECTION_MCC_DETAIL.FAT as MCCFAT,TSPL_MILK_COLLECTION_MCC_DETAIL.SNF as MCCSNF,TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG as MCCSNFKG
 ,0 as DCSQty ,0 as DCSFATKG ,0 as DCSSNFKG,Mcc_Code_VLC_Uploader
 from   TSPL_MILK_COLLECTION_MCC_DETAIL 
 left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
@@ -521,7 +521,7 @@ where convert(date, TSPL_MILK_COLLECTION_MCC.Document_Date,103)>='" + clsCommon.
                 BaseQry += " and TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code in (" + clsCommon.GetMulcallString(arrMCC) + ") "
             End If
             BaseQry += "  union all
-select Tab.PK_Id,null as MCC_Code,null as MCC_NAME,null as Document_Date,0 as MCCQty,0 as MCCFATKG,0 as MCCFAT,0 as MCCSNF,0 as MCCSNFKG
+select Tab.PK_Id,null as MCC_Code,null as MCC_NAME,null as Route_Code,null as Document_Date,0 as MCCQty,0 as MCCFATKG,0 as MCCFAT,0 as MCCSNF,0 as MCCSNFKG
 ,TSPL_MILK_COLLECTION_DCS_DETAIL.Qty as DCSQty ,TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG as DCSFATKG ,TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG as DCSSNFKG,null as VLC_Code_VLC_Uploader
 from   TSPL_MILK_COLLECTION_DCS_DETAIL 
 left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No=TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No 
@@ -711,6 +711,10 @@ where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + strDocNo + "'
                                     If isThereOnlyOneRowOfOwnDCS Then
                                         qry = "select count(1) as cnt from TSPL_MILK_COLLECTION_DCS_DETAIL where Document_No='" + strDocNo + "'"
                                         isThereOnlyOneRowOfOwnDCS = (clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, trans)) = 1)
+                                        If isThereOnlyOneRowOfOwnDCS Then
+                                            qry = "select count(1) as cnt from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Document_No='" + strDocNo + "'"
+                                            isThereOnlyOneRowOfOwnDCS = (clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, trans)) = 1)
+                                        End If
                                     End If
                                 End If
                                 If (SettAdjQty AndAlso Math.Abs(clsCommon.myCdbl(dt.Rows(0)("DiffQty"))) > 0) OrElse Math.Abs(clsCommon.myCdbl(dt.Rows(0)("DiffFATKG"))) > 0 OrElse Math.Abs(clsCommon.myCdbl(dt.Rows(0)("DiffSNFKG"))) > 0 Then

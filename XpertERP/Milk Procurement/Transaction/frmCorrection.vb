@@ -1109,6 +1109,10 @@ where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + strDocNo + "'
                         If isThereOnlyOneRowOfOwnDCS Then
                             qry = "select count(1) as cnt from TSPL_MILK_COLLECTION_DCS_DETAIL where Document_No='" + strDocNo + "'"
                             isThereOnlyOneRowOfOwnDCS = (clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, trans)) = 1)
+                            If isThereOnlyOneRowOfOwnDCS Then
+                                qry = "select count(1) as cnt from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Document_No='" + strDocNo + "'"
+                                isThereOnlyOneRowOfOwnDCS = (clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, trans)) = 1)
+                            End If
                         End If
                     End If
 
