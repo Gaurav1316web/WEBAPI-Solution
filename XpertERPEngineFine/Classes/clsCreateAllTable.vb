@@ -32009,6 +32009,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("ClosingBal", "varchar(20) NULL")
             coll.Add("Is_Add_TPT", "integer null")
             coll.Add("Rate_Diff_Amount_Type", "integer null")
+            coll.Add("Is_Rate_Diff_Per_Amt", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
             Try
                 qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo=Document_Code where ParentDocNo is null "

@@ -569,7 +569,7 @@ Partial Class rptCustItemWiseSaleReport
         Me.rbtnBoothSaleItemWise.TabIndex = 417
         Me.rbtnBoothSaleItemWise.TabStop = False
         Me.rbtnBoothSaleItemWise.Text = "Booth Sale Item Wise"
-        Me.rbtnBoothSaleItemWise.Visible = False
+        Me.rbtnBoothSaleItemWise.Visible = True
         '
         'rbtnBoothSaleDateShiftWise
         '
@@ -581,7 +581,7 @@ Partial Class rptCustItemWiseSaleReport
         Me.rbtnBoothSaleDateShiftWise.TabIndex = 416
         Me.rbtnBoothSaleDateShiftWise.TabStop = False
         Me.rbtnBoothSaleDateShiftWise.Text = "Booth Sale Date && Shift Wise"
-        Me.rbtnBoothSaleDateShiftWise.Visible = False
+        Me.rbtnBoothSaleDateShiftWise.Visible = True
         '
         'rbtnMilkSale
         '
