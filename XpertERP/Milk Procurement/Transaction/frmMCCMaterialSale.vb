@@ -9235,66 +9235,64 @@ a:          End If
     End Sub
     Private Sub CalculateRateDiffAmount()
         Try
-            If Not isInsideLoadData Then
-                If clsCommon.myCdbl(txtRateAmt.Text) > (clsCommon.myCdbl(lblAmtAfterDiscount.Text) + clsCommon.myCdbl(lblTaxAmt.Text)) Then
+            If clsCommon.myCdbl(txtRateAmt.Text) > (clsCommon.myCdbl(lblAmtAfterDiscount.Text) + clsCommon.myCdbl(lblTaxAmt.Text)) Then
+                txtRateAmt.Text = 0
+                lblTotalSubsidy.Text = 0
+                Throw New Exception("Rate Difference amount cannot be greater than sum of Discount after amount and Tax amount")
+            End If
+            If clsCommon.myCdbl(txtRatePer.Text) > 0 Then
+                If rbtnBasicAmt.IsChecked Then
+                    txtRateAmt.Text = clsCommon.myCdbl(lblAmtWithDiscount.Text) * clsCommon.myCdbl(txtRatePer.Text) / 100
+                ElseIf rbtnTotalAmt.IsChecked Then
+                    txtRateAmt.Text = clsCommon.myCdbl(lblTotRAmt.Text) * clsCommon.myCdbl(txtRatePer.Text) / 100
+                End If
+            ElseIf clsCommon.myCdbl(txtRatePer.Text) = 0 Then
+                If chkRateDiffRate.IsChecked Then
                     txtRateAmt.Text = 0
-                    lblTotalSubsidy.Text = 0
-                    Throw New Exception("Rate Difference amount cannot be greater than sum of Discount after amount and Tax amount")
                 End If
-                If clsCommon.myCdbl(txtRatePer.Text) > 0 Then
-                    If rbtnBasicAmt.IsChecked Then
-                        txtRateAmt.Text = clsCommon.myCdbl(lblAmtWithDiscount.Text) * clsCommon.myCdbl(txtRatePer.Text) / 100
-                    ElseIf rbtnTotalAmt.IsChecked Then
-                        txtRateAmt.Text = clsCommon.myCdbl(lblTotRAmt.Text) * clsCommon.myCdbl(txtRatePer.Text) / 100
-                    End If
-                ElseIf clsCommon.myCdbl(txtRatePer.Text) = 0 Then
-                    If chkRateDiffRate.IsChecked Then
-                        txtRateAmt.Text = 0
-                    End If
-                ElseIf clsCommon.myCdbl(txtRateAmt.Text) > 0 Then
-                    txtRatePer.Text = 0
-                End If
-                If chkRateDiffAmt.IsChecked Then
-                    'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
-                    '    'If chkcashsale.Checked Then
-                    '    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text) - clsCommon.myCdbl(lblTotalSubsidy.Text)
-                    '    'Else
-                    '    '    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text)
-                    '    'End If
-                    'Else
-                    '    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - txtRateAmt.Text)
-                    'End If
-                    If MultiplySubsidyWithQuantity Then
-                        lblTotalSubsidy.Text = clsCommon.myCdbl(txtRateAmt.Text) * TotalItemQty
-                        lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text) - clsCommon.myCdbl(lblTotalSubsidy.Text)
-                        If chkAddTPT.Checked Then
-                            lblGrossAmount.Text = clsCommon.myCdbl(lblGrossAmount.Text) + clsCommon.myCdbl(txtTPTAmt.Text)
-                        Else
-                            lblGrossAmount.Text = clsCommon.myCdbl(lblGrossAmount.Text) - clsCommon.myCdbl(txtTPTAmt.Text)
-                        End If
-
-                    Else
-                        lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - txtRateAmt.Text) '
-
-                        If chkAddTPT.Checked Then
-                            lblGrossAmount.Text = clsCommon.myCdbl(lblGrossAmount.Text) + clsCommon.myCdbl(txtTPTAmt.Text)
-                        Else
-                            lblGrossAmount.Text = clsCommon.myCdbl(lblGrossAmount.Text) - clsCommon.myCdbl(txtTPTAmt.Text)
-                        End If
-                    End If
-                Else
-                    If rbtnTotalAmt.IsChecked Then
-                        lblTotalSubsidy.Text = clsCommon.myCdbl(lblTotRAmt.Text * txtRatePer.Text) / 100
-                    ElseIf rbtnBasicAmt.IsChecked Then
-                        lblTotalSubsidy.Text = clsCommon.myCdbl(lblAmtWithDiscount.Text * txtRatePer.Text) / 100
-                    End If
-
-                    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - lblTotalSubsidy.Text) '
+            ElseIf clsCommon.myCdbl(txtRateAmt.Text) > 0 Then
+                txtRatePer.Text = 0
+            End If
+            If chkRateDiffAmt.IsChecked Then
+                'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                '    'If chkcashsale.Checked Then
+                '    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text) - clsCommon.myCdbl(lblTotalSubsidy.Text)
+                '    'Else
+                '    '    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text)
+                '    'End If
+                'Else
+                '    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - txtRateAmt.Text)
+                'End If
+                If MultiplySubsidyWithQuantity Then
+                    lblTotalSubsidy.Text = clsCommon.myCdbl(txtRateAmt.Text) * TotalItemQty
+                    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text) - clsCommon.myCdbl(lblTotalSubsidy.Text)
                     If chkAddTPT.Checked Then
                         lblGrossAmount.Text = clsCommon.myCdbl(lblGrossAmount.Text) + clsCommon.myCdbl(txtTPTAmt.Text)
                     Else
                         lblGrossAmount.Text = clsCommon.myCdbl(lblGrossAmount.Text) - clsCommon.myCdbl(txtTPTAmt.Text)
                     End If
+
+                Else
+                    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - txtRateAmt.Text) '
+
+                    If chkAddTPT.Checked Then
+                        lblGrossAmount.Text = clsCommon.myCdbl(lblGrossAmount.Text) + clsCommon.myCdbl(txtTPTAmt.Text)
+                    Else
+                        lblGrossAmount.Text = clsCommon.myCdbl(lblGrossAmount.Text) - clsCommon.myCdbl(txtTPTAmt.Text)
+                    End If
+                End If
+            Else
+                If rbtnTotalAmt.IsChecked Then
+                    lblTotalSubsidy.Text = clsCommon.myCdbl(lblTotRAmt.Text * txtRatePer.Text) / 100
+                ElseIf rbtnBasicAmt.IsChecked Then
+                    lblTotalSubsidy.Text = clsCommon.myCdbl(lblAmtWithDiscount.Text * txtRatePer.Text) / 100
+                End If
+
+                lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - lblTotalSubsidy.Text) '
+                If chkAddTPT.Checked Then
+                    lblGrossAmount.Text = clsCommon.myCdbl(lblGrossAmount.Text) + clsCommon.myCdbl(txtTPTAmt.Text)
+                Else
+                    lblGrossAmount.Text = clsCommon.myCdbl(lblGrossAmount.Text) - clsCommon.myCdbl(txtTPTAmt.Text)
                 End If
             End If
         Catch ex As Exception
