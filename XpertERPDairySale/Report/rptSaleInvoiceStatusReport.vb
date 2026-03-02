@@ -150,7 +150,7 @@ Select coalesce(Re_Name,Program_Name)Code,Program_Code as Name from TSPL_PROGRAM
                 qry = " Select "
             End If
             qry += " max([Item Name])as [Product Name],max(HSN_Code)[HSN Code],max(Report_UOM)[Report UOM],Cast(SUM(ReportUOM_Qty) as decimal (18,2))[Report Qty], sum([ItemBasic Amt])[ItemBasic Amt],sum([Margin Amt])[Margin Amt],
-sum([Basic Amt])[Basic Amt],sum([KKF Amt])[KKF Amt],sum([Mandi Tax Amt])[Mandi Tax Amt],Cast(sum([Party TCS Amt]) as decimal(18,2))[TCS Amt],cast(sum([CGST Amt]) as decimal(18,2))[CGST Amt],cast(sum([SGST Amt]) as decimal(18,2))[SGST Amt],cast(sum([IGST Amt]) as decimal(18,2))[IGST Amt],sum([Total Tax Amt])[Total Tax Amt],
+sum([Basic Amt])[Basic Amt],sum([KKF Amt])[KKF Amt],Cast(sum([Mandi Tax Amt]) as decimal(18,2))[Mandi Tax Amt],Cast(sum([Party TCS Amt]) as decimal(18,2))[TCS Amt],cast(sum([CGST Amt]) as decimal(18,2))[CGST Amt],cast(sum([SGST Amt]) as decimal(18,2))[SGST Amt],cast(sum([IGST Amt]) as decimal(18,2))[IGST Amt],sum([Total Tax Amt])[Total Tax Amt],
 sum([Total Amt])[Total Amt],cast(Sum([Subsidy Amt]) as decimal(18,2))[Subsidy Amt] from (	select    
 						TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location AS [Location],
 TSPL_SD_SALE_INVOICE_HEAD.Sub_Location_code AS [Sub Location],
@@ -576,7 +576,7 @@ GROUP BY D.Item_Code HAVING SUM(CASE WHEN U.Report_UOM = 1 THEN 1 ELSE 0 END) = 
             Dim SumItemCode As String = Nothing
             Dim ItemCode As String = Nothing
             Dim ItemDesc As String = Nothing
-            Dim itemqry As String = "  Select distinct Item_Code,item_Desc,Report_UOM FROM  ( Select  TSPL_SD_SALE_INVOICE_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,isnull(TSPL_ITEM_UOM_DETAIL.Report_UOM,0)Report_UOM
+            Dim itemqry As String = "  Select distinct Item_Code,item_Desc,Report_UOM,UOM_Code FROM  ( Select  TSPL_SD_SALE_INVOICE_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,isnull(TSPL_ITEM_UOM_DETAIL.Report_UOM,0)Report_UOM,TSPL_ITEM_UOM_DETAIL.UOM_Code
                                         from TSPL_SD_SALE_INVOICE_DETAIL 
                                         Left outer join  TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE = TSPL_SD_SALE_INVOICE_HEAD.Document_Code
 		                                Left outer join  TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
@@ -587,7 +587,7 @@ GROUP BY D.Item_Code HAVING SUM(CASE WHEN U.Report_UOM = 1 THEN 1 ELSE 0 END) = 
                 itemqry += "  and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")"
             End If
             itemqry += "  Union all 
-                            Select  TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.Item_Code,TSPL_ITEM_MASTER.Item_Desc,isnull(TSPL_ITEM_UOM_DETAIL.Report_UOM,0)Report_UOM
+                            Select  TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.Item_Code,TSPL_ITEM_MASTER.Item_Desc,isnull(TSPL_ITEM_UOM_DETAIL.Report_UOM,0)Report_UOM,TSPL_ITEM_UOM_DETAIL.UOM_Code
                                         from TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data 
                                         Left outer join  TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data ON TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.DOCUMENT_CODE = TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Code
 		                                Left outer join  TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.Item_Code
@@ -598,7 +598,7 @@ GROUP BY D.Item_Code HAVING SUM(CASE WHEN U.Report_UOM = 1 THEN 1 ELSE 0 END) = 
                 itemqry += "  and TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Customer_Code in (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")"
             End If
             itemqry += " Union all
-                                        Select  TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.Item_Code,TSPL_ITEM_MASTER.Item_Desc,isnull(TSPL_ITEM_UOM_DETAIL.Report_UOM,0)Report_UOM
+                                        Select  TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.Item_Code,TSPL_ITEM_MASTER.Item_Desc,isnull(TSPL_ITEM_UOM_DETAIL.Report_UOM,0)Report_UOM,TSPL_ITEM_UOM_DETAIL.UOM_Code
                                         from TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data 
                                         Left outer join  TSPL_SD_SALE_INVOICE_HEAD_Delete_Data ON TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.DOCUMENT_CODE = TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Code
 		                                Left outer join  TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.Item_Code
@@ -613,11 +613,11 @@ GROUP BY D.Item_Code HAVING SUM(CASE WHEN U.Report_UOM = 1 THEN 1 ELSE 0 END) = 
             If dtitem.Rows.Count > 0 Then
                 For i As Integer = 0 To dtitem.Rows.Count - 1
                     If i = 0 Then
-                        SumItemCode += " Sum(IsNull([" + clsCommon.myCstr(dtitem.Rows(i)("Item_Code")) + "],0)) As [" + clsCommon.myCstr(dtitem.Rows(i)("Item_Desc")) + " Qty],Sum(IsNull([" + clsCommon.myCstr(dtitem.Rows(i)("Item_Desc")) + "],0)) As [" + clsCommon.myCstr(dtitem.Rows(i)("Item_Desc")) + " Amt]"
+                        SumItemCode += " Sum(IsNull([" + clsCommon.myCstr(dtitem.Rows(i)("Item_Code")) + "],0)) As [" + clsCommon.myCstr(dtitem.Rows(i)("Item_Desc")) + " Qty (" + clsCommon.myCstr(dtitem.Rows(i)("UOM_Code")) + ")],Sum(IsNull([" + clsCommon.myCstr(dtitem.Rows(i)("Item_Desc")) + "],0)) As [" + clsCommon.myCstr(dtitem.Rows(i)("Item_Desc")) + " Amt]"
                         ItemCode += "[" + clsCommon.myCstr(dtitem.Rows(i)("Item_Code")) + "] "
                         ItemDesc += "[" + clsCommon.myCstr(dtitem.Rows(i)("Item_Desc")) + "]"
                     Else
-                        SumItemCode += ", Sum(IsNull([" + clsCommon.myCstr(dtitem.Rows(i)("Item_Code")) + "],0)) As [" + clsCommon.myCstr(dtitem.Rows(i)("Item_Desc")) + " Qty],Sum(IsNull([" + clsCommon.myCstr(dtitem.Rows(i)("Item_Desc")) + "],0)) As [" + clsCommon.myCstr(dtitem.Rows(i)("Item_Desc")) + " Amt]"
+                        SumItemCode += ", Sum(IsNull([" + clsCommon.myCstr(dtitem.Rows(i)("Item_Code")) + "],0)) As [" + clsCommon.myCstr(dtitem.Rows(i)("Item_Desc")) + " Qty (" + clsCommon.myCstr(dtitem.Rows(i)("UOM_Code")) + ")],Sum(IsNull([" + clsCommon.myCstr(dtitem.Rows(i)("Item_Desc")) + "],0)) As [" + clsCommon.myCstr(dtitem.Rows(i)("Item_Desc")) + " Amt]"
                         ItemCode += ", [" + clsCommon.myCstr(dtitem.Rows(i)("Item_Code")) + "] "
                         ItemDesc += ", [" + clsCommon.myCstr(dtitem.Rows(i)("Item_Desc")) + "]"
                     End If
