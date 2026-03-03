@@ -1322,6 +1322,12 @@
     <Compile Include="Milk Procurement\Reports\FrmRpImproperMilkSample.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Reports\rptDbtStatusRCDF.Designer.vb">
+      <DependentUpon>rptDbtStatusRCDF.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Reports\rptDbtStatusRCDF.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Reports\rptFarmerPaymentApprovalReport.Designer.vb">
       <DependentUpon>rptFarmerPaymentApprovalReport.vb</DependentUpon>
     </Compile>
@@ -5348,6 +5354,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Reports\FrmRpImproperMilkSample.resx">
       <DependentUpon>FrmRpImproperMilkSample.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Reports\rptDbtStatusRCDF.resx">
+      <DependentUpon>rptDbtStatusRCDF.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Reports\rptFarmerPaymentApprovalReport.resx">
       <DependentUpon>rptFarmerPaymentApprovalReport.vb</DependentUpon>

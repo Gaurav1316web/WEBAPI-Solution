@@ -22,12 +22,12 @@ Partial Class frmDairyGatePass
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.rpvpGatePass = New Telerik.WinControls.UI.RadPageViewPage()
@@ -103,7 +103,6 @@ Partial Class frmDairyGatePass
         Me.cmbitemtype = New common.Controls.MyComboBox()
         Me.lblfullempty = New common.Controls.MyLabel()
         Me.lblpaymentno = New common.Controls.MyLabel()
-        Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.txtVehicle = New common.UserControls.txtFinder()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.Gv1 = New common.UserControls.MyRadGridView()
@@ -129,6 +128,7 @@ Partial Class frmDairyGatePass
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -204,7 +204,6 @@ Partial Class frmDairyGatePass
         CType(Me.cmbitemtype, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblfullempty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblpaymentno, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Gv1.SuspendLayout()
@@ -227,6 +226,7 @@ Partial Class frmDairyGatePass
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -280,10 +280,10 @@ Partial Class frmDairyGatePass
         'rpvpGatePass
         '
         Me.rpvpGatePass.Controls.Add(Me.SplitContainer2)
-        Me.rpvpGatePass.ItemSize = New System.Drawing.SizeF(66.0!, 26.0!)
-        Me.rpvpGatePass.Location = New System.Drawing.Point(10, 35)
+        Me.rpvpGatePass.ItemSize = New System.Drawing.SizeF(62.0!, 22.0!)
+        Me.rpvpGatePass.Location = New System.Drawing.Point(10, 31)
         Me.rpvpGatePass.Name = "rpvpGatePass"
-        Me.rpvpGatePass.Size = New System.Drawing.Size(1150, 354)
+        Me.rpvpGatePass.Size = New System.Drawing.Size(1150, 358)
         Me.rpvpGatePass.Text = "GatePass"
         '
         'SplitContainer2
@@ -302,7 +302,7 @@ Partial Class frmDairyGatePass
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.Gv1)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1150, 354)
+        Me.SplitContainer2.Size = New System.Drawing.Size(1150, 358)
         Me.SplitContainer2.SplitterDistance = 202
         Me.SplitContainer2.TabIndex = 2
         '
@@ -1446,12 +1446,12 @@ Partial Class frmDairyGatePass
         Me.cmbitemtype.IsSourceFromTable = False
         Me.cmbitemtype.IsSourceFromValueList = False
         Me.cmbitemtype.IsUnique = False
-        RadListDataItem4.Text = "Select"
-        RadListDataItem5.Text = "Full"
-        RadListDataItem6.Text = "Empty"
-        Me.cmbitemtype.Items.Add(RadListDataItem4)
-        Me.cmbitemtype.Items.Add(RadListDataItem5)
-        Me.cmbitemtype.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "Select"
+        RadListDataItem2.Text = "Full"
+        RadListDataItem3.Text = "Empty"
+        Me.cmbitemtype.Items.Add(RadListDataItem1)
+        Me.cmbitemtype.Items.Add(RadListDataItem2)
+        Me.cmbitemtype.Items.Add(RadListDataItem3)
         Me.cmbitemtype.Location = New System.Drawing.Point(896, 49)
         Me.cmbitemtype.MendatroryField = False
         Me.cmbitemtype.MyLinkLable1 = Me.lblfullempty
@@ -1484,17 +1484,6 @@ Partial Class frmDairyGatePass
         Me.lblpaymentno.Size = New System.Drawing.Size(77, 16)
         Me.lblpaymentno.TabIndex = 28
         Me.lblpaymentno.Text = "Gate Pass No"
-        '
-        'btnNew
-        '
-        Me.btnNew.BackgroundImage = Global.XpertERPDairySale.My.Resources.Resources._new
-        Me.btnNew.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.btnNew.Image = Global.XpertERPDairySale.My.Resources.Resources._new
-        Me.btnNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnNew.Location = New System.Drawing.Point(317, 7)
-        Me.btnNew.Name = "btnNew"
-        Me.btnNew.Size = New System.Drawing.Size(19, 21)
-        Me.btnNew.TabIndex = 13
         '
         'txtVehicle
         '
@@ -1548,12 +1537,13 @@ Partial Class frmDairyGatePass
         '
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MyExportAPI = False
         Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
-        Me.Gv1.Size = New System.Drawing.Size(1150, 148)
+        Me.Gv1.Size = New System.Drawing.Size(1150, 152)
         Me.Gv1.TabIndex = 1
         Me.Gv1.VarID = ""
         '
@@ -1565,7 +1555,8 @@ Partial Class frmDairyGatePass
         '
         Me.MyRadGridView1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.MyRadGridView1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.MyRadGridView1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.MyRadGridView1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.MyRadGridView1.MyExportAPI = False
         Me.MyRadGridView1.MyExportFilePath = ""
         Me.MyRadGridView1.MyStopExport = False
         Me.MyRadGridView1.Name = "MyRadGridView1"
@@ -1578,7 +1569,7 @@ Partial Class frmDairyGatePass
         'rpvpCrateType
         '
         Me.rpvpCrateType.Controls.Add(Me.gvCrateType)
-        Me.rpvpCrateType.ItemSize = New System.Drawing.SizeF(104.0!, 26.0!)
+        Me.rpvpCrateType.ItemSize = New System.Drawing.SizeF(100.0!, 22.0!)
         Me.rpvpCrateType.Location = New System.Drawing.Point(10, 35)
         Me.rpvpCrateType.Name = "rpvpCrateType"
         Me.rpvpCrateType.Size = New System.Drawing.Size(1150, 354)
@@ -1593,7 +1584,8 @@ Partial Class frmDairyGatePass
         '
         Me.gvCrateType.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCrateType.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCrateType.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvCrateType.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvCrateType.MyExportAPI = False
         Me.gvCrateType.MyExportFilePath = ""
         Me.gvCrateType.MyStopExport = False
         Me.gvCrateType.Name = "gvCrateType"
@@ -1770,6 +1762,17 @@ Partial Class frmDairyGatePass
         Me.RadMenu1.Size = New System.Drawing.Size(1171, 20)
         Me.RadMenu1.TabIndex = 0
         '
+        'btnNew
+        '
+        Me.btnNew.BackgroundImage = Global.XpertERPDairySale.My.Resources.Resources._new
+        Me.btnNew.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnNew.Image = Global.XpertERPDairySale.My.Resources.Resources._new
+        Me.btnNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnNew.Location = New System.Drawing.Point(317, 7)
+        Me.btnNew.Name = "btnNew"
+        Me.btnNew.Size = New System.Drawing.Size(19, 21)
+        Me.btnNew.TabIndex = 13
+        '
         'frmDairyGatePass
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1863,7 +1866,6 @@ Partial Class frmDairyGatePass
         CType(Me.cmbitemtype, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblfullempty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblpaymentno, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Gv1.ResumeLayout(False)
@@ -1887,6 +1889,7 @@ Partial Class frmDairyGatePass
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
