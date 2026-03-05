@@ -193,6 +193,7 @@ Public Class clsMCCMaterialSale
     Public Deduction As String = Nothing
     Public Bank_Code As String = Nothing
     Public IsEwayBill As Integer = 0
+    Public No_Transporter As Integer = 0
 
 #End Region
 
@@ -653,6 +654,7 @@ Public Class clsMCCMaterialSale
             clsCommon.AddColumnsForChange(coll, "TotalSubsidyAmt", obj.TotalSubsidyAmt, True)
             clsCommon.AddColumnsForChange(coll, "TotalSubsidyDisAmt", obj.TotalSubsidyDisAmt, True)
             clsCommon.AddColumnsForChange(coll, "Transporter_Commission_TotalAmt", obj.Transporter_Commission_TotalAmt)
+            clsCommon.AddColumnsForChange(coll, "No_Transporter", obj.No_Transporter)
             If clsCommon.myLen(obj.Against_Sales_Order) = 0 Then
                 obj.Direct_Dispatch = 1
             End If
@@ -825,7 +827,7 @@ Public Class clsMCCMaterialSale
         qry += " TSPL_SD_SHIPMENT_HEAD.CURRENCY_CODE,TSPL_SD_SHIPMENT_HEAD.CONVRATE,TSPL_SD_SHIPMENT_HEAD.APPLICABLEFROM,TSPL_SD_SHIPMENT_HEAD.PRoject_ID ,TSPL_SD_SHIPMENT_HEAD.Mannual_Invoice_No,TSPL_SD_SHIPMENT_HEAD. Mannual_Invoice_No_StringType,TSPL_SD_SHIPMENT_HEAD.Form_38_No " &
         " ,TSPL_SD_SHIPMENT_HEAD.SO_Validity,TSPL_SD_SHIPMENT_HEAD.Commission_Apply,TSPL_SD_SHIPMENT_HEAD.Total_Comm_Amt,TSPL_SD_SHIPMENT_HEAD.Dispatch_date,TSPL_SD_SHIPMENT_HEAD.WayBillNo,TSPL_SD_SHIPMENT_HEAD.WayBillDate " &
         " ,TSPL_SD_SHIPMENT_HEAD.Dispatch_Terms,TSPL_SD_SHIPMENT_HEAD.Payment_Terms,TSPL_SD_SHIPMENT_HEAD.Dispatch_Period,TSPL_SD_SHIPMENT_HEAD.Vehicle_Capacity,TSPL_SD_SHIPMENT_HEAD.RoundOffAmount,TSPL_SD_SHIPMENT_HEAD.Is_Taxable, TSPL_SD_SHIPMENT_HEAD.Electronic_Ref_No " &
-        ",TSPL_SD_SHIPMENT_HEAD.Receipt_No,TSPL_SD_SHIPMENT_HEAD.ReceiptAmt,TSPL_SD_SHIPMENT_HEAD.VehicleNo,TSPL_SD_SHIPMENT_HEAD.ReceiverName,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt ,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyDisAmt,TSPL_SD_SHIPMENT_HEAD.Transporter_Commission_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Deduction_Type ,TSPL_SD_SHIPMENT_HEAD.Deduction,TSPL_SD_SHIPMENT_HEAD.IsEwayBill "
+        ",TSPL_SD_SHIPMENT_HEAD.Receipt_No,TSPL_SD_SHIPMENT_HEAD.ReceiptAmt,TSPL_SD_SHIPMENT_HEAD.VehicleNo,TSPL_SD_SHIPMENT_HEAD.ReceiverName,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt ,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyDisAmt,TSPL_SD_SHIPMENT_HEAD.Transporter_Commission_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Deduction_Type ,TSPL_SD_SHIPMENT_HEAD.Deduction,TSPL_SD_SHIPMENT_HEAD.IsEwayBill,TSPL_SD_SHIPMENT_HEAD.No_Transporter "
         qry += "  FROM TSPL_SD_SHIPMENT_HEAD "
         qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_HEAD.Bill_To_Location "
         qry += " left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_SD_SHIPMENT_HEAD.Ship_To_Location "
@@ -890,6 +892,7 @@ Public Class clsMCCMaterialSale
             obj.Dispatch_Period = clsCommon.myCdbl(dt.Rows(0)("Dispatch_Period"))
             obj.Road_Permit_No = clsCommon.myCstr(dt.Rows(0)("Road_Permit_No"))
             obj.IS_TCS = clsCommon.myCstr(dt.Rows(0)("IS_TCS"))
+            obj.No_Transporter = clsCommon.myCdbl(dt.Rows(0)("No_Transporter"))
             obj.IsEwayBill = clsCommon.myCdbl(dt.Rows(0)("IsEwayBill"))
             obj.Is_Delivered = clsCommon.myCdbl(dt.Rows(0)("Is_Delivered"))
             obj.Document_Code = clsCommon.myCstr(dt.Rows(0)("Document_Code"))
@@ -1972,6 +1975,7 @@ Public Class clsMCCMaterialSale
         obj.On_Hold = IIf(objShipment.On_Hold = 1, True, False)
         obj.Is_Internal = IIf(objShipment.Is_Internal = 1, True, False)
         obj.Ref_No = objShipment.Ref_No
+        obj.No_Transporter = objShipment.No_Transporter
         obj.Description = objShipment.Description
         obj.Remarks = objShipment.Remarks
         obj.Bill_To_Location = objShipment.Bill_To_Location

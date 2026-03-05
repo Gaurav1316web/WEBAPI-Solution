@@ -1099,6 +1099,7 @@ Public Class frmShipmentDairy
         FlagDocumentIsTaxable = 0
         chkSampling.Checked = False
         chkSampling.Enabled = True
+        chkNoTranspoter.Checked = False
         CreditCustDoc = ""
         ParentDocNo = ""
         TxtTotalCAN.Value = 0
@@ -7316,53 +7317,46 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             If clsCommon.CompairString(ddlDispatchTerms.SelectedValue, "CIF") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlDispatchTerms.SelectedValue, "CF") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlDispatchTerms.SelectedValue, "FE") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlDispatchTerms.SelectedValue, "O") = CompairStringResult.Equal Then
                 If chkownVehicle.Checked = False Then
                     If clsCommon.myLen(txtTransporterCode.Value) <= 0 Then
-                        Throw New Exception("Please select Transporter")
                         txtTransporterCode.Focus()
-                        Return False
+                        Throw New Exception("Please select Transporter")
                     End If
                     If clsCommon.myCdbl(txtGross_Wt.Text) <= 0 Then
                         RadPageView1.SelectedPage = RadPageViewPage1
                         txtGross_Wt.Focus()
                         txtGross_Wt.Select()
-                        clsCommon.MyMessageBoxShow(Me, "Fill Gross weight for provision booking.", Me.Text)
+                        Throw New Exception("Fill Gross weight for provision booking.")
                         'Exit Function
-                        Return False
                     End If
                     If clsCommon.myLen(txtTransporterCode.Value) > 0 Then
                         If clsCommon.myLen(lblVhicleNo.Text) = 0 Then
-                            Throw New Exception("Pls enter vehicle no")
                             lblVhicleNo.Focus()
-                            Return False
+                            Throw New Exception("Pls enter vehicle no")
+
                         End If
                         If clsCommon.myCdbl(txtVehicleCapacity.Value) = 0 Then
-                            Throw New Exception("Pls enter vehicle capacity")
                             txtVehicleCapacity.Focus()
-                            Return False
+                            Throw New Exception("Pls enter vehicle capacity")
                         End If
                     End If
                     If ChekPostBtn Then
                         If clsCommon.myCdbl(lblFreightCharges.Text) = 0 Then
                             Throw New Exception("Pls enter Freight in Route Freight Details.")
-                            Return False
                         End If
                     End If
                 End If
             End If
             If strExcise = True Then
                 If txtRemovalDate.Checked = False Then
-                    Throw New Exception("Pls select Removal Date")
                     txtRemovalDate.Focus()
-                    Return False
+                    Throw New Exception("Pls select Removal Date")
                 End If
             End If
             If chkCommApply.Checked = True AndAlso clsCommon.myCdbl(lblCommAmt.Text) = 0 Then
                 Throw New Exception("Please enter Commission amount.")
-                Return False
             End If
             If clsCommon.CompairString(ddlDispatchTerms.SelectedValue, "FE") = CompairStringResult.Equal Then
                 If lblAddCharges.Text = 0 Then
                     Throw New Exception("Please Enter additional charges for Freight Extra")
-                    Return False
                 End If
             End If
             If clsCommon.myCDate(clsDBFuncationality.getSingleValue("Select CONVERT(date, Document_Date,103) from TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE where Document_Code ='" + txtReqNo.Value + "'")) > clsCommon.myCDate(txtDate.Value) Then
@@ -7371,9 +7365,8 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             End If
             '=================Added by preeti gupta Against ticket no[BHA/16/08/18-000438]=================
             If clsCommon.myCdbl(TxtTotalCAN.Value) > 0 AndAlso clsCommon.myCstr(txtShippedCan.Text) = "" Then
-                Throw New Exception("Shipped CAN should not be blank")
                 txtShippedCan.Focus()
-                Return False
+                Throw New Exception("Shipped CAN should not be blank")
             End If
             '=======================================================
             Dim arrReqNo As New List(Of String)
@@ -7453,7 +7446,6 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                             strProject = clsSNSalesOrderHead.IsValidProjectForSO(strReqNo, "")
                             If arrProjNo.Contains(strProject) And arrProjNo.Count > 0 Then
                                 Throw New Exception("SO No:" + strReqNo + " and Item : " + strIName + " is not for PJC or not related to PJC At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
-                                Return False
                             Else
                                 arrProjNo.Add(strProject)
                             End If
@@ -7467,19 +7459,15 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                 If IsBatchMFDEXDmandatory Then
                     If clsCommon.myLen(gv1.Rows(ii).Cells(colBatchNo).Value) <= 0 Then
                         Throw New Exception("Please enter Batch No for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
-                        Return False
                     End If
                     If clsCommon.myLen(gv1.Rows(ii).Cells(colManufactureDate).Value) <= 0 Then
                         Throw New Exception("Please enter Manufacture Date for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
-                        Return False
                     End If
                     If clsCommon.myLen(gv1.Rows(ii).Cells(colExpiry).Value) <= 0 Then
                         Throw New Exception("Please enter Expiry Date for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
-                        Return False
                     End If
                     If clsCommon.GetDateWithStartTime(clsCommon.myCDate(gv1.Rows(ii).Cells(colManufactureDate).Value)) > clsCommon.GetDateWithStartTime(clsCommon.myCDate(gv1.Rows(ii).Cells(colExpiry).Value)) Then
                         Throw New Exception("Please enter Expiry Date greater than Manufacturing Date in " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
-                        Return False
                     End If
                 End If
                 If clsCommon.myLen(strICode) > 0 AndAlso Not arrICode.Contains(strICode) Then
@@ -7494,12 +7482,10 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                         If ShowMulMRPOfSameItemOnDairyBookingCustomer AndAlso clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(txtVendorNo.Value) & "' ")), "Others") = CompairStringResult.Equal Then
                             If clsCommon.CompairString(strICode, strInICode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strReqNo, strInnerReqNo) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strUOM, strInUOM) = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(jj).Cells(colSchemeItem).Value), "No") = CompairStringResult.Equal AndAlso clsCommon.CompairString(dblBasicrate, dblInnerBasicrate) = CompairStringResult.Equal Then
                                 Throw New Exception("Item Code " + strICode + " and Unit " + strUOM + " is repeated at Row No" + clsCommon.myCstr(ii + 1) + " and " + clsCommon.myCstr(jj + 1))
-                                Return False
                             End If
                         Else
                             If clsCommon.CompairString(strICode, strInICode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strReqNo, strInnerReqNo) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strUOM, strInUOM) = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(jj).Cells(colSchemeItem).Value), "No") = CompairStringResult.Equal Then
                                 Throw New Exception("Item Code " + strICode + " and Unit " + strUOM + " is repeated at Row No" + clsCommon.myCstr(ii + 1) + " and " + clsCommon.myCstr(jj + 1))
-                                Return False
                             End If
                         End If
                     Next
@@ -7590,7 +7576,6 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                         End If
                         If clsCommon.CompairString(clsCommon.myCstr(gvAC.Rows(ii).Cells(colACCode).Value), clsCommon.myCstr(gvAC.Rows(jj).Cells(colACCode).Value)) = CompairStringResult.Equal Then
                             Throw New Exception("Additional Charges: " + clsCommon.myCstr(gvAC.Rows(ii).Cells(colACCode).Value) + "Repeated at Row No " + clsCommon.myCstr(ii + 1) + " and " + clsCommon.myCstr(jj + 1) + "")
-                            Return False
                         End If
                     Next
                 End If
@@ -8315,6 +8300,7 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
 
                 Dim strupdate As String = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo='" & ParentDocNo & "' where Document_Code='" & ParentDocNo & "'"
                 clsDBFuncationality.ExecuteNonQuery(strupdate, trans)
+
                 Dim qry1 As String = ""
                 If MergeTCAmtofCreditCust Then
                     'qry1 = "select sum(Transporter_Commission_TotalAmt) as TCAmt from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & ParentDocNo & "'"
@@ -8424,6 +8410,7 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
             obj.Vehicle_Type = cmbVehicleType.SelectedValue
             obj.OrgCustCOde = strOrginalCust
             obj.IsEwaybill = IIf(chkIsEWayBill.Checked, 1, 0)
+            obj.No_Transporter = IIf(chkNoTranspoter.Checked, 1, 0)
             obj.IsIndividualCustomer = IIf(chkIndividualCustomer.Checked, 1, 0)
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal AndAlso chkIndividualCustomer.Checked Then
                 'If chkIndividualCustomer.Checked Then
@@ -9317,8 +9304,10 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                 End If
                 txtRouteNo.Enabled = False
                 txtVehicleCode.Enabled = True
+
                 'cmbShift.Enabled = False
                 chkExcludeKKFMND.Checked = IIf(obj.Exclude_KKF_And_Mandi = 1, True, False)
+                chkNoTranspoter.Checked = IIf(obj.No_Transporter = 1, True, False)
                 chkExcludeKKFMND.Enabled = False
                 cmbDisItemType.Enabled = False
                 txtOPKM.Value = obj.OPKm
@@ -10165,6 +10154,8 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                     Else
                         If obj.Status = ERPTransactionStatus.Approved Then
                             btnEWB.Enabled = True
+                            btnUpdateVehicle.Visible = True
+
                         End If
                     End If
                     If dtInv.Rows(0)("EwayBillDate") IsNot DBNull.Value Then
@@ -17534,11 +17525,19 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
 
     Private Sub btnUpdateVehicle_Click(sender As Object, e As EventArgs) Handles btnUpdateVehicle.Click
         Try
-            If UsLock1.Status = 1 Then
-                If clsCommon.MyMessageBoxShow(Me, "Do you want to update vehicle no?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
-                    clsPSShipmentHead.UpdateVehicle(txtDocNo.Value, lblVhicleNo.Text)
-                End If
+            If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso UsLock1.Status = ERPTransactionStatus.Approved Then
+                Dim frm As New FrmCommonUpdatesForEWB
+                frm.strDocNo = txtDocNo.Value
+                frm.strCustCode = txtVendorNo.Value
+                frm.strTransId = txtTransporterCode.Value
+                frm.strTransName = lblTransporterName.Text
+                frm.strVehicleNo = lblVhicleNo.Text
+                frm.strScreenType = "Dispatch"
+                frm.ShowDialog()
+            Else
+                Throw New Exception("Unable to proceed. You must select a Document Number that has already been approved.")
             End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

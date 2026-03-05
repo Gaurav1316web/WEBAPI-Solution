@@ -471,6 +471,7 @@ Public Class frmMCCMaterialSale
         lblInvoiceDiscAmt.Text = 0
         chkDiscountOnAmt.IsChecked = True
         chkRateDiffAmt.IsChecked = True
+        chkNoTranspoter.IsChecked = False
         If chkRateDiffRate.IsChecked Then
             GroupBoxRateDiffAmtType.Visible = True
         ElseIf chkRateDiffAmt.IsChecked Then
@@ -3775,6 +3776,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 obj.IS_TCS = IIf(chkisTCS.Checked, 1, 0)
                 obj.Deduction = clsCommon.myCstr(cboDeductionType.SelectedValue)
                 obj.IsEwayBill = IIf(chkIsEwayBill.Checked, 1, 0)
+                obj.No_Transporter = IIf(chkNoTranspoter.Checked, 1, 0)
                 If obj.HeadDisc_Per > 0 Then
                     If MultiplySubsidyWithQuantity Then
                         obj.HeadDisc_PerAmt = obj.TotalSubsidyDisAmt
@@ -4384,6 +4386,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 txtTaxGroup.Value = obj.Tax_Group
                 chkcashsale.Checked = IIf(obj.Is_CashSale = "Y", True, False)
                 chkApplyTPT.Checked = IIf(obj.Is_Apply_TPT = "1", True, False)
+                chkNoTranspoter.Checked = IIf(obj.No_Transporter = 1, True, False)
                 chkAddTPT.Checked = obj.Is_Add_TPT
                 txtRecommBy.Text = obj.Recommended_By
                 If chkApplyTPT.Checked Then
@@ -9623,4 +9626,23 @@ a:          End If
     Public Shared Function GetEWayBillNo(strDocNo As String, trans As SqlTransaction) As String
         Return clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" + strDocNo + "'", trans))
     End Function
+
+    Private Sub btnUpdateVehicle_Click(sender As Object, e As EventArgs) Handles btnUpdateVehicle.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso UsLock1.Status = ERPTransactionStatus.Approved Then
+                Dim frm As New FrmCommonUpdatesForEWB
+                frm.strDocNo = txtDocNo.Value
+                frm.strCustCode = txtVendorNo.Value
+                frm.strTransId = ""
+                frm.strTransName = ""
+                frm.strVehicleNo = txtVehicleNo.Text
+                frm.strScreenType = "DCSSale"
+                frm.ShowDialog()
+            Else
+                Throw New Exception("Unable to proceed. You must select a Document Number that has already been approved.")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

@@ -49,6 +49,7 @@ Public Class clsPSShipmentHead
     Public OrgCustCOde As String = Nothing
     Public Is_OwnVehicle As Integer = 0
     Public IsEwaybill As Integer = 0
+    Public No_Transporter As Integer = 0
     Public IsIndividualCustomer As Integer = 0
     Public Demand_UniqueID As String = Nothing
     Public Is_CustomerChanged As Integer = 0
@@ -711,6 +712,7 @@ Public Class clsPSShipmentHead
             clsCommon.AddColumnsForChange(coll, "Total_Item_Weight", obj.Total_Item_Weight)
             clsCommon.AddColumnsForChange(coll, "Transport_Id", obj.Transport_Id)
             clsCommon.AddColumnsForChange(coll, "Transporter_Name", obj.Transporter_Name)
+            clsCommon.AddColumnsForChange(coll, "No_Transporter", obj.No_Transporter)
             clsCommon.AddColumnsForChange(coll, "Customer_Code", obj.Customer_Code)
             clsCommon.AddColumnsForChange(coll, "On_Hold", IIf(obj.On_Hold, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Is_Internal", IIf(obj.Is_Internal, 1, 0))
@@ -1246,7 +1248,7 @@ Public Class clsPSShipmentHead
         qry += " TSPL_SD_SHIPMENT_HEAD.CURRENCY_CODE,TSPL_SD_SHIPMENT_HEAD.CONVRATE,TSPL_SD_SHIPMENT_HEAD.APPLICABLEFROM,TSPL_SD_SHIPMENT_HEAD.PRoject_ID ,TSPL_SD_SHIPMENT_HEAD.Mannual_Invoice_No,TSPL_SD_SHIPMENT_HEAD. Mannual_Invoice_No_StringType,TSPL_SD_SHIPMENT_HEAD.Form_38_No " &
         " ,TSPL_SD_SHIPMENT_HEAD.SO_Validity,TSPL_SD_SHIPMENT_HEAD.Commission_Apply,TSPL_SD_SHIPMENT_HEAD.Total_Comm_Amt,TSPL_SD_SHIPMENT_HEAD.Dispatch_date,TSPL_SD_SHIPMENT_HEAD.WayBillNo,TSPL_SD_SHIPMENT_HEAD.WayBillDate " &
         " ,TSPL_SD_SHIPMENT_HEAD.Dispatch_Terms,TSPL_SD_SHIPMENT_HEAD.Payment_Terms,TSPL_SD_SHIPMENT_HEAD.Dispatch_Period,TSPL_SD_SHIPMENT_HEAD.Vehicle_Capacity " &
-        ",TSPL_SD_SHIPMENT_HEAD.Itemwise,TSPL_SD_SHIPMENT_HEAD.Against_Cust_Order,TSPL_SD_SHIPMENT_HEAD.Supply_Date,TSPL_SD_SHIPMENT_HEAD.Delivery_Code_PS,TSPL_SD_SHIPMENT_HEAD.Advance_Percentage,TSPL_SD_SHIPMENT_HEAD.GR_Date,TSPL_SD_SHIPMENT_HEAD.RoadPermit_Date,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_Date,TSPL_SD_SHIPMENT_HEAD.Removal_Date,TSPL_SD_SHIPMENT_HEAD.Cash_Customer,TSPL_SD_SHIPMENT_HEAD.Insurance,TSPL_SD_SHIPMENT_HEAD.ManualVehicle,TSPL_SD_SHIPMENT_HEAD.Freight_Distance,TSPL_SD_SHIPMENT_HEAD.Distributor_Commission_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Transporter_Commission_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt,TSPL_SD_SHIPMENT_HEAD.FAT_Per,TSPL_SD_SHIPMENT_HEAD.SNF_Per,TSPL_SD_SHIPMENT_HEAD.Acidity,TSPL_SD_SHIPMENT_HEAD.Temperature,TSPL_SD_SHIPMENT_HEAD.MBRT_Hours,TSPL_SD_SHIPMENT_HEAD.BoothSecurity_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Vehicle_Type,TSPL_SD_SHIPMENT_HEAD.IsEwaybill,TSPL_SD_SHIPMENT_HEAD.IsIndividualCustomer,TSPL_SD_SHIPMENT_HEAD.Demand_UniqueID,TSPL_SD_SHIPMENT_HEAD.Exclude_KKF_And_Mandi,TSPL_SD_SHIPMENT_HEAD.OpeningBal,TSPL_SD_SHIPMENT_HEAD.DrAmt ,TSPL_SD_SHIPMENT_HEAD.CrAmt,TSPL_SD_SHIPMENT_HEAD.ClosingBal "
+        ",TSPL_SD_SHIPMENT_HEAD.Itemwise,TSPL_SD_SHIPMENT_HEAD.Against_Cust_Order,TSPL_SD_SHIPMENT_HEAD.Supply_Date,TSPL_SD_SHIPMENT_HEAD.Delivery_Code_PS,TSPL_SD_SHIPMENT_HEAD.Advance_Percentage,TSPL_SD_SHIPMENT_HEAD.GR_Date,TSPL_SD_SHIPMENT_HEAD.RoadPermit_Date,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_Date,TSPL_SD_SHIPMENT_HEAD.Removal_Date,TSPL_SD_SHIPMENT_HEAD.Cash_Customer,TSPL_SD_SHIPMENT_HEAD.Insurance,TSPL_SD_SHIPMENT_HEAD.ManualVehicle,TSPL_SD_SHIPMENT_HEAD.Freight_Distance,TSPL_SD_SHIPMENT_HEAD.Distributor_Commission_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Transporter_Commission_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt,TSPL_SD_SHIPMENT_HEAD.FAT_Per,TSPL_SD_SHIPMENT_HEAD.SNF_Per,TSPL_SD_SHIPMENT_HEAD.Acidity,TSPL_SD_SHIPMENT_HEAD.Temperature,TSPL_SD_SHIPMENT_HEAD.MBRT_Hours,TSPL_SD_SHIPMENT_HEAD.BoothSecurity_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Vehicle_Type,TSPL_SD_SHIPMENT_HEAD.IsEwaybill,TSPL_SD_SHIPMENT_HEAD.IsIndividualCustomer,TSPL_SD_SHIPMENT_HEAD.Demand_UniqueID,TSPL_SD_SHIPMENT_HEAD.Exclude_KKF_And_Mandi,TSPL_SD_SHIPMENT_HEAD.OpeningBal,TSPL_SD_SHIPMENT_HEAD.DrAmt ,TSPL_SD_SHIPMENT_HEAD.CrAmt,TSPL_SD_SHIPMENT_HEAD.ClosingBal,TSPL_SD_SHIPMENT_HEAD.No_Transporter "
         qry += "  FROM TSPL_SD_SHIPMENT_HEAD "
         qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_HEAD.Bill_To_Location "
         qry += " left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_SD_SHIPMENT_HEAD.Ship_To_Location "
@@ -1331,6 +1333,7 @@ Public Class clsPSShipmentHead
             obj.Electronic_Ref_No = clsCommon.myCstr(dt.Rows(0)("Electronic_Ref_No"))
             obj.EWayBillNo = clsCommon.myCstr(dt.Rows(0)("EWayBillNo"))
             obj.Is_Taxable = clsCommon.myCdbl(dt.Rows(0)("Is_Taxable"))
+            obj.No_Transporter = clsCommon.myCdbl(dt.Rows(0)("No_Transporter"))
             obj.DO_Item_Type = clsCommon.myCstr(dt.Rows(0)("DO_Item_Type"))
             obj.Shift_Type = clsCommon.myCstr(dt.Rows(0)("Shift_Type"))
             obj.Vehicle_Type = clsCommon.myCstr(dt.Rows(0)("Vehicle_Type"))
@@ -2493,6 +2496,7 @@ Public Class clsPSShipmentHead
         obj.Crate = objShipment.Crate
         obj.jaali = objShipment.jaali
         obj.IsReplacement = objShipment.IsReplacement
+        obj.No_Transporter = objShipment.No_Transporter
         obj.Box = objShipment.Box
         obj.isCardSale = objShipment.isCardSale
         obj.IsEwaybill = objShipment.IsEwaybill

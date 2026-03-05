@@ -6742,7 +6742,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
             If clsCommon.myLen(txtEWayBillNo.Text) > 0 Then
 
 
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(clsPSInvoiceHead.PrintEWayBill(txtEWayBillNo.Text, fndLocation.Value))
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(ClsScrapSaleHead.PrintEWayBill(txtEWayBillNo.Text, fndLocation.Value))
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rpte-waybill", "E-WayBill", clsCommon.GetPrintDate(dtpshipment.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
