@@ -351,6 +351,8 @@
     <Compile Include="Inventory\clsStartBatchEntry.vb" />
     <Compile Include="Inventory\clsStockAgeingFilters.vb" />
     <Compile Include="Inventory\clsStockRecoFilters.vb" />
+    <Compile Include="ItemModel\clsItemInfo.vb" />
+    <Compile Include="ItemModel\clsItemLoc.vb" />
     <Compile Include="ItemModel\clsItemMaster.vb" />
     <Compile Include="ItemModel\clsItemMasterCategory.vb" />
     <Compile Include="ItemModel\clsItemPurchaseQCParameter.vb" />
@@ -359,6 +361,7 @@
     <Compile Include="ItemModel\clsItemUOMDetails.vb" />
     <Compile Include="LocationModel\clsLocation.vb" />
     <Compile Include="LocationModel\clsLocationCustomerMapping.vb" />
+    <Compile Include="LocationModel\clsLocationCustomerMappings.vb" />
     <Compile Include="LocationModel\clsLocationItemMapping.vb" />
     <Compile Include="LocationModel\clsLocationPlantDepotMapping.vb" />
     <Compile Include="LocationModel\clsLocationWiseItems.vb" />

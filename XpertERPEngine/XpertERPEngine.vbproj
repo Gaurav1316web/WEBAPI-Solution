@@ -437,7 +437,6 @@
     <Compile Include="JobWork Outward\clsJWFormula.vb" />
     <Compile Include="JobWork Outward\clsJWOEstimate.vb" />
     <Compile Include="JobWork Outward\clsJWOFormula.vb" />
-    <Compile Include="LocationModel\clsLocationCustomerMappings.vb" />
     <Compile Include="Milk JobWork\clsJWIItemPriceMaster.vb" />
     <Compile Include="Milk Procurement\clsAcknowledgementEntry.vb" />
     <Compile Include="Milk Procurement\clsBankAdvise.vb" />
@@ -1055,9 +1054,7 @@
     <Compile Include="ItemModel\clsItemCategoryStructure.vb" />
     <Compile Include="ItemModel\clsItemchargecategorymaster.vb" />
     <Compile Include="ItemModel\clsItemConversion.vb" />
-    <Compile Include="ItemModel\clsItemInfo.vb" />
     <Compile Include="Production\clsItemIssueToAssembledAsset.vb" />
-    <Compile Include="ItemModel\clsItemLoc.vb" />
     <Compile Include="ItemModel\ClsItemMcMapping.vb" />
     <Compile Include="Sale\clsItemPriceListLevel3.vb" />
     <Compile Include="ItemModel\ClsItemReorderLevel.vb" />

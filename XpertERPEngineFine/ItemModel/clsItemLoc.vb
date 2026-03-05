@@ -174,7 +174,7 @@ Public Class clsItemLoc
     End Function
 
     Public Shared Function FinderForGlAccount(ByVal strCode As String, ByVal WhrCls As String, ByVal isButtonClicked As Boolean) As String
-        Dim obj As clsBOM = Nothing
+        'Dim obj As clsBOM = Nothing
         Dim qry As String = "select Account_Code as code,Description + '(' + Account_Code + ')' as Name from TSPL_GL_ACCOUNTS "
         strCode = clsCommon.ShowSelectForm("GLAccountFinder", qry, "code", WhrCls, strCode, "Code", isButtonClicked)
         Return strCode
