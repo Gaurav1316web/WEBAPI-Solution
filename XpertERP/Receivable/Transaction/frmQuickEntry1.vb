@@ -2119,8 +2119,8 @@ Public Class FrmQuickEntry1
         'If MasterTemplate.Rows.Count > 0 Then
         '    funTypeLoad()
         'End If
-        LoadBlankGrid()
-        MasterTemplate.Rows.AddNew()
+        'LoadBlankGrid()
+        'MasterTemplate.Rows.AddNew()
     End Sub
     Public Sub Location_Finder()
         Try

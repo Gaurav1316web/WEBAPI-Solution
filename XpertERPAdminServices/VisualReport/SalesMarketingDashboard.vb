@@ -820,6 +820,47 @@ SELECT   SUM(TotalLtr_ItemWise) AS TotalLtr_ItemWiseDemand,SUM(TotalLtr_ItemWise
 
             Dim dtgv As New DataTable
             dtgv = clsDBFuncationality.GetDataTable(FinalQry)
+
+            If dt.Rows.Count <> dtgv.Rows.Count Then
+                Dim newDt As DataTable = dtgv.Clone() ' clone structure
+
+                Dim sno As Integer = 1
+
+                For Each masterRow As DataRow In dt.Rows
+                    Dim locationName As String = masterRow("Location_Name").ToString()
+                    Dim foundRows() As DataRow = dtgv.Select("[Union N  ame] = '" & locationName.Replace("'", "''") & "'")
+
+                    Dim newRow As DataRow = newDt.NewRow()
+
+                    For Each col As DataColumn In newDt.Columns
+
+                        If col.ColumnName = "SNo" Then
+                            newRow("SNo") = sno
+
+                        ElseIf col.ColumnName = "Union Name" Then
+                            newRow("Union Name") = locationName
+                        Else
+                            If foundRows.Length > 0 Then
+                                newRow(col.ColumnName) = foundRows(0)(col.ColumnName)
+                            Else
+                                If col.DataType Is GetType(Decimal) OrElse
+                   col.DataType Is GetType(Double) OrElse
+                   col.DataType Is GetType(Integer) Then
+                                    newRow(col.ColumnName) = 0
+                                Else
+                                    newRow(col.ColumnName) = ""
+                                End If
+                            End If
+                        End If
+
+                    Next
+
+                    newDt.Rows.Add(newRow)
+                    sno += 1
+
+                Next
+                dtgv = newDt
+            End If
             gv1.DataSource = Nothing
             gv1.Rows.Clear()
             gv1.Columns.Clear()

@@ -22,12 +22,12 @@ Partial Class frmMilkCollectionDCS
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.MyLabel2 = New common.Controls.MyLabel()
@@ -88,6 +88,13 @@ Partial Class frmMilkCollectionDCS
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnImport = New Telerik.WinControls.UI.RadButton()
         Me.btnExport = New Telerik.WinControls.UI.RadButton()
+        Me.lblTotReceivedQtyClustered = New common.Controls.MyLabel()
+        Me.MyLabel8 = New common.Controls.MyLabel()
+        Me.MyLabel9 = New common.Controls.MyLabel()
+        Me.MyLabel11 = New common.Controls.MyLabel()
+        Me.MyLabel12 = New common.Controls.MyLabel()
+        Me.lblTotReceivedFATKgClustered = New common.Controls.MyLabel()
+        Me.lblTotReceivedSNFKgClustered = New common.Controls.MyLabel()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
@@ -150,6 +157,13 @@ Partial Class frmMilkCollectionDCS
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnImport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotReceivedQtyClustered, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotReceivedFATKgClustered, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotReceivedSNFKgClustered, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -169,20 +183,28 @@ Partial Class frmMilkCollectionDCS
         Me.gv1.MasterTemplate.EnableAlternatingRowColor = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MyExportAPI = False
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(1091, 198)
+        Me.gv1.Size = New System.Drawing.Size(1091, 180)
         Me.gv1.TabIndex = 2
         Me.gv1.TabStop = False
         Me.gv1.VarID = ""
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.lblTotReceivedSNFKgClustered)
+        Me.Panel1.Controls.Add(Me.lblTotReceivedFATKgClustered)
+        Me.Panel1.Controls.Add(Me.MyLabel12)
+        Me.Panel1.Controls.Add(Me.MyLabel11)
+        Me.Panel1.Controls.Add(Me.MyLabel9)
+        Me.Panel1.Controls.Add(Me.MyLabel8)
+        Me.Panel1.Controls.Add(Me.lblTotReceivedQtyClustered)
         Me.Panel1.Controls.Add(Me.MyLabel2)
         Me.Panel1.Controls.Add(Me.cboShift)
         Me.Panel1.Controls.Add(Me.RadGroupBox1)
@@ -223,14 +245,14 @@ Partial Class frmMilkCollectionDCS
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1091, 93)
+        Me.Panel1.Size = New System.Drawing.Size(1091, 117)
         Me.Panel1.TabIndex = 0
         '
         'MyLabel2
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(496, 5)
+        Me.MyLabel2.Location = New System.Drawing.Point(198, 27)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(29, 16)
         Me.MyLabel2.TabIndex = 1431
@@ -252,11 +274,11 @@ Partial Class frmMilkCollectionDCS
         Me.cboShift.IsSourceFromTable = False
         Me.cboShift.IsSourceFromValueList = False
         Me.cboShift.IsUnique = False
-        RadListDataItem1.Text = "M"
-        RadListDataItem2.Text = "E"
-        Me.cboShift.Items.Add(RadListDataItem1)
-        Me.cboShift.Items.Add(RadListDataItem2)
-        Me.cboShift.Location = New System.Drawing.Point(544, 4)
+        RadListDataItem5.Text = "M"
+        RadListDataItem6.Text = "E"
+        Me.cboShift.Items.Add(RadListDataItem5)
+        Me.cboShift.Items.Add(RadListDataItem6)
+        Me.cboShift.Location = New System.Drawing.Point(233, 26)
         Me.cboShift.MendatroryField = True
         Me.cboShift.MyLinkLable1 = Me.MyLabel2
         Me.cboShift.MyLinkLable2 = Nothing
@@ -264,7 +286,7 @@ Partial Class frmMilkCollectionDCS
         Me.cboShift.ReferenceFieldDesc = Nothing
         Me.cboShift.ReferenceFieldName = Nothing
         Me.cboShift.ReferenceTableName = Nothing
-        Me.cboShift.Size = New System.Drawing.Size(148, 18)
+        Me.cboShift.Size = New System.Drawing.Size(133, 18)
         Me.cboShift.TabIndex = 1430
         '
         'RadGroupBox1
@@ -274,7 +296,7 @@ Partial Class frmMilkCollectionDCS
         Me.RadGroupBox1.Controls.Add(Me.btnMGo)
         Me.RadGroupBox1.Controls.Add(Me.lblMDCSDate)
         Me.RadGroupBox1.HeaderText = "Generate DCS Data By Mobile"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(859, 4)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(877, 6)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Size = New System.Drawing.Size(165, 79)
         Me.RadGroupBox1.TabIndex = 45
@@ -334,9 +356,9 @@ Partial Class frmMilkCollectionDCS
         Me.txtTotPendingSNFPer.AutoSize = False
         Me.txtTotPendingSNFPer.BorderVisible = True
         Me.txtTotPendingSNFPer.FieldName = Nothing
-        Me.txtTotPendingSNFPer.Location = New System.Drawing.Point(632, 67)
+        Me.txtTotPendingSNFPer.Location = New System.Drawing.Point(756, 88)
         Me.txtTotPendingSNFPer.Name = "txtTotPendingSNFPer"
-        Me.txtTotPendingSNFPer.Size = New System.Drawing.Size(60, 20)
+        Me.txtTotPendingSNFPer.Size = New System.Drawing.Size(48, 20)
         Me.txtTotPendingSNFPer.TabIndex = 0
         Me.txtTotPendingSNFPer.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.txtTotPendingSNFPer.TextWrap = False
@@ -346,9 +368,9 @@ Partial Class frmMilkCollectionDCS
         Me.txtTotPendingFATPer.AutoSize = False
         Me.txtTotPendingFATPer.BorderVisible = True
         Me.txtTotPendingFATPer.FieldName = Nothing
-        Me.txtTotPendingFATPer.Location = New System.Drawing.Point(632, 46)
+        Me.txtTotPendingFATPer.Location = New System.Drawing.Point(644, 88)
         Me.txtTotPendingFATPer.Name = "txtTotPendingFATPer"
-        Me.txtTotPendingFATPer.Size = New System.Drawing.Size(60, 20)
+        Me.txtTotPendingFATPer.Size = New System.Drawing.Size(48, 20)
         Me.txtTotPendingFATPer.TabIndex = 11
         Me.txtTotPendingFATPer.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.txtTotPendingFATPer.TextWrap = False
@@ -357,7 +379,7 @@ Partial Class frmMilkCollectionDCS
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(694, 27)
+        Me.MyLabel1.Location = New System.Drawing.Point(206, 69)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(82, 16)
         Me.MyLabel1.TabIndex = 28
@@ -380,11 +402,11 @@ Partial Class frmMilkCollectionDCS
         Me.cboFATSNFType.IsSourceFromTable = False
         Me.cboFATSNFType.IsSourceFromValueList = False
         Me.cboFATSNFType.IsUnique = False
-        RadListDataItem3.Text = "M"
-        RadListDataItem4.Text = "E"
-        Me.cboFATSNFType.Items.Add(RadListDataItem3)
-        Me.cboFATSNFType.Items.Add(RadListDataItem4)
-        Me.cboFATSNFType.Location = New System.Drawing.Point(781, 26)
+        RadListDataItem1.Text = "M"
+        RadListDataItem2.Text = "E"
+        Me.cboFATSNFType.Items.Add(RadListDataItem1)
+        Me.cboFATSNFType.Items.Add(RadListDataItem2)
+        Me.cboFATSNFType.Location = New System.Drawing.Point(292, 68)
         Me.cboFATSNFType.MendatroryField = True
         Me.cboFATSNFType.MyLinkLable1 = Me.MyLabel1
         Me.cboFATSNFType.MyLinkLable2 = Nothing
@@ -399,7 +421,7 @@ Partial Class frmMilkCollectionDCS
         '
         Me.MyLabel7.FieldName = Nothing
         Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel7.Location = New System.Drawing.Point(496, 27)
+        Me.MyLabel7.Location = New System.Drawing.Point(6, 69)
         Me.MyLabel7.Name = "MyLabel7"
         Me.MyLabel7.Size = New System.Drawing.Size(40, 16)
         Me.MyLabel7.TabIndex = 44
@@ -417,7 +439,7 @@ Partial Class frmMilkCollectionDCS
         Me.txtSlipNo.IsSourceFromTable = False
         Me.txtSlipNo.IsSourceFromValueList = False
         Me.txtSlipNo.IsUnique = False
-        Me.txtSlipNo.Location = New System.Drawing.Point(544, 26)
+        Me.txtSlipNo.Location = New System.Drawing.Point(96, 68)
         Me.txtSlipNo.MaxLength = 30
         Me.txtSlipNo.MendatroryField = False
         Me.txtSlipNo.MyLinkLable1 = Me.MyLabel7
@@ -426,15 +448,15 @@ Partial Class frmMilkCollectionDCS
         Me.txtSlipNo.ReferenceFieldDesc = Nothing
         Me.txtSlipNo.ReferenceFieldName = Nothing
         Me.txtSlipNo.ReferenceTableName = Nothing
-        Me.txtSlipNo.Size = New System.Drawing.Size(148, 18)
+        Me.txtSlipNo.Size = New System.Drawing.Size(107, 18)
         Me.txtSlipNo.TabIndex = 2
         '
         'RadButton1
         '
         Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton1.Location = New System.Drawing.Point(694, 46)
+        Me.RadButton1.Location = New System.Drawing.Point(372, 71)
         Me.RadButton1.Name = "RadButton1"
-        Me.RadButton1.Size = New System.Drawing.Size(161, 41)
+        Me.RadButton1.Size = New System.Drawing.Size(134, 37)
         Me.RadButton1.TabIndex = 12
         Me.RadButton1.Text = "Add To Suspense"
         '
@@ -443,7 +465,7 @@ Partial Class frmMilkCollectionDCS
         Me.lblTotPendingSNFKg.AutoSize = False
         Me.lblTotPendingSNFKg.BorderVisible = True
         Me.lblTotPendingSNFKg.FieldName = Nothing
-        Me.lblTotPendingSNFKg.Location = New System.Drawing.Point(572, 67)
+        Me.lblTotPendingSNFKg.Location = New System.Drawing.Point(806, 88)
         Me.lblTotPendingSNFKg.Name = "lblTotPendingSNFKg"
         Me.lblTotPendingSNFKg.Size = New System.Drawing.Size(60, 20)
         Me.lblTotPendingSNFKg.TabIndex = 9
@@ -455,7 +477,7 @@ Partial Class frmMilkCollectionDCS
         Me.lblTotReceivedSNFKg.AutoSize = False
         Me.lblTotReceivedSNFKg.BorderVisible = True
         Me.lblTotReceivedSNFKg.FieldName = Nothing
-        Me.lblTotReceivedSNFKg.Location = New System.Drawing.Point(512, 67)
+        Me.lblTotReceivedSNFKg.Location = New System.Drawing.Point(806, 46)
         Me.lblTotReceivedSNFKg.Name = "lblTotReceivedSNFKg"
         Me.lblTotReceivedSNFKg.Size = New System.Drawing.Size(60, 20)
         Me.lblTotReceivedSNFKg.TabIndex = 8
@@ -467,7 +489,7 @@ Partial Class frmMilkCollectionDCS
         Me.lblTotPendingFATKg.AutoSize = False
         Me.lblTotPendingFATKg.BorderVisible = True
         Me.lblTotPendingFATKg.FieldName = Nothing
-        Me.lblTotPendingFATKg.Location = New System.Drawing.Point(572, 46)
+        Me.lblTotPendingFATKg.Location = New System.Drawing.Point(694, 88)
         Me.lblTotPendingFATKg.Name = "lblTotPendingFATKg"
         Me.lblTotPendingFATKg.Size = New System.Drawing.Size(60, 20)
         Me.lblTotPendingFATKg.TabIndex = 13
@@ -479,7 +501,7 @@ Partial Class frmMilkCollectionDCS
         Me.lblTotReceivedFATKg.AutoSize = False
         Me.lblTotReceivedFATKg.BorderVisible = True
         Me.lblTotReceivedFATKg.FieldName = Nothing
-        Me.lblTotReceivedFATKg.Location = New System.Drawing.Point(512, 46)
+        Me.lblTotReceivedFATKg.Location = New System.Drawing.Point(694, 46)
         Me.lblTotReceivedFATKg.Name = "lblTotReceivedFATKg"
         Me.lblTotReceivedFATKg.Size = New System.Drawing.Size(60, 20)
         Me.lblTotReceivedFATKg.TabIndex = 14
@@ -491,7 +513,7 @@ Partial Class frmMilkCollectionDCS
         Me.lblTotPendingQty.AutoSize = False
         Me.lblTotPendingQty.BorderVisible = True
         Me.lblTotPendingQty.FieldName = Nothing
-        Me.lblTotPendingQty.Location = New System.Drawing.Point(226, 46)
+        Me.lblTotPendingQty.Location = New System.Drawing.Point(573, 88)
         Me.lblTotPendingQty.Name = "lblTotPendingQty"
         Me.lblTotPendingQty.Size = New System.Drawing.Size(69, 20)
         Me.lblTotPendingQty.TabIndex = 19
@@ -503,9 +525,9 @@ Partial Class frmMilkCollectionDCS
         Me.lblTotReceivedQty.AutoSize = False
         Me.lblTotReceivedQty.BorderVisible = True
         Me.lblTotReceivedQty.FieldName = Nothing
-        Me.lblTotReceivedQty.Location = New System.Drawing.Point(154, 46)
+        Me.lblTotReceivedQty.Location = New System.Drawing.Point(573, 46)
         Me.lblTotReceivedQty.Name = "lblTotReceivedQty"
-        Me.lblTotReceivedQty.Size = New System.Drawing.Size(72, 20)
+        Me.lblTotReceivedQty.Size = New System.Drawing.Size(69, 20)
         Me.lblTotReceivedQty.TabIndex = 20
         Me.lblTotReceivedQty.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.lblTotReceivedQty.TextWrap = False
@@ -514,7 +536,7 @@ Partial Class frmMilkCollectionDCS
         '
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(298, 69)
+        Me.MyLabel5.Location = New System.Drawing.Point(759, 5)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(42, 16)
         Me.MyLabel5.TabIndex = 4
@@ -524,7 +546,7 @@ Partial Class frmMilkCollectionDCS
         '
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(397, 48)
+        Me.MyLabel4.Location = New System.Drawing.Point(701, 5)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(47, 16)
         Me.MyLabel4.TabIndex = 16
@@ -535,7 +557,7 @@ Partial Class frmMilkCollectionDCS
         Me.lblMCC.AutoSize = False
         Me.lblMCC.BorderVisible = True
         Me.lblMCC.FieldName = Nothing
-        Me.lblMCC.Location = New System.Drawing.Point(298, 25)
+        Me.lblMCC.Location = New System.Drawing.Point(312, 46)
         Me.lblMCC.Name = "lblMCC"
         Me.lblMCC.Size = New System.Drawing.Size(194, 20)
         Me.lblMCC.TabIndex = 15
@@ -545,7 +567,7 @@ Partial Class frmMilkCollectionDCS
         '
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.MyLabel3.Location = New System.Drawing.Point(6, 26)
+        Me.MyLabel3.Location = New System.Drawing.Point(6, 47)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(58, 18)
         Me.MyLabel3.TabIndex = 23
@@ -562,7 +584,7 @@ Partial Class frmMilkCollectionDCS
         Me.txtMCC.IsSourceFromTable = False
         Me.txtMCC.IsSourceFromValueList = False
         Me.txtMCC.IsUnique = False
-        Me.txtMCC.Location = New System.Drawing.Point(85, 25)
+        Me.txtMCC.Location = New System.Drawing.Point(96, 47)
         Me.txtMCC.MendatroryField = True
         Me.txtMCC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMCC.MyLinkLable1 = Me.MyLabel3
@@ -582,7 +604,7 @@ Partial Class frmMilkCollectionDCS
         Me.lblSNFPer.AutoSize = False
         Me.lblSNFPer.BorderVisible = True
         Me.lblSNFPer.FieldName = Nothing
-        Me.lblSNFPer.Location = New System.Drawing.Point(346, 67)
+        Me.lblSNFPer.Location = New System.Drawing.Point(756, 25)
         Me.lblSNFPer.Name = "lblSNFPer"
         Me.lblSNFPer.Size = New System.Drawing.Size(48, 20)
         Me.lblSNFPer.TabIndex = 5
@@ -594,7 +616,7 @@ Partial Class frmMilkCollectionDCS
         Me.lblFATKg.AutoSize = False
         Me.lblFATKg.BorderVisible = True
         Me.lblFATKg.FieldName = Nothing
-        Me.lblFATKg.Location = New System.Drawing.Point(452, 46)
+        Me.lblFATKg.Location = New System.Drawing.Point(694, 25)
         Me.lblFATKg.Name = "lblFATKg"
         Me.lblFATKg.Size = New System.Drawing.Size(60, 20)
         Me.lblFATKg.TabIndex = 15
@@ -606,7 +628,7 @@ Partial Class frmMilkCollectionDCS
         Me.lblSNFKg.AutoSize = False
         Me.lblSNFKg.BorderVisible = True
         Me.lblSNFKg.FieldName = Nothing
-        Me.lblSNFKg.Location = New System.Drawing.Point(452, 67)
+        Me.lblSNFKg.Location = New System.Drawing.Point(806, 25)
         Me.lblSNFKg.Name = "lblSNFKg"
         Me.lblSNFKg.Size = New System.Drawing.Size(60, 20)
         Me.lblSNFKg.TabIndex = 7
@@ -618,7 +640,7 @@ Partial Class frmMilkCollectionDCS
         Me.lblFATPer.AutoSize = False
         Me.lblFATPer.BorderVisible = True
         Me.lblFATPer.FieldName = Nothing
-        Me.lblFATPer.Location = New System.Drawing.Point(346, 46)
+        Me.lblFATPer.Location = New System.Drawing.Point(644, 25)
         Me.lblFATPer.Name = "lblFATPer"
         Me.lblFATPer.Size = New System.Drawing.Size(48, 20)
         Me.lblFATPer.TabIndex = 17
@@ -629,7 +651,7 @@ Partial Class frmMilkCollectionDCS
         '
         Me.MyLabel23.FieldName = Nothing
         Me.MyLabel23.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel23.Location = New System.Drawing.Point(397, 69)
+        Me.MyLabel23.Location = New System.Drawing.Point(812, 5)
         Me.MyLabel23.Name = "MyLabel23"
         Me.MyLabel23.Size = New System.Drawing.Size(48, 16)
         Me.MyLabel23.TabIndex = 6
@@ -640,7 +662,7 @@ Partial Class frmMilkCollectionDCS
         Me.lblQty.AutoSize = False
         Me.lblQty.BorderVisible = True
         Me.lblQty.FieldName = Nothing
-        Me.lblQty.Location = New System.Drawing.Point(85, 45)
+        Me.lblQty.Location = New System.Drawing.Point(573, 25)
         Me.lblQty.Name = "lblQty"
         Me.lblQty.Size = New System.Drawing.Size(69, 20)
         Me.lblQty.TabIndex = 21
@@ -651,7 +673,7 @@ Partial Class frmMilkCollectionDCS
         '
         Me.MyLabel15.FieldName = Nothing
         Me.MyLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel15.Location = New System.Drawing.Point(298, 48)
+        Me.MyLabel15.Location = New System.Drawing.Point(648, 5)
         Me.MyLabel15.Name = "MyLabel15"
         Me.MyLabel15.Size = New System.Drawing.Size(41, 16)
         Me.MyLabel15.TabIndex = 18
@@ -661,7 +683,7 @@ Partial Class frmMilkCollectionDCS
         '
         Me.MyLabel10.FieldName = Nothing
         Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel10.Location = New System.Drawing.Point(6, 48)
+        Me.MyLabel10.Location = New System.Drawing.Point(583, 5)
         Me.MyLabel10.Name = "MyLabel10"
         Me.MyLabel10.Size = New System.Drawing.Size(48, 16)
         Me.MyLabel10.TabIndex = 22
@@ -670,10 +692,10 @@ Partial Class frmMilkCollectionDCS
         'UsLock1
         '
         Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(694, 4)
+        Me.UsLock1.Location = New System.Drawing.Point(372, 4)
         Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UsLock1.Name = "UsLock1"
-        Me.UsLock1.Size = New System.Drawing.Size(161, 19)
+        Me.UsLock1.Size = New System.Drawing.Size(134, 19)
         Me.UsLock1.Status = common.ERPTransactionStatus.Pending
         Me.UsLock1.TabIndex = 30
         '
@@ -681,7 +703,7 @@ Partial Class frmMilkCollectionDCS
         '
         Me.RadLabel3.FieldName = Nothing
         Me.RadLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel3.Location = New System.Drawing.Point(6, 69)
+        Me.RadLabel3.Location = New System.Drawing.Point(6, 90)
         Me.RadLabel3.Name = "RadLabel3"
         Me.RadLabel3.Size = New System.Drawing.Size(63, 16)
         Me.RadLabel3.TabIndex = 3
@@ -691,11 +713,11 @@ Partial Class frmMilkCollectionDCS
         '
         Me.RadLabel4.FieldName = Nothing
         Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel4.Location = New System.Drawing.Point(361, 5)
+        Me.RadLabel4.Location = New System.Drawing.Point(6, 27)
         Me.RadLabel4.Name = "RadLabel4"
-        Me.RadLabel4.Size = New System.Drawing.Size(30, 16)
+        Me.RadLabel4.Size = New System.Drawing.Size(85, 16)
         Me.RadLabel4.TabIndex = 27
-        Me.RadLabel4.Text = "Date"
+        Me.RadLabel4.Text = "Document Date"
         '
         'RadLabel1
         '
@@ -710,7 +732,7 @@ Partial Class frmMilkCollectionDCS
         'txtDocNo
         '
         Me.txtDocNo.FieldName = Nothing
-        Me.txtDocNo.Location = New System.Drawing.Point(85, 4)
+        Me.txtDocNo.Location = New System.Drawing.Point(96, 4)
         Me.txtDocNo.MendatroryField = False
         Me.txtDocNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
@@ -737,7 +759,7 @@ Partial Class frmMilkCollectionDCS
         Me.txtDate.IsSourceFromTable = False
         Me.txtDate.IsSourceFromValueList = False
         Me.txtDate.IsUnique = False
-        Me.txtDate.Location = New System.Drawing.Point(397, 4)
+        Me.txtDate.Location = New System.Drawing.Point(96, 26)
         Me.txtDate.MendatroryField = True
         Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtDate.MyLinkLable1 = Me.RadLabel4
@@ -765,7 +787,7 @@ Partial Class frmMilkCollectionDCS
         Me.txtDesc.IsSourceFromTable = False
         Me.txtDesc.IsSourceFromValueList = False
         Me.txtDesc.IsUnique = False
-        Me.txtDesc.Location = New System.Drawing.Point(85, 67)
+        Me.txtDesc.Location = New System.Drawing.Point(96, 89)
         Me.txtDesc.MaxLength = 200
         Me.txtDesc.MendatroryField = False
         Me.txtDesc.MyLinkLable1 = Me.RadLabel3
@@ -774,7 +796,7 @@ Partial Class frmMilkCollectionDCS
         Me.txtDesc.ReferenceFieldDesc = Nothing
         Me.txtDesc.ReferenceFieldName = Nothing
         Me.txtDesc.ReferenceTableName = Nothing
-        Me.txtDesc.Size = New System.Drawing.Size(210, 18)
+        Me.txtDesc.Size = New System.Drawing.Size(270, 18)
         Me.txtDesc.TabIndex = 3
         '
         'btnAddNew
@@ -782,7 +804,7 @@ Partial Class frmMilkCollectionDCS
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnAddNew.Image = Global.XpertERPBulkProcurement.My.Resources.Resources._new
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(335, 4)
+        Me.btnAddNew.Location = New System.Drawing.Point(346, 4)
         Me.btnAddNew.Name = "btnAddNew"
         Me.btnAddNew.Size = New System.Drawing.Size(20, 19)
         Me.btnAddNew.TabIndex = 26
@@ -792,9 +814,9 @@ Partial Class frmMilkCollectionDCS
         Me.Panel2.Controls.Add(Me.SplitContainer1)
         Me.Panel2.Controls.Add(Me.Panel3)
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Panel2.Location = New System.Drawing.Point(0, 93)
+        Me.Panel2.Location = New System.Drawing.Point(0, 117)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(1091, 292)
+        Me.Panel2.Size = New System.Drawing.Size(1091, 268)
         Me.Panel2.TabIndex = 1
         '
         'SplitContainer1
@@ -811,8 +833,8 @@ Partial Class frmMilkCollectionDCS
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.gv2)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1091, 264)
-        Me.SplitContainer1.SplitterDistance = 198
+        Me.SplitContainer1.Size = New System.Drawing.Size(1091, 240)
+        Me.SplitContainer1.SplitterDistance = 180
         Me.SplitContainer1.TabIndex = 3
         '
         'gv2
@@ -831,14 +853,15 @@ Partial Class frmMilkCollectionDCS
         Me.gv2.MasterTemplate.EnableAlternatingRowColor = True
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv2.MyExportAPI = False
         Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowGroupPanel = False
         Me.gv2.ShowHeaderCellButtons = True
-        Me.gv2.Size = New System.Drawing.Size(1091, 62)
+        Me.gv2.Size = New System.Drawing.Size(1091, 56)
         Me.gv2.TabIndex = 3
         Me.gv2.TabStop = False
         Me.gv2.VarID = ""
@@ -860,7 +883,7 @@ Partial Class frmMilkCollectionDCS
         Me.Panel3.Controls.Add(Me.btnImport)
         Me.Panel3.Controls.Add(Me.btnExport)
         Me.Panel3.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Panel3.Location = New System.Drawing.Point(0, 264)
+        Me.Panel3.Location = New System.Drawing.Point(0, 240)
         Me.Panel3.Name = "Panel3"
         Me.Panel3.Size = New System.Drawing.Size(1091, 28)
         Me.Panel3.TabIndex = 40
@@ -1005,6 +1028,82 @@ Partial Class frmMilkCollectionDCS
         Me.btnExport.TabIndex = 7
         Me.btnExport.Text = "Export"
         '
+        'lblTotReceivedQtyClustered
+        '
+        Me.lblTotReceivedQtyClustered.AutoSize = False
+        Me.lblTotReceivedQtyClustered.BorderVisible = True
+        Me.lblTotReceivedQtyClustered.FieldName = Nothing
+        Me.lblTotReceivedQtyClustered.Location = New System.Drawing.Point(573, 67)
+        Me.lblTotReceivedQtyClustered.Name = "lblTotReceivedQtyClustered"
+        Me.lblTotReceivedQtyClustered.Size = New System.Drawing.Size(69, 20)
+        Me.lblTotReceivedQtyClustered.TabIndex = 1432
+        Me.lblTotReceivedQtyClustered.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.lblTotReceivedQtyClustered.TextWrap = False
+        '
+        'MyLabel8
+        '
+        Me.MyLabel8.FieldName = Nothing
+        Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel8.Location = New System.Drawing.Point(514, 27)
+        Me.MyLabel8.Name = "MyLabel8"
+        Me.MyLabel8.Size = New System.Drawing.Size(31, 16)
+        Me.MyLabel8.TabIndex = 1433
+        Me.MyLabel8.Text = "BMC"
+        '
+        'MyLabel9
+        '
+        Me.MyLabel9.FieldName = Nothing
+        Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel9.Location = New System.Drawing.Point(514, 48)
+        Me.MyLabel9.Name = "MyLabel9"
+        Me.MyLabel9.Size = New System.Drawing.Size(57, 16)
+        Me.MyLabel9.TabIndex = 1434
+        Me.MyLabel9.Text = "Own DCS"
+        '
+        'MyLabel11
+        '
+        Me.MyLabel11.FieldName = Nothing
+        Me.MyLabel11.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel11.Location = New System.Drawing.Point(514, 69)
+        Me.MyLabel11.Name = "MyLabel11"
+        Me.MyLabel11.Size = New System.Drawing.Size(55, 16)
+        Me.MyLabel11.TabIndex = 1434
+        Me.MyLabel11.Text = "Clustered"
+        '
+        'MyLabel12
+        '
+        Me.MyLabel12.FieldName = Nothing
+        Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel12.Location = New System.Drawing.Point(514, 90)
+        Me.MyLabel12.Name = "MyLabel12"
+        Me.MyLabel12.Size = New System.Drawing.Size(58, 16)
+        Me.MyLabel12.TabIndex = 1434
+        Me.MyLabel12.Text = "Difference"
+        '
+        'lblTotReceivedFATKgClustered
+        '
+        Me.lblTotReceivedFATKgClustered.AutoSize = False
+        Me.lblTotReceivedFATKgClustered.BorderVisible = True
+        Me.lblTotReceivedFATKgClustered.FieldName = Nothing
+        Me.lblTotReceivedFATKgClustered.Location = New System.Drawing.Point(694, 67)
+        Me.lblTotReceivedFATKgClustered.Name = "lblTotReceivedFATKgClustered"
+        Me.lblTotReceivedFATKgClustered.Size = New System.Drawing.Size(60, 20)
+        Me.lblTotReceivedFATKgClustered.TabIndex = 1435
+        Me.lblTotReceivedFATKgClustered.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.lblTotReceivedFATKgClustered.TextWrap = False
+        '
+        'lblTotReceivedSNFKgClustered
+        '
+        Me.lblTotReceivedSNFKgClustered.AutoSize = False
+        Me.lblTotReceivedSNFKgClustered.BorderVisible = True
+        Me.lblTotReceivedSNFKgClustered.FieldName = Nothing
+        Me.lblTotReceivedSNFKgClustered.Location = New System.Drawing.Point(806, 67)
+        Me.lblTotReceivedSNFKgClustered.Name = "lblTotReceivedSNFKgClustered"
+        Me.lblTotReceivedSNFKgClustered.Size = New System.Drawing.Size(60, 20)
+        Me.lblTotReceivedSNFKgClustered.TabIndex = 1437
+        Me.lblTotReceivedSNFKgClustered.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.lblTotReceivedSNFKgClustered.TextWrap = False
+        '
         'frmMilkCollectionDCS
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1084,6 +1183,13 @@ Partial Class frmMilkCollectionDCS
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnImport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotReceivedQtyClustered, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotReceivedFATKgClustered, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotReceivedSNFKgClustered, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1148,5 +1254,12 @@ Partial Class frmMilkCollectionDCS
     Friend WithEvents RadButton3 As RadButton
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents cboShift As common.Controls.MyComboBox
+    Friend WithEvents lblTotReceivedSNFKgClustered As common.Controls.MyLabel
+    Friend WithEvents lblTotReceivedFATKgClustered As common.Controls.MyLabel
+    Friend WithEvents MyLabel12 As common.Controls.MyLabel
+    Friend WithEvents MyLabel11 As common.Controls.MyLabel
+    Friend WithEvents MyLabel9 As common.Controls.MyLabel
+    Friend WithEvents MyLabel8 As common.Controls.MyLabel
+    Friend WithEvents lblTotReceivedQtyClustered As common.Controls.MyLabel
 End Class
 

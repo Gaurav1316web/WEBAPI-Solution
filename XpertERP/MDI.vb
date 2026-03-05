@@ -8991,6 +8991,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptMilkUnion2
                         frm = New rptmilkunion2
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptDbtStatusRCDF
+                        frm = New rptDbtStatusRCDF
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptMachineSurveyRegister
                         frm = New rptMachineSurveyRegister
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)

@@ -45,7 +45,6 @@ Partial Class FrmQualityCheckForSRN
         Me.txtAccept = New System.Windows.Forms.Label()
         Me.UsLock1 = New common.usLock()
         Me.lblLocation = New common.Controls.MyLabel()
-        Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.RadLabel20 = New common.Controls.MyLabel()
         Me.txtDocNo = New common.UserControls.txtNavigator()
         Me.txtGENo = New common.Controls.MyTextBox()
@@ -80,7 +79,6 @@ Partial Class FrmQualityCheckForSRN
         Me.MyLabel8 = New common.Controls.MyLabel()
         Me.TxtFinderVendorPrint = New common.UserControls.txtFinder()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.btnNewPrint = New Telerik.WinControls.UI.RadButton()
         Me.RadLabel2 = New common.Controls.MyLabel()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.ToDate = New Telerik.WinControls.UI.RadDateTimePicker()
@@ -106,6 +104,8 @@ Partial Class FrmQualityCheckForSRN
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.btnNewPrint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -132,7 +132,6 @@ Partial Class FrmQualityCheckForSRN
         CType(Me.TxtVendor_desc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtGENo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -161,7 +160,6 @@ Partial Class FrmQualityCheckForSRN
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
-        CType(Me.btnNewPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ToDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -182,6 +180,8 @@ Partial Class FrmQualityCheckForSRN
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnNewPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -236,10 +236,10 @@ Partial Class FrmQualityCheckForSRN
         '
         Me.RadPageViewPage1.Controls.Add(Me.SplitContainer2)
         Me.RadPageViewPage1.Controls.Add(Me.Panel1)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(114.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(110.0!, 24.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1038, 410)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1038, 414)
         Me.RadPageViewPage1.Text = "Quality Check Entry"
         '
         'SplitContainer2
@@ -260,7 +260,7 @@ Partial Class FrmQualityCheckForSRN
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.RadGroupBox1)
         Me.SplitContainer2.Panel2.Padding = New System.Windows.Forms.Padding(1)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1038, 239)
+        Me.SplitContainer2.Size = New System.Drawing.Size(1038, 243)
         Me.SplitContainer2.SplitterDistance = 153
         Me.SplitContainer2.TabIndex = 72
         '
@@ -294,6 +294,7 @@ Partial Class FrmQualityCheckForSRN
         Me.gv_MRN.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_MRN.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv_MRN.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv_MRN.MyExportAPI = False
         Me.gv_MRN.MyExportFilePath = ""
         Me.gv_MRN.MyStopExport = False
         Me.gv_MRN.Name = "gv_MRN"
@@ -315,7 +316,7 @@ Partial Class FrmQualityCheckForSRN
         Me.RadGroupBox1.Location = New System.Drawing.Point(1, 1)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(1036, 80)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(1036, 84)
         Me.RadGroupBox1.TabIndex = 0
         Me.RadGroupBox1.Text = "Item Details"
         '
@@ -335,13 +336,14 @@ Partial Class FrmQualityCheckForSRN
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv.MyExportAPI = False
         Me.gv.MyExportFilePath = ""
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowGroupPanel = False
         Me.gv.ShowHeaderCellButtons = True
-        Me.gv.Size = New System.Drawing.Size(1016, 50)
+        Me.gv.Size = New System.Drawing.Size(1016, 54)
         Me.gv.TabIndex = 0
         Me.gv.TabStop = False
         Me.gv.VarID = ""
@@ -532,16 +534,6 @@ Partial Class FrmQualityCheckForSRN
         Me.lblLocation.Size = New System.Drawing.Size(79, 16)
         Me.lblLocation.TabIndex = 11
         Me.lblLocation.Text = "Document No."
-        '
-        'btnNew
-        '
-        Me.btnNew.Image = CType(resources.GetObject("btnNew.Image"), System.Drawing.Image)
-        Me.btnNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnNew.Location = New System.Drawing.Point(354, 27)
-        Me.btnNew.Name = "btnNew"
-        Me.btnNew.Size = New System.Drawing.Size(20, 21)
-        Me.btnNew.TabIndex = 0
-        Me.btnNew.Text = " "
         '
         'RadLabel20
         '
@@ -847,7 +839,7 @@ Partial Class FrmQualityCheckForSRN
         'RadPageViewPage2
         '
         Me.RadPageViewPage2.Controls.Add(Me.UcAttachment1)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(71.0!, 24.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(1038, 410)
@@ -877,7 +869,7 @@ Partial Class FrmQualityCheckForSRN
         Me.RadPageViewPage3.Controls.Add(Me.MyLabel6)
         Me.RadPageViewPage3.Controls.Add(Me.lblVendorPrint)
         Me.RadPageViewPage3.Controls.Add(Me.RadGroupBox3)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(107.0!, 28.0!)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(103.0!, 24.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
         Me.RadPageViewPage3.Size = New System.Drawing.Size(1038, 410)
@@ -1090,16 +1082,6 @@ Partial Class FrmQualityCheckForSRN
         Me.RadGroupBox3.Size = New System.Drawing.Size(310, 42)
         Me.RadGroupBox3.TabIndex = 54
         Me.RadGroupBox3.Text = "Date Range"
-        '
-        'btnNewPrint
-        '
-        Me.btnNewPrint.Image = CType(resources.GetObject("btnNewPrint.Image"), System.Drawing.Image)
-        Me.btnNewPrint.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnNewPrint.Location = New System.Drawing.Point(241, 15)
-        Me.btnNewPrint.Name = "btnNewPrint"
-        Me.btnNewPrint.Size = New System.Drawing.Size(20, 21)
-        Me.btnNewPrint.TabIndex = 68
-        Me.btnNewPrint.Text = " "
         '
         'RadLabel2
         '
@@ -1323,6 +1305,26 @@ Partial Class FrmQualityCheckForSRN
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
+        'btnNew
+        '
+        Me.btnNew.Image = CType(resources.GetObject("btnNew.Image"), System.Drawing.Image)
+        Me.btnNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnNew.Location = New System.Drawing.Point(354, 27)
+        Me.btnNew.Name = "btnNew"
+        Me.btnNew.Size = New System.Drawing.Size(20, 21)
+        Me.btnNew.TabIndex = 0
+        Me.btnNew.Text = " "
+        '
+        'btnNewPrint
+        '
+        Me.btnNewPrint.Image = CType(resources.GetObject("btnNewPrint.Image"), System.Drawing.Image)
+        Me.btnNewPrint.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnNewPrint.Location = New System.Drawing.Point(241, 15)
+        Me.btnNewPrint.Name = "btnNewPrint"
+        Me.btnNewPrint.Size = New System.Drawing.Size(20, 21)
+        Me.btnNewPrint.TabIndex = 68
+        Me.btnNewPrint.Text = " "
+        '
         'FrmQualityCheckForSRN
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1362,7 +1364,6 @@ Partial Class FrmQualityCheckForSRN
         CType(Me.TxtVendor_desc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel20, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtGENo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1394,7 +1395,6 @@ Partial Class FrmQualityCheckForSRN
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
         Me.RadGroupBox3.PerformLayout()
-        CType(Me.btnNewPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ToDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1415,6 +1415,8 @@ Partial Class FrmQualityCheckForSRN
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnNewPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
