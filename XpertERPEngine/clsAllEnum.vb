@@ -304,8 +304,8 @@ Public Class Xtra
                         c.Headers.Add("Authorization", "34654795-5D9F-43B3-BC14-FFD521364BAB")
                         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
                     Case EnumAPI.XpertMilkCollection
-                        baseAddress = clsCommon.myCstr("http://localhost:7515/MilkProcurement.asmx" & "/" & APIName)
-                        'baseAddress = clsCommon.myCstr("http://172.21.80.251:" + PortNo + "/MilkProcurement.asmx" & "/" & APIName)
+                        'baseAddress = clsCommon.myCstr("http://localhost:7515/MilkProcurement.asmx" & "/" & APIName)
+                        baseAddress = clsCommon.myCstr("http://172.21.80.251:" + PortNo + "/MilkProcurement.asmx" & "/" & APIName)
                         reqparm.Add("Key", "Tecxpert@MP#123$456%789^")
                         reqparm.Add("APPUserCode", strCurrentUserCode)
                 End Select
