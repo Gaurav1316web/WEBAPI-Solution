@@ -4409,8 +4409,8 @@ from (" & BaseQry & ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
                 If dtAmbient IsNot Nothing AndAlso dtAmbient.Columns.Count > 0 Then
                     totFreshAmbCol += dtAmbient.Columns.Count
                 End If
-                If isVisibleCol <= totFreshAmbCol Then
-                    Dim colToAdd As Integer = (totFreshAmbCol - isVisibleCol) + 5
+                'If isVisibleCol <= totFreshAmbCol Then
+                Dim colToAdd As Integer = (totFreshAmbCol - isVisibleCol) + 5
                     For i As Integer = 1 To colToAdd
                         Dim newCol As New GridViewTextBoxColumn("ExtraCol" & i)
                         newCol.HeaderText = ""
@@ -4419,7 +4419,7 @@ from (" & BaseQry & ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
                         dtNew.Columns.Add("ExtraCol" & i, GetType(String))
                     Next
                     GVTruckSheet.Refresh()
-                End If
+                'End If
                 dtNew.Rows.Add(dtNew.NewRow)
 
                 Dim colk As Integer = 1
