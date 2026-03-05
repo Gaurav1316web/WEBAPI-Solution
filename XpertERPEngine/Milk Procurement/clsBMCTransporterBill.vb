@@ -488,7 +488,7 @@ Public Class clsBMCTransporterBillDetail
                 clsCommon.AddColumnsForChange(coll, "Quantity_KG", obj.Quantity_KG)
                 clsCommon.AddColumnsForChange(coll, "Diesel_RD", obj.Diesel_RD)
                 clsCommon.AddColumnsForChange(coll, "Amount", obj.Amount)
-                clsCommon.AddColumnsForChange(coll, "Document_Date", obj.BMC_Date)
+                clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.BMC_Date, "dd/MMM/yyyy"))
                 clsCommon.AddColumnsForChange(coll, "Ice_Box", obj.Ice_Box)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BMC_TRANSPORTER_BILL_DETAIL", OMInsertOrUpdate.Insert, "", trans)
             Next
