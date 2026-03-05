@@ -334,98 +334,192 @@ Public Class ClsEInvoiceOFAPIs
                     Dim dtDetails As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
                     Using streamWriter = New StreamWriter(httpRequest.GetRequestStream())
                         If dtDetails IsNot Nothing AndAlso dtDetails.Rows.Count > 0 Then
-                            Dim objEWayBill As Object = New clsEwayBillDetail()
-                            objEWayBill.supplyType = clsCommon.myCstr(dtDetails(0)("supplyType"))
-                            objEWayBill.subSupplyType = clsCommon.myCstr(dtDetails(0)("subSupplyType"))
-                            objEWayBill.subSupplyDesc = clsCommon.myCstr(dtDetails(0)("subSupplyDesc"))
-                            objEWayBill.docType = clsCommon.myCstr(dtDetails(0)("docType"))
-                            If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("docNo"))) <= 15 Then
-                                objEWayBill.docNo = clsCommon.myCstr(dtDetails(0)("docNo"))
+                            If clsCommon.myCdbl(dtDetails(0)("NO_Transporter")) = 0 Then
+                                Dim objEWayBill As Object = New clsEwayBillDetail()
+                                objEWayBill.supplyType = clsCommon.myCstr(dtDetails(0)("supplyType"))
+                                objEWayBill.subSupplyType = clsCommon.myCstr(dtDetails(0)("subSupplyType"))
+                                objEWayBill.subSupplyDesc = clsCommon.myCstr(dtDetails(0)("subSupplyDesc"))
+                                objEWayBill.docType = clsCommon.myCstr(dtDetails(0)("docType"))
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("docNo"))) <= 15 Then
+                                    objEWayBill.docNo = clsCommon.myCstr(dtDetails(0)("docNo"))
+                                Else
+                                    Throw New Exception("Document No Should <=15")
+                                End If
+                                objEWayBill.docDate = clsCommon.myCstr(clsCommon.GetPrintDate(dtDetails(0)("docDate"), "dd/MM/yyyy"))
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("fromGstin"))) = 15 Then
+                                    objEWayBill.fromGstin = clsCommon.myCstr(dtDetails(0)("fromGstin"))
+                                Else
+                                    Throw New Exception("From GSTIN No. not Found/Invalid!")
+                                End If
+                                objEWayBill.fromTrdName = clsCommon.myCstr(dtDetails(0)("fromTrdName"))
+                                objEWayBill.fromAddr1 = clsCommon.myCstr(dtDetails(0)("fromAddr1"))
+                                objEWayBill.fromAddr2 = clsCommon.myCstr(dtDetails(0)("fromAddr2"))
+                                objEWayBill.fromPlace = clsCommon.myCstr(dtDetails(0)("fromPlace"))
+                                objEWayBill.actFromStateCode = clsCommon.myCdbl(dtDetails(0)("actFromStateCode"))
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("fromPincode"))) = 6 Then
+                                    objEWayBill.fromPincode = clsCommon.myCdbl(dtDetails(0)("fromPincode"))
+                                Else
+                                    Throw New Exception("From Pincode not Found/Invalid!")
+                                End If
+                                objEWayBill.fromStateCode = clsCommon.myCdbl(dtDetails(0)("fromStateCode"))
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("toGstin"))) = 15 OrElse clsCommon.CompairString(clsCommon.myCstr(dtDetails.Rows(0)("toGstin")), "URP") = CompairStringResult.Equal Then
+                                    objEWayBill.toGstin = clsCommon.myCstr(dtDetails(0)("toGstin"))
+                                Else
+                                    Throw New Exception("To GSTIN No. not Found/Invalid!")
+                                End If
+                                objEWayBill.toTrdName = clsCommon.myCstr(dtDetails(0)("toTrdName"))
+                                objEWayBill.toAddr1 = clsCommon.myCstr(dtDetails(0)("toAddr1"))
+                                objEWayBill.toAddr2 = clsCommon.myCstr(dtDetails(0)("toAddr2"))
+                                objEWayBill.toPlace = clsCommon.myCstr(dtDetails(0)("toPlace"))
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("toPincode"))) = 6 Then
+                                    objEWayBill.toPincode = clsCommon.myCdbl(dtDetails(0)("toPincode"))
+                                Else
+                                    Throw New Exception("To Pincode not Found/Invalid!")
+                                End If
+                                objEWayBill.actToStateCode = clsCommon.myCdbl(dtDetails(0)("actToStateCode"))
+                                objEWayBill.toStateCode = clsCommon.myCdbl(dtDetails(0)("toStateCode"))
+                                objEWayBill.transactionType = clsCommon.myCdbl(dtDetails(0)("transactionType"))
+                                'objEWayBill.dispatchFromGSTIN = clsCommon.myCstr(dtDetails(0)("dispatchFromGSTIN"))
+                                objEWayBill.dispatchFromTradeName = clsCommon.myCstr(dtDetails(0)("dispatchFromTradeName"))
+                                'objEWayBill.shipToGSTIN = clsCommon.myCstr(dtDetails(0)("shipToGSTIN"))
+                                objEWayBill.shipToTradeName = clsCommon.myCstr(dtDetails(0)("shipToTradeName"))
+                                objEWayBill.totalValue = clsCommon.myCdbl(dtDetails(0)("totalValue"))
+                                objEWayBill.cgstValue = clsCommon.myCdbl(dtDetails(0)("cgstValue"))
+                                objEWayBill.sgstValue = clsCommon.myCdbl(dtDetails(0)("sgstValue"))
+                                objEWayBill.igstValue = clsCommon.myCdbl(dtDetails(0)("igstValue"))
+                                objEWayBill.cessValue = clsCommon.myCdbl(dtDetails(0)("cessValue"))
+                                objEWayBill.cessNonAdvolValue = clsCommon.myCdbl(dtDetails(0)("cessNonAdvolValue"))
+                                objEWayBill.totInvValue = clsCommon.myCdbl(dtDetails(0)("totInvValue"))
+                                objEWayBill.transMode = clsCommon.myCstr(dtDetails(0)("transMode"))
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails(0)("transDistance"))) > 0 Then
+                                    objEWayBill.transDistance = clsCommon.myCstr(dtDetails(0)("transDistance"))
+                                End If
+                                objEWayBill.transporterName = clsCommon.myCstr(dtDetails(0)("transporterName"))
+                                objEWayBill.transporterId = clsCommon.myCstr(dtDetails(0)("transporterId"))
+                                objEWayBill.transDocNo = clsCommon.myCstr(dtDetails(0)("transDocNo"))
+                                objEWayBill.transDocDate = clsCommon.myCstr(dtDetails(0)("transDocDate"))
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails(0)("vehicleNo"))) > 0 Then
+                                    objEWayBill.vehicleNo = clsCommon.myCstr(dtDetails(0)("vehicleNo"))
+                                Else
+                                    Throw New Exception("Vehicle No Not Found!")
+                                End If
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails(0)("vehicleType"))) > 0 Then
+                                    objEWayBill.vehicleType = clsCommon.myCstr(dtDetails(0)("vehicleType"))
+                                Else
+                                    Throw New Exception("Vehicle type Not Found!")
+                                End If
+                                objEWayBill.ItemList = New List(Of clsItem)
+                                For Each dr As DataRow In dtDetails.Rows
+                                    Dim item As clsItem = New clsItem()
+                                    item.productName = clsCommon.myCstr(dr("productName"))
+                                    item.productDesc = clsCommon.myCstr(dr("productDesc"))
+                                    item.hsnCode = clsCommon.myCdbl(dr("hsnCode"))
+                                    item.quantity = clsCommon.myCdbl(dr("quantity"))
+                                    item.qtyUnit = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT ISNULL(GST_UNIT_CODE ,'') FROM TSPL_UNIT_MASTER WHERE UNIT_CODE='" & clsCommon.myCstr(dr("qtyUnit")).ToUpper & "'", trans))
+                                    item.taxableAmount = clsCommon.myCdbl(dr("taxableAmount"))
+                                    item.sgstRate = clsCommon.myCdbl(dr("sgstRate"))
+                                    item.cgstRate = clsCommon.myCdbl(dr("cgstRate"))
+                                    item.igstRate = clsCommon.myCdbl(dr("igstRate"))
+                                    item.cessRate = clsCommon.myCdbl(dr("cessRate"))
+                                    ' Add item to the list
+                                    objEWayBill.itemList.Add(item)
+                                Next
+                                strEwayBillDetails = JsonConvert.SerializeObject(objEWayBill)
                             Else
-                                Throw New Exception("Document No Should <=15")
+                                Dim objEWayBill As Object = New clsEwayBillDetailWithoutTrans()
+                                objEWayBill.supplyType = clsCommon.myCstr(dtDetails(0)("supplyType"))
+                                objEWayBill.subSupplyType = clsCommon.myCstr(dtDetails(0)("subSupplyType"))
+                                objEWayBill.subSupplyDesc = clsCommon.myCstr(dtDetails(0)("subSupplyDesc"))
+                                objEWayBill.docType = clsCommon.myCstr(dtDetails(0)("docType"))
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("docNo"))) <= 15 Then
+                                    objEWayBill.docNo = clsCommon.myCstr(dtDetails(0)("docNo"))
+                                Else
+                                    Throw New Exception("Document No Should <=15")
+                                End If
+                                objEWayBill.docDate = clsCommon.myCstr(clsCommon.GetPrintDate(dtDetails(0)("docDate"), "dd/MM/yyyy"))
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("fromGstin"))) = 15 Then
+                                    objEWayBill.fromGstin = clsCommon.myCstr(dtDetails(0)("fromGstin"))
+                                Else
+                                    Throw New Exception("From GSTIN No. not Found/Invalid!")
+                                End If
+                                objEWayBill.fromTrdName = clsCommon.myCstr(dtDetails(0)("fromTrdName"))
+                                objEWayBill.fromAddr1 = clsCommon.myCstr(dtDetails(0)("fromAddr1"))
+                                objEWayBill.fromAddr2 = clsCommon.myCstr(dtDetails(0)("fromAddr2"))
+                                objEWayBill.fromPlace = clsCommon.myCstr(dtDetails(0)("fromPlace"))
+                                objEWayBill.actFromStateCode = clsCommon.myCdbl(dtDetails(0)("actFromStateCode"))
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("fromPincode"))) = 6 Then
+                                    objEWayBill.fromPincode = clsCommon.myCdbl(dtDetails(0)("fromPincode"))
+                                Else
+                                    Throw New Exception("From Pincode not Found/Invalid!")
+                                End If
+                                objEWayBill.fromStateCode = clsCommon.myCdbl(dtDetails(0)("fromStateCode"))
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("toGstin"))) = 15 OrElse clsCommon.CompairString(clsCommon.myCstr(dtDetails.Rows(0)("toGstin")), "URP") = CompairStringResult.Equal Then
+                                    objEWayBill.toGstin = clsCommon.myCstr(dtDetails(0)("toGstin"))
+                                Else
+                                    Throw New Exception("To GSTIN No. not Found/Invalid!")
+                                End If
+                                objEWayBill.toTrdName = clsCommon.myCstr(dtDetails(0)("toTrdName"))
+                                objEWayBill.toAddr1 = clsCommon.myCstr(dtDetails(0)("toAddr1"))
+                                objEWayBill.toAddr2 = clsCommon.myCstr(dtDetails(0)("toAddr2"))
+                                objEWayBill.toPlace = clsCommon.myCstr(dtDetails(0)("toPlace"))
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("toPincode"))) = 6 Then
+                                    objEWayBill.toPincode = clsCommon.myCdbl(dtDetails(0)("toPincode"))
+                                Else
+                                    Throw New Exception("To Pincode not Found/Invalid!")
+                                End If
+                                objEWayBill.actToStateCode = clsCommon.myCdbl(dtDetails(0)("actToStateCode"))
+                                objEWayBill.toStateCode = clsCommon.myCdbl(dtDetails(0)("toStateCode"))
+                                objEWayBill.transactionType = clsCommon.myCdbl(dtDetails(0)("transactionType"))
+                                'objEWayBill.dispatchFromGSTIN = clsCommon.myCstr(dtDetails(0)("dispatchFromGSTIN"))
+                                objEWayBill.dispatchFromTradeName = clsCommon.myCstr(dtDetails(0)("dispatchFromTradeName"))
+                                'objEWayBill.shipToGSTIN = clsCommon.myCstr(dtDetails(0)("shipToGSTIN"))
+                                objEWayBill.shipToTradeName = clsCommon.myCstr(dtDetails(0)("shipToTradeName"))
+                                objEWayBill.totalValue = clsCommon.myCdbl(dtDetails(0)("totalValue"))
+                                objEWayBill.cgstValue = clsCommon.myCdbl(dtDetails(0)("cgstValue"))
+                                objEWayBill.sgstValue = clsCommon.myCdbl(dtDetails(0)("sgstValue"))
+                                objEWayBill.igstValue = clsCommon.myCdbl(dtDetails(0)("igstValue"))
+                                objEWayBill.cessValue = clsCommon.myCdbl(dtDetails(0)("cessValue"))
+                                objEWayBill.cessNonAdvolValue = clsCommon.myCdbl(dtDetails(0)("cessNonAdvolValue"))
+                                objEWayBill.totInvValue = clsCommon.myCdbl(dtDetails(0)("totInvValue"))
+                                objEWayBill.transMode = clsCommon.myCstr(dtDetails(0)("transMode"))
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails(0)("transDistance"))) > 0 Then
+                                    objEWayBill.transDistance = clsCommon.myCstr(dtDetails(0)("transDistance"))
+                                End If
+                                'objEWayBill.transporterName = clsCommon.myCstr(dtDetails(0)("transporterName"))
+                                'objEWayBill.transporterId = clsCommon.myCstr(dtDetails(0)("transporterId"))
+                                'objEWayBill.transDocNo = clsCommon.myCstr(dtDetails(0)("transDocNo"))
+                                objEWayBill.transDocDate = clsCommon.myCstr(dtDetails(0)("transDocDate"))
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails(0)("vehicleNo"))) > 0 Then
+                                    objEWayBill.vehicleNo = clsCommon.myCstr(dtDetails(0)("vehicleNo"))
+                                Else
+                                    Throw New Exception("Vehicle No Not Found!")
+                                End If
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails(0)("vehicleType"))) > 0 Then
+                                    objEWayBill.vehicleType = clsCommon.myCstr(dtDetails(0)("vehicleType"))
+                                Else
+                                    Throw New Exception("Vehicle type Not Found!")
+                                End If
+                                objEWayBill.ItemList = New List(Of clsItem)
+                                For Each dr As DataRow In dtDetails.Rows
+                                    Dim item As clsItem = New clsItem()
+                                    item.productName = clsCommon.myCstr(dr("productName"))
+                                    item.productDesc = clsCommon.myCstr(dr("productDesc"))
+                                    item.hsnCode = clsCommon.myCdbl(dr("hsnCode"))
+                                    item.quantity = clsCommon.myCdbl(dr("quantity"))
+                                    item.qtyUnit = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT ISNULL(GST_UNIT_CODE ,'') FROM TSPL_UNIT_MASTER WHERE UNIT_CODE='" & clsCommon.myCstr(dr("qtyUnit")).ToUpper & "'", trans))
+                                    item.taxableAmount = clsCommon.myCdbl(dr("taxableAmount"))
+                                    item.sgstRate = clsCommon.myCdbl(dr("sgstRate"))
+                                    item.cgstRate = clsCommon.myCdbl(dr("cgstRate"))
+                                    item.igstRate = clsCommon.myCdbl(dr("igstRate"))
+                                    item.cessRate = clsCommon.myCdbl(dr("cessRate"))
+                                    ' Add item to the list
+                                    objEWayBill.itemList.Add(item)
+                                Next
+                                strEwayBillDetails = JsonConvert.SerializeObject(objEWayBill)
                             End If
-                            objEWayBill.docDate = clsCommon.myCstr(clsCommon.GetPrintDate(dtDetails(0)("docDate"), "dd/MM/yyyy"))
-                            If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("fromGstin"))) = 15 Then
-                                objEWayBill.fromGstin = clsCommon.myCstr(dtDetails(0)("fromGstin"))
-                            Else
-                                Throw New Exception("From GSTIN No. not Found/Invalid!")
-                            End If
-                            objEWayBill.fromTrdName = clsCommon.myCstr(dtDetails(0)("fromTrdName"))
-                            objEWayBill.fromAddr1 = clsCommon.myCstr(dtDetails(0)("fromAddr1"))
-                            objEWayBill.fromAddr2 = clsCommon.myCstr(dtDetails(0)("fromAddr2"))
-                            objEWayBill.fromPlace = clsCommon.myCstr(dtDetails(0)("fromPlace"))
-                            objEWayBill.actFromStateCode = clsCommon.myCdbl(dtDetails(0)("actFromStateCode"))
-                            If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("fromPincode"))) = 6 Then
-                                objEWayBill.fromPincode = clsCommon.myCdbl(dtDetails(0)("fromPincode"))
-                            Else
-                                Throw New Exception("From Pincode not Found/Invalid!")
-                            End If
-                            objEWayBill.fromStateCode = clsCommon.myCdbl(dtDetails(0)("fromStateCode"))
-                            If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("toGstin"))) = 15 OrElse clsCommon.CompairString(clsCommon.myCstr(dtDetails.Rows(0)("toGstin")), "URP") = CompairStringResult.Equal Then
-                                objEWayBill.toGstin = clsCommon.myCstr(dtDetails(0)("toGstin"))
-                            Else
-                                Throw New Exception("To GSTIN No. not Found/Invalid!")
-                            End If
-                            objEWayBill.toTrdName = clsCommon.myCstr(dtDetails(0)("toTrdName"))
-                            objEWayBill.toAddr1 = clsCommon.myCstr(dtDetails(0)("toAddr1"))
-                            objEWayBill.toAddr2 = clsCommon.myCstr(dtDetails(0)("toAddr2"))
-                            objEWayBill.toPlace = clsCommon.myCstr(dtDetails(0)("toPlace"))
-                            If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("toPincode"))) = 6 Then
-                                objEWayBill.toPincode = clsCommon.myCdbl(dtDetails(0)("toPincode"))
-                            Else
-                                Throw New Exception("To Pincode not Found/Invalid!")
-                            End If
-                            objEWayBill.actToStateCode = clsCommon.myCdbl(dtDetails(0)("actToStateCode"))
-                            objEWayBill.toStateCode = clsCommon.myCdbl(dtDetails(0)("toStateCode"))
-                            objEWayBill.transactionType = clsCommon.myCdbl(dtDetails(0)("transactionType"))
-                            'objEWayBill.dispatchFromGSTIN = clsCommon.myCstr(dtDetails(0)("dispatchFromGSTIN"))
-                            objEWayBill.dispatchFromTradeName = clsCommon.myCstr(dtDetails(0)("dispatchFromTradeName"))
-                            'objEWayBill.shipToGSTIN = clsCommon.myCstr(dtDetails(0)("shipToGSTIN"))
-                            objEWayBill.shipToTradeName = clsCommon.myCstr(dtDetails(0)("shipToTradeName"))
-                            objEWayBill.totalValue = clsCommon.myCdbl(dtDetails(0)("totalValue"))
-                            objEWayBill.cgstValue = clsCommon.myCdbl(dtDetails(0)("cgstValue"))
-                            objEWayBill.sgstValue = clsCommon.myCdbl(dtDetails(0)("sgstValue"))
-                            objEWayBill.igstValue = clsCommon.myCdbl(dtDetails(0)("igstValue"))
-                            objEWayBill.cessValue = clsCommon.myCdbl(dtDetails(0)("cessValue"))
-                            objEWayBill.cessNonAdvolValue = clsCommon.myCdbl(dtDetails(0)("cessNonAdvolValue"))
-                            objEWayBill.totInvValue = clsCommon.myCdbl(dtDetails(0)("totInvValue"))
-                            objEWayBill.transMode = clsCommon.myCstr(dtDetails(0)("transMode"))
-                            If clsCommon.myLen(clsCommon.myCstr(dtDetails(0)("transDistance"))) > 0 Then
-                                objEWayBill.transDistance = clsCommon.myCstr(dtDetails(0)("transDistance"))
-                            End If
-                            objEWayBill.transporterName = clsCommon.myCstr(dtDetails(0)("transporterName"))
-                            objEWayBill.transporterId = clsCommon.myCstr(dtDetails(0)("transporterId"))
-                            objEWayBill.transDocNo = clsCommon.myCstr(dtDetails(0)("transDocNo"))
-                            objEWayBill.transDocDate = clsCommon.myCstr(dtDetails(0)("transDocDate"))
-                            If clsCommon.myLen(clsCommon.myCstr(dtDetails(0)("vehicleNo"))) > 0 Then
-                                objEWayBill.vehicleNo = clsCommon.myCstr(dtDetails(0)("vehicleNo"))
-                            Else
-                                Throw New Exception("Vehicle No Not Found!")
-                            End If
-                            If clsCommon.myLen(clsCommon.myCstr(dtDetails(0)("vehicleType"))) > 0 Then
-                                objEWayBill.vehicleType = clsCommon.myCstr(dtDetails(0)("vehicleType"))
-                            Else
-                                Throw New Exception("Vehicle type Not Found!")
-                            End If
-                            objEWayBill.ItemList = New List(Of clsItem)
-                            For Each dr As DataRow In dtDetails.Rows
-                                Dim item As clsItem = New clsItem()
-                                item.productName = clsCommon.myCstr(dr("productName"))
-                                item.productDesc = clsCommon.myCstr(dr("productDesc"))
-                                item.hsnCode = clsCommon.myCdbl(dr("hsnCode"))
-                                item.quantity = clsCommon.myCdbl(dr("quantity"))
-                                item.qtyUnit = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT ISNULL(GST_UNIT_CODE ,'') FROM TSPL_UNIT_MASTER WHERE UNIT_CODE='" & clsCommon.myCstr(dr("qtyUnit")).ToUpper & "'", trans))
-                                item.taxableAmount = clsCommon.myCdbl(dr("taxableAmount"))
-                                item.sgstRate = clsCommon.myCdbl(dr("sgstRate"))
-                                item.cgstRate = clsCommon.myCdbl(dr("cgstRate"))
-                                item.igstRate = clsCommon.myCdbl(dr("igstRate"))
-                                item.cessRate = clsCommon.myCdbl(dr("cessRate"))
-                                ' Add item to the list
-                                objEWayBill.itemList.Add(item)
-                            Next
-                            strEwayBillDetails = JsonConvert.SerializeObject(objEWayBill)
+
                             streamWriter.Write(strEwayBillDetails)
-                        End If
+                            End If
                     End Using
                     Try
                         Dim coll As New Hashtable()
@@ -1619,6 +1713,51 @@ Public Class clsEwayBillDetail
     Public Property transporterName As String
     Public Property transporterId As String
     Public Property transDocNo As String
+    Public Property transDocDate As String
+    Public Property vehicleNo As String
+    Public Property vehicleType As String
+    Public Property itemList As List(Of clsItem)
+End Class
+Public Class clsEwayBillDetailWithoutTrans
+    Public Property supplyType As String
+    Public Property subSupplyType As String
+    Public Property subSupplyDesc As String
+    Public Property docType As String
+    Public Property docNo As String
+    Public Property docDate As String
+    Public Property fromGstin As String
+    Public Property fromTrdName As String
+    Public Property fromAddr1 As String
+    Public Property fromAddr2 As String
+    Public Property fromPlace As String
+    Public Property actFromStateCode As Integer
+    Public Property fromPincode As Integer
+    Public Property fromStateCode As Integer
+    Public Property toGstin As String
+    Public Property toTrdName As String
+    Public Property toAddr1 As String
+    Public Property toAddr2 As String
+    Public Property toPlace As String
+    Public Property toPincode As Integer
+    Public Property actToStateCode As Integer
+    Public Property toStateCode As Integer
+    Public Property transactionType As Integer
+    'Public Property dispatchFromGSTIN As String
+    Public Property dispatchFromTradeName As String
+    'Public Property shipToGSTIN As String
+    Public Property shipToTradeName As String
+    Public Property totalValue As Double
+    Public Property cgstValue As Double
+    Public Property sgstValue As Double
+    Public Property igstValue As Double
+    Public Property cessValue As Double
+    Public Property cessNonAdvolValue As Double
+    Public Property totInvValue As Double
+    Public Property transMode As String
+    Public Property transDistance As String
+    'Public Property transporterName As String
+    'Public Property transporterId As String
+    'Public Property transDocNo As String
     Public Property transDocDate As String
     Public Property vehicleNo As String
     Public Property vehicleType As String

@@ -7182,6 +7182,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptNIRQC
                         frm = New rptNIRQC
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmTruckWiseRejectionReport
+                        frm = New frmTruckWiseRejectionReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.frmOperationMaster
                         frm = New frmOperationMaster
@@ -8987,6 +8990,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptMilkUnion2
                         frm = New rptmilkunion2
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptDbtStatusRCDF
+                        frm = New rptDbtStatusRCDF
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptMachineSurveyRegister
                         frm = New rptMachineSurveyRegister

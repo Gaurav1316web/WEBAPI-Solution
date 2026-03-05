@@ -270,10 +270,16 @@ Public Class Xtra
         Return retValue
     End Function
     Public Shared Function GetDataFromAPI(ByVal API As EnumAPI, ByVal APIName As String, ByVal ArrFilter As Dictionary(Of String, String)) As DataTable
+        Return GetDataFromAPI(API, APIName, ArrFilter, "")
+    End Function
+    Public Shared Function GetDataFromAPI(ByVal API As EnumAPI, ByVal APIName As String, ByVal ArrFilter As Dictionary(Of String, String), ByVal PortNo As String) As DataTable
+        Return GetDataFromAPI(API, APIName, ArrFilter, PortNo, objCommonVar.CurrentUserCode)
+    End Function
+    Public Shared Function GetDataFromAPI(ByVal API As EnumAPI, ByVal APIName As String, ByVal ArrFilter As Dictionary(Of String, String), ByVal PortNo As String, ByVal strCurrentUserCode As String) As DataTable
         Dim dt As DataTable = Nothing
         Dim responsebody As String = ""
         Try
-            If clsCommon.myInternetWork() Then
+            If True Then ''clsCommon.myInternetWork()
                 Dim baseAddress As String = ""
                 Dim method As String = "POST"
                 Dim reqparm As New System.Collections.Specialized.NameValueCollection
@@ -298,9 +304,10 @@ Public Class Xtra
                         c.Headers.Add("Authorization", "34654795-5D9F-43B3-BC14-FFD521364BAB")
                         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
                     Case EnumAPI.XpertMilkCollection
-                        baseAddress = clsCommon.myCstr("http://localhost:7515/MilkProcurement.asmx" & "/" & APIName)
+                        'baseAddress = clsCommon.myCstr("http://localhost:7515/MilkProcurement.asmx" & "/" & APIName)
+                        baseAddress = clsCommon.myCstr("http://172.21.80.251:" + PortNo + "/MilkProcurement.asmx" & "/" & APIName)
                         reqparm.Add("Key", "Tecxpert@MP#123$456%789^")
-                        reqparm.Add("APPUserCode", objCommonVar.CurrentUserCode)
+                        reqparm.Add("APPUserCode", strCurrentUserCode)
                 End Select
                 If clsCommon.CompairString(method, "POST") = CompairStringResult.Equal Then
                     If ArrFilter IsNot Nothing AndAlso ArrFilter.Count > 0 Then
