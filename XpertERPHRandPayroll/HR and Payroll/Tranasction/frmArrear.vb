@@ -127,10 +127,13 @@ Public Class frmArrear
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colempname).Value = clsCommon.myCstr(dr("EMPLOYEE_NAME"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colBasic).Value = clsCommon.myCstr(dr("basic"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colDA).Value = clsCommon.myCstr(dr("da"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colEPF).Value = clsCommon.myCstr(dr("vepf"))
+                    'gv1.Rows(gv1.Rows.Count - 1).Cells(colEPF).Value = clsCommon.myCstr(dr("vepf"))
                     Dim Basic As Decimal = 0
+                    Dim pf As Decimal = 0
                     Basic = clsCommon.myCstr(dr("basic"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colDAArrearPer).Value = (Basic * txtDAArrear.Text) / 100
+                    pf = (Basic * txtDAArrear.Text) / 100
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colEPF).Value = (pf * 12) / 100
                 Next
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found to display ", Me.Text)
@@ -158,7 +161,7 @@ Public Class frmArrear
                     SELECT xy.EMP_CODE, 
                            xy.EMPLOYEE_NAME, 
                            xy.PAY_PERIOD_CODE, 
-                           SUM(xy.basic) AS basic
+                            Cast((SUM(xy.basic)* " + txtDAArrear.Text + " / 100) as decimal(18,2)) AS basic
                     FROM (" + DetailData + ")AS xy
                     GROUP BY xy.EMP_CODE, xy.EMPLOYEE_NAME, xy.PAY_PERIOD_CODE
                 ) AS SourceTable
@@ -400,7 +403,7 @@ Public Class frmArrear
                     SELECT xy.EMP_CODE, 
                            xy.EMPLOYEE_NAME, 
                            xy.PAY_PERIOD_CODE, 
-                           SUM(xy.basic) AS basic
+                           Cast((SUM(xy.basic)* " + txtDAArrear.Text + " / 100) as decimal(18,2)) AS basic
                     FROM (" + DetailData + ")AS xy
                     GROUP BY xy.EMP_CODE, xy.EMPLOYEE_NAME, xy.PAY_PERIOD_CODE
                 ) AS SourceTable

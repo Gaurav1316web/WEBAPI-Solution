@@ -3800,6 +3800,11 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                         obj.Rate_Diff_Amount_Type = 2
                     End If
                 End If
+                If chkRateDiffRate.IsChecked Then
+                    obj.Is_Rate_Diff_Per_Amt = 1
+                ElseIf chkRateDiffAmt.IsChecked Then
+                    obj.Is_Rate_Diff_Per_Amt = 2
+                End If
                 obj.RateDiff_Amt = clsCommon.myCdbl(txtRateAmt.Text)
                 obj.Gross_Amount = lblGrossAmount.Text
                 '-----------------richa 27/06/2014 Ticket No .BM00000002982-------  
@@ -4509,10 +4514,15 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     txtRatePer.Text = obj.RateDiff_Per
                     If clsCommon.myCdbl(txtRatePer.Text) = 0 Then
                         txtRateAmt.Text = obj.RateDiff_Amt
-                        chkRateDiffAmt.IsChecked = True
+                        'chkRateDiffAmt.IsChecked = True
                     Else
-                        chkRateDiffRate.IsChecked = True
+                        ' chkRateDiffRate.IsChecked = True
                     End If
+                End If
+                If obj.Is_Rate_Diff_Per_Amt = 1 Then
+                    chkRateDiffRate.IsChecked = True
+                ElseIf obj.Is_Rate_Diff_Per_Amt = 2 Then
+                    chkRateDiffAmt.IsChecked = True
                 End If
                 lblGrossAmount.Text = clsCommon.myCdbl(obj.Gross_Amount)
                 ddlInvoiceType.SelectedValue = obj.Invoice_Type
@@ -4977,6 +4987,24 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 ' ''RefreshReqNo()
                 ' ''RefreshGRPNo()
                 UcAttachment1.LoadData(obj.Document_Code)
+                Dim qry As String = "select IRN_no,Ack_No,Ack_Date,QR_Code,EWayBillNo,EwayBillDate,EwayBillValidDate,EWayBillRemarks from TSPL_SD_SALE_INVOICE_HEAD where Document_Code = '" + obj.Invoice_No + "'"
+                Dim dtInv As DataTable = clsDBFuncationality.GetDataTable(qry)
+                If dtInv IsNot Nothing AndAlso dtInv.Rows.Count > 0 Then
+                    TxtEInvoiceUpdateIRNNo.Text = clsCommon.myCstr(dtInv.Rows(0)("IRN_no"))
+                    TxtEInvoiceUpdateAckNo.Text = clsCommon.myCstr(dtInv.Rows(0)("Ack_No"))
+                    If dtInv.Rows(0)("Ack_Date") IsNot DBNull.Value Then
+                        TxtEInvoiceUpdateAckDate.Value = clsCommon.myCDate(dtInv.Rows(0)("Ack_Date"))
+                    End If
+                    TxtEInvoiceUpdateQCCode.Text = clsCommon.myCstr(dtInv.Rows(0)("QR_Code"))
+                    TxtEWayBillUpdateBillNo.Text = clsCommon.myCstr(dtInv.Rows(0)("EWayBillNo"))
+                    If dtInv.Rows(0)("EwayBillDate") IsNot DBNull.Value Then
+                        TxtEWayBillUpdateBillDate.Value = clsCommon.myCDate(dtInv.Rows(0)("EwayBillDate"))
+                    End If
+                    If dtInv.Rows(0)("EwayBillValidDate") IsNot DBNull.Value Then
+                        TxtEWayBillUpdateValidDate.Value = clsCommon.myCDate(dtInv.Rows(0)("EwayBillValidDate"))
+                    End If
+                    TxtEWayBillUpdateBillRemarks.Text = clsCommon.myCstr(dtInv.Rows(0)("EWayBillRemarks"))
+                End If
             End If
             If clsCommon.myLen(txtInvoiceNo.Text) > 0 Then
                 btnInvoiceJE.Visible = True
@@ -4986,24 +5014,6 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
             txtPaymentCycleNo.Text = clsGenratePaymentCycles.GetPaymentCycleNo(txtBillToLocation.Value, txtDate.Value)
             txtFiscalYear.Text = clsGenratePaymentCycles.GetPaymentFiscalCode(txtBillToLocation.Value, txtDate.Value)
 
-            Dim qry As String = "select IRN_no,Ack_No,Ack_Date,QR_Code,EWayBillNo,EwayBillDate,EwayBillValidDate,EWayBillRemarks from TSPL_SD_SALE_INVOICE_HEAD where Document_Code = '" + obj.Invoice_No + "'"
-            Dim dtInv As DataTable = clsDBFuncationality.GetDataTable(qry)
-            If dtInv IsNot Nothing AndAlso dtInv.Rows.Count > 0 Then
-                TxtEInvoiceUpdateIRNNo.Text = clsCommon.myCstr(dtInv.Rows(0)("IRN_no"))
-                TxtEInvoiceUpdateAckNo.Text = clsCommon.myCstr(dtInv.Rows(0)("Ack_No"))
-                If dtInv.Rows(0)("Ack_Date") IsNot DBNull.Value Then
-                    TxtEInvoiceUpdateAckDate.Value = clsCommon.myCDate(dtInv.Rows(0)("Ack_Date"))
-                End If
-                TxtEInvoiceUpdateQCCode.Text = clsCommon.myCstr(dtInv.Rows(0)("QR_Code"))
-                TxtEWayBillUpdateBillNo.Text = clsCommon.myCstr(dtInv.Rows(0)("EWayBillNo"))
-                If dtInv.Rows(0)("EwayBillDate") IsNot DBNull.Value Then
-                    TxtEWayBillUpdateBillDate.Value = clsCommon.myCDate(dtInv.Rows(0)("EwayBillDate"))
-                End If
-                If dtInv.Rows(0)("EwayBillValidDate") IsNot DBNull.Value Then
-                    TxtEWayBillUpdateValidDate.Value = clsCommon.myCDate(dtInv.Rows(0)("EwayBillValidDate"))
-                End If
-                TxtEWayBillUpdateBillRemarks.Text = clsCommon.myCstr(dtInv.Rows(0)("EWayBillRemarks"))
-            End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
@@ -9239,7 +9249,10 @@ a:          End If
                 ElseIf rbtnTotalAmt.IsChecked Then
                     txtRateAmt.Text = clsCommon.myCdbl(lblTotRAmt.Text) * clsCommon.myCdbl(txtRatePer.Text) / 100
                 End If
-
+            ElseIf clsCommon.myCdbl(txtRatePer.Text) = 0 Then
+                If chkRateDiffRate.IsChecked Then
+                    txtRateAmt.Text = 0
+                End If
             ElseIf clsCommon.myCdbl(txtRateAmt.Text) > 0 Then
                 txtRatePer.Text = 0
             End If
@@ -9644,5 +9657,11 @@ a:          End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub rbtnTotalAmt_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnTotalAmt.ToggleStateChanged, rbtnBasicAmt.ToggleStateChanged
+        If chkRateDiffAmt.IsChecked OrElse chkRateDiffRate.IsChecked Then
+            CalculateRateDiffAmount()
+        End If
     End Sub
 End Class

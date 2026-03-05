@@ -2008,6 +2008,7 @@
     <None Include="Crystal Reports\Sales Report\crptPrimarySaleSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\crptPrimarySaleSummaryAccount.rpt" />
     <None Include="Crystal Reports\Sales Report\crptPrimarySaleSummaryShipping.rpt" />
+    <None Include="Crystal Reports\Sales Report\CrptProductSaleSummaryNonTaxable.rpt" />
     <None Include="Crystal Reports\Sales Report\CrptProductSaleSummaryTaxableNonTaxable.rpt" />
     <None Include="Crystal Reports\Sales Report\CrptProductWiseSaleQuantity.rpt" />
     <None Include="Crystal Reports\Sales Report\crptProvisionalSales.rpt" />
@@ -2118,6 +2119,8 @@
     <None Include="Crystal Reports\Sales Report\rptBankSavingAdvice.rpt" />
     <None Include="Crystal Reports\Sales Report\rptBankSavingAdviceIFSC.rpt" />
     <None Include="Crystal Reports\Sales Report\rptBoothGatePassBKN.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptBoothSaleDateShiftWise.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptBoothSaleItemWise.rpt" />
     <None Include="Crystal Reports\Sales Report\RptCEAllocation.rpt" />
     <None Include="Crystal Reports\Sales Report\RptCEAllocationALl.rpt" />
     <None Include="Crystal Reports\Sales Report\rptCreditSaleDetail.rpt" />

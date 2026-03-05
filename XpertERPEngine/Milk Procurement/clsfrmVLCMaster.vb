@@ -74,6 +74,8 @@ Public Class clsfrmVLCMaster
     Public Shift_Cow_Limit As Integer
     Public Bank_Code_Desc As String = Nothing
     Public Branch_Name As String = Nothing
+    Public VSP_Payee_Name As String = Nothing
+
 
 
 #End Region
@@ -220,6 +222,58 @@ Public Class clsfrmVLCMaster
 
     'varsha end
 
+    Public Shared Function SaveDataPayeeName(ByVal strCode As String, ByVal isNewEntry As Boolean, ByVal obj As clsfrmVLCMaster, ByVal arr As List(Of clsfrmVLCMaster), ByVal trans As SqlTransaction) As Boolean
+        Dim IsTransactionExist As Boolean = IIf(trans Is Nothing, False, True)
+
+        If IsTransactionExist = False Then
+            trans = clsDBFuncationality.GetTransactin()
+        End If
+        Try
+            Dim isSaved As Boolean = True
+            Dim coll As New Hashtable()
+            strCode = obj.vlcCode
+            '----------insert head block--------------------------------------------------
+            'clsCommon.AddColumnsForChange(coll, "Bank_Name", obj.Bank_Name)
+
+            clsCommon.AddColumnsForChange(coll, "Vendor_Code", obj.vlcCode)
+            clsCommon.AddColumnsForChange(coll, "Vendor_name", obj.vlcName)
+            clsCommon.AddColumnsForChange(coll, "VSP_Payee_Name", obj.VSP_Payee_Name)
+            ' clsCommon.AddColumnsForChange(coll, "VLC_CODE_VLC_UPLOADER", obj.VLC_CODE_VLC_UPLOADER)
+
+            If isNewEntry Then
+                clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
+                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.myCstr(clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy")))
+                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VENDOR_MASTER", OMInsertOrUpdate.Insert, "", trans)
+            Else
+                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VENDOR_MASTER", OMInsertOrUpdate.Update, " TSPL_VENDOR_MASTER.Vendor_Code='" + obj.vlcCode + "'", trans)
+            End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.vlcCode, "TSPL_VENDOR_MASTER", "Vendor_Code", trans)
+            'isSaved = isSaved AndAlso SaveVLCPriceCode(obj.vlcCode, obj.vspCode, obj.MCCCOde, trans)
+            'SaveVLCPriceCode(obj.vlcCode, obj.vspCode, obj.MCCCOde, trans)
+            '----------insert detail block--------------------------------------------------
+            isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.vlcCode, obj.arrCustomFields, trans)
+
+            coll = New Hashtable()
+
+
+            If IsTransactionExist = False Then
+                trans.Commit()
+            End If
+            Return True
+        Catch ex As Exception
+            If IsTransactionExist = False Then
+                trans.Rollback()
+            End If
+            If clsCommon.myCstr(ex.Message).Contains("uk_VLC_Code_VLC_Uploader") Then
+                Throw New Exception("Duplicate DCS Code for DCS Uploader ")
+                Return False
+            Else
+                Throw New Exception(ex.Message)
+                Return False
+            End If
+            'Throw New Exception(ex.Message)
+        End Try
+    End Function
 
     Public Shared Function SaveData(ByVal strCode As String, ByVal isNewEntry As Boolean, ByVal obj As clsfrmVLCMaster, ByVal arr As List(Of clsfrmVLCMaster), ByVal trans As SqlTransaction) As Boolean
         Dim IsTransactionExist As Boolean = IIf(trans Is Nothing, False, True)

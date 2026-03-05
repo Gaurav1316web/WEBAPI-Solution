@@ -72,7 +72,7 @@ Public Class frmFATSNFDiffReport
             Dim BaseQry As String = clsMilkCollectionDCS.GetBaseQueryFATSNFGainLoss(txtFromDate.Value, txtToDate.Value, txtMCC.arrValueMember)
             Dim Qry As String = ""
             If rbtnDetails.IsChecked Then
-                Qry = " select MCC_Code,max(MCC_NAME) as MCC_NAME,max(Mcc_Code_VLC_Uploader) as [MCC Uploader Code],Document_Date,sum(MCCQty) as MCCQty,convert(decimal(18," + strDecimalPlaces + "),sum(MCCFATKG))  as MCCFATKG, CONVERT(decimal(18," + strDecimalPlaces + "),sum(MCCSNFKG)) as MCCSNFKG ,sum(DCSQty) as DCSQty, CONVERT(decimal(18," + strDecimalPlaces + "),sum(DCSFATKG))  as DCSFATKG,CONVERT(decimal(18," + strDecimalPlaces + "),sum(DCSSNFKG)) as DCSSNFKG,sum(MCCQty)-sum(DCSQty) as [Diff Qty],CONVERT(decimal(18," + strDecimalPlaces + "),sum(DiffFATKG)) as DiffFATKG, CONVERT(decimal(18," + strDecimalPlaces + "), sum(DiffSNFKG)) as DiffSNFKG,sum(FatAmt) as FatAmt,sum(SNFAmt) as SNFAmt,sum(Amt) as Amt,max(FindCode) as FindCode from ( " + BaseQry + ")XX   group by MCC_Code ,Document_Date order by MCC_NAME,Document_Date  "
+                Qry = " select MCC_Code,max(MCC_NAME) as MCC_NAME,max(Mcc_Code_VLC_Uploader) as [MCC Uploader Code],STRING_AGG(Route_Code, ',') AS Route_Code,Document_Date,sum(MCCQty) as MCCQty,convert(decimal(18," + strDecimalPlaces + "),sum(MCCFATKG))  as MCCFATKG, CONVERT(decimal(18," + strDecimalPlaces + "),sum(MCCSNFKG)) as MCCSNFKG ,sum(DCSQty) as DCSQty, CONVERT(decimal(18," + strDecimalPlaces + "),sum(DCSFATKG))  as DCSFATKG,CONVERT(decimal(18," + strDecimalPlaces + "),sum(DCSSNFKG)) as DCSSNFKG,sum(MCCQty)-sum(DCSQty) as [Diff Qty],CONVERT(decimal(18," + strDecimalPlaces + "),sum(DiffFATKG)) as DiffFATKG, CONVERT(decimal(18," + strDecimalPlaces + "), sum(DiffSNFKG)) as DiffSNFKG,sum(FatAmt) as FatAmt,sum(SNFAmt) as SNFAmt,sum(Amt) as Amt,max(FindCode) as FindCode from ( " + BaseQry + ")XX   group by MCC_Code ,Document_Date order by MCC_NAME,Document_Date  "
             ElseIf rbtnMCCWise.IsChecked Then
                 Qry = "select MCC_Code,max(MCC_NAME) as MCC_NAME,max(Mcc_Code_VLC_Uploader) as [MCC Uploader Code],sum(MCCQty) as MCCQty,convert(decimal(18," + strDecimalPlaces + "),sum(MCCFATKG))  as MCCFATKG, CONVERT(decimal(18," + strDecimalPlaces + "),sum(MCCSNFKG)) as MCCSNFKG ,sum(DCSQty) as DCSQty, CONVERT(decimal(18," + strDecimalPlaces + "),sum(DCSFATKG))  as DCSFATKG,CONVERT(decimal(18," + strDecimalPlaces + "),sum(DCSSNFKG)) as DCSSNFKG,CONVERT(decimal(18," + strDecimalPlaces + "),sum(DiffFATKG)) as DiffFATKG, CONVERT(decimal(18," + strDecimalPlaces + "), sum(DiffSNFKG)) as DiffSNFKG,sum(FatAmt) as FatAmt,sum(SNFAmt) as SNFAmt,sum(Amt) as Amt,max(FindCode) as FindCode from ( " + BaseQry + ")XX group by MCC_Code  "
                 If SettCalculateFATSNFLossByCycleWise Then
@@ -145,6 +145,7 @@ from (" + Qry + ")xxx left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BM
             Gv1.Columns("MCC_NAME").HeaderText = "BMC"
             Gv1.Columns("Document_Date").HeaderText = "Date"
             Gv1.Columns("MCC Uploader Code").HeaderText = "MCC Uploader Code"
+            Gv1.Columns("Route_Code").HeaderText = "Route"
             Gv1.Columns("MCCQty").HeaderText = "BMC Qty"
             Gv1.Columns("MCCFATKG").HeaderText = "BMC FAT KG"
             Gv1.Columns("MCCSNFKG").HeaderText = "BMC SNF KG"
