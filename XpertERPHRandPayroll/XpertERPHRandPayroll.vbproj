@@ -226,7 +226,7 @@
       <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPEngine">
-      <HintPath>..\XpertERPEngine\bin\Debug\XpertERPEngine.dll</HintPath>
+      <HintPath>..\XpertERP\bin\Debug\XpertERPEngine.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPEngineFine">
       <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
@@ -841,6 +841,12 @@
       <DependentUpon>frmEmployeeDeductionMaster.vb</DependentUpon>
     </Compile>
     <Compile Include="HR and Payroll\Setup\frmEmployeeDeductionMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HR and Payroll\Setup\frmEmployeeOTEntry.Designer.vb">
+      <DependentUpon>frmEmployeeOTEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="HR and Payroll\Setup\frmEmployeeOTEntry.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="HR and Payroll\Setup\frmEmployeeSavingsMapping.Designer.vb">
@@ -2120,6 +2126,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HR and Payroll\Setup\frmEmployeeDeductionMaster.resx">
       <DependentUpon>frmEmployeeDeductionMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HR and Payroll\Setup\frmEmployeeOTEntry.resx">
+      <DependentUpon>frmEmployeeOTEntry.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HR and Payroll\Setup\frmEmployeeSavingsMapping.resx">
       <DependentUpon>frmEmployeeSavingsMapping.vb</DependentUpon>

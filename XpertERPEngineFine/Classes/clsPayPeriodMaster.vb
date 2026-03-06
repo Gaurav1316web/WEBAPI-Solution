@@ -185,6 +185,10 @@ Public Class clsPayPeriodMaster
         Return True
     End Function
 
+    Public Shared Function GetEMPName(ByVal strCode As String, ByVal trans As SqlTransaction) As String
+        Dim qry As String = "  SELECT Emp_Name FROM TSPL_EMPLOYEE_MASTER WHERE EMP_CODE = '" + strCode + "' "
+        Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+    End Function
     Public Shared Function GetName(ByVal strCode As String, ByVal trans As SqlTransaction) As String
         Dim qry As String = "select PAY_PERIOD_NAME from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE ='" + strCode + "' "
         Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))

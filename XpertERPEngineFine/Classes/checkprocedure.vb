@@ -1021,6 +1021,8 @@ Public Class ProgramCodeNew
         'InsertDefaultValue(clsUserMgtCode.frmEmployeeSavingsMapping, "Employee Savings Mapping", "1.11.01.32", clsUserMgtCode.SubModuleHRSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmEmployeeDeductionMaster, "Employee Deduction Master", "1.11.01.35", clsUserMgtCode.SubModuleHRSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmLICPolicyMaster, "LIC Policy Master", "1.11.01.37", clsUserMgtCode.SubModuleHRSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.frmEmployeeOTEntry, "Employee OT Entry", "1.11.01.39", clsUserMgtCode.SubModuleHRSetup, 27)
+
         '-----------------Transaction---------------------
         InsertDefaultValue(clsUserMgtCode.SubModuleHRTransaction, "Transaction", "1.11.02", clsUserMgtCode.ModuleHR, "SM", 26)
 
