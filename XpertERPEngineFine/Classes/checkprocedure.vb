@@ -2713,6 +2713,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.QualitySummaryReport, "Quality Summary Report", "1.23.03.02", clsUserMgtCode.SubModuleQCReport, "", 37, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, False, False, True)
         InsertDefaultValue(clsUserMgtCode.rptQCAnalysisReport, "QC Analysis Report", "1.23.03.03", clsUserMgtCode.SubModuleQCReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptNIRQC, "NIR QC Report", "1.23.03.07", clsUserMgtCode.SubModuleQCReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmTruckWiseRejectionReport, "Truck Wise Rejection Report", "1.23.03.08", clsUserMgtCode.SubModuleQCReport, 37)
 
         ''===========================end QC===========================================================
 

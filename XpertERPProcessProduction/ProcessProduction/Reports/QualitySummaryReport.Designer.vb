@@ -101,7 +101,7 @@ Partial Class QualitySummaryReport
         Me.RadPageVieww1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageVieww1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageVieww1.Name = "RadPageVieww1"
-        Me.RadPageVieww1.SelectedPage = Me.RadPageViewPagee1
+        Me.RadPageVieww1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageVieww1.Size = New System.Drawing.Size(800, 402)
         Me.RadPageVieww1.TabIndex = 1
         CType(Me.RadPageVieww1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -298,6 +298,7 @@ Partial Class QualitySummaryReport
         Me.Gvv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gvv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.Gvv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gvv1.MyExportAPI = False
         Me.Gvv1.MyExportFilePath = ""
         Me.Gvv1.MyStopExport = False
         Me.Gvv1.Name = "Gvv1"

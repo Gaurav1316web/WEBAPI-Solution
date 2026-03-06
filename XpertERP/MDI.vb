@@ -7182,6 +7182,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptNIRQC
                         frm = New rptNIRQC
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmTruckWiseRejectionReport
+                        frm = New frmTruckWiseRejectionReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.frmOperationMaster
                         frm = New frmOperationMaster

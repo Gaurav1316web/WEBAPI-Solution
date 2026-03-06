@@ -148,7 +148,7 @@ Public Class BMC_Transporter_Bill
         Dim repoDate As GridViewDateTimeColumn = New GridViewDateTimeColumn()
         repoDate.Format = DateTimePickerFormat.Custom
         'repoDate.CustomFormat = "dd-MM-yyyy"
-        repoDate.CustomFormat = "yyyy-MM-dd"
+        repoDate.CustomFormat = "dd/MMM/YYYY"
         repoDate.HeaderText = "Document Date"
         repoDate.WrapText = True
         repoDate.FormatString = "{0:d}"
@@ -535,7 +535,7 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                 For ii = 0 To dt.Rows.Count - 1
                     gv1.Rows.AddNew()
                     gv1.CurrentRow.Cells(colDocumentNo).Value = clsCommon.myCstr(dt.Rows(ii)("Document_No"))
-                    gv1.CurrentRow.Cells(colDate).Value = clsCommon.myCstr(dt.Rows(ii)("Document_Date"))
+                    gv1.CurrentRow.Cells(colDate).Value = clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(ii)("Document_Date"), "dd/MMM/yyyy"))
                     gv1.CurrentRow.Cells(ColCategory).Value = "BMC"
                     gv1.CurrentRow.Cells(ColStation).Value = "Jaipur>>" & clsCommon.myCstr(dt.Rows(0)("Station_1"))
                     gv1.CurrentRow.Cells(ColStation2).Value = clsCommon.myCstr(dt.Rows(0)("Station_2"))

@@ -740,6 +740,7 @@ Public Class FrmSalesOrderDispatch
         LoadBlankGrid()
         LoadBlankGridTax()
         UcAttachment1.BlankAllControls()
+        chkNoTranspoter.Checked = False
         UsLock1.Status = ERPTransactionStatus.Pending
         txtDocCode.Value = ""
         txtDate.Value = clsCommon.GETSERVERDATE()
@@ -2089,6 +2090,7 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
                 obj.Bill_To_Location = txtLocation.Value
                 obj.Sub_Location_code = txtSubLocation.Value
                 obj.IsReplacement = IIf(chkReplacement.Checked, 1, 0)
+                obj.No_Transporter = IIf(chkNoTranspoter.Checked, 1, 0)
                 If obj.IsReplacement = 1 Then
                     obj.Invoice_No_ForReplacement = txtInvoice_for_replacement.Value
                 End If
@@ -2347,6 +2349,7 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
                         txtSubLocation.Value = ""
                     End If
                 End If
+                chkNoTranspoter.Checked = IIf(obj.No_Transporter = 1, True, False)
                 txtTransporterCode.Value = obj.Transport_Id
                 lblTransporterName.Text = obj.Transporter_Name
                 lblVehicleNo.Text = obj.VehicleNo
@@ -3245,4 +3248,25 @@ SELECT Document_Code, Batch_No, Qty, Parent_Line_No FROM TSPL_BATCH_ITEM WHERE T
     Public Shared Function GetEWayBillNo(strDocNo As String, trans As SqlTransaction) As String
         Return clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" + strDocNo + "'", trans))
     End Function
+
+    Private Sub btnUpdateVehicle_Click(sender As Object, e As EventArgs) Handles btnUpdateVehicle.Click
+        Try
+            If clsCommon.myLen(txtDocCode.Value) > 0 AndAlso UsLock1.Status = ERPTransactionStatus.Approved Then
+                Dim frm As New FrmCommonUpdatesForEWB
+                frm.strDocNo = txtDocCode.Value
+                frm.strCustCode = txtCustomerCode.Value
+                frm.strTransId = txtTransporterCode.Value
+                frm.strTransName = lblTransporterName.Text
+                frm.strVehicleNo = lblVehicleNo.Text
+                frm.strScreenType = "APSSale"
+                frm.ShowDialog()
+            Else
+                Throw New Exception("Unable to proceed. You must select a Document Number that has already been approved.")
+            End If
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+
 End Class

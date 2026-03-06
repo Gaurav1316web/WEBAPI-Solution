@@ -1,5 +1,6 @@
 ﻿Imports common
 Public Class clsUserMgtCode
+    Public Const frmTruckWiseRejectionReport As String = "TRW-RJN-RPT"
     Public Const frmBatchManufacturingMaster As String = "Bat-MAN-MA"
     Public Const rptDbtStatusRCDF As String = "DBT-ST-RCD"
     Public Const rptMachineSurveyRegister As String = "MH-SRV-RGSR"
