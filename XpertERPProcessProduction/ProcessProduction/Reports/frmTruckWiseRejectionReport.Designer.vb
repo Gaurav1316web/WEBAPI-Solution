@@ -40,6 +40,7 @@ Partial Class frmTruckWiseRejectionReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -59,6 +60,7 @@ Partial Class frmTruckWiseRejectionReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -80,6 +82,7 @@ Partial Class frmTruckWiseRejectionReport
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
@@ -278,6 +281,14 @@ Partial Class frmTruckWiseRejectionReport
         Me.btnReset.TabIndex = 158
         Me.btnReset.Text = "Reset"
         '
+        'btnPrint
+        '
+        Me.btnPrint.Location = New System.Drawing.Point(156, 11)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(71, 22)
+        Me.btnPrint.TabIndex = 162
+        Me.btnPrint.Text = "Print"
+        '
         'frmTruckWiseRejectionReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -311,6 +322,7 @@ Partial Class frmTruckWiseRejectionReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -333,4 +345,5 @@ Partial Class frmTruckWiseRejectionReport
     Friend WithEvents btnReset As RadButton
     Friend WithEvents btnClose As RadButton
     Friend WithEvents gvRejection As common.UserControls.MyRadGridView
+    Friend WithEvents btnPrint As RadButton
 End Class
