@@ -6800,6 +6800,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmLICPolicyMaster
                         frm = New FrmLICPolicyMaster()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmEmployeeOTEntry
+                        frm = New frmEmployeeOTEntry()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmBranchMaster
                         frm = New frmBranchMaster()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
