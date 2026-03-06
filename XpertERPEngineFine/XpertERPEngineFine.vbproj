@@ -285,6 +285,7 @@
     <Compile Include="Classes\clsPayrollPaymentMode.vb" />
     <Compile Include="Classes\clsPayrollSetting.vb" />
     <Compile Include="Classes\clsPFRulesMaster.vb" />
+    <Compile Include="Classes\clsPostCreateTable.vb" />
     <Compile Include="Classes\ClsProblemType.vb" />
     <Compile Include="Classes\clsProductDemandSheet.vb" />
     <Compile Include="Classes\clsPTSlab.vb" />
@@ -457,9 +458,7 @@
     <Compile Include="Silage Production\clsSilageFormerProduction.vb" />
     <Compile Include="Silage Production\clsSilageProductionApplication.vb" />
     <Compile Include="Silage Production\clsSilageProductionAreaMaster.vb" />
-    <Compile Include="UserControl1.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="UserControl1.vb" />
     <Compile Include="UserControl1.Designer.vb">
       <DependentUpon>UserControl1.vb</DependentUpon>
     </Compile>
