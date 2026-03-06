@@ -617,6 +617,8 @@ where CUSTOMER_FORM_TYPE='VSP' and Cust_Code = '" + strCustCode + "'"
         Dim isSaved As Boolean = True
         Dim obj2 As New clsLocation
         Dim PrevRoute As String = ""
+        Dim Displayseq As String = ""
+
         Dim strQry As String = ""
         Dim StrQrys As String = "delete from TSPL_Customer_Master_ParaInactive where Customer_Code='" + obj.Cust_Code + "'"
         clsDBFuncationality.ExecuteNonQuery(StrQryS, trans)
@@ -628,6 +630,7 @@ where CUSTOMER_FORM_TYPE='VSP' and Cust_Code = '" + strCustCode + "'"
                 Dim qry As String = "update TSPL_CUSTOMER_MASTER set Is_Default_Grower=0 where Is_Default_Grower=1"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
+
             If isResetCustomerDemandOnRouteChange Then
                 If Not isNewEntry Then
                     PrevRoute = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_CUSTOMER_MASTER where Cust_Code='" + obj.Cust_Code + "'", trans))
@@ -649,6 +652,7 @@ where TSPL_DEMAND_BOOKING_MASTER.Route_No='" + PrevRoute + "' and TSPL_DEMAND_BO
                                     For Each drs As DataRow In dts.Rows
                                         Dim objtr As clsDemandBookingSaleDetail = New clsDemandBookingSaleDetail()
                                         objtr.Cust_Code = clsCommon.myCstr(drs("cust_code"))
+
                                         objtr.Item_Code = clsCommon.myCstr(drs("Item_Code"))
                                         objtr.Unit_code = clsCommon.myCstr(drs("Unit_code"))
                                         objtr.Price_Code = clsCommon.myCstr(drs("Price_Code"))
@@ -886,6 +890,7 @@ where TSPL_DEMAND_BOOKING_MASTER.Route_No='" + PrevRoute + "' and TSPL_DEMAND_BO
                 clsCommon.AddColumnsForChange(coll, "Panchayat_Samiti_Code", obj.Panchayat_Samiti_Code, True)
                 clsCommon.AddColumnsForChange(coll, "Vidhan_Sabha_Code", obj.Vidhan_Sabha_Code, True)
                 clsCommon.AddColumnsForChange(coll, "cfp_unit", obj.CFP_Unit)
+
                 If isNewEntry Then
                     clsCommon.AddColumnsForChange(coll, "Cust_Code", obj.Cust_Code)
                     clsCommon.AddColumnsForChange(coll, "Created_By", obj.Created_By)
@@ -898,7 +903,12 @@ where TSPL_DEMAND_BOOKING_MASTER.Route_No='" + PrevRoute + "' and TSPL_DEMAND_BO
                 End If
                 clsCustomerMaster.CreatLoginIdOfCustomer(obj.Cust_Code, obj.Customer_Name, trans)
                 clsCustomerMaster.ParmanentInactive(obj.Cust_Code, obj.perinactive, trans)
+                If isNewEntry = True AndAlso IsNumeric(obj.Cust_Code) Then
 
+                    isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery("UPDATE tspl_customer_master SET display_seq = '" & obj.Cust_Code & "' WHERE cust_code = '" & obj.Cust_Code & "'", trans)
+                    'clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                End If
                 ''added by richa agarwal
                 If clsCommon.CompairString(obj.prntcustyn, "Y") = CompairStringResult.Equal Then
                     isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery("Update TSPL_CUSTOMER_MASTER set Credit_Limit=" & obj.Credit_Limit & " where Parent_Customer_No ='" & obj.Cust_Code & "'", trans)
