@@ -116,7 +116,7 @@ Public Class rptUnionWiseMilkTankerCollectionDetail
                             from TSPL_MASTER.dbo.TSPL_APP_LOCATION WHERE 2=2 and  Union_Report=1 order by [TSPL_APP_LOCATION].Location_Name "
                 Else
                     uQry = " select  [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name
-                            from TSPL_MASTER.dbo.TSPL_APP_LOCATION WHERE 2=2 AND [TSPL_APP_LOCATION].DataBase_Name='" & objCommonVar.CurrComp_Code1 & "' order by [TSPL_APP_LOCATION].Location_Name "
+                            from TSPL_MASTER.dbo.TSPL_APP_LOCATION WHERE 2=2 AND [TSPL_APP_LOCATION].DataBase_Name='" & objCommonVar.CurrDatabase & "' order by [TSPL_APP_LOCATION].Location_Name "
                 End If
 
             Else
@@ -145,7 +145,7 @@ isnull(QCFAT.Param_Field_Value,0) AS Fat_Per,ISNULL(cast((TSPL_PLANT_WEIGHMENT.N
 isnull(cast((TSPL_PLANT_WEIGHMENT.Net_Weight * QCSNF.Param_Field_Value)/100 as decimal(18,3)),0) as SNF_Kg ,
 CASE
     WHEN [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK.is_Param_Accepted = 1 THEN 'Accept'
-    ELSE 'Reject'  
+    ELSE ''  
 END as QcStatus,isnull(QCCLR.Param_Field_Value,0) AS [CLR]
     ,CASE WHEN  [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GATE_ENTRY_DETAILS.Doc_Type ='MccProc' THEN 'Route'
 else 'Purchase' end as Source
@@ -186,7 +186,7 @@ and convert(date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) +
                 qryall += ",Comp_Name, add1, add2 "
             End If
             If objCommonVar.RCDFCFP Then
-                qryall += " FROM(  " & baseqry & ") xx  LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_code1='RCDFCF' "
+                qryall += " FROM(  " & baseqry & ") xx  LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_code1='RCDFCF'  order by xx.UnionName,xx.Weighment_Date "
             Else
                 qryall += " FROM(  " & baseqry & ") xx  "
             End If
@@ -207,7 +207,7 @@ and convert(date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) +
             End If
 
             SummaryQry += " From ( " & baseqry & ") XX LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_code1='RCDFCF' "
-            SummaryQry += " GROUP BY XX.Weighment_Date, XX.UnionName  ORDER BY XX.Weighment_Date;"
+            SummaryQry += " GROUP BY XX.Weighment_Date, XX.UnionName  ORDER BY XX.Weighment_Date,xx.UnionName;"
 
 
             Dim dt2 As DataTable

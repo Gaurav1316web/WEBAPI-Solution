@@ -22,7 +22,7 @@ Partial Class rptCustItemWiseSaleReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -32,6 +32,8 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.ddlType = New common.Controls.MyComboBox()
+        Me.lblType = New common.Controls.MyLabel()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtToDate1 = New common.Controls.MyDateTimePicker()
         Me.txtToShift = New Telerik.WinControls.UI.RadDropDownList()
@@ -50,8 +52,6 @@ Partial Class rptCustItemWiseSaleReport
         Me.rbtnDocumentDate = New common.Controls.MyRadioButton()
         Me.rbtnSupplyDate = New common.Controls.MyRadioButton()
         Me.BKNGroupBox = New Telerik.WinControls.UI.RadGroupBox()
-        Me.BtnProductSalesSummaryNonTaxable = New common.Controls.MyRadioButton()
-        Me.BtnPartySaleMilkProductInvoice = New common.Controls.MyRadioButton()
         Me.rbtnBoothSaleItemWise = New common.Controls.MyRadioButton()
         Me.rbtnBoothSaleDateShiftWise = New common.Controls.MyRadioButton()
         Me.rbtnMilkSale = New common.Controls.MyRadioButton()
@@ -62,12 +62,12 @@ Partial Class rptCustItemWiseSaleReport
         Me.BtnGheeReport = New common.Controls.MyRadioButton()
         Me.BtnTcsSummary = New common.Controls.MyRadioButton()
         Me.BtnTransportationCharges = New common.Controls.MyRadioButton()
-        Me.BtnBillWiseSaleOfMilkSummaryDispatch = New common.Controls.MyRadioButton()
-        Me.BtnProductSalesSummaryTaxable = New common.Controls.MyRadioButton()
+        Me.BtnBillWiseSaleOfMilkSummary = New common.Controls.MyRadioButton()
+        Me.BtnProductSalesSummary = New common.Controls.MyRadioButton()
         Me.BtnMilkStcSummary = New common.Controls.MyRadioButton()
         Me.BtnStcRegisterItemWiseSummary = New common.Controls.MyRadioButton()
         Me.BtnBillWiseSaleOfMilk = New common.Controls.MyRadioButton()
-        Me.BtnPartySaleMilkProductDispatch = New common.Controls.MyRadioButton()
+        Me.BtnPartySaleMilkProduct = New common.Controls.MyRadioButton()
         Me.BtnProductWiseSaleQuantity = New common.Controls.MyRadioButton()
         Me.BtnStcRegisterPartyandItemWiseSummary = New common.Controls.MyRadioButton()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
@@ -93,7 +93,6 @@ Partial Class rptCustItemWiseSaleReport
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.MyDateTimePicker1 = New common.Controls.MyDateTimePicker()
-        Me.BtnBillWiseSaleOfMilkSummaryInvoice = New common.Controls.MyRadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -105,6 +104,8 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadPanel1.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.ddlType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox4.SuspendLayout()
         CType(Me.txtToDate1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -124,8 +125,6 @@ Partial Class rptCustItemWiseSaleReport
         CType(Me.rbtnSupplyDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BKNGroupBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.BKNGroupBox.SuspendLayout()
-        CType(Me.BtnProductSalesSummaryNonTaxable, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnPartySaleMilkProductInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnBoothSaleItemWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnBoothSaleDateShiftWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnMilkSale, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -136,12 +135,12 @@ Partial Class rptCustItemWiseSaleReport
         CType(Me.BtnGheeReport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnTcsSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnTransportationCharges, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnBillWiseSaleOfMilkSummaryDispatch, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnProductSalesSummaryTaxable, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnBillWiseSaleOfMilkSummary, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnProductSalesSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnMilkStcSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnStcRegisterItemWiseSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnBillWiseSaleOfMilk, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnPartySaleMilkProductDispatch, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnPartySaleMilkProduct, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnProductWiseSaleQuantity, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnStcRegisterPartyandItemWiseSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -164,7 +163,6 @@ Partial Class rptCustItemWiseSaleReport
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyDateTimePicker1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnBillWiseSaleOfMilkSummaryInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -249,6 +247,8 @@ Partial Class rptCustItemWiseSaleReport
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.ddlType)
+        Me.RadGroupBox1.Controls.Add(Me.lblType)
         Me.RadGroupBox1.Controls.Add(Me.RadGroupBox4)
         Me.RadGroupBox1.Controls.Add(Me.ddlDefaultReportUOM)
         Me.RadGroupBox1.Controls.Add(Me.txtRoute)
@@ -273,8 +273,47 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadGroupBox1.HeaderText = ""
         Me.RadGroupBox1.Location = New System.Drawing.Point(6, 13)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(808, 305)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(801, 264)
         Me.RadGroupBox1.TabIndex = 389
+        '
+        'ddlType
+        '
+        Me.ddlType.AutoCompleteDisplayMember = Nothing
+        Me.ddlType.AutoCompleteValueMember = Nothing
+        Me.ddlType.CalculationExpression = Nothing
+        Me.ddlType.DropDownAnimationEnabled = True
+        Me.ddlType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.ddlType.FieldCode = Nothing
+        Me.ddlType.FieldDesc = Nothing
+        Me.ddlType.FieldMaxLength = 0
+        Me.ddlType.FieldName = Nothing
+        Me.ddlType.isCalculatedField = False
+        Me.ddlType.IsSourceFromTable = False
+        Me.ddlType.IsSourceFromValueList = False
+        Me.ddlType.IsUnique = False
+        Me.ddlType.Location = New System.Drawing.Point(677, 9)
+        Me.ddlType.MendatroryField = True
+        Me.ddlType.MyLinkLable1 = Nothing
+        Me.ddlType.MyLinkLable2 = Nothing
+        Me.ddlType.Name = "ddlType"
+        Me.ddlType.ReferenceFieldDesc = Nothing
+        Me.ddlType.ReferenceFieldName = Nothing
+        Me.ddlType.ReferenceTableName = Nothing
+        Me.ddlType.Size = New System.Drawing.Size(107, 20)
+        Me.ddlType.TabIndex = 458
+        Me.ddlType.Text = "Please Select"
+        Me.ddlType.Visible = False
+        '
+        'lblType
+        '
+        Me.lblType.FieldName = Nothing
+        Me.lblType.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblType.Location = New System.Drawing.Point(636, 11)
+        Me.lblType.Name = "lblType"
+        Me.lblType.Size = New System.Drawing.Size(30, 18)
+        Me.lblType.TabIndex = 457
+        Me.lblType.Text = "Type"
+        Me.lblType.Visible = False
         '
         'RadGroupBox4
         '
@@ -405,7 +444,7 @@ Partial Class rptCustItemWiseSaleReport
         Me.ddlDefaultReportUOM.IsSourceFromTable = False
         Me.ddlDefaultReportUOM.IsSourceFromValueList = False
         Me.ddlDefaultReportUOM.IsUnique = False
-        Me.ddlDefaultReportUOM.Location = New System.Drawing.Point(529, 9)
+        Me.ddlDefaultReportUOM.Location = New System.Drawing.Point(502, 9)
         Me.ddlDefaultReportUOM.MendatroryField = True
         Me.ddlDefaultReportUOM.MyLinkLable1 = Nothing
         Me.ddlDefaultReportUOM.MyLinkLable2 = Nothing
@@ -467,7 +506,7 @@ Partial Class rptCustItemWiseSaleReport
         '
         Me.lblQtyConv.FieldName = Nothing
         Me.lblQtyConv.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblQtyConv.Location = New System.Drawing.Point(441, 10)
+        Me.lblQtyConv.Location = New System.Drawing.Point(414, 10)
         Me.lblQtyConv.Name = "lblQtyConv"
         Me.lblQtyConv.Size = New System.Drawing.Size(83, 18)
         Me.lblQtyConv.TabIndex = 450
@@ -489,7 +528,7 @@ Partial Class rptCustItemWiseSaleReport
         Me.ddlQtyConversionType.IsSourceFromTable = False
         Me.ddlQtyConversionType.IsSourceFromValueList = False
         Me.ddlQtyConversionType.IsUnique = False
-        Me.ddlQtyConversionType.Location = New System.Drawing.Point(529, 9)
+        Me.ddlQtyConversionType.Location = New System.Drawing.Point(502, 9)
         Me.ddlQtyConversionType.MendatroryField = True
         Me.ddlQtyConversionType.MyLinkLable1 = Nothing
         Me.ddlQtyConversionType.MyLinkLable2 = Nothing
@@ -539,9 +578,6 @@ Partial Class rptCustItemWiseSaleReport
         'BKNGroupBox
         '
         Me.BKNGroupBox.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.BKNGroupBox.Controls.Add(Me.BtnBillWiseSaleOfMilkSummaryInvoice)
-        Me.BKNGroupBox.Controls.Add(Me.BtnProductSalesSummaryNonTaxable)
-        Me.BKNGroupBox.Controls.Add(Me.BtnPartySaleMilkProductInvoice)
         Me.BKNGroupBox.Controls.Add(Me.rbtnBoothSaleItemWise)
         Me.BKNGroupBox.Controls.Add(Me.rbtnBoothSaleDateShiftWise)
         Me.BKNGroupBox.Controls.Add(Me.rbtnMilkSale)
@@ -552,47 +588,25 @@ Partial Class rptCustItemWiseSaleReport
         Me.BKNGroupBox.Controls.Add(Me.BtnGheeReport)
         Me.BKNGroupBox.Controls.Add(Me.BtnTcsSummary)
         Me.BKNGroupBox.Controls.Add(Me.BtnTransportationCharges)
-        Me.BKNGroupBox.Controls.Add(Me.BtnBillWiseSaleOfMilkSummaryDispatch)
-        Me.BKNGroupBox.Controls.Add(Me.BtnProductSalesSummaryTaxable)
+        Me.BKNGroupBox.Controls.Add(Me.BtnBillWiseSaleOfMilkSummary)
+        Me.BKNGroupBox.Controls.Add(Me.BtnProductSalesSummary)
         Me.BKNGroupBox.Controls.Add(Me.BtnMilkStcSummary)
         Me.BKNGroupBox.Controls.Add(Me.BtnStcRegisterItemWiseSummary)
         Me.BKNGroupBox.Controls.Add(Me.BtnBillWiseSaleOfMilk)
-        Me.BKNGroupBox.Controls.Add(Me.BtnPartySaleMilkProductDispatch)
+        Me.BKNGroupBox.Controls.Add(Me.BtnPartySaleMilkProduct)
         Me.BKNGroupBox.Controls.Add(Me.BtnProductWiseSaleQuantity)
         Me.BKNGroupBox.Controls.Add(Me.BtnStcRegisterPartyandItemWiseSummary)
         Me.BKNGroupBox.HeaderText = ""
         Me.BKNGroupBox.Location = New System.Drawing.Point(344, 33)
         Me.BKNGroupBox.Name = "BKNGroupBox"
         Me.BKNGroupBox.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.BKNGroupBox.Size = New System.Drawing.Size(459, 267)
+        Me.BKNGroupBox.Size = New System.Drawing.Size(440, 223)
         Me.BKNGroupBox.TabIndex = 447
         Me.BKNGroupBox.Visible = False
         '
-        'BtnProductSalesSummaryNonTaxable
-        '
-        Me.BtnProductSalesSummaryNonTaxable.Location = New System.Drawing.Point(233, 74)
-        Me.BtnProductSalesSummaryNonTaxable.MyLinkLable1 = Nothing
-        Me.BtnProductSalesSummaryNonTaxable.MyLinkLable2 = Nothing
-        Me.BtnProductSalesSummaryNonTaxable.Name = "BtnProductSalesSummaryNonTaxable"
-        Me.BtnProductSalesSummaryNonTaxable.Size = New System.Drawing.Size(210, 18)
-        Me.BtnProductSalesSummaryNonTaxable.TabIndex = 419
-        Me.BtnProductSalesSummaryNonTaxable.TabStop = False
-        Me.BtnProductSalesSummaryNonTaxable.Text = "Product Sales Summary (Non Taxable)"
-        '
-        'BtnPartySaleMilkProductInvoice
-        '
-        Me.BtnPartySaleMilkProductInvoice.Location = New System.Drawing.Point(233, 52)
-        Me.BtnPartySaleMilkProductInvoice.MyLinkLable1 = Nothing
-        Me.BtnPartySaleMilkProductInvoice.MyLinkLable2 = Nothing
-        Me.BtnPartySaleMilkProductInvoice.Name = "BtnPartySaleMilkProductInvoice"
-        Me.BtnPartySaleMilkProductInvoice.Size = New System.Drawing.Size(203, 18)
-        Me.BtnPartySaleMilkProductInvoice.TabIndex = 418
-        Me.BtnPartySaleMilkProductInvoice.TabStop = False
-        Me.BtnPartySaleMilkProductInvoice.Text = "Party Sale Milk and Product (Invoice)"
-        '
         'rbtnBoothSaleItemWise
         '
-        Me.rbtnBoothSaleItemWise.Location = New System.Drawing.Point(5, 243)
+        Me.rbtnBoothSaleItemWise.Location = New System.Drawing.Point(233, 199)
         Me.rbtnBoothSaleItemWise.MyLinkLable1 = Nothing
         Me.rbtnBoothSaleItemWise.MyLinkLable2 = Nothing
         Me.rbtnBoothSaleItemWise.Name = "rbtnBoothSaleItemWise"
@@ -603,7 +617,7 @@ Partial Class rptCustItemWiseSaleReport
         '
         'rbtnBoothSaleDateShiftWise
         '
-        Me.rbtnBoothSaleDateShiftWise.Location = New System.Drawing.Point(5, 220)
+        Me.rbtnBoothSaleDateShiftWise.Location = New System.Drawing.Point(5, 199)
         Me.rbtnBoothSaleDateShiftWise.MyLinkLable1 = Nothing
         Me.rbtnBoothSaleDateShiftWise.MyLinkLable2 = Nothing
         Me.rbtnBoothSaleDateShiftWise.Name = "rbtnBoothSaleDateShiftWise"
@@ -614,7 +628,7 @@ Partial Class rptCustItemWiseSaleReport
         '
         'rbtnMilkSale
         '
-        Me.rbtnMilkSale.Location = New System.Drawing.Point(233, 219)
+        Me.rbtnMilkSale.Location = New System.Drawing.Point(233, 174)
         Me.rbtnMilkSale.MyLinkLable1 = Nothing
         Me.rbtnMilkSale.MyLinkLable2 = Nothing
         Me.rbtnMilkSale.Name = "rbtnMilkSale"
@@ -625,7 +639,7 @@ Partial Class rptCustItemWiseSaleReport
         '
         'rbtnStockStatement
         '
-        Me.rbtnStockStatement.Location = New System.Drawing.Point(5, 197)
+        Me.rbtnStockStatement.Location = New System.Drawing.Point(5, 174)
         Me.rbtnStockStatement.MyLinkLable1 = Nothing
         Me.rbtnStockStatement.MyLinkLable2 = Nothing
         Me.rbtnStockStatement.Name = "rbtnStockStatement"
@@ -636,7 +650,7 @@ Partial Class rptCustItemWiseSaleReport
         '
         'rbtnDistributorCollStatement
         '
-        Me.rbtnDistributorCollStatement.Location = New System.Drawing.Point(233, 196)
+        Me.rbtnDistributorCollStatement.Location = New System.Drawing.Point(233, 149)
         Me.rbtnDistributorCollStatement.MyLinkLable1 = Nothing
         Me.rbtnDistributorCollStatement.MyLinkLable2 = Nothing
         Me.rbtnDistributorCollStatement.Name = "rbtnDistributorCollStatement"
@@ -647,7 +661,7 @@ Partial Class rptCustItemWiseSaleReport
         '
         'BtnCreditPartyWiseSaleAmount
         '
-        Me.BtnCreditPartyWiseSaleAmount.Location = New System.Drawing.Point(233, 173)
+        Me.BtnCreditPartyWiseSaleAmount.Location = New System.Drawing.Point(233, 124)
         Me.BtnCreditPartyWiseSaleAmount.MyLinkLable1 = Nothing
         Me.BtnCreditPartyWiseSaleAmount.MyLinkLable2 = Nothing
         Me.BtnCreditPartyWiseSaleAmount.Name = "BtnCreditPartyWiseSaleAmount"
@@ -658,7 +672,7 @@ Partial Class rptCustItemWiseSaleReport
         '
         'BtnRouteWiseSale
         '
-        Me.BtnRouteWiseSale.Location = New System.Drawing.Point(5, 149)
+        Me.BtnRouteWiseSale.Location = New System.Drawing.Point(5, 125)
         Me.BtnRouteWiseSale.MyLinkLable1 = Nothing
         Me.BtnRouteWiseSale.MyLinkLable2 = Nothing
         Me.BtnRouteWiseSale.Name = "BtnRouteWiseSale"
@@ -669,7 +683,7 @@ Partial Class rptCustItemWiseSaleReport
         '
         'BtnGheeReport
         '
-        Me.BtnGheeReport.Location = New System.Drawing.Point(5, 174)
+        Me.BtnGheeReport.Location = New System.Drawing.Point(5, 149)
         Me.BtnGheeReport.MyLinkLable1 = Nothing
         Me.BtnGheeReport.MyLinkLable2 = Nothing
         Me.BtnGheeReport.Name = "BtnGheeReport"
@@ -680,7 +694,7 @@ Partial Class rptCustItemWiseSaleReport
         '
         'BtnTcsSummary
         '
-        Me.BtnTcsSummary.Location = New System.Drawing.Point(233, 148)
+        Me.BtnTcsSummary.Location = New System.Drawing.Point(233, 99)
         Me.BtnTcsSummary.MyLinkLable1 = Nothing
         Me.BtnTcsSummary.MyLinkLable2 = Nothing
         Me.BtnTcsSummary.Name = "BtnTcsSummary"
@@ -691,7 +705,7 @@ Partial Class rptCustItemWiseSaleReport
         '
         'BtnTransportationCharges
         '
-        Me.BtnTransportationCharges.Location = New System.Drawing.Point(5, 101)
+        Me.BtnTransportationCharges.Location = New System.Drawing.Point(5, 75)
         Me.BtnTransportationCharges.MyLinkLable1 = Nothing
         Me.BtnTransportationCharges.MyLinkLable2 = Nothing
         Me.BtnTransportationCharges.Name = "BtnTransportationCharges"
@@ -700,27 +714,27 @@ Partial Class rptCustItemWiseSaleReport
         Me.BtnTransportationCharges.TabStop = False
         Me.BtnTransportationCharges.Text = "Transportation Charges"
         '
-        'BtnBillWiseSaleOfMilkSummaryDispatch
+        'BtnBillWiseSaleOfMilkSummary
         '
-        Me.BtnBillWiseSaleOfMilkSummaryDispatch.Location = New System.Drawing.Point(4, 123)
-        Me.BtnBillWiseSaleOfMilkSummaryDispatch.MyLinkLable1 = Nothing
-        Me.BtnBillWiseSaleOfMilkSummaryDispatch.MyLinkLable2 = Nothing
-        Me.BtnBillWiseSaleOfMilkSummaryDispatch.Name = "BtnBillWiseSaleOfMilkSummaryDispatch"
-        Me.BtnBillWiseSaleOfMilkSummaryDispatch.Size = New System.Drawing.Size(229, 18)
-        Me.BtnBillWiseSaleOfMilkSummaryDispatch.TabIndex = 403
-        Me.BtnBillWiseSaleOfMilkSummaryDispatch.TabStop = False
-        Me.BtnBillWiseSaleOfMilkSummaryDispatch.Text = "Bill Wise Sale Of Milk Summary (Dispatch)"
+        Me.BtnBillWiseSaleOfMilkSummary.Location = New System.Drawing.Point(5, 99)
+        Me.BtnBillWiseSaleOfMilkSummary.MyLinkLable1 = Nothing
+        Me.BtnBillWiseSaleOfMilkSummary.MyLinkLable2 = Nothing
+        Me.BtnBillWiseSaleOfMilkSummary.Name = "BtnBillWiseSaleOfMilkSummary"
+        Me.BtnBillWiseSaleOfMilkSummary.Size = New System.Drawing.Size(175, 18)
+        Me.BtnBillWiseSaleOfMilkSummary.TabIndex = 403
+        Me.BtnBillWiseSaleOfMilkSummary.TabStop = False
+        Me.BtnBillWiseSaleOfMilkSummary.Text = "Bill Wise Sale Of Milk Summary"
         '
-        'BtnProductSalesSummaryTaxable
+        'BtnProductSalesSummary
         '
-        Me.BtnProductSalesSummaryTaxable.Location = New System.Drawing.Point(5, 76)
-        Me.BtnProductSalesSummaryTaxable.MyLinkLable1 = Nothing
-        Me.BtnProductSalesSummaryTaxable.MyLinkLable2 = Nothing
-        Me.BtnProductSalesSummaryTaxable.Name = "BtnProductSalesSummaryTaxable"
-        Me.BtnProductSalesSummaryTaxable.Size = New System.Drawing.Size(186, 18)
-        Me.BtnProductSalesSummaryTaxable.TabIndex = 404
-        Me.BtnProductSalesSummaryTaxable.TabStop = False
-        Me.BtnProductSalesSummaryTaxable.Text = "Product Sales Summary (Taxable)"
+        Me.BtnProductSalesSummary.Location = New System.Drawing.Point(233, 52)
+        Me.BtnProductSalesSummary.MyLinkLable1 = Nothing
+        Me.BtnProductSalesSummary.MyLinkLable2 = Nothing
+        Me.BtnProductSalesSummary.Name = "BtnProductSalesSummary"
+        Me.BtnProductSalesSummary.Size = New System.Drawing.Size(138, 18)
+        Me.BtnProductSalesSummary.TabIndex = 404
+        Me.BtnProductSalesSummary.TabStop = False
+        Me.BtnProductSalesSummary.Text = "Product Sales Summary"
         '
         'BtnMilkStcSummary
         '
@@ -746,7 +760,7 @@ Partial Class rptCustItemWiseSaleReport
         '
         'BtnBillWiseSaleOfMilk
         '
-        Me.BtnBillWiseSaleOfMilk.Location = New System.Drawing.Point(233, 98)
+        Me.BtnBillWiseSaleOfMilk.Location = New System.Drawing.Point(233, 75)
         Me.BtnBillWiseSaleOfMilk.MyLinkLable1 = Nothing
         Me.BtnBillWiseSaleOfMilk.MyLinkLable2 = Nothing
         Me.BtnBillWiseSaleOfMilk.Name = "BtnBillWiseSaleOfMilk"
@@ -755,16 +769,16 @@ Partial Class rptCustItemWiseSaleReport
         Me.BtnBillWiseSaleOfMilk.TabStop = False
         Me.BtnBillWiseSaleOfMilk.Text = "Bill Wise Sale Of Milk"
         '
-        'BtnPartySaleMilkProductDispatch
+        'BtnPartySaleMilkProduct
         '
-        Me.BtnPartySaleMilkProductDispatch.Location = New System.Drawing.Point(5, 52)
-        Me.BtnPartySaleMilkProductDispatch.MyLinkLable1 = Nothing
-        Me.BtnPartySaleMilkProductDispatch.MyLinkLable2 = Nothing
-        Me.BtnPartySaleMilkProductDispatch.Name = "BtnPartySaleMilkProductDispatch"
-        Me.BtnPartySaleMilkProductDispatch.Size = New System.Drawing.Size(211, 18)
-        Me.BtnPartySaleMilkProductDispatch.TabIndex = 398
-        Me.BtnPartySaleMilkProductDispatch.TabStop = False
-        Me.BtnPartySaleMilkProductDispatch.Text = "Party Sale Milk and Product (Dispatch)"
+        Me.BtnPartySaleMilkProduct.Location = New System.Drawing.Point(5, 52)
+        Me.BtnPartySaleMilkProduct.MyLinkLable1 = Nothing
+        Me.BtnPartySaleMilkProduct.MyLinkLable2 = Nothing
+        Me.BtnPartySaleMilkProduct.Name = "BtnPartySaleMilkProduct"
+        Me.BtnPartySaleMilkProduct.Size = New System.Drawing.Size(158, 18)
+        Me.BtnPartySaleMilkProduct.TabIndex = 398
+        Me.BtnPartySaleMilkProduct.TabStop = False
+        Me.BtnPartySaleMilkProduct.Text = "Party Sale Milk and Product"
         '
         'BtnProductWiseSaleQuantity
         '
@@ -993,7 +1007,7 @@ Partial Class rptCustItemWiseSaleReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gv1.MyExportAPI = False
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
@@ -1094,17 +1108,6 @@ Partial Class rptCustItemWiseSaleReport
         Me.MyDateTimePicker1.Text = "17-12-2011"
         Me.MyDateTimePicker1.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
         '
-        'BtnBillWiseSaleOfMilkSummaryInvoice
-        '
-        Me.BtnBillWiseSaleOfMilkSummaryInvoice.Location = New System.Drawing.Point(233, 124)
-        Me.BtnBillWiseSaleOfMilkSummaryInvoice.MyLinkLable1 = Nothing
-        Me.BtnBillWiseSaleOfMilkSummaryInvoice.MyLinkLable2 = Nothing
-        Me.BtnBillWiseSaleOfMilkSummaryInvoice.Name = "BtnBillWiseSaleOfMilkSummaryInvoice"
-        Me.BtnBillWiseSaleOfMilkSummaryInvoice.Size = New System.Drawing.Size(221, 18)
-        Me.BtnBillWiseSaleOfMilkSummaryInvoice.TabIndex = 420
-        Me.BtnBillWiseSaleOfMilkSummaryInvoice.TabStop = False
-        Me.BtnBillWiseSaleOfMilkSummaryInvoice.Text = "Bill Wise Sale Of Milk Summary (Invoice)"
-        '
         'rptCustItemWiseSaleReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1130,6 +1133,8 @@ Partial Class rptCustItemWiseSaleReport
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.ddlType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox4.ResumeLayout(False)
         Me.RadGroupBox4.PerformLayout()
@@ -1152,8 +1157,6 @@ Partial Class rptCustItemWiseSaleReport
         CType(Me.BKNGroupBox, System.ComponentModel.ISupportInitialize).EndInit()
         Me.BKNGroupBox.ResumeLayout(False)
         Me.BKNGroupBox.PerformLayout()
-        CType(Me.BtnProductSalesSummaryNonTaxable, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnPartySaleMilkProductInvoice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnBoothSaleItemWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnBoothSaleDateShiftWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnMilkSale, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1164,12 +1167,12 @@ Partial Class rptCustItemWiseSaleReport
         CType(Me.BtnGheeReport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnTcsSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnTransportationCharges, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnBillWiseSaleOfMilkSummaryDispatch, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnProductSalesSummaryTaxable, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnBillWiseSaleOfMilkSummary, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnProductSalesSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnMilkStcSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnStcRegisterItemWiseSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnBillWiseSaleOfMilk, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnPartySaleMilkProductDispatch, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnPartySaleMilkProduct, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnProductWiseSaleQuantity, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnStcRegisterPartyandItemWiseSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1193,7 +1196,6 @@ Partial Class rptCustItemWiseSaleReport
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyDateTimePicker1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnBillWiseSaleOfMilkSummaryInvoice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1231,12 +1233,12 @@ Partial Class rptCustItemWiseSaleReport
     Friend WithEvents rbtnDetail As common.Controls.MyRadioButton
     Friend WithEvents rbtnSummary As common.Controls.MyRadioButton
     Friend WithEvents BKNGroupBox As RadGroupBox
-    Friend WithEvents BtnBillWiseSaleOfMilkSummaryDispatch As common.Controls.MyRadioButton
-    Friend WithEvents BtnProductSalesSummaryTaxable As common.Controls.MyRadioButton
+    Friend WithEvents BtnBillWiseSaleOfMilkSummary As common.Controls.MyRadioButton
+    Friend WithEvents BtnProductSalesSummary As common.Controls.MyRadioButton
     Friend WithEvents BtnMilkStcSummary As common.Controls.MyRadioButton
     Friend WithEvents BtnStcRegisterItemWiseSummary As common.Controls.MyRadioButton
     Friend WithEvents BtnBillWiseSaleOfMilk As common.Controls.MyRadioButton
-    Friend WithEvents BtnPartySaleMilkProductDispatch As common.Controls.MyRadioButton
+    Friend WithEvents BtnPartySaleMilkProduct As common.Controls.MyRadioButton
     Friend WithEvents BtnProductWiseSaleQuantity As common.Controls.MyRadioButton
     Friend WithEvents BtnStcRegisterPartyandItemWiseSummary As common.Controls.MyRadioButton
     Friend WithEvents RadGroupBox3 As RadGroupBox
@@ -1267,8 +1269,7 @@ Partial Class rptCustItemWiseSaleReport
     Friend WithEvents LblToDate As common.Controls.MyLabel
     Friend WithEvents rbtnBoothSaleItemWise As common.Controls.MyRadioButton
     Friend WithEvents rbtnBoothSaleDateShiftWise As common.Controls.MyRadioButton
-    Friend WithEvents BtnPartySaleMilkProductInvoice As common.Controls.MyRadioButton
-    Friend WithEvents BtnProductSalesSummaryNonTaxable As common.Controls.MyRadioButton
-    Friend WithEvents BtnBillWiseSaleOfMilkSummaryInvoice As common.Controls.MyRadioButton
+    Friend WithEvents ddlType As common.Controls.MyComboBox
+    Friend WithEvents lblType As common.Controls.MyLabel
 End Class
 
