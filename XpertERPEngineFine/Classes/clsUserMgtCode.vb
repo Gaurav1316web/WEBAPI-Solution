@@ -332,6 +332,7 @@ Public Class clsUserMgtCode
     Public Const rptGatePassReport As String = "GAT_PAS_RPT"
     Public Const rptNewSalesReport As String = "NE_SALE_RPT"
     Public Const rptDemandReturnReport As String = "DEM_RET_RPT"
+    Public Const RouteWiseDemandReport As String = "RO-WI-DE-REP"
     Public Const rptDailyStatementReport As String = "DlY_SALE_RPT"
     Public Const FrmPrintMultipleGatepass As String = "MUL_PNT_GP"
     Public Const rptBoothTruckSheet As String = "Booth-T-S"
