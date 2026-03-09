@@ -1123,9 +1123,9 @@ GROUP BY Item_Code order by Item_Desc"
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     If BtnProductSalesSummary.IsChecked Then
-                        If ddlType.SelectedValue = "Taxable" Then
+                        If ddlType.SelectedValue = "Taxable" OrElse ddlType.SelectedValue = "Both" Then
                             frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptProductSaleSummaryTaxableNonTaxable", "Product Sale Summary Taxable NonTaxable")
-                        ElseIf ddlType.SelectedValue = "Non Taxable" OrElse ddlType.SelectedValue = "Both" Then
+                        ElseIf ddlType.SelectedValue = "Non Taxable" Then
                             frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptProductSaleSummaryNonTaxable", "Product Sale Summary NonTaxable")
                         End If
                     End If

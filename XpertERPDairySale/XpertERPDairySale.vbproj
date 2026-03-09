@@ -477,6 +477,12 @@
     <Compile Include="Report\frmSendBilltoDistributor.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\RouteWiseDemandReport.Designer.vb">
+      <DependentUpon>RouteWiseDemandReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\RouteWiseDemandReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\rptBoothWiseBillReport.Designer.vb">
       <DependentUpon>rptBoothWiseBillReport.vb</DependentUpon>
     </Compile>
@@ -1509,6 +1515,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\FrmZoneWiseSKUReport.resx">
       <DependentUpon>FrmZoneWiseSKUReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\RouteWiseDemandReport.resx">
+      <DependentUpon>RouteWiseDemandReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptBookingVsDispatchReport.resx">
       <DependentUpon>rptBookingVsDispatchReport.vb</DependentUpon>
