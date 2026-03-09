@@ -1662,8 +1662,11 @@ SELECT Document_Code, Batch_No, Qty, Parent_Line_No FROM TSPL_BATCH_ITEM WHERE T
                 Else
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
                         frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceDCSSaleEntryJDHNEW", "DCS Sale Entry", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
+                        frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDCSSaleEntryNAG", "DCS Sale Entry", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+
                     Else
-                        frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDCSSaleEntry", "DCS Sale Entry", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                            frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDCSSaleEntry", "DCS Sale Entry", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
                     End If
 
                     ' frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDCSSaleEntry", "DCS Sale Entry", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
