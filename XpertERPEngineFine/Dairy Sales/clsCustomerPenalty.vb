@@ -391,6 +391,7 @@ Public Class clsCustomerPenaltyDetail
 #Region "Variables"
     Public Document_No As String = Nothing
     Public Invoice_Date As Date
+    Public Opening_Balance As Decimal
     Public Sale_Amt As Decimal
     Public Deposit_Amt As Decimal
     Public Curr_Balance_Amt As Decimal
@@ -406,6 +407,7 @@ Public Class clsCustomerPenaltyDetail
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Document_No", strCode)
                 clsCommon.AddColumnsForChange(coll, "Invoice_Date", clsCommon.GetPrintDate(obj.Invoice_Date, "dd/MMM/yyyy"))
+                clsCommon.AddColumnsForChange(coll, "Opening_Balance", obj.Opening_Balance)
                 clsCommon.AddColumnsForChange(coll, "Sale_Amt", obj.Sale_Amt)
                 clsCommon.AddColumnsForChange(coll, "Deposit_Amt", obj.Deposit_Amt)
                 clsCommon.AddColumnsForChange(coll, "Curr_Balance_Amt", obj.Curr_Balance_Amt)
@@ -436,6 +438,7 @@ Public Class clsCustomerPenaltyDetail
                 Dim obj As clsCustomerPenaltyDetail = New clsCustomerPenaltyDetail()
                 obj.Document_No = clsCommon.myCstr(dr("Document_No"))
                 obj.Invoice_Date = clsCommon.myCstr(dr("Invoice_Date"))
+                obj.Opening_Balance = clsCommon.myCDecimal(dr("Opening_Balance"))
                 obj.Sale_Amt = clsCommon.myCDecimal(dr("Sale_Amt"))
                 obj.Deposit_Amt = clsCommon.myCDecimal(dr("Deposit_Amt"))
                 obj.Curr_Balance_Amt = clsCommon.myCDecimal(dr("Curr_Balance_Amt"))

@@ -7301,6 +7301,14 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
             chkcashsale.Enabled = True
         End If
     End Sub
+
+    Private Sub btnGatePass_Click(sender As Object, e As EventArgs) Handles btnGatePass.Click
+        Dim frm As New frmMccGatePass()
+        frm.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+        frm.Type = "MCC"
+        frm.SetUserMgmt(clsUserMgtCode.frmMccScrapGatePass)
+        frm.Show()
+    End Sub
     'Private Sub gv1_CellEndEdit(sender As Object, e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv1.CellEndEdit
     '    If e.Column.Name = colIsAddTPT Then
     '        UpdateCurrentRow(e.Row.Index)

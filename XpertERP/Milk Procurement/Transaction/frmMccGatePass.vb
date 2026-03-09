@@ -31,8 +31,7 @@ Public Class frmMccGatePass
     Const colHSNCode As String = "colHSNCode"
     Dim atchqry As String = ""
     Dim AlternateVechileforGatePass As Double
-
-
+    Public Type As String = ""
     Private Sub LoadBlankGrid()
         Gv1.DataSource = Nothing
         Gv1.Rows.Clear()
@@ -584,7 +583,12 @@ left join TSPL_MCC_SCRAP_GATEPASS_DETAIL on TSPL_MCC_SCRAP_GATEPASS_DETAIL.GPCod
         isNewEntry = True
         LoadBlankGrid()
         txtDate.Value = clsCommon.GETSERVERDATE()
-        cmbtype.Text = "Select"
+        If clsCommon.myLen(Type) > 0 Then
+            cmbtype.Text = Type
+        Else
+            cmbtype.Text = "Select"
+        End If
+
 
         txtRemarks.MaxLength = 200
         txtComments.MaxLength = 200

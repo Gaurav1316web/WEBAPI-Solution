@@ -22,7 +22,7 @@ Partial Class RptRouteWiseSaleRegister
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
@@ -32,6 +32,9 @@ Partial Class RptRouteWiseSaleRegister
         Me.rmiDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnSummary = New System.Windows.Forms.RadioButton()
+        Me.rbtnDetails = New System.Windows.Forms.RadioButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnBoth = New System.Windows.Forms.RadioButton()
         Me.rbtnProduct = New System.Windows.Forms.RadioButton()
@@ -62,9 +65,6 @@ Partial Class RptRouteWiseSaleRegister
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnSummary = New System.Windows.Forms.RadioButton()
-        Me.rbtnDetails = New System.Windows.Forms.RadioButton()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -77,6 +77,8 @@ Partial Class RptRouteWiseSaleRegister
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -98,8 +100,6 @@ Partial Class RptRouteWiseSaleRegister
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox2.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -221,6 +221,38 @@ Partial Class RptRouteWiseSaleRegister
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1023, 377)
         Me.RadPageViewPage1.Text = "Filters"
         '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbtnSummary)
+        Me.RadGroupBox2.Controls.Add(Me.rbtnDetails)
+        Me.RadGroupBox2.HeaderText = ""
+        Me.RadGroupBox2.Location = New System.Drawing.Point(433, 10)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(237, 27)
+        Me.RadGroupBox2.TabIndex = 421
+        '
+        'rbtnSummary
+        '
+        Me.rbtnSummary.AutoSize = True
+        Me.rbtnSummary.Location = New System.Drawing.Point(85, 5)
+        Me.rbtnSummary.Name = "rbtnSummary"
+        Me.rbtnSummary.Size = New System.Drawing.Size(71, 17)
+        Me.rbtnSummary.TabIndex = 1
+        Me.rbtnSummary.Text = "Summary"
+        Me.rbtnSummary.UseVisualStyleBackColor = True
+        '
+        'rbtnDetails
+        '
+        Me.rbtnDetails.AutoSize = True
+        Me.rbtnDetails.Location = New System.Drawing.Point(9, 5)
+        Me.rbtnDetails.Name = "rbtnDetails"
+        Me.rbtnDetails.Size = New System.Drawing.Size(60, 17)
+        Me.rbtnDetails.TabIndex = 0
+        Me.rbtnDetails.Text = "Details"
+        Me.rbtnDetails.UseVisualStyleBackColor = True
+        '
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
@@ -239,7 +271,7 @@ Partial Class RptRouteWiseSaleRegister
         Me.rbtnBoth.AutoSize = True
         Me.rbtnBoth.Location = New System.Drawing.Point(173, 5)
         Me.rbtnBoth.Name = "rbtnBoth"
-        Me.rbtnBoth.Size = New System.Drawing.Size(49, 17)
+        Me.rbtnBoth.Size = New System.Drawing.Size(50, 17)
         Me.rbtnBoth.TabIndex = 2
         Me.rbtnBoth.Text = "Both"
         Me.rbtnBoth.UseVisualStyleBackColor = True
@@ -491,7 +523,8 @@ Partial Class RptRouteWiseSaleRegister
         '
         Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvData.MyExportAPI = False
         Me.gvData.MyExportFilePath = ""
         Me.gvData.MyStopExport = False
         Me.gvData.Name = "gvData"
@@ -547,38 +580,6 @@ Partial Class RptRouteWiseSaleRegister
         Me.btnReset.TabIndex = 159
         Me.btnReset.Text = "Reset"
         '
-        'RadGroupBox2
-        '
-        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox2.Controls.Add(Me.rbtnSummary)
-        Me.RadGroupBox2.Controls.Add(Me.rbtnDetails)
-        Me.RadGroupBox2.HeaderText = ""
-        Me.RadGroupBox2.Location = New System.Drawing.Point(433, 10)
-        Me.RadGroupBox2.Name = "RadGroupBox2"
-        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(237, 27)
-        Me.RadGroupBox2.TabIndex = 421
-        '
-        'rbtnSummary
-        '
-        Me.rbtnSummary.AutoSize = True
-        Me.rbtnSummary.Location = New System.Drawing.Point(85, 5)
-        Me.rbtnSummary.Name = "rbtnSummary"
-        Me.rbtnSummary.Size = New System.Drawing.Size(71, 17)
-        Me.rbtnSummary.TabIndex = 1
-        Me.rbtnSummary.Text = "Summary"
-        Me.rbtnSummary.UseVisualStyleBackColor = True
-        '
-        'rbtnDetails
-        '
-        Me.rbtnDetails.AutoSize = True
-        Me.rbtnDetails.Location = New System.Drawing.Point(9, 5)
-        Me.rbtnDetails.Name = "rbtnDetails"
-        Me.rbtnDetails.Size = New System.Drawing.Size(60, 17)
-        Me.rbtnDetails.TabIndex = 0
-        Me.rbtnDetails.Text = "Details"
-        Me.rbtnDetails.UseVisualStyleBackColor = True
-        '
         'RptRouteWiseSaleRegister
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -605,6 +606,9 @@ Partial Class RptRouteWiseSaleRegister
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
@@ -628,9 +632,6 @@ Partial Class RptRouteWiseSaleRegister
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox2.ResumeLayout(False)
-        Me.RadGroupBox2.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
