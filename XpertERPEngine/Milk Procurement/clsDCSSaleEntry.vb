@@ -1562,7 +1562,7 @@ Public Class clsDCSSaleEntry
 
         End If
 
-        Dim Qry As String = "select *, itemcost/ConversionFactor As RateLtr from (  select tabbatch.Batch_No, (CASE when TSPL_DCS_SALE_ENTRY_DETAIL.Scheme_Item='Y' then 0 else ((case when TSPL_DCS_SALE_ENTRY_DETAIL.Sampling=1 then 0 else  TSPL_DCS_SALE_ENTRY_DETAIL.Amt_Less_Discount end)) end)  as valueInRs,
+        Dim Qry As String = "select *, itemcost/ConversionFactor As RateLtr from (  select '" + objCommonVar.CurrentUserCode + "' as UserName, tabbatch.Batch_No, (CASE when TSPL_DCS_SALE_ENTRY_DETAIL.Scheme_Item='Y' then 0 else ((case when TSPL_DCS_SALE_ENTRY_DETAIL.Sampling=1 then 0 else  TSPL_DCS_SALE_ENTRY_DETAIL.Amt_Less_Discount end)) end)  as valueInRs,
 ITEMDETAIL1.Conversion_Factor As CF,TSPL_ITEM_UOM_DETAIL.Conversion_Factor As ConversionFactor,"
         If isCancel Then
             Qry += " 'Cancelled' As Report_Status,"
