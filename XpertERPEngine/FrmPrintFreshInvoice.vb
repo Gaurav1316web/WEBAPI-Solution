@@ -1213,8 +1213,8 @@ Pivot(max(Item_Cagetory_Values) For Item_Category_Code   In ( [CATEGORY RM], [BR
                                 JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_DETAIL.Document_Code
                                 WHERE 2=2 ) X WHERE RN = 1 ) BC ON BC.I1 = XY.Item_Code "
             End If
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-                Qry += ""
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
+                Qry += " group by Document_Code,Item_Code )XY  "
             End If
             'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
             '    Qry += " Left OUTER JOIN (Select 1 As COL1, 1 As COL2,  'ORIGINAL COPY' as CopyType1 UNION Select 1 as COL1, 2 as COL2,  'DUPLICATE COPY' as CopyType1 UNION Select 1 as COL1, 3 as COL2, 
