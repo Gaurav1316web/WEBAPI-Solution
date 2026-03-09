@@ -188,8 +188,6 @@ Partial Class frmShipmentDairy
         Me.txtRouteNo = New common.UserControls.txtFinder()
         Me.MyLabel33 = New common.Controls.MyLabel()
         Me.TxtRoundoff = New common.Controls.MyLabel()
-        Me.MyLabel34 = New common.Controls.MyLabel()
-        Me.lblTotalWtMetric = New common.Controls.MyLabel()
         Me.MyLabel32 = New common.Controls.MyLabel()
         Me.lblFreightCharges = New common.Controls.MyLabel()
         Me.lblTransporterName = New common.Controls.MyTextBox()
@@ -268,6 +266,9 @@ Partial Class frmShipmentDairy
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel34 = New common.Controls.MyLabel()
+        Me.lblTotalWtMetric = New common.Controls.MyLabel()
+        Me.btnAdminCancel = New Telerik.WinControls.UI.RadButton()
         Me.rpOpening = New Telerik.WinControls.UI.RadPanel()
         Me.lblCrAmt = New common.Controls.MyLabel()
         Me.txtCrAmt = New common.Controls.MyLabel()
@@ -444,7 +445,7 @@ Partial Class frmShipmentDairy
         Me.Export_Head = New Telerik.WinControls.UI.RadMenuItem()
         Me.Export_details = New Telerik.WinControls.UI.RadMenuItem()
         Me.Import = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnAdminCancel = New Telerik.WinControls.UI.RadButton()
+        Me.chkNoTranspoter = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit
         Me.Panel1.SuspendLayout
         CType(Me.radScrollablePanel1, System.ComponentModel.ISupportInitialize).BeginInit
@@ -604,8 +605,6 @@ Partial Class frmShipmentDairy
         CType(Me.MyLabel30, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel33, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.TxtRoundoff, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblTotalWtMetric, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel32, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.lblFreightCharges, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.lblTransporterName, System.ComponentModel.ISupportInitialize).BeginInit
@@ -681,6 +680,9 @@ Partial Class frmShipmentDairy
         Me.pvpCustomFields.SuspendLayout
         Me.Attachments.SuspendLayout
         Me.RadPageViewPage4.SuspendLayout
+        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.lblTotalWtMetric, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.btnAdminCancel, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.rpOpening, System.ComponentModel.ISupportInitialize).BeginInit
         Me.rpOpening.SuspendLayout
         CType(Me.lblCrAmt, System.ComponentModel.ISupportInitialize).BeginInit
@@ -851,7 +853,7 @@ Partial Class frmShipmentDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadMenu1.SuspendLayout
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnAdminCancel, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.chkNoTranspoter, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
@@ -928,7 +930,6 @@ Partial Class frmShipmentDairy
         '
         'SplitContainer1.Panel2
         '
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnUpdateVehicle)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnEWB)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnprinte_wayBill)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintInvoice)
@@ -971,7 +972,7 @@ Partial Class frmShipmentDairy
         '
         '
         Me.RadPageView1.RootElement.MinSize = New System.Drawing.Size(0, 0)
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1110, 462)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -980,6 +981,7 @@ Partial Class frmShipmentDairy
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkNoTranspoter)
         Me.RadPageViewPage1.Controls.Add(Me.chkExcludeKKFMND)
         Me.RadPageViewPage1.Controls.Add(Me.txtDemandNo)
         Me.RadPageViewPage1.Controls.Add(Me.lblDemandNO)
@@ -1034,8 +1036,6 @@ Partial Class frmShipmentDairy
         Me.RadPageViewPage1.Controls.Add(Me.txtRouteNo)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel33)
         Me.RadPageViewPage1.Controls.Add(Me.TxtRoundoff)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel34)
-        Me.RadPageViewPage1.Controls.Add(Me.lblTotalWtMetric)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel32)
         Me.RadPageViewPage1.Controls.Add(Me.lblFreightCharges)
         Me.RadPageViewPage1.Controls.Add(Me.lblTransporterName)
@@ -3587,28 +3587,6 @@ Partial Class frmShipmentDairy
         Me.TxtRoundoff.TabIndex = 1413
         Me.TxtRoundoff.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
-        'MyLabel34
-        '
-        Me.MyLabel34.FieldName = Nothing
-        Me.MyLabel34.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel34.Location = New System.Drawing.Point(789, 65)
-        Me.MyLabel34.Name = "MyLabel34"
-        Me.MyLabel34.Size = New System.Drawing.Size(51, 16)
-        Me.MyLabel34.TabIndex = 1410
-        Me.MyLabel34.Text = "Total Wt "
-        '
-        'lblTotalWtMetric
-        '
-        Me.lblTotalWtMetric.AutoSize = False
-        Me.lblTotalWtMetric.BorderVisible = True
-        Me.lblTotalWtMetric.FieldName = Nothing
-        Me.lblTotalWtMetric.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotalWtMetric.Location = New System.Drawing.Point(862, 64)
-        Me.lblTotalWtMetric.Name = "lblTotalWtMetric"
-        Me.lblTotalWtMetric.Size = New System.Drawing.Size(97, 20)
-        Me.lblTotalWtMetric.TabIndex = 1409
-        Me.lblTotalWtMetric.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        '
         'MyLabel32
         '
         Me.MyLabel32.FieldName = Nothing
@@ -4864,6 +4842,9 @@ Partial Class frmShipmentDairy
         '
         'RadPageViewPage4
         '
+        Me.RadPageViewPage4.Controls.Add(Me.btnUpdateVehicle)
+        Me.RadPageViewPage4.Controls.Add(Me.MyLabel34)
+        Me.RadPageViewPage4.Controls.Add(Me.lblTotalWtMetric)
         Me.RadPageViewPage4.Controls.Add(Me.btnAdminCancel)
         Me.RadPageViewPage4.Controls.Add(Me.rpOpening)
         Me.RadPageViewPage4.Controls.Add(Me.GroupBox4)
@@ -4915,6 +4896,38 @@ Partial Class frmShipmentDairy
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1089, 416)
         Me.RadPageViewPage4.Text = "Total"
+        '
+        'MyLabel34
+        '
+        Me.MyLabel34.FieldName = Nothing
+        Me.MyLabel34.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel34.Location = New System.Drawing.Point(887, 199)
+        Me.MyLabel34.Name = "MyLabel34"
+        Me.MyLabel34.Size = New System.Drawing.Size(51, 16)
+        Me.MyLabel34.TabIndex = 1572
+        Me.MyLabel34.Text = "Total Wt "
+        '
+        'lblTotalWtMetric
+        '
+        Me.lblTotalWtMetric.AutoSize = False
+        Me.lblTotalWtMetric.BorderVisible = True
+        Me.lblTotalWtMetric.FieldName = Nothing
+        Me.lblTotalWtMetric.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTotalWtMetric.Location = New System.Drawing.Point(960, 198)
+        Me.lblTotalWtMetric.Name = "lblTotalWtMetric"
+        Me.lblTotalWtMetric.Size = New System.Drawing.Size(97, 20)
+        Me.lblTotalWtMetric.TabIndex = 1571
+        Me.lblTotalWtMetric.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'btnAdminCancel
+        '
+        Me.btnAdminCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnAdminCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAdminCancel.Location = New System.Drawing.Point(371, 173)
+        Me.btnAdminCancel.Name = "btnAdminCancel"
+        Me.btnAdminCancel.Size = New System.Drawing.Size(121, 22)
+        Me.btnAdminCancel.TabIndex = 1570
+        Me.btnAdminCancel.Text = "Cancel By Admin"
         '
         'rpOpening
         '
@@ -7057,11 +7070,11 @@ Partial Class frmShipmentDairy
         '
         Me.btnUpdateVehicle.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnUpdateVehicle.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUpdateVehicle.Location = New System.Drawing.Point(500, 4)
+        Me.btnUpdateVehicle.Location = New System.Drawing.Point(606, 362)
         Me.btnUpdateVehicle.Name = "btnUpdateVehicle"
-        Me.btnUpdateVehicle.Size = New System.Drawing.Size(86, 20)
+        Me.btnUpdateVehicle.Size = New System.Drawing.Size(191, 20)
         Me.btnUpdateVehicle.TabIndex = 1567
-        Me.btnUpdateVehicle.Text = "Update Vehicle"
+        Me.btnUpdateVehicle.Text = "Update Details For EWB"
         '
         'btnEWB
         '
@@ -7297,15 +7310,14 @@ Partial Class frmShipmentDairy
         Me.Import.Text = "Import"
         Me.Import.Visibility = Telerik.WinControls.ElementVisibility.Hidden
         '
-        'btnAdminCancel
+        'chkNoTranspoter
         '
-        Me.btnAdminCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnAdminCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAdminCancel.Location = New System.Drawing.Point(371, 173)
-        Me.btnAdminCancel.Name = "btnAdminCancel"
-        Me.btnAdminCancel.Size = New System.Drawing.Size(121, 22)
-        Me.btnAdminCancel.TabIndex = 1570
-        Me.btnAdminCancel.Text = "Cancel By Admin"
+        Me.chkNoTranspoter.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkNoTranspoter.Location = New System.Drawing.Point(777, 65)
+        Me.chkNoTranspoter.Name = "chkNoTranspoter"
+        Me.chkNoTranspoter.Size = New System.Drawing.Size(99, 16)
+        Me.chkNoTranspoter.TabIndex = 1600
+        Me.chkNoTranspoter.Text = "NO Transporter"
         '
         'frmShipmentDairy
         '
@@ -7489,8 +7501,6 @@ Partial Class frmShipmentDairy
         CType(Me.MyLabel30, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel33, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.TxtRoundoff, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblTotalWtMetric, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel32, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.lblFreightCharges, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.lblTransporterName, System.ComponentModel.ISupportInitialize).EndInit
@@ -7572,6 +7582,9 @@ Partial Class frmShipmentDairy
         Me.Attachments.ResumeLayout(False)
         Me.RadPageViewPage4.ResumeLayout(False)
         Me.RadPageViewPage4.PerformLayout
+        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.lblTotalWtMetric, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.btnAdminCancel, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.rpOpening, System.ComponentModel.ISupportInitialize).EndInit
         Me.rpOpening.ResumeLayout(False)
         Me.rpOpening.PerformLayout
@@ -7752,7 +7765,7 @@ Partial Class frmShipmentDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit
         Me.RadMenu1.ResumeLayout(False)
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnAdminCancel, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.chkNoTranspoter, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(False)
         Me.PerformLayout
@@ -7949,8 +7962,6 @@ Partial Class frmShipmentDairy
     Friend WithEvents MyLabel31 As common.Controls.MyLabel
     Friend WithEvents txtTransporterCode As common.UserControls.txtFinder
     Friend WithEvents btnUpdate As Telerik.WinControls.UI.RadButton
-    Friend WithEvents MyLabel34 As common.Controls.MyLabel
-    Friend WithEvents lblTotalWtMetric As common.Controls.MyLabel
     Friend WithEvents MyLabel32 As common.Controls.MyLabel
     Friend WithEvents lblFreightCharges As common.Controls.MyLabel
     Friend WithEvents RadGroupBox5 As Telerik.WinControls.UI.RadGroupBox
@@ -8170,5 +8181,8 @@ Partial Class frmShipmentDairy
     Friend WithEvents lblDrAmt As common.Controls.MyLabel
     Friend WithEvents txtDrAmt As common.Controls.MyLabel
     Friend WithEvents btnAdminCancel As RadButton
+    Friend WithEvents MyLabel34 As common.Controls.MyLabel
+    Friend WithEvents lblTotalWtMetric As common.Controls.MyLabel
+    Friend WithEvents chkNoTranspoter As RadCheckBox
 End Class
 

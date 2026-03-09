@@ -198,6 +198,12 @@
     <Compile Include="ProcessProduction\Master\frmProcessProductionLogSheet.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ProcessProduction\Reports\frmTruckWiseRejectionReport.Designer.vb">
+      <DependentUpon>frmTruckWiseRejectionReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ProcessProduction\Reports\frmTruckWiseRejectionReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ProcessProduction\Reports\ProductionEntryReport.Designer.vb">
       <DependentUpon>ProductionEntryReport.vb</DependentUpon>
     </Compile>
@@ -785,6 +791,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ProcessProduction\Master\frmProcessProductionLogSheet.resx">
       <DependentUpon>frmProcessProductionLogSheet.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProcessProduction\Reports\frmTruckWiseRejectionReport.resx">
+      <DependentUpon>frmTruckWiseRejectionReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProcessProduction\Reports\ProductionEntryReport.resx">
       <DependentUpon>ProductionEntryReport.vb</DependentUpon>

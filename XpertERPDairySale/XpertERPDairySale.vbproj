@@ -981,6 +981,12 @@
     <Compile Include="Transaction\frmCommissionTPTCalculation.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Transaction\FrmCommonUpdatesForEWB.Designer.vb">
+      <DependentUpon>FrmCommonUpdatesForEWB.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\FrmCommonUpdatesForEWB.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\frmCreateReceivedCustomerDairySale.Designer.vb">
       <DependentUpon>frmCreateReceivedCustomerDairySale.vb</DependentUpon>
     </Compile>
@@ -1728,6 +1734,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmCommissionTPTCalculation.resx">
       <DependentUpon>frmCommissionTPTCalculation.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\FrmCommonUpdatesForEWB.resx">
+      <DependentUpon>FrmCommonUpdatesForEWB.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmCreateReceivedCustomerDairySale.resx">
       <DependentUpon>frmCreateReceivedCustomerDairySale.vb</DependentUpon>

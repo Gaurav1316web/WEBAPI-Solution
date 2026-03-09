@@ -1,5 +1,32 @@
 ﻿Imports common
 Imports System.Data.SqlClient
+Public Class clsJSONLocalMilkSale
+    Public VLC_Code As String
+    Public Doc_Date As String
+    Public Shift As String
+    Public Arr As List(Of clsJSONLocalMilkSaleDetail)
+End Class
+Public Class clsJSONLocalMilkSaleDetail
+    Public Milk_Type As String
+    Public Qty As Decimal
+    Public FAT As Decimal
+    Public SNF As Decimal
+    Public Rate As Decimal
+    Public Amount As Decimal
+End Class
+Public Class clsJSONFarmerSale
+    Public Doc_No As String
+    Public DocDate As String
+    Public VLC_Code As String
+    Public MPUploaderCode As String
+    Public ItemCode As String
+    Public ItemName As String
+    Public UOM As String
+    Public Qty As Decimal
+    Public Rate As Decimal
+    Public Discount As Decimal
+    Public Amount As Decimal
+End Class
 Public Class clsJSONVLCDataUploader
     Public MCCCode As String
     Public VLCUploaderCode As String

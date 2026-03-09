@@ -103,7 +103,7 @@ Public Class rptNewTenderPartyListReport
 Select XY.Customer_Code,XY.Gurantee_Amt,XY.OP,XY.Security_Amt,XY.Refund_Amt,XY.RTGS_Amt,XY.Cash_Amt,XY.Closing_Rec_Amt,XY.Sale_Amt,
  XY.Closing_Sale_Amt,XY.Estimated_Avg_Sale,XY.PrevDay_Return_Amt,XY.Return_Amt,XY.Credit_Amt ,XY.Debit_Amt,isnull((op+Sale_Amt+Debit_Amt+Credit_Amt-RTGS_Amt-Return_Amt),0) as Closing_Bal,
  TSPL_CUSTOMER_MASTER.Cust_Type_Code as Customer_Type,TSPL_CUSTOMER_MASTER.IsDistributor,TSPL_CUSTOMER_MASTER.Route_No,TSPL_CUSTOMER_MASTER.Zone_Code as Zone_Code1,Zone_Code,
- TSPL_CUSTOMER_MASTER.Credit_Customer,TSPL_CUSTOMER_MASTER.Customer_Name,replace(TSPL_CUSTOMER_MASTER.Phone1,'(+91)','') as Phone1,CustRoute.Routesno as CustRoute from 
+ TSPL_CUSTOMER_MASTER.Credit_Customer,TSPL_CUSTOMER_MASTER.Customer_Name,replace(TSPL_CUSTOMER_MASTER.Phone1,'(+91)','') as Phone1,CustRoute.TransRoute as CustRoute from 
 (Select Customer_Code,
 Isnull(Sum(Case when (RI)=2 THEN (Total_Amt) END),0) AS Gurantee_Amt,
 --Case when max(RI)=2 THEN Sum(Total_Amt) END AS Gurantee_Amt,
@@ -289,12 +289,18 @@ Select cust_Code ,Return_ship_Date as Document_Date,(Doc_Amt)Return_Amt from TSP
  
  )XX GROUP BY Customer_Code) XY
  left outer join TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code= XY.Customer_Code
-left join (Select Cust_Code,STRING_AGG( Route_No, ',') AS Routesno from (select  DISTINCT TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No,TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code  from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER
- left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DISTRIBUTOR_ROUTE.Code
- where TSPL_DISTRIBUTOR_ROUTE.Status=1 and TSPL_DISTRIBUTOR_ROUTE.ItemType='M' and TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy ") & "'
-and 2=(Case when TSPL_DISTRIBUTOR_ROUTE.End_Date is null then 2 else (Case when TSPL_DISTRIBUTOR_ROUTE.End_Date>='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy ") & "' then 2 else 3 end) end) ) XX group by Cust_Code  ) CustRoute on CustRoute.Cust_Code =XY.Customer_Code
- ) ZZ
-  "
+left join ( SELECT STRING_AGG(Route_No, ',') AS TransRoute,Customer_Code
+	    FROM (
+        SELECT DISTINCT SH.Route_No,H.Customer_Code
+        FROM TSPL_SD_SALE_INVOICE_HEAD H
+        LEFT JOIN TSPL_SD_SHIPMENT_HEAD SH 
+            ON SH.Document_Code = H.Against_Shipment_No 
+        WHERE CONVERT(date,H.Document_Date,103) = '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy ") & "' "
+            If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                qry += "  And H.Customer_Code In (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")  "
+            End If
+            qry += " ) A group by Customer_Code) CustRoute on CustRoute.Customer_Code =XY.Customer_Code 
+                     WHERE TSPL_CUSTOMER_MASTER.CUSTOMER_FORM_TYPE <> 'VSP' ) ZZ "
             If rbtnCreditCustomer.IsChecked Then
                 qry += " where ZZ.Credit_Customer='Y' "
             ElseIf rbtnDistributor.IsChecked Then
@@ -476,7 +482,7 @@ and 2=(Case when TSPL_DISTRIBUTOR_ROUTE.End_Date is null then 2 else (Case when 
             gv1.Columns("User_Code").IsVisible = False
         Else
             'index = 4
-            index = 8
+            index = 11
         End If
         Dim summaryRowItem As New GridViewSummaryRowItem()
 

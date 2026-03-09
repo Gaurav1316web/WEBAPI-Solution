@@ -363,12 +363,21 @@ Public Class FrmQuickEntry1
     Private Sub MasterTemplate_CellValueChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles MasterTemplate.CellValueChanged
         If IsLoadData = False Then
             If e.Column.Name = "gvSourceCode" Then
-                'OpenICodeList(False)
+                OpenICodeList(False)
                 ''richa agarwal 23 Jan,2020
                 If MasterTemplate.CurrentRow.Index > 0 Then
                     MasterTemplate.CurrentRow.Cells("gvPaymentMode").Value = clsCommon.myCstr(MasterTemplate.Rows(MasterTemplate.CurrentRow.Index - 1).Cells("gvPaymentMode").Value)
                 Else
-                    MasterTemplate.CurrentRow.Cells("gvPaymentMode").Value = "CHEQUE"
+                    Dim Qry As String = ""
+                    Qry = " Select Payment_Code from TSPL_PAYMENT_CODE  WHERE IsDefault=1 "
+                    Dim DT As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                    Dim paymentcode As String = Nothing
+                    If DT.Rows.Count > 0 Then
+                        paymentcode = clsCommon.myCstr(DT.Rows(0).Item("Payment_Code"))
+                    End If
+                    MasterTemplate.Rows(0).Cells("gvPaymentMode").Value = paymentcode
+                    'MasterTemplate.Rows(0).Cells("gvPaymentMode").Value = "RTGS"
+                    'MasterTemplate.CurrentRow.Cells("gvPaymentMode").Value = "CHEQUE"
                 End If
 
             End If
@@ -2119,8 +2128,8 @@ Public Class FrmQuickEntry1
         'If MasterTemplate.Rows.Count > 0 Then
         '    funTypeLoad()
         'End If
-        LoadBlankGrid()
-        MasterTemplate.Rows.AddNew()
+        'LoadBlankGrid()
+        'MasterTemplate.Rows.AddNew()
     End Sub
     Public Sub Location_Finder()
         Try

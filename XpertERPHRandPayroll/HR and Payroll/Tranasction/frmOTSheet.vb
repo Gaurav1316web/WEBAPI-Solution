@@ -450,7 +450,8 @@ Public Class frmOTSheet
 
         'Dim ChkactCal As Integer = clsDBFuncationality.getSingleValue(" select IS_ASPER_ACTUAL_CALC from TSPL_OT_MASTER where OT_CODE = '" + txtOTCode.Value + "' ")
         If Rate = True Then
-            txtOtRate.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Sum(ACTUAL_AMOUNT) from TSPL_SALARY_CALCULATION where EMP_CODE='" + txtEmpCode.Value + "' and PAY_PERIOD_CODE='" + txtPayPeriod.Value + "' AND Is_Earning_Payhead=1"))
+            txtOtRate.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Sum(ACTUAL_AMOUNT)ACTUAL_AMOUNT from TSPL_GENERATE_SALARY_PAYHEADS
+                             LEFT OUTER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE = TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE where EMP_CODE='" + txtEmpCode.Value + "' and PAY_PERIOD_CODE='" + txtPayPeriod.Value + "' and PAY_HEAD_CODE In ('BASIC','DA')"))
         Else
             txtOtRate.Text = clsOTMaster.GetOTRate_ByOTCode(txtOTCode.Value, Nothing)
         End If
@@ -479,11 +480,15 @@ Public Class frmOTSheet
         End If
 
         'Dim ChkactCal As Integer = clsDBFuncationality.getSingleValue(" select IS_ASPER_ACTUAL_CALC from TSPL_OT_MASTER where OT_CODE = '" + txtOTCode.Value + "' ")
-        If Rate = True Then
-            txtOtRate.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Sum(ACTUAL_AMOUNT) from TSPL_SALARY_CALCULATION where EMP_CODE='" + txtEmpCode.Value + "' and PAY_PERIOD_CODE='" + txtPayPeriod.Value + "' AND Is_Earning_Payhead=1"))
-            'Else
-            '    txtOtRate.Text = clsOTMaster.GetOTRate_ByOTCode(txtOTCode.Value, Nothing)
+        If DT IsNot Nothing AndAlso DT.Rows.Count > 0 Then
+            If Rate = True Then
+                txtOtRate.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Sum(ACTUAL_AMOUNT)ACTUAL_AMOUNT from TSPL_GENERATE_SALARY_PAYHEADS
+                             LEFT OUTER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE = TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE where EMP_CODE='" + txtEmpCode.Value + "' and PAY_PERIOD_CODE='" + txtPayPeriod.Value + "' and PAY_HEAD_CODE In ('BASIC','DA')"))
+                'Else
+                '    txtOtRate.Text = clsOTMaster.GetOTRate_ByOTCode(txtOTCode.Value, Nothing)
+            End If
         End If
+
     End Sub
 
     Private Sub fndLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndLocation._MYValidating

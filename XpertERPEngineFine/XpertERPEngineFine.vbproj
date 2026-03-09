@@ -285,6 +285,7 @@
     <Compile Include="Classes\clsPayrollPaymentMode.vb" />
     <Compile Include="Classes\clsPayrollSetting.vb" />
     <Compile Include="Classes\clsPFRulesMaster.vb" />
+    <Compile Include="Classes\clsPostCreateTable.vb" />
     <Compile Include="Classes\ClsProblemType.vb" />
     <Compile Include="Classes\clsProductDemandSheet.vb" />
     <Compile Include="Classes\clsPTSlab.vb" />
@@ -351,6 +352,8 @@
     <Compile Include="Inventory\clsStartBatchEntry.vb" />
     <Compile Include="Inventory\clsStockAgeingFilters.vb" />
     <Compile Include="Inventory\clsStockRecoFilters.vb" />
+    <Compile Include="ItemModel\clsItemInfo.vb" />
+    <Compile Include="ItemModel\clsItemLoc.vb" />
     <Compile Include="ItemModel\clsItemMaster.vb" />
     <Compile Include="ItemModel\clsItemMasterCategory.vb" />
     <Compile Include="ItemModel\clsItemPurchaseQCParameter.vb" />
@@ -359,6 +362,7 @@
     <Compile Include="ItemModel\clsItemUOMDetails.vb" />
     <Compile Include="LocationModel\clsLocation.vb" />
     <Compile Include="LocationModel\clsLocationCustomerMapping.vb" />
+    <Compile Include="LocationModel\clsLocationCustomerMappings.vb" />
     <Compile Include="LocationModel\clsLocationItemMapping.vb" />
     <Compile Include="LocationModel\clsLocationPlantDepotMapping.vb" />
     <Compile Include="LocationModel\clsLocationWiseItems.vb" />
@@ -454,9 +458,7 @@
     <Compile Include="Silage Production\clsSilageFormerProduction.vb" />
     <Compile Include="Silage Production\clsSilageProductionApplication.vb" />
     <Compile Include="Silage Production\clsSilageProductionAreaMaster.vb" />
-    <Compile Include="UserControl1.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="UserControl1.vb" />
     <Compile Include="UserControl1.Designer.vb">
       <DependentUpon>UserControl1.vb</DependentUpon>
     </Compile>

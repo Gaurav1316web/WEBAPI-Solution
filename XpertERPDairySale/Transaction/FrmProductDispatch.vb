@@ -891,6 +891,7 @@ Public Class FrmProductDispatch
         lblRemovalDate.Visible = False
         txtRemovalDate.Visible = False
         chkCreateAutoInvoice.Checked = True
+        chkNoTranspoter.Checked = False
         If clsERPFuncationality.GetGSTStatus(txtDate.Value) = True Then
             ddlInvoiceType.Enabled = False
         Else
@@ -6251,7 +6252,6 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             txtPrintDiscountAmt.Visible = False
             lblPrintDisAmt.Visible = False
         End If
-
         txtTransNo.Text = ""
         ParentDocNo = ""
         cmbDisItemType.Enabled = True
@@ -7442,6 +7442,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             End If
             obj.Is_Taxable = IIf(ddlInvoiceType.SelectedValue = "T", 1, 0)   'IIf(cmbDisItemType.SelectedValue = "T", 1, 0)
             obj.Trans_Type = IIf(rbtn_Fresh.IsChecked = True, "FS", "PS")
+            obj.No_Transporter = IIf(chkNoTranspoter.Checked, 1, 0)
             obj.OPKm = txtOPKM.Value
             obj.CLKm = txtCLKM.Value
             obj.Crate = txtCrate.Value
@@ -8096,6 +8097,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                     LoadDataForCreditCust("select Document_Code ,Sale_Invoice_No,Customer_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" + ParentDocNo + "'", trans)
                 End If
                 chkIsEWayBill.Checked = IIf(obj.IsEwaybill = 1, True, False)
+                chkNoTranspoter.Checked = IIf(obj.No_Transporter = 1, True, False)
                 txtFreightDistance.Value = obj.Freight_Distance
                 chkSampling.Enabled = False
                 chkSampling.Checked = IIf(obj.IsSampling = 1, True, False)
@@ -8925,10 +8927,11 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                     If clsCommon.myLen(clsCommon.myCstr(dtInv.Rows(0)("EWayBillNo"))) > 0 Then
                         btnprinte_wayBill.Visible = True
                         btnEWB.Enabled = False
-                        'btnUpdateVehicle.Visible = False
+                        btnUpdateVehicle.Visible = False
                     Else
                         If obj.Status = ERPTransactionStatus.Approved Then
                             btnEWB.Enabled = True
+                            btnUpdateVehicle.Visible = True
                         End If
                     End If
                     If dtInv.Rows(0)("EwayBillDate") IsNot DBNull.Value Then
@@ -15242,5 +15245,25 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub btnUpdateVehicle_Click(sender As Object, e As EventArgs) Handles btnUpdateVehicle.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso UsLock1.Status = ERPTransactionStatus.Approved Then
+                Dim frm As New FrmCommonUpdatesForEWB
+                frm.strDocNo = txtDocNo.Value
+                frm.strCustCode = txtVendorNo.Value
+                frm.strTransId = txtTransporterCode.Value
+                frm.strTransName = lblTransporterName.Text
+                frm.strVehicleNo = lblVhicleNo.Text
+                frm.strScreenType = "ProductDispatch"
+                frm.ShowDialog()
+            Else
+                Throw New Exception("Unable to proceed. You must select a Document Number that has already been approved.")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
     End Sub
 End Class

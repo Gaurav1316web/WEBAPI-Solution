@@ -2009,6 +2009,7 @@
     <None Include="Crystal Reports\Sales Report\crptPrimarySaleSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\crptPrimarySaleSummaryAccount.rpt" />
     <None Include="Crystal Reports\Sales Report\crptPrimarySaleSummaryShipping.rpt" />
+    <None Include="Crystal Reports\Sales Report\CrptProductSaleSummaryNonTaxable.rpt" />
     <None Include="Crystal Reports\Sales Report\CrptProductSaleSummaryTaxableNonTaxable.rpt" />
     <None Include="Crystal Reports\Sales Report\CrptProductWiseSaleQuantity.rpt" />
     <None Include="Crystal Reports\Sales Report\crptProvisionalSales.rpt" />

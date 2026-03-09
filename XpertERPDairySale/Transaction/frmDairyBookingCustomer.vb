@@ -2840,6 +2840,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         txtDCSDemandNo.Text = ""
         lblDCSDemand.Visible = False
         txtDCSDemandNo.Visible = False
+        chkNoTranspoter.Checked = False
         'If DefaultEnableEWayBill Then
         '    chkIsEwayBill.Checked = True
         'Else
@@ -3559,6 +3560,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 obj.location_code = txtLocation.Value
                 obj.Is_CashSale = IIf(chkcashsale.Checked, "Y", "N")
                 obj.IsEwaybill = IIf(chkIsEwayBill.Checked, 1, 0)
+                obj.No_Transporter = IIf(chkNoTranspoter.Checked, 1, 0)
                 If chkcashsale.Checked Then
                     obj.Payment_Terms = cmbPaymentType.Text
                     obj.ChequeNo = txtChequeNo.Text
@@ -4297,7 +4299,8 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                 chkDCS.Checked = IIf(obj.Is_DCS = 1, True, False)
                 chkBPL.Checked = IIf(obj.Is_BPL = 1, True, False)
                 chkGhee.Checked = IIf(obj.Is_GHEE = 1, True, False)
-                chkGhee.Checked = IIf(obj.Is_APS = 1, True, False)
+                chkAPS.Checked = IIf(obj.Is_APS = 1, True, False)
+                chkNoTranspoter.Checked = IIf(obj.No_Transporter = 1, True, False)
                 chkGhee.Enabled = False
                 chkcashsale.Checked = IIf(obj.Is_CashSale = "Y", True, False)
                 chkManualVehicle.Checked = IIf(obj.Is_Manual_Vehicle = "Y", True, False)
@@ -8808,6 +8811,7 @@ from
                         obj.Transporter_Name = lblTransporter.Text
                         obj.IsSampling = IIf(chkSampling.Checked, 1, 0)
                         obj.IsEwaybill = IIf(chkIsEwayBill.Checked, 1, 0)
+                        obj.No_Transporter = IIf(chkNoTranspoter.Checked, 1, 0)
                         'obj.ShippedCAN = txtCan.Value
                         obj.TotalCAN = txtCan.Text
                         obj.CrateQty = txtCrate.Text
@@ -10271,7 +10275,7 @@ where  TSPL_BOOKING_DETAIL.Cust_Code='" & strVendorno & "' and convert(date,TSPL
     End Function
 
     Private Sub chkcashsale_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkcashsale.ToggleStateChanged
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
             If chkcashsale.Checked Then
                 lblPaymentType.Visible = True
                 cmbPaymentType.Visible = True
@@ -10411,4 +10415,57 @@ where  TSPL_BOOKING_DETAIL.Cust_Code='" & strVendorno & "' and convert(date,TSPL
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub btnUpdateVehicle_Click(sender As Object, e As EventArgs) Handles btnUpdateVehicle.Click
+        Try
+            Dim DocCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SHIPMENT_HEAD where Against_Booking_No='" & txtDocNo.Value & "'  and Customer_Code='" & txtVendorNo.Value & "'"))
+
+            If clsCommon.myLen(DocCode) > 0 AndAlso UsLock1.Status = ERPTransactionStatus.Approved Then
+                Dim frm As New FrmCommonUpdatesForEWB
+                frm.strDocNo = txtDocNo.Value
+                frm.strCustCode = txtVendorNo.Value
+                frm.strTransId = fndTransporter.Value
+                frm.strTransName = lblTransporter.Text
+                frm.strVehicleNo = txtManualVehicle.Text
+                frm.strScreenType = "CustomerBooking"
+                frm.ShowDialog()
+            Else
+                Throw New Exception("Unable to proceed. You must select a Document Number that has already been created Disptach and approved.")
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+
+    'Private Function UpdateVehicleNo(ByVal trans As SqlTransaction) As Boolean
+    '    Try
+    '        Dim strInvoiceNO As String = ""
+    '        strInvoiceNO = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_head  where Against_Shipment_No in ( select Document_Code from TSPL_SD_SHIPMENT_HEAD where Against_Booking_No='" & txtDocNo.Value & "'  and Customer_Code='" & txtVendorNo.Value & "') ", trans))
+    '        Dim strEwb As String = GetEWayBillNo(strInvoiceNO, Nothing)
+    '        If clsCommon.myLen(strEwb) = 0 Then
+    '            If clsCommon.MyMessageBoxShow(Me, "Do you want to update vehicle no?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+    '                Dim Reason As String = ""
+    '                Dim frm As New FrmFreeTxtBox1
+    '                frm.Text = "Enter Vehicle No."
+    '                frm.ShowDialog()
+    '                If clsCommon.myLen(frm.strRmks) <= 0 Then
+    '                    Throw New Exception("Please enter Vehicle no.")
+    '                Else
+    '                    Reason = frm.strRmks
+    '                    clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SALE_INVOICE_HEAD set VehicleNo='" & Reason & "' where Document_Code='" & strInvoiceNO & "'", trans)
+    '                    clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SHIPMENT_HEAD set VehicleNo='" & Reason & "' where Against_Booking_No='" & txtDocNo.Value & "'", trans)
+    '                    clsDBFuncationality.ExecuteNonQuery("update TSPL_BOOKING_MATSER set  Is_Manual_Vehicle='Y',Manual_VehicleNo='" & Reason & "' where Document_No='" & txtDocNo.Value & "'", trans)
+    '                End If
+    '            End If
+
+    '        Else
+    '            Throw New Exception("e-way bill already exists [" & strEwb & "]")
+    '        End If
+    '    Catch ex As Exception
+    '        Throw New Exception(ex.Message)
+    '    End Try
+    '    Return True
+    'End Function
 End Class
