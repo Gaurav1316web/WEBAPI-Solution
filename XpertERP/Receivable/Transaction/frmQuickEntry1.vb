@@ -363,7 +363,7 @@ Public Class FrmQuickEntry1
     Private Sub MasterTemplate_CellValueChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles MasterTemplate.CellValueChanged
         If IsLoadData = False Then
             If e.Column.Name = "gvSourceCode" Then
-                'OpenICodeList(False)
+                OpenICodeList(False)
                 ''richa agarwal 23 Jan,2020
                 If MasterTemplate.CurrentRow.Index > 0 Then
                     MasterTemplate.CurrentRow.Cells("gvPaymentMode").Value = clsCommon.myCstr(MasterTemplate.Rows(MasterTemplate.CurrentRow.Index - 1).Cells("gvPaymentMode").Value)

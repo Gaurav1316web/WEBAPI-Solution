@@ -924,7 +924,7 @@ Public Class FrmPrintFreshInvoice
             If clsCommon.CompairString(isCancel, "Cancel") = CompairStringResult.Equal OrElse clsCommon.CompairString(isCancel, "Delete") = CompairStringResult.Equal Then
                 Qry += " 'Cancelled' As Report_Status, "
             ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BAR") = CompairStringResult.Equal Then
-                Qry += " '' As Report_Status, max(final.PaymentTerms)PaymentTerms,max(Is_Distributor)Is_Distributor,max(Is_BPL)Is_BPL,max(Is_CashSale)Is_CashSale,
+                Qry += "'" + objCommonVar.CurrentUserCode + "' as UserName, '' As Report_Status, max(final.PaymentTerms)PaymentTerms,max(Is_Distributor)Is_Distributor,max(Is_BPL)Is_BPL,max(Is_CashSale)Is_CashSale,
                             max(BPL_Coupon_Code)BPL_Coupon_Code,max(BPL_Name)BPL_Name,max(BPL_Remark)BPL_Remark,max(BPL_Coupon_Date)BPL_Coupon_Date,max(BPL_Category)BPL_Category,max(PO_Indent_No)PO_Indent_No,max(PO_Indent_Date)PO_Indent_Date,max(Booking_OpeningBal)Booking_OpeningBal,max(Booking_DrAmt)Booking_DrAmt,max(Booking_CrAmt)Booking_CrAmt,max(Booking_ClosingBal)Booking_ClosingBal,
                             max(Booking_ChequeNo)Booking_ChequeNo,max(Is_DCS)Is_DCS,max(Booking_Type)Booking_Type,max(CST_LST)CST_LST,max(DocumentTime)DocumentTime,max(Manual_VehicleNo)Manual_VehicleNo,max(Payment_Terms)Payment_Terms,max(ReceiverName)ReceiverName,sum(Amt_Less_Discount)Amt_Less_Discount,max(Dispatch_OpeningBal)Dispatch_OpeningBal,max(Dispatch_DrAmt)Dispatch_DrAmt,max(Dispatch_CrAmt)Dispatch_CrAmt,max(Dispatch_ClosingBal)Dispatch_ClosingBal,MAX(CrAmt)CrAmt,max(Security_TotalAmt)Security_TotalAmt,max(Supply_Date)Supply_Date,max(Shift_Type)Shift_Type,sum(QTY_LTRKG)QTY_LTRKG,
                             max(ITAX1)ITAX1,max(ITAX1_RATE)ITAX1_RATE,sum(ITAX1_Amt)ITAX1_Amt,sum(ITAX1_Base_Amt)ITAX1_Base_Amt,max(ITAX2)ITAX2,max(ITAX2_RATE)ITAX2_RATE,sum(ITAX2_Amt)ITAX2_Amt,sum(ITAX2_Base_Amt)ITAX2_Base_Amt,max(ITAX3)ITAX3,max(ITAX3_RATE)ITAX3_RATE,sum(ITAX3_Amt)ITAX3_Amt,sum(ITAX3_Base_Amt)ITAX3_Base_Amt,max(ITAX4)ITAX4,max(ITAX4_RATE)ITAX4_RATE,sum(ITAX4_Amt)ITAX4_Amt,sum(ITAX4_Base_Amt)ITAX4_Base_Amt,max(ITAX5)ITAX5,max(ITAX5_RATE)ITAX5_RATE,sum(ITAX5_Amt)ITAX5_Amt,sum(ITAX5_Base_Amt)ITAX5_Base_Amt,max(ITAX6)ITAX6,max(ITAX6_RATE)ITAX6_RATE,sum(ITAX6_Amt)ITAX6_Amt,sum(ITAX6_Base_Amt)ITAX6_Base_Amt,
@@ -1122,7 +1122,7 @@ Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_SHIP_TO_L
                 Qry += " TSPL_SD_SALE_INVOICE_DETAIL "
             End If
             Qry += " as inn "
-            Qry += " where DOCUMENT_CODE in (" + strinvoiceNo + ") and inn.Scheme_Item='Y'   group by DOCUMENT_CODE,Item_Code)  
+            Qry += " where DOCUMENT_CODE in (" + strinvoiceNo + ") " + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal, "", " and inn.Scheme_Item='Y'") + "   group by DOCUMENT_CODE,Item_Code)  
 TSPL_SD_sale_invoice_DETAIL_Sub on TSPL_SD_sale_invoice_DETAIL_sub.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE and  
 TSPL_SD_sale_invoice_DETAIL_sub.Scheme_Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code  LEFT OUTER JOIN TSPL_VEHICLE_MASTER on  
 TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_SD_SHIPMENT_HEAD.AlternateVehicle"
@@ -1177,9 +1177,9 @@ From "
                 Qry += " TSPL_SD_SALE_INVOICE_DETAIL "
             End If
             Qry += " as inn "
-            Qry += " Where DOCUMENT_CODE In (" + strinvoiceNo + ") And inn.Scheme_Item='Y'   group by DOCUMENT_CODE,Item_Code)  TSPL_SD_sale_invoice_DETAIL_Sub on TSPL_SD_sale_invoice_DETAIL_sub.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE and  TSPL_SD_sale_invoice_DETAIL_sub.Scheme_Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code 
+            Qry += " Where DOCUMENT_CODE In (" + strinvoiceNo + ") " + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal, "", " and inn.Scheme_Item='Y'") + "   group by DOCUMENT_CODE,Item_Code)  TSPL_SD_sale_invoice_DETAIL_Sub on TSPL_SD_sale_invoice_DETAIL_sub.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE and  TSPL_SD_sale_invoice_DETAIL_sub.Scheme_Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code 
 where 2=2 And  TSPL_SD_SALE_INVOICE_HEAD.Document_Code In   (" + strinvoiceNo + ") "
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") <> CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BAR") <> CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") <> CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") <> CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BAR") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") <> CompairStringResult.Equal Then
                 Qry += "   And TSPL_SD_sale_invoice_DETAIL.Scheme_Item ='N'  "
             End If
             Qry += " )xx where xx.Item_Code = TSPL_SD_sale_invoice_DETAIL.item_CODE And xx.DOCUMENT_CODE = TSPL_SD_sale_invoice_DETAIL.DOCUMENT_CODE 
