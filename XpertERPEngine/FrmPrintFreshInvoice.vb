@@ -937,7 +937,7 @@ Public Class FrmPrintFreshInvoice
             Else
                 Qry += " '' As Report_Status, "
             End If
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                 Qry += ", max(cast(BarCode_Img as varbinary(max))) as BarCode_Img "
             End If
             'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
