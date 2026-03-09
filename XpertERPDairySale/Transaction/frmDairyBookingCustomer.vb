@@ -2136,7 +2136,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             'Dim dblTCAmt As Decimal = 0
             'Dim dblSCAmt As Decimal = dblAmt * (dblSCRate / 100)
             'gv1.Rows(IntRowNo).Cells(ColSCAmt).Value = dblSCAmt
-            If gv1.Rows(IntRowNo).Cells(ColDCRate).Value IsNot Nothing AndAlso clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(ColDCRate).Value) >= 0 Then
+            If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(ColDCRate).Value), "") <> CompairStringResult.Equal AndAlso clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(ColDCRate).Value) >= 0 Then
                 If Not ApplyCommissionRateWithTax Then
                     gv1.Rows(IntRowNo).Cells(ColDCRateWithTax).Value = gv1.Rows(IntRowNo).Cells(ColDCRate).Value
                 Else
