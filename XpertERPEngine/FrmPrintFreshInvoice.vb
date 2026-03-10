@@ -676,7 +676,7 @@ Public Class FrmPrintFreshInvoice
                     "where xx.Item_Code=TSPL_SD_sale_invoice_DETAIL.item_CODE and xx.DOCUMENT_CODE=TSPL_SD_sale_invoice_DETAIL.DOCUMENT_CODE ) " &
                     ") as final)tt left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=tt.Comp_Code  ORDER BY Line_No"
             Else
-                Qry = "  select Main_Final.*,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.GSTINNo As SellerGST,TSPL_COMPANY_MASTER.Pan_No from ( select DISTINCT final.*,tbl_Brand.Brand,tbl_Brand.BRANDDESC from ( " &
+                Qry = "  select  Main_Final.*,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.GSTINNo As SellerGST,TSPL_COMPANY_MASTER.Pan_No from ( select DISTINCT final.*,tbl_Brand.Brand,tbl_Brand.BRANDDESC from ( " &
                     "select "
                 If clsCommon.myCdbl(LeakageDeduction_Freshsale) > 0 Then
                     Qry += "TSPL_SD_SALE_INVOICE_HEAD.Amount_Less_Discount*'" & LeakageDeduction_Freshsale & "'/100 as LeakageDeduction_Freshsale,1 as LeakageDeduction, "
@@ -955,7 +955,7 @@ Public Class FrmPrintFreshInvoice
             End If
 
 
-            Qry += "TSPL_COMPANY_MASTER.GSTReg_No As SellerGST,TSPL_COMPANY_MASTER.Pan_No,TSPL_COMPANY_MASTER.Bank_Name,TSPL_COMPANY_MASTER.BankAccountNo,TSPL_COMPANY_MASTER.BankBranchAddress,TSPL_COMPANY_MASTER.BankIFSCCode,TSPL_COMPANY_MASTER.Tcan_No, "
+            Qry += " '" + objCommonVar.CurrentUserCode + "' as UserName, TSPL_COMPANY_MASTER.GSTReg_No As SellerGST,TSPL_COMPANY_MASTER.Pan_No,TSPL_COMPANY_MASTER.Bank_Name,TSPL_COMPANY_MASTER.BankAccountNo,TSPL_COMPANY_MASTER.BankBranchAddress,TSPL_COMPANY_MASTER.BankIFSCCode,TSPL_COMPANY_MASTER.Tcan_No, "
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SWM") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BHR") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
                 Qry += " Convert(decimal(18,2),(valueInRs/((Qty_Default*ConversionFactor)/CF))) As RateLtr "
             Else
