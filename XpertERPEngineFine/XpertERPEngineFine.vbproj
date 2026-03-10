@@ -339,6 +339,7 @@
     <Compile Include="Electrical\clsDailyElectricalEntry.vb" />
     <Compile Include="Electrical\clsDGMaster.vb" />
     <Compile Include="Electrical\clsSlotMaster.vb" />
+    <Compile Include="HRAndPayroll\ClsEmpOTEntry.vb" />
     <Compile Include="HRAndPayroll\clsLeaveEncashmentHead.vb" />
     <Compile Include="HRAndPayroll\clsTrainerMaster.vb" />
     <Compile Include="HRAndPayroll\clsTrainingMaster.vb" />
@@ -458,7 +459,9 @@
     <Compile Include="Silage Production\clsSilageFormerProduction.vb" />
     <Compile Include="Silage Production\clsSilageProductionApplication.vb" />
     <Compile Include="Silage Production\clsSilageProductionAreaMaster.vb" />
-    <Compile Include="UserControl1.vb" />
+    <Compile Include="UserControl1.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserControl1.Designer.vb">
       <DependentUpon>UserControl1.vb</DependentUpon>
     </Compile>

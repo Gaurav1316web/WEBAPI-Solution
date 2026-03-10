@@ -27,6 +27,7 @@ Partial Class BMC_Transporter_Bill
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkPrivate = New System.Windows.Forms.CheckBox()
         Me.UsLock1 = New common.usLock()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtFatShortage = New common.Controls.MyTextBox()
@@ -135,7 +136,6 @@ Partial Class BMC_Transporter_Bill
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.chkPrivate = New System.Windows.Forms.CheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -280,7 +280,7 @@ Partial Class BMC_Transporter_Bill
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
         Me.RadPageView1.Size = New System.Drawing.Size(800, 405)
         Me.RadPageView1.TabIndex = 1
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -312,6 +312,16 @@ Partial Class BMC_Transporter_Bill
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 359)
         Me.RadPageViewPage1.Text = "Transporter Bill"
+        '
+        'chkPrivate
+        '
+        Me.chkPrivate.AutoSize = True
+        Me.chkPrivate.Location = New System.Drawing.Point(631, 2)
+        Me.chkPrivate.Name = "chkPrivate"
+        Me.chkPrivate.Size = New System.Drawing.Size(59, 18)
+        Me.chkPrivate.TabIndex = 1507
+        Me.chkPrivate.Text = "Private"
+        Me.chkPrivate.UseVisualStyleBackColor = True
         '
         'UsLock1
         '
@@ -1813,16 +1823,6 @@ Partial Class BMC_Transporter_Bill
         Me.btnSave.Size = New System.Drawing.Size(57, 22)
         Me.btnSave.TabIndex = 2
         Me.btnSave.Text = "Save"
-        '
-        'chkPrivate
-        '
-        Me.chkPrivate.AutoSize = True
-        Me.chkPrivate.Location = New System.Drawing.Point(631, 2)
-        Me.chkPrivate.Name = "chkPrivate"
-        Me.chkPrivate.Size = New System.Drawing.Size(59, 18)
-        Me.chkPrivate.TabIndex = 1507
-        Me.chkPrivate.Text = "Private"
-        Me.chkPrivate.UseVisualStyleBackColor = True
         '
         'BMC_Transporter_Bill
         '
