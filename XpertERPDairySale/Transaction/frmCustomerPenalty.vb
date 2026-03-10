@@ -451,7 +451,7 @@ Public Class frmCustomerPenalty
                     Gv1.Rows(Gv1.Rows.Count - 1).Cells(colSNo).Value = ii + 1
                     Gv1.Rows(Gv1.Rows.Count - 1).Cells(colDate).Value = dt.Rows(ii)("InvoiceDate")
                     If ii = 0 Then
-                        Gv1.Rows(Gv1.Rows.Count - 1).Cells(colOpeningBalance).Value = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(" select TOP 1 Balance_Amt from TSPL_CUSTOMER_PENALTY_DETAIL left join TSPL_CUSTOMER_PENALTY on TSPL_CUSTOMER_PENALTY.Document_No = TSPL_CUSTOMER_PENALTY_DETAIL.Document_No where TSPL_CUSTOMER_PENALTY.Cust_Code= '" & txtDistributor.Value & "' ORDER BY To_Date DESC "))
+                        Gv1.Rows(Gv1.Rows.Count - 1).Cells(colOpeningBalance).Value = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(" select TOP 1 Balance_Amt from TSPL_CUSTOMER_PENALTY_DETAIL left join TSPL_CUSTOMER_PENALTY on TSPL_CUSTOMER_PENALTY.Document_No = TSPL_CUSTOMER_PENALTY_DETAIL.Document_No where TSPL_CUSTOMER_PENALTY.Cust_Code= '" & txtDistributor.Value & "' and  TSPL_CUSTOMER_PENALTY_DETAIL.Invoice_Date < '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "' ORDER BY TSPL_CUSTOMER_PENALTY_DETAIL.Invoice_Date DESC "))
                     End If
                     Gv1.Rows(Gv1.Rows.Count - 1).Cells(colSaleAmount).Value = dt.Rows(ii)("Sale_Amt")
                     Dim InvoiceDate As DateTime = clsCommon.myCDate(dt.Rows(ii)("InvoiceDate"))
@@ -500,10 +500,10 @@ Public Class frmCustomerPenalty
         Dim dblCurrBalance_Amt As Double = 0
         If clsCommon.myLen(clsCommon.myCDate(Gv1.Rows(IntRowNo).Cells(colDate).Value)) > 0 Then
             dblCurrBalance_Amt = Gv1.Rows(IntRowNo).Cells(colCurrBalanceAmount).Value
-            Gv1.Rows(IntRowNo).Cells(colBalanceAmt).Value = dblCurrBalance_Amt + (Gv1.Rows(IntRowNo).Cells(colOpeningBalance).Value)
             If IntRowNo > 0 Then
                 Gv1.Rows(IntRowNo).Cells(colOpeningBalance).Value = (Gv1.Rows(IntRowNo - 1).Cells(colBalanceAmt).Value)
             End If
+            Gv1.Rows(IntRowNo).Cells(colBalanceAmt).Value = dblCurrBalance_Amt + (Gv1.Rows(IntRowNo).Cells(colOpeningBalance).Value)
             Gv1.Rows(IntRowNo).Cells(colPenalty).Value = (Gv1.Rows(IntRowNo).Cells(colBalanceAmt).Value * txtPenaltyPer.Value) / (100 * days)
             If Gv1.Rows(IntRowNo).Cells(colPenalty).Value < 0 Then
                 Gv1.Rows(IntRowNo).Cells(colPenalty).Value = 0
@@ -556,7 +556,13 @@ Public Class frmCustomerPenalty
             txtDistributor.Value = clsCommon.ShowSelectForm("CustPnltDis", qry, "Code", " IsDistributor='Y' ", txtDistributor.Value, "Code", isButtonClicked)
             lblDistributorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" & txtDistributor.Value & "' "))
             If clsCommon.myLen(txtDistributor.Value) > 0 Then
-                txtFromDate.Value = clsCommon.myCDate(clsDBFuncationality.getSingleValue(" select TOP 1 To_Date from TSPL_CUSTOMER_PENALTY_DETAIL left join TSPL_CUSTOMER_PENALTY on TSPL_CUSTOMER_PENALTY.Document_No = TSPL_CUSTOMER_PENALTY_DETAIL.Document_No where TSPL_CUSTOMER_PENALTY.Cust_Code= '" & txtDistributor.Value & "' ORDER BY To_Date DESC ")).AddDays(1)
+                Dim Fromdate As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select TOP 1 TSPL_CUSTOMER_PENALTY_DETAIL.Invoice_Date from TSPL_CUSTOMER_PENALTY_DETAIL left join TSPL_CUSTOMER_PENALTY on TSPL_CUSTOMER_PENALTY.Document_No = TSPL_CUSTOMER_PENALTY_DETAIL.Document_No where TSPL_CUSTOMER_PENALTY.Cust_Code= '" & txtDistributor.Value & "' and  TSPL_CUSTOMER_PENALTY_DETAIL.Invoice_Date < '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "' ORDER BY TSPL_CUSTOMER_PENALTY_DETAIL.Invoice_Date DESC "))
+                If clsCommon.myLen(Fromdate) > 0 Then
+                    txtFromDate.Value = clsCommon.myCDate(Fromdate).AddDays(1)
+                Else
+                    txtFromDate.Value = clsCommon.GETSERVERDATE()
+                End If
+
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
