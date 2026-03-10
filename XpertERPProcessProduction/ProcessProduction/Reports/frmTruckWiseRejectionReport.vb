@@ -55,7 +55,9 @@ CASE
  When TSPL_GRN_HEAD.VisualQCStatusSecond=3 Then TSPL_GRN_HEAD.VisualQCUpdatedDateSecond     	 
 End As [RejectionDate],
 CASE 
- When TSPL_GRN_HEAD.VisualQCStatus=1 And TSPL_NIR_QC.QC_Status=1 And TSPL_QC_CHECK_DETAIL.QC_Status='Accepted' And  TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight > TSPL_SRN_DETAIL.SRN_Qty  Then 'PARTIAL' 
+ When TSPL_GRN_HEAD.VisualQCStatus=1 And TSPL_NIR_QC.QC_Status=1 And (TSPL_QC_CHECK_DETAIL.QC_Status='Accepted' OR TSPL_QC_CHECK_DETAIL.QC_Status='Under Deviation' ) 
+ And  (TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight > IsNull(TSPL_SRN_DETAIL.SRN_Qty,0) OR  TSPL_GRN_DETAIL.GRN_Qty > IsNull(TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight,0))
+ Then 'PARTIAL' 
  When TSPL_GRN_HEAD.VisualQCStatus=1 And TSPL_GRN_HEAD.VisualQCStatusSecond=3 And TSPL_GRN_DETAIL.GRN_Qty>TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight Then 'PARTIAL'
  WHEN TSPL_QC_CHECK_HEAD.QC_Status='Rejected' OR TSPL_NIR_QC.QC_Status=2 OR TSPL_GRN_HEAD.VisualQCStatusSecond=2 OR TSPL_GRN_HEAD.VisualQCStatus=2 THEN 'FULL' 
  WHEN TSPL_GRN_HEAD.VisualQCStatus=3  OR TSPL_GRN_HEAD.VisualQCStatusSecond=3 THEN 'PARTIAL'     	 
@@ -108,7 +110,9 @@ CASE
  When TSPL_GRN_HEAD_Cancel_Data.VisualQCStatusSecond=3 Then TSPL_GRN_HEAD_Cancel_Data.VisualQCUpdatedDateSecond     	 
 End As [RejectionDate],
 CASE 
- When TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus=1 And TSPL_NIR_QC_Cancel_Data.QC_Status=1 And TSPL_QC_CHECK_DETAIL_Cancel_Data.QC_Status='Accepted' And  TSPL_PO_WEIGHTMENT_DETAIL_Cancel_Data.Net_Weight > TSPL_SRN_DETAIL_Cancel_Data.SRN_Qty  Then 'PARTIAL' 
+ When TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus=1 And TSPL_NIR_QC_Cancel_Data.QC_Status=1 And (TSPL_QC_CHECK_DETAIL_Cancel_Data.QC_Status='Accepted' OR TSPL_QC_CHECK_DETAIL_Cancel_Data.QC_Status='Under Deviation' ) 
+ And  (TSPL_PO_WEIGHTMENT_DETAIL_Cancel_Data.Net_Weight > IsNull(TSPL_SRN_DETAIL_Cancel_Data.SRN_Qty,0) OR  TSPL_GRN_DETAIL_Cancel_Data.GRN_Qty > IsNull(TSPL_PO_WEIGHTMENT_DETAIL_Cancel_Data.Net_Weight,0))
+ Then 'PARTIAL' 
  When TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus=1 And TSPL_GRN_HEAD_Cancel_Data.VisualQCStatusSecond=3 And TSPL_GRN_DETAIL_Cancel_Data.GRN_Qty>TSPL_PO_WEIGHTMENT_DETAIL_Cancel_Data.Net_Weight Then 'PARTIAL'
  WHEN TSPL_QC_CHECK_HEAD_Cancel_Data.QC_Status='Rejected' OR TSPL_NIR_QC_Cancel_Data.QC_Status=2 OR TSPL_GRN_HEAD_Cancel_Data.VisualQCStatusSecond=2 OR TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus=2 THEN 'FULL' 
  WHEN TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus=3  OR TSPL_GRN_HEAD_Cancel_Data.VisualQCStatusSecond=3 THEN 'PARTIAL'     	 
