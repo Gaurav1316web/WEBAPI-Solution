@@ -329,6 +329,12 @@
     <Compile Include="frmShowInvoiceNo.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Master\FrmBoothCommissionMaster.Designer.vb">
+      <DependentUpon>FrmBoothCommissionMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\FrmBoothCommissionMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\FrmBoothRouteMapping.Designer.vb">
       <DependentUpon>FrmBoothRouteMapping.vb</DependentUpon>
     </Compile>
@@ -469,6 +475,12 @@
       <DependentUpon>frmSendBilltoDistributor.vb</DependentUpon>
     </Compile>
     <Compile Include="Report\frmSendBilltoDistributor.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\RouteWiseDemandReport.Designer.vb">
+      <DependentUpon>RouteWiseDemandReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\RouteWiseDemandReport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Report\rptBoothWiseBillReport.Designer.vb">
@@ -1404,6 +1416,9 @@
     <EmbeddedResource Include="frmShowInvoiceNo.resx">
       <DependentUpon>frmShowInvoiceNo.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Master\FrmBoothCommissionMaster.resx">
+      <DependentUpon>FrmBoothCommissionMaster.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Master\FrmBoothRouteMapping.resx">
       <DependentUpon>FrmBoothRouteMapping.vb</DependentUpon>
     </EmbeddedResource>
@@ -1500,6 +1515,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\FrmZoneWiseSKUReport.resx">
       <DependentUpon>FrmZoneWiseSKUReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\RouteWiseDemandReport.resx">
+      <DependentUpon>RouteWiseDemandReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptBookingVsDispatchReport.resx">
       <DependentUpon>rptBookingVsDispatchReport.vb</DependentUpon>

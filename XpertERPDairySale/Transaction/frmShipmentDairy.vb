@@ -12926,7 +12926,7 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                 Dim dblDisAmt As Decimal = (dblAmt * dblDisPer) / 100
                 'Dim dblSCAmt As Decimal = dblAmt * (dblSCRate / 100)
                 'gv1.Rows(IntRowNo).Cells(ColSCAmt).Value = dblSCAmt
-                If Not gv1.Rows(IntRowNo).Cells(ColDCRate).Value = Nothing AndAlso clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(ColDCRate).Value) >= 0 Then
+                If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(ColDCRate).Value), "") <> CompairStringResult.Equal AndAlso clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(ColDCRate).Value) >= 0 Then
                     If Not ApplyCommissionRateWithTax Then
                         gv1.Rows(IntRowNo).Cells(ColDCRateWithTax).Value = gv1.Rows(IntRowNo).Cells(ColDCRate).Value
                     Else
@@ -14176,26 +14176,26 @@ and TSPL_Demand_Booking_Master.Route_No='" + txtRouteNo.Value + "' and TSPL_Dema
             Dim ItemMain As String = Nothing
             Dim itemScheme As Double = 0
             If clsCommon.CompairString(isCancel, "Cancel") = CompairStringResult.Equal Then
-                itemScheme = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from  TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data where Shipment_Code='" & DocCode & "' and Scheme_Applicable='Y'"))
+                itemScheme = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from  TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data where Shipment_Code='" & DocCode & "' and Scheme_Item='Y'"))
             ElseIf clsCommon.CompairString(isCancel, "Delete") = CompairStringResult.Equal Then
-                itemScheme = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from  TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data where Shipment_Code='" & DocCode & "' and Scheme_Applicable='Y'"))
+                itemScheme = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from  TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data where Shipment_Code='" & DocCode & "' and Scheme_Item='Y'"))
             Else
-                itemScheme = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from  TSPL_SD_SALE_INVOICE_DETAIL where " & clsCommon.myCstr(IIf(clsCommon.myLen(DocCode) > 0, "Shipment_Code='" & DocCode & "'", "Document_Code ='" & invoiceCode & "'")) & " and Scheme_Applicable='Y'"))
+                itemScheme = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from  TSPL_SD_SALE_INVOICE_DETAIL where " & clsCommon.myCstr(IIf(clsCommon.myLen(DocCode) > 0, "Shipment_Code='" & DocCode & "'", "Document_Code ='" & invoiceCode & "'")) & " and Scheme_Item='Y'"))
             End If
 
             If itemScheme > 0 Then
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
-                    If common.clsCommon.MyMessageBoxShow(Me, "Do you want to print main item then YES and if you want to print Scheme then NO?", "", MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
+                '    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
+                '        If common.clsCommon.MyMessageBoxShow(Me, "Do you want to print main item then YES and if you want to print Scheme then NO?", "", MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
 
-                        'If clsCommon.MyMessageBoxShow(Me, "Do you want to print main item ?", MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
-                        ItemMain = "Y"
-                    Else
-                        ItemMain = "N"
-                    End If
-                Else
-                    ItemMain = "Y"
-                End If
-            Else
+                '            If clsCommon.MyMessageBoxShow(Me, "Do you want to print main item ?", MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
+                '            ItemMain = "Y"
+                '        Else
+                '            ItemMain = "N"
+                '        End If
+                '    Else
+                '        ItemMain = "Y"
+                '    End If
+                'Else
                 ItemMain = "Y"
             End If
             'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then

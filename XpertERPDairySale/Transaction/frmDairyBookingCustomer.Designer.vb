@@ -33,6 +33,7 @@ Partial Class frmDairyBookingCustomer
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkNoTranspoter = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkAPS = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtIndentDate = New common.Controls.MyDateTimePicker()
         Me.RadLabel4 = New common.Controls.MyLabel()
@@ -149,6 +150,7 @@ Partial Class frmDairyBookingCustomer
         Me.lblTaxGrpName = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.lblRoundOff = New common.Controls.MyLabel()
         Me.btnUpdateVehicle = New Telerik.WinControls.UI.RadButton()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.btn_QtyReset = New Telerik.WinControls.UI.RadButton()
@@ -332,13 +334,13 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.chkNoTranspoter = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkNoTranspoter, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkAPS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtIndentDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -447,6 +449,7 @@ Partial Class frmDairyBookingCustomer
         CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTaxGrpName, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage4.SuspendLayout()
+        CType(Me.lblRoundOff, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnUpdateVehicle, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox2.SuspendLayout()
         CType(Me.btn_QtyReset, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -623,7 +626,6 @@ Partial Class frmDairyBookingCustomer
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkNoTranspoter, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -771,6 +773,15 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1260, 409)
         Me.RadPageViewPage1.Text = "Booking Order"
+        '
+        'chkNoTranspoter
+        '
+        Me.chkNoTranspoter.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkNoTranspoter.Location = New System.Drawing.Point(1017, 46)
+        Me.chkNoTranspoter.Name = "chkNoTranspoter"
+        Me.chkNoTranspoter.Size = New System.Drawing.Size(99, 16)
+        Me.chkNoTranspoter.TabIndex = 1599
+        Me.chkNoTranspoter.Text = "NO Transporter"
         '
         'chkAPS
         '
@@ -2538,6 +2549,7 @@ Partial Class frmDairyBookingCustomer
         '
         'RadPageViewPage4
         '
+        Me.RadPageViewPage4.Controls.Add(Me.lblRoundOff)
         Me.RadPageViewPage4.Controls.Add(Me.btnUpdateVehicle)
         Me.RadPageViewPage4.Controls.Add(Me.GroupBox2)
         Me.RadPageViewPage4.Controls.Add(Me.txtTCAmt)
@@ -2580,6 +2592,16 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1260, 409)
         Me.RadPageViewPage4.Text = "Total"
+        '
+        'lblRoundOff
+        '
+        Me.lblRoundOff.FieldName = Nothing
+        Me.lblRoundOff.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblRoundOff.Location = New System.Drawing.Point(429, 309)
+        Me.lblRoundOff.Name = "lblRoundOff"
+        Me.lblRoundOff.Size = New System.Drawing.Size(81, 16)
+        Me.lblRoundOff.TabIndex = 1568
+        Me.lblRoundOff.Text = "Round Off Amt"
         '
         'btnUpdateVehicle
         '
@@ -2706,12 +2728,11 @@ Partial Class frmDairyBookingCustomer
         Me.TxtRoundoff.BorderVisible = True
         Me.TxtRoundoff.FieldName = Nothing
         Me.TxtRoundoff.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtRoundoff.Location = New System.Drawing.Point(674, 357)
+        Me.TxtRoundoff.Location = New System.Drawing.Point(584, 307)
         Me.TxtRoundoff.Name = "TxtRoundoff"
-        Me.TxtRoundoff.Size = New System.Drawing.Size(110, 18)
+        Me.TxtRoundoff.Size = New System.Drawing.Size(82, 18)
         Me.TxtRoundoff.TabIndex = 1406
         Me.TxtRoundoff.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        Me.TxtRoundoff.Visible = False
         '
         'txtTCSTaxRate
         '
@@ -4793,15 +4814,6 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Footer Setting"
         '
-        'chkNoTranspoter
-        '
-        Me.chkNoTranspoter.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkNoTranspoter.Location = New System.Drawing.Point(1017, 46)
-        Me.chkNoTranspoter.Name = "chkNoTranspoter"
-        Me.chkNoTranspoter.Size = New System.Drawing.Size(99, 16)
-        Me.chkNoTranspoter.TabIndex = 1599
-        Me.chkNoTranspoter.Text = "NO Transporter"
-        '
         'frmDairyBookingCustomer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4824,6 +4836,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkNoTranspoter, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkAPS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtIndentDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4938,6 +4951,7 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblTaxGrpName, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage4.ResumeLayout(False)
         Me.RadPageViewPage4.PerformLayout()
+        CType(Me.lblRoundOff, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnUpdateVehicle, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox2.ResumeLayout(False)
         CType(Me.btn_QtyReset, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5126,7 +5140,6 @@ Partial Class frmDairyBookingCustomer
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkNoTranspoter, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -5434,5 +5447,6 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents GroupBox2 As GroupBox
     Friend WithEvents btnUpdateVehicle As RadButton
     Friend WithEvents chkNoTranspoter As RadCheckBox
+    Friend WithEvents lblRoundOff As common.Controls.MyLabel
 End Class
 

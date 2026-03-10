@@ -157,9 +157,9 @@ Public Class SaleEinvoiceReport
                 whrclsDate += " And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'PM' "
             End If
 
-            If ChkB2B.Checked = True Then
+            If ChkB2B.Checked Then
                 Whr += " and TSPL_CUSTOMER_MASTER.GST_Registered=1 "
-            ElseIf chkB2C.Checked = True Then
+            ElseIf chkB2C.Checked Then
                 Whr += " and TSPL_CUSTOMER_MASTER.GST_Registered=0 "
             End If
             If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
@@ -197,7 +197,8 @@ Public Class SaleEinvoiceReport
             Dim Baseqry As String = ""
             If rbtnSummary.IsChecked Then
                 GetReportGridID()
-                qry = "SELECT  max(CONVERT(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103)) as [Supply Date],
+                qry = "SELECT  Max(TSPL_SD_SHIPMENT_HEAD.Document_Code) As [Dispatch Code],Convert(Varchar(10),Max(TSPL_SD_SHIPMENT_HEAD.Document_Date),103) As [Dispatch Date],
+Max(TSPL_DCS_SALE_ENTRY_detail.DOCUMENT_CODE) As [DCS Sale Entry],max(CONVERT(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103)) as [Supply Date],
                            CASE WHEN max(TSPL_SD_SHIPMENT_HEAD.Shift_Type) = 'AM' THEN 'Morning' WHEN max(TSPL_SD_SHIPMENT_HEAD.Shift_Type) = 'PM' THEN 'Evening'  end as [Shift Type],
                            max(TSPL_SD_SHIPMENT_HEAD.Bill_To_Location) AS [Location],
                            max(TSPL_SD_SALE_INVOICE_HEAD.Sub_Location_code) AS [Sub Location],
@@ -302,14 +303,17 @@ Sum(TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt) As [Total Tax Amount],
                            ON TSPL_CUSTOMER_MASTER.State = TSPL_STATE_MASTER.STATE_CODE
                            left join tspl_item_master on tspl_item_master.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
                            left outer join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
-                           left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No "
+                           left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
+						   Left outer Join TSPL_SD_SHIPMENT_DETAIL On TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_Detail.Shipment_Code  And   TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_Detail.Item_Code
+						  Left Join TSPL_DCS_SALE_ENTRY_detail On TSPL_DCS_SALE_ENTRY_detail.PK_Id=TSPL_SD_SHIPMENT_DETAIL.REF_PK_ID "
                 If chkBPL.Checked OrElse chkAPS.Checked Then
                     qry += " left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No=TSPL_SD_SHIPMENT_HEAD.Against_Booking_No "
                 End If
                 Baseqry = qry
                 qry += "" + whrclsDate + " " + Whr + "  And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' group by TSPL_SD_SALE_INVOICE_HEAD.Document_Code  "
             ElseIf rbtnDetail.IsChecked Then
-                qry = "SELECT  CONVERT(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) as [Supply Date],
+                qry = "SELECT  TSPL_SD_SHIPMENT_HEAD.Document_Code As [Dispatch Code],Convert(Varchar(10),TSPL_SD_SHIPMENT_HEAD.Document_Date,103) As [Dispatch Date],
+TSPL_DCS_SALE_ENTRY_detail.DOCUMENT_CODE As [DCS Sale Entry],CONVERT(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) as [Supply Date],
                                 CASE WHEN TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' THEN 'Morning' WHEN TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'PM' THEN 'Evening'  end as [Shift Type], 
                                 TSPL_SD_SHIPMENT_HEAD.Bill_To_Location AS [Location],
                                 TSPL_SD_SALE_INVOICE_HEAD.Sub_Location_code AS [Sub Location],
@@ -490,7 +494,9 @@ TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt As [Total Tax Amount],
                                 LEFT OUTER JOIN TSPL_STATE_MASTER ON TSPL_CUSTOMER_MASTER.State = TSPL_STATE_MASTER.STATE_CODE
                                 left join tspl_item_master on tspl_item_master.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
                                 left outer join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
-                                left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No "
+                                left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
+						  Left outer Join TSPL_SD_SHIPMENT_DETAIL On TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_Detail.Shipment_Code  And   TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_Detail.Item_Code
+						  Left Join TSPL_DCS_SALE_ENTRY_detail On TSPL_DCS_SALE_ENTRY_detail.PK_Id=TSPL_SD_SHIPMENT_DETAIL.REF_PK_ID "
                 If chkBPL.Checked OrElse chkAPS.Checked Then
                     qry += " left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No=TSPL_SD_SHIPMENT_HEAD.Against_Booking_No "
                 End If
@@ -571,6 +577,17 @@ TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt As [Total Tax Amount],
                 gvData.Columns(ii).BestFit()
             Next
             If rbtnSummary.IsChecked Then
+                gvData.Columns("Dispatch Code").HeaderText = "Dispatch Code"
+                gvData.Columns("Dispatch Code").Width = 100
+                gvData.Columns("Dispatch Code").IsVisible = False
+
+                gvData.Columns("Dispatch Date").HeaderText = "Dispatch Date"
+                gvData.Columns("Dispatch Date").Width = 100
+                gvData.Columns("Dispatch Date").IsVisible = False
+
+                gvData.Columns("DCS Sale Entry").HeaderText = "DCS Sale Entry"
+                gvData.Columns("DCS Sale Entry").Width = 100
+                gvData.Columns("DCS Sale Entry").IsVisible = False
 
                 gvData.Columns("Supply Date").HeaderText = "Supply Date"
                 gvData.Columns("Supply Date").Width = 100
@@ -707,6 +724,17 @@ TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt As [Total Tax Amount],
                 'gvData.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
             ElseIf rbtnDetail.IsChecked Then
+                gvData.Columns("Dispatch Code").HeaderText = "Dispatch Code"
+                gvData.Columns("Dispatch Code").Width = 100
+                gvData.Columns("Dispatch Code").IsVisible = False
+
+                gvData.Columns("Dispatch Date").HeaderText = "Dispatch Date"
+                gvData.Columns("Dispatch Date").Width = 100
+                gvData.Columns("Dispatch Date").IsVisible = False
+
+                gvData.Columns("DCS Sale Entry").HeaderText = "DCS Sale Entry"
+                gvData.Columns("DCS Sale Entry").Width = 100
+                gvData.Columns("DCS Sale Entry").IsVisible = False
 
                 gvData.Columns("Supply Date").HeaderText = "Supply Date"
                 gvData.Columns("Supply Date").Width = 100
