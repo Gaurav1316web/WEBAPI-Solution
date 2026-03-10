@@ -217,8 +217,8 @@ and convert(date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) +
                 End If
             End If
 
-            SummaryQry += " From ( " & baseqry & ") XX LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_code1='RCDFCF' "
-            SummaryQry += " GROUP BY XX.Weighment_Date, XX.UnionName  ORDER BY XX.Weighment_Date_Ordring,xx.UnionName;"
+            SummaryQry += ",max(Weighment_Date_Ordring)Weighment_Date_Ordring From ( " & baseqry & ") XX LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_code1='RCDFCF' "
+            SummaryQry += " GROUP BY XX.Weighment_Date, XX.UnionName  ORDER BY Weighment_Date_Ordring,xx.UnionName;"
 
 
             Dim dt2 As DataTable
