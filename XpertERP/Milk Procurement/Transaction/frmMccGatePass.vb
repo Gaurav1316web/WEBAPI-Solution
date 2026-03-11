@@ -583,11 +583,7 @@ left join TSPL_MCC_SCRAP_GATEPASS_DETAIL on TSPL_MCC_SCRAP_GATEPASS_DETAIL.GPCod
         isNewEntry = True
         LoadBlankGrid()
         txtDate.Value = clsCommon.GETSERVERDATE()
-        If clsCommon.myLen(Type) > 0 Then
-            cmbtype.Text = Type
-        Else
-            cmbtype.Text = "Select"
-        End If
+
 
 
         txtRemarks.MaxLength = 200
@@ -607,6 +603,12 @@ left join TSPL_MCC_SCRAP_GATEPASS_DETAIL on TSPL_MCC_SCRAP_GATEPASS_DETAIL.GPCod
         lblComments.Location = New System.Drawing.Point(5, 129)
         txtComments.Location = New System.Drawing.Point(93, 127)
         btnGo.Location = New System.Drawing.Point(728, 127)
+        If clsCommon.myLen(Type) > 0 Then
+            cmbtype.Text = Type
+            cmbtype.SelectedIndex = 1
+        Else
+            cmbtype.Text = "Select"
+        End If
     End Sub
 
     Private Sub btnClose_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnClose.Click

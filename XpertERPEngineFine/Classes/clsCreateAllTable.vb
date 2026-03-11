@@ -60453,6 +60453,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
         coll.Add("Curr_Balance_Amt", "Decimal(18,2) NULL")
         coll.Add("Balance_Amt", "Decimal(18,2) NULL")
         coll.Add("Penalty", "Decimal(18,2) NULL")
+        coll.Add("Opening_Balance", "decimal (18,2) NULL")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CUSTOMER_PENALTY_DETAIL", coll, Nothing, True, False, "TSPL_CUSTOMER_PENALTY", "Document_No", "")
 
         coll = New Dictionary(Of String, String)()

@@ -55,12 +55,17 @@ Public Class BMC_Transporter_Bill
         Dim qry As String = "SELECT Distinct TSPL_MILK_COLLECTION_MCC.Tanker_No as [Tanker No] FROM TSPL_MILK_COLLECTION_MCC "
         txtTankerNo.Value = clsCommon.ShowSelectForm("RoutMastrCodFND", qry, "Tanker No", "", txtTankerNo.Value, "", isButtonClicked)
         lblTankerDesc.Text = clsDBFuncationality.getSingleValue(" select Tanker_Name from TSPL_TANKER_MASTER where Tanker_No='" + txtTankerNo.Value + "'")
+
         Dim qry1 As String = clsDBFuncationality.getSingleValue(" select Tanker_Transporter_Code from TSPL_TANKER_MASTER where Tanker_No='" + txtTankerNo.Value + "'")
         txtTransporter.Text = clsDBFuncationality.getSingleValue(" select Vendor_Name from TSPL_VENDOR_MASTER where Vendor_Code='" + qry1 + "'")
         TxtBarelCap.Text = clsDBFuncationality.getSingleValue(" select Storage_Capacity from TSPL_TANKER_MASTER where Tanker_No='" + txtTankerNo.Value + "'")
     End Sub
 
     Private Sub BMC_Transporter_Bill_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim qry As String = ""
+        qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_BMC_TRANSPORTER_BILL_DETAIL' and COLUMN_NAME='MCC_Document_Code'"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+
         Dim coll As Dictionary(Of String, String)
         coll = New Dictionary(Of String, String)
         coll.Add("Document_Code", "varchar(30) NOT NULL PRIMARY KEY")
@@ -97,7 +102,7 @@ Public Class BMC_Transporter_Bill
         coll = New Dictionary(Of String, String)()
         coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION PRIMARY KEY")
         coll.Add("Document_Code", "varchar(30) NOT NULL References TSPL_BMC_TRANSPORTER_BILL_HEAD(Document_Code)")
-        coll.Add("MCC_Document_Code", "varchar(30) NOT NULL UNIQUE References TSPL_MILK_COLLECTION_MCC(Document_No)")
+        coll.Add("MCC_Document_Code", "varchar(30)  NULL UNIQUE References TSPL_MILK_COLLECTION_MCC(Document_No)")
         'coll.Add("Document_Date", "datetime NOT NULL")
         'coll.Add("Category", "varchar(40)  NOT NULL")
         coll.Add("Station_1", "varchar(40)  NULL")
@@ -114,10 +119,19 @@ Public Class BMC_Transporter_Bill
         coll.Add("Ice_Box", "Char(1) NULL")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BMC_TRANSPORTER_BILL_DETAIL", coll, Nothing, True, False, "TSPL_BMC_TRANSPORTER_BILL_HEAD", "Document_Code", "", True)
 
-        Try
-            clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_BMC_TRANSPORTER_BILL_DETAIL ALTER COLUMN MCC_Document_Code varchar(30) NULL UNIQUE References TSPL_MILK_COLLECTION_MCC(Document_No)")
-        Catch ex As Exception
-        End Try
+        'Try
+        '    'clsDBFuncationality.ExecuteNonQuery("CREATE UNIQUE INDEX UQ_MCC_Document_Code ON TSPL_BMC_TRANSPORTER_BILL_DETAIL (MCC_Document_Code) WHERE MCC_Document_Code IS NOT NULL")
+        '    clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_BMC_TRANSPORTER_BILL_DETAIL ALTER COLUMN MCC_Document_Code VARCHAR(30) NULL;")
+        '    clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_BMC_TRANSPORTER_BILL_DETAIL ADD CONSTRAINT UQ_MCC_Document_Code UNIQUE (MCC_Document_Code);")
+        '    clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_BMC_TRANSPORTER_BILL_DETAIL ADD CONSTRAINT FK_MCC_Document_Code FOREIGN KEY (MCC_Document_Code) REFERENCES TSPL_MILK_COLLECTION_MCC(Document_No);")
+
+        'Catch ex As Exception
+        'End Try
+
+        'If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+        '    qry = "CREATE UNIQUE INDEX Unique_Mupliple_Day ON TSPL_BMC_TRANSPORTER_BILL_DETAIL (MCC_Document_Code) WHERE MCC_Document_Code IS NOT NULL;"
+        '    clsDBFuncationality.ExecuteNonQuery(qry)
+        'End If
 
         EnableOnPrivateChkbox = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableOnPrivateChkbox, clsFixedParameterCode.EnableOnPrivateChkbox, Nothing)) > 0)
 
@@ -347,6 +361,7 @@ Public Class BMC_Transporter_Bill
         LoadBlankGrid()
         ReStoreGridLayout()
         RadGroupBox3.Enabled = False
+        btnSave.Text = "Save"
     End Sub
 
     Sub BlankAllControls()
@@ -496,6 +511,22 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
     End Sub
     Sub loadGridData()
         Try
+            Dim Slot1 As String = ""
+            Dim Slot2 As String = ""
+            Dim tanker_No As String = ""
+
+            Slot1 = clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy")
+            Slot2 = clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy")
+            tanker_No = clsCommon.myCstr(txtTankerNo.Value)
+
+            Dim qr12y As String = " Select * from TSPL_BMC_TRANSPORTER_BILL_HEAD where CONVERT(DATE, TSPL_BMC_TRANSPORTER_BILL_HEAD.From_Date, 103) >= CONVERT(DATE, '" + Slot1 + "', 103) and
+                                  CONVERT(DATE, TSPL_BMC_TRANSPORTER_BILL_HEAD.To_Date, 103) <= CONVERT(DATE, '" + Slot2 + "', 103) and Tanker_No = '" + tanker_No + "' "
+            Dim dt12 As DataTable = clsDBFuncationality.GetDataTable(qr12y)
+
+            If dt12.Rows.Count > 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Document is already created for this date range and Tanker", Me.Text)
+                Exit Sub
+            End If
             Dim qry As String = ""
             Dim qry1 As String = ""
             Dim qry2 As String = ""
@@ -536,6 +567,8 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                     gv1.Rows.AddNew()
                     gv1.CurrentRow.Cells(colDocumentNo).Value = clsCommon.myCstr(dt.Rows(ii)("Document_No"))
                     gv1.CurrentRow.Cells(colDate).Value = clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(ii)("Document_Date"), "dd/MMM/yyyy"))
+                    Dim sTARTdate As DateTime = clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(ii)("Document_Date"), "dd/MMM/yyyy"))
+                    Dim docDate As String = Format(CDate(gv1.CurrentRow.Cells(colDate).Value), "dd/MMM/yyyy")
                     gv1.CurrentRow.Cells(ColCategory).Value = "BMC"
                     gv1.CurrentRow.Cells(ColStation).Value = "Jaipur>>" & clsCommon.myCstr(dt.Rows(0)("Station_1"))
                     gv1.CurrentRow.Cells(ColStation2).Value = clsCommon.myCstr(dt.Rows(0)("Station_2"))
@@ -545,7 +578,8 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                     gv1.CurrentRow.Cells(ColKM).Value = clsCommon.myCdbl(dt.Rows(ii)("Distance"))
                     gv1.CurrentRow.Cells(ColQuantity).Value = clsCommon.myCdbl(dt.Rows(ii)("Storage_Capacity"))
                     gv1.CurrentRow.Cells(ColAmount).Value = clsCommon.myCdbl(clsCommon.myCdbl(dt.Rows(ii)("Distance"))) * clsCommon.myCdbl(TxtKMRate.Text)
-                    gv1.CurrentRow.Cells(ColIceBox).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Case when Is_IceBox=1 then 'Y' else 'N' end as Ice_Box from TSPL_BMC_DCS_SAMPLE_RECEIVING where Tanker_No= '" + txtTankerNo.Value + "' and Trip = '" + gv1.CurrentRow.Cells(ColTrip).Value + "' and Document_Date= '" + clsCommon.GetPrintDate(gv1.CurrentRow.Cells(colDate).Value, "dd/MMM/yyyy") + "'  "))
+                    'gv1.CurrentRow.Cells(ColIceBox).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Case when Is_IceBox=1 then 'Y' else 'N' end as Ice_Box from TSPL_BMC_DCS_SAMPLE_RECEIVING where Tanker_No= '" + txtTankerNo.Value + "' and Trip = '" + gv1.CurrentRow.Cells(ColTrip).Value + "' and Document_Date= '" + clsCommon.GetPrintDate(gv1.CurrentRow.Cells(colDate).Value, "dd/MMM/yyyy") + "'  "))
+                    gv1.CurrentRow.Cells(ColIceBox).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Case when Is_IceBox=1 then 'Y' else 'N' end as Ice_Box from TSPL_BMC_DCS_SAMPLE_RECEIVING where Tanker_No= '" + txtTankerNo.Value + "' and Trip = '" + gv1.CurrentRow.Cells(ColTrip).Value + "' and Document_Date= '" + docDate + "'  "))
                     If clsCommon.myLen(txtDieselplus.Text) > 0 Then
                         gv1.CurrentRow.Cells(ColDiesel).Value = clsCommon.myCdbl(clsCommon.myCdbl(dt.Rows(ii)("Distance")) * clsCommon.myCdbl(txtDieselplus.Text))
                     Else
@@ -653,8 +687,10 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
 
             gv1.Rows(IntRowNo).Cells(ColAmount).Value = clsCommon.myCdbl(dblBasicAmt)
             gv1.Rows(IntRowNo).Cells(ColDiesel).Value = clsCommon.myCdbl(dblBasicDiesel)
+            Dim docDate As String = Format(CDate(gv1.Rows(IntRowNo).Cells(colDate).Value), "dd/MMM/yyyy")
 
-            gv1.Rows(IntRowNo).Cells(ColIceBox).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Case when Is_IceBox=1 then 'Y' else 'N' end as Ice_Box from TSPL_BMC_DCS_SAMPLE_RECEIVING where Tanker_No= '" + txtTankerNo.Value + "' and Trip = '" + gv1.Rows(IntRowNo).Cells(ColTrip).Value + "' and Document_Date= '" + gv1.Rows(IntRowNo).Cells(colDate).Value + "'  "))
+            'gv1.Rows(IntRowNo).Cells(ColIceBox).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Case when Is_IceBox=1 then 'Y' else 'N' end as Ice_Box from TSPL_BMC_DCS_SAMPLE_RECEIVING where Tanker_No= '" + txtTankerNo.Value + "' and Trip = '" + gv1.Rows(IntRowNo).Cells(ColTrip).Value + "' and Document_Date= '" + gv1.Rows(IntRowNo).Cells(colDate).Value + "'  "))
+            gv1.Rows(IntRowNo).Cells(ColIceBox).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Case when Is_IceBox=1 then 'Y' else 'N' end as Ice_Box from TSPL_BMC_DCS_SAMPLE_RECEIVING where Tanker_No= '" + txtTankerNo.Value + "' and Trip = '" + gv1.Rows(IntRowNo).Cells(ColTrip).Value + "' and Document_Date= '" + docDate + "'  "))
 
             IceCharge(IntRowNo)
             If chkPrivate.Checked = True Then
@@ -677,6 +713,23 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
         Try
             Xtra.TransactionValidity(txtDate.Value)
 
+            'Dim TxtfromDate As String = txtfromdate.value
+            'Dim Slot1 As String = ""
+            'Dim Slot2 As String = ""
+            'Dim tanker_No As String = ""
+
+            'Slot1 = clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy")
+            'Slot2 = clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy")
+            'tanker_No = clsCommon.myCstr(txtTankerNo.Value)
+
+            'Dim qry As String = " Select * from TSPL_BMC_TRANSPORTER_BILL_HEAD where CONVERT(DATE, TSPL_BMC_TRANSPORTER_BILL_HEAD.From_Date, 103) >= CONVERT(DATE, '" + Slot1 + "', 103) and
+            '                      CONVERT(DATE, TSPL_BMC_TRANSPORTER_BILL_HEAD.To_Date, 103) <= CONVERT(DATE, '" + Slot2 + "', 103) and Tanker_No = '" + tanker_No + "' "
+            'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+
+            'If dt.Rows.Count > 0 Then
+            '    clsCommon.MyMessageBoxShow(Me, "Document is already created for this date range and Tanker", Me.Text)
+            '    Return False
+            'End If
             Return True
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -743,7 +796,7 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                     totalDiesel += objTr.Diesel_RD
 
 
-                    If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colDocumentNo).Value)) > 0 Then
+                    If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colDocumentNo).Value)) > 0 OrElse clsCommon.myLen(clsCommon.myCstr(grow.Cells(colDate).Value)) > 0 Then
                         obj.Arr.Add(objTr)
 
                     End If
@@ -980,9 +1033,9 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
             Dim qry As String = ""
             Dim dt As DataTable = Nothing
             If (myMessages.postConfirm()) Then
-                If Not AllowToSave() Then
-                    Exit Sub
-                End If
+                'If Not AllowToSave() Then
+                '    Exit Sub
+                'End If
                 'SaveData(True)
                 If (clsBMCTransporterBill.PostData(txtDocNo.Value)) Then
                     msg = "Successfully Posted"

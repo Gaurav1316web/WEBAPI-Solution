@@ -150,6 +150,7 @@ Partial Class frmDairyBookingCustomer
         Me.lblTaxGrpName = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.lblRoundOff = New common.Controls.MyLabel()
         Me.btnUpdateVehicle = New Telerik.WinControls.UI.RadButton()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.btn_QtyReset = New Telerik.WinControls.UI.RadButton()
@@ -333,7 +334,6 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.lblRoundOff = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -449,6 +449,7 @@ Partial Class frmDairyBookingCustomer
         CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTaxGrpName, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage4.SuspendLayout()
+        CType(Me.lblRoundOff, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnUpdateVehicle, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox2.SuspendLayout()
         CType(Me.btn_QtyReset, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -625,7 +626,6 @@ Partial Class frmDairyBookingCustomer
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblRoundOff, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -675,7 +675,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1281, 455)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -2592,6 +2592,16 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1260, 409)
         Me.RadPageViewPage4.Text = "Total"
+        '
+        'lblRoundOff
+        '
+        Me.lblRoundOff.FieldName = Nothing
+        Me.lblRoundOff.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblRoundOff.Location = New System.Drawing.Point(429, 309)
+        Me.lblRoundOff.Name = "lblRoundOff"
+        Me.lblRoundOff.Size = New System.Drawing.Size(81, 16)
+        Me.lblRoundOff.TabIndex = 1568
+        Me.lblRoundOff.Text = "Round Off Amt"
         '
         'btnUpdateVehicle
         '
@@ -4804,16 +4814,6 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Footer Setting"
         '
-        'lblRoundOff
-        '
-        Me.lblRoundOff.FieldName = Nothing
-        Me.lblRoundOff.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRoundOff.Location = New System.Drawing.Point(429, 309)
-        Me.lblRoundOff.Name = "lblRoundOff"
-        Me.lblRoundOff.Size = New System.Drawing.Size(81, 16)
-        Me.lblRoundOff.TabIndex = 1568
-        Me.lblRoundOff.Text = "Round Off Amt"
-        '
         'frmDairyBookingCustomer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4951,6 +4951,7 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblTaxGrpName, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage4.ResumeLayout(False)
         Me.RadPageViewPage4.PerformLayout()
+        CType(Me.lblRoundOff, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnUpdateVehicle, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox2.ResumeLayout(False)
         CType(Me.btn_QtyReset, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5139,7 +5140,6 @@ Partial Class frmDairyBookingCustomer
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblRoundOff, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

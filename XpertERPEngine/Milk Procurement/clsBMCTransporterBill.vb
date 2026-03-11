@@ -173,21 +173,21 @@ Public Class clsBMCTransporterBill
             obj.ArrDT = clsDBFuncationality.GetDataTable(qry, trans)
 
             If (obj.ArrDT IsNot Nothing AndAlso obj.ArrDT.Rows.Count > 0) Then
-                    obj.Arr = New List(Of clsBMCTransporterBillDetail)
-                    For Each dr As DataRow In obj.ArrDT.Rows
-                        Dim objTr As New clsBMCTransporterBillDetail
-                        objTr.Document_Code = clsCommon.myCstr(dr("Document_Code"))
-                        objTr.PK_ID = clsCommon.myCstr(dr("PK_ID"))
-                        objTr.MCC_Document_Code = clsCommon.myCstr(dr("MCC_Document_Code"))
-                        objTr.Station_1 = clsCommon.myCstr(dr("Station_1"))
-                        objTr.Station_2 = clsCommon.myCstr(dr("Station_2"))
-                        objTr.Station_3 = clsCommon.myCstr(dr("Station_3"))
-                        objTr.Station_4 = clsCommon.myCstr(dr("Station_4"))
-                        objTr.Trip = clsCommon.myCdbl(dr("trip"))
-                        objTr.GPS_KM = clsCommon.myCdbl(dr("GPS_KM"))
-                        objTr.KM = clsCommon.myCdbl(dr("KM"))
-                        objTr.Quantity_KG = clsCommon.myCdbl(dr("Quantity_KG"))
-                        objTr.Diesel_RD = clsCommon.myCdbl(dr("Diesel_RD"))
+                obj.Arr = New List(Of clsBMCTransporterBillDetail)
+                For Each dr As DataRow In obj.ArrDT.Rows
+                    Dim objTr As New clsBMCTransporterBillDetail
+                    objTr.Document_Code = clsCommon.myCstr(dr("Document_Code"))
+                    objTr.PK_ID = clsCommon.myCstr(dr("PK_ID"))
+                    objTr.MCC_Document_Code = clsCommon.myCstr(dr("MCC_Document_Code"))
+                    objTr.Station_1 = clsCommon.myCstr(dr("Station_1"))
+                    objTr.Station_2 = clsCommon.myCstr(dr("Station_2"))
+                    objTr.Station_3 = clsCommon.myCstr(dr("Station_3"))
+                    objTr.Station_4 = clsCommon.myCstr(dr("Station_4"))
+                    objTr.Trip = clsCommon.myCdbl(dr("trip"))
+                    objTr.GPS_KM = clsCommon.myCdbl(dr("GPS_KM"))
+                    objTr.KM = clsCommon.myCdbl(dr("KM"))
+                    objTr.Quantity_KG = clsCommon.myCdbl(dr("Quantity_KG"))
+                    objTr.Diesel_RD = clsCommon.myCdbl(dr("Diesel_RD"))
                     objTr.Amount = clsCommon.myCdbl(dr("Amount"))
                     'objTr.BMC_Date = clsCommon.myCdbl(dr("Document_Date"))
                     objTr.BMC_Date = clsCommon.myCstr(dr("Document_Date"))
@@ -195,10 +195,10 @@ Public Class clsBMCTransporterBill
                     'clsCommon.AddColumnsForChange(coll, "Ice_Box", obj.Ice_Box)
                     'objTr.BalanceAmount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Balance_Amt from TSPL_VENDOR_INVOICE_HEAD left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code where TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader= '" + clsCommon.myCstr(dr("VLC_Code_VLC_Uploader")) + "' and Transfer_To_Saving=1"))
                     obj.Arr.Add(objTr)
-                    Next
-                End If
-
+                Next
             End If
+
+        End If
         Return obj
     End Function
 
@@ -329,7 +329,7 @@ Public Class clsBMCTransporterBill
 
             objVendInvTR.GL_Account_Code = clsCommon.myCstr(dtDed.Rows(0)("Freight_Provision"))
             If clsCommon.myLen(objVendInvTR.GL_Account_Code) <= 0 Then
-                Throw New Exception("Please set GL Account Code ")
+                Throw New Exception("Please set GL Account Code for Freight_Provision")
             End If
             objVendInvTR.GL_Account_Desc = clsGLAccount.GetName(objVendInvTR.GL_Account_Code, trans)
 
@@ -477,7 +477,7 @@ Public Class clsBMCTransporterBillDetail
             For Each obj As clsBMCTransporterBillDetail In Arr
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Document_Code", strDocNo)
-                clsCommon.AddColumnsForChange(coll, "MCC_Document_Code", obj.MCC_Document_Code)
+                clsCommon.AddColumnsForChange(coll, "MCC_Document_Code", obj.MCC_Document_Code, True)
                 clsCommon.AddColumnsForChange(coll, "Station_1", obj.Station_1)
                 clsCommon.AddColumnsForChange(coll, "Station_2", obj.Station_2)
                 clsCommon.AddColumnsForChange(coll, "Station_3", obj.Station_3)

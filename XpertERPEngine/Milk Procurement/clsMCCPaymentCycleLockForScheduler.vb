@@ -3513,7 +3513,7 @@ xxx Left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.C
                                     qry = "select sum(TSPL_MULTIPLE_DEDUCTION_DETAIL.Amount) as Amount 
 from  TSPL_MULTIPLE_DEDUCTION_DETAIL
 left outer join TSPL_MULTIPLE_DEDUCTION_HEAD on TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
-where convert(date, TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) between '" + clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") + "' and '" + clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") + "' and len(isnull(Against_Deduction_DocNo,''))>0 and TSPL_MULTIPLE_DEDUCTION_DETAIL.Vendor_Code='" + objHead.VSP_CODE + "' and TSPL_MULTIPLE_DEDUCTION_DETAIL.DeductionCode = '" + clsCommon.myCstr(drAdd("Deduction_Code")) + "' and TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1"
+where convert(date, TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) between '" + clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") + "' and '" + clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") + "' and len(isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo,''))<=0 and TSPL_MULTIPLE_DEDUCTION_DETAIL.Vendor_Code='" + objHead.VSP_CODE + "' and TSPL_MULTIPLE_DEDUCTION_DETAIL.DeductionCode = '" + clsCommon.myCstr(drAdd("Deduction_Code")) + "' and TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1"
                                     dclAddBaseAmt += clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, trans))
                                 Next
                                 If clsCommon.myCDecimal(drAmt("Apply_Formula_Manual")) = 1 Then
