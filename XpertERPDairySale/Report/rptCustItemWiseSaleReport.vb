@@ -439,25 +439,24 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
         Dim whrcls As String = ""
 
         If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
-            whrcls = " And TSPL_SD_SHIPMENT_DETAIL.Item_Code In (" & clsCommon.GetMulcallString(txtItem.arrValueMember) & ") "
+            whrcls = " And TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code In (" & clsCommon.GetMulcallString(txtItem.arrValueMember) & ") "
         End If
         If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
-            whrcls += " and TSPL_SD_SHIPMENT_HEAD.Customer_Code in ( " + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + " )"
+            whrcls += " and TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code in ( " + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + " )"
         End If
 
         If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
             whrcls += " and TSPL_SD_SHIPMENT_HEAD.Route_No in ( " + clsCommon.GetMulcallString(txtRoute.arrValueMember) + " )"
         End If
 
-        Dim qry As String = "( SELECT TSPL_SD_SHIPMENT_HEAD.shift_type,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Logo_Img,TSPL_ITEM_MASTER.IsTaxable,TSPL_COMPANY_MASTER.Comp_Name ,TSPL_COMPANY_MASTER.Add1 ,TSPL_SD_SHIPMENT_HEAD.Customer_Code  ,TSPL_ITEM_MASTER.Short_Description,TSPL_CUSTOMER_MASTER.Customer_Name as Booth, "
-        qry += "TSPL_SD_SHIPMENT_HEAD.Route_No,TSPL_SD_SHIPMENT_HEAD.Document_Date, TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,
-TSPL_SD_SHIPMENT_DETAIL.Amount as Amount,"
-        qry += " TSPL_SD_SHIPMENT_DETAIL.Unit_code, isnull((TSPL_SD_SHIPMENT_DETAIL.Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(Report_UOM.Conversion_Factor),0) As Qty,Report_UOM.UOM_Code as Def_Rep_UOM,TSPL_ITEM_MASTER.Sku_Seq,"
-        qry += "TSPL_CUSTOMER_MASTER.Display_Seq FROM TSPL_SD_SHIPMENT_DETAIL "
-        qry += "  left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.Document_Code Left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_SD_SHIPMENT_HEAD.Route_No 
-            left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code   and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_Code 
-               LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where  " + ddlDefaultReportUOM.SelectedValue + " = 1 ) as  Report_UOM ON TSPL_SD_SHIPMENT_DETAIL.Item_Code = Report_UOM.item_code 
-LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code
+        Dim qry As String = "( SELECT TSPL_SD_SHIPMENT_HEAD.shift_type,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Logo_Img,TSPL_ITEM_MASTER.IsTaxable,TSPL_COMPANY_MASTER.Comp_Name ,TSPL_COMPANY_MASTER.Add1 ,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code as Customer_Code  ,TSPL_ITEM_MASTER.Short_Description,TSPL_CUSTOMER_MASTER.Customer_Name as Booth, "
+        qry += "TSPL_SD_SHIPMENT_HEAD.Route_No,TSPL_SD_SHIPMENT_HEAD.Document_Date, TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,"
+        qry += " TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code, isnull((TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(Report_UOM.Conversion_Factor),0) As Qty,Report_UOM.UOM_Code as Def_Rep_UOM,TSPL_ITEM_MASTER.Sku_Seq,"
+        qry += "TSPL_CUSTOMER_MASTER.Display_Seq FROM TSPL_SD_SHIPMENT_BOOKING_DETAIL "
+        qry += "  left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Document_Code Left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_SD_SHIPMENT_HEAD.Route_No 
+            left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code   and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_Code 
+               LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where  " + ddlDefaultReportUOM.SelectedValue + " = 1 ) as  Report_UOM ON TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code = Report_UOM.item_code 
+LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code
 left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHIPMENT_HEAD.Comp_Code where 2 = 2  and TSPL_SD_SHIPMENT_HEAD.Status = 1 "
         qry += "" & whrcls & "  "
         Dim strDate As String = ""
@@ -495,7 +494,7 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
                     If ii > 1 Then
                         FinalQuery += Environment.NewLine + " Union all " + Environment.NewLine
                     End If
-                    FinalQuery += " select " + clsCommon.myCstr(ii) + " as Grp ,'" + txtFromShift.Text + "' as FromShift,'" + txtToShift.Text + "' as ToShift, ROW_NUMBER() OVER (PARTITION BY Customer_Code ORDER BY Customer_Code,Document_Date,Shift_Type) SNo, 'Quantity. in " + dtItems.Rows(0)("Def_Rep_UOM") + "' as QtyConvType,  '" + clsCommon.GetPrintDate(clsCommon.myCDate(txtFromDate1.Value), "dd/MM/yyyy") + "' AS FromDate,'" + clsCommon.GetPrintDate(clsCommon.myCDate(txtToDate1.Value), "dd/MM/yyyy") + "' AS ToDate, max(Comp_Name) as Comp_Name,max(Add1) as Add1,max(Booth) as Booth,"
+                    FinalQuery += " select " + clsCommon.myCstr(ii) + " as Grp ,'" + txtFromShift.Text + "' as FromShift,'" + txtToShift.Text + "' as ToShift, ROW_NUMBER() OVER (PARTITION BY Customer_Code ORDER BY Customer_Code,Document_Date,Shift_Type) SNo, 'Quantity. in " + dtItems.Rows(0)("Def_Rep_UOM") + "' as QtyConvType,  '" + clsCommon.GetPrintDate(clsCommon.myCDate(txtFromDate1.Value), "dd/MM/yyyy") + "' AS FromDate,'" + clsCommon.GetPrintDate(clsCommon.myCDate(txtToDate1.Value), "dd/MM/yyyy") + "' AS ToDate,'" & objCommonVar.CurrentUser & "' as UserName, max(Comp_Name) as Comp_Name,max(Add1) as Add1,max(Booth) as Booth,"
                     FinalQuery += "Customer_Code,max(Route_No) as Route_No,"
                     FinalQuery += "convert(varchar,Document_Date,103) as Document_Date,case when Shift_Type='AM' then 'M' when Shift_Type = 'PM' then 'E' end as Shift_Type"
                     For jj As Integer = 1 To 7
@@ -517,8 +516,11 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
     ,Case when (sum(case when Item_Code='" + strICODE + "' then convert(decimal(18,2),Qty) else null end )) is null then '-' ELSE  convert(varchar,sum(case when Item_Code='" + strICODE + "'  then convert(decimal(18,2),Qty) else null end))
     End   As ItemQtyCrate_" + strJJ + ""
                     Next
-
-                    FinalQuery += " ,sum(Amount) as Amount ,sum(qty)TotalQty"
+                    If ii = 1 Then
+                        FinalQuery += " ,sum(qty)TotalQty"
+                    Else
+                        FinalQuery += " ,0 as TotalQty"
+                    End If
                     FinalQuery += ",max(Display_Seq) as Display_Seq from ( select xx.*	from CTERawData xx ) x group by Document_Date,Shift_Type,Customer_Code "
                 Next
                 dtPrint = clsDBFuncationality.GetDataTable(FinalQuery + " order by grp,Booth ,Document_Date,Shift_Type desc")
@@ -538,7 +540,7 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
                 Exit Sub
             End If
             Dim qry As String = getBoothSaleBaseQry()
-            qry = " select comp.Logo_Img,comp.Add1,comp.Comp_Name,'" + clsCommon.GetPrintDate(clsCommon.myCDate(txtFromDate1.Value), "dd/MM/yyyy") + "' AS FromDate,'" + clsCommon.GetPrintDate(clsCommon.myCDate(txtToDate1.Value), "dd/MM/yyyy") + "' AS ToDate,'" + txtFromShift.Text + "' as FromShift,'" + txtToShift.Text + "' as ToShift,xxx.* from ( select ROW_NUMBER() OVER (PARTITION BY Customer_Code ORDER BY Customer_Code,Sku_Seq) as SNo, Customer_Code,max(Booth)Booth,Item_Code,max(Short_Description)Short_Description,sum(Qty)Qty,max(Def_Rep_UOM)Def_Rep_UOM from " & qry & "  xx
+            qry = " select comp.Logo_Img,comp.Add1,comp.Comp_Name,'" + clsCommon.GetPrintDate(clsCommon.myCDate(txtFromDate1.Value), "dd/MM/yyyy") + "' AS FromDate,'" + clsCommon.GetPrintDate(clsCommon.myCDate(txtToDate1.Value), "dd/MM/yyyy") + "' AS ToDate,'" + txtFromShift.Text + "' as FromShift,'" + txtToShift.Text + "' as ToShift,'" & objCommonVar.CurrentUser & "' as UserName,xxx.* from ( select ROW_NUMBER() OVER (PARTITION BY Customer_Code ORDER BY Customer_Code,Sku_Seq) as SNo, Customer_Code,max(Booth)Booth,Item_Code,max(Item_Desc)Short_Description,sum(Qty)Qty,max(Def_Rep_UOM)Def_Rep_UOM from " & qry & "  xx
  group by Customer_Code,Item_Code,Sku_Seq)xxx left outer join TSPL_COMPANY_MASTER as comp on 1=1 "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -1007,11 +1009,17 @@ GROUP BY Item_Code order by Item_Desc"
             Dim BaseQry As String = ""
             Dim dt As DataTable = Nothing
             Dim whr As String = ""
-            Qry = " SELECT '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate,'" & objCommonVar.CurrentUser & "' as UserName,
-                                   Sum(Distributor_Commission_TotalAmt) as Trp_Charge,MAX(Customer_Name) as Customer_Name,
+            Qry = " SELECT '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate,'" & objCommonVar.CurrentUser & "' as UserName, "
+            If clsCommon.CompairString(ddlType.SelectedValue, "Both") = CompairStringResult.Equal Then
+                Qry += "'Taxable & Non Taxable' as TaxableNonTaxable, "
+            ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Taxable") = CompairStringResult.Equal Then
+                Qry += "'Taxable' as TaxableNonTaxable, "
+            End If
+
+            Qry += " Sum(Distributor_Commission_TotalAmt) as Trp_Charge,MAX(Customer_Name) as Customer_Name,
                                MAX(Item_Desc) AS Item_Desc,Item_Code, MAX(Unit_code) AS Unit_code,SUM(Qty) AS Qty,sum(Amount) as Amount,"
 
-            If ddlType.SelectedValue = "Taxable" OrElse ddlType.SelectedValue = "Both" Then
+            If clsCommon.CompairString(ddlType.SelectedValue, "Taxable") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlType.SelectedValue, "Both") = CompairStringResult.Equal Then
                 Qry += "  sum([KKF Amt]) as KKF_Amt,SUM(Amount) + SUM([Mandi Tax Amt]) + SUM([KKF Amt]) AS Taxable_Value,SUM([Mandi Tax Amt]) as Mandi_Tax_Amt,SUM([CGST Amt]) as CGST_Amt,sum([SGST Amt]) as SGST_Amt,SUM([IGST Amt]) as IGST_Amt,SUM([TCS Amt]) as TCS_Amt,SUM(Amount) + SUM([Mandi Tax Amt]) + SUM([KKF Amt])+SUM([CGST Amt])+sum([SGST Amt])+SUM([IGST Amt]) as [Total Amount],"
             ElseIf ddlType.SelectedValue = "Non Taxable" Then
                 Qry += " SUM(Amount) as [Total Amount],"
@@ -1091,11 +1099,15 @@ GROUP BY Item_Code order by Item_Desc"
                     LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.item_code = TSPL_SD_SHIPMENT_DETAIL.item_code
                     left join TSPL_ITEM_UOM_DETAIL as ItemConvReportUOM on TSPL_ITEM_master.Item_Code = ItemConvReportUOM.Item_Code and ItemConvReportUOM.Report_UOM = 1
                     left join TSPL_ITEM_UOM_DETAIL as ItemConvinUOM on TSPL_SD_SHIPMENT_DETAIL.Item_Code = ItemConvinUOM.Item_Code and TSPL_SD_SHIPMENT_DETAIL.Unit_code = ItemConvinUOM.UOM_Code
-                        LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2 where 2=2 "
+                        LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2
+outer apply ( select top 1 IS_TAXABLE,ITEM_CODE from TSPL_ITEM_MASTER_TAXABLE 
+where  ITEM_CODE = TSPL_SD_SHIPMENT_DETAIL.Item_Code and EFFECTIVE_DATE <= '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "' order by EFFECTIVE_DATE desc ) as ItemTaxable 
+                            where 2=2  and TSPL_ITEM_MASTER.Is_Ambient = 1	"
+
             If ddlType.SelectedValue = "Taxable" Then
-                Qry += " and TSPL_ITEM_MASTER.IsTaxable = 1 "
+                Qry += " and ItemTaxable.IS_TAXABLE = 1  "
             ElseIf ddlType.SelectedValue = "Non Taxable" Then
-                Qry += " and TSPL_ITEM_MASTER.IsTaxable = 0 "
+                Qry += " and ItemTaxable.IS_TAXABLE = 0 "
             End If
 
             Qry += " and convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "') xx 
