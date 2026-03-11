@@ -30,6 +30,11 @@ Public Class clsBMCTransporterBill
     Public Posted_Date As DateTime?
     Public Arr As List(Of clsBMCTransporterBillDetail) = Nothing
     Public ArrDT As DataTable = Nothing
+    Public Comment As String = Nothing
+    Public Remarks As String = Nothing
+    Public Is_Private As Boolean = False
+
+
 #End Region
 
 
@@ -48,20 +53,15 @@ Public Class clsBMCTransporterBill
     '    End Try
     'End Function
     Public Function SaveData(ByVal obj As clsBMCTransporterBill, ByVal isNewEntry As Boolean) As Boolean
-        Dim isSaved As Boolean = False
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            isSaved = obj.SaveData(obj, isNewEntry, trans)
-            If (isSaved) Then
-                trans.Commit()
-            Else
-                trans.Rollback()
-            End If
+            obj.SaveData(obj, isNewEntry, trans)
+            trans.Commit()
         Catch err As Exception
             trans.Rollback()
             Throw New Exception(err.Message)
         End Try
-        Return isSaved
+        Return True
     End Function
 
     Public Function SaveData(ByVal obj As clsBMCTransporterBill, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
@@ -103,6 +103,11 @@ Public Class clsBMCTransporterBill
         clsCommon.AddColumnsForChange(coll, "Total_Diesel", obj.Total_Diesel)
         clsCommon.AddColumnsForChange(coll, "Prorata_Amt", obj.Prorata_Amt)
         clsCommon.AddColumnsForChange(coll, "Total_Before_Calc", obj.Total_Before_Calc)
+
+        clsCommon.AddColumnsForChange(coll, "Comment", obj.Comment)
+        clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
+        clsCommon.AddColumnsForChange(coll, "Is_Private", IIf(obj.Is_Private, 1, 0))
+
         clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
         clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
         clsCommon.AddColumnsForChange(coll, "Posted_By", objCommonVar.CurrentUserCode)
@@ -167,6 +172,10 @@ Public Class clsBMCTransporterBill
             obj.Total_Before_Calc = clsCommon.myCdbl(dt.Rows(0)("Total_Before_Calc"))
             obj.Prorata_Amt = clsCommon.myCdbl(dt.Rows(0)("Prorata_Amt"))
             obj.Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 0, ERPTransactionStatus.Pending, ERPTransactionStatus.Approved)
+
+            obj.Comment = clsCommon.myCstr(dt.Rows(0)("Comment"))
+            obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
+            obj.Is_Private = (clsCommon.myCDecimal(dt.Rows(0)("Is_Private")) = 1)
 
             qry = "Select TSPL_BMC_TRANSPORTER_BILL_DETAIL.* from TSPL_BMC_TRANSPORTER_BILL_DETAIL 
                    where TSPL_BMC_TRANSPORTER_BILL_DETAIL.Document_Code='" + obj.Document_Code + "' ORDER BY TSPL_BMC_TRANSPORTER_BILL_DETAIL.PK_ID"
@@ -298,12 +307,10 @@ Public Class clsBMCTransporterBill
             station1 = fullStation ' Or set it to "" or some default value if >> is not present
         End If
         'Dim station1 As String = obj.ArrDT.Rows(1)("Station_1").ToString()
-        Dim qry1 As String = clsDBFuncationality.getSingleValue(" select TSPL_BULK_route_master_location.Location_Code from TSPL_BULK_route_master_location
-                                        left outer join TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_BULK_route_master_location.Location_Code
-                                            where TSPL_LOCATION_MASTER.Location_Desc='" + station1 + "'", trans)
-        Dim Loc_Seg As String = clsDBFuncationality.getSingleValue(" select Loc_Segment_Code from TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.Location_Code='" + qry1 + "'", trans)
-
-
+        'Dim qry1 As String = clsDBFuncationality.getSingleValue(" select TSPL_BULK_route_master_location.Location_Code from TSPL_BULK_route_master_location
+        '                                left outer join TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_BULK_route_master_location.Location_Code
+        '                                    where TSPL_LOCATION_MASTER.Location_Desc='" + station1 + "'", trans)
+        Dim Loc_Seg As String = clsDBFuncationality.getSingleValue(" select top 1 Loc_Segment_Code from TSPL_LOCATION_MASTER", trans)
         For Each objTr As clsBMCTransporterBillDetail In obj.Arr
             Dim objVendInv As New clsVedorInvoiceHead()
             objVendInv.Invoice_Entry_Date = obj.Document_Date
@@ -493,8 +500,16 @@ Public Class clsBMCTransporterBillDetail
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BMC_TRANSPORTER_BILL_DETAIL", OMInsertOrUpdate.Insert, "", trans)
             Next
         End If
+        Dim qry As String = "select Tanker_No,Document_Date,sum(1) as Rep from (
+select TSPL_BMC_TRANSPORTER_BILL_HEAD.Tanker_No,CONVERT(Date, TSPL_BMC_TRANSPORTER_BILL_DETAIL.Document_Date,103) as Document_Date,  case when TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code='" & strDocNo & "' then 1 else 0 end as chk
+from TSPL_BMC_TRANSPORTER_BILL_DETAIL 
+left outer join TSPL_BMC_TRANSPORTER_BILL_HEAD on TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code=TSPL_BMC_TRANSPORTER_BILL_DETAIL.Document_Code
+) xx group by Tanker_No,Document_Date having sum(chk)>0 and sum(1)>1"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            Throw New Exception("Repeated Entry found on [" & clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("Document_Date")), "dd/MM/yyyy") & "]")
+        End If
         Return True
-
     End Function
 
 End Class
