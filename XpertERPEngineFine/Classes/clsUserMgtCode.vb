@@ -2768,6 +2768,7 @@ Public Class clsUserMgtCode
     Public Const frmProductionUtilityCost As String = "PRO_UC_RPT"
     Public Const VehicleMasterForDairySale As String = "VM_DS"
     Public Const frmDistributorCommission As String = "Dis-COM-MST"
+    Public Const FrmBoothCommissionMaster As String = "BTH-COM-MST"
     Public Const FrmItemCapacityLimt As String = "ITM-CAP-LMT"
     Public Const FrmBoothRouteMapping As String = "BTH-ROT-MAP"
     Public Const frmDayBook As String = "DAY-BOOK"

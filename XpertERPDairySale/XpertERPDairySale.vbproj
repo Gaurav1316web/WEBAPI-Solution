@@ -975,6 +975,12 @@
     <Compile Include="Transaction\frmBookingDairyMultipleDistributor.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Transaction\FrmBoothCommission.Designer.vb">
+      <DependentUpon>FrmBoothCommission.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\FrmBoothCommission.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\FrmCashIndentBookingMobApp.Designer.vb">
       <DependentUpon>FrmCashIndentBookingMobApp.vb</DependentUpon>
     </Compile>
@@ -1737,6 +1743,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmBookingDairyMultipleDistributor.resx">
       <DependentUpon>frmBookingDairyMultipleDistributor.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\FrmBoothCommission.resx">
+      <DependentUpon>FrmBoothCommission.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\FrmCashIndentBookingMobApp.resx">
       <DependentUpon>FrmCashIndentBookingMobApp.vb</DependentUpon>

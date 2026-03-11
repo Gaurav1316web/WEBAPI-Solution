@@ -216,6 +216,7 @@
     <Compile Include="Accounts\clsJournalMaster.vb" />
     <Compile Include="API\ClsEInvoiceOFAPIs.vb" />
     <Compile Include="API\clsEWayBill.vb" />
+    <Compile Include="BoothCommission\clsBoothCommissionMaster.vb" />
     <Compile Include="BoothRouteMapping\clsBoothRouteMappingHead.vb" />
     <Compile Include="Bull Breed Management\clsBullBreedMaster.vb" />
     <Compile Include="Bull Breed Management\clsBullCategoryMaster.vb" />
@@ -339,6 +340,7 @@
     <Compile Include="Electrical\clsDailyElectricalEntry.vb" />
     <Compile Include="Electrical\clsDGMaster.vb" />
     <Compile Include="Electrical\clsSlotMaster.vb" />
+    <Compile Include="HRAndPayroll\ClsEmpOTEntry.vb" />
     <Compile Include="HRAndPayroll\clsLeaveEncashmentHead.vb" />
     <Compile Include="HRAndPayroll\clsTrainerMaster.vb" />
     <Compile Include="HRAndPayroll\clsTrainingMaster.vb" />
@@ -458,7 +460,9 @@
     <Compile Include="Silage Production\clsSilageFormerProduction.vb" />
     <Compile Include="Silage Production\clsSilageProductionApplication.vb" />
     <Compile Include="Silage Production\clsSilageProductionAreaMaster.vb" />
-    <Compile Include="UserControl1.vb" />
+    <Compile Include="UserControl1.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserControl1.Designer.vb">
       <DependentUpon>UserControl1.vb</DependentUpon>
     </Compile>
