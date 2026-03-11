@@ -583,6 +583,7 @@ Public Class clsDocType
     Public Const FarmerServiceOrder As String = "Farmer Service Order With Rate"
     Public Const DCSSale As String = "DCS Sale"
     Public Const DistributorCommission As String = "Distributor Commission"
+    Public Const BoothCommission As String = "Booth Commission"
     Public Const DCSTransportationCharges As String = "DCS Transportation Charges"
     Public Const DistributorRouteTagging As String = "Distributor Route Tagging"
     Public Const DailyDemand As String = "DailyDemand"
@@ -1613,6 +1614,7 @@ Public Class clsDocType
 
             InsertDefaultValue(clsDocType.DCSSale, "", False, True, True)
             InsertDefaultValue(clsDocType.DistributorCommission, "", False, False, True)
+            InsertDefaultValue(clsDocType.BoothCommission, "", False, False, True)
             InsertDefaultValue(clsDocType.frmCustomerTender, "", False, False, True)
             InsertDefaultValue(clsDocType.frmCustomerTenderOrder, "", False, False, True)
             InsertDefaultValue(clsDocType.frmCustomerTenderDispatch, "", False, False, True)
