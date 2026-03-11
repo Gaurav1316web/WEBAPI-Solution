@@ -27,6 +27,10 @@ Partial Class BMC_Transporter_Bill
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadLabel6 = New common.Controls.MyLabel()
+        Me.RadLabel3 = New common.Controls.MyLabel()
+        Me.txtRemarks = New common.Controls.MyTextBox()
+        Me.txtComment = New common.Controls.MyTextBox()
         Me.chkPrivate = New System.Windows.Forms.CheckBox()
         Me.UsLock1 = New common.usLock()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
@@ -125,6 +129,7 @@ Partial Class BMC_Transporter_Bill
         Me.lblAmtWithDiscount = New common.Controls.MyLabel()
         Me.RadLabel22 = New common.Controls.MyLabel()
         Me.RadLabel19 = New common.Controls.MyLabel()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
@@ -142,6 +147,10 @@ Partial Class BMC_Transporter_Bill
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtComment, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         CType(Me.txtFatShortage, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -238,6 +247,7 @@ Partial Class BMC_Transporter_Bill
         CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -261,6 +271,7 @@ Partial Class BMC_Transporter_Bill
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadSplitButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
@@ -280,7 +291,7 @@ Partial Class BMC_Transporter_Bill
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(800, 405)
         Me.RadPageView1.TabIndex = 1
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -289,6 +300,10 @@ Partial Class BMC_Transporter_Bill
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadLabel6)
+        Me.RadPageViewPage1.Controls.Add(Me.RadLabel3)
+        Me.RadPageViewPage1.Controls.Add(Me.txtRemarks)
+        Me.RadPageViewPage1.Controls.Add(Me.txtComment)
         Me.RadPageViewPage1.Controls.Add(Me.chkPrivate)
         Me.RadPageViewPage1.Controls.Add(Me.UsLock1)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
@@ -313,10 +328,78 @@ Partial Class BMC_Transporter_Bill
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 359)
         Me.RadPageViewPage1.Text = "Transporter Bill"
         '
+        'RadLabel6
+        '
+        Me.RadLabel6.FieldName = Nothing
+        Me.RadLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel6.Location = New System.Drawing.Point(433, 69)
+        Me.RadLabel6.Name = "RadLabel6"
+        Me.RadLabel6.Size = New System.Drawing.Size(51, 16)
+        Me.RadLabel6.TabIndex = 1558
+        Me.RadLabel6.Text = "Remarks"
+        '
+        'RadLabel3
+        '
+        Me.RadLabel3.FieldName = Nothing
+        Me.RadLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel3.Location = New System.Drawing.Point(3, 71)
+        Me.RadLabel3.Name = "RadLabel3"
+        Me.RadLabel3.Size = New System.Drawing.Size(55, 16)
+        Me.RadLabel3.TabIndex = 1559
+        Me.RadLabel3.Text = "Comment"
+        '
+        'txtRemarks
+        '
+        Me.txtRemarks.CalculationExpression = Nothing
+        Me.txtRemarks.FieldCode = Nothing
+        Me.txtRemarks.FieldDesc = Nothing
+        Me.txtRemarks.FieldMaxLength = 0
+        Me.txtRemarks.FieldName = Nothing
+        Me.txtRemarks.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRemarks.isCalculatedField = False
+        Me.txtRemarks.IsSourceFromTable = False
+        Me.txtRemarks.IsSourceFromValueList = False
+        Me.txtRemarks.IsUnique = False
+        Me.txtRemarks.Location = New System.Drawing.Point(504, 68)
+        Me.txtRemarks.MaxLength = 200
+        Me.txtRemarks.MendatroryField = False
+        Me.txtRemarks.MyLinkLable1 = Me.RadLabel6
+        Me.txtRemarks.MyLinkLable2 = Nothing
+        Me.txtRemarks.Name = "txtRemarks"
+        Me.txtRemarks.ReferenceFieldDesc = Nothing
+        Me.txtRemarks.ReferenceFieldName = Nothing
+        Me.txtRemarks.ReferenceTableName = Nothing
+        Me.txtRemarks.Size = New System.Drawing.Size(262, 18)
+        Me.txtRemarks.TabIndex = 1557
+        '
+        'txtComment
+        '
+        Me.txtComment.CalculationExpression = Nothing
+        Me.txtComment.FieldCode = Nothing
+        Me.txtComment.FieldDesc = Nothing
+        Me.txtComment.FieldMaxLength = 0
+        Me.txtComment.FieldName = Nothing
+        Me.txtComment.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtComment.isCalculatedField = False
+        Me.txtComment.IsSourceFromTable = False
+        Me.txtComment.IsSourceFromValueList = False
+        Me.txtComment.IsUnique = False
+        Me.txtComment.Location = New System.Drawing.Point(78, 68)
+        Me.txtComment.MaxLength = 200
+        Me.txtComment.MendatroryField = False
+        Me.txtComment.MyLinkLable1 = Me.RadLabel3
+        Me.txtComment.MyLinkLable2 = Nothing
+        Me.txtComment.Name = "txtComment"
+        Me.txtComment.ReferenceFieldDesc = Nothing
+        Me.txtComment.ReferenceFieldName = Nothing
+        Me.txtComment.ReferenceTableName = Nothing
+        Me.txtComment.Size = New System.Drawing.Size(349, 18)
+        Me.txtComment.TabIndex = 1556
+        '
         'chkPrivate
         '
         Me.chkPrivate.AutoSize = True
-        Me.chkPrivate.Location = New System.Drawing.Point(631, 2)
+        Me.chkPrivate.Location = New System.Drawing.Point(704, 3)
         Me.chkPrivate.Name = "chkPrivate"
         Me.chkPrivate.Size = New System.Drawing.Size(59, 18)
         Me.chkPrivate.TabIndex = 1507
@@ -326,11 +409,11 @@ Partial Class BMC_Transporter_Bill
         'UsLock1
         '
         Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(506, -2)
+        Me.UsLock1.Location = New System.Drawing.Point(579, 1)
         Me.UsLock1.Margin = New System.Windows.Forms.Padding(4)
         Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UsLock1.Name = "UsLock1"
-        Me.UsLock1.Size = New System.Drawing.Size(118, 22)
+        Me.UsLock1.Size = New System.Drawing.Size(118, 18)
         Me.UsLock1.Status = common.ERPTransactionStatus.Pending
         Me.UsLock1.TabIndex = 1555
         '
@@ -365,7 +448,7 @@ Partial Class BMC_Transporter_Bill
         Me.RadGroupBox3.Controls.Add(Me.MyLabel9)
         Me.RadGroupBox3.Controls.Add(Me.MyLabel10)
         Me.RadGroupBox3.HeaderText = ""
-        Me.RadGroupBox3.Location = New System.Drawing.Point(3, 71)
+        Me.RadGroupBox3.Location = New System.Drawing.Point(3, 91)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Size = New System.Drawing.Size(763, 126)
         Me.RadGroupBox3.TabIndex = 1554
@@ -392,6 +475,7 @@ Partial Class BMC_Transporter_Bill
         Me.txtFatShortage.ReferenceTableName = Nothing
         Me.txtFatShortage.Size = New System.Drawing.Size(82, 20)
         Me.txtFatShortage.TabIndex = 1534
+        Me.txtFatShortage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'btnGo
         '
@@ -435,6 +519,7 @@ Partial Class BMC_Transporter_Bill
         Me.TxtSnfShortage.ReferenceTableName = Nothing
         Me.TxtSnfShortage.Size = New System.Drawing.Size(82, 20)
         Me.TxtSnfShortage.TabIndex = 1535
+        Me.TxtSnfShortage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'TxtTankerprorata
         '
@@ -457,6 +542,7 @@ Partial Class BMC_Transporter_Bill
         Me.TxtTankerprorata.ReferenceTableName = Nothing
         Me.TxtTankerprorata.Size = New System.Drawing.Size(82, 20)
         Me.TxtTankerprorata.TabIndex = 1547
+        Me.TxtTankerprorata.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'TxtIceCharge
         '
@@ -479,6 +565,7 @@ Partial Class BMC_Transporter_Bill
         Me.TxtIceCharge.ReferenceTableName = Nothing
         Me.TxtIceCharge.Size = New System.Drawing.Size(82, 20)
         Me.TxtIceCharge.TabIndex = 1551
+        Me.TxtIceCharge.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'MyLabel11
         '
@@ -521,6 +608,7 @@ Partial Class BMC_Transporter_Bill
         Me.TxtKMRate.ReferenceTableName = Nothing
         Me.TxtKMRate.Size = New System.Drawing.Size(82, 20)
         Me.TxtKMRate.TabIndex = 1541
+        Me.TxtKMRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'MyLabel2
         '
@@ -563,6 +651,7 @@ Partial Class BMC_Transporter_Bill
         Me.TxtBarelCap.ReferenceTableName = Nothing
         Me.TxtBarelCap.Size = New System.Drawing.Size(82, 20)
         Me.TxtBarelCap.TabIndex = 1549
+        Me.TxtBarelCap.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'TxtTollTax
         '
@@ -585,6 +674,7 @@ Partial Class BMC_Transporter_Bill
         Me.TxtTollTax.ReferenceTableName = Nothing
         Me.TxtTollTax.Size = New System.Drawing.Size(82, 20)
         Me.TxtTollTax.TabIndex = 1536
+        Me.TxtTollTax.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'TxtFatRate
         '
@@ -608,6 +698,7 @@ Partial Class BMC_Transporter_Bill
         Me.TxtFatRate.ReferenceTableName = Nothing
         Me.TxtFatRate.Size = New System.Drawing.Size(82, 20)
         Me.TxtFatRate.TabIndex = 1535
+        Me.TxtFatRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'TxtDieselMinus
         '
@@ -630,6 +721,7 @@ Partial Class BMC_Transporter_Bill
         Me.TxtDieselMinus.ReferenceTableName = Nothing
         Me.TxtDieselMinus.Size = New System.Drawing.Size(82, 20)
         Me.TxtDieselMinus.TabIndex = 1539
+        Me.TxtDieselMinus.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'MyLabel12
         '
@@ -693,6 +785,7 @@ Partial Class BMC_Transporter_Bill
         Me.TxtSnfRate.ReferenceTableName = Nothing
         Me.TxtSnfRate.Size = New System.Drawing.Size(82, 20)
         Me.TxtSnfRate.TabIndex = 1535
+        Me.TxtSnfRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'txtDieselplus
         '
@@ -715,6 +808,7 @@ Partial Class BMC_Transporter_Bill
         Me.txtDieselplus.ReferenceTableName = Nothing
         Me.txtDieselplus.Size = New System.Drawing.Size(82, 20)
         Me.txtDieselplus.TabIndex = 1537
+        Me.txtDieselplus.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'MyLabel1
         '
@@ -757,6 +851,7 @@ Partial Class BMC_Transporter_Bill
         Me.TxtRateprorata.ReferenceTableName = Nothing
         Me.TxtRateprorata.Size = New System.Drawing.Size(82, 20)
         Me.TxtRateprorata.TabIndex = 1543
+        Me.TxtRateprorata.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'TxtTDR
         '
@@ -779,6 +874,7 @@ Partial Class BMC_Transporter_Bill
         Me.TxtTDR.ReferenceTableName = Nothing
         Me.TxtTDR.Size = New System.Drawing.Size(82, 20)
         Me.TxtTDR.TabIndex = 1545
+        Me.TxtTDR.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'MyLabel9
         '
@@ -808,9 +904,9 @@ Partial Class BMC_Transporter_Bill
         Me.RadGroupBox1.Controls.Add(Me.Label2)
         Me.RadGroupBox1.Controls.Add(Me.Label1)
         Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(448, 22)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(433, 30)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(304, 43)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(333, 35)
         Me.RadGroupBox1.TabIndex = 1552
         '
         'txtToDate
@@ -908,10 +1004,10 @@ Partial Class BMC_Transporter_Bill
         Me.RadGroupBox2.Controls.Add(Me.gv1)
         Me.RadGroupBox2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox2.HeaderText = "BMC Details"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(2, 203)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(2, 220)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(774, 142)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(764, 136)
         Me.RadGroupBox2.TabIndex = 28
         Me.RadGroupBox2.Text = "BMC Details"
         '
@@ -938,7 +1034,7 @@ Partial Class BMC_Transporter_Bill
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(754, 112)
+        Me.gv1.Size = New System.Drawing.Size(744, 106)
         Me.gv1.TabIndex = 17
         Me.gv1.TabStop = False
         Me.gv1.VarID = ""
@@ -948,9 +1044,9 @@ Partial Class BMC_Transporter_Bill
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnAddNew.Image = Global.XpertERPBulkProcurement.My.Resources.Resources._new
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(314, 1)
+        Me.btnAddNew.Location = New System.Drawing.Point(376, 1)
         Me.btnAddNew.Name = "btnAddNew"
-        Me.btnAddNew.Size = New System.Drawing.Size(20, 21)
+        Me.btnAddNew.Size = New System.Drawing.Size(20, 22)
         Me.btnAddNew.TabIndex = 1
         '
         'txtTransporter
@@ -964,7 +1060,7 @@ Partial Class BMC_Transporter_Bill
         Me.txtTransporter.IsSourceFromTable = False
         Me.txtTransporter.IsSourceFromValueList = False
         Me.txtTransporter.IsUnique = False
-        Me.txtTransporter.Location = New System.Drawing.Point(78, 49)
+        Me.txtTransporter.Location = New System.Drawing.Point(78, 46)
         Me.txtTransporter.MendatroryField = False
         Me.txtTransporter.MyLinkLable1 = Nothing
         Me.txtTransporter.MyLinkLable2 = Nothing
@@ -972,14 +1068,14 @@ Partial Class BMC_Transporter_Bill
         Me.txtTransporter.ReferenceFieldDesc = Nothing
         Me.txtTransporter.ReferenceFieldName = Nothing
         Me.txtTransporter.ReferenceTableName = Nothing
-        Me.txtTransporter.Size = New System.Drawing.Size(257, 20)
+        Me.txtTransporter.Size = New System.Drawing.Size(348, 20)
         Me.txtTransporter.TabIndex = 1532
         '
         'lblTransporter
         '
         Me.lblTransporter.FieldName = Nothing
         Me.lblTransporter.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTransporter.Location = New System.Drawing.Point(0, 49)
+        Me.lblTransporter.Location = New System.Drawing.Point(0, 48)
         Me.lblTransporter.Name = "lblTransporter"
         Me.lblTransporter.Size = New System.Drawing.Size(65, 16)
         Me.lblTransporter.TabIndex = 1531
@@ -999,7 +1095,7 @@ Partial Class BMC_Transporter_Bill
         Me.txtDate.IsSourceFromTable = False
         Me.txtDate.IsSourceFromValueList = False
         Me.txtDate.IsUnique = False
-        Me.txtDate.Location = New System.Drawing.Point(373, 2)
+        Me.txtDate.Location = New System.Drawing.Point(433, 3)
         Me.txtDate.MendatroryField = False
         Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtDate.MyLinkLable1 = Me.RadLabel4
@@ -1019,7 +1115,7 @@ Partial Class BMC_Transporter_Bill
         '
         Me.RadLabel4.FieldName = Nothing
         Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel4.Location = New System.Drawing.Point(341, 3)
+        Me.RadLabel4.Location = New System.Drawing.Point(397, 4)
         Me.RadLabel4.Name = "RadLabel4"
         Me.RadLabel4.Size = New System.Drawing.Size(30, 16)
         Me.RadLabel4.TabIndex = 1
@@ -1031,9 +1127,9 @@ Partial Class BMC_Transporter_Bill
         Me.lblTankerDesc.BorderVisible = True
         Me.lblTankerDesc.FieldName = Nothing
         Me.lblTankerDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTankerDesc.Location = New System.Drawing.Point(199, 27)
+        Me.lblTankerDesc.Location = New System.Drawing.Point(224, 25)
         Me.lblTankerDesc.Name = "lblTankerDesc"
-        Me.lblTankerDesc.Size = New System.Drawing.Size(227, 19)
+        Me.lblTankerDesc.Size = New System.Drawing.Size(202, 19)
         Me.lblTankerDesc.TabIndex = 144
         Me.lblTankerDesc.TextWrap = False
         '
@@ -1066,7 +1162,7 @@ Partial Class BMC_Transporter_Bill
         Me.txtTankerNo.IsSourceFromTable = False
         Me.txtTankerNo.IsSourceFromValueList = False
         Me.txtTankerNo.IsUnique = False
-        Me.txtTankerNo.Location = New System.Drawing.Point(78, 27)
+        Me.txtTankerNo.Location = New System.Drawing.Point(78, 25)
         Me.txtTankerNo.MendatroryField = False
         Me.txtTankerNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtTankerNo.MyLinkLable1 = Me.lblTankerNo
@@ -1077,7 +1173,7 @@ Partial Class BMC_Transporter_Bill
         Me.txtTankerNo.ReferenceFieldDesc = Nothing
         Me.txtTankerNo.ReferenceFieldName = Nothing
         Me.txtTankerNo.ReferenceTableName = Nothing
-        Me.txtTankerNo.Size = New System.Drawing.Size(115, 19)
+        Me.txtTankerNo.Size = New System.Drawing.Size(143, 19)
         Me.txtTankerNo.TabIndex = 22
         Me.txtTankerNo.Value = ""
         '
@@ -1087,14 +1183,14 @@ Partial Class BMC_Transporter_Bill
         Me.RadLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel1.Location = New System.Drawing.Point(-1, 3)
         Me.RadLabel1.Name = "RadLabel1"
-        Me.RadLabel1.Size = New System.Drawing.Size(33, 16)
+        Me.RadLabel1.Size = New System.Drawing.Size(75, 16)
         Me.RadLabel1.TabIndex = 22
-        Me.RadLabel1.Text = "Code"
+        Me.RadLabel1.Text = "Document No"
         '
         'txtDocNo
         '
         Me.txtDocNo.FieldName = Nothing
-        Me.txtDocNo.Location = New System.Drawing.Point(46, 1)
+        Me.txtDocNo.Location = New System.Drawing.Point(78, 1)
         Me.txtDocNo.MendatroryField = False
         Me.txtDocNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
@@ -1103,7 +1199,7 @@ Partial Class BMC_Transporter_Bill
         Me.txtDocNo.MyMaxLength = 32767
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
-        Me.txtDocNo.Size = New System.Drawing.Size(269, 22)
+        Me.txtDocNo.Size = New System.Drawing.Size(298, 22)
         Me.txtDocNo.TabIndex = 0
         Me.txtDocNo.TabStop = False
         Me.txtDocNo.Value = ""
@@ -1729,13 +1825,23 @@ Partial Class BMC_Transporter_Bill
         Me.RadLabel19.Text = "Document Amount without Discount"
         Me.RadLabel19.Visible = False
         '
+        'btnClose
+        '
+        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnClose.Location = New System.Drawing.Point(731, 9)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(57, 22)
+        Me.btnClose.TabIndex = 164
+        Me.btnClose.Text = "Close"
+        '
         'RadSplitButton1
         '
         Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnImport, Me.btnExport})
-        Me.RadSplitButton1.Location = New System.Drawing.Point(590, 11)
+        Me.RadSplitButton1.Location = New System.Drawing.Point(472, 11)
         Me.RadSplitButton1.Name = "RadSplitButton1"
-        Me.RadSplitButton1.Size = New System.Drawing.Size(110, 22)
+        Me.RadSplitButton1.Size = New System.Drawing.Size(122, 22)
         Me.RadSplitButton1.TabIndex = 163
         Me.RadSplitButton1.Text = "Import/Export"
         '
@@ -1755,9 +1861,9 @@ Partial Class BMC_Transporter_Bill
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(207, 11)
+        Me.btnPrint.Location = New System.Drawing.Point(191, 11)
         Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(78, 22)
+        Me.btnPrint.Size = New System.Drawing.Size(57, 22)
         Me.btnPrint.TabIndex = 162
         Me.btnPrint.Text = "Print"
         '
@@ -1765,9 +1871,9 @@ Partial Class BMC_Transporter_Bill
         '
         Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(407, 11)
+        Me.btnReverse.Location = New System.Drawing.Point(347, 11)
         Me.btnReverse.Name = "btnReverse"
-        Me.btnReverse.Size = New System.Drawing.Size(177, 22)
+        Me.btnReverse.Size = New System.Drawing.Size(122, 22)
         Me.btnReverse.TabIndex = 161
         Me.btnReverse.Text = "Revese and Unpost"
         Me.btnReverse.Visible = False
@@ -1776,9 +1882,9 @@ Partial Class BMC_Transporter_Bill
         '
         Me.btnLayout.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnLayout.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiImport, Me.rmiExport})
-        Me.btnLayout.Location = New System.Drawing.Point(291, 11)
+        Me.btnLayout.Location = New System.Drawing.Point(251, 11)
         Me.btnLayout.Name = "btnLayout"
-        Me.btnLayout.Size = New System.Drawing.Size(110, 22)
+        Me.btnLayout.Size = New System.Drawing.Size(93, 22)
         Me.btnLayout.TabIndex = 160
         Me.btnLayout.Text = "Layout"
         '
@@ -1798,9 +1904,9 @@ Partial Class BMC_Transporter_Bill
         '
         Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(75, 11)
+        Me.btnDelete.Location = New System.Drawing.Point(71, 11)
         Me.btnDelete.Name = "btnDelete"
-        Me.btnDelete.Size = New System.Drawing.Size(60, 22)
+        Me.btnDelete.Size = New System.Drawing.Size(57, 22)
         Me.btnDelete.TabIndex = 22
         Me.btnDelete.Text = "Delete"
         '
@@ -1808,9 +1914,9 @@ Partial Class BMC_Transporter_Bill
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(141, 11)
+        Me.btnPost.Location = New System.Drawing.Point(131, 11)
         Me.btnPost.Name = "btnPost"
-        Me.btnPost.Size = New System.Drawing.Size(60, 22)
+        Me.btnPost.Size = New System.Drawing.Size(57, 22)
         Me.btnPost.TabIndex = 3
         Me.btnPost.Text = "Post"
         '
@@ -1818,7 +1924,7 @@ Partial Class BMC_Transporter_Bill
         '
         Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSave.Location = New System.Drawing.Point(12, 11)
+        Me.btnSave.Location = New System.Drawing.Point(11, 11)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(57, 22)
         Me.btnSave.TabIndex = 2
@@ -1843,6 +1949,10 @@ Partial Class BMC_Transporter_Bill
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtComment, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
         Me.RadGroupBox3.PerformLayout()
@@ -1942,6 +2052,7 @@ Partial Class BMC_Transporter_Bill
         CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2066,4 +2177,9 @@ Partial Class BMC_Transporter_Bill
     Friend WithEvents btnImport As RadMenuItem
     Friend WithEvents btnExport As RadMenuItem
     Friend WithEvents chkPrivate As CheckBox
+    Friend WithEvents RadLabel6 As common.Controls.MyLabel
+    Friend WithEvents RadLabel3 As common.Controls.MyLabel
+    Friend WithEvents txtRemarks As common.Controls.MyTextBox
+    Friend WithEvents txtComment As common.Controls.MyTextBox
+    Friend WithEvents btnClose As RadButton
 End Class
