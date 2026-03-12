@@ -14394,6 +14394,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("incentive_days", "float NULL")
             coll.Add("vsp_payment", "varchar(10) NULL")
             coll.Add("VSP_Payee_Name", "varchar(100) NULL")
+            coll.Add("Saving_Payee_Name", "varchar(100) NULL")
             coll.Add("Zila", "varchar(100) NULL")
             coll.Add("Tehsil", "varchar(100) NULL")
             coll.Add("Branch_Name", "varchar(150) NULL")
