@@ -59749,7 +59749,6 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Against_Make_Saving_Payment", "integer  null references TSPL_MAKE_SAVING_PAYMENT_DETAIL(PK_ID)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_HEADER", coll, Nothing, True, True, "", "Payment_No", "Payment_Date", True)
 
-            Dim coll As Dictionary(Of String, String)
             coll = New Dictionary(Of String, String)
             coll.Add("Document_Code", "varchar(30) NOT NULL PRIMARY KEY")
             coll.Add("Document_Date", "datetime NOT NULL")
