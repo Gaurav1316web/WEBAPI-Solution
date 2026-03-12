@@ -59787,7 +59787,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION PRIMARY KEY")
             coll.Add("Document_Code", "varchar(30) NOT NULL References TSPL_BMC_TRANSPORTER_BILL_HEAD(Document_Code)")
-            coll.Add("MCC_Document_Code", "varchar(30)  NULL UNIQUE References TSPL_MILK_COLLECTION_MCC(Document_No)")
+            coll.Add("MCC_Document_Code", "varchar(30)  NULL References TSPL_MILK_COLLECTION_MCC(Document_No)")
             coll.Add("Station_1", "varchar(40)  NULL")
             coll.Add("Station_2", "varchar(40)  NULL")
             coll.Add("Station_3", "varchar(40)  NULL")
