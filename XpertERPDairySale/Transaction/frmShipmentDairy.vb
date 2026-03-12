@@ -7704,7 +7704,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                 '    Throw New Exception("Please define Freight Distance in EWay Bill Distance Master !")
                 'End If
                 If chkownVehicle.Checked = False Then
-                    If clsCommon.myLen(txtTransporterCode.Value) <= 0 Then
+                    If clsCommon.myLen(txtTransporterCode.Value) <= 0 AndAlso Not chkNoTranspoter.Checked Then
                         Throw New Exception("Pls Select Transporter")
                         txtTransporterCode.Focus()
                         Return False
@@ -17569,6 +17569,17 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
 
         CancelData(True)
 
+    End Sub
+    Private Sub chkNoTranspoter_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkNoTranspoter.ToggleStateChanged
+        If chkNoTranspoter.Checked Then
+            txtTransporterCode.Enabled = False
+            lblTransporterName.Enabled = False
+            txtTransporterCode.Value = ""
+            lblTransporterName.Text = ""
+        Else
+            txtTransporterCode.Enabled = True
+            lblTransporterName.Enabled = True
+        End If
     End Sub
 End Class
 

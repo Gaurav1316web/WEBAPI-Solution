@@ -10454,6 +10454,19 @@ where  TSPL_BOOKING_DETAIL.Cust_Code='" & strVendorno & "' and convert(date,TSPL
         End Try
     End Sub
 
+    Private Sub chkNoTranspoter_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkNoTranspoter.ToggleStateChanged
+        If chkNoTranspoter.Checked Then
+            fndTransporter.Enabled = False
+            lblTransporter.Enabled = False
+            fndTransporter.Value = ""
+            lblTransporter.Text = ""
+        Else
+            fndTransporter.Enabled = True
+            lblTransporter.Enabled = True
+
+        End If
+    End Sub
+
 
     'Private Function UpdateVehicleNo(ByVal trans As SqlTransaction) As Boolean
     '    Try

@@ -127,6 +127,7 @@ Public Class scrapinvoicehead
     Public RoundOffAmount As Double = 0
     Public Vehicle_Id As String = Nothing
     Public VehicleNo As String = Nothing
+    Public No_Transporter As Integer = 0
     Public Transporter_code As String = Nothing
     Public Vehicle_code As String = Nothing
     Public Freight_Distance As Integer = 0
@@ -189,6 +190,7 @@ Public Class scrapinvoicehead
             objin.Transporter_code = obj.Transporter_code
             objin.Vehicle_Id = obj.Vehicle_Id
             objin.VehicleNo = obj.VehicleNo
+            objin.No_Transporter = obj.No_Transporter
             objin.Vehicle_code = obj.Vehicle_code
             objin.Freight_Distance = obj.Freight_Distance
             objin.ispost = obj.ispost
@@ -612,6 +614,7 @@ Public Class scrapinvoicehead
             clsCommon.AddColumnsForChange(coll, "RoundOffAmount", objin.RoundOffAmount)
             clsCommon.AddColumnsForChange(coll, "Vehicle_Id", objin.Vehicle_Id)
             clsCommon.AddColumnsForChange(coll, "VehicleNo", objin.VehicleNo, True)
+            clsCommon.AddColumnsForChange(coll, "No_Transporter", objin.No_Transporter, True)
             clsCommon.AddColumnsForChange(coll, "Vehicle_code", objin.Vehicle_code)
             clsCommon.AddColumnsForChange(coll, "Freight_Distance", objin.Freight_Distance)
             clsCommon.AddColumnsForChange(coll, "Transport_code", objin.Transporter_code)

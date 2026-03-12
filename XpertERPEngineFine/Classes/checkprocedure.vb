@@ -2429,6 +2429,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmRouteWiseSaleTarget, "Route Wise Sale Target", "1.36.02.39", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmEwaybill, "Eway Bill Update", "1.36.02.40", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmDispatchReturn, "Dispatch Return", "1.36.02.41", clsUserMgtCode.SubModuleSaleDairyTransaction, "", 8, 0, "", "", "", True, True, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
+        InsertDefaultValue(clsUserMgtCode.FrmBoothCommission, "Booth Commission", "1.36.02.42", clsUserMgtCode.SubModuleSaleDairyTransaction, "", 8, 0, "", "", "", True, True, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         '' end of transaction
 
         '--Reports

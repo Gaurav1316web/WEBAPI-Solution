@@ -3276,6 +3276,16 @@ SELECT Document_Code, Batch_No, Qty, Parent_Line_No FROM TSPL_BATCH_ITEM WHERE T
 
         End Try
     End Sub
-
+    Private Sub chkNoTranspoter_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkNoTranspoter.ToggleStateChanged
+        If chkNoTranspoter.Checked Then
+            txtTransporterCode.Enabled = False
+            lblTransporterName.Enabled = False
+            txtTransporterCode.Value = ""
+            lblTransporterName.Text = ""
+        Else
+            txtTransporterCode.Enabled = True
+            lblTransporterName.Enabled = True
+        End If
+    End Sub
 
 End Class

@@ -2815,6 +2815,7 @@ Public Class clsUserMgtCode
     Public Const frmDemand_Sheet As String = "DEM-DEM_SHE"
     Public Const frmQuickDemand As String = "QUICK-DEM"
     Public Const frmProductQuickDemand As String = "PRD-QUK-DEM"
+    Public Const FrmBoothCommission As String = "BOOTH-COMM"
     Public Const frmLeakedSaleReturn As String = "LEK-SAL-RTN"
     Public Const frmDCSDEmandBooking As String = "DCS-DEM-TRN"
     Public Const frmBoothDispatch As String = "BOO-TH-DIS"

@@ -15279,4 +15279,16 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
         End Try
 
     End Sub
+
+    Private Sub chkNoTranspoter_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkNoTranspoter.ToggleStateChanged
+        If chkNoTranspoter.Checked Then
+            txtTransporterCode.Enabled = False
+            lblTransporterName.Enabled = False
+            txtTransporterCode.Value = ""
+            lblTransporterName.Text = ""
+        Else
+            txtTransporterCode.Enabled = True
+            lblTransporterName.Enabled = True
+        End If
+    End Sub
 End Class

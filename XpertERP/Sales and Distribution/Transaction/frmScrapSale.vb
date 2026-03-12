@@ -2739,6 +2739,7 @@ Public Class frmScrapSale
                 obj.Is_Taxable = chkTaxable.Checked
                 obj.IsBuyBack = chkBuyBack.Checked
                 obj.IsEwaybill = IIf(chkIsEwaybill.Checked, 1, 0)
+                obj.No_Transporter = IIf(chkNoTranspoter.Checked, 1, 0)
                 If chkinvoice.Checked = True Then
                     obj.CreateInvoice = 1
                 Else
@@ -3107,6 +3108,7 @@ Public Class frmScrapSale
                     chkOnHold.Checked = False
                 End If
                 chkIsEwaybill.Checked = IIf(obj.IsEwaybill, True, False)
+                chkNoTranspoter.Checked = IIf(obj.No_Transporter, True, False)
                 txtGWeighmentNo.Value = obj.Weighment_Code
                 lblInvoiceNo.Text = obj.strInvoiceNo
                 txtponumber.Text = obj.Po_No
@@ -6813,6 +6815,17 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+    Private Sub chkNoTranspoter_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkNoTranspoter.ToggleStateChanged
+        If chkNoTranspoter.Checked Then
+            txtTransporter_Code.Enabled = False
+            txtTransporter_desc.Enabled = False
+            txtTransporter_Code.Value = ""
+            txtTransporter_desc.Text = ""
+        Else
+            txtTransporter_Code.Enabled = True
+            txtTransporter_desc.Enabled = True
+        End If
     End Sub
 End Class
 
