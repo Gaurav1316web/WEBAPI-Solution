@@ -196,7 +196,7 @@ and convert(date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) +
             If objCommonVar.RCDFCFP Then
                 qryall += " FROM(  " & baseqry & ") xx  LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_code1='RCDFCF'  order by xx.UnionName,xx.Weighment_Date_Ordring  "
             Else
-                qryall += " FROM(  " & baseqry & ") xx  "
+                qryall += " FROM(  " & baseqry & ") xx order by xx.UnionName,xx.Weighment_Date_Ordring "
             End If
 
             Dim SummaryQry As String = ""
