@@ -141,7 +141,17 @@ Public Class rptUnionWiseMilkTankerCollectionDetail
 [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Gross_Weight, 
 case when isnull([" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Manual_Gross_Weight,0)=1 then 'M' else 'A' end as Manual_Gross_Weight,--when [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Manual_Gross_Weight = 0 then 'A' else null end as Manual_Gross_Weight,
 [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Tare_Weight ,case when isnull([" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Manual_Tare_Weight,0)= 1 then 'M' else'A' end as Manual_Tare_Weight,--when [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Manual_Tare_Weight = 0 then 'A' else null  end as Manual_Tare_Weight,
-case when isnull([" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK.Manual_Entry,0)= 1 then 'M' when [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK.Manual_Entry = 0 then 'A' else null  end as Manual_Entry_QC,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Net_Weight,
+--case when isnull([" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK.Manual_Entry,0)= 1 then 'M' when [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK.Manual_Entry = 0 then 'A' else null  end as Manual_Entry_QC,
+CASE 
+    WHEN ISNULL(Fat_Kg,0) > 0 THEN
+        CASE 
+            WHEN ISNULL([" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK.Manual_Entry,0) = 1 THEN 'M'
+            WHEN [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK.Manual_Entry = 0 THEN 'A'
+            ELSE NULL
+        END
+    ELSE ''
+END AS Manual_Entry_QC,
+[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Net_Weight,
 isnull(QCFAT.Param_Field_Value,0) AS Fat_Per,ISNULL(cast((TSPL_PLANT_WEIGHMENT.Net_Weight * QCFAT.Param_Field_Value)/100 as decimal(18,3)),0) as Fat_Kg,ISNULL(QCSNF.Param_Field_Value,0) as SNF_Per,
 isnull(cast((TSPL_PLANT_WEIGHMENT.Net_Weight * QCSNF.Param_Field_Value)/100 as decimal(18,3)),0) as SNF_Kg ,
     CASE
@@ -201,8 +211,8 @@ and convert(date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) +
 
             Dim SummaryQry As String = ""
             If chkSummary.Checked Then
-                SummaryQry += "SELECT ROW_NUMBER() OVER (ORDER BY XX.Weighment_Date) AS SNo,'" + objCommonVar.CurrentUserCode + "' as UserName,  
-                xx.UnionName, xx.Weighment_Date,count(XX.Tanker_No) AS Tanker_No,max(XX.ROUTE_NO) AS ROUTE_NO,--MAX(XX.WEIGHMENT_NO) AS Weighment_No, 				 	 
+                SummaryQry += "SELECT ROW_NUMBER() OVER (ORDER BY XX.UnionName) AS SNo,'" + objCommonVar.CurrentUserCode + "' as UserName,  
+               max(xx.FromDate)FromDate,max(xx.ToDate)ToDate, xx.UnionName, max(xx.Weighment_Date)Weighment_Date,count(XX.Tanker_No) AS Tanker_No,max(XX.ROUTE_NO) AS ROUTE_NO,--MAX(XX.WEIGHMENT_NO) AS Weighment_No, 				 	 
 				 count(XX.Gate_Entry_No) AS Gate_Entry_No,SUM(XX.Gross_Weight) AS Gross_Weight, SUM(XX.tare_weight) AS Tare_Weight,MAX(XX.manual_Tare_Weight) AS Manual_Tare_Weight, MAX(XX.Manual_Entry_Qc) AS Manual_Entry_QC,
                 SUM(XX.Net_Weight) AS Net_Weight,CAST(sum(isnull(XX.Fat_Kg,0)) AS DECIMAL(18,3)) AS Fat_Kg,CAST(sum(isnull(XX.SNF_Kg,0)) AS DECIMAL(18,3))  AS SNF_Kg,							
 			    SUM(CASE WHEN XX.QcStatus = 'Accept' THEN 1 ELSE 0 END) AS AcceptQC,
@@ -210,15 +220,15 @@ and convert(date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) +
 
 
 ,max(CompCode)CompCode, "
-                 If objCommonVar.RCDFCFP Then
+                If objCommonVar.RCDFCFP Then
                     SummaryQry += " max(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,max(TSPL_COMPANY_MASTER.add1)add1,max(TSPL_COMPANY_MASTER.add2)add2 "
                 Else
                     SummaryQry += " max(xx.Comp_Name)Comp_Name,max(xx.add1)add1,max(xx.add2)add2,MAX(CompCode)CompCode "
                 End If
             End If
 
-            SummaryQry += ",max(Weighment_Date_Ordring)Weighment_Date_Ordring From ( " & baseqry & ") XX LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_code1='RCDFCF' "
-            SummaryQry += " GROUP BY XX.Weighment_Date, XX.UnionName  ORDER BY Weighment_Date_Ordring,xx.UnionName;"
+            SummaryQry += ",(Weighment_Date_Ordring)Weighment_Date_Ordring From ( " & baseqry & ") XX LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_code1='RCDFCF' "
+            SummaryQry += " GROUP BY XX.Weighment_Date_Ordring, XX.UnionName  ORDER BY xx.UnionName,Weighment_Date_Ordring;"
 
 
             Dim dt2 As DataTable
@@ -310,7 +320,7 @@ and convert(date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) +
             gv1.Columns("Net_Weight").IsVisible = False
             gv1.Columns("Net_Weight").HeaderText = "Net Weight"
             gv1.Columns("Fat_Kg").IsVisible = True
-            gv1.Columns("Fat_Kg").HeaderText = "Fat Kg"
+            gv1.Columns("Fat_Kg").HeaderText = "FAT Kg"
             gv1.Columns("SNF_Kg").IsVisible = True
             gv1.Columns("SNF_Kg").HeaderText = "SNF Kg"
             gv1.Columns("AcceptQC").IsVisible = True
@@ -322,12 +332,45 @@ and convert(date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) +
             gv1.Columns("add2").IsVisible = False
 
         Next
+        'Dim summaryRowItemB As New GridViewSummaryRowItem()
+        'Dim Gross_Weight As New GridViewSummaryItem("Gross_Weight", "{0:n2}", GridAggregateFunction.Sum)
+        'summaryRowItemB.Add(Gross_Weight)
+        'Dim Tare_Weight As New GridViewSummaryItem("Tare_Weight", "{0:n2}", GridAggregateFunction.Sum)
+        'summaryRowItemB.Add(Tare_Weight)
+        'Dim Net_Weight As New GridViewSummaryItem("Net_Weight", "{0:n2}", GridAggregateFunction.Sum)
+        'summaryRowItemB.Add(Net_Weight)
+
+
+        'Dim SNF_Kg As New GridViewSummaryItem("SNF_Kg", "{0:n2}", GridAggregateFunction.Sum)
+        'summaryRowItemB.Add(SNF_Kg)
+
+        'Dim Fat_Kg As New GridViewSummaryItem("Fat_Kg", "{0:n2}", GridAggregateFunction.Sum)
+        'summaryRowItemB.Add(Fat_Kg)
+        'Dim intCount As Integer = 0
+        'gv1.ShowGroupPanel = True
+        'gv1.MasterTemplate.AutoExpandGroups = True
+        'gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        'gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Dim summaryRowItemB As New GridViewSummaryRowItem()
-        Dim intCount As Integer = 0
-        gv1.ShowGroupPanel = True
+
+        'Dim MilkTypeB As New GridViewSummaryItem("Payable_Amount", "{0:n0}", GridAggregateFunction.Sum)
+
+        Dim SNF_Kg As New GridViewSummaryItem("SNF_Kg", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(SNF_Kg)
+        Dim Fat_Kg As New GridViewSummaryItem("Fat_Kg", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(Fat_Kg)
+        Dim Net_Weight As New GridViewSummaryItem("Net_Weight", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(Net_Weight)
+        Dim Tare_Weight As New GridViewSummaryItem("Tare_Weight", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(Tare_Weight)
+        Dim Gross_Weight As New GridViewSummaryItem("Gross_Weight", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(Gross_Weight)
+        gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemB)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+        gv1.AutoSizeRows = True
+        gv1.BestFitColumns()
         gv1.MasterTemplate.AutoExpandGroups = True
-        gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+
     End Sub
     Sub SetGridFormat()
         gv1.ShowGroupPanel = False
@@ -411,18 +454,47 @@ and convert(date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) +
             gv1.Columns("SNF_Kg").HeaderText = "SNF Kg"
         Next
         Dim summaryRowItemB As New GridViewSummaryRowItem()
-
         Dim SNF_Kg As New GridViewSummaryItem("SNF_Kg", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItemB.Add(SNF_Kg)
+        Dim Gross_Weight As New GridViewSummaryItem("Gross_Weight", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(Gross_Weight)
+
+        Dim Tare_Weight As New GridViewSummaryItem("Tare_Weight", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(Tare_Weight)
+
+        Dim Net_Weight As New GridViewSummaryItem("Net_Weight", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(Net_Weight)
+
+        'Dim SNF_Kg As New GridViewSummaryItem("SNF_Kg", "{0:n2}", GridAggregateFunction.Sum)
+        'summaryRowItemB.Add(SNF_Kg)
 
         Dim Fat_Kg As New GridViewSummaryItem("Fat_Kg", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItemB.Add(Fat_Kg)
-        ' Dim summaryRowItem As New GridViewSummaryRowItem()
-        Dim intCount As Integer = 0
-        gv1.ShowGroupPanel = True
-        gv1.MasterTemplate.AutoExpandGroups = True
-        gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemB)
         gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+        gv1.AutoSizeRows = True
+        gv1.BestFitColumns()
+        gv1.MasterTemplate.AutoExpandGroups = True
+        'Dim summaryRowItemB As New GridViewSummaryRowItem()
+        'Dim Gross_Weight As New GridViewSummaryItem("Gross_Weight", "{0:n2}", GridAggregateFunction.Sum)
+        'summaryRowItemB.Add(Gross_Weight)
+
+        'Dim Tare_Weight As New GridViewSummaryItem("Tare_Weight", "{0:n2}", GridAggregateFunction.Sum)
+        'summaryRowItemB.Add(Tare_Weight)
+
+        'Dim Net_Weight As New GridViewSummaryItem("Net_Weight", "{0:n2}", GridAggregateFunction.Sum)
+        'summaryRowItemB.Add(Net_Weight)
+
+        'Dim SNF_Kg As New GridViewSummaryItem("SNF_Kg", "{0:n2}", GridAggregateFunction.Sum)
+        'summaryRowItemB.Add(SNF_Kg)
+
+        'Dim Fat_Kg As New GridViewSummaryItem("Fat_Kg", "{0:n2}", GridAggregateFunction.Sum)
+        'summaryRowItemB.Add(Fat_Kg)
+        'Dim intCount As Integer = 0
+        'gv1.ShowGroupPanel = True
+        'gv1.MasterTemplate.AutoExpandGroups = True
+        'gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        'gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         View()
     End Sub
 
@@ -449,10 +521,10 @@ and convert(date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) +
             view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Net_Weight").Name)
 
 
-            view.ColumnGroups.Add(New GridViewColumnGroup("Quality"))
+            view.ColumnGroups.Add(New GridViewColumnGroup("Quality Check"))
             view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("QcStatus").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Manual_Entry_QC").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("QcStatus").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Manual_Entry_QC").Name)
 
             view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Fat_Per").Name)
             view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("SNF_Per").Name)
