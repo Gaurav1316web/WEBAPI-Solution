@@ -672,8 +672,9 @@ Environment.NewLine + "Company : " & objCommonVar.CurrentCompanyName
                         ) FINAL1
                           GROUP BY 
                         FINAL1.[Vendor Code]"
-            'If AreaWiseBilling = True Then
-            '    strQry += " FINAL1.mcc_name"
+            If AreaWiseBilling = True Then
+                strQry += ", FINAL1.mcc_name"
+            End If
             'Else
             '    strQry += "  final1.MCC_Name"
             'End If
