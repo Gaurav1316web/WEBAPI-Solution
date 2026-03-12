@@ -500,14 +500,14 @@ Public Class clsBMCTransporterBillDetail
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BMC_TRANSPORTER_BILL_DETAIL", OMInsertOrUpdate.Insert, "", trans)
             Next
         End If
-        Dim qry As String = "select Tanker_No,Document_Date,sum(1) as Rep from (
-select TSPL_BMC_TRANSPORTER_BILL_HEAD.Tanker_No,CONVERT(Date, TSPL_BMC_TRANSPORTER_BILL_DETAIL.Document_Date,103) as Document_Date,  case when TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code='" & strDocNo & "' then 1 else 0 end as chk
+        Dim qry As String = "select Tanker_No,Document_Date,Trip,sum(1) as Rep from (
+select TSPL_BMC_TRANSPORTER_BILL_HEAD.Tanker_No,CONVERT(Date, TSPL_BMC_TRANSPORTER_BILL_DETAIL.Document_Date,103) as Document_Date,TSPL_BMC_TRANSPORTER_BILL_DETAIL.Trip,  case when TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code='" & strDocNo & "' then 1 else 0 end as chk
 from TSPL_BMC_TRANSPORTER_BILL_DETAIL 
 left outer join TSPL_BMC_TRANSPORTER_BILL_HEAD on TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code=TSPL_BMC_TRANSPORTER_BILL_DETAIL.Document_Code
-) xx group by Tanker_No,Document_Date having sum(chk)>0 and sum(1)>1"
+) xx group by Tanker_No,Document_Date,Trip having sum(chk)>0 and sum(1)>1"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            Throw New Exception("Repeated Entry found on [" & clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("Document_Date")), "dd/MM/yyyy") & "]")
+            Throw New Exception("Repeated Entry found on [" & clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("Document_Date")), "dd/MM/yyyy") & "] for Trip [" + clsCommon.myCstr(dt.Rows(0)("Trip")) + "]")
         End If
         Return True
     End Function
