@@ -8574,8 +8574,8 @@ FROM TSPL_ITEM_MASTER"
             '    qry = "Update TSPL_DEMAND_BOOKING_DETAIL set Is_Posted=(select case when TSPL_DEMAND_BOOKING_MASTER.Posted=1 then 'Y' else 'N' end from TSPL_DEMAND_BOOKING_MASTER where TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No ) "
             '    clsDBFuncationality.ExecuteNonQuery(qry)
             'End If
-            clsDBFuncationality.ExecuteNonQuery("update TSPL_DEMAND_BOOKING_DETAIL set Source_By='APP' where Created_By is not null and Created_By <>''  and Source_By is null")
-            clsDBFuncationality.ExecuteNonQuery("update TSPL_DEMAND_BOOKING_DETAIL set Source_By='ERP' where (Created_By is null or Created_By ='') and Source_By is null")
+            'clsDBFuncationality.ExecuteNonQuery("update TSPL_DEMAND_BOOKING_DETAIL set Source_By='APP' where Created_By is not null and Created_By <>''  and Source_By is null")
+            'clsDBFuncationality.ExecuteNonQuery("update TSPL_DEMAND_BOOKING_DETAIL set Source_By='ERP' where (Created_By is null or Created_By ='') and Source_By is null")
 
 
             coll = New Dictionary(Of String, String)()
@@ -28234,6 +28234,8 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Sub_Location_code", "varchar(12) NULL")
             coll.Add("EWayBill_QR_Code", "image null")
             coll.Add("Ewb_cancelDate", "datetime null")
+            coll.Add("VehicleNo", "Varchar(50) NULL")
+            coll.Add("No_Transporter", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPINVOICE_HEAD", coll, Nothing, True, True, "", "invoice_No", "posting_Date", True)
 
             qry = "alter table TSPL_SCRAPINVOICE_HEAD alter column AddCode1 varchar(35) null "
@@ -35799,6 +35801,8 @@ inner JOIN tspl_sd_sale_Invoice_detail ON TSPL_Customer_Invoice_Head.Against_Sal
             coll.Add("DrAmt", "varchar(20)  NULL")
             coll.Add("CrAmt", "varchar(20)  NULL")
             coll.Add("ClosingBal", "varchar(20) NULL")
+            coll.Add("VehicleNo", "Varchar(50) NULL")
+            coll.Add("No_Transporter", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPSALE_HEAD", coll, Nothing, True, True, "", "shipment_No", "shipment_Date", True)
 
             qry = "alter table TSPL_SCRAPSALE_HEAD alter column AddCode1 varchar(35) null "

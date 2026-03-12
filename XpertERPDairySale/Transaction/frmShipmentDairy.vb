@@ -62,6 +62,7 @@ Public Class frmShipmentDairy
     Dim EWBThresholdLimitForIntraCity As Integer = 0
     Dim EWBThresholdLimitForIntraState As Integer = 0
     Dim EWBThresholdLimitForInterState As Integer = 0
+    Dim DefaultEnableNoTransporter As Boolean = False
 
     Const colURoundOff As String = "colURoundOff"
     Const col_Is_Taxable As String = "col_Is_Taxable"
@@ -810,6 +811,7 @@ Public Class frmShipmentDairy
         EWBThresholdLimitForIntraCity = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraCity, Nothing))
         EWBThresholdLimitForIntraState = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraState, Nothing))
         EWBThresholdLimitForInterState = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForInterState, Nothing))
+        DefaultEnableNoTransporter = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultEnableNoTransporter, clsFixedParameterCode.DefaultEnableNoTransporter, Nothing)) = 1, True, False)
 
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = dtpChallan.Value
@@ -1266,6 +1268,15 @@ Public Class frmShipmentDairy
             lblManualVehicle.Visible = True
         End If
         btnCancel.Enabled = False
+        If DefaultEnableNoTransporter Then
+            txtTransporterCode.Enabled = False
+            lblTransporterName.Enabled = False
+            chkNoTranspoter.Checked = True
+        Else
+            txtTransporterCode.Enabled = True
+            lblTransporterName.Enabled = True
+            chkNoTranspoter.Checked = False
+        End If
     End Sub
     Public Shared Function GetItemType() As DataTable
         Dim dt As New DataTable()
@@ -7316,7 +7327,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             '' End  of EWB Threshold Limit 
             If clsCommon.CompairString(ddlDispatchTerms.SelectedValue, "CIF") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlDispatchTerms.SelectedValue, "CF") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlDispatchTerms.SelectedValue, "FE") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlDispatchTerms.SelectedValue, "O") = CompairStringResult.Equal Then
                 If chkownVehicle.Checked = False Then
-                    If clsCommon.myLen(txtTransporterCode.Value) <= 0 Then
+                    If clsCommon.myLen(txtTransporterCode.Value) <= 0 AndAlso Not chkNoTranspoter.Checked Then
                         txtTransporterCode.Focus()
                         Throw New Exception("Please select Transporter")
                     End If
@@ -17484,28 +17495,39 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
 
         Try
             If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso clsCommon.myLen(txtInvoiceNo.Text) > 0 Then
-                Dim EwbNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select EWayBillNo from TSPL_SD_SALE_INVOICE_HEAD where  document_code = '" & txtInvoiceNo.Text & "' ", trans))
-                If clsCommon.myLen(EwbNo) = 0 Then
-                    If FlagDocumentIsTaxable = 1 AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value, trans) Then
-                        Dim EInvoiceCancelTimeValid As Int64 = 0
-                        EInvoiceCancelTimeValid = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" Select  isnull (DATEDIFF(hour,EInvoice_Posting_Date,GETDATE()),0) as PostedHours from tspl_sd_sale_invoice_head where  document_code = '" & txtInvoiceNo.Text & "'", trans))
-                        If EInvoiceCancelTimeValid >= 24 Then
-                            Throw New Exception("E-Way Bill can not be Generated.It has been more than 24 hours.")
-                        End If
-                    End If
-                    If clsCommon.myLen(GetEWayBillNo(txtInvoiceNo.Text, trans)) <= 0 Then
-                        clsPSInvoiceHead.EWayBill_Implementation(txtInvoiceNo.Text, txtBillToLocation.Value, trans, True)
+                Dim strQry As String = "select Document_Code,Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & txtDocNo.Value & "'"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    For Each dr As DataRow In dt.Rows
+                        Dim DocNo As String = clsCommon.myCstr(dr("Document_Code"))
+                        Dim InvNo As String = clsCommon.myCstr(dr("Sale_Invoice_No"))
+                        Dim EwbNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select EWayBillNo from TSPL_SD_SALE_INVOICE_HEAD where  document_code = '" & InvNo & "' ", trans))
+                        If clsCommon.myLen(EwbNo) = 0 Then
+                            If FlagDocumentIsTaxable = 1 AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value, trans) Then
+                                Dim EInvoiceCancelTimeValid As Int64 = 0
+                                EInvoiceCancelTimeValid = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" Select  isnull (DATEDIFF(hour,EInvoice_Posting_Date,GETDATE()),0) as PostedHours from tspl_sd_sale_invoice_head where  document_code = '" & InvNo & "'", trans))
+                                If EInvoiceCancelTimeValid >= 24 Then
+                                    Throw New Exception("E-Way Bill can not be Generated.It has been more than 24 hours.")
+                                End If
+                            End If
+                            If clsCommon.myLen(GetEWayBillNo(InvNo, trans)) <= 0 Then
+                                clsPSInvoiceHead.EWayBill_Implementation(InvNo, txtBillToLocation.Value, trans, True)
 
-                        clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SALE_INVOICE_HEAD set IsEwaybill=1 where Document_Code='" & txtInvoiceNo.Text & "'", trans)
-                        clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SHIPMENT_HEAD set IsEwaybill=1 where Document_Code='" & txtDocNo.Value & "'", trans)
+                                clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SALE_INVOICE_HEAD set IsEwaybill=1 where Document_Code='" & InvNo & "'", trans)
+                                clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SHIPMENT_HEAD set IsEwaybill=1 where Document_Code='" & DocNo & "'", trans)
 
-                        If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" & txtInvoiceNo.Text & "'", trans)) <= 0 Then
-                            Throw New Exception("E-Way Bill For Sales Invoice No [" + txtInvoiceNo.Text + "] is not generated")
+                                If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" & InvNo & "'", trans)) <= 0 Then
+                                    Throw New Exception("E-Way Bill For Sales Invoice No [" + InvNo + "] is not generated")
+                                End If
+                            End If
+                        Else
+                            Throw New Exception("Ewb no [" & clsCommon.myCstr(EwbNo) & "] is already exists")
                         End If
-                    End If
+                    Next
                 Else
-                    Throw New Exception("Ewb no [" & clsCommon.myCstr(EwbNo) & "] is already exists")
+                    Throw New Exception("Please Select Parent Document")
                 End If
+
 
             Else
                 Throw New Exception("Please Select Document/Invoice ")

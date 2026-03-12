@@ -9,6 +9,8 @@ Imports System.Text.RegularExpressions
 Public Class frmDairyBookingCustomer
     Inherits FrmMainTranScreen
 #Region "Variables"
+    Dim DefaultEnableNoTransporter As Boolean = False
+
     Dim ApplyEWBThresholdLimit As Boolean = False
     Dim EWBThresholdLimitForIntraCity As Integer = 0
     Dim EWBThresholdLimitForIntraState As Integer = 0
@@ -327,6 +329,7 @@ Public Class frmDairyBookingCustomer
         EWBThresholdLimitForIntraCity = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraCity, Nothing))
         EWBThresholdLimitForIntraState = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraState, Nothing))
         EWBThresholdLimitForInterState = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForInterState, Nothing))
+        DefaultEnableNoTransporter = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultEnableNoTransporter, clsFixedParameterCode.DefaultEnableNoTransporter, Nothing)) = 1, True, False)
 
         'SetMailRight()
         SetUserMgmtNew()
@@ -3041,6 +3044,16 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             chkTPT.Visible = False
         End If
         PaymentType()
+        If DefaultEnableNoTransporter Then
+            fndTransporter.Enabled = False
+            lblTransporter.Enabled = False
+            chkNoTranspoter.Checked = True
+        Else
+            fndTransporter.Enabled = True
+            lblTransporter.Enabled = True
+            chkNoTranspoter.Checked = False
+        End If
+
     End Sub
     Sub ENABLEDISABLECONTROLS()
         If ShowBookingTypeDropDownonDairyBookingCustomer Then

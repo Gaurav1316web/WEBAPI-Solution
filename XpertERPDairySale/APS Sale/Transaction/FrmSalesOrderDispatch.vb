@@ -6,6 +6,7 @@ Public Class FrmSalesOrderDispatch
 
 #Region "Variables"
     Private isNewEntry As Boolean = False
+    Dim DefaultEnableNoTransporter As Boolean = False
     Dim isInsideLoadData As Boolean = False
     Dim isCellValueChangedOpen As Boolean = False
     Dim GSTStatus As Boolean = False
@@ -112,7 +113,7 @@ Public Class FrmSalesOrderDispatch
         EWBThresholdLimitForIntraCity = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraCity, Nothing))
         EWBThresholdLimitForIntraState = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraState, Nothing))
         EWBThresholdLimitForInterState = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForInterState, Nothing))
-
+        DefaultEnableNoTransporter = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultEnableNoTransporter, clsFixedParameterCode.DefaultEnableNoTransporter, Nothing)) = 1, True, False)
         btnprinte_wayBill.Visible = True
         lblInvnoForReplacement.Visible = False
         txtInvoice_for_replacement.Visible = False
@@ -780,7 +781,15 @@ Public Class FrmSalesOrderDispatch
         'End If
         chkewaybill.Checked = False
         ControlEnableDisable(True)
-
+        If DefaultEnableNoTransporter Then
+            txtTransporterCode.Enabled = False
+            lblTransporterName.Enabled = False
+            chkNoTranspoter.Checked = True
+        Else
+            txtTransporterCode.Enabled = True
+            lblTransporterName.Enabled = True
+            chkNoTranspoter.Checked = False
+        End If
     End Sub
     Private Sub CreateTable()
         Dim coll As Dictionary(Of String, String)
@@ -1992,7 +2001,7 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
             If clsCommon.myLen(txtLocation.Value) > 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtLocation.Value) & "'")), "Y") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtSubLocation.Value) <= 0 Then
                 Throw New Exception("Please select sub location")
             End If
-            If clsCommon.myLen(txtTransporterCode.Value) <= 0 Then
+            If clsCommon.myLen(txtTransporterCode.Value) <= 0 AndAlso Not chkNoTranspoter.Checked Then
                 Throw New Exception("Please select Transporter")
             End If
             If clsCommon.myLen(txtVehicleCode.Value) <= 0 Then

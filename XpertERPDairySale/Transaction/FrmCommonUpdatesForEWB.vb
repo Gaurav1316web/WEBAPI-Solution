@@ -54,6 +54,7 @@ Public Class FrmCommonUpdatesForEWB
                     Throw New Exception("Please Enter Vehicle No.")
                 End If
                 tran.Commit()
+                clsCommon.MyMessageBoxShow(Me, "Vehicle Updated.", Me.Text)
             Else
                 Throw New Exception("Please Select Document")
 
@@ -77,29 +78,42 @@ Public Class FrmCommonUpdatesForEWB
             ElseIf clsCommon.CompairString(strScreenType, "Dispatch") = CompairStringResult.Equal OrElse clsCommon.CompairString(strScreenType, "ProductDispatch") = CompairStringResult.Equal OrElse clsCommon.CompairString(strScreenType, "DCSSale") = CompairStringResult.Equal OrElse clsCommon.CompairString(strScreenType, "APSSale") = CompairStringResult.Equal Then
                 strInvoiceNO = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_head  where Against_Shipment_No='" & txtDocNo.Text & "'  ", trans))
                 strShipmentNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select ParentDocNo from TSPL_SD_SHIPMENT_HEAD where Document_Code='" & txtDocNo.Text & "' ", trans))
-
+            ElseIf clsCommon.CompairString(strScreenType, "ScrapSale") = CompairStringResult.Equal Then
+                strInvoiceNO = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select invoice_No from TSPL_SCRAPINVOICE_HEAD where shipment_No='" & txtDocNo.Text & "'  ", trans))
+                strShipmentNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select shipment_No from tspl_scrapsale_head where shipment_No='" & txtDocNo.Text & "' ", trans))
             End If
             Dim strEwb As String = GetEWayBillNo(strInvoiceNO, trans)
             If clsCommon.myLen(strEwb) = 0 Then
                 If clsCommon.MyMessageBoxShow(Me, "Do you want to update vehicle no?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
-                    If clsCommon.myLen(fndTransporter.Value) > 0 Then
-                        clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SALE_INVOICE_HEAD set VehicleNo='" & txtManualVehicle.Text & "',Transport_Code='" & fndTransporter.Value & "',No_Transporter='" & clsCommon.myCstr(NoTransporter) & "' where Document_Code='" & strInvoiceNO & "'", trans)
-                        clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SHIPMENT_HEAD set VehicleNo='" & txtManualVehicle.Text & "',Transport_Code='" & fndTransporter.Value & "',No_Transporter='" & clsCommon.myCstr(NoTransporter) & "' where ParentDocNo='" & strShipmentNo & "'", trans)
-                    Else
-                        clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SALE_INVOICE_HEAD set VehicleNo='" & txtManualVehicle.Text & "',No_Transporter='" & clsCommon.myCstr(NoTransporter) & "' where Document_Code='" & strInvoiceNO & "'", trans)
-                        clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SHIPMENT_HEAD set VehicleNo='" & txtManualVehicle.Text & "',No_Transporter='" & clsCommon.myCstr(NoTransporter) & "' where ParentDocNo='" & strShipmentNo & "'", trans)
-                    End If
-
-
-                    If clsCommon.CompairString(strScreenType, "CustomerBooking") = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(strScreenType, "ScrapSale") = CompairStringResult.Equal Then
                         If clsCommon.myLen(fndTransporter.Value) > 0 Then
-                            clsDBFuncationality.ExecuteNonQuery("update TSPL_BOOKING_MATSER set  Is_Manual_Vehicle='Y',Manual_VehicleNo='" & txtManualVehicle.Text & "',Transport_Id='" & fndTransporter.Value & "',No_Transporter='" & clsCommon.myCstr(NoTransporter) & "' where Document_No='" & txtDocNo.Text & "'", trans)
+                            clsDBFuncationality.ExecuteNonQuery("update TSPL_SCRAPINVOICE_HEAD set VehicleNo='" & txtManualVehicle.Text & "',Transport_code='" & fndTransporter.Value & "',No_Transporter='" & clsCommon.myCstr(NoTransporter) & "' where invoice_No='" & strInvoiceNO & "'", trans)
+                            clsDBFuncationality.ExecuteNonQuery("update tspl_scrapsale_head set VehicleNo='" & txtManualVehicle.Text & "',Transport_code='" & fndTransporter.Value & "',No_Transporter='" & clsCommon.myCstr(NoTransporter) & "' where shipment_No='" & strShipmentNo & "'", trans)
                         Else
-                            clsDBFuncationality.ExecuteNonQuery("update TSPL_BOOKING_MATSER set  Is_Manual_Vehicle='Y',Manual_VehicleNo='" & txtManualVehicle.Text & "',No_Transporter='" & clsCommon.myCstr(NoTransporter) & "' where Document_No='" & txtDocNo.Text & "'", trans)
-
+                            clsDBFuncationality.ExecuteNonQuery("update TSPL_SCRAPINVOICE_HEAD set VehicleNo='" & txtManualVehicle.Text & "',No_Transporter='" & clsCommon.myCstr(NoTransporter) & "' where invoice_No='" & strInvoiceNO & "'", trans)
+                            clsDBFuncationality.ExecuteNonQuery("update tspl_scrapsale_head set VehicleNo='" & txtManualVehicle.Text & "',No_Transporter='" & clsCommon.myCstr(NoTransporter) & "' where shipment_No='" & strShipmentNo & "'", trans)
+                        End If
+                    Else
+                        If clsCommon.myLen(fndTransporter.Value) > 0 Then
+                            clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SALE_INVOICE_HEAD set VehicleNo='" & txtManualVehicle.Text & "',Transport_Code='" & fndTransporter.Value & "',No_Transporter='" & clsCommon.myCstr(NoTransporter) & "' where Document_Code='" & strInvoiceNO & "'", trans)
+                            clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SHIPMENT_HEAD set VehicleNo='" & txtManualVehicle.Text & "',Transport_Code='" & fndTransporter.Value & "',No_Transporter='" & clsCommon.myCstr(NoTransporter) & "' where ParentDocNo='" & strShipmentNo & "'", trans)
+                        Else
+                            clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SALE_INVOICE_HEAD set VehicleNo='" & txtManualVehicle.Text & "',No_Transporter='" & clsCommon.myCstr(NoTransporter) & "' where Document_Code='" & strInvoiceNO & "'", trans)
+                            clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SHIPMENT_HEAD set VehicleNo='" & txtManualVehicle.Text & "',No_Transporter='" & clsCommon.myCstr(NoTransporter) & "' where ParentDocNo='" & strShipmentNo & "'", trans)
                         End If
 
+
+                        If clsCommon.CompairString(strScreenType, "CustomerBooking") = CompairStringResult.Equal Then
+                            If clsCommon.myLen(fndTransporter.Value) > 0 Then
+                                clsDBFuncationality.ExecuteNonQuery("update TSPL_BOOKING_MATSER set  Is_Manual_Vehicle='Y',Manual_VehicleNo='" & txtManualVehicle.Text & "',Transport_Id='" & fndTransporter.Value & "',No_Transporter='" & clsCommon.myCstr(NoTransporter) & "' where Document_No='" & txtDocNo.Text & "'", trans)
+                            Else
+                                clsDBFuncationality.ExecuteNonQuery("update TSPL_BOOKING_MATSER set  Is_Manual_Vehicle='Y',Manual_VehicleNo='" & txtManualVehicle.Text & "',No_Transporter='" & clsCommon.myCstr(NoTransporter) & "' where Document_No='" & txtDocNo.Text & "'", trans)
+
+                            End If
+
+                        End If
                     End If
+
                 End If
 
             Else
