@@ -5406,17 +5406,17 @@ Public Class FrmARInvoiceEntry
             End If
 
             If clsCommon.MyMessageBoxShow("Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
-                Dim strIrnNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select IRN_No from TSPL_Customer_Invoice_Head where Document_No='" & txtDocNo.Value & "'"))
-                If IsCancelByAdmin Then
-                    If clsCommon.myLen(strIrnNo) > 0 Then
-                        If clsCommon.MyMessageBoxShow(Me, "Is E-invoice Cancelled on GST Portal?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
-                            isEinvoiceCancelled = True
-                        End If
-                    End If
-                End If
+
                 Return False
             End If
-
+            Dim strIrnNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select IRN_No from TSPL_Customer_Invoice_Head where Document_No='" & txtDocNo.Value & "'"))
+            If IsCancelByAdmin Then
+                If clsCommon.myLen(strIrnNo) > 0 Then
+                    If clsCommon.MyMessageBoxShow(Me, "Is E-invoice Cancelled on GST Portal?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                        isEinvoiceCancelled = True
+                    End If
+                End If
+            End If
             Dim strReceiptCount As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select receipt_no from TSPL_RECEIPT_DETAIL where Document_No='" & txtDocNo.Value & "'"))
             If clsCommon.myLen(strReceiptCount) > 0 Then
                 Throw New Exception("You cannot cancelled this document because receiving (" + clsCommon.myCstr(strReceiptCount) + ") has been done against its AR Invoice.")
