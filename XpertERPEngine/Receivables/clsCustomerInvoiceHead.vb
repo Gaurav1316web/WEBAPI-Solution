@@ -1007,7 +1007,7 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
         Return True
     End Function
 
-    Public Shared Function CancelData(ByVal Doc_No As String) As Boolean
+    Public Shared Function CancelData(ByVal Doc_No As String, ByVal isCancelByAdmin As Boolean) As Boolean
         '' created by Sanjay date 31-12-2020
         Dim qry As String = ""
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -1024,7 +1024,7 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
             If dtirn IsNot Nothing AndAlso dtirn.Rows.Count > 0 Then
                 Dim isTaxTaxable As String = "N"
                 isTaxTaxable = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select 'Y' from TSPL_TAX_GROUP_MASTER where Tax_Group_Code ='" & obj.Tax_Group & "' and Is_Tax_Exempted =0 and Tax_Group_Type ='S'", trans))
-                If clsCommon.CompairString(clsCommon.myCstr(dtirn.Rows(0)("Einvoice_type")), "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(isTaxTaxable), "Y") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.AgainstServiceInvoice), "Y") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True Then
+                If clsCommon.CompairString(clsCommon.myCstr(dtirn.Rows(0)("Einvoice_type")), "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(isTaxTaxable), "Y") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.AgainstServiceInvoice), "Y") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True AndAlso Not isCancelByAdmin Then
                     If ClsEInvoiceOFAPIs.EInvoice_Cancellation(obj.Document_No, clsCommon.myCstr(dtirn.Rows(0)("IRN_No")), obj.loc_code, trans) = True Then
                     Else
                         Throw New Exception("Invalid JSON Value")

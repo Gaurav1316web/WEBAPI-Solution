@@ -3053,6 +3053,17 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             lblTransporter.Enabled = True
             chkNoTranspoter.Checked = False
         End If
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+            lblReceipt.Visible = False
+            txtReceipt.Visible = False
+            lblReceiptAmt.Visible = False
+            lblReceiptAmtDesc.Visible = False
+        Else
+            lblReceipt.Visible = True
+            txtReceipt.Visible = True
+            lblReceiptAmt.Visible = True
+            lblReceiptAmtDesc.Visible = True
+        End If
 
     End Sub
     Sub ENABLEDISABLECONTROLS()
@@ -8153,7 +8164,7 @@ where TSPL_ITEM_CAPACITY_LIMIT_head.From_Date<='" & clsCommon.GetPrintDate(txtDa
         txtSalesman1.Value = clsCommon.ShowSelectForm("DBC-SNOSaleman", qry, "Code", whrcls, txtSalesman1.Value, "Code", isButtonClicked)
         lblSalesmandesc1.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Emp_Name as Name from TSPL_EMPLOYEE_MASTER where EMP_CODE ='" & txtSalesman1.Value & "' and Emp_type='Salesman'"))
     End Sub
-    Private Sub txtReceipt__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean)
+    Private Sub txtReceipt__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtReceipt._MYValidating
         If clsCommon.myLen(txtVendorNo.Value) > 0 Then
             Dim qry As String = "select TSPL_RECEIPT_HEADER.Receipt_No as Code,TSPL_RECEIPT_HEADER.Receipt_Amount as Amount,TSPL_RECEIPT_HEADER.Receipt_Date,TSPL_RECEIPT_HEADER.Receipt_Post_Date,TSPL_RECEIPT_HEADER.Receipt_Type,TSPL_RECEIPT_HEADER.Balance_Amt from TSPL_RECEIPT_HEADER"
             Dim whrcls As String = " TSPL_RECEIPT_HEADER.Cust_Code='" & clsCommon.myCstr(txtVendorNo.Value) & "'"
