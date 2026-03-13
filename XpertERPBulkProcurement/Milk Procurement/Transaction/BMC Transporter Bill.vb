@@ -53,7 +53,7 @@ Public Class BMC_Transporter_Bill
 
     Private Sub txtTankerNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtTankerNo._MYValidating
         Try
-            Dim qry As String = "SELECT Distinct TSPL_MILK_COLLECTION_MCC.Tanker_No as [TankerNo] FROM TSPL_MILK_COLLECTION_MCC "
+            Dim qry As String = "select Tanker_No as TankerNo,Tanker_Name as TankerName from   TSPL_TANKER_MASTER "
             txtTankerNo.Value = clsCommon.ShowSelectForm("RoutMasFND", qry, "TankerNo", "", txtTankerNo.Value, "", isButtonClicked)
             lblTankerDesc.Text = clsDBFuncationality.getSingleValue(" select Tanker_Name from TSPL_TANKER_MASTER where Tanker_No='" + txtTankerNo.Value + "'")
 
