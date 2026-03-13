@@ -1009,7 +1009,7 @@ Public Class frmAssembDis
             txtCode.MyReadOnly = True
         End If
         If txtCode.MyReadOnly OrElse isButtonClicked Then
-            Dim qry As String = "select CODE as Code,Description as Name,ASSEMBLY_DATE AS [Date],TRANSACTION_TYPE as [Type],Main_Item_Code as [Main Item Code],BOM_CODE as [BOM Code],LOCATION_CODE as [Location Code] from  TSPL_PROD_ASSEMBLIES"
+            Dim qry As String = "select CODE as Code,Description as Name,FORMAT(CAST(ASSEMBLY_DATE AS DATETIME),'dd/MM/yyyy hh:mm tt') AS [Date],TRANSACTION_TYPE as [Type],Main_Item_Code as [Main Item Code],BOM_CODE as [BOM Code],LOCATION_CODE as [Location Code] from  TSPL_PROD_ASSEMBLIES"
             txtCode.Value = clsCommon.ShowSelectForm("TSPL_PROD_ASSEMBLIES", qry, "Code", "", txtCode.Value, "", isButtonClicked, "TSPL_PROD_ASSEMBLIES.ASSEMBLY_DATE")
             LoadData(txtCode.Value, NavigatorType.Current)
         End If

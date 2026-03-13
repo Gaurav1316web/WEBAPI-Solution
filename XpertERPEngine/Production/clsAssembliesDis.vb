@@ -7,7 +7,7 @@ Public Class clsAssembliesDis
     Public arrBatchItem As List(Of clsBatchInventory) = Nothing
     Public CODE As String = ""
     Public MainItemStatus As String = Nothing
-    Public ASSEMBLY_DATE As Date? = Nothing
+    Public ASSEMBLY_DATE As DateTime = Nothing
     Public TRANSACTION_TYPE As String = ""
     Public DISASSEMBLY_TYPE As String = ""
     Public ASSEMBLY_CODE As String = ""
@@ -73,7 +73,12 @@ Public Class clsAssembliesDis
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             clsCommon.AddColumnsForChange(coll, "CODE", obj.CODE)
-            clsCommon.AddColumnsForChange(coll, "ASSEMBLY_DATE", clsCommon.GetPrintDate(obj.ASSEMBLY_DATE, "dd/MMM/yyyy"))
+            Dim ServerDate As DateTime = Nothing
+            If isNewEntry Then
+                ServerDate = clsCommon.GETSERVERDATE(trans)
+                obj.ASSEMBLY_DATE = New DateTime(obj.ASSEMBLY_DATE.Year, obj.ASSEMBLY_DATE.Month, obj.ASSEMBLY_DATE.Day, ServerDate.Hour, ServerDate.Minute, ServerDate.Second)
+            End If
+            clsCommon.AddColumnsForChange(coll, "ASSEMBLY_DATE", clsCommon.GetPrintDate(obj.ASSEMBLY_DATE, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "TRANSACTION_TYPE", obj.TRANSACTION_TYPE)
             clsCommon.AddColumnsForChange(coll, "DISASSEMBLY_TYPE", obj.DISASSEMBLY_TYPE, True)
             clsCommon.AddColumnsForChange(coll, "ASSEMBLY_CODE", obj.ASSEMBLY_CODE, True)

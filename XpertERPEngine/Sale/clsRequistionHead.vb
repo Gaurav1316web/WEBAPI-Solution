@@ -361,7 +361,12 @@ Public Class clsRequistionHead
                 End If
             End If
             Dim coll As New Hashtable()
-            clsCommon.AddColumnsForChange(coll, "Requisition_Date", clsCommon.GetPrintDate(obj.Requisition_Date, "dd/MMM/yyyy hh:mm tt"))
+            Dim ServerDate As DateTime = Nothing
+            If isNewEntry Then
+                ServerDate = clsCommon.GETSERVERDATE(trans)
+                obj.Requisition_Date = New DateTime(obj.Requisition_Date.Year, obj.Requisition_Date.Month, obj.Requisition_Date.Day, ServerDate.Hour, ServerDate.Minute, ServerDate.Second)
+            End If
+            clsCommon.AddColumnsForChange(coll, "Requisition_Date", clsCommon.GetPrintDate(obj.Requisition_Date , "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Cust_OrderNo", obj.Cust_OrderNo)
 
             If clsCommon.myLen(obj.Expire_Date) > 0 Then

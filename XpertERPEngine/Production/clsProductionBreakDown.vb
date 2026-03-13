@@ -14,7 +14,7 @@ Public Class clsProductionBreakDown
 #End Region
 
     Public Shared Function GetFinder(ByVal whrCls As String, ByVal CurrCode As String, ByVal isButtonClicked As Boolean) As String
-        Dim qry As String = "select convert(varchar,TSPL_BREAK_DOWN_ENTRY.doc_date,103) as [Date],TSPL_BREAK_DOWN_ENTRY.doc_no as Code,TSPL_BREAK_DOWN_ENTRY.description as [Description],TSPL_LOCATION_MASTER.Loc_Short_Name as [Location],TSPL_BREAK_DOWN_MASTER.Name as [Break Down Desc],TSPL_BREAK_DOWN_ENTRY.start_time as [Start Time],TSPL_BREAK_DOWN_ENTRY.end_time as [End Time] from TSPL_BREAK_DOWN_ENTRY left join TSPL_BREAK_DOWN_MASTER ON TSPL_BREAK_DOWN_ENTRY.Break_Down_Code = TSPL_BREAK_DOWN_MASTER.CODE left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_BREAK_DOWN_ENTRY.Location_Code "
+        Dim qry As String = "select FORMAT(CAST(TSPL_BREAK_DOWN_ENTRY.doc_date AS DATETIME),'dd/MM/yyyy hh:mm tt') as [Date],TSPL_BREAK_DOWN_ENTRY.doc_no as Code,TSPL_BREAK_DOWN_ENTRY.description as [Description],TSPL_LOCATION_MASTER.Loc_Short_Name as [Location],TSPL_BREAK_DOWN_MASTER.Name as [Break Down Desc],TSPL_BREAK_DOWN_ENTRY.start_time as [Start Time],TSPL_BREAK_DOWN_ENTRY.end_time as [End Time] from TSPL_BREAK_DOWN_ENTRY left join TSPL_BREAK_DOWN_MASTER ON TSPL_BREAK_DOWN_ENTRY.Break_Down_Code = TSPL_BREAK_DOWN_MASTER.CODE left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_BREAK_DOWN_ENTRY.Location_Code "
         Dim str As String = ""
 
         str = clsCommon.ShowSelectForm("PBDFND", qry, "Code", whrCls, CurrCode, "Code", isButtonClicked)
@@ -34,7 +34,12 @@ Public Class clsProductionBreakDown
 
             clsCommon.AddColumnsForChange(coll, "comp_code", objCommonVar.CurrentCompanyCode)
             clsCommon.AddColumnsForChange(coll, "Doc_No", obj.Doc_no)
-            clsCommon.AddColumnsForChange(coll, "Doc_Date", clsCommon.GetPrintDate(obj.Doc_Date, "dd/MMM/yyyy"))
+            Dim ServerTime As DateTime = Nothing
+            If isNewEntry Then
+                ServerTime = clsCommon.GETSERVERDATE(trans)
+                obj.Doc_Date = New DateTime(obj.Doc_Date.Year, obj.Doc_Date.Month, obj.Doc_Date.Day, ServerTime.Hour, ServerTime.Minute, ServerTime.Second)
+            End If
+            clsCommon.AddColumnsForChange(coll, "Doc_Date", clsCommon.GetPrintDate(obj.Doc_Date, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
             clsCommon.AddColumnsForChange(coll, "Location_Code", obj.LOCATION_CODE)
             clsCommon.AddColumnsForChange(coll, "Break_Down_Code", obj.Break_Down_Code)

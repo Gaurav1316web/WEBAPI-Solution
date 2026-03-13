@@ -13,6 +13,7 @@ Public Class clsVedorInvoiceHead
     Public PROJECT_ID As String = Nothing
     Public Document_No As String = Nothing
     Public Invoice_Entry_Date As String = Nothing
+    Public Invoice_Entry_Date_New As DateTime = Nothing
     Public Vendor_Code As String = Nothing
     Public Vendor_Name As String = Nothing
     Public DateAndTime As DateTime?
@@ -567,6 +568,14 @@ Public Class clsVedorInvoiceHead
 
         Dim coll As New Hashtable()
         clsCommon.AddColumnsForChange(coll, "Invoice_Entry_Date", clsCommon.GetPrintDate(obj.Invoice_Entry_Date, "dd/MM/yyyy"))
+
+        Dim ServerTime As DateTime = Nothing
+        If isNewEntry Then
+            ServerTime = clsCommon.GETSERVERDATE(trans)
+            obj.Invoice_Entry_Date_New = New DateTime(clsCommon.myCDate(obj.Invoice_Entry_Date).Year, clsCommon.myCDate(obj.Invoice_Entry_Date).Month, clsCommon.myCDate(obj.Invoice_Entry_Date).Day, ServerTime.Hour, ServerTime.Minute, ServerTime.Second)
+        End If
+
+        clsCommon.AddColumnsForChange(coll, "Invoice_Entry_Date_New", clsCommon.GetPrintDate(obj.Invoice_Entry_Date_New, "dd/MMM/yyyy hh:mm tt"))
         clsCommon.AddColumnsForChange(coll, "Vendor_Code", obj.Vendor_Code)
         clsCommon.AddColumnsForChange(coll, "Vendor_Name", obj.Vendor_Name)
         clsCommon.AddColumnsForChange(coll, "Vendor_Invoice_No", obj.Vendor_Invoice_No)
@@ -1425,6 +1434,7 @@ Public Class clsVedorInvoiceHead
             obj.RemittanceObject = clsRemittance.GetData(strDocumentNo, trans)
             obj.Document_No = clsCommon.myCstr(dt.Rows(0)("Document_No"))
             obj.Invoice_Entry_Date = clsCommon.myCstr(dt.Rows(0)("Invoice_Entry_Date"))
+            obj.Invoice_Entry_Date_New = clsCommon.myCDate(dt.Rows(0)("Invoice_Entry_Date_New"))
             obj.Vendor_Code = clsCommon.myCstr(dt.Rows(0)("Vendor_Code"))
             obj.Vendor_Name = clsCommon.myCstr(dt.Rows(0)("Vendor_Name"))
             obj.Vendor_Invoice_No = clsCommon.myCstr(dt.Rows(0)("Vendor_Invoice_No"))

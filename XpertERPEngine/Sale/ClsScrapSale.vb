@@ -13,7 +13,7 @@ Public Class ClsScrapSaleHead
     Public NRG_No As String = Nothing
     Public cust_Code As String = Nothing
     Public cust_Name As String = Nothing
-    Public shipment_Date As Date
+    Public shipment_Date As DateTime = Nothing
     Public posting_Date As String = Nothing
     Public expship_Date As String = Nothing
     Public Loc_Code As String = Nothing
@@ -375,7 +375,12 @@ Public Class ClsScrapSaleHead
             clsCommon.AddColumnsForChange(coll, "NRG_No", obj.NRG_No)
             clsCommon.AddColumnsForChange(coll, "cust_Code", obj.cust_Code)
             clsCommon.AddColumnsForChange(coll, "cust_Name", obj.cust_Name)
-            clsCommon.AddColumnsForChange(coll, "shipment_Date", clsCommon.GetPrintDate(obj.shipment_Date, "dd/MMM/yyyy hh:mm tt "))
+            Dim ServerTime As DateTime = Nothing
+            If isNewEntry Then
+                ServerTime = clsCommon.GETSERVERDATE(trans)
+                obj.shipment_Date = New DateTime(obj.shipment_Date.Year, obj.shipment_Date.Month, obj.shipment_Date.Day, ServerTime.Hour, ServerTime.Minute, ServerTime.Second)
+            End If
+            clsCommon.AddColumnsForChange(coll, "shipment_Date", clsCommon.GetPrintDate(obj.shipment_Date, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "posting_Date", clsCommon.GetPrintDate(obj.posting_Date, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "expship_Date", clsCommon.GetPrintDate(obj.expship_Date, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Loc_Code", obj.Loc_Code)
