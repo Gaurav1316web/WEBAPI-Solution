@@ -985,7 +985,7 @@ TSPL_RECEIPT_HEADER.Payment_Code,TSPL_RECEIPT_HEADER.cheque_No,TSPL_RECEIPT_HEAD
                 Qry += " Item_Desc as Particulars,FLOOR(Qty_Default / NULLIF(COALESCE(ConvFactInCrate, 0), 0)) AS Crate_No "
             Else
                 'Qry += " Item_Desc+'   '+isnull(batchNO,'') as Particulars,FLOOR(Qty_Default / NULLIF(COALESCE(ConvFactInCrate, 0), 0)) AS Crate_No,isnull(batchNO,'') as PBatchNo "
-                Qry += " Item_Desc as Particulars,FLOOR(Qty_Default / NULLIF(COALESCE(ConvFactInCrate, 0), 0)) AS Crate_No,isnull(batchNO,'') as PBatchNo "
+                Qry += " Item_Desc as Particulars,FLOOR(Qty_Default / NULLIF(COALESCE(ConvFactInCrate, 0), 0TS)) AS Crate_No,isnull(batchNO,'') as PBatchNo "
             End If
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
                 Qry += " From ( select TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Rate,"
