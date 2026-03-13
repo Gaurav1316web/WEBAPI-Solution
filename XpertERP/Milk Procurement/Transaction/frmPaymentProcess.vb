@@ -3804,6 +3804,8 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
     End Sub
 
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
+        ''gvMccSale.CurrentColumn = gvMccSale.Columns(colReduceDeduc)
+        ''gvMccSale.CurrentRow = gvMccSale.Rows(0)
         clsERPFuncationality.closeForm(Me)
     End Sub
 
@@ -3981,6 +3983,9 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             If gv.Rows.Count <= 0 OrElse gv Is Nothing Then
                 Throw New Exception("Please select atleast one document")
             End If
+
+            loadGvData()
+
             '' done by Panch Raj against ticket no:BM00000008937
             '' unselect mcc sale trans for unseleceted vendor 
             Dim IsInvalidVendor As Boolean
@@ -5552,8 +5557,12 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 gvMccSale.CurrentRow = gvMccSale.Rows(jj)
                 gvMccSale.Rows(jj).Cells(colReduceDeduc).Value = 0
             Next
+            For jj As Integer = gvDeduction.Rows.Count - 1 To 0 Step -1
+                gvDeduction.CurrentColumn = gvDeduction.Columns(colReduceDeduc)
+                gvDeduction.CurrentRow = gvDeduction.Rows(jj)
+                gvDeduction.Rows(jj).Cells(colReduceDeduc).Value = 0
+            Next
         End If
-
 
         Dim k As Integer = -1
         Dim VendCustCode As String = ""
@@ -6136,6 +6145,10 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
             End Try
         ElseIf e.Column Is gvMccSale.Columns(colSelect) Then
             If Not isLoad Then
+                If gvMccSale.Rows.Count > 0 Then
+                    gvMccSale.CurrentRow = gvMccSale.Rows(0)
+                End If
+
                 isLoad = True
                 loadGvData()
                 isLoad = False
@@ -9190,4 +9203,6 @@ where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='" + fndDocNo.Value + "' and TSPL_MILK_
             Throw New Exception(ex.Message)
         End Try
     End Sub
+
+
 End Class

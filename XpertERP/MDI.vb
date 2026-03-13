@@ -9743,7 +9743,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmProductQuickDemand
                         frm = New FrmProductQuickDemandBooking()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-
+                    Case clsUserMgtCode.FrmBoothCommission
+                        frm = New FrmBoothCommission
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmLeakedSaleReturn
                         frm = New frmLeakedSaleReturn()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

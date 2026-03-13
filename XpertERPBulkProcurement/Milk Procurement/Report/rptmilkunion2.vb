@@ -1738,7 +1738,7 @@ where CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date, 103) BETWEEN   " & s
             arrHeader.Add("Report : " + ddlReportType.SelectedItem.Text)
             transportSql.exportdata(gv1, "", Me.Text, False, arrHeader, False, False, True)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

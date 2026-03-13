@@ -213,6 +213,7 @@ Public Class FrmARInvoiceEntry
         btnCancel.Visible = MyBase.isCancel_Flag_After_Posting
         'RadMenu1.Visible = MyBase.isExport
         btnReverse.Visible = False
+        btnAdminCancel.Visible = False
         'If MyBase.isReverse Then
         '    btnReverse.Enabled = True
         'Else
@@ -3575,6 +3576,7 @@ Public Class FrmARInvoiceEntry
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True
+                    btnAdminCancel.Visible = True
                 End If
                 ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
                           "========Table Name=========" + Environment.NewLine +
@@ -5389,11 +5391,12 @@ Public Class FrmARInvoiceEntry
 
 
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
-        CancelData()
+        CancelData(False)
     End Sub
 
-    Function CancelData() As Boolean
+    Function CancelData(ByVal IsCancelByAdmin As Boolean) As Boolean
         Try
+            Dim isEinvoiceCancelled As Boolean = False
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 Throw New Exception("Code is empty")
             End If
@@ -5403,15 +5406,23 @@ Public Class FrmARInvoiceEntry
             End If
 
             If clsCommon.MyMessageBoxShow("Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+
                 Return False
             End If
-
+            Dim strIrnNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select IRN_No from TSPL_Customer_Invoice_Head where Document_No='" & txtDocNo.Value & "'"))
+            If IsCancelByAdmin Then
+                If clsCommon.myLen(strIrnNo) > 0 Then
+                    If clsCommon.MyMessageBoxShow(Me, "Is E-invoice Cancelled on GST Portal?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                        isEinvoiceCancelled = True
+                    End If
+                End If
+            End If
             Dim strReceiptCount As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select receipt_no from TSPL_RECEIPT_DETAIL where Document_No='" & txtDocNo.Value & "'"))
             If clsCommon.myLen(strReceiptCount) > 0 Then
                 Throw New Exception("You cannot cancelled this document because receiving (" + clsCommon.myCstr(strReceiptCount) + ") has been done against its AR Invoice.")
             End If
 
-            If FlagDocumentIsTaxable = 1 AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value) = True AndAlso clsCommon.CompairString(EInvoiceType, "BB") = CompairStringResult.Equal Then
+            If FlagDocumentIsTaxable = 1 AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value) = True AndAlso clsCommon.CompairString(EInvoiceType, "BB") = CompairStringResult.Equal AndAlso Not isEinvoiceCancelled Then
                 Dim EInvoiceCancelTimeValid As Int64 = 0
                 EInvoiceCancelTimeValid = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" Select  isnull (DATEDIFF(hour,Posting_Date,GETDATE()),0) as PostedHours from TSPL_Customer_Invoice_Head where Document_No = '" + txtDocNo.Value + "'"))
                 If EInvoiceCancelTimeValid >= 24 Then
@@ -5419,7 +5430,7 @@ Public Class FrmARInvoiceEntry
                 End If
             End If
 
-            clsCustomerInvoiceHead.CancelData(txtDocNo.Value)
+            clsCustomerInvoiceHead.CancelData(txtDocNo.Value, IsCancelByAdmin)
             clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
             AddNew()
         Catch ex As Exception
@@ -5649,6 +5660,10 @@ Public Class FrmARInvoiceEntry
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub btnAdminCancel_Click(sender As Object, e As EventArgs) Handles btnAdminCancel.Click
+        CancelData(True)
     End Sub
 End Class
 

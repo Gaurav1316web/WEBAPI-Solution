@@ -27,6 +27,8 @@ Public Class FrmProductDispatch
     Dim FORPRICE As Double = 0
     Dim IsTotalQtyinKG As Boolean = False
     Dim IsExistsForPrice As Boolean = False
+    Dim DefaultEnableNoTransporter As Boolean = False
+
     Dim ConsiderPreviousandCurrentFYForTCSTaxCustOutstanding As Boolean = False
     Dim AllowCrateCanPhysicalStock As Integer = 0
     Public AllowtoChangeTCSBaseAmount As Boolean = False
@@ -496,6 +498,7 @@ Public Class FrmProductDispatch
         EWBThresholdLimitForIntraCity = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraCity, Nothing))
         EWBThresholdLimitForIntraState = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraState, Nothing))
         EWBThresholdLimitForInterState = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForInterState, Nothing))
+        DefaultEnableNoTransporter = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultEnableNoTransporter, clsFixedParameterCode.DefaultEnableNoTransporter, Nothing)) = 1, True, False)
 
 
         dtpChallan.Value = clsCommon.GETSERVERDATE
@@ -1026,6 +1029,16 @@ Public Class FrmProductDispatch
             lblManualVehicle.Visible = True
         End If
         btnCancel.Enabled = False
+        If DefaultEnableNoTransporter Then
+            txtTransporterCode.Enabled = False
+            lblTransporterName.Enabled = False
+            chkNoTranspoter.Checked = True
+        Else
+            txtTransporterCode.Enabled = True
+            lblTransporterName.Enabled = True
+            chkNoTranspoter.Checked = False
+        End If
+
     End Sub
     Public Shared Function GetItemType() As DataTable
         Dim dt As New DataTable()
@@ -6548,7 +6561,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             End If
             If clsCommon.CompairString(ddlDispatchTerms.SelectedValue, "CIF") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlDispatchTerms.SelectedValue, "CF") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlDispatchTerms.SelectedValue, "FE") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlDispatchTerms.SelectedValue, "O") = CompairStringResult.Equal Then
                 If chkownVehicle.Checked = False Then
-                    If clsCommon.myLen(txtTransporterCode.Value) <= 0 Then
+                    If clsCommon.myLen(txtTransporterCode.Value) <= 0 And Not chkNoTranspoter.Checked Then
                         Throw New Exception("Please select Transporter")
                         txtTransporterCode.Focus()
                         Return False
@@ -15265,5 +15278,17 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
+    End Sub
+
+    Private Sub chkNoTranspoter_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkNoTranspoter.ToggleStateChanged
+        If chkNoTranspoter.Checked Then
+            txtTransporterCode.Enabled = False
+            lblTransporterName.Enabled = False
+            txtTransporterCode.Value = ""
+            lblTransporterName.Text = ""
+        Else
+            txtTransporterCode.Enabled = True
+            lblTransporterName.Enabled = True
+        End If
     End Sub
 End Class

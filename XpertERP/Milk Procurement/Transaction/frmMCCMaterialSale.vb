@@ -4,6 +4,7 @@ Imports common
 Public Class frmMCCMaterialSale
     Inherits FrmMainTranScreen
 #Region "Variables"
+    Dim DefaultEnableNoTransporter As Boolean = False
     Dim ApplyEWBThresholdLimit As Boolean = False
     Dim EWBThresholdLimitForIntraCity As Integer = 0
     Dim EWBThresholdLimitForIntraState As Integer = 0
@@ -312,6 +313,7 @@ Public Class frmMCCMaterialSale
         EWBThresholdLimitForIntraCity = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraCity, Nothing))
         EWBThresholdLimitForIntraState = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraState, Nothing))
         EWBThresholdLimitForInterState = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForInterState, Nothing))
+        DefaultEnableNoTransporter = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultEnableNoTransporter, clsFixedParameterCode.DefaultEnableNoTransporter, Nothing)) = 1, True, False)
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = clsCommon.GETSERVERDATE
         chkVendorGrossReceipt.Visible = False
@@ -468,6 +470,8 @@ Public Class frmMCCMaterialSale
         txtDiscAmt.Text = 0
         txtDiscPer.Text = 0
         lblDiscountAmt.Text = 0
+        txtTransporterCode.Value = ""
+        lblTransporterName.Text = ""
         lblInvoiceDiscAmt.Text = 0
         chkDiscountOnAmt.IsChecked = True
         chkRateDiffAmt.IsChecked = True
@@ -559,6 +563,17 @@ Public Class frmMCCMaterialSale
         TxtEWayBillUpdateBillDate.Value = DateTime.Now
         TxtEWayBillUpdateValidDate.Value = DateTime.Now
         TxtEWayBillUpdateBillRemarks.Text = ""
+        If DefaultEnableNoTransporter Then
+            txtTransporterCode.Enabled = False
+            lblTransporterName.Enabled = False
+            chkNoTranspoter.Checked = True
+        Else
+            txtTransporterCode.Enabled = True
+            lblTransporterName.Enabled = True
+            chkNoTranspoter.Checked = False
+        End If
+        lblTPTVendor.Visible = False
+        txtTPTVendor.Visible = False
     End Sub
     Public Shared Function GetItemType() As DataTable
         Dim dt As New DataTable()
@@ -3425,6 +3440,9 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
             If clsCommon.myCdbl(lblTotalSubsidy.Text) < 0 Then
                 Throw New Exception("Subsidy amount cannot be negative")
             End If
+            If clsCommon.myLen(txtTransporterCode.Value) < 0 AndAlso Not chkNoTranspoter.Checked Then
+                Throw New Exception("Please Select Transpoter")
+            End If
             For ii As Integer = 0 To gv1.RowCount - 1
                 If chkApplyTPT.Checked Then
                     Dim dtTransportationCharges As DataTable = clsDCSTransportationCharges.PickTransportationRate(LblVlc_Code.Tag, clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value), txtDate.Value)
@@ -3777,6 +3795,8 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 obj.Deduction = clsCommon.myCstr(cboDeductionType.SelectedValue)
                 obj.IsEwayBill = IIf(chkIsEwayBill.Checked, 1, 0)
                 obj.No_Transporter = IIf(chkNoTranspoter.Checked, 1, 0)
+                obj.Transport_Id = txtTransporterCode.Value
+                obj.Transporter_Name = lblTransporterName.Text
                 If obj.HeadDisc_Per > 0 Then
                     If MultiplySubsidyWithQuantity Then
                         obj.HeadDisc_PerAmt = obj.TotalSubsidyDisAmt
@@ -4386,6 +4406,8 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 Else
                     dtpInvoice.Checked = False
                 End If
+                txtTransporterCode.Value = obj.Transport_Id
+                lblTransporterName.Text = obj.Transporter_Name
                 chkOnHold.Checked = obj.On_Hold
                 txtDesc.Text = obj.Description
                 txtTaxGroup.Value = obj.Tax_Group
@@ -9149,7 +9171,7 @@ a:          End If
             MessageBox.Show(err.Message)
         End Try
     End Sub
-    Private Sub btnUpdate_Click(sender As Object, e As EventArgs) Handles btnUpdate.Click
+    Private Sub btnUpdate_Click(sender As Object, e As EventArgs)
         Try
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
                 Dim obj As New clsMCCMaterialSale
@@ -9600,6 +9622,7 @@ a:          End If
             Create_Ewb(tran)
             tran.Commit()
             clsCommon.MyMessageBoxShow(Me, "EWB Created Successfully", Me.Text)
+            LoadData(txtDocNo.Value, NavigatorType.Current)
         Catch ex As Exception
             tran.Rollback()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -9662,6 +9685,27 @@ a:          End If
     Private Sub rbtnTotalAmt_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnTotalAmt.ToggleStateChanged, rbtnBasicAmt.ToggleStateChanged
         If chkRateDiffAmt.IsChecked OrElse chkRateDiffRate.IsChecked Then
             CalculateRateDiffAmount()
+        End If
+    End Sub
+
+    Private Sub txtTransporterCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtTransporterCode._MYValidating
+        Try
+            Dim qry As String = "select Transport_Id,Transporter_Name from TSPL_TRANSPORT_MASTER"
+            txtTransporterCode.Value = clsCommon.ShowSelectForm("DCSTransport No", qry, "Transport_Id", "", txtTransporterCode.Value, "Transport_Id", isButtonClicked)
+            lblTransporterName.Text = connectSql.RunScalar("Select Transporter_Name  from TSPL_TRANSPORT_MASTER where Transport_Id = '" + Convert.ToString(txtTransporterCode.Value) + "'")
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub chkNoTranspoter_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkNoTranspoter.ToggleStateChanged
+        If chkNoTranspoter.Checked Then
+            txtTransporterCode.Enabled = False
+            lblTransporterName.Enabled = False
+            txtTransporterCode.Value = ""
+            lblTransporterName.Text = ""
+        Else
+            txtTransporterCode.Enabled = True
+            lblTransporterName.Enabled = True
         End If
     End Sub
 End Class

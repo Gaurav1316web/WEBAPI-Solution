@@ -9,6 +9,8 @@ Imports System.Text.RegularExpressions
 Public Class frmDairyBookingCustomer
     Inherits FrmMainTranScreen
 #Region "Variables"
+    Dim DefaultEnableNoTransporter As Boolean = False
+
     Dim ApplyEWBThresholdLimit As Boolean = False
     Dim EWBThresholdLimitForIntraCity As Integer = 0
     Dim EWBThresholdLimitForIntraState As Integer = 0
@@ -327,6 +329,7 @@ Public Class frmDairyBookingCustomer
         EWBThresholdLimitForIntraCity = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraCity, Nothing))
         EWBThresholdLimitForIntraState = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraState, Nothing))
         EWBThresholdLimitForInterState = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForInterState, Nothing))
+        DefaultEnableNoTransporter = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultEnableNoTransporter, clsFixedParameterCode.DefaultEnableNoTransporter, Nothing)) = 1, True, False)
 
         'SetMailRight()
         SetUserMgmtNew()
@@ -3041,6 +3044,27 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             chkTPT.Visible = False
         End If
         PaymentType()
+        If DefaultEnableNoTransporter Then
+            fndTransporter.Enabled = False
+            lblTransporter.Enabled = False
+            chkNoTranspoter.Checked = True
+        Else
+            fndTransporter.Enabled = True
+            lblTransporter.Enabled = True
+            chkNoTranspoter.Checked = False
+        End If
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+            lblReceipt.Visible = False
+            txtReceipt.Visible = False
+            lblReceiptAmt.Visible = False
+            lblReceiptAmtDesc.Visible = False
+        Else
+            lblReceipt.Visible = True
+            txtReceipt.Visible = True
+            lblReceiptAmt.Visible = True
+            lblReceiptAmtDesc.Visible = True
+        End If
+
     End Sub
     Sub ENABLEDISABLECONTROLS()
         If ShowBookingTypeDropDownonDairyBookingCustomer Then
@@ -8140,7 +8164,7 @@ where TSPL_ITEM_CAPACITY_LIMIT_head.From_Date<='" & clsCommon.GetPrintDate(txtDa
         txtSalesman1.Value = clsCommon.ShowSelectForm("DBC-SNOSaleman", qry, "Code", whrcls, txtSalesman1.Value, "Code", isButtonClicked)
         lblSalesmandesc1.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Emp_Name as Name from TSPL_EMPLOYEE_MASTER where EMP_CODE ='" & txtSalesman1.Value & "' and Emp_type='Salesman'"))
     End Sub
-    Private Sub txtReceipt__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean)
+    Private Sub txtReceipt__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtReceipt._MYValidating
         If clsCommon.myLen(txtVendorNo.Value) > 0 Then
             Dim qry As String = "select TSPL_RECEIPT_HEADER.Receipt_No as Code,TSPL_RECEIPT_HEADER.Receipt_Amount as Amount,TSPL_RECEIPT_HEADER.Receipt_Date,TSPL_RECEIPT_HEADER.Receipt_Post_Date,TSPL_RECEIPT_HEADER.Receipt_Type,TSPL_RECEIPT_HEADER.Balance_Amt from TSPL_RECEIPT_HEADER"
             Dim whrcls As String = " TSPL_RECEIPT_HEADER.Cust_Code='" & clsCommon.myCstr(txtVendorNo.Value) & "'"
@@ -10439,6 +10463,19 @@ where  TSPL_BOOKING_DETAIL.Cust_Code='" & strVendorno & "' and convert(date,TSPL
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub chkNoTranspoter_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkNoTranspoter.ToggleStateChanged
+        If chkNoTranspoter.Checked Then
+            fndTransporter.Enabled = False
+            lblTransporter.Enabled = False
+            fndTransporter.Value = ""
+            lblTransporter.Text = ""
+        Else
+            fndTransporter.Enabled = True
+            lblTransporter.Enabled = True
+
+        End If
     End Sub
 
 

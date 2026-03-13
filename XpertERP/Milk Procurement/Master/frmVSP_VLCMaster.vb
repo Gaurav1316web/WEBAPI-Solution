@@ -233,6 +233,7 @@ Public Class frmVSP_VLCMaster
         txtcollect.MaxLength = 30
         txtpan.MaxLength = 30
         txtPayeName.MaxLength = 1000
+        txtSavingPayeeName.MaxLength = 1000
     End Sub
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.frmVSPMaster)
@@ -375,7 +376,7 @@ Public Class frmVSP_VLCMaster
                      "Contact_Person_Fax ,Contact_Person_Website ,Contact_Person_Email ,Terms_Code ,Terms_Code_Desc ,Vendor_Account ,Vendor_Account_Desc ," &
                      "Payment_Code,Payment_Code_Desc ,Ven_Type_Code ,Ven_Type_Desc ,Bank_Code ,Bank_Code_Desc ,Service_Tax_No ,Lst_No ,Tin_No ,	Credit_Limit ," &
                      "Tax_Group ,Tax_Group_Desc ,TAX1 ,TAX1_Rate ,TAX2,TAX2_Rate ,TAX3 ,TAX3_Rate ,TAX4 ,TAX4_Rate ,TAX5 ,TAX5_Rate ,TAX6 ,TAX6_Rate ," &
-                     "TAX7 ,TAX7_Rate ,TAX8 ,TAX8_Rate ,TAX9 ,TAX9_Rate ,TAX10 ,TAX10_Rate ,Remarks1 ,Remarks2 ,Additional1 ,Additional2 ,Additional3,transporter,CST,ECC,Range,Collectorate,PAN,is_Gross_Receipt,Inter_branch,currency_code,franchise_yn,state_code,country_code,vsp_payment,incentive_days,incentive,commision_pers,payment_commision_pers,Service_charges,VSP_Payee_Name,Service_Charge_Type,Joint_Name,Branch_Name,Account_No,Bank_Name,IFSC_Code,Account_Type,Security_Amount,AMCU,Amc_Charge,Billing_date,Nature,Actual_charges,joint_bank_Code,Joint_Account_No,Agreement,Start_Date,End_Date,PC_Code,Is_Head_Load,Rate_Head_Load,Service_Basis_Head_Load,Is_Own_Asset,Rate_Own_Asset,Service_Basis_Own_Asset,joint_bank_code,Standard_security_Amount,MP_code,MP_Name,Cheque_In_Favour_Of,Pin_code,is_drip_saver,isnull(Joint_Branch_Name,'') as Joint_Branch_Name,isnull(Joint_IFSC_Code,'') as Joint_IFSC_Code,EMP_Type,EMP_Fixed_Amount,Actual_charges_Slab,Actual_charges_Slab2,Actual_charges2,Actual_charges_Slab3,Actual_charges3,Actual_charges_Slab4,Actual_charges4,Actual_charges_Slab5,Actual_charges5,Apply_Mult_Incentive,Security_Deduction_Amount,Interest_Per,Minimum_Interest,Is_Blacklist,Service_Charge_Per_Unit,is_Hold_Payment_Process,Is_Inactive_In_Milk_Procurement,GSTRegistered,GSTEntity,GSTLastEntity,GSTFinalNo,CorrectionFat,CorrectionSNF,Handling_Charges_Per,Credit_Limit_On_Milk_Receipt_Per,Monthly_Rent,TIP_Buffalo,TIP_Cow,TIP_Mix,case when Active_Date is null and tspl_vendor_master.Status = 'Y' then ''  when Active_Date is null and tspl_vendor_master.Status = 'N' then convert (varchar, Created_Date,103) else convert(varchar, Active_Date,103) end as Active_Date, isnull (Gender,'')  as Gender , BankCode2,BankName2,Credit2, IFSCCode2 ,AccNo2,AccountType2,BankBranch2,SecurityCharges2,Registered_PDCS_CLUSTER,StartDate,SupervisorOrRP, RegistrationNo,RegistrationDate, Vendor_name_Hindi, DISTRICT_Code, Zone_Code , CAST_CATEGORY_CODE , BLOCK_CODE,Company_Bank,Company_Bank_Current, REVENUE_VILLAGE_CODE,GRAMPANCHAYAT_CODE,PANCHAYAT_SAMITI_CODE,VIDHAN_SABHA_CODE,Alies_Name  from tspl_vendor_master where vendor_code='" + fndvendorNo.Value + "' and form_type='VSP'"
+                     "TAX7 ,TAX7_Rate ,TAX8 ,TAX8_Rate ,TAX9 ,TAX9_Rate ,TAX10 ,TAX10_Rate ,Remarks1 ,Remarks2 ,Additional1 ,Additional2 ,Additional3,transporter,CST,ECC,Range,Collectorate,PAN,is_Gross_Receipt,Inter_branch,currency_code,franchise_yn,state_code,country_code,vsp_payment,incentive_days,incentive,commision_pers,payment_commision_pers,Service_charges,VSP_Payee_Name,Service_Charge_Type,Joint_Name,Branch_Name,Account_No,Bank_Name,IFSC_Code,Account_Type,Security_Amount,AMCU,Amc_Charge,Billing_date,Nature,Actual_charges,joint_bank_Code,Joint_Account_No,Agreement,Start_Date,End_Date,PC_Code,Is_Head_Load,Rate_Head_Load,Service_Basis_Head_Load,Is_Own_Asset,Rate_Own_Asset,Service_Basis_Own_Asset,joint_bank_code,Standard_security_Amount,MP_code,MP_Name,Cheque_In_Favour_Of,Pin_code,is_drip_saver,isnull(Joint_Branch_Name,'') as Joint_Branch_Name,isnull(Joint_IFSC_Code,'') as Joint_IFSC_Code,EMP_Type,EMP_Fixed_Amount,Actual_charges_Slab,Actual_charges_Slab2,Actual_charges2,Actual_charges_Slab3,Actual_charges3,Actual_charges_Slab4,Actual_charges4,Actual_charges_Slab5,Actual_charges5,Apply_Mult_Incentive,Security_Deduction_Amount,Interest_Per,Minimum_Interest,Is_Blacklist,Service_Charge_Per_Unit,is_Hold_Payment_Process,Is_Inactive_In_Milk_Procurement,GSTRegistered,GSTEntity,GSTLastEntity,GSTFinalNo,CorrectionFat,CorrectionSNF,Handling_Charges_Per,Credit_Limit_On_Milk_Receipt_Per,Monthly_Rent,TIP_Buffalo,TIP_Cow,TIP_Mix,case when Active_Date is null and tspl_vendor_master.Status = 'Y' then ''  when Active_Date is null and tspl_vendor_master.Status = 'N' then convert (varchar, Created_Date,103) else convert(varchar, Active_Date,103) end as Active_Date, isnull (Gender,'')  as Gender , BankCode2,BankName2,Credit2, IFSCCode2 ,AccNo2,AccountType2,BankBranch2,SecurityCharges2,Registered_PDCS_CLUSTER,StartDate,SupervisorOrRP, RegistrationNo,RegistrationDate, Vendor_name_Hindi, DISTRICT_Code, Zone_Code , CAST_CATEGORY_CODE , BLOCK_CODE,Company_Bank,Company_Bank_Current, REVENUE_VILLAGE_CODE,GRAMPANCHAYAT_CODE,PANCHAYAT_SAMITI_CODE,VIDHAN_SABHA_CODE,Alies_Name,Saving_Payee_Name  from tspl_vendor_master where vendor_code='" + fndvendorNo.Value + "' and form_type='VSP'"
             myDs = connectSql.RunSQLReturnDS(strCmd)
             Dim myDr As DataRow
             For Each myDr In myDs.Tables(0).Rows
@@ -486,7 +487,7 @@ Public Class frmVSP_VLCMaster
                 GetIIncentiveDetails(False)
                 txtno_days.Text = clsCommon.myCstr(myDr("incentive_days"))
                 cmbvsppayment.SelectedValue = clsCommon.myCstr(myDr("vsp_payment"))
-                txtpayeename.Text = clsCommon.myCstr(myDr("vsp_payee_name"))
+                'txtpayeename.Text = clsCommon.myCstr(myDr("vsp_payee_name"))
                 ''cmbservc_type.Text = clsCommon.myCstr(myDr("Service_Charge_Type"))
                 ''txtChequeInFavour.Text = clsCommon.myCstr(myDr("Cheque_In_Favour_Of"))
                 '====
@@ -500,6 +501,8 @@ Public Class frmVSP_VLCMaster
                 TxtAmCU.Text = clsCommon.myCstr(myDr("AMCU"))
                 TxtAmc_Charge.Text = clsCommon.myCdbl(myDr("AMC_Charge"))
                 txtPayeName.Text = clsCommon.myCstr(myDr("VSP_Payee_Name"))
+                txtSavingPayeeName.Text = clsCommon.myCstr(myDr("Saving_Payee_Name"))
+
                 '---------------------------------------------------------------------------------
 
                 Me.txtPhone1.Text = myDr(13).ToString()
@@ -907,6 +910,10 @@ Public Class frmVSP_VLCMaster
             End If
             If clsCommon.myLen(txtPayeName.Text) > 0 Then
                 strq = "Update TSPL_VENDOR_MASTER set VSP_Payee_Name ='" & clsCommon.myCstr(txtPayeName.Text) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
+                clsDBFuncationality.ExecuteNonQuery(strq, trans)
+            End If
+            If clsCommon.myLen(txtSavingPayeeName.Text) > 0 Then
+                strq = "Update TSPL_VENDOR_MASTER set Saving_Payee_Name ='" & clsCommon.myCstr(txtSavingPayeeName.Text) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(strq, trans)
             End If
             If clsCommon.myLen(Me.fndpaymentCycle.Value) > 0 Then
@@ -1766,7 +1773,11 @@ Public Class frmVSP_VLCMaster
                 clsDBFuncationality.ExecuteNonQuery(qryVidhanSabha, trans)
             End If
             If clsCommon.myLen(txtPayeName.Text) > 0 Then
-                strq = "Update TSPL_VENDOR_MASTER set VSP_Payee_Name ='" & clsCommon.myCstr(txtPayeName.Text) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
+                strq = "Update TSPL_VENDOR_MASTER set Saving_Payee_Name ='" & clsCommon.myCstr(txtPayeName.Text) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
+                clsDBFuncationality.ExecuteNonQuery(strq, trans)
+            End If
+            If clsCommon.myLen(txtSavingPayeeName.Text) > 0 Then
+                strq = "Update TSPL_VENDOR_MASTER set VSP_Payee_Name ='" & clsCommon.myCstr(txtSavingPayeeName.Text) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(strq, trans)
             End If
             If clsCommon.myLen(txtAliesName.Text) > 0 Then
@@ -2816,6 +2827,8 @@ Public Class frmVSP_VLCMaster
         gv1.EnableFiltering = True
         gv1.MasterTemplate.SummaryRowsBottom.Clear()
         txtPayeName.Text = ""
+        txtSavingPayeeName.Text = ""
+
         funSetDefaultData()
         'VLC
         VLC_reset()

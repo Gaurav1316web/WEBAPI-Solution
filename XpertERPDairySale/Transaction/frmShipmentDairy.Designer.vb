@@ -22,17 +22,17 @@ Partial Class frmShipmentDairy
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim WindowsSettings2 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
-        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition13 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition14 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition15 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition16 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition17 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition18 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition19 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition20 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -40,6 +40,7 @@ Partial Class frmShipmentDairy
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkNoTranspoter = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkExcludeKKFMND = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtDemandNo = New common.UserControls.txtFinder()
         Me.lblDemandNO = New common.Controls.MyLabel()
@@ -266,6 +267,7 @@ Partial Class frmShipmentDairy
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.btnUpdateVehicle = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel34 = New common.Controls.MyLabel()
         Me.lblTotalWtMetric = New common.Controls.MyLabel()
         Me.btnAdminCancel = New Telerik.WinControls.UI.RadButton()
@@ -416,7 +418,6 @@ Partial Class frmShipmentDairy
         Me.txtDesc = New common.Controls.MyTextBox()
         Me.txtInvoiceDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel27 = New common.Controls.MyLabel()
-        Me.btnUpdateVehicle = New Telerik.WinControls.UI.RadButton()
         Me.btnEWB = New Telerik.WinControls.UI.RadButton()
         Me.btnprinte_wayBill = New Telerik.WinControls.UI.RadButton()
         Me.btnPrintInvoice = New Telerik.WinControls.UI.RadButton()
@@ -445,7 +446,6 @@ Partial Class frmShipmentDairy
         Me.Export_Head = New Telerik.WinControls.UI.RadMenuItem()
         Me.Export_details = New Telerik.WinControls.UI.RadMenuItem()
         Me.Import = New Telerik.WinControls.UI.RadMenuItem()
-        Me.chkNoTranspoter = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit
         Me.Panel1.SuspendLayout
         CType(Me.radScrollablePanel1, System.ComponentModel.ISupportInitialize).BeginInit
@@ -457,6 +457,7 @@ Partial Class frmShipmentDairy
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadPageView1.SuspendLayout
         Me.RadPageViewPage1.SuspendLayout
+        CType(Me.chkNoTranspoter, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.chkExcludeKKFMND, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.lblDemandNO, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.chkIndividualCustomer, System.ComponentModel.ISupportInitialize).BeginInit
@@ -680,6 +681,7 @@ Partial Class frmShipmentDairy
         Me.pvpCustomFields.SuspendLayout
         Me.Attachments.SuspendLayout
         Me.RadPageViewPage4.SuspendLayout
+        CType(Me.btnUpdateVehicle, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.lblTotalWtMetric, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnAdminCancel, System.ComponentModel.ISupportInitialize).BeginInit
@@ -833,7 +835,6 @@ Partial Class frmShipmentDairy
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.txtInvoiceDate, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnUpdateVehicle, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnEWB, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnprinte_wayBill, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnPrintInvoice, System.ComponentModel.ISupportInitialize).BeginInit
@@ -853,7 +854,6 @@ Partial Class frmShipmentDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadMenu1.SuspendLayout
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.chkNoTranspoter, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
@@ -884,9 +884,9 @@ Partial Class frmShipmentDairy
         Me.RadMenuItem2.TabIndex = 0
         Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenuItem2.Visible = False
-        WindowsSettings2.EnableRoundedCorners = Nothing
-        WindowsSettings2.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
-        Me.RadMenuItem2.WindowsSettings = WindowsSettings2
+        WindowsSettings1.EnableRoundedCorners = Nothing
+        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
         'Panel1
         '
@@ -972,7 +972,7 @@ Partial Class frmShipmentDairy
         '
         '
         Me.RadPageView1.RootElement.MinSize = New System.Drawing.Size(0, 0)
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
         Me.RadPageView1.Size = New System.Drawing.Size(1110, 462)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -1079,6 +1079,15 @@ Partial Class frmShipmentDairy
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1089, 416)
         Me.RadPageViewPage1.Text = "Shipment"
+        '
+        'chkNoTranspoter
+        '
+        Me.chkNoTranspoter.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkNoTranspoter.Location = New System.Drawing.Point(777, 65)
+        Me.chkNoTranspoter.Name = "chkNoTranspoter"
+        Me.chkNoTranspoter.Size = New System.Drawing.Size(99, 16)
+        Me.chkNoTranspoter.TabIndex = 1600
+        Me.chkNoTranspoter.Text = "NO Transporter"
         '
         'chkExcludeKKFMND
         '
@@ -1644,7 +1653,7 @@ Partial Class frmShipmentDairy
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyExportAPI = False
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
@@ -4322,7 +4331,7 @@ Partial Class frmShipmentDairy
         Me.gvDistributor.MasterTemplate.AllowDeleteRow = False
         Me.gvDistributor.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDistributor.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvDistributor.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.gvDistributor.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvDistributor.MyExportAPI = False
         Me.gvDistributor.MyExportFilePath = ""
         Me.gvDistributor.MyStopExport = False
@@ -4619,7 +4628,7 @@ Partial Class frmShipmentDairy
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition13
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv2.MyExportAPI = False
         Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
@@ -4655,7 +4664,7 @@ Partial Class frmShipmentDairy
         Me.gvBoothScheme.MasterTemplate.AllowDeleteRow = False
         Me.gvBoothScheme.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBoothScheme.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvBoothScheme.MasterTemplate.ViewDefinition = TableViewDefinition14
+        Me.gvBoothScheme.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvBoothScheme.MyExportAPI = False
         Me.gvBoothScheme.MyExportFilePath = ""
         Me.gvBoothScheme.MyStopExport = False
@@ -4692,7 +4701,7 @@ Partial Class frmShipmentDairy
         Me.gvCrateType.MasterTemplate.AllowDeleteRow = False
         Me.gvCrateType.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCrateType.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCrateType.MasterTemplate.ViewDefinition = TableViewDefinition15
+        Me.gvCrateType.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvCrateType.MyExportAPI = False
         Me.gvCrateType.MyExportFilePath = ""
         Me.gvCrateType.MyStopExport = False
@@ -4721,7 +4730,7 @@ Partial Class frmShipmentDairy
         '
         '
         '
-        Me.gvManualscheme.MasterTemplate.ViewDefinition = TableViewDefinition16
+        Me.gvManualscheme.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvManualscheme.Name = "gvManualscheme"
         Me.gvManualscheme.Size = New System.Drawing.Size(1089, 416)
         Me.gvManualscheme.TabIndex = 0
@@ -4769,7 +4778,7 @@ Partial Class frmShipmentDairy
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition17
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvAC.MyExportAPI = False
         Me.gvAC.MyExportFilePath = ""
         Me.gvAC.MyStopExport = False
@@ -4896,6 +4905,16 @@ Partial Class frmShipmentDairy
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1089, 416)
         Me.RadPageViewPage4.Text = "Total"
+        '
+        'btnUpdateVehicle
+        '
+        Me.btnUpdateVehicle.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnUpdateVehicle.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnUpdateVehicle.Location = New System.Drawing.Point(606, 362)
+        Me.btnUpdateVehicle.Name = "btnUpdateVehicle"
+        Me.btnUpdateVehicle.Size = New System.Drawing.Size(191, 20)
+        Me.btnUpdateVehicle.TabIndex = 1567
+        Me.btnUpdateVehicle.Text = "Update Details For EWB"
         '
         'MyLabel34
         '
@@ -5970,7 +5989,7 @@ Partial Class frmShipmentDairy
         Me.gv_Uploader_Temp.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_Uploader_Temp.MasterTemplate.ShowGroupedColumns = True
         Me.gv_Uploader_Temp.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_Uploader_Temp.MasterTemplate.ViewDefinition = TableViewDefinition18
+        Me.gv_Uploader_Temp.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gv_Uploader_Temp.MyExportAPI = False
         Me.gv_Uploader_Temp.MyExportFilePath = ""
         Me.gv_Uploader_Temp.MyStopExport = False
@@ -5993,7 +6012,7 @@ Partial Class frmShipmentDairy
         Me.gv_Uploader.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_Uploader.MasterTemplate.ShowGroupedColumns = True
         Me.gv_Uploader.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_Uploader.MasterTemplate.ViewDefinition = TableViewDefinition19
+        Me.gv_Uploader.MasterTemplate.ViewDefinition = TableViewDefinition9
         Me.gv_Uploader.MyExportAPI = False
         Me.gv_Uploader.MyExportFilePath = ""
         Me.gv_Uploader.MyStopExport = False
@@ -6572,7 +6591,7 @@ Partial Class frmShipmentDairy
         '
         '
         '
-        Me.gvCC.MasterTemplate.ViewDefinition = TableViewDefinition20
+        Me.gvCC.MasterTemplate.ViewDefinition = TableViewDefinition10
         Me.gvCC.Name = "gvCC"
         Me.gvCC.Size = New System.Drawing.Size(1089, 318)
         Me.gvCC.TabIndex = 0
@@ -7066,16 +7085,6 @@ Partial Class frmShipmentDairy
         Me.MyLabel27.TabIndex = 1472
         Me.MyLabel27.Text = "Invoice Date"
         '
-        'btnUpdateVehicle
-        '
-        Me.btnUpdateVehicle.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnUpdateVehicle.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUpdateVehicle.Location = New System.Drawing.Point(606, 362)
-        Me.btnUpdateVehicle.Name = "btnUpdateVehicle"
-        Me.btnUpdateVehicle.Size = New System.Drawing.Size(191, 20)
-        Me.btnUpdateVehicle.TabIndex = 1567
-        Me.btnUpdateVehicle.Text = "Update Details For EWB"
-        '
         'btnEWB
         '
         Me.btnEWB.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -7310,15 +7319,6 @@ Partial Class frmShipmentDairy
         Me.Import.Text = "Import"
         Me.Import.Visibility = Telerik.WinControls.ElementVisibility.Hidden
         '
-        'chkNoTranspoter
-        '
-        Me.chkNoTranspoter.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkNoTranspoter.Location = New System.Drawing.Point(777, 65)
-        Me.chkNoTranspoter.Name = "chkNoTranspoter"
-        Me.chkNoTranspoter.Size = New System.Drawing.Size(99, 16)
-        Me.chkNoTranspoter.TabIndex = 1600
-        Me.chkNoTranspoter.Text = "NO Transporter"
-        '
         'frmShipmentDairy
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -7345,6 +7345,7 @@ Partial Class frmShipmentDairy
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout
+        CType(Me.chkNoTranspoter, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.chkExcludeKKFMND, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.lblDemandNO, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.chkIndividualCustomer, System.ComponentModel.ISupportInitialize).EndInit
@@ -7582,6 +7583,7 @@ Partial Class frmShipmentDairy
         Me.Attachments.ResumeLayout(False)
         Me.RadPageViewPage4.ResumeLayout(False)
         Me.RadPageViewPage4.PerformLayout
+        CType(Me.btnUpdateVehicle, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.lblTotalWtMetric, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnAdminCancel, System.ComponentModel.ISupportInitialize).EndInit
@@ -7744,7 +7746,6 @@ Partial Class frmShipmentDairy
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.txtInvoiceDate, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnUpdateVehicle, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnEWB, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnprinte_wayBill, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnPrintInvoice, System.ComponentModel.ISupportInitialize).EndInit
@@ -7765,7 +7766,6 @@ Partial Class frmShipmentDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit
         Me.RadMenu1.ResumeLayout(False)
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.chkNoTranspoter, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(False)
         Me.PerformLayout

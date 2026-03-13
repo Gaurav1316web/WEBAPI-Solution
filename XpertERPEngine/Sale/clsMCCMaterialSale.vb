@@ -195,6 +195,8 @@ Public Class clsMCCMaterialSale
     Public Bank_Code As String = Nothing
     Public IsEwayBill As Integer = 0
     Public No_Transporter As Integer = 0
+    Public Transport_Id As String = ""
+    Public Transporter_Name As String = ""
 
 #End Region
 
@@ -485,6 +487,8 @@ Public Class clsMCCMaterialSale
             clsCommon.AddColumnsForChange(coll, "Bill_To_Location", obj.Bill_To_Location)
             clsCommon.AddColumnsForChange(coll, "Sub_Location_code", obj.Sub_Location_code)
             clsCommon.AddColumnsForChange(coll, "Ship_To_Location", obj.Ship_To_Location)
+            clsCommon.AddColumnsForChange(coll, "Transport_Id", obj.Transport_Id, True)
+            clsCommon.AddColumnsForChange(coll, "Transporter_Name", obj.Transporter_Name, True)
             clsCommon.AddColumnsForChange(coll, "Tax_Group", obj.Tax_Group)
             clsCommon.AddColumnsForChange(coll, "TAX1", obj.TAX1)
             clsCommon.AddColumnsForChange(coll, "TAX1_Rate", obj.TAX1_Rate)
@@ -829,7 +833,7 @@ Public Class clsMCCMaterialSale
         qry += " TSPL_SD_SHIPMENT_HEAD.CURRENCY_CODE,TSPL_SD_SHIPMENT_HEAD.CONVRATE,TSPL_SD_SHIPMENT_HEAD.APPLICABLEFROM,TSPL_SD_SHIPMENT_HEAD.PRoject_ID ,TSPL_SD_SHIPMENT_HEAD.Mannual_Invoice_No,TSPL_SD_SHIPMENT_HEAD. Mannual_Invoice_No_StringType,TSPL_SD_SHIPMENT_HEAD.Form_38_No " &
         " ,TSPL_SD_SHIPMENT_HEAD.SO_Validity,TSPL_SD_SHIPMENT_HEAD.Commission_Apply,TSPL_SD_SHIPMENT_HEAD.Total_Comm_Amt,TSPL_SD_SHIPMENT_HEAD.Dispatch_date,TSPL_SD_SHIPMENT_HEAD.WayBillNo,TSPL_SD_SHIPMENT_HEAD.WayBillDate " &
         " ,TSPL_SD_SHIPMENT_HEAD.Dispatch_Terms,TSPL_SD_SHIPMENT_HEAD.Payment_Terms,TSPL_SD_SHIPMENT_HEAD.Dispatch_Period,TSPL_SD_SHIPMENT_HEAD.Vehicle_Capacity,TSPL_SD_SHIPMENT_HEAD.RoundOffAmount,TSPL_SD_SHIPMENT_HEAD.Is_Taxable, TSPL_SD_SHIPMENT_HEAD.Electronic_Ref_No " &
-        ",TSPL_SD_SHIPMENT_HEAD.Receipt_No,TSPL_SD_SHIPMENT_HEAD.ReceiptAmt,TSPL_SD_SHIPMENT_HEAD.VehicleNo,TSPL_SD_SHIPMENT_HEAD.ReceiverName,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt ,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyDisAmt,TSPL_SD_SHIPMENT_HEAD.Transporter_Commission_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Deduction_Type ,TSPL_SD_SHIPMENT_HEAD.Deduction,TSPL_SD_SHIPMENT_HEAD.IsEwayBill,TSPL_SD_SHIPMENT_HEAD.No_Transporter "
+        ",TSPL_SD_SHIPMENT_HEAD.Receipt_No,TSPL_SD_SHIPMENT_HEAD.ReceiptAmt,TSPL_SD_SHIPMENT_HEAD.VehicleNo,TSPL_SD_SHIPMENT_HEAD.ReceiverName,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt ,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyDisAmt,TSPL_SD_SHIPMENT_HEAD.Transporter_Commission_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Deduction_Type ,TSPL_SD_SHIPMENT_HEAD.Deduction,TSPL_SD_SHIPMENT_HEAD.IsEwayBill,TSPL_SD_SHIPMENT_HEAD.No_Transporter,TSPL_SD_SHIPMENT_HEAD.Transport_Id,TSPL_SD_SHIPMENT_HEAD.Transporter_Name "
         qry += "  FROM TSPL_SD_SHIPMENT_HEAD "
         qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_HEAD.Bill_To_Location "
         qry += " left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_SD_SHIPMENT_HEAD.Ship_To_Location "
@@ -893,6 +897,8 @@ Public Class clsMCCMaterialSale
             obj.Payment_Terms = clsCommon.myCstr(dt.Rows(0)("Payment_Terms"))
             obj.Dispatch_Period = clsCommon.myCdbl(dt.Rows(0)("Dispatch_Period"))
             obj.Road_Permit_No = clsCommon.myCstr(dt.Rows(0)("Road_Permit_No"))
+            obj.Transport_Id = clsCommon.myCstr(dt.Rows(0)("Transport_Id"))
+            obj.Transporter_Name = clsCommon.myCstr(dt.Rows(0)("Transporter_Name"))
             obj.IS_TCS = clsCommon.myCstr(dt.Rows(0)("IS_TCS"))
             obj.No_Transporter = clsCommon.myCdbl(dt.Rows(0)("No_Transporter"))
             obj.IsEwayBill = clsCommon.myCdbl(dt.Rows(0)("IsEwayBill"))
@@ -1984,6 +1990,8 @@ Public Class clsMCCMaterialSale
         obj.Bill_To_Location = objShipment.Bill_To_Location
         obj.Sub_Location_code = objShipment.Sub_Location_code
         obj.Ship_To_Location = objShipment.Ship_To_Location
+        obj.Transport_Code = objShipment.Transport_Id
+        obj.Transporter_Name = objShipment.Transporter_Name
         obj.Tax_Group = objShipment.Tax_Group
         obj.TAX1 = objShipment.TAX1
         obj.TAX1_Rate = objShipment.TAX1_Rate

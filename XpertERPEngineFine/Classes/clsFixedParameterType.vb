@@ -1393,6 +1393,7 @@ Public Class clsFixedParameterType
     Public Const DefaultEnableEWayBill = "Default Enable EWay Bill"
     Public Const CreateAutoGatePass = "Create Auto Gate Pass"
     Public Const ApplyEWBThresholdLimit = "Apply EWB Threshold Limit"
+    Public Const DefaultEnableNoTransporter = "Default Enable No Transporter"
 End Class
 Public Class clsFixedParameterCode
     Public Const SkipDebitNoteforRejectInBMCTruckSheet As String = "Skip Debit Note for Reject In BMC Truck Sheet"
@@ -2952,6 +2953,7 @@ Public Class clsFixedParameterCode
     Public Const EWBThresholdLimitForIntraCity = "EWB Threshold Limit For Intra-City"
     Public Const EWBThresholdLimitForIntraState = "EWB Threshold Limit For Intra-State"
     Public Const EWBThresholdLimitForInterState = "EWB Threshold Limit For Inter-State"
+    Public Const DefaultEnableNoTransporter = "Default Enable No Transporter"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4689,6 +4691,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraCity, "0", "Enter Threshold Limit For Intra-City")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraState, "0", "Enter Threshold Limit For Intra-State")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForInterState, "0", "Enter Threshold Limit For Inter-State")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.DefaultEnableNoTransporter, clsFixedParameterCode.DefaultEnableNoTransporter, "0", "0:Off, 1:On")
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
     End Function
@@ -6612,5 +6615,6 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraState, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForInterState, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmSendBillToDCS, clsFixedParameterType.ThirtPartyFarmerCollectionIntegration, clsFixedParameterCode.ThirtPartyFarmerCollectionIntegration, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.DefaultEnableNoTransporter, clsFixedParameterCode.DefaultEnableNoTransporter, EnumControlType.CheckBox)
     End Sub
 End Class
