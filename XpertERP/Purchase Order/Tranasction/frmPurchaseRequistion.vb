@@ -1522,7 +1522,7 @@ Public Class frmPurchaseRequistion
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtReqNo._MYValidating
         vaddnew = "Y"
         '===================update by preeti gupta [Add column created by for Jakson Clinet]
-        Dim qry As String = "select Requisition_Id as Code,convert(varchar,Requisition_Date,103) as Date,Description, case when Status='0' then 'Pending' else 'Approved' end as [Status],case when  Is_Internal='Y' then 'Internal' else 'External' end as Internal,TSPL_USER_MASTER.User_Name as [User Name] from TSPL_REQUISITION_HEAD left join tspl_user_master on TSPL_USER_MASTER .User_Code =TSPL_REQUISITION_HEAD.Created_By"
+        Dim qry As String = "select Requisition_Id as Code,FORMAT(CAST(Requisition_Date AS DATETIME),'dd/MM/yyyy hh:mm tt') as Date,Description, case when Status='0' then 'Pending' else 'Approved' end as [Status],case when  Is_Internal='Y' then 'Internal' else 'External' end as Internal,TSPL_USER_MASTER.User_Name as [User Name] from TSPL_REQUISITION_HEAD left join tspl_user_master on TSPL_USER_MASTER .User_Code =TSPL_REQUISITION_HEAD.Created_By"
         Dim whrClas As String = " Is_Internal='N'"
 
         whrClas += " and TSPL_REQUISITION_HEAD.From_Screen_Code='" + FORMTYPE + "'"

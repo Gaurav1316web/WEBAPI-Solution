@@ -729,7 +729,7 @@ where TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_TENDER
 
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
         Try
-            Dim Qry As String = "select Document_No,Document_Date,Location_Code,Tendor_No,Vendor_No,Item_Code,Remarks,PI_No,RAL_Qty,SRN_Qty,Penalty_Qty,Penalty_Applicable_Per,Short_Qty,Item_Rate,Penalty_Rate,Penalty_Amount,Status from TSPL_SHORT_SUPPLY_PENALTY "
+            Dim Qry As String = "select Document_No,FORMAT(CAST(Document_Date AS DATETIME),'dd/MM/yyyy hh:mm tt') AS Document_Date,Location_Code,Tendor_No,Vendor_No,Item_Code,Remarks,PI_No,RAL_Qty,SRN_Qty,Penalty_Qty,Penalty_Applicable_Per,Short_Qty,Item_Rate,Penalty_Rate,Penalty_Amount,Status from TSPL_SHORT_SUPPLY_PENALTY "
             txtDocNo.Value = clsCommon.ShowSelectForm("DocNoFndd", Qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked)
             LoadData(txtDocNo.Value, NavigatorType.Current)
         Catch ex As Exception

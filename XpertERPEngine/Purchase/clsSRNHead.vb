@@ -651,6 +651,11 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
 
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "AutoSRN", obj.autosrnfromrgp)
+            Dim ServerDate As DateTime = Nothing
+            If isNewEntry Then
+                ServerDate = clsCommon.GETSERVERDATE(trans)
+                obj.SRN_Date = New DateTime(obj.SRN_Date.Year, obj.SRN_Date.Month, obj.SRN_Date.Day, ServerDate.Hour, ServerDate.Minute, ServerDate.Second)
+            End If
             clsCommon.AddColumnsForChange(coll, "SRN_Date", clsCommon.GetPrintDate(obj.SRN_Date, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Vendor_Code", obj.Vendor_Code)
             clsCommon.AddColumnsForChange(coll, "Vendor_Name", obj.Vendor_Name)

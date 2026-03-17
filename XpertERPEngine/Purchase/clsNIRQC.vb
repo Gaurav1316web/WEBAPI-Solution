@@ -32,6 +32,11 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
             End If
             Try
                 Dim coll As New Hashtable()
+                Dim ServerTime As DateTime = Nothing
+                If isNewEntry Then
+                    ServerTime = clsCommon.GETSERVERDATE(trans)
+                    obj.Document_Date = New DateTime(obj.Document_Date.Year, obj.Document_Date.Month, obj.Document_Date.Day, ServerTime.Hour, ServerTime.Minute, ServerTime.Second)
+                End If
                 clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm:ss tt"))
                 clsCommon.AddColumnsForChange(coll, "MRN_No", obj.MRN_No)
                 clsCommon.AddColumnsForChange(coll, "QC_Status", obj.QC_Status)
@@ -608,7 +613,7 @@ where TSPL_MRN_DETAIL.MRN_No='" & strMRN & "' and TSPL_MRN_HEAD.Status=1 and TSP
     'End Function
 
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
-        Dim qry As String = "select TSPL_NIR_QC.Document_No,TSPL_NIR_QC.Document_Date,case when TSPL_NIR_QC.QC_Status=1 then 'OK' else 'Not OK' end as QC_Status,TSPL_NIR_QC.QC_Remarks,case when TSPL_NIR_QC.Status=1 then 'Approved' else 'Pending' end as Status  ,TSPL_NIR_QC.MRN_No,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,TSPL_MRN_HEAD.Vendor_Name,TSPL_MRN_HEAD.Vendor_Code,TSPL_GRN_HEAD.GRN_Date,TSPL_MRN_HEAD.Against_GRN,TSPL_GRN_HEAD.VehicleNo from TSPL_NIR_QC
+        Dim qry As String = "select TSPL_NIR_QC.Document_No,FORMAT(CAST(TSPL_NIR_QC.Document_Date AS DATETIME),'dd/MM/yyyy hh:mm tt') as Document_Date,case when TSPL_NIR_QC.QC_Status=1 then 'OK' else 'Not OK' end as QC_Status,TSPL_NIR_QC.QC_Remarks,case when TSPL_NIR_QC.Status=1 then 'Approved' else 'Pending' end as Status  ,TSPL_NIR_QC.MRN_No,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,TSPL_MRN_HEAD.Vendor_Name,TSPL_MRN_HEAD.Vendor_Code,TSPL_GRN_HEAD.GRN_Date,TSPL_MRN_HEAD.Against_GRN,TSPL_GRN_HEAD.VehicleNo from TSPL_NIR_QC
                                     left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.mrn_no=TSPL_NIR_QC.mrn_no
                                     left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_MRN_HEAD.Against_GRN
                                     left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_MRN_HEAD.Against_GRN"

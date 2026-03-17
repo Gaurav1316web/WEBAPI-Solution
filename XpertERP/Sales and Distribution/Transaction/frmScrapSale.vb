@@ -5024,7 +5024,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
     End Sub
 
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocNo._MYValidating
-        Dim qry As String = "select shipment_No as Code,CONVERT(varchar(10), shipment_Date,103)+' '+ CONVERT(varchar(5), shipment_Date,114) as Date,cust_Code as [Customer Code], cust_Name as Customer,ship_Total_Amt as Amount,case when ispost='0' then 'Pending' else 'Approved' end as [Status],(select top 1 invoice_No from TSPL_SCRAPINVOICE_HEAD where TSPL_SCRAPINVOICE_HEAD.shipment_No=tspl_scrapsale_head.shipment_No) as [Invoice No] from tspl_scrapsale_head"
+        Dim qry As String = "select shipment_No as Code,FORMAT(CAST(shipment_Date AS DATETIME),'dd/MM/yyyy hh:mm tt') as Date,cust_Code as [Customer Code], cust_Name as Customer,ship_Total_Amt as Amount,case when ispost='0' then 'Pending' else 'Approved' end as [Status],(select top 1 invoice_No from TSPL_SCRAPINVOICE_HEAD where TSPL_SCRAPINVOICE_HEAD.shipment_No=tspl_scrapsale_head.shipment_No) as [Invoice No] from tspl_scrapsale_head"
 
         Dim whrClas As String = " Doc_Type ='S' "
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then

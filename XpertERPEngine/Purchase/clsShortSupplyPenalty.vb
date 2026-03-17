@@ -55,7 +55,13 @@ Public Class clsShortSupplyPenalty
             End If
             Dim ServerDate As DateTime = clsCommon.GETSERVERDATE(trans)
             Dim coll As New Hashtable()
-            clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy"))
+
+            Dim ServerTime As DateTime = Nothing
+            If isNewEntry Then
+                ServerTime = clsCommon.GETSERVERDATE(trans)
+                obj.Document_Date = New DateTime(obj.Document_Date.Year, obj.Document_Date.Month, obj.Document_Date.Day, ServerTime.Hour, ServerTime.Minute, ServerTime.Second)
+            End If
+            clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Location_Code", obj.Location)
             clsCommon.AddColumnsForChange(coll, "Tendor_No", obj.RAL_No)
             clsCommon.AddColumnsForChange(coll, "Vendor_No", obj.Vendor_No)
