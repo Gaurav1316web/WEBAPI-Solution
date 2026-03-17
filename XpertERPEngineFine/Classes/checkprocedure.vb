@@ -883,6 +883,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptRejectionReport, "Rejection Detail Report", "1.08.03.57", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.CancelPurchaseInvoiceReport, "Cancel Purchase Invoice Report", "1.08.03.58", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmRALQCReport, "RAL QC Report", "1.08.03.59", clsUserMgtCode.SubModulePurchaseReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmPIPaymentStatusReport, "PI Payment Status Report", "1.08.03.60", clsUserMgtCode.SubModulePurchaseReport, 37)
         '=================End=====================
 
 

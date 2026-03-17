@@ -22,21 +22,11 @@ Partial Class MostUserScreen
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -47,7 +37,6 @@ Partial Class MostUserScreen
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.fromDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.MyComboBox1 = New common.Controls.MyComboBox()
-        Me.ddlBankType = New common.Controls.MyComboBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.Txt2 = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -55,6 +44,7 @@ Partial Class MostUserScreen
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.txtTopCount = New common.MyNumBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -69,7 +59,6 @@ Partial Class MostUserScreen
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.fromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyComboBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ddlBankType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Txt2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
@@ -78,6 +67,7 @@ Partial Class MostUserScreen
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTopCount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -115,10 +105,10 @@ Partial Class MostUserScreen
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.txtTopCount)
         Me.RadPageViewPage1.Controls.Add(Me.chkDateRange)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
         Me.RadPageViewPage1.Controls.Add(Me.MyComboBox1)
-        Me.RadPageViewPage1.Controls.Add(Me.ddlBankType)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
         Me.RadPageViewPage1.Controls.Add(Me.Txt2)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
@@ -211,14 +201,14 @@ Partial Class MostUserScreen
         Me.MyComboBox1.IsSourceFromTable = False
         Me.MyComboBox1.IsSourceFromValueList = False
         Me.MyComboBox1.IsUnique = False
-        RadListDataItem1.Text = "Setup"
-        RadListDataItem2.Text = "Transaction"
-        RadListDataItem3.Text = "Report"
-        RadListDataItem4.Text = "All"
-        Me.MyComboBox1.Items.Add(RadListDataItem1)
-        Me.MyComboBox1.Items.Add(RadListDataItem2)
-        Me.MyComboBox1.Items.Add(RadListDataItem3)
-        Me.MyComboBox1.Items.Add(RadListDataItem4)
+        RadListDataItem5.Text = "Setup"
+        RadListDataItem6.Text = "Transaction"
+        RadListDataItem7.Text = "Report"
+        RadListDataItem8.Text = "All"
+        Me.MyComboBox1.Items.Add(RadListDataItem5)
+        Me.MyComboBox1.Items.Add(RadListDataItem6)
+        Me.MyComboBox1.Items.Add(RadListDataItem7)
+        Me.MyComboBox1.Items.Add(RadListDataItem8)
         Me.MyComboBox1.Location = New System.Drawing.Point(112, 40)
         Me.MyComboBox1.MendatroryField = False
         Me.MyComboBox1.MyLinkLable1 = Nothing
@@ -229,52 +219,6 @@ Partial Class MostUserScreen
         Me.MyComboBox1.ReferenceTableName = Nothing
         Me.MyComboBox1.Size = New System.Drawing.Size(120, 20)
         Me.MyComboBox1.TabIndex = 439
-        '
-        'ddlBankType
-        '
-        Me.ddlBankType.AutoCompleteDisplayMember = Nothing
-        Me.ddlBankType.AutoCompleteValueMember = Nothing
-        Me.ddlBankType.CalculationExpression = Nothing
-        Me.ddlBankType.DropDownAnimationEnabled = True
-        Me.ddlBankType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.ddlBankType.FieldCode = Nothing
-        Me.ddlBankType.FieldDesc = Nothing
-        Me.ddlBankType.FieldMaxLength = 0
-        Me.ddlBankType.FieldName = Nothing
-        Me.ddlBankType.isCalculatedField = False
-        Me.ddlBankType.IsSourceFromTable = False
-        Me.ddlBankType.IsSourceFromValueList = False
-        Me.ddlBankType.IsUnique = False
-        RadListDataItem5.Text = "10"
-        RadListDataItem6.Text = "20"
-        RadListDataItem7.Text = "30"
-        RadListDataItem8.Text = "40"
-        RadListDataItem9.Text = "50"
-        RadListDataItem10.Text = "60"
-        RadListDataItem11.Text = "70"
-        RadListDataItem12.Text = "80"
-        RadListDataItem13.Text = "90"
-        RadListDataItem14.Text = "100"
-        Me.ddlBankType.Items.Add(RadListDataItem5)
-        Me.ddlBankType.Items.Add(RadListDataItem6)
-        Me.ddlBankType.Items.Add(RadListDataItem7)
-        Me.ddlBankType.Items.Add(RadListDataItem8)
-        Me.ddlBankType.Items.Add(RadListDataItem9)
-        Me.ddlBankType.Items.Add(RadListDataItem10)
-        Me.ddlBankType.Items.Add(RadListDataItem11)
-        Me.ddlBankType.Items.Add(RadListDataItem12)
-        Me.ddlBankType.Items.Add(RadListDataItem13)
-        Me.ddlBankType.Items.Add(RadListDataItem14)
-        Me.ddlBankType.Location = New System.Drawing.Point(112, 12)
-        Me.ddlBankType.MendatroryField = False
-        Me.ddlBankType.MyLinkLable1 = Nothing
-        Me.ddlBankType.MyLinkLable2 = Nothing
-        Me.ddlBankType.Name = "ddlBankType"
-        Me.ddlBankType.ReferenceFieldDesc = Nothing
-        Me.ddlBankType.ReferenceFieldName = Nothing
-        Me.ddlBankType.ReferenceTableName = Nothing
-        Me.ddlBankType.Size = New System.Drawing.Size(120, 20)
-        Me.ddlBankType.TabIndex = 438
         '
         'MyLabel1
         '
@@ -320,7 +264,8 @@ Partial Class MostUserScreen
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MyExportAPI = False
         Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
@@ -360,6 +305,35 @@ Partial Class MostUserScreen
         Me.btnGo.TabIndex = 169
         Me.btnGo.Text = ">>>"
         '
+        'txtTopCount
+        '
+        Me.txtTopCount.BackColor = System.Drawing.Color.Transparent
+        Me.txtTopCount.CalculationExpression = Nothing
+        Me.txtTopCount.DecimalPlaces = 2
+        Me.txtTopCount.FieldCode = Nothing
+        Me.txtTopCount.FieldDesc = Nothing
+        Me.txtTopCount.FieldMaxLength = 0
+        Me.txtTopCount.FieldName = Nothing
+        Me.txtTopCount.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.txtTopCount.isCalculatedField = False
+        Me.txtTopCount.IsSourceFromTable = False
+        Me.txtTopCount.IsSourceFromValueList = False
+        Me.txtTopCount.IsUnique = False
+        Me.txtTopCount.Location = New System.Drawing.Point(112, 13)
+        Me.txtTopCount.MaxLength = 6
+        Me.txtTopCount.MendatroryField = False
+        Me.txtTopCount.MyLinkLable1 = Nothing
+        Me.txtTopCount.MyLinkLable2 = Nothing
+        Me.txtTopCount.Name = "txtTopCount"
+        Me.txtTopCount.ReferenceFieldDesc = Nothing
+        Me.txtTopCount.ReferenceFieldName = Nothing
+        Me.txtTopCount.ReferenceTableName = Nothing
+        Me.txtTopCount.Size = New System.Drawing.Size(120, 21)
+        Me.txtTopCount.TabIndex = 1589
+        Me.txtTopCount.Text = "0"
+        Me.txtTopCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtTopCount.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        '
         'MostUserScreen
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -388,7 +362,6 @@ Partial Class MostUserScreen
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.fromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyComboBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ddlBankType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Txt2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
@@ -397,6 +370,7 @@ Partial Class MostUserScreen
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTopCount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -413,11 +387,11 @@ Partial Class MostUserScreen
     Friend WithEvents btnClose As RadButton
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents MyComboBox1 As common.Controls.MyComboBox
-    Friend WithEvents ddlBankType As common.Controls.MyComboBox
     Friend WithEvents RadGroupBox3 As RadGroupBox
     Friend WithEvents lbltoDate As common.Controls.MyLabel
     Friend WithEvents ToDate As RadDateTimePicker
     Friend WithEvents RadLabel1 As common.Controls.MyLabel
     Friend WithEvents fromDate As RadDateTimePicker
     Friend WithEvents chkDateRange As RadCheckBox
+    Friend WithEvents txtTopCount As common.MyNumBox
 End Class
