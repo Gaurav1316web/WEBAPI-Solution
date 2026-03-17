@@ -3645,6 +3645,7 @@ Public Class clsPaymentProcessDetail
     Public Bank_Desc As String = ""
     Public Payment_Mode As String = ""
     Public Cheque_No As String = ""
+    Public Payee_Joint_Name_Saving As String = ""
     Public Bank_Code_Saving As String = ""
     Public Bank_Desc_Saving As String = ""
     Public Bank_Account_No_Saving As String = ""
@@ -3760,6 +3761,7 @@ Public Class clsPaymentProcessDetail
                     If Not arr.Item(i).Cheque_Dated Is Nothing Then
                         clsCommon.AddColumnsForChange(coll, "Cheque_Dated", clsCommon.GetPrintDate(clsCommon.myCstr(arr.Item(i).Cheque_Dated), "dd/MMM/yyyy"), True)
                     End If
+                    clsCommon.AddColumnsForChange(coll, "Payee_Joint_Name_Saving", clsCommon.myCstr(arr.Item(i).Payee_Joint_Name_Saving), True)
                     clsCommon.AddColumnsForChange(coll, "Bank_Code_Saving", clsCommon.myCstr(arr.Item(i).Bank_Code_Saving))
                     clsCommon.AddColumnsForChange(coll, "Bank_Desc_Saving", clsCommon.myCstr(arr.Item(i).Bank_Desc_Saving))
                     clsCommon.AddColumnsForChange(coll, "Bank_Account_No_Saving", clsCommon.myCstr(arr.Item(i).Bank_Account_No_Saving))
@@ -3866,6 +3868,7 @@ Public Class clsPaymentProcessDetail
 ,TSPL_PAYMENT_PROCESS_DETAIL.Payment_Mode 
 ,TSPL_PAYMENT_PROCESS_DETAIL.Cheque_No 
 ,TSPL_PAYMENT_PROCESS_DETAIL.Cheque_Dated 
+,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Name_Saving 
 ,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Code_Saving 
 ,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Desc_Saving 
 ,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Account_No_Saving
@@ -3971,7 +3974,7 @@ where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No ='" & doc_No & "' order by TSPL_PAYMENT
                     If clsCommon.myLen(dtbl.Rows(i)("Cheque_Dated")) > 0 Then
                         obj.Cheque_Dated = clsCommon.myCstr(dtbl.Rows(i)("Cheque_Dated"))
                     End If
-
+                    obj.Payee_Joint_Name_Saving = clsCommon.myCstr(dtbl.Rows(i)("Payee_Joint_Name_Saving"))
                     obj.Bank_Code_Saving = clsCommon.myCstr(dtbl.Rows(i)("Bank_Code_Saving"))
                     obj.Bank_Desc_Saving = clsCommon.myCstr(dtbl.Rows(i)("Bank_Desc_Saving"))
                     obj.Payment_Mode_Saving = clsCommon.myCstr(dtbl.Rows(i)("Payment_Mode_Saving"))

@@ -167,6 +167,7 @@ Public Class FrmPaymentProcess
 
 
 
+    Public Const colPayeeJointNameSaving As String = "colPayeeJointNameSaving"
     Public Const colBankCodeSaving As String = "colBankCodeSaving"
     Public Const colBankDescSaving As String = "colBankDescSaving"
     Public Const colBankAccountNoSaving As String = "colBankAccountNoSaving"
@@ -201,6 +202,10 @@ Public Class FrmPaymentProcess
 #End Region
 
     Private Sub FrmProvisionEntry_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim coll As New Dictionary(Of String, String)()
+        coll.Add("Payee_Joint_Name_Saving", "varchar(100) NULL ")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_DETAIL", coll, Nothing, True, False, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "", True)
+
         SetUserMgmtNew()
         If objCommonVar.ApplyLocationWisePrefix Then
             pnlLocation.Visible = True
@@ -1371,6 +1376,8 @@ Public Class FrmPaymentProcess
         gv.MasterTemplate.Columns.Add(colTextBox)
 
 
+
+
         Dim colTextBox1 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         colTextBox1.FormatString = ""
         colTextBox1.HeaderText = "Current Bank code"
@@ -1419,6 +1426,14 @@ Public Class FrmPaymentProcess
         colDate.IsVisible = True
         gv.MasterTemplate.Columns.Add(colDate)
 
+
+        colTextBox = New GridViewTextBoxColumn()
+        colTextBox.FormatString = ""
+        colTextBox.HeaderText = "Saving Payee/Joint Name"
+        colTextBox.Name = colPayeeJointNameSaving
+        colTextBox.Width = 200
+        colTextBox.ReadOnly = True
+        gv.MasterTemplate.Columns.Add(colTextBox)
 
         colTextBox1 = New GridViewTextBoxColumn()
         colTextBox1.FormatString = ""
@@ -3983,6 +3998,12 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             If gv.Rows.Count <= 0 OrElse gv Is Nothing Then
                 Throw New Exception("Please select atleast one document")
             End If
+            gvMccSale.MasterTemplate.FilterDescriptors.Clear()
+            gvMccSale.MasterTemplate.SortDescriptors.Clear()
+            gvDeduction.MasterTemplate.FilterDescriptors.Clear()
+            gvDeduction.MasterTemplate.SortDescriptors.Clear()
+
+
 
             loadGvData()
 
@@ -4597,6 +4618,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                         objPPDetail.Cheque_No = clsCommon.myCstr(gv.Rows(i).Cells(colChequeNo).Value)
 
 
+                        objPPDetail.Payee_Joint_Name_Saving = clsCommon.myCstr(gv.Rows(i).Cells(colPayeeJointNameSaving).Value)
                         objPPDetail.Bank_Code_Saving = clsCommon.myCstr(gv.Rows(i).Cells(colBankCodeSaving).Value)
                         objPPDetail.Bank_Desc_Saving = clsCommon.myCstr(gv.Rows(i).Cells(colBankDescSaving).Value)
                         objPPDetail.Payment_Mode_Saving = clsCommon.myCstr(gv.Rows(i).Cells(colPayModeSaving).Value)
@@ -5071,6 +5093,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                     gv.Columns(colPayMode).FieldName = "Payment_Mode"
                     gv.Columns(colChequeNo).FieldName = "Cheque_No"
                     gv.Columns(colChequeDate).FieldName = "Cheque_Dated"
+                    gv.Columns(colPayeeJointNameSaving).FieldName = "Payee_Joint_Name_Saving"
                     gv.Columns(colBankCodeSaving).FieldName = "Bank_Code_Saving"
                     gv.Columns(colBankDescSaving).FieldName = "Bank_Desc_Saving"
                     gv.Columns(colBankAccountNoSaving).FieldName = "Bank_Account_No_Saving"
@@ -5672,7 +5695,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 CalculateAdvanceKnockOff(k)
 
                 If SettVSPHoldPaymentNotCompanyBank Then
-                    Dim qry As String = "select TSPL_VENDOR_MASTER.Company_Bank_Current,TSPL_BANK_MASTER_CURRENT.DESCRIPTION as DESCRIPTION_Current,TSPL_VENDOR_MASTER.Company_Bank,TSPL_BANK_MASTER_SAVING.DESCRIPTION as DESCRIPTION_Saving ,TSPL_VENDOR_MASTER.AccNo2 as AccountNo_Saving
+                    Dim qry As String = "select TSPL_VENDOR_MASTER.Company_Bank_Current,TSPL_BANK_MASTER_CURRENT.DESCRIPTION as DESCRIPTION_Current,TSPL_VENDOR_MASTER.Company_Bank,TSPL_BANK_MASTER_SAVING.DESCRIPTION as DESCRIPTION_Saving ,TSPL_VENDOR_MASTER.AccNo2 as AccountNo_Saving,TSPL_VENDOR_MASTER.Saving_Payee_Name
 from TSPL_VENDOR_MASTER 
 left outer join TSPL_BANK_MASTER as TSPL_BANK_MASTER_CURRENT on TSPL_BANK_MASTER_CURRENT.BANK_CODE=TSPL_VENDOR_MASTER.Company_Bank_Current
 left outer join TSPL_BANK_MASTER as TSPL_BANK_MASTER_SAVING on TSPL_BANK_MASTER_SAVING.BANK_CODE=TSPL_VENDOR_MASTER.Company_Bank 
@@ -5688,6 +5711,7 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
                         End If
 
                         If clsCommon.myLen(dt.Rows(0)("Company_Bank")) > 0 Then
+                            gv.Rows(i).Cells(colPayeeJointNameSaving).Value = clsCommon.myCstr(dt.Rows(0)("Saving_Payee_Name"))
                             gv.Rows(i).Cells(colBankCodeSaving).Value = clsCommon.myCstr(dt.Rows(0)("Company_Bank"))
                             gv.Rows(i).Cells(colBankDescSaving).Value = clsCommon.myCstr(dt.Rows(0)("DESCRIPTION_Saving"))
                             gv.Rows(i).Cells(colBankAccountNoSaving).Value = clsCommon.myCstr(dt.Rows(0)("AccountNo_Saving"))
