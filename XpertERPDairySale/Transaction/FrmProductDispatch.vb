@@ -6961,7 +6961,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                 '    Throw New Exception("Please define Freight Distance in EWay Bill Distance Master !")
                 'End If
                 If chkownVehicle.Checked = False Then
-                    If clsCommon.myLen(txtTransporterCode.Value) <= 0 Then
+                    If clsCommon.myLen(txtTransporterCode.Value) <= 0 AndAlso Not chkNoTranspoter.Checked Then
                         Throw New Exception("Pls Select Transporter")
                         txtTransporterCode.Focus()
                         Return False

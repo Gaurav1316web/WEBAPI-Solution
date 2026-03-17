@@ -47,6 +47,9 @@ Public Class FrmBoothCommissionMaster
         txtFromDate.Value = clsCommon.GETSERVERDATE()
         txtToDate.Value = txtFromDate.Value
         txtDate.Value = txtToDate.Value
+        btnsave.Enabled = True
+        btnpost.Enabled = True
+        btndelete.Enabled = True
         LoadBlankGrid()
     End Sub
     Private Sub LoadBlankGrid()
@@ -117,7 +120,7 @@ Public Class FrmBoothCommissionMaster
         coll.Add("Is_Mobile_User", "Integer NOT NULL")
         coll.Add("Inactive", "Integer NOT NULL")
         coll.Add("InActive_Date", "datetime null")
-        coll.Add("Commision_UOM", "varchar(12) NOT NULL")
+        coll.Add("Commision_UOM", "varchar(12) NOT NULL REFERENCES TSPL_UNIT_MASTER(UNIT_CODE)")
         coll.Add("Min_Per_Day_Qty", "decimal(18,2) NOT NULL")
         coll.Add("Remark", "varchar(200) NULL")
         coll.Add("Comment", "varchar(200) NULL")
@@ -128,14 +131,14 @@ Public Class FrmBoothCommissionMaster
         coll.Add("Modified_Date", "datetime  Not NULL")
         coll.Add("Posted_By", "varchar(12) NULL")
         coll.Add("Posted_Date", "datetime NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOTH_COMMISSION_MASTER", coll, "", True, False, "", "Document_No", "Document_Date", True)
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOTH_COMMISSION_MASTER", coll, "", True, False, "", "Document_Code", "Document_Date", True)
         coll = New Dictionary(Of String, String)()
         coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
         coll.Add("Document_Code", "Varchar(30) Not null references TSPL_BOOTH_COMMISSION_MASTER(Document_Code)")
         coll.Add("Line_No", "integer Not Null")
         coll.Add("Item_Code", "Varchar(50) NOT NULL references TSPL_ITEM_MASTER(Item_Code)")
         coll.Add("Commission_Rate", "decimal(18,4) not null")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOTH_COMMISSION_DETAIL", coll, "", True, False, "TSPL_BOOTH_COMMISSION_MASTER", "Document_No", "", True)
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOTH_COMMISSION_DETAIL", coll, "", True, False, "TSPL_BOOTH_COMMISSION_MASTER", "Document_Code", "", True)
     End Sub
 
     Private Sub btnAddNew_Click(sender As Object, e As EventArgs) Handles btnAddNew.Click
