@@ -216,6 +216,7 @@
     <Compile Include="Accounts\clsJournalMaster.vb" />
     <Compile Include="API\ClsEInvoiceOFAPIs.vb" />
     <Compile Include="API\clsEWayBill.vb" />
+    <Compile Include="BoothCommission\clsBoothCommissionCalculationMaster.vb" />
     <Compile Include="BoothCommission\clsBoothCommissionMaster.vb" />
     <Compile Include="BoothRouteMapping\clsBoothRouteMappingHead.vb" />
     <Compile Include="Bull Breed Management\clsBullBreedMaster.vb" />

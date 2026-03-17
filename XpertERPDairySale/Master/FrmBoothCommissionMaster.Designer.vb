@@ -22,7 +22,7 @@ Partial Class FrmBoothCommissionMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.txtperDayQty = New common.MyNumBox()
@@ -495,7 +495,7 @@ Partial Class FrmBoothCommissionMaster
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.MyExportAPI = False
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
@@ -513,7 +513,7 @@ Partial Class FrmBoothCommissionMaster
         Me.btnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnpost.ImageScalingSize = New System.Drawing.Size(68, 14)
-        Me.btnpost.Location = New System.Drawing.Point(168, 7)
+        Me.btnpost.Location = New System.Drawing.Point(85, 7)
         Me.btnpost.Name = "btnpost"
         Me.btnpost.Size = New System.Drawing.Size(73, 20)
         Me.btnpost.TabIndex = 9
@@ -540,7 +540,7 @@ Partial Class FrmBoothCommissionMaster
         'btndelete
         '
         Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btndelete.Location = New System.Drawing.Point(89, 7)
+        Me.btndelete.Location = New System.Drawing.Point(161, 7)
         Me.btndelete.Name = "btndelete"
         Me.btndelete.Size = New System.Drawing.Size(73, 20)
         Me.btndelete.TabIndex = 6

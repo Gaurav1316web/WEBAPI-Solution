@@ -34,6 +34,7 @@ Partial Class FrmBoothCommission
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.chkMobileUser = New Telerik.WinControls.UI.RadCheckBox()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.txtMonthYear = New common.Controls.MyDateTimePicker()
         Me.lblFromDate = New System.Windows.Forms.Label()
@@ -67,6 +68,7 @@ Partial Class FrmBoothCommission
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.chkMobileUser, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtMonthYear, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtComment, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -191,6 +193,7 @@ Partial Class FrmBoothCommission
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.chkMobileUser)
         Me.SplitContainer2.Panel1.Controls.Add(Me.btnGo)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtMonthYear)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblFromDate)
@@ -211,6 +214,14 @@ Partial Class FrmBoothCommission
         Me.SplitContainer2.Size = New System.Drawing.Size(910, 343)
         Me.SplitContainer2.SplitterDistance = 112
         Me.SplitContainer2.TabIndex = 1588
+        '
+        'chkMobileUser
+        '
+        Me.chkMobileUser.Location = New System.Drawing.Point(372, 31)
+        Me.chkMobileUser.Name = "chkMobileUser"
+        Me.chkMobileUser.Size = New System.Drawing.Size(126, 18)
+        Me.chkMobileUser.TabIndex = 1595
+        Me.chkMobileUser.Text = "Only For Mobile User"
         '
         'btnGo
         '
@@ -581,6 +592,7 @@ Partial Class FrmBoothCommission
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.chkMobileUser, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtMonthYear, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtComment, System.ComponentModel.ISupportInitialize).EndInit()
@@ -640,4 +652,5 @@ Partial Class FrmBoothCommission
     Friend WithEvents btnreverse As RadButton
     Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents gv2 As common.UserControls.MyRadGridView
+    Friend WithEvents chkMobileUser As RadCheckBox
 End Class
