@@ -60571,6 +60571,54 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
         coll.Add("Modified_Date", "Datetime NOT NULL")
         clsCommonFunctionality.CreateOrAlterTable("TSPL_WEIGHING_MASTER", coll)
 
+        Try
+            Dim qry2 As String = ""
+            qry2 = "  ----PURCHASE INVOICE
+            alter table TSPL_PI_HEAD alter column PI_Date DATETIME NOT NULL 
+             alter table TSPL_PI_HEAD_HIST_DATA alter column PI_Date DATETIME NOT NULL
+            alter table TSPL_PI_HEAD_DELETE_DATA alter column PI_Date DATETIME NOT NULL
+            alter table TSPL_PI_HEAD_CANCEL_DATA alter column PI_Date DATETIME NOT NULL
+
+            -----Incoming Quality check entry Screen
+             alter table TSPL_QC_CHECK_HEAD alter column Document_Date DATETIME NOT NULL 
+            alter table TSPL_QC_CHECK_HEAD_HIST_DATA alter column Document_Date DATETIME NOT NULL
+             alter table TSPL_QC_CHECK_HEAD_DELETE_DATA alter column Document_Date DATETIME NOT NULL 
+            alter table TSPL_QC_CHECK_HEAD_CANCEL_DATA alter column Document_Date DATETIME NOT NULL
+
+            -----LCF 
+           alter table TSPL_MF_BOM_HEAD alter column BOM_DATE DATETIME NOT NULL 
+            alter table TSPL_MF_BOM_HEAD_HIST_DATA alter column BOM_DATE DATETIME NOT NULL
+            alter table TSPL_MF_BOM_HEAD_DELETE_DATA alter column BOM_DATE DATETIME Not NULL
+             alter table TSPL_MF_BOM_HEAD_CANCEL_DATA alter column BOM_DATE DATETIME NOT NULL
+
+            ----STD Production Entry
+             alter table TSPL_SPP_PRODUCTION_ENTRY alter column PROD_DATE DATETIME NOT NULL 
+             alter table TSPL_SPP_PRODUCTION_ENTRY_HIST_DATA alter column PROD_DATE DATETIME NOT NULL
+            alter table TSPL_SPP_PRODUCTION_ENTRY_DELETE_DATA alter column PROD_DATE DATETIME Not NULL
+            alter table TSPL_SPP_PRODUCTION_ENTRY_CANCEL_DATA alter column PROD_DATE DATETIME NOT NULL
+
+            ---Break Down Entry
+            alter table TSPL_BREAK_DOWN_ENTRY alter column DOC_DATE DATETIME NOT NULL 
+           alter table TSPL_BREAK_DOWN_ENTRY_HIST_DATA alter column DOC_DATE DATETIME NOT NULL
+
+            ----Receipt Entry
+           alter table TSPL_RECEIPT_HEADER alter column Receipt_Date DATETIME NOT NULL 
+           alter table TSPL_RECEIPT_HEADER_HIST_DATA alter column Receipt_Date DATETIME NOT NULL
+            alter table TSPL_RECEIPT_HEADER_DELETE_DATA alter column Receipt_Date DATETIME NOT NULL 
+           alter table TSPL_RECEIPT_HEADER_CANCEL_DATA alter column Receipt_Date DATETIME NOT NULL "
+            clsDBFuncationality.ExecuteNonQuery(qry2)
+            Dim sqlStr As String = "SELECT count(1) FROM INFORMATION_SCHEMA.COLUMNS WHERE  TABLE_NAME = 'TSPL_EINVOICEHEADER_INFO' AND COLUMN_NAME = 'Code' "
+            Dim CodeExist = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(sqlStr))
+            If CodeExist = 0 Then
+                qry2 = "   ----AP Invoice Entry
+             alter table TSPL_VENDOR_INVOICE_HEAD add Invoice_Entry_Date_New DATETIME  NULL
+alter table TSPL_VENDOR_INVOICE_HEAD_HIST_DATA add Invoice_Entry_Date_New DATETIME  NULL
+alter table TSPL_VENDOR_INVOICE_HEAD_DELETE_DATA add Invoice_Entry_Date_New DATETIME  NULL
+alter table TSPL_VENDOR_INVOICE_HEAD_CANCEL_DATA add Invoice_Entry_Date_New DATETIME  NULL "
+                clsDBFuncationality.ExecuteNonQuery(qry2)
+            End If
+        Catch
+        End Try
         Return True
     End Function
 
