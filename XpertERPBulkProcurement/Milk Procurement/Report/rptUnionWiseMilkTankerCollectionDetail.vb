@@ -139,45 +139,24 @@ Public Class rptUnionWiseMilkTankerCollectionDetail
 [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Document_No as Weighment_No,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK.QC_No,convert(varchar(12),[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK.QC_Out_Date_Time,103) as QC_Date,
 [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GATE_ENTRY_DETAILS.Gate_Entry_No,convert(varchar(12),[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GATE_ENTRY_DETAILS.Date_And_Time,103) as GATE_ENTRY_Date ,
 [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Gross_Weight, 
-case when isnull([" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Manual_Gross_Weight,0)=1 then 'M' else 'A' end as Manual_Gross_Weight,--when [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Manual_Gross_Weight = 0 then 'A' else null end as Manual_Gross_Weight,
-[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Tare_Weight ,case when isnull([" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Manual_Tare_Weight,0)= 1 then 'M' else'A' end as Manual_Tare_Weight,--when [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Manual_Tare_Weight = 0 then 'A' else null  end as Manual_Tare_Weight,
---case when isnull([" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK.Manual_Entry,0)= 1 then 'M' when [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK.Manual_Entry = 0 then 'A' else null  end as Manual_Entry_QC,
-CASE 
-    WHEN ISNULL(Fat_Kg,0) > 0 THEN
-        CASE 
-            WHEN ISNULL([" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK.Manual_Entry,0) = 1 THEN 'M'
-            WHEN [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK.Manual_Entry = 0 THEN 'A'
-            ELSE NULL
-        END
-    ELSE ''
-END AS Manual_Entry_QC,
+case when isnull([" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Manual_Gross_Weight,0)=1 then 'M' else 'A' end as Manual_Gross_Weight, 
+[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Tare_Weight ,case when isnull([" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Manual_Tare_Weight,0)= 1 then 'M' else'A' end as Manual_Tare_Weight, 
+CASE  WHEN ISNULL(Fat_Kg,0) > 0 THEN CASE  WHEN ISNULL([" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK.Manual_Entry,0) = 1 THEN 'M' WHEN [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK.Manual_Entry = 0 THEN 'A' ELSE NULL END ELSE '' END AS Manual_Entry_QC,
 [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Net_Weight,
 isnull(QCFAT.Param_Field_Value,0) AS Fat_Per,ISNULL(cast((TSPL_PLANT_WEIGHMENT.Net_Weight * QCFAT.Param_Field_Value)/100 as decimal(18,3)),0) as Fat_Kg,ISNULL(QCSNF.Param_Field_Value,0) as SNF_Per,
 isnull(cast((TSPL_PLANT_WEIGHMENT.Net_Weight * QCSNF.Param_Field_Value)/100 as decimal(18,3)),0) as SNF_Kg ,
-    CASE
-    WHEN [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK.is_Param_Accepted = 1 
-        THEN 'Accept'
-    WHEN [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK.SNF_Per IS NOT NULL 
-      AND [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK.Fat_Per IS NOT NULL
-        THEN 'Pending'
-    ELSE ''
-END AS QcStatus,
-    
-    
-    isnull(QCCLR.Param_Field_Value,0) AS [CLR]
-    ,CASE WHEN  [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GATE_ENTRY_DETAILS.Doc_Type ='MccProc' THEN 'Route'
-else 'Purchase' end as Source
-    ,'" & objCommonVar.CurrComp_Code1 & "' AS CompCode 
+CASE WHEN [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK.is_Param_Accepted = 1  THEN 'Accept' WHEN [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK.SNF_Per IS NOT NULL  AND [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK.Fat_Per IS NOT NULL THEN 'Pending' ELSE '' END AS QcStatus,
+isnull(QCCLR.Param_Field_Value,0) AS [CLR],CASE WHEN  [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GATE_ENTRY_DETAILS.Doc_Type ='MccProc' THEN 'Route'
+else 'Purchase' end as Source,'" & objCommonVar.CurrComp_Code1 & "' AS CompCode 
 from [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT
- left join [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GATE_ENTRY_DETAILS on [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GATE_ENTRY_DETAILS.Gate_Entry_No = [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Gate_Entry_No  
- left join [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK on [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK.Gate_Entry_No  =[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo]. TSPL_GATE_ENTRY_DETAILS.Gate_Entry_No 
- left join [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QC_Parameter_Detail AS QCFAT on QCFAT.QC_No  = TSPL_QUALITY_CHECK.QC_No AND QCFAT.Param_Field_Code = 'FAT' 
- left join [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QC_Parameter_Detail AS QCSNF on QCSNF.QC_No  = TSPL_QUALITY_CHECK.QC_No AND  QCSNF.Param_Field_Code = 'SNF'
-  left join [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QC_Parameter_Detail AS QCCLR on QCCLR.QC_No  = TSPL_QUALITY_CHECK.QC_No AND  QCCLR.Param_Field_Code = 'CLR'
-
- left join [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER on 1= 1 
- where 2=2    and convert(date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GATE_ENTRY_DETAILS.Date_And_Time,103) >= convert(date,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "',103)
-and convert(date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GATE_ENTRY_DETAILS.Date_And_Time,103) <= convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103) "
+left join [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GATE_ENTRY_DETAILS on [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GATE_ENTRY_DETAILS.Gate_Entry_No = [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Gate_Entry_No  
+left join [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK on [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QUALITY_CHECK.Gate_Entry_No  =[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo]. TSPL_GATE_ENTRY_DETAILS.Gate_Entry_No 
+left join [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QC_Parameter_Detail AS QCFAT on QCFAT.QC_No  = TSPL_QUALITY_CHECK.QC_No AND QCFAT.Param_Field_Code = 'FAT' 
+left join [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QC_Parameter_Detail AS QCSNF on QCSNF.QC_No  = TSPL_QUALITY_CHECK.QC_No AND  QCSNF.Param_Field_Code = 'SNF'
+left join [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_QC_Parameter_Detail AS QCCLR on QCCLR.QC_No  = TSPL_QUALITY_CHECK.QC_No AND  QCCLR.Param_Field_Code = 'CLR'
+left join [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER on 1= 1 
+where 2=2    and convert(date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Document_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "',103)
+and convert(date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Document_Date,103) <= convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103) "
                 If chkSummary.Checked Then
                 Else
                     If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
@@ -187,17 +166,9 @@ and convert(date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) +
                         baseqry += " and [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GATE_ENTRY_DETAILS.Tanker_No in (" + clsCommon.GetMulcallString(TxtMultiTanker.arrValueMember) + ") "
                     End If
                 End If
-                'If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
-                '    baseqry += " and [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GATE_ENTRY_DETAILS.ROUTE_NO in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ") "
-                'End If
-                'If TxtMultiTanker.arrValueMember IsNot Nothing AndAlso TxtMultiTanker.arrValueMember.Count > 0 Then
-                '    baseqry += " and [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GATE_ENTRY_DETAILS.Tanker_No in (" + clsCommon.GetMulcallString(TxtMultiTanker.arrValueMember) + ") "
-                'End If
-
             Next
             Dim qryall As String = ""
-
-            qryall = " SELECT ROW_NUMBER() OVER (ORDER BY xx.UnionName,Weighment_Date_Ordring) AS SNo,Weighment_Date_Ordring,UserName,FromDate,ToDate,UnionName,location_Code,Weighment_Date,ROUTE_NO,Tanker_No,SNo,Weighment_No,QC_No,QC_Date,	Gate_Entry_No,	GATE_ENTRY_Date	,Gross_Weight,	Manual_Gross_Weight,Tare_Weight,Manual_Tare_Weight	,Manual_Entry_QC,Net_Weight,Fat_Per,Fat_Kg,	SNF_Per	,SNF_Kg	,QcStatus,CLR,Source,CompCode "
+            qryall = " SELECT ROW_NUMBER() OVER (ORDER BY xx.UnionName,Weighment_Date) AS SNo,Weighment_Date_Ordring,UserName,FromDate,ToDate,UnionName,location_Code,Weighment_Date,ROUTE_NO,Tanker_No,SNo,Weighment_No,QC_No,QC_Date,	Gate_Entry_No,	GATE_ENTRY_Date	,Gross_Weight,	Manual_Gross_Weight,Tare_Weight,Manual_Tare_Weight	,Manual_Entry_QC,Net_Weight,Fat_Per,Fat_Kg,	SNF_Per	,SNF_Kg	,QcStatus,CLR,Source,CompCode "
             If objCommonVar.RCDFCFP Then
                 qryall += ",TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Comp_Name "
             Else
@@ -211,26 +182,19 @@ and convert(date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) +
 
             Dim SummaryQry As String = ""
             If chkSummary.Checked Then
-                SummaryQry += "SELECT ROW_NUMBER() OVER (ORDER BY XX.UnionName) AS SNo,'" + objCommonVar.CurrentUserCode + "' as UserName,  
-               max(xx.FromDate)FromDate,max(xx.ToDate)ToDate, xx.UnionName, max(xx.Weighment_Date)Weighment_Date,count(XX.Tanker_No) AS Tanker_No,max(XX.ROUTE_NO) AS ROUTE_NO,--MAX(XX.WEIGHMENT_NO) AS Weighment_No, 				 	 
-				 count(XX.Gate_Entry_No) AS Gate_Entry_No,SUM(XX.Gross_Weight) AS Gross_Weight, SUM(XX.tare_weight) AS Tare_Weight,MAX(XX.manual_Tare_Weight) AS Manual_Tare_Weight, MAX(XX.Manual_Entry_Qc) AS Manual_Entry_QC,
-                SUM(XX.Net_Weight) AS Net_Weight,CAST(sum(isnull(XX.Fat_Kg,0)) AS DECIMAL(18,3)) AS Fat_Kg,CAST(sum(isnull(XX.SNF_Kg,0)) AS DECIMAL(18,3))  AS SNF_Kg,							
-			    SUM(CASE WHEN XX.QcStatus = 'Accept' THEN 1 ELSE 0 END) AS AcceptQC,
-                SUM(CASE WHEN XX.QcStatus = 'Reject' THEN 1 ELSE 0 END) AS RejectQC
-
-
-,max(CompCode)CompCode, "
+                SummaryQry += "SELECT ROW_NUMBER() OVER (ORDER BY XX.UnionName) AS SNo,'" + objCommonVar.CurrentUserCode + "' as UserName,
+max(xx.FromDate)FromDate,max(xx.ToDate)ToDate, xx.UnionName, max(xx.Weighment_Date)Weighment_Date,count(XX.Tanker_No) AS Tanker_No,max(XX.ROUTE_NO) AS ROUTE_NO,
+count(XX.Gate_Entry_No) AS Gate_Entry_No,SUM(XX.Gross_Weight) AS Gross_Weight, SUM(XX.tare_weight) AS Tare_Weight,MAX(XX.manual_Tare_Weight) AS Manual_Tare_Weight, MAX(XX.Manual_Entry_Qc) AS Manual_Entry_QC,
+SUM(XX.Net_Weight) AS Net_Weight,CAST(sum(isnull(XX.Fat_Kg,0)) AS DECIMAL(18,3)) AS Fat_Kg,CAST(sum(isnull(XX.SNF_Kg,0)) AS DECIMAL(18,3))  AS SNF_Kg,
+SUM(CASE WHEN XX.QcStatus = 'Accept' THEN 1 ELSE 0 END) AS AcceptQC,SUM(CASE WHEN XX.QcStatus = 'Reject' THEN 1 ELSE 0 END) AS RejectQC,max(CompCode)CompCode, "
                 If objCommonVar.RCDFCFP Then
                     SummaryQry += " max(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,max(TSPL_COMPANY_MASTER.add1)add1,max(TSPL_COMPANY_MASTER.add2)add2 "
                 Else
                     SummaryQry += " max(xx.Comp_Name)Comp_Name,max(xx.add1)add1,max(xx.add2)add2,MAX(CompCode)CompCode "
                 End If
+                SummaryQry += ",max(Weighment_Date_Ordring)Weighment_Date_Ordring From ( " & baseqry & ") XX LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_code1='RCDFCF' "
+                SummaryQry += " GROUP BY XX.UnionName,XX.Weighment_Date ORDER BY xx.UnionName,Weighment_Date_Ordring;"
             End If
-
-            SummaryQry += ",(Weighment_Date_Ordring)Weighment_Date_Ordring From ( " & baseqry & ") XX LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_code1='RCDFCF' "
-            SummaryQry += " GROUP BY XX.Weighment_Date_Ordring, XX.UnionName  ORDER BY xx.UnionName,Weighment_Date_Ordring;"
-
-
             Dim dt2 As DataTable
             If chkSummary.Checked Then
                 dt2 = clsDBFuncationality.GetDataTable(SummaryQry)
@@ -253,23 +217,17 @@ and convert(date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) +
                 gv1.AllowAddNewRow = False
                 gv1.ShowGroupPanel = False
                 If chkSummary.Checked Then
-
                     SetGridFormatSummary()
-
                 Else
                     SetGridFormat()
                 End If
-
-
                 gv1.BestFitColumns()
                 If print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     If chkSummary.Checked Then
                         frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "rptUnionWiseMilkTankerCollectionSummary", "") ''report for both (RCDF And RCDFCF)
-
                     Else
                         frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "rptUnionWiseMilkTankerCollection", "") ''report for both (RCDF And RCDFCF)
-
                     End If
                 End If
             Else
@@ -277,7 +235,6 @@ and convert(date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) +
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-
         End Try
     End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btngo.Click

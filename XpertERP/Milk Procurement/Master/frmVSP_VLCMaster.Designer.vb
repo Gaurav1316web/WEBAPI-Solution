@@ -105,12 +105,10 @@ Partial Class frmVSP_VLCMaster
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.chkHold = New Telerik.WinControls.UI.RadCheckBox()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.MyLabel60 = New common.Controls.MyLabel()
-        Me.txtPayeeNameSaving = New common.Controls.MyTextBox()
-        Me.txtPayeNameCurrent = New common.Controls.MyTextBox()
-        Me.lblPayeeName = New common.Controls.MyLabel()
         Me.gbBank2Details = New System.Windows.Forms.GroupBox()
+        Me.MyLabel60 = New common.Controls.MyLabel()
         Me.txtSavingCompanyBank = New common.UserControls.txtFinder()
+        Me.txtPayeeNameSaving = New common.Controls.MyTextBox()
         Me.findTxtIFSCCode2 = New common.UserControls.txtFinder()
         Me.txtIFSCCode2 = New common.Controls.MyTextBox()
         Me.MyLabel26 = New common.Controls.MyLabel()
@@ -133,6 +131,8 @@ Partial Class frmVSP_VLCMaster
         Me.MyLabel37 = New common.Controls.MyLabel()
         Me.txtCredit2 = New common.Controls.MyTextBox()
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
+        Me.txtPayeNameCurrent = New common.Controls.MyTextBox()
+        Me.lblPayeeName = New common.Controls.MyLabel()
         Me.lblCurrentCompanyBank = New common.Controls.MyTextBox()
         Me.fndbankcode = New common.Controls.MyTextBox()
         Me.MyLabel15 = New common.Controls.MyLabel()
@@ -378,11 +378,9 @@ Partial Class frmVSP_VLCMaster
         Me.RadGroupBox3.SuspendLayout()
         CType(Me.chkHold, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
+        Me.gbBank2Details.SuspendLayout()
         CType(Me.MyLabel60, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPayeeNameSaving, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtPayeNameCurrent, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblPayeeName, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gbBank2Details.SuspendLayout()
         CType(Me.txtIFSCCode2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel26, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmbAccountType2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -403,6 +401,8 @@ Partial Class frmVSP_VLCMaster
         CType(Me.MyLabel37, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCredit2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox5.SuspendLayout()
+        CType(Me.txtPayeNameCurrent, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblPayeeName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCurrentCompanyBank, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.fndbankcode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1622,74 +1622,6 @@ Partial Class frmVSP_VLCMaster
         Me.RadPageViewPage2.Size = New System.Drawing.Size(1057, 398)
         Me.RadPageViewPage2.Text = "Bank Details"
         '
-        'MyLabel60
-        '
-        Me.MyLabel60.FieldName = Nothing
-        Me.MyLabel60.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel60.Location = New System.Drawing.Point(5, 147)
-        Me.MyLabel60.Name = "MyLabel60"
-        Me.MyLabel60.Size = New System.Drawing.Size(72, 16)
-        Me.MyLabel60.TabIndex = 325
-        Me.MyLabel60.Text = "Payee Name"
-        '
-        'txtPayeeNameSaving
-        '
-        Me.txtPayeeNameSaving.CalculationExpression = Nothing
-        Me.txtPayeeNameSaving.FieldCode = Nothing
-        Me.txtPayeeNameSaving.FieldDesc = Nothing
-        Me.txtPayeeNameSaving.FieldMaxLength = 0
-        Me.txtPayeeNameSaving.FieldName = Nothing
-        Me.txtPayeeNameSaving.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtPayeeNameSaving.isCalculatedField = False
-        Me.txtPayeeNameSaving.IsSourceFromTable = False
-        Me.txtPayeeNameSaving.IsSourceFromValueList = False
-        Me.txtPayeeNameSaving.IsUnique = False
-        Me.txtPayeeNameSaving.Location = New System.Drawing.Point(93, 146)
-        Me.txtPayeeNameSaving.MaxLength = 15
-        Me.txtPayeeNameSaving.MendatroryField = False
-        Me.txtPayeeNameSaving.MyLinkLable1 = Me.lblpan
-        Me.txtPayeeNameSaving.MyLinkLable2 = Nothing
-        Me.txtPayeeNameSaving.Name = "txtPayeeNameSaving"
-        Me.txtPayeeNameSaving.ReferenceFieldDesc = Nothing
-        Me.txtPayeeNameSaving.ReferenceFieldName = Nothing
-        Me.txtPayeeNameSaving.ReferenceTableName = Nothing
-        Me.txtPayeeNameSaving.Size = New System.Drawing.Size(596, 18)
-        Me.txtPayeeNameSaving.TabIndex = 324
-        '
-        'txtPayeNameCurrent
-        '
-        Me.txtPayeNameCurrent.CalculationExpression = Nothing
-        Me.txtPayeNameCurrent.FieldCode = Nothing
-        Me.txtPayeNameCurrent.FieldDesc = Nothing
-        Me.txtPayeNameCurrent.FieldMaxLength = 0
-        Me.txtPayeNameCurrent.FieldName = Nothing
-        Me.txtPayeNameCurrent.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtPayeNameCurrent.isCalculatedField = False
-        Me.txtPayeNameCurrent.IsSourceFromTable = False
-        Me.txtPayeNameCurrent.IsSourceFromValueList = False
-        Me.txtPayeNameCurrent.IsUnique = False
-        Me.txtPayeNameCurrent.Location = New System.Drawing.Point(93, 145)
-        Me.txtPayeNameCurrent.MaxLength = 15
-        Me.txtPayeNameCurrent.MendatroryField = False
-        Me.txtPayeNameCurrent.MyLinkLable1 = Me.lblpan
-        Me.txtPayeNameCurrent.MyLinkLable2 = Nothing
-        Me.txtPayeNameCurrent.Name = "txtPayeNameCurrent"
-        Me.txtPayeNameCurrent.ReferenceFieldDesc = Nothing
-        Me.txtPayeNameCurrent.ReferenceFieldName = Nothing
-        Me.txtPayeNameCurrent.ReferenceTableName = Nothing
-        Me.txtPayeNameCurrent.Size = New System.Drawing.Size(595, 18)
-        Me.txtPayeNameCurrent.TabIndex = 323
-        '
-        'lblPayeeName
-        '
-        Me.lblPayeeName.FieldName = Nothing
-        Me.lblPayeeName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPayeeName.Location = New System.Drawing.Point(5, 146)
-        Me.lblPayeeName.Name = "lblPayeeName"
-        Me.lblPayeeName.Size = New System.Drawing.Size(72, 16)
-        Me.lblPayeeName.TabIndex = 322
-        Me.lblPayeeName.Text = "Payee Name"
-        '
         'gbBank2Details
         '
         Me.gbBank2Details.Controls.Add(Me.MyLabel60)
@@ -1723,6 +1655,16 @@ Partial Class frmVSP_VLCMaster
         Me.gbBank2Details.TabStop = False
         Me.gbBank2Details.Text = "Bank Details of Saving Account"
         '
+        'MyLabel60
+        '
+        Me.MyLabel60.FieldName = Nothing
+        Me.MyLabel60.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel60.Location = New System.Drawing.Point(5, 147)
+        Me.MyLabel60.Name = "MyLabel60"
+        Me.MyLabel60.Size = New System.Drawing.Size(72, 16)
+        Me.MyLabel60.TabIndex = 325
+        Me.MyLabel60.Text = "Payee Name"
+        '
         'txtSavingCompanyBank
         '
         Me.txtSavingCompanyBank.CalculationExpression = Nothing
@@ -1748,6 +1690,30 @@ Partial Class frmVSP_VLCMaster
         Me.txtSavingCompanyBank.Size = New System.Drawing.Size(211, 19)
         Me.txtSavingCompanyBank.TabIndex = 319
         Me.txtSavingCompanyBank.Value = ""
+        '
+        'txtPayeeNameSaving
+        '
+        Me.txtPayeeNameSaving.CalculationExpression = Nothing
+        Me.txtPayeeNameSaving.FieldCode = Nothing
+        Me.txtPayeeNameSaving.FieldDesc = Nothing
+        Me.txtPayeeNameSaving.FieldMaxLength = 0
+        Me.txtPayeeNameSaving.FieldName = Nothing
+        Me.txtPayeeNameSaving.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPayeeNameSaving.isCalculatedField = False
+        Me.txtPayeeNameSaving.IsSourceFromTable = False
+        Me.txtPayeeNameSaving.IsSourceFromValueList = False
+        Me.txtPayeeNameSaving.IsUnique = False
+        Me.txtPayeeNameSaving.Location = New System.Drawing.Point(93, 146)
+        Me.txtPayeeNameSaving.MaxLength = 15
+        Me.txtPayeeNameSaving.MendatroryField = False
+        Me.txtPayeeNameSaving.MyLinkLable1 = Me.lblpan
+        Me.txtPayeeNameSaving.MyLinkLable2 = Nothing
+        Me.txtPayeeNameSaving.Name = "txtPayeeNameSaving"
+        Me.txtPayeeNameSaving.ReferenceFieldDesc = Nothing
+        Me.txtPayeeNameSaving.ReferenceFieldName = Nothing
+        Me.txtPayeeNameSaving.ReferenceTableName = Nothing
+        Me.txtPayeeNameSaving.Size = New System.Drawing.Size(596, 18)
+        Me.txtPayeeNameSaving.TabIndex = 324
         '
         'findTxtIFSCCode2
         '
@@ -2175,6 +2141,40 @@ Partial Class frmVSP_VLCMaster
         Me.GroupBox5.TabIndex = 320
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "Bank Details of Current  Account"
+        '
+        'txtPayeNameCurrent
+        '
+        Me.txtPayeNameCurrent.CalculationExpression = Nothing
+        Me.txtPayeNameCurrent.FieldCode = Nothing
+        Me.txtPayeNameCurrent.FieldDesc = Nothing
+        Me.txtPayeNameCurrent.FieldMaxLength = 0
+        Me.txtPayeNameCurrent.FieldName = Nothing
+        Me.txtPayeNameCurrent.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPayeNameCurrent.isCalculatedField = False
+        Me.txtPayeNameCurrent.IsSourceFromTable = False
+        Me.txtPayeNameCurrent.IsSourceFromValueList = False
+        Me.txtPayeNameCurrent.IsUnique = False
+        Me.txtPayeNameCurrent.Location = New System.Drawing.Point(93, 145)
+        Me.txtPayeNameCurrent.MaxLength = 15
+        Me.txtPayeNameCurrent.MendatroryField = False
+        Me.txtPayeNameCurrent.MyLinkLable1 = Me.lblpan
+        Me.txtPayeNameCurrent.MyLinkLable2 = Nothing
+        Me.txtPayeNameCurrent.Name = "txtPayeNameCurrent"
+        Me.txtPayeNameCurrent.ReferenceFieldDesc = Nothing
+        Me.txtPayeNameCurrent.ReferenceFieldName = Nothing
+        Me.txtPayeNameCurrent.ReferenceTableName = Nothing
+        Me.txtPayeNameCurrent.Size = New System.Drawing.Size(595, 18)
+        Me.txtPayeNameCurrent.TabIndex = 323
+        '
+        'lblPayeeName
+        '
+        Me.lblPayeeName.FieldName = Nothing
+        Me.lblPayeeName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPayeeName.Location = New System.Drawing.Point(5, 146)
+        Me.lblPayeeName.Name = "lblPayeeName"
+        Me.lblPayeeName.Size = New System.Drawing.Size(72, 16)
+        Me.lblPayeeName.TabIndex = 322
+        Me.lblPayeeName.Text = "Payee Name"
         '
         'lblCurrentCompanyBank
         '
@@ -5482,12 +5482,10 @@ Partial Class frmVSP_VLCMaster
         Me.RadGroupBox3.PerformLayout()
         CType(Me.chkHold, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
-        CType(Me.MyLabel60, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtPayeeNameSaving, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtPayeNameCurrent, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblPayeeName, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbBank2Details.ResumeLayout(False)
         Me.gbBank2Details.PerformLayout()
+        CType(Me.MyLabel60, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtPayeeNameSaving, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtIFSCCode2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel26, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmbAccountType2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5509,6 +5507,8 @@ Partial Class frmVSP_VLCMaster
         CType(Me.txtCredit2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox5.ResumeLayout(False)
         Me.GroupBox5.PerformLayout()
+        CType(Me.txtPayeNameCurrent, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblPayeeName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCurrentCompanyBank, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.fndbankcode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
