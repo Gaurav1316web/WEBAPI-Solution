@@ -1243,7 +1243,7 @@ Partial Class FrmPaymentProcess
         Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(73.0!, 28.0!)
         Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
-        Me.RadPageViewPage5.Size = New System.Drawing.Size(924, 425)
+        Me.RadPageViewPage5.Size = New System.Drawing.Size(967, 425)
         Me.RadPageViewPage5.Text = "Deductions"
         '
         'gvDeduction
@@ -1262,7 +1262,7 @@ Partial Class FrmPaymentProcess
         Me.gvDeduction.MyStopExport = False
         Me.gvDeduction.Name = "gvDeduction"
         Me.gvDeduction.ShowHeaderCellButtons = True
-        Me.gvDeduction.Size = New System.Drawing.Size(924, 425)
+        Me.gvDeduction.Size = New System.Drawing.Size(967, 425)
         Me.gvDeduction.TabIndex = 267
         Me.gvDeduction.VarID = ""
         '

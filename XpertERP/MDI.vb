@@ -1168,7 +1168,6 @@ Public Class MDI
             End If
 
             objCommonVar.CurrentUserCode = clsCommon.myCstr(dt.Rows(0)("User_Code"))
-
             If SettSameUserCanNotloginmultipletimes Then
                 qry = clsLoginInfo.funGetActiveUserQuery(True, clsCommon.myCstr(dt.Rows(0)("User_Code")))
                 Dim dtTemp As DataTable = clsDBFuncationality.GetDataTable(qry)
@@ -6529,6 +6528,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmRALQCReport
                         frm = New frmRALQCReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmPIPaymentStatusReport
+                        frm = New frmPIPaymentStatusReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptUnpostedPO
                         frm = New frmRptUnpostedPO()

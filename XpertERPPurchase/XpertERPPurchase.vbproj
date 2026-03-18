@@ -288,6 +288,12 @@
     <Compile Include="Report\FrmPendingPO_Qty.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\frmPIPaymentStatusReport.Designer.vb">
+      <DependentUpon>frmPIPaymentStatusReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmPIPaymentStatusReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\frmPOAmendmentReport.Designer.vb">
       <DependentUpon>frmPOAmendmentReport.vb</DependentUpon>
     </Compile>
@@ -619,6 +625,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\FrmPendingPO_Qty.resx">
       <DependentUpon>FrmPendingPO_Qty.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmPIPaymentStatusReport.resx">
+      <DependentUpon>frmPIPaymentStatusReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\frmPOAmendmentReport.resx">
       <DependentUpon>frmPOAmendmentReport.vb</DependentUpon>

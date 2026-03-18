@@ -2110,7 +2110,7 @@ MAX(TAX8)TAX8,MAX(TAX8_Amt)TAX8_Amt "
         Else
             Qry += " ItemConversionCrate.Conversion_Factor as Conversion_FactorCrt , "
         End If
-        Qry += " TSPL_DAIRYSALE_GATEPASS_MASTER.DistributorName As 'Distributor',Concat(DistOrCreditCustomer.Add1 ,DistOrCreditCustomer.Add2) As 'DistAddress', ItemConversionInPouch.Conversion_Factor As 'CFinPouch', ItemConversionInLTR.Conversion_Factor AS 'CFinLTR', ItemConversionInKG.Conversion_Factor AS 'CFinKG', ItemConversionInBox.Conversion_Factor AS 'CFinBOX',"
+        Qry += " TSPL_DAIRYSALE_GATEPASS_MASTER.DistributorName As 'Distributor',DistAddress, ItemConversionInPouch.Conversion_Factor As 'CFinPouch', ItemConversionInLTR.Conversion_Factor AS 'CFinLTR', ItemConversionInKG.Conversion_Factor AS 'CFinKG', ItemConversionInBox.Conversion_Factor AS 'CFinBOX',"
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
             Qry += " ItemConversionInPrintUOM.Conversion_Factor as CFinPrintUOM,"
         End If
@@ -2139,10 +2139,6 @@ xyz.Sale_Invoice_No, "
                    " left outer join tspl_item_master on tspl_item_master.item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_code " &
                    " left outer join  TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_VEHICLE_MASTER.Transport_Id " &
                    " left outer join  tspl_route_master on tspl_route_master.Route_No=TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No " &
-                   " Left Outer Join " & tbl_TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL & " On TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode=TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode And TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.item_Code=tspl_item_master.item_code And TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.Unit_Code=tspl_item_master.unit_code
-Left Join " & tbl_TSPL_SD_SHIPMENT_DETAIL & " On TSPL_SD_SHIPMENT_DETAIL.PK_ID=TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID
-Left Outer Join " & tbl_TSPL_SD_SHIPMENT_HEAD & " On TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.Document_Code
-Left Outer Join TSPL_CUSTOMER_MASTER As DistOrCreditCustomer On  DistOrCreditCustomer.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code" &
              " left join tspl_item_uom_detail StockUnit on StockUnit.item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.item_code	and StockUnit.stocking_unit='Y'  " &
                    " left join tspl_item_uom_detail CurrentUnit on CurrentUnit.item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.item_code and 	CurrentUnit.uom_code=	TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code " &
                    " left join tspl_item_uom_detail CrateUnit on CrateUnit.item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.item_code  and 	CrateUnit.uom_code=	'Crate' " &
@@ -2196,7 +2192,7 @@ Left Outer Join TSPL_CUSTOMER_MASTER As DistOrCreditCustomer On  DistOrCreditCus
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
             Qry += "max(NoCrateIssue)NoCrateIssue,"
         End If
-        Qry += " max(Zone_Code)Zone_Code " + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ", max(TSPL_SD_SHIPMENT_DETAIL.Item_Cost) as ItemCost", "") + " from " & tbl_TSPL_SD_SHIPMENT_DETAIL & "   
+        Qry += " max(Zone_Code)Zone_Code " + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ", max(TSPL_SD_SHIPMENT_DETAIL.Item_Cost) as ItemCost", "") + ",Max(Concat(TSPL_CUSTOMER_MASTER.Add1,TSPL_CUSTOMER_MASTER.Add2)) As 'DistAddress' from " & tbl_TSPL_SD_SHIPMENT_DETAIL & "   
  
                      Left Outer Join " & tbl_TSPL_SD_SHIPMENT_HEAD & " ON TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE "
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then

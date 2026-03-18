@@ -232,8 +232,8 @@ Public Class frmVSP_VLCMaster
         txtCredit.MaxLength = 9
         txtcollect.MaxLength = 30
         txtpan.MaxLength = 30
-        txtPayeName.MaxLength = 1000
-        txtSavingPayeeName.MaxLength = 1000
+        txtPayeNameCurrent.MaxLength = 100
+        txtPayeeNameSaving.MaxLength = 100
     End Sub
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.frmVSPMaster)
@@ -500,8 +500,8 @@ Public Class frmVSP_VLCMaster
 
                 TxtAmCU.Text = clsCommon.myCstr(myDr("AMCU"))
                 TxtAmc_Charge.Text = clsCommon.myCdbl(myDr("AMC_Charge"))
-                txtPayeName.Text = clsCommon.myCstr(myDr("VSP_Payee_Name"))
-                txtSavingPayeeName.Text = clsCommon.myCstr(myDr("Saving_Payee_Name"))
+                txtPayeNameCurrent.Text = clsCommon.myCstr(myDr("VSP_Payee_Name"))
+                txtPayeeNameSaving.Text = clsCommon.myCstr(myDr("Saving_Payee_Name"))
 
                 '---------------------------------------------------------------------------------
 
@@ -908,12 +908,12 @@ Public Class frmVSP_VLCMaster
                 strq = "Update TSPL_VENDOR_MASTER set AMC_Charge ='" & clsCommon.myCstr(Me.TxtAmc_Charge.Text) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(strq, trans)
             End If
-            If clsCommon.myLen(txtPayeName.Text) > 0 Then
-                strq = "Update TSPL_VENDOR_MASTER set VSP_Payee_Name ='" & clsCommon.myCstr(txtPayeName.Text) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
+            If clsCommon.myLen(txtPayeNameCurrent.Text) > 0 Then
+                strq = "Update TSPL_VENDOR_MASTER set VSP_Payee_Name ='" & clsCommon.myCstr(txtPayeNameCurrent.Text) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(strq, trans)
             End If
-            If clsCommon.myLen(txtSavingPayeeName.Text) > 0 Then
-                strq = "Update TSPL_VENDOR_MASTER set Saving_Payee_Name ='" & clsCommon.myCstr(txtSavingPayeeName.Text) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
+            If clsCommon.myLen(txtPayeeNameSaving.Text) > 0 Then
+                strq = "Update TSPL_VENDOR_MASTER set Saving_Payee_Name ='" & clsCommon.myCstr(txtPayeeNameSaving.Text) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(strq, trans)
             End If
             If clsCommon.myLen(Me.fndpaymentCycle.Value) > 0 Then
@@ -1772,12 +1772,12 @@ Public Class frmVSP_VLCMaster
                 Dim qryVidhanSabha As String = " Update TSPL_VENDOR_MASTER set VIDHAN_SABHA_CODE =null where Vendor_Code='" + fndvendorNo.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qryVidhanSabha, trans)
             End If
-            If clsCommon.myLen(txtPayeName.Text) > 0 Then
-                strq = "Update TSPL_VENDOR_MASTER set Saving_Payee_Name ='" & clsCommon.myCstr(txtPayeName.Text) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
+            If clsCommon.myLen(txtPayeNameCurrent.Text) > 0 Then
+                strq = "Update TSPL_VENDOR_MASTER set VSP_Payee_Name  ='" & clsCommon.myCstr(txtPayeNameCurrent.Text) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(strq, trans)
             End If
-            If clsCommon.myLen(txtSavingPayeeName.Text) > 0 Then
-                strq = "Update TSPL_VENDOR_MASTER set VSP_Payee_Name ='" & clsCommon.myCstr(txtSavingPayeeName.Text) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
+            If clsCommon.myLen(txtPayeeNameSaving.Text) > 0 Then
+                strq = "Update TSPL_VENDOR_MASTER set Saving_Payee_Name='" & clsCommon.myCstr(txtPayeeNameSaving.Text) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(strq, trans)
             End If
             If clsCommon.myLen(txtAliesName.Text) > 0 Then
@@ -2826,8 +2826,8 @@ Public Class frmVSP_VLCMaster
         gv1.GroupDescriptors.Clear()
         gv1.EnableFiltering = True
         gv1.MasterTemplate.SummaryRowsBottom.Clear()
-        txtPayeName.Text = ""
-        txtSavingPayeeName.Text = ""
+        txtPayeNameCurrent.Text = ""
+        txtPayeeNameSaving.Text = ""
 
         funSetDefaultData()
         'VLC

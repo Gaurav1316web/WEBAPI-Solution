@@ -22,21 +22,21 @@ Partial Class RptMatrixFreshSalesReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim RadListDataItem15 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem16 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem17 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem18 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
@@ -66,6 +66,7 @@ Partial Class RptMatrixFreshSalesReport
         Me.txtCustMultFnd = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel13 = New common.Controls.MyLabel()
         Me.btnTrkShtSummaryRW = New Telerik.WinControls.UI.RadButton()
+        Me.txtMultPTSRoute = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel12 = New common.Controls.MyLabel()
         Me.MyLabel11 = New common.Controls.MyLabel()
         Me.ddlPTSShift = New Telerik.WinControls.UI.RadDropDownList()
@@ -156,7 +157,7 @@ Partial Class RptMatrixFreshSalesReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.txtMultPTSRoute = New common.UserControls.txtMultiSelectFinder()
+        Me.chkMilkAndProductBoth = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -253,6 +254,7 @@ Partial Class RptMatrixFreshSalesReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkMilkAndProductBoth, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -649,6 +651,19 @@ Partial Class RptMatrixFreshSalesReport
         Me.btnTrkShtSummaryRW.TabIndex = 434
         Me.btnTrkShtSummaryRW.Text = "Demand Truck Sheet Summary Route Wise"
         '
+        'txtMultPTSRoute
+        '
+        Me.txtMultPTSRoute.arrDispalyMember = Nothing
+        Me.txtMultPTSRoute.arrValueMember = Nothing
+        Me.txtMultPTSRoute.Location = New System.Drawing.Point(64, 62)
+        Me.txtMultPTSRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMultPTSRoute.MyLinkLable1 = Me.MyLabel12
+        Me.txtMultPTSRoute.MyLinkLable2 = Nothing
+        Me.txtMultPTSRoute.MyNullText = "All"
+        Me.txtMultPTSRoute.Name = "txtMultPTSRoute"
+        Me.txtMultPTSRoute.Size = New System.Drawing.Size(194, 19)
+        Me.txtMultPTSRoute.TabIndex = 436
+        '
         'MyLabel12
         '
         Me.MyLabel12.FieldName = Nothing
@@ -675,10 +690,10 @@ Partial Class RptMatrixFreshSalesReport
         Me.ddlPTSShift.AutoCompleteValueMember = Nothing
         Me.ddlPTSShift.DropDownAnimationEnabled = True
         Me.ddlPTSShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem1.Text = "Morning"
-        RadListDataItem2.Text = "Evening"
-        Me.ddlPTSShift.Items.Add(RadListDataItem1)
-        Me.ddlPTSShift.Items.Add(RadListDataItem2)
+        RadListDataItem15.Text = "Morning"
+        RadListDataItem16.Text = "Evening"
+        Me.ddlPTSShift.Items.Add(RadListDataItem15)
+        Me.ddlPTSShift.Items.Add(RadListDataItem16)
         Me.ddlPTSShift.Location = New System.Drawing.Point(64, 40)
         Me.ddlPTSShift.Name = "ddlPTSShift"
         Me.ddlPTSShift.Size = New System.Drawing.Size(194, 20)
@@ -908,10 +923,10 @@ Partial Class RptMatrixFreshSalesReport
         Me.rddlTCSShift.AutoCompleteValueMember = Nothing
         Me.rddlTCSShift.DropDownAnimationEnabled = True
         Me.rddlTCSShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem3.Text = "Morning"
-        RadListDataItem4.Text = "Evening"
-        Me.rddlTCSShift.Items.Add(RadListDataItem3)
-        Me.rddlTCSShift.Items.Add(RadListDataItem4)
+        RadListDataItem1.Text = "Morning"
+        RadListDataItem2.Text = "Evening"
+        Me.rddlTCSShift.Items.Add(RadListDataItem1)
+        Me.rddlTCSShift.Items.Add(RadListDataItem2)
         Me.rddlTCSShift.Location = New System.Drawing.Point(83, 370)
         Me.rddlTCSShift.Name = "rddlTCSShift"
         Me.rddlTCSShift.Size = New System.Drawing.Size(194, 20)
@@ -967,12 +982,12 @@ Partial Class RptMatrixFreshSalesReport
         Me.ddlReportType.AutoCompleteValueMember = Nothing
         Me.ddlReportType.DropDownAnimationEnabled = True
         Me.ddlReportType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem5.Text = "Both"
-        RadListDataItem6.Text = "Sale Invoice"
-        RadListDataItem7.Text = "Sale Return"
-        Me.ddlReportType.Items.Add(RadListDataItem5)
-        Me.ddlReportType.Items.Add(RadListDataItem6)
-        Me.ddlReportType.Items.Add(RadListDataItem7)
+        RadListDataItem3.Text = "Both"
+        RadListDataItem4.Text = "Sale Invoice"
+        RadListDataItem17.Text = "Sale Return"
+        Me.ddlReportType.Items.Add(RadListDataItem3)
+        Me.ddlReportType.Items.Add(RadListDataItem4)
+        Me.ddlReportType.Items.Add(RadListDataItem17)
         Me.ddlReportType.Location = New System.Drawing.Point(128, 6)
         Me.ddlReportType.Name = "ddlReportType"
         Me.ddlReportType.Size = New System.Drawing.Size(179, 20)
@@ -1190,6 +1205,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         'pnlMilkPouch
         '
+        Me.pnlMilkPouch.Controls.Add(Me.chkMilkAndProductBoth)
         Me.pnlMilkPouch.Controls.Add(Me.rbtnAsPerBooking)
         Me.pnlMilkPouch.Controls.Add(Me.MyLabel7)
         Me.pnlMilkPouch.Controls.Add(Me.cboShift)
@@ -1198,7 +1214,7 @@ Partial Class RptMatrixFreshSalesReport
         Me.pnlMilkPouch.Controls.Add(Me.chkMilkPouch)
         Me.pnlMilkPouch.Location = New System.Drawing.Point(607, 3)
         Me.pnlMilkPouch.Name = "pnlMilkPouch"
-        Me.pnlMilkPouch.Size = New System.Drawing.Size(301, 50)
+        Me.pnlMilkPouch.Size = New System.Drawing.Size(343, 50)
         Me.pnlMilkPouch.TabIndex = 428
         '
         'rbtnAsPerBooking
@@ -1227,14 +1243,14 @@ Partial Class RptMatrixFreshSalesReport
         Me.cboShift.AutoCompleteValueMember = Nothing
         Me.cboShift.DropDownAnimationEnabled = True
         Me.cboShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem8.Text = "Both"
-        RadListDataItem9.Text = "Morning"
-        RadListDataItem10.Text = "Evening"
-        RadListDataItem11.Text = "Shift Wise"
-        Me.cboShift.Items.Add(RadListDataItem8)
-        Me.cboShift.Items.Add(RadListDataItem9)
-        Me.cboShift.Items.Add(RadListDataItem10)
-        Me.cboShift.Items.Add(RadListDataItem11)
+        RadListDataItem5.Text = "Both"
+        RadListDataItem6.Text = "Morning"
+        RadListDataItem7.Text = "Evening"
+        RadListDataItem18.Text = "Shift Wise"
+        Me.cboShift.Items.Add(RadListDataItem5)
+        Me.cboShift.Items.Add(RadListDataItem6)
+        Me.cboShift.Items.Add(RadListDataItem7)
+        Me.cboShift.Items.Add(RadListDataItem18)
         Me.cboShift.Location = New System.Drawing.Point(122, 25)
         Me.cboShift.Name = "cboShift"
         Me.cboShift.Size = New System.Drawing.Size(91, 20)
@@ -1313,12 +1329,12 @@ Partial Class RptMatrixFreshSalesReport
         Me.ddlInvocieType.AutoCompleteDisplayMember = Nothing
         Me.ddlInvocieType.AutoCompleteValueMember = Nothing
         Me.ddlInvocieType.DropDownAnimationEnabled = True
-        RadListDataItem12.Text = "Both"
-        RadListDataItem13.Text = "Sale Invoice"
-        RadListDataItem14.Text = "Sale Return"
-        Me.ddlInvocieType.Items.Add(RadListDataItem12)
-        Me.ddlInvocieType.Items.Add(RadListDataItem13)
-        Me.ddlInvocieType.Items.Add(RadListDataItem14)
+        RadListDataItem8.Text = "Both"
+        RadListDataItem9.Text = "Sale Invoice"
+        RadListDataItem10.Text = "Sale Return"
+        Me.ddlInvocieType.Items.Add(RadListDataItem8)
+        Me.ddlInvocieType.Items.Add(RadListDataItem9)
+        Me.ddlInvocieType.Items.Add(RadListDataItem10)
         Me.ddlInvocieType.Location = New System.Drawing.Point(133, 346)
         Me.ddlInvocieType.Name = "ddlInvocieType"
         Me.ddlInvocieType.Size = New System.Drawing.Size(121, 20)
@@ -1663,7 +1679,8 @@ Partial Class RptMatrixFreshSalesReport
         Me.Gv1.MasterTemplate.EnableFiltering = True
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MyExportAPI = False
         Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
@@ -1755,18 +1772,15 @@ Partial Class RptMatrixFreshSalesReport
         Me.btnReset.TabIndex = 147
         Me.btnReset.Text = "Reset"
         '
-        'txtMultPTSRoute
+        'chkMilkAndProductBoth
         '
-        Me.txtMultPTSRoute.arrDispalyMember = Nothing
-        Me.txtMultPTSRoute.arrValueMember = Nothing
-        Me.txtMultPTSRoute.Location = New System.Drawing.Point(64, 62)
-        Me.txtMultPTSRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtMultPTSRoute.MyLinkLable1 = Me.MyLabel12
-        Me.txtMultPTSRoute.MyLinkLable2 = Nothing
-        Me.txtMultPTSRoute.MyNullText = "All"
-        Me.txtMultPTSRoute.Name = "txtMultPTSRoute"
-        Me.txtMultPTSRoute.Size = New System.Drawing.Size(194, 19)
-        Me.txtMultPTSRoute.TabIndex = 436
+        Me.chkMilkAndProductBoth.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.chkMilkAndProductBoth.Location = New System.Drawing.Point(214, 24)
+        Me.chkMilkAndProductBoth.Name = "chkMilkAndProductBoth"
+        Me.chkMilkAndProductBoth.Size = New System.Drawing.Size(122, 18)
+        Me.chkMilkAndProductBoth.TabIndex = 431
+        Me.chkMilkAndProductBoth.Text = "Milk && Product Both"
         '
         'RptMatrixFreshSalesReport
         '
@@ -1887,6 +1901,7 @@ Partial Class RptMatrixFreshSalesReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkMilkAndProductBoth, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -2011,5 +2026,6 @@ Partial Class RptMatrixFreshSalesReport
     Friend WithEvents btnSplitPrint As RadButton
     Friend WithEvents btnPrintLoadInSlip As RadButton
     Friend WithEvents txtMultPTSRoute As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents chkMilkAndProductBoth As RadCheckBox
 End Class
 

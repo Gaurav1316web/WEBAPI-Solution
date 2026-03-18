@@ -27,6 +27,7 @@ Public Class rptmilkunion2
     Dim status20 As String
     Dim status21 As String
     Dim status22 As String
+    Dim isPageLoad As Boolean = False
 
     Private Sub rptmilkunion_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         If e.Control AndAlso e.Shift AndAlso e.Alt AndAlso e.KeyCode = Keys.F12 Then
@@ -37,6 +38,7 @@ Public Class rptmilkunion2
         End If
     End Sub
     Private Sub rptmilkunion_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        isPageLoad = True
         SetUserMgmtNew()
         funreset()
         chkRJSBNS.Visible = False
@@ -652,10 +654,11 @@ OUTER APPLY
 OUTER APPLY
 (
  SELECT TOP 1
- LEFT(DATENAME(MONTH,DATE_TO),3)+'' ''+
- CONVERT(VARCHAR(4),YEAR(DATE_TO)) AS Last_Salary
- FROM '+QUOTENAME(DBName)+'.dbo.TSPL_PAYPERIOD_MASTER
- ORDER BY DATE_TO DESC
+ LEFT(DATENAME(MONTH,TSPL_PAYPERIOD_MASTER.DATE_TO),3)+'' ''+
+CONVERT(VARCHAR(4),YEAR(TSPL_PAYPERIOD_MASTER.DATE_TO)) AS Last_Salary
+from '+QUOTENAME(DBName)+'.dbo.TSPL_GENERATE_SALARY 
+Left Join  '+QUOTENAME(DBName)+'.dbo.TSPL_PAYPERIOD_MASTER ON TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE =TSPL_GENERATE_SALARY.PAY_PERIOD_CODE
+ORDER BY TSPL_PAYPERIOD_MASTER.DATE_TO DESC
 ) LS
 
 ---------------------------------------------------------
@@ -1505,6 +1508,7 @@ where CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date, 103) BETWEEN   " & s
         rbdAllTrans.Checked = True
         ReportType()
     End Sub
+
     Private Sub ReportType()
         dt = New DataTable
         dt.Columns.Add("Code", GetType(String))
@@ -1750,24 +1754,26 @@ where CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date, 103) BETWEEN   " & s
 
     Private Sub gv1_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellDoubleClick
         Try
-            If e.Row Is Nothing OrElse e.RowIndex < 0 Then
-                Exit Sub
-            End If
+            If clsCommon.CompairString(ddlReportType.SelectedValue, "UWSR") = CompairStringResult.Equal Then
+                If e.Row Is Nothing OrElse e.RowIndex < 0 Then
+                    Exit Sub
+                End If
 
-            Dim columnName As String = e.Column.Name
-            Dim view As ColumnGroupsViewDefinition = CType(gv1.ViewDefinition, ColumnGroupsViewDefinition)
-            For Each grp As GridViewColumnGroup In view.ColumnGroups
-                For Each r As GridViewColumnGroupRow In grp.Rows
-                    If r.ColumnNames.Contains(columnName) Then
-                        Dim groupName As String = grp.Text
-                        For Each colName As String In r.ColumnNames
-                            Status()
-                            GetDetails(groupName, clsCommon.myCstr(gv1.CurrentRow.Cells(0).Value), clsCommon.myCstr(gv1.CurrentRow.Cells(2).Value))
-                            Exit Sub
-                        Next
-                    End If
+                Dim columnName As String = e.Column.Name
+                Dim view As ColumnGroupsViewDefinition = CType(gv1.ViewDefinition, ColumnGroupsViewDefinition)
+                For Each grp As GridViewColumnGroup In view.ColumnGroups
+                    For Each r As GridViewColumnGroupRow In grp.Rows
+                        If r.ColumnNames.Contains(columnName) Then
+                            Dim groupName As String = grp.Text
+                            For Each colName As String In r.ColumnNames
+                                Status()
+                                GetDetails(groupName, clsCommon.myCstr(gv1.CurrentRow.Cells(0).Value), clsCommon.myCstr(gv1.CurrentRow.Cells(2).Value))
+                                Exit Sub
+                            Next
+                        End If
+                    Next
                 Next
-            Next
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -1827,32 +1833,49 @@ Sum((Dis_QtyInLTR*STD_FatPer)/100) As [FAT KG],Sum((Dis_QtyInLTR*STD_SNFPer)/100
                 Qry &= ReturnMilkPurchaseInvoiceQry(strUnionCode, status8)
                 Qry &= " )BaseQry Group By Document_No"
             End If
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                gvDetails.DataSource = Nothing
-                gvDetails.Rows.Clear()
-                gvDetails.Columns.Clear()
-                gvDetails.GroupDescriptors.Clear()
-                gvDetails.MasterTemplate.SummaryRowsBottom.Clear()
-                gvDetails.MasterView.Refresh()
-                gvDetails.DataSource = dt
-                For ii As Integer = 0 To gvDetails.Columns.Count - 1
-                    gvDetails.Columns(ii).ReadOnly = True
-                Next
-                RadPageView1.SelectedPage = RadPageViewPage3
-                RadPageViewPage3.Text = strGroupName
-                gvDetails.EnableFiltering = True
-                'SetGridFormat1()
-                gvDetails.BestFitColumns()
+            If clsCommon.myLen(Qry) > 0 Then
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    gvDetails.DataSource = Nothing
+                    gvDetails.Rows.Clear()
+                    gvDetails.Columns.Clear()
+                    gvDetails.GroupDescriptors.Clear()
+                    gvDetails.MasterTemplate.SummaryRowsBottom.Clear()
+                    gvDetails.MasterView.Refresh()
+                    gvDetails.DataSource = dt
+                    For ii As Integer = 0 To gvDetails.Columns.Count - 1
+                        gvDetails.Columns(ii).ReadOnly = True
+                    Next
+                    RadPageView1.SelectedPage = RadPageViewPage3
+                    RadPageViewPage3.Text = strGroupName
+                    gvDetails.EnableFiltering = True
+                    'SetGridFormat1()
+                    gvDetails.BestFitColumns()
+                Else
+                    Throw New Exception("Data Not found !")
+                End If
             Else
-                Throw New Exception("Data Not found !")
+                Throw New Exception("Something went wrong !")
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
     End Sub
 
-
-
-
+    Private Sub ddlReportType_SelectedValueChanged(sender As Object, e As EventArgs) Handles ddlReportType.SelectedValueChanged
+        Try
+            If Not isPageLoad Then
+                If clsCommon.CompairString(ddlReportType.SelectedValue, "UWSR") = CompairStringResult.Equal Then
+                    'RadPageView1.SelectedPage = RadPageViewPage3
+                    RadPageView1.Pages("RadPageViewPage3").Item.Visibility = ElementVisibility.Visible
+                    'RadPageViewPage3.Visible = True
+                Else
+                    RadPageView1.Pages("RadPageViewPage3").Item.Visibility = ElementVisibility.Hidden
+                End If
+            End If
+            isPageLoad = False
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class
