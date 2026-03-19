@@ -1088,12 +1088,12 @@ left outer join " + SD_SHIPMENT_HEAD + " on TSPL_SD_SHIPMENT_HEAD.Document_Code=
 left outer join " + SD_SHIPMENT_DETAIL + " on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE  and TSPL_SD_SHIPMENT_DETAIL.Line_No=TSPL_SD_sale_invoice_DETAIL.Line_No
 left outer join TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No=TSPL_SD_SHIPMENT_HEAD.Against_Booking_No"
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-                    Qry += "left outer join TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.Document_no=TSPL_BOOKING_MATSER.Document_no"
-                End If
-                Qry += "left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code And   
+                Qry += " left outer join TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.Document_no=TSPL_BOOKING_MATSER.Document_no"
+            End If
+            Qry += " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code And   
 TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_sale_invoice_DETAIL.Unit_code LEFT OUTER JOIN TSPL_ITEM_MASTER  ON  TSPL_ITEM_MASTER.Item_Code =TSPL_SD_sale_invoice_DETAIL.Item_Code
 left join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_SD_SHIPMENT_HEAD.Route_No "
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                     Qry += " left join TSPL_CUSTOMER_TENDER_ORDER on TSPL_CUSTOMER_TENDER_ORDER.Document_Code=TSPL_SD_SHIPMENT_HEAD.Against_Cust_Order "
                 End If
                 Qry += " left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='BOX') as ITEMDETAIL on ITEMDETAIL.Item_code=TSPL_SD_sale_invoice_DETAIL.Item_Code

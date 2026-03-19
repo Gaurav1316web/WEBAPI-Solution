@@ -843,7 +843,7 @@ Sum(Case When xx.QtyInLtr IS Null Then xx.QtyInKG Else xx.QtyInLtr end) as QtyIn
 Sum(Case When xx.QtyInPouch IS Null Then xx.QtyInPack Else xx.QtyInPouch end) as QtyInPouch,
 Max(Case When xx.Rate_Per_Pouch IS Null Then xx.Rate_Per_Pack Else xx.Rate_Per_Pouch end) as Rate_Per_Pouch,
 sum(xx.Item_Net_Amt) as Item_Net_Amt,max(xx.Customer_Name) as Customer_Name,max(xx.Add1) as Add1,max(xx.Add2)as Add2,max(xx.add3) as Add3,
-max(xx.GST_STATE_Code) as GST_STATE_Code,max(xx.STATE_NAME) as STATE_NAME,max(xx.GSTNO)as GSTNO,sum(xx.Transporter_Commission_TotalAmt)as TCAmt,min(xx.GPDate) as GPFromDate,max(xx.GPDate) as GPTodate
+max(xx.GST_STATE_Code) as GST_STATE_Code,max(xx.STATE_NAME) as STATE_NAME,max(xx.GSTNO)as GSTNO,max(xx.Transporter_Commission_TotalAmt)as TCAmt,min(xx.GPDate) as GPFromDate,max(xx.GPDate) as GPTodate
 ,STUFF(( SELECT DISTINCT ',' + GPCode FROM (SELECT DISTINCT RIGHT(TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode, 6) AS GPCode FROM TSPL_SD_SALE_INVOICE_DETAIL
               LEFT JOIN TSPL_SD_SHIPMENT_DETAIL ON TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE = TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code
               LEFT JOIN TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL ON TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID = TSPL_SD_SHIPMENT_DETAIL.PK_ID
