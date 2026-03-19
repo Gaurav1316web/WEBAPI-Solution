@@ -6,6 +6,8 @@ Imports System.Text.RegularExpressions
 Imports System.Net.Mail
 Imports System.Net.WebClient
 Imports System.Net
+Imports Telerik.Pivot.Legacy
+
 Public Class frmDairyFreshDispatchMultiple
     Inherits FrmMainTranScreen
     Public Sub SetUserMgmtNew()
@@ -71,18 +73,24 @@ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_Demand_Boo
                 For Each dr As DataRow In dt.Rows
                     clsCommon.ProgressBarPercentUpdate(((countRow) * 100 / (dt.Rows.Count)), "Process Shipment/Dispatch Data..." & clsCommon.myCstr(countRow) & "/" & clsCommon.myCstr(dt.Rows.Count) & "")
                     countRow += 1
-                    Dim frm As New frmShipmentDairy
-                    Dim routeno As String = clsCommon.myCstr(dr("route_no"))
-                    Dim LocationCode As String = clsCommon.myCstr(dr("LocationCode"))
-                    Dim SubLocationCode As String = txtSubLocation.Value
-                    Dim Supplydate As Date = clsCommon.GetPrintDate(dr("Document_Date"))
-                    Dim DocDate As Date = clsCommon.GetPrintDate(txtDocDate.Value)
-                    Dim Shifttype As String = clsCommon.myCstr(dr("ShiftType"))
-                    Dim IsTaxable As String = clsCommon.myCstr(dr("IsTaxable"))
-                    Dim IsAutoClose As Boolean = True
-                    'frm.IsAutoClose = True
-                    'frm.ShowDialog()
-                    frmShipmentDairy.ProcessShipment(routeno, LocationCode, SubLocationCode, Supplydate, DocDate, Shifttype, IsTaxable, IsAutoClose, frm)
+                    Using frm As New frmShipmentDairy()
+                        Try
+                            Dim routeno As String = clsCommon.myCstr(dr("route_no"))
+                            Dim LocationCode As String = clsCommon.myCstr(dr("LocationCode"))
+                            Dim SubLocationCode As String = txtSubLocation.Value
+                            Dim Supplydate As Date = clsCommon.GetPrintDate(dr("Document_Date"))
+                            Dim DocDate As Date = clsCommon.GetPrintDate(txtDocDate.Value)
+                            Dim Shifttype As String = clsCommon.myCstr(dr("ShiftType"))
+                            Dim IsTaxable As String = clsCommon.myCstr(dr("IsTaxable"))
+                            Dim IsAutoClose As Boolean = True
+                            'frm.IsAutoClose = True
+                            'frm.ShowDialog()
+                            'Label1.Text = "Task complete, memory released."
+                            frmShipmentDairy.ProcessShipment(routeno, LocationCode, SubLocationCode, Supplydate, DocDate, Shifttype, IsTaxable, IsAutoClose, frm)
+                        Catch ex As Exception
+                            Throw New Exception(ex.Message)
+                        End Try
+                    End Using
                 Next
                 clsCommon.ProgressBarPercentHide()
                 clsCommon.MyMessageBoxShow(Me, "Data Saved Succeffully.", Me.Text)

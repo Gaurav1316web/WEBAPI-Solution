@@ -27,6 +27,7 @@ Public Class rptmilkunion2
     Dim status20 As String
     Dim status21 As String
     Dim status22 As String
+    Dim isPageLoad As Boolean = False
 
     Private Sub rptmilkunion_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         If e.Control AndAlso e.Shift AndAlso e.Alt AndAlso e.KeyCode = Keys.F12 Then
@@ -37,6 +38,7 @@ Public Class rptmilkunion2
         End If
     End Sub
     Private Sub rptmilkunion_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        isPageLoad = True
         SetUserMgmtNew()
         funreset()
         chkRJSBNS.Visible = False
@@ -652,10 +654,11 @@ OUTER APPLY
 OUTER APPLY
 (
  SELECT TOP 1
- LEFT(DATENAME(MONTH,DATE_TO),3)+'' ''+
- CONVERT(VARCHAR(4),YEAR(DATE_TO)) AS Last_Salary
- FROM '+QUOTENAME(DBName)+'.dbo.TSPL_PAYPERIOD_MASTER
- ORDER BY DATE_TO DESC
+ LEFT(DATENAME(MONTH,TSPL_PAYPERIOD_MASTER.DATE_TO),3)+'' ''+
+CONVERT(VARCHAR(4),YEAR(TSPL_PAYPERIOD_MASTER.DATE_TO)) AS Last_Salary
+from '+QUOTENAME(DBName)+'.dbo.TSPL_GENERATE_SALARY 
+Left Join  '+QUOTENAME(DBName)+'.dbo.TSPL_PAYPERIOD_MASTER ON TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE =TSPL_GENERATE_SALARY.PAY_PERIOD_CODE
+ORDER BY TSPL_PAYPERIOD_MASTER.DATE_TO DESC
 ) LS
 
 ---------------------------------------------------------
@@ -1859,17 +1862,20 @@ Sum((Dis_QtyInLTR*STD_FatPer)/100) As [FAT KG],Sum((Dis_QtyInLTR*STD_SNFPer)/100
         End Try
     End Sub
 
-    'Private Sub ddlReportType_SelectedValueChanged(sender As Object, e As EventArgs) Handles ddlReportType.SelectedValueChanged
-    '    Try
-    '        If clsCommon.CompairString(ddlReportType.SelectedValue, "UWSR") = CompairStringResult.Equal Then
-    '            'RadPageView1.SelectedPage = RadPageViewPage3
-    '            RadPageView1.Pages("RadPageViewPage3").Item.Visibility = ElementVisibility.Visible
-    '            'RadPageViewPage3.Visible = True
-    '        Else
-    '            RadPageView1.Pages("RadPageViewPage3").Item.Visibility = ElementVisibility.Hidden
-    '        End If
-    '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-    '    End Try
-    'End Sub
+    Private Sub ddlReportType_SelectedValueChanged(sender As Object, e As EventArgs) Handles ddlReportType.SelectedValueChanged
+        Try
+            If Not isPageLoad Then
+                If clsCommon.CompairString(ddlReportType.SelectedValue, "UWSR") = CompairStringResult.Equal Then
+                    'RadPageView1.SelectedPage = RadPageViewPage3
+                    RadPageView1.Pages("RadPageViewPage3").Item.Visibility = ElementVisibility.Visible
+                    'RadPageViewPage3.Visible = True
+                Else
+                    RadPageView1.Pages("RadPageViewPage3").Item.Visibility = ElementVisibility.Hidden
+                End If
+            End If
+            isPageLoad = False
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

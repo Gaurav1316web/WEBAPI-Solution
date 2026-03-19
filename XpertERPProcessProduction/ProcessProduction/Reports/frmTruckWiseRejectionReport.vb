@@ -15,9 +15,15 @@ Public Class frmTruckWiseRejectionReport
             BlankRejectionGrid()
             RadPageViewPage2.Text = "Report"
             RadPageView1.SelectedPage = RadPageViewPage1
+            EnableDisableFields(True)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
+    End Sub
+
+    Sub EnableDisableFields(ByVal val As Boolean)
+        RadGroupBox1.Enabled = val
+        btnGo.Enabled = val
     End Sub
 
     Sub BlankRejectionGrid()
@@ -85,10 +91,15 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
 left outer join (select Document_Code,sum(InputDataDeductionPer) as deduction from TSPL_QC_CHECK_sRN_DETAIL 
 group by Document_Code) as TSPL_QC_CHECK_SRN_DETAIL on TSPL_QC_CHECK_SRN_DETAIL.Document_Code=TSPL_QC_CHECK_HEAD.Document_Code
 where 2=2 And Convert(Date,TSPL_GRN_HEAD.GRN_Date,103)>=Convert(Date,'" & txtFromDate.Value & "',103) 
-          And Convert(Date,TSPL_GRN_HEAD.GRN_Date,103)<=Convert(Date,'" & txtToDate.Value & "',103) "
-
+          And Convert(Date,TSPL_GRN_HEAD.GRN_Date,103)<=Convert(Date,'" & txtToDate.Value & "',103)
+          And 1=(Case When (IsNull(TSPL_GRN_HEAD.VisualQCStatus,0)=1 OR IsNull(TSPL_GRN_HEAD.VisualQCStatusSecond,0)=1) And IsNull(TSPL_NIR_QC.QC_Status,0)=1 Then 2 Else 1 End) "
+            If txtMultLocation.arrValueMember IsNot Nothing AndAlso txtMultLocation.arrValueMember.Count > 0 Then
+                Qry &= "  And TSPL_GRN_HEAD.Bill_To_Location In (" & clsCommon.GetMulcallString(txtMultLocation.arrValueMember) & ") "
+            End If
+            If txtMultRAL.arrValueMember IsNot Nothing AndAlso txtMultRAL.arrValueMember.Count > 0 Then
+                Qry &= "  And TSPL_GRN_HEAD.Ref_No In (" & clsCommon.GetMulcallString(txtMultRAL.arrValueMember) & ") "
+            End If
             Qry &= " Union All "
-
             Qry &= " select  
  TSPL_GRN_HEAD_Cancel_Data.Bill_To_Location,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add4,
  TSPL_GRN_HEAD_Cancel_Data.GRN_No,(TSPL_GRN_HEAD_Cancel_Data.GRN_Date) As GRN_Date,
@@ -96,34 +107,26 @@ where 2=2 And Convert(Date,TSPL_GRN_HEAD.GRN_Date,103)>=Convert(Date,'" & txtFro
  TSPL_GRN_HEAD_Cancel_Data.IsCancel,
  (TSPL_GRN_DETAIL_Cancel_Data.GRN_Qty) As GRN_Qty, (TSPL_PO_WEIGHTMENT_DETAIL_Cancel_Data.Net_Weight) As Net_Weight,
 Case When TSPL_GRN_HEAD_Cancel_Data.IsCancel=1 Then TSPL_GRN_DETAIL_Cancel_Data.GRN_Qty
-	  When TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus=1 And TSPL_NIR_QC_Cancel_Data.QC_Status=1 And TSPL_QC_CHECK_DETAIL_Cancel_Data.QC_Status='Accepted'  Then	TSPL_PO_WEIGHTMENT_DETAIL_Cancel_Data.Net_Weight - TSPL_SRN_DETAIL_Cancel_Data.SRN_Qty		       
-      Else
-		TSPL_GRN_DETAIL_Cancel_Data.GRN_Qty-TSPL_PO_WEIGHTMENT_DETAIL_Cancel_Data.Net_Weight
+	 Else TSPL_GRN_DETAIL_Cancel_Data.GRN_Qty-TSPL_PO_WEIGHTMENT_DETAIL_Cancel_Data.Net_Weight
  End As TotalRejectQty,
  (TSPL_GRN_HEAD_Cancel_Data.VisualQCUpdatedDate) As VisualQCUpdatedDate,(TSPL_GRN_HEAD_Cancel_Data.VisualQCUpdatedDateSecond) As VisualQCUpdatedDateSecond,
 CASE 
- WHEN TSPL_QC_CHECK_HEAD_Cancel_Data.QC_Status='Rejected' Then TSPL_QC_CHECK_HEAD_Cancel_Data.Document_Date 
  When TSPL_NIR_QC_Cancel_Data.QC_Status=2 Then TSPL_NIR_QC_Cancel_Data.Document_Date
- When TSPL_GRN_HEAD_Cancel_Data.VisualQCStatusSecond=2 Then TSPL_GRN_HEAD_Cancel_Data.VisualQCUpdatedDateSecond
- When TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus=2 THEN TSPL_GRN_HEAD_Cancel_Data.VisualQCUpdatedDate
- WHEN TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus=3  Then TSPL_GRN_HEAD_Cancel_Data.VisualQCUpdatedDate
- When TSPL_GRN_HEAD_Cancel_Data.VisualQCStatusSecond=3 Then TSPL_GRN_HEAD_Cancel_Data.VisualQCUpdatedDateSecond     	 
+ When TSPL_GRN_HEAD_Cancel_Data.VisualQCStatusSecond=3 OR TSPL_GRN_HEAD_Cancel_Data.VisualQCStatusSecond=2 Then TSPL_GRN_HEAD_Cancel_Data.VisualQCUpdatedDateSecond   
+ WHEN TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus=3 OR TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus=2 Then TSPL_GRN_HEAD_Cancel_Data.VisualQCUpdatedDate 	 
 End As [RejectionDate],
 CASE 
- When TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus=1 And TSPL_NIR_QC_Cancel_Data.QC_Status=1 And (TSPL_QC_CHECK_DETAIL_Cancel_Data.QC_Status='Accepted' OR TSPL_QC_CHECK_DETAIL_Cancel_Data.QC_Status='Under Deviation' ) 
- And  (TSPL_PO_WEIGHTMENT_DETAIL_Cancel_Data.Net_Weight > IsNull(TSPL_SRN_DETAIL_Cancel_Data.SRN_Qty,0) OR  TSPL_GRN_DETAIL_Cancel_Data.GRN_Qty > IsNull(TSPL_PO_WEIGHTMENT_DETAIL_Cancel_Data.Net_Weight,0))
- Then 'PARTIAL' 
- When TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus=1 And TSPL_GRN_HEAD_Cancel_Data.VisualQCStatusSecond=3 And TSPL_GRN_DETAIL_Cancel_Data.GRN_Qty>TSPL_PO_WEIGHTMENT_DETAIL_Cancel_Data.Net_Weight Then 'PARTIAL'
- WHEN TSPL_QC_CHECK_HEAD_Cancel_Data.QC_Status='Rejected' OR TSPL_NIR_QC_Cancel_Data.QC_Status=2 OR TSPL_GRN_HEAD_Cancel_Data.VisualQCStatusSecond=2 OR TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus=2 THEN 'FULL' 
- WHEN TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus=3  OR TSPL_GRN_HEAD_Cancel_Data.VisualQCStatusSecond=3 THEN 'PARTIAL'     	 
+ WHEN TSPL_NIR_QC_Cancel_Data.QC_Status=2 Then 'FULL' 
+ WHEN TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus=3 And TSPL_NIR_QC_Cancel_Data.QC_Status=1 Then 'PARTIAL' 
+ When TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus=1 And TSPL_GRN_HEAD_Cancel_Data.VisualQCStatusSecond=3 Then 'PARTIAL'
+ WHEN TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus=1 And TSPL_GRN_HEAD_Cancel_Data.VisualQCStatusSecond=2 Then 'FULL'
+ WHEN TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus=3   Then 'PARTIAL'
+ WHEN TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus=2   Then 'FULL'
 End As [Status],
 CASE 
- WHEN TSPL_QC_CHECK_HEAD_Cancel_Data.QC_Status='Rejected' Then TSPL_QC_CHECK_DETAIL_Cancel_Data.Additional_Remarks 
  When TSPL_NIR_QC_Cancel_Data.QC_Status=2 Then TSPL_NIR_QC_Cancel_Data.QC_Remarks
- When TSPL_GRN_HEAD_Cancel_Data.VisualQCStatusSecond=2 Then TSPL_GRN_HEAD_Cancel_Data.VisualQCRemarksSecond
- When TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus=2 THEN TSPL_GRN_HEAD_Cancel_Data.VisualQCRemarks
- WHEN TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus=3  Then TSPL_GRN_HEAD_Cancel_Data.VisualQCRemarks
- When TSPL_GRN_HEAD_Cancel_Data.VisualQCStatusSecond=3 Then TSPL_GRN_HEAD_Cancel_Data.VisualQCRemarksSecond     	 
+ When TSPL_GRN_HEAD_Cancel_Data.VisualQCStatusSecond=3 OR TSPL_GRN_HEAD_Cancel_Data.VisualQCStatusSecond=2 Then TSPL_GRN_HEAD_Cancel_Data.VisualQCRemarksSecond
+ When TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus=3 OR TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus=2 THEN TSPL_GRN_HEAD_Cancel_Data.VisualQCRemarks    	 
 End As [StatusRemark],
 TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus,TSPL_GRN_HEAD_Cancel_Data.VisualQCStatusSecond,TSPL_NIR_QC_Cancel_Data.QC_Status As NIR_QC_Status,TSPL_QC_CHECK_HEAD_Cancel_Data.QC_Status As Wet_QC_Status	
 from  TSPL_GRN_HEAD_Cancel_Data
@@ -140,7 +143,14 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
 left outer join (select Document_Code,sum(InputDataDeductionPer) as deduction from TSPL_QC_CHECK_SRN_DETAIL_Hist_Data 
 group by Document_Code) as TSPL_QC_CHECK_sRN_Hist_Data on TSPL_QC_CHECK_sRN_Hist_Data.Document_Code=TSPL_QC_CHECK_HEAD_Cancel_Data.Document_Code
 where 2=2 And Convert(Date,TSPL_GRN_HEAD_Cancel_Data.GRN_Date,103)>=Convert(Date,'" & txtFromDate.Value & "',103) 
-          And Convert(Date,TSPL_GRN_HEAD_Cancel_Data.GRN_Date,103)<=Convert(Date,'" & txtToDate.Value & "',103)"
+          And Convert(Date,TSPL_GRN_HEAD_Cancel_Data.GRN_Date,103)<=Convert(Date,'" & txtToDate.Value & "',103)
+ And 1=(Case When (IsNull(TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus,0)=1 OR IsNull(TSPL_GRN_HEAD_Cancel_Data.VisualQCStatusSecond,0)=1) And IsNull(TSPL_NIR_QC_Cancel_Data.QC_Status,0)=1 Then 2 Else 1 End) "
+            If txtMultLocation.arrValueMember IsNot Nothing AndAlso txtMultLocation.arrValueMember.Count > 0 Then
+                Qry &= "  And TSPL_GRN_HEAD_Cancel_Data.Bill_To_Location In (" & clsCommon.GetMulcallString(txtMultLocation.arrValueMember) & ") "
+            End If
+            If txtMultRAL.arrValueMember IsNot Nothing AndAlso txtMultRAL.arrValueMember.Count > 0 Then
+                Qry &= "  And TSPL_GRN_HEAD_Cancel_Data.Ref_No In (" & clsCommon.GetMulcallString(txtMultRAL.arrValueMember) & ") "
+            End If
 
             Return Qry
         Catch ex As Exception
@@ -175,10 +185,13 @@ Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_M
                     BlankRejectionGrid()
                     gvRejection.AllowAddNewRow = False
                     gvRejection.AllowDragToGroup = False
+                    gvRejection.ShowGroupPanel = False
+                    gvRejection.EnableFiltering = True
                     gvRejection.DataSource = dt
                     gvRejection.BestFitColumns()
                     RadPageView1.SelectedPage = RadPageViewPage2
                     RadPageViewPage2.Text = "Rejection Report"
+                    EnableDisableFields(False)
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "Data not found !", Me.Text)
@@ -190,5 +203,28 @@ Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_M
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         LoadData(True)
+    End Sub
+
+    Private Sub txtMultRAL__My_Click(sender As Object, e As EventArgs) Handles txtMultRAL._My_Click
+        Try
+            Dim qry As String = "select  tspl_tender_header.DocumentCode as RAL ,max(tspl_tender_header.DocumentDate) as DocumentDate  from tspl_tender_header
+                            left outer join TSPL_TENDER_DETAIL on TSPL_TENDER_DETAIL.DocumentCode=tspl_tender_header.DocumentCode "
+            If txtMultLocation.arrValueMember IsNot Nothing AndAlso txtMultLocation.arrValueMember.Count > 0 Then
+                qry += "where TSPL_TENDER_DETAIL.Location In (" & clsCommon.GetMulcallString(txtMultLocation.arrValueMember) & ") "
+            End If
+            qry &= " group by tspl_tender_header.DocumentCode "
+            txtMultRAL.arrValueMember = clsCommon.ShowMultipleSelectForm("TWRRRAL", qry, "RAL", "DocumentDate", txtMultRAL.arrValueMember, txtMultRAL.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtMultLocation__My_Click(sender As Object, e As EventArgs) Handles txtMultLocation._My_Click
+        Try
+            Dim qry As String = "select Location_Code as [Code] ,Location_Desc as [Name] from TSPL_LOCATION_MASTER  "
+            txtMultLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("TWRRLoc", qry, "Code", "Name", txtMultLocation.arrValueMember, txtMultLocation.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class
