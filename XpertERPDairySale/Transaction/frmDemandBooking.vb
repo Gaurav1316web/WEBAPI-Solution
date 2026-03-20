@@ -665,7 +665,7 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
                 view.ColumnGroups.Add(New GridViewColumnGroup("Total"))
                 view.ColumnGroups(TempColGroupCount).Rows.Add(New GridViewColumnGroupRow())
                 view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colCrate).Name)
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") <> CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") <> CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") <> CompairStringResult.Equal Then
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") <> CompairStringResult.Equal Then
                     'view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colCrate).Name)
                     view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colLitre).Name)
                     view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colMAmt).Name)
@@ -2347,7 +2347,7 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
                                     gv1.Columns(colPAmt).IsVisible = False
                                     gv1.Columns(colPCount).IsVisible = False
                                     gv1.Columns(colMAmt).IsVisible = False
-                                    gv1.Columns(colCrate).IsVisible = False
+                                    gv1.Columns(colCrate).IsVisible = True
                                     gv1.Columns(colLitre).IsVisible = False
                                 Else
                                     gv1.Columns(colMAmt).IsVisible = True
@@ -2368,7 +2368,7 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
                                     gv1.Columns(colPAmt).IsVisible = False
                                     gv1.Columns(colPCount).IsVisible = False
                                     gv1.Columns(colMAmt).IsVisible = False
-                                    gv1.Columns(colCrate).IsVisible = False
+                                    gv1.Columns(colCrate).IsVisible = True
                                     gv1.Columns(colLitre).IsVisible = False
                                 Else
 
@@ -2389,14 +2389,14 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
                                 gv1.Columns(colPAmt).IsVisible = False
                                 gv1.Columns(colPCount).IsVisible = False
                                 gv1.Columns(colMAmt).IsVisible = False
-                                gv1.Columns(colCrate).IsVisible = False
+                                gv1.Columns(colCrate).IsVisible = True
                                 gv1.Columns(colLitre).IsVisible = False
                             Else
 
                                 gv1.Columns(colPAmt).IsVisible = True
                                 gv1.Columns(colPCount).IsVisible = True
                                 gv1.Columns(colMAmt).IsVisible = True
-                                gv1.Columns(colCrate).IsVisible = True
+                                gv1.Columns(colCrate).IsVisible = False
                                 gv1.Columns(colLitre).IsVisible = True
                             End If
 
@@ -3751,9 +3751,9 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
     Sub isFreshAmbientBoth()
         Try
             If Not isInsideLoadData Then
-                If rdbnFreshAmbientBoth.IsChecked Then
-                    HideUnhideRowsAndColumnsOFGrid()
-                End If
+                'If rdbnFreshAmbientBoth.IsChecked Then
+                HideUnhideRowsAndColumnsOFGrid()
+                'End If
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
                     checkPrintSetting()
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
@@ -4417,14 +4417,14 @@ from (" & BaseQry & ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
                 End If
                 'If isVisibleCol <= totFreshAmbCol Then
                 Dim colToAdd As Integer = (totFreshAmbCol - isVisibleCol) + 5
-                    For i As Integer = 1 To colToAdd
-                        Dim newCol As New GridViewTextBoxColumn("ExtraCol" & i)
-                        newCol.HeaderText = ""
-                        newCol.IsVisible = True
-                        GVTruckSheet.Columns.Add(newCol)
-                        dtNew.Columns.Add("ExtraCol" & i, GetType(String))
-                    Next
-                    GVTruckSheet.Refresh()
+                For i As Integer = 1 To colToAdd
+                    Dim newCol As New GridViewTextBoxColumn("ExtraCol" & i)
+                    newCol.HeaderText = ""
+                    newCol.IsVisible = True
+                    GVTruckSheet.Columns.Add(newCol)
+                    dtNew.Columns.Add("ExtraCol" & i, GetType(String))
+                Next
+                GVTruckSheet.Refresh()
                 'End If
                 dtNew.Rows.Add(dtNew.NewRow)
 
