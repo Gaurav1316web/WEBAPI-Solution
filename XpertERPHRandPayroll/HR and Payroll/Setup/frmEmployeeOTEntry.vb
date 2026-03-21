@@ -123,6 +123,7 @@ Public Class frmEmployeeOTEntry
         Else
             gv1.Rows(0).Cells(ColOTType).Value = "Double"
         End If
+        btnSave.Text = "Save"
         'Qry = " Select Payment_Code from TSPL_PAYMENT_CODE  WHERE IsDefault=1 "
         'Dim DT As DataTable = clsDBFuncationality.GetDataTable(Qry)
         'Dim paymentcode As String = Nothing
@@ -470,6 +471,7 @@ Public Class frmEmployeeOTEntry
             isInsideLoadData = True
             BlankAllControls()
             LoadBlankGrid()
+            gv1.Rows.Clear()
             isNewEntry = False
 
             Dim obj As New ClsEmpOTEntry()
@@ -488,15 +490,16 @@ Public Class frmEmployeeOTEntry
                 txtDate.Value = obj.Document_Date
                 txtPayPeriod.Value = obj.Pay_Period_Code
                 'Dim qry1 As String = clsDBFuncationality.getSingleValue(" Select PAY_PERIOD_NAME from TSPL_PAYPERIOD_MASTER ='" + txtPayPeriod.Value + "'")
-                lblPayPeriodDesc.Text = clsDBFuncationality.getSingleValue(" Select PAY_PERIOD_NAME from TSPL_PAYPERIOD_MASTER ='" + txtPayPeriod.Value + "'")
+                lblPayPeriodDesc.Text = clsDBFuncationality.getSingleValue(" Select PAY_PERIOD_NAME from TSPL_PAYPERIOD_MASTER where TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE ='" + txtPayPeriod.Value + "'")
 
                 If obj.Arr IsNot Nothing Then
                     Dim i As Integer = 0
 
                     For Each objrow As ClsEmpOTEntryDetail In obj.Arr
+
                         gv1.Rows.AddNew()
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colEmpCode).Value = objrow.Emp_Code
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColEmpName).Value = clsDBFuncationality.getSingleValue(" Select Emp_Name from TSPL_EMPLOYEE_MASTER ='" + objrow.Emp_Code + "'")
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColEmpName).Value = clsDBFuncationality.getSingleValue(" Select Emp_Name from TSPL_EMPLOYEE_MASTER where TSPL_EMPLOYEE_MASTER.EMP_CODE ='" + objrow.Emp_Code + "'")
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColOTType).Value = objrow.OT_Type
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colOTDate).Value = objrow.OT_Date
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColAmount).Value = objrow.Amount
@@ -593,4 +596,15 @@ Public Class frmEmployeeOTEntry
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
         Me.Close()
     End Sub
+
+    Private Sub btnAddNew_Click(sender As Object, e As EventArgs) Handles btnAddNew.Click
+        AddNew()
+    End Sub
+
+    'Sub AddNew()
+    '    BlankAllControls()
+    '    LoadBlankGrid()
+    '    ReStoreGridLayout()
+    '    btnSave.Text = "Save"
+    'End Sub
 End Class

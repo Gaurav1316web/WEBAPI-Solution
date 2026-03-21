@@ -25,6 +25,7 @@ Public Class clsTransferDCC
     Public Total_Item_Wt As Decimal = Nothing
     Public Gross_Item_Wt As Decimal = Nothing
     Public Vehicle_Mannual_No As String = Nothing
+    Public IsEwayBill As Integer = 0
 
     Public Form38 As Boolean = False
     Public Document_No As String = Nothing
@@ -708,6 +709,7 @@ Public Class clsTransferDCC
             clsCommon.AddColumnsForChange(coll, "Delivery_date", clsCommon.GetPrintDate(obj.Delivery_date, "dd/MM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Delivery_Duration", obj.Delivery_Duration)
             clsCommon.AddColumnsForChange(coll, "Transfer_Type", obj.Transfer_Type)
+            clsCommon.AddColumnsForChange(coll, "IsEwayBill", obj.IsEwayBill)
 
             clsCommon.AddColumnsForChange(coll, "GP_Item_Type", obj.GP_Item_Type)
             clsCommon.AddColumnsForChange(coll, "Price_Code", obj.Price_Code)
@@ -898,7 +900,7 @@ TSPL_TRANSFER_ORDER_HEAD.Km_Reading as transDistance,
   'R' as vehicleType,
   
   TSPL_ITEM_MASTER.Item_Desc AS productName, 
-  TSPL_ITEM_MASTER.Item_Desc AS productDesc,TSPL_ITEM_MASTER.HSN_Code AS hsnCode,TSPL_TRANSFER_ORDER_DETAIL.Out_Qty as quantity, TSPL_TRANSFER_ORDER_DETAIL.Unit_code as qtyUnit,TSPL_TRANSFER_ORDER_DETAIL.Item_cost as ItemUnitPrice,  TSPL_TRANSFER_ORDER_DETAIL.Amount as ItemTotAmt,TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt as ItemDiscount,TSPL_TRANSFER_ORDER_DETAIL.Amount as taxableAmount,'0' as sgstRate,'0' as cgstRate,'0' as igstRate,'0' as cessRate
+  TSPL_ITEM_MASTER.Item_Desc AS productDesc,TSPL_ITEM_MASTER.HSN_Code AS hsnCode,TSPL_TRANSFER_ORDER_DETAIL.Out_Qty as quantity, TSPL_TRANSFER_ORDER_DETAIL.Unit_code as qtyUnit,TSPL_TRANSFER_ORDER_DETAIL.Item_cost as ItemUnitPrice,  TSPL_TRANSFER_ORDER_DETAIL.Amount as ItemTotAmt,TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt as ItemDiscount,TSPL_TRANSFER_ORDER_DETAIL.Amount as taxableAmount,'0' as sgstRate,'0' as cgstRate,'0' as igstRate,'0' as cessRate,0 as NO_Transporter
 from 
   TSPL_TRANSFER_ORDER_HEAD 
   Left Outer Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = '" + objCommonVar.CurrentCompanyCode + "' 
@@ -1037,7 +1039,7 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
         " TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as TaxGroupName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_TRANSFER_ORDER_HEAD.Posting_Date, " &
         " TSPL_TRANSFER_ORDER_HEAD.Delivery_date, TSPL_TRANSFER_ORDER_HEAD.Delivery_Duration,TSPL_TRANSFER_ORDER_HEAD.Item_Type, " &
         " TSPL_TRANSFER_ORDER_HEAD.Modify_By,TSPL_TRANSFER_ORDER_HEAD.Modify_Date,TSPL_TRANSFER_ORDER_HEAD.Created_By, " &
-        " TSPL_TRANSFER_ORDER_HEAD.Created_Date,TSPL_TRANSFER_ORDER_HEAD.Tax_Calculation_Type, " &
+        " TSPL_TRANSFER_ORDER_HEAD.Created_Date,TSPL_TRANSFER_ORDER_HEAD.Tax_Calculation_Type,TSPL_TRANSFER_ORDER_HEAD.IsEwayBill, " &
         " TSPL_TRANSFER_ORDER_HEAD.CURRENCY_CODE,TSPL_TRANSFER_ORDER_HEAD.CONVRATE,TSPL_TRANSFER_ORDER_HEAD.ApplicableFrom,TSPL_TRANSFER_ORDER_HEAD.RMDA_Code,ISNULL(TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual,'') AS Transporter_Name_Manual,TSPL_Transfer_ORDER_Head.For_Repair,TSPL_TRANSFER_ORDER_HEAD.InternalTransfer,TSPL_TRANSFER_ORDER_HEAD.JobWorkTransfer,TSPL_TRANSFER_ORDER_HEAD.ProdRequestTransfer,TSPL_TRANSFER_ORDER_HEAD.IsJobWorkType,Requisition_Id,TSPL_TRANSFER_ORDER_HEAD.Freight_Distance FROM TSPL_TRANSFER_ORDER_HEAD left " &
         " outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_TRANSFER_ORDER_HEAD.From_Location " &
         " left outer join  TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_1 on TSPL_LOCATION_MASTER_1.Location_Code=TSPL_TRANSFER_ORDER_HEAD.To_Location " &
@@ -1106,6 +1108,7 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
             obj.Description = clsCommon.myCstr(dt.Rows(0)("Description"))
             obj.Is_Status_IN = clsCommon.myCstr(dt.Rows(0)("Is_Status_IN"))
             obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
+            obj.IsEwayBill = clsCommon.myCdbl(dt.Rows(0)("IsEwayBill"))
             obj.From_Location = clsCommon.myCstr(dt.Rows(0)("From_Location"))
             obj.To_Location = clsCommon.myCstr(dt.Rows(0)("To_Location"))
             obj.To_Location_Main = clsCommon.myCstr(dt.Rows(0)("To_Location_Main"))
@@ -1514,7 +1517,8 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
             Next
 
             ''richa agarwal 23 Dec,2020 check eInvoice Implementation
-            If clsCommon.CompairString(clsCommon.myCstr(obj.Transfer_Type), "O") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(clsCommon.myCstr(obj.Transfer_Type), "O") = CompairStringResult.Equal AndAlso obj.IsEwayBill = 1 Then
+
                 If clsTransferDCC.eWayBill_Implementation(obj.Document_No, obj.From_Location, trans) = True Then
                 Else
                     Throw New Exception("Invalid JSON Value")
