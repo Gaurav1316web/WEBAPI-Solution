@@ -110,7 +110,53 @@ Public Class frmPIPaymentStatusReport
 Max(Case When Status=1 Then 'Approved' Else 'Pending' End) As [PI Status],Max(Bill_To_Location) As [Location],Max(Vendor_Code) As [Vendor Code],
 Max(Vendor_Name) As [Vendor Name],Max(Item_Code) As [Item Code],Max(Item_Desc) As [Item Name],Max(Item_Cost) As [Item Rate],
 Max(Ref_No) As [RAL No.],Sum(PI_Qty) As [Qty In QTL],Sum(JuteBagWeight) As [Jute Bag Weight],Sum(PPBagWeight) As [HDPE Bag Weight],Sum(NetQtyInQtl) As [Net Qty In QTL],Sum(Amount) As [Amount (Rs.)]
-,Sum(QualityAmt) As [Quality Amt],Sum(SecurityAmt) As [Security Amt],Sum(Penalty) As [Late Penalty Amt],Sum(Ded_Amt) As [Total Deduction Amt],0 As [CGST Amt],0 As [SGST Amt],0 As [IGST Amt],Sum(TDS) As [TDS Amt],Sum(RoundOffAmt) As [Round Off Amt],Sum(Item_Net_Amt) As [Net Payable Amt],Max(Payment_No) As [Payment No.],Max(Payment_Date) As [Payment Date],Max(Payment_Amount) As [Payment Amt],Max(PaymentStatus) As [Status] from BaseQry Group By PI_No"
+,Sum(QualityAmt) As [Quality Amt],Sum(SecurityAmt) As [Security Amt],Sum(Penalty) As [Late Penalty Amt],Sum(Ded_Amt) As [Total Deduction Amt],
+Sum(Case 
+When Tax_Master1.Type='CGST' Then BaseQry.TAX1_Amt
+When Tax_Master2.Type='CGST' Then BaseQry.TAX2_Amt
+When Tax_Master3.Type='CGST' Then BaseQry.TAX3_Amt
+When Tax_Master4.Type='CGST' Then BaseQry.TAX4_Amt
+When Tax_Master5.Type='CGST' Then BaseQry.TAX5_Amt
+When Tax_Master6.Type='CGST' Then BaseQry.TAX6_Amt
+When Tax_Master7.Type='CGST' Then BaseQry.TAX7_Amt
+When Tax_Master8.Type='CGST' Then BaseQry.TAX8_Amt
+When Tax_Master9.Type='CGST' Then BaseQry.TAX9_Amt
+When Tax_Master10.Type='CGST' Then BaseQry.TAX10_Amt Else 0 End) As [CGST Amt],
+Sum(Case 
+When Tax_Master1.Type='SGST' Then BaseQry.TAX1_Amt
+When Tax_Master2.Type='SGST' Then BaseQry.TAX2_Amt
+When Tax_Master3.Type='SGST' Then BaseQry.TAX3_Amt
+When Tax_Master4.Type='SGST' Then BaseQry.TAX4_Amt
+When Tax_Master5.Type='SGST' Then BaseQry.TAX5_Amt
+When Tax_Master6.Type='SGST' Then BaseQry.TAX6_Amt
+When Tax_Master7.Type='SGST' Then BaseQry.TAX7_Amt
+When Tax_Master8.Type='SGST' Then BaseQry.TAX8_Amt
+When Tax_Master9.Type='SGST' Then BaseQry.TAX9_Amt
+When Tax_Master10.Type='SGST' Then BaseQry.TAX10_Amt Else 0 End) As [SGST Amt],
+Sum(Case 
+When Tax_Master1.Type='IGST' Then BaseQry.TAX1_Amt
+When Tax_Master2.Type='IGST' Then BaseQry.TAX2_Amt
+When Tax_Master3.Type='IGST' Then BaseQry.TAX3_Amt
+When Tax_Master4.Type='IGST' Then BaseQry.TAX4_Amt
+When Tax_Master5.Type='IGST' Then BaseQry.TAX5_Amt
+When Tax_Master6.Type='IGST' Then BaseQry.TAX6_Amt
+When Tax_Master7.Type='IGST' Then BaseQry.TAX7_Amt
+When Tax_Master8.Type='IGST' Then BaseQry.TAX8_Amt
+When Tax_Master9.Type='IGST' Then BaseQry.TAX9_Amt
+When Tax_Master10.Type='IGST' Then BaseQry.TAX10_Amt Else 0 End) As [IGST Amt],
+Sum(TDS) As [TDS Amt],Sum(RoundOffAmt) As [Round Off Amt],Sum(Item_Net_Amt) As [Net Payable Amt],Max(Payment_No) As [Payment No.],Max(Payment_Date) As [Payment Date],Max(Payment_Amount) As [Payment Amt],Max(PaymentStatus) As [Status] 
+from BaseQry 
+Left Join TSPL_TAX_MASTER As Tax_Master1 On Tax_Master1.Type=BaseQry.TAX1
+Left Join TSPL_TAX_MASTER As Tax_Master2 On Tax_Master2.Type=BaseQry.TAX2
+Left Join TSPL_TAX_MASTER As Tax_Master3 On Tax_Master3.Type=BaseQry.TAX3
+Left Join TSPL_TAX_MASTER As Tax_Master4 On Tax_Master4.Type=BaseQry.TAX4
+Left Join TSPL_TAX_MASTER As Tax_Master5 On Tax_Master5.Type=BaseQry.TAX5
+Left Join TSPL_TAX_MASTER As Tax_Master6 On Tax_Master6.Type=BaseQry.TAX6
+Left Join TSPL_TAX_MASTER As Tax_Master7 On Tax_Master7.Type=BaseQry.TAX7
+Left Join TSPL_TAX_MASTER As Tax_Master8 On Tax_Master8.Type=BaseQry.TAX8
+Left Join TSPL_TAX_MASTER As Tax_Master9 On Tax_Master9.Type=BaseQry.TAX9
+Left Join TSPL_TAX_MASTER As Tax_Master10 On Tax_Master10.Type=BaseQry.TAX10
+Group By PI_No"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 ReportGrid()

@@ -942,7 +942,7 @@ Public Class FrmQualityCheckForSRN
             If AllowToSave() Then 'False
                 obj.Document_Code = clsCommon.myCstr(txtDocNo.Value)
                 obj.QC_Type = QC_Type
-                obj.Document_Date = clsCommon.myCDate(dtpDate.Text)
+                obj.Document_Date = (dtpDate.Value)
                 obj.Description = clsCommon.myCstr(txtDesc.Text)
                 obj.Vendor_Code = clsCommon.myCstr(fndVendor_code.Value)
                 obj.Bill_To_location = clsCommon.myCstr(txtBillToLocation.Value)

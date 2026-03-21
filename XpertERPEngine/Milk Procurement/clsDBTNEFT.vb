@@ -345,11 +345,20 @@ where  TSPL_DBT_NEFT_DETAIL.Document_Code = '" + document_Code + "'  "
             Dim qry As String = "select DB_Name,Document_Code,ISNULL(status,0) as status,DB_Name from TSPL_DBT_NEFT_RCDF where PK_Id = " + strPKID + ""
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strPKID, "TSPL_DBT_NEFT_RCDF", "PK_Id", "", "", trans)
+                qry = "select top 1  1 from " & clsCommon.myCstr(dt.Rows(0)("DB_Name")) & ".dbo.TSPL_DBT_NEFT_DETAIL 
+inner join " & clsCommon.myCstr(dt.Rows(0)("DB_Name")) & ".dbo.TSPL_DBT_NEFT_BANK_RESPONSE on TSPL_DBT_NEFT_BANK_RESPONSE.Ref_PK_Id= TSPL_DBT_NEFT_DETAIL.PK_Id
+where TSPL_DBT_NEFT_DETAIL.Document_Code='" + clsCommon.myCstr(dt.Rows(0)("Document_Code")) + "'"
+                Dim dtBR As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                If dtBR IsNot Nothing AndAlso dtBR.Rows.Count > 0 Then
+                    Throw New Exception("Bank response received against the document [" + clsCommon.myCstr(dt.Rows(0)("Document_Code")) + "]")
+                End If
 
                 If clsCommon.myCDecimal(dt.Rows(0)("status")) = 0 Then
                     Throw New Exception("Already reverse Doument [" + clsCommon.myCstr(dt.Rows(0)("Document_Code")) + "]")
                 End If
+
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strPKID, "TSPL_DBT_NEFT_RCDF", "PK_Id", "", "", trans)
+
                 qry = "delete from TSPL_DBT_NEFT_RCDF where  PK_Id=" + strPKID + ""
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
