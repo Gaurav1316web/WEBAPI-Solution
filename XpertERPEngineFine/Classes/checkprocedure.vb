@@ -69,6 +69,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.SalesMarketingDashboard, "Sales And Marketing Dashboard", "1.00.03.16", clsUserMgtCode.SubModuleSystemAdminSetupReport, "", 37, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, False, False, True)
         InsertDefaultValue(clsUserMgtCode.rptDBTDashboard, "DBT Dashboard", "1.00.03.17", clsUserMgtCode.SubModuleSystemAdminSetupReport, "", 37, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, False, False, True)
         InsertDefaultValue(clsUserMgtCode.MostUserScreen, "Most User Screen", "1.00.03.18", clsUserMgtCode.SubModulePayableReport, 37)
+        InsertDefaultValue(clsUserMgtCode.FrmSystemAdministratorTool, "System Admin Tool", "1.00.03.19", clsUserMgtCode.SubModuleSystemAdminSetupReport, "", 37, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, False, False, True)
 
         '-------------------------------------------------------------------End SYSTEM ADMINISTRATOR---------------------------------------
         '--------------Common Services----------------------------------

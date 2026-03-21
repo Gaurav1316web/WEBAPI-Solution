@@ -104,6 +104,8 @@ Partial Class FrmTransferKDIL
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkEwaybill = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkJobWorkTransfer = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkProductionRequest = New Telerik.WinControls.UI.RadCheckBox()
         Me.fndPriceCode = New common.UserControls.txtFinder()
         Me.lblpricecode = New common.Controls.MyLabel()
@@ -226,7 +228,6 @@ Partial Class FrmTransferKDIL
         Me.radExportTransferIn = New Telerik.WinControls.UI.RadMenuItem()
         Me.radImportTransferOut = New Telerik.WinControls.UI.RadMenuItem()
         Me.radImportTransferIn = New Telerik.WinControls.UI.RadMenuItem()
-        Me.chkJobWorkTransfer = New Telerik.WinControls.UI.RadCheckBox()
         Me.pnlRMDA.SuspendLayout()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage4.SuspendLayout()
@@ -297,6 +298,8 @@ Partial Class FrmTransferKDIL
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkEwaybill, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkJobWorkTransfer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkProductionRequest, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblpricecode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFreightDistance, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -404,7 +407,6 @@ Partial Class FrmTransferKDIL
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkJobWorkTransfer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -527,7 +529,7 @@ Partial Class FrmTransferKDIL
         Me.txtConversionRate.TabIndex = 1
         Me.txtConversionRate.Text = "1"
         Me.txtConversionRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtConversionRate.Value = 1.0R
+        Me.txtConversionRate.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'txtCurrencyCode
         '
@@ -964,7 +966,7 @@ Partial Class FrmTransferKDIL
         Me.pnlLoadIn.Controls.Add(Me.txtTransferOutNo)
         Me.pnlLoadIn.Controls.Add(Me.MyLabel1)
         Me.pnlLoadIn.Controls.Add(Me.txtOutDate)
-        Me.pnlLoadIn.Location = New System.Drawing.Point(754, 19)
+        Me.pnlLoadIn.Location = New System.Drawing.Point(845, 20)
         Me.pnlLoadIn.Name = "pnlLoadIn"
         Me.pnlLoadIn.Size = New System.Drawing.Size(350, 22)
         Me.pnlLoadIn.TabIndex = 7
@@ -1209,6 +1211,8 @@ Partial Class FrmTransferKDIL
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportAPI = False
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1420,6 +1424,7 @@ Partial Class FrmTransferKDIL
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkEwaybill)
         Me.RadPageViewPage1.Controls.Add(Me.chkJobWorkTransfer)
         Me.RadPageViewPage1.Controls.Add(Me.chkProductionRequest)
         Me.RadPageViewPage1.Controls.Add(Me.fndPriceCode)
@@ -1505,6 +1510,25 @@ Partial Class FrmTransferKDIL
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1251, 388)
         Me.RadPageViewPage1.Text = "Transfer"
         '
+        'chkEwaybill
+        '
+        Me.chkEwaybill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkEwaybill.Location = New System.Drawing.Point(758, 22)
+        Me.chkEwaybill.Name = "chkEwaybill"
+        Me.chkEwaybill.Size = New System.Drawing.Size(72, 16)
+        Me.chkEwaybill.TabIndex = 1478
+        Me.chkEwaybill.Text = "E-Way Bill"
+        '
+        'chkJobWorkTransfer
+        '
+        Me.chkJobWorkTransfer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkJobWorkTransfer.Location = New System.Drawing.Point(1138, 66)
+        Me.chkJobWorkTransfer.Name = "chkJobWorkTransfer"
+        Me.chkJobWorkTransfer.Size = New System.Drawing.Size(113, 16)
+        Me.chkJobWorkTransfer.TabIndex = 1477
+        Me.chkJobWorkTransfer.Text = "Job Work Transfer"
+        Me.chkJobWorkTransfer.Visible = False
+        '
         'chkProductionRequest
         '
         Me.chkProductionRequest.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1577,7 +1601,7 @@ Partial Class FrmTransferKDIL
         Me.txtFreightDistance.TabIndex = 1474
         Me.txtFreightDistance.Text = "0"
         Me.txtFreightDistance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFreightDistance.Value = 0R
+        Me.txtFreightDistance.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel59
         '
@@ -1947,7 +1971,7 @@ Partial Class FrmTransferKDIL
         Me.txtJaaliIn.TabIndex = 1427
         Me.txtJaaliIn.Text = "0"
         Me.txtJaaliIn.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtJaaliIn.Value = 0R
+        Me.txtJaaliIn.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblCrateOut
         '
@@ -1994,7 +2018,7 @@ Partial Class FrmTransferKDIL
         Me.txtBoxOut.TabIndex = 1432
         Me.txtBoxOut.Text = "0"
         Me.txtBoxOut.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtBoxOut.Value = 0R
+        Me.txtBoxOut.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtCrateIn
         '
@@ -2021,7 +2045,7 @@ Partial Class FrmTransferKDIL
         Me.txtCrateIn.TabIndex = 1428
         Me.txtCrateIn.Text = "0"
         Me.txtCrateIn.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCrateIn.Value = 0R
+        Me.txtCrateIn.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtcrateout
         '
@@ -2048,7 +2072,7 @@ Partial Class FrmTransferKDIL
         Me.txtcrateout.TabIndex = 1434
         Me.txtcrateout.Text = "0"
         Me.txtcrateout.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtcrateout.Value = 0R
+        Me.txtcrateout.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtBoxIn
         '
@@ -2075,7 +2099,7 @@ Partial Class FrmTransferKDIL
         Me.txtBoxIn.TabIndex = 1426
         Me.txtBoxIn.Text = "0"
         Me.txtBoxIn.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtBoxIn.Value = 0R
+        Me.txtBoxIn.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblJaaliOut
         '
@@ -2122,7 +2146,7 @@ Partial Class FrmTransferKDIL
         Me.txtjaaliout.TabIndex = 1433
         Me.txtjaaliout.Text = "0"
         Me.txtjaaliout.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtjaaliout.Value = 0R
+        Me.txtjaaliout.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'GatePassPanel
         '
@@ -2362,7 +2386,7 @@ Partial Class FrmTransferKDIL
         Me.txtGross_Wt.TabIndex = 2
         Me.txtGross_Wt.Text = "0"
         Me.txtGross_Wt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtGross_Wt.Value = 0R
+        Me.txtGross_Wt.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel17
         '
@@ -2420,7 +2444,7 @@ Partial Class FrmTransferKDIL
         Me.txtVehicle_Capacity.TabIndex = 1
         Me.txtVehicle_Capacity.Text = "0"
         Me.txtVehicle_Capacity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtVehicle_Capacity.Value = 0R
+        Me.txtVehicle_Capacity.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel15
         '
@@ -3197,6 +3221,8 @@ Partial Class FrmTransferKDIL
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyExportAPI = False
+        Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3375,16 +3401,6 @@ Partial Class FrmTransferKDIL
         Me.radImportTransferIn.Name = "radImportTransferIn"
         Me.radImportTransferIn.Text = "Import Transfer In"
         '
-        'chkJobWorkTransfer
-        '
-        Me.chkJobWorkTransfer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkJobWorkTransfer.Location = New System.Drawing.Point(1138, 66)
-        Me.chkJobWorkTransfer.Name = "chkJobWorkTransfer"
-        Me.chkJobWorkTransfer.Size = New System.Drawing.Size(113, 16)
-        Me.chkJobWorkTransfer.TabIndex = 1477
-        Me.chkJobWorkTransfer.Text = "Job Work Transfer"
-        Me.chkJobWorkTransfer.Visible = False
-        '
         'FrmTransferKDIL
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3474,6 +3490,8 @@ Partial Class FrmTransferKDIL
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkEwaybill, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkJobWorkTransfer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkProductionRequest, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblpricecode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFreightDistance, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3587,7 +3605,6 @@ Partial Class FrmTransferKDIL
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkJobWorkTransfer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -3788,5 +3805,6 @@ Partial Class FrmTransferKDIL
     Friend WithEvents btnSTAMilkPrint As RadButton
     Friend WithEvents btnSTAProductPrint As RadButton
     Friend WithEvents chkJobWorkTransfer As RadCheckBox
+    Friend WithEvents chkEwaybill As RadCheckBox
 End Class
 

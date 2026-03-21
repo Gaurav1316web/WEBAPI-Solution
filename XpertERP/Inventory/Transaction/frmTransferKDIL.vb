@@ -428,6 +428,8 @@ Public Class FrmTransferKDIL
     Sub BlankAllControls()
         'chkProductionRequest.Enabled = False
         'chkProductionRequest.Checked = False
+        chkEwaybill.Checked = False
+        chkEwaybill.Enabled = True
         txtFreightDistance.Value = 0
         EInvoiceType = ""
         chkForRepair.Enabled = True
@@ -3011,6 +3013,7 @@ Public Class FrmTransferKDIL
                 obj.Loading_Advice_No = clsCommon.myCstr(txtLoadingAdviceNo.Text)
                 obj.Vehicle_Mannual_No = clsCommon.myCstr(txtvehicle_mannual_no.Text)
                 obj.Vehicle_Charge = clsCommon.myCdbl(txtvehicle_Charge.Text)
+                obj.IsEwayBill = IIf(chkEwaybill.Checked, 1, 0)
                 ''======================================================================
                 If txtvehicle_Charge.Tag IsNot Nothing AndAlso TryCast(txtvehicle_Charge.Tag, DataTable) IsNot Nothing AndAlso TryCast(txtvehicle_Charge.Tag, DataTable).Rows.Count > 0 Then
                     Dim dt As DataTable = TryCast(txtvehicle_Charge.Tag, DataTable)
@@ -3329,8 +3332,10 @@ Public Class FrmTransferKDIL
                     repoComplete.IsVisible = True
                     'repoBalQty.IsVisible = True
                     btn_CancelDel.Enabled = True
+                    chkEwaybill.Enabled = False
                 ElseIf obj.Status = ERPTransactionStatus.Pending Then
                     btn_CancelDel.Enabled = False
+                    chkEwaybill.Enabled = True
                 End If
                 UsLock1.Status = obj.Status
                 txtDocNo.Value = obj.Document_No
@@ -3352,6 +3357,7 @@ Public Class FrmTransferKDIL
                 txtGross_Wt.Text = obj.Gross_Item_Wt
                 txtvehicle_Charge.Text = obj.Vehicle_Charge
                 txttotal_Wt.Text = obj.Total_Item_Wt
+                chkEwaybill.Checked = IIf(obj.IsEwayBill = 1, True, False)
                 '===================added by preeti===
                 txtEWayBillNo.Text = obj.EWayBillNo
                 txtElecttefNo.Text = obj.Electronic_Ref_No

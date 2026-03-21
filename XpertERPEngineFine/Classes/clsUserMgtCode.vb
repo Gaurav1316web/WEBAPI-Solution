@@ -662,6 +662,7 @@ Public Class clsUserMgtCode
     'Public Const TimeTable As String = "TIME-TBL"
     Public Const Security_Matr As String = "Secu_Matr"
     Public Const frmDocumentVersionReport As String = "DOC_VER_RPT"
+    Public Const FrmSystemAdministratorTool As String = "SYS_ADM_TOL"
     'Public Const FrmSendSMSMultipleUser As String = "SNDSMS"
     'Public Const UtilityImportExport As String = "UTLT_IM_EX"
     Public Const frmSendSMSEmailSetting As String = "EML_SMS_SET"
