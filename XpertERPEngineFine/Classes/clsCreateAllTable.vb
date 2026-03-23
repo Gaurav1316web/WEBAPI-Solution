@@ -36755,7 +36755,7 @@ inner JOIN tspl_sd_sale_Invoice_detail ON TSPL_Customer_Invoice_Head.Against_Sal
             coll.Add("Freight_Distance", "Integer Not Null Default 0")
             coll.Add("ProdRequestTransfer", "Integer not null default 0")
             coll.Add("EWayBill_QR_Code", "image null")
-            coll.Add("IsEwayBill", "Integer nulll")
+            coll.Add("IsEwayBill", "Integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TRANSFER_ORDER_HEAD", coll, Nothing, True, True, "", "Document_No", "Document_Date", True)
 
 
