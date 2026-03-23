@@ -37,7 +37,6 @@ Public Class MostUserScreen
             If txtTopCount.Value = 0 Then
                 Throw New Exception("Top count can't be zero !")
             End If
-
             Dim whereCondition As String = ""
             Select Case MyComboBox1.Text
                 Case "Setup"
@@ -49,22 +48,38 @@ Public Class MostUserScreen
             End Select
             Dim strQry As String = ""
             If chkDateRange.Checked Then
-                strQry = " SELECT TOP " & clsCommon.myCstr(txtTopCount.Value) & "  Max(TSPL_PROGRAM_COUNTER.Created_Date) As [Created Date],Max(TSPL_PROGRAM_COUNTER.Created_By) as [Created By],TSPL_PROGRAM_COUNTER.Program_Code AS [Screen Code],Max(TSPL_PROGRAM_MASTER.Program_Name) AS [Screen Name],
- COUNT(TSPL_PROGRAM_COUNTER.PK_Id) As [Count]
-            FROM TSPL_PROGRAM_COUNTER 
-			left outer join TSPL_PROGRAM_MASTER on TSPL_PROGRAM_MASTER.Program_Code=TSPL_PROGRAM_COUNTER.program_code  WHERE 2 = 2 "
-                strQry &= " and  Convert(date,TSPL_PROGRAM_COUNTER.created_date,103)>= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm tt") + "'  and Convert(date,TSPL_PROGRAM_COUNTER.created_date,103) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy hh:mm tt") + "'"
-                strQry &= whereCondition
-                strQry &= " Group By TSPL_PROGRAM_COUNTER.Program_Code,TSPL_PROGRAM_MASTER.Form_Open_Counter ORDER BY TSPL_PROGRAM_MASTER.Form_Open_Counter DESC"
+                strQry = " SELECT TOP " & clsCommon.myCstr(txtTopCount.Value) & "  'DBLocation' AS [Union],Max(TSPL_PROGRAM_COUNTER.Created_Date) As [Created Date],Max(TSPL_PROGRAM_COUNTER.Created_By) as [Created By],TSPL_PROGRAM_COUNTER.Program_Code AS [Screen Code],Max(TSPL_PROGRAM_MASTER.Program_Name) AS [Screen Name],COUNT(TSPL_PROGRAM_COUNTER.PK_Id) As [Count]
+FROM DBNamePrefixTSPL_PROGRAM_COUNTER 
+left outer join DBNamePrefixTSPL_PROGRAM_MASTER on TSPL_PROGRAM_MASTER.Program_Code=TSPL_PROGRAM_COUNTER.program_code  WHERE 2 = 2 
+and  Convert(date,TSPL_PROGRAM_COUNTER.created_date,103)>= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm tt") + "'  and Convert(date,TSPL_PROGRAM_COUNTER.created_date,103) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy hh:mm tt") + "'"
+                strQry &= whereCondition &
+" Group By TSPL_PROGRAM_COUNTER.Program_Code,TSPL_PROGRAM_MASTER.Form_Open_Counter "
             Else
-                strQry = " SELECT TOP " & clsCommon.myCstr(txtTopCount.Value) & " Program_Code AS [Screen Code], Program_Name AS [Screen Name], Form_Open_Counter AS [Count]
-                FROM TSPL_PROGRAM_MASTER WHERE 2 = 2 "
+                strQry = " SELECT TOP " & clsCommon.myCstr(txtTopCount.Value) & " 'DBLocation' AS [Union],Program_Code AS [Screen Code], Program_Name AS [Screen Name], Form_Open_Counter AS [Count]
+FROM DBNamePrefixTSPL_PROGRAM_MASTER WHERE 2 = 2 "
                 strQry &= whereCondition
-                strQry &= " ORDER BY Form_Open_Counter DESC"
+            End If
+            Dim FinalQry As String = ""
+            If objCommonVar.RCDFCFP Then
+                strQry += " order by [Count] desc"
+                FinalQry += clsERPFuncationality.ConvertQryForAllUnion(strQry, "DBNamePrefix", "DBLocation", "Sno")
+
+            Else
+                strQry = strQry.Replace("DBNamePrefix", "")
+                strQry = strQry.Replace("DBLocation", "")
+                FinalQry += strQry
+            End If
+            Dim SuperFinalQry As String = ""
+            If chkAcrossUnions.Checked Then
+                SuperFinalQry = "  select top " & clsCommon.myCstr(txtTopCount.Value) & " [Screen Code],max([Screen Name]) as [Screen Name],sum([Count]) as [Count],sum(1) as Rep from (" & FinalQry & "
+) xx group by [Screen Code] 
+order by Rep desc,[Count] desc"
+            Else
+                SuperFinalQry += "  select * from ( " & FinalQry + " ) xx  ORDER BY [Union],[Count] DESC"
             End If
 
 
-            dt = clsDBFuncationality.GetDataTable(strQry)
+            dt = clsDBFuncationality.GetDataTable(SuperFinalQry)
 
             Gv1.DataSource = Nothing
             Gv1.Rows.Clear()
@@ -80,10 +95,21 @@ Public Class MostUserScreen
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             End If
-            If chkDateRange.Checked Then
-                Gv1.Columns("Created Date").IsVisible = False
-                Gv1.Columns("Created By").IsVisible = False
-            End If
+            Try
+                If chkAcrossUnions.Checked Then
+                    Gv1.Columns("Rep").IsVisible = False
+                ElseIf chkDateRange.Checked Then
+                    Gv1.Columns("Created Date").IsVisible = False
+                    Gv1.Columns("Created By").IsVisible = False
+                End If
+                If objCommonVar.RCDFCFP Then
+                    Gv1.Columns("Union").IsVisible = True
+                Else
+                    Gv1.Columns("Union").IsVisible = False
+                End If
+            Catch ex As Exception
+            End Try
+
             Gv1.BestFitColumns()
 
         Catch ex As Exception
@@ -105,6 +131,7 @@ Public Class MostUserScreen
 
     Private Sub MostUserScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
+            chkAcrossUnions.Visible = objCommonVar.RCDFCFP
             RadGroupBox3.Visible = False
             ToDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy")
             fromDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy")

@@ -195,6 +195,25 @@ Public Class ItemStockReport
             Else
                 qry += "  select Fat_Amt,SNF_Amt,0 AS Fat_Rate,0 AS SNF_Rate ,Trans_Id,Trans_Type,Source_Doc_No,Punching_Date,InOut,Location_Code,Item_Code,UOM, MRP,Stock_UOM,Stock_Qty,FIFO_Cost,LIFO_Cost,Avg_Cost,0 as IsFromMilk,0 as MilkFatPer,0 as MilkSNFPer,0 as MilkFATKG,0 AS MilkSNFKG,0 as MilkFATQuintal,0 as MilkSNFQuintal,case when cust_code is not null and len(cust_code)>0 then cust_code else case when Vendor_Code is not null and len(Vendor_Code)>0 then Vendor_Code else Other_Location_Code end end as SourceCode,case when cust_code is not null and len(cust_code)>0 then Cust_Name else case when Vendor_Code is not null and len(Vendor_Code)>0 then Vendor_Name else Other_Location_Desc end end as SourceName, case when cust_code is not null and len(cust_code)>0 then 'C' else case when Vendor_Code is not null and len(Vendor_Code)>0 then 'V' else case when Other_Location_Code is not null and len(Other_Location_Code)>0 then 'L' else '' end end end as SourceType,'' as Custom_UOM,0 as Custom_Coversion_Factor  from TSPL_INVENTORY_MOVEMENT   
     union all
+	             select 0 as Fat_Amt,0 as SNF_Amt,0 AS Fat_Rate,0 AS SNF_Rate ,'' as Trans_Id,'' as Trans_Type,'' as Source_Doc_No,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date as Punching_Date,'I' as InOut,TSPL_GRN_HEAD.Bill_To_Location,TSPL_PO_WEIGHTMENT_DETAIL.Item_Code,TSPL_PO_WEIGHTMENT_DETAIL.UOM, 0 as MRP,TSPL_PO_WEIGHTMENT_DETAIL.UOM As Stock_UOM,
+                 (TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/ITEMDETAIL1.cf) As Stock_Qty, 0 as FIFO_Cost,0 as LIFO_Cost,0 as Avg_Cost,0 as IsFromMilk,0 as MilkFatPer,0 as MilkSNFPer,0 as MilkFATKG,0 AS MilkSNFKG,0 as MilkFATQuintal,0 as MilkSNFQuintal,'' as SourceCode,'' as SourceName, '' as SourceType,'' as Custom_UOM,0 as Custom_Coversion_Factor  
+				from TSPL_PO_WEIGHTMENT_HEAD
+	            left outer join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code
+                left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
+				Left Outer Join TSPL_SRN_HEAD On TSPL_SRN_HEAD.Against_GRN=TSPL_GRN_HEAD.GRN_No
+            Left Outer Join TSPL_ITEM_UOM_DETAIL On TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_PO_WEIGHTMENT_DETAIL.Item_Code And TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_PO_WEIGHTMENT_DETAIL.UOM "
+                If clsCommon.myLen(cmbUnit.SelectedValue) > 0 Then
+                    qry += " left join (select Conversion_factor as cf,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code in (select UOM_Code  from TSPL_item_uom_detail where UOM_Code='" + clsCommon.myCstr(cmbUnit.SelectedValue) + "' And Item_Code = TSPL_ITEM_UOM_DETAIL.Item_code)) as ITEMDETAIL1 on ITEMDETAIL1.Item_code=TSPL_PO_WEIGHTMENT_DETAIL.Item_Code	"
+                Else
+                    qry += " left join (select UOM_Code,Item_Code,Conversion_Factor As CF from TSPL_ITEM_UOM_DETAIL where  Stocking_Unit='Y'  ) as ITEMDETAIL1 on ITEMDETAIL1.Item_code=TSPL_PO_WEIGHTMENT_DETAIL.Item_Code "
+                End If
+                qry += " where  1=1 And TSPL_GRN_HEAD.Bill_To_Location In (" & IIf(txtBillToLocation.arrValueMember IsNot Nothing, clsCommon.GetMulcallString(txtBillToLocation.arrValueMember), arrLoc) & ") 
+				 And  TSPL_GRN_HEAD.GRN_No Not In (Select Against_GRN from TSPL_SRN_HEAD Where Against_GRN=TSPL_GRN_HEAD.GRN_No)
+				and convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date ,103) between '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  and '" + clsCommon.GetPrintDate(txtToDate.Value) + "'   
+                and TSPL_GRN_HEAD.IsCancel=0 and TSPL_GRN_HEAD.Status=1 and (VisualQCStatus <>2 or VisualQCStatusSecond<>2)  
+				And TSPL_PO_WEIGHTMENT_HEAD.Status=1
+
+    union all
 	select 0 as Fat_Amt,0 as SNF_Amt,0 AS Fat_Rate,0 AS SNF_Rate ,'' as Trans_Id,'MRN' as Trans_Type,TSPL_MRN_HEAD.MRN_No as Source_Doc_No,MRN_Date as Punching_Date,'I' as InOut,TSPL_MRN_HEAD.Bill_To_Location,TSPL_MRN_DETAIL.Item_Code,TSPL_MRN_DETAIL.Unit_code UOM, TSPL_MRN_DETAIL.Item_Cost/TSPL_ITEM_UOM_DETAIL.Conversion_Factor*ITEMDETAIL1.Conversion_Factor as MRP,ITEMDETAIL1.UOM_Code Stock_UOM,
 	            TSPL_MRN_DETAIL.MRN_Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/ITEMDETAIL1.Conversion_Factor Stock_Qty,(TSPL_MRN_DETAIL.Item_Cost/TSPL_ITEM_UOM_DETAIL.Conversion_Factor*ITEMDETAIL1.Conversion_Factor)*(TSPL_MRN_DETAIL.MRN_Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/ITEMDETAIL1.Conversion_Factor) as FIFO_Cost,(TSPL_MRN_DETAIL.Item_Cost/TSPL_ITEM_UOM_DETAIL.Conversion_Factor*ITEMDETAIL1.Conversion_Factor)*(TSPL_MRN_DETAIL.MRN_Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/ITEMDETAIL1.Conversion_Factor) as LIFO_Cost,(TSPL_MRN_DETAIL.Item_Cost/TSPL_ITEM_UOM_DETAIL.Conversion_Factor*ITEMDETAIL1.Conversion_Factor)*(TSPL_MRN_DETAIL.MRN_Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/ITEMDETAIL1.Conversion_Factor) as Avg_Cost,0 as IsFromMilk,0 as MilkFatPer,0 as MilkSNFPer,0 as MilkFATKG,0 AS MilkSNFKG,0 as MilkFATQuintal,0 as MilkSNFQuintal,'' as SourceCode,'' as SourceName, '' as SourceType,'' as Custom_UOM,0 as Custom_Coversion_Factor  from TSPL_MRN_HEAD 
 	             left outer join TSPL_MRN_DETAIL on TSPL_MRN_HEAD.MRN_No=TSPL_MRN_DETAIL.MRN_No
@@ -214,8 +233,8 @@ Public Class ItemStockReport
                     TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SRN_DETAIL.Unit_code
 	              left join (select UOM_Code,Item_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL where  Stocking_Unit='Y') as ITEMDETAIL2 on ITEMDETAIL2.Item_code=TSPL_SRN_DETAIL.Item_Code where TSPL_SRN_HEAD.Status=0 and Location IN (" & clsCommon.GetMulcallString(txtBillToLocation.arrValueMember) & ") and convert(date,SRN_Date ,103)  between '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  and '" + clsCommon.GetPrintDate(txtToDate.Value) + "'  
                 and TSPL_GRN_HEAD.IsCancel=0 and TSPL_GRN_HEAD.Status=1 and TSPL_NIR_QC.qc_status=1  and (VisualQCStatus <>2 or VisualQCStatusSecond<>2)"
-            End If
-            qry += ") InventroyMovement 
+                End If
+                qry += ") InventroyMovement 
                      left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=InventroyMovement.Item_Code
                      left outer join TSPL_STRUCTURE_MASTER on TSPL_STRUCTURE_MASTER.Structure_Code=TSPL_ITEM_MASTER.Structure_Code
                      left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code
