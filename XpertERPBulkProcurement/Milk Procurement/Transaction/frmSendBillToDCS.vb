@@ -17,28 +17,6 @@ Public Class frmSendBillToDCS
 
     Private Sub frmSendBillToDCS_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
-            coll = New Dictionary(Of String, String)()
-            coll.Add("MP_Code", "Varchar(30) NOT NULL primary key")
-            coll.Add("MP_Name", "varchar(100) not  NULL")
-            coll.Add("VLC_Code", "varchar(30) null REFERENCES TSPL_VLC_MASTER_HEAD (VLC_Code)")
-            coll.Add("MP_Code_VLC_Uploader", "varchar(6) NULL")
-            coll.Add("Created_By", "varchar(12) NOT NULL")
-            coll.Add("Created_Date", "Datetime NOT NULL")
-            coll.Add("Father_Name", "varchar(100) ")
-            coll.Add("Gender", "varchar(10) NULL")
-            coll.Add("Add1", "varchar(50) not  NULL")
-            coll.Add("Telphone", "Varchar(30) null")
-            coll.Add("Fax", "Varchar(30) null")
-            coll.Add("BankName", "Varchar(50)  null")
-            coll.Add("IFCICode", "Varchar(50)  null")
-            coll.Add("AccountNO", "Varchar(50)  null")
-            coll.Add("Jan_Aadhar_No", "Varchar(30) null")
-            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_MP_MASTER_THIRD_PARTY", coll, Nothing, True)
-
-            coll = New Dictionary(Of String, String)()
-            coll.Add("MP_Code_Third_Party", "Varchar(30) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VLC_DATA_UPLOADER", coll, Nothing, True)
-
             settThirtPartyFarmerCollectionIntegration = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ThirtPartyFarmerCollectionIntegration, clsFixedParameterCode.ThirtPartyFarmerCollectionIntegration, Nothing))
             txtREILToDate.Value = clsCommon.GETSERVERDATE().AddDays(-1)
             txtREILToDate.MaxDate = txtREILToDate.Value
