@@ -17,7 +17,7 @@ Public Class frmSendBillToDCS
 
     Private Sub frmSendBillToDCS_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
-            Dim coll = New Dictionary(Of String, String)()
+            coll = New Dictionary(Of String, String)()
             coll.Add("MP_Code", "Varchar(30) NOT NULL primary key")
             coll.Add("MP_Name", "varchar(100) not  NULL")
             coll.Add("VLC_Code", "varchar(30) null REFERENCES TSPL_VLC_MASTER_HEAD (VLC_Code)")
