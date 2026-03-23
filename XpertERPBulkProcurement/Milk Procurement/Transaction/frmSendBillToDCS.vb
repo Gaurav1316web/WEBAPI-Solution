@@ -17,6 +17,28 @@ Public Class frmSendBillToDCS
 
     Private Sub frmSendBillToDCS_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
+            Dim coll = New Dictionary(Of String, String)()
+            coll.Add("MP_Code", "Varchar(30) NOT NULL primary key")
+            coll.Add("MP_Name", "varchar(100) not  NULL")
+            coll.Add("VLC_Code", "varchar(30) null REFERENCES TSPL_VLC_MASTER_HEAD (VLC_Code)")
+            coll.Add("MP_Code_VLC_Uploader", "varchar(6) NULL")
+            coll.Add("Created_By", "varchar(12) NOT NULL")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Father_Name", "varchar(100) ")
+            coll.Add("Gender", "varchar(10) NULL")
+            coll.Add("Add1", "varchar(50) not  NULL")
+            coll.Add("Telphone", "Varchar(30) null")
+            coll.Add("Fax", "Varchar(30) null")
+            coll.Add("BankName", "Varchar(50)  null")
+            coll.Add("IFCICode", "Varchar(50)  null")
+            coll.Add("AccountNO", "Varchar(50)  null")
+            coll.Add("Jan_Aadhar_No", "Varchar(30) null")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_MP_MASTER_THIRD_PARTY", coll, Nothing, True)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("MP_Code_Third_Party", "Varchar(30) NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VLC_DATA_UPLOADER", coll, Nothing, True)
+
             settThirtPartyFarmerCollectionIntegration = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ThirtPartyFarmerCollectionIntegration, clsFixedParameterCode.ThirtPartyFarmerCollectionIntegration, Nothing))
             txtREILToDate.Value = clsCommon.GETSERVERDATE().AddDays(-1)
             txtREILToDate.MaxDate = txtREILToDate.Value
@@ -1202,6 +1224,7 @@ where TSPL_MP_MASTER.VLC_Code ='" & VLCCode & "' and TSPL_MP_MASTER.MP_Code_VLC_
                     obj.Route_no = "REIL"
                     obj.water = 0
                     obj.Entry_Source = "REIL"
+                    obj.MP_Code_Third_Party = clsCommon.myCstr(drColl("MPCode"))
                     Arr.Add(obj)
                 Catch ex As Exception
                     msgBuilder.AppendLine($"MilkCollection row insert error: {ex.Message}")
@@ -1491,6 +1514,64 @@ where TSPL_MP_MASTER.VLC_Code ='" & VLCCode & "' and TSPL_MP_MASTER.MP_Code_VLC_
         obj.AccountNO = clsCommon.myCstr(dtMPMaster.Rows(0)("BankAccountNo"))
         obj.Jan_Aadhar_No = clsCommon.myCstr(dtMPMaster.Rows(0)("JanaadhaarNo"))
         clsMpMaster.SaveData(obj, trans)
+    End Sub
+
+    Private Sub RadButton6_Click(sender As Object, e As EventArgs) Handles RadButton6.Click
+        Try
+            Dim strError As String = ""
+            Dim qry As String = "select max(VLC_Code) as VLC_Code, max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,MP_Code from (
+select max( TSPL_VLC_MASTER_HEAD.VLC_Code ) as VLC_Code, max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,TSPL_VLC_DATA_UPLOADER.MP_Code_Third_Party as MP_Code ,1 as RI ,1 as chk from TSPL_VLC_DATA_UPLOADER
+left outer join  TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader=TSPL_VLC_DATA_UPLOADER.VLC_CODE
+where len(isnull(TSPL_VLC_DATA_UPLOADER.MP_Code_Third_Party,''))>0
+group by TSPL_VLC_DATA_UPLOADER.MP_Code_Third_Party 
+union all
+select null as VLC_Code, null as VLC_Code_VLC_Uploader,MP_Code  ,-1 as RI,0 as chk from TSPL_MP_MASTER_THIRD_PARTY
+) xx group by MP_Code having sum(RI)<>0 and sum(chk)>0"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                For Each dr As DataRow In dt.Rows
+                    Try
+                        Dim arrFilter As New Dictionary(Of String, String)()
+                        arrFilter.Add("master", "02")
+                        arrFilter.Add("dcscode", clsCommon.myPadChar(clsCommon.myCstr(dr("VLC_Code_VLC_Uploader")), 6, "0"))
+                        arrFilter.Add("mpcode", clsCommon.myCstr(dr("MP_Code")))
+                        Dim dtMPMaster As DataTable = Xtra.GetDataFromAPI(EnumAPI.REIL, "", arrFilter)
+                        If dtMPMaster Is Nothing OrElse dtMPMaster.Rows.Count <= 0 Then
+                            Throw New Exception("MP Details not found from service [" + dr("MP_Code") + "]")
+                        End If
+                        Dim MPUploaderNo As String = clsCommon.myCstr(clsCommon.myCDecimal(clsCommon.myCstr(dtMPMaster.Rows(0)("MPCode")).Substring(clsCommon.myLen(dtMPMaster.Rows(0)("MPCode")) - 4, 4)))
+                        Dim dtServer As DateTime = clsCommon.GETSERVERDATE()
+                        Dim coll As New Hashtable()
+                        clsCommon.AddColumnsForChange(coll, "MP_Code", clsCommon.myCstr(dtMPMaster.Rows(0)("MPCode")))
+                        clsCommon.AddColumnsForChange(coll, "MP_NAME", clsCommon.myCstr(dtMPMaster.Rows(0)("MPName")))
+                        clsCommon.AddColumnsForChange(coll, "MP_CODE_VLC_UPLOADER", MPUploaderNo)
+                        clsCommon.AddColumnsForChange(coll, "VLC_Code", clsCommon.myCstr(dr("VLC_Code")))
+                        clsCommon.AddColumnsForChange(coll, "Created_By", "REIL")
+                        clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(dtServer, "dd/MMM/yyyy hh:mm:ss tt"))
+                        clsCommon.AddColumnsForChange(coll, "Father_Name", clsCommon.myCstr(dtMPMaster.Rows(0)("FatherHusbandName")))
+                        clsCommon.AddColumnsForChange(coll, "Gender", clsCommon.myCstr(dtMPMaster.Rows(0)("Gender")))
+                        clsCommon.AddColumnsForChange(coll, "Add1", clsCommon.myCstr(dtMPMaster.Rows(0)("Address")))
+                        clsCommon.AddColumnsForChange(coll, "Telphone", clsCommon.myCstr(dtMPMaster.Rows(0)("PhoneNo")))
+                        clsCommon.AddColumnsForChange(coll, "Fax", clsCommon.myCstr(dtMPMaster.Rows(0)("AdhaarNo")))
+                        clsCommon.AddColumnsForChange(coll, "BankName", clsCommon.myCstr(dtMPMaster.Rows(0)("BankName")))
+                        clsCommon.AddColumnsForChange(coll, "IFCICode", clsCommon.myCstr(dtMPMaster.Rows(0)("IFSCCode")))
+                        clsCommon.AddColumnsForChange(coll, "AccountNO", clsCommon.myCstr(dtMPMaster.Rows(0)("BankAccountNo")))
+                        clsCommon.AddColumnsForChange(coll, "Jan_Aadhar_No", clsCommon.myCstr(dtMPMaster.Rows(0)("JanaadhaarNo")))
+                        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MP_MASTER_THIRD_PARTY", OMInsertOrUpdate.Insert, "")
+
+                    Catch ex As Exception
+                        strError += Environment.NewLine + ex.Message
+                    End Try
+                Next
+            End If
+            If clsCommon.myLen(strError) > 0 Then
+                clsCommon.MyMessageBoxShow(Me, strError, Me.Text)
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 #End Region
 End Class
