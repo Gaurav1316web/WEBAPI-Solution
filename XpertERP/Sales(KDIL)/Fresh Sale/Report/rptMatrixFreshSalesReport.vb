@@ -208,24 +208,36 @@ Public Class RptMatrixFreshSalesReport
             Dim DedCode As String = Nothing
             Dim itemamt As String = Nothing
             Dim dtitemName As DataTable = Nothing
+            Dim blankAliasName As String = Nothing
             itemqry = "Select Item_Code,Item_Desc,Alies_Name from tspl_item_master where 2=2 and Is_Ambient=1 and Item_Type='F'"
             dtitemName = clsDBFuncationality.GetDataTable(itemqry)
             If dtitemName.Rows.Count > 0 Then
                 For i As Integer = 0 To dtitemName.Rows.Count - 1
-                    If clsCommon.myLen(itemName) > 0 AndAlso clsCommon.myLen(DedCode) > 0 Then
-                        DedCode += "," + clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))
-                        itemName += "," + "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]*Conversion_Factor/CFinKG,0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemNames += "," + "cast(Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) as DECIMAL(18, 2)) As   [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemName1 += "," + "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemamt += "+(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0) )"
+                    If clsCommon.myLen(clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name"))) > 0 Then
+                        If clsCommon.myLen(itemName) > 0 AndAlso clsCommon.myLen(DedCode) > 0 Then
+                            DedCode += "," + clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))
+                            itemName += "," + "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]*Conversion_Factor/CFinKG,0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemNames += "," + "cast(Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) as DECIMAL(18, 2)) As   [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemName1 += "," + "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemamt += "+(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0) )"
+                        Else
+                            DedCode = clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))
+                            itemName = ",Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]*Conversion_Factor/CFinKG,0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemNames = "cast(Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) as DECIMAL(18, 2)) As  [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemName1 = "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemamt = "(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0) )"
+                        End If
                     Else
-                        DedCode = clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))
-                        itemName = ",Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]*Conversion_Factor/CFinKG,0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemNames = "cast(Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) as DECIMAL(18, 2)) As  [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemName1 = "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemamt = "(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0) )"
+                        If clsCommon.myLen(blankAliasName) > 0 Then
+                            blankAliasName += ", " & clsCommon.myCstr(dtitemName.Rows(i)("Item_Code")) & ""
+                        Else
+                            blankAliasName = "" & clsCommon.myCstr(dtitemName.Rows(i)("Item_Code")) & ""
+                        End If
                     End If
                 Next
+            End If
+            If clsCommon.myLen(blankAliasName) > 0 Then
+                Throw New Exception(blankAliasName & Environment.NewLine & "Alias Name is blank for these items.Fill it first.")
             End If
             Dim MainQuery1 As String = ""
             Dim query As String = ""
@@ -601,24 +613,36 @@ Public Class RptMatrixFreshSalesReport
             Dim DedCode As String = Nothing
             Dim itemamt As String = Nothing
             Dim dtitemName As DataTable = Nothing
+            Dim blankAliasName As String = Nothing
             itemqry = "Select Item_Code,Item_Desc,Alies_Name from tspl_item_master where 2=2 and Is_Ambient=1 and Item_Type='F'"
             dtitemName = clsDBFuncationality.GetDataTable(itemqry)
             If dtitemName.Rows.Count > 0 Then
                 For i As Integer = 0 To dtitemName.Rows.Count - 1
-                    If clsCommon.myLen(itemName) > 0 AndAlso clsCommon.myLen(DedCode) > 0 Then
-                        DedCode += "," + clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))
-                        itemName += "," + "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]*Conversion_Factor/CFinKG,0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemNames += "," + "CAST(ROUND(Sum([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]),2)AS DECIMAL(10, 2)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemName1 += "," + "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemamt += "+(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0))"
+                    If clsCommon.myLen(clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name"))) > 0 Then
+                        If clsCommon.myLen(itemName) > 0 AndAlso clsCommon.myLen(DedCode) > 0 Then
+                            DedCode += "," + clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))
+                            itemName += "," + "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]*Conversion_Factor/CFinKG,0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemNames += "," + "CAST(ROUND(Sum([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]),2)AS DECIMAL(10, 2)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemName1 += "," + "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemamt += "+(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0))"
+                        Else
+                            DedCode = clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))
+                            itemName = ",Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]*Conversion_Factor/CFinKG,0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemNames = ",cast(round(Sum([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]),2)AS DECIMAL(10, 2)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemName1 = "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemamt = "(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0))"
+                        End If
                     Else
-                        DedCode = clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))
-                        itemName = ",Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]*Conversion_Factor/CFinKG,0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemNames = ",cast(round(Sum([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]),2)AS DECIMAL(10, 2)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemName1 = "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemamt = "(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0))"
+                        If clsCommon.myLen(blankAliasName) > 0 Then
+                            blankAliasName += ", " & clsCommon.myCstr(dtitemName.Rows(i)("Item_Code")) & ""
+                        Else
+                            blankAliasName = "" & clsCommon.myCstr(dtitemName.Rows(i)("Item_Code")) & ""
+                        End If
                     End If
                 Next
+            End If
+            If clsCommon.myLen(blankAliasName) > 0 Then
+                Throw New Exception(blankAliasName & Environment.NewLine & "Alias Name is blank for these items.Fill it first.")
             End If
             Dim query As String = ""
             MainQuery = " select [Route No],[Route Desc] " + itemNames + ",Sum(" + itemamt + ") As Total from
@@ -761,6 +785,7 @@ Public Class RptMatrixFreshSalesReport
                 strWhrClause += " and TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Unit_code in (" + sss + ")  "
                 strWhrClause2 += " and TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Unit_code in (" + ss + ")  "
             End If
+
             Dim ItemInUse As String = ""
             Dim itemqry As String = Nothing
             Dim itemName As String = Nothing
@@ -773,34 +798,65 @@ Public Class RptMatrixFreshSalesReport
             Dim DedCode As String = Nothing
             Dim itemamt As String = Nothing
             Dim dtitemName As DataTable = Nothing
-            itemqry = " select TSPL_DEMAND_BOOKING_DETAIL.Item_Code,max(Sku_Seq)Sku_Seq,case when max(Is_FreshItem) =1 then 1 else 2 end as SNo ,max(Alies_Name)Alies_Name,max(Alies_Name) + " & IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal, " '(' + TSPL_DEMAND_BOOKING_DETAIL.Unit_code + ')' as MultiUOM_Item_Name,'Total' + (TSPL_DEMAND_BOOKING_DETAIL.Unit_code)  as Total_UOM_Name ", " '(' + max(TSPL_DEMAND_BOOKING_DETAIL.Unit_code) + ')' as MultiUOM_Item_Name,'Total' + max(TSPL_DEMAND_BOOKING_DETAIL.Unit_code)  as Total_UOM_Name") & "    
+            Dim blankAliasName As String = Nothing
+            itemqry = " select TSPL_DEMAND_BOOKING_DETAIL.Item_Code,Max(TSPL_ITEM_MASTER.TypeOfItm)TypeOfItm,max(Sku_Seq)Sku_Seq,case when max(Is_FreshItem) =1 then 1 else 2 end as SNo ,max(Alies_Name)Alies_Name,max(Alies_Name) + " & IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal, " '(' + TSPL_DEMAND_BOOKING_DETAIL.Unit_code + ')' as MultiUOM_Item_Name,'Total' + (TSPL_DEMAND_BOOKING_DETAIL.Unit_code)  as Total_UOM_Name ", " '(' + max(TSPL_DEMAND_BOOKING_DETAIL.Unit_code) + ')' as MultiUOM_Item_Name,'Total' + max(TSPL_DEMAND_BOOKING_DETAIL.Unit_code)  as Total_UOM_Name") & "    
                         from TSPL_DEMAND_BOOKING_DETAIL
                         left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
                         left outer join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
                         left outer join TSPL_ROUTE_MASTER ON TSPL_ROUTE_MASTER.Route_No=TSPL_DEMAND_BOOKING_MASTER.Route_No
-                        WHERE 2=2 " + strWhrClause2 + " " + whrcls + "
-                        group by TSPL_DEMAND_BOOKING_DETAIL.Item_Code " & IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal, ",TSPL_DEMAND_BOOKING_DETAIL.Unit_code", "  ") & "    "
+                        WHERE 2=2 " + strWhrClause2 + " " + whrcls + " "
+            'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
+            '    itemqry += " And TSPL_ITEM_MASTER.TypeOfItm='M' "
+            'End If
+            itemqry += " group by TSPL_DEMAND_BOOKING_DETAIL.Item_Code " & IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal, ",TSPL_DEMAND_BOOKING_DETAIL.Unit_code", "  ") & "    "
+
             dtitemName = clsDBFuncationality.GetDataTable(itemqry & " order by Sku_Seq ")
-            If dtitemName.Rows.Count > 0 Then
+            If dtitemName IsNot Nothing AndAlso dtitemName.Rows.Count > 0 Then
                 For i As Integer = 0 To dtitemName.Rows.Count - 1
-                    If clsCommon.myLen(itemName) > 0 AndAlso clsCommon.myLen(DedCode) > 0 Then
-                        DedCode += "," + clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))
-                        itemName += "," + "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemNames += "," + "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemName1 += "," + "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemamt += "+(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0))"
-                        MultiUOM_Item_Name += "," + "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("MultiUOM_Item_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("MultiUOM_Item_Name")) + "]"
-                        MultiUOM_Item_Names += "," + "[" + clsCommon.myCstr(dtitemName.Rows(i)("MultiUOM_Item_Name")) + "]"
+                    If clsCommon.myLen(clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name"))) > 0 Then
+                        If clsCommon.myLen(itemName) > 0 AndAlso clsCommon.myLen(DedCode) > 0 Then
+                            DedCode += "," + clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))
+                            itemName += "," + "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemNames += "," + "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemName1 += "," + "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
+                                If clsCommon.CompairString(clsCommon.myCstr(dtitemName.Rows(i)("TypeOfItm")), "M") = CompairStringResult.Equal Then
+                                    itemamt += "+(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0))"
+                                End If
+                            Else
+                                itemamt += "+(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0))"
+                            End If
+                            MultiUOM_Item_Name += "," + "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("MultiUOM_Item_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("MultiUOM_Item_Name")) + "]"
+                            MultiUOM_Item_Names += "," + "[" + clsCommon.myCstr(dtitemName.Rows(i)("MultiUOM_Item_Name")) + "]"
+                        Else
+                            DedCode = clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))
+                            itemName = ",Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemNames = ",Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemName1 = "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
+                                If clsCommon.CompairString(clsCommon.myCstr(dtitemName.Rows(i)("TypeOfItm")), "M") = CompairStringResult.Equal Then
+                                    itemamt = "(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0))"
+                                End If
+                            Else
+                                itemamt = "(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0))"
+                            End If
+                            'itemamt = "(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0))"
+                            MultiUOM_Item_Name = ",Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("MultiUOM_Item_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("MultiUOM_Item_Name")) + "]"
+                            MultiUOM_Item_Names = "[" + clsCommon.myCstr(dtitemName.Rows(i)("MultiUOM_Item_Name")) + "]"
+                        End If
                     Else
-                        DedCode = clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))
-                        itemName = ",Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemNames = ",Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemName1 = "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemamt = "(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0))"
-                        MultiUOM_Item_Name = ",Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("MultiUOM_Item_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("MultiUOM_Item_Name")) + "]"
-                        MultiUOM_Item_Names = "[" + clsCommon.myCstr(dtitemName.Rows(i)("MultiUOM_Item_Name")) + "]"
+                        If clsCommon.myLen(blankAliasName) > 0 Then
+                            blankAliasName += ", " & clsCommon.myCstr(dtitemName.Rows(i)("Item_Code")) & ""
+                        Else
+                            blankAliasName = "" & clsCommon.myCstr(dtitemName.Rows(i)("Item_Code")) & ""
+                        End If
                     End If
                 Next
+            Else
+                Throw New Exception("Data not found !")
+            End If
+            If clsCommon.myLen(blankAliasName) > 0 Then
+                Throw New Exception(blankAliasName & Environment.NewLine & "Alias Name is blank for these items.Fill it first.")
             End If
             If (clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal) Then
                 itemqry = " select distinct Total_UOM_Name,SNo from ( " & itemqry & "  )xxx order by SNo "
@@ -819,8 +875,8 @@ Public Class RptMatrixFreshSalesReport
             End If
 
             Dim query As String = ""
-            MainQuery = " select Route_No,max(Route_Desc)Route_Desc " & IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal, MultiUOM_Item_Name & Total_UOM_Name & " from (Select Route_No,max(Route_Desc)Route_Desc " & MultiUOM_Item_Name & Total_UOM_Name, itemNames & " ,Sum(" + itemamt + ") As Total from (Select Route_No,max(Route_Desc)Route_Desc " & itemName) & " from(
-                        select Document_No,max(Document_Date)Document_Date,max(Route_No)Route_No,max(Route_Desc)Route_Desc,Item_Code,max(Alies_Name)Alies_Name,sum(PouchQty+CrateQty+Quantity) as Qty,max(MultiUOM_Item_Name)MultiUOM_Item_Name,sum(qty) as MultiUOM_Item_Qty,sum(qty) as MultiUOM_Item_Total_Qty,'Total' + max(Unit_code)  as Total_UOM_Name
+            MainQuery = " select Route_No As [Route No],max(Route_Desc) As [Route Desc] " & IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal, MultiUOM_Item_Name & Total_UOM_Name & " from (Select Route_No,max(Route_Desc)Route_Desc " & MultiUOM_Item_Name & Total_UOM_Name, itemNames & " ,Sum(" + itemamt + ") As Total from (Select Route_No,max(Route_Desc)Route_Desc " & itemName) & " from(
+                        select Document_No,max(Document_Date)Document_Date,max(Route_No)Route_No,max(Route_Desc)Route_Desc,Item_Code,max(Alies_Name)Alies_Name,sum(PouchQty+CrateQty+Quantity) as Qty,max(MultiUOM_Item_Name)MultiUOM_Item_Name,sum(qty) as MultiUOM_Item_Qty,sum(qty) as MultiUOM_Item_Total_Qty,'Total' + max(Unit_code)  as Total_UOM_Name,Sum(Case When (PouchQty+CrateQty+Quantity)=0 Then (qty) Else (PouchQty+CrateQty+Quantity) End) as fQty
                         from
                         (select ISNULL(case when TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Pouch' then sum(ISNULL(Qty/ItemConversionInCrate.Conversion_Factor,0))  end,0) as PouchQty,
                         ISNULL(case when TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Crate' then sum(ISNULL(Qty,0)) end,0) as CrateQty,
@@ -843,7 +899,7 @@ Public Class RptMatrixFreshSalesReport
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
                 MainQuery += " pivot( sum(MultiUOM_Item_Qty) for MultiUOM_Item_Name in (" & MultiUOM_Item_Names & ") ) as tab2  pivot( sum(MultiUOM_Item_Total_Qty) for Total_UOM_Name in (" & Total_UOM_Names & ") ) as Tab3 "
             Else
-                MainQuery += " pivot( sum(Qty) for Alies_Name in (" & itemName1 & ") ) as Tab2 "
+                MainQuery += " pivot( sum(fQty) for Alies_Name in (" & itemName1 & ") ) as Tab2 "
             End If
 
             MainQuery += "   group by Route_No)tmp group by Route_No"
@@ -978,24 +1034,36 @@ Public Class RptMatrixFreshSalesReport
             Dim DedCode As String = Nothing
             Dim itemamt As String = Nothing
             Dim dtitemName As DataTable = Nothing
+            Dim blankAliasName As String = Nothing
             itemqry = "Select Item_Code,Item_Desc,Alies_Name from tspl_item_master where 2=2 and Is_Ambient=1 and Item_Type='F'"
             dtitemName = clsDBFuncationality.GetDataTable(itemqry)
             If dtitemName.Rows.Count > 0 Then
                 For i As Integer = 0 To dtitemName.Rows.Count - 1
-                    If clsCommon.myLen(itemName) > 0 AndAlso clsCommon.myLen(DedCode) > 0 Then
-                        DedCode += "," + clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))
-                        itemName += "," + "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]*Conversion_Factor/CFinKG,0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemNames += "," + "CAST(ROUND(Sum([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]),2)AS DECIMAL(10, 2)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemName1 += "," + "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemamt += "+(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0))"
+                    If clsCommon.myLen(clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name"))) > 0 Then
+                        If clsCommon.myLen(itemName) > 0 AndAlso clsCommon.myLen(DedCode) > 0 Then
+                            DedCode += "," + clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))
+                            itemName += "," + "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]*Conversion_Factor/CFinKG,0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemNames += "," + "CAST(ROUND(Sum([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]),2)AS DECIMAL(10, 2)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemName1 += "," + "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemamt += "+(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0))"
+                        Else
+                            DedCode = clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))
+                            itemName = ",Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]*Conversion_Factor/CFinKG,0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemNames = ",cast(round(Sum([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]),2)AS DECIMAL(10, 2)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemName1 = "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemamt = "(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0))"
+                        End If
                     Else
-                        DedCode = clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))
-                        itemName = ",Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]*Conversion_Factor/CFinKG,0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemNames = ",cast(round(Sum([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]),2)AS DECIMAL(10, 2)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemName1 = "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemamt = "(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0))"
+                        If clsCommon.myLen(blankAliasName) > 0 Then
+                            blankAliasName += ", " & clsCommon.myCstr(dtitemName.Rows(i)("Item_Code")) & ""
+                        Else
+                            blankAliasName = "" & clsCommon.myCstr(dtitemName.Rows(i)("Item_Code")) & ""
+                        End If
                     End If
                 Next
+            End If
+            If clsCommon.myLen(blankAliasName) > 0 Then
+                Throw New Exception(blankAliasName & Environment.NewLine & "Alias Name is blank for these items.Fill it first.")
             End If
             Dim query As String = ""
             MainQuery = " select [Route No],[Route Desc] " + itemNames + ",Sum(" + itemamt + ") As Total from (Select [Route No],[Route Desc],Conversion_Factor,CFinLTR,CFinPouch" + itemName + "
@@ -1143,24 +1211,36 @@ Public Class RptMatrixFreshSalesReport
             Dim DedCode As String = Nothing
             Dim itemamt As String = Nothing
             Dim dtitemName As DataTable = Nothing
+            Dim blankAliasName As String = Nothing
             itemqry = "Select Item_Code,Item_Desc,Alies_Name from tspl_item_master where 2=2 and Is_FreshItem=1"
             dtitemName = clsDBFuncationality.GetDataTable(itemqry)
             If dtitemName.Rows.Count > 0 Then
                 For i As Integer = 0 To dtitemName.Rows.Count - 1
-                    If clsCommon.myLen(itemName) > 0 AndAlso clsCommon.myLen(DedCode) > 0 Then
-                        DedCode += "," + clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))
-                        itemName += "," + "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]*Conversion_Factor/CFinLTR,0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemNames += "," + "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemName1 += "," + "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemamt += "+(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0))"
+                    If clsCommon.myLen(clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name"))) > 0 Then
+                        If clsCommon.myLen(itemName) > 0 AndAlso clsCommon.myLen(DedCode) > 0 Then
+                            DedCode += "," + clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))
+                            itemName += "," + "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]*Conversion_Factor/CFinLTR,0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemNames += "," + "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemName1 += "," + "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemamt += "+(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0))"
+                        Else
+                            DedCode = clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))
+                            itemName = ",Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]*Conversion_Factor/CFinLTR,0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemNames = ",Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemName1 = "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemamt = "(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0))"
+                        End If
                     Else
-                        DedCode = clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))
-                        itemName = ",Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]*Conversion_Factor/CFinLTR,0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemNames = ",Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemName1 = "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemamt = "(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0))"
+                        If clsCommon.myLen(blankAliasName) > 0 Then
+                            blankAliasName += ", " & clsCommon.myCstr(dtitemName.Rows(i)("Item_Code")) & ""
+                        Else
+                            blankAliasName = "" & clsCommon.myCstr(dtitemName.Rows(i)("Item_Code")) & ""
+                        End If
                     End If
                 Next
+            End If
+            If clsCommon.myLen(blankAliasName) > 0 Then
+                Throw New Exception(blankAliasName & Environment.NewLine & "Alias Name is blank for these items.Fill it first.")
             End If
             Dim query As String = ""
             MainQuery = " select [Route No],[Route Desc] " + itemNames + ",Sum(" + itemamt + ") As Total from (Select [Route No],[Route Desc],Conversion_Factor,CFinLTR,CFinPouch" + itemName + "
@@ -1565,24 +1645,36 @@ left outer join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Gr
             Dim DedCode As String = Nothing
             Dim itemamt As String = Nothing
             Dim dtitemName As DataTable = Nothing
+            Dim blankAliasName As String = Nothing
             itemqry = "Select Item_Code,Item_Desc,Alies_Name from tspl_item_master where 2=2 and Is_FreshItem=1 ORDER BY SKU_SEQ"
             dtitemName = clsDBFuncationality.GetDataTable(itemqry)
             If dtitemName.Rows.Count > 0 Then
                 For i As Integer = 0 To dtitemName.Rows.Count - 1
-                    If clsCommon.myLen(itemName) > 0 AndAlso clsCommon.myLen(DedCode) > 0 Then
-                        DedCode += "," + clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))
-                        itemName += "," + "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]*Conversion_Factor/CFinLTR,0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemNames += "," + "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemName1 += "," + "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemamt += "+(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0))"
+                    If clsCommon.myLen(clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name"))) > 0 Then
+                        If clsCommon.myLen(itemName) > 0 AndAlso clsCommon.myLen(DedCode) > 0 Then
+                            DedCode += "," + clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))
+                            itemName += "," + "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]*Conversion_Factor/CFinLTR,0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemNames += "," + "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemName1 += "," + "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemamt += "+(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0))"
+                        Else
+                            DedCode = clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))
+                            itemName = ",Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]*Conversion_Factor/CFinLTR,0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemNames = ",Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemName1 = "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                            itemamt = "(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0))"
+                        End If
                     Else
-                        DedCode = clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))
-                        itemName = ",Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]*Conversion_Factor/CFinLTR,0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemNames = ",Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemName1 = "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemamt = "(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0))"
+                        If clsCommon.myLen(blankAliasName) > 0 Then
+                            blankAliasName += ", " & clsCommon.myCstr(dtitemName.Rows(i)("Item_Code")) & ""
+                        Else
+                            blankAliasName = "" & clsCommon.myCstr(dtitemName.Rows(i)("Item_Code")) & ""
+                        End If
                     End If
                 Next
+            End If
+            If clsCommon.myLen(blankAliasName) > 0 Then
+                Throw New Exception(blankAliasName & Environment.NewLine & "Alias Name is blank for these items.Fill it first.")
             End If
             Dim query As String = ""
             MainQuery = " select [Route No],[Route Desc] " + itemNames + ",Sum(" + itemamt + ") As Total from (Select [Route No],[Route Desc],Conversion_Factor,CFinLTR,CFinPouch" + itemName + "
@@ -1911,7 +2003,7 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                 whr = " where convert(date,Document_Date,103) between '" + clsCommon.GetPrintDate(Slot1) + "' and '" + clsCommon.GetPrintDate(Slot2) + "' "
             End If
             whrRtrn = " where convert(date,Document_Date,103) between '" + clsCommon.GetPrintDate(Slot1) + "' and '" + clsCommon.GetPrintDate(Slot2) + "' "
-            qry = " select 1 As RI,Max(TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No)Invoice_No,max(TSPL_ITEM_MASTER.IsTaxable)Is_FreshItem,max(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,Max(TSPL_SD_SHIPMENT_HEAD.Route_No)Route_No,(TSPL_SD_SHIPMENT_HEAD.Customer_Code)Customer_Code,max(TSPL_CUSTOMER_MASTER.Customer_Name)Customer_Name ," + suppyDate + " max(TSPL_SD_SHIPMENT_HEAD.Document_Code)Document_Code,max(Document_Date)Document_Date,sum(isnull(TSPL_SD_SHIPMENT_DETAIL.Security_Amt,0))Security_Amt,sum(isnull(TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt,0))Item_Net_Amt,sum(TSPL_SD_SHIPMENT_DETAIL.Total_Basic_Amt)Total_Basic_Amt,sum(TSPL_SD_SHIPMENT_DETAIL.Qty)Qty,sum(Case when tspl_item_master.Is_FreshItem = 1 then (( TSPL_SD_SHIPMENT_DETAIL.Qty *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)) / coalesce(ITEMDETAIL3.LTR,1))  when tspl_item_master.Is_Ambient = 1 then ((TSPL_SD_SHIPMENT_DETAIL.Qty *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)) / coalesce(ITEMDETAIL3.kg,1)) end ) as QTY_LTRKG,TSPL_SD_SHIPMENT_DETAIL.Item_Code,max(TSPL_ITEM_MASTER.Item_Desc)Item_Desc,max(tax1.Tax_Code_Desc) as tax1name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax1_amt,0)) as txt1amt,   max(tax2.Tax_Code_Desc) as tax2name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax2_amt,0)) as txt2amt,   max(tax3.Tax_Code_Desc) as tax3name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax3_amt,0)) as txt3amt,   max(tax4.Tax_Code_Desc) as tax4name,
+            qry = " select 1 As RI,Max(TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No)Invoice_No,max(TSPL_ITEM_MASTER.IsTaxable)Is_FreshItem,max(TSPL_ITEM_MASTER.TypeOfItm)TypeOfItm,max(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,Max(TSPL_SD_SHIPMENT_HEAD.Route_No)Route_No,(TSPL_SD_SHIPMENT_HEAD.Customer_Code)Customer_Code,max(TSPL_CUSTOMER_MASTER.Customer_Name)Customer_Name ," + suppyDate + " max(TSPL_SD_SHIPMENT_HEAD.Document_Code)Document_Code,max(Document_Date)Document_Date,sum(isnull(TSPL_SD_SHIPMENT_DETAIL.Security_Amt,0))Security_Amt,sum(isnull(TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt,0))Item_Net_Amt,sum(TSPL_SD_SHIPMENT_DETAIL.Total_Basic_Amt)Total_Basic_Amt,sum(TSPL_SD_SHIPMENT_DETAIL.Qty)Qty,sum(Case when tspl_item_master.Is_FreshItem = 1 then (( TSPL_SD_SHIPMENT_DETAIL.Qty *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)) / coalesce(ITEMDETAIL3.LTR,1))  when tspl_item_master.Is_Ambient = 1 then ((TSPL_SD_SHIPMENT_DETAIL.Qty *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)) / coalesce(ITEMDETAIL3.kg,1)) end ) as QTY_LTRKG,TSPL_SD_SHIPMENT_DETAIL.Item_Code,max(TSPL_ITEM_MASTER.Item_Desc)Item_Desc,max(tax1.Tax_Code_Desc) as tax1name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax1_amt,0)) as txt1amt,   max(tax2.Tax_Code_Desc) as tax2name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax2_amt,0)) as txt2amt,   max(tax3.Tax_Code_Desc) as tax3name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax3_amt,0)) as txt3amt,   max(tax4.Tax_Code_Desc) as tax4name,
                         sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax4_amt,0)) as txt4amt,   max(tax5.Tax_Code_Desc) as tax5name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax5_amt,0)) as txt5amt,   max(tax6.Tax_Code_Desc) as tax6name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax6_amt,0)) as txt6amt,   max(tax7.Tax_Code_Desc) as tax7name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax7_amt,0)) as txt7amt,   max(tax8.Tax_Code_Desc) as tax8name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax8_amt,0)) as txt8amt,   max(tax9.Tax_Code_Desc) as tax9name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax9_amt,0)) as txt9amt,   max(tax10.Tax_Code_Desc) as tax10name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax10_amt,0)) as txt10amt  from TSPL_SD_SHIPMENT_HEAD 
                         left outer join TSPL_SD_SHIPMENT_DETAIL ON TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code
                         left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_DETAIL.Item_Code
@@ -1927,7 +2019,7 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                         group by TSPL_SD_SHIPMENT_DETAIL.Item_Code,Customer_Code "
 
             qry += " Union All "
-            qry += " select -1 As RI,Max(TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No)Invoice_No,max(TSPL_ITEM_MASTER.IsTaxable)Is_FreshItem,max(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,Max(TSPL_SD_SALE_RETURN_HEAD.Route_No)Route_No,(TSPL_SD_SALE_RETURN_HEAD.Customer_Code)Customer_Code,max(TSPL_CUSTOMER_MASTER.Customer_Name)Customer_Name ," + suppyDate + " max(TSPL_SD_SALE_RETURN_HEAD.Document_Code)Document_Code,max(Document_Date)Document_Date,sum(isnull(TSPL_SD_SALE_RETURN_DETAIL.Security_Amt,0))Security_Amt,sum(isnull(TSPL_SD_SALE_RETURN_DETAIL.Item_Net_Amt,0))Item_Net_Amt,sum(TSPL_SD_SALE_RETURN_DETAIL.Total_Basic_Amt)Total_Basic_Amt,sum(TSPL_SD_SALE_RETURN_DETAIL.Qty)Qty,sum(Case when tspl_item_master.Is_FreshItem = 1 then (( TSPL_SD_SALE_RETURN_DETAIL.Qty *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)) / coalesce(ITEMDETAIL3.LTR,1))  when tspl_item_master.Is_Ambient = 1 then ((TSPL_SD_SALE_RETURN_DETAIL.Qty *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)) / coalesce(ITEMDETAIL3.kg,1)) end ) as QTY_LTRKG,TSPL_SD_SALE_RETURN_DETAIL.Item_Code,max(TSPL_ITEM_MASTER.Item_Desc)Item_Desc,max(tax1.Tax_Code_Desc) as tax1name,sum(isnull (TSPL_SD_SALE_RETURN_DETAIL.tax1_amt,0)) as txt1amt,   max(tax2.Tax_Code_Desc) as tax2name,sum(isnull (TSPL_SD_SALE_RETURN_DETAIL.tax2_amt,0)) as txt2amt,   max(tax3.Tax_Code_Desc) as tax3name,sum(isnull (TSPL_SD_SALE_RETURN_DETAIL.tax3_amt,0)) as txt3amt,   max(tax4.Tax_Code_Desc) as tax4name,
+            qry += " select -1 As RI,Max(TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No)Invoice_No,max(TSPL_ITEM_MASTER.IsTaxable)Is_FreshItem,max(TSPL_ITEM_MASTER.TypeOfItm)TypeOfItm,max(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,Max(TSPL_SD_SALE_RETURN_HEAD.Route_No)Route_No,(TSPL_SD_SALE_RETURN_HEAD.Customer_Code)Customer_Code,max(TSPL_CUSTOMER_MASTER.Customer_Name)Customer_Name ," + suppyDate + " max(TSPL_SD_SALE_RETURN_HEAD.Document_Code)Document_Code,max(Document_Date)Document_Date,sum(isnull(TSPL_SD_SALE_RETURN_DETAIL.Security_Amt,0))Security_Amt,sum(isnull(TSPL_SD_SALE_RETURN_DETAIL.Item_Net_Amt,0))Item_Net_Amt,sum(TSPL_SD_SALE_RETURN_DETAIL.Total_Basic_Amt)Total_Basic_Amt,sum(TSPL_SD_SALE_RETURN_DETAIL.Qty)Qty,sum(Case when tspl_item_master.Is_FreshItem = 1 then (( TSPL_SD_SALE_RETURN_DETAIL.Qty *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)) / coalesce(ITEMDETAIL3.LTR,1))  when tspl_item_master.Is_Ambient = 1 then ((TSPL_SD_SALE_RETURN_DETAIL.Qty *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)) / coalesce(ITEMDETAIL3.kg,1)) end ) as QTY_LTRKG,TSPL_SD_SALE_RETURN_DETAIL.Item_Code,max(TSPL_ITEM_MASTER.Item_Desc)Item_Desc,max(tax1.Tax_Code_Desc) as tax1name,sum(isnull (TSPL_SD_SALE_RETURN_DETAIL.tax1_amt,0)) as txt1amt,   max(tax2.Tax_Code_Desc) as tax2name,sum(isnull (TSPL_SD_SALE_RETURN_DETAIL.tax2_amt,0)) as txt2amt,   max(tax3.Tax_Code_Desc) as tax3name,sum(isnull (TSPL_SD_SALE_RETURN_DETAIL.tax3_amt,0)) as txt3amt,   max(tax4.Tax_Code_Desc) as tax4name,
                         sum(isnull (TSPL_SD_SALE_RETURN_DETAIL.tax4_amt,0)) as txt4amt,   max(tax5.Tax_Code_Desc) as tax5name,sum(isnull (TSPL_SD_SALE_RETURN_DETAIL.tax5_amt,0)) as txt5amt,   max(tax6.Tax_Code_Desc) as tax6name,sum(isnull (TSPL_SD_SALE_RETURN_DETAIL.tax6_amt,0)) as txt6amt,   max(tax7.Tax_Code_Desc) as tax7name,sum(isnull (TSPL_SD_SALE_RETURN_DETAIL.tax7_amt,0)) as txt7amt,   max(tax8.Tax_Code_Desc) as tax8name,sum(isnull (TSPL_SD_SALE_RETURN_DETAIL.tax8_amt,0)) as txt8amt,   max(tax9.Tax_Code_Desc) as tax9name,sum(isnull (TSPL_SD_SALE_RETURN_DETAIL.tax9_amt,0)) as txt9amt,   max(tax10.Tax_Code_Desc) as tax10name,sum(isnull (TSPL_SD_SALE_RETURN_DETAIL.tax10_amt,0)) as txt10amt  from TSPL_SD_SALE_RETURN_HEAD 
                         left outer join TSPL_SD_SALE_RETURN_DETAIL ON TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_RETURN_HEAD.Document_Code
                         left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code
@@ -1943,7 +2035,7 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                         group by TSPL_SD_SALE_RETURN_DETAIL.Item_Code,Customer_Code "
 
 
-            finalQry = " Select max(Is_FreshItem)Is_FreshItem,max(Comp_Name)Comp_Name,Max(Route_No)Route_No,Customer_Code,Max(Customer_Name)Customer_Name,Max(Date)Date, 
+            finalQry = " Select max(Is_FreshItem)Is_FreshItem,MAX(TypeOfItm)TypeOfItm,max(Comp_Name)Comp_Name,Max(Route_No)Route_No,Customer_Code,Max(Customer_Name)Customer_Name,Max(Date)Date, 
  max(Document_Code)Document_Code,max(Document_Date)Document_Date,sum(isnull(Security_Amt,0)*RI)Security_Amt,sum(isnull(Item_Net_Amt,0)*RI)Item_Net_Amt,
 sum(Total_Basic_Amt*RI)Total_Basic_Amt,sum(Qty*RI)Qty,sum(QTY_LTRKG*RI)as QTY_LTRKG, Item_Code,max(Item_Desc)Item_Desc,
 sum(isnull (txt1amt,0)*RI) as txt1amt,   max(tax1name) as tax1name,
@@ -1956,7 +2048,7 @@ sum(isnull (txt7amt,0)*RI) as txt7amt,   max(tax7name) as tax7name,
 sum(isnull (txt8amt,0)*RI) as txt8amt,   max(tax8name) as tax8name,
 sum(isnull (txt9amt,0)*RI) as txt9amt,   max(tax9name) as tax9name, 
 sum(isnull (txt10amt,0)*RI) as txt10amt, max(tax10name) as tax10name
- from (" + qry + ")xyz group by Item_Code,Customer_Code "
+ from (" + qry + ")xyz group by Item_Code,Customer_Code order by TypeOfItm,Is_FreshItem"
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(finalQry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
