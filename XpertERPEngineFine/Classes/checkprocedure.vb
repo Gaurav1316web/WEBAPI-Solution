@@ -68,8 +68,9 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.DairySaleDashboard, "Dairy Dashboard", "1.00.03.15", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
         InsertDefaultValue(clsUserMgtCode.SalesMarketingDashboard, "Sales And Marketing Dashboard", "1.00.03.16", clsUserMgtCode.SubModuleSystemAdminSetupReport, "", 37, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, False, False, True)
         InsertDefaultValue(clsUserMgtCode.rptDBTDashboard, "DBT Dashboard", "1.00.03.17", clsUserMgtCode.SubModuleSystemAdminSetupReport, "", 37, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, False, False, True)
-        InsertDefaultValue(clsUserMgtCode.MostUserScreen, "Most User Screen", "1.00.03.18", clsUserMgtCode.SubModulePayableReport, 37)
+        InsertDefaultValue(clsUserMgtCode.MostUserScreen, "Frequently Used Screens", "1.00.03.18", clsUserMgtCode.SubModulePayableReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmSystemAdministratorTool, "System Admin Tool", "1.00.03.19", clsUserMgtCode.SubModuleSystemAdminSetupReport, "", 37, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, False, False, True)
+
 
         '-------------------------------------------------------------------End SYSTEM ADMINISTRATOR---------------------------------------
         '--------------Common Services----------------------------------
@@ -3057,6 +3058,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.XpertAPIBMCDCSSamplingReceiving, "BMC DCS Sampling Receiving", "1.48.02.13", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPIGateEntry, "Gate Entry", "1.48.02.14", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPIBMCMilkQC, "BMC Milk QC", "1.48.02.15", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
+        InsertDefaultValue(clsUserMgtCode.XpertAPIDEMANDBOOKING, "Demand Booking", "1.48.02.16", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
 
         InsertDefaultValue(clsUserMgtCode.SubModuleXpertAPIReport, "Report", "1.48.03", clsUserMgtCode.ModuleXpertAPI, "SM", 30, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPIMilkMilkRegister, "Milk Register", "1.48.03.01", clsUserMgtCode.SubModuleXpertAPIReport, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
