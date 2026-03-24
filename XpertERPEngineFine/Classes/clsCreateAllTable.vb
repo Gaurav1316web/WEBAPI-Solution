@@ -10021,13 +10021,15 @@ FROM TSPL_ITEM_MASTER"
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt.Rows.Count = 0 Then
                 clsERPFuncationality.DropTableKey("TSPL_PLANT_WEIGHMENT", "Gate_Entry_No", EnumTableKeyType.Unique)
+                qry = " DROP INDEX IF EXISTS Unique_Gate_Entry_No ON TSPL_PLANT_WEIGHMENT;"
+                clsDBFuncationality.ExecuteNonQuery(qry)
                 qry = " CREATE UNIQUE INDEX Unique_Gate_Entry_No ON TSPL_PLANT_WEIGHMENT (Gate_Entry_No) WHERE Gate_Entry_No IS NOT NULL;"
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_No", "varchar(30) NOT NULL Primary Key")
             coll.Add("Document_Date", "DateTime not NULL")
-            coll.Add("Gate_Entry_No", "varchar(50) not NULL ")
+            coll.Add("Gate_Entry_No", "varchar(50)  NULL ")
             coll.Add("Tanker_No", "varchar(20) not NULL ")
             coll.Add("Tare_Weight_Date", "datetime null")
             coll.Add("Type", "char(1) not null  ")

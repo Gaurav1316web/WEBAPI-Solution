@@ -46,6 +46,7 @@ Public Class frmMilkCollectionMCC
     Dim SettMilkCollectionFATSNFType As Integer
     Dim PickOnlyOWNBMCDCS As Integer
     Dim isPickCLRInsteadOfSNF As Boolean = False
+    Dim PickMilkTransferInData As Boolean = False
     Dim settFillRouteTankerNo As Boolean = False
     Dim SettFATSNFNoDecimalMCC As Boolean
     Dim SettShowAllMCC As Boolean
@@ -70,6 +71,7 @@ Public Class frmMilkCollectionMCC
     Dim settSNFDecimalPlace As Integer = 0
     Dim settFATDecimalPlace As Integer = 0
     Dim settBMCDCSShiftWise As Boolean = False
+    Dim MilkTransferInDoc As String = Nothing
 
     '''''''''''''''''''''''''''''''''''''''''''''''''
 #End Region
@@ -135,8 +137,10 @@ Public Class frmMilkCollectionMCC
         SettShowTemprature = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowTempratureOnBMC, clsFixedParameterCode.ShowTempratureOnBMC, Nothing)) = 1)
 
         settFATDecimalPlace = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.BMCDecimalPlaces, clsFixedParameterCode.BMCFATDecimalPlaces, Nothing))
-        settSNFDecimalPlace = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.BMCDecimalPlaces, clsFixedParameterCode.BMCSNFDecimalPlaces, Nothing))
+        settSNFDecimalPlace = clsCommon.myCdbl(
+            clsFixedParameter.GetData(clsFixedParameterType.BMCDecimalPlaces, clsFixedParameterCode.BMCSNFDecimalPlaces, Nothing))
         settBMCDCSShiftWise = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.BMCDCSApplyShift, clsFixedParameterCode.BMCDCSApplyShift, Nothing)) = 1)
+        PickMilkTransferInData = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PickMilkTransferInData, clsFixedParameterCode.PickMilkTransferInData, Nothing)) > 0)
 
         MyBase.SetUserMgmt(MyBase.Form_ID)
         If clsCommon.CompairString(clsUserMgtCode.MilkCollectionMCCGateEntry, MyBase.Form_ID) = CompairStringResult.Equal Then
@@ -1228,6 +1232,9 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
                 obj.Description = txtDesc.Text
                 obj.Reject_Type = clsCommon.myCstr(cboRejectType.SelectedValue)
                 obj.Reject_Recovery_Per = txtRejectRecoveryPer.Value
+                If PickMilkTransferInData Then
+                    obj.Against_Milk_Transfer_In = MilkTransferInDoc
+                End If
                 obj.Arr = GetTRData(False)
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
                     Throw New Exception("Please Fill at list one Item")
@@ -1333,6 +1340,7 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
                 txtSlipNo.Text = obj.Slip_No
                 cboRejectType.SelectedValue = obj.Reject_Type
                 txtRejectRecoveryPer.Value = obj.Reject_Recovery_Per
+                MilkTransferInDoc = obj.Against_Milk_Transfer_In
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                     For Each objTr As clsMilkCollectionMCCDetail In obj.Arr
                         gv1.Rows.AddNew()
@@ -1638,10 +1646,14 @@ case when TSPL_MILK_COLLECTION_MCC.Status=1 then 'Posted' else 'Pending' end as 
                     lblRoute.Text = clsCommon.myCstr(dt.Rows(0)("ROUTE_NAME"))
                     If settFillRouteTankerNo Then
                         txtTankerNo.Value = clsCommon.myCstr(dt.Rows(0)("Tanker_No"))
-                        txtVehicleNo.Text = clsCommon.myCstr(dt.Rows(0)("TANKER_NAME"))
+                        If Not PickMilkTransferInData Then
+                            txtVehicleNo.Text = clsCommon.myCstr(dt.Rows(0)("TANKER_NAME"))
+                        End If
+
                     End If
                 End If
                 loadDataParameterGrid()
+                LoadMilkTransferInData()
             Else
                 loadBlankParameterGrid()
             End If
@@ -1678,7 +1690,9 @@ case when TSPL_MILK_COLLECTION_MCC.Status=1 then 'Posted' else 'Pending' end as 
                 End If
             End If
             txtTankerNo.Value = clsfrmTankerMaster.GetFinder(" isnull( TSPL_TANKER_MASTER.Inactive,0)=0 ", txtTankerNo.Value, isButtonClicked)
-            txtVehicleNo.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TANKER_NAME from TSPL_TANKER_MASTER where Tanker_No='" & txtTankerNo.Value & "'"))
+            If Not PickMilkTransferInData Then
+                txtVehicleNo.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TANKER_NAME from TSPL_TANKER_MASTER where Tanker_No='" & txtTankerNo.Value & "'"))
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -2731,6 +2745,7 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
         txtRoute.Focus()
     End Sub
     Private Sub txtTripNo_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtTripNo.Validating
+        LoadMilkTransferInData()
         LoadTransactionData()
     End Sub
     Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
@@ -3078,5 +3093,58 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
 
     Private Sub cboShift_Validating(sender As Object, e As CancelEventArgs) Handles cboShift.Validating
         LoadTransactionData()
+    End Sub
+
+    Private Sub txtDate_Validating(sender As Object, e As CancelEventArgs) Handles txtDate.Validating
+        LoadMilkTransferInData()
+    End Sub
+    Sub LoadMilkTransferInData()
+        Try
+            If PickMilkTransferInData Then
+                Dim qry As String = " select TSPL_MILK_TRANSFER_IN.Receipt_Challan_No,Tspl_Gate_Entry_Details.Tanker_No,TSPL_Weighment_Detail.Net_Weight,QCFAT.Param_Field_Value AS FAT,( TSPL_Weighment_Detail.Net_Weight * QCFAT.Param_Field_Value)/100 as FATKG,QCSNF.Param_Field_Value AS SNF,(TSPL_Weighment_Detail.Net_Weight * QCSNF.Param_Field_Value)/100 AS SNFKG from TSPL_MILK_TRANSFER_IN left outer join Tspl_Gate_Entry_Details on Tspl_Gate_Entry_Details.Gate_Entry_No = TSPL_MILK_TRANSFER_IN.Gate_Entry_no
+        inner join TSPL_Weighment_Detail on TSPL_Weighment_Detail.Weighment_No = TSPL_MILK_TRANSFER_IN.Weighment_No inner join TSPL_QUALITY_CHECK on TSPL_QUALITY_CHECK.QC_No = TSPL_MILK_TRANSFER_IN.Qc_No 
+        left join TSPL_QC_Parameter_Detail AS QCFAT on QCFAT.QC_No = TSPL_QUALITY_CHECK.QC_No and QCFAT.Param_Field_Code = 'FAT' left join TSPL_QC_Parameter_Detail AS QCSNF on QCSNF.QC_No = TSPL_QUALITY_CHECK.QC_No and QCSNF.Param_Field_Code = 'SNF'
+        where 2=2 and  Tspl_Gate_Entry_Details.ROUTE_NO= '" & txtRoute.Value & "' and convert(date,Tspl_Gate_Entry_Details.Date_And_Time,103) = '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' and Tspl_Gate_Entry_Details.Trip_No = '" & txtTripNo.Value & "' "
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    MilkTransferInDoc = clsCommon.myCstr(dt.Rows(0)("Receipt_Challan_No"))
+                    txtVehicleNo.Text = clsCommon.myCstr(dt.Rows(0)("Tanker_No"))
+                    txtVehicleNo.ReadOnly = True
+                    txtVehicleNo.Enabled = False
+                    txtTotEnteredQty.Value = clsCommon.myCDecimal(dt.Rows(0)("Net_Weight"))
+                    txtTotEnteredQty.ReadOnly = True
+                    txtTotEnteredQty.Enabled = False
+                    txtTotEnteredFATPer.Value = clsCommon.myCstr(dt.Rows(0)("FAT"))
+                    txtTotEnteredFAT.Value = clsCommon.myCstr(dt.Rows(0)("FATKG"))
+                    txtTotEnteredFATPer.ReadOnly = True
+                    txtTotEnteredFATPer.Enabled = False
+                    txtTotEnteredFAT.ReadOnly = True
+                    txtTotEnteredFAT.Enabled = False
+                    txtTotEnteredSNFPer.Value = clsCommon.myCstr(dt.Rows(0)("SNF"))
+                    txtTotEnteredSNF.Value = clsCommon.myCstr(dt.Rows(0)("SNFKG"))
+                    txtTotEnteredSNFPer.ReadOnly = True
+                    txtTotEnteredSNFPer.Enabled = False
+                    txtTotEnteredSNF.ReadOnly = True
+                    txtTotEnteredSNF.Enabled = False
+                    UpdateAllTotal()
+                End If
+            Else
+                txtVehicleNo.ReadOnly = False
+                txtVehicleNo.Enabled = True
+                txtTotEnteredQty.ReadOnly = False
+                txtTotEnteredQty.Enabled = True
+                txtTotEnteredFATPer.ReadOnly = False
+                txtTotEnteredFAT.ReadOnly = False
+                txtTotEnteredFAT.Enabled = True
+                txtTotEnteredFATPer.Enabled = True
+                txtTotEnteredSNFPer.ReadOnly = False
+                txtTotEnteredSNFPer.Enabled = True
+                txtTotEnteredSNF.ReadOnly = False
+                txtTotEnteredSNF.Enabled = True
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
     End Sub
 End Class
