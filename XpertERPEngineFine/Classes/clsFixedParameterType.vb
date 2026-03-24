@@ -68,6 +68,7 @@ Public Class clsFixedParameterType
     Public Const DBTRevisePayment As String = "DBT Revise Payment"
     Public Const CycleWiseDBT As String = "Cycle Wise DBT"
     Public Const ShowTempratureOnBMC As String = "Show Temprature On BMC"
+    Public Const PickMilkTransferInData As String = "Pick Milk Transfer In Data"
     Public Const FillRouteTankerNo As String = "Fill Route Tanker No"
     Public Const PickMilkPurchaseInvoiceQtyOrRecoQty As String = "Pick Milk Purchase Invoice Qty Or Reco Qty"
     Public Const AllowMPIncetiveQtyAboveBilledQty As String = "Allow MP Incentive Qty Above Billed Qty"
@@ -1489,6 +1490,7 @@ Public Class clsFixedParameterCode
     Public Const DBTRevisePayment As String = "DBT Revise Payment"
     Public Const CycleWiseDBT As String = "Cycle Wise DBT"
     Public Const ShowTempratureOnBMC As String = "Fill Route Tanker No"
+    Public Const PickMilkTransferInData As String = "Pick Milk Transfer In Data"
     Public Const FillRouteTankerNo As String = "Fill Route Tanker No"
     Public Const PickMilkPurchaseInvoiceQtyOrRecoQty As String = "Pick Milk Purchase Invoice Qty Or Reco Qty"
     Public Const AllowMPIncetiveQtyAboveBilledQty As String = "Allow MP Incentive Qty Above Billed Qty"
@@ -3146,6 +3148,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.DBTRevisePayment, clsFixedParameterCode.DBTRevisePayment, "0", "0-OFF;1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CycleWiseDBT, clsFixedParameterCode.CycleWiseDBT, "0", "0-OFF;1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowTempratureOnBMC, clsFixedParameterCode.ShowTempratureOnBMC, "0", "0-OFF;1-ON")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.PickMilkTransferInData, clsFixedParameterCode.PickMilkTransferInData, "0", "0-OFF;1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.FillRouteTankerNo, clsFixedParameterCode.FillRouteTankerNo, "1", "0-OFF;1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RepeatBMCSampleNo, clsFixedParameterCode.RepeatBMCSampleNo, "0", "0-OFF;1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.FATSNFNoDecimalMCC, clsFixedParameterCode.FATSNFNoDecimalMCC, "0", "0-OFF;1-ON")
@@ -4808,6 +4811,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.DBTNEFTUploader, clsFixedParameterType.CycleWiseDBT, clsFixedParameterCode.CycleWiseDBT, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.ShowSampleNoOnBMC, clsFixedParameterCode.ShowSampleNoOnBMC, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.ShowTempratureOnBMC, clsFixedParameterCode.ShowTempratureOnBMC, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.PickMilkTransferInData, clsFixedParameterCode.PickMilkTransferInData, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.FillRouteTankerNo, clsFixedParameterCode.FillRouteTankerNo, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.RepeatBMCSampleNo, clsFixedParameterCode.RepeatBMCSampleNo, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.ShowAllMCC, clsFixedParameterCode.ShowAllMCC, EnumControlType.CheckBox)

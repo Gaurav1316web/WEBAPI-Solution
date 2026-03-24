@@ -325,6 +325,7 @@ Partial Class frmMilkCollectionMCC
         Me.gvTotal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTotal.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvTotal.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvTotal.MyExportAPI = False
         Me.gvTotal.MyExportFilePath = ""
         Me.gvTotal.MyStopExport = False
         Me.gvTotal.Name = "gvTotal"
@@ -1270,6 +1271,7 @@ Partial Class frmMilkCollectionMCC
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MyExportAPI = False
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -1336,6 +1338,7 @@ Partial Class frmMilkCollectionMCC
         Me.gvParam.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvParam.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvParam.MyExportAPI = False
         Me.gvParam.MyExportFilePath = ""
         Me.gvParam.MyStopExport = False
         Me.gvParam.Name = "gvParam"

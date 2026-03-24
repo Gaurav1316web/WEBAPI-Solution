@@ -8210,6 +8210,9 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("FILE_INFO", "bigint NULL")
             coll.Add("Status", "integer NOT NULL DEFAULT 0")
+            coll.Add("Trip_No", "Integer NULL")
+            coll.Add("Empty_Can", "Integer NULL")
+            coll.Add("Filled_Can", "Integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GATE_ENTRY", coll, "", True, True, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -8275,6 +8278,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("ROUTE_NO", "Varchar(30) null REFERENCES TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
             coll.Add("MCC", "varchar(30)  NULL References TSPL_MCC_MASTER(MCC_Code)")
             coll.Add("REF_PK_ID", "integer null references TSPL_GATE_ENTRY(PK_ID)")
+            coll.Add("Trip_No", "Integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GATE_ENTRY_DETAILS", coll, Nothing, True, True, "", "Gate_Entry_No", "Date_And_Time", True)
 
             coll = New Dictionary(Of String, String)()
@@ -10013,11 +10017,19 @@ FROM TSPL_ITEM_MASTER"
 
             ' -------------------------------------------End Service And Warranty --------------------------------------
 
-
+            qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_PLANT_WEIGHMENT' and COLUMN_NAME='Is_Other'"
+            dt = clsDBFuncationality.GetDataTable(qry)
+            If dt.Rows.Count = 0 Then
+                clsERPFuncationality.DropTableKey("TSPL_PLANT_WEIGHMENT", "Gate_Entry_No", EnumTableKeyType.Unique)
+                qry = " DROP INDEX IF EXISTS Unique_Gate_Entry_No ON TSPL_PLANT_WEIGHMENT;"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+                qry = " CREATE UNIQUE INDEX Unique_Gate_Entry_No ON TSPL_PLANT_WEIGHMENT (Gate_Entry_No) WHERE Gate_Entry_No IS NOT NULL;"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            End If
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_No", "varchar(30) NOT NULL Primary Key")
             coll.Add("Document_Date", "DateTime not NULL")
-            coll.Add("Gate_Entry_No", "varchar(50) not NULL ")
+            coll.Add("Gate_Entry_No", "varchar(50)  NULL ")
             coll.Add("Tanker_No", "varchar(20) not NULL ")
             coll.Add("Tare_Weight_Date", "datetime null")
             coll.Add("Type", "char(1) not null  ")
@@ -10038,7 +10050,13 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Posted_By", "varchar(12) NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
             coll.Add("Posted_Date", "datetime NULL")
             coll.Add("Sublocation_Code", "varchar(12) NULL References TSPL_LOCATION_MASTER(Location_Code) ")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PLANT_WEIGHMENT", coll, "UNIQUE(Gate_Entry_No)", True, False, Nothing, Nothing, Nothing, False)
+            coll.Add("Is_Other", "Integer NULL")
+            coll.Add("Party", "varchar(50) null")
+            coll.Add("Empty_Can", "Integer NULL")
+            coll.Add("Empty_Crate", "Integer NULL")
+            coll.Add("Filled_Can", "Integer NULL")
+            coll.Add("Filled_Crate", "Integer NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PLANT_WEIGHMENT", coll, "", True, False, Nothing, Nothing, Nothing, False)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Weighment_No", "varchar(30) primary key")
@@ -10903,6 +10921,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Latitude", "varchar(20) NULL")
             coll.Add("Longitude", "varchar(20) NULL")
             coll.Add("Entry_Date", "Datetime NULL")
+            coll.Add("MP_Code_Third_Party", "Varchar(30) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VLC_DATA_UPLOADER", coll, "Primary Key (Doc_No,PK_Id)", False, False, "", "Doc_No", "Doc_Date")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VLC_DATA_UPLOADER_SYNC", coll, "Primary Key (Doc_No,PK_Id)", False, False)
 
@@ -14302,6 +14321,23 @@ FROM TSPL_ITEM_MASTER"
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_MP_MASTER", coll, Nothing, True)
             clsDBFuncationality.ExecuteNonQuery("update TSPL_MP_MASTER set Jan_Aadhar_No_Verified_ON=Modified_Date where  ISNULL(Jan_Aadhar_No_Verified,0) =1 and Jan_Aadhar_No_Verified_ON is null")
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("MP_Code", "Varchar(30) NOT NULL primary key")
+            coll.Add("MP_Name", "varchar(100) not  NULL")
+            coll.Add("VLC_Code", "varchar(30) null REFERENCES TSPL_VLC_MASTER_HEAD (VLC_Code)")
+            coll.Add("MP_Code_VLC_Uploader", "varchar(6) NULL")
+            coll.Add("Created_By", "varchar(12) NOT NULL")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Father_Name", "varchar(100) ")
+            coll.Add("Gender", "varchar(10) NULL")
+            coll.Add("Add1", "varchar(50) not  NULL")
+            coll.Add("Telphone", "Varchar(30) null")
+            coll.Add("Fax", "Varchar(30) null")
+            coll.Add("BankName", "Varchar(50)  null")
+            coll.Add("IFCICode", "Varchar(50)  null")
+            coll.Add("AccountNO", "Varchar(50)  null")
+            coll.Add("Jan_Aadhar_No", "Varchar(30) null")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_MP_MASTER_THIRD_PARTY", coll, Nothing, True)
             coll = New Dictionary(Of String, String)()
             coll.Add("TR_Code", "varchar(30) NOT NULL primary Key")
             coll.Add("MP_CODE", "varchar(30) null REFERENCES tspl_mp_master (MP_CODE)")
@@ -36721,6 +36757,7 @@ inner JOIN tspl_sd_sale_Invoice_detail ON TSPL_Customer_Invoice_Head.Against_Sal
             coll.Add("Freight_Distance", "Integer Not Null Default 0")
             coll.Add("ProdRequestTransfer", "Integer not null default 0")
             coll.Add("EWayBill_QR_Code", "image null")
+            coll.Add("IsEwayBill", "Integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TRANSFER_ORDER_HEAD", coll, Nothing, True, True, "", "Document_No", "Document_Date", True)
 
 
@@ -60617,6 +60654,7 @@ alter table TSPL_VENDOR_INVOICE_HEAD_DELETE_DATA add Invoice_Entry_Date_New DATE
 alter table TSPL_VENDOR_INVOICE_HEAD_CANCEL_DATA add Invoice_Entry_Date_New DATETIME  NULL "
                 clsDBFuncationality.ExecuteNonQuery(qry2)
             End If
+
         Catch
         End Try
         Return True

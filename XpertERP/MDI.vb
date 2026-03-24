@@ -3739,6 +3739,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmDocumentVersionReport
                         frm = New FrmDocumentVersionReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmSystemAdministratorTool
+                        frm = New FrmSystemAdministratorTool
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.userGroupMaster
                         frm = New FrmUserGroupMaster(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
