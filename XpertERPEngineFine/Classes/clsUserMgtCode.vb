@@ -1586,6 +1586,7 @@ Public Class clsUserMgtCode
     Public Const frmDA_Arrear As String = "DA_Arrear"
     Public Const frmLeaveEncashment As String = "L_Encashment"
     Public Const frmLICEmployeeTagging As String = "LIC-EMP-TAG"
+    Public Const frmEmployeeOTCalculation As String = "EMP-OT-CAL"
     Public Const frmAllowanceDetails As String = "ALLOWANCE"
     Public Const frmDeductionDetails As String = "DEDUCTION"
     Public Const frmEmployeeStatus As String = "EMP_Status"
@@ -2855,6 +2856,8 @@ Public Class clsUserMgtCode
     Public Const XpertAPITankerCollectionReport As String = "API-TNK-CLN"
     Public Const XpertAPIGateEntry As String = "API-GT-ENT"
     Public Const XpertAPIBMCMilkQC As String = "API-BM-MK-QC"
+    Public Const XpertAPIDEMANDBOOKING As String = "API-DEM-BOO"
+
     ''=================== MIS start here============
 
     Public Const ModuleMIS As String = "MMIS"

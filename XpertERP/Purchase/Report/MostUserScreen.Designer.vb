@@ -30,6 +30,7 @@ Partial Class MostUserScreen
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtTopCount = New common.MyNumBox()
         Me.chkDateRange = New Telerik.WinControls.UI.RadCheckBox()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.lbltoDate = New common.Controls.MyLabel()
@@ -44,13 +45,14 @@ Partial Class MostUserScreen
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.txtTopCount = New common.MyNumBox()
+        Me.chkAcrossUnions = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.txtTopCount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkDateRange, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
@@ -67,7 +69,7 @@ Partial Class MostUserScreen
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtTopCount, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkAcrossUnions, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -105,6 +107,7 @@ Partial Class MostUserScreen
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkAcrossUnions)
         Me.RadPageViewPage1.Controls.Add(Me.txtTopCount)
         Me.RadPageViewPage1.Controls.Add(Me.chkDateRange)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
@@ -117,14 +120,43 @@ Partial Class MostUserScreen
         Me.RadPageViewPage1.Size = New System.Drawing.Size(510, 234)
         Me.RadPageViewPage1.Text = "Filters"
         '
+        'txtTopCount
+        '
+        Me.txtTopCount.BackColor = System.Drawing.Color.Transparent
+        Me.txtTopCount.CalculationExpression = Nothing
+        Me.txtTopCount.DecimalPlaces = 2
+        Me.txtTopCount.FieldCode = Nothing
+        Me.txtTopCount.FieldDesc = Nothing
+        Me.txtTopCount.FieldMaxLength = 0
+        Me.txtTopCount.FieldName = Nothing
+        Me.txtTopCount.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.txtTopCount.isCalculatedField = False
+        Me.txtTopCount.IsSourceFromTable = False
+        Me.txtTopCount.IsSourceFromValueList = False
+        Me.txtTopCount.IsUnique = False
+        Me.txtTopCount.Location = New System.Drawing.Point(103, 84)
+        Me.txtTopCount.MaxLength = 6
+        Me.txtTopCount.MendatroryField = False
+        Me.txtTopCount.MyLinkLable1 = Nothing
+        Me.txtTopCount.MyLinkLable2 = Nothing
+        Me.txtTopCount.Name = "txtTopCount"
+        Me.txtTopCount.ReferenceFieldDesc = Nothing
+        Me.txtTopCount.ReferenceFieldName = Nothing
+        Me.txtTopCount.ReferenceTableName = Nothing
+        Me.txtTopCount.Size = New System.Drawing.Size(120, 21)
+        Me.txtTopCount.TabIndex = 1589
+        Me.txtTopCount.Text = "0"
+        Me.txtTopCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtTopCount.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        '
         'chkDateRange
         '
         Me.chkDateRange.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkDateRange.Location = New System.Drawing.Point(238, 12)
+        Me.chkDateRange.Location = New System.Drawing.Point(28, 15)
         Me.chkDateRange.Name = "chkDateRange"
-        Me.chkDateRange.Size = New System.Drawing.Size(121, 16)
+        Me.chkDateRange.Size = New System.Drawing.Size(112, 16)
         Me.chkDateRange.TabIndex = 1588
-        Me.chkDateRange.Text = "Counter DateRange"
+        Me.chkDateRange.Text = "Apply Date Range"
         '
         'RadGroupBox3
         '
@@ -134,10 +166,10 @@ Partial Class MostUserScreen
         Me.RadGroupBox3.Controls.Add(Me.RadLabel1)
         Me.RadGroupBox3.Controls.Add(Me.fromDate)
         Me.RadGroupBox3.HeaderText = ""
-        Me.RadGroupBox3.Location = New System.Drawing.Point(28, 66)
+        Me.RadGroupBox3.Location = New System.Drawing.Point(28, 37)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox3.Size = New System.Drawing.Size(350, 42)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(350, 41)
         Me.RadGroupBox3.TabIndex = 440
         '
         'lbltoDate
@@ -209,7 +241,7 @@ Partial Class MostUserScreen
         Me.MyComboBox1.Items.Add(RadListDataItem6)
         Me.MyComboBox1.Items.Add(RadListDataItem7)
         Me.MyComboBox1.Items.Add(RadListDataItem8)
-        Me.MyComboBox1.Location = New System.Drawing.Point(112, 40)
+        Me.MyComboBox1.Location = New System.Drawing.Point(103, 111)
         Me.MyComboBox1.MendatroryField = False
         Me.MyComboBox1.MyLinkLable1 = Nothing
         Me.MyComboBox1.MyLinkLable2 = Nothing
@@ -224,7 +256,7 @@ Partial Class MostUserScreen
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(28, 40)
+        Me.MyLabel1.Location = New System.Drawing.Point(28, 112)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(67, 18)
         Me.MyLabel1.TabIndex = 437
@@ -234,7 +266,7 @@ Partial Class MostUserScreen
         '
         Me.Txt2.FieldName = Nothing
         Me.Txt2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Txt2.Location = New System.Drawing.Point(28, 15)
+        Me.Txt2.Location = New System.Drawing.Point(28, 85)
         Me.Txt2.Name = "Txt2"
         Me.Txt2.Size = New System.Drawing.Size(27, 18)
         Me.Txt2.TabIndex = 436
@@ -305,34 +337,14 @@ Partial Class MostUserScreen
         Me.btnGo.TabIndex = 169
         Me.btnGo.Text = ">>>"
         '
-        'txtTopCount
+        'chkAcrossUnions
         '
-        Me.txtTopCount.BackColor = System.Drawing.Color.Transparent
-        Me.txtTopCount.CalculationExpression = Nothing
-        Me.txtTopCount.DecimalPlaces = 2
-        Me.txtTopCount.FieldCode = Nothing
-        Me.txtTopCount.FieldDesc = Nothing
-        Me.txtTopCount.FieldMaxLength = 0
-        Me.txtTopCount.FieldName = Nothing
-        Me.txtTopCount.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.txtTopCount.isCalculatedField = False
-        Me.txtTopCount.IsSourceFromTable = False
-        Me.txtTopCount.IsSourceFromValueList = False
-        Me.txtTopCount.IsUnique = False
-        Me.txtTopCount.Location = New System.Drawing.Point(112, 13)
-        Me.txtTopCount.MaxLength = 6
-        Me.txtTopCount.MendatroryField = False
-        Me.txtTopCount.MyLinkLable1 = Nothing
-        Me.txtTopCount.MyLinkLable2 = Nothing
-        Me.txtTopCount.Name = "txtTopCount"
-        Me.txtTopCount.ReferenceFieldDesc = Nothing
-        Me.txtTopCount.ReferenceFieldName = Nothing
-        Me.txtTopCount.ReferenceTableName = Nothing
-        Me.txtTopCount.Size = New System.Drawing.Size(120, 21)
-        Me.txtTopCount.TabIndex = 1589
-        Me.txtTopCount.Text = "0"
-        Me.txtTopCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTopCount.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        Me.chkAcrossUnions.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkAcrossUnions.Location = New System.Drawing.Point(214, 15)
+        Me.chkAcrossUnions.Name = "chkAcrossUnions"
+        Me.chkAcrossUnions.Size = New System.Drawing.Size(108, 16)
+        Me.chkAcrossUnions.TabIndex = 1590
+        Me.chkAcrossUnions.Text = "Across all Unions"
         '
         'MostUserScreen
         '
@@ -353,6 +365,7 @@ Partial Class MostUserScreen
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.txtTopCount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkDateRange, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
@@ -370,7 +383,7 @@ Partial Class MostUserScreen
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtTopCount, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkAcrossUnions, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -394,4 +407,5 @@ Partial Class MostUserScreen
     Friend WithEvents fromDate As RadDateTimePicker
     Friend WithEvents chkDateRange As RadCheckBox
     Friend WithEvents txtTopCount As common.MyNumBox
+    Friend WithEvents chkAcrossUnions As RadCheckBox
 End Class

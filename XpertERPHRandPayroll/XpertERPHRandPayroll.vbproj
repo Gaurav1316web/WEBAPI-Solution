@@ -256,15 +256,15 @@
     </Compile>
     <Compile Include="CrystalClases\rptCheque.vb">
       <DependentUpon>rptCheque.rpt</DependentUpon>
-      <SubType>Component</SubType>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="CrystalClases\rptChequeMultiple.vb">
       <DependentUpon>rptChequeMultiple.rpt</DependentUpon>
-      <SubType>Component</SubType>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
@@ -1087,6 +1087,12 @@
       <DependentUpon>frmEmployeeGratuity.vb</DependentUpon>
     </Compile>
     <Compile Include="HR and Payroll\Tranasction\frmEmployeeGratuity.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HR and Payroll\Tranasction\frmEmployeeOTCalculation.designer.vb">
+      <DependentUpon>frmEmployeeOTCalculation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="HR and Payroll\Tranasction\frmEmployeeOTCalculation.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="HR and Payroll\Tranasction\frmEmployeeShiftChange.Designer.vb">
@@ -2249,6 +2255,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HR and Payroll\Tranasction\frmEmployeeGratuity.resx">
       <DependentUpon>frmEmployeeGratuity.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HR and Payroll\Tranasction\frmEmployeeOTCalculation.resx">
+      <DependentUpon>frmEmployeeOTCalculation.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HR and Payroll\Tranasction\frmEmployeeShiftChange.resx">
       <DependentUpon>frmEmployeeShiftChange.vb</DependentUpon>

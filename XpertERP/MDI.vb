@@ -6933,6 +6933,10 @@ Public Class MDI
                     Case clsUserMgtCode.frmLICEmployeeTagging
                         frm = New frmLICEmployeeTagging()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmEmployeeOTCalculation
+                        frm = New frmEmployeeOTCalculation()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.frmEmployee_Master
                         frm = New frmEmployee_Master()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

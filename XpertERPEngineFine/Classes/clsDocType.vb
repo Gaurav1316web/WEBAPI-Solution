@@ -29,6 +29,8 @@ Public Class clsDocType
     Public Const MultipleProcDed As String = "Multiple Proc Ded"
     Public Const TransferToSaving As String = "Transfer To Saving"
     Public Const BMCTransporterBill As String = "BMC Transporter Bill"
+    Public Const EmployeeOTEntry As String = "Employee OT Entry"
+    Public Const EmployeeOTEntryCalculation As String = "Employee OT Entry Calculation"
     Public Const CHACHARGEMASTER As String = "CHA Charge Master"
     Public Const DebitNote As String = "AP Debit Note"
     Public Const CreditNote As String = "AP Credit Note"

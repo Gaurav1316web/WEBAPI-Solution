@@ -2115,8 +2115,12 @@ LEFT JOIN TSPL_COMPANY_MASTER
   
                         TSPL_ITEM_MASTER.Item_Desc, 
                         TSPL_ITEM_MASTER.Item_Code, 
-                        TSPL_SD_SHIPMENT_DETAIL.Unit_code, 
-                        TSPL_SD_SHIPMENT_DETAIL.Qty,
+                        ItemBulkUOM.UOM_Code as Unit_code, 
+                        cast(
+                                (
+                                  TSPL_SD_SHIPMENT_DETAIL.Qty * ItemConvinUOM.Conversion_Factor / ItemBulkUOM.Conversion_Factor
+                                ) as Decimal(18, 2)
+                              ) as Qty,
                 cast(
                                 (
                                   TSPL_SD_SHIPMENT_DETAIL.Qty * ItemConvinUOM.Conversion_Factor / ItemConvReportUOM.Conversion_Factor
@@ -2130,10 +2134,12 @@ LEFT JOIN TSPL_COMPANY_MASTER
                                     and ItemConvReportUOM.Report_UOM = 1
                                      left join TSPL_ITEM_UOM_DETAIL as ItemConvinUOM on TSPL_SD_SHIPMENT_DETAIL.Item_Code = ItemConvinUOM.Item_Code 
                                    and TSPL_SD_SHIPMENT_DETAIL.Unit_code = ItemConvinUOM.UOM_Code
+left join TSPL_ITEM_UOM_DETAIL as ItemBulkUOM on TSPL_SD_SHIPMENT_DETAIL.Item_Code = ItemBulkUOM.Item_Code 
+                                  and ItemBulkUOM.Bulk_UOM = 1 
 where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + whrcls + "
 -----Add Transfer Out Type Data
 					union all
-					select tspl_transfer_order_head.Document_No,TSPL_TRANSFER_ORDER_DETAIL.Item_Desc,TSPL_TRANSFER_ORDER_DETAIL.Item_Code,TSPL_TRANSFER_ORDER_DETAIL.Unit_code,TSPL_TRANSFER_ORDER_DETAIL.Out_Qty as Qty,
+					select tspl_transfer_order_head.Document_No,TSPL_TRANSFER_ORDER_DETAIL.Item_Desc,TSPL_TRANSFER_ORDER_DETAIL.Item_Code,ItemBulkUOM.UOM_Code as Unit_code,cast((TSPL_TRANSFER_ORDER_DETAIL.Out_Qty * ItemConvinUOM.Conversion_Factor / ItemBulkUOM.Conversion_Factor) as Decimal(18, 2)) as Qty,
 					cast(
                                 (
                                   TSPL_TRANSFER_ORDER_DETAIL.Out_Qty * ItemConvinUOM.Conversion_Factor / ItemConvReportUOM.Conversion_Factor
@@ -2145,6 +2151,7 @@ where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.V
                  left join TSPL_ITEM_UOM_DETAIL as ItemConvReportUOM on TSPL_ITEM_master.Item_Code = ItemConvReportUOM.Item_Code  and ItemConvReportUOM.Report_UOM = 1
                                      left join TSPL_ITEM_UOM_DETAIL as ItemConvinUOM on TSPL_TRANSFER_ORDER_DETAIL.Item_Code = ItemConvinUOM.Item_Code 
                                    and TSPL_TRANSFER_ORDER_DETAIL.Unit_code = ItemConvinUOM.UOM_Code
+ left join TSPL_ITEM_UOM_DETAIL as ItemBulkUOM on TSPL_TRANSFER_ORDER_DETAIL.Item_Code = ItemBulkUOM.Item_Code  and ItemBulkUOM.Bulk_UOM = 1 
 								   where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + whrcls2 + " and tspl_transfer_order_head.Transfer_Type = 'O' ) xx  LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2 
                 GROUP BY Item_Code order by Item_Desc"
             dt = clsDBFuncationality.GetDataTable(Qry)
