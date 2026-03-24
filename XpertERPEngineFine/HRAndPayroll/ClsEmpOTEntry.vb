@@ -37,7 +37,7 @@ Public Class ClsEmpOTEntry
         isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
         If (isNewEntry) Then
-            obj.Document_Code = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.Document_Date), clsDocType.BMCTransporterBill, "", Nothing)
+            obj.Document_Code = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.Document_Date), clsDocType.EmployeeOTEntry, "", Nothing)
         End If
         If (clsCommon.myLen(obj.Document_Code) <= 0) Then
             Throw New Exception("Error in Document Code Generation")
