@@ -35,6 +35,7 @@ Public Class clsUserMgtCode
     Public Const frmChangePasswordScreen As String = "CHNG-PASS"
     Public Const rptEmployeeDeductionMasterReport As String = "EMP-DED-RPT"
     Public Const rptTentativeReport As String = "TEN-SAL-RPT"
+    Public Const rptEmployeeOTReport As String = "EMP-OT-RPT"
     Public Const frmRCDFRateControl As String = "RCDF-RT-CNT"
     Public Const frmOfficeOrder As String = "OFFCE-ORD"
     Public Const frmEmployeeDeductionMaster As String = "EMP-DED-MST"

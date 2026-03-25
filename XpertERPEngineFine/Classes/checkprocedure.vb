@@ -1102,6 +1102,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmActiveInactiveEmpRegister, "Employee Active/Inactive Report", "1.11.03.19", clsUserMgtCode.SubModuleHRReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptEmployeeDeductionMasterReport, "Employee Deduction Master Report", "1.11.03.20", clsUserMgtCode.SubModuleHRReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptTentativeReport, "Tentative Salary", "1.11.03.21", clsUserMgtCode.SubModuleHRReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptEmployeeOTReport, "Employee OT Report", "1.11.03.23", clsUserMgtCode.SubModuleHRReport, 37)
 
         'Monthly Reports
         InsertDefaultValue(clsUserMgtCode.SubModuleHRMonthlyReport, "Monthly Report", "1.11.04", clsUserMgtCode.ModuleHR, "SM", 30)

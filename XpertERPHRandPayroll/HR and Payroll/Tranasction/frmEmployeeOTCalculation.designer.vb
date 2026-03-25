@@ -435,7 +435,6 @@ Partial Class frmEmployeeOTCalculation
         Me.btnreverse.Size = New System.Drawing.Size(53, 22)
         Me.btnreverse.TabIndex = 1562
         Me.btnreverse.Text = "Reverse"
-        Me.btnreverse.Visible = False
         '
         'btnCancel
         '

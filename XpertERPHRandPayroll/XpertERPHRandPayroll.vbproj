@@ -681,6 +681,12 @@
     <Compile Include="HR and Payroll\Reports\rptEmployeeDeductionMasterReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="HR and Payroll\Reports\rptEmployeeOTReport.Designer.vb">
+      <DependentUpon>rptEmployeeOTReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="HR and Payroll\Reports\rptEmployeeOTReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="HR and Payroll\Reports\rptLoanstatement.Designer.vb">
       <DependentUpon>rptLoanstatement.vb</DependentUpon>
     </Compile>
@@ -2051,6 +2057,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HR and Payroll\Reports\rptEmployeeDeductionMasterReport.resx">
       <DependentUpon>rptEmployeeDeductionMasterReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HR and Payroll\Reports\rptEmployeeOTReport.resx">
+      <DependentUpon>rptEmployeeOTReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HR and Payroll\Reports\rptLoanstatement.resx">
       <DependentUpon>rptLoanstatement.vb</DependentUpon>

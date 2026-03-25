@@ -1858,7 +1858,7 @@ Public Class clsSalaryGeneration
                     " CoEPF_RATE_AC01,CoEPF_AMT_AC01,CoEPS_RATE_AC10,CoEPS_AMT_AC10,EDLI_RATE_AC21,EDLI_Amt_AC_21,ESI_HEAD_VALUE " &
                     " ,ESI_Amount,Co_ESI_RATE,Co_ESI_AMT,convert (int, isnull(Final.OT_HOURS,0)/8 ) + case when  (isnull(Final.OT_HOURS,0)/8 - convert (int, isnull(Final.OT_HOURS,0)/8 ) ) > .49 then .50 else 0 end as OT_HOURS_In_Days,TSPL_EMPLOYEE_MASTER.UANNo as [UAN No] from (" & strQry & ") as Final " &
                     " left join TSPL_GENERATE_SALARY_ATTENDANCE GSA ON Final.SALARY_GENERATION_CODE=GSA.SALARY_GENERATION_CODE " &
-                    " AND Final.EMP_CODE=GSA.EMP_CODE" &
+                    " AND Final.EMP_CODE=GSA.EMP_CODE and final.SALARY_STRUCTURE_CODE=GSA.SALARY_GENERATION_CODE " &
                     " left join TSPL_GENERATE_SALARY GS ON Final.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE " &
                     " left join TSPL_PAYPERIOD_MASTER PPM ON GS.PAY_PERIOD_CODE=PPM.PAY_PERIOD_CODE " &
                     " LEFT JOIN TSPL_EMPLOYEE_STATUS EMPStatus on GSA.EMP_STATUS_CODE=EMPStatus.EMP_STATUS_CODE " &

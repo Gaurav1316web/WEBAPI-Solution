@@ -65,7 +65,7 @@ Public Class frmEmployeeOTCalculation
     End Function
     Private Sub frmEmployeeOTCalculation_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
-        RadPageView1.SelectedPage = RadPageViewPage1
+        RadPageView1.SelectedPage = RadPageViewPage3
         LoadBlankGrid()
         LoadBlankGrid2()
         AddNew()
@@ -740,8 +740,8 @@ Public Class frmEmployeeOTCalculation
             ReStoreGridLayout()
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK)
-            'Finally
-            '    isInsideLoadData = False
+        Finally
+            isInsideLoadData = False
         End Try
     End Sub
 
