@@ -35,7 +35,7 @@ Public Class clsMilkCollectionMCC
     Public Age As Decimal
     Public ALCOB As String
     Public txtDate As String
-    Public Against_Milk_Transfer_In As String = Nothing
+    Public Against_MilkTransferIn As String = Nothing
     Public Description As String
     Public Temp As Decimal
     Public Acidity As Decimal
@@ -147,7 +147,7 @@ Public Class clsMilkCollectionMCC
             clsCommon.AddColumnsForChange(coll, "Acidity", obj.Acidity)
             clsCommon.AddColumnsForChange(coll, "Against_DCS_Multiple_Days", obj.Against_DCS_Multiple_Days, True)
             clsCommon.AddColumnsForChange(coll, "Against_DCS_Multiple_Days_Merge", obj.Against_DCS_Multiple_Days_Merge, True)
-            clsCommon.AddColumnsForChange(coll, "Against_Milk_Transfer_In", obj.Against_Milk_Transfer_In, True)
+            clsCommon.AddColumnsForChange(coll, "Against_MilkTransferIn", obj.Against_MilkTransferIn, True)
             clsCommon.AddColumnsForChange(coll, "operation_type", "Save/Update")
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
@@ -223,7 +223,7 @@ where 2=2"
             obj.Acidity = clsCommon.myCDecimal(dt.Rows(0)("Acidity"))
             obj.Against_DCS_Multiple_Days = clsCommon.myCstr(dt.Rows(0)("Against_DCS_Multiple_Days"))
             obj.Against_DCS_Multiple_Days_Merge = clsCommon.myCstr(dt.Rows(0)("Against_DCS_Multiple_Days_Merge"))
-            obj.Against_Milk_Transfer_In = clsCommon.myCstr(dt.Rows(0)("Against_Milk_Transfer_In"))
+            obj.Against_MilkTransferIn = clsCommon.myCstr(dt.Rows(0)("Against_MilkTransferIn"))
             obj.Status = IIf(clsCommon.myCDecimal(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
             obj.FAT_SNF_Type = clsCommon.myCDecimal(dt.Rows(0)("FAT_SNF_Type"))
             If dt.Rows(0)("Posted_Date") IsNot DBNull.Value Then
