@@ -49184,6 +49184,12 @@ inner JOIN tspl_sd_sale_Invoice_detail ON TSPL_Customer_Invoice_Head.Against_Sal
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("SplitChar", "integer NULL")
+            coll.Add("WhatsApp_Phone_Number_ID", "varchar(50) NULL")
+            coll.Add("WhatsApp_Business_Account_ID", "varchar(50) NULL")
+            coll.Add("WhatsApp_Access_Token", "nvarchar(Max) NULL")
+            coll.Add("WhatsApp_URL", "varchar(100) NULL")
+            coll.Add("WhatsApp_Api_Version", "varchar(10) NULL")
+            coll.Add("WhatsApp_Is_Active", "bit NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ES_Config", coll, "", True)
 
 
@@ -49205,6 +49211,7 @@ inner JOIN tspl_sd_sale_Invoice_detail ON TSPL_Customer_Invoice_Head.Against_Sal
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("No_Of_Char", "integer null")
+            coll.Add("WhatsApp_Text", "varchar(200) null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ES_Content", coll, "", True)
 
             qry = clsGetKeys.GetForeignKeyName("TSPL_ES_CONTENT", "Template_ID", Nothing)

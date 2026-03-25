@@ -341,7 +341,9 @@
     <Compile Include="Electrical\clsDailyElectricalEntry.vb" />
     <Compile Include="Electrical\clsDGMaster.vb" />
     <Compile Include="Electrical\clsSlotMaster.vb" />
+    <Compile Include="HRAndPayroll\ClsEmpOTCalculation.vb" />
     <Compile Include="HRAndPayroll\ClsEmpOTEntry.vb" />
+    <Compile Include="HRAndPayroll\clsempsummary.vb" />
     <Compile Include="HRAndPayroll\clsLeaveEncashmentHead.vb" />
     <Compile Include="HRAndPayroll\clsTrainerMaster.vb" />
     <Compile Include="HRAndPayroll\clsTrainingMaster.vb" />
