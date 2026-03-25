@@ -199,6 +199,7 @@ Public Class FrmPaymentProcess
     Public fontInstalled As Boolean = False
     Dim settNoOfDCSForDeduction As Integer = 50
     Public SettRemoveSavingDocumentWhenPayableAmtZero As Boolean = False
+    Public SettRecalculatePaymentProcessOnSave As Boolean = False
 #End Region
 
     Private Sub FrmProvisionEntry_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -212,6 +213,7 @@ Public Class FrmPaymentProcess
         Else
             pnlLocation.Visible = False
         End If
+        SettRecalculatePaymentProcessOnSave = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.RecalculatePaymentProcessOnSave, clsFixedParameterCode.RecalculatePaymentProcessOnSave, Nothing)) = 1)
         SettRemoveSavingDocumentWhenPayableAmtZero = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.RemoveSavingDocumentWhenPayableAmtZero, clsFixedParameterCode.RemoveSavingDocumentWhenPayableAmtZero, Nothing)) = 1)
         settNoOfDCSForDeduction = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.NoOfDCSToLoadDeductionData, clsFixedParameterCode.NoOfDCSToLoadDeductionData, Nothing))
         SetCowFatPer = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, Nothing))
@@ -3998,14 +4000,17 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             If gv.Rows.Count <= 0 OrElse gv Is Nothing Then
                 Throw New Exception("Please select atleast one document")
             End If
-            gvMccSale.MasterTemplate.FilterDescriptors.Clear()
-            gvMccSale.MasterTemplate.SortDescriptors.Clear()
-            gvDeduction.MasterTemplate.FilterDescriptors.Clear()
-            gvDeduction.MasterTemplate.SortDescriptors.Clear()
 
 
+            If SettRecalculatePaymentProcessOnSave Then
+                gvMccSale.MasterTemplate.FilterDescriptors.Clear()
+                gvMccSale.MasterTemplate.SortDescriptors.Clear()
+                gvDeduction.MasterTemplate.FilterDescriptors.Clear()
+                gvDeduction.MasterTemplate.SortDescriptors.Clear()
 
-            loadGvData()
+                loadGvData()
+            End If
+
 
             '' done by Panch Raj against ticket no:BM00000008937
             '' unselect mcc sale trans for unseleceted vendor 

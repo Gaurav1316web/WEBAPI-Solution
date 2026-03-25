@@ -22,14 +22,12 @@ Partial Class MostUserScreen
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkCattleFeedOnly = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkAcrossUnions = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtTopCount = New common.MyNumBox()
         Me.chkDateRange = New Telerik.WinControls.UI.RadCheckBox()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
@@ -37,7 +35,7 @@ Partial Class MostUserScreen
         Me.ToDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.fromDate = New Telerik.WinControls.UI.RadDateTimePicker()
-        Me.MyComboBox1 = New common.Controls.MyComboBox()
+        Me.cboScreenType = New common.Controls.MyComboBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.Txt2 = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -45,13 +43,17 @@ Partial Class MostUserScreen
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.chkAcrossUnions = New Telerik.WinControls.UI.RadCheckBox()
+        Me.RadSplitExp = New Telerik.WinControls.UI.RadSplitButton()
+        Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkCattleFeedOnly, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkAcrossUnions, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTopCount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkDateRange, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -60,7 +62,7 @@ Partial Class MostUserScreen
         CType(Me.ToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.fromDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyComboBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cboScreenType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Txt2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
@@ -69,7 +71,7 @@ Partial Class MostUserScreen
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkAcrossUnions, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadSplitExp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -86,6 +88,7 @@ Partial Class MostUserScreen
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.RadSplitExp)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
@@ -107,11 +110,12 @@ Partial Class MostUserScreen
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkCattleFeedOnly)
         Me.RadPageViewPage1.Controls.Add(Me.chkAcrossUnions)
         Me.RadPageViewPage1.Controls.Add(Me.txtTopCount)
         Me.RadPageViewPage1.Controls.Add(Me.chkDateRange)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
-        Me.RadPageViewPage1.Controls.Add(Me.MyComboBox1)
+        Me.RadPageViewPage1.Controls.Add(Me.cboScreenType)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
         Me.RadPageViewPage1.Controls.Add(Me.Txt2)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
@@ -119,6 +123,24 @@ Partial Class MostUserScreen
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(510, 234)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'chkCattleFeedOnly
+        '
+        Me.chkCattleFeedOnly.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkCattleFeedOnly.Location = New System.Drawing.Point(270, 15)
+        Me.chkCattleFeedOnly.Name = "chkCattleFeedOnly"
+        Me.chkCattleFeedOnly.Size = New System.Drawing.Size(105, 16)
+        Me.chkCattleFeedOnly.TabIndex = 1591
+        Me.chkCattleFeedOnly.Text = "Cattle Feed Only"
+        '
+        'chkAcrossUnions
+        '
+        Me.chkAcrossUnions.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkAcrossUnions.Location = New System.Drawing.Point(151, 15)
+        Me.chkAcrossUnions.Name = "chkAcrossUnions"
+        Me.chkAcrossUnions.Size = New System.Drawing.Size(108, 16)
+        Me.chkAcrossUnions.TabIndex = 1590
+        Me.chkAcrossUnions.Text = "Across all Unions"
         '
         'txtTopCount
         '
@@ -218,39 +240,31 @@ Partial Class MostUserScreen
         Me.fromDate.Text = "24/10/2011"
         Me.fromDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
         '
-        'MyComboBox1
+        'cboScreenType
         '
-        Me.MyComboBox1.AutoCompleteDisplayMember = Nothing
-        Me.MyComboBox1.AutoCompleteValueMember = Nothing
-        Me.MyComboBox1.CalculationExpression = Nothing
-        Me.MyComboBox1.DropDownAnimationEnabled = True
-        Me.MyComboBox1.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.MyComboBox1.FieldCode = Nothing
-        Me.MyComboBox1.FieldDesc = Nothing
-        Me.MyComboBox1.FieldMaxLength = 0
-        Me.MyComboBox1.FieldName = Nothing
-        Me.MyComboBox1.isCalculatedField = False
-        Me.MyComboBox1.IsSourceFromTable = False
-        Me.MyComboBox1.IsSourceFromValueList = False
-        Me.MyComboBox1.IsUnique = False
-        RadListDataItem5.Text = "Setup"
-        RadListDataItem6.Text = "Transaction"
-        RadListDataItem7.Text = "Report"
-        RadListDataItem8.Text = "All"
-        Me.MyComboBox1.Items.Add(RadListDataItem5)
-        Me.MyComboBox1.Items.Add(RadListDataItem6)
-        Me.MyComboBox1.Items.Add(RadListDataItem7)
-        Me.MyComboBox1.Items.Add(RadListDataItem8)
-        Me.MyComboBox1.Location = New System.Drawing.Point(103, 111)
-        Me.MyComboBox1.MendatroryField = False
-        Me.MyComboBox1.MyLinkLable1 = Nothing
-        Me.MyComboBox1.MyLinkLable2 = Nothing
-        Me.MyComboBox1.Name = "MyComboBox1"
-        Me.MyComboBox1.ReferenceFieldDesc = Nothing
-        Me.MyComboBox1.ReferenceFieldName = Nothing
-        Me.MyComboBox1.ReferenceTableName = Nothing
-        Me.MyComboBox1.Size = New System.Drawing.Size(120, 20)
-        Me.MyComboBox1.TabIndex = 439
+        Me.cboScreenType.AutoCompleteDisplayMember = Nothing
+        Me.cboScreenType.AutoCompleteValueMember = Nothing
+        Me.cboScreenType.CalculationExpression = Nothing
+        Me.cboScreenType.DropDownAnimationEnabled = True
+        Me.cboScreenType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboScreenType.FieldCode = Nothing
+        Me.cboScreenType.FieldDesc = Nothing
+        Me.cboScreenType.FieldMaxLength = 0
+        Me.cboScreenType.FieldName = Nothing
+        Me.cboScreenType.isCalculatedField = False
+        Me.cboScreenType.IsSourceFromTable = False
+        Me.cboScreenType.IsSourceFromValueList = False
+        Me.cboScreenType.IsUnique = False
+        Me.cboScreenType.Location = New System.Drawing.Point(103, 111)
+        Me.cboScreenType.MendatroryField = False
+        Me.cboScreenType.MyLinkLable1 = Nothing
+        Me.cboScreenType.MyLinkLable2 = Nothing
+        Me.cboScreenType.Name = "cboScreenType"
+        Me.cboScreenType.ReferenceFieldDesc = Nothing
+        Me.cboScreenType.ReferenceFieldName = Nothing
+        Me.cboScreenType.ReferenceTableName = Nothing
+        Me.cboScreenType.Size = New System.Drawing.Size(120, 20)
+        Me.cboScreenType.TabIndex = 439
         '
         'MyLabel1
         '
@@ -296,7 +310,7 @@ Partial Class MostUserScreen
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.Gv1.MyExportAPI = False
         Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
@@ -321,7 +335,7 @@ Partial Class MostUserScreen
         '
         Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Location = New System.Drawing.Point(84, 5)
+        Me.btnReset.Location = New System.Drawing.Point(83, 5)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(71, 20)
         Me.btnReset.TabIndex = 170
@@ -337,14 +351,27 @@ Partial Class MostUserScreen
         Me.btnGo.TabIndex = 169
         Me.btnGo.Text = ">>>"
         '
-        'chkAcrossUnions
+        'RadSplitExp
         '
-        Me.chkAcrossUnions.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkAcrossUnions.Location = New System.Drawing.Point(214, 15)
-        Me.chkAcrossUnions.Name = "chkAcrossUnions"
-        Me.chkAcrossUnions.Size = New System.Drawing.Size(108, 16)
-        Me.chkAcrossUnions.TabIndex = 1590
-        Me.chkAcrossUnions.Text = "Across all Unions"
+        Me.RadSplitExp.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadSplitExp.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
+        Me.RadSplitExp.Location = New System.Drawing.Point(159, 5)
+        Me.RadSplitExp.Name = "RadSplitExp"
+        Me.RadSplitExp.Size = New System.Drawing.Size(95, 20)
+        Me.RadSplitExp.TabIndex = 172
+        Me.RadSplitExp.Text = "Export"
+        '
+        'rmiExcel
+        '
+        Me.rmiExcel.Name = "rmiExcel"
+        Me.rmiExcel.Text = "Excel"
+        Me.rmiExcel.UseCompatibleTextRendering = False
+        '
+        'rmiPDF
+        '
+        Me.rmiPDF.Name = "rmiPDF"
+        Me.rmiPDF.Text = "PDF"
+        Me.rmiPDF.UseCompatibleTextRendering = False
         '
         'MostUserScreen
         '
@@ -365,6 +392,8 @@ Partial Class MostUserScreen
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkCattleFeedOnly, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkAcrossUnions, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTopCount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkDateRange, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
@@ -374,7 +403,7 @@ Partial Class MostUserScreen
         CType(Me.ToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.fromDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyComboBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cboScreenType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Txt2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
@@ -383,7 +412,7 @@ Partial Class MostUserScreen
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkAcrossUnions, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadSplitExp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -399,7 +428,7 @@ Partial Class MostUserScreen
     Friend WithEvents btnReset As RadButton
     Friend WithEvents btnClose As RadButton
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
-    Friend WithEvents MyComboBox1 As common.Controls.MyComboBox
+    Friend WithEvents cboScreenType As common.Controls.MyComboBox
     Friend WithEvents RadGroupBox3 As RadGroupBox
     Friend WithEvents lbltoDate As common.Controls.MyLabel
     Friend WithEvents ToDate As RadDateTimePicker
@@ -408,4 +437,8 @@ Partial Class MostUserScreen
     Friend WithEvents chkDateRange As RadCheckBox
     Friend WithEvents txtTopCount As common.MyNumBox
     Friend WithEvents chkAcrossUnions As RadCheckBox
+    Friend WithEvents chkCattleFeedOnly As RadCheckBox
+    Friend WithEvents RadSplitExp As RadSplitButton
+    Friend WithEvents rmiExcel As RadMenuItem
+    Friend WithEvents rmiPDF As RadMenuItem
 End Class
