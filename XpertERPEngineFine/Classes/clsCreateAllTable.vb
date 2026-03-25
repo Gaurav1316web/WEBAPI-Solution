@@ -25067,6 +25067,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Reject_Type", "Varchar(30) null references TSPL_MILK_REJECT_TYPE(Code)")
             coll.Add("Reject_Recovery_Per", "Decimal(18,2) null")
             coll.Add("Document_Shift", "char(1) null")
+            coll.Add("Against_MilkTransferIn", "Varchar(30) null references TSPL_MILK_TRANSFER_IN(Receipt_Challan_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC", coll, Nothing, True, True, "", "Document_No", "Document_Date", True)
 
             'If dt Is Nothing OrElse dt.Rows.Count <= 0 Then

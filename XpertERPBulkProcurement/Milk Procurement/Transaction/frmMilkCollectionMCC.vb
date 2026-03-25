@@ -1233,7 +1233,7 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
                 obj.Reject_Type = clsCommon.myCstr(cboRejectType.SelectedValue)
                 obj.Reject_Recovery_Per = txtRejectRecoveryPer.Value
                 If PickMilkTransferInData Then
-                    obj.Against_Milk_Transfer_In = MilkTransferInDoc
+                    obj.Against_MilkTransferIn = MilkTransferInDoc
                 End If
                 obj.Arr = GetTRData(False)
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
@@ -1340,7 +1340,7 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
                 txtSlipNo.Text = obj.Slip_No
                 cboRejectType.SelectedValue = obj.Reject_Type
                 txtRejectRecoveryPer.Value = obj.Reject_Recovery_Per
-                MilkTransferInDoc = obj.Against_Milk_Transfer_In
+                MilkTransferInDoc = obj.Against_MilkTransferIn
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                     For Each objTr As clsMilkCollectionMCCDetail In obj.Arr
                         gv1.Rows.AddNew()
