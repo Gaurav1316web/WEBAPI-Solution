@@ -784,7 +784,10 @@ Public Class frmMilkProcurementUploader
     Private Sub gv1_CurrentColumnChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CurrentColumnChangedEventArgs) Handles gv1.CurrentColumnChanged
         If gv1.RowCount > 0 Then
             Dim intCurrRow As Integer = gv1.CurrentRow.Index
-            gv1.CurrentRow.Cells(ColSNo).Value = clsCommon.myCdbl(intCurrRow + 1)
+            If Not (clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal AndAlso (gv1.CurrentRow.Cells(ColSNo).Value) > 0) Then
+                gv1.CurrentRow.Cells(ColSNo).Value = clsCommon.myCdbl(intCurrRow + 1)
+            End If
+
             If intCurrRow = gv1.Rows.Count - 1 Then
                 gv1.Rows.AddNew()
                 gv1.CurrentRow = gv1.Rows(intCurrRow)
@@ -882,7 +885,12 @@ Public Class frmMilkProcurementUploader
                 For ii As Integer = 0 To gv1.RowCount - 1
                     If clsCommon.myLen(gv1.Rows(ii).Cells(colVLCCode).Value) > 0 Then
                         Dim objTr As New clsMilkProcurementUploaderDetail()
-                        objTr.SNo = ii + 1
+                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                            objTr.SNo = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColSNo).Value)
+                        Else
+                            objTr.SNo = ii + 1
+                        End If
+
                         If Hidedetaildate = True Then
                             gv1.Rows(ii).Cells(colShiftDate).ReadOnly = True
                             'objTr.Shift_Date = txtDate.Value
