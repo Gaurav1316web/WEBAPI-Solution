@@ -2835,12 +2835,12 @@ Public Class FrmMPMaster
                                     qry = "select AccountNO from TSPL_MP_MASTER where MP_Code not in ('" + obj.MP_Code + "') and Active=0 and AccountNO='" + obj.AccountNO + "' "
                                     dtACNo = Nothing
                                     dtACNo = clsDBFuncationality.GetDataTable(qry)
-                                    If dtACNo IsNot Nothing AndAlso dtACNo.Rows.Count > 0 Then
-                                        'Throw New Exception("Account number [" + obj.AccountNO + "] is already in use.")
-                                        Throw New Exception("Account number [" + obj.AccountNO + "],(" + clsCommon.myCstr(obj.MP_Code) + ") is already in use.")
-                                    End If
-                                Else
-                                    Throw New Exception("Farmer (" & clsCommon.myCstr(obj.MP_Code) & ") is inactive. You cannot update this record.")
+                                    'If dtACNo IsNot Nothing AndAlso dtACNo.Rows.Count > 0 Then
+                                    '    'Throw New Exception("Account number [" + obj.AccountNO + "] is already in use.")
+                                    '    Throw New Exception("Account number [" + obj.AccountNO + "],(" + clsCommon.myCstr(obj.MP_Code) + ") is already in use.")
+                                    'End If
+                                    ' Else
+                                    'Throw New Exception("Farmer (" & clsCommon.myCstr(obj.MP_Code) & ") is inactive. You cannot update this record.")
                                 End If
                                 If ArrAccountNo.Contains(obj.AccountNO) Then
                                     Throw New Exception("Repeated Account number [" + obj.AccountNO + "].")
@@ -2870,9 +2870,23 @@ Public Class FrmMPMaster
                                 ii = 0
                                 Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                                 Try
+                                    'Dim qry1 As String = "select  MP_Code from TSPL_MP_MASTER where MP_Code ='" + obj.MP_Code + "'AND active = 0  "
+                                    '  Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry1, trans)
+                                    'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                    '    'qry1 = "GRN is used in following MRN"
+                                    '    For Each dr As DataRow In dt.Rows
+                                    '        qry1 += Environment.NewLine + clsCommon.myCstr(dr("Active"))
+                                    '    Next
+                                    '    'qry1 += Environment.NewLine + "Can't cancel it"
+                                    '    'clsCommon.MyMessageBoxShow(qry1)
+                                    '    ' Exit Sub
+                                    'End If
+
                                     For Each obj As clsMpMaster In Arr
                                         ii += 1
                                         clsCommon.ProgressBarPercentUpdate(ii, Arr.Count, "Saving Details..." & clsCommon.myCstr(ii) & "/" & clsCommon.myCstr(Arr.Count) & "")
+
+
 
                                         Dim UpdateQry As String = "Update TSPL_MP_MASTER Set BankName='" + obj.BankName + "',IFCICode='" + obj.IFCICode + "',AccountNO='" + obj.AccountNO + "' Where MP_Code='" + obj.MP_Code + "'"
                                         clsDBFuncationality.ExecuteNonQuery(UpdateQry, trans)
