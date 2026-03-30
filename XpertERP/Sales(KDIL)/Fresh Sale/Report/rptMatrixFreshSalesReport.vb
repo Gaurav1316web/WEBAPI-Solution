@@ -1,5 +1,6 @@
 ﻿Imports common
 Imports System.IO
+Imports Excel = Microsoft.Office.Interop.Excel
 Public Class RptMatrixFreshSalesReport
     Inherits FrmMainTranScreen
     Dim isSchemeItem As Boolean = False
@@ -706,7 +707,7 @@ Public Class RptMatrixFreshSalesReport
             End If
             Gv1.MasterTemplate.SummaryRowsBottom.Clear()
             Dim whrcls As String = Nothing
-            Dim MainQuery As String = String.Empty
+            Dim MainQuery As String = ""
             Dim strWhrClause As String = String.Empty
             Dim strWhrClause2 As String = String.Empty
             Dim itemCode As String = String.Empty
@@ -875,16 +876,19 @@ Public Class RptMatrixFreshSalesReport
             End If
 
             Dim query As String = ""
-            MainQuery = " select Route_No As [Route No],max(Route_Desc) As [Route Desc] " & IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal, MultiUOM_Item_Name & Total_UOM_Name & " from (Select Route_No,max(Route_Desc)Route_Desc " & MultiUOM_Item_Name & Total_UOM_Name, itemNames & " ,Sum(" + itemamt + ") As Total from (Select Route_No,max(Route_Desc)Route_Desc " & itemName) & " from(
-                        select Document_No,max(Document_Date)Document_Date,max(Route_No)Route_No,max(Route_Desc)Route_Desc,Item_Code,max(Alies_Name)Alies_Name,sum(PouchQty+CrateQty+Quantity) as Qty,max(MultiUOM_Item_Name)MultiUOM_Item_Name,sum(qty) as MultiUOM_Item_Qty,sum(qty) as MultiUOM_Item_Total_Qty,'Total' + max(Unit_code)  as Total_UOM_Name,Sum(Case When (PouchQty+CrateQty+Quantity)=0 Then (qty) Else (PouchQty+CrateQty+Quantity) End) as fQty
-                        from
-                        (select ISNULL(case when TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Pouch' then sum(ISNULL(Qty/ItemConversionInCrate.Conversion_Factor,0))  end,0) as PouchQty,
+            If Not IsPrint = 2 Then
+                MainQuery = " select Route_No As [Route No],max(Route_Desc) As [Route Desc] " & IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal, MultiUOM_Item_Name & Total_UOM_Name & " from (Select Route_No,max(Route_Desc)Route_Desc " & MultiUOM_Item_Name & Total_UOM_Name, itemNames & " ,Sum(" + itemamt + ") As Total from (Select Route_No,max(Route_Desc)Route_Desc " & itemName) & " from( "
+            Else
+                MainQuery = "   Select tab1.*,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,TSPL_STATE_MASTER.STATE_NAME from ("
+            End If
+            MainQuery += " Select  '" & objCommonVar.CurrComp_Code1 & "' As Comp_Code,Document_No,max(Document_Date)Document_Date,max(Route_No)Route_No,max(Route_Desc)Route_Desc,Max(Sku_Seq)Sku_Seq,max(Unit_code)Unit_code,Item_Code,max(Alies_Name)Alies_Name,sum(PouchQty+CrateQty+Quantity) as Qty,max(MultiUOM_Item_Name)MultiUOM_Item_Name,sum(qty) as MultiUOM_Item_Qty,sum(qty) as MultiUOM_Item_Total_Qty,'Total' + max(Unit_code)  as Total_UOM_Name,Sum(Case When (PouchQty+CrateQty+Quantity)=0 Then (qty) Else (PouchQty+CrateQty+Quantity) End) as fQty from 
+                       (select ISNULL(case when TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Pouch' then sum(ISNULL(Qty/ItemConversionInCrate.Conversion_Factor,0))  end,0) as PouchQty,
                         ISNULL(case when TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Crate' then sum(ISNULL(Qty,0)) end,0) as CrateQty,
                         ISNULL(case when TSPL_DEMAND_BOOKING_DETAIL.Unit_code<>'Crate' and TSPL_DEMAND_BOOKING_DETAIL.Unit_code<>'Pouch' then sum(ISNULL(Qty/ItemConversionInCrate.Conversion_Factor,0)) end,0)as Quantity,
                         max(TSPL_DEMAND_BOOKING_DETAIL.Document_No)Document_No,                        
                         max(Document_Date)Document_Date,max(TSPL_DEMAND_BOOKING_MASTER.Route_No)Route_No,max(Route_Desc)Route_Desc,max(ItemConversionInLTR.Conversion_Factor) as ItemInLTR ,
                         max(ItemConversionInPouch.Conversion_Factor) as ItemInPouch,max(ItemConversionInCrate.Conversion_Factor) as ItemInCrate,
-                        TSPL_DEMAND_BOOKING_DETAIL.Item_Code,max(Alies_Name)Alies_Name,TSPL_DEMAND_BOOKING_DETAIL.Unit_code,sum(Qty)Qty,max(Alies_Name) + '(' + TSPL_DEMAND_BOOKING_DETAIL.Unit_code + ')' as MultiUOM_Item_Name from TSPL_DEMAND_BOOKING_DETAIL
+                        TSPL_DEMAND_BOOKING_DETAIL.Item_Code,max(Alies_Name)Alies_Name,TSPL_DEMAND_BOOKING_DETAIL.Unit_code,sum(Qty)Qty,max(Alies_Name) + '(' + TSPL_DEMAND_BOOKING_DETAIL.Unit_code + ')' as MultiUOM_Item_Name,Max(TSPL_Item_Master.Sku_Seq)Sku_Seq from TSPL_DEMAND_BOOKING_DETAIL
                         left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
                         left outer join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
                         left OUTER join tspl_item_uom_detail CurrentUnit on CurrentUnit.item_code=TSPL_DEMAND_BOOKING_DETAIL.item_code and CurrentUnit.uom_code=TSPL_DEMAND_BOOKING_DETAIL.unit_code
@@ -895,49 +899,102 @@ Public Class RptMatrixFreshSalesReport
                         left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DEMAND_BOOKING_MASTER.Route_No
                         where 2=2 " + strWhrClause2 + "  " + whrcls + "  group by TSPL_DEMAND_BOOKING_DETAIL.Document_No,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,
                         TSPL_DEMAND_BOOKING_DETAIL.Unit_code )xx group by xx.Document_No,xx.Item_Code " & IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal, ",xx.Unit_code ", "") & ")  as tab1  "
-
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
-                MainQuery += " pivot( sum(MultiUOM_Item_Qty) for MultiUOM_Item_Name in (" & MultiUOM_Item_Names & ") ) as tab2  pivot( sum(MultiUOM_Item_Total_Qty) for Total_UOM_Name in (" & Total_UOM_Names & ") ) as Tab3 "
+            If Not IsPrint = 2 Then
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                    MainQuery += " pivot( sum(MultiUOM_Item_Qty) for MultiUOM_Item_Name in (" & MultiUOM_Item_Names & ") ) as tab2  pivot( sum(MultiUOM_Item_Total_Qty) for Total_UOM_Name in (" & Total_UOM_Names & ") ) as Tab3 "
+                Else
+                    MainQuery += " pivot( sum(fQty) for Alies_Name in (" & itemName1 & ") ) as Tab2 "
+                End If
+                MainQuery += "   group by Route_No)tmp group by Route_No"
             Else
-                MainQuery += " pivot( sum(fQty) for Alies_Name in (" & itemName1 & ") ) as Tab2 "
+                MainQuery += " Left Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "' Left Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_MASTER.State "
             End If
 
-            MainQuery += "   group by Route_No)tmp group by Route_No"
             query = MainQuery
             Dim dtgv As New DataTable
             dtgv = clsDBFuncationality.GetDataTable(query)
-            Gv1.DataSource = Nothing
-            Gv1.Rows.Clear()
-            Gv1.Columns.Clear()
-            Gv1.DataSource = dtgv
-            Gv1.GroupDescriptors.Clear()
-            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
-            Gv1.BestFitColumns()
-            If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
-                Exit Sub
-            End If
-            RadPageView1.SelectedPage = RadPageViewPage2
-            Dim summaryRowItem As New GridViewSummaryRowItem()
-            'Dim item1 As New GridViewSummaryItem("Total", "{0:F2}", GridAggregateFunction.Sum)
-            'summaryRowItem.Add(item1)
-            Dim item As GridViewSummaryItem
-            For dblrows As Integer = 2 To Gv1.Columns.Count - 1
-                item = New GridViewSummaryItem(Gv1.Columns(dblrows).HeaderText, "{0:F2}", GridAggregateFunction.Sum)
-                summaryRowItem.Add(item)
-            Next
-            Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
-            Gv1.Columns(0).IsPinned = True
-            Gv1.Columns(1).IsPinned = True
-            If (clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") <> CompairStringResult.Equal) Then
-                Gv1.Columns("Total").IsPinned = True
-                Gv1.Columns("Total").PinPosition = PinnedColumnPosition.Right
+            If Not IsPrint = 2 Then
+                Gv1.DataSource = Nothing
+                Gv1.Rows.Clear()
+                Gv1.Columns.Clear()
+                Gv1.DataSource = dtgv
+                Gv1.GroupDescriptors.Clear()
+                Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                Gv1.BestFitColumns()
+                If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                    Exit Sub
+                End If
+                RadPageView1.SelectedPage = RadPageViewPage2
+                Dim summaryRowItem As New GridViewSummaryRowItem()
+                'Dim item1 As New GridViewSummaryItem("Total", "{0:F2}", GridAggregateFunction.Sum)
+                'summaryRowItem.Add(item1)
+                Dim item As GridViewSummaryItem
+                For dblrows As Integer = 2 To Gv1.Columns.Count - 1
+                    item = New GridViewSummaryItem(Gv1.Columns(dblrows).HeaderText, "{0:F2}", GridAggregateFunction.Sum)
+                    summaryRowItem.Add(item)
+                Next
+                Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+                Gv1.Columns(0).IsPinned = True
+                Gv1.Columns(1).IsPinned = True
+                If (clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") <> CompairStringResult.Equal) Then
+                    Gv1.Columns("Total").IsPinned = True
+                    Gv1.Columns("Total").PinPosition = PinnedColumnPosition.Right
+                End If
+            Else
+                '' Print
+
+                Dim dtItems As DataTable = clsDBFuncationality.GetDataTable("select Item_Code,max(Sku_Seq) as Sku_Seq,max(Alies_Name) as Alies_Name,max(Unit_code)Unit_code from (" + MainQuery + ") x group by Item_Code order by Sku_Seq")
+                Dim FinalQuery As String = " With CTERawData as ( " + MainQuery + "  )" + Environment.NewLine + Environment.NewLine
+                For ii As Integer = 1 To dtItems.Rows.Count Step 13
+                    If ii > 1 Then
+                        FinalQuery += Environment.NewLine + " Union all " + Environment.NewLine
+                    End If
+                    FinalQuery += " select " + clsCommon.myCstr(ii) + " as Grp , ROW_NUMBER() over (order by (Route_No)) As SNo,'" + clsCommon.GetPrintDate(clsCommon.myCDate(txtPTSDateFrom.Value), "dd/MM/yyyy") + "' AS Date,max(Comp_Name) as Comp_Name,MAX(Add1)Add1,MAX(Add2)Add2,MAX(Add3)Add3,MAX(STATE_NAME)STATE_NAME, Route_No,max(Route_Desc) as Route_Desc,"
+                    For jj As Integer = 1 To 13
+                        Dim strJJ As String = clsCommon.myCstr(jj)
+                        Dim strICODE As String = ""
+                        Dim strIShortDesc As String = ""
+                        Dim strIUnitCode As String
+                        If (ii + jj - 1) > dtItems.Rows.Count Then
+                            strICODE = ""
+                            strIShortDesc = ""
+                            strIUnitCode = ""
+                        Else
+                            strICODE = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Item_Code"))
+                            strIShortDesc = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Alies_Name"))
+                            strIUnitCode = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Unit_code"))
+                        End If
+                        FinalQuery += " ,'" + strICODE + "' as Item_" + strJJ + " ,'" + strIShortDesc + "' as Item_Short_Description_" + strJJ + " ,'" + strIUnitCode + "' as Item_Unit_code_" + strJJ + "
+,CEILING(sum(case when Item_Code='" + strICODE + "'  then Qty else null end )) as ItemQtyCrate_" + strJJ + ""
+                    Next
+                    If ii > 1 Then
+                        FinalQuery += " ,null as Amount,null as ProductAmount,null as TotalCrates"
+                    Else
+                        'FinalQuery += ",sum(crate)TotalCrates"
+                    End If
+                    FinalQuery += " from (
+select xx.*,Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor as QtyStock,TabDefaultUOM.Conversion_Factor ConvFacNo,TabCrateUOM.Conversion_Factor as ConvFacCrate	from CTERawData xx
+left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=xx.Item_Code and  TSPL_ITEM_UOM_DETAIL.UOM_Code=xx.Unit_code
+left outer join TSPL_ITEM_UOM_DETAIL as TabDefaultUOM on TabDefaultUOM .Item_Code=xx.Item_Code and  TabDefaultUOM .Default_UOM=1
+left outer join TSPL_ITEM_UOM_DETAIL as TabCrateUOM on TabCrateUOM.Item_Code=xx.Item_Code and  TabCrateUOM.UOM_Code='Crate' 
+) x group by Route_No"
+
+
+                Next
+                Dim dtPrint As DataTable = clsDBFuncationality.GetDataTable(FinalQuery)
+
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+
+
+
+
     Private Sub DairyProductGatePassReport(ByVal IsPrint As Exporter)
         Try
             If fromDate.Value > ToDate.Value Then
@@ -3344,6 +3401,10 @@ max(TAX1_Base_Amt)TAX1_Base_Amt,
             PrintDOSMilkAndProductData(160, 73, DosPaperSize.Tecxpert12X13P5, PageSetup.Landscap, False, False)
         ElseIf chkRouteSummary.Checked Then
             Print(Exporter.Print)
+        ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(ddlReportType.SelectedValue, "MPDR") = CompairStringResult.Equal Then
+                MilkProductDemandReport(Exporter.Print)
+            End If
         End If
     End Sub
     Private Sub chkRouteSummary_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkRouteSummary.ToggleStateChanged
