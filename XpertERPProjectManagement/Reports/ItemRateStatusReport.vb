@@ -108,10 +108,10 @@ WITH Base AS (
 
     WHERE 2=2 "
             If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
-                qry += " and TSPL_ITEM_PRICE_PLAN_detail.Item_Code in (" + clsCommon.GetMulcallString(txtItem.arrValueMember) + ")  "
+                qry += " and TSPL_ITEM_PRICE_PLAN_detail.Item_Code in (''" + clsCommon.GetMulcallString(txtItem.arrValueMember) + "'')  "
             End If
             If txtPriceCode.arrValueMember IsNot Nothing AndAlso txtPriceCode.arrValueMember.Count > 0 Then
-                qry += " and PRICE_CODE in (" + clsCommon.GetMulcallString(txtPriceCode.arrValueMember) + ")  "
+                qry += " and PRICE_CODE in (''" + clsCommon.GetMulcallString(txtPriceCode.arrValueMember) + "'')  "
             End If
             qry += " AND TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code = ''" + strPricecode + "'' and '" + whr + "'"
             If rbtnDefaultUOM.IsChecked Then
