@@ -101,6 +101,7 @@ Public Class ClsEmpOTEntry
                     objTr.PK_ID = clsCommon.myCstr(dr("PK_ID"))
                     objTr.Emp_Code = clsCommon.myCstr(dr("EMP_CODE"))
                     objTr.OT_Date = clsCommon.myCDate(dr("OT_DATE"))
+                    objTr.Pay_Period_Code = clsCommon.myCDate(dr("Pay_Period_Code"))
                     objTr.OT_Type = clsCommon.myCstr(dr("OT_TYPE"))
                     objTr.OT_Hours = clsCommon.myCdbl(dr("OT_HOURS"))
                     objTr.OT_Basic = clsCommon.myCdbl(dr("OT_BASIC"))
@@ -203,6 +204,7 @@ Public Class ClsEmpOTEntryDetail
     Public Emp_Code As String = Nothing
     Public Emp_Name As String = Nothing
     Public OT_Date As DateTime
+    Public Pay_Period_Code As String
     Public OT_Type As String = Nothing
     Public OT_Hours As Decimal = 0
     Public OT_Basic As Decimal = 0
@@ -220,6 +222,7 @@ Public Class ClsEmpOTEntryDetail
                 clsCommon.AddColumnsForChange(coll, "Document_Code", strDocNo)
                 clsCommon.AddColumnsForChange(coll, "EMP_CODE", obj.Emp_Code)
                 clsCommon.AddColumnsForChange(coll, "OT_DATE", clsCommon.GetPrintDate(obj.OT_Date, "dd/MMM/yyyy"))
+                clsCommon.AddColumnsForChange(coll, "Pay_Period_Code", obj.Pay_Period_Code)
                 clsCommon.AddColumnsForChange(coll, "OT_TYPE", obj.OT_Type)
                 clsCommon.AddColumnsForChange(coll, "OT_HOURS", obj.OT_Hours)
                 clsCommon.AddColumnsForChange(coll, "OT_BASIC", obj.OT_Basic)

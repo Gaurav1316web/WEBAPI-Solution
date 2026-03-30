@@ -2753,7 +2753,7 @@ where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ") "
         Dim IncentiveRate As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MPIncentiveEntryIncentiveRate, clsFixedParameterCode.MPIncentiveEntryIncentiveRate, Nothing))
         Dim AreaWiseBilling As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
         Dim PaymentProcessInHindi As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PaymentProcessPrintInHindi, clsFixedParameterCode.PaymentProcessPrintInHindi, Nothing)) = 1)
-
+        Dim PickDataFromMasterOrTransaction As Boolean = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PickDataFromMasterOrTransaction, clsFixedParameterType.PickDataFromMasterOrTransaction, Nothing)) = 0, True, False)
         Dim ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster As Boolean = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster, clsFixedParameterCode.ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster, Nothing)) > 0, True, False)
         Dim sQuery As String = ""
         sQuery += " select   TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_COMPANY_MASTER.City_Code)>0 then ', '+TSPL_COMPANY_MASTER.City_Code else ' ' end + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end  as comp_address from TSPL_COMPANY_MASTER where  Comp_Code = '" + objCommonVar.CurrentCompanyCode + "' "
@@ -2798,16 +2798,23 @@ where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ") "
         whrclsItemWise += "  and convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + fromDate + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + Todate + "'),103) "
         Dim CycleNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select max(Name) as CycleNo from TSPL_PAYMENT_CYCLE_GENERATED where convert(varchar, From_Date,103) = convert(varchar, '" + fromDate + "',103) "))
         Dim BaseQry As String = ""
-        BaseQry = "select '" & User_Name & "' as User_Name,TSPL_COMPANY_MASTER.GSTReg_No, TBL_BILL_DETAILS.Doc_No as PPDoc_No,'" + clsCommon.myCstr(clsCommon.GetPrintDate(fromDate, "dd/MM/yyyy")) + "' as PPDoc_Date,'" + CycleNo + "' as CycleNo, TBL_BILL_DETAILS.BillNo, TBL_BILL_DETAILS.BillDate, round ( TSPL_PRICE_CHART_PLANNING.Price_Chart_FAT_Ratio * TSPL_PRICE_CHART_PLANNING.Price_Chart_Rate / nullif (TSPL_PRICE_CHART_PLANNING.Price_Chart_FAT_Per,0) , 2,1 ) as PC_FATValue , round (  TSPL_PRICE_CHART_PLANNING.Price_Chart_SNF_Ratio * TSPL_PRICE_CHART_PLANNING.Price_Chart_Rate / nullif (TSPL_PRICE_CHART_PLANNING.Price_Chart_SNF_Per,0),2,1)  as PC_SNFValue,  isnull(TSPL_VENDOR_MASTER.Actual_charges,0) as Actual_charges, "
+        BaseQry = "select '" & User_Name & "' as User_Name, "
+        If PickDataFromMasterOrTransaction Then
+            BaseQry += " TSPL_MILK_SRN_DETAIL.Head_Load_Rate as Rate_Head_Load,PaymentProcess.Payee_Joint_Account_No as Vendor_Account_No1,PaymentProcess.Payee_Joint_Branch_Name as Vendor_Bank_Code, "
+        Else
+            BaseQry += " TSPL_MILK_SRN_DETAIL.Head_Load_Rate as Rate_Head_Load,TSPL_VENDOR_MASTER.Account_No as Vendor_Account_No1, TSPL_VENDOR_MASTER.Bank_Code as Vendor_Bank_Code, "
+        End If
+
+        BaseQry += " TSPL_COMPANY_MASTER.GSTReg_No, TBL_BILL_DETAILS.Doc_No as PPDoc_No,'" + clsCommon.myCstr(clsCommon.GetPrintDate(fromDate, "dd/MM/yyyy")) + "' as PPDoc_Date,'" + CycleNo + "' as CycleNo, TBL_BILL_DETAILS.BillNo, TBL_BILL_DETAILS.BillDate, round ( TSPL_PRICE_CHART_PLANNING.Price_Chart_FAT_Ratio * TSPL_PRICE_CHART_PLANNING.Price_Chart_Rate / nullif (TSPL_PRICE_CHART_PLANNING.Price_Chart_FAT_Per,0) , 2,1 ) as PC_FATValue , round (  TSPL_PRICE_CHART_PLANNING.Price_Chart_SNF_Ratio * TSPL_PRICE_CHART_PLANNING.Price_Chart_Rate / nullif (TSPL_PRICE_CHART_PLANNING.Price_Chart_SNF_Per,0),2,1)  as PC_SNFValue,  isnull(TSPL_VENDOR_MASTER.Actual_charges,0) as Actual_charges, "
 
         'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-        If PickHeadLoadRateFromSecretaryMaster Then
-            'BaseQry += " TSPL_VENDOR_MASTER.Rate_Head_Load as Rate_Head_Load, 
-            BaseQry += " TSPL_MILK_SRN_DETAIL.Head_Load_Rate as Rate_Head_Load,"
-        Else
-            'BaseQry += " ISnull(Headload.Head_Load_Rate, 0)Rate_Head_Load, "
-            BaseQry += " TSPL_MILK_SRN_DETAIL.Head_Load_Rate as Rate_Head_Load, "
-        End If
+        'If PickHeadLoadRateFromSecretaryMaster Then
+        '    'BaseQry += " TSPL_VENDOR_MASTER.Rate_Head_Load as Rate_Head_Load, 
+        '    BaseQry += " TSPL_MILK_SRN_DETAIL.Head_Load_Rate as Rate_Head_Load,"
+        'Else
+        '    'BaseQry += " ISnull(Headload.Head_Load_Rate, 0)Rate_Head_Load, "
+        '    BaseQry += " TSPL_MILK_SRN_DETAIL.Head_Load_Rate as Rate_Head_Load, "
+        'End If
         'BaseQry += " ISnull(Headload.Head_Load_Rate, 0)Rate_Head_Load, "
         'End If
 
@@ -2843,7 +2850,7 @@ where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ") "
         BaseQry += ",TSPL_MILK_SRN_HEAD.ROUTE_CODE As SRN_ROUTE,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_VENDOR_MASTER.Vendor_Name_Hindi, TSPL_VENDOR_MASTER.Bank_Name as Vendor_Bank_Name, TSPL_VENDOR_MASTER.Account_Type as Vendor_Bank_Account_Type1 , TSPL_VENDOR_MASTER.AccountType2 as Vendor_Bank_Account_Type2 , "
 
         'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
-        BaseQry += " PaymentProcess.Payee_Joint_Account_No as Vendor_Account_No1,PaymentProcess.Payee_Joint_Branch_Name as Vendor_Bank_Code, "
+        'BaseQry += " PaymentProcess.Payee_Joint_Account_No as Vendor_Account_No1,PaymentProcess.Payee_Joint_Branch_Name as Vendor_Bank_Code, "
         ' Else
         'BaseQry += " TSPL_VENDOR_MASTER.Account_No as Vendor_Account_No1, TSPL_VENDOR_MASTER.Bank_Code as Vendor_Bank_Code, "
         ' End If
