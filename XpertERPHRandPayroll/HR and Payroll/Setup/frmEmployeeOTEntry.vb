@@ -12,6 +12,7 @@ Public Class frmEmployeeOTEntry
     Private isCellValueChangedOpen As Boolean = False
     Const colOTDate As String = "colOTDate"
     Const colEmpCode As String = "colEmpCode"
+    Const colPayPeriod As String = "colPayPeriod"
     Const ColEmpName As String = "ColEmpName"
     Const ColOTType As String = "ColOTType"
     Const ColOTBasic As String = "ColKM"
@@ -85,6 +86,7 @@ Public Class frmEmployeeOTEntry
         coll.Add("Document_Code", "varchar(30) NOT NULL References TSPL_EMPLOYEE_OT_ENTRY_HEAD(Document_Code)")
         coll.Add("EMP_CODE", "VARCHAR(12) NOT NULL REFERENCES TSPL_EMPLOYEE_MASTER(EMP_CODE)")
         coll.Add("OT_DATE", "datetime NOT NULL")
+        coll.Add("PAY_PERIOD_CODE", "VARCHAR(30) NOT NULL REFERENCES TSPL_PAYPERIOD_MASTER(PAY_PERIOD_CODE) ")
         coll.Add("OT_TYPE", "varchar(40)  NOT NULL")
         coll.Add("OT_HOURS", "decimal (18,2) NULL")
         coll.Add("OT_BASIC", "decimal (18,2) NULL")
@@ -179,6 +181,14 @@ Public Class frmEmployeeOTEntry
         repoOTDate.IsVisible = True
         repoOTDate.Width = 150
         gv1.MasterTemplate.Columns.Add(repoOTDate)
+
+        Dim repoPayCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoPayCode.FormatString = ""
+        repoPayCode.HeaderText = "Pay Period"
+        repoPayCode.Name = colPayPeriod
+        repoPayCode.Width = 150
+        repoPayCode.IsVisible = True
+        gv1.MasterTemplate.Columns.Add(repoPayCode)
 
         Dim repoOTType As GridViewComboBoxColumn = New GridViewComboBoxColumn()
         repoOTType.FormatString = ""
@@ -298,6 +308,11 @@ Public Class frmEmployeeOTEntry
                         gv1.CurrentRow.Cells(1).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Emp_Name from TSPL_EMPLOYEE_MASTER where EMP_CODE='" + clsCommon.myCstr(gv1.CurrentRow.Cells(0).Value) + "'"))
                     End If
 
+                    If e.Column.Name = colPayPeriod Then
+                        Dim qry As String = " Select PAY_PERIOD_CODE from TSPL_PAYPERIOD_MASTER "
+                        gv1.CurrentRow.Cells(3).Value = clsCommon.ShowSelectForm("dfsas", qry, "Cust_Code", "", gv1.CurrentRow.Cells(0).Value)
+                    End If
+
                     isCellValueChangedOpen = True
                     UpdateCurrentRow(gv1.CurrentRow.Index, Nothing)
                     'UpdateAllTotals(Nothing)
@@ -322,9 +337,10 @@ Public Class frmEmployeeOTEntry
             End If
 
             Dim Emp_Code As String = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colEmpCode).Value)
+            Dim Payperiod As String = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colPayPeriod).Value)
             Dim BasicDA As String = " Select  max(case when PAY_HEAD_CODE='BASIC' then ACTUAL_AMOUNT end) as Basic_Amt,max(Case when PAY_HEAD_CODE='DA' THEN (ACTUAL_AMOUNT) end )as DA_Amt  from TSPL_GENERATE_SALARY_PAYHEADS
 	                                 LEFT OUTER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE   
-                                    WHERE PAY_PERIOD_CODE = '" + txtPayPeriod.Value + "' and EMP_CODE = '" + Emp_Code + "' and PAY_HEAD_CODE in ('BASIC','DA') group by EMP_CODE  "
+                                    WHERE PAY_PERIOD_CODE = '" + Payperiod + "' and EMP_CODE = '" + Emp_Code + "' and PAY_HEAD_CODE in ('BASIC','DA') group by EMP_CODE  "
             Dim dtbasic As DataTable = clsDBFuncationality.GetDataTable(BasicDA)
             If dtbasic.Rows.Count > 0 Then
                 For ii = 0 To dtbasic.Rows.Count - 1
@@ -347,6 +363,14 @@ Public Class frmEmployeeOTEntry
             End If
             Dim dblBasicAmt As Double = 0
 
+            Dim Qrydays As String = " Select DATE_FROM,DATE_TO from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE = '" + Payperiod + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qrydays)
+
+            'If dt.Rows.Count > 0 Then
+            Dim fromdate As Date = clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("DATE_FROM"), "dd/MMM/yyyy"))
+            Dim Todate As Date = clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("DATE_TO"), "dd/MMM/yyyy"))
+            ' 🧮 Total Days (Inclusive)
+            Dim totalDays As Integer = DateDiff(DateInterval.Day, fromdate, Todate) + 1
 
             dblBasicAmt = ((OTBasic + OTDA) / totalDays) * OTTypeValue
 
@@ -438,6 +462,7 @@ Public Class frmEmployeeOTEntry
                     objTr.Emp_Code = clsCommon.myCstr(grow.Cells(colEmpCode).Value)
                     objTr.Emp_Name = clsCommon.myCstr(grow.Cells(ColEmpName).Value)
                     objTr.OT_Date = clsCommon.myCDate(grow.Cells(colOTDate).Value)
+                    objTr.Pay_Period_Code = clsCommon.myCstr(grow.Cells(colPayPeriod).Value)
                     objTr.OT_Type = clsCommon.myCstr(grow.Cells(ColOTType).Value)
                     objTr.OT_Hours = clsCommon.myCdbl(grow.Cells(ColOTHours).Value)
                     objTr.OT_Basic = clsCommon.myCdbl(grow.Cells(ColOTBasic).Value)
@@ -502,6 +527,7 @@ Public Class frmEmployeeOTEntry
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColEmpName).Value = clsDBFuncationality.getSingleValue(" Select Emp_Name from TSPL_EMPLOYEE_MASTER where TSPL_EMPLOYEE_MASTER.EMP_CODE ='" + objrow.Emp_Code + "'")
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColOTType).Value = objrow.OT_Type
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colOTDate).Value = objrow.OT_Date
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colPayPeriod).Value = objrow.Pay_Period_Code
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColAmount).Value = objrow.Amount
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColOTHours).Value = objrow.OT_Hours
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColOTBasic).Value = objrow.OT_Basic

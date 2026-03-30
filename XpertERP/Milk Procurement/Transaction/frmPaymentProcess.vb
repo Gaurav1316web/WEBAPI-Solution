@@ -189,6 +189,7 @@ Public Class FrmPaymentProcess
     Dim settingShowFATSNF As Boolean = False
     Dim SettShowMCCFinder As Boolean = False
     Dim ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster As Boolean = False
+    Dim PickDataFromMasterOrTransaction As Boolean = False
     Dim MultipleFinderFillAuto As Boolean = False
     Dim SettVSPHoldPaymentNotCompanyBank As Boolean = False
     Dim settTDSRoundOffAmount As Boolean = False
@@ -224,6 +225,7 @@ Public Class FrmPaymentProcess
         PayableAmountZeroForMCCSale = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PayableAmountZeroForMCCSale, clsFixedParameterType.PayableAmountZeroForMCCSale, Nothing)) = 1, True, False)
         settingShowFATSNF = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowFATSNFinPaymentProcess, clsFixedParameterType.ShowFATSNFinPaymentProcess, Nothing)) = 1, True, False)
         ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster, clsFixedParameterCode.ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster, Nothing)) > 0, True, False)
+        PickDataFromMasterOrTransaction = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PickDataFromMasterOrTransaction, clsFixedParameterType.PickDataFromMasterOrTransaction, Nothing)) = 0, True, False)
         RadPageView1.Pages("RadPageViewPage7").Item.Visibility = IIf(isConsiderAdvancePayment, Telerik.WinControls.ElementVisibility.Visible, Telerik.WinControls.ElementVisibility.Collapsed)
         chkSkipPreviousDocumentOfAdvancePayment.Visible = isConsiderAdvancePayment
         RadPageView1.SelectedPage = RadPageViewPage1
