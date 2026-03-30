@@ -2153,8 +2153,8 @@ where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.V
                                    and TSPL_TRANSFER_ORDER_DETAIL.Unit_code = ItemConvinUOM.UOM_Code
  left join TSPL_ITEM_UOM_DETAIL as ItemBulkUOM on TSPL_TRANSFER_ORDER_DETAIL.Item_Code = ItemBulkUOM.Item_Code  and ItemBulkUOM.Bulk_UOM = 1 
 								   where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + whrcls2 + " and tspl_transfer_order_head.Transfer_Type = 'O' ) xx  LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2 
-                GROUP BY Item_Code order by Item_Desc"
-            dt = clsDBFuncationality.GetDataTable(Qry)
+                GROUP BY Item_Code "
+            dt = clsDBFuncationality.GetDataTable(" with cte as ( " & Qry & " ) select * from cte order by Item_Desc ")
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 If Print = False Then
