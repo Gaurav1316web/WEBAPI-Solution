@@ -6859,6 +6859,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Supply_Date", "Date NULL")
             coll.Add("FILE_INFO", "bigint NULL")
             coll.Add("Send_By", "varchar(12)  NULL")
+            coll.Add("Ship_To_Location", "varchar(50)  NULL")
             coll.Add("Send_Date", "datetime  NULL")
             coll.Add("Trip_No", "int NULL")
             coll.Add("Is_GHEE", "Integer Default 0")
