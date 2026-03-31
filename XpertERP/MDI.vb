@@ -8622,7 +8622,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptItemWiseBillReport
                         frm = New rptItemWiseBillReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-
+                    Case clsUserMgtCode.rptDistributorRouteMarginStatusReport
+                        frm = New rptDistributorRouteMarginStatusReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmEwaybill
                         frm = New FrmEwaybill()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
