@@ -183,7 +183,7 @@ Public Class ProductionReport
                     End If
                 Next
             End If
-            qry = " Select *,MONTH(convert(date,PROD_DATE,103)) AS MonthNumber from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") & "' as FromDate, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") & "' as ToDate,   LOCATION_CODE,Location_Desc as [Location Description],Add1,Add4,CONVERT(Varchar(10), PROD_DATE,103) as PROD_DATE,[Item Code],ITEM_DESCRIPTION,isnull ([A-SHIFT], 0)  as [A-SHIFT],isnull ([B-SHIFT], 0) as [B-SHIFT], isnull ([C-SHIFT],0) as [C-SHIFT],
+            qry = " Select *,FORMAT(CONVERT(date, PROD_DATE, 103), 'yyyy-MM') AS MonthNumber from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") & "' as FromDate, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") & "' as ToDate,   LOCATION_CODE,Location_Desc as [Location Description],Add1,Add4,CONVERT(Varchar(10), PROD_DATE,103) as PROD_DATE,[Item Code],ITEM_DESCRIPTION,isnull ([A-SHIFT], 0)  as [A-SHIFT],isnull ([B-SHIFT], 0) as [B-SHIFT], isnull ([C-SHIFT],0) as [C-SHIFT],
                           isnull ([WHOLEDAY],0) as [WHOLEDAY] , (  isnull ([A-SHIFT], 0)  + isnull ([B-SHIFT], 0) + isnull ([C-SHIFT],0) + isnull ([WHOLEDAY],0) ) AS [TOTAL BAG],   
                           (((  isnull ([A-SHIFT], 0)  + isnull ([B-SHIFT], 0) + isnull ([C-SHIFT],0) + isnull ([WHOLEDAY],0) )* 50)/1000) as [Total MT]
                           FROM ( Select max(Add1)Add1,max(Add4)Add4,max(Location_Desc)Location_Desc,[Item Code],max(ITEM_DESCRIPTION)ITEM_DESCRIPTION,

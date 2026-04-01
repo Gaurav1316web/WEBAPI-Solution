@@ -105,20 +105,27 @@ Public Class FrmBMCCategory
     End Sub
 
     Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocNo._MYValidating
-        Dim str As String = "select count(*) from TSPL_BMC_Category_Master where Document_Code ='" + txtDocNo.Value + "' "
-        Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
-        If no = 0 Then
-            txtDocNo.MyReadOnly = False
-        Else
-            txtDocNo.MyReadOnly = True
-        End If
-        If txtDocNo.MyReadOnly OrElse isButtonClicked Then
-            Dim qry As String = "select Document_Code as Code,Description as Name from TSPL_BMC_Category_Master"
-            Dim whrClas As String = " Comp_Code='" + objCommonVar.CurrentCompanyCode + "' "
+        Try
+            Dim str As String = "select count(*) from TSPL_BMC_Category_Master where Document_Code ='" + txtDocNo.Value + "' "
+            Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
+            If no = 0 Then
+                txtDocNo.MyReadOnly = False
+            Else
+                txtDocNo.MyReadOnly = True
+            End If
+            If txtDocNo.MyReadOnly OrElse isButtonClicked Then
+                Dim qry As String = "select Document_Code as Code,Description as Name from TSPL_BMC_Category_Master"
+                'Dim whrClas As String = " Comp_Code='" + objCommonVar.CurrentCompanyCode + "' "
 
-            txtDocNo.Value = clsCommon.ShowSelectForm("TSPL_BMC_Category_Master", qry, "Code", whrClas, txtDocNo.Value, "", isButtonClicked)
+                txtDocNo.Value = clsCommon.ShowSelectForm("TSPL_BMC_Category_Master", qry, "Code", "", txtDocNo.Value, "", isButtonClicked)
             LoadData(txtDocNo.Value, NavigatorType.Current)
-        End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+
+
 
 
     End Sub
@@ -155,5 +162,10 @@ Public Class FrmBMCCategory
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, "Current Code is in use")
         End Try
+    End Sub
+
+    Private Sub FrmBMCCategory_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        SetUserMgmtNew()
+        CreateTab()
     End Sub
 End Class
