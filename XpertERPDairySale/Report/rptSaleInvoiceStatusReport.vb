@@ -7,6 +7,7 @@ Public Class rptSaleInvoiceStatusReport
     Inherits FrmMainTranScreen
 
     Dim EnableProductSaleForJPR As Boolean = False
+    Dim isPrint As Boolean = False
 
     Private Sub rptSaleInvoiceStatusReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         txtfDate.Value = clsCommon.GETSERVERDATE()
@@ -21,7 +22,7 @@ Public Class rptSaleInvoiceStatusReport
     End Sub
 
     Private Sub reset()
-        gvData.DataSource = Nothing
+        gvdata.DataSource = Nothing
         RadPageView1.SelectedPage = RadPageViewPage1
         EnableDisableCntrl(True)
     End Sub
@@ -36,6 +37,7 @@ Public Class rptSaleInvoiceStatusReport
         TxtTransaction.Enabled = val
         RadGroupBox2.Enabled = val
         RadGroupBox1.Enabled = val
+        RadGroupBox5.Enabled = val
     End Sub
 
     Private Sub ReStoreGridLayout()
@@ -43,13 +45,13 @@ Public Class rptSaleInvoiceStatusReport
             If clsCommon.myLen(MyBase.Form_ID) > 0 Then
                 Dim obj As clsGridLayout = New clsGridLayout()
                 obj = CType(obj.GetData(Form_ID, "", objCommonVar.CurrentUserCode), clsGridLayout)
-                If Not obj Is Nothing AndAlso obj.GridColumns >= gvData.ColumnCount Then
+                If Not obj Is Nothing AndAlso obj.GridColumns >= gvdata.ColumnCount Then
                     Dim ii As Integer
-                    For ii = 0 To gvData.Columns.Count - 1 Step ii + 1
-                        gvData.Columns(ii).IsVisible = False
-                        gvData.Columns(ii).VisibleInColumnChooser = True
+                    For ii = 0 To gvdata.Columns.Count - 1 Step ii + 1
+                        gvdata.Columns(ii).IsVisible = False
+                        gvdata.Columns(ii).VisibleInColumnChooser = True
                     Next
-                    gvData.LoadLayout(obj.GridLayout)
+                    gvdata.LoadLayout(obj.GridLayout)
                     obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 End If
             End If
@@ -60,13 +62,13 @@ Public Class rptSaleInvoiceStatusReport
 
     Private Sub rmSaveLayout_Click(sender As Object, e As EventArgs) Handles rmsaveLayout.Click
         If clsCommon.myLen(PageSetupReport_ID) > 0 Then
-            gvData.MasterTemplate.FilterDescriptors.Clear()
+            gvdata.MasterTemplate.FilterDescriptors.Clear()
             Dim obj As New clsGridLayout()
             obj.ReportID = PageSetupReport_ID
             obj.UserID = objCommonVar.CurrentUserCode
             obj.GridLayout = New MemoryStream()
-            gvData.SaveLayout(obj.GridLayout)
-            obj.GridColumns = gvData.ColumnCount
+            gvdata.SaveLayout(obj.GridLayout)
+            obj.GridColumns = gvdata.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
                 common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
@@ -336,21 +338,21 @@ tspl_item_master.Item_Desc as [Item Name],
             End If
             Dim dt As DataTable = New DataTable()
             dt = clsDBFuncationality.GetDataTable(qry)
-            gvData.DataSource = Nothing
-            gvData.Rows.Clear()
-            gvData.Columns.Clear()
-            gvData.GroupDescriptors.Clear()
-            gvData.MasterView.Refresh()
+            gvdata.DataSource = Nothing
+            gvdata.Rows.Clear()
+            gvdata.Columns.Clear()
+            gvdata.GroupDescriptors.Clear()
+            gvdata.MasterView.Refresh()
             Dim viewBlank As New TableViewDefinition()
-            gvData.ViewDefinition = viewBlank
+            gvdata.ViewDefinition = viewBlank
             If dt.Rows.Count > 0 Then
-                gvData.DataSource = dt
-                gvData.GroupDescriptors.Clear()
-                gvData.EnableFiltering = True
-                gvData.MasterTemplate.SummaryRowsBottom.Clear()
+                gvdata.DataSource = dt
+                gvdata.GroupDescriptors.Clear()
+                gvdata.EnableFiltering = True
+                gvdata.MasterTemplate.SummaryRowsBottom.Clear()
                 SetGridFormationProductSummary()
                 EnableDisableCntrl(False)
-                gvData.MasterTemplate.AutoExpandGroups = True
+                gvdata.MasterTemplate.AutoExpandGroups = True
                 RadPageView1.SelectedPage = RadPageViewPage3
                 gvdata.BestFitColumns()
             Else
@@ -527,21 +529,21 @@ WHERE CONVERT(DATE,TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Return_ship_Date,103) 
 
             Dim dt As DataTable = New DataTable()
             dt = clsDBFuncationality.GetDataTable(qry)
-            gvData.DataSource = Nothing
-            gvData.Rows.Clear()
-            gvData.Columns.Clear()
-            gvData.GroupDescriptors.Clear()
-            gvData.MasterView.Refresh()
+            gvdata.DataSource = Nothing
+            gvdata.Rows.Clear()
+            gvdata.Columns.Clear()
+            gvdata.GroupDescriptors.Clear()
+            gvdata.MasterView.Refresh()
             Dim viewBlank As New TableViewDefinition()
-            gvData.ViewDefinition = viewBlank
+            gvdata.ViewDefinition = viewBlank
             If dt.Rows.Count > 0 Then
-                gvData.DataSource = dt
-                gvData.GroupDescriptors.Clear()
-                gvData.EnableFiltering = True
-                gvData.MasterTemplate.SummaryRowsBottom.Clear()
+                gvdata.DataSource = dt
+                gvdata.GroupDescriptors.Clear()
+                gvdata.EnableFiltering = True
+                gvdata.MasterTemplate.SummaryRowsBottom.Clear()
                 SetGridFormationInvoiceCount()
                 EnableDisableCntrl(False)
-                gvData.MasterTemplate.AutoExpandGroups = True
+                gvdata.MasterTemplate.AutoExpandGroups = True
                 RadPageView1.SelectedPage = RadPageViewPage3
                 gvdata.BestFitColumns()
             Else
@@ -952,10 +954,10 @@ WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Date,103) >= c
   GROUP BY Document_Code "
                 Dim dt As DataTable = New DataTable()
                 dt = clsDBFuncationality.GetDataTable(qry)
-                gvData.DataSource = Nothing
-                gvData.Rows.Clear()
-                gvData.Columns.Clear()
-                gvData.GroupDescriptors.Clear()
+                gvdata.DataSource = Nothing
+                gvdata.Rows.Clear()
+                gvdata.Columns.Clear()
+                gvdata.GroupDescriptors.Clear()
                 'gvData.MasterView.Refresh()
                 'Dim viewBlank As New TableViewDefinition()
                 'gvData.ViewDefinition = viewBlank
@@ -991,71 +993,71 @@ WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Date,103) >= c
     End Sub
 
     Sub SetGridFormationProductSummary()
-        gvData.AutoExpandGroups = True
-        gvData.ShowGroupPanel = True
-        gvData.ShowRowHeaderColumn = False
-        gvData.AllowAddNewRow = False
-        gvData.AllowDeleteRow = False
-        gvData.EnableFiltering = True
-        gvData.ShowFilteringRow = True
-        For ii As Integer = 0 To gvData.Columns.Count - 1
-            gvData.Columns(ii).ReadOnly = True
-            gvData.Columns(ii).BestFit()
-        Next
-        gvData.Columns("ItemBasic Amt").IsVisible = False
-        gvData.Columns("ItemBasic Amt").VisibleInColumnChooser = True
-        gvData.Columns("Margin Amt").IsVisible = False
-        gvData.Columns("Margin Amt").VisibleInColumnChooser = True
-    End Sub
-    Sub SetGridFormationInvoiceCount()
-        gvData.AutoExpandGroups = True
-        gvData.ShowGroupPanel = True
-        gvData.ShowRowHeaderColumn = False
-        gvData.AllowAddNewRow = False
-        gvData.AllowDeleteRow = False
-        gvData.EnableFiltering = True
-        gvData.ShowFilteringRow = True
-        For ii As Integer = 0 To gvData.Columns.Count - 1
-            gvData.Columns(ii).ReadOnly = True
-            gvData.Columns(ii).BestFit()
-        Next
-        gvData.Columns("Transcation_Type").HeaderText = "Transaction"
-        gvData.Columns("Invoice_Tax_Type").HeaderText = "Invoice Type"
-        gvData.Columns("First_Invoice").HeaderText = "First Invoice No"
-        gvData.Columns("Last_Invoice").HeaderText = "Last Invoice No"
-        gvData.Columns("Total_Invoice").HeaderText = "Total Invoice Issued"
-        gvData.Columns("Total_CancelInvoice").HeaderText = "No Of Invoice Cancel "
-        gvData.Columns("Total_DeleteInvoice").HeaderText = "No Of Invoice Delete"
-        gvData.Columns("Active_invoice").HeaderText = "Active Invoice"
-        gvData.ShowGroupPanel = True
-        gvData.MasterTemplate.AutoExpandGroups = True
-    End Sub
-    Sub SetGridFormation()
-        gvData.AutoExpandGroups = True
-        gvData.ShowGroupPanel = True
-        gvData.ShowRowHeaderColumn = False
-        gvData.AllowAddNewRow = False
-        gvData.AllowDeleteRow = False
-        gvData.EnableFiltering = True
-        gvData.ShowFilteringRow = True
-        For ii As Integer = 0 To gvData.Columns.Count - 1
-            gvData.Columns(ii).ReadOnly = True
+        gvdata.AutoExpandGroups = True
+        gvdata.ShowGroupPanel = True
+        gvdata.ShowRowHeaderColumn = False
+        gvdata.AllowAddNewRow = False
+        gvdata.AllowDeleteRow = False
+        gvdata.EnableFiltering = True
+        gvdata.ShowFilteringRow = True
+        For ii As Integer = 0 To gvdata.Columns.Count - 1
+            gvdata.Columns(ii).ReadOnly = True
             gvdata.Columns(ii).BestFit()
         Next
-        gvData.Columns("Document_Code").HeaderText = "Invoice No"
-        gvData.Columns("Document_Code").IsVisible = False
-        gvData.Columns("Document_Code").VisibleInColumnChooser = True
-        gvData.Columns("ItemBasic Amt").IsVisible = False
-        gvData.Columns("ItemBasic Amt").VisibleInColumnChooser = True
-        gvData.Columns("Margin Amt").IsVisible = False
-        gvData.Columns("Margin Amt").VisibleInColumnChooser = True
-        gvData.Columns("PARTY_Name").HeaderText = "PARTY Name"
-        gvData.Columns("Party_Code").HeaderText = "PARTY Code"
-        gvData.Columns("Customer_Type").HeaderText = "Customer Type"
-        gvData.Columns("BillNo").HeaderText = "Bill No"
-        gvData.Columns("BillDate").HeaderText = "Bill Date"
-        gvData.ShowGroupPanel = True
-        gvData.MasterTemplate.AutoExpandGroups = True
+        gvdata.Columns("ItemBasic Amt").IsVisible = False
+        gvdata.Columns("ItemBasic Amt").VisibleInColumnChooser = True
+        gvdata.Columns("Margin Amt").IsVisible = False
+        gvdata.Columns("Margin Amt").VisibleInColumnChooser = True
+    End Sub
+    Sub SetGridFormationInvoiceCount()
+        gvdata.AutoExpandGroups = True
+        gvdata.ShowGroupPanel = True
+        gvdata.ShowRowHeaderColumn = False
+        gvdata.AllowAddNewRow = False
+        gvdata.AllowDeleteRow = False
+        gvdata.EnableFiltering = True
+        gvdata.ShowFilteringRow = True
+        For ii As Integer = 0 To gvdata.Columns.Count - 1
+            gvdata.Columns(ii).ReadOnly = True
+            gvdata.Columns(ii).BestFit()
+        Next
+        gvdata.Columns("Transcation_Type").HeaderText = "Transaction"
+        gvdata.Columns("Invoice_Tax_Type").HeaderText = "Invoice Type"
+        gvdata.Columns("First_Invoice").HeaderText = "First Invoice No"
+        gvdata.Columns("Last_Invoice").HeaderText = "Last Invoice No"
+        gvdata.Columns("Total_Invoice").HeaderText = "Total Invoice Issued"
+        gvdata.Columns("Total_CancelInvoice").HeaderText = "No Of Invoice Cancel "
+        gvdata.Columns("Total_DeleteInvoice").HeaderText = "No Of Invoice Delete"
+        gvdata.Columns("Active_invoice").HeaderText = "Active Invoice"
+        gvdata.ShowGroupPanel = True
+        gvdata.MasterTemplate.AutoExpandGroups = True
+    End Sub
+    Sub SetGridFormation()
+        gvdata.AutoExpandGroups = True
+        gvdata.ShowGroupPanel = True
+        gvdata.ShowRowHeaderColumn = False
+        gvdata.AllowAddNewRow = False
+        gvdata.AllowDeleteRow = False
+        gvdata.EnableFiltering = True
+        gvdata.ShowFilteringRow = True
+        For ii As Integer = 0 To gvdata.Columns.Count - 1
+            gvdata.Columns(ii).ReadOnly = True
+            gvdata.Columns(ii).BestFit()
+        Next
+        gvdata.Columns("Document_Code").HeaderText = "Invoice No"
+        gvdata.Columns("Document_Code").IsVisible = False
+        gvdata.Columns("Document_Code").VisibleInColumnChooser = True
+        gvdata.Columns("ItemBasic Amt").IsVisible = False
+        gvdata.Columns("ItemBasic Amt").VisibleInColumnChooser = True
+        gvdata.Columns("Margin Amt").IsVisible = False
+        gvdata.Columns("Margin Amt").VisibleInColumnChooser = True
+        gvdata.Columns("PARTY_Name").HeaderText = "PARTY Name"
+        gvdata.Columns("Party_Code").HeaderText = "PARTY Code"
+        gvdata.Columns("Customer_Type").HeaderText = "Customer Type"
+        gvdata.Columns("BillNo").HeaderText = "Bill No"
+        gvdata.Columns("BillDate").HeaderText = "Bill Date"
+        gvdata.ShowGroupPanel = True
+        gvdata.MasterTemplate.AutoExpandGroups = True
         Dim summaryRowItem As New GridViewSummaryRowItem()
         Dim index As Integer = 9
         For ii As Integer = index To gvdata.Columns.Count - 1
@@ -1065,7 +1067,7 @@ WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Date,103) >= c
             'summaryRowItem.Add(New GridViewSummaryItem(gvdata.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
         Next
         gvdata.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-        gvData.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+        gvdata.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Sub LoadData()
         Try
@@ -1110,7 +1112,7 @@ TSPL_CUSTOMER_MASTER.Customer_Name AS [Party Name],
  TSPL_CUSTOMER_MASTER.GSTNO as [Customer GSTNo],
   TSPL_STATE_MASTER.GST_STATE_Code AS [State Code],
    TSPL_SD_SALE_INVOICE_DETAIL.Item_Code as [Item Code],
-tspl_item_master.Item_Desc as [Item Name],
+tspl_item_master.Item_Desc as [Item Name],TSPL_SD_SALE_INVOICE_DETAIL.item_cost As [Rate],
 TSPL_SD_SALE_INVOICE_DETAIL.Billing_Unit_code as [Measure of Qty],
   TSPL_SD_SALE_INVOICE_DETAIL.Billing_Qty as [Product Qty],
   tspl_item_master.HSN_Code,
@@ -1187,7 +1189,7 @@ TSPL_SD_SALE_INVOICE_HEAD.Ack_No,TSPL_SD_SALE_INVOICE_HEAD.Ack_Date,TSPL_SD_SALE
 Report_UOM.UOM_Code as Report_UOM,
 (Billing_Qty * tspl_item_uom_detail.Conversion_Factor/Report_UOM.Conversion_Factor ) as ReportUOM_Qty
 ,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt as [Subsidy Amt],Case when TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable=1 then 'Taxable' else 'Non-Taxable' end as [Invoice Type],
-TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SD_SALE_INVOICE_HEAD.Created_By,Convert(varchar(20),TSPL_SD_SALE_INVOICE_HEAD.Created_Date,103) as Created_Date
+TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SD_SALE_INVOICE_HEAD.Created_By,Convert(varchar(20),TSPL_SD_SALE_INVOICE_HEAD.Created_Date,103) as Created_Date,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt As [Bill Amount]
 
                          from TSPL_SD_SALE_INVOICE_HEAD
 left join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.Document_Code
@@ -1229,7 +1231,7 @@ TSPL_CUSTOMER_MASTER.Customer_Name AS [Party Name],
  TSPL_CUSTOMER_MASTER.GSTNO as [Customer GSTNo],
   TSPL_STATE_MASTER.GST_STATE_Code AS [State Code],
    TSPL_SCRAPINVOICE_Detail.Item_Code as [Item Code],
-tspl_item_master.Item_Desc as [Item Name],
+tspl_item_master.Item_Desc as [Item Name],TSPL_SCRAPINVOICE_Detail.Price As [Rate],
 TSPL_SCRAPINVOICE_Detail.Unit_code as [Measure of Qty],
   TSPL_SCRAPINVOICE_Detail.shipped_Qty as [Product Qty],
   tspl_item_master.HSN_Code,
@@ -1305,7 +1307,7 @@ TSPL_SCRAPINVOICE_Detail.Unit_code as [Measure of Qty],
 TSPL_SCRAPINVOICE_HEAD.Ack_No,TSPL_SCRAPINVOICE_HEAD.Ack_Date,TSPL_SCRAPINVOICE_HEAD.IRN_No
 ,Report_UOM.UOM_Code as Report_UOM,
 (shipped_Qty * tspl_item_uom_detail.Conversion_Factor/Report_UOM.Conversion_Factor ) as ReportUOM_Qty,0 as [Subsidy Amt], TSPL_SCRAPINVOICE_HEAD.Invoice_Type as [Invoice Type],
-TSPL_SCRAPINVOICE_HEAD.EWayBillNo,TSPL_SCRAPINVOICE_HEAD.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SCRAPINVOICE_HEAD.Created_By,Convert(varchar(20),TSPL_SCRAPINVOICE_HEAD.Created_Date,103) as Created_Date
+TSPL_SCRAPINVOICE_HEAD.EWayBillNo,TSPL_SCRAPINVOICE_HEAD.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SCRAPINVOICE_HEAD.Created_By,Convert(varchar(20),TSPL_SCRAPINVOICE_HEAD.Created_Date,103) as Created_Date,TSPL_SCRAPINVOICE_HEAD.Doc_Amt As [Bill Amount]
 
                            from TSPL_SCRAPINVOICE_HEAD
                     left join TSPL_SCRAPINVOICE_Detail on TSPL_SCRAPINVOICE_Detail.invoice_No=TSPL_SCRAPINVOICE_HEAD.invoice_No
@@ -1332,15 +1334,41 @@ TSPL_SCRAPINVOICE_HEAD.EWayBillNo,TSPL_SCRAPINVOICE_HEAD.EWayBillDate,TSPL_VLC_M
             End If
 
             If rbtnDetail.IsChecked AndAlso rdbGstInvoice.IsChecked Then
-                qry = "Select (Transcation_Type)[Transcation Type],([Customer Type])[Customer Type],(Doc_Status)[Doc Status],(Location)Location,([GST No])[Location GST],([Sub Location])[Sub Location],(Invoice_Date)Invoice_Date,Invoice_No,([Invoice Type])[Invoice Type],([Route No])[Route No],([Party Code])[Party Code],VLC_Code_VLC_Uploader as [DCS Uploader],([Party Name])[Party Name],
-                    ([Customer GSTNo])[Customer GSTNo],([State Code])[Party State Code],[Item Code],[Item Name],HSN_Code AS [HSN Code],([Measure of Qty])[Measure of Qty],([Product Qty])[Product Qty],(Report_UOM)[Report UOM],CAST(ReportUOM_Qty AS DECIMAL(18,2)) AS [ReportUOM Qty],Cast(([IGST Rate]) as decimal(10,2))[GST Rate],cast(([ItemBasic Amt]) as decimal(10,2))[ItemBasic Amt],cast(([Margin Amt]) as decimal(10,2))[Margin Amt],Cast(([Basic Amt]) as Decimal(10,2))[Basic Amt],Cast((KKF) as decimal(10,2))KKF,Cast(([Mandi Tax Amt]) as Decimal(10,2))[Mandi Tax Amt],Cast(([Party TCS Amt]) as Decimal(10,2))[Party TCS Amt],
-                        Cast(([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(([IGST Amt]) as decimal(10,2))[IGST Amt],cast(([Total Tax Amt]) as decimal(10,2))[Total Tax Amt],cast(([Total Amt]) as decimal(10,2))[Total Amt],([Subsidy Amt])[Subsidy Amt],([B2B/B2C])[B2B/B2C],(Ack_No)[Ack No],(Ack_Date)[Ack Date],(IRN_No)[IRN No],EWayBillNo,EWayBillDate
-                    ,(Created_By)[Created By],(Created_Date)[Created Date]
-                    from (" + Baseqry + ")XX   "
-                If TxtTransaction.arrValueMember IsNot Nothing AndAlso TxtTransaction.arrValueMember.Count > 0 Then
-                    qry += " where XX.Transcation_Type In(" + clsCommon.GetMulcallString(TxtTransaction.arrValueMember) + ")" + Environment.NewLine
+                If isPrint Then
+                    qry &= " Select xx.*,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,TSPL_COMPANY_MASTER.State,TSPL_STATE_MASTER.STATE_NAME,TSPL_COMPANY_MASTER.Pincode from ("
+                    qry &= " Select ROW_NUMBER() OVER (PARTITION BY Invoice_No ORDER BY [Item Code]) AS SNo,Max(PrintBy)PrintBy,Max(FromDate)FromDate,Max(ToDate)ToDate,Max([Transcation Type])[Transcation Type],MAX([Customer Type])[Customer Type],Max([Doc Status])[Doc Status],Max(Location)Location,Max([Location GST])[Location GST],Max([Sub Location])[Sub Location],Invoice_Date,Invoice_No,Max([Invoice Type])[Invoice Type],Max([Route No])[Route No],([Party Code])[Party Code],Max([DCS Uploader])[DCS Uploader],Max([Party Name])[Party Name],
+                    Max([Customer GSTNo])[Customer GSTNo],Max([Party State Code])[Party State Code],[Item Code],Max([Item Name])[Item Name],Max([HSN Code])[HSN Code],Max([Measure of Qty])[Measure of Qty],Sum([Product Qty])[Product Qty],Max([Report UOM])[Report UOM],Max(Rate)Rate,
+					Sum(CAST([ReportUOM Qty] AS DECIMAL(18,2))) AS [ReportUOM Qty],
+					Max(Cast(([GST Rate]) as decimal(10,2)))[GST Rate],Sum(cast(([ItemBasic Amt]) as decimal(10,2)))[ItemBasic Amt],
+					Sum(cast(([Margin Amt]) as decimal(10,2)))[Margin Amt],Sum(Cast(([Basic Amt]) as Decimal(10,2)))[Basic Amt],Sum(Cast((KKF) as decimal(10,2)))KKF,
+					Sum(Cast(([Mandi Tax Amt]) as Decimal(10,2)))[Mandi Tax Amt],Sum(Cast(([Party TCS Amt]) as Decimal(10,2)))[Party TCS Amt],
+                        Sum(Cast(([CGST Amt]) as Decimal(10,2)))[CGST Amt],SUm(Cast(([SGST Amt]) as Decimal(10,2)))[SGST Amt],Sum(Cast(([IGST Amt]) as decimal(10,2)))[IGST Amt],Sum(cast(([Total Tax Amt]) as decimal(10,2)))[Total Tax Amt],Sum(cast(([Total Amt]) as decimal(10,2)))[Total Amt],Sum(([Subsidy Amt]))[Subsidy Amt],Max([B2B/B2C])[B2B/B2C],Max([Ack No])[Ack No],Max([Ack Date])[Ack Date],Max([IRN No])[IRN No],Max(EWayBillNo)EWayBillNo,Max(EWayBillDate)EWayBillDate
+                    ,Max([Created By])[Created By],Max([Created Date])[Created Date],Max([Bill Amount])[Bill Amount] from ("
                 End If
-                qry += " order by xx.Transcation_Type, xx.Invoice_Date   "
+                qry &= "Select '" & objCommonVar.CurrentUser & "' As PrintBy,ROW_NUMBER() OVER (PARTITION BY xx.Invoice_No ORDER BY xx.[Item Code]) AS SNo,'" & clsCommon.GetPrintDate(txtfDate.Value, "dd-MM-yyyy") & "' As FromDate,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd-MM-yyyy") & "' As ToDate,(Transcation_Type)[Transcation Type],([Customer Type])[Customer Type],(Doc_Status)[Doc Status],(Location)Location,([GST No])[Location GST],([Sub Location])[Sub Location],(Invoice_Date)Invoice_Date,Invoice_No,([Invoice Type])[Invoice Type],([Route No])[Route No],([Party Code])[Party Code],VLC_Code_VLC_Uploader as [DCS Uploader],([Party Name])[Party Name],
+                    ([Customer GSTNo])[Customer GSTNo],([State Code])[Party State Code],[Item Code],[Item Name],HSN_Code AS [HSN Code],([Measure of Qty])[Measure of Qty],([Product Qty])[Product Qty],(Report_UOM)[Report UOM],Rate,CAST(ReportUOM_Qty AS DECIMAL(18,2)) AS [ReportUOM Qty],Cast(([IGST Rate]) as decimal(10,2))[GST Rate],cast(([ItemBasic Amt]) as decimal(10,2))[ItemBasic Amt],cast(([Margin Amt]) as decimal(10,2))[Margin Amt],Cast(([Basic Amt]) as Decimal(10,2))[Basic Amt],Cast((KKF) as decimal(10,2))KKF,Cast(([Mandi Tax Amt]) as Decimal(10,2))[Mandi Tax Amt],Cast(([Party TCS Amt]) as Decimal(10,2))[Party TCS Amt],
+                        Cast(([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(([IGST Amt]) as decimal(10,2))[IGST Amt],cast(([Total Tax Amt]) as decimal(10,2))[Total Tax Amt],cast(([Total Amt]) as decimal(10,2))[Total Amt],([Subsidy Amt])[Subsidy Amt],([B2B/B2C])[B2B/B2C],(Ack_No)[Ack No],(Ack_Date)[Ack Date],(IRN_No)[IRN No],EWayBillNo,EWayBillDate,CASE WHEN ROW_NUMBER() OVER (PARTITION BY Invoice_No ORDER BY [Item Code] DESC) = 1 THEN [Bill Amount] Else 0 End As [Bill Amount]
+                    ,(Created_By)[Created By],(Created_Date)[Created Date]
+                    from (" & Baseqry & ")XX   "
+                qry &= " Where 1=1 "
+                If rbtnNonTaxable.IsChecked Then
+                    qry &= " And XX.[Invoice Type]='Non-Taxable' "
+                Else
+                    qry &= " And XX.[Invoice Type]='Taxable' "
+                End If
+                If TxtTransaction.arrValueMember IsNot Nothing AndAlso TxtTransaction.arrValueMember.Count > 0 Then
+                    qry += " And XX.Transcation_Type In(" + clsCommon.GetMulcallString(TxtTransaction.arrValueMember) + ")" + Environment.NewLine
+                End If
+
+                If isPrint Then
+                    qry &= " )xyz "
+                    qry &= " Group By [Party Code],Invoice_No,Invoice_Date,[Item Code] "
+                    qry &= " )xx Left Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "'
+					          Left Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_MASTER.State"
+                    qry += " order by xx.[Transcation Type], xx.Invoice_Date "
+                Else
+                    qry += " order by xx.Transcation_Type, xx.Invoice_Date   "
+                End If
             ElseIf rbtnSummary.IsChecked AndAlso rdbGstInvoice.IsChecked Then
                 qry = " Select max(Transcation_Type)[Transcation Type],max([Customer Type])[Customer Type],max(Doc_Status)[Doc Status],max(Location)Location,max([GST No])[Location GST],max([Sub Location])[Sub Location],max(Invoice_Date)Invoice_Date,Invoice_No,max([Invoice Type])[Invoice Type],MAX([Route No])[Route No],max([Party Code])[Party Code],max(VLC_Code_VLC_Uploader) as [DCS Uploader],max([Party Name])[Party Name],
                         max([Customer GSTNo])[Customer GSTNo],max([State Code])[Party State Code],cast(sum([ItemBasic Amt]) as decimal(10,2))[ItemBasic Amt],cast(sum([Margin Amt]) as decimal(10,2))[Margin Amt],Cast(sum([Basic Amt]) as Decimal(10,2))[Basic Amt],Cast(sum(KKF) as decimal(10,2))KKF,Cast(sum([Mandi Tax Amt]) as Decimal(10,2))[Mandi Tax Amt],Cast(sum([Party TCS Amt]) as Decimal(10,2))[Party TCS Amt],
@@ -2274,27 +2302,41 @@ where convert(date,TSPL_SD_SALE_RETURN_HEAD_Delete_Data.Document_Date,103)>=Conv
                 qry += " order by max(xx.Transaction_Type), max(xx.Invoice_Date)   "
             End If
             dt = clsDBFuncationality.GetDataTable(qry)
-            gvData.GroupDescriptors.Clear()
-            gvData.MasterTemplate.SummaryRowsBottom.Clear()
-            gvData.DataSource = Nothing
+            gvdata.GroupDescriptors.Clear()
+            gvdata.MasterTemplate.SummaryRowsBottom.Clear()
+            gvdata.DataSource = Nothing
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                If isPrint Then
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Print", Me.Text)
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                End If
                 Exit Sub
             Else
-                RadPageView1.SelectedPage = RadPageViewPage3
-                gvdata.GroupDescriptors.Clear()
-                gvData.MasterTemplate.SummaryRowsBottom.Clear()
-                gvData.DataSource = dt
-                gvData.AutoExpandGroups = True
-                gvData.ShowGroupPanel = True
-                gvData.ShowRowHeaderColumn = False
-                gvData.AllowAddNewRow = False
-                gvData.AllowDeleteRow = False
-                gvData.EnableFiltering = True
-                gvData.ShowFilteringRow = True
-                SetGridFormat()
-                EnableDisableCntrl(False)
-                gvData.BestFitColumns()
+                If isPrint AndAlso rbtnDetail.IsChecked AndAlso rdbGstInvoice.IsChecked Then
+                    Dim frm As New frmCrystalReportViewer()
+                    If rbtnNonTaxable.IsChecked Then
+                        frm.funreport(Form_ID, CrystalReportFolder.SalesReport, dt, "crptSaleInvoiceNonTaxable", "Sales Register (Bill Of Supply)")
+                    Else
+                        frm.funreport(Form_ID, CrystalReportFolder.SalesReport, dt, "crptSaleInvoiceTaxable", "Sales Register (Tax Invoice)")
+                    End If
+                    frm = Nothing
+                Else
+                    RadPageView1.SelectedPage = RadPageViewPage3
+                    gvdata.GroupDescriptors.Clear()
+                    gvdata.MasterTemplate.SummaryRowsBottom.Clear()
+                    gvdata.DataSource = dt
+                    gvdata.AutoExpandGroups = True
+                    gvdata.ShowGroupPanel = True
+                    gvdata.ShowRowHeaderColumn = False
+                    gvdata.AllowAddNewRow = False
+                    gvdata.AllowDeleteRow = False
+                    gvdata.EnableFiltering = True
+                    gvdata.ShowFilteringRow = True
+                    SetGridFormat()
+                    EnableDisableCntrl(False)
+                    gvdata.BestFitColumns()
+                End If
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -2305,28 +2347,34 @@ where convert(date,TSPL_SD_SALE_RETURN_HEAD_Delete_Data.Document_Date,103)>=Conv
 
     Sub SetGridFormat()
         Try
-            gvData.AutoExpandGroups = True
-            gvData.ShowGroupPanel = True
-            gvData.ShowRowHeaderColumn = False
-            gvData.AllowAddNewRow = False
-            gvData.AllowDeleteRow = False
-            gvData.EnableFiltering = True
-            gvData.ShowFilteringRow = True
-            For ii As Integer = 0 To gvData.Columns.Count - 1
-                gvData.Columns(ii).ReadOnly = True
-                gvData.Columns(ii).BestFit()
+            gvdata.AutoExpandGroups = True
+            gvdata.ShowGroupPanel = True
+            gvdata.ShowRowHeaderColumn = False
+            gvdata.AllowAddNewRow = False
+            gvdata.AllowDeleteRow = False
+            gvdata.EnableFiltering = True
+            gvdata.ShowFilteringRow = True
+            For ii As Integer = 0 To gvdata.Columns.Count - 1
+                gvdata.Columns(ii).ReadOnly = True
+                gvdata.Columns(ii).BestFit()
             Next
-            gvData.Columns("Doc Status").HeaderText = "Status"
-            gvData.Columns("Invoice_Date").HeaderText = "Invoice Date"
-            gvData.Columns("EWayBillNo").IsVisible = False
-            gvData.Columns("EWayBillNo").VisibleInColumnChooser = True
-            gvData.Columns("EWayBillDate").IsVisible = False
-            gvData.Columns("EWayBillDate").VisibleInColumnChooser = True
-            gvData.Columns("Invoice_No").HeaderText = "Invoice No"
-            gvData.Columns("ItemBasic Amt").IsVisible = False
-            gvData.Columns("ItemBasic Amt").VisibleInColumnChooser = True
-            gvData.Columns("Margin Amt").IsVisible = False
-            gvData.Columns("Margin Amt").VisibleInColumnChooser = True
+            If rbtnDetail.IsChecked AndAlso Not rdbCancelInvoice.IsChecked Then
+                gvdata.Columns("PrintBy").IsVisible = False
+                gvdata.Columns("SNo").IsVisible = False
+                gvdata.Columns("FromDate").IsVisible = False
+                gvdata.Columns("ToDate").IsVisible = False
+            End If
+            gvdata.Columns("Doc Status").HeaderText = "Status"
+            gvdata.Columns("Invoice_Date").HeaderText = "Invoice Date"
+            gvdata.Columns("EWayBillNo").IsVisible = False
+            gvdata.Columns("EWayBillNo").VisibleInColumnChooser = True
+            gvdata.Columns("EWayBillDate").IsVisible = False
+            gvdata.Columns("EWayBillDate").VisibleInColumnChooser = True
+            gvdata.Columns("Invoice_No").HeaderText = "Invoice No"
+            gvdata.Columns("ItemBasic Amt").IsVisible = False
+            gvdata.Columns("ItemBasic Amt").VisibleInColumnChooser = True
+            gvdata.Columns("Margin Amt").IsVisible = False
+            gvdata.Columns("Margin Amt").VisibleInColumnChooser = True
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -2342,9 +2390,9 @@ where convert(date,TSPL_SD_SALE_RETURN_HEAD_Delete_Data.Document_Date,103)>=Conv
                 arrHeader.Add(" Customer : " + clsCommon.GetMulcallStringWithComma(txtMultiCustomer.arrDispalyMember))
             End If
             If exporter = EnumExportTo.Excel Then
-                clsCommon.MyExportToExcelGrid("Sale Invoice Status Report", gvData, arrHeader, Me.Text)
+                clsCommon.MyExportToExcelGrid("Sale Invoice Status Report", gvdata, arrHeader, Me.Text)
             Else
-                clsCommon.MyExportToPDF("Sale Invoice Status Report", gvData, arrHeader, "Sale Invoice Status Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
+                clsCommon.MyExportToPDF("Sale Invoice Status Report", gvdata, arrHeader, "Sale Invoice Status Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
@@ -2352,7 +2400,7 @@ where convert(date,TSPL_SD_SALE_RETURN_HEAD_Delete_Data.Document_Date,103)>=Conv
     End Sub
 
     Private Sub rmenuExport_Click(sender As Object, e As EventArgs) Handles rmenuExport.Click
-        If gvData.Rows.Count > 0 Then
+        If gvdata.Rows.Count > 0 Then
             ExportToExcel(EnumExportTo.Excel)
         Else
             RadMessageBox.Show("No Data Found to Display", Me.Text)
@@ -2360,7 +2408,7 @@ where convert(date,TSPL_SD_SALE_RETURN_HEAD_Delete_Data.Document_Date,103)>=Conv
     End Sub
 
     Private Sub rmenuPDF_Click(sender As Object, e As EventArgs) Handles rmenuPDF.Click
-        If gvData.Rows.Count > 0 Then
+        If gvdata.Rows.Count > 0 Then
             ExportToExcel(EnumExportTo.PDF)
         Else
             RadMessageBox.Show("No Data Found to Display", Me.Text)
@@ -2404,5 +2452,18 @@ where convert(date,TSPL_SD_SALE_RETURN_HEAD_Delete_Data.Document_Date,103)>=Conv
         Else
             RadGroupBox2.Enabled = True
         End If
+    End Sub
+
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        Try
+            isPrint = True
+            If rbtnDetail.IsChecked Then
+                LoadData()
+            End If
+            isPrint = False
+        Catch ex As Exception
+            isPrint = False
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

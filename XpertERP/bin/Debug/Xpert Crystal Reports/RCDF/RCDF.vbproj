@@ -1181,6 +1181,7 @@
     <None Include="Crystal Reports\Dairy Sales Report\crptDCSDeductionGSTReport.rpt" />
     <None Include="Crystal Reports\Dairy Sales Report\crptDCSDeductionReport.rpt" />
     <None Include="Crystal Reports\Dairy Sales Report\RouteWiseDemand.rpt" />
+    <None Include="Crystal Reports\Dairy Sales Report\rptDemandSheet.rpt" />
     <None Include="Crystal Reports\Dairy Sales Report\rptVendorServiceInvoice_Union.rpt" />
     <None Include="Crystal Reports\Fixed Assets\frmAcquisionEntryReport.rpt" />
     <None Include="Crystal Reports\Fixed Assets\frmAssetScrapSale.rpt" />
@@ -2055,6 +2056,8 @@
     <None Include="Crystal Reports\Sales Report\crptSaleAccountBreakCashDisInvoicecSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleAccountSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleInvoice.rpt" />
+    <None Include="Crystal Reports\Sales Report\crptSaleInvoiceNonTaxable.rpt" />
+    <None Include="Crystal Reports\Sales Report\crptSaleInvoiceTaxable.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleInvoiceWithExcise.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleInvoiceWithoutExcise.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleInvoiceWithoutExciseCustom.rpt" />
