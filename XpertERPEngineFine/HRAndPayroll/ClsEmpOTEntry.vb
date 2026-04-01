@@ -101,7 +101,7 @@ Public Class ClsEmpOTEntry
                     objTr.PK_ID = clsCommon.myCstr(dr("PK_ID"))
                     objTr.Emp_Code = clsCommon.myCstr(dr("EMP_CODE"))
                     objTr.OT_Date = clsCommon.myCDate(dr("OT_DATE"))
-                    objTr.Pay_Period_Code = clsCommon.myCDate(dr("Pay_Period_Code"))
+                    objTr.Pay_Period_Code = clsCommon.myCstr(dr("Pay_Period_Code"))
                     objTr.OT_Type = clsCommon.myCstr(dr("OT_TYPE"))
                     objTr.OT_Hours = clsCommon.myCdbl(dr("OT_HOURS"))
                     objTr.OT_Basic = clsCommon.myCdbl(dr("OT_BASIC"))

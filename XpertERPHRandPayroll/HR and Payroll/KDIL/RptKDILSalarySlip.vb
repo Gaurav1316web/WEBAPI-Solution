@@ -624,6 +624,7 @@ Public Class RptKDILSalarySlip
                         '    frmcrystal.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtFinal, dtsub, "crptKDILSalarySlipFormat1", "Employee Salary Slip Report", "CrpSalaryAbstractReport", "subDeductionReport", dtsub2)
 
                         'End If
+                        'frmcrystal.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtFinal, dtsub, "crptKDILSalarySlipFormat1AJM", "Employee Salary Slip Report", "CrpSalaryAbstractReport", "subDeductionReport", dtsub2)
 
                         frmcrystal.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtFinal, dtsub, "crptKDILSalarySlipFormat1", "Employee Salary Slip Report", "CrpSalaryAbstractReport", "subDeductionReport", dtsub2)
                     End If

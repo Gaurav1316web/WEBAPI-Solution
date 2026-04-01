@@ -216,8 +216,8 @@ Public Class ProductionReport
 								   left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE
                                    LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE "
 
-            qry += " where 2=2  " & Status1 & " " & FG & " " & SFG & " " & FGSFG & " and TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE >= '" & clsCommon.GetPrintDate(txtFromDate.Value) & "' 
-                     and TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE<= '" & clsCommon.GetPrintDate(txtToDate.Value) & "'"
+            qry += " where 2=2  " & Status1 & " " & FG & " " & SFG & " " & FGSFG & " and Convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103) >= '" & clsCommon.GetPrintDate(txtFromDate.Value) & "' 
+                     and Convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103) <= '" & clsCommon.GetPrintDate(txtToDate.Value) & "'"
             qry += " )Tab1 group by PROD_DATE,LOCATION_CODE,[Item Code],shiftcode)YY
                                     PIVOT(SUM(qty_bag) FOR shiftcode IN ([A-SHIFT],[B-SHIFT],[C-SHIFT],[WHOLEDAY])) AS Tab2 )tmp
 									where [Item Code] IN (" & clsCommon.myCstr(itemNames1) & ")  and convert(date,tmp.PROD_DATE,103) >= convert(date,'" & clsCommon.GetPrintDate(txtFromDate.Value) & "',103) and convert(date,tmp.PROD_DATE,103)<=convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value) & "',103)" & whr & "  order by MonthNumber,PROD_DATE "

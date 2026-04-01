@@ -59804,7 +59804,6 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("To_Date", "datetime NOT NULL")
             coll.Add("Status", "integer null")
             coll.Add("Tanker_No", "varchar(20) NULL  References TSPL_TANKER_MASTER(Tanker_No)")
-            'coll.Add("Transporter_Name", "varchar(60) NULL")
             coll.Add("Toll_Tax", "decimal(18,2) NULL ")
             coll.Add("Ice_Charge", "decimal(18,2) NULL ")
             coll.Add("Fat_Shortage", "decimal(18,2) NULL ")
@@ -59830,12 +59829,17 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Is_Private", "integer null")
             coll.Add("Comment", "varchar(100) NULL")
             coll.Add("Remarks", "varchar(100) NULL")
+            coll.Add("Fat_Shortage_NMG", "decimal(18,2) NULL ")
+            coll.Add("Snf_Shortage_NMG", "decimal(18,2) NULL ")
+            coll.Add("Fat_Rate_NMG", "decimal(18,2) NULL ")
+            coll.Add("Snf_Rate_NMG", "decimal(18,2) NULL ")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BMC_TRANSPORTER_BILL_HEAD", coll, Nothing, True, False, "", "Document_Code", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION PRIMARY KEY")
             coll.Add("Document_Code", "varchar(30) NOT NULL References TSPL_BMC_TRANSPORTER_BILL_HEAD(Document_Code)")
             coll.Add("MCC_Document_Code", "varchar(30)  NULL References TSPL_MILK_COLLECTION_MCC(Document_No)")
+            coll.Add("Category", "varchar(15) NULL")
             coll.Add("Station_1", "varchar(40)  NULL")
             coll.Add("Station_2", "varchar(40)  NULL")
             coll.Add("Station_3", "varchar(40)  NULL")
@@ -60650,7 +60654,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             ----Receipt Entry
            alter table TSPL_RECEIPT_HEADER alter column Receipt_Date DATETIME NOT NULL 
            alter table TSPL_RECEIPT_HEADER_HIST_DATA alter column Receipt_Date DATETIME NOT NULL
-            alter table TSPL_RECEIPT_HEADER_DELETE_DATA alter column Receipt_Date DATETIME NOT NULL 
+            alter table TSPL_RECEIPT_HEADER_DELETE_DATA alter column Receipt_Date DATETIME NOT NULL TABLE_NAME
            alter table TSPL_RECEIPT_HEADER_CANCEL_DATA alter column Receipt_Date DATETIME NOT NULL "
             clsDBFuncationality.ExecuteNonQuery(qry2)
             Dim sqlStr As String = "SELECT count(1) FROM INFORMATION_SCHEMA.COLUMNS WHERE  TABLE_NAME = 'TSPL_EINVOICEHEADER_INFO' AND COLUMN_NAME = 'Code' "
