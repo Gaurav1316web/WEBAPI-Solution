@@ -2054,6 +2054,8 @@
     <None Include="Crystal Reports\Sales Report\crptSaleAccountBreakCashDisInvoicecSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleAccountSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleInvoice.rpt" />
+    <None Include="Crystal Reports\Sales Report\crptSaleInvoiceNonTaxable.rpt" />
+    <None Include="Crystal Reports\Sales Report\crptSaleInvoiceTaxable.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleInvoiceWithExcise.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleInvoiceWithoutExcise.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleInvoiceWithoutExciseCustom.rpt" />
