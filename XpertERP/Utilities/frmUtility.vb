@@ -27506,6 +27506,100 @@ where Against_Shipment_No in (select Document_Code from TSPL_SD_SHIPMENT_HEAD wh
 
         End Try
     End Sub
+
+    Private Sub RadButton315_Click(sender As Object, e As EventArgs) Handles RadButton315.Click
+        Try
+            Dim coll As Dictionary(Of String, String)
+            coll = New Dictionary(Of String, String)()
+            coll.Add("DocumentNo", "varchar(30) null") ''Shipment No
+            coll.Add("Shipment_JV_NO", "varchar(30) null")
+
+            clsCommonFunctionality.CreateOrAlterTable("TEMP_DELETED_DAIRY_SHIPMENT", coll)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("DocumentNo", "varchar(30) null")
+            clsCommonFunctionality.CreateOrAlterTable("TEMP_CREATED_DAIRY_SHIPMENT", coll)
+
+            clsDBFuncationality.ExecuteNonQuery("delete from TEMP_CREATED_DAIRY_SHIPMENT")
+            clsDBFuncationality.ExecuteNonQuery("delete from TEMP_DELETED_DAIRY_SHIPMENT")
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub RadButton314_Click(sender As Object, e As EventArgs) Handles RadButton314.Click
+        Try
+            Dim qry As String = " select TSPL_SD_SHIPMENT_HEAD.Document_Code as ShipmentNo,TSPL_SD_SHIPMENT_HEAD.Document_Date as ShipmentDate,ShipJVNo.Voucher_No as ShipmentVoucherNo , TSPL_SD_SHIPMENT_HEAD.Customer_Code as [Customer Code], TSPL_CUSTOMER_MASTER.Customer_Name as Customer 
+             from TSPL_SD_SHIPMENT_HEAD             
+             left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code 
+             left join TSPL_JOURNAL_MASTER as ShipJVNo on ShipJVNo.Source_Doc_No=TSPL_SD_SHIPMENT_HEAD.Document_Code             
+             where TSPL_SD_SHIPMENT_HEAD.Trans_Type IN ('FS', 'PS') and TSPL_SD_SHIPMENT_HEAD.Screen_Type='DS' and TSPL_SD_SHIPMENT_HEAD.Status=1
+             and ISNULL(TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No,'')='' "
+            Dim QryInsert As String = ""
+            Dim arr As ArrayList = clsCommon.ShowMultipleSelectForm("ShipmentDate", False, "tcrdasai", qry, "ShipmentNo", "", Nothing, Nothing)
+            If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                clsDBFuncationality.ExecuteNonQuery("delete from TEMP_DELETED_DAIRY_SHIPMENT")
+                QryInsert = "insert into TEMP_DELETED_DAIRY_SHIPMENT "
+                QryInsert += "select ShipmentNo,ShipmentVoucherNo from (" & qry & " and TSPL_SD_SHIPMENT_HEAD.Document_Code in(" + clsCommon.GetMulcallString(arr) & ")) Rev"
+                clsDBFuncationality.ExecuteNonQuery(QryInsert)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub RadButton316_Click(sender As Object, e As EventArgs) Handles RadButton316.Click
+        Dim qry As String = ""
+        Dim dt As New DataTable()
+        Try
+            qry = "select * from TEMP_DELETED_DAIRY_SHIPMENT where DocumentNo not in (select DocumentNo from TEMP_CREATED_DAIRY_SHIPMENT)"
+            dt = New DataTable()
+            dt = clsDBFuncationality.GetDataTable(qry)
+            Dim strErro As String = ""
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                If clsCommon.MyMessageBoxShow("Recreate Dairy Shipment/Sale " + clsCommon.myCstr(dt.Rows.Count), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                    clsCommon.ProgressBarPercentShow()
+                    For ii As Integer = 0 To dt.Rows.Count - 1
+                        Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocumentNo"))
+                        Dim strShipmentJVNo As String = clsCommon.myCstr(dt.Rows(ii)("Shipment_JV_NO"))
+
+                        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+                        Try
+                            ''Shipment
+                            qry = "Delete from TSPL_JOURNAL_DETAILS where voucher_no='" + strShipmentJVNo + "'"
+                            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                            qry = "Delete from TSPL_JOURNAL_MASTER where voucher_no='" + strShipmentJVNo + "'"
+                            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, False, False)
+                            clsPSShipmentHead.UpdateInventoryMovement(obj, trans, True, True)
+                            clsPSShipmentHead.CreateJournalEntry(strDocNo, trans, strShipmentJVNo, True)
+
+
+
+
+                            clsDBFuncationality.ExecuteNonQuery("Insert into TEMP_CREATED_DAIRY_SHIPMENT values('" & strDocNo & "')", trans)
+                            trans.Commit()
+                        Catch ex As Exception
+                            trans.Rollback()
+                            strErro += "Recreate Dairy Shipment  - " + strDocNo + " Exception -" + ex.Message + Environment.NewLine
+                        End Try
+                        clsCommon.ProgressBarPercentUpdate((ii + 1) * 100 / dt.Rows.Count, "Recreate Document " + clsCommon.myCstr(ii + 1) + "/" + clsCommon.myCstr(dt.Rows.Count))
+                    Next
+                    clsCommon.ProgressBarPercentHide()
+                    If clsCommon.myLen(strErro) > 0 Then
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                    Else
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class
 Public Class clsDCDetail
 #Region "Varibales"
