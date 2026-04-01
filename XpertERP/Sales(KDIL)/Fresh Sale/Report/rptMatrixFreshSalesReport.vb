@@ -1012,7 +1012,7 @@ Public Class RptMatrixFreshSalesReport
                         If grp > 1 Then
                             FinalQuery += " UNION ALL "
                         End If
-                        FinalQuery += " select " + clsCommon.myCstr(grp) + " as Grp , ROW_NUMBER() over (order by (Route_No)) As SNo,'" + clsCommon.GetPrintDate(clsCommon.myCDate(txtPTSDateFrom.Value), "dd/MM/yyyy") + "' AS Date,max(Comp_Name) as Comp_Name,MAX(Add1)Add1,MAX(Add2)Add2,MAX(Add3)Add3,MAX(STATE_NAME)STATE_NAME, Route_No,max(Route_Desc) as Route_Desc,max(TypeOfItm)TypeOfItm,"
+                        FinalQuery += " select " + clsCommon.myCstr(grp) + " as Grp , ROW_NUMBER() over (order by (Route_No)) As SNo,'" + clsCommon.GetPrintDate(clsCommon.myCDate(fromDate.Value), "dd/MM/yyyy") + "' AS Date,max(Comp_Name) as Comp_Name,MAX(Add1)Add1,MAX(Add2)Add2,MAX(Add3)Add3,MAX(STATE_NAME)STATE_NAME, Route_No,max(Route_Desc) as Route_Desc,max(TypeOfItm)TypeOfItm,"
 
                         For jj As Integer = 1 To 12
 
