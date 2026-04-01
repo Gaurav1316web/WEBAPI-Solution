@@ -2988,7 +2988,7 @@ Public Class clsMCCMaterialSale
             Qry += "1 As CopyType,"
         End If
 
-        Qry += " TabBatch.Batch_No, (CASE when TSPL_SD_SHIPMENT_DETAIL.Scheme_Item='Y' then 0 else ((case when TSPL_SD_SHIPMENT_DETAIL.Sampling=1 then 0 else  TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Discount end)) end)  as valueInRs,
+        Qry += " TSPL_SD_SHIPMENT_DETAIL.Batch_No as Manual_BatchNo,TabBatch.Batch_No, (CASE when TSPL_SD_SHIPMENT_DETAIL.Scheme_Item='Y' then 0 else ((case when TSPL_SD_SHIPMENT_DETAIL.Sampling=1 then 0 else  TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Discount end)) end)  as valueInRs,
 ITEMDETAIL1.Conversion_Factor As CF,TSPL_ITEM_UOM_DETAIL.Conversion_Factor As ConversionFactor,"
         If isCancel Then
             Qry += " 'Cancelled' As Report_Status,"
@@ -3173,6 +3173,12 @@ SELECT Document_Code, Batch_No, Qty, Parent_Line_No FROM TSPL_BATCH_ITEM WHERE T
                                         pdfPath = frmCRV.funsubreportWithdt(Form_ID, GetPDFPath, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_LocalSKR", "MCC Material Sale Local", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
                                     Else
                                         frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_LocalSKR", "MCC Material Sale Local", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                                    End If
+                                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                                    If GetPDFPath Then
+                                        pdfPath = frmCRV.funsubreportWithdt(Form_ID, GetPDFPath, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_LocalTNK", "MCC Material Sale Local", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                                    Else
+                                        frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_LocalTNK", "MCC Material Sale Local", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
                                     End If
                                 Else
                                     If GetPDFPath Then

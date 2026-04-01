@@ -644,6 +644,15 @@ Public Class frmMCCMaterialSale
         repoIName.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoIName)
 
+        Dim repoBatchNo As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoBatchNo.FormatString = ""
+        repoBatchNo.HeaderText = "Batch No"
+        repoBatchNo.Name = colBatchNo
+        repoBatchNo.ReadOnly = False
+        repoBatchNo.IsVisible = True
+        repoBatchNo.Width = 100
+        gv1.MasterTemplate.Columns.Add(repoBatchNo)
+
         Dim repoDCSSaleZeroCost As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoDCSSaleZeroCost.FormatString = ""
         repoDCSSaleZeroCost.HeaderText = "Is DCS Sale Zero Cost"
@@ -2026,14 +2035,7 @@ Public Class frmMCCMaterialSale
         repoBinNo.IsVisible = False
         repoBinNo.Width = 100
         gv1.MasterTemplate.Columns.Add(repoBinNo)
-        Dim repoBatchNo As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoBatchNo.FormatString = ""
-        repoBatchNo.HeaderText = "Batch No"
-        repoBatchNo.Name = colBatchNo
-        repoBatchNo.ReadOnly = False
-        repoBatchNo.IsVisible = False
-        repoBatchNo.Width = 100
-        gv1.MasterTemplate.Columns.Add(repoBatchNo)
+
         Dim repoExpiry As GridViewDateTimeColumn = New GridViewDateTimeColumn()
         repoExpiry.Format = DateTimePickerFormat.Custom
         repoExpiry.CustomFormat = "dd-MM-yyyy"
