@@ -3543,7 +3543,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                     strMCCMaterial += ",[Payment Type] as PaymentType "
                 End If
                 If obj.ReportType = "Document Detail" Then
-                strMCCMaterial += " ,Case  When status='1' Then 'Approve' Else 'Pending' End As [Status]  ,[Mcc_Name], [Area_Location_Code] "
+                strMCCMaterial += " ,Case  When status='1' Then 'Approve' Else 'Pending' End As [Status]  ,mcc_name as [Mcc Name], Area_Location_Code as [Area Location Code]  "
             End If
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
                     strMCCMaterial += ",[Gross Amount] "
