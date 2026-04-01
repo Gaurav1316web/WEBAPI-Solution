@@ -672,7 +672,7 @@ Partial Class frmDBTNEFTUploader
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
         Me.RadPageView1.Size = New System.Drawing.Size(860, 288)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -697,6 +697,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvFarmer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvFarmer.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvFarmer.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvFarmer.MyExportAPI = False
         Me.gvFarmer.MyExportFilePath = ""
         Me.gvFarmer.MyStopExport = False
         Me.gvFarmer.Name = "gvFarmer"
@@ -727,6 +728,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvItem.MyExportAPI = False
         Me.gvItem.MyExportFilePath = ""
         Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
@@ -771,6 +773,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvInvalid.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvInvalid.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvInvalid.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvInvalid.MyExportAPI = False
         Me.gvInvalid.MyExportFilePath = ""
         Me.gvInvalid.MyStopExport = False
         Me.gvInvalid.Name = "gvInvalid"
@@ -820,6 +823,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvHold.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvHold.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvHold.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvHold.MyExportAPI = False
         Me.gvHold.MyExportFilePath = ""
         Me.gvHold.MyStopExport = False
         Me.gvHold.Name = "gvHold"
