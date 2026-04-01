@@ -1161,6 +1161,8 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                 End If
                 txtLoadingSlip.Text = obj.Loading_Slip
                 txtDriverName.Text = obj.Driver_Name
+                txtShipToLocation.Text = obj.Ship_To_Location
+
                 txtDriverMobNo.Text = obj.Driver_ContactNo
                 txtDistributorName.Text = obj.DistributorName
                 funLoadGrid(txtCode.Value)
@@ -1290,6 +1292,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                 obj.Salesman = txtSalesman.Text
                 obj.Remarks = txtRemarks.Text
                 obj.Comments = txtComments.Text
+                obj.Ship_To_Location = txtShipToLocation.Text
                 obj.Location_Code = txtLocCode.Value
                 obj.Location_Desc = txtLocDesc.Text
                 obj.Supply_Date = txtSupplyDate.Value
@@ -1495,6 +1498,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
         txtLocCode.Enabled = True
         TxtMultiDairyGPassReverse.arrValueMember = Nothing
         txtDriverName.Text = Nothing
+        txtShipToLocation.Text = Nothing
         txtDriverMobNo.Text = Nothing
         If SetDefaultShiftTime.Length > 0 Then
             Dim CurrDateTime As DateTime = clsCommon.GETSERVERDATE
@@ -1916,7 +1920,7 @@ where TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode='" & strCode & "' order by Sku_Seq "
             tbl_TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL = " TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL"
         End If
         Dim Qry As String = ""
-        Qry = " Select '" & clsCommon.myCstr(IIf(isCancel, "Y", "N")) & "' As isCancelled,*,'" & txtCode.Value & "' as GPCode,'" & txtDriverName.Text & "' as Driver_Name from (select 1 As CopyType, TabBatch.BatchNo,TabBatch.Batch_Qty,'' as Comp_Phone2,'' as Comp_Add3,'' as Comp_Add2,  InLtr.Conversion_factor As [ConversionInLtr],InCrate.Conversion_factor As [ConversionInCrate],InPouch.Conversion_factor As [ConversionInPouch],TSPL_SD_SHIPMENT_HEAD.Document_Date,
+        Qry = " Select '" & clsCommon.myCstr(IIf(isCancel, "Y", "N")) & "' As isCancelled,*,'" & txtCode.Value & "' as GPCode,'" & txtShipToLocation.Text & "' as Ship_To_Location,'" & txtDriverName.Text & "' as Driver_Name from (select 1 As CopyType, TabBatch.BatchNo,TabBatch.Batch_Qty,'' as Comp_Phone2,'' as Comp_Add3,'' as Comp_Add2,  InLtr.Conversion_factor As [ConversionInLtr],InCrate.Conversion_factor As [ConversionInCrate],InPouch.Conversion_factor As [ConversionInPouch],TSPL_SD_SHIPMENT_HEAD.Document_Date,
                         TSPL_SD_SHIPMENT_HEAD.DO_Item_Type as Is_Taxable,Case When TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' OR TSPL_SD_SHIPMENT_HEAD.Shift_Type='M' Then '[M]' Else '[E]' End As Shift,
                         TSPL_SD_SHIPMENT_DETAIL.*,TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt as Amount_with_Tax ,TSPL_SD_SHIPMENT_DETAIL.Qty as Booking_Qty,TSPL_COMPANY_MASTER.Access_Officer,
                         TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.HSN_Code,

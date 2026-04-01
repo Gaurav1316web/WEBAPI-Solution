@@ -615,6 +615,12 @@
     <Compile Include="Report\rptDailyStatementReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\rptDistributorRouteMarginStatusReport.Designer.vb">
+      <DependentUpon>rptDistributorRouteMarginStatusReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptDistributorRouteMarginStatusReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\rptGatePassReport.Designer.vb">
       <DependentUpon>rptGatePassReport.vb</DependentUpon>
     </Compile>
@@ -1563,6 +1569,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptDemandReturnReport.resx">
       <DependentUpon>rptDemandReturnReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptDistributorRouteMarginStatusReport.resx">
+      <DependentUpon>rptDistributorRouteMarginStatusReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptGatePassReport.resx">
       <DependentUpon>rptGatePassReport.vb</DependentUpon>

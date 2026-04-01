@@ -9353,12 +9353,25 @@ from
             frm.docdate = txtDate.Value
             frm.Supplydate = txtSupplyDate.Value
             frm.Shifttype = cmbGatePassType.Text
-            Dim qry As String = clsDBFuncationality.getSingleValue("  Select Credit_Customer from tspl_customer_master where cust_code =  '" & txtVendorNo.Value & "' ")
-            If qry = "Y" Then
-                frm.CreditCustomer = lblVendorName.Text
-            Else
-                frm.CreditCustomer = ""
+            Dim qry As String = (" Select Credit_Customer,IsDistributor from tspl_customer_master where cust_code =  '" & txtVendorNo.Value & "' ")
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt.Rows.Count > 0 Then
+                Dim creditCustomerFlag As String = dt.Rows(0)("Credit_Customer").ToString()
+                Dim isDistributorFlag As String = dt.Rows(0)("IsDistributor").ToString()
+                If creditCustomerFlag = "Y" AndAlso isDistributorFlag = "N" Then
+                    frm.CreditCustomer = lblVendorName.Text
+                ElseIf creditCustomerFlag = "N" AndAlso isDistributorFlag = "Y" Then
+                    frm.CreditCustomer = ""
+                ElseIf creditCustomerFlag = "N" AndAlso isDistributorFlag = "N" Then
+                    frm.CreditCustomer = lblVendorName.Text
+                End If
             End If
+            'Dim qry As String = clsDBFuncationality.getSingleValue("  Select Credit_Customer from tspl_customer_master where cust_code =  '" & txtVendorNo.Value & "' ")
+            'If qry = "Y" Then
+            '    frm.CreditCustomer = lblVendorName.Text
+            'Else
+            '    frm.CreditCustomer = ""
+            'End If
             'frm.CreditCustomer = lblVendorName.Text
             frm.ShowDialog()
         Catch ex As Exception

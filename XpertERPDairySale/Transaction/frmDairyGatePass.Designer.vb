@@ -33,6 +33,8 @@ Partial Class frmDairyGatePass
         Me.rpvpGatePass = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.txtShipToLocation = New common.Controls.MyTextBox()
+        Me.lblShipToLocation = New common.Controls.MyLabel()
         Me.lblDemandNo = New common.Controls.MyLabel()
         Me.txtDemandNo = New common.UserControls.txtFinder()
         Me.Panel2 = New System.Windows.Forms.Panel()
@@ -103,6 +105,7 @@ Partial Class frmDairyGatePass
         Me.cmbitemtype = New common.Controls.MyComboBox()
         Me.lblfullempty = New common.Controls.MyLabel()
         Me.lblpaymentno = New common.Controls.MyLabel()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.txtVehicle = New common.UserControls.txtFinder()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.Gv1 = New common.UserControls.MyRadGridView()
@@ -128,7 +131,6 @@ Partial Class frmDairyGatePass
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -139,6 +141,8 @@ Partial Class frmDairyGatePass
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
         Me.Panel1.SuspendLayout()
+        CType(Me.txtShipToLocation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblShipToLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDemandNo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -204,6 +208,7 @@ Partial Class frmDairyGatePass
         CType(Me.cmbitemtype, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblfullempty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblpaymentno, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Gv1.SuspendLayout()
@@ -226,7 +231,6 @@ Partial Class frmDairyGatePass
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -280,10 +284,10 @@ Partial Class frmDairyGatePass
         'rpvpGatePass
         '
         Me.rpvpGatePass.Controls.Add(Me.SplitContainer2)
-        Me.rpvpGatePass.ItemSize = New System.Drawing.SizeF(62.0!, 22.0!)
-        Me.rpvpGatePass.Location = New System.Drawing.Point(10, 31)
+        Me.rpvpGatePass.ItemSize = New System.Drawing.SizeF(66.0!, 26.0!)
+        Me.rpvpGatePass.Location = New System.Drawing.Point(10, 35)
         Me.rpvpGatePass.Name = "rpvpGatePass"
-        Me.rpvpGatePass.Size = New System.Drawing.Size(1150, 358)
+        Me.rpvpGatePass.Size = New System.Drawing.Size(1150, 354)
         Me.rpvpGatePass.Text = "GatePass"
         '
         'SplitContainer2
@@ -302,12 +306,14 @@ Partial Class frmDairyGatePass
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.Gv1)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1150, 358)
+        Me.SplitContainer2.Size = New System.Drawing.Size(1150, 354)
         Me.SplitContainer2.SplitterDistance = 202
         Me.SplitContainer2.TabIndex = 2
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.txtShipToLocation)
+        Me.Panel1.Controls.Add(Me.lblShipToLocation)
         Me.Panel1.Controls.Add(Me.lblDemandNo)
         Me.Panel1.Controls.Add(Me.txtDemandNo)
         Me.Panel1.Controls.Add(Me.Panel2)
@@ -376,6 +382,40 @@ Partial Class frmDairyGatePass
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1150, 202)
         Me.Panel1.TabIndex = 0
+        '
+        'txtShipToLocation
+        '
+        Me.txtShipToLocation.CalculationExpression = Nothing
+        Me.txtShipToLocation.FieldCode = Nothing
+        Me.txtShipToLocation.FieldDesc = Nothing
+        Me.txtShipToLocation.FieldMaxLength = 0
+        Me.txtShipToLocation.FieldName = Nothing
+        Me.txtShipToLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtShipToLocation.isCalculatedField = False
+        Me.txtShipToLocation.IsSourceFromTable = False
+        Me.txtShipToLocation.IsSourceFromValueList = False
+        Me.txtShipToLocation.IsUnique = False
+        Me.txtShipToLocation.Location = New System.Drawing.Point(431, 112)
+        Me.txtShipToLocation.MaxLength = 200
+        Me.txtShipToLocation.MendatroryField = False
+        Me.txtShipToLocation.MyLinkLable1 = Me.lblShipToLocation
+        Me.txtShipToLocation.MyLinkLable2 = Nothing
+        Me.txtShipToLocation.Name = "txtShipToLocation"
+        Me.txtShipToLocation.ReferenceFieldDesc = Nothing
+        Me.txtShipToLocation.ReferenceFieldName = Nothing
+        Me.txtShipToLocation.ReferenceTableName = Nothing
+        Me.txtShipToLocation.Size = New System.Drawing.Size(253, 18)
+        Me.txtShipToLocation.TabIndex = 1461
+        '
+        'lblShipToLocation
+        '
+        Me.lblShipToLocation.FieldName = Nothing
+        Me.lblShipToLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblShipToLocation.Location = New System.Drawing.Point(337, 113)
+        Me.lblShipToLocation.Name = "lblShipToLocation"
+        Me.lblShipToLocation.Size = New System.Drawing.Size(91, 16)
+        Me.lblShipToLocation.TabIndex = 1462
+        Me.lblShipToLocation.Text = "Ship To Location"
         '
         'lblDemandNo
         '
@@ -1485,6 +1525,17 @@ Partial Class frmDairyGatePass
         Me.lblpaymentno.TabIndex = 28
         Me.lblpaymentno.Text = "Gate Pass No"
         '
+        'btnNew
+        '
+        Me.btnNew.BackgroundImage = Global.XpertERPDairySale.My.Resources.Resources._new
+        Me.btnNew.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnNew.Image = Global.XpertERPDairySale.My.Resources.Resources._new
+        Me.btnNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnNew.Location = New System.Drawing.Point(317, 7)
+        Me.btnNew.Name = "btnNew"
+        Me.btnNew.Size = New System.Drawing.Size(19, 21)
+        Me.btnNew.TabIndex = 13
+        '
         'txtVehicle
         '
         Me.txtVehicle.CalculationExpression = Nothing
@@ -1543,7 +1594,7 @@ Partial Class frmDairyGatePass
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
-        Me.Gv1.Size = New System.Drawing.Size(1150, 152)
+        Me.Gv1.Size = New System.Drawing.Size(1150, 148)
         Me.Gv1.TabIndex = 1
         Me.Gv1.VarID = ""
         '
@@ -1569,7 +1620,7 @@ Partial Class frmDairyGatePass
         'rpvpCrateType
         '
         Me.rpvpCrateType.Controls.Add(Me.gvCrateType)
-        Me.rpvpCrateType.ItemSize = New System.Drawing.SizeF(100.0!, 22.0!)
+        Me.rpvpCrateType.ItemSize = New System.Drawing.SizeF(104.0!, 26.0!)
         Me.rpvpCrateType.Location = New System.Drawing.Point(10, 35)
         Me.rpvpCrateType.Name = "rpvpCrateType"
         Me.rpvpCrateType.Size = New System.Drawing.Size(1150, 354)
@@ -1762,17 +1813,6 @@ Partial Class frmDairyGatePass
         Me.RadMenu1.Size = New System.Drawing.Size(1171, 20)
         Me.RadMenu1.TabIndex = 0
         '
-        'btnNew
-        '
-        Me.btnNew.BackgroundImage = Global.XpertERPDairySale.My.Resources.Resources._new
-        Me.btnNew.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.btnNew.Image = Global.XpertERPDairySale.My.Resources.Resources._new
-        Me.btnNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnNew.Location = New System.Drawing.Point(317, 7)
-        Me.btnNew.Name = "btnNew"
-        Me.btnNew.Size = New System.Drawing.Size(19, 21)
-        Me.btnNew.TabIndex = 13
-        '
         'frmDairyGatePass
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1798,6 +1838,8 @@ Partial Class frmDairyGatePass
         Me.SplitContainer2.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.txtShipToLocation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblShipToLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDemandNo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
@@ -1866,6 +1908,7 @@ Partial Class frmDairyGatePass
         CType(Me.cmbitemtype, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblfullempty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblpaymentno, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Gv1.ResumeLayout(False)
@@ -1889,7 +1932,6 @@ Partial Class frmDairyGatePass
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1996,5 +2038,7 @@ Partial Class frmDairyGatePass
     Friend WithEvents Panel2 As Panel
     Friend WithEvents rpvpCrateType As RadPageViewPage
     Friend WithEvents gvCrateType As common.UserControls.MyRadGridView
+    Friend WithEvents txtShipToLocation As common.Controls.MyTextBox
+    Friend WithEvents lblShipToLocation As common.Controls.MyLabel
 End Class
 
