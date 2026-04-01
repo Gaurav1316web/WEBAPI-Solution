@@ -10,6 +10,7 @@ Public Class frmDairyBookingCustomer
     Inherits FrmMainTranScreen
 #Region "Variables"
     Dim DefaultEnableNoTransporter As Boolean = False
+    Dim ManualBatchOnCustomerBooking As Boolean = False
 
     Dim ApplyEWBThresholdLimit As Boolean = False
     Dim EWBThresholdLimitForIntraCity As Integer = 0
@@ -330,6 +331,7 @@ Public Class frmDairyBookingCustomer
         EWBThresholdLimitForIntraState = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraState, Nothing))
         EWBThresholdLimitForInterState = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForInterState, Nothing))
         DefaultEnableNoTransporter = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultEnableNoTransporter, clsFixedParameterCode.DefaultEnableNoTransporter, Nothing)) = 1, True, False)
+        ManualBatchOnCustomerBooking = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ManualBatchOnCustomerBooking, clsFixedParameterCode.ManualBatchOnCustomerBooking, Nothing)) = 1, True, False)
 
         'SetMailRight()
         SetUserMgmtNew()
@@ -441,6 +443,10 @@ Public Class frmDairyBookingCustomer
         ChkTaxNonTax()
         btnCreateEWB.Enabled = False
         btnprinte_wayBill.Visible = False
+        If ManualBatchOnCustomerBooking Then
+            RunBatchFifowise = 0
+            RunBatchFifowisewithmodifyfunctionality = False
+        End If
     End Sub
     'Sub CreateTable()
     '    Dim coll As Dictionary(Of String, String)
