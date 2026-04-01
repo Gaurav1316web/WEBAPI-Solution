@@ -935,7 +935,7 @@ Public Class FrmPrintFreshInvoice
                             max(Transporter_Commission_TotalAmt)Transporter_Commission_TotalAmt,max(Transport_Id)Transport_Id,max(Transporter_Name)Transporter_Name,max(Against_Delivery_Code)Against_Delivery_Code,max(batchNO)batchNO,max(Credit_Customer)Credit_Customer,max(Ship_To_Code)Ship_To_Code,max(Ship_To_Desc)Ship_To_Desc,max(Ship_Address)Ship_Address,max(Ship_City)Ship_City,max(Ship_State)Ship_State,max(Ship_Pin_Code)Ship_Pin_Code,max(Ship_PAN)Ship_PAN,max(Ship_GSTNO)Ship_GSTNO,max(Booth_Security_Amt)Booth_Security_Amt,max(Billing_Unit_code)Billing_Unit_code,sum(Billing_Qty)Billing_Qty,max(BulkCF)BulkCF,sum(Total_Basic_Amt)Total_Basic_Amt,max(Brand)Brand,max(BRANDDESC)BRANDDESC,max(Particulars)Particulars,
 	                    	sum(Crate_No)Crate_No,max(CopyType)CopyType,max(SellerGST)SellerGST,max(Pan_No)Pan_No,max(Bank_Name)Bank_Name,max(BankAccountNo)BankAccountNo,max(BankBranchAddress)BankBranchAddress,max(BankIFSCCode)BankIFSCCode,max(Tcan_No)Tcan_No,max(RateLtr)RateLtr,max(Company_Name)Company_Name,max(Address2)Address2,max(Regn_No)Regn_No,max(FSSAI_NO)FSSAI_NO,max(Receipt_No)Receipt_No,max(Receipt_Date)Receipt_Date,max(Receipt_Amount)Receipt_Amount,max(Payment_Code)Payment_Code,max(cheque_No)cheque_No,max(Cheque_Date)Cheque_Date,max(OpeningBal)OpeningBal,max(ClosingBal)ClosingBal,max(cast(Logo_Img as varbinary(max))) as Logo_Img  "
             Else
-                Qry += " '' As Report_Status, "
+                Qry += " '' As Report_Status,ReceiverName, "
             End If
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                 Qry += ", max(cast(BarCode_Img as varbinary(max))) as BarCode_Img "
@@ -1068,6 +1068,9 @@ TSPL_SD_SALE_INVOICE_HEAD.TAX1,(select type from TSPL_TAX_MASTER where Tax_Code=
 (select type from TSPL_TAX_MASTER where Tax_Code=TSPL_SD_SALE_INVOICE_HEAD.TAX5) as TaxType5,TSPL_SD_SALE_INVOICE_HEAD.TAX5, IsNull(TSPL_SD_SALE_INVOICE_HEAD.TAX5_Amt,0.00) As TAX5_Amt,
 (select type from TSPL_TAX_MASTER where Tax_Code=TSPL_SD_SALE_INVOICE_HEAD.TAX6) as TaxType6,TSPL_SD_SALE_INVOICE_HEAD.TAX6, IsNull(TSPL_SD_SALE_INVOICE_HEAD.TAX6_Amt,0.00) As TAX6_Amt,TSPL_SD_SALE_INVOICE_HEAD.Route_No,TSPL_SD_SALE_INVOICE_HEAD.Route_Desc,TSPL_SD_SHIPMENT_HEAD.Distributor_Commission_TotalAmt,IsNull(TSPL_SD_SHIPMENT_HEAD.Transporter_Commission_TotalAmt,0.00) As Transporter_Commission_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Transport_Id,TSPL_SD_SHIPMENT_HEAD.Transporter_Name, isnull(TSPL_SD_SHIPMENT_HEAD.Against_booking_no,'') as Against_Delivery_Code
 ,TabBatch.Batch_No as batchNO,"
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                Qry += " TabBatch.Batch_No1 as batchno1, "
+            End If
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
                 Qry += " TabBatch.BATCH_QTY AS Batchqty,"
             End If
@@ -1154,6 +1157,9 @@ left outer join (select Document_Code,Parent_Line_No,"
                 Qry += " STRING_AGG(Batch_No,CHAR(10)) as Batch_No , STRING_AGG(Qty,CHAR(10)) as Batch_Qty"
             Else
                 Qry += " STRING_AGG(Batch_No +'('+convert(varchar(8),Qty)+')', ',') as Batch_No "
+            End If
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                Qry += " ,STRING_AGG(Batch_No,CHAR(10)) as Batch_No1 "
             End If
             Qry += "
                 from(
