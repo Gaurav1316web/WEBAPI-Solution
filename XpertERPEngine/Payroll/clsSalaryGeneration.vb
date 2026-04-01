@@ -1931,7 +1931,9 @@ Public Class clsSalaryGeneration
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim strQry As String = clsCommon.myCstr(dt.Rows(0)(0))
 
-                FinalQry = " select ([EMP_CODE]) as [EMP_CODE],([EMPLOYEE_NAME]) as [EMPLOYEE_NAME],sum([basic]) as [basic],sum([da]) as [da],sum([Gross]) as [Gross], sum([vepf]) as [vepf] from (" & strQry & ")xy
+                'FinalQry = " select ([EMP_CODE]) as [EMP_CODE],([EMPLOYEE_NAME]) as [EMPLOYEE_NAME],sum([basic]) as [basic],sum([da]) as [da],sum([Gross]) as [Gross], sum([vepf]) as [vepf] from (" & strQry & ")xy
+                'Group by EMP_CODE,EMPLOYEE_NAME "
+                FinalQry = " select ([EMP_CODE]) as [EMP_CODE],([EMPLOYEE_NAME]) as [EMPLOYEE_NAME],sum([basic]) as [basic],sum([daily_allowance]) as [da] ,sum([Gross]) as [Gross], sum([vempolyee_provident_fund]) as [vepf] from (" & strQry & ")xy
 						   group by EMP_CODE,EMPLOYEE_NAME "
             Else
                 FinalQry = ""

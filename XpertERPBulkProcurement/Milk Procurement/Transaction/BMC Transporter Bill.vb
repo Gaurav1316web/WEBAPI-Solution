@@ -134,19 +134,36 @@ Public Class BMC_Transporter_Bill
         repoDocumentNo.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoDocumentNo)
 
-        Dim repoCategory As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        Dim repoCategory As GridViewComboBoxColumn = New GridViewComboBoxColumn()
         repoCategory.FormatString = ""
         repoCategory.HeaderText = "Category"
         repoCategory.Name = ColCategory
-        repoCategory.Width = 150
-        repoCategory.IsVisible = True
+        repoCategory.DataSource = GetItemType()
+        repoCategory.ValueMember = "Code"
+        repoCategory.DisplayMember = "Code"
+        'PaymentMode.DisplayMember = "RTGS"
+        repoCategory.Width = 100
         If chkPrivate.Checked Then
             repoCategory.ReadOnly = False
         Else
             repoCategory.ReadOnly = True
         End If
-        'repoCategory.ReadOnly = True
+        'repoCategory.ReadOnly = False
         gv1.MasterTemplate.Columns.Add(repoCategory)
+
+        'Dim repoCategory As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        'repoCategory.FormatString = ""
+        'repoCategory.HeaderText = "Category"
+        'repoCategory.Name = ColCategory
+        'repoCategory.Width = 150
+        'repoCategory.IsVisible = True
+        'If chkPrivate.Checked Then
+        '    repoCategory.ReadOnly = False
+        'Else
+        '    repoCategory.ReadOnly = True
+        'End If
+        ''repoCategory.ReadOnly = True
+        'gv1.MasterTemplate.Columns.Add(repoCategory)
 
         Dim repoStation As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoStation.FormatString = ""
@@ -317,6 +334,38 @@ Public Class BMC_Transporter_Bill
 
     End Sub
 
+    Private Function GetItemType() As DataTable
+        'Dim dt As New DataTable()
+        'dt.Columns.Add("Code", GetType(String))
+
+        'Dim dr As DataRow = dt.NewRow()
+        'dr("Code") = "BMC"
+        'dt.Rows.Add(dr)
+
+        'dr = dt.NewRow()
+        'dr("Code") = "RMG"
+        'dt.Rows.Add(dr)
+
+        'dr = dt.NewRow()
+        'dr("Code") = "NMG"
+        'dt.Rows.Add(dr)
+
+        'dr = dt.NewRow()
+        'dr("Code") = "MCC"
+        'dt.Rows.Add(dr)
+
+        'Return dt
+        Try
+            Dim Qry As String = "Select Document_Code as Code from TSPL_BMC_Category_Master"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+            Return dt
+            'cboTransaction.DataSource = dt
+            'cboTransaction.DisplayMember = "Name"
+            'cboTransaction.ValueMember = "Code"
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Function
     Private Sub btnAddNew_Click(sender As Object, e As EventArgs) Handles btnAddNew.Click
         AddNew()
         LoadHeadData()
@@ -353,9 +402,13 @@ Public Class BMC_Transporter_Bill
         TxtTankerprorata.Text = ""
         TxtBarelCap.Text = ""
         txtFatShortage.Text = ""
+        txtFatShortageNMG.Text = ""
         TxtSnfShortage.Text = ""
+        TXTSNFShortageNMG.Text = ""
         TxtFatRate.Text = ""
+        TxtFatRateNMG.Text = ""
         TxtSnfRate.Text = ""
+        TxtSnfRateNMG.Text = ""
         TxtGrossAmount.Text = ""
         TxtTotalFatSnfShortage.Text = ""
         TxtTotalIceCharge.Text = ""
@@ -388,11 +441,15 @@ Public Class BMC_Transporter_Bill
 
     Sub FatSnfCalculation()
         Dim FatShortage As Double = clsCommon.myCdbl(txtFatShortage.Text)
+        Dim FatShortageNMG As Double = clsCommon.myCdbl(txtFatShortageNMG.Text)
         Dim SnfShortage As Double = clsCommon.myCdbl(TxtSnfShortage.Text)
+        Dim SnfShortageNMG As Double = clsCommon.myCdbl(TXTSNFShortageNMG.Text)
+        Dim fatrateNMG As Double = clsCommon.myCdbl(TxtFatRateNMG.Text)
         Dim fatrate As Double = clsCommon.myCdbl(TxtFatRate.Text)
         Dim snfRate As Double = clsCommon.myCdbl(TxtSnfRate.Text)
-        Dim FatAmt As Double = clsCommon.myCdbl(FatShortage * fatrate)
-        Dim SnfAmt As Double = clsCommon.myCdbl(SnfShortage * snfRate)
+        Dim snfRateNMG As Double = clsCommon.myCdbl(TxtSnfRateNMG.Text)
+        Dim FatAmt As Double = clsCommon.myCdbl((FatShortage * fatrate) + (FatShortageNMG * fatrateNMG))
+        Dim SnfAmt As Double = clsCommon.myCdbl((SnfShortage * snfRate) + (SnfShortageNMG * snfRateNMG))
         TxtTotalFatSnfShortage.Text = clsCommon.myCdbl(FatAmt + SnfAmt)
     End Sub
 
@@ -517,7 +574,7 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                 Exit Sub
             End If
 
-            qry = " WITH RankedLocations AS (SELECT TSPL_MILK_COLLECTION_MCC.Document_No,CAST(TSPL_MILK_COLLECTION_MCC.Document_Date AS DATE) AS Document_Date,Route_Code,
+            qry = " WITH RankedLocations AS (SELECT 'BMC' as Category,TSPL_MILK_COLLECTION_MCC.Document_No,CAST(TSPL_MILK_COLLECTION_MCC.Document_Date AS DATE) AS Document_Date,Route_Code,
                     Trip_No,TSPL_TANKER_MASTER.Storage_Capacity,TSPL_BULK_ROUTE_MASTER.Distance,TSPL_BULK_route_master_location.Location_Code,TSPL_LOCATION_MASTER.Location_Desc,ROW_NUMBER() OVER (
                     PARTITION BY TSPL_MILK_COLLECTION_MCC.Document_No ORDER BY TSPL_BULK_route_master_location.Location_Code) AS LocRank FROM TSPL_MILK_COLLECTION_MCC  
                     LEFT JOIN TSPL_TANKER_MASTER ON TSPL_TANKER_MASTER.Tanker_No = TSPL_MILK_COLLECTION_MCC.Tanker_No
@@ -544,7 +601,7 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                     gv1.CurrentRow.Cells(colDate).Value = clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(ii)("Document_Date"), "dd/MMM/yyyy"))
                     Dim sTARTdate As DateTime = clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(ii)("Document_Date"), "dd/MMM/yyyy"))
                     Dim docDate As String = Format(CDate(gv1.CurrentRow.Cells(colDate).Value), "dd/MMM/yyyy")
-                    gv1.CurrentRow.Cells(ColCategory).Value = "BMC"
+                    gv1.CurrentRow.Cells(ColCategory).Value = clsCommon.myCstr(dt.Rows(ii)("Category"))
                     gv1.CurrentRow.Cells(ColStation).Value = "Jaipur>>" & clsCommon.myCstr(dt.Rows(0)("Station_1"))
                     gv1.CurrentRow.Cells(ColStation2).Value = clsCommon.myCstr(dt.Rows(0)("Station_2"))
                     gv1.CurrentRow.Cells(ColStation3).Value = clsCommon.myCstr(dt.Rows(0)("Station_3"))
@@ -765,6 +822,7 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                 For Each grow As GridViewRowInfo In gv1.Rows
                     Dim objTr As New clsBMCTransporterBillDetail()
                     objTr.MCC_Document_Code = clsCommon.myCstr(grow.Cells(colDocumentNo).Value)
+                    objTr.Category = clsCommon.myCstr(grow.Cells(ColCategory).Value)
                     objTr.Station_1 = clsCommon.myCstr(grow.Cells(ColStation).Value)
                     objTr.Station_2 = clsCommon.myCstr(grow.Cells(ColStation2).Value)
                     objTr.Station_3 = clsCommon.myCstr(grow.Cells(ColStation3).Value)
@@ -903,6 +961,7 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                     For Each objrow As clsBMCTransporterBillDetail In obj.Arr
                         gv1.Rows.AddNew()
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDocumentNo).Value = objrow.MCC_Document_Code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColCategory).Value = objrow.Category
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColGPSKM).Value = objrow.GPS_KM
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColKM).Value = objrow.KM
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColAmount).Value = objrow.Amount
@@ -913,7 +972,7 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColStation4).Value = objrow.Station_4
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColTrip).Value = objrow.Trip
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColQuantity).Value = objrow.Quantity_KG
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColCategory).Value = "BMC"
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColCategory).Value = objrow.Category
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDate).Value = objrow.BMC_Date
                         If clsCommon.CompairString(objrow.Ice_Box, "Y") = CompairStringResult.Equal Then
                             gv1.Rows(gv1.Rows.Count - 1).Cells(ColIceBox).Value = True
@@ -1199,15 +1258,16 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
+            Dim User_Name As String = objCommonVar.CurrentUser
             Dim FinalQuery As String = ""
-            FinalQuery = "   SELECT ROW_NUMBER() OVER (PARTITION BY TSPL_MILK_COLLECTION_MCC.Document_No ORDER BY TSPL_MILK_COLLECTION_MCC.Document_No) AS SrNo
+            FinalQuery = "   SELECT '" & User_Name & "' as UserName,ROW_NUMBER() OVER (PARTITION BY TSPL_MILK_COLLECTION_MCC.Document_No ORDER BY TSPL_MILK_COLLECTION_MCC.Document_No) AS SrNo
 ,
  TSPL_BMC_TRANSPORTER_BILL_DETAIL.Document_Code,TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code,
- TSPL_MILK_COLLECTION_MCC.Document_No,Cast(TSPL_MILK_COLLECTION_MCC.Document_Date as Date)Document_Date,Route_Code,Trip_No,TSPL_TANKER_MASTER.Storage_Capacity,TSPL_BULK_ROUTE_MASTER.Distance
+ TSPL_MILK_COLLECTION_MCC.Document_No,Cast(TSPL_BMC_TRANSPORTER_BILL_DETAIL.Document_Date as Date)Document_Date,TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Date as HeaderDate,Route_Code,TSPL_BMC_TRANSPORTER_BILL_DETAIL.Trip as Trip_No,TSPL_TANKER_MASTER.Storage_Capacity,TSPL_BULK_ROUTE_MASTER.Distance
 , TSPL_BMC_TRANSPORTER_BILL_DETAIL.STATION_1, TSPL_BMC_TRANSPORTER_BILL_DETAIL.STATION_2,TSPL_BMC_TRANSPORTER_BILL_DETAIL.STATION_3,TSPL_BMC_TRANSPORTER_BILL_DETAIL.STATION_4, TSPL_BMC_TRANSPORTER_BILL_DETAIL.GPS_KM,TSPL_BMC_TRANSPORTER_BILL_DETAIL.KM     ,TSPL_BMC_TRANSPORTER_BILL_DETAIL.AMOUNT,TSPL_BMC_TRANSPORTER_BILL_DETAIL.DIESEL_RD
 ,TSPL_BMC_TRANSPORTER_BILL_HEAD.Tanker_no,TSPL_BMC_TRANSPORTER_BILL_HEAD.toll_tax,
 TSPL_BMC_TRANSPORTER_BILL_HEAD.ice_charge,TSPL_BMC_TRANSPORTER_BILL_HEAD.Fat_Shortage,TSPL_BMC_TRANSPORTER_BILL_HEAD.Snf_Shortage,TSPL_BMC_TRANSPORTER_BILL_HEAD.Fat_Snf_Shortage,TSPL_BMC_TRANSPORTER_BILL_HEAD.Fat_Rate,TSPL_BMC_TRANSPORTER_BILL_HEAD.Snf_Rate
-,TSPL_TANKER_MASTER.Description,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Comp_Code,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.State,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.Phone1,TSPL_COMPANY_MASTER.City_Code
+,TSPL_TANKER_MASTER.Description as Descriptions,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Comp_Code,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.State,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.Phone1,TSPL_COMPANY_MASTER.City_Code
 ,TSPL_BMC_TRANSPORTER_BILL_HEAD.From_Date,TSPL_BMC_TRANSPORTER_BILL_HEAD.To_Date
 ,TSPL_BMC_TRANSPORTER_BILL_HEAD.KM_Rate,TSPL_BMC_TRANSPORTER_BILL_HEAD.Tanker_Capacity
 ,	Diesel_Rate_Plus,	Diesel_Rate_Minus	,Total_Diesel,Total_Amount,	Gross_Amount
@@ -1215,7 +1275,8 @@ TSPL_BMC_TRANSPORTER_BILL_HEAD.ice_charge,TSPL_BMC_TRANSPORTER_BILL_HEAD.Fat_Sho
 FROM TSPL_BMC_TRANSPORTER_BILL_DETAIL 
 LEFT OUTER JOIN TSPL_BMC_TRANSPORTER_BILL_HEAD ON TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code=TSPL_BMC_TRANSPORTER_BILL_DETAIL.Document_Code 
 LEFT OUTER JOIN TSPL_MILK_COLLECTION_MCC  on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_BMC_TRANSPORTER_BILL_DETAIL.MCC_Document_Code
-left outer join TSPL_TANKER_MASTER ON TSPL_TANKER_MASTER.Tanker_No=TSPL_MILK_COLLECTION_MCC.Tanker_No
+left outer join TSPL_TANKER_MASTER ON TSPL_TANKER_MASTER.Tanker_No=TSPL_BMC_TRANSPORTER_BILL_HEAD.Tanker_No
+--left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_TANKER_MASTER.Tanker_Transporter_Code
  left outer join TSPL_BULK_ROUTE_MASTER ON TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_COLLECTION_MCC.Route_Code
  left outer join TSPL_COMPANY_MASTER on 2=2
 where TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code='" & txtDocNo.Value & "'  "
