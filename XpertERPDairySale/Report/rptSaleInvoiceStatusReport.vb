@@ -2363,6 +2363,7 @@ where convert(date,TSPL_SD_SALE_RETURN_HEAD_Delete_Data.Document_Date,103)>=Conv
                 gvdata.Columns("SNo").IsVisible = False
                 gvdata.Columns("FromDate").IsVisible = False
                 gvdata.Columns("ToDate").IsVisible = False
+                gvdata.Columns("Bill Amount").IsVisible = False
             End If
             gvdata.Columns("Doc Status").HeaderText = "Status"
             gvdata.Columns("Invoice_Date").HeaderText = "Invoice Date"
