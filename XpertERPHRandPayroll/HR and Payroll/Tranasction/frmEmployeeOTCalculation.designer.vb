@@ -36,7 +36,6 @@ Partial Class frmEmployeeOTCalculation
         Me.USLock1 = New common.usLock()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.txtdate = New common.Controls.MyDateTimePicker()
-        Me.btnAddnew = New Telerik.WinControls.UI.RadButton()
         Me.lblCode = New common.Controls.MyLabel()
         Me.txtDocNo = New common.UserControls.txtNavigator()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
@@ -53,6 +52,7 @@ Partial Class frmEmployeeOTCalculation
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnAddnew = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -65,7 +65,6 @@ Partial Class frmEmployeeOTCalculation
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtdate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnAddnew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -84,6 +83,7 @@ Partial Class frmEmployeeOTCalculation
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnAddnew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -277,16 +277,6 @@ Partial Class frmEmployeeOTCalculation
         Me.txtdate.Text = "13/06/2011"
         Me.txtdate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
         '
-        'btnAddnew
-        '
-        Me.btnAddnew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddnew.Image = Global.XpertERPHRandPayroll.My.Resources.Resources._new
-        Me.btnAddnew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddnew.Location = New System.Drawing.Point(353, 11)
-        Me.btnAddnew.Name = "btnAddnew"
-        Me.btnAddnew.Size = New System.Drawing.Size(21, 20)
-        Me.btnAddnew.TabIndex = 356
-        '
         'lblCode
         '
         Me.lblCode.FieldName = Nothing
@@ -370,10 +360,10 @@ Partial Class frmEmployeeOTCalculation
         'RadPageViewPage3
         '
         Me.RadPageViewPage3.Controls.Add(Me.gv1)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(63.0!, 28.0!)
-        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(59.0!, 24.0!)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(779, 323)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(779, 327)
         Me.RadPageViewPage3.Text = "Summary"
         '
         'gv1
@@ -392,7 +382,7 @@ Partial Class frmEmployeeOTCalculation
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(779, 323)
+        Me.gv1.Size = New System.Drawing.Size(779, 327)
         Me.gv1.TabIndex = 1
         Me.gv1.TabStop = False
         Me.gv1.VarID = ""
@@ -400,7 +390,7 @@ Partial Class frmEmployeeOTCalculation
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.gv2)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 24.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 323)
@@ -486,6 +476,16 @@ Partial Class frmEmployeeOTCalculation
         Me.btnSave.TabIndex = 1558
         Me.btnSave.Text = "Save"
         '
+        'btnAddnew
+        '
+        Me.btnAddnew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAddnew.Image = Global.XpertERPHRandPayroll.My.Resources.Resources._new
+        Me.btnAddnew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnAddnew.Location = New System.Drawing.Point(353, 11)
+        Me.btnAddnew.Name = "btnAddnew"
+        Me.btnAddnew.Size = New System.Drawing.Size(21, 20)
+        Me.btnAddnew.TabIndex = 356
+        '
         'frmEmployeeOTCalculation
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -512,7 +512,6 @@ Partial Class frmEmployeeOTCalculation
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtdate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnAddnew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).EndInit()
@@ -531,6 +530,7 @@ Partial Class frmEmployeeOTCalculation
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnAddnew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

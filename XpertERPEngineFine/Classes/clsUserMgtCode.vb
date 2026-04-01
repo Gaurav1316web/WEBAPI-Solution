@@ -67,6 +67,7 @@ Public Class clsUserMgtCode
     Public Const frmUnpostBmcDcs As String = "Unpo-BM-DC"
     Public Const frmDCSTransportationCharges As String = "DCS-TPT-CH"
     Public Const frmManualIoTFarmerCollection As String = "MN-IoT-F-CL"
+    Public Const FrmBMCCategory As String = "BMC-CATY"
     Public Const ModulePayable As String = "MPayable"
     Public Const ModuleGL As String = "MGenLedger"
     Public Const ModuleSales As String = "MSales"

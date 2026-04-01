@@ -120,11 +120,14 @@ Public Class frmEmployeeOTEntry
         ReStoreGridLayout()
 
         Dim Qry As String = ""
-        If rbtnSingle.IsChecked Then
-            gv1.Rows(0).Cells(ColOTType).Value = "Single"
-        Else
-            gv1.Rows(0).Cells(ColOTType).Value = "Double"
-        End If
+        'If gv1.Rows.Count > 0 Then
+
+        'End If
+        'If rbtnSingle.IsChecked Then
+        '    gv1.Rows(0).Cells(ColOTType).Value = "Single"
+        'Else
+        '    gv1.Rows(0).Cells(ColOTType).Value = "Double"
+        'End If
         btnSave.Text = "Save"
         'Qry = " Select Payment_Code from TSPL_PAYMENT_CODE  WHERE IsDefault=1 "
         'Dim DT As DataTable = clsDBFuncationality.GetDataTable(Qry)
@@ -290,6 +293,11 @@ Public Class frmEmployeeOTEntry
 
             Dim fromdate As Date = clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("DATE_FROM"), "dd/MMM/yyyy"))
             totalDays = Date.DaysInMonth(fromdate.Year, fromdate.Month)
+            'If rbtnSingle.IsChecked Then
+            '    gv1.Rows(0).Cells(ColOTType).Value = "Single"
+            'Else
+            '    gv1.Rows(0).Cells(ColOTType).Value = "Double"
+            'End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK)
         End Try
@@ -300,17 +308,18 @@ Public Class frmEmployeeOTEntry
             If (Not isInsideLoadData) Then
                 If Not isCellValueChangedOpen Then
                     If e.Column.Name = colEmpCode Then
-                        Dim qry As String = " Select Distinct EMP_CODE as Cust_Code  from TSPL_GENERATE_SALARY_PAYHEADS
+                        Dim qry As String = " Select Distinct TSPL_EMPLOYEE_MASTER.EMP_CODE as EMP_CODE,TSPL_EMPLOYEE_MASTER.Emp_Name  from TSPL_GENERATE_SALARY_PAYHEADS
 	                                        LEFT OUTER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE
+											left outer join TSPL_EMPLOYEE_MASTER ON TSPL_EMPLOYEE_MASTER.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE
 	                                         "
                         Dim whrCls As String = " PAY_PERIOD_CODE = '" + txtPayPeriod.Value + "' "
-                        gv1.CurrentRow.Cells(0).Value = clsCommon.ShowSelectForm("dfsas", qry, "Cust_Code", "", gv1.CurrentRow.Cells(0).Value)
+                        gv1.CurrentRow.Cells(0).Value = clsCommon.ShowSelectForm("dfsas", qry, "EMP_CODE", "", gv1.CurrentRow.Cells(0).Value)
                         gv1.CurrentRow.Cells(1).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Emp_Name from TSPL_EMPLOYEE_MASTER where EMP_CODE='" + clsCommon.myCstr(gv1.CurrentRow.Cells(0).Value) + "'"))
                     End If
 
                     If e.Column.Name = colPayPeriod Then
                         Dim qry As String = " Select PAY_PERIOD_CODE from TSPL_PAYPERIOD_MASTER "
-                        gv1.CurrentRow.Cells(3).Value = clsCommon.ShowSelectForm("dfsas", qry, "Cust_Code", "", gv1.CurrentRow.Cells(0).Value)
+                        gv1.CurrentRow.Cells(3).Value = clsCommon.ShowSelectForm("dfsas", qry, "PAY_PERIOD_CODE", "", gv1.CurrentRow.Cells(3).Value)
                     End If
 
                     isCellValueChangedOpen = True
@@ -336,45 +345,49 @@ Public Class frmEmployeeOTEntry
                 Singles = "Double"
             End If
 
-            Dim Emp_Code As String = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colEmpCode).Value)
-            Dim Payperiod As String = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colPayPeriod).Value)
-            Dim BasicDA As String = " Select  max(case when PAY_HEAD_CODE='BASIC' then ACTUAL_AMOUNT end) as Basic_Amt,max(Case when PAY_HEAD_CODE='DA' THEN (ACTUAL_AMOUNT) end )as DA_Amt  from TSPL_GENERATE_SALARY_PAYHEADS
+            Dim Emp_Code As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colEmpCode).Value)
+            Dim Payperiod As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colPayPeriod).Value)
+            If clsCommon.myLen(Payperiod) <= 0 Then
+            Else
+                Dim BasicDA As String = " Select  max(case when PAY_HEAD_CODE='BASIC' then ACTUAL_AMOUNT end) as Basic_Amt,max(Case when PAY_HEAD_CODE='DA' THEN (ACTUAL_AMOUNT) end )as DA_Amt  from TSPL_GENERATE_SALARY_PAYHEADS
 	                                 LEFT OUTER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE   
                                     WHERE PAY_PERIOD_CODE = '" + Payperiod + "' and EMP_CODE = '" + Emp_Code + "' and PAY_HEAD_CODE in ('BASIC','DA') group by EMP_CODE  "
-            Dim dtbasic As DataTable = clsDBFuncationality.GetDataTable(BasicDA)
-            If dtbasic.Rows.Count > 0 Then
-                For ii = 0 To dtbasic.Rows.Count - 1
-                    gv1.CurrentRow.Cells(ColOTBasic).Value = clsCommon.myCstr(dtbasic.Rows(0)("Basic_Amt"))
-                    gv1.CurrentRow.Cells(ColOTDA).Value = clsCommon.myCstr(dtbasic.Rows(0)("DA_Amt"))
-                Next
+                Dim dtbasic As DataTable = clsDBFuncationality.GetDataTable(BasicDA)
+                If dtbasic.Rows.Count > 0 Then
+                    For ii = 0 To dtbasic.Rows.Count - 1
+                        gv1.CurrentRow.Cells(ColOTBasic).Value = clsCommon.myCstr(dtbasic.Rows(0)("Basic_Amt"))
+                        gv1.CurrentRow.Cells(ColOTDA).Value = clsCommon.myCstr(dtbasic.Rows(0)("DA_Amt"))
+                    Next
+                End If
+
+                Dim OTBasic As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColOTBasic).Value)
+                Dim OTDA As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColOTDA).Value)
+                'Dim TYpe As String = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColOTType).Value)
+                Dim TYpe As String = Singles
+
+                Dim OTTypeValue As Double = 0
+
+                If TYpe = "Double" Then
+                    OTTypeValue = 2
+                Else
+                    OTTypeValue = 1
+                End If
+                Dim dblBasicAmt As Double = 0
+
+                Dim Qrydays As String = " Select DATE_FROM,DATE_TO from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE = '" + Payperiod + "'"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qrydays)
+
+                'If dt.Rows.Count > 0 Then
+                Dim fromdate As Date = clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("DATE_FROM"), "dd/MMM/yyyy"))
+                Dim Todate As Date = clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("DATE_TO"), "dd/MMM/yyyy"))
+                ' 🧮 Total Days (Inclusive)
+                Dim totalDays As Integer = DateDiff(DateInterval.Day, fromdate, Todate) + 1
+
+                dblBasicAmt = ((OTBasic + OTDA) / totalDays) * OTTypeValue
+
+                gv1.Rows(IntRowNo).Cells(ColAmount).Value = clsCommon.myCdbl(dblBasicAmt)
+                isCellValueChangedOpen = False
             End If
-
-            Dim OTBasic As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColOTBasic).Value)
-            Dim OTDA As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColOTDA).Value)
-            'Dim TYpe As String = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColOTType).Value)
-            Dim TYpe As String = Singles
-
-            Dim OTTypeValue As Double = 0
-
-            If TYpe = "Double" Then
-                OTTypeValue = 2
-            Else
-                OTTypeValue = 1
-            End If
-            Dim dblBasicAmt As Double = 0
-
-            Dim Qrydays As String = " Select DATE_FROM,DATE_TO from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE = '" + Payperiod + "'"
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qrydays)
-
-            'If dt.Rows.Count > 0 Then
-            Dim fromdate As Date = clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("DATE_FROM"), "dd/MMM/yyyy"))
-            Dim Todate As Date = clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("DATE_TO"), "dd/MMM/yyyy"))
-            ' 🧮 Total Days (Inclusive)
-            Dim totalDays As Integer = DateDiff(DateInterval.Day, fromdate, Todate) + 1
-
-            dblBasicAmt = ((OTBasic + OTDA) / totalDays) * OTTypeValue
-
-            gv1.Rows(IntRowNo).Cells(ColAmount).Value = clsCommon.myCdbl(dblBasicAmt)
             isCellValueChangedOpen = False
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -538,6 +551,8 @@ Public Class frmEmployeeOTEntry
             ReStoreGridLayout()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        Finally
+            isInsideLoadData = False
         End Try
     End Sub
 

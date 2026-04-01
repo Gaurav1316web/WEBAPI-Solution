@@ -23,10 +23,10 @@ Partial Class FrmUtility
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.btnCreateAdjustment = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
@@ -317,6 +317,10 @@ Partial Class FrmUtility
         Me.btnSelRAE = New Telerik.WinControls.UI.RadButton()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadScrollablePanel3 = New Telerik.WinControls.UI.RadScrollablePanel()
+        Me.gbShipmentWithInventoryandJE = New System.Windows.Forms.GroupBox()
+        Me.RadButton314 = New Telerik.WinControls.UI.RadButton()
+        Me.RadButton315 = New Telerik.WinControls.UI.RadButton()
+        Me.RadButton316 = New Telerik.WinControls.UI.RadButton()
         Me.GroupBox97 = New System.Windows.Forms.GroupBox()
         Me.RadButton307 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton308 = New Telerik.WinControls.UI.RadButton()
@@ -557,6 +561,7 @@ Partial Class FrmUtility
         Me.RadButton249 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton250 = New Telerik.WinControls.UI.RadButton()
         Me.GroupBox99 = New System.Windows.Forms.GroupBox()
+        Me.btnCreateEinvoiceForDCSSAle = New Telerik.WinControls.UI.RadButton()
         Me.btnCreateCrateEntry = New Telerik.WinControls.UI.RadButton()
         Me.lblFromGPDate = New common.Controls.MyLabel()
         Me.txtFromGPDate = New common.Controls.MyDateTimePicker()
@@ -838,7 +843,6 @@ Partial Class FrmUtility
         Me.RadButton285 = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.Timer3 = New System.Windows.Forms.Timer(Me.components)
-        Me.btnCreateEinvoiceForDCSSAle = New Telerik.WinControls.UI.RadButton()
         CType(Me.btnCreateAdjustment, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadGroupBox1.SuspendLayout
@@ -1129,6 +1133,10 @@ Partial Class FrmUtility
         CType(Me.RadScrollablePanel3, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadScrollablePanel3.PanelContainer.SuspendLayout
         Me.RadScrollablePanel3.SuspendLayout
+        Me.gbShipmentWithInventoryandJE.SuspendLayout
+        CType(Me.RadButton314, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.RadButton315, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.RadButton316, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox97.SuspendLayout
         CType(Me.RadButton307, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton308, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1364,6 +1372,7 @@ Partial Class FrmUtility
         CType(Me.RadButton249, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton250, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox99.SuspendLayout
+        CType(Me.btnCreateEinvoiceForDCSSAle, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnCreateCrateEntry, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.lblFromGPDate, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.txtFromGPDate, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1628,7 +1637,6 @@ Partial Class FrmUtility
         Me.SplitContainer2.Panel1.SuspendLayout
         Me.SplitContainer2.Panel2.SuspendLayout
         Me.SplitContainer2.SuspendLayout
-        CType(Me.btnCreateEinvoiceForDCSSAle, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
@@ -1739,7 +1747,7 @@ Partial Class FrmUtility
         '
         Me.gvShipment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvShipment.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvShipment.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvShipment.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvShipment.MyExportAPI = False
         Me.gvShipment.MyExportFilePath = ""
         Me.gvShipment.MyStopExport = False
@@ -2027,7 +2035,7 @@ Partial Class FrmUtility
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage6
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
         Me.RadPageView1.Size = New System.Drawing.Size(1112, 569)
         Me.RadPageView1.TabIndex = 44
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -4614,6 +4622,7 @@ Partial Class FrmUtility
         '
         'RadScrollablePanel3.PanelContainer
         '
+        Me.RadScrollablePanel3.PanelContainer.Controls.Add(Me.gbShipmentWithInventoryandJE)
         Me.RadScrollablePanel3.PanelContainer.Controls.Add(Me.GroupBox97)
         Me.RadScrollablePanel3.PanelContainer.Controls.Add(Me.GroupBox77)
         Me.RadScrollablePanel3.PanelContainer.Controls.Add(Me.RadButton211)
@@ -4641,12 +4650,48 @@ Partial Class FrmUtility
         Me.RadScrollablePanel3.Size = New System.Drawing.Size(1091, 521)
         Me.RadScrollablePanel3.TabIndex = 628
         '
+        'gbShipmentWithInventoryandJE
+        '
+        Me.gbShipmentWithInventoryandJE.Controls.Add(Me.RadButton314)
+        Me.gbShipmentWithInventoryandJE.Controls.Add(Me.RadButton315)
+        Me.gbShipmentWithInventoryandJE.Controls.Add(Me.RadButton316)
+        Me.gbShipmentWithInventoryandJE.Location = New System.Drawing.Point(656, 395)
+        Me.gbShipmentWithInventoryandJE.Name = "gbShipmentWithInventoryandJE"
+        Me.gbShipmentWithInventoryandJE.Size = New System.Drawing.Size(404, 39)
+        Me.gbShipmentWithInventoryandJE.TabIndex = 95
+        Me.gbShipmentWithInventoryandJE.TabStop = False
+        Me.gbShipmentWithInventoryandJE.Text = "Dairy Shipment(Inventroy+JE)"
+        '
+        'RadButton314
+        '
+        Me.RadButton314.Location = New System.Drawing.Point(67, 14)
+        Me.RadButton314.Name = "RadButton314"
+        Me.RadButton314.Size = New System.Drawing.Size(92, 24)
+        Me.RadButton314.TabIndex = 41
+        Me.RadButton314.Text = "Pick Doc No"
+        '
+        'RadButton315
+        '
+        Me.RadButton315.Location = New System.Drawing.Point(4, 14)
+        Me.RadButton315.Name = "RadButton315"
+        Me.RadButton315.Size = New System.Drawing.Size(59, 24)
+        Me.RadButton315.TabIndex = 42
+        Me.RadButton315.Text = "Reset All"
+        '
+        'RadButton316
+        '
+        Me.RadButton316.Location = New System.Drawing.Point(163, 14)
+        Me.RadButton316.Name = "RadButton316"
+        Me.RadButton316.Size = New System.Drawing.Size(200, 24)
+        Me.RadButton316.TabIndex = 13
+        Me.RadButton316.Text = "Recreate Documents"
+        '
         'GroupBox97
         '
         Me.GroupBox97.Controls.Add(Me.RadButton307)
         Me.GroupBox97.Controls.Add(Me.RadButton308)
         Me.GroupBox97.Controls.Add(Me.RadButton309)
-        Me.GroupBox97.Location = New System.Drawing.Point(216, 535)
+        Me.GroupBox97.Location = New System.Drawing.Point(215, 590)
         Me.GroupBox97.Name = "GroupBox97"
         Me.GroupBox97.Size = New System.Drawing.Size(318, 44)
         Me.GroupBox97.TabIndex = 94
@@ -4683,7 +4728,7 @@ Partial Class FrmUtility
         Me.GroupBox77.Controls.Add(Me.RadButton243)
         Me.GroupBox77.Controls.Add(Me.RadButton244)
         Me.GroupBox77.Controls.Add(Me.RadButton246)
-        Me.GroupBox77.Location = New System.Drawing.Point(748, 490)
+        Me.GroupBox77.Location = New System.Drawing.Point(747, 548)
         Me.GroupBox77.Name = "GroupBox77"
         Me.GroupBox77.Size = New System.Drawing.Size(278, 44)
         Me.GroupBox77.TabIndex = 93
@@ -4728,7 +4773,7 @@ Partial Class FrmUtility
         Me.GroupBox61.Controls.Add(Me.RadButton192)
         Me.GroupBox61.Controls.Add(Me.RadButton193)
         Me.GroupBox61.Controls.Add(Me.RadButton194)
-        Me.GroupBox61.Location = New System.Drawing.Point(652, 388)
+        Me.GroupBox61.Location = New System.Drawing.Point(660, 437)
         Me.GroupBox61.Name = "GroupBox61"
         Me.GroupBox61.Size = New System.Drawing.Size(404, 39)
         Me.GroupBox61.TabIndex = 92
@@ -5182,7 +5227,7 @@ Partial Class FrmUtility
         '
         'RadButton133
         '
-        Me.RadButton133.Location = New System.Drawing.Point(656, 467)
+        Me.RadButton133.Location = New System.Drawing.Point(664, 520)
         Me.RadButton133.Name = "RadButton133"
         Me.RadButton133.Size = New System.Drawing.Size(400, 22)
         Me.RadButton133.TabIndex = 90
@@ -5603,7 +5648,7 @@ Partial Class FrmUtility
         Me.GroupBox37.Controls.Add(Me.RadButton90)
         Me.GroupBox37.Controls.Add(Me.RadButton91)
         Me.GroupBox37.Controls.Add(Me.RadButton92)
-        Me.GroupBox37.Location = New System.Drawing.Point(656, 426)
+        Me.GroupBox37.Location = New System.Drawing.Point(664, 476)
         Me.GroupBox37.Name = "GroupBox37"
         Me.GroupBox37.Size = New System.Drawing.Size(400, 38)
         Me.GroupBox37.TabIndex = 85
@@ -5677,7 +5722,7 @@ Partial Class FrmUtility
         Me.GroupBox43.Controls.Add(Me.RadButton107)
         Me.GroupBox43.Controls.Add(Me.RadButton108)
         Me.GroupBox43.Controls.Add(Me.RadButton109)
-        Me.GroupBox43.Location = New System.Drawing.Point(216, 491)
+        Me.GroupBox43.Location = New System.Drawing.Point(215, 546)
         Me.GroupBox43.Name = "GroupBox43"
         Me.GroupBox43.Size = New System.Drawing.Size(526, 40)
         Me.GroupBox43.TabIndex = 87
@@ -6759,12 +6804,12 @@ Partial Class FrmUtility
         Me.cmbDepartmnt.IsSourceFromTable = False
         Me.cmbDepartmnt.IsSourceFromValueList = False
         Me.cmbDepartmnt.IsUnique = False
-        RadListDataItem4.Text = "Select"
-        RadListDataItem5.Text = "LMS"
-        RadListDataItem6.Text = "Marketing"
-        Me.cmbDepartmnt.Items.Add(RadListDataItem4)
-        Me.cmbDepartmnt.Items.Add(RadListDataItem5)
-        Me.cmbDepartmnt.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "Select"
+        RadListDataItem2.Text = "LMS"
+        RadListDataItem3.Text = "Marketing"
+        Me.cmbDepartmnt.Items.Add(RadListDataItem1)
+        Me.cmbDepartmnt.Items.Add(RadListDataItem2)
+        Me.cmbDepartmnt.Items.Add(RadListDataItem3)
         Me.cmbDepartmnt.Location = New System.Drawing.Point(68, 16)
         Me.cmbDepartmnt.MendatroryField = False
         Me.cmbDepartmnt.MyLinkLable1 = Nothing
@@ -7321,6 +7366,14 @@ Partial Class FrmUtility
         Me.GroupBox99.TabIndex = 373
         Me.GroupBox99.TabStop = False
         Me.GroupBox99.Text = "Crate Entry"
+        '
+        'btnCreateEinvoiceForDCSSAle
+        '
+        Me.btnCreateEinvoiceForDCSSAle.Location = New System.Drawing.Point(7, 47)
+        Me.btnCreateEinvoiceForDCSSAle.Name = "btnCreateEinvoiceForDCSSAle"
+        Me.btnCreateEinvoiceForDCSSAle.Size = New System.Drawing.Size(154, 24)
+        Me.btnCreateEinvoiceForDCSSAle.TabIndex = 64
+        Me.btnCreateEinvoiceForDCSSAle.Text = "Create E-Invoice For DCS Sale "
         '
         'btnCreateCrateEntry
         '
@@ -10599,14 +10652,6 @@ Partial Class FrmUtility
         '
         Me.Timer3.Interval = 50000
         '
-        'btnCreateEinvoiceForDCSSAle
-        '
-        Me.btnCreateEinvoiceForDCSSAle.Location = New System.Drawing.Point(7, 47)
-        Me.btnCreateEinvoiceForDCSSAle.Name = "btnCreateEinvoiceForDCSSAle"
-        Me.btnCreateEinvoiceForDCSSAle.Size = New System.Drawing.Size(154, 24)
-        Me.btnCreateEinvoiceForDCSSAle.TabIndex = 64
-        Me.btnCreateEinvoiceForDCSSAle.Text = "Create E-Invoice For DCS Sale "
-        '
         'FrmUtility
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -10921,6 +10966,10 @@ Partial Class FrmUtility
         Me.RadScrollablePanel3.PanelContainer.ResumeLayout(False)
         CType(Me.RadScrollablePanel3, System.ComponentModel.ISupportInitialize).EndInit
         Me.RadScrollablePanel3.ResumeLayout(False)
+        Me.gbShipmentWithInventoryandJE.ResumeLayout(False)
+        CType(Me.RadButton314, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RadButton315, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RadButton316, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox97.ResumeLayout(False)
         CType(Me.RadButton307, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton308, System.ComponentModel.ISupportInitialize).EndInit
@@ -11170,6 +11219,7 @@ Partial Class FrmUtility
         CType(Me.RadButton250, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox99.ResumeLayout(False)
         Me.GroupBox99.PerformLayout
+        CType(Me.btnCreateEinvoiceForDCSSAle, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnCreateCrateEntry, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.lblFromGPDate, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.txtFromGPDate, System.ComponentModel.ISupportInitialize).EndInit
@@ -11445,7 +11495,6 @@ Partial Class FrmUtility
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
-        CType(Me.btnCreateEinvoiceForDCSSAle, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(False)
 
@@ -12262,5 +12311,9 @@ Partial Class FrmUtility
     Friend WithEvents btnResetMatSalesDoc As RadButton
     Friend WithEvents btnReCreateInventory As RadButton
     Friend WithEvents btnCreateEinvoiceForDCSSAle As RadButton
+    Friend WithEvents gbShipmentWithInventoryandJE As GroupBox
+    Friend WithEvents RadButton314 As RadButton
+    Friend WithEvents RadButton315 As RadButton
+    Friend WithEvents RadButton316 As RadButton
 End Class
 

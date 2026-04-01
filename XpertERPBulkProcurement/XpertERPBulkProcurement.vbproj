@@ -227,6 +227,12 @@
     <Compile Include="Milk Procurement\frmDCSOutstanding.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Master\FrmBMCCategory.Designer.vb">
+      <DependentUpon>FrmBMCCategory.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\FrmBMCCategory.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Master\frmChillingChargesSlab.Designer.vb">
       <DependentUpon>frmChillingChargesSlab.vb</DependentUpon>
     </Compile>
@@ -1317,6 +1323,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\frmDCSOutstanding.resx">
       <DependentUpon>frmDCSOutstanding.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Master\FrmBMCCategory.resx">
+      <DependentUpon>FrmBMCCategory.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Master\frmChillingChargesSlab.resx">
       <DependentUpon>frmChillingChargesSlab.vb</DependentUpon>
