@@ -1181,6 +1181,7 @@
     <None Include="Crystal Reports\Dairy Sales Report\crptDCSDeductionGSTReport.rpt" />
     <None Include="Crystal Reports\Dairy Sales Report\crptDCSDeductionReport.rpt" />
     <None Include="Crystal Reports\Dairy Sales Report\RouteWiseDemand.rpt" />
+    <None Include="Crystal Reports\Dairy Sales Report\rptDemandSheet.rpt" />
     <None Include="Crystal Reports\Dairy Sales Report\rptVendorServiceInvoice_Union.rpt" />
     <None Include="Crystal Reports\Fixed Assets\frmAcquisionEntryReport.rpt" />
     <None Include="Crystal Reports\Fixed Assets\frmAssetScrapSale.rpt" />
