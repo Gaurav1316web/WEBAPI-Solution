@@ -67,6 +67,7 @@ Public Class clsUserMgtCode
     Public Const frmUnpostBmcDcs As String = "Unpo-BM-DC"
     Public Const frmDCSTransportationCharges As String = "DCS-TPT-CH"
     Public Const frmManualIoTFarmerCollection As String = "MN-IoT-F-CL"
+    Public Const FrmBMCCategory As String = "BMC-CATY"
     Public Const ModulePayable As String = "MPayable"
     Public Const ModuleGL As String = "MGenLedger"
     Public Const ModuleSales As String = "MSales"
@@ -316,6 +317,7 @@ Public Class clsUserMgtCode
     Public Const frmDemandHistory As String = "DS_DEM_HIS"
     Public Const frmEwaybill As String = "E_WAY_BILL"
     Public Const rptItemWiseBillReport As String = "IT_WI_BI"
+    Public Const rptDistributorRouteMarginStatusReport As String = "Dis_R_ST"
 
     Public Const rptBankDetailsWithVendorMargin As String = "RPT_BDWVM"
     Public Const rptAbsentBooth As String = "ABS_BOOTH"

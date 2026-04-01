@@ -5590,6 +5590,9 @@ Public Class MDI
                     Case clsUserMgtCode.MPIncetiveSlab
                         frm = New frmMPIncetiveSlab()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmBMCCategory
+                        frm = New FrmBMCCategory()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.ChillingChargesSlab
                         frm = New frmChillingChargesSlab()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8622,7 +8625,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptItemWiseBillReport
                         frm = New rptItemWiseBillReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-
+                    Case clsUserMgtCode.rptDistributorRouteMarginStatusReport
+                        frm = New rptDistributorRouteMarginStatusReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmEwaybill
                         frm = New FrmEwaybill()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

@@ -1109,7 +1109,9 @@ where  ITEM_CODE = TSPL_SD_SHIPMENT_DETAIL.Item_Code and EFFECTIVE_DATE <= '" & 
             ElseIf ddlType.SelectedValue = "Non Taxable" Then
                 Qry += " and ItemTaxable.IS_TAXABLE = 0 "
             End If
-
+            If txtCustomer.arrValueMember IsNot Nothing Then
+                Qry += " and TSPL_CUSTOMER_MASTER.Cust_Code in (" & clsCommon.GetMulcallString(txtCustomer.arrValueMember) & ") "
+            End If
             Qry += " and convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "') xx 
                 GROUP BY Item_Code order by Customer_Name,Item_Desc"
             dt = clsDBFuncationality.GetDataTable(Qry)

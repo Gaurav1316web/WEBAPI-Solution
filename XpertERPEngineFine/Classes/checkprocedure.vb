@@ -1667,6 +1667,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmUnpostBmcDcs, "Unpost BMC DCS", "1.17.01.80", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmDCSTransportationCharges, "DCS Transportation Charges", "1.17.01.81", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmManualIoTFarmerCollection, "Manual/IoT Farmer Collection", "1.17.01.82", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.FrmBMCCategory, "BMC Category", "1.17.01.84", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
 
         '=============================Mcc Transaction===========================================================
         InsertDefaultValue(clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "MCC Transaction", "1.17.02", clsUserMgtCode.ModuleMCCMilkProcurement, "SM", 26)
@@ -2531,6 +2532,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptSaleInvoiceStatusReport, "Sale Invoice Status Report", "1.06.03.71", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         'InsertDefaultValue(clsUserMgtCode.frmEwaybill, "Eway Bill API", "1.06.03.72", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptItemWiseBillReport, "Customer Item Wise Bill Report", "1.06.03.73", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDistributorRouteMarginStatusReport, "Distributor Route Margin Status Report", "1.06.03.74", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         '-------------------------SERVICE MODULE END----------------------------------------
 

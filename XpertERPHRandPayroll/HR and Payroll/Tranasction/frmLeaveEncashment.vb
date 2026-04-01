@@ -242,6 +242,9 @@ Public Class frmLeaveEncashment
             If clsCommon.myLen(cmbDocType.SelectedValue) <= 0 Then
                 Throw New Exception("Please select DocType")
             End If
+            If clsCommon.myLen(CmbFinancialYear.SelectedValue) <= 0 Then
+                Throw New Exception("Please select Fiscal Year")
+            End If
             For ii As Integer = 0 To gv1.Rows.Count - 1
                 If clsCommon.CompairString(gv1.Rows(ii).Cells(colEmpCode).Value, Nothing) = CompairStringResult.Equal Then
                     Continue For
@@ -617,7 +620,8 @@ Public Class frmLeaveEncashment
             coll.Add("Document_Code", "Varchar(30) not null  PRIMARY KEY")
             coll.Add("Document_Date", "datetime not NULL")
             coll.Add("Location_Code", "VARCHAR(12) Not NULL references TSPL_LOCATION_MASTER(Location_Code)")
-            coll.Add("Fiscal_Code", "Varchar(30) NOT NULL REFERENCES TSPL_Fiscal_Year_Master(Fiscal_Code)")
+            coll.Add("Fiscal_Code", "Varchar(30) NULL REFERENCES TSPL_Fiscal_Year_Master(Fiscal_Code)")
+            'coll.Add("Fiscal_Code", "Varchar(30)  NULL REFERENCES TSPL_Fiscal_Year_Master(Fiscal_Code)")
             coll.Add("Doc_Type", "varchar(20) Not NULL")
             coll.Add("Remarks", "varchar(200) NULL")
             coll.Add("Posted", "integer null")

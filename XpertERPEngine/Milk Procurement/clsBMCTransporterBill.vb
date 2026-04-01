@@ -192,6 +192,7 @@ Public Class clsBMCTransporterBill
                     objTr.Station_2 = clsCommon.myCstr(dr("Station_2"))
                     objTr.Station_3 = clsCommon.myCstr(dr("Station_3"))
                     objTr.Station_4 = clsCommon.myCstr(dr("Station_4"))
+                    objTr.Category = clsCommon.myCstr(dr("Category"))
                     objTr.Trip = clsCommon.myCdbl(dr("trip"))
                     objTr.GPS_KM = clsCommon.myCdbl(dr("GPS_KM"))
                     objTr.KM = clsCommon.myCdbl(dr("KM"))
@@ -441,6 +442,7 @@ Public Class clsBMCTransporterBillDetail
     Public Station_2 As String = Nothing
     Public Station_3 As String = Nothing
     Public Station_4 As String = Nothing
+    Public Category As String = Nothing
     Public Trip As Decimal = 0
     Public GPS_KM As Decimal = 0
     Public KM As Decimal = 0
@@ -489,6 +491,7 @@ Public Class clsBMCTransporterBillDetail
                 clsCommon.AddColumnsForChange(coll, "Station_2", obj.Station_2)
                 clsCommon.AddColumnsForChange(coll, "Station_3", obj.Station_3)
                 clsCommon.AddColumnsForChange(coll, "Station_4", obj.Station_4)
+                clsCommon.AddColumnsForChange(coll, "Category", obj.Category)
                 clsCommon.AddColumnsForChange(coll, "Trip", obj.Trip)
                 clsCommon.AddColumnsForChange(coll, "GPS_KM", obj.GPS_KM)
                 clsCommon.AddColumnsForChange(coll, "KM", obj.KM)
