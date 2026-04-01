@@ -9,6 +9,8 @@ Public Class clsDairyGatePassEntry
     Public Vehicle_Id As String = Nothing
     Public Vehicle_Number As String = Nothing
     Public DocNo As String = Nothing
+    Public Ship_To_Location As String = Nothing
+
     Public Docdate As Date = Nothing
     Public ToSalesmanCode As String = Nothing
     Public ToSalesmanname As String = Nothing
@@ -142,6 +144,8 @@ Public Class clsDairyGatePassEntry
             clsCommon.AddColumnsForChange(coll, "ShiftType", obj.ShiftType, True)
             clsCommon.AddColumnsForChange(coll, "Loading_Slip", obj.Loading_Slip)
             clsCommon.AddColumnsForChange(coll, "Driver_Name", obj.Driver_Name)
+            clsCommon.AddColumnsForChange(coll, "Ship_To_Location", obj.Ship_To_Location)
+
             clsCommon.AddColumnsForChange(coll, "Driver_ContactNo", obj.Driver_ContactNo)
             clsCommon.AddColumnsForChange(coll, "DistributorName", obj.DistributorName, True)
             clsCommon.AddColumnsForChange(coll, "IsIndividualCustomer", obj.IsIndividualCustomer)
@@ -398,6 +402,8 @@ Public Class clsDairyGatePassEntry
             End If
             obj.Loading_Slip = clsCommon.myCstr(dt.Rows(0)("Loading_Slip"))
             obj.Driver_Name = clsCommon.myCstr(dt.Rows(0)("Driver_Name"))
+            obj.Ship_To_Location = clsCommon.myCstr(dt.Rows(0)("Ship_To_Location"))
+
             obj.Driver_ContactNo = clsCommon.myCstr(dt.Rows(0)("Driver_ContactNo"))
             obj.DistributorName = clsCommon.myCstr(dt.Rows(0)("DistributorName"))
             obj.IsIndividualCustomer = clsCommon.myCdbl(dt.Rows(0)("IsIndividualCustomer"))
