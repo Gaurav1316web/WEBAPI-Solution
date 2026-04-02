@@ -7041,7 +7041,7 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptEmployeeOTReport
                         frm = New rptEmployeeOTReport
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    '   formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.frmPF_ESI_Reports
                         frm = New frmPF_ESI_Reports
@@ -8628,6 +8628,10 @@ Public Class MDI
                     Case clsUserMgtCode.rptDistributorRouteMarginStatusReport
                         frm = New rptDistributorRouteMarginStatusReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptPartWiseItemReport
+                        frm = New rptPartWiseItemReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.frmEwaybill
                         frm = New FrmEwaybill()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

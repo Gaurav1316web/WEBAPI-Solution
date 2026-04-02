@@ -133,7 +133,7 @@ Public Class frmArrear
                     Basic = clsCommon.myCstr(dr("basic"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colDAArrearPer).Value = (Basic * txtDAArrear.Text) / 100
                     pf = (Basic * txtDAArrear.Text) / 100
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colEPF).Value = (pf * 12) / 100
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colEPF).Value = Math.Round((pf * 12) / 100, 0)
                 Next
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found to display ", Me.Text)
