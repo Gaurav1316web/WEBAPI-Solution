@@ -12,15 +12,15 @@ Public Class FrmBMCCategory
     Private Sub CreateTab()
         Try
             Dim coll As Dictionary(Of String, String)
-            coll = New Dictionary(Of String, String)()
-            coll.Add("Document_Code", "Varchar(30) not null  PRIMARY KEY")
-            coll.Add("Document_Date", "datetime not NULL")
-            coll.Add("Description", "varchar(50) Not NULL")
-            coll.Add("Created_By", "varchar(12) NOT NULL")
-            coll.Add("Created_Date", "Datetime NOT NULL")
-            coll.Add("Modified_By", "varchar(12) NOT NULL")
-            coll.Add("Modified_Date", "Datetime NOT NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BMC_Category_Master", coll, "", True, False, "", "Document_Code", "Document_Date", True)
+            '    coll = New Dictionary(Of String, String)()
+            '    coll.Add("Document_Code", "Varchar(30) not null  PRIMARY KEY")
+            '    coll.Add("Document_Date", "datetime not NULL")
+            '    coll.Add("Description", "varchar(50) Not NULL")
+            '    coll.Add("Created_By", "varchar(12) NOT NULL")
+            '    coll.Add("Created_Date", "Datetime NOT NULL")
+            '    coll.Add("Modified_By", "varchar(12) NOT NULL")
+            '    coll.Add("Modified_Date", "Datetime NOT NULL")
+            '    clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BMC_Category_Master", coll, "", True, False, "", "Document_Code", "Document_Date", True)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -167,5 +167,7 @@ Public Class FrmBMCCategory
     Private Sub FrmBMCCategory_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
         CreateTab()
+        txtDate.Value = clsCommon.GETSERVERDATE()
+        AddNew()
     End Sub
 End Class
