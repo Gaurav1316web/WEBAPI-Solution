@@ -109,7 +109,7 @@ Public Class frmUnionWiseAppUserReport
 Case When TSPL_ITEM_MASTER.Is_FreshItem=1 And TSPL_ITEM_MASTER.IsTaxable=0 Then TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise Else 0 End As TotalLtr_ItemWise,
 TSPL_ITEM_UOM_DETAIL.Conversion_Factor,TSPL_ITEM_UOM_DETAIL_LTR.Conversion_Factor As CFinLTR,TSPL_ITEM_UOM_DETAIL_KG.Conversion_Factor As CFinKG,
 case when TSPL_ITEM_MASTER.Is_Ambient=1 OR (TSPL_ITEM_MASTER.Is_FreshItem=1 And TSPL_ITEM_MASTER.IsTaxable=1) then CONVERT(decimal(18,2),(Qty * TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ TSPL_ITEM_UOM_DETAIL_KG.Conversion_Factor ) else 0 end As [Qty(KG)]  
-from [JPRTEST].dbo.TSPL_PRODUCT_DEMAND_BOOKING_DETAIL   
+from [" & strUnion("DataBase Name") & "].dbo.TSPL_PRODUCT_DEMAND_BOOKING_DETAIL   
 Left Outer Join [" & strUnion("DataBase Name") & "].dbo.TSPL_PRODUCT_DEMAND_BOOKING_MASTER On TSPL_PRODUCT_DEMAND_BOOKING_MASTER.Document_No=TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Document_No  
 Left Outer Join [" & strUnion("DataBase Name") & "].dbo.TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code=TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Item_Code  
 Left Outer Join [" & strUnion("DataBase Name") & "].dbo.TSPL_ITEM_UOM_DETAIL On TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Item_Code And TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Unit_code  
