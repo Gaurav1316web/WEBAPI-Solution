@@ -2533,6 +2533,7 @@ Public Class ProgramCodeNew
         'InsertDefaultValue(clsUserMgtCode.frmEwaybill, "Eway Bill API", "1.06.03.72", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptItemWiseBillReport, "Customer Item Wise Bill Report", "1.06.03.73", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDistributorRouteMarginStatusReport, "Distributor Route Margin Status Report", "1.06.03.74", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptPartWiseItemReport, "Day Wise Party Sale Report", "1.06.03.76", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         '-------------------------SERVICE MODULE END----------------------------------------
 
