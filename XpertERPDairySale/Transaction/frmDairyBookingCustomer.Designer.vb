@@ -33,6 +33,10 @@ Partial Class frmDairyBookingCustomer
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.lblReceiptAmt = New common.Controls.MyLabel()
+        Me.lblReceiptAmtDesc = New common.Controls.MyLabel()
+        Me.lblReceipt = New common.Controls.MyLabel()
+        Me.txtReceipt = New common.UserControls.txtFinder()
         Me.chkNoTranspoter = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkAPS = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtIndentDate = New common.Controls.MyDateTimePicker()
@@ -330,16 +334,15 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.lblReceipt = New common.Controls.MyLabel()
-        Me.txtReceipt = New common.UserControls.txtFinder()
-        Me.lblReceiptAmt = New common.Controls.MyLabel()
-        Me.lblReceiptAmtDesc = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.lblReceiptAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblReceiptAmtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblReceipt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkNoTranspoter, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkAPS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtIndentDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -623,9 +626,6 @@ Partial Class frmDairyBookingCustomer
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblReceipt, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblReceiptAmt, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblReceiptAmtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -777,6 +777,62 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1260, 409)
         Me.RadPageViewPage1.Text = "Booking Order"
+        '
+        'lblReceiptAmt
+        '
+        Me.lblReceiptAmt.FieldName = Nothing
+        Me.lblReceiptAmt.Location = New System.Drawing.Point(889, 89)
+        Me.lblReceiptAmt.Name = "lblReceiptAmt"
+        Me.lblReceiptAmt.Size = New System.Drawing.Size(67, 18)
+        Me.lblReceiptAmt.TabIndex = 1602
+        Me.lblReceiptAmt.Text = "Receipt Amt"
+        '
+        'lblReceiptAmtDesc
+        '
+        Me.lblReceiptAmtDesc.AutoSize = False
+        Me.lblReceiptAmtDesc.BorderVisible = True
+        Me.lblReceiptAmtDesc.FieldName = Nothing
+        Me.lblReceiptAmtDesc.Location = New System.Drawing.Point(963, 89)
+        Me.lblReceiptAmtDesc.Name = "lblReceiptAmtDesc"
+        Me.lblReceiptAmtDesc.Size = New System.Drawing.Size(139, 19)
+        Me.lblReceiptAmtDesc.TabIndex = 1603
+        Me.lblReceiptAmtDesc.TextWrap = False
+        '
+        'lblReceipt
+        '
+        Me.lblReceipt.FieldName = Nothing
+        Me.lblReceipt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblReceipt.Location = New System.Drawing.Point(911, 66)
+        Me.lblReceipt.Name = "lblReceipt"
+        Me.lblReceipt.Size = New System.Drawing.Size(45, 16)
+        Me.lblReceipt.TabIndex = 1601
+        Me.lblReceipt.Text = "Receipt"
+        '
+        'txtReceipt
+        '
+        Me.txtReceipt.CalculationExpression = Nothing
+        Me.txtReceipt.FieldCode = Nothing
+        Me.txtReceipt.FieldDesc = Nothing
+        Me.txtReceipt.FieldMaxLength = 0
+        Me.txtReceipt.FieldName = Nothing
+        Me.txtReceipt.isCalculatedField = False
+        Me.txtReceipt.IsSourceFromTable = False
+        Me.txtReceipt.IsSourceFromValueList = False
+        Me.txtReceipt.IsUnique = False
+        Me.txtReceipt.Location = New System.Drawing.Point(961, 62)
+        Me.txtReceipt.MendatroryField = False
+        Me.txtReceipt.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtReceipt.MyLinkLable1 = Me.lblReceipt
+        Me.txtReceipt.MyLinkLable2 = Nothing
+        Me.txtReceipt.MyReadOnly = False
+        Me.txtReceipt.MyShowMasterFormButton = False
+        Me.txtReceipt.Name = "txtReceipt"
+        Me.txtReceipt.ReferenceFieldDesc = Nothing
+        Me.txtReceipt.ReferenceFieldName = Nothing
+        Me.txtReceipt.ReferenceTableName = Nothing
+        Me.txtReceipt.Size = New System.Drawing.Size(138, 22)
+        Me.txtReceipt.TabIndex = 1600
+        Me.txtReceipt.Value = ""
         '
         'chkNoTranspoter
         '
@@ -4758,62 +4814,6 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Footer Setting"
         '
-        'lblReceipt
-        '
-        Me.lblReceipt.FieldName = Nothing
-        Me.lblReceipt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblReceipt.Location = New System.Drawing.Point(911, 66)
-        Me.lblReceipt.Name = "lblReceipt"
-        Me.lblReceipt.Size = New System.Drawing.Size(45, 16)
-        Me.lblReceipt.TabIndex = 1601
-        Me.lblReceipt.Text = "Receipt"
-        '
-        'txtReceipt
-        '
-        Me.txtReceipt.CalculationExpression = Nothing
-        Me.txtReceipt.FieldCode = Nothing
-        Me.txtReceipt.FieldDesc = Nothing
-        Me.txtReceipt.FieldMaxLength = 0
-        Me.txtReceipt.FieldName = Nothing
-        Me.txtReceipt.isCalculatedField = False
-        Me.txtReceipt.IsSourceFromTable = False
-        Me.txtReceipt.IsSourceFromValueList = False
-        Me.txtReceipt.IsUnique = False
-        Me.txtReceipt.Location = New System.Drawing.Point(961, 62)
-        Me.txtReceipt.MendatroryField = False
-        Me.txtReceipt.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtReceipt.MyLinkLable1 = Me.lblReceipt
-        Me.txtReceipt.MyLinkLable2 = Nothing
-        Me.txtReceipt.MyReadOnly = False
-        Me.txtReceipt.MyShowMasterFormButton = False
-        Me.txtReceipt.Name = "txtReceipt"
-        Me.txtReceipt.ReferenceFieldDesc = Nothing
-        Me.txtReceipt.ReferenceFieldName = Nothing
-        Me.txtReceipt.ReferenceTableName = Nothing
-        Me.txtReceipt.Size = New System.Drawing.Size(138, 22)
-        Me.txtReceipt.TabIndex = 1600
-        Me.txtReceipt.Value = ""
-        '
-        'lblReceiptAmt
-        '
-        Me.lblReceiptAmt.FieldName = Nothing
-        Me.lblReceiptAmt.Location = New System.Drawing.Point(889, 89)
-        Me.lblReceiptAmt.Name = "lblReceiptAmt"
-        Me.lblReceiptAmt.Size = New System.Drawing.Size(67, 18)
-        Me.lblReceiptAmt.TabIndex = 1602
-        Me.lblReceiptAmt.Text = "Receipt Amt"
-        '
-        'lblReceiptAmtDesc
-        '
-        Me.lblReceiptAmtDesc.AutoSize = False
-        Me.lblReceiptAmtDesc.BorderVisible = True
-        Me.lblReceiptAmtDesc.FieldName = Nothing
-        Me.lblReceiptAmtDesc.Location = New System.Drawing.Point(963, 89)
-        Me.lblReceiptAmtDesc.Name = "lblReceiptAmtDesc"
-        Me.lblReceiptAmtDesc.Size = New System.Drawing.Size(139, 19)
-        Me.lblReceiptAmtDesc.TabIndex = 1603
-        Me.lblReceiptAmtDesc.TextWrap = False
-        '
         'frmDairyBookingCustomer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4836,6 +4836,9 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.lblReceiptAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblReceiptAmtDesc, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblReceipt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkNoTranspoter, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkAPS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtIndentDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5137,9 +5140,6 @@ Partial Class frmDairyBookingCustomer
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblReceipt, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblReceiptAmt, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblReceiptAmtDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

@@ -11,6 +11,7 @@ Public Class frmDairyBookingCustomer
 #Region "Variables"
     Dim DefaultEnableNoTransporter As Boolean = False
     Dim ManualBatchOnCustomerBooking As Boolean = False
+    Dim GenerateCustomerWiseGatePass As Boolean = False
 
     Dim ApplyEWBThresholdLimit As Boolean = False
     Dim EWBThresholdLimitForIntraCity As Integer = 0
@@ -332,6 +333,7 @@ Public Class frmDairyBookingCustomer
         EWBThresholdLimitForInterState = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForInterState, Nothing))
         DefaultEnableNoTransporter = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultEnableNoTransporter, clsFixedParameterCode.DefaultEnableNoTransporter, Nothing)) = 1, True, False)
         ManualBatchOnCustomerBooking = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ManualBatchOnCustomerBooking, clsFixedParameterCode.ManualBatchOnCustomerBooking, Nothing)) = 1, True, False)
+        GenerateCustomerWiseGatePass = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.GenerateCustomerWiseGatePass, clsFixedParameterCode.GenerateCustomerWiseGatePass, Nothing)) = 1, True, False)
 
         'SetMailRight()
         SetUserMgmtNew()
@@ -649,7 +651,12 @@ Public Class frmDairyBookingCustomer
         repoActualBalQty.Width = 100
         repoActualBalQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoActualBalQty.ReadOnly = True
-        repoActualBalQty.IsVisible = False
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+            repoActualBalQty.IsVisible = True
+        Else
+            repoActualBalQty.IsVisible = False
+        End If
+        'repoActualBalQty.IsVisible = False
         repoActualBalQty.VisibleInColumnChooser = True
         gv1.MasterTemplate.Columns.Add(repoActualBalQty)
         Dim repopREVIOUSQty As GridViewDecimalColumn = New GridViewDecimalColumn()
@@ -1471,7 +1478,7 @@ Public Class frmDairyBookingCustomer
         gv1.CurrentRow.Cells(colIHSN).Value = clsItemMaster.GetItemHSNCode(gv1.CurrentRow.Cells(colICode).Value, Nothing)
         gv1.CurrentRow.Cells(colUnit).Value = clsDBFuncationality.getSingleValue("select UOM_Code from TSPL_ITEM_UOM_DETAIL where Default_UOM=1 and Item_Code='" & gv1.CurrentRow.Cells(colICode).Value & "' ")
         If ShowAvailableQtyOnDairyBooking Then
-            gv1.CurrentRow.Cells(ColAvailableQty).Value = clsItemLocationDetails.getBalance(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), txtLocation.Value, txtDocNo.Value, txtDate.Value, Nothing, clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), 0)
+            gv1.CurrentRow.Cells(ColAvailableQty).Value = clsItemLocationDetails.getBalance(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), IIf(clsCommon.myLen(txtSubLocation.Value) > 0, txtSubLocation.Value, txtLocation.Value), txtDocNo.Value, txtDate.Value, Nothing, clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), 0)
         End If
         gv1.CurrentRow.Cells(colTax_NonTax).Value = clsDBFuncationality.getSingleValue("select top 1 Is_Taxable from TSPL_ITEM_MASTER_TAXABLE where Item_Code='" & gv1.CurrentRow.Cells(colICode).Value & "' and TSPL_ITEM_MASTER_TAXABLE.EFFECTIVE_DATE <= '" & clsCommon.GetPrintDate(txtDate.Value) & "' ORDER BY TSPL_ITEM_MASTER_TAXABLE.EFFECTIVE_DATE DESC ")
         gv1.CurrentRow.Cells(colFreshAmbient).Value = clsDBFuncationality.getSingleValue("select case when Is_Ambient=1 then 'PS' WHEN Is_FreshItem=1 THEN 'FS' ELSE '' END from TSPL_ITEM_MASTER where Item_Code='" & gv1.CurrentRow.Cells(colICode).Value & "' ")
@@ -1833,7 +1840,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             Dim whrCls As String = "Item_Code='" & strICode & "'"
             gv1.CurrentRow.Cells(colUnit).Value = clsCommon.ShowSelectForm("PS-BOUOMFndr", qry, "Code", whrCls, clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), "Code", isButtonClick)
             If ShowAvailableQtyOnDairyBooking Then
-                gv1.CurrentRow.Cells(ColAvailableQty).Value = clsItemLocationDetails.getBalance(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), txtLocation.Value, txtDocNo.Value, txtDate.Value, Nothing, clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), 0)
+                gv1.CurrentRow.Cells(ColAvailableQty).Value = clsItemLocationDetails.getBalance(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), IIf(clsCommon.myLen(txtSubLocation.Value) > 0, txtSubLocation.Value, txtLocation.Value), txtDocNo.Value, txtDate.Value, Nothing, clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), 0)
             End If
             'ItemPrice(gv1.CurrentRow.Cells(colICode).Value, gv1.CurrentRow.Cells(colUnit).Value, gv1.CurrentRow.Cells(colQty).Value, gv1.CurrentRow.Index)
             'End If
@@ -2841,7 +2848,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         btnGatePassPrint.Visible = False
         lblCancelStatus.Text = ""
         lblCreatedDateAndTime.Text = ""
-        chkDistributor.Checked = True
+        chkDistributor.Checked = False
         chkDCS.Checked = False
         chkDCS.Visible = False
         chkSampling.Checked = False
@@ -4794,7 +4801,7 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colIHSN).Value = clsCommon.myCstr(dt2.Rows(jj)("HSN_Code"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colIType).Value = clsDBFuncationality.getSingleValue("select TypeOfItm from TSPL_ITEM_MASTER where Item_Code='" & gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value & "' ")
                     If ShowAvailableQtyOnDairyBooking = True Then
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColAvailableQty).Value = clsItemLocationDetails.getBalance(clsCommon.myCstr(dt2.Rows(jj)("Item_Code")), txtLocation.Value, txtDocNo.Value, txtDate.Value, Nothing, clsCommon.myCstr(dt2.Rows(jj)("Unit_Code")), 0)
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColAvailableQty).Value = clsItemLocationDetails.getBalance(clsCommon.myCstr(dt2.Rows(jj)("Item_Code")), IIf(clsCommon.myLen(txtSubLocation.Value) > 0, txtSubLocation.Value, txtLocation.Value), txtDocNo.Value, txtDate.Value, Nothing, clsCommon.myCstr(dt2.Rows(jj)("Unit_Code")), 0)
                     End If
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colPreviousQty).Value = clsCommon.myCdbl(dt2.Rows(jj)("PreviousBookingQty"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCdbl(dt2.Rows(jj)("Booking_Qty"))
@@ -8738,7 +8745,7 @@ from
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select distinct item_desc from tspl_item_master where item_code='" & clsCommon.myCstr(dt2.Rows(jj)("Item_Code")) & "'"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colIHSN).Value = clsItemMaster.GetItemHSNCode(clsCommon.myCstr(dt2.Rows(jj)("Item_Code")), Nothing)
                         If ShowAvailableQtyOnDairyBooking Then
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(ColAvailableQty).Value = clsItemLocationDetails.getBalance(clsCommon.myCstr(dt2.Rows(jj)("Item_Code")), txtLocation.Value, txtDocNo.Value, txtDate.Value, Nothing, clsCommon.myCstr(dt2.Rows(jj)("Unit_Code")), 0)
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(ColAvailableQty).Value = clsItemLocationDetails.getBalance(clsCommon.myCstr(dt2.Rows(jj)("Item_Code")), IIf(clsCommon.myLen(txtSubLocation.Value) > 0, txtSubLocation.Value, txtLocation.Value), txtDocNo.Value, txtDate.Value, Nothing, clsCommon.myCstr(dt2.Rows(jj)("Unit_Code")), 0)
                         End If
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCdbl(dt2.Rows(jj)("Booking_Qty"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colOrgRate).Value = clsCommon.myCdbl(dt2.Rows(jj)("OrgRate"))
@@ -9361,6 +9368,17 @@ from
             frm.docdate = txtDate.Value
             frm.Supplydate = txtSupplyDate.Value
             frm.Shifttype = cmbGatePassType.Text
+            If GenerateCustomerWiseGatePass Then
+                frm.GenerateCustomerWiseGatePass = True
+                Dim strShipmentDocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SHIPMENT_HEAD where Against_Booking_No='" & txtDocNo.Value & "' and Status=1 "))
+                If clsCommon.myLen(strShipmentDocNo) > 0 Then
+                    frm.ShipmentDocNo = strShipmentDocNo
+                Else
+                    Throw New Exception("Please Create Invoice.")
+                End If
+            Else
+                frm.GenerateCustomerWiseGatePass = False
+            End If
             Dim qry As String = (" Select Credit_Customer,IsDistributor from tspl_customer_master where cust_code =  '" & txtVendorNo.Value & "' ")
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt.Rows.Count > 0 Then

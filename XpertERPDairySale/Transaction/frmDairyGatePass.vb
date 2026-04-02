@@ -70,6 +70,8 @@ Public Class frmDairyGatePass
     Public Property docdate As Date?
     Public Property Supplydate As Date?
     Public Property Shifttype As String = Nothing
+    Public Property GenerateCustomerWiseGatePass As Boolean = False
+    Public Property ShipmentDocNo As String
     ''ERO/03/05/19-000584 by balwindr on 06/05/2019
     ''ERO/03/05/19-000584 by balwindr on 06/05/2019
     Dim VehicleDesc As String = Nothing
@@ -197,6 +199,7 @@ Public Class frmDairyGatePass
         If Supplydate IsNot Nothing AndAlso clsCommon.myLen(Supplydate) > 0 Then
             txtSupplyDate.Value = Supplydate
         End If
+
         If clsCommon.CompairString(Shifttype, "AM") = CompairStringResult.Equal Then
             rbtnMorning.IsChecked = True
             txtTripNo.Text = "1"
@@ -204,6 +207,7 @@ Public Class frmDairyGatePass
             If CreateAutoGatePass Then
                 txtLoadingSlip.Text = "1"
                 btnSave_Click(btnSave, New EventArgs())
+                btnPrint2_Click(btnPrint2, New EventArgs())
                 Me.Close()
             End If
         ElseIf clsCommon.CompairString(Shifttype, "PM") = CompairStringResult.Equal Then
@@ -213,6 +217,7 @@ Public Class frmDairyGatePass
             If CreateAutoGatePass Then
                 txtLoadingSlip.Text = "1"
                 btnSave_Click(btnSave, New EventArgs())
+                btnPrint2_Click(btnPrint2, New EventArgs())
                 Me.Close()
             End If
         End If
@@ -584,6 +589,9 @@ Public Class frmDairyGatePass
                         'strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Status=0"
                     Else
                         strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Status=1"
+                    End If
+                    If GenerateCustomerWiseGatePass Then
+                        strQuery += " and TSPL_SD_SHIPMENT_HEAD.Document_Code='" & ShipmentDocNo & "' "
                     End If
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                         If chkGhee.Checked Then
@@ -1929,7 +1937,7 @@ case when coalesce(InKG.Conversion_factor,0)=0 then 0 else convert(Decimal(18,2)
                         case when coalesce(InCrate.Conversion_factor,0)=0 then 0 else convert(Decimal(18,2),  TSPL_SD_SHIPMENT_DETAIL.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/coalesce(InCrate.Conversion_factor,1)) end as QtyInCrate,
                         case when coalesce(InPouch.Conversion_factor,0)=0 then 0 else convert(Decimal(18,2),  TSPL_SD_SHIPMENT_DETAIL.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/coalesce(InPouch.Conversion_factor,1)) end as QtyInPouch,
                         TSPL_SD_SHIPMENT_HEAD.FAT_Per,TSPL_SD_SHIPMENT_HEAD.SNF_Per,TSPL_SD_SHIPMENT_HEAD.Acidity,TSPL_SD_SHIPMENT_HEAD.Temperature,TSPL_SD_SHIPMENT_HEAD.MBRT_Hours, 
-                        TSPL_Route_Master.Route_Desc,TSPL_VEHICLE_MASTER.Vehicle_Id,case when TSPL_SD_SHIPMENT_HEAD.VehicleNo > ''  then  TSPL_SD_SHIPMENT_HEAD.VehicleNo else TSPL_VEHICLE_MASTER.Number  end As Vehicle_Number,
+                        TSPL_Route_Master.Route_Desc,TSPL_VEHICLE_MASTER.Vehicle_Id,case when Len(TSPL_SD_SHIPMENT_HEAD.VehicleNo) >0 then TSPL_SD_SHIPMENT_HEAD.VehicleNo else TSPL_VEHICLE_MASTER.Number  end As Vehicle_Number,
                         TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_CUSTOMER_MASTER.Add1 As Cust_Add1,TSPL_CUSTOMER_MASTER.Add2 As Cust_Add2,TSPL_CUSTOMER_MASTER.Add3 As Cust_Add3,TSPL_CUSTOMER_MASTER.PIN_Code As Cust_PINCode,
                         TSPL_CUSTOMER_MASTER.Phone1 As Cust_Phone1,TSPL_CUSTOMER_MASTER.Phone2 As Cust_Phone2,TSPL_CUSTOMER_MASTER.GSTNO,
                         TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Logo_Img As Comp_Logo1,TSPL_COMPANY_MASTER.Logo_Img2 As Comp_Logo2,TSPL_COMPANY_MASTER.Add1 As Comp_Add1,
