@@ -946,7 +946,8 @@ Public Class RptMatrixFreshSalesReport
             Else
                 '' Print
                 Dim dtSubReport As DataTable = clsDBFuncationality.GetDataTable("select ROW_NUMBER() over (order by max(Sku_Seq)) as SNO, Structure_Code,max(Alies_Name)Alies_Name,sum(fQty)Qty,sum(Crate_Qty)Crate_Qty,sum(Ltr_Qty)Ltr_Qty,max(Unit_code)Unit_code from ( " & MainQuery & " ) xx group by Structure_Code order by max(Sku_Seq)")
-                Dim dtItems As DataTable = clsDBFuncationality.GetDataTable("select Item_Code,max(Sku_Seq) as Sku_Seq,max(Alies_Name) as Alies_Name,max(Alies_Name2)as Alies_Name2, MAX(case when TypeOfItm = 'M' then 1 when TypeOfItm = 'A' then 2 end ) as TypeOfItm,max(Unit_code)Unit_code from (" + MainQuery + ") x WHERE TypeOfItm in ('M','A') group by Item_Code order by Sku_Seq,TypeOfItm")
+                Dim ItemsQry As String = "select Item_Code,max(Sku_Seq) as Sku_Seq,max(Alies_Name) as Alies_Name,max(Alies_Name2)as Alies_Name2, MAX(case when TypeOfItm = 'M' then 1 when TypeOfItm = 'A' then 2 end ) as TypeOfItm,max(Unit_code)Unit_code from (" + MainQuery + ") x group by Item_Code  "
+                Dim dtItems As DataTable = clsDBFuncationality.GetDataTable(ItemsQry & " order by Sku_Seq,TypeOfItm ")
                 If dtItems Is Nothing OrElse dtItems.Rows.Count <= 0 Then
                     clsCommon.MyMessageBoxShow("No Data Found to Print")
                     Exit Sub
@@ -962,45 +963,14 @@ Public Class RptMatrixFreshSalesReport
                             dtProduct.ImportRow(dr)
                         End If
                     Next
-
+                    If dtMilk.Rows.Count < 12 Then
+                        dtMilk = clsDBFuncationality.GetDataTable(" SELECT * FROM (  SELECT * FROM ( " & ItemsQry & " )XX where TypeOfItm = 1 " & Environment.NewLine & " union all " & Environment.NewLine & " select TOP (12 - " & dtMilk.Rows.Count & ") Item_Code,Sku_Seq,Alies_Name,Alies_Name2,case when TypeOfItm = 'M' then 1 when TypeOfItm = 'A' then 2 end as TypeOfItm,Unit_Code from TSPL_ITEM_MASTER where Sku_Seq > " & dtMilk.Rows(dtMilk.Rows.Count - 1)("Sku_Seq") & " and TypeOfItm = 'M' )XXX order by Sku_Seq ")
+                    End If
+                    If dtProduct.Rows.Count < 8 Then
+                        dtProduct = clsDBFuncationality.GetDataTable(" SELECT * FROM (  SELECT * FROM ( " & ItemsQry & " )XX where TypeOfItm = 2 " & Environment.NewLine & " union all " & Environment.NewLine & " select TOP (8 - " & dtProduct.Rows.Count & ")   Item_Code,Sku_Seq,Alies_Name,Alies_Name2,case when TypeOfItm = 'M' then 1 when TypeOfItm = 'A' then 2 end as TypeOfItm,Unit_Code from TSPL_ITEM_MASTER where Sku_Seq > " & dtProduct.Rows(dtProduct.Rows.Count - 1)("Sku_Seq") & " and TypeOfItm = 'A' )XXX order by Sku_Seq ")
+                    End If
                     Dim frmCRV As New frmCrystalReportViewer()
                     Dim FinalQuery As String = " With CTERawData as ( " + MainQuery + "  )" + Environment.NewLine + Environment.NewLine
-                    '                    For ii As Integer = 1 To dtItems.Rows.Count Step 20
-                    '                        If ii > 1 Then
-                    '                            FinalQuery += Environment.NewLine + " Union all " + Environment.NewLine
-                    '                        End If
-                    '                        FinalQuery += " select " + clsCommon.myCstr(ii) + " as Grp , ROW_NUMBER() over (order by (Route_No)) As SNo,'" + clsCommon.GetPrintDate(clsCommon.myCDate(txtPTSDateFrom.Value), "dd/MM/yyyy") + "' AS Date,max(Comp_Name) as Comp_Name,MAX(Add1)Add1,MAX(Add2)Add2,MAX(Add3)Add3,MAX(STATE_NAME)STATE_NAME, Route_No,max(Route_Desc) as Route_Desc,max(TypeOfItm)TypeOfItm,"
-                    '                        For jj As Integer = 1 To 20
-                    '                            Dim strJJ As String = clsCommon.myCstr(jj)
-                    '                            Dim strICODE As String = ""
-                    '                            Dim strIAlies_Name As String = ""
-                    '                            Dim strAliesName2 As String
-                    '                            If (ii + jj - 1) > dtItems.Rows.Count Then
-                    '                                strICODE = ""
-                    '                                strIAlies_Name = ""
-                    '                                strAliesName2 = ""
-                    '                            Else
-                    '                                strICODE = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Item_Code"))
-                    '                                strIAlies_Name = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Alies_Name"))
-                    '                                strAliesName2 = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Alies_Name2"))
-                    '                            End If
-                    '                            FinalQuery += " '" + strICODE + "' as Item_" + strJJ + " ,'" + strIAlies_Name + "' as Item_Alies_Name_" + strJJ + " ,'" + strAliesName2 + "' as Item_Alies_Name2_" + strJJ + "
-                    '                        ,(sum(case when Item_Code='" + strICODE + "'  then fQty else null end )) as ItemQtyCrate_" + strJJ + ","
-                    '                        Next
-
-                    '                        If ii > 1 Then
-                    '                            FinalQuery += " null as TotalQty "
-                    '                        Else
-                    '                            FinalQuery += " sum(case when TypeOfItm = 'M' then Qty else 0 end )TotalQty "
-                    '                        End If
-                    '                        FinalQuery += " from (
-                    'select xx.*,Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor as QtyStock,TabDefaultUOM.Conversion_Factor ConvFacNo,TabCrateUOM.Conversion_Factor as ConvFacCrate	from CTERawData xx
-                    'left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=xx.Item_Code and  TSPL_ITEM_UOM_DETAIL.UOM_Code=xx.Unit_code
-                    'left outer join TSPL_ITEM_UOM_DETAIL as TabDefaultUOM on TabDefaultUOM .Item_Code=xx.Item_Code and  TabDefaultUOM .Default_UOM=1
-                    'left outer join TSPL_ITEM_UOM_DETAIL as TabCrateUOM on TabCrateUOM.Item_Code=xx.Item_Code and  TabCrateUOM.UOM_Code='Crate' 
-                    ') x group by Route_No"
-
-                    '                    Next
 
                     '----Divya
 

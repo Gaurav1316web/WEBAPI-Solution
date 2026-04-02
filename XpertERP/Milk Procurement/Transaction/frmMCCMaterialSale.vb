@@ -174,6 +174,7 @@ Public Class frmMCCMaterialSale
     Const colMRP As String = "MRP"
     Const colIsBatchItem As String = "colIsBatchItem"
     Const colBatchNo As String = "BATCHNO"
+    Const colManualBatchNo As String = "ManualBATCHNO"
     Const colExpiry As String = "EXPIRYDATE"
     Const colManufactureDate As String = "MANUFACTUREDATE"
     Const colLandedRate As String = "LANDEDRATE"
@@ -644,14 +645,14 @@ Public Class frmMCCMaterialSale
         repoIName.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoIName)
 
-        Dim repoBatchNo As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoBatchNo.FormatString = ""
-        repoBatchNo.HeaderText = "Batch No"
-        repoBatchNo.Name = colBatchNo
-        repoBatchNo.ReadOnly = False
-        repoBatchNo.IsVisible = True
-        repoBatchNo.Width = 100
-        gv1.MasterTemplate.Columns.Add(repoBatchNo)
+        Dim repoManualBatchNo As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoManualBatchNo.FormatString = ""
+        repoManualBatchNo.HeaderText = "Manual Batch No"
+        repoManualBatchNo.Name = colManualBatchNo
+        repoManualBatchNo.ReadOnly = True
+        repoManualBatchNo.IsVisible = True
+        repoManualBatchNo.Width = 100
+        gv1.MasterTemplate.Columns.Add(repoManualBatchNo)
 
         Dim repoDCSSaleZeroCost As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoDCSSaleZeroCost.FormatString = ""
@@ -2035,7 +2036,14 @@ Public Class frmMCCMaterialSale
         repoBinNo.IsVisible = False
         repoBinNo.Width = 100
         gv1.MasterTemplate.Columns.Add(repoBinNo)
-
+        Dim repoBatchNo As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoBatchNo.FormatString = ""
+        repoBatchNo.HeaderText = "Batch No"
+        repoBatchNo.Name = colBatchNo
+        repoBatchNo.ReadOnly = False
+        repoBatchNo.IsVisible = False
+        repoBatchNo.Width = 100
+        gv1.MasterTemplate.Columns.Add(repoBatchNo)
         Dim repoExpiry As GridViewDateTimeColumn = New GridViewDateTimeColumn()
         repoExpiry.Format = DateTimePickerFormat.Custom
         repoExpiry.CustomFormat = "dd-MM-yyyy"
@@ -4825,6 +4833,10 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Tag = objTr.arrBatchItem ' change by prabhakar
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colShortDesc).Value = clsItemMaster.GetItemShortDescription(objTr.Item_Code, Nothing)
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = objTr.Item_Desc
+                        If objTr.arrBatchItem IsNot Nothing Then
+                            Dim batchNoList As String = String.Join(","c, objTr.arrBatchItem.Where(Function(x) Not String.IsNullOrEmpty(x.Batch_No)).Select(Function(x) x.Batch_No.Replace("'", "''")).ToArray())
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colManualBatchNo).Value = batchNoList
+                        End If
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDCSSaleZeroCost).Value = clsCommon.myCBool(objTr.DCS_Sale_Zero_Cost = 1)
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colHSNNo).Value = clsItemMaster.GetItemHSNCode(objTr.Item_Code, Nothing)
                         'gv1.Rows(gv1.Rows.Count - 1).Cells(colBarCode).Value = objTr.Bar_Code

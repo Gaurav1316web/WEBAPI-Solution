@@ -192,8 +192,12 @@ CASE WHEN CODE <> 'LTR'  THEN TotalCrates_ItemWise ELSE TotalLtr_ItemWise END AS
             If clsCommon.CompairString(clsCommon.myCstr(txtToShift.Text), "M") = CompairStringResult.Equal Then
                 qry += " and 2=( case when Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtToDate.Value)), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtToDate.Value)), "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' then 3 else 2 end  )"
             End If
+            If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                qry += " and tspl_route_master.Route_no in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ") "
+            End If
 
-            qry += " and tspl_route_master.Route_no in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ") and  Is_FreshItem = 1  )  XXXFirst 
+
+            qry += " and  Is_FreshItem = 1  )  XXXFirst 
                 where Item_Code Is  Not null And Area_Code Is Not null  group by  XXXFirst.TotalCrates_ItemWise,XXXFirst.TotalLtr_ItemWise, XXXFirst.Route_Desc,XXXFirst.Route_No, XXXFirst.Item_Code,XXXFirst.Sku_Seq,XXXFirst.Area_Code
 		union all
 		 Select (Route_No)Route_No,Route_Desc +' '+ 'LTR','LTR' AS cODE,  'Administrator' as UserName,max(Route_Desc)Route_Desc1,max(Route_Desc)Route_Desc4,(Route_Desc)Route_Desc, sum(Final_Qty)Final_Qty,
@@ -220,8 +224,10 @@ CASE WHEN CODE <> 'LTR'  THEN TotalCrates_ItemWise ELSE TotalLtr_ItemWise END AS
             If clsCommon.CompairString(clsCommon.myCstr(txtToShift.Text), "M") = CompairStringResult.Equal Then
                 qry += " and 2=( case when Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtToDate.Value)), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtToDate.Value)), "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' then 3 else 2 end  )"
             End If
-
-            qry += " and  Is_FreshItem = 1 and tspl_route_master.Route_no in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ") "
+            If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                qry += " and tspl_route_master.Route_no in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ") "
+            End If
+            qry += " and  Is_FreshItem = 1 "
 
             qry += " )  XXXFirst 
                 where Item_Code is  not null and Area_Code is not null  group by  XXXFirst.TotalCrates_ItemWise,XXXFirst.TotalLtr_ItemWise, XXXFirst.Route_Desc,XXXFirst.Route_No, XXXFirst.Item_Code,XXXFirst.Sku_Seq,XXXFirst.Area_Code) xx)PP  ORDER BY Structure_Code "

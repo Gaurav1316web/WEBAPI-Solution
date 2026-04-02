@@ -816,6 +816,13 @@ ORDER BY yy.SortOrder; "
                     End If
                 End If
                 BaseQry += " from ( "
+                BaseQry += " select Item_Code,max(Zone_Code)Zone_Code, max([Zone Name])[Zone Name], max(Cust_Code)Cust_Code,max(Customer_Name)Customer_Name,max(Route_No)Route_No,max(Route_Desc)Route_Desc ,convert(date, Document_Date, 103) Document_Date, Shift_Type,sum(CRATE)CRATE,sum(Amount)Amount ,max( Receipt_Amount) As [Deposit Amt],max(Short_Description)Short_Description,max(Item_Description)Item_Description,sum(Receipt_Amount)Receipt_Amount,sum(Report_UOM_Qty)Report_UOM_Qty  "
+                If rbtnDispatch.IsChecked Then
+                    If rbtnMilkType.IsChecked OrElse rbtnProductType.IsChecked Then
+                        BaseQry += " ,max(Sale_Invoice_No)Sale_Invoice_No "
+                    End If
+                End If
+                BaseQry += " from ( "
             End If
             If rbtnSummary.IsChecked Then
                 If rbtnCustomer.IsChecked Then
@@ -879,7 +886,7 @@ left outer join TSPL_ITEM_UOM_DETAIL ON tspl_item_uom_detail.Item_Code=TSPL_DEMA
             If rbtnSummary.IsChecked Then
                 BaseQry += " group by " & groupBy & ",Item_Code ) xxxx"
             Else
-                BaseQry += "  group by Document_Date,Shift_Type,Item_Code )final  "
+                BaseQry += "  group by Document_Date,Shift_Type,Item_Code )final group by Document_Date,Shift_Type,Item_Code 	)xxfinal  "
             End If
             BaseQry += " PIVOT (SUM(Report_UOM_Qty)  FOR Short_Description IN (" & itemNames1 & ") ) AS pivot_Report_UOM PIVOT (SUM(Amount)  FOR Item_Description IN (" & itemNames2 & ") ) AS pivot_net_amt  "
 
