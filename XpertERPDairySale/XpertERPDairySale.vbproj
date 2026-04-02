@@ -148,7 +148,8 @@
     <Reference Include="XpertCommon">
       <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
-    <Reference Include="XpertERPEngine">
+    <Reference Include="XpertERPEngine, Version=7.1.5.97, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERPEngine\bin\Debug\XpertERPEngine.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPEngineFine">
@@ -751,6 +752,12 @@
       <DependentUpon>rptNewTenderPartyListReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Report\rptNewTenderPartyListReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\rptPartWiseItemReport.Designer.vb">
+      <DependentUpon>rptPartWiseItemReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptPartWiseItemReport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Report\rptProvisionChart.Designer.vb">
@@ -1638,6 +1645,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptNewTenderPartyListReport.resx">
       <DependentUpon>rptNewTenderPartyListReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptPartWiseItemReport.resx">
+      <DependentUpon>rptPartWiseItemReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptProvisionChart.resx">
       <DependentUpon>rptProvisionChart.vb</DependentUpon>

@@ -82,10 +82,10 @@ Public Class rptBoothTruckSheet
             Dim strShift As String = ""
             Dim whrclsShift As String = ""
 
-            If rbtnMorning.IsChecked Then
+            If clsCommon.CompairString(clsCommon.myCstr(txtFromShift.Text), "M") = CompairStringResult.Equal Then
                 'whrclsShift = " and TSPL_BOOKING_MATSER.GatePass_Type  = 'AM' "
                 whrclsShift = " and TSPL_DEMAND_BOOKING_MASTER.ShiftType  = 'MORNING' "
-            ElseIf rbtnEvening.IsChecked Then
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(txtFromShift.Text), "E") = CompairStringResult.Equal Then
                 ' whrclsShift = " and TSPL_BOOKING_MATSER.GatePass_Type  = 'PM' "
                 whrclsShift = " and TSPL_DEMAND_BOOKING_MASTER.ShiftType  = 'Evening' "
             End If

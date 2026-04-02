@@ -318,6 +318,7 @@ Public Class clsUserMgtCode
     Public Const frmEwaybill As String = "E_WAY_BILL"
     Public Const rptItemWiseBillReport As String = "IT_WI_BI"
     Public Const rptDistributorRouteMarginStatusReport As String = "Dis_R_ST"
+    Public Const rptPartWiseItemReport As String = "PA_WI_ITE"
 
     Public Const rptBankDetailsWithVendorMargin As String = "RPT_BDWVM"
     Public Const rptAbsentBooth As String = "ABS_BOOTH"

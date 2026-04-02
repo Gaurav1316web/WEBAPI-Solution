@@ -1398,6 +1398,7 @@ Public Class clsFixedParameterType
     Public Const ApplyEWBThresholdLimit = "Apply EWB Threshold Limit"
     Public Const DefaultEnableNoTransporter = "Default Enable No Transporter"
     Public Const ManualBatchOnCustomerBooking = "Manual Batch On Customer Booking"
+    Public Const GenerateCustomerWiseGatePass = "Generate Customer Wise GatePass"
 End Class
 Public Class clsFixedParameterCode
     Public Const SkipDebitNoteforRejectInBMCTruckSheet As String = "Skip Debit Note for Reject In BMC Truck Sheet"
@@ -2962,6 +2963,7 @@ Public Class clsFixedParameterCode
     Public Const EWBThresholdLimitForInterState = "EWB Threshold Limit For Inter-State"
     Public Const DefaultEnableNoTransporter = "Default Enable No Transporter"
     Public Const ManualBatchOnCustomerBooking = "Manual Batch On Customer Booking"
+    Public Const GenerateCustomerWiseGatePass = "Generate Customer Wise GatePass"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4704,6 +4706,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForInterState, "0", "Enter Threshold Limit For Inter-State")
         InsertDefaultValueFixedParameter(clsFixedParameterType.DefaultEnableNoTransporter, clsFixedParameterCode.DefaultEnableNoTransporter, "0", "0:Off, 1:On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ManualBatchOnCustomerBooking, clsFixedParameterCode.ManualBatchOnCustomerBooking, "0", "0:Off, 1:On")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.GenerateCustomerWiseGatePass, clsFixedParameterCode.GenerateCustomerWiseGatePass, "0", "0:Off, 1:On")
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
     End Function
@@ -6632,5 +6635,6 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmSendBillToDCS, clsFixedParameterType.ThirtPartyFarmerCollectionIntegration, clsFixedParameterCode.ThirtPartyFarmerCollectionIntegration, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.DefaultEnableNoTransporter, clsFixedParameterCode.DefaultEnableNoTransporter, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ManualBatchOnCustomerBooking, clsFixedParameterCode.ManualBatchOnCustomerBooking, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.GenerateCustomerWiseGatePass, clsFixedParameterCode.GenerateCustomerWiseGatePass, EnumControlType.CheckBox)
     End Sub
 End Class

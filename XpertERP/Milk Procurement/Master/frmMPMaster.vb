@@ -5,6 +5,7 @@ Imports System.Text.RegularExpressions
 Imports System.IO
 Imports XpertERPCommanServices
 Imports XpertERPHRandPayroll
+Imports System.Text
 
 ' Create By Pankaj Jha
 ' Date 30.05.14
@@ -2829,22 +2830,35 @@ Public Class FrmMPMaster
                                 'End If
 
                                 Dim dtACNo As DataTable = Nothing
-                                Dim qry As String = "select MP_Code,Active,AccountNO from TSPL_MP_MASTER where MP_Code  in ('" + obj.MP_Code + "') and Active=1 and AccountNO='" + obj.AccountNO + "' "
+                                Dim qry As String
+                                qry = "select MP_Code,Active,AccountNO from TSPL_MP_MASTER where MP_Code  in ('" + obj.MP_Code + "') and Active=1 " ' and AccountNO='" + obj.AccountNO + "' "
                                 dtACNo = clsDBFuncationality.GetDataTable(qry)
                                 If dtACNo Is Nothing OrElse dtACNo.Rows.Count <= 0 Then
-                                    qry = "select AccountNO from TSPL_MP_MASTER where MP_Code not in ('" + obj.MP_Code + "') and Active=0 and AccountNO='" + obj.AccountNO + "' "
+                                    qry = "select MP_Code,AccountNO,Active from TSPL_MP_MASTER where MP_Code not in ('" & obj.MP_Code & "') and AccountNO='" & obj.AccountNO & "' "
                                     dtACNo = Nothing
                                     dtACNo = clsDBFuncationality.GetDataTable(qry)
-                                    'If dtACNo IsNot Nothing AndAlso dtACNo.Rows.Count > 0 Then
-                                    '    'Throw New Exception("Account number [" + obj.AccountNO + "] is already in use.")
-                                    '    Throw New Exception("Account number [" + obj.AccountNO + "],(" + clsCommon.myCstr(obj.MP_Code) + ") is already in use.")
-                                    'End If
+                                    If dtACNo IsNot Nothing AndAlso dtACNo.Rows.Count > 0 Then
+                                        Dim str As New StringBuilder()
+                                        For Each strActive As DataRow In dtACNo.Rows
+                                            If clsCommon.myCDecimal(strActive("Active")) = 0 Then
+                                                If clsCommon.myLen(clsCommon.myCstr(str)) > 0 Then
+                                                    str.Append(Environment.NewLine)
+                                                End If
+                                                str.Append("Account number [" + obj.AccountNO + "] is already in use for Farmer ['" & clsCommon.myCstr(strActive("MP_Code")) & "'].")
+                                            End If
+                                        Next
+                                        If str IsNot Nothing AndAlso clsCommon.myLen(clsCommon.myCstr(str)) > 0 Then
+                                            Throw New Exception(clsCommon.myCstr(str))
+                                        End If
+                                        str = Nothing
+                                    End If
                                     ' Else
                                     'Throw New Exception("Farmer (" & clsCommon.myCstr(obj.MP_Code) & ") is inactive. You cannot update this record.")
                                 End If
                                 If ArrAccountNo.Contains(obj.AccountNO) Then
-                                    Throw New Exception("Repeated Account number [" + obj.AccountNO + "].")
+                                    Throw New Exception("Repeated Account number [" & obj.AccountNO & "] for Farmer [" & obj.MP_Code & "].")
                                 End If
+                                ArrAccountNo.Add(obj.AccountNO)
                                 Arr.Add(obj)
                             Catch ex As Exception
                                 Dim dr As DataRow = dtError.NewRow()
