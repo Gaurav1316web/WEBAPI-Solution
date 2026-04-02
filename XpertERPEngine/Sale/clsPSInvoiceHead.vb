@@ -1490,7 +1490,7 @@ TSPL_Customer_master.Alies_name as toTrdName,
     left outer join tspl_city_master on tspl_city_master.city_code = TSPL_Customer_master.City_Code left outer join tspl_tax_master as TCS1 on TCS1.Tax_Code = TSPL_SD_SALE_INVOICE_HEAD.Tax2 
     left outer join tspl_tax_master as TCS2 on TCS2.Tax_Code = TSPL_SD_SALE_INVOICE_HEAD.Tax3 Left Outer Join tspl_vendor_master on tspl_vendor_master.vendor_code = TSPL_SD_SALE_INVOICE_HEAD.Transport_Code 
     left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_SD_SALE_INVOICE_HEAD.Vehicle_Code
-        where TSPL_SD_SALE_INVOICE_HEAD.Document_Code = '" & strDocNo & "'"
+        where TSPL_SD_SALE_INVOICE_HEAD.Document_Code = '" & strDocNo & "' and TSPL_SD_SALE_INVOICE_DETAIL.Billing_Qty>0 "
             Dim objResult As Object = ClsEInvoiceOFAPIs.PostEWayBill(objCommonVar.CurrentCompanyCode, strQry, strLocation, trans)
             If objResult IsNot Nothing Then
                 Dim EWayBillNo As String = objResult.SelectToken("data.ewayBillNo").ToString
