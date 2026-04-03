@@ -51,10 +51,6 @@ Partial Class frmDistributorRouteTagging
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
-        Me.cboQC = New common.Controls.MyComboBox()
-        Me.cmbWEIGHMENT = New common.Controls.MyComboBox()
-        Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.lblweg = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -77,10 +73,6 @@ Partial Class frmDistributorRouteTagging
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cboQC, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cmbWEIGHMENT, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblweg, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -93,10 +85,6 @@ Partial Class frmDistributorRouteTagging
         '
         'SplitContainer1.Panel1
         '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.cboQC)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.cmbWEIGHMENT)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel1)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.lblweg)
         Me.SplitContainer1.Panel1.Controls.Add(Me.cmbItemType)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblItemType)
         Me.SplitContainer1.Panel1.Controls.Add(Me.rbtnTPT)
@@ -469,78 +457,6 @@ Partial Class frmDistributorRouteTagging
         Me.btndelete.TabIndex = 2
         Me.btndelete.Text = "Delete"
         '
-        'cboQC
-        '
-        Me.cboQC.AutoCompleteDisplayMember = Nothing
-        Me.cboQC.AutoCompleteValueMember = Nothing
-        Me.cboQC.CalculationExpression = Nothing
-        Me.cboQC.DropDownAnimationEnabled = True
-        Me.cboQC.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.cboQC.FieldCode = Nothing
-        Me.cboQC.FieldDesc = Nothing
-        Me.cboQC.FieldMaxLength = 0
-        Me.cboQC.FieldName = Nothing
-        Me.cboQC.isCalculatedField = False
-        Me.cboQC.IsSourceFromTable = False
-        Me.cboQC.IsSourceFromValueList = False
-        Me.cboQC.IsUnique = False
-        Me.cboQC.Location = New System.Drawing.Point(678, 77)
-        Me.cboQC.MendatroryField = False
-        Me.cboQC.MyLinkLable1 = Nothing
-        Me.cboQC.MyLinkLable2 = Nothing
-        Me.cboQC.Name = "cboQC"
-        Me.cboQC.ReferenceFieldDesc = Nothing
-        Me.cboQC.ReferenceFieldName = Nothing
-        Me.cboQC.ReferenceTableName = Nothing
-        Me.cboQC.Size = New System.Drawing.Size(124, 20)
-        Me.cboQC.TabIndex = 1523
-        '
-        'cmbWEIGHMENT
-        '
-        Me.cmbWEIGHMENT.AutoCompleteDisplayMember = Nothing
-        Me.cmbWEIGHMENT.AutoCompleteValueMember = Nothing
-        Me.cmbWEIGHMENT.CalculationExpression = Nothing
-        Me.cmbWEIGHMENT.DropDownAnimationEnabled = True
-        Me.cmbWEIGHMENT.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.cmbWEIGHMENT.FieldCode = Nothing
-        Me.cmbWEIGHMENT.FieldDesc = Nothing
-        Me.cmbWEIGHMENT.FieldMaxLength = 0
-        Me.cmbWEIGHMENT.FieldName = Nothing
-        Me.cmbWEIGHMENT.isCalculatedField = False
-        Me.cmbWEIGHMENT.IsSourceFromTable = False
-        Me.cmbWEIGHMENT.IsSourceFromValueList = False
-        Me.cmbWEIGHMENT.IsUnique = False
-        Me.cmbWEIGHMENT.Location = New System.Drawing.Point(677, 49)
-        Me.cmbWEIGHMENT.MendatroryField = False
-        Me.cmbWEIGHMENT.MyLinkLable1 = Nothing
-        Me.cmbWEIGHMENT.MyLinkLable2 = Nothing
-        Me.cmbWEIGHMENT.Name = "cmbWEIGHMENT"
-        Me.cmbWEIGHMENT.ReferenceFieldDesc = Nothing
-        Me.cmbWEIGHMENT.ReferenceFieldName = Nothing
-        Me.cmbWEIGHMENT.ReferenceTableName = Nothing
-        Me.cmbWEIGHMENT.Size = New System.Drawing.Size(124, 20)
-        Me.cmbWEIGHMENT.TabIndex = 1522
-        '
-        'MyLabel1
-        '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(605, 77)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(22, 18)
-        Me.MyLabel1.TabIndex = 1521
-        Me.MyLabel1.Text = "QC"
-        '
-        'lblweg
-        '
-        Me.lblweg.FieldName = Nothing
-        Me.lblweg.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblweg.Location = New System.Drawing.Point(604, 51)
-        Me.lblweg.Name = "lblweg"
-        Me.lblweg.Size = New System.Drawing.Size(58, 18)
-        Me.lblweg.TabIndex = 1520
-        Me.lblweg.Text = "Weigment"
-        '
         'frmDistributorRouteTagging
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -576,10 +492,6 @@ Partial Class frmDistributorRouteTagging
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cboQC, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cmbWEIGHMENT, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblweg, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -612,8 +524,4 @@ Partial Class frmDistributorRouteTagging
     Friend WithEvents cmbItemType As common.Controls.MyComboBox
     Friend WithEvents lblItemType As common.Controls.MyLabel
     Friend WithEvents btnHistory As RadButton
-    Friend WithEvents cboQC As common.Controls.MyComboBox
-    Friend WithEvents cmbWEIGHMENT As common.Controls.MyComboBox
-    Friend WithEvents MyLabel1 As common.Controls.MyLabel
-    Friend WithEvents lblweg As common.Controls.MyLabel
 End Class
