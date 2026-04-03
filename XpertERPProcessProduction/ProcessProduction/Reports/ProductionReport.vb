@@ -187,7 +187,7 @@ Public Class ProductionReport
                           isnull ([WHOLEDAY],0) as [WHOLEDAY] , (  isnull ([A-SHIFT], 0)  + isnull ([B-SHIFT], 0) + isnull ([C-SHIFT],0) + isnull ([WHOLEDAY],0) ) AS [TOTAL BAG],   
                           (((  isnull ([A-SHIFT], 0)  + isnull ([B-SHIFT], 0) + isnull ([C-SHIFT],0) + isnull ([WHOLEDAY],0) )* 50)/1000) as [Total MT]
                           FROM ( Select max(Add1)Add1,max(Add4)Add4,max(Location_Desc)Location_Desc,[Item Code],max(ITEM_DESCRIPTION)ITEM_DESCRIPTION,
-                               LOCATION_CODE,(PROD_DATE)PROD_DATE,shiftcode "
+                               LOCATION_CODE,(Convert(date,PROD_DATE,103))PROD_DATE,shiftcode "
             If Productionchk.IsChecked Then
                 qry += " ,Sum(qty_bag1) as qty_bag "
             ElseIf RePrdntchk.IsChecked Then
@@ -218,7 +218,7 @@ Public Class ProductionReport
 
             qry += " where 2=2  " & Status1 & " " & FG & " " & SFG & " " & FGSFG & " and Convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103) >= '" & clsCommon.GetPrintDate(txtFromDate.Value) & "' 
                      and Convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103) <= '" & clsCommon.GetPrintDate(txtToDate.Value) & "'"
-            qry += " )Tab1 group by PROD_DATE,LOCATION_CODE,[Item Code],shiftcode)YY
+            qry += " )Tab1 group by Convert(date,PROD_DATE,103),LOCATION_CODE,[Item Code],shiftcode)YY
                                     PIVOT(SUM(qty_bag) FOR shiftcode IN ([A-SHIFT],[B-SHIFT],[C-SHIFT],[WHOLEDAY])) AS Tab2 )tmp
 									where [Item Code] IN (" & clsCommon.myCstr(itemNames1) & ")  and convert(date,tmp.PROD_DATE,103) >= convert(date,'" & clsCommon.GetPrintDate(txtFromDate.Value) & "',103) and convert(date,tmp.PROD_DATE,103)<=convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value) & "',103)" & whr & "  order by MonthNumber,PROD_DATE "
             'If clsCommon.myLen(qry) > 0 Then
