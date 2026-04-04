@@ -23,11 +23,15 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.cboWEIGHMENT = New common.Controls.MyComboBox()
+        Me.cboQC = New common.Controls.MyComboBox()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.lblweg = New common.Controls.MyLabel()
         Me.lblUnion = New common.Controls.MyLabel()
         Me.chkSummary = New Telerik.WinControls.UI.RadCheckBox()
         Me.TxtMultiTanker = New common.UserControls.txtMultiSelectFinder()
@@ -57,6 +61,10 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel1.SuspendLayout()
+        CType(Me.cboWEIGHMENT, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cboQC, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblweg, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblUnion, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -124,6 +132,10 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         '
         'RadPanel1
         '
+        Me.RadPanel1.Controls.Add(Me.cboWEIGHMENT)
+        Me.RadPanel1.Controls.Add(Me.cboQC)
+        Me.RadPanel1.Controls.Add(Me.MyLabel1)
+        Me.RadPanel1.Controls.Add(Me.lblweg)
         Me.RadPanel1.Controls.Add(Me.lblUnion)
         Me.RadPanel1.Controls.Add(Me.chkSummary)
         Me.RadPanel1.Controls.Add(Me.TxtMultiTanker)
@@ -137,6 +149,82 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(779, 352)
         Me.RadPanel1.TabIndex = 15
+        '
+        'cboWEIGHMENT
+        '
+        Me.cboWEIGHMENT.AutoCompleteDisplayMember = Nothing
+        Me.cboWEIGHMENT.AutoCompleteValueMember = Nothing
+        Me.cboWEIGHMENT.CalculationExpression = Nothing
+        Me.cboWEIGHMENT.DropDownAnimationEnabled = True
+        Me.cboWEIGHMENT.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboWEIGHMENT.FieldCode = Nothing
+        Me.cboWEIGHMENT.FieldDesc = Nothing
+        Me.cboWEIGHMENT.FieldMaxLength = 0
+        Me.cboWEIGHMENT.FieldName = Nothing
+        Me.cboWEIGHMENT.isCalculatedField = False
+        Me.cboWEIGHMENT.IsSourceFromTable = False
+        Me.cboWEIGHMENT.IsSourceFromValueList = False
+        Me.cboWEIGHMENT.IsUnique = False
+        Me.cboWEIGHMENT.Location = New System.Drawing.Point(87, 161)
+        Me.cboWEIGHMENT.MendatroryField = False
+        Me.cboWEIGHMENT.MyLinkLable1 = Nothing
+        Me.cboWEIGHMENT.MyLinkLable2 = Nothing
+        Me.cboWEIGHMENT.Name = "cboWEIGHMENT"
+        Me.cboWEIGHMENT.ReferenceFieldDesc = Nothing
+        Me.cboWEIGHMENT.ReferenceFieldName = Nothing
+        Me.cboWEIGHMENT.ReferenceTableName = Nothing
+        Me.cboWEIGHMENT.Size = New System.Drawing.Size(124, 20)
+        Me.cboWEIGHMENT.TabIndex = 1528
+        Me.cboWEIGHMENT.Visible = False
+        '
+        'cboQC
+        '
+        Me.cboQC.AutoCompleteDisplayMember = Nothing
+        Me.cboQC.AutoCompleteValueMember = Nothing
+        Me.cboQC.CalculationExpression = Nothing
+        Me.cboQC.DropDownAnimationEnabled = True
+        Me.cboQC.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboQC.FieldCode = Nothing
+        Me.cboQC.FieldDesc = Nothing
+        Me.cboQC.FieldMaxLength = 0
+        Me.cboQC.FieldName = Nothing
+        Me.cboQC.isCalculatedField = False
+        Me.cboQC.IsSourceFromTable = False
+        Me.cboQC.IsSourceFromValueList = False
+        Me.cboQC.IsUnique = False
+        Me.cboQC.Location = New System.Drawing.Point(87, 186)
+        Me.cboQC.MendatroryField = False
+        Me.cboQC.MyLinkLable1 = Nothing
+        Me.cboQC.MyLinkLable2 = Nothing
+        Me.cboQC.Name = "cboQC"
+        Me.cboQC.ReferenceFieldDesc = Nothing
+        Me.cboQC.ReferenceFieldName = Nothing
+        Me.cboQC.ReferenceTableName = Nothing
+        Me.cboQC.Size = New System.Drawing.Size(124, 20)
+        Me.cboQC.TabIndex = 1527
+        Me.cboQC.Visible = False
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(18, 186)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(22, 18)
+        Me.MyLabel1.TabIndex = 1525
+        Me.MyLabel1.Text = "QC"
+        Me.MyLabel1.Visible = False
+        '
+        'lblweg
+        '
+        Me.lblweg.FieldName = Nothing
+        Me.lblweg.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblweg.Location = New System.Drawing.Point(17, 160)
+        Me.lblweg.Name = "lblweg"
+        Me.lblweg.Size = New System.Drawing.Size(58, 18)
+        Me.lblweg.TabIndex = 1524
+        Me.lblweg.Text = "Weigment"
+        Me.lblweg.Visible = False
         '
         'lblUnion
         '
@@ -207,7 +295,7 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         '
         Me.txtUnion.arrDispalyMember = Nothing
         Me.txtUnion.arrValueMember = Nothing
-        Me.txtUnion.Location = New System.Drawing.Point(89, 88)
+        Me.txtUnion.Location = New System.Drawing.Point(87, 88)
         Me.txtUnion.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtUnion.MyLinkLable1 = Nothing
         Me.txtUnion.MyLinkLable2 = Nothing
@@ -330,7 +418,7 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv1.MyExportAPI = False
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
@@ -427,6 +515,10 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
         Me.RadPanel1.PerformLayout()
+        CType(Me.cboWEIGHMENT, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cboQC, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblweg, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblUnion, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).EndInit()
@@ -477,4 +569,8 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
     Friend WithEvents chkSummary As RadCheckBox
     Friend WithEvents lblUnion1 As common.Controls.MyLabel
     Friend WithEvents lblUnion As common.Controls.MyLabel
+    Friend WithEvents cboQC As common.Controls.MyComboBox
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents lblweg As common.Controls.MyLabel
+    Friend WithEvents cboWEIGHMENT As common.Controls.MyComboBox
 End Class
