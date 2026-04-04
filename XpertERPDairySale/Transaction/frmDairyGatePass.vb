@@ -1958,8 +1958,8 @@ TSPL_COMPANY_MASTER.City_Code As Comp_City,TSPL_COMPANY_MASTER.State As Comp_Sta
                         TSPL_COMPANY_MASTER.Email As Comp_Email,TSPL_COMPANY_MASTER.Pincode As Comp_Pincode,TSPL_COMPANY_MASTER.Phone1 As Comp_Phone1,
                         TSPL_STATE_MASTER.GST_STATE_Code As State_Code,TSPL_STATE_MASTER.STATE_NAME,TSPL_SD_SHIPMENT_HEAD.Route_No,supply_date,TSPL_SD_SHIPMENT_HEAD.sub_location_code as sublocation, TSPL_COMPANY_MASTER.Comp_Code1,TSPL_ITEM_MASTER.Is_Ambient,TSPL_ITEM_MASTER.Is_FreshItem ,TSPL_ITEM_MASTER.IsTaxable ,
 						CASE WHEN (CASE WHEN Is_FreshItem = 1 THEN 1 ELSE 0 END) = 1
-     AND (CASE WHEN IsTaxable = 0 THEN 1 ELSE 0 END) = 1 THEN 1 ELSE 0 END as orderby1,CASE WHEN (CASE WHEN Is_Ambient = 1 THEN 1 ELSE 0 END) = 1
-     AND (CASE WHEN IsTaxable = 0 THEN 1 ELSE 0 END) = 1 THEN 1 ELSE 0 END as orderby2,CASE WHEN ((CASE WHEN Is_FreshItem = 1 OR Is_Ambient = 1 THEN 1 ELSE 0 END) = 1
+     AND (CASE WHEN IsTaxable = 0 THEN 1 ELSE 0 END) = 1 THEN 1 ELSE 2 END as orderby1,CASE WHEN (CASE WHEN Is_Ambient = 1 THEN 1 ELSE 0 END) = 1
+     AND (CASE WHEN IsTaxable = 0 THEN 1 ELSE 0 END) = 1 THEN 1 ELSE 2 END as orderby2,CASE WHEN ((CASE WHEN Is_FreshItem = 1 OR Is_Ambient = 1 THEN 1 ELSE 2 END) = 1
         ) AND ((CASE WHEN IsTaxable = 1 THEN 1 ELSE 0 END) = 1 ) THEN 1 ELSE 0 END AS orderby3
                         from  " & tbl_TSPL_SD_SHIPMENT_HEAD & "
                         Left Outer Join " & tbl_TSPL_SD_SHIPMENT_DETAIL & " On TSPL_SD_SHIPMENT_DETAIL.Document_Code=TSPL_SD_SHIPMENT_HEAD.Document_Code
@@ -2003,7 +2003,7 @@ SELECT TSPL_BATCH_ITEM.Document_Code, Batch_No, Qty, Parent_Line_No,Item_Code,UO
 )TabBatch
 On TabBatch.Document_Code= XXX.Document_Code And TabBatch.Item_Code=XXX.Item_Code  and TabBatch.UOM=XXX.Unit_code
 group by XXX.Item_Code 
-ORDER BY max(YYY.COL2 ),max(orderby1) desc,max(orderby2) desc,max(orderby3)    "
+ORDER BY max(YYY.COL2 ),max(orderby1) desc,max(orderby2) desc,max(orderby3),max(Item_Desc)    "
         Return Qry
     End Function
 
