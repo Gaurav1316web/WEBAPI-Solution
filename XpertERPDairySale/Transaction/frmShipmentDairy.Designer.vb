@@ -267,6 +267,10 @@ Partial Class frmShipmentDairy
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel71 = New common.Controls.MyLabel()
+        Me.lblGrossAmount = New common.Controls.MyLabel()
+        Me.lblTPTComAmt = New common.Controls.MyLabel()
+        Me.txtTPTComAmt = New common.Controls.MyLabel()
         Me.btnUpdateVehicle = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel34 = New common.Controls.MyLabel()
         Me.lblTotalWtMetric = New common.Controls.MyLabel()
@@ -681,6 +685,10 @@ Partial Class frmShipmentDairy
         Me.pvpCustomFields.SuspendLayout
         Me.Attachments.SuspendLayout
         Me.RadPageViewPage4.SuspendLayout
+        CType(Me.MyLabel71, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.lblGrossAmount, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.lblTPTComAmt, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.txtTPTComAmt, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnUpdateVehicle, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.lblTotalWtMetric, System.ComponentModel.ISupportInitialize).BeginInit
@@ -4851,6 +4859,10 @@ Partial Class frmShipmentDairy
         '
         'RadPageViewPage4
         '
+        Me.RadPageViewPage4.Controls.Add(Me.MyLabel71)
+        Me.RadPageViewPage4.Controls.Add(Me.lblGrossAmount)
+        Me.RadPageViewPage4.Controls.Add(Me.lblTPTComAmt)
+        Me.RadPageViewPage4.Controls.Add(Me.txtTPTComAmt)
         Me.RadPageViewPage4.Controls.Add(Me.btnUpdateVehicle)
         Me.RadPageViewPage4.Controls.Add(Me.MyLabel34)
         Me.RadPageViewPage4.Controls.Add(Me.lblTotalWtMetric)
@@ -4905,6 +4917,50 @@ Partial Class frmShipmentDairy
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1089, 416)
         Me.RadPageViewPage4.Text = "Total"
+        '
+        'MyLabel71
+        '
+        Me.MyLabel71.FieldName = Nothing
+        Me.MyLabel71.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel71.Location = New System.Drawing.Point(115, 299)
+        Me.MyLabel71.Name = "MyLabel71"
+        Me.MyLabel71.Size = New System.Drawing.Size(79, 16)
+        Me.MyLabel71.TabIndex = 1576
+        Me.MyLabel71.Text = "Gross Amount"
+        '
+        'lblGrossAmount
+        '
+        Me.lblGrossAmount.AutoSize = False
+        Me.lblGrossAmount.BorderVisible = True
+        Me.lblGrossAmount.FieldName = Nothing
+        Me.lblGrossAmount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblGrossAmount.Location = New System.Drawing.Point(217, 298)
+        Me.lblGrossAmount.Name = "lblGrossAmount"
+        Me.lblGrossAmount.Size = New System.Drawing.Size(110, 18)
+        Me.lblGrossAmount.TabIndex = 1575
+        Me.lblGrossAmount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'lblTPTComAmt
+        '
+        Me.lblTPTComAmt.FieldName = Nothing
+        Me.lblTPTComAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTPTComAmt.Location = New System.Drawing.Point(87, 277)
+        Me.lblTPTComAmt.Name = "lblTPTComAmt"
+        Me.lblTPTComAmt.Size = New System.Drawing.Size(123, 16)
+        Me.lblTPTComAmt.TabIndex = 1574
+        Me.lblTPTComAmt.Text = "- TPT Commission Amt"
+        '
+        'txtTPTComAmt
+        '
+        Me.txtTPTComAmt.AutoSize = False
+        Me.txtTPTComAmt.BorderVisible = True
+        Me.txtTPTComAmt.FieldName = Nothing
+        Me.txtTPTComAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTPTComAmt.Location = New System.Drawing.Point(217, 276)
+        Me.txtTPTComAmt.Name = "txtTPTComAmt"
+        Me.txtTPTComAmt.Size = New System.Drawing.Size(110, 18)
+        Me.txtTPTComAmt.TabIndex = 1573
+        Me.txtTPTComAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
         'btnUpdateVehicle
         '
@@ -5481,7 +5537,7 @@ Partial Class frmShipmentDairy
         Me.txtTCSTaxRate.IsSourceFromTable = False
         Me.txtTCSTaxRate.IsSourceFromValueList = False
         Me.txtTCSTaxRate.IsUnique = False
-        Me.txtTCSTaxRate.Location = New System.Drawing.Point(218, 353)
+        Me.txtTCSTaxRate.Location = New System.Drawing.Point(218, 387)
         Me.txtTCSTaxRate.MendatroryField = False
         Me.txtTCSTaxRate.MyLinkLable1 = Nothing
         Me.txtTCSTaxRate.MyLinkLable2 = Nothing
@@ -5501,7 +5557,7 @@ Partial Class frmShipmentDairy
         '
         Me.MyLabel57.FieldName = Nothing
         Me.MyLabel57.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel57.Location = New System.Drawing.Point(73, 307)
+        Me.MyLabel57.Location = New System.Drawing.Point(73, 341)
         Me.MyLabel57.Name = "MyLabel57"
         Me.MyLabel57.Size = New System.Drawing.Size(138, 16)
         Me.MyLabel57.TabIndex = 1399
@@ -5513,7 +5569,7 @@ Partial Class frmShipmentDairy
         Me.lblActualTCSTaxBaseAmt.BorderVisible = True
         Me.lblActualTCSTaxBaseAmt.FieldName = Nothing
         Me.lblActualTCSTaxBaseAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblActualTCSTaxBaseAmt.Location = New System.Drawing.Point(217, 305)
+        Me.lblActualTCSTaxBaseAmt.Location = New System.Drawing.Point(217, 339)
         Me.lblActualTCSTaxBaseAmt.Name = "lblActualTCSTaxBaseAmt"
         Me.lblActualTCSTaxBaseAmt.Size = New System.Drawing.Size(110, 18)
         Me.lblActualTCSTaxBaseAmt.TabIndex = 1398
@@ -5523,7 +5579,7 @@ Partial Class frmShipmentDairy
         '
         Me.MyLabel58.FieldName = Nothing
         Me.MyLabel58.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel58.Location = New System.Drawing.Point(85, 331)
+        Me.MyLabel58.Location = New System.Drawing.Point(85, 365)
         Me.MyLabel58.Name = "MyLabel58"
         Me.MyLabel58.Size = New System.Drawing.Size(122, 16)
         Me.MyLabel58.TabIndex = 1397
@@ -5542,7 +5598,7 @@ Partial Class frmShipmentDairy
         Me.txttcstaxbaseamount.IsSourceFromTable = False
         Me.txttcstaxbaseamount.IsSourceFromValueList = False
         Me.txttcstaxbaseamount.IsUnique = False
-        Me.txttcstaxbaseamount.Location = New System.Drawing.Point(218, 327)
+        Me.txttcstaxbaseamount.Location = New System.Drawing.Point(218, 361)
         Me.txttcstaxbaseamount.MendatroryField = False
         Me.txttcstaxbaseamount.MyLinkLable1 = Nothing
         Me.txttcstaxbaseamount.MyLinkLable2 = Nothing
@@ -5561,7 +5617,7 @@ Partial Class frmShipmentDairy
         '
         Me.MyLabel56.FieldName = Nothing
         Me.MyLabel56.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel56.Location = New System.Drawing.Point(58, 284)
+        Me.MyLabel56.Location = New System.Drawing.Point(58, 318)
         Me.MyLabel56.Name = "MyLabel56"
         Me.MyLabel56.Size = New System.Drawing.Size(153, 16)
         Me.MyLabel56.TabIndex = 124
@@ -5580,7 +5636,7 @@ Partial Class frmShipmentDairy
         Me.txtCustomerComplaintNo.IsSourceFromTable = False
         Me.txtCustomerComplaintNo.IsSourceFromValueList = False
         Me.txtCustomerComplaintNo.IsUnique = False
-        Me.txtCustomerComplaintNo.Location = New System.Drawing.Point(217, 285)
+        Me.txtCustomerComplaintNo.Location = New System.Drawing.Point(217, 319)
         Me.txtCustomerComplaintNo.MaxLength = 50
         Me.txtCustomerComplaintNo.MendatroryField = False
         Me.txtCustomerComplaintNo.MyLinkLable1 = Me.MyLabel22
@@ -5739,7 +5795,7 @@ Partial Class frmShipmentDairy
         '
         Me.RadLabel32.FieldName = Nothing
         Me.RadLabel32.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel32.Location = New System.Drawing.Point(75, 238)
+        Me.RadLabel32.Location = New System.Drawing.Point(75, 235)
         Me.RadLabel32.Name = "RadLabel32"
         Me.RadLabel32.Size = New System.Drawing.Size(140, 16)
         Me.RadLabel32.TabIndex = 131
@@ -5751,7 +5807,7 @@ Partial Class frmShipmentDairy
         Me.lblAddCharges1.BorderVisible = True
         Me.lblAddCharges1.FieldName = Nothing
         Me.lblAddCharges1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblAddCharges1.Location = New System.Drawing.Point(217, 237)
+        Me.lblAddCharges1.Location = New System.Drawing.Point(217, 234)
         Me.lblAddCharges1.Name = "lblAddCharges1"
         Me.lblAddCharges1.Size = New System.Drawing.Size(110, 18)
         Me.lblAddCharges1.TabIndex = 14
@@ -5783,7 +5839,7 @@ Partial Class frmShipmentDairy
         '
         Me.RadLabel27.FieldName = Nothing
         Me.RadLabel27.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel27.Location = New System.Drawing.Point(115, 262)
+        Me.RadLabel27.Location = New System.Drawing.Point(115, 257)
         Me.RadLabel27.Name = "RadLabel27"
         Me.RadLabel27.Size = New System.Drawing.Size(100, 16)
         Me.RadLabel27.TabIndex = 123
@@ -5795,7 +5851,7 @@ Partial Class frmShipmentDairy
         Me.lblTotRAmt.BorderVisible = True
         Me.lblTotRAmt.FieldName = Nothing
         Me.lblTotRAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotRAmt.Location = New System.Drawing.Point(217, 261)
+        Me.lblTotRAmt.Location = New System.Drawing.Point(217, 256)
         Me.lblTotRAmt.Name = "lblTotRAmt"
         Me.lblTotRAmt.Size = New System.Drawing.Size(110, 18)
         Me.lblTotRAmt.TabIndex = 15
@@ -7583,6 +7639,10 @@ Partial Class frmShipmentDairy
         Me.Attachments.ResumeLayout(False)
         Me.RadPageViewPage4.ResumeLayout(False)
         Me.RadPageViewPage4.PerformLayout
+        CType(Me.MyLabel71, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.lblGrossAmount, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.lblTPTComAmt, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.txtTPTComAmt, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnUpdateVehicle, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.lblTotalWtMetric, System.ComponentModel.ISupportInitialize).EndInit
@@ -8184,5 +8244,9 @@ Partial Class frmShipmentDairy
     Friend WithEvents MyLabel34 As common.Controls.MyLabel
     Friend WithEvents lblTotalWtMetric As common.Controls.MyLabel
     Friend WithEvents chkNoTranspoter As RadCheckBox
+    Friend WithEvents lblTPTComAmt As common.Controls.MyLabel
+    Friend WithEvents txtTPTComAmt As common.Controls.MyLabel
+    Friend WithEvents MyLabel71 As common.Controls.MyLabel
+    Friend WithEvents lblGrossAmount As common.Controls.MyLabel
 End Class
 

@@ -2086,6 +2086,8 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "' and TSP
             ''''''''''''''''''''''''''''''''''For Making AR Invoice
             Dim objCustInv As New clsCustomerInvoiceHead()
             ''objCustInv.Document_No ''Will be Generateed
+            Dim DeductTPTFromDocAmt As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DeductTPTFromDocAmt, clsFixedParameterCode.DeductTPTFromDocAmt, trans)) = 1, True, False)
+
             objCustInv.RoundOffAmount = obj.RoundOffAmount
             objCustInv.Document_Date = obj.Document_Date
             If clsCommon.myLen(obj.Invoice_No_For_Supplementary) > 0 AndAlso clsCommon.CompairString(obj.Supplementary_Type, "C") = CompairStringResult.Equal Then
@@ -2096,7 +2098,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "' and TSP
                 objCustInv.Document_Type = "I"
             End If
             objCustInv.Trans_Type = obj.Trans_type '"PS"
-            If clsCommon.CompairString(obj.Trans_type, "MCC") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(obj.Trans_type, "MCC") = CompairStringResult.Equal OrElse DeductTPTFromDocAmt Then
                 objCustInv.Document_Total = obj.Gross_Amount
             Else
                 objCustInv.Document_Total = obj.Total_Amt
@@ -2260,8 +2262,15 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "' and TSP
             objCustInv.Route_No = obj.Route_No
             ''objCustInv.Status
             ''objCustInv.AgainstScrap
+
             objCustInv.Against_Sale_No = obj.Document_Code
-            objCustInv.TotalSubsidyAmt = obj.TotalSubsidyAmt
+            If DeductTPTFromDocAmt Then
+                objCustInv.TotalSubsidyAmt = obj.Transporter_Commission_TotalAmt
+            Else
+                objCustInv.TotalSubsidyAmt = obj.TotalSubsidyAmt
+
+
+            End If
             Dim FinancialImpactForDistributor As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FinancialImpactForDistributor, clsFixedParameterCode.FinancialImpactForDistributor, trans)) = 1, True, False)
             Dim FinancialImpactForSecurity As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FinancialImpactForSecurity, clsFixedParameterCode.FinancialImpactForSecurity, trans)) = 1, True, False)
             Dim FinancialImpactForTPT As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FinancialImpactForTPT, clsFixedParameterCode.FinancialImpactForTPT, trans)) = 1, True, False)

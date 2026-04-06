@@ -44,6 +44,7 @@ Public Class frmMultipleInvoice
         btnPrintMultipleInvoice.Enabled = False
         txtFromDate.Value = clsCommon.GETSERVERDATE().AddDays(-10)
         txtToDate.Value = clsCommon.GETSERVERDATE()
+        txtInvoiceDate.Value = txtToDate.Value
         txtFromShift.SelectedValue = "M"
         txtToShift.SelectedValue = "E"
         txtInvoiceNo.Value = ""
@@ -416,7 +417,7 @@ Public Class frmMultipleInvoice
                             lstDocument.Add(clsCommon.myCstr(dr("Document_Code")))
                         Next
                         obj = clsMultipleInvoice.GetShipmentDetail(lstDocument, trans)
-                        Dim ObjInv As clsPSInvoiceHead = clsMultipleInvoice.ConvertShipmentToSaleInvoice(obj, True, trans)
+                        Dim ObjInv As clsPSInvoiceHead = clsMultipleInvoice.ConvertShipmentToSaleInvoice(obj, txtInvoiceDate.Value, True, trans)
                         Dim status As Boolean = ObjInv.SaveData(ObjInv, True, trans, True)
                         If status Then
                             Qry = "update TSPL_SD_SHIPMENT_HEAD set Sale_Invoice_No='" + ObjInv.Document_Code + "' where Document_Code in(" + clsCommon.GetMulcallString(lstDocument) + ")"
@@ -512,8 +513,12 @@ Public Class frmMultipleInvoice
     Public Sub fndLoadData(ByVal strInvoiceNo As String, ByVal NavType As NavigatorType)
         Try
             txtInvoiceNo.Value = strInvoiceNo
-            Dim strQry As String = "select TSPL_SD_SALE_INVOICE_HEAD.Document_Code as Invoice_NO,convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Docuemnt_Date,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SALE_INVOICE_HEAD.Route_No,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location,case when TSPL_SD_SALE_INVOICE_HEAD.Status=0 then 'Pending' else 'Approved' end as Status,TSPL_SD_SALE_INVOICE_HEAD.Amount_Less_Discount,TSPL_SD_SALE_INVOICE_HEAD.total_tax_Amt,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt
-,Null As [Tax Type]
+            Dim strQry As String = "select TSPL_SD_SALE_INVOICE_HEAD.Document_Code as Invoice_NO,convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Docuemnt_Date,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SALE_INVOICE_HEAD.Route_No,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location,case when TSPL_SD_SALE_INVOICE_HEAD.Status=0 then 'Pending' else 'Approved' end as Status,TSPL_SD_SALE_INVOICE_HEAD.Amount_Less_Discount,TSPL_SD_SALE_INVOICE_HEAD.total_tax_Amt,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt "
+            Dim DeductTPTFromDocAmt As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DeductTPTFromDocAmt, clsFixedParameterCode.DeductTPTFromDocAmt, Nothing)) = 1, True, False)
+            If DeductTPTFromDocAmt Then
+                strQry += " ,TSPL_SD_SALE_INVOICE_HEAD.TotalSubsidyAmt as TPT_AMT,TSPL_SD_SALE_INVOICE_HEAD.Gross_Amount"
+            End If
+            strQry += " ,Null As [Tax Type]
 from TSPL_SD_SALE_INVOICE_HEAD 
 left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
  where isMultipleInvoice = 1  "
@@ -569,8 +574,12 @@ left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_IN
     End Sub
     Public Sub LoadData(ByVal isLoadData As Boolean)
         Try
-            Dim strQry As String = "select TSPL_SD_SALE_INVOICE_HEAD.Document_Code as [Invoice No],convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as [Docuemnt Date],TSPL_SD_SALE_INVOICE_HEAD.Customer_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name],TSPL_SD_SALE_INVOICE_HEAD.Route_No as [Route No],TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location as [Location],case when TSPL_SD_SALE_INVOICE_HEAD.Status=0 then 'Pending' else 'Approved' end as Status,TSPL_SD_SALE_INVOICE_HEAD.Amount_Less_Discount as [Amount Less Discount],TSPL_SD_SALE_INVOICE_HEAD.total_tax_Amt as [Total Tax Amt],TSPL_SD_SALE_INVOICE_HEAD.Total_Amt as [Total Amt]"
-            strQry+=" ,Case 
+            Dim strQry As String = "select TSPL_SD_SALE_INVOICE_HEAD.Document_Code as [Invoice No],convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as [Docuemnt Date],TSPL_SD_SALE_INVOICE_HEAD.Customer_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name],TSPL_SD_SALE_INVOICE_HEAD.Route_No as [Route No],TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location as [Location],case when TSPL_SD_SALE_INVOICE_HEAD.Status=0 then 'Pending' else 'Approved' end as Status,TSPL_SD_SALE_INVOICE_HEAD.Amount_Less_Discount as [Amount Less Discount],TSPL_SD_SALE_INVOICE_HEAD.total_tax_Amt as [Total Tax Amt],TSPL_SD_SALE_INVOICE_HEAD.Total_Amt as [Total Amt] "
+            Dim DeductTPTFromDocAmt As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DeductTPTFromDocAmt, clsFixedParameterCode.DeductTPTFromDocAmt, Nothing)) = 1, True, False)
+            If DeductTPTFromDocAmt Then
+                strQry += " ,TSPL_SD_SALE_INVOICE_HEAD.TotalSubsidyAmt as TPT_AMT,TSPL_SD_SALE_INVOICE_HEAD.Gross_Amount"
+            End If
+            strQry +=" ,Case 
 When TAX1.Type ='IGST' Then TAX1.Type 
 When TAX2.Type ='IGST' Then TAX2.Type 
 When TAX3.Type ='IGST' Then TAX3.Type 
