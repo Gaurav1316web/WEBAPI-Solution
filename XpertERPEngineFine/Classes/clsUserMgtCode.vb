@@ -2547,6 +2547,7 @@ Public Class clsUserMgtCode
     Public Const rptPromptMsgPendindDoc As String = "PROMPTPENDOC"
     Public Const MISMassBalanceReport As String = "MAS-BAL-RPT"
     Public Const SundryDebtorsReport As String = "SUN-DBTR-RPT"
+    Public Const AccountStatementReport As String = "ACC-SMT-RPT"
     '==========================Milk Job Work===================
     Public Const MilkJobWork As String = "MJW"
     Public Const SubModuleMJWTransaction As String = "SMMJWTRANS"
