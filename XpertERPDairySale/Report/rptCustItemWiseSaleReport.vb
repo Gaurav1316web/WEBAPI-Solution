@@ -102,16 +102,16 @@ Public Class rptCustItemWiseSaleReport
         ElseIf BtnMilkStcSummary.IsChecked Then
             VarID += "_MSS"
         ElseIf BtnPartySaleMilkProduct.IsChecked Then
-            If ddlType.SelectedValue = "Dispatch" Then
+            If clsCommon.CompairString(ddlType.SelectedValue, "Dispatch") = CompairStringResult.Equal Then
                 VarID += "_PSMPDS"
-            ElseIf ddlType.SelectedValue = "Invoice" Then
+            ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Invoice") = CompairStringResult.Equal Then
                 VarID += "_PSMPIN"
             End If
             VarID += "_PSMPDS"
         ElseIf BtnProductSalesSummary.IsChecked Then
-            If ddlType.SelectedValue = "Taxable" Then
+            If clsCommon.CompairString(ddlType.SelectedValue, "Taxable") = CompairStringResult.Equal Then
                 VarID += "_PSST"
-            ElseIf ddlType.SelectedValue = "Non Taxable" Then
+            ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Non Taxable") = CompairStringResult.Equal Then
                 VarID += "_PSNT"
             ElseIf ddlType.SelectedValue = "Both" Then
                 VarID += "_PSNTNT"
@@ -119,9 +119,9 @@ Public Class rptCustItemWiseSaleReport
         ElseIf BtnBillWiseSaleOfMilk.IsChecked Then
             VarID += "_BWSM"
         ElseIf BtnBillWiseSaleOfMilkSummary.IsChecked Then
-            If ddlType.SelectedValue = "Dispatch" Then
+            If clsCommon.CompairString(ddlType.SelectedValue, "Dispatch") = CompairStringResult.Equal Then
                 VarID += "_BSMDS"
-            ElseIf ddlType.SelectedValue = "Invoice" Then
+            ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Invoice") = CompairStringResult.Equal Then
                 VarID += "_BSMSI"
             End If
         ElseIf BtnTransportationCharges.IsChecked Then
@@ -161,9 +161,9 @@ Public Class rptCustItemWiseSaleReport
                 clsCommon.MyMessageBoxShow(Me, "Please select Type ", Me.Text)
                 Exit Sub
             End If
-            If ddlType.SelectedValue = "Dispatch" Then
+            If clsCommon.CompairString(ddlType.SelectedValue, "Dispatch") = CompairStringResult.Equal Then
                 BillWisesaleSummaryDispatch(False)
-            ElseIf ddlType.SelectedValue = "Invoice" Then
+            ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Invoice") = CompairStringResult.Equal Then
                 BillWisesaleSummaryInvoice(False)
             End If
         ElseIf BtnPartySaleMilkProduct.IsChecked Then
@@ -171,18 +171,14 @@ Public Class rptCustItemWiseSaleReport
                 clsCommon.MyMessageBoxShow(Me, "Please select Type ", Me.Text)
                 Exit Sub
             End If
-            If ddlType.SelectedValue = "Dispatch" Then
+            If clsCommon.CompairString(ddlType.SelectedValue, "Dispatch") = CompairStringResult.Equal Then
                 PartySaleMilkProductDispatch(False)
-            ElseIf ddlType.SelectedValue = "Invoice" Then
+            ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Invoice") = CompairStringResult.Equal Then
                 PartySaleMilkProductInvoice(False)
             End If
         ElseIf BtnBillWiseSaleOfMilk.IsChecked Then
             BillwiseSaleOfMilk(False)
         ElseIf BtnProductSalesSummary.IsChecked Then
-            If ddlType.SelectedIndex = 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please select Type ", Me.Text)
-                Exit Sub
-            End If
             Productsalesummarytaxablenontaxable(False)
         ElseIf BtnMilkStcSummary.IsChecked Then
             MilkStcSummary(False)
@@ -444,7 +440,6 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
     End Sub
     Public Function getBoothSaleBaseQry() As String
         Dim whrcls As String = ""
-
         If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
             whrcls = " And TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code In (" & clsCommon.GetMulcallString(txtItem.arrValueMember) & ") "
         End If
@@ -455,7 +450,11 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
         If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
             whrcls += " and TSPL_SD_SHIPMENT_HEAD.Route_No in ( " + clsCommon.GetMulcallString(txtRoute.arrValueMember) + " )"
         End If
-
+        If clsCommon.CompairString(ddlType.SelectedValue, "Milk") = CompairStringResult.Equal Then
+            whrcls += " and  TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 "
+        ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Product") = CompairStringResult.Equal Then
+            whrcls += " and TSPL_ITEM_MASTER.Is_Ambient = 1 or TSPL_ITEM_MASTER.IsTaxable = 1  "
+        End If
         Dim qry As String = "( SELECT TSPL_SD_SHIPMENT_HEAD.shift_type,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Logo_Img,TSPL_ITEM_MASTER.IsTaxable,TSPL_COMPANY_MASTER.Comp_Name ,TSPL_COMPANY_MASTER.Add1 ,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code as Customer_Code  ,TSPL_ITEM_MASTER.Short_Description,TSPL_CUSTOMER_MASTER.Customer_Name as Booth, "
         qry += "TSPL_SD_SHIPMENT_HEAD.Route_No,TSPL_SD_SHIPMENT_HEAD.Document_Date, TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,"
         qry += " TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code, isnull((TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(Report_UOM.Conversion_Factor),0) As Qty,Report_UOM.UOM_Code as Def_Rep_UOM,TSPL_ITEM_MASTER.Sku_Seq,"
@@ -487,6 +486,10 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
         Try
             If ddlDefaultReportUOM.SelectedIndex = 0 Then
                 clsCommon.MyMessageBoxShow(Me, "Please select Quantity conversion type", Me.Text)
+                Exit Sub
+            End If
+            If ddlType.SelectedIndex = 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select Type ", Me.Text)
                 Exit Sub
             End If
             Dim qry As String = getBoothSaleBaseQry()
@@ -544,6 +547,10 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
         Try
             If ddlDefaultReportUOM.SelectedIndex = 0 Then
                 clsCommon.MyMessageBoxShow(Me, "Please select Quantity conversion type", Me.Text)
+                Exit Sub
+            End If
+            If ddlType.SelectedIndex = 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select Type ", Me.Text)
                 Exit Sub
             End If
             Dim qry As String = getBoothSaleBaseQry()
@@ -1025,6 +1032,14 @@ GROUP BY Item_Code order by Item_Desc"
     End Sub
     Sub Productsalesummarytaxablenontaxable(ByVal print As Boolean)
         Try
+            If ddlType.SelectedIndex = 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select Type ", Me.Text)
+                Exit Sub
+            End If
+            If ddlReportType.SelectedIndex = 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select Report Type ", Me.Text)
+                Exit Sub
+            End If
             Dim Qry As String = ""
             Dim BaseQry As String = ""
             Dim dt As DataTable = Nothing
@@ -1034,21 +1049,23 @@ GROUP BY Item_Code order by Item_Desc"
                 Qry += "'Taxable & Non Taxable' as TaxableNonTaxable, "
             ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Taxable") = CompairStringResult.Equal Then
                 Qry += "'Taxable' as TaxableNonTaxable, "
+            ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Non Taxable") = CompairStringResult.Equal Then
+                Qry += "'Non Taxable' as TaxableNonTaxable, "
             End If
 
-            Qry += " Sum(Distributor_Commission_TotalAmt) as Trp_Charge,MAX(Customer_Name) as Customer_Name,
+            Qry += " Sum(Distributor_Commission_TotalAmt) as Trp_Charge,max(Cust_Code)Cust_Code,MAX(Customer_Name) as Customer_Name,
                                MAX(Item_Desc) AS Item_Desc,Item_Code, MAX(Unit_code) AS Unit_code,SUM(Qty) AS Qty,sum(Amount) as Amount,"
 
             If clsCommon.CompairString(ddlType.SelectedValue, "Taxable") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlType.SelectedValue, "Both") = CompairStringResult.Equal Then
                 Qry += "  sum([KKF Amt]) as KKF_Amt,SUM(Amount) + SUM([Mandi Tax Amt]) + SUM([KKF Amt]) AS Taxable_Value,SUM([Mandi Tax Amt]) as Mandi_Tax_Amt,SUM([CGST Amt]) as CGST_Amt,sum([SGST Amt]) as SGST_Amt,SUM([IGST Amt]) as IGST_Amt,SUM([TCS Amt]) as TCS_Amt,SUM(Amount) + SUM([Mandi Tax Amt]) + SUM([KKF Amt])+SUM([CGST Amt])+sum([SGST Amt])+SUM([IGST Amt]) as [Total Amount],"
-            ElseIf ddlType.SelectedValue = "Non Taxable" Then
-                Qry += " SUM(Amount) as [Total Amount],"
+            ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Non Taxable") = CompairStringResult.Equal Then
+                Qry += " SUM(Amount) AS Taxable_Value,SUM([CGST Amt]) as CGST_Amt,sum([SGST Amt]) as SGST_Amt,SUM([IGST Amt]) as IGST_Amt,SUM(Amount)+SUM([CGST Amt])+sum([SGST Amt])+SUM([IGST Amt]) as [Total Amount],"
             End If
             Qry += " SUM(QtyAccToReportUOM) AS QtyAccToReportUOM,MAX(UOM_Code) AS UOM_Code,MAX(Comp_Name) AS Comp_Name,MAX(Add1) AS Add1,MAX(Add2) AS Add2,MAX(Add3) AS Add3,MAX(City_Code) AS City_Code,MAX(State) AS State, MAX(Document_Date) AS Document_Date
                                 FROM (SELECT TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.Item_Code, 
                             TSPL_SD_SHIPMENT_DETAIL.Unit_code,TSPL_SD_SHIPMENT_DETAIL.Qty,
                             cast((TSPL_SD_SHIPMENT_DETAIL.Qty * ItemConvinUOM.Conversion_Factor / ItemConvReportUOM.Conversion_Factor) as Decimal(18, 2)) as QtyAccToReportUOM,ItemConvReportUOM.UOM_Code,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2, 
-                            TSPL_COMPANY_MASTER.Add3,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.State,TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Discount as Amount,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No,TSPL_SD_SHIPMENT_HEAD.TAX5_Amt,TSPL_SD_SHIPMENT_HEAD.Distributor_Commission_TotalAmt,TSPL_CUSTOMER_MASTER.Customer_Name,
+                            TSPL_COMPANY_MASTER.Add3,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.State,TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Discount as Amount,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No,TSPL_SD_SHIPMENT_HEAD.TAX5_Amt,TSPL_SD_SHIPMENT_HEAD.Distributor_Commission_TotalAmt,TSPL_CUSTOMER_MASTER.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,
 							CASE WHEN TSPL_SD_SHIPMENT_HEAD.TAX1='KKF'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt
     				WHEN TSPL_SD_SHIPMENT_HEAD.TAX2='KKF'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt
     				WHEN TSPL_SD_SHIPMENT_HEAD.TAX3='KKF'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt
@@ -1081,7 +1098,6 @@ GROUP BY Item_Code order by Item_Desc"
     				WHEN TSPL_SD_SHIPMENT_HEAD.TAX8='CGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX8_Amt
     				WHEN TSPL_SD_SHIPMENT_HEAD.TAX9='CGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX9_Amt
     				WHEN TSPL_SD_SHIPMENT_HEAD.TAX10='CGST' THEN TSPL_SD_SHIPMENT_DETAIL.TAX10_Amt else 0 END  AS [CGST Amt],
-
                              CASE WHEN TSPL_SD_SHIPMENT_HEAD.TAX1='SGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt
     				WHEN TSPL_SD_SHIPMENT_HEAD.TAX2='SGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt
     				WHEN TSPL_SD_SHIPMENT_HEAD.TAX3='SGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt
@@ -1124,16 +1140,28 @@ outer apply ( select top 1 IS_TAXABLE,ITEM_CODE from TSPL_ITEM_MASTER_TAXABLE
 where  ITEM_CODE = TSPL_SD_SHIPMENT_DETAIL.Item_Code and EFFECTIVE_DATE <= '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "' order by EFFECTIVE_DATE desc ) as ItemTaxable 
                             where 2=2  and TSPL_ITEM_MASTER.Is_Ambient = 1	"
 
-            If ddlType.SelectedValue = "Taxable" Then
+            If clsCommon.CompairString(ddlType.SelectedValue, "Taxable") = CompairStringResult.Equal Then
                 Qry += " and ItemTaxable.IS_TAXABLE = 1  "
-            ElseIf ddlType.SelectedValue = "Non Taxable" Then
+            ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Non Taxable") = CompairStringResult.Equal Then
                 Qry += " and ItemTaxable.IS_TAXABLE = 0 "
             End If
             If txtCustomer.arrValueMember IsNot Nothing Then
                 Qry += " and TSPL_CUSTOMER_MASTER.Cust_Code in (" & clsCommon.GetMulcallString(txtCustomer.arrValueMember) & ") "
             End If
-            Qry += " and convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "') xx 
-                GROUP BY Item_Code order by Customer_Name,Item_Desc"
+            If txtLocation.arrValueMember IsNot Nothing Then
+                Qry += " and TSPL_SD_SHIPMENT_HEAD.Sub_Location_code in (" & clsCommon.GetMulcallString(txtLocation.arrValueMember) & ") "
+            End If
+            If txtItem.arrValueMember IsNot Nothing Then
+                Qry += " and TSPL_SD_SHIPMENT_DETAIL.Item_Code in (" & clsCommon.GetMulcallString(txtItem.arrValueMember) & ") "
+            End If
+            Qry += " and convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "') xx "
+
+            If clsCommon.CompairString(ddlReportType.SelectedValue, "Party Wise") = CompairStringResult.Equal Then
+                Qry += "  GROUP BY  Cust_Code,Item_Code order by Customer_Name,Item_Desc"
+            ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Item Wise") = CompairStringResult.Equal Then
+                Qry += "  GROUP BY Item_Code order by Customer_Name,Item_Desc"
+            End If
+
             dt = clsDBFuncationality.GetDataTable(Qry)
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -1157,11 +1185,20 @@ where  ITEM_CODE = TSPL_SD_SHIPMENT_DETAIL.Item_Code and EFFECTIVE_DATE <= '" & 
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     If BtnProductSalesSummary.IsChecked Then
-                        If ddlType.SelectedValue = "Taxable" OrElse ddlType.SelectedValue = "Both" Then
-                            frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptProductSaleSummaryTaxableNonTaxable", "Product Sale Summary Taxable NonTaxable")
-                        ElseIf ddlType.SelectedValue = "Non Taxable" Then
-                            frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptProductSaleSummaryNonTaxable", "Product Sale Summary NonTaxable")
+                        If clsCommon.CompairString(ddlReportType.SelectedValue, "Party Wise") = CompairStringResult.Equal Then
+                            If clsCommon.CompairString(ddlType.SelectedValue, "Taxable") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlType.SelectedValue, "Both") = CompairStringResult.Equal Then
+                                frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptProductSaleSummaryPartyTaxableNonTaxable", "Product Sale Summary Party Wise Taxable NonTaxable")
+                            ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Non Taxable") = CompairStringResult.Equal Then
+                                frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptProductSaleSummaryPartyNonTaxable", "Product Sale Summary Party Wise NonTaxable")
+                            End If
+                        ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Item Wise") = CompairStringResult.Equal Then
+                            If clsCommon.CompairString(ddlType.SelectedValue, "Taxable") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlType.SelectedValue, "Both") = CompairStringResult.Equal Then
+                                frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptProductSaleSummaryTaxableNonTaxable", "Product Sale Summary Taxable NonTaxable")
+                            ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Non Taxable") = CompairStringResult.Equal Then
+                                frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptProductSaleSummaryNonTaxable", "Product Sale Summary NonTaxable")
+                            End If
                         End If
+
                     End If
                     frmCRV = Nothing
 
@@ -2303,7 +2340,7 @@ where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.V
             gv1.Columns("Def_Rep_UOM").HeaderText = "Unit"
             Dim Descriptor1 As New GroupDescriptor()
             Descriptor1.GroupNames.Add("Booth", System.ComponentModel.ListSortDirection.Ascending)
-            gv1.GroupDescriptors.Add(descriptor1)
+            gv1.GroupDescriptors.Add(Descriptor1)
             Dim summaryRowItem As New GridViewSummaryRowItem()
             summaryRowItem.Add(New GridViewSummaryItem("Qty", "{0:F2}", GridAggregateFunction.Sum))
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
@@ -2574,7 +2611,7 @@ where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.V
                     ElseIf BtnProductSalesSummary.IsChecked = True Then
                         If ddlType.SelectedValue = "Taxable" OrElse ddlType.SelectedValue = "Both" Then
                             frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptProductSaleSummaryTaxableNonTaxable", "Product Sale Summary Taxable NonTaxable")
-                        ElseIf ddlType.SelectedValue = "Non Taxable" Then
+                        ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Non Taxable") = CompairStringResult.Equal Then
                             frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptProductSaleSummaryNonTaxable", "Product Sale Summary NonTaxable")
                         End If
                     ElseIf BtnMilkStcSummary.IsChecked = True Then
@@ -2834,9 +2871,9 @@ where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.V
                 clsCommon.MyMessageBoxShow(Me, "Please select Type ", Me.Text)
                 Exit Sub
             End If
-            If ddlType.SelectedValue = "Dispatch" Then
+            If clsCommon.CompairString(ddlType.SelectedValue, "Dispatch") = CompairStringResult.Equal Then
                 BillWisesaleSummaryDispatch(True)
-            ElseIf ddlType.SelectedValue = "Invoice" Then
+            ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Invoice") = CompairStringResult.Equal Then
                 BillWisesaleSummaryInvoice(True)
             End If
         ElseIf BtnPartySaleMilkProduct.IsChecked Then
@@ -2844,18 +2881,14 @@ where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.V
                 clsCommon.MyMessageBoxShow(Me, "Please select Type ", Me.Text)
                 Exit Sub
             End If
-            If ddlType.SelectedValue = "Dispatch" Then
+            If clsCommon.CompairString(ddlType.SelectedValue, "Dispatch") = CompairStringResult.Equal Then
                 PartySaleMilkProductDispatch(True)
-            ElseIf ddlType.SelectedValue = "Invoice" Then
+            ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Invoice") = CompairStringResult.Equal Then
                 PartySaleMilkProductInvoice(True)
             End If
         ElseIf BtnBillWiseSaleOfMilk.IsChecked Then
             BillwiseSaleOfMilk(True)
         ElseIf BtnProductSalesSummary.IsChecked Then
-            If ddlType.SelectedIndex = 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please select Type ", Me.Text)
-                Exit Sub
-            End If
             Productsalesummarytaxablenontaxable(True)
         ElseIf BtnMilkStcSummary.IsChecked Then
             MilkStcSummary(True)
@@ -2933,11 +2966,27 @@ where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.V
         ElseIf BtnPartySaleMilkProduct.IsChecked OrElse BtnBillWiseSaleOfMilkSummary.IsChecked Then
             qry += " union all Select 'Dispatch' as Code,'Dispatch' as Name  union all 
  Select 'Invoice' as Code,'Invoice' as Name "
+        ElseIf rbtnBoothSaleDateShiftWise.IsChecked OrElse rbtnBoothSaleDateShiftWise.IsChecked Then
+            qry += " union all Select 'Milk' as Code,'Milk' as Name  union all 
+ Select 'Product' as Code,'Product' as Name 
+            union all 
+ Select 'Both' as Code,'Both' as Name "
         End If
 
         ddlType.DataSource = clsDBFuncationality.GetDataTable(qry)
         ddlType.ValueMember = "Code"
         ddlType.DisplayMember = "Name"
+    End Sub
+    Sub LoadReportType()
+        Dim qry As String = "select '' as Code, '<--Select-->' as Name   "
+        If BtnProductSalesSummary.IsChecked Then
+            qry += " union all Select 'Item Wise' as Code,'Item Wise' as Name  union all 
+ Select 'Party Wise' as Code,'Party Wise' as Name "
+        End If
+
+        ddlReportType.DataSource = clsDBFuncationality.GetDataTable(qry)
+        ddlReportType.ValueMember = "Code"
+        ddlReportType.DisplayMember = "Name"
     End Sub
     Private Sub txtLocation__My_Click(sender As Object, e As EventArgs) Handles txtLocation._My_Click
         Try
@@ -2962,6 +3011,8 @@ where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.V
             RadGroupBox4.Visible = False
             lblType.Visible = False
             ddlType.Visible = False
+            lblReportType.Visible = False
+            ddlReportType.Visible = False
         ElseIf rbtnMilkSale.IsChecked Then
             btnGo.Enabled = False
             RadSplitButton1.Enabled = False
@@ -2973,6 +3024,8 @@ where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.V
             RadGroupBox4.Visible = True
             lblType.Visible = False
             ddlType.Visible = False
+            lblReportType.Visible = False
+            ddlReportType.Visible = False
         ElseIf rbtnDistributorCollStatement.IsChecked Then
             txtRoute.Visible = True
             lblRoute.Visible = True
@@ -2984,6 +3037,8 @@ where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.V
             RadGroupBox4.Visible = False
             lblType.Visible = False
             ddlType.Visible = False
+            lblReportType.Visible = False
+            ddlReportType.Visible = False
         ElseIf rbtnBoothSaleDateShiftWise.IsChecked Then
             btnGo.Enabled = False
             RadSplitButton1.Enabled = False
@@ -2992,8 +3047,11 @@ where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.V
             lblQtyConv.Visible = True
             ddlDefaultReportUOM.Visible = True
             RadGroupBox4.Visible = True
-            lblType.Visible = False
-            ddlType.Visible = False
+            lblType.Visible = True
+            ddlType.Visible = True
+            lblReportType.Visible = False
+            ddlReportType.Visible = False
+            LoadType()
         ElseIf rbtnBoothSaleItemWise.IsChecked Then
             btnGo.Enabled = True
             RadSplitButton1.Enabled = False
@@ -3002,21 +3060,33 @@ where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.V
             lblQtyConv.Visible = True
             ddlDefaultReportUOM.Visible = True
             RadGroupBox4.Visible = True
-            lblType.Visible = False
-            ddlType.Visible = False
+            lblType.Visible = True
+            ddlType.Visible = True
+            lblReportType.Visible = False
+            ddlReportType.Visible = False
+            LoadType()
         ElseIf BtnProductSalesSummary.IsChecked OrElse BtnPartySaleMilkProduct.IsChecked OrElse BtnBillWiseSaleOfMilkSummary.IsChecked Then
             btnGo.Enabled = True
             RadSplitButton1.Enabled = True
-            txtLocation.Visible = False
-            lblLocation.Visible = False
             txtRoute.Visible = False
             lblRoute.Visible = False
             lblQtyConv.Visible = False
             ddlQtyConversionType.Visible = False
             ddlDefaultReportUOM.Visible = False
             RadGroupBox4.Visible = False
+            lblReportType.Visible = False
+            ddlReportType.Visible = False
             lblType.Visible = True
             ddlType.Visible = True
+            txtLocation.Visible = False
+            lblLocation.Visible = False
+            If BtnProductSalesSummary.IsChecked Then
+                lblReportType.Visible = True
+                ddlReportType.Visible = True
+                LoadReportType()
+                txtLocation.Visible = True
+                lblLocation.Visible = True
+            End If
             LoadType()
         ElseIf BtnStcRegisterPartyandItemWiseSummary.IsChecked OrElse BtnStcRegisterItemWiseSummary.IsChecked Then
             btnGo.Enabled = True
@@ -3031,6 +3101,8 @@ where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.V
             RadGroupBox4.Visible = False
             lblType.Visible = False
             ddlType.Visible = False
+            lblReportType.Visible = False
+            ddlReportType.Visible = False
         Else
             btnGo.Enabled = True
             RadSplitButton1.Enabled = True
@@ -3044,6 +3116,8 @@ where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.V
             RadGroupBox4.Visible = False
             lblType.Visible = False
             ddlType.Visible = False
+            lblReportType.Visible = False
+            ddlReportType.Visible = False
         End If
     End Sub
 
