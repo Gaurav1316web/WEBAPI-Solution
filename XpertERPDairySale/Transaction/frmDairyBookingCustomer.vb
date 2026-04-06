@@ -9365,6 +9365,12 @@ from
             frm.routeno = txtRouteNo.Value
             frm.txtlocation = txtLocation.Value
             frm.vehicleno = txtVehicleCode.Value
+            If chkManualVehicle.Checked Then
+                frm.vehicle_desc = txtManualVehicle.Text
+            Else
+                frm.vehicle_desc = txtVehicleName.Text
+            End If
+            frm.DriverName = txtReceiverName.Text
             frm.docdate = txtDate.Value
             frm.Supplydate = txtSupplyDate.Value
             frm.Shifttype = cmbGatePassType.Text

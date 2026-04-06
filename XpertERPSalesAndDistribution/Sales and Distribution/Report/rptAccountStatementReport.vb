@@ -31,42 +31,36 @@ Public Class rptAccountStatementReport
 
     Private Sub LoadData(ByVal isPrint As Boolean)
         Try
-            Dim whrcls As String = ""
-            txtFromDate.Value = "01/" & DatePart(DateInterval.Month, txtFromDate.Value) & "/" & DatePart(DateInterval.Year, txtFromDate.Value)
-            Dim dtDate As New DataTable()
-            whrcls = "  and TSPL_MILK_SRN_HEAD.Posted=1  and convert(date,TSPL_MILK_SRN_HEAD.Doc_Date,103) >= Convert(date,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "',103)  and convert(date,TSPL_MILK_SRN_HEAD.Doc_Date,103) <= Convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103)  "
+            Dim qry As String = " Select XX.Cust_Code,max(xx.Customer_Name)Customer_Name,
+sum((Amount) * (case when   Convert( Date, Document_Date,103) < Convert( Date,'01/Apr/2026',103)  then 1 else 0 end) * (case when RI=1 or RI=4 or RI=5 OR RI=7 then 1 else -1 end)) as OP 
+,sum(Amount * (case when  Convert( Date, Document_Date,103) >=Convert(Date,'01/Apr/2026',103) and Document_Date<=Convert(Date,'01/Apr/2026',103) then 1 else 0 end) * (case when (RI=1) then 1 else 0 end)) as Money_Receipt
+,sum(Amount * (case when  Convert( Date, Document_Date,103)>=Convert(Date,'01/Apr/2026',103) and Convert( Date, Document_Date,103)<=Convert(Date,'01/Apr/2026',103) then 1 else 0 end) * (case when (RI=2) then 1 else 0 end)) as Milk_Amount
+,sum(Amount * (case when  Convert( Date, Document_Date,103)>=Convert(Date,'01/Apr/2026',103) and Convert( Date, Document_Date,103)<=Convert(Date,'01/Apr/2026',103) then 1 else 0 end) * (case when (RI=3) then 1 else 0 end)) as Product_Amount
+,sum(Amount * (case when  Convert( Date, Document_Date,103)>=Convert(Date,'01/Apr/2026',103) and Convert( Date, Document_Date,103)<=Convert(Date,'01/Apr/2026',103) then 1 else 0 end) * (case when (RI=4) then 1 else 0 end)) as Refund_Amount,
+sum((Amount) * (case when   Convert( Date, Document_Date,103) <= Convert( Date,'01/Apr/2026',103)  then 1 else 0 end) * (case when RI=1 or RI=4 OR RI=5 OR RI=7 then 1 else -1 end)) as CL 
+ from 
 
-            Dim qry As String = "select "
-            If isPrint Then
-                qry += "  Comp_Name, Logo_Img,'" & clsCommon.GetPrintDate(txtFromDate.Value, "MMM-yyyy") & "' as Month,'" & objCommonVar.CurrentUser & "' as UserName, "
-            End If
-            qry += " Source,Zone_Code,Zone_Name,Sweet_Qty,Sweet_FATKG,Sweet_SNFKG,Sour_Qty,Sour_FATKG,Sour_SNFKG,Curd_Qty,Total_Qty,Total_FAT_KG,Total_SNF_KG,(Total_Qty/" & txtToDate.Value.Day & ") as Avg_Qty,convert(decimal(18,2),((Total_FAT_KG*100)/ (Sweet_Qty+Sour_Qty))) as Avg_FAT,convert(decimal(18,2),((Total_SNF_KG*100)/ (Sweet_Qty+Sour_Qty))) as Avg_SNF from ( Select Source,Zone_Code,max(Zone_Name)Zone_Name,sum(case when QBD = 'SWEET' then Qty else 0 end) as Sweet_Qty,sum(case when QBD = 'SWEET' then FAT_KG else 0 end) as Sweet_FATKG,sum(case when QBD = 'SWEET' then SNF_KG else 0 end) as Sweet_SNFKG,sum(case when QBD = 'SOUR' then Qty else 0 end) as Sour_Qty,sum(case when QBD = 'SOUR' then FAT_KG else 0 end) as Sour_FATKG,
-sum(case when QBD = 'SOUR' then SNF_KG else 0 end) as Sour_SNFKG,
-sum(case when QBD = 'CURD' then Qty else 0 end) as Curd_Qty,sum(Qty)as Total_Qty,sum(FAT_KG)as Total_FAT_KG,SUM(SNF_KG)as Total_SNF_KG ,SeqNo from (
-select TSPL_VENDOR_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description as Zone_Name,xx.* from (
-select Against_Uploader_TR_No,Against_Shift_Uploader_TR_No,TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_HEAD.VLC_Code,(case when TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,'SWEET') else (case when TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,'SWEET') end) end) as QBD ,Qty,FAT_KG,SNF_KG, (case when TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No is not null then 'MILK RECEIVED AT MCC' ELSE  (case when TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No is not null then 'MILK RECEIVED THROUGH BMC' end) end) AS  Source,  (case when TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No is not null then 1 ELSE  (case when TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No is not null then 2 end) end)  AS SeqNo
-from TSPL_MILK_SRN_HEAD
-left join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
-left join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No  
-left join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No  
-where 2=2 " & whrcls & "
------TOTAL MILK RECEIVED DURING MONTH
+(Select Cust_Code,Customer_Name,Receipt_Amount as Amount,TSPL_RECEIPT_HEADER.Receipt_Date as Document_Date,1 as RI from TSPL_RECEIPT_HEADER
 union all
-select  Against_Uploader_TR_No, Against_Shift_Uploader_TR_No,TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_HEAD.VLC_Code,(case when TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,'SWEET') else (case when TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,'SWEET') end) end) as QBD,Qty, FAT_KG, SNF_KG,'TOTAL MILK RECEIVED DURING MONTH' AS  Source, 3 AS SeqNo 
- from TSPL_MILK_SRN_HEAD
-left join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
-left join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No  
-left join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No  
-where 2=2 " & whrcls & "
-) xx 
-left join TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VLC_CODE = xx.VLC_Code
-LEFT JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.VENDOR_CODE = TSPL_VLC_MASTER_HEAD.VSP_CODE 
-LEFT JOIN TSPL_ZONE_MASTER ON TSPL_ZONE_MASTER.Zone_Code = TSPL_VENDOR_MASTER.ZONE_CODE
-) xxx "
-            If txtCustomer.arrValueMember IsNot Nothing Then
-                qry += " where xxx.Zone_Code in (" & clsCommon.GetMulcallString(txtCustomer.arrValueMember) & ")"
-            End If
-            qry += " group by Zone_Code,Source,SeqNo  )xxxx LEFT JOIN TSPL_COMPANY_MASTER ON 1=1 order by SeqNo,Zone_Code "
+Select Customer_Code as Cust_Code,Customer_Name,Total_Amt as Amount,TSPL_SD_SHIPMENT_HEAD.Document_Date,2 as RI from TSPL_SD_SHIPMENT_HEAD
+left outer join TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+where Is_Taxable=0
+union all
+Select Customer_Code as Cust_Code,Customer_Name,Total_Amt as Amount,TSPL_SD_SHIPMENT_HEAD.Document_Date,3 as RI from TSPL_SD_SHIPMENT_HEAD
+left outer join TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+where Is_Taxable=1
+union all
+Select Customer_Code as Cust_Code,Customer_Name,Total_Amt as Amount,TSPL_SD_SALE_RETURN_HEAD.Document_Date,4 as RI from TSPL_SD_SALE_RETURN_HEAD
+left outer join TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_RETURN_HEAD.Customer_Code
+union all
+Select Customer_Code,Customer_Name,Document_Total as Amount,TSPL_Customer_Invoice_Head.Document_Date as Document_Date,5 as RI from TSPL_Customer_Invoice_Head
+WHERE Document_Type='C'
+union all
+Select Customer_Code,Customer_Name,Document_Total as Amount,TSPL_Customer_Invoice_Head.Document_Date as Document_Date,6 as RI from TSPL_Customer_Invoice_Head
+WHERE Document_Type='D'
+) XX where XX.Cust_Code In('D1')
+
+Group by Cust_Code "
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             gv1.DataSource = Nothing
@@ -80,7 +74,7 @@ LEFT JOIN TSPL_ZONE_MASTER ON TSPL_ZONE_MASTER.Zone_Code = TSPL_VENDOR_MASTER.ZO
                 gv1.EnableFiltering = True
                 gv1.MasterTemplate.SummaryRowsBottom.Clear()
                 EnableDisableControl(False)
-                View()
+                'View()
                 SetGridFormation(isPrint)
                 gv1.MasterTemplate.AutoExpandGroups = True
                 RadPageView1.SelectedPage = RadPageViewPage2
@@ -94,10 +88,78 @@ LEFT JOIN TSPL_ZONE_MASTER ON TSPL_ZONE_MASTER.Zone_Code = TSPL_VENDOR_MASTER.ZO
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
+
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-
         End Try
+        '        Try
+        '            Dim whrcls As String = ""
+        '            txtFromDate.Value = "01/" & DatePart(DateInterval.Month, txtFromDate.Value) & "/" & DatePart(DateInterval.Year, txtFromDate.Value)
+        '            Dim dtDate As New DataTable()
+        '            whrcls = "  and TSPL_MILK_SRN_HEAD.Posted=1  and convert(date,TSPL_MILK_SRN_HEAD.Doc_Date,103) >= Convert(date,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "',103)  and convert(date,TSPL_MILK_SRN_HEAD.Doc_Date,103) <= Convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103)  "
+
+        '            Dim qry As String = "select "
+        '            If isPrint Then
+        '                qry += "  Comp_Name, Logo_Img,'" & clsCommon.GetPrintDate(txtFromDate.Value, "MMM-yyyy") & "' as Month,'" & objCommonVar.CurrentUser & "' as UserName, "
+        '            End If
+        '            qry += " Source,Zone_Code,Zone_Name,Sweet_Qty,Sweet_FATKG,Sweet_SNFKG,Sour_Qty,Sour_FATKG,Sour_SNFKG,Curd_Qty,Total_Qty,Total_FAT_KG,Total_SNF_KG,(Total_Qty/" & txtToDate.Value.Day & ") as Avg_Qty,convert(decimal(18,2),((Total_FAT_KG*100)/ (Sweet_Qty+Sour_Qty))) as Avg_FAT,convert(decimal(18,2),((Total_SNF_KG*100)/ (Sweet_Qty+Sour_Qty))) as Avg_SNF from ( Select Source,Zone_Code,max(Zone_Name)Zone_Name,sum(case when QBD = 'SWEET' then Qty else 0 end) as Sweet_Qty,sum(case when QBD = 'SWEET' then FAT_KG else 0 end) as Sweet_FATKG,sum(case when QBD = 'SWEET' then SNF_KG else 0 end) as Sweet_SNFKG,sum(case when QBD = 'SOUR' then Qty else 0 end) as Sour_Qty,sum(case when QBD = 'SOUR' then FAT_KG else 0 end) as Sour_FATKG,
+        'sum(case when QBD = 'SOUR' then SNF_KG else 0 end) as Sour_SNFKG,
+        'sum(case when QBD = 'CURD' then Qty else 0 end) as Curd_Qty,sum(Qty)as Total_Qty,sum(FAT_KG)as Total_FAT_KG,SUM(SNF_KG)as Total_SNF_KG ,SeqNo from (
+        'select TSPL_VENDOR_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description as Zone_Name,xx.* from (
+        'select Against_Uploader_TR_No,Against_Shift_Uploader_TR_No,TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_HEAD.VLC_Code,(case when TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,'SWEET') else (case when TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,'SWEET') end) end) as QBD ,Qty,FAT_KG,SNF_KG, (case when TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No is not null then 'MILK RECEIVED AT MCC' ELSE  (case when TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No is not null then 'MILK RECEIVED THROUGH BMC' end) end) AS  Source,  (case when TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No is not null then 1 ELSE  (case when TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No is not null then 2 end) end)  AS SeqNo
+        'from TSPL_MILK_SRN_HEAD
+        'left join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
+        'left join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No  
+        'left join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No  
+        'where 2=2 " & whrcls & "
+        '-----TOTAL MILK RECEIVED DURING MONTH
+        'union all
+        'select  Against_Uploader_TR_No, Against_Shift_Uploader_TR_No,TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_HEAD.VLC_Code,(case when TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,'SWEET') else (case when TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,'SWEET') end) end) as QBD,Qty, FAT_KG, SNF_KG,'TOTAL MILK RECEIVED DURING MONTH' AS  Source, 3 AS SeqNo 
+        ' from TSPL_MILK_SRN_HEAD
+        'left join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
+        'left join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No  
+        'left join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No  
+        'where 2=2 " & whrcls & "
+        ') xx 
+        'left join TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VLC_CODE = xx.VLC_Code
+        'LEFT JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.VENDOR_CODE = TSPL_VLC_MASTER_HEAD.VSP_CODE 
+        'LEFT JOIN TSPL_ZONE_MASTER ON TSPL_ZONE_MASTER.Zone_Code = TSPL_VENDOR_MASTER.ZONE_CODE
+        ') xxx "
+        '            If txtCustomer.arrValueMember IsNot Nothing Then
+        '                qry += " where xxx.Zone_Code in (" & clsCommon.GetMulcallString(txtCustomer.arrValueMember) & ")"
+        '            End If
+        '            qry += " group by Zone_Code,Source,SeqNo  )xxxx LEFT JOIN TSPL_COMPANY_MASTER ON 1=1 order by SeqNo,Zone_Code "
+
+        '            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        '            gv1.DataSource = Nothing
+        '            gv1.Rows.Clear()
+        '            gv1.Columns.Clear()
+        '            gv1.GroupDescriptors.Clear()
+        '            gv1.MasterView.Refresh()
+        '            If dt.Rows.Count > 0 Then
+        '                gv1.DataSource = dt
+        '                gv1.GroupDescriptors.Clear()
+        '                gv1.EnableFiltering = True
+        '                gv1.MasterTemplate.SummaryRowsBottom.Clear()
+        '                EnableDisableControl(False)
+        '                'View()
+        '                SetGridFormation(isPrint)
+        '                gv1.MasterTemplate.AutoExpandGroups = True
+        '                RadPageView1.SelectedPage = RadPageViewPage2
+        '                gv1.BestFitColumns()
+        '                If isPrint Then
+        '                    Dim frmCRV As New frmCrystalReportViewer()
+        '                    frmCRV.funreport(Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptMilkProcurement", "Milk Procurement Report")
+        '                    frmCRV = Nothing
+        '                End If
+        '            Else
+        '                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+        '                Exit Sub
+        '            End If
+        '        Catch ex As Exception
+        '            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+
+        '        End Try
     End Sub
     Sub View()
         Try
@@ -153,64 +215,64 @@ LEFT JOIN TSPL_ZONE_MASTER ON TSPL_ZONE_MASTER.Zone_Code = TSPL_VENDOR_MASTER.ZO
             gv1.Columns(ii).IsVisible = True
             gv1.Columns(ii).FormatString = "{0:n2}"
         Next
-        If isPrint Then
-            gv1.Columns("Comp_Name").IsVisible = False
-            gv1.Columns("Logo_Img").IsVisible = False
-            gv1.Columns("Month").IsVisible = False
-            gv1.Columns("UserName").IsVisible = False
-        End If
-        gv1.Columns("Zone_Code").IsVisible = False
-        gv1.Columns("Zone_Name").HeaderText = "AREA"
-        gv1.Columns("Sweet_Qty").HeaderText = "QTY"
-        gv1.Columns("Sweet_FATKG").HeaderText = "KG-FAT"
-        gv1.Columns("Sweet_FATKG").FormatString = "{0:n3}"
-        gv1.Columns("Sweet_SNFKG").HeaderText = "KG-SNF"
-        gv1.Columns("Sweet_SNFKG").FormatString = "{0:n3}"
-        gv1.Columns("Sour_Qty").HeaderText = "QTY"
-        gv1.Columns("Sour_FATKG").HeaderText = "KG-FAT"
-        gv1.Columns("Sour_FATKG").FormatString = "{0:n3}"
-        gv1.Columns("Sour_SNFKG").HeaderText = "KG-SNF"
-        gv1.Columns("Sour_SNFKG").FormatString = "{0:n3}"
-        gv1.Columns("Curd_Qty").HeaderText = "QTY"
-        gv1.Columns("Total_Qty").HeaderText = "QTY"
-        gv1.Columns("Total_FAT_KG").HeaderText = "KG-FAT"
-        gv1.Columns("Total_FAT_KG").FormatString = "{0:n3}"
-        gv1.Columns("Total_SNF_KG").HeaderText = "KG-SNF"
-        gv1.Columns("Total_SNF_KG").FormatString = "{0:n3}"
-        gv1.Columns("Avg_Qty").HeaderText = "AVG"
-        gv1.Columns("Avg_FAT").HeaderText = "FAT%"
-        gv1.Columns("Avg_FAT").FormatString = "{0:n3}"
-        gv1.Columns("Avg_SNF").HeaderText = "SNF%"
-        gv1.Columns("Avg_SNF").FormatString = "{0:n3}"
+        'If isPrint Then
+        '    gv1.Columns("Comp_Name").IsVisible = False
+        '    gv1.Columns("Logo_Img").IsVisible = False
+        '    gv1.Columns("Month").IsVisible = False
+        '    gv1.Columns("UserName").IsVisible = False
+        'End If
+        'gv1.Columns("Zone_Code").IsVisible = False
+        'gv1.Columns("Zone_Name").HeaderText = "AREA"
+        'gv1.Columns("Sweet_Qty").HeaderText = "QTY"
+        'gv1.Columns("Sweet_FATKG").HeaderText = "KG-FAT"
+        'gv1.Columns("Sweet_FATKG").FormatString = "{0:n3}"
+        'gv1.Columns("Sweet_SNFKG").HeaderText = "KG-SNF"
+        'gv1.Columns("Sweet_SNFKG").FormatString = "{0:n3}"
+        'gv1.Columns("Sour_Qty").HeaderText = "QTY"
+        'gv1.Columns("Sour_FATKG").HeaderText = "KG-FAT"
+        'gv1.Columns("Sour_FATKG").FormatString = "{0:n3}"
+        'gv1.Columns("Sour_SNFKG").HeaderText = "KG-SNF"
+        'gv1.Columns("Sour_SNFKG").FormatString = "{0:n3}"
+        'gv1.Columns("Curd_Qty").HeaderText = "QTY"
+        'gv1.Columns("Total_Qty").HeaderText = "QTY"
+        'gv1.Columns("Total_FAT_KG").HeaderText = "KG-FAT"
+        'gv1.Columns("Total_FAT_KG").FormatString = "{0:n3}"
+        'gv1.Columns("Total_SNF_KG").HeaderText = "KG-SNF"
+        'gv1.Columns("Total_SNF_KG").FormatString = "{0:n3}"
+        'gv1.Columns("Avg_Qty").HeaderText = "AVG"
+        'gv1.Columns("Avg_FAT").HeaderText = "FAT%"
+        'gv1.Columns("Avg_FAT").FormatString = "{0:n3}"
+        'gv1.Columns("Avg_SNF").HeaderText = "SNF%"
+        'gv1.Columns("Avg_SNF").FormatString = "{0:n3}"
 
-        Dim summaryRowItem As New GridViewSummaryRowItem()
-        For ii As Integer = IIf(isPrint, 7, 3) To gv1.Columns.Count - 1
-            If gv1.Columns(ii).Name.Contains("FAT") OrElse gv1.Columns(ii).Name.Contains("SNF") Then
-                If clsCommon.CompairString(gv1.Columns(ii).Name, "Avg_FAT") = CompairStringResult.Equal Then
-                    Dim summaryItem1 As New GridViewSummaryItem()
-                    summaryItem1.FormatString = "{0:F3}"
-                    summaryItem1.Name = "Avg_FAT"
-                    summaryItem1.AggregateExpression = "sum(Total_FAT_KG)*100/sum(Sweet_Qty+Sour_Qty)"
-                    summaryRowItem.Add(summaryItem1)
-                ElseIf clsCommon.CompairString(gv1.Columns(ii).Name, "Avg_SNF") = CompairStringResult.Equal Then
-                    Dim summaryItem2 As New GridViewSummaryItem()
-                    summaryItem2.FormatString = "{0:F3}"
-                    summaryItem2.Name = "Avg_SNF"
-                    summaryItem2.AggregateExpression = "(sum(Total_SNF_KG)/sum(Sweet_Qty+Sour_Qty))*100"
-                    summaryRowItem.Add(summaryItem2)
-                Else
-                    summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F3}", GridAggregateFunction.Sum))
-                End If
-            Else
-                summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
-            End If
-        Next
-        gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        'Dim summaryRowItem As New GridViewSummaryRowItem()
+        'For ii As Integer = IIf(isPrint, 7, 3) To gv1.Columns.Count - 1
+        '    If gv1.Columns(ii).Name.Contains("FAT") OrElse gv1.Columns(ii).Name.Contains("SNF") Then
+        '        If clsCommon.CompairString(gv1.Columns(ii).Name, "Avg_FAT") = CompairStringResult.Equal Then
+        '            Dim summaryItem1 As New GridViewSummaryItem()
+        '            summaryItem1.FormatString = "{0:F3}"
+        '            summaryItem1.Name = "Avg_FAT"
+        '            summaryItem1.AggregateExpression = "sum(Total_FAT_KG)*100/sum(Sweet_Qty+Sour_Qty)"
+        '            summaryRowItem.Add(summaryItem1)
+        '        ElseIf clsCommon.CompairString(gv1.Columns(ii).Name, "Avg_SNF") = CompairStringResult.Equal Then
+        '            Dim summaryItem2 As New GridViewSummaryItem()
+        '            summaryItem2.FormatString = "{0:F3}"
+        '            summaryItem2.Name = "Avg_SNF"
+        '            summaryItem2.AggregateExpression = "(sum(Total_SNF_KG)/sum(Sweet_Qty+Sour_Qty))*100"
+        '            summaryRowItem.Add(summaryItem2)
+        '        Else
+        '            summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F3}", GridAggregateFunction.Sum))
+        '        End If
+        '    Else
+        '        summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
+        '    End If
+        'Next
+        'gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
 
-        Dim Itemdescriptor As New GroupDescriptor()
-        Itemdescriptor.GroupNames.Add("Source", System.ComponentModel.ListSortDirection.Ascending)
-        gv1.GroupDescriptors.Add(Itemdescriptor)
-        gv1.MasterTemplate.AutoExpandGroups = True
+        'Dim Itemdescriptor As New GroupDescriptor()
+        'Itemdescriptor.GroupNames.Add("Source", System.ComponentModel.ListSortDirection.Ascending)
+        'gv1.GroupDescriptors.Add(Itemdescriptor)
+        'gv1.MasterTemplate.AutoExpandGroups = True
     End Sub
 
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
@@ -225,9 +287,9 @@ LEFT JOIN TSPL_ZONE_MASTER ON TSPL_ZONE_MASTER.Zone_Code = TSPL_VENDOR_MASTER.ZO
                 arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
                 arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.AccountStatementReport & "'"))
                 arrHeader.Add("Month: " & clsCommon.GetPrintDate(txtFromDate.Value, "MMM-yyyy"))
-                If txtCustomer.arrValueMember IsNot Nothing Then
-                    arrHeader.Add("Route : " & clsCommon.GetMulcallString(txtCustomer.arrValueMember) & "  Route Name :" & clsCommon.GetMulcallString(txtCustomer.arrDispalyMember) & "")
-                End If
+                'If txtCustomer.arrValueMember IsNot Nothing Then
+                '    arrHeader.Add("Route : " & clsCommon.GetMulcallString(txtCustomer.arrValueMember) & "  Route Name :" & clsCommon.GetMulcallString(txtCustomer.arrDispalyMember) & "")
+                'End If
                 clsCommon.MyExportToExcelGrid(Me.Text, gv1, arrHeader, Me.Text)
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found to export.", Me.Text)
@@ -246,9 +308,9 @@ LEFT JOIN TSPL_ZONE_MASTER ON TSPL_ZONE_MASTER.Zone_Code = TSPL_VENDOR_MASTER.ZO
 
                 clsCommon.MyExportToPDF(Me.Text, gv1, arrHeader, Me.Text)
                 arrHeader.Add("Month: " & clsCommon.GetPrintDate(txtFromDate.Value, "MMM-yyyy"))
-                If txtCustomer.arrValueMember IsNot Nothing Then
-                    arrHeader.Add("Route : " & clsCommon.GetMulcallString(txtCustomer.arrValueMember) & "  Route Name :" & clsCommon.GetMulcallString(txtCustomer.arrDispalyMember) & "")
-                End If
+                'If txtCustomer.arrValueMember IsNot Nothing Then
+                '    arrHeader.Add("Party Name : " & clsCommon.GetMulcallString(txtCustomer.arrValueMember) & "  Route Name :" & clsCommon.GetMulcallString(txtCustomer.arrDispalyMember) & "")
+                'End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found To export", Me.Text)
             End If
