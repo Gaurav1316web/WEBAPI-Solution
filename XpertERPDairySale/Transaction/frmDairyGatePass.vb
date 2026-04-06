@@ -1928,7 +1928,19 @@ where TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode='" & strCode & "' order by Sku_Seq "
             tbl_TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL = " TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL"
         End If
         Dim Qry As String = ""
-        Qry = " Select '" & clsCommon.myCstr(IIf(isCancel, "Y", "N")) & "' As isCancelled,*,'" & txtCode.Value & "' as GPCode,'" & txtShipToLocation.Text & "' as Ship_To_Location,'" & txtDriverName.Text & "' as Driver_Name from (select 1 As CopyType, TabBatch.BatchNo,TabBatch.Batch_Qty,'' as Comp_Phone2,'' as Comp_Add3,'' as Comp_Add2,  InLtr.Conversion_factor As [ConversionInLtr],InCrate.Conversion_factor As [ConversionInCrate],InPouch.Conversion_factor As [ConversionInPouch],TSPL_SD_SHIPMENT_HEAD.Document_Date,
+        Qry = " Select '" & clsCommon.myCstr(IIf(isCancel, "Y", "N")) & "' As isCancelled,max(xxx.CopyType)CopyType,STRING_AGG(TabBatch.BatchNo,CHAR(10)) as BatchNo,--TabBatch.BatchNo,
+  STRING_AGG(CAST(Qty AS INT), CHAR(10)) as Batch_Qty,max(Comp_Phone2)Comp_Phone2,max(Comp_Add3)Comp_Add3,max(Comp_Add2)Comp_Add2,max(ConversionInLtr)ConversionInLtr,max(ConversionInCrate)ConversionInCrate, max(ConversionInPouch)ConversionInPouch,max(Document_Date)Document_Date,max(Is_Taxable)Is_Taxable,max(Shift)Shift,max(xxx.DOCUMENT_CODE)DOCUMENT_CODE,max(Line_No)Line_No, max(Row_Type)Row_Type,xxx.Item_Code,Sum(Qty)Qty,Sum(Balance_Qty)Balance_Qty,max(Order_Code)Order_Code,max(Unit_code)Unit_code,max(Location)Location, max(Item_Cost)Item_Cost,max(TAX1)TAX1,max(TAX1_Base_Amt)TAX1_Base_Amt,max(TAX1_Rate)TAX1_Rate,sum(TAX1_Amt)TAX1_Amt,max(TAX2)TAX2,max(TAX2_Base_Amt)TAX2_Base_Amt,max(TAX2_Rate)TAX2_Rate,sum(TAX2_Amt)TAX2_Amt,max(TAX3)TAX3,max(TAX3_Base_Amt)TAX3_Base_Amt,max(TAX3_Rate)TAX3_Rate,sum(TAX3_Amt)TAX3_Amt,max(TAX4)TAX4,max(TAX4_Base_Amt)TAX4_Base_Amt,max(TAX4_Rate)TAX4_Rate,sum(TAX4_Amt)TAX4_Amt,max(TAX5)TAX5,max(TAX5_Base_Amt)TAX5_Base_Amt,max(TAX5_Rate)TAX5_Rate,sum(TAX5_Amt)TAX5_Amt,max(TAX6)TAX6,max(TAX6_Base_Amt)TAX6_Base_Amt,max(TAX6_Rate)TAX6_Rate,sum(TAX6_Amt)TAX6_Amt,max(TAX7)TAX7,max(TAX7_Base_Amt)TAX7_Base_Amt,max(TAX7_Rate)TAX7_Rate,sum(TAX7_Amt)TAX7_Amt,max(TAX8)TAX8,max(TAX8_Base_Amt)TAX8_Base_Amt,max(TAX8_Rate)TAX8_Rate,sum(TAX8_Amt)TAX8_Amt,max(TAX9)TAX9,max(TAX9_Base_Amt)TAX9_Base_Amt,max(TAX9_Rate)TAX9_Rate,sum(TAX9_Amt)TAX9_Amt,max(TAX10)TAX10,max(TAX10_Base_Amt)TAX10_Base_Amt,max(TAX10_Rate)TAX10_Rate,sum(TAX10_Amt)TAX10_Amt,sum(Amount)Amount,max(Disc_Per)Disc_Per,sum(Disc_Amt)Disc_Amt,sum(Amt_Less_Discount)Amt_Less_Discount,sum(Total_Tax_Amt)Total_Tax_Amt,sum(Item_Net_Amt)Item_Net_Amt,max(Status)Status,max(MRP)MRP,max(Batch_No)Batch_No, max(MFG_Date)MFG_Date,max(Expiry_Date)Expiry_Date,sum(Free_Qty)Free_Qty,max(Specification)Specification,max(Remarks)Remarks,max(Assessable)Assessable,
+ sum(AssessableAmt)AssessableAmt,max(Is_Mannual_Amt)Is_Mannual_Amt,max(Bar_Code)Bar_Code,max(Price_code)Price_code,max(Price_Date)Price_Date,max(Abatement_Per)Abatement_Per,sum(Abatement_Amt)Abatement_Amt,max(Scheme_Code)Scheme_Code,max(Scheme_Applicable)Scheme_Applicable,max(Scheme_Item)Scheme_Item,max(FOC_Item)FOC_Item,max(Item_Tax)Item_Tax,max(Total_MRP_Amt)Total_MRP_Amt,sum(Total_Basic_Amt)Total_Basic_Amt,sum(Total_Disc_Amt)Total_Disc_Amt,sum(Cust_DiscountQty)Cust_DiscountQty,max(Cust_Discount)Cust_Discount,sum(Total_Cust_Discount)Total_Cust_Discount,max(Price_Amount1)Price_Amount1,max(Price_Amount2)Price_Amount2,max(Price_Amount3)Price_Amount3,max(Price_Amount4)Price_Amount4,max(Price_Amount5)Price_Amount5,max(Price_Amount6)Price_Amount6,max(Price_Amount7)Price_Amount7,max(Price_Amount8)Price_Amount8,max(Price_Amount9)Price_Amount9,max(Price_Amount10)Price_Amount10,max(ActualRate)ActualRate,max(Item_Weight)Item_Weight,max(Conv_Factor)Conv_Factor,max(TotalItem_Weight)TotalItem_Weight,max(Markup_On)Markup_On,max(Markup_Percent)Markup_Percent,max(Landing_Cost)Landing_Cost,sum(HeadDiscAmt)HeadDiscAmt,max(CustDiscPer)CustDiscPer,max(CasdDiscScheme_Code)CasdDiscScheme_Code,max(Purchase_Cost)Purchase_Cost,max(OrgRate)OrgRate,max(PrincipleCode)PrincipleCode,max(PrincipleDesc)PrincipleDesc,max(vendor_code)vendor_code,
+ max(vendor_desc)vendor_desc,max(Bin_No)Bin_No,max(Weight_UOM)Weight_UOM,max(HeadDiscPer)HeadDiscPer,sum(HeadDiscPerAmt)HeadDiscPerAmt,sum(DeliverQty)DeliverQty,max(Delivery_Code)Delivery_Code,sum(Crate)Crate,max(Commission_Rate)Commission_Rate,max(Commission_Party)Commission_Party,sum(Commission_Amt)Commission_Amt,
+  sum(Amt_Less_Commission)Amt_Less_Commission, max(OrgUnit_code)OrgUnit_code, max(Delivery_Code_PS)Delivery_Code_PS,max(Item_Group)Item_Group,
+ max(BOOK_QTY_UOM)BOOK_QTY_UOM,max(BOOK_Rate)BOOK_Rate,max(BOOK_RATE_UOM)BOOK_RATE_UOM,max(TAX_PAID)TAX_PAID,max(Alternate_UOM)Alternate_UOM,max(RATE_UOM)RATE_UOM,max(Scheme_Type)Scheme_Type,max(Scheme_Item_Code)Scheme_Item_Code,sum(Scheme_Qty)Scheme_Qty,max(Scheme_Item_UOM)Scheme_Item_UOM,max(Total_Item_WeightMetric)Total_Item_WeightMetric,max(Cash_Scheme_Code)Cash_Scheme_Code,max(Cash_Scheme_Type)Cash_Scheme_Type,max(Cash_Scheme_Pers)Cash_Scheme_Pers,sum(Cash_Scheme_Amount)Cash_Scheme_Amount,max(OrgRateUnit_code)OrgRateUnit_code,max(Rate_UnitQty)Rate_UnitQty,max(Alter_UnitQty)Alter_UnitQty,max(Sampling)Sampling,max(GatePass_No)GatePass_No,max(Disc_Scheme_Code)Disc_Scheme_Code,max(Disc_Scheme_Type)Disc_Scheme_Type,max(Disc_Scheme_Pers)Disc_Scheme_Pers,sum(Disc_Scheme_Amount)Disc_Scheme_Amount,max(AlternateRate)AlternateRate,max(ItemwiseTaxCode)ItemwiseTaxCode,max(Structure_Code)Structure_Code,sum(CAN)CAN,sum(ManualCan)ManualCan,sum(ItemLeakageAmount)ItemLeakageAmount,max(VS_CashSchemeCode)VS_CashSchemeCode,Sum(VS_Cash_Amt)VS_Cash_Amt,sum(VS_ltrInCrate)VS_ltrInCrate,max(Sub_Location_code)Sub_Location_code,max(Distributor_Commission_PKID)Distributor_Commission_PKID,max(Distributor_Commission_Rate)Distributor_Commission_Rate,max(Distributor_Commission_RateWithTax)Distributor_Commission_RateWithTax,sum(Distributor_Commission_Amt)Distributor_Commission_Amt,max(PK_ID)PK_ID,max(Security_Rate)Security_Rate,sum(Security_Amt)Security_Amt,max(Transporter_Commission_Rate)Transporter_Commission_Rate,Sum(Transporter_Commission_Amt)Transporter_Commission_Amt,max(Transporter)Transporter,max(Against_Booking_PK_ID)Against_Booking_PK_ID,max(Booth_Security_Rate)Booth_Security_Rate,sum(Booth_Security_Amt)Booth_Security_Amt,max(Scheme_Main_Item)Scheme_Main_Item,max(Disc_Per_Unit)Disc_Per_Unit,sum(Disc_Unit_Amt)Disc_Unit_Amt,max(REF_PK_ID)REF_PK_ID,max(REF_TPT_PK_ID)REF_TPT_PK_ID,max(Trip_No)Trip_No,max(Against_Cust_Ord_PK_ID)Against_Cust_Ord_PK_ID,max(Billing_Unit_code)Billing_Unit_code, sum(Billing_Qty)Billing_Qty,sum(Amount_with_Tax)Amount_with_Tax,sum(Booking_Qty)Booking_Qty,max(Access_Officer)Access_Officer,max(Item_Desc)Item_Desc,max(HSN_Code)HSN_Code, Sum(QtyInLtr)QtyInLtr,sum(QtyInKG)QtyInKG,sum(QtyInCrate)QtyInCrate,sum(QtyInPouch)QtyInPouch,max(FAT_Per)FAT_Per,max(SNF_Per)SNF_Per,max(Acidity)Acidity,max(Temperature)Temperature,max(MBRT_Hours)MBRT_Hours,max(Route_Desc)Route_Desc,max(Vehicle_Id)Vehicle_Id,max(Vehicle_Number)Vehicle_Number,max(Customer_Name)Customer_Name,max(Cust_Add1)Cust_Add1,max(Cust_Add2)Cust_Add2,max(Cust_Add3)Cust_Add3,max(Cust_PINCode)Cust_PINCode,max(Cust_Phone1)Cust_Phone1,max(Cust_Phone2)Cust_Phone2,max(GSTNO)GSTNO,
+ max(Comp_Name)Comp_Name	
+ ,max(Comp_Add1)Comp_Add1,max(Comp_City)Comp_City,max(Comp_State)Comp_State,max(Comp_GSTReg_No)Comp_GSTReg_No,max(Comp_PanNo)Comp_PanNo,max(Comp_Email)Comp_Email,
+ max(Comp_Pincode)Comp_Pincode,max(Comp_Phone1)Comp_Phone1,max(State_Code)State_Code,max(STATE_NAME)STATE_NAME,max(Route_No)Route_No,max(supply_date)supply_date,
+ max(sublocation)sublocation,max(Comp_Code1)Comp_Code1,max(Is_Ambient)Is_Ambient,max(Is_FreshItem)Is_FreshItem,max(COL1)COL1,max(COL2)COL2,max(CopyType1)CopyType1,
+ '" & txtCode.Value & "' as GPCode,'" & txtShipToLocation.Text & "' as Ship_To_Location,'" & txtDriverName.Text & "' as Driver_Name ,max(orderby1)orderby1,max(orderby2)orderby2,max(orderby3)orderby3
+  from ("
+        Qry += " select 1 As CopyType, '' as Comp_Phone2,'' as Comp_Add3,'' as Comp_Add2,  InLtr.Conversion_factor As [ConversionInLtr],InCrate.Conversion_factor As [ConversionInCrate],InPouch.Conversion_factor As [ConversionInPouch],TSPL_SD_SHIPMENT_HEAD.Document_Date,
                         TSPL_SD_SHIPMENT_HEAD.DO_Item_Type as Is_Taxable,Case When TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' OR TSPL_SD_SHIPMENT_HEAD.Shift_Type='M' Then '[M]' Else '[E]' End As Shift,
                         TSPL_SD_SHIPMENT_DETAIL.*,TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt as Amount_with_Tax ,TSPL_SD_SHIPMENT_DETAIL.Qty as Booking_Qty,TSPL_COMPANY_MASTER.Access_Officer,
                         TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.HSN_Code,
@@ -1944,7 +1956,11 @@ case when coalesce(InKG.Conversion_factor,0)=0 then 0 else convert(Decimal(18,2)
 
 TSPL_COMPANY_MASTER.City_Code As Comp_City,TSPL_COMPANY_MASTER.State As Comp_State,TSPL_COMPANY_MASTER.GSTReg_No As Comp_GSTReg_No,TSPL_COMPANY_MASTER.Pan_No As Comp_PanNo,
                         TSPL_COMPANY_MASTER.Email As Comp_Email,TSPL_COMPANY_MASTER.Pincode As Comp_Pincode,TSPL_COMPANY_MASTER.Phone1 As Comp_Phone1,
-                        TSPL_STATE_MASTER.GST_STATE_Code As State_Code,TSPL_STATE_MASTER.STATE_NAME,TSPL_SD_SHIPMENT_HEAD.Route_No,supply_date,TSPL_SD_SHIPMENT_HEAD.sub_location_code as sublocation, TSPL_COMPANY_MASTER.Comp_Code1,TSPL_ITEM_MASTER.Is_Ambient,TSPL_ITEM_MASTER.Is_FreshItem  
+                        TSPL_STATE_MASTER.GST_STATE_Code As State_Code,TSPL_STATE_MASTER.STATE_NAME,TSPL_SD_SHIPMENT_HEAD.Route_No,supply_date,TSPL_SD_SHIPMENT_HEAD.sub_location_code as sublocation, TSPL_COMPANY_MASTER.Comp_Code1,TSPL_ITEM_MASTER.Is_Ambient,TSPL_ITEM_MASTER.Is_FreshItem ,TSPL_ITEM_MASTER.IsTaxable ,
+						CASE WHEN (CASE WHEN Is_FreshItem = 1 THEN 1 ELSE 0 END) = 1
+     AND (CASE WHEN IsTaxable = 0 THEN 1 ELSE 0 END) = 1 THEN 1 ELSE 2 END as orderby1,CASE WHEN (CASE WHEN Is_Ambient = 1 THEN 1 ELSE 0 END) = 1
+     AND (CASE WHEN IsTaxable = 0 THEN 1 ELSE 0 END) = 1 THEN 1 ELSE 2 END as orderby2,CASE WHEN ((CASE WHEN Is_FreshItem = 1 OR Is_Ambient = 1 THEN 1 ELSE 2 END) = 1
+        ) AND ((CASE WHEN IsTaxable = 1 THEN 1 ELSE 0 END) = 1 ) THEN 1 ELSE 0 END AS orderby3
                         from  " & tbl_TSPL_SD_SHIPMENT_HEAD & "
                         Left Outer Join " & tbl_TSPL_SD_SHIPMENT_DETAIL & " On TSPL_SD_SHIPMENT_DETAIL.Document_Code=TSPL_SD_SHIPMENT_HEAD.Document_Code
                         Left Outer Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
@@ -1960,13 +1976,14 @@ left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITE
                         left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL 	  left outer join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.UNIT_CODE= TSPL_ITEM_UOM_DETAIL.UOM_CODE where TSPL_UNIT_MaSTER.Crate_type='Y') as InCrate on InCrate.Item_code=TSPL_ITEM_MASTER.Item_Code  
                         left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL left outer join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.UNIT_CODE= TSPL_ITEM_UOM_DETAIL.UOM_CODE where TSPL_UNIT_MaSTER.Packet_Type='Y' ) as InPouch on InPouch.Item_code=TSPL_ITEM_MASTER.Item_Code  
 						
-						left outer join (select Document_Code, STRING_AGG(Batch_No,CHAR(10)) as BatchNo , STRING_AGG(CAST(Qty AS INT), CHAR(10)) as Batch_Qty
-,Item_Code,UOM
-                from(
-SELECT TSPL_BATCH_ITEM.Document_Code, Batch_No, Qty, Parent_Line_No,Item_Code,UOM FROM TSPL_BATCH_ITEM WHERE TSPL_BATCH_ITEM.Document_Type='FS-SH'
-)x group by Document_Code,Parent_Line_No,Item_Code,UOM         
-)TabBatch
-On TabBatch.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code And  TabBatch.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code  and TabBatch.UOM=TSPL_SD_SHIPMENT_DETAIL.Unit_code  
+--						left outer join (select Document_Code, STRING_AGG(Batch_No,CHAR(10)) as BatchNo , STRING_AGG(CAST(Qty AS INT), CHAR(10)) as Batch_Qty
+--,Item_Code,UOM
+--                from(
+--SELECT TSPL_BATCH_ITEM.Document_Code, Batch_No, Qty, Parent_Line_No,Item_Code,UOM FROM TSPL_BATCH_ITEM WHERE TSPL_BATCH_ITEM.Document_Type='FS-SH'
+--)x group by Document_Code,Parent_Line_No,Item_Code,UOM         
+--)TabBatch
+--On TabBatch.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code And  TabBatch.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code  and TabBatch.UOM=TSPL_SD_SHIPMENT_DETAIL.Unit_code  
+                       
                         Left outer join TSPL_COMPANY_MASTER on  TSPL_COMPANY_MASTER.Comp_Code1 = 'BKN'
                     where TSPL_SD_SHIPMENT_HEAD.Document_Code in(Select DISTINCT(TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE) from " & tbl_TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL & " 
 left outer join " & tbl_TSPL_SD_SHIPMENT_DETAIL & " ON  TSPL_SD_SHIPMENT_DETAIL.PK_ID=TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID where GPCode='" & StrCode & "'))xxx
@@ -1977,7 +1994,16 @@ Select 1 As COL1, 1 As COL2,  'ORIGINAL COPY' as CopyType1  "
 UNION Select 1 as COL1, 3 as COL2,  'TRIPLICATE COPY' as CopyType1 
 UNION Select 1 as COL1, 4 as COL2,  'QUADRUPLICATE COPY' as CopyType1 "
         End If
-        Qry += ") YYY ON YYY.COL1=XXX.CopyType ORDER BY Line_No,YYY.COL2  "
+        Qry += ") YYY ON YYY.COL1=XXX.CopyType
+left outer join (select Document_Code, STRING_AGG(Batch_No,CHAR(10)) as BatchNo , STRING_AGG(CAST(Qty AS INT), CHAR(10)) as Batch_Qty
+,Item_Code,UOM
+                from(
+SELECT TSPL_BATCH_ITEM.Document_Code, Batch_No, Qty, Parent_Line_No,Item_Code,UOM FROM TSPL_BATCH_ITEM WHERE TSPL_BATCH_ITEM.Document_Type='FS-SH'
+)x group by Document_Code,Parent_Line_No,Item_Code,UOM         
+)TabBatch
+On TabBatch.Document_Code= XXX.Document_Code And TabBatch.Item_Code=XXX.Item_Code  and TabBatch.UOM=XXX.Unit_code
+group by XXX.Item_Code 
+ORDER BY max(YYY.COL2 ),max(orderby1) ,max(orderby2) ,max(orderby3),max(Item_Desc)    "
         Return Qry
     End Function
 
