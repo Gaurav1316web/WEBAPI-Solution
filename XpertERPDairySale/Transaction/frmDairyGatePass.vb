@@ -2003,7 +2003,7 @@ SELECT TSPL_BATCH_ITEM.Document_Code, Batch_No, Qty, Parent_Line_No,Item_Code,UO
 )TabBatch
 On TabBatch.Document_Code= XXX.Document_Code And TabBatch.Item_Code=XXX.Item_Code  and TabBatch.UOM=XXX.Unit_code
 group by XXX.Item_Code 
-ORDER BY max(YYY.COL2 ),max(orderby1) desc,max(orderby2) desc,max(orderby3),max(Item_Desc)    "
+ORDER BY max(YYY.COL2 ),max(orderby1) ,max(orderby2) ,max(orderby3),max(Item_Desc)    "
         Return Qry
     End Function
 
