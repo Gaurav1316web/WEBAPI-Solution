@@ -67,7 +67,6 @@ Public Class BMC_Transporter_Bill
 
     Private Sub BMC_Transporter_Bill_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-
         'Try
         '    'clsDBFuncationality.ExecuteNonQuery("CREATE UNIQUE INDEX UQ_MCC_Document_Code ON TSPL_BMC_TRANSPORTER_BILL_DETAIL (MCC_Document_Code) WHERE MCC_Document_Code IS NOT NULL")
         '    clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_BMC_TRANSPORTER_BILL_DETAIL ALTER COLUMN MCC_Document_Code VARCHAR(30) NULL;")
@@ -793,11 +792,20 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                 obj.Tanker_No = txtTankerNo.Value
                 obj.Toll_Tax = clsCommon.myCdbl(TxtTotalTollTax.Text)
                 obj.Ice_Charge = clsCommon.myCdbl(TxtTotalIceCharge.Text)
+                'obj.Fat_Shortage = clsCommon.myCdbl(txtFatShortage.Text)
+                'obj.Snf_Shortage = clsCommon.myCdbl(TxtSnfShortage.Text)
+                'obj.Fat_Snf_Shortage = clsCommon.myCdbl(TxtTotalFatSnfShortage.Text)
+                'obj.Fat_Rate = clsCommon.myCdbl(TxtFatRate.Text)
+                'obj.Snf_Rate = clsCommon.myCdbl(TxtSnfRate.Text)
                 obj.Fat_Shortage = clsCommon.myCdbl(txtFatShortage.Text)
+                obj.Fat_Shortage_NMG = clsCommon.myCdbl(txtFatShortageNMG.Text)
                 obj.Snf_Shortage = clsCommon.myCdbl(TxtSnfShortage.Text)
+                obj.Snf_Shortage_NMG = clsCommon.myCdbl(TXTSNFShortageNMG.Text)
                 obj.Fat_Snf_Shortage = clsCommon.myCdbl(TxtTotalFatSnfShortage.Text)
                 obj.Fat_Rate = clsCommon.myCdbl(TxtFatRate.Text)
+                obj.Fat_Rate_NMG = clsCommon.myCdbl(TxtFatRateNMG.Text)
                 obj.Snf_Rate = clsCommon.myCdbl(TxtSnfRate.Text)
+                obj.Snf_Rate_NMG = clsCommon.myCdbl(TxtSnfRateNMG.Text)
                 obj.Tanker_Capacity = clsCommon.myCdbl(TxtBarelCap.Text)
                 obj.KM_Rate = clsCommon.myCdbl(TxtKMRate.Text)
                 obj.Total_Amount = clsCommon.myCdbl(TxtTotalAmount.Text)
@@ -922,11 +930,21 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                 txtTankerNo.Value = obj.Tanker_No
                 TxtTotalTollTax.Text = obj.Toll_Tax
                 TxtTotalIceCharge.Text = obj.Ice_Charge
+                'txtFatShortage.Text = obj.Fat_Shortage
+                'TxtSnfShortage.Text = obj.Snf_Shortage
+                'TxtTotalFatSnfShortage.Text = obj.Fat_Snf_Shortage
+                'TxtFatRate.Text = obj.Fat_Rate
+                'TxtSnfRate.Text = obj.Snf_Rate
                 txtFatShortage.Text = obj.Fat_Shortage
+                txtFatShortageNMG.Text = obj.Fat_Shortage_NMG
                 TxtSnfShortage.Text = obj.Snf_Shortage
+                TXTSNFShortageNMG.Text = obj.Snf_Shortage_NMG
                 TxtTotalFatSnfShortage.Text = obj.Fat_Snf_Shortage
                 TxtFatRate.Text = obj.Fat_Rate
+                TxtFatRateNMG.Text = obj.Fat_Rate_NMG
                 TxtSnfRate.Text = obj.Snf_Rate
+                TxtSnfRateNMG.Text = obj.Snf_Rate_NMG
+
                 TxtBarelCap.Text = obj.Tanker_Capacity
                 TxtKMRate.Text = obj.KM_Rate
                 TxtTotalAmount.Text = obj.Total_Amount
@@ -1261,17 +1279,20 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
             Dim User_Name As String = objCommonVar.CurrentUser
             Dim FinalQuery As String = ""
             FinalQuery = "   SELECT '" & User_Name & "' as UserName,ROW_NUMBER() OVER (PARTITION BY TSPL_MILK_COLLECTION_MCC.Document_No ORDER BY TSPL_MILK_COLLECTION_MCC.Document_No) AS SrNo
-,
+,TSPL_BMC_TRANSPORTER_BILL_DETAIL.Category,
  TSPL_BMC_TRANSPORTER_BILL_DETAIL.Document_Code,TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code,
  TSPL_MILK_COLLECTION_MCC.Document_No,Cast(TSPL_BMC_TRANSPORTER_BILL_DETAIL.Document_Date as Date)Document_Date,TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Date as HeaderDate,Route_Code,TSPL_BMC_TRANSPORTER_BILL_DETAIL.Trip as Trip_No,TSPL_TANKER_MASTER.Storage_Capacity,TSPL_BULK_ROUTE_MASTER.Distance
 , TSPL_BMC_TRANSPORTER_BILL_DETAIL.STATION_1, TSPL_BMC_TRANSPORTER_BILL_DETAIL.STATION_2,TSPL_BMC_TRANSPORTER_BILL_DETAIL.STATION_3,TSPL_BMC_TRANSPORTER_BILL_DETAIL.STATION_4, TSPL_BMC_TRANSPORTER_BILL_DETAIL.GPS_KM,TSPL_BMC_TRANSPORTER_BILL_DETAIL.KM     ,TSPL_BMC_TRANSPORTER_BILL_DETAIL.AMOUNT,TSPL_BMC_TRANSPORTER_BILL_DETAIL.DIESEL_RD
 ,TSPL_BMC_TRANSPORTER_BILL_HEAD.Tanker_no,TSPL_BMC_TRANSPORTER_BILL_HEAD.toll_tax,
 TSPL_BMC_TRANSPORTER_BILL_HEAD.ice_charge,TSPL_BMC_TRANSPORTER_BILL_HEAD.Fat_Shortage,TSPL_BMC_TRANSPORTER_BILL_HEAD.Snf_Shortage,TSPL_BMC_TRANSPORTER_BILL_HEAD.Fat_Snf_Shortage,TSPL_BMC_TRANSPORTER_BILL_HEAD.Fat_Rate,TSPL_BMC_TRANSPORTER_BILL_HEAD.Snf_Rate
 ,TSPL_TANKER_MASTER.Description as Descriptions,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Comp_Code,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.State,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.Phone1,TSPL_COMPANY_MASTER.City_Code
-,TSPL_BMC_TRANSPORTER_BILL_HEAD.From_Date,TSPL_BMC_TRANSPORTER_BILL_HEAD.To_Date
+,convert(date,TSPL_BMC_TRANSPORTER_BILL_HEAD.From_Date,103)From_Date,
+
+convert(date,TSPL_BMC_TRANSPORTER_BILL_HEAD.To_Date,103)To_Date
 ,TSPL_BMC_TRANSPORTER_BILL_HEAD.KM_Rate,TSPL_BMC_TRANSPORTER_BILL_HEAD.Tanker_Capacity
 ,	Diesel_Rate_Plus,	Diesel_Rate_Minus	,Total_Diesel,Total_Amount,	Gross_Amount
 ,TSPL_BMC_TRANSPORTER_BILL_HEAD.comment,TSPL_BMC_TRANSPORTER_BILL_HEAD.Remarks
+,TSPL_BMC_TRANSPORTER_BILL_HEAD.Fat_Shortage_NMG,TSPL_BMC_TRANSPORTER_BILL_HEAD.Snf_Shortage_NMG,TSPL_BMC_TRANSPORTER_BILL_HEAD.Fat_Rate_NMG,TSPL_BMC_TRANSPORTER_BILL_HEAD.Snf_Rate_NMG
 FROM TSPL_BMC_TRANSPORTER_BILL_DETAIL 
 LEFT OUTER JOIN TSPL_BMC_TRANSPORTER_BILL_HEAD ON TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code=TSPL_BMC_TRANSPORTER_BILL_DETAIL.Document_Code 
 LEFT OUTER JOIN TSPL_MILK_COLLECTION_MCC  on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_BMC_TRANSPORTER_BILL_DETAIL.MCC_Document_Code

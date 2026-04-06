@@ -12,11 +12,20 @@ Public Class clsBMCTransporterBill
     Public Tanker_No As String = Nothing
     Public Toll_Tax As Double = 0
     Public Ice_Charge As Double = 0
+    'Public Fat_Shortage As Double = 0
+    'Public Snf_Shortage As Double = 0
+    'Public Fat_Snf_Shortage As Double = 0
+    'Public Fat_Rate As Double = 0
+    Public Snf_Rate As Double = 0
     Public Fat_Shortage As Double = 0
+    Public Fat_Shortage_NMG As Double = 0
     Public Snf_Shortage As Double = 0
+    Public Snf_Shortage_NMG As Double = 0
     Public Fat_Snf_Shortage As Double = 0
     Public Fat_Rate As Double = 0
-    Public Snf_Rate As Double = 0
+    Public Fat_Rate_NMG As Double = 0
+    Public Snf_Rate_NMG As Double = 0
+
     Public Tanker_Capacity As Double = 0
     Public KM_Rate As Double = 0
     Public Total_Amount As Double = 0
@@ -89,11 +98,23 @@ Public Class clsBMCTransporterBill
         clsCommon.AddColumnsForChange(coll, "Tanker_No", obj.Tanker_No)
         clsCommon.AddColumnsForChange(coll, "Toll_Tax", obj.Toll_Tax)
         clsCommon.AddColumnsForChange(coll, "Ice_Charge", obj.Ice_Charge)
+
+
+        'clsCommon.AddColumnsForChange(coll, "Fat_Shortage", obj.Fat_Shortage)
+        'clsCommon.AddColumnsForChange(coll, "Snf_Shortage", obj.Snf_Shortage)
+        'clsCommon.AddColumnsForChange(coll, "Fat_Snf_Shortage", obj.Fat_Snf_Shortage)
+        'clsCommon.AddColumnsForChange(coll, "Fat_Rate", obj.Fat_Rate)
+        'clsCommon.AddColumnsForChange(coll, "Snf_Rate", obj.Snf_Rate)
         clsCommon.AddColumnsForChange(coll, "Fat_Shortage", obj.Fat_Shortage)
+        clsCommon.AddColumnsForChange(coll, "Fat_Shortage_NMG", obj.Fat_Shortage_NMG)
         clsCommon.AddColumnsForChange(coll, "Snf_Shortage", obj.Snf_Shortage)
+        clsCommon.AddColumnsForChange(coll, "Snf_Shortage_NMG", obj.Snf_Shortage_NMG)
         clsCommon.AddColumnsForChange(coll, "Fat_Snf_Shortage", obj.Fat_Snf_Shortage)
         clsCommon.AddColumnsForChange(coll, "Fat_Rate", obj.Fat_Rate)
+        clsCommon.AddColumnsForChange(coll, "Fat_Rate_NMG", obj.Fat_Rate_NMG)
         clsCommon.AddColumnsForChange(coll, "Snf_Rate", obj.Snf_Rate)
+        clsCommon.AddColumnsForChange(coll, "Snf_Rate_NMG", obj.Snf_Rate_NMG)
+
         clsCommon.AddColumnsForChange(coll, "Tanker_Capacity", obj.Tanker_Capacity)
         clsCommon.AddColumnsForChange(coll, "KM_Rate", obj.KM_Rate)
         clsCommon.AddColumnsForChange(coll, "Total_Amount", obj.Total_Amount)
@@ -158,6 +179,13 @@ Public Class clsBMCTransporterBill
             obj.Toll_Tax = clsCommon.myCdbl(dt.Rows(0)("Toll_Tax"))
             obj.Ice_Charge = clsCommon.myCdbl(dt.Rows(0)("Ice_Charge"))
             obj.Fat_Shortage = clsCommon.myCdbl(dt.Rows(0)("Fat_Shortage"))
+
+            obj.Fat_Rate_NMG = clsCommon.myCdbl(dt.Rows(0)("Fat_Rate_NMG"))
+            obj.Snf_Rate_NMG = clsCommon.myCdbl(dt.Rows(0)("Snf_Rate_NMG"))
+            obj.Fat_Shortage_NMG = clsCommon.myCdbl(dt.Rows(0)("Fat_Shortage_NMG"))
+            obj.Snf_Shortage_NMG = clsCommon.myCdbl(dt.Rows(0)("Snf_Shortage_NMG"))
+
+
             obj.Snf_Shortage = clsCommon.myCdbl(dt.Rows(0)("Snf_Shortage"))
             obj.Fat_Snf_Shortage = clsCommon.myCdbl(dt.Rows(0)("Fat_Snf_Shortage"))
             obj.Fat_Rate = clsCommon.myCdbl(dt.Rows(0)("Fat_Rate"))
