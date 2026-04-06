@@ -179,27 +179,27 @@ and convert(date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) +
             If objCommonVar.RCDFCFP Then
                 qryall += " FROM(  " & baseqry & ") xx  LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_code1='RCDFCF'  order by xx.UnionName,xx.Weighment_Date_Ordring  "
             Else
-                qryall += " FROM(  " & baseqry & ") xx  "
+                qryall += " FROM(  " & baseqry & ") xx WHERE "
 
-                'If cboQC.SelectedValue = "M" Then
-                '    qryall += " Manual_Entry_QC='M' "
-                'ElseIf cboQC.SelectedValue = "A" Then
-                '    qryall += "  Manual_Entry_QC='A'"
-                'ElseIf cboQC.SelectedValue = "L" Then
-                '    qryall += "Manual_Entry_QC IN ('M','A')  "
-                'End If
-                'If cboQC.SelectedValue = "M" Then
-                '    qryall += "AND  Manual_Tare_Weight='M' "
-                'ElseIf cboQC.SelectedValue = "A" Then
-                '    qryall += "AND  Manual_Tare_Weight='A'"
-                'ElseIf cboQC.SelectedValue = "L" Then
-                '    qryall += " AND Manual_Tare_Weight IN ('M','A')  "
-                'End If
+                If cboQC.SelectedValue = "M" Then
+                    qryall += " Manual_Entry_QC='M' "
+                ElseIf cboQC.SelectedValue = "A" Then
+                    qryall += "  Manual_Entry_QC='A'"
+                ElseIf cboQC.SelectedValue = "L" Then
+                    qryall += "Manual_Entry_QC IN ('M','A')  "
+                End If
+                If cboQC.SelectedValue = "M" Then
+                    qryall += "AND  Manual_Tare_Weight='M' "
+                ElseIf cboQC.SelectedValue = "A" Then
+                    qryall += "AND  Manual_Tare_Weight='A'"
+                ElseIf cboQC.SelectedValue = "L" Then
+                    qryall += " AND Manual_Tare_Weight IN ('M','A')  "
+                End If
 
                 qryall += " order by xx.UnionName,xx.Weighment_Date_Ordring "
-            End If
+                End If
 
-            Dim SummaryQry As String = ""
+                Dim SummaryQry As String = ""
             If chkSummary.Checked Then
                 SummaryQry += "SELECT ROW_NUMBER() OVER (ORDER BY XX.UnionName) AS SNo,'" + objCommonVar.CurrentUserCode + "' as UserName,
 max(xx.FromDate)FromDate,max(xx.ToDate)ToDate, xx.UnionName, max(xx.Weighment_Date)Weighment_Date,count(XX.Tanker_No) AS Tanker_No,max(XX.ROUTE_NO) AS ROUTE_NO,
