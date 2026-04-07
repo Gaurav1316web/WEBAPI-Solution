@@ -133,11 +133,11 @@ Select coalesce(Re_Name,Program_Name)Code,Program_Code as Name from TSPL_PROGRAM
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
-        If rdbItemWiseCustomer.IsChecked = True Then
+        If rdbItemWiseCustomer.IsChecked Then
             LoadDataItemWiseCustomer()
-        ElseIf rdbInvoiceCount.IsChecked = True Then
+        ElseIf rdbInvoiceCount.IsChecked Then
             LoadDataInvoiceCount()
-        ElseIf rdbProductSummary.IsChecked = True Then
+        ElseIf rdbProductSummary.IsChecked Then
             LoadProductSummary()
         Else
             LoadData()
@@ -407,9 +407,9 @@ from(Select   CASE WHEN EXISTS ( SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD
 		  Left Join TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
         WHERE TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
           And TSPL_SD_SHIPMENT_HEAD.Against_Booking_No Is NULL And (TSPL_BOOKING_MATSER.Is_APS=1 Or TSPL_SD_SHIPMENT_HEAD.Screen_Type= ('CT'))) And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' THEN 'APS SALES'
-		  Else 'DCS SALE' END AS Transcation_Type,   CASE 
-        WHEN TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable = 1 THEN 'TAXABLE'
-        ELSE 'NON TAXABLE'
+WHEN TSPL_SD_SALE_INVOICE_HEAD.IsMultipleInvoice = 1 THEN 'MULTIPLE INVOICE'		  
+Else 'DCS SALE' END AS Transcation_Type,   
+CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable = 1 THEN 'TAXABLE' ELSE 'NON TAXABLE'
     END AS Invoice_Tax_Type,
 	TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable,TSPL_SD_SALE_INVOICE_HEAD.Document_Code,NULL as Cancel_DocumentCode,Null as Delete_DocumentCode
 	from TSPL_SD_SALE_INVOICE_HEAD  
@@ -436,7 +436,8 @@ WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= convert(date,
 		  LEFT JOIN TSPL_BOOKING_MATSER_Cancel_Data ON TSPL_BOOKING_MATSER_Cancel_Data.Document_No = TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_Booking_No
         WHERE TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_Code = TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Against_Shipment_No
           AND TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_Booking_No IS NULL AND (TSPL_BOOKING_MATSER_Cancel_Data.Is_APS=1 OR TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Screen_Type= ('CT'))) And TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Trans_Type <> 'MCC' THEN 'APS SALES'
-		  ELSE 'DCS SALE' END AS Transcation_Type ,CASE 
+	WHEN TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.IsMultipleInvoice = 1 THEN 'MULTIPLE INVOICE'	  
+  ELSE 'DCS SALE' END AS Transcation_Type ,CASE 
         WHEN TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Is_Taxable = 1 THEN 'TAXABLE'
         ELSE 'NON TAXABLE'
     END AS Invoice_Tax_Type,
@@ -464,7 +465,8 @@ WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Date,103) >= c
 		  LEFT JOIN TSPL_BOOKING_MATSER_Delete_Data ON TSPL_BOOKING_MATSER_Delete_Data.Document_No = TSPL_SD_SHIPMENT_HEAD_Delete_Data.Against_Booking_No
         WHERE TSPL_SD_SHIPMENT_HEAD_Delete_Data.Document_Code = TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Against_Shipment_No
           AND TSPL_SD_SHIPMENT_HEAD_Delete_Data.Against_Booking_No IS NULL AND (TSPL_BOOKING_MATSER_Delete_Data.Is_APS=1 OR TSPL_SD_SHIPMENT_HEAD_Delete_Data.Screen_Type= ('CT'))) And TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Trans_Type <> 'MCC' THEN 'APS SALES'
-		  ELSE 'DCS SALE' END AS Transcation_Type ,CASE 
+	WHEN TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.IsMultipleInvoice = 1 THEN 'MULTIPLE INVOICE'	  
+  ELSE 'DCS SALE' END AS Transcation_Type ,CASE 
         WHEN TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Is_Taxable = 1 THEN 'TAXABLE'
         ELSE 'NON TAXABLE'
     END AS Invoice_Tax_Type,
@@ -1148,7 +1150,8 @@ WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Date,103) >= c
 		  LEFT JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
         WHERE TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
           AND TSPL_SD_SHIPMENT_HEAD.Against_Booking_No IS NULL AND (TSPL_BOOKING_MATSER.Is_APS=1 OR TSPL_SD_SHIPMENT_HEAD.Screen_Type= ('CT'))) And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' THEN 'APS SALES'
-		  ELSE 'DCS SALE' END AS Transcation_Type,
+        WHEN TSPL_SD_SALE_INVOICE_HEAD.IsMultipleInvoice = 1 THEN 'MULTIPLE INVOICE'	  
+ELSE 'DCS SALE' END AS Transcation_Type,
 case when TSPL_SD_SALE_INVOICE_HEAD.Status=1 then 'Approved' else'Pending' end as Doc_Status,
 TSPL_CUSTOMER_MASTER.Cust_Type_Code as[Customer Type],
 TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location AS [Location],
@@ -1474,7 +1477,8 @@ select  CASE WHEN EXISTS ( SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD_Cancel_Data
         WHERE TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_Code = TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Against_Shipment_No
           AND TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_Booking_No IS NULL AND (TSPL_BOOKING_MATSER_Cancel_Data.Is_APS=1 OR TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Screen_Type= ('CT')))
          And TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Trans_Type <> 'MCC' THEN 'APS SALES'
-		  ELSE 'DCS SALE' END AS Transcation_Type,
+		  WHEN TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.IsMultipleInvoice = 1 THEN 'MULTIPLE INVOICE'
+ELSE 'DCS SALE' END AS Transcation_Type,
 'Cancel' as Doc_Status,
 TSPL_CUSTOMER_MASTER.Cust_Type_Code as[Customer Type],
 TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Bill_To_Location AS [Location],
@@ -1623,6 +1627,7 @@ select  CASE WHEN EXISTS ( SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD_Cancel_Data
         WHERE TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_Code = TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Against_Shipment_No
           AND TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_Booking_No IS NULL AND (TSPL_BOOKING_MATSER_Cancel_Data.Is_APS=1 OR TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Screen_Type= ('CT')))
          And TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Trans_Type <> 'MCC' THEN 'APS SALES'
+WHEN TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.IsMultipleInvoice = 1 THEN 'MULTIPLE INVOICE'
 		  ELSE 'DCS SALE' END AS Transcation_Type,
 'Delete' as Doc_Status,
 TSPL_CUSTOMER_MASTER.Cust_Type_Code as[Customer Type],
