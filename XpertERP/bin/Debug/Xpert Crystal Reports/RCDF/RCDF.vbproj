@@ -2169,6 +2169,7 @@
     <None Include="Crystal Reports\Sales Report\rptHSNWiseSale.rpt" />
     <None Include="Crystal Reports\Sales Report\rptItemStockReport.rpt" />
     <None Include="Crystal Reports\Sales Report\rptMilkSaleAsPerGatePass.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptMilkSaleAsPerGatePassPartyWise.rpt" />
     <None Include="Crystal Reports\Sales Report\rptMonthlyInvoicePrint.rpt" />
     <None Include="Crystal Reports\Sales Report\rptNetSaleDetailCustomerWise.rpt" />
     <None Include="Crystal Reports\Sales Report\rptNetSaleDetailItemWise.rpt" />

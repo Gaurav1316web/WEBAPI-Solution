@@ -605,7 +605,7 @@ where isMultipleInvoice=1"
             If isLoadData Then
                 strQry += " And convert(date,document_date,103)='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'"
             Else
-                strQry += " And convert(date,document_date,103)='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy") + "'"
+                strQry += " And convert(date,document_date,103)='" + clsCommon.GetPrintDate(txtInvoiceDate.Value, "dd/MMM/yyyy") + "'"
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
             isInvoice = True

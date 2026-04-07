@@ -926,7 +926,7 @@ Public Class clsMultipleInvoice
                     Dim DeductTPTFromDocAmt As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DeductTPTFromDocAmt, clsFixedParameterCode.DeductTPTFromDocAmt, trans)) = 1, True, False)
                     If DeductTPTFromDocAmt Then
                         obj.TotalSubsidyAmt += objShipmentDetail.Transporter_Commission_Amt
-                        obj.Gross_Amount = (objShipment.Total_Amt - objShipmentDetail.Transporter_Commission_Amt)
+                        obj.Gross_Amount = (objShipment.Total_Amt - obj.Transporter_Commission_TotalAmt)
                     Else
                         obj.Gross_Amount = objShipment.Total_Amt
                     End If

@@ -22,7 +22,7 @@ Partial Class rptCustItemWiseSaleReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -32,6 +32,8 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.ddlReportType = New common.Controls.MyComboBox()
+        Me.lblReportType = New common.Controls.MyLabel()
         Me.ddlType = New common.Controls.MyComboBox()
         Me.lblType = New common.Controls.MyLabel()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
@@ -93,8 +95,8 @@ Partial Class rptCustItemWiseSaleReport
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.MyDateTimePicker1 = New common.Controls.MyDateTimePicker()
-        Me.ddlReportType = New common.Controls.MyComboBox()
-        Me.lblReportType = New common.Controls.MyLabel()
+        Me.txtToLocation = New common.UserControls.txtMultiSelectFinder()
+        Me.lblToLocation = New common.Controls.MyLabel()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -106,6 +108,8 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadPanel1.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.ddlReportType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblReportType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ddlType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -165,8 +169,7 @@ Partial Class rptCustItemWiseSaleReport
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyDateTimePicker1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ddlReportType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblReportType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblToLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -251,6 +254,8 @@ Partial Class rptCustItemWiseSaleReport
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.txtToLocation)
+        Me.RadGroupBox1.Controls.Add(Me.lblToLocation)
         Me.RadGroupBox1.Controls.Add(Me.ddlReportType)
         Me.RadGroupBox1.Controls.Add(Me.lblReportType)
         Me.RadGroupBox1.Controls.Add(Me.ddlType)
@@ -281,6 +286,45 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Size = New System.Drawing.Size(974, 264)
         Me.RadGroupBox1.TabIndex = 389
+        '
+        'ddlReportType
+        '
+        Me.ddlReportType.AutoCompleteDisplayMember = Nothing
+        Me.ddlReportType.AutoCompleteValueMember = Nothing
+        Me.ddlReportType.CalculationExpression = Nothing
+        Me.ddlReportType.DropDownAnimationEnabled = True
+        Me.ddlReportType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.ddlReportType.FieldCode = Nothing
+        Me.ddlReportType.FieldDesc = Nothing
+        Me.ddlReportType.FieldMaxLength = 0
+        Me.ddlReportType.FieldName = Nothing
+        Me.ddlReportType.isCalculatedField = False
+        Me.ddlReportType.IsSourceFromTable = False
+        Me.ddlReportType.IsSourceFromValueList = False
+        Me.ddlReportType.IsUnique = False
+        Me.ddlReportType.Location = New System.Drawing.Point(854, 9)
+        Me.ddlReportType.MendatroryField = True
+        Me.ddlReportType.MyLinkLable1 = Nothing
+        Me.ddlReportType.MyLinkLable2 = Nothing
+        Me.ddlReportType.Name = "ddlReportType"
+        Me.ddlReportType.ReferenceFieldDesc = Nothing
+        Me.ddlReportType.ReferenceFieldName = Nothing
+        Me.ddlReportType.ReferenceTableName = Nothing
+        Me.ddlReportType.Size = New System.Drawing.Size(107, 20)
+        Me.ddlReportType.TabIndex = 460
+        Me.ddlReportType.Text = "Please Select"
+        Me.ddlReportType.Visible = False
+        '
+        'lblReportType
+        '
+        Me.lblReportType.FieldName = Nothing
+        Me.lblReportType.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblReportType.Location = New System.Drawing.Point(780, 10)
+        Me.lblReportType.Name = "lblReportType"
+        Me.lblReportType.Size = New System.Drawing.Size(67, 18)
+        Me.lblReportType.TabIndex = 459
+        Me.lblReportType.Text = "Report Type"
+        Me.lblReportType.Visible = False
         '
         'ddlType
         '
@@ -551,7 +595,7 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadGroupBox3.Controls.Add(Me.rbtnDocumentDate)
         Me.RadGroupBox3.Controls.Add(Me.rbtnSupplyDate)
         Me.RadGroupBox3.HeaderText = "Date"
-        Me.RadGroupBox3.Location = New System.Drawing.Point(8, 198)
+        Me.RadGroupBox3.Location = New System.Drawing.Point(8, 221)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox3.Size = New System.Drawing.Size(331, 37)
@@ -814,7 +858,7 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadGroupBox2.Controls.Add(Me.rbtnDetail)
         Me.RadGroupBox2.Controls.Add(Me.rbtnSummary)
         Me.RadGroupBox2.HeaderText = "Report Type"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(8, 158)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(8, 181)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox2.Size = New System.Drawing.Size(331, 37)
@@ -1013,7 +1057,7 @@ Partial Class rptCustItemWiseSaleReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyExportAPI = False
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
@@ -1114,44 +1158,28 @@ Partial Class rptCustItemWiseSaleReport
         Me.MyDateTimePicker1.Text = "17-12-2011"
         Me.MyDateTimePicker1.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
         '
-        'ddlReportType
+        'txtToLocation
         '
-        Me.ddlReportType.AutoCompleteDisplayMember = Nothing
-        Me.ddlReportType.AutoCompleteValueMember = Nothing
-        Me.ddlReportType.CalculationExpression = Nothing
-        Me.ddlReportType.DropDownAnimationEnabled = True
-        Me.ddlReportType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.ddlReportType.FieldCode = Nothing
-        Me.ddlReportType.FieldDesc = Nothing
-        Me.ddlReportType.FieldMaxLength = 0
-        Me.ddlReportType.FieldName = Nothing
-        Me.ddlReportType.isCalculatedField = False
-        Me.ddlReportType.IsSourceFromTable = False
-        Me.ddlReportType.IsSourceFromValueList = False
-        Me.ddlReportType.IsUnique = False
-        Me.ddlReportType.Location = New System.Drawing.Point(854, 9)
-        Me.ddlReportType.MendatroryField = True
-        Me.ddlReportType.MyLinkLable1 = Nothing
-        Me.ddlReportType.MyLinkLable2 = Nothing
-        Me.ddlReportType.Name = "ddlReportType"
-        Me.ddlReportType.ReferenceFieldDesc = Nothing
-        Me.ddlReportType.ReferenceFieldName = Nothing
-        Me.ddlReportType.ReferenceTableName = Nothing
-        Me.ddlReportType.Size = New System.Drawing.Size(107, 20)
-        Me.ddlReportType.TabIndex = 460
-        Me.ddlReportType.Text = "Please Select"
-        Me.ddlReportType.Visible = False
+        Me.txtToLocation.arrDispalyMember = Nothing
+        Me.txtToLocation.arrValueMember = Nothing
+        Me.txtToLocation.Location = New System.Drawing.Point(94, 156)
+        Me.txtToLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtToLocation.MyLinkLable1 = Nothing
+        Me.txtToLocation.MyLinkLable2 = Nothing
+        Me.txtToLocation.MyNullText = "All"
+        Me.txtToLocation.Name = "txtToLocation"
+        Me.txtToLocation.Size = New System.Drawing.Size(243, 19)
+        Me.txtToLocation.TabIndex = 462
         '
-        'lblReportType
+        'lblToLocation
         '
-        Me.lblReportType.FieldName = Nothing
-        Me.lblReportType.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblReportType.Location = New System.Drawing.Point(780, 10)
-        Me.lblReportType.Name = "lblReportType"
-        Me.lblReportType.Size = New System.Drawing.Size(67, 18)
-        Me.lblReportType.TabIndex = 459
-        Me.lblReportType.Text = "Report Type"
-        Me.lblReportType.Visible = False
+        Me.lblToLocation.FieldName = Nothing
+        Me.lblToLocation.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblToLocation.Location = New System.Drawing.Point(5, 155)
+        Me.lblToLocation.Name = "lblToLocation"
+        Me.lblToLocation.Size = New System.Drawing.Size(64, 18)
+        Me.lblToLocation.TabIndex = 461
+        Me.lblToLocation.Text = "To Location"
         '
         'rptCustItemWiseSaleReport
         '
@@ -1178,6 +1206,8 @@ Partial Class rptCustItemWiseSaleReport
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.ddlReportType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblReportType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ddlType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1241,8 +1271,7 @@ Partial Class rptCustItemWiseSaleReport
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyDateTimePicker1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ddlReportType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblReportType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblToLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1320,5 +1349,7 @@ Partial Class rptCustItemWiseSaleReport
     Friend WithEvents lblType As common.Controls.MyLabel
     Friend WithEvents ddlReportType As common.Controls.MyComboBox
     Friend WithEvents lblReportType As common.Controls.MyLabel
+    Friend WithEvents txtToLocation As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents lblToLocation As common.Controls.MyLabel
 End Class
 
