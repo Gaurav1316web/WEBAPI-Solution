@@ -31,7 +31,7 @@ Public Class rptAccountStatementReport
 
     Private Sub LoadData(ByVal isPrint As Boolean)
         Try
-            Dim qry As String = " Select XX.Cust_Code,max(xx.Customer_Name)Customer_Name,
+            Dim qry As String = " Select max(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,max(TSPL_COMPANY_MASTER.Add1)Add1,max(TSPL_COMPANY_MASTER.Add2)Add2,max(TSPL_COMPANY_MASTER.Add3)Add3,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") & "' as FromDate, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") & "' as ToDate,XX.Cust_Code,max(xx.Customer_Name)Customer_Name,
 sum((Amount) * (case when   Convert( Date, Document_Date,103) < Convert( Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103)  then 1 else 0 end) * (case when RI=1 or RI=4 or RI=5 OR RI=7 then 1 else -1 end)) as OP 
 ,sum(Amount * (case when  Convert( Date, Document_Date,103) >=Convert(Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) and Document_Date<=Convert(Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) then 1 else 0 end) * (case when (RI=1) then 1 else 0 end)) as Money_Receipt
 ,sum(Amount * (case when  Convert( Date, Document_Date,103)>=Convert(Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) and Convert( Date, Document_Date,103)<=Convert(Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) then 1 else 0 end) * (case when (RI=2) then 1 else 0 end)) as Milk_Amount
@@ -43,11 +43,11 @@ sum((Amount) * (case when   Convert( Date, Document_Date,103) <= Convert( Date,'
 union all
 Select Customer_Code as Cust_Code,Customer_Name,Total_Amt as Amount,TSPL_SD_SHIPMENT_HEAD.Document_Date,2 as RI from TSPL_SD_SHIPMENT_HEAD
 left outer join TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
-where Is_Taxable=0
+where Is_Taxable=0 and TSPL_SD_SHIPMENT_HEAD.Status=1
 union all
 Select Customer_Code as Cust_Code,Customer_Name,Total_Amt as Amount,TSPL_SD_SHIPMENT_HEAD.Document_Date,3 as RI from TSPL_SD_SHIPMENT_HEAD
 left outer join TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
-where Is_Taxable=1
+where Is_Taxable=1 and TSPL_SD_SHIPMENT_HEAD.Status=1
 union all
 Select Customer_Code as Cust_Code,Customer_Name,Total_Amt as Amount,TSPL_SD_SALE_RETURN_HEAD.Document_Date,4 as RI from TSPL_SD_SALE_RETURN_HEAD
 left outer join TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_RETURN_HEAD.Customer_Code
@@ -57,13 +57,14 @@ WHERE Document_Type='C'
 union all
 Select Customer_Code,Customer_Name,Document_Total as Amount,TSPL_Customer_Invoice_Head.Document_Date as Document_Date,6 as RI from TSPL_Customer_Invoice_Head
 WHERE Document_Type='D'
-) XX "
+) XX 
+left outer join TSPL_COMPANY_MASTER ON 2=2 "
             If txtCustomer.arrValueMember IsNot Nothing Then
                 qry += " where XX.Cust_Code In (" & clsCommon.GetMulcallString(txtCustomer.arrValueMember) & ")"
             End If
             'where XX.Cust_Code In('D1')
 
-            qry += " Group by Cust_Code "
+            qry += " Group by XX.Cust_Code "
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             gv1.DataSource = Nothing
@@ -84,7 +85,7 @@ WHERE Document_Type='D'
                 gv1.BestFitColumns()
                 If isPrint Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptMilkProcurement", "Milk Procurement Report")
+                    frmCRV.funreport(Form_ID, CrystalReportFolder.SalesReport, dt, "rptAccountStatement", "Account Statement Report")
                     frmCRV = Nothing
                 End If
             Else
@@ -224,29 +225,35 @@ WHERE Document_Type='D'
         '    gv1.Columns("Month").IsVisible = False
         '    gv1.Columns("UserName").IsVisible = False
         'End If
-        'gv1.Columns("Zone_Code").IsVisible = False
-        'gv1.Columns("Zone_Name").HeaderText = "AREA"
-        'gv1.Columns("Sweet_Qty").HeaderText = "QTY"
-        'gv1.Columns("Sweet_FATKG").HeaderText = "KG-FAT"
-        'gv1.Columns("Sweet_FATKG").FormatString = "{0:n3}"
-        'gv1.Columns("Sweet_SNFKG").HeaderText = "KG-SNF"
-        'gv1.Columns("Sweet_SNFKG").FormatString = "{0:n3}"
-        'gv1.Columns("Sour_Qty").HeaderText = "QTY"
-        'gv1.Columns("Sour_FATKG").HeaderText = "KG-FAT"
-        'gv1.Columns("Sour_FATKG").FormatString = "{0:n3}"
-        'gv1.Columns("Sour_SNFKG").HeaderText = "KG-SNF"
-        'gv1.Columns("Sour_SNFKG").FormatString = "{0:n3}"
-        'gv1.Columns("Curd_Qty").HeaderText = "QTY"
-        'gv1.Columns("Total_Qty").HeaderText = "QTY"
-        'gv1.Columns("Total_FAT_KG").HeaderText = "KG-FAT"
-        'gv1.Columns("Total_FAT_KG").FormatString = "{0:n3}"
-        'gv1.Columns("Total_SNF_KG").HeaderText = "KG-SNF"
-        'gv1.Columns("Total_SNF_KG").FormatString = "{0:n3}"
-        'gv1.Columns("Avg_Qty").HeaderText = "AVG"
-        'gv1.Columns("Avg_FAT").HeaderText = "FAT%"
-        'gv1.Columns("Avg_FAT").FormatString = "{0:n3}"
-        'gv1.Columns("Avg_SNF").HeaderText = "SNF%"
-        'gv1.Columns("Avg_SNF").FormatString = "{0:n3}"
+        gv1.Columns("Cust_Code").IsVisible = False
+        gv1.Columns("Cust_Code").VisibleInColumnChooser = True
+        gv1.Columns("FromDate").IsVisible = False
+        gv1.Columns("FromDate").VisibleInColumnChooser = True
+        gv1.Columns("ToDate").IsVisible = False
+        gv1.Columns("ToDate").VisibleInColumnChooser = True
+        gv1.Columns("Comp_Name").IsVisible = False
+        gv1.Columns("Comp_Name").VisibleInColumnChooser = True
+        gv1.Columns("Add1").IsVisible = False
+        gv1.Columns("Add1").VisibleInColumnChooser = True
+        gv1.Columns("Add2").IsVisible = False
+        gv1.Columns("Add2").VisibleInColumnChooser = True
+        gv1.Columns("Add3").IsVisible = False
+        gv1.Columns("Add3").VisibleInColumnChooser = True
+
+        gv1.Columns("Customer_Name").HeaderText = "Customer Name"
+        gv1.Columns("OP").HeaderText = "Opening Balance"
+        gv1.Columns("OP").FormatString = "{0:n2}"
+        gv1.Columns("Money_Receipt").HeaderText = "Money Receipt"
+        gv1.Columns("Money_Receipt").FormatString = "{0:n2}"
+        gv1.Columns("Milk_Amount").HeaderText = "Milk Amount"
+        gv1.Columns("Milk_Amount").FormatString = "{0:n2}"
+        gv1.Columns("Product_Amount").HeaderText = "Product Amount"
+        gv1.Columns("Product_Amount").FormatString = "{0:n2}"
+        gv1.Columns("Refund_Amount").HeaderText = "Refund Amount"
+        gv1.Columns("Refund_Amount").FormatString = "{0:n2}"
+        gv1.Columns("CL").HeaderText = "Closing Balance"
+        gv1.Columns("CL").FormatString = "{0:n2}"
+
 
         'Dim summaryRowItem As New GridViewSummaryRowItem()
         'For ii As Integer = IIf(isPrint, 7, 3) To gv1.Columns.Count - 1
