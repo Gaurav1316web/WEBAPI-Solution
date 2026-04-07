@@ -267,6 +267,8 @@ Partial Class frmShipmentDairy
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.lblOutstandingDesc = New common.Controls.MyLabel()
+        Me.lblOutStanding = New common.Controls.MyLabel()
         Me.MyLabel71 = New common.Controls.MyLabel()
         Me.lblGrossAmount = New common.Controls.MyLabel()
         Me.lblTPTComAmt = New common.Controls.MyLabel()
@@ -685,6 +687,8 @@ Partial Class frmShipmentDairy
         Me.pvpCustomFields.SuspendLayout
         Me.Attachments.SuspendLayout
         Me.RadPageViewPage4.SuspendLayout
+        CType(Me.lblOutstandingDesc, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.lblOutStanding, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel71, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.lblGrossAmount, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.lblTPTComAmt, System.ComponentModel.ISupportInitialize).BeginInit
@@ -4859,6 +4863,8 @@ Partial Class frmShipmentDairy
         '
         'RadPageViewPage4
         '
+        Me.RadPageViewPage4.Controls.Add(Me.lblOutstandingDesc)
+        Me.RadPageViewPage4.Controls.Add(Me.lblOutStanding)
         Me.RadPageViewPage4.Controls.Add(Me.MyLabel71)
         Me.RadPageViewPage4.Controls.Add(Me.lblGrossAmount)
         Me.RadPageViewPage4.Controls.Add(Me.lblTPTComAmt)
@@ -4917,6 +4923,26 @@ Partial Class frmShipmentDairy
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1089, 416)
         Me.RadPageViewPage4.Text = "Total"
+        '
+        'lblOutstandingDesc
+        '
+        Me.lblOutstandingDesc.AutoSize = False
+        Me.lblOutstandingDesc.BorderVisible = True
+        Me.lblOutstandingDesc.FieldName = Nothing
+        Me.lblOutstandingDesc.Location = New System.Drawing.Point(646, 244)
+        Me.lblOutstandingDesc.Name = "lblOutstandingDesc"
+        Me.lblOutstandingDesc.Size = New System.Drawing.Size(133, 19)
+        Me.lblOutstandingDesc.TabIndex = 1578
+        Me.lblOutstandingDesc.TextWrap = False
+        '
+        'lblOutStanding
+        '
+        Me.lblOutStanding.FieldName = Nothing
+        Me.lblOutStanding.Location = New System.Drawing.Point(530, 244)
+        Me.lblOutStanding.Name = "lblOutStanding"
+        Me.lblOutStanding.Size = New System.Drawing.Size(53, 18)
+        Me.lblOutStanding.TabIndex = 1577
+        Me.lblOutStanding.Text = "Total O/S"
         '
         'MyLabel71
         '
@@ -7639,6 +7665,8 @@ Partial Class frmShipmentDairy
         Me.Attachments.ResumeLayout(False)
         Me.RadPageViewPage4.ResumeLayout(False)
         Me.RadPageViewPage4.PerformLayout
+        CType(Me.lblOutstandingDesc, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.lblOutStanding, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel71, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.lblGrossAmount, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.lblTPTComAmt, System.ComponentModel.ISupportInitialize).EndInit
@@ -8248,5 +8276,7 @@ Partial Class frmShipmentDairy
     Friend WithEvents txtTPTComAmt As common.Controls.MyLabel
     Friend WithEvents MyLabel71 As common.Controls.MyLabel
     Friend WithEvents lblGrossAmount As common.Controls.MyLabel
+    Friend WithEvents lblOutstandingDesc As common.Controls.MyLabel
+    Friend WithEvents lblOutStanding As common.Controls.MyLabel
 End Class
 
