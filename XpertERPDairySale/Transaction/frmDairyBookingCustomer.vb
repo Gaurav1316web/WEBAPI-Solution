@@ -12,7 +12,8 @@ Public Class frmDairyBookingCustomer
     Dim DefaultEnableNoTransporter As Boolean = False
     Dim ManualBatchOnCustomerBooking As Boolean = False
     Dim GenerateCustomerWiseGatePass As Boolean = False
-
+    Dim CheckCustomeroutStandingAmt As Boolean = False
+    Dim DeductTPTFromDocAmt As Boolean = True
     Dim ApplyEWBThresholdLimit As Boolean = False
     Dim EWBThresholdLimitForIntraCity As Integer = 0
     Dim EWBThresholdLimitForIntraState As Integer = 0
@@ -334,6 +335,8 @@ Public Class frmDairyBookingCustomer
         DefaultEnableNoTransporter = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultEnableNoTransporter, clsFixedParameterCode.DefaultEnableNoTransporter, Nothing)) = 1, True, False)
         ManualBatchOnCustomerBooking = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ManualBatchOnCustomerBooking, clsFixedParameterCode.ManualBatchOnCustomerBooking, Nothing)) = 1, True, False)
         GenerateCustomerWiseGatePass = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.GenerateCustomerWiseGatePass, clsFixedParameterCode.GenerateCustomerWiseGatePass, Nothing)) = 1, True, False)
+        CheckCustomeroutStandingAmt = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CheckCustomeroutStandingAmt, clsFixedParameterCode.CheckCustomeroutStandingAmt, Nothing)) = 1, True, False)
+        DeductTPTFromDocAmt = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DeductTPTFromDocAmt, clsFixedParameterCode.DeductTPTFromDocAmt, Nothing)) = 1, True, False)
 
         'SetMailRight()
         SetUserMgmtNew()
@@ -3518,6 +3521,13 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 End If
             Next
             UpdateAllTotals()
+            Dim custOutStanding As Double = clsCommon.myCdbl(lblOutstandingDesc.Text)
+            Dim TotalDocAmt As Double = clsCommon.myCdbl(lblTotRAmt.Text)
+            If CheckCustomeroutStandingAmt Then
+                If custOutStanding < TotalDocAmt Then
+                    Throw New Exception("Insufficient Balance.")
+                End If
+            End If
             'Return True
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -9108,6 +9118,11 @@ from
                         obj.Security_TotalAmt = SCTotalAmt
                         obj.Total_Tax_Amt = clsCommon.myCdbl(lblTaxAmt.Text)
                         obj.Total_Amt = clsCommon.myCdbl(lblTotRAmt.Text)
+                        If DeductTPTFromDocAmt Then
+                            obj.Gross_Amount = clsCommon.myCdbl(obj.Total_Amt - obj.Transporter_Commission_TotalAmt)
+                        Else
+                            obj.Gross_Amount = obj.Total_Amt
+                        End If
                         ' obj.Discount_Amt = DCTotalAmt
                         isNewEntry = True
                         obj.Document_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SHIPMENT_HEAD where Against_Booking_No='" & obj.Against_Booking_No & "'  and Customer_Code='" & txtVendorNo.Value & "'", trans))
