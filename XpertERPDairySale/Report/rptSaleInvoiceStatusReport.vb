@@ -383,10 +383,9 @@ tspl_item_master.Item_Desc as [Item Name],
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Sub LoadDataInvoiceCount()
-        Try
-            Dim qry As String = ""
-            qry = " Select *,(Total_Invoice-Total_CancelInvoice-Total_DeleteInvoice)as Active_invoice 
+
+    Function BaseQryLoadDataInvoiceCount(ByVal fromDate As String, ByVal toDate As String, ByVal strLocation As String) As String
+        Dim Qry As String = " Select *,(Total_Invoice-Total_CancelInvoice-Total_DeleteInvoice)as Active_invoice 
 from(Select Transcation_Type, Invoice_Tax_Type, MIN(XX.Document_Code) First_Invoice, MAX(XX.Document_Code)Last_Invoice, count(XX.Document_Code)Total_Invoice,
 count(CASE WHEN XX.Cancel_DocumentCode Is Not NULL THEN 1 END) As Total_CancelInvoice,COUNT(Case When XX.Delete_DocumentCode Is Not NULL Then 1 End) As Total_DeleteInvoice
 from(Select   CASE WHEN EXISTS ( SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD 
@@ -413,10 +412,13 @@ CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable = 1 THEN 'TAXABLE' ELSE 'NON TAXA
     END AS Invoice_Tax_Type,
 	TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable,TSPL_SD_SALE_INVOICE_HEAD.Document_Code,NULL as Cancel_DocumentCode,Null as Delete_DocumentCode
 	from TSPL_SD_SALE_INVOICE_HEAD  
-WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(txtfDate.Value, "dd/MMM/yyyy") & "',103)
-  AND CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103) 
-  
-   Union all 
+WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") & "',103)
+  AND CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(toDate, "dd/MMM/yyyy") & "',103) "
+        If clsCommon.myLen(strLocation) > 0 Then
+            Qry &= " And TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location = '" & clsCommon.myCstr(strLocation) & "'"
+        End If
+
+        Qry &= " Union all 
 
   Select  CASE WHEN EXISTS ( SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD_Cancel_Data 
         LEFT JOIN TSPL_BOOKING_MATSER_Cancel_Data ON TSPL_BOOKING_MATSER_Cancel_Data.Document_No = TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_Booking_No
@@ -442,10 +444,12 @@ WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= convert(date,
         ELSE 'NON TAXABLE'
     END AS Invoice_Tax_Type,
 	TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Is_Taxable,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Code as Document_Code,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Code as Cancel_DocumentCode,NULL as Delete_DocumentCode from TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data
-WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(txtfDate.Value, "dd/MMM/yyyy") & "',103)
-  AND CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103) 
-
-  Union all
+WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") & "',103)
+  AND CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(toDate, "dd/MMM/yyyy") & "',103) "
+        If clsCommon.myLen(strLocation) > 0 Then
+            Qry &= " And TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Bill_To_Location = '" & clsCommon.myCstr(strLocation) & "'"
+        End If
+        Qry &= " Union all
 
   Select  CASE WHEN EXISTS ( SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD_Delete_Data 
         LEFT JOIN TSPL_BOOKING_MATSER_Delete_Data ON TSPL_BOOKING_MATSER_Delete_Data.Document_No = TSPL_SD_SHIPMENT_HEAD_Delete_Data.Against_Booking_No
@@ -471,86 +475,118 @@ WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Date,103) >= c
         ELSE 'NON TAXABLE'
     END AS Invoice_Tax_Type,
 	TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Is_Taxable,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Code AS Document_Code,NULL as Cancel_DocumentCode,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Code as Delete_DocumentCode from TSPL_SD_SALE_INVOICE_HEAD_Delete_Data
-WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(txtfDate.Value, "dd/MMM/yyyy") & "',103)
-  AND CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103)
-
-  union all
+WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") & "',103)
+  AND CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(toDate, "dd/MMM/yyyy") & "',103) "
+        If clsCommon.myLen(strLocation) > 0 Then
+            Qry &= " And TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Bill_To_Location = '" & clsCommon.myCstr(strLocation) & "'"
+        End If
+        Qry &= " union all
   Select 'MATERIAL SALE'  AS Transcation_Type ,
 		  CASE 
         WHEN TSPL_SCRAPINVOICE_HEAD.Is_Taxable = 1 THEN 'TAXABLE'
         ELSE 'NON TAXABLE' end AS Invoice_Tax_Type,
 	TSPL_SCRAPINVOICE_HEAD.Invoice_Type,TSPL_SCRAPINVOICE_HEAD.invoice_No AS Document_Code,NULL as Cancel_DocumentCode,NULL AS Delete_DocumentCode from TSPL_SCRAPINVOICE_HEAD
-WHERE CONVERT(DATE,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(txtfDate.Value, "dd/MMM/yyyy") & "',103)
-  AND CONVERT(DATE,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103)
-    union all
+WHERE CONVERT(DATE,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") & "',103)
+  AND CONVERT(DATE,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(toDate, "dd/MMM/yyyy") & "',103) "
+        If clsCommon.myLen(strLocation) > 0 Then
+            Qry &= " And TSPL_SCRAPINVOICE_HEAD.Loc_Code = '" & clsCommon.myCstr(strLocation) & "'"
+        End If
+        Qry &= " union all
   Select 'MATERIAL SALE'  AS Transcation_Type ,
 		  CASE 
         WHEN TSPL_SCRAPINVOICE_HEAD_cancel_data.Is_Taxable = 1 THEN 'TAXABLE'
         ELSE 'NON TAXABLE' end AS Invoice_Tax_Type,
 	TSPL_SCRAPINVOICE_HEAD_cancel_data.Invoice_Type,TSPL_SCRAPINVOICE_HEAD_cancel_data.invoice_No AS Document_Code,TSPL_SCRAPINVOICE_HEAD_cancel_data.invoice_No as Cancel_DocumentCode,NULL AS Delete_DocumentCode from TSPL_SCRAPINVOICE_HEAD_cancel_data
-WHERE CONVERT(DATE,TSPL_SCRAPINVOICE_HEAD_cancel_data.shipment_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(txtfDate.Value, "dd/MMM/yyyy") & "',103)
-  AND CONVERT(DATE,TSPL_SCRAPINVOICE_HEAD_cancel_data.shipment_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103)
-      union all
+WHERE CONVERT(DATE,TSPL_SCRAPINVOICE_HEAD_cancel_data.shipment_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") & "',103)
+  AND CONVERT(DATE,TSPL_SCRAPINVOICE_HEAD_cancel_data.shipment_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(toDate, "dd/MMM/yyyy") & "',103)"
+        If clsCommon.myLen(strLocation) > 0 Then
+            Qry &= " And TSPL_SCRAPINVOICE_HEAD_cancel_data.Loc_Code = '" & clsCommon.myCstr(strLocation) & "'"
+        End If
+        Qry &= " union all
   Select 'MATERIAL SALE'  AS Transcation_Type ,
 		  CASE 
         WHEN TSPL_SCRAPINVOICE_HEAD_Delete_data.Is_Taxable = 1 THEN 'TAXABLE'
         ELSE 'NON TAXABLE' end AS Invoice_Tax_Type,
 	TSPL_SCRAPINVOICE_HEAD_Delete_data.Invoice_Type,TSPL_SCRAPINVOICE_HEAD_Delete_data.invoice_No AS Document_Code,NULL as Cancel_DocumentCode,TSPL_SCRAPINVOICE_HEAD_Delete_data.invoice_No AS Delete_DocumentCode from TSPL_SCRAPINVOICE_HEAD_Delete_data
-WHERE CONVERT(DATE,TSPL_SCRAPINVOICE_HEAD_Delete_data.shipment_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(txtfDate.Value, "dd/MMM/yyyy") & "',103)
-  AND CONVERT(DATE,TSPL_SCRAPINVOICE_HEAD_Delete_data.shipment_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103)
-
-union all
+WHERE CONVERT(DATE,TSPL_SCRAPINVOICE_HEAD_Delete_data.shipment_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") & "',103)
+  AND CONVERT(DATE,TSPL_SCRAPINVOICE_HEAD_Delete_data.shipment_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(toDate, "dd/MMM/yyyy") & "',103) "
+        If clsCommon.myLen(strLocation) > 0 Then
+            Qry &= " And TSPL_SCRAPINVOICE_HEAD_Delete_data.Loc_Code = '" & clsCommon.myCstr(strLocation) & "'"
+        End If
+        Qry &= " union all
   Select case when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='MCC' then 'DCS SALE RETURN' else 'SALES RETURN' end  AS Transcation_Type ,
 		  CASE 
         WHEN TSPL_SD_SALE_RETURN_HEAD.Is_Taxable = 1 THEN 'TAXABLE'
         ELSE 'NON TAXABLE' end AS Invoice_Tax_Type,
 	TSPL_SD_SALE_RETURN_HEAD.Is_Taxable,TSPL_SD_SALE_RETURN_HEAD.Document_Code AS Document_Code,NULL as Cancel_DocumentCode,NULL AS Delete_DocumentCode from TSPL_SD_SALE_RETURN_HEAD
-WHERE CONVERT(DATE,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(txtfDate.Value, "dd/MMM/yyyy") & "',103)
-  AND CONVERT(DATE,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103)
-   union all
+WHERE CONVERT(DATE,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") & "',103)
+  AND CONVERT(DATE,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(toDate, "dd/MMM/yyyy") & "',103) "
+        If clsCommon.myLen(strLocation) > 0 Then
+            Qry &= " And TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location = '" & clsCommon.myCstr(strLocation) & "'"
+        End If
+        Qry &= " union all
   Select case when TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Trans_Type='MCC' then 'DCS SALE RETURN' else 'SALES RETURN' end  AS Transcation_Type ,
 		  CASE 
         WHEN TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Is_Taxable = 1 THEN 'TAXABLE'
         ELSE 'NON TAXABLE' end AS Invoice_Tax_Type,
 	TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Is_Taxable,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Document_Code AS Document_Code,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Document_Code as Cancel_DocumentCode,NULL AS Delete_DocumentCode from TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA
-WHERE CONVERT(DATE,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Document_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(txtfDate.Value, "dd/MMM/yyyy") & "',103)
-  AND CONVERT(DATE,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Document_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103)
-     union all
+WHERE CONVERT(DATE,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Document_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") & "',103)
+  AND CONVERT(DATE,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Document_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(toDate, "dd/MMM/yyyy") & "',103)"
+        If clsCommon.myLen(strLocation) > 0 Then
+            Qry &= " And TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Bill_To_Location = '" & clsCommon.myCstr(strLocation) & "'"
+        End If
+        Qry &= " union all
   Select case when TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Trans_Type='MCC' then 'DCS SALE RETURN' else 'SALES RETURN' end  AS Transcation_Type ,
 		  CASE 
         WHEN TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Is_Taxable = 1 THEN 'TAXABLE'
         ELSE 'NON TAXABLE' end AS Invoice_Tax_Type,
 	TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Is_Taxable,TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Document_Code AS Document_Code,NULL as Cancel_DocumentCode,TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Document_Code AS Delete_DocumentCode from TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA
-WHERE CONVERT(DATE,TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Document_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(txtfDate.Value, "dd/MMM/yyyy") & "',103)
-  AND CONVERT(DATE,TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Document_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103)
-  union all
+WHERE CONVERT(DATE,TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Document_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") & "',103)
+  AND CONVERT(DATE,TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Document_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(toDate, "dd/MMM/yyyy") & "',103)"
+        If clsCommon.myLen(strLocation) > 0 Then
+            Qry &= " And TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Bill_To_Location = '" & clsCommon.myCstr(strLocation) & "'"
+        End If
+        Qry &= " union all
     Select 'MATERIAL SALE RETURN'   AS Transcation_Type ,
 		  CASE 
         WHEN TSPL_SCRAPSALE_HEAD_RETURN.Is_Taxable = 1 THEN 'TAXABLE'
         ELSE 'NON TAXABLE' end AS Invoice_Tax_Type,
 	TSPL_SCRAPSALE_HEAD_RETURN.Is_Taxable,TSPL_SCRAPSALE_HEAD_RETURN.Document_No AS Document_Code,NULL as Cancel_DocumentCode,NULL AS Delete_DocumentCode from TSPL_SCRAPSALE_HEAD_RETURN
-WHERE CONVERT(DATE,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(txtfDate.Value, "dd/MMM/yyyy") & "',103)
-  AND CONVERT(DATE,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103)
-  UNION ALL
+WHERE CONVERT(DATE,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") & "',103)
+  AND CONVERT(DATE,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(toDate, "dd/MMM/yyyy") & "',103)"
+        If clsCommon.myLen(strLocation) > 0 Then
+            Qry &= " And TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code = '" & clsCommon.myCstr(strLocation) & "'"
+        End If
+        Qry &= " UNION ALL
   Select 'MATERIAL SALE RETURN'   AS Transcation_Type ,
 		  CASE 
         WHEN TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Is_Taxable = 1 THEN 'TAXABLE'
         ELSE 'NON TAXABLE' end AS Invoice_Tax_Type,
 	TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Is_Taxable,TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Document_No AS Document_Code,TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Document_No as Cancel_DocumentCode,NULL AS Delete_DocumentCode from TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data
-WHERE CONVERT(DATE,TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Return_ship_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(txtfDate.Value, "dd/MMM/yyyy") & "',103)
-  AND CONVERT(DATE,TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Return_ship_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103)
-  UNION ALL
+WHERE CONVERT(DATE,TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Return_ship_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") & "',103)
+  AND CONVERT(DATE,TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Return_ship_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(toDate, "dd/MMM/yyyy") & "',103)"
+        If clsCommon.myLen(strLocation) > 0 Then
+            Qry &= " And TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Loc_Code = '" & clsCommon.myCstr(strLocation) & "'"
+        End If
+        Qry &= " UNION ALL
     Select 'MATERIAL SALE RETURN'   AS Transcation_Type ,
 		  CASE 
         WHEN TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Is_Taxable = 1 THEN 'TAXABLE'
         ELSE 'NON TAXABLE' end AS Invoice_Tax_Type,
 	TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Is_Taxable,TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Document_No AS Document_Code,NULL as Cancel_DocumentCode,TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Document_No AS Delete_DocumentCode from TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data
-WHERE CONVERT(DATE,TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Return_ship_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(txtfDate.Value, "dd/MMM/yyyy") & "',103)
-  AND CONVERT(DATE,TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Return_ship_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103)
-     ) XX group by XX.Transcation_Type,XX.Invoice_Tax_Type )YY order by YY.Transcation_Type "
-
+WHERE CONVERT(DATE,TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Return_ship_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") & "',103)
+  AND CONVERT(DATE,TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Return_ship_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(toDate, "dd/MMM/yyyy") & "',103) "
+        If clsCommon.myLen(strLocation) > 0 Then
+            Qry &= " And TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Loc_Code = '" & clsCommon.myCstr(strLocation) & "'"
+        End If
+        Qry &= " ) XX group by XX.Transcation_Type,XX.Invoice_Tax_Type )YY "
+        Return Qry
+    End Function
+    Sub LoadDataInvoiceCount()
+        Try
+            Dim qry As String = BaseQryLoadDataInvoiceCount(txtfDate.Value, txtToDate.Value, Nothing)
             Dim dt As DataTable = New DataTable()
-            dt = clsDBFuncationality.GetDataTable(qry)
+            dt = clsDBFuncationality.GetDataTable(qry & " order by YY.Transcation_Type ")
             gvdata.DataSource = Nothing
             gvdata.Rows.Clear()
             gvdata.Columns.Clear()
