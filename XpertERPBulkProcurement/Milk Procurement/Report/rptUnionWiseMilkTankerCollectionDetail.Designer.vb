@@ -23,7 +23,7 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -175,7 +175,6 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.cboWEIGHMENT.ReferenceTableName = Nothing
         Me.cboWEIGHMENT.Size = New System.Drawing.Size(124, 20)
         Me.cboWEIGHMENT.TabIndex = 1528
-        Me.cboWEIGHMENT.Visible = False
         '
         'cboQC
         '
@@ -202,7 +201,6 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.cboQC.ReferenceTableName = Nothing
         Me.cboQC.Size = New System.Drawing.Size(124, 20)
         Me.cboQC.TabIndex = 1527
-        Me.cboQC.Visible = False
         '
         'MyLabel1
         '
@@ -213,7 +211,6 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.MyLabel1.Size = New System.Drawing.Size(22, 18)
         Me.MyLabel1.TabIndex = 1525
         Me.MyLabel1.Text = "QC"
-        Me.MyLabel1.Visible = False
         '
         'lblweg
         '
@@ -224,7 +221,6 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.lblweg.Size = New System.Drawing.Size(58, 18)
         Me.lblweg.TabIndex = 1524
         Me.lblweg.Text = "Weigment"
-        Me.lblweg.Visible = False
         '
         'lblUnion
         '
@@ -418,7 +414,7 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyExportAPI = False
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False

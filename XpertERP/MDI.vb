@@ -9463,6 +9463,9 @@ Public Class MDI
                     Case clsUserMgtCode.SundryDebtorsReport
                         frm = New frmSundryDebtorsReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.AccountStatementReport
+                        frm = New rptAccountStatementReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     'Case clsUserMgtCode.rptDCSSaleRegister
                     '    frm = New rptDCSSaleRegister()
                     '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

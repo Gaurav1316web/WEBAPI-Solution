@@ -67,6 +67,8 @@ Public Class frmDairyGatePass
     Public Property CreditCustomer As String
     Public Property txtlocation As String
     Public Property vehicleno As String
+    Public Property vehicle_desc As String
+    Public Property DriverName As String
     Public Property docdate As Date?
     Public Property Supplydate As Date?
     Public Property Shifttype As String = Nothing
@@ -192,7 +194,8 @@ Public Class frmDairyGatePass
         txtLocCode.Value = txtlocation
         txtLocDesc.Text = clsDBFuncationality.getSingleValue("select  Location_Desc  from TSPL_LOCATION_MASTER where Location_Code='" & txtLocCode.Value & "'")
         txtVehicle.Value = vehicleno
-        lblVehicleDesc.Text = clsDBFuncationality.getSingleValue("select Description from TSPL_VEHICLE_MASTER where Vehicle_Id='" & txtVehicle.Value & "'")
+        lblVehicleDesc.Text = vehicle_desc 'clsDBFuncationality.getSingleValue("select Description from TSPL_VEHICLE_MASTER where Vehicle_Id='" & txtVehicle.Value & "'")
+        txtDriverName.Text = DriverName
         If docdate IsNot Nothing AndAlso clsCommon.myLen(docdate) > 0 Then
             txtDate.Value = docdate
         End If
@@ -2003,7 +2006,7 @@ SELECT TSPL_BATCH_ITEM.Document_Code, Batch_No, Qty, Parent_Line_No,Item_Code,UO
 )TabBatch
 On TabBatch.Document_Code= XXX.Document_Code And TabBatch.Item_Code=XXX.Item_Code  and TabBatch.UOM=XXX.Unit_code
 group by XXX.Item_Code 
-ORDER BY max(YYY.COL2 ),max(orderby1) desc,max(orderby2) desc,max(orderby3),max(Item_Desc)    "
+ORDER BY max(YYY.COL2 ),max(orderby1) ,max(orderby2) ,max(orderby3),max(Item_Desc)    "
         Return Qry
     End Function
 
