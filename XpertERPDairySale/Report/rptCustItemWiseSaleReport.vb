@@ -28,6 +28,12 @@ Public Class rptCustItemWiseSaleReport
         LoadShiftFrom()
         LoadShiftTo()
         LoadType()
+        Dim subLocation As String = clsDBFuncationality.getSingleValue(" select ISNULL(Sub_Location,'')Sub_Location,* from tspl_user_master where User_Code= '" & objCommonVar.CurrentUserCode & "'  ")
+        Dim arrList As ArrayList = New ArrayList
+        arrList.Add(subLocation)
+        If clsCommon.myLen(subLocation) > 0 Then
+            txtLocation.arrValueMember = arrList
+        End If
     End Sub
     Sub LoadShiftFrom()
         Dim dt As DataTable = New DataTable
@@ -204,6 +210,8 @@ Public Class rptCustItemWiseSaleReport
             LoadStockStatementData(False)
         ElseIf rbtnBoothSaleItemWise.IsChecked Then
             LoadBoothSaleItemWiseData(False)
+        ElseIf rbtnSalesRegister.IsChecked Then
+            LoadSalesRegisterData(False)
         Else
             LoadData()
         End If
@@ -351,7 +359,7 @@ left outer join TSPL_DAIRYSALE_GATEPASS_MASTER  on TSPL_DAIRYSALE_GATEPASS_MASTE
                 ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Item Wise") = CompairStringResult.Equal Then
                     Dim dtItems As DataTable = clsDBFuncationality.GetDataTable("select Item_Code,max(Sku_Seq) as Sku_Seq,max(Short_Description) as Short_Description,max(Unit_code)Unit_code from (" + qry + ") x group by Item_Code order by Sku_Seq")
                     Dim FinalQuery As String = " With CTERawData as ( " + qry + "  )" + Environment.NewLine + Environment.NewLine
-                    For ii As Integer = 1 To dtItems.Rows.Count Step 13
+                    For ii As Integer = 1 To dtItems.Rows.Count Step 10
                         If ii > 1 Then
                             FinalQuery += Environment.NewLine + " Union all " + Environment.NewLine
                         End If
@@ -379,9 +387,9 @@ left outer join TSPL_DAIRYSALE_GATEPASS_MASTER  on TSPL_DAIRYSALE_GATEPASS_MASTE
                         Next
 
                         FinalQuery += " ,sum(Amount*case when IsTaxable=0 then 1 else 0 end) as Amount ,sum(qty)TotalQty"
-                        FinalQuery += ",max(Display_Seq) as Display_Seq from ( select xx.*	from CTERawData xx ) x group by Customer_Code order by Booth"
+                        FinalQuery += ",max(Display_Seq) as Display_Seq from ( select xx.*	from CTERawData xx ) x group by Customer_Code "
                     Next
-                    dtPrint = clsDBFuncationality.GetDataTable(FinalQuery)
+                    dtPrint = clsDBFuncationality.GetDataTable(FinalQuery + " order by grp,Booth")
                     frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.SalesReport, dtPrint, Nothing, "rptMilkSaleAsPerGatePass", "Milk Sale As Per Gate Pass")
                 End If
                 frmCRV = Nothing
@@ -740,11 +748,22 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
                 clsCommon.MyMessageBoxShow(Me, "Please select Report Type ", Me.Text)
                 Exit Sub
             End If
-            Qry = "Select max(To_LocationCode) as To_LocationCode,max(To_LocationName)To_LocationName,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate,  Max(xxx.Item_Desc)Item_Desc,
+            If ddlDefaultReportUOM.SelectedIndex = 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select Quantity conversion type", Me.Text)
+                Exit Sub
+            End If
+            Qry = "Select  "
+            If clsCommon.CompairString(ddlReportType.SelectedValue, "Party Wise") = CompairStringResult.Equal Then
+                Qry += "  To_LocationCode,Max(xxx.Item_Desc)Item_Desc "
+            ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Item Wise") = CompairStringResult.Equal Then
+                Qry += " Item_Code,Max(xxx.Item_Desc)Item_Desc,right(Document_No,5) as BillNo,format(Document_Date,'dd-MM-yyyy') as Document_Date,(To_LocationCode) as To_LocationCode"
+            End If
+
+            Qry += " ,'" & objCommonVar.CurrentUser & "' as UserName ,max(To_LocationName)To_LocationName,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate,  Max(xxx.Item_Desc)Item_Desc,
                         SUM(xxx.item_Net_Amt) AS Total_Item_Net_Amt,
                         SUM(xxx.Quantity) AS Total_Quantity,
                         SUM(xxx.Report_UOM_Qty)Report_UOM_Qty
-                        ,MAX(Report_UOM)Report_UOM,
+                        ,MAX(Report_UOM)Report_UOM,sum(DefRepUOM_Qty) as DefRepUOM_Qty,MAX(DefRepUOM)DefRepUOM,
                         max(xxx.UOM1) as UOM1,
                         max(xxx.UOM2) as UOM2,
                         SUM(xxx.Weight) AS Total_Weight,
@@ -754,7 +773,7 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
                         MAX(xxx.add1) as add1,
                         MAX(xxx.To_LocationName) as Location_Desc,
                         SUM(xxx.DOC_Total_Amt) AS Total_Doc_Total_Amt,
-                        SUM(xxx.Amount) AS Total_Amount,
+                        SUM(xxx.Amount) AS Total_Amount,max(price.Item_MRP) AS Item_MRP,
                         SUM(price.TotalAmount) AS Total_Taxable_Amount,
                         SUM(price.Product_value) AS Total_Product_Value,
                         SUM(price.PTax1_Amt) AS Total_PTax1_Amt,
@@ -766,7 +785,7 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
                         SUM(price.PTax7_Amt) AS Total_PTax7_Amt,
                         SUM(price.PTax8_Amt) AS Total_PTax8_Amt,
                         SUM(price.PTax9_Amt) AS Total_PTax9_Amt,
-                        SUM(price.PTax10_Amt) AS Total_PTax10_Amt from (select TSPL_TRANSFER_ORDER_HEAD.Price_Code,TSPL_TRANSFER_ORDER_DETAIL.Document_No, TSPL_TRANSFER_ORDER_HEAD.Document_Date,        TSPL_TRANSFER_ORDER_DETAIL.item_Net_Amt ,TSPL_TRANSFER_ORDER_DETAIL.item_code,TSPL_TRANSFER_ORDER_DETAIL.mrp,TSPL_TRANSFER_ORDER_DETAIL.Item_Desc , TSPL_TRANSFER_ORDER_DETAIL.Item_Cost AS Item_Cost,  TSPL_TRANSFER_ORDER_DETAIL.Out_Qty as Quantity,isnull((TSPL_TRANSFER_ORDER_DETAIL.Out_Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) As Report_UOM_Qty,I.UOM_Code as Report_UOM ,TSPL_TRANSFER_ORDER_DETAIL.Unit_code as UOM1,TSPL_ITEM_MASTER.Weight_UOM as UOM2, TSPL_ITEM_MASTER.Weight_Value as Weight,((TSPL_TRANSFER_ORDER_DETAIL.Out_Qty*tspl_item_uom_detail.Conversion_Factor)/CFinLTR.Conversion_Factor ) As TotalQty, CFinLTR.UOM_Code As TotalQtyUOM,TSPL_COMPANY_MASTER.Comp_Name AS CompName,TSPL_COMPANY_MASTER.Add1,TSPL_LOCATION_MASTER_2.Location_Code as To_LocationCode,TSPL_LOCATION_MASTER_2.Location_Desc as To_LocationName,TSPL_LOCATION_MASTER.Location_Code as FromLocation,
+                        SUM(price.PTax10_Amt) AS Total_PTax10_Amt from (select TSPL_TRANSFER_ORDER_HEAD.Price_Code,TSPL_TRANSFER_ORDER_DETAIL.Document_No, TSPL_TRANSFER_ORDER_HEAD.Document_Date,TSPL_TRANSFER_ORDER_DETAIL.item_Net_Amt ,TSPL_TRANSFER_ORDER_DETAIL.item_code,TSPL_TRANSFER_ORDER_DETAIL.mrp,TSPL_TRANSFER_ORDER_DETAIL.Item_Desc , TSPL_TRANSFER_ORDER_DETAIL.Item_Cost AS Item_Cost,  TSPL_TRANSFER_ORDER_DETAIL.Out_Qty as Quantity,isnull((TSPL_TRANSFER_ORDER_DETAIL.Out_Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) As Report_UOM_Qty,I.UOM_Code as Report_UOM,isnull((TSPL_TRANSFER_ORDER_DETAIL.Out_Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(Report_UOM.Conversion_Factor),0)  As DefRepUOM_Qty,Report_UOM.UOM_Code as DefRepUOM ,TSPL_TRANSFER_ORDER_DETAIL.Unit_code as UOM1,TSPL_ITEM_MASTER.Weight_UOM as UOM2, TSPL_ITEM_MASTER.Weight_Value as Weight,((TSPL_TRANSFER_ORDER_DETAIL.Out_Qty*tspl_item_uom_detail.Conversion_Factor)/CFinLTR.Conversion_Factor ) As TotalQty, CFinLTR.UOM_Code As TotalQtyUOM,TSPL_COMPANY_MASTER.Comp_Name AS CompName,TSPL_COMPANY_MASTER.Add1,TSPL_LOCATION_MASTER_2.Location_Code as To_LocationCode,TSPL_LOCATION_MASTER_2.Location_Desc as To_LocationName,TSPL_LOCATION_MASTER.Location_Code as FromLocation,
                         TSPL_TRANSFER_ORDER_HEAD.DOC_Total_Amt,TSPL_TRANSFER_ORDER_DETAIL.Amount,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate 
                         from TSPL_TRANSFER_ORDER_DETAIL 
                         join TSPL_TRANSFER_ORDER_HEAD  on TSPL_TRANSFER_ORDER_HEAD.Document_No   =TSPL_TRANSFER_ORDER_DETAIL.Document_No  
@@ -780,6 +799,7 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
                         LEFT OUTER JOIN TSPL_STATE_MASTER AS TSPL_STATE_MASTER_For_Comp  ON TSPL_STATE_MASTER_For_Comp.STATE_CODE  =TSPL_COMPANY_MASTER.State  
                         left outer join tspl_item_uom_detail on tspl_item_uom_detail.item_code=TSPL_TRANSFER_ORDER_DETAIL.item_code and tspl_item_uom_detail.uom_code=TSPL_TRANSFER_ORDER_DETAIL.unit_code  
                         LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where Report_UOM = 1 ) as  I ON TSPL_TRANSFER_ORDER_DETAIL.Item_Code = I.item_code
+                        LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where " + ddlDefaultReportUOM.SelectedValue + " = 1 ) as  Report_UOM ON TSPL_TRANSFER_ORDER_DETAIL.Item_Code = Report_UOM.item_code 
                         left outer join tspl_item_uom_detail alt_convrsn on alt_convrsn.item_code=TSPL_TRANSFER_ORDER_DETAIL.item_code and alt_convrsn.uom_code=TSPL_TRANSFER_ORDER_DETAIL.alt_unit_code  
                         left outer join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.transport_id=TSPL_TRANSFER_ORDER_HEAD.transport_id  
                         LEFT OUTER JOIN tspl_location_master  AS tspl_location_master_For_Location ON tspl_location_master_For_Location.GIT_Location =TSPL_TRANSFER_ORDER_HEAD.To_Location  
@@ -830,9 +850,9 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
                 Qry += " And To_LocationCode In (" & clsCommon.GetMulcallString(txtToLocation.arrValueMember) & ") "
             End If
             If clsCommon.CompairString(ddlReportType.SelectedValue, "Party Wise") = CompairStringResult.Equal Then
-                Qry += "  GROUP BY  To_LocationCode,Item_Code order by To_LocationName,Item_Desc"
+                Qry += "  GROUP BY  To_LocationCode,Item_Code order by To_LocationName,max(xxx.Item_Desc)"
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Item Wise") = CompairStringResult.Equal Then
-                ' Qry += "  GROUP BY Item_Code order by Customer_Name,Item_Desc"
+                Qry += "  GROUP BY Item_Code,Document_No,Document_Date ,To_LocationCode order by max(xxx.Item_Desc),BillNo,Document_Date,To_LocationName "
             End If
             dt = clsDBFuncationality.GetDataTable(Qry)
 
@@ -856,7 +876,12 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
                     gv1.BestFitColumns()
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptSTSRegister-ItemWiseSummary", "STS Register Item Wise Summary")
+                    If clsCommon.CompairString(ddlReportType.SelectedValue, "Party Wise") = CompairStringResult.Equal Then
+                        frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptSTSRegister-ItemWiseSummary", "STS Register Item Wise Summary")
+                    ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Item Wise") = CompairStringResult.Equal Then
+                        frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptSTSRegister-ItemPartyWiseSummary ", "STS Register Item Party Wise Summary")
+                    End If
+
                     frmCRV = Nothing
 
                 End If
@@ -2861,6 +2886,8 @@ where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.V
             LoadBoothSaleDateShiftWiseData(True)
         ElseIf rbtnBoothSaleItemWise.IsChecked Then
             LoadBoothSaleItemWiseData(True)
+        ElseIf rbtnSalesRegister.IsChecked Then
+            LoadSalesRegisterData(True)
         Else
             isPrint = True
             LoadData()
@@ -2917,6 +2944,9 @@ where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.V
  Select 'Product' as Code,'Product' as Name 
             union all 
  Select 'Both' as Code,'Both' as Name "
+            ElseIf rbtnSalesRegister.IsChecked Then
+                qry += " union all Select 'Taxable' as Code,'Taxable' as Name  union all 
+ Select 'Non Taxable' as Code,'Non Taxable' as Name  "
             End If
             ddlType.DataSource = clsDBFuncationality.GetDataTable(qry)
             ddlType.ValueMember = "Code"
@@ -2948,7 +2978,7 @@ where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.V
         End Try
     End Sub
 
-    Private Sub rbtnStockStatement_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnStockStatement.ToggleStateChanged, rbtnMilkSale.ToggleStateChanged, rbtnDistributorCollStatement.ToggleStateChanged, rbtnBoothSaleDateShiftWise.ToggleStateChanged, rbtnBoothSaleItemWise.ToggleStateChanged, BtnPartySaleMilkProduct.ToggleStateChanged, BtnProductSalesSummary.ToggleStateChanged, BtnBillWiseSaleOfMilkSummary.ToggleStateChanged, BtnStcRegisterPartyandItemWiseSummary.ToggleStateChanged, BtnStcRegisterItemWiseSummary.ToggleStateChanged
+    Private Sub rbtnStockStatement_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnStockStatement.ToggleStateChanged, rbtnMilkSale.ToggleStateChanged, rbtnDistributorCollStatement.ToggleStateChanged, rbtnBoothSaleDateShiftWise.ToggleStateChanged, rbtnBoothSaleItemWise.ToggleStateChanged, BtnPartySaleMilkProduct.ToggleStateChanged, BtnProductSalesSummary.ToggleStateChanged, BtnBillWiseSaleOfMilkSummary.ToggleStateChanged, BtnStcRegisterPartyandItemWiseSummary.ToggleStateChanged, BtnStcRegisterItemWiseSummary.ToggleStateChanged, rbtnSalesRegister.ToggleStateChanged
         If rbtnStockStatement.IsChecked Then
             txtLocation.Visible = True
             lblLocation.Visible = True
@@ -3062,6 +3092,9 @@ where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.V
             txtToLocation.Visible = False
             lblReportType.Visible = False
             ddlReportType.Visible = False
+            lblQtyConv.Visible = False
+            ddlQtyConversionType.Visible = False
+            ddlDefaultReportUOM.Visible = False
             If BtnStcRegisterItemWiseSummary.IsChecked Then
                 lblLocation.Text = "From Location"
                 lblToLocation.Visible = True
@@ -3069,18 +3102,36 @@ where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.V
                 lblReportType.Visible = True
                 ddlReportType.Visible = True
                 LoadReportType()
+                lblQtyConv.Visible = True
+                ddlDefaultReportUOM.Visible = True
+                LoadDefaultReportUOMType()
             Else
                 lblLocation.Text = "Location"
             End If
-
             txtRoute.Visible = False
             lblRoute.Visible = False
-            lblQtyConv.Visible = False
-            ddlQtyConversionType.Visible = False
-            ddlDefaultReportUOM.Visible = False
             RadGroupBox4.Visible = False
             lblType.Visible = False
             ddlType.Visible = False
+        ElseIf rbtnSalesRegister.IsChecked Then
+            btnGo.Enabled = True
+            RadSplitButton1.Enabled = True
+            txtLocation.Visible = False
+            lblLocation.Visible = False
+            lblToLocation.Visible = False
+            txtToLocation.Visible = False
+            lblReportType.Visible = False
+            ddlReportType.Visible = False
+            lblQtyConv.Visible = True
+            ddlQtyConversionType.Visible = False
+            ddlDefaultReportUOM.Visible = True
+            LoadDefaultReportUOMType()
+            txtRoute.Visible = False
+            lblRoute.Visible = False
+            RadGroupBox4.Visible = False
+            lblType.Visible = True
+            ddlType.Visible = True
+            LoadType()
         Else
             lblToLocation.Visible = False
             txtToLocation.Visible = False
@@ -3117,6 +3168,369 @@ where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.V
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+    Sub LoadSalesRegisterData(ByVal Print As Boolean)
+        Try
+            Dim WhrCust As String = ""
+            Dim Sublocn As String = ""
+            Dim item As String = ""
+            Dim dt As DataTable = Nothing
+            Dim strtxtfDate As String = clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy")
+            Dim strToDate As String = clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy")
+            Dim qry As String = ""
+            Dim Baseqry As String = ""
+            If ddlDefaultReportUOM.SelectedIndex = 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select Quantity conversion type", Me.Text)
+                Exit Sub
+            End If
+            If ddlType.SelectedIndex = 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select Type", Me.Text)
+                Exit Sub
+            End If
+            Baseqry = " select  
+        CASE WHEN EXISTS ( SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD 
+        LEFT JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
+        WHERE TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
+          AND TSPL_SD_SHIPMENT_HEAD.Against_Booking_No IS NOT NULL)  And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC'  THEN 'CUSTOMER BOOKING'
+		  WHEN EXISTS (SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD 
+        LEFT JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
+        WHERE TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
+          AND TSPL_SD_SHIPMENT_HEAD.Against_Booking_No IS NULL AND ISNULL(TSPL_BOOKING_MATSER.Is_APS,0) = 0
+          AND TSPL_SD_SHIPMENT_HEAD.Item_Type = 'S') And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' THEN 'DISPATCH'
+		  WHEN EXISTS (SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD 
+        LEFT JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
+        WHERE TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
+          AND TSPL_SD_SHIPMENT_HEAD.Against_Booking_No IS NULL AND ISNULL(TSPL_BOOKING_MATSER.Is_APS,0) = 0
+          AND TSPL_SD_SHIPMENT_HEAD.Item_Type In ('P','I')) And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' THEN 'PRODUCT DISPATCH'
+		  WHEN EXISTS (SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD 
+		  LEFT JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
+        WHERE TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
+          AND TSPL_SD_SHIPMENT_HEAD.Against_Booking_No IS NULL AND (TSPL_BOOKING_MATSER.Is_APS=1 OR TSPL_SD_SHIPMENT_HEAD.Screen_Type= ('CT'))) And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' THEN 'APS SALES'
+        WHEN TSPL_SD_SALE_INVOICE_HEAD.IsMultipleInvoice = 1 THEN 'MULTIPLE INVOICE'	  
+ELSE 'DCS SALE' END AS Transcation_Type,
+case when TSPL_SD_SALE_INVOICE_HEAD.Status=1 then 'Approved' else'Pending' end as Doc_Status,
+TSPL_CUSTOMER_MASTER.Cust_Type_Code as[Customer Type],
+TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location AS [Location],
+TSPL_SD_SALE_INVOICE_HEAD.Sub_Location_code AS [Sub Location],
+Convert(varchar(20),TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Invoice_Date,TSPL_SD_SHIPMENT_HEAD.Shift_Type,
+TSPL_SD_SALE_INVOICE_HEAD.Document_Code as Invoice_No,
+TSPL_SD_SALE_INVOICE_HEAD.Route_No as [Route No],
+TSPL_CUSTOMER_MASTER.Cust_Code as[Party Code],
+TSPL_CUSTOMER_MASTER.Customer_Name AS [Party Name],
+ TSPL_LOCATION_MASTER.GSTNO AS [GST No],
+ TSPL_CUSTOMER_MASTER.GSTNO as [Customer GSTNo],
+  TSPL_STATE_MASTER.GST_STATE_Code AS [State Code],
+   TSPL_SD_SALE_INVOICE_DETAIL.Item_Code as [Item Code],
+tspl_item_master.Item_Desc as [Item Name],TSPL_SD_SALE_INVOICE_DETAIL.item_cost As [Rate],
+TSPL_SD_SALE_INVOICE_DETAIL.Billing_Unit_code as [Measure of Qty],
+  TSPL_SD_SALE_INVOICE_DETAIL.Billing_Qty as [Product Qty],
+  tspl_item_master.HSN_Code,
+  case when TSPL_SD_SALE_INVOICE_DETAIL.Tax1='KKF' or TSPL_SD_SALE_INVOICE_DETAIL.Tax2='KKF' then (case when TSPL_SD_SALE_INVOICE_DETAIL.tax3='IGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate else  TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate + TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Rate end ) else (case when  TSPL_SD_SALE_INVOICE_DETAIL.tax1='IGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate else TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate +TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Rate end)end as [IGST Rate], 
+     TSPL_SD_SALE_INVOICE_DETAIL.Amount as[ItemBasic Amt],
+    TSPL_SD_SALE_INVOICE_DETAIL.disc_Amt as[Margin Amt],
+  TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Discount as [Basic Amt] 
+,Convert(decimal(18,2),CASE WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX1='KKF'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX2='KKF'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt 
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX3='KKF'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt 
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX4='KKF'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Amt 
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX5='KKF'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Amt 
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX6='KKF'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX6_Amt 
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX7='KKF'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Amt 
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX8='KKF'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Amt 
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX9='KKF'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Amt 
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX10='KKF' THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Amt else 0  END) AS [KKF],
+					CASE When Tax1.Type='M'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt
+    				WHEN Tax2.Type='M' THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt
+    				WHEN Tax3.Type='M' THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt
+    				WHEN Tax4.Type='M' THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Amt
+    				WHEN Tax5.Type='M' THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Amt
+    				WHEN Tax6.Type='M' THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX6_Amt
+    				WHEN Tax7.Type='M' THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Amt
+    				WHEN Tax8.Type='M' THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Amt
+    				WHEN Tax9.Type='M' THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Amt
+    				WHEN Tax10.Type='M' THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Amt else 0 END AS [Mandi Tax Amt],
+					CASE WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX1='TCS'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX2='TCS'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX3='TCS'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX4='TCS'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX5='TCS'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX6='TCS'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX6_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX7='TCS'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX8='TCS'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX9='TCS'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX10='TCS' THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Amt  else 0 END AS [Party TCS Amt],
+					CASE WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX1='CGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX2='CGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX3='CGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX4='CGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX5='CGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX6='CGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX6_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX7='CGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX8='CGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX9='CGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX10='CGST' THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Amt else 0 END AS [CGST Amt],
+					Convert(decimal(18,2),CASE WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX1='SGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX2='SGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX3='SGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX4='SGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX5='SGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX6='SGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX6_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX7='SGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX8='SGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX9='SGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX10='SGST' THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Amt else 0 END) AS [SGST Amt],
+					
+					CASE WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX1='IGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX2='IGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX3='IGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX4='IGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX5='IGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX6='IGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX6_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX7='IGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX8='IGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX9='IGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Amt
+    				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX10='IGST' THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Amt  else 0 END AS [IGST Amt],
+                    TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt as [Total Tax Amt],
+					TSPL_SD_SALE_INVOICE_Detail.Item_Net_Amt as [Total Amt],
+					 case  when TSPL_CUSTOMER_MASTER.GSTNO is null or  TSPL_CUSTOMER_MASTER.GSTNO = ''  then  'B2C' else 'B2B' end as [B2B/B2C],
+TSPL_SD_SALE_INVOICE_HEAD.Ack_No,TSPL_SD_SALE_INVOICE_HEAD.Ack_Date,TSPL_SD_SALE_INVOICE_HEAD.IRN_No,
+Report_UOM.UOM_Code as Report_UOM,
+(Billing_Qty * tspl_item_uom_detail.Conversion_Factor/Report_UOM.Conversion_Factor ) as ReportUOM_Qty
+,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt as [Subsidy Amt],Case when TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable=1 then 'Taxable' else 'Non-Taxable' end as [Invoice Type],
+TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SD_SALE_INVOICE_HEAD.Created_By,Convert(varchar(20),TSPL_SD_SALE_INVOICE_HEAD.Created_Date,103) as Created_Date,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt As [Bill Amount]
+
+                         from TSPL_SD_SALE_INVOICE_HEAD
+left join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.Document_Code
+left  join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
+LEFT JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
+left join tspl_item_uom_detail  on tspl_item_uom_detail.item_code=TSPL_SD_SALE_INVOICE_DETAIL.item_code and tspl_item_uom_detail.UOM_Code=TSPL_SD_SALE_INVOICE_DETAIL.Unit_code
+LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where " + ddlDefaultReportUOM.SelectedValue + " = 1 ) as  Report_UOM ON TSPL_SD_SALE_INVOICE_DETAIL.Item_Code = Report_UOM.item_code 
+LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
+ LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
+left outer join TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code= TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
+ LEFT OUTER JOIN TSPL_STATE_MASTER ON TSPL_CUSTOMER_MASTER.State = TSPL_STATE_MASTER.STATE_CODE
+ left outer join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
+left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_SD_SALE_INVOICE_HEAD.tax1
+            left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_SD_SALE_INVOICE_HEAD.tax2  
+             left outer join tspl_tax_master as tax3 on tax3.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD .TAX3  
+            left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_SD_SALE_INVOICE_HEAD .tax4  
+            left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD .tax5  
+            left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX6  
+             left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX7 
+              left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX8
+            left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX9 
+              left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX10 
+where convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>=Convert( Date,'" + strtxtfDate + "',103) and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)<=Convert( Date,'" + strToDate + "',103)"
+
+            If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
+                Baseqry += " and tspl_customer_master.cust_code in(" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                Baseqry += " and TSPL_SD_SALE_INVOICE_HEAD.Sub_Location_code in(" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
+                Baseqry += " and TSPL_SD_SALE_INVOICE_DETAIL.Item_Code in(" + clsCommon.GetMulcallString(txtItem.arrValueMember) + ")" + Environment.NewLine
+            End If
+
+            Baseqry += "            union all
+
+select  'MATERIAL SALE' as Transcation_Type,case when TSPL_SCRAPINVOICE_HEAD.ispost=1 then 'Approved' else'Pending' end as Doc_Status,
+TSPL_CUSTOMER_MASTER.Cust_Type_Code as[Customer Type],
+TSPL_SCRAPINVOICE_HEAD.Loc_Code AS [Location],
+TSPL_SCRAPINVOICE_HEAD.Sub_Location_code AS [Sub Location],
+Convert(varchar(20),TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) as Invoice_Date,'' as Shift_Type,
+TSPL_SCRAPINVOICE_HEAD.invoice_No as Invoice_No,
+TSPL_ROUTE_MASTER.Route_No as [Route No],
+TSPL_CUSTOMER_MASTER.Cust_Code as[Party Code],
+TSPL_CUSTOMER_MASTER.Customer_Name AS [Party Name],
+ TSPL_LOCATION_MASTER.GSTNO AS [GST No],
+ TSPL_CUSTOMER_MASTER.GSTNO as [Customer GSTNo],
+  TSPL_STATE_MASTER.GST_STATE_Code AS [State Code],
+   TSPL_SCRAPINVOICE_Detail.Item_Code as [Item Code],
+tspl_item_master.Item_Desc as [Item Name],TSPL_SCRAPINVOICE_Detail.Price As [Rate],
+TSPL_SCRAPINVOICE_Detail.Unit_code as [Measure of Qty],
+  TSPL_SCRAPINVOICE_Detail.shipped_Qty as [Product Qty],
+  tspl_item_master.HSN_Code,
+  case when TSPL_SCRAPINVOICE_Detail.Tax1='KKF' or TSPL_SCRAPINVOICE_Detail.Tax2='KKF' then (case when TSPL_SCRAPINVOICE_Detail.tax3='IGST' then TSPL_SCRAPINVOICE_Detail.TAX3_Rate else  TSPL_SCRAPINVOICE_Detail.TAX3_Rate + TSPL_SCRAPINVOICE_Detail.TAX4_Rate end ) else (case when  TSPL_SCRAPINVOICE_Detail.tax1='IGST' then TSPL_SCRAPINVOICE_Detail.TAX1_Rate else TSPL_SCRAPINVOICE_Detail.TAX1_Rate +TSPL_SCRAPINVOICE_Detail.TAX2_Rate end)end as [IGST Rate], 
+  --case when TSPL_SCRAPINVOICE_Detail.Tax1='KKF' or TSPL_SCRAPINVOICE_Detail.Tax2='KKF' then (case when TSPL_SCRAPINVOICE_Detail.tax3='IGST' then TSPL_SCRAPINVOICE_Detail.TAX3_Base_Amt else  TSPL_SCRAPINVOICE_Detail.TAX3_Base_Amt end ) else (case when  TSPL_SCRAPINVOICE_Detail.tax1='IGST' then TSPL_SCRAPINVOICE_Detail.TAX1_Base_Amt else TSPL_SCRAPINVOICE_Detail.TAX1_Base_Amt end)end as [Basic Amt]
+     TSPL_SCRAPINVOICE_HEAD.Discount_Base as[ItemBasic Amt],
+    TSPL_SCRAPINVOICE_HEAD.Discount_Amt as[Margin Amt],
+  TSPL_SCRAPINVOICE_HEAD.Amount_Less_Discount as [Basic Amt] 
+,Convert(decimal(18,2),CASE WHEN TSPL_SCRAPINVOICE_Detail.TAX1='KKF'  THEN TSPL_SCRAPINVOICE_Detail.TAX1_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX2='KKF'  THEN TSPL_SCRAPINVOICE_Detail.TAX2_Amt 
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX3='KKF'  THEN TSPL_SCRAPINVOICE_Detail.TAX3_Amt 
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX4='KKF'  THEN TSPL_SCRAPINVOICE_Detail.TAX4_Amt 
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX5='KKF'  THEN TSPL_SCRAPINVOICE_Detail.TAX5_Amt 
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX6='KKF'  THEN TSPL_SCRAPINVOICE_Detail.TAX6_Amt 
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX7='KKF'  THEN TSPL_SCRAPINVOICE_Detail.TAX7_Amt 
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX8='KKF'  THEN TSPL_SCRAPINVOICE_Detail.TAX8_Amt 
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX9='KKF'  THEN TSPL_SCRAPINVOICE_Detail.TAX9_Amt 
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX10='KKF' THEN TSPL_SCRAPINVOICE_Detail.TAX10_Amt else 0  END) AS [KKF],
+					CASE When Tax1.Type='M'  THEN TSPL_SCRAPINVOICE_Detail.TAX1_Amt
+    				WHEN Tax2.Type='M' THEN TSPL_SCRAPINVOICE_Detail.TAX2_Amt
+    				WHEN Tax3.Type='M' THEN TSPL_SCRAPINVOICE_Detail.TAX3_Amt
+    				WHEN Tax4.Type='M' THEN TSPL_SCRAPINVOICE_Detail.TAX4_Amt
+    				WHEN Tax5.Type='M' THEN TSPL_SCRAPINVOICE_Detail.TAX5_Amt
+    				WHEN Tax6.Type='M' THEN TSPL_SCRAPINVOICE_Detail.TAX6_Amt
+    				WHEN Tax7.Type='M' THEN TSPL_SCRAPINVOICE_Detail.TAX7_Amt
+    				WHEN Tax8.Type='M' THEN TSPL_SCRAPINVOICE_Detail.TAX8_Amt
+    				WHEN Tax9.Type='M' THEN TSPL_SCRAPINVOICE_Detail.TAX9_Amt
+    				WHEN Tax10.Type='M' THEN TSPL_SCRAPINVOICE_Detail.TAX10_Amt else 0 END AS [Mandi Tax Amt],
+					CASE WHEN TSPL_SCRAPINVOICE_Detail.TAX1='TCS'  THEN TSPL_SCRAPINVOICE_Detail.TAX1_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX2='TCS'  THEN TSPL_SCRAPINVOICE_Detail.TAX2_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX3='TCS'  THEN TSPL_SCRAPINVOICE_Detail.TAX3_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX4='TCS'  THEN TSPL_SCRAPINVOICE_Detail.TAX4_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX5='TCS'  THEN TSPL_SCRAPINVOICE_Detail.TAX5_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX6='TCS'  THEN TSPL_SCRAPINVOICE_Detail.TAX6_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX7='TCS'  THEN TSPL_SCRAPINVOICE_Detail.TAX7_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX8='TCS'  THEN TSPL_SCRAPINVOICE_Detail.TAX8_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX9='TCS'  THEN TSPL_SCRAPINVOICE_Detail.TAX9_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX10='TCS' THEN TSPL_SCRAPINVOICE_Detail.TAX10_Amt  else 0 END AS [Party TCS Amt],
+					CASE WHEN TSPL_SCRAPINVOICE_Detail.TAX1='CGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX1_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX2='CGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX2_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX3='CGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX3_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX4='CGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX4_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX5='CGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX5_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX6='CGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX6_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX7='CGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX7_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX8='CGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX8_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX9='CGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX9_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX10='CGST' THEN TSPL_SCRAPINVOICE_Detail.TAX10_Amt else 0 END AS [CGST Amt],
+					Convert(decimal(18,2),CASE WHEN TSPL_SCRAPINVOICE_Detail.TAX1='SGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX1_Rate
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX2='SGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX2_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX3='SGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX3_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX4='SGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX4_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX5='SGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX5_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX6='SGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX6_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX7='SGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX7_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX8='SGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX8_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX9='SGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX9_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX10='SGST' THEN TSPL_SCRAPINVOICE_Detail.TAX10_Amt else 0 END) AS [SGST Amt],
+					CASE WHEN TSPL_SCRAPINVOICE_Detail.TAX1='IGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX1_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX2='IGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX2_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX3='IGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX3_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX4='IGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX4_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX5='IGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX5_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX6='IGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX6_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX7='IGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX7_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX8='IGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX8_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX9='IGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX9_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX10='IGST' THEN TSPL_SCRAPINVOICE_Detail.TAX10_Amt  else 0 END AS [IGST Amt],
+                    TSPL_SCRAPINVOICE_DETAIL.TotalTaxAmt as [Total Tax Amt],
+					TSPL_SCRAPINVOICE_Detail.TotalAmt as [Total Amt],
+					 case  when TSPL_CUSTOMER_MASTER.GSTNO is null or  TSPL_CUSTOMER_MASTER.GSTNO = ''  then  'B2C' else 'B2B' end as [B2B/B2C],
+TSPL_SCRAPINVOICE_HEAD.Ack_No,TSPL_SCRAPINVOICE_HEAD.Ack_Date,TSPL_SCRAPINVOICE_HEAD.IRN_No
+,Report_UOM.UOM_Code as Report_UOM,
+(shipped_Qty * tspl_item_uom_detail.Conversion_Factor/Report_UOM.Conversion_Factor ) as ReportUOM_Qty,0 as [Subsidy Amt], TSPL_SCRAPINVOICE_HEAD.Invoice_Type as [Invoice Type],
+TSPL_SCRAPINVOICE_HEAD.EWayBillNo,TSPL_SCRAPINVOICE_HEAD.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SCRAPINVOICE_HEAD.Created_By,Convert(varchar(20),TSPL_SCRAPINVOICE_HEAD.Created_Date,103) as Created_Date,TSPL_SCRAPINVOICE_HEAD.Doc_Amt As [Bill Amount]
+                           from TSPL_SCRAPINVOICE_HEAD
+                    left join TSPL_SCRAPINVOICE_Detail on TSPL_SCRAPINVOICE_Detail.invoice_No=TSPL_SCRAPINVOICE_HEAD.invoice_No
+                    LEFT JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SCRAPINVOICE_Detail.Item_Code
+                    left join tspl_item_uom_detail  on tspl_item_uom_detail.item_code=TSPL_SCRAPINVOICE_Detail.item_code and tspl_item_uom_detail.UOM_Code=TSPL_SCRAPINVOICE_Detail.Unit_code
+                        LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where " + ddlDefaultReportUOM.SelectedValue + " = 1 ) as  Report_UOM ON TSPL_SCRAPINVOICE_Detail.Item_Code = Report_UOM.item_code 
+                    LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = TSPL_SCRAPINVOICE_HEAD.Loc_Code
+                     LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SCRAPINVOICE_HEAD.cust_Code
+                    left outer join TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code= TSPL_SCRAPINVOICE_HEAD.cust_Code
+                     LEFT OUTER JOIN TSPL_STATE_MASTER ON TSPL_CUSTOMER_MASTER.State = TSPL_STATE_MASTER.STATE_CODE
+                     left outer join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
+left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_SCRAPINVOICE_HEAD.tax1
+            left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_SCRAPINVOICE_HEAD.tax2  
+             left outer join tspl_tax_master as tax3 on tax3.Tax_Code=TSPL_SCRAPINVOICE_HEAD .TAX3  
+            left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_SCRAPINVOICE_HEAD .tax4  
+            left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_SCRAPINVOICE_HEAD .tax5  
+            left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_SCRAPINVOICE_HEAD .TAX6  
+             left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_SCRAPINVOICE_HEAD .TAX7 
+              left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =TSPL_SCRAPINVOICE_HEAD .TAX8
+            left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_SCRAPINVOICE_HEAD .TAX9 
+              left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_SCRAPINVOICE_HEAD .TAX10 
+                    where convert(date,shipment_Date,103)>=Convert( Date,'" + strtxtfDate + "',103) and convert(date,shipment_Date,103)<=Convert( Date,'" + strToDate + "',103)  "
+
+            If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
+                Baseqry += " and tspl_customer_master.cust_code in(" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                Baseqry += " and TSPL_SCRAPINVOICE_HEAD.Sub_Location_code in(" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
+                Baseqry += " and TSPL_SCRAPINVOICE_Detail.Item_Code in(" + clsCommon.GetMulcallString(txtItem.arrValueMember) + ")" + Environment.NewLine
+            End If
+
+            If Print Then
+                    qry &= " Select xx.*,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,TSPL_COMPANY_MASTER.State,TSPL_STATE_MASTER.STATE_NAME,TSPL_COMPANY_MASTER.Pincode from ("
+                qry &= " Select ROW_NUMBER() OVER (PARTITION BY Invoice_No ORDER BY [Item Code]) AS SNo,Max(PrintBy)PrintBy,Max(FromDate)FromDate,Max(ToDate)ToDate,Max([Transcation Type])[Transcation Type],MAX([Customer Type])[Customer Type],Max([Doc Status])[Doc Status],Max(Location)Location,Max([Location GST])[Location GST],Max([Sub Location])[Sub Location],Invoice_Date,Shift,Invoice_No,Max([Invoice Type])[Invoice Type],Max([Route No])[Route No],([Party Code])[Party Code],Max([DCS Uploader])[DCS Uploader],Max([Party Name])[Party Name],
+                    Max([Customer GSTNo])[Customer GSTNo],Max([Party State Code])[Party State Code],[Item Code],Max([Item Name])[Item Name],Max([HSN Code])[HSN Code],Max([Measure of Qty])[Measure of Qty],Sum([Product Qty])[Product Qty],Max([Report UOM])[Report UOM],Max(Rate)Rate,
+					Sum(CAST([ReportUOM Qty] AS DECIMAL(18,2))) AS [ReportUOM Qty],
+					Max(Cast(([GST Rate]) as decimal(10,2)))[GST Rate],Sum(cast(([ItemBasic Amt]) as decimal(10,2)))[ItemBasic Amt],
+					Sum(cast(([Margin Amt]) as decimal(10,2)))[Margin Amt],Sum(Cast(([Basic Amt]) as Decimal(10,2)))[Basic Amt],Sum(Cast((KKF) as decimal(10,2)))KKF,
+					Sum(Cast(([Mandi Tax Amt]) as Decimal(10,2)))[Mandi Tax Amt],Sum(Cast(([Party TCS Amt]) as Decimal(10,2)))[Party TCS Amt],
+                        Sum(Cast(([CGST Amt]) as Decimal(10,2)))[CGST Amt],SUm(Cast(([SGST Amt]) as Decimal(10,2)))[SGST Amt],Sum(Cast(([IGST Amt]) as decimal(10,2)))[IGST Amt],Sum(cast(([Total Tax Amt]) as decimal(10,2)))[Total Tax Amt],Sum(cast(([Total Amt]) as decimal(10,2)))[Total Amt],Sum(([Subsidy Amt]))[Subsidy Amt],Max([B2B/B2C])[B2B/B2C],Max([Ack No])[Ack No],Max([Ack Date])[Ack Date],Max([IRN No])[IRN No],Max(EWayBillNo)EWayBillNo,Max(EWayBillDate)EWayBillDate
+                    ,Max([Created By])[Created By],Max([Created Date])[Created Date],Max([Bill Amount])[Bill Amount] from ("
+            End If
+            qry &= "Select '" & objCommonVar.CurrentUser & "' As PrintBy,ROW_NUMBER() OVER (PARTITION BY xx.Invoice_No ORDER BY xx.[Item Code]) AS SNo,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd-MM-yyyy") & "' As FromDate,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd-MM-yyyy") & "' As ToDate,(Transcation_Type)[Transcation Type],([Customer Type])[Customer Type],(Doc_Status)[Doc Status],(Location)Location,([GST No])[Location GST],([Sub Location])[Sub Location],(Invoice_Date)Invoice_Date, case when Shift_Type = 'AM' then 'M' when Shift_Type = 'PM' then 'E' end as Shift,Invoice_No,([Invoice Type])[Invoice Type],([Route No])[Route No],([Party Code])[Party Code],VLC_Code_VLC_Uploader as [DCS Uploader],([Party Name])[Party Name],
+                    ([Customer GSTNo])[Customer GSTNo],([State Code])[Party State Code],[Item Code],[Item Name],HSN_Code AS [HSN Code],([Measure of Qty])[Measure of Qty],([Product Qty])[Product Qty],(Report_UOM)[Report UOM],Rate,CAST(ReportUOM_Qty AS DECIMAL(18,2)) AS [ReportUOM Qty],Cast(([IGST Rate]) as decimal(10,2))[GST Rate],cast(([ItemBasic Amt]) as decimal(10,2))[ItemBasic Amt],cast(([Margin Amt]) as decimal(10,2))[Margin Amt],Cast(([Basic Amt]) as Decimal(10,2))[Basic Amt],Cast((KKF) as decimal(10,2))KKF,Cast(([Mandi Tax Amt]) as Decimal(10,2))[Mandi Tax Amt],Cast(([Party TCS Amt]) as Decimal(10,2))[Party TCS Amt],
+                        Cast(([CGST Amt]) as Decimal(10,2))[CGST Amt],Cast(([SGST Amt]) as Decimal(10,2))[SGST Amt],Cast(([IGST Amt]) as decimal(10,2))[IGST Amt],cast(([Total Tax Amt]) as decimal(10,2))[Total Tax Amt],cast(([Total Amt]) as decimal(10,2))[Total Amt],([Subsidy Amt])[Subsidy Amt],([B2B/B2C])[B2B/B2C],(Ack_No)[Ack No],(Ack_Date)[Ack Date],(IRN_No)[IRN No],EWayBillNo,EWayBillDate,CASE WHEN ROW_NUMBER() OVER (PARTITION BY Invoice_No ORDER BY [Item Code] DESC) = 1 THEN [Bill Amount] Else 0 End As [Bill Amount]
+                    ,(Created_By)[Created By],(Created_Date)[Created Date]
+                    from (" & Baseqry & ")XX   "
+            qry &= " Where 1=1 "
+
+                If clsCommon.CompairString(ddlType.SelectedValue, "Taxable") = CompairStringResult.Equal Then
+                    qry &= " And XX.[Invoice Type]='Taxable' "
+                ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Non Taxable") = CompairStringResult.Equal Then
+                    qry &= " And XX.[Invoice Type]='Non-Taxable' "
+                End If
+                If txtTransaction.arrValueMember IsNot Nothing AndAlso txtTransaction.arrValueMember.Count > 0 Then
+                    qry += " And XX.Transcation_Type In(" + clsCommon.GetMulcallString(txtTransaction.arrValueMember) + ")" + Environment.NewLine
+                End If
+
+            If Print Then
+                qry &= " )xyz "
+                qry &= " Group By [Party Code],Invoice_No,Invoice_Date,shift,[Item Code] "
+                qry &= " )xx Left Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "'
+					          Left Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_MASTER.State"
+                qry += " order by xx.[Transcation Type], xx.Invoice_Date,shift desc "
+            End If
+
+            dt = clsDBFuncationality.GetDataTable(qry)
+            gv1.GroupDescriptors.Clear()
+            gv1.MasterTemplate.SummaryRowsBottom.Clear()
+            gv1.DataSource = Nothing
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                If Print Then
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Print", Me.Text)
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                End If
+                Exit Sub
+            Else
+                If Print Then
+                    Dim frm As New frmCrystalReportViewer()
+                    If clsCommon.CompairString(ddlType.SelectedValue, "Taxable") = CompairStringResult.Equal Then
+                        frm.funreport(Form_ID, CrystalReportFolder.SalesReport, dt, "crptSaleRegisterTaxable", "Sales Register (Bill Of Supply)")
+                    ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Non Taxable") = CompairStringResult.Equal Then
+                        frm.funreport(Form_ID, CrystalReportFolder.SalesReport, dt, "crptSaleRegisterNonTaxable", "Sales Register (Tax Invoice)")
+                    End If
+                    frm = Nothing
+                Else
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    gv1.GroupDescriptors.Clear()
+                    gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                    gv1.DataSource = dt
+                    gv1.AutoExpandGroups = True
+                    gv1.ShowGroupPanel = True
+                    gv1.ShowRowHeaderColumn = False
+                    gv1.AllowAddNewRow = False
+                    gv1.AllowDeleteRow = False
+                    gv1.EnableFiltering = True
+                    gv1.ShowFilteringRow = True
+                    'SetGridFormation()
+                    'EnableDisableControls(False)
+                    gv1.BestFitColumns()
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+        ReStoreGridLayout()
     End Sub
 End Class
 
