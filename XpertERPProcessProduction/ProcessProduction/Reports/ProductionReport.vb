@@ -33,6 +33,10 @@ Public Class ProductionReport
             'End If
             txtFromDate.Value = clsCommon.GETSERVERDATE()
             txtToDate.Value = clsCommon.GETSERVERDATE()
+            If clsCommon.myLen(objCommonVar.strDefaultUserLocation) > 0 Then
+                txtBillToLocation.arrValueMember = New ArrayList()
+                txtBillToLocation.arrValueMember.Add(objCommonVar.strDefaultUserLocation)
+            End If
             LOCATIONRIGTHS()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -490,11 +494,15 @@ Public Class ProductionReport
         Try
             Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
             Dim WhrCls As String = " Where Location_Type='Physical'  "
-            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                WhrCls += "  and  Location_Code in (" & objCommonVar.strCurrUserLocations & ")"
-            End If
-            If clsCommon.myLen(arrLoc) > 0 Then
-                WhrCls += " And Location_Code in (" & arrLoc & ")"
+            If clsCommon.myLen(objCommonVar.strDefaultUserLocation) > 0 Then
+                WhrCls += "  and  Location_Code in ('" & objCommonVar.strDefaultUserLocation & "')"
+            Else
+                If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                    WhrCls += "  and  Location_Code in (" & objCommonVar.strCurrUserLocations & ")"
+                End If
+                If clsCommon.myLen(arrLoc) > 0 Then
+                    WhrCls += " And Location_Code in (" & arrLoc & ")"
+                End If
             End If
             txtBillToLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("LocCode", qry & WhrCls, "Code", "Name", txtBillToLocation.arrValueMember, txtBillToLocation.arrDispalyMember)
         Catch ex As Exception

@@ -619,16 +619,23 @@ union all
     End Sub
 
     Private Sub txtLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocation._MYValidating
+        Try
+            Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
+            Dim WhrCls As String = " Location_Type='Physical'  "
+            If clsCommon.myLen(objCommonVar.strDefaultUserLocation) > 0 Then
+                WhrCls += "  and  Location_Code In ('" & objCommonVar.strDefaultUserLocation & "')"
+            Else
+                If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                    WhrCls += "  and  Location_Code in ('" & objCommonVar.strCurrUserLocations & "')"
+                End If
+            End If
 
-        Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
-        Dim WhrCls As String = " Location_Type='Physical'  "
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
-        End If
-
-        txtLocation.Value = clsCommon.ShowSelectForm("VendorMafnd", qry, "Code", WhrCls, txtLocation.Value, "Code", isButtonClicked)
-        lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
-            End Sub
+            txtLocation.Value = clsCommon.ShowSelectForm("VendorMafnd", qry, "Code", WhrCls, txtLocation.Value, "Code", isButtonClicked)
+            lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 
     Private Sub fromDate_ValueChanged(sender As Object, e As EventArgs) Handles FromDate.ValueChanged
         Dim selectedMonth As Integer = FromDate.Value.Month
@@ -644,8 +651,15 @@ union all
     End Sub
 
     Private Sub MSIProductionSaleReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        FromDate.Value = clsCommon.GETSERVERDATE()
-        LOCATIONRIGTHS()
+        Try
+            FromDate.Value = clsCommon.GETSERVERDATE()
+            LOCATIONRIGTHS()
+            If clsCommon.myLen(objCommonVar.strDefaultUserLocation) > 0 Then
+                txtLocation.Value = objCommonVar.strDefaultUserLocation
+                lblLocation.Text = clsLocation.GetName(objCommonVar.strDefaultUserLocation, Nothing)
+            End If
+        Catch ex As Exception
+        End Try
     End Sub
 
     Private Sub LOCATIONRIGTHS()

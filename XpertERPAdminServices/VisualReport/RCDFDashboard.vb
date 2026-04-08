@@ -58,6 +58,7 @@ Public Class RCDFDashboard
         'cvZone.Controllers.Add(controllerZone)
         'cvZone.ShowDrillNavigation = False
         'cvZonePie.ShowDrillNavigation = False
+        txtLocation.Value = objCommonVar.strDefaultUserLocation
         Reset()
     End Sub
     Private Sub txtToDate_ValueChanged(sender As Object, e As EventArgs) Handles txtToDate.ValueChanged

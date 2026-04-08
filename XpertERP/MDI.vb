@@ -1125,7 +1125,7 @@ Public Class MDI
         End If
         PasswordRules = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.PasswordRules, clsFixedParameterCode.PasswordRules, Nothing)) = "1", True, False))
 
-        Dim qry As String = "select TSPL_USER_MASTER.password,TSPL_USER_MASTER.User_Code,TSPL_USER_MASTER.User_Name,TSPL_USER_MASTER.Level, ApprovalLevel,ExpiryDate,TSPL_USER_MASTER.IP_Address,TSPL_USER_MASTER.Login_Status,TSPL_USER_MASTER.Modify_Date,TSPL_USER_MASTER.InActive,TSPL_USER_MASTER.HR_Admin,TSPL_USER_MASTER.E_Mail from TSPL_USER_MASTER where TSPL_USER_MASTER.User_Code='" + txtUserName.Text + "' "
+        Dim qry As String = "select TSPL_USER_MASTER.password,TSPL_USER_MASTER.User_Code,TSPL_USER_MASTER.User_Name,TSPL_USER_MASTER.Level, ApprovalLevel,ExpiryDate,TSPL_USER_MASTER.IP_Address,TSPL_USER_MASTER.Login_Status,TSPL_USER_MASTER.Modify_Date,TSPL_USER_MASTER.InActive,TSPL_USER_MASTER.HR_Admin,TSPL_USER_MASTER.E_Mail,TSPL_USER_MASTER.Default_Location from TSPL_USER_MASTER where TSPL_USER_MASTER.User_Code='" + txtUserName.Text + "' "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
         ' ImportExportDrive = objCommonVar.ImportExportDrive = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ImportExportDrive, clsFixedParameterCode.ImportExportDrive, Nothing))
@@ -1192,6 +1192,7 @@ Public Class MDI
             objCommonVar.CurrentUser = clsCommon.myCstr(dt.Rows(0)("User_Name"))
             objCommonVar.CurrUserLevel = clsCommon.myCdbl(dt.Rows(0)("ApprovalLevel"))
             objCommonVar.IsLoginUserHRAdmin = IIf(clsCommon.myCdbl(dt.Rows(0)("HR_Admin")) = 1, True, False)
+            objCommonVar.strDefaultUserLocation = clsCommon.myCstr(dt.Rows(0)("Default_Location"))
             qry = "select Comp_Code,Comp_Name,DataBase_Name,BaseCurrencyCode, Case When ApplyMultiCurrency=1 Then 'True' Else 'False' End as ApplyMultiCurrency,Comp_Code1 from TSPL_COMPANY_MASTER where Comp_Code='" + clsCommon.myCstr(cboCompany.SelectedValue) + "'"
             dt = clsDBFuncationality.GetDataTable(qry)
             objCommonVar.CurrentCompanyCode = clsCommon.myCstr(dt.Rows(0)("Comp_Code"))
@@ -10180,7 +10181,7 @@ Public Class MDI
                         frm = New DashboardMilkUnion
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.DairySaleDashboard
-                        frm = New DairySaleDashboard
+                        frm = New frmDairyDashboard ''DairySaleDashboard
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptDBTDashboard
                         frm = New rptDBTDashboard
