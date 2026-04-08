@@ -21,6 +21,7 @@ Public Class objCommonVar
     Private Shared _strCurrUserGLAccount As String = ""
     Private Shared _strCurrUserLocationsSegment As String = ""
     Private Shared _strConnString As String = ""
+    Private Shared _strDefaultUserLocation As String = ""
 
     Private Shared _RoundOffTaxToZeroDecimal As Boolean = False
     Private Shared _CalculateFIFOAndLIFOCosting As Boolean = False
@@ -1295,6 +1296,15 @@ Public Class objCommonVar
     ''        _arrCurrUserGLAccount = Value
     ''    End Set
     ''End Property
+
+    Public Shared Property strDefaultUserLocation() As String
+        Get
+            Return _strDefaultUserLocation
+        End Get
+        Set(ByVal Value As String)
+            _strDefaultUserLocation = Value
+        End Set
+    End Property
 
     Public Shared Property strCurrUserLocations() As String
         Get
