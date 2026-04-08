@@ -2604,7 +2604,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(76.0!, 26.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1271, 409)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1260, 409)
         Me.RadPageViewPage2.Text = "Item Details"
         '
         'RadPageViewPage4

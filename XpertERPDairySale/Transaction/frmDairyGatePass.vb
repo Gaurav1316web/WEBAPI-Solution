@@ -67,6 +67,8 @@ Public Class frmDairyGatePass
     Public Property CreditCustomer As String
     Public Property txtlocation As String
     Public Property vehicleno As String
+    Public Property vehicle_desc As String
+    Public Property DriverName As String
     Public Property docdate As Date?
     Public Property Supplydate As Date?
     Public Property Shifttype As String = Nothing
@@ -192,7 +194,8 @@ Public Class frmDairyGatePass
         txtLocCode.Value = txtlocation
         txtLocDesc.Text = clsDBFuncationality.getSingleValue("select  Location_Desc  from TSPL_LOCATION_MASTER where Location_Code='" & txtLocCode.Value & "'")
         txtVehicle.Value = vehicleno
-        lblVehicleDesc.Text = clsDBFuncationality.getSingleValue("select Description from TSPL_VEHICLE_MASTER where Vehicle_Id='" & txtVehicle.Value & "'")
+        lblVehicleDesc.Text = vehicle_desc 'clsDBFuncationality.getSingleValue("select Description from TSPL_VEHICLE_MASTER where Vehicle_Id='" & txtVehicle.Value & "'")
+        txtDriverName.Text = DriverName
         If docdate IsNot Nothing AndAlso clsCommon.myLen(docdate) > 0 Then
             txtDate.Value = docdate
         End If

@@ -9,6 +9,8 @@ Public Class frmShipmentDairy
     Dim ParentDocNo As String = ""
     Dim CreditCustDoc As String = ""
     Dim defaultScreenstartup As Boolean = True
+    Dim CheckCustomeroutStandingAmt As Boolean = False
+    Dim DeductTPTFromDocAmt As Boolean = True
     Dim CreateAutoGatePass As Boolean = False
     Dim DefaultEnableEWayBill As Boolean = False
     Dim DispatchCommissionDecimalPlaces As Decimal = 4
@@ -812,6 +814,8 @@ Public Class frmShipmentDairy
         EWBThresholdLimitForIntraState = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraState, Nothing))
         EWBThresholdLimitForInterState = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForInterState, Nothing))
         DefaultEnableNoTransporter = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultEnableNoTransporter, clsFixedParameterCode.DefaultEnableNoTransporter, Nothing)) = 1, True, False)
+        DeductTPTFromDocAmt = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DeductTPTFromDocAmt, clsFixedParameterCode.DeductTPTFromDocAmt, Nothing)) = 1, True, False)
+        CheckCustomeroutStandingAmt = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CheckCustomeroutStandingAmt, clsFixedParameterCode.CheckCustomeroutStandingAmt, Nothing)) = 1, True, False)
 
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = dtpChallan.Value
@@ -1218,6 +1222,7 @@ Public Class frmShipmentDairy
         lblTaxAmt.Text = ""
         lblTotRAmt.Text = ""
         lblTotRAmt1.Text = ""
+        txtTPTComAmt.Text = ""
         TxtRoundoff.Text = ""
         UsLock1.Status = ERPTransactionStatus.Pending
         txtCarrier.Text = ""
@@ -6864,6 +6869,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                     txtBoothSecurity.Text = clsCommon.myFormat(dblBoothSCAmt)
                     lblTotalWtMetric.Text = dblTotalWtMetric
                 End If
+
                 'lblAmtWithDiscount.Text = clsCommon.myFormat(dblTotAmt)
                 'lblDiscountAmt.Text = clsCommon.myFormat(dblTotDisAmt + dblCashDisAmt + dblVolumeSlabCashDisAmt)
                 'lblAmtAfterDiscount.Text = clsCommon.myFormat(dblAmtAfterDis)
@@ -6890,6 +6896,10 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                         lblTotRAmt.Text = Math.Round(clsCommon.myCdbl(lblTotRAmt.Text), 0)
                         lblTotRAmt1.Text = Math.Round(clsCommon.myCdbl(lblTotRAmt.Text), 0)
                     End If
+                End If
+                If DeductTPTFromDocAmt Then
+                    txtTPTComAmt.Text = clsCommon.myFormat(dblTCAmt)
+                    lblGrossAmount.Text = clsCommon.myFormat(clsCommon.myCdbl(lblTotRAmt.Text) - dblTCAmt)
                 End If
                 'If clsCommon.myLen(txtTransporterCode.Value) > 0 Then
                 '    lblFreightCharges.Text = Math.Round(clsCSATransfer.GetProvisionCharge(txtBillToLocation.Value, txtVendorNo.Value, clsCommon.myCdbl(txtGross_Wt.Text), clsCommon.myCdbl(txtVehicleCapacity.Value), clsCommon.myCstr(txtTransporterCode.Value)), 2)
@@ -7736,6 +7746,32 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                 If TaxRate <= 0 Then
                     Throw New Exception("Tax rate is zero")
                     Return False
+                End If
+            End If
+
+            If CheckCustomeroutStandingAmt Then
+                If Not clsCustomerMaster.IsCreditCustomer(txtVendorNo.Value) Then
+
+                    Dim qry As String = "Select  case when (( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt)) )>=0 then -abs(( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))) else abs(( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))) end  as BalAmt From ( " &
+                    "Select MAX(TSPL_CUSTOMER_MASTER.Cust_Group_Code) as Cust_Group_Code, ACode, MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as AName, '' as CurrencyCode,  " &
+                    "null as ConvRate, SUM(DrAmt* Final.ConvRate)-SUM(CrAmt) as OpngBal, 0 as DrAmt, 0 as CrAmt, 0 as [Sales], 0 as CollectionRefund, 0 as DrNote,  " &
+                    "0 as CrNote, MAX(tspl_customer_master.Cust_Category_Code) as Cust_Category_Code,MAX(CUST_CATEGORY_DESC) as Cust_Category_Desc,  " &
+                    "MAX(tspl_customer_master.Cust_Type_Code) As Cust_Type_Code,MAX(Cust_Type_Desc) As Cust_Type_Desc from   " &
+                    "(" & clsCustomerMaster.GetCustomerBaseQry(False, False, "", False, "ConvRate", "'" + txtVendorNo.Value + "'", True, clsCommon.GetPrintDate(txtDate.Value.AddDays(1), "dd/MMM/yyyy"), "", False, False, True, trans, False, txtDocNo.Value) & "   " &
+                    " ) Final left outer join TSPL_CUSTOMER_MASTER on final.ACode=TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN TSPL_CUSTOMER_GROUP_MASTER ON TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code " &
+                    "Left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =Final.DocNo  LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE=Final.Bank_Code " &
+                    "where  CONVERT(DATE,final.DocDate,103) <= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' AND LEN(ACode)>0 and ACode in ('" & txtVendorNo.Value & "')   AND TSPL_CUSTOMER_MASTER.Status='N' GROUP BY ACode " &
+                    ") XXX GROUP BY ACode ORDER BY ACode"
+                    lblOutstandingDesc.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
+                    Dim custOutStanding As Double = clsCommon.myCdbl(lblOutstandingDesc.Text)
+                    If custOutStanding <= 0 Then
+                        Throw New Exception("Insufficient Balance.")
+                    End If
+                    custOutStanding = Math.Abs(custOutStanding)
+                    Dim TotalDocAmt As Double = clsCommon.myCdbl(lblTotRAmt.Text)
+                    If TotalDocAmt > custOutStanding Then
+                        Throw New Exception("Insufficient Balance.")
+                    End If
                 End If
             End If
 
@@ -8634,6 +8670,7 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
             obj.Discount_Amt = clsCommon.myCdbl(lblDiscountAmt.Text)
             obj.Amount_Less_Discount = clsCommon.myCdbl(lblAmtAfterDiscount.Text)
             obj.Total_Amt = clsCommon.myCdbl(lblTotRAmt.Text)
+            obj.Gross_Amount = clsCommon.myCdbl(lblGrossAmount.Text)
             obj.Carrier = txtCarrier.Text
             obj.Vehicle_Code = txtVehicleCode.Value
             obj.VehicleNo = lblVhicleNo.Text
@@ -10122,6 +10159,11 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                     Next
                     txtDCAmt.Text = obj.Distributor_Commission_TotalAmt
                     txtTCAmt.Text = obj.Transporter_Commission_TotalAmt
+                    If DeductTPTFromDocAmt Then
+                        txtTPTComAmt.Text = obj.Transporter_Commission_TotalAmt
+                        lblGrossAmount.Text = clsCommon.myFormat(clsCommon.myCdbl(lblTotRAmt.Text) - obj.Transporter_Commission_TotalAmt)
+                    End If
+
                     'lblDiscountAmt.Text = obj.Distributor_Commission_TotalAmt
                     If obj.Status = ERPTransactionStatus.Pending Then
                         gv1.Rows.AddNew()
@@ -10598,7 +10640,7 @@ order by TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code"
                 Else
                     txtClosingBal.Text = clsCommon.myCstr(ClosingBal) & " CR"
                 End If
-
+                txtClosingBal.Tag = ClosingBal
             End If
 
         Catch ex As Exception
@@ -16594,6 +16636,7 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" & clsCommon.myCstr(gvDistributor.Row
                                 Else
                                     strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
                                 End If
+                                strKey = strKey.ToUpper()
                             End If
                             If myDictionary.ContainsKey(strKey) Then
                                 myDictionary(strKey).Qty += clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
@@ -16615,6 +16658,8 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" & clsCommon.myCstr(gvDistributor.Row
                             Else
                                 strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
                             End If
+                            strKey = strKey.ToUpper()
+
                             If myDictionary.ContainsKey(strKey) Then
                                 If clsCommon.CompairString(clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Cust_Code").Value), clsCommon.myCstr(gvDistributor.Rows(0).Cells("Cust_Code").Value)) = CompairStringResult.Equal Then
                                     myDictionary(strKey).Qty += clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
@@ -16837,7 +16882,7 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
                                 Else
                                     strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
                                 End If
-
+                                strKey = strKey.ToUpper()
                             End If
                             If myDictionary.ContainsKey(strKey) Then
                                 myDictionary(strKey).Qty += clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
@@ -16859,6 +16904,7 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
                             Else
                                 strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
                             End If
+                            strKey = strKey.ToUpper()
                             'strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
                             If myDictionary.ContainsKey(strKey) Then
                                 If clsCommon.CompairString(clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Cust_Code").Value), clsCommon.myCstr(gvDistributor.Rows(0).Cells("Cust_Code").Value)) = CompairStringResult.Equal Then

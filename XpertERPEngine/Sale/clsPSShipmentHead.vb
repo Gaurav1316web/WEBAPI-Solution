@@ -247,6 +247,8 @@ Public Class clsPSShipmentHead
     Public Transporter_Commission_TotalAmt As Decimal = 0
     Public Security_TotalAmt As Decimal = 0
     Public BoothSecurity_TotalAmt As Decimal = 0
+    Public Gross_Amount As Double = 0
+    Public TotalSubsidyAmt As Double = 0
     Public IsCreditCustomer As Boolean = False
     Public ParentDocNo As String = ""
     Public Vehicle_Type As String = ""
@@ -770,6 +772,7 @@ Public Class clsPSShipmentHead
             clsCommon.AddColumnsForChange(coll, "Discount_Amt", obj.Discount_Amt)
             clsCommon.AddColumnsForChange(coll, "Amount_Less_Discount", obj.Amount_Less_Discount)
             clsCommon.AddColumnsForChange(coll, "Total_Amt", obj.Total_Amt)
+            clsCommon.AddColumnsForChange(coll, "Gross_Amount", obj.Gross_Amount)
             clsCommon.AddColumnsForChange(coll, "Comments", obj.Comments)
             clsCommon.AddColumnsForChange(coll, "PROJECT_ID", obj.PROJECT_ID, True)
             clsCommon.AddColumnsForChange(coll, "ActualTCSBaseAmount", obj.ActualTCSBaseAmount)
@@ -2564,6 +2567,12 @@ Public Class clsPSShipmentHead
         obj.Discount_Amt = objShipment.Discount_Amt
         obj.Amount_Less_Discount = objShipment.Amount_Less_Discount
         obj.Total_Amt = objShipment.Total_Amt
+        obj.Gross_Amount = objShipment.Gross_Amount
+        Dim DeductTPTFromDocAmt As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DeductTPTFromDocAmt, clsFixedParameterCode.DeductTPTFromDocAmt, trans)) = 1, True, False)
+        If DeductTPTFromDocAmt Then
+            obj.TotalSubsidyAmt = objShipment.Transporter_Commission_TotalAmt
+        End If
+        obj.TotalSubsidyAmt = objShipment.TotalSubsidyAmt
         obj.Comments = objShipment.Comments
         obj.Comp_Code = objShipment.Comp_Code
         obj.Terms_Code = objShipment.Terms_Code

@@ -1,9 +1,5 @@
 ﻿'==============BM00000003063,Updated By Rohit===========
-Imports System
 Imports System.Data.SqlClient
-Imports common
-Imports System.Windows.Forms
-Imports Telerik.WinControls
 Public Class clsAdditionalCharge
 #Region "veriables"
     Public Code As String = Nothing
@@ -2856,7 +2852,7 @@ where TSPL_DEMAND_BOOKING_MASTER.Route_No='" + PrevRoute + "' and TSPL_DEMAND_BO
                 strtempBaseQry += Environment.NewLine + "----------------- Apply Document --------------------------------" + Environment.NewLine
                 strtempBaseQry += Environment.NewLine + " UNION ALL " + Environment.NewLine &
                               "select '' AS TapalNo,TSPL_SD_SHIPMENT_head.Route_No AS Route_Code,TSPL_SD_SHIPMENT_head.Customer_Code as ACode,(TSPL_SD_SHIPMENT_head.Customer_Code) as Child,'' as AName,TSPL_SD_SHIPMENT_head.Document_Code as DocNo,'' as AgainstInvoiceNo,(CONVERT(DATE, TSPL_SD_SHIPMENT_head.Document_Date ,103)) as DocDate,'MI' as docType,(TSPL_SD_SHIPMENT_head.Remarks) as DocNarr,'' as ChequeDetails,
-                             'INR' as Currency_Code, 1 as ConvRate,case when isnull(TSPL_SD_SALE_INVOICE_HEAD.Total_Amt,0)=0 then TSPL_SD_SHIPMENT_head.Total_Amt else  TSPL_SD_SALE_INVOICE_HEAD.Total_Amt end as  DrAmt,0 as CrAmt, 0 as SecurityDrAmt, 0 as SecurityCrAmt, 0 as [Sales], 0 as [CollectionRefund], 0 as [DrNote],0 as [CrNote],(TSPL_SD_SHIPMENT_head.Bill_To_Location) as Location,'' as SourceCode,'' as Item_Code, '' as Item_Desc  ,'' As Receipt_Type, '' as Bank_Code,(TSPL_CUSTOMER_MASTER.Cust_Type_Code) as Cust_Type_Code,(TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc) as  Cust_Type_Desc,(TSPL_CUSTOMER_MASTER.Cust_Category_Code) as Cust_Category_Code,(TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC ) as  CUST_CATEGORY_DESC
+                             'INR' as Currency_Code, 1 as ConvRate,case when isnull(TSPL_SD_SALE_INVOICE_HEAD.Total_Amt,0)=0 then (TSPL_SD_SHIPMENT_head.Total_Amt-isnull(TSPL_SD_SHIPMENT_head.Transporter_Commission_TotalAmt,0)) else  (TSPL_SD_SALE_INVOICE_HEAD.Total_Amt-isnull(TSPL_SD_SALE_INVOICE_HEAD.Transporter_Commission_TotalAmt,0)) end as  DrAmt,0 as CrAmt, 0 as SecurityDrAmt, 0 as SecurityCrAmt, 0 as [Sales], 0 as [CollectionRefund], 0 as [DrNote],0 as [CrNote],(TSPL_SD_SHIPMENT_head.Bill_To_Location) as Location,'' as SourceCode,'' as Item_Code, '' as Item_Desc  ,'' As Receipt_Type, '' as Bank_Code,(TSPL_CUSTOMER_MASTER.Cust_Type_Code) as Cust_Type_Code,(TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc) as  Cust_Type_Desc,(TSPL_CUSTOMER_MASTER.Cust_Category_Code) as Cust_Category_Code,(TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC ) as  CUST_CATEGORY_DESC
                              from TSPL_SD_SHIPMENT_head
                              left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_head.Customer_Code
                              LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE
@@ -3691,6 +3687,15 @@ where TSPL_DEMAND_BOOKING_MASTER.Route_No='" + PrevRoute + "' and TSPL_DEMAND_BO
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
+    End Function
+
+    Public Shared Function IsCreditCustomer(CustCode As String) As Boolean
+        Dim qry As String = "select  Credit_Customer from tspl_customer_master where Cust_Code='" + CustCode + "'"
+        qry = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
+        If clsCommon.CompairString(qry, "Y") = CompairStringResult.Equal Then
+            Return True
+        End If
+        Return False
     End Function
     ''richa BHA/19/09/18-000561 ERO/30/11/18-000424 30 Nov,2018 richa 
     Public Shared Function getCustomerOutstandingOfAmt_Can_Crate(ByVal strCustomer As String, ByVal strfromdate As String, ByVal strtodate As String) As DataTable

@@ -1,5 +1,6 @@
 ﻿Imports common
 Public Class clsUserMgtCode
+    Public Const frmAccountSalesReport As String = "ACC-SLS-RPT"
     Public Const frmPIPaymentStatusReport As String = "PIP-STS-RPT"
     Public Const frmEmployeeOTEntry As String = "EMP-OT"
     Public Const rptDCSTruckSheetRegister As String = "DCS_REG"

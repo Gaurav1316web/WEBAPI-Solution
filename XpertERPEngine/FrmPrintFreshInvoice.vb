@@ -924,8 +924,12 @@ Public Class FrmPrintFreshInvoice
             End If
             If clsCommon.CompairString(isCancel, "Cancel") = CompairStringResult.Equal OrElse clsCommon.CompairString(isCancel, "Delete") = CompairStringResult.Equal Then
                 Qry += " 'Cancelled' As Report_Status, "
-            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BAR") = CompairStringResult.Equal Then
-                Qry += " ISNULL( CAST((SUM(Total_Basic_Amt) + SUM(Total_Tax_Amt)) / NULLIF(SUM(Qty_Default), 0)AS DECIMAL(18,2)),0) AS Basic_Rate, (Final.item_cost)item_cost,  '" + objCommonVar.CurrentUserCode + "' as UserName, '' As Report_Status, max(final.PaymentTerms)PaymentTerms,max(Is_Distributor)Is_Distributor,max(Is_BPL)Is_BPL,max(Is_CashSale)Is_CashSale,
+            End If
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BAR") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(isCancel, "Cancel") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(isCancel, "Delete") <> CompairStringResult.Equal Then
+                    Qry += " '' As Report_Status, "
+                End If
+                Qry += " max(Price_with_Tax)Price_with_Tax, '" & objCommonVar.CurrentUserCode & "' as UserName,  max(final.PaymentTerms)PaymentTerms,max(Is_Distributor)Is_Distributor,max(Is_BPL)Is_BPL,max(Is_CashSale)Is_CashSale,
                             max(BPL_Coupon_Code)BPL_Coupon_Code,max(BPL_Name)BPL_Name,max(BPL_Remark)BPL_Remark,max(BPL_Coupon_Date)BPL_Coupon_Date,max(BPL_Category)BPL_Category,max(PO_Indent_No)PO_Indent_No,max(PO_Indent_Date)PO_Indent_Date,max(Booking_OpeningBal)Booking_OpeningBal,max(Booking_DrAmt)Booking_DrAmt,max(Booking_CrAmt)Booking_CrAmt,max(Booking_ClosingBal)Booking_ClosingBal,
                             max(Booking_ChequeNo)Booking_ChequeNo,max(Is_DCS)Is_DCS,max(Booking_Type)Booking_Type,max(CST_LST)CST_LST,max(DocumentTime)DocumentTime,max(Manual_VehicleNo)Manual_VehicleNo,max(Payment_Terms)Payment_Terms,max(ReceiverName)ReceiverName,sum(Amt_Less_Discount)Amt_Less_Discount,max(Dispatch_OpeningBal)Dispatch_OpeningBal,max(Dispatch_DrAmt)Dispatch_DrAmt,max(Dispatch_CrAmt)Dispatch_CrAmt,max(Dispatch_ClosingBal)Dispatch_ClosingBal,MAX(CrAmt)CrAmt,max(Security_TotalAmt)Security_TotalAmt,max(Supply_Date)Supply_Date,max(Shift_Type)Shift_Type,sum(QTY_LTRKG)QTY_LTRKG,
                             max(ITAX1)ITAX1,max(ITAX1_RATE)ITAX1_RATE,sum(ITAX1_Amt)ITAX1_Amt,sum(ITAX1_Base_Amt)ITAX1_Base_Amt,max(ITAX2)ITAX2,max(ITAX2_RATE)ITAX2_RATE,sum(ITAX2_Amt)ITAX2_Amt,sum(ITAX2_Base_Amt)ITAX2_Base_Amt,max(ITAX3)ITAX3,max(ITAX3_RATE)ITAX3_RATE,sum(ITAX3_Amt)ITAX3_Amt,sum(ITAX3_Base_Amt)ITAX3_Base_Amt,max(ITAX4)ITAX4,max(ITAX4_RATE)ITAX4_RATE,sum(ITAX4_Amt)ITAX4_Amt,sum(ITAX4_Base_Amt)ITAX4_Base_Amt,max(ITAX5)ITAX5,max(ITAX5_RATE)ITAX5_RATE,sum(ITAX5_Amt)ITAX5_Amt,sum(ITAX5_Base_Amt)ITAX5_Base_Amt,max(ITAX6)ITAX6,max(ITAX6_RATE)ITAX6_RATE,sum(ITAX6_Amt)ITAX6_Amt,sum(ITAX6_Base_Amt)ITAX6_Base_Amt,
@@ -1218,9 +1222,9 @@ Pivot(max(Item_Cagetory_Values) For Item_Category_Code   In ( [CATEGORY RM], [BR
                 Qry += " Order By Print_Sequence "
             End If
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
-                    Qry += " )xxx Left OUTER JOIN (Select 1 As COL1, 1 As COL2,  'ORIGINAL COPY' as CopyType1 UNION Select 1 as COL1, 2 as COL2,  'DUPLICATE COPY' as CopyType1 UNION Select 1 as COL1, 3 as COL2,  'TRIPLICATE COPY' as CopyType1 UNION Select 1 as COL1, 4 as COL2,  'QUADRUPLICATE COPY' as CopyType1) YYY ON YYY.COL1=xxx.CopyType "
-                End If
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BAR") = CompairStringResult.Equal Then
+                Qry += " )xxx Left OUTER JOIN (Select 1 As COL1, 1 As COL2,  'ORIGINAL COPY' as CopyType1 UNION Select 1 as COL1, 2 as COL2,  'DUPLICATE COPY' as CopyType1 UNION Select 1 as COL1, 3 as COL2,  'TRIPLICATE COPY' as CopyType1 UNION Select 1 as COL1, 4 as COL2,  'QUADRUPLICATE COPY' as CopyType1) YYY ON YYY.COL1=xxx.CopyType "
+            End If
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BAR") = CompairStringResult.Equal Then
                 Qry += " group by Document_Code,Item_Code,item_cost )XY 
                         LEFT JOIN ( SELECT Item_Code AS I1, BarCode_Img
                             FROM
@@ -1230,16 +1234,16 @@ Pivot(max(Item_Cagetory_Values) For Item_Category_Code   In ( [CATEGORY RM], [BR
                                 JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_DETAIL.Document_Code
                                 WHERE 2=2 ) X WHERE RN = 1 ) BC ON BC.I1 = XY.Item_Code "
             End If
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
-                    Qry += " group by Document_Code,Item_Code )XY  "
-                End If
-                'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-                '    Qry += " Left OUTER JOIN (Select 1 As COL1, 1 As COL2,  'ORIGINAL COPY' as CopyType1 UNION Select 1 as COL1, 2 as COL2,  'DUPLICATE COPY' as CopyType1 UNION Select 1 as COL1, 3 as COL2, 
-                '             'TRIPLICATE COPY' as CopyType1 UNION Select 1 as COL1, 4 as COL2,  'QUADRUPLICATE COPY' as CopyType1) YYY ON YYY.COL1=Final.CopyType ORDER BY Line_No,YYY.COL2 "
-                'End If
-                'Qry += " ) Final  order  by Final.Line_No asc,Final.Sku_Seq"
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
+                Qry += " group by Document_Code,Item_Code )XY  "
             End If
-            Return Qry
+            'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+            '    Qry += " Left OUTER JOIN (Select 1 As COL1, 1 As COL2,  'ORIGINAL COPY' as CopyType1 UNION Select 1 as COL1, 2 as COL2,  'DUPLICATE COPY' as CopyType1 UNION Select 1 as COL1, 3 as COL2, 
+            '             'TRIPLICATE COPY' as CopyType1 UNION Select 1 as COL1, 4 as COL2,  'QUADRUPLICATE COPY' as CopyType1) YYY ON YYY.COL1=Final.CopyType ORDER BY Line_No,YYY.COL2 "
+            'End If
+            'Qry += " ) Final  order  by Final.Line_No asc,Final.Sku_Seq"
+        End If
+        Return Qry
 
     End Function
 
