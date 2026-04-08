@@ -1401,6 +1401,7 @@ Public Class clsFixedParameterType
     Public Const GenerateCustomerWiseGatePass = "Generate Customer Wise GatePass"
     Public Const DeductTPTFromDocAmt = "Deduct TPT From Document Amt"
     Public Const CheckCustomeroutStandingAmt = "Check Customer OutStanding Amt"
+    Public Const ServerDateTimeForTaxableInvoice = "Server DateTime For Taxable Invoice"
 End Class
 Public Class clsFixedParameterCode
     Public Const SkipDebitNoteforRejectInBMCTruckSheet As String = "Skip Debit Note for Reject In BMC Truck Sheet"
@@ -2968,6 +2969,7 @@ Public Class clsFixedParameterCode
     Public Const GenerateCustomerWiseGatePass = "Generate Customer Wise GatePass"
     Public Const DeductTPTFromDocAmt = "Deduct TPT From Document Amt"
     Public Const CheckCustomeroutStandingAmt = "Check Customer OutStanding Amt"
+    Public Const ServerDateTimeForTaxableInvoice = "Server DateTime For Taxable Invoice"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4713,6 +4715,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.GenerateCustomerWiseGatePass, clsFixedParameterCode.GenerateCustomerWiseGatePass, "0", "0:Off, 1:On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.DeductTPTFromDocAmt, clsFixedParameterCode.DeductTPTFromDocAmt, "0", "0:Off, 1:On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CheckCustomeroutStandingAmt, clsFixedParameterCode.CheckCustomeroutStandingAmt, "0", "0:Off, 1:On")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ServerDateTimeForTaxableInvoice, clsFixedParameterCode.ServerDateTimeForTaxableInvoice, "0", "0:Off, 1:On")
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
     End Function
@@ -6644,5 +6647,6 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.GenerateCustomerWiseGatePass, clsFixedParameterCode.GenerateCustomerWiseGatePass, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.DeductTPTFromDocAmt, clsFixedParameterCode.DeductTPTFromDocAmt, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.CheckCustomeroutStandingAmt, clsFixedParameterCode.CheckCustomeroutStandingAmt, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ServerDateTimeForTaxableInvoice, clsFixedParameterCode.ServerDateTimeForTaxableInvoice, EnumControlType.CheckBox)
     End Sub
 End Class

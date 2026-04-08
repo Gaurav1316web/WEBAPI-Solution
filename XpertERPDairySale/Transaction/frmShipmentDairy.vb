@@ -10,6 +10,7 @@ Public Class frmShipmentDairy
     Dim CreditCustDoc As String = ""
     Dim defaultScreenstartup As Boolean = True
     Dim CheckCustomeroutStandingAmt As Boolean = False
+    Dim ServerDateTimeForTaxableInvoice As Boolean = False
     Dim DeductTPTFromDocAmt As Boolean = True
     Dim CreateAutoGatePass As Boolean = False
     Dim DefaultEnableEWayBill As Boolean = False
@@ -816,6 +817,7 @@ Public Class frmShipmentDairy
         DefaultEnableNoTransporter = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultEnableNoTransporter, clsFixedParameterCode.DefaultEnableNoTransporter, Nothing)) = 1, True, False)
         DeductTPTFromDocAmt = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DeductTPTFromDocAmt, clsFixedParameterCode.DeductTPTFromDocAmt, Nothing)) = 1, True, False)
         CheckCustomeroutStandingAmt = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CheckCustomeroutStandingAmt, clsFixedParameterCode.CheckCustomeroutStandingAmt, Nothing)) = 1, True, False)
+        ServerDateTimeForTaxableInvoice = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ServerDateTimeForTaxableInvoice, clsFixedParameterCode.ServerDateTimeForTaxableInvoice, Nothing)) = 1, True, False)
 
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = dtpChallan.Value
@@ -1282,6 +1284,7 @@ Public Class frmShipmentDairy
             lblTransporterName.Enabled = True
             chkNoTranspoter.Checked = False
         End If
+        CheckTaxNonTax()
     End Sub
     Public Shared Function GetItemType() As DataTable
         Dim dt As New DataTable()
@@ -7210,6 +7213,12 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             If SettDistributorWiseBilling Then
                 MergeDistributorItems(True, False, trans)
 
+            End If
+            If ServerDateTimeForTaxableInvoice Then
+                Dim serverDateTime As DateTime = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy")
+                If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal AndAlso clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") <> serverDateTime AndAlso clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MMM/yyyy") <> serverDateTime Then
+                    Throw New Exception("Document Date and Supply Date Should be Server Date Time")
+                End If
             End If
             'Sanjay Ticket No- ERO/02/07/18-000365 not allow to update record if it is posted
             If UpdateCustomerAfterPost <> True Then
@@ -15036,6 +15045,21 @@ On TabBatch.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code And  TabBatch.Ite
         Else
             rgbTaxNonTax.Visible = True
         End If
+        CheckTaxNonTax()
+    End Sub
+    Private Sub CheckTaxNonTax()
+        If ServerDateTimeForTaxableInvoice Then
+            If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal Then
+                txtSupplyDate.Value = clsCommon.GETSERVERDATE
+                txtDate.Value = clsCommon.GETSERVERDATE
+                txtSupplyDate.Enabled = False
+                txtDate.Enabled = False
+            Else
+                rgbTaxNonTax.Visible = True
+                txtSupplyDate.Enabled = True
+                txtDate.Enabled = True
+            End If
+        End If
     End Sub
     Private Sub txtDate_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtDate.Validating
         If IsFormLoad = False Then
@@ -16726,6 +16750,12 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" & clsCommon.myCstr(gvDistributor.Row
                                 Dim DispatchQty As Decimal = clsCommon.myCDecimal(gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value) * BillingItemConvFactor
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colBillingQty).Value = Math.Ceiling(DispatchQty / BillingUOMConvFactor)
                                 'gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = Math.Ceiling(DispatchQty / BillingUOMConvFactor)
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = Billing_UOM
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colOrgUnit).Value = Billing_UOM
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = Math.Ceiling(DispatchQty / BillingUOMConvFactor)
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = Math.Ceiling(DispatchQty / BillingUOMConvFactor)
+                            Else
+                                Throw New Exception("Biiling UOM/Billing Item Conversion Factor Should be > 0")
                             End If
 
                         Else
@@ -16974,6 +17004,12 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
                                     Dim DispatchQty As Decimal = clsCommon.myCDecimal(gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value) * BillingItemConvFactor
                                     gv1.Rows(gv1.Rows.Count - 1).Cells(colBillingQty).Value = Math.Ceiling(DispatchQty / BillingUOMConvFactor)
                                     'gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = Math.Ceiling(DispatchQty / BillingUOMConvFactor)
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = Billing_UOM
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colOrgUnit).Value = Billing_UOM
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = Math.Ceiling(DispatchQty / BillingUOMConvFactor)
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = Math.Ceiling(DispatchQty / BillingUOMConvFactor)
+                                Else
+                                    Throw New Exception("Biiling UOM/Billing Item Conversion Factor Should be > 0")
                                 End If
 
                             Else
