@@ -35,7 +35,7 @@ Public Class FrmProductionAndSaleReport
     Private Sub FrmProductionAndSaleReport_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.R AndAlso btnReport.Enabled Then
             fillGridReport(False)
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.E AndAlso btnreset.Enabled Then
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.E AndAlso btnReset.Enabled Then
             reset()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C Then
             Close()
@@ -57,47 +57,50 @@ Public Class FrmProductionAndSaleReport
     Private Sub LOCATIONRIGTHS()
         Dim obj As New clsMCCCodes()
         Try
-            obj = clsMCCCodes.GetData()
-            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
-                If obj.arrLocCodes IsNot Nothing AndAlso clsCommon.myLen(obj.arrLocCodes) > 0 Then
-                    arrLoc = obj.arrLocCodes
-                End If
-            End If
-
-            'If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
-            '    If obj.arrLocCodes IsNot Nothing AndAlso clsCommon.myLen(obj.arrLocCodes) > 0 Then
-            '        Dim locList As New List(Of String)
-            '        For Each loc As String In obj.arrLocCodes.Split(","c)
-            '            Dim cleanVal As String = loc.Replace("'", "").Trim()
-            '            If cleanVal.ToUpper() <> "RCDF" Then
-            '                locList.Add("'" & cleanVal & "'")
-            '            End If
-            '        Next
-            '        'arrLoc = obj.arrLocCodes
-            '        arrLoc = String.Join(",", locList)
-            '        'arrLoc = clsCommon.myCstr(locList)
-            '    End If
-            'End If
-
-
-
-            Dim Loc_Desc As String = " Select Loc_Short_Name,Location_Code from TSPL_LOCATION_MASTER WHERE LOCATION_CODE In (" & arrLoc & ") and isMainPlant=0  "
-            Dim dt As DataTable = (clsDBFuncationality.GetDataTable(Loc_Desc))
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                For i As Integer = 0 To dt.Rows.Count - 1
-                    If i = 0 Then
-                        Loc_Desc_Name.Append("'" & clsCommon.myCstr(dt.Rows(i)("Loc_Short_Name")) & "' ")
-                        'Loc_Desc_Code.Append("'" & clsCommon.myCstr(dt.Rows(i)("Location_Code")) & "' ")
-                        Loc_Desc_Code += " '" + clsCommon.myCstr(dt.Rows(i)("Location_Code")) + "'"
-
-                    Else
-                        Loc_Desc_Name.Append(", '" & clsCommon.myCstr(dt.Rows(i)("Loc_Short_Name")) & "' ")
-                        'Loc_Desc_Code.Append("'" & clsCommon.myCstr(dt.Rows(i)("Location_Code")) & "' ")
-                        Loc_Desc_Code += " ,'" + clsCommon.myCstr(dt.Rows(i)("Location_Code")) + "'"
-
+            If clsCommon.myLen(objCommonVar.strDefaultUserLocation) > 0 Then
+                Loc_Desc_Code = "'" & objCommonVar.strDefaultUserLocation & "'"
+                Loc_Desc_Name.Append("'" & clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Loc_Short_Name from TSPL_LOCATION_MASTER where Location_Code=" & Loc_Desc_Code & "")) & "'")
+            Else
+                obj = clsMCCCodes.GetData()
+                If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
+                    If obj.arrLocCodes IsNot Nothing AndAlso clsCommon.myLen(obj.arrLocCodes) > 0 Then
+                        arrLoc = obj.arrLocCodes
                     End If
-                Next
-                'Loc_Desc_Code = 
+                End If
+
+                'If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
+                '    If obj.arrLocCodes IsNot Nothing AndAlso clsCommon.myLen(obj.arrLocCodes) > 0 Then
+                '        Dim locList As New List(Of String)
+                '        For Each loc As String In obj.arrLocCodes.Split(","c)
+                '            Dim cleanVal As String = loc.Replace("'", "").Trim()
+                '            If cleanVal.ToUpper() <> "RCDF" Then
+                '                locList.Add("'" & cleanVal & "'")
+                '            End If
+                '        Next
+                '        'arrLoc = obj.arrLocCodes
+                '        arrLoc = String.Join(",", locList)
+                '        'arrLoc = clsCommon.myCstr(locList)
+                '    End If
+                'End If
+
+
+                Dim Loc_Desc As String = " Select Loc_Short_Name,Location_Code from TSPL_LOCATION_MASTER WHERE LOCATION_CODE In (" & arrLoc & ") and isMainPlant=0  "
+                Dim dt As DataTable = (clsDBFuncationality.GetDataTable(Loc_Desc))
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    For i As Integer = 0 To dt.Rows.Count - 1
+                        If i = 0 Then
+                            Loc_Desc_Name.Append("'" & clsCommon.myCstr(dt.Rows(i)("Loc_Short_Name")) & "' ")
+                            'Loc_Desc_Code.Append("'" & clsCommon.myCstr(dt.Rows(i)("Location_Code")) & "' ")
+                            Loc_Desc_Code += " '" + clsCommon.myCstr(dt.Rows(i)("Location_Code")) + "'"
+
+                        Else
+                            Loc_Desc_Name.Append(", '" & clsCommon.myCstr(dt.Rows(i)("Loc_Short_Name")) & "' ")
+                            'Loc_Desc_Code.Append("'" & clsCommon.myCstr(dt.Rows(i)("Location_Code")) & "' ")
+                            Loc_Desc_Code += " ,'" + clsCommon.myCstr(dt.Rows(i)("Location_Code")) + "'"
+
+                        End If
+                    Next
+                End If
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message)
@@ -120,9 +123,9 @@ Public Class FrmProductionAndSaleReport
             'Dim dtBreakDownCode As DataTable
             Dim queryStock As String
             Dim query As String
-            gv1.ViewDefinition = New TableViewDefinition
-            gv1.DataSource = Nothing
-            gv1.Rows.Clear()
+            Gv1.ViewDefinition = New TableViewDefinition
+            Gv1.DataSource = Nothing
+            Gv1.Rows.Clear()
             Dim itemcode As String = ""
             Dim Location_code As String = ""
             Dim Month As Integer = fromDate.Value.Month
@@ -190,7 +193,7 @@ Public Class FrmProductionAndSaleReport
                 fDate = New DateTime(Year, Month, 1)
                 tDate = clsCommon.GetDateWithEndTime(fromDate.Value)
                 DayCount = DateDiff(DateInterval.Day, fDate, tDate) + 1
-                Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable("SELECT LOCATION_CODE FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N'")
+                Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable("SELECT LOCATION_CODE FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N' " & IIf(clsCommon.myLen(objCommonVar.strDefaultUserLocation) > 0, " And TSPL_LOCATION_MASTER.Location_Code ='" & objCommonVar.strDefaultUserLocation & "'", Nothing) & " ")
                 'Dim dtItem As DataTable = clsDBFuncationality.GetDataTable("select Item_Code from TSPL_ITEM_MASTER where Structure_Code='FG' and Item_Desc like '%SARAS%'")
                 Dim dtItem As DataTable = clsDBFuncationality.GetDataTable("select Item_Code from TSPL_ITEM_MASTER where FG_for_CF_RPT=1")
                 queryStock = ""
