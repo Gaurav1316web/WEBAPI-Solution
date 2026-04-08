@@ -22,17 +22,17 @@ Partial Class frmShipmentDairy
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim WindowsSettings2 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
+        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition13 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition14 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition15 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition16 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition17 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition18 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition19 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition20 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -896,9 +896,9 @@ Partial Class frmShipmentDairy
         Me.RadMenuItem2.TabIndex = 0
         Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenuItem2.Visible = False
-        WindowsSettings1.EnableRoundedCorners = Nothing
-        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
-        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
+        WindowsSettings2.EnableRoundedCorners = Nothing
+        WindowsSettings2.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings2
         '
         'Panel1
         '
@@ -993,7 +993,9 @@ Partial Class frmShipmentDairy
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.lblOutstandingDesc)
         Me.RadPageViewPage1.Controls.Add(Me.chkNoTranspoter)
+        Me.RadPageViewPage1.Controls.Add(Me.lblOutStanding)
         Me.RadPageViewPage1.Controls.Add(Me.chkExcludeKKFMND)
         Me.RadPageViewPage1.Controls.Add(Me.txtDemandNo)
         Me.RadPageViewPage1.Controls.Add(Me.lblDemandNO)
@@ -1174,9 +1176,9 @@ Partial Class frmShipmentDairy
         '
         'rsbtnInvoice
         '
-        Me.rsbtnInvoice.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.rsbtnInvoice.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.rsbtnInvoice.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem9, Me.RadMenuItem10})
-        Me.rsbtnInvoice.Location = New System.Drawing.Point(903, 396)
+        Me.rsbtnInvoice.Location = New System.Drawing.Point(907, 394)
         Me.rsbtnInvoice.Name = "rsbtnInvoice"
         Me.rsbtnInvoice.Size = New System.Drawing.Size(88, 20)
         Me.rsbtnInvoice.TabIndex = 158
@@ -1394,7 +1396,7 @@ Partial Class frmShipmentDairy
         '
         Me.btnDeliveredTo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDeliveredTo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDeliveredTo.Location = New System.Drawing.Point(813, 398)
+        Me.btnDeliveredTo.Location = New System.Drawing.Point(1017, 396)
         Me.btnDeliveredTo.Name = "btnDeliveredTo"
         Me.btnDeliveredTo.Size = New System.Drawing.Size(69, 20)
         Me.btnDeliveredTo.TabIndex = 40
@@ -1414,7 +1416,7 @@ Partial Class frmShipmentDairy
         '
         Me.btnPrintBatchWise.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrintBatchWise.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintBatchWise.Location = New System.Drawing.Point(721, 398)
+        Me.btnPrintBatchWise.Location = New System.Drawing.Point(1018, 396)
         Me.btnPrintBatchWise.Name = "btnPrintBatchWise"
         Me.btnPrintBatchWise.Size = New System.Drawing.Size(82, 20)
         Me.btnPrintBatchWise.TabIndex = 43
@@ -1589,6 +1591,7 @@ Partial Class frmShipmentDairy
         '
         'chkCreateAutoInvoice
         '
+        Me.chkCreateAutoInvoice.Enabled = False
         Me.chkCreateAutoInvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.chkCreateAutoInvoice.Location = New System.Drawing.Point(733, 117)
         Me.chkCreateAutoInvoice.Name = "chkCreateAutoInvoice"
@@ -1665,7 +1668,7 @@ Partial Class frmShipmentDairy
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition11
         Me.gv1.MyExportAPI = False
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
@@ -4343,7 +4346,7 @@ Partial Class frmShipmentDairy
         Me.gvDistributor.MasterTemplate.AllowDeleteRow = False
         Me.gvDistributor.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDistributor.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvDistributor.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvDistributor.MasterTemplate.ViewDefinition = TableViewDefinition12
         Me.gvDistributor.MyExportAPI = False
         Me.gvDistributor.MyExportFilePath = ""
         Me.gvDistributor.MyStopExport = False
@@ -4640,7 +4643,7 @@ Partial Class frmShipmentDairy
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition13
         Me.gv2.MyExportAPI = False
         Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
@@ -4676,7 +4679,7 @@ Partial Class frmShipmentDairy
         Me.gvBoothScheme.MasterTemplate.AllowDeleteRow = False
         Me.gvBoothScheme.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBoothScheme.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvBoothScheme.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvBoothScheme.MasterTemplate.ViewDefinition = TableViewDefinition14
         Me.gvBoothScheme.MyExportAPI = False
         Me.gvBoothScheme.MyExportFilePath = ""
         Me.gvBoothScheme.MyStopExport = False
@@ -4713,7 +4716,7 @@ Partial Class frmShipmentDairy
         Me.gvCrateType.MasterTemplate.AllowDeleteRow = False
         Me.gvCrateType.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCrateType.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCrateType.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvCrateType.MasterTemplate.ViewDefinition = TableViewDefinition15
         Me.gvCrateType.MyExportAPI = False
         Me.gvCrateType.MyExportFilePath = ""
         Me.gvCrateType.MyStopExport = False
@@ -4742,7 +4745,7 @@ Partial Class frmShipmentDairy
         '
         '
         '
-        Me.gvManualscheme.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvManualscheme.MasterTemplate.ViewDefinition = TableViewDefinition16
         Me.gvManualscheme.Name = "gvManualscheme"
         Me.gvManualscheme.Size = New System.Drawing.Size(1089, 416)
         Me.gvManualscheme.TabIndex = 0
@@ -4790,7 +4793,7 @@ Partial Class frmShipmentDairy
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition17
         Me.gvAC.MyExportAPI = False
         Me.gvAC.MyExportFilePath = ""
         Me.gvAC.MyStopExport = False
@@ -4863,8 +4866,6 @@ Partial Class frmShipmentDairy
         '
         'RadPageViewPage4
         '
-        Me.RadPageViewPage4.Controls.Add(Me.lblOutstandingDesc)
-        Me.RadPageViewPage4.Controls.Add(Me.lblOutStanding)
         Me.RadPageViewPage4.Controls.Add(Me.MyLabel71)
         Me.RadPageViewPage4.Controls.Add(Me.lblGrossAmount)
         Me.RadPageViewPage4.Controls.Add(Me.lblTPTComAmt)
@@ -4926,19 +4927,22 @@ Partial Class frmShipmentDairy
         '
         'lblOutstandingDesc
         '
+        Me.lblOutstandingDesc.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblOutstandingDesc.AutoSize = False
         Me.lblOutstandingDesc.BorderVisible = True
         Me.lblOutstandingDesc.FieldName = Nothing
-        Me.lblOutstandingDesc.Location = New System.Drawing.Point(646, 244)
+        Me.lblOutstandingDesc.Location = New System.Drawing.Point(771, 396)
         Me.lblOutstandingDesc.Name = "lblOutstandingDesc"
         Me.lblOutstandingDesc.Size = New System.Drawing.Size(133, 19)
         Me.lblOutstandingDesc.TabIndex = 1578
+        Me.lblOutstandingDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         Me.lblOutstandingDesc.TextWrap = False
         '
         'lblOutStanding
         '
+        Me.lblOutStanding.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblOutStanding.FieldName = Nothing
-        Me.lblOutStanding.Location = New System.Drawing.Point(530, 244)
+        Me.lblOutStanding.Location = New System.Drawing.Point(713, 396)
         Me.lblOutStanding.Name = "lblOutStanding"
         Me.lblOutStanding.Size = New System.Drawing.Size(53, 18)
         Me.lblOutStanding.TabIndex = 1577
@@ -5032,7 +5036,6 @@ Partial Class frmShipmentDairy
         '
         'rpOpening
         '
-        Me.rpOpening.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.rpOpening.Controls.Add(Me.lblCrAmt)
         Me.rpOpening.Controls.Add(Me.txtCrAmt)
         Me.rpOpening.Controls.Add(Me.lblNetbalance)
@@ -5041,7 +5044,7 @@ Partial Class frmShipmentDairy
         Me.rpOpening.Controls.Add(Me.txtOpeningbal)
         Me.rpOpening.Controls.Add(Me.lblDrAmt)
         Me.rpOpening.Controls.Add(Me.txtDrAmt)
-        Me.rpOpening.Location = New System.Drawing.Point(522, 140)
+        Me.rpOpening.Location = New System.Drawing.Point(522, 172)
         Me.rpOpening.Name = "rpOpening"
         Me.rpOpening.Size = New System.Drawing.Size(265, 98)
         Me.rpOpening.TabIndex = 1569
@@ -6071,7 +6074,7 @@ Partial Class frmShipmentDairy
         Me.gv_Uploader_Temp.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_Uploader_Temp.MasterTemplate.ShowGroupedColumns = True
         Me.gv_Uploader_Temp.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_Uploader_Temp.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gv_Uploader_Temp.MasterTemplate.ViewDefinition = TableViewDefinition18
         Me.gv_Uploader_Temp.MyExportAPI = False
         Me.gv_Uploader_Temp.MyExportFilePath = ""
         Me.gv_Uploader_Temp.MyStopExport = False
@@ -6094,7 +6097,7 @@ Partial Class frmShipmentDairy
         Me.gv_Uploader.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_Uploader.MasterTemplate.ShowGroupedColumns = True
         Me.gv_Uploader.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_Uploader.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gv_Uploader.MasterTemplate.ViewDefinition = TableViewDefinition19
         Me.gv_Uploader.MyExportAPI = False
         Me.gv_Uploader.MyExportFilePath = ""
         Me.gv_Uploader.MyStopExport = False
@@ -6673,7 +6676,7 @@ Partial Class frmShipmentDairy
         '
         '
         '
-        Me.gvCC.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gvCC.MasterTemplate.ViewDefinition = TableViewDefinition20
         Me.gvCC.Name = "gvCC"
         Me.gvCC.Size = New System.Drawing.Size(1089, 318)
         Me.gvCC.TabIndex = 0

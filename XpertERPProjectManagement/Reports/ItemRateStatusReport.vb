@@ -27,7 +27,7 @@ Public Class ItemRateStatusReport
         'Dim qry As String = "SELECT Price_Code as [Code],Price_Code_Desc as [Name] ,CASE 
         'WHEN ISNULL(Inactive, 0) = 0 THEN 'InActive'
         'ELSE 'active' FROM TSPL_PRICE_COMPONENT_MAPPING"
-        Dim qry As String = "	SELECT Price_Code AS Code FROM TSPL_ITEM_PRICE_PLAN_detail "
+        Dim qry As String = " SELECT Plan_Code AS Code,Remarks as [Price Name], CASE WHEN ISNULL(Post_Status, 0) = 0 THEN 'InActive'ELSE 'active' end as Status FROM TSPL_ITEM_PRICE_PLAN_HEADER"
 
         txtPriceCode.arrValueMember = clsCommon.ShowMultipleSelectForm("CustMulSel", qry, "Code", "", txtPriceCode.arrValueMember, txtItem.arrDispalyMember)
 
@@ -47,8 +47,9 @@ Public Class ItemRateStatusReport
             If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
                 whr += " and TSPL_ITEM_PRICE_PLAN_detail.Item_Code in (" + clsCommon.GetMulcallString(txtItem.arrValueMember) + ")  "
             End If
+
             If txtPriceCode.arrValueMember IsNot Nothing AndAlso txtPriceCode.arrValueMember.Count > 0 Then
-                whr += " and PRICE_CODE in (" + clsCommon.GetMulcallString(txtPriceCode.arrValueMember) + ")  "
+                whr += " and Plan_Code in (" + clsCommon.GetMulcallString(txtPriceCode.arrValueMember) + ")  "
             End If
             Dim strPricecode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT TOP 1 Plan_Code
 FROM TSPL_ITEM_PRICE_PLAN_HEADER
@@ -162,8 +163,16 @@ SELECT @cols = @cols +
 FROM (
     SELECT DISTINCT TSPL_ITEM_PRICE_PLAN_detail.PRICE_CODE
     FROM TSPL_ITEM_PRICE_PLAN_HEADER 
-    LEFT JOIN TSPL_ITEM_PRICE_PLAN_detail  ON TSPL_ITEM_PRICE_PLAN_detail.Plan_Code = TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code
-    WHERE TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code = '" + strPricecode + "'
+    LEFT JOIN TSPL_ITEM_PRICE_PLAN_detail  ON TSPL_ITEM_PRICE_PLAN_detail.Plan_Code = TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code"
+    If txtPriceCode.arrValueMember IsNot Nothing AndAlso txtPriceCode.arrValueMember.Count > 0 Then
+                qry += " Where TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code IN (" + clsCommon.GetMulcallString(txtPriceCode.arrValueMember) + ")"
+            Else
+                qry += " WHERE TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code = '" + strPricecode + "'"
+                'qry += " And PRICE_CODE In ('" + clsCommon.GetMulcallString(txtPriceCode.arrValueMember) + "')  "
+            End If
+
+
+            qry += "
       AND TSPL_ITEM_PRICE_PLAN_detail.PRICE_CODE IS NOT NULL
 ) AS pc
 ORDER BY PRICE_CODE;
@@ -193,15 +202,19 @@ WITH Base AS (
 	    	left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.item_code=TSPL_ITEM_MASTER.item_code
 
     WHERE 1=1  "
-            
 
- If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
-                qry += " and TSPL_ITEM_PRICE_PLAN_detail.Item_Code in ('" + clsCommon.GetMulcallString(txtItem.arrValueMember) + "')  "
+
+            If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
+                qry += " AND TSPL_ITEM_PRICE_PLAN_detail.Item_Code IN ('" + clsCommon.GetMulcallString(txtItem.arrValueMember).Replace(",", "','") + "')"
+                ' qry += " and TSPL_ITEM_PRICE_PLAN_detail.Item_Code in ('" + clsCommon.GetMulcallString(txtItem.arrValueMember) + "')  "
             End If
             If txtPriceCode.arrValueMember IsNot Nothing AndAlso txtPriceCode.arrValueMember.Count > 0 Then
-                qry += " and PRICE_CODE in ('" + clsCommon.GetMulcallString(txtPriceCode.arrValueMember) + "')  "
+                qry += " AND TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code IN ('" + clsCommon.GetMulcallString(txtPriceCode.arrValueMember).Replace(",", "','") + "')"
+            Else
+                qry += " and  TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code  = ''" + strPricecode + "''"
+                'qry += " And PRICE_CODE In ('" + clsCommon.GetMulcallString(txtPriceCode.arrValueMember) + "')  "
             End If
-            qry += " AND TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code = ''" + strPricecode + "''"
+            'qry += " AND TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code = ''" + strPricecode + "''"
             If rbtnDefaultUOM.IsChecked Then
                 qry += "and Default_UOM=''1''"
             ElseIf rbtnReportUOM.IsChecked Then
@@ -286,6 +299,11 @@ EXEC sp_executesql @sql;"
 
     Private Sub btnreset_Click(sender As Object, e As EventArgs) Handles btnreset.Click
         fromDate.Value = clsCommon.GETSERVERDATE()
+        Gv1.DataSource = Nothing
+        Gv1.Rows.Clear()
+        Gv1.Columns.Clear()
+        RadPageView1.SelectedPage = RadPageViewPage1
+
         rbtnReportUOM.IsChecked = True
         rbtnPrintUOM.IsChecked = False
         rbtnDefaultUOM.IsChecked = False
@@ -307,6 +325,7 @@ EXEC sp_executesql @sql;"
                 Dim arrHeader As List(Of String) = New List(Of String)()
                 arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
                 arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.ItemRateStatusReport & "'"))
+
                 transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
@@ -314,5 +333,19 @@ EXEC sp_executesql @sql;"
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+
+
+        'Try
+        '    If Gv1.Rows.Count > 0 Then
+        '        Dim arrHeader As List(Of String) = New List(Of String)()
+        '        arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+        '        arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.ItemRateStatusReport & "'"))
+        '        transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
+        '    Else
+        '        clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
+        '    End If
+        'Catch ex As Exception
+        '    common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        'End Try
     End Sub
 End Class

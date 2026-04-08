@@ -1956,6 +1956,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.DcsMonthWiseMilkCollectionReport, "Dcs Month Wise Milk Collection Report", "1.17.03.159", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.ZoneWiseReport, "Zone Wise Report", "1.17.03.151", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptMilkProcurementReport, "Milk Procurement Report", "1.17.03.152", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDCSTruckSheetRegister, "DCS Truck Sheet Register", "1.17.03.153", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
         '' Anubhooti 05-Aug-2014
         '=================================================Human Resource================================================================

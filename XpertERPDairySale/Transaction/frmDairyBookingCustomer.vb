@@ -12,6 +12,7 @@ Public Class frmDairyBookingCustomer
     Dim DefaultEnableNoTransporter As Boolean = False
     Dim ManualBatchOnCustomerBooking As Boolean = False
     Dim GenerateCustomerWiseGatePass As Boolean = False
+    Dim ServerDateTimeForTaxableInvoice As Boolean = False
     Dim CheckCustomeroutStandingAmt As Boolean = False
     Dim DeductTPTFromDocAmt As Boolean = True
     Dim ApplyEWBThresholdLimit As Boolean = False
@@ -337,6 +338,7 @@ Public Class frmDairyBookingCustomer
         GenerateCustomerWiseGatePass = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.GenerateCustomerWiseGatePass, clsFixedParameterCode.GenerateCustomerWiseGatePass, Nothing)) = 1, True, False)
         CheckCustomeroutStandingAmt = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CheckCustomeroutStandingAmt, clsFixedParameterCode.CheckCustomeroutStandingAmt, Nothing)) = 1, True, False)
         DeductTPTFromDocAmt = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DeductTPTFromDocAmt, clsFixedParameterCode.DeductTPTFromDocAmt, Nothing)) = 1, True, False)
+        ServerDateTimeForTaxableInvoice = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ServerDateTimeForTaxableInvoice, clsFixedParameterCode.ServerDateTimeForTaxableInvoice, Nothing)) = 1, True, False)
 
         'SetMailRight()
         SetUserMgmtNew()
@@ -496,6 +498,7 @@ Public Class frmDairyBookingCustomer
         txtClosingBal.Text = ""
         txtCustPODate.Value = clsCommon.GETSERVERDATE()
         UsLock1.Status = ERPTransactionStatus.Pending
+        ChkTaxNonTax()
     End Sub
     Sub LoadBlankGrid()
         'Dim qry As String = String.Empty
@@ -2888,6 +2891,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         lblOutstandingDesc.Text = ""
         lblReceiptAmtDesc.Text = ""
         lblUnbilledMilkAmt.Text = ""
+        txtDate.Enabled = True
         'chkIsTaxable.Enabled = True
         BlankAllControls()
         LoadBlankGrid()
@@ -2929,7 +2933,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         txtDate.Focus()
         gv1.Rows.AddNew()
         'gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = RowTypeItem
-        txtDate.Enabled = True
+
         txtVendorNo.Enabled = True
         txtLocation.Enabled = True
         txtDocNo.Value = ""
@@ -3129,6 +3133,13 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 Return False
                 'End If
             End If
+            If ServerDateTimeForTaxableInvoice Then
+                Dim serverDateTime As DateTime = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy")
+                If rbtnTaxable.IsChecked AndAlso clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") <> serverDateTime AndAlso clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MMM/yyyy") <> serverDateTime Then
+                    Throw New Exception("Document Date and Supply Date Should be Server Date Time")
+                End If
+            End If
+
             'Sanjay Ticket No- ERO/12/07/18-000371
             If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
@@ -9584,8 +9595,23 @@ On TabBatch.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code And  TabBatch.Ite
     Sub ChkTaxNonTax()
         If rbtnTaxable.IsChecked Then
             rgbTaxNonTax.Visible = False
+            If ServerDateTimeForTaxableInvoice Then
+                txtSupplyDate.Value = clsCommon.GETSERVERDATE
+                txtDate.Value = clsCommon.GETSERVERDATE
+                txtSupplyDate.Enabled = False
+                txtDate.Enabled = False
+            Else
+                txtSupplyDate.Enabled = True
+                txtDate.Enabled = True
+            End If
+
         Else
             rgbTaxNonTax.Visible = True
+            If ServerDateTimeForTaxableInvoice Then
+                txtSupplyDate.Enabled = True
+                txtDate.Enabled = True
+            End If
+
         End If
     End Sub
     Private Sub rbtnNonTax_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnNonTax.ToggleStateChanged

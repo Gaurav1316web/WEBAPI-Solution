@@ -328,7 +328,7 @@ Public Class FrmUserMaster
 #Region "Methods"
     Private Sub funfill()
 
-        Dim str As String = "select USER_NAME ,password ,Emp_Code,Emp_Name,User_Type,Level1_Code,Level2_Code,Level3_Code,Level4_Code, ApprovalLevel,E_Mail, Default_Location, Vendor_Code, Login_Type,Cust_Code,Distributor_Retailer_Code,Segment_code,View_Milk_Receipt_Sample,Department_Head,Licence_Reserved,Mob_No,InActive,isnull(InActive_Date,'') as InActive_Date,User_APP_Type,User_APP_Sale_Type,tspl_user_master.MP_Code,tspl_user_master.HR_Admin,isnull(TSPL_USER_MASTER.Entry_UOM,0) as Entry_UOM,SSO,Sub_location from TSPL_USER_MASTER where  User_Code ='" + fndUserCode.Value + "'"
+        Dim str As String = "select USER_NAME ,password ,Emp_Code,Emp_Name,User_Type,Level1_Code,Level2_Code,Level3_Code,Level4_Code, ApprovalLevel,E_Mail, Default_Location, Vendor_Code, Login_Type,Cust_Code,Distributor_Retailer_Code,Segment_code,View_Milk_Receipt_Sample,Department_Head,Licence_Reserved,Mob_No,InActive,isnull(InActive_Date,'') as InActive_Date,User_APP_Type,User_APP_Sale_Type,tspl_user_master.MP_Code,tspl_user_master.HR_Admin,isnull(TSPL_USER_MASTER.Entry_UOM,0) as Entry_UOM,SSO,Sub_location,DataBase_Name from TSPL_USER_MASTER where  User_Code ='" + fndUserCode.Value + "'"
         Dim dr As DataTable
         dr = clsDBFuncationality.GetDataTable(str)
         For Each row As DataRow In dr.Rows
@@ -462,6 +462,7 @@ Public Class FrmUserMaster
             End If
             txtSubLocation.Value = clsCommon.myCstr(row("Sub_location"))
             lblSubLocation.Text = clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtSubLocation.Value + "'")
+            TxtUnion.Value = clsCommon.myCstr(row("DataBase_Name"))
 
             txtDefaultLocation.Value = clsCommon.myCstr(row("Default_Location"))
             lblLocationName.Text = clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtDefaultLocation.Value + "'")
@@ -730,6 +731,8 @@ Public Class FrmUserMaster
 
 
 
+
+
             myMessages.insert()
 
         Catch ex As Exception
@@ -752,6 +755,8 @@ Public Class FrmUserMaster
         clsCommon.AddColumnsForChange(coll, "Entry_UOM", clsCommon.myCDecimal(cboEntryUOM.SelectedValue), True)
         clsCommon.AddColumnsForChange(coll, "SSO", txtSSO.Text, True)
         clsCommon.AddColumnsForChange(coll, "Sub_location", txtSubLocation.Value, True)
+        clsCommon.AddColumnsForChange(coll, "DataBase_Name", TxtUnion.Value, True)
+
 
         clsCommonFunctionality.UpdateDataTable(coll, "TSPL_USER_MASTER", OMInsertOrUpdate.Update, "User_Code='" + fndUserCode.Value + "'")
 
@@ -1027,6 +1032,7 @@ Public Class FrmUserMaster
     Private Sub funReset()
         lblSubLocation.Text = ""
         txtSubLocation.Value = ""
+        TxtUnion.Value = ""
         fndUserCode.MyReadOnly = False
         fndUserCode.Value = ""
         fndEmployeeCode.Value = ""
@@ -3105,10 +3111,22 @@ order by LEVEL"
 
     End Sub
 
+    Private Sub TxtUnion__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtUnion._MYValidating
+        Try
+            Dim qry As String = " SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION]  "
+            'Dim wlr As String = " ORDER BY [TSPL_APP_LOCATION].Location_Name "
+            Dim wlr As String = Nothing
+
+            TxtUnion.Value = clsCommon.ShowSelectForm("UNIFND", qry, "Name", wlr, TxtUnion.Value, "Location", isButtonClicked)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
     Private Sub SaveUserMapping()
         Try
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_USER_MAPPING_DETAIL where User_Code = '" + fndUserCode.Value + "' ")
-                    clsDBFuncationality.ExecuteNonQuery("delete from TSPL_USER_CUSTOMER_ZONE  where User_Code ='" + fndUserCode.Value + "' ")
+            clsDBFuncationality.ExecuteNonQuery("delete from TSPL_USER_CUSTOMER_ZONE  where User_Code ='" + fndUserCode.Value + "' ")
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_USER_CUSTOMER_CATEGORY  where User_Code ='" + fndUserCode.Value + "' ")
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_User_Route_Mapping  where User_Code ='" + fndUserCode.Value + "' ")
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_USER_BULK_ROUTE_MAPPING  where User_Code ='" + fndUserCode.Value + "' ")
