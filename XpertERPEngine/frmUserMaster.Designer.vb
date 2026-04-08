@@ -54,6 +54,7 @@ Partial Class FrmUserMaster
         Me.rmImportZone = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmImportCustomerCategory = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyLabel18 = New common.Controls.MyLabel()
         Me.TxtMultiBank = New common.UserControls.txtMultiSelectFinder()
         Me.lblBank = New common.Controls.MyLabel()
         Me.lblSubLocation = New common.Controls.MyLabel()
@@ -143,6 +144,8 @@ Partial Class FrmUserMaster
         Me.gvUser = New common.UserControls.MyRadGridView()
         Me.btnGetHistory = New Telerik.WinControls.UI.RadButton()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.FileSystemWatcher1 = New System.IO.FileSystemWatcher()
+        Me.TxtUnion = New common.UserControls.txtFinder()
         CType(Me.lblUserCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblUserType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbl1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -158,6 +161,7 @@ Partial Class FrmUserMaster
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBank, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -234,6 +238,7 @@ Partial Class FrmUserMaster
         CType(Me.gvUser.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGetHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.FileSystemWatcher1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -474,6 +479,8 @@ Partial Class FrmUserMaster
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox1.BackColor = System.Drawing.Color.Transparent
+        Me.RadGroupBox1.Controls.Add(Me.TxtUnion)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel18)
         Me.RadGroupBox1.Controls.Add(Me.TxtMultiBank)
         Me.RadGroupBox1.Controls.Add(Me.lblBank)
         Me.RadGroupBox1.Controls.Add(Me.lblSubLocation)
@@ -531,6 +538,16 @@ Partial Class FrmUserMaster
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(601, 502)
         Me.RadGroupBox1.TabIndex = 0
+        '
+        'MyLabel18
+        '
+        Me.MyLabel18.FieldName = Nothing
+        Me.MyLabel18.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel18.Location = New System.Drawing.Point(330, 359)
+        Me.MyLabel18.Name = "MyLabel18"
+        Me.MyLabel18.Size = New System.Drawing.Size(36, 16)
+        Me.MyLabel18.TabIndex = 409
+        Me.MyLabel18.Text = "Union"
         '
         'TxtMultiBank
         '
@@ -1690,9 +1707,9 @@ Partial Class FrmUserMaster
         '
         'RadScrollablePanel1.PanelContainer
         '
+        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadGroupBox1)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.txtProSaras)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.txtOrderSaras)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadGroupBox1)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.lblLength)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.GBRoute)
         Me.RadScrollablePanel1.PanelContainer.Size = New System.Drawing.Size(876, 374)
@@ -1742,7 +1759,7 @@ Partial Class FrmUserMaster
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(113.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(711, 597)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(895, 376)
         Me.RadPageViewPage2.Text = "Customer Mapping"
         '
         'gvCustomer
@@ -1761,13 +1778,14 @@ Partial Class FrmUserMaster
         Me.gvCustomer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCustomer.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvCustomer.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvCustomer.MyExportAPI = False
         Me.gvCustomer.MyExportFilePath = ""
         Me.gvCustomer.MyStopExport = False
         Me.gvCustomer.Name = "gvCustomer"
         Me.gvCustomer.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCustomer.ShowGroupPanel = False
         Me.gvCustomer.ShowHeaderCellButtons = True
-        Me.gvCustomer.Size = New System.Drawing.Size(711, 597)
+        Me.gvCustomer.Size = New System.Drawing.Size(895, 376)
         Me.gvCustomer.TabIndex = 1
         Me.gvCustomer.TabStop = False
         Me.gvCustomer.VarID = ""
@@ -1778,7 +1796,7 @@ Partial Class FrmUserMaster
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(87.0!, 28.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(711, 597)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(895, 376)
         Me.RadPageViewPage3.Text = "User Mapping"
         '
         'gvUser
@@ -1797,13 +1815,14 @@ Partial Class FrmUserMaster
         Me.gvUser.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvUser.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvUser.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvUser.MyExportAPI = False
         Me.gvUser.MyExportFilePath = ""
         Me.gvUser.MyStopExport = False
         Me.gvUser.Name = "gvUser"
         Me.gvUser.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvUser.ShowGroupPanel = False
         Me.gvUser.ShowHeaderCellButtons = True
-        Me.gvUser.Size = New System.Drawing.Size(711, 597)
+        Me.gvUser.Size = New System.Drawing.Size(895, 376)
         Me.gvUser.TabIndex = 2
         Me.gvUser.TabStop = False
         Me.gvUser.VarID = ""
@@ -1826,6 +1845,37 @@ Partial Class FrmUserMaster
         Me.RadButton1.Size = New System.Drawing.Size(134, 23)
         Me.RadButton1.TabIndex = 3
         Me.RadButton1.Text = "Add Biometric Login"
+        '
+        'FileSystemWatcher1
+        '
+        Me.FileSystemWatcher1.EnableRaisingEvents = True
+        Me.FileSystemWatcher1.SynchronizingObject = Me
+        '
+        'TxtUnion
+        '
+        Me.TxtUnion.CalculationExpression = Nothing
+        Me.TxtUnion.FieldCode = Nothing
+        Me.TxtUnion.FieldDesc = Nothing
+        Me.TxtUnion.FieldMaxLength = 0
+        Me.TxtUnion.FieldName = Nothing
+        Me.TxtUnion.isCalculatedField = False
+        Me.TxtUnion.IsSourceFromTable = False
+        Me.TxtUnion.IsSourceFromValueList = False
+        Me.TxtUnion.IsUnique = False
+        Me.TxtUnion.Location = New System.Drawing.Point(371, 355)
+        Me.TxtUnion.MendatroryField = False
+        Me.TxtUnion.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtUnion.MyLinkLable1 = Nothing
+        Me.TxtUnion.MyLinkLable2 = Nothing
+        Me.TxtUnion.MyReadOnly = False
+        Me.TxtUnion.MyShowMasterFormButton = False
+        Me.TxtUnion.Name = "TxtUnion"
+        Me.TxtUnion.ReferenceFieldDesc = Nothing
+        Me.TxtUnion.ReferenceFieldName = Nothing
+        Me.TxtUnion.ReferenceTableName = Nothing
+        Me.TxtUnion.Size = New System.Drawing.Size(204, 18)
+        Me.TxtUnion.TabIndex = 410
+        Me.TxtUnion.Value = ""
         '
         'FrmUserMaster
         '
@@ -1869,6 +1919,7 @@ Partial Class FrmUserMaster
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBank, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1949,6 +2000,7 @@ Partial Class FrmUserMaster
         CType(Me.gvUser, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGetHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.FileSystemWatcher1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -2069,5 +2121,8 @@ Partial Class FrmUserMaster
     Friend WithEvents lblBank As Controls.MyLabel
     Friend WithEvents TxtMultiBank As UserControls.txtMultiSelectFinder
     Friend WithEvents RadScrollablePanel1 As RadScrollablePanel
+    Friend WithEvents MyLabel18 As Controls.MyLabel
+    Friend WithEvents FileSystemWatcher1 As IO.FileSystemWatcher
+    Friend WithEvents TxtUnion As UserControls.txtFinder
 End Class
 
