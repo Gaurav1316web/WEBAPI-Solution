@@ -898,6 +898,8 @@ from
                         qry = "select "
                         If clsCommon.CompairString(isCancelOrDelete, "Cancel") = CompairStringResult.Equal OrElse clsCommon.CompairString(isCancelOrDelete, "Delete") = CompairStringResult.Equal Then
                             qry &= " 'Cancelled' As Report_Status,"
+                        Else
+                            qry &= " '' As Report_Status,"
                         End If
                         qry &= " '" & objCommonVar.CurrentUser & "' As PrintBy,TSPL_COMPANY_MASTER.GSTReg_No,TSPL_COMPANY_MASTER.Access_Officer as FassiLicNo,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Pan_No,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1+TSPL_COMPANY_MASTER.Add2+TSPL_COMPANY_MASTER.Add3 as CompAddress,TSPL_COMPANY_MASTER.Phone1,xxx.* "
                         qry &= " from(
