@@ -993,7 +993,9 @@ Partial Class frmShipmentDairy
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.lblOutstandingDesc)
         Me.RadPageViewPage1.Controls.Add(Me.chkNoTranspoter)
+        Me.RadPageViewPage1.Controls.Add(Me.lblOutStanding)
         Me.RadPageViewPage1.Controls.Add(Me.chkExcludeKKFMND)
         Me.RadPageViewPage1.Controls.Add(Me.txtDemandNo)
         Me.RadPageViewPage1.Controls.Add(Me.lblDemandNO)
@@ -1174,9 +1176,9 @@ Partial Class frmShipmentDairy
         '
         'rsbtnInvoice
         '
-        Me.rsbtnInvoice.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.rsbtnInvoice.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.rsbtnInvoice.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem9, Me.RadMenuItem10})
-        Me.rsbtnInvoice.Location = New System.Drawing.Point(903, 396)
+        Me.rsbtnInvoice.Location = New System.Drawing.Point(907, 394)
         Me.rsbtnInvoice.Name = "rsbtnInvoice"
         Me.rsbtnInvoice.Size = New System.Drawing.Size(88, 20)
         Me.rsbtnInvoice.TabIndex = 158
@@ -1394,7 +1396,7 @@ Partial Class frmShipmentDairy
         '
         Me.btnDeliveredTo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDeliveredTo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDeliveredTo.Location = New System.Drawing.Point(813, 398)
+        Me.btnDeliveredTo.Location = New System.Drawing.Point(1017, 396)
         Me.btnDeliveredTo.Name = "btnDeliveredTo"
         Me.btnDeliveredTo.Size = New System.Drawing.Size(69, 20)
         Me.btnDeliveredTo.TabIndex = 40
@@ -1414,7 +1416,7 @@ Partial Class frmShipmentDairy
         '
         Me.btnPrintBatchWise.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrintBatchWise.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintBatchWise.Location = New System.Drawing.Point(721, 398)
+        Me.btnPrintBatchWise.Location = New System.Drawing.Point(1018, 396)
         Me.btnPrintBatchWise.Name = "btnPrintBatchWise"
         Me.btnPrintBatchWise.Size = New System.Drawing.Size(82, 20)
         Me.btnPrintBatchWise.TabIndex = 43
@@ -1589,6 +1591,7 @@ Partial Class frmShipmentDairy
         '
         'chkCreateAutoInvoice
         '
+        Me.chkCreateAutoInvoice.Enabled = False
         Me.chkCreateAutoInvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.chkCreateAutoInvoice.Location = New System.Drawing.Point(733, 117)
         Me.chkCreateAutoInvoice.Name = "chkCreateAutoInvoice"
@@ -4863,8 +4866,6 @@ Partial Class frmShipmentDairy
         '
         'RadPageViewPage4
         '
-        Me.RadPageViewPage4.Controls.Add(Me.lblOutstandingDesc)
-        Me.RadPageViewPage4.Controls.Add(Me.lblOutStanding)
         Me.RadPageViewPage4.Controls.Add(Me.MyLabel71)
         Me.RadPageViewPage4.Controls.Add(Me.lblGrossAmount)
         Me.RadPageViewPage4.Controls.Add(Me.lblTPTComAmt)
@@ -4926,19 +4927,22 @@ Partial Class frmShipmentDairy
         '
         'lblOutstandingDesc
         '
+        Me.lblOutstandingDesc.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblOutstandingDesc.AutoSize = False
         Me.lblOutstandingDesc.BorderVisible = True
         Me.lblOutstandingDesc.FieldName = Nothing
-        Me.lblOutstandingDesc.Location = New System.Drawing.Point(646, 244)
+        Me.lblOutstandingDesc.Location = New System.Drawing.Point(771, 396)
         Me.lblOutstandingDesc.Name = "lblOutstandingDesc"
         Me.lblOutstandingDesc.Size = New System.Drawing.Size(133, 19)
         Me.lblOutstandingDesc.TabIndex = 1578
+        Me.lblOutstandingDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         Me.lblOutstandingDesc.TextWrap = False
         '
         'lblOutStanding
         '
+        Me.lblOutStanding.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblOutStanding.FieldName = Nothing
-        Me.lblOutStanding.Location = New System.Drawing.Point(530, 244)
+        Me.lblOutStanding.Location = New System.Drawing.Point(713, 396)
         Me.lblOutStanding.Name = "lblOutStanding"
         Me.lblOutStanding.Size = New System.Drawing.Size(53, 18)
         Me.lblOutStanding.TabIndex = 1577
@@ -5040,7 +5044,7 @@ Partial Class frmShipmentDairy
         Me.rpOpening.Controls.Add(Me.txtOpeningbal)
         Me.rpOpening.Controls.Add(Me.lblDrAmt)
         Me.rpOpening.Controls.Add(Me.txtDrAmt)
-        Me.rpOpening.Location = New System.Drawing.Point(522, 140)
+        Me.rpOpening.Location = New System.Drawing.Point(522, 172)
         Me.rpOpening.Name = "rpOpening"
         Me.rpOpening.Size = New System.Drawing.Size(265, 98)
         Me.rpOpening.TabIndex = 1569

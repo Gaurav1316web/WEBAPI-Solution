@@ -1270,6 +1270,7 @@ Public Class frmShipmentDairy
         lblRouteDesc.Text = ""
         txtManualCustomer.Text = ""
         txtInsuranceNo.Text = ""
+        lblOutstandingDesc.Text = ""
         If AllowManualVehicleOnDairyDispatch = True Then
             txtManualVehicle.Visible = True
             lblManualVehicle.Visible = True
@@ -7761,17 +7762,8 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             If CheckCustomeroutStandingAmt Then
                 If Not clsCustomerMaster.IsCreditCustomer(txtVendorNo.Value) Then
 
-                    Dim qry As String = "Select  case when (( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt)) )>=0 then -abs(( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))) else abs(( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))) end  as BalAmt From ( " &
-                    "Select MAX(TSPL_CUSTOMER_MASTER.Cust_Group_Code) as Cust_Group_Code, ACode, MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as AName, '' as CurrencyCode,  " &
-                    "null as ConvRate, SUM(DrAmt* Final.ConvRate)-SUM(CrAmt) as OpngBal, 0 as DrAmt, 0 as CrAmt, 0 as [Sales], 0 as CollectionRefund, 0 as DrNote,  " &
-                    "0 as CrNote, MAX(tspl_customer_master.Cust_Category_Code) as Cust_Category_Code,MAX(CUST_CATEGORY_DESC) as Cust_Category_Desc,  " &
-                    "MAX(tspl_customer_master.Cust_Type_Code) As Cust_Type_Code,MAX(Cust_Type_Desc) As Cust_Type_Desc from   " &
-                    "(" & clsCustomerMaster.GetCustomerBaseQry(False, False, "", False, "ConvRate", "'" + txtVendorNo.Value + "'", True, clsCommon.GetPrintDate(txtDate.Value.AddDays(1), "dd/MMM/yyyy"), "", False, False, True, trans, False, txtDocNo.Value) & "   " &
-                    " ) Final left outer join TSPL_CUSTOMER_MASTER on final.ACode=TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN TSPL_CUSTOMER_GROUP_MASTER ON TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code " &
-                    "Left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =Final.DocNo  LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE=Final.Bank_Code " &
-                    "where  CONVERT(DATE,final.DocDate,103) <= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' AND LEN(ACode)>0 and ACode in ('" & txtVendorNo.Value & "')   AND TSPL_CUSTOMER_MASTER.Status='N' GROUP BY ACode " &
-                    ") XXX GROUP BY ACode ORDER BY ACode"
-                    lblOutstandingDesc.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
+                    LoadOutstanding()
+
                     Dim custOutStanding As Double = clsCommon.myCdbl(lblOutstandingDesc.Text)
                     If custOutStanding <= 0 Then
                         Throw New Exception("Insufficient Balance.")
@@ -7794,6 +7786,21 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         End Try
         Return True
     End Function
+
+    Private Sub LoadOutstanding()
+        Dim qry As String = "Select  case when (( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt)) )>=0 then -abs(( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))) else abs(( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))) end  as BalAmt From ( " &
+                    "Select MAX(TSPL_CUSTOMER_MASTER.Cust_Group_Code) as Cust_Group_Code, ACode, MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as AName, '' as CurrencyCode,  " &
+                    "null as ConvRate, SUM(DrAmt* Final.ConvRate)-SUM(CrAmt) as OpngBal, 0 as DrAmt, 0 as CrAmt, 0 as [Sales], 0 as CollectionRefund, 0 as DrNote,  " &
+                    "0 as CrNote, MAX(tspl_customer_master.Cust_Category_Code) as Cust_Category_Code,MAX(CUST_CATEGORY_DESC) as Cust_Category_Desc,  " &
+                    "MAX(tspl_customer_master.Cust_Type_Code) As Cust_Type_Code,MAX(Cust_Type_Desc) As Cust_Type_Desc from   " &
+                    "(" & clsCustomerMaster.GetCustomerBaseQry(False, False, "", False, "ConvRate", "'" + txtVendorNo.Value + "'", True, clsCommon.GetPrintDate(txtDate.Value.AddDays(1), "dd/MMM/yyyy"), "", False, False, True, trans, False, txtDocNo.Value) & "   " &
+                    " ) Final left outer join TSPL_CUSTOMER_MASTER on final.ACode=TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN TSPL_CUSTOMER_GROUP_MASTER ON TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code " &
+                    "Left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =Final.DocNo  LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE=Final.Bank_Code " &
+                    "where  CONVERT(DATE,final.DocDate,103) <= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' AND LEN(ACode)>0 and ACode in ('" & txtVendorNo.Value & "')   AND TSPL_CUSTOMER_MASTER.Status='N' GROUP BY ACode " &
+                    ") XXX GROUP BY ACode ORDER BY ACode"
+        lblOutstandingDesc.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
+    End Sub
+
     Public Shared Function GetConvQuantity(ByVal strItem As String, ByVal strCurrentUnit As String, ByVal strConvertedUnit As String, ByVal dblQty As Double) As Double
         Dim dblCurrentConvF As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where Item_Code='" & strItem & "' and UOM_Code='" & strCurrentUnit & "'"))
         Dim dblConvQty As Double = 0
@@ -10277,6 +10284,7 @@ order by TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code"
                         Next
                     End If
                 End If
+                LoadOutstanding()
             End If
             'txtCrate.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select sum(Qty) as Qty from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Document_Code='" + ParentDocNo + "' and Unit_code='Crate' group by Unit_code"))
             If clsCommon.myLen(txtInvoiceNo.Text) > 0 Then
@@ -11412,6 +11420,7 @@ left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=
                 If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
                     lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
                 End If
+                LoadOutstanding()
             Else
                 lblVendorName.Text = ""
                 txtTermCode.Value = ""
@@ -11423,6 +11432,7 @@ left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=
                 Me.txtCurrencyCode.Value = ""
                 Me.txtConversionRate.Text = 1
                 Me.txtApplicableFrom.Text = ""
+                lblOutstandingDesc.Text = ""
             End If
             '''' priti change start here
             qry = "SELECT TSPL_LOCATION_MASTER.Excisable,TSPL_LOCATION_MASTER.State, " &
