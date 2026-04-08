@@ -461,7 +461,16 @@ Public Class rptmilkunion2
                 Exit Sub
             End If
             Dim docNo As String = ""
-            query = " SELECT ROW_NUMBER() Over (Order By (Select 1)) As [SNo], [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE  Union_Report=1 ORDER BY Location_Name"
+
+            If clsCommon.myLen(objCommonVar.CurrentUnionDataBase) > 0 Then
+                query = " Select ROW_NUMBER() Over (Order By (Select 1)) As [SNo],TSPL_USER_MASTER.DataBase_Name,[TSPL_APP_LOCATION].Location_Name from TSPL_USER_MASTER 
+                    left outer join TSPL_MASTER.dbo.[TSPL_APP_LOCATION] on [TSPL_APP_LOCATION].DataBase_Name=TSPL_USER_MASTER.DataBase_Name where User_Code = '" + objCommonVar.CurrentUserCode + "' "
+                'dt = clsDBFuncationality.GetDataTable(qry)
+            Else
+                query = " SELECT ROW_NUMBER() Over (Order By (Select 1)) As [SNo], [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE  Union_Report=1 ORDER BY Location_Name"
+
+            End If
+            'query = " SELECT ROW_NUMBER() Over (Order By (Select 1)) As [SNo], [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE  Union_Report=1 ORDER BY Location_Name"
 
             '          If objCommonVar.RCDFCFP Then
             '              query = " 
