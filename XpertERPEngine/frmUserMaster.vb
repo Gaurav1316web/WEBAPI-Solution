@@ -328,7 +328,7 @@ Public Class FrmUserMaster
 #Region "Methods"
     Private Sub funfill()
 
-        Dim str As String = "select USER_NAME ,password ,Emp_Code,Emp_Name,User_Type,Level1_Code,Level2_Code,Level3_Code,Level4_Code, ApprovalLevel,E_Mail, Default_Location, Vendor_Code, Login_Type,Cust_Code,Distributor_Retailer_Code,Segment_code,View_Milk_Receipt_Sample,Department_Head,Licence_Reserved,Mob_No,InActive,isnull(InActive_Date,'') as InActive_Date,User_APP_Type,User_APP_Sale_Type,tspl_user_master.MP_Code,tspl_user_master.HR_Admin,isnull(TSPL_USER_MASTER.Entry_UOM,0) as Entry_UOM,SSO,Sub_location from TSPL_USER_MASTER where  User_Code ='" + fndUserCode.Value + "'"
+        Dim str As String = "select USER_NAME ,password ,Emp_Code,Emp_Name,User_Type,Level1_Code,Level2_Code,Level3_Code,Level4_Code, ApprovalLevel,E_Mail, Default_Location, Vendor_Code, Login_Type,Cust_Code,Distributor_Retailer_Code,Segment_code,View_Milk_Receipt_Sample,Department_Head,Licence_Reserved,Mob_No,InActive,isnull(InActive_Date,'') as InActive_Date,User_APP_Type,User_APP_Sale_Type,tspl_user_master.MP_Code,tspl_user_master.HR_Admin,isnull(TSPL_USER_MASTER.Entry_UOM,0) as Entry_UOM,SSO,Sub_location,DataBase_Name from TSPL_USER_MASTER where  User_Code ='" + fndUserCode.Value + "'"
         Dim dr As DataTable
         dr = clsDBFuncationality.GetDataTable(str)
         For Each row As DataRow In dr.Rows
@@ -3111,9 +3111,11 @@ order by LEVEL"
 
     Private Sub TxtUnion__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtUnion._MYValidating
         Try
-            Dim qry As String = " SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE 2=2 ORDER BY [TSPL_APP_LOCATION].Location_Name  "
-            'Dim wlr As String = " Is_Sub_Location='Y' "
-            TxtUnion.Value = clsCommon.ShowSelectForm("UNIFND", qry, "Code", "", TxtUnion.Value, "Code", isButtonClicked)
+            Dim qry As String = " SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION]  "
+            'Dim wlr As String = " ORDER BY [TSPL_APP_LOCATION].Location_Name "
+            Dim wlr As String = Nothing
+
+            TxtUnion.Value = clsCommon.ShowSelectForm("UNIFND", qry, "Name", wlr, TxtUnion.Value, "Location", isButtonClicked)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
