@@ -11,7 +11,7 @@ Public Class rptDCSTruckSheetRegister
     Public Sub Griddata(ByVal print As Boolean, ByVal print2 As Boolean)
         Try
             Dim BaseQuery As String = Nothing
-            BaseQuery = "select TSPL_MILK_COLLECTION_MCC.Document_No,  TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,'Administrator' as User_Name,--(TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No)TR_No,
+            BaseQuery = "select  TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2 , TSPL_MILK_COLLECTION_MCC.Document_No,  TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,'Administrator' as User_Name,--(TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No)TR_No,
 (TSPL_MILK_COLLECTION_MCC_DETAIL.SNo)SNo,
 TSPL_MCC_MASTER.mcc_code,(TSPL_MILK_COLLECTION_MCC.Route_Code) as [Route Code],(TSPL_BULK_ROUTE_MASTER.ROUTE_NAME) as [Route],(TSPL_MILK_COLLECTION_MCC.Tanker_No)Tanker_No,
 (TSPL_MILK_COLLECTION_MCC.Document_Shift)Shift,(TSPL_MILK_COLLECTION_MCC.Document_Date)Shift_Date,(TSPL_MILK_COLLECTION_MCC.Created_Date)Created_Date,(TSPL_MCC_MASTER.mcc_Name) as mcc_Name,
@@ -98,6 +98,8 @@ TSPL_MCC_MASTER.mcc_code,(TSPL_MILK_COLLECTION_MCC.Route_Code) as [Route Code],(
             gv1.Columns("Add1").IsVisible = False
             gv1.Columns("Add2").IsVisible = False
             gv1.Columns("Add3").IsVisible = False
+            gv1.Columns("Logo_Img").IsVisible = False
+            gv1.Columns("Logo_Img2").IsVisible = False
         Next
         Dim summaryRowItemB As New GridViewSummaryRowItem()
         gv1.AutoSizeRows = True
