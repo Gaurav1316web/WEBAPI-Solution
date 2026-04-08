@@ -14927,6 +14927,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("ANDROID_SECURE_ID", "varchar(30) null")
             coll.Add("ANDROID_DEVICE_MODEL_MANUFACTURER", "varchar(30) null")
             coll.Add("ANDROID_DEVICE_OS_VERSION", "varchar(30) null")
+            coll.Add("DataBase_Name", "varchar(15) NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_USER_MASTER", coll, "", True)
             Try
                 clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_USER_MASTER alter column SSO varchar(30) null")

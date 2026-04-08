@@ -909,6 +909,7 @@ Public Class FrmPrintFreshInvoice
                     Next
                 End If
             End If
+
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BAR") = CompairStringResult.Equal Then
                 Qry = " select * from( "
             End If
@@ -928,7 +929,7 @@ Public Class FrmPrintFreshInvoice
                 If clsCommon.CompairString(isCancel, "Cancel") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(isCancel, "Delete") <> CompairStringResult.Equal Then
                     Qry += " '' As Report_Status, "
                 End If
-                Qry += " max(Price_with_Tax)Price_with_Tax, '" & objCommonVar.CurrentUserCode & "' as UserName,  max(final.PaymentTerms)PaymentTerms,max(Is_Distributor)Is_Distributor,max(Is_BPL)Is_BPL,max(Is_CashSale)Is_CashSale,
+                Qry += " ISNULL( CAST((SUM(Total_Basic_Amt) + SUM(Total_Tax_Amt)) / NULLIF(SUM(Qty_Default), 0)AS DECIMAL(18,2)),0) AS Basic_Rate,(Final.item_cost)item_cost, '" & objCommonVar.CurrentUserCode & "' as UserName,  max(final.PaymentTerms)PaymentTerms,max(Is_Distributor)Is_Distributor,max(Is_BPL)Is_BPL,max(Is_CashSale)Is_CashSale,
                             max(BPL_Coupon_Code)BPL_Coupon_Code,max(BPL_Name)BPL_Name,max(BPL_Remark)BPL_Remark,max(BPL_Coupon_Date)BPL_Coupon_Date,max(BPL_Category)BPL_Category,max(PO_Indent_No)PO_Indent_No,max(PO_Indent_Date)PO_Indent_Date,max(Booking_OpeningBal)Booking_OpeningBal,max(Booking_DrAmt)Booking_DrAmt,max(Booking_CrAmt)Booking_CrAmt,max(Booking_ClosingBal)Booking_ClosingBal,
                             max(Booking_ChequeNo)Booking_ChequeNo,max(Is_DCS)Is_DCS,max(Booking_Type)Booking_Type,max(CST_LST)CST_LST,max(DocumentTime)DocumentTime,max(Manual_VehicleNo)Manual_VehicleNo,max(Payment_Terms)Payment_Terms,max(ReceiverName)ReceiverName,sum(Amt_Less_Discount)Amt_Less_Discount,max(Dispatch_OpeningBal)Dispatch_OpeningBal,max(Dispatch_DrAmt)Dispatch_DrAmt,max(Dispatch_CrAmt)Dispatch_CrAmt,max(Dispatch_ClosingBal)Dispatch_ClosingBal,MAX(CrAmt)CrAmt,max(Security_TotalAmt)Security_TotalAmt,max(Supply_Date)Supply_Date,max(Shift_Type)Shift_Type,sum(QTY_LTRKG)QTY_LTRKG,
                             max(ITAX1)ITAX1,max(ITAX1_RATE)ITAX1_RATE,sum(ITAX1_Amt)ITAX1_Amt,sum(ITAX1_Base_Amt)ITAX1_Base_Amt,max(ITAX2)ITAX2,max(ITAX2_RATE)ITAX2_RATE,sum(ITAX2_Amt)ITAX2_Amt,sum(ITAX2_Base_Amt)ITAX2_Base_Amt,max(ITAX3)ITAX3,max(ITAX3_RATE)ITAX3_RATE,sum(ITAX3_Amt)ITAX3_Amt,sum(ITAX3_Base_Amt)ITAX3_Base_Amt,max(ITAX4)ITAX4,max(ITAX4_RATE)ITAX4_RATE,sum(ITAX4_Amt)ITAX4_Amt,sum(ITAX4_Base_Amt)ITAX4_Base_Amt,max(ITAX5)ITAX5,max(ITAX5_RATE)ITAX5_RATE,sum(ITAX5_Amt)ITAX5_Amt,sum(ITAX5_Base_Amt)ITAX5_Base_Amt,max(ITAX6)ITAX6,max(ITAX6_RATE)ITAX6_RATE,sum(ITAX6_Amt)ITAX6_Amt,sum(ITAX6_Base_Amt)ITAX6_Base_Amt,
@@ -936,10 +937,10 @@ Public Class FrmPrintFreshInvoice
 	                    	max(Location_Desc)Location_Desc,max(Loc_Short_Name)Loc_Short_Name,max(Loc_Pin)Loc_Pin,max(Loc_Phone)Loc_Phone,max(Loc_Eamil)Loc_Eamil,max(Loc_Website)Loc_Website,max(ISO_No)ISO_No,max(Invoice_No)Invoice_No,max(Invoice_Date)Invoice_Date,max(Cust_City)Cust_City,max(Against_Shipment_No)Against_Shipment_No,max(Cust_Gst_StateCode)Cust_Gst_StateCode,max(Electronic_Ref_No)Electronic_Ref_No,max(CustGSTNo)CustGSTNo,max(Area_Code)Area_Code,max(gst_state_code)gst_state_code,max(LocGstNo)LocGstNo,max(EWayBillNo)EWayBillNo,max(EWayBillDate)EWayBillDate,max(HSN_Code)HSN_Code, 	max(InvRemarks)InvRemarks,max(Delivery_Code)Delivery_Code,max(Conversion_factor)Conversion_factor,sum(QTY_Box)QTY_Box,max(Sale_Invoice_No)Sale_Invoice_No,max(vehicleNo)vehicleNo,max(Sale_Invoice_Date)Sale_Invoice_Date,max(RoundOffAmount)RoundOffAmount,max(Total_Amt)Total_Amt,max(Loc_ADd1)Loc_ADd1,max(LOC_ADD2)LOC_ADD2,max(LOC_ADD3)LOC_ADD3,max(LocationState)LocationState,max(LOCPhone)LOCPhone,max(Loc_TIN_NO)Loc_TIN_NO,(Document_Code)Document_Code,max(Document_Date)Document_Date,max(Description)Description,max(Lorry_No)Lorry_No,max(Sku_Seq)Sku_Seq,Item_Code,max(Line_No)Line_No,max(Item_Desc)Item_Desc,sum(QtyCrates)QtyCrates,max(ConvFactInCrate)ConvFactInCrate,sum(ConvQtyInCrate)ConvQtyInCrate,max(Unit_code)Unit_code,sum(Qty_Default)Qty_Default,
                             max(Rate_Default)Rate_Default,sum(QtyPCS)QtyPCS,sum(free_qty)free_qty, max(FreeSchemeInLitres)FreeSchemeInLitres,max(IsMultipleInvoice)IsMultipleInvoice,max(RatePerPcs)RatePerPcs,sum(valueInRs)valueInRs,max(comp_add2)comp_add2,max(comp_add3)comp_add3,max(CompPhone)CompPhone,max(Cash_Scheme_Amount)Cash_Scheme_Amount,max(schemeInCrates)schemeInCrates,max(GrandTotalCrates)GrandTotalCrates,max(Comp_Code)Comp_Code,max(Comp_Name)Comp_Name,max(comp_add1)comp_add1,max(comp_Fax)comp_Fax,max(comp_Email)comp_Email,max(comp_tinNo)comp_tinNo,max(cust_Code)cust_Code,max(Customer_Name)Customer_Name,
 	                    	max(cust_add1)cust_add1,max(cust_add2)cust_add2,max(cust_add3)cust_add3,max(CustPhone)CustPhone,max(cust_fax)cust_fax,max(Cust_state)Cust_state,max(cust_Statename)cust_Statename,max(cust_Email)cust_Email,max(cust_website)cust_website,max(Customer_Pan)Customer_Pan,max(Ack_No)Ack_No,max(Ack_Date)Ack_Date,max(TaxableNonTaxable)TaxableNonTaxable,max(TAX1)TAX1,max(TaxType1)TaxType1,sum(TAX1_Amt)TAX1_Amt,max(TAX1_Rate)TAX1_Rate,sum(TAX1Amt)TAX1Amt,max(TAX2)TAX2,max(TaxType2)TaxType2,sum(TAX2_Amt)TAX2_Amt,max(TAX2_Rate)TAX2_Rate,sum(TAX2Amt)TAX2Amt,max(TAX3)TAX3,max(TaxType3)TaxType3,sum(TAX3_Amt)TAX3_Amt,max(TAX3_Rate)TAX3_Rate,sum(TAX3Amt)TAX3Amt,max(TAX4)TAX4,max(TaxType4)TaxType4,sum(TAX4_Amt)TAX4_Amt,max(TAX4_Rate)TAX4_Rate,sum(TAX4Amt)TAX4Amt,max(TAX5)TAX5,max(TaxType5)TaxType5,sum(TAX5_Amt)TAX5_Amt,max(TAX6)TAX6,max(TaxType6)TaxType6,sum(TAX6_Amt)TAX6_Amt,max(Route_No)Route_No,max(Route_Desc)Route_Desc,max(Distributor_Commission_TotalAmt)Distributor_Commission_TotalAmt,
-                            max(Transporter_Commission_TotalAmt)Transporter_Commission_TotalAmt,max(Transport_Id)Transport_Id,max(Transporter_Name)Transporter_Name,max(Against_Delivery_Code)Against_Delivery_Code,max(batchNO)batchNO,max(Credit_Customer)Credit_Customer,max(Ship_To_Code)Ship_To_Code,max(Ship_To_Desc)Ship_To_Desc,max(Ship_Address)Ship_Address,max(Ship_City)Ship_City,max(Ship_State)Ship_State,max(Ship_Pin_Code)Ship_Pin_Code,max(Ship_PAN)Ship_PAN,max(Ship_GSTNO)Ship_GSTNO,max(Booth_Security_Amt)Booth_Security_Amt,max(Billing_Unit_code)Billing_Unit_code,sum(Billing_Qty)Billing_Qty,max(BulkCF)BulkCF,sum(Total_Basic_Amt)Total_Basic_Amt,max(Brand)Brand,max(BRANDDESC)BRANDDESC,max(Particulars)Particulars,
+                            max(Transporter_Commission_TotalAmt)Transporter_Commission_TotalAmt,max(Transport_Id)Transport_Id,max(Transporter_Name)Transporter_Name,max(Against_Delivery_Code)Against_Delivery_Code,max(batchNO)batchNO,max(Credit_Customer)Credit_Customer,max(Ship_To_Code)Ship_To_Code,max(Ship_To_Desc)Ship_To_Desc,max(Ship_Address)Ship_Address,max(Ship_City)Ship_City,max(Ship_State)Ship_State,max(Ship_Pin_Code)Ship_Pin_Code,max(Ship_PAN)Ship_PAN,max(Ship_GSTNO)Ship_GSTNO,max(Booth_Security_Amt)Booth_Security_Amt,max(Billing_Unit_code)Billing_Unit_code,sum(Billing_Qty)Billing_Qty,max(BulkCF)BulkCF,sum(Total_Basic_Amt)Total_Basic_Amt,Sum(Total_Tax_Amt)Total_Tax_Amt,max(Brand)Brand,max(BRANDDESC)BRANDDESC,max(Particulars)Particulars,
 	                    	sum(Crate_No)Crate_No,max(CopyType)CopyType,max(SellerGST)SellerGST,max(Pan_No)Pan_No,max(Bank_Name)Bank_Name,max(BankAccountNo)BankAccountNo,max(BankBranchAddress)BankBranchAddress,max(BankIFSCCode)BankIFSCCode,max(Tcan_No)Tcan_No,max(RateLtr)RateLtr,max(Company_Name)Company_Name,max(Address2)Address2,max(Regn_No)Regn_No,max(FSSAI_NO)FSSAI_NO,max(Receipt_No)Receipt_No,max(Receipt_Date)Receipt_Date,max(Receipt_Amount)Receipt_Amount,max(Payment_Code)Payment_Code,max(cheque_No)cheque_No,max(Cheque_Date)Cheque_Date,max(OpeningBal)OpeningBal,max(ClosingBal)ClosingBal,max(cast(Logo_Img as varbinary(max))) as Logo_Img  "
             Else
-                    Qry += " '' As Report_Status,ReceiverName, "
+                Qry += " '' As Report_Status,ReceiverName, "
             End If
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                 Qry += ", max(cast(BarCode_Img as varbinary(max))) as BarCode_Img "
@@ -1000,7 +1001,7 @@ TSPL_RECEIPT_HEADER.Payment_Code,TSPL_RECEIPT_HEADER.cheque_No,TSPL_RECEIPT_HEAD
                 Qry += "  Access_Officer,CINNo, "
             End If
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-                Qry += " TSPL_BOOKING_DETAIL.Price_with_Tax, "
+                Qry += " TSPL_SD_SALE_INVOICE_detail.item_cost,  "
             End If
             Qry += "  case when TSPL_BOOKING_MATSER.Is_CashSale='Y' then TSPL_SD_SHIPMENT_HEAD.Payment_Terms else 'CREDIT' END AS PaymentTerms,TSPL_BOOKING_MATSER.Is_Distributor,TSPL_BOOKING_MATSER.Is_BPL,TSPL_BOOKING_MATSER.Is_CashSale,TSPL_BOOKING_MATSER.BPL_Coupon_Code,TSPL_BOOKING_MATSER.BPL_Name,TSPL_BOOKING_MATSER.BPL_Remark,TSPL_BOOKING_MATSER.BPL_Coupon_Date,TSPL_BOOKING_MATSER.BPL_Category,TSPL_BOOKING_MATSER.PO_Indent_No,Convert(varchar(12),TSPL_BOOKING_MATSER.PO_Indent_Date,103) as PO_Indent_Date,TSPL_BOOKING_MATSER.OpeningBal as Booking_OpeningBal,TSPL_BOOKING_MATSER.DrAmt as Booking_DrAmt,TSPL_BOOKING_MATSER.CrAmt as Booking_CrAmt,TSPL_BOOKING_MATSER.ClosingBal as Booking_ClosingBal,TSPL_BOOKING_MATSER.ChequeNo as Booking_ChequeNo , TSPL_BOOKING_MATSER.Is_DCS,TSPL_BOOKING_MATSER.Booking_Type, TSPL_COMPANY_MASTER.CST_LST,(Case When TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' Then cast(TSPL_SD_SALE_INVOICE_HEAD.BarCode_Img as image) End) as BarCode_Img,FORMAT(TSPL_SD_SHIPMENT_HEAD.Dispatch_date,'hh:mm:ss tt') As DocumentTime,
 TSPL_SD_SHIPMENT_HEAD.ManualVehicle as Manual_VehicleNo,TSPL_SD_SHIPMENT_HEAD.Payment_Terms,TSPL_SD_SHIPMENT_HEAD.ReceiverName,TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Discount,
@@ -1084,7 +1085,7 @@ TSPL_SHIP_TO_LOCATION.Ship_To_Code,TSPL_SHIP_TO_LOCATION.Ship_To_Desc,TSPL_SHIP_
 TSPL_SHIP_TO_LOCATION.Ship_State,Convert(Varchar,TSPL_SHIP_TO_LOCATION.Ship_Pin_Code)Ship_Pin_Code,TSPL_SHIP_TO_LOCATION.Ship_PAN,TSPL_SHIP_TO_LOCATION.Ship_GSTNO ,IsNull(TSPL_SD_SHIPMENT_DETAIL.Booth_Security_Amt,0)Booth_Security_Amt"
 
             ' If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-            Qry += " ,TSPL_SD_SHIPMENT_DETAIL.Billing_Unit_code,TSPL_SD_SHIPMENT_DETAIL.Billing_Qty,ITEMBulkCF.Conversion_Factor as BulkCF,TSPL_SD_SHIPMENT_DETAIL.Total_Basic_Amt "
+            Qry += " ,TSPL_SD_SHIPMENT_DETAIL.Billing_Unit_code,TSPL_SD_SHIPMENT_DETAIL.Billing_Qty,ITEMBulkCF.Conversion_Factor as BulkCF,TSPL_SD_SHIPMENT_DETAIL.Total_Basic_Amt , TSPL_SD_SHIPMENT_DETAIL.Total_Tax_Amt "
             'End If
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                 Qry += " ,ITEMBulkCF.UOM_Code as BulkUOM,TSPL_CUSTOMER_TENDER_ORDER.Ref_No,convert(varchar(12),TSPL_CUSTOMER_TENDER_ORDER.Ref_Date,103) as Ref_Date "
@@ -1094,9 +1095,9 @@ LEFT OUTER JOIN " + SD_SALE_INVOICE_HEAD + " ON TSPL_SD_SALE_INVOICE_HEAD .Docum
 left outer join " + SD_SHIPMENT_HEAD + " on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No  
 left outer join " + SD_SHIPMENT_DETAIL + " on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE  and TSPL_SD_SHIPMENT_DETAIL.Line_No=TSPL_SD_sale_invoice_DETAIL.Line_No
 left outer join TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No=TSPL_SD_SHIPMENT_HEAD.Against_Booking_No "
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-                Qry += " left outer join TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.Document_no=TSPL_BOOKING_MATSER.Document_no "
-            End If
+            'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+            '    Qry += " left outer join TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.Document_no=TSPL_BOOKING_MATSER.Document_no "
+            'End If
             Qry += " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code And   
 TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_sale_invoice_DETAIL.Unit_code LEFT OUTER JOIN TSPL_ITEM_MASTER  ON  TSPL_ITEM_MASTER.Item_Code =TSPL_SD_sale_invoice_DETAIL.Item_Code
 left join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_SD_SHIPMENT_HEAD.Route_No "
@@ -1221,10 +1222,10 @@ Pivot(max(Item_Cagetory_Values) For Item_Category_Code   In ( [CATEGORY RM], [BR
                 Qry += " Order By Print_Sequence "
             End If
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
-                    Qry += " )xxx Left OUTER JOIN (Select 1 As COL1, 1 As COL2,  'ORIGINAL COPY' as CopyType1 UNION Select 1 as COL1, 2 as COL2,  'DUPLICATE COPY' as CopyType1 UNION Select 1 as COL1, 3 as COL2,  'TRIPLICATE COPY' as CopyType1 UNION Select 1 as COL1, 4 as COL2,  'QUADRUPLICATE COPY' as CopyType1) YYY ON YYY.COL1=xxx.CopyType "
-                End If
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BAR") = CompairStringResult.Equal Then
-                    Qry += " group by Document_Code,Item_Code )XY 
+                Qry += " )xxx Left OUTER JOIN (Select 1 As COL1, 1 As COL2,  'ORIGINAL COPY' as CopyType1 UNION Select 1 as COL1, 2 as COL2,  'DUPLICATE COPY' as CopyType1 UNION Select 1 as COL1, 3 as COL2,  'TRIPLICATE COPY' as CopyType1 UNION Select 1 as COL1, 4 as COL2,  'QUADRUPLICATE COPY' as CopyType1) YYY ON YYY.COL1=xxx.CopyType "
+            End If
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BAR") = CompairStringResult.Equal Then
+                Qry += " group by Document_Code,Item_Code,item_cost )XY 
                         LEFT JOIN ( SELECT Item_Code AS I1, BarCode_Img
                             FROM
                             ( SELECT TSPL_SD_SALE_INVOICE_DETAIL.Item_Code,TSPL_SD_SALE_INVOICE_HEAD.BarCode_Img,
@@ -1232,17 +1233,17 @@ Pivot(max(Item_Cagetory_Values) For Item_Category_Code   In ( [CATEGORY RM], [BR
                                 FROM TSPL_SD_SALE_INVOICE_DETAIL
                                 JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_DETAIL.Document_Code
                                 WHERE 2=2 ) X WHERE RN = 1 ) BC ON BC.I1 = XY.Item_Code "
-                End If
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
-                    Qry += " group by Document_Code,Item_Code )XY  "
-                End If
-                'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-                '    Qry += " Left OUTER JOIN (Select 1 As COL1, 1 As COL2,  'ORIGINAL COPY' as CopyType1 UNION Select 1 as COL1, 2 as COL2,  'DUPLICATE COPY' as CopyType1 UNION Select 1 as COL1, 3 as COL2, 
-                '             'TRIPLICATE COPY' as CopyType1 UNION Select 1 as COL1, 4 as COL2,  'QUADRUPLICATE COPY' as CopyType1) YYY ON YYY.COL1=Final.CopyType ORDER BY Line_No,YYY.COL2 "
-                'End If
-                'Qry += " ) Final  order  by Final.Line_No asc,Final.Sku_Seq"
             End If
-            Return Qry
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
+                Qry += " group by Document_Code,Item_Code )XY  "
+            End If
+            'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+            '    Qry += " Left OUTER JOIN (Select 1 As COL1, 1 As COL2,  'ORIGINAL COPY' as CopyType1 UNION Select 1 as COL1, 2 as COL2,  'DUPLICATE COPY' as CopyType1 UNION Select 1 as COL1, 3 as COL2, 
+            '             'TRIPLICATE COPY' as CopyType1 UNION Select 1 as COL1, 4 as COL2,  'QUADRUPLICATE COPY' as CopyType1) YYY ON YYY.COL1=Final.CopyType ORDER BY Line_No,YYY.COL2 "
+            'End If
+            'Qry += " ) Final  order  by Final.Line_No asc,Final.Sku_Seq"
+        End If
+        Return Qry
 
     End Function
 

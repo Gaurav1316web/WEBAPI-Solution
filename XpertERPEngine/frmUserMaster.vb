@@ -462,6 +462,7 @@ Public Class FrmUserMaster
             End If
             txtSubLocation.Value = clsCommon.myCstr(row("Sub_location"))
             lblSubLocation.Text = clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtSubLocation.Value + "'")
+            TxtUnion.Value = clsCommon.myCstr(row("DataBase_Name"))
 
             txtDefaultLocation.Value = clsCommon.myCstr(row("Default_Location"))
             lblLocationName.Text = clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtDefaultLocation.Value + "'")
@@ -752,6 +753,8 @@ Public Class FrmUserMaster
         clsCommon.AddColumnsForChange(coll, "Entry_UOM", clsCommon.myCDecimal(cboEntryUOM.SelectedValue), True)
         clsCommon.AddColumnsForChange(coll, "SSO", txtSSO.Text, True)
         clsCommon.AddColumnsForChange(coll, "Sub_location", txtSubLocation.Value, True)
+        clsCommon.AddColumnsForChange(coll, "DataBase_Name", TxtUnion.Value, True)
+
 
         clsCommonFunctionality.UpdateDataTable(coll, "TSPL_USER_MASTER", OMInsertOrUpdate.Update, "User_Code='" + fndUserCode.Value + "'")
 
@@ -1027,6 +1030,7 @@ Public Class FrmUserMaster
     Private Sub funReset()
         lblSubLocation.Text = ""
         txtSubLocation.Value = ""
+        TxtUnion.Value = ""
         fndUserCode.MyReadOnly = False
         fndUserCode.Value = ""
         fndEmployeeCode.Value = ""
@@ -3105,10 +3109,20 @@ order by LEVEL"
 
     End Sub
 
+    Private Sub TxtUnion__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtUnion._MYValidating
+        Try
+            Dim qry As String = " SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE 2=2 ORDER BY [TSPL_APP_LOCATION].Location_Name  "
+            'Dim wlr As String = " Is_Sub_Location='Y' "
+            TxtUnion.Value = clsCommon.ShowSelectForm("UNIFND", qry, "Code", "", TxtUnion.Value, "Code", isButtonClicked)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
     Private Sub SaveUserMapping()
         Try
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_USER_MAPPING_DETAIL where User_Code = '" + fndUserCode.Value + "' ")
-                    clsDBFuncationality.ExecuteNonQuery("delete from TSPL_USER_CUSTOMER_ZONE  where User_Code ='" + fndUserCode.Value + "' ")
+            clsDBFuncationality.ExecuteNonQuery("delete from TSPL_USER_CUSTOMER_ZONE  where User_Code ='" + fndUserCode.Value + "' ")
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_USER_CUSTOMER_CATEGORY  where User_Code ='" + fndUserCode.Value + "' ")
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_User_Route_Mapping  where User_Code ='" + fndUserCode.Value + "' ")
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_USER_BULK_ROUTE_MAPPING  where User_Code ='" + fndUserCode.Value + "' ")

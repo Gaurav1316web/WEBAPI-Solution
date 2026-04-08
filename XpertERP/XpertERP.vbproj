@@ -354,7 +354,7 @@
     <Reference Include="XpertERPCustomerComplaint">
       <HintPath>..\XpertERPCustomerComplaint\bin\Debug\XpertERPCustomerComplaint.dll</HintPath>
     </Reference>
-    <Reference Include="XpertERPDairySale, Version=7.1.2.85, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="XpertERPDairySale, Version=7.1.5.99, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERPDairySale\bin\Debug\XpertERPDairySale.dll</HintPath>
     </Reference>

@@ -3,6 +3,7 @@ Public Class clsUserMgtCode
     Public Const frmAccountSalesReport As String = "ACC-SLS-RPT"
     Public Const frmPIPaymentStatusReport As String = "PIP-STS-RPT"
     Public Const frmEmployeeOTEntry As String = "EMP-OT"
+    Public Const rptDCSTruckSheetRegister As String = "DCS_REG"
     Public Const frmTruckWiseRejectionReport As String = "TRW-RJN-RPT"
     Public Const frmBatchManufacturingMaster As String = "Bat-MAN-MA"
     Public Const rptDbtStatusRCDF As String = "DBT-ST-RCD"
