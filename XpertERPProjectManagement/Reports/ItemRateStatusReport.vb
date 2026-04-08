@@ -325,6 +325,7 @@ EXEC sp_executesql @sql;"
                 Dim arrHeader As List(Of String) = New List(Of String)()
                 arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
                 arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.ItemRateStatusReport & "'"))
+
                 transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
@@ -332,5 +333,19 @@ EXEC sp_executesql @sql;"
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+
+
+        'Try
+        '    If Gv1.Rows.Count > 0 Then
+        '        Dim arrHeader As List(Of String) = New List(Of String)()
+        '        arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+        '        arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.ItemRateStatusReport & "'"))
+        '        transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
+        '    Else
+        '        clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
+        '    End If
+        'Catch ex As Exception
+        '    common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        'End Try
     End Sub
 End Class
