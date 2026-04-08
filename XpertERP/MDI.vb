@@ -10181,7 +10181,7 @@ Public Class MDI
                         frm = New DashboardMilkUnion
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.DairySaleDashboard
-                        frm = New DairySaleDashboard
+                        frm = New frmDairyDashboard ''DairySaleDashboard
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptDBTDashboard
                         frm = New rptDBTDashboard
