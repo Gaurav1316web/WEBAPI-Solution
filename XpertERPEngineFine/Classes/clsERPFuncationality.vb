@@ -325,6 +325,17 @@ Public Class clsERPFuncationality
             qry = " Select TSPL_USER_MASTER.DataBase_Name,[TSPL_APP_LOCATION].Location_Name from TSPL_USER_MASTER 
                     left outer join TSPL_MASTER.dbo.[TSPL_APP_LOCATION] on [TSPL_APP_LOCATION].DataBase_Name=TSPL_USER_MASTER.DataBase_Name where User_Code = '" + objCommonVar.CurrentUserCode + "' "
             dt = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                qry = ""
+                For ii As Integer = 0 To dt.Rows.Count - 1
+                    If ii > 0 Then
+                        qry += Environment.NewLine + "Union all" + Environment.NewLine
+                    End If
+                    qry += baseQry.Replace(DBNamePrefix, clsCommon.myCstr(dt.Rows(ii)("DataBase_Name")) + ".dbo.")
+                Next
+            Else
+                Throw New Exception("No Union found to make query")
+            End If
         Else
             qry = "select DataBase_Name from TSPL_MASTER.dbo.TSPL_APP_LOCATION where Union_Report=1"
             dt = clsDBFuncationality.GetDataTable(qry)
