@@ -16,19 +16,51 @@ Public Class rptDBTNEFTPaymentDetailReport
     Private Sub rptDBTNEFTPaymentDetailReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         funreset()
 
+        If clsCommon.myLen(objCommonVar.CurrentUnionDataBase) > 0 Then
+            Dim Union As ArrayList = Nothing
+            Dim qry As String = " Select DataBase_Name from TSPL_USER_MASTER where User_Code = '" + objCommonVar.CurrentUserCode + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Union = New ArrayList()
+                For Each drZone As DataRow In dt.Rows
+                    Union.Add(clsCommon.myCstr(drZone("DataBase_Name")))
+                Next
+            End If
+            txtUnion.arrValueMember = Union
+        End If
+
     End Sub
 
     Private Sub txtUnion__My_Click(sender As Object, e As EventArgs) Handles txtUnion._My_Click
         Try
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
-            If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
-                common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
-                Exit Sub
-            End If
+            Dim dt As DataTable
             Dim qry As String = ""
-            qry = "SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHT','JMBILL') ORDER BY [TSPL_APP_LOCATION].Location_Name"
 
-            txtUnion.arrValueMember = clsCommon.ShowMultipleSelectForm("DBTPaymentDetail", qry, "DataBase_Name", "Location_Name", txtUnion.arrValueMember, txtUnion.arrDispalyMember)
+            If clsCommon.myLen(objCommonVar.CurrentUnionDataBase) > 0 Then
+                qry = " Select DataBase_Name as [DataBase Name] from TSPL_USER_MASTER where User_Code = '" + objCommonVar.CurrentUserCode + "' "
+                txtUnion.arrValueMember = clsCommon.ShowMultipleSelectForm("SaleUnionDs", qry, "DataBase Name", "", txtUnion.arrValueMember, Nothing)
+
+            Else
+                dt = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
+                If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
+                    Exit Sub
+                End If
+
+                qry = "SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHT','JMBILL') ORDER BY [TSPL_APP_LOCATION].Location_Name"
+
+                txtUnion.arrValueMember = clsCommon.ShowMultipleSelectForm("DBTPaymentDetail", qry, "DataBase_Name", "Location_Name", txtUnion.arrValueMember, txtUnion.arrDispalyMember)
+
+            End If
+            'dt = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
+            'If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
+            '    common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
+            '    Exit Sub
+            'End If
+
+            'qry = "SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHT','JMBILL') ORDER BY [TSPL_APP_LOCATION].Location_Name"
+
+            'txtUnion.arrValueMember = clsCommon.ShowMultipleSelectForm("DBTPaymentDetail", qry, "DataBase_Name", "Location_Name", txtUnion.arrValueMember, txtUnion.arrDispalyMember)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -75,11 +107,13 @@ Public Class rptDBTNEFTPaymentDetailReport
                 gv1.DataSource = Nothing
                 Exit Sub
             End If
-            dt = clsMilkUnion.UnionDBName()
+            'dt = clsMilkUnion.UnionDBName()
+            dt = clsMilkUnion.UnionDBName1(txtUnion.arrValueMember)
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 If txtUnion.arrValueMember IsNot Nothing Then
                     dt = clsMilkUnion.UnionDBName()
+                    dt = clsMilkUnion.UnionDBName1(txtUnion.arrValueMember)
                 End If
                 Baseqry = " select ROW_NUMBER() over(order by ([Union Name])) as 'SNO.',* from ( "
                 For ii As Integer = 0 To dt.Rows.Count - 1

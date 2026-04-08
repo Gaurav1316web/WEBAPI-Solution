@@ -2068,7 +2068,9 @@
     <None Include="Crystal Reports\Sales Report\crptSaleInvoiceWithoutExciseCustomForGuntoor.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleOrderReport.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleRegisterDetailNew.rpt" />
+    <None Include="Crystal Reports\Sales Report\crptSaleRegisterNonTaxable.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleRegisterSmryNew.rpt" />
+    <None Include="Crystal Reports\Sales Report\crptSaleRegisterTaxable.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleReturnExcise.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleReturnInterExcise.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleReturnInterNonExcise.rpt" />
@@ -2084,6 +2086,7 @@
     <None Include="Crystal Reports\Sales Report\crptSettlement.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSettlementEntry.rpt" />
     <None Include="Crystal Reports\Sales Report\crptShipment.rpt" />
+    <None Include="Crystal Reports\Sales Report\CrptSTSRegister-ItemPartyWiseSummary .rpt" />
     <None Include="Crystal Reports\Sales Report\CrptSTSRegister-ItemWiseSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\CrptSTSRegister-ItemWiseSummaryPartyWise.rpt" />
     <None Include="Crystal Reports\Sales Report\CrptSTSRegister-ItemWiseSummaryPartyWisee.rpt" />

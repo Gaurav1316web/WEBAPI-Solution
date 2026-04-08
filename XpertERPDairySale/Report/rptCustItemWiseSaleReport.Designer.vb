@@ -22,7 +22,7 @@ Partial Class rptCustItemWiseSaleReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -32,6 +32,8 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtToLocation = New common.UserControls.txtMultiSelectFinder()
+        Me.lblToLocation = New common.Controls.MyLabel()
         Me.ddlReportType = New common.Controls.MyComboBox()
         Me.lblReportType = New common.Controls.MyLabel()
         Me.ddlType = New common.Controls.MyComboBox()
@@ -95,8 +97,7 @@ Partial Class rptCustItemWiseSaleReport
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.MyDateTimePicker1 = New common.Controls.MyDateTimePicker()
-        Me.txtToLocation = New common.UserControls.txtMultiSelectFinder()
-        Me.lblToLocation = New common.Controls.MyLabel()
+        Me.rbtnSalesRegister = New common.Controls.MyRadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -108,6 +109,7 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadPanel1.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.lblToLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ddlReportType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblReportType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ddlType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -169,7 +171,7 @@ Partial Class rptCustItemWiseSaleReport
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyDateTimePicker1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblToLocation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnSalesRegister, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -284,8 +286,31 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadGroupBox1.HeaderText = ""
         Me.RadGroupBox1.Location = New System.Drawing.Point(6, 13)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(974, 264)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(974, 295)
         Me.RadGroupBox1.TabIndex = 389
+        '
+        'txtToLocation
+        '
+        Me.txtToLocation.arrDispalyMember = Nothing
+        Me.txtToLocation.arrValueMember = Nothing
+        Me.txtToLocation.Location = New System.Drawing.Point(94, 156)
+        Me.txtToLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtToLocation.MyLinkLable1 = Nothing
+        Me.txtToLocation.MyLinkLable2 = Nothing
+        Me.txtToLocation.MyNullText = "All"
+        Me.txtToLocation.Name = "txtToLocation"
+        Me.txtToLocation.Size = New System.Drawing.Size(243, 19)
+        Me.txtToLocation.TabIndex = 462
+        '
+        'lblToLocation
+        '
+        Me.lblToLocation.FieldName = Nothing
+        Me.lblToLocation.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblToLocation.Location = New System.Drawing.Point(5, 155)
+        Me.lblToLocation.Name = "lblToLocation"
+        Me.lblToLocation.Size = New System.Drawing.Size(64, 18)
+        Me.lblToLocation.TabIndex = 461
+        Me.lblToLocation.Text = "To Location"
         '
         'ddlReportType
         '
@@ -628,6 +653,7 @@ Partial Class rptCustItemWiseSaleReport
         'BKNGroupBox
         '
         Me.BKNGroupBox.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.BKNGroupBox.Controls.Add(Me.rbtnSalesRegister)
         Me.BKNGroupBox.Controls.Add(Me.rbtnBoothSaleItemWise)
         Me.BKNGroupBox.Controls.Add(Me.rbtnBoothSaleDateShiftWise)
         Me.BKNGroupBox.Controls.Add(Me.rbtnMilkSale)
@@ -650,7 +676,7 @@ Partial Class rptCustItemWiseSaleReport
         Me.BKNGroupBox.Location = New System.Drawing.Point(344, 33)
         Me.BKNGroupBox.Name = "BKNGroupBox"
         Me.BKNGroupBox.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.BKNGroupBox.Size = New System.Drawing.Size(458, 223)
+        Me.BKNGroupBox.Size = New System.Drawing.Size(458, 257)
         Me.BKNGroupBox.TabIndex = 447
         Me.BKNGroupBox.Visible = False
         '
@@ -1057,7 +1083,7 @@ Partial Class rptCustItemWiseSaleReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyExportAPI = False
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
@@ -1158,28 +1184,16 @@ Partial Class rptCustItemWiseSaleReport
         Me.MyDateTimePicker1.Text = "17-12-2011"
         Me.MyDateTimePicker1.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
         '
-        'txtToLocation
+        'rbtnSalesRegister
         '
-        Me.txtToLocation.arrDispalyMember = Nothing
-        Me.txtToLocation.arrValueMember = Nothing
-        Me.txtToLocation.Location = New System.Drawing.Point(94, 156)
-        Me.txtToLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtToLocation.MyLinkLable1 = Nothing
-        Me.txtToLocation.MyLinkLable2 = Nothing
-        Me.txtToLocation.MyNullText = "All"
-        Me.txtToLocation.Name = "txtToLocation"
-        Me.txtToLocation.Size = New System.Drawing.Size(243, 19)
-        Me.txtToLocation.TabIndex = 462
-        '
-        'lblToLocation
-        '
-        Me.lblToLocation.FieldName = Nothing
-        Me.lblToLocation.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblToLocation.Location = New System.Drawing.Point(5, 155)
-        Me.lblToLocation.Name = "lblToLocation"
-        Me.lblToLocation.Size = New System.Drawing.Size(64, 18)
-        Me.lblToLocation.TabIndex = 461
-        Me.lblToLocation.Text = "To Location"
+        Me.rbtnSalesRegister.Location = New System.Drawing.Point(6, 223)
+        Me.rbtnSalesRegister.MyLinkLable1 = Nothing
+        Me.rbtnSalesRegister.MyLinkLable2 = Nothing
+        Me.rbtnSalesRegister.Name = "rbtnSalesRegister"
+        Me.rbtnSalesRegister.Size = New System.Drawing.Size(253, 18)
+        Me.rbtnSalesRegister.TabIndex = 418
+        Me.rbtnSalesRegister.TabStop = False
+        Me.rbtnSalesRegister.Text = "Sales Register (Taxable && Non Taxable Invoice)"
         '
         'rptCustItemWiseSaleReport
         '
@@ -1206,6 +1220,7 @@ Partial Class rptCustItemWiseSaleReport
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.lblToLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ddlReportType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblReportType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ddlType, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1271,7 +1286,7 @@ Partial Class rptCustItemWiseSaleReport
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyDateTimePicker1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblToLocation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnSalesRegister, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1351,5 +1366,6 @@ Partial Class rptCustItemWiseSaleReport
     Friend WithEvents lblReportType As common.Controls.MyLabel
     Friend WithEvents txtToLocation As common.UserControls.txtMultiSelectFinder
     Friend WithEvents lblToLocation As common.Controls.MyLabel
+    Friend WithEvents rbtnSalesRegister As common.Controls.MyRadioButton
 End Class
 
