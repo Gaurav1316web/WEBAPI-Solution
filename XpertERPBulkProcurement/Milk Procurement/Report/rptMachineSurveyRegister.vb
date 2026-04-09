@@ -14,6 +14,18 @@ Public Class rptMachineSurveyRegister
             Else
                 HideAndShowFields(False)
             End If
+            If clsCommon.myLen(objCommonVar.CurrentUnionDataBase) > 0 Then
+                Dim Union As ArrayList = Nothing
+                Dim qry As String = " Select DataBase_Name from TSPL_USER_MASTER where User_Code = '" + objCommonVar.CurrentUserCode + "'"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    Union = New ArrayList()
+                    For Each drZone As DataRow In dt.Rows
+                        Union.Add(clsCommon.myCstr(drZone("DataBase_Name")))
+                    Next
+                End If
+                txtMultUnion.arrValueMember = Union
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -306,31 +318,66 @@ Left Outer Join " & clsCommon.myCstr(strUnion("DataBase_Name")) & ".dbo.TSPL_WEI
 
     Private Sub txtMultUnion__My_Click(sender As Object, e As EventArgs) Handles txtMultUnion._My_Click
         Try
-            Dim arrUnion As New ArrayList()
-            arrUnion.Add(objCommonVar.CurrDatabase)
             Dim dt As DataTable = Nothing
-            If objCommonVar.RCDFCFP Then
-                dt = clsMilkUnion.UnionDBName()
+            Dim strQry As String = ""
+
+            If clsCommon.myLen(objCommonVar.CurrentUnionDataBase) > 0 Then
+                strQry = " Select DataBase_Name as [DataBase Name] from TSPL_USER_MASTER where User_Code = '" + objCommonVar.CurrentUserCode + "' "
+                txtMultUnion.arrValueMember = clsCommon.ShowMultipleSelectForm("SaleUnionDs", strQry, "DataBase Name", "", txtMultUnion.arrValueMember, Nothing)
+
             Else
-                dt = clsMilkUnion.UnionDBName1(arrUnion)
-                If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    dt = clsMilkUnion.GetUnionDBandLocName(objCommonVar.CurrDatabase)
+                Dim arrUnion As New ArrayList()
+                arrUnion.Add(objCommonVar.CurrDatabase)
+                'Dim dt As DataTable = Nothing
+                If objCommonVar.RCDFCFP Then
+                    dt = clsMilkUnion.UnionDBName()
+                Else
+                    dt = clsMilkUnion.UnionDBName1(arrUnion)
+                    If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                        dt = clsMilkUnion.GetUnionDBandLocName(objCommonVar.CurrDatabase)
+                    End If
                 End If
+                arrUnion = Nothing
+                Dim lstUnion As New List(Of String)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    For Each strUinon In dt.Rows
+                        lstUnion.Add(clsCommon.myCstr(strUinon("DataBase_Name")))
+                    Next
+                End If
+                strQry = "SELECT [TSPL_APP_LOCATION].DataBase_Name As Code,[TSPL_APP_LOCATION].Location_Name As Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 "
+                If lstUnion IsNot Nothing AndAlso lstUnion.Count > 0 Then
+                    strQry &= " And [TSPL_APP_LOCATION].DataBase_Name In (" & clsCommon.GetMulcallString(lstUnion) & ") "
+                End If
+                strQry &= " ORDER BY [TSPL_APP_LOCATION].Location_Name"
+                txtMultUnion.arrValueMember = clsCommon.ShowMultipleSelectForm("@Union", strQry, "Code", "Name", txtMultDCS.arrValueMember, txtMultDCS.arrDispalyMember)
+                lstUnion = Nothing
             End If
-            arrUnion = Nothing
-            Dim lstUnion As New List(Of String)
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                For Each strUinon In dt.Rows
-                    lstUnion.Add(clsCommon.myCstr(strUinon("DataBase_Name")))
-                Next
-            End If
-            Dim strQry As String = "SELECT [TSPL_APP_LOCATION].DataBase_Name As Code,[TSPL_APP_LOCATION].Location_Name As Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 "
-            If lstUnion IsNot Nothing AndAlso lstUnion.Count > 0 Then
-                strQry &= " And [TSPL_APP_LOCATION].DataBase_Name In (" & clsCommon.GetMulcallString(lstUnion) & ") "
-            End If
-            strQry &= " ORDER BY [TSPL_APP_LOCATION].Location_Name"
-            txtMultUnion.arrValueMember = clsCommon.ShowMultipleSelectForm("@Union", strQry, "Code", "Name", txtMultDCS.arrValueMember, txtMultDCS.arrDispalyMember)
-            lstUnion = Nothing
+
+            'Dim arrUnion As New ArrayList()
+            'arrUnion.Add(objCommonVar.CurrDatabase)
+            ''Dim dt As DataTable = Nothing
+            'If objCommonVar.RCDFCFP Then
+            '    dt = clsMilkUnion.UnionDBName()
+            'Else
+            '    dt = clsMilkUnion.UnionDBName1(arrUnion)
+            '    If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+            '        dt = clsMilkUnion.GetUnionDBandLocName(objCommonVar.CurrDatabase)
+            '    End If
+            'End If
+            'arrUnion = Nothing
+            'Dim lstUnion As New List(Of String)
+            'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            '    For Each strUinon In dt.Rows
+            '        lstUnion.Add(clsCommon.myCstr(strUinon("DataBase_Name")))
+            '    Next
+            'End If
+            'strQry = "SELECT [TSPL_APP_LOCATION].DataBase_Name As Code,[TSPL_APP_LOCATION].Location_Name As Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 "
+            'If lstUnion IsNot Nothing AndAlso lstUnion.Count > 0 Then
+            '    strQry &= " And [TSPL_APP_LOCATION].DataBase_Name In (" & clsCommon.GetMulcallString(lstUnion) & ") "
+            'End If
+            'strQry &= " ORDER BY [TSPL_APP_LOCATION].Location_Name"
+            'txtMultUnion.arrValueMember = clsCommon.ShowMultipleSelectForm("@Union", strQry, "Code", "Name", txtMultDCS.arrValueMember, txtMultDCS.arrDispalyMember)
+            'lstUnion = Nothing
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

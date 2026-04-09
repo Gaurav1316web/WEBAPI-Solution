@@ -54,6 +54,7 @@ Partial Class FrmUserMaster
         Me.rmImportZone = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmImportCustomerCategory = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.TxtUnion = New common.UserControls.txtFinder()
         Me.MyLabel18 = New common.Controls.MyLabel()
         Me.TxtMultiBank = New common.UserControls.txtMultiSelectFinder()
         Me.lblBank = New common.Controls.MyLabel()
@@ -145,7 +146,6 @@ Partial Class FrmUserMaster
         Me.btnGetHistory = New Telerik.WinControls.UI.RadButton()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.FileSystemWatcher1 = New System.IO.FileSystemWatcher()
-        Me.TxtUnion = New common.UserControls.txtFinder()
         CType(Me.lblUserCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblUserType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbl1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -539,11 +539,37 @@ Partial Class FrmUserMaster
         Me.RadGroupBox1.Size = New System.Drawing.Size(601, 502)
         Me.RadGroupBox1.TabIndex = 0
         '
+        'TxtUnion
+        '
+        Me.TxtUnion.CalculationExpression = Nothing
+        Me.TxtUnion.FieldCode = Nothing
+        Me.TxtUnion.FieldDesc = Nothing
+        Me.TxtUnion.FieldMaxLength = 0
+        Me.TxtUnion.FieldName = Nothing
+        Me.TxtUnion.isCalculatedField = False
+        Me.TxtUnion.IsSourceFromTable = False
+        Me.TxtUnion.IsSourceFromValueList = False
+        Me.TxtUnion.IsUnique = False
+        Me.TxtUnion.Location = New System.Drawing.Point(371, 355)
+        Me.TxtUnion.MendatroryField = False
+        Me.TxtUnion.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtUnion.MyLinkLable1 = Nothing
+        Me.TxtUnion.MyLinkLable2 = Nothing
+        Me.TxtUnion.MyReadOnly = False
+        Me.TxtUnion.MyShowMasterFormButton = False
+        Me.TxtUnion.Name = "TxtUnion"
+        Me.TxtUnion.ReferenceFieldDesc = Nothing
+        Me.TxtUnion.ReferenceFieldName = Nothing
+        Me.TxtUnion.ReferenceTableName = Nothing
+        Me.TxtUnion.Size = New System.Drawing.Size(204, 18)
+        Me.TxtUnion.TabIndex = 410
+        Me.TxtUnion.Value = ""
+        '
         'MyLabel18
         '
         Me.MyLabel18.FieldName = Nothing
         Me.MyLabel18.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel18.Location = New System.Drawing.Point(330, 359)
+        Me.MyLabel18.Location = New System.Drawing.Point(330, 355)
         Me.MyLabel18.Name = "MyLabel18"
         Me.MyLabel18.Size = New System.Drawing.Size(36, 16)
         Me.MyLabel18.TabIndex = 409
@@ -1850,32 +1876,6 @@ Partial Class FrmUserMaster
         '
         Me.FileSystemWatcher1.EnableRaisingEvents = True
         Me.FileSystemWatcher1.SynchronizingObject = Me
-        '
-        'TxtUnion
-        '
-        Me.TxtUnion.CalculationExpression = Nothing
-        Me.TxtUnion.FieldCode = Nothing
-        Me.TxtUnion.FieldDesc = Nothing
-        Me.TxtUnion.FieldMaxLength = 0
-        Me.TxtUnion.FieldName = Nothing
-        Me.TxtUnion.isCalculatedField = False
-        Me.TxtUnion.IsSourceFromTable = False
-        Me.TxtUnion.IsSourceFromValueList = False
-        Me.TxtUnion.IsUnique = False
-        Me.TxtUnion.Location = New System.Drawing.Point(371, 355)
-        Me.TxtUnion.MendatroryField = False
-        Me.TxtUnion.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtUnion.MyLinkLable1 = Nothing
-        Me.TxtUnion.MyLinkLable2 = Nothing
-        Me.TxtUnion.MyReadOnly = False
-        Me.TxtUnion.MyShowMasterFormButton = False
-        Me.TxtUnion.Name = "TxtUnion"
-        Me.TxtUnion.ReferenceFieldDesc = Nothing
-        Me.TxtUnion.ReferenceFieldName = Nothing
-        Me.TxtUnion.ReferenceTableName = Nothing
-        Me.TxtUnion.Size = New System.Drawing.Size(204, 18)
-        Me.TxtUnion.TabIndex = 410
-        Me.TxtUnion.Value = ""
         '
         'FrmUserMaster
         '

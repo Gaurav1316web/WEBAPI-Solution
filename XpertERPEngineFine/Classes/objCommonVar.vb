@@ -21,6 +21,7 @@ Public Class objCommonVar
     Private Shared _strCurrUserGLAccount As String = ""
     Private Shared _strCurrUserLocationsSegment As String = ""
     Private Shared _strConnString As String = ""
+    Private Shared _strDefaultUserLocation As String = ""
 
     Private Shared _RoundOffTaxToZeroDecimal As Boolean = False
     Private Shared _CalculateFIFOAndLIFOCosting As Boolean = False
@@ -156,6 +157,7 @@ Public Class objCommonVar
     Private Shared _ApplyBoothRouteMapping As Boolean = False
     Private Shared _AutoGenrateBatchInventory As Boolean = False
     Private Shared _TransactionValidity As Integer = 0
+    Private Shared _CurrentUnionDataBase As String
 #End Region
     Public Shared Property AutoGenrateBatchInventory() As Boolean
         Get
@@ -187,7 +189,7 @@ Public Class objCommonVar
         End Get
         Set(ByVal Value As String)
             _ImportExportDrive = Value
-            clsCommon.importExportDrive = Value
+            clsCommon.ImportExportDrive = Value
         End Set
     End Property
     Public Shared Property RCDFRateControl() As Boolean
@@ -952,6 +954,15 @@ Public Class objCommonVar
         End Set
     End Property
 
+    Public Shared Property CurrentUnionDataBase() As String
+        Get
+            Return _CurrentUnionDataBase
+        End Get
+        Set(ByVal Value As String)
+            _CurrentUnionDataBase = Value
+        End Set
+    End Property
+
 
 
     Public Shared Sub RefreshCommonVar()
@@ -998,6 +1009,17 @@ Public Class objCommonVar
             objCommonVar._CurrFiscalStartDate = clsCommon.GetDateWithStartTime(clsCommon.myCDate(dt.Rows(0)("Start_Date")))
             objCommonVar.CurrFiscalEndDate = clsCommon.GetDateWithEndTime(clsCommon.myCDate(dt.Rows(0)("End_Date")))
         End If
+        Try
+            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(" Select DataBase_Name from TSPL_USER_MASTER WHERE User_Code = '" + objCommonVar._currUserCode + "' ")
+            If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
+                objCommonVar._CurrentUnionDataBase = clsCommon.myCstr(dt1.Rows(0)("DataBase_Name"))
+                'objCommonVar._CurrFiscalStartDate = clsCommon.GetDateWithStartTime(clsCommon.myCDate(dt.Rows(0)("Start_Date")))
+                'objCommonVar.CurrFiscalEndDate = clsCommon.GetDateWithEndTime(clsCommon.myCDate(dt.Rows(0)("End_Date")))
+            End If
+        Catch ex As Exception
+        End Try
+
+
 
         objCommonVar.NoOfJournalEnteryLicence = clsCommon.myCdbl(clsCommon.DecryptString(clsFixedParameter.GetData(clsFixedParameterType.LicenceNoOfJournalEntry, clsFixedParameterCode.LicenceNoOfJournalEntry, Nothing), objCommonVar.CurrentCompanyCode + "D"))
         objCommonVar.NoOfUserLicence = clsCommon.myCdbl(clsCommon.DecryptString(clsFixedParameter.GetData(clsFixedParameterType.LicenceNoOfUser, clsFixedParameterCode.LicenceNoOfUser, Nothing), objCommonVar.CurrentCompanyCode + "E"))
@@ -1277,6 +1299,15 @@ Public Class objCommonVar
     ''        _arrCurrUserGLAccount = Value
     ''    End Set
     ''End Property
+
+    Public Shared Property strDefaultUserLocation() As String
+        Get
+            Return _strDefaultUserLocation
+        End Get
+        Set(ByVal Value As String)
+            _strDefaultUserLocation = Value
+        End Set
+    End Property
 
     Public Shared Property strCurrUserLocations() As String
         Get

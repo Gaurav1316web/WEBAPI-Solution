@@ -319,19 +319,51 @@ Public Class clsERPFuncationality
     End Function
 
     Public Shared Function ConvertQryForAllUnion(baseQry As String, DBNamePrefix As String) As String
-        Dim qry As String = "select DataBase_Name from TSPL_MASTER.dbo.TSPL_APP_LOCATION where Union_Report=1"
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            qry = ""
-            For ii As Integer = 0 To dt.Rows.Count - 1
-                If ii > 0 Then
-                    qry += Environment.NewLine + "Union all" + Environment.NewLine
-                End If
-                qry += baseQry.Replace(DBNamePrefix, clsCommon.myCstr(dt.Rows(ii)("DataBase_Name")) + ".dbo.")
-            Next
+        Dim qry As String = ""
+        Dim dt As DataTable
+        If clsCommon.myLen(objCommonVar.CurrentUnionDataBase) > 0 Then
+            qry = " Select TSPL_USER_MASTER.DataBase_Name,[TSPL_APP_LOCATION].Location_Name from TSPL_USER_MASTER 
+                    left outer join TSPL_MASTER.dbo.[TSPL_APP_LOCATION] on [TSPL_APP_LOCATION].DataBase_Name=TSPL_USER_MASTER.DataBase_Name where User_Code = '" + objCommonVar.CurrentUserCode + "' "
+            dt = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                qry = ""
+                For ii As Integer = 0 To dt.Rows.Count - 1
+                    If ii > 0 Then
+                        qry += Environment.NewLine + "Union all" + Environment.NewLine
+                    End If
+                    qry += baseQry.Replace(DBNamePrefix, clsCommon.myCstr(dt.Rows(ii)("DataBase_Name")) + ".dbo.")
+                Next
+            Else
+                Throw New Exception("No Union found to make query")
+            End If
         Else
-            Throw New Exception("No Union found to make query")
+            qry = "select DataBase_Name from TSPL_MASTER.dbo.TSPL_APP_LOCATION where Union_Report=1"
+            dt = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                qry = ""
+                For ii As Integer = 0 To dt.Rows.Count - 1
+                    If ii > 0 Then
+                        qry += Environment.NewLine + "Union all" + Environment.NewLine
+                    End If
+                    qry += baseQry.Replace(DBNamePrefix, clsCommon.myCstr(dt.Rows(ii)("DataBase_Name")) + ".dbo.")
+                Next
+            Else
+                Throw New Exception("No Union found to make query")
+            End If
         End If
+        'Dim qry As String = "select DataBase_Name from TSPL_MASTER.dbo.TSPL_APP_LOCATION where Union_Report=1"
+        'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+        '    qry = ""
+        '    For ii As Integer = 0 To dt.Rows.Count - 1
+        '        If ii > 0 Then
+        '            qry += Environment.NewLine + "Union all" + Environment.NewLine
+        '        End If
+        '        qry += baseQry.Replace(DBNamePrefix, clsCommon.myCstr(dt.Rows(ii)("DataBase_Name")) + ".dbo.")
+        '    Next
+        'Else
+        '    Throw New Exception("No Union found to make query")
+        'End If
         Return qry
     End Function
     Public Shared Function ConvertQryForAllUnion(baseQry As String, DBNamePrefix As String, DBLocation As String, Sno As String) As String

@@ -32,6 +32,10 @@ Public Class ItemStockReport
         LoadUnit()
         chkPhV.Checked = False
         LOCATIONRIGTHS()
+        If clsCommon.myLen(objCommonVar.strDefaultUserLocation) > 0 Then
+            txtBillToLocation.arrValueMember = New ArrayList()
+            txtBillToLocation.arrValueMember.Add(objCommonVar.strDefaultUserLocation)
+        End If
     End Sub
 
     Private Sub LOCATIONRIGTHS()
@@ -746,11 +750,15 @@ where TSPL_PARAMETER_MASTER.Type='SNF') as SNF on Items.Item_Code=SNF.Item_Code 
         Try
             Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
             Dim WhrCls As String = " Where Location_Type='Physical'  "
-            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                WhrCls += "  and  Location_Code in (" & objCommonVar.strCurrUserLocations & ")"
-            End If
-            If clsCommon.myLen(arrLoc) > 0 Then
-                WhrCls += " And Location_Code in (" & arrLoc & ")"
+            If clsCommon.myLen(objCommonVar.strDefaultUserLocation) > 0 Then
+                WhrCls += "  and  Location_Code in ('" & objCommonVar.strDefaultUserLocation & "')"
+            Else
+                If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                    WhrCls += "  and  Location_Code in (" & objCommonVar.strCurrUserLocations & ")"
+                End If
+                If clsCommon.myLen(arrLoc) > 0 Then
+                    WhrCls += " And Location_Code in (" & arrLoc & ")"
+                End If
             End If
             txtBillToLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("LocCode", qry & WhrCls, "Code", "Name", txtBillToLocation.arrValueMember, txtBillToLocation.arrDispalyMember)
         Catch ex As Exception
@@ -759,9 +767,13 @@ where TSPL_PARAMETER_MASTER.Type='SNF') as SNF on Items.Item_Code=SNF.Item_Code 
     End Sub
 
     Private Sub ItemStockReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        txtToDate.Value = clsCommon.GETSERVERDATE()
-        txtFromDate.Value = txtToDate.Value.AddMonths(-1)
-        Reset()
+        Try
+            txtToDate.Value = clsCommon.GETSERVERDATE()
+            txtFromDate.Value = txtToDate.Value.AddMonths(-1)
+            Reset()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     'Sub LoadLocation()

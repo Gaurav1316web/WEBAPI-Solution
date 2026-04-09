@@ -462,6 +462,12 @@
     <Compile Include="VisualReport\DashboardMilkUnion.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="VisualReport\frmDairyDashboard.Designer.vb">
+      <DependentUpon>frmDairyDashboard.vb</DependentUpon>
+    </Compile>
+    <Compile Include="VisualReport\frmDairyDashboard.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="VisualReport\RCDFDashboard.Designer.vb">
       <DependentUpon>RCDFDashboard.vb</DependentUpon>
     </Compile>
@@ -604,6 +610,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="VisualReport\DashboardMilkUnion.resx">
       <DependentUpon>DashboardMilkUnion.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VisualReport\frmDairyDashboard.resx">
+      <DependentUpon>frmDairyDashboard.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VisualReport\RCDFDashboard.resx">
       <DependentUpon>RCDFDashboard.vb</DependentUpon>

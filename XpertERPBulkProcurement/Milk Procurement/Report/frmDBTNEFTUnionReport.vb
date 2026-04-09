@@ -137,11 +137,23 @@ Public Class frmDBTNEFTUnionReport
         Dim Qry As String = Nothing
         Dim arrUnion As New ArrayList()
         arrUnion.Add(objCommonVar.CurrComp_Code1)
-        If objCommonVar.RCDFCFP Then
-            dt = clsMilkUnion.UnionDBName()
+        If clsCommon.myLen(objCommonVar.CurrentUnionDataBase) > 0 Then
+            Qry = " Select TSPL_USER_MASTER.DataBase_Name,[TSPL_APP_LOCATION].Location_Name from TSPL_USER_MASTER 
+                    left outer join TSPL_MASTER.dbo.[TSPL_APP_LOCATION] on [TSPL_APP_LOCATION].DataBase_Name=TSPL_USER_MASTER.DataBase_Name where User_Code = '" + objCommonVar.CurrentUserCode + "' "
+            dt = clsDBFuncationality.GetDataTable(Qry)
+            'txtUnion.arrValueMember = clsCommon.ShowMultipleSelectForm("SaleUnionDs", Qry, "DataBase Name", "", txtUnion.arrValueMember, Nothing)
         Else
-            dt = clsMilkUnion.UnionDBName1(arrUnion)
+            If objCommonVar.RCDFCFP Then
+                dt = clsMilkUnion.UnionDBName()
+            Else
+                dt = clsMilkUnion.UnionDBName1(arrUnion)
+            End If
         End If
+        'If objCommonVar.RCDFCFP Then
+        '    dt = clsMilkUnion.UnionDBName()
+        'Else
+        '    dt = clsMilkUnion.UnionDBName1(arrUnion)
+        'End If
         '  dt = clsMilkUnion.UnionDBName()
 
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
