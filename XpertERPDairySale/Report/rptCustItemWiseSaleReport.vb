@@ -1112,6 +1112,8 @@ where  ITEM_CODE = TSPL_SD_SHIPMENT_DETAIL.Item_Code and EFFECTIVE_DATE <= '" & 
                 Qry += " and ItemTaxable.IS_TAXABLE = 1  "
             ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Non Taxable") = CompairStringResult.Equal Then
                 Qry += " and TSPL_ITEM_MASTER.Is_Ambient = 1 AND ItemTaxable.IS_TAXABLE = 0 "
+            ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Both") = CompairStringResult.Equal Then
+                Qry += " and ( Is_FreshItem = 1 and ItemTaxable.IS_TAXABLE = 1 ) or Is_Ambient=1  "
             End If
             If txtCustomer.arrValueMember IsNot Nothing Then
                 Qry += " and TSPL_CUSTOMER_MASTER.Cust_Code in (" & clsCommon.GetMulcallString(txtCustomer.arrValueMember) & ") "
