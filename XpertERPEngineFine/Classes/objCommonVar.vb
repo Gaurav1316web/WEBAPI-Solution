@@ -1009,13 +1009,16 @@ Public Class objCommonVar
             objCommonVar._CurrFiscalStartDate = clsCommon.GetDateWithStartTime(clsCommon.myCDate(dt.Rows(0)("Start_Date")))
             objCommonVar.CurrFiscalEndDate = clsCommon.GetDateWithEndTime(clsCommon.myCDate(dt.Rows(0)("End_Date")))
         End If
+        Try
+            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(" Select DataBase_Name from TSPL_USER_MASTER WHERE User_Code = '" + objCommonVar._currUserCode + "' ")
+            If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
+                objCommonVar._CurrentUnionDataBase = clsCommon.myCstr(dt1.Rows(0)("DataBase_Name"))
+                'objCommonVar._CurrFiscalStartDate = clsCommon.GetDateWithStartTime(clsCommon.myCDate(dt.Rows(0)("Start_Date")))
+                'objCommonVar.CurrFiscalEndDate = clsCommon.GetDateWithEndTime(clsCommon.myCDate(dt.Rows(0)("End_Date")))
+            End If
+        Catch ex As Exception
+        End Try
 
-        Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(" Select DataBase_Name from TSPL_USER_MASTER WHERE User_Code = '" + objCommonVar._currUserCode + "' ")
-        If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
-            objCommonVar._CurrentUnionDataBase = clsCommon.myCstr(dt1.Rows(0)("DataBase_Name"))
-            'objCommonVar._CurrFiscalStartDate = clsCommon.GetDateWithStartTime(clsCommon.myCDate(dt.Rows(0)("Start_Date")))
-            'objCommonVar.CurrFiscalEndDate = clsCommon.GetDateWithEndTime(clsCommon.myCDate(dt.Rows(0)("End_Date")))
-        End If
 
 
         objCommonVar.NoOfJournalEnteryLicence = clsCommon.myCdbl(clsCommon.DecryptString(clsFixedParameter.GetData(clsFixedParameterType.LicenceNoOfJournalEntry, clsFixedParameterCode.LicenceNoOfJournalEntry, Nothing), objCommonVar.CurrentCompanyCode + "D"))

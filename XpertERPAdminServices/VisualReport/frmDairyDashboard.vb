@@ -17,6 +17,7 @@ Public Class frmDairyDashboard
 
     Dim dtSaleMilk As DataTable = Nothing
     Dim dtSaleProduct As DataTable = Nothing
+    Dim TabPrefix As String = ""
 
 #End Region
 
@@ -26,6 +27,10 @@ Public Class frmDairyDashboard
         End If
     End Sub
     Private Sub FrmMCCSummary_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+        If clsCommon.myLen(objCommonVar.CurrentUnionDataBase) > 0 Then
+            TabPrefix = objCommonVar.CurrentUnionDataBase + ".dbo."
+        End If
         SetUserMgmtNew()
         ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
         ButtonToolTip.SetToolTip(RadButton1, "Press Alt+R Refresh ")
@@ -123,19 +128,20 @@ Public Class frmDairyDashboard
     End Sub
 
     Private Function GetSaleBaseQuery(ByVal IsTaxable As Boolean) As String
+
         Dim qry As String = "select top 10 Item_Code,max(Short_Description) as Short_Description,cast( sum(Qty) as decimal(18,2)) as Qty,max(UOM) as UOM from (
 select  TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_UOM_DETAIL.UOM_Code as UOM,
 case when isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,0)=0 then 0 else (TSPL_SD_SHIPMENT_DETAIL.Qty*CFCurrentUOM.Conversion_Factor/TSPL_ITEM_UOM_DETAIL.Conversion_Factor) end as Qty
-from TSPL_SD_SHIPMENT_HEAD
-left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code
-left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
-left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code and TSPL_ITEM_UOM_DETAIL.Report_UOM=1
-left join (select Conversion_Factor,Item_Code,UOM_Code from TSPL_ITEM_UOM_DETAIL)CFCurrentUOM on CFCurrentUOM.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code and CFCurrentUOM.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_code
+from " + TabPrefix + "TSPL_SD_SHIPMENT_HEAD
+left join " + TabPrefix + "TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code
+left join " + TabPrefix + "TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
+left join " + TabPrefix + "TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code and TSPL_ITEM_UOM_DETAIL.Report_UOM=1
+left join (select Conversion_Factor,Item_Code,UOM_Code from " + TabPrefix + "TSPL_ITEM_UOM_DETAIL)CFCurrentUOM on CFCurrentUOM.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code and CFCurrentUOM.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_code
 where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'"
         If IsTaxable Then
-            qry+="and TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T'"
-            Else
-qry+="and TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='NT'"
+            qry += "and TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T'"
+        Else
+            qry += "and TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='NT'"
         End If
         qry += " )x group by Item_Code
 order by Qty desc "
@@ -340,7 +346,7 @@ order by Qty desc "
         Next
     End Sub
     Public Function GetDBTBaseQuery(ByRef FromDate As String, ByRef ToDate As String) As String
-        Dim qry As String = "select top 1 from_date,To_Date from TSPL_DBT_NEFT where from_date<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' order by from_date desc"
+        Dim qry As String = "select top 1 from_date,To_Date from " + TabPrefix + "TSPL_DBT_NEFT where from_date<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' order by from_date desc"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         FromDate = "01/Jan/2000"
         ToDate = "31/Jan/2000"
@@ -352,12 +358,12 @@ order by Qty desc "
         qry = " Select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Name,
 TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code ,(TSPL_DBT_NEFT_DETAIL.MP_Uploader_Code) as MP_Uploader_Code,TSPL_DBT_NEFT_DETAIL.MP_Name
 ,Format(TSPL_DBT_NEFT.From_Date,'MM-yyyy') As[Month],TSPL_MP_INCENTIVE_ENTRY_DETAIL.Qty,(TSPL_DBT_NEFT_DETAIL.Amount) as Amount 
-from TSPL_DBT_NEFT_DETAIL 
-inner join ( select * from ( select ROW_NUMBER() over(Partition by from_date order by UKID) as Rep,Document_Code,RCDF_Status,From_Date,To_Date from TSPL_DBT_NEFT where TSPL_DBT_NEFT.from_date='" + FromDate + "'
+from " + TabPrefix + "TSPL_DBT_NEFT_DETAIL 
+inner join ( select * from ( select ROW_NUMBER() over(Partition by from_date order by UKID) as Rep,Document_Code,RCDF_Status,From_Date,To_Date from " + TabPrefix + "TSPL_DBT_NEFT where TSPL_DBT_NEFT.from_date='" + FromDate + "'
  )x where rep=1 )TSPL_DBT_NEFT on TSPL_DBT_NEFT.Document_Code=TSPL_DBT_NEFT_DETAIL.Document_Code
-Left Outer Join TSPL_MP_INCENTIVE_ENTRY_DETAIL On TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR   
-left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
-left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code  "
+Left Outer Join " + TabPrefix + "TSPL_MP_INCENTIVE_ENTRY_DETAIL On TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR   
+left outer join " + TabPrefix + "TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
+left outer join " + TabPrefix + "TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code  "
         Return qry
     End Function
     Public Sub Load_Report_DBT()
@@ -369,11 +375,11 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MP_IN
                 Dim sQuery As String = " select max([Month]) as [Month],count(distinct VLC_Code) as VLC_Code,max([BilledQty]) as BilledQty,count(distinct MP_Code) as MP_Code,  sum(Qty) as Qty,sum(Amount) as Amount
  from ( " + GetDBTBaseQuery(FromDate, ToDate) + "  )xx 
 left outer join ( select sum([BilledQty]) as [BilledQty] from ( Select TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date,TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.* from (
-select TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Document_Code,TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.VLC_Code, (TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Qty)[BilledQty] from TSPL_DCS_MP_INCENTIVE_RECO_DETAIL
+select TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Document_Code,TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.VLC_Code, (TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Qty)[BilledQty] from " + TabPrefix + "TSPL_DCS_MP_INCENTIVE_RECO_DETAIL
 union all
-select TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID.Document_Code,TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID.VLC_Code,(TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID.Qty)[Billed Qty] from TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID 
+select TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID.Document_Code,TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID.VLC_Code,(TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID.Qty)[Billed Qty] from " + TabPrefix + "TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID 
 ) as TSPL_DCS_MP_INCENTIVE_RECO_DETAIL 
-Left Outer Join TSPL_DCS_MP_INCENTIVE_RECO_HEAD On TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Code=TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Document_Code
+Left Outer Join " + TabPrefix + "TSPL_DCS_MP_INCENTIVE_RECO_HEAD On TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Code=TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Document_Code
 where Convert(Date,TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date,103)>=Convert(Date,'" + FromDate + "',103) And Convert(Date,TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date_To,103)<=Convert(Date,'" + ToDate + "',103)) x ) as TabReco on 1=1"
                 dtDBTSummary = clsDBFuncationality.GetDataTable(sQuery)
             End If
@@ -495,10 +501,10 @@ where Convert(Date,TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date,103)>=Convert(Date,
 
     Private Function GetMPBaseQuery() As String
         Dim qry As String = "select TSPL_VENDOR_MASTER.Zone_Code,TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO ,TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_MILK_SHIFT_UPLOADER_DETAIL.Milk_Weight,TSPL_MILK_SHIFT_UPLOADER_DETAIL.FAT,TSPL_MILK_SHIFT_UPLOADER_DETAIL.SNF,(TSPL_MILK_SHIFT_UPLOADER_DETAIL.Milk_Weight*TSPL_MILK_SHIFT_UPLOADER_DETAIL.FAT/100) as FATKG, (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Milk_Weight*TSPL_MILK_SHIFT_UPLOADER_DETAIL.SNF/100) as SNFKG   
-from TSPL_MILK_SHIFT_UPLOADER_DETAIL 
-left outer join TSPL_MILK_SHIFT_UPLOADER_HEAD on TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No
-left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code
-left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code
+from " + TabPrefix + "TSPL_MILK_SHIFT_UPLOADER_DETAIL 
+left outer join " + TabPrefix + "TSPL_MILK_SHIFT_UPLOADER_HEAD on TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No
+left outer join " + TabPrefix + "TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code
+left outer join " + TabPrefix + "TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code
 where TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'"
         Return qry
     End Function
