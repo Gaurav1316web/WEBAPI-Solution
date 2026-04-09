@@ -807,6 +807,9 @@ Public Class frmMilkProcurementUploader
                 If gv1.CurrentRow.Cells(colManualSample).Value Is Nothing Then
                     gv1.CurrentRow.Cells(colManualSample).Value = 1
                 End If
+                If chkMilkReject.Checked Then
+                    gv1.CurrentRow.Cells(colRejectDefaulter).Value = "VSP"
+                End If
             End If
         End If
     End Sub

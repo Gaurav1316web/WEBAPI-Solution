@@ -334,7 +334,7 @@ Public Class frmMultipleInvoice
                     End If
                 Next
                 clsCommon.MyMessageBoxShow(Me, "Posted Successfully", Me.Text)
-                AddNew()
+                'AddNew()
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -601,9 +601,9 @@ Left Outer Join TSPL_TAX_MASTER As TAX7 On TAX7.Type=TSPL_SD_SALE_INVOICE_HEAD.T
 Left Outer Join TSPL_TAX_MASTER As TAX8 On TAX8.Type=TSPL_SD_SALE_INVOICE_HEAD.TAX8
 Left Outer Join TSPL_TAX_MASTER As TAX9 On TAX9.Type=TSPL_SD_SALE_INVOICE_HEAD.TAX9
 Left Outer Join TSPL_TAX_MASTER As TAX10 On TAX10.Type=TSPL_SD_SALE_INVOICE_HEAD.Tax10
-where isMultipleInvoice=1"
+where isMultipleInvoice=1 and TSPL_SD_SALE_INVOICE_HEAD.status=0 "
             If isLoadData Then
-                strQry += " And convert(date,document_date,103)='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'"
+                strQry += " And convert(date,document_date,103)='" + clsCommon.GetPrintDate(txtInvoiceDate.Value, "dd/MMM/yyyy") + "'"
             Else
                 strQry += " And convert(date,document_date,103)='" + clsCommon.GetPrintDate(txtInvoiceDate.Value, "dd/MMM/yyyy") + "'"
             End If
@@ -751,20 +751,28 @@ from
     End Sub
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
         Try
-            If common.clsCommon.MyMessageBoxShow(Me, "Do you want to Cancel ", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
-                For intRow As Integer = 0 To gv1.Rows.Count - 1
-                    If clsCommon.myLen(gv1.Rows(intRow).Cells(0).Value) > 0 Then
-                        clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(gv1.Rows(intRow).Cells(0).Value), "TSPL_SD_SALE_INVOICE_HEAD", "Document_Code", "TSPL_SD_SALE_INVOICE_DETAIL", "Document_Code", Nothing)
-                        Dim status As Boolean = clsPSInvoiceHead.CancelData(clsCommon.myCstr(gv1.Rows(intRow).Cells(0).Value))
-                        If status Then
-                            Dim Qry As String = " update TSPL_SD_SHIPMENT_HEAD set Sale_Invoice_No='' where Sale_Invoice_No =('" + clsCommon.myCstr(gv1.Rows(intRow).Cells(0).Value) + "')"
-                            clsDBFuncationality.ExecuteNonQuery(Qry)
+            Dim frm1 As New FrmPWD(Nothing)
+            frm1.strType = clsFixedParameterType.Transactionupdate
+            frm1.strCode = clsFixedParameterCode.DispatchCancel
+            frm1.ShowDialog()
+            If frm1.isPasswordCorrect Then
+                If common.clsCommon.MyMessageBoxShow(Me, "Do you want to Cancel ", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                    For intRow As Integer = 0 To gv1.Rows.Count - 1
+                        If clsCommon.myLen(gv1.Rows(intRow).Cells(0).Value) > 0 Then
+                            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(gv1.Rows(intRow).Cells(0).Value), "TSPL_SD_SALE_INVOICE_HEAD", "Document_Code", "TSPL_SD_SALE_INVOICE_DETAIL", "Document_Code", Nothing)
+                            Dim status As Boolean = clsPSInvoiceHead.CancelData(clsCommon.myCstr(gv1.Rows(intRow).Cells(0).Value))
+                            If status Then
+                                Dim Qry As String = " update TSPL_SD_SHIPMENT_HEAD set Sale_Invoice_No='' where Sale_Invoice_No =('" + clsCommon.myCstr(gv1.Rows(intRow).Cells(0).Value) + "')"
+                                clsDBFuncationality.ExecuteNonQuery(Qry)
+                            End If
                         End If
-                    End If
-                Next
-                clsCommon.MyMessageBoxShow(Me, "Cancel Successfully", Me.Text)
-                AddNew()
+                    Next
+                    clsCommon.MyMessageBoxShow(Me, "Cancel Successfully", Me.Text)
+                    AddNew()
+                End If
+
             End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

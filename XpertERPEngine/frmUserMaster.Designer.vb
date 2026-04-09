@@ -564,6 +564,7 @@ Partial Class FrmUserMaster
         Me.TxtUnion.Size = New System.Drawing.Size(204, 18)
         Me.TxtUnion.TabIndex = 410
         Me.TxtUnion.Value = ""
+        Me.TxtUnion.Visible = False
         '
         'MyLabel18
         '
@@ -574,6 +575,7 @@ Partial Class FrmUserMaster
         Me.MyLabel18.Size = New System.Drawing.Size(36, 16)
         Me.MyLabel18.TabIndex = 409
         Me.MyLabel18.Text = "Union"
+        Me.MyLabel18.Visible = False
         '
         'TxtMultiBank
         '
