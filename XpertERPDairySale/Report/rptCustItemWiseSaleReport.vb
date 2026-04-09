@@ -1106,12 +1106,12 @@ GROUP BY Item_Code order by Item_Desc"
                         LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2
 outer apply ( select top 1 IS_TAXABLE,ITEM_CODE from TSPL_ITEM_MASTER_TAXABLE 
 where  ITEM_CODE = TSPL_SD_SHIPMENT_DETAIL.Item_Code and EFFECTIVE_DATE <= '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "' order by EFFECTIVE_DATE desc ) as ItemTaxable 
-                            where 2=2  and TSPL_ITEM_MASTER.Is_Ambient = 1	"
+                            where 2=2  	"
 
             If clsCommon.CompairString(ddlType.SelectedValue, "Taxable") = CompairStringResult.Equal Then
                 Qry += " and ItemTaxable.IS_TAXABLE = 1  "
             ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Non Taxable") = CompairStringResult.Equal Then
-                Qry += " and ItemTaxable.IS_TAXABLE = 0 "
+                Qry += " and TSPL_ITEM_MASTER.Is_Ambient = 1 AND ItemTaxable.IS_TAXABLE = 0 "
             End If
             If txtCustomer.arrValueMember IsNot Nothing Then
                 Qry += " and TSPL_CUSTOMER_MASTER.Cust_Code in (" & clsCommon.GetMulcallString(txtCustomer.arrValueMember) & ") "
