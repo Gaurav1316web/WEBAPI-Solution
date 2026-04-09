@@ -22,7 +22,7 @@ Partial Class rptDCSTruckSheetRegister
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -39,6 +39,10 @@ Partial Class rptDCSTruckSheetRegister
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbdDCSwise = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbdRouteWise = New Telerik.WinControls.UI.RadRadioButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -61,6 +65,11 @@ Partial Class rptDCSTruckSheetRegister
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox3.SuspendLayout()
+        CType(Me.rbdDCSwise, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbdRouteWise, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -77,12 +86,13 @@ Partial Class rptDCSTruckSheetRegister
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnRouteWise)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
         Me.SplitContainer1.Size = New System.Drawing.Size(800, 450)
-        Me.SplitContainer1.SplitterDistance = 391
+        Me.SplitContainer1.SplitterDistance = 413
         Me.SplitContainer1.TabIndex = 0
         '
         'RadPageView1
@@ -98,7 +108,7 @@ Partial Class rptDCSTruckSheetRegister
         Me.RadPageView1.RootElement.AccessibleDescription = "Report1"
         Me.RadPageView1.RootElement.AccessibleName = "Report1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(800, 391)
+        Me.RadPageView1.Size = New System.Drawing.Size(800, 413)
         Me.RadPageView1.TabIndex = 12
         Me.RadPageView1.TabStop = False
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -107,12 +117,13 @@ Partial Class rptDCSTruckSheetRegister
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(41.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 343)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 365)
         Me.RadPageViewPage1.Text = "Filter"
         '
         'RadGroupBox2
@@ -121,17 +132,16 @@ Partial Class rptDCSTruckSheetRegister
         Me.RadGroupBox2.Controls.Add(Me.rbtEvening)
         Me.RadGroupBox2.Controls.Add(Me.rbtBoth)
         Me.RadGroupBox2.Controls.Add(Me.rbtMorning)
-        Me.RadGroupBox2.HeaderText = "Data Type"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(25, 64)
+        Me.RadGroupBox2.HeaderText = ""
+        Me.RadGroupBox2.Location = New System.Drawing.Point(25, 57)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(251, 43)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(216, 43)
         Me.RadGroupBox2.TabIndex = 413
-        Me.RadGroupBox2.Text = "Data Type"
         '
         'rbtEvening
         '
-        Me.rbtEvening.Location = New System.Drawing.Point(185, 15)
+        Me.rbtEvening.Location = New System.Drawing.Point(150, 13)
         Me.rbtEvening.Name = "rbtEvening"
         Me.rbtEvening.Size = New System.Drawing.Size(59, 18)
         Me.rbtEvening.TabIndex = 412
@@ -141,7 +151,7 @@ Partial Class rptDCSTruckSheetRegister
         'rbtBoth
         '
         Me.rbtBoth.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtBoth.Location = New System.Drawing.Point(13, 17)
+        Me.rbtBoth.Location = New System.Drawing.Point(10, 13)
         Me.rbtBoth.Name = "rbtBoth"
         Me.rbtBoth.Size = New System.Drawing.Size(44, 18)
         Me.rbtBoth.TabIndex = 410
@@ -150,7 +160,7 @@ Partial Class rptDCSTruckSheetRegister
         '
         'rbtMorning
         '
-        Me.rbtMorning.Location = New System.Drawing.Point(83, 15)
+        Me.rbtMorning.Location = New System.Drawing.Point(71, 12)
         Me.rbtMorning.Name = "rbtMorning"
         Me.rbtMorning.Size = New System.Drawing.Size(63, 18)
         Me.rbtMorning.TabIndex = 411
@@ -166,7 +176,7 @@ Partial Class rptDCSTruckSheetRegister
         Me.RadGroupBox1.Location = New System.Drawing.Point(25, 0)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(167, 58)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(167, 51)
         Me.RadGroupBox1.TabIndex = 412
         Me.RadGroupBox1.Text = "Data Type"
         '
@@ -187,7 +197,7 @@ Partial Class rptDCSTruckSheetRegister
         Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtFromDate.Name = "txtFromDate"
         Me.txtFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtFromDate.Size = New System.Drawing.Size(78, 20)
+        Me.txtFromDate.Size = New System.Drawing.Size(90, 20)
         Me.txtFromDate.TabIndex = 0
         Me.txtFromDate.TabStop = False
         Me.txtFromDate.Text = "24/10/2011"
@@ -219,7 +229,7 @@ Partial Class rptDCSTruckSheetRegister
         Me.gv1.MasterTemplate.EnableFiltering = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.MyExportAPI = False
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
@@ -235,17 +245,18 @@ Partial Class rptDCSTruckSheetRegister
         '
         Me.btnRouteWise.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnRouteWise.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnRouteWise.Location = New System.Drawing.Point(241, 21)
+        Me.btnRouteWise.Location = New System.Drawing.Point(241, 2)
         Me.btnRouteWise.Name = "btnRouteWise"
         Me.btnRouteWise.Size = New System.Drawing.Size(122, 22)
         Me.btnRouteWise.TabIndex = 163
         Me.btnRouteWise.Text = "RouteWise Print"
+        Me.btnRouteWise.Visible = False
         '
         'btnPrint
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(164, 21)
+        Me.btnPrint.Location = New System.Drawing.Point(164, 2)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(71, 22)
         Me.btnPrint.TabIndex = 161
@@ -255,7 +266,7 @@ Partial Class rptDCSTruckSheetRegister
         '
         Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Location = New System.Drawing.Point(87, 21)
+        Me.btnReset.Location = New System.Drawing.Point(87, 2)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(71, 22)
         Me.btnReset.TabIndex = 160
@@ -265,11 +276,52 @@ Partial Class rptDCSTruckSheetRegister
         '
         Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGo.Location = New System.Drawing.Point(10, 21)
+        Me.btnGo.Location = New System.Drawing.Point(10, 2)
         Me.btnGo.Name = "btnGo"
         Me.btnGo.Size = New System.Drawing.Size(71, 22)
         Me.btnGo.TabIndex = 159
         Me.btnGo.Text = ">>>"
+        '
+        'RadGroupBox3
+        '
+        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.rbdDCSwise)
+        Me.RadGroupBox3.Controls.Add(Me.rbdRouteWise)
+        Me.RadGroupBox3.HeaderText = ""
+        Me.RadGroupBox3.Location = New System.Drawing.Point(25, 106)
+        Me.RadGroupBox3.Name = "RadGroupBox3"
+        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(216, 38)
+        Me.RadGroupBox3.TabIndex = 414
+        '
+        'rbdDCSwise
+        '
+        Me.rbdDCSwise.Location = New System.Drawing.Point(112, 8)
+        Me.rbdDCSwise.Name = "rbdDCSwise"
+        Me.rbdDCSwise.Size = New System.Drawing.Size(68, 18)
+        Me.rbdDCSwise.TabIndex = 412
+        Me.rbdDCSwise.TabStop = False
+        Me.rbdDCSwise.Text = "DCS Wise"
+        '
+        'rbdRouteWise
+        '
+        Me.rbdRouteWise.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbdRouteWise.Location = New System.Drawing.Point(13, 10)
+        Me.rbdRouteWise.Name = "rbdRouteWise"
+        Me.rbdRouteWise.Size = New System.Drawing.Size(74, 18)
+        Me.rbdRouteWise.TabIndex = 410
+        Me.rbdRouteWise.Text = "RouteWise"
+        Me.rbdRouteWise.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'btnClose
+        '
+        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnClose.Location = New System.Drawing.Point(717, 2)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(71, 22)
+        Me.btnClose.TabIndex = 164
+        Me.btnClose.Text = "Close"
         '
         'rptDCSTruckSheetRegister
         '
@@ -307,6 +359,12 @@ Partial Class rptDCSTruckSheetRegister
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox3.ResumeLayout(False)
+        Me.RadGroupBox3.PerformLayout()
+        CType(Me.rbdDCSwise, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbdRouteWise, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -328,4 +386,8 @@ Partial Class rptDCSTruckSheetRegister
     Friend WithEvents rbtMorning As RadRadioButton
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents btnRouteWise As RadButton
+    Friend WithEvents RadGroupBox3 As RadGroupBox
+    Friend WithEvents rbdDCSwise As RadRadioButton
+    Friend WithEvents rbdRouteWise As RadRadioButton
+    Friend WithEvents btnClose As RadButton
 End Class

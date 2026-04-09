@@ -24,25 +24,24 @@ Partial Class rptdailydispatch
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.txtLocation = New common.UserControls.txtMultiSelectFinder()
+        Me.txtCustomer = New common.UserControls.txtMultiSelectFinder()
+        Me.txtrouteno = New common.UserControls.txtMultiSelectFinder()
         Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnMilk = New System.Windows.Forms.RadioButton()
         Me.rbtnproduct = New System.Windows.Forms.RadioButton()
-        Me.txtlocation = New common.UserControls.txtFinder()
-        Me.RadLabel2 = New common.Controls.MyLabel()
-        Me.lbllocation = New common.Controls.MyLabel()
-        Me.txtcustomer = New common.UserControls.txtFinder()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.txttodate = New common.Controls.MyDateTimePicker()
         Me.txtfromdate = New common.Controls.MyDateTimePicker()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.RadLabel2 = New common.Controls.MyLabel()
         Me.RadLabel15 = New common.Controls.MyLabel()
-        Me.lblcustomer = New common.Controls.MyLabel()
         Me.lblRouteNo = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv1 = New common.UserControls.MyRadGridView()
@@ -51,7 +50,10 @@ Partial Class rptdailydispatch
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnreset = New Telerik.WinControls.UI.RadButton()
-        Me.txtrouteno = New common.UserControls.txtMultiSelectFinder()
+        Me.rbtnBoth = New System.Windows.Forms.RadioButton()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnDispatch = New System.Windows.Forms.RadioButton()
+        Me.rbtnInvoice = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -62,16 +64,14 @@ Partial Class rptdailydispatch
         Me.RadPanel1.SuspendLayout()
         CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox7.SuspendLayout()
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lbllocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.txttodate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtfromdate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblcustomer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRouteNo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -82,6 +82,8 @@ Partial Class rptdailydispatch
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -126,15 +128,14 @@ Partial Class rptdailydispatch
         '
         'RadPanel1
         '
+        Me.RadPanel1.Controls.Add(Me.RadGroupBox2)
+        Me.RadPanel1.Controls.Add(Me.txtLocation)
+        Me.RadPanel1.Controls.Add(Me.txtCustomer)
         Me.RadPanel1.Controls.Add(Me.txtrouteno)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox7)
-        Me.RadPanel1.Controls.Add(Me.txtlocation)
-        Me.RadPanel1.Controls.Add(Me.txtcustomer)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox1)
-        Me.RadPanel1.Controls.Add(Me.lbllocation)
         Me.RadPanel1.Controls.Add(Me.RadLabel2)
         Me.RadPanel1.Controls.Add(Me.RadLabel15)
-        Me.RadPanel1.Controls.Add(Me.lblcustomer)
         Me.RadPanel1.Controls.Add(Me.lblRouteNo)
         Me.RadPanel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPanel1.Location = New System.Drawing.Point(0, 0)
@@ -142,15 +143,55 @@ Partial Class rptdailydispatch
         Me.RadPanel1.Size = New System.Drawing.Size(779, 370)
         Me.RadPanel1.TabIndex = 15
         '
+        'txtLocation
+        '
+        Me.txtLocation.arrDispalyMember = Nothing
+        Me.txtLocation.arrValueMember = Nothing
+        Me.txtLocation.Location = New System.Drawing.Point(100, 100)
+        Me.txtLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocation.MyLinkLable1 = Nothing
+        Me.txtLocation.MyLinkLable2 = Nothing
+        Me.txtLocation.MyNullText = "All"
+        Me.txtLocation.Name = "txtLocation"
+        Me.txtLocation.Size = New System.Drawing.Size(330, 18)
+        Me.txtLocation.TabIndex = 1467
+        '
+        'txtCustomer
+        '
+        Me.txtCustomer.arrDispalyMember = Nothing
+        Me.txtCustomer.arrValueMember = Nothing
+        Me.txtCustomer.Location = New System.Drawing.Point(100, 79)
+        Me.txtCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCustomer.MyLinkLable1 = Nothing
+        Me.txtCustomer.MyLinkLable2 = Nothing
+        Me.txtCustomer.MyNullText = "All"
+        Me.txtCustomer.Name = "txtCustomer"
+        Me.txtCustomer.Size = New System.Drawing.Size(330, 18)
+        Me.txtCustomer.TabIndex = 1466
+        '
+        'txtrouteno
+        '
+        Me.txtrouteno.arrDispalyMember = Nothing
+        Me.txtrouteno.arrValueMember = Nothing
+        Me.txtrouteno.Location = New System.Drawing.Point(100, 59)
+        Me.txtrouteno.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtrouteno.MyLinkLable1 = Nothing
+        Me.txtrouteno.MyLinkLable2 = Nothing
+        Me.txtrouteno.MyNullText = "All"
+        Me.txtrouteno.Name = "txtrouteno"
+        Me.txtrouteno.Size = New System.Drawing.Size(330, 18)
+        Me.txtrouteno.TabIndex = 1465
+        '
         'RadGroupBox7
         '
         Me.RadGroupBox7.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox7.Controls.Add(Me.rbtnBoth)
         Me.RadGroupBox7.Controls.Add(Me.rbtnMilk)
         Me.RadGroupBox7.Controls.Add(Me.rbtnproduct)
         Me.RadGroupBox7.HeaderText = ""
         Me.RadGroupBox7.Location = New System.Drawing.Point(437, 13)
         Me.RadGroupBox7.Name = "RadGroupBox7"
-        Me.RadGroupBox7.Size = New System.Drawing.Size(157, 26)
+        Me.RadGroupBox7.Size = New System.Drawing.Size(228, 26)
         Me.RadGroupBox7.TabIndex = 1464
         '
         'rbtnMilk
@@ -174,82 +215,6 @@ Partial Class rptdailydispatch
         Me.rbtnproduct.TabIndex = 441
         Me.rbtnproduct.Text = "Product"
         Me.rbtnproduct.UseVisualStyleBackColor = True
-        '
-        'txtlocation
-        '
-        Me.txtlocation.CalculationExpression = Nothing
-        Me.txtlocation.FieldCode = Nothing
-        Me.txtlocation.FieldDesc = Nothing
-        Me.txtlocation.FieldMaxLength = 0
-        Me.txtlocation.FieldName = Nothing
-        Me.txtlocation.isCalculatedField = False
-        Me.txtlocation.IsSourceFromTable = False
-        Me.txtlocation.IsSourceFromValueList = False
-        Me.txtlocation.IsUnique = False
-        Me.txtlocation.Location = New System.Drawing.Point(80, 99)
-        Me.txtlocation.Margin = New System.Windows.Forms.Padding(4)
-        Me.txtlocation.MendatroryField = False
-        Me.txtlocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtlocation.MyLinkLable1 = Me.RadLabel2
-        Me.txtlocation.MyLinkLable2 = Me.lbllocation
-        Me.txtlocation.MyReadOnly = False
-        Me.txtlocation.MyShowMasterFormButton = False
-        Me.txtlocation.Name = "txtlocation"
-        Me.txtlocation.ReferenceFieldDesc = Nothing
-        Me.txtlocation.ReferenceFieldName = Nothing
-        Me.txtlocation.ReferenceTableName = Nothing
-        Me.txtlocation.Size = New System.Drawing.Size(157, 18)
-        Me.txtlocation.TabIndex = 1461
-        Me.txtlocation.Value = ""
-        '
-        'RadLabel2
-        '
-        Me.RadLabel2.FieldName = Nothing
-        Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel2.Location = New System.Drawing.Point(18, 81)
-        Me.RadLabel2.Name = "RadLabel2"
-        Me.RadLabel2.Size = New System.Drawing.Size(55, 16)
-        Me.RadLabel2.TabIndex = 1458
-        Me.RadLabel2.Text = "Customer"
-        '
-        'lbllocation
-        '
-        Me.lbllocation.AutoSize = False
-        Me.lbllocation.BorderVisible = True
-        Me.lbllocation.FieldName = Nothing
-        Me.lbllocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbllocation.Location = New System.Drawing.Point(239, 99)
-        Me.lbllocation.Name = "lbllocation"
-        Me.lbllocation.Size = New System.Drawing.Size(192, 18)
-        Me.lbllocation.TabIndex = 1457
-        Me.lbllocation.TextWrap = False
-        '
-        'txtcustomer
-        '
-        Me.txtcustomer.CalculationExpression = Nothing
-        Me.txtcustomer.FieldCode = Nothing
-        Me.txtcustomer.FieldDesc = Nothing
-        Me.txtcustomer.FieldMaxLength = 0
-        Me.txtcustomer.FieldName = Nothing
-        Me.txtcustomer.isCalculatedField = False
-        Me.txtcustomer.IsSourceFromTable = False
-        Me.txtcustomer.IsSourceFromValueList = False
-        Me.txtcustomer.IsUnique = False
-        Me.txtcustomer.Location = New System.Drawing.Point(80, 79)
-        Me.txtcustomer.Margin = New System.Windows.Forms.Padding(4)
-        Me.txtcustomer.MendatroryField = False
-        Me.txtcustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtcustomer.MyLinkLable1 = Me.RadLabel2
-        Me.txtcustomer.MyLinkLable2 = Me.lbllocation
-        Me.txtcustomer.MyReadOnly = False
-        Me.txtcustomer.MyShowMasterFormButton = False
-        Me.txtcustomer.Name = "txtcustomer"
-        Me.txtcustomer.ReferenceFieldDesc = Nothing
-        Me.txtcustomer.ReferenceFieldName = Nothing
-        Me.txtcustomer.ReferenceTableName = Nothing
-        Me.txtcustomer.Size = New System.Drawing.Size(157, 18)
-        Me.txtcustomer.TabIndex = 1460
-        Me.txtcustomer.Value = ""
         '
         'RadGroupBox1
         '
@@ -341,32 +306,30 @@ Partial Class rptdailydispatch
         Me.MyLabel2.TabIndex = 13
         Me.MyLabel2.Text = "From Date"
         '
+        'RadLabel2
+        '
+        Me.RadLabel2.FieldName = Nothing
+        Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel2.Location = New System.Drawing.Point(20, 82)
+        Me.RadLabel2.Name = "RadLabel2"
+        Me.RadLabel2.Size = New System.Drawing.Size(55, 16)
+        Me.RadLabel2.TabIndex = 1458
+        Me.RadLabel2.Text = "Customer"
+        '
         'RadLabel15
         '
         Me.RadLabel15.FieldName = Nothing
         Me.RadLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel15.Location = New System.Drawing.Point(20, 100)
+        Me.RadLabel15.Location = New System.Drawing.Point(21, 101)
         Me.RadLabel15.Name = "RadLabel15"
         Me.RadLabel15.Size = New System.Drawing.Size(49, 16)
         Me.RadLabel15.TabIndex = 153
         Me.RadLabel15.Text = "Location"
         '
-        'lblcustomer
-        '
-        Me.lblcustomer.AutoSize = False
-        Me.lblcustomer.BorderVisible = True
-        Me.lblcustomer.FieldName = Nothing
-        Me.lblcustomer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblcustomer.Location = New System.Drawing.Point(239, 79)
-        Me.lblcustomer.Name = "lblcustomer"
-        Me.lblcustomer.Size = New System.Drawing.Size(192, 18)
-        Me.lblcustomer.TabIndex = 152
-        Me.lblcustomer.TextWrap = False
-        '
         'lblRouteNo
         '
         Me.lblRouteNo.FieldName = Nothing
-        Me.lblRouteNo.Location = New System.Drawing.Point(18, 59)
+        Me.lblRouteNo.Location = New System.Drawing.Point(20, 59)
         Me.lblRouteNo.Name = "lblRouteNo"
         Me.lblRouteNo.Size = New System.Drawing.Size(54, 18)
         Me.lblRouteNo.TabIndex = 150
@@ -395,12 +358,15 @@ Partial Class rptdailydispatch
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportAPI = False
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(779, 370)
         Me.gv1.TabIndex = 2
+        Me.gv1.VarID = ""
         '
         'RadPanel2
         '
@@ -450,18 +416,48 @@ Partial Class rptdailydispatch
         Me.btnreset.TabIndex = 342
         Me.btnreset.Text = "Reset"
         '
-        'txtrouteno
+        'rbtnBoth
         '
-        Me.txtrouteno.arrDispalyMember = Nothing
-        Me.txtrouteno.arrValueMember = Nothing
-        Me.txtrouteno.Location = New System.Drawing.Point(80, 59)
-        Me.txtrouteno.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtrouteno.MyLinkLable1 = Nothing
-        Me.txtrouteno.MyLinkLable2 = Nothing
-        Me.txtrouteno.MyNullText = "All"
-        Me.txtrouteno.Name = "txtrouteno"
-        Me.txtrouteno.Size = New System.Drawing.Size(351, 18)
-        Me.txtrouteno.TabIndex = 1465
+        Me.rbtnBoth.AutoSize = True
+        Me.rbtnBoth.Location = New System.Drawing.Point(164, 3)
+        Me.rbtnBoth.Name = "rbtnBoth"
+        Me.rbtnBoth.Size = New System.Drawing.Size(49, 17)
+        Me.rbtnBoth.TabIndex = 442
+        Me.rbtnBoth.Text = "Both"
+        Me.rbtnBoth.UseVisualStyleBackColor = True
+        '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbtnDispatch)
+        Me.RadGroupBox2.Controls.Add(Me.rbtnInvoice)
+        Me.RadGroupBox2.HeaderText = ""
+        Me.RadGroupBox2.Location = New System.Drawing.Point(437, 59)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Size = New System.Drawing.Size(228, 26)
+        Me.RadGroupBox2.TabIndex = 1468
+        '
+        'rbtnDispatch
+        '
+        Me.rbtnDispatch.AutoSize = True
+        Me.rbtnDispatch.Checked = True
+        Me.rbtnDispatch.Location = New System.Drawing.Point(5, 4)
+        Me.rbtnDispatch.Name = "rbtnDispatch"
+        Me.rbtnDispatch.Size = New System.Drawing.Size(70, 17)
+        Me.rbtnDispatch.TabIndex = 440
+        Me.rbtnDispatch.TabStop = True
+        Me.rbtnDispatch.Text = "Dispatch"
+        Me.rbtnDispatch.UseVisualStyleBackColor = True
+        '
+        'rbtnInvoice
+        '
+        Me.rbtnInvoice.AutoSize = True
+        Me.rbtnInvoice.Location = New System.Drawing.Point(118, 4)
+        Me.rbtnInvoice.Name = "rbtnInvoice"
+        Me.rbtnInvoice.Size = New System.Drawing.Size(61, 17)
+        Me.rbtnInvoice.TabIndex = 441
+        Me.rbtnInvoice.Text = "Invoice"
+        Me.rbtnInvoice.UseVisualStyleBackColor = True
         '
         'rptdailydispatch
         '
@@ -487,8 +483,6 @@ Partial Class rptdailydispatch
         CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox7.ResumeLayout(False)
         Me.RadGroupBox7.PerformLayout()
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lbllocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
@@ -496,8 +490,8 @@ Partial Class rptdailydispatch
         CType(Me.txtfromdate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblcustomer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRouteNo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -508,6 +502,9 @@ Partial Class rptdailydispatch
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -520,9 +517,7 @@ Partial Class rptdailydispatch
     Friend WithEvents RadPageViewPage2 As RadPageViewPage
     Friend WithEvents gv1 As UserControls.MyRadGridView
     Friend WithEvents lblRouteNo As Controls.MyLabel
-    Friend WithEvents lblcustomer As Controls.MyLabel
     Friend WithEvents RadLabel15 As Controls.MyLabel
-    Friend WithEvents lbllocation As Controls.MyLabel
     Friend WithEvents RadLabel2 As Controls.MyLabel
     Friend WithEvents RadGroupBox1 As RadGroupBox
     Friend WithEvents txttodate As Controls.MyDateTimePicker
@@ -534,10 +529,14 @@ Partial Class rptdailydispatch
     Friend WithEvents RadPanel2 As RadPanel
     Friend WithEvents btngo As RadButton
     Friend WithEvents btnPrint As RadButton
-    Friend WithEvents txtlocation As UserControls.txtFinder
-    Friend WithEvents txtcustomer As UserControls.txtFinder
     Friend WithEvents RadGroupBox7 As RadGroupBox
     Friend WithEvents rbtnMilk As RadioButton
     Friend WithEvents rbtnproduct As RadioButton
     Friend WithEvents txtrouteno As UserControls.txtMultiSelectFinder
+    Friend WithEvents txtCustomer As UserControls.txtMultiSelectFinder
+    Friend WithEvents txtLocation As UserControls.txtMultiSelectFinder
+    Friend WithEvents rbtnBoth As RadioButton
+    Friend WithEvents RadGroupBox2 As RadGroupBox
+    Friend WithEvents rbtnDispatch As RadioButton
+    Friend WithEvents rbtnInvoice As RadioButton
 End Class
