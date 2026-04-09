@@ -3135,7 +3135,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             End If
             If ServerDateTimeForTaxableInvoice Then
                 Dim serverDateTime As DateTime = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy")
-                If rbtnTaxable.IsChecked AndAlso clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") <> serverDateTime AndAlso clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MMM/yyyy") <> serverDateTime Then
+                If rbtnTaxable.IsChecked AndAlso clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") <> serverDateTime Then
                     Throw New Exception("Document Date and Supply Date Should be Server Date Time")
                 End If
             End If
@@ -9596,19 +9596,15 @@ On TabBatch.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code And  TabBatch.Ite
         If rbtnTaxable.IsChecked Then
             rgbTaxNonTax.Visible = False
             If ServerDateTimeForTaxableInvoice Then
-                txtSupplyDate.Value = clsCommon.GETSERVERDATE
                 txtDate.Value = clsCommon.GETSERVERDATE
-                txtSupplyDate.Enabled = False
                 txtDate.Enabled = False
             Else
-                txtSupplyDate.Enabled = True
                 txtDate.Enabled = True
             End If
 
         Else
             rgbTaxNonTax.Visible = True
             If ServerDateTimeForTaxableInvoice Then
-                txtSupplyDate.Enabled = True
                 txtDate.Enabled = True
             End If
 
