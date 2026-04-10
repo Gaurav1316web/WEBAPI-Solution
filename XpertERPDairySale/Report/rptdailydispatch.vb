@@ -25,13 +25,13 @@ Public Class rptdailydispatch
         gv1.Columns.Clear()
         gv1.MasterTemplate.SummaryRowsBottom.Clear()
         RadPageView1.SelectedPage = RadPageViewPage1
-        txtrouteno.arrValueMember = Nothing
-        txtlocation.Value = ""
-        lbllocation.Text = ""
-        txtcustomer.Value = ""
-        lblcustomer.Text = ""
+        'txtrouteno.arrValueMember = Nothing
+        'txtLocation.arrValueMember = Nothing
+        'txtCustomer.arrValueMember = Nothing
         rbtnproduct.Checked = False
         rbtnMilk.Checked = True
+        rbtnBoth.Checked = False
+        rbtnDispatch.Checked = True
     End Sub
 
     Private Sub btnreset_Click(sender As Object, e As EventArgs) Handles btnreset.Click
@@ -43,49 +43,62 @@ Public Class rptdailydispatch
     Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
         Me.Close()
     End Sub
-
-
-    Private Sub txtcustomer__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtcustomer._MYValidating
-        Dim qry As String = ""
-        qry = " select Cust_Code as Code ,Customer_Name from TSPL_CUSTOMER_MASTER "
-        txtcustomer.Value = clsCommon.ShowSelectForm("custcode", qry, "Code", "", txtcustomer.Value, "Code", isButtonClicked)
-        lblcustomer.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtcustomer.Value + "' "))
-    End Sub
-
-    Private Sub txtlocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtlocation._MYValidating
-        Dim qry As String = ""
-        qry = " select location_code as Code ,location_desc from TSPL_LOCATION_MASTER "
-        txtlocation.Value = clsCommon.ShowSelectForm("routeno", qry, "Code", "", txtlocation.Value, "Code", isButtonClicked)
-        lbllocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select location_desc from TSPL_LOCATION_MASTER where location_code='" + txtlocation.Value + "' "))
-
-    End Sub
     Sub Print()
         Try
             Dim dt As DataTable = Nothing
             Dim qry As String = ""
             Dim GpCode As String = Nothing
-            If clsCommon.myLen(txtrouteno.arrValueMember) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please select route no", Me.Text)
-                Exit Sub
+
+            Dim whr As String = " where Document_No in (select Against_Delivery_Code from TSPL_SD_SHIPMENT_HEAD where DO_Item_Type='NT') "
+            If txtrouteno.arrValueMember IsNot Nothing AndAlso txtrouteno.arrValueMember.Count>0Then
+                whr+= "  and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No in (" + clsCommon.GetMulcallString(txtrouteno.arrValueMember) + ") "
             End If
-            If clsCommon.myLen(txtcustomer.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
-                Exit Sub
+          If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count >0 Then
+                whr += "  and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Location_Code IN (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
             End If
-            If clsCommon.myLen(txtlocation.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
-                Exit Sub
+                If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count >0 Then
+                whr += "  and Customer_Code IN (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ") "
             End If
 
-            Dim whr As String = " where Document_No in (select Against_Delivery_Code from TSPL_SD_SHIPMENT_HEAD where DO_Item_Type='NT') and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No in (" + clsCommon.GetMulcallString(txtrouteno.arrValueMember) + ")  and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Location_Code='" + txtlocation.Value + "' and Customer_Code='" + txtcustomer.Value + "' AND convert
-                                    (date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtfromdate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txttodate.Value) + "' "
+            whr += " AND convert (date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtfromdate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txttodate.Value) + "' "
             'If rbtnMilk.Checked = True Then
             '    whr += " And TSPL_ITEM_MASTER.Is_FreshItem ='1' "
             'End If
             'If rbtnproduct.Checked = True Then
             '    whr += " and TSPL_ITEM_MASTER.Is_Ambient='1' "
             'End If
-            Dim batch As String = "  select right(Booking_No,6) as gpcode from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE   " + whr + "union all  select right(Document_Code,6) as gpcode from TSPL_SD_SHIPMENT_HEAD where Is_Create_Auto_Invoice = 1 and Status = 1 and Is_Taxable = 0 and Bill_To_Location = '" + txtlocation.Value + "'  and Route_No in (" + clsCommon.GetMulcallString(txtrouteno.arrValueMember) + ")  and Customer_Code = '" + txtcustomer.Value + "' and convert (date,Document_Date,103)>= '" + clsCommon.GetPrintDate(txtfromdate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txttodate.Value) + "'  AND Against_Delivery_Code IS NULL "
+            Dim batch As String = "  "
+            If rbtnDispatch.Checked Then
+                batch = " select right(Booking_No,6) as gpcode from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE   " + whr + "union all "
+                batch += "  select right(Document_Code,6) as gpcode from TSPL_SD_SHIPMENT_HEAD where Is_Create_Auto_Invoice = 1 and Status = 1 and Is_Taxable = 0 "
+                If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                    batch += "  and Bill_To_Location IN (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
+                End If
+                If txtrouteno.arrValueMember IsNot Nothing AndAlso txtrouteno.arrValueMember.Count > 0 Then
+                    batch += "  and Route_No IN (" + clsCommon.GetMulcallString(txtrouteno.arrValueMember) + ") "
+                End If
+
+                If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
+                    batch += "  and Customer_Code IN (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ") "
+                End If
+                batch += " and convert (date,Document_Date,103)>= '" + clsCommon.GetPrintDate(txtfromdate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txttodate.Value) + "'  AND Against_Delivery_Code IS NULL "
+
+            ElseIf rbtnInvoice.Checked Then
+                batch = " select right(Booking_No,5) as gpcode from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE   " + whr + "union all "
+                batch += "  select right(TSPL_SD_SALE_INVOICE_HEAD.Document_Code,5) as gpcode from TSPL_SD_SALE_INVOICE_HEAD LEFT JOIN TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No  where Is_Create_Auto_Invoice = 1 and TSPL_SD_SALE_INVOICE_HEAD.Status = 1 and TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable = 0 "
+                If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                    batch += "  and TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location IN (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
+                End If
+                If txtrouteno.arrValueMember IsNot Nothing AndAlso txtrouteno.arrValueMember.Count > 0 Then
+                    batch += "  and TSPL_SD_SALE_INVOICE_HEAD.Route_No IN (" + clsCommon.GetMulcallString(txtrouteno.arrValueMember) + ") "
+                End If
+
+                If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
+                    batch += "  and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code IN (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ") "
+                End If
+                batch += " and convert (date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>= '" + clsCommon.GetPrintDate(txtfromdate.Value) + "' and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)<='" + clsCommon.GetPrintDate(txttodate.Value) + "'  AND Against_Delivery_Code IS NULL "
+
+            End If
             dt = clsDBFuncationality.GetDataTable(batch)
             'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             '    For Each btch In dt.Rows
@@ -113,12 +126,11 @@ Public Class rptdailydispatch
                     max(yyy.Route_No)Route_No,max(yyy.Bill_To_Location)Bill_To_Location,max(yyy.Comp_Name)Comp_Name,max(yyy.comp_add1)comp_add1,max(yyy.comp_add2)comp_add2,
                     max(comp_add3)comp_add3,max(CompPhone)CompPhone,sum(yyy.Distributor_Commission_TotalAmt)Distributor_Commission_TotalAmt,MAX(GSTINNo)COMGSTINNo,
                     MAX(Pan_No)COMPan_No,max(custAdd1)custAdd1,max(ship_to_location)ship_to_location,'1' as CopyType,max(sale_invoice_no)sale_invoice_no,max(document_date) as invoicedate,
-                    SUM(yyy.TAX2_Amt) AS TCS,MAX(yyy.Access_Officer) AS fssai_Lic_No,max(TAX2)TAX2,max(TAX2_Rate)TAX2_Rate,max(Rate)Rate  from (
-                select  
-                CASE WHEN  TSPL_SD_SHIPMENT_DETAIL.Unit_code = 'LTR' then qty * ItemConversionInLTR.Conversion_Factor / ItemConversionInPouch.Conversion_Factor WHEN  TSPL_SD_SHIPMENT_DETAIL.Unit_code = 'CRATE' then qty * ItemConversionCrate.Conversion_Factor / ItemConversionInPouch.Conversion_Factor  WHEN  TSPL_SD_SHIPMENT_DETAIL.Unit_code = 'POUCH' then qty * ItemConversionInPouch.Conversion_Factor / ItemConversionInPouch.Conversion_Factor ELSE 0 END AS QTYINPOUCH,
+                    SUM(yyy.TAX2_Amt) AS TCS,MAX(yyy.Access_Officer) AS fssai_Lic_No,max(TAX2)TAX2,max(TAX2_Rate)TAX2_Rate,max(Rate)Rate  from ( "
 
+            If rbtnDispatch.Checked Then
+                qry += " Select  CASE WHEN  TSPL_SD_SHIPMENT_DETAIL.Unit_code = 'LTR' then qty * ItemConversionInLTR.Conversion_Factor / ItemConversionInPouch.Conversion_Factor WHEN  TSPL_SD_SHIPMENT_DETAIL.Unit_code = 'CRATE' then qty * ItemConversionCrate.Conversion_Factor / ItemConversionInPouch.Conversion_Factor  WHEN  TSPL_SD_SHIPMENT_DETAIL.Unit_code = 'POUCH' then qty * ItemConversionInPouch.Conversion_Factor / ItemConversionInPouch.Conversion_Factor ELSE 0 END AS QTYINPOUCH,
                 CASE WHEN    TSPL_SD_SHIPMENT_DETAIL.Unit_code = 'CRATE' then qty * ItemConversionCrate.Conversion_Factor / ItemConversionInLTR.Conversion_Factor  WHEN  TSPL_SD_SHIPMENT_DETAIL.Unit_code = 'POUCH' then qty * ItemConversionInPouch.Conversion_Factor / ItemConversionInLTR.Conversion_Factor ELSE 0 END AS QTYinltr
-
                 ,TSPL_SD_SHIPMENT_DETAIL.Item_Code,tspl_item_master.Item_Desc,HSN_Code,Qty,Item_Cost,amount,TSPL_SD_SHIPMENT_DETAIL.unit_code,
                     TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_CUSTOMER_MASTER.GSTNO as custGSTNO,TSPL_CUSTOMER_MASTER.State,TSPL_CUSTOMER_MASTER.PIN_Code,
                     TSPL_LOCATION_MASTER.GSTNO as locGSTNO,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Location_Code,TSPL_LOCATION_MASTER.Add1,
@@ -139,14 +151,57 @@ Public Class rptdailydispatch
                 left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=tspl_sd_shipment_head.Comp_Code
                 left outer join tspl_sd_sale_invoice_head on tspl_sd_sale_invoice_head.against_shipment_no =tspl_sd_shipment_head.document_code
                 left join (select Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code from  TSPL_ITEM_UOM_DETAIL where UOM_code = 'Crate') as ItemConversionCrate on ItemConversionCrate.Item_code =  TSPL_SD_SHIPMENT_DETAIL.Item_Code 
-                                            left join (select Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'Pouch' ) as ItemConversionInPouch on ItemConversionInPouch.Item_code = TSPL_SD_SHIPMENT_DETAIL.Item_Code
-                                            left join ( select Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code from  TSPL_ITEM_UOM_DETAIL where UOM_code = 'LTR' ) as ItemConversionInLTR on ItemConversionInLTR.Item_code = TSPL_SD_SHIPMENT_DETAIL.Item_Code where convert
-                (date,tspl_sd_shipment_head.Document_Date,103)>='" + clsCommon.GetPrintDate(txtfromdate.Value) + "' and convert(date,tspl_sd_shipment_head.Document_Date,103)<='" + clsCommon.GetPrintDate(txttodate.Value) + "' and tspl_sd_shipment_head.Route_No in (" + clsCommon.GetMulcallString(txtrouteno.arrValueMember) + ") and tspl_sd_shipment_head.Bill_To_Location='" + txtlocation.Value + "' and tspl_sd_shipment_head.is_taxable=0 and tspl_sd_shipment_head.customer_code='" + txtcustomer.Value + "'"
+                left join (select Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'Pouch' ) as ItemConversionInPouch on ItemConversionInPouch.Item_code = TSPL_SD_SHIPMENT_DETAIL.Item_Code
+                left join ( select Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code from  TSPL_ITEM_UOM_DETAIL where UOM_code = 'LTR' ) as ItemConversionInLTR on ItemConversionInLTR.Item_code = TSPL_SD_SHIPMENT_DETAIL.Item_Code 
+                where convert (date,tspl_sd_shipment_head.Document_Date,103)>='" + clsCommon.GetPrintDate(txtfromdate.Value) + "' and convert(date,tspl_sd_shipment_head.Document_Date,103)<='" + clsCommon.GetPrintDate(txttodate.Value) + "' "
+
+                If txtrouteno.arrValueMember IsNot Nothing AndAlso txtrouteno.arrValueMember.Count > 0 Then
+                    qry += "  and tspl_sd_shipment_head.Route_No IN (" + clsCommon.GetMulcallString(txtrouteno.arrValueMember) + ") "
+                End If
+                If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                    qry += "  and tspl_sd_shipment_head.Bill_To_Location IN (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
+                End If
+                If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
+                    qry += "   and tspl_sd_shipment_head.customer_code IN (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ") "
+                End If
+                qry += " and tspl_sd_shipment_head.is_taxable=0 "
+
+            ElseIf rbtnInvoice.Checked Then
+                qry += "select  CASE WHEN  TSPL_SD_SALE_INVOICE_DETAIL.Unit_code = 'LTR' then qty * ItemConversionInLTR.Conversion_Factor / ItemConversionInPouch.Conversion_Factor WHEN  TSPL_SD_SALE_INVOICE_DETAIL.Unit_code = 'CRATE' then qty * ItemConversionCrate.Conversion_Factor / ItemConversionInPouch.Conversion_Factor  WHEN  TSPL_SD_SALE_INVOICE_DETAIL.Unit_code = 'POUCH' then qty * ItemConversionInPouch.Conversion_Factor / ItemConversionInPouch.Conversion_Factor ELSE 0 END AS QTYINPOUCH,
+                CASE WHEN    TSPL_SD_SALE_INVOICE_DETAIL.Unit_code = 'CRATE' then qty * ItemConversionCrate.Conversion_Factor / ItemConversionInLTR.Conversion_Factor  WHEN  TSPL_SD_SALE_INVOICE_DETAIL.Unit_code = 'POUCH' then qty * ItemConversionInPouch.Conversion_Factor / ItemConversionInLTR.Conversion_Factor ELSE 0 END AS QTYinltr,TSPL_SD_SALE_INVOICE_DETAIL.Item_Code,tspl_item_master.Item_Desc,HSN_Code,Qty,Item_Cost,amount,TSPL_SD_SALE_INVOICE_DETAIL.unit_code,
+                    TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_CUSTOMER_MASTER.GSTNO as custGSTNO,TSPL_CUSTOMER_MASTER.State,TSPL_CUSTOMER_MASTER.PIN_Code,TSPL_LOCATION_MASTER.GSTNO as locGSTNO,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Location_Code,TSPL_LOCATION_MASTER.Add1,
+                    TSPL_LOCATION_MASTER.Add2,TSPL_LOCATION_MASTER.State AS LOCSTATE,TSPL_LOCATION_MASTER.Pin_Code AS LOCPIN,TSPL_LOCATION_MASTER.Telphone,TSPL_LOCATION_MASTER.Phone1,TSPL_LOCATION_MASTER.Phone2,TSPL_SD_SHIPMENT_head.GatePass_No,TSPL_SD_SALE_INVOICE_HEAD.Route_No,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location,TSPL_COMPANY_MASTER.Comp_Name ,TSPL_COMPANY_MASTER.Add1 as comp_add1 , TSPL_COMPANY_MASTER.Add2 as  comp_add2 ,TSPL_COMPANY_MASTER.Add3 as comp_add3 , case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone,
+                    isnull(TSPL_SD_SALE_INVOICE_HEAD.Distributor_Commission_TotalAmt,0) as Distributor_Commission_TotalAmt,TSPL_COMPANY_MASTER.GSTINNo,TSPL_COMPANY_MASTER.Pan_No,
+                    TSPL_CUSTOMER_MASTER.Add1 as  custAdd1 ,TSPL_SD_SALE_INVOICE_HEAD.ship_to_location,TSPL_SD_SALE_INVOICE_HEAD.Document_Code AS  Sale_Invoice_No,tspl_sd_sale_invoice_head.document_date,
+                    TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt,TSPL_COMPANY_MASTER.Access_Officer, TSPL_SD_SALE_INVOICE_DETAIL.TAX2,TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Rate,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Rate
+                    from TSPL_SD_SALE_INVOICE_DETAIL
+                left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.document_code=TSPL_SD_SALE_INVOICE_DETAIL.document_code
+                LEFT OUTER JOIN TSPL_DISTRIBUTOR_COMMISSION_DETAIL ON TSPL_DISTRIBUTOR_COMMISSION_DETAIL.pk_id  =TSPL_SD_SALE_INVOICE_DETAIL.Distributor_Commission_PKID AND TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Route_Code = TSPL_SD_SALE_INVOICE_HEAD.Route_No
+                left outer join tspl_item_master  on tspl_item_master.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
+                left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
+                left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
+                left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SALE_INVOICE_HEAD.Comp_Code
+                left outer join TSPL_SD_SHIPMENT_head on TSPL_SD_SHIPMENT_head.document_code = tspl_sd_sale_invoice_head.against_shipment_no
+                left join (select Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code from  TSPL_ITEM_UOM_DETAIL where UOM_code = 'Crate') as ItemConversionCrate on ItemConversionCrate.Item_code =  TSPL_SD_SALE_INVOICE_DETAIL.Item_Code 
+                left join (select Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'Pouch' ) as ItemConversionInPouch on ItemConversionInPouch.Item_code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
+                left join ( select Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code from  TSPL_ITEM_UOM_DETAIL where UOM_code = 'LTR' ) as ItemConversionInLTR on ItemConversionInLTR.Item_code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code  
+               where convert (date,tspl_sd_sale_invoice_head.Document_Date,103)>='" + clsCommon.GetPrintDate(txtfromdate.Value) + "' and convert(date,tspl_sd_sale_invoice_head.Document_Date,103)<='" + clsCommon.GetPrintDate(txttodate.Value) + "' "
+
+                If txtrouteno.arrValueMember IsNot Nothing AndAlso txtrouteno.arrValueMember.Count > 0 Then
+                    qry += "  and tspl_sd_sale_invoice_head.Route_No IN (" + clsCommon.GetMulcallString(txtrouteno.arrValueMember) + ") "
+                End If
+                If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                    qry += "  and tspl_sd_sale_invoice_head.Bill_To_Location IN (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
+                End If
+                If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
+                    qry += "   and tspl_sd_sale_invoice_head.customer_code IN (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ") "
+                End If
+                qry += " and tspl_sd_sale_invoice_head.is_taxable=0 "
+            End If
 
             If rbtnMilk.Checked = True Then
                 qry += " And TSPL_ITEM_MASTER.Is_FreshItem ='1' "
-            End If
-            If rbtnproduct.Checked = True Then
+            ElseIf rbtnproduct.Checked = True Then
                 qry += " and TSPL_ITEM_MASTER.Is_Ambient='1' "
             End If
             qry += " ) yyy group by Item_Code,Item_Desc,Item_Cost,GatePass_No "
@@ -155,7 +210,7 @@ Public Class rptdailydispatch
                 Dim frmCRV As New frmCrystalReportViewer()
                 frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptdailydispatch", "")
             Else
-                clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No data found to print", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -270,6 +325,8 @@ Public Class rptdailydispatch
             VarID += "_MT"
         ElseIf rbtnproduct.Checked Then
             VarID += "_PT"
+        ElseIf rbtnBoth.Checked Then
+            VarID += "_BT"
         End If
         gv1.VarID = VarID
 
@@ -279,20 +336,37 @@ Public Class rptdailydispatch
         Try
             Dim dt As DataTable = Nothing
             Dim qry As String = ""
-            If clsCommon.myLen(txtrouteno.arrValueMember) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please select route no", Me.Text)
-                Exit Sub
-            End If
-            If clsCommon.myLen(txtcustomer.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
-                Exit Sub
-            End If
-            If clsCommon.myLen(txtlocation.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
-                Exit Sub
-            End If
+            If rbtnDispatch.Checked Then
+                qry = "  select  yyy.document_code,yyy.Sale_Invoice_No,yyy.Customer_Code,yyy.Customer_Name,yyy.Item_Code,yyy.Item_Desc,yyy.unit_code,yyy.Qty,yyy.QTYINPOUCH,yyy.QTYinltr,CASE WHEN  yyy.Unit_code = 'LTR' then Amount/QTYINPOUCH WHEN  yyy.Unit_code = 'CRATE' then Amount/QTYINPOUCH   WHEN  yyy.Unit_code = 'POUCH' then Item_cost ELSE 0 END AS rateinpouch,yyy.Item_Cost, yyy.amount,GPCode  from  (select TSPL_SD_SALE_INVOICE_HEAD.document_code AS Sale_Invoice_No,TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code as Document_Code ,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SALE_INVOICE_DETAIL.Item_Code,tspl_item_master.Item_Desc,TSPL_SD_SALE_INVOICE_DETAIL.unit_code,TSPL_SD_SALE_INVOICE_DETAIL.Qty,CASE WHEN  TSPL_SD_SALE_INVOICE_DETAIL.Unit_code = 'CRATE' then TSPL_SD_SALE_INVOICE_DETAIL.qty * ItemConversionCrate.Conversion_Factor / ItemConversionInLTR.Conversion_Factor  WHEN  TSPL_SD_SALE_INVOICE_DETAIL.Unit_code = 'POUCH' then TSPL_SD_SALE_INVOICE_DETAIL.qty * ItemConversionInPouch.Conversion_Factor / ItemConversionInLTR.Conversion_Factor ELSE 0 END AS QTYinltr, CASE WHEN  TSPL_SD_SALE_INVOICE_DETAIL.Unit_code = 'LTR' then TSPL_SD_SALE_INVOICE_DETAIL.qty * ItemConversionInLTR.Conversion_Factor / ItemConversionInPouch.Conversion_Factor WHEN  TSPL_SD_SALE_INVOICE_DETAIL.Unit_code = 'CRATE' then TSPL_SD_SALE_INVOICE_DETAIL.qty * ItemConversionCrate.Conversion_Factor / ItemConversionInPouch.Conversion_Factor  WHEN  TSPL_SD_SALE_INVOICE_DETAIL.Unit_code = 'POUCH' then TSPL_SD_SALE_INVOICE_DETAIL.qty * ItemConversionInPouch.Conversion_Factor / ItemConversionInPouch.Conversion_Factor ELSE 0 END AS QTYINPOUCH,TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost,TSPL_SD_SALE_INVOICE_DETAIL.amount,TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode
+					from TSPL_SD_SALE_INVOICE_DETAIL
+                    left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.document_code=TSPL_SD_SALE_INVOICE_DETAIL.document_code
+                    left outer join tspl_item_master  on tspl_item_master.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
+                    left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
+					left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
+					left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.Document_Code = TSPL_SD_SHIPMENT_HEAD.Document_Code
+					and TSPL_SD_SHIPMENT_DETAIL.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
+                    left join TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL on TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID=10
+                    left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
+                    left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SALE_INVOICE_HEAD.Comp_Code
+                    left join (select Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code from  TSPL_ITEM_UOM_DETAIL where UOM_code = 'Crate') as ItemConversionCrate on ItemConversionCrate.Item_code =  TSPL_SD_SALE_INVOICE_DETAIL.Item_Code 
+                    left join (select Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'Pouch' ) as ItemConversionInPouch on ItemConversionInPouch.Item_code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
+                    left join ( select Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code from  TSPL_ITEM_UOM_DETAIL where UOM_code = 'LTR' ) as ItemConversionInLTR on ItemConversionInLTR.Item_code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code 
+                    where convert (date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>='" + clsCommon.GetPrintDate(txtfromdate.Value) + "' and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)<='" + clsCommon.GetPrintDate(txttodate.Value) + "' "
 
-            qry = " select yyy.document_code,yyy.Sale_Invoice_No,yyy.Customer_Code,yyy.Customer_Name,yyy.Item_Code,yyy.Item_Desc,yyy.unit_code,yyy.Qty,yyy.QTYINPOUCH,yyy.QTYinltr,CASE WHEN  yyy.Unit_code = 'LTR' then Amount/QTYINPOUCH WHEN  yyy.Unit_code = 'CRATE' then Amount/QTYINPOUCH   WHEN  yyy.Unit_code = 'POUCH' then Item_cost ELSE 0 END AS rateinpouch,yyy.Item_Cost, yyy.amount,GPCode  from  (select tspl_sd_shipment_head.document_code,tspl_sd_shipment_head.Sale_Invoice_No,TSPL_SD_SHIPMENT_head.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SHIPMENT_DETAIL.Item_Code,tspl_item_master.Item_Desc,TSPL_SD_SHIPMENT_DETAIL.unit_code,Qty,CASE WHEN  TSPL_SD_SHIPMENT_DETAIL.Unit_code = 'CRATE' then qty * ItemConversionCrate.Conversion_Factor / ItemConversionInLTR.Conversion_Factor  WHEN  TSPL_SD_SHIPMENT_DETAIL.Unit_code = 'POUCH' then qty * ItemConversionInPouch.Conversion_Factor / ItemConversionInLTR.Conversion_Factor ELSE 0 END AS QTYinltr, CASE WHEN  TSPL_SD_SHIPMENT_DETAIL.Unit_code = 'LTR' then qty * ItemConversionInLTR.Conversion_Factor / ItemConversionInPouch.Conversion_Factor WHEN  TSPL_SD_SHIPMENT_DETAIL.Unit_code = 'CRATE' then qty * ItemConversionCrate.Conversion_Factor / ItemConversionInPouch.Conversion_Factor  WHEN  TSPL_SD_SHIPMENT_DETAIL.Unit_code = 'POUCH' then qty * ItemConversionInPouch.Conversion_Factor / ItemConversionInPouch.Conversion_Factor ELSE 0 END AS QTYINPOUCH,Item_Cost,amount,TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode
+                If txtrouteno.arrValueMember IsNot Nothing AndAlso txtrouteno.arrValueMember.Count > 0 Then
+                    qry += "  and TSPL_SD_SALE_INVOICE_HEAD.Route_No IN (" + clsCommon.GetMulcallString(txtrouteno.arrValueMember) + ") "
+                End If
+                If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                    qry += "  and TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location IN (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
+                End If
+                If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
+                    qry += "   and TSPL_SD_SALE_INVOICE_HEAD.customer_code IN (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ") "
+                End If
+
+                qry += " and TSPL_SD_SALE_INVOICE_HEAD.is_taxable=0 "
+
+            ElseIf rbtnInvoice.Checked Then
+                qry = " select yyy.document_code,yyy.Sale_Invoice_No,yyy.Customer_Code,yyy.Customer_Name,yyy.Item_Code,yyy.Item_Desc,yyy.unit_code,yyy.Qty,yyy.QTYINPOUCH,yyy.QTYinltr,CASE WHEN  yyy.Unit_code = 'LTR' then Amount/QTYINPOUCH WHEN  yyy.Unit_code = 'CRATE' then Amount/QTYINPOUCH   WHEN  yyy.Unit_code = 'POUCH' then Item_cost ELSE 0 END AS rateinpouch,yyy.Item_Cost, yyy.amount,GPCode  from  (select tspl_sd_shipment_head.document_code,tspl_sd_shipment_head.Sale_Invoice_No,TSPL_SD_SHIPMENT_head.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SHIPMENT_DETAIL.Item_Code,tspl_item_master.Item_Desc,TSPL_SD_SHIPMENT_DETAIL.unit_code,Qty,CASE WHEN  TSPL_SD_SHIPMENT_DETAIL.Unit_code = 'CRATE' then qty * ItemConversionCrate.Conversion_Factor / ItemConversionInLTR.Conversion_Factor  WHEN  TSPL_SD_SHIPMENT_DETAIL.Unit_code = 'POUCH' then qty * ItemConversionInPouch.Conversion_Factor / ItemConversionInLTR.Conversion_Factor ELSE 0 END AS QTYinltr, CASE WHEN  TSPL_SD_SHIPMENT_DETAIL.Unit_code = 'LTR' then qty * ItemConversionInLTR.Conversion_Factor / ItemConversionInPouch.Conversion_Factor WHEN  TSPL_SD_SHIPMENT_DETAIL.Unit_code = 'CRATE' then qty * ItemConversionCrate.Conversion_Factor / ItemConversionInPouch.Conversion_Factor  WHEN  TSPL_SD_SHIPMENT_DETAIL.Unit_code = 'POUCH' then qty * ItemConversionInPouch.Conversion_Factor / ItemConversionInPouch.Conversion_Factor ELSE 0 END AS QTYINPOUCH,Item_Cost,amount,TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode
 					from TSPL_SD_SHIPMENT_DETAIL
                     left outer join tspl_sd_shipment_head on tspl_sd_shipment_head.document_code=TSPL_SD_SHIPMENT_DETAIL.document_code
                     left outer join tspl_item_master  on tspl_item_master.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
@@ -302,13 +376,26 @@ Public Class rptdailydispatch
                     left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=tspl_sd_shipment_head.Comp_Code
                     left join (select Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code from  TSPL_ITEM_UOM_DETAIL where UOM_code = 'Crate') as ItemConversionCrate on ItemConversionCrate.Item_code =  TSPL_SD_SHIPMENT_DETAIL.Item_Code 
                                                 left join (select Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'Pouch' ) as ItemConversionInPouch on ItemConversionInPouch.Item_code = TSPL_SD_SHIPMENT_DETAIL.Item_Code
-                                                left join ( select Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code from  TSPL_ITEM_UOM_DETAIL where UOM_code = 'LTR' ) as ItemConversionInLTR on ItemConversionInLTR.Item_code = TSPL_SD_SHIPMENT_DETAIL.Item_Code where convert
-                    (date,tspl_sd_shipment_head.Document_Date,103)>='" + clsCommon.GetPrintDate(txtfromdate.Value) + "' and convert(date,tspl_sd_shipment_head.Document_Date,103)<='" + clsCommon.GetPrintDate(txttodate.Value) + "' and tspl_sd_shipment_head.Route_No in ( " + clsCommon.GetMulcallString(txtrouteno.arrValueMember) + ") and tspl_sd_shipment_head.Bill_To_Location='" + txtlocation.Value + "' and is_taxable=0 and Customer_Code='" + txtcustomer.Value + "' "
+                                                left join ( select Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code from  TSPL_ITEM_UOM_DETAIL where UOM_code = 'LTR' ) as ItemConversionInLTR on ItemConversionInLTR.Item_code = TSPL_SD_SHIPMENT_DETAIL.Item_Code
+                    where convert (date,tspl_sd_shipment_head.Document_Date,103)>='" + clsCommon.GetPrintDate(txtfromdate.Value) + "' and convert(date,tspl_sd_shipment_head.Document_Date,103)<='" + clsCommon.GetPrintDate(txttodate.Value) + "' "
+
+                If txtrouteno.arrValueMember IsNot Nothing AndAlso txtrouteno.arrValueMember.Count > 0 Then
+                    qry += "  and tspl_sd_shipment_head.Route_No IN (" + clsCommon.GetMulcallString(txtrouteno.arrValueMember) + ") "
+                End If
+                If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                    qry += "  and tspl_sd_shipment_head.Bill_To_Location IN (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") "
+                End If
+                If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
+                    qry += "   and tspl_sd_shipment_head.customer_code IN (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ") "
+                End If
+
+                qry += " and is_taxable=0 "
+            End If
+
 
             If rbtnMilk.Checked = True Then
                 qry += " and TSPL_ITEM_MASTER.Is_FreshItem='1' "
-            End If
-            If rbtnproduct.Checked = True Then
+            ElseIf rbtnproduct.Checked = True Then
                 qry += " and TSPL_ITEM_MASTER.Is_Ambient='1' "
             End If
             qry += "   )yyy "
@@ -320,7 +407,7 @@ Public Class rptdailydispatch
             gv1.MasterTemplate.SummaryRowsBottom.Clear()
             gv1.MasterView.Refresh()
 
-            If dt IsNot Nothing OrElse dt.Rows.Count > 0 Then
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 gv1.DataSource = dt
                 For ii As Integer = 0 To gv1.Columns.Count - 1
                     gv1.Columns(ii).ReadOnly = True
@@ -355,9 +442,30 @@ Public Class rptdailydispatch
     End Sub
 
     Private Sub txtrouteno__My_Click(sender As Object, e As EventArgs) Handles txtrouteno._My_Click
-        Dim qry As String = ""
-        qry = " Select TSPL_ROUTE_MASTER.Route_No as Code,Route_Desc as Description from TSPL_ROUTE_MASTER"
-        txtrouteno.arrValueMember = clsCommon.ShowMultipleSelectForm("routeno", qry, "Code", "Description", txtrouteno.arrValueMember, txtrouteno.arrDispalyMember)
+        Try
+            Dim qry As String = ""
+            qry = " Select TSPL_ROUTE_MASTER.Route_No as Code,Route_Desc as Description from TSPL_ROUTE_MASTER"
+            txtrouteno.arrValueMember = clsCommon.ShowMultipleSelectForm("routeno", qry, "Code", "Description", txtrouteno.arrValueMember, txtrouteno.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub txtCustomer__My_Click(sender As Object, e As EventArgs) Handles txtCustomer._My_Click
+        Try
+            Dim qry As String = "select Cust_Code as Code,Customer_Name as Name from tspl_customer_master  "
+            txtCustomer.arrValueMember = clsCommon.ShowMultipleSelectForm("CustFilter", qry, "Code", "Name", txtCustomer.arrValueMember, txtCustomer.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 
+    Private Sub txtLocation__My_Click(sender As Object, e As EventArgs) Handles txtLocation._My_Click
+        Try
+            Dim qry As String = ""
+            qry = " select location_code as Code ,location_desc as Name  from TSPL_LOCATION_MASTER "
+            txtLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("LocFilter", qry, "Code", "Name", txtLocation.arrValueMember, txtLocation.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

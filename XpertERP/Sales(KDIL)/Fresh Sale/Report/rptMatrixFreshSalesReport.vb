@@ -946,7 +946,7 @@ Public Class RptMatrixFreshSalesReport
             Else
                 '' Print
                 Dim dtSubReport As DataTable = clsDBFuncationality.GetDataTable("select ROW_NUMBER() over (order by max(Sku_Seq)) as SNO, Structure_Code,max(Alies_Name)Alies_Name,sum(fQty)Qty,sum(Crate_Qty)Crate_Qty,sum(Ltr_Qty)Ltr_Qty,max(Unit_code)Unit_code from ( " & MainQuery & " ) xx group by Structure_Code order by max(Sku_Seq)")
-                Dim ItemsQry As String = "select Item_Code,max(Sku_Seq) as Sku_Seq,max(Alies_Name) as Alies_Name,max(Alies_Name2)as Alies_Name2, MAX(case when TypeOfItm = 'M' then 1 when TypeOfItm = 'A' then 2 end ) as TypeOfItm,max(Unit_code)Unit_code from (" + MainQuery + ") x group by Item_Code  "
+                Dim ItemsQry As String = "select Item_Code,max(Sku_Seq) as Sku_Seq,max(Alies_Name) as Alies_Name,max(Alies_Name2)as Alies_Name2, MAX(case when TypeOfItm = 'M' then 1 when TypeOfItm = 'P' then 2 else 0 end ) as TypeOfItm,max(Unit_code)Unit_code from (" + MainQuery + ") x group by Item_Code  "
                 Dim dtItems As DataTable = clsDBFuncationality.GetDataTable(ItemsQry & " order by Sku_Seq,TypeOfItm ")
                 If dtItems Is Nothing OrElse dtItems.Rows.Count <= 0 Then
                     clsCommon.MyMessageBoxShow("No Data Found to Print")
@@ -963,11 +963,15 @@ Public Class RptMatrixFreshSalesReport
                             dtProduct.ImportRow(dr)
                         End If
                     Next
-                    If dtMilk.Rows.Count < 12 Then
-                        dtMilk = clsDBFuncationality.GetDataTable(" SELECT * FROM (  SELECT * FROM ( " & ItemsQry & " )XX where TypeOfItm = 1 " & Environment.NewLine & " union all " & Environment.NewLine & " select TOP (12 - " & dtMilk.Rows.Count & ") Item_Code,Sku_Seq,Alies_Name,Alies_Name2,case when TypeOfItm = 'M' then 1 when TypeOfItm = 'A' then 2 end as TypeOfItm,Unit_Code from TSPL_ITEM_MASTER where Sku_Seq > " & dtMilk.Rows(dtMilk.Rows.Count - 1)("Sku_Seq") & " and TypeOfItm = 'M' )XXX order by Sku_Seq ")
+                    If dtMilk.Rows.Count = 0 Then
+                        dtMilk = clsDBFuncationality.GetDataTable(" SELECT * FROM (  SELECT * FROM ( " & ItemsQry & " )XX where TypeOfItm = 1 " & Environment.NewLine & " union all " & Environment.NewLine & " select TOP (12 - " & dtMilk.Rows.Count & ") Item_Code,Sku_Seq,Alies_Name,Alies_Name2,case when TypeOfItm = 'M' then 1 when TypeOfItm = 'P' then 2 end as TypeOfItm,Unit_Code from TSPL_ITEM_MASTER where Sku_Seq > " & dtMilk.Rows(dtMilk.Rows.Count - 1)("Sku_Seq") & " and TypeOfItm = 'M' )XXX order by Sku_Seq ")
+                    ElseIf dtMilk.Rows.Count < 12 Then
+                        dtMilk = clsDBFuncationality.GetDataTable(" select TOP 12 Item_Code,Sku_Seq,Alies_Name,Alies_Name2,case when TypeOfItm = 'M' then 1 when TypeOfItm = 'P' then 2 end as TypeOfItm,Unit_Code from TSPL_ITEM_MASTER where TypeOfItm = 'M'  order by Sku_Seq ")
                     End If
-                    If dtProduct.Rows.Count < 8 Then
-                        dtProduct = clsDBFuncationality.GetDataTable(" SELECT * FROM (  SELECT * FROM ( " & ItemsQry & " )XX where TypeOfItm = 2 " & Environment.NewLine & " union all " & Environment.NewLine & " select TOP (8 - " & dtProduct.Rows.Count & ")   Item_Code,Sku_Seq,Alies_Name,Alies_Name2,case when TypeOfItm = 'M' then 1 when TypeOfItm = 'A' then 2 end as TypeOfItm,Unit_Code from TSPL_ITEM_MASTER where Sku_Seq > " & dtProduct.Rows(dtProduct.Rows.Count - 1)("Sku_Seq") & " and TypeOfItm = 'A' )XXX order by Sku_Seq ")
+                    If dtProduct.Rows.Count = 0 Then
+                        dtProduct = clsDBFuncationality.GetDataTable(" SELECT * FROM (  SELECT * FROM ( " & ItemsQry & " )XX where TypeOfItm = 2 " & Environment.NewLine & " union all " & Environment.NewLine & " select TOP (8 - " & dtProduct.Rows.Count & ")   Item_Code,Sku_Seq,Alies_Name,Alies_Name2,case when TypeOfItm = 'M' then 1 when TypeOfItm = 'P' then 2 end as TypeOfItm,Unit_Code from TSPL_ITEM_MASTER where Sku_Seq > " & dtProduct.Rows(dtProduct.Rows.Count - 1)("Sku_Seq") & " and TypeOfItm = 'P' )XXX order by Sku_Seq ")
+                    ElseIf dtProduct.Rows.Count < 8 Then
+                        dtProduct = clsDBFuncationality.GetDataTable(" select TOP 8 Item_Code,Sku_Seq,Alies_Name,Alies_Name2,case when TypeOfItm = 'M' then 1 when TypeOfItm = 'P' then 2 end as TypeOfItm,Unit_Code from TSPL_ITEM_MASTER where TypeOfItm = 'P'  order by Sku_Seq ")
                     End If
                     Dim frmCRV As New frmCrystalReportViewer()
                     Dim FinalQuery As String = " With CTERawData as ( " + MainQuery + "  )" + Environment.NewLine + Environment.NewLine

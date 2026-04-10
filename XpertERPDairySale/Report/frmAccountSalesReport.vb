@@ -166,7 +166,7 @@ ORDER BY Document_Date,Document_Code,[Sale Vch. Type Name],SortOrder "
                 Dim rpt As New rptHSNWiseSaleReport()
                 Dim BaseQry As String = rpt.ReturnQry(True, txtFromDate.Value, txtToDate.Value, txtLocation.Value)
                 rpt = Nothing
-                Qry = "Select * from  (" & BaseQry & ")finalQry"
+                Qry = "Select [Supply Type],Max(HSN_Code) As [HSN],Max(Short_Description) As [Description],Max(UOM) As [UQC],Sum(Total_Qty) As [Total Quantity],Sum(Item_Net_Amt) As [Total Value],Max(Tax_Rate) As Rate,Sum(MandiAmt) As [Mandi Amount],Sum(kkfAmt) As [KKF Amount],Sum(Taxable_Amt) As [Taxable Value],Sum([Integrated Goods Service Tax Amount]) As [IGST],Sum([Central Goods Serivce Tax Amount]) As [CGST], Sum([State Goods Service Tax Amount]) As [S/UGST],'' As CessAmt from  (" & BaseQry & ")finalQry Group By [Supply Type],Item_Code Order By [Supply Type]"
             Else
                 Dim rpt As New rptSaleInvoiceStatusReport()
                 Dim BaseQry As String = rpt.BaseQryLoadDataInvoiceCount(txtFromDate.Value, txtToDate.Value, txtLocation.Value)

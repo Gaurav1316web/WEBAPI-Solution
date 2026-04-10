@@ -8,11 +8,14 @@ Public Class rptDCSTruckSheetRegister
         rbtMorning.IsChecked = False
         rbtEvening.IsChecked = False
     End Sub
-    Public Sub Griddata(ByVal print As Boolean, ByVal print2 As Boolean)
+    Public Sub Griddata(ByVal print As Boolean)
         Try
+
             Dim BaseQuery As String = Nothing
-            BaseQuery = "select TSPL_VLC_MASTER_HEAD.VLC_Name as [VLC Name],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader AS [Vlc], TSPL_MILK_COLLECTION_MCC.Route_Code as[Route Code],TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as BMC, TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MCC_MASTER.MCC_NAME as BMC_Name,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2 , TSPL_MILK_COLLECTION_DCS.Document_No,  TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,'Administrator' as User_Name,
-(TSPL_MILK_COLLECTION_DCS.Document_Shift)Shift,(TSPL_MILK_COLLECTION_DCS.Document_Date)Shift_Date,(TSPL_MILK_COLLECTION_DCS.Created_Date)Created_Date,
+            BaseQuery = "select  convert(Varchar,TSPL_MILK_COLLECTION_DCS.Document_Date,103)[Documnet Date],convert(date,TSPL_MILK_COLLECTION_DCS.Created_Date,103)Created_Date, TSPL_MILK_COLLECTION_DCS.Document_No,
+TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader AS [Vlc], TSPL_VLC_MASTER_HEAD.VLC_Name as [VLC Name],(TSPL_MILK_COLLECTION_DCS.Document_Shift)Shift,
+TSPL_MILK_COLLECTION_MCC.Route_Code as[Route Code],
+TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as [ROUTE NAME],TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as BMC, TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MCC_MASTER.MCC_NAME as [BMC Name],TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2 ,  TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,'Administrator' as User_Name,
 
                 case When (isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type,''))='Good' then (isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.qty,0)) else 0 end as [Good Qty]
                 ,case When (isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type,''))='Good' then (TSPL_MILK_COLLECTION_DCS_DETAIL.FAT) else 0 end as [Good FAT %]
@@ -37,12 +40,12 @@ Public Class rptDCSTruckSheetRegister
 				left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS.Document_No 
 left outer join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail 
 left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No 
-			    Left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_COLLECTION_DCS_DETAIL.Route_Code
+			    Left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_COLLECTION_MCC.Route_Code
 				left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
 				left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code 
 
 				left outer join TSPL_COMPANY_MASTER on  2=2
-                where TSPL_MILK_COLLECTION_DCS.Document_Date <= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "', 103) "
+                where TSPL_MILK_COLLECTION_DCS.Document_Date = CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "', 103) "
             If rbtEvening.IsChecked Then
                 BaseQuery += " AND TSPL_MILK_COLLECTION_DCS.Document_Shift ='E' "
             ElseIf rbtMorning.IsChecked Then
@@ -66,24 +69,34 @@ left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No
                 SetGridFormat()
                 ' SetGridFormationOFGV1Collection()
                 ' View()
+                EnableDisableCntrl(False)
                 gv1.BestFitColumns()
                 If print = True Then
-                    Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptDcsTruckSheetRegister", "DCS Truck Sheet Register")
-                    frmCRV = Nothing
-                    ' frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, "", "rptTankerProfitLoss", "ProfitLoss", "SubTankerProfitLoss.rpt")
-                End If
-                If print2 = True Then
-                    Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptDcsTruckSheetRegisterRoute", "DCS Truck Sheet Register")
+                    If rbdDCSwise.IsChecked = True Then
+                        Dim frmCRV As New frmCrystalReportViewer()
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptDcsTruckSheetRegister", "DCS Truck Sheet Register")
+                        frmCRV = Nothing
+                        ' frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, "", "rptTankerProfitLoss", "ProfitLoss", "SubTankerProfitLoss.rpt")
+                    End If
+                    If rbdRouteWise.IsChecked = True Then
+                        Dim frmCRV As New frmCrystalReportViewer()
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptDcsTruckSheetRegisterRoute", "DCS Truck Sheet Register")
+                    End If
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
         Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
 
         End Try
+    End Sub
+    Sub EnableDisableCntrl(ByVal val As Boolean)
+        RadGroupBox1.Enabled = False
+        RadGroupBox3.Enabled = False
+        RadGroupBox2.Enabled = False
+
     End Sub
     '    Public Sub Griddata(ByVal print As Boolean, ByVal print2 As Boolean)
     '        Try
@@ -167,6 +180,7 @@ left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No
             gv1.Columns(ii).IsVisible = True
             'gv1.Columns("Document_No").HeaderText = "Document No."
             gv1.Columns("User_Name").IsVisible = False
+            gv1.Columns("Created_Date").IsVisible = False
 
             gv1.Columns("Document_No").IsVisible = True
             gv1.Columns("Document_No").VisibleInColumnChooser = False
@@ -184,30 +198,39 @@ left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No
         gv1.MasterTemplate.AutoExpandGroups = True
     End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
-        Griddata(False, False)
+        Griddata(False)
     End Sub
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
-        Griddata(True, False)
+        Griddata(True)
     End Sub
 
     Private Sub btnRouteWise_Click(sender As Object, e As EventArgs) Handles btnRouteWise.Click
-        Griddata(False, True)
+        Griddata(False)
     End Sub
 
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         Reset()
     End Sub
     Sub Reset()
-
-        txtFromDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy")
         gv1.DataSource = Nothing
-        gv1.Rows.Clear()
-        gv1.Columns.Clear()
         RadPageView1.SelectedPage = RadPageViewPage1
-        rbtBoth.IsChecked = True
-        rbtMorning.IsChecked = False
-        rbtEvening.IsChecked = False
+        RadGroupBox2.Enabled = True
+        RadGroupBox3.Enabled = True
+        RadGroupBox1.Enabled = True
 
+        'txtFromDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy")
+        'gv1.DataSource = Nothing
+        'gv1.Rows.Clear()
+        'gv1.Columns.Clear()
+        'RadPageView1.SelectedPage = RadPageViewPage1
+        'rbtBoth.IsChecked = True
+        'rbtMorning.IsChecked = False
+        'rbtEvening.IsChecked = False
+
+    End Sub
+
+    Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+        Me.Close()
     End Sub
 End Class

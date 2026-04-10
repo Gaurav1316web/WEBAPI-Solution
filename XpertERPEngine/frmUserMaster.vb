@@ -92,6 +92,9 @@ Public Class FrmUserMaster
             Close()
         ElseIf e.Alt And e.KeyCode = Keys.N Then
             funReset()
+        ElseIf e.Alt And e.Shift AndAlso e.KeyCode = Keys.F12 Then
+            MyLabel18.Visible = True
+            TxtUnion.Visible = True
         End If
     End Sub
 
@@ -191,6 +194,9 @@ Public Class FrmUserMaster
             fndUserCode.Value = clsCommon.myCstr(Me.Tag)
             usercodeTextChanged()
         End If
+
+        TxtUnion.Visible = False
+        MyLabel18.Visible = False
 
         Dim coll As Dictionary(Of String, String)
         coll = New Dictionary(Of String, String)
