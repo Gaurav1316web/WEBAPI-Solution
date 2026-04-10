@@ -4082,12 +4082,12 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
 	left outer join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_code
     WHERE TSPL_DEMAND_BOOKING_MASTER.Document_No='" & txtDocNo.Value & "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & IIf(rbtnMorning.IsChecked, "Morning", "Evening") & "'" & IIf(clsCommon.CompairString(TripNo, "ALL") = CompairStringResult.Equal, "", "and TSPL_DEMAND_BOOKING_DETAIL.Trip_No='" & TripNo & "'") & ""
 
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal OrElse isExportTruckSheet AndAlso isIndent Then
+            If (clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal OrElse isExportTruckSheet) AndAlso isIndent Then
                 BaseQry += " Union All "
                 BaseQry += " Select '1' as  Code,TSPL_CUSTOMER_MASTER.Display_Seq,TSPL_CUSTOMER_MASTER.Cust_Code,coalesce(TSPL_CUSTOMER_MASTER.Customer_Name_Hindi,TSPL_CUSTOMER_MASTER.Customer_Name) as Customer_Name 
 	, TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Alies_Name_Hindi as Alies_Name
 	,TSPL_ITEM_MASTER.Is_FreshItem,TSPL_ITEM_MASTER.Is_Ambient
-	,0 As Qty ,TSPL_UNIT_MASTER.Unit_Code,TSPL_UNIT_MASTER.Unit_Desc
+	,TSPL_UNIT_MASTER.Unit_Code,TSPL_UNIT_MASTER.Unit_Desc,0 As Qty
 	,0 as Qty_Crate
 	,0 as Qty_Pouch	
     ,0 as ProdQ
