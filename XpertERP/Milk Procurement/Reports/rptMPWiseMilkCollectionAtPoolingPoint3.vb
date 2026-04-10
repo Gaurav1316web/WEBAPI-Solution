@@ -608,7 +608,7 @@ FROM (" + Baseqry + ")XXXX GROUP BY VLC_CODE"
                 RadPageView1.SelectedPage = RadPageViewPage2
                 gv.EnableFiltering = True
                 'SetGridFormat()
-                ' SetGridFormationOFGV1Collection()
+                SetGridFormationOFGV1Collection()
                 ' View()
                 ' EnableDisableCntrl(False)
                 gv.BestFitColumns()
@@ -626,6 +626,42 @@ FROM (" + Baseqry + ")XXXX GROUP BY VLC_CODE"
         cboUnit.Enabled = False
         txtMCC.Enabled = False
         txtRoute.Enabled = False
+    End Sub
+    Sub SetGridFormationOFGV1Collection()
+        gv.TableElement.TableHeaderHeight = 40
+        gv.MasterTemplate.ShowRowHeaderColumn = False
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        For ii As Integer = 0 To gv.Columns.Count - 1
+            gv.Columns(ii).ReadOnly = True
+            gv.Columns(ii).IsVisible = True
+            gv.Columns("VLC_CODE").IsVisible = False
+            gv.Columns("DOC_DATE").IsVisible = True
+            gv.Columns("DOC_DATE").HeaderText = "DOC_DATE"
+            gv.Columns("SHIFT").HeaderText = "SHIFT"
+            gv.Columns("DCS_Code").HeaderText = "DCS Code"
+            gv.Columns("DCS_Uploader_code").HeaderText = "DCS Uploader code"
+            gv.Columns("DCS_NAME").HeaderText = "DCS NAME"
+            gv.Columns("ROUTE_CODE").HeaderText = "ROUTE CODE"
+            gv.Columns("QTY").HeaderText = "QTY"
+            gv.Columns("FAT_KG").HeaderText = "FAT KG"
+            gv.Columns("SNF_KG").HeaderText = "SNF KG"
+            gv.Columns("FatPer").HeaderText = "FAT  %"
+            gv.Columns("SNFPer").HeaderText = "SNF %"
+            gv.Columns("FatAVG").HeaderText = "FatAVG"
+            gv.Columns("SNFAVG").HeaderText = "SNFAVG"
+            gv.Columns("Farmer_Count").HeaderText = "Farmer Count"
+
+            'gv1.Columns("VLC_CODE").HeaderText = "Document No."
+            'gv1.Columns("Document_No").HeaderText = "Document No."
+
+        Next
+        Dim summaryRowItemB As New GridViewSummaryRowItem()
+
+        gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemB)
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+        gv.AutoSizeRows = True
+        gv.BestFitColumns()
+        gv.MasterTemplate.AutoExpandGroups = True
     End Sub
     Private Sub DCSFarmerCollectionSummary()
         Try
