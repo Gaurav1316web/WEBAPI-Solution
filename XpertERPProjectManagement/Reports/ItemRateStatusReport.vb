@@ -164,7 +164,7 @@ FROM (
     SELECT DISTINCT TSPL_ITEM_PRICE_PLAN_detail.PRICE_CODE
     FROM TSPL_ITEM_PRICE_PLAN_HEADER 
     LEFT JOIN TSPL_ITEM_PRICE_PLAN_detail  ON TSPL_ITEM_PRICE_PLAN_detail.Plan_Code = TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code"
-    If txtPriceCode.arrValueMember IsNot Nothing AndAlso txtPriceCode.arrValueMember.Count > 0 Then
+            If txtPriceCode.arrValueMember IsNot Nothing AndAlso txtPriceCode.arrValueMember.Count > 0 Then
                 qry += " Where TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code IN (" + clsCommon.GetMulcallString(txtPriceCode.arrValueMember) + ")"
             Else
                 qry += " WHERE TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code = '" + strPricecode + "'"
@@ -261,6 +261,7 @@ EXEC sp_executesql @sql;"
                 RadPageView1.SelectedPage = RadPageViewPage2
                 Gv1.BestFitColumns()
                 FormatGrid()
+                EnableDisableCntrl(False)
                 'ReStoreGridLayout()
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found to display.", "Item Stock Report")
@@ -269,6 +270,11 @@ EXEC sp_executesql @sql;"
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+
+    End Sub
+    Sub EnableDisableCntrl(ByVal val As Boolean)
+        RadGroupBox3.Enabled = False
+        RadGroupBox2.Enabled = False
 
     End Sub
     Sub FormatGrid()
@@ -298,12 +304,13 @@ EXEC sp_executesql @sql;"
     End Sub
 
     Private Sub btnreset_Click(sender As Object, e As EventArgs) Handles btnreset.Click
-        fromDate.Value = clsCommon.GETSERVERDATE()
+        '  fromDate.Value = clsCommon.GETSERVERDATE()
         Gv1.DataSource = Nothing
         Gv1.Rows.Clear()
         Gv1.Columns.Clear()
         RadPageView1.SelectedPage = RadPageViewPage1
-
+        RadGroupBox2.Enabled = True
+        RadGroupBox3.Enabled = True
         rbtnReportUOM.IsChecked = True
         rbtnPrintUOM.IsChecked = False
         rbtnDefaultUOM.IsChecked = False
@@ -347,5 +354,38 @@ EXEC sp_executesql @sql;"
         'Catch ex As Exception
         '    common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         'End Try
+    End Sub
+
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        Try
+            Dim BaseQuery As String = Nothing
+            BaseQuery = ""
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(BaseQuery)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Gv1.DataSource = Nothing
+                Gv1.Rows.Clear()
+                Gv1.Columns.Clear()
+                Gv1.GroupDescriptors.Clear()
+                Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                Gv1.MasterView.Refresh()
+                Gv1.DataSource = dt
+                For ii As Integer = 0 To Gv1.Columns.Count - 1
+                    Gv1.Columns(ii).ReadOnly = True
+                Next
+                RadPageView1.SelectedPage = RadPageViewPage2
+                Gv1.EnableFiltering = True
+                'SetGridFormat()
+                ' SetGridFormationOFGV1Collection()
+                ' View()
+                EnableDisableCntrl(False)
+                Gv1.BestFitColumns()
+
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                Exit Sub
+            End If
+        Catch ex As Exception
+
+        End Try
     End Sub
 End Class
