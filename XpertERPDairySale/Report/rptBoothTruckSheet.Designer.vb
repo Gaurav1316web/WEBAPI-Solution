@@ -60,6 +60,7 @@ Partial Class rptBoothTruckSheet
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.chkIsIndividualCust = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -105,6 +106,7 @@ Partial Class rptBoothTruckSheet
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkIsIndividualCust, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -143,6 +145,7 @@ Partial Class rptBoothTruckSheet
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkIsIndividualCust)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel2)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage1.Controls.Add(Me.chkPouch)
@@ -517,6 +520,8 @@ Partial Class rptBoothTruckSheet
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyExportAPI = False
+        Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -564,6 +569,14 @@ Partial Class rptBoothTruckSheet
         Me.btnReset.Size = New System.Drawing.Size(71, 22)
         Me.btnReset.TabIndex = 155
         Me.btnReset.Text = "Reset"
+        '
+        'chkIsIndividualCust
+        '
+        Me.chkIsIndividualCust.Location = New System.Drawing.Point(573, 24)
+        Me.chkIsIndividualCust.Name = "chkIsIndividualCust"
+        Me.chkIsIndividualCust.Size = New System.Drawing.Size(120, 18)
+        Me.chkIsIndividualCust.TabIndex = 451
+        Me.chkIsIndividualCust.Text = "Individual Customer"
         '
         'rptBoothTruckSheet
         '
@@ -628,6 +641,7 @@ Partial Class rptBoothTruckSheet
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkIsIndividualCust, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -670,4 +684,5 @@ Partial Class rptBoothTruckSheet
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents txtToShift As RadDropDownList
     Friend WithEvents txtFromShift As RadDropDownList
+    Friend WithEvents chkIsIndividualCust As RadCheckBox
 End Class

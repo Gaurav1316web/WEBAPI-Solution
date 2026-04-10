@@ -22,7 +22,7 @@ Partial Class SaleEinvoiceReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -358,13 +358,13 @@ Partial Class SaleEinvoiceReport
         Me.RadGroupBox3.Controls.Add(Me.BtnBoth)
         Me.RadGroupBox3.Controls.Add(Me.BtnMorning)
         Me.RadGroupBox3.Controls.Add(Me.BtnEvening)
-        Me.RadGroupBox3.HeaderText = "Date Type"
+        Me.RadGroupBox3.HeaderText = "Shift Type"
         Me.RadGroupBox3.Location = New System.Drawing.Point(276, 51)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox3.Size = New System.Drawing.Size(245, 40)
         Me.RadGroupBox3.TabIndex = 450
-        Me.RadGroupBox3.Text = "Date Type"
+        Me.RadGroupBox3.Text = "Shift Type"
         '
         'BtnBoth
         '
@@ -594,7 +594,7 @@ Partial Class SaleEinvoiceReport
         '
         Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvData.MyExportAPI = False
         Me.gvData.MyExportFilePath = ""
         Me.gvData.MyStopExport = False
