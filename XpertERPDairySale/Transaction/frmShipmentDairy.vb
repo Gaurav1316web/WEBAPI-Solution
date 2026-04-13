@@ -17020,6 +17020,7 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
                                     obj.ICode = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value)
                                     If ConvertIntoBillingUOM Then
                                         obj.UOM = DisBilling_UOM
+                                        DispatchQty = clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value) * DisBillingItemConvFactor
                                         obj.Qty = Math.Ceiling(DispatchQty / DisBillingUOMConvFactor)
                                     Else
                                         obj.UOM = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)

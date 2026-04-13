@@ -23,7 +23,7 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -33,7 +33,6 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.lblweg = New common.Controls.MyLabel()
         Me.lblUnion = New common.Controls.MyLabel()
-        Me.chkSummary = New Telerik.WinControls.UI.RadCheckBox()
         Me.TxtMultiTanker = New common.UserControls.txtMultiSelectFinder()
         Me.lblRoute = New common.Controls.MyLabel()
         Me.lblTanker = New common.Controls.MyLabel()
@@ -53,6 +52,8 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btngo = New Telerik.WinControls.UI.RadButton()
         Me.lblUnion1 = New common.Controls.MyLabel()
+        Me.cboReportType = New common.Controls.MyComboBox()
+        Me.MyLabel2 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -66,7 +67,6 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblweg, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblUnion, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTanker, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -84,6 +84,8 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btngo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblUnion1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cboReportType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -132,17 +134,6 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         '
         'RadPanel1
         '
-        Me.RadPanel1.Controls.Add(Me.cboWEIGHMENT)
-        Me.RadPanel1.Controls.Add(Me.cboQC)
-        Me.RadPanel1.Controls.Add(Me.MyLabel1)
-        Me.RadPanel1.Controls.Add(Me.lblweg)
-        Me.RadPanel1.Controls.Add(Me.lblUnion)
-        Me.RadPanel1.Controls.Add(Me.chkSummary)
-        Me.RadPanel1.Controls.Add(Me.TxtMultiTanker)
-        Me.RadPanel1.Controls.Add(Me.lblTanker)
-        Me.RadPanel1.Controls.Add(Me.txtRoute)
-        Me.RadPanel1.Controls.Add(Me.lblRoute)
-        Me.RadPanel1.Controls.Add(Me.txtUnion)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox3)
         Me.RadPanel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPanel1.Location = New System.Drawing.Point(0, 0)
@@ -165,7 +156,7 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.cboWEIGHMENT.IsSourceFromTable = False
         Me.cboWEIGHMENT.IsSourceFromValueList = False
         Me.cboWEIGHMENT.IsUnique = False
-        Me.cboWEIGHMENT.Location = New System.Drawing.Point(87, 161)
+        Me.cboWEIGHMENT.Location = New System.Drawing.Point(84, 140)
         Me.cboWEIGHMENT.MendatroryField = False
         Me.cboWEIGHMENT.MyLinkLable1 = Nothing
         Me.cboWEIGHMENT.MyLinkLable2 = Nothing
@@ -173,7 +164,7 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.cboWEIGHMENT.ReferenceFieldDesc = Nothing
         Me.cboWEIGHMENT.ReferenceFieldName = Nothing
         Me.cboWEIGHMENT.ReferenceTableName = Nothing
-        Me.cboWEIGHMENT.Size = New System.Drawing.Size(124, 20)
+        Me.cboWEIGHMENT.Size = New System.Drawing.Size(224, 20)
         Me.cboWEIGHMENT.TabIndex = 1528
         '
         'cboQC
@@ -191,7 +182,7 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.cboQC.IsSourceFromTable = False
         Me.cboQC.IsSourceFromValueList = False
         Me.cboQC.IsUnique = False
-        Me.cboQC.Location = New System.Drawing.Point(87, 186)
+        Me.cboQC.Location = New System.Drawing.Point(84, 164)
         Me.cboQC.MendatroryField = False
         Me.cboQC.MyLinkLable1 = Nothing
         Me.cboQC.MyLinkLable2 = Nothing
@@ -199,14 +190,14 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.cboQC.ReferenceFieldDesc = Nothing
         Me.cboQC.ReferenceFieldName = Nothing
         Me.cboQC.ReferenceTableName = Nothing
-        Me.cboQC.Size = New System.Drawing.Size(124, 20)
+        Me.cboQC.Size = New System.Drawing.Size(224, 20)
         Me.cboQC.TabIndex = 1527
         '
         'MyLabel1
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(18, 186)
+        Me.MyLabel1.Location = New System.Drawing.Point(5, 165)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(22, 18)
         Me.MyLabel1.TabIndex = 1525
@@ -216,7 +207,7 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         '
         Me.lblweg.FieldName = Nothing
         Me.lblweg.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblweg.Location = New System.Drawing.Point(17, 160)
+        Me.lblweg.Location = New System.Drawing.Point(5, 141)
         Me.lblweg.Name = "lblweg"
         Me.lblweg.Size = New System.Drawing.Size(58, 18)
         Me.lblweg.TabIndex = 1524
@@ -226,39 +217,30 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         '
         Me.lblUnion.FieldName = Nothing
         Me.lblUnion.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblUnion.Location = New System.Drawing.Point(17, 89)
+        Me.lblUnion.Location = New System.Drawing.Point(5, 71)
         Me.lblUnion.Name = "lblUnion"
         Me.lblUnion.Size = New System.Drawing.Size(36, 18)
         Me.lblUnion.TabIndex = 454
         Me.lblUnion.Text = "Union"
         '
-        'chkSummary
-        '
-        Me.chkSummary.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkSummary.Location = New System.Drawing.Point(352, 43)
-        Me.chkSummary.Name = "chkSummary"
-        Me.chkSummary.Size = New System.Drawing.Size(69, 16)
-        Me.chkSummary.TabIndex = 453
-        Me.chkSummary.Text = "Summary"
-        '
         'TxtMultiTanker
         '
         Me.TxtMultiTanker.arrDispalyMember = Nothing
         Me.TxtMultiTanker.arrValueMember = Nothing
-        Me.TxtMultiTanker.Location = New System.Drawing.Point(87, 135)
+        Me.TxtMultiTanker.Location = New System.Drawing.Point(84, 117)
         Me.TxtMultiTanker.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtMultiTanker.MyLinkLable1 = Me.lblRoute
         Me.TxtMultiTanker.MyLinkLable2 = Nothing
         Me.TxtMultiTanker.MyNullText = "All"
         Me.TxtMultiTanker.Name = "TxtMultiTanker"
-        Me.TxtMultiTanker.Size = New System.Drawing.Size(232, 19)
+        Me.TxtMultiTanker.Size = New System.Drawing.Size(224, 19)
         Me.TxtMultiTanker.TabIndex = 452
         '
         'lblRoute
         '
         Me.lblRoute.FieldName = Nothing
         Me.lblRoute.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRoute.Location = New System.Drawing.Point(17, 112)
+        Me.lblRoute.Location = New System.Drawing.Point(5, 94)
         Me.lblRoute.Name = "lblRoute"
         Me.lblRoute.Size = New System.Drawing.Size(36, 18)
         Me.lblRoute.TabIndex = 450
@@ -268,7 +250,7 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         '
         Me.lblTanker.FieldName = Nothing
         Me.lblTanker.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTanker.Location = New System.Drawing.Point(17, 136)
+        Me.lblTanker.Location = New System.Drawing.Point(5, 117)
         Me.lblTanker.Name = "lblTanker"
         Me.lblTanker.Size = New System.Drawing.Size(40, 18)
         Me.lblTanker.TabIndex = 451
@@ -278,47 +260,58 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         '
         Me.txtRoute.arrDispalyMember = Nothing
         Me.txtRoute.arrValueMember = Nothing
-        Me.txtRoute.Location = New System.Drawing.Point(87, 112)
+        Me.txtRoute.Location = New System.Drawing.Point(84, 94)
         Me.txtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtRoute.MyLinkLable1 = Me.lblRoute
         Me.txtRoute.MyLinkLable2 = Nothing
         Me.txtRoute.MyNullText = "All"
         Me.txtRoute.Name = "txtRoute"
-        Me.txtRoute.Size = New System.Drawing.Size(232, 19)
+        Me.txtRoute.Size = New System.Drawing.Size(224, 19)
         Me.txtRoute.TabIndex = 449
         '
         'txtUnion
         '
         Me.txtUnion.arrDispalyMember = Nothing
         Me.txtUnion.arrValueMember = Nothing
-        Me.txtUnion.Location = New System.Drawing.Point(87, 88)
+        Me.txtUnion.Location = New System.Drawing.Point(84, 71)
         Me.txtUnion.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtUnion.MyLinkLable1 = Nothing
         Me.txtUnion.MyLinkLable2 = Nothing
         Me.txtUnion.MyNullText = "All"
         Me.txtUnion.Name = "txtUnion"
-        Me.txtUnion.Size = New System.Drawing.Size(230, 19)
+        Me.txtUnion.Size = New System.Drawing.Size(224, 19)
         Me.txtUnion.TabIndex = 447
         '
         'RadGroupBox3
         '
         Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.cboReportType)
         Me.RadGroupBox3.Controls.Add(Me.lblFromdate)
+        Me.RadGroupBox3.Controls.Add(Me.MyLabel2)
+        Me.RadGroupBox3.Controls.Add(Me.cboWEIGHMENT)
         Me.RadGroupBox3.Controls.Add(Me.lblToDate)
+        Me.RadGroupBox3.Controls.Add(Me.cboQC)
         Me.RadGroupBox3.Controls.Add(Me.txtToDate)
+        Me.RadGroupBox3.Controls.Add(Me.MyLabel1)
         Me.RadGroupBox3.Controls.Add(Me.txtFromDate)
-        Me.RadGroupBox3.HeaderText = "Date Range"
+        Me.RadGroupBox3.Controls.Add(Me.lblweg)
+        Me.RadGroupBox3.Controls.Add(Me.txtUnion)
+        Me.RadGroupBox3.Controls.Add(Me.lblUnion)
+        Me.RadGroupBox3.Controls.Add(Me.lblRoute)
+        Me.RadGroupBox3.Controls.Add(Me.txtRoute)
+        Me.RadGroupBox3.Controls.Add(Me.TxtMultiTanker)
+        Me.RadGroupBox3.Controls.Add(Me.lblTanker)
+        Me.RadGroupBox3.HeaderText = ""
         Me.RadGroupBox3.Location = New System.Drawing.Point(17, 16)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox3.Size = New System.Drawing.Size(304, 57)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(329, 201)
         Me.RadGroupBox3.TabIndex = 446
-        Me.RadGroupBox3.Text = "Date Range"
         '
         'lblFromdate
         '
         Me.lblFromdate.FieldName = Nothing
-        Me.lblFromdate.Location = New System.Drawing.Point(5, 23)
+        Me.lblFromdate.Location = New System.Drawing.Point(5, 24)
         Me.lblFromdate.Name = "lblFromdate"
         Me.lblFromdate.Size = New System.Drawing.Size(59, 18)
         Me.lblFromdate.TabIndex = 77
@@ -327,7 +320,7 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         'lblToDate
         '
         Me.lblToDate.FieldName = Nothing
-        Me.lblToDate.Location = New System.Drawing.Point(162, 25)
+        Me.lblToDate.Location = New System.Drawing.Point(174, 24)
         Me.lblToDate.Name = "lblToDate"
         Me.lblToDate.Size = New System.Drawing.Size(45, 18)
         Me.lblToDate.TabIndex = 78
@@ -346,7 +339,7 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.txtToDate.IsSourceFromTable = False
         Me.txtToDate.IsSourceFromValueList = False
         Me.txtToDate.IsUnique = False
-        Me.txtToDate.Location = New System.Drawing.Point(213, 23)
+        Me.txtToDate.Location = New System.Drawing.Point(226, 23)
         Me.txtToDate.MendatroryField = False
         Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtToDate.MyLinkLable1 = Nothing
@@ -375,7 +368,7 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.txtFromDate.IsSourceFromTable = False
         Me.txtFromDate.IsSourceFromValueList = False
         Me.txtFromDate.IsUnique = False
-        Me.txtFromDate.Location = New System.Drawing.Point(70, 23)
+        Me.txtFromDate.Location = New System.Drawing.Point(84, 23)
         Me.txtFromDate.MendatroryField = False
         Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtFromDate.MyLinkLable1 = Nothing
@@ -385,7 +378,7 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.txtFromDate.ReferenceFieldDesc = Nothing
         Me.txtFromDate.ReferenceFieldName = Nothing
         Me.txtFromDate.ReferenceTableName = Nothing
-        Me.txtFromDate.Size = New System.Drawing.Size(86, 20)
+        Me.txtFromDate.Size = New System.Drawing.Size(81, 20)
         Me.txtFromDate.TabIndex = 1
         Me.txtFromDate.TabStop = False
         Me.txtFromDate.Text = "30/05/2011"
@@ -414,7 +407,7 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyExportAPI = False
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
@@ -428,9 +421,9 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(187, 14)
+        Me.btnPrint.Location = New System.Drawing.Point(183, 10)
         Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(81, 18)
+        Me.btnPrint.Size = New System.Drawing.Size(81, 26)
         Me.btnPrint.TabIndex = 459
         Me.btnPrint.Text = "Print"
         '
@@ -438,9 +431,9 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         '
         Me.btnSplitExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSplitExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel})
-        Me.btnSplitExport.Location = New System.Drawing.Point(405, 16)
+        Me.btnSplitExport.Location = New System.Drawing.Point(268, 10)
         Me.btnSplitExport.Name = "btnSplitExport"
-        Me.btnSplitExport.Size = New System.Drawing.Size(81, 18)
+        Me.btnSplitExport.Size = New System.Drawing.Size(81, 26)
         Me.btnSplitExport.TabIndex = 458
         Me.btnSplitExport.Text = "Export"
         Me.btnSplitExport.Visible = False
@@ -455,9 +448,9 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnclose.Location = New System.Drawing.Point(707, 12)
+        Me.btnclose.Location = New System.Drawing.Point(707, 10)
         Me.btnclose.Name = "btnclose"
-        Me.btnclose.Size = New System.Drawing.Size(81, 18)
+        Me.btnclose.Size = New System.Drawing.Size(81, 26)
         Me.btnclose.TabIndex = 457
         Me.btnclose.Text = "Close"
         '
@@ -465,18 +458,18 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         '
         Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Location = New System.Drawing.Point(100, 13)
+        Me.btnReset.Location = New System.Drawing.Point(96, 10)
         Me.btnReset.Name = "btnReset"
-        Me.btnReset.Size = New System.Drawing.Size(81, 18)
+        Me.btnReset.Size = New System.Drawing.Size(81, 26)
         Me.btnReset.TabIndex = 456
         Me.btnReset.Text = "Reset"
         '
         'btngo
         '
         Me.btngo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btngo.Location = New System.Drawing.Point(13, 12)
+        Me.btngo.Location = New System.Drawing.Point(9, 10)
         Me.btngo.Name = "btngo"
-        Me.btngo.Size = New System.Drawing.Size(81, 18)
+        Me.btngo.Size = New System.Drawing.Size(81, 26)
         Me.btngo.TabIndex = 455
         Me.btngo.Text = ">>>"
         '
@@ -489,6 +482,42 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.lblUnion1.Size = New System.Drawing.Size(36, 18)
         Me.lblUnion1.TabIndex = 448
         Me.lblUnion1.Text = "Union"
+        '
+        'cboReportType
+        '
+        Me.cboReportType.AutoCompleteDisplayMember = Nothing
+        Me.cboReportType.AutoCompleteValueMember = Nothing
+        Me.cboReportType.CalculationExpression = Nothing
+        Me.cboReportType.DropDownAnimationEnabled = True
+        Me.cboReportType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboReportType.FieldCode = Nothing
+        Me.cboReportType.FieldDesc = Nothing
+        Me.cboReportType.FieldMaxLength = 0
+        Me.cboReportType.FieldName = Nothing
+        Me.cboReportType.isCalculatedField = False
+        Me.cboReportType.IsSourceFromTable = False
+        Me.cboReportType.IsSourceFromValueList = False
+        Me.cboReportType.IsUnique = False
+        Me.cboReportType.Location = New System.Drawing.Point(84, 47)
+        Me.cboReportType.MendatroryField = False
+        Me.cboReportType.MyLinkLable1 = Nothing
+        Me.cboReportType.MyLinkLable2 = Nothing
+        Me.cboReportType.Name = "cboReportType"
+        Me.cboReportType.ReferenceFieldDesc = Nothing
+        Me.cboReportType.ReferenceFieldName = Nothing
+        Me.cboReportType.ReferenceTableName = Nothing
+        Me.cboReportType.Size = New System.Drawing.Size(224, 20)
+        Me.cboReportType.TabIndex = 1530
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(5, 48)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(67, 18)
+        Me.MyLabel2.TabIndex = 1529
+        Me.MyLabel2.Text = "Report Type"
         '
         'rptUnionWiseMilkTankerCollectionDetail
         '
@@ -510,13 +539,11 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         Me.RadPageViewPage1.ResumeLayout(False)
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
-        Me.RadPanel1.PerformLayout()
         CType(Me.cboWEIGHMENT, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboQC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblweg, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblUnion, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTanker, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
@@ -535,6 +562,8 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btngo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblUnion1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cboReportType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -562,11 +591,12 @@ Partial Class rptUnionWiseMilkTankerCollectionDetail
     Friend WithEvents TxtMultiTanker As common.UserControls.txtMultiSelectFinder
     Friend WithEvents lblTanker As common.Controls.MyLabel
     Friend WithEvents btnPrint As RadButton
-    Friend WithEvents chkSummary As RadCheckBox
     Friend WithEvents lblUnion1 As common.Controls.MyLabel
     Friend WithEvents lblUnion As common.Controls.MyLabel
     Friend WithEvents cboQC As common.Controls.MyComboBox
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents lblweg As common.Controls.MyLabel
     Friend WithEvents cboWEIGHMENT As common.Controls.MyComboBox
+    Friend WithEvents cboReportType As common.Controls.MyComboBox
+    Friend WithEvents MyLabel2 As common.Controls.MyLabel
 End Class

@@ -2745,6 +2745,10 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             If Not clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry, trans)) = 1 Then
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If
+            Qry = "select isnull(irn_no,'') as irn_no from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" + strCode + "'"
+            If clsCommon.myLen(clsCommon.myCstr(clsDBFuncationality.getSingleValue(Qry, trans))) > 0 Then
+                Throw New Exception("EInvoice is already generated.You cannot reverse and unpost this Invoice No [" + strCode + "] ")
+            End If
             Qry = "select Doc_No from TSPL_PAYMENT_PROCESS_MCC_SALE where Sale_Doc_No='" + strCode + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then

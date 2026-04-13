@@ -3069,8 +3069,9 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.XpertAPIGateEntry, "Gate Entry", "1.48.02.14", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPIBMCMilkQC, "BMC Milk QC", "1.48.02.15", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPIDEMANDBOOKING, "Demand Booking", "1.48.02.16", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
+        Dim IsRCDFCFP As Boolean
         Try
-            Dim IsRCDFCFP As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RCDFCFP, clsFixedParameterCode.RCDFCFP, Nothing)) = 1, True, False)
+            IsRCDFCFP = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RCDFCFP, clsFixedParameterCode.RCDFCFP, Nothing)) = 1, True, False)
             If IsRCDFCFP Then
                 InsertDefaultValue(clsUserMgtCode.XpertAPIRCDFChecmicalQC, "RCDF Checmical QC", "1.48.02.17", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
                 InsertDefaultValue(clsUserMgtCode.XpertAPIRCDFUnionMilkQC, "RCDF Union Milk QC", "1.48.02.18", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
@@ -3084,7 +3085,10 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.XpertAPITruckSheet, "Truck Sheet Report", "1.48.03.02", clsUserMgtCode.SubModuleXpertAPIReport, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPIBMCDCSSampleReceivedRegister, "BMC DCS Sample Received Register", "1.48.03.03", clsUserMgtCode.SubModuleXpertAPIReport, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPITankerCollectionReport, "Tanker Collection Report", "1.48.03.04", clsUserMgtCode.SubModuleXpertAPIReport, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
-
+        If IsRCDFCFP Then
+            InsertDefaultValue(clsUserMgtCode.XpertAPIRCDFChecmicalQCRegister, "RCDF Checmical QC Register", "1.48.03.05", clsUserMgtCode.SubModuleXpertAPIReport, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
+            InsertDefaultValue(clsUserMgtCode.XpertAPIRCDFUnionMilkQCRegister, "RCDF Union Milk QC Register", "1.48.03.06", clsUserMgtCode.SubModuleXpertAPIReport, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
+        End If
         ' 
 
         InsertDefaultValue(clsUserMgtCode.ModuleMilkUnion, "Milk Union", "1.49", clsUserMgtCode.ExpertERP, "M", 23)
