@@ -546,10 +546,10 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
                 WHR += " and TSPL_VLC_MASTER_HEAD.VLC_CODE  IN (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ") "
             End If
             Baseqry = " SELECT *
-FROM (Select  TSPL_MILK_SRN_head.VLC_CODE,COUNT(TSPL_VLC_DATA_UPLOADER_DETAIL.Farmer_Code) AS Farmer_Count, MAX(TSPL_MILK_SRN_head.MCC_CODE)MCC_CODE, MAX(TSPL_MILK_SRN_head.DOC_CODE)DOC_CODE,CONVERT(varchar, TSPL_MILK_SRN_head.DOC_DATE,103)DOC_DATE,TSPL_MILK_SRN_head.SHIFT,max(TSPL_MILK_SRN_head.VSP_CODE) AS[DCS_Code],max(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as [DCS_Uploader_code],max(TSPL_VLC_MASTER_HEAD.VLC_Name) as [DCS_NAME],max(TSPL_MILK_SRN_head.ROUTE_CODE) as [ROUTE_CODE],sum(TSPL_MILK_SRN_DETAIL.qty) as [SRNQTY],sum(TSPL_MILK_SRN_DETAIL.fat_kg)SRNFAT_KG,sum(TSPL_MILK_SRN_DETAIL.SNF_KG)SRNSNF_KG,
+FROM (Select  TSPL_MILK_SRN_head.VLC_CODE, MAX(TSPL_MILK_SRN_head.MCC_CODE)MCC_CODE, MAX(TSPL_MILK_SRN_head.DOC_CODE)DOC_CODE,CONVERT(varchar, TSPL_MILK_SRN_head.DOC_DATE,103)DOC_DATE,TSPL_MILK_SRN_head.SHIFT,max(TSPL_MILK_SRN_head.VSP_CODE) AS[DCS_Code],max(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as [DCS_Uploader_code],max(TSPL_VLC_MASTER_HEAD.VLC_Name) as [DCS_NAME],max(TSPL_MILK_SRN_head.ROUTE_CODE) as [ROUTE_CODE],sum(TSPL_MILK_SRN_DETAIL.qty) as [SRNQTY],sum(TSPL_MILK_SRN_DETAIL.fat_kg)SRNFAT_KG,sum(TSPL_MILK_SRN_DETAIL.SNF_KG)SRNSNF_KG,
 sum(CAST((ISNULL(TSPL_MILK_SRN_DETAIL.FAT_KG,0) * 100 /NULLIF(TSPL_MILK_SRN_DETAIL.qty,0)) AS DECIMAL(18,2))) AS SRNFatAVG,
 sum( CAST((ISNULL(TSPL_MILK_SRN_DETAIL.SNF_KG,0) * 100 / NULLIF(TSPL_MILK_SRN_DETAIL.qty,0)) AS DECIMAL(18,2))) AS SRNSNFAVG
-
+,COUNT(TSPL_VLC_DATA_UPLOADER_DETAIL.Farmer_Code) AS Farmer_Count
 ,0 AS FARMERQTY,0 AS FARMERFAT_KG,0 AS FARMERSNF_KG,0 AS FARMERFatPer,0 AS FARMERSNFPer,0 AS FARMERFatAVG, 0 AS FARMERSNFAVG
                   from TSPL_MILK_SRN_DETAIL
                    LEFT OUTER JOIN TSPL_MILK_SRN_head ON TSPL_MILK_SRN_head.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE
@@ -572,11 +572,11 @@ sum( CAST((ISNULL(TSPL_MILK_SRN_DETAIL.SNF_KG,0) * 100 / NULLIF(TSPL_MILK_SRN_DE
             Baseqry += " group by TSPL_MILK_SRN_head.DOC_DATE,TSPL_MILK_SRN_head.shift,"
             Baseqry += " TSPL_MILK_SRN_head.VLC_CODE
  UNION ALL
-select TSPL_VLC_DATA_UPLOADER_MASTER.VLC_Code AS VLC_CODE,COUNT(TSPL_VLC_DATA_UPLOADER_DETAIL.Farmer_Code)Farmer_Count, MAX(TSPL_VLC_MASTER_HEAD.MCC) AS MCC_CODE,MAX(TSPL_VLC_DATA_UPLOADER_MASTER.Document_Code) AS DOC_CODE, TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date AS DOC_DATE,TSPL_VLC_DATA_UPLOADER_MASTER.shift AS SHIFT , MAX(VSP_CODE) AS DCS_CODE,
+select TSPL_VLC_DATA_UPLOADER_MASTER.VLC_Code AS VLC_CODE, MAX(TSPL_VLC_MASTER_HEAD.MCC) AS MCC_CODE,MAX(TSPL_VLC_DATA_UPLOADER_MASTER.Document_Code) AS DOC_CODE, convert(varchar,TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date,103) AS DOC_DATE,TSPL_VLC_DATA_UPLOADER_MASTER.shift AS SHIFT , MAX(VSP_CODE) AS DCS_CODE,
 MAX( TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) AS DCS_Uploader_code,
  MAX(TSPL_VLC_MASTER_HEAD.VLC_Name) AS DCS_NAME,MAX(TSPL_VLC_DATA_UPLOADER_MASTER.Route_Code) AS ROUTE_CODE,
  0 AS SRNQTY,0 AS SRNFAT_KG,0 AS SRNSNF_KG,0 AS SRNFatAVG,0 AS SRNSNFAVG
- ,
+ ,COUNT(TSPL_VLC_DATA_UPLOADER_DETAIL.Farmer_Code)Farmer_Count,
  SUM(TSPL_VLC_DATA_UPLOADER_DETAIL.QTY) AS FARMERQTY,
 sum(TSPL_VLC_DATA_UPLOADER_DETAIL.FatPer*TSPL_VLC_DATA_UPLOADER_DETAIL.QTY/100)FARMERFAT_KG,
  sum(TSPL_VLC_DATA_UPLOADER_DETAIL.SNFPer*TSPL_VLC_DATA_UPLOADER_DETAIL.QTY/100)FARMERSNF_KG
@@ -602,9 +602,9 @@ AS DECIMAL(18,2)) AS FARMERSNFAVG
             Baseqry += "GROUP BY TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date,TSPL_VLC_DATA_UPLOADER_MASTER.shift,TSPL_VLC_DATA_UPLOADER_MASTER.VLC_Code)XXX "
             If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "DCS Collection v/s Farmer Collection Summary") = CompairStringResult.Equal Then
                 Qry = " SELECT 
- XXXX.VLC_CODE,COUNT(Farmer_Count) AS Farmer_Count,MAX(convert(varchar,DOC_DATE,103))DOC_DATE,MAX(SHIFT)SHIFT,MAX(XXXX.DCS_Code)DCS_Code,CAST(MAX([DCS_Uploader_code]) AS INT) AS DCS_Uploader_code,MAX([DCS_NAME])[DCS_NAME],SUM(XXXX.[SRNQTY])[SRNQTY],SUM(XXXX.SRNFAT_KG)SRNFAT_KG,SUM(XXXX.SRNSNF_KG)SRNSNF_KG,MAX(XXXX.SRNFatAVG)SRNFatAVG,MAX(XXXX.SRNSNFAVG)SRNSNFAVG,
+ XXXX.VLC_CODE,MAX(convert(varchar,DOC_DATE,103))DOC_DATE,MAX(SHIFT)SHIFT,MAX(XXXX.DCS_Code)DCS_Code,CAST(MAX([DCS_Uploader_code]) AS INT) AS DCS_Uploader_code,MAX([DCS_NAME])[DCS_NAME],SUM(XXXX.[SRNQTY])[SRNQTY],SUM(XXXX.SRNFAT_KG)SRNFAT_KG,SUM(XXXX.SRNSNF_KG)SRNSNF_KG,MAX(XXXX.SRNFatAVG)SRNFatAVG,MAX(XXXX.SRNSNFAVG)SRNSNFAVG,
 
-SUM(XXXX.FARMERQTY)FARMERQTY,SUM(XXXX.FARMERFAT_KG)FARMERFAT_KG,SUM(XXXX.FARMERSNF_KG)FARMERSNF_KG,SUM(XXXX.FARMERFatPer),SUM(XXXX.FARMERSNFPer)FARMERSNFPer,sum( XXXX.FARMERFatAVG)FARMERFatAVG,SUM( XXXX.FARMERSNFAVG )FARMERSNFAVG from(" + Baseqry + ")XXXX GROUP BY VLC_CODE"
+COUNT(Farmer_Count) AS Farmer_Count,SUM(XXXX.FARMERQTY)FARMERQTY,SUM(XXXX.FARMERFAT_KG)FARMERFAT_KG,SUM(XXXX.FARMERSNF_KG)FARMERSNF_KG,SUM(XXXX.FARMERFatPer)FARMERFatPer,SUM(XXXX.FARMERSNFPer)FARMERSNFPer,sum( XXXX.FARMERFatAVG)FARMERFatAVG,SUM( XXXX.FARMERSNFAVG )FARMERSNFAVG from(" + Baseqry + ")XXXX GROUP BY VLC_CODE"
             End If
 
 
@@ -732,31 +732,46 @@ SUM(XXXX.FARMERQTY)FARMERQTY,SUM(XXXX.FARMERFAT_KG)FARMERFAT_KG,SUM(XXXX.FARMERS
             gv.Columns("DCS_Uploader_code").IsVisible = True
             gv.Columns("DCS_Uploader_code").HeaderText = "DCS Uploader code"
             gv.Columns("DCS_NAME").IsVisible = True
-            gv.Columns("DCS_NAME").HeaderText = "DCS NAME"
+            gv.Columns("DCS_NAME").HeaderText = "DCS Name"
 
             gv.Columns("SRNQTY").IsVisible = True
-            gv.Columns("SRNQTY").HeaderText = "SRN QTY"
+            gv.Columns("SRNQTY").HeaderText = "SRN Qty"
             gv.Columns("SRNFAT_KG").IsVisible = False
             gv.Columns("SRNSNF_KG").IsVisible = False
             gv.Columns("SRNFatAVG").IsVisible = True
-            gv.Columns("SRNFatAVG").HeaderText = "SRN Fat AVG"
+            gv.Columns("SRNFatAVG").HeaderText = "SRN Fat Avg"
             gv.Columns("SRNSNFAVG").IsVisible = True
-            gv.Columns("SRNSNFAVG").HeaderText = "SRN Snf AVG"
+            gv.Columns("SRNSNFAVG").HeaderText = "SRN Snf Avg"
             gv.Columns("FARMERQTY").IsVisible = True
-            gv.Columns("FARMERQTY").HeaderText = "FARMER QTY"
+            gv.Columns("FARMERQTY").HeaderText = "Farmer Qty"
             gv.Columns("FARMERFAT_KG").IsVisible = False
             gv.Columns("FARMERSNF_KG").IsVisible = False
-
+            gv.Columns("FARMERSNFPer").IsVisible = False
+            gv.Columns("FARMERFatPer").IsVisible = False
             gv.Columns("FARMERFatAVG").IsVisible = True
-            gv.Columns("FARMERFatAVG").HeaderText = "FARMER Fat AVG"
+            gv.Columns("FARMERFatAVG").HeaderText = "Farmer Fat Avg"
             gv.Columns("FARMERSNFAVG").IsVisible = True
-            gv.Columns("FARMERSNFAVG").HeaderText = "FARMER Snf AVG"
+            gv.Columns("FARMERSNFAVG").HeaderText = "Farmer Snf Avg"
             'gv1.Columns("VLC_CODE").HeaderText = "Document No."
             'gv1.Columns("Document_No").HeaderText = "Document No."
 
         Next
         Dim summaryRowItemB As New GridViewSummaryRowItem()
+        Dim SRNQTY As New GridViewSummaryItem("SRNQTY", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(SRNQTY)
+        Dim SRNFatAVG As New GridViewSummaryItem("SRNFatAVG", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(SRNFatAVG)
+        Dim SRNSNFAVG As New GridViewSummaryItem("SRNSNFAVG", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(SRNSNFAVG)
 
+
+
+        Dim FARMERQTY As New GridViewSummaryItem("FARMERQTY", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(FARMERQTY)
+        Dim FARMERFatAVG As New GridViewSummaryItem("FARMERFatAVG", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(FARMERFatAVG)
+        Dim FARMERSNFAVG As New GridViewSummaryItem("FARMERSNFAVG", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(FARMERSNFAVG)
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemB)
         gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         gv.AutoSizeRows = True
