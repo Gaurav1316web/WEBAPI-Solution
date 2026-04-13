@@ -4,6 +4,8 @@ Public Class frmAccountSalesReport
         Try
             txtFromDate.Value = clsCommon.GETSERVERDATE()
             txtToDate.Value = txtFromDate.Value
+            cboUOMType.SelectedIndex = 0
+            HideAndShow()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -41,6 +43,10 @@ Public Class frmAccountSalesReport
         txtFromDate.Enabled = isVal
         txtToDate.Enabled = isVal
         rgbDate.Enabled = isVal
+        txtLocation.Enabled = isVal
+        MyLabel4.Enabled = isVal
+        MyLabel1.Enabled = isVal
+        cboUOMType.Enabled = isVal
         RadGroupBox1.Enabled = isVal
     End Sub
 
@@ -128,7 +134,7 @@ Left Join TSPL_TAX_MASTER As TAX9 On TAX9.Tax_Code = D.TAX9
 Left Join TSPL_TAX_MASTER As TAX10 On Tax10.Tax_Code = D.TAX10 
  Where
 CONVERT(date,H.Document_Date,103)>=Convert(Date,'" & txtFromDate.Value & "',103) And CONVERT(date,H.Document_Date,103)<=Convert(Date,'" & txtToDate.Value & "',103)"
-        If clscommon.myLen(txtLocation.Value)>0 Then
+        If clsCommon.myLen(txtLocation.Value) > 0 Then
             BaseQry &= " and (H.Bill_To_Location='" & clsCommon.myCstr(txtLocation.Value) & "' or H.Sub_Location_code='" & clsCommon.myCstr(txtLocation.Value) & "') "
         End If
         BaseQry &= " and H.Status=1 "
@@ -164,9 +170,38 @@ SELECT Document_Date AS [Sale Vch. Date],[Sale Vch. Type Name],Document_Code AS 
 ORDER BY Document_Date,Document_Code,[Sale Vch. Type Name],SortOrder "
             ElseIf rbtnHSNWise.Checked Then
                 Dim rpt As New rptHSNWiseSaleReport()
-                Dim BaseQry As String = rpt.ReturnQry(True, txtFromDate.Value, txtToDate.Value, txtLocation.Value)
+                Dim BaseQry As String
+                If cboUOMType.SelectedIndex = 0 Then
+                    BaseQry = rpt.ReturnQry(True, txtFromDate.Value, txtToDate.Value, txtLocation.Value, "Report_UOM")
+                Else
+                    BaseQry = rpt.ReturnQry(True, txtFromDate.Value, txtToDate.Value, txtLocation.Value, "Default_UOM")
+                End If
                 rpt = Nothing
-                Qry = "Select * from  (" & BaseQry & ")finalQry"
+                Qry = " ;WITH FinalData AS ("
+                Qry &= "Select [Supply Type],Max(HSN_Code) As [HSN],Max(Short_Description) As [Description],Max(UOM) As [UQC],Sum(Total_Qty) As [Total Quantity],Sum(Item_Net_Amt) As [Total Value],Max(Tax_Rate) As Rate,Sum(MandiAmt) As [Mandi Amount],Sum(kkfAmt) As [KKF Amount],Sum(Taxable_Amt) As [Taxable Value],Sum([Integrated Goods Service Tax Amount]) As [IGST],Sum([Central Goods Serivce Tax Amount]) As [CGST], Sum([State Goods Service Tax Amount]) As [S/UGST],'' As [Cess Amt] from  (" & BaseQry & ")finalQry Group By [Supply Type],Item_Code "
+                Qry &= "),
+DataWithRowNo AS
+(SELECT  '' AS [Supply Type],[HSN], [Description],[UQC], 
+Convert(Decimal(18,2),(Case When [Total Quantity]<0 Then ([Total Quantity])*-1 Else ([Total Quantity]) End)) As [Total Quantity],
+Convert(Decimal(18,2),(Case When [Total Value]<0 Then [Total Value]*-1 Else [Total Value] End)) As [Total Value],
+Convert(Decimal(18,2),(Rate)) As Rate,
+Convert(Decimal(18,2),(Case When [Mandi Amount]<0 Then [Mandi Amount]*-1 Else [Mandi Amount] End)) As [Mandi Amount],
+Convert(Decimal(18,2),(Case When [KKF Amount]<0 Then [KKF Amount]*-1 Else [KKF Amount] End)) As [KKF Amount],
+Convert(Decimal(18,2),(Case When [Taxable Value]<0 Then [Taxable Value]*-1 Else [Taxable Value] End)) As [Taxable Value],
+Convert(Decimal(18,2),(Case When [IGST]<0 Then [IGST]*-1 Else [IGST] End)) As [IGST],
+Convert(Decimal(18,2),(Case When [CGST]<0 Then [CGST]*-1 Else [CGST] End)) As [CGST], 
+Convert(Decimal(18,2),(Case When [S/UGST] <0 Then [S/UGST]*-1 Else [S/UGST] End)) As [S/UGST],[Cess Amt],[Supply Type] AS GroupType, ROW_NUMBER() OVER (PARTITION BY [Supply Type] ORDER BY [HSN]) AS SortNo,1 AS RowType FROM FinalData
+),
+HeaderRows AS
+(SELECT [Supply Type], NULL AS [HSN],NULL AS [Description],NULL AS [UQC], NULL AS [Total Quantity], NULL AS [Total Value],NULL AS Rate,Null As [Mandi Amount],Null As [KKF Amount], NULL AS [Taxable Value], NULL AS [IGST], NULL AS [CGST], NULL AS [S/UGST],NULL AS [Cess Amt],[Supply Type] AS GroupType,0 AS SortNo, 0 AS RowType FROM FinalData GROUP BY [Supply Type] )
+SELECT 
+    [Supply Type],[HSN],[Description],[UQC],[Total Quantity],[Total Value],Rate,[Mandi Amount],[KKF Amount], [Taxable Value],[IGST],[CGST],[S/UGST],[Cess Amt]
+FROM
+(
+    SELECT * FROM HeaderRows
+    UNION ALL
+    SELECT * FROM DataWithRowNo
+) A ORDER BY GroupType, RowType, SortNo;"
             Else
                 Dim rpt As New rptSaleInvoiceStatusReport()
                 Dim BaseQry As String = rpt.BaseQryLoadDataInvoiceCount(txtFromDate.Value, txtToDate.Value, txtLocation.Value)
@@ -178,7 +213,7 @@ ORDER BY Document_Date,Document_Code,[Sale Vch. Type Name],SortOrder "
                 BlankGrid()
                 gvData.DataSource = dt
                 gvData.AutoExpandGroups = True
-                gvData.ShowGroupPanel = True
+                gvData.ShowGroupPanel = False
                 gvData.ShowRowHeaderColumn = False
                 gvData.AllowAddNewRow = False
                 gvData.AllowDeleteRow = False
@@ -199,7 +234,7 @@ ORDER BY Document_Date,Document_Code,[Sale Vch. Type Name],SortOrder "
     Private Sub rmenuExport_Click(sender As Object, e As EventArgs) Handles rmenuExport.Click
         Try
             If gvData.Rows.Count > 0 Then
-                ExporttoExcel(EnumExportTo.Excel)
+                ExportToExcel(EnumExportTo.Excel)
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             End If
@@ -213,11 +248,20 @@ ORDER BY Document_Date,Document_Code,[Sale Vch. Type Name],SortOrder "
             Dim arrHeader As List(Of String) = New List(Of String)()
             Dim strtemp As String = "Date Range : " & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") & " To " & clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")
             arrHeader.Add(strtemp)
+            strtemp = Nothing
+            If rbtnSaleVoucher.Checked Then
+                strtemp = "Sales Voucher Report"
+            ElseIf rbtnHSNWise.Checked Then
+                strtemp = "Sales HSN Wise Report"
+            Else
+                strtemp = "Sales Invoice Count"
+            End If
+            arrHeader.Add(strtemp)
             arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
             If exporter = EnumExportTo.Excel Then
-                clsCommon.MyExportToExcelGrid("Sale Voucher Report", gvData, arrHeader, Me.Text)
+                clsCommon.MyExportToExcelGrid(strtemp, gvData, arrHeader, Me.Text)
             Else
-                clsCommon.MyExportToPDF("Sale Voucher Report", gvData, arrHeader, "Sale Voucher Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
+                clsCommon.MyExportToPDF(strtemp, gvData, arrHeader, strtemp, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
@@ -238,5 +282,27 @@ ORDER BY Document_Date,Document_Code,[Sale Vch. Type Name],SortOrder "
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub rbtnSaleVoucher_CheckedChanged(sender As Object, e As EventArgs) Handles rbtnSaleVoucher.CheckedChanged
+        HideAndShow()
+    End Sub
+
+    Private Sub rbtnHSNWise_CheckedChanged(sender As Object, e As EventArgs) Handles rbtnHSNWise.CheckedChanged
+        HideAndShow()
+    End Sub
+
+    Private Sub rbtnInvoiceCount_CheckedChanged(sender As Object, e As EventArgs) Handles rbtnInvoiceCount.CheckedChanged
+        HideAndShow()
+    End Sub
+
+    Sub HideAndShow()
+        If rbtnHSNWise.Checked Then
+            MyLabel4.Visible = True
+            cboUOMType.Visible = True
+        Else
+            MyLabel4.Visible = False
+            cboUOMType.Visible = False
+        End If
     End Sub
 End Class

@@ -17,6 +17,7 @@ Public Class SaleEinvoiceReport
             Else
                 RadGroupBox6.Visible = False
             End If
+            reset()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -36,6 +37,7 @@ Public Class SaleEinvoiceReport
         rbtnMilk.Checked = True
         chkBPL.Checked = False
         enableDisable(True)
+        BtnBoth.IsChecked = True
     End Sub
 
     Sub enableDisable(ByVal isBool As Boolean)
@@ -1413,6 +1415,8 @@ TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt As [Total Tax Amount],
             MyLabel4.Visible = False
         End If
     End Sub
+
+
 
     'Private Sub rmsaveLayout_Click(sender As Object, e As EventArgs) Handles rmsaveLayout.Click
     '    If clsCommon.myLen(PageSetupReport_ID) < 0 Then

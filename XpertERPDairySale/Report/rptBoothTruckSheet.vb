@@ -90,6 +90,7 @@ Public Class rptBoothTruckSheet
                 whrclsShift = " and TSPL_DEMAND_BOOKING_MASTER.ShiftType  = 'Evening' "
             End If
 
+
             If rbtnMilkType.IsChecked Then
                 whrcls += " and TSPL_ITEM_MASTER.Is_FreshItem = 1  "
             ElseIf rbtnProductType.IsChecked Then
@@ -233,6 +234,10 @@ where 2 = 2  "
                 BaseQry += " and 2=( case when Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtToDate.Value)), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtToDate.Value)), "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType='E' then 3 else 2 end  )"
             End If
             BaseQry += " And TSPL_DEMAND_BOOKING_master.Route_No In ('" + clsCommon.myCstr(txtRouteCode.Value) + "')"
+            If Not chkIsIndividualCust.Checked Then
+                BaseQry += " and TSPL_DEMAND_BOOKING_MASTER.IsIndividualCustomer=0 "
+
+            End If
             'BaseQry += "And  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) >= CONVERT(DATE, '" & txtFromDate.Value & "', 103)  and   convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) <= CONVERT(DATE, '" & txtToDate.Value & "', 103) "
             'If rbtnMorning.IsChecked Then
             '    FinalQuery += " and ShiftType = 'MORNING' "
@@ -521,8 +526,12 @@ where 2 = 2 "
             If clsCommon.CompairString(Fromshift, "M") = CompairStringResult.Equal Then
                 qry += " and 2=( case when Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(TODate), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtToDate.Value)), "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' then 3 else 2 end  )"
             End If
-            qry += " And TSPL_DEMAND_BOOKING_master.Route_No In ('" + clsCommon.myCstr(txtRouteCode.Value) + "') )"
-
+            qry += " And TSPL_DEMAND_BOOKING_master.Route_No In ('" + clsCommon.myCstr(txtRouteCode.Value) + "') "
+            If Not chkIsIndividualCust.Checked Then
+                qry += " and TSPL_DEMAND_BOOKING_MASTER.IsIndividualCustomer=0 )"
+            Else
+                qry += " )"
+            End If
 
             Dim dtPrint As DataTable = clsDBFuncationality.GetDataTable(qry + " order by Sku_Seq")
             If dtPrint Is Nothing OrElse dtPrint.Rows.Count <= 0 Then

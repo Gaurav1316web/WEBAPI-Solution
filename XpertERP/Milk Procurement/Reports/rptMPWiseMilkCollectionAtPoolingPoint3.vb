@@ -129,6 +129,17 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
         dr("Name") = "DCS Farmer Collection Details"
         dt.Rows.Add(dr)
 
+
+        dr = dt.NewRow
+        dr("Code") = "DCS Collection v/s Farmer Collection Day & Shift Wise"
+        dr("Name") = "DCS Collection v/s Farmer Collection Day & Shift Wise"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow
+        dr("Code") = "DCS Collection v/s Farmer Collection Summary"
+        dr("Name") = "DCS Collection v/s Farmer Collection Summary"
+        dt.Rows.Add(dr)
+
         cboReportType.DataSource = dt
         cboReportType.ValueMember = "Code"
         cboReportType.DisplayMember = "Name"
@@ -370,6 +381,7 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
         gv.ViewDefinition = viewBlank
         EnableDisableControl(True)
         CheckReportTypeforDateRange()
+        EnableDisableCntrl(True)
     End Sub
 
     Private Sub EnableDisableControl(ByVal val As Boolean)
@@ -508,12 +520,180 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
                 FarmerWiseMilkCollection()
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "DCS Farmer Collection Details") = CompairStringResult.Equal Then
                 DCSFarmerCollectionDetails()
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "DCS Collection v/s Farmer Collection Day & Shift Wise") = CompairStringResult.Equal Then
+                DCSFarmerCollectionDayShiftWise()
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "DCS Collection v/s Farmer Collection Summary") = CompairStringResult.Equal Then
+                DCSFarmerCollectionDayShiftWise()
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
+    Private Sub DCSFarmerCollectionDayShiftWise()
+        Try
+            Dim dt As DataTable = Nothing
+            Dim WHR As String = Nothing
+            Dim Baseqry As String = Nothing
+            Dim Qry As String = Nothing
+            If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
+                WHR = " and 2=( case when TSPL_MILK_SRN_head.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_head.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and shift='M' then 3 else 2 end  )"
+            End If
+            If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
+                WHR += " and 2=( case when TSPL_MILK_SRN_head.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_head.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and shift='E' then 3 else 2 end  )"
+            End If
+            If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count > 0 Then
+                WHR += " and TSPL_VLC_MASTER_HEAD.VLC_CODE  IN (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ") "
+            End If
+            Baseqry = "SELECT *
+FROM (
+Select  TSPL_MILK_SRN_head.VLC_CODE,COUNT(TSPL_VLC_DATA_UPLOADER_DETAIL.Farmer_Code) AS Farmer_Count, MAX(TSPL_MILK_SRN_head.MCC_CODE)MCC_CODE, MAX(TSPL_MILK_SRN_head.DOC_CODE)DOC_CODE,CONVERT(date, TSPL_MILK_SRN_head.DOC_DATE,103)DOC_DATE,TSPL_MILK_SRN_head.SHIFT,max(TSPL_MILK_SRN_head.VSP_CODE) AS[DCS_Code],max(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as [DCS_Uploader_code],max(TSPL_VLC_MASTER_HEAD.VLC_Name) as [DCS_NAME],max(TSPL_MILK_SRN_head.ROUTE_CODE) as [ROUTE_CODE],sum(TSPL_MILK_SRN_DETAIL.qty) as [QTY],sum(TSPL_MILK_SRN_DETAIL.fat_kg)FAT_KG,sum(TSPL_MILK_SRN_DETAIL.SNF_KG)SNF_KG,
+0 AS FatPer,0 AS SNFPer,
+ sum(CAST((ISNULL(TSPL_MILK_SRN_DETAIL.FAT_KG,0) * 100 /NULLIF(TSPL_MILK_SRN_DETAIL.qty,0)) AS DECIMAL(18,2))) AS FatAVG,
+sum( CAST((ISNULL(TSPL_MILK_SRN_DETAIL.SNF_KG,0) * 100 / NULLIF(TSPL_MILK_SRN_DETAIL.qty,0)) AS DECIMAL(18,2))) AS SNFAVG
+                   from TSPL_MILK_SRN_DETAIL
+                   LEFT OUTER JOIN TSPL_MILK_SRN_head ON TSPL_MILK_SRN_head.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE
+				   LEFT OUTER JOIN TSPL_VLC_DATA_UPLOADER_MASTER  ON TSPL_VLC_DATA_UPLOADER_MASTER.VLC_Code=TSPL_MILK_SRN_head.VLC_CODE
+				   LEFT OUTER JOIN TSPL_VLC_DATA_UPLOADER_DETAIL ON TSPL_VLC_DATA_UPLOADER_DETAIL.Document_Code=TSPL_VLC_DATA_UPLOADER_MASTER.Document_Code
+                   LEFT OUTER JOIN TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_MILK_SRN_head.VSP_CODE 
+                   WHERE 2=2 and "
+            Baseqry += "   convert(date,TSPL_MILK_SRN_head.DOC_DATE,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,TSPL_MILK_SRN_head.DOC_DATE,103) <=convert(date,'" + txtToDate.Value + "' ,103)"
+
+
+            Baseqry += " group by TSPL_MILK_SRN_head.DOC_DATE,TSPL_MILK_SRN_head.shift,
+  TSPL_MILK_SRN_head.VLC_CODE
+  UNION ALL
+ select TSPL_VLC_DATA_UPLOADER_MASTER.VLC_Code AS VLC_CODE,COUNT(TSPL_VLC_DATA_UPLOADER_DETAIL.Farmer_Code)Farmer_Count, MAX(TSPL_VLC_MASTER_HEAD.MCC) AS MCC_CODE,MAX(TSPL_VLC_DATA_UPLOADER_MASTER.Document_Code) AS DOC_CODE, TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date AS DOC_DATE,TSPL_VLC_DATA_UPLOADER_MASTER.shift AS SHIFT , MAX(VSP_CODE) AS DCS_CODE,
+MAX( TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) AS DCS_Uploader_code,
+ MAX(TSPL_VLC_MASTER_HEAD.VLC_Name) AS DCS_NAME,MAX(TSPL_VLC_DATA_UPLOADER_MASTER.Route_Code) AS ROUTE_CODE,SUM(TSPL_VLC_DATA_UPLOADER_DETAIL.QTY) AS QTY,
+sum(TSPL_VLC_DATA_UPLOADER_DETAIL.FatPer*TSPL_VLC_DATA_UPLOADER_DETAIL.QTY/100)FAT_KG,
+ sum(TSPL_VLC_DATA_UPLOADER_DETAIL.SNFPer*TSPL_VLC_DATA_UPLOADER_DETAIL.QTY/100)SNF_KG
+, SUM(TSPL_VLC_DATA_UPLOADER_DETAIL.FatPer )FatPer,
+SUM(TSPL_VLC_DATA_UPLOADER_DETAIL.SNFPer)SNFPer, 
+CAST(SUM(ISNULL(TSPL_VLC_DATA_UPLOADER_DETAIL.FatPer * TSPL_VLC_DATA_UPLOADER_DETAIL.QTY / 100, 0)) * 100 / NULLIF(SUM(ISNULL(TSPL_VLC_DATA_UPLOADER_DETAIL.QTY, 0)), 0) AS DECIMAL(18,2)) AS FatAVG,
+CAST(SUM(ISNULL(TSPL_VLC_DATA_UPLOADER_DETAIL.SNFPer * TSPL_VLC_DATA_UPLOADER_DETAIL.QTY / 100, 0)) * 100 / NULLIF(SUM(ISNULL(TSPL_VLC_DATA_UPLOADER_DETAIL.QTY, 0)), 0)
+AS DECIMAL(18,2)) AS SNFAVG
+ from TSPL_VLC_DATA_UPLOADER_DETAIL
+ left outer join TSPL_VLC_DATA_UPLOADER_MASTER on TSPL_VLC_DATA_UPLOADER_MASTER.Document_Code=TSPL_VLC_DATA_UPLOADER_DETAIL.Document_Code
+ LEFT OUTER JOIN TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_VLC_DATA_UPLOADER_MASTER.VLC_Code 
+ where 2=2 and "
+            Baseqry += "   convert(date,TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date,103) <=convert(date,'" + txtToDate.Value + "' ,103)"
+
+            Baseqry += " GROUP BY TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date,TSPL_VLC_DATA_UPLOADER_MASTER.shift,TSPL_VLC_DATA_UPLOADER_MASTER.VLC_Code
+		)XXX "
+            If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "DCS Collection v/s Farmer Collection Summary") = CompairStringResult.Equal Then
+                Qry = " SELECT 
+VLC_CODE,COUNT(XXXX.Farmer_Count)Farmer_Count,MAX(XXXX.DOC_CODE)DOC_CODE,MAX(CONVERT(DATE,XXXX.DOC_DATE,103))DOC_DATE,MAX(XXXX.SHIFT)SHIFT,MAX(XXXX.DCS_Code)DCS_Code,MAX(XXXX.DCS_Uploader_code)DCS_Uploader_code,MAX(XXXX.DCS_NAME)DCS_NAME,MAX(XXXX.ROUTE_CODE)ROUTE_CODE,SUM(XXXX.QTY)QTY,SUM(XXXX.SNF_KG)SNF_KG,SUM(XXXX.FAT_KG)FAT_KG,
+
+SUM(XXXX.FatPer)FatPer,SUM(XXXX.SNFPer)SNFPer,MAX(XXXX.FatAVG)FatAVG,MAX(XXXX.SNFAVG)SNFAVG
+FROM (" + Baseqry + ")XXXX GROUP BY VLC_CODE"
+            End If
+            If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "DCS Collection v/s Farmer Collection Summary") = CompairStringResult.Equal Then
+                dt = clsDBFuncationality.GetDataTable(Qry)
+            Else
+                dt = clsDBFuncationality.GetDataTable(Baseqry)
+            End If
+            'Dim dt As DataTable = clsDBFuncationality.GetDataTable(Baseqry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                gv.DataSource = Nothing
+                gv.Rows.Clear()
+                gv.Columns.Clear()
+                gv.GroupDescriptors.Clear()
+                gv.MasterTemplate.SummaryRowsBottom.Clear()
+                gv.MasterView.Refresh()
+                gv.DataSource = dt
+                For ii As Integer = 0 To gv.Columns.Count - 1
+                    gv.Columns(ii).ReadOnly = True
+                Next
+                RadPageView1.SelectedPage = RadPageViewPage2
+                gv.EnableFiltering = True
+                'SetGridFormat()
+                SetGridFormationOFGV1Collection()
+                ' View()
+                ' EnableDisableCntrl(False)
+                gv.BestFitColumns()
+                EnableDisableCntrl(False)
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data Found To Display", Me.Text)
+                Exit Sub
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Sub EnableDisableCntrl(ByVal val As Boolean)
+        cmbEntrySource.Enabled = False
+        cboUnit.Enabled = False
+        txtMCC.Enabled = False
+        txtRoute.Enabled = False
+    End Sub
+    Sub SetGridFormationOFGV1Collection()
+        gv.TableElement.TableHeaderHeight = 40
+        gv.MasterTemplate.ShowRowHeaderColumn = False
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        For ii As Integer = 0 To gv.Columns.Count - 1
+            gv.Columns(ii).ReadOnly = True
+            gv.Columns(ii).IsVisible = True
+            gv.Columns("VLC_CODE").IsVisible = False
+            gv.Columns("DOC_DATE").IsVisible = True
+            gv.Columns("DOC_DATE").HeaderText = "DOC_DATE"
+            gv.Columns("SHIFT").HeaderText = "SHIFT"
+            gv.Columns("DCS_Code").HeaderText = "DCS Code"
+            gv.Columns("DCS_Uploader_code").HeaderText = "DCS Uploader code"
+            gv.Columns("DCS_NAME").HeaderText = "DCS NAME"
+            gv.Columns("ROUTE_CODE").HeaderText = "ROUTE CODE"
+            gv.Columns("QTY").HeaderText = "QTY"
+            gv.Columns("FAT_KG").HeaderText = "FAT KG"
+            gv.Columns("SNF_KG").HeaderText = "SNF KG"
+            gv.Columns("FatPer").HeaderText = "FAT  %"
+            gv.Columns("SNFPer").HeaderText = "SNF %"
+            gv.Columns("FatAVG").HeaderText = "FatAVG"
+            gv.Columns("SNFAVG").HeaderText = "SNFAVG"
+            gv.Columns("Farmer_Count").HeaderText = "Farmer Count"
+
+            'gv1.Columns("VLC_CODE").HeaderText = "Document No."
+            'gv1.Columns("Document_No").HeaderText = "Document No."
+
+        Next
+        Dim summaryRowItemB As New GridViewSummaryRowItem()
+
+        gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemB)
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+        gv.AutoSizeRows = True
+        gv.BestFitColumns()
+        gv.MasterTemplate.AutoExpandGroups = True
+    End Sub
+    Private Sub DCSFarmerCollectionSummary()
+        Try
+            Dim Qry As String = Nothing
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                gv.DataSource = Nothing
+                gv.Rows.Clear()
+                gv.Columns.Clear()
+                gv.GroupDescriptors.Clear()
+                gv.MasterTemplate.SummaryRowsBottom.Clear()
+                gv.MasterView.Refresh()
+                gv.DataSource = dt
+                For ii As Integer = 0 To gv.Columns.Count - 1
+                    gv.Columns(ii).ReadOnly = True
+                Next
+                RadPageView1.SelectedPage = RadPageViewPage2
+                gv.EnableFiltering = True
+                'SetGridFormat()
+                ' SetGridFormationOFGV1Collection()
+                ' View()
+                ' EnableDisableCntrl(False)
+                gv.BestFitColumns()
+
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data Found To Display", Me.Text)
+                Exit Sub
+            End If
+        Catch ex As Exception
+
+        End Try
+    End Sub
     Private Sub FarmerWiseMilkCollection()
         Try
             Dim Qry As String = "Select ROW_NUMBER() Over (Order By (Select 1)) As [S.No.],finalQry.* "
@@ -1417,6 +1597,10 @@ Where TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Date>='" & clsCommon.GetPrintDate(tx
             PageSetupReport_ID = PageSetupReport_ID + "M"
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "DCS Farmer Collection Details") = CompairStringResult.Equal Then
             PageSetupReport_ID = PageSetupReport_ID + "DF"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "DCS Collection v/s Farmer Collection Summary") = CompairStringResult.Equal Then
+            PageSetupReport_ID = PageSetupReport_ID + "DS"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "DCS Collection v/s Farmer Collection Day & Shift Wise") = CompairStringResult.Equal Then
+            PageSetupReport_ID = PageSetupReport_ID + "DD"
         End If
         TemplateGridview = gv
         GetReportID()

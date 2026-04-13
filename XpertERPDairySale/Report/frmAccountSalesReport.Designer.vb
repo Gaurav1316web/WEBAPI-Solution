@@ -22,10 +22,16 @@ Partial Class frmAccountSalesReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnInvoiceCount = New System.Windows.Forms.RadioButton()
+        Me.rbtnHSNWise = New System.Windows.Forms.RadioButton()
+        Me.rbtnSaleVoucher = New System.Windows.Forms.RadioButton()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtLocation = New common.UserControls.txtFinder()
         Me.rgbDate = New Telerik.WinControls.UI.RadGroupBox()
@@ -41,16 +47,16 @@ Partial Class frmAccountSalesReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnSaleVoucher = New System.Windows.Forms.RadioButton()
-        Me.rbtnHSNWise = New System.Windows.Forms.RadioButton()
-        Me.rbtnInvoiceCount = New System.Windows.Forms.RadioButton()
+        Me.cboUOMType = New common.Controls.MyComboBox()
+        Me.MyLabel4 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rgbDate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.rgbDate.SuspendLayout()
@@ -65,8 +71,8 @@ Partial Class frmAccountSalesReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox1.SuspendLayout()
+        CType(Me.cboUOMType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -106,7 +112,9 @@ Partial Class frmAccountSalesReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.cboUOMType)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel4)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
         Me.RadPageViewPage1.Controls.Add(Me.txtLocation)
         Me.RadPageViewPage1.Controls.Add(Me.rgbDate)
@@ -116,11 +124,58 @@ Partial Class frmAccountSalesReport
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 363)
         Me.RadPageViewPage1.Text = "Filters"
         '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.rbtnInvoiceCount)
+        Me.RadGroupBox1.Controls.Add(Me.rbtnHSNWise)
+        Me.RadGroupBox1.Controls.Add(Me.rbtnSaleVoucher)
+        Me.RadGroupBox1.HeaderText = ""
+        Me.RadGroupBox1.Location = New System.Drawing.Point(332, 9)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(294, 36)
+        Me.RadGroupBox1.TabIndex = 340
+        '
+        'rbtnInvoiceCount
+        '
+        Me.rbtnInvoiceCount.AutoSize = True
+        Me.rbtnInvoiceCount.Location = New System.Drawing.Point(190, 10)
+        Me.rbtnInvoiceCount.Name = "rbtnInvoiceCount"
+        Me.rbtnInvoiceCount.Size = New System.Drawing.Size(96, 17)
+        Me.rbtnInvoiceCount.TabIndex = 2
+        Me.rbtnInvoiceCount.TabStop = True
+        Me.rbtnInvoiceCount.Text = "Invoice Count"
+        Me.rbtnInvoiceCount.UseVisualStyleBackColor = True
+        '
+        'rbtnHSNWise
+        '
+        Me.rbtnHSNWise.AutoSize = True
+        Me.rbtnHSNWise.Location = New System.Drawing.Point(107, 10)
+        Me.rbtnHSNWise.Name = "rbtnHSNWise"
+        Me.rbtnHSNWise.Size = New System.Drawing.Size(75, 17)
+        Me.rbtnHSNWise.TabIndex = 1
+        Me.rbtnHSNWise.TabStop = True
+        Me.rbtnHSNWise.Text = "HSN Wise"
+        Me.rbtnHSNWise.UseVisualStyleBackColor = True
+        '
+        'rbtnSaleVoucher
+        '
+        Me.rbtnSaleVoucher.AutoSize = True
+        Me.rbtnSaleVoucher.Checked = True
+        Me.rbtnSaleVoucher.Location = New System.Drawing.Point(8, 10)
+        Me.rbtnSaleVoucher.Name = "rbtnSaleVoucher"
+        Me.rbtnSaleVoucher.Size = New System.Drawing.Size(91, 17)
+        Me.rbtnSaleVoucher.TabIndex = 0
+        Me.rbtnSaleVoucher.TabStop = True
+        Me.rbtnSaleVoucher.Text = "Sale Voucher"
+        Me.rbtnSaleVoucher.UseVisualStyleBackColor = True
+        '
         'MyLabel1
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel1.Location = New System.Drawing.Point(20, 56)
+        Me.MyLabel1.Location = New System.Drawing.Point(13, 56)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(52, 16)
         Me.MyLabel1.TabIndex = 338
@@ -231,7 +286,7 @@ Partial Class frmAccountSalesReport
         '
         Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvData.MyExportAPI = False
         Me.gvData.MyExportFilePath = ""
         Me.gvData.MyStopExport = False
@@ -290,52 +345,44 @@ Partial Class frmAccountSalesReport
         Me.btnReset.TabIndex = 429
         Me.btnReset.Text = "Reset"
         '
-        'RadGroupBox1
+        'cboUOMType
         '
-        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox1.Controls.Add(Me.rbtnInvoiceCount)
-        Me.RadGroupBox1.Controls.Add(Me.rbtnHSNWise)
-        Me.RadGroupBox1.Controls.Add(Me.rbtnSaleVoucher)
-        Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(332, 9)
-        Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(294, 36)
-        Me.RadGroupBox1.TabIndex = 340
+        Me.cboUOMType.AutoCompleteDisplayMember = Nothing
+        Me.cboUOMType.AutoCompleteValueMember = Nothing
+        Me.cboUOMType.CalculationExpression = Nothing
+        Me.cboUOMType.DropDownAnimationEnabled = True
+        Me.cboUOMType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboUOMType.FieldCode = Nothing
+        Me.cboUOMType.FieldDesc = Nothing
+        Me.cboUOMType.FieldMaxLength = 0
+        Me.cboUOMType.FieldName = Nothing
+        Me.cboUOMType.isCalculatedField = False
+        Me.cboUOMType.IsSourceFromTable = False
+        Me.cboUOMType.IsSourceFromValueList = False
+        Me.cboUOMType.IsUnique = False
+        RadListDataItem3.Text = "Report UOM"
+        RadListDataItem4.Text = "Default UOM"
+        Me.cboUOMType.Items.Add(RadListDataItem3)
+        Me.cboUOMType.Items.Add(RadListDataItem4)
+        Me.cboUOMType.Location = New System.Drawing.Point(75, 79)
+        Me.cboUOMType.MendatroryField = True
+        Me.cboUOMType.MyLinkLable1 = Nothing
+        Me.cboUOMType.MyLinkLable2 = Nothing
+        Me.cboUOMType.Name = "cboUOMType"
+        Me.cboUOMType.ReferenceFieldDesc = Nothing
+        Me.cboUOMType.ReferenceFieldName = Nothing
+        Me.cboUOMType.ReferenceTableName = Nothing
+        Me.cboUOMType.Size = New System.Drawing.Size(136, 20)
+        Me.cboUOMType.TabIndex = 424
         '
-        'rbtnSaleVoucher
+        'MyLabel4
         '
-        Me.rbtnSaleVoucher.AutoSize = True
-        Me.rbtnSaleVoucher.Checked = True
-        Me.rbtnSaleVoucher.Location = New System.Drawing.Point(8, 10)
-        Me.rbtnSaleVoucher.Name = "rbtnSaleVoucher"
-        Me.rbtnSaleVoucher.Size = New System.Drawing.Size(91, 17)
-        Me.rbtnSaleVoucher.TabIndex = 0
-        Me.rbtnSaleVoucher.TabStop = True
-        Me.rbtnSaleVoucher.Text = "Sale Voucher"
-        Me.rbtnSaleVoucher.UseVisualStyleBackColor = True
-        '
-        'rbtnHSNWise
-        '
-        Me.rbtnHSNWise.AutoSize = True
-        Me.rbtnHSNWise.Location = New System.Drawing.Point(107, 10)
-        Me.rbtnHSNWise.Name = "rbtnHSNWise"
-        Me.rbtnHSNWise.Size = New System.Drawing.Size(75, 17)
-        Me.rbtnHSNWise.TabIndex = 1
-        Me.rbtnHSNWise.TabStop = True
-        Me.rbtnHSNWise.Text = "HSN Wise"
-        Me.rbtnHSNWise.UseVisualStyleBackColor = True
-        '
-        'rbtnInvoiceCount
-        '
-        Me.rbtnInvoiceCount.AutoSize = True
-        Me.rbtnInvoiceCount.Location = New System.Drawing.Point(190, 10)
-        Me.rbtnInvoiceCount.Name = "rbtnInvoiceCount"
-        Me.rbtnInvoiceCount.Size = New System.Drawing.Size(96, 17)
-        Me.rbtnInvoiceCount.TabIndex = 2
-        Me.rbtnInvoiceCount.TabStop = True
-        Me.rbtnInvoiceCount.Text = "Invoice Count"
-        Me.rbtnInvoiceCount.UseVisualStyleBackColor = True
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Location = New System.Drawing.Point(13, 79)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(60, 18)
+        Me.MyLabel4.TabIndex = 423
+        Me.MyLabel4.Text = "UOM Type"
         '
         'frmAccountSalesReport
         '
@@ -356,6 +403,9 @@ Partial Class frmAccountSalesReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rgbDate, System.ComponentModel.ISupportInitialize).EndInit()
         Me.rgbDate.ResumeLayout(False)
@@ -371,9 +421,8 @@ Partial Class frmAccountSalesReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox1.ResumeLayout(False)
-        Me.RadGroupBox1.PerformLayout()
+        CType(Me.cboUOMType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -401,4 +450,6 @@ Partial Class frmAccountSalesReport
     Friend WithEvents rbtnInvoiceCount As RadioButton
     Friend WithEvents rbtnHSNWise As RadioButton
     Friend WithEvents rbtnSaleVoucher As RadioButton
+    Friend WithEvents cboUOMType As common.Controls.MyComboBox
+    Friend WithEvents MyLabel4 As common.Controls.MyLabel
 End Class

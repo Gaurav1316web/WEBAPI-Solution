@@ -3312,6 +3312,16 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_MILK
 left outer join TSPL_PAYMENT_PROCESS_DETAIL on TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No =TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.InvoiceNo
 where TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.Nature_Type='C' and TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.Amount<>0 AND TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + ") "
 
+        sQuery += " union all
+select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_VLC_MASTER_HEAD.VSP_Code,'' as Vendor_NAME
+,TSPL_DEDUCTION_MASTER.Description as Addition,'' as Addition_Hindi ,(TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.Amount) as [Amount] ,0 as ManAddDed
+from TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN 
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.Customer_CODE
+left  join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.shipment_doc_no
+left join TSPL_SD_SHIPMENT_detail on TSPL_SD_SHIPMENT_detail.document_code=TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.shipment_doc_no and TSPL_SD_SHIPMENT_detail.Line_No=1
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_detail.Item_Code
+left outer join TSPL_DEDUCTION_MASTER  on TSPL_DEDUCTION_MASTER.Code=TSPL_SD_SHIPMENT_HEAD.Deduction
+where TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.Doc_No in  (" + strDocNo + ") "
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") <> CompairStringResult.Equal Then
             sQuery += "union all
 SELECT TT.VSP_Uploader_Code,TT.VSP_Code,TT.Vendor_NAME,coalesce (mapping.mmDescription, TT.Addition) AS Addition ,TT.Addition_Hindi ,TT.Amount,0 as ManAddDed  FROM (
