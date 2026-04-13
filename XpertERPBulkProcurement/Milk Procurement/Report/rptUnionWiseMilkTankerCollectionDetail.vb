@@ -82,45 +82,37 @@ Public Class rptUnionWiseMilkTankerCollectionDetail
             Dim dt As DataTable
             Dim qry As String = ""
 
+
+            qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 "
             If clsCommon.myLen(objCommonVar.CurrentUnionDataBase) > 0 Then
-                qry = " Select DataBase_Name as [DataBase Name] from TSPL_USER_MASTER where User_Code = '" + objCommonVar.CurrentUserCode + "' "
-                txtUnion.arrValueMember = clsCommon.ShowMultipleSelectForm("SaleUnionDs", qry, "DataBase Name", "", txtUnion.arrValueMember, Nothing)
-            Else
-                dt = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
-                If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
-                    Exit Sub
-                End If
-                If objCommonVar.RCDFCFP Then
-                    qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 ORDER BY [TSPL_APP_LOCATION].Location_Name"
-
-                Else
-                    '  qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 AND [TSPL_APP_LOCATION].DataBase_Name='" & objCommonVar.CurrComp_Code1 & "' ORDER BY [TSPL_APP_LOCATION].Location_Name"
-                    qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 AND [TSPL_APP_LOCATION].DataBase_Name IN ('JPR','JDH') ORDER BY [TSPL_APP_LOCATION].Location_Name"
-
-                End If
-                'qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 ORDER BY [TSPL_APP_LOCATION].Location_Name"
-
-                txtUnion.arrValueMember = clsCommon.ShowMultipleSelectForm("DBTUnionPay", qry, "DataBase Name", "Location", txtUnion.arrValueMember, Nothing)
-
+                qry += " and [TSPL_APP_LOCATION].DataBase_Name='" & objCommonVar.CurrentUnionDataBase & "' "
+            ElseIf Not objCommonVar.RCDFCFP Then
+                qry += " and [TSPL_APP_LOCATION].DataBase_Name='" & objCommonVar.CurrDatabase & "' "
             End If
-            dt = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
-            If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
-                common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
-                Exit Sub
-            End If
-
-            If objCommonVar.RCDFCFP Then
-                qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 ORDER BY [TSPL_APP_LOCATION].Location_Name"
-
-            Else
-                '  qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 AND [TSPL_APP_LOCATION].DataBase_Name='" & objCommonVar.CurrComp_Code1 & "' ORDER BY [TSPL_APP_LOCATION].Location_Name"
-                qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 AND [TSPL_APP_LOCATION].DataBase_Name IN ('JPR','JDH') ORDER BY [TSPL_APP_LOCATION].Location_Name"
-
-            End If
-            'qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 ORDER BY [TSPL_APP_LOCATION].Location_Name"
+            qry += " ORDER BY [TSPL_APP_LOCATION].Location_Name"
 
             txtUnion.arrValueMember = clsCommon.ShowMultipleSelectForm("DBTUnionPay", qry, "DataBase Name", "Location", txtUnion.arrValueMember, Nothing)
+
+
+
+
+            'dt = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
+            'If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
+            '    common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
+            '    Exit Sub
+            'End If
+
+            'If objCommonVar.RCDFCFP Then
+            '    qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 ORDER BY [TSPL_APP_LOCATION].Location_Name"
+
+            'Else
+            '    '  qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 AND [TSPL_APP_LOCATION].DataBase_Name='" & objCommonVar.CurrComp_Code1 & "' ORDER BY [TSPL_APP_LOCATION].Location_Name"
+            '    qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 AND [TSPL_APP_LOCATION].DataBase_Name IN ('JPR','JDH') ORDER BY [TSPL_APP_LOCATION].Location_Name"
+
+            'End If
+            ''qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 ORDER BY [TSPL_APP_LOCATION].Location_Name"
+
+            'txtUnion.arrValueMember = clsCommon.ShowMultipleSelectForm("DBTUnionPay", qry, "DataBase Name", "Location", txtUnion.arrValueMember, Nothing)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -139,20 +131,19 @@ Public Class rptUnionWiseMilkTankerCollectionDetail
                 gv1.DataSource = Nothing
                 Exit Sub
             End If
-            Dim ss As String = clsCommon.GetMulcallString(txtUnion.arrValueMember)
-            If txtUnion.arrValueMember Is Nothing Then
-                If objCommonVar.RCDFCFP Then
-                    uQry = " select [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name
-                            from TSPL_MASTER.dbo.TSPL_APP_LOCATION WHERE 2=2 and  Union_Report=1 order by [TSPL_APP_LOCATION].Location_Name "
-                Else
-                    uQry = " select  [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name
-                            from TSPL_MASTER.dbo.TSPL_APP_LOCATION WHERE 2=2 AND [TSPL_APP_LOCATION].DataBase_Name='" & objCommonVar.CurrDatabase & "' order by [TSPL_APP_LOCATION].Location_Name "
-                End If
+
+
+            uQry = "SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name  FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 "
+            If txtUnion.arrValueMember IsNot Nothing AndAlso txtUnion.arrValueMember.Count > 0 Then
+                uQry += " and [TSPL_APP_LOCATION].DataBase_Name  in (" + clsCommon.GetMulcallString(txtUnion.arrValueMember) + ")"
             Else
-                uQry = " select  [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name
-                        from TSPL_MASTER.dbo.TSPL_APP_LOCATION WHERE [TSPL_APP_LOCATION].DataBase_Name  in (" + ss + ") 
-                        order by [TSPL_APP_LOCATION].Location_Name "
+                If clsCommon.myLen(objCommonVar.CurrentUnionDataBase) > 0 Then
+                    uQry += " and [TSPL_APP_LOCATION].DataBase_Name='" & objCommonVar.CurrentUnionDataBase & "' "
+                ElseIf Not objCommonVar.RCDFCFP Then
+                    uQry += " and [TSPL_APP_LOCATION].DataBase_Name='" & objCommonVar.CurrDatabase & "' "
+                End If
             End If
+            uQry += " ORDER BY [TSPL_APP_LOCATION].Location_Name "
             dtunion = clsDBFuncationality.GetDataTable(uQry)
 
             For ii As Integer = 0 To dtunion.Rows.Count - 1
@@ -239,11 +230,11 @@ SUM(CASE WHEN XX.QcStatus = 'Accept' THEN 1 ELSE 0 END) AS AcceptQC,SUM(CASE WHE
                 FinalQry += " GROUP BY XX.UnionName,XX.Weighment_Date ORDER BY xx.UnionName,Weighment_Date_Ordring;"
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Union Wise") = CompairStringResult.Equal Then
                 FinalQry += "select SNo,UserName,Comp_Code,FromDate,ToDate,UnionName,Tanker_No_Auto,Net_Weight_Auto,QC_Auto,
-case when Net_Weight_Auto=0 then 0 else cast(QC_Auto_FATKG*100/Net_Weight_Auto as decimal(18,2)) end as QC_Auto_FAT,
-case when Net_Weight_Auto=0 then 0 else cast(QC_Auto_SNFKG*100/Net_Weight_Auto as decimal(18,2)) end as QC_Auto_SNF,
+case when QC_Auto_FATSNF_Qty=0 then 0 else cast(QC_Auto_FATKG*100/QC_Auto_FATSNF_Qty as decimal(18,2)) end as QC_Auto_FAT,
+case when QC_Auto_FATSNF_Qty=0 then 0 else cast(QC_Auto_SNFKG*100/QC_Auto_FATSNF_Qty as decimal(18,2)) end as QC_Auto_SNF,
 Tanker_No_Manual,Net_Weight_Manual,QC_Manual,
-case when Net_Weight_Manual=0 then 0 else cast(QC_Manual_FATKG*100/Net_Weight_Manual as decimal(18,2))  end as QC_Manual_FAT,
-case when Net_Weight_Manual=0 then 0 else cast(QC_Manual_SNFKG*100/Net_Weight_Manual as decimal(18,2))  end as QC_Manual_SNF,CompCode, "
+case when QC_Manual_FATSNF_Qty=0 then 0 else cast(QC_Manual_FATKG*100/QC_Manual_FATSNF_Qty as decimal(18,2))  end as QC_Manual_FAT,
+case when QC_Manual_FATSNF_Qty=0 then 0 else cast(QC_Manual_SNFKG*100/QC_Manual_FATSNF_Qty as decimal(18,2))  end as QC_Manual_SNF,CompCode, "
                 If objCommonVar.RCDFCFP Then
                     FinalQry += "  TSPL_COMPANY_MASTER.Comp_Name ,  TSPL_COMPANY_MASTER.add1 , TSPL_COMPANY_MASTER.add2 "
                 Else
@@ -257,11 +248,13 @@ max(xx.FromDate)FromDate,max(xx.ToDate)ToDate,  xx.UnionName,max(xx.CompCode) as
 ,SUM(1 * case when Manual_Entry_QC='A'  then 1 else 0 end) AS QC_Auto
 ,SUM(Fat_Kg * case when Manual_Entry_QC='A'  then 1 else 0 end) AS QC_Auto_FATKG
 ,SUM(SNF_Kg * case when Manual_Entry_QC='A'  then 1 else 0 end) AS QC_Auto_SNFKG
+,SUM(XX.Net_Weight * case when Manual_Entry_QC='A'  then 1 else 0 end) AS QC_Auto_FATSNF_Qty
 ,sum(1 * case when Manual_Gross_Weight='A' and Manual_Tare_Weight='A' then 0 else 1 end) AS Tanker_No_Manual
 ,SUM(XX.Net_Weight * case when Manual_Gross_Weight='A' and Manual_Tare_Weight='A' then 0 else 1 end) AS Net_Weight_Manual
 ,SUM(1 * case when Manual_Entry_QC='M'  then 1 else 0 end) AS QC_Manual
 ,SUM(Fat_Kg * case when Manual_Entry_QC='M'  then 1 else 0 end) AS QC_Manual_FATKG
 ,SUM(SNF_Kg * case when Manual_Entry_QC='M'  then 1 else 0 end) AS QC_Manual_SNFKG
+,SUM(XX.Net_Weight * case when Manual_Entry_QC='M'  then 1 else 0 end) AS QC_Manual_FATSNF_Qty
 From CTE as XX 
 GROUP BY XX.UnionName 
 ) xxx  
