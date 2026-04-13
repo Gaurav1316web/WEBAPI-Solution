@@ -545,49 +545,112 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
             If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count > 0 Then
                 WHR += " and TSPL_VLC_MASTER_HEAD.VLC_CODE  IN (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ") "
             End If
-            Baseqry = "SELECT *
-FROM (
-Select  TSPL_MILK_SRN_head.VLC_CODE,COUNT(TSPL_VLC_DATA_UPLOADER_DETAIL.Farmer_Code) AS Farmer_Count, MAX(TSPL_MILK_SRN_head.MCC_CODE)MCC_CODE, MAX(TSPL_MILK_SRN_head.DOC_CODE)DOC_CODE,CONVERT(date, TSPL_MILK_SRN_head.DOC_DATE,103)DOC_DATE,TSPL_MILK_SRN_head.SHIFT,max(TSPL_MILK_SRN_head.VSP_CODE) AS[DCS_Code],max(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as [DCS_Uploader_code],max(TSPL_VLC_MASTER_HEAD.VLC_Name) as [DCS_NAME],max(TSPL_MILK_SRN_head.ROUTE_CODE) as [ROUTE_CODE],sum(TSPL_MILK_SRN_DETAIL.qty) as [QTY],sum(TSPL_MILK_SRN_DETAIL.fat_kg)FAT_KG,sum(TSPL_MILK_SRN_DETAIL.SNF_KG)SNF_KG,
-0 AS FatPer,0 AS SNFPer,
- sum(CAST((ISNULL(TSPL_MILK_SRN_DETAIL.FAT_KG,0) * 100 /NULLIF(TSPL_MILK_SRN_DETAIL.qty,0)) AS DECIMAL(18,2))) AS FatAVG,
-sum( CAST((ISNULL(TSPL_MILK_SRN_DETAIL.SNF_KG,0) * 100 / NULLIF(TSPL_MILK_SRN_DETAIL.qty,0)) AS DECIMAL(18,2))) AS SNFAVG
-                   from TSPL_MILK_SRN_DETAIL
+            Baseqry = " SELECT *
+FROM (Select  TSPL_MILK_SRN_head.VLC_CODE,COUNT(TSPL_VLC_DATA_UPLOADER_DETAIL.Farmer_Code) AS Farmer_Count, MAX(TSPL_MILK_SRN_head.MCC_CODE)MCC_CODE, MAX(TSPL_MILK_SRN_head.DOC_CODE)DOC_CODE,CONVERT(varchar, TSPL_MILK_SRN_head.DOC_DATE,103)DOC_DATE,TSPL_MILK_SRN_head.SHIFT,max(TSPL_MILK_SRN_head.VSP_CODE) AS[DCS_Code],max(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as [DCS_Uploader_code],max(TSPL_VLC_MASTER_HEAD.VLC_Name) as [DCS_NAME],max(TSPL_MILK_SRN_head.ROUTE_CODE) as [ROUTE_CODE],sum(TSPL_MILK_SRN_DETAIL.qty) as [SRNQTY],sum(TSPL_MILK_SRN_DETAIL.fat_kg)SRNFAT_KG,sum(TSPL_MILK_SRN_DETAIL.SNF_KG)SRNSNF_KG,
+sum(CAST((ISNULL(TSPL_MILK_SRN_DETAIL.FAT_KG,0) * 100 /NULLIF(TSPL_MILK_SRN_DETAIL.qty,0)) AS DECIMAL(18,2))) AS SRNFatAVG,
+sum( CAST((ISNULL(TSPL_MILK_SRN_DETAIL.SNF_KG,0) * 100 / NULLIF(TSPL_MILK_SRN_DETAIL.qty,0)) AS DECIMAL(18,2))) AS SRNSNFAVG
+
+,0 AS FARMERQTY,0 AS FARMERFAT_KG,0 AS FARMERSNF_KG,0 AS FARMERFatPer,0 AS FARMERSNFPer,0 AS FARMERFatAVG, 0 AS FARMERSNFAVG
+                  from TSPL_MILK_SRN_DETAIL
                    LEFT OUTER JOIN TSPL_MILK_SRN_head ON TSPL_MILK_SRN_head.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE
 				   LEFT OUTER JOIN TSPL_VLC_DATA_UPLOADER_MASTER  ON TSPL_VLC_DATA_UPLOADER_MASTER.VLC_Code=TSPL_MILK_SRN_head.VLC_CODE
 				   LEFT OUTER JOIN TSPL_VLC_DATA_UPLOADER_DETAIL ON TSPL_VLC_DATA_UPLOADER_DETAIL.Document_Code=TSPL_VLC_DATA_UPLOADER_MASTER.Document_Code
-                   LEFT OUTER JOIN TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_MILK_SRN_head.VSP_CODE 
-                   WHERE 2=2 and "
+                  LEFT OUTER JOIN TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_MILK_SRN_head.VSP_CODE 
+                  WHERE 2=2 and  "
             Baseqry += "   convert(date,TSPL_MILK_SRN_head.DOC_DATE,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,TSPL_MILK_SRN_head.DOC_DATE,103) <=convert(date,'" + txtToDate.Value + "' ,103)"
+            If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
+                Baseqry += " and 2=( case when TSPL_MILK_SRN_head.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_head.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and shift='M' then 3 else 2 end  )"
+            End If
+            If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
+                Baseqry += " and 2=( case when TSPL_MILK_SRN_head.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_head.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and shift='E' then 3 else 2 end  )"
+            End If
+            If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count > 0 Then
+                Baseqry += " and TSPL_VLC_MASTER_HEAD.VLC_CODE  IN (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ") "
+            End If
 
 
-            Baseqry += " group by TSPL_MILK_SRN_head.DOC_DATE,TSPL_MILK_SRN_head.shift,
-  TSPL_MILK_SRN_head.VLC_CODE
-  UNION ALL
- select TSPL_VLC_DATA_UPLOADER_MASTER.VLC_Code AS VLC_CODE,COUNT(TSPL_VLC_DATA_UPLOADER_DETAIL.Farmer_Code)Farmer_Count, MAX(TSPL_VLC_MASTER_HEAD.MCC) AS MCC_CODE,MAX(TSPL_VLC_DATA_UPLOADER_MASTER.Document_Code) AS DOC_CODE, TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date AS DOC_DATE,TSPL_VLC_DATA_UPLOADER_MASTER.shift AS SHIFT , MAX(VSP_CODE) AS DCS_CODE,
+            Baseqry += " group by TSPL_MILK_SRN_head.DOC_DATE,TSPL_MILK_SRN_head.shift,"
+            Baseqry += " TSPL_MILK_SRN_head.VLC_CODE
+ UNION ALL
+select TSPL_VLC_DATA_UPLOADER_MASTER.VLC_Code AS VLC_CODE,COUNT(TSPL_VLC_DATA_UPLOADER_DETAIL.Farmer_Code)Farmer_Count, MAX(TSPL_VLC_MASTER_HEAD.MCC) AS MCC_CODE,MAX(TSPL_VLC_DATA_UPLOADER_MASTER.Document_Code) AS DOC_CODE, TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date AS DOC_DATE,TSPL_VLC_DATA_UPLOADER_MASTER.shift AS SHIFT , MAX(VSP_CODE) AS DCS_CODE,
 MAX( TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) AS DCS_Uploader_code,
- MAX(TSPL_VLC_MASTER_HEAD.VLC_Name) AS DCS_NAME,MAX(TSPL_VLC_DATA_UPLOADER_MASTER.Route_Code) AS ROUTE_CODE,SUM(TSPL_VLC_DATA_UPLOADER_DETAIL.QTY) AS QTY,
-sum(TSPL_VLC_DATA_UPLOADER_DETAIL.FatPer*TSPL_VLC_DATA_UPLOADER_DETAIL.QTY/100)FAT_KG,
- sum(TSPL_VLC_DATA_UPLOADER_DETAIL.SNFPer*TSPL_VLC_DATA_UPLOADER_DETAIL.QTY/100)SNF_KG
-, SUM(TSPL_VLC_DATA_UPLOADER_DETAIL.FatPer )FatPer,
-SUM(TSPL_VLC_DATA_UPLOADER_DETAIL.SNFPer)SNFPer, 
-CAST(SUM(ISNULL(TSPL_VLC_DATA_UPLOADER_DETAIL.FatPer * TSPL_VLC_DATA_UPLOADER_DETAIL.QTY / 100, 0)) * 100 / NULLIF(SUM(ISNULL(TSPL_VLC_DATA_UPLOADER_DETAIL.QTY, 0)), 0) AS DECIMAL(18,2)) AS FatAVG,
+ MAX(TSPL_VLC_MASTER_HEAD.VLC_Name) AS DCS_NAME,MAX(TSPL_VLC_DATA_UPLOADER_MASTER.Route_Code) AS ROUTE_CODE,
+ 0 AS SRNQTY,0 AS SRNFAT_KG,0 AS SRNSNF_KG,0 AS SRNFatAVG,0 AS SRNSNFAVG
+ ,
+ SUM(TSPL_VLC_DATA_UPLOADER_DETAIL.QTY) AS FARMERQTY,
+sum(TSPL_VLC_DATA_UPLOADER_DETAIL.FatPer*TSPL_VLC_DATA_UPLOADER_DETAIL.QTY/100)FARMERFAT_KG,
+ sum(TSPL_VLC_DATA_UPLOADER_DETAIL.SNFPer*TSPL_VLC_DATA_UPLOADER_DETAIL.QTY/100)FARMERSNF_KG
+, SUM(TSPL_VLC_DATA_UPLOADER_DETAIL.FatPer )FARMERFatPer,
+SUM(TSPL_VLC_DATA_UPLOADER_DETAIL.SNFPer)FARMERSNFPer, 
+CAST(SUM(ISNULL(TSPL_VLC_DATA_UPLOADER_DETAIL.FatPer * TSPL_VLC_DATA_UPLOADER_DETAIL.QTY / 100, 0)) * 100 / NULLIF(SUM(ISNULL(TSPL_VLC_DATA_UPLOADER_DETAIL.QTY, 0)), 0) AS DECIMAL(18,2)) AS FARMERFatAVG,
 CAST(SUM(ISNULL(TSPL_VLC_DATA_UPLOADER_DETAIL.SNFPer * TSPL_VLC_DATA_UPLOADER_DETAIL.QTY / 100, 0)) * 100 / NULLIF(SUM(ISNULL(TSPL_VLC_DATA_UPLOADER_DETAIL.QTY, 0)), 0)
-AS DECIMAL(18,2)) AS SNFAVG
+AS DECIMAL(18,2)) AS FARMERSNFAVG
  from TSPL_VLC_DATA_UPLOADER_DETAIL
  left outer join TSPL_VLC_DATA_UPLOADER_MASTER on TSPL_VLC_DATA_UPLOADER_MASTER.Document_Code=TSPL_VLC_DATA_UPLOADER_DETAIL.Document_Code
  LEFT OUTER JOIN TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_VLC_DATA_UPLOADER_MASTER.VLC_Code 
- where 2=2 and "
+ where 2=2 and  "
             Baseqry += "   convert(date,TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date,103) <=convert(date,'" + txtToDate.Value + "' ,103)"
-
-            Baseqry += " GROUP BY TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date,TSPL_VLC_DATA_UPLOADER_MASTER.shift,TSPL_VLC_DATA_UPLOADER_MASTER.VLC_Code
-		)XXX "
+            If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
+                Baseqry += " and 2=( case when TSPL_MILK_SRN_head.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_head.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and shift='M' then 3 else 2 end  )"
+            End If
+            If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
+                Baseqry += " and 2=( case when TSPL_MILK_SRN_head.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_head.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and shift='E' then 3 else 2 end  )"
+            End If
+            If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count > 0 Then
+                Baseqry += " and TSPL_VLC_MASTER_HEAD.VLC_CODE  IN (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ") "
+            End If
+            Baseqry += "GROUP BY TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date,TSPL_VLC_DATA_UPLOADER_MASTER.shift,TSPL_VLC_DATA_UPLOADER_MASTER.VLC_Code)XXX "
             If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "DCS Collection v/s Farmer Collection Summary") = CompairStringResult.Equal Then
                 Qry = " SELECT 
-VLC_CODE,COUNT(XXXX.Farmer_Count)Farmer_Count,MAX(XXXX.DOC_CODE)DOC_CODE,MAX(CONVERT(DATE,XXXX.DOC_DATE,103))DOC_DATE,MAX(XXXX.SHIFT)SHIFT,MAX(XXXX.DCS_Code)DCS_Code,MAX(XXXX.DCS_Uploader_code)DCS_Uploader_code,MAX(XXXX.DCS_NAME)DCS_NAME,MAX(XXXX.ROUTE_CODE)ROUTE_CODE,SUM(XXXX.QTY)QTY,SUM(XXXX.SNF_KG)SNF_KG,SUM(XXXX.FAT_KG)FAT_KG,
+ XXXX.VLC_CODE,COUNT(Farmer_Count) AS Farmer_Count,MAX(convert(varchar,DOC_DATE,103))DOC_DATE,MAX(SHIFT)SHIFT,MAX(XXXX.DCS_Code)DCS_Code,CAST(MAX([DCS_Uploader_code]) AS INT) AS DCS_Uploader_code,MAX([DCS_NAME])[DCS_NAME],SUM(XXXX.[SRNQTY])[SRNQTY],SUM(XXXX.SRNFAT_KG)SRNFAT_KG,SUM(XXXX.SRNSNF_KG)SRNSNF_KG,MAX(XXXX.SRNFatAVG)SRNFatAVG,MAX(XXXX.SRNSNFAVG)SRNSNFAVG,
 
-SUM(XXXX.FatPer)FatPer,SUM(XXXX.SNFPer)SNFPer,MAX(XXXX.FatAVG)FatAVG,MAX(XXXX.SNFAVG)SNFAVG
-FROM (" + Baseqry + ")XXXX GROUP BY VLC_CODE"
+SUM(XXXX.FARMERQTY)FARMERQTY,SUM(XXXX.FARMERFAT_KG)FARMERFAT_KG,SUM(XXXX.FARMERSNF_KG)FARMERSNF_KG,SUM(XXXX.FARMERFatPer),SUM(XXXX.FARMERSNFPer)FARMERSNFPer,sum( XXXX.FARMERFatAVG)FARMERFatAVG,SUM( XXXX.FARMERSNFAVG )FARMERSNFAVG from(" + Baseqry + ")XXXX GROUP BY VLC_CODE"
             End If
+
+
+
+            '            Baseqry = "SELECT *
+            'FROM (
+            'Select  TSPL_MILK_SRN_head.VLC_CODE,COUNT(TSPL_VLC_DATA_UPLOADER_DETAIL.Farmer_Code) AS Farmer_Count, MAX(TSPL_MILK_SRN_head.MCC_CODE)MCC_CODE, MAX(TSPL_MILK_SRN_head.DOC_CODE)DOC_CODE,CONVERT(date, TSPL_MILK_SRN_head.DOC_DATE,103)DOC_DATE,TSPL_MILK_SRN_head.SHIFT,max(TSPL_MILK_SRN_head.VSP_CODE) AS[DCS_Code],max(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as [DCS_Uploader_code],max(TSPL_VLC_MASTER_HEAD.VLC_Name) as [DCS_NAME],max(TSPL_MILK_SRN_head.ROUTE_CODE) as [ROUTE_CODE],sum(TSPL_MILK_SRN_DETAIL.qty) as [QTY],sum(TSPL_MILK_SRN_DETAIL.fat_kg)FAT_KG,sum(TSPL_MILK_SRN_DETAIL.SNF_KG)SNF_KG,
+            '0 AS FatPer,0 AS SNFPer,
+            ' sum(CAST((ISNULL(TSPL_MILK_SRN_DETAIL.FAT_KG,0) * 100 /NULLIF(TSPL_MILK_SRN_DETAIL.qty,0)) AS DECIMAL(18,2))) AS FatAVG,
+            'sum( CAST((ISNULL(TSPL_MILK_SRN_DETAIL.SNF_KG,0) * 100 / NULLIF(TSPL_MILK_SRN_DETAIL.qty,0)) AS DECIMAL(18,2))) AS SNFAVG
+            '                   from TSPL_MILK_SRN_DETAIL
+            '                   LEFT OUTER JOIN TSPL_MILK_SRN_head ON TSPL_MILK_SRN_head.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE
+            '				   LEFT OUTER JOIN TSPL_VLC_DATA_UPLOADER_MASTER  ON TSPL_VLC_DATA_UPLOADER_MASTER.VLC_Code=TSPL_MILK_SRN_head.VLC_CODE
+            '				   LEFT OUTER JOIN TSPL_VLC_DATA_UPLOADER_DETAIL ON TSPL_VLC_DATA_UPLOADER_DETAIL.Document_Code=TSPL_VLC_DATA_UPLOADER_MASTER.Document_Code
+            '                   LEFT OUTER JOIN TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_MILK_SRN_head.VSP_CODE 
+            '                   WHERE 2=2 and "
+            '            Baseqry += "   convert(date,TSPL_MILK_SRN_head.DOC_DATE,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,TSPL_MILK_SRN_head.DOC_DATE,103) <=convert(date,'" + txtToDate.Value + "' ,103)"
+
+            '            Baseqry += " group by TSPL_MILK_SRN_head.DOC_DATE,TSPL_MILK_SRN_head.shift,
+            '  TSPL_MILK_SRN_head.VLC_CODE
+            '  UNION ALL
+            ' select TSPL_VLC_DATA_UPLOADER_MASTER.VLC_Code AS VLC_CODE,COUNT(TSPL_VLC_DATA_UPLOADER_DETAIL.Farmer_Code)Farmer_Count, MAX(TSPL_VLC_MASTER_HEAD.MCC) AS MCC_CODE,MAX(TSPL_VLC_DATA_UPLOADER_MASTER.Document_Code) AS DOC_CODE, TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date AS DOC_DATE,TSPL_VLC_DATA_UPLOADER_MASTER.shift AS SHIFT , MAX(VSP_CODE) AS DCS_CODE,
+            'MAX( TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) AS DCS_Uploader_code,
+            ' MAX(TSPL_VLC_MASTER_HEAD.VLC_Name) AS DCS_NAME,MAX(TSPL_VLC_DATA_UPLOADER_MASTER.Route_Code) AS ROUTE_CODE,SUM(TSPL_VLC_DATA_UPLOADER_DETAIL.QTY) AS QTY,
+            'sum(TSPL_VLC_DATA_UPLOADER_DETAIL.FatPer*TSPL_VLC_DATA_UPLOADER_DETAIL.QTY/100)FAT_KG,
+            ' sum(TSPL_VLC_DATA_UPLOADER_DETAIL.SNFPer*TSPL_VLC_DATA_UPLOADER_DETAIL.QTY/100)SNF_KG
+            ', SUM(TSPL_VLC_DATA_UPLOADER_DETAIL.FatPer )FatPer,
+            'SUM(TSPL_VLC_DATA_UPLOADER_DETAIL.SNFPer)SNFPer, 
+            'CAST(SUM(ISNULL(TSPL_VLC_DATA_UPLOADER_DETAIL.FatPer * TSPL_VLC_DATA_UPLOADER_DETAIL.QTY / 100, 0)) * 100 / NULLIF(SUM(ISNULL(TSPL_VLC_DATA_UPLOADER_DETAIL.QTY, 0)), 0) AS DECIMAL(18,2)) AS FatAVG,
+            'CAST(SUM(ISNULL(TSPL_VLC_DATA_UPLOADER_DETAIL.SNFPer * TSPL_VLC_DATA_UPLOADER_DETAIL.QTY / 100, 0)) * 100 / NULLIF(SUM(ISNULL(TSPL_VLC_DATA_UPLOADER_DETAIL.QTY, 0)), 0)
+            'AS DECIMAL(18,2)) AS SNFAVG
+            ' from TSPL_VLC_DATA_UPLOADER_DETAIL
+            ' left outer join TSPL_VLC_DATA_UPLOADER_MASTER on TSPL_VLC_DATA_UPLOADER_MASTER.Document_Code=TSPL_VLC_DATA_UPLOADER_DETAIL.Document_Code
+            ' LEFT OUTER JOIN TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_VLC_DATA_UPLOADER_MASTER.VLC_Code 
+            ' where 2=2 and "
+            '            Baseqry += "   convert(date,TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date,103) <=convert(date,'" + txtToDate.Value + "' ,103)"
+
+            '            Baseqry += " GROUP BY TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date,TSPL_VLC_DATA_UPLOADER_MASTER.shift,TSPL_VLC_DATA_UPLOADER_MASTER.VLC_Code
+            '		)XXX "
+            '            If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "DCS Collection v/s Farmer Collection Summary") = CompairStringResult.Equal Then
+            '                Qry = " SELECT 
+            'VLC_CODE,COUNT(XXXX.Farmer_Count)Farmer_Count,MAX(XXXX.DOC_CODE)DOC_CODE,MAX(CONVERT(DATE,XXXX.DOC_DATE,103))DOC_DATE,MAX(XXXX.SHIFT)SHIFT,MAX(XXXX.DCS_Code)DCS_Code,MAX(XXXX.DCS_Uploader_code)DCS_Uploader_code,MAX(XXXX.DCS_NAME)DCS_NAME,MAX(XXXX.ROUTE_CODE)ROUTE_CODE,SUM(XXXX.QTY)QTY,SUM(XXXX.SNF_KG)SNF_KG,SUM(XXXX.FAT_KG)FAT_KG,
+
+            'SUM(XXXX.FatPer)FatPer,SUM(XXXX.SNFPer)SNFPer,MAX(XXXX.FatAVG)FatAVG,MAX(XXXX.SNFAVG)SNFAVG
+            'FROM (" + Baseqry + ")XXXX GROUP BY VLC_CODE"
+            ' End If
             If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "DCS Collection v/s Farmer Collection Summary") = CompairStringResult.Equal Then
                 dt = clsDBFuncationality.GetDataTable(Qry)
             Else
@@ -610,6 +673,7 @@ FROM (" + Baseqry + ")XXXX GROUP BY VLC_CODE"
                 'SetGridFormat()
                 SetGridFormationOFGV1Collection()
                 ' View()
+                'View1()
                 ' EnableDisableCntrl(False)
                 gv.BestFitColumns()
                 EnableDisableCntrl(False)
@@ -620,6 +684,24 @@ FROM (" + Baseqry + ")XXXX GROUP BY VLC_CODE"
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+    Sub View1()
+        If gv.Rows.Count > 0 Then
+            Dim view As New ColumnGroupsViewDefinition()
+            view.ColumnGroups.Add(New GridViewColumnGroup(" "))
+            view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
+            'If rdbDetails.Checked = True Then
+
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns("DocumentDate").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns("Description").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns("Temp").Name)
+
+            view.ColumnGroups.Add(New GridViewColumnGroup("Farmer data"))
+            view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv.Columns("Entered_QTY").Name)
+
+            gv.ViewDefinition = view
+        End If
     End Sub
     Sub EnableDisableCntrl(ByVal val As Boolean)
         cmbEntrySource.Enabled = False
@@ -635,22 +717,40 @@ FROM (" + Baseqry + ")XXXX GROUP BY VLC_CODE"
             gv.Columns(ii).ReadOnly = True
             gv.Columns(ii).IsVisible = True
             gv.Columns("VLC_CODE").IsVisible = False
+            If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "DCS Collection v/s Farmer Collection Day & Shift Wise") = CompairStringResult.Equal Then
+                gv.Columns("MCC_CODE").IsVisible = False
+                gv.Columns("DOC_CODE").IsVisible = False
+                gv.Columns("ROUTE_CODE").IsVisible = False
+            End If
             gv.Columns("DOC_DATE").IsVisible = True
-            gv.Columns("DOC_DATE").HeaderText = "DOC_DATE"
-            gv.Columns("SHIFT").HeaderText = "SHIFT"
-            gv.Columns("DCS_Code").HeaderText = "DCS Code"
-            gv.Columns("DCS_Uploader_code").HeaderText = "DCS Uploader code"
-            gv.Columns("DCS_NAME").HeaderText = "DCS NAME"
-            gv.Columns("ROUTE_CODE").HeaderText = "ROUTE CODE"
-            gv.Columns("QTY").HeaderText = "QTY"
-            gv.Columns("FAT_KG").HeaderText = "FAT KG"
-            gv.Columns("SNF_KG").HeaderText = "SNF KG"
-            gv.Columns("FatPer").HeaderText = "FAT  %"
-            gv.Columns("SNFPer").HeaderText = "SNF %"
-            gv.Columns("FatAVG").HeaderText = "FatAVG"
-            gv.Columns("SNFAVG").HeaderText = "SNFAVG"
             gv.Columns("Farmer_Count").HeaderText = "Farmer Count"
 
+            gv.Columns("DOC_DATE").HeaderText = "Document Date"
+            gv.Columns("SHIFT").IsVisible = True
+            gv.Columns("DCS_Code").IsVisible = True
+            gv.Columns("DCS_Code").HeaderText = "DCS Code"
+            gv.Columns("DCS_Uploader_code").IsVisible = True
+            gv.Columns("DCS_Uploader_code").HeaderText = "DCS Uploader code"
+            gv.Columns("DCS_NAME").IsVisible = True
+            gv.Columns("DCS_NAME").HeaderText = "DCS NAME"
+
+            gv.Columns("SRNQTY").IsVisible = True
+            gv.Columns("SRNQTY").HeaderText = "SRN QTY"
+            gv.Columns("SRNFAT_KG").IsVisible = False
+            gv.Columns("SRNSNF_KG").IsVisible = False
+            gv.Columns("SRNFatAVG").IsVisible = True
+            gv.Columns("SRNFatAVG").HeaderText = "SRN Fat AVG"
+            gv.Columns("SRNSNFAVG").IsVisible = True
+            gv.Columns("SRNSNFAVG").HeaderText = "SRN Snf AVG"
+            gv.Columns("FARMERQTY").IsVisible = True
+            gv.Columns("FARMERQTY").HeaderText = "FARMER QTY"
+            gv.Columns("FARMERFAT_KG").IsVisible = False
+            gv.Columns("FARMERSNF_KG").IsVisible = False
+
+            gv.Columns("FARMERFatAVG").IsVisible = True
+            gv.Columns("FARMERFatAVG").HeaderText = "FARMER Fat AVG"
+            gv.Columns("FARMERSNFAVG").IsVisible = True
+            gv.Columns("FARMERSNFAVG").HeaderText = "FARMER Snf AVG"
             'gv1.Columns("VLC_CODE").HeaderText = "Document No."
             'gv1.Columns("Document_No").HeaderText = "Document No."
 
@@ -1672,7 +1772,7 @@ Where TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Date>='" & clsCommon.GetPrintDate(tx
     End Sub
 
 
-    Private Sub gv_RowFormatting(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.RowFormattingEventArgs) Handles gv.RowFormatting
+    Private Sub gv_RowFormatting(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.RowFormattingEventArgs)
         Try
             If Not (clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Summary") = CompairStringResult.Equal) Then
                 If DisplayAverageFatSNFMPWise = True Then
@@ -1779,7 +1879,7 @@ Where TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Date>='" & clsCommon.GetPrintDate(tx
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Private Sub gv_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gv.CellDoubleClick
+    Private Sub gv_CellDoubleClick(sender As Object, e As GridViewCellEventArgs)
         Try
             If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Summary") = CompairStringResult.Equal Then
                 If gv.CurrentRow.Index >= 0 Then
@@ -2063,7 +2163,7 @@ where [VLC Code]='" + clsCommon.myCstr(gv.CurrentRow.Cells("VLC Code").Value) + 
         CheckReportTypeforDateRange()
     End Sub
 
-    Private Sub gv_CellFormatting(sender As Object, e As CellFormattingEventArgs) Handles gv.CellFormatting
+    Private Sub gv_CellFormatting(sender As Object, e As CellFormattingEventArgs)
         If e.CellElement.Value IsNot Nothing AndAlso IsNumeric(e.CellElement.Value) AndAlso clsCommon.CompairString(e.Column.Name, "S.No.") <> CompairStringResult.Equal Then
             e.CellElement.Text = Convert.ToDecimal(e.CellElement.Value).ToString("N2", New CultureInfo("en-IN"))
         End If
