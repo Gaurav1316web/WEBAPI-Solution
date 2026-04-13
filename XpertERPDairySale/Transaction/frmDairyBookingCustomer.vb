@@ -373,6 +373,7 @@ Public Class frmDairyBookingCustomer
         LoadBlankGrid()
         LoadBlankGridTax()
         AddNew()
+        cmbGatePassType.Text = "Select"
         txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" & objCommonVar.CurrentUserCode & "' "))
         If clsCommon.myLen(clsCommon.myCstr(txtLocation.Value)) > 0 Then
             If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
@@ -2966,7 +2967,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         ItemTypePanel.Enabled = True
         'LoadBookingType()
         cmbcashcredit.Text = "Select"
-        cmbGatePassType.Text = "Select"
+        'cmbGatePassType.Text = "Select"
         cmbGatePassType.Enabled = True
         lblBoothStation.Text = ""
         ''richa VIJ/03/12/19-000091
