@@ -44,7 +44,7 @@ Public Class rptAccountStatementReport
 
     Private Sub LoadData(ByVal isPrint As Boolean)
         Try
-            Dim qry As String = "  Select Comp_Name,Add1,Add2,Add3,FromDate,ToDate,Cust_Code,Customer_Name,CASE WHEN OP < 0 THEN 'DR' ELSE 'CR' END AS [DR/CR],OP,Money_Receipt,Milk_Amount,Product_Amount,Refund_Amount,Credit_Amount,Debit_Amount,((OP+Money_Receipt+Refund_Amount)-(Milk_Amount+Product_Amount)) as Closing from ( Select max(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,max(TSPL_COMPANY_MASTER.Add1)Add1,max(TSPL_COMPANY_MASTER.Add2)Add2,
+            Dim qry As String = "  Select Comp_Name,Add1,Add2,Add3,FromDate,ToDate,Cust_Code,Customer_Name,[DR/CR],OP,Money_Receipt,Milk_Amount,Product_Amount,Refund_Amount,Credit_Amount,Debit_Amount,CASE WHEN Closing < 0 then -(Closing) else Closing end as Closing,[DR.CR] from (Select Comp_Name,Add1,Add2,Add3,FromDate,ToDate,Cust_Code,Customer_Name,CASE WHEN OP < 0 THEN 'DR' ELSE 'CR' END AS [DR/CR],CASE WHEN OP < 0 then -(OP) else OP end as OP,Money_Receipt,Milk_Amount,Product_Amount,Refund_Amount,Credit_Amount,Debit_Amount,((OP+Money_Receipt+Refund_Amount)-(Milk_Amount+Product_Amount)) as Closing, case when ((OP+Money_Receipt+Refund_Amount)-(Milk_Amount+Product_Amount)) < 0 then 'DR' ELSE 'CR' end as [DR.CR] from ( Select max(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,max(TSPL_COMPANY_MASTER.Add1)Add1,max(TSPL_COMPANY_MASTER.Add2)Add2,
 max(TSPL_COMPANY_MASTER.Add3)Add3,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") & "' as FromDate, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") & "' as ToDate,XX.Cust_Code,max(xx.Customer_Name)Customer_Name,
 case when '01/Apr/2026' = Convert( Date,'" + clsCommon.GetPrintDate((txtFromDate.Value), "dd/MMM/yyyy ") + "',103) then max(OT.Opening_Amount) else 
 max(OT.Opening_Amount)+sum((Amount) * (case when   Convert( Date, Document_Date,103) >= Convert(Date,'01/Apr/2026 12:00:00 AM',103) and  Convert( Date, Document_Date,103) < Convert( Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103)  then 1 else 0 end) * (case when RI=1 or RI=4 or RI=5 OR RI=7 then 1 else -1 end)) end as OP 
@@ -83,7 +83,7 @@ LEFT JOIN   TSPL_Opening_Table OT ON OT.Cust_Code = XX.Cust_Code
             End If
             'where XX.Cust_Code In('D1')
 
-            qry += " Group by XX.Cust_Code )YY  "
+            qry += " Group by XX.Cust_Code )YY )ZZ "
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             gv1.DataSource = Nothing
