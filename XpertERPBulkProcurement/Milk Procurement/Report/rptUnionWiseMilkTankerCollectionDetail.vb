@@ -133,13 +133,15 @@ Public Class rptUnionWiseMilkTankerCollectionDetail
             End If
 
 
-            uQry = "SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name  FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 "
+            uQry = "SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name  FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE 2=2  "
             If txtUnion.arrValueMember IsNot Nothing AndAlso txtUnion.arrValueMember.Count > 0 Then
                 uQry += " and [TSPL_APP_LOCATION].DataBase_Name  in (" + clsCommon.GetMulcallString(txtUnion.arrValueMember) + ")"
             Else
                 If clsCommon.myLen(objCommonVar.CurrentUnionDataBase) > 0 Then
                     uQry += " and [TSPL_APP_LOCATION].DataBase_Name='" & objCommonVar.CurrentUnionDataBase & "' "
-                ElseIf Not objCommonVar.RCDFCFP Then
+                ElseIf objCommonVar.RCDFCFP Then
+                    uQry += " and [TSPL_APP_LOCATION].Union_Report=1   "
+                Else
                     uQry += " and [TSPL_APP_LOCATION].DataBase_Name='" & objCommonVar.CurrDatabase & "' "
                 End If
             End If
@@ -202,6 +204,11 @@ and convert(date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) +
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(cboWEIGHMENT.SelectedValue), "L") = CompairStringResult.Equal Then
                     baseqry += " AND Manual_Tare_Weight IN ('M','A')  "
                 End If
+
+                If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Union Wise") = CompairStringResult.Equal Then
+                    baseqry += "union all
+select '" + objCommonVar.CurrentUserCode + "' as UserName, '" + FromDate + "' AS FromDate, '" + TODate + " ' as ToDate,'" + clsCommon.myCstr(dtunion.Rows(ii).Item("Location_Name")) + "' AS [UnionName],'' as location_Code,'' as Weighment_Date, GETDATE() as Weighment_Date_Ordring,'' as ROUTE_NO,'' as Tanker_No,1 as SNo,'' as Comp_Name,'' as add1,'' as add2,'' as Weighment_No,'' as QC_No,'' as QC_Date,'' as Gate_Entry_No,'' as GATE_ENTRY_Date,0.0 as Gross_Weight, '' as Manual_Gross_Weight, 0.0 as Tare_Weight ,'' as Manual_Tare_Weight,''  AS Manual_Entry_QC ,0.00 as Net_Weight,'0.0' AS Fat_Per,0.00 as Fat_Kg,'0.00' as SNF_Per,0.00 as SNF_Kg  , ''  QcStatus,'0.0' AS CLR,'' as [Source] ,'RCDFCF' AS CompCode  "
+                End If
             Next
 
             Dim FinalQry As String = " with CTE As (  " + baseqry + ") " + Environment.NewLine + Environment.NewLine
@@ -243,15 +250,15 @@ case when QC_Manual_FATSNF_Qty=0 then 0 else cast(QC_Manual_SNFKG*100/QC_Manual_
                 FinalQry += "  from (
 SELECT ROW_NUMBER() OVER (ORDER BY XX.UnionName) AS SNo,'ADMIN' as UserName,
 max(xx.FromDate)FromDate,max(xx.ToDate)ToDate,  xx.UnionName,max(xx.CompCode) as CompCode
-,sum(1 * case when Manual_Gross_Weight='A' and Manual_Tare_Weight='A' then 1 else 0 end) AS Tanker_No_Auto
+,sum((case when len(Weighment_No)>0 then 1 else 0 end) * case when Manual_Gross_Weight='A' and Manual_Tare_Weight='A' then 1 else 0 end) AS Tanker_No_Auto
 ,SUM(XX.Net_Weight * case when Manual_Gross_Weight='A' and Manual_Tare_Weight='A' then 1 else 0 end) AS Net_Weight_Auto
-,SUM(1 * case when Manual_Entry_QC='A'  then 1 else 0 end) AS QC_Auto
+,SUM((case when len(Weighment_No)>0 then 1 else 0 end) * case when Manual_Entry_QC='A'  then 1 else 0 end) AS QC_Auto
 ,SUM(Fat_Kg * case when Manual_Entry_QC='A'  then 1 else 0 end) AS QC_Auto_FATKG
 ,SUM(SNF_Kg * case when Manual_Entry_QC='A'  then 1 else 0 end) AS QC_Auto_SNFKG
 ,SUM(XX.Net_Weight * case when Manual_Entry_QC='A'  then 1 else 0 end) AS QC_Auto_FATSNF_Qty
-,sum(1 * case when Manual_Gross_Weight='A' and Manual_Tare_Weight='A' then 0 else 1 end) AS Tanker_No_Manual
+,sum((case when len(Weighment_No)>0 then 1 else 0 end) * case when Manual_Gross_Weight='A' and Manual_Tare_Weight='A' then 0 else 1 end) AS Tanker_No_Manual
 ,SUM(XX.Net_Weight * case when Manual_Gross_Weight='A' and Manual_Tare_Weight='A' then 0 else 1 end) AS Net_Weight_Manual
-,SUM(1 * case when Manual_Entry_QC='M'  then 1 else 0 end) AS QC_Manual
+,SUM((case when len(Weighment_No)>0 then 1 else 0 end) * case when Manual_Entry_QC='M'  then 1 else 0 end) AS QC_Manual
 ,SUM(Fat_Kg * case when Manual_Entry_QC='M'  then 1 else 0 end) AS QC_Manual_FATKG
 ,SUM(SNF_Kg * case when Manual_Entry_QC='M'  then 1 else 0 end) AS QC_Manual_SNFKG
 ,SUM(XX.Net_Weight * case when Manual_Entry_QC='M'  then 1 else 0 end) AS QC_Manual_FATSNF_Qty
