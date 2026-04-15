@@ -27627,10 +27627,10 @@ where Against_Shipment_No in (select Document_Code from TSPL_SD_SHIPMENT_HEAD wh
                           left outer join TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code and Stocking_Unit='Y'
                           where TSPL_INVENTORY_MOVEMENT.Item_Code ='" + TxtItemCode.Value + "' and Stock_UOM<>'" + TxtStockUOM.Text + "'
                                     ) xxx on xxx.Trans_Id=tspl_Inventory_movement.Trans_Id "
-
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
-                'qry = ""
+                qry = ""
                 'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 '    For ii As Integer = 0 To dt.Rows.Count - 1
                 '        qry = " update TSPL_INVENTORY_MOVEMENT set Stock_UOM='" + TxtStockUOM.Text + "' ,Stock_Qty = '" + clsCommon.myCdbl(dt.Rows(ii).Item("Qty")) + "' * '" + clsCommon.myCdbl(dt.Rows(ii).Item("Conversion_Factor")) + "' where Trans_Id='" + clsCommon.myCstr(dt.Rows(ii).Item("Trans_Id")) + "' "
