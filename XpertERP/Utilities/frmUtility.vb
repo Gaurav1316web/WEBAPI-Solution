@@ -27600,6 +27600,53 @@ where Against_Shipment_No in (select Document_Code from TSPL_SD_SHIPMENT_HEAD wh
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub TxtItemCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtItemCode._MYValidating
+        Try
+            Dim qry = "Select Item_Code as Code,Item_Desc as Name from TSPL_ITEM_MASTER  "
+            TxtItemCode.Value = clsCommon.ShowSelectForm("Oldcust", qry, "Code", "", TxtItemCode.Value, "Code", isButtonClicked)
+            TxtItem_Desc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Item_Desc from TSPL_ITEM_MASTER where Item_Code='" + TxtItemCode.Value + "'"))
+            TxtStockUOM.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select UOM_Code from TSPL_ITEM_UOM_DETAIL where Item_Code='" + TxtItemCode.Value + "' and Stocking_Unit='Y' "))
+            ' TxtStockUOM.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select UOM_Code from TSPL_ITEM_UOM_DETAIL where Item_Code='FG00030' and Stocking_Unit='Y''" + TxtItemCode.Value + "'"))
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub BtnItemCostUpdate_Click(sender As Object, e As EventArgs) Handles BtnItemCostUpdate.Click
+        Try
+            Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+
+            If TxtCost.Value > 0 Then
+                Dim qry As String = ""
+                qry = "  update tspl_Inventory_movement set tspl_Inventory_movement.Stock_UOM='" + TxtStockUOM.Text + "',
+                         Stock_Qty = xxx.Qty*xxx.Conversion_Factor
+                         from tspl_Inventory_movement inner join(
+                          Select Trans_Id,TSPL_INVENTORY_MOVEMENT.Item_Code,Stock_UOM,Qty,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,* from TSPL_INVENTORY_MOVEMENT 
+                          left outer join TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code and Stocking_Unit='Y'
+                          where TSPL_INVENTORY_MOVEMENT.Item_Code ='" + TxtItemCode.Value + "' and Stock_UOM<>'" + TxtStockUOM.Text + "'
+                                    ) xxx on xxx.Trans_Id=tspl_Inventory_movement.Trans_Id "
+
+                'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+
+                'qry = ""
+                'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                '    For ii As Integer = 0 To dt.Rows.Count - 1
+                '        qry = " update TSPL_INVENTORY_MOVEMENT set Stock_UOM='" + TxtStockUOM.Text + "' ,Stock_Qty = '" + clsCommon.myCdbl(dt.Rows(ii).Item("Qty")) + "' * '" + clsCommon.myCdbl(dt.Rows(ii).Item("Conversion_Factor")) + "' where Trans_Id='" + clsCommon.myCstr(dt.Rows(ii).Item("Trans_Id")) + "' "
+                '        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                '    Next
+                '    qry = ""
+                'End If
+                qry = "  update TSPL_INVENTORY_MOVEMENT set FIFO_Cost='" + TxtCost.Value + "' * Stock_Qty ,LIFO_Cost='" + TxtCost.Value + "' * Stock_Qty ,	Avg_Cost='" + TxtCost.Value + "' * Stock_Qty where Item_Code = '" + TxtItemCode.Value + "' "
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Enter Cost Of Item", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class
 Public Class clsDCDetail
 #Region "Varibales"
