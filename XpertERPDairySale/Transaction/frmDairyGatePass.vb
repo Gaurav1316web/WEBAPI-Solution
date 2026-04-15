@@ -1941,7 +1941,7 @@ where TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode='" & strCode & "' order by Sku_Seq "
  ,max(Comp_Add1)Comp_Add1,max(Comp_City)Comp_City,max(Comp_State)Comp_State,max(Comp_GSTReg_No)Comp_GSTReg_No,max(Comp_PanNo)Comp_PanNo,max(Comp_Email)Comp_Email,
  max(Comp_Pincode)Comp_Pincode,max(Comp_Phone1)Comp_Phone1,max(State_Code)State_Code,max(STATE_NAME)STATE_NAME,max(Route_No)Route_No,max(GP.supply_date)supply_date,
  max(sublocation)sublocation,max(Comp_Code1)Comp_Code1,max(Is_Ambient)Is_Ambient,max(Is_FreshItem)Is_FreshItem,max(COL1)COL1,max(COL2)COL2,max(CopyType1)CopyType1,
- '" & txtCode.Value & "' as GPCode,'" & txtShipToLocation.Text & "' as Ship_To_Location,'" & txtDriverName.Text & "' as Driver_Name ,max(orderby1)orderby1,max(orderby2)orderby2,max(orderby3)orderby3
+ '" & txtCode.Value & "' as GPCode,'" & txtShipToLocation.Text & "' as Ship_To_Location,'" & txtDriverName.Text & "' as Driver_Name ,max(orderby1)orderby1,max(orderby2)orderby2,max(orderby3)orderby3,Max(GatePass_Code)GatePass_Code
   from ("
         Qry += " select 1 As CopyType, '' as Comp_Phone2,'' as Comp_Add3,'' as Comp_Add2,  InLtr.Conversion_factor As [ConversionInLtr],InCrate.Conversion_factor As [ConversionInCrate],InPouch.Conversion_factor As [ConversionInPouch],TSPL_SD_SHIPMENT_HEAD.Document_Date,
                         TSPL_SD_SHIPMENT_HEAD.DO_Item_Type as Is_Taxable,Case When TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' OR TSPL_SD_SHIPMENT_HEAD.Shift_Type='M' Then '[M]' Else '[E]' End As Shift,
@@ -1963,9 +1963,10 @@ TSPL_COMPANY_MASTER.City_Code As Comp_City,TSPL_COMPANY_MASTER.State As Comp_Sta
 						CASE WHEN (CASE WHEN Is_FreshItem = 1 THEN 1 ELSE 0 END) = 1
      AND (CASE WHEN IsTaxable = 0 THEN 1 ELSE 0 END) = 1 THEN 1 ELSE 2 END as orderby1,CASE WHEN (CASE WHEN Is_Ambient = 1 THEN 1 ELSE 0 END) = 1
      AND (CASE WHEN IsTaxable = 0 THEN 1 ELSE 0 END) = 1 THEN 1 ELSE 2 END as orderby2,CASE WHEN ((CASE WHEN Is_FreshItem = 1 OR Is_Ambient = 1 THEN 1 ELSE 2 END) = 1
-        ) AND ((CASE WHEN IsTaxable = 1 THEN 1 ELSE 0 END) = 1 ) THEN 1 ELSE 0 END AS orderby3
+        ) AND ((CASE WHEN IsTaxable = 1 THEN 1 ELSE 0 END) = 1 ) THEN 1 ELSE 0 END AS orderby3,TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode As GatePass_Code
                         from  " & tbl_TSPL_SD_SHIPMENT_HEAD & "
                         Left Outer Join " & tbl_TSPL_SD_SHIPMENT_DETAIL & " On TSPL_SD_SHIPMENT_DETAIL.Document_Code=TSPL_SD_SHIPMENT_HEAD.Document_Code
+                        Left Outer Join " & tbl_TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL & " On TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID=TSPL_SD_SHIPMENT_DETAIL.PK_ID
                         Left Outer Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
                         left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_HEAD.Bill_To_Location 
                         Left Outer Join TSPL_Route_Master On TSPL_Route_Master.Route_No=TSPL_SD_SHIPMENT_HEAD.Route_No 
@@ -2005,7 +2006,7 @@ SELECT TSPL_BATCH_ITEM.Document_Code, Batch_No, Qty, Parent_Line_No,Item_Code,UO
 )x group by Document_Code,Parent_Line_No,Item_Code,UOM         
 )TabBatch
 On TabBatch.Document_Code= XXX.Document_Code And TabBatch.Item_Code=XXX.Item_Code  and TabBatch.UOM=XXX.Unit_code
-left join(select Gpdate,Supply_Date from TSPL_DAIRYSALE_GATEPASS_MASTER where GPCode='" & StrCode & "') GP on GP.Supply_Date=xxx.Supply_Date
+left join(select Gpdate,Supply_Date from " & tbl_TSPL_DAIRYSALE_GATEPASS_MASTER & " where GPCode='" & StrCode & "') GP on GP.Supply_Date=xxx.Supply_Date
 group by XXX.Item_Code 
 ORDER BY max(YYY.COL2 ),max(orderby1) ,max(orderby2) ,max(orderby3),max(Item_Desc)    "
         Return Qry

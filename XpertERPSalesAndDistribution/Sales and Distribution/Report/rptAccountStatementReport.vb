@@ -58,11 +58,11 @@ max(OT.Opening_Amount)+sum((Amount) * (case when   Convert( Date, Document_Date,
 from 
 (Select Cust_Code,Customer_Name,Receipt_Amount as Amount,Convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103) as Document_Date,1 as RI from TSPL_RECEIPT_HEADER
 union all
-Select Customer_Code as Cust_Code,Customer_Name,Total_Amt as Amount,convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,2 as RI from TSPL_SD_SHIPMENT_HEAD
+Select Customer_Code as Cust_Code,Customer_Name,(Total_Amt-Transporter_Commission_TotalAmt) as Amount,convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,2 as RI from TSPL_SD_SHIPMENT_HEAD
 left outer join TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
 where Is_Taxable=0 and TSPL_SD_SHIPMENT_HEAD.Status=1
 union all
-Select Customer_Code as Cust_Code,Customer_Name,Total_Amt as Amount,convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,3 as RI from TSPL_SD_SHIPMENT_HEAD
+Select Customer_Code as Cust_Code,Customer_Name,(Total_Amt-Transporter_Commission_TotalAmt) as Amount,convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,3 as RI from TSPL_SD_SHIPMENT_HEAD
 left outer join TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
 where Is_Taxable=1 and TSPL_SD_SHIPMENT_HEAD.Status=1
 union all
@@ -76,7 +76,7 @@ Select Customer_Code,Customer_Name,Document_Total as Amount,convert(date,TSPL_Cu
 WHERE Document_Type='D'
 ) XX 
 left outer join TSPL_COMPANY_MASTER ON 2=2 
-LEFT JOIN   TSPL_Opening_Table OT ON OT.Cust_Code = XX.Cust_Code 
+LEFT JOIN TSPL_Opening_Table OT ON OT.Cust_Code = XX.Cust_Code 
 "
             If txtCustomer.arrValueMember IsNot Nothing Then
                 qry += " where XX.Cust_Code In (" & clsCommon.GetMulcallString(txtCustomer.arrValueMember) & ")"

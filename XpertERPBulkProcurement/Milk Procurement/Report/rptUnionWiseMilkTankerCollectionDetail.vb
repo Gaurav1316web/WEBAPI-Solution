@@ -4,6 +4,7 @@ Public Class rptUnionWiseMilkTankerCollectionDetail
     Inherits FrmMainTranScreen
     Private Sub rptUnionWiseMilkTankerCollectionDetail_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Reset()
+        LoadReportType()
         LoadWEIGHMENTdata()
         LoadQCdata()
         If objCommonVar.RCDFCFP Then
@@ -44,6 +45,9 @@ Public Class rptUnionWiseMilkTankerCollectionDetail
             gv1.GroupDescriptors.Clear()
             gv1.MasterTemplate.SummaryRowsBottom.Clear()
             gv1.MasterView.Refresh()
+
+            ResetRadGridView(gv1)
+
             RadPageView1.SelectedPage = RadPageViewPage1
             txtUnion.arrValueMember = Nothing
             txtRoute.arrValueMember = Nothing
@@ -78,64 +82,43 @@ Public Class rptUnionWiseMilkTankerCollectionDetail
             Dim dt As DataTable
             Dim qry As String = ""
 
+
+            qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 "
             If clsCommon.myLen(objCommonVar.CurrentUnionDataBase) > 0 Then
-                qry = " Select DataBase_Name as [DataBase Name] from TSPL_USER_MASTER where User_Code = '" + objCommonVar.CurrentUserCode + "' "
-                txtUnion.arrValueMember = clsCommon.ShowMultipleSelectForm("SaleUnionDs", qry, "DataBase Name", "", txtUnion.arrValueMember, Nothing)
-            Else
-                dt = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
-                If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
-                    Exit Sub
-                End If
-                If objCommonVar.RCDFCFP Then
-                    qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 ORDER BY [TSPL_APP_LOCATION].Location_Name"
-
-                Else
-                    '  qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 AND [TSPL_APP_LOCATION].DataBase_Name='" & objCommonVar.CurrComp_Code1 & "' ORDER BY [TSPL_APP_LOCATION].Location_Name"
-                    qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 AND [TSPL_APP_LOCATION].DataBase_Name IN ('JPR','JDH') ORDER BY [TSPL_APP_LOCATION].Location_Name"
-
-                End If
-                'qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 ORDER BY [TSPL_APP_LOCATION].Location_Name"
-
-                txtUnion.arrValueMember = clsCommon.ShowMultipleSelectForm("DBTUnionPay", qry, "DataBase Name", "Location", txtUnion.arrValueMember, Nothing)
-
+                qry += " and [TSPL_APP_LOCATION].DataBase_Name='" & objCommonVar.CurrentUnionDataBase & "' "
+            ElseIf Not objCommonVar.RCDFCFP Then
+                qry += " and [TSPL_APP_LOCATION].DataBase_Name='" & objCommonVar.CurrDatabase & "' "
             End If
-            dt = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
-            If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
-                common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
-                Exit Sub
-            End If
-
-            If objCommonVar.RCDFCFP Then
-                qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 ORDER BY [TSPL_APP_LOCATION].Location_Name"
-
-            Else
-                '  qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 AND [TSPL_APP_LOCATION].DataBase_Name='" & objCommonVar.CurrComp_Code1 & "' ORDER BY [TSPL_APP_LOCATION].Location_Name"
-                qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 AND [TSPL_APP_LOCATION].DataBase_Name IN ('JPR','JDH') ORDER BY [TSPL_APP_LOCATION].Location_Name"
-
-            End If
-            'qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 ORDER BY [TSPL_APP_LOCATION].Location_Name"
+            qry += " ORDER BY [TSPL_APP_LOCATION].Location_Name"
 
             txtUnion.arrValueMember = clsCommon.ShowMultipleSelectForm("DBTUnionPay", qry, "DataBase Name", "Location", txtUnion.arrValueMember, Nothing)
+
+
+
+
+            'dt = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
+            'If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
+            '    common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
+            '    Exit Sub
+            'End If
+
+            'If objCommonVar.RCDFCFP Then
+            '    qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 ORDER BY [TSPL_APP_LOCATION].Location_Name"
+
+            'Else
+            '    '  qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 AND [TSPL_APP_LOCATION].DataBase_Name='" & objCommonVar.CurrComp_Code1 & "' ORDER BY [TSPL_APP_LOCATION].Location_Name"
+            '    qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 AND [TSPL_APP_LOCATION].DataBase_Name IN ('JPR','JDH') ORDER BY [TSPL_APP_LOCATION].Location_Name"
+
+            'End If
+            ''qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 ORDER BY [TSPL_APP_LOCATION].Location_Name"
+
+            'txtUnion.arrValueMember = clsCommon.ShowMultipleSelectForm("DBTUnionPay", qry, "DataBase Name", "Location", txtUnion.arrValueMember, Nothing)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub Griddata(ByVal print As Boolean)
         Try
-
-            If chkSummary.Checked Then
-                txtRoute.Enabled = False
-                TxtMultiTanker.Enabled = False
-                txtUnion.Enabled = False
-                RadGroupBox3.Enabled = False
-            Else
-                txtRoute.Enabled = False
-                TxtMultiTanker.Enabled = False
-                txtUnion.Enabled = False
-                RadGroupBox3.Enabled = False
-
-            End If
             Dim baseqry As String = Nothing
             Dim qry1 As String = Nothing
             Dim FromDate As String = clsCommon.myCstr(txtFromDate.Text)
@@ -148,22 +131,21 @@ Public Class rptUnionWiseMilkTankerCollectionDetail
                 gv1.DataSource = Nothing
                 Exit Sub
             End If
-            Dim ss As String = clsCommon.GetMulcallString(txtUnion.arrValueMember)
 
-            If txtUnion.arrValueMember Is Nothing Then
-                If objCommonVar.RCDFCFP Then
-                    uQry = " select [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name
-                            from TSPL_MASTER.dbo.TSPL_APP_LOCATION WHERE 2=2 and  Union_Report=1 order by [TSPL_APP_LOCATION].Location_Name "
-                Else
-                    uQry = " select  [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name
-                            from TSPL_MASTER.dbo.TSPL_APP_LOCATION WHERE 2=2 AND [TSPL_APP_LOCATION].DataBase_Name='" & objCommonVar.CurrDatabase & "' order by [TSPL_APP_LOCATION].Location_Name "
-                End If
 
+            uQry = "SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name  FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE 2=2  "
+            If txtUnion.arrValueMember IsNot Nothing AndAlso txtUnion.arrValueMember.Count > 0 Then
+                uQry += " and [TSPL_APP_LOCATION].DataBase_Name  in (" + clsCommon.GetMulcallString(txtUnion.arrValueMember) + ")"
             Else
-                uQry = " select  [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name
-                        from TSPL_MASTER.dbo.TSPL_APP_LOCATION WHERE [TSPL_APP_LOCATION].DataBase_Name  in (" + ss + ") 
-                        order by [TSPL_APP_LOCATION].Location_Name "
+                If clsCommon.myLen(objCommonVar.CurrentUnionDataBase) > 0 Then
+                    uQry += " and [TSPL_APP_LOCATION].DataBase_Name='" & objCommonVar.CurrentUnionDataBase & "' "
+                ElseIf objCommonVar.RCDFCFP Then
+                    uQry += " and [TSPL_APP_LOCATION].Union_Report=1   "
+                Else
+                    uQry += " and [TSPL_APP_LOCATION].DataBase_Name='" & objCommonVar.CurrDatabase & "' "
+                End If
             End If
+            uQry += " ORDER BY [TSPL_APP_LOCATION].Location_Name "
             dtunion = clsDBFuncationality.GetDataTable(uQry)
 
             For ii As Integer = 0 To dtunion.Rows.Count - 1
@@ -171,7 +153,7 @@ Public Class rptUnionWiseMilkTankerCollectionDetail
                     baseqry += "union all"
                 End If
 
-                baseqry += "  select '" + objCommonVar.CurrentUserCode + "' as UserName, '" + FromDate + "' AS FromDate, '" + TODate + " ' as ToDate,'" + clsCommon.myCstr(dtunion.Rows(ii).Item("Location_Name")) + "' AS [UnionName] ,
+                baseqry += " select * from ( select '" + objCommonVar.CurrentUserCode + "' as UserName, '" + FromDate + "' AS FromDate, '" + TODate + " ' as ToDate,'" + clsCommon.myCstr(dtunion.Rows(ii).Item("Location_Name")) + "' AS [UnionName] ,
 [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GATE_ENTRY_DETAILS.location_Code, convert(varchar(12),[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Document_Date,103) as Weighment_Date, 
 ([" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Document_Date) as Weighment_Date_Ordring, 
  [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GATE_ENTRY_DETAILS.ROUTE_NO,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GATE_ENTRY_DETAILS.Tanker_No,
@@ -197,7 +179,7 @@ left join [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[db
 left join [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER on 1= 1 
 where 2=2    and convert(date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Document_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "',103)
 and convert(date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PLANT_WEIGHMENT.Document_Date,103) <= convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103) "
-                If chkSummary.Checked Then
+                If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Day Wise") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Union Wise") = CompairStringResult.Equal Then
                 Else
                     If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
                         baseqry += " and [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GATE_ENTRY_DETAILS.ROUTE_NO in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ") "
@@ -206,62 +188,96 @@ and convert(date,[" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) +
                         baseqry += " and [" + clsCommon.myCstr(dtunion.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GATE_ENTRY_DETAILS.Tanker_No in (" + clsCommon.GetMulcallString(TxtMultiTanker.arrValueMember) + ") "
                     End If
                 End If
+                baseqry += " )x where 2=2 "
+                If clsCommon.CompairString(clsCommon.myCstr(cboQC.SelectedValue), "M") = CompairStringResult.Equal Then
+                    baseqry += " AND Manual_Entry_QC='M'   "
+                ElseIf clsCommon.CompairString(clsCommon.myCstr(cboQC.SelectedValue), "A") = CompairStringResult.Equal Then
+                    baseqry += " AND  Manual_Entry_QC='A'  "
+                ElseIf clsCommon.CompairString(clsCommon.myCstr(cboQC.SelectedValue), "L") = CompairStringResult.Equal Then
+                    baseqry += " AND Manual_Entry_QC IN ('M','A')   "
+                End If
+
+                If clsCommon.CompairString(clsCommon.myCstr(cboWEIGHMENT.SelectedValue), "M") = CompairStringResult.Equal Then
+                    baseqry += " AND  Manual_Tare_Weight='M' "
+                ElseIf clsCommon.CompairString(clsCommon.myCstr(cboWEIGHMENT.SelectedValue), "A") = CompairStringResult.Equal Then
+                    baseqry += " AND  Manual_Tare_Weight='A'"
+                ElseIf clsCommon.CompairString(clsCommon.myCstr(cboWEIGHMENT.SelectedValue), "L") = CompairStringResult.Equal Then
+                    baseqry += " AND Manual_Tare_Weight IN ('M','A')  "
+                End If
+
+                If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Union Wise") = CompairStringResult.Equal Then
+                    baseqry += "union all
+select '" + objCommonVar.CurrentUserCode + "' as UserName, '" + FromDate + "' AS FromDate, '" + TODate + " ' as ToDate,'" + clsCommon.myCstr(dtunion.Rows(ii).Item("Location_Name")) + "' AS [UnionName],'' as location_Code,'' as Weighment_Date, GETDATE() as Weighment_Date_Ordring,'' as ROUTE_NO,'' as Tanker_No,1 as SNo,'' as Comp_Name,'' as add1,'' as add2,'' as Weighment_No,'' as QC_No,'' as QC_Date,'' as Gate_Entry_No,'' as GATE_ENTRY_Date,0.0 as Gross_Weight, '' as Manual_Gross_Weight, 0.0 as Tare_Weight ,'' as Manual_Tare_Weight,''  AS Manual_Entry_QC ,0.00 as Net_Weight,'0.0' AS Fat_Per,0.00 as Fat_Kg,'0.00' as SNF_Per,0.00 as SNF_Kg  , ''  QcStatus,'0.0' AS CLR,'' as [Source] ,'RCDFCF' AS CompCode  "
+                End If
             Next
-            Dim qryall As String = ""
-            qryall = " SELECT ROW_NUMBER() OVER (ORDER BY xx.UnionName,Weighment_Date) AS SNo,Weighment_Date_Ordring,UserName,FromDate,ToDate,UnionName,location_Code,Weighment_Date,ROUTE_NO,Tanker_No,SNo,Weighment_No,QC_No,QC_Date,	Gate_Entry_No,	GATE_ENTRY_Date	,Gross_Weight,	Manual_Gross_Weight,Tare_Weight,Manual_Tare_Weight	,Manual_Entry_QC,Net_Weight,Fat_Per,Fat_Kg,	SNF_Per	,SNF_Kg	,QcStatus,CLR,Source,CompCode "
-            If objCommonVar.RCDFCFP Then
-                qryall += ",TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Comp_Name "
-            Else
-                qryall += ",Comp_Name, add1, add2 "
-            End If
-            If objCommonVar.RCDFCFP Then
-                qryall += " FROM(  " & baseqry & ") xx  LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_code1='RCDFCF'  order by xx.UnionName,xx.Weighment_Date_Ordring  "
-            Else
-                qryall += " FROM(  " & baseqry & ") xx WHERE "
 
-                If cboQC.SelectedValue = "M" Then
-                    qryall += " Manual_Entry_QC='M' "
-                ElseIf cboQC.SelectedValue = "A" Then
-                    qryall += "  Manual_Entry_QC='A'"
-                ElseIf cboQC.SelectedValue = "L" Then
-                    qryall += "Manual_Entry_QC IN ('M','A')  "
-                End If
-                If cboQC.SelectedValue = "M" Then
-                    qryall += "AND  Manual_Tare_Weight='M' "
-                ElseIf cboQC.SelectedValue = "A" Then
-                    qryall += "AND  Manual_Tare_Weight='A'"
-                ElseIf cboQC.SelectedValue = "L" Then
-                    qryall += " AND Manual_Tare_Weight IN ('M','A')  "
-                End If
+            Dim FinalQry As String = " with CTE As (  " + baseqry + ") " + Environment.NewLine + Environment.NewLine
 
-                qryall += " order by xx.UnionName,xx.Weighment_Date_Ordring "
+            If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Detail") = CompairStringResult.Equal Then
+                FinalQry += "   Select ROW_NUMBER() OVER (ORDER BY xx.UnionName,Weighment_Date) As SNo,Weighment_Date_Ordring,UserName,FromDate,ToDate,UnionName,location_Code,Weighment_Date,ROUTE_NO,Tanker_No,SNo,Weighment_No,QC_No,QC_Date,	Gate_Entry_No,	GATE_ENTRY_Date	,Gross_Weight,	Manual_Gross_Weight,Tare_Weight,Manual_Tare_Weight	,Manual_Entry_QC,Net_Weight,Fat_Per,Fat_Kg,	SNF_Per	,SNF_Kg	,QcStatus,CLR,Source,CompCode "
+                If objCommonVar.RCDFCFP Then
+                    FinalQry += ",TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2 
+FROM CTE as xx  LEFT OUTER JOIN TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_code1='RCDFCF'   "
+                Else
+                    FinalQry += ",Comp_Name, add1, add2  FROM CTE as xx   "
                 End If
-
-                Dim SummaryQry As String = ""
-            If chkSummary.Checked Then
-                SummaryQry += "SELECT ROW_NUMBER() OVER (ORDER BY XX.UnionName) AS SNo,'" + objCommonVar.CurrentUserCode + "' as UserName,
+                FinalQry += " order by xx.UnionName,xx.Weighment_Date_Ordring "
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Day Wise") = CompairStringResult.Equal Then
+                FinalQry += "SELECT ROW_NUMBER() OVER (ORDER BY XX.UnionName) AS SNo,'" + objCommonVar.CurrentUserCode + "' as UserName,
 max(xx.FromDate)FromDate,max(xx.ToDate)ToDate, xx.UnionName, max(xx.Weighment_Date)Weighment_Date,count(XX.Tanker_No) AS Tanker_No,max(XX.ROUTE_NO) AS ROUTE_NO,
 count(XX.Gate_Entry_No) AS Gate_Entry_No,SUM(XX.Gross_Weight) AS Gross_Weight, SUM(XX.tare_weight) AS Tare_Weight,MAX(XX.manual_Tare_Weight) AS Manual_Tare_Weight, MAX(XX.Manual_Entry_Qc) AS Manual_Entry_QC,
 SUM(XX.Net_Weight) AS Net_Weight,CAST(sum(isnull(XX.Fat_Kg,0)) AS DECIMAL(18,3)) AS Fat_Kg,CAST(sum(isnull(XX.SNF_Kg,0)) AS DECIMAL(18,3))  AS SNF_Kg,
 SUM(CASE WHEN XX.QcStatus = 'Accept' THEN 1 ELSE 0 END) AS AcceptQC,SUM(CASE WHEN XX.QcStatus = 'Reject' THEN 1 ELSE 0 END) AS RejectQC,max(CompCode)CompCode, "
                 If objCommonVar.RCDFCFP Then
-                    SummaryQry += " max(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,max(TSPL_COMPANY_MASTER.add1)add1,max(TSPL_COMPANY_MASTER.add2)add2 "
+                    FinalQry += " max(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,max(TSPL_COMPANY_MASTER.add1)add1,max(TSPL_COMPANY_MASTER.add2)add2 "
                 Else
-                    SummaryQry += " max(xx.Comp_Name)Comp_Name,max(xx.add1)add1,max(xx.add2)add2,MAX(CompCode)CompCode "
+                    FinalQry += " max(xx.Comp_Name)Comp_Name,max(xx.add1)add1,max(xx.add2)add2,MAX(CompCode)CompCode "
                 End If
-                SummaryQry += ",max(Weighment_Date_Ordring)Weighment_Date_Ordring From ( " & baseqry & ") XX LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_code1='RCDFCF' "
-                SummaryQry += " GROUP BY XX.UnionName,XX.Weighment_Date ORDER BY xx.UnionName,Weighment_Date_Ordring;"
+                FinalQry += ",max(Weighment_Date_Ordring)Weighment_Date_Ordring From CTE as XX LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_code1='RCDFCF' "
+                FinalQry += " GROUP BY XX.UnionName,XX.Weighment_Date ORDER BY xx.UnionName,Weighment_Date_Ordring;"
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Union Wise") = CompairStringResult.Equal Then
+                FinalQry += "select SNo,UserName,Comp_Code,FromDate,ToDate,UnionName,Tanker_No_Auto,Net_Weight_Auto,QC_Auto,
+case when QC_Auto_FATSNF_Qty=0 then 0 else cast(QC_Auto_FATKG*100/QC_Auto_FATSNF_Qty as decimal(18,2)) end as QC_Auto_FAT,
+case when QC_Auto_FATSNF_Qty=0 then 0 else cast(QC_Auto_SNFKG*100/QC_Auto_FATSNF_Qty as decimal(18,2)) end as QC_Auto_SNF,
+Tanker_No_Manual,Net_Weight_Manual,QC_Manual,
+case when QC_Manual_FATSNF_Qty=0 then 0 else cast(QC_Manual_FATKG*100/QC_Manual_FATSNF_Qty as decimal(18,2))  end as QC_Manual_FAT,
+case when QC_Manual_FATSNF_Qty=0 then 0 else cast(QC_Manual_SNFKG*100/QC_Manual_FATSNF_Qty as decimal(18,2))  end as QC_Manual_SNF,CompCode, "
+                If objCommonVar.RCDFCFP Then
+                    FinalQry += "  TSPL_COMPANY_MASTER.Comp_Name ,  TSPL_COMPANY_MASTER.add1 , TSPL_COMPANY_MASTER.add2 "
+                Else
+                    FinalQry += "  xx.Comp_Name,xx.add1,xx.add2 "
+                End If
+                FinalQry += "  from (
+SELECT ROW_NUMBER() OVER (ORDER BY XX.UnionName) AS SNo,'ADMIN' as UserName,
+max(xx.FromDate)FromDate,max(xx.ToDate)ToDate,  xx.UnionName,max(xx.CompCode) as CompCode
+,sum((case when len(Weighment_No)>0 then 1 else 0 end) * case when Manual_Gross_Weight='A' and Manual_Tare_Weight='A' then 1 else 0 end) AS Tanker_No_Auto
+,SUM(XX.Net_Weight * case when Manual_Gross_Weight='A' and Manual_Tare_Weight='A' then 1 else 0 end) AS Net_Weight_Auto
+,SUM((case when len(Weighment_No)>0 then 1 else 0 end) * case when Manual_Entry_QC='A'  then 1 else 0 end) AS QC_Auto
+,SUM(Fat_Kg * case when Manual_Entry_QC='A'  then 1 else 0 end) AS QC_Auto_FATKG
+,SUM(SNF_Kg * case when Manual_Entry_QC='A'  then 1 else 0 end) AS QC_Auto_SNFKG
+,SUM(XX.Net_Weight * case when Manual_Entry_QC='A'  then 1 else 0 end) AS QC_Auto_FATSNF_Qty
+,sum((case when len(Weighment_No)>0 then 1 else 0 end) * case when Manual_Gross_Weight='A' and Manual_Tare_Weight='A' then 0 else 1 end) AS Tanker_No_Manual
+,SUM(XX.Net_Weight * case when Manual_Gross_Weight='A' and Manual_Tare_Weight='A' then 0 else 1 end) AS Net_Weight_Manual
+,SUM((case when len(Weighment_No)>0 then 1 else 0 end) * case when Manual_Entry_QC='M'  then 1 else 0 end) AS QC_Manual
+,SUM(Fat_Kg * case when Manual_Entry_QC='M'  then 1 else 0 end) AS QC_Manual_FATKG
+,SUM(SNF_Kg * case when Manual_Entry_QC='M'  then 1 else 0 end) AS QC_Manual_SNFKG
+,SUM(XX.Net_Weight * case when Manual_Entry_QC='M'  then 1 else 0 end) AS QC_Manual_FATSNF_Qty
+From CTE as XX 
+GROUP BY XX.UnionName 
+) xxx  
+LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_code1='RCDFCF'  
+ORDER BY xxx.UnionName "
             End If
-            Dim dt2 As DataTable
-            If chkSummary.Checked Then
-                dt2 = clsDBFuncationality.GetDataTable(SummaryQry)
-            Else
-                dt2 = clsDBFuncationality.GetDataTable(qryall)
-            End If
+
+
+            Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(FinalQry)
+
             If (dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0) Then
+
                 gv1.DataSource = Nothing
                 gv1.Rows.Clear()
                 gv1.Columns.Clear()
+                gv1.MasterTemplate.ViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
                 gv1.GroupDescriptors.Clear()
                 gv1.MasterTemplate.SummaryRowsBottom.Clear()
                 gv1.MasterView.Refresh()
@@ -273,20 +289,24 @@ SUM(CASE WHEN XX.QcStatus = 'Accept' THEN 1 ELSE 0 END) AS AcceptQC,SUM(CASE WHE
                 gv1.EnableFiltering = True
                 gv1.AllowAddNewRow = False
                 gv1.ShowGroupPanel = False
-                If chkSummary.Checked Then
-                    SetGridFormatSummary()
-                Else
-                    SetGridFormat()
-                End If
+
+                SetGridFormat()
+
+
+
                 gv1.BestFitColumns()
+
                 If print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    If chkSummary.Checked Then
-                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "rptUnionWiseMilkTankerCollectionSummary", "") ''report for both (RCDF And RCDFCF)
-                    Else
+                    If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Detail") = CompairStringResult.Equal Then
                         frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "rptUnionWiseMilkTankerCollection", "") ''report for both (RCDF And RCDFCF)
+                    ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Day Wise") = CompairStringResult.Equal Then
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "rptUnionWiseMilkTankerCollectionSummary", "") ''report for both (RCDF And RCDFCF)
+                    ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Union Wise") = CompairStringResult.Equal Then
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.CommonForUnionAndCattlefeed, dt2, "rptUnionWiseMilkTankerCollectionUnionWiseSummary", "")
                     End If
                 End If
+                RadGroupBox3.Enabled = False
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
             End If
@@ -297,95 +317,7 @@ SUM(CASE WHEN XX.QcStatus = 'Accept' THEN 1 ELSE 0 END) AS AcceptQC,SUM(CASE WHE
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btngo.Click
         Griddata(False)
     End Sub
-    Sub SetGridFormatSummary()
-        gv1.ShowGroupPanel = False
-        gv1.TableElement.TableHeaderHeight = 40
-        gv1.MasterTemplate.ShowRowHeaderColumn = False
-        Dim summaryRowItem As New GridViewSummaryRowItem()
-        For ii As Integer = 0 To gv1.Columns.Count - 1
-            gv1.Columns(ii).ReadOnly = True
-            gv1.Columns(ii).IsVisible = True
-            gv1.Columns("CompCode").IsVisible = False
-            gv1.Columns("Weighment_Date_Ordring").IsVisible = False
 
-            gv1.Columns("UserName").IsVisible = False
-            gv1.Columns("ROUTE_NO").IsVisible = False
-            gv1.Columns("Weighment_Date").IsVisible = True
-            gv1.Columns("Weighment_Date").HeaderText = "Document Date"
-
-            gv1.Columns("SNo").HeaderText = "Document Date"
-
-            gv1.Columns("SNo").IsVisible = True
-            gv1.Columns("SNo").HeaderText = "SNo."
-            gv1.Columns("UnionName").IsVisible = True
-            gv1.Columns("UnionName").HeaderText = "Union Name"
-            gv1.Columns("Gate_Entry_No").IsVisible = True
-            gv1.Columns("Gate_Entry_No").HeaderText = "Gate Entry Count"
-            gv1.Columns("Tanker_No").IsVisible = True
-            gv1.Columns("Tanker_No").HeaderText = "No. of Tanker"
-            gv1.Columns("Gross_Weight").IsVisible = True
-            gv1.Columns("Gross_Weight").HeaderText = "Gross Weight"
-            gv1.Columns("Tare_Weight").IsVisible = True
-            gv1.Columns("Tare_Weight").HeaderText = "Tare Weight"
-            gv1.Columns("Manual_Tare_Weight").IsVisible = True
-            gv1.Columns("Manual_Tare_Weight").HeaderText = "Manual Tare Weight"
-            gv1.Columns("Manual_Entry_QC").IsVisible = True
-            gv1.Columns("Manual_Entry_QC").HeaderText = "Manual Entry QC"
-            gv1.Columns("Net_Weight").IsVisible = False
-            gv1.Columns("Net_Weight").HeaderText = "Net Weight"
-            gv1.Columns("Fat_Kg").IsVisible = True
-            gv1.Columns("Fat_Kg").HeaderText = "FAT Kg"
-            gv1.Columns("SNF_Kg").IsVisible = True
-            gv1.Columns("SNF_Kg").HeaderText = "SNF Kg"
-            gv1.Columns("AcceptQC").IsVisible = True
-            gv1.Columns("AcceptQC").HeaderText = "AcceptQC"
-            gv1.Columns("RejectQC").IsVisible = True
-            gv1.Columns("RejectQC").HeaderText = "RejectQC"
-            gv1.Columns("Comp_Name").IsVisible = False
-            gv1.Columns("add1").IsVisible = False
-            gv1.Columns("add2").IsVisible = False
-
-        Next
-        'Dim summaryRowItemB As New GridViewSummaryRowItem()
-        'Dim Gross_Weight As New GridViewSummaryItem("Gross_Weight", "{0:n2}", GridAggregateFunction.Sum)
-        'summaryRowItemB.Add(Gross_Weight)
-        'Dim Tare_Weight As New GridViewSummaryItem("Tare_Weight", "{0:n2}", GridAggregateFunction.Sum)
-        'summaryRowItemB.Add(Tare_Weight)
-        'Dim Net_Weight As New GridViewSummaryItem("Net_Weight", "{0:n2}", GridAggregateFunction.Sum)
-        'summaryRowItemB.Add(Net_Weight)
-
-
-        'Dim SNF_Kg As New GridViewSummaryItem("SNF_Kg", "{0:n2}", GridAggregateFunction.Sum)
-        'summaryRowItemB.Add(SNF_Kg)
-
-        'Dim Fat_Kg As New GridViewSummaryItem("Fat_Kg", "{0:n2}", GridAggregateFunction.Sum)
-        'summaryRowItemB.Add(Fat_Kg)
-        'Dim intCount As Integer = 0
-        'gv1.ShowGroupPanel = True
-        'gv1.MasterTemplate.AutoExpandGroups = True
-        'gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-        'gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
-        Dim summaryRowItemB As New GridViewSummaryRowItem()
-
-        'Dim MilkTypeB As New GridViewSummaryItem("Payable_Amount", "{0:n0}", GridAggregateFunction.Sum)
-
-        Dim SNF_Kg As New GridViewSummaryItem("SNF_Kg", "{0:n2}", GridAggregateFunction.Sum)
-        summaryRowItemB.Add(SNF_Kg)
-        Dim Fat_Kg As New GridViewSummaryItem("Fat_Kg", "{0:n2}", GridAggregateFunction.Sum)
-        summaryRowItemB.Add(Fat_Kg)
-        Dim Net_Weight As New GridViewSummaryItem("Net_Weight", "{0:n2}", GridAggregateFunction.Sum)
-        summaryRowItemB.Add(Net_Weight)
-        Dim Tare_Weight As New GridViewSummaryItem("Tare_Weight", "{0:n2}", GridAggregateFunction.Sum)
-        summaryRowItemB.Add(Tare_Weight)
-        Dim Gross_Weight As New GridViewSummaryItem("Gross_Weight", "{0:n2}", GridAggregateFunction.Sum)
-        summaryRowItemB.Add(Gross_Weight)
-        gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemB)
-            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
-        gv1.AutoSizeRows = True
-        gv1.BestFitColumns()
-        gv1.MasterTemplate.AutoExpandGroups = True
-
-    End Sub
     Sub SetGridFormat()
         gv1.ShowGroupPanel = False
         gv1.TableElement.TableHeaderHeight = 40
@@ -393,20 +325,16 @@ SUM(CASE WHEN XX.QcStatus = 'Accept' THEN 1 ELSE 0 END) AS AcceptQC,SUM(CASE WHE
         Dim summaryRowItem As New GridViewSummaryRowItem()
         For ii As Integer = 0 To gv1.Columns.Count - 1
             gv1.Columns(ii).ReadOnly = True
-            gv1.Columns(ii).IsVisible = True
-
-            'For ii As Integer = 0 To gv1.Columns.Count - 1
-            'gv1.Columns(ii).ReadOnly = True
-            ' gv1.Columns(ii).BestFit()
-
+            gv1.Columns(ii).IsVisible = False
+        Next
+        Dim summaryRowItemB As New GridViewSummaryRowItem()
+        If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Detail") = CompairStringResult.Equal Then
             gv1.Columns("CompCode").IsVisible = False
-
             gv1.Columns("ToDate").IsVisible = False
             gv1.Columns("FromDate").IsVisible = False
             gv1.Columns("UserName").IsVisible = False
             gv1.Columns("CLR").IsVisible = True
             gv1.Columns("Weighment_Date_Ordring").IsVisible = False
-
             gv1.Columns("SNo").IsVisible = True
             gv1.Columns("SNo").HeaderText = "SNo."
             gv1.Columns("UnionName").IsVisible = True
@@ -455,9 +383,6 @@ SUM(CASE WHEN XX.QcStatus = 'Accept' THEN 1 ELSE 0 END) AS AcceptQC,SUM(CASE WHE
             gv1.Columns("QcStatus").HeaderText = "QC Status"
             gv1.Columns("Manual_Entry_QC").IsVisible = True
             gv1.Columns("Manual_Entry_QC").HeaderText = "Type"
-
-
-
             gv1.Columns("Fat_Per").IsVisible = True
             gv1.Columns("Fat_Per").HeaderText = "Fat %"
             gv1.Columns("SNF_Per").IsVisible = True
@@ -466,50 +391,158 @@ SUM(CASE WHEN XX.QcStatus = 'Accept' THEN 1 ELSE 0 END) AS AcceptQC,SUM(CASE WHE
             gv1.Columns("Fat_Kg").HeaderText = "Fat Kg"
             gv1.Columns("SNF_Kg").IsVisible = True
             gv1.Columns("SNF_Kg").HeaderText = "SNF Kg"
-        Next
-        Dim summaryRowItemB As New GridViewSummaryRowItem()
-        Dim SNF_Kg As New GridViewSummaryItem("SNF_Kg", "{0:n2}", GridAggregateFunction.Sum)
-        summaryRowItemB.Add(SNF_Kg)
-        Dim Gross_Weight As New GridViewSummaryItem("Gross_Weight", "{0:n2}", GridAggregateFunction.Sum)
-        summaryRowItemB.Add(Gross_Weight)
 
-        Dim Tare_Weight As New GridViewSummaryItem("Tare_Weight", "{0:n2}", GridAggregateFunction.Sum)
-        summaryRowItemB.Add(Tare_Weight)
+            Dim SNF_Kg As New GridViewSummaryItem("SNF_Kg", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(SNF_Kg)
+            Dim Gross_Weight As New GridViewSummaryItem("Gross_Weight", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(Gross_Weight)
 
-        Dim Net_Weight As New GridViewSummaryItem("Net_Weight", "{0:n2}", GridAggregateFunction.Sum)
-        summaryRowItemB.Add(Net_Weight)
+            Dim Tare_Weight As New GridViewSummaryItem("Tare_Weight", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(Tare_Weight)
 
-        'Dim SNF_Kg As New GridViewSummaryItem("SNF_Kg", "{0:n2}", GridAggregateFunction.Sum)
-        'summaryRowItemB.Add(SNF_Kg)
+            Dim Net_Weight As New GridViewSummaryItem("Net_Weight", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(Net_Weight)
 
-        Dim Fat_Kg As New GridViewSummaryItem("Fat_Kg", "{0:n2}", GridAggregateFunction.Sum)
-        summaryRowItemB.Add(Fat_Kg)
+            Dim Fat_Kg As New GridViewSummaryItem("Fat_Kg", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(Fat_Kg)
+
+            View()
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Day Wise") = CompairStringResult.Equal Then
+            gv1.Columns("CompCode").IsVisible = False
+            gv1.Columns("Weighment_Date_Ordring").IsVisible = False
+
+            gv1.Columns("UserName").IsVisible = False
+            gv1.Columns("ROUTE_NO").IsVisible = False
+            gv1.Columns("Weighment_Date").IsVisible = True
+            gv1.Columns("Weighment_Date").HeaderText = "Document Date"
+
+            gv1.Columns("SNo").HeaderText = "Document Date"
+
+            gv1.Columns("SNo").IsVisible = True
+            gv1.Columns("SNo").HeaderText = "SNo."
+            gv1.Columns("UnionName").IsVisible = True
+            gv1.Columns("UnionName").HeaderText = "Union Name"
+            gv1.Columns("Gate_Entry_No").IsVisible = True
+            gv1.Columns("Gate_Entry_No").HeaderText = "Gate Entry Count"
+            gv1.Columns("Tanker_No").IsVisible = True
+            gv1.Columns("Tanker_No").HeaderText = "No. of Tanker"
+            gv1.Columns("Gross_Weight").IsVisible = True
+            gv1.Columns("Gross_Weight").HeaderText = "Gross Weight"
+            gv1.Columns("Tare_Weight").IsVisible = True
+            gv1.Columns("Tare_Weight").HeaderText = "Tare Weight"
+            gv1.Columns("Manual_Tare_Weight").IsVisible = True
+            gv1.Columns("Manual_Tare_Weight").HeaderText = "Manual Tare Weight"
+            gv1.Columns("Manual_Entry_QC").IsVisible = True
+            gv1.Columns("Manual_Entry_QC").HeaderText = "Manual Entry QC"
+            gv1.Columns("Net_Weight").IsVisible = False
+            gv1.Columns("Net_Weight").HeaderText = "Net Weight"
+            gv1.Columns("Fat_Kg").IsVisible = True
+            gv1.Columns("Fat_Kg").HeaderText = "FAT Kg"
+            gv1.Columns("SNF_Kg").IsVisible = True
+            gv1.Columns("SNF_Kg").HeaderText = "SNF Kg"
+            gv1.Columns("AcceptQC").IsVisible = True
+            gv1.Columns("AcceptQC").HeaderText = "AcceptQC"
+            gv1.Columns("RejectQC").IsVisible = True
+            gv1.Columns("RejectQC").HeaderText = "RejectQC"
+            gv1.Columns("Comp_Name").IsVisible = False
+            gv1.Columns("add1").IsVisible = False
+            gv1.Columns("add2").IsVisible = False
+
+            Dim SNF_Kg As New GridViewSummaryItem("SNF_Kg", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(SNF_Kg)
+            Dim Fat_Kg As New GridViewSummaryItem("Fat_Kg", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(Fat_Kg)
+            Dim Net_Weight As New GridViewSummaryItem("Net_Weight", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(Net_Weight)
+            Dim Tare_Weight As New GridViewSummaryItem("Tare_Weight", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(Tare_Weight)
+            Dim Gross_Weight As New GridViewSummaryItem("Gross_Weight", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(Gross_Weight)
+
+
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Union Wise") = CompairStringResult.Equal Then
+            gv1.Columns("SNo").IsVisible = True
+            gv1.Columns("SNo").HeaderText = "SNo."
+
+            gv1.Columns("UserName").IsVisible = False
+            gv1.Columns("FromDate").IsVisible = False
+            gv1.Columns("ToDate").IsVisible = False
+
+            gv1.Columns("UnionName").IsVisible = True
+            gv1.Columns("UnionName").HeaderText = "Union"
+
+            gv1.Columns("Tanker_No_Auto").IsVisible = True
+            gv1.Columns("Tanker_No_Auto").HeaderText = "Auto Tankers"
+
+            gv1.Columns("Net_Weight_Auto").IsVisible = True
+            gv1.Columns("Net_Weight_Auto").HeaderText = "Auto Net Weight"
+
+            gv1.Columns("QC_Auto").IsVisible = True
+            gv1.Columns("QC_Auto").HeaderText = "Auto QC"
+
+            gv1.Columns("QC_Auto_FAT").IsVisible = True
+            gv1.Columns("QC_Auto_FAT").HeaderText = "Auto FAT"
+
+            gv1.Columns("QC_Auto_SNF").IsVisible = True
+            gv1.Columns("QC_Auto_SNF").HeaderText = "Auto SNF"
+
+            gv1.Columns("Tanker_No_Manual").IsVisible = True
+            gv1.Columns("Tanker_No_Manual").HeaderText = "Manual Tankers"
+
+            gv1.Columns("Net_Weight_Manual").IsVisible = True
+            gv1.Columns("Net_Weight_Manual").HeaderText = "Manual Net Weight"
+
+            gv1.Columns("QC_Manual").IsVisible = True
+            gv1.Columns("QC_Manual").HeaderText = "Manual QC"
+
+            gv1.Columns("QC_Manual_FAT").IsVisible = True
+            gv1.Columns("QC_Manual_FAT").HeaderText = "Manual FAT"
+
+            gv1.Columns("QC_Manual_SNF").IsVisible = True
+            gv1.Columns("QC_Manual_SNF").HeaderText = "Manual SNF"
+
+
+
+            Dim Tanker_No_Auto As New GridViewSummaryItem("Tanker_No_Auto", "{0:n0}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(Tanker_No_Auto)
+
+            Dim Net_Weight_Auto As New GridViewSummaryItem("Net_Weight_Auto", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(Net_Weight_Auto)
+
+            Dim QC_Auto As New GridViewSummaryItem("QC_Auto", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(QC_Auto)
+
+            'Dim QC_Auto_FAT As New GridViewSummaryItem("QC_Auto_FAT", "{0:n2}", GridAggregateFunction.Sum)
+            'summaryRowItemB.Add(QC_Auto_FAT)
+
+            'Dim QC_Auto_SNF As New GridViewSummaryItem("QC_Auto_SNF", "{0:n2}", GridAggregateFunction.Sum)
+            'summaryRowItemB.Add(QC_Auto_SNF)
+
+
+
+
+            Dim Tanker_No_Manual As New GridViewSummaryItem("Tanker_No_Manual", "{0:n0}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(Tanker_No_Manual)
+
+            Dim Net_Weight_Manual As New GridViewSummaryItem("Net_Weight_Manual", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(Net_Weight_Manual)
+
+            Dim QC_Manual As New GridViewSummaryItem("QC_Manual", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(QC_Manual)
+
+            'Dim QC_Auto_FAT As New GridViewSummaryItem("QC_Auto_FAT", "{0:n2}", GridAggregateFunction.Sum)
+            'summaryRowItemB.Add(QC_Auto_FAT)
+
+            'Dim QC_Auto_SNF As New GridViewSummaryItem("QC_Auto_SNF", "{0:n2}", GridAggregateFunction.Sum)
+            'summaryRowItemB.Add(QC_Auto_SNF)
+        End If
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemB)
         gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         gv1.AutoSizeRows = True
         gv1.BestFitColumns()
         gv1.MasterTemplate.AutoExpandGroups = True
-        'Dim summaryRowItemB As New GridViewSummaryRowItem()
-        'Dim Gross_Weight As New GridViewSummaryItem("Gross_Weight", "{0:n2}", GridAggregateFunction.Sum)
-        'summaryRowItemB.Add(Gross_Weight)
 
-        'Dim Tare_Weight As New GridViewSummaryItem("Tare_Weight", "{0:n2}", GridAggregateFunction.Sum)
-        'summaryRowItemB.Add(Tare_Weight)
 
-        'Dim Net_Weight As New GridViewSummaryItem("Net_Weight", "{0:n2}", GridAggregateFunction.Sum)
-        'summaryRowItemB.Add(Net_Weight)
-
-        'Dim SNF_Kg As New GridViewSummaryItem("SNF_Kg", "{0:n2}", GridAggregateFunction.Sum)
-        'summaryRowItemB.Add(SNF_Kg)
-
-        'Dim Fat_Kg As New GridViewSummaryItem("Fat_Kg", "{0:n2}", GridAggregateFunction.Sum)
-        'summaryRowItemB.Add(Fat_Kg)
-        'Dim intCount As Integer = 0
-        'gv1.ShowGroupPanel = True
-        'gv1.MasterTemplate.AutoExpandGroups = True
-        'gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-        'gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
-        View()
     End Sub
 
     Sub View()
@@ -571,31 +604,10 @@ SUM(CASE WHEN XX.QcStatus = 'Accept' THEN 1 ELSE 0 END) AS AcceptQC,SUM(CASE WHE
         Griddata(True)
     End Sub
 
-    Private Sub chkSummary_Click(sender As Object, e As EventArgs) Handles chkSummary.Click
-        If chkSummary.Checked Then
 
-
-            RadGroupBox3.Enabled = True
-            txtUnion.Enabled = True
-            txtRoute.Enabled = True
-            TxtMultiTanker.Enabled = True
-        Else
-            RadGroupBox3.Enabled = True
-            txtUnion.Enabled = True
-            txtRoute.Enabled = False
-            TxtMultiTanker.Enabled = False
-        End If
-
-
-
-    End Sub
 
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
-        txtRoute.Enabled = True
-        TxtMultiTanker.Enabled = True
-        txtUnion.Enabled = True
         RadGroupBox3.Enabled = True
-        chkSummary.Checked = False
         gv1.DataSource = Nothing
         gv1.Rows.Clear()
         gv1.Columns.Clear()
@@ -659,4 +671,62 @@ SUM(CASE WHEN XX.QcStatus = 'Accept' THEN 1 ELSE 0 END) AS AcceptQC,SUM(CASE WHE
         cboWEIGHMENT.DisplayMember = "Name"
     End Sub
 
+
+    Sub LoadReportType()
+        Dim dt As New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Name", GetType(String))
+
+        Dim dr As DataRow = Nothing
+        dr = dt.NewRow()
+        dr("Code") = "Detail"
+        dr("Name") = "Detail"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "Day Wise"
+        dr("Name") = "Day Wise"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "Union Wise"
+        dr("Name") = "Union Wise"
+        dt.Rows.Add(dr)
+
+        cboReportType.DataSource = dt
+        cboReportType.ValueMember = "Code"
+        cboReportType.DisplayMember = "Name"
+    End Sub
+
+    Private Sub ResetRadGridView(ByVal grid As Telerik.WinControls.UI.RadGridView)
+
+        Try
+            grid.BeginUpdate()
+
+            ' 1. Remove any custom view (ColumnGroupsViewDefinition)
+            grid.ViewDefinition = Nothing
+
+            ' 2. Clear column groups
+            'If grid.ColumnGroups IsNot Nothing Then
+            '    grid.ColumnGroups.Clear()
+            'End If
+
+            ' 3. Reset to default table view
+            grid.ViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+
+            ' 4. Optional: Clear sorting, filtering, grouping
+            grid.MasterTemplate.SortDescriptors.Clear()
+            grid.MasterTemplate.FilterDescriptors.Clear()
+            grid.MasterTemplate.GroupDescriptors.Clear()
+
+            ' 5. Optional: Auto size columns
+            grid.AutoSizeColumnsMode = Telerik.WinControls.UI.GridViewAutoSizeColumnsMode.Fill
+
+            grid.EndUpdate()
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+
+    End Sub
 End Class
