@@ -342,10 +342,9 @@ Public Class rptdailydispatch
                     left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.document_code=TSPL_SD_SALE_INVOICE_DETAIL.document_code
                     left outer join tspl_item_master  on tspl_item_master.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
                     left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
-					left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
-					left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.Document_Code = TSPL_SD_SHIPMENT_HEAD.Document_Code
-					and TSPL_SD_SHIPMENT_DETAIL.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
-                    left join TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL on TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID=10
+					inner join (select Document_Code, Item_Code, MAX(pk_id) as pk_id from TSPL_SD_SHIPMENT_DETAIL
+    group by Document_Code, Item_Code ) shipment on shipment.Document_Code = TSPL_SD_SALE_INVOICE_DETAIL.shipment_code and shipment.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
+                    left join TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL on TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID=shipment.pk_id
                     left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
                     left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SALE_INVOICE_HEAD.Comp_Code
                     left join (select Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code from  TSPL_ITEM_UOM_DETAIL where UOM_code = 'Crate') as ItemConversionCrate on ItemConversionCrate.Item_code =  TSPL_SD_SALE_INVOICE_DETAIL.Item_Code 

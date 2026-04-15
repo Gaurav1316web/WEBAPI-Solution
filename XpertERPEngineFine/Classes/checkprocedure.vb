@@ -3073,7 +3073,7 @@ Public Class ProgramCodeNew
         Try
             IsRCDFCFP = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RCDFCFP, clsFixedParameterCode.RCDFCFP, Nothing)) = 1, True, False)
             If IsRCDFCFP Then
-                InsertDefaultValue(clsUserMgtCode.XpertAPIRCDFChecmicalQC, "RCDF Checmical QC", "1.48.02.17", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
+                InsertDefaultValue(clsUserMgtCode.XpertAPIRCDFChemicalQC, "RCDF Checmical QC", "1.48.02.17", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
                 InsertDefaultValue(clsUserMgtCode.XpertAPIRCDFUnionMilkQC, "RCDF Union Milk QC", "1.48.02.18", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
             End If
         Catch ex As Exception
