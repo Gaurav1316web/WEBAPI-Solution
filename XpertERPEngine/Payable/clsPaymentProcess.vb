@@ -2136,7 +2136,17 @@ where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No in (" + strDocNo + ")"
             End If
             sQuery += " And len(TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE) > 0
 Group by TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No, TSPL_DEDUCTION_MASTER.Description, TSPL_DEDUCTION_MASTER.Code, Sequence_No
- "
+
+union all 
+                            select TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.Doc_No,TSPL_DEDUCTION_MASTER.Description as Description,88 as Sequence_No,'' AS Code ,Sum(TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.Amount-TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.Reduce_Deduc_Amt) as Amount
+                            from TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN 
+                            left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.Customer_CODE
+                            left  join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.shipment_doc_no
+                            left join TSPL_SD_SHIPMENT_detail on TSPL_SD_SHIPMENT_detail.document_code=TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.shipment_doc_no and TSPL_SD_SHIPMENT_detail.Line_No=1
+                            left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_detail.Item_Code
+                            left outer join TSPL_DEDUCTION_MASTER  on TSPL_DEDUCTION_MASTER.Code=TSPL_SD_SHIPMENT_HEAD.Deduction
+                            where TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.doc_no  in (" + strDocNo + ") 
+							Group by TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.Doc_No, TSPL_DEDUCTION_MASTER.Description, TSPL_DEDUCTION_MASTER.Code, Sequence_No "
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") <> CompairStringResult.Equal And clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") <> CompairStringResult.Equal Then
                 sQuery += " Union
                             Select  TT.Doc_No,coalesce (mapping.mmDescription, TT.Description) ,0 As sequence_no, coalesce (mapping.mmCode, TT.Code) As Code,TT.Amount
