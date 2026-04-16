@@ -27647,6 +27647,11 @@ where Against_Shipment_No in (select Document_Code from TSPL_SD_SHIPMENT_HEAD wh
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub RadButton317_Click(sender As Object, e As EventArgs) Handles RadButton317.Click
+        ProgramCodeNew.SetProgramCode()
+        clsDBFuncationality.ExecuteNonQuery("update tspl_Program_master set Customise_SNo=SNo")
+    End Sub
 End Class
 Public Class clsDCDetail
 #Region "Varibales"

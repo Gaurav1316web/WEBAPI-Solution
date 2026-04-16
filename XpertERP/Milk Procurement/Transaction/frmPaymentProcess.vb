@@ -3253,15 +3253,14 @@ where TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and TSPL_VENDOR_INVOICE_HEAD.Tr
     End Sub
 
     Private Function GetSavingDocs() As DataTable
-        Dim qry As String = "   select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,ROW_NUMBER() over(order by TSPL_VENDOR_INVOICE_HEAD.Document_No) as SNo ,TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.document_total   as Total_Amount   
-from TSPL_VENDOR_INVOICE_head   
+        Dim qry As String = "select Vendor_Code into #DCS from tspl_Vendor_master where vendor_Code in (" + clsCommon.GetMulcallString(ArrVendor) + ") ;" + Environment.NewLine
+        qry += "select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,ROW_NUMBER() over(order by TSPL_VENDOR_INVOICE_HEAD.Document_No) as SNo ,TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.document_total   as Total_Amount   
+from TSPL_VENDOR_INVOICE_HEAD   
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+inner join #DCS on #DCS.Vendor_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code  
 where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and  TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0 and coalesce(refDocType,'') not in ('Milk_HE','Milk_OW','V_I_Issue_Return','COM-INC')  "
-        Dim whrCls As String = " and not exists(select 1 from TSPL_PAYMENT_PROCESS_SAVING  where TSPL_PAYMENT_PROCESS_SAVING.AP_Invoice_No=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_PAYMENT_PROCESS_SAVING.doc_no not in ('" + fndDocNo.Value + "')) "
-        If clsCommon.myLen(strVendorCode) <= 0 Then
-        Else
-            whrCls += " and TSPL_VENDOR_INVOICE_HEAD.Vendor_Code  in ( " & strVendorCode & ")   and  coalesce(Posting_Date,'')<>''"
-        End If
+        Dim whrCls As String = " and not exists(select 1 from TSPL_PAYMENT_PROCESS_SAVING  where TSPL_PAYMENT_PROCESS_SAVING.AP_Invoice_No=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_PAYMENT_PROCESS_SAVING.doc_no not in ('" + fndDocNo.Value + "'))  and  coalesce(Posting_Date,'')<>''"
+
         If MultipleFinderFillAuto Then
             Dim dtSeg As DataTable = clsDBFuncationality.GetDataTable(" select distinct Loc_Segment_Code from TSPL_LOCATION_MASTER where location_code in (" + clsCommon.GetMulcallString(mfndMcc.arrValueMember) + ") ")
             If dtSeg IsNot Nothing AndAlso dtSeg.Rows.Count > 0 Then
@@ -3450,7 +3449,7 @@ inner join TSPL_Customer_Invoice_Head on   TSPL_Customer_Invoice_Head.against_Mc
 left outer join TSPL_VENDOR_MASTER   on  TSPL_VENDOR_MASTER .Vendor_code  =TSPL_CUSTOMER_VENDOR_MAPPING.vendor_code   
 left outer join  TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No   
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_CUSTOMER_VENDOR_MAPPING.vendor_code
-where TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC' 
+where TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC' and isnull(TSPL_SD_SHIPMENT_HEAD.Is_CashSale,'N')='N'
 and " & IIf(ChkSkipMccSaleReturn.Checked, " convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) between '" & clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") & "' and 
 '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'", " convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= 
 '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'") & "   and 
