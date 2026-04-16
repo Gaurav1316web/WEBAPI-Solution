@@ -113,6 +113,7 @@ Public Class FrmCostCetreTypeMaster
         txtdes.Text = ""
         Txtdepartmentcost.Value = ""
         Labdepartmentcost.Text = ""
+        txtMultDepartment.arrValueMember = Nothing
     End Sub
     Public Sub Save()
         Try
@@ -132,7 +133,37 @@ Public Class FrmCostCetreTypeMaster
                 obj.Unit_Code = txtUnitCode.Value
                 obj.Cost_Code = txtCostCenterType.Value
                 'obj.Department_Cost = Txtdepartmentcost.Value
+                'obj.EmpDepart = txtMultDepartment.arrValueMember
+                Dim typeName As String = Nothing
+                Dim arrUserType As New List(Of String)
+                'If txtMultDepartment.arrValueMember IsNot Nothing Then
+                '    For i As Integer = 0 To txtMultDepartment.arrValueMember.Count - 1
+                '        arrUserType.Add(txtMultDepartment.arrValueMember(i))
+                '        If clsCommon.myLen(typeName) > 0 Then
+                '            typeName += "," + clsCommon.myCstr(txtMultDepartment.arrValueMember(i))
+                '        Else
+                '            typeName = clsCommon.myCstr(txtMultDepartment.arrValueMember(i))
+                '        End If
+                '    Next
+                'Else
+                '    clsCommon.MyMessageBoxShow(Me, "Please select atleast one User type", Me.Text)
+                '    Exit Sub
+                'End If
+                'obj.Arr = New List(Of clsCostCenterTypeDetail)
+                'For i As Integer = 0 To arrUserType.Count - 1
+                '    Dim objtr As New clsCostCenterTypeDetail
+                '    obj.Arr.Add(objtr)
+                'Next
 
+                obj.Arr = New List(Of clsCostCenterTypeDetail)
+
+                For i As Integer = 0 To txtMultDepartment.arrValueMember.Count - 1
+                    Dim objtr As New clsCostCenterTypeDetail
+
+                    objtr.EmpDepart = txtMultDepartment.arrValueMember(i)
+
+                    obj.Arr.Add(objtr)
+                Next
                 Dim checkEntry As String = "Select 1 from TSPL_COST_CENTER_TYPE_MASTER where Code='" + txtCode.Value + "' "
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(checkEntry)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -203,11 +234,19 @@ Public Class FrmCostCetreTypeMaster
             txtName.Text = obj.Description
             Txtdepartmentcost.Value = obj.Department_Cost
             Labdepartmentcost.Text = obj.Department_Cost
+            ' txtMultDepartment.arrValueMember = obj.EmpDepart
+            Dim arrEmp As New ArrayList
+
+            For i As Integer = 0 To obj.Arr.Count - 1
+                arrEmp.Add(obj.Arr(i).EmpDepart)
+            Next
+            txtMultDepartment.arrValueMember = arrEmp
             If clsCommon.myLen(Txtdepartmentcost.Value) > 0 Then
                 Txtdepartmentcost.Enabled = False
                 'Txtdepartmentcost.Text = obj.Department_Cost
             End If
 
+            'txtMultDepartment.arrValueMember = obj.EmpDepart
             'txtlblDepartmentDes.Text = obj.Department
             txtUnitCode.Value = obj.Unit_Code
                 txtCostCenterType.Value = obj.Cost_Code
@@ -399,6 +438,17 @@ Public Class FrmCostCetreTypeMaster
             clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Code", "TSPL_COST_CENTER_TYPE_MASTER")
         Catch ex As Exception
             Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub txtMultDepartment__My_Click(sender As Object, e As EventArgs) Handles txtMultDepartment._My_Click
+        Try
+            Dim qry As String = " select DEPARTMENT_CODE as Code,DEPARTMENT_NAME as Name from TSPL_DEPARTMENT_MASTER"
+
+            txtMultDepartment.arrValueMember = clsCommon.ShowMultipleSelectForm("PCUVLC1", qry, "Code", "Name", txtMultDepartment.arrValueMember, Nothing)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+
         End Try
     End Sub
 End Class
