@@ -3073,7 +3073,7 @@ Public Class ProgramCodeNew
         Try
             IsRCDFCFP = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RCDFCFP, clsFixedParameterCode.RCDFCFP, Nothing)) = 1, True, False)
             If IsRCDFCFP Then
-                InsertDefaultValue(clsUserMgtCode.XpertAPIRCDFChemicalQC, "RCDF Checmical QC", "1.48.02.17", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
+                InsertDefaultValue(clsUserMgtCode.XpertAPIRCDFChemicalQC, "RCDF Chemical QC", "1.48.02.17", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
                 InsertDefaultValue(clsUserMgtCode.XpertAPIRCDFUnionMilkQC, "RCDF Union Milk QC", "1.48.02.18", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
             End If
         Catch ex As Exception
@@ -3086,7 +3086,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.XpertAPIBMCDCSSampleReceivedRegister, "BMC DCS Sample Received Register", "1.48.03.03", clsUserMgtCode.SubModuleXpertAPIReport, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPITankerCollectionReport, "Tanker Collection Report", "1.48.03.04", clsUserMgtCode.SubModuleXpertAPIReport, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         If IsRCDFCFP Then
-            InsertDefaultValue(clsUserMgtCode.XpertAPIRCDFChecmicalQCRegister, "RCDF Checmical QC Register", "1.48.03.05", clsUserMgtCode.SubModuleXpertAPIReport, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
+            InsertDefaultValue(clsUserMgtCode.XpertAPIRCDFChemicalQCRegister, "RCDF Chemical QC Register", "1.48.03.05", clsUserMgtCode.SubModuleXpertAPIReport, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
             InsertDefaultValue(clsUserMgtCode.XpertAPIRCDFUnionMilkQCRegister, "RCDF Union Milk QC Register", "1.48.03.06", clsUserMgtCode.SubModuleXpertAPIReport, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         End If
         ' 

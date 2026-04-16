@@ -2862,7 +2862,7 @@ Public Class clsUserMgtCode
     Public Const XpertAPIBMCDCSSamplingReceiving As String = "BMC-DCS-SR"
     Public Const XpertAPIBMCDCSSampleReceivedRegister As String = "API-DCS-SMR"
     Public Const XpertAPITankerCollectionReport As String = "API-TNK-CLN"
-    Public Const XpertAPIRCDFChecmicalQCRegister As String = "API-RCF-QCR"
+    Public Const XpertAPIRCDFChemicalQCRegister As String = "API-RCF-QCR"
     Public Const XpertAPIRCDFUnionMilkQCRegister As String = "API-RUM-QCR"
     Public Const XpertAPIGateEntry As String = "API-GT-ENT"
     Public Const XpertAPIBMCMilkQC As String = "API-BM-MK-QC"
