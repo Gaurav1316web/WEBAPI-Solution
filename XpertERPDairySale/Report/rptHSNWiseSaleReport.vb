@@ -30,7 +30,10 @@ Public Class rptHSNWiseSaleReport
 
     Private Sub txtItem__My_Click(sender As Object, e As EventArgs) Handles txtItem._My_Click
         Try
-            Dim qry As String = "select  Item_Code as [Item Code] ,Item_Desc as  [Item Desc] ,Short_Description as [Short Description] from TSPL_ITEM_MASTER where Item_Type = 'F'"
+            Dim qry As String = "select  Item_Code as [Item Code] ,Item_Desc as  [Item Desc] ,Short_Description as [Short Description] from TSPL_ITEM_MASTER where 1=1 "
+            If cboItemType.SelectedValue IsNot Nothing AndAlso clsCommon.myLen(cboItemType.SelectedValue) > 0 Then
+                qry &= " And Item_Type = '" & clsCommon.myCstr(cboItemType.SelectedValue) & "'"
+            End If
             txtItem.arrValueMember = clsCommon.ShowMultipleSelectForm("HSNItem", qry, "Item Code", "Item Desc", txtItem.arrValueMember, txtItem.arrDispalyMember)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
