@@ -3060,7 +3060,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MorningShiftEndHours, "4", "Morning Shift End Time =Morning Shift Start Time + Hours")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.EveningShiftStartTime, "06:00:00PM", "Farmer Milk Collection Evening Shift Start Time")
-        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MorningShiftEndHours, "4", "Evening Shift End Time =Evening Shift Start Time + Hours")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.EveningShiftEndHours, "4", "Evening Shift End Time =Evening Shift Start Time + Hours")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.SuspenceAdjusmtmentFATSNFTolerancePercentage, clsFixedParameterCode.SuspenceAdjusmtmentFATSNFTolerancePercentage, "1.5", "Suspence Adjusmtment FAT SNF Tolerance Percentage")
         InsertDefaultValueFixedParameter(clsFixedParameterType.TransactionModify, clsFixedParameterCode.TransactionModify, "Trans@123", "")
