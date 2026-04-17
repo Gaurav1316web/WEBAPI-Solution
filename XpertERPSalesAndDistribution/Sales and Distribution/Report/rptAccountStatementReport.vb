@@ -44,38 +44,36 @@ Public Class rptAccountStatementReport
 
     Private Sub LoadData(ByVal isPrint As Boolean)
         Try
-            Dim qry As String = "  Select Comp_Name,Add1,Add2,Add3,FromDate,ToDate,Cust_Code,Customer_Name,[DR/CR],OP,Money_Receipt,Milk_Amount,Product_Amount,Refund_Amount,Credit_Amount,Debit_Amount,CASE WHEN Closing < 0 then -(Closing) else Closing end as Closing,[DR.CR] from (Select Comp_Name,Add1,Add2,Add3,FromDate,ToDate,Cust_Code,Customer_Name,CASE WHEN OP < 0 THEN 'DR' ELSE 'CR' END AS [DR/CR],CASE WHEN OP < 0 then -(OP) else OP end as OP,Money_Receipt,Milk_Amount,Product_Amount,Refund_Amount,Credit_Amount,Debit_Amount,((OP+Money_Receipt+Refund_Amount)-(Milk_Amount+Product_Amount)) as Closing, case when ((OP+Money_Receipt+Refund_Amount)-(Milk_Amount+Product_Amount)) < 0 then 'DR' ELSE 'CR' end as [DR.CR] from ( Select max(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,max(TSPL_COMPANY_MASTER.Add1)Add1,max(TSPL_COMPANY_MASTER.Add2)Add2,
-max(TSPL_COMPANY_MASTER.Add3)Add3,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") & "' as FromDate, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") & "' as ToDate,XX.Cust_Code,max(xx.Customer_Name)Customer_Name,
-case when '01/Apr/2026' = Convert( Date,'" + clsCommon.GetPrintDate((txtFromDate.Value), "dd/MMM/yyyy ") + "',103) then max(OT.Opening_Amount) else 
-max(OT.Opening_Amount)+sum((Amount) * (case when   Convert( Date, Document_Date,103) >= Convert(Date,'01/Apr/2026 12:00:00 AM',103) and  Convert( Date, Document_Date,103) < Convert( Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103)  then 1 else 0 end) * (case when RI=1 or RI=4 or RI=5 OR RI=7 then 1 else -1 end)) end as OP 
-,sum(Amount * (case when  Convert( Date, Document_Date,103) >=Convert(Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) and Document_Date<=Convert(Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) then 1 else 0 end) * (case when (RI=1) then 1 else 0 end)) as Money_Receipt
-,sum(Amount * (case when  Convert( Date, Document_Date,103)>=Convert(Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) and Convert( Date, Document_Date,103)<=Convert(Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) then 1 else 0 end) * (case when (RI=2) then 1 else 0 end)) as Milk_Amount
-,sum(Amount * (case when  Convert( Date, Document_Date,103)>=Convert(Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) and Convert( Date, Document_Date,103)<=Convert(Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) then 1 else 0 end) * (case when (RI=3) then 1 else 0 end)) as Product_Amount
-,sum(Amount * (case when  Convert( Date, Document_Date,103)>=Convert(Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) and Convert( Date, Document_Date,103)<=Convert(Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) then 1 else 0 end) * (case when (RI=4) then 1 else 0 end)) as Refund_Amount
-,sum(Amount * (case when  Convert( Date, Document_Date,103)>=Convert(Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) and Convert( Date, Document_Date,103)<=Convert(Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) then 1 else 0 end) * (case when (RI=5) then 1 else 0 end)) as Credit_Amount
-,sum(Amount * (case when  Convert( Date, Document_Date,103)>=Convert(Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) and Convert( Date, Document_Date,103)<=Convert(Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) then 1 else 0 end) * (case when (RI=6) then 1 else 0 end)) as Debit_Amount
+            Dim qry As String = "  Select Credit_Customer,Comp_Name,Add1,Add2,Add3,FromDate,ToDate,Cust_Code,Customer_Name,[DR/CR],OP,Money_Receipt,Milk_Amount,Product_Amount,Refund_Amount,Credit_Amount,Debit_Amount,CASE WHEN Closing < 0 then -(Closing) else Closing end as Closing,[DR.CR] from (Select Credit_Customer,Comp_Name,Add1,Add2,Add3,FromDate,ToDate,Cust_Code,Customer_Name,CASE WHEN OP < 0 THEN 'DR' ELSE 'CR' END AS [DR/CR],CASE WHEN OP < 0 then -(OP) else OP end as OP,Money_Receipt,Milk_Amount,Product_Amount,Refund_Amount,Credit_Amount,Debit_Amount,((OP+Money_Receipt+Refund_Amount)-(Milk_Amount+Product_Amount)) as Closing, case when ((OP+Money_Receipt+Refund_Amount)-(Milk_Amount+Product_Amount)) < 0 then 'DR' ELSE 'CR' end as [DR.CR] from ( Select MAX(Credit_Customer)Credit_Customer,max(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,max(TSPL_COMPANY_MASTER.Add1)Add1,max(TSPL_COMPANY_MASTER.Add2)Add2,
+max(TSPL_COMPANY_MASTER.Add3)Add3,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") & "' as FromDate, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") & "' as ToDate,XX.Cust_Code,max(TSPL_CUSTOMER_MASTER.Customer_Name)Customer_Name,
+ISNULL(case when '01/Apr/2026' = Convert( Date,'" + clsCommon.GetPrintDate((txtFromDate.Value), "dd/MMM/yyyy ") + "',103) then max(OT.Opening_Amount) else 
+max(OT.Opening_Amount)+sum((Amount) * (case when   Convert( Date, Document_Date,103) >= Convert(Date,'01/Apr/2026 12:00:00 AM',103) and  Convert( Date, Document_Date,103) < Convert( Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103)  then 1 else 0 end) * (case when RI=1 or RI=4 or RI=5 OR RI=7 then 1 else -1 end)) end,0.00) as OP 
+,ISNULL(sum(Amount * (case when  Convert( Date, Document_Date,103) >=Convert(Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) and Document_Date<=Convert(Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) then 1 else 0 end) * (case when (RI=1) then 1 else 0 end)),0.00) as Money_Receipt
+,ISNULL(sum(Amount * (case when  Convert( Date, Document_Date,103)>=Convert(Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) and Convert( Date, Document_Date,103)<=Convert(Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) then 1 else 0 end) * (case when (RI=2) then 1 else 0 end)),0.00) as Milk_Amount
+,ISNULL(sum(Amount * (case when  Convert( Date, Document_Date,103)>=Convert(Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) and Convert( Date, Document_Date,103)<=Convert(Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) then 1 else 0 end) * (case when (RI=3) then 1 else 0 end)),0.00) as Product_Amount
+,ISNULL(sum(Amount * (case when  Convert( Date, Document_Date,103)>=Convert(Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) and Convert( Date, Document_Date,103)<=Convert(Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) then 1 else 0 end) * (case when (RI=4) then 1 else 0 end)),0.00) as Refund_Amount
+,ISNULL(sum(Amount * (case when  Convert( Date, Document_Date,103)>=Convert(Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) and Convert( Date, Document_Date,103)<=Convert(Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) then 1 else 0 end) * (case when (RI=5) then 1 else 0 end)),0.00) as Credit_Amount
+,ISNULL(sum(Amount * (case when  Convert( Date, Document_Date,103)>=Convert(Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) and Convert( Date, Document_Date,103)<=Convert(Date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) then 1 else 0 end) * (case when (RI=6) then 1 else 0 end)),0.00) as Debit_Amount
  
 from 
-(Select Cust_Code,Customer_Name,Receipt_Amount as Amount,Convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103) as Document_Date,1 as RI from TSPL_RECEIPT_HEADER
+(Select Cust_Code,Receipt_Amount as Amount,Convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103) as Document_Date,1 as RI from TSPL_RECEIPT_HEADER
 union all
-Select Customer_Code as Cust_Code,Customer_Name,(Total_Amt-Transporter_Commission_TotalAmt) as Amount,convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,2 as RI from TSPL_SD_SHIPMENT_HEAD
-left outer join TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+Select Customer_Code as Cust_Code,(Total_Amt-Transporter_Commission_TotalAmt) as Amount,convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,2 as RI from TSPL_SD_SHIPMENT_HEAD
 where Is_Taxable=0 and TSPL_SD_SHIPMENT_HEAD.Status=1
 union all
-Select Customer_Code as Cust_Code,Customer_Name,(Total_Amt-Transporter_Commission_TotalAmt) as Amount,convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,3 as RI from TSPL_SD_SHIPMENT_HEAD
-left outer join TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+Select Customer_Code as Cust_Code,(Total_Amt-Transporter_Commission_TotalAmt) as Amount,convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,3 as RI from TSPL_SD_SHIPMENT_HEAD
 where Is_Taxable=1 and TSPL_SD_SHIPMENT_HEAD.Status=1
 union all
-Select Customer_Code as Cust_Code,Customer_Name,Total_Amt as Amount,convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103),4 as RI from TSPL_SD_SALE_RETURN_HEAD
-left outer join TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_RETURN_HEAD.Customer_Code
+Select Customer_Code as Cust_Code,Total_Amt as Amount,convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103),4 as RI from TSPL_SD_SALE_RETURN_HEAD
 union all
-Select Customer_Code,Customer_Name,Document_Total as Amount,convert(date,TSPL_Customer_Invoice_Head.Document_Date,103) as Document_Date,5 as RI from TSPL_Customer_Invoice_Head
+Select Customer_Code,Document_Total as Amount,convert(date,TSPL_Customer_Invoice_Head.Document_Date,103) as Document_Date,5 as RI from TSPL_Customer_Invoice_Head
 WHERE Document_Type='C'
 union all
-Select Customer_Code,Customer_Name,Document_Total as Amount,convert(date,TSPL_Customer_Invoice_Head.Document_Date,103) as Document_Date,6 as RI from TSPL_Customer_Invoice_Head
+Select Customer_Code,Document_Total as Amount,convert(date,TSPL_Customer_Invoice_Head.Document_Date,103) as Document_Date,6 as RI from TSPL_Customer_Invoice_Head
 WHERE Document_Type='D'
 ) XX 
 left outer join TSPL_COMPANY_MASTER ON 2=2 
+left outer join TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=XX.Cust_Code
 LEFT JOIN TSPL_Opening_Table OT ON OT.Cust_Code = XX.Cust_Code 
 "
             If txtCustomer.arrValueMember IsNot Nothing Then
@@ -84,6 +82,12 @@ LEFT JOIN TSPL_Opening_Table OT ON OT.Cust_Code = XX.Cust_Code
             'where XX.Cust_Code In('D1')
 
             qry += " Group by XX.Cust_Code )YY )ZZ "
+            If rdbCash.IsChecked Then
+                qry += " Where ZZ.Credit_Customer='N' "
+            ElseIf rdbCredit.IsChecked Then
+                qry += " Where ZZ.Credit_Customer='Y' "
+            End If
+            qry += " order by Customer_Name "
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             gv1.DataSource = Nothing
@@ -236,6 +240,8 @@ LEFT JOIN TSPL_Opening_Table OT ON OT.Cust_Code = XX.Cust_Code
         '    gv1.Columns("Month").IsVisible = False
         '    gv1.Columns("UserName").IsVisible = False
         'End If
+        gv1.Columns("Credit_Customer").IsVisible = False
+        gv1.Columns("Credit_Customer").VisibleInColumnChooser = True
         gv1.Columns("Cust_Code").IsVisible = False
         gv1.Columns("Cust_Code").VisibleInColumnChooser = True
         gv1.Columns("FromDate").IsVisible = False
