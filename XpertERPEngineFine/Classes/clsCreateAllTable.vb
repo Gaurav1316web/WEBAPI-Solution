@@ -23477,7 +23477,7 @@ FROM TSPL_ITEM_MASTER"
             coll = New Dictionary(Of String, String)
             coll.Add("Code", "varchar(30) NOT NULL Primary Key")
             coll.Add("Date", "DateTime Not NULL")
-            coll.Add("GRN_Code", "Varchar(30) not null references TSPL_GRN_HEAD(GRN_No)")
+            coll.Add("GRN_Code", "Varchar(30)  null references TSPL_GRN_HEAD(GRN_No)")
             coll.Add("Description", "varchar(200) NULL")
             coll.Add("Status", "integer not null default 0")
             coll.Add("Remarks", "varchar(200) NULL")
@@ -23487,6 +23487,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Modify_Date", "Datetime NULL")
             coll.Add("Posted_By", "VARCHAR(12) NULL")
             coll.Add("Posted_Date", "Datetime NULL")
+            coll.Add("SRN_Code", "Varchar(30)  null references TSPL_SRN_HEAD(SRN_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Purchase_GateOut", coll, Nothing, True, False, "", "", "", True)
 
 

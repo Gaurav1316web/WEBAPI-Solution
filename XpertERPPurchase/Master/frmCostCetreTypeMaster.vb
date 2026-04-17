@@ -443,8 +443,16 @@ Public Class FrmCostCetreTypeMaster
 
     Private Sub txtMultDepartment__My_Click(sender As Object, e As EventArgs) Handles txtMultDepartment._My_Click
         Try
-            Dim qry As String = " select DEPARTMENT_CODE as Code,DEPARTMENT_NAME as Name from TSPL_DEPARTMENT_MASTER"
-
+            ' Dim qry As String = " select DEPARTMENT_CODE as Code,DEPARTMENT_NAME as Name from TSPL_DEPARTMENT_MASTER"
+            Dim qry As String = " SELECT 
+    TSPL_DEPARTMENT_MASTER.DEPARTMENT_CODE AS Code,
+    TSPL_DEPARTMENT_MASTER.DEPARTMENT_NAME AS Name
+FROM TSPL_DEPARTMENT_MASTER 
+WHERE NOT EXISTS (
+    SELECT 1 
+    FROM TSPL_COST_CENTER_TYPE_MASTER 
+    WHERE TSPL_COST_CENTER_TYPE_MASTER.Cost_Code = TSPL_DEPARTMENT_MASTER.DEPARTMENT_CODE
+);"
             txtMultDepartment.arrValueMember = clsCommon.ShowMultipleSelectForm("PCUVLC1", qry, "Code", "Name", txtMultDepartment.arrValueMember, Nothing)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
