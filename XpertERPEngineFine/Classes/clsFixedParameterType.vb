@@ -1420,6 +1420,7 @@ Public Class clsFixedParameterCode
     Public Const MaxFATPerLimitforReport As String = "Max FAT Per Limit for Report"
     Public Const MaxSNFPerLimitforReport As String = "Max SNF Per Limit for Report"
     Public Const PrintOnlyPostedDocument As String = "Print Only Posted Document"
+    Public Const HideShiftFilterOnDemandStatus As String = "Hide Shift Filter On Demand Status"
     Public Const DefaultFilesPath As String = "Default File Path"
     Public Const B2CDocumentAmountRangeOtherState As String = "B2C Document Amount Range Other State"
     Public Const B2CDocumentAmountRange As String = "B2C Document Amount Range"
@@ -3218,6 +3219,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.HideQtyCrateRegister, "0", "0:OFF,1:ON;Demand register Hide Qty crate column")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.ShowTodayDemandAsCurrentandUpcoming, "0", "0:OFF,1:ON;Vehicle Type on Distributor Commission")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.StopYesBankVirtualAccount, "1", "0:OFF,1:ON;Stop Yes Bank virtual Account from menu in order app")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.HideShiftFilterOnDemandStatus, "0", "0:OFF,1:ON;Hide Shift Filter On Demand Status report")
         InsertDefaultValueFixedParameter(clsFixedParameterType.EnableVehicleType, clsFixedParameterCode.EnableVehicleType, "0", "0:OFF,1:ON;Show Today Demand As Currentand Upcoming")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceQty, "100", "Tollerance % of Qty")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceFAT, "100", "Tollerance % of FAT")
