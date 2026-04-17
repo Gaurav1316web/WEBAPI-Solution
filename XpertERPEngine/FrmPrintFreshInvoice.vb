@@ -940,7 +940,7 @@ Public Class FrmPrintFreshInvoice
                             max(Transporter_Commission_TotalAmt)Transporter_Commission_TotalAmt,max(Transport_Id)Transport_Id,max(Transporter_Name)Transporter_Name,max(Against_Delivery_Code)Against_Delivery_Code,max(batchNO)batchNO,max(Credit_Customer)Credit_Customer,max(Ship_To_Code)Ship_To_Code,max(Ship_To_Desc)Ship_To_Desc,max(Ship_Address)Ship_Address,max(Ship_City)Ship_City,max(Ship_State)Ship_State,max(Ship_Pin_Code)Ship_Pin_Code,max(Ship_PAN)Ship_PAN,max(Ship_GSTNO)Ship_GSTNO,max(Booth_Security_Amt)Booth_Security_Amt,max(Billing_Unit_code)Billing_Unit_code,sum(Billing_Qty)Billing_Qty,max(BulkCF)BulkCF,sum(Total_Basic_Amt)Total_Basic_Amt,Sum(Total_Tax_Amt)Total_Tax_Amt,max(Brand)Brand,max(BRANDDESC)BRANDDESC,max(Particulars)Particulars,
 	                    	sum(Crate_No)Crate_No,max(CopyType)CopyType,max(SellerGST)SellerGST,max(Pan_No)Pan_No,max(Bank_Name)Bank_Name,max(BankAccountNo)BankAccountNo,max(BankBranchAddress)BankBranchAddress,max(BankIFSCCode)BankIFSCCode,max(Tcan_No)Tcan_No,max(RateLtr)RateLtr,max(Company_Name)Company_Name,max(Address2)Address2,max(Regn_No)Regn_No,max(FSSAI_NO)FSSAI_NO,max(Receipt_No)Receipt_No,max(Receipt_Date)Receipt_Date,max(Receipt_Amount)Receipt_Amount,max(Payment_Code)Payment_Code,max(cheque_No)cheque_No,max(Cheque_Date)Cheque_Date,max(OpeningBal)OpeningBal,max(ClosingBal)ClosingBal,max(cast(Logo_Img as varbinary(max))) as Logo_Img  "
             Else
-                Qry += " '' As Report_Status,ReceiverName, "
+                Qry += " '' As Report_Status, "
             End If
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                 Qry += ", max(cast(BarCode_Img as varbinary(max))) as BarCode_Img "
