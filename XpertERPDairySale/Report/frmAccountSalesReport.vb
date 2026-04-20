@@ -206,7 +206,8 @@ FROM
                 Dim rpt As New rptSaleInvoiceStatusReport()
                 Dim BaseQry As String = rpt.BaseQryLoadDataInvoiceCount(txtFromDate.Value, txtToDate.Value, txtLocation.Value)
                 rpt = Nothing
-                Qry = "Select Invoice_Tax_Type As [Sale Voucher Type],First_Invoice As [Sr.No. From],Last_Invoice As [Sr. No. To],Total_Invoice As [Total Number],Total_CancelInvoice As [Cancelled] from (" & BaseQry & ")final order by Transcation_Type"
+                Qry = "Select Invoice_Tax_Type As [Sale Voucher Type],Max(First_Invoice) As [Sr.No. From],Max(Last_Invoice) As [Sr. No. To],Sum(Total_Invoice) As [Total Number],
+Sum(Total_CancelInvoice) As [Cancelled] from (" & BaseQry & ")final Group By Invoice_Tax_Type"
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
