@@ -8,9 +8,9 @@ Public Class clsCostCenterTypeMaster
     Public Cost_Code As String = Nothing
     'Public Department As String = Nothing
     Public Department_Cost As String = Nothing
-
+    Public Arr As List(Of clsCostCenterTypeDetail)
+    Public EmpDepart As String = Nothing
 #End Region
-
     Public Shared Function SaveData(ByVal obj As clsCostCenterTypeMaster, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Dim qry As String = ""
         Dim IsSaved As Boolean = False
@@ -45,13 +45,28 @@ Public Class clsCostCenterTypeMaster
             '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Code), "TSPL_COST_CENTER_TYPE_MASTER", "Code", trans)
             'End If
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Code), "TSPL_COST_CENTER_TYPE_MASTER", "Code", trans)
+            IsSaved = IsSaved AndAlso clsCostCenterTypeDetail.SaveData(obj.Code, obj.Arr, trans)
 
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
         Return IsSaved
     End Function
-
+    'Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsCostCenterTypeMaster), ByVal trans As SqlTransaction) As Boolean
+    '    Try
+    '        If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
+    '            For Each obj As clsCostCenterTypeMaster In Arr
+    '                Dim coll As New Hashtable()
+    '                clsCommon.AddColumnsForChange(coll, "Cost_Code", strDocNo)
+    '                clsCommon.AddColumnsForChange(coll, "EmpDepart", obj.EmpDepart)
+    '                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_COST_CENTER_Emp_Depart_Master", OMInsertOrUpdate.Insert, "", trans)
+    '            Next
+    '        End If
+    '    Catch ex As Exception
+    '        Throw New Exception(ex.Message)
+    '    End Try
+    '    Return True
+    'End Function
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType) As clsCostCenterTypeMaster
         Dim obj As clsCostCenterTypeMaster = Nothing
         Dim qry As String = "select TSPL_COST_CENTER_TYPE_MASTER.* from TSPL_COST_CENTER_TYPE_MASTER   where 2=2"
@@ -77,6 +92,8 @@ Public Class clsCostCenterTypeMaster
             obj.Cost_Code = clsCommon.myCstr(dt.Rows(0)("Cost_Code"))
             'obj.Department = clsCommon.myCstr(dt.Rows(0)("Department"))
             obj.Department_Cost = clsCommon.myCstr(dt.Rows(0)("Department_Cost"))
+            obj.Arr = clsCostCenterTypeDetail.GetData(obj.Code)
+
         End If
         Return obj
     End Function
@@ -134,4 +151,55 @@ Public Class clsCostCenterTypeMaster
 
     End Function
 
+End Class
+
+Public Class clsCostCenterTypeDetail
+    Public EmpDepart As String = Nothing
+    Public PK_ID As Integer = 0
+
+    Public Shared Function SaveData(ByVal Code As String, ByVal Arr As List(Of clsCostCenterTypeDetail), ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim i As Integer = 0
+            If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
+                'For Each obj As clsNotificationDetails In Arr
+                For i = 0 To Arr.Count - 1
+                    Dim colm As New Hashtable()
+                    clsCommon.AddColumnsForChange(colm, "Cost_Code", Code)
+                    clsCommon.AddColumnsForChange(colm, "EmpDepart", Arr.Item(i).EmpDepart)
+                    clsCommonFunctionality.UpdateDataTable(colm, "tspl_cost_center_emp_depart_master", OMInsertOrUpdate.Insert, "", trans)
+                Next
+                'Next
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+
+        Return True
+    End Function
+
+
+
+    Public Shared Function GetData(ByVal strDocNo As String) As List(Of clsCostCenterTypeDetail)
+        Dim arr As List(Of clsCostCenterTypeDetail) = Nothing
+
+        Try
+            Dim dt As DataTable
+            Dim strQry As String = "select PK_Id,EmpDepart from TSPL_COST_CENTER_Emp_Depart_Master where cost_Code='" & strDocNo & "'"
+            dt = New DataTable()
+            dt = clsDBFuncationality.GetDataTable(strQry)
+            If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                arr = New List(Of clsCostCenterTypeDetail)
+                Dim objTr As clsCostCenterTypeDetail
+                For Each dr As DataRow In dt.Rows
+                    objTr = New clsCostCenterTypeDetail
+                    objTr.PK_Id = clsCommon.myCstr(dr("PK_Id"))
+                    objTr.EmpDepart = clsCommon.myCstr(dr("EmpDepart"))
+                    arr.Add(objTr)
+                Next
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return arr
+    End Function
 End Class

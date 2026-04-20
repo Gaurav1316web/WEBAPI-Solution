@@ -2247,18 +2247,18 @@ where Document_Type='C' and RefDocType='Milk_HE'  and TSPL_PAYMENT_PROCESS_DETAI
                     sQuery += " and TSPL_PAYMENT_PROCESS_DETAIL.VSP_Code In (" + strVSPCode + ")"
                 End If
 
-                sQuery += " union all 
-                            select TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.Doc_No,TSPL_DEDUCTION_MASTER.Description as Description,88 as Sequence_No,'' AS Code ,(TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.Amount-TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.Reduce_Deduc_Amt) as Amount
-                            from TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN 
-                            left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.Customer_CODE
-                            left  join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.shipment_doc_no
-                            left join TSPL_SD_SHIPMENT_detail on TSPL_SD_SHIPMENT_detail.document_code=TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.shipment_doc_no and TSPL_SD_SHIPMENT_detail.Line_No=1
-                            left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_detail.Item_Code
-                            left outer join TSPL_DEDUCTION_MASTER  on TSPL_DEDUCTION_MASTER.Code=TSPL_SD_SHIPMENT_HEAD.Deduction
-                            where TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.doc_no  in (" + strDocNo + ")  "
-                If CycleWiseData = True AndAlso clsCommon.myLen(strVSPCode) > 0 Then
-                    sQuery += " and TSPL_PAYMENT_PROCESS_DETAIL.VSP_Code In (" + strVSPCode + ")"
-                End If
+                'sQuery += " union all 
+                '            select TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.Doc_No,TSPL_DEDUCTION_MASTER.Description as Description,88 as Sequence_No,'' AS Code ,(TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.Amount-TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.Reduce_Deduc_Amt) as Amount
+                '            from TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN 
+                '            left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.Customer_CODE
+                '            left  join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.shipment_doc_no
+                '            left join TSPL_SD_SHIPMENT_detail on TSPL_SD_SHIPMENT_detail.document_code=TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.shipment_doc_no and TSPL_SD_SHIPMENT_detail.Line_No=1
+                '            left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_detail.Item_Code
+                '            left outer join TSPL_DEDUCTION_MASTER  on TSPL_DEDUCTION_MASTER.Code=TSPL_SD_SHIPMENT_HEAD.Deduction
+                '            where TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.doc_no  in (" + strDocNo + ")  "
+                'If CycleWiseData = True AndAlso clsCommon.myLen(strVSPCode) > 0 Then
+                '    sQuery += " and TSPL_PAYMENT_PROCESS_DETAIL.VSP_Code In (" + strVSPCode + ")"
+                'End If
 
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
                     sQuery += " UNION ALL 

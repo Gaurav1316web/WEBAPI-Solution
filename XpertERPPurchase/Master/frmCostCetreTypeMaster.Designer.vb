@@ -48,10 +48,12 @@ Partial Class FrmCostCetreTypeMaster
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.txtName = New common.Controls.MyTextBox()
         Me.RadLabel2 = New common.Controls.MyLabel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.txtMultDepartment = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel2 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -74,10 +76,11 @@ Partial Class FrmCostCetreTypeMaster
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -152,6 +155,8 @@ Partial Class FrmCostCetreTypeMaster
         Me.RadGroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel2)
+        Me.RadGroupBox1.Controls.Add(Me.txtMultDepartment)
         Me.RadGroupBox1.Controls.Add(Me.labdepartment)
         Me.RadGroupBox1.Controls.Add(Me.Labdepartmentcost)
         Me.RadGroupBox1.Controls.Add(Me.Txtdepartmentcost)
@@ -448,6 +453,17 @@ Partial Class FrmCostCetreTypeMaster
         Me.RadLabel2.TabIndex = 1
         Me.RadLabel2.Text = "Description"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.ImageScalingSize = New System.Drawing.Size(68, 14)
+        Me.btnHistory.Location = New System.Drawing.Point(147, 4)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
+        Me.btnHistory.TabIndex = 9
+        Me.btnHistory.Text = "History"
+        '
         'btnSave
         '
         Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -481,16 +497,28 @@ Partial Class FrmCostCetreTypeMaster
         Me.btnClose.TabIndex = 8
         Me.btnClose.Text = "Close"
         '
-        'btnHistory
+        'txtMultDepartment
         '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.ImageScalingSize = New System.Drawing.Size(68, 14)
-        Me.btnHistory.Location = New System.Drawing.Point(147, 4)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
-        Me.btnHistory.TabIndex = 9
-        Me.btnHistory.Text = "History"
+        Me.txtMultDepartment.arrDispalyMember = Nothing
+        Me.txtMultDepartment.arrValueMember = Nothing
+        Me.txtMultDepartment.Location = New System.Drawing.Point(128, 137)
+        Me.txtMultDepartment.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMultDepartment.MyLinkLable1 = Nothing
+        Me.txtMultDepartment.MyLinkLable2 = Nothing
+        Me.txtMultDepartment.MyNullText = "All"
+        Me.txtMultDepartment.Name = "txtMultDepartment"
+        Me.txtMultDepartment.Size = New System.Drawing.Size(163, 19)
+        Me.txtMultDepartment.TabIndex = 388
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(10, 137)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(92, 16)
+        Me.MyLabel2.TabIndex = 389
+        Me.MyLabel2.Text = "Emp Department"
         '
         'FrmCostCetreTypeMaster
         '
@@ -528,10 +556,11 @@ Partial Class FrmCostCetreTypeMaster
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -565,5 +594,7 @@ Partial Class FrmCostCetreTypeMaster
     Friend WithEvents Labdepartmentcost As common.Controls.MyLabel
     Friend WithEvents Txtdepartmentcost As common.UserControls.txtFinder
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents txtMultDepartment As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents MyLabel2 As common.Controls.MyLabel
 End Class
 

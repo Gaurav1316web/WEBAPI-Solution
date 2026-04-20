@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,8 +20,15 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -269,6 +276,10 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.cboReportType.IsSourceFromTable = False
         Me.cboReportType.IsSourceFromValueList = False
         Me.cboReportType.IsUnique = False
+        RadListDataItem7.Text = "Kg"
+        RadListDataItem8.Text = "Ltr"
+        Me.cboReportType.Items.Add(RadListDataItem7)
+        Me.cboReportType.Items.Add(RadListDataItem8)
         RadListDataItem5.Text = "Kg"
         RadListDataItem6.Text = "Ltr"
         Me.cboReportType.Items.Add(RadListDataItem5)
@@ -332,6 +343,10 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.cboUnit.IsSourceFromTable = False
         Me.cboUnit.IsSourceFromValueList = False
         Me.cboUnit.IsUnique = False
+        RadListDataItem1.Text = "Kg"
+        RadListDataItem2.Text = "Ltr"
+        Me.cboUnit.Items.Add(RadListDataItem1)
+        Me.cboUnit.Items.Add(RadListDataItem2)
         RadListDataItem7.Text = "Kg"
         RadListDataItem8.Text = "Ltr"
         Me.cboUnit.Items.Add(RadListDataItem7)
@@ -455,6 +470,10 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.cmbEntrySource.IsSourceFromTable = False
         Me.cmbEntrySource.IsSourceFromValueList = False
         Me.cmbEntrySource.IsUnique = False
+        RadListDataItem3.Text = "Kg"
+        RadListDataItem4.Text = "Ltr"
+        Me.cmbEntrySource.Items.Add(RadListDataItem3)
+        Me.cmbEntrySource.Items.Add(RadListDataItem4)
         RadListDataItem1.Text = "Kg"
         RadListDataItem2.Text = "Ltr"
         Me.cmbEntrySource.Items.Add(RadListDataItem1)
@@ -569,6 +588,35 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(755, 350)
         Me.RadPageViewPage2.Text = "Report"
+        '
+        'gv
+        '
+        Me.gv.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gv.Cursor = System.Windows.Forms.Cursors.Default
+        Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gv.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.gv.ForeColor = System.Drawing.Color.Black
+        Me.gv.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.gv.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gv.MasterTemplate.AllowAddNewRow = False
+        Me.gv.MasterTemplate.AllowDeleteRow = False
+        Me.gv.MasterTemplate.EnableFiltering = True
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv.MyExportAPI = False
+        Me.gv.MyExportFilePath = ""
+        Me.gv.MyStopExport = False
+        Me.gv.Name = "gv"
+        Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gv.ShowGroupPanel = False
+        Me.gv.ShowHeaderCellButtons = True
+        Me.gv.Size = New System.Drawing.Size(755, 350)
+        Me.gv.TabIndex = 4
+        Me.gv.VarID = ""
         '
         'gv
         '

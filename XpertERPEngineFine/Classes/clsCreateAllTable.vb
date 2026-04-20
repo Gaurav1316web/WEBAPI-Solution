@@ -20651,6 +20651,13 @@ FROM TSPL_ITEM_MASTER"
             ' clsCommonFunctionality.CreateOrAlterTable("TSPL_COST_CENTER_TYPE_MASTER", coll)
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_COST_CENTER_TYPE_MASTER", coll, "", True, False, "", "", "", True)
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Cost_Code", "Varchar(30) null References TSPL_COST_CENTER_TYPE_MASTER(Code)")
+            coll.Add("EmpDepart", "varchar(12) null UNIQUE")
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_COST_CENTER_Emp_Depart_Master", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_COST_CENTER_Emp_Depart_Master", coll, "", True, False, "", "", "", True)
+
             coll = New Dictionary(Of String, String)
             coll.Add("Requisition_Id", "varchar(30) NOT NULL Primary Key")
             coll.Add("Requisition_Date", "varchar(10) NOT NULL")
@@ -23470,7 +23477,7 @@ FROM TSPL_ITEM_MASTER"
             coll = New Dictionary(Of String, String)
             coll.Add("Code", "varchar(30) NOT NULL Primary Key")
             coll.Add("Date", "DateTime Not NULL")
-            coll.Add("GRN_Code", "Varchar(30) not null references TSPL_GRN_HEAD(GRN_No)")
+            coll.Add("GRN_Code", "Varchar(30)  null references TSPL_GRN_HEAD(GRN_No)")
             coll.Add("Description", "varchar(200) NULL")
             coll.Add("Status", "integer not null default 0")
             coll.Add("Remarks", "varchar(200) NULL")
@@ -23480,6 +23487,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Modify_Date", "Datetime NULL")
             coll.Add("Posted_By", "VARCHAR(12) NULL")
             coll.Add("Posted_Date", "Datetime NULL")
+            coll.Add("SRN_Code", "Varchar(30)  null references TSPL_SRN_HEAD(SRN_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Purchase_GateOut", coll, Nothing, True, False, "", "", "", True)
 
 
