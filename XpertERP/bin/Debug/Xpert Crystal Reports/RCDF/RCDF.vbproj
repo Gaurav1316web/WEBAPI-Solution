@@ -549,6 +549,7 @@
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreCHU.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreGNG.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreJAL.rpt" />
+    <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreJDH.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreJPR.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreRJS.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreTNK.rpt" />
@@ -2138,6 +2139,8 @@
     <None Include="Crystal Reports\Sales Report\rptBoothGatePassBKN.rpt" />
     <None Include="Crystal Reports\Sales Report\rptBoothSaleDateShiftWise.rpt" />
     <None Include="Crystal Reports\Sales Report\rptBoothSaleItemWise.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptBoothTruckSheetMilkTypeCHT.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptBoothTruckSheetProductTypeCHT.rpt" />
     <None Include="Crystal Reports\Sales Report\RptCEAllocation.rpt" />
     <None Include="Crystal Reports\Sales Report\RptCEAllocationALl.rpt" />
     <None Include="Crystal Reports\Sales Report\rptCreditSaleDetail.rpt" />
