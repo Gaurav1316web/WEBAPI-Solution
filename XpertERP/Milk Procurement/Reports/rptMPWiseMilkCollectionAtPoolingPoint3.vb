@@ -2179,7 +2179,7 @@ where [VLC Code]='" + clsCommon.myCstr(gv.CurrentRow.Cells("VLC Code").Value) + 
     End Sub
 
     Private Sub gv_CellFormatting(sender As Object, e As CellFormattingEventArgs)
-        If e.CellElement.Value IsNot Nothing AndAlso IsNumeric(e.CellElement.Value) AndAlso clsCommon.CompairString(e.Column.Name, "S.No.") <> CompairStringResult.Equal Then
+        If e.CellElement.Value IsNot Nothing AndAlso IsNumeric(e.CellElement.Value) AndAlso clsCommon.CompairString(e.Column.Name, "S.No.") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(e.Column.Name, "DCS") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(e.Column.Name, "Farmer Code") <> CompairStringResult.Equal Then
             e.CellElement.Text = Convert.ToDecimal(e.CellElement.Value).ToString("N2", New CultureInfo("en-IN"))
         End If
     End Sub

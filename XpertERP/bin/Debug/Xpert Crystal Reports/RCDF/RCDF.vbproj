@@ -2139,6 +2139,8 @@
     <None Include="Crystal Reports\Sales Report\rptBoothGatePassBKN.rpt" />
     <None Include="Crystal Reports\Sales Report\rptBoothSaleDateShiftWise.rpt" />
     <None Include="Crystal Reports\Sales Report\rptBoothSaleItemWise.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptBoothTruckSheetMilkTypeCHT.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptBoothTruckSheetProductTypeCHT.rpt" />
     <None Include="Crystal Reports\Sales Report\RptCEAllocation.rpt" />
     <None Include="Crystal Reports\Sales Report\RptCEAllocationALl.rpt" />
     <None Include="Crystal Reports\Sales Report\rptCreditSaleDetail.rpt" />
