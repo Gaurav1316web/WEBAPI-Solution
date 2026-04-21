@@ -277,25 +277,25 @@ Public Class frmMCCMaterialSale
     End Sub
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         arrMCCRights = clsMCCCodes.GetUserHavingMCCRights()
-        CalculateTaxRatefromItemwsieTaxOnSale = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CalculateTaxRatefromItemwsieTaxOnSale, clsFixedParameterCode.CalculateTaxRatefromItemwsieTaxOnSale, Nothing))
+        CalculateTaxRatefromItemwsieTaxOnSale = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.CalculateTaxRatefromItemwsieTaxOnSale, clsFixedParameterCode.CalculateTaxRatefromItemwsieTaxOnSale, Nothing))
         RadPageView1.Pages("RadPageViewPage3").Item.Visibility = ElementVisibility.Collapsed
         SetUserMgmtNew()
         btnHistory.Enabled = False
         SetMailRight()
-        ItemRateEditable = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.IsItemRateEditableOnSales & "'")) = 0, False, True)
-        ItemMRPEditable = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.IsItemMRPEditableOnSales & "'")) = 0, False, True)
-        RunBatchFifowise = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowise, clsFixedParameterCode.RunBatchFifowise, Nothing))
-        RunBatchFifowisewithmodifyfunctionality = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowisewithModifyfunctionality, clsFixedParameterCode.RunBatchFifowisewithModifyfunctionality, Nothing)) = 1, True, False)
-        checkstockmrpwise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.checkstockMRPwise, clsFixedParameterCode.checkstockMRPwise, Nothing)) = 0, False, True)
-        AutoScheme = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.AutoSchemeOn & "'")) = 0, False, True)
-        MultiplySubsidyWithQuantity = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultiplySubsidyWithQuantity, clsFixedParameterCode.MultiplySubsidyWithQuantity, Nothing))
-        'ExcludeKKFAndMandiForDCS = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ExcludeKKFAndMandiForDCS, clsFixedParameterCode.ExcludeKKFAndMandiForDCS, Nothing))
-        blnBackCalculation = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsRateBackCalculation from TSPL_inv_parameters")) = 0, False, True)
-        PurchaseOneItemOneVendor = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='PurchaseOneItemOneVendor'")) = 0, False, True)
+        ItemRateEditable = IIf(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.IsItemRateEditableOnSales & "'")) = 0, False, True)
+        ItemMRPEditable = IIf(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.IsItemMRPEditableOnSales & "'")) = 0, False, True)
+        RunBatchFifowise = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowise, clsFixedParameterCode.RunBatchFifowise, Nothing))
+        RunBatchFifowisewithmodifyfunctionality = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowisewithModifyfunctionality, clsFixedParameterCode.RunBatchFifowisewithModifyfunctionality, Nothing)) = 1, True, False)
+        checkstockmrpwise = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.checkstockMRPwise, clsFixedParameterCode.checkstockMRPwise, Nothing)) = 0, False, True)
+        AutoScheme = IIf(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.AutoSchemeOn & "'")) = 0, False, True)
+        MultiplySubsidyWithQuantity = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MultiplySubsidyWithQuantity, clsFixedParameterCode.MultiplySubsidyWithQuantity, Nothing))
+        'ExcludeKKFAndMandiForDCS = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ExcludeKKFAndMandiForDCS, clsFixedParameterCode.ExcludeKKFAndMandiForDCS, Nothing))
+        blnBackCalculation = IIf(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select IsRateBackCalculation from TSPL_inv_parameters")) = 0, False, True)
+        PurchaseOneItemOneVendor = IIf(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='PurchaseOneItemOneVendor'")) = 0, False, True)
         intMRPwithabatement = clsDBFuncationality.getSingleValue("select IsMRPwithAbatement from TSPL_INV_PARAMETERS")
-        IsBatchMFDEXDmandatory = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsBatchNo_MFD_EXD_Mandatory from TSPL_inv_parameters")) = 0, False, True)
-        AllowChangeInvoiceType = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Allow_Change_InvoiceType from TSPL_inv_parameters")) = 0, False, True)
-        isPO_GRN_MRN_Editable = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select isMRNQtyEdiatableOnSRN from TSPL_inv_parameters")) = 0, False, True)
+        IsBatchMFDEXDmandatory = IIf(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select IsBatchNo_MFD_EXD_Mandatory from TSPL_inv_parameters")) = 0, False, True)
+        AllowChangeInvoiceType = IIf(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Allow_Change_InvoiceType from TSPL_inv_parameters")) = 0, False, True)
+        isPO_GRN_MRN_Editable = IIf(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select isMRNQtyEdiatableOnSRN from TSPL_inv_parameters")) = 0, False, True)
         UseDescInsteadOFCodeOnMCCMAterialSale = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.UseDescInsteadOFCodeOnMCCMAterialSale, clsFixedParameterCode.UseDescInsteadOFCodeOnMCCMAterialSale, Nothing)) = "1", True, False)
         CreateAutoMCCPriceChat = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.CreateAutoMCCPriceChat, clsFixedParameterCode.CreateAutoMCCPriceChat, Nothing)) = "1", True, False)
         AllowRoundOff_onInvoice = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowRoundOff_OnCSASalePatti, clsFixedParameterCode.AllowRoundOff_OnCSASalePatti, Nothing)) = "1", True, False))
@@ -306,15 +306,15 @@ Public Class frmMCCMaterialSale
         AreaWiseBilling = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = "1", True, False))
         AllowPlandDeptMCCLocation = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.Allow_Plant_Depot_MCC_typeLocation, clsFixedParameterCode.Allow_Plant_Depot_MCC_typeLocation, Nothing)) = "1", True, False))
         EnableDynamicQRCodeForB2CInvoice = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.EnableDynamicQRCodeForB2CInvoice, clsFixedParameterCode.EnableDynamicQRCodeForB2CInvoice, Nothing)) = "1", True, False))
-        AmountToCheckCustomerOutstandingForTCSTax = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AmountToCheckCustomerOutstandingForTCSTax, clsFixedParameterCode.AmountToCheckCustomerOutstandingForTCSTax, Nothing))
-        EnableTCSRateValidityFrom01July2021 = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableTCSRateValidityFrom01July2021, clsFixedParameterCode.EnableTCSRateValidityFrom01July2021, Nothing)) = 0, False, True)
-        ConvertIntoBillingUOM = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConvertTOBillingUOM, clsFixedParameterCode.ConvertTOBillingUOM, Nothing)) = 1, True, False)
-        DefaultEnableEWayBill = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultEnableEWayBill, clsFixedParameterCode.DefaultEnableEWayBill, Nothing)) = 1, True, False)
-        ApplyEWBThresholdLimit = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.ApplyEWBThresholdLimit, Nothing)) = 1, True, False)
-        EWBThresholdLimitForIntraCity = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraCity, Nothing))
-        EWBThresholdLimitForIntraState = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraState, Nothing))
-        EWBThresholdLimitForInterState = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForInterState, Nothing))
-        DefaultEnableNoTransporter = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultEnableNoTransporter, clsFixedParameterCode.DefaultEnableNoTransporter, Nothing)) = 1, True, False)
+        AmountToCheckCustomerOutstandingForTCSTax = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AmountToCheckCustomerOutstandingForTCSTax, clsFixedParameterCode.AmountToCheckCustomerOutstandingForTCSTax, Nothing))
+        EnableTCSRateValidityFrom01July2021 = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.EnableTCSRateValidityFrom01July2021, clsFixedParameterCode.EnableTCSRateValidityFrom01July2021, Nothing)) = 0, False, True)
+        ConvertIntoBillingUOM = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ConvertTOBillingUOM, clsFixedParameterCode.ConvertTOBillingUOM, Nothing)) = 1, True, False)
+        DefaultEnableEWayBill = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.DefaultEnableEWayBill, clsFixedParameterCode.DefaultEnableEWayBill, Nothing)) = 1, True, False)
+        ApplyEWBThresholdLimit = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.ApplyEWBThresholdLimit, Nothing)) = 1, True, False)
+        EWBThresholdLimitForIntraCity = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraCity, Nothing))
+        EWBThresholdLimitForIntraState = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraState, Nothing))
+        EWBThresholdLimitForInterState = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForInterState, Nothing))
+        DefaultEnableNoTransporter = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.DefaultEnableNoTransporter, clsFixedParameterCode.DefaultEnableNoTransporter, Nothing)) = 1, True, False)
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = clsCommon.GETSERVERDATE
         chkVendorGrossReceipt.Visible = False
@@ -349,7 +349,7 @@ Public Class frmMCCMaterialSale
         If clsCommon.myLen(strSRNno) > 0 Then
             LoadData(strSRNno, NavigatorType.Current)
         End If
-        chkRateDefaultSetting.ToggleState = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SalesRateEditable, clsFixedParameterCode.SalesRateEditable, Nothing)) = 1, ToggleState.On, ToggleState.Off)
+        chkRateDefaultSetting.ToggleState = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.SalesRateEditable, clsFixedParameterCode.SalesRateEditable, Nothing)) = 1, ToggleState.On, ToggleState.Off)
         'For Custom Fields
         RadPageView1.Pages("pvpCustomFields").Item.Visibility = MyBase.customFieldTabProperty
         If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
@@ -1124,9 +1124,9 @@ Public Class frmMCCMaterialSale
         repoAmtAfterDis.WrapText = True
         repoAmtAfterDis.Width = 0
         repoAmtAfterDis.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        repoAmtAfterDis.VisibleInColumnChooser = False
+        repoAmtAfterDis.VisibleInColumnChooser = True
         repoAmtAfterDis.ReadOnly = True
-        repoAmtAfterDis.IsVisible = False
+        repoAmtAfterDis.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoAmtAfterDis)
         Dim repoCommparty As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoCommparty.FormatString = ""
@@ -2138,7 +2138,7 @@ Public Class frmMCCMaterialSale
             frm.strLocationCode = txtBillToLocation.Value
             frm.strCurrDocNo = txtDocNo.Value
             frm.strCurrDocType = "SD-IN"
-            frm.dblqty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value)
+            frm.dblqty = clsCommon.myCDecimal(gv1.CurrentRow.Cells(colQty).Value)
             frm.arr = TryCast(gv1.CurrentRow.Tag, List(Of clsSerializeInvenotry))
             frm.ShowDialog()
             If Not frm.isCencelButtonClicked Then
@@ -2214,7 +2214,7 @@ Public Class frmMCCMaterialSale
         repoTaxRate.Name = colTTaxRate
         repoTaxRate.Width = 100
         repoTaxRate.ReadOnly = True
-        repoTaxRate.IsVisible = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowTaxRateColumnOnTransaction, clsFixedParameterCode.ShowTaxRateColumnOnTransaction, Nothing)) = 1, True, False)
+        repoTaxRate.IsVisible = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowTaxRateColumnOnTransaction, clsFixedParameterCode.ShowTaxRateColumnOnTransaction, Nothing)) = 1, True, False)
         repoTaxRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv2.MasterTemplate.Columns.Add(repoTaxRate)
         Dim repoTaxAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
@@ -2273,9 +2273,9 @@ Public Class frmMCCMaterialSale
                             If ((e.Column Is gv1.Columns(colQty))) Then
                                 Dim dblPendingQty As Decimal = 0
                                 If (clsCommon.myLen(gv1.CurrentRow.Cells(colOrderNo).Value) > 0) Then
-                                    dblPendingQty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colPendingQty).Value)
-                                    Dim dblEnteredQty As Decimal = clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value)
-                                    Dim dblDamageQty As Decimal = 0 'clsCommon.myCdbl(gv1.CurrentRow.Cells(colLeakQty).Value) + clsCommon.myCdbl(gv1.CurrentRow.Cells(colBurstQty).Value) + clsCommon.myCdbl(gv1.CurrentRow.Cells(colShortQty).Value)
+                                    dblPendingQty = clsCommon.myCDecimal(gv1.CurrentRow.Cells(colPendingQty).Value)
+                                    Dim dblEnteredQty As Decimal = clsCommon.myCDecimal(gv1.CurrentRow.Cells(colQty).Value)
+                                    Dim dblDamageQty As Decimal = 0 'clsCommon.myCDecimal(gv1.CurrentRow.Cells(colLeakQty).Value) + clsCommon.myCDecimal(gv1.CurrentRow.Cells(colBurstQty).Value) + clsCommon.myCDecimal(gv1.CurrentRow.Cells(colShortQty).Value)
                                     If (dblEnteredQty + dblDamageQty) > dblPendingQty Then
                                         common.clsCommon.MyMessageBoxShow("Entered Quantity Can't be more than Pending Quantity." + Environment.NewLine + "Entered Quantity : " + clsCommon.myCstr(dblEnteredQty) + ". Pending Quantity : " + clsCommon.myCstr(dblPendingQty))
                                         gv1.CurrentCell.Value = dblPendingQty
@@ -2351,7 +2351,7 @@ Public Class frmMCCMaterialSale
         End Try
     End Sub
     Sub OpenGetbalance(ByVal isButtonClick As Boolean)
-        gv1.CurrentRow.Cells(ColActualBalQty).Value = clsItemLocationDetails.getBalance(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), txtBillToLocation.Value, txtDocNo.Value, txtDate.Value, Nothing, clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value))
+        gv1.CurrentRow.Cells(ColActualBalQty).Value = clsItemLocationDetails.getBalance(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), txtBillToLocation.Value, txtDocNo.Value, txtDate.Value, Nothing, clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), clsCommon.myCDecimal(gv1.CurrentRow.Cells(colMRP).Value))
     End Sub
 
     Private Sub findQtyandPromoSchemeCode(ByVal isButtonClick As Boolean)
@@ -2360,11 +2360,11 @@ Public Class frmMCCMaterialSale
         Dim intRow As Integer
         Dim strOrderCode As String = ""
         Try
-            If clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colSchemeApplicable).Value), "No") = CompairStringResult.Equal OrElse clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value) = 0 Then
+            If clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colSchemeApplicable).Value), "No") = CompairStringResult.Equal OrElse clsCommon.myCDecimal(gv1.CurrentRow.Cells(colQty).Value) = 0 Then
                 For schemeRow As Integer = gv1.Rows.Count - 1 To 0 Step -1
                     If clsCommon.myLen(gv1.CurrentRow.Cells(colFromSchemeCode).Value) > 0 Then
                         If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(schemeRow).Cells(colFromSchemeCode).Value), clsCommon.myCstr(gv1.CurrentRow.Cells(colFromSchemeCode).Value)) = CompairStringResult.Equal Then
-                            If clsCommon.myCdbl(gv1.Rows(schemeRow).Cells(colQty).Value) >= 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(schemeRow).Cells(ColFOC).Value), 1) = CompairStringResult.Equal Then
+                            If clsCommon.myCDecimal(gv1.Rows(schemeRow).Cells(colQty).Value) >= 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(schemeRow).Cells(ColFOC).Value), 1) = CompairStringResult.Equal Then
                                 gv1.Rows.RemoveAt(schemeRow)
                             End If
                         End If
@@ -2377,7 +2377,7 @@ Public Class frmMCCMaterialSale
                 For schemeRow As Integer = gv1.Rows.Count - 1 To 0 Step -1
                     If clsCommon.myLen(gv1.CurrentRow.Cells(colFromSchemeCode).Value) > 0 Then
                         If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(schemeRow).Cells(colFromSchemeCode).Value), clsCommon.myCstr(gv1.CurrentRow.Cells(colFromSchemeCode).Value)) = CompairStringResult.Equal Then
-                            If clsCommon.myCdbl(gv1.Rows(schemeRow).Cells(colQty).Value) >= 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(schemeRow).Cells(ColFOC).Value), 1) = CompairStringResult.Equal Then
+                            If clsCommon.myCDecimal(gv1.Rows(schemeRow).Cells(colQty).Value) >= 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(schemeRow).Cells(ColFOC).Value), 1) = CompairStringResult.Equal Then
                                 gv1.Rows.RemoveAt(schemeRow)
                             End If
                         End If
@@ -2389,19 +2389,19 @@ Public Class frmMCCMaterialSale
              "TSPL_SCHEME_BENEFICIARY on TSPL_SCHEME_MASTER_NEW.Scheme_Code=TSPL_SCHEME_BENEFICIARY.Scheme_Code " &
              "WHERE  Scheme_Type='Quantitive' and  (TSPL_SCHEME_MASTER_NEW.Item_Code = '" & clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) & "') AND TSPL_SCHEME_MASTER_NEW.Start_Date <='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy") + "' " &
                   " AND (TSPL_SCHEME_MASTER_NEW.End_Date >='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy") + "' OR TSPL_SCHEME_MASTER_NEW.End_Date is NULL )   and  " &
-             "TSPL_SCHEME_MASTER_NEW.Item_Qty <= '" & clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value) & "'  AND " &
+             "TSPL_SCHEME_MASTER_NEW.Item_Qty <= '" & clsCommon.myCDecimal(gv1.CurrentRow.Cells(colQty).Value) & "'  AND " &
              "TSPL_SCHEME_MASTER_NEW.Unit_Code='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value) & "' AND " &
-             "TSPL_SCHEME_MASTER_NEW.MRP='" & clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value) & "' AND TSPL_SCHEME_BENEFICIARY.Cust_Code  = '" & txtVendorNo.Value & "' order by Start_Date desc"
+             "TSPL_SCHEME_MASTER_NEW.MRP='" & clsCommon.myCDecimal(gv1.CurrentRow.Cells(colMRP).Value) & "' AND TSPL_SCHEME_BENEFICIARY.Cust_Code  = '" & txtVendorNo.Value & "' order by Start_Date desc"
                 dr1 = clsDBFuncationality.GetDataTable(StrSql)
                 Dim discountRatio As Integer = 0
                 If dr1 IsNot Nothing AndAlso dr1.Rows.Count > 0 Then
                     Dim intOldRow As Integer = gv1.CurrentRow.Index
                     schemeCodeCol = dr1.Rows(0)(0).ToString
                     Dim strPriceCode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colPriceCOde).Value)
-                    Dim mainItemQty As Decimal = clsCommon.myCdbl(dr1.Rows(0)(1).ToString())
+                    Dim mainItemQty As Decimal = clsCommon.myCDecimal(dr1.Rows(0)(1).ToString())
                     Dim mainItemCode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
-                    Dim mode As Decimal = clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value) Mod clsCommon.myCdbl(dr1.Rows(0)(1).ToString())
-                    discountRatio = (clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value) - mode) / clsCommon.myCdbl(dr1.Rows(0)(1).ToString())
+                    Dim mode As Decimal = clsCommon.myCDecimal(gv1.CurrentRow.Cells(colQty).Value) Mod clsCommon.myCDecimal(dr1.Rows(0)(1).ToString())
+                    discountRatio = (clsCommon.myCDecimal(gv1.CurrentRow.Cells(colQty).Value) - mode) / clsCommon.myCDecimal(dr1.Rows(0)(1).ToString())
                     If discountRatio > 0 Then
                         Dim dblSchemeItemActualQTy
                         StrSql = "SELECT TSPL_ITEM_MASTER.Weight_Value,TSPL_ITEM_PRICE_MASTER.Start_Date,TSPL_ITEM_PRICE_MASTER.Price_Code,TSPL_SCHEME_DETAIL_NEW.Item_Code,TSPL_ITEM_MASTER.Item_Desc, " &
@@ -2446,26 +2446,26 @@ Public Class frmMCCMaterialSale
                                 gv1.Rows(intRow).Cells(colPriceDateColumn).Value = clsCommon.myCstr(tdr("Start_Date"))
                                 gv1.Rows(intRow).Cells(colUnit).Value = clsCommon.myCstr(tdr("Unit_Code"))
                                 gv1.Rows(intRow).Cells(colUnit).Value = clsDBFuncationality.getSingleValue("select Unit_Desc from tspl_unit_master where Unit_code= '" + clsCommon.myCstr(tdr("Unit_Code")) + "'")
-                                gv1.Rows(intRow).Cells(colMRP).Value = clsCommon.myCdbl(tdr("MRP"))
-                                gv1.Rows(intRow).Cells(colRate).Value = clsCommon.myCdbl(tdr("Item_Basic_Price"))
-                                gv1.Rows(intRow).Cells(colQty).Value = clsCommon.myCdbl(tdr("Qty")) * discountRatio
-                                gv1.Rows(intRow).Cells(colItemWeight).Value = clsCommon.myCdbl(tdr("Weight_Value"))
+                                gv1.Rows(intRow).Cells(colMRP).Value = clsCommon.myCDecimal(tdr("MRP"))
+                                gv1.Rows(intRow).Cells(colRate).Value = clsCommon.myCDecimal(tdr("Item_Basic_Price"))
+                                gv1.Rows(intRow).Cells(colQty).Value = clsCommon.myCDecimal(tdr("Qty")) * discountRatio
+                                gv1.Rows(intRow).Cells(colItemWeight).Value = clsCommon.myCDecimal(tdr("Weight_Value"))
                                 gv1.Rows(intRow).Cells(colSchemeApplicable).Value = "Yes"
                                 gv1.Rows(intRow).Cells(colSchemeItem).Value = "Yes"
                                 gv1.Rows(intRow).Cells(colFromSchemeCode).Value = schemeCodeCol
                                 gv1.Rows(intRow).Cells(ColFOC).Value = 1
-                                gv1.Rows(intRow).Cells(colAbatementPer).Value = clsCommon.myCdbl(tdr("abatement_rate"))
-                                gv1.Rows(intRow).Cells(colActualCost).Value = clsCommon.myCdbl(tdr("Item_Basic_Price"))
-                                gv1.Rows(intRow).Cells(colTaxRate1).Value = clsCommon.myCdbl(tdr("Tax1Rate"))
-                                gv1.Rows(intRow).Cells(colTaxRate2).Value = clsCommon.myCdbl(tdr("Tax2Rate"))
-                                gv1.Rows(intRow).Cells(colTaxRate3).Value = clsCommon.myCdbl(tdr("Tax3Rate"))
-                                gv1.Rows(intRow).Cells(colTaxRate4).Value = clsCommon.myCdbl(tdr("Tax4Rate"))
-                                gv1.Rows(intRow).Cells(colTaxRate5).Value = clsCommon.myCdbl(tdr("Tax5Rate"))
-                                gv1.Rows(intRow).Cells(colTaxRate6).Value = clsCommon.myCdbl(tdr("Tax6Rate"))
-                                gv1.Rows(intRow).Cells(colTaxRate7).Value = clsCommon.myCdbl(tdr("Tax7Rate"))
-                                gv1.Rows(intRow).Cells(colTaxRate8).Value = clsCommon.myCdbl(tdr("Tax8Rate"))
-                                gv1.Rows(intRow).Cells(colTaxRate9).Value = clsCommon.myCdbl(tdr("Tax9Rate"))
-                                gv1.Rows(intRow).Cells(colTaxRate10).Value = clsCommon.myCdbl(tdr("Tax10Rate"))
+                                gv1.Rows(intRow).Cells(colAbatementPer).Value = clsCommon.myCDecimal(tdr("abatement_rate"))
+                                gv1.Rows(intRow).Cells(colActualCost).Value = clsCommon.myCDecimal(tdr("Item_Basic_Price"))
+                                gv1.Rows(intRow).Cells(colTaxRate1).Value = clsCommon.myCDecimal(tdr("Tax1Rate"))
+                                gv1.Rows(intRow).Cells(colTaxRate2).Value = clsCommon.myCDecimal(tdr("Tax2Rate"))
+                                gv1.Rows(intRow).Cells(colTaxRate3).Value = clsCommon.myCDecimal(tdr("Tax3Rate"))
+                                gv1.Rows(intRow).Cells(colTaxRate4).Value = clsCommon.myCDecimal(tdr("Tax4Rate"))
+                                gv1.Rows(intRow).Cells(colTaxRate5).Value = clsCommon.myCDecimal(tdr("Tax5Rate"))
+                                gv1.Rows(intRow).Cells(colTaxRate6).Value = clsCommon.myCDecimal(tdr("Tax6Rate"))
+                                gv1.Rows(intRow).Cells(colTaxRate7).Value = clsCommon.myCDecimal(tdr("Tax7Rate"))
+                                gv1.Rows(intRow).Cells(colTaxRate8).Value = clsCommon.myCDecimal(tdr("Tax8Rate"))
+                                gv1.Rows(intRow).Cells(colTaxRate9).Value = clsCommon.myCDecimal(tdr("Tax9Rate"))
+                                gv1.Rows(intRow).Cells(colTaxRate10).Value = clsCommon.myCDecimal(tdr("Tax10Rate"))
                                 gv1.Rows(intRow).Cells(colTax1).Value = clsCommon.myCstr(tdr("Tax1"))
                                 gv1.Rows(intRow).Cells(colTax2).Value = clsCommon.myCstr(tdr("Tax2"))
                                 gv1.Rows(intRow).Cells(colTax3).Value = clsCommon.myCstr(tdr("Tax3"))
@@ -2479,7 +2479,7 @@ Public Class frmMCCMaterialSale
                                 Dim dblConvF As Decimal
                                 dblConvF = GetConvFactor(gv1.Rows(intRow).Cells(colUnit).Value, gv1.Rows(intRow).Cells(colICode).Value)
                                 gv1.Rows(intRow).Cells(colConvF).Value = dblConvF
-                                gv1.Rows(intRow).Cells(colTotItemWt).Value = dblConvF * clsCommon.myCdbl(gv1.Rows(intRow).Cells(colItemWeight).Value) * clsCommon.myCdbl(gv1.Rows(intRow).Cells(colQty).Value)
+                                gv1.Rows(intRow).Cells(colTotItemWt).Value = dblConvF * clsCommon.myCDecimal(gv1.Rows(intRow).Cells(colItemWeight).Value) * clsCommon.myCDecimal(gv1.Rows(intRow).Cells(colQty).Value)
                                 gv1.Rows(intRow).Cells(ColActualBalQty).Value = dblSchemeItemActualQTy
                                 If intRow <> intOldRow Then
                                     gv1.Rows.Move(intRow, intOldRow)
@@ -2498,7 +2498,7 @@ Public Class frmMCCMaterialSale
                     For schemeRow As Integer = gv1.Rows.Count - 1 To 0 Step -1
                         If clsCommon.myLen(gv1.CurrentRow.Cells(colFromSchemeCode).Value) > 0 Then
                             If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(schemeRow).Cells(colFromSchemeCode).Value), clsCommon.myCstr(gv1.CurrentRow.Cells(colFromSchemeCode).Value)) = CompairStringResult.Equal Then
-                                If clsCommon.myCdbl(gv1.Rows(schemeRow).Cells(colQty).Value) >= 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(schemeRow).Cells(ColFOC).Value), 1) = CompairStringResult.Equal Then
+                                If clsCommon.myCDecimal(gv1.Rows(schemeRow).Cells(colQty).Value) >= 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(schemeRow).Cells(ColFOC).Value), 1) = CompairStringResult.Equal Then
                                     gv1.Rows.RemoveAt(schemeRow)
                                 End If
                             End If
@@ -2530,13 +2530,13 @@ Public Class frmMCCMaterialSale
             Dim qry As String = "select UOM_Code as Code,UOM_Description as [Description] from TSPL_ITEM_UOM_DETAIL"
             Dim whrCls As String = "Item_Code='" + strICode + "'"
             gv1.CurrentRow.Cells(colUnit).Value = clsCommon.ShowSelectForm("ShipmentItefndnder", qry, "Code", whrCls, clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), "Code", isButtonClick)
-            gv1.CurrentRow.Cells(colRate).Value = clsEkoPro.GetRateMccSale(txtBillToLocation.Value, clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), txtDate.Value) 'clsCommon.myCdbl(dr("BasicRate"))
+            gv1.CurrentRow.Cells(colRate).Value = clsEkoPro.GetRateMccSale(txtBillToLocation.Value, clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), txtDate.Value) 'clsCommon.myCDecimal(dr("BasicRate"))
         End If
     End Sub
     Private Sub setGridFocus()
         Try
             Dim intCurrRow As Integer = gv1.CurrentRow.Index
-            gv1.CurrentRow.Cells(colLineNo).Value = clsCommon.myCdbl(intCurrRow + 1)
+            gv1.CurrentRow.Cells(colLineNo).Value = clsCommon.myCDecimal(intCurrRow + 1)
             If intCurrRow = gv1.Rows.Count - 1 Then
                 gv1.Rows.AddNew()
                 gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = RowTypeItem
@@ -2577,7 +2577,7 @@ Public Class frmMCCMaterialSale
                 COUNT += 1
                 Dim Strii As String = clsCommon.myCstr(COUNT)
                 If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colTTaxAutCode).Value)) > 0 Then
-                    Dim intTaxRate As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT 1 FROM TSPL_LOCATION_SALE_TAX_MASTER WHERE Location_Code='" & txtBillToLocation.Value & "' AND Tax_Group_Code='" & txtTaxGroup.Value & "' AND Tax_Code='" & grow.Cells(colTTaxAutCode).Value & "'"))
+                    Dim intTaxRate As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("SELECT 1 FROM TSPL_LOCATION_SALE_TAX_MASTER WHERE Location_Code='" & txtBillToLocation.Value & "' AND Tax_Group_Code='" & txtTaxGroup.Value & "' AND Tax_Code='" & grow.Cells(colTTaxAutCode).Value & "'"))
                     If intTaxRate = 1 Then
                         If clsCommon.myLen(strTaxRate) > 0 Then
                             strTaxRate += " Or "
@@ -2725,7 +2725,7 @@ Public Class frmMCCMaterialSale
                     SetitemWiseTaxSetting(True, True)
                     gv1.CurrentRow.Cells(colRowType).Value = RowTypeItem
                     gv1.CurrentRow.Cells(colICode).Value = clsCommon.myCstr(dr("Item"))
-                    gv1.CurrentRow.Cells(ColActualBalQty).Value = clsItemLocationDetails.getBalance(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), txtBillToLocation.Value, txtDocNo.Value, txtDate.Value, Nothing, clsCommon.myCstr(dr("Unit")), clsCommon.myCdbl(dr("MRP")))
+                    gv1.CurrentRow.Cells(ColActualBalQty).Value = clsItemLocationDetails.getBalance(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), txtBillToLocation.Value, txtDocNo.Value, txtDate.Value, Nothing, clsCommon.myCstr(dr("Unit")), clsCommon.myCDecimal(dr("MRP")))
                     gv1.CurrentRow.Cells(colIName).Value = clsCommon.myCstr(dr("ItemDesc"))
                     gv1.CurrentRow.Cells(colHSNNo).Value = clsItemMaster.GetItemHSNCode(clsCommon.myCstr(dr("Item")), Nothing)
                     gv1.CurrentRow.Cells(colPriceCOde).Value = clsCommon.myCstr(dr("Price_Code"))
@@ -2733,32 +2733,32 @@ Public Class frmMCCMaterialSale
                     gv1.CurrentRow.Cells(colUnit).Value = clsCommon.myCstr(dr("Unit"))
                     gv1.CurrentRow.Cells(colUOMName).Value = clsDBFuncationality.getSingleValue("select Unit_Desc from tspl_unit_master where Unit_code= '" + clsCommon.myCstr(dr("Unit")) + "'")
                     gv1.CurrentRow.Cells(colOrgUnit).Value = clsCommon.myCstr(dr("Unit"))
-                    gv1.CurrentRow.Cells(colMRP).Value = clsCommon.myCdbl(dr("MRP"))
-                    gv1.CurrentRow.Cells(colRate).Value = clsCommon.myCdbl(dr("BasicRate"))
-                    gv1.CurrentRow.Cells(colAbatementPer).Value = clsCommon.myCdbl(dr("abatement_rate"))
+                    gv1.CurrentRow.Cells(colMRP).Value = clsCommon.myCDecimal(dr("MRP"))
+                    gv1.CurrentRow.Cells(colRate).Value = clsCommon.myCDecimal(dr("BasicRate"))
+                    gv1.CurrentRow.Cells(colAbatementPer).Value = clsCommon.myCDecimal(dr("abatement_rate"))
                     gv1.CurrentRow.Cells(colSchemeApplicable).Value = "No"
                     gv1.CurrentRow.Cells(colSchemeItem).Value = "No"
-                    gv1.CurrentRow.Cells(colActualCost).Value = clsCommon.myCdbl(dr("BasicRate"))
-                    gv1.CurrentRow.Cells(colTaxRate1).Value = clsCommon.myCdbl(dr("Tax1Rate"))
-                    gv1.CurrentRow.Cells(colTaxRate2).Value = clsCommon.myCdbl(dr("Tax2Rate"))
-                    gv1.CurrentRow.Cells(colTaxRate3).Value = clsCommon.myCdbl(dr("Tax3Rate"))
-                    gv1.CurrentRow.Cells(colTaxRate4).Value = clsCommon.myCdbl(dr("Tax4Rate"))
-                    gv1.CurrentRow.Cells(colTaxRate5).Value = clsCommon.myCdbl(dr("Tax5Rate"))
-                    gv1.CurrentRow.Cells(colTaxRate6).Value = clsCommon.myCdbl(dr("Tax6Rate"))
-                    gv1.CurrentRow.Cells(colTaxRate7).Value = clsCommon.myCdbl(dr("Tax7Rate"))
-                    gv1.CurrentRow.Cells(colTaxRate8).Value = clsCommon.myCdbl(dr("Tax8Rate"))
-                    gv1.CurrentRow.Cells(colTaxRate9).Value = clsCommon.myCdbl(dr("Tax9Rate"))
-                    gv1.CurrentRow.Cells(colTaxRate10).Value = clsCommon.myCdbl(dr("Tax10Rate"))
+                    gv1.CurrentRow.Cells(colActualCost).Value = clsCommon.myCDecimal(dr("BasicRate"))
+                    gv1.CurrentRow.Cells(colTaxRate1).Value = clsCommon.myCDecimal(dr("Tax1Rate"))
+                    gv1.CurrentRow.Cells(colTaxRate2).Value = clsCommon.myCDecimal(dr("Tax2Rate"))
+                    gv1.CurrentRow.Cells(colTaxRate3).Value = clsCommon.myCDecimal(dr("Tax3Rate"))
+                    gv1.CurrentRow.Cells(colTaxRate4).Value = clsCommon.myCDecimal(dr("Tax4Rate"))
+                    gv1.CurrentRow.Cells(colTaxRate5).Value = clsCommon.myCDecimal(dr("Tax5Rate"))
+                    gv1.CurrentRow.Cells(colTaxRate6).Value = clsCommon.myCDecimal(dr("Tax6Rate"))
+                    gv1.CurrentRow.Cells(colTaxRate7).Value = clsCommon.myCDecimal(dr("Tax7Rate"))
+                    gv1.CurrentRow.Cells(colTaxRate8).Value = clsCommon.myCDecimal(dr("Tax8Rate"))
+                    gv1.CurrentRow.Cells(colTaxRate9).Value = clsCommon.myCDecimal(dr("Tax9Rate"))
+                    gv1.CurrentRow.Cells(colTaxRate10).Value = clsCommon.myCDecimal(dr("Tax10Rate"))
                     gv1.CurrentRow.Cells(ColFOC).Value = 0
-                    gv1.CurrentRow.Cells(colItemWeight).Value = clsCommon.myCdbl(dr("Weight_Value"))
+                    gv1.CurrentRow.Cells(colItemWeight).Value = clsCommon.myCDecimal(dr("Weight_Value"))
                     Dim dblConvF As Decimal
                     dblConvF = GetConvFactor(gv1.CurrentRow.Cells(colUnit).Value, gv1.CurrentRow.Cells(colICode).Value)
                     gv1.CurrentRow.Cells(colConvF).Value = dblConvF
                     gv1.CurrentRow.Cells(colMarkupOn).Value = clsCommon.myCstr(dr("markup_on"))
-                    gv1.CurrentRow.Cells(colMarkUpPercentage).Value = clsCommon.myCdbl(dr("markup_percent"))
-                    gv1.CurrentRow.Cells(colLandingCost).Value = clsCommon.myCdbl(dr("landing_cost"))
-                    gv1.CurrentRow.Cells(colPurCost).Value = clsCommon.myCdbl(dr("Purchase_Cost"))
-                    gv1.CurrentRow.Cells(colOrgCost).Value = clsCommon.myCdbl(dr("BasicRate"))
+                    gv1.CurrentRow.Cells(colMarkUpPercentage).Value = clsCommon.myCDecimal(dr("markup_percent"))
+                    gv1.CurrentRow.Cells(colLandingCost).Value = clsCommon.myCDecimal(dr("landing_cost"))
+                    gv1.CurrentRow.Cells(colPurCost).Value = clsCommon.myCDecimal(dr("Purchase_Cost"))
+                    gv1.CurrentRow.Cells(colOrgCost).Value = clsCommon.myCDecimal(dr("BasicRate"))
                 End If
             Else
                 SetBlankOfItemColumns()
@@ -2799,21 +2799,21 @@ Public Class frmMCCMaterialSale
                         If clsCommon.myLen(clsCommon.myCstr(dr("Item"))) > 0 Then
                             gv1.CurrentRow.Cells(colRowType).Value = RowTypeItem
                             gv1.CurrentRow.Cells(colICode).Value = clsCommon.myCstr(dr("Item"))
-                            gv1.CurrentRow.Cells(ColActualBalQty).Value = clsItemLocationDetails.getBalance(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), txtBillToLocation.Value, txtDocNo.Value, txtDate.Value, Nothing, clsCommon.myCstr(dr("Unit")), clsCommon.myCdbl(dr("MRP")))
+                            gv1.CurrentRow.Cells(ColActualBalQty).Value = clsItemLocationDetails.getBalance(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), txtBillToLocation.Value, txtDocNo.Value, txtDate.Value, Nothing, clsCommon.myCstr(dr("Unit")), clsCommon.myCDecimal(dr("MRP")))
                             gv1.CurrentRow.Cells(colIName).Value = clsCommon.myCstr(dr("ItemDesc"))
                             gv1.CurrentRow.Cells(colHSNNo).Value = clsItemMaster.GetItemHSNCode(clsCommon.myCstr(dr("Item")), Nothing)
                             gv1.CurrentRow.Cells(colPriceCOde).Value = ""
                             gv1.CurrentRow.Cells(colUnit).Value = clsCommon.myCstr(dr("Unit"))
                             gv1.CurrentRow.Cells(colUOMName).Value = clsDBFuncationality.getSingleValue("select Unit_Desc from tspl_unit_master where Unit_code= '" + clsCommon.myCstr(dr("Unit")) + "'")
                             gv1.CurrentRow.Cells(colOrgUnit).Value = clsCommon.myCstr(dr("Unit"))
-                            gv1.CurrentRow.Cells(colMRP).Value = clsCommon.myCdbl(dr("MRP"))
-                            gv1.CurrentRow.Cells(colRate).Value = clsEkoPro.GetRateMccSale(txtBillToLocation.Value, clsCommon.myCstr(dr("Item")), clsCommon.myCstr(dr("Unit")), txtDate.Value) 'clsCommon.myCdbl(dr("BasicRate"))
+                            gv1.CurrentRow.Cells(colMRP).Value = clsCommon.myCDecimal(dr("MRP"))
+                            gv1.CurrentRow.Cells(colRate).Value = clsEkoPro.GetRateMccSale(txtBillToLocation.Value, clsCommon.myCstr(dr("Item")), clsCommon.myCstr(dr("Unit")), txtDate.Value) 'clsCommon.myCDecimal(dr("BasicRate"))
                             gv1.CurrentRow.Cells(colSchemeApplicable).Value = "No"
                             gv1.CurrentRow.Cells(colSchemeItem).Value = "No"
-                            gv1.CurrentRow.Cells(colActualCost).Value = clsCommon.myCdbl(dr("BasicRate"))
+                            gv1.CurrentRow.Cells(colActualCost).Value = clsCommon.myCDecimal(dr("BasicRate"))
                             gv1.CurrentRow.Cells(ColFOC).Value = 0
-                            gv1.CurrentRow.Cells(colItemWeight).Value = clsCommon.myCdbl(dr("Weight Value"))
-                            gv1.CurrentRow.Cells(colOrgCost).Value = clsCommon.myCdbl(dr("BasicRate"))
+                            gv1.CurrentRow.Cells(colItemWeight).Value = clsCommon.myCDecimal(dr("Weight Value"))
+                            gv1.CurrentRow.Cells(colOrgCost).Value = clsCommon.myCDecimal(dr("BasicRate"))
                             gv1.CurrentRow.Cells(colShortDesc).Value = clsCommon.myCstr(dr("Short_Description"))
                             Dim dblConvF As Decimal
                             dblConvF = GetConvFactor(gv1.CurrentRow.Cells(colUnit).Value, gv1.CurrentRow.Cells(colICode).Value)
@@ -2861,7 +2861,7 @@ left outer join  TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VAL
                 If clsCommon.myLen(clsCommon.myCstr(dr(0).Item("Item"))) > 0 Then
                     gv1.CurrentRow.Cells(colRowType).Value = RowTypeItem
                     gv1.CurrentRow.Cells(colICode).Value = clsCommon.myCstr(dr(0).Item("Item"))
-                    gv1.CurrentRow.Cells(ColActualBalQty).Value = clsItemLocationDetails.getBalance(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), txtBillToLocation.Value, txtDocNo.Value, txtDate.Value, Nothing, clsCommon.myCstr(dr(0).Item("Unit")), clsCommon.myCdbl(dr(0).Item("MRP")))
+                    gv1.CurrentRow.Cells(ColActualBalQty).Value = clsItemLocationDetails.getBalance(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), txtBillToLocation.Value, txtDocNo.Value, txtDate.Value, Nothing, clsCommon.myCstr(dr(0).Item("Unit")), clsCommon.myCDecimal(dr(0).Item("MRP")))
                     gv1.CurrentRow.Cells(colIName).Value = clsCommon.myCstr(dr(0).Item("ItemDesc"))
                     gv1.CurrentRow.Cells(colHSNNo).Value = clsItemMaster.GetItemHSNCode(clsCommon.myCstr(dr(0).Item("Item")), Nothing)
                     gv1.CurrentRow.Cells(colPriceCOde).Value = ""
@@ -2869,20 +2869,20 @@ left outer join  TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VAL
                     gv1.CurrentRow.Cells(colUnit).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select UOM_Code from TSPL_ITEM_UOM_DETAIL where Item_Code = '" & clsCommon.myCstr(dr(0).Item("Item")) & "' and default_uom = 1"))
                     gv1.CurrentRow.Cells(colUOMName).Value = clsDBFuncationality.getSingleValue("select Unit_Desc from tspl_unit_master where Unit_code= '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value) + "'")
                     gv1.CurrentRow.Cells(colOrgUnit).Value = clsCommon.myCstr(dr(0).Item("Unit"))
-                    gv1.CurrentRow.Cells(colMRP).Value = clsCommon.myCdbl(dr(0).Item("MRP"))
+                    gv1.CurrentRow.Cells(colMRP).Value = clsCommon.myCDecimal(dr(0).Item("MRP"))
                     gv1.CurrentRow.Cells(colIsBatchItem).Value = clsItemMaster.IsBatchItem(gv1.CurrentRow.Cells(colICode).Value)
                     gv1.CurrentRow.Cells(colDCSSaleZeroCost).Value = clsCommon.myCBool(dr(0).Item("DCS_Sale_Zero_Cost") = 1)
                     If gv1.CurrentRow.Cells(colDCSSaleZeroCost).Value Then
                         gv1.CurrentRow.Cells(colRate).Value = 0
                     Else
-                        gv1.CurrentRow.Cells(colRate).Value = clsEkoPro.GetRateMccSale(txtBillToLocation.Value, clsCommon.myCstr(dr(0).Item("Item")), clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), txtDate.Value) 'clsCommon.myCdbl(dr("BasicRate"))
+                        gv1.CurrentRow.Cells(colRate).Value = clsEkoPro.GetRateMccSale(txtBillToLocation.Value, clsCommon.myCstr(dr(0).Item("Item")), clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), txtDate.Value) 'clsCommon.myCDecimal(dr("BasicRate"))
                     End If
                     gv1.CurrentRow.Cells(colSchemeApplicable).Value = "No"
                     gv1.CurrentRow.Cells(colSchemeItem).Value = "No"
-                    gv1.CurrentRow.Cells(colActualCost).Value = clsCommon.myCdbl(dr(0).Item("BasicRate"))
+                    gv1.CurrentRow.Cells(colActualCost).Value = clsCommon.myCDecimal(dr(0).Item("BasicRate"))
                     gv1.CurrentRow.Cells(ColFOC).Value = 0
-                    gv1.CurrentRow.Cells(colItemWeight).Value = clsCommon.myCdbl(dr(0).Item("Weight Value"))
-                    gv1.CurrentRow.Cells(colOrgCost).Value = clsCommon.myCdbl(dr(0).Item("BasicRate"))
+                    gv1.CurrentRow.Cells(colItemWeight).Value = clsCommon.myCDecimal(dr(0).Item("Weight Value"))
+                    gv1.CurrentRow.Cells(colOrgCost).Value = clsCommon.myCDecimal(dr(0).Item("BasicRate"))
                     gv1.CurrentRow.Cells(colShortDesc).Value = clsCommon.myCstr(dr(0).Item("Short_Description"))
                     Dim dblConvF As Decimal
                     dblConvF = GetConvFactor(gv1.CurrentRow.Cells(colUnit).Value, gv1.CurrentRow.Cells(colICode).Value)
@@ -2905,7 +2905,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                         Dim dtTransportationCharges As DataTable = clsDCSTransportationCharges.PickTransportationRate(LblVlc_Code.Tag, gv1.CurrentRow.Cells(colICode).Value, txtDate.Value)
                         If dtTransportationCharges.Rows.Count > 0 AndAlso dtTransportationCharges IsNot Nothing Then
                             gv1.CurrentRow.Cells(ColTPTRate).Value = clsCommon.myCDecimal(dtTransportationCharges.Rows(0)("Transportation_Rate"))
-                            gv1.CurrentRow.Cells(ColTPTRate).Tag = clsCommon.myCdbl(dtTransportationCharges.Rows(0)("PK_ID"))
+                            gv1.CurrentRow.Cells(ColTPTRate).Tag = clsCommon.myCDecimal(dtTransportationCharges.Rows(0)("PK_ID"))
                         End If
                     End If
                     SetitemWiseTaxSetting(True, True)
@@ -2918,7 +2918,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
     End Sub
     Private Function GetConvFactor(ByVal strUnit As String, ByVal strItem As String) As Decimal
         Dim dblConvF As Decimal = 0
-        dblConvF = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where Item_Code='" & strItem & "' and UOM_Code='" & strUnit & "'"))
+        dblConvF = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where Item_Code='" & strItem & "' and UOM_Code='" & strUnit & "'"))
         Return dblConvF
     End Function
     Private Sub SetBlankOfItemColumns()
@@ -2945,9 +2945,9 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
         For ii As Integer = 1 To 10
             Dim strii As String = clsCommon.myCstr(ii)
             If IntRowNo < 0 Then
-                dblTotTax = dblTotTax + clsCommon.myCdbl(gv1.CurrentRow.Cells(clsCommon.myCstr("COLTAXAMT" + strii)).Value)
+                dblTotTax = dblTotTax + clsCommon.myCDecimal(gv1.CurrentRow.Cells(clsCommon.myCstr("COLTAXAMT" + strii)).Value)
             Else
-                dblTotTax = dblTotTax + clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXAMT" + strii)).Value)
+                dblTotTax = dblTotTax + clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXAMT" + strii)).Value)
             End If
         Next
         Return dblTotTax
@@ -2957,11 +2957,11 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
             Dim strii As String = clsCommon.myCstr(ii)
             If IntRowNo < 0 Then
                 If clsCommon.CompairString(strSurTaxCode, clsCommon.myCstr(gv1.CurrentRow.Cells(clsCommon.myCstr("colTax" + strii)).Value)) = CompairStringResult.Equal Then
-                    Return clsCommon.myCdbl(gv1.CurrentRow.Cells(clsCommon.myCstr("colTaxAmt" + strii)).Value)
+                    Return clsCommon.myCDecimal(gv1.CurrentRow.Cells(clsCommon.myCstr("colTaxAmt" + strii)).Value)
                 End If
             Else
                 If clsCommon.CompairString(strSurTaxCode, clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + strii)).Value)) = CompairStringResult.Equal Then
-                    Return clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + strii)).Value)
+                    Return clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + strii)).Value)
                 End If
             End If
         Next
@@ -2974,11 +2974,11 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 Dim strii As String = clsCommon.myCstr(ii)
                 If IntRowNo < 0 Then
                     If clsCommon.CompairString(strTaxAuth, clsCommon.myCstr(gv1.CurrentRow.Cells(clsCommon.myCstr("colTax" + strii)).Value)) = CompairStringResult.Equal Then
-                        dblRet = dblRet + clsCommon.myCdbl(gv1.CurrentRow.Cells(clsCommon.myCstr("colTaxAmt" + strii)).Value)
+                        dblRet = dblRet + clsCommon.myCDecimal(gv1.CurrentRow.Cells(clsCommon.myCstr("colTaxAmt" + strii)).Value)
                     End If
                 Else
                     If clsCommon.CompairString(strTaxAuth, clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + strii)).Value)) = CompairStringResult.Equal Then
-                        dblRet = dblRet + clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + strii)).Value)
+                        dblRet = dblRet + clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + strii)).Value)
                     End If
                 End If
             Next
@@ -3051,39 +3051,39 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
         Dim dblTotalTPTAmt As Double = 0
 
         For ii As Integer = 0 To gv1.Rows.Count - 1
-            If (clsCommon.myLen(gv1.Rows(ii).Cells(colICode).Value) > 0) And clsCommon.myCdbl(gv1.Rows(ii).Cells(ColFOC).Value) = 0 Then
-                dblTotAmt = dblTotAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(colAmt).Value)
-                dblTotDisAmt = dblTotDisAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(colDisAmt).Value)
-                dblCashDisAmt = dblCashDisAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTotalCustDiscount).Value)
-                dblHeadDisAmt = dblHeadDisAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(colHeadDiscamt).Value)
-                dblAmtAfterDis = dblAmtAfterDis + clsCommon.myCdbl(gv1.Rows(ii).Cells(colAmtAfterDis).Value)
-                dblHeadDisPerAmt = dblHeadDisPerAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(colHeadDisPerAmt).Value)
-                dblCommAmt = dblCommAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(ColCommAmt).Value)
-                dblTaxAmt1 = dblTaxAmt1 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxAmt1).Value)
-                dblTaxAmt2 = dblTaxAmt2 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxAmt2).Value)
-                dblTaxAmt3 = dblTaxAmt3 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxAmt3).Value)
-                dblTaxAmt4 = dblTaxAmt4 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxAmt4).Value)
-                dblTaxAmt5 = dblTaxAmt5 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxAmt5).Value)
-                dblTaxAmt6 = dblTaxAmt6 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxAmt6).Value)
-                dblTaxAmt7 = dblTaxAmt7 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxAmt7).Value)
-                dblTaxAmt8 = dblTaxAmt8 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxAmt8).Value)
-                dblTaxAmt9 = dblTaxAmt9 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxAmt9).Value)
-                dblTaxAmt10 = dblTaxAmt10 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxAmt10).Value)
-                dblTaxBaseAmt1 = dblTaxBaseAmt1 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxBaseAmt1).Value)
-                dblTaxBaseAmt2 = dblTaxBaseAmt2 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxBaseAmt2).Value)
-                dblTaxBaseAmt3 = dblTaxBaseAmt3 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxBaseAmt3).Value)
-                dblTaxBaseAmt4 = dblTaxBaseAmt4 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxBaseAmt4).Value)
-                dblTaxBaseAmt5 = dblTaxBaseAmt5 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxBaseAmt5).Value)
-                dblTaxBaseAmt6 = dblTaxBaseAmt6 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxBaseAmt6).Value)
-                dblTaxBaseAmt7 = dblTaxBaseAmt7 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxBaseAmt7).Value)
-                dblTaxBaseAmt8 = dblTaxBaseAmt8 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxBaseAmt8).Value)
-                dblTaxBaseAmt9 = dblTaxBaseAmt9 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxBaseAmt9).Value)
-                dblTaxBaseAmt10 = dblTaxBaseAmt10 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxBaseAmt10).Value)
-                TotalItemQty = TotalItemQty + clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value)
-                dblTaxTotAmt = dblTaxTotAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTotTaxAmt).Value)
-                dblNetAmt = dblNetAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(colAmtAfterTax).Value)
-                dblTotLandedCost = dblTotLandedCost + clsCommon.myCdbl(gv1.Rows(ii).Cells(colLandedAmt).Value)
-                dblTotalTPTAmt = dblTotalTPTAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(ColTPTAmt).Value)
+            If (clsCommon.myLen(gv1.Rows(ii).Cells(colICode).Value) > 0) And clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColFOC).Value) = 0 Then
+                dblTotAmt = dblTotAmt + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colAmt).Value)
+                dblTotDisAmt = dblTotDisAmt + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDisAmt).Value)
+                dblCashDisAmt = dblCashDisAmt + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colTotalCustDiscount).Value)
+                dblHeadDisAmt = dblHeadDisAmt + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colHeadDiscamt).Value)
+                dblAmtAfterDis = dblAmtAfterDis + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colAmtAfterDis).Value)
+                dblHeadDisPerAmt = dblHeadDisPerAmt + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colHeadDisPerAmt).Value)
+                dblCommAmt = dblCommAmt + clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColCommAmt).Value)
+                dblTaxAmt1 = dblTaxAmt1 + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colTaxAmt1).Value)
+                dblTaxAmt2 = dblTaxAmt2 + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colTaxAmt2).Value)
+                dblTaxAmt3 = dblTaxAmt3 + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colTaxAmt3).Value)
+                dblTaxAmt4 = dblTaxAmt4 + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colTaxAmt4).Value)
+                dblTaxAmt5 = dblTaxAmt5 + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colTaxAmt5).Value)
+                dblTaxAmt6 = dblTaxAmt6 + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colTaxAmt6).Value)
+                dblTaxAmt7 = dblTaxAmt7 + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colTaxAmt7).Value)
+                dblTaxAmt8 = dblTaxAmt8 + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colTaxAmt8).Value)
+                dblTaxAmt9 = dblTaxAmt9 + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colTaxAmt9).Value)
+                dblTaxAmt10 = dblTaxAmt10 + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colTaxAmt10).Value)
+                dblTaxBaseAmt1 = dblTaxBaseAmt1 + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colTaxBaseAmt1).Value)
+                dblTaxBaseAmt2 = dblTaxBaseAmt2 + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colTaxBaseAmt2).Value)
+                dblTaxBaseAmt3 = dblTaxBaseAmt3 + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colTaxBaseAmt3).Value)
+                dblTaxBaseAmt4 = dblTaxBaseAmt4 + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colTaxBaseAmt4).Value)
+                dblTaxBaseAmt5 = dblTaxBaseAmt5 + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colTaxBaseAmt5).Value)
+                dblTaxBaseAmt6 = dblTaxBaseAmt6 + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colTaxBaseAmt6).Value)
+                dblTaxBaseAmt7 = dblTaxBaseAmt7 + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colTaxBaseAmt7).Value)
+                dblTaxBaseAmt8 = dblTaxBaseAmt8 + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colTaxBaseAmt8).Value)
+                dblTaxBaseAmt9 = dblTaxBaseAmt9 + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colTaxBaseAmt9).Value)
+                dblTaxBaseAmt10 = dblTaxBaseAmt10 + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colTaxBaseAmt10).Value)
+                TotalItemQty = TotalItemQty + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colQty).Value)
+                dblTaxTotAmt = dblTaxTotAmt + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colTotTaxAmt).Value)
+                dblNetAmt = dblNetAmt + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colAmtAfterTax).Value)
+                dblTotLandedCost = dblTotLandedCost + clsCommon.myCDecimal(gv1.Rows(ii).Cells(colLandedAmt).Value)
+                dblTotalTPTAmt = dblTotalTPTAmt + clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColTPTAmt).Value)
             End If
         Next
         If rbtnTaxCalAutomatic.IsChecked Then
@@ -3091,9 +3091,9 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 Select Case (ii)
                     Case 1
                         If chkisTCS.Checked Then
-                            If (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code='" & clsCommon.myCstr(gv2.Rows(ii - 1).Cells(colTTaxAutCode).Value) & "' AND Is_TCS ='Y'")) > 0) Then
+                            If (clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code='" & clsCommon.myCstr(gv2.Rows(ii - 1).Cells(colTTaxAutCode).Value) & "' AND Is_TCS ='Y'")) > 0) Then
                                 lblActualTCSTaxBaseAmt.Text = clsCommon.myFormat(dblTaxBaseAmt1)
-                                If clsCommon.myCdbl(txttcstaxbaseamount.Value) > 0 Then
+                                If clsCommon.myCDecimal(txttcstaxbaseamount.Value) > 0 Then
                                     dblTaxBaseAmt1 = Math.Round(txttcstaxbaseamount.Value, 6)
                                 Else
                                     dblTaxBaseAmt1 = lblActualTCSTaxBaseAmt.Text
@@ -3110,9 +3110,9 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                         End If
                     Case 2
                         If chkisTCS.Checked Then
-                            If (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code='" & clsCommon.myCstr(gv2.Rows(ii - 1).Cells(colTTaxAutCode).Value) & "' AND Is_TCS ='Y'")) > 0) Then
+                            If (clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code='" & clsCommon.myCstr(gv2.Rows(ii - 1).Cells(colTTaxAutCode).Value) & "' AND Is_TCS ='Y'")) > 0) Then
                                 lblActualTCSTaxBaseAmt.Text = (dblTaxBaseAmt1 + dblTaxAmt1)
-                                If clsCommon.myCdbl(txttcstaxbaseamount.Value) > 0 Then
+                                If clsCommon.myCDecimal(txttcstaxbaseamount.Value) > 0 Then
                                     dblTaxBaseAmt2 = Math.Round(txttcstaxbaseamount.Value, 6)
                                 Else
                                     dblTaxBaseAmt2 = lblActualTCSTaxBaseAmt.Text
@@ -3129,12 +3129,12 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                         End If
                     Case 3
                         If chkisTCS.Checked Then
-                            If (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code='" & clsCommon.myCstr(gv2.Rows(ii - 1).Cells(colTTaxAutCode).Value) & "' AND Is_TCS ='Y'")) > 0) Then
+                            If (clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code='" & clsCommon.myCstr(gv2.Rows(ii - 1).Cells(colTTaxAutCode).Value) & "' AND Is_TCS ='Y'")) > 0) Then
                                 lblActualTCSTaxBaseAmt.Text = (dblTaxBaseAmt1 + dblTaxAmt1 + dblTaxAmt2)
-                                If clsCommon.myCdbl(txttcstaxbaseamount.Value) > 0 Then
-                                    dblTaxBaseAmt3 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
+                                If clsCommon.myCDecimal(txttcstaxbaseamount.Value) > 0 Then
+                                    dblTaxBaseAmt3 = clsCommon.myCDecimal(txttcstaxbaseamount.Value)
                                 Else
-                                    dblTaxBaseAmt3 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
+                                    dblTaxBaseAmt3 = clsCommon.myCDecimal(lblActualTCSTaxBaseAmt.Text)
                                 End If
                                 dblTaxAmt3 = (dblTaxBaseAmt3 * txtTCSTaxRate.Value) / 100
                             End If
@@ -3148,12 +3148,12 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                         End If
                     Case 4
                         If chkisTCS.Checked Then
-                            If (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code='" & clsCommon.myCstr(gv2.Rows(ii - 1).Cells(colTTaxAutCode).Value) & "' AND Is_TCS ='Y'")) > 0) Then
+                            If (clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code='" & clsCommon.myCstr(gv2.Rows(ii - 1).Cells(colTTaxAutCode).Value) & "' AND Is_TCS ='Y'")) > 0) Then
                                 lblActualTCSTaxBaseAmt.Text = (dblTaxBaseAmt1 + dblTaxAmt1 + dblTaxAmt2 + dblTaxAmt3)
-                                If clsCommon.myCdbl(txttcstaxbaseamount.Value) > 0 Then
-                                    dblTaxBaseAmt4 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
+                                If clsCommon.myCDecimal(txttcstaxbaseamount.Value) > 0 Then
+                                    dblTaxBaseAmt4 = clsCommon.myCDecimal(txttcstaxbaseamount.Value)
                                 Else
-                                    dblTaxBaseAmt4 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
+                                    dblTaxBaseAmt4 = clsCommon.myCDecimal(lblActualTCSTaxBaseAmt.Text)
                                 End If
                                 dblTaxAmt4 = (dblTaxBaseAmt4 * txtTCSTaxRate.Value) / 100
                             End If
@@ -3167,12 +3167,12 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                         End If
                     Case 5
                         If chkisTCS.Checked Then
-                            If (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code='" & clsCommon.myCstr(gv2.Rows(ii - 1).Cells(colTTaxAutCode).Value) & "' AND Is_TCS ='Y'")) > 0) Then
+                            If (clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code='" & clsCommon.myCstr(gv2.Rows(ii - 1).Cells(colTTaxAutCode).Value) & "' AND Is_TCS ='Y'")) > 0) Then
                                 lblActualTCSTaxBaseAmt.Text = (dblTaxBaseAmt1 + dblTaxAmt1 + dblTaxAmt2 + dblTaxAmt3 + dblTaxAmt4)
-                                If clsCommon.myCdbl(txttcstaxbaseamount.Value) > 0 Then
-                                    dblTaxBaseAmt5 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
+                                If clsCommon.myCDecimal(txttcstaxbaseamount.Value) > 0 Then
+                                    dblTaxBaseAmt5 = clsCommon.myCDecimal(lblActualTCSTaxBaseAmt.Text)
                                 Else
-                                    dblTaxBaseAmt5 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
+                                    dblTaxBaseAmt5 = clsCommon.myCDecimal(lblActualTCSTaxBaseAmt.Text)
                                 End If
                                 dblTaxAmt5 = (dblTaxBaseAmt5 * txtTCSTaxRate.Value) / 100
                             End If
@@ -3230,14 +3230,14 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
         Dim dblACAmount As Decimal = 0
         For ii As Integer = 0 To gvAC.Rows.Count - 1
             If (clsCommon.myLen(gvAC.Rows(ii).Cells(colACCode).Value) > 0) Then
-                dblACAmount = dblACAmount + clsCommon.myCdbl(gvAC.Rows(ii).Cells(colACAmount).Value)
+                dblACAmount = dblACAmount + clsCommon.myCDecimal(gvAC.Rows(ii).Cells(colACAmount).Value)
             End If
         Next
         lblAmtWithDiscount.Text = clsCommon.myFormat(dblTotAmt)
         lblDiscountAmt.Text = clsCommon.myFormat(dblTotDisAmt + dblCashDisAmt)
         If MultiplySubsidyWithQuantity Then
             Dim AmtAfterDiscount As Decimal = lblAmtWithDiscount.Text
-            Dim InvAmt As Decimal = clsCommon.myCdbl(lblInvoiceDiscAmt.Text)
+            Dim InvAmt As Decimal = clsCommon.myCDecimal(lblInvoiceDiscAmt.Text)
             AmtAfterDiscount = AmtAfterDiscount - InvAmt
             lblAmtAfterDiscount.Text = clsCommon.myFormat(AmtAfterDiscount)
             lblInvoiceDiscAmt.Text = lblTotalDisSubsidy.Text
@@ -3260,10 +3260,10 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
         lblCommAmt.Text = clsCommon.myFormat(dblCommAmt)
         If AllowRoundOffAmountOnDCSSale Then
             Dim lstDecml As New List(Of Decimal)
-            lstDecml = ClsScrapSaleHead.Calculate_RoundOffAmt(clsCommon.myCdbl(lblTotRAmt.Text), Nothing)
+            lstDecml = ClsScrapSaleHead.Calculate_RoundOffAmt(clsCommon.myCDecimal(lblTotRAmt.Text), Nothing)
             If lstDecml IsNot Nothing AndAlso lstDecml.Count > 0 Then
-                lblTotRAmt.Text = clsCommon.myCdbl(lstDecml(0))
-                txtRoundOff.Text = clsCommon.myCdbl(lstDecml(1))
+                lblTotRAmt.Text = clsCommon.myCDecimal(lstDecml(0))
+                txtRoundOff.Text = clsCommon.myCDecimal(lstDecml(1))
             End If
         Else
             txtRoundOff.Text = 0
@@ -3276,7 +3276,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
         ''Dim dblRetVal As Decimal = 0
         ''For ii As Integer = 0 To intEndCol - 1
         ''    If clsCommon.myCBool(gv2.Rows(ii).Cells(colTIsTaxable).Value) Then
-        ''        dblRetVal = dblRetVal + clsCommon.myCdbl(clsCommon.myCstr(gv2.Rows(ii).Cells(colTTaxAmt).Value))
+        ''        dblRetVal = dblRetVal + clsCommon.myCDecimal(clsCommon.myCstr(gv2.Rows(ii).Cells(colTTaxAmt).Value))
         ''    End If
         ''Next
         ''Return dblRetVal
@@ -3284,7 +3284,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
     Private Function GetBaseTaxAmount(ByVal intEndCol As Integer, ByVal strSurTaxCode As String) As Decimal
         For ii As Integer = 0 To intEndCol
             If clsCommon.CompairString(strSurTaxCode, clsCommon.myCstr(gv2.Rows(ii).Cells(colTTaxAutCode).Value)) = CompairStringResult.Equal Then
-                Return clsCommon.myCdbl(clsCommon.myCstr(gv2.Rows(ii).Cells(colTTaxAmt).Value))
+                Return clsCommon.myCDecimal(clsCommon.myCstr(gv2.Rows(ii).Cells(colTTaxAmt).Value))
             End If
         Next
         Return 0
@@ -3441,13 +3441,13 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     Return False
                 End If
             End If
-            If clsCommon.myCdbl(lblTotalSubsidy.Text) > clsCommon.myCdbl(lblTotRAmt.Text) Then
+            If clsCommon.myCDecimal(lblTotalSubsidy.Text) > clsCommon.myCDecimal(lblTotRAmt.Text) Then
                 Throw New Exception("Subsidy amount cannot be greater than Document amount")
             End If
-            If clsCommon.myCdbl(txtRateAmt.Text) < 0 Then
+            If clsCommon.myCDecimal(txtRateAmt.Text) < 0 Then
                 Throw New Exception("Rate amount cannot be negative")
             End If
-            If clsCommon.myCdbl(lblTotalSubsidy.Text) < 0 Then
+            If clsCommon.myCDecimal(lblTotalSubsidy.Text) < 0 Then
                 Throw New Exception("Subsidy amount cannot be negative")
             End If
             If clsCommon.myLen(txtTransporterCode.Value) < 0 AndAlso Not chkNoTranspoter.Checked Then
@@ -3458,7 +3458,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     Dim dtTransportationCharges As DataTable = clsDCSTransportationCharges.PickTransportationRate(LblVlc_Code.Tag, clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value), txtDate.Value)
                     If dtTransportationCharges.Rows.Count > 0 AndAlso dtTransportationCharges IsNot Nothing Then
                         gv1.Rows(ii).Cells(ColTPTRate).Value = clsCommon.myCDecimal(dtTransportationCharges.Rows(0)("Transportation_Rate"))
-                        gv1.Rows(ii).Cells(ColTPTRate).Tag = clsCommon.myCdbl(dtTransportationCharges.Rows(0)("PK_ID"))
+                        gv1.Rows(ii).Cells(ColTPTRate).Tag = clsCommon.myCDecimal(dtTransportationCharges.Rows(0)("PK_ID"))
                     End If
                 Else
                     gv1.Rows(ii).Cells(ColTPTRate).Value = 0
@@ -3523,15 +3523,15 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                         Dim dt_FromLocation As DataTable = clsDBFuncationality.GetDataTable(EWBThresholdLimtCat)
                         Dim dt_CustLocation As DataTable = clsDBFuncationality.GetDataTable(EWBThresholdLimtCatForCust)
                         If clsCommon.CompairString(clsCommon.myCstr(dt_FromLocation(0)("City_Code")), clsCommon.myCstr(dt_CustLocation(0)("City_Code"))) = CompairStringResult.Equal Then
-                            If clsCommon.myCdbl(lblTotRAmt1.Text) > EWBThresholdLimitForIntraCity Then
+                            If clsCommon.myCDecimal(lblTotRAmt1.Text) > EWBThresholdLimitForIntraCity Then
                                 chkIsEwayBill.Checked = True
                             End If
                         ElseIf clsCommon.CompairString(clsCommon.myCstr(dt_FromLocation(0)("State")), clsCommon.myCstr(dt_CustLocation(0)("State"))) = CompairStringResult.Equal Then
-                            If clsCommon.myCdbl(lblTotRAmt1.Text) > EWBThresholdLimitForIntraState Then
+                            If clsCommon.myCDecimal(lblTotRAmt1.Text) > EWBThresholdLimitForIntraState Then
                                 chkIsEwayBill.Checked = True
                             End If
                         Else
-                            If clsCommon.myCdbl(lblTotRAmt1.Text) > EWBThresholdLimitForInterState Then
+                            If clsCommon.myCDecimal(lblTotRAmt1.Text) > EWBThresholdLimitForInterState Then
                                 chkIsEwayBill.Checked = True
                             End If
                         End If
@@ -3568,9 +3568,9 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 Dim strReqNo As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colOrderNo).Value)
                 Dim strICode As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value)
                 Dim strIName As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colIName).Value)
-                Dim dblPendingQty As Decimal = clsCommon.myCdbl(gv1.Rows(ii).Cells(colPendingQty).Value)
-                Dim dblQty As Decimal = clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value)
-                Dim dblMRP As Decimal = clsCommon.myCdbl(gv1.Rows(ii).Cells(colMRP).Value)
+                Dim dblPendingQty As Decimal = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colPendingQty).Value)
+                Dim dblQty As Decimal = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colQty).Value)
+                Dim dblMRP As Decimal = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMRP).Value)
                 Dim strUOM As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value)
                 Dim strSchemeItem As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colSchemeItem).Value)
                 Dim strProject As String = ""
@@ -3581,16 +3581,16 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     End If
                     Dim objCustItem As clsCustomeritemDetails = clsCustomeritemDetails.GetItemRateAndDiscount(txtVendorNo.Value, strICode, clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value), txtDate.Value)
                     If objCustItem IsNot Nothing Then
-                        If objCustItem.Min_Rate > (clsCommon.myCdbl(gv1.Rows(ii).Cells(colAmtAfterDis).Value) / dblQty) Then
-                            common.clsCommon.MyMessageBoxShow("Minimum Rate Can't be Less Then " + clsCommon.myCstr(objCustItem.Min_Rate) + " of Item " + strICode.Trim() + "( " + strIName.Trim() + " ) At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)))
+                        If objCustItem.Min_Rate > (clsCommon.myCDecimal(gv1.Rows(ii).Cells(colAmtAfterDis).Value) / dblQty) Then
+                            common.clsCommon.MyMessageBoxShow("Minimum Rate Can't be Less Then " + clsCommon.myCstr(objCustItem.Min_Rate) + " of Item " + strICode.Trim() + "( " + strIName.Trim() + " ) At Line No: " + clsCommon.myCstr(clsCommon.myCDecimal(ii + 1)))
                             Return False
                         End If
                     End If
                     If gv1.Rows(ii).Cells(colDCSSaleZeroCost).Value Then
                         gv1.Rows(ii).Cells(colRate).Value = 0
                     Else
-                        If clsCommon.myCdbl(gv1.Rows(ii).Cells(colRate).Value) <= 0 Then
-                            common.clsCommon.MyMessageBoxShow("Rate Can't be 0 of Item " + strICode.Trim() + "( " + strIName.Trim() + " ) At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)))
+                        If clsCommon.myCDecimal(gv1.Rows(ii).Cells(colRate).Value) <= 0 Then
+                            common.clsCommon.MyMessageBoxShow("Rate Can't be 0 of Item " + strICode.Trim() + "( " + strIName.Trim() + " ) At Line No: " + clsCommon.myCstr(clsCommon.myCDecimal(ii + 1)))
                             Return False
                         End If
                     End If
@@ -3600,14 +3600,14 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                             arrReqNo.Add(strReqNo)
                         End If
                         If dblQty > dblPendingQty AndAlso clsCommon.CompairString(strSchemeItem, "No") = CompairStringResult.Equal Then
-                            common.clsCommon.MyMessageBoxShow("Item " + strICode + "( " + strIName.Trim() + " ) Entered Quantity(" + clsCommon.myCstr(dblQty) + ") Can't be more Pending Quantity(" + clsCommon.myCstr(dblPendingQty) + ").At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
+                            common.clsCommon.MyMessageBoxShow("Item " + strICode + "( " + strIName.Trim() + " ) Entered Quantity(" + clsCommon.myCstr(dblQty) + ") Can't be more Pending Quantity(" + clsCommon.myCstr(dblPendingQty) + ").At Line No: " + clsCommon.myCstr(clsCommon.myCDecimal(ii + 1)) + " ")
                             Return False
                         End If
                         If objCommonVar.IsDemoERP Then
                             If Not strProject Is Nothing Then
                                 strProject = clsSNSalesOrderHead.IsValidProjectForSO(strReqNo, "")
                                 If arrProjNo.Contains(strProject) And arrProjNo.Count > 0 Then
-                                    common.clsCommon.MyMessageBoxShow("SO No:" + strReqNo + " and Item : " + strIName + " is not for PJC or not related to PJC At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
+                                    common.clsCommon.MyMessageBoxShow("SO No:" + strReqNo + " and Item : " + strIName + " is not for PJC or not related to PJC At Line No: " + clsCommon.myCstr(clsCommon.myCDecimal(ii + 1)) + " ")
                                     Return False
                                 Else
                                     arrProjNo.Add(strProject)
@@ -3665,7 +3665,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                         End If
                         Dim strICodeInner As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colICode).Value)
                         Dim strUOMInner As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colUnit).Value)
-                        Dim dblQtyInner As Decimal = clsCommon.myCdbl(gv1.Rows(jj).Cells(colQty).Value)
+                        Dim dblQtyInner As Decimal = clsCommon.myCDecimal(gv1.Rows(jj).Cells(colQty).Value)
                         Dim dblInnerConvFac As Decimal = clsItemMaster.GetConvertionFactor(strICodeInner, strUOMInner, Nothing)
                         If dblQtyInner > 0 AndAlso clsCommon.CompairString(strICodeInner, strICode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strUOMInner, strUOM) = CompairStringResult.Equal Then
                             dblEnteredQty += dblQtyInner
@@ -3747,10 +3747,10 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 End If
             End If
             'Bhole Baba- Credit Limit check
-            Dim CreditLimit As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select TSPL_CUSTOMER_MASTER.Credit_Limit from TSPL_CUSTOMER_VENDOR_MAPPING left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.cust_code=TSPL_CUSTOMER_VENDOR_MAPPING.cust_code left outer join TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code WHERE (TSPL_VENDOR_MASTER.Is_Chilling_vendor=1 OR TSPL_VENDOR_MASTER.IsEmployee=1 OR TSPL_VENDOR_MASTER.Form_Type='PTM') AND TSPL_CUSTOMER_MASTER.Cust_Code='" + txtVendorNo.Value + "'"))
+            Dim CreditLimit As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("Select TSPL_CUSTOMER_MASTER.Credit_Limit from TSPL_CUSTOMER_VENDOR_MAPPING left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.cust_code=TSPL_CUSTOMER_VENDOR_MAPPING.cust_code left outer join TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code WHERE (TSPL_VENDOR_MASTER.Is_Chilling_vendor=1 OR TSPL_VENDOR_MASTER.IsEmployee=1 OR TSPL_VENDOR_MASTER.Form_Type='PTM') AND TSPL_CUSTOMER_MASTER.Cust_Code='" + txtVendorNo.Value + "'"))
             If CreditLimit > 0 Then
-                Dim SaleAmt As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" Select sum(Total_Amt) As Total_Amt  from TSPL_SD_SHIPMENT_HEAD where TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC' and Customer_Code='" + txtVendorNo.Value + "' and convert(date,TSPL_SD_SHIPMENT_HEAD.document_date,103)>=convert(date,DATEADD(mm, DATEDIFF(mm, 0, convert(date,'" + txtDate.Value + "',103)), 0),103) and convert(date,TSPL_SD_SHIPMENT_HEAD.document_date,103)<=convert(date,DATEADD (dd, -1, DATEADD(mm, DATEDIFF(mm, 0, convert(date,'" + txtDate.Value + "',103)) + 1, 0)),103) and TSPL_SD_SHIPMENT_HEAD.document_code <> '" + txtDocNo.Value + "' "))
-                If (SaleAmt + clsCommon.myCdbl(lblTotRAmt.Text)) > CreditLimit Then
+                Dim SaleAmt As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(" Select sum(Total_Amt) As Total_Amt  from TSPL_SD_SHIPMENT_HEAD where TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC' and Customer_Code='" + txtVendorNo.Value + "' and convert(date,TSPL_SD_SHIPMENT_HEAD.document_date,103)>=convert(date,DATEADD(mm, DATEDIFF(mm, 0, convert(date,'" + txtDate.Value + "',103)), 0),103) and convert(date,TSPL_SD_SHIPMENT_HEAD.document_date,103)<=convert(date,DATEADD (dd, -1, DATEADD(mm, DATEDIFF(mm, 0, convert(date,'" + txtDate.Value + "',103)) + 1, 0)),103) and TSPL_SD_SHIPMENT_HEAD.document_code <> '" + txtDocNo.Value + "' "))
+                If (SaleAmt + clsCommon.myCDecimal(lblTotRAmt.Text)) > CreditLimit Then
                     Throw New Exception("Sale limit exceed for this month.")
                 End If
             End If
@@ -3769,7 +3769,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
             Dim sgstAmount As Decimal = 0
             For Each grow As GridViewRowInfo In gv2.Rows
                 Dim taxtype As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select type from tspl_Tax_master where Tax_Code='" + clsCommon.myCstr(grow.Cells(colTTaxAutCode).Value) + "' "))
-                Dim amt As Decimal = clsCommon.myCdbl(grow.Cells(colTTaxAmt).Value)
+                Dim amt As Decimal = clsCommon.myCDecimal(grow.Cells(colTTaxAmt).Value)
                 If clsCommon.CompairString(taxtype, "CGST") = CompairStringResult.Equal Then
                     cgstAmount = amt
                 ElseIf clsCommon.CompairString(taxtype, "SGST") = CompairStringResult.Equal Then
@@ -3800,7 +3800,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 obj.Total_Comm_Amt = lblCommAmt.Text
                 obj.Invoice_Type = ddlInvoiceType.SelectedValue
                 obj.Price_Code = txtPriceCode.Text
-                obj.HeadDisc_Per = clsCommon.myCdbl(txtDiscPer.Text)
+                obj.HeadDisc_Per = clsCommon.myCDecimal(txtDiscPer.Text)
                 obj.IS_TCS = IIf(chkisTCS.Checked, 1, 0)
                 obj.Deduction = clsCommon.myCstr(cboDeductionType.SelectedValue)
                 obj.IsEwayBill = IIf(chkIsEwayBill.Checked, 1, 0)
@@ -3835,15 +3835,15 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 ElseIf chkRateDiffAmt.IsChecked Then
                     obj.Is_Rate_Diff_Per_Amt = 2
                 End If
-                obj.RateDiff_Amt = clsCommon.myCdbl(txtRateAmt.Text)
+                obj.RateDiff_Amt = clsCommon.myCDecimal(txtRateAmt.Text)
                 obj.Gross_Amount = lblGrossAmount.Text
                 '-----------------richa 27/06/2014 Ticket No .BM00000002982-------  
-                If clsCommon.myCdbl(txtMannaulInvoiceNo.Value) > 0 Then
+                If clsCommon.myCDecimal(txtMannaulInvoiceNo.Value) > 0 Then
                     obj.Mannual_Invoice_No = txtMannaulInvoiceNo.Value
                 Else
                     obj.InvoiceManualNowithPrefix = TxtInvoiceManualNoWithPrefix.Text
                 End If
-                obj.Transporter_Commission_TotalAmt = clsCommon.myCdbl(txtTPTAmt.Text)
+                obj.Transporter_Commission_TotalAmt = clsCommon.myCDecimal(txtTPTAmt.Text)
                 '----------------------------------------------------------------
                 obj.Document_Code = txtDocNo.Value
                 obj.Document_Date = txtDate.Value
@@ -3852,7 +3852,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 obj.Ref_No = txtRefNo.Text
                 obj.Inv_Date = clsCommon.GetPrintDate(dtpInvoice.Value, "dd/MMM/yyyy")
                 obj.Challan_Date = clsCommon.GetPrintDate(dtpChallan.Value, "dd/MMM/yyyy")
-                obj.Total_Tax_Amt = clsCommon.myCdbl(lblTaxAmt.Text)
+                obj.Total_Tax_Amt = clsCommon.myCDecimal(lblTaxAmt.Text)
                 obj.Inv_No = txtInvNo.Text
                 obj.Bill_To_Location = txtBillToLocation.Value
                 obj.Sub_Location_code = txtSubLocation.Value
@@ -3874,71 +3874,71 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 obj.Exclude_KKF_And_Mandi = chkExcludeKKFMandi.Checked
                 If (gv2.Rows.Count > 0) Then
                     obj.TAX1 = clsCommon.myCstr(gv2.Rows(0).Cells(colTTaxAutCode).Value)
-                    obj.TAX1_Rate = clsCommon.myCdbl(gv2.Rows(0).Cells(colTTaxRate).Value)
-                    obj.TAX1_Base_Amt = clsCommon.myCdbl(gv2.Rows(0).Cells(colTBaseAmt).Value)
-                    obj.TAX1_Amt = clsCommon.myCdbl(gv2.Rows(0).Cells(colTTaxAmt).Value)
+                    obj.TAX1_Rate = clsCommon.myCDecimal(gv2.Rows(0).Cells(colTTaxRate).Value)
+                    obj.TAX1_Base_Amt = clsCommon.myCDecimal(gv2.Rows(0).Cells(colTBaseAmt).Value)
+                    obj.TAX1_Amt = clsCommon.myCDecimal(gv2.Rows(0).Cells(colTTaxAmt).Value)
                 End If
                 If (gv2.Rows.Count > 1) Then
                     obj.TAX2 = clsCommon.myCstr(gv2.Rows(1).Cells(colTTaxAutCode).Value)
-                    obj.TAX2_Rate = clsCommon.myCdbl(gv2.Rows(1).Cells(colTTaxRate).Value)
-                    obj.TAX2_Base_Amt = clsCommon.myCdbl(gv2.Rows(1).Cells(colTBaseAmt).Value)
-                    obj.TAX2_Amt = clsCommon.myCdbl(gv2.Rows(1).Cells(colTTaxAmt).Value)
+                    obj.TAX2_Rate = clsCommon.myCDecimal(gv2.Rows(1).Cells(colTTaxRate).Value)
+                    obj.TAX2_Base_Amt = clsCommon.myCDecimal(gv2.Rows(1).Cells(colTBaseAmt).Value)
+                    obj.TAX2_Amt = clsCommon.myCDecimal(gv2.Rows(1).Cells(colTTaxAmt).Value)
                 End If
                 If (gv2.Rows.Count > 2) Then
                     obj.TAX3 = clsCommon.myCstr(gv2.Rows(2).Cells(colTTaxAutCode).Value)
-                    obj.TAX3_Rate = clsCommon.myCdbl(gv2.Rows(2).Cells(colTTaxRate).Value)
-                    obj.TAX3_Base_Amt = clsCommon.myCdbl(gv2.Rows(2).Cells(colTBaseAmt).Value)
-                    obj.TAX3_Amt = clsCommon.myCdbl(gv2.Rows(2).Cells(colTTaxAmt).Value)
+                    obj.TAX3_Rate = clsCommon.myCDecimal(gv2.Rows(2).Cells(colTTaxRate).Value)
+                    obj.TAX3_Base_Amt = clsCommon.myCDecimal(gv2.Rows(2).Cells(colTBaseAmt).Value)
+                    obj.TAX3_Amt = clsCommon.myCDecimal(gv2.Rows(2).Cells(colTTaxAmt).Value)
                 End If
                 If (gv2.Rows.Count > 3) Then
                     obj.TAX4 = clsCommon.myCstr(gv2.Rows(3).Cells(colTTaxAutCode).Value)
-                    obj.TAX4_Rate = clsCommon.myCdbl(gv2.Rows(3).Cells(colTTaxRate).Value)
-                    obj.TAX4_Base_Amt = clsCommon.myCdbl(gv2.Rows(3).Cells(colTBaseAmt).Value)
-                    obj.TAX4_Amt = clsCommon.myCdbl(gv2.Rows(3).Cells(colTTaxAmt).Value)
+                    obj.TAX4_Rate = clsCommon.myCDecimal(gv2.Rows(3).Cells(colTTaxRate).Value)
+                    obj.TAX4_Base_Amt = clsCommon.myCDecimal(gv2.Rows(3).Cells(colTBaseAmt).Value)
+                    obj.TAX4_Amt = clsCommon.myCDecimal(gv2.Rows(3).Cells(colTTaxAmt).Value)
                 End If
                 If (gv2.Rows.Count > 4) Then
                     obj.TAX5 = clsCommon.myCstr(gv2.Rows(4).Cells(colTTaxAutCode).Value)
-                    obj.TAX5_Rate = clsCommon.myCdbl(gv2.Rows(4).Cells(colTTaxRate).Value)
-                    obj.TAX5_Base_Amt = clsCommon.myCdbl(gv2.Rows(4).Cells(colTBaseAmt).Value)
-                    obj.TAX5_Amt = clsCommon.myCdbl(gv2.Rows(4).Cells(colTTaxAmt).Value)
+                    obj.TAX5_Rate = clsCommon.myCDecimal(gv2.Rows(4).Cells(colTTaxRate).Value)
+                    obj.TAX5_Base_Amt = clsCommon.myCDecimal(gv2.Rows(4).Cells(colTBaseAmt).Value)
+                    obj.TAX5_Amt = clsCommon.myCDecimal(gv2.Rows(4).Cells(colTTaxAmt).Value)
                 End If
                 If (gv2.Rows.Count > 5) Then
                     obj.TAX6 = clsCommon.myCstr(gv2.Rows(5).Cells(colTTaxAutCode).Value)
-                    obj.TAX6_Rate = clsCommon.myCdbl(gv2.Rows(5).Cells(colTTaxRate).Value)
-                    obj.TAX6_Base_Amt = clsCommon.myCdbl(gv2.Rows(5).Cells(colTBaseAmt).Value)
-                    obj.TAX6_Amt = clsCommon.myCdbl(gv2.Rows(5).Cells(colTTaxAmt).Value)
+                    obj.TAX6_Rate = clsCommon.myCDecimal(gv2.Rows(5).Cells(colTTaxRate).Value)
+                    obj.TAX6_Base_Amt = clsCommon.myCDecimal(gv2.Rows(5).Cells(colTBaseAmt).Value)
+                    obj.TAX6_Amt = clsCommon.myCDecimal(gv2.Rows(5).Cells(colTTaxAmt).Value)
                 End If
                 If (gv2.Rows.Count > 6) Then
                     obj.TAX7 = clsCommon.myCstr(gv2.Rows(6).Cells(colTTaxAutCode).Value)
-                    obj.TAX7_Rate = clsCommon.myCdbl(gv2.Rows(6).Cells(colTTaxRate).Value)
-                    obj.TAX7_Base_Amt = clsCommon.myCdbl(gv2.Rows(6).Cells(colTBaseAmt).Value)
-                    obj.TAX7_Amt = clsCommon.myCdbl(gv2.Rows(6).Cells(colTTaxAmt).Value)
+                    obj.TAX7_Rate = clsCommon.myCDecimal(gv2.Rows(6).Cells(colTTaxRate).Value)
+                    obj.TAX7_Base_Amt = clsCommon.myCDecimal(gv2.Rows(6).Cells(colTBaseAmt).Value)
+                    obj.TAX7_Amt = clsCommon.myCDecimal(gv2.Rows(6).Cells(colTTaxAmt).Value)
                 End If
                 If (gv2.Rows.Count > 7) Then
                     obj.TAX8 = clsCommon.myCstr(gv2.Rows(7).Cells(colTTaxAutCode).Value)
-                    obj.TAX8_Rate = clsCommon.myCdbl(gv2.Rows(7).Cells(colTTaxRate).Value)
-                    obj.TAX8_Base_Amt = clsCommon.myCdbl(gv2.Rows(7).Cells(colTBaseAmt).Value)
-                    obj.TAX8_Amt = clsCommon.myCdbl(gv2.Rows(7).Cells(colTTaxAmt).Value)
+                    obj.TAX8_Rate = clsCommon.myCDecimal(gv2.Rows(7).Cells(colTTaxRate).Value)
+                    obj.TAX8_Base_Amt = clsCommon.myCDecimal(gv2.Rows(7).Cells(colTBaseAmt).Value)
+                    obj.TAX8_Amt = clsCommon.myCDecimal(gv2.Rows(7).Cells(colTTaxAmt).Value)
                 End If
                 If (gv2.Rows.Count > 8) Then
                     obj.TAX9 = clsCommon.myCstr(gv2.Rows(8).Cells(colTTaxAutCode).Value)
-                    obj.TAX9_Rate = clsCommon.myCdbl(gv2.Rows(8).Cells(colTTaxRate).Value)
-                    obj.TAX9_Base_Amt = clsCommon.myCdbl(gv2.Rows(8).Cells(colTBaseAmt).Value)
-                    obj.TAX9_Amt = clsCommon.myCdbl(gv2.Rows(8).Cells(colTTaxAmt).Value)
+                    obj.TAX9_Rate = clsCommon.myCDecimal(gv2.Rows(8).Cells(colTTaxRate).Value)
+                    obj.TAX9_Base_Amt = clsCommon.myCDecimal(gv2.Rows(8).Cells(colTBaseAmt).Value)
+                    obj.TAX9_Amt = clsCommon.myCDecimal(gv2.Rows(8).Cells(colTTaxAmt).Value)
                 End If
                 If (gv2.Rows.Count > 9) Then
                     obj.TAX10 = clsCommon.myCstr(gv2.Rows(9).Cells(colTTaxAutCode).Value)
-                    obj.TAX10_Rate = clsCommon.myCdbl(gv2.Rows(9).Cells(colTTaxRate).Value)
-                    obj.TAX10_Base_Amt = clsCommon.myCdbl(gv2.Rows(9).Cells(colTBaseAmt).Value)
-                    obj.TAX10_Amt = clsCommon.myCdbl(gv2.Rows(9).Cells(colTTaxAmt).Value)
+                    obj.TAX10_Rate = clsCommon.myCDecimal(gv2.Rows(9).Cells(colTTaxRate).Value)
+                    obj.TAX10_Base_Amt = clsCommon.myCDecimal(gv2.Rows(9).Cells(colTBaseAmt).Value)
+                    obj.TAX10_Amt = clsCommon.myCDecimal(gv2.Rows(9).Cells(colTTaxAmt).Value)
                 End If
                 obj.Terms_Code = txtTermCode.Value
                 obj.Due_Date = txtDueDate.Value
-                obj.Discount_Base = clsCommon.myCdbl(lblAmtWithDiscount.Text)
-                obj.Discount_Amt = clsCommon.myCdbl(lblDiscountAmt.Text)
-                obj.Amount_Less_Discount = clsCommon.myCdbl(lblAmtAfterDiscount.Text)
-                obj.Total_Amt = clsCommon.myCdbl(lblTotRAmt.Text)
-                obj.RoundOffAmount = clsCommon.myCdbl(txtRoundOff.Text)
+                obj.Discount_Base = clsCommon.myCDecimal(lblAmtWithDiscount.Text)
+                obj.Discount_Amt = clsCommon.myCDecimal(lblDiscountAmt.Text)
+                obj.Amount_Less_Discount = clsCommon.myCDecimal(lblAmtAfterDiscount.Text)
+                obj.Total_Amt = clsCommon.myCDecimal(lblTotRAmt.Text)
+                obj.RoundOffAmount = clsCommon.myCDecimal(txtRoundOff.Text)
                 obj.Carrier = txtCarrier.Text
                 obj.GRNo = txtGRNo.Text
                 obj.GENo = txtGENo.Text
@@ -3952,73 +3952,73 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     If clsCommon.myLen(gvAC.Rows(0).Cells(colACCode).Value) > 0 Then
                         obj.Add_Charge_Code1 = clsCommon.myCstr(gvAC.Rows(0).Cells(colACCode).Value)
                         obj.Add_Charge_Name1 = clsCommon.myCstr(gvAC.Rows(0).Cells(colACName).Value)
-                        obj.Add_Charge_Amt1 = clsCommon.myCdbl(gvAC.Rows(0).Cells(colACAmount).Value)
+                        obj.Add_Charge_Amt1 = clsCommon.myCDecimal(gvAC.Rows(0).Cells(colACAmount).Value)
                     End If
                 End If
                 If (gvAC.Rows.Count > 1) Then
                     If clsCommon.myLen(gvAC.Rows(1).Cells(colACCode).Value) > 0 Then
                         obj.Add_Charge_Code2 = clsCommon.myCstr(gvAC.Rows(1).Cells(colACCode).Value)
                         obj.Add_Charge_Name2 = clsCommon.myCstr(gvAC.Rows(1).Cells(colACName).Value)
-                        obj.Add_Charge_Amt2 = clsCommon.myCdbl(gvAC.Rows(1).Cells(colACAmount).Value)
+                        obj.Add_Charge_Amt2 = clsCommon.myCDecimal(gvAC.Rows(1).Cells(colACAmount).Value)
                     End If
                 End If
                 If (gvAC.Rows.Count > 2) Then
                     If clsCommon.myLen(gvAC.Rows(2).Cells(colACCode).Value) > 0 Then
                         obj.Add_Charge_Code3 = clsCommon.myCstr(gvAC.Rows(2).Cells(colACCode).Value)
                         obj.Add_Charge_Name3 = clsCommon.myCstr(gvAC.Rows(2).Cells(colACName).Value)
-                        obj.Add_Charge_Amt3 = clsCommon.myCdbl(gvAC.Rows(2).Cells(colACAmount).Value)
+                        obj.Add_Charge_Amt3 = clsCommon.myCDecimal(gvAC.Rows(2).Cells(colACAmount).Value)
                     End If
                 End If
                 If (gvAC.Rows.Count > 3) Then
                     If clsCommon.myLen(gvAC.Rows(3).Cells(colACCode).Value) > 0 Then
                         obj.Add_Charge_Code4 = clsCommon.myCstr(gvAC.Rows(3).Cells(colACCode).Value)
                         obj.Add_Charge_Name4 = clsCommon.myCstr(gvAC.Rows(3).Cells(colACName).Value)
-                        obj.Add_Charge_Amt4 = clsCommon.myCdbl(gvAC.Rows(3).Cells(colACAmount).Value)
+                        obj.Add_Charge_Amt4 = clsCommon.myCDecimal(gvAC.Rows(3).Cells(colACAmount).Value)
                     End If
                 End If
                 If (gvAC.Rows.Count > 4) Then
                     If clsCommon.myLen(gvAC.Rows(4).Cells(colACCode).Value) > 0 Then
                         obj.Add_Charge_Code5 = clsCommon.myCstr(gvAC.Rows(4).Cells(colACCode).Value)
                         obj.Add_Charge_Name5 = clsCommon.myCstr(gvAC.Rows(4).Cells(colACName).Value)
-                        obj.Add_Charge_Amt5 = clsCommon.myCdbl(gvAC.Rows(4).Cells(colACAmount).Value)
+                        obj.Add_Charge_Amt5 = clsCommon.myCDecimal(gvAC.Rows(4).Cells(colACAmount).Value)
                     End If
                 End If
                 If (gvAC.Rows.Count > 5) Then
                     If clsCommon.myLen(gvAC.Rows(5).Cells(colACCode).Value) > 0 Then
                         obj.Add_Charge_Code6 = clsCommon.myCstr(gvAC.Rows(5).Cells(colACCode).Value)
                         obj.Add_Charge_Name6 = clsCommon.myCstr(gvAC.Rows(5).Cells(colACName).Value)
-                        obj.Add_Charge_Amt6 = clsCommon.myCdbl(gvAC.Rows(5).Cells(colACAmount).Value)
+                        obj.Add_Charge_Amt6 = clsCommon.myCDecimal(gvAC.Rows(5).Cells(colACAmount).Value)
                     End If
                 End If
                 If (gvAC.Rows.Count > 6) Then
                     If clsCommon.myLen(gvAC.Rows(6).Cells(colACCode).Value) > 0 Then
                         obj.Add_Charge_Code7 = clsCommon.myCstr(gvAC.Rows(6).Cells(colACCode).Value)
                         obj.Add_Charge_Name7 = clsCommon.myCstr(gvAC.Rows(6).Cells(colACName).Value)
-                        obj.Add_Charge_Amt7 = clsCommon.myCdbl(gvAC.Rows(6).Cells(colACAmount).Value)
+                        obj.Add_Charge_Amt7 = clsCommon.myCDecimal(gvAC.Rows(6).Cells(colACAmount).Value)
                     End If
                 End If
                 If (gvAC.Rows.Count > 7) Then
                     If clsCommon.myLen(gvAC.Rows(7).Cells(colACCode).Value) > 0 Then
                         obj.Add_Charge_Code8 = clsCommon.myCstr(gvAC.Rows(7).Cells(colACCode).Value)
                         obj.Add_Charge_Name8 = clsCommon.myCstr(gvAC.Rows(7).Cells(colACName).Value)
-                        obj.Add_Charge_Amt8 = clsCommon.myCdbl(gvAC.Rows(7).Cells(colACAmount).Value)
+                        obj.Add_Charge_Amt8 = clsCommon.myCDecimal(gvAC.Rows(7).Cells(colACAmount).Value)
                     End If
                 End If
                 If (gvAC.Rows.Count > 8) Then
                     If clsCommon.myLen(gvAC.Rows(8).Cells(colACCode).Value) > 0 Then
                         obj.Add_Charge_Code9 = clsCommon.myCstr(gvAC.Rows(8).Cells(colACCode).Value)
                         obj.Add_Charge_Name9 = clsCommon.myCstr(gvAC.Rows(8).Cells(colACName).Value)
-                        obj.Add_Charge_Amt9 = clsCommon.myCdbl(gvAC.Rows(8).Cells(colACAmount).Value)
+                        obj.Add_Charge_Amt9 = clsCommon.myCDecimal(gvAC.Rows(8).Cells(colACAmount).Value)
                     End If
                 End If
                 If (gvAC.Rows.Count > 9) Then
                     If clsCommon.myLen(gvAC.Rows(9).Cells(colACCode).Value) > 0 Then
                         obj.Add_Charge_Code10 = clsCommon.myCstr(gvAC.Rows(9).Cells(colACCode).Value)
                         obj.Add_Charge_Name10 = clsCommon.myCstr(gvAC.Rows(9).Cells(colACName).Value)
-                        obj.Add_Charge_Amt10 = clsCommon.myCdbl(gvAC.Rows(9).Cells(colACAmount).Value)
+                        obj.Add_Charge_Amt10 = clsCommon.myCDecimal(gvAC.Rows(9).Cells(colACAmount).Value)
                     End If
                 End If
-                obj.Total_Add_Charge = clsCommon.myCdbl(lblAddCharges.Text)
+                obj.Total_Add_Charge = clsCommon.myCDecimal(lblAddCharges.Text)
                 If rbtnTaxCalAutomatic.IsChecked Then
                     obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic
                 ElseIf rbtnTaxCalManual.IsChecked Then
@@ -4030,21 +4030,21 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 obj.Is_Taxable = chkTaxable.Checked
                 If chkcashsale.Checked Then
                     obj.Receipt_No = txtReceiptNo.Value
-                    obj.ReceiptAmt = clsCommon.myCdbl(lblReceiptAmt.Text)
+                    obj.ReceiptAmt = clsCommon.myCDecimal(lblReceiptAmt.Text)
                     obj.Payment_Terms = cmbPaymentType.Text
                     obj.Bank_Code = txtBankCode.Value
                 End If
                 obj.VehicleNo = txtVehicleNo.Text
                 obj.ReceiverName = txtReceiverName.Text
-                obj.TotalSubsidyAmt = clsCommon.myCdbl(lblTotalSubsidy.Text)
-                obj.TotalSubsidyDisAmt = clsCommon.myCdbl(lblTotalDisSubsidy.Text)
+                obj.TotalSubsidyAmt = clsCommon.myCDecimal(lblTotalSubsidy.Text)
+                obj.TotalSubsidyDisAmt = clsCommon.myCDecimal(lblTotalDisSubsidy.Text)
                 obj.Arr = New List(Of clsMCCMaterialSaleDetail)
                 If CreateAutoMCCPriceChat Then
 
                     Dim qry As String = Nothing
                     Dim count As Integer = 0
                     qry = "select count(*) from TSPL_MCC_RATE_UPLOADER_master   left join TSPL_MCC_RATE_UPLOADER_Detail on TSPL_MCC_RATE_UPLOADER_Detail.Code=TSPL_MCC_RATE_UPLOADER_MASTER.code where Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "'  and TSPL_MCC_RATE_UPLOADER_Detail.RATE_UOM='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value) + "' and convert(date,TSPL_MCC_RATE_UPLOADER_Master.Date,103) <=convert(date,'" + clsCommon.GetPrintDate(txtDate.Value) + "',103) and convert(date,TSPL_MCC_RATE_UPLOADER_Master.Effective_date,103) >=convert(date,'" + clsCommon.GetPrintDate(txtDate.Value) + "',103) "
-                    count = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+                    count = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry))
                     If count <= 0 Then
                         Dim objPrice As New clsMCCMaterailSalePriceChat
                         objPrice.DOCDate = clsCommon.GetPrintDate(txtDate.Value)
@@ -4065,11 +4065,11 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                         objPrice.ArrMCCRate = MccRate
                         objPrice.Arr = New List(Of clsMCCMaterailSalePriceChatDetail)
                         For Each gorw As GridViewRowInfo In gv1.Rows
-                            If clsCommon.myCdbl(gorw.Cells(colRate).Value) > 0 Then
+                            If clsCommon.myCDecimal(gorw.Cells(colRate).Value) > 0 Then
                                 Dim objTrprice As New clsMCCMaterailSalePriceChatDetail()
                                 objTrprice.Item_Code = clsCommon.myCstr(gorw.Cells(colICode).Value)
                                 objTrprice.Rate_UOM = clsCommon.myCstr(gorw.Cells(colUnit).Value)
-                                objTrprice.Price = clsCommon.myCdbl(gorw.Cells(colRate).Value)
+                                objTrprice.Price = clsCommon.myCDecimal(gorw.Cells(colRate).Value)
                                 objPrice.Arr.Add(objTrprice)
                             End If
 
@@ -4089,15 +4089,15 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 For Each grow As GridViewRowInfo In gv1.Rows
                     Dim Rate_Mcc_Item As Decimal = clsEkoPro.GetRateMccSale(txtBillToLocation.Value, clsCommon.myCstr(grow.Cells(colICode).Value), clsCommon.myCstr(grow.Cells(colUnit).Value), txtDate.Value)
                     Dim objTr As New clsMCCMaterialSaleDetail()
-                    If Rate_Mcc_Item <> clsCommon.myCdbl(grow.Cells(colRate).Value) Then
+                    If Rate_Mcc_Item <> clsCommon.myCDecimal(grow.Cells(colRate).Value) Then
                         obj.Rate_Status = 2
                     End If
-                    objTr.Line_No = clsCommon.myCdbl(grow.Cells(colLineNo).Value)
+                    objTr.Line_No = clsCommon.myCDecimal(grow.Cells(colLineNo).Value)
                     objTr.Row_Type = clsCommon.myCstr(grow.Cells(colRowType).Value)
                     objTr.Item_Code = clsCommon.myCstr(grow.Cells(colICode).Value)
                     objTr.Item_Desc = clsCommon.myCstr(grow.Cells(colIName).Value)
-                    objTr.Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
-                    objTr.Free_Qty = clsCommon.myCdbl(grow.Cells(colFreeQty).Value)
+                    objTr.Qty = clsCommon.myCDecimal(grow.Cells(colQty).Value)
+                    objTr.Free_Qty = clsCommon.myCDecimal(grow.Cells(colFreeQty).Value)
                     objTr.Unit_code = clsCommon.myCstr(grow.Cells(colUnit).Value)
                     If ConvertIntoBillingUOM AndAlso clsCommon.myLen(objTr.Item_Code) > 0 Then
                         Dim Billing_UOM As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select UOM_Code from TSPL_ITEM_UOM_DETAIL where Item_Code='" & clsCommon.myCstr(grow.Cells(colICode).Value) & "' and Billing_UOM=1"))
@@ -4115,97 +4115,97 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                         End If
                     Else
                         objTr.Billing_Unit_code = clsCommon.myCstr(grow.Cells(colUnit).Value)
-                        objTr.Billing_Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
+                        objTr.Billing_Qty = clsCommon.myCDecimal(grow.Cells(colQty).Value)
                     End If
                     objTr.OrgUnit_code = clsCommon.myCstr(grow.Cells(colOrgUnit).Value)
                     objTr.Order_Code = clsCommon.myCstr(grow.Cells(colOrderNo).Value)
-                    objTr.Item_Cost = clsCommon.myCdbl(grow.Cells(colRate).Value)
-                    objTr.Amount = clsCommon.myCdbl(grow.Cells(colAmt).Value)
-                    objTr.Disc_Per = clsCommon.myCdbl(grow.Cells(colDisPer).Value)
-                    objTr.Disc_Amt = clsCommon.myCdbl(grow.Cells(colDisAmt).Value)
-                    objTr.Disc_Per_Unit = clsCommon.myCdbl(grow.Cells(colDisPerUnit).Value)
-                    objTr.Disc_Unit_Amt = clsCommon.myCdbl(grow.Cells(colDisUnitAmt).Value)
-                    objTr.Amt_Less_Discount = clsCommon.myCdbl(grow.Cells(colAmtAfterDis).Value)
+                    objTr.Item_Cost = clsCommon.myCDecimal(grow.Cells(colRate).Value)
+                    objTr.Amount = clsCommon.myCDecimal(grow.Cells(colAmt).Value)
+                    objTr.Disc_Per = clsCommon.myCDecimal(grow.Cells(colDisPer).Value)
+                    objTr.Disc_Amt = clsCommon.myCDecimal(grow.Cells(colDisAmt).Value)
+                    objTr.Disc_Per_Unit = clsCommon.myCDecimal(grow.Cells(colDisPerUnit).Value)
+                    objTr.Disc_Unit_Amt = clsCommon.myCDecimal(grow.Cells(colDisUnitAmt).Value)
+                    objTr.Amt_Less_Discount = clsCommon.myCDecimal(grow.Cells(colAmtAfterDis).Value)
                     objTr.TAX1 = clsCommon.myCstr(grow.Cells(colTax1).Value)
-                    objTr.TAX1_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt1).Value)
-                    objTr.TAX1_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate1).Value)
-                    objTr.TAX1_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt1).Value)
+                    objTr.TAX1_Base_Amt = clsCommon.myCDecimal(grow.Cells(colTaxBaseAmt1).Value)
+                    objTr.TAX1_Rate = clsCommon.myCDecimal(grow.Cells(colTaxRate1).Value)
+                    objTr.TAX1_Amt = clsCommon.myCDecimal(grow.Cells(colTaxAmt1).Value)
                     objTr.TAX2 = clsCommon.myCstr(grow.Cells(colTax2).Value)
-                    objTr.TAX2_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt2).Value)
-                    objTr.TAX2_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate2).Value)
-                    objTr.TAX2_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt2).Value)
+                    objTr.TAX2_Base_Amt = clsCommon.myCDecimal(grow.Cells(colTaxBaseAmt2).Value)
+                    objTr.TAX2_Rate = clsCommon.myCDecimal(grow.Cells(colTaxRate2).Value)
+                    objTr.TAX2_Amt = clsCommon.myCDecimal(grow.Cells(colTaxAmt2).Value)
                     objTr.TAX3 = clsCommon.myCstr(grow.Cells(colTax3).Value)
-                    objTr.TAX3_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt3).Value)
-                    objTr.TAX3_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate3).Value)
-                    objTr.TAX3_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt3).Value)
+                    objTr.TAX3_Base_Amt = clsCommon.myCDecimal(grow.Cells(colTaxBaseAmt3).Value)
+                    objTr.TAX3_Rate = clsCommon.myCDecimal(grow.Cells(colTaxRate3).Value)
+                    objTr.TAX3_Amt = clsCommon.myCDecimal(grow.Cells(colTaxAmt3).Value)
                     objTr.TAX4 = clsCommon.myCstr(grow.Cells(colTax4).Value)
-                    objTr.TAX4_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt4).Value)
-                    objTr.TAX4_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate4).Value)
-                    objTr.TAX4_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt4).Value)
+                    objTr.TAX4_Base_Amt = clsCommon.myCDecimal(grow.Cells(colTaxBaseAmt4).Value)
+                    objTr.TAX4_Rate = clsCommon.myCDecimal(grow.Cells(colTaxRate4).Value)
+                    objTr.TAX4_Amt = clsCommon.myCDecimal(grow.Cells(colTaxAmt4).Value)
                     objTr.TAX5 = clsCommon.myCstr(grow.Cells(colTax5).Value)
-                    objTr.TAX5_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt5).Value)
-                    objTr.TAX5_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate5).Value)
-                    objTr.TAX5_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt5).Value)
+                    objTr.TAX5_Base_Amt = clsCommon.myCDecimal(grow.Cells(colTaxBaseAmt5).Value)
+                    objTr.TAX5_Rate = clsCommon.myCDecimal(grow.Cells(colTaxRate5).Value)
+                    objTr.TAX5_Amt = clsCommon.myCDecimal(grow.Cells(colTaxAmt5).Value)
                     objTr.TAX6 = clsCommon.myCstr(grow.Cells(colTax6).Value)
-                    objTr.TAX6_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt6).Value)
-                    objTr.TAX6_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate6).Value)
-                    objTr.TAX6_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt6).Value)
+                    objTr.TAX6_Base_Amt = clsCommon.myCDecimal(grow.Cells(colTaxBaseAmt6).Value)
+                    objTr.TAX6_Rate = clsCommon.myCDecimal(grow.Cells(colTaxRate6).Value)
+                    objTr.TAX6_Amt = clsCommon.myCDecimal(grow.Cells(colTaxAmt6).Value)
                     objTr.TAX7 = clsCommon.myCstr(grow.Cells(colTax7).Value)
-                    objTr.TAX7_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt7).Value)
-                    objTr.TAX7_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate7).Value)
-                    objTr.TAX7_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt7).Value)
+                    objTr.TAX7_Base_Amt = clsCommon.myCDecimal(grow.Cells(colTaxBaseAmt7).Value)
+                    objTr.TAX7_Rate = clsCommon.myCDecimal(grow.Cells(colTaxRate7).Value)
+                    objTr.TAX7_Amt = clsCommon.myCDecimal(grow.Cells(colTaxAmt7).Value)
                     objTr.TAX8 = clsCommon.myCstr(grow.Cells(colTax8).Value)
-                    objTr.TAX8_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt8).Value)
-                    objTr.TAX8_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate8).Value)
-                    objTr.TAX8_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt8).Value)
+                    objTr.TAX8_Base_Amt = clsCommon.myCDecimal(grow.Cells(colTaxBaseAmt8).Value)
+                    objTr.TAX8_Rate = clsCommon.myCDecimal(grow.Cells(colTaxRate8).Value)
+                    objTr.TAX8_Amt = clsCommon.myCDecimal(grow.Cells(colTaxAmt8).Value)
                     objTr.TAX9 = clsCommon.myCstr(grow.Cells(colTax9).Value)
-                    objTr.TAX9_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt9).Value)
-                    objTr.TAX9_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate9).Value)
-                    objTr.TAX9_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt9).Value)
+                    objTr.TAX9_Base_Amt = clsCommon.myCDecimal(grow.Cells(colTaxBaseAmt9).Value)
+                    objTr.TAX9_Rate = clsCommon.myCDecimal(grow.Cells(colTaxRate9).Value)
+                    objTr.TAX9_Amt = clsCommon.myCDecimal(grow.Cells(colTaxAmt9).Value)
                     objTr.TAX10 = clsCommon.myCstr(grow.Cells(colTax10).Value)
-                    objTr.TAX10_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt10).Value)
-                    objTr.TAX10_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate10).Value)
-                    objTr.TAX10_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt10).Value)
-                    objTr.Total_Tax_Amt = clsCommon.myCdbl(grow.Cells(colTotTaxAmt).Value)
-                    objTr.Item_Net_Amt = clsCommon.myCdbl(grow.Cells(colAmtAfterTax).Value)
+                    objTr.TAX10_Base_Amt = clsCommon.myCDecimal(grow.Cells(colTaxBaseAmt10).Value)
+                    objTr.TAX10_Rate = clsCommon.myCDecimal(grow.Cells(colTaxRate10).Value)
+                    objTr.TAX10_Amt = clsCommon.myCDecimal(grow.Cells(colTaxAmt10).Value)
+                    objTr.Total_Tax_Amt = clsCommon.myCDecimal(grow.Cells(colTotTaxAmt).Value)
+                    objTr.Item_Net_Amt = clsCommon.myCDecimal(grow.Cells(colAmtAfterTax).Value)
                     objTr.Location = IIf(isSubLocation, txtSubLocation.Value, txtBillToLocation.Value) 'clsCommon.myCstr(grow.Cells(colLocationCode).Value)
                     'If objTr.Location Is Nothing OrElse clsCommon.myLen(objTr.Location) = 0 Then
                     '    objTr.Location = txtBillToLocation.Value
                     'End If
-                    objTr.MRP = clsCommon.myCdbl(grow.Cells(colMRP).Value)
+                    objTr.MRP = clsCommon.myCDecimal(grow.Cells(colMRP).Value)
                     objTr.Scheme_Applicable = clsCommon.myCstr(grow.Cells(colSchemeApplicable).Value)
                     objTr.Scheme_Code = clsCommon.myCstr(grow.Cells(colFromSchemeCode).Value)
                     objTr.Scheme_Item = clsCommon.myCstr(grow.Cells(colSchemeItem).Value)
-                    objTr.Item_Tax = clsCommon.myCdbl(grow.Cells(colTotTaxAmt).Value)
-                    objTr.Total_MRP_Amt = clsCommon.myCdbl(grow.Cells(colTotalMRP).Value)
-                    objTr.Total_Basic_Amt = clsCommon.myCdbl(grow.Cells(colTotalBasicAmount).Value)
-                    objTr.Total_Disc_Amt = clsCommon.myCdbl(grow.Cells(colTotalDiscountAmount).Value)
-                    objTr.Cust_Discount = clsCommon.myCdbl(grow.Cells(colcustDiscount).Value)
-                    objTr.Total_Cust_Discount = clsCommon.myCdbl(grow.Cells(colTotalCustDiscount).Value)
-                    objTr.ActualRate = clsCommon.myCdbl(grow.Cells(colActualCost).Value)
-                    objTr.Cust_DiscountQty = clsCommon.myCdbl(grow.Cells(ColCustDiscountQty).Value)
+                    objTr.Item_Tax = clsCommon.myCDecimal(grow.Cells(colTotTaxAmt).Value)
+                    objTr.Total_MRP_Amt = clsCommon.myCDecimal(grow.Cells(colTotalMRP).Value)
+                    objTr.Total_Basic_Amt = clsCommon.myCDecimal(grow.Cells(colTotalBasicAmount).Value)
+                    objTr.Total_Disc_Amt = clsCommon.myCDecimal(grow.Cells(colTotalDiscountAmount).Value)
+                    objTr.Cust_Discount = clsCommon.myCDecimal(grow.Cells(colcustDiscount).Value)
+                    objTr.Total_Cust_Discount = clsCommon.myCDecimal(grow.Cells(colTotalCustDiscount).Value)
+                    objTr.ActualRate = clsCommon.myCDecimal(grow.Cells(colActualCost).Value)
+                    objTr.Cust_DiscountQty = clsCommon.myCDecimal(grow.Cells(ColCustDiscountQty).Value)
                     objTr.Price_Date = clsCommon.myCDate(grow.Cells(colPriceDateColumn).Value)
                     objTr.Price_code = clsCommon.myCstr(grow.Cells(colPriceCOde).Value)
-                    objTr.Abatement_Per = clsCommon.myCdbl(grow.Cells(colAbatementPer).Value)
-                    objTr.Abatement_Amt = clsCommon.myCdbl(grow.Cells(colAbatementAmount).Value)
-                    objTr.FOC_Item = clsCommon.myCdbl(grow.Cells(ColFOC).Value)
-                    objTr.Item_Weight = clsCommon.myCdbl(grow.Cells(colItemWeight).Value)
-                    objTr.Conv_Factor = clsCommon.myCdbl(grow.Cells(colConvF).Value)
-                    objTr.TotalItem_Weight = clsCommon.myCdbl(grow.Cells(colTotItemWt).Value)
+                    objTr.Abatement_Per = clsCommon.myCDecimal(grow.Cells(colAbatementPer).Value)
+                    objTr.Abatement_Amt = clsCommon.myCDecimal(grow.Cells(colAbatementAmount).Value)
+                    objTr.FOC_Item = clsCommon.myCDecimal(grow.Cells(ColFOC).Value)
+                    objTr.Item_Weight = clsCommon.myCDecimal(grow.Cells(colItemWeight).Value)
+                    objTr.Conv_Factor = clsCommon.myCDecimal(grow.Cells(colConvF).Value)
+                    objTr.TotalItem_Weight = clsCommon.myCDecimal(grow.Cells(colTotItemWt).Value)
                     objTr.Markup_On = clsCommon.myCstr(grow.Cells(colMarkupOn).Value)
-                    objTr.Markup_Percent = clsCommon.myCdbl(grow.Cells(colMarkUpPercentage).Value)
-                    objTr.Landing_Cost = clsCommon.myCdbl(grow.Cells(colLandingCost).Value)
-                    objTr.CustDiscPer = clsCommon.myCdbl(grow.Cells(colCustDiscPercentage).Value)
-                    objTr.HeadDiscAmt = clsCommon.myCdbl(grow.Cells(colHeadDiscamt).Value)
+                    objTr.Markup_Percent = clsCommon.myCDecimal(grow.Cells(colMarkUpPercentage).Value)
+                    objTr.Landing_Cost = clsCommon.myCDecimal(grow.Cells(colLandingCost).Value)
+                    objTr.CustDiscPer = clsCommon.myCDecimal(grow.Cells(colCustDiscPercentage).Value)
+                    objTr.HeadDiscAmt = clsCommon.myCDecimal(grow.Cells(colHeadDiscamt).Value)
                     objTr.CasdDiscScheme_Code = clsCommon.myCstr(grow.Cells(colCashDiscSchemeCode).Value)
-                    objTr.Purchase_Cost = clsCommon.myCdbl(grow.Cells(colPurCost).Value)
-                    objTr.OrgRate = clsCommon.myCdbl(grow.Cells(colOrgCost).Value)
+                    objTr.Purchase_Cost = clsCommon.myCDecimal(grow.Cells(colPurCost).Value)
+                    objTr.OrgRate = clsCommon.myCDecimal(grow.Cells(colOrgCost).Value)
                     objTr.PrincipleCode = clsCommon.myCstr(grow.Cells(colPricipleCode).Value)
                     objTr.PrincipleDesc = clsCommon.myCstr(grow.Cells(colPricipleDesc).Value)
                     objTr.vendor_code = clsCommon.myCstr(grow.Cells(colvendorCode).Value)
                     objTr.vendor_desc = clsCommon.myCstr(grow.Cells(colvendorDesc).Value)
-                    objTr.HeadDiscPer = clsCommon.myCdbl(grow.Cells(colHeaDDisPer).Value)
-                    objTr.HeadDiscPerAmt = clsCommon.myCdbl(grow.Cells(colHeadDisPerAmt).Value)
+                    objTr.HeadDiscPer = clsCommon.myCDecimal(grow.Cells(colHeaDDisPer).Value)
+                    objTr.HeadDiscPerAmt = clsCommon.myCDecimal(grow.Cells(colHeadDisPerAmt).Value)
                     objTr.Batch_No = clsCommon.myCstr(grow.Cells(colBatchNo).Value)
                     objTr.Bin_No = clsCommon.myCstr(grow.Cells(colBinNo).Value)
                     If clsCommon.myLen(grow.Cells(colExpiry).Value) > 0 Then
@@ -4216,16 +4216,16 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     End If
                     objTr.Specification = clsCommon.myCstr(grow.Cells(colSpecification).Value)
                     objTr.Remarks = clsCommon.myCstr(grow.Cells(colRemarks).Value)
-                    objTr.Is_Mannual_Amt = clsCommon.myCdbl(grow.Cells(colIsMannualAmt).Value)
-                    objTr.Balance_Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
-                    objTr.Commission_Rate = clsCommon.myCdbl(grow.Cells(colCommRate).Value)
+                    objTr.Is_Mannual_Amt = clsCommon.myCDecimal(grow.Cells(colIsMannualAmt).Value)
+                    objTr.Balance_Qty = clsCommon.myCDecimal(grow.Cells(colQty).Value)
+                    objTr.Commission_Rate = clsCommon.myCDecimal(grow.Cells(colCommRate).Value)
                     objTr.Commission_Party = clsCommon.myCstr(grow.Cells(ColCommParty).Value)
-                    objTr.Commission_Amt = clsCommon.myCdbl(grow.Cells(ColCommAmt).Value)
-                    objTr.Amt_Less_Commission = clsCommon.myCdbl(grow.Cells(ColAmtAfterCOmm).Value)
+                    objTr.Commission_Amt = clsCommon.myCDecimal(grow.Cells(ColCommAmt).Value)
+                    objTr.Amt_Less_Commission = clsCommon.myCDecimal(grow.Cells(ColAmtAfterCOmm).Value)
                     objTr.ItemwiseTaxCode = clsCommon.myCstr(grow.Cells(colItemwiseTaxCode).Value)
-                    objTr.Transporter_Commission_Rate = clsCommon.myCdbl(grow.Cells(ColTPTRate).Value)
-                    objTr.REF_TPT_PK_ID = clsCommon.myCdbl(grow.Cells(ColTPTRate).Tag)
-                    objTr.Transporter_Commission_Amt = clsCommon.myCdbl(grow.Cells(ColTPTAmt).Value)
+                    objTr.Transporter_Commission_Rate = clsCommon.myCDecimal(grow.Cells(ColTPTRate).Value)
+                    objTr.REF_TPT_PK_ID = clsCommon.myCDecimal(grow.Cells(ColTPTRate).Tag)
+                    objTr.Transporter_Commission_Amt = clsCommon.myCDecimal(grow.Cells(ColTPTAmt).Value)
                     objTr.arrSrItem = TryCast(grow.Tag, List(Of clsSerializeInvenotry))
                     objTr.arrBatchItem = TryCast(grow.Cells(colICode).Tag, List(Of clsBatchInventory))  ' Change By prabhakar
                     If (clsCommon.myLen(objTr.Item_Code) > 0) Then
@@ -4249,13 +4249,13 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 '' CurrencConversion
                 If clsModuleCurrencyMapping.CheckMultiCurrency(Me.Module_Code) = True Then
                     obj.CURRENCY_CODE = Me.txtCurrencyCode.Value
-                    ''''obj.ConvRate = clsCommon.myCdbl(Me.txtConversionRate.Text)
+                    ''''obj.ConvRate = clsCommon.myCDecimal(Me.txtConversionRate.Text)
                     If clsCommon.myLen(txtApplicableFrom.Text) > 0 Then
                         obj.ApplicableFrom = Me.txtApplicableFrom.Text
                     Else
                         obj.ApplicableFrom = Nothing
                     End If
-                    obj.ConvRate = clsCommon.myCdbl(Me.txtConversionRate.Text)
+                    obj.ConvRate = clsCommon.myCDecimal(Me.txtConversionRate.Text)
                 Else
                     obj.CURRENCY_CODE = Nothing
                     obj.ConvRate = 1
@@ -4522,9 +4522,9 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 Else
                     GroupBoxRateDiffAmtType.Visible = False
                 End If
-                If clsCommon.myLen(txtDiscAmt.Text) <= 0 OrElse clsCommon.myLen(txtDiscPer.Text) <= 0 OrElse clsCommon.myCdbl(txtDiscAmt.Text) = 0 OrElse clsCommon.myCdbl(txtDiscPer.Text) = 0 Then
+                If clsCommon.myLen(txtDiscAmt.Text) <= 0 OrElse clsCommon.myLen(txtDiscPer.Text) <= 0 OrElse clsCommon.myCDecimal(txtDiscAmt.Text) = 0 OrElse clsCommon.myCDecimal(txtDiscPer.Text) = 0 Then
                     txtDiscPer.Text = obj.HeadDisc_Per
-                    If clsCommon.myCdbl(txtDiscPer.Text) = 0 Then
+                    If clsCommon.myCDecimal(txtDiscPer.Text) = 0 Then
                         txtDiscAmt.Text = obj.HeadDisc_Amt
                         chkDiscountOnAmt.IsChecked = True
                         If MultiplySubsidyWithQuantity Then
@@ -4541,10 +4541,10 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                         End If
                     End If
                 End If
-                'If clsCommon.myLen(txtRateAmt.Text) <= 0 OrElse clsCommon.myLen(txtRatePer.Text) <= 0 OrElse clsCommon.myCdbl(txtRateAmt.Text) = 0 OrElse clsCommon.myCdbl(txtRatePer.Text) = 0 Then
+                'If clsCommon.myLen(txtRateAmt.Text) <= 0 OrElse clsCommon.myLen(txtRatePer.Text) <= 0 OrElse clsCommon.myCDecimal(txtRateAmt.Text) = 0 OrElse clsCommon.myCDecimal(txtRatePer.Text) = 0 Then
                 If True Then
                     txtRatePer.Text = obj.RateDiff_Per
-                    If clsCommon.myCdbl(txtRatePer.Text) = 0 Then
+                    If clsCommon.myCDecimal(txtRatePer.Text) = 0 Then
                         txtRateAmt.Text = obj.RateDiff_Amt
                         'chkRateDiffAmt.IsChecked = True
                     Else
@@ -4556,7 +4556,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 ElseIf obj.Is_Rate_Diff_Per_Amt = 2 Then
                     chkRateDiffAmt.IsChecked = True
                 End If
-                lblGrossAmount.Text = clsCommon.myCdbl(obj.Gross_Amount)
+                lblGrossAmount.Text = clsCommon.myCDecimal(obj.Gross_Amount)
                 ddlInvoiceType.SelectedValue = obj.Invoice_Type
                 lblCommAmt.Text = obj.Total_Comm_Amt
                 Dim dt_vlc As DataTable = clsDBFuncationality.GetDataTable("SELECT TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code,TSPL_VLC_MASTER_HEAD.* FROM TSPL_CUSTOMER_VENDOR_MAPPING left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code WHERE TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" & clsCommon.myCstr(txtVendorNo.Value) & "'")
@@ -4940,7 +4940,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colAbatementPer).Value = objTr.Abatement_Per
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colAbatementAmount).Value = objTr.Abatement_Amt
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColFOC).Value = objTr.FOC_Item
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColActualBalQty).Value = clsItemLocationDetails.getBalance(clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value), txtBillToLocation.Value, txtDocNo.Value, txtDate.Value, Nothing, clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value), clsCommon.myCdbl(gv1.Rows(gv1.Rows.Count - 1).Cells(colMRP).Value))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColActualBalQty).Value = clsItemLocationDetails.getBalance(clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value), txtBillToLocation.Value, txtDocNo.Value, txtDate.Value, Nothing, clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value), clsCommon.myCDecimal(gv1.Rows(gv1.Rows.Count - 1).Cells(colMRP).Value))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colBatchNo).Value = objTr.Batch_No
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colItemWeight).Value = objTr.Item_Weight
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colConvF).Value = objTr.Conv_Factor
@@ -5150,7 +5150,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     obj.Delivery_Duration = 0
                     obj.AutoTransfer = 1
                     obj.Ref_No = txtRefNo.Text
-                    obj.Total_Tax_Amt = clsCommon.myCdbl(lblTaxAmt.Text)
+                    obj.Total_Tax_Amt = clsCommon.myCDecimal(lblTaxAmt.Text)
                     obj.Remarks = "Auto Transfer Out"
                     obj.From_Location = txtFromLoc.Value
                     obj.To_Location = strGITLoc
@@ -5162,11 +5162,11 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     obj.Terms_Code = txtTermCode.Value
                     obj.Terms_Remark = txtComment.Text
                     obj.Due_Date = txtDueDate.Value
-                    obj.Discount_Base = clsCommon.myCdbl(lblAmtWithDiscount.Text)
-                    obj.Total_Amt_Less_Tax = clsCommon.myCdbl(lblAmtWithDiscount.Text)
+                    obj.Discount_Base = clsCommon.myCDecimal(lblAmtWithDiscount.Text)
+                    obj.Total_Amt_Less_Tax = clsCommon.myCDecimal(lblAmtWithDiscount.Text)
                     obj.Discount_Amt = 0
-                    obj.Amount_Less_Discount = clsCommon.myCdbl(lblAmtWithDiscount.Text)
-                    obj.DOC_Total_Amt = clsCommon.myCdbl(lblAmtWithDiscount.Text)
+                    obj.Amount_Less_Discount = clsCommon.myCDecimal(lblAmtWithDiscount.Text)
+                    obj.DOC_Total_Amt = clsCommon.myCDecimal(lblAmtWithDiscount.Text)
                     obj.TransferOutNo = ""
                     obj.Km_Reading = 1
                     obj.Is_AgainstFormF = 0
@@ -5180,37 +5180,37 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     Dim arr As New List(Of String)
                     Dim strCode As String
                     For ii As Integer = 0 To gv1.Rows.Count - 1
-                        'If (clsCommon.myCdbl(gv1.Rows(ii).Cells(ColActualBalQty).Value) - clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value)) < 0 Then
+                        'If (clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColActualBalQty).Value) - clsCommon.myCDecimal(gv1.Rows(ii).Cells(colQty).Value)) < 0 Then
                         Dim objTr As New clsTransferDCCDetail()
                         Dim strICode As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value)
-                        Dim strMRPOuter As Decimal = clsCommon.myCdbl(gv1.Rows(ii).Cells(colMRP).Value)
+                        Dim strMRPOuter As Decimal = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMRP).Value)
                         Dim strUnitOuter As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value)
                         Dim dblOutQty As Decimal = 0
-                        objTr.Line_No = clsCommon.myCdbl(gv1.Rows(ii).Cells(colLineNo).Value)
+                        objTr.Line_No = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colLineNo).Value)
                         'objTr.Row_Type = clsCommon.myCstr(grow.Cells(colRowType).Value)
                         objTr.Item_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value)
                         objTr.Item_Desc = clsCommon.myCstr(gv1.Rows(ii).Cells(colIName).Value)
-                        objTr.Out_Qty = clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value)
+                        objTr.Out_Qty = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colQty).Value)
                         objTr.Unit_code = clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value)
-                        objTr.MRP = clsCommon.myCdbl(gv1.Rows(ii).Cells(colMRP).Value)
+                        objTr.MRP = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMRP).Value)
                         ''Check for Balance With Unapproved Qty
                         Dim arrlist As New ArrayList()
-                        Dim strCurrMRP As Decimal = clsCommon.myCdbl(objTr.MRP)
+                        Dim strCurrMRP As Decimal = clsCommon.myCDecimal(objTr.MRP)
                         Dim dblOuterConvFac As Decimal = 0
                         Dim dblActualbalonashipment = 0
                         Dim dblBalQty As Decimal = clsItemLocationDetails.getBalance(objTr.Item_Code, txtFromLoc.Value, txtDocNo.Value, txtDate.Value, trans, objTr.Unit_code, objTr.MRP)
-                        Dim dblEnteredQty As Decimal = clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value)
-                        Dim dblActualBalOuter As Decimal = clsCommon.myCdbl(gv1.Rows(ii).Cells(ColActualBalQty).Value)
+                        Dim dblEnteredQty As Decimal = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colQty).Value)
+                        Dim dblActualBalOuter As Decimal = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColActualBalQty).Value)
                         For jj As Integer = 0 To gv1.Rows.Count - 1
                             If ii = jj Then
                                 Continue For
                             End If
                             Dim strICodeInner As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colICode).Value)
                             Dim strUOMInner As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colUnit).Value)
-                            Dim dblMRPInner As Decimal = clsCommon.myCdbl(gv1.Rows(jj).Cells(colMRP).Value)
-                            Dim dblQtyInner As Decimal = clsCommon.myCdbl(gv1.Rows(jj).Cells(colQty).Value)
-                            Dim dblConvFInner As Decimal = clsCommon.myCdbl(gv1.Rows(jj).Cells(colConvF).Value)
-                            Dim dblActualBalInner As Decimal = clsCommon.myCdbl(gv1.Rows(jj).Cells(ColActualBalQty).Value)
+                            Dim dblMRPInner As Decimal = clsCommon.myCDecimal(gv1.Rows(jj).Cells(colMRP).Value)
+                            Dim dblQtyInner As Decimal = clsCommon.myCDecimal(gv1.Rows(jj).Cells(colQty).Value)
+                            Dim dblConvFInner As Decimal = clsCommon.myCDecimal(gv1.Rows(jj).Cells(colConvF).Value)
+                            Dim dblActualBalInner As Decimal = clsCommon.myCDecimal(gv1.Rows(jj).Cells(ColActualBalQty).Value)
                             If dblQtyInner > 0 AndAlso dblMRPInner = (strMRPOuter) AndAlso clsCommon.CompairString(strICodeInner, strICode) = CompairStringResult.Equal Then
                                 '''''' started
                                 strCode = strICodeInner
@@ -5254,8 +5254,8 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                         objTr.Out_Qty = dblOutQty
                         objTr.TransferOutNo = ""
                         'objTr.Location = clsCommon.myCstr(grow.Cells(colloc).Value)
-                        objTr.Item_Cost = clsCommon.myCdbl(gv1.Rows(ii).Cells(colRate).Value)
-                        objTr.Amount = Math.Round(dblOutQty * clsCommon.myCdbl(gv1.Rows(ii).Cells(colRate).Value), 2)
+                        objTr.Item_Cost = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colRate).Value)
+                        objTr.Amount = Math.Round(dblOutQty * clsCommon.myCDecimal(gv1.Rows(ii).Cells(colRate).Value), 2)
                         objTr.Disc_Per = 0
                         objTr.Disc_Amt = 0
                         objTr.Amt_Less_Discount = objTr.Amount
@@ -5263,7 +5263,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                         objTr.Specification = ""
                         objTr.Remarks = ""
                         objTr.Location = txtFromLoc.Value 'clsCommon.myCstr(grow.Cells(colLocationCode).Value)
-                        ''objTr.Assessable = clsCommon.myCdbl(grow.Cells(colAssessableRate).Value)
+                        ''objTr.Assessable = clsCommon.myCDecimal(grow.Cells(colAssessableRate).Value)
                         If (clsCommon.myLen(objTr.Item_Code) > 0) And dblOutQty > 0 Then
                             obj.Arr.Add(objTr)
                         End If
@@ -5319,7 +5319,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                         End If
                         objIn.Arr = New List(Of clsTransferDCCDetail)
                         For Each objInDetail As clsTransferDCCDetail In objTransfer.Arr
-                            'If (clsCommon.myCdbl(grow.Cells(ColActualBalQty).Value) - clsCommon.myCdbl(grow.Cells(colQty).Value)) < 0 Then
+                            'If (clsCommon.myCDecimal(grow.Cells(ColActualBalQty).Value) - clsCommon.myCDecimal(grow.Cells(colQty).Value)) < 0 Then
                             Dim objTrIn As New clsTransferDCCDetail()
                             objTrIn.Line_No = objInDetail.Line_No
                             'objTr.Row_Type = clsCommon.myCstr(grow.Cells(colRowType).Value)
@@ -5349,7 +5349,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                             '    objTrIn.Item_Code = ""
                             'End If
                             'objTrIn.In_Qty = dblInQty - dblBalQtyIn
-                            ''objTr.Assessable = clsCommon.myCdbl(grow.Cells(colAssessableRate).Value)
+                            ''objTr.Assessable = clsCommon.myCDecimal(grow.Cells(colAssessableRate).Value)
                             If (clsCommon.myLen(objTrIn.Item_Code) > 0) Then
                                 objIn.Arr.Add(objTrIn)
                             End If
@@ -5399,7 +5399,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                         dt = clsDBFuncationality.GetDataTable(qry)
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                             Dim level As String = dt.Rows(0)("LEVEL").ToString()
-                            Dim NoOflevel As Integer = clsCommon.myCdbl(dt.Rows(0)("No_Of_Level"))
+                            Dim NoOflevel As Integer = clsCommon.myCDecimal(dt.Rows(0)("No_Of_Level"))
                             If clsCommon.CompairString(level, "Level1") = CompairStringResult.Equal Then
                                 msg = "Level 1 Approval done. "
                                 If NoOflevel = 1 Then
@@ -5498,7 +5498,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 qst = "select count(*) from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + txtDocNo.Value + "' and  TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC' and TSPL_SD_SHIPMENT_HEAD.Customer_Code in (" + strwherecls + ")"
             End If
             '-----------------------------------------------------
-            Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qst))
+            Dim count As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qst))
             If count = 0 Then
                 txtDocNo.MyReadOnly = False
             Else
@@ -5610,7 +5610,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
                 Dim desc As String = ""
                 'Dim trans As SqlTransaction
                 'trans = clsDBFuncationality.GetTransactin()
-                'desc = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.InvoiceManualNoWithPrefix & "'")) = 0, False, True)
+                'desc = IIf(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.InvoiceManualNoWithPrefix & "'")) = 0, False, True)
                 desc = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.InvoiceManualNoWithPrefix, clsFixedParameterCode.InvoiceManualNoWithPrefix, Nothing))
                 If clsCommon.CompairString(desc, "0") = CompairStringResult.Equal Then
                     txtMannaulInvoiceNo.Visible = True
@@ -5647,7 +5647,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             lblTermName.Text = clsCommon.myCstr(dt.Rows(0)("Description"))
-            txtDueDate.Value = txtDate.Value.AddDays(clsCommon.myCdbl(dt.Rows(0)("No Of Days")))
+            txtDueDate.Value = txtDate.Value.AddDays(clsCommon.myCDecimal(dt.Rows(0)("No Of Days")))
         Else
             lblTermName.Text = ""
         End If
@@ -5700,12 +5700,12 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
                         If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsTCSnotApplicable ,0) from TSPL_CUSTOMER_MASTER where Cust_Code ='" & txtVendorNo.Value & "'")), "0") = CompairStringResult.Equal Then
                             If chkisTCS.Checked Then
                                 If AmountToCheckCustomerOutstandingForTCSTax > 0 Then
-                                    Dim dblOutstandingAmount As Decimal = clsCommon.myCdbl(clsCustomerMaster.GetCustomerOutstandingForTCSTaxApplicableOnFY(txtVendorNo.Value, txtDate.Value))
+                                    Dim dblOutstandingAmount As Decimal = clsCommon.myCDecimal(clsCustomerMaster.GetCustomerOutstandingForTCSTaxApplicableOnFY(txtVendorNo.Value, txtDate.Value))
                                     If dblOutstandingAmount < AmountToCheckCustomerOutstandingForTCSTax Then
-                                        dblOutstandingAmount = dblOutstandingAmount + clsCommon.myCdbl(clsCommon.myFormat(lblActualTCSTaxBaseAmt.Text))
+                                        dblOutstandingAmount = dblOutstandingAmount + clsCommon.myCDecimal(clsCommon.myFormat(lblActualTCSTaxBaseAmt.Text))
                                         If dblOutstandingAmount > AmountToCheckCustomerOutstandingForTCSTax Then
-                                            If clsCommon.myCdbl(clsCommon.myFormat(lblActualTCSTaxBaseAmt.Text)) > 0 Then
-                                                txttcstaxbaseamount.Value = Math.Round(clsCommon.myCdbl(dblOutstandingAmount - AmountToCheckCustomerOutstandingForTCSTax), 2)
+                                            If clsCommon.myCDecimal(clsCommon.myFormat(lblActualTCSTaxBaseAmt.Text)) > 0 Then
+                                                txttcstaxbaseamount.Value = Math.Round(clsCommon.myCDecimal(dblOutstandingAmount - AmountToCheckCustomerOutstandingForTCSTax), 2)
                                             End If
                                         End If
                                     End If
@@ -5713,16 +5713,16 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
                                         If EnableTCSRateValidityFrom01July2021 Then
                                             Dim Is_ITR_Filled_And_TCSAmountGreater50K As Boolean = IIf(clsCommon.myCstr(clsDBFuncationality.getSingleValue(" SELECT CASE WHEN ISNULL(IsTCSGreaterthan50K,0)=1 AND ISNULL(IsITRfilledinLast2Years,0)=1 THEN 1 ELSE 0 END FROM TSPL_CUSTOMER_MASTER WHERE Cust_Code='" & txtVendorNo.Value & "'")) = 1, True, False)
                                             If Is_ITR_Filled_And_TCSAmountGreater50K = True Then
-                                                gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithPanNo, clsFixedParameterCode.TCSRateforCustomerWithPanNo, Nothing))
+                                                gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithPanNo, clsFixedParameterCode.TCSRateforCustomerWithPanNo, Nothing))
                                             Else
-                                                gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithoutPanNo, clsFixedParameterCode.TCSRateforCustomerWithoutPanNo, Nothing))
+                                                gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithoutPanNo, clsFixedParameterCode.TCSRateforCustomerWithoutPanNo, Nothing))
                                             End If
                                         Else
                                             Dim panno As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(pan,'')+isnull(Additional3 ,'') as PanNoAdhar from tspl_customer_master where cust_code='" & txtVendorNo.Value & "'"))
                                             If clsCommon.myLen(panno) > 0 Then
-                                                gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithPanNo, clsFixedParameterCode.TCSRateforCustomerWithPanNo, Nothing))
+                                                gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithPanNo, clsFixedParameterCode.TCSRateforCustomerWithPanNo, Nothing))
                                             Else
-                                                gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithoutPanNo, clsFixedParameterCode.TCSRateforCustomerWithoutPanNo, Nothing))
+                                                gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithoutPanNo, clsFixedParameterCode.TCSRateforCustomerWithoutPanNo, Nothing))
                                             End If
                                         End If
                                     Else
@@ -5734,7 +5734,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
                             Else
                                 gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = 0
                             End If
-                            txtTCSTaxRate.Value = clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)
+                            txtTCSTaxRate.Value = clsCommon.myCDecimal(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)
                         End If
                     Else
                         gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = dr("TaxRate")
@@ -5766,7 +5766,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
                         gv1.CurrentRow.Cells(clsCommon.myCstr("colTax" + strII)).Value = clsCommon.myCstr(dr("Tax_Code"))
                         If (CalculateTaxRatefromItemwsieTaxOnSale = 0 OrElse clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), RowTypeMisc) = CompairStringResult.Equal) Then
                             If isChangeRate Then
-                                gv1.CurrentRow.Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = clsCommon.myCdbl(dr("TaxRate"))
+                                gv1.CurrentRow.Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = clsCommon.myCDecimal(dr("TaxRate"))
                             End If
                         Else
                             If isChangeRate Then
@@ -5797,7 +5797,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
                             gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax" + strII)).Value = clsCommon.myCstr(dr("Tax_Code"))
                             If (CalculateTaxRatefromItemwsieTaxOnSale = 0 OrElse clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(intRowNo).Cells(colRowType).Value), RowTypeMisc) = CompairStringResult.Equal) Then
                                 If isChangeRate Then
-                                    gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = clsCommon.myCdbl(dr("TaxRate"))
+                                    gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = clsCommon.myCDecimal(dr("TaxRate"))
                                 End If
                             Else
                                 If isChangeRate Then
@@ -6221,10 +6221,10 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
                         fndProject.Enabled = False
                         lblProject.Enabled = False
                     End If
-                    If clsCommon.myLen(txtDiscAmt.Text) <= 0 OrElse clsCommon.myLen(txtDiscPer.Text) <= 0 OrElse clsCommon.myCdbl(txtDiscAmt.Text) = 0 OrElse clsCommon.myCdbl(txtDiscPer.Text) = 0 Then
-                        If clsCommon.myLen(txtDiscAmt.Text) <= 0 OrElse clsCommon.myLen(txtDiscPer.Text) <= 0 OrElse clsCommon.myCdbl(txtDiscAmt.Text) = 0 OrElse clsCommon.myCdbl(txtDiscPer.Text) = 0 Then
+                    If clsCommon.myLen(txtDiscAmt.Text) <= 0 OrElse clsCommon.myLen(txtDiscPer.Text) <= 0 OrElse clsCommon.myCDecimal(txtDiscAmt.Text) = 0 OrElse clsCommon.myCDecimal(txtDiscPer.Text) = 0 Then
+                        If clsCommon.myLen(txtDiscAmt.Text) <= 0 OrElse clsCommon.myLen(txtDiscPer.Text) <= 0 OrElse clsCommon.myCDecimal(txtDiscAmt.Text) = 0 OrElse clsCommon.myCDecimal(txtDiscPer.Text) = 0 Then
                             txtDiscPer.Text = objOrderHead.HeadDisc_Per
-                            If clsCommon.myCdbl(txtDiscPer.Text) = 0 Then
+                            If clsCommon.myCDecimal(txtDiscPer.Text) = 0 Then
                                 txtDiscAmt.Text = objOrderHead.HeadDisc_Amt
                                 chkDiscountOnAmt.IsChecked = True
                                 lblInvoiceDiscAmt.Text = objOrderHead.HeadDisc_Amt
@@ -6354,7 +6354,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colHeadDisPerAmt).Value = obj.HeadDiscPerAmt
                                 'Dim dt As DataTable = clsMCCMaterialSale.GetOriginalQty(obj.Document_Code, obj.Item_Code, obj.Unit_code, obj.Assessable, obj.MRP, Nothing)
                                 'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                                '    gv1.Rows(gv1.Rows.Count - 1).Cells(colOrgSOQty).Value = clsCommon.myCdbl(dt.Rows(0)("MRN_Qty"))
+                                '    gv1.Rows(gv1.Rows.Count - 1).Cells(colOrgSOQty).Value = clsCommon.myCDecimal(dt.Rows(0)("MRN_Qty"))
                                 'End If
                                 If obj.MFG_Date.HasValue Then
                                     gv1.Rows(gv1.Rows.Count - 1).Cells(colManufactureDate).Value = obj.MFG_Date
@@ -6378,7 +6378,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colAbatementPer).Value = obj.Abatement_Per
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colAbatementAmount).Value = obj.Abatement_Amt
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(ColFOC).Value = obj.FOC_Item
-                                gv1.Rows(gv1.Rows.Count - 1).Cells(ColActualBalQty).Value = clsItemLocationDetails.getBalance(clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value), txtBillToLocation.Value, txtDocNo.Value, txtDate.Value, Nothing, clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value), clsCommon.myCdbl(gv1.Rows(gv1.Rows.Count - 1).Cells(colMRP).Value))
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(ColActualBalQty).Value = clsItemLocationDetails.getBalance(clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value), txtBillToLocation.Value, txtDocNo.Value, txtDate.Value, Nothing, clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value), clsCommon.myCDecimal(gv1.Rows(gv1.Rows.Count - 1).Cells(colMRP).Value))
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colBatchNo).Value = obj.Batch_No
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colItemWeight).Value = obj.Item_Weight
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colConvF).Value = obj.Conv_Factor
@@ -6459,7 +6459,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
             Dim strICode As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value)
             Dim strReqCode As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colOrderNo).Value)
             Dim strUOM As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value)
-            Dim dblMRP As Decimal = clsCommon.myCdbl(gv1.Rows(ii).Cells(colMRP).Value)
+            Dim dblMRP As Decimal = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMRP).Value)
             Dim strSchemeItem As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colSchemeItem).Value)
             If clsCommon.myLen(strReqCode) > 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value), "N") = CompairStringResult.Equal AndAlso clsCommon.CompairString(obj.Scheme_Item, "N") = CompairStringResult.Equal AndAlso clsCommon.CompairString(strReqCode, obj.Document_Code) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strICode, obj.Item_Code) = CompairStringResult.Equal Then
                 Dim strMsg As String = "Already exist at row no:" + clsCommon.myCstr(ii + 1) + Environment.NewLine + "Order No : " + obj.Document_Code + "  Item : " + obj.Item_Desc + Environment.NewLine + ""
@@ -6480,8 +6480,8 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
                     frm.strLineNo = clsCommon.myCstr(gv1.CurrentRow.Cells(colLineNo).Value)
                     frm.strItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
                     frm.strItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
-                    frm.dblTotTax = clsCommon.myCdbl(gv1.CurrentRow.Cells(colTotTaxAmt).Value)
-                    frm.dblAmtAfterDis = clsCommon.myCdbl(gv1.CurrentRow.Cells(colAmtAfterDis).Value)
+                    frm.dblTotTax = clsCommon.myCDecimal(gv1.CurrentRow.Cells(colTotTaxAmt).Value)
+                    frm.dblAmtAfterDis = clsCommon.myCDecimal(gv1.CurrentRow.Cells(colAmtAfterDis).Value)
                     ''New Column for location wise
                     frm.strTaxGroup = txtTaxGroup.Value
                     frm.strTransLocation = txtBillToLocation.Value
@@ -6496,9 +6496,9 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
                             obj.AuthorityCode = clsCommon.myCstr(gv1.CurrentRow.Cells("COLTAX" + strii).Value)
                             If clsCommon.myLen(obj.AuthorityCode) > 0 Then
                                 obj.AuthorityName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Tax_Code_Desc from TSPL_TAX_MASTER WHERE Tax_Code='" + obj.AuthorityCode + "'"))
-                                obj.Rate = clsCommon.myCdbl(gv1.CurrentRow.Cells("COLTAXRATE" + strii).Value)
-                                obj.BaseAmt = clsCommon.myCdbl(gv1.CurrentRow.Cells("COLTAXBASEAMT" + strii).Value)
-                                obj.TaxAmt = clsCommon.myCdbl(gv1.CurrentRow.Cells("COLTAXAMT" + strii).Value)
+                                obj.Rate = clsCommon.myCDecimal(gv1.CurrentRow.Cells("COLTAXRATE" + strii).Value)
+                                obj.BaseAmt = clsCommon.myCDecimal(gv1.CurrentRow.Cells("COLTAXBASEAMT" + strii).Value)
+                                obj.TaxAmt = clsCommon.myCDecimal(gv1.CurrentRow.Cells("COLTAXAMT" + strii).Value)
                                 obj.isSurTax = clsCommon.myCBool(gv1.CurrentRow.Cells("ISSURTAX" + strii).Value)
                                 obj.SurTax = clsCommon.myCstr(gv1.CurrentRow.Cells("SURTAXCODE" + strii).Value)
                                 obj.IsTaxable = clsCommon.myCBool(gv1.CurrentRow.Cells("ISTAXABLE" + strii).Value)
@@ -6526,7 +6526,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
                 End If
             ElseIf gv1.CurrentColumn Is gv1.Columns(colComplete) AndAlso UsLock1.Status = ERPTransactionStatus.Approved Then
                 Dim strICode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
-                Dim intSNo As Integer = Convert.ToInt32((clsCommon.myCdbl(gv1.CurrentRow.Cells(colLineNo).Value)))
+                Dim intSNo As Integer = Convert.ToInt32((clsCommon.myCDecimal(gv1.CurrentRow.Cells(colLineNo).Value)))
                 Dim strStatus As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colComplete).Value)
                 If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso clsCommon.myLen(strICode) > 0 AndAlso intSNo > 0 AndAlso clsCommon.CompairString(strStatus, "No") = CompairStringResult.Equal Then
                     If common.clsCommon.MyMessageBoxShow("Do you want to complete the item " + clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
@@ -6688,9 +6688,9 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
     '        'clsDBFuncationality.UpdateImage("BarCode_Img", TempByte, "TSPL_SD_SALE_INVOICE_HEAD", "TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No='" & txtDocNo.Value & "'")
     '        '===================================================
     '        Dim IsMandiTax As Decimal = 0
-    '        IsMandiTax = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code='" & txtTaxGroup.Value & "' and Tax_Code in(select Tax_Code from TSPL_TAX_MASTER where Is_Mandi_Tax='Y')"))
+    '        IsMandiTax = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select count(*) from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code='" & txtTaxGroup.Value & "' and Tax_Code in(select Tax_Code from TSPL_TAX_MASTER where Is_Mandi_Tax='Y')"))
     '        Dim IsExampted As Decimal = 0
-    '        IsExampted = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select COUNT(Is_Tax_Exempted)  from TSPL_TAX_GROUP_MASTER where Tax_Group_Code='" & txtTaxGroup.Value & "' AND Tax_Group_Type='S' AND Is_Tax_Exempted=1"))
+    '        IsExampted = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select COUNT(Is_Tax_Exempted)  from TSPL_TAX_GROUP_MASTER where Tax_Group_Code='" & txtTaxGroup.Value & "' AND Tax_Group_Type='S' AND Is_Tax_Exempted=1"))
     '        atchqry = GetAttachQry()
     '        Dim dt As DataTable = clsDBFuncationality.GetDataTable(atchqry)
     '        If dt.Rows.Count > 0 Then
@@ -6700,7 +6700,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
     '            '=============================================================================
     '            Dim frmCRV As New frmCrystalReportViewer()
     '            If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt.Rows(0)("Document_Date"))) Then
-    '                If clsCommon.myCdbl(dt.Rows(0)("Is_Taxable")) = 1 Then
+    '                If clsCommon.myCDecimal(dt.Rows(0)("Is_Taxable")) = 1 Then
     '                    If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("LocationState")), clsCommon.myCstr(dt.Rows(0)("Cust_State_Name"))) = CompairStringResult.Equal Then
     '                        If IsExampted > 0 Then
     '                            frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_NonTaxable", "MCC Material Sale Non Taxable", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptcustomerOutstandingErod.rpt", dtCustomerOutstanding)
@@ -6796,20 +6796,20 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
                 For ii As Integer = 1 To 5
                     Dim strCol As String = "TAX" + clsCommon.myCstr(ii) + ""
                     If clsCommon.CompairString(clsCommon.myCstr(dtAfterModify.Rows(0)(strCol)), clsCommon.myCstr(dr("Tax"))) = CompairStringResult.Equal Then
-                        If clsCommon.myCdbl(dtAfterModify.Rows(0)("TAX" + clsCommon.myCstr(ii) + "_Amt1")) <= 0 Then
+                        If clsCommon.myCDecimal(dtAfterModify.Rows(0)("TAX" + clsCommon.myCstr(ii) + "_Amt1")) <= 0 Then
                             For jj As Integer = 0 To dtAfterModify.Rows.Count - 1
-                                dtAfterModify.Rows(jj)("TAX" + clsCommon.myCstr(ii) + "_Rate1") = clsCommon.myCdbl(dr("Rate"))
-                                dtAfterModify.Rows(jj)("TAX" + clsCommon.myCstr(ii) + "_Amt1") = clsCommon.myCdbl(dr("TaxAmt"))
+                                dtAfterModify.Rows(jj)("TAX" + clsCommon.myCstr(ii) + "_Rate1") = clsCommon.myCDecimal(dr("Rate"))
+                                dtAfterModify.Rows(jj)("TAX" + clsCommon.myCstr(ii) + "_Amt1") = clsCommon.myCDecimal(dr("TaxAmt"))
                             Next
-                        ElseIf clsCommon.myCdbl(dtAfterModify.Rows(0)("TAX" + clsCommon.myCstr(ii) + "_Amt2")) <= 0 Then
+                        ElseIf clsCommon.myCDecimal(dtAfterModify.Rows(0)("TAX" + clsCommon.myCstr(ii) + "_Amt2")) <= 0 Then
                             For jj As Integer = 0 To dtAfterModify.Rows.Count - 1
-                                dtAfterModify.Rows(jj)("TAX" + clsCommon.myCstr(ii) + "_Rate2") = clsCommon.myCdbl(dr("Rate"))
-                                dtAfterModify.Rows(jj)("TAX" + clsCommon.myCstr(ii) + "_Amt2") = clsCommon.myCdbl(dr("TaxAmt"))
+                                dtAfterModify.Rows(jj)("TAX" + clsCommon.myCstr(ii) + "_Rate2") = clsCommon.myCDecimal(dr("Rate"))
+                                dtAfterModify.Rows(jj)("TAX" + clsCommon.myCstr(ii) + "_Amt2") = clsCommon.myCDecimal(dr("TaxAmt"))
                             Next
-                        ElseIf clsCommon.myCdbl(dtAfterModify.Rows(0)("TAX" + clsCommon.myCstr(ii) + "_Amt3")) <= 0 Then
+                        ElseIf clsCommon.myCDecimal(dtAfterModify.Rows(0)("TAX" + clsCommon.myCstr(ii) + "_Amt3")) <= 0 Then
                             For jj As Integer = 0 To dtAfterModify.Rows.Count - 1
-                                dtAfterModify.Rows(jj)("TAX" + clsCommon.myCstr(ii) + "_Rate3") = clsCommon.myCdbl(dr("Rate"))
-                                dtAfterModify.Rows(jj)("TAX" + clsCommon.myCstr(ii) + "_Amt3") = clsCommon.myCdbl(dr("TaxAmt"))
+                                dtAfterModify.Rows(jj)("TAX" + clsCommon.myCstr(ii) + "_Rate3") = clsCommon.myCDecimal(dr("Rate"))
+                                dtAfterModify.Rows(jj)("TAX" + clsCommon.myCstr(ii) + "_Amt3") = clsCommon.myCDecimal(dr("TaxAmt"))
                             Next
                         Else
                             Throw New Exception("Printing Support only 3 Diffent Rates")
@@ -6887,7 +6887,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
                         gv1.CurrentRow.Cells(colMRP).ReadOnly = True
                     End If
                 ElseIf e.Column Is gv1.Columns(colAmt) Then
-                    If clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), RowTypeMisc) = CompairStringResult.Equal OrElse clsCommon.myCdbl(gv1.CurrentRow.Cells(colIsMannualAmt).Value) = 1 Then
+                    If clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), RowTypeMisc) = CompairStringResult.Equal OrElse clsCommon.myCDecimal(gv1.CurrentRow.Cells(colIsMannualAmt).Value) = 1 Then
                         gv1.CurrentRow.Cells(colAmt).ReadOnly = False
                     Else
                         gv1.CurrentRow.Cells(colAmt).ReadOnly = True
@@ -6980,12 +6980,12 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
         Dim strItem As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colICode).Value)
         Dim strOrgUnit As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colOrgUnit).Value)
         Dim strCurrentUnit As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colUnit).Value)
-        Dim dblCurrentConvF As Decimal = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colConvF).Value)
-        Dim dblRate As Decimal = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value)
+        Dim dblCurrentConvF As Decimal = clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(colConvF).Value)
+        Dim dblRate As Decimal = clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(colRate).Value)
         Dim dblConvRate As Decimal = 0
         If clsCommon.myLen(strOrgUnit) > 0 Then
-            Dim dblOrgConvF = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where Item_Code='" & strItem & "' and UOM_Code='" & strOrgUnit & "'"))
-            Dim dblStockingUnitConvF = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where Item_Code='" & strItem & "' and Stocking_Unit='Y' "))
+            Dim dblOrgConvF = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where Item_Code='" & strItem & "' and UOM_Code='" & strOrgUnit & "'"))
+            Dim dblStockingUnitConvF = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where Item_Code='" & strItem & "' and Stocking_Unit='Y' "))
             dblConvRate = (dblRate / dblOrgConvF) * dblStockingUnitConvF * dblCurrentConvF
         End If
         Return dblConvRate
@@ -6994,14 +6994,14 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
         Dim strItem As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colICode).Value)
         Dim strOrgUnit As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colOrgUnit).Value)
         Dim strCurrentUnit As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colUnit).Value)
-        Dim dblCurrentConvF As Decimal = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colConvF).Value)
-        Dim dblRate As Decimal = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value)
-        Dim dblMRP As Decimal = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colMRP).Value)
+        Dim dblCurrentConvF As Decimal = clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(colConvF).Value)
+        Dim dblRate As Decimal = clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(colRate).Value)
+        Dim dblMRP As Decimal = clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(colMRP).Value)
         Dim dblConvRate As Decimal = 0
         Dim dblConvMRP As Decimal = 0
         If clsCommon.myLen(strOrgUnit) > 0 Then
-            Dim dblOrgConvF = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where Item_Code='" & strItem & "' and UOM_Code='" & strOrgUnit & "'"))
-            Dim dblStockingUnitConvF = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where Item_Code='" & strItem & "' and Stocking_Unit='Y' "))
+            Dim dblOrgConvF = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where Item_Code='" & strItem & "' and UOM_Code='" & strOrgUnit & "'"))
+            Dim dblStockingUnitConvF = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where Item_Code='" & strItem & "' and Stocking_Unit='Y' "))
             dblConvMRP = (dblMRP / dblOrgConvF) * dblStockingUnitConvF * dblCurrentConvF
         End If
         Return dblConvMRP
@@ -7017,14 +7017,14 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
             'If clsCommon.myLen(strFCode) > 0 Then
             '    dblFAmt = dblFRate * dblLeak
             'End If
-            Dim dblQty As Decimal = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value)
-            Dim dblRate As Decimal = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value)
+            Dim dblQty As Decimal = clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(colQty).Value)
+            Dim dblRate As Decimal = clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(colRate).Value)
             Dim dblMRP As Decimal = 0
-            Dim dblBasicRate As Decimal = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value)
-            Dim dblConvF As Decimal = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colConvF).Value)
-            Dim dblItemWeight As Decimal = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colItemWeight).Value)
-            Dim dblheadDiscamt As Decimal = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colHeadDiscamt).Value)
-            'Dim dblOrgBasicRate As Decimal = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colOrgCost).Value)
+            Dim dblBasicRate As Decimal = clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(colRate).Value)
+            Dim dblConvF As Decimal = clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(colConvF).Value)
+            Dim dblItemWeight As Decimal = clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(colItemWeight).Value)
+            Dim dblheadDiscamt As Decimal = clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(colHeadDiscamt).Value)
+            'Dim dblOrgBasicRate As Decimal = clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(colOrgCost).Value)
             'Dim dblConvBasicRate As Decimal
             'If dblConvF = 1 And dblOrgBasicRate Then
             '    dblConvBasicRate = dblOrgBasicRate
@@ -7040,11 +7040,11 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
             Dim dblBasicAmt As Decimal = dblQty * dblRate
             Dim dblMRPAmt As Decimal = dblQty * dblMRP
             Dim dblAmt As Decimal = (dblQty * dblRate) ''+ dblFAmt
-            If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colRowType).Value), RowTypeItem) = CompairStringResult.Equal AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colIsMannualAmt).Value) = 0 Then
+            If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colRowType).Value), RowTypeItem) = CompairStringResult.Equal AndAlso clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(colIsMannualAmt).Value) = 0 Then
                 'gv1.Rows(IntRowNo).Cells(colAmt).Value = Math.Round(dblAmt, 6)
                 gv1.Rows(IntRowNo).Cells(colAmt).Value = Math.Round(dblAmt, 2)
             Else
-                dblAmt = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colAmt).Value)
+                dblAmt = clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(colAmt).Value)
             End If
             ''''' to calculate customer disc
             Dim dt As New DataTable
@@ -7055,19 +7055,19 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
             Dim dblApplyCustDisc As Decimal = 0
             Dim dblTotCustDisc As Decimal = 0
             Dim strICode As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colICode).Value)
-            If clsCommon.myLen(strICode) > 0 And clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColFOC).Value) = 0 Then
+            If clsCommon.myLen(strICode) > 0 And clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(ColFOC).Value) = 0 Then
                 StrSql = "select top 1 Item_Qty,Amount,percentage,TSPL_SCHEME_MASTER_NEW.scheme_code from TSPL_SCHEME_MASTER_NEW left outer join TSPL_SCHEME_BENEFICIARY on  " &
             "TSPL_SCHEME_MASTER_NEW.Scheme_Code=TSPL_SCHEME_BENEFICIARY.Scheme_Code where Scheme_Type='Cash' and Cust_Code='" & txtVendorNo.Value & "' and " &
             "Start_Date < = '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' and Item_Code='" & clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colICode).Value) & "' and " &
             "Unit_Code='" & clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colUnit).Value) & "' and " &
-            "MRP='" & clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colMRP).Value) & "' " &
-            "and Basic_Price='" & clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value) & "'  order by TSPL_SCHEME_MASTER_NEW.scheme_code desc "
+            "MRP='" & clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(colMRP).Value) & "' " &
+            "and Basic_Price='" & clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(colRate).Value) & "'  order by TSPL_SCHEME_MASTER_NEW.scheme_code desc "
                 dt = clsDBFuncationality.GetDataTable(StrSql)
                 If dt IsNot Nothing And dt.Rows.Count > 0 Then
-                    dblOrderQty = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value)
-                    dblCustDiscQty = clsCommon.myCdbl(dt.Rows(0)("Item_Qty"))
-                    dblCustDiscAmt = clsCommon.myCdbl(dt.Rows(0)("Amount"))
-                    dblCustDiscPercentage = clsCommon.myCdbl(dt.Rows(0)("percentage"))
+                    dblOrderQty = clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(colQty).Value)
+                    dblCustDiscQty = clsCommon.myCDecimal(dt.Rows(0)("Item_Qty"))
+                    dblCustDiscAmt = clsCommon.myCDecimal(dt.Rows(0)("Amount"))
+                    dblCustDiscPercentage = clsCommon.myCDecimal(dt.Rows(0)("percentage"))
                     If dblCustDiscPercentage = 0 Then
                         gv1.Rows(IntRowNo).Cells(ColCustDiscountQty).Value = dblCustDiscQty
                         gv1.Rows(IntRowNo).Cells(colcustDiscount).Value = dblCustDiscAmt
@@ -7086,17 +7086,17 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
                 End If
             End If
             ''''' end 
-            Dim dblDisPer As Decimal = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colDisPer).Value)
+            Dim dblDisPer As Decimal = clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(colDisPer).Value)
             Dim dblDisAmt As Decimal = (dblAmt * dblDisPer) / 100
-            Dim dblDisPerUnit As Decimal = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colDisPerUnit).Value)
+            Dim dblDisPerUnit As Decimal = clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(colDisPerUnit).Value)
             Dim dblDisUnitAmt As Decimal = dblDisPerUnit * dblQty
-            Dim dblHeadDisPer As Decimal = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colHeaDDisPer).Value)
+            Dim dblHeadDisPer As Decimal = clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(colHeaDDisPer).Value)
             Dim dblHeadPerDisAmt As Decimal = (dblAmt * dblHeadDisPer) / 100
             Dim dblTotDiscAmt = dblheadDiscamt + dblHeadPerDisAmt + dblDisAmt + dblDisUnitAmt
             Dim dblAmtAfterDis As Decimal = dblAmt - dblDisAmt - dblTotCustDisc - dblheadDiscamt - dblHeadPerDisAmt
             Dim dblAbatementRate As Decimal = gv1.CurrentRow.Cells(colAbatementPer).Value
             Dim dblAbatementAmt As Decimal = ((dblMRP * dblAbatementRate) / 100) * dblQty
-            Dim dblTPTRate As Decimal = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColTPTRate).Value)
+            Dim dblTPTRate As Decimal = clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(ColTPTRate).Value)
             Dim dblTPTAmt As Decimal = dblTPTRate * dblQty
             For ii As Integer = 1 To 10
                 Dim Strii As String = clsCommon.myCstr(ii)
@@ -7107,7 +7107,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
                         Dim dblTaxRate As Decimal = 0
                         If clsCommon.CompairString(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value, "TCS") = CompairStringResult.Equal Then
                             If chkisTCS.Checked = True Then
-                                dblTaxRate = clsCommon.myCdbl(txtTCSTaxRate.Value)
+                                dblTaxRate = clsCommon.myCDecimal(txtTCSTaxRate.Value)
                             Else
                                 dblTaxRate = 0
                             End If
@@ -7116,7 +7116,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
                             If chkExcludeKKFMandi.Checked AndAlso clsCommon.CompairString(FormType, "VSP") = CompairStringResult.Equal AndAlso (clsCommon.CompairString(strTaxType, "K") = CompairStringResult.Equal OrElse clsCommon.CompairString(strTaxType, "M") = CompairStringResult.Equal) Then
                                 dblTaxRate = 0
                             Else
-                                dblTaxRate = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXRATE" + Strii)).Value)
+                                dblTaxRate = clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXRATE" + Strii)).Value)
                             End If
 
                         End If
@@ -7166,15 +7166,15 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
                     End If
                 ElseIf rbtnTaxCalManual.IsChecked Then
                     If gv2.Rows.Count >= ii Then
-                        Dim dblTaxAmt As Decimal = clsCommon.myCdbl(gv2.Rows(ii - 1).Cells(colTTaxAmt).Value)
-                        Dim dblCurrRowAmt As Decimal = clsCommon.myCdbl(gv1.Rows(clsCommon.myCdbl(IntRowNo)).Cells(colAmt).Value)
+                        Dim dblTaxAmt As Decimal = clsCommon.myCDecimal(gv2.Rows(ii - 1).Cells(colTTaxAmt).Value)
+                        Dim dblCurrRowAmt As Decimal = clsCommon.myCDecimal(gv1.Rows(clsCommon.myCDecimal(IntRowNo)).Cells(colAmt).Value)
                         Dim dblTotAmt As Decimal = 0
                         For jj As Integer = 0 To gv1.Rows.Count - 1
-                            dblTotAmt += clsCommon.myCdbl(gv1.Rows(jj).Cells(colAmt).Value)
+                            dblTotAmt += clsCommon.myCDecimal(gv1.Rows(jj).Cells(colAmt).Value)
                         Next
                         Dim dblCurrCalTax As Decimal = 0
                         If dblTotAmt <> 0 Then
-                            dblCurrCalTax = Math.Round(clsCommon.myCdbl(dblTaxAmt * dblCurrRowAmt / dblTotAmt), 6, MidpointRounding.ToEven)
+                            dblCurrCalTax = Math.Round(clsCommon.myCDecimal(dblTaxAmt * dblCurrRowAmt / dblTotAmt), 6, MidpointRounding.ToEven)
                         End If
                         gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = dblCurrCalTax
                     End If
@@ -7320,9 +7320,9 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
     Private Sub gv1_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles gv1.KeyDown
         If e.Control AndAlso e.KeyCode = Keys.F7 Then
             If clsCommon.myLen(gv1.CurrentRow.Cells(colICode).Value) > 0 Then
-                gv1.CurrentRow.Cells(colIsMannualAmt).Value = IIf(clsCommon.myCdbl(gv1.CurrentRow.Cells(colIsMannualAmt).Value) = 1, 0, 1)
+                gv1.CurrentRow.Cells(colIsMannualAmt).Value = IIf(clsCommon.myCDecimal(gv1.CurrentRow.Cells(colIsMannualAmt).Value) = 1, 0, 1)
             End If
-            If clsCommon.myCdbl(gv1.CurrentRow.Cells(colIsMannualAmt).Value) = 0 Then
+            If clsCommon.myCDecimal(gv1.CurrentRow.Cells(colIsMannualAmt).Value) = 0 Then
                 UpdateCurrentRow(gv1.CurrentRow.Index)
             End If
         ElseIf e.KeyCode = Keys.F4 Then
@@ -7355,7 +7355,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
     End Sub
     'Sub OpenBatchItem()
     '    Try
-    '        If (clsCommon.myLen(clsCommon.myCdbl(gv1.CurrentRow.Cells(colICode).Value)) > 0) Then
+    '        If (clsCommon.myLen(clsCommon.myCDecimal(gv1.CurrentRow.Cells(colICode).Value)) > 0) Then
     '            Dim qry As String = " select Is_Batch_Item from TSPL_ITEM_MASTER where Item_Code='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) & "'"
     '            Dim isBatchAvtive As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
     '            Dim isSubLocation As Boolean = False
@@ -7377,8 +7377,8 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
     '                frm.strCurrDocNo = txtDocNo.Value
     '                frm.strCurrDocType = "MCC-MSALE"
     '                frm.strUOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
-    '                frm.dblMRP = clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value)
-    '                frm.dblqty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value)
+    '                frm.dblMRP = clsCommon.myCDecimal(gv1.CurrentRow.Cells(colMRP).Value)
+    '                frm.dblqty = clsCommon.myCDecimal(gv1.CurrentRow.Cells(colQty).Value)
     '                frm.arr = TryCast(gv1.CurrentRow.Cells(colICode).Tag, List(Of clsBatchInventory))
     '                If RunBatchFifowise = 0 Then
     '                    frm.ShowDialog()
@@ -7452,7 +7452,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
                             frm.strCurrDocType = "MCC-MSALE"
                             '"PS-SH"
                             frm.strUOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
-                            frm.dblqty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value)
+                            frm.dblqty = clsCommon.myCDecimal(gv1.CurrentRow.Cells(colQty).Value)
                             frm.arr = TryCast(gv1.CurrentRow.Cells(colICode).Tag, List(Of clsBatchInventory))
                             Dim isMilkItem As Boolean = IIf(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Is_Milk_Pouch  from TSPL_ITEM_MASTER where item_code='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) & "'")) = 0, False, True)
                             If frm.OpenSerialList(0, "", strBatchunion, False, IIf(isMilkItem = True, True, False)) Then
@@ -7484,10 +7484,10 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
                         frm.strCurrDocType = "MCC-MSALE"
                         '"PS-SH"
                         frm.strUOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
-                        'frm.dblMRP = clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value) comment by balwinder On UDL On 02/12/2016
-                        frm.dblqty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value)
+                        'frm.dblMRP = clsCommon.myCDecimal(gv1.CurrentRow.Cells(colMRP).Value) comment by balwinder On UDL On 02/12/2016
+                        frm.dblqty = clsCommon.myCDecimal(gv1.CurrentRow.Cells(colQty).Value)
                         If checkstockmrpwise Then
-                            frm.dblMRP = clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value)
+                            frm.dblMRP = clsCommon.myCDecimal(gv1.CurrentRow.Cells(colMRP).Value)
                         End If
                         frm.arr = TryCast(gv1.CurrentRow.Cells(colICode).Tag, List(Of clsBatchInventory))
                         frm.ShowDialog()
@@ -7510,9 +7510,9 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
                     frm.strCurrDocNo = txtDocNo.Value
                     frm.strCurrDocType = "MCC-MSALE"
                     frm.strUOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
-                    frm.dblqty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value)
+                    frm.dblqty = clsCommon.myCDecimal(gv1.CurrentRow.Cells(colQty).Value)
                     If checkstockmrpwise Then
-                        frm.dblMRP = clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value)
+                        frm.dblMRP = clsCommon.myCDecimal(gv1.CurrentRow.Cells(colMRP).Value)
                     End If
                     frm.arr = TryCast(gv1.CurrentRow.Cells(colICode).Tag, List(Of clsBatchInventory))
                     frm.ShowDialog()
@@ -7562,7 +7562,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
                             frm.strCurrDocType = "MCC-MSALE"
                             '"PS-SH"
                             frm.strUOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
-                            frm.dblqty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value)
+                            frm.dblqty = clsCommon.myCDecimal(gv1.CurrentRow.Cells(colQty).Value)
                             frm.arr = TryCast(gv1.CurrentRow.Cells(colICode).Tag, List(Of clsBatchInventory))
                             If frm.OpenSerialList(0, "", strBatchunion) Then
                                 gv1.CurrentRow.Cells(colICode).Tag = frm.arr
@@ -7590,10 +7590,10 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
     End Sub
 
     Public Shared Function GetConvQuantity(ByVal strItem As String, ByVal strCurrentUnit As String, ByVal strConvertedUnit As String, ByVal dblQty As Double) As Double
-        Dim dblCurrentConvF As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where Item_Code='" & strItem & "' and UOM_Code='" & strCurrentUnit & "'"))
+        Dim dblCurrentConvF As Double = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where Item_Code='" & strItem & "' and UOM_Code='" & strCurrentUnit & "'"))
         Dim dblConvQty As Double = 0
         If clsCommon.myLen(strConvertedUnit) > 0 Then
-            Dim dblOrgConvF = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where Item_Code='" & strItem & "' and UOM_Code='" & strConvertedUnit & "'"))
+            Dim dblOrgConvF = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where Item_Code='" & strItem & "' and UOM_Code='" & strConvertedUnit & "'"))
             If dblCurrentConvF > 0 Then
                 dblConvQty = Math.Round(Math.Round((dblOrgConvF / dblCurrentConvF), 2) * dblQty, 2)
             End If
@@ -7601,10 +7601,10 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
         Return dblConvQty
     End Function
     Public Shared Function GetConvQuantity(ByVal strItem As String, ByVal strCurrentUnit As String, ByVal strConvertedUnit As String, ByVal dblQty As Double, ByVal trans As SqlTransaction) As Double
-        Dim dblCurrentConvF As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where Item_Code='" & strItem & "' and UOM_Code='" & strCurrentUnit & "'", trans))
+        Dim dblCurrentConvF As Double = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where Item_Code='" & strItem & "' and UOM_Code='" & strCurrentUnit & "'", trans))
         Dim dblConvQty As Double = 0
         If clsCommon.myLen(strConvertedUnit) > 0 Then
-            Dim dblOrgConvF = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where Item_Code='" & strItem & "' and UOM_Code='" & strConvertedUnit & "'", trans))
+            Dim dblOrgConvF = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where Item_Code='" & strItem & "' and UOM_Code='" & strConvertedUnit & "'", trans))
             If dblCurrentConvF > 0 Then
                 dblConvQty = Math.Round(Math.Round((dblOrgConvF / dblCurrentConvF), 2) * dblQty, 2)
             End If
@@ -7613,7 +7613,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
     End Function
     Private Sub gv1_RowFormatting(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.RowFormattingEventArgs) Handles gv1.RowFormatting
         Try
-            If clsCommon.CompairString(clsCommon.myCstr(e.RowElement.RowInfo.Cells(colRowType).Value), RowTypeItem) = CompairStringResult.Equal AndAlso clsCommon.myCdbl(e.RowElement.RowInfo.Cells(colIsMannualAmt).Value) > 0 Then
+            If clsCommon.CompairString(clsCommon.myCstr(e.RowElement.RowInfo.Cells(colRowType).Value), RowTypeItem) = CompairStringResult.Equal AndAlso clsCommon.myCDecimal(e.RowElement.RowInfo.Cells(colIsMannualAmt).Value) > 0 Then
                 e.RowElement.ForeColor = Color.Blue
             Else
                 e.RowElement.ForeColor = Color.Black
@@ -7626,7 +7626,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
         If gv1.RowCount > 0 Then
             'If Not clsCommon.myLen(txtReqNo.Value) > 0 Then
             Dim intCurrRow As Integer = gv1.CurrentRow.Index
-            gv1.CurrentRow.Cells(colLineNo).Value = clsCommon.myCdbl(intCurrRow + 1)
+            gv1.CurrentRow.Cells(colLineNo).Value = clsCommon.myCDecimal(intCurrRow + 1)
             If intCurrRow = gv1.Rows.Count - 1 Then
                 gv1.Rows.AddNew()
                 gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = RowTypeItem
@@ -7707,7 +7707,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
     Sub setBalance()
         UcItemBalance1.ItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
         UcItemBalance1.ItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
-        UcItemBalance1.ItemMRP = clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value)
+        UcItemBalance1.ItemMRP = clsCommon.myCDecimal(gv1.CurrentRow.Cells(colMRP).Value)
         If AllowPlandDeptMCCLocation Then
             If clsCommon.myLen(clsCommon.myCstr(txtBillToLocation.Value)) > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtBillToLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
@@ -7760,7 +7760,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
                 qry = "select case when Qty=0 then 0 else abs(Amt/Qty)*" + clsCommon.myCstr(dblqty) + "  end as AvgCost from( select  sum(Amt * RI) as Amt,sum(Qty * RI) as Qty from(" + Environment.NewLine
                 qry += " select Stock_Qty as Qty,( Avg_Cost) as Amt,case when InOut='O' then -1 else 1 end as RI  from TSPL_INVENTORY_MOVEMENT where Item_Code='" + strICode + "' and Location_Code='" + strLocation + "' and  " + strDateColumn + " <= '" + strDateForCheck + "' " + Environment.NewLine
                 qry += " )xxx )xxxx" + Environment.NewLine
-                dblRetCost = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
+                dblRetCost = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, trans))
             Else
                 qry = ";WITH cteStockSum AS ( " + Environment.NewLine
                 qry += " SELECT   Item_Code ,SUM(Stock_Qty * CASE WHEN  InOut = 'O' THEN -1 ELSE 1 END) AS TotalStock FROM  TSPL_INVENTORY_MOVEMENT where Item_Code='" + strICode + "' and Location_Code='" + strLocation + "' and " + strDateColumn + " <= '" + strDateForCheck + "'  GROUP BY Item_Code)," + Environment.NewLine
@@ -7784,11 +7784,11 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Dim dblbalanceQty As Decimal = dblqty
                     For Each dr As DataRow In dt.Rows
-                        Dim dblCurrQty As Decimal = clsCommon.myCdbl(dr("BalanceQty"))
+                        Dim dblCurrQty As Decimal = clsCommon.myCDecimal(dr("BalanceQty"))
                         If dblbalanceQty >= dblCurrQty Then
-                            dblRetCost += clsCommon.myCdbl(dr("CurrentValue"))
+                            dblRetCost += clsCommon.myCDecimal(dr("CurrentValue"))
                         Else
-                            dblRetCost += (clsCommon.myCdbl(dr("CurrentValue")) * dblbalanceQty) / dblCurrQty
+                            dblRetCost += (clsCommon.myCDecimal(dr("CurrentValue")) * dblbalanceQty) / dblCurrQty
                         End If
                         dblbalanceQty -= dblCurrQty
                         If dblbalanceQty <= 0 Then
@@ -7817,7 +7817,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
     '        Dim CurrentRow As Integer = 1
     '        For ii As Integer = 0 To gv1.Rows.Count - 1
     '            If clsCommon.CompairString(txtBarCode.Text, clsCommon.myCstr(gv1.Rows(ii).Cells(colBarCode).Value)) = CompairStringResult.Equal Then
-    '                gv1.Rows(ii).Cells(colQty).Value = clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value) + 1
+    '                gv1.Rows(ii).Cells(colQty).Value = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colQty).Value) + 1
     '                CurrentRow = ii
     '                isFound = True
     '                Exit For
@@ -7853,7 +7853,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
             txtDiscPer.Enabled = False
             txtDiscPer.Text = 0
             For Each gro As GridViewRowInfo In gv1.Rows
-                If clsCommon.myLen(gro.Cells(colICode).Value) > 0 And clsCommon.myCdbl(gro.Cells(ColFOC).Value) = 0 Then
+                If clsCommon.myLen(gro.Cells(colICode).Value) > 0 And clsCommon.myCDecimal(gro.Cells(ColFOC).Value) = 0 Then
                     gro.Cells(colHeaDDisPer).Value = 0
                 Else
                 End If
@@ -7864,7 +7864,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
             txtDiscPer.Enabled = True
             txtDiscAmt.Text = 0
             For Each gro As GridViewRowInfo In gv1.Rows
-                If clsCommon.myLen(gro.Cells(colICode).Value) > 0 And clsCommon.myCdbl(gro.Cells(ColFOC).Value) = 0 Then
+                If clsCommon.myLen(gro.Cells(colICode).Value) > 0 And clsCommon.myCDecimal(gro.Cells(ColFOC).Value) = 0 Then
                     gro.Cells(colHeadDiscamt).Value = 0
                 Else
                 End If
@@ -7887,13 +7887,13 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
     Private Sub txtDiscPer_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtDiscPer.Click
     End Sub
     'Private Sub CalculateDiscountAmount()
-    '    If clsCommon.myCdbl(txtDiscAmt.Text) > clsCommon.myCdbl(lblAmtWithDiscount.Text) Then
+    '    If clsCommon.myCDecimal(txtDiscAmt.Text) > clsCommon.myCDecimal(lblAmtWithDiscount.Text) Then
     '        isCellValueChangedOpen = False
     '        Throw New Exception("Discount amount cannot be greater than Doc amount")
     '    End If
     '    Dim discountrate As Decimal = Decimal.Parse(txtDiscPer.Text)
-    '    'If chkDiscountOnAmt.IsChecked AndAlso clsCommon.myCdbl(lblAmtWithDiscount.Text) > 0 Then
-    '    '    discountrate = clsCommon.myCstr(Math.Round(((txtDiscAmt.Value * 100) / clsCommon.myCdbl(lblAmtWithDiscount.Text)), 5, MidpointRounding.ToEven))
+    '    'If chkDiscountOnAmt.IsChecked AndAlso clsCommon.myCDecimal(lblAmtWithDiscount.Text) > 0 Then
+    '    '    discountrate = clsCommon.myCstr(Math.Round(((txtDiscAmt.Value * 100) / clsCommon.myCDecimal(lblAmtWithDiscount.Text)), 5, MidpointRounding.ToEven))
     '    '    txtDiscPer.Value = discountrate
     '    'End If
     '    Dim dblDiscountAmtPerUnit As Decimal = 0
@@ -7905,8 +7905,8 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
     '    If chkDiscountOnAmt.IsChecked Then
     '        For Each gro As GridViewRowInfo In gv1.Rows
     '            gv1.CurrentRow = gro.Cells(colHeadDiscamt).RowInfo
-    '            If clsCommon.myLen(gro.Cells(colICode).Value) > 0 And clsCommon.myCdbl(gro.Cells(ColFOC).Value) = 0 Then
-    '                dblDiscountAmt = Math.Round((clsCommon.myCdbl(gro.Cells(colAmt).Value) * txtDiscAmt.Value) / clsCommon.myCdbl(lblAmtWithDiscount.Text), 2)
+    '            If clsCommon.myLen(gro.Cells(colICode).Value) > 0 And clsCommon.myCDecimal(gro.Cells(ColFOC).Value) = 0 Then
+    '                dblDiscountAmt = Math.Round((clsCommon.myCDecimal(gro.Cells(colAmt).Value) * txtDiscAmt.Value) / clsCommon.myCDecimal(lblAmtWithDiscount.Text), 2)
     '                gro.Cells(colHeadDiscamt).Value = Math.Round((dblDiscountAmt), 2)
     '            Else
     '                gro.Cells(colHeadDiscamt).Value = 0
@@ -7915,7 +7915,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
     '    Else
     '        For Each gro As GridViewRowInfo In gv1.Rows
     '            gv1.CurrentRow = gro.Cells(colHeadDiscamt).RowInfo
-    '            If clsCommon.myLen(gro.Cells(colICode).Value) > 0 And clsCommon.myCdbl(gro.Cells(ColFOC).Value) = 0 Then
+    '            If clsCommon.myLen(gro.Cells(colICode).Value) > 0 And clsCommon.myCDecimal(gro.Cells(ColFOC).Value) = 0 Then
     '                gro.Cells(colDisPer).Value = Math.Round((discountrate), 2)
     '            Else
     '            End If
@@ -7923,20 +7923,20 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
     '    End If
     'End Sub
     Private Sub CalculateDiscountAmount()
-        If clsCommon.myCdbl(txtDiscAmt.Text) > clsCommon.myCdbl(lblAmtWithDiscount.Text) Then
+        If clsCommon.myCDecimal(txtDiscAmt.Text) > clsCommon.myCDecimal(lblAmtWithDiscount.Text) Then
             isCellValueChangedOpen = False
             Throw New Exception("Discount amount cannot be greater than Doc amount")
         End If
         Dim discountrate As Decimal
         'Dim discountrate As Decimal = Decimal.Parse(txtDiscPer.Text)
-        'If chkDiscountOnAmt.IsChecked AndAlso clsCommon.myCdbl(lblAmtWithDiscount.Text) > 0 Then
-        '    discountrate = clsCommon.myCstr(Math.Round(((txtDiscAmt.Value * 100) / clsCommon.myCdbl(lblAmtWithDiscount.Text)), 5, MidpointRounding.ToEven))
+        'If chkDiscountOnAmt.IsChecked AndAlso clsCommon.myCDecimal(lblAmtWithDiscount.Text) > 0 Then
+        '    discountrate = clsCommon.myCstr(Math.Round(((txtDiscAmt.Value * 100) / clsCommon.myCDecimal(lblAmtWithDiscount.Text)), 5, MidpointRounding.ToEven))
         '    txtDiscPer.Value = discountrate
         'End If
-        If clsCommon.myCdbl(txtDiscPer.Text) > 0 Then
+        If clsCommon.myCDecimal(txtDiscPer.Text) > 0 Then
             discountrate = Decimal.Parse(txtDiscPer.Text)
             txtDiscAmt.Text = 0
-        ElseIf clsCommon.myCdbl(txtDiscAmt.Text) > 0 Then
+        ElseIf clsCommon.myCDecimal(txtDiscAmt.Text) > 0 Then
             txtDiscPer.Text = 0
         End If
         Dim dblDiscountAmt As Decimal = 0
@@ -7947,8 +7947,8 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
         If chkDiscountOnAmt.IsChecked Then
             For Each gro As GridViewRowInfo In gv1.Rows
                 gv1.CurrentRow = gro.Cells(colHeadDiscamt).RowInfo
-                If clsCommon.myLen(gro.Cells(colICode).Value) > 0 And clsCommon.myCdbl(gro.Cells(ColFOC).Value) = 0 Then
-                    'dblDiscountAmt = Math.Round((clsCommon.myCdbl(gro.Cells(colAmt).Value) * txtDiscAmt.Value) / clsCommon.myCdbl(lblAmtWithDiscount.Text), 2)
+                If clsCommon.myLen(gro.Cells(colICode).Value) > 0 And clsCommon.myCDecimal(gro.Cells(ColFOC).Value) = 0 Then
+                    'dblDiscountAmt = Math.Round((clsCommon.myCDecimal(gro.Cells(colAmt).Value) * txtDiscAmt.Value) / clsCommon.myCDecimal(lblAmtWithDiscount.Text), 2)
                     dblDiscountAmt = Math.Round(txtDiscAmt.Value * TotalItemQty, 2)
                     gro.Cells(colHeadDiscamt).Value = Math.Round((dblDiscountAmt), 2)
                 Else
@@ -7958,7 +7958,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
         Else
             For Each gro As GridViewRowInfo In gv1.Rows
                 gv1.CurrentRow = gro.Cells(colHeadDiscamt).RowInfo
-                If clsCommon.myLen(gro.Cells(colICode).Value) > 0 And clsCommon.myCdbl(gro.Cells(ColFOC).Value) = 0 Then
+                If clsCommon.myLen(gro.Cells(colICode).Value) > 0 And clsCommon.myCDecimal(gro.Cells(ColFOC).Value) = 0 Then
                     gro.Cells(colHeaDDisPer).Value = Math.Round((discountrate), 2)
                 Else
                 End If
@@ -8011,9 +8011,9 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
     Private Function GetPdfPath() As String
         Dim StrRptPath As String = ""
         Dim IsMandiTax As Decimal = 0
-        IsMandiTax = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code='" & txtTaxGroup.Value & "' and Tax_Code in(select Tax_Code from TSPL_TAX_MASTER where Is_Mandi_Tax='Y')"))
+        IsMandiTax = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select count(*) from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code='" & txtTaxGroup.Value & "' and Tax_Code in(select Tax_Code from TSPL_TAX_MASTER where Is_Mandi_Tax='Y')"))
         Dim IsExampted As Decimal = 0
-        IsExampted = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select COUNT(Is_Tax_Exempted)  from TSPL_TAX_GROUP_MASTER where Tax_Group_Code='" & txtTaxGroup.Value & "' AND Tax_Group_Type='S' AND Is_Tax_Exempted=1"))
+        IsExampted = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select COUNT(Is_Tax_Exempted)  from TSPL_TAX_GROUP_MASTER where Tax_Group_Code='" & txtTaxGroup.Value & "' AND Tax_Group_Type='S' AND Is_Tax_Exempted=1"))
         'atchqry = GetAttachQry()
         atchqry = clsMCCMaterialSale.GetAttachQry(False, txtDate.Value, txtDocNo.Value)
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(atchqry)
@@ -8024,7 +8024,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
             '=============================================================================
             Dim frmCRV As New frmCrystalReportViewer()
             If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt.Rows(0)("Document_Date"))) Then
-                If clsCommon.myCdbl(dt.Rows(0)("Is_Taxable")) = 1 Then
+                If clsCommon.myCDecimal(dt.Rows(0)("Is_Taxable")) = 1 Then
                     If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("LocationState")), clsCommon.myCstr(dt.Rows(0)("Cust_State_Name"))) = CompairStringResult.Equal Then
                         If IsExampted > 0 Then
                             StrRptPath = frmCRV.funsubreportWithdt(MyBase.Form_ID, True, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_NonTaxable", "MCC Material Sale Non Taxable", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptcustomerOutstandingErod.rpt", dtCustomerOutstanding)
@@ -9274,64 +9274,55 @@ a:          End If
     End Sub
     Private Sub CalculateRateDiffAmount()
         Try
-            If clsCommon.myCdbl(txtRateAmt.Text) > (clsCommon.myCdbl(lblAmtAfterDiscount.Text) + clsCommon.myCdbl(lblTaxAmt.Text)) Then
+            If clsCommon.myCDecimal(txtRateAmt.Text) > (clsCommon.myCDecimal(lblAmtAfterDiscount.Text) + clsCommon.myCDecimal(lblTaxAmt.Text)) Then
                 txtRateAmt.Text = 0
                 lblTotalSubsidy.Text = 0
                 Throw New Exception("Rate Difference amount cannot be greater than sum of Discount after amount and Tax amount")
             End If
-            If clsCommon.myCdbl(txtRatePer.Text) > 0 Then
+            If clsCommon.myCDecimal(txtRatePer.Text) > 0 Then
                 If rbtnBasicAmt.IsChecked Then
-                    txtRateAmt.Text = clsCommon.myCdbl(lblAmtWithDiscount.Text) * clsCommon.myCdbl(txtRatePer.Text) / 100
+                    txtRateAmt.Text = clsCommon.myCDecimal(lblAmtWithDiscount.Text) * clsCommon.myCDecimal(txtRatePer.Text) / 100
                 ElseIf rbtnTotalAmt.IsChecked Then
-                    txtRateAmt.Text = clsCommon.myCdbl(lblTotRAmt.Text) * clsCommon.myCdbl(txtRatePer.Text) / 100
+                    txtRateAmt.Text = clsCommon.myCDecimal(lblTotRAmt.Text) * clsCommon.myCDecimal(txtRatePer.Text) / 100
                 End If
-            ElseIf clsCommon.myCdbl(txtRatePer.Text) = 0 Then
+            ElseIf clsCommon.myCDecimal(txtRatePer.Text) = 0 Then
                 If chkRateDiffRate.IsChecked Then
                     txtRateAmt.Text = 0
                 End If
-            ElseIf clsCommon.myCdbl(txtRateAmt.Text) > 0 Then
+            ElseIf clsCommon.myCDecimal(txtRateAmt.Text) > 0 Then
                 txtRatePer.Text = 0
             End If
             If chkRateDiffAmt.IsChecked Then
-                'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
-                '    'If chkcashsale.Checked Then
-                '    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text) - clsCommon.myCdbl(lblTotalSubsidy.Text)
-                '    'Else
-                '    '    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text)
-                '    'End If
-                'Else
-                '    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - txtRateAmt.Text)
-                'End If
                 If MultiplySubsidyWithQuantity Then
-                    lblTotalSubsidy.Text = clsCommon.myCdbl(txtRateAmt.Text) * TotalItemQty
-                    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text) - clsCommon.myCdbl(lblTotalSubsidy.Text)
+                    lblTotalSubsidy.Text = clsCommon.myCDecimal(txtRateAmt.Text) * TotalItemQty
+                    lblGrossAmount.Text = clsCommon.myCDecimal(lblTotRAmt.Text) - clsCommon.myCDecimal(lblTotalSubsidy.Text)
                     If chkAddTPT.Checked Then
-                        lblGrossAmount.Text = clsCommon.myCdbl(lblGrossAmount.Text) + clsCommon.myCdbl(txtTPTAmt.Text)
+                        lblGrossAmount.Text = clsCommon.myCDecimal(lblGrossAmount.Text) + clsCommon.myCDecimal(txtTPTAmt.Text)
                     Else
-                        lblGrossAmount.Text = clsCommon.myCdbl(lblGrossAmount.Text) - clsCommon.myCdbl(txtTPTAmt.Text)
+                        lblGrossAmount.Text = clsCommon.myCDecimal(lblGrossAmount.Text) - clsCommon.myCDecimal(txtTPTAmt.Text)
                     End If
 
                 Else
-                    lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - txtRateAmt.Text) '
+                    lblGrossAmount.Text = clsCommon.myCDecimal(lblTotRAmt.Text - txtRateAmt.Text) '
 
                     If chkAddTPT.Checked Then
-                        lblGrossAmount.Text = clsCommon.myCdbl(lblGrossAmount.Text) + clsCommon.myCdbl(txtTPTAmt.Text)
+                        lblGrossAmount.Text = clsCommon.myCDecimal(lblGrossAmount.Text) + clsCommon.myCDecimal(txtTPTAmt.Text)
                     Else
-                        lblGrossAmount.Text = clsCommon.myCdbl(lblGrossAmount.Text) - clsCommon.myCdbl(txtTPTAmt.Text)
+                        lblGrossAmount.Text = clsCommon.myCDecimal(lblGrossAmount.Text) - clsCommon.myCDecimal(txtTPTAmt.Text)
                     End If
                 End If
             Else
                 If rbtnTotalAmt.IsChecked Then
-                    lblTotalSubsidy.Text = clsCommon.myCdbl(lblTotRAmt.Text * txtRatePer.Text) / 100
+                    lblTotalSubsidy.Text = clsCommon.myCDecimal(lblTotRAmt.Text * txtRatePer.Text) / 100
                 ElseIf rbtnBasicAmt.IsChecked Then
-                    lblTotalSubsidy.Text = clsCommon.myCdbl(lblAmtWithDiscount.Text * txtRatePer.Text) / 100
+                    lblTotalSubsidy.Text = clsCommon.myCDecimal(lblAmtWithDiscount.Text * txtRatePer.Text) / 100
                 End If
 
-                lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - lblTotalSubsidy.Text) '
+                lblGrossAmount.Text = clsCommon.myCDecimal(lblTotRAmt.Text - lblTotalSubsidy.Text) '
                 If chkAddTPT.Checked Then
-                    lblGrossAmount.Text = clsCommon.myCdbl(lblGrossAmount.Text) + clsCommon.myCdbl(txtTPTAmt.Text)
+                    lblGrossAmount.Text = clsCommon.myCDecimal(lblGrossAmount.Text) + clsCommon.myCDecimal(txtTPTAmt.Text)
                 Else
-                    lblGrossAmount.Text = clsCommon.myCdbl(lblGrossAmount.Text) - clsCommon.myCdbl(txtTPTAmt.Text)
+                    lblGrossAmount.Text = clsCommon.myCDecimal(lblGrossAmount.Text) - clsCommon.myCDecimal(txtTPTAmt.Text)
                 End If
             End If
         Catch ex As Exception
@@ -9419,13 +9410,13 @@ a:          End If
     End Sub
     Private Sub txtRateAmt_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtRateAmt.KeyPress
         'If MultiplySubsidyWithQuantity Then
-        lblTotalSubsidy.Text = clsCommon.myCdbl(txtRateAmt.Text) * TotalItemQty
+        lblTotalSubsidy.Text = clsCommon.myCDecimal(txtRateAmt.Text) * TotalItemQty
         'End If
     End Sub
 
     Private Sub txtDiscAmt_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtDiscAmt.KeyPress
         'If MultiplySubsidyWithQuantity Then
-        lblTotalDisSubsidy.Text = clsCommon.myCdbl(txtDiscAmt.Text) * TotalItemQty
+        lblTotalDisSubsidy.Text = clsCommon.myCDecimal(txtDiscAmt.Text) * TotalItemQty
         ' End If
     End Sub
     Private Sub chkisTCS_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkisTCS.ToggleStateChanged
@@ -9483,7 +9474,7 @@ a:          End If
             End If
             If FlagDocumentIsTaxable = 1 AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value) = True AndAlso clsCommon.CompairString(EInvoiceType, "BB") = CompairStringResult.Equal Then
                 Dim EInvoiceCancelTimeValid As Int64 = 0
-                EInvoiceCancelTimeValid = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" Select  isnull (DATEDIFF(hour,EInvoice_Posting_Date,GETDATE()),0) as PostedHours from tspl_sd_sale_invoice_head where  document_code = '" + txtInvoiceNo.Text + "'"))
+                EInvoiceCancelTimeValid = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(" Select  isnull (DATEDIFF(hour,EInvoice_Posting_Date,GETDATE()),0) as PostedHours from tspl_sd_sale_invoice_head where  document_code = '" + txtInvoiceNo.Text + "'"))
                 If EInvoiceCancelTimeValid >= 24 Then
                     Throw New Exception("Invoice can not be cancelled.It has been more than 24 hours.")
                 End If
@@ -9509,7 +9500,7 @@ a:          End If
     End Sub
 
     Private Sub txtDiscPer_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtDiscPer.KeyPress
-        lblTotalDisSubsidy.Text = clsCommon.myRoundOFF(clsCommon.myCdbl(lblAmtWithDiscount.Text) * (clsCommon.myCdbl(txtDiscPer.Text) / 100), 2, 4)
+        lblTotalDisSubsidy.Text = clsCommon.myRoundOFF(clsCommon.myCDecimal(lblAmtWithDiscount.Text) * (clsCommon.myCDecimal(txtDiscPer.Text) / 100), 2, 4)
     End Sub
 
     Private Sub txtTPTVendor__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtTPTVendor._MYValidating
@@ -9650,7 +9641,7 @@ a:          End If
                 If clsCommon.myLen(EwbNo) = 0 Then
                     If FlagDocumentIsTaxable = 1 AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value, trans) Then
                         Dim EInvoiceCancelTimeValid As Int64 = 0
-                        EInvoiceCancelTimeValid = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" Select  isnull (DATEDIFF(hour,EInvoice_Posting_Date,GETDATE()),0) as PostedHours from tspl_sd_sale_invoice_head where  document_code = '" & txtInvoiceNo.Text & "'", trans))
+                        EInvoiceCancelTimeValid = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(" Select  isnull (DATEDIFF(hour,EInvoice_Posting_Date,GETDATE()),0) as PostedHours from tspl_sd_sale_invoice_head where  document_code = '" & txtInvoiceNo.Text & "'", trans))
                         If EInvoiceCancelTimeValid >= 24 Then
                             Throw New Exception("E-Way Bill can not be Generated.It has been more than 24 hours.")
                         End If
