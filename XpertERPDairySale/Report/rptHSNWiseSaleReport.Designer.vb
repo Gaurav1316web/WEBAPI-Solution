@@ -22,7 +22,10 @@ Partial Class rptHSNWiseSaleReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -52,6 +55,8 @@ Partial Class rptHSNWiseSaleReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.cboItemType = New Telerik.WinControls.UI.RadDropDownList()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -79,6 +84,8 @@ Partial Class rptHSNWiseSaleReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cboItemType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -163,6 +170,8 @@ Partial Class rptHSNWiseSaleReport
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.cboItemType)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel5)
         Me.RadGroupBox1.Controls.Add(Me.chkKKFMandi)
         Me.RadGroupBox1.Controls.Add(Me.txtTransaction)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel2)
@@ -177,7 +186,7 @@ Partial Class rptHSNWiseSaleReport
         Me.RadGroupBox1.HeaderText = ""
         Me.RadGroupBox1.Location = New System.Drawing.Point(6, 13)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(504, 131)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(504, 133)
         Me.RadGroupBox1.TabIndex = 389
         '
         'chkKKFMandi
@@ -194,7 +203,7 @@ Partial Class rptHSNWiseSaleReport
         '
         Me.txtTransaction.arrDispalyMember = Nothing
         Me.txtTransaction.arrValueMember = Nothing
-        Me.txtTransaction.Location = New System.Drawing.Point(95, 102)
+        Me.txtTransaction.Location = New System.Drawing.Point(95, 97)
         Me.txtTransaction.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtTransaction.MyLinkLable1 = Nothing
         Me.txtTransaction.MyLinkLable2 = Nothing
@@ -207,7 +216,7 @@ Partial Class rptHSNWiseSaleReport
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(5, 102)
+        Me.MyLabel2.Location = New System.Drawing.Point(5, 97)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(64, 18)
         Me.MyLabel2.TabIndex = 393
@@ -217,7 +226,7 @@ Partial Class rptHSNWiseSaleReport
         '
         Me.txtTaxCode.arrDispalyMember = Nothing
         Me.txtTaxCode.arrValueMember = Nothing
-        Me.txtTaxCode.Location = New System.Drawing.Point(95, 72)
+        Me.txtTaxCode.Location = New System.Drawing.Point(95, 76)
         Me.txtTaxCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtTaxCode.MyLinkLable1 = Nothing
         Me.txtTaxCode.MyLinkLable2 = Nothing
@@ -230,7 +239,7 @@ Partial Class rptHSNWiseSaleReport
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(5, 72)
+        Me.MyLabel1.Location = New System.Drawing.Point(5, 75)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(52, 18)
         Me.MyLabel1.TabIndex = 391
@@ -240,7 +249,7 @@ Partial Class rptHSNWiseSaleReport
         '
         Me.txtItem.arrDispalyMember = Nothing
         Me.txtItem.arrValueMember = Nothing
-        Me.txtItem.Location = New System.Drawing.Point(95, 45)
+        Me.txtItem.Location = New System.Drawing.Point(95, 55)
         Me.txtItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtItem.MyLinkLable1 = Nothing
         Me.txtItem.MyLinkLable2 = Nothing
@@ -253,7 +262,7 @@ Partial Class rptHSNWiseSaleReport
         '
         Me.lblItem.FieldName = Nothing
         Me.lblItem.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblItem.Location = New System.Drawing.Point(5, 45)
+        Me.lblItem.Location = New System.Drawing.Point(5, 55)
         Me.lblItem.Name = "lblItem"
         Me.lblItem.Size = New System.Drawing.Size(29, 18)
         Me.lblItem.TabIndex = 389
@@ -359,7 +368,9 @@ Partial Class rptHSNWiseSaleReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportAPI = False
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
@@ -371,7 +382,7 @@ Partial Class rptHSNWiseSaleReport
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(265, 15)
+        Me.btnPrint.Location = New System.Drawing.Point(257, 15)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(71, 22)
         Me.btnPrint.TabIndex = 155
@@ -381,7 +392,7 @@ Partial Class rptHSNWiseSaleReport
         '
         Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnExcel, Me.btnPDF})
-        Me.RadSplitButton1.Location = New System.Drawing.Point(162, 15)
+        Me.RadSplitButton1.Location = New System.Drawing.Point(160, 15)
         Me.RadSplitButton1.Name = "RadSplitButton1"
         Me.RadSplitButton1.Size = New System.Drawing.Size(95, 22)
         Me.RadSplitButton1.TabIndex = 154
@@ -423,11 +434,37 @@ Partial Class rptHSNWiseSaleReport
         '
         Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Location = New System.Drawing.Point(88, 15)
+        Me.btnReset.Location = New System.Drawing.Point(87, 15)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(71, 22)
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel5.Location = New System.Drawing.Point(5, 34)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(56, 18)
+        Me.MyLabel5.TabIndex = 432
+        Me.MyLabel5.Text = "Item Type"
+        '
+        'cboItemType
+        '
+        Me.cboItemType.AutoCompleteDisplayMember = Nothing
+        Me.cboItemType.AutoCompleteValueMember = Nothing
+        Me.cboItemType.DropDownAnimationEnabled = True
+        RadListDataItem1.Text = "Both"
+        RadListDataItem2.Text = "Sale Invoice"
+        RadListDataItem3.Text = "Sale Return"
+        Me.cboItemType.Items.Add(RadListDataItem1)
+        Me.cboItemType.Items.Add(RadListDataItem2)
+        Me.cboItemType.Items.Add(RadListDataItem3)
+        Me.cboItemType.Location = New System.Drawing.Point(95, 33)
+        Me.cboItemType.Name = "cboItemType"
+        Me.cboItemType.Size = New System.Drawing.Size(243, 20)
+        Me.cboItemType.TabIndex = 362
         '
         'rptHSNWiseSaleReport
         '
@@ -470,6 +507,8 @@ Partial Class rptHSNWiseSaleReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cboItemType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -504,5 +543,7 @@ Partial Class rptHSNWiseSaleReport
     Friend WithEvents txtTransaction As common.UserControls.txtMultiSelectFinder
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents chkKKFMandi As RadCheckBox
+    Friend WithEvents MyLabel5 As common.Controls.MyLabel
+    Friend WithEvents cboItemType As RadDropDownList
 End Class
 

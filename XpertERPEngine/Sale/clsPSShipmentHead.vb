@@ -2571,8 +2571,9 @@ Public Class clsPSShipmentHead
         Dim DeductTPTFromDocAmt As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DeductTPTFromDocAmt, clsFixedParameterCode.DeductTPTFromDocAmt, trans)) = 1, True, False)
         If DeductTPTFromDocAmt Then
             obj.TotalSubsidyAmt = objShipment.Transporter_Commission_TotalAmt
+        Else
+            obj.TotalSubsidyAmt = objShipment.TotalSubsidyAmt
         End If
-        obj.TotalSubsidyAmt = objShipment.TotalSubsidyAmt
         obj.Comments = objShipment.Comments
         obj.Comp_Code = objShipment.Comp_Code
         obj.Terms_Code = objShipment.Terms_Code

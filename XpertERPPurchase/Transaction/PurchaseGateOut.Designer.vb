@@ -37,11 +37,13 @@ Partial Class PurchaseGateOut
         Me.lblLocation = New common.Controls.MyLabel()
         Me.lblfromDate = New common.Controls.MyLabel()
         Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.btnhistory = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.btnhistory = New Telerik.WinControls.UI.RadButton()
+        Me.txtSRN = New common.UserControls.txtFinder()
+        Me.lblSRN = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -57,11 +59,12 @@ Partial Class PurchaseGateOut
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblfromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnhistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnhistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSRN, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -105,6 +108,8 @@ Partial Class PurchaseGateOut
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.txtSRN)
+        Me.RadPageViewPage1.Controls.Add(Me.lblSRN)
         Me.RadPageViewPage1.Controls.Add(Me.UsLock1)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
         Me.RadPageViewPage1.Controls.Add(Me.txtRemarks)
@@ -313,6 +318,15 @@ Partial Class PurchaseGateOut
         Me.MyLabel5.TabIndex = 0
         Me.MyLabel5.Text = "Description"
         '
+        'btnhistory
+        '
+        Me.btnhistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnhistory.Location = New System.Drawing.Point(553, 2)
+        Me.btnhistory.Name = "btnhistory"
+        Me.btnhistory.Size = New System.Drawing.Size(69, 20)
+        Me.btnhistory.TabIndex = 395
+        Me.btnhistory.Text = "History"
+        '
         'btnDelete
         '
         Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -349,14 +363,41 @@ Partial Class PurchaseGateOut
         Me.btnsave.TabIndex = 3
         Me.btnsave.Text = "Save"
         '
-        'btnhistory
+        'txtSRN
         '
-        Me.btnhistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnhistory.Location = New System.Drawing.Point(553, 2)
-        Me.btnhistory.Name = "btnhistory"
-        Me.btnhistory.Size = New System.Drawing.Size(69, 20)
-        Me.btnhistory.TabIndex = 395
-        Me.btnhistory.Text = "History"
+        Me.txtSRN.CalculationExpression = Nothing
+        Me.txtSRN.FieldCode = Nothing
+        Me.txtSRN.FieldDesc = Nothing
+        Me.txtSRN.FieldMaxLength = 0
+        Me.txtSRN.FieldName = Nothing
+        Me.txtSRN.isCalculatedField = False
+        Me.txtSRN.IsSourceFromTable = False
+        Me.txtSRN.IsSourceFromValueList = False
+        Me.txtSRN.IsUnique = False
+        Me.txtSRN.Location = New System.Drawing.Point(360, 37)
+        Me.txtSRN.MendatroryField = True
+        Me.txtSRN.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSRN.MyLinkLable1 = Nothing
+        Me.txtSRN.MyLinkLable2 = Nothing
+        Me.txtSRN.MyReadOnly = False
+        Me.txtSRN.MyShowMasterFormButton = False
+        Me.txtSRN.Name = "txtSRN"
+        Me.txtSRN.ReferenceFieldDesc = Nothing
+        Me.txtSRN.ReferenceFieldName = Nothing
+        Me.txtSRN.ReferenceTableName = Nothing
+        Me.txtSRN.Size = New System.Drawing.Size(212, 19)
+        Me.txtSRN.TabIndex = 397
+        Me.txtSRN.Value = ""
+        '
+        'lblSRN
+        '
+        Me.lblSRN.FieldName = Nothing
+        Me.lblSRN.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSRN.Location = New System.Drawing.Point(303, 36)
+        Me.lblSRN.Name = "lblSRN"
+        Me.lblSRN.Size = New System.Drawing.Size(46, 18)
+        Me.lblSRN.TabIndex = 396
+        Me.lblSRN.Text = "SRN No"
         '
         'PurchaseGateOut
         '
@@ -386,11 +427,12 @@ Partial Class PurchaseGateOut
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblfromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnhistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnhistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSRN, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -416,4 +458,6 @@ Partial Class PurchaseGateOut
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents UsLock1 As common.usLock
     Friend WithEvents btnhistory As RadButton
+    Friend WithEvents txtSRN As common.UserControls.txtFinder
+    Friend WithEvents lblSRN As common.Controls.MyLabel
 End Class

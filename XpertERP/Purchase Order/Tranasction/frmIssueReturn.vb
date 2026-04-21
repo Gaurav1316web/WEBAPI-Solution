@@ -3792,6 +3792,27 @@ Public Class frmIssueReturn
         If obj IsNot Nothing AndAlso clsCommon.myLen(obj.EMP_CODE) > 0 Then
             txtIssueTo.Value = obj.EMP_CODE
             lblIssueTo.Text = obj.Emp_Name
+            txtDepartment.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT DEPARTMENT_CODE FROM TSPL_EMPLOYEE_MASTER  WHERE EMP_CODE='" + obj.EMP_CODE + "'"))
+            lblDepartment.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" Select  DEPARTMENT_NAME As Name from TSPL_DEPARTMENT_MASTER  WHERE DEPARTMENT_CODE='" + txtDepartment.Value + "'"))
+
+            'txtDepartment.Value = obj.Code
+            'lblDepartment.Text = obj.Name
+            ''=======For Blank all Cost Centre value in Department Changed============
+            'txtUnitCode.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Unit_Code from TSPL_COST_CENTER_TYPE_MASTER WHERE Department_Cost='" + txtDepartment.Value + "'"))
+
+            'txtUnitCode.Value = ""
+            'qry = "select TSPL_COST_CENTER_UNIT_MASTER.Description from TSPL_COST_CENTER_UNIT_MASTER where TSPL_COST_CENTER_UNIT_MASTER.Code='" + strCode + "' "
+
+            'lblUnitDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_COST_CENTER_UNIT_MASTER.Description from TSPL_COST_CENTER_UNIT_MASTER where TSPL_COST_CENTER_UNIT_MASTER.Code='" + txtUnitCode.Value + "'"))
+
+            ' txtCostCenterType.Value = ""
+            txtCostCenterType.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Cost_Code FROM tspl_cost_center_emp_depart_master where EmpDepart='" + txtDepartment.Value + "'"))
+            lblCostcenterTypeDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_COST_CENTER_TYPE_MASTER  WHERE Code='" + txtCostCenterType.Value + "'"))
+            txtUnitCode.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Unit_Code from TSPL_COST_CENTER_TYPE_MASTER WHERE CODE='" + txtCostCenterType.Value + "'"))
+            lblUnitDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_COST_CENTER_UNIT_MASTER.Description from TSPL_COST_CENTER_UNIT_MASTER where TSPL_COST_CENTER_UNIT_MASTER.Code='" + txtUnitCode.Value + "'"))
+
+            ''===============================
+
         Else
             txtIssueTo.Value = ""
             lblIssueTo.Text = ""
@@ -4840,11 +4861,21 @@ Public Class frmIssueReturn
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0 Then
                 txtDepartment.Value = obj.Code
                 lblDepartment.Text = obj.Name
-                ''=======For Blank all Cost Centre value in Department Changed============
                 txtUnitCode.Value = ""
                 lblUnitDesc.Text = ""
                 txtCostCenterType.Value = ""
                 lblCostcenterTypeDesc.Text = ""
+                ''=======For Blank all Cost Centre value in Department Changed============
+                'txtUnitCode.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Unit_Code from TSPL_COST_CENTER_TYPE_MASTER WHERE Department_Cost='" + txtDepartment.Value + "'"))
+
+                ''txtUnitCode.Value = ""
+                ''qry = "select TSPL_COST_CENTER_UNIT_MASTER.Description from TSPL_COST_CENTER_UNIT_MASTER where TSPL_COST_CENTER_UNIT_MASTER.Code='" + strCode + "' "
+
+                'lblUnitDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_COST_CENTER_UNIT_MASTER.Description from TSPL_COST_CENTER_UNIT_MASTER where TSPL_COST_CENTER_UNIT_MASTER.Code='" + txtUnitCode.Value + "'"))
+
+                '' txtCostCenterType.Value = ""
+                'txtCostCenterType.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cost_Code from TSPL_COST_CENTER_TYPE_MASTER WHERE Department_Cost='" + txtDepartment.Value + "'"))
+                'lblCostcenterTypeDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_COST_CENTER_TYPE_MASTER WHERE Department_Cost='" + txtCostCenterType.Value + "'"))
                 ''===============================
             Else
                 txtDepartment.Value = ""

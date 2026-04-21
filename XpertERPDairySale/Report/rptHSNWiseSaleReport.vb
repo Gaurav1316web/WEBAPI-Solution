@@ -30,7 +30,10 @@ Public Class rptHSNWiseSaleReport
 
     Private Sub txtItem__My_Click(sender As Object, e As EventArgs) Handles txtItem._My_Click
         Try
-            Dim qry As String = "select  Item_Code as [Item Code] ,Item_Desc as  [Item Desc] ,Short_Description as [Short Description] from TSPL_ITEM_MASTER where Item_Type = 'F'"
+            Dim qry As String = "select  Item_Code as [Item Code] ,Item_Desc as  [Item Desc] ,Short_Description as [Short Description] from TSPL_ITEM_MASTER where 1=1 "
+            If cboItemType.SelectedValue IsNot Nothing AndAlso clsCommon.myLen(cboItemType.SelectedValue) > 0 Then
+                qry &= " And Item_Type = '" & clsCommon.myCstr(cboItemType.SelectedValue) & "'"
+            End If
             txtItem.arrValueMember = clsCommon.ShowMultipleSelectForm("HSNItem", qry, "Item Code", "Item Desc", txtItem.arrValueMember, txtItem.arrDispalyMember)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -48,6 +51,7 @@ Public Class rptHSNWiseSaleReport
 
     Sub funreset()
         EnableDisableControls(True)
+        LoadItemType()
         gv1.DataSource = Nothing
         RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
@@ -72,6 +76,11 @@ Public Class rptHSNWiseSaleReport
 
         If txtTransaction.arrValueMember IsNot Nothing Then
             whrcls = " and Trans_Name in (" & clsCommon.GetMulcallString(txtTransaction.arrValueMember) & ") "
+        End If
+
+        Dim ItemType As String = " 1=1 "
+        If cboItemType.SelectedValue IsNot Nothing AndAlso clsCommon.myLen(cboItemType.SelectedValue) > 0 Then
+            ItemType = " And tspl_item_master.Item_Type = '" & clsCommon.myCstr(cboItemType.SelectedValue) & "' "
         End If
 
         qry = "---------------- VCGL---------------------------- 
@@ -163,7 +172,7 @@ Public Class rptHSNWiseSaleReport
         Dim TaxAmount As String = ""
         qry = ""
         If chkKKFMandi.Checked Then
-            dtTax = clsDBFuncationality.GetDataTable("with CTERawData as ( select Tax,max(Tax_Code_Desc)Tax_Code_Desc,Sequence_No,max(Type)Type from ( select tax,Tax_Code_Desc ,Type,case when type = 'M' then 1 when type = 'K' then 2 when type = 'SGST' then 3  when type = 'CGST' then 4 when type = 'IGST' then 5 when Is_TCS = 'Y' then 6  end as Sequence_No from ( " & BaseQuery & " left outer join TSPL_ITEM_MASTER ON  tspl_item_master.Item_Code = XXX.Item_Code where Tax<> '' and  tspl_item_master.Item_Type = 'F' ) XXXXX   group by Tax,Sequence_No )	select CTERawData.* from CTERawData order by Sequence_No")
+            dtTax = clsDBFuncationality.GetDataTable("with CTERawData as ( select Tax,max(Tax_Code_Desc)Tax_Code_Desc,Sequence_No,max(Type)Type from ( select tax,Tax_Code_Desc ,Type,case when type = 'M' then 1 when type = 'K' then 2 when type = 'SGST' then 3  when type = 'CGST' then 4 when type = 'IGST' then 5 when Is_TCS = 'Y' then 6  end as Sequence_No from ( " & BaseQuery & " left outer join TSPL_ITEM_MASTER ON  tspl_item_master.Item_Code = XXX.Item_Code where Tax<> '' and  " & ItemType & " ) XXXXX   group by Tax,Sequence_No )	select CTERawData.* from CTERawData order by Sequence_No")
         Else
             dtTax = clsDBFuncationality.GetDataTable("SELECT * FROM ( select Tax_Code,Tax_Code_Desc,type,case when type = 'SGST' then 1 when type = 'CGST' then 2  when type = 'IGST' then 3  end as Sequence_No from TSPL_TAX_MASTER where Type in ('SGST','CGST','IGST') )X Order by Sequence_No ")
         End If
@@ -221,9 +230,9 @@ Public Class rptHSNWiseSaleReport
         End If
 
         If isAcc Then
-            BaseQuery = "" & qry & " " & BaseQuery & " GROUP BY xxx.Item_Code,UOM,Type ) FINAL left outer join tspl_item_master on TSPL_ITEM_MASTER.Item_Code = FINAL.Item_Code  LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = FINAL.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code = FINAL.UOM	LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where " & IIf(clsCommon.CompairString(UOMType, "Default_UOM") = CompairStringResult.Equal, "Default_UOM", "Report_UOM") & " = 1 ) as  I ON FINAL.Item_Code = I.item_code left outer join TSPL_COMPANY_MASTER on 2 =2   where tspl_item_master.Item_Type = 'F'  "
+            BaseQuery = "" & qry & " " & BaseQuery & " GROUP BY xxx.Item_Code,UOM,Type ) FINAL left outer join tspl_item_master on TSPL_ITEM_MASTER.Item_Code = FINAL.Item_Code  LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = FINAL.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code = FINAL.UOM	LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where " & IIf(clsCommon.CompairString(UOMType, "Default_UOM") = CompairStringResult.Equal, "Default_UOM", "Report_UOM") & " = 1 ) as  I ON FINAL.Item_Code = I.item_code left outer join TSPL_COMPANY_MASTER on 2 =2   where " & ItemType & "  "
         Else
-            BaseQuery = "with CTERawData as ( " & qry & " " & BaseQuery & " GROUP BY xxx.Item_Code,UOM,Type ) FINAL left outer join tspl_item_master on TSPL_ITEM_MASTER.Item_Code = FINAL.Item_Code  LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = FINAL.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code = FINAL.UOM	LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where Report_UOM = 1 ) as  I ON FINAL.Item_Code = I.item_code left outer join TSPL_COMPANY_MASTER on 2 =2   where tspl_item_master.Item_Type = 'F') xxxxFinal group by Item_Code ) select CTERawData.* from CTERawData"
+            BaseQuery = "with CTERawData as ( " & qry & " " & BaseQuery & " GROUP BY xxx.Item_Code,UOM,Type ) FINAL left outer join tspl_item_master on TSPL_ITEM_MASTER.Item_Code = FINAL.Item_Code  LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = FINAL.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code = FINAL.UOM	LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where Report_UOM = 1 ) as  I ON FINAL.Item_Code = I.item_code left outer join TSPL_COMPANY_MASTER on 2 =2   where " & ItemType & " ) xxxxFinal group by Item_Code ) select CTERawData.* from CTERawData"
         End If
         Return BaseQuery
     End Function
@@ -266,10 +275,21 @@ Public Class rptHSNWiseSaleReport
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-
         End Try
     End Sub
 
+    Sub LoadItemType()
+        Try
+            Dim dt As New DataTable()
+            Dim Whr = " AND IS_NON_INVENTORY=0 "
+            dt = clsItemMaster.getItemTypeQuery(Whr)
+            cboItemType.DataSource = dt
+            cboItemType.ValueMember = "Code"
+            cboItemType.DisplayMember = "Name"
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
     Sub SetGridFormation()
         gv1.TableElement.TableHeaderHeight = 40
         gv1.MasterTemplate.ShowRowHeaderColumn = True

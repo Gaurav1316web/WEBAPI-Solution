@@ -149,14 +149,14 @@ CONVERT(date,H.Document_Date,103)>=Convert(Date,'" & txtFromDate.Value & "',103)
                 Qry &= ",
 --Header Row (Customer only)
 HeaderRows AS
-(SELECT DISTINCT Document_Date,CASE WHEN Is_Ambient = 1 AND Is_Taxable = 1 THEN 'TAX INVOICE' WHEN Is_FreshItem = 1 AND Is_Taxable = 0 THEN 'MILK' WHEN Is_Ambient = 1 AND Is_Taxable = 0 Then 'MILK' ELSE 'BILL OF SUPPLY' END AS [Sale Vch. Type Name],Document_Code,Customer_Name,Total_Amt,'Dr' AS [Dr/Cr],NULL AS Item_Desc,NULL AS Item_Net_Amt,NULL AS HSN_Code,GSTNO,Address,[Pin Code],Remarks,CASE  WHEN GST_Registered = 1 THEN 'Regular' ELSE 'Unregisterd'END AS [GST Type],1 AS SortOrder FROM BaseQry),
+(SELECT DISTINCT Document_Date,CASE WHEN Is_Taxable = 1 THEN 'TAX INVOICE' ELSE 'MILK' END AS [Sale Vch. Type Name],Document_Code,Customer_Name,Total_Amt,'Dr' AS [Dr/Cr],NULL AS Item_Desc,NULL AS Item_Net_Amt,NULL AS HSN_Code,GSTNO,Address,[Pin Code],Remarks,CASE  WHEN GST_Registered = 1 THEN 'Regular' ELSE 'Unregisterd'END AS [GST Type],1 AS SortOrder FROM BaseQry),
 --Detail Rows (Item only)
 DetailRows AS
-(SELECT Document_Date,CASE WHEN Is_Ambient = 1 AND Is_Taxable = 1 THEN 'TAX INVOICE' WHEN Is_FreshItem = 1 AND Is_Taxable = 0 THEN 'MILK' WHEN Is_Ambient = 1 AND Is_Taxable = 0 Then 'MILK' ELSE 'BILL OF SUPPLY' END AS [Sale Vch. Type Name],Document_Code,NULL AS Customer_Name,NULL AS Total_Amt, NULL AS [Dr/Cr],Item_Desc,Item_Net_Amt,HSN_Code,NULL AS GSTNO,NULL AS Address,NULL AS [Pin Code],NULL AS Remarks,NULL AS [GST Type],2 AS SortOrder FROM BaseQry
+(SELECT Document_Date,CASE WHEN Is_Taxable = 1 THEN 'TAX INVOICE' ELSE 'MILK' END AS [Sale Vch. Type Name],Document_Code,NULL AS Customer_Name,NULL AS Total_Amt, NULL AS [Dr/Cr],Item_Desc,Item_Net_Amt,HSN_Code,NULL AS GSTNO,NULL AS Address,NULL AS [Pin Code],NULL AS Remarks,NULL AS [GST Type],2 AS SortOrder FROM BaseQry
 ),
 --Tax Rows (Tax only)
 TaxDetailRows AS
-(SELECT B.Document_Date, CASE WHEN MAX(B.Is_Ambient) = 1 AND MAX(B.Is_Taxable) = 1 THEN 'TAX INVOICE' WHEN MAX(B.Is_FreshItem) = 1 AND MAX(B.Is_Taxable) = 0 THEN 'MILK' ELSE 'BILL OF SUPPLY' END AS [Sale Vch. Type Name],B.Document_Code,NULL AS Customer_Name, NULL AS Total_Amt, NULL AS [Dr/Cr],T.TaxName AS Item_Desc,SUM(T.TaxAmount) AS Item_Net_Amt,NULL AS HSN_Code, NULL AS GSTNO, NULL AS Address, NULL AS [Pin Code], NULL AS Remarks,NULL AS [GST Type],3 AS SortOrder FROM BaseQry B CROSS APPLY (VALUES ('CGST', B.CGST),('SGST', B.SGST),('IGST', B.IGST),('KKF', B.KKF),('MANDI TAX', B.MANDI_TAX)) T (TaxName, TaxAmount) WHERE T.TaxAmount <> 0 GROUP BY B.Document_Code,B.Document_Date,T.TaxName
+(SELECT B.Document_Date, CASE WHEN MAX(B.Is_Taxable) = 1 THEN 'TAX INVOICE' ELSE 'MILK' END AS [Sale Vch. Type Name],B.Document_Code,NULL AS Customer_Name, NULL AS Total_Amt, NULL AS [Dr/Cr],T.TaxName AS Item_Desc,SUM(T.TaxAmount) AS Item_Net_Amt,NULL AS HSN_Code, NULL AS GSTNO, NULL AS Address, NULL AS [Pin Code], NULL AS Remarks,NULL AS [GST Type],3 AS SortOrder FROM BaseQry B CROSS APPLY (VALUES ('CGST', B.CGST),('SGST', B.SGST),('IGST', B.IGST),('KKF', B.KKF),('MANDI TAX', B.MANDI_TAX)) T (TaxName, TaxAmount) WHERE T.TaxAmount <> 0 GROUP BY B.Document_Code,B.Document_Date,T.TaxName
 )
 --Final Output
 SELECT Document_Date AS [Sale Vch. Date],[Sale Vch. Type Name],Document_Code AS [Vch. Number],Customer_Name AS [Ledger Name],Total_Amt AS [Ledger Amt.],[Dr/Cr],Item_Desc AS [Product/Ledger Name],Item_Net_Amt AS [Product Value],HSN_Code AS [HSN/SAC],GSTNO AS [Buyer/Supplier - GSTIN/UIN],Address,[Pin Code],Remarks AS [Vch. Narration],[GST Type] FROM
@@ -206,7 +206,8 @@ FROM
                 Dim rpt As New rptSaleInvoiceStatusReport()
                 Dim BaseQry As String = rpt.BaseQryLoadDataInvoiceCount(txtFromDate.Value, txtToDate.Value, txtLocation.Value)
                 rpt = Nothing
-                Qry = "Select Invoice_Tax_Type As [Sale Voucher Type],First_Invoice As [Sr.No. From],Last_Invoice As [Sr. No. To],Total_Invoice As [Total Number],Total_CancelInvoice As [Cancelled] from (" & BaseQry & ")final order by Transcation_Type"
+                Qry = "Select Invoice_Tax_Type As [Sale Voucher Type],Max(First_Invoice) As [Sr.No. From],Max(Last_Invoice) As [Sr. No. To],Sum(Total_Invoice) As [Total Number],
+Sum(Total_CancelInvoice) As [Cancelled] from (" & BaseQry & ")final Group By Invoice_Tax_Type"
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
