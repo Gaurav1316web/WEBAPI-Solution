@@ -2542,7 +2542,8 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
                                     ArryLst.Add(AccInvCR)
                                 End If
                             Else
-                                If clsCommon.CompairString(obj.Trans_Type, "MCC") = CompairStringResult.Equal AndAlso obj.TotalSubsidyAmt > 0 Then
+                                'If clsCommon.CompairString(obj.Trans_Type, "MCC") = CompairStringResult.Equal AndAlso obj.TotalSubsidyAmt > 0 Then
+                                If obj.TotalSubsidyAmt > 0 Then
                                     Dim strLocationt As String = ""
                                     Dim strRate_Difference_act As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_CUSTOMER_ACCOUNT_SET.Rate_Difference ,'') as Rate_Difference from TSPL_CUSTOMER_ACCOUNT_SET left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Account  =TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account where TSPL_CUSTOMER_MASTER.Cust_Code ='" & obj.Customer_Code & "'", trans))
                                     If clsCommon.myLen(strRate_Difference_act) = 0 Then

@@ -14,7 +14,7 @@ Public Class frmDairyBookingCustomer
     Dim GenerateCustomerWiseGatePass As Boolean = False
     Dim ServerDateTimeForTaxableInvoice As Boolean = False
     Dim CheckCustomeroutStandingAmt As Boolean = False
-    Dim DeductTPTFromDocAmt As Boolean = True
+    Dim DeductTPTFromDocAmt As Boolean = False
     Dim ApplyEWBThresholdLimit As Boolean = False
     Dim EWBThresholdLimitForIntraCity As Integer = 0
     Dim EWBThresholdLimitForIntraState As Integer = 0
@@ -2772,6 +2772,10 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 lblTotalDocAmt.Text = Math.Round(clsCommon.myCdbl(lblTotalDocAmt.Text), 0)
             End If
         End If
+        If DeductTPTFromDocAmt Then
+            txtTPTComAmt.Text = clsCommon.myFormat(dblTCAmt)
+            lblGrossAmount.Text = clsCommon.myFormat(clsCommon.myCdbl(lblTotRAmt.Text) - dblTCAmt)
+        End If
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
             If dblTotalQtyinKG > FORPRICE Then
                 If Not IsTotalQtyinKG Then
@@ -3000,6 +3004,8 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         btnGatepass.Enabled = False
         chkcashsale.Checked = False
         chkcashsale.Enabled = True
+        txtTPTComAmt.Text = 0
+        lblGrossAmount.Text = 0
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
             chkcashsale.Text = "Against Receipt"
 
@@ -4563,6 +4569,10 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                 txtDCAmt.Text = clsCommon.myFormat(obj.Distributor_Commission_TotalAmt)
                 txtTCAmt.Text = clsCommon.myFormat(obj.Transporter_Commission_TotalAmt)
                 txtSecurity.Text = clsCommon.myFormat(obj.Security_TotalAmt)
+                If DeductTPTFromDocAmt Then
+                    txtTPTComAmt.Text = obj.Transporter_Commission_TotalAmt
+                    lblGrossAmount.Text = clsCommon.myFormat(clsCommon.myCdbl(lblTotRAmt.Text) - obj.Transporter_Commission_TotalAmt)
+                End If
                 txtTaxGroup.Value = obj.Tax_Group
                 lblTaxGrpName.Text = obj.TaxGroupName
                 lblTermName.Text = obj.TermsName
@@ -4945,6 +4955,7 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                 lblTotalDocAmt.Text = obj.Total_Amt 'Math.Round(clsCommon.myCdbl(dblTotalDocAmt), 2)
                 txtTCSBaseAmt.Text = obj.TCSBaseAmt
                 lblTCSAmount.Text = obj.TCSAmount
+
                 'Try
                 '    lblTCSAmount.Text = Math.Round(Math.Round(clsCommon.myCdbl(dblTotalDocAmt), 2) * GetTCSRate(txtVendorNo.Value) / 100, 2)
                 'Catch ex As Exception
@@ -8745,7 +8756,8 @@ where TSPL_ITEM_CAPACITY_LIMIT_head.From_Date<='" & clsCommon.GetPrintDate(txtDa
                         obj.Total_Tax_Amt = clsCommon.myCdbl(lblTaxAmt.Text)
                         obj.Total_Amt = clsCommon.myCdbl(lblTotRAmt.Text)
                         If DeductTPTFromDocAmt Then
-                            obj.Gross_Amount = clsCommon.myCdbl(obj.Total_Amt - obj.Transporter_Commission_TotalAmt)
+                            obj.TotalSubsidyAmt = clsCommon.myCdbl(txtTPTComAmt.Text)
+                            obj.Gross_Amount = clsCommon.myCdbl(lblGrossAmount.Text)
                         Else
                             obj.Gross_Amount = obj.Total_Amt
                         End If
