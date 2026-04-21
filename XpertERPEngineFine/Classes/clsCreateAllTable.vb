@@ -60787,6 +60787,36 @@ alter table TSPL_VENDOR_INVOICE_HEAD_CANCEL_DATA add Invoice_Entry_Date_New DATE
         coll.Add("InputData", "float null")
         coll.Add("InputDataDeductionPer", "float null")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RCDF_CHEMICAL_QC_DETAIL", coll, Nothing, True, False, "TSPL_RCDF_CHEMICAL_QC_HEAD", "Document_Code", "")
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Document_Code", "varchar(30) Not NULL Primary Key")
+        coll.Add("Document_Date", "DateTime Not NULL")
+        coll.Add("Union_Code", "VARCHAR(5) not NULL")
+        coll.Add("QC_Start_Time", "DateTime NULL")
+        coll.Add("QC_End_Time", "DateTime NULL")
+        coll.Add("Sample_No", "Varchar(50) Null")
+        coll.Add("Sample_Date", "DateTime NULL")
+        coll.Add("Item", "Varchar(50) Null")
+        coll.Add("Vehicle_No", "Varchar(50) Null")
+        coll.Add("Request_By", "Varchar(100) Null")
+        coll.Add("Reference_By", "Varchar(100) Null")
+        coll.Add("Remarks", "Varchar(200) Null")
+        coll.Add("Comments", "Varchar(200) Null")
+        coll.Add("Manual_Entry", "INTEGER NULL")
+        coll.Add("FAT", "Decimal(18,2) null")
+        coll.Add("SNF", "Decimal(18,2) null")
+        coll.Add("Status", "int Null")
+        coll.Add("Created_By", "varchar(12)  Not NULL")
+        coll.Add("Created_Date", "DateTime  Not NULL")
+        coll.Add("Modified_By", "varchar(12)  Not NULL")
+        coll.Add("Modified_Date", "datetime  Not NULL")
+        coll.Add("Posted_By", "varchar(12) NULL")
+        coll.Add("Posted_Date", "datetime NULL")
+        coll.Add("Cancel_By", "varchar(12) NULL")
+        coll.Add("Cancel_Date", "datetime NULL")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RCDF_UNION_QC", coll, "", True, False, Nothing, Nothing, Nothing, False)
+
+
         Return True
     End Function
 
