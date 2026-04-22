@@ -524,7 +524,7 @@ Left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BO
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
 LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
 left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.zone_code = TSPL_CUSTOMER_MASTER.zone_code
-left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_DEMAND_BOOKING_master.Comp_Code
+left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "'
 left outer join tspl_vehicle_master on tspl_vehicle_master.vehicle_id =TSPL_DEMAND_BOOKING_DETAIL.vehicle_code
 left outer join tspl_transport_master on tspl_transport_master.Transport_Id=tspl_vehicle_master.Transport_Id
 where 2 = 2 "
@@ -555,7 +555,7 @@ where 2 = 2 "
                 Exit Sub
             ElseIf dtPrint.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHITTORGARH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHITTORGARH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                     Dim TotalLTR As String = ""
                     Dim TotalCrate As String = ""
                     Dim dtItems As DataTable = clsDBFuncationality.GetDataTable("select Item_Code,Max(Unit_Code) As Unit_Code,max(Sku_Seq) as Sku_Seq,max(Short_Description) as Short_Description from (" + qry + ") x group by Item_Code order by Sku_Seq")
@@ -612,7 +612,7 @@ left outer join TSPL_ITEM_UOM_DETAIL as TabLTRUOM on TabLTRUOM.Item_Code=xx.Item
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
                         frmCRV.funreport(MyBase.Form_ID, False, CrystalReportFolder.SalesReport, dtPrint, "rptBoothGatePassBKN", "Booth Gate Pass")
                     End If
-                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHITTORGARH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHITTORGARH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                         If rbtnMilkType.IsChecked Then
                             frmCRV.funreport(MyBase.Form_ID, False, CrystalReportFolder.SalesReport, dtPrint, "rptBoothTruckSheetMilkTypeCHT", "Booth Truck Sheet")
                         ElseIf rbtnProductType.IsChecked Then
