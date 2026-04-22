@@ -33,6 +33,10 @@ Partial Class frmDairyGatePass
         Me.rpvpGatePass = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rdBoth = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rdbNonTaxable = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rdbTaxable = New Telerik.WinControls.UI.RadRadioButton()
         Me.txtShipToLocation = New common.Controls.MyTextBox()
         Me.lblShipToLocation = New common.Controls.MyLabel()
         Me.lblDemandNo = New common.Controls.MyLabel()
@@ -141,6 +145,11 @@ Partial Class frmDairyGatePass
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
         Me.Panel1.SuspendLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
+        CType(Me.rdBoth, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbNonTaxable, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbTaxable, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtShipToLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblShipToLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDemandNo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -312,6 +321,7 @@ Partial Class frmDairyGatePass
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.RadGroupBox1)
         Me.Panel1.Controls.Add(Me.txtShipToLocation)
         Me.Panel1.Controls.Add(Me.lblShipToLocation)
         Me.Panel1.Controls.Add(Me.lblDemandNo)
@@ -382,6 +392,48 @@ Partial Class frmDairyGatePass
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1150, 202)
         Me.Panel1.TabIndex = 0
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.rdBoth)
+        Me.RadGroupBox1.Controls.Add(Me.rdbNonTaxable)
+        Me.RadGroupBox1.Controls.Add(Me.rdbTaxable)
+        Me.RadGroupBox1.HeaderText = ""
+        Me.RadGroupBox1.Location = New System.Drawing.Point(810, 112)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Size = New System.Drawing.Size(71, 60)
+        Me.RadGroupBox1.TabIndex = 1463
+        Me.RadGroupBox1.Visible = False
+        '
+        'rdBoth
+        '
+        Me.rdBoth.Location = New System.Drawing.Point(4, 41)
+        Me.rdBoth.Name = "rdBoth"
+        Me.rdBoth.Size = New System.Drawing.Size(44, 18)
+        Me.rdBoth.TabIndex = 2
+        Me.rdBoth.TabStop = False
+        Me.rdBoth.Text = "Both"
+        '
+        'rdbNonTaxable
+        '
+        Me.rdbNonTaxable.Location = New System.Drawing.Point(4, 24)
+        Me.rdbNonTaxable.Name = "rdbNonTaxable"
+        Me.rdbNonTaxable.Size = New System.Drawing.Size(35, 18)
+        Me.rdbNonTaxable.TabIndex = 1
+        Me.rdbNonTaxable.TabStop = False
+        Me.rdbNonTaxable.Text = "NT"
+        '
+        'rdbTaxable
+        '
+        Me.rdbTaxable.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rdbTaxable.Location = New System.Drawing.Point(4, 4)
+        Me.rdbTaxable.Name = "rdbTaxable"
+        Me.rdbTaxable.Size = New System.Drawing.Size(26, 18)
+        Me.rdbTaxable.TabIndex = 0
+        Me.rdbTaxable.TabStop = False
+        Me.rdbTaxable.Text = "T"
+        Me.rdbTaxable.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'txtShipToLocation
         '
@@ -1838,6 +1890,12 @@ Partial Class frmDairyGatePass
         Me.SplitContainer2.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
+        CType(Me.rdBoth, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbNonTaxable, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbTaxable, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtShipToLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblShipToLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDemandNo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2040,5 +2098,9 @@ Partial Class frmDairyGatePass
     Friend WithEvents gvCrateType As common.UserControls.MyRadGridView
     Friend WithEvents txtShipToLocation As common.Controls.MyTextBox
     Friend WithEvents lblShipToLocation As common.Controls.MyLabel
+    Friend WithEvents RadGroupBox1 As RadGroupBox
+    Friend WithEvents rdBoth As RadRadioButton
+    Friend WithEvents rdbNonTaxable As RadRadioButton
+    Friend WithEvents rdbTaxable As RadRadioButton
 End Class
 

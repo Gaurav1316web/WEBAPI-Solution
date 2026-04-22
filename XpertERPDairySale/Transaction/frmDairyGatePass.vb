@@ -22,6 +22,7 @@ Public Class frmDairyGatePass
     Private isNewEntry As Boolean = False
     Dim strVehicleNo As List(Of String)
     Private AllowGatePassDemandTripWise As Boolean = False
+    Private GatepassForTaxableandNonTaxableItems As Boolean = False
     Const ColApply As String = "ColApply"
     Const ColDocNo As String = "ColDocNo"
     Const ColDocDate As String = "ColDocDatet"
@@ -132,6 +133,7 @@ Public Class frmDairyGatePass
         isCreateProvisionOfTransporterInDairyDispatch = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionOfTransporterInDairyDispatch, clsFixedParameterCode.CreateProvisionOfTransporterInDairyDispatch, Nothing)))
         IsLoadingSlipMandatory = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsLoadingSlipMandatory, clsFixedParameterCode.IsLoadingSlipMandatory, Nothing)) = 1, True, False)
         AllowGatePassDemandTripWise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowGatePassDemandTripWise, clsFixedParameterCode.AllowGatePassDemandTripWise, Nothing)) = 1, True, False)
+        GatepassForTaxableandNonTaxableItems = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.GatepassForTaxableandNonTaxableItems, clsFixedParameterCode.GatepassForTaxableandNonTaxableItems, Nothing)) = 1, True, False)
         EnableLocation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, Nothing)) = 1, True, False)
         SettCreateProvisionOnOpeningAndClosingKM = (clsCommon.myCdbl(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionOnOpeningAndClosingKM, clsFixedParameterCode.CreateProvisionOnOpeningAndClosingKM, Nothing))) = 1)
         CreateGatePassFromDemand = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateGatePassFromDemand, clsFixedParameterCode.CreateGatePassFromDemand, Nothing)))
@@ -223,6 +225,9 @@ Public Class frmDairyGatePass
                 btnPrint2_Click(btnPrint2, New EventArgs())
                 Me.Close()
             End If
+        End If
+        If GatepassForTaxableandNonTaxableItems Then
+            RadGroupBox1.Visible = True
         End If
         '  LoadData(txtCode.Value, NavigatorType.Current)
     End Sub
@@ -592,6 +597,13 @@ Public Class frmDairyGatePass
                         'strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Status=0"
                     Else
                         strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Status=1"
+                        If GatepassForTaxableandNonTaxableItems Then
+                            If rdbTaxable.IsChecked Then
+                                strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Is_Taxable=1 "
+                            ElseIf rdbNonTaxable.IsChecked Then
+                                strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Is_Taxable=0 "
+                            End If
+                        End If
                     End If
                     If GenerateCustomerWiseGatePass Then
                         strQuery += " and TSPL_SD_SHIPMENT_HEAD.Document_Code='" & ShipmentDocNo & "' "
@@ -2478,7 +2490,6 @@ xyz.Sale_Invoice_No, "
                         filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isfilePath, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptDairySaleGatePassEntriesKTA", "Gate Pass", clsCommon.myCDate(dt.Rows(0)("GPDate")), "rptCompanyAddress.rpt")
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
                         filePath = filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isfilePath, CrystalReportFolder.KwalitySalesReport, dt, Nothing, "crptDairySaleGatepassBKN", "Gate Pass", "", "rptCompanyAddress.rpt")
-
                     Else
                         filePath = frmCRV.funreport(MyBase.Form_ID, isfilePath, CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntries", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
                         'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntries", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
