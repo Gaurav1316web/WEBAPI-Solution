@@ -298,6 +298,7 @@ Public Class clsCustomerMaster
     Public Cust_Group_Code As String
     Public Cust_Type_Code As String
     Public Route_No As String
+    Public Sub_Route As String
     Public P_Route_No As String
     Public I_Route_No As String
     Public Is_Skip_Balance As Integer = 0
@@ -536,7 +537,7 @@ where CUSTOMER_FORM_TYPE='VSP' and Cust_Code = '" + strCustCode + "'"
     End Function
     Public Shared Function getFillDataQueryForCustomerMaster(ByVal strCustCode As String) As String
         Dim qry As String = "Select [Customer_Name],[Add1],[Add2],[Add3],[Closing_Date],[Cust_Category_Code],[Cust_Group_Code],[Cust_Type_Code]" &
-                     "  ,[Route_No],[Route_Desc],[Price_Code],[City_Code],[State],[Country],[Phone1],[Phone2],[Fax],[Email],[WebSite],[Contact_Person_Name],[Contact_Person_Phone],[Contact_Person_Fax]" &
+                     "  ,[Route_No],[Route_Desc],[Sub_Route_Code],[Price_Code],[City_Code],[State],[Country],[Phone1],[Phone2],[Fax],[Email],[WebSite],[Contact_Person_Name],[Contact_Person_Phone],[Contact_Person_Fax]" &
                      " ,[Contact_Person_Website],[Contact_Person_Email],[Terms_Code],[Cust_Account],[Tax_Group],[TAX1],[TAX1_Rate],[TAX2],[TAX2_Rate],[TAX3],[TAX3_Rate],[TAX4],[TAX4_Rate],[TAX5],[TAX5_Rate],[TAX6],[TAX6_Rate] " &
                      " ,[TAX7],[TAX7_Rate],[TAX8],[TAX8_Rate],[TAX9],[TAX9_Rate],[TAX10],[TAX10_Rate],[Payment_Code],[Service_Tax_No] " &
                      " ,[Tin_No],[Lst_No],[Form_Type],[Channel_Code],[Status],[OnHold],[Remarks1],[Remarks2],[Additional1],[Additional2],[Additional3],[Salesman_Code],[Visi_Id] " &
@@ -690,6 +691,7 @@ where TSPL_DEMAND_BOOKING_MASTER.Route_No='" + PrevRoute + "' and TSPL_DEMAND_BO
                 clsCommon.AddColumnsForChange(coll, "Cust_Group_Code", obj.Cust_Group_Code)
                 clsCommon.AddColumnsForChange(coll, "Cust_Type_Code", obj.Cust_Type_Code, True)
                 clsCommon.AddColumnsForChange(coll, "Route_No", obj.Route_No, True)
+                clsCommon.AddColumnsForChange(coll, "Sub_Route_Code", obj.Sub_Route, True)
                 clsCommon.AddColumnsForChange(coll, "P_Route_No", obj.P_Route_No, True)
                 clsCommon.AddColumnsForChange(coll, "I_Route_No", obj.I_Route_No, True)
                 clsCommon.AddColumnsForChange(coll, "Is_Skip_Balance", obj.Is_Skip_Balance, True)
@@ -1071,7 +1073,7 @@ where TSPL_DEMAND_BOOKING_MASTER.Route_No='" + PrevRoute + "' and TSPL_DEMAND_BO
     Public Shared Function GetData(ByVal strCode As String, ByVal trans As SqlTransaction) As clsCustomerMaster
         Dim obj As clsCustomerMaster = Nothing
         Dim qry As String = "Select [Customer_Name],[Add1],[Add2],[Add3],[Closing_Date],[Cust_Category_Code],[Cust_Group_Code],[Cust_Type_Code]" &
-                     "  ,[Route_No],[Route_Desc],[Price_Code],[City_Code],[State],[Country],[Phone1],[Phone2],[Fax],[Email],[WebSite],[Contact_Person_Name],[Contact_Person_Phone],[Contact_Person_Fax]" &
+                     "  ,[Route_No],Sub_Route_Code,[Route_Desc],[Price_Code],[City_Code],[State],[Country],[Phone1],[Phone2],[Fax],[Email],[WebSite],[Contact_Person_Name],[Contact_Person_Phone],[Contact_Person_Fax]" &
                      " ,[Contact_Person_Website],[Contact_Person_Email],[Terms_Code],[Cust_Account],[Tax_Group],[TAX1],[TAX1_Rate],[TAX2],[TAX2_Rate],[TAX3],[TAX3_Rate],[TAX4],[TAX4_Rate],[TAX5],[TAX5_Rate],[TAX6],[TAX6_Rate] " &
                      " ,[TAX7],[TAX7_Rate],[TAX8],[TAX8_Rate],[TAX9],[TAX9_Rate],[TAX10],[TAX10_Rate],[Payment_Code],[Service_Tax_No] " &
                      " ,[Tin_No],[Lst_No],[Form_Type],[Channel_Code],[Status],[OnHold],[Remarks1],[Remarks2],[Additional1],[Additional2],[Additional3],[Salesman_Code],[Visi_Id] " &
@@ -1096,6 +1098,7 @@ where TSPL_DEMAND_BOOKING_MASTER.Route_No='" + PrevRoute + "' and TSPL_DEMAND_BO
         obj.Cust_Group_Code = clsCommon.myCstr(dt.Rows(0)("Cust_Group_Code"))
         obj.Cust_Type_Code = clsCommon.myCstr(dt.Rows(0)("Cust_Type_Code"))
         obj.Route_No = clsCommon.myCstr(dt.Rows(0)("Route_No"))
+        obj.Sub_Route = clsCommon.myCstr(dt.Rows(0)("Sub_Route_Code"))
         ''  obj.Route_Desc = clsCommon.myCstr(dt.Rows(0)("Route_Desc"))
         obj.Price_Code = clsCommon.myCstr(dt.Rows(0)("Price_Code"))
         obj.City_Code = clsCommon.myCstr(dt.Rows(0)("City_Code"))

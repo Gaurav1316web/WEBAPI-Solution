@@ -3489,6 +3489,16 @@ FROM TSPL_ITEM_MASTER"
             clsCommonFunctionality.CreateOrAlterTable("TSPL_Charge_Category", coll)
 
             coll = New Dictionary(Of String, String)()
+            coll.Add("Code", "Varchar(12) Primary Key")
+            coll.Add("Name", "Varchar(200)")
+            coll.Add("Route_Code", "varchar(12) null REFERENCES TSPL_ROUTE_MASTER(Route_No)")
+            coll.Add("Created_By", "Varchar(12) not null")
+            coll.Add("Created_Date", "Varchar(12) not null")
+            coll.Add("Modify_By", "Varchar(12) not null")
+            coll.Add("Modify_Date", "Varchar(12) not null")
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_Sub_Route_Master", coll, "", True, False, "", "", "", True)
+
+            coll = New Dictionary(Of String, String)()
             coll.Add("SNO", "int")
             coll.Add("Charge_Cat_Code", "Varchar(12)")
             coll.Add("Description", "Varchar(200)")
@@ -8354,6 +8364,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("ROUTE_NO", "Varchar(30) null REFERENCES TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
             coll.Add("MCC", "varchar(30)  NULL References TSPL_MCC_MASTER(MCC_Code)")
             coll.Add("REF_PK_ID", "integer null references TSPL_GATE_ENTRY(PK_ID)")
+            coll.Add("Trip_No", "Integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "Tspl_Gate_Entry_Details_History", coll, Nothing, False, False)
 
             coll = New Dictionary(Of String, String)()
@@ -15324,6 +15335,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Cust_Group_Code", "varchar(12) NULL REFERENCES TSPL_CUSTOMER_GROUP_MASTER (Cust_Group_Code)")
             coll.Add("Cust_Type_Code", "varchar(12) NULL")
             coll.Add("Route_No", "varchar(12) NULL REFERENCES TSPL_ROUTE_MASTER (Route_No)")
+            coll.Add("Sub_Route_Code", "varchar(12) NULL REFERENCES TSPL_Sub_ROUTE_MASTER (Code)")
             coll.Add("P_Route_No", "varchar(12) NULL REFERENCES TSPL_ROUTE_MASTER (Route_No)")
             coll.Add("I_Route_No", "varchar(12) NULL REFERENCES TSPL_ROUTE_MASTER (Route_No)")
             coll.Add("Route_Desc", "varchar(50) NULL")

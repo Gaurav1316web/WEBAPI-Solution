@@ -12,7 +12,69 @@ Public Class rptDCSTruckSheetRegister
         Try
 
             Dim BaseQuery As String = Nothing
-            BaseQuery = "select  convert(Varchar,TSPL_MILK_COLLECTION_DCS.Document_Date,103)[Documnet Date],convert(date,TSPL_MILK_COLLECTION_DCS.Created_Date,103)Created_Date, TSPL_MILK_COLLECTION_DCS.Document_No,
+            '            BaseQuery = "select  convert(Varchar,TSPL_MILK_COLLECTION_DCS.Document_Date,103)[Documnet Date],convert(date,TSPL_MILK_COLLECTION_DCS.Created_Date,103)Created_Date, TSPL_MILK_COLLECTION_DCS.Document_No,
+            'TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader AS [Vlc], TSPL_VLC_MASTER_HEAD.VLC_Name as [VLC Name],(TSPL_MILK_COLLECTION_DCS.Document_Shift)Shift,
+            'TSPL_MILK_COLLECTION_MCC.Route_Code as[Route Code],
+            'TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as [ROUTE NAME],TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as BMC, TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MCC_MASTER.MCC_NAME as [BMC Name],TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2 ,  TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,'Administrator' as User_Name,
+
+            '                case When (isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type,''))='Good' then (isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.qty,0)) else 0 end as [Good Qty]
+            '                ,case When (isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type,''))='Good' then (TSPL_MILK_COLLECTION_DCS_DETAIL.FAT) else 0 end as [Good FAT %]
+            '                ,case When (isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type,''))='Good' then (cast(TSPL_MILK_COLLECTION_DCS_DETAIL.qty*TSPL_MILK_COLLECTION_DCS_DETAIL.FAT/100 as decimal(18,3))) else 0 end as [Good FATKg]
+            '                ,case When (isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type,''))='Good' then (TSPL_MILK_COLLECTION_DCS_DETAIL.SNF) else 0 end as [Good SNF %]
+            '                ,case When (isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type,''))='Good' then (cast (TSPL_MILK_COLLECTION_DCS_DETAIL.qty*TSPL_MILK_COLLECTION_DCS_DETAIL.SNF/100 as decimal(18,3))) else 0 end as [Good SNFKG],
+            '               -- case When (isnull(Milk_Type,''))='SOUR' then (isnull(No_Of_Cans,0)) else 0 end as [SOUR can qty],
+            '                case When (isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type,''))='SOUR' then (TSPL_MILK_COLLECTION_DCS_DETAIL.qty) else 0 end as [SOUR Qty]
+            '                ,case When (isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type,''))='SOUR' then (TSPL_MILK_COLLECTION_DCS_DETAIL.FAT) else 0 end as [SOUR FAT %]
+            '                ,case When (isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type,''))='SOUR' then (cast (TSPL_MILK_COLLECTION_DCS_DETAIL.qty*TSPL_MILK_COLLECTION_DCS_DETAIL.FAT/100 as decimal(18,3))) else 0 end as [SOUR FATKg]
+            '                ,case When (isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type,''))='SOUR' then (TSPL_MILK_COLLECTION_DCS_DETAIL.SNF) else 0 end as [SOUR SNF %]
+            '                ,case When (isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type,''))='SOUR' then (cast (TSPL_MILK_COLLECTION_DCS_DETAIL.qty*TSPL_MILK_COLLECTION_DCS_DETAIL.SNF/100 as decimal(18,3))) else 0 end as [SOUR SNFKG],
+            '               -- case When (isnull(Milk_Type,''))='CURD' then (isnull(No_Of_Cans,0)) else 0 end as [CURD can qty],
+            '                case When (isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type,''))='CURD' then (TSPL_MILK_COLLECTION_DCS_DETAIL.qty) else 0 end as [CURD Qty]
+            '                ,case When (isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type,''))='CURD' then (TSPL_MILK_COLLECTION_DCS_DETAIL.FAT) else 0 end as [CURD FAT %]
+            '                ,case When (isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type,''))='CURD' then (cast (TSPL_MILK_COLLECTION_DCS_DETAIL.qty*TSPL_MILK_COLLECTION_DCS_DETAIL.FAT/100 as decimal(18,3))) else 0 end as [CURD FATKg]
+            '                ,case When (isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type,''))='CURD' then (TSPL_MILK_COLLECTION_DCS_DETAIL.SNF) else 0 end as [CURD SNF %]  ,
+            '				case When (isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type,''))='CURD' then (cast (TSPL_MILK_COLLECTION_DCS_DETAIL.qty*TSPL_MILK_COLLECTION_DCS_DETAIL.SNF/100 as decimal(18,3))) else 0 end as [CURD SNFKG] 
+
+            '				from TSPL_MILK_COLLECTION_DCS_DETAIL
+            '                Left Join  TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No=TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
+            '				left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS.Document_No 
+            'left outer join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail 
+            'left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No 
+            '			    Left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_COLLECTION_MCC.Route_Code
+            '				left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
+            '				left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code 
+
+            '				left outer join TSPL_COMPANY_MASTER on  2=2"
+            If rbdRouteWise.IsChecked Then
+                BaseQuery = " SELECT [Documnet Date],[Route Code],MAX(XXX.Vlc)Vlc,"
+
+            Else
+                BaseQuery = " SELECT [Documnet Date],Max[Route Code],(XXX.Vlc)Vlc,"
+
+            End If
+            'BaseQuery = " SELECT [Documnet Date],[Route Code],MAX(XXX.Vlc)Vlc,"
+
+            BaseQuery +="MAX(XXX.[ROUTE NAME])[ROUTE NAME],MAX(XXX.Tanker_No)[Tanker No],MAX(XXX.BMC)BMC, MAX(XXX.[BMC Name])[BMC Name],MAX(XXX.[Documnet Date])MAX,
+SUM(XXX.[Good Qty])[Good Qty],
+
+(SUM(XXX.[Good FATKg]) * 100.0) / SUM(XXX.[Good Qty]) AS [Good FAT %]
+,(SUM(XXX.[Good SNFKG]) * 100.0) / SUM(XXX.[Good Qty]) AS [Good SNF %],
+SUM(XXX.[Good FATKg])[Good FATKg],
+SUM(XXX.[Good SNFKG])[Good SNFKG]  ,
+SUM(XXX.[SOUR Qty])[SOUR Qty],
+
+(SUM(XXX.[SOUR FATKg]) * 100.0) / NULLIF(SUM(XXX.[SOUR Qty]), 0) AS [SOUR FAT %],
+(SUM(XXX.[SOUR SNFKG]) * 100.0) / NULLIF(SUM(XXX.[SOUR Qty]), 0) AS [SOUR SNF %]
+,
+ SUM(XXX.[SOUR FATKg])[SOUR FATKg],SUM(XXX.[SOUR SNFKG])[SOUR SNFKG]  ,
+SUM(XXX.[CURD Qty])[CURD Qty],
+(SUM(XXX.[CURD FATKg]) * 100.0) / NULLIF(SUM(XXX.[CURD Qty]), 0) AS [CURD FAT %],
+(SUM(XXX.[CURD SNFKG]) * 100.0) / NULLIF(SUM(XXX.[CURD Qty]), 0) AS [CURD SNF %],
+
+
+SUM(XXX.[CURD FATKg])[CURD FATKg],SUM(XXX.[CURD SNFKG])[CURD SNFKG]  ,MAX(XXX.Comp_Name)Comp_Name,MAX(XXX.Add1)Add1,MAX(XXX.Add2)Add2,MAX(XXX.Add3)Add3
+
+FROM (select  convert(Varchar,TSPL_MILK_COLLECTION_DCS.Document_Date,103)[Documnet Date],convert(date,TSPL_MILK_COLLECTION_DCS.Created_Date,103)Created_Date, TSPL_MILK_COLLECTION_DCS.Document_No,
 TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader AS [Vlc], TSPL_VLC_MASTER_HEAD.VLC_Name as [VLC Name],(TSPL_MILK_COLLECTION_DCS.Document_Shift)Shift,
 TSPL_MILK_COLLECTION_MCC.Route_Code as[Route Code],
 TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as [ROUTE NAME],TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as BMC, TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MCC_MASTER.MCC_NAME as [BMC Name],TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2 ,  TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,'Administrator' as User_Name,
@@ -44,14 +106,24 @@ left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No
 				left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
 				left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code 
 
-				left outer join TSPL_COMPANY_MASTER on  2=2
-                where TSPL_MILK_COLLECTION_DCS.Document_Date = CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "', 103) "
+				left outer join TSPL_COMPANY_MASTER on  2=2"
+            BaseQuery += " where TSPL_MILK_COLLECTION_DCS.Document_Date = CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "', 103) "
+
+
+
             If rbtEvening.IsChecked Then
                 BaseQuery += " AND TSPL_MILK_COLLECTION_DCS.Document_Shift ='E' "
             ElseIf rbtMorning.IsChecked Then
                 BaseQuery += " AND TSPL_MILK_COLLECTION_DCS.Document_Shift ='M'"
             End If
+            BaseQuery += ") XXX "
+            If rbdRouteWise.IsChecked Then
+                BaseQuery += "	GROUP BY [Documnet Date],[Route Code]"
 
+            Else
+                BaseQuery += "	GROUP BY [Documnet Date],Vlc"
+
+            End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(BaseQuery)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 gv1.DataSource = Nothing
