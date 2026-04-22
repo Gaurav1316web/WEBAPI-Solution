@@ -49,12 +49,12 @@ Public Class rptDCSTruckSheetRegister
                 BaseQuery = " SELECT [Documnet Date],[Route Code],MAX(XXX.Vlc)Vlc,"
 
             Else
-                BaseQuery = " SELECT [Documnet Date],Max[Route Code],(XXX.Vlc)Vlc,"
+                BaseQuery = " SELECT [Documnet Date],Max(xxx.[Route Code])[Route Code],(XXX.Vlc)Vlc,"
 
             End If
             'BaseQuery = " SELECT [Documnet Date],[Route Code],MAX(XXX.Vlc)Vlc,"
 
-            BaseQuery +="MAX(XXX.[ROUTE NAME])[ROUTE NAME],MAX(XXX.Tanker_No)[Tanker No],MAX(XXX.BMC)BMC, MAX(XXX.[BMC Name])[BMC Name],MAX(XXX.[Documnet Date])MAX,
+            BaseQuery += " '" & objCommonVar.CurrentUser & "' as UserName, max(Schedule_Time_Evening)Schedule_Time_Evening,max(Schedule_Time)Schedule_Time, Max(Schedule_Time_Morning)Schedule_Time_Morning, max(Document_Shift)Document_Shift,max([VLC Name])[VLC Name],MAX(XXX.[ROUTE NAME])[ROUTE NAME],MAX(XXX.Tanker_No)[Tanker No],MAX(XXX.BMC)BMC, MAX(XXX.[BMC Name])[BMC Name],MAX(XXX.[Documnet Date])[Documnet Date],
 SUM(XXX.[Good Qty])[Good Qty],
 
 (SUM(XXX.[Good FATKg]) * 100.0) / SUM(XXX.[Good Qty]) AS [Good FAT %]
@@ -62,19 +62,34 @@ SUM(XXX.[Good Qty])[Good Qty],
 SUM(XXX.[Good FATKg])[Good FATKg],
 SUM(XXX.[Good SNFKG])[Good SNFKG]  ,
 SUM(XXX.[SOUR Qty])[SOUR Qty],
+ISNULL(
+    CAST((SUM(XXX.[SOUR FATKg]) * 100.0) / NULLIF(SUM(XXX.[SOUR Qty]), 0) AS DECIMAL(10,2))
+, 0.00) AS [SOUR FAT %],
 
-(SUM(XXX.[SOUR FATKg]) * 100.0) / NULLIF(SUM(XXX.[SOUR Qty]), 0) AS [SOUR FAT %],
-(SUM(XXX.[SOUR SNFKG]) * 100.0) / NULLIF(SUM(XXX.[SOUR Qty]), 0) AS [SOUR SNF %]
+ISNULL(
+    CAST((SUM(XXX.[SOUR SNFKG]) * 100.0) / NULLIF(SUM(XXX.[SOUR Qty]), 0) AS DECIMAL(10,2))
+, 0.00) AS [SOUR SNF %]
 ,
  SUM(XXX.[SOUR FATKg])[SOUR FATKg],SUM(XXX.[SOUR SNFKG])[SOUR SNFKG]  ,
 SUM(XXX.[CURD Qty])[CURD Qty],
-(SUM(XXX.[CURD FATKg]) * 100.0) / NULLIF(SUM(XXX.[CURD Qty]), 0) AS [CURD FAT %],
-(SUM(XXX.[CURD SNFKG]) * 100.0) / NULLIF(SUM(XXX.[CURD Qty]), 0) AS [CURD SNF %],
+ISNULL(
+    CAST(
+        SUM(ISNULL(XXX.[CURD FATKg], 0)) * 100.0
+        / NULLIF(SUM(ISNULL(XXX.[CURD Qty], 0)), 0)
+    AS DECIMAL(10,2))
+, 0.00) AS [CURD FAT %],
+
+ISNULL(
+    CAST(
+        SUM(ISNULL(XXX.[CURD SNFKG], 0)) * 100.0
+        / NULLIF(SUM(ISNULL(XXX.[CURD Qty], 0)), 0)
+    AS DECIMAL(10,2))
+, 0.00) AS [CURD SNF %],
 
 
 SUM(XXX.[CURD FATKg])[CURD FATKg],SUM(XXX.[CURD SNFKG])[CURD SNFKG]  ,MAX(XXX.Comp_Name)Comp_Name,MAX(XXX.Add1)Add1,MAX(XXX.Add2)Add2,MAX(XXX.Add3)Add3
 
-FROM (select  convert(Varchar,TSPL_MILK_COLLECTION_DCS.Document_Date,103)[Documnet Date],convert(date,TSPL_MILK_COLLECTION_DCS.Created_Date,103)Created_Date, TSPL_MILK_COLLECTION_DCS.Document_No,
+FROM (select Schedule_Time_Evening,Schedule_Time, TSPL_BULK_ROUTE_MASTER.Schedule_Time_Morning, TSPL_MILK_COLLECTION_DCS.Document_Shift , convert(Varchar,TSPL_MILK_COLLECTION_DCS.Document_Date,103)[Documnet Date],convert(date,TSPL_MILK_COLLECTION_DCS.Created_Date,103)Created_Date, TSPL_MILK_COLLECTION_DCS.Document_No,
 TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader AS [Vlc], TSPL_VLC_MASTER_HEAD.VLC_Name as [VLC Name],(TSPL_MILK_COLLECTION_DCS.Document_Shift)Shift,
 TSPL_MILK_COLLECTION_MCC.Route_Code as[Route Code],
 TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as [ROUTE NAME],TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as BMC, TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MCC_MASTER.MCC_NAME as [BMC Name],TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2 ,  TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,'Administrator' as User_Name,
@@ -251,18 +266,22 @@ left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No
             gv1.Columns(ii).ReadOnly = True
             gv1.Columns(ii).IsVisible = True
             'gv1.Columns("Document_No").HeaderText = "Document No."
-            gv1.Columns("User_Name").IsVisible = False
-            gv1.Columns("Created_Date").IsVisible = False
+            gv1.Columns("UserName").IsVisible = False
+            gv1.Columns("Schedule_Time_Morning").IsVisible = False
+            gv1.Columns("Schedule_Time_Evening").IsVisible = False
+            gv1.Columns("Schedule_Time").IsVisible = False
 
-            gv1.Columns("Document_No").IsVisible = True
-            gv1.Columns("Document_No").VisibleInColumnChooser = False
+            'gv1.Columns("Created_Date").IsVisible = False
+
+            'gv1.Columns("Document_No").IsVisible = True
+            'gv1.Columns("Document_No").VisibleInColumnChooser = False
 
             gv1.Columns("Comp_Name").IsVisible = False
             gv1.Columns("Add1").IsVisible = False
             gv1.Columns("Add2").IsVisible = False
             gv1.Columns("Add3").IsVisible = False
-            gv1.Columns("Logo_Img").IsVisible = False
-            gv1.Columns("Logo_Img2").IsVisible = False
+            ' gv1.Columns("Logo_Img").IsVisible = False
+            ' gv1.Columns("Logo_Img2").IsVisible = False
         Next
         Dim summaryRowItemB As New GridViewSummaryRowItem()
         gv1.AutoSizeRows = True
