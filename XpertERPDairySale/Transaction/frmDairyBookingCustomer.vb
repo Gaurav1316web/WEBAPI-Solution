@@ -499,6 +499,7 @@ Public Class frmDairyBookingCustomer
         txtClosingBal.Text = ""
         txtCustPODate.Value = clsCommon.GETSERVERDATE()
         UsLock1.Status = ERPTransactionStatus.Pending
+        chkManualVehicle.Checked = True
         ChkTaxNonTax()
     End Sub
     Sub LoadBlankGrid()
@@ -3013,7 +3014,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         txtChequeNo.Text = ""
         txtReceiverName.Text = ""
         cmbPaymentType.SelectedIndex = 0
-        chkManualVehicle.Checked = False
+        chkManualVehicle.Checked = True
         fndTransporter.Value = ""
         lblTransporter.Text = ""
         txtDescription.Text = ""
@@ -6876,18 +6877,18 @@ where TSPL_ITEM_CAPACITY_LIMIT_head.From_Date<='" & clsCommon.GetPrintDate(txtDa
 
     Sub PaymentType()
         Try
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Payment_Type from TSPL_PAYMENT_CODE")
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Payment_Code from TSPL_PAYMENT_CODE")
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 cmbPaymentType.DataSource = Nothing
                 cmbPaymentType.Items.Clear()
                 cmbPaymentType.DataSource = dt
-                cmbPaymentType.DisplayMember = "Payment_Type"
-                cmbPaymentType.ValueMember = "Payment_Type"
+                cmbPaymentType.DisplayMember = "Payment_Code"
+                cmbPaymentType.ValueMember = "Payment_Code"
                 cmbPaymentType.SelectedIndex = -1
             Else
                 cmbPaymentType.DataSource = Nothing
                 cmbPaymentType.Items.Clear()
-                clsCommon.MyMessageBoxShow(Me, "Payment Type not found !", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Payment Code not found !", Me.Text)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)

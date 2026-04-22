@@ -2868,6 +2868,8 @@ Public Class clsUserMgtCode
     Public Const XpertAPIGateEntry As String = "API-GT-ENT"
     Public Const XpertAPIBMCMilkQC As String = "API-BM-MK-QC"
     Public Const XpertAPIDEMANDBOOKING As String = "API-DEM-BOO"
+    Public Const XpertAPISaleDispatchDairy As String = "API-DIS-DS"
+
     Public Const XpertAPIRCDFChemicalQC As String = "API-RCDF-QC"
     Public Const XpertAPIRCDFUnionMilkQC As String = "API-RUMK-QC"
     ''=================== MIS start here============
