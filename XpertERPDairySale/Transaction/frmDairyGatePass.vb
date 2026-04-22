@@ -2478,6 +2478,8 @@ xyz.Sale_Invoice_No, "
                         filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isfilePath, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptDairySaleGatePassEntriesKTA", "Gate Pass", clsCommon.myCDate(dt.Rows(0)("GPDate")), "rptCompanyAddress.rpt")
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
                         filePath = filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isfilePath, CrystalReportFolder.KwalitySalesReport, dt, Nothing, "crptDairySaleGatepassBKN", "Gate Pass", "", "rptCompanyAddress.rpt")
+                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
+                        filePath = filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isfilePath, CrystalReportFolder.KwalitySalesReport, dt, Nothing, "crptDairySaleGatePassEntriesNAG", "Gate Pass", "", "rptCompanyAddress.rpt")
 
                     Else
                         filePath = frmCRV.funreport(MyBase.Form_ID, isfilePath, CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntries", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
