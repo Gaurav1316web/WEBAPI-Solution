@@ -7651,7 +7651,9 @@ Public Class MDI
                     Case clsUserMgtCode.FrmProjectProfitReport
                         frm = New FrmProjectProfitReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-
+                    Case clsUserMgtCode.frmSubRouteMaster
+                        frm = New frmSubRouteMaster
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmProfitAndLossPerforma
                         frm = New frmProfitAndLossPerforma
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

@@ -1333,6 +1333,7 @@ Public Class frmCustomer
             obj.Cust_Group_Code = clsCommon.myCstr(fndCusgrp.Value)
             obj.Cust_Type_Code = clsCommon.myCstr(fndCusType.Value)
             obj.Route_No = clsCommon.myCstr(fndRoute.Value)
+            obj.Sub_Route = clsCommon.myCstr(frnSubRoute.Value)
             obj.P_Route_No = clsCommon.myCstr(txtPRouteCode.Value)
             obj.I_Route_No = clsCommon.myCstr(txtIRouteCode.Value)
             obj.City_Code = clsCommon.myCstr(fndCity.Value)
@@ -2073,6 +2074,8 @@ Public Class frmCustomer
                 Me.txtCusgrp.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Cust_Group_Desc  from TSPL_CUSTOMER_GROUP_MASTER where Cust_Group_Code='" + fndCusgrp.Value + "'"))
                 Me.fndCusType.Value = clsCommon.myCstr(myDr(7))
                 Me.fndRoute.Value = clsCommon.myCstr(myDr(8))
+                Me.frnSubRoute.Value = clsCommon.myCstr(myDr("Sub_Route_Code"))
+                Me.txtSubRouteName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Name From TSPL_Sub_Route_Master Where Code='" & clsCommon.myCstr(myDr("Sub_Route_Code")) & "'"))
                 Me.txtPRouteCode.Value = clsCommon.myCstr(myDr("P_Route_No"))
                 Me.txtIRouteCode.Value = clsCommon.myCstr(myDr("I_Route_No"))
                 Me.chkSkipBal.Checked = IIf(clsCommon.myCdbl(myDr("is_Skip_Balance")) = 1, True, False)
@@ -2622,6 +2625,8 @@ Public Class frmCustomer
         Me.fndCusType.Value = ""
         Me.fndRoute.Value = ""
         txtPRouteCode.Value = ""
+        Me.frnSubRoute.Value = ""
+        txtSubRouteName.Text = ""
         txtIRouteCode.Value = ""
         Me.fndTrmsCode.Value = ""
         Me.fndAccntSet.Value = ""
@@ -6355,6 +6360,20 @@ Public Class frmCustomer
             Else
                 Throw New Exception("Please Select valid Customer")
             End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub frnSubRoute__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles frnSubRoute._MYValidating
+        Try
+            Dim qry As String = "select Code,Name from TSPL_Sub_Route_MASTER "
+            Dim whrcls As String = " 1=1 "
+            If clsCommon.myLen(fndRoute.Value) > 0 Then
+                whrcls &= " And Route_Code ='" & clsCommon.myCstr(fndRoute.Value) & "'"
+            End If
+            frnSubRoute.Value = clsCommon.ShowSelectForm("@SubRoute", qry, "Code", whrcls, frnSubRoute.Value, "Code", isButtonClicked)
+            txtSubRouteName.Text = clsDBFuncationality.getSingleValue("select Name from TSPL_Sub_ROUTE_MASTER Where Code='" & clsCommon.myCstr(frnSubRoute.Value) & "'")
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
