@@ -1,6 +1,6 @@
-﻿
-Imports common
+﻿Imports common
 Imports System.IO
+Imports System.Globalization
 
 Public Class rptHSNWiseSaleReport
     Inherits FrmMainTranScreen
@@ -232,7 +232,7 @@ Public Class rptHSNWiseSaleReport
         If isAcc Then
             BaseQuery = "" & qry & " " & BaseQuery & " GROUP BY xxx.Item_Code,UOM,Type ) FINAL left outer join tspl_item_master on TSPL_ITEM_MASTER.Item_Code = FINAL.Item_Code  LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = FINAL.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code = FINAL.UOM	LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where " & IIf(clsCommon.CompairString(UOMType, "Default_UOM") = CompairStringResult.Equal, "Default_UOM", "Report_UOM") & " = 1 ) as  I ON FINAL.Item_Code = I.item_code left outer join TSPL_COMPANY_MASTER on 2 =2   where " & ItemType & "  "
         Else
-            BaseQuery = "with CTERawData as ( " & qry & " " & BaseQuery & " GROUP BY xxx.Item_Code,UOM,Type ) FINAL left outer join tspl_item_master on TSPL_ITEM_MASTER.Item_Code = FINAL.Item_Code  LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = FINAL.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code = FINAL.UOM	LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where Report_UOM = 1 ) as  I ON FINAL.Item_Code = I.item_code left outer join TSPL_COMPANY_MASTER on 2 =2   where " & ItemType & " ) xxxxFinal group by Item_Code ) select CTERawData.* from CTERawData"
+            BaseQuery = "with CTERawData as ( " & qry & " " & BaseQuery & " GROUP BY xxx.Item_Code,UOM,Type ) FINAL left outer join tspl_item_master on TSPL_ITEM_MASTER.Item_Code = FINAL.Item_Code  LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = FINAL.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code = FINAL.UOM	LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where Report_UOM = 1 ) as  I ON FINAL.Item_Code = I.item_code left outer join TSPL_COMPANY_MASTER on 2 =2   where " & ItemType & " ) xxxxFinal group by Item_Code ) select CTERawData.* from CTERawData Where IsNull(HSN_Code,'') <>'' "
         End If
         Return BaseQuery
     End Function
@@ -276,6 +276,12 @@ Public Class rptHSNWiseSaleReport
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub gv1_CellFormatting(sender As Object, e As CellFormattingEventArgs) Handles gv1.CellFormatting
+        If e.CellElement.Value IsNot Nothing AndAlso IsNumeric(e.CellElement.Value) AndAlso clsCommon.CompairString(e.Column.Name, "HSN_Code") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(e.Column.Name, "Short_Description") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(e.Column.Name, "UOM") <> CompairStringResult.Equal Then
+            e.CellElement.Text = Convert.ToDecimal(e.CellElement.Value).ToString("N2", New CultureInfo("en-IN"))
+        End If
     End Sub
 
     Sub LoadItemType()
