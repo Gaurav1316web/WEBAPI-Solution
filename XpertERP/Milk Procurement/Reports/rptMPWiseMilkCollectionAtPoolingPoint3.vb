@@ -568,7 +568,15 @@ Select  TSPL_MILK_SRN_head.VLC_CODE, (TSPL_MILK_SRN_head.MCC_CODE)MCC_CODE, (TSP
                   LEFT OUTER JOIN TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_MILK_SRN_head.VSP_CODE 
                   WHERE 2=2 and     "
             Qry += "   convert(date,TSPL_MILK_SRN_head.DOC_DATE,103)>='" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "' and convert(date,TSPL_MILK_SRN_head.DOC_DATE,103) <='" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "' "
-
+            If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
+                Qry += " and 2=( case when TSPL_MILK_SRN_head.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_head.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and shift='M' then 3 else 2 end  )"
+            End If
+            If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
+                Qry += " and 2=( case when TSPL_MILK_SRN_head.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_head.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and shift='E' then 3 else 2 end  )"
+            End If
+            If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count > 0 Then
+                Qry += " and TSPL_VLC_MASTER_HEAD.VLC_CODE  IN (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ") "
+            End If
             ' convert(date,TSPL_MILK_SRN_head.DOC_DATE,103)>='01/Feb/2026' and convert(date,TSPL_MILK_SRN_head.DOC_DATE,103) <='01/Feb/2026' 
             'AND VLC_Code_VLC_Uploader='5102'
 
