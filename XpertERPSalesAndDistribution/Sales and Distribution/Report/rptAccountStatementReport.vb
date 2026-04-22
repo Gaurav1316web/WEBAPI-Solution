@@ -40,6 +40,8 @@ Public Class rptAccountStatementReport
 
     Private Sub EnableDisableControl(ByVal val As Boolean)
         RadGroupBox1.Enabled = val
+        RadGroupBox2.Enabled = val
+        RadGroupBox3.Enabled = val
     End Sub
 
     Private Sub LoadData(ByVal isPrint As Boolean)
@@ -57,24 +59,32 @@ max(OT.Opening_Amount)+sum((Amount) * (case when   Convert( Date, Document_Date,
  
 from 
 (Select Cust_Code,Receipt_Amount as Amount,Convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103) as Document_Date,1 as RI from TSPL_RECEIPT_HEADER
+union all "
+            If rdbDispatch.IsChecked Then
+                qry += " Select  Customer_Code As Cust_Code,(Total_Amt-Transporter_Commission_TotalAmt) As Amount,convert(Date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) As Document_Date,2 As RI from TSPL_SD_SHIPMENT_HEAD
+                        where Is_Taxable = 0 And TSPL_SD_SHIPMENT_HEAD.Status = 1
+                        union all
+                        Select  Customer_Code As Cust_Code,(Total_Amt-Transporter_Commission_TotalAmt) As Amount,convert(Date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) As Document_Date,3 As RI from TSPL_SD_SHIPMENT_HEAD
+                        where Is_Taxable = 1 And TSPL_SD_SHIPMENT_HEAD.Status = 1 "
+            Else
+                qry += " Select Customer_Code as Cust_Code,(Total_Amt-Transporter_Commission_TotalAmt) as Amount,convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Document_Date,2 as RI from TSPL_SD_SALE_INVOICE_HEAD
+                        where Is_Taxable=0 and TSPL_SD_SALE_INVOICE_HEAD.Status=1
+                        Union all
+                        Select Customer_Code as Cust_Code,(Total_Amt-Transporter_Commission_TotalAmt) as Amount,convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Document_Date,3 as RI from TSPL_SD_SALE_INVOICE_HEAD
+                        where Is_Taxable=1 and TSPL_SD_SALE_INVOICE_HEAD.Status=1 "
+            End If
+            qry += " union all
+Select  Customer_Code As Cust_Code,Total_Amt As Amount,convert(Date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103),4 As RI from TSPL_SD_SALE_RETURN_HEAD
 union all
-Select Customer_Code as Cust_Code,(Total_Amt-Transporter_Commission_TotalAmt) as Amount,convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,2 as RI from TSPL_SD_SHIPMENT_HEAD
-where Is_Taxable=0 and TSPL_SD_SHIPMENT_HEAD.Status=1
+Select  Customer_Code,Document_Total As Amount,convert(Date,TSPL_Customer_Invoice_Head.Document_Date,103) As Document_Date,5 As RI from TSPL_Customer_Invoice_Head
+WHERE Document_Type ='C'
 union all
-Select Customer_Code as Cust_Code,(Total_Amt-Transporter_Commission_TotalAmt) as Amount,convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,3 as RI from TSPL_SD_SHIPMENT_HEAD
-where Is_Taxable=1 and TSPL_SD_SHIPMENT_HEAD.Status=1
-union all
-Select Customer_Code as Cust_Code,Total_Amt as Amount,convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103),4 as RI from TSPL_SD_SALE_RETURN_HEAD
-union all
-Select Customer_Code,Document_Total as Amount,convert(date,TSPL_Customer_Invoice_Head.Document_Date,103) as Document_Date,5 as RI from TSPL_Customer_Invoice_Head
-WHERE Document_Type='C'
-union all
-Select Customer_Code,Document_Total as Amount,convert(date,TSPL_Customer_Invoice_Head.Document_Date,103) as Document_Date,6 as RI from TSPL_Customer_Invoice_Head
-WHERE Document_Type='D'
+Select  Customer_Code,Document_Total As Amount,convert(Date,TSPL_Customer_Invoice_Head.Document_Date,103) As Document_Date,6 As RI from TSPL_Customer_Invoice_Head
+WHERE Document_Type ='D'
 ) XX 
-left outer join TSPL_COMPANY_MASTER ON 2=2 
-left outer join TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=XX.Cust_Code
-LEFT JOIN TSPL_Opening_Table OT ON OT.Cust_Code = XX.Cust_Code 
+Left outer join TSPL_COMPANY_MASTER ON 2=2 
+Left outer join TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=XX.Cust_Code
+Left Join TSPL_Opening_Table OT ON OT.Cust_Code = XX.Cust_Code 
 "
             If txtCustomer.arrValueMember IsNot Nothing Then
                 qry += " where XX.Cust_Code In (" & clsCommon.GetMulcallString(txtCustomer.arrValueMember) & ")"
@@ -85,7 +95,7 @@ LEFT JOIN TSPL_Opening_Table OT ON OT.Cust_Code = XX.Cust_Code
             If rdbCash.IsChecked Then
                 qry += " Where ZZ.Credit_Customer='N' "
             ElseIf rdbCredit.IsChecked Then
-                qry += " Where ZZ.Credit_Customer='Y' "
+                                    qry += " Where ZZ.Credit_Customer='Y' "
             End If
             qry += " order by Customer_Name "
 

@@ -562,6 +562,7 @@ Partial Class FrmUtility
         Me.RadButton249 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton250 = New Telerik.WinControls.UI.RadButton()
         Me.GroupBox99 = New System.Windows.Forms.GroupBox()
+        Me.btnCreateEInvoiceForSale = New Telerik.WinControls.UI.RadButton()
         Me.btnCreateEinvoiceForDCSSAle = New Telerik.WinControls.UI.RadButton()
         Me.btnCreateCrateEntry = New Telerik.WinControls.UI.RadButton()
         Me.lblFromGPDate = New common.Controls.MyLabel()
@@ -1381,6 +1382,7 @@ Partial Class FrmUtility
         CType(Me.RadButton249, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton250, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox99.SuspendLayout
+        CType(Me.btnCreateEInvoiceForSale, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnCreateEinvoiceForDCSSAle, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnCreateCrateEntry, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.lblFromGPDate, System.ComponentModel.ISupportInitialize).BeginInit
@@ -2050,6 +2052,7 @@ Partial Class FrmUtility
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage6
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1112, 569)
         Me.RadPageView1.TabIndex = 44
@@ -7380,6 +7383,7 @@ Partial Class FrmUtility
         '
         'GroupBox99
         '
+        Me.GroupBox99.Controls.Add(Me.btnCreateEInvoiceForSale)
         Me.GroupBox99.Controls.Add(Me.btnCreateEinvoiceForDCSSAle)
         Me.GroupBox99.Controls.Add(Me.btnCreateCrateEntry)
         Me.GroupBox99.Controls.Add(Me.lblFromGPDate)
@@ -7390,6 +7394,14 @@ Partial Class FrmUtility
         Me.GroupBox99.TabIndex = 373
         Me.GroupBox99.TabStop = False
         Me.GroupBox99.Text = "Crate Entry"
+        '
+        'btnCreateEInvoiceForSale
+        '
+        Me.btnCreateEInvoiceForSale.Location = New System.Drawing.Point(170, 47)
+        Me.btnCreateEInvoiceForSale.Name = "btnCreateEInvoiceForSale"
+        Me.btnCreateEInvoiceForSale.Size = New System.Drawing.Size(154, 24)
+        Me.btnCreateEInvoiceForSale.TabIndex = 65
+        Me.btnCreateEInvoiceForSale.Text = "Create E-Invoice For Sales"
         '
         'btnCreateEinvoiceForDCSSAle
         '
@@ -11380,6 +11392,7 @@ Partial Class FrmUtility
         CType(Me.RadButton250, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox99.ResumeLayout(False)
         Me.GroupBox99.PerformLayout
+        CType(Me.btnCreateEInvoiceForSale, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnCreateEinvoiceForDCSSAle, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnCreateCrateEntry, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.lblFromGPDate, System.ComponentModel.ISupportInitialize).EndInit
@@ -12482,6 +12495,7 @@ Partial Class FrmUtility
     Friend WithEvents RadButton314 As RadButton
     Friend WithEvents RadButton315 As RadButton
     Friend WithEvents RadButton316 As RadButton
+    Friend WithEvents btnCreateEInvoiceForSale As RadButton
     Friend WithEvents BtnItemCostUpdate As RadButton
     Friend WithEvents MyLabel75 As common.Controls.MyLabel
     Friend WithEvents TxtCost As common.MyNumBox

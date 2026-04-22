@@ -1286,6 +1286,10 @@ Public Class frmShipmentDairy
             chkNoTranspoter.Checked = False
         End If
         CheckTaxNonTax()
+        txtOpeningbal.Text = ""
+        txtDrAmt.Text = ""
+        txtCrAmt.Text = ""
+        txtClosingBal.Text = ""
     End Sub
     Public Shared Function GetItemType() As DataTable
         Dim dt As New DataTable()
@@ -7064,7 +7068,8 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         'End If
         chkIsEWayBill.Checked = False
         chkIsEWayBill.Enabled = True
-
+        txtTPTComAmt.Text = 0
+        lblGrossAmount.Text = 0
         txtDate.Focus()
         gv1.Rows.AddNew()
         gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = RowTypeItem
@@ -8686,6 +8691,9 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
             obj.Discount_Amt = clsCommon.myCdbl(lblDiscountAmt.Text)
             obj.Amount_Less_Discount = clsCommon.myCdbl(lblAmtAfterDiscount.Text)
             obj.Total_Amt = clsCommon.myCdbl(lblTotRAmt.Text)
+            If DeductTPTFromDocAmt Then
+                obj.TotalSubsidyAmt = clsCommon.myCdbl(txtTPTComAmt.Text)
+            End If
             obj.Gross_Amount = clsCommon.myCdbl(lblGrossAmount.Text)
             obj.Carrier = txtCarrier.Text
             obj.Vehicle_Code = txtVehicleCode.Value

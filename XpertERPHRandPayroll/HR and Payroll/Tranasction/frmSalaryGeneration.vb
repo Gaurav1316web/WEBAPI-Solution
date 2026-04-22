@@ -20,6 +20,118 @@ Public Class frmSalaryGeneration
 
     Private Sub frmSalaryGeneration_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Try
+
+            '            Try
+            '                Dim sqlStr As String = "SELECT count(1) FROM INFORMATION_SCHEMA.COLUMNS WHERE  TABLE_NAME = 'TSPL_GENERATE_SALARY_PAYHEADS' AND COLUMN_NAME = 'EMP_SAL_CODE' "
+            '                Dim CodeExist = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(sqlStr))
+
+            '                Dim coll As New Dictionary(Of String, String)()
+            '                coll.Add("SALARY_GENERATION_CODE", "VARCHAR(30) NOT NULL REFERENCES TSPL_GENERATE_SALARY(SALARY_GENERATION_CODE) ")
+            '                coll.Add("EMP_CODE", "VARCHAR(12) NOT NULL REFERENCES TSPL_EMPLOYEE_MASTER(EMP_CODE) ")
+            '                coll.Add("LINE_NO", "INTEGER NOT NULL")
+            '                coll.Add("PAY_HEAD_CODE", "VARCHAR(30) NOT NULL REFERENCES TSPL_PAYHEAD_MASTER(PAY_HEAD_CODE) ")
+            '                coll.Add("HEAD_TYPE", "VARCHAR(10) NOT NULL")
+            '                coll.Add("SUB_HEAD_TYPE", "VARCHAR(30) NOT NULL")
+            '                coll.Add("CALC_BASIS", "VARCHAR(100) NOT NULL")
+            '                coll.Add("PAYHEAD_FORMULA", "VARCHAR(MAX) NOT NULL")
+            '                coll.Add("RATE_AMOUNT", "NUMERIC(10,3) NOT NULL")
+            '                coll.Add("ACTUAL_AMOUNT", "FLOAT NOT NULL ")
+            '                coll.Add("PAYABLE_AMOUNT", "NUMERIC(12,2) NOT NULL ")
+            '                coll.Add("FORMULA_AMOUNT", "VARCHAR(MAX)  NULL")
+            '                coll.Add("HEAD_VALUE", "NUMERIC(12,2) NULL ")
+            '                coll.Add("IsHiddenComponent", "BIT NOT NULL DEFAULT 0")
+            '                coll.Add("PF_MAX_LM", "NUMERIC(12,2) NOT NULL DEFAULT 0")
+            '                coll.Add("Account_Code", "VARCHAR(50)  NULL REFERENCES TSPL_GL_ACCOUNTS(Account_Code)")
+
+            '                coll.Add("EPF_RATE", "NUMERIC(12,2) NULL ")
+            '                coll.Add("ESI_RATE", "NUMERIC(12,2) NULL ")
+            '                coll.Add("CoEPF_RATE", "NUMERIC(5,2) NULL ")
+            '                coll.Add("CoEPF_RATE_AC01", "NUMERIC(5,2) NULL ")
+            '                coll.Add("CoEPF_AMT_AC01", "NUMERIC(12,2) NULL ")
+            '                coll.Add("CoEPS_RATE_AC10", "NUMERIC(5,2) NULL ")
+            '                coll.Add("CoEPS_AMT_AC10", "NUMERIC(12,2) NULL ")
+            '                coll.Add("ADMIN_RATE_AC02", "NUMERIC(5,2) NULL ")
+            '                coll.Add("ADMIN_AMT_AC02", "NUMERIC(12,2) NULL ")
+            '                coll.Add("EDLI_RATE_AC21", "NUMERIC(5,2) NULL ")
+            '                coll.Add("EDLI_AMT_AC21", "NUMERIC(12,2) NULL ")
+            '                coll.Add("ADMIN_EDLI_RATE_AC22", "NUMERIC(5,2) NULL ")
+            '                coll.Add("ADMIN_EDLI_AMT_AC22", "NUMERIC(12,2) NULL ")
+            '                coll.Add("OTHER_CHARGE", "NUMERIC(12,2) NULL ")
+            '                coll.Add("Co_ESI_RATE", "NUMERIC(5,2) NULL ")
+            '                coll.Add("Co_ESI_AMT", "NUMERIC(12,2) NULL ")
+            '                coll.Add("Employer_Account", "VARCHAR(50)  NULL REFERENCES TSPL_GL_ACCOUNTS(Account_Code)")
+            '                coll.Add("ARREAR_AMT", "FLOAT NULL ")
+            '                coll.Add("PRINCIPAL_ROUND_OFF", "FLOAT NULL ")
+            '                coll.Add("ARREAR_ROUND_OFF", "FLOAT NULL ")
+            '                coll.Add("CoEPF_AMT_AC01_ROUND_OFF", "FLOAT NULL ")
+            '                coll.Add("CoEPS_AMT_AC10_ROUND_OFF", "FLOAT NULL ")
+
+            '                '' new columns
+            '                coll.Add("PF_Applicable", "Bit  NULL ")
+            '                coll.Add("PF_Calculation_Type", "Varchar(12) NULL ")
+            '                coll.Add("PF_Rule_Max_Lim", "FLOAT NULL ")
+            '                coll.Add("Custom_PF_Max_Lim", "FLOAT NULL ")
+            '                coll.Add("PF_No", " varchar(30)  NULL ")
+            '                coll.Add("ESI_Applicable", "Bit  NULL ")
+            '                coll.Add("ESI_Calculation_Type", "Varchar(12) NULL ")
+            '                coll.Add("ESI_Rule_Max_Lim", "FLOAT NULL ")
+            '                coll.Add("Custom_ESI_Max_Lim", "FLOAT NULL ")
+            '                coll.Add("ESI_No", " varchar(30)  NULL ")
+            '                coll.Add("EPS_To_EPF", "Bit  NULL ")
+            '                coll.Add("OT_Applicable", "Bit  NULL ")
+            '                coll.Add("OT_CODE", "VARCHAR(30) NULL REFERENCES TSPL_OT_MASTER(OT_CODE)")
+            '                coll.Add("OT_HOURS", "NUMERIC(6,2)  NULL ")
+            '                coll.Add("OT_RATE", "NUMERIC(12,2)  NULL ")
+            '                coll.Add("HOUR_MULTIPLIER", "NUMERIC(12,2)  NULL ")
+            '                coll.Add("Bonus_Applicable", "BIT  NULL ")
+            '                coll.Add("BONUS_CODE", "VARCHAR(30)  NULL ")
+            '                coll.Add("BONUS_FROM_PAY_PERIOD_CODE", "VARCHAR(30)  NULL ")
+            '                coll.Add("BONUS_TO_PAY_PERIOD_CODE", "VARCHAR(30)  NULL ")
+            '                coll.Add("OD_Applicable", "Bit  NULL ")
+            '                coll.Add("MAX_AMOUNT", "FLOAT NULL ")
+            '                coll.Add("PREV_ESI", "FLOAT NULL ")
+            '                coll.Add("EMP_SAL_CODE", "VARCHAR(30)  NULL REFERENCES TSPL_EMPLOYEE_SALARY(EMP_SAL_CODE)")
+            '                clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GENERATE_SALARY_PAYHEADS", coll, "PK_TSPL_GENERATE_SALARY_PAYHEADS Primary Key(SALARY_GENERATION_CODE,EMP_CODE,PAY_HEAD_CODE) ", False, False, "TSPL_GENERATE_SALARY", "SALARY_GENERATION_CODE", "")
+
+            '                If CodeExist = 0 Then
+            '                    Qry = "update TSPL_GENERATE_SALARY_PAYHEADS set EMP_SAL_CODE=(select top 1 EMP_SAL_CODE from TSPL_EMPLOYEE_SALARY where TSPL_EMPLOYEE_SALARY.EMP_CODE=xx.EMP_CODE and TSPL_EMPLOYEE_SALARY.APPLICABLE_FROM<=xx.DATE_FROM)
+            'from (select TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE,TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE,TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE,TSPL_PAYPERIOD_MASTER.DATE_FROM,TSPL_PAYPERIOD_MASTER.DATE_TO ,TSPL_GENERATE_SALARY_PAYHEADS.EMP_SAL_CODE
+            'from TSPL_GENERATE_SALARY_PAYHEADS
+            'left outer join TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE
+            'left outer join TSPL_PAYPERIOD_MASTER on TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE=TSPL_GENERATE_SALARY.PAY_PERIOD_CODE
+            'where TSPL_GENERATE_SALARY_PAYHEADS.EMP_SAL_CODE is null )xx
+            'inner join TSPL_GENERATE_SALARY_PAYHEADS on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=xx.SALARY_GENERATION_CODE and TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=xx.EMP_CODE"
+            '                    clsDBFuncationality.ExecuteNonQuery(Qry)
+
+            '                    Qry = "update TSPL_GENERATE_SALARY_PAYHEADS set EMP_SAL_CODE=(select top 1 EMP_SAL_CODE from TSPL_EMPLOYEE_SALARY where TSPL_EMPLOYEE_SALARY.EMP_CODE=xx.EMP_CODE )
+            '                            from (select TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE,TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE,TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE,TSPL_PAYPERIOD_MASTER.DATE_FROM,TSPL_PAYPERIOD_MASTER.DATE_TO ,TSPL_GENERATE_SALARY_PAYHEADS.EMP_SAL_CODE
+            '                            from TSPL_GENERATE_SALARY_PAYHEADS
+            '                            left outer join TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE
+            '                            left outer join TSPL_PAYPERIOD_MASTER on TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE=TSPL_GENERATE_SALARY.PAY_PERIOD_CODE
+            '                            where TSPL_GENERATE_SALARY_PAYHEADS.EMP_SAL_CODE is null )xx
+            '                            inner join TSPL_GENERATE_SALARY_PAYHEADS on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=xx.SALARY_GENERATION_CODE and TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=xx.EMP_CODE"
+            '                    clsDBFuncationality.ExecuteNonQuery(Qry)
+
+            '                    Qry = "ALTER TABLE TSPL_GENERATE_SALARY_PAYHEADS ALTER COLUMN EMP_SAL_CODE VARCHAR(30) NOT NULL;"
+            '                    clsDBFuncationality.ExecuteNonQuery(Qry)
+
+
+            '                    Qry = " alter table TSPL_GENERATE_SALARY_PAYHEADS drop constraint PK_TSPL_GENERATE_SALARY_PAYHEADS "
+            '                    clsDBFuncationality.ExecuteNonQuery(Qry)
+
+            '                    Qry = " ALTER TABLE TSPL_GENERATE_SALARY_PAYHEADS ADD CONSTRAINT PK_TSPL_GENERATE_SALARY_PAYHEADS
+            '                            PRIMARY KEY CLUSTERED (SALARY_GENERATION_CODE,EMP_CODE,PAY_HEAD_CODE,EMP_SAL_CODE)"
+            '                    clsDBFuncationality.ExecuteNonQuery(Qry)
+            '                End If
+
+            '            Catch ex As Exception
+            '                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            '            End Try
+
+
+
+
+
             AllowtoSelDateandBankforPayEntryOnSalaryGeneration = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowtoSelDateandBankforPayEntryOnSalaryGeneration, clsFixedParameterCode.AllowtoSelDateandBankforPayEntryOnSalaryGeneration, Nothing)) = 1, True, False)
             SetUserMgmtNew()
             isNewEntry = True
@@ -125,7 +237,7 @@ Public Class frmSalaryGeneration
         coll.Add("ARREAR_ROUND_OFF", "FLOAT NULL ")
         coll.Add("CoEPF_AMT_AC01_ROUND_OFF", "FLOAT NULL ")
         coll.Add("CoEPS_AMT_AC10_ROUND_OFF", "FLOAT NULL ")
-        '' new columns
+        ' new columns
         coll.Add("PF_Calculation_Type", "Varchar(12) NULL ")
         coll.Add("PF_Rule_Max_Lim", "FLOAT NULL ")
         coll.Add("Custom_PF_Max_Lim", "FLOAT NULL ")
