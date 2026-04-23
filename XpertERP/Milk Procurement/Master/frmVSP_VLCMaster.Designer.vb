@@ -23,17 +23,17 @@ Partial Class frmVSP_VLCMaster
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmVSP_VLCMaster))
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadPrintWatermark1 As Telerik.WinControls.UI.RadPrintWatermark = New Telerik.WinControls.UI.RadPrintWatermark()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmVSP_VLCMaster))
+        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadPrintWatermark3 As Telerik.WinControls.UI.RadPrintWatermark = New Telerik.WinControls.UI.RadPrintWatermark()
         Me.btnclear = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
@@ -1028,14 +1028,14 @@ Partial Class frmVSP_VLCMaster
         Me.CmbHeadLoadServiceBasis.IsSourceFromTable = False
         Me.CmbHeadLoadServiceBasis.IsSourceFromValueList = False
         Me.CmbHeadLoadServiceBasis.IsUnique = False
-        RadListDataItem1.Text = "Select"
-        RadListDataItem2.Text = "%(Percentage)"
-        RadListDataItem3.Text = "Rate/Kg"
-        RadListDataItem4.Text = "Rate/Ltr"
-        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem1)
-        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem2)
-        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem3)
-        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem4)
+        RadListDataItem5.Text = "Select"
+        RadListDataItem6.Text = "%(Percentage)"
+        RadListDataItem7.Text = "Rate/Kg"
+        RadListDataItem8.Text = "Rate/Ltr"
+        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem5)
+        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem6)
+        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem7)
+        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem8)
         Me.CmbHeadLoadServiceBasis.Location = New System.Drawing.Point(588, 230)
         Me.CmbHeadLoadServiceBasis.MendatroryField = True
         Me.CmbHeadLoadServiceBasis.MyLinkLable1 = Me.MyLabel54
@@ -1364,7 +1364,7 @@ Partial Class frmVSP_VLCMaster
         Me.txtRegistrationDate.IsSourceFromTable = False
         Me.txtRegistrationDate.IsSourceFromValueList = False
         Me.txtRegistrationDate.IsUnique = False
-        Me.txtRegistrationDate.Location = New System.Drawing.Point(851, 37)
+        Me.txtRegistrationDate.Location = New System.Drawing.Point(950, 37)
         Me.txtRegistrationDate.MendatroryField = False
         Me.txtRegistrationDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtRegistrationDate.MyLinkLable1 = Nothing
@@ -1374,7 +1374,7 @@ Partial Class frmVSP_VLCMaster
         Me.txtRegistrationDate.ReferenceFieldDesc = Nothing
         Me.txtRegistrationDate.ReferenceFieldName = Nothing
         Me.txtRegistrationDate.ReferenceTableName = Nothing
-        Me.txtRegistrationDate.Size = New System.Drawing.Size(146, 18)
+        Me.txtRegistrationDate.Size = New System.Drawing.Size(80, 18)
         Me.txtRegistrationDate.TabIndex = 359
         Me.txtRegistrationDate.TabStop = False
         Me.txtRegistrationDate.Text = "13/06/2011"
@@ -1392,7 +1392,7 @@ Partial Class frmVSP_VLCMaster
         Me.txtRegistrationNo.IsSourceFromValueList = False
         Me.txtRegistrationNo.IsUnique = False
         Me.txtRegistrationNo.Location = New System.Drawing.Point(588, 35)
-        Me.txtRegistrationNo.MaxLength = 20
+        Me.txtRegistrationNo.MaxLength = 100
         Me.txtRegistrationNo.MendatroryField = False
         Me.txtRegistrationNo.MyLinkLable1 = Nothing
         Me.txtRegistrationNo.MyLinkLable2 = Nothing
@@ -1400,14 +1400,14 @@ Partial Class frmVSP_VLCMaster
         Me.txtRegistrationNo.ReferenceFieldDesc = Nothing
         Me.txtRegistrationNo.ReferenceFieldName = Nothing
         Me.txtRegistrationNo.ReferenceTableName = Nothing
-        Me.txtRegistrationNo.Size = New System.Drawing.Size(146, 20)
+        Me.txtRegistrationNo.Size = New System.Drawing.Size(265, 20)
         Me.txtRegistrationNo.TabIndex = 358
         '
         'lblRegistrationDate
         '
         Me.lblRegistrationDate.FieldName = Nothing
         Me.lblRegistrationDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRegistrationDate.Location = New System.Drawing.Point(747, 38)
+        Me.lblRegistrationDate.Location = New System.Drawing.Point(854, 38)
         Me.lblRegistrationDate.Name = "lblRegistrationDate"
         Me.lblRegistrationDate.Size = New System.Drawing.Size(94, 16)
         Me.lblRegistrationDate.TabIndex = 357
@@ -1499,10 +1499,10 @@ Partial Class frmVSP_VLCMaster
         Me.cmbGender.IsSourceFromTable = False
         Me.cmbGender.IsSourceFromValueList = False
         Me.cmbGender.IsUnique = False
-        RadListDataItem5.Text = "Male"
-        RadListDataItem6.Text = "Female"
-        Me.cmbGender.Items.Add(RadListDataItem5)
-        Me.cmbGender.Items.Add(RadListDataItem6)
+        RadListDataItem9.Text = "Male"
+        RadListDataItem10.Text = "Female"
+        Me.cmbGender.Items.Add(RadListDataItem9)
+        Me.cmbGender.Items.Add(RadListDataItem10)
         Me.cmbGender.Location = New System.Drawing.Point(178, 134)
         Me.cmbGender.MendatroryField = True
         Me.cmbGender.MyLinkLable1 = Me.MyLabel29
@@ -1541,10 +1541,10 @@ Partial Class frmVSP_VLCMaster
         Me.ddlGender.IsSourceFromTable = False
         Me.ddlGender.IsSourceFromValueList = False
         Me.ddlGender.IsUnique = False
-        RadListDataItem7.Text = "Male"
-        RadListDataItem8.Text = "Female"
-        Me.ddlGender.Items.Add(RadListDataItem7)
-        Me.ddlGender.Items.Add(RadListDataItem8)
+        RadListDataItem1.Text = "Male"
+        RadListDataItem2.Text = "Female"
+        Me.ddlGender.Items.Add(RadListDataItem1)
+        Me.ddlGender.Items.Add(RadListDataItem2)
         Me.ddlGender.Location = New System.Drawing.Point(747, 463)
         Me.ddlGender.MendatroryField = True
         Me.ddlGender.MyLinkLable1 = Me.MyLabel27
@@ -5273,7 +5273,7 @@ Partial Class frmVSP_VLCMaster
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyExportAPI = False
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
@@ -5398,7 +5398,7 @@ Partial Class frmVSP_VLCMaster
         Me.ClsMyPrintDocument1.LeftMiddleText = Nothing
         Me.ClsMyPrintDocument1.LeftUpperFont = Nothing
         Me.ClsMyPrintDocument1.LeftUpperText = Nothing
-        Me.ClsMyPrintDocument1.Watermark = RadPrintWatermark1
+        Me.ClsMyPrintDocument1.Watermark = RadPrintWatermark3
         '
         'RadMenu1
         '

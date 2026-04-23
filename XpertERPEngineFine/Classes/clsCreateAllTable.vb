@@ -14705,6 +14705,19 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Transpoter_Name", "Varchar(200) NOT NULL")
             clsCommonFunctionality.CreateOrAlterTable("tspl_transport__Tanker_Details", coll)
 
+            qry = "IF EXISTS (
+    SELECT 1
+    FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE TABLE_NAME = 'TSPL_VENDOR_MASTER'
+      AND COLUMN_NAME = 'RegistrationNo'
+      AND DATA_TYPE = 'varchar'
+      AND CHARACTER_MAXIMUM_LENGTH < 100
+)
+BEGIN
+    ALTER TABLE TSPL_VENDOR_MASTER
+    ALTER COLUMN RegistrationNo VARCHAR(100);    
+END"
+            clsDBFuncationality.ExecuteNonQuery(qry)
 
 
 
