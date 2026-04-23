@@ -2,6 +2,8 @@
 Imports System.Reflection
 Imports System.Windows.Forms
 Public Class clsDocType
+    Public Const RCDFChecmicalQC As String = "RCDF Checmical QC"
+    Public Const RCDFUnionQC As String = "RCDF Union QC"
     Public Const ItemBatch As String = "Item Batch"
     Public Const RouteWiseSaleTarget As String = "Route Wise Sale Target"
     Public Const BMC_Transporter_Bill As String = "BMC Transporter Bill"
@@ -812,6 +814,9 @@ Public Class clsDocType
 
             Dim qry As String = "delete from TSPL_DOCUMENT_TYPE"
             clsDBFuncationality.ExecuteNonQuery(qry)
+
+            InsertDefaultValue(clsDocType.RCDFChecmicalQC, "", False, False)
+            InsertDefaultValue(clsDocType.RCDFUnionQC, "", False, False)
 
             InsertDefaultValue(clsDocType.TenderPenalty, "", False, True)
             InsertDefaultValue(clsDocType.RALNoc, "", False, True)

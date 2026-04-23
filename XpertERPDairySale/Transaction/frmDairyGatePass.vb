@@ -22,6 +22,7 @@ Public Class frmDairyGatePass
     Private isNewEntry As Boolean = False
     Dim strVehicleNo As List(Of String)
     Private AllowGatePassDemandTripWise As Boolean = False
+    Private GatepassForTaxableandNonTaxableItems As Boolean = False
     Const ColApply As String = "ColApply"
     Const ColDocNo As String = "ColDocNo"
     Const ColDocDate As String = "ColDocDatet"
@@ -106,126 +107,154 @@ Public Class frmDairyGatePass
         'End If
     End Sub
     Private Sub FrmGatePassENtry1_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        settFileUpload = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.FileUpload, clsUserMgtCode.frmDairyGatePass, Nothing)) = 1)
-        'CreateTable()
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
-            chkGhee.Visible = True
-        Else
-            chkGhee.Visible = False
-        End If
-        'Dim coll As Dictionary(Of String, String)
-        'coll = New Dictionary(Of String, String)()
-        'coll.Add("Closing_Date", "Datetime null")
-        'coll.Add("ShiftType", "varchar(20) NULL")
-        'clsCommonFunctionality.CreateOrAlterTable("TSPL_DAIRYSALE_GATEPASS_MASTER", coll)
-        'coll = New Dictionary(Of String, String)()
-        'coll.Add("Production_Remarks", "varchar(200) NULL")
-        'coll.Add("GPCode", "varchar(30) NULL")
-        'clsCommonFunctionality.CreateOrAlterTable("TSPL_DEMAND_BOOKING_DETAIL", coll)
-        SetUserMgmtNew()
-        isNewEntry = True
-
-        txtDate.Value = clsCommon.GETSERVERDATE()
-        txtSupplyDate.Value = txtDate.Value
-        txtGatepassDate.Value = clsCommon.GETSERVERDATE()
-        'CheckCreateCapacity = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CrateCapacityCheck, clsFixedParameterCode.CrateCapacityCheck, Nothing)))
-        isCreateProvisionOfTransporterInDairyDispatch = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionOfTransporterInDairyDispatch, clsFixedParameterCode.CreateProvisionOfTransporterInDairyDispatch, Nothing)))
-        IsLoadingSlipMandatory = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsLoadingSlipMandatory, clsFixedParameterCode.IsLoadingSlipMandatory, Nothing)) = 1, True, False)
-        AllowGatePassDemandTripWise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowGatePassDemandTripWise, clsFixedParameterCode.AllowGatePassDemandTripWise, Nothing)) = 1, True, False)
-        EnableLocation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, Nothing)) = 1, True, False)
-        SettCreateProvisionOnOpeningAndClosingKM = (clsCommon.myCdbl(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionOnOpeningAndClosingKM, clsFixedParameterCode.CreateProvisionOnOpeningAndClosingKM, Nothing))) = 1)
-        CreateGatePassFromDemand = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateGatePassFromDemand, clsFixedParameterCode.CreateGatePassFromDemand, Nothing)))
-        VehicleNofromDispatch = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.VehicleNofromDispatch, clsFixedParameterCode.VehicleNofromDispatch, Nothing)))
-        EnableProductSaleForJPR = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)))
-        AllowManualCrateForDispatch = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowManualCrateForDispatch, clsFixedParameterCode.AllowManualCrateForDispatch, Nothing)))
-        SetDefaultShiftTime = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SetDefaultShiftTime, clsFixedParameterCode.SetDefaultShiftTime, Nothing))
-        ApplyDepartmentRoute = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, Nothing)) = 1, True, False)
-        DifferentCrateTypeForFGItem = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DifferentCrateTypeForFGItem, clsFixedParameterCode.DifferentCrateTypeForFGItem, Nothing)) = 1, True, False)
-        CreateAutoGatePass = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateAutoGatePass, clsFixedParameterCode.CreateAutoGatePass, Nothing)) = 1, True, False)
-
-        Addnew()
-        LoadBlankGrid()
-        Panel2.Visible = SettCreateProvisionOnOpeningAndClosingKM
-        cmbitemtype.Text = "Select"
-        txtTransporter.MaxLength = 100
-        txtSalesman.MaxLength = 100
-        txtRemarks.MaxLength = 200
-        txtComments.MaxLength = 200
-        If isCreateProvisionOfTransporterInDairyDispatch = True Then
-            btnPost.Visible = True
-            btnPost.Enabled = False
-        Else
-            ' btnPost.Visible = False
-        End If
-        If Not DifferentCrateTypeForFGItem Then
-            RadPageView1.Pages("rpvpCrateType").Item.Visibility = ElementVisibility.Collapsed
-        End If
-        AlternateVechileforGatePass = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowAlternateVechileforFreshSale, clsFixedParameterCode.ShowAlternateVechileforFreshSale, Nothing))
-        'funFillGrid()
-        txtTransporter.Enabled = False
-        If isCreateProvisionOfTransporterInDairyDispatch = True Then
-            txtTransporter.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Transport_Id from TSPL_VEHICLE_MASTER where Vehicle_Id='" & txtVehicle.Value & "'"))
-        End If
-        If clsCommon.myLen(Me.Tag) > 0 Then
-            LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
-        End If
-        txtmultiBooking.Enabled = False
-        If IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TollTaxMaster, clsFixedParameterCode.TollTaxMaster, Nothing)) = 0, False, True) = False Then
-            lblTollAmount.Visible = True
-            txtTollAmount.Visible = True
-        Else
-            lblTollAmount.Visible = False
-            txtTollAmount.Visible = False
-        End If
-        multipleDelteVisible(False)
-        If CreateGatePassFromDemand = True Then
-            RadGroupBox3.Visible = True
-            txtLocCode.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
-            If clsCommon.myLen(txtLocCode.Value) > 0 Then
-                txtLocDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocCode.Value + "'"))
+        Try
+            settFileUpload = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.FileUpload, clsUserMgtCode.frmDairyGatePass, Nothing)) = 1)
+            'CreateTable()
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
+                chkGhee.Visible = True
+            Else
+                chkGhee.Visible = False
             End If
-            txtLocCode.Enabled = False
-            txtmultiBooking.Visible = False
-        Else
-            RadGroupBox3.Visible = True
-        End If
-        fndRouteNo.Value = routeno
-        txtRouteName.Text = clsDBFuncationality.getSingleValue("select Route_Desc from TSPL_ROUTE_MASTER where Route_No='" & fndRouteNo.Value & "'")
-        txtLocCode.Value = txtlocation
-        txtLocDesc.Text = clsDBFuncationality.getSingleValue("select  Location_Desc  from TSPL_LOCATION_MASTER where Location_Code='" & txtLocCode.Value & "'")
-        txtVehicle.Value = vehicleno
-        lblVehicleDesc.Text = vehicle_desc 'clsDBFuncationality.getSingleValue("select Description from TSPL_VEHICLE_MASTER where Vehicle_Id='" & txtVehicle.Value & "'")
-        txtDriverName.Text = DriverName
-        If docdate IsNot Nothing AndAlso clsCommon.myLen(docdate) > 0 Then
-            txtDate.Value = docdate
-        End If
-        If Supplydate IsNot Nothing AndAlso clsCommon.myLen(Supplydate) > 0 Then
-            txtSupplyDate.Value = Supplydate
-        End If
+            'Dim coll As Dictionary(Of String, String)
+            'coll = New Dictionary(Of String, String)()
+            'coll.Add("Closing_Date", "Datetime null")
+            'coll.Add("ShiftType", "varchar(20) NULL")
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_DAIRYSALE_GATEPASS_MASTER", coll)
+            'coll = New Dictionary(Of String, String)()
+            'coll.Add("Production_Remarks", "varchar(200) NULL")
+            'coll.Add("GPCode", "varchar(30) NULL")
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_DEMAND_BOOKING_DETAIL", coll)
+            SetUserMgmtNew()
+            isNewEntry = True
 
-        If clsCommon.CompairString(Shifttype, "AM") = CompairStringResult.Equal Then
-            rbtnMorning.IsChecked = True
-            txtTripNo.Text = "1"
-            funFillGrid()
-            If CreateAutoGatePass Then
-                txtLoadingSlip.Text = "1"
-                btnSave_Click(btnSave, New EventArgs())
-                btnPrint2_Click(btnPrint2, New EventArgs())
-                Me.Close()
+            txtDate.Value = clsCommon.GETSERVERDATE()
+            txtSupplyDate.Value = txtDate.Value
+            txtGatepassDate.Value = clsCommon.GETSERVERDATE()
+            'CheckCreateCapacity = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CrateCapacityCheck, clsFixedParameterCode.CrateCapacityCheck, Nothing)))
+            isCreateProvisionOfTransporterInDairyDispatch = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionOfTransporterInDairyDispatch, clsFixedParameterCode.CreateProvisionOfTransporterInDairyDispatch, Nothing)))
+            IsLoadingSlipMandatory = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsLoadingSlipMandatory, clsFixedParameterCode.IsLoadingSlipMandatory, Nothing)) = 1, True, False)
+            AllowGatePassDemandTripWise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowGatePassDemandTripWise, clsFixedParameterCode.AllowGatePassDemandTripWise, Nothing)) = 1, True, False)
+            GatepassForTaxableandNonTaxableItems = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.GatepassForTaxableandNonTaxableItems, clsFixedParameterCode.GatepassForTaxableandNonTaxableItems, Nothing)) = 1, True, False)
+            EnableLocation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, Nothing)) = 1, True, False)
+            SettCreateProvisionOnOpeningAndClosingKM = (clsCommon.myCdbl(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionOnOpeningAndClosingKM, clsFixedParameterCode.CreateProvisionOnOpeningAndClosingKM, Nothing))) = 1)
+            CreateGatePassFromDemand = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateGatePassFromDemand, clsFixedParameterCode.CreateGatePassFromDemand, Nothing)))
+            VehicleNofromDispatch = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.VehicleNofromDispatch, clsFixedParameterCode.VehicleNofromDispatch, Nothing)))
+            EnableProductSaleForJPR = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)))
+            AllowManualCrateForDispatch = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowManualCrateForDispatch, clsFixedParameterCode.AllowManualCrateForDispatch, Nothing)))
+            SetDefaultShiftTime = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SetDefaultShiftTime, clsFixedParameterCode.SetDefaultShiftTime, Nothing))
+            ApplyDepartmentRoute = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, Nothing)) = 1, True, False)
+            DifferentCrateTypeForFGItem = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DifferentCrateTypeForFGItem, clsFixedParameterCode.DifferentCrateTypeForFGItem, Nothing)) = 1, True, False)
+            CreateAutoGatePass = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateAutoGatePass, clsFixedParameterCode.CreateAutoGatePass, Nothing)) = 1, True, False)
+
+            Addnew()
+            LoadBlankGrid()
+            Panel2.Visible = SettCreateProvisionOnOpeningAndClosingKM
+            cmbitemtype.Text = "Select"
+            txtTransporter.MaxLength = 100
+            txtSalesman.MaxLength = 100
+            txtRemarks.MaxLength = 200
+            txtComments.MaxLength = 200
+            If isCreateProvisionOfTransporterInDairyDispatch = True Then
+                btnPost.Visible = True
+                btnPost.Enabled = False
+            Else
+                ' btnPost.Visible = False
             End If
-        ElseIf clsCommon.CompairString(Shifttype, "PM") = CompairStringResult.Equal Then
-            rbtnEvening.IsChecked = True
-            txtTripNo.Text = "1"
-            funFillGrid()
-            If CreateAutoGatePass Then
-                txtLoadingSlip.Text = "1"
-                btnSave_Click(btnSave, New EventArgs())
-                btnPrint2_Click(btnPrint2, New EventArgs())
-                Me.Close()
+            If Not DifferentCrateTypeForFGItem Then
+                RadPageView1.Pages("rpvpCrateType").Item.Visibility = ElementVisibility.Collapsed
             End If
-        End If
-        '  LoadData(txtCode.Value, NavigatorType.Current)
+            AlternateVechileforGatePass = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowAlternateVechileforFreshSale, clsFixedParameterCode.ShowAlternateVechileforFreshSale, Nothing))
+            'funFillGrid()
+            txtTransporter.Enabled = False
+            If isCreateProvisionOfTransporterInDairyDispatch = True Then
+                txtTransporter.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Transport_Id from TSPL_VEHICLE_MASTER where Vehicle_Id='" & txtVehicle.Value & "'"))
+            End If
+            If clsCommon.myLen(Me.Tag) > 0 Then
+                LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
+            End If
+            txtmultiBooking.Enabled = False
+            If IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TollTaxMaster, clsFixedParameterCode.TollTaxMaster, Nothing)) = 0, False, True) = False Then
+                lblTollAmount.Visible = True
+                txtTollAmount.Visible = True
+            Else
+                lblTollAmount.Visible = False
+                txtTollAmount.Visible = False
+            End If
+            multipleDelteVisible(False)
+            If CreateGatePassFromDemand = True Then
+                RadGroupBox3.Visible = True
+                txtLocCode.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+                If clsCommon.myLen(txtLocCode.Value) > 0 Then
+                    txtLocDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocCode.Value + "'"))
+                End If
+                txtLocCode.Enabled = False
+                txtmultiBooking.Visible = False
+            Else
+                RadGroupBox3.Visible = True
+            End If
+            fndRouteNo.Value = routeno
+            txtRouteName.Text = clsDBFuncationality.getSingleValue("select Route_Desc from TSPL_ROUTE_MASTER where Route_No='" & fndRouteNo.Value & "'")
+            txtLocCode.Value = txtlocation
+            txtLocDesc.Text = clsDBFuncationality.getSingleValue("select  Location_Desc  from TSPL_LOCATION_MASTER where Location_Code='" & txtLocCode.Value & "'")
+            txtVehicle.Value = vehicleno
+            lblVehicleDesc.Text = vehicle_desc 'clsDBFuncationality.getSingleValue("select Description from TSPL_VEHICLE_MASTER where Vehicle_Id='" & txtVehicle.Value & "'")
+            txtDriverName.Text = DriverName
+            If docdate IsNot Nothing AndAlso clsCommon.myLen(docdate) > 0 Then
+                txtDate.Value = docdate
+            End If
+            If Supplydate IsNot Nothing AndAlso clsCommon.myLen(Supplydate) > 0 Then
+                txtSupplyDate.Value = Supplydate
+            End If
+
+            If clsCommon.CompairString(Shifttype, "AM") = CompairStringResult.Equal Then
+                rbtnMorning.IsChecked = True
+                txtTripNo.Text = "1"
+                funFillGrid()
+                If CreateAutoGatePass Then
+                    txtLoadingSlip.Text = "1"
+                    btnSave_Click(btnSave, New EventArgs())
+                    btnPrint2_Click(btnPrint2, New EventArgs())
+                    Me.Close()
+                End If
+            ElseIf clsCommon.CompairString(Shifttype, "PM") = CompairStringResult.Equal Then
+                rbtnEvening.IsChecked = True
+                txtTripNo.Text = "1"
+                funFillGrid()
+                If CreateAutoGatePass Then
+                    txtLoadingSlip.Text = "1"
+                    btnSave_Click(btnSave, New EventArgs())
+                    btnPrint2_Click(btnPrint2, New EventArgs())
+                    Me.Close()
+                End If
+            End If
+            If GatepassForTaxableandNonTaxableItems Then
+                RadGroupBox1.Visible = True
+            End If
+            '  LoadData(txtCode.Value, NavigatorType.Current)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
+
+    Sub CheckTimeShift()
+        Try
+            Dim inputDate As DateTime
+            If DateTime.TryParse(txtDate.Value.ToString(), inputDate) Then
+                If inputDate.TimeOfDay < New TimeSpan(12, 0, 0) Then
+                    rbtnMorning.IsChecked = True
+                    rbtnEvening.IsChecked = False
+                Else
+                    rbtnEvening.IsChecked = True
+                    rbtnMorning.IsChecked = False
+                End If
+            Else
+                Throw New Exception("Invalid date format")
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Private Sub CreateTable()
         '    Dim coll As Dictionary(Of String, String)
         '    coll = New Dictionary(Of String, String)()
@@ -592,6 +621,13 @@ Public Class frmDairyGatePass
                         'strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Status=0"
                     Else
                         strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Status=1"
+                        If GatepassForTaxableandNonTaxableItems Then
+                            If rdbTaxable.IsChecked Then
+                                strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Is_Taxable=1 "
+                            ElseIf rdbNonTaxable.IsChecked Then
+                                strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Is_Taxable=0 "
+                            End If
+                        End If
                     End If
                     If GenerateCustomerWiseGatePass Then
                         strQuery += " and TSPL_SD_SHIPMENT_HEAD.Document_Code='" & ShipmentDocNo & "' "
@@ -1523,7 +1559,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                 rbtnMorning.IsChecked = True
             End If
         End If
-
+        CheckTimeShift()
     End Sub
     Private Sub cmbitemtype_SelectedIndexChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.Data.PositionChangedEventArgs)
         'If isInsideLoadData = False Then
@@ -2152,7 +2188,7 @@ MAX(TAX6)TAX6,MAX(TAX6_Amt)TAX6_Amt,
 MAX(TAX7)TAX7,MAX(TAX7_Amt)TAX7_Amt,
 MAX(TAX8)TAX8,MAX(TAX8_Amt)TAX8_Amt "
         End If
-        Qry += " ,max(Conver_Factr)Conver_Factr,max(Bulk_UOM_Code)Bulk_UOM_Code FROM
+        Qry += " ,max(Conver_Factr)Conver_Factr,max(Bulk_UOM_Code)Bulk_UOM_Code,MAX(Sale_Invoice_No)Sale_Invoice_No  FROM
                    ( select   Bulk_UOM.UOM_Code as Bulk_UOM_Code,Bulk_UOM.Conversion_Factor AS Conver_Factr,FORMAT( TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date, 'dd/MM/yyyy' ) as Supply_Date,tspl_item_uom_detail.Conversion_Factor As PrintUOMConv,"
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
             Qry += "NoCrateIssue, Demand_UniqueID, "
@@ -2183,7 +2219,7 @@ xyz.Sale_Invoice_No, "
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
             Qry += " xyz.ActualRate, "
         End If
-        Qry += "case when TSPL_DAIRYSALE_GATEPASS_DETAIL.Scheme_Item = 'Y' then 0 else xyz.Total_TCS_Amt end as Total_TCS_Amt,xyz.Zone_Code as Zonecode" + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ", xyz.ItemCost", "") + ",TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_Name,TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_ContactNo from " & tbl_TSPL_DAIRYSALE_GATEPASS_DETAIL & " " &
+        Qry += "case when TSPL_DAIRYSALE_GATEPASS_DETAIL.Scheme_Item = 'Y' then 0 else xyz.Total_TCS_Amt end as Total_TCS_Amt,xyz.Zone_Code as Zonecode" + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ", xyz.ItemCost", "") + ",TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_Name,TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_ContactNo,xyz.Sale_Invoice_No  from " & tbl_TSPL_DAIRYSALE_GATEPASS_DETAIL & " " &
                    " left outer join " & tbl_TSPL_DAIRYSALE_GATEPASS_MASTER & "  on TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode=TSPL_DAIRYSALE_GATEPASS_DETAIL.GPCode " &
                    " left outer join tspl_vehicle_master on tspl_vehicle_master.Vehicle_id=TSPL_DAIRYSALE_GATEPASS_MASTER.vehicle_id " &
                    " left outer join tspl_location_master on tspl_location_master.location_code=TSPL_DAIRYSALE_GATEPASS_MASTER.location_code " &
@@ -2244,7 +2280,7 @@ xyz.Sale_Invoice_No, "
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
             Qry += "max(NoCrateIssue)NoCrateIssue,"
         End If
-        Qry += " max(Zone_Code)Zone_Code " + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ", max(TSPL_SD_SHIPMENT_DETAIL.Item_Cost) as ItemCost", "") + ",Max(Concat(TSPL_CUSTOMER_MASTER.Add1,TSPL_CUSTOMER_MASTER.Add2)) As 'DistAddress' from " & tbl_TSPL_SD_SHIPMENT_DETAIL & "   
+        Qry += " max(Zone_Code)Zone_Code " + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ", max(TSPL_SD_SHIPMENT_DETAIL.Item_Cost) as ItemCost", "") + ",Max(Concat(TSPL_CUSTOMER_MASTER.Add1,TSPL_CUSTOMER_MASTER.Add2)) As 'DistAddress',Max(TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No) As Sale_Invoice_No from " & tbl_TSPL_SD_SHIPMENT_DETAIL & "   
  
                      Left Outer Join " & tbl_TSPL_SD_SHIPMENT_HEAD & " ON TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE "
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
@@ -2454,7 +2490,7 @@ xyz.Sale_Invoice_No, "
 
                 If dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                         filePath = frmCRV.funreport(MyBase.Form_ID, isfilePath, CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntriesGNG", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal Then
                         filePath = frmCRV.funreport(MyBase.Form_ID, isfilePath, CrystalReportFolder.KwalitySalesReport, dt, "crptDairyGatePassJSL", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
@@ -2478,6 +2514,8 @@ xyz.Sale_Invoice_No, "
                         filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isfilePath, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptDairySaleGatePassEntriesKTA", "Gate Pass", clsCommon.myCDate(dt.Rows(0)("GPDate")), "rptCompanyAddress.rpt")
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
                         filePath = filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isfilePath, CrystalReportFolder.KwalitySalesReport, dt, Nothing, "crptDairySaleGatepassBKN", "Gate Pass", "", "rptCompanyAddress.rpt")
+                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
+                        filePath = filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isfilePath, CrystalReportFolder.KwalitySalesReport, dt, Nothing, "crptDairySaleGatePassEntriesNAG", "Gate Pass", "", "rptCompanyAddress.rpt")
 
                     Else
                         filePath = frmCRV.funreport(MyBase.Form_ID, isfilePath, CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntries", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
@@ -3993,6 +4031,15 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE in (select document_Code fro
             End If
         Catch ex As Exception
 
+        End Try
+    End Sub
+
+
+    Private Sub txtDate_Validating(sender As Object, e As ComponentModel.CancelEventArgs) Handles txtDate.Validating
+        Try
+            CheckTimeShift()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

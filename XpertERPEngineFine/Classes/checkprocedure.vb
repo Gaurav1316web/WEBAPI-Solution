@@ -1085,6 +1085,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmItemCapacityLimt, "Item Capacity Limit", "1.09.01.13", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
         InsertDefaultValue(clsUserMgtCode.FrmBoothRouteMapping, "Booth Route Mapping", "1.09.01.14", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
         InsertDefaultValue(clsUserMgtCode.FrmBoothCommissionMaster, "Booth Commission Master", "1.09.01.15", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
+        InsertDefaultValue(clsUserMgtCode.frmSubRouteMaster, "Sub Route Master", "1.09.01.16", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
 
         '' transaction
         InsertDefaultValue(clsUserMgtCode.SubModuleSaleDairyTransaction, "Transaction", "1.09.02", clsUserMgtCode.ModuleSaleDairy, "SM", 26)
@@ -3010,6 +3011,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.XpertAPIGateEntry, "Gate Entry", "1.50.02.14", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPIBMCMilkQC, "BMC Milk QC", "1.50.02.15", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPIDEMANDBOOKING, "Demand Booking", "1.50.02.16", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
+        InsertDefaultValue(clsUserMgtCode.XpertAPISaleDispatchDairy, "Dairy Dispatch", "1.50.02.17", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         Dim IsRCDFCFP As Boolean
         Try
             IsRCDFCFP = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RCDFCFP, clsFixedParameterCode.RCDFCFP, Nothing)) = 1, True, False)

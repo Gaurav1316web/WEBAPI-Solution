@@ -1,5 +1,6 @@
 ﻿Imports common
 Public Class clsUserMgtCode
+    Public Const frmSubRouteMaster As String = "SUB-RT-MSTR"
     Public Const frmAccountSalesReport As String = "ACC-SLS-RPT"
     Public Const frmPIPaymentStatusReport As String = "PIP-STS-RPT"
     Public Const frmEmployeeOTEntry As String = "EMP-OT"
@@ -2867,6 +2868,8 @@ Public Class clsUserMgtCode
     Public Const XpertAPIGateEntry As String = "API-GT-ENT"
     Public Const XpertAPIBMCMilkQC As String = "API-BM-MK-QC"
     Public Const XpertAPIDEMANDBOOKING As String = "API-DEM-BOO"
+    Public Const XpertAPISaleDispatchDairy As String = "API-DIS-DS"
+
     Public Const XpertAPIRCDFChemicalQC As String = "API-RCDF-QC"
     Public Const XpertAPIRCDFUnionMilkQC As String = "API-RUMK-QC"
     ''=================== MIS start here============

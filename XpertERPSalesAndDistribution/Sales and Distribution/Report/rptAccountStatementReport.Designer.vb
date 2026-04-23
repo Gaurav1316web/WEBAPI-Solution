@@ -31,6 +31,10 @@ Partial Class rptAccountStatementReport
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rdbBoth = New common.Controls.MyRadioButton()
+        Me.rdbCredit = New common.Controls.MyRadioButton()
+        Me.rdbCash = New common.Controls.MyRadioButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtToDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel4 = New common.Controls.MyLabel()
@@ -47,10 +51,9 @@ Partial Class rptAccountStatementReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rdbBoth = New common.Controls.MyRadioButton()
-        Me.rdbCredit = New common.Controls.MyRadioButton()
-        Me.rdbCash = New common.Controls.MyRadioButton()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rdbInvoice = New common.Controls.MyRadioButton()
+        Me.rdbDispatch = New common.Controls.MyRadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -60,6 +63,11 @@ Partial Class rptAccountStatementReport
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel1.SuspendLayout()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox3.SuspendLayout()
+        CType(Me.rdbBoth, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbCredit, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbCash, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -75,11 +83,10 @@ Partial Class rptAccountStatementReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox3.SuspendLayout()
-        CType(Me.rdbBoth, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rdbCredit, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rdbCash, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.rdbInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbDispatch, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -154,6 +161,7 @@ Partial Class rptAccountStatementReport
         '
         'RadPanel1
         '
+        Me.RadPanel1.Controls.Add(Me.RadGroupBox2)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox3)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox1)
         Me.RadPanel1.Dock = System.Windows.Forms.DockStyle.Fill
@@ -161,6 +169,53 @@ Partial Class rptAccountStatementReport
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(671, 278)
         Me.RadPanel1.TabIndex = 15
+        '
+        'RadGroupBox3
+        '
+        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.rdbBoth)
+        Me.RadGroupBox3.Controls.Add(Me.rdbCredit)
+        Me.RadGroupBox3.Controls.Add(Me.rdbCash)
+        Me.RadGroupBox3.HeaderText = ""
+        Me.RadGroupBox3.Location = New System.Drawing.Point(366, 13)
+        Me.RadGroupBox3.Name = "RadGroupBox3"
+        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(246, 42)
+        Me.RadGroupBox3.TabIndex = 390
+        '
+        'rdbBoth
+        '
+        Me.rdbBoth.Location = New System.Drawing.Point(170, 11)
+        Me.rdbBoth.MyLinkLable1 = Nothing
+        Me.rdbBoth.MyLinkLable2 = Nothing
+        Me.rdbBoth.Name = "rdbBoth"
+        Me.rdbBoth.Size = New System.Drawing.Size(44, 18)
+        Me.rdbBoth.TabIndex = 3
+        Me.rdbBoth.TabStop = False
+        Me.rdbBoth.Text = "Both"
+        '
+        'rdbCredit
+        '
+        Me.rdbCredit.Location = New System.Drawing.Point(92, 11)
+        Me.rdbCredit.MyLinkLable1 = Nothing
+        Me.rdbCredit.MyLinkLable2 = Nothing
+        Me.rdbCredit.Name = "rdbCredit"
+        Me.rdbCredit.Size = New System.Drawing.Size(50, 18)
+        Me.rdbCredit.TabIndex = 2
+        Me.rdbCredit.TabStop = False
+        Me.rdbCredit.Text = "Credit"
+        '
+        'rdbCash
+        '
+        Me.rdbCash.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rdbCash.Location = New System.Drawing.Point(16, 11)
+        Me.rdbCash.MyLinkLable1 = Nothing
+        Me.rdbCash.MyLinkLable2 = Nothing
+        Me.rdbCash.Name = "rdbCash"
+        Me.rdbCash.Size = New System.Drawing.Size(44, 18)
+        Me.rdbCash.TabIndex = 1
+        Me.rdbCash.Text = "Cash"
+        Me.rdbCash.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'RadGroupBox1
         '
@@ -372,52 +427,40 @@ Partial Class rptAccountStatementReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'RadGroupBox3
+        'RadGroupBox2
         '
-        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox3.Controls.Add(Me.rdbBoth)
-        Me.RadGroupBox3.Controls.Add(Me.rdbCredit)
-        Me.RadGroupBox3.Controls.Add(Me.rdbCash)
-        Me.RadGroupBox3.HeaderText = ""
-        Me.RadGroupBox3.Location = New System.Drawing.Point(366, 13)
-        Me.RadGroupBox3.Name = "RadGroupBox3"
-        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox3.Size = New System.Drawing.Size(246, 42)
-        Me.RadGroupBox3.TabIndex = 390
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rdbInvoice)
+        Me.RadGroupBox2.Controls.Add(Me.rdbDispatch)
+        Me.RadGroupBox2.HeaderText = ""
+        Me.RadGroupBox2.Location = New System.Drawing.Point(366, 61)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(246, 42)
+        Me.RadGroupBox2.TabIndex = 391
         '
-        'rdbBoth
+        'rdbInvoice
         '
-        Me.rdbBoth.Location = New System.Drawing.Point(170, 11)
-        Me.rdbBoth.MyLinkLable1 = Nothing
-        Me.rdbBoth.MyLinkLable2 = Nothing
-        Me.rdbBoth.Name = "rdbBoth"
-        Me.rdbBoth.Size = New System.Drawing.Size(44, 18)
-        Me.rdbBoth.TabIndex = 3
-        Me.rdbBoth.TabStop = False
-        Me.rdbBoth.Text = "Both"
+        Me.rdbInvoice.Location = New System.Drawing.Point(92, 11)
+        Me.rdbInvoice.MyLinkLable1 = Nothing
+        Me.rdbInvoice.MyLinkLable2 = Nothing
+        Me.rdbInvoice.Name = "rdbInvoice"
+        Me.rdbInvoice.Size = New System.Drawing.Size(56, 18)
+        Me.rdbInvoice.TabIndex = 2
+        Me.rdbInvoice.TabStop = False
+        Me.rdbInvoice.Text = "Invoice"
         '
-        'rdbCredit
+        'rdbDispatch
         '
-        Me.rdbCredit.Location = New System.Drawing.Point(92, 11)
-        Me.rdbCredit.MyLinkLable1 = Nothing
-        Me.rdbCredit.MyLinkLable2 = Nothing
-        Me.rdbCredit.Name = "rdbCredit"
-        Me.rdbCredit.Size = New System.Drawing.Size(50, 18)
-        Me.rdbCredit.TabIndex = 2
-        Me.rdbCredit.TabStop = False
-        Me.rdbCredit.Text = "Credit"
-        '
-        'rdbCash
-        '
-        Me.rdbCash.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rdbCash.Location = New System.Drawing.Point(16, 11)
-        Me.rdbCash.MyLinkLable1 = Nothing
-        Me.rdbCash.MyLinkLable2 = Nothing
-        Me.rdbCash.Name = "rdbCash"
-        Me.rdbCash.Size = New System.Drawing.Size(44, 18)
-        Me.rdbCash.TabIndex = 1
-        Me.rdbCash.Text = "Cash"
-        Me.rdbCash.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        Me.rdbDispatch.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rdbDispatch.Location = New System.Drawing.Point(16, 11)
+        Me.rdbDispatch.MyLinkLable1 = Nothing
+        Me.rdbDispatch.MyLinkLable2 = Nothing
+        Me.rdbDispatch.Name = "rdbDispatch"
+        Me.rdbDispatch.Size = New System.Drawing.Size(64, 18)
+        Me.rdbDispatch.TabIndex = 1
+        Me.rdbDispatch.Text = "Dispatch"
+        Me.rdbDispatch.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'rptAccountStatementReport
         '
@@ -441,6 +484,12 @@ Partial Class rptAccountStatementReport
         Me.RadPageViewPage1.ResumeLayout(False)
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox3.ResumeLayout(False)
+        Me.RadGroupBox3.PerformLayout()
+        CType(Me.rdbBoth, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbCredit, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbCash, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
@@ -457,12 +506,11 @@ Partial Class rptAccountStatementReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox3.ResumeLayout(False)
-        Me.RadGroupBox3.PerformLayout()
-        CType(Me.rdbBoth, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rdbCredit, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rdbCash, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
+        CType(Me.rdbInvoice, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbDispatch, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -496,5 +544,8 @@ Partial Class rptAccountStatementReport
     Friend WithEvents rdbBoth As common.Controls.MyRadioButton
     Friend WithEvents rdbCredit As common.Controls.MyRadioButton
     Friend WithEvents rdbCash As common.Controls.MyRadioButton
+    Friend WithEvents RadGroupBox2 As RadGroupBox
+    Friend WithEvents rdbInvoice As common.Controls.MyRadioButton
+    Friend WithEvents rdbDispatch As common.Controls.MyRadioButton
 End Class
 

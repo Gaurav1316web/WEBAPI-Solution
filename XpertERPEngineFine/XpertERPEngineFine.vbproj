@@ -332,6 +332,7 @@
     <Compile Include="Dairy Sales\clsRouteWiseSaleTarget.vb" />
     <Compile Include="Dairy Sales\clsStandardRateItem.vb" />
     <Compile Include="Dairy Sales\clsStandardScheme.vb" />
+    <Compile Include="Dairy Sales\clsSubRouteMaster.vb" />
     <Compile Include="Dairy Sales\clsTargetMaster.vb" />
     <Compile Include="Dairy Sales\ClsTemplateMaster.vb" />
     <Compile Include="Dairy Sales\clsTmplateCreation.vb" />

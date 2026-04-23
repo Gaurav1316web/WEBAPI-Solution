@@ -298,6 +298,7 @@ Public Class clsCustomerMaster
     Public Cust_Group_Code As String
     Public Cust_Type_Code As String
     Public Route_No As String
+    Public Sub_Route As String
     Public P_Route_No As String
     Public I_Route_No As String
     Public Is_Skip_Balance As Integer = 0
@@ -542,7 +543,7 @@ where CUSTOMER_FORM_TYPE='VSP' and Cust_Code = '" + strCustCode + "'"
                      " ,[Tin_No],[Lst_No],[Form_Type],[Channel_Code],[Status],[OnHold],[Remarks1],[Remarks2],[Additional1],[Additional2],[Additional3],[Salesman_Code],[Visi_Id] " &
                      " ,[Credit_Limit],[Channel_Desc],[Visi_Desc],[Salesman_Desc],[Route_Group],[CST],[ECC],[Range],[Collectorate],[PAN],[Division], [Parent_Customer_No],Customer_Class,credit_customer,Price_CodeNon,Price_CodeFOR,Inter_branch,transaction_type,Agg_Made_Date,Agg_Close_Date,CURRENCY_CODE,parent_customer_yn,Service_Dealer_Code,TDM_Code,Distributor_Code,IsDistributor,Is_Default_Grower,Price_Group_Code,CSA_Type,Category_Struct_Code,TempCreditLimit,TempCreditLimitFrom,TempCreditLimitTo,CheckCreditLimit,Alies_Name,Zone_Code,[PIN_NO],Crate_Opening ,Crate_Opening_Date,Franchise_Code,Other_For_PAN,Default_Cash_Customer,Reference,EMP_CODE,Is_Staff,OldName,VehicleNo,Driver_Name,Driver_Mobile_No,Manual_Customer,GSTNO,GSTEntity,GSTBlank,GSTDigit,Region_Type,GST_Registered,GST_COMPOSITION,[Priority_Level],FSSAI_NO,SubsidyAmount,RSM,ASM,ASO,ZSM,Booking_Type,Customer_Category,isnull(Bank_Name,'') as Bank_Name,isnull(IFSC_Code,'') as IFSC_Code,isnull(Branch_Name,'') as Branch_Name,isnull(Account_No,'') as Account_No,isnull(IsTCSnotApplicable,0) as IsTCSnotApplicable,isnull(IsTurnoverMorethan10CR,0) as IsTurnoverMorethan10CR,isnull(IsTCSGreaterthan50K,0) as IsTCSGreaterthan50K,isnull(IsITRfilledinLast2Years,0) as IsITRfilledinLast2Years " &
                      " ,isnull(F_H_Name,'') as F_H_Name,isnull(Education,'') as Education,isnull(ResidentialAdd1,'') as ResidentialAdd1,isnull(ResidentialAdd2,'') as ResidentialAdd2,DOB,MaritalStatus,CustStatus,Area_Code " &
-                     " ,[Customer_Name_Hindi],IsReorder,Cast_Category_Code,Distict_Code,Block_Code,Revenue_Village_Code,Grampanchayat_Code,Panchayat_Samiti_Code,Vidhan_Sabha_Code,[Virtual_Ac_no],[P_Route_No],[I_Route_No],[Is_Skip_Balance],[Split_Print],[CFP_Unit],SkipNonTaxableInvoice,SkipTaxableInvoice,Inter_Union_Sale as [Inter Union Sale],TSPL_Customer_Master_ParaInactive.perinactive as [Perinactive]
+                     " ,[Customer_Name_Hindi],IsReorder,Cast_Category_Code,Distict_Code,Block_Code,Revenue_Village_Code,Grampanchayat_Code,Panchayat_Samiti_Code,Vidhan_Sabha_Code,[Virtual_Ac_no],[P_Route_No],[I_Route_No],[Is_Skip_Balance],[Split_Print],[CFP_Unit],SkipNonTaxableInvoice,SkipTaxableInvoice,Inter_Union_Sale as [Inter Union Sale],TSPL_Customer_Master_ParaInactive.perinactive as [Perinactive],[Sub_Route_Code]
                      from TSPL_CUSTOMER_MASTER
                      left outer join TSPL_Customer_Master_ParaInactive on TSPL_Customer_Master_ParaInactive.customer_code=TSPL_CUSTOMER_MASTER.cust_code
 
@@ -690,6 +691,7 @@ where TSPL_DEMAND_BOOKING_MASTER.Route_No='" + PrevRoute + "' and TSPL_DEMAND_BO
                 clsCommon.AddColumnsForChange(coll, "Cust_Group_Code", obj.Cust_Group_Code)
                 clsCommon.AddColumnsForChange(coll, "Cust_Type_Code", obj.Cust_Type_Code, True)
                 clsCommon.AddColumnsForChange(coll, "Route_No", obj.Route_No, True)
+                clsCommon.AddColumnsForChange(coll, "Sub_Route_Code", obj.Sub_Route, True)
                 clsCommon.AddColumnsForChange(coll, "P_Route_No", obj.P_Route_No, True)
                 clsCommon.AddColumnsForChange(coll, "I_Route_No", obj.I_Route_No, True)
                 clsCommon.AddColumnsForChange(coll, "Is_Skip_Balance", obj.Is_Skip_Balance, True)
@@ -1077,7 +1079,7 @@ where TSPL_DEMAND_BOOKING_MASTER.Route_No='" + PrevRoute + "' and TSPL_DEMAND_BO
                      " ,[Tin_No],[Lst_No],[Form_Type],[Channel_Code],[Status],[OnHold],[Remarks1],[Remarks2],[Additional1],[Additional2],[Additional3],[Salesman_Code],[Visi_Id] " &
                      " ,[Credit_Limit],[Channel_Desc],[Visi_Desc],[Salesman_Desc],[Route_Group],[CST],[ECC],[Range],[Collectorate],[PAN],[Division], [Parent_Customer_No],Customer_Class,credit_customer,Price_CodeNon,Price_CodeFOR,Inter_branch,transaction_type,Agg_Made_Date,Agg_Close_Date,CURRENCY_CODE,parent_customer_yn,Service_Dealer_Code,TDM_Code,Distributor_Code,IsDistributor,Is_Default_Grower,Price_Group_Code,CSA_Type,Category_Struct_Code,TempCreditLimit,TempCreditLimitFrom,TempCreditLimitTo,CheckCreditLimit,Alies_Name,Zone_Code,[PIN_NO],Crate_Opening ,Crate_Opening_Date,Franchise_Code,Other_For_PAN,OldName,VehicleNo,Driver_Name,Driver_Mobile_No,Manual_Customer,GSTNO,GSTEntity,GSTBlank,GSTDigit,Region_Type,GST_Registered,GST_COMPOSITION,[Priority_Level],FSSAI_NO,SubsidyAmount,RSM,ASM,ASO,ZSM,Booking_Type,Customer_Category,isnull(Bank_Name,'') as Bank_Name,isnull(IFSC_Code,'') as IFSC_Code,isnull(Branch_Name,'') as Branch_Name,isnull(Account_No,'') as Account_No,isnull(IsTCSnotApplicable,0) as IsTCSnotApplicable,isnull(IsTurnoverMorethan10CR,0) as IsTurnoverMorethan10CR,isnull(IsTCSGreaterthan50K,0) as IsTCSGreaterthan50K,isnull(IsITRfilledinLast2Years,0) as IsITRfilledinLast2Years " &
                      " ,isnull(F_H_Name,'') as F_H_Name,isnull(Education,'') as Education,isnull(ResidentialAdd1,'') as ResidentialAdd1,isnull(ResidentialAdd2,'') as ResidentialAdd2,DOB,MaritalStatus,CustStatus,Area_Code " &
-                     " ,[Customer_Name_Hindi],IsReorder,Cast_Category_Code,Distict_Code,Block_Code,Revenue_Village_Code,Grampanchayat_Code,Panchayat_Samiti_Code,Vidhan_Sabha_Code,Default_Cash_Customer,Reference,EMP_CODE,Is_Staff,Split_Print,Inter_Union_Sale from TSPL_CUSTOMER_MASTER  where CUSTOMER_FORM_TYPE='ALL' and Cust_Code = '" + strCode + "'"
+                     " ,[Customer_Name_Hindi],IsReorder,Cast_Category_Code,Distict_Code,Block_Code,Revenue_Village_Code,Grampanchayat_Code,Panchayat_Samiti_Code,Vidhan_Sabha_Code,Default_Cash_Customer,Reference,EMP_CODE,Is_Staff,Split_Print,Inter_Union_Sale,Sub_Route_Code from TSPL_CUSTOMER_MASTER  where CUSTOMER_FORM_TYPE='ALL' and Cust_Code = '" + strCode + "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
             Throw New Exception("Customer Code -" + strCode + ". Not Exist")
@@ -1096,6 +1098,7 @@ where TSPL_DEMAND_BOOKING_MASTER.Route_No='" + PrevRoute + "' and TSPL_DEMAND_BO
         obj.Cust_Group_Code = clsCommon.myCstr(dt.Rows(0)("Cust_Group_Code"))
         obj.Cust_Type_Code = clsCommon.myCstr(dt.Rows(0)("Cust_Type_Code"))
         obj.Route_No = clsCommon.myCstr(dt.Rows(0)("Route_No"))
+        obj.Sub_Route = clsCommon.myCstr(dt.Rows(0)("Sub_Route_Code"))
         ''  obj.Route_Desc = clsCommon.myCstr(dt.Rows(0)("Route_Desc"))
         obj.Price_Code = clsCommon.myCstr(dt.Rows(0)("Price_Code"))
         obj.City_Code = clsCommon.myCstr(dt.Rows(0)("City_Code"))
