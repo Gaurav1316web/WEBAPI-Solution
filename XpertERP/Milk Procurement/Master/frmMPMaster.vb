@@ -1505,13 +1505,22 @@ Public Class FrmMPMaster
             fndVLCode.Value = clsCommon.ShowSelectForm("VLCFND1", qry, "Code", whrcls, fndVLCode.Value, "Code", isButtonClicked)
             If clsCommon.myLen(fndVLCode.Value) > 0 Then
                 txtVLCName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select vlc_name from TSPL_VLC_MASTER_HEAD where vlc_code='" + fndVLCode.Value + "'"))
-                qry = " select TSPL_VLC_MASTER_HEAD.vlc_name,TSPL_VLC_MASTER_HEAD.VSP_Code,tspl_vendor_master.Vendor_Name as VSP_Name, TSPL_VLC_MASTER_HEAD.MCC, TSPL_MCC_MASTER.MCC_NAME, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader from TSPL_VLC_MASTER_HEAD LEFT OUTER JOIN TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_CODE = TSPL_VLC_MASTER_HEAD.MCC LEFT OUTER JOIN tspl_vendor_master ON tspl_vendor_master.Vendor_Code = TSPL_VLC_MASTER_HEAD.VSP_Code  where vlc_code= '" + fndVLCode.Value + "' "
+                qry = " select TSPL_VLC_MASTER_HEAD.vlc_name,TSPL_VLC_MASTER_HEAD.VSP_Code,tspl_vendor_master.Vendor_Name as VSP_Name, TSPL_VLC_MASTER_HEAD.MCC, TSPL_MCC_MASTER.MCC_NAME, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,tspl_vendor_master.DISTRICT_Code,tspl_vendor_master.BLOCK_CODE,tspl_vendor_master.Zone_Code,tspl_vendor_master.REVENUE_VILLAGE_CODE,tspl_vendor_master.GRAMPANCHAYAT_CODE,
+ tspl_vendor_master.PANCHAYAT_SAMITI_CODE,tspl_vendor_master.VIDHAN_SABHA_CODE from TSPL_VLC_MASTER_HEAD LEFT OUTER JOIN TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_CODE = TSPL_VLC_MASTER_HEAD.MCC LEFT OUTER JOIN tspl_vendor_master ON tspl_vendor_master.Vendor_Code = TSPL_VLC_MASTER_HEAD.VSP_Code  where vlc_code= '" + fndVLCode.Value + "' "
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     txtMCC.Value = clsCommon.myCstr(dt.Rows(0)("MCC"))
                     lblMCCName.Text = clsCommon.myCstr(dt.Rows(0)("MCC_NAME"))
                     txtVlCUploader.Text = clsCommon.myCstr(dt.Rows(0)("VLC_Code_VLC_Uploader"))
                     txtVSPName.Text = clsCommon.myCstr(dt.Rows(0)("VSP_Name"))
+                    txtDistrict.Value = clsCommon.myCstr(dt.Rows(0)("DISTRICT_Code"))
+                    txtBlockCode.Value = clsCommon.myCstr(dt.Rows(0)("BLOCK_CODE"))
+                    txtZone.Value = clsCommon.myCstr(dt.Rows(0)("ZONE_CODE"))
+                    txtRevenueVillage.Value = clsCommon.myCstr(dt.Rows(0)("REVENUE_VILLAGE_CODE"))
+                    txtGrampanchayat.Value = clsCommon.myCstr(dt.Rows(0)("GRAMPANCHAYAT_CODE"))
+                    txtPanchayatSamiti.Value = clsCommon.myCstr(dt.Rows(0)("PANCHAYAT_SAMITI_CODE"))
+                    txtVidhanSabha.Value = clsCommon.myCstr(dt.Rows(0)("VIDHAN_SABHA_CODE"))
+                    FillAddressDetails()
                 End If
             Else
                 txtMCC.Value = ""
@@ -2535,7 +2544,7 @@ Public Class FrmMPMaster
             Dim qry As String = " select BLOCK_CODE as Code, BLOCK_NAME as Name from TSPL_BLOCK_MASTER  "
 
             txtBlockCode.Value = clsCommon.ShowSelectForm("DCS@Block@Finder", qry, "Code", "", txtBlockCode.Value, "", isButtonClicked)
-            lblBlockCode.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select BLOCK_NAME from TSPL_BLOCK_MASTER where BLOCK_CODE = '" + txtBlockCode.Value + "' "))
+            FillAddressDetails()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
         End Try
@@ -2546,7 +2555,7 @@ Public Class FrmMPMaster
             Dim qry As String = " select TSPL_ZONE_MASTER.Zone_Code as Code, TSPL_ZONE_MASTER.Description as Name ,TSPL_ZONE_MASTER.City_Code as [City Code],TSPL_CITY_MASTER.City_Name as [City Name]  from TSPL_ZONE_MASTER left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code = TSPL_ZONE_MASTER.City_Code "
 
             txtZone.Value = clsCommon.ShowSelectForm("DCS@Zone@Finder", qry, "Code", "", txtZone.Value, "", isButtonClicked)
-            lblZone.Text = clsDBFuncationality.getSingleValue(" select Description from TSPL_ZONE_MASTER where Zone_Code = '" + txtZone.Value + "' ")
+            FillAddressDetails()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
         End Try
@@ -2557,7 +2566,7 @@ Public Class FrmMPMaster
             Dim qry As String = " select REVENUE_VILLAGE_CODE as Code, REVENUE_VILLAGE_NAME as Name from TSPL_REVENUE_VILLAGE_MASTER  "
 
             txtRevenueVillage.Value = clsCommon.ShowSelectForm("DCS@RevenueVillage@Finder", qry, "Code", "", txtRevenueVillage.Value, "", isButtonClicked)
-            lblRevenueVillage.Text = clsRevenueVillageMaster.GetName(txtRevenueVillage.Value)
+            FillAddressDetails()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
         End Try
@@ -2568,7 +2577,7 @@ Public Class FrmMPMaster
             Dim qry As String = " select GRAMPANCHAYAT_CODE as Code, GRAMPANCHAYAT_NAME as Name from TSPL_GRAMPANCHAYAT_MASTER  "
 
             txtGrampanchayat.Value = clsCommon.ShowSelectForm("DCS@Grampanchayat@Finder", qry, "Code", "", txtGrampanchayat.Value, "", isButtonClicked)
-            lblGrampanchayat.Text = clsGrampanchayatMaster.GetName(txtGrampanchayat.Value)
+            FillAddressDetails()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
         End Try
@@ -2579,7 +2588,7 @@ Public Class FrmMPMaster
             Dim qry As String = " select PANCHAYAT_SAMITI_CODE as Code, PANCHAYAT_SAMITI_NAME as Name from TSPL_PANCHAYAT_SAMITI_MASTER  "
 
             txtPanchayatSamiti.Value = clsCommon.ShowSelectForm("DCS@PanchayatSamiti@Finder", qry, "Code", "", txtPanchayatSamiti.Value, "", isButtonClicked)
-            lblPanchayatSamiti.Text = clsPanchayatSamitiMaster.GetName(txtPanchayatSamiti.Value)
+            FillAddressDetails()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
         End Try
@@ -2590,7 +2599,7 @@ Public Class FrmMPMaster
             Dim qry As String = " select VIDHAN_SABHA_CODE as Code, VIDHAN_SABHA_NAME as Name from TSPL_VIDHAN_SABHA_MASTER  "
 
             txtVidhanSabha.Value = clsCommon.ShowSelectForm("DCS@VidhanSabha@Finder", qry, "Code", "", txtVidhanSabha.Value, "", isButtonClicked)
-            lblVidhanSabha.Text = clsVidhanSabhaMaster.GetName(txtVidhanSabha.Value)
+            FillAddressDetails()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
         End Try
@@ -2604,11 +2613,40 @@ Public Class FrmMPMaster
             " left outer join TSPL_State_MASTER_detail on TSPL_State_MASTER.state_code=TSPL_State_MASTER_detail.state_code "
 
             txtDistrict.Value = clsCommon.ShowSelectForm("MP@District@Finder", qry, "Code", "", txtDistrict.Value, "", isButtonClicked)
-            lblDistrict.Text = clsDistrictMaster.GetName(txtDistrict.Value)
+            FillAddressDetails()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
         End Try
     End Sub
+
+    Sub FillAddressDetails()
+        Try
+            If clsCommon.myLen(txtDistrict.Value) > 0 Then
+                lblDistrict.Text = clsDistrictMaster.GetName(txtDistrict.Value)
+            End If
+            If clsCommon.myLen(txtBlockCode.Value) > 0 Then
+                lblBlockCode.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select BLOCK_NAME from TSPL_BLOCK_MASTER where BLOCK_CODE = '" + txtBlockCode.Value + "' "))
+            End If
+            If clsCommon.myLen(txtZone.Value) > 0 Then
+                lblZone.Text = clsDBFuncationality.getSingleValue(" select Description from TSPL_ZONE_MASTER where Zone_Code = '" + txtZone.Value + "' ")
+            End If
+            If clsCommon.myLen(txtRevenueVillage.Value) > 0 Then
+                lblRevenueVillage.Text = clsRevenueVillageMaster.GetName(txtRevenueVillage.Value)
+            End If
+            If clsCommon.myLen(txtGrampanchayat.Value) > 0 Then
+                lblGrampanchayat.Text = clsGrampanchayatMaster.GetName(txtGrampanchayat.Value)
+            End If
+            If clsCommon.myLen(txtPanchayatSamiti.Value) > 0 Then
+                lblPanchayatSamiti.Text = clsPanchayatSamitiMaster.GetName(txtPanchayatSamiti.Value)
+            End If
+            If clsCommon.myLen(txtVidhanSabha.Value) > 0 Then
+                lblVidhanSabha.Text = clsVidhanSabhaMaster.GetName(txtVidhanSabha.Value)
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
 
     Private Sub txtDistrict__MYOpenMasterForm(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDistrict._MYOpenMasterForm
         Try
