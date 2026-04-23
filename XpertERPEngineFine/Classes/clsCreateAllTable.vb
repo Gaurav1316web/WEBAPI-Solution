@@ -34940,8 +34940,15 @@ inner JOIN tspl_sd_sale_Invoice_detail ON TSPL_Customer_Invoice_Head.Against_Sal
                 coll.Add("TotalSubsidyDisAmt", "Decimal(18,2) NULL")
                 coll.Add("Shift_Type", "Varchar(12) NULL")
                 coll.Add("isMultipleReturn", "integer NULL")
-
-                clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_RETURN_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
+            coll.Add("Is_CashSale", "char(1) default 'N'")
+            coll.Add("Receipt_No", "varchar(30) NULL REFERENCES TSPL_Receipt_Header(Receipt_No)")
+            coll.Add("ReceiptAmt", "decimal(18,2) NULL")
+            coll.Add("Is_Rate_Diff_Per_Amt", "integer null")
+            coll.Add("Rate_Diff_Amount_Type", "integer null")
+            coll.Add("Is_Add_TPT", "integer null")
+            coll.Add("Is_Apply_TPT", "integer null")
+            coll.Add("TPT_Vendor", "varchar(12) NULL references TSPL_VENDOR_MASTER(Vendor_Code)")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_RETURN_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
 
                 Try
                     clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column TAX1_Rate decimal(18,6)")
