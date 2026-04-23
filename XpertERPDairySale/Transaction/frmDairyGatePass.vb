@@ -2490,7 +2490,7 @@ xyz.Sale_Invoice_No, "
 
                 If dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                         filePath = frmCRV.funreport(MyBase.Form_ID, isfilePath, CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntriesGNG", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal Then
                         filePath = frmCRV.funreport(MyBase.Form_ID, isfilePath, CrystalReportFolder.KwalitySalesReport, dt, "crptDairyGatePassJSL", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
