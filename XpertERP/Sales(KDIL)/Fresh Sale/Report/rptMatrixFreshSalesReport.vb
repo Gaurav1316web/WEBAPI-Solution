@@ -972,8 +972,8 @@ Public Class RptMatrixFreshSalesReport
                         If dtProduct.Rows.Count = 0 Then
                             dtProduct = clsDBFuncationality.GetDataTable(" select TOP " & leftColumns & " Item_Code,Sku_Seq,Alies_Name,Alies_Name2,case when TypeOfItm = 'M' then 1 when TypeOfItm = 'P' then 2 end as TypeOfItm,Unit_Code from TSPL_ITEM_MASTER where TypeOfItm = 'P'  order by Sku_Seq ")
                         Else
-                            addMilkColumn = leftColumns / 2
-                            addProductColumn = leftColumns - addMilkColumn
+                            addProductColumn = leftColumns / 2
+                            addMilkColumn = leftColumns - addProductColumn
                             If dtMilk.Rows.Count > 0 OrElse addMilkColumn > 0 Then
                                 dtMilk = clsDBFuncationality.GetDataTable(" SELECT * FROM (  SELECT * FROM ( " & ItemsQry & " )XX where TypeOfItm = 1 " & Environment.NewLine & " union all " & Environment.NewLine & " select TOP  " & addMilkColumn & " Item_Code,Sku_Seq,Alies_Name,Alies_Name2,case when TypeOfItm = 'M' then 1 when TypeOfItm = 'P' then 2 end as TypeOfItm,Unit_Code from TSPL_ITEM_MASTER where Sku_Seq > " & dtMilk.Rows(dtMilk.Rows.Count - 1)("Sku_Seq") & " and TypeOfItm = 'M' )XXX order by Sku_Seq ")
                             End If
@@ -994,7 +994,7 @@ Public Class RptMatrixFreshSalesReport
                     Dim productIndex As Integer = 0
                     Dim grp As Integer = 1
 
-                    While TotalIndex <= dtMilk.Rows.Count + dtProduct.Rows.Count + 1
+                    While TotalIndex < dtMilk.Rows.Count + dtProduct.Rows.Count + 1
                         If grp > 1 Then
                             FinalQuery += " UNION ALL "
                         End If
@@ -1024,7 +1024,7 @@ Public Class RptMatrixFreshSalesReport
                             TotalIndex += 1
                         End If
 
-                        For jj As Integer = dtMilk.Rows.Count + 2 To dtMilk.Rows.Count + dtProduct.Rows.Count
+                        For jj As Integer = dtMilk.Rows.Count + 2 To (dtMilk.Rows.Count + 1) + dtProduct.Rows.Count
                             Dim strICODE As String = ""
                             Dim strIAlies_Name As String = ""
                             Dim strAliesName2 As String = ""
