@@ -4,6 +4,9 @@ Imports System.Windows.Forms
 Imports Telerik.WinControls
 Public Class clsPSShipmentHead
 #Region "Variables"
+    Public MobileNO As String = Nothing
+    Public AdharNo As String = Nothing
+
     Public ActualTCSBaseAmount As Double = 0
     Public ChangedTCSBaseAmount As Double = 0
     Public IsSampling As Integer = 0
@@ -722,6 +725,9 @@ Public Class clsPSShipmentHead
             clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
             clsCommon.AddColumnsForChange(coll, "Inv_No", obj.Inv_No)
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
+            clsCommon.AddColumnsForChange(coll, "MobileNO", obj.MobileNO)
+            clsCommon.AddColumnsForChange(coll, "AdharNo", obj.AdharNo)
+
             clsCommon.AddColumnsForChange(coll, "Bill_To_Location", obj.Bill_To_Location)
             clsCommon.AddColumnsForChange(coll, "Ship_To_Location", obj.Ship_To_Location, True)
             clsCommon.AddColumnsForChange(coll, "Ship_To_Party", obj.Ship_To_Party, True)

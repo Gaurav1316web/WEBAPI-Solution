@@ -8988,6 +8988,8 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("ReceiverName", "varchar(50) NULL")
             coll.Add("Transport_Id", "varchar(50) null")
             coll.Add("Description", "VARCHAR(200) NULL")
+            coll.Add("MobileNO", "VARCHAR(15) NULL")
+            coll.Add("AdharNo", "VARCHAR(20) NULL")
             coll.Add("Is_Manual_Vehicle", "char(1) default 'N'")
             coll.Add("Manual_VehicleNo", "varchar(12) null")
             coll.Add("NoCrateIssue", "integer null")
@@ -32115,8 +32117,11 @@ FROM TSPL_ITEM_MASTER"
                 coll.Add("Is_Add_TPT", "integer null")
                 coll.Add("Rate_Diff_Amount_Type", "integer null")
                 coll.Add("No_Transporter", "integer null")
-                coll.Add("Is_Rate_Diff_Per_Amt", "integer null")
-                clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
+            coll.Add("Is_Rate_Diff_Per_Amt", "integer null")
+            coll.Add("MobileNO", "VARCHAR(15) NULL")
+            coll.Add("AdharNo", "VARCHAR(20) NULL")
+
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
                 Try
                     qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo=Document_Code where ParentDocNo is null "
                     clsDBFuncationality.ExecuteNonQuery(qry)
