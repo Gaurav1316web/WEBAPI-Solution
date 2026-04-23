@@ -2907,6 +2907,9 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         lblAmtAfterDiscount.Text = ""
         lblDiscountAmt.Text = ""
         lblTaxAmt.Text = ""
+        txtAdharNo.Text = ""
+        txtMobileNo.Text = ""
+
         lblTotRAmt.Text = ""
         txtTCSTaxRate.Text = ""
         lblActualTCSTaxBaseAmt.Text = ""
@@ -3130,6 +3133,12 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             RadPageView1.Pages("RadPageViewPage3").Item.Visibility = ElementVisibility.Collapsed
         End If
     End Sub
+    Function IsValidPhoneNumber(phone As String) As Boolean
+        ' Regex pattern for US phone numbers (you can adjust it as per the requirement)
+        Dim pattern As String = "^\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})$"
+        Dim regex As New Regex(pattern)
+        Return regex.IsMatch(phone)
+    End Function
     Function AllowToSave(ByVal trans As SqlTransaction) As Boolean
         Try
             Xtra.TransactionValidity(txtDate.Value)
@@ -3141,6 +3150,11 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 Return False
                 'End If
             End If
+            If clsCommon.myLen(txtMobileNo.Text) > 0 AndAlso Not IsValidPhoneNumber(txtMobileNo.Text) Then
+                txtMobileNo.Focus()
+                Throw New Exception("Please enter a valid 10-digit Mobile number.")
+            End If
+
             If ServerDateTimeForTaxableInvoice Then
                 Dim serverDateTime As DateTime = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy")
                 If rbtnTaxable.IsChecked AndAlso clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") <> serverDateTime Then
@@ -3631,6 +3645,9 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 obj.Document_Date = txtDate.Value
                 obj.Supply_Date = txtSupplyDate.Value
                 obj.location_code = txtLocation.Value
+                obj.AdharNo = txtAdharNo.Text
+                obj.MobileNO = txtMobileNo.Text
+
                 obj.Is_CashSale = IIf(chkcashsale.Checked, "Y", "N")
                 obj.IsEwaybill = IIf(chkIsEwayBill.Checked, 1, 0)
                 obj.No_Transporter = IIf(chkNoTranspoter.Checked, 1, 0)
@@ -4484,6 +4501,9 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                 lblCreatedDateAndTime.Text = obj.Created_Date
                 ''        cmbBookingType.Text = IIf(obj.Booking_Type = "", "Select", obj.Booking_Type)
                 txtLocation.Value = obj.location_code
+                txtAdharNo.Text = obj.AdharNo
+                txtMobileNo.Text = obj.MobileNO
+
                 lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" & txtLocation.Value & "'"))
                 txtCan.Text = obj.TotalCAN
                 If obj.NoCrateIssue = 1 Then
@@ -5345,7 +5365,7 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
     End Sub
     ' Ticket : TEC/05/09/19-001000 By Prabhakar
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocNo._MYValidating
-        Dim qry As String = "select distinct TSPL_BOOKING_MATSER.Document_No as DocumentNo,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No as [Invoice No],case when TSPL_SD_SALE_INVOICE_HEAD.Status=1 then 'posted' else 'Unposted' end as [Invoice Status] , CONVERT(VARCHAR(12), TSPL_BOOKING_MATSER.Document_date, 103) AS Document_date,TSPL_CUSTOMER_MASTER.Cust_Code as Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_BOOKING_MATSER.GatePass_Type as ShiftType,TSPL_BOOKING_MATSER.location_code as Location  ,case when isnull(TSPL_BOOKING_MATSER.Is_Cancelled,0)=1 then 'Cancel' when TSPL_BOOKING_MATSER.Posted=1 then 'posted' else 'Unposted' end as Posted ,case when isnull(TBL_DELIVERY_NO.Delivery_No,'')='' then NULL else TBL_DELIVERY_NO.Delivery_No end as [Delivery No],TSPL_CUSTOMER_MASTER.Cust_Category_Code as [Customer Category Code],TSPL_CUSTOMER_MASTER.CUSTOMER_CATEGORY as [Booking Type],TSPL_BOOKING_MATSER.against_demandBooking_no as [Against Demand Booking No],TSPL_BOOKING_MATSER.BPL_Coupon_Code as [Coupon Code],TSPL_BOOKING_MATSER.BPL_Coupon_Date as [Coupon Date],Case When TSPL_BOOKING_MATSER.Is_Taxable=2 Then 'Taxable'Else 'Non-Taxable' End As [Taxable/Non-Taxable],TSPL_BOOKING_MATSER.Total_Amt As [Amount] from TSPL_BOOKING_MATSER" &
+        Dim qry As String = "select distinct TSPL_BOOKING_MATSER.Document_No as DocumentNo,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No as [Invoice No],TSPL_BOOKING_MATSER.AdharNo,TSPL_BOOKING_MATSER.MobileNo,case when TSPL_SD_SALE_INVOICE_HEAD.Status=1 then 'posted' else 'Unposted' end as [Invoice Status] , CONVERT(VARCHAR(12), TSPL_BOOKING_MATSER.Document_date, 103) AS Document_date,TSPL_CUSTOMER_MASTER.Cust_Code as Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_BOOKING_MATSER.GatePass_Type as ShiftType,TSPL_BOOKING_MATSER.location_code as Location  ,case when isnull(TSPL_BOOKING_MATSER.Is_Cancelled,0)=1 then 'Cancel' when TSPL_BOOKING_MATSER.Posted=1 then 'posted' else 'Unposted' end as Posted ,case when isnull(TBL_DELIVERY_NO.Delivery_No,'')='' then NULL else TBL_DELIVERY_NO.Delivery_No end as [Delivery No],TSPL_CUSTOMER_MASTER.Cust_Category_Code as [Customer Category Code],TSPL_CUSTOMER_MASTER.CUSTOMER_CATEGORY as [Booking Type],TSPL_BOOKING_MATSER.against_demandBooking_no as [Against Demand Booking No],TSPL_BOOKING_MATSER.BPL_Coupon_Code as [Coupon Code],TSPL_BOOKING_MATSER.BPL_Coupon_Date as [Coupon Date],Case When TSPL_BOOKING_MATSER.Is_Taxable=2 Then 'Taxable'Else 'Non-Taxable' End As [Taxable/Non-Taxable],TSPL_BOOKING_MATSER.Total_Amt As [Amount] from TSPL_BOOKING_MATSER" &
          " left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.Document_No=TSPL_BOOKING_MATSER.Document_No " &
          " left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_BOOKING_DETAIL.Cust_Code " &
          " left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Against_Booking_No=TSPL_BOOKING_MATSER.Document_No left join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No " &
@@ -8492,6 +8512,9 @@ where TSPL_ITEM_CAPACITY_LIMIT_head.From_Date<='" & clsCommon.GetPrintDate(txtDa
                             obj.VehicleNo = clsDBFuncationality.getSingleValue("select Number from TSPL_VEHICLE_MASTER where Vehicle_id='" & txtVehicleCode.Value & "'", trans)
                         End If
                         obj.Description = txtDescription.Text
+                        obj.AdharNo = txtAdharNo.Text
+                        obj.MobileNO = txtMobileNo.Text
+
                         obj.Transport_Id = fndTransporter.Value
                         obj.Transporter_Name = lblTransporter.Text
                         obj.IsSampling = IIf(chkSampling.Checked, 1, 0)
@@ -10187,6 +10210,21 @@ where  TSPL_BOOKING_DETAIL.Cust_Code='" & strVendorno & "' and convert(date,TSPL
 
         End If
     End Sub
+
+    'Private Sub txtMobileNo_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtMobileNo.KeyPress
+    '    If Not Char.IsDigit(e.KeyChar) AndAlso e.KeyChar <> ChrW(8) Then
+    '        e.Handled = True
+    '    End If
+    'End Sub
+
+    'Private Sub txtMobileNo_TextChanged(sender As Object, e As EventArgs) Handles txtMobileNo.TextChanged
+    '    If txtMobile.Text.Length > 10 Then
+    '        txtMobile.Text = txtMobile.Text.Substring(0, 10)
+    '        txtMobile.SelectionStart = txtMobile.Text.Length
+    '    End If
+    'End Sub
+
+
 
 
     'Private Function UpdateVehicleNo(ByVal trans As SqlTransaction) As Boolean
