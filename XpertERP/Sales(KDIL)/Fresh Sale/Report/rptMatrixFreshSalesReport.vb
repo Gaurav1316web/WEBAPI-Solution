@@ -946,8 +946,8 @@ Public Class RptMatrixFreshSalesReport
             Else
                 '' Print
                 Dim dtSubReport As DataTable = clsDBFuncationality.GetDataTable("select ROW_NUMBER() over (order by max(Sku_Seq)) as SNO, Structure_Code,max(Alies_Name)Alies_Name,sum(fQty)Qty,sum(Crate_Qty)Crate_Qty,sum(Ltr_Qty)Ltr_Qty,max(Unit_code)Unit_code from ( " & MainQuery & " ) xx group by Structure_Code order by max(Sku_Seq)")
-                Dim ItemsQry As String = "select Item_Code,max(Sku_Seq) as Sku_Seq,max(Alies_Name) as Alies_Name,max(Alies_Name2)as Alies_Name2, MAX(case when TypeOfItm = 'M' then 1 when TypeOfItm = 'P' then 2 else 0 end ) as TypeOfItm,max(Unit_code)Unit_code from (" + MainQuery + ") x group by Item_Code  "
-                Dim dtItems As DataTable = clsDBFuncationality.GetDataTable(ItemsQry & " order by Sku_Seq,TypeOfItm ")
+                Dim ItemsQry As String = "select Item_Code,max(Sku_Seq) as Sku_Seq,max(Alies_Name) as Alies_Name,max(Alies_Name2)as Alies_Name2, MAX(case when TypeOfItm = 'M' then 1 when TypeOfItm = 'P' then 2 else 0 end ) as TypeOfItm,max(Unit_code)Unit_code from (" + MainQuery + ") x where TypeOfItm in ('M','P') group by Item_Code  "
+                Dim dtItems As DataTable = clsDBFuncationality.GetDataTable(ItemsQry & " order by TypeOfItm,Sku_Seq ")
                 If dtItems Is Nothing OrElse dtItems.Rows.Count <= 0 Then
                     clsCommon.MyMessageBoxShow("No Data Found to Print")
                     Exit Sub
@@ -963,33 +963,44 @@ Public Class RptMatrixFreshSalesReport
                             dtProduct.ImportRow(dr)
                         End If
                     Next
-                    If dtMilk.Rows.Count = 0 Then
-                        dtMilk = clsDBFuncationality.GetDataTable(" SELECT * FROM (  SELECT * FROM ( " & ItemsQry & " )XX where TypeOfItm = 1 " & Environment.NewLine & " union all " & Environment.NewLine & " select TOP (12 - " & dtMilk.Rows.Count & ") Item_Code,Sku_Seq,Alies_Name,Alies_Name2,case when TypeOfItm = 'M' then 1 when TypeOfItm = 'P' then 2 end as TypeOfItm,Unit_Code from TSPL_ITEM_MASTER where Sku_Seq > " & dtMilk.Rows(dtMilk.Rows.Count - 1)("Sku_Seq") & " and TypeOfItm = 'M' )XXX order by Sku_Seq ")
-                    ElseIf dtMilk.Rows.Count < 12 Then
-                        dtMilk = clsDBFuncationality.GetDataTable(" select TOP 12 Item_Code,Sku_Seq,Alies_Name,Alies_Name2,case when TypeOfItm = 'M' then 1 when TypeOfItm = 'P' then 2 end as TypeOfItm,Unit_Code from TSPL_ITEM_MASTER where TypeOfItm = 'M'  order by Sku_Seq ")
+
+                    Dim leftColumns As Integer = 0
+                    Dim addMilkColumn As Integer = 0
+                    Dim addProductColumn As Integer = 0
+                    If dtItems.Rows.Count < 21 Then
+                        leftColumns = 21 - (dtItems.Rows.Count + 1)
+                        If dtProduct.Rows.Count = 0 Then
+                            dtProduct = clsDBFuncationality.GetDataTable(" select TOP " & leftColumns & " Item_Code,Sku_Seq,Alies_Name,Alies_Name2,case when TypeOfItm = 'M' then 1 when TypeOfItm = 'P' then 2 end as TypeOfItm,Unit_Code from TSPL_ITEM_MASTER where TypeOfItm = 'P'  order by Sku_Seq ")
+                        Else
+                            addMilkColumn = leftColumns / 2
+                            addProductColumn = leftColumns - addMilkColumn
+                            If dtMilk.Rows.Count > 0 OrElse addMilkColumn > 0 Then
+                                dtMilk = clsDBFuncationality.GetDataTable(" SELECT * FROM (  SELECT * FROM ( " & ItemsQry & " )XX where TypeOfItm = 1 " & Environment.NewLine & " union all " & Environment.NewLine & " select TOP  " & addMilkColumn & " Item_Code,Sku_Seq,Alies_Name,Alies_Name2,case when TypeOfItm = 'M' then 1 when TypeOfItm = 'P' then 2 end as TypeOfItm,Unit_Code from TSPL_ITEM_MASTER where Sku_Seq > " & dtMilk.Rows(dtMilk.Rows.Count - 1)("Sku_Seq") & " and TypeOfItm = 'M' )XXX order by Sku_Seq ")
+                            End If
+
+                            If addProductColumn > 0 OrElse dtProduct.Rows.Count > 0 Then
+                                dtProduct = clsDBFuncationality.GetDataTable(" SELECT * FROM (  SELECT * FROM ( " & ItemsQry & " )XX where TypeOfItm = 2 " & Environment.NewLine & " union all " & Environment.NewLine & " select TOP  " & addProductColumn & "   Item_Code,Sku_Seq,Alies_Name,Alies_Name2,case when TypeOfItm = 'M' then 1 when TypeOfItm = 'P' then 2 end as TypeOfItm,Unit_Code from TSPL_ITEM_MASTER where Sku_Seq > " & dtProduct.Rows(dtProduct.Rows.Count - 1)("Sku_Seq") & " and TypeOfItm = 'P' )XXX order by Sku_Seq ")
+                            End If
+                        End If
                     End If
-                    If dtProduct.Rows.Count = 0 Then
-                        dtProduct = clsDBFuncationality.GetDataTable(" SELECT * FROM (  SELECT * FROM ( " & ItemsQry & " )XX where TypeOfItm = 2 " & Environment.NewLine & " union all " & Environment.NewLine & " select TOP (8 - " & dtProduct.Rows.Count & ")   Item_Code,Sku_Seq,Alies_Name,Alies_Name2,case when TypeOfItm = 'M' then 1 when TypeOfItm = 'P' then 2 end as TypeOfItm,Unit_Code from TSPL_ITEM_MASTER where Sku_Seq > " & dtProduct.Rows(dtProduct.Rows.Count - 1)("Sku_Seq") & " and TypeOfItm = 'P' )XXX order by Sku_Seq ")
-                    ElseIf dtProduct.Rows.Count < 8 Then
-                        dtProduct = clsDBFuncationality.GetDataTable(" select TOP 8 Item_Code,Sku_Seq,Alies_Name,Alies_Name2,case when TypeOfItm = 'M' then 1 when TypeOfItm = 'P' then 2 end as TypeOfItm,Unit_Code from TSPL_ITEM_MASTER where TypeOfItm = 'P'  order by Sku_Seq ")
-                    End If
+
                     Dim frmCRV As New frmCrystalReportViewer()
-                    Dim FinalQuery As String = " With CTERawData as ( " + MainQuery + "  )" + Environment.NewLine + Environment.NewLine
+                    Dim FinalQuery As String = " With CTERawData as ( " + MainQuery + "  where  TypeOfItm in ('M','P')  )" + Environment.NewLine + Environment.NewLine
 
                     '----Divya
 
                     Dim milkIndex As Integer = 0
+                    Dim TotalIndex As Integer = 0
                     Dim productIndex As Integer = 0
                     Dim grp As Integer = 1
 
-                    While milkIndex < dtMilk.Rows.Count Or productIndex < dtProduct.Rows.Count
+                    While TotalIndex <= dtMilk.Rows.Count + dtProduct.Rows.Count + 1
                         If grp > 1 Then
                             FinalQuery += " UNION ALL "
                         End If
                         FinalQuery += " select " + clsCommon.myCstr(grp) + " as Grp , ROW_NUMBER() over (order by (Route_No)) As SNo,'" + clsCommon.GetPrintDate(clsCommon.myCDate(fromDate.Value), "dd/MM/yyyy") + "' AS Date,max(Comp_Name) as Comp_Name,MAX(Add1)Add1,MAX(Add2)Add2,MAX(Add3)Add3,MAX(STATE_NAME)STATE_NAME, Route_No,max(Route_Desc) as Route_Desc,max(TypeOfItm)TypeOfItm,"
 
-                        For jj As Integer = 1 To 12
-
+                        For jj As Integer = 1 To dtMilk.Rows.Count
                             Dim strICODE As String = ""
                             Dim strIAlies_Name As String = ""
                             Dim strAliesName2 As String = ""
@@ -997,39 +1008,38 @@ Public Class RptMatrixFreshSalesReport
                             If milkIndex < dtMilk.Rows.Count Then
                                 strICODE = dtMilk.Rows(milkIndex)("Item_Code").ToString()
                                 strIAlies_Name = dtMilk.Rows(milkIndex)("Alies_Name").ToString()
-                                strAliesName2 = dtMilk.Rows(milkIndex)("Alies_Name2").ToString()
                                 milkIndex += 1
+                                TotalIndex += 1
                             End If
                             FinalQuery += " '" & strICODE & "' as Item_" & jj & ",
         '" & strIAlies_Name & "' as Item_Alies_Name_" & jj & ",
-        '" & strAliesName2 & "' as Item_Alies_Name2_" & jj & ",
         (SUM(CASE WHEN Item_Code='" & strICODE & "' THEN fQty ELSE NULL END)) as ItemQtyCrate_" & jj & ","
+
                         Next
-                        For jj As Integer = 13 To 20
+                        If grp = 1 Then
+                            FinalQuery += " 'Total Milk' as Item_Alies_Name_" & dtMilk.Rows.Count + 1 & ", SUM(CASE WHEN TypeOfItm = 'M' THEN Qty ELSE 0 END) AS ItemQtyCrate_" & dtMilk.Rows.Count + 1 & ","
+                            TotalIndex += 1
+                        Else
+                            FinalQuery += " 'Total Milk' as Item_Alies_Name_" & dtMilk.Rows.Count + 1 & ", NULL AS ItemQtyCrate_" & dtMilk.Rows.Count + 1 & ","
+                            TotalIndex += 1
+                        End If
+
+                        For jj As Integer = dtMilk.Rows.Count + 2 To dtMilk.Rows.Count + dtProduct.Rows.Count
                             Dim strICODE As String = ""
                             Dim strIAlies_Name As String = ""
                             Dim strAliesName2 As String = ""
                             If productIndex < dtProduct.Rows.Count Then
                                 strICODE = dtProduct.Rows(productIndex)("Item_Code").ToString()
                                 strIAlies_Name = dtProduct.Rows(productIndex)("Alies_Name").ToString()
-                                strAliesName2 = dtProduct.Rows(productIndex)("Alies_Name2").ToString()
                                 productIndex += 1
+                                TotalIndex += 1
                             End If
-
                             FinalQuery += " '" & strICODE & "' as Item_" & jj & ",
         '" & strIAlies_Name & "' as Item_Alies_Name_" & jj & ",
-        '" & strAliesName2 & "' as Item_Alies_Name2_" & jj & ",
         (SUM(CASE WHEN Item_Code='" & strICODE & "' THEN fQty ELSE NULL END)) as ItemQtyCrate_" & jj & ","
-
                         Next
 
-                        If grp = 1 Then
-                            FinalQuery += " SUM(CASE WHEN TypeOfItm = 'M' THEN Qty ELSE 0 END) AS TotalQty "
-                        Else
-                            FinalQuery += " NULL AS TotalQty "
-                        End If
-
-                        FinalQuery += " from (
+                        FinalQuery += " 0 as Crate from (
                     select xx.*,Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor as QtyStock,TabDefaultUOM.Conversion_Factor ConvFacNo,TabCrateUOM.Conversion_Factor as ConvFacCrate	from CTERawData xx
                     left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=xx.Item_Code and  TSPL_ITEM_UOM_DETAIL.UOM_Code=xx.Unit_code
                     left outer join TSPL_ITEM_UOM_DETAIL as TabDefaultUOM on TabDefaultUOM .Item_Code=xx.Item_Code and  TabDefaultUOM .Default_UOM=1
