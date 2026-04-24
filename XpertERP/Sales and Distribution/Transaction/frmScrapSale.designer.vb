@@ -22,16 +22,17 @@ Partial Class frmScrapSale
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition16 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmScrapSale))
-        Dim TableViewDefinition17 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim GridViewTextBoxColumn11 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn12 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewDecimalColumn6 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
-        Dim TableViewDefinition18 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim GridViewTextBoxColumn3 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn4 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewDecimalColumn2 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkNoTranspoter = New Telerik.WinControls.UI.RadCheckBox()
         Me.lblNetbalance = New common.Controls.MyLabel()
         Me.txtClosingBal = New common.Controls.MyLabel()
         Me.lblCrAmt = New common.Controls.MyLabel()
@@ -139,6 +140,7 @@ Partial Class frmScrapSale
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.btnUpdateVehicle = New Telerik.WinControls.UI.RadButton()
         Me.txtTCSTaxRate = New common.MyNumBox()
         Me.MyLabel39 = New common.Controls.MyLabel()
         Me.lblActualTCSTaxBaseAmt = New common.Controls.MyLabel()
@@ -206,14 +208,14 @@ Partial Class frmScrapSale
         Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.chkNoTranspoter = New Telerik.WinControls.UI.RadCheckBox()
-        Me.btnUpdateVehicle = New Telerik.WinControls.UI.RadButton()
+        Me.btnAdminCancel = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkNoTranspoter, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblNetbalance, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtClosingBal, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCrAmt, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -312,6 +314,7 @@ Partial Class frmScrapSale
         Me.pvpCustomFields.SuspendLayout()
         Me.Attachments.SuspendLayout()
         Me.RadPageViewPage4.SuspendLayout()
+        CType(Me.btnUpdateVehicle, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTCSTaxRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel39, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblActualTCSTaxBaseAmt, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -376,8 +379,7 @@ Partial Class frmScrapSale
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
-        CType(Me.chkNoTranspoter, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnUpdateVehicle, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnAdminCancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -426,7 +428,7 @@ Partial Class frmScrapSale
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
         Me.RadPageView1.Size = New System.Drawing.Size(1361, 471)
         Me.RadPageView1.TabIndex = 0
         Me.RadPageView1.TabStop = False
@@ -523,6 +525,15 @@ Partial Class frmScrapSale
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1340, 425)
         Me.RadPageViewPage1.Text = "Shipment"
+        '
+        'chkNoTranspoter
+        '
+        Me.chkNoTranspoter.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkNoTranspoter.Location = New System.Drawing.Point(487, 169)
+        Me.chkNoTranspoter.Name = "chkNoTranspoter"
+        Me.chkNoTranspoter.Size = New System.Drawing.Size(99, 16)
+        Me.chkNoTranspoter.TabIndex = 1601
+        Me.chkNoTranspoter.Text = "NO Transporter"
         '
         'lblNetbalance
         '
@@ -1739,7 +1750,7 @@ Partial Class frmScrapSale
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition16
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv1.MyExportAPI = False
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
@@ -2005,7 +2016,7 @@ Partial Class frmScrapSale
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition17
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv2.MyExportAPI = False
         Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
@@ -2054,20 +2065,20 @@ Partial Class frmScrapSale
         '
         '
         Me.gvadd.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
-        GridViewTextBoxColumn11.HeaderText = "Additional Charges"
-        GridViewTextBoxColumn11.Name = "coladdcode"
-        GridViewTextBoxColumn11.Width = 125
-        GridViewTextBoxColumn12.HeaderText = "Description"
-        GridViewTextBoxColumn12.Name = "coladddesc"
-        GridViewTextBoxColumn12.Width = 300
-        GridViewDecimalColumn6.HeaderText = "Amount"
-        GridViewDecimalColumn6.Name = "coladdamt"
-        GridViewDecimalColumn6.Width = 78
-        Me.gvadd.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn11, GridViewTextBoxColumn12, GridViewDecimalColumn6})
+        GridViewTextBoxColumn3.HeaderText = "Additional Charges"
+        GridViewTextBoxColumn3.Name = "coladdcode"
+        GridViewTextBoxColumn3.Width = 125
+        GridViewTextBoxColumn4.HeaderText = "Description"
+        GridViewTextBoxColumn4.Name = "coladddesc"
+        GridViewTextBoxColumn4.Width = 300
+        GridViewDecimalColumn2.HeaderText = "Amount"
+        GridViewDecimalColumn2.Name = "coladdamt"
+        GridViewDecimalColumn2.Width = 78
+        Me.gvadd.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn3, GridViewTextBoxColumn4, GridViewDecimalColumn2})
         Me.gvadd.MasterTemplate.EnableGrouping = False
         Me.gvadd.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvadd.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvadd.MasterTemplate.ViewDefinition = TableViewDefinition18
+        Me.gvadd.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvadd.MyExportAPI = False
         Me.gvadd.MyExportFilePath = ""
         Me.gvadd.MyStopExport = False
@@ -2152,6 +2163,7 @@ Partial Class frmScrapSale
         '
         'RadPageViewPage4
         '
+        Me.RadPageViewPage4.Controls.Add(Me.btnAdminCancel)
         Me.RadPageViewPage4.Controls.Add(Me.btnUpdateVehicle)
         Me.RadPageViewPage4.Controls.Add(Me.txtTCSTaxRate)
         Me.RadPageViewPage4.Controls.Add(Me.MyLabel39)
@@ -2185,6 +2197,16 @@ Partial Class frmScrapSale
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1340, 425)
         Me.RadPageViewPage4.Text = "Total"
+        '
+        'btnUpdateVehicle
+        '
+        Me.btnUpdateVehicle.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnUpdateVehicle.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnUpdateVehicle.Location = New System.Drawing.Point(395, 256)
+        Me.btnUpdateVehicle.Name = "btnUpdateVehicle"
+        Me.btnUpdateVehicle.Size = New System.Drawing.Size(191, 20)
+        Me.btnUpdateVehicle.TabIndex = 1568
+        Me.btnUpdateVehicle.Text = "Update Details For EWB"
         '
         'txtTCSTaxRate
         '
@@ -3024,24 +3046,15 @@ Partial Class frmScrapSale
         Me.Panel1.Size = New System.Drawing.Size(1361, 503)
         Me.Panel1.TabIndex = 3
         '
-        'chkNoTranspoter
+        'btnAdminCancel
         '
-        Me.chkNoTranspoter.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkNoTranspoter.Location = New System.Drawing.Point(487, 169)
-        Me.chkNoTranspoter.Name = "chkNoTranspoter"
-        Me.chkNoTranspoter.Size = New System.Drawing.Size(99, 16)
-        Me.chkNoTranspoter.TabIndex = 1601
-        Me.chkNoTranspoter.Text = "NO Transporter"
-        '
-        'btnUpdateVehicle
-        '
-        Me.btnUpdateVehicle.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnUpdateVehicle.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUpdateVehicle.Location = New System.Drawing.Point(395, 256)
-        Me.btnUpdateVehicle.Name = "btnUpdateVehicle"
-        Me.btnUpdateVehicle.Size = New System.Drawing.Size(191, 20)
-        Me.btnUpdateVehicle.TabIndex = 1568
-        Me.btnUpdateVehicle.Text = "Update Details For EWB"
+        Me.btnAdminCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnAdminCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAdminCancel.Location = New System.Drawing.Point(478, 228)
+        Me.btnAdminCancel.Name = "btnAdminCancel"
+        Me.btnAdminCancel.Size = New System.Drawing.Size(121, 22)
+        Me.btnAdminCancel.TabIndex = 1571
+        Me.btnAdminCancel.Text = "Cancel By Admin"
         '
         'frmScrapSale
         '
@@ -3064,6 +3077,7 @@ Partial Class frmScrapSale
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkNoTranspoter, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblNetbalance, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtClosingBal, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCrAmt, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3167,6 +3181,7 @@ Partial Class frmScrapSale
         Me.Attachments.ResumeLayout(False)
         Me.RadPageViewPage4.ResumeLayout(False)
         Me.RadPageViewPage4.PerformLayout()
+        CType(Me.btnUpdateVehicle, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTCSTaxRate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel39, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblActualTCSTaxBaseAmt, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3233,8 +3248,7 @@ Partial Class frmScrapSale
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
-        CType(Me.chkNoTranspoter, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnUpdateVehicle, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnAdminCancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -3422,6 +3436,7 @@ Partial Class frmScrapSale
     Friend WithEvents btnEwb As RadButton
     Friend WithEvents chkNoTranspoter As RadCheckBox
     Friend WithEvents btnUpdateVehicle As RadButton
+    Friend WithEvents btnAdminCancel As RadButton
     '>>>>>>> d1ec586fa3c5d6f2c6903ff02c7d5301aea8f361
 End Class
 
