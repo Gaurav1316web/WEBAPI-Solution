@@ -165,8 +165,20 @@ End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
                 Dim dtItems As DataTable = clsDBFuncationality.GetDataTable("select Item_Code,max(Sku_Seq) as Sku_Seq,max(Short_Description) as Short_Description,max(Structure_Code)Structure_Code from (" + qry + ") x group by Item_Code order by Sku_Seq")
+                Dim dtItemsss As DataTable = clsDBFuncationality.GetDataTable("select Item_Code from (" + qry + ") x group by Item_Code")
 
                 Dim FinalQuery As String = " With CTERawData as ( " + qry + "  )" + Environment.NewLine + Environment.NewLine
+                Dim itemList As String = ""
+
+                For Each row As DataRow In dtItemsss.Rows
+                    itemList &= "'" & row("Item_Code").ToString() & "',"
+                Next
+
+                ' Remove last comma
+                If itemList.EndsWith(",") Then
+                    itemList = itemList.Substring(0, itemList.Length - 1)
+                End If
+
                 For ii As Integer = 1 To dtItems.Rows.Count Step 10
                     If ii > 1 Then
                         FinalQuery += Environment.NewLine + " Union all " + Environment.NewLine
@@ -197,7 +209,19 @@ End If
                     Next
 
                     FinalQuery += ", max(Structure_Code) as Structure_Code,sum(TotalCrates_ItemWise) as TotalCrates_ItemWise,sum(TotalLtr_ItemWise) as TotalLtr_ItemWise ,sum(fINAL1)fINAL1,sum(fINAL2)fINAL2"
-                    FinalQuery += ",max(Sku_Seq) as Sku_Seq from ( select xx.*	from CTERawData xx ) x group by Zone_Code,,Area_Code "
+                    FinalQuery += ",max(Sku_Seq) as Sku_Seq,MAX(Comp_Name)Comp_Name,MAX(Add1)Add1,MAX(Add2)Add2,CASE 
+    WHEN 
+        SUM(CASE WHEN Item_Code IN (" + itemList + ") 
+                 THEN CONVERT(DECIMAL(18,2), Final) 
+            END) IS NULL 
+    THEN '-' 
+    ELSE 
+        CONVERT(VARCHAR,
+            SUM(CASE WHEN Item_Code IN (" + itemList + ") 
+                     THEN CONVERT(DECIMAL(18,2), Final) 
+                END)
+        )
+END AS [TotalCTRLTR]  from ( select xx.*	from CTERawData xx ) x group by Zone_Code,Area_Code "
                 Next
 
                 dt = clsDBFuncationality.GetDataTable(FinalQuery)
