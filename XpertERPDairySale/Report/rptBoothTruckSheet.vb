@@ -82,13 +82,23 @@ Public Class rptBoothTruckSheet
             Dim strShift As String = ""
             Dim whrclsShift As String = ""
 
-            If clsCommon.CompairString(clsCommon.myCstr(txtFromShift.Text), "M") = CompairStringResult.Equal Then
-                'whrclsShift = " and TSPL_BOOKING_MATSER.GatePass_Type  = 'AM' "
-                whrclsShift = " and TSPL_DEMAND_BOOKING_MASTER.ShiftType  = 'MORNING' "
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(txtFromShift.Text), "E") = CompairStringResult.Equal Then
-                ' whrclsShift = " and TSPL_BOOKING_MATSER.GatePass_Type  = 'PM' "
-                whrclsShift = " and TSPL_DEMAND_BOOKING_MASTER.ShiftType  = 'Evening' "
+
+            If clsCommon.CompairString(txtFromShift.SelectedValue, "E") = CompairStringResult.Equal Then
+                whrclsShift += " and 2=( case when Cast(TSPL_DEMAND_BOOKING_master.Document_Date as Date) >= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_master.Document_Date as Date) <= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType  = 'MORNING' then 3 else 2 end  )"
             End If
+            If clsCommon.CompairString(txtToShift.SelectedValue, "M") = CompairStringResult.Equal Then
+                whrclsShift += " and 2=( case when Cast(TSPL_DEMAND_BOOKING_master.Document_Date as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_master.Document_Date as Date) <= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType  = 'Evening' then 3 else 2 end  )"
+            End If
+
+
+
+            'If clsCommon.CompairString(clsCommon.myCstr(txtFromShift.Text), "M") = CompairStringResult.Equal Then
+            '    'whrclsShift = " and TSPL_BOOKING_MATSER.GatePass_Type  = 'AM' "
+            '    whrclsShift = " and TSPL_DEMAND_BOOKING_MASTER.ShiftType  = 'MORNING' "
+            'ElseIf clsCommon.CompairString(clsCommon.myCstr(txtFromShift.Text), "E") = CompairStringResult.Equal Then
+            '    ' whrclsShift = " and TSPL_BOOKING_MATSER.GatePass_Type  = 'PM' "
+            '    whrclsShift = " and TSPL_DEMAND_BOOKING_MASTER.ShiftType  = 'Evening' "
+            'End If
 
 
             If rbtnMilkType.IsChecked Then
@@ -145,6 +155,8 @@ Public Class rptBoothTruckSheet
                         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                             If clsCommon.CompairString(clsCommon.myCstr(dtitemName.Rows(i)("Type")), "M") = CompairStringResult.Equal Then
                                 itemNamesQty += "ISNULL([" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "],0)"
+                            Else
+                                itemNamesQty += "ISNULL([" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "],0)"
                             End If
                         Else
                             itemNamesQty += "ISNULL([" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "],0)"
@@ -155,6 +167,8 @@ Public Class rptBoothTruckSheet
                     Else
                         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                             If clsCommon.CompairString(clsCommon.myCstr(dtitemName.Rows(i)("Type")), "M") = CompairStringResult.Equal Then
+                                itemNamesQty += "+" + "ISNULL([" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "],0)"
+                            Else
                                 itemNamesQty += "+" + "ISNULL([" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "],0)"
                             End If
                         Else
@@ -427,14 +441,14 @@ where 2 = 2  "
     End Sub
     Sub Reset()
         ' cboDocumentType.SelectedIndex = 0
-        txtRouteCode.Value = ""
-        lblRouteCode.Text = ""
+        'txtRouteCode.Value = ""
+        'lblRouteCode.Text = ""
 
         Gv1.DataSource = Nothing
         Gv1.Rows.Clear()
         Gv1.Columns.Clear()
-        txtFromShift.SelectedValue = "M"
-        txtToShift.SelectedValue = "E"
+        'txtFromShift.SelectedValue = "M"
+        'txtToShift.SelectedValue = "E"
         RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
@@ -472,10 +486,10 @@ where 2 = 2  "
             Dim ToShifts As String = ""
 
             If rbtnMorning.IsChecked Then
-                whrclsShift = " and TSPL_DEMAND_BOOKING_MASTER.ShiftType  = 'Morning' "
+                'whrclsShift = " and TSPL_DEMAND_BOOKING_MASTER.ShiftType  = 'Morning' "
                 Shift = "Morning"
             ElseIf rbtnEvening.IsChecked Then
-                whrclsShift = " and TSPL_DEMAND_BOOKING_MASTER.ShiftType  = 'Evening' "
+                'whrclsShift = " and TSPL_DEMAND_BOOKING_MASTER.ShiftType  = 'Evening' "
                 Shift = "Evening"
             Else
                 Shift = "Both"
@@ -524,7 +538,7 @@ Left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BO
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
 LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
 left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.zone_code = TSPL_CUSTOMER_MASTER.zone_code
-left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_DEMAND_BOOKING_master.Comp_Code
+left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "'
 left outer join tspl_vehicle_master on tspl_vehicle_master.vehicle_id =TSPL_DEMAND_BOOKING_DETAIL.vehicle_code
 left outer join tspl_transport_master on tspl_transport_master.Transport_Id=tspl_vehicle_master.Transport_Id
 where 2 = 2 "
@@ -532,13 +546,23 @@ where 2 = 2 "
                 qry += " and TSPL_DEMAND_BOOKING_MASTER.Posted = 1 "
             End If
             qry += "" & whrcls & "  "
-            qry += " and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtFromDate.Value)), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtToDate.Value)), "dd/MMM/yyyy") + "'"
+            'qry += " and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtFromDate.Value)), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtToDate.Value)), "dd/MMM/yyyy") + "'"
+            qry += " AND convert(date,TSPL_DEMAND_BOOKING_master.Document_Date,103) >=Convert(date,'" & txtFromDate.Value & "',103) 
+            and convert(date,TSPL_DEMAND_BOOKING_master.Document_Date,103) <= Convert(date,'" & txtToDate.Value & "',103) "
             If clsCommon.CompairString(Fromshift, "E") = CompairStringResult.Equal Then
                 qry += " and 2=( case when Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(FromDate), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtFromDate.Value)), "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning' then 3 else 2 end  )"
             End If
-            If clsCommon.CompairString(Fromshift, "M") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(Toshift, "M") = CompairStringResult.Equal Then
                 qry += " and 2=( case when Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(TODate), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtToDate.Value)), "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' then 3 else 2 end  )"
             End If
+
+            'If clsCommon.CompairString(txtFromShift.SelectedValue, "E") = CompairStringResult.Equal Then
+            '    qry += " and 2=( case when Cast(TSPL_DEMAND_BOOKING_master.Document_Date as Date) >= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_master.Document_Date as Date) <= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType  = 'MORNING' then 3 else 2 end  )"
+            'End If
+            'If clsCommon.CompairString(txtToShift.SelectedValue, "M") = CompairStringResult.Equal Then
+            '    qry += " and 2=( case when Cast(TSPL_DEMAND_BOOKING_master.Document_Date as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_master.Document_Date as Date) <= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType  = 'Evening' then 3 else 2 end  )"
+            'End If
+
             If clsCommon.myLen(txtRouteCode.Value) > 0 Then
                 qry += " And TSPL_DEMAND_BOOKING_master.Route_No In ('" + clsCommon.myCstr(txtRouteCode.Value) + "') "
             End If
@@ -555,7 +579,7 @@ where 2 = 2 "
                 Exit Sub
             ElseIf dtPrint.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHITTORGARH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHITTORGARH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                     Dim TotalLTR As String = ""
                     Dim TotalCrate As String = ""
                     Dim dtItems As DataTable = clsDBFuncationality.GetDataTable("select Item_Code,Max(Unit_Code) As Unit_Code,max(Sku_Seq) as Sku_Seq,max(Short_Description) as Short_Description from (" + qry + ") x group by Item_Code order by Sku_Seq")
@@ -580,19 +604,33 @@ where 2 = 2 "
                                 strIShortDesc = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Short_Description"))
                             End If
                             BKNQuery += " ,'" + strICODE + "' as Item_" + strJJ + " ,'" + strIShortDesc + "' as Item_Short_Description_" + strJJ + "
-,'" & strUnit & "' As ItemUnit_" & strJJ & ",sum(case when Item_Code='" + strICODE + "' and ISNULL(ConvFacNo,0)>0 then QtyStock/ConvFacNo else null end ) as ItemQtyNo_" + strJJ + "
-,CEILING(sum(case when Item_Code='" + strICODE + "' and ISNULL(ConvFacCrate,0)>0 then QtyStock/ConvFacCrate else null end )) as ItemQtyCrate_" + strJJ + "
-,CEILING(sum(case when Item_Code='" + strICODE + "' and ISNULL(ConvFacLTR,0)>0 then QtyStock/ConvFacLTR else null end )) as ItemQtyLTR_" + strJJ + "
-                        ,max(case when Item_Code='" + strICODE + "' and ISNULL(ConvFacCrate,0)>0 then ConvFacCrate else 0 end ) as ConvFacCrate_" + strJJ + "
+,'" & strUnit & "' As ItemUnit_" & strJJ & ",sum(case when Item_Code='" + strICODE + "' and ISNULL(ConvFacNo,0)>0 then QtyStock/ConvFacNo else null end ) as ItemQtyNo_" + strJJ + " "
+                            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                                BKNQuery += ",(sum(case when Item_Code='" + strICODE + "' and ISNULL(ConvFacCrate,0)>0 then QtyStock/ConvFacCrate else null end )) as ItemQtyCrate_" + strJJ + "
+,(sum(case when Item_Code='" + strICODE + "' and ISNULL(ConvFacLTR,0)>0 then QtyStock/ConvFacLTR else null end )) as ItemQtyLTR_" + strJJ + ""
+                            Else
+                                BKNQuery += ",CEILING(sum(case when Item_Code='" + strICODE + "' and ISNULL(ConvFacCrate,0)>0 then QtyStock/ConvFacCrate else null end )) as ItemQtyCrate_" + strJJ + "
+,CEILING(sum(case when Item_Code='" + strICODE + "' and ISNULL(ConvFacLTR,0)>0 then QtyStock/ConvFacLTR else null end )) as ItemQtyLTR_" + strJJ + ""
+                            End If
+                            BKNQuery += ",max(case when Item_Code='" + strICODE + "' and ISNULL(ConvFacCrate,0)>0 then ConvFacCrate else 0 end ) as ConvFacCrate_" + strJJ + "
                         ,max(case when Item_Code='" + strICODE + "' and ISNULL(ConvFacLTR,0)>0 then ConvFacLTR else 0 end ) as ConvFacLTR_" + strJJ + ""
                             If clsCommon.myLen(TotalLTR) > 0 Then
                                 TotalLTR &= "+"
                             End If
-                            TotalLTR &= " CEILING(sum(case when Item_Code='" + strICODE + "' and ISNULL(ConvFacLTR,0)>0 then QtyStock/ConvFacLTR else 0 end )) "
+                            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                                TotalLTR &= " (sum(case when Item_Code='" + strICODE + "' and ISNULL(ConvFacLTR,0)>0 then QtyStock/ConvFacLTR else 0 end )) "
+                            Else
+                                TotalLTR &= " CEILING(sum(case when Item_Code='" + strICODE + "' and ISNULL(ConvFacLTR,0)>0 then QtyStock/ConvFacLTR else 0 end )) "
+                            End If
+
                             If clsCommon.myLen(TotalCrate) > 0 Then
                                 TotalCrate &= "+"
                             End If
-                            TotalCrate &= " CEILING(sum(case when Item_Code='" + strICODE + "' and ISNULL(ConvFacCrate,0)>0 then QtyStock/ConvFacCrate else 0 end )) "
+                            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                                TotalCrate &= " (sum(case when Item_Code='" + strICODE + "' and ISNULL(ConvFacCrate,0)>0 then QtyStock/ConvFacCrate else 0 end )) "
+                            Else
+                                TotalCrate &= " CEILING(sum(case when Item_Code='" + strICODE + "' and ISNULL(ConvFacCrate,0)>0 then QtyStock/ConvFacCrate else 0 end )) "
+                            End If
                         Next
                         If ii > 1 Then
                             BKNQuery += " ,null as Amount,null as ProductAmount"
@@ -600,7 +638,7 @@ where 2 = 2 "
                             BKNQuery += " ,sum(Amount*case when IsTaxable=0 then 1 else 0 end) as Amount,sum(Amount*case when IsTaxable=0 then 0 else 1 end) as ProductAmount"
                         End If
                         BKNQuery += ",(" & TotalLTR & ") As TotalLTRQty,(" & TotalCrate & ") As TotalCrateQty "
-                        BKNQuery += ",max(Display_Seq) as Display_Seq from (
+                        BKNQuery += ",max(Display_Seq) as Display_Seq,(Select Logo_Img from TSPL_COMPANY_MASTER Where Comp_Code1='" & objCommonVar.CurrComp_Code1 & "') As LogoIMG from (
 select xx.*,Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor as QtyStock,TabDefaultUOM.Conversion_Factor ConvFacNo,TabCrateUOM.Conversion_Factor as ConvFacCrate,TabLTRUOM.Conversion_Factor As ConvFacLTR	from CTERawData xx
 left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=xx.Item_Code and  TSPL_ITEM_UOM_DETAIL.UOM_Code=xx.Unit_code
 left outer join TSPL_ITEM_UOM_DETAIL as TabDefaultUOM on TabDefaultUOM .Item_Code=xx.Item_Code and  TabDefaultUOM .Default_UOM=1
@@ -612,11 +650,13 @@ left outer join TSPL_ITEM_UOM_DETAIL as TabLTRUOM on TabLTRUOM.Item_Code=xx.Item
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
                         frmCRV.funreport(MyBase.Form_ID, False, CrystalReportFolder.SalesReport, dtPrint, "rptBoothGatePassBKN", "Booth Gate Pass")
                     End If
-                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHITTORGARH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHITTORGARH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                         If rbtnMilkType.IsChecked Then
                             frmCRV.funreport(MyBase.Form_ID, False, CrystalReportFolder.SalesReport, dtPrint, "rptBoothTruckSheetMilkTypeCHT", "Booth Truck Sheet")
                         ElseIf rbtnProductType.IsChecked Then
                             frmCRV.funreport(MyBase.Form_ID, False, CrystalReportFolder.SalesReport, dtPrint, "rptBoothTruckSheetProductTypeCHT", "Booth Truck Sheet")
+                        Else
+                            frmCRV.funreport(MyBase.Form_ID, False, CrystalReportFolder.SalesReport, dtPrint, "rptBoothTruckSheetBothType", "Booth Truck Sheet")
                         End If
                     End If
                     Dim x As Integer = 0

@@ -152,6 +152,7 @@
     <None Include="Crystal Reports GST\Dairy Sales Report\crptDairyGatePassJSL.rpt" />
     <None Include="Crystal Reports GST\Dairy Sales Report\crptDairySaleGatePassEntriesALW.rpt" />
     <None Include="Crystal Reports GST\Dairy Sales Report\crptDairySaleGatePassEntriesJDP.rpt" />
+    <None Include="Crystal Reports GST\Dairy Sales Report\crptDairySaleGatePassEntriesNAG.rpt" />
     <None Include="Crystal Reports GST\Dairy Sales Report\crptDairySaleGatePassEntryNewJPR-DRP.rpt" />
     <None Include="Crystal Reports GST\Dairy Sales Report\crptTaxableNonTaxableInvoiceBAR.rpt" />
     <None Include="Crystal Reports GST\Dairy Sales Report\crptTaxableNonTaxableInvoiceBARNew.rpt" />
@@ -1181,6 +1182,7 @@
     <None Include="Crystal Reports\Dairy Sales Report\BatchWise_PrintChallan.rpt" />
     <None Include="Crystal Reports\Dairy Sales Report\crptBPLprint.rpt" />
     <None Include="Crystal Reports\Dairy Sales Report\crptBulkInvoiceJPR.rpt" />
+    <None Include="Crystal Reports\Dairy Sales Report\crptDairySaleGatePassEntriesNAG.rpt" />
     <None Include="Crystal Reports\Dairy Sales Report\crptDCSDeductionGSTReport.rpt" />
     <None Include="Crystal Reports\Dairy Sales Report\crptDCSDeductionReport.rpt" />
     <None Include="Crystal Reports\Dairy Sales Report\RouteWiseDemand.rpt" />
@@ -2139,6 +2141,7 @@
     <None Include="Crystal Reports\Sales Report\rptBoothGatePassBKN.rpt" />
     <None Include="Crystal Reports\Sales Report\rptBoothSaleDateShiftWise.rpt" />
     <None Include="Crystal Reports\Sales Report\rptBoothSaleItemWise.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptBoothTruckSheetBothType.rpt" />
     <None Include="Crystal Reports\Sales Report\rptBoothTruckSheetMilkTypeCHT.rpt" />
     <None Include="Crystal Reports\Sales Report\rptBoothTruckSheetProductTypeCHT.rpt" />
     <None Include="Crystal Reports\Sales Report\RptCEAllocation.rpt" />
