@@ -4588,8 +4588,10 @@ from (" & BaseQry & ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
             Dim arrHeader As List(Of String) = New List(Of String)()
             If isExcelPDF Then
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse isExportTruckSheet Then
+                    Dim dtComp As DataTable = clsDBFuncationality.GetDataTable("Select ISO_No,ISO_Date from TSPL_COMPANY_MASTER Where Comp_code1='" & objCommonVar.CurrComp_Code1 & "'")
                     arrHeader.Add("Doc Date : " & clsCommon.myCstr(clsCommon.GetPrintDate(txtDate.Value, "dd-MMM-yyyy")) & "     " & "Shift : " & IIf(rbtnMorning.IsChecked, "Morning", "Evening") & "     " & "Trip No : " & clsCommon.myCstr(TripNo))
                     arrHeader.Add("Route : " & lblRouteDesc.Text & "     " & "City : " & lblCityName.Text & "     " & "Distributor : " & lblTransporterName.Text)
+                    arrHeader.Add("ISO No : " & clsCommon.myCstr(dtComp.Rows(0)("ISO_No")) & "      ISO Date : " & clsCommon.GetPrintDate(dtComp.Rows(0)("ISO_Date"), "dd/MM/yyyy"))
                     arrHeader.Add("")
                     'arrHeader.Add("Shift : " & IIf(rbtnMorning.IsChecked, "Morning", "Evening"))
                     'arrHeader.Add("Trip No : " & clsCommon.myCstr(TripNo))

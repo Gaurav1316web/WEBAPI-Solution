@@ -57,11 +57,11 @@ Public Class FrmProductionAndSaleReport
     Private Sub LOCATIONRIGTHS()
         Dim obj As New clsMCCCodes()
         Try
-            If clsCommon.myLen(objCommonVar.strDefaultUserLocation) > 0 Then
-                Loc_Desc_Code = "'" & objCommonVar.strDefaultUserLocation & "'"
-                Loc_Desc_Name.Append("'" & clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Loc_Short_Name from TSPL_LOCATION_MASTER where Location_Code=" & Loc_Desc_Code & "")) & "'")
-            Else
-                obj = clsMCCCodes.GetData()
+            'If clsCommon.myLen(objCommonVar.strDefaultUserLocation) > 0 Then
+            'Loc_Desc_Code = "'" & objCommonVar.strDefaultUserLocation & "'"
+            'Loc_Desc_Name.Append("'" & clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Loc_Short_Name from TSPL_LOCATION_MASTER where Location_Code=" & Loc_Desc_Code & "")) & "'")
+            'Else
+            obj = clsMCCCodes.GetData()
                 If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
                     If obj.arrLocCodes IsNot Nothing AndAlso clsCommon.myLen(obj.arrLocCodes) > 0 Then
                         arrLoc = obj.arrLocCodes
@@ -101,7 +101,7 @@ Public Class FrmProductionAndSaleReport
                         End If
                     Next
                 End If
-            End If
+            'End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message)
         Finally
@@ -275,7 +275,7 @@ Public Class FrmProductionAndSaleReport
                 If rdbDaily.IsChecked Then
 
 
-                    query = " Select* from ( Select  '" + objCommonVar.CurrentUserCode + "' as UserName,  ROW_NUMBER() OVER(ORDER BY yy.Location ASC) as SNo, max(Location)Location,Max(Date)date,max(date1)date1,sum(Capacity)Capacity,sum(Noofshift)Noofshift, sum(ProdDailyQty)ProdDailyQty,
+                    query = " Select* from ( Select  '" + objCommonVar.CurrentUserCode + "' as UserName,  ROW_NUMBER() OVER(ORDER BY yy.Location ASC) as SNo,MAX(YY.Location_Code) As Location_Code, max(Location)Location,Max(Date)date,max(date1)date1,sum(Capacity)Capacity,sum(Noofshift)Noofshift, sum(ProdDailyQty)ProdDailyQty,
 sum(ProdCumQty)ProdCumQty,sum(CUD)CUD,sum(cum)CUM,sum(CUY)CUY,
 sum(saleDailyQty)saleDailyQty,	sum(SaleCumQty)SaleCumQty	,sum(FGS)FGS,	sum(PSO)PSO,sum(BreakdownHRS)BreakdownHRS,	max(BreakdownREASON)BreakdownREASON
 	, CAST(ROUND(MAX(DcsSeqNo_1), 0) AS INT) AS DcsSeqNo_1,CAST(ROUND(MAX(DcsSeqNo_2), 0) AS INT) AS DcsSeqNo_2,CAST(ROUND(MAX(DcsSeqNo_3), 0) AS INT) AS DcsSeqNo_3
@@ -283,7 +283,7 @@ sum(saleDailyQty)saleDailyQty,	sum(SaleCumQty)SaleCumQty	,sum(FGS)FGS,	sum(PSO)P
 from ("
 
                 End If
-                query += "select ROW_NUMBER() OVER(ORDER BY TSPL_LOCATION_MASTER.Location_code ASC) as SNo
+                query += "select ROW_NUMBER() OVER(ORDER BY TSPL_LOCATION_MASTER.Location_code ASC) as SNo,TSPL_LOCATION_MASTER.Location_code
                         ,TSPL_LOCATION_MASTER.Loc_Short_Name as [Location],format(convert(date,'" + fromDate.Value + "',103), 'dd MMMM yyyy') as Date,upper(format(convert(date,'" + fromDate.Value + "',103), 'MMMM yyyy'))as Date1,
                         cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "'))) AS DECIMAL(18,0)) as [Capacity],
                         NoOfShift
@@ -847,7 +847,7 @@ TSPL_SCRAPINVOICE_HEAD.Loc_Code FROM
                     query += "union all
 					
 
-					SELECT 0 as sn,max(TSPL_LOCATION_MASTER.Loc_Short_Name)Location,'' as Date,'' as 	Date1,0 as 	Capacity,0 as 	NoOfShift,0 as 	ProdDailyQty,0 as 	ProdCumQty,0 as CUD,0 as 	CUM,0 as 	CUY,	0 as SaleDailyQty,0 as	SaleCumQty,	0 as FGS,0 as	PSO,0 as	BreakdownHRS,'' as	BreakdownREASON	,
+					SELECT 0 as sn,Max(TSPL_LOCATION_MASTER.Location_Code) As Location_Code,max(TSPL_LOCATION_MASTER.Loc_Short_Name)Location,'' as Date,'' as 	Date1,0 as 	Capacity,0 as 	NoOfShift,0 as 	ProdDailyQty,0 as 	ProdCumQty,0 as CUD,0 as 	CUM,0 as 	CUY,	0 as SaleDailyQty,0 as	SaleCumQty,	0 as FGS,0 as	PSO,0 as	BreakdownHRS,'' as	BreakdownREASON	,
 										MAX(CASE WHEN rn = 1 THEN DcsSeqNo END) AS DcsSeqNo_1, MAX(CASE WHEN rn = 2 THEN DcsSeqNo END) AS DcsSeqNo_2, MAX(CASE WHEN rn = 3 THEN DcsSeqNo END) AS DcsSeqNo_3
 FROM
 (select xc.Location_Code,xc.DcsSeqNo, ROW_NUMBER() OVER (PARTITION BY xc.Location_Code  ORDER BY xc.DcsSeqNo ) AS rn from (Select  * from (
@@ -901,8 +901,8 @@ GROUP BY  RM_STOCK_DAYS.Location_Code,RM_STOCK_DAYS.ITEM_CODE
 LEFT JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = t.Location_Code
 WHERE rn <= 3
 GROUP BY t.Location_Code
-)YY group by YY.Location "
-                    query += " )Final  where Final.Location In (" & clsCommon.myCstr(Loc_Desc_Name) & ")"
+)YY group by YY.Location_Code,YY.Location "
+                    query += " )Final  where Final.Location_Code In (" & clsCommon.myCstr(Loc_Desc_Code) & ")"
 
                 End If
 
