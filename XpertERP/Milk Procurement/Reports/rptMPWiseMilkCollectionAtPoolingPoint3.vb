@@ -640,20 +640,14 @@ where 2=2 and  "
 
 
 
-
-
-
-
-
-
-
-
-
+            Baseqry = " select  max(xx.VLC_CODE)VLC_CODE,MAX(xx.MCC_CODE)MCC_CODE,  MAX(xx.DOC_CODE)DOC_CODE,CONVERT(varchar, xx.DOC_DATE,103)DOC_DATE,xx.SHIFT,max(xx.DCS_Code) AS[DCS_Code],max(xx.DCS_Uploader_code) as [DCS_Uploader_code],max(xx.DCS_NAME) as [DCS_NAME],max(xx.ROUTE_CODE) as [ROUTE_CODE],sum(xx.SRNQTY) as [SRNQTY],sum(xx.SRNFAT_KG)SRNFAT_KG,sum(xx.SRNSNF_KG)SRNSNF_KG,
+ sum(SRNFatAVG)SRNFatAVG,sum( SRNSNFAVG)SRNSNFAVG,COUNT(Farmer_Count) AS Farmer_Count,SUM(xx.FARMERQTY) AS FARMERQTY	,SUM(  FARMERSNFPer	)FARMERSNFPer,sum(FARMERFATAVG)FARMERFATAVG,sum(FARMERSNFAVG)FARMERSNFAVG,sum(FARMERFAT_KG)FARMERFAT_KG,sum(FARMERSNF_KG)FARMERSNF_KG,sum(FARMERFatPer)FARMERFatPer,sum(FARMERSNFPer)FARMERSNFPer
+ from  (  " + Qry + ") xx group by xx.DOC_DATE,xx.shift"
 
 
 
             If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "DCS Collection v/s Farmer Collection Summary") = CompairStringResult.Equal Then
-                dt = clsDBFuncationality.GetDataTable(Qry)
+                dt = clsDBFuncationality.GetDataTable(Baseqry)
             Else
                 dt = clsDBFuncationality.GetDataTable(Qry)
             End If
