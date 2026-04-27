@@ -22,20 +22,15 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        'Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        'Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        'Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        'Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -276,14 +271,10 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.cboReportType.IsSourceFromTable = False
         Me.cboReportType.IsSourceFromValueList = False
         Me.cboReportType.IsUnique = False
-        RadListDataItem7.Text = "Kg"
-        RadListDataItem8.Text = "Ltr"
-        Me.cboReportType.Items.Add(RadListDataItem7)
-        Me.cboReportType.Items.Add(RadListDataItem8)
-        RadListDataItem5.Text = "Kg"
-        RadListDataItem6.Text = "Ltr"
-        Me.cboReportType.Items.Add(RadListDataItem5)
-        Me.cboReportType.Items.Add(RadListDataItem6)
+        RadListDataItem9.Text = "Kg"
+        RadListDataItem10.Text = "Ltr"
+        Me.cboReportType.Items.Add(RadListDataItem9)
+        Me.cboReportType.Items.Add(RadListDataItem10)
         Me.cboReportType.Location = New System.Drawing.Point(60, 37)
         Me.cboReportType.MendatroryField = False
         Me.cboReportType.MyLinkLable1 = Nothing
@@ -347,10 +338,6 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         RadListDataItem2.Text = "Ltr"
         Me.cboUnit.Items.Add(RadListDataItem1)
         Me.cboUnit.Items.Add(RadListDataItem2)
-        RadListDataItem7.Text = "Kg"
-        RadListDataItem8.Text = "Ltr"
-        Me.cboUnit.Items.Add(RadListDataItem7)
-        Me.cboUnit.Items.Add(RadListDataItem8)
         Me.cboUnit.Location = New System.Drawing.Point(243, 58)
         Me.cboUnit.MendatroryField = False
         Me.cboUnit.MyLinkLable1 = Nothing
@@ -472,12 +459,12 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.cmbEntrySource.IsUnique = False
         RadListDataItem3.Text = "Kg"
         RadListDataItem4.Text = "Ltr"
+        RadListDataItem11.Text = "Kg"
+        RadListDataItem12.Text = "Ltr"
         Me.cmbEntrySource.Items.Add(RadListDataItem3)
         Me.cmbEntrySource.Items.Add(RadListDataItem4)
-        RadListDataItem1.Text = "Kg"
-        RadListDataItem2.Text = "Ltr"
-        Me.cmbEntrySource.Items.Add(RadListDataItem1)
-        Me.cmbEntrySource.Items.Add(RadListDataItem2)
+        Me.cmbEntrySource.Items.Add(RadListDataItem11)
+        Me.cmbEntrySource.Items.Add(RadListDataItem12)
         Me.cmbEntrySource.Location = New System.Drawing.Point(60, 58)
         Me.cmbEntrySource.MendatroryField = False
         Me.cmbEntrySource.MyLinkLable1 = Nothing
@@ -607,35 +594,6 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
-        Me.gv.MyExportAPI = False
-        Me.gv.MyExportFilePath = ""
-        Me.gv.MyStopExport = False
-        Me.gv.Name = "gv"
-        Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.gv.ShowGroupPanel = False
-        Me.gv.ShowHeaderCellButtons = True
-        Me.gv.Size = New System.Drawing.Size(755, 350)
-        Me.gv.TabIndex = 4
-        Me.gv.VarID = ""
-        '
-        'gv
-        '
-        Me.gv.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
-        Me.gv.Cursor = System.Windows.Forms.Cursors.Default
-        Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gv.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.gv.ForeColor = System.Drawing.Color.Black
-        Me.gv.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.gv.Location = New System.Drawing.Point(0, 0)
-        '
-        '
-        '
-        Me.gv.MasterTemplate.AllowAddNewRow = False
-        Me.gv.MasterTemplate.AllowDeleteRow = False
-        Me.gv.MasterTemplate.EnableFiltering = True
-        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv.MyExportAPI = False
         Me.gv.MyExportFilePath = ""
         Me.gv.MyStopExport = False
