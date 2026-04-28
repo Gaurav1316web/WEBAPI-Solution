@@ -899,7 +899,7 @@ Public Class FrmQualityCheckForSRN
                         Throw New Exception(" Incoming Quality Entry Document Date Cannot Be Less Then SRN Date ")
                     End If
                 Else
-                    Dim qry1 As String = " Select MRN_Date from TSPL_MRN_HEAD where MRN_No= = '" + MRN + "' "
+                    Dim qry1 As String = " Select MRN_Date from TSPL_MRN_HEAD where MRN_No  = '" + MRN + "' "
                     Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry1)
                     Dim sTARTdate As DateTime = clsCommon.GetPrintDate(clsCommon.myCDate(dt1.Rows(0)("MRN_Date"), "dd/MMM/yyyy"))
                     Dim DocDate As DateTime = clsCommon.GetPrintDate(clsCommon.myCDate(dtpDate.Value), "dd/MMM/yyyy")
