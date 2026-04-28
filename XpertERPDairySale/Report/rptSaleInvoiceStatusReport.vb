@@ -408,10 +408,51 @@ from(Select   CASE WHEN EXISTS ( SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD
           And TSPL_SD_SHIPMENT_HEAD.Against_Booking_No Is NULL And (TSPL_BOOKING_MATSER.Is_APS=1 Or TSPL_SD_SHIPMENT_HEAD.Screen_Type= ('CT'))) And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' THEN 'APS SALES'
 WHEN TSPL_SD_SALE_INVOICE_HEAD.IsMultipleInvoice = 1 THEN 'MULTIPLE INVOICE'		  
 Else 'DCS SALE' END AS Transcation_Type,   
-CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable = 1 THEN 'TAXABLE' ELSE 'NON TAXABLE'
-    END AS Invoice_Tax_Type,
+CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable = 1 And Tax_Master.Type ='IGST' THEN 'TAXABLE (IGST)'     
+	 WHEN TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable = 1 THEN 'TAXABLE (LOCAL)'     
+     ELSE 'NON TAXABLE (LOCAL)' END AS Invoice_Tax_Type,
 	TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable,TSPL_SD_SALE_INVOICE_HEAD.Document_Code,NULL as Cancel_DocumentCode,Null as Delete_DocumentCode
 	from TSPL_SD_SALE_INVOICE_HEAD  
+Left Outer Join ( Select xyz.* from (
+Select Document_Code,TAX1 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD
+Left Outer Join TSPL_TAX_MASTER As Tax1 On Tax1.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD.Tax1
+Where Tax1.Type='IGST'
+Union All
+Select Document_Code,TAX2 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD
+Left Outer Join TSPL_TAX_MASTER As Tax2 On Tax2.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD.Tax2
+Where Tax2.Type='IGST'
+Union All
+Select Document_Code,TAX3 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD
+Left Outer Join TSPL_TAX_MASTER As Tax3 On Tax3.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD.Tax3
+Where Tax3.Type='IGST'
+Union All
+Select Document_Code,TAX4 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD
+Left Outer Join TSPL_TAX_MASTER As Tax4 On Tax4.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD.Tax4
+Where Tax4.Type='IGST'
+Union All
+Select Document_Code,TAX5 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD
+Left Outer Join TSPL_TAX_MASTER As Tax5 On Tax5.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD.Tax5
+Where Tax5.Type='IGST'
+Union All
+Select Document_Code,TAX6 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD
+Left Outer Join TSPL_TAX_MASTER As Tax6 On Tax6.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD.Tax6
+Where Tax6.Type='IGST'
+Union All
+Select Document_Code,TAX7 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD
+Left Outer Join TSPL_TAX_MASTER As Tax7 On Tax7.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD.Tax7
+Where Tax7.Type='IGST'
+Union All
+Select Document_Code,TAX8 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD
+Left Outer Join TSPL_TAX_MASTER As Tax8 On Tax8.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD.Tax8
+Where Tax8.Type='IGST'
+Union All
+Select Document_Code,TAX9 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD
+Left Outer Join TSPL_TAX_MASTER As Tax9 On Tax9.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD.Tax9
+Where Tax9.Type='IGST'
+Union All
+Select Document_Code,TAX10 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD
+Left Outer Join TSPL_TAX_MASTER As Tax10 On Tax10.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD.TAX10 Where Tax10.Type='IGST' ) xyz --Where Xyz.Type='IGST'
+) Tax_Master On Tax_Master.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Document_Code
 WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") & "',103)
   AND CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(toDate, "dd/MMM/yyyy") & "',103) "
         If clsCommon.myLen(strLocation) > 0 Then
@@ -439,11 +480,42 @@ WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= convert(date,
         WHERE TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_Code = TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Against_Shipment_No
           AND TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_Booking_No IS NULL AND (TSPL_BOOKING_MATSER_Cancel_Data.Is_APS=1 OR TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Screen_Type= ('CT'))) And TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Trans_Type <> 'MCC' THEN 'APS SALES'
 	WHEN TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.IsMultipleInvoice = 1 THEN 'MULTIPLE INVOICE'	  
-  ELSE 'DCS SALE' END AS Transcation_Type ,CASE 
-        WHEN TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Is_Taxable = 1 THEN 'TAXABLE'
-        ELSE 'NON TAXABLE'
-    END AS Invoice_Tax_Type,
+  ELSE 'DCS SALE' END AS Transcation_Type ,
+ CASE WHEN TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Is_Taxable = 1 And Tax_Master.Type ='IGST' THEN 'TAXABLE (IGST)'     
+	 WHEN TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Is_Taxable = 1  THEN 'TAXABLE (LOCAL)'
+     ELSE 'NON TAXABLE (LOCAL)' END AS Invoice_Tax_Type,
 	TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Is_Taxable,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Code as Document_Code,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Code as Cancel_DocumentCode,NULL as Delete_DocumentCode from TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data
+Left Outer Join ( Select xyz.* from (
+Select Document_Code,TAX1 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data
+Left Outer Join TSPL_TAX_MASTER As Tax1 On Tax1.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Tax1 Where Tax1.Type='IGST'
+Union All
+Select Document_Code,TAX2 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data
+Left Outer Join TSPL_TAX_MASTER As Tax2 On Tax2.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Tax2 Where Tax2.Type='IGST'
+Union All
+Select Document_Code,TAX3 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data
+Left Outer Join TSPL_TAX_MASTER As Tax3 On Tax3.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Tax3 Where Tax3.Type='IGST'
+Union All
+Select Document_Code,TAX4 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data
+Left Outer Join TSPL_TAX_MASTER As Tax4 On Tax4.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Tax4 Where Tax4.Type='IGST'
+Union All
+Select Document_Code,TAX5 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data
+Left Outer Join TSPL_TAX_MASTER As Tax5 On Tax5.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Tax5 Where Tax5.Type='IGST'
+Union All
+Select Document_Code,TAX6 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data
+Left Outer Join TSPL_TAX_MASTER As Tax6 On Tax6.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Tax6 Where Tax6.Type='IGST'
+Union All
+Select Document_Code,TAX7 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data
+Left Outer Join TSPL_TAX_MASTER As Tax7 On Tax7.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Tax7 Where Tax7.Type='IGST'
+Union All
+Select Document_Code,TAX8 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data
+Left Outer Join TSPL_TAX_MASTER As Tax8 On Tax8.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Tax8 Where Tax8.Type='IGST'
+Union All
+Select Document_Code,TAX9 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data
+Left Outer Join TSPL_TAX_MASTER As Tax9 On Tax9.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Tax9 Where Tax9.Type='IGST'
+Union All
+Select Document_Code,TAX10 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data
+Left Outer Join TSPL_TAX_MASTER As Tax10 On Tax10.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.TAX10 Where Tax10.Type='IGST' ) xyz --Where Xyz.Type='IGST'
+) Tax_Master On Tax_Master.Document_Code=TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Code
 WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") & "',103)
   AND CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(toDate, "dd/MMM/yyyy") & "',103) "
         If clsCommon.myLen(strLocation) > 0 Then
@@ -470,11 +542,43 @@ WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Date,103) >= c
         WHERE TSPL_SD_SHIPMENT_HEAD_Delete_Data.Document_Code = TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Against_Shipment_No
           AND TSPL_SD_SHIPMENT_HEAD_Delete_Data.Against_Booking_No IS NULL AND (TSPL_BOOKING_MATSER_Delete_Data.Is_APS=1 OR TSPL_SD_SHIPMENT_HEAD_Delete_Data.Screen_Type= ('CT'))) And TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Trans_Type <> 'MCC' THEN 'APS SALES'
 	WHEN TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.IsMultipleInvoice = 1 THEN 'MULTIPLE INVOICE'	  
-  ELSE 'DCS SALE' END AS Transcation_Type ,CASE 
-        WHEN TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Is_Taxable = 1 THEN 'TAXABLE'
-        ELSE 'NON TAXABLE'
-    END AS Invoice_Tax_Type,
+  ELSE 'DCS SALE' END AS Transcation_Type ,
+CASE WHEN TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Is_Taxable = 1 And Tax_Master.Type ='IGST' THEN 'TAXABLE (IGST)'
+	 WHEN TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Is_Taxable = 1  THEN 'TAXABLE (LOCAL)'
+     ELSE 'NON TAXABLE (LOCAL)' END AS Invoice_Tax_Type,
 	TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Is_Taxable,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Code AS Document_Code,NULL as Cancel_DocumentCode,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Code as Delete_DocumentCode from TSPL_SD_SALE_INVOICE_HEAD_Delete_Data
+ 
+Left Outer Join ( Select xyz.* from (
+Select Document_Code,TAX1 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD_Delete_Data
+Left Outer Join TSPL_TAX_MASTER As Tax1 On Tax1.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Tax1 Where Tax1.Type='IGST'
+Union All
+Select Document_Code,TAX2 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD_Delete_Data
+Left Outer Join TSPL_TAX_MASTER As Tax2 On Tax2.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Tax2 Where Tax2.Type='IGST'
+Union All
+Select Document_Code,TAX3 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD_Delete_Data
+Left Outer Join TSPL_TAX_MASTER As Tax3 On Tax3.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Tax3 Where Tax3.Type='IGST'
+Union All
+Select Document_Code,TAX4 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD_Delete_Data
+Left Outer Join TSPL_TAX_MASTER As Tax4 On Tax4.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Tax4 Where Tax4.Type='IGST'
+Union All
+Select Document_Code,TAX5 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD_Delete_Data
+Left Outer Join TSPL_TAX_MASTER As Tax5 On Tax5.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Tax5 Where Tax5.Type='IGST'
+Union All
+Select Document_Code,TAX6 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD_Delete_Data
+Left Outer Join TSPL_TAX_MASTER As Tax6 On Tax6.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Tax6 Where Tax6.Type='IGST'
+Union All
+Select Document_Code,TAX7 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD_Delete_Data
+Left Outer Join TSPL_TAX_MASTER As Tax7 On Tax7.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Tax7 Where Tax7.Type='IGST'
+Union All
+Select Document_Code,TAX8 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD_Delete_Data
+Left Outer Join TSPL_TAX_MASTER As Tax8 On Tax8.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Tax8 Where Tax8.Type='IGST'
+Union All
+Select Document_Code,TAX9 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD_Delete_Data
+Left Outer Join TSPL_TAX_MASTER As Tax9 On Tax9.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Tax9 Where Tax9.Type='IGST'
+Union All
+Select Document_Code,TAX10 As Tax,Type from TSPL_SD_SALE_INVOICE_HEAD_Delete_Data
+Left Outer Join TSPL_TAX_MASTER As Tax10 On Tax10.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.TAX10 Where Tax10.Type='IGST') xyz ---Where Xyz.Type='IGST'
+) Tax_Master On Tax_Master.Document_Code=TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Code
 WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") & "',103)
   AND CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(toDate, "dd/MMM/yyyy") & "',103) "
         If clsCommon.myLen(strLocation) > 0 Then
@@ -482,10 +586,41 @@ WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Date,103) >= c
         End If
         Qry &= " union all
   Select 'MATERIAL SALE'  AS Transcation_Type ,
-		  CASE 
-        WHEN TSPL_SCRAPINVOICE_HEAD.Is_Taxable = 1 THEN 'TAXABLE'
-        ELSE 'NON TAXABLE' end AS Invoice_Tax_Type,
+		CASE WHEN TSPL_SCRAPINVOICE_HEAD.Is_Taxable = 1 And Tax_Master.Type ='IGST' THEN 'TAXABLE (IGST)'     
+	         WHEN TSPL_SCRAPINVOICE_HEAD.Is_Taxable = 1 THEN 'TAXABLE (LOCAL)'     
+        ELSE 'NON TAXABLE (LOCAL)' END AS Invoice_Tax_Type,
 	TSPL_SCRAPINVOICE_HEAD.Invoice_Type,TSPL_SCRAPINVOICE_HEAD.invoice_No AS Document_Code,NULL as Cancel_DocumentCode,NULL AS Delete_DocumentCode from TSPL_SCRAPINVOICE_HEAD
+ Left Outer Join ( Select xyz.* from (
+Select TSPL_SCRAPINVOICE_HEAD.invoice_No AS Document_Code,TAX1 As Tax,Type from TSPL_SCRAPINVOICE_HEAD
+Left Outer Join TSPL_TAX_MASTER As Tax1 On Tax1.Tax_Code=TSPL_SCRAPINVOICE_HEAD.Tax1 Where Tax1.Type='IGST'
+Union All
+Select TSPL_SCRAPINVOICE_HEAD.invoice_No AS Document_Code,TAX2 As Tax,Type from TSPL_SCRAPINVOICE_HEAD 
+Left Outer Join TSPL_TAX_MASTER As Tax2 On Tax2.Tax_Code=TSPL_SCRAPINVOICE_HEAD.Tax2 Where Tax2.Type='IGST'
+Union All
+Select TSPL_SCRAPINVOICE_HEAD.invoice_No AS Document_Code,TAX3 As Tax,Type from TSPL_SCRAPINVOICE_HEAD
+Left Outer Join TSPL_TAX_MASTER As Tax3 On Tax3.Tax_Code=TSPL_SCRAPINVOICE_HEAD.Tax3 Where Tax3.Type='IGST'
+Union All
+Select TSPL_SCRAPINVOICE_HEAD.invoice_No AS Document_Code,TAX4 As Tax,Type from TSPL_SCRAPINVOICE_HEAD
+Left Outer Join TSPL_TAX_MASTER As Tax4 On Tax4.Tax_Code=TSPL_SCRAPINVOICE_HEAD.Tax4 Where Tax4.Type='IGST'
+Union All
+Select TSPL_SCRAPINVOICE_HEAD.invoice_No AS Document_Code,TAX5 As Tax,Type from TSPL_SCRAPINVOICE_HEAD
+Left Outer Join TSPL_TAX_MASTER As Tax5 On Tax5.Tax_Code=TSPL_SCRAPINVOICE_HEAD.Tax5 Where Tax5.Type='IGST'
+Union All
+Select TSPL_SCRAPINVOICE_HEAD.invoice_No AS Document_Code,TAX6 As Tax,Type from TSPL_SCRAPINVOICE_HEAD
+Left Outer Join TSPL_TAX_MASTER As Tax6 On Tax6.Tax_Code=TSPL_SCRAPINVOICE_HEAD.Tax6 Where Tax6.Type='IGST'
+Union All
+Select TSPL_SCRAPINVOICE_HEAD.invoice_No AS Document_Code,TAX7 As Tax,Type from TSPL_SCRAPINVOICE_HEAD
+Left Outer Join TSPL_TAX_MASTER As Tax7 On Tax7.Tax_Code=TSPL_SCRAPINVOICE_HEAD.Tax7 Where Tax7.Type='IGST'
+Union All
+Select TSPL_SCRAPINVOICE_HEAD.invoice_No AS Document_Code,TAX8 As Tax,Type from TSPL_SCRAPINVOICE_HEAD
+Left Outer Join TSPL_TAX_MASTER As Tax8 On Tax8.Tax_Code=TSPL_SCRAPINVOICE_HEAD.Tax8 Where Tax8.Type='IGST'
+Union All
+Select TSPL_SCRAPINVOICE_HEAD.invoice_No AS Document_Code,TAX9 As Tax,Type from TSPL_SCRAPINVOICE_HEAD
+Left Outer Join TSPL_TAX_MASTER As Tax9 On Tax9.Tax_Code=TSPL_SCRAPINVOICE_HEAD.Tax9 Where Tax9.Type='IGST'
+Union All
+Select TSPL_SCRAPINVOICE_HEAD.invoice_No AS Document_Code,TAX10 As Tax,Type from TSPL_SCRAPINVOICE_HEAD
+Left Outer Join TSPL_TAX_MASTER As Tax10 On Tax10.Tax_Code=TSPL_SCRAPINVOICE_HEAD.TAX10 Where Tax10.Type='IGST') xyz --Where Xyz.Type='IGST'
+) Tax_Master On Tax_Master.Document_Code=TSPL_SCRAPINVOICE_HEAD.invoice_No
 WHERE CONVERT(DATE,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") & "',103)
   AND CONVERT(DATE,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(toDate, "dd/MMM/yyyy") & "',103) "
         If clsCommon.myLen(strLocation) > 0 Then
@@ -493,10 +628,41 @@ WHERE CONVERT(DATE,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) >= convert(date,'" 
         End If
         Qry &= " union all
   Select 'MATERIAL SALE'  AS Transcation_Type ,
-		  CASE 
-        WHEN TSPL_SCRAPINVOICE_HEAD_cancel_data.Is_Taxable = 1 THEN 'TAXABLE'
-        ELSE 'NON TAXABLE' end AS Invoice_Tax_Type,
+		  CASE WHEN TSPL_SCRAPINVOICE_HEAD_cancel_data.Is_Taxable = 1 And Tax_Master.Type ='IGST' THEN 'TAXABLE (IGST)'
+	 WHEN TSPL_SCRAPINVOICE_HEAD_cancel_data.Is_Taxable = 1  THEN 'TAXABLE (LOCAL)'
+     ELSE 'NON TAXABLE (LOCAL)' END AS Invoice_Tax_Type,
 	TSPL_SCRAPINVOICE_HEAD_cancel_data.Invoice_Type,TSPL_SCRAPINVOICE_HEAD_cancel_data.invoice_No AS Document_Code,TSPL_SCRAPINVOICE_HEAD_cancel_data.invoice_No as Cancel_DocumentCode,NULL AS Delete_DocumentCode from TSPL_SCRAPINVOICE_HEAD_cancel_data
+ 	Left Outer Join ( Select xyz.* from (
+Select TSPL_SCRAPINVOICE_HEAD_cancel_data.invoice_No AS Document_Code,TAX1 As Tax,Type from TSPL_SCRAPINVOICE_HEAD_cancel_data
+Left Outer Join TSPL_TAX_MASTER As Tax1 On Tax1.Tax_Code=TSPL_SCRAPINVOICE_HEAD_cancel_data.Tax1 Where Tax1.Type='IGST'
+Union All
+Select TSPL_SCRAPINVOICE_HEAD_cancel_data.invoice_No AS Document_Code,TAX2 As Tax,Type from TSPL_SCRAPINVOICE_HEAD_cancel_data
+Left Outer Join TSPL_TAX_MASTER As Tax2 On Tax2.Tax_Code=TSPL_SCRAPINVOICE_HEAD_cancel_data.Tax2 Where Tax2.Type='IGST'
+Union All
+Select TSPL_SCRAPINVOICE_HEAD_cancel_data.invoice_No AS Document_Code,TAX3 As Tax,Type from TSPL_SCRAPINVOICE_HEAD_cancel_data
+Left Outer Join TSPL_TAX_MASTER As Tax3 On Tax3.Tax_Code=TSPL_SCRAPINVOICE_HEAD_cancel_data.Tax3 Where Tax3.Type='IGST'
+Union All
+Select TSPL_SCRAPINVOICE_HEAD_cancel_data.invoice_No AS Document_Code,TAX4 As Tax,Type from TSPL_SCRAPINVOICE_HEAD_cancel_data
+Left Outer Join TSPL_TAX_MASTER As Tax4 On Tax4.Tax_Code=TSPL_SCRAPINVOICE_HEAD_cancel_data.Tax4 Where Tax4.Type='IGST'
+Union All
+Select TSPL_SCRAPINVOICE_HEAD_cancel_data.invoice_No AS Document_Code,TAX5 As Tax,Type from TSPL_SCRAPINVOICE_HEAD_cancel_data
+Left Outer Join TSPL_TAX_MASTER As Tax5 On Tax5.Tax_Code=TSPL_SCRAPINVOICE_HEAD_cancel_data.Tax5 Where Tax5.Type='IGST'
+Union All
+Select TSPL_SCRAPINVOICE_HEAD_cancel_data.invoice_No AS Document_Code,TAX6 As Tax,Type from TSPL_SCRAPINVOICE_HEAD_cancel_data
+Left Outer Join TSPL_TAX_MASTER As Tax6 On Tax6.Tax_Code=TSPL_SCRAPINVOICE_HEAD_cancel_data.Tax6 Where Tax6.Type='IGST'
+Union All
+Select TSPL_SCRAPINVOICE_HEAD_cancel_data.invoice_No AS Document_Code,TAX7 As Tax,Type from TSPL_SCRAPINVOICE_HEAD_cancel_data
+Left Outer Join TSPL_TAX_MASTER As Tax7 On Tax7.Tax_Code=TSPL_SCRAPINVOICE_HEAD_cancel_data.Tax7 Where Tax7.Type='IGST'
+Union All
+Select TSPL_SCRAPINVOICE_HEAD_cancel_data.invoice_No AS Document_Code,TAX8 As Tax,Type from TSPL_SCRAPINVOICE_HEAD_cancel_data
+Left Outer Join TSPL_TAX_MASTER As Tax8 On Tax8.Tax_Code=TSPL_SCRAPINVOICE_HEAD_cancel_data.Tax8 Where Tax8.Type='IGST'
+Union All
+Select TSPL_SCRAPINVOICE_HEAD_cancel_data.invoice_No AS Document_Code,TAX9 As Tax,Type from TSPL_SCRAPINVOICE_HEAD_cancel_data
+Left Outer Join TSPL_TAX_MASTER As Tax9 On Tax9.Tax_Code=TSPL_SCRAPINVOICE_HEAD_cancel_data.Tax9 Where Tax9.Type='IGST'
+Union All
+Select TSPL_SCRAPINVOICE_HEAD_cancel_data.invoice_No AS Document_Code,TAX10 As Tax,Type from TSPL_SCRAPINVOICE_HEAD_cancel_data
+Left Outer Join TSPL_TAX_MASTER As Tax10 On Tax10.Tax_Code=TSPL_SCRAPINVOICE_HEAD_cancel_data.TAX10 Where Tax10.Type='IGST') xyz --Where Xyz.Type='IGST'
+) Tax_Master On Tax_Master.Document_Code=TSPL_SCRAPINVOICE_HEAD_cancel_data.invoice_No
 WHERE CONVERT(DATE,TSPL_SCRAPINVOICE_HEAD_cancel_data.shipment_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") & "',103)
   AND CONVERT(DATE,TSPL_SCRAPINVOICE_HEAD_cancel_data.shipment_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(toDate, "dd/MMM/yyyy") & "',103)"
         If clsCommon.myLen(strLocation) > 0 Then
@@ -504,10 +670,41 @@ WHERE CONVERT(DATE,TSPL_SCRAPINVOICE_HEAD_cancel_data.shipment_Date,103) >= conv
         End If
         Qry &= " union all
   Select 'MATERIAL SALE'  AS Transcation_Type ,
-		  CASE 
-        WHEN TSPL_SCRAPINVOICE_HEAD_Delete_data.Is_Taxable = 1 THEN 'TAXABLE'
-        ELSE 'NON TAXABLE' end AS Invoice_Tax_Type,
+		  CASE WHEN TSPL_SCRAPINVOICE_HEAD_Delete_data.Is_Taxable = 1 And Tax_Master.Type ='IGST' THEN 'TAXABLE (IGST)'
+	 WHEN TSPL_SCRAPINVOICE_HEAD_Delete_data.Is_Taxable = 1   THEN 'TAXABLE (LOCAL)'
+     ELSE 'NON TAXABLE (LOCAL)' END AS Invoice_Tax_Type,
 	TSPL_SCRAPINVOICE_HEAD_Delete_data.Invoice_Type,TSPL_SCRAPINVOICE_HEAD_Delete_data.invoice_No AS Document_Code,NULL as Cancel_DocumentCode,TSPL_SCRAPINVOICE_HEAD_Delete_data.invoice_No AS Delete_DocumentCode from TSPL_SCRAPINVOICE_HEAD_Delete_data
+Left Outer Join ( Select xyz.* from (
+Select TSPL_SCRAPINVOICE_HEAD_Delete_data.invoice_No AS Document_Code,TAX1 As Tax,Type from TSPL_SCRAPINVOICE_HEAD_Delete_data
+Left Outer Join TSPL_TAX_MASTER As Tax1 On Tax1.Tax_Code=TSPL_SCRAPINVOICE_HEAD_Delete_data.Tax1 Where Tax1.Type='IGST'
+Union All
+Select TSPL_SCRAPINVOICE_HEAD_Delete_data.invoice_No AS Document_Code,TAX2 As Tax,Type from TSPL_SCRAPINVOICE_HEAD_Delete_data
+Left Outer Join TSPL_TAX_MASTER As Tax2 On Tax2.Tax_Code=TSPL_SCRAPINVOICE_HEAD_Delete_data.Tax2 Where Tax2.Type='IGST'
+Union All
+Select TSPL_SCRAPINVOICE_HEAD_Delete_data.invoice_No AS Document_Code,TAX3 As Tax,Type from TSPL_SCRAPINVOICE_HEAD_Delete_data
+Left Outer Join TSPL_TAX_MASTER As Tax3 On Tax3.Tax_Code=TSPL_SCRAPINVOICE_HEAD_Delete_data.Tax3 Where Tax3.Type='IGST'
+Union All
+Select TSPL_SCRAPINVOICE_HEAD_Delete_data.invoice_No AS Document_Code,TAX4 As Tax,Type from TSPL_SCRAPINVOICE_HEAD_Delete_data
+Left Outer Join TSPL_TAX_MASTER As Tax4 On Tax4.Tax_Code=TSPL_SCRAPINVOICE_HEAD_Delete_data.Tax4 Where Tax4.Type='IGST'
+Union All
+Select TSPL_SCRAPINVOICE_HEAD_Delete_data.invoice_No AS Document_Code,TAX5 As Tax,Type from TSPL_SCRAPINVOICE_HEAD_Delete_data
+Left Outer Join TSPL_TAX_MASTER As Tax5 On Tax5.Tax_Code=TSPL_SCRAPINVOICE_HEAD_Delete_data.Tax5 Where Tax5.Type='IGST'
+Union All
+Select TSPL_SCRAPINVOICE_HEAD_Delete_data.invoice_No AS Document_Code,TAX6 As Tax,Type from TSPL_SCRAPINVOICE_HEAD_Delete_data
+Left Outer Join TSPL_TAX_MASTER As Tax6 On Tax6.Tax_Code=TSPL_SCRAPINVOICE_HEAD_Delete_data.Tax6 Where Tax6.Type='IGST'
+Union All
+Select TSPL_SCRAPINVOICE_HEAD_Delete_data.invoice_No AS Document_Code,TAX7 As Tax,Type from TSPL_SCRAPINVOICE_HEAD_Delete_data
+Left Outer Join TSPL_TAX_MASTER As Tax7 On Tax7.Tax_Code=TSPL_SCRAPINVOICE_HEAD_Delete_data.Tax7 Where Tax7.Type='IGST'
+Union All
+Select TSPL_SCRAPINVOICE_HEAD_Delete_data.invoice_No AS Document_Code,TAX8 As Tax,Type from TSPL_SCRAPINVOICE_HEAD_Delete_data
+Left Outer Join TSPL_TAX_MASTER As Tax8 On Tax8.Tax_Code=TSPL_SCRAPINVOICE_HEAD_Delete_data.Tax8 Where Tax8.Type='IGST'
+Union All
+Select TSPL_SCRAPINVOICE_HEAD_Delete_data.invoice_No AS Document_Code,TAX9 As Tax,Type from TSPL_SCRAPINVOICE_HEAD_Delete_data
+Left Outer Join TSPL_TAX_MASTER As Tax9 On Tax9.Tax_Code=TSPL_SCRAPINVOICE_HEAD_Delete_data.Tax9 Where Tax9.Type='IGST'
+Union All
+Select TSPL_SCRAPINVOICE_HEAD_Delete_data.invoice_No AS Document_Code,TAX10 As Tax,Type from TSPL_SCRAPINVOICE_HEAD_Delete_data
+Left Outer Join TSPL_TAX_MASTER As Tax10 On Tax10.Tax_Code=TSPL_SCRAPINVOICE_HEAD_Delete_data.TAX10 Where Tax10.Type='IGST') xyz --Where Xyz.Type='IGST'
+) Tax_Master On Tax_Master.Document_Code=TSPL_SCRAPINVOICE_HEAD_Delete_data.invoice_No
 WHERE CONVERT(DATE,TSPL_SCRAPINVOICE_HEAD_Delete_data.shipment_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") & "',103)
   AND CONVERT(DATE,TSPL_SCRAPINVOICE_HEAD_Delete_data.shipment_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(toDate, "dd/MMM/yyyy") & "',103) "
         If clsCommon.myLen(strLocation) > 0 Then
@@ -515,10 +712,41 @@ WHERE CONVERT(DATE,TSPL_SCRAPINVOICE_HEAD_Delete_data.shipment_Date,103) >= conv
         End If
         Qry &= " union all
   Select case when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='MCC' then 'DCS SALE RETURN' else 'SALES RETURN' end  AS Transcation_Type ,
-		  CASE 
-        WHEN TSPL_SD_SALE_RETURN_HEAD.Is_Taxable = 1 THEN 'TAXABLE'
-        ELSE 'NON TAXABLE' end AS Invoice_Tax_Type,
+		CASE WHEN TSPL_SD_SALE_RETURN_HEAD.Is_Taxable = 1 And Tax_Master.Type ='IGST' THEN 'TAXABLE (IGST)'
+	 WHEN TSPL_SD_SALE_RETURN_HEAD.Is_Taxable = 1  THEN 'TAXABLE (LOCAL)'
+     ELSE 'NON TAXABLE (LOCAL)' END AS Invoice_Tax_Type,
 	TSPL_SD_SALE_RETURN_HEAD.Is_Taxable,TSPL_SD_SALE_RETURN_HEAD.Document_Code AS Document_Code,NULL as Cancel_DocumentCode,NULL AS Delete_DocumentCode from TSPL_SD_SALE_RETURN_HEAD
+ Left Outer Join ( Select xyz.* from (
+Select Document_Code,TAX1 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD
+Left Outer Join TSPL_TAX_MASTER As Tax1 On Tax1.Tax_Code=TSPL_SD_SALE_RETURN_HEAD.Tax1 Where Tax1.Type='IGST'
+Union All
+Select Document_Code,TAX2 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD
+Left Outer Join TSPL_TAX_MASTER As Tax2 On Tax2.Tax_Code=TSPL_SD_SALE_RETURN_HEAD.Tax2 Where Tax2.Type='IGST'
+Union All
+Select Document_Code,TAX3 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD
+Left Outer Join TSPL_TAX_MASTER As Tax3 On Tax3.Tax_Code=TSPL_SD_SALE_RETURN_HEAD.Tax3 Where Tax3.Type='IGST'
+Union All
+Select Document_Code,TAX4 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD
+Left Outer Join TSPL_TAX_MASTER As Tax4 On Tax4.Tax_Code=TSPL_SD_SALE_RETURN_HEAD.Tax4 Where Tax4.Type='IGST'
+Union All
+Select Document_Code,TAX5 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD
+Left Outer Join TSPL_TAX_MASTER As Tax5 On Tax5.Tax_Code=TSPL_SD_SALE_RETURN_HEAD.Tax5 Where Tax5.Type='IGST'
+Union All
+Select Document_Code,TAX6 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD
+Left Outer Join TSPL_TAX_MASTER As Tax6 On Tax6.Tax_Code=TSPL_SD_SALE_RETURN_HEAD.Tax6 Where Tax6.Type='IGST'
+Union All
+Select Document_Code,TAX7 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD
+Left Outer Join TSPL_TAX_MASTER As Tax7 On Tax7.Tax_Code=TSPL_SD_SALE_RETURN_HEAD.Tax7 Where Tax7.Type='IGST'
+Union All
+Select Document_Code,TAX8 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD
+Left Outer Join TSPL_TAX_MASTER As Tax8 On Tax8.Tax_Code=TSPL_SD_SALE_RETURN_HEAD.Tax8 Where Tax8.Type='IGST'
+Union All
+Select Document_Code,TAX9 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD
+Left Outer Join TSPL_TAX_MASTER As Tax9 On Tax9.Tax_Code=TSPL_SD_SALE_RETURN_HEAD.Tax9 Where Tax9.Type='IGST'
+Union All
+Select Document_Code,TAX10 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD
+Left Outer Join TSPL_TAX_MASTER As Tax10 On Tax10.Tax_Code=TSPL_SD_SALE_RETURN_HEAD.TAX10  Where Tax10.Type='IGST') xyz --Where Xyz.Type='IGST'
+) Tax_Master On Tax_Master.Document_Code=TSPL_SD_SALE_RETURN_HEAD.Document_Code
 WHERE CONVERT(DATE,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") & "',103)
   AND CONVERT(DATE,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(toDate, "dd/MMM/yyyy") & "',103) "
         If clsCommon.myLen(strLocation) > 0 Then
@@ -526,10 +754,41 @@ WHERE CONVERT(DATE,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,'
         End If
         Qry &= " union all
   Select case when TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Trans_Type='MCC' then 'DCS SALE RETURN' else 'SALES RETURN' end  AS Transcation_Type ,
-		  CASE 
-        WHEN TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Is_Taxable = 1 THEN 'TAXABLE'
-        ELSE 'NON TAXABLE' end AS Invoice_Tax_Type,
+		  CASE WHEN TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Is_Taxable = 1 And Tax_Master.Type ='IGST' THEN 'TAXABLE (IGST)'
+	 WHEN TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Is_Taxable = 1  THEN 'TAXABLE (LOCAL)'
+     ELSE 'NON TAXABLE (LOCAL)' END AS Invoice_Tax_Type,
 	TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Is_Taxable,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Document_Code AS Document_Code,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Document_Code as Cancel_DocumentCode,NULL AS Delete_DocumentCode from TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA
+ Left Outer Join ( Select xyz.* from (
+Select Document_Code,TAX1 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA
+Left Outer Join TSPL_TAX_MASTER As Tax1 On Tax1.Tax_Code=TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Tax1 Where Tax1.Type='IGST'
+Union All
+Select Document_Code,TAX2 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA
+Left Outer Join TSPL_TAX_MASTER As Tax2 On Tax2.Tax_Code=TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Tax2 Where Tax2.Type='IGST'
+Union All
+Select Document_Code,TAX3 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA
+Left Outer Join TSPL_TAX_MASTER As Tax3 On Tax3.Tax_Code=TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Tax3 Where Tax3.Type='IGST'
+Union All
+Select Document_Code,TAX4 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA
+Left Outer Join TSPL_TAX_MASTER As Tax4 On Tax4.Tax_Code=TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Tax4 Where Tax4.Type='IGST'
+Union All
+Select Document_Code,TAX5 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA
+Left Outer Join TSPL_TAX_MASTER As Tax5 On Tax5.Tax_Code=TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Tax5 Where Tax5.Type='IGST'
+Union All
+Select Document_Code,TAX6 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA
+Left Outer Join TSPL_TAX_MASTER As Tax6 On Tax6.Tax_Code=TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Tax6 Where Tax6.Type='IGST'
+Union All
+Select Document_Code,TAX7 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA 
+Left Outer Join TSPL_TAX_MASTER As Tax7 On Tax7.Tax_Code=TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Tax7 Where Tax7.Type='IGST'
+Union All 
+Select Document_Code,TAX8 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA
+Left Outer Join TSPL_TAX_MASTER As Tax8 On Tax8.Tax_Code=TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Tax8 Where Tax8.Type='IGST'
+Union All
+Select Document_Code,TAX9 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA
+Left Outer Join TSPL_TAX_MASTER As Tax9 On Tax9.Tax_Code=TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Tax9 Where Tax9.Type='IGST'
+Union All
+Select Document_Code,TAX10 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA
+Left Outer Join TSPL_TAX_MASTER As Tax10 On Tax10.Tax_Code=TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.TAX10 Where Tax10.Type='IGST') xyz --Where Xyz.Type='IGST'
+) Tax_Master On Tax_Master.Document_Code=TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Document_Code
 WHERE CONVERT(DATE,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Document_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") & "',103)
   AND CONVERT(DATE,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Document_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(toDate, "dd/MMM/yyyy") & "',103)"
         If clsCommon.myLen(strLocation) > 0 Then
@@ -537,10 +796,41 @@ WHERE CONVERT(DATE,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Document_Date,103) >= co
         End If
         Qry &= " union all
   Select case when TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Trans_Type='MCC' then 'DCS SALE RETURN' else 'SALES RETURN' end  AS Transcation_Type ,
-		  CASE 
-        WHEN TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Is_Taxable = 1 THEN 'TAXABLE'
-        ELSE 'NON TAXABLE' end AS Invoice_Tax_Type,
+		  CASE WHEN TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Is_Taxable = 1 And Tax_Master.Type ='IGST' THEN 'TAXABLE (IGST)'     
+	 WHEN TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Is_Taxable = 1  THEN 'TAXABLE (LOCAL)'     
+     ELSE 'NON TAXABLE (LOCAL)' END AS Invoice_Tax_Type,
 	TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Is_Taxable,TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Document_Code AS Document_Code,NULL as Cancel_DocumentCode,TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Document_Code AS Delete_DocumentCode from TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA
+ Left Outer Join ( Select xyz.* from (
+Select Document_Code,TAX1 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA
+Left Outer Join TSPL_TAX_MASTER As Tax1 On Tax1.Tax_Code=TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Tax1 Where Tax1.Type='IGST'
+Union All
+Select Document_Code,TAX2 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA
+Left Outer Join TSPL_TAX_MASTER As Tax2 On Tax2.Tax_Code=TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Tax2 Where Tax2.Type='IGST'
+Union All
+Select Document_Code,TAX3 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA
+Left Outer Join TSPL_TAX_MASTER As Tax3 On Tax3.Tax_Code=TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Tax3 Where Tax3.Type='IGST'
+Union All
+Select Document_Code,TAX4 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA
+Left Outer Join TSPL_TAX_MASTER As Tax4 On Tax4.Tax_Code=TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Tax4 Where Tax4.Type='IGST'
+Union All
+Select Document_Code,TAX5 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA
+Left Outer Join TSPL_TAX_MASTER As Tax5 On Tax5.Tax_Code=TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Tax5 Where Tax5.Type='IGST'
+Union All
+Select Document_Code,TAX6 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA 
+Left Outer Join TSPL_TAX_MASTER As Tax6 On Tax6.Tax_Code=TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Tax6 Where Tax6.Type='IGST'
+Union All
+Select Document_Code,TAX7 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA
+Left Outer Join TSPL_TAX_MASTER As Tax7 On Tax7.Tax_Code=TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Tax7 Where Tax7.Type='IGST'
+Union All
+Select Document_Code,TAX8 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA
+Left Outer Join TSPL_TAX_MASTER As Tax8 On Tax8.Tax_Code=TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Tax8 Where Tax8.Type='IGST'
+Union All
+Select Document_Code,TAX9 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA
+Left Outer Join TSPL_TAX_MASTER As Tax9 On Tax9.Tax_Code=TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Tax9 Where Tax9.Type='IGST'
+Union All
+Select Document_Code,TAX10 As Tax,Type from TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA
+Left Outer Join TSPL_TAX_MASTER As Tax10 On Tax10.Tax_Code=TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.TAX10  Where Tax10.Type='IGST') xyz --Where Xyz.Type='IGST'
+) Tax_Master On Tax_Master.Document_Code=TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Document_Code
 WHERE CONVERT(DATE,TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Document_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") & "',103)
   AND CONVERT(DATE,TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Document_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(toDate, "dd/MMM/yyyy") & "',103)"
         If clsCommon.myLen(strLocation) > 0 Then
@@ -548,10 +838,41 @@ WHERE CONVERT(DATE,TSPL_SD_SALE_RETURN_HEAD_DELETE_DATA.Document_Date,103) >= co
         End If
         Qry &= " union all
     Select 'MATERIAL SALE RETURN'   AS Transcation_Type ,
-		  CASE 
-        WHEN TSPL_SCRAPSALE_HEAD_RETURN.Is_Taxable = 1 THEN 'TAXABLE'
-        ELSE 'NON TAXABLE' end AS Invoice_Tax_Type,
+		 CASE WHEN TSPL_SCRAPSALE_HEAD_RETURN.Is_Taxable = 1 And Tax_Master.Type ='IGST' THEN 'TAXABLE (IGST)'     
+	 WHEN TSPL_SCRAPSALE_HEAD_RETURN.Is_Taxable = 1  THEN 'TAXABLE (LOCAL)'
+     ELSE 'NON TAXABLE (LOCAL)' END AS Invoice_Tax_Type,
 	TSPL_SCRAPSALE_HEAD_RETURN.Is_Taxable,TSPL_SCRAPSALE_HEAD_RETURN.Document_No AS Document_Code,NULL as Cancel_DocumentCode,NULL AS Delete_DocumentCode from TSPL_SCRAPSALE_HEAD_RETURN
+Left Outer Join ( Select xyz.* from (
+Select TSPL_SCRAPSALE_HEAD_RETURN.Document_No AS Document_Code,TAX1 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN
+Left Outer Join TSPL_TAX_MASTER As Tax1 On Tax1.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN.Tax1 Where Tax1.Type='IGST'
+Union All
+Select TSPL_SCRAPSALE_HEAD_RETURN.Document_No AS Document_Code,TAX2 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN
+Left Outer Join TSPL_TAX_MASTER As Tax2 On Tax2.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN.Tax2 Where Tax2.Type='IGST'
+Union All
+Select TSPL_SCRAPSALE_HEAD_RETURN.Document_No AS Document_Code,TAX3 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN
+Left Outer Join TSPL_TAX_MASTER As Tax3 On Tax3.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN.Tax3 Where Tax3.Type='IGST'
+Union All
+Select TSPL_SCRAPSALE_HEAD_RETURN.Document_No AS Document_Code,TAX4 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN
+Left Outer Join TSPL_TAX_MASTER As Tax4 On Tax4.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN.Tax4 Where Tax4.Type='IGST'
+Union All
+Select TSPL_SCRAPSALE_HEAD_RETURN.Document_No AS Document_Code,TAX5 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN
+Left Outer Join TSPL_TAX_MASTER As Tax5 On Tax5.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN.Tax5 Where Tax5.Type='IGST'
+Union All
+Select TSPL_SCRAPSALE_HEAD_RETURN.Document_No AS Document_Code,TAX6 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN
+Left Outer Join TSPL_TAX_MASTER As Tax6 On Tax6.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN.Tax6 Where Tax6.Type='IGST'
+Union All
+Select TSPL_SCRAPSALE_HEAD_RETURN.Document_No AS Document_Code,TAX7 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN
+Left Outer Join TSPL_TAX_MASTER As Tax7 On Tax7.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN.Tax7 Where Tax7.Type='IGST'
+Union All
+Select TSPL_SCRAPSALE_HEAD_RETURN.Document_No AS Document_Code,TAX8 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN
+Left Outer Join TSPL_TAX_MASTER As Tax8 On Tax8.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN.Tax8 Where Tax8.Type='IGST'
+Union All
+Select TSPL_SCRAPSALE_HEAD_RETURN.Document_No AS Document_Code,TAX9 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN
+Left Outer Join TSPL_TAX_MASTER As Tax9 On Tax9.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN.Tax9 Where Tax9.Type='IGST'
+Union All
+Select TSPL_SCRAPSALE_HEAD_RETURN.Document_No AS Document_Code,TAX10 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN
+Left Outer Join TSPL_TAX_MASTER As Tax10 On Tax10.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN.TAX10 Where Tax10.Type='IGST') xyz --Where Xyz.Type='IGST'
+) Tax_Master On Tax_Master.Document_Code=TSPL_SCRAPSALE_HEAD_RETURN.Document_No
 WHERE CONVERT(DATE,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") & "',103)
   AND CONVERT(DATE,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(toDate, "dd/MMM/yyyy") & "',103)"
         If clsCommon.myLen(strLocation) > 0 Then
@@ -559,10 +880,41 @@ WHERE CONVERT(DATE,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103) >= convert(d
         End If
         Qry &= " UNION ALL
   Select 'MATERIAL SALE RETURN'   AS Transcation_Type ,
-		  CASE 
-        WHEN TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Is_Taxable = 1 THEN 'TAXABLE'
-        ELSE 'NON TAXABLE' end AS Invoice_Tax_Type,
+		  CASE WHEN TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Is_Taxable = 1 And Tax_Master.Type ='IGST' THEN 'TAXABLE (IGST)'
+	 WHEN TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Is_Taxable = 1 THEN 'TAXABLE (LOCAL)'
+     ELSE 'NON TAXABLE (LOCAL)' END AS Invoice_Tax_Type,
 	TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Is_Taxable,TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Document_No AS Document_Code,TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Document_No as Cancel_DocumentCode,NULL AS Delete_DocumentCode from TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data
+ Left Outer Join ( Select xyz.* from (
+Select TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Document_No as Document_Code,TAX1 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data
+Left Outer Join TSPL_TAX_MASTER As Tax1 On Tax1.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Tax1 Where Tax1.Type='IGST'
+Union All
+Select TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Document_No as Document_Code,TAX2 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data
+Left Outer Join TSPL_TAX_MASTER As Tax2 On Tax2.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Tax2 Where Tax2.Type='IGST'
+Union All
+Select TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Document_No as Document_Code,TAX3 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data
+Left Outer Join TSPL_TAX_MASTER As Tax3 On Tax3.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Tax3 Where Tax3.Type='IGST'
+Union All
+Select TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Document_No as Document_Code,TAX4 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data
+Left Outer Join TSPL_TAX_MASTER As Tax4 On Tax4.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Tax4 Where Tax4.Type='IGST'
+Union All
+Select TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Document_No as Document_Code,TAX5 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data
+Left Outer Join TSPL_TAX_MASTER As Tax5 On Tax5.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Tax5 Where Tax5.Type='IGST'
+Union All
+Select TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Document_No as Document_Code,TAX6 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data
+Left Outer Join TSPL_TAX_MASTER As Tax6 On Tax6.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Tax6 Where Tax6.Type='IGST'
+Union All
+Select TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Document_No as Document_Code,TAX7 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data
+Left Outer Join TSPL_TAX_MASTER As Tax7 On Tax7.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Tax7 Where Tax7.Type='IGST'
+Union All
+Select TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Document_No as Document_Code,TAX8 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data
+Left Outer Join TSPL_TAX_MASTER As Tax8 On Tax8.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Tax8 Where Tax8.Type='IGST'
+Union All
+Select TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Document_No as Document_Code,TAX9 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data
+Left Outer Join TSPL_TAX_MASTER As Tax9 On Tax9.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Tax9 Where Tax9.Type='IGST'
+Union All
+Select TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Document_No as Document_Code,TAX10 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data
+Left Outer Join TSPL_TAX_MASTER As Tax10 On Tax10.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.TAX10 Where Tax10.Type='IGST' ) xyz --Where Xyz.Type='IGST'
+) Tax_Master On Tax_Master.Document_Code=TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Document_No
 WHERE CONVERT(DATE,TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Return_ship_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") & "',103)
   AND CONVERT(DATE,TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Return_ship_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(toDate, "dd/MMM/yyyy") & "',103)"
         If clsCommon.myLen(strLocation) > 0 Then
@@ -570,11 +922,42 @@ WHERE CONVERT(DATE,TSPL_SCRAPSALE_HEAD_RETURN_Cancel_Data.Return_ship_Date,103) 
         End If
         Qry &= " UNION ALL
     Select 'MATERIAL SALE RETURN'   AS Transcation_Type ,
-		  CASE 
-        WHEN TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Is_Taxable = 1 THEN 'TAXABLE'
-        ELSE 'NON TAXABLE' end AS Invoice_Tax_Type,
+		  CASE WHEN TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Is_Taxable = 1 And Tax_Master.Type ='IGST' THEN 'TAXABLE (IGST)'
+     	 WHEN TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Is_Taxable = 1 THEN 'TAXABLE (LOCAL)'
+     ELSE 'NON TAXABLE (LOCAL)' END AS Invoice_Tax_Type,
 	TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Is_Taxable,TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Document_No AS Document_Code,NULL as Cancel_DocumentCode,TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Document_No AS Delete_DocumentCode from TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data
-WHERE CONVERT(DATE,TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Return_ship_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") & "',103)
+  Left Outer Join ( Select xyz.* from (
+Select  TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Document_No AS Document_Code,TAX1 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data
+Left Outer Join TSPL_TAX_MASTER As Tax1 On Tax1.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Tax1 Where Tax1.Type='IGST'
+Union All
+Select TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Document_No AS Document_Code,TAX2 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data
+Left Outer Join TSPL_TAX_MASTER As Tax2 On Tax2.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Tax2 Where Tax2.Type='IGST'
+Union All
+Select TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Document_No AS Document_Code,TAX3 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data
+Left Outer Join TSPL_TAX_MASTER As Tax3 On Tax3.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Tax3 Where Tax3.Type='IGST'
+Union All
+Select TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Document_No AS Document_Code,TAX4 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data
+Left Outer Join TSPL_TAX_MASTER As Tax4 On Tax4.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Tax4 Where Tax4.Type='IGST'
+Union All
+Select TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Document_No AS Document_Code,TAX5 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data
+Left Outer Join TSPL_TAX_MASTER As Tax5 On Tax5.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Tax5 Where Tax5.Type='IGST'
+Union All
+Select TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Document_No AS Document_Code,TAX6 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data
+Left Outer Join TSPL_TAX_MASTER As Tax6 On Tax6.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Tax6 Where Tax6.Type='IGST'
+Union All
+Select TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Document_No AS Document_Code,TAX7 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data
+Left Outer Join TSPL_TAX_MASTER As Tax7 On Tax7.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Tax7 Where Tax7.Type='IGST'
+Union All
+Select TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Document_No AS Document_Code,TAX8 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data
+Left Outer Join TSPL_TAX_MASTER As Tax8 On Tax8.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Tax8 Where Tax8.Type='IGST'
+Union All
+Select TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Document_No AS Document_Code,TAX9 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data
+Left Outer Join TSPL_TAX_MASTER As Tax9 On Tax9.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Tax9 Where Tax9.Type='IGST'
+Union All
+Select TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Document_No AS Document_Code,TAX10 As Tax,Type from TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data
+Left Outer Join TSPL_TAX_MASTER As Tax10 On Tax10.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.TAX10 Where Tax10.Type='IGST' ) xyz ---Where Xyz.Type='IGST'
+) Tax_Master On Tax_Master.Document_Code=TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Document_No
+ WHERE CONVERT(DATE,TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Return_ship_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") & "',103)
   AND CONVERT(DATE,TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Return_ship_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(toDate, "dd/MMM/yyyy") & "',103) "
         If clsCommon.myLen(strLocation) > 0 Then
             Qry &= " And TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Loc_Code = '" & clsCommon.myCstr(strLocation) & "'"
