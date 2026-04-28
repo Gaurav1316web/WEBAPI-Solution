@@ -6908,6 +6908,8 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                 If DeductTPTFromDocAmt Then
                     txtTPTComAmt.Text = clsCommon.myFormat(dblTCAmt)
                     lblGrossAmount.Text = clsCommon.myFormat(clsCommon.myCdbl(lblTotRAmt.Text) - dblTCAmt)
+                Else
+                    lblGrossAmount.Text = clsCommon.myFormat(clsCommon.myCdbl(lblTotRAmt.Text))
                 End If
                 'If clsCommon.myLen(txtTransporterCode.Value) > 0 Then
                 '    lblFreightCharges.Text = Math.Round(clsCSATransfer.GetProvisionCharge(txtBillToLocation.Value, txtVendorNo.Value, clsCommon.myCdbl(txtGross_Wt.Text), clsCommon.myCdbl(txtVehicleCapacity.Value), clsCommon.myCstr(txtTransporterCode.Value)), 2)

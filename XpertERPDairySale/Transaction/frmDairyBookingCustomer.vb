@@ -2776,6 +2776,8 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         If DeductTPTFromDocAmt Then
             txtTPTComAmt.Text = clsCommon.myFormat(dblTCAmt)
             lblGrossAmount.Text = clsCommon.myFormat(clsCommon.myCdbl(lblTotRAmt.Text) - dblTCAmt)
+        Else
+            lblGrossAmount.Text = clsCommon.myFormat(clsCommon.myCdbl(lblTotRAmt.Text))
         End If
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
             If dblTotalQtyinKG > FORPRICE Then
@@ -8787,7 +8789,7 @@ where TSPL_ITEM_CAPACITY_LIMIT_head.From_Date<='" & clsCommon.GetPrintDate(txtDa
                             obj.TotalSubsidyAmt = clsCommon.myCdbl(txtTPTComAmt.Text)
                             obj.Gross_Amount = clsCommon.myCdbl(lblGrossAmount.Text)
                         Else
-                            obj.Gross_Amount = obj.Total_Amt
+                            obj.Gross_Amount = clsCommon.myCdbl(lblGrossAmount.Text)
                         End If
                         ' obj.Discount_Amt = DCTotalAmt
                         isNewEntry = True
