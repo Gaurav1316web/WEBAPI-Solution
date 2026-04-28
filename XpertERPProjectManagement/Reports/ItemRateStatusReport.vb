@@ -288,6 +288,11 @@ EXEC sp_executesql @sql;"
         Gv1.Columns("RETAILER Inc_Rate").HeaderText = "Inc. Rate"
         Gv1.Columns("RETAILER Exc_Rate").HeaderText = "Exc. Rate"
 
+        Gv1.Columns("PARTY MRP").HeaderText = "MRP"
+        Gv1.Columns("PARTY Margin").HeaderText = "Margin"
+        Gv1.Columns("PARTY Inc_Rate").HeaderText = "Inc. Rate"
+        Gv1.Columns("PARTY Exc_Rate").HeaderText = "Exc. Rate"
+
         Gv1.ShowGroupPanel = True
         Gv1.MasterTemplate.AutoExpandGroups = True
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
