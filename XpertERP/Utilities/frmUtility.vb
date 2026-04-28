@@ -27715,6 +27715,125 @@ where Against_Shipment_No in (select Document_Code from TSPL_SD_SHIPMENT_HEAD wh
         ProgramCodeNew.SetProgramCode()
         clsDBFuncationality.ExecuteNonQuery("update tspl_Program_master set Customise_SNo=SNo")
     End Sub
+
+    Private Sub btnUpdateInvoiceDate_Click(sender As Object, e As EventArgs) Handles btnUpdateInvoiceDate.Click
+        Try
+            importExcel()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Public Sub importExcel()
+        Try
+            Dim gv As New UserControls.MyRadGridView
+            Me.Controls.Add(gv)
+            Dim DtError As DataTable
+            Dim dr As DataRow
+            DtError = New DataTable
+            DtError.Columns.Add("Code", GetType(String))
+            DtError.Columns.Add("Error", GetType(String))
+            Dim DocCode As String = ""
+            Dim obj As New List(Of clsUpdateInvoice)
+            If transportSql.importExcel(gv, "Invoice No", "Document Date") Then
+                Dim linno As Integer = 0
+                Dim TempNewRecord As Boolean = False
+                Try
+                    For Each grow As GridViewRowInfo In gv.Rows
+                        Dim Arr As New clsUpdateInvoice()
+                        linno += 1
+                        If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Invoice No").Value))) Then
+                            Continue For
+                        Else
+                            Dim str As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from tspl_sd_sale_invoice_head where Document_Code='" + clsCommon.myCstr(grow.Cells("Invoice No").Value) + "'"))
+                            If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells("Invoice No").Value)) = CompairStringResult.Equal Then
+                                Arr.strInvoiceNo = clsCommon.myCstr(grow.Cells("Invoice No").Value)
+                            Else
+                                Continue For
+                            End If
+                        End If
+                        If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Document Date").Value))) Then
+                            Continue For
+                        Else
+                            Dim DocDate As DateTime = clsCommon.myCDate(grow.Cells("Document Date").Value)
+                            Arr.DocDate = DocDate
+                        End If
+                        obj.Add(Arr)
+                    Next
+                    If clsCommon.MyMessageBoxShow(Me, "Total Correct Document [" + clsCommon.myCstr(obj.Count) + "] out of [" + clsCommon.myCstr(linno) + "] Are You Sure.", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                        Dim ii As Integer = 0
+
+                        If obj IsNot Nothing AndAlso obj.Count > 0 Then
+                            clsCommon.ProgressBarPercentShow()
+                            For Each objTr As clsUpdateInvoice In obj
+                                clsCommon.ProgressBarPercentUpdate((ii + 1) * 100 / (obj.Count), "Updating Invoice No :" & objTr.strInvoiceNo)
+                                Dim Qry As String = ""
+                                Try
+                                    Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+                                    Try
+                                        DocCode = objTr.strInvoiceNo
+                                        If rbtnInvoice.IsChecked Then
+                                            Qry = " Update TSPL_SD_SALE_INVOICE_HEAD set Document_Date='" + clsCommon.GetPrintDate(objTr.DocDate) + "' where Docuemnt_Code='" + objTr.strInvoiceNo + "'"
+                                            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                                            Qry = "Update TSPL_Customer_Invoice_Head set Document_Date='" + clsCommon.GetPrintDate(objTr.DocDate) + "' where Against_Sale_No ='" + objTr.strInvoiceNo + "' "
+                                            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                                            Qry = "Update TSPL_JOURNAL_MASTER set Voucher_Date='" + clsCommon.GetPrintDate(objTr.DocDate) + "',Source_Doc_Date='" + clsCommon.GetPrintDate(objTr.DocDate) + "'  where Source_Doc_No in (select Document_No from TSPL_Customer_Invoice_Head where Against_Sale_No ='" + objTr.strInvoiceNo + "')"
+                                            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                                        ElseIf rbtnShipment.IsChecked Then
+                                            Qry = "update TSPL_BOOKING_MATSER set Document_Date='" + clsCommon.GetPrintDate(objTr.DocDate) + "'  where Document_No in(select Against_Booking_No from TSPL_SD_SHIPMENT_HEAD where Sale_Invoice_No='" + objTr.strInvoiceNo + "')"
+                                            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                                            Qry = "update TSPL_SD_SHIPMENT_HEAD set Document_Date='" + clsCommon.GetPrintDate(objTr.DocDate) + "' where Sale_Invoice_No='" + objTr.strInvoiceNo + "'"
+                                            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                                            Qry = " Update TSPL_SD_SALE_INVOICE_HEAD set Document_Date='" + clsCommon.GetPrintDate(objTr.DocDate) + "' where Docuemnt_Code='" + objTr.strInvoiceNo + "'"
+                                            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                                            Qry = "Update TSPL_Customer_Invoice_Head set Document_Date='" + clsCommon.GetPrintDate(objTr.DocDate) + "' where Against_Sale_No ='" + objTr.strInvoiceNo + "' "
+                                            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                                            Qry = "Update TSPL_JOURNAL_MASTER set Voucher_Date='" + clsCommon.GetPrintDate(objTr.DocDate) + "',Source_Doc_Date='" + clsCommon.GetPrintDate(objTr.DocDate) + "'  where Source_Doc_No in (select Document_No from TSPL_Customer_Invoice_Head where Against_Sale_No ='" + objTr.strInvoiceNo + "')"
+                                            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                                            Qry = "update TSPL_INVENTORY_MOVEMENT set Source_Doc_Date='" + clsCommon.GetPrintDate(objTr.DocDate, "dd/MM/yyyy") + "',Entry_Date='" + clsCommon.GetPrintDate(objTr.DocDate, "dd/MM/yyyy") + "'  where Source_Doc_No in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where Sale_Invoice_No='" + objTr.strInvoiceNo + "'))"
+                                            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                                        End If
+                                        trans.Commit()
+                                    Catch ex As Exception
+                                        trans.Rollback()
+                                        Throw New Exception(ex.Message)
+
+                                    End Try
+                                Catch ex As Exception
+                                    dr = DtError.NewRow()
+                                    dr("Code") = DocCode
+                                    dr("Error") = ex.Message
+                                    DtError.Rows.Add(dr)
+                                End Try
+                                ii += 1
+                            Next
+                            clsCommon.ProgressBarPercentHide()
+                        End If
+                        common.clsCommon.MyMessageBoxShow(Me, "Updated Successfully", Me.Text, MessageBoxButtons.OK)
+                    Else
+                        common.clsCommon.MyMessageBoxShow(Me, "Update Failed", Me.Text, MessageBoxButtons.OK)
+                    End If
+                    If DtError IsNot Nothing AndAlso DtError.Rows.Count > 0 Then
+                        Dim frm As New FrmFreeGrid()
+                        frm.strFormName = "Errors Documents"
+                        frm.dt = DtError
+                        frm.ReportID = "Update Invoice Date"
+                        frm.ShowDialog()
+                    End If
+                Catch ex As Exception
+                    clsCommon.ProgressBarPercentHide()
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                End Try
+            Else
+                Throw New Exception("Excel Sheet is not in expected format")
+            End If
+
+                'clsCommon.ProgressBarHide()
+                Me.Controls.Remove(gv)
+        Catch ex As Exception
+            'clsCommon.ProgressBarHide()
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class
 Public Class clsDCDetail
 #Region "Varibales"
@@ -27727,6 +27846,13 @@ Public Class clsDCDetail
     Public ColBoothSCRate As String = ""
     Public ColDCUnitCF As String = ""
     Public ColDCCFUOM As String = ""
+
+#End Region
+End Class
+Public Class clsUpdateInvoice
+#Region "Variables"
+    Public strInvoiceNo As String = ""
+    Public DocDate As String = ""
 
 #End Region
 End Class

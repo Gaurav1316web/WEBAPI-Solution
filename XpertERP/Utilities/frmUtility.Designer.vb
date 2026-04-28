@@ -23,10 +23,10 @@ Partial Class FrmUtility
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.btnCreateAdjustment = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
@@ -608,6 +608,10 @@ Partial Class FrmUtility
         Me.TxtMultiSelectFinder15 = New common.UserControls.txtMultiSelectFinder()
         Me.RadPageViewPage7 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadScrollablePanel4 = New Telerik.WinControls.UI.RadScrollablePanel()
+        Me.gbUpdateInvDate = New System.Windows.Forms.GroupBox()
+        Me.btnUpdateInvoiceDate = New Telerik.WinControls.UI.RadButton()
+        Me.rbtnShipment = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnInvoice = New Telerik.WinControls.UI.RadRadioButton()
         Me.BtnItemCostUpdate = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel75 = New common.Controls.MyLabel()
         Me.TxtCost = New common.MyNumBox()
@@ -1428,6 +1432,10 @@ Partial Class FrmUtility
         CType(Me.RadScrollablePanel4, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadScrollablePanel4.PanelContainer.SuspendLayout
         Me.RadScrollablePanel4.SuspendLayout
+        Me.gbUpdateInvDate.SuspendLayout
+        CType(Me.btnUpdateInvoiceDate, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.rbtnShipment, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.rbtnInvoice, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.BtnItemCostUpdate, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel75, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.TxtCost, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1764,7 +1772,7 @@ Partial Class FrmUtility
         '
         Me.gvShipment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvShipment.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvShipment.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvShipment.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvShipment.MyExportAPI = False
         Me.gvShipment.MyExportFilePath = ""
         Me.gvShipment.MyStopExport = False
@@ -2052,8 +2060,7 @@ Partial Class FrmUtility
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage6
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage7
         Me.RadPageView1.Size = New System.Drawing.Size(1112, 569)
         Me.RadPageView1.TabIndex = 44
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -6831,12 +6838,12 @@ Partial Class FrmUtility
         Me.cmbDepartmnt.IsSourceFromTable = False
         Me.cmbDepartmnt.IsSourceFromValueList = False
         Me.cmbDepartmnt.IsUnique = False
-        RadListDataItem4.Text = "Select"
-        RadListDataItem5.Text = "LMS"
-        RadListDataItem6.Text = "Marketing"
-        Me.cmbDepartmnt.Items.Add(RadListDataItem4)
-        Me.cmbDepartmnt.Items.Add(RadListDataItem5)
-        Me.cmbDepartmnt.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "Select"
+        RadListDataItem2.Text = "LMS"
+        RadListDataItem3.Text = "Marketing"
+        Me.cmbDepartmnt.Items.Add(RadListDataItem1)
+        Me.cmbDepartmnt.Items.Add(RadListDataItem2)
+        Me.cmbDepartmnt.Items.Add(RadListDataItem3)
         Me.cmbDepartmnt.Location = New System.Drawing.Point(68, 16)
         Me.cmbDepartmnt.MendatroryField = False
         Me.cmbDepartmnt.MyLinkLable1 = Nothing
@@ -7866,6 +7873,7 @@ Partial Class FrmUtility
         '
         'RadScrollablePanel4.PanelContainer
         '
+        Me.RadScrollablePanel4.PanelContainer.Controls.Add(Me.gbUpdateInvDate)
         Me.RadScrollablePanel4.PanelContainer.Controls.Add(Me.BtnItemCostUpdate)
         Me.RadScrollablePanel4.PanelContainer.Controls.Add(Me.MyLabel75)
         Me.RadScrollablePanel4.PanelContainer.Controls.Add(Me.TxtCost)
@@ -7902,6 +7910,42 @@ Partial Class FrmUtility
         Me.RadScrollablePanel4.PanelContainer.Size = New System.Drawing.Size(1075, 522)
         Me.RadScrollablePanel4.Size = New System.Drawing.Size(1094, 524)
         Me.RadScrollablePanel4.TabIndex = 373
+        '
+        'gbUpdateInvDate
+        '
+        Me.gbUpdateInvDate.Controls.Add(Me.btnUpdateInvoiceDate)
+        Me.gbUpdateInvDate.Controls.Add(Me.rbtnShipment)
+        Me.gbUpdateInvDate.Controls.Add(Me.rbtnInvoice)
+        Me.gbUpdateInvDate.Location = New System.Drawing.Point(837, 523)
+        Me.gbUpdateInvDate.Name = "gbUpdateInvDate"
+        Me.gbUpdateInvDate.Size = New System.Drawing.Size(235, 78)
+        Me.gbUpdateInvDate.TabIndex = 392
+        Me.gbUpdateInvDate.TabStop = False
+        Me.gbUpdateInvDate.Text = "Update Invoice Date"
+        '
+        'btnUpdateInvoiceDate
+        '
+        Me.btnUpdateInvoiceDate.Location = New System.Drawing.Point(25, 48)
+        Me.btnUpdateInvoiceDate.Name = "btnUpdateInvoiceDate"
+        Me.btnUpdateInvoiceDate.Size = New System.Drawing.Size(110, 24)
+        Me.btnUpdateInvoiceDate.TabIndex = 2
+        Me.btnUpdateInvoiceDate.Text = "Update Date"
+        '
+        'rbtnShipment
+        '
+        Me.rbtnShipment.Location = New System.Drawing.Point(76, 21)
+        Me.rbtnShipment.Name = "rbtnShipment"
+        Me.rbtnShipment.Size = New System.Drawing.Size(68, 18)
+        Me.rbtnShipment.TabIndex = 1
+        Me.rbtnShipment.Text = "Shipment"
+        '
+        'rbtnInvoice
+        '
+        Me.rbtnInvoice.Location = New System.Drawing.Point(14, 19)
+        Me.rbtnInvoice.Name = "rbtnInvoice"
+        Me.rbtnInvoice.Size = New System.Drawing.Size(56, 18)
+        Me.rbtnInvoice.TabIndex = 0
+        Me.rbtnInvoice.Text = "Invoice"
         '
         'BtnItemCostUpdate
         '
@@ -11440,6 +11484,11 @@ Partial Class FrmUtility
         Me.RadScrollablePanel4.PanelContainer.PerformLayout
         CType(Me.RadScrollablePanel4, System.ComponentModel.ISupportInitialize).EndInit
         Me.RadScrollablePanel4.ResumeLayout(False)
+        Me.gbUpdateInvDate.ResumeLayout(False)
+        Me.gbUpdateInvDate.PerformLayout
+        CType(Me.btnUpdateInvoiceDate, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.rbtnShipment, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.rbtnInvoice, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.BtnItemCostUpdate, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel75, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.TxtCost, System.ComponentModel.ISupportInitialize).EndInit
@@ -12504,5 +12553,9 @@ Partial Class FrmUtility
     Friend WithEvents MyLabel74 As common.Controls.MyLabel
     Friend WithEvents TxtItemCode As common.UserControls.txtFinder
     Friend WithEvents RadButton317 As RadButton
+    Friend WithEvents gbUpdateInvDate As GroupBox
+    Friend WithEvents btnUpdateInvoiceDate As RadButton
+    Friend WithEvents rbtnShipment As RadRadioButton
+    Friend WithEvents rbtnInvoice As RadRadioButton
 End Class
 

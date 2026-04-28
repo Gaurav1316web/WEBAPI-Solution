@@ -1247,7 +1247,7 @@ where TSPL_DEMAND_BOOKING_MASTER.Posted=0 and convert(date,TSPL_DEMAND_BOOKING_M
         Dim balanceAmt As Double = 0
         Dim OPInvoice_Sale_Amt As Double = 0
         Dim CurrFinYR As String = String.Empty
-        Dim FinancialYear As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT CASE WHEN DatePart(Month, '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "') >= 4 THEN DatePart(Year, '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "') & 1 ELSE DatePart(Year, '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "') END AS Fiscal_Year"))
+        Dim FinancialYear As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT CASE WHEN DatePart(Month, '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "') >= 4 THEN DatePart(Year, '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "') + 1 ELSE DatePart(Year, '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "') END AS Fiscal_Year"))
         Dim strStartDate As Date = "01/Apr/" & clsCommon.myCstr(clsCommon.myCdbl(FinancialYear - 1))
         Dim strEndDate As Date = "31/Mar/" & FinancialYear
         CurrFinYR = clsCommon.myCstr(clsCommon.myCdbl(FinancialYear - 1)) & "-" & FinancialYear

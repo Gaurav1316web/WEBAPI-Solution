@@ -17,6 +17,7 @@ Public Class frmDairyGatePass
     Dim AllowManualCrateForDispatch As Boolean = False
     Dim ApplyDepartmentRoute As Boolean = False
     Dim isDepartmentRoute As Boolean = False
+    Dim ServerDateTimeForTaxableInvoice As Boolean = False
     Dim strQueryCANCRate As String
     Dim dt As DataTable
     Private isNewEntry As Boolean = False
@@ -145,6 +146,7 @@ Public Class frmDairyGatePass
             ApplyDepartmentRoute = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, Nothing)) = 1, True, False)
             DifferentCrateTypeForFGItem = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DifferentCrateTypeForFGItem, clsFixedParameterCode.DifferentCrateTypeForFGItem, Nothing)) = 1, True, False)
             CreateAutoGatePass = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateAutoGatePass, clsFixedParameterCode.CreateAutoGatePass, Nothing)) = 1, True, False)
+            ServerDateTimeForTaxableInvoice = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ServerDateTimeForTaxableInvoice, clsFixedParameterCode.ServerDateTimeForTaxableInvoice, Nothing)) = 1, True, False)
 
             Addnew()
             LoadBlankGrid()
@@ -1243,6 +1245,12 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
         If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
             txtDate.Select()
             Return False
+        End If
+        If ServerDateTimeForTaxableInvoice Then
+            Dim serverDateTime As DateTime = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy")
+            If clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") <> serverDateTime Then
+                Throw New Exception("Document Date and Supply Date Should be Server Date Time")
+            End If
         End If
         If chkAgainstTransfer.Checked = True Then
             If clsCommon.myLen(FndTransferNo.Value) <= 0 Then

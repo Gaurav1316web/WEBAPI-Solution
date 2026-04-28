@@ -3157,7 +3157,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
 
             If ServerDateTimeForTaxableInvoice Then
                 Dim serverDateTime As DateTime = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy")
-                If rbtnTaxable.IsChecked AndAlso clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") <> serverDateTime Then
+                If clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") <> serverDateTime Then
                     Throw New Exception("Document Date and Supply Date Should be Server Date Time")
                 End If
             End If
@@ -4336,10 +4336,11 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                 lblARSecurity.Text = dblARSecurityAmt
                 lblTotalOutstansing.Text = dblAmt
                 lbltotalOutstanding1.Text = dblAmt
-                lblOutstandingDesc.Text = dblOutstandingAmt
+                'lblOutstandingDesc.Text = dblOutstandingAmt
                 lblTotalSecurity11.Text = dblSecurityAmount - dblReverseSecurityAmount - dblRefundAmount + dblReverseRefundAmount - dblARSecurityAmt
 
             End If
+            lblOutstandingDesc.Text = dblOutstandingAmt
             If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select  isnull(tspl_customer_master.CheckCreditLimit,0) as CheckCreditLimit from tspl_customer_master where cust_code='" & strCustomer & "'", trans)) = 0 Then
                 Return True
             End If
@@ -8766,7 +8767,10 @@ where TSPL_ITEM_CAPACITY_LIMIT_head.From_Date<='" & clsCommon.GetPrintDate(txtDa
                                 SCTotalAmt += objTr.Security_Amt
 
                                 If clsCommon.myLen(txtDocNo.Value) > 0 Then
-                                    Dim strQry As String = "delete TSPL_BATCH_ITEM  where Document_Code='" & txtDocNo.Value & "' and Item_Code='" & objTr.Item_Code & "' and UOM='" & objTr.Unit_code & "'"
+
+                                    Dim strQry As String = "INSERT INTO TSPL_BATCH_ITEM_CUSTOMER_BOOKING SELECT * FROM TSPL_BATCH_ITEM  where Document_Code='" & txtDocNo.Value & "' and Item_Code='" & objTr.Item_Code & "' and UOM='" & objTr.Unit_code & "'"
+                                    clsDBFuncationality.ExecuteNonQuery(strQry, trans)
+                                    strQry = "delete TSPL_BATCH_ITEM  where Document_Code='" & txtDocNo.Value & "' and Item_Code='" & objTr.Item_Code & "' and UOM='" & objTr.Unit_code & "'"
                                     clsDBFuncationality.ExecuteNonQuery(strQry, trans)
                                 End If
                                 If (clsCommon.myLen(objTr.Item_Code) > 0) Then
@@ -9642,6 +9646,9 @@ On TabBatch.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code And  TabBatch.Ite
         Else
             rgbTaxNonTax.Visible = True
             If ServerDateTimeForTaxableInvoice Then
+                txtDate.Value = clsCommon.GETSERVERDATE
+                txtDate.Enabled = False
+            Else
                 txtDate.Enabled = True
             End If
 

@@ -4334,6 +4334,8 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Manual_BatchNo", "VARCHAR(50) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BATCH_ITEM", coll, Nothing, True, True, "TSPL_INVENTORY_MOVEMENT", "Against_Inv_Movement_Trans_Id", "", True)
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BATCH_ITEM_INDIRECT", coll, Nothing, False, False, "TSPL_INVENTORY_MOVEMENT", "Against_Inv_Movement_Trans_Id", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BATCH_ITEM_CUSTOMER_BOOKING", coll, Nothing, True, True, "TSPL_INVENTORY_MOVEMENT", "Against_Inv_Movement_Trans_Id", "", True)
+
 
 
             coll = New Dictionary(Of String, String)()

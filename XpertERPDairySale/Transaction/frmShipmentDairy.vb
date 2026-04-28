@@ -7222,7 +7222,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             End If
             If ServerDateTimeForTaxableInvoice Then
                 Dim serverDateTime As DateTime = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy")
-                If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal AndAlso clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") <> serverDateTime Then
+                If clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") <> serverDateTime Then
                     Throw New Exception("Document Date and Supply Date Should be Server Date Time")
                 End If
             End If
@@ -15067,13 +15067,10 @@ On TabBatch.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code And  TabBatch.Ite
     End Sub
     Private Sub CheckTaxNonTax()
         If ServerDateTimeForTaxableInvoice Then
-            If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal Then
-                txtDate.Value = clsCommon.GETSERVERDATE
-                txtDate.Enabled = False
-            Else
-                rgbTaxNonTax.Visible = True
-                txtDate.Enabled = True
-            End If
+
+            txtDate.Value = clsCommon.GETSERVERDATE
+            txtDate.Enabled = False
+
         End If
     End Sub
     Private Sub txtDate_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtDate.Validating

@@ -1222,6 +1222,12 @@ where TSPL_VENDOR_INVOICE_HEAD.RefDocType='BOK-CRD' and TSPL_VENDOR_INVOICE_HEAD
                 '' to set booking status =1 means Unposted in detail table of booking
                 Qry = "Update TSPL_BOOKING_DETAIL set Booking_Status = 1,Delivery_No =null where Document_No='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                'Dim strQry As String = "SELECT * INTO TSPL_BATCH_ITEM  FROM TSPL_BATCH_ITEM_CUSTOMER_BOOKING  where Document_Code='" & strCode & "' "
+                Dim strQry As String = "INSERT INTO TSPL_BATCH_ITEM SELECT * FROM TSPL_BATCH_ITEM_CUSTOMER_BOOKING where Document_Code='" & strCode & "' "
+                clsDBFuncationality.ExecuteNonQuery(strQry, trans)
+                strQry = "delete FROM TSPL_BATCH_ITEM_CUSTOMER_BOOKING where Document_Code='" & strCode & "' "
+                clsDBFuncationality.ExecuteNonQuery(strQry, trans)
+
             Else
 
                 Qry = "Update TSPL_BOOKING_MATSER set Posted = 0 where Document_No='" + strCode + "'"
