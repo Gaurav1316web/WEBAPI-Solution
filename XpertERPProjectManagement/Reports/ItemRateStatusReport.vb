@@ -199,8 +199,7 @@ EXEC sp_executesql @sql;"
             Dim qry As String = "  SELECT DISTINCT TSPL_ITEM_PRICE_PLAN_detail.PRICE_CODE
     FROM TSPL_ITEM_PRICE_PLAN_HEADER 
     LEFT JOIN TSPL_ITEM_PRICE_PLAN_detail ON TSPL_ITEM_PRICE_PLAN_detail.Plan_Code = TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code 
-    WHERE TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code = 'PPL-AJM/2627/000002'
-      AND TSPL_ITEM_PRICE_PLAN_detail.PRICE_CODE IS NOT NULL"
+    WHERE        TSPL_ITEM_PRICE_PLAN_detail.PRICE_CODE IS NOT NULL"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
             If dt.Rows.Count > 0 Then
@@ -233,7 +232,11 @@ EXEC sp_executesql @sql;"
                             view.ColumnGroups(groupIndex).Rows(0).ColumnNames.Add(Gv1.Columns("RETAILER Margin").Name)
                             view.ColumnGroups(groupIndex).Rows(0).ColumnNames.Add(Gv1.Columns("RETAILER Inc_Rate").Name)
                             view.ColumnGroups(groupIndex).Rows(0).ColumnNames.Add(Gv1.Columns("RETAILER Exc_Rate").Name)
-
+                        ElseIf priceCode = "PARTY" Then
+                            view.ColumnGroups(groupIndex).Rows(0).ColumnNames.Add(Gv1.Columns("PARTY MRP").Name)
+                            view.ColumnGroups(groupIndex).Rows(0).ColumnNames.Add(Gv1.Columns("PARTY Margin").Name)
+                            view.ColumnGroups(groupIndex).Rows(0).ColumnNames.Add(Gv1.Columns("PARTY Inc_Rate").Name)
+                            view.ColumnGroups(groupIndex).Rows(0).ColumnNames.Add(Gv1.Columns("PARTY Exc_Rate").Name)
                         End If
                     Next
                 End If
