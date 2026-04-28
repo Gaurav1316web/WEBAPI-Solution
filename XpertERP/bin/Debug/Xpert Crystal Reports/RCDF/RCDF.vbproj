@@ -537,6 +537,7 @@
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_NonTaxableCHU.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_NonTaxableRJS.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_NonTaxables.rpt" />
+    <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_NonTaxableTNK.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMccMilkRate.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\RptMilkJobWorkTransfer.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMilkPurchaseInvoice.rpt" />

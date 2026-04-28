@@ -541,6 +541,7 @@ Public Class clsCreateAllTable
             coll.Add("Union_Contact_Person", "Varchar(30) null ")
             coll.Add("Union_Contact_PhoneNo", "Varchar(30) null ")
             coll.Add("ISO_No", "Varchar(30) null ")
+            coll.Add("ISO_Date", "datetime null ")
             coll.Add("PCCN1", "Varchar(30) null ")
             coll.Add("PCCN2", "Varchar(30) null ")
             coll.Add("PCCP1", "Varchar(50) null ")

@@ -58,7 +58,11 @@ Public Class rptZoneWiseReport1
         txtFromShift.DisplayMember = "Shift"
     End Sub
     Private Sub btnPrint_Click(sender As Object, e As EventArgs)
-        LoadData()
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
+            LoadZoneWiseData()
+        Else
+            LoadData()
+        End If
     End Sub
     Sub Reset()
         RadPageView1.SelectedPage = RadPageViewPage1
@@ -70,6 +74,128 @@ Public Class rptZoneWiseReport1
         txtRoute.arrValueMember = Nothing
         txtFromShift.SelectedValue = "M"
         txtToShift.SelectedValue = "E"
+    End Sub
+    Public Sub LoadZoneWiseData()
+        Try
+            Dim Fromshift As String = clsCommon.myCstr(txtFromShift.Text)
+            Dim Toshift As String = clsCommon.myCstr(txtToShift.Text)
+            Dim qry As String = "
+select * from (select CASE WHEN CODE <> 'LTR'   THEN TotalCrates_ItemWise else 0 END AS fINAL1,'" + Fromshift + "' AS FromShift, '" + Toshift + " ' as Toshift,
+CASE WHEN CODE ='LTR'  THEN TotalLtr_ItemWise else 0  END AS fINAL2, CASE WHEN CODE <> 'LTR'  THEN TotalCrates_ItemWise ELSE TotalLtr_ItemWise END AS fINAL,ROW_NUMBER() OVER(PARTITION BY Structure_Code ORDER BY Structure_Code) AS SNO,*  from  "
+            qry += "(Select (Zone_Code)Zone_Code,max(Route_No)Route_No,"
+
+
+            qry += "Area_Code ,Area_Code as Code, 'Administrator' as UserName,max(Route_Desc)Route_Desc1,max(Route_Desc)Route_Desc4,(Route_Desc)Route_Desc, sum(Final_Qty)Final_Qty,
+                Sku_Seq,max(Phone2)Phone2,max(Phone1)Phone1,max(Circle_No)Circle_No, max(Comp_Name)Comp_Name,max(City_Code)City_Code,max(State)State,Item_Code,max(Structure_Code)Structure_Code , max(Add1)Add1,max(Add2)Add2,max(Pincode)Pincode,max(Fax)Fax,max(FromDate)FromDate,MAX(ToDate)ToDate,max(Short_Description) AS Short_Description,max(Unit_Desc) as Unit_Desc,sum(TotalCrates_ItemWise) as TotalCrates_ItemWise,sum(TotalLtr_ItemWise) as TotalLtr_ItemWise from 
+				
+				( Select TSPL_ROUTE_MASTER.Route_Desc ,"
+            qry += " TSPL_ROUTE_MASTER.Zone_Code, TSPL_ROUTE_MASTER.Route_No,"
+
+            qry += "TSPL_ROUTE_MASTER.Area_Code as Area_Code,tspl_route_master.route_desc as Customer_Name  ,TSPL_DEMAND_BOOKING_MASTER.ShiftType,
+                        case when TSPL_ITEM_MASTER.Is_Ambient = 1 then round((isnull(TSPL_DEMAND_BOOKING_DETAIL.Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.KG,2) else (case when TSPL_ITEM_MASTER.Is_FreshItem = 1 then round((isnull(TSPL_DEMAND_BOOKING_DETAIL.Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[LTR],2) else 0 end ) end as Final_Qty
+                       ,case when TSPL_ITEM_MASTER.Is_FreshItem = 1 then	round((isnull(TSPL_DEMAND_BOOKING_DETAIL.Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.KG,2) else 0 end as Kg_Qty , tspl_company_master.State,tspl_company_master.City_Code,tspl_company_master.Circle_No,tspl_company_master.Phone1,tspl_company_master.Phone2,   tspl_company_master.Comp_Name
+                       ,tspl_company_master.Add1,tspl_company_master.Add2,tspl_company_master.Pincode,tspl_company_master.Fax, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as FromDate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate, TSPL_ITEM_MASTER.Sku_Seq , TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Structure_Code as Structure_Code,TSPL_ITEM_MASTER.Short_Description as Short_Description,TSPL_UNIT_MASTER.Unit_Desc,TSPL_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise
+                       ,TSPL_DEMAND_BOOKING_DETAIL.TotalCrates_ItemWise ,(CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch=0 THEN TSPL_DEMAND_BOOKING_DETAIL.Qty ELSE 0 END) as ProdQ
+					   from TSPL_DEMAND_BOOKING_MASTER  Left outer join TSPL_DEMAND_BOOKING_DETAIL On TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No 
+                Left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code left outer join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_code left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code   and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_Code 
+                left outer join tspl_company_master on 2 = 2 left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_DEMAND_BOOKING_DETAIL.Item_Code = I.item_code 
+                Left Join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_master.Route_No 
+                where 2 = 2 and  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date) BETWEEN CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "', 103) and CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value) + "', 103) and  Is_FreshItem = 1)  XXXFirst 
+                where Item_Code is  not null and Area_Code is not null  group by   XXXFirst.Route_Desc,"
+            qry += " XXXFirst.Zone_Code,"
+            qry += " XXXFirst.Item_Code,XXXFirst.Sku_Seq,XXXFirst.Area_Code"
+            qry += "  ) xx)PP   "
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
+            Dim dtItems As DataTable = clsDBFuncationality.GetDataTable("select Item_Code,max(Sku_Seq) as Sku_Seq,max(Short_Description) as Short_Description,max(Structure_Code)Structure_Code from (" + qry + ") x group by Item_Code order by Sku_Seq")
+                Dim dtItemsss As DataTable = clsDBFuncationality.GetDataTable("select Item_Code from (" + qry + ") x group by Item_Code")
+
+                Dim FinalQuery As String = " With CTERawData as ( " + qry + "  )" + Environment.NewLine + Environment.NewLine
+                Dim itemList As String = ""
+
+                For Each row As DataRow In dtItemsss.Rows
+                    itemList &= "'" & row("Item_Code").ToString() & "',"
+                Next
+
+                ' Remove last comma
+                If itemList.EndsWith(",") Then
+                    itemList = itemList.Substring(0, itemList.Length - 1)
+                End If
+            Dim ii As Integer = 1
+            ' For ii As Integer = 1 To dtItems.Rows.Count Step 10
+            'If ii > 1 Then
+            'FinalQuery += Environment.NewLine + " Union all " + Environment.NewLine
+            ' End If
+            FinalQuery += " select '" & objCommonVar.CurrentUser & "' as UserName," + clsCommon.myCstr(ii) + " as Grp ,'" + txtFromShift.Text + "' as FromShift,'" + txtToShift.Text + "' as ToShift,    '" + clsCommon.GetPrintDate(clsCommon.myCDate(txtFromDate.Value), "dd/MM/yyyy") + "' AS FromDate,'" + clsCommon.GetPrintDate(clsCommon.myCDate(txtToDate.Value), "dd/MM/yyyy") + "' AS ToDate,"
+                FinalQuery += "Area_code,(Zone_Code)Zone_Code,max(Route_No) as Route_No"
+            'FinalQuery += "max(Document_Date) as Document_Date"
+            For jj As Integer = 1 To 18
+                Dim strJJ As String = clsCommon.myCstr(jj)
+                Dim strICODE As String = ""
+                Dim strIShortDesc As String = ""
+                Dim strISTRCode As String = ""
+                If (ii + jj - 1) > dtItems.Rows.Count Then
+                    strICODE = ""
+                    strIShortDesc = ""
+                    strISTRCode = "-"
+                Else
+                    strICODE = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Item_Code"))
+                    strIShortDesc = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Short_Description"))
+                    strISTRCode = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Structure_Code"))
+
+                    'strIUnitCode = "" + ddlQtyConversionType.SelectedValue + ""
+                End If
+                FinalQuery += " ,'" + strISTRCode + "' as Structure_Code_" + strJJ + ",'" + strICODE + "' as Item_" + strJJ + " ,'" + strIShortDesc + "' as Item_Short_Description_" + strJJ + " 
+
+   ,case when (sum(case when item_code='" + strICODE + "' then convert(decimal(18,2),totalcrates_itemwise) else null end )) is null then '-' else  
+   convert(varchar,sum(case when item_code='" + strICODE + "'  then convert(decimal(18,2),totalcrates_itemwise) else null end))
+  end   as itemqtycrate_" + strJJ + "
+
+    ,
+Case when (sum(case when Item_Code='" + strICODE + "' then convert(decimal(18,2),TotalLtr_ItemWise) else null end )) is null then '-' ELSE  
+    convert(varchar,sum(case when Item_Code='" + strICODE + "'  then convert(decimal(18,2),TotalLtr_ItemWise) else null end))
+    End   As ItemQtyLTR_" + strJJ + "
+"
+            Next
+
+            FinalQuery += ", max(Structure_Code) as Structure_Code,sum(TotalCrates_ItemWise) as TotalCrates_ItemWise,sum(TotalLtr_ItemWise) as TotalLtr_ItemWise ,sum(fINAL1)fINAL1,sum(fINAL2)fINAL2"
+                    FinalQuery += ",max(Sku_Seq) as Sku_Seq,MAX(Comp_Name)Comp_Name,MAX(Add1)Add1,MAX(Add2)Add2,CASE 
+    WHEN 
+        SUM(CASE WHEN Item_Code IN (" + itemList + ") 
+                 THEN CONVERT(DECIMAL(18,2), Final) 
+            END) IS NULL 
+    THEN '-' 
+    ELSE 
+        CONVERT(VARCHAR,
+            SUM(CASE WHEN Item_Code IN (" + itemList + ") 
+                     THEN CONVERT(DECIMAL(18,2), Final) 
+                END)
+        )
+END AS [TotalCTRLTR]  from ( select xx.*	from CTERawData xx ) x group by Zone_Code,Area_Code "
+            'Next
+
+            dt = clsDBFuncationality.GetDataTable(FinalQuery)
+
+
+            '   End If
+
+
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
+                    ' frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptZoneWiseReportCHTNEW", "")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptZoneWiseReportCHT", "")
+
+                    '  frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, Nothing, "crptZoneWiseReportCHTNEW1", "ZoneWiseReportCHTNEW")
+                    frmCRV = Nothing
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+
+        End Try
     End Sub
 
     Private Sub LoadData()
@@ -98,7 +224,7 @@ CASE WHEN CODE ='LTR'  THEN TotalLtr_ItemWise else 0  END AS fINAL2, CASE WHEN C
 
                 qry += " TSPL_ROUTE_MASTER.Route_No,"
             End If
-            qry += "TSPL_ROUTE_MASTER.Area_Code +' ' +'CRT' Area_Code,tspl_route_master.route_desc as Customer_Name  ,TSPL_DEMAND_BOOKING_MASTER.ShiftType,
+            qry += "TSPL_ROUTE_MASTER.Area_Code as Area_Code,tspl_route_master.route_desc as Customer_Name  ,TSPL_DEMAND_BOOKING_MASTER.ShiftType,
                         case when TSPL_ITEM_MASTER.Is_Ambient = 1 then round((isnull(TSPL_DEMAND_BOOKING_DETAIL.Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.KG,2) else (case when TSPL_ITEM_MASTER.Is_FreshItem = 1 then round((isnull(TSPL_DEMAND_BOOKING_DETAIL.Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[LTR],2) else 0 end ) end as Final_Qty
                        ,case when TSPL_ITEM_MASTER.Is_FreshItem = 1 then	round((isnull(TSPL_DEMAND_BOOKING_DETAIL.Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.KG,2) else 0 end as Kg_Qty , tspl_company_master.State,tspl_company_master.City_Code,tspl_company_master.Circle_No,tspl_company_master.Phone1,tspl_company_master.Phone2,   tspl_company_master.Comp_Name
                        ,tspl_company_master.Add1,tspl_company_master.Add2,tspl_company_master.Pincode,tspl_company_master.Fax, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as FromDate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate, TSPL_ITEM_MASTER.Sku_Seq , TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Structure_Code as Structure_Code,TSPL_ITEM_MASTER.Short_Description as Short_Description,TSPL_UNIT_MASTER.Unit_Desc,TSPL_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise
@@ -122,7 +248,7 @@ CASE WHEN CODE ='LTR'  THEN TotalLtr_ItemWise else 0  END AS fINAL2, CASE WHEN C
                 qry += " Select (Route_No)Route_No,"
             End If
 
-            qry += "Area_Code +' '+ 'LTR','LTR' AS cODE,  'Administrator' as UserName,max(Route_Desc)Route_Desc1,max(Route_Desc)Route_Desc4,(Route_Desc)Route_Desc, sum(Final_Qty)Final_Qty,
+            qry += "Area_Code ,'LTR' AS cODE,  'Administrator' as UserName,max(Route_Desc)Route_Desc1,max(Route_Desc)Route_Desc4,(Route_Desc)Route_Desc, sum(Final_Qty)Final_Qty,
                 Sku_Seq,max(Phone2)Phone2,max(Phone1)Phone1,max(Circle_No)Circle_No, max(Comp_Name)Comp_Name,max(City_Code)City_Code,max(State)State,Item_Code,max(Structure_Code)Structure_Code , max(Add1)Add1,max(Add2)Add2,max(Pincode)Pincode,max(Fax)Fax,max(FromDate)FromDate,MAX(ToDate)ToDate,max(Short_Description) AS Short_Description,max(Unit_Desc) as Unit_Desc,sum(TotalCrates_ItemWise) as TotalCrates_ItemWise,sum(TotalLtr_ItemWise) as TotalLtr_ItemWise from 
 				
 				( Select TSPL_ROUTE_MASTER.Route_Desc ,"
@@ -269,10 +395,14 @@ END AS [TotalCTRLTR]  from ( select xx.*	from CTERawData xx ) x group by Zone_Co
     End Sub
 
     Private Sub txtZone_Click(sender As Object, e As EventArgs) Handles txtZone.Click
-        LoadData()
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
+            LoadZoneWiseData()
+        Else
+            LoadData()
+        End If
+        'LoadData()
     End Sub
-
-    Private Sub btnRoute_Click(sender As Object, e As EventArgs) Handles btnRoute.Click
+    Public Sub routewisedata()
         Try
             ' Dim whrclsShift As String = ""
             Dim Shift As String = ""
@@ -305,9 +435,9 @@ CASE WHEN CODE <> 'LTR'  THEN TotalCrates_ItemWise ELSE TotalLtr_ItemWise END AS
                 left outer join tspl_company_master on 2 = 2 left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_DEMAND_BOOKING_DETAIL.Item_Code = I.item_code 
                 Left Join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_master.Route_No 
                 where 2 = 2 "
-            qry += " and  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date) BETWEEN CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "', 103) and CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value) + "', 103) " 
-            
-               If clsCommon.CompairString(clsCommon.myCstr(txtFromShift.Text), "E") = CompairStringResult.Equal Then
+            qry += " and  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date) BETWEEN CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "', 103) and CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value) + "', 103) "
+
+            If clsCommon.CompairString(clsCommon.myCstr(txtFromShift.Text), "E") = CompairStringResult.Equal Then
                 qry += " and 2=( case when Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtFromDate.Value)), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtFromDate.Value)), "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning' then 3 else 2 end  )"
             End If
             If clsCommon.CompairString(clsCommon.myCstr(txtToShift.Text), "M") = CompairStringResult.Equal Then
@@ -368,7 +498,134 @@ CASE WHEN CODE <> 'LTR'  THEN TotalCrates_ItemWise ELSE TotalLtr_ItemWise END AS
 
         End Try
     End Sub
+    Private Sub btnRoute_Click(sender As Object, e As EventArgs) Handles btnRoute.Click
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
+            routewisedataCHT()
+        Else
+            routewisedata()
+        End If
+    End Sub
+    Public Sub routewisedataCHT()
+        Try
+            Dim Fromshift As String = clsCommon.myCstr(txtFromShift.Text)
+            Dim Toshift As String = clsCommon.myCstr(txtToShift.Text)
+            Dim qry As String = "
+select * from (select CASE WHEN CODE <> 'LTR'   THEN TotalCrates_ItemWise else 0 END AS fINAL1,'" + Fromshift + "' AS FromShift, '" + Toshift + " ' as Toshift,
+CASE WHEN CODE ='LTR'  THEN TotalLtr_ItemWise else 0  END AS fINAL2, CASE WHEN CODE <> 'LTR'  THEN TotalCrates_ItemWise ELSE TotalLtr_ItemWise END AS fINAL,ROW_NUMBER() OVER(PARTITION BY Structure_Code ORDER BY Structure_Code) AS SNO,*  from  "
+            qry += "(Select MAX(Zone_Code)Zone_Code,(Route_No)Route_No,"
 
+
+            qry += "MAX(Area_Code)Area_Code ,MAX(Area_Code) as Code, 'Administrator' as UserName,max(Route_Desc)Route_Desc1,max(Route_Desc)Route_Desc4,(Route_Desc)Route_Desc, sum(Final_Qty)Final_Qty,
+                Sku_Seq,max(Phone2)Phone2,max(Phone1)Phone1,max(Circle_No)Circle_No, max(Comp_Name)Comp_Name,max(City_Code)City_Code,max(State)State,Item_Code,max(Structure_Code)Structure_Code , max(Add1)Add1,max(Add2)Add2,max(Pincode)Pincode,max(Fax)Fax,max(FromDate)FromDate,MAX(ToDate)ToDate,max(Short_Description) AS Short_Description,max(Unit_Desc) as Unit_Desc,sum(TotalCrates_ItemWise) as TotalCrates_ItemWise,sum(TotalLtr_ItemWise) as TotalLtr_ItemWise from 
+				
+				( Select TSPL_ROUTE_MASTER.Route_Desc ,"
+            qry += " TSPL_ROUTE_MASTER.Zone_Code, TSPL_ROUTE_MASTER.Route_No,"
+
+            qry += "TSPL_ROUTE_MASTER.Area_Code as Area_Code,tspl_route_master.route_desc as Customer_Name  ,TSPL_DEMAND_BOOKING_MASTER.ShiftType,
+                        case when TSPL_ITEM_MASTER.Is_Ambient = 1 then round((isnull(TSPL_DEMAND_BOOKING_DETAIL.Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.KG,2) else (case when TSPL_ITEM_MASTER.Is_FreshItem = 1 then round((isnull(TSPL_DEMAND_BOOKING_DETAIL.Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[LTR],2) else 0 end ) end as Final_Qty
+                       ,case when TSPL_ITEM_MASTER.Is_FreshItem = 1 then	round((isnull(TSPL_DEMAND_BOOKING_DETAIL.Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.KG,2) else 0 end as Kg_Qty , tspl_company_master.State,tspl_company_master.City_Code,tspl_company_master.Circle_No,tspl_company_master.Phone1,tspl_company_master.Phone2,   tspl_company_master.Comp_Name
+                       ,tspl_company_master.Add1,tspl_company_master.Add2,tspl_company_master.Pincode,tspl_company_master.Fax, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as FromDate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate, TSPL_ITEM_MASTER.Sku_Seq , TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Structure_Code as Structure_Code,TSPL_ITEM_MASTER.Short_Description as Short_Description,TSPL_UNIT_MASTER.Unit_Desc,TSPL_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise
+                       ,TSPL_DEMAND_BOOKING_DETAIL.TotalCrates_ItemWise ,(CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch=0 THEN TSPL_DEMAND_BOOKING_DETAIL.Qty ELSE 0 END) as ProdQ
+					   from TSPL_DEMAND_BOOKING_MASTER  Left outer join TSPL_DEMAND_BOOKING_DETAIL On TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No 
+                Left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code left outer join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_code left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code   and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_Code 
+                left outer join tspl_company_master on 2 = 2 left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_DEMAND_BOOKING_DETAIL.Item_Code = I.item_code 
+                Left Join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_master.Route_No 
+                where 2 = 2 and  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date) BETWEEN CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "', 103) and CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value) + "', 103) and  Is_FreshItem = 1)  XXXFirst 
+                where Item_Code is  not null and Area_Code is not null  group by   XXXFirst.Route_Desc,"
+            qry += " XXXFirst.Route_no,"
+            qry += " XXXFirst.Item_Code,XXXFirst.Sku_Seq"
+            qry += "  ) xx)PP   "
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
+            Dim dtItems As DataTable = clsDBFuncationality.GetDataTable("select Item_Code,max(Sku_Seq) as Sku_Seq,max(Short_Description) as Short_Description,max(Structure_Code)Structure_Code from (" + qry + ") x group by Item_Code order by Sku_Seq")
+            Dim dtItemsss As DataTable = clsDBFuncationality.GetDataTable("select Item_Code from (" + qry + ") x group by Item_Code")
+
+            Dim FinalQuery As String = " With CTERawData as ( " + qry + "  )" + Environment.NewLine + Environment.NewLine
+            Dim itemList As String = ""
+
+            For Each row As DataRow In dtItemsss.Rows
+                itemList &= "'" & row("Item_Code").ToString() & "',"
+            Next
+
+            ' Remove last comma
+            If itemList.EndsWith(",") Then
+                itemList = itemList.Substring(0, itemList.Length - 1)
+            End If
+            Dim ii As Integer = 1
+            ' For ii As Integer = 1 To dtItems.Rows.Count Step 10
+            'If ii > 1 Then
+            'FinalQuery += Environment.NewLine + " Union all " + Environment.NewLine
+            ' End If
+            FinalQuery += " select '" & objCommonVar.CurrentUser & "' as UserName," + clsCommon.myCstr(ii) + " as Grp ,'" + txtFromShift.Text + "' as FromShift,'" + txtToShift.Text + "' as ToShift,    '" + clsCommon.GetPrintDate(clsCommon.myCDate(txtFromDate.Value), "dd/MM/yyyy") + "' AS FromDate,'" + clsCommon.GetPrintDate(clsCommon.myCDate(txtToDate.Value), "dd/MM/yyyy") + "' AS ToDate,"
+            FinalQuery += "max(Area_code)Area_code,max(Zone_Code)Zone_Code,Route_Desc,(Route_No) as Route_No"
+            'FinalQuery += "max(Document_Date) as Document_Date"
+            For jj As Integer = 1 To 18
+                Dim strJJ As String = clsCommon.myCstr(jj)
+                Dim strICODE As String = ""
+                Dim strIShortDesc As String = ""
+                Dim strISTRCode As String = ""
+                If (ii + jj - 1) > dtItems.Rows.Count Then
+                    strICODE = ""
+                    strIShortDesc = ""
+                    strISTRCode = "-"
+                Else
+                    strICODE = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Item_Code"))
+                    strIShortDesc = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Short_Description"))
+                    strISTRCode = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Structure_Code"))
+
+                    'strIUnitCode = "" + ddlQtyConversionType.SelectedValue + ""
+                End If
+                FinalQuery += " ,'" + strISTRCode + "' as Structure_Code_" + strJJ + ",'" + strICODE + "' as Item_" + strJJ + " ,'" + strIShortDesc + "' as Item_Short_Description_" + strJJ + " 
+
+    ,Case when (sum(case when Item_Code='" + strICODE + "' then convert(decimal(18,2),TotalCrates_ItemWise) else null end )) is null then '-' ELSE  
+    convert(varchar,sum(case when Item_Code='" + strICODE + "'  then convert(decimal(18,2),TotalCrates_ItemWise) else null end))
+    End   As ItemQtyCRATE_" + strJJ + "
+    ,
+Case when (sum(case when Item_Code='" + strICODE + "' then convert(decimal(18,2),TotalLtr_ItemWise) else null end )) is null then '-' ELSE  
+    convert(varchar,sum(case when Item_Code='" + strICODE + "'  then convert(decimal(18,2),TotalLtr_ItemWise) else null end))
+    End   As ItemQtyLTR_" + strJJ + "
+"
+            Next
+
+            FinalQuery += ", max(Structure_Code) as Structure_Code,sum(TotalCrates_ItemWise) as TotalCrates_ItemWise,sum(TotalLtr_ItemWise) as TotalLtr_ItemWise ,sum(fINAL1)fINAL1,sum(fINAL2)fINAL2"
+            FinalQuery += ",max(Sku_Seq) as Sku_Seq,MAX(Comp_Name)Comp_Name,MAX(Add1)Add1,MAX(Add2)Add2,CASE 
+    WHEN 
+        SUM(CASE WHEN Item_Code IN (" + itemList + ") 
+                 THEN CONVERT(DECIMAL(18,2), Final) 
+            END) IS NULL 
+    THEN '-' 
+    ELSE 
+        CONVERT(VARCHAR,
+            SUM(CASE WHEN Item_Code IN (" + itemList + ") 
+                     THEN CONVERT(DECIMAL(18,2), Final) 
+                END)
+        )
+END AS [TotalCTRLTR]  from ( select xx.*	from CTERawData xx ) x group by Route_no,Route_Desc "
+            'Next
+
+            dt = clsDBFuncationality.GetDataTable(FinalQuery)
+
+
+            '   End If
+
+
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
+                    ' frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptZoneWiseReportCHTNEW", "")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptRouteWiseReportCHT", "")
+
+                    '  frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, Nothing, "crptZoneWiseReportCHTNEW1", "ZoneWiseReportCHTNEW")
+                    frmCRV = Nothing
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+
+        End Try
+    End Sub
     Private Sub txtRoute__My_Click(sender As Object, e As EventArgs) Handles txtRoute._My_Click
         Dim strQry As String = Nothing
         strQry = "SELECT [Route_No] as Code,[Route_Desc] as Name,Type FROM [TSPL_ROUTE_MASTER] "
@@ -376,5 +633,7 @@ CASE WHEN CODE <> 'LTR'  THEN TotalCrates_ItemWise ELSE TotalLtr_ItemWise END AS
 
     End Sub
 
+    Private Sub SplitContainer1_Panel2_Paint(sender As Object, e As PaintEventArgs) Handles SplitContainer1.Panel2.Paint
 
+    End Sub
 End Class

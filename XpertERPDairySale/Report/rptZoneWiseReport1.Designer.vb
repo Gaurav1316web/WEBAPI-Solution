@@ -38,6 +38,8 @@ Partial Class rptZoneWiseReport1
         Me.txtRoute = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtFromShift = New Telerik.WinControls.UI.RadDropDownList()
+        Me.txtToShift = New Telerik.WinControls.UI.RadDropDownList()
         Me.txtToDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.txtFromDate = New common.Controls.MyDateTimePicker()
@@ -48,8 +50,6 @@ Partial Class rptZoneWiseReport1
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.txtToShift = New Telerik.WinControls.UI.RadDropDownList()
-        Me.txtFromShift = New Telerik.WinControls.UI.RadDropDownList()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -68,6 +68,8 @@ Partial Class rptZoneWiseReport1
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.txtFromShift, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtToShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -76,8 +78,6 @@ Partial Class rptZoneWiseReport1
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtToShift, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtFromShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -258,6 +258,28 @@ Partial Class rptZoneWiseReport1
         Me.RadGroupBox1.Size = New System.Drawing.Size(443, 50)
         Me.RadGroupBox1.TabIndex = 389
         '
+        'txtFromShift
+        '
+        Me.txtFromShift.AutoCompleteDisplayMember = Nothing
+        Me.txtFromShift.AutoCompleteValueMember = Nothing
+        Me.txtFromShift.DropDownAnimationEnabled = True
+        Me.txtFromShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.txtFromShift.Location = New System.Drawing.Point(169, 11)
+        Me.txtFromShift.Name = "txtFromShift"
+        Me.txtFromShift.Size = New System.Drawing.Size(52, 20)
+        Me.txtFromShift.TabIndex = 455
+        '
+        'txtToShift
+        '
+        Me.txtToShift.AutoCompleteDisplayMember = Nothing
+        Me.txtToShift.AutoCompleteValueMember = Nothing
+        Me.txtToShift.DropDownAnimationEnabled = True
+        Me.txtToShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.txtToShift.Location = New System.Drawing.Point(380, 11)
+        Me.txtToShift.Name = "txtToShift"
+        Me.txtToShift.Size = New System.Drawing.Size(52, 20)
+        Me.txtToShift.TabIndex = 454
+        '
         'txtToDate
         '
         Me.txtToDate.CalculationExpression = Nothing
@@ -389,28 +411,6 @@ Partial Class rptZoneWiseReport1
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'txtToShift
-        '
-        Me.txtToShift.AutoCompleteDisplayMember = Nothing
-        Me.txtToShift.AutoCompleteValueMember = Nothing
-        Me.txtToShift.DropDownAnimationEnabled = True
-        Me.txtToShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.txtToShift.Location = New System.Drawing.Point(380, 11)
-        Me.txtToShift.Name = "txtToShift"
-        Me.txtToShift.Size = New System.Drawing.Size(52, 20)
-        Me.txtToShift.TabIndex = 454
-        '
-        'txtFromShift
-        '
-        Me.txtFromShift.AutoCompleteDisplayMember = Nothing
-        Me.txtFromShift.AutoCompleteValueMember = Nothing
-        Me.txtFromShift.DropDownAnimationEnabled = True
-        Me.txtFromShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.txtFromShift.Location = New System.Drawing.Point(169, 11)
-        Me.txtFromShift.Name = "txtFromShift"
-        Me.txtFromShift.Size = New System.Drawing.Size(52, 20)
-        Me.txtFromShift.TabIndex = 455
-        '
         'rptZoneWiseReport1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -445,6 +445,8 @@ Partial Class rptZoneWiseReport1
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.txtFromShift, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtToShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -453,8 +455,6 @@ Partial Class rptZoneWiseReport1
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtToShift, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtFromShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
