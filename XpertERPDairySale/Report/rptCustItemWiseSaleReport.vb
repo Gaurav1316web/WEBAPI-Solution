@@ -1022,7 +1022,7 @@ GROUP BY Item_Code order by Item_Desc"
             End If
 
             Qry += " Sum(Distributor_Commission_TotalAmt) as Trp_Charge,max(Cust_Code)Cust_Code,MAX(Customer_Name) as Customer_Name,
-                               MAX(Item_Desc) AS Item_Desc,Item_Code, MAX(Unit_code) AS Unit_code,SUM(Qty) AS Qty,sum(Amount) as Amount,"
+                               MAX(Item_Desc) AS Item_Desc,Item_Code, MAX(Unit_code) AS Unit_code,SUM(Def_UOM_Qty) AS Qty,sum(Amount) as Amount,"
 
             If clsCommon.CompairString(ddlType.SelectedValue, "Taxable") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlType.SelectedValue, "Both") = CompairStringResult.Equal Then
                 Qry += "  sum([KKF Amt]) as KKF_Amt,SUM(Amount) + SUM([Mandi Tax Amt]) + SUM([KKF Amt]) AS Taxable_Value,SUM([Mandi Tax Amt]) as Mandi_Tax_Amt,SUM([CGST Amt]) as CGST_Amt,sum([SGST Amt]) as SGST_Amt,SUM([IGST Amt]) as IGST_Amt,SUM([TCS Amt]) as TCS_Amt,SUM(Amount) + SUM([Mandi Tax Amt]) + SUM([KKF Amt])+SUM([CGST Amt])+sum([SGST Amt])+SUM([IGST Amt]) as [Total Amount],"
@@ -1031,9 +1031,13 @@ GROUP BY Item_Code order by Item_Desc"
             End If
             Qry += " SUM(QtyAccToReportUOM) AS QtyAccToReportUOM,MAX(UOM_Code) AS UOM_Code,MAX(Comp_Name) AS Comp_Name,MAX(Add1) AS Add1,MAX(Add2) AS Add2,MAX(Add3) AS Add3,MAX(City_Code) AS City_Code,MAX(State) AS State, MAX(Document_Date) AS Document_Date
                                 FROM (SELECT TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.Item_Code, 
-                            TSPL_SD_SHIPMENT_DETAIL.Unit_code,TSPL_SD_SHIPMENT_DETAIL.Qty,
+                            TSPL_SD_SHIPMENT_DETAIL.Unit_code,TSPL_SD_SHIPMENT_DETAIL.Qty,cast(
+                                    (
+                                      TSPL_SD_SHIPMENT_DETAIL.Qty * ItemConvinUOM.Conversion_Factor / DefUOM.Conversion_Factor
+                                    ) as Decimal(18, 2)
+                                  ) as Def_UOM_Qty,
                             cast((TSPL_SD_SHIPMENT_DETAIL.Qty * ItemConvinUOM.Conversion_Factor / ItemConvReportUOM.Conversion_Factor) as Decimal(18, 2)) as QtyAccToReportUOM,ItemConvReportUOM.UOM_Code,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2, 
-                            TSPL_COMPANY_MASTER.Add3,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.State,TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Discount as Amount,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No,TSPL_SD_SHIPMENT_HEAD.TAX5_Amt,TSPL_SD_SHIPMENT_HEAD.Distributor_Commission_TotalAmt,TSPL_CUSTOMER_MASTER.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,
+                            TSPL_COMPANY_MASTER.Add3,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.State,TSPL_SD_SHIPMENT_DETAIL.Amount as Amount,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No,TSPL_SD_SHIPMENT_HEAD.TAX5_Amt,TSPL_SD_SHIPMENT_HEAD.Distributor_Commission_TotalAmt,TSPL_CUSTOMER_MASTER.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,
 							CASE WHEN TSPL_SD_SHIPMENT_HEAD.TAX1='KKF'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt
     				WHEN TSPL_SD_SHIPMENT_HEAD.TAX2='KKF'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt
     				WHEN TSPL_SD_SHIPMENT_HEAD.TAX3='KKF'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt
@@ -1102,6 +1106,7 @@ GROUP BY Item_Code order by Item_Desc"
 					left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
                     LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.item_code = TSPL_SD_SHIPMENT_DETAIL.item_code
                     left join TSPL_ITEM_UOM_DETAIL as ItemConvReportUOM on TSPL_ITEM_master.Item_Code = ItemConvReportUOM.Item_Code and ItemConvReportUOM.Report_UOM = 1
+LEFT JOIN ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL WHERE DEFAULT_UOM = 1 ) DefUOM ON TSPL_SD_SHIPMENT_DETAIL.Item_Code = DefUOM.item_code
                     left join TSPL_ITEM_UOM_DETAIL as ItemConvinUOM on TSPL_SD_SHIPMENT_DETAIL.Item_Code = ItemConvinUOM.Item_Code and TSPL_SD_SHIPMENT_DETAIL.Unit_code = ItemConvinUOM.UOM_Code
                         LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2
 outer apply ( select top 1 IS_TAXABLE,ITEM_CODE from TSPL_ITEM_MASTER_TAXABLE 
@@ -1998,7 +2003,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
             Dim whr As String = ""
             Qry = " SELECT '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate,
                                     MAX(Item_Desc) AS Item_Desc, 
-                        Item_Code, MAX(Unit_code) AS Unit_code,SUM(Qty) AS Qty,sum(Amount) as Amount,SUM(QtyAccToReportUOM) AS QtyAccToReportUOM,MAX(UOM_Code) AS UOM_Code,MAX(Comp_Name) AS Comp_Name,MAX(Add1) AS Add1,MAX(Add2) AS Add2,MAX(Add3) AS Add3,MAX(City_Code) AS City_Code,MAX(State) AS State, MAX(Document_Date) AS Document_Date 
+                        Item_Code, MAX(Unit_code) AS Unit_code,SUM(Def_UOM_Qty) AS Qty,sum(Amount) as Amount,SUM(QtyAccToReportUOM) AS QtyAccToReportUOM,MAX(UOM_Code) AS UOM_Code,MAX(Comp_Name) AS Comp_Name,MAX(Add1) AS Add1,MAX(Add2) AS Add2,MAX(Add3) AS Add3,MAX(City_Code) AS City_Code,MAX(State) AS State, MAX(Document_Date) AS Document_Date 
                     FROM (
                         SELECT 
 	                    TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE,
@@ -2011,7 +2016,11 @@ LEFT JOIN TSPL_COMPANY_MASTER
                                     (
                                       TSPL_SD_SHIPMENT_DETAIL.Qty * ItemConvinUOM.Conversion_Factor / ItemConvReportUOM.Conversion_Factor
                                     ) as Decimal(18, 2)
-                                  ) as QtyAccToReportUOM,
+                                  ) as QtyAccToReportUOM, cast(
+                                    (
+                                      TSPL_SD_SHIPMENT_DETAIL.Qty * ItemConvinUOM.Conversion_Factor / DefUOM.Conversion_Factor
+                                    ) as Decimal(18, 2)
+                                  ) as Def_UOM_Qty,
                             ItemConvReportUOM.UOM_Code, 
                             TSPL_COMPANY_MASTER.Comp_Name, 
                             TSPL_COMPANY_MASTER.Add1, 
@@ -2026,6 +2035,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                         LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.item_code = TSPL_SD_SHIPMENT_DETAIL.item_code
                      left join TSPL_ITEM_UOM_DETAIL as ItemConvReportUOM on TSPL_ITEM_master.Item_Code = ItemConvReportUOM.Item_Code 
                                         and ItemConvReportUOM.Report_UOM = 1
+LEFT JOIN ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL WHERE DEFAULT_UOM = 1 ) DefUOM ON TSPL_SD_SHIPMENT_DETAIL.Item_Code = DefUOM.item_code
                                          left join TSPL_ITEM_UOM_DETAIL as ItemConvinUOM on TSPL_SD_SHIPMENT_DETAIL.Item_Code = ItemConvinUOM.Item_Code 
                                        and TSPL_SD_SHIPMENT_DETAIL.Unit_code = ItemConvinUOM.UOM_Code
                         LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2 where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' and  TSPL_ITEM_MASTER.IsTaxable=0 ) xx 
@@ -2072,7 +2082,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
             Dim whr As String = ""
             Qry = " SELECT '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate,
                                     MAX(Item_Desc) AS Item_Desc, 
-                        Item_Code, MAX(Unit_code) AS Unit_code,SUM(Qty) AS Qty,sum(Amount) as Amount,SUM(QtyAccToReportUOM) AS QtyAccToReportUOM,MAX(UOM_Code) AS UOM_Code,MAX(Comp_Name) AS Comp_Name,MAX(Add1) AS Add1,MAX(Add2) AS Add2,MAX(Add3) AS Add3,MAX(City_Code) AS City_Code,MAX(State) AS State, MAX(Document_Date) AS Document_Date 
+                        Item_Code, MAX(Unit_code) AS Unit_code,SUM(Def_UOM_Qty) AS Qty,sum(Amount) as Amount,SUM(QtyAccToReportUOM) AS QtyAccToReportUOM,MAX(UOM_Code) AS UOM_Code,MAX(Comp_Name) AS Comp_Name,MAX(Add1) AS Add1,MAX(Add2) AS Add2,MAX(Add3) AS Add3,MAX(City_Code) AS City_Code,MAX(State) AS State, MAX(Document_Date) AS Document_Date 
                     FROM (
                         SELECT 
 	                    TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE,
@@ -2085,7 +2095,11 @@ LEFT JOIN TSPL_COMPANY_MASTER
                                     (
                                       TSPL_SD_SALE_INVOICE_DETAIL.Qty * ItemConvinUOM.Conversion_Factor / ItemConvReportUOM.Conversion_Factor
                                     ) as Decimal(18, 2)
-                                  ) as QtyAccToReportUOM,
+                                  ) as QtyAccToReportUOM,cast(
+                                    (
+                                      TSPL_SD_SALE_INVOICE_DETAIL.Qty * ItemConvinUOM.Conversion_Factor / DefUOM.Conversion_Factor
+                                    ) as Decimal(18, 2)
+                                  ) as Def_UOM_Qty,
                             ItemConvReportUOM.UOM_Code, 
                             TSPL_COMPANY_MASTER.Comp_Name, 
                             TSPL_COMPANY_MASTER.Add1, 
@@ -2100,6 +2114,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                         LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.item_code = TSPL_SD_SALE_INVOICE_DETAIL.item_code
                      left join TSPL_ITEM_UOM_DETAIL as ItemConvReportUOM on TSPL_ITEM_master.Item_Code = ItemConvReportUOM.Item_Code 
                                         and ItemConvReportUOM.Report_UOM = 1
+LEFT JOIN ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL WHERE DEFAULT_UOM = 1 ) DefUOM ON TSPL_SD_SALE_INVOICE_DETAIL.Item_Code = DefUOM.item_code
                                          left join TSPL_ITEM_UOM_DETAIL as ItemConvinUOM on TSPL_SD_SALE_INVOICE_DETAIL.Item_Code = ItemConvinUOM.Item_Code 
                                        and TSPL_SD_SALE_INVOICE_DETAIL.Unit_code = ItemConvinUOM.UOM_Code
                         LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2 where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' and  TSPL_ITEM_MASTER.IsTaxable=0 ) xx 
@@ -3246,9 +3261,9 @@ TSPL_CUSTOMER_MASTER.Customer_Name AS [Party Name],
  TSPL_CUSTOMER_MASTER.GSTNO as [Customer GSTNo],
   TSPL_STATE_MASTER.GST_STATE_Code AS [State Code],
    TSPL_SD_SALE_INVOICE_DETAIL.Item_Code as [Item Code],
-tspl_item_master.Item_Desc as [Item Name],TSPL_SD_SALE_INVOICE_DETAIL.item_cost As [Rate],
-TSPL_SD_SALE_INVOICE_DETAIL.Billing_Unit_code as [Measure of Qty],
-  TSPL_SD_SALE_INVOICE_DETAIL.Billing_Qty as [Product Qty],
+tspl_item_master.Item_Desc as [Item Name],(TSPL_SD_SALE_INVOICE_DETAIL.item_cost * Report_UOM.Conversion_Factor/tspl_item_uom_detail.Conversion_Factor ) as [Rate],
+TSPL_SD_SALE_INVOICE_DETAIL.Unit_code as [Measure of Qty],
+  TSPL_SD_SALE_INVOICE_DETAIL.Qty as [Product Qty],
   tspl_item_master.HSN_Code,
   case when TSPL_SD_SALE_INVOICE_DETAIL.Tax1='KKF' or TSPL_SD_SALE_INVOICE_DETAIL.Tax2='KKF' then (case when TSPL_SD_SALE_INVOICE_DETAIL.tax3='IGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate else  TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate + TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Rate end ) else (case when  TSPL_SD_SALE_INVOICE_DETAIL.tax1='IGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate else TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate +TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Rate end)end as [IGST Rate], 
      TSPL_SD_SALE_INVOICE_DETAIL.Amount as[ItemBasic Amt],
@@ -3320,7 +3335,7 @@ TSPL_SD_SALE_INVOICE_DETAIL.Billing_Unit_code as [Measure of Qty],
 					 case  when TSPL_CUSTOMER_MASTER.GSTNO is null or  TSPL_CUSTOMER_MASTER.GSTNO = ''  then  'B2C' else 'B2B' end as [B2B/B2C],
 TSPL_SD_SALE_INVOICE_HEAD.Ack_No,TSPL_SD_SALE_INVOICE_HEAD.Ack_Date,TSPL_SD_SALE_INVOICE_HEAD.IRN_No,
 Report_UOM.UOM_Code as Report_UOM,
-(Billing_Qty * tspl_item_uom_detail.Conversion_Factor/Report_UOM.Conversion_Factor ) as ReportUOM_Qty
+(qty * tspl_item_uom_detail.Conversion_Factor/Report_UOM.Conversion_Factor ) as ReportUOM_Qty
 ,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt as [Subsidy Amt],Case when TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable=1 then 'Taxable' else 'Non-Taxable' end as [Invoice Type],
 TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD.EWayBillDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_SD_SALE_INVOICE_HEAD.Created_By,Convert(varchar(20),TSPL_SD_SALE_INVOICE_HEAD.Created_Date,103) as Created_Date,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt As [Bill Amount]
 

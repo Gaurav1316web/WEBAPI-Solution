@@ -558,7 +558,7 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
             Dim WHR As String = Nothing
             Dim Baseqry As String = Nothing
             Dim Qry As String = Nothing
-            Qry = "SELECT CONVERT(varchar, XXX.DOC_DATE,103)DOC_DATE,XXX.SHIFT, XXX.VLC_CODE,MAX(XXX.MCC_CODE)MCC_CODE,MAX(XXX.DOC_CODE)DOC_CODE,max(XXX.DCS_Code) AS[DCS_Code],max(XXX.DCS_Uploader_code) as [DCS_Uploader_code],max(XXX.DCS_NAME) as [DCS_NAME],max(XXX.ROUTE_CODE) as [ROUTE_CODE],sum(XXX.RECOQTY) as [RECOQTY],sum(XXX.RECOFAT_KG)RECOFAT_KG,sum(XXX.RECOSNF_KG)RECOSNF_KG,
+            Qry = "SELECT max(CONVERT(varchar, XXX.DOC_DATE,103))DOC_DATE,max(XXX.SHIFT)SHIFT, XXX.VLC_CODE,MAX(XXX.MCC_CODE)MCC_CODE,MAX(XXX.DOC_CODE)DOC_CODE,max(XXX.DCS_Code) AS[DCS_Code],max(XXX.DCS_Uploader_code) as [DCS_Uploader_code],max(XXX.DCS_NAME) as [DCS_NAME],max(XXX.ROUTE_CODE) as [ROUTE_CODE],sum(XXX.RECOQTY) as [RECOQTY],sum(XXX.RECOFAT_KG)RECOFAT_KG,sum(XXX.RECOSNF_KG)RECOSNF_KG,
 sum(CAST((ISNULL(XXX.RECOFAT_KG,0) * 100 /NULLIF(XXX.RECOQTY,0)) AS DECIMAL(18,2))) AS RECOFatAVG,
 sum( CAST((ISNULL(XXX.RECOSNF_KG,0) * 100 / NULLIF(XXX.RECOQTY,0)) AS DECIMAL(18,2))) AS RECOSNFAVG
 ,COUNT(XXX.Farmer_Count) AS Farmer_Count,SUM(XXX.FARMERQTY) AS FARMERQTY,SUM(XXX.FARMERFAT_KG) AS FARMERFAT_KG	,SUM(snf_KG) AS FARMERSNF_KG	,SUM(XXX.FARMERFatPer) AS FARMERFatPer,	SUM(XXX.FARMERSNFPer) AS  FARMERSNFPer	
@@ -577,14 +577,14 @@ ISNULL( CAST(SUM(XXX.FARMERSNF_KG) * 100.0 / NULLIF(SUM(FARMERQTY), 0) AS DECIMA
 				         LEFT OUTER JOIN TSPL_VLC_DATA_UPLOADER_DETAIL ON TSPL_VLC_DATA_UPLOADER_DETAIL.Document_Code=TSPL_VLC_DATA_UPLOADER_MASTER.Document_Code
 				         left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_VLC_MASTER_HEAD.Route_Code 
                           WHERE 2=2 and     "
-            Qry += "   convert(date,TSPL_DCS_MP_INCENTIVE_RECO_head.Document_Date,103)>=CONVERT(DATE,'" & clsCommon.GetPrintDate(txtFromDate.VALUE, "dd/MMM/yyyy") & "',103) and
-convert(date,TSPL_DCS_MP_INCENTIVE_RECO_head.Document_Date,103) <=CONVERT(DATE,'" & clsCommon.GetPrintDate(txtToDate.VALUE, "dd/MMM/yyyy") & "',103) "
-            'If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
-            '    Qry += " and 2=( case when TSPL_DCS_MP_INCENTIVE_RECO_head.Document_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_DCS_MP_INCENTIVE_RECO_head.Document_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and shift='M' then 3 else 2 end  )"
-            'End If
-            'If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
-            '     Qry += " and 2=( case when TSPL_DCS_MP_INCENTIVE_RECO_head.Document_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_DCS_MP_INCENTIVE_RECO_head.Document_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and shift='E' then 3 else 2 end  )"
-            ' End If
+            Qry += "   convert(date,TSPL_DCS_MP_INCENTIVE_RECO_head.Reco_Date,103)>=CONVERT(DATE,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "',103) and
+convert(date,TSPL_DCS_MP_INCENTIVE_RECO_head.Reco_Date,103) <=CONVERT(DATE,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103) "
+            If clsCommon.CompairString(txtFromShift.Text, "e") = CompairStringResult.Equal Then
+                Qry += " and 2=( case when tspl_dcs_mp_incentive_reco_head.Reco_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/mmm/yyyy hh:mm tt") + "' and tspl_dcs_mp_incentive_reco_head.Reco_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/mmm/yyyy hh:mm tt") + "' and shift='m' then 3 else 2 end  )"
+            End If
+            If clsCommon.CompairString(txtToShift.Text, "m") = CompairStringResult.Equal Then
+                Qry += " and 2=( case when tspl_dcs_mp_incentive_reco_head.Reco_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/mmm/yyyy hh:mm tt") + "' and tspl_dcs_mp_incentive_reco_head.Reco_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/mmm/yyyy hh:mm tt") + "' and shift='e' then 3 else 2 end  )"
+            End If
             If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count > 0 Then
                 Qry += " and TSPL_VLC_MASTER_HEAD.VLC_CODE  IN (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ") "
             End If
@@ -600,12 +600,12 @@ convert(date,TSPL_DCS_MP_INCENTIVE_RECO_head.Document_Date,103) <=CONVERT(DATE,'
                       LEFT OUTER JOIN TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_VLC_DATA_UPLOADER_MASTER.VLC_Code 
                       where 2=2 and    "
             Qry += "   convert(date,TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date,103)>=CONVERT(DATE,'" & clsCommon.GetPrintDate(txtFromDate.VALUE, "dd/MMM/yyyy") & "',103) and convert(date,TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date,103) <=CONVERT(DATE,'" & clsCommon.GetPrintDate(txtToDate.VALUE, "dd/MMM/yyyy") & "',103) "
-            ' If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
-            'Qry += " and 2=( case when TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and shift='M' then 3 else 2 end  )"
-            ' End If
-            ' If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
-            ' Qry += " and 2=( case when TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and shift='E' then 3 else 2 end  )"
-            ' End If
+            If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
+                Qry += " and 2=( case when TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and shift='M' then 3 else 2 end  )"
+            End If
+            If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
+                Qry += " and 2=( case when TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and shift='E' then 3 else 2 end  )"
+            End If
             If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count > 0 Then
                 Qry += " and TSPL_VLC_MASTER_HEAD.VLC_CODE  IN (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ") "
             End If
@@ -618,16 +618,16 @@ convert(date,TSPL_DCS_MP_INCENTIVE_RECO_head.Document_Date,103) <=CONVERT(DATE,'
                       Left Join TSPl_MP_MAster On TSPl_MP_MAster.MP_Code_VLC_Uploader=TSPL_VLC_DATA_UPLOADER.MP_CODE and TSPl_MP_MAster.VLC_Code=TSPL_VLC_MASTER_HEAD.VLC_Code
                   where 2=2 and  "
             Qry += "   convert(date,TSPL_VLC_DATA_UPLOADER.DOC_DATE,103)>=CONVERT(DATE,'" & clsCommon.GetPrintDate(txtFromDate.VALUE, "dd/MMM/yyyy") & "',104) and convert(date,TSPL_VLC_DATA_UPLOADER.DOC_DATE,103) <=CONVERT(DATE,'" & clsCommon.GetPrintDate(txtToDate.VALUE, "dd/MMM/yyyy") & "',103) "
-            ' If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
-            ' Qry += " and 2=( case when TSPL_VLC_DATA_UPLOADER.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_head.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and shift='M' then 3 else 2 end  )"
-            '  End If
-            ' If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
-            ' Qry += " and 2=( case when TSPL_VLC_DATA_UPLOADER.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_head.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and shift='E' then 3 else 2 end  )"
-            ' End If
+            If clsCommon.CompairString(txtFromShift.Text, "e") = CompairStringResult.Equal Then
+                Qry += " and 2=( case when tspl_vlc_data_uploader.doc_date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/mmm/yyyy hh:mm tt") + "' and TSPL_VLC_DATA_UPLOADER.doc_date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/mmm/yyyy hh:mm tt") + "' and shift='m' then 3 else 2 end  )"
+            End If
+            If clsCommon.CompairString(txtToShift.Text, "m") = CompairStringResult.Equal Then
+                Qry += " and 2=( case when tspl_vlc_data_uploader.doc_date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/mmm/yyyy hh:mm tt") + "' and TSPL_VLC_DATA_UPLOADER.doc_date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/mmm/yyyy hh:mm tt") + "' and shift='e' then 3 else 2 end  )"
+            End If
             If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count > 0 Then
                 Qry += " and TSPL_VLC_MASTER_HEAD.VLC_CODE  IN (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ") "
             End If
-            Qry += ")  XXX GROUP BY XXX.DOC_DATE,XXX.shift, XXX.VLC_CODE  "
+            Qry += ")  XXX GROUP BY  XXX.VLC_CODE  "
             dt = clsDBFuncationality.GetDataTable(Qry)
             'Dim dt As DataTable = clsDBFuncationality.GetDataTable(Baseqry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -1037,17 +1037,18 @@ COUNT(Farmer_Count) AS Farmer_Count,SUM(XXXX.FARMERQTY)FARMERQTY,SUM(XXXX.FARMER
             gv.Columns("MCC_CODE").IsVisible = True
             gv.Columns("ROUTE_CODE").IsVisible = False
             gv.Columns("SHIFT").IsVisible = False
-            gv.Columns("MCC_CODE").IsVisible = True
+            gv.Columns("MCC_CODE").IsVisible = False
             gv.Columns("MCC_CODE").HeaderText = "MCC CODE"
 
 
 
-            gv.Columns("DOC_DATE").IsVisible = True
+            gv.Columns("DOC_DATE").IsVisible = False
             gv.Columns("Farmer_Count").HeaderText = "Farmer Count"
 
             gv.Columns("DOC_DATE").HeaderText = "Document Date"
-            gv.Columns("SHIFT").IsVisible = True
             gv.Columns("DCS_Code").IsVisible = True
+            gv.Columns("DOC_Code").IsVisible = False
+
             gv.Columns("DCS_Code").HeaderText = "DCS Code"
             gv.Columns("DCS_Uploader_code").IsVisible = True
             gv.Columns("DCS_Uploader_code").HeaderText = "DCS Uploader code"

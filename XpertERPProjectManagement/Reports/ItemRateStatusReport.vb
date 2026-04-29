@@ -56,100 +56,6 @@ FROM TSPL_ITEM_PRICE_PLAN_HEADER
 WHERE Start_Date <= CONVERT(DATE, '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "', 103)
 ORDER BY Start_Date DESC"))
 
-            '            qry = "select Start_Date as Date,TSPL_ITEM_PRICE_PLAN_detail.Item_Code as Item_code,UOM,TSPL_ITEM_MASTER.Item_Desc,Item_MRP as MPR,PRICE_CODE,
-            '(Price_Amount1+Price_Amount2+Price_Amount3+Price_Amount4+Price_Amount5+Price_Amount6+Price_Amount7+Price_Amount8+Price_Amount9+Price_Amount10 ) AS Margin,Item_Basic_Price
-            'as [Inc. Rate], Item_Selling_Price as [Exc. Rate]
-            'from  TSPL_ITEM_PRICE_PLAN_HEADER 
-            'left outer join TSPL_ITEM_PRICE_PLAN_detail on TSPL_ITEM_PRICE_PLAN_detail.Plan_Code=TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code
-            'LEFT JOIN TSPL_ITEM_MASTER  
-            '    ON TSPL_ITEM_MASTER.Item_Code = TSPL_ITEM_PRICE_PLAN_detail.Item_Code
-
-            '" + whr + " and " + strPricecode + ""
-            '            qry = "DECLARE @cols NVARCHAR(MAX) = '';
-            'DECLARE @sql NVARCHAR(MAX) = '';
-
-            '-- Step 1: Build dynamic column list based on distinct PRICE_CODEs
-            'SELECT @cols = @cols + 
-            '    ',[' + PRICE_CODE + ' MRP]' +
-            '    ',[' + PRICE_CODE + ' Margin]' +
-            '    ',[' + PRICE_CODE + ' Inc_Rate]' +
-            '    ',[' + PRICE_CODE + ' Exc_Rate]'
-            'FROM (
-            '    SELECT DISTINCT TSPL_ITEM_PRICE_PLAN_detail.PRICE_CODE
-            '    FROM TSPL_ITEM_PRICE_PLAN_HEADER 
-            '    LEFT JOIN TSPL_ITEM_PRICE_PLAN_detail  ON TSPL_ITEM_PRICE_PLAN_detail.Plan_Code = TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code
-            '    WHERE TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code = '" + strPricecode + "'
-            '      AND TSPL_ITEM_PRICE_PLAN_detail.PRICE_CODE IS NOT NULL
-            ') AS pc
-            'ORDER BY PRICE_CODE;
-
-            '-- Remove leading comma
-            'SET @cols = STUFF(@cols, 1, 1, '');
-
-            '-- Step 2: Build dynamic pivot query
-            'SET @sql = '
-            'WITH Base AS (
-            '    SELECT 
-            '        CONVERT(VARCHAR,TSPL_ITEM_PRICE_PLAN_HEADER.Start_Date,103) AS Date,
-            '        TSPL_ITEM_PRICE_PLAN_detail.Item_Code,
-            '        TSPL_ITEM_MASTER.Item_Desc,
-            '        TSPL_ITEM_PRICE_PLAN_detail.UOM,
-            '        TSPL_ITEM_PRICE_PLAN_detail.PRICE_CODE,
-            '        TSPL_ITEM_PRICE_PLAN_detail.Item_MRP                                                          AS MRP,
-            '        (TSPL_ITEM_PRICE_PLAN_detail.Price_Amount1 + TSPL_ITEM_PRICE_PLAN_detail.Price_Amount2 + TSPL_ITEM_PRICE_PLAN_detail.Price_Amount3 +
-            '         TSPL_ITEM_PRICE_PLAN_detail.Price_Amount4 + TSPL_ITEM_PRICE_PLAN_detail.Price_Amount5 + TSPL_ITEM_PRICE_PLAN_detail.Price_Amount6 +
-            '         TSPL_ITEM_PRICE_PLAN_detail.Price_Amount7 + TSPL_ITEM_PRICE_PLAN_detail.Price_Amount8 + TSPL_ITEM_PRICE_PLAN_detail.Price_Amount9 +
-            '         TSPL_ITEM_PRICE_PLAN_detail.Price_Amount10)                                                  AS Margin,
-            '        TSPL_ITEM_PRICE_PLAN_detail.Item_Basic_Price                                                  AS Inc_Rate,
-            '        TSPL_ITEM_PRICE_PLAN_detail.Item_Selling_Price                                                AS Exc_Rate
-            '    FROM TSPL_ITEM_PRICE_PLAN_HEADER 
-            '    LEFT JOIN TSPL_ITEM_PRICE_PLAN_detail  ON TSPL_ITEM_PRICE_PLAN_detail.Plan_Code = TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code
-            '    LEFT JOIN TSPL_ITEM_MASTER            ON TSPL_ITEM_MASTER.Item_Code = TSPL_ITEM_PRICE_PLAN_detail.Item_Code
-            '    	left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.item_code=TSPL_ITEM_MASTER.item_code
-
-            '    WHERE 2=2 "
-            '            If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
-            '                qry += " and TSPL_ITEM_PRICE_PLAN_detail.Item_Code in ('" + clsCommon.GetMulcallString(txtItem.arrValueMember) + "')  "
-            '            End If
-            '            If txtPriceCode.arrValueMember IsNot Nothing AndAlso txtPriceCode.arrValueMember.Count > 0 Then
-            '                qry += " and PRICE_CODE in ('" + clsCommon.GetMulcallString(txtPriceCode.arrValueMember) + "')  "
-            '            End If
-            '            qry += " AND TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code = ''" + strPricecode + "''"
-            '            If rbtnDefaultUOM.IsChecked Then
-            '                qry += "and Default_UOM=''1''"
-            '            ElseIf rbtnReportUOM.IsChecked Then
-            '                qry += "and Report_UOM=''1''"
-            '            ElseIf rbtnPrintUOM.IsChecked Then
-            '                qry += "and Print_UOM=''1''"
-
-            '            End If
-
-            '            qry +="),
-            'Unpivoted AS (
-            '    SELECT Date, Item_Code, Item_Desc, UOM,
-            '           PRICE_CODE + ''_MRP''      AS ColName, CAST(MRP      AS NVARCHAR(50)) AS Val FROM Base
-            '    UNION ALL
-            '    SELECT Date, Item_Code, Item_Desc, UOM,
-            '           PRICE_CODE + ''_Margin''   AS ColName, CAST(Margin   AS NVARCHAR(50)) AS Val FROM Base
-            '    UNION ALL
-            '    SELECT Date, Item_Code, Item_Desc, UOM,
-            '           PRICE_CODE + ''_Inc_Rate'' AS ColName, CAST(Inc_Rate AS NVARCHAR(50)) AS Val FROM Base
-            '    UNION ALL
-            '    SELECT Date, Item_Code, Item_Desc, UOM,
-            '           PRICE_CODE + ''_Exc_Rate'' AS ColName, CAST(Exc_Rate AS NVARCHAR(50)) AS Val FROM Base
-            ')
-            'SELECT Date, Item_Code, Item_Desc, UOM, ' + @cols + '
-            'FROM Unpivoted
-            'PIVOT (
-            '    MAX(Val) FOR ColName IN (' + @cols + ')
-            ') AS PivotResult
-            'ORDER BY Item_Code;
-            '';
-
-            '-- Step 3: Execute
-            'EXEC sp_executesql @sql;"
-
-
 
             qry = "DECLARE @cols NVARCHAR(MAX) = '';
 DECLARE @sql NVARCHAR(MAX) = '';
@@ -163,11 +69,11 @@ SELECT @cols = @cols +
 FROM (
     SELECT DISTINCT TSPL_ITEM_PRICE_PLAN_detail.PRICE_CODE
     FROM TSPL_ITEM_PRICE_PLAN_HEADER 
-    LEFT JOIN TSPL_ITEM_PRICE_PLAN_detail  ON TSPL_ITEM_PRICE_PLAN_detail.Plan_Code = TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code"
+    LEFT JOIN TSPL_ITEM_PRICE_PLAN_detail  ON TSPL_ITEM_PRICE_PLAN_detail.Plan_Code = TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code WHERE 2=2 "
             If txtPriceCode.arrValueMember IsNot Nothing AndAlso txtPriceCode.arrValueMember.Count > 0 Then
-                qry += " Where TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code IN (" + clsCommon.GetMulcallString(txtPriceCode.arrValueMember) + ")"
+                qry += " AND TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code IN (" + clsCommon.GetMulcallString(txtPriceCode.arrValueMember) + ")"
             Else
-                qry += " WHERE TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code = '" + strPricecode + "'"
+                qry += " and  TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code = '" + strPricecode + "'"
                 'qry += " And PRICE_CODE In ('" + clsCommon.GetMulcallString(txtPriceCode.arrValueMember) + "')  "
             End If
 
@@ -182,9 +88,9 @@ SET @cols = STUFF(@cols, 1, 1, '');
 
 -- Step 2: Build dynamic pivot query
 SET @sql = '
-WITH Base AS (
+WITH RawData AS (
     SELECT 
-        CONVERT(VARCHAR,TSPL_ITEM_PRICE_PLAN_HEADER.Start_Date,103) AS Date,
+        TSPL_ITEM_PRICE_PLAN_HEADER.Start_Date,
         TSPL_ITEM_PRICE_PLAN_detail.Item_Code,
         TSPL_ITEM_MASTER.Item_Desc,
         TSPL_ITEM_PRICE_PLAN_detail.UOM,
@@ -196,25 +102,13 @@ WITH Base AS (
          TSPL_ITEM_PRICE_PLAN_detail.Price_Amount10)                                                  AS Margin,
         TSPL_ITEM_PRICE_PLAN_detail.Item_Basic_Price                                                  AS Inc_Rate,
         TSPL_ITEM_PRICE_PLAN_detail.Item_Selling_Price                                                AS Exc_Rate
+,        DENSE_RANK() OVER(PARTITION BY TSPL_ITEM_PRICE_PLAN_detail.Item_Code ORDER BY TSPL_ITEM_PRICE_PLAN_HEADER.Start_Date DESC) as DateRank
+
     FROM TSPL_ITEM_PRICE_PLAN_HEADER 
     LEFT JOIN TSPL_ITEM_PRICE_PLAN_detail  ON TSPL_ITEM_PRICE_PLAN_detail.Plan_Code = TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code
     LEFT JOIN TSPL_ITEM_MASTER            ON TSPL_ITEM_MASTER.Item_Code = TSPL_ITEM_PRICE_PLAN_detail.Item_Code
 	    	left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.item_code=TSPL_ITEM_MASTER.item_code
-
     WHERE 1=1  "
-
-
-            If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
-                qry += " AND TSPL_ITEM_PRICE_PLAN_detail.Item_Code IN ('" + clsCommon.GetMulcallString(txtItem.arrValueMember).Replace(",", "','") + "')"
-                ' qry += " and TSPL_ITEM_PRICE_PLAN_detail.Item_Code in ('" + clsCommon.GetMulcallString(txtItem.arrValueMember) + "')  "
-            End If
-            If txtPriceCode.arrValueMember IsNot Nothing AndAlso txtPriceCode.arrValueMember.Count > 0 Then
-                qry += " AND TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code IN ('" + clsCommon.GetMulcallString(txtPriceCode.arrValueMember).Replace(",", "','") + "')"
-            Else
-                qry += " and  TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code  = ''" + strPricecode + "''"
-                'qry += " And PRICE_CODE In ('" + clsCommon.GetMulcallString(txtPriceCode.arrValueMember) + "')  "
-            End If
-            'qry += " AND TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code = ''" + strPricecode + "''"
             If rbtnDefaultUOM.IsChecked Then
                 qry += "and Default_UOM=''1''"
             ElseIf rbtnReportUOM.IsChecked Then
@@ -223,20 +117,36 @@ WITH Base AS (
                 qry += "and Print_UOM=''1''"
 
             End If
+            If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
+                qry += " AND TSPL_ITEM_PRICE_PLAN_detail.Item_Code IN ('" + clsCommon.GetMulcallString(txtItem.arrValueMember).Replace(",", "','") + "')"
+                ' qry += " and TSPL_ITEM_PRICE_PLAN_detail.Item_Code in ('" + clsCommon.GetMulcallString(txtItem.arrValueMember) + "')  "
+            End If
+            If txtPriceCode.arrValueMember IsNot Nothing AndAlso txtPriceCode.arrValueMember.Count > 0 Then
+                qry += " AND TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code IN ('" + clsCommon.GetMulcallString(txtPriceCode.arrValueMember).Replace(",", "','") + "')"
+                'Else
+                '  qry += " and  TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code  = ''" + strPricecode + "''"
+            End If
+            'qry += " AND TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code = ''" + strPricecode + "''"
+            qry += " ),
+Base AS (
+    SELECT 
+        CONVERT(VARCHAR, Start_Date, 103) AS Date,
+        Item_Code, Item_Desc, UOM, PRICE_CODE, MRP, Margin, Inc_Rate, Exc_Rate
+    FROM RawData
+    WHERE DateRank = 1 -- Picks only the latest date records
+),"
 
-            qry += "),
-Unpivoted AS (
-    SELECT Date, Item_Code, Item_Desc, UOM,
-           PRICE_CODE + '' MRP''      AS ColName, CAST(MRP      AS NVARCHAR(50)) AS Val FROM Base
+            qry += " Unpivoted AS (
+       SELECT Date, Item_Code, Item_Desc, UOM, PRICE_CODE + '' MRP''      AS ColName, CAST(CAST(ISNULL(MRP, 0) AS DECIMAL(18,2)) AS NVARCHAR(50)) AS Val FROM Base
+
     UNION ALL
-    SELECT Date, Item_Code, Item_Desc, UOM,
-           PRICE_CODE + '' Margin''   AS ColName, CAST(Margin   AS NVARCHAR(50)) AS Val FROM Base
+       SELECT Date, Item_Code, Item_Desc, UOM, PRICE_CODE + '' Margin''   AS ColName, CAST(CAST(ISNULL(Margin, 0) AS DECIMAL(18,2)) AS NVARCHAR(50)) AS Val FROM Base
+
     UNION ALL
-    SELECT Date, Item_Code, Item_Desc, UOM,
-           PRICE_CODE + '' Inc_Rate'' AS ColName, CAST(Inc_Rate AS NVARCHAR(50)) AS Val FROM Base
+ SELECT Date, Item_Code, Item_Desc, UOM, PRICE_CODE + '' Inc_Rate'' AS ColName, CAST(CAST(ISNULL(Inc_Rate, 0) AS DECIMAL(18,2)) AS NVARCHAR(50)) AS Val FROM Base
     UNION ALL
-    SELECT Date, Item_Code, Item_Desc, UOM,
-           PRICE_CODE + '' Exc_Rate'' AS ColName, CAST(Exc_Rate AS NVARCHAR(50)) AS Val FROM Base
+    SELECT Date, Item_Code, Item_Desc, UOM, PRICE_CODE + '' Exc_Rate'' AS ColName, CAST(CAST(ISNULL(Exc_Rate, 0) AS DECIMAL(18,2)) AS NVARCHAR(50)) AS Val FROM Base
+
 )
 SELECT Date, Item_Code, Item_Desc, UOM, ' + @cols + '
 FROM Unpivoted
@@ -259,8 +169,12 @@ EXEC sp_executesql @sql;"
                 'gv1.Columns("TransType").IsVisible = False
                 'gv1.Columns("PROD_ENTRY_CODE").IsVisible = False
                 RadPageView1.SelectedPage = RadPageViewPage2
-                Gv1.BestFitColumns()
+                'FormatGrid()
+                View()
                 FormatGrid()
+
+                Gv1.BestFitColumns()
+
                 EnableDisableCntrl(False)
                 'ReStoreGridLayout()
             Else
@@ -271,6 +185,65 @@ EXEC sp_executesql @sql;"
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
+    End Sub
+    Sub View()
+        If Gv1.Rows.Count > 0 Then
+            Dim view As New ColumnGroupsViewDefinition()
+            view.ColumnGroups.Add(New GridViewColumnGroup(" "))
+            view.ColumnGroups.Add(New GridViewColumnGroup("Item Details"))
+            view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("Date").Name)
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("Item_Code").Name)
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("Item_Desc").Name)
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("UOM").Name)
+            Dim qry As String = "  SELECT DISTINCT TSPL_ITEM_PRICE_PLAN_detail.PRICE_CODE
+    FROM TSPL_ITEM_PRICE_PLAN_HEADER 
+    LEFT JOIN TSPL_ITEM_PRICE_PLAN_detail ON TSPL_ITEM_PRICE_PLAN_detail.Plan_Code = TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code 
+    WHERE        TSPL_ITEM_PRICE_PLAN_detail.PRICE_CODE IS NOT NULL"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+
+            If dt.Rows.Count > 0 Then
+                If dt.Rows.Count > 0 Then
+                    For Each row As DataRow In dt.Rows
+                        Dim priceCode As String = row("PRICE_CODE").ToString().Trim().ToUpper()
+
+                        ' Add group
+                        view.ColumnGroups.Add(New GridViewColumnGroup(priceCode))
+                        Dim groupIndex As Integer = view.ColumnGroups.Count - 1
+
+                        ' Add row
+                        view.ColumnGroups(groupIndex).Rows.Add(New GridViewColumnGroupRow())
+
+                        If priceCode = "DISTRIBUTER" Then
+                            ' Add column group only if DISTRIBUTER exists
+                            view.ColumnGroups(groupIndex).Rows(0).ColumnNames.Add(Gv1.Columns("DISTRIBUTER MRP").Name)
+                            view.ColumnGroups(groupIndex).Rows(0).ColumnNames.Add(Gv1.Columns("DISTRIBUTER Margin").Name)
+                            view.ColumnGroups(groupIndex).Rows(0).ColumnNames.Add(Gv1.Columns("DISTRIBUTER Inc_Rate").Name)
+                            view.ColumnGroups(groupIndex).Rows(0).ColumnNames.Add(Gv1.Columns("DISTRIBUTER Exc_Rate").Name)
+
+                        ElseIf priceCode = "MRP" Then
+
+                            view.ColumnGroups(groupIndex).Rows(0).ColumnNames.Add(Gv1.Columns("MRP MRP").Name)
+                            view.ColumnGroups(groupIndex).Rows(0).ColumnNames.Add(Gv1.Columns("MRP Margin").Name)
+                            view.ColumnGroups(groupIndex).Rows(0).ColumnNames.Add(Gv1.Columns("MRP Inc_Rate").Name)
+                            view.ColumnGroups(groupIndex).Rows(0).ColumnNames.Add(Gv1.Columns("MRP Exc_Rate").Name)
+                        ElseIf priceCode = "RETAILER" Then
+                            view.ColumnGroups(groupIndex).Rows(0).ColumnNames.Add(Gv1.Columns("RETAILER MRP").Name)
+                            view.ColumnGroups(groupIndex).Rows(0).ColumnNames.Add(Gv1.Columns("RETAILER Margin").Name)
+                            view.ColumnGroups(groupIndex).Rows(0).ColumnNames.Add(Gv1.Columns("RETAILER Inc_Rate").Name)
+                            view.ColumnGroups(groupIndex).Rows(0).ColumnNames.Add(Gv1.Columns("RETAILER Exc_Rate").Name)
+                        ElseIf priceCode = "PARTY" Then
+                            view.ColumnGroups(groupIndex).Rows(0).ColumnNames.Add(Gv1.Columns("PARTY MRP").Name)
+                            view.ColumnGroups(groupIndex).Rows(0).ColumnNames.Add(Gv1.Columns("PARTY Margin").Name)
+                            view.ColumnGroups(groupIndex).Rows(0).ColumnNames.Add(Gv1.Columns("PARTY Inc_Rate").Name)
+                            view.ColumnGroups(groupIndex).Rows(0).ColumnNames.Add(Gv1.Columns("PARTY Exc_Rate").Name)
+                        End If
+                    Next
+                End If
+
+                Gv1.ViewDefinition = view
+            End If
+        End If
     End Sub
     Sub EnableDisableCntrl(ByVal val As Boolean)
         RadGroupBox3.Enabled = False
@@ -296,6 +269,29 @@ EXEC sp_executesql @sql;"
         Gv1.Columns("Item_Code").IsVisible = True
         Gv1.Columns("Item_Desc").IsVisible = True
         Gv1.Columns("Item_Desc").HeaderText = "Item Name"
+
+
+        Gv1.Columns("DISTRIBUTER MRP").HeaderText = "MRP"
+        Gv1.Columns("DISTRIBUTER Margin").HeaderText = "Margin"
+        Gv1.Columns("DISTRIBUTER Inc_Rate").HeaderText = "Inc. Rate"
+        Gv1.Columns("DISTRIBUTER Exc_Rate").HeaderText = "Exc. Rate"
+
+
+        Gv1.Columns("MRP MRP").HeaderText = "MRP"
+        Gv1.Columns("MRP Margin").HeaderText = "Margin"
+        Gv1.Columns("MRP Inc_Rate").HeaderText = "Inc. Rate"
+        Gv1.Columns("MRP Exc_Rate").HeaderText = "Exc. Rate"
+
+
+        Gv1.Columns("RETAILER MRP").HeaderText = "MRP"
+        Gv1.Columns("RETAILER Margin").HeaderText = "Margin"
+        Gv1.Columns("RETAILER Inc_Rate").HeaderText = "Inc. Rate"
+        Gv1.Columns("RETAILER Exc_Rate").HeaderText = "Exc. Rate"
+
+        Gv1.Columns("PARTY MRP").HeaderText = "MRP"
+        Gv1.Columns("PARTY Margin").HeaderText = "Margin"
+        Gv1.Columns("PARTY Inc_Rate").HeaderText = "Inc. Rate"
+        Gv1.Columns("PARTY Exc_Rate").HeaderText = "Exc. Rate"
 
         Gv1.ShowGroupPanel = True
         Gv1.MasterTemplate.AutoExpandGroups = True
