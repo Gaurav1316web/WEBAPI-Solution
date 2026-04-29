@@ -193,19 +193,20 @@ ORDER BY Document_Date,Document_Code,[Sale Vch. Type Name],SortOrder "
                 End If
                 rpt = Nothing
                 Qry = " ;WITH FinalData AS ("
-                Qry &= "Select [Supply Type],Max(HSN_Code) As [HSN],Max(Short_Description) As [Description],Max(UOM) As [UQC],Sum(Total_Qty) As [Total Quantity],Sum(Item_Net_Amt) As [Total Value],Max(Tax_Rate) As Rate,Sum(MandiAmt) As [Mandi Amount],Sum(kkfAmt) As [KKF Amount],Sum(Taxable_Amt) As [Taxable Value],Sum([Integrated Goods Service Tax Amount]) As [IGST],Sum([Central Goods Serivce Tax Amount]) As [CGST], Sum([State Goods Service Tax Amount]) As [S/UGST],'' As [Cess Amt] from  (" & BaseQry & ")finalQry Group By [Supply Type],Item_Code "
+                Qry &= "Select [Supply Type],Max(HSN_Code) As [HSN],Item_Code As [Item Code],Max(Short_Description) As [Description],Max(UOM) As [UQC],Sum(Total_Qty) As [Total Quantity],Sum(Item_Net_Amt) As [Total Value],Max(Tax_Rate) As Rate,Sum(MandiAmt) As [Mandi Amount],Sum(kkfAmt) As [KKF Amount],Sum(Taxable_Amt) As [Taxable Value],Sum([Integrated Goods Service Tax Amount]) As [IGST],Sum([Central Goods Serivce Tax Amount]) As [CGST], Sum([State Goods Service Tax Amount]) As [S/UGST],'' As [Cess Amt] from  (" & BaseQry & ")finalQry Group By [Supply Type],Item_Code "
                 Qry &= "),
 DataWithRowNo AS
 (SELECT  '' AS [Supply Type],[HSN], [Description],[UQC], 
 Convert(Decimal(18,2),(Case When [Total Quantity]<0 Then ([Total Quantity])*-1 Else ([Total Quantity]) End)) As [Total Quantity],
 Convert(Decimal(18,2),(Case When [Total Value]<0 Then [Total Value]*-1 Else [Total Value] End)) As [Total Value],
-Convert(Decimal(18,2),(Rate)) As Rate,
+Convert(Decimal(18,2),(FinalData.Rate)) As Rate,
 Convert(Decimal(18,2),(Case When [Mandi Amount]<0 Then [Mandi Amount]*-1 Else [Mandi Amount] End)) As [Mandi Amount],
 Convert(Decimal(18,2),(Case When [KKF Amount]<0 Then [KKF Amount]*-1 Else [KKF Amount] End)) As [KKF Amount],
 Convert(Decimal(18,2),(Case When [Taxable Value]<0 Then [Taxable Value]*-1 Else [Taxable Value] End)) As [Taxable Value],
 Convert(Decimal(18,2),(Case When [IGST]<0 Then [IGST]*-1 Else [IGST] End)) As [IGST],
 Convert(Decimal(18,2),(Case When [CGST]<0 Then [CGST]*-1 Else [CGST] End)) As [CGST], 
-Convert(Decimal(18,2),(Case When [S/UGST] <0 Then [S/UGST]*-1 Else [S/UGST] End)) As [S/UGST],[Cess Amt],[Supply Type] AS GroupType, ROW_NUMBER() OVER (PARTITION BY [Supply Type] ORDER BY [HSN]) AS SortNo,1 AS RowType FROM FinalData
+Convert(Decimal(18,2),(Case When [S/UGST] <0 Then [S/UGST]*-1 Else [S/UGST] End)) As [S/UGST],[Cess Amt],[Supply Type] AS GroupType, ROW_NUMBER() OVER (PARTITION BY [Supply Type] ORDER BY IsNull(TSPL_ITEM_MASTER.IsTaxable,0) ASC,[Description]) AS SortNo,1 AS RowType FROM FinalData
+Left Join TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code=FinalData.[Item Code]
 ),
 HeaderRows AS
 (SELECT [Supply Type], NULL AS [HSN],NULL AS [Description],NULL AS [UQC], NULL AS [Total Quantity], NULL AS [Total Value],NULL AS Rate,Null As [Mandi Amount],Null As [KKF Amount], NULL AS [Taxable Value], NULL AS [IGST], NULL AS [CGST], NULL AS [S/UGST],NULL AS [Cess Amt],[Supply Type] AS GroupType,0 AS SortNo, 0 AS RowType FROM FinalData GROUP BY [Supply Type] )
