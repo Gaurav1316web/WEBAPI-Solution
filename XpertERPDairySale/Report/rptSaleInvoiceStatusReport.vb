@@ -386,7 +386,7 @@ tspl_item_master.Item_Desc as [Item Name],
 
     Function BaseQryLoadDataInvoiceCount(ByVal fromDate As String, ByVal toDate As String, ByVal strLocation As String) As String
         Dim Qry As String = " Select *,(Total_Invoice-Total_CancelInvoice-Total_DeleteInvoice)as Active_invoice 
-from(Select Transcation_Type, Invoice_Tax_Type, MIN(XX.Document_Code) First_Invoice, MAX(XX.Document_Code)Last_Invoice, count(XX.Document_Code)Total_Invoice,
+from(Select LEFT(XX.Document_Code, CHARINDEX('/', XX.Document_Code) - 1) As Prefix,Transcation_Type, Invoice_Tax_Type, MIN(XX.Document_Code) First_Invoice, MAX(XX.Document_Code)Last_Invoice, count(Distinct XX.Document_Code)Total_Invoice,
 count(CASE WHEN XX.Cancel_DocumentCode Is Not NULL THEN 1 END) As Total_CancelInvoice,COUNT(Case When XX.Delete_DocumentCode Is Not NULL Then 1 End) As Total_DeleteInvoice
 from(Select   CASE WHEN EXISTS ( SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD 
         Left Join TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
@@ -962,7 +962,7 @@ Left Outer Join TSPL_TAX_MASTER As Tax10 On Tax10.Tax_Code=TSPL_SCRAPSALE_HEAD_R
         If clsCommon.myLen(strLocation) > 0 Then
             Qry &= " And TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Loc_Code = '" & clsCommon.myCstr(strLocation) & "'"
         End If
-        Qry &= " ) XX group by XX.Transcation_Type,XX.Invoice_Tax_Type )YY "
+        Qry &= " ) XX group by LEFT(XX.Document_Code, CHARINDEX('/', XX.Document_Code) - 1),XX.Transcation_Type,XX.Invoice_Tax_Type )YY "
         Return Qry
     End Function
     Sub LoadDataInvoiceCount()
