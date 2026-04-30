@@ -194,7 +194,7 @@ ORDER BY Document_Date,Document_Code,[Sale Vch. Type Name],SortOrder "
                 End If
                 rpt = Nothing
                 Qry = " ;WITH FinalData AS ("
-                Qry &= "Select [Supply Type],Max(HSN_Code) As [HSN],Item_Code As [Item Code],Max(Short_Description) As [Description],Max(UOM) As [UQC],Sum(Total_Qty) As [Total Quantity],Sum(Item_Net_Amt) As [Total Value],Max(Tax_Rate) As Rate,Sum(MandiAmt) As [Mandi Amount],Sum(kkfAmt) As [KKF Amount],Sum(Taxable_Amt) As [Taxable Value],Sum([Integrated Goods Service Tax Amount]) As [IGST],Sum([Central Goods Serivce Tax Amount]) As [CGST], Sum([State Goods Service Tax Amount]) As [S/UGST],'' As [Cess Amt] from  (" & BaseQry & ")finalQry Group By [Supply Type],Item_Code "
+                Qry &= "Select [Supply Type],Max(HSN_Code) As [HSN],Item_Code As [Item Code],Max(Short_Description) As [Description],Max(UOM) As [UQC],Sum(Total_Qty) As [Total Quantity],Sum(Item_Net_Amt) As [Total Value],Max(Tax_Rate) As Rate,Sum(MandiAmt) As [Mandi Amount],Sum(kkfAmt) As [KKF Amount],Sum(MandiAmt)+Sum(kkfAmt)+Sum(Taxable_Amt) As [Taxable Value],Sum([Integrated Goods Service Tax Amount]) As [IGST],Sum([Central Goods Serivce Tax Amount]) As [CGST], Sum([State Goods Service Tax Amount]) As [S/UGST],'' As [Cess Amt] from  (" & BaseQry & ")finalQry Group By [Supply Type],Item_Code "
                 Qry &= "),
 DataWithRowNo AS
 (SELECT  '' AS [Supply Type],[HSN], [Description],[UQC], 
