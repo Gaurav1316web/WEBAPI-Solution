@@ -21,8 +21,81 @@ Public Class rptDistributorRouteMarginStatusReport
         strQry = " select Cust_Code as [Code] , Customer_Name as [Name] from TSPL_CUSTOMER_MASTER "
         txtMultCustomer.arrValueMember = clsCommon.ShowMultipleSelectForm("txtMultCustomer", strQry, "Code", "Name", txtMultCustomer.arrValueMember, txtMultCustomer.arrDispalyMember)
     End Sub
+    Public Sub Summarydata()
+        Dim qry As String = Nothing
+        Dim whr As String = Nothing
+        Try
+            If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                whr = " and TSPL_CUSTOMER_MASTER.Route_No in(" & clsCommon.GetMulcallString(txtRoute.arrValueMember) & ")" & Environment.NewLine
+            End If
 
-    Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+            If txtMultCustomer.arrValueMember IsNot Nothing AndAlso txtMultCustomer.arrValueMember.Count > 0 Then
+                whr += " and TSPL_CUSTOMER_MASTER.Cust_Code in(" & clsCommon.GetMulcallString(txtMultCustomer.arrValueMember) & ")" & Environment.NewLine
+            End If
+            Dim code As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT TOP 1 code FROM TSPL_DISTRIBUTOR_ROUTE
+            WHERE Convert(Date,Start_Date,103) <='" + clsCommon.GetPrintDate(fromDate.Value) + "'   ORDER BY Start_Date DESC"))
+
+            'If rdbAll.IsChecked Then
+            qry = " SELECT MAX(Route_Code)Route_Code,MAX(Route_type)Route_type,MAX(Start_Date)Start_Date,MAX(Zone_Code)Zone_Code,MAX(Party_Code)Party_Code,MAX(Customer_Name)Customer_Name,SUM(Rate)Rate,(TaggingDoc)TaggingDoc,MAX(MarginDoc)MarginDoc FROM ( 
+            select Route_Code as Route_Code,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Item_Type as Route_type,convert(varchar,TSPL_DISTRIBUTOR_ROUTE.Start_Date,103) as Start_Date,TSPL_CUSTOMER_MASTER.Zone_Code,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code as Party_Code,TSPL_CUSTOMER_MASTER.Customer_Name,"
+            If rbdCommission.IsChecked Then
+                qry += " TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Rate as Rate,"
+            Else
+                qry += " Security_Rate as Rate,"
+            End If
+            If rdbDetail.IsChecked Then
+                qry += " TSPL_DISTRIBUTOR_COMMISSION_HEAD.Commision_UOM,TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code, tspl_item_master.Item_Desc, "
+            End If
+
+            qry += "TSPL_DISTRIBUTOR_ROUTE.code as TaggingDoc,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No as MarginDoc from TSPL_DISTRIBUTOR_COMMISSION_DETAIL
+                  left outer join TSPL_DISTRIBUTOR_COMMISSION_HEAD on TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Doc_No
+                  left outer join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE.Code=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Distributor_Tagging_Code
+                  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code  "
+            If rdbDetail.IsChecked Then
+                qry += " LEFT OUTER JOIN TSPL_DISTRIBUTOR_COMMISSION_ITEMS ON TSPL_DISTRIBUTOR_COMMISSION_ITEMS.PK_ID=TSPL_DISTRIBUTOR_COMMISSION_DETAIL.PK_ID 
+				         left outer join tspl_item_master on  tspl_item_master.Item_Code=TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code "
+            End If
+            qry += " where 2=2 and  
+convert(date,TSPL_DISTRIBUTOR_ROUTE.Start_Date,103)<=CONVERT(DATE,'" + clsCommon.GetPrintDate(fromDate.Value) + "',104) and convert(date,TSPL_DISTRIBUTOR_ROUTE.Start_Date,103) >=CONVERT(DATE,'" + clsCommon.GetPrintDate(fromDate.Value) + "',103) "
+
+            ' qry += " where 2=2 and TSPL_DISTRIBUTOR_ROUTE.Code = '" + code + "'"
+            If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                qry += " and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Route_Code in(" & clsCommon.GetMulcallString(txtRoute.arrValueMember) & ")" & Environment.NewLine
+            End If
+
+            If txtMultCustomer.arrValueMember IsNot Nothing AndAlso txtMultCustomer.arrValueMember.Count > 0 Then
+                qry += " and TSPL_CUSTOMER_MASTER.Cust_Code in(" & clsCommon.GetMulcallString(txtMultCustomer.arrValueMember) & ")" & Environment.NewLine
+            End If
+            'End If
+
+            qry += " )XXX
+				  GROUP BY XXX.TaggingDoc ,XXX.MarginDoc "
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                Exit Sub
+            Else
+                RadPageView1.SelectedPage = RadPageViewPage2
+                gv2.GroupDescriptors.Clear()
+                gv2.MasterTemplate.SummaryRowsBottom.Clear()
+                gv2.DataSource = dt
+                'SetGridFormationgvData()
+                gv2.AutoExpandGroups = True
+                gv2.ShowGroupPanel = True
+                gv2.ShowRowHeaderColumn = False
+                gv2.AllowAddNewRow = False
+                gv2.AllowDeleteRow = False
+                gv2.EnableFiltering = True
+                gv2.ShowFilteringRow = True
+                FormatGrid()
+                View()
+                gv2.BestFitColumns()
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Public Sub Detaildata()
         Dim qry As String = Nothing
         Dim whr As String = Nothing
         Try
@@ -55,14 +128,17 @@ Public Class rptDistributorRouteMarginStatusReport
                 qry += " LEFT OUTER JOIN TSPL_DISTRIBUTOR_COMMISSION_ITEMS ON TSPL_DISTRIBUTOR_COMMISSION_ITEMS.PK_ID=TSPL_DISTRIBUTOR_COMMISSION_DETAIL.PK_ID 
 				         left outer join tspl_item_master on  tspl_item_master.Item_Code=TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code "
             End If
-            qry +=" where 2=2 and TSPL_DISTRIBUTOR_ROUTE.Code = '" + code + "'"
-                If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+            ' qry += " where 2=2 and TSPL_DISTRIBUTOR_ROUTE.Code = '" + code + "'"
+            qry += " where 2=2 and  
+convert(date,TSPL_DISTRIBUTOR_ROUTE.Start_Date,103)<=CONVERT(DATE,'" + clsCommon.GetPrintDate(fromDate.Value) + "',104) and convert(date,TSPL_DISTRIBUTOR_ROUTE.Start_Date,103) >=CONVERT(DATE,'" + clsCommon.GetPrintDate(fromDate.Value) + "',103) "
+
+            If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
                 qry += " and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Route_Code in(" & clsCommon.GetMulcallString(txtRoute.arrValueMember) & ")" & Environment.NewLine
             End If
 
-                If txtMultCustomer.arrValueMember IsNot Nothing AndAlso txtMultCustomer.arrValueMember.Count > 0 Then
-                    qry += " and TSPL_CUSTOMER_MASTER.Cust_Code in(" & clsCommon.GetMulcallString(txtMultCustomer.arrValueMember) & ")" & Environment.NewLine
-                End If
+            If txtMultCustomer.arrValueMember IsNot Nothing AndAlso txtMultCustomer.arrValueMember.Count > 0 Then
+                qry += " and TSPL_CUSTOMER_MASTER.Cust_Code in(" & clsCommon.GetMulcallString(txtMultCustomer.arrValueMember) & ")" & Environment.NewLine
+            End If
             'End If
 
 
@@ -90,6 +166,80 @@ Public Class rptDistributorRouteMarginStatusReport
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+    Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        If rdbDetail.IsChecked Then
+            Detaildata()
+        Else
+            Summarydata()
+        End If
+        'Dim qry As String = Nothing
+        'Dim whr As String = Nothing
+        'Try
+        '    If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+        '        whr = " and TSPL_CUSTOMER_MASTER.Route_No in(" & clsCommon.GetMulcallString(txtRoute.arrValueMember) & ")" & Environment.NewLine
+        '    End If
+
+        '    If txtMultCustomer.arrValueMember IsNot Nothing AndAlso txtMultCustomer.arrValueMember.Count > 0 Then
+        '        whr += " and TSPL_CUSTOMER_MASTER.Cust_Code in(" & clsCommon.GetMulcallString(txtMultCustomer.arrValueMember) & ")" & Environment.NewLine
+        '    End If
+        '    Dim code As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT TOP 1 code FROM TSPL_DISTRIBUTOR_ROUTE
+        '    WHERE Convert(Date,Start_Date,103) <='" + clsCommon.GetPrintDate(fromDate.Value) + "'   ORDER BY Start_Date DESC"))
+
+        '    'If rdbAll.IsChecked Then
+        '    qry = " select Route_Code as Route_Code,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Item_Type as Route_type,convert(varchar,TSPL_DISTRIBUTOR_ROUTE.Start_Date,103) as Start_Date,TSPL_CUSTOMER_MASTER.Zone_Code,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code as Party_Code,TSPL_CUSTOMER_MASTER.Customer_Name,"
+        '    If rbdCommission.IsChecked Then
+        '        qry += " TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Rate as Rate,"
+        '    Else
+        '        qry += " Security_Rate as Rate,"
+        '    End If
+        '    If rdbDetail.IsChecked Then
+        '        qry += " TSPL_DISTRIBUTOR_COMMISSION_HEAD.Commision_UOM,TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code, tspl_item_master.Item_Desc, "
+        '    End If
+
+        '    qry += "TSPL_DISTRIBUTOR_ROUTE.code as TaggingDoc,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No as MarginDoc from TSPL_DISTRIBUTOR_COMMISSION_DETAIL
+        '          left outer join TSPL_DISTRIBUTOR_COMMISSION_HEAD on TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Doc_No
+        '          left outer join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE.Code=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Distributor_Tagging_Code
+        '          left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code  "
+        '    If rdbDetail.IsChecked Then
+        '        qry += " LEFT OUTER JOIN TSPL_DISTRIBUTOR_COMMISSION_ITEMS ON TSPL_DISTRIBUTOR_COMMISSION_ITEMS.PK_ID=TSPL_DISTRIBUTOR_COMMISSION_DETAIL.PK_ID 
+        '     left outer join tspl_item_master on  tspl_item_master.Item_Code=TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code "
+        '    End If
+        '    qry +=" where 2=2 and TSPL_DISTRIBUTOR_ROUTE.Code = '" + code + "'"
+        '        If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+        '        qry += " and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Route_Code in(" & clsCommon.GetMulcallString(txtRoute.arrValueMember) & ")" & Environment.NewLine
+        '    End If
+
+        '        If txtMultCustomer.arrValueMember IsNot Nothing AndAlso txtMultCustomer.arrValueMember.Count > 0 Then
+        '            qry += " and TSPL_CUSTOMER_MASTER.Cust_Code in(" & clsCommon.GetMulcallString(txtMultCustomer.arrValueMember) & ")" & Environment.NewLine
+        '        End If
+        '    'End If
+
+
+        '    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        '    If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+        '        common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+        '        Exit Sub
+        '    Else
+        '        RadPageView1.SelectedPage = RadPageViewPage2
+        '        gv2.GroupDescriptors.Clear()
+        '        gv2.MasterTemplate.SummaryRowsBottom.Clear()
+        '        gv2.DataSource = dt
+        '        'SetGridFormationgvData()
+        '        gv2.AutoExpandGroups = True
+        '        gv2.ShowGroupPanel = True
+        '        gv2.ShowRowHeaderColumn = False
+        '        gv2.AllowAddNewRow = False
+        '        gv2.AllowDeleteRow = False
+        '        gv2.EnableFiltering = True
+        '        gv2.ShowFilteringRow = True
+        '        FormatGrid()
+        '        View()
+        '        gv2.BestFitColumns()
+        '    End If
+        'Catch ex As Exception
+        '    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        'End Try
     End Sub
     Sub View()
 
