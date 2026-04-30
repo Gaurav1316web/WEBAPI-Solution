@@ -9196,7 +9196,13 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("ShiftType", "varchar(20) NULL")
             coll.Add("Source_Document_Code", "varchar(30) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE", coll, Nothing, True, False, "", "Document_No", "Document_Date", True)
+            Try
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_CRATE_RECEIVED_HEAD_FRESHSALE alter column Driver varchar(100) null")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_CRATE_RECEIVED_HEAD_FRESHSALE_Hist_Data alter column Driver varchar(100) null")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_CRATE_RECEIVED_HEAD_FRESHSALE_Delete_Data alter column Driver varchar(100) null")
+            Catch ex As Exception
 
+            End Try
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_No", "varchar(30) NOT NULL Primary key")
             coll.Add("Document_Date", "datetime not NULL")
