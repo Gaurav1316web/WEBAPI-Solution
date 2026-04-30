@@ -1777,7 +1777,7 @@ Public Class FrmInvoiceBulkSale
             If clsCommon.myCdbl(gv1.Rows(i).Cells(ColInvoiceFatPer).Value) < 0 Then
                 Throw New Exception("Invoice Fat% cannot be negative")
             End If
-           
+
             ''richa ERO/06/09/19-001021
             If Allow0FatPerOnBulkSaleQualityCheckScreen = False Then
                 If clsCommon.myCdbl(gv1.Rows(i).Cells(ColInvoiceFatPer).Value) = 0 Then
@@ -2406,7 +2406,7 @@ Public Class FrmInvoiceBulkSale
             If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "SAHAYOG") = CompairStringResult.Equal Then
                 qry += "Select * from ("
             End If
-            qry += "Select " &
+            qry += "Select TSPL_INVOICE_MASTER_BULKSALE.OpeningBal,TSPL_INVOICE_MASTER_BULKSALE.DrAmt,TSPL_INVOICE_MASTER_BULKSALE.CrAmt,TSPL_INVOICE_MASTER_BULKSALE.ClosingBal," &
                 " '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,TSPL_CUSTOMER_MASTER.Add1,TSPL_Dispatch_BulkSale.document_no,TSPL_Company_MASTER.Phone1,TSPL_Company_MASTER.Phone2,TSPL_Company_MASTER.Email,TSPL_Dispatch_BulkSale.document_date,TSPL_Dispatch_Detail_BulkSale.SNFRate,TSPL_Dispatch_Detail_BulkSale.FatRate,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_location_master.gstno,TSPL_Dispatch_Detail_BulkSale.Fat_KG,TSPL_Dispatch_Detail_BulkSale.SNF_KG,TSPL_ITEM_MASTER.HSN_Code,TSPL_ITEM_MASTER.Item_Desc,Case when dtax1.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX1_Rate when  dtax2.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX2_Rate when dtax3.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX3_Rate " &
                 " when dtax4.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX4_Rate  when dtax5.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX5_Rate end as TCS_Rate " &
                 " ,Case when dtax1.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX1_Amt when  dtax2.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX2_Amt when dtax3.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX3_Amt when dtax4.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX4_Amt  when dtax5.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX5_Amt end  as TCS_Amount" &
@@ -2586,7 +2586,7 @@ Public Class FrmInvoiceBulkSale
             End If
         Catch ex As Exception
             trans.Rollback()
-            Throw New Exception(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2956,9 +2956,9 @@ Public Class FrmInvoiceBulkSale
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
                 Dim obj As New ClsInvoiceBulkSale
                 obj.Document_No = clsCommon.myCstr(txtDocNo.Value)
-                obj.EWayBillNo = txtEWayBillNo.Text
+                obj.EWayBillNo = TxtEWayBillNo.Text
 
-                If txtEWayBillDate.Checked Then
+                If txtewaybilldate.Checked Then
                     obj.EWayBillDate = clsCommon.GetPrintDate(txtewaybilldate.Value, "dd/MMM/yyyy")
                 Else
                     obj.EWayBillDate = Nothing

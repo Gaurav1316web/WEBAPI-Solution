@@ -273,6 +273,7 @@ Public Class clsUserMgtCode
     Public Const frmDispatchReturn As String = "DIS-RETURN"
     Public Const frmGatePassDairy As String = "GATEPASS-DS"
     Public Const frmCrateReceviedDairySale As String = "CRT-REC-DS"
+    Public Const frmCrateReceviedBox As String = "CRT-REC-BOX"
     Public Const frmBookingDairyMultipleDistributor As String = "BOOK-DS-DIS"
     Public Const frmDairyBookingCustomer As String = "BOOK-DS-CU"
     Public Const frmPerformaInvoiceDairy As String = "Prof_Inv-D"
