@@ -2352,6 +2352,7 @@ Public Class clsUserMgtCode
     Public Const FrmVLCDataUploaderManual As String = "VLC-D-UPL-MA"
     Public Const MPIncentiveEntry As String = "MP-INC-ENT"
     Public Const DCSMPIncentiveReco As String = "DCS-MP-RECO"
+    Public Const DBTMonthlyFarmerMilk As String = "DBT-MNT-FMLK"
     Public Const DBTCappingCheck As String = "DBT-CAP-CHK"
     Public Const DBTCappingIncrease As String = "DBT-CAP-INC"
     Public Const DBTNEFTUploader As String = "DBT-NEFT-UPL"
