@@ -26,6 +26,7 @@ Partial Class rptBoothTruckSheet
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkIsIndividualCust = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnDispatch = New Telerik.WinControls.UI.RadRadioButton()
@@ -60,12 +61,15 @@ Partial Class rptBoothTruckSheet
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.txtTripNo = New common.MyNumBox()
+        Me.MyLabel9 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkIsIndividualCust, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
@@ -105,6 +109,8 @@ Partial Class rptBoothTruckSheet
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTripNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -143,6 +149,9 @@ Partial Class rptBoothTruckSheet
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.txtTripNo)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel9)
+        Me.RadPageViewPage1.Controls.Add(Me.chkIsIndividualCust)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel2)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage1.Controls.Add(Me.chkPouch)
@@ -160,6 +169,15 @@ Partial Class rptBoothTruckSheet
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 350)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'chkIsIndividualCust
+        '
+        Me.chkIsIndividualCust.IsThreeState = True
+        Me.chkIsIndividualCust.Location = New System.Drawing.Point(573, 24)
+        Me.chkIsIndividualCust.Name = "chkIsIndividualCust"
+        Me.chkIsIndividualCust.Size = New System.Drawing.Size(120, 18)
+        Me.chkIsIndividualCust.TabIndex = 451
+        Me.chkIsIndividualCust.Text = "Individual Customer"
         '
         'MyLabel2
         '
@@ -517,6 +535,8 @@ Partial Class rptBoothTruckSheet
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyExportAPI = False
+        Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -565,6 +585,43 @@ Partial Class rptBoothTruckSheet
         Me.btnReset.TabIndex = 155
         Me.btnReset.Text = "Reset"
         '
+        'txtTripNo
+        '
+        Me.txtTripNo.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtTripNo.CalculationExpression = Nothing
+        Me.txtTripNo.DecimalPlaces = 0
+        Me.txtTripNo.FieldCode = Nothing
+        Me.txtTripNo.FieldDesc = Nothing
+        Me.txtTripNo.FieldMaxLength = 0
+        Me.txtTripNo.FieldName = Nothing
+        Me.txtTripNo.isCalculatedField = False
+        Me.txtTripNo.IsSourceFromTable = False
+        Me.txtTripNo.IsSourceFromValueList = False
+        Me.txtTripNo.IsUnique = False
+        Me.txtTripNo.Location = New System.Drawing.Point(573, 54)
+        Me.txtTripNo.MendatroryField = False
+        Me.txtTripNo.MyLinkLable1 = Nothing
+        Me.txtTripNo.MyLinkLable2 = Nothing
+        Me.txtTripNo.Name = "txtTripNo"
+        Me.txtTripNo.ReferenceFieldDesc = Nothing
+        Me.txtTripNo.ReferenceFieldName = Nothing
+        Me.txtTripNo.ReferenceTableName = Nothing
+        Me.txtTripNo.Size = New System.Drawing.Size(120, 20)
+        Me.txtTripNo.TabIndex = 453
+        Me.txtTripNo.Text = "0"
+        Me.txtTripNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtTripNo.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        '
+        'MyLabel9
+        '
+        Me.MyLabel9.FieldName = Nothing
+        Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel9.Location = New System.Drawing.Point(516, 56)
+        Me.MyLabel9.Name = "MyLabel9"
+        Me.MyLabel9.Size = New System.Drawing.Size(46, 16)
+        Me.MyLabel9.TabIndex = 452
+        Me.MyLabel9.Text = "Trip No."
+        '
         'rptBoothTruckSheet
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -584,6 +641,7 @@ Partial Class rptBoothTruckSheet
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkIsIndividualCust, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
@@ -628,6 +686,8 @@ Partial Class rptBoothTruckSheet
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTripNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -670,4 +730,7 @@ Partial Class rptBoothTruckSheet
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents txtToShift As RadDropDownList
     Friend WithEvents txtFromShift As RadDropDownList
+    Friend WithEvents chkIsIndividualCust As RadCheckBox
+    Friend WithEvents txtTripNo As common.MyNumBox
+    Friend WithEvents MyLabel9 As common.Controls.MyLabel
 End Class

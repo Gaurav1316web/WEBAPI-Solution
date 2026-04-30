@@ -121,7 +121,6 @@ Partial Class frmDistributorRouteTagging
         Me.cmbItemType.AutoCompleteValueMember = Nothing
         Me.cmbItemType.CalculationExpression = Nothing
         Me.cmbItemType.DropDownAnimationEnabled = True
-        Me.cmbItemType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbItemType.FieldCode = Nothing
         Me.cmbItemType.FieldDesc = Nothing
         Me.cmbItemType.FieldMaxLength = 0
@@ -306,6 +305,7 @@ Partial Class frmDistributorRouteTagging
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportAPI = False
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -463,7 +463,6 @@ Partial Class frmDistributorRouteTagging
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(818, 450)
         Me.Controls.Add(Me.SplitContainer1)
-        Me.IconScaling = Telerik.WinControls.Enumerations.ImageScaling.SizeToFit
         Me.Name = "frmDistributorRouteTagging"
         '
         '

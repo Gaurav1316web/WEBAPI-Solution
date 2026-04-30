@@ -1730,7 +1730,7 @@ Public Class frmStoreRequistion
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtReqNo._MYValidating
         'Ticket No  ERO/20/08/19-000997 ,Sanjay
         vaddnew = "Y"
-        Dim qry As String = "select TSPL_REQUISITION_HEAD.Requisition_Id as Code,TSPL_REQUISITION_HEAD.Requisition_Date as Date,TSPL_REQUISITION_HEAD.Description, case when TSPL_REQUISITION_HEAD.Status='0' then 'Pending' else 'Approved' end as [Status],case when  TSPL_REQUISITION_HEAD.Is_Internal='Y' then 'Internal' else 'External' end as Internal,case when TSPL_EMPLOYEE_MASTER.Emp_Name is null then TSPL_REQUISITION_HEAD.Request_By else TSPL_EMPLOYEE_MASTER.Emp_Name end as [Request By],Dept_Desc as [Department] from TSPL_REQUISITION_HEAD left join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.EMP_CODE= TSPL_REQUISITION_HEAD.Request_By "
+        Dim qry As String = "select TSPL_REQUISITION_HEAD.Requisition_Id as Code,FORMAT(CAST(Requisition_Date AS DATETIME),'dd/MM/yyyy hh:mm tt') as Date,TSPL_REQUISITION_HEAD.Description, case when TSPL_REQUISITION_HEAD.Status='0' then 'Pending' else 'Approved' end as [Status],case when  TSPL_REQUISITION_HEAD.Is_Internal='Y' then 'Internal' else 'External' end as Internal,case when TSPL_EMPLOYEE_MASTER.Emp_Name is null then TSPL_REQUISITION_HEAD.Request_By else TSPL_EMPLOYEE_MASTER.Emp_Name end as [Request By],Dept_Desc as [Department] from TSPL_REQUISITION_HEAD left join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.EMP_CODE= TSPL_REQUISITION_HEAD.Request_By "
         Dim whrClas As String = " Is_Internal='Y'"
         If ApplyDepartmentWiseDataVisibleInDepartmentIndent = True Then
             whrClas += " and TSPL_REQUISITION_HEAD.Dept in (select Segment_code from tspl_User_Master where User_Code = '" + objCommonVar.CurrentUserCode + "')"
@@ -2777,6 +2777,7 @@ Public Class frmStoreRequistion
             Throw New Exception(ex.Message)
         End Try
     End Sub
+
 End Class
 
 

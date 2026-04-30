@@ -5653,7 +5653,7 @@ a:
                             case when TSPL_PURCHASE_ORDER_HEAD.Cmnt12chk=1 THEN TSPL_PURCHASE_ORDER_HEAD.Comment12 else '' end as Vendor_cmn12,
                             case when TSPL_PURCHASE_ORDER_HEAD.Cmnt13chk=1 THEN TSPL_PURCHASE_ORDER_HEAD.Comment13 else '' end as Vendor_cmn13,
                             case when TSPL_PURCHASE_ORDER_HEAD.Cmnt14chk=1 THEN TSPL_PURCHASE_ORDER_HEAD.Comment14 else '' end as Vendor_cmn14,
-                            TSPL_PURCHASE_ORDER_HEAD.Comment2,TSPL_VENDOR_MASTER.Add1 AS Vendor_Add1,TSPL_VENDOR_MASTER.Add2 as Vendor_Add2,TSPL_VENDOR_MASTER.Add3 as Vendor_Add3,TSPL_VENDOR_MASTER.Contact_Person_Name as Vendor_CP,TSPL_VENDOR_MASTER.Email AS Vendor_Email,TSPL_VENDOR_MASTER.Phone1 as Vendor_phone,TSPL_VENDOR_MASTER.GSTFinalNo as Vendor_GST"
+                            TSPL_PURCHASE_ORDER_HEAD.Comment2,TSPL_VENDOR_MASTER.Add1 AS Vendor_Add1,TSPL_VENDOR_MASTER.Add2 as Vendor_Add2,TSPL_VENDOR_MASTER.Add3 as Vendor_Add3,TSPL_VENDOR_MASTER.Contact_Person_Name as Vendor_CP,TSPL_VENDOR_MASTER.Email AS Vendor_Email,TSPL_VENDOR_MASTER.Phone1 as Vendor_phone,TSPL_VENDOR_MASTER.GSTFinalNo as Vendor_GST,TSPL_VENDOR_MASTER.PAN "
             strQuery += " ,Convert(Varchar,TSPL_TENDER_HEADER.DocumentDate,103) as TendorDocumentDate,TSPL_PURCHASE_ORDER_DETAIL.Disc_Per_Unit,TSPL_PURCHASE_ORDER_DETAIL.Disc_Amt_Per_Unit,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as TendorNo , "
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                 strQuery += " TSPL_PURCHASE_ORDER_HEAD.Description,"
@@ -5992,6 +5992,8 @@ a:
                     Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-G-AJM", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                     Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-G-GNG", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                    Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-G-UDP", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
 
                 Else
                     Return frmCRViewer.funsubreportWithdt(Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)

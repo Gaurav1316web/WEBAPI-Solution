@@ -22,17 +22,17 @@ Partial Class FrmGateEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.mnuSetting = New Telerik.WinControls.UI.RadMenuItem()
@@ -43,6 +43,8 @@ Partial Class FrmGateEntry
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer4 = New System.Windows.Forms.SplitContainer()
+        Me.TxtTrip = New common.MyNumBox()
+        Me.MyLabel22 = New common.Controls.MyLabel()
         Me.GrpRouteOrTankerDispatch = New Telerik.WinControls.UI.RadGroupBox()
         Me.chkAgainstRoute = New Telerik.WinControls.UI.RadRadioButton()
         Me.chkAgainstTankerDispatch = New Telerik.WinControls.UI.RadRadioButton()
@@ -151,6 +153,7 @@ Partial Class FrmGateEntry
         Me.lblLocationDecBulk = New common.Controls.MyLabel()
         Me.fndLocationBulk = New common.UserControls.txtFinder()
         Me.gvItemBulk = New common.UserControls.MyRadGridView()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnUpdateFatSnfForContractor = New Telerik.WinControls.UI.RadButton()
         Me.btnUpdatePrice = New Telerik.WinControls.UI.RadButton()
         Me.btn_amendment = New Telerik.WinControls.UI.RadButton()
@@ -167,7 +170,6 @@ Partial Class FrmGateEntry
         Me.gvManualSeal = New common.UserControls.MyRadGridView()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gvPaperSeal = New common.UserControls.MyRadGridView()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -181,6 +183,8 @@ Partial Class FrmGateEntry
         Me.SplitContainer4.Panel1.SuspendLayout()
         Me.SplitContainer4.Panel2.SuspendLayout()
         Me.SplitContainer4.SuspendLayout()
+        CType(Me.TxtTrip, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GrpRouteOrTankerDispatch, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GrpRouteOrTankerDispatch.SuspendLayout()
         CType(Me.chkAgainstRoute, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -278,6 +282,7 @@ Partial Class FrmGateEntry
         CType(Me.lblLocationDecBulk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvItemBulk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvItemBulk.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnUpdateFatSnfForContractor, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnUpdatePrice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btn_amendment, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -300,7 +305,6 @@ Partial Class FrmGateEntry
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.gvPaperSeal, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvPaperSeal.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -412,6 +416,8 @@ Partial Class FrmGateEntry
         '
         'SplitContainer4.Panel1
         '
+        Me.SplitContainer4.Panel1.Controls.Add(Me.TxtTrip)
+        Me.SplitContainer4.Panel1.Controls.Add(Me.MyLabel22)
         Me.SplitContainer4.Panel1.Controls.Add(Me.GrpRouteOrTankerDispatch)
         Me.SplitContainer4.Panel1.Controls.Add(Me.MyLabel20)
         Me.SplitContainer4.Panel1.Controls.Add(Me.txtMCC)
@@ -462,6 +468,47 @@ Partial Class FrmGateEntry
         Me.SplitContainer4.Size = New System.Drawing.Size(1203, 488)
         Me.SplitContainer4.SplitterDistance = 255
         Me.SplitContainer4.TabIndex = 0
+        '
+        'TxtTrip
+        '
+        Me.TxtTrip.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.TxtTrip.CalculationExpression = Nothing
+        Me.TxtTrip.DecimalPlaces = 0
+        Me.TxtTrip.FieldCode = Nothing
+        Me.TxtTrip.FieldDesc = Nothing
+        Me.TxtTrip.FieldMaxLength = 0
+        Me.TxtTrip.FieldName = Nothing
+        Me.TxtTrip.isCalculatedField = False
+        Me.TxtTrip.IsSourceFromTable = False
+        Me.TxtTrip.IsSourceFromValueList = False
+        Me.TxtTrip.IsUnique = False
+        Me.TxtTrip.Location = New System.Drawing.Point(1032, 40)
+        Me.TxtTrip.MendatroryField = True
+        Me.TxtTrip.MyLinkLable1 = Me.MyLabel22
+        Me.TxtTrip.MyLinkLable2 = Nothing
+        Me.TxtTrip.Name = "TxtTrip"
+        Me.TxtTrip.ReferenceFieldDesc = Nothing
+        Me.TxtTrip.ReferenceFieldName = Nothing
+        Me.TxtTrip.ReferenceTableName = Nothing
+        '
+        '
+        '
+        Me.TxtTrip.RootElement.StretchVertically = True
+        Me.TxtTrip.Size = New System.Drawing.Size(83, 20)
+        Me.TxtTrip.TabIndex = 12142
+        Me.TxtTrip.Text = "1"
+        Me.TxtTrip.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TxtTrip.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'MyLabel22
+        '
+        Me.MyLabel22.FieldName = Nothing
+        Me.MyLabel22.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel22.Location = New System.Drawing.Point(996, 40)
+        Me.MyLabel22.Name = "MyLabel22"
+        Me.MyLabel22.Size = New System.Drawing.Size(30, 18)
+        Me.MyLabel22.TabIndex = 12143
+        Me.MyLabel22.Text = "Trip"
         '
         'GrpRouteOrTankerDispatch
         '
@@ -670,7 +717,7 @@ Partial Class FrmGateEntry
         Me.txtNoofChamber.TabIndex = 1452
         Me.txtNoofChamber.Text = "0"
         Me.txtNoofChamber.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNoofChamber.Value = 0R
+        Me.txtNoofChamber.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'chkAgainstGateOutNo
         '
@@ -736,7 +783,7 @@ Partial Class FrmGateEntry
         Me.txtCAN.TabIndex = 1454
         Me.txtCAN.Text = "0"
         Me.txtCAN.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCAN.Value = 0R
+        Me.txtCAN.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel11
         '
@@ -848,7 +895,7 @@ Partial Class FrmGateEntry
         Me.txtTollAmount.TabIndex = 1407
         Me.txtTollAmount.Text = "0"
         Me.txtTollAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTollAmount.Value = 0R
+        Me.txtTollAmount.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'BtnResetProv
         '
@@ -928,7 +975,7 @@ Partial Class FrmGateEntry
         Me.txtClosingKM.TabIndex = 1401
         Me.txtClosingKM.Text = "0"
         Me.txtClosingKM.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtClosingKM.Value = 0R
+        Me.txtClosingKM.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtOpeningKM
         '
@@ -955,7 +1002,7 @@ Partial Class FrmGateEntry
         Me.txtOpeningKM.TabIndex = 1400
         Me.txtOpeningKM.Text = "0"
         Me.txtOpeningKM.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtOpeningKM.Value = 0R
+        Me.txtOpeningKM.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblOpeningKM
         '
@@ -1144,14 +1191,14 @@ Partial Class FrmGateEntry
         Me.cmbGEType.IsSourceFromTable = False
         Me.cmbGEType.IsSourceFromValueList = False
         Me.cmbGEType.IsUnique = False
-        RadListDataItem9.Text = "COM1"
-        RadListDataItem10.Text = "COM2"
-        RadListDataItem11.Text = "COM3"
-        RadListDataItem12.Text = "COM4"
-        Me.cmbGEType.Items.Add(RadListDataItem9)
-        Me.cmbGEType.Items.Add(RadListDataItem10)
-        Me.cmbGEType.Items.Add(RadListDataItem11)
-        Me.cmbGEType.Items.Add(RadListDataItem12)
+        RadListDataItem1.Text = "COM1"
+        RadListDataItem2.Text = "COM2"
+        RadListDataItem3.Text = "COM3"
+        RadListDataItem4.Text = "COM4"
+        Me.cmbGEType.Items.Add(RadListDataItem1)
+        Me.cmbGEType.Items.Add(RadListDataItem2)
+        Me.cmbGEType.Items.Add(RadListDataItem3)
+        Me.cmbGEType.Items.Add(RadListDataItem4)
         Me.cmbGEType.Location = New System.Drawing.Point(104, 4)
         Me.cmbGEType.MendatroryField = True
         Me.cmbGEType.MyLinkLable1 = Me.MyLabel56
@@ -1489,14 +1536,14 @@ Partial Class FrmGateEntry
         Me.cmbSealStatus.IsSourceFromTable = False
         Me.cmbSealStatus.IsSourceFromValueList = False
         Me.cmbSealStatus.IsUnique = False
-        RadListDataItem1.Text = "COM1"
-        RadListDataItem2.Text = "COM2"
-        RadListDataItem3.Text = "COM3"
-        RadListDataItem4.Text = "COM4"
-        Me.cmbSealStatus.Items.Add(RadListDataItem1)
-        Me.cmbSealStatus.Items.Add(RadListDataItem2)
-        Me.cmbSealStatus.Items.Add(RadListDataItem3)
-        Me.cmbSealStatus.Items.Add(RadListDataItem4)
+        RadListDataItem5.Text = "COM1"
+        RadListDataItem6.Text = "COM2"
+        RadListDataItem7.Text = "COM3"
+        RadListDataItem8.Text = "COM4"
+        Me.cmbSealStatus.Items.Add(RadListDataItem5)
+        Me.cmbSealStatus.Items.Add(RadListDataItem6)
+        Me.cmbSealStatus.Items.Add(RadListDataItem7)
+        Me.cmbSealStatus.Items.Add(RadListDataItem8)
         Me.cmbSealStatus.Location = New System.Drawing.Point(93, 52)
         Me.cmbSealStatus.MendatroryField = True
         Me.cmbSealStatus.MyLinkLable1 = Me.MyLabel4
@@ -2037,13 +2084,25 @@ Partial Class FrmGateEntry
         '
         Me.gvItemBulk.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItemBulk.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItemBulk.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvItemBulk.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvItemBulk.MyExportAPI = False
+        Me.gvItemBulk.MyExportFilePath = ""
         Me.gvItemBulk.MyStopExport = False
         Me.gvItemBulk.Name = "gvItemBulk"
         Me.gvItemBulk.ShowHeaderCellButtons = True
         Me.gvItemBulk.Size = New System.Drawing.Size(1203, 229)
         Me.gvItemBulk.TabIndex = 264
         Me.gvItemBulk.VarID = ""
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(822, 4)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 24)
+        Me.btnHistory.TabIndex = 10
+        Me.btnHistory.Text = "History"
         '
         'btnUpdateFatSnfForContractor
         '
@@ -2196,7 +2255,9 @@ Partial Class FrmGateEntry
         '
         Me.gvManualSeal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvManualSeal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvManualSeal.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvManualSeal.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvManualSeal.MyExportAPI = False
+        Me.gvManualSeal.MyExportFilePath = ""
         Me.gvManualSeal.MyStopExport = False
         Me.gvManualSeal.Name = "gvManualSeal"
         Me.gvManualSeal.ShowHeaderCellButtons = True
@@ -2225,23 +2286,15 @@ Partial Class FrmGateEntry
         '
         Me.gvPaperSeal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPaperSeal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvPaperSeal.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvPaperSeal.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvPaperSeal.MyExportAPI = False
+        Me.gvPaperSeal.MyExportFilePath = ""
         Me.gvPaperSeal.MyStopExport = False
         Me.gvPaperSeal.Name = "gvPaperSeal"
         Me.gvPaperSeal.ShowHeaderCellButtons = True
         Me.gvPaperSeal.Size = New System.Drawing.Size(605, 505)
         Me.gvPaperSeal.TabIndex = 202
         Me.gvPaperSeal.VarID = ""
-        '
-        'btnHistory
-        '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(822, 4)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(68, 24)
-        Me.btnHistory.TabIndex = 10
-        Me.btnHistory.Text = "History"
         '
         'FrmGateEntry
         '
@@ -2271,6 +2324,8 @@ Partial Class FrmGateEntry
         Me.SplitContainer4.Panel1.PerformLayout()
         Me.SplitContainer4.Panel2.ResumeLayout(False)
         Me.SplitContainer4.ResumeLayout(False)
+        CType(Me.TxtTrip, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GrpRouteOrTankerDispatch, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GrpRouteOrTankerDispatch.ResumeLayout(False)
         Me.GrpRouteOrTankerDispatch.PerformLayout()
@@ -2376,6 +2431,7 @@ Partial Class FrmGateEntry
         CType(Me.lblLocationDecBulk, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvItemBulk.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvItemBulk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnUpdateFatSnfForContractor, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnUpdatePrice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btn_amendment, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2398,7 +2454,6 @@ Partial Class FrmGateEntry
         Me.RadGroupBox2.ResumeLayout(False)
         CType(Me.gvPaperSeal.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvPaperSeal, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -2539,5 +2594,7 @@ Partial Class FrmGateEntry
     Friend WithEvents chkAgainstRoute As RadRadioButton
     Friend WithEvents chkAgainstTankerDispatch As RadRadioButton
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents TxtTrip As common.MyNumBox
+    Friend WithEvents MyLabel22 As common.Controls.MyLabel
 End Class
 

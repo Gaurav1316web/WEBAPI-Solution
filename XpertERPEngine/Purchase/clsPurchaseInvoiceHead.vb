@@ -8,7 +8,7 @@ Public Class clsPurchaseInvoiceHead
     Public PROJECT_ID As String = Nothing
     Public PI_No As String = Nothing
     Public Vendor_Invoice_No As String = Nothing
-    Public PI_Date As String = Nothing
+    Public PI_Date As DateTime = Nothing
     Public Vendor_Code As String = Nothing
     Public DateAndTime As DateTime?
     Public TapalNo As String = String.Empty
@@ -464,7 +464,13 @@ Public Class clsPurchaseInvoiceHead
             End If
 
             Dim coll As New Hashtable()
-            clsCommon.AddColumnsForChange(coll, "PI_Date", clsCommon.GetPrintDate(obj.PI_Date, "dd/MMM/yyyy"))
+            Dim ServerDate As DateTime = Nothing
+            If isNewEntry Then
+                ServerDate = clsCommon.GETSERVERDATE(trans)
+                obj.PI_Date = New DateTime(obj.PI_Date.Year, obj.PI_Date.Month, obj.PI_Date.Day, ServerDate.Hour, ServerDate.Minute, ServerDate.Second)
+            End If
+
+            clsCommon.AddColumnsForChange(coll, "PI_Date", clsCommon.GetPrintDate(obj.PI_Date, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Vendor_Invoice_No", obj.Vendor_Invoice_No)
             clsCommon.AddColumnsForChange(coll, "Vendor_Code", obj.Vendor_Code)
             clsCommon.AddColumnsForChange(coll, "Vendor_Name", obj.Vendor_Name)

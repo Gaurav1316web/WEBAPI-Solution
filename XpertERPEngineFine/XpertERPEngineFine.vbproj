@@ -216,6 +216,8 @@
     <Compile Include="Accounts\clsJournalMaster.vb" />
     <Compile Include="API\ClsEInvoiceOFAPIs.vb" />
     <Compile Include="API\clsEWayBill.vb" />
+    <Compile Include="BoothCommission\clsBoothCommissionCalculationMaster.vb" />
+    <Compile Include="BoothCommission\clsBoothCommissionMaster.vb" />
     <Compile Include="BoothRouteMapping\clsBoothRouteMappingHead.vb" />
     <Compile Include="Bull Breed Management\clsBullBreedMaster.vb" />
     <Compile Include="Bull Breed Management\clsBullCategoryMaster.vb" />
@@ -330,6 +332,7 @@
     <Compile Include="Dairy Sales\clsRouteWiseSaleTarget.vb" />
     <Compile Include="Dairy Sales\clsStandardRateItem.vb" />
     <Compile Include="Dairy Sales\clsStandardScheme.vb" />
+    <Compile Include="Dairy Sales\clsSubRouteMaster.vb" />
     <Compile Include="Dairy Sales\clsTargetMaster.vb" />
     <Compile Include="Dairy Sales\ClsTemplateMaster.vb" />
     <Compile Include="Dairy Sales\clsTmplateCreation.vb" />
@@ -339,6 +342,9 @@
     <Compile Include="Electrical\clsDailyElectricalEntry.vb" />
     <Compile Include="Electrical\clsDGMaster.vb" />
     <Compile Include="Electrical\clsSlotMaster.vb" />
+    <Compile Include="HRAndPayroll\ClsEmpOTCalculation.vb" />
+    <Compile Include="HRAndPayroll\ClsEmpOTEntry.vb" />
+    <Compile Include="HRAndPayroll\clsempsummary.vb" />
     <Compile Include="HRAndPayroll\clsLeaveEncashmentHead.vb" />
     <Compile Include="HRAndPayroll\clsTrainerMaster.vb" />
     <Compile Include="HRAndPayroll\clsTrainingMaster.vb" />
@@ -369,6 +375,7 @@
     <Compile Include="LocationModel\clsLocationWiseTax.vb" />
     <Compile Include="LocationModel\ClsLocation_JobworkItem.vb" />
     <Compile Include="Milk Procurement\ClsAMCUMaster.vb" />
+    <Compile Include="Milk Procurement\ClsBMCCategory.vb" />
     <Compile Include="Milk Procurement\clsChillingCharges.vb" />
     <Compile Include="Milk Procurement\clsDBTCaping.vb" />
     <Compile Include="Milk Procurement\clsDBTNEFTReject.vb" />
@@ -458,7 +465,9 @@
     <Compile Include="Silage Production\clsSilageFormerProduction.vb" />
     <Compile Include="Silage Production\clsSilageProductionApplication.vb" />
     <Compile Include="Silage Production\clsSilageProductionAreaMaster.vb" />
-    <Compile Include="UserControl1.vb" />
+    <Compile Include="UserControl1.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserControl1.Designer.vb">
       <DependentUpon>UserControl1.vb</DependentUpon>
     </Compile>

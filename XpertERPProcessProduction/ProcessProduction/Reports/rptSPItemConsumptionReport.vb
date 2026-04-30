@@ -397,6 +397,10 @@ Public Class rptSPItemConsumptionReport
         TxtMultiLocation.arrValueMember = Nothing
         txtBOMNo.arrValueMember = Nothing
         LOCATIONRIGTHS()
+        If clsCommon.myLen(objCommonVar.strDefaultUserLocation) > 0 Then
+            TxtMultiLocation.arrValueMember = New ArrayList()
+            TxtMultiLocation.arrValueMember.Add(objCommonVar.strDefaultUserLocation)
+        End If
     End Sub
     Private Sub txtItemMult__My_Click(sender As Object, e As EventArgs) Handles txtItemMult._My_Click
         Dim qry As String = " select TSPL_ITEM_MASTER.Item_Code as Code,TSPL_ITEM_MASTER.Item_Desc as Name from TSPL_ITEM_MASTER "
@@ -779,12 +783,14 @@ WHERE CONVERT(DATE,TSPL_INVENTORY_MOVEMENT.Punching_Date,103)>='" + clsCommon.Ge
     End Sub
     Private Sub TxtMultiLocation__My_Click(sender As Object, e As EventArgs) Handles TxtMultiLocation._My_Click
         Dim WhrCls As String = " and Location_Type='Physical'  "
-        If clsCommon.myLen(arrLoc) > 0 Then
-            WhrCls += "  and  Location_Code in (" + arrLoc + ")"
+        If clsCommon.myLen(objCommonVar.strDefaultUserLocation) > 0 Then
+            WhrCls += "  and  Location_Code in ('" + objCommonVar.strDefaultUserLocation + "')"
+        Else
+            If clsCommon.myLen(arrLoc) > 0 Then
+                WhrCls += "  and  Location_Code in (" + arrLoc + ")"
+            End If
         End If
-
         Dim qry As String = "select Location_Code as [Code] ,Location_Desc as [Name] from TSPL_LOCATION_MASTER where 2=2 " + WhrCls + "  "
-
         TxtMultiLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("Pro", qry, "Code", "Name", TxtMultiLocation.arrValueMember, TxtMultiLocation.arrDispalyMember)
     End Sub
     Private Sub txtBOMNo__My_Click(sender As Object, e As EventArgs) Handles txtBOMNo._My_Click

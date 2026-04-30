@@ -850,11 +850,10 @@ where TSPL_SCRAPINVOICE_HEAD.invoice_No='" & strInvoiceNO & "' and (TSPL_SCRAPIN
             Dim strQry As String = "select 'O' as supplyType,'1' as subSupplyType,TSPL_SCRAPINVOICE_HEAD.Description as subSupplyDesc,
     'INV' as DocType,TSPL_Customer_master.Cust_Code, TSPL_SCRAPINVOICE_HEAD.invoice_No As DocNo, convert( Date, TSPL_SCRAPINVOICE_HEAD.shipment_Date, 103 ) As DocDate, 
     Bill_To_Location.GSTNO as fromGstin,  TSPL_COMPANY_MASTER.Comp_Name as fromTrdName, Bill_To_Location.Add1 as fromAddr1, Bill_To_Location.Add2 as fromAddr2, Bill_To_Location.City_Code as fromPlace, Bill_To_Location.Pin_Code as fromPincode, BillToLocation_State_Master.GST_STATE_Code as actFromStateCode, BillToLocation_State_Master.GST_STATE_Code as fromStateCode, 
-    --TSPL_Customer_master.GSTNo as toGstin,
-'URP' as toGstin,
+    case when TSPL_Customer_master.GST_Registered=1 then TSPL_Customer_master.GSTNo else 'URP' end as toGstin,
 TSPL_Customer_master.Alies_name as toTrdName,
     TSPL_Customer_master.Add1 as toAddr1,TSPL_Customer_master.Add2 as toAddr2,tspl_city_master.City_Name as toPlace,
-    Case when isnull( TSPL_SCRAPINVOICE_HEAD.Loc_Code, '' )= '' then Customer_State_Master.GST_STATE_Code else Ship_To_Location_State_Master.GST_STATE_Code end as actToStateCode,Customer_State_Master.GST_STATE_Code as toStateCode,
+    Case when isnull( TSPL_SCRAPINVOICE_HEAD.Loc_Code, '' )<> '' then Customer_State_Master.GST_STATE_Code else Ship_To_Location_State_Master.GST_STATE_Code end as actToStateCode,Customer_State_Master.GST_STATE_Code as toStateCode,
     cast( TSPL_Customer_master.PIN_NO as int ) as toPincode,'1' as transactionType,
      Bill_To_Location.GSTNO as dispatchFromGSTIN,TSPL_COMPANY_MASTER.Comp_Name as dispatchFromTradeName,TSPL_Customer_master.GSTNo AS shipToGSTIN, TSPL_Customer_master.Alies_name AS shipToTradeName, 
     Case when ISNULL(TSPL_SCRAPINVOICE_HEAD.tax1,'')='KKF' or ISNULL(TSPL_SCRAPINVOICE_HEAD.tax2,'')='KKF' then TSPL_SCRAPINVOICE_HEAD.TAX3_Base_Amt else TSPL_SCRAPINVOICE_HEAD.TAX1_Base_Amt end as totalValue,
@@ -865,15 +864,15 @@ TSPL_Customer_master.Alies_name as toTrdName,
      TSPL_SCRAPINVOICE_HEAD.Doc_Amt AS totInvValue,
      '1' as transMode,0 as transDistance,'' as transporterName,isnull(TSPL_VENDOR_MASTER.GSTFinalNo,'') as transporterId,'' as transDocNo,
      '' as transDocDate,
-      TSPL_VEHICLE_MASTER.Number as vehicleNo,
+      TSPL_SCRAPINVOICE_HEAD.VehicleNo as vehicleNo,
       'R' as vehicleType,
      TSPL_ITEM_MASTER.Item_Desc AS productName,TSPL_ITEM_MASTER.Item_Desc AS productDesc,TSPL_ITEM_MASTER.HSN_Code AS hsnCode,TSPL_SCRAPINVOICE_DETAIL.shipped_Qty as quantity, TSPL_SCRAPINVOICE_DETAIL.Unit_code as qtyUnit,
-    ( case when ISNULL(TSPL_SCRAPINVOICE_DETAIL.tax1,'')='KKF' or ISNULL(TSPL_SCRAPINVOICE_DETAIL.tax2,'')='KKF' then TSPL_SCRAPINVOICE_DETAIL.TAX3_Base_Amt else TSPL_SCRAPINVOICE_DETAIL.ItemNetAmt end ) as taxableAmount, 
+    ( case when ISNULL(TSPL_SCRAPINVOICE_DETAIL.tax1,'')='KKF' or ISNULL(TSPL_SCRAPINVOICE_DETAIL.tax2,'')='KKF' then round(TSPL_SCRAPINVOICE_DETAIL.TAX3_Base_Amt,2) else TSPL_SCRAPINVOICE_DETAIL.ItemNetAmt end ) as taxableAmount, 
     Case when ISNULL( TSPL_SCRAPINVOICE_DETAIL.tax1, '' ) = 'IGST' THEN TSPL_SCRAPINVOICE_DETAIL.TAX1_Rate else
      (case when ISNULL(TSPL_SCRAPINVOICE_DETAIL.tax1,'')='KKF' or ISNULL(TSPL_SCRAPINVOICE_DETAIL.tax2,'')='KKF' then (case when TSPL_SCRAPINVOICE_DETAIL.TAX3 = 'IGST' then TSPL_SCRAPINVOICE_DETAIL.TAX3_Rate ELSE 0 end) else 0 end) end  as igstRate,
     Case when ISNULL(TSPL_SCRAPINVOICE_DETAIL.tax1,'')='KKF' or ISNULL(TSPL_SCRAPINVOICE_DETAIL.tax2,'')='KKF' then (case when TSPL_SCRAPINVOICE_DETAIL.TAX3 = 'CGST' AND TSPL_SCRAPINVOICE_DETAIL.TAX4 = 'SGST' then TSPL_SCRAPINVOICE_DETAIL.TAX3_Rate  when TSPL_SCRAPINVOICE_DETAIL.TAX3 = 'CGST' AND TSPL_SCRAPINVOICE_DETAIL.TAX4 = 'SGST' then TSPL_SCRAPINVOICE_DETAIL.TAX4_Rate else 0 end) else (case when TSPL_SCRAPINVOICE_DETAIL.TAX1 = 'CGST' AND TSPL_SCRAPINVOICE_DETAIL.TAX2 = 'SGST' then TSPL_SCRAPINVOICE_DETAIL.TAX1_Rate when TSPL_SCRAPINVOICE_DETAIL.TAX1 = 'CGST' AND TSPL_SCRAPINVOICE_DETAIL.TAX2 = 'SGST' then TSPL_SCRAPINVOICE_DETAIL.TAX2_Rate else 0 end) end sgstRate,
     Case when ISNULL(TSPL_SCRAPINVOICE_DETAIL.tax1,'')='KKF' or ISNULL(TSPL_SCRAPINVOICE_DETAIL.tax2,'')='KKF' then (case when TSPL_SCRAPINVOICE_DETAIL.TAX3 = 'CGST' AND TSPL_SCRAPINVOICE_DETAIL.TAX4 = 'SGST' then TSPL_SCRAPINVOICE_DETAIL.TAX3_Rate  when TSPL_SCRAPINVOICE_DETAIL.TAX3 = 'CGST' AND TSPL_SCRAPINVOICE_DETAIL.TAX4 = 'SGST' then TSPL_SCRAPINVOICE_DETAIL.TAX4_Rate else 0 end) else (case when TSPL_SCRAPINVOICE_DETAIL.TAX1 = 'CGST' AND TSPL_SCRAPINVOICE_DETAIL.TAX2 = 'SGST' then TSPL_SCRAPINVOICE_DETAIL.TAX1_Rate when TSPL_SCRAPINVOICE_DETAIL.TAX1 = 'CGST' AND TSPL_SCRAPINVOICE_DETAIL.TAX2 = 'SGST' then TSPL_SCRAPINVOICE_DETAIL.TAX2_Rate else 0 end) end as cgstRate,
-    0 as cessRate
+    0 as cessRate,TSPL_SCRAPINVOICE_HEAD.NO_Transporter
     from TSPL_SCRAPINVOICE_HEAD 
     Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No = TSPL_SCRAPINVOICE_HEAD.invoice_No Left Outer Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = '" & objCommonVar.CurrentCompanyCode & "'
     Left Outer Join TSPL_Customer_master on TSPL_Customer_master.Cust_Code = TSPL_SCRAPINVOICE_HEAD.cust_Code
@@ -1005,9 +1004,10 @@ case when ISNULL(TSPL_SCRAPINVOICE_DETAIL.tax1,'')='KKF' or ISNULL(TSPL_SCRAPINV
 0 as ItemOthChrg,
 --TSPL_SCRAPINVOICE_DETAIL.TotalAmt,
 
-(case when ISNULL(TSPL_SCRAPINVOICE_DETAIL.tax1,'')='KKF' or ISNULL(TSPL_SCRAPINVOICE_DETAIL.tax2,'')='KKF' then (TSPL_SCRAPINVOICE_DETAIL.TAX3_Base_Amt ) else TSPL_SCRAPINVOICE_DETAIL.ItemAmt end)+(Case when TSPL_SCRAPINVOICE_DETAIL.TAX1 = 'IGST' then isnull(TSPL_SCRAPINVOICE_DETAIL.TAX2_Amt,0) else(
+(case when ISNULL(TSPL_SCRAPINVOICE_DETAIL.tax1,'')='KKF' or ISNULL(TSPL_SCRAPINVOICE_DETAIL.tax2,'')='KKF' then (case when ISNULL(TSPL_SCRAPINVOICE_DETAIL.tax3,'')='CGST' or ISNULL(TSPL_SCRAPINVOICE_DETAIL.tax4,'')='CGST' then (TSPL_SCRAPINVOICE_DETAIL.TAX3_Base_Amt + TSPL_SCRAPINVOICE_DETAIL.TAX3_Amt+ TSPL_SCRAPINVOICE_DETAIL.TAX4_Amt  )
+else TSPL_SCRAPINVOICE_DETAIL.ItemAmt +(Case when TSPL_SCRAPINVOICE_DETAIL.TAX1 = 'IGST' then isnull(TSPL_SCRAPINVOICE_DETAIL.TAX2_Amt,0) else(
 Case when ISNULL(TSPL_SCRAPINVOICE_DETAIL.tax1,'')='KKF' or ISNULL(TSPL_SCRAPINVOICE_DETAIL.tax2,'')='KKF' then (case when TSPL_SCRAPINVOICE_DETAIL.TAX3='IGST' then TSPL_SCRAPINVOICE_DETAIL.TAX3_Amt else (case when    
-TSPL_SCRAPINVOICE_DETAIL.TAX5='TCS' then TSPL_SCRAPINVOICE_DETAIL.TAX5_Amt else 0 end) end) else (case when TSPL_SCRAPINVOICE_DETAIL.tax3='TCS' then TSPL_SCRAPINVOICE_DETAIL.TAX3_Amt else 0 end) end) end) as ItemTotItemVal,
+TSPL_SCRAPINVOICE_DETAIL.TAX5='TCS' then TSPL_SCRAPINVOICE_DETAIL.TAX5_Amt else 0 end) end) else (case when TSPL_SCRAPINVOICE_DETAIL.tax3='TCS' then TSPL_SCRAPINVOICE_DETAIL.TAX3_Amt else 0 end) end) end) end) end) as ItemTotItemVal,
 
 Case when ISNULL(TSPL_SCRAPINVOICE_HEAD.tax1,'')='KKF' or ISNULL(TSPL_SCRAPINVOICE_HEAD.tax2,'')='KKF' then TSPL_SCRAPINVOICE_HEAD.TAX3_Base_Amt else TSPL_SCRAPINVOICE_HEAD.TAX1_Base_Amt end as ValDtlsAssVal,
 Case when ISNULL(TSPL_SCRAPINVOICE_HEAD.tax1,'')='KKF' or ISNULL(TSPL_SCRAPINVOICE_HEAD.tax2,'')='KKF' then (case when TSPL_SCRAPINVOICE_HEAD.TAX3 = 'CGST' AND TSPL_SCRAPINVOICE_HEAD.TAX4 = 'SGST' then TSPL_SCRAPINVOICE_HEAD.TAX3_Amt  when TSPL_SCRAPINVOICE_HEAD.TAX3 = 'CGST' AND TSPL_SCRAPINVOICE_HEAD.TAX4 = 'SGST' then TSPL_SCRAPINVOICE_HEAD.TAX4_Amt else 0 end) else (case when TSPL_SCRAPINVOICE_HEAD.TAX1 = 'CGST' AND TSPL_SCRAPINVOICE_HEAD.TAX2 = 'SGST' then TSPL_SCRAPINVOICE_HEAD.TAX1_Amt when TSPL_SCRAPINVOICE_HEAD.TAX1 = 'CGST' AND TSPL_SCRAPINVOICE_HEAD.TAX2 = 'SGST' then TSPL_SCRAPINVOICE_HEAD.TAX2_Amt else 0 end) end ValDtlsCgstVal,

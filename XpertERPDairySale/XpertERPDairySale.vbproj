@@ -148,7 +148,8 @@
     <Reference Include="XpertCommon">
       <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
-    <Reference Include="XpertERPEngine">
+    <Reference Include="XpertERPEngine, Version=7.1.5.97, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERPEngine\bin\Debug\XpertERPEngine.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPEngineFine">
@@ -329,6 +330,12 @@
     <Compile Include="frmShowInvoiceNo.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Master\FrmBoothCommissionMaster.Designer.vb">
+      <DependentUpon>FrmBoothCommissionMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\FrmBoothCommissionMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\FrmBoothRouteMapping.Designer.vb">
       <DependentUpon>FrmBoothRouteMapping.vb</DependentUpon>
     </Compile>
@@ -395,6 +402,12 @@
     <Compile Include="Master\CardSale.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Master\frmSubRouteMaster.Designer.vb">
+      <DependentUpon>frmSubRouteMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmSubRouteMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmTranspoterDeductionMaster2.designer.vb">
       <DependentUpon>frmTranspoterDeductionMaster2.vb</DependentUpon>
     </Compile>
@@ -422,6 +435,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Report\frmAccountSalesReport.Designer.vb">
+      <DependentUpon>frmAccountSalesReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmAccountSalesReport.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Report\FrmBoothCountReport.Designer.vb">
       <DependentUpon>FrmBoothCountReport.vb</DependentUpon>
@@ -609,6 +628,12 @@
     <Compile Include="Report\rptDailyStatementReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\rptDistributorRouteMarginStatusReport.Designer.vb">
+      <DependentUpon>rptDistributorRouteMarginStatusReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptDistributorRouteMarginStatusReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\rptGatePassReport.Designer.vb">
       <DependentUpon>rptGatePassReport.vb</DependentUpon>
     </Compile>
@@ -739,6 +764,12 @@
       <DependentUpon>rptNewTenderPartyListReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Report\rptNewTenderPartyListReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\rptPartWiseItemReport.Designer.vb">
+      <DependentUpon>rptPartWiseItemReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptPartWiseItemReport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Report\rptProvisionChart.Designer.vb">
@@ -967,6 +998,12 @@
       <DependentUpon>frmBookingDairyMultipleDistributor.vb</DependentUpon>
     </Compile>
     <Compile Include="Transaction\frmBookingDairyMultipleDistributor.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\FrmBoothCommission.Designer.vb">
+      <DependentUpon>FrmBoothCommission.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\FrmBoothCommission.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Transaction\FrmCashIndentBookingMobApp.Designer.vb">
@@ -1410,6 +1447,9 @@
     <EmbeddedResource Include="frmShowInvoiceNo.resx">
       <DependentUpon>frmShowInvoiceNo.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Master\FrmBoothCommissionMaster.resx">
+      <DependentUpon>FrmBoothCommissionMaster.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Master\FrmBoothRouteMapping.resx">
       <DependentUpon>FrmBoothRouteMapping.vb</DependentUpon>
     </EmbeddedResource>
@@ -1443,6 +1483,9 @@
     <EmbeddedResource Include="Master\CardSale.resx">
       <DependentUpon>CardSale.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmSubRouteMaster.resx">
+      <DependentUpon>frmSubRouteMaster.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Master\frmTranspoterDeductionMaster2.resx">
       <DependentUpon>frmTranspoterDeductionMaster2.vb</DependentUpon>
     </EmbeddedResource>
@@ -1455,6 +1498,9 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmAccountSalesReport.resx">
+      <DependentUpon>frmAccountSalesReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\FrmBoothCountReport.resx">
       <DependentUpon>FrmBoothCountReport.vb</DependentUpon>
@@ -1549,6 +1595,9 @@
     <EmbeddedResource Include="Report\rptDemandReturnReport.resx">
       <DependentUpon>rptDemandReturnReport.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptDistributorRouteMarginStatusReport.resx">
+      <DependentUpon>rptDistributorRouteMarginStatusReport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\rptGatePassReport.resx">
       <DependentUpon>rptGatePassReport.vb</DependentUpon>
     </EmbeddedResource>
@@ -1614,6 +1663,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptNewTenderPartyListReport.resx">
       <DependentUpon>rptNewTenderPartyListReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptPartWiseItemReport.resx">
+      <DependentUpon>rptPartWiseItemReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptProvisionChart.resx">
       <DependentUpon>rptProvisionChart.vb</DependentUpon>
@@ -1728,6 +1780,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmBookingDairyMultipleDistributor.resx">
       <DependentUpon>frmBookingDairyMultipleDistributor.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\FrmBoothCommission.resx">
+      <DependentUpon>FrmBoothCommission.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\FrmCashIndentBookingMobApp.resx">
       <DependentUpon>FrmCashIndentBookingMobApp.vb</DependentUpon>

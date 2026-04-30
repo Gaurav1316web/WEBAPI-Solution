@@ -1007,7 +1007,7 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
         Return True
     End Function
 
-    Public Shared Function CancelData(ByVal Doc_No As String) As Boolean
+    Public Shared Function CancelData(ByVal Doc_No As String, ByVal isCancelByAdmin As Boolean) As Boolean
         '' created by Sanjay date 31-12-2020
         Dim qry As String = ""
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -1024,7 +1024,7 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
             If dtirn IsNot Nothing AndAlso dtirn.Rows.Count > 0 Then
                 Dim isTaxTaxable As String = "N"
                 isTaxTaxable = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select 'Y' from TSPL_TAX_GROUP_MASTER where Tax_Group_Code ='" & obj.Tax_Group & "' and Is_Tax_Exempted =0 and Tax_Group_Type ='S'", trans))
-                If clsCommon.CompairString(clsCommon.myCstr(dtirn.Rows(0)("Einvoice_type")), "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(isTaxTaxable), "Y") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.AgainstServiceInvoice), "Y") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True Then
+                If clsCommon.CompairString(clsCommon.myCstr(dtirn.Rows(0)("Einvoice_type")), "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(isTaxTaxable), "Y") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.AgainstServiceInvoice), "Y") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True AndAlso Not isCancelByAdmin Then
                     If ClsEInvoiceOFAPIs.EInvoice_Cancellation(obj.Document_No, clsCommon.myCstr(dtirn.Rows(0)("IRN_No")), obj.loc_code, trans) = True Then
                     Else
                         Throw New Exception("Invalid JSON Value")
@@ -2542,7 +2542,8 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
                                     ArryLst.Add(AccInvCR)
                                 End If
                             Else
-                                If clsCommon.CompairString(obj.Trans_Type, "MCC") = CompairStringResult.Equal AndAlso obj.TotalSubsidyAmt > 0 Then
+                                'If clsCommon.CompairString(obj.Trans_Type, "MCC") = CompairStringResult.Equal AndAlso obj.TotalSubsidyAmt > 0 Then
+                                If obj.TotalSubsidyAmt > 0 Then
                                     Dim strLocationt As String = ""
                                     Dim strRate_Difference_act As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_CUSTOMER_ACCOUNT_SET.Rate_Difference ,'') as Rate_Difference from TSPL_CUSTOMER_ACCOUNT_SET left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Account  =TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account where TSPL_CUSTOMER_MASTER.Cust_Code ='" & obj.Customer_Code & "'", trans))
                                     If clsCommon.myLen(strRate_Difference_act) = 0 Then
@@ -4584,227 +4585,256 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
             Dim isFirstTime As Boolean = True
             '' Anubhooti 19-Mar-2015 (IF Entry is against VCGL then GL will get opposite(DR/CR))
             If clsCommon.myLen(obj.Against_VCGL) <= 0 Then 'AndAlso clsCommon.CompairString(obj.Trans_Type, "VC") <> CompairStringResult.Equal
-                For Each objTR As clsCustomerInvoiceDetail In obj.Arr
-                    Dim dblLedgeerNonRecoverableAmt As Double = 0
-                    ''richa agarwal 14/05/2015 BM00000006615 credit gl account in case of direct ar invoice which type of Invoice
+                    For Each objTR As clsCustomerInvoiceDetail In obj.Arr
+                        Dim dblLedgeerNonRecoverableAmt As Double = 0
+                        ''richa agarwal 14/05/2015 BM00000006615 credit gl account in case of direct ar invoice which type of Invoice
+                        If clsCommon.CompairString(obj.Document_Type, "I") = CompairStringResult.Equal Or clsCommon.CompairString(obj.Document_Type, "D") = CompairStringResult.Equal Then
+                            ' Dim AccInvDR1() As String = {objTR.GL_Account_Code, objTR.Amount_less_Discount * -1}
+                            ''richa 15/03/2017
+                            'Dim AccInvDR1() As String = {objTR.GL_Account_Code, objTR.Amount_less_Discount * -1}
+                            ' Dim AccInvDR1() As String = {objTR.GL_Account_Code, objTR.Amount_less_Discount * -1, "", "", objTR.Hirerachy_Code, objTR.Cost_Centre_Code}
+                            Dim AccInvDR1() As String = {objTR.GL_Account_Code, objTR.Amount_less_Discount * -1, "", "", objTR.Hirerachy_Code, objTR.Cost_Centre_Code, objTR.Hirerachy_Code3, objTR.Hirerachy_Code4, objTR.Reco_Control_Account}
+                            ArryLst.Add(AccInvDR1)
+                        Else
+                            ''richa 15/03/2017
+                            '  Dim AccInvDR() As String = {objTR.GL_Account_Code, objTR.Amount_less_Discount}
+                            ' Dim AccInvDR() As String = {objTR.GL_Account_Code, objTR.Amount_less_Discount, "", "", objTR.Hirerachy_Code, objTR.Cost_Centre_Code}
+                            Dim AccInvDR() As String = {objTR.GL_Account_Code, objTR.Amount_less_Discount, "", "", objTR.Hirerachy_Code, objTR.Cost_Centre_Code, objTR.Hirerachy_Code3, objTR.Hirerachy_Code4, objTR.Reco_Control_Account}
+                            ArryLst.Add(AccInvDR)
+                        End If
+                        ''--------------------------------------
+                        isFirstTime = False
+
+                        ''''''added by priti for discount entry of Return
+                        If FormId = "FreshSaleReturn" Then
+                            If objTR.Amount_less_Discount = 0 AndAlso objTR.Discount > 0 Then
+                                Dim AccDiscDR() As String = {objTR.GL_Account_Code, -1 * (objTR.Discount), "", "", "", "", "", "", objTR.Reco_Control_Account}
+                                ArryLst.Add(AccDiscDR)
+                            End If
+                        End If
+                        ''''''code ends here
+
+                        If clsCommon.myLen(obj.Against_MCC_Material_Sale_Return) > 0 AndAlso objTR.Transporter_Commission_Amt > 0 Then
+                            Dim strLocationt As String = ""
+                            Dim strACWithLocationt As String = ""
+                            Dim AccDiscDR() As String = Nothing
+                            Dim AccDiscTaxDR() As String = Nothing
+
+                            If obj.Is_Add_TPT Then
+                                AccDiscTaxDR = {objTR.Transporter_GL_Account_Code, (objTR.Transporter_Commission_Amt)}
+                            Else
+                                AccDiscTaxDR = {objTR.Transporter_GL_Account_Code, -1 * (objTR.Transporter_Commission_Amt)}
+                            End If
+                            ArryLst.Add(AccDiscTaxDR)
+                        End If
+                    Next
+
+                    ''--------done by richa SWA/12/09/18-000052 for swadesh to add leakage account in fresh journal entry
+                    Dim dblLeakAmount As Double = 0
+                    Dim LeakageAcct As String = ""
+                    If clsCommon.CompairString(obj.Document_Type, "C") = CompairStringResult.Equal AndAlso FormId = "FreshSaleReturn" Then
+                        If obj.LeakageAmount > 0 Then
+                            dblLeakAmount = obj.LeakageAmount
+                            LeakageAcct = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Leakage_Deduction from TSPL_CUSTOMER_ACCOUNT_SET where Cust_Account='" + obj.Account_Set + "'", trans))
+                            LeakageAcct = clsERPFuncationality.ChangeGLAccountLocationSegment(LeakageAcct, obj.loc_code, True, trans)
+                            If clsCommon.myLen(LeakageAcct) <= 0 Then
+                                Throw New Exception("Please set Leakage account set of customer account set :" + obj.Account_Set)
+                            End If
+                            If dblLeakAmount > 0 Then
+                                Dim AccLeakageAcc() As String = {LeakageAcct, dblLeakAmount * -1}
+                                ArryLst.Add(AccLeakageAcc)
+                            End If
+                        End If
+                    End If
+
+                    ''------------------------------------
+
+                    Dim AllowCrateCanPhysicalStock As Integer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowCratePhysicalStock, clsFixedParameterCode.AllowCratePhysicalStock, trans))
+                    If AllowCrateCanPhysicalStock = 1 Then
+                        ' DOne by priti BHA/15/06/18-000055
+                        If FormId = clsUserMgtCode.frmSaleReturndairy Then
+
+                            ' FOr Crate
+                            Dim strCrateItem = ""
+                            Dim strCrateUOM = ""
+                            Dim dblCrateRate As Integer = 0
+                            Dim dblCrateQty As Integer = 0
+                            Dim strReturnable_ContainerAC As String = ""
+                            Dim strContainerDepositAC As String = ""
+                            Dim Acc() As String = Nothing
+                            Dim Acc1() As String = Nothing
+                            qry = "select Crate_Item,Crate_ItemUnit,Crate_ItemRate,CrateQty from TSPL_SD_SALE_RETURN_HEAD where Document_Code='" & obj.Against_Sale_Return_No & "'"
+                            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                            If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                                strCrateItem = clsCommon.myCstr(dt.Rows(0)("Crate_Item"))
+                                strCrateUOM = clsCommon.myCstr(dt.Rows(0)("Crate_ItemUnit"))
+                                dblCrateRate = clsCommon.myCdbl(dt.Rows(0)("Crate_ItemRate"))
+                                dblCrateQty = clsCommon.myCdbl(dt.Rows(0)("CrateQty"))
+                            End If
+                            If dblCrateQty > 0 Then
+                                strReturnable_ContainerAC = clsCommon.myCstr(clsItemMaster.GetReturnableConGLAC(strCrateItem, trans))
+                                If clsCommon.myLen(strReturnable_ContainerAC) = 0 Then
+                                    Throw New Exception("Please set Returnable Container Account for item - " + strCrateItem)
+                                End If
+                                strReturnable_ContainerAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strReturnable_ContainerAC, obj.loc_code, True, trans)
+                                Acc = {strReturnable_ContainerAC, 1 * (dblCrateQty * dblCrateRate)}
+                                ArryLst.Add(Acc)
+                                strContainerDepositAC = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_CUSTOMER_ACCOUNT_SET.Container_Deposit ,'') as Container_Deposit from TSPL_CUSTOMER_ACCOUNT_SET left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Account  =TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account where TSPL_CUSTOMER_MASTER.Cust_Code ='" & obj.Customer_Code & "'", trans))
+                                If clsCommon.myLen(strContainerDepositAC) = 0 Then
+                                    Throw New Exception("Please set Container Deposit Account for customer - " + obj.Customer_Code)
+                                End If
+                                strContainerDepositAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strContainerDepositAC, obj.loc_code, True, trans)
+                                Acc1 = {strContainerDepositAC, -1 * (dblCrateQty * dblCrateRate)}
+                                ArryLst.Add(Acc1)
+                            End If
+                            ' FOr Can
+                            Dim strCanItem = ""
+                            Dim strCanUOM = ""
+                            Dim dblCanRate As Integer = 0
+                            Dim dblCanQty As Integer = 0
+                            qry = "select Can_Item,Can_ItemUnit,Can_ItemRate,ShippedCAN from TSPL_SD_SALE_RETURN_HEAD where Document_Code='" & obj.Against_Sale_Return_No & "'"
+                            dt = clsDBFuncationality.GetDataTable(qry, trans)
+                            If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                                strCanItem = clsCommon.myCstr(dt.Rows(0)("Can_Item"))
+                                strCanUOM = clsCommon.myCstr(dt.Rows(0)("Can_ItemUnit"))
+                                dblCanRate = clsCommon.myCdbl(dt.Rows(0)("Can_ItemRate"))
+                                dblCanQty = clsCommon.myCdbl(dt.Rows(0)("ShippedCAN"))
+                            End If
+                            If dblCanQty > 0 Then
+                                strReturnable_ContainerAC = clsCommon.myCstr(clsItemMaster.GetReturnableConGLAC(strCanItem, trans))
+                                If clsCommon.myLen(strReturnable_ContainerAC) = 0 Then
+                                    Throw New Exception("Please set Returnable Container Account for item " + strCanItem)
+                                End If
+                                strReturnable_ContainerAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strReturnable_ContainerAC, obj.loc_code, True, trans)
+                                Acc = Nothing
+                                Acc = {strReturnable_ContainerAC, 1 * (dblCanQty * dblCanRate)}
+                                ArryLst.Add(Acc)
+
+                                ''richa agarwal 6 Sep,2018
+                                strContainerDepositAC = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_CUSTOMER_ACCOUNT_SET.Container_Deposit ,'') as Container_Deposit from TSPL_CUSTOMER_ACCOUNT_SET left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Account  =TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account where TSPL_CUSTOMER_MASTER.Cust_Code ='" & obj.Customer_Code & "'", trans))
+                                If clsCommon.myLen(strContainerDepositAC) = 0 Then
+                                    Throw New Exception("Please set Container Deposit Account for customer - " + obj.Customer_Code)
+                                End If
+                                strContainerDepositAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strContainerDepositAC, obj.loc_code, True, trans)
+                                ''------------------
+                                Acc1 = Nothing
+                                Acc1 = {strContainerDepositAC, -1 * (dblCanQty * dblCanRate)}
+                                ArryLst.Add(Acc1)
+                            End If
+                        End If
+                    End If
+
+                Else '' New Part 
+                    For Each objTR As clsCustomerInvoiceDetail In obj.Arr
+                        Dim dblLedgeerNonRecoverableAmt As Double = 0
+                        ''richa agarwal 21/07/2015  debit/credit customer account in case of vcgl
+                        If clsCommon.CompairString(obj.Document_Type, "I") = CompairStringResult.Equal Or clsCommon.CompairString(obj.Document_Type, "D") = CompairStringResult.Equal Then
+                            Dim AccInvDR1() As String = {objTR.GL_Account_Code, objTR.Amount_less_Discount * -1, "", "", "", "", "", "", objTR.Reco_Control_Account}
+                            ArryLst.Add(AccInvDR1)
+                        Else
+                            Dim AccInvDR() As String = {objTR.GL_Account_Code, objTR.Amount_less_Discount, "", "", "", "", "", "", objTR.Reco_Control_Account}
+                            ArryLst.Add(AccInvDR)
+                        End If
+                        isFirstTime = False
+                    Next
+                End If
+                ''richa agarwal 24/11/2014
+
+                If obj.RoundOffAmount <> 0 Then
+                    Dim strACRoundInvCr As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.DefaultRoundOffGLAccount, clsFixedParameterCode.DefaultRoundOffGLAccount, trans))
+                    If clsCommon.myLen(strACRoundInvCr) <= 0 Then
+                        Throw New Exception("Please set round off account in Sales Setting")
+                    End If
+                    strACRoundInvCr = clsERPFuncationality.ChangeGLAccountLocationSegment(strACRoundInvCr, obj.loc_code, True, trans)
+                    Dim AccRoundInvCR() As String = {strACRoundInvCr, obj.RoundOffAmount}
+                    ArryLst.Add(AccRoundInvCR)
+                End If
+                If clsCommon.myLen(obj.Against_MCC_Material_Sale_Return) > 0 AndAlso obj.TotalSubsidyAmt > 0 Then
+                    Dim strRate_Difference_act As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_CUSTOMER_ACCOUNT_SET.Rate_Difference ,'') as Rate_Difference from TSPL_CUSTOMER_ACCOUNT_SET left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Account  =TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account where TSPL_CUSTOMER_MASTER.Cust_Code ='" & obj.Customer_Code & "'", trans))
+                    If clsCommon.myLen(strRate_Difference_act) = 0 Then
+                        Throw New Exception("Please set Rate Difference Account for customer - " + obj.Customer_Code)
+                    End If
+                    strRate_Difference_act = clsERPFuncationality.ChangeGLAccountLocationSegment(strRate_Difference_act, obj.loc_code, True, trans)
+                    Dim AccSub() As String = {strRate_Difference_act, (-obj.TotalSubsidyAmt)}
+                    ArryLst.Add(AccSub)
+                End If
+                ''------------------------
+
+                Dim strLocation As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Account_Seg_Code7 from TSPL_GL_ACCOUNTS where Account_Code='" + obj.Arr(0).GL_Account_Code + "'", trans))
+                Dim strACWithLocation As String = clsERPFuncationality.ChangeGLAccountLocationSegment(obj.Customer_Control_AC, obj.loc_code, True, trans)
+
+                '' Anubhooti 19-Mar-2015 (IF Entry is against VCGL then GL will get opposite(DR/CR))
+                If clsCommon.myLen(obj.Against_VCGL) <= 0 Then 'AndAlso clsCommon.CompairString(obj.Trans_Type, "VC") = CompairStringResult.Equal
+                    ''richa agarwal 14/05/2015 BM00000006615 debit customer account in case of direct ar invoice which type of Invoice
                     If clsCommon.CompairString(obj.Document_Type, "I") = CompairStringResult.Equal Or clsCommon.CompairString(obj.Document_Type, "D") = CompairStringResult.Equal Then
-                        ' Dim AccInvDR1() As String = {objTR.GL_Account_Code, objTR.Amount_less_Discount * -1}
-                        ''richa 15/03/2017
-                        'Dim AccInvDR1() As String = {objTR.GL_Account_Code, objTR.Amount_less_Discount * -1}
-                        ' Dim AccInvDR1() As String = {objTR.GL_Account_Code, objTR.Amount_less_Discount * -1, "", "", objTR.Hirerachy_Code, objTR.Cost_Centre_Code}
-                        Dim AccInvDR1() As String = {objTR.GL_Account_Code, objTR.Amount_less_Discount * -1, "", "", objTR.Hirerachy_Code, objTR.Cost_Centre_Code, objTR.Hirerachy_Code3, objTR.Hirerachy_Code4, objTR.Reco_Control_Account}
-                        ArryLst.Add(AccInvDR1)
+                        Dim AccInvCR1() As String = {strACWithLocation, obj.Document_Total}
+                        ArryLst.Add(AccInvCR1)
                     Else
-                        ''richa 15/03/2017
-                        '  Dim AccInvDR() As String = {objTR.GL_Account_Code, objTR.Amount_less_Discount}
-                        ' Dim AccInvDR() As String = {objTR.GL_Account_Code, objTR.Amount_less_Discount, "", "", objTR.Hirerachy_Code, objTR.Cost_Centre_Code}
-                        Dim AccInvDR() As String = {objTR.GL_Account_Code, objTR.Amount_less_Discount, "", "", objTR.Hirerachy_Code, objTR.Cost_Centre_Code, objTR.Hirerachy_Code3, objTR.Hirerachy_Code4, objTR.Reco_Control_Account}
-                        ArryLst.Add(AccInvDR)
+                        ''richa agarwal add/subtract round off amount from customer amount
+                        Dim AccInvCR() As String = {strACWithLocation, -1 * obj.Document_Total}
+                        ' Dim AccInvCR() As String = {strACWithLocation, -1 * (obj.Document_Total - obj.RoundOffAmount)}
+                        ArryLst.Add(AccInvCR)
                     End If
-                    ''--------------------------------------
-                    isFirstTime = False
 
-                    ''''''added by priti for discount entry of Return
-                    If FormId = "FreshSaleReturn" Then
-                        If objTR.Amount_less_Discount = 0 AndAlso objTR.Discount > 0 Then
-                            Dim AccDiscDR() As String = {objTR.GL_Account_Code, -1 * (objTR.Discount), "", "", "", "", "", "", objTR.Reco_Control_Account}
-                            ArryLst.Add(AccDiscDR)
-                        End If
-                    End If
-                    ''''''code ends here
-                Next
-
-                ''--------done by richa SWA/12/09/18-000052 for swadesh to add leakage account in fresh journal entry
-                Dim dblLeakAmount As Double = 0
-                Dim LeakageAcct As String = ""
-                If clsCommon.CompairString(obj.Document_Type, "C") = CompairStringResult.Equal AndAlso FormId = "FreshSaleReturn" Then
-                    If obj.LeakageAmount > 0 Then
-                        dblLeakAmount = obj.LeakageAmount
-                        LeakageAcct = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Leakage_Deduction from TSPL_CUSTOMER_ACCOUNT_SET where Cust_Account='" + obj.Account_Set + "'", trans))
-                        LeakageAcct = clsERPFuncationality.ChangeGLAccountLocationSegment(LeakageAcct, obj.loc_code, True, trans)
-                        If clsCommon.myLen(LeakageAcct) <= 0 Then
-                            Throw New Exception("Please set Leakage account set of customer account set :" + obj.Account_Set)
-                        End If
-                        If dblLeakAmount > 0 Then
-                            Dim AccLeakageAcc() As String = {LeakageAcct, dblLeakAmount * -1}
-                            ArryLst.Add(AccLeakageAcc)
-                        End If
-                    End If
-                End If
-
-                ''------------------------------------
-
-                Dim AllowCrateCanPhysicalStock As Integer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowCratePhysicalStock, clsFixedParameterCode.AllowCratePhysicalStock, trans))
-                If AllowCrateCanPhysicalStock = 1 Then
-                    ' DOne by priti BHA/15/06/18-000055
-                    If FormId = clsUserMgtCode.frmSaleReturndairy Then
-
-                        ' FOr Crate
-                        Dim strCrateItem = ""
-                        Dim strCrateUOM = ""
-                        Dim dblCrateRate As Integer = 0
-                        Dim dblCrateQty As Integer = 0
-                        Dim strReturnable_ContainerAC As String = ""
-                        Dim strContainerDepositAC As String = ""
-                        Dim Acc() As String = Nothing
-                        Dim Acc1() As String = Nothing
-                        qry = "select Crate_Item,Crate_ItemUnit,Crate_ItemRate,CrateQty from TSPL_SD_SALE_RETURN_HEAD where Document_Code='" & obj.Against_Sale_Return_No & "'"
-                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-                        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-                            strCrateItem = clsCommon.myCstr(dt.Rows(0)("Crate_Item"))
-                            strCrateUOM = clsCommon.myCstr(dt.Rows(0)("Crate_ItemUnit"))
-                            dblCrateRate = clsCommon.myCdbl(dt.Rows(0)("Crate_ItemRate"))
-                            dblCrateQty = clsCommon.myCdbl(dt.Rows(0)("CrateQty"))
-                        End If
-                        If dblCrateQty > 0 Then
-                            strReturnable_ContainerAC = clsCommon.myCstr(clsItemMaster.GetReturnableConGLAC(strCrateItem, trans))
-                            If clsCommon.myLen(strReturnable_ContainerAC) = 0 Then
-                                Throw New Exception("Please set Returnable Container Account for item - " + strCrateItem)
-                            End If
-                            strReturnable_ContainerAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strReturnable_ContainerAC, obj.loc_code, True, trans)
-                            Acc = {strReturnable_ContainerAC, 1 * (dblCrateQty * dblCrateRate)}
-                            ArryLst.Add(Acc)
-                            strContainerDepositAC = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_CUSTOMER_ACCOUNT_SET.Container_Deposit ,'') as Container_Deposit from TSPL_CUSTOMER_ACCOUNT_SET left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Account  =TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account where TSPL_CUSTOMER_MASTER.Cust_Code ='" & obj.Customer_Code & "'", trans))
-                            If clsCommon.myLen(strContainerDepositAC) = 0 Then
-                                Throw New Exception("Please set Container Deposit Account for customer - " + obj.Customer_Code)
-                            End If
-                            strContainerDepositAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strContainerDepositAC, obj.loc_code, True, trans)
-                            Acc1 = {strContainerDepositAC, -1 * (dblCrateQty * dblCrateRate)}
-                            ArryLst.Add(Acc1)
-                        End If
-                        ' FOr Can
-                        Dim strCanItem = ""
-                        Dim strCanUOM = ""
-                        Dim dblCanRate As Integer = 0
-                        Dim dblCanQty As Integer = 0
-                        qry = "select Can_Item,Can_ItemUnit,Can_ItemRate,ShippedCAN from TSPL_SD_SALE_RETURN_HEAD where Document_Code='" & obj.Against_Sale_Return_No & "'"
-                        dt = clsDBFuncationality.GetDataTable(qry, trans)
-                        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-                            strCanItem = clsCommon.myCstr(dt.Rows(0)("Can_Item"))
-                            strCanUOM = clsCommon.myCstr(dt.Rows(0)("Can_ItemUnit"))
-                            dblCanRate = clsCommon.myCdbl(dt.Rows(0)("Can_ItemRate"))
-                            dblCanQty = clsCommon.myCdbl(dt.Rows(0)("ShippedCAN"))
-                        End If
-                        If dblCanQty > 0 Then
-                            strReturnable_ContainerAC = clsCommon.myCstr(clsItemMaster.GetReturnableConGLAC(strCanItem, trans))
-                            If clsCommon.myLen(strReturnable_ContainerAC) = 0 Then
-                                Throw New Exception("Please set Returnable Container Account for item " + strCanItem)
-                            End If
-                            strReturnable_ContainerAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strReturnable_ContainerAC, obj.loc_code, True, trans)
-                            Acc = Nothing
-                            Acc = {strReturnable_ContainerAC, 1 * (dblCanQty * dblCanRate)}
-                            ArryLst.Add(Acc)
-
-                            ''richa agarwal 6 Sep,2018
-                            strContainerDepositAC = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_CUSTOMER_ACCOUNT_SET.Container_Deposit ,'') as Container_Deposit from TSPL_CUSTOMER_ACCOUNT_SET left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Account  =TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account where TSPL_CUSTOMER_MASTER.Cust_Code ='" & obj.Customer_Code & "'", trans))
-                            If clsCommon.myLen(strContainerDepositAC) = 0 Then
-                                Throw New Exception("Please set Container Deposit Account for customer - " + obj.Customer_Code)
-                            End If
-                            strContainerDepositAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strContainerDepositAC, obj.loc_code, True, trans)
-                            ''------------------
-                            Acc1 = Nothing
-                            Acc1 = {strContainerDepositAC, -1 * (dblCanQty * dblCanRate)}
-                            ArryLst.Add(Acc1)
-                        End If
-                    End If
-                End If
-
-            Else '' New Part 
-                For Each objTR As clsCustomerInvoiceDetail In obj.Arr
-                    Dim dblLedgeerNonRecoverableAmt As Double = 0
+                Else '' New Part
                     ''richa agarwal 21/07/2015  debit/credit customer account in case of vcgl
                     If clsCommon.CompairString(obj.Document_Type, "I") = CompairStringResult.Equal Or clsCommon.CompairString(obj.Document_Type, "D") = CompairStringResult.Equal Then
-                        Dim AccInvDR1() As String = {objTR.GL_Account_Code, objTR.Amount_less_Discount * -1, "", "", "", "", "", "", objTR.Reco_Control_Account}
-                        ArryLst.Add(AccInvDR1)
+                        Dim AccInvCR1() As String = {strACWithLocation, obj.Document_Total}
+                        ArryLst.Add(AccInvCR1)
                     Else
-                        Dim AccInvDR() As String = {objTR.GL_Account_Code, objTR.Amount_less_Discount, "", "", "", "", "", "", objTR.Reco_Control_Account}
-                        ArryLst.Add(AccInvDR)
+                        Dim AccInvCR() As String = {strACWithLocation, -1 * obj.Document_Total}
+                        ArryLst.Add(AccInvCR)
                     End If
-                    isFirstTime = False
-                Next
-            End If
-            ''richa agarwal 24/11/2014
-
-            If obj.RoundOffAmount <> 0 Then
-                Dim strACRoundInvCr As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.DefaultRoundOffGLAccount, clsFixedParameterCode.DefaultRoundOffGLAccount, trans))
-                If clsCommon.myLen(strACRoundInvCr) <= 0 Then
-                    Throw New Exception("Please set round off account in Sales Setting")
-                End If
-                strACRoundInvCr = clsERPFuncationality.ChangeGLAccountLocationSegment(strACRoundInvCr, obj.loc_code, True, trans)
-                Dim AccRoundInvCR() As String = {strACRoundInvCr, obj.RoundOffAmount}
-                ArryLst.Add(AccRoundInvCR)
-            End If
-            ''------------------------
-
-            Dim strLocation As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Account_Seg_Code7 from TSPL_GL_ACCOUNTS where Account_Code='" + obj.Arr(0).GL_Account_Code + "'", trans))
-            Dim strACWithLocation As String = clsERPFuncationality.ChangeGLAccountLocationSegment(obj.Customer_Control_AC, obj.loc_code, True, trans)
-
-            '' Anubhooti 19-Mar-2015 (IF Entry is against VCGL then GL will get opposite(DR/CR))
-            If clsCommon.myLen(obj.Against_VCGL) <= 0 Then 'AndAlso clsCommon.CompairString(obj.Trans_Type, "VC") = CompairStringResult.Equal
-                ''richa agarwal 14/05/2015 BM00000006615 debit customer account in case of direct ar invoice which type of Invoice
-                If clsCommon.CompairString(obj.Document_Type, "I") = CompairStringResult.Equal Or clsCommon.CompairString(obj.Document_Type, "D") = CompairStringResult.Equal Then
-                    Dim AccInvCR1() As String = {strACWithLocation, obj.Document_Total}
-                    ArryLst.Add(AccInvCR1)
-                Else
-                    ''richa agarwal add/subtract round off amount from customer amount
-                    Dim AccInvCR() As String = {strACWithLocation, -1 * obj.Document_Total}
-                    ' Dim AccInvCR() As String = {strACWithLocation, -1 * (obj.Document_Total - obj.RoundOffAmount)}
-                    ArryLst.Add(AccInvCR)
+                    'Dim AccInvCR() As String = {strACWithLocation, obj.Document_Total}
+                    'ArryLst.Add(AccInvCR)
+                    ''-----------------------------
                 End If
 
-            Else '' New Part
-                ''richa agarwal 21/07/2015  debit/credit customer account in case of vcgl
-                If clsCommon.CompairString(obj.Document_Type, "I") = CompairStringResult.Equal Or clsCommon.CompairString(obj.Document_Type, "D") = CompairStringResult.Equal Then
-                    Dim AccInvCR1() As String = {strACWithLocation, obj.Document_Total}
-                    ArryLst.Add(AccInvCR1)
-                Else
-                    Dim AccInvCR() As String = {strACWithLocation, -1 * obj.Document_Total}
-                    ArryLst.Add(AccInvCR)
-                End If
-                'Dim AccInvCR() As String = {strACWithLocation, obj.Document_Total}
-                'ArryLst.Add(AccInvCR)
-                ''-----------------------------
-            End If
-
-            If Not isSkipCogsGL Then    '' Done By Pankaj Jha For Skipping Cogs GL'And Not IsAllowPurchaseAccounting
-                '' FOR cogs START here
-                If ((clsCommon.CompairString(obj.Document_Type, "C") = CompairStringResult.Equal)) Then
-                    ' Dim objInv As clsSNInvoiceHead
-                    Dim strFirstItem As String
-                    Dim arr As New List(Of String)
-                    ' Dim dblCogsCost As Double
-                    Dim strInventoryControlAc As String
-                    Dim strCogsAcct As String
-                    Dim strInvNo As String = String.Empty
-                    Dim strSql As String = String.Empty
-                    Dim SentschemecogsinAnotherAccount As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SentschemecogsinAnotherAccount, clsFixedParameterCode.SentschemecogsinAnotherAccount, trans)) = "1", True, False))
-                    ''richa agarwal on 27 March,2019 against ticket no ERO/19/03/19-000517
-                    strInvNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Invoice_Code from TSPL_sd_SALE_RETURN_DETAIL where DOCUMENT_CODE='" & IIf(clsCommon.myLen(obj.Against_Sale_Return_No) > 0, obj.Against_Sale_Return_No, obj.Against_MCC_Material_Sale_Return) & "'", trans))
+                If Not isSkipCogsGL Then    '' Done By Pankaj Jha For Skipping Cogs GL'And Not IsAllowPurchaseAccounting
+                    '' FOR cogs START here
+                    If ((clsCommon.CompairString(obj.Document_Type, "C") = CompairStringResult.Equal)) Then
+                        ' Dim objInv As clsSNInvoiceHead
+                        Dim strFirstItem As String
+                        Dim arr As New List(Of String)
+                        ' Dim dblCogsCost As Double
+                        Dim strInventoryControlAc As String
+                        Dim strCogsAcct As String
+                        Dim strInvNo As String = String.Empty
+                        Dim strSql As String = String.Empty
+                        Dim SentschemecogsinAnotherAccount As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SentschemecogsinAnotherAccount, clsFixedParameterCode.SentschemecogsinAnotherAccount, trans)) = "1", True, False))
+                        ''richa agarwal on 27 March,2019 against ticket no ERO/19/03/19-000517
+                        strInvNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Invoice_Code from TSPL_sd_SALE_RETURN_DETAIL where DOCUMENT_CODE='" & IIf(clsCommon.myLen(obj.Against_Sale_Return_No) > 0, obj.Against_Sale_Return_No, obj.Against_MCC_Material_Sale_Return) & "'", trans))
                         strFirstItem = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Item_Code from TSPL_sd_SALE_RETURN_DETAIL where DOCUMENT_CODE='" & IIf(clsCommon.myLen(obj.Against_Sale_Return_No) > 0, obj.Against_Sale_Return_No, obj.Against_MCC_Material_Sale_Return) & "'", trans))
-                    ' removed crate and can item for cogs return for BHA/27/07/18-000197 bharat
-                    strSql = "select inv.Is_Scheme_Item,inv.Item_Code,case when Costing_Method=0 then Avg_Cost when Costing_Method=1 then Avg_Cost when Costing_Method=2 then FIFO_Cost when Costing_Method=3 then LIFO_Cost end as Cost from " &
+                        ' removed crate and can item for cogs return for BHA/27/07/18-000197 bharat
+                        strSql = "select inv.Is_Scheme_Item,inv.Item_Code,case when Costing_Method=0 then Avg_Cost when Costing_Method=1 then Avg_Cost when Costing_Method=2 then FIFO_Cost when Costing_Method=3 then LIFO_Cost end as Cost from " &
                             " ( select isnull(TSPL_INVENTORY_MOVEMENT.Is_Scheme_Item,'N') as Is_Scheme_Item,Item_Code,Source_Doc_No,Avg_Cost,FIFO_Cost,LIFO_Cost from TSPL_INVENTORY_MOVEMENT where TSPL_INVENTORY_MOVEMENT.Source_Doc_No='" & IIf(clsCommon.myLen(obj.Against_Sale_Return_No) > 0, obj.Against_Sale_Return_No, obj.Against_MCC_Material_Sale_Return) & "' " &
                             " union all " &
                             " select isnull(TSPL_INVENTORY_MOVEMENT_NEW.Is_Scheme_Item,'N') as Is_Scheme_Item,Item_Code,Source_Doc_No,Avg_Cost,FIFO_Cost,LIFO_Cost from TSPL_INVENTORY_MOVEMENT_NEW where TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No='" & IIf(clsCommon.myLen(obj.Against_Sale_Return_No) > 0, obj.Against_Sale_Return_No, obj.Against_MCC_Material_Sale_Return) & "' " &
                             " ) inv " &
                             " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=inv.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code  where isnull(TSPL_ITEM_MASTER.CAN,0)=0  and isnull(TSPL_ITEM_MASTER.CRATE,0)=0 and Source_Doc_No='" & IIf(clsCommon.myLen(obj.Against_Sale_Return_No) > 0, obj.Against_Sale_Return_No, obj.Against_MCC_Material_Sale_Return) & "'"
 
-                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(strSql, trans)
-                    If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-                        For Each dr As DataRow In dt.Rows
-                            strInventoryControlAc = clsDBFuncationality.getSingleValue("SELECT PA.Inv_Control_Account FROM TSPL_ITEM_MASTER AS IM INNER JOIN " & _
-                            " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " & _
+                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(strSql, trans)
+                        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                            For Each dr As DataRow In dt.Rows
+                                strInventoryControlAc = clsDBFuncationality.getSingleValue("SELECT PA.Inv_Control_Account FROM TSPL_ITEM_MASTER AS IM INNER JOIN " &
+                            " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " &
                             " TSPL_GL_ACCOUNTS AS GLA ON PA.Inv_Control_Account = GLA.Account_Code WHERE IM.Item_Code='" + clsCommon.myCstr(dr("Item_Code")) + "'", trans)
-                            strInventoryControlAc = clsERPFuncationality.ChangeGLAccountLocationSegment(strInventoryControlAc, obj.loc_code, True, trans)
+                                strInventoryControlAc = clsERPFuncationality.ChangeGLAccountLocationSegment(strInventoryControlAc, obj.loc_code, True, trans)
 
-                            If clsCommon.myLen(strInventoryControlAc) = 0 Then
-                                Throw New Exception("Please set Inventory Control Account for first item")
-                            End If
-                            If SentschemecogsinAnotherAccount = True Then
-                                If clsCommon.CompairString(dr("Is_Scheme_Item"), "Y") = CompairStringResult.Equal Then
-                                    strCogsAcct = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cost_Of_Goods_Scheme from TSPL_ITEM_MASTER left outer join TSPL_SALES_ACCOUNTS on TSPL_SALES_ACCOUNTS.Sales_Class_Code=TSPL_ITEM_MASTER.Sale_Class_Code where Item_Code='" + clsCommon.myCstr(dr("Item_Code")) + "'", trans))
-                                    If clsCommon.myLen(strCogsAcct) = 0 Then
-                                        Throw New Exception("Please set Cost Of Goods Scheme Account for first item")
+                                If clsCommon.myLen(strInventoryControlAc) = 0 Then
+                                    Throw New Exception("Please set Inventory Control Account for first item")
+                                End If
+                                If SentschemecogsinAnotherAccount = True Then
+                                    If clsCommon.CompairString(dr("Is_Scheme_Item"), "Y") = CompairStringResult.Equal Then
+                                        strCogsAcct = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cost_Of_Goods_Scheme from TSPL_ITEM_MASTER left outer join TSPL_SALES_ACCOUNTS on TSPL_SALES_ACCOUNTS.Sales_Class_Code=TSPL_ITEM_MASTER.Sale_Class_Code where Item_Code='" + clsCommon.myCstr(dr("Item_Code")) + "'", trans))
+                                        If clsCommon.myLen(strCogsAcct) = 0 Then
+                                            Throw New Exception("Please set Cost Of Goods Scheme Account for first item")
+                                        End If
+                                    Else
+                                        strCogsAcct = clsDBFuncationality.getSingleValue("select Cost_Of_Goods_Sold from TSPL_ITEM_MASTER left outer join TSPL_SALES_ACCOUNTS on TSPL_SALES_ACCOUNTS.Sales_Class_Code=TSPL_ITEM_MASTER.Sale_Class_Code where Item_Code='" + clsCommon.myCstr(dr("Item_Code")) + "'", trans)
+                                        If clsCommon.myLen(strCogsAcct) = 0 Then
+                                            Throw New Exception("Please set Cost of Goods Sold for first item")
+                                        End If
                                     End If
                                 Else
                                     strCogsAcct = clsDBFuncationality.getSingleValue("select Cost_Of_Goods_Sold from TSPL_ITEM_MASTER left outer join TSPL_SALES_ACCOUNTS on TSPL_SALES_ACCOUNTS.Sales_Class_Code=TSPL_ITEM_MASTER.Sale_Class_Code where Item_Code='" + clsCommon.myCstr(dr("Item_Code")) + "'", trans)
@@ -4812,49 +4842,43 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
                                         Throw New Exception("Please set Cost of Goods Sold for first item")
                                     End If
                                 End If
-                            Else
-                                strCogsAcct = clsDBFuncationality.getSingleValue("select Cost_Of_Goods_Sold from TSPL_ITEM_MASTER left outer join TSPL_SALES_ACCOUNTS on TSPL_SALES_ACCOUNTS.Sales_Class_Code=TSPL_ITEM_MASTER.Sale_Class_Code where Item_Code='" + clsCommon.myCstr(dr("Item_Code")) + "'", trans)
-                                If clsCommon.myLen(strCogsAcct) = 0 Then
-                                    Throw New Exception("Please set Cost of Goods Sold for first item")
-                                End If
-                            End If
 
-                            strCogsAcct = clsERPFuncationality.ChangeGLAccountLocationSegment(strCogsAcct, obj.loc_code, True, trans)
-                            '' change ends here ''richa agarwal BHA/27/11/18-000719 send I for inventory account into journal detail table
-                            Dim Acc() As String = {strInventoryControlAc, clsCommon.myCdbl(dr("Cost")), "", "", "", "", "", "", RecoControlACC}
-                            ArryLst.Add(Acc)
-                            ''---------------''richa agarwal BHA/27/11/18-000719 27 Dec,2018 add account into inventory movement table
-                            Dim trans_type As String = String.Empty
-                            If FormId = clsUserMgtCode.frmSaleReturndairy OrElse clsCommon.CompairString(FormId, "FreshSaleReturn") = CompairStringResult.Equal Then
-                                trans_type = "FS-SR"
-                            ElseIf FormId = "" Then
-                                If clsCommon.myLen(obj.Against_MCC_Material_Sale_Return) > 0 Then
-                                    trans_type = "MCC-MSR"
-                                Else
-                                    trans_type = "PS-SR"
+                                strCogsAcct = clsERPFuncationality.ChangeGLAccountLocationSegment(strCogsAcct, obj.loc_code, True, trans)
+                                '' change ends here ''richa agarwal BHA/27/11/18-000719 send I for inventory account into journal detail table
+                                Dim Acc() As String = {strInventoryControlAc, clsCommon.myCdbl(dr("Cost")), "", "", "", "", "", "", RecoControlACC}
+                                ArryLst.Add(Acc)
+                                ''---------------''richa agarwal BHA/27/11/18-000719 27 Dec,2018 add account into inventory movement table
+                                Dim trans_type As String = String.Empty
+                                If FormId = clsUserMgtCode.frmSaleReturndairy OrElse clsCommon.CompairString(FormId, "FreshSaleReturn") = CompairStringResult.Equal Then
+                                    trans_type = "FS-SR"
+                                ElseIf FormId = "" Then
+                                    If clsCommon.myLen(obj.Against_MCC_Material_Sale_Return) > 0 Then
+                                        trans_type = "MCC-MSR"
+                                    Else
+                                        trans_type = "PS-SR"
+                                    End If
+                                    ''richa TEC/21/02/19-000428 21 Feb,2019
+                                ElseIf clsCommon.CompairString(FormId, "SaleReturnBS") = CompairStringResult.Equal Then
+                                    trans_type = "SaleReturnBS"
                                 End If
-                                ''richa TEC/21/02/19-000428 21 Feb,2019
-                            ElseIf clsCommon.CompairString(FormId, "SaleReturnBS") = CompairStringResult.Equal Then
-                                trans_type = "SaleReturnBS"
-                            End If
-                            If clsCommon.CompairString(RecoControlACC, "I") = CompairStringResult.Equal Then
-                                clsInventoryMovement.UpdateInvControlAccount(IIf(clsCommon.myLen(obj.Against_Sale_Return_No) > 0, obj.Against_Sale_Return_No, obj.Against_MCC_Material_Sale_Return), trans_type, clsCommon.myCstr(dr("Item_Code")), strInventoryControlAc, "", "", trans)
-                            End If
-                            '------------------
-                            Dim Acc1() As String = {strCogsAcct, -1 * clsCommon.myCdbl(dr("Cost"))}
-                            ArryLst.Add(Acc1)
-                        Next
+                                If clsCommon.CompairString(RecoControlACC, "I") = CompairStringResult.Equal Then
+                                    clsInventoryMovement.UpdateInvControlAccount(IIf(clsCommon.myLen(obj.Against_Sale_Return_No) > 0, obj.Against_Sale_Return_No, obj.Against_MCC_Material_Sale_Return), trans_type, clsCommon.myCstr(dr("Item_Code")), strInventoryControlAc, "", "", trans)
+                                End If
+                                '------------------
+                                Dim Acc1() As String = {strCogsAcct, -1 * clsCommon.myCdbl(dr("Cost"))}
+                                ArryLst.Add(Acc1)
+                            Next
+                        End If
                     End If
                 End If
+            Else
+                Throw New Exception("Document is not implemented")
             End If
-        Else
-            Throw New Exception("Document is not implemented")
-        End If
-        If clsCommon.CompairString(FormId, "CSA-SALE") <> CompairStringResult.Equal Then
-            strEntryDesc = strEntryDesc + obj.Document_No
-        End If
-        ''richa 6 Feb,2020
-        Dim objJE As New clsJEExtraColumns
+            If clsCommon.CompairString(FormId, "CSA-SALE") <> CompairStringResult.Equal Then
+                strEntryDesc = strEntryDesc + obj.Document_No
+            End If
+            ''richa 6 Feb,2020
+            Dim objJE As New clsJEExtraColumns
         If clsCommon.myLen(obj.TapalNo) > 0 Or clsCommon.myLen(obj.DateAndTime) > 0 Then
             objJE.TapalNo = clsCommon.myCstr(obj.TapalNo)
             If clsCommon.myLen(obj.DateAndTime) > 0 Then

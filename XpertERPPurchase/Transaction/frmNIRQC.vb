@@ -320,6 +320,9 @@ and not exists(select 1 from TSPL_NIR_QC where TSPL_NIR_QC.MRN_No=TSPL_MRN_DETAI
     '    End Try
     'End Function
     Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
+        PostData()
+    End Sub
+    Sub PostData()
         Try
             clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, txtCode.Value)
             If clsCommon.CompairString(cboVisualQCStatus.SelectedValue, "2") = CompairStringResult.Equal Then
@@ -330,20 +333,13 @@ and not exists(select 1 from TSPL_NIR_QC where TSPL_NIR_QC.MRN_No=TSPL_MRN_DETAI
                     End If
                 End If
             Else
-                PostData()
+                If myMessages.postConfirm() AndAlso clsNIRQC.postdata(txtCode.Value) Then
+                    clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
+                    LoadData(txtCode.Value, NavigatorType.Current)
+                End If
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
-    Sub PostData()
-        Try
-            If myMessages.postConfirm() AndAlso clsNIRQC.postdata(txtCode.Value) Then
-                clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
-                LoadData(txtCode.Value, NavigatorType.Current)
-            End If
-        Catch ex As Exception
-            Throw New Exception(ex.Message)
         End Try
     End Sub
 

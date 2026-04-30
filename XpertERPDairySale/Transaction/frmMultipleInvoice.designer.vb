@@ -22,12 +22,12 @@ Partial Class frmMultipleInvoice
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim WindowsSettings2 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -54,6 +54,7 @@ Partial Class frmMultipleInvoice
         Me.txtLocation = New common.UserControls.txtFinder()
         Me.lblLocation = New common.Controls.MyLabel()
         Me.gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.btnSaleReturn = New Telerik.WinControls.UI.RadButton()
         Me.btnPrintMultipleInvoice = New Telerik.WinControls.UI.RadButton()
         Me.btnCancel = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
@@ -70,7 +71,8 @@ Partial Class frmMultipleInvoice
         Me.Export_Head = New Telerik.WinControls.UI.RadMenuItem()
         Me.Export_details = New Telerik.WinControls.UI.RadMenuItem()
         Me.Import = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnSaleReturn = New Telerik.WinControls.UI.RadButton()
+        Me.txtInvoiceDate = New common.Controls.MyDateTimePicker()
+        Me.lblInvoiceDocDate = New common.Controls.MyLabel()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -98,6 +100,7 @@ Partial Class frmMultipleInvoice
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnSaleReturn, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintMultipleInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnCancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -105,7 +108,8 @@ Partial Class frmMultipleInvoice
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnSaleReturn, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtInvoiceDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblInvoiceDocDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -136,9 +140,9 @@ Partial Class frmMultipleInvoice
         Me.RadMenuItem2.TabIndex = 0
         Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenuItem2.Visible = False
-        WindowsSettings2.EnableRoundedCorners = Nothing
-        WindowsSettings2.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
-        Me.RadMenuItem2.WindowsSettings = WindowsSettings2
+        WindowsSettings1.EnableRoundedCorners = Nothing
+        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
         'Panel1
         '
@@ -186,6 +190,8 @@ Partial Class frmMultipleInvoice
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtInvoiceDate)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblInvoiceDocDate)
         Me.SplitContainer2.Panel1.Controls.Add(Me.rgbDocFinder)
         Me.SplitContainer2.Panel1.Controls.Add(Me.btnLoadData)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtToShift)
@@ -216,9 +222,9 @@ Partial Class frmMultipleInvoice
         Me.rgbDocFinder.Controls.Add(Me.lblInvoiceno)
         Me.rgbDocFinder.Controls.Add(Me.txtInvoiceNo)
         Me.rgbDocFinder.HeaderText = ""
-        Me.rgbDocFinder.Location = New System.Drawing.Point(709, 7)
+        Me.rgbDocFinder.Location = New System.Drawing.Point(886, 5)
         Me.rgbDocFinder.Name = "rgbDocFinder"
-        Me.rgbDocFinder.Size = New System.Drawing.Size(430, 66)
+        Me.rgbDocFinder.Size = New System.Drawing.Size(342, 66)
         Me.rgbDocFinder.TabIndex = 1530
         '
         'lblInvoiceno
@@ -250,7 +256,7 @@ Partial Class frmMultipleInvoice
         '
         'btnLoadData
         '
-        Me.btnLoadData.Location = New System.Drawing.Point(553, 10)
+        Me.btnLoadData.Location = New System.Drawing.Point(744, 7)
         Me.btnLoadData.Name = "btnLoadData"
         Me.btnLoadData.Size = New System.Drawing.Size(139, 28)
         Me.btnLoadData.TabIndex = 1529
@@ -262,10 +268,10 @@ Partial Class frmMultipleInvoice
         Me.txtToShift.AutoCompleteValueMember = Nothing
         Me.txtToShift.DropDownAnimationEnabled = True
         Me.txtToShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem5.Text = "M"
-        RadListDataItem6.Text = "E"
-        Me.txtToShift.Items.Add(RadListDataItem5)
-        Me.txtToShift.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "M"
+        RadListDataItem2.Text = "E"
+        Me.txtToShift.Items.Add(RadListDataItem1)
+        Me.txtToShift.Items.Add(RadListDataItem2)
         Me.txtToShift.Location = New System.Drawing.Point(340, 7)
         Me.txtToShift.Name = "txtToShift"
         Me.txtToShift.Size = New System.Drawing.Size(52, 20)
@@ -277,10 +283,10 @@ Partial Class frmMultipleInvoice
         Me.txtFromShift.AutoCompleteValueMember = Nothing
         Me.txtFromShift.DropDownAnimationEnabled = True
         Me.txtFromShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem1.Text = "M"
-        RadListDataItem2.Text = "E"
-        Me.txtFromShift.Items.Add(RadListDataItem1)
-        Me.txtFromShift.Items.Add(RadListDataItem2)
+        RadListDataItem3.Text = "M"
+        RadListDataItem4.Text = "E"
+        Me.txtFromShift.Items.Add(RadListDataItem3)
+        Me.txtFromShift.Items.Add(RadListDataItem4)
         Me.txtFromShift.Location = New System.Drawing.Point(159, 7)
         Me.txtFromShift.Name = "txtFromShift"
         Me.txtFromShift.Size = New System.Drawing.Size(44, 20)
@@ -387,7 +393,7 @@ Partial Class frmMultipleInvoice
         '
         'btnGo
         '
-        Me.btnGo.Location = New System.Drawing.Point(553, 42)
+        Me.btnGo.Location = New System.Drawing.Point(744, 39)
         Me.btnGo.Name = "btnGo"
         Me.btnGo.Size = New System.Drawing.Size(139, 28)
         Me.btnGo.TabIndex = 1452
@@ -409,7 +415,7 @@ Partial Class frmMultipleInvoice
         Me.rgbItemType.Controls.Add(Me.rbtnNonTaxable)
         Me.rgbItemType.Controls.Add(Me.rbtnTaxable)
         Me.rgbItemType.HeaderText = "Item Type"
-        Me.rgbItemType.Location = New System.Drawing.Point(429, 4)
+        Me.rgbItemType.Location = New System.Drawing.Point(620, 4)
         Me.rgbItemType.Name = "rgbItemType"
         Me.rgbItemType.Size = New System.Drawing.Size(118, 66)
         Me.rgbItemType.TabIndex = 56
@@ -493,10 +499,20 @@ Partial Class frmMultipleInvoice
         '
         '
         '
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.Size = New System.Drawing.Size(1232, 304)
         Me.gv1.TabIndex = 0
+        '
+        'btnSaleReturn
+        '
+        Me.btnSaleReturn.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnSaleReturn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnSaleReturn.Location = New System.Drawing.Point(458, 6)
+        Me.btnSaleReturn.Name = "btnSaleReturn"
+        Me.btnSaleReturn.Size = New System.Drawing.Size(84, 20)
+        Me.btnSaleReturn.TabIndex = 16
+        Me.btnSaleReturn.Text = "Sale Return"
         '
         'btnPrintMultipleInvoice
         '
@@ -617,15 +633,43 @@ Partial Class frmMultipleInvoice
         Me.Import.Text = "Import"
         Me.Import.Visibility = Telerik.WinControls.ElementVisibility.Hidden
         '
-        'btnSaleReturn
+        'txtInvoiceDate
         '
-        Me.btnSaleReturn.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSaleReturn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSaleReturn.Location = New System.Drawing.Point(458, 6)
-        Me.btnSaleReturn.Name = "btnSaleReturn"
-        Me.btnSaleReturn.Size = New System.Drawing.Size(84, 20)
-        Me.btnSaleReturn.TabIndex = 16
-        Me.btnSaleReturn.Text = "Sale Return"
+        Me.txtInvoiceDate.CalculationExpression = Nothing
+        Me.txtInvoiceDate.CustomFormat = "dd-MM-yyyy hh:mm:tt"
+        Me.txtInvoiceDate.FieldCode = Nothing
+        Me.txtInvoiceDate.FieldDesc = Nothing
+        Me.txtInvoiceDate.FieldMaxLength = 0
+        Me.txtInvoiceDate.FieldName = Nothing
+        Me.txtInvoiceDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtInvoiceDate.isCalculatedField = False
+        Me.txtInvoiceDate.IsSourceFromTable = False
+        Me.txtInvoiceDate.IsSourceFromValueList = False
+        Me.txtInvoiceDate.IsUnique = False
+        Me.txtInvoiceDate.Location = New System.Drawing.Point(489, 30)
+        Me.txtInvoiceDate.MendatroryField = False
+        Me.txtInvoiceDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtInvoiceDate.MyLinkLable1 = Nothing
+        Me.txtInvoiceDate.MyLinkLable2 = Nothing
+        Me.txtInvoiceDate.Name = "txtInvoiceDate"
+        Me.txtInvoiceDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtInvoiceDate.ReferenceFieldDesc = Nothing
+        Me.txtInvoiceDate.ReferenceFieldName = Nothing
+        Me.txtInvoiceDate.ReferenceTableName = Nothing
+        Me.txtInvoiceDate.Size = New System.Drawing.Size(129, 20)
+        Me.txtInvoiceDate.TabIndex = 1531
+        Me.txtInvoiceDate.TabStop = False
+        Me.txtInvoiceDate.Text = "17-12-2011 12:00:AM"
+        Me.txtInvoiceDate.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
+        '
+        'lblInvoiceDocDate
+        '
+        Me.lblInvoiceDocDate.FieldName = Nothing
+        Me.lblInvoiceDocDate.Location = New System.Drawing.Point(421, 31)
+        Me.lblInvoiceDocDate.Name = "lblInvoiceDocDate"
+        Me.lblInvoiceDocDate.Size = New System.Drawing.Size(68, 18)
+        Me.lblInvoiceDocDate.TabIndex = 1532
+        Me.lblInvoiceDocDate.Text = "Invoice Date"
         '
         'frmMultipleInvoice
         '
@@ -671,6 +715,7 @@ Partial Class frmMultipleInvoice
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnSaleReturn, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintMultipleInvoice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnCancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
@@ -678,7 +723,8 @@ Partial Class frmMultipleInvoice
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnSaleReturn, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtInvoiceDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblInvoiceDocDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -728,5 +774,7 @@ Partial Class frmMultipleInvoice
     Friend WithEvents btnCancel As RadButton
     Friend WithEvents btnPrintMultipleInvoice As RadButton
     Friend WithEvents btnSaleReturn As RadButton
+    Friend WithEvents txtInvoiceDate As common.Controls.MyDateTimePicker
+    Friend WithEvents lblInvoiceDocDate As common.Controls.MyLabel
 End Class
 

@@ -1823,6 +1823,7 @@
     <None Include="Crystal Reports\Sales Report\receiptold28052012.rpt" />
     <None Include="Crystal Reports\Sales Report\RouteMonthwiseSaleRpt.rpt" />
     <None Include="Crystal Reports\Sales Report\RouteSale.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptAccountStatement.rpt" />
     <None Include="Crystal Reports\Sales Report\RptCEAllocation.rpt" />
     <None Include="Crystal Reports\Sales Report\RptCEAllocationALl.rpt" />
     <None Include="Crystal Reports\Sales Report\rptCreditSaleDetail.rpt" />

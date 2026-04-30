@@ -81,6 +81,11 @@ Public Class clsTenderHead
             'End If
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "DocumentCode", obj.DocumentCode)
+            Dim ServerDate As DateTime = Nothing
+            If isNewEntry Then
+                ServerDate = clsCommon.GETSERVERDATE(trans)
+                obj.DocumentDate = New DateTime(obj.DocumentDate.Year, obj.DocumentDate.Month, obj.DocumentDate.Day, ServerDate.Hour, ServerDate.Minute, ServerDate.Second)
+            End If
             clsCommon.AddColumnsForChange(coll, "DocumentDate", clsCommon.GetPrintDate(obj.DocumentDate, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "DocumentAmount", obj.DocumentAmount)
             clsCommon.AddColumnsForChange(coll, "FieldValue1", obj.FieldValue1, True)
@@ -194,7 +199,7 @@ Public Class clsTenderHead
     End Function
 
     Public Shared Function ShowDataQry() As String
-        Dim qry As String = "select tspl_tender_header.DocumentCode as DocumentNo,convert(varchar(12),tspl_tender_header.Documentdate,103) as Document_date,case when tspl_tender_header.Posted=1 then 'posted' else 'Unposted' end as Posted,tspl_tender_header.FieldValue1 as Remark from tspl_tender_header"
+        Dim qry As String = "select tspl_tender_header.DocumentCode as DocumentNo,FORMAT(CAST(tspl_tender_header.Documentdate AS DATETIME),'dd/MM/yyyy hh:mm tt') as Document_date,case when tspl_tender_header.Posted=1 then 'posted' else 'Unposted' end as Posted,tspl_tender_header.FieldValue1 as Remark from tspl_tender_header"
         Return qry
     End Function
 

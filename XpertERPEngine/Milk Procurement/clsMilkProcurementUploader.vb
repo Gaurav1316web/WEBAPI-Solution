@@ -648,7 +648,7 @@ where TSPL_MILK_SRN_HEAD.MCC_CODE='" + obj.MCC_Code + "' and TSPL_MILK_SRN_HEAD.
                                 objMilkSRNDetail.SNF = clsEkoPro.getSnfOnCalculation(objMilkSRNDetail.FAT, objMilkSRNDetail.CLR, corrFactor)
                                 If PickPriceFromFATAndSNF Then
                                     objMilkSRNDetail.SNF = clsCommon.myRoundOFF(objMilkSRNDetail.SNF, 1, 4)
-                                    objMilkSRNDetail.RATE = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(objMilkSRNDetail.MILK_Qty, objMilkSRNDetail.Price_Code, objMilkSRNDetail.FAT, objMilkSRNDetail.SNF, obj.MCC_Code, objtr.VLC_Code, objtr.Shift, dtShiftDate, trans, strDockCollectionMilkType)
+                                    objMilkSRNDetail.RATE = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(objMilkSRNDetail.MILK_Qty, objMilkSRNDetail.Price_Code, objMilkSRNDetail.FAT, objMilkSRNDetail.SNF, obj.MCC_Code, objtr.VLC_Code, objtr.Shift, dtShiftDate, trans, strDockCollectionMilkType, objMilkSRNDetail.QAT_Rate, objMilkSRNDetail.Negative_Rate)
                                 Else
                                     objMilkSRNDetail.SNF = clsCommon.myRoundOFF(objMilkSRNDetail.SNF, 2, 9)
                                     objMilkSRNDetail.RATE = clsEkoPro.getRateFromUploaderShiftWiseCLR(objMilkSRNDetail.FAT, objMilkSRNDetail.CLR, obj.MCC_Code, objtr.VLC_Code, objtr.Shift, dtShiftDate, trans, strDockCollectionMilkType, objMilkSRNDetail.Price_Code)
@@ -657,19 +657,25 @@ where TSPL_MILK_SRN_HEAD.MCC_CODE='" + obj.MCC_Code + "' and TSPL_MILK_SRN_HEAD.
                                 objMilkSRNDetail.SNF = objtr.SNF
                                 objMilkSRNDetail.CLR = clsEkoPro.getClrOnCalculation(objMilkSRNDetail.FAT, objMilkSRNDetail.SNF, corrFactor)
                                 If PickPriceFromFATAndSNF Then
-                                    objMilkSRNDetail.RATE = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(objMilkSRNDetail.MILK_Qty, objMilkSRNDetail.Price_Code, objMilkSRNDetail.FAT, objMilkSRNDetail.SNF, obj.MCC_Code, objtr.VLC_Code, objtr.Shift, dtShiftDate, trans, strDockCollectionMilkType)
+                                    objMilkSRNDetail.RATE = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(objMilkSRNDetail.MILK_Qty, objMilkSRNDetail.Price_Code, objMilkSRNDetail.FAT, objMilkSRNDetail.SNF, obj.MCC_Code, objtr.VLC_Code, objtr.Shift, dtShiftDate, trans, strDockCollectionMilkType, objMilkSRNDetail.QAT_Rate, objMilkSRNDetail.Negative_Rate)
                                 Else
                                     objMilkSRNDetail.CLR = clsCommon.myRoundOFF(objMilkSRNDetail.CLR, 0, 4)
                                     objMilkSRNDetail.RATE = clsEkoPro.getRateFromUploaderShiftWiseCLR(objMilkSRNDetail.FAT, objMilkSRNDetail.CLR, obj.MCC_Code, objtr.VLC_Code, objtr.Shift, dtShiftDate, trans, strDockCollectionMilkType, objMilkSRNDetail.Price_Code)
                                 End If
                             End If
-
+                            If Not objtr.QAT Then
+                                objMilkSRNDetail.QAT_Rate = 0
+                            End If
 
                             objMilkSRNDetail.MCC_CODE = obj.MCC_Code
                             objMilkSRNDetail.Correction_Factor = corrFactor
                             objMilkSRNDetail.UOM = Unit_CodeApply
                             objMilkSRNDetail.AMOUNT = Math.Round(clsCommon.myCdbl(objMilkSRNDetail.RATE * objMilkSRNDetail.MILK_Qty), 2, MidpointRounding.AwayFromZero)
                             objMilkSRNDetail.Own_Asset_Rate = clsCommon.myCdbl(dtVLC.Rows(0)("Rate_Own_Asset"))
+
+                            objMilkSRNDetail.QAT_Amt = clsCommon.myRoundOFF(objMilkSRNDetail.QAT_Rate * objMilkSRNDetail.MILK_Qty, 2, 4)
+                            objMilkSRNDetail.Negative_Amount = clsCommon.myRoundOFF(objMilkSRNDetail.Negative_Rate * objMilkSRNDetail.MILK_Qty, 2, 4)
+
                             objMilkSRNDetail.Commission = 0 ' because nature is always E and it is never C 'clsCommon.myCdbl(dr(0)("Actual_charges"))
                             objMilkSRNDetail.Commission_Amount = Math.Round(objMilkSRNDetail.AMOUNT * objMilkSRNDetail.Commission / 100, 2)
                             objMilkSRNDetail.Std_Qty = clsInventoryMovementNew.GetStdQty(trans, Math.Round(objMilkSRNDetail.ACC_Qty * objMilkSRNDetail.FAT / 100, 2), Math.Round(objMilkSRNDetail.ACC_Qty * objMilkSRNDetail.SNF / 100, 2), objMilkSRNHead.DOC_DATE)
@@ -895,6 +901,7 @@ Public Class clsMilkProcurementUploaderDetail
     Public Hist_On As DateTime? = Nothing
     Public Hist_By As String
     Public Is_Drip_Saver As Integer
+    Public QAT As Boolean = False
 
     'Public Retesting_FAT As Decimal
     'Public Retesting_SNF As Decimal
@@ -968,7 +975,7 @@ Public Class clsMilkProcurementUploaderDetail
                 clsCommon.AddColumnsForChange(coll, "Manual_Sample", obj.Manual_Sample)
                 clsCommon.AddColumnsForChange(coll, "Empty_Sample", obj.Empty_Sample, True)
                 clsCommon.AddColumnsForChange(coll, "Page_No", obj.Page_No, True)
-
+                clsCommon.AddColumnsForChange(coll, "QAT", IIf(obj.QAT, 1, 0), True)
                 If clsCommon.myLen(strTR_No) > 0 Then
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL", OMInsertOrUpdate.Update, "TR_No='" + strTR_No + "'", trans)
                 Else
@@ -1079,6 +1086,7 @@ where  TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No='" + strPONo + "' "
                 If dr("Is_Drip_Saver") IsNot DBNull.Value Then
                     objTr.Is_Drip_Saver = clsCommon.myCdbl(dr("Is_Drip_Saver"))
                 End If
+                objTr.QAT = IIf(clsCommon.myCDecimal(dr("QAT")) = 1, True, False)
                 arr.Add(objTr)
             Next
         End If

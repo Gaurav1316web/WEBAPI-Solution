@@ -127,8 +127,11 @@ Public Class rptMonthWiseDMRReport
             Dim qry As String = ""
             Dim whrcls As String = ""
             Dim whrclsReturn As String = ""
-            whrclsReturn += "  And TSPL_SD_SALE_RETURN_head.Route_No = '" + txtRoute.Value + "'"
-                                        Dim DateFilter As String = ""
+            If clsCommon.myLen(txtRoute.Value) > 0 Then
+                whrclsReturn = "  And TSPL_SD_SALE_RETURN_head.Route_No = '" + txtRoute.Value + "'"
+            End If
+
+            Dim DateFilter As String = ""
             Dim DateFilterRetun As String = ""
             DateFilterRetun = "TSPL_SD_SALE_RETURN_head.Document_Date"
             If rbtnDocumentDate.IsChecked Then
@@ -362,8 +365,9 @@ and convert(date,TSPL_SD_SHIPMENT_HEAD." & DateFilter & ",103) <= '" & clsCommon
 	   WHERE CONVERT(DATE, xxxx.Document_Date, 103) >= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "',103) AND CONVERT(DATE, xxxx.Document_Date, 103) <= CONVERT(DATE,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103)"
 
                 If clsCommon.myLen(txtRoute.Value) > 0 Then
-                    BaseQry += " And xxxx.Route_No = '" & txtRoute.Value & "')   "
+                    BaseQry += " And xxxx.Route_No = '" & txtRoute.Value & "'"
                 End If
+                BaseQry += " ) "
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(BaseQry)
 

@@ -22,7 +22,7 @@ Partial Class frmTruckWiseRejectionReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -37,10 +37,15 @@ Partial Class frmTruckWiseRejectionReport
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.txtMultRAL = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txtMultLocation = New common.UserControls.txtMultiSelectFinder()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -57,10 +62,14 @@ Partial Class frmTruckWiseRejectionReport
         CType(Me.gvRejection, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvRejection.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -113,10 +122,7 @@ Partial Class frmTruckWiseRejectionReport
         '
         'RadPanel1
         '
-        Me.RadPanel1.Controls.Add(Me.txtToDate)
-        Me.RadPanel1.Controls.Add(Me.MyLabel4)
-        Me.RadPanel1.Controls.Add(Me.txtFromDate)
-        Me.RadPanel1.Controls.Add(Me.MyLabel3)
+        Me.RadPanel1.Controls.Add(Me.RadGroupBox1)
         Me.RadPanel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPanel1.Location = New System.Drawing.Point(0, 0)
         Me.RadPanel1.Name = "RadPanel1"
@@ -136,7 +142,7 @@ Partial Class frmTruckWiseRejectionReport
         Me.txtToDate.IsSourceFromTable = False
         Me.txtToDate.IsSourceFromValueList = False
         Me.txtToDate.IsUnique = False
-        Me.txtToDate.Location = New System.Drawing.Point(245, 10)
+        Me.txtToDate.Location = New System.Drawing.Point(225, 17)
         Me.txtToDate.MendatroryField = False
         Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtToDate.MyLinkLable1 = Me.MyLabel4
@@ -156,7 +162,7 @@ Partial Class frmTruckWiseRejectionReport
         '
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(196, 11)
+        Me.MyLabel4.Location = New System.Drawing.Point(176, 18)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(45, 18)
         Me.MyLabel4.TabIndex = 367
@@ -175,7 +181,7 @@ Partial Class frmTruckWiseRejectionReport
         Me.txtFromDate.IsSourceFromTable = False
         Me.txtFromDate.IsSourceFromValueList = False
         Me.txtFromDate.IsUnique = False
-        Me.txtFromDate.Location = New System.Drawing.Point(98, 10)
+        Me.txtFromDate.Location = New System.Drawing.Point(78, 17)
         Me.txtFromDate.MendatroryField = False
         Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtFromDate.MyLinkLable1 = Me.MyLabel3
@@ -195,7 +201,7 @@ Partial Class frmTruckWiseRejectionReport
         '
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(36, 11)
+        Me.MyLabel3.Location = New System.Drawing.Point(16, 18)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(59, 18)
         Me.MyLabel3.TabIndex = 368
@@ -219,7 +225,7 @@ Partial Class frmTruckWiseRejectionReport
         '
         Me.gvRejection.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvRejection.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvRejection.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvRejection.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvRejection.MyExportAPI = False
         Me.gvRejection.MyExportFilePath = ""
         Me.gvRejection.MyStopExport = False
@@ -256,6 +262,14 @@ Partial Class frmTruckWiseRejectionReport
         Me.RadMenuItem2.Text = "Delete Layout"
         Me.RadMenuItem2.UseCompatibleTextRendering = False
         '
+        'btnPrint
+        '
+        Me.btnPrint.Location = New System.Drawing.Point(156, 11)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(71, 22)
+        Me.btnPrint.TabIndex = 162
+        Me.btnPrint.Text = "Print"
+        '
         'btnClose
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -281,13 +295,68 @@ Partial Class frmTruckWiseRejectionReport
         Me.btnReset.TabIndex = 158
         Me.btnReset.Text = "Reset"
         '
-        'btnPrint
+        'MyLabel5
         '
-        Me.btnPrint.Location = New System.Drawing.Point(156, 11)
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(71, 22)
-        Me.btnPrint.TabIndex = 162
-        Me.btnPrint.Text = "Print"
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel5.Location = New System.Drawing.Point(16, 66)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(46, 18)
+        Me.MyLabel5.TabIndex = 395
+        Me.MyLabel5.Text = "RAL No."
+        '
+        'txtMultRAL
+        '
+        Me.txtMultRAL.arrDispalyMember = Nothing
+        Me.txtMultRAL.arrValueMember = Nothing
+        Me.txtMultRAL.Location = New System.Drawing.Point(78, 66)
+        Me.txtMultRAL.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMultRAL.MyLinkLable1 = Nothing
+        Me.txtMultRAL.MyLinkLable2 = Nothing
+        Me.txtMultRAL.MyNullText = "All"
+        Me.txtMultRAL.Name = "txtMultRAL"
+        Me.txtMultRAL.Size = New System.Drawing.Size(234, 19)
+        Me.txtMultRAL.TabIndex = 394
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(16, 42)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(49, 18)
+        Me.MyLabel1.TabIndex = 397
+        Me.MyLabel1.Text = "Location"
+        '
+        'txtMultLocation
+        '
+        Me.txtMultLocation.arrDispalyMember = Nothing
+        Me.txtMultLocation.arrValueMember = Nothing
+        Me.txtMultLocation.Location = New System.Drawing.Point(78, 42)
+        Me.txtMultLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMultLocation.MyLinkLable1 = Nothing
+        Me.txtMultLocation.MyLinkLable2 = Nothing
+        Me.txtMultLocation.MyNullText = "All"
+        Me.txtMultLocation.Name = "txtMultLocation"
+        Me.txtMultLocation.Size = New System.Drawing.Size(234, 19)
+        Me.txtMultLocation.TabIndex = 396
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel3)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel1)
+        Me.RadGroupBox1.Controls.Add(Me.txtFromDate)
+        Me.RadGroupBox1.Controls.Add(Me.txtMultLocation)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel4)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel5)
+        Me.RadGroupBox1.Controls.Add(Me.txtToDate)
+        Me.RadGroupBox1.Controls.Add(Me.txtMultRAL)
+        Me.RadGroupBox1.HeaderText = ""
+        Me.RadGroupBox1.Location = New System.Drawing.Point(14, 17)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Size = New System.Drawing.Size(333, 104)
+        Me.RadGroupBox1.TabIndex = 398
         '
         'frmTruckWiseRejectionReport
         '
@@ -310,7 +379,6 @@ Partial Class frmTruckWiseRejectionReport
         Me.RadPageViewPage1.ResumeLayout(False)
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
-        Me.RadPanel1.PerformLayout()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -319,10 +387,15 @@ Partial Class frmTruckWiseRejectionReport
         CType(Me.gvRejection.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvRejection, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -346,4 +419,9 @@ Partial Class frmTruckWiseRejectionReport
     Friend WithEvents btnClose As RadButton
     Friend WithEvents gvRejection As common.UserControls.MyRadGridView
     Friend WithEvents btnPrint As RadButton
+    Friend WithEvents MyLabel5 As common.Controls.MyLabel
+    Friend WithEvents txtMultRAL As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents txtMultLocation As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents RadGroupBox1 As RadGroupBox
 End Class

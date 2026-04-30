@@ -25,6 +25,14 @@ Public Class PurchaseGateOut
     End Sub
     Public Sub SaveData()
         Try
+            If clsCommon.myLen(txtGRNNo.Value) <= 0 AndAlso clsCommon.myLen(txtSRN.Value) <= 0 Then
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select GRN OR SRN", Me.Text)
+                Exit Sub
+            End If
+            If clsCommon.myLen(txtGRNNo.Value) > 0 AndAlso clsCommon.myLen(txtSRN.Value) > 0 Then
+                common.clsCommon.MyMessageBoxShow(Me, "Select GRN OR SRN Only", Me.Text)
+                Exit Sub
+            End If
             Dim obj As New clsGateOutt()
             If clsCommon.myLen(txtCode.Value) <= 0 Then
                 isNewEntry = True
@@ -32,6 +40,8 @@ Public Class PurchaseGateOut
             obj.Code = txtCode.Value
             obj.docDate = txtDate.Value
             obj.GRN_code = txtGRNNo.Value
+            obj.SRN_code = txtSRN.Value
+
             obj.Description = txtDescription.Text
             obj.Remarks = txtRemarks.Text
             If (obj.SaveData(obj, isNewEntry)) Then
@@ -52,6 +62,8 @@ Public Class PurchaseGateOut
             txtCode.Value = obj.Code
             txtDate.Value = obj.docDate
             txtGRNNo.Value = obj.GRN_code
+            txtSRN.Value = obj.SRN_code
+
             txtRemarks.Text = obj.Remarks
             txtDescription.Text = obj.Description
             UsLock1.Status = obj.Status
@@ -69,10 +81,10 @@ Public Class PurchaseGateOut
     End Sub
     Function AllowToSave() As Boolean
         Try
-            If clsCommon.myLen(txtGRNNo.Value) <= 0 Then
-                txtGRNNo.Focus()
-                Throw New Exception("Please select GRN No")
-            End If
+            'If clsCommon.myLen(txtGRNNo.Value) <= 0 Then
+            '    txtGRNNo.Focus()
+            '    Throw New Exception("Please select GRN No")
+            'End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
@@ -110,11 +122,21 @@ Public Class PurchaseGateOut
 
     Private Sub txtGRNNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtGRNNo._MYValidating
         Dim whrcls As String = ""
+        'If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+        '    whrcls = " TSPL_SRN_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and "
+        'End If
+        'whrcls += " TSPL_SRN_HEAD.Status=1"
+        'Dim qry As String = "select GRN_No as Code,TSPL_SRN_HEAD.SRN_No,case when TSPL_SRN_HEAD.Status=1 then 'posted'end as [SRN Status],CAST(TSPL_SRN_HEAD.Posting_Date AS date) as [SRN Post Date]   from TSPL_GRN_HEAD inner join TSPL_SRN_HEAD on TSPL_SRN_HEAD.Against_GRN=TSPL_GRN_HEAD.GRN_No"
+        'txtGRNNo.Value = clsCommon.ShowSelectForm("grnfunder", qry, "Code", whrcls, txtGRNNo.Value, "", isButtonClicked)
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrcls = " TSPL_SRN_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and "
+            whrcls = " TSPL_GRN_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and "
         End If
-        whrcls += " TSPL_SRN_HEAD.Status=1"
-        Dim qry As String = "select GRN_No as Code,TSPL_SRN_HEAD.SRN_No,case when TSPL_SRN_HEAD.Status=1 then 'posted'end as [SRN Status],CAST(TSPL_SRN_HEAD.Posting_Date AS date) as [SRN Post Date]   from TSPL_GRN_HEAD inner join TSPL_SRN_HEAD on TSPL_SRN_HEAD.Against_GRN=TSPL_GRN_HEAD.GRN_No"
+        whrcls += "  NOT EXISTS (
+    SELECT 1 
+    FROM tspl_purchase_gateout 
+    WHERE tspl_purchase_gateout.GRN_Code = TSPL_GRN_HEAD.GRN_no
+) AND TSPL_GRN_HEAD.Status=1"
+        Dim qry As String = "select GRN_No as Code,case when TSPL_GRN_HEAD.Status=1 then 'posted'end as [GRN Status],CAST(TSPL_GRN_HEAD.Posting_Date AS date) as [GRN Post Date]   from TSPL_GRN_HEAD "
         txtGRNNo.Value = clsCommon.ShowSelectForm("grnfunder", qry, "Code", whrcls, txtGRNNo.Value, "", isButtonClicked)
     End Sub
     Private Sub txtCode__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtCode._MYNavigator
@@ -177,5 +199,19 @@ Public Class PurchaseGateOut
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub txtSRN__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtSRN._MYValidating
+        Dim whrcls As String = ""
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            whrcls = " TSPL_SRN_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and "
+        End If
+        whrcls += " NOT EXISTS (
+    SELECT 1 
+    FROM tspl_purchase_gateout 
+    WHERE tspl_purchase_gateout.SRN_Code = TSPL_SRN_HEAD.SRN_No
+) AND  TSPL_SRN_HEAD.Status=1"
+        Dim qry As String = "select TSPL_SRN_HEAD.SRN_No AS Code,case when TSPL_SRN_HEAD.Status=1 then 'posted'end as [SRN Status],CAST(TSPL_SRN_HEAD.Posting_Date AS date) as [SRN Post Date]   from TSPL_GRN_HEAD inner join TSPL_SRN_HEAD on TSPL_SRN_HEAD.Against_GRN=TSPL_GRN_HEAD.GRN_No"
+        txtSRN.Value = clsCommon.ShowSelectForm("grnfunder", qry, "Code", whrcls, txtSRN.Value, "", isButtonClicked)
     End Sub
 End Class

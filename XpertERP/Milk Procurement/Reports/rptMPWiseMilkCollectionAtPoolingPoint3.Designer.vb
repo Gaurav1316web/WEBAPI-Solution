@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,15 +20,17 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -269,10 +271,10 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.cboReportType.IsSourceFromTable = False
         Me.cboReportType.IsSourceFromValueList = False
         Me.cboReportType.IsUnique = False
-        RadListDataItem1.Text = "Kg"
-        RadListDataItem2.Text = "Ltr"
-        Me.cboReportType.Items.Add(RadListDataItem1)
-        Me.cboReportType.Items.Add(RadListDataItem2)
+        RadListDataItem9.Text = "Kg"
+        RadListDataItem10.Text = "Ltr"
+        Me.cboReportType.Items.Add(RadListDataItem9)
+        Me.cboReportType.Items.Add(RadListDataItem10)
         Me.cboReportType.Location = New System.Drawing.Point(60, 37)
         Me.cboReportType.MendatroryField = False
         Me.cboReportType.MyLinkLable1 = Nothing
@@ -332,10 +334,10 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.cboUnit.IsSourceFromTable = False
         Me.cboUnit.IsSourceFromValueList = False
         Me.cboUnit.IsUnique = False
-        RadListDataItem3.Text = "Kg"
-        RadListDataItem4.Text = "Ltr"
-        Me.cboUnit.Items.Add(RadListDataItem3)
-        Me.cboUnit.Items.Add(RadListDataItem4)
+        RadListDataItem1.Text = "Kg"
+        RadListDataItem2.Text = "Ltr"
+        Me.cboUnit.Items.Add(RadListDataItem1)
+        Me.cboUnit.Items.Add(RadListDataItem2)
         Me.cboUnit.Location = New System.Drawing.Point(243, 58)
         Me.cboUnit.MendatroryField = False
         Me.cboUnit.MyLinkLable1 = Nothing
@@ -455,10 +457,14 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.cmbEntrySource.IsSourceFromTable = False
         Me.cmbEntrySource.IsSourceFromValueList = False
         Me.cmbEntrySource.IsUnique = False
-        RadListDataItem5.Text = "Kg"
-        RadListDataItem6.Text = "Ltr"
-        Me.cmbEntrySource.Items.Add(RadListDataItem5)
-        Me.cmbEntrySource.Items.Add(RadListDataItem6)
+        RadListDataItem3.Text = "Kg"
+        RadListDataItem4.Text = "Ltr"
+        RadListDataItem11.Text = "Kg"
+        RadListDataItem12.Text = "Ltr"
+        Me.cmbEntrySource.Items.Add(RadListDataItem3)
+        Me.cmbEntrySource.Items.Add(RadListDataItem4)
+        Me.cmbEntrySource.Items.Add(RadListDataItem11)
+        Me.cmbEntrySource.Items.Add(RadListDataItem12)
         Me.cmbEntrySource.Location = New System.Drawing.Point(60, 58)
         Me.cmbEntrySource.MendatroryField = False
         Me.cmbEntrySource.MyLinkLable1 = Nothing
@@ -587,7 +593,7 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.gv.MasterTemplate.EnableFiltering = True
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv.MyExportAPI = False
         Me.gv.MyExportFilePath = ""
         Me.gv.MyStopExport = False
@@ -722,8 +728,6 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
     Friend WithEvents txtFromDate As common.Controls.MyDateTimePicker
     Friend WithEvents lblToDate As common.Controls.MyLabel
     Friend WithEvents lblfromDate As common.Controls.MyLabel
-    Friend WithEvents RadPageViewPage2 As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents gv As common.UserControls.MyRadGridView
     Friend WithEvents btnprint As Telerik.WinControls.UI.RadButton
     Friend WithEvents BtnReset As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnclose As Telerik.WinControls.UI.RadButton
@@ -749,5 +753,7 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
     Friend WithEvents txtMinDays As common.MyNumBox
     Friend WithEvents lblConvRate As common.Controls.MyLabel
     Friend WithEvents chkSupervisor As common.Controls.MyCheckBox
+    Friend WithEvents RadPageViewPage2 As RadPageViewPage
+    Friend WithEvents gv As common.UserControls.MyRadGridView
 End Class
 

@@ -9,6 +9,19 @@ Public Class frmDBTUnionPayment
         funreset()
         dtpToDate.Value = clsCommon.GETSERVERDATE()
         dtpFromDate.Value = clsCommon.GETSERVERDATE().AddMonths(-1)
+
+        If clsCommon.myLen(objCommonVar.CurrentUnionDataBase) > 0 Then
+            Dim Union As ArrayList = Nothing
+            Dim qry As String = " Select DataBase_Name from TSPL_USER_MASTER where User_Code = '" + objCommonVar.CurrentUserCode + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Union = New ArrayList()
+                For Each drZone As DataRow In dt.Rows
+                    Union.Add(clsCommon.myCstr(drZone("DataBase_Name")))
+                Next
+            End If
+            txtUnion.arrValueMember = Union
+        End If
     End Sub
 
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
@@ -225,15 +238,34 @@ Public Class frmDBTUnionPayment
 
     Private Sub txtUnion__My_Click(sender As Object, e As EventArgs) Handles txtUnion._My_Click
         Try
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
-            If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
-                common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
-                Exit Sub
-            End If
+            Dim dt As DataTable
             Dim qry As String = ""
-            qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 ORDER BY [TSPL_APP_LOCATION].Location_Name"
 
-            txtUnion.arrValueMember = clsCommon.ShowMultipleSelectForm("DBTUnionPay", qry, "DataBase Name", "", txtUnion.arrValueMember, Nothing)
+            If clsCommon.myLen(objCommonVar.CurrentUnionDataBase) > 0 Then
+                qry = " Select DataBase_Name as [DataBase Name] from TSPL_USER_MASTER where User_Code = '" + objCommonVar.CurrentUserCode + "' "
+                txtUnion.arrValueMember = clsCommon.ShowMultipleSelectForm("SaleUnionDs", qry, "DataBase Name", "", txtUnion.arrValueMember, Nothing)
+
+            Else
+                dt = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
+                If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
+                    Exit Sub
+                End If
+
+                qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 ORDER BY [TSPL_APP_LOCATION].Location_Name"
+
+                txtUnion.arrValueMember = clsCommon.ShowMultipleSelectForm("DBTUnionPay", qry, "DataBase Name", "", txtUnion.arrValueMember, Nothing)
+
+            End If
+            'dt = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
+            'If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
+            '    common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
+            '    Exit Sub
+            'End If
+
+            'qry = "SELECT [TSPL_APP_LOCATION].Location_Name as Location,[TSPL_APP_LOCATION].DataBase_Name as [DataBase Name] FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 ORDER BY [TSPL_APP_LOCATION].Location_Name"
+
+            'txtUnion.arrValueMember = clsCommon.ShowMultipleSelectForm("DBTUnionPay", qry, "DataBase Name", "", txtUnion.arrValueMember, Nothing)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

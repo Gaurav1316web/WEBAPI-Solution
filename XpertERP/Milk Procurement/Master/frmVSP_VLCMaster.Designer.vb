@@ -23,17 +23,17 @@ Partial Class frmVSP_VLCMaster
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmVSP_VLCMaster))
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadPrintWatermark1 As Telerik.WinControls.UI.RadPrintWatermark = New Telerik.WinControls.UI.RadPrintWatermark()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmVSP_VLCMaster))
+        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadPrintWatermark3 As Telerik.WinControls.UI.RadPrintWatermark = New Telerik.WinControls.UI.RadPrintWatermark()
         Me.btnclear = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
@@ -105,10 +105,10 @@ Partial Class frmVSP_VLCMaster
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.chkHold = New Telerik.WinControls.UI.RadCheckBox()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.txtPayeName = New common.Controls.MyTextBox()
-        Me.lblPayeeName = New common.Controls.MyLabel()
         Me.gbBank2Details = New System.Windows.Forms.GroupBox()
+        Me.MyLabel60 = New common.Controls.MyLabel()
         Me.txtSavingCompanyBank = New common.UserControls.txtFinder()
+        Me.txtPayeeNameSaving = New common.Controls.MyTextBox()
         Me.findTxtIFSCCode2 = New common.UserControls.txtFinder()
         Me.txtIFSCCode2 = New common.Controls.MyTextBox()
         Me.MyLabel26 = New common.Controls.MyLabel()
@@ -131,6 +131,8 @@ Partial Class frmVSP_VLCMaster
         Me.MyLabel37 = New common.Controls.MyLabel()
         Me.txtCredit2 = New common.Controls.MyTextBox()
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
+        Me.txtPayeNameCurrent = New common.Controls.MyTextBox()
+        Me.lblPayeeName = New common.Controls.MyLabel()
         Me.lblCurrentCompanyBank = New common.Controls.MyTextBox()
         Me.fndbankcode = New common.Controls.MyTextBox()
         Me.MyLabel15 = New common.Controls.MyLabel()
@@ -376,9 +378,9 @@ Partial Class frmVSP_VLCMaster
         Me.RadGroupBox3.SuspendLayout()
         CType(Me.chkHold, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
-        CType(Me.txtPayeName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblPayeeName, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbBank2Details.SuspendLayout()
+        CType(Me.MyLabel60, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtPayeeNameSaving, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtIFSCCode2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel26, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmbAccountType2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -399,6 +401,8 @@ Partial Class frmVSP_VLCMaster
         CType(Me.MyLabel37, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCredit2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox5.SuspendLayout()
+        CType(Me.txtPayeNameCurrent, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblPayeeName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCurrentCompanyBank, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.fndbankcode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1024,14 +1028,14 @@ Partial Class frmVSP_VLCMaster
         Me.CmbHeadLoadServiceBasis.IsSourceFromTable = False
         Me.CmbHeadLoadServiceBasis.IsSourceFromValueList = False
         Me.CmbHeadLoadServiceBasis.IsUnique = False
-        RadListDataItem1.Text = "Select"
-        RadListDataItem2.Text = "%(Percentage)"
-        RadListDataItem3.Text = "Rate/Kg"
-        RadListDataItem4.Text = "Rate/Ltr"
-        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem1)
-        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem2)
-        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem3)
-        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem4)
+        RadListDataItem5.Text = "Select"
+        RadListDataItem6.Text = "%(Percentage)"
+        RadListDataItem7.Text = "Rate/Kg"
+        RadListDataItem8.Text = "Rate/Ltr"
+        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem5)
+        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem6)
+        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem7)
+        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem8)
         Me.CmbHeadLoadServiceBasis.Location = New System.Drawing.Point(588, 230)
         Me.CmbHeadLoadServiceBasis.MendatroryField = True
         Me.CmbHeadLoadServiceBasis.MyLinkLable1 = Me.MyLabel54
@@ -1360,7 +1364,7 @@ Partial Class frmVSP_VLCMaster
         Me.txtRegistrationDate.IsSourceFromTable = False
         Me.txtRegistrationDate.IsSourceFromValueList = False
         Me.txtRegistrationDate.IsUnique = False
-        Me.txtRegistrationDate.Location = New System.Drawing.Point(851, 37)
+        Me.txtRegistrationDate.Location = New System.Drawing.Point(950, 37)
         Me.txtRegistrationDate.MendatroryField = False
         Me.txtRegistrationDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtRegistrationDate.MyLinkLable1 = Nothing
@@ -1370,7 +1374,7 @@ Partial Class frmVSP_VLCMaster
         Me.txtRegistrationDate.ReferenceFieldDesc = Nothing
         Me.txtRegistrationDate.ReferenceFieldName = Nothing
         Me.txtRegistrationDate.ReferenceTableName = Nothing
-        Me.txtRegistrationDate.Size = New System.Drawing.Size(146, 18)
+        Me.txtRegistrationDate.Size = New System.Drawing.Size(80, 18)
         Me.txtRegistrationDate.TabIndex = 359
         Me.txtRegistrationDate.TabStop = False
         Me.txtRegistrationDate.Text = "13/06/2011"
@@ -1388,7 +1392,7 @@ Partial Class frmVSP_VLCMaster
         Me.txtRegistrationNo.IsSourceFromValueList = False
         Me.txtRegistrationNo.IsUnique = False
         Me.txtRegistrationNo.Location = New System.Drawing.Point(588, 35)
-        Me.txtRegistrationNo.MaxLength = 20
+        Me.txtRegistrationNo.MaxLength = 100
         Me.txtRegistrationNo.MendatroryField = False
         Me.txtRegistrationNo.MyLinkLable1 = Nothing
         Me.txtRegistrationNo.MyLinkLable2 = Nothing
@@ -1396,14 +1400,14 @@ Partial Class frmVSP_VLCMaster
         Me.txtRegistrationNo.ReferenceFieldDesc = Nothing
         Me.txtRegistrationNo.ReferenceFieldName = Nothing
         Me.txtRegistrationNo.ReferenceTableName = Nothing
-        Me.txtRegistrationNo.Size = New System.Drawing.Size(146, 20)
+        Me.txtRegistrationNo.Size = New System.Drawing.Size(265, 20)
         Me.txtRegistrationNo.TabIndex = 358
         '
         'lblRegistrationDate
         '
         Me.lblRegistrationDate.FieldName = Nothing
         Me.lblRegistrationDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRegistrationDate.Location = New System.Drawing.Point(747, 38)
+        Me.lblRegistrationDate.Location = New System.Drawing.Point(854, 38)
         Me.lblRegistrationDate.Name = "lblRegistrationDate"
         Me.lblRegistrationDate.Size = New System.Drawing.Size(94, 16)
         Me.lblRegistrationDate.TabIndex = 357
@@ -1495,10 +1499,10 @@ Partial Class frmVSP_VLCMaster
         Me.cmbGender.IsSourceFromTable = False
         Me.cmbGender.IsSourceFromValueList = False
         Me.cmbGender.IsUnique = False
-        RadListDataItem5.Text = "Male"
-        RadListDataItem6.Text = "Female"
-        Me.cmbGender.Items.Add(RadListDataItem5)
-        Me.cmbGender.Items.Add(RadListDataItem6)
+        RadListDataItem9.Text = "Male"
+        RadListDataItem10.Text = "Female"
+        Me.cmbGender.Items.Add(RadListDataItem9)
+        Me.cmbGender.Items.Add(RadListDataItem10)
         Me.cmbGender.Location = New System.Drawing.Point(178, 134)
         Me.cmbGender.MendatroryField = True
         Me.cmbGender.MyLinkLable1 = Me.MyLabel29
@@ -1537,10 +1541,10 @@ Partial Class frmVSP_VLCMaster
         Me.ddlGender.IsSourceFromTable = False
         Me.ddlGender.IsSourceFromValueList = False
         Me.ddlGender.IsUnique = False
-        RadListDataItem7.Text = "Male"
-        RadListDataItem8.Text = "Female"
-        Me.ddlGender.Items.Add(RadListDataItem7)
-        Me.ddlGender.Items.Add(RadListDataItem8)
+        RadListDataItem1.Text = "Male"
+        RadListDataItem2.Text = "Female"
+        Me.ddlGender.Items.Add(RadListDataItem1)
+        Me.ddlGender.Items.Add(RadListDataItem2)
         Me.ddlGender.Location = New System.Drawing.Point(747, 463)
         Me.ddlGender.MendatroryField = True
         Me.ddlGender.MyLinkLable1 = Me.MyLabel27
@@ -1610,8 +1614,6 @@ Partial Class frmVSP_VLCMaster
         '
         'RadPageViewPage2
         '
-        Me.RadPageViewPage2.Controls.Add(Me.txtPayeName)
-        Me.RadPageViewPage2.Controls.Add(Me.lblPayeeName)
         Me.RadPageViewPage2.Controls.Add(Me.gbBank2Details)
         Me.RadPageViewPage2.Controls.Add(Me.GroupBox5)
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(80.0!, 26.0!)
@@ -1620,43 +1622,11 @@ Partial Class frmVSP_VLCMaster
         Me.RadPageViewPage2.Size = New System.Drawing.Size(1057, 398)
         Me.RadPageViewPage2.Text = "Bank Details"
         '
-        'txtPayeName
-        '
-        Me.txtPayeName.CalculationExpression = Nothing
-        Me.txtPayeName.FieldCode = Nothing
-        Me.txtPayeName.FieldDesc = Nothing
-        Me.txtPayeName.FieldMaxLength = 0
-        Me.txtPayeName.FieldName = Nothing
-        Me.txtPayeName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtPayeName.isCalculatedField = False
-        Me.txtPayeName.IsSourceFromTable = False
-        Me.txtPayeName.IsSourceFromValueList = False
-        Me.txtPayeName.IsUnique = False
-        Me.txtPayeName.Location = New System.Drawing.Point(95, 314)
-        Me.txtPayeName.MaxLength = 15
-        Me.txtPayeName.MendatroryField = False
-        Me.txtPayeName.MyLinkLable1 = Me.lblpan
-        Me.txtPayeName.MyLinkLable2 = Nothing
-        Me.txtPayeName.Name = "txtPayeName"
-        Me.txtPayeName.ReferenceFieldDesc = Nothing
-        Me.txtPayeName.ReferenceFieldName = Nothing
-        Me.txtPayeName.ReferenceTableName = Nothing
-        Me.txtPayeName.Size = New System.Drawing.Size(281, 18)
-        Me.txtPayeName.TabIndex = 323
-        '
-        'lblPayeeName
-        '
-        Me.lblPayeeName.FieldName = Nothing
-        Me.lblPayeeName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPayeeName.Location = New System.Drawing.Point(8, 314)
-        Me.lblPayeeName.Name = "lblPayeeName"
-        Me.lblPayeeName.Size = New System.Drawing.Size(72, 16)
-        Me.lblPayeeName.TabIndex = 322
-        Me.lblPayeeName.Text = "Payee Name"
-        '
         'gbBank2Details
         '
+        Me.gbBank2Details.Controls.Add(Me.MyLabel60)
         Me.gbBank2Details.Controls.Add(Me.txtSavingCompanyBank)
+        Me.gbBank2Details.Controls.Add(Me.txtPayeeNameSaving)
         Me.gbBank2Details.Controls.Add(Me.findTxtIFSCCode2)
         Me.gbBank2Details.Controls.Add(Me.txtIFSCCode2)
         Me.gbBank2Details.Controls.Add(Me.cmbAccountType2)
@@ -1678,12 +1648,22 @@ Partial Class frmVSP_VLCMaster
         Me.gbBank2Details.Controls.Add(Me.MyLabel36)
         Me.gbBank2Details.Controls.Add(Me.MyLabel37)
         Me.gbBank2Details.Controls.Add(Me.txtCredit2)
-        Me.gbBank2Details.Location = New System.Drawing.Point(3, 159)
+        Me.gbBank2Details.Location = New System.Drawing.Point(3, 174)
         Me.gbBank2Details.Name = "gbBank2Details"
-        Me.gbBank2Details.Size = New System.Drawing.Size(693, 149)
+        Me.gbBank2Details.Size = New System.Drawing.Size(693, 170)
         Me.gbBank2Details.TabIndex = 316
         Me.gbBank2Details.TabStop = False
         Me.gbBank2Details.Text = "Bank Details of Saving Account"
+        '
+        'MyLabel60
+        '
+        Me.MyLabel60.FieldName = Nothing
+        Me.MyLabel60.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel60.Location = New System.Drawing.Point(5, 147)
+        Me.MyLabel60.Name = "MyLabel60"
+        Me.MyLabel60.Size = New System.Drawing.Size(72, 16)
+        Me.MyLabel60.TabIndex = 325
+        Me.MyLabel60.Text = "Payee Name"
         '
         'txtSavingCompanyBank
         '
@@ -1710,6 +1690,30 @@ Partial Class frmVSP_VLCMaster
         Me.txtSavingCompanyBank.Size = New System.Drawing.Size(211, 19)
         Me.txtSavingCompanyBank.TabIndex = 319
         Me.txtSavingCompanyBank.Value = ""
+        '
+        'txtPayeeNameSaving
+        '
+        Me.txtPayeeNameSaving.CalculationExpression = Nothing
+        Me.txtPayeeNameSaving.FieldCode = Nothing
+        Me.txtPayeeNameSaving.FieldDesc = Nothing
+        Me.txtPayeeNameSaving.FieldMaxLength = 0
+        Me.txtPayeeNameSaving.FieldName = Nothing
+        Me.txtPayeeNameSaving.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPayeeNameSaving.isCalculatedField = False
+        Me.txtPayeeNameSaving.IsSourceFromTable = False
+        Me.txtPayeeNameSaving.IsSourceFromValueList = False
+        Me.txtPayeeNameSaving.IsUnique = False
+        Me.txtPayeeNameSaving.Location = New System.Drawing.Point(93, 146)
+        Me.txtPayeeNameSaving.MaxLength = 15
+        Me.txtPayeeNameSaving.MendatroryField = False
+        Me.txtPayeeNameSaving.MyLinkLable1 = Me.lblpan
+        Me.txtPayeeNameSaving.MyLinkLable2 = Nothing
+        Me.txtPayeeNameSaving.Name = "txtPayeeNameSaving"
+        Me.txtPayeeNameSaving.ReferenceFieldDesc = Nothing
+        Me.txtPayeeNameSaving.ReferenceFieldName = Nothing
+        Me.txtPayeeNameSaving.ReferenceTableName = Nothing
+        Me.txtPayeeNameSaving.Size = New System.Drawing.Size(596, 18)
+        Me.txtPayeeNameSaving.TabIndex = 324
         '
         'findTxtIFSCCode2
         '
@@ -2107,6 +2111,8 @@ Partial Class frmVSP_VLCMaster
         '
         'GroupBox5
         '
+        Me.GroupBox5.Controls.Add(Me.txtPayeNameCurrent)
+        Me.GroupBox5.Controls.Add(Me.lblPayeeName)
         Me.GroupBox5.Controls.Add(Me.lblCurrentCompanyBank)
         Me.GroupBox5.Controls.Add(Me.fndbankcode)
         Me.GroupBox5.Controls.Add(Me.findfndbankcode)
@@ -2131,10 +2137,44 @@ Partial Class frmVSP_VLCMaster
         Me.GroupBox5.Controls.Add(Me.TxtBankName)
         Me.GroupBox5.Location = New System.Drawing.Point(3, 2)
         Me.GroupBox5.Name = "GroupBox5"
-        Me.GroupBox5.Size = New System.Drawing.Size(693, 149)
+        Me.GroupBox5.Size = New System.Drawing.Size(693, 168)
         Me.GroupBox5.TabIndex = 320
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "Bank Details of Current  Account"
+        '
+        'txtPayeNameCurrent
+        '
+        Me.txtPayeNameCurrent.CalculationExpression = Nothing
+        Me.txtPayeNameCurrent.FieldCode = Nothing
+        Me.txtPayeNameCurrent.FieldDesc = Nothing
+        Me.txtPayeNameCurrent.FieldMaxLength = 0
+        Me.txtPayeNameCurrent.FieldName = Nothing
+        Me.txtPayeNameCurrent.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPayeNameCurrent.isCalculatedField = False
+        Me.txtPayeNameCurrent.IsSourceFromTable = False
+        Me.txtPayeNameCurrent.IsSourceFromValueList = False
+        Me.txtPayeNameCurrent.IsUnique = False
+        Me.txtPayeNameCurrent.Location = New System.Drawing.Point(93, 145)
+        Me.txtPayeNameCurrent.MaxLength = 15
+        Me.txtPayeNameCurrent.MendatroryField = False
+        Me.txtPayeNameCurrent.MyLinkLable1 = Me.lblpan
+        Me.txtPayeNameCurrent.MyLinkLable2 = Nothing
+        Me.txtPayeNameCurrent.Name = "txtPayeNameCurrent"
+        Me.txtPayeNameCurrent.ReferenceFieldDesc = Nothing
+        Me.txtPayeNameCurrent.ReferenceFieldName = Nothing
+        Me.txtPayeNameCurrent.ReferenceTableName = Nothing
+        Me.txtPayeNameCurrent.Size = New System.Drawing.Size(595, 18)
+        Me.txtPayeNameCurrent.TabIndex = 323
+        '
+        'lblPayeeName
+        '
+        Me.lblPayeeName.FieldName = Nothing
+        Me.lblPayeeName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPayeeName.Location = New System.Drawing.Point(5, 146)
+        Me.lblPayeeName.Name = "lblPayeeName"
+        Me.lblPayeeName.Size = New System.Drawing.Size(72, 16)
+        Me.lblPayeeName.TabIndex = 322
+        Me.lblPayeeName.Text = "Payee Name"
         '
         'lblCurrentCompanyBank
         '
@@ -5233,7 +5273,7 @@ Partial Class frmVSP_VLCMaster
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyExportAPI = False
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
@@ -5358,7 +5398,7 @@ Partial Class frmVSP_VLCMaster
         Me.ClsMyPrintDocument1.LeftMiddleText = Nothing
         Me.ClsMyPrintDocument1.LeftUpperFont = Nothing
         Me.ClsMyPrintDocument1.LeftUpperText = Nothing
-        Me.ClsMyPrintDocument1.Watermark = RadPrintWatermark1
+        Me.ClsMyPrintDocument1.Watermark = RadPrintWatermark3
         '
         'RadMenu1
         '
@@ -5442,11 +5482,10 @@ Partial Class frmVSP_VLCMaster
         Me.RadGroupBox3.PerformLayout()
         CType(Me.chkHold, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
-        Me.RadPageViewPage2.PerformLayout()
-        CType(Me.txtPayeName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblPayeeName, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbBank2Details.ResumeLayout(False)
         Me.gbBank2Details.PerformLayout()
+        CType(Me.MyLabel60, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtPayeeNameSaving, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtIFSCCode2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel26, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmbAccountType2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5468,6 +5507,8 @@ Partial Class frmVSP_VLCMaster
         CType(Me.txtCredit2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox5.ResumeLayout(False)
         Me.GroupBox5.PerformLayout()
+        CType(Me.txtPayeNameCurrent, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblPayeeName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCurrentCompanyBank, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.fndbankcode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5938,8 +5979,10 @@ Partial Class frmVSP_VLCMaster
     Friend WithEvents RadMenu1 As RadMenu
     Friend WithEvents chkIntMilkCollection As common.Controls.MyCheckBox
     Friend WithEvents lblPayeeName As common.Controls.MyLabel
-    Friend WithEvents txtPayeName As common.Controls.MyTextBox
+    Friend WithEvents txtPayeNameCurrent As common.Controls.MyTextBox
     Friend WithEvents ExportPayeeName As RadMenuItem
     Friend WithEvents ImportPayeeName As RadMenuItem
+    Friend WithEvents MyLabel60 As common.Controls.MyLabel
+    Friend WithEvents txtPayeeNameSaving As common.Controls.MyTextBox
 End Class
 

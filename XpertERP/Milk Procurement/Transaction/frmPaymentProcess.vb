@@ -167,6 +167,7 @@ Public Class FrmPaymentProcess
 
 
 
+    Public Const colPayeeJointNameSaving As String = "colPayeeJointNameSaving"
     Public Const colBankCodeSaving As String = "colBankCodeSaving"
     Public Const colBankDescSaving As String = "colBankDescSaving"
     Public Const colBankAccountNoSaving As String = "colBankAccountNoSaving"
@@ -188,6 +189,7 @@ Public Class FrmPaymentProcess
     Dim settingShowFATSNF As Boolean = False
     Dim SettShowMCCFinder As Boolean = False
     Dim ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster As Boolean = False
+    Dim PickDataFromMasterOrTransaction As Boolean = False
     Dim MultipleFinderFillAuto As Boolean = False
     Dim SettVSPHoldPaymentNotCompanyBank As Boolean = False
     Dim settTDSRoundOffAmount As Boolean = False
@@ -198,15 +200,21 @@ Public Class FrmPaymentProcess
     Public fontInstalled As Boolean = False
     Dim settNoOfDCSForDeduction As Integer = 50
     Public SettRemoveSavingDocumentWhenPayableAmtZero As Boolean = False
+    Public SettRecalculatePaymentProcessOnSave As Boolean = False
 #End Region
 
     Private Sub FrmProvisionEntry_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim coll As New Dictionary(Of String, String)()
+        coll.Add("Payee_Joint_Name_Saving", "varchar(100) NULL ")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_DETAIL", coll, Nothing, True, False, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "", True)
+
         SetUserMgmtNew()
         If objCommonVar.ApplyLocationWisePrefix Then
             pnlLocation.Visible = True
         Else
             pnlLocation.Visible = False
         End If
+        SettRecalculatePaymentProcessOnSave = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.RecalculatePaymentProcessOnSave, clsFixedParameterCode.RecalculatePaymentProcessOnSave, Nothing)) = 1)
         SettRemoveSavingDocumentWhenPayableAmtZero = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.RemoveSavingDocumentWhenPayableAmtZero, clsFixedParameterCode.RemoveSavingDocumentWhenPayableAmtZero, Nothing)) = 1)
         settNoOfDCSForDeduction = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.NoOfDCSToLoadDeductionData, clsFixedParameterCode.NoOfDCSToLoadDeductionData, Nothing))
         SetCowFatPer = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, Nothing))
@@ -217,6 +225,7 @@ Public Class FrmPaymentProcess
         PayableAmountZeroForMCCSale = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PayableAmountZeroForMCCSale, clsFixedParameterType.PayableAmountZeroForMCCSale, Nothing)) = 1, True, False)
         settingShowFATSNF = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowFATSNFinPaymentProcess, clsFixedParameterType.ShowFATSNFinPaymentProcess, Nothing)) = 1, True, False)
         ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster, clsFixedParameterCode.ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster, Nothing)) > 0, True, False)
+        PickDataFromMasterOrTransaction = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PickDataFromMasterOrTransaction, clsFixedParameterType.PickDataFromMasterOrTransaction, Nothing)) = 0, True, False)
         RadPageView1.Pages("RadPageViewPage7").Item.Visibility = IIf(isConsiderAdvancePayment, Telerik.WinControls.ElementVisibility.Visible, Telerik.WinControls.ElementVisibility.Collapsed)
         chkSkipPreviousDocumentOfAdvancePayment.Visible = isConsiderAdvancePayment
         RadPageView1.SelectedPage = RadPageViewPage1
@@ -1371,6 +1380,8 @@ Public Class FrmPaymentProcess
         gv.MasterTemplate.Columns.Add(colTextBox)
 
 
+
+
         Dim colTextBox1 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         colTextBox1.FormatString = ""
         colTextBox1.HeaderText = "Current Bank code"
@@ -1419,6 +1430,14 @@ Public Class FrmPaymentProcess
         colDate.IsVisible = True
         gv.MasterTemplate.Columns.Add(colDate)
 
+
+        colTextBox = New GridViewTextBoxColumn()
+        colTextBox.FormatString = ""
+        colTextBox.HeaderText = "Saving Payee/Joint Name"
+        colTextBox.Name = colPayeeJointNameSaving
+        colTextBox.Width = 200
+        colTextBox.ReadOnly = True
+        gv.MasterTemplate.Columns.Add(colTextBox)
 
         colTextBox1 = New GridViewTextBoxColumn()
         colTextBox1.FormatString = ""
@@ -3234,15 +3253,14 @@ where TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and TSPL_VENDOR_INVOICE_HEAD.Tr
     End Sub
 
     Private Function GetSavingDocs() As DataTable
-        Dim qry As String = "   select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,ROW_NUMBER() over(order by TSPL_VENDOR_INVOICE_HEAD.Document_No) as SNo ,TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.document_total   as Total_Amount   
-from TSPL_VENDOR_INVOICE_head   
+        Dim qry As String = "select Vendor_Code into #DCS from tspl_Vendor_master where vendor_Code in (" + clsCommon.GetMulcallString(ArrVendor) + ") ;" + Environment.NewLine
+        qry += "select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,ROW_NUMBER() over(order by TSPL_VENDOR_INVOICE_HEAD.Document_No) as SNo ,TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.document_total   as Total_Amount   
+from TSPL_VENDOR_INVOICE_HEAD   
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+inner join #DCS on #DCS.Vendor_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code  
 where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and  TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0 and coalesce(refDocType,'') not in ('Milk_HE','Milk_OW','V_I_Issue_Return','COM-INC')  "
-        Dim whrCls As String = " and not exists(select 1 from TSPL_PAYMENT_PROCESS_SAVING  where TSPL_PAYMENT_PROCESS_SAVING.AP_Invoice_No=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_PAYMENT_PROCESS_SAVING.doc_no not in ('" + fndDocNo.Value + "')) "
-        If clsCommon.myLen(strVendorCode) <= 0 Then
-        Else
-            whrCls += " and TSPL_VENDOR_INVOICE_HEAD.Vendor_Code  in ( " & strVendorCode & ")   and  coalesce(Posting_Date,'')<>''"
-        End If
+        Dim whrCls As String = " and not exists(select 1 from TSPL_PAYMENT_PROCESS_SAVING  where TSPL_PAYMENT_PROCESS_SAVING.AP_Invoice_No=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_PAYMENT_PROCESS_SAVING.doc_no not in ('" + fndDocNo.Value + "'))  and  coalesce(Posting_Date,'')<>''"
+
         If MultipleFinderFillAuto Then
             Dim dtSeg As DataTable = clsDBFuncationality.GetDataTable(" select distinct Loc_Segment_Code from TSPL_LOCATION_MASTER where location_code in (" + clsCommon.GetMulcallString(mfndMcc.arrValueMember) + ") ")
             If dtSeg IsNot Nothing AndAlso dtSeg.Rows.Count > 0 Then
@@ -3431,7 +3449,7 @@ inner join TSPL_Customer_Invoice_Head on   TSPL_Customer_Invoice_Head.against_Mc
 left outer join TSPL_VENDOR_MASTER   on  TSPL_VENDOR_MASTER .Vendor_code  =TSPL_CUSTOMER_VENDOR_MAPPING.vendor_code   
 left outer join  TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No   
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_CUSTOMER_VENDOR_MAPPING.vendor_code
-where TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC' 
+where TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC' and isnull(TSPL_SD_SHIPMENT_HEAD.Is_CashSale,'N')='N'
 and " & IIf(ChkSkipMccSaleReturn.Checked, " convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) between '" & clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") & "' and 
 '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'", " convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= 
 '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'") & "   and 
@@ -3804,6 +3822,8 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
     End Sub
 
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
+        ''gvMccSale.CurrentColumn = gvMccSale.Columns(colReduceDeduc)
+        ''gvMccSale.CurrentRow = gvMccSale.Rows(0)
         clsERPFuncationality.closeForm(Me)
     End Sub
 
@@ -3981,6 +4001,18 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             If gv.Rows.Count <= 0 OrElse gv Is Nothing Then
                 Throw New Exception("Please select atleast one document")
             End If
+
+
+            If SettRecalculatePaymentProcessOnSave Then
+                gvMccSale.MasterTemplate.FilterDescriptors.Clear()
+                gvMccSale.MasterTemplate.SortDescriptors.Clear()
+                gvDeduction.MasterTemplate.FilterDescriptors.Clear()
+                gvDeduction.MasterTemplate.SortDescriptors.Clear()
+
+                loadGvData()
+            End If
+
+
             '' done by Panch Raj against ticket no:BM00000008937
             '' unselect mcc sale trans for unseleceted vendor 
             Dim IsInvalidVendor As Boolean
@@ -4592,6 +4624,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                         objPPDetail.Cheque_No = clsCommon.myCstr(gv.Rows(i).Cells(colChequeNo).Value)
 
 
+                        objPPDetail.Payee_Joint_Name_Saving = clsCommon.myCstr(gv.Rows(i).Cells(colPayeeJointNameSaving).Value)
                         objPPDetail.Bank_Code_Saving = clsCommon.myCstr(gv.Rows(i).Cells(colBankCodeSaving).Value)
                         objPPDetail.Bank_Desc_Saving = clsCommon.myCstr(gv.Rows(i).Cells(colBankDescSaving).Value)
                         objPPDetail.Payment_Mode_Saving = clsCommon.myCstr(gv.Rows(i).Cells(colPayModeSaving).Value)
@@ -5066,6 +5099,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                     gv.Columns(colPayMode).FieldName = "Payment_Mode"
                     gv.Columns(colChequeNo).FieldName = "Cheque_No"
                     gv.Columns(colChequeDate).FieldName = "Cheque_Dated"
+                    gv.Columns(colPayeeJointNameSaving).FieldName = "Payee_Joint_Name_Saving"
                     gv.Columns(colBankCodeSaving).FieldName = "Bank_Code_Saving"
                     gv.Columns(colBankDescSaving).FieldName = "Bank_Desc_Saving"
                     gv.Columns(colBankAccountNoSaving).FieldName = "Bank_Account_No_Saving"
@@ -5552,8 +5586,12 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 gvMccSale.CurrentRow = gvMccSale.Rows(jj)
                 gvMccSale.Rows(jj).Cells(colReduceDeduc).Value = 0
             Next
+            For jj As Integer = gvDeduction.Rows.Count - 1 To 0 Step -1
+                gvDeduction.CurrentColumn = gvDeduction.Columns(colReduceDeduc)
+                gvDeduction.CurrentRow = gvDeduction.Rows(jj)
+                gvDeduction.Rows(jj).Cells(colReduceDeduc).Value = 0
+            Next
         End If
-
 
         Dim k As Integer = -1
         Dim VendCustCode As String = ""
@@ -5663,7 +5701,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 CalculateAdvanceKnockOff(k)
 
                 If SettVSPHoldPaymentNotCompanyBank Then
-                    Dim qry As String = "select TSPL_VENDOR_MASTER.Company_Bank_Current,TSPL_BANK_MASTER_CURRENT.DESCRIPTION as DESCRIPTION_Current,TSPL_VENDOR_MASTER.Company_Bank,TSPL_BANK_MASTER_SAVING.DESCRIPTION as DESCRIPTION_Saving ,TSPL_VENDOR_MASTER.AccNo2 as AccountNo_Saving
+                    Dim qry As String = "select TSPL_VENDOR_MASTER.Company_Bank_Current,TSPL_BANK_MASTER_CURRENT.DESCRIPTION as DESCRIPTION_Current,TSPL_VENDOR_MASTER.Company_Bank,TSPL_BANK_MASTER_SAVING.DESCRIPTION as DESCRIPTION_Saving ,TSPL_VENDOR_MASTER.AccNo2 as AccountNo_Saving,TSPL_VENDOR_MASTER.Saving_Payee_Name
 from TSPL_VENDOR_MASTER 
 left outer join TSPL_BANK_MASTER as TSPL_BANK_MASTER_CURRENT on TSPL_BANK_MASTER_CURRENT.BANK_CODE=TSPL_VENDOR_MASTER.Company_Bank_Current
 left outer join TSPL_BANK_MASTER as TSPL_BANK_MASTER_SAVING on TSPL_BANK_MASTER_SAVING.BANK_CODE=TSPL_VENDOR_MASTER.Company_Bank 
@@ -5679,6 +5717,7 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
                         End If
 
                         If clsCommon.myLen(dt.Rows(0)("Company_Bank")) > 0 Then
+                            gv.Rows(i).Cells(colPayeeJointNameSaving).Value = clsCommon.myCstr(dt.Rows(0)("Saving_Payee_Name"))
                             gv.Rows(i).Cells(colBankCodeSaving).Value = clsCommon.myCstr(dt.Rows(0)("Company_Bank"))
                             gv.Rows(i).Cells(colBankDescSaving).Value = clsCommon.myCstr(dt.Rows(0)("DESCRIPTION_Saving"))
                             gv.Rows(i).Cells(colBankAccountNoSaving).Value = clsCommon.myCstr(dt.Rows(0)("AccountNo_Saving"))
@@ -6127,7 +6166,7 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
                     gvInvoice.Rows(Rownum).Cells(colReduceDeduc).Value = getTotalDeductionReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value) + getTotalMccSaleReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value) + getTotalItemIssueReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value)
                     If rownummain <> -1 Then
                         gv.Rows(rownummain).Cells(colReduceDeduc).Value = gvInvoice.Rows(Rownum).Cells(colReduceDeduc).Value
-                        gv.Rows(rownummain).Cells(colPaybleAmt).Value = (((gv.Rows(rownummain).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value - gv.Rows(rownummain).Cells(colTDSAmt).Value + gv.Rows(rownummain).Cells(colTotalCreditNoteAmount).Value + gv.Rows(rownummain).Cells(colVSPOwnSystemAmt).Value + gv.Rows(rownummain).Cells(colHeadLoadAmt).Value) - gv.Rows(rownummain).Cells(colInvDeduc).Value) - (getTotalDeductionSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalItemIssueSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalMccSaleSum(gv.Rows(rownummain).Cells(colVendorCode).Value))) + clsCommon.myCDecimal(gv.Rows(rownummain).Cells(colReduceDeduc).Value) + getTotalItemIssueReturnSum(gv.Rows(rownummain).Cells(colVendorCode).Value)
+                        gv.Rows(rownummain).Cells(colPaybleAmt).Value = (((gv.Rows(rownummain).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value - gv.Rows(rownummain).Cells(colTDSAmt).Value + gv.Rows(rownummain).Cells(colTotalCreditNoteAmount).Value + gv.Rows(rownummain).Cells(colVSPOwnSystemAmt).Value + gv.Rows(rownummain).Cells(colHeadLoadAmt).Value) - gv.Rows(rownummain).Cells(colInvDeduc).Value) - (getTotalDeductionSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalItemIssueSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalMccSaleSum(gv.Rows(rownummain).Cells(colVendorCode).Value))) + clsCommon.myCDecimal(gv.Rows(rownummain).Cells(colReduceDeduc).Value) + getTotalItemIssueReturnSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalMccSaleReturnSum(gv.Rows(rownummain).Cells(colVendorCode).Value)
                         CalculateAdvanceKnockOff(rownummain)
                         AddCompularyAmtInPaybleAmount(rownummain)
                     End If
@@ -6136,6 +6175,10 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
             End Try
         ElseIf e.Column Is gvMccSale.Columns(colSelect) Then
             If Not isLoad Then
+                If gvMccSale.Rows.Count > 0 Then
+                    gvMccSale.CurrentRow = gvMccSale.Rows(0)
+                End If
+
                 isLoad = True
                 loadGvData()
                 isLoad = False
@@ -9190,4 +9233,6 @@ where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='" + fndDocNo.Value + "' and TSPL_MILK_
             Throw New Exception(ex.Message)
         End Try
     End Sub
+
+
 End Class

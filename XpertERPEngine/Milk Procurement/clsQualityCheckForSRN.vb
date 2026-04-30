@@ -4,7 +4,7 @@ Public Class clsQualityCheckForSRNHead
 #Region "variables"
     Public Document_Code As String = Nothing
     Public partial_rejected As Int16 = 0
-    Public Document_Date As Date = Nothing
+    Public Document_Date As DateTime = Nothing
     Public Description As String = Nothing
     Public Vendor_Code As String = Nothing
     Public Vendor_Name As String = Nothing
@@ -443,7 +443,7 @@ Public Class clsQualityCheckForSRNHead
     End Function
     Public Shared Function Getfinder(ByVal whrCls As String, ByVal strCurrCode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
-        Dim qry As String = "select TSPL_QC_CHECK_HEAD.document_code as [Code],TSPL_QC_CHECK_HEAD.document_date as [Document Date],TSPL_QC_CHECK_HEAD.qc_type as [QC Type],TSPL_QC_CHECK_HEAD.Description,(case when TSPL_QC_CHECK_HEAD.posted=1 then 'Posted' else 'Unposted' end) as Posted,TSPL_QC_CHECK_HEAD.vendor_code as [Vendor],tspl_vendor_master.vendor_name as [Vendor Name],tspl_location_master.location_desc as [Bill to Location],TSPL_QC_CHECK_HEAD.qc_status as [QC Status],stuff((select distinct  ',' + TSPL_QC_CHECK_DETAIL.MRN_No  from TSPL_QC_CHECK_DETAIL where TSPL_QC_CHECK_DETAIL.Document_Code = TSPL_QC_CHECK_HEAD.Document_Code    for xml path('')  ),1,1,'') [MRN No] 
+        Dim qry As String = "select TSPL_QC_CHECK_HEAD.document_code as [Code],FORMAT(CAST(TSPL_QC_CHECK_HEAD.document_date AS DATETIME),'dd/MM/yyyy hh:mm tt')  as [Document Date],TSPL_QC_CHECK_HEAD.qc_type as [QC Type],TSPL_QC_CHECK_HEAD.Description,(case when TSPL_QC_CHECK_HEAD.posted=1 then 'Posted' else 'Unposted' end) as Posted,TSPL_QC_CHECK_HEAD.vendor_code as [Vendor],tspl_vendor_master.vendor_name as [Vendor Name],tspl_location_master.location_desc as [Bill to Location],TSPL_QC_CHECK_HEAD.qc_status as [QC Status],stuff((select distinct  ',' + TSPL_QC_CHECK_DETAIL.MRN_No  from TSPL_QC_CHECK_DETAIL where TSPL_QC_CHECK_DETAIL.Document_Code = TSPL_QC_CHECK_HEAD.Document_Code    for xml path('')  ),1,1,'') [MRN No] 
                             ,stuff((select distinct  ',' + TSPL_MRN_Head.VehicleNo from TSPL_QC_CHECK_DETAIL
                             LEFT JOIN TSPL_MRN_Head ON TSPL_MRN_Head.MRN_NO=TSPL_QC_CHECK_DETAIL.MRN_NO
                             where TSPL_QC_CHECK_DETAIL.Document_Code = TSPL_QC_CHECK_HEAD.Document_Code    for xml path('')  ),1,1,'') [VehicleNo] 
@@ -503,7 +503,12 @@ Public Class clsQualityCheckForSRNHead
             clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
             clsCommon.AddColumnsForChange(coll, "QC_Type", obj.QC_Type)
             clsCommon.AddColumnsForChange(coll, "Document_Code", obj.Document_Code)
-            clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy"))
+            Dim ServerTime As DateTime = Nothing
+            If isNewEntry Then
+                ServerTime = clsCommon.GETSERVERDATE(trans)
+                obj.Document_Date = New DateTime(obj.Document_Date.Year, obj.Document_Date.Month, obj.Document_Date.Day, ServerTime.Hour, ServerTime.Minute, ServerTime.Second)
+            End If
+            clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
             clsCommon.AddColumnsForChange(coll, "Vendor_Code", obj.Vendor_Code, True)
             clsCommon.AddColumnsForChange(coll, "Bill_To_location", obj.Bill_To_location, True)

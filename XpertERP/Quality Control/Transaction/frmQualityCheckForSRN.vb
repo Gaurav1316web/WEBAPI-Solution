@@ -879,11 +879,34 @@ Public Class FrmQualityCheckForSRN
             Dim countr1 As Integer = 0
             Dim countr2 As Integer = 0
             Dim qc_status As String = Nothing
+            Dim MRN As String = Nothing
             For Each grow As GridViewRowInfo In gv.Rows
                 icode = clsCommon.myCstr(grow.Cells(colItemCode).Value)
                 qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
                 qc_status = clsCommon.myCstr(grow.Cells(colQualityStatus).Value)
+                MRN = clsCommon.myCstr(grow.Cells(colMRNNo).Value)
                 netqty = clsCommon.myCdbl(grow.Cells(colOkQty).Value) + clsCommon.myCdbl(grow.Cells(colRejQty).Value)
+
+                Dim qry As String = " Select Document_Date from TSPL_NIR_QC where MRN_No = '" + MRN + "' "
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+
+                If dt.Rows.Count > 0 Then
+                    Dim qry1 As String = " Select SRN_Date from TSPL_SRN_HEAD where Against_MRN = '" + MRN + "' "
+                    Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry1)
+                    Dim sTARTdate As DateTime = clsCommon.GetPrintDate(clsCommon.myCDate(dt1.Rows(0)("SRN_Date"), "dd/MMM/yyyy"))
+                    Dim DocDate As DateTime = clsCommon.GetPrintDate(clsCommon.myCDate(dtpDate.Value), "dd/MMM/yyyy")
+                    If DocDate < sTARTdate Then
+                        Throw New Exception(" Incoming Quality Entry Document Date Cannot Be Less Then SRN Date ")
+                    End If
+                Else
+                    Dim qry1 As String = " Select MRN_Date from TSPL_MRN_HEAD where MRN_No  = '" + MRN + "' "
+                    Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry1)
+                    Dim sTARTdate As DateTime = clsCommon.GetPrintDate(clsCommon.myCDate(dt1.Rows(0)("MRN_Date"), "dd/MMM/yyyy"))
+                    Dim DocDate As DateTime = clsCommon.GetPrintDate(clsCommon.myCDate(dtpDate.Value), "dd/MMM/yyyy")
+                    If DocDate < sTARTdate Then
+                        Throw New Exception(" Incoming Quality Entry Document Date Cannot Be Less Then MRN Date ")
+                    End If
+                End If
 
                 If clsCommon.myLen(icode) > 0 Then
                     If Not arr.Contains(icode) Then
@@ -942,7 +965,7 @@ Public Class FrmQualityCheckForSRN
             If AllowToSave() Then 'False
                 obj.Document_Code = clsCommon.myCstr(txtDocNo.Value)
                 obj.QC_Type = QC_Type
-                obj.Document_Date = clsCommon.myCDate(dtpDate.Text)
+                obj.Document_Date = (dtpDate.Value)
                 obj.Description = clsCommon.myCstr(txtDesc.Text)
                 obj.Vendor_Code = clsCommon.myCstr(fndVendor_code.Value)
                 obj.Bill_To_location = clsCommon.myCstr(txtBillToLocation.Value)

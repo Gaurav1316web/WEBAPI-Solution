@@ -7,6 +7,7 @@ Public Class clsGateOutt
     Public docDate As DateTime?
     Public Vendor_Desc As String = Nothing
     Public GRN_code As String = Nothing
+    Public SRN_code As String = Nothing
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
     Public Description As String = Nothing
     Public Remarks As String = Nothing
@@ -25,7 +26,8 @@ Public Class clsGateOutt
             Try
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Date", clsCommon.GetPrintDate(obj.docDate, "dd/MMM/yyyy hh:mm tt"))
-                clsCommon.AddColumnsForChange(coll, "GRN_Code", obj.GRN_code)
+                clsCommon.AddColumnsForChange(coll, "GRN_Code", obj.GRN_code, True)
+                clsCommon.AddColumnsForChange(coll, "SRN_Code", obj.SRN_code, True)
                 clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
                 clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
                 clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
@@ -76,6 +78,7 @@ Public Class clsGateOutt
             obj.Code = clsCommon.myCstr(dt.Rows(0)("Code"))
             obj.docDate = clsCommon.myCDate(dt.Rows(0)("Date"))
             obj.GRN_code = clsCommon.myCstr(dt.Rows(0)("GRN_code"))
+            obj.SRN_code = clsCommon.myCstr(dt.Rows(0)("SRN_code"))
             obj.Description = clsCommon.myCstr(dt.Rows(0)("Description"))
             obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
             If clsCommon.myCDecimal(dt.Rows(0)("Status")) = 1 Then

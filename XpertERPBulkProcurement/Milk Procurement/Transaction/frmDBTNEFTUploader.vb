@@ -672,9 +672,14 @@ where 2=2 "
                     gvItem.DataSource = Nothing
                     gvFarmer.DataSource = Nothing
                     gvInvalid.DataSource = Nothing
+                    gvHold.DataSource = Nothing
                 End If
 
                 If flag Then
+                    gvItem.DataSource = Nothing
+                    gvFarmer.DataSource = Nothing
+                    gvInvalid.DataSource = Nothing
+                    gvHold.DataSource = Nothing
                     'loadBlankGrid()
                     gvItem.DataSource = Nothing
                     Dim isDataFound As Boolean = False
@@ -798,7 +803,7 @@ left outer join TSPL_DBT_CAPING_DETAIL on TSPL_DBT_CAPING_DETAIL.Document_Code=T
     left outer join tspl_MCC_Master on tspl_MCC_Master.MCC_Code=TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code
     where 2=2 "
         If SettDCSMPIncetiveReco Then
-            BaseQry += " and TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Status=1 and TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.PK_Id is not null 
+            BaseQry += " and isnull(TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Status,0)=1 and TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.PK_Id is not null 
 and 2=(case when ISNULL(TSPL_DCS_MP_INCENTIVE_RECO_HEAD.DBT_Capping_Apply,0)=1 then ((case when ISNULL(TSPL_DBT_CAPING_DETAIL.Capping_Status,0)=1 then 2 else 3 end)) else 2 end)"
         End If
         If Not isCheckOnly Then
@@ -816,8 +821,8 @@ and 2=(case when ISNULL(TSPL_DCS_MP_INCENTIVE_RECO_HEAD.DBT_Capping_Apply,0)=1 t
             BaseQry += "  and TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code in (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ") "
         End If
         BaseQry += " and  TSPL_MP_INCENTIVE_ENTRY_HEAD.To_Date <='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' 
-    and not exists(select 1 from TSPL_DBT_NEFT_DETAIL where TSPL_DBT_NEFT_DETAIL.Document_Code not in ('" + txtDocumentNo.Value + "') and TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR=TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id
-    and not exists(select 1 from TSPL_DBT_NEFT_REJECT_DETAIL left outer join TSPL_DBT_NEFT_REJECT on TSPL_DBT_NEFT_REJECT.Document_Code=TSPL_DBT_NEFT_REJECT_DETAIL.Document_Code where TSPL_DBT_NEFT_REJECT_DETAIL.Against_DBT_NEFT_TR=TSPL_DBT_NEFT_DETAIL.PK_Id and TSPL_DBT_NEFT_REJECT.Status=1))"
+        and not exists(select 1 from TSPL_DBT_NEFT_DETAIL where TSPL_DBT_NEFT_DETAIL.Document_Code <> '" + txtDocumentNo.Value + "' and TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR=TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id
+        and not exists(select 1 from TSPL_DBT_NEFT_REJECT_DETAIL inner join TSPL_DBT_NEFT_REJECT on TSPL_DBT_NEFT_REJECT.Document_Code=TSPL_DBT_NEFT_REJECT_DETAIL.Document_Code where TSPL_DBT_NEFT_REJECT_DETAIL.Against_DBT_NEFT_TR=TSPL_DBT_NEFT_DETAIL.PK_Id and TSPL_DBT_NEFT_REJECT.Status=1))"
         Dim strMain As String = ""
         If isCheckOnly Then
             Dim tempQty As String = "With CTE as ( " + BaseQry + ")
@@ -825,42 +830,41 @@ update TSPL_MP_INCENTIVE_ENTRY_DETAIL set  Mark_Invalid = 0 where PK_Id in (sele
             clsDBFuncationality.ExecuteNonQuery(tempQty)
 
             tempQty = "With CTE as ( " + BaseQry + ")
-update TSPL_MP_INCENTIVE_ENTRY_DETAIL set  Mark_Invalid = 1  from (
-select CTE.PK_Id from CTE
-inner join ( select  Payee_Joint_Account_No from  CTE  group by  Payee_Joint_Account_No having sum(1)>1 )x on x.Payee_Joint_Account_No=CTE.Payee_Joint_Account_No
-)xxx inner join TSPL_MP_INCENTIVE_ENTRY_DETAIL on TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=xxx.PK_Id
-where TSPL_MP_INCENTIVE_ENTRY_DETAIL.Mark_Invalid = 0;"
+UPDATE TSPL_MP_INCENTIVE_ENTRY_DETAIL SET Mark_Invalid = 1 FROM ( 
+SELECT  PK_Id, COUNT(*) OVER (PARTITION BY Payee_Joint_Account_No) AS cnt FROM CTE 
+) c INNER JOIN TSPL_MP_INCENTIVE_ENTRY_DETAIL  ON TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id = c.PK_Id 
+WHERE c.cnt > 1 AND TSPL_MP_INCENTIVE_ENTRY_DETAIL.Mark_Invalid= 0;"
             clsDBFuncationality.ExecuteNonQuery(tempQty)
 
             tempQty = "With CTE as ( " + BaseQry + ")
-update TSPL_MP_INCENTIVE_ENTRY_DETAIL set  Mark_Invalid = 2 where PK_Id in (select PK_Id from CTE where dbo.RemoveExtraSpaces(UPPER(dbo.RemoveSpecialCharactersWithNumber(Payee_Joint_Name))) <> Payee_Joint_Name)
-and TSPL_MP_INCENTIVE_ENTRY_DETAIL.Mark_Invalid = 0;"
+SELECT  PK_Id, Payee_Joint_Name, dbo.RemoveExtraSpaces( UPPER(dbo.RemoveSpecialCharactersWithNumber(Payee_Joint_Name)) ) AS CleanName INTO #TempCTE FROM CTE;
+
+UPDATE TSPL_MP_INCENTIVE_ENTRY_DETAIL SET Mark_Invalid = 2 FROM TSPL_MP_INCENTIVE_ENTRY_DETAIL INNER JOIN #TempCTE c  ON TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id = c.PK_Id
+WHERE c.CleanName <> c.Payee_Joint_Name AND TSPL_MP_INCENTIVE_ENTRY_DETAIL.Mark_Invalid = 0;"
             clsDBFuncationality.ExecuteNonQuery(tempQty)
 
             tempQty = "With CTE as ( " + BaseQry + ")
-update TSPL_MP_INCENTIVE_ENTRY_DETAIL set  Mark_Invalid = 3  from (
- (select PK_Id from CTE where dbo.GetNumbersOnly(Payee_Joint_Account_No) <> Payee_Joint_Account_No )
- )xxx inner join TSPL_MP_INCENTIVE_ENTRY_DETAIL on TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=xxx.PK_Id
-where TSPL_MP_INCENTIVE_ENTRY_DETAIL.Mark_Invalid = 0;"
+SELECT  PK_Id, Payee_Joint_Account_No, dbo.GetNumbersOnly(Payee_Joint_Account_No) AS CleanAccNo 
+INTO #TempCTE FROM CTE;
+
+UPDATE TSPL_MP_INCENTIVE_ENTRY_DETAIL SET Mark_Invalid = 3 FROM TSPL_MP_INCENTIVE_ENTRY_DETAIL INNER JOIN #TempCTE c  ON TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id = c.PK_Id 
+WHERE TSPL_MP_INCENTIVE_ENTRY_DETAIL.Mark_Invalid = 0 AND c.CleanAccNo <> c.Payee_Joint_Account_No;"
             clsDBFuncationality.ExecuteNonQuery(tempQty)
 
             tempQty = "With CTE as ( " + BaseQry + ")
-update TSPL_MP_INCENTIVE_ENTRY_DETAIL set  Mark_Invalid = 4  from (
- (select PK_Id from CTE  
-left outer join TSPL_MASTER.dbo.TSPL_IFSC on TSPL_MASTER.dbo.TSPL_IFSC.IFSC=CTE.Payee_Joint_IFSC_Code
-where TSPL_MASTER.dbo.TSPL_IFSC.IFSC is null  )
- )xxx inner join TSPL_MP_INCENTIVE_ENTRY_DETAIL on TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=xxx.PK_Id
-where TSPL_MP_INCENTIVE_ENTRY_DETAIL.Mark_Invalid = 0 ;"
+UPDATE TSPL_MP_INCENTIVE_ENTRY_DETAIL SET Mark_Invalid = 4 FROM TSPL_MP_INCENTIVE_ENTRY_DETAIL JOIN CTE c  ON TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id = c.PK_Id 
+WHERE TSPL_MP_INCENTIVE_ENTRY_DETAIL.Mark_Invalid = 0 AND NOT EXISTS ( SELECT 1 FROM TSPL_MASTER.dbo.TSPL_IFSC i WHERE i.IFSC = c.Payee_Joint_IFSC_Code );"
             clsDBFuncationality.ExecuteNonQuery(tempQty)
 
             tempQty = "With CTE as ( " + BaseQry + ")
-update TSPL_MP_INCENTIVE_ENTRY_DETAIL set  Mark_Invalid = 5  from (
-(select PK_Id from CTE 
-left outer join TSPL_MASTER.dbo.TSPL_IFSC on TSPL_MASTER.dbo.TSPL_IFSC.IFSC=CTE.Payee_Joint_IFSC_Code
-left outer join TSPL_MASTER.dbo.IFSC_BANK_LENGTH on TSPL_MASTER.dbo.IFSC_BANK_LENGTH.BANK=TSPL_MASTER.dbo.TSPL_IFSC.BANK
-where TSPL_MASTER.dbo.IFSC_BANK_LENGTH.BANK is null or len(isnull(CTE.Payee_Joint_Account_No,''))<TSPL_MASTER.dbo.IFSC_BANK_LENGTH.MinLength or len(isnull(CTE.Payee_Joint_Account_No,''))>TSPL_MASTER.dbo.IFSC_BANK_LENGTH.MaxLength  )
-)xxx inner join TSPL_MP_INCENTIVE_ENTRY_DETAIL on TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=xxx.PK_Id
-where TSPL_MP_INCENTIVE_ENTRY_DETAIL.Mark_Invalid = 0;"
+SELECT  PK_Id, Payee_Joint_IFSC_Code, LEN(ISNULL(Payee_Joint_Account_No, '')) AS AccLen
+INTO #TempCTE FROM CTE;
+
+UPDATE TSPL_MP_INCENTIVE_ENTRY_DETAIL SET Mark_Invalid = 5 FROM TSPL_MP_INCENTIVE_ENTRY_DETAIL
+JOIN #TempCTE c  ON TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id = c.PK_Id 
+LEFT JOIN TSPL_MASTER.dbo.TSPL_IFSC i  ON i.IFSC = c.Payee_Joint_IFSC_Code
+LEFT JOIN TSPL_MASTER.dbo.IFSC_BANK_LENGTH bl  ON bl.BANK = i.BANK
+WHERE TSPL_MP_INCENTIVE_ENTRY_DETAIL.Mark_Invalid = 0 AND ( bl.BANK IS NULL OR c.AccLen < bl.MinLength OR c.AccLen > bl.MaxLength );"
             clsDBFuncationality.ExecuteNonQuery(tempQty)
 
             strMain = "With CTE as ( " + BaseQry + ")

@@ -354,7 +354,7 @@ Public Class rptSalesReport
 
             ElseIf rbnPricegroup.Checked AndAlso rdbDispatch.IsChecked = True Then
                 If Not PCGroup Then
-                    qry = "   Select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,MONTH(convert(date,Document_Date,103)) AS MonthNumber,max(Location)Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate,
+                    qry = "   Select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,FORMAT(CONVERT(date, Document_Date, 103), 'yyyy-MM') AS MonthNumber,max(Location)Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate,
                           '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,max([Location Description])[Location Description],max(Add1)Add1,max(Add4)Add4,
                            (Document_Date)Document_Date," & itemNames4 & ",Sum([Total Sale])[Total Sale],sum([Total BagSale])[Total BagSale]
                           from (SELECT  Location,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date,
@@ -426,13 +426,13 @@ Public Class rptSalesReport
 
                 qry += " group by convert (date,TSPL_SCRAPSALE_HEAD.shipment_Date,103),price_CodeNon,Loc_Code )XX GROUP BY xx.Document_Date,XX.price_CodeNon,XX.Location )Tab1 "
                 If Not PCGroup Then
-                    qry += "   PIVOT (SUM(Quantity) FOR price_CodeNon IN (" & itemNames1 & "))AS Tab2 PIVOT (SUM(QuantityBag) FOR price_CodeNonBag IN (" & itemPivBagName & " ))AS PivBag )tmp group by Document_Date ,Location order by Document_Date    "
+                    qry += "   PIVOT (SUM(Quantity) FOR price_CodeNon IN (" & itemNames1 & "))AS Tab2 PIVOT (SUM(QuantityBag) FOR price_CodeNonBag IN (" & itemPivBagName & " ))AS PivBag )tmp group by Document_Date ,Location order by MonthNumber,Document_Date    "
                 End If
 
             ElseIf rbnPricegroup.Checked AndAlso rdbInvoice.IsChecked = True Then
 
                 If Not PCGroup Then
-                    qry = "   Select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,MONTH(convert(date,Document_Date,103)) AS MonthNumber,max(Location)Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate,
+                    qry = "   Select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,FORMAT(CONVERT(date, Document_Date, 103), 'yyyy-MM') AS MonthNumber,max(Location)Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate,
                           '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,max([Location Description])[Location Description],max(Add1)Add1,max(Add4)Add4,
                            (Document_Date)Document_Date," & itemNames4 & ",Sum([Total Sale])[Total Sale],sum([Total BagSale])[Total BagSale]
                           from (SELECT  Location,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date,
@@ -505,13 +505,13 @@ Public Class rptSalesReport
 
                 qry += " group by convert (date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103),price_CodeNon,Loc_Code )XX GROUP BY xx.Document_Date,XX.price_CodeNon,XX.Location )Tab1 "
                 If Not PCGroup Then
-                    qry += " PIVOT (SUM(Quantity) FOR price_CodeNon IN (" & itemNames1 & "))AS Tab2 PIVOT (SUM(QuantityBag) FOR price_CodeNonBag IN (" & itemPivBagName & " ))AS PivBag  )tmp group by Document_Date ,Location order by Document_Date    "
+                    qry += " PIVOT (SUM(Quantity) FOR price_CodeNon IN (" & itemNames1 & "))AS Tab2 PIVOT (SUM(QuantityBag) FOR price_CodeNonBag IN (" & itemPivBagName & " ))AS PivBag  )tmp group by Document_Date ,Location order by MonthNumber,Document_Date    "
                 End If
 
 
             ElseIf rbnPricegroup.Checked AndAlso rdbSaleReturn.IsChecked = True Then
                     If Not PCGroup Then
-                    qry = "   Select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,MONTH(convert(date,Document_Date,103)) AS MonthNumber,max(Location)Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate,
+                    qry = "   Select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,FORMAT(CONVERT(date, Document_Date, 103), 'yyyy-MM') AS MonthNumber,max(Location)Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate,
                           '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,max([Location Description])[Location Description],max(Add1)Add1,max(Add4)Add4,
                            (Document_Date)Document_Date," & itemNames4 & ",Sum([Total Sale])[Total Sale],sum([Total BagSale])[Total BagSale]
                           from (SELECT  Location,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date,
@@ -578,7 +578,7 @@ SELECT TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code,max(TSPL_LOCATION_MASTER.Location_Des
                 qry += " group by convert (date,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103),price_CodeNon,Loc_Code)XX  GROUP BY xx.Document_Date,XX.price_CodeNon,XX.Location
 )Tab1 "
                     If Not PCGroup Then
-                    qry += "  PIVOT (SUM(Quantity) FOR price_CodeNon IN (" & itemNames1 & "))AS Tab2 PIVOT (SUM(QuantityBag) FOR price_CodeNonBag IN (" & itemPivBagName & " ))AS PivBag  )tmp group by Document_Date ,Location order by Document_Date    "
+                    qry += "  PIVOT (SUM(Quantity) FOR price_CodeNon IN (" & itemNames1 & "))AS Tab2 PIVOT (SUM(QuantityBag) FOR price_CodeNonBag IN (" & itemPivBagName & " ))AS PivBag  )tmp group by Document_Date ,Location order by MonthNumber,Document_Date    "
                 End If
 
 
@@ -772,7 +772,7 @@ PIVOT (SUM(QuantityBag) FOR Cust_Group_CodeBag IN (" & itemPivBagName & ")) as P
 
                 ElseIf rbnCustgroup.Checked AndAlso rdbDispatch.IsChecked = True Then
                     If Not PCGroup Then
-                        qry = "Select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,MONTH(convert(date,Document_Date,103)) AS MonthNumber,
+                        qry = "Select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,FORMAT(CONVERT(date, Document_Date, 103), 'yyyy-MM') AS MonthNumber,
 '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'as ToDate,
 Location,max([Location Description])[Location Description],max(Add1)Add1,max(Add4)Add4,
                            (Document_Date)Document_Date, " & itemNames4 & ",Sum([Total Sale])[Total Sale],sum([Total BagSale])[Total BagSale] from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'as ToDate,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date," & itemNames2 & ",
@@ -848,12 +848,12 @@ Location,max([Location Description])[Location Description],max(Add1)Add1,max(Add
                         qry += "  PIVOT (SUM(Quantity) FOR Cust_Group_Code IN (" & itemNames1 & "))AS Tab2
 PIVOT (SUM(QuantityBag) FOR Cust_Group_CodeBag IN (" & itemPivBagName & ")) as PivBag
 )tmp 
-group by Document_Date ,Location order by Document_Date   "
+group by Document_Date ,Location order by MonthNumber,Document_Date   "
                     End If
 
                 ElseIf rbnCustgroup.Checked AndAlso rdbInvoice.IsChecked = True Then
                     If Not PCGroup Then
-                        qry = " Select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,MONTH(convert(date,Document_Date,103)) AS MonthNumber,
+                        qry = " Select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,FORMAT(CONVERT(date, Document_Date, 103), 'yyyy-MM') AS MonthNumber,
 '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'as ToDate,
 Location,max([Location Description])[Location Description],max(Add1)Add1,max(Add4)Add4,
                            (Document_Date)Document_Date, " & itemNames4 & ",Sum([Total Sale])[Total Sale],sum([Total BagSale])[Total BagSale]
@@ -929,7 +929,7 @@ from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Loca
                         qry += "         PIVOT (SUM(Quantity) FOR Cust_Group_Code IN (" & itemNames1 & "))AS Tab2
 PIVOT (SUM(QuantityBag) FOR Cust_Group_CodeBag IN (" & itemPivBagName & ")) as PivBag
 )tmp 
-group by Document_Date ,Location order by Document_Date   "
+group by Document_Date ,Location order by MonthNumber,Document_Date   "
                     End If
 
 

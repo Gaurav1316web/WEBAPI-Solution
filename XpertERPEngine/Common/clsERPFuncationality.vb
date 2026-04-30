@@ -299,7 +299,7 @@ Public Class clsERPFuncationalityOLD
 
             '' Sequence MasterTable column 
             Dim Masteryqry As String = ""
-            Masteryqry = "  SELECT  c.name + ' as [' +  REPLACE( c.name ,'_',' ' ) +']' as Name " ' REPLACE( c.name ,'_',' ' ) as Name
+            Masteryqry = "  SELECT  '['+ c.name +']' + ' as [' +  REPLACE( c.name ,'_',' ' ) +']' as Name " ' REPLACE( c.name ,'_',' ' ) as Name
             Masteryqry += " FROM " & objCommonVar.CurrDatabase & ".sys.tables t"
             Masteryqry += " INNER JOIN " & objCommonVar.CurrDatabase & ".sys.all_columns c "
             Masteryqry += "  ON t.object_id = c.object_id"

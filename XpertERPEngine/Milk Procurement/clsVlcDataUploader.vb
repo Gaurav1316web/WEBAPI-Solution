@@ -46,6 +46,7 @@ Public Class clsJSONVLCDataUploader
     Public water As Decimal
     Public Entry_Source As String
     Public Uom_COde As String
+    Public MP_Code_Third_Party As String
 End Class
 Public Class clsVlcDataUploader
     Public Doc_No As String = Nothing

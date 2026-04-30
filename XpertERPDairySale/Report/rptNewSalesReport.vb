@@ -289,10 +289,11 @@ Public Class rptNewSalesReport
                 Q1 += " FROM TSPL_DEMAND_BOOKING_DETAIL
                 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code   and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_Code 
 		        left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No "
-                Q2 += " left join ( SELECT  TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No, TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code, TSPL_DISTRIBUTOR_ROUTE.Start_Date FROM  TSPL_DISTRIBUTOR_ROUTE_CUSTOMER LEFT JOIN  TSPL_DISTRIBUTOR_ROUTE ON TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.code = TSPL_DISTRIBUTOR_ROUTE.code
+                Q2 += " left join ( SELECT  TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No, TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code, TSPL_DISTRIBUTOR_ROUTE.Start_Date, ROW_NUMBER() OVER (PARTITION BY TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No, TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code 
+                ORDER BY TSPL_DISTRIBUTOR_ROUTE.Start_Date DESC, TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.code DESC ) AS rownum FROM  TSPL_DISTRIBUTOR_ROUTE_CUSTOMER LEFT JOIN  TSPL_DISTRIBUTOR_ROUTE ON TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.code = TSPL_DISTRIBUTOR_ROUTE.code
 JOIN ( SELECT Route_No,MAX(Start_Date) AS Max_Start_Date FROM TSPL_DISTRIBUTOR_ROUTE_CUSTOMER  LEFT JOIN  TSPL_DISTRIBUTOR_ROUTE  ON TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.code = TSPL_DISTRIBUTOR_ROUTE.code
               GROUP BY Route_No) AS LatestDates ON TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No = LatestDates.Route_No AND TSPL_DISTRIBUTOR_ROUTE.Start_Date = LatestDates.Max_Start_Date 
-			  ) as  dist on dist.Route_No = TSPL_DEMAND_BOOKING_MASTER.route_no 
+			  ) as  dist on dist.Route_No = TSPL_DEMAND_BOOKING_MASTER.route_no and rownum=1
 left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = dist.Cust_Code left Outer join TSPL_ROUTE_MASTER On TSPL_ROUTE_MASTER.Route_No=TSPL_CUSTOMER_MASTER.Route_No "
                 Q3 += " left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_DEMAND_BOOKING_DETAIL.Item_Code = I.item_code 
                 where 2 = 2 and TSPL_DEMAND_BOOKING_MASTER.Posted = 1   and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) >= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "', 103) and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) <= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "', 103) "
@@ -480,7 +481,7 @@ from (" + qry + strShift + ")x group by Credit_Customer,GrpColumn,Item_Code,Docu
                 If dtProductItem.Rows.Count > 0 Then
                     FinalQuery += " PIVOT (SUM(KG_QTY)   For Product_Item In (" & ProductIemsName & ") ) As  pivot_Product "
                 End If
-                FinalQuery += " group by Credit_Customer,RouteCustCode, Document_Date, Shift_Type "
+                FinalQuery += " group by Credit_Customer,RouteCustCode "
                 FinalQuery += " Union All "
                 FinalQuery += " Select  'Total Demand' As OUTLET," & qry1 & ",'Z' as OrderColumn  from (" & strBase & " ) xxx" & Environment.NewLine & ""
                 If dtFreshItem.Rows.Count > 0 Then

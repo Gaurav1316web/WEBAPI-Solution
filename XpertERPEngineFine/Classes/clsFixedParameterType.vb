@@ -3,6 +3,8 @@ Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
     Public Const SkipDebitNoteforRejectInBMCTruckSheet As String = "Skip Debit Note for Reject In BMC Truck Sheet"
+    Public Const GatepassForTaxableandNonTaxableItems As String = "Gatepass For Taxable and NonTaxable Items"
+    Public Const PickDataFromMasterOrTransaction As String = "Pick Data From Master Or Transaction"
     Public Const ExportTruckSheet As String = "Export Truck Sheet"
     Public Const ThirtPartyFarmerCollectionIntegration As String = "Thirt Party Farmer Collection Integration"
     Public Const AndroidFarmerCollection As String = "Android Farmer Collection"
@@ -68,6 +70,7 @@ Public Class clsFixedParameterType
     Public Const DBTRevisePayment As String = "DBT Revise Payment"
     Public Const CycleWiseDBT As String = "Cycle Wise DBT"
     Public Const ShowTempratureOnBMC As String = "Show Temprature On BMC"
+    Public Const PickMilkTransferInData As String = "Pick Milk Transfer In Data"
     Public Const FillRouteTankerNo As String = "Fill Route Tanker No"
     Public Const PickMilkPurchaseInvoiceQtyOrRecoQty As String = "Pick Milk Purchase Invoice Qty Or Reco Qty"
     Public Const AllowMPIncetiveQtyAboveBilledQty As String = "Allow MP Incentive Qty Above Billed Qty"
@@ -1051,6 +1054,7 @@ Public Class clsFixedParameterType
     Public Const TDSRoundOffAmount As String = "TDS Round Off Amount"
     Public Const RoundOffPaiseAmount As String = "Round Off Paise Amount"
     Public Const RemoveSavingDocumentWhenPayableAmtZero As String = "Remove Saving Document When Payable Amt Zero"
+    Public Const RecalculatePaymentProcessOnSave As String = "Recalculate Payment Process On Save"
     Public Const EnableInternalTransfer As String = "Enable Internal Transfer for UDL"
     Public Const JobWorkTransfer As String = "Job Work Transfer"
     Public Const FreightProvisionAccount As String = "Freight Provision Account"
@@ -1393,9 +1397,17 @@ Public Class clsFixedParameterType
     Public Const DefaultEnableEWayBill = "Default Enable EWay Bill"
     Public Const CreateAutoGatePass = "Create Auto Gate Pass"
     Public Const ApplyEWBThresholdLimit = "Apply EWB Threshold Limit"
+    Public Const DefaultEnableNoTransporter = "Default Enable No Transporter"
+    Public Const ManualBatchOnCustomerBooking = "Manual Batch On Customer Booking"
+    Public Const GenerateCustomerWiseGatePass = "Generate Customer Wise GatePass"
+    Public Const DeductTPTFromDocAmt = "Deduct TPT From Document Amt"
+    Public Const CheckCustomeroutStandingAmt = "Check Customer OutStanding Amt"
+    Public Const ServerDateTimeForTaxableInvoice = "Server DateTime For Taxable Invoice"
 End Class
 Public Class clsFixedParameterCode
     Public Const SkipDebitNoteforRejectInBMCTruckSheet As String = "Skip Debit Note for Reject In BMC Truck Sheet"
+    Public Const GatepassForTaxableandNonTaxableItems As String = "Gatepass For Taxable and NonTaxable Items"
+    Public Const PickDataFromMasterOrTransaction As String = "Pick Data From Master Or Transaction"
     Public Const ExportTruckSheet As String = "Export Truck Sheet"
     Public Const ThirtPartyFarmerCollectionIntegration As String = "Thirt Party Farmer Collection Integration"
     Public Const SuspenceAdjusmtmentFATSNFTolerancePercentage = "Suspence Adjusmtment FAT SNF Tolerance %"
@@ -1410,6 +1422,7 @@ Public Class clsFixedParameterCode
     Public Const MaxFATPerLimitforReport As String = "Max FAT Per Limit for Report"
     Public Const MaxSNFPerLimitforReport As String = "Max SNF Per Limit for Report"
     Public Const PrintOnlyPostedDocument As String = "Print Only Posted Document"
+    Public Const HideShiftFilterOnDemandStatus As String = "Hide Shift Filter On Demand Status"
     Public Const DefaultFilesPath As String = "Default File Path"
     Public Const B2CDocumentAmountRangeOtherState As String = "B2C Document Amount Range Other State"
     Public Const B2CDocumentAmountRange As String = "B2C Document Amount Range"
@@ -1488,6 +1501,7 @@ Public Class clsFixedParameterCode
     Public Const DBTRevisePayment As String = "DBT Revise Payment"
     Public Const CycleWiseDBT As String = "Cycle Wise DBT"
     Public Const ShowTempratureOnBMC As String = "Fill Route Tanker No"
+    Public Const PickMilkTransferInData As String = "Pick Milk Transfer In Data"
     Public Const FillRouteTankerNo As String = "Fill Route Tanker No"
     Public Const PickMilkPurchaseInvoiceQtyOrRecoQty As String = "Pick Milk Purchase Invoice Qty Or Reco Qty"
     Public Const AllowMPIncetiveQtyAboveBilledQty As String = "Allow MP Incentive Qty Above Billed Qty"
@@ -2590,6 +2604,7 @@ Public Class clsFixedParameterCode
     Public Const TDSRoundOffAmount As String = "TDS Round Off Amount"
     Public Const RoundOffPaiseAmount As String = "Round Off Paise Amount"
     Public Const RemoveSavingDocumentWhenPayableAmtZero As String = "Remove Saving Document When Payable Amt Zero"
+    Public Const RecalculatePaymentProcessOnSave As String = "Recalculate Payment Process On Save"
     Public Const EnableInternalTransfer As String = "Enable Internal Transfer for UDL"
     Public Const JobWorkTransfer As String = "Job Work Transfer"
     Public Const FreightProvisionAccount As String = "Freight Provision Account"
@@ -2952,6 +2967,12 @@ Public Class clsFixedParameterCode
     Public Const EWBThresholdLimitForIntraCity = "EWB Threshold Limit For Intra-City"
     Public Const EWBThresholdLimitForIntraState = "EWB Threshold Limit For Intra-State"
     Public Const EWBThresholdLimitForInterState = "EWB Threshold Limit For Inter-State"
+    Public Const DefaultEnableNoTransporter = "Default Enable No Transporter"
+    Public Const ManualBatchOnCustomerBooking = "Manual Batch On Customer Booking"
+    Public Const GenerateCustomerWiseGatePass = "Generate Customer Wise GatePass"
+    Public Const DeductTPTFromDocAmt = "Deduct TPT From Document Amt"
+    Public Const CheckCustomeroutStandingAmt = "Check Customer OutStanding Amt"
+    Public Const ServerDateTimeForTaxableInvoice = "Server DateTime For Taxable Invoice"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -3032,6 +3053,8 @@ Public Class clsFixedParameter
     End Function
     Public Shared Function FixedParameterValues() As Boolean
         InsertDefaultValueFixedParameter(clsFixedParameterType.SkipDebitNoteforRejectInBMCTruckSheet, clsFixedParameterCode.SkipDebitNoteforRejectInBMCTruckSheet, "0", "0:Off;1-ON Skip to Generate Debit Note for Reject In BMC Truck Sheet")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.GatepassForTaxableandNonTaxableItems, clsFixedParameterCode.GatepassForTaxableandNonTaxableItems, "0", "0:Off;1-ON When ON can choose taxable or nontaxable option")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.PickDataFromMasterOrTransaction, clsFixedParameterCode.PickDataFromMasterOrTransaction, "0", "0:Off;1-ON When ON From Transaction else Master")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ExportTruckSheet, clsFixedParameterCode.ExportTruckSheet, "0", "0:Off;1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ThirtPartyFarmerCollectionIntegration, clsFixedParameterCode.ThirtPartyFarmerCollectionIntegration, "0", "0:Off;1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MaxFATPerLimit, "15", "Android Farmer Collection Max FAT Per")
@@ -3041,7 +3064,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MorningShiftEndHours, "4", "Morning Shift End Time =Morning Shift Start Time + Hours")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.EveningShiftStartTime, "06:00:00PM", "Farmer Milk Collection Evening Shift Start Time")
-        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MorningShiftEndHours, "4", "Evening Shift End Time =Evening Shift Start Time + Hours")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.EveningShiftEndHours, "4", "Evening Shift End Time =Evening Shift Start Time + Hours")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.SuspenceAdjusmtmentFATSNFTolerancePercentage, clsFixedParameterCode.SuspenceAdjusmtmentFATSNFTolerancePercentage, "1.5", "Suspence Adjusmtment FAT SNF Tolerance Percentage")
         InsertDefaultValueFixedParameter(clsFixedParameterType.TransactionModify, clsFixedParameterCode.TransactionModify, "Trans@123", "")
@@ -3144,6 +3167,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.DBTRevisePayment, clsFixedParameterCode.DBTRevisePayment, "0", "0-OFF;1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CycleWiseDBT, clsFixedParameterCode.CycleWiseDBT, "0", "0-OFF;1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowTempratureOnBMC, clsFixedParameterCode.ShowTempratureOnBMC, "0", "0-OFF;1-ON")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.PickMilkTransferInData, clsFixedParameterCode.PickMilkTransferInData, "0", "0-OFF;1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.FillRouteTankerNo, clsFixedParameterCode.FillRouteTankerNo, "1", "0-OFF;1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RepeatBMCSampleNo, clsFixedParameterCode.RepeatBMCSampleNo, "0", "0-OFF;1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.FATSNFNoDecimalMCC, clsFixedParameterCode.FATSNFNoDecimalMCC, "0", "0-OFF;1-ON")
@@ -3198,6 +3222,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.HideQtyCrateRegister, "0", "0:OFF,1:ON;Demand register Hide Qty crate column")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.ShowTodayDemandAsCurrentandUpcoming, "0", "0:OFF,1:ON;Vehicle Type on Distributor Commission")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.StopYesBankVirtualAccount, "1", "0:OFF,1:ON;Stop Yes Bank virtual Account from menu in order app")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.HideShiftFilterOnDemandStatus, "0", "0:OFF,1:ON;Hide Shift Filter On Demand Status report")
         InsertDefaultValueFixedParameter(clsFixedParameterType.EnableVehicleType, clsFixedParameterCode.EnableVehicleType, "0", "0:OFF,1:ON;Show Today Demand As Currentand Upcoming")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceQty, "100", "Tollerance % of Qty")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceFAT, "100", "Tollerance % of FAT")
@@ -4301,6 +4326,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.TDSRoundOffAmount, clsFixedParameterCode.TDSRoundOffAmount, "1", "0:OFF(Amount in Ruppes and paisa),1:ON(Amount in Ruppes)")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RoundOffPaiseAmount, clsFixedParameterCode.RoundOffPaiseAmount, "0", "0:Off,1:ON,Remove paise and add in Round off")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RemoveSavingDocumentWhenPayableAmtZero, clsFixedParameterCode.RemoveSavingDocumentWhenPayableAmtZero, "0", "0:Off,1:ON,Remove Saving Docuemnts (AP invoice-Credit Note) On post when payabale amount is zero")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.RecalculatePaymentProcessOnSave, clsFixedParameterCode.RecalculatePaymentProcessOnSave, "0", "0:Off,1:ON,Re-calculate Payment Process On Save")
         InsertDefaultValueFixedParameter(clsFixedParameterType.EnableInternalTransfer, clsFixedParameterCode.EnableInternalTransfer, "0", "0:Off,1:ON,Enable Internal Transfer for UDL")
         InsertDefaultValueFixedParameter(clsFixedParameterType.JobWorkTransfer, clsFixedParameterCode.JobWorkTransfer, "0", "0:Off,1:ON,Enable Job Work Transfer")
         InsertDefaultValueFixedParameter(clsFixedParameterType.FreightProvisionAccount, clsFixedParameterCode.FreightProvisionAccount, "", "Set Freight Provision Account From GL Account")
@@ -4689,6 +4715,12 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraCity, "0", "Enter Threshold Limit For Intra-City")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraState, "0", "Enter Threshold Limit For Intra-State")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForInterState, "0", "Enter Threshold Limit For Inter-State")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.DefaultEnableNoTransporter, clsFixedParameterCode.DefaultEnableNoTransporter, "0", "0:Off, 1:On")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ManualBatchOnCustomerBooking, clsFixedParameterCode.ManualBatchOnCustomerBooking, "0", "0:Off, 1:On")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.GenerateCustomerWiseGatePass, clsFixedParameterCode.GenerateCustomerWiseGatePass, "0", "0:Off, 1:On")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.DeductTPTFromDocAmt, clsFixedParameterCode.DeductTPTFromDocAmt, "0", "0:Off, 1:On")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.CheckCustomeroutStandingAmt, clsFixedParameterCode.CheckCustomeroutStandingAmt, "0", "0:Off, 1:On")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ServerDateTimeForTaxableInvoice, clsFixedParameterCode.ServerDateTimeForTaxableInvoice, "0", "0:Off, 1:On")
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
     End Function
@@ -4719,6 +4751,8 @@ Public Class clsFixedParameterProgramMapping
     Public Shared Sub SetDefaultValues()
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_FIXED_PARAMETER_PROGRAM_MAPPING")
         InsertDefaultValue(clsUserMgtCode.MilkVSPPayment, clsFixedParameterType.SkipDebitNoteforRejectInBMCTruckSheet, clsFixedParameterCode.SkipDebitNoteforRejectInBMCTruckSheet, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDairyGatePass, clsFixedParameterType.GatepassForTaxableandNonTaxableItems, clsFixedParameterCode.GatepassForTaxableandNonTaxableItems, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.PickDataFromMasterOrTransaction, clsFixedParameterCode.PickDataFromMasterOrTransaction, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.ExportTruckSheet, clsFixedParameterCode.ExportTruckSheet, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmVlcdataUploadar, clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MaxFATPerLimit, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmVlcdataUploadar, clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MaxSNFPerLimit, EnumControlType.NumericBox)
@@ -4805,6 +4839,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.DBTNEFTUploader, clsFixedParameterType.CycleWiseDBT, clsFixedParameterCode.CycleWiseDBT, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.ShowSampleNoOnBMC, clsFixedParameterCode.ShowSampleNoOnBMC, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.ShowTempratureOnBMC, clsFixedParameterCode.ShowTempratureOnBMC, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.PickMilkTransferInData, clsFixedParameterCode.PickMilkTransferInData, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.FillRouteTankerNo, clsFixedParameterCode.FillRouteTankerNo, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.RepeatBMCSampleNo, clsFixedParameterCode.RepeatBMCSampleNo, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.ShowAllMCC, clsFixedParameterCode.ShowAllMCC, EnumControlType.CheckBox)
@@ -5460,6 +5495,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.MCCMilkRegister, clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.RemoveSavingDocumentWhenPayableAmtZero, clsFixedParameterCode.RemoveSavingDocumentWhenPayableAmtZero, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.RecalculatePaymentProcessOnSave, clsFixedParameterCode.RecalculatePaymentProcessOnSave, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.mbtnPurchaseOrder, clsFixedParameterType.CmtSetting, clsFixedParameterCode.CmtSetting, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkVSPPayment, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.PaymentProcessPrintInHindi, clsFixedParameterCode.PaymentProcessPrintInHindi, EnumControlType.CheckBox)
@@ -6612,5 +6648,11 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraState, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForInterState, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmSendBillToDCS, clsFixedParameterType.ThirtPartyFarmerCollectionIntegration, clsFixedParameterCode.ThirtPartyFarmerCollectionIntegration, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.DefaultEnableNoTransporter, clsFixedParameterCode.DefaultEnableNoTransporter, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ManualBatchOnCustomerBooking, clsFixedParameterCode.ManualBatchOnCustomerBooking, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.GenerateCustomerWiseGatePass, clsFixedParameterCode.GenerateCustomerWiseGatePass, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.DeductTPTFromDocAmt, clsFixedParameterCode.DeductTPTFromDocAmt, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.CheckCustomeroutStandingAmt, clsFixedParameterCode.CheckCustomeroutStandingAmt, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ServerDateTimeForTaxableInvoice, clsFixedParameterCode.ServerDateTimeForTaxableInvoice, EnumControlType.CheckBox)
     End Sub
 End Class

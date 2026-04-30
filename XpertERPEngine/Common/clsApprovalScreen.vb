@@ -1073,7 +1073,7 @@ Public Class clsApprovalAlert_Child
                 clsCommon.AddColumnsForChange(coll, "is_Posted", obj.is_Posted)
                 clsCommon.AddColumnsForChange(coll, "modified_by", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "SendBack", "0")
-                clsCommon.AddColumnsForChange(coll, "modified_date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
+                clsCommon.AddColumnsForChange(coll, "modified_date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
 
                 whrcls = " trans_code='" & obj.Trans_Code & "' and document_code='" & obj.Document_Code & "' and no_of_level='" & clsCommon.myCstr(obj.No_Of_Level) & "' and user_code='" & obj.User_Code & "' and is_reverse=0 and Status<>'Amend' "
 

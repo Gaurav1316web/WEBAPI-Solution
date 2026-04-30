@@ -15,7 +15,7 @@ Public Class clsRcptEntryHeader
     Public Rec_Zone_Code As String = String.Empty
     Public Foreign_Bank_Charges_Amt As Double = 0
     Public Bank_Charges_Amt As Double = 0
-    Public Receipt_Date As Date
+    Public Receipt_Date As DateTime = Nothing
     Public Receipt_Post_Date As Date
     Public Bank_Code As String = Nothing
     Public DateAndTime As DateTime?
@@ -229,7 +229,12 @@ Public Class clsRcptEntryHeader
             qry = "DELETE TSPL_RECEIPT_DETAIL_Refund WHERE Receipt_No ='" + obj.Receipt_No + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             Dim coll As New Hashtable()
-            clsCommon.AddColumnsForChange(coll, "Receipt_Date", clsCommon.GetPrintDate(obj.Receipt_Date, "dd/MMM/yyyy"))
+            Dim ServerTime As DateTime = Nothing
+            If isNewEntry Then
+                ServerTime = clsCommon.GETSERVERDATE(trans)
+                obj.Receipt_Date = New DateTime(obj.Receipt_Date.Year, obj.Receipt_Date.Month, obj.Receipt_Date.Day, ServerTime.Hour, ServerTime.Minute, ServerTime.Second)
+            End If
+            clsCommon.AddColumnsForChange(coll, "Receipt_Date", clsCommon.GetPrintDate(obj.Receipt_Date, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Receipt_Post_Date", clsCommon.GetPrintDate(obj.Receipt_Post_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Bank_Code", obj.Bank_Code)
             clsCommon.AddColumnsForChange(coll, "Receipt_Type", obj.Receipt_Type)

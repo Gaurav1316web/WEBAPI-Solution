@@ -23,10 +23,10 @@ Partial Class FrmUtility
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.btnCreateAdjustment = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
@@ -71,6 +71,7 @@ Partial Class FrmUtility
         Me.Label1 = New System.Windows.Forms.Label()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadScrollablePanel1 = New Telerik.WinControls.UI.RadScrollablePanel()
+        Me.RadButton317 = New Telerik.WinControls.UI.RadButton()
         Me.GroupBox116 = New System.Windows.Forms.GroupBox()
         Me.rbtnCashToCredit = New System.Windows.Forms.RadioButton()
         Me.MyLabel72 = New common.Controls.MyLabel()
@@ -317,6 +318,10 @@ Partial Class FrmUtility
         Me.btnSelRAE = New Telerik.WinControls.UI.RadButton()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadScrollablePanel3 = New Telerik.WinControls.UI.RadScrollablePanel()
+        Me.gbShipmentWithInventoryandJE = New System.Windows.Forms.GroupBox()
+        Me.RadButton314 = New Telerik.WinControls.UI.RadButton()
+        Me.RadButton315 = New Telerik.WinControls.UI.RadButton()
+        Me.RadButton316 = New Telerik.WinControls.UI.RadButton()
         Me.GroupBox97 = New System.Windows.Forms.GroupBox()
         Me.RadButton307 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton308 = New Telerik.WinControls.UI.RadButton()
@@ -557,6 +562,8 @@ Partial Class FrmUtility
         Me.RadButton249 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton250 = New Telerik.WinControls.UI.RadButton()
         Me.GroupBox99 = New System.Windows.Forms.GroupBox()
+        Me.btnCreateEInvoiceForSale = New Telerik.WinControls.UI.RadButton()
+        Me.btnCreateEinvoiceForDCSSAle = New Telerik.WinControls.UI.RadButton()
         Me.btnCreateCrateEntry = New Telerik.WinControls.UI.RadButton()
         Me.lblFromGPDate = New common.Controls.MyLabel()
         Me.txtFromGPDate = New common.Controls.MyDateTimePicker()
@@ -601,11 +608,22 @@ Partial Class FrmUtility
         Me.TxtMultiSelectFinder15 = New common.UserControls.txtMultiSelectFinder()
         Me.RadPageViewPage7 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadScrollablePanel4 = New Telerik.WinControls.UI.RadScrollablePanel()
+        Me.gbUpdateInvDate = New System.Windows.Forms.GroupBox()
+        Me.btnUpdateInvoiceDate = New Telerik.WinControls.UI.RadButton()
+        Me.rbtnShipment = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnInvoice = New Telerik.WinControls.UI.RadRadioButton()
+        Me.BtnItemCostUpdate = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel75 = New common.Controls.MyLabel()
+        Me.TxtCost = New common.MyNumBox()
+        Me.TxtStockUOM = New common.Controls.MyTextBox()
+        Me.TxtItem_Desc = New common.Controls.MyTextBox()
+        Me.MyLabel74 = New common.Controls.MyLabel()
+        Me.TxtItemCode = New common.UserControls.txtFinder()
+        Me.RadLabel2 = New common.Controls.MyLabel()
         Me.GroupBox49 = New System.Windows.Forms.GroupBox()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel13 = New common.Controls.MyLabel()
         Me.txtNewCustomer = New common.UserControls.txtFinder()
-        Me.RadLabel2 = New common.Controls.MyLabel()
         Me.txtOldCustomer = New common.UserControls.txtFinder()
         Me.RadButton141 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton349 = New Telerik.WinControls.UI.RadButton()
@@ -838,7 +856,6 @@ Partial Class FrmUtility
         Me.RadButton285 = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.Timer3 = New System.Windows.Forms.Timer(Me.components)
-        Me.btnCreateEinvoiceForDCSSAle = New Telerik.WinControls.UI.RadButton()
         CType(Me.btnCreateAdjustment, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadGroupBox1.SuspendLayout
@@ -887,6 +904,7 @@ Partial Class FrmUtility
         CType(Me.RadScrollablePanel1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadScrollablePanel1.PanelContainer.SuspendLayout
         Me.RadScrollablePanel1.SuspendLayout
+        CType(Me.RadButton317, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox116.SuspendLayout
         CType(Me.MyLabel72, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1129,6 +1147,10 @@ Partial Class FrmUtility
         CType(Me.RadScrollablePanel3, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadScrollablePanel3.PanelContainer.SuspendLayout
         Me.RadScrollablePanel3.SuspendLayout
+        Me.gbShipmentWithInventoryandJE.SuspendLayout
+        CType(Me.RadButton314, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.RadButton315, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.RadButton316, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox97.SuspendLayout
         CType(Me.RadButton307, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton308, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1364,6 +1386,8 @@ Partial Class FrmUtility
         CType(Me.RadButton249, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton250, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox99.SuspendLayout
+        CType(Me.btnCreateEInvoiceForSale, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.btnCreateEinvoiceForDCSSAle, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnCreateCrateEntry, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.lblFromGPDate, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.txtFromGPDate, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1408,10 +1432,20 @@ Partial Class FrmUtility
         CType(Me.RadScrollablePanel4, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadScrollablePanel4.PanelContainer.SuspendLayout
         Me.RadScrollablePanel4.SuspendLayout
+        Me.gbUpdateInvDate.SuspendLayout
+        CType(Me.btnUpdateInvoiceDate, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.rbtnShipment, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.rbtnInvoice, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnItemCostUpdate, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.MyLabel75, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TxtCost, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TxtStockUOM, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TxtItem_Desc, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.MyLabel74, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox49.SuspendLayout
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton141, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton349, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox53.SuspendLayout
@@ -1628,7 +1662,6 @@ Partial Class FrmUtility
         Me.SplitContainer2.Panel1.SuspendLayout
         Me.SplitContainer2.Panel2.SuspendLayout
         Me.SplitContainer2.SuspendLayout
-        CType(Me.btnCreateEinvoiceForDCSSAle, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
@@ -1739,7 +1772,7 @@ Partial Class FrmUtility
         '
         Me.gvShipment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvShipment.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvShipment.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvShipment.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvShipment.MyExportAPI = False
         Me.gvShipment.MyExportFilePath = ""
         Me.gvShipment.MyStopExport = False
@@ -2027,7 +2060,7 @@ Partial Class FrmUtility
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage6
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage7
         Me.RadPageView1.Size = New System.Drawing.Size(1112, 569)
         Me.RadPageView1.TabIndex = 44
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -2069,6 +2102,7 @@ Partial Class FrmUtility
         '
         'RadScrollablePanel1.PanelContainer
         '
+        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton317)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.GroupBox116)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton312)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.GroupBox114)
@@ -2127,6 +2161,14 @@ Partial Class FrmUtility
         Me.RadScrollablePanel1.PanelContainer.Size = New System.Drawing.Size(1072, 519)
         Me.RadScrollablePanel1.Size = New System.Drawing.Size(1091, 521)
         Me.RadScrollablePanel1.TabIndex = 627
+        '
+        'RadButton317
+        '
+        Me.RadButton317.Location = New System.Drawing.Point(7, 558)
+        Me.RadButton317.Name = "RadButton317"
+        Me.RadButton317.Size = New System.Drawing.Size(312, 24)
+        Me.RadButton317.TabIndex = 1576
+        Me.RadButton317.Text = "Restore Default Menu"
         '
         'GroupBox116
         '
@@ -4614,6 +4656,7 @@ Partial Class FrmUtility
         '
         'RadScrollablePanel3.PanelContainer
         '
+        Me.RadScrollablePanel3.PanelContainer.Controls.Add(Me.gbShipmentWithInventoryandJE)
         Me.RadScrollablePanel3.PanelContainer.Controls.Add(Me.GroupBox97)
         Me.RadScrollablePanel3.PanelContainer.Controls.Add(Me.GroupBox77)
         Me.RadScrollablePanel3.PanelContainer.Controls.Add(Me.RadButton211)
@@ -4641,12 +4684,48 @@ Partial Class FrmUtility
         Me.RadScrollablePanel3.Size = New System.Drawing.Size(1091, 521)
         Me.RadScrollablePanel3.TabIndex = 628
         '
+        'gbShipmentWithInventoryandJE
+        '
+        Me.gbShipmentWithInventoryandJE.Controls.Add(Me.RadButton314)
+        Me.gbShipmentWithInventoryandJE.Controls.Add(Me.RadButton315)
+        Me.gbShipmentWithInventoryandJE.Controls.Add(Me.RadButton316)
+        Me.gbShipmentWithInventoryandJE.Location = New System.Drawing.Point(656, 395)
+        Me.gbShipmentWithInventoryandJE.Name = "gbShipmentWithInventoryandJE"
+        Me.gbShipmentWithInventoryandJE.Size = New System.Drawing.Size(404, 39)
+        Me.gbShipmentWithInventoryandJE.TabIndex = 95
+        Me.gbShipmentWithInventoryandJE.TabStop = False
+        Me.gbShipmentWithInventoryandJE.Text = "Dairy Shipment(Inventroy+JE)"
+        '
+        'RadButton314
+        '
+        Me.RadButton314.Location = New System.Drawing.Point(67, 14)
+        Me.RadButton314.Name = "RadButton314"
+        Me.RadButton314.Size = New System.Drawing.Size(92, 24)
+        Me.RadButton314.TabIndex = 41
+        Me.RadButton314.Text = "Pick Doc No"
+        '
+        'RadButton315
+        '
+        Me.RadButton315.Location = New System.Drawing.Point(4, 14)
+        Me.RadButton315.Name = "RadButton315"
+        Me.RadButton315.Size = New System.Drawing.Size(59, 24)
+        Me.RadButton315.TabIndex = 42
+        Me.RadButton315.Text = "Reset All"
+        '
+        'RadButton316
+        '
+        Me.RadButton316.Location = New System.Drawing.Point(163, 14)
+        Me.RadButton316.Name = "RadButton316"
+        Me.RadButton316.Size = New System.Drawing.Size(200, 24)
+        Me.RadButton316.TabIndex = 13
+        Me.RadButton316.Text = "Recreate Documents"
+        '
         'GroupBox97
         '
         Me.GroupBox97.Controls.Add(Me.RadButton307)
         Me.GroupBox97.Controls.Add(Me.RadButton308)
         Me.GroupBox97.Controls.Add(Me.RadButton309)
-        Me.GroupBox97.Location = New System.Drawing.Point(216, 535)
+        Me.GroupBox97.Location = New System.Drawing.Point(215, 590)
         Me.GroupBox97.Name = "GroupBox97"
         Me.GroupBox97.Size = New System.Drawing.Size(318, 44)
         Me.GroupBox97.TabIndex = 94
@@ -4683,7 +4762,7 @@ Partial Class FrmUtility
         Me.GroupBox77.Controls.Add(Me.RadButton243)
         Me.GroupBox77.Controls.Add(Me.RadButton244)
         Me.GroupBox77.Controls.Add(Me.RadButton246)
-        Me.GroupBox77.Location = New System.Drawing.Point(748, 490)
+        Me.GroupBox77.Location = New System.Drawing.Point(747, 548)
         Me.GroupBox77.Name = "GroupBox77"
         Me.GroupBox77.Size = New System.Drawing.Size(278, 44)
         Me.GroupBox77.TabIndex = 93
@@ -4728,7 +4807,7 @@ Partial Class FrmUtility
         Me.GroupBox61.Controls.Add(Me.RadButton192)
         Me.GroupBox61.Controls.Add(Me.RadButton193)
         Me.GroupBox61.Controls.Add(Me.RadButton194)
-        Me.GroupBox61.Location = New System.Drawing.Point(652, 388)
+        Me.GroupBox61.Location = New System.Drawing.Point(660, 437)
         Me.GroupBox61.Name = "GroupBox61"
         Me.GroupBox61.Size = New System.Drawing.Size(404, 39)
         Me.GroupBox61.TabIndex = 92
@@ -5182,7 +5261,7 @@ Partial Class FrmUtility
         '
         'RadButton133
         '
-        Me.RadButton133.Location = New System.Drawing.Point(656, 467)
+        Me.RadButton133.Location = New System.Drawing.Point(664, 520)
         Me.RadButton133.Name = "RadButton133"
         Me.RadButton133.Size = New System.Drawing.Size(400, 22)
         Me.RadButton133.TabIndex = 90
@@ -5603,7 +5682,7 @@ Partial Class FrmUtility
         Me.GroupBox37.Controls.Add(Me.RadButton90)
         Me.GroupBox37.Controls.Add(Me.RadButton91)
         Me.GroupBox37.Controls.Add(Me.RadButton92)
-        Me.GroupBox37.Location = New System.Drawing.Point(656, 426)
+        Me.GroupBox37.Location = New System.Drawing.Point(664, 476)
         Me.GroupBox37.Name = "GroupBox37"
         Me.GroupBox37.Size = New System.Drawing.Size(400, 38)
         Me.GroupBox37.TabIndex = 85
@@ -5677,7 +5756,7 @@ Partial Class FrmUtility
         Me.GroupBox43.Controls.Add(Me.RadButton107)
         Me.GroupBox43.Controls.Add(Me.RadButton108)
         Me.GroupBox43.Controls.Add(Me.RadButton109)
-        Me.GroupBox43.Location = New System.Drawing.Point(216, 491)
+        Me.GroupBox43.Location = New System.Drawing.Point(215, 546)
         Me.GroupBox43.Name = "GroupBox43"
         Me.GroupBox43.Size = New System.Drawing.Size(526, 40)
         Me.GroupBox43.TabIndex = 87
@@ -6759,12 +6838,12 @@ Partial Class FrmUtility
         Me.cmbDepartmnt.IsSourceFromTable = False
         Me.cmbDepartmnt.IsSourceFromValueList = False
         Me.cmbDepartmnt.IsUnique = False
-        RadListDataItem4.Text = "Select"
-        RadListDataItem5.Text = "LMS"
-        RadListDataItem6.Text = "Marketing"
-        Me.cmbDepartmnt.Items.Add(RadListDataItem4)
-        Me.cmbDepartmnt.Items.Add(RadListDataItem5)
-        Me.cmbDepartmnt.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "Select"
+        RadListDataItem2.Text = "LMS"
+        RadListDataItem3.Text = "Marketing"
+        Me.cmbDepartmnt.Items.Add(RadListDataItem1)
+        Me.cmbDepartmnt.Items.Add(RadListDataItem2)
+        Me.cmbDepartmnt.Items.Add(RadListDataItem3)
         Me.cmbDepartmnt.Location = New System.Drawing.Point(68, 16)
         Me.cmbDepartmnt.MendatroryField = False
         Me.cmbDepartmnt.MyLinkLable1 = Nothing
@@ -7311,6 +7390,7 @@ Partial Class FrmUtility
         '
         'GroupBox99
         '
+        Me.GroupBox99.Controls.Add(Me.btnCreateEInvoiceForSale)
         Me.GroupBox99.Controls.Add(Me.btnCreateEinvoiceForDCSSAle)
         Me.GroupBox99.Controls.Add(Me.btnCreateCrateEntry)
         Me.GroupBox99.Controls.Add(Me.lblFromGPDate)
@@ -7321,6 +7401,22 @@ Partial Class FrmUtility
         Me.GroupBox99.TabIndex = 373
         Me.GroupBox99.TabStop = False
         Me.GroupBox99.Text = "Crate Entry"
+        '
+        'btnCreateEInvoiceForSale
+        '
+        Me.btnCreateEInvoiceForSale.Location = New System.Drawing.Point(170, 47)
+        Me.btnCreateEInvoiceForSale.Name = "btnCreateEInvoiceForSale"
+        Me.btnCreateEInvoiceForSale.Size = New System.Drawing.Size(154, 24)
+        Me.btnCreateEInvoiceForSale.TabIndex = 65
+        Me.btnCreateEInvoiceForSale.Text = "Create E-Invoice For Sales"
+        '
+        'btnCreateEinvoiceForDCSSAle
+        '
+        Me.btnCreateEinvoiceForDCSSAle.Location = New System.Drawing.Point(7, 47)
+        Me.btnCreateEinvoiceForDCSSAle.Name = "btnCreateEinvoiceForDCSSAle"
+        Me.btnCreateEinvoiceForDCSSAle.Size = New System.Drawing.Size(154, 24)
+        Me.btnCreateEinvoiceForDCSSAle.TabIndex = 64
+        Me.btnCreateEinvoiceForDCSSAle.Text = "Create E-Invoice For DCS Sale "
         '
         'btnCreateCrateEntry
         '
@@ -7777,6 +7873,14 @@ Partial Class FrmUtility
         '
         'RadScrollablePanel4.PanelContainer
         '
+        Me.RadScrollablePanel4.PanelContainer.Controls.Add(Me.gbUpdateInvDate)
+        Me.RadScrollablePanel4.PanelContainer.Controls.Add(Me.BtnItemCostUpdate)
+        Me.RadScrollablePanel4.PanelContainer.Controls.Add(Me.MyLabel75)
+        Me.RadScrollablePanel4.PanelContainer.Controls.Add(Me.TxtCost)
+        Me.RadScrollablePanel4.PanelContainer.Controls.Add(Me.TxtStockUOM)
+        Me.RadScrollablePanel4.PanelContainer.Controls.Add(Me.TxtItem_Desc)
+        Me.RadScrollablePanel4.PanelContainer.Controls.Add(Me.MyLabel74)
+        Me.RadScrollablePanel4.PanelContainer.Controls.Add(Me.TxtItemCode)
         Me.RadScrollablePanel4.PanelContainer.Controls.Add(Me.GroupBox49)
         Me.RadScrollablePanel4.PanelContainer.Controls.Add(Me.RadButton349)
         Me.RadScrollablePanel4.PanelContainer.Controls.Add(Me.GroupBox53)
@@ -7806,6 +7910,181 @@ Partial Class FrmUtility
         Me.RadScrollablePanel4.PanelContainer.Size = New System.Drawing.Size(1075, 522)
         Me.RadScrollablePanel4.Size = New System.Drawing.Size(1094, 524)
         Me.RadScrollablePanel4.TabIndex = 373
+        '
+        'gbUpdateInvDate
+        '
+        Me.gbUpdateInvDate.Controls.Add(Me.btnUpdateInvoiceDate)
+        Me.gbUpdateInvDate.Controls.Add(Me.rbtnShipment)
+        Me.gbUpdateInvDate.Controls.Add(Me.rbtnInvoice)
+        Me.gbUpdateInvDate.Location = New System.Drawing.Point(837, 523)
+        Me.gbUpdateInvDate.Name = "gbUpdateInvDate"
+        Me.gbUpdateInvDate.Size = New System.Drawing.Size(235, 78)
+        Me.gbUpdateInvDate.TabIndex = 392
+        Me.gbUpdateInvDate.TabStop = False
+        Me.gbUpdateInvDate.Text = "Update Invoice Date"
+        '
+        'btnUpdateInvoiceDate
+        '
+        Me.btnUpdateInvoiceDate.Location = New System.Drawing.Point(25, 48)
+        Me.btnUpdateInvoiceDate.Name = "btnUpdateInvoiceDate"
+        Me.btnUpdateInvoiceDate.Size = New System.Drawing.Size(110, 24)
+        Me.btnUpdateInvoiceDate.TabIndex = 2
+        Me.btnUpdateInvoiceDate.Text = "Update Date"
+        '
+        'rbtnShipment
+        '
+        Me.rbtnShipment.Location = New System.Drawing.Point(76, 21)
+        Me.rbtnShipment.Name = "rbtnShipment"
+        Me.rbtnShipment.Size = New System.Drawing.Size(68, 18)
+        Me.rbtnShipment.TabIndex = 1
+        Me.rbtnShipment.Text = "Shipment"
+        '
+        'rbtnInvoice
+        '
+        Me.rbtnInvoice.Location = New System.Drawing.Point(14, 19)
+        Me.rbtnInvoice.Name = "rbtnInvoice"
+        Me.rbtnInvoice.Size = New System.Drawing.Size(56, 18)
+        Me.rbtnInvoice.TabIndex = 0
+        Me.rbtnInvoice.Text = "Invoice"
+        '
+        'BtnItemCostUpdate
+        '
+        Me.BtnItemCostUpdate.Location = New System.Drawing.Point(134, 582)
+        Me.BtnItemCostUpdate.Name = "BtnItemCostUpdate"
+        Me.BtnItemCostUpdate.Size = New System.Drawing.Size(48, 19)
+        Me.BtnItemCostUpdate.TabIndex = 391
+        Me.BtnItemCostUpdate.Text = ">>"
+        '
+        'MyLabel75
+        '
+        Me.MyLabel75.FieldName = Nothing
+        Me.MyLabel75.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel75.Location = New System.Drawing.Point(5, 583)
+        Me.MyLabel75.Name = "MyLabel75"
+        Me.MyLabel75.Size = New System.Drawing.Size(55, 16)
+        Me.MyLabel75.TabIndex = 390
+        Me.MyLabel75.Text = "Item Cost"
+        '
+        'TxtCost
+        '
+        Me.TxtCost.BackColor = System.Drawing.Color.White
+        Me.TxtCost.CalculationExpression = Nothing
+        Me.TxtCost.DecimalPlaces = 2
+        Me.TxtCost.FieldCode = Nothing
+        Me.TxtCost.FieldDesc = Nothing
+        Me.TxtCost.FieldMaxLength = 0
+        Me.TxtCost.FieldName = Nothing
+        Me.TxtCost.isCalculatedField = False
+        Me.TxtCost.IsSourceFromTable = False
+        Me.TxtCost.IsSourceFromValueList = False
+        Me.TxtCost.IsUnique = False
+        Me.TxtCost.Location = New System.Drawing.Point(69, 582)
+        Me.TxtCost.MendatroryField = False
+        Me.TxtCost.MyLinkLable1 = Nothing
+        Me.TxtCost.MyLinkLable2 = Nothing
+        Me.TxtCost.Name = "TxtCost"
+        Me.TxtCost.ReferenceFieldDesc = Nothing
+        Me.TxtCost.ReferenceFieldName = Nothing
+        Me.TxtCost.ReferenceTableName = Nothing
+        Me.TxtCost.Size = New System.Drawing.Size(57, 20)
+        Me.TxtCost.TabIndex = 389
+        Me.TxtCost.Text = "0"
+        Me.TxtCost.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TxtCost.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        '
+        'TxtStockUOM
+        '
+        Me.TxtStockUOM.AutoSize = False
+        Me.TxtStockUOM.CalculationExpression = Nothing
+        Me.TxtStockUOM.FieldCode = Nothing
+        Me.TxtStockUOM.FieldDesc = Nothing
+        Me.TxtStockUOM.FieldMaxLength = 0
+        Me.TxtStockUOM.FieldName = Nothing
+        Me.TxtStockUOM.isCalculatedField = False
+        Me.TxtStockUOM.IsSourceFromTable = False
+        Me.TxtStockUOM.IsSourceFromValueList = False
+        Me.TxtStockUOM.IsUnique = False
+        Me.TxtStockUOM.Location = New System.Drawing.Point(399, 559)
+        Me.TxtStockUOM.MendatroryField = False
+        Me.TxtStockUOM.Multiline = True
+        Me.TxtStockUOM.MyLinkLable1 = Nothing
+        Me.TxtStockUOM.MyLinkLable2 = Nothing
+        Me.TxtStockUOM.Name = "TxtStockUOM"
+        Me.TxtStockUOM.ReferenceFieldDesc = Nothing
+        Me.TxtStockUOM.ReferenceFieldName = Nothing
+        Me.TxtStockUOM.ReferenceTableName = Nothing
+        Me.TxtStockUOM.Size = New System.Drawing.Size(61, 20)
+        Me.TxtStockUOM.TabIndex = 388
+        '
+        'TxtItem_Desc
+        '
+        Me.TxtItem_Desc.AutoSize = False
+        Me.TxtItem_Desc.CalculationExpression = Nothing
+        Me.TxtItem_Desc.FieldCode = Nothing
+        Me.TxtItem_Desc.FieldDesc = Nothing
+        Me.TxtItem_Desc.FieldMaxLength = 0
+        Me.TxtItem_Desc.FieldName = Nothing
+        Me.TxtItem_Desc.isCalculatedField = False
+        Me.TxtItem_Desc.IsSourceFromTable = False
+        Me.TxtItem_Desc.IsSourceFromValueList = False
+        Me.TxtItem_Desc.IsUnique = False
+        Me.TxtItem_Desc.Location = New System.Drawing.Point(220, 559)
+        Me.TxtItem_Desc.MendatroryField = False
+        Me.TxtItem_Desc.Multiline = True
+        Me.TxtItem_Desc.MyLinkLable1 = Nothing
+        Me.TxtItem_Desc.MyLinkLable2 = Nothing
+        Me.TxtItem_Desc.Name = "TxtItem_Desc"
+        Me.TxtItem_Desc.ReferenceFieldDesc = Nothing
+        Me.TxtItem_Desc.ReferenceFieldName = Nothing
+        Me.TxtItem_Desc.ReferenceTableName = Nothing
+        Me.TxtItem_Desc.Size = New System.Drawing.Size(173, 20)
+        Me.TxtItem_Desc.TabIndex = 387
+        '
+        'MyLabel74
+        '
+        Me.MyLabel74.FieldName = Nothing
+        Me.MyLabel74.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel74.Location = New System.Drawing.Point(4, 559)
+        Me.MyLabel74.Name = "MyLabel74"
+        Me.MyLabel74.Size = New System.Drawing.Size(58, 16)
+        Me.MyLabel74.TabIndex = 386
+        Me.MyLabel74.Text = "Item Code"
+        '
+        'TxtItemCode
+        '
+        Me.TxtItemCode.CalculationExpression = Nothing
+        Me.TxtItemCode.FieldCode = Nothing
+        Me.TxtItemCode.FieldDesc = Nothing
+        Me.TxtItemCode.FieldMaxLength = 0
+        Me.TxtItemCode.FieldName = Nothing
+        Me.TxtItemCode.isCalculatedField = False
+        Me.TxtItemCode.IsSourceFromTable = False
+        Me.TxtItemCode.IsSourceFromValueList = False
+        Me.TxtItemCode.IsUnique = False
+        Me.TxtItemCode.Location = New System.Drawing.Point(69, 559)
+        Me.TxtItemCode.MendatroryField = True
+        Me.TxtItemCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtItemCode.MyLinkLable1 = Me.RadLabel2
+        Me.TxtItemCode.MyLinkLable2 = Nothing
+        Me.TxtItemCode.MyReadOnly = False
+        Me.TxtItemCode.MyShowMasterFormButton = False
+        Me.TxtItemCode.Name = "TxtItemCode"
+        Me.TxtItemCode.ReferenceFieldDesc = Nothing
+        Me.TxtItemCode.ReferenceFieldName = Nothing
+        Me.TxtItemCode.ReferenceTableName = Nothing
+        Me.TxtItemCode.Size = New System.Drawing.Size(143, 20)
+        Me.TxtItemCode.TabIndex = 373
+        Me.TxtItemCode.Value = ""
+        '
+        'RadLabel2
+        '
+        Me.RadLabel2.FieldName = Nothing
+        Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel2.Location = New System.Drawing.Point(6, 21)
+        Me.RadLabel2.Name = "RadLabel2"
+        Me.RadLabel2.Size = New System.Drawing.Size(76, 16)
+        Me.RadLabel2.TabIndex = 43
+        Me.RadLabel2.Text = "Old Customer"
         '
         'GroupBox49
         '
@@ -7867,16 +8146,6 @@ Partial Class FrmUtility
         Me.txtNewCustomer.Size = New System.Drawing.Size(143, 20)
         Me.txtNewCustomer.TabIndex = 44
         Me.txtNewCustomer.Value = ""
-        '
-        'RadLabel2
-        '
-        Me.RadLabel2.FieldName = Nothing
-        Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel2.Location = New System.Drawing.Point(6, 21)
-        Me.RadLabel2.Name = "RadLabel2"
-        Me.RadLabel2.Size = New System.Drawing.Size(76, 16)
-        Me.RadLabel2.TabIndex = 43
-        Me.RadLabel2.Text = "Old Customer"
         '
         'txtOldCustomer
         '
@@ -10599,14 +10868,6 @@ Partial Class FrmUtility
         '
         Me.Timer3.Interval = 50000
         '
-        'btnCreateEinvoiceForDCSSAle
-        '
-        Me.btnCreateEinvoiceForDCSSAle.Location = New System.Drawing.Point(7, 47)
-        Me.btnCreateEinvoiceForDCSSAle.Name = "btnCreateEinvoiceForDCSSAle"
-        Me.btnCreateEinvoiceForDCSSAle.Size = New System.Drawing.Size(154, 24)
-        Me.btnCreateEinvoiceForDCSSAle.TabIndex = 64
-        Me.btnCreateEinvoiceForDCSSAle.Text = "Create E-Invoice For DCS Sale "
-        '
         'FrmUtility
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -10670,6 +10931,7 @@ Partial Class FrmUtility
         Me.RadScrollablePanel1.PanelContainer.PerformLayout
         CType(Me.RadScrollablePanel1, System.ComponentModel.ISupportInitialize).EndInit
         Me.RadScrollablePanel1.ResumeLayout(False)
+        CType(Me.RadButton317, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox116.ResumeLayout(False)
         Me.GroupBox116.PerformLayout
         CType(Me.MyLabel72, System.ComponentModel.ISupportInitialize).EndInit
@@ -10921,6 +11183,10 @@ Partial Class FrmUtility
         Me.RadScrollablePanel3.PanelContainer.ResumeLayout(False)
         CType(Me.RadScrollablePanel3, System.ComponentModel.ISupportInitialize).EndInit
         Me.RadScrollablePanel3.ResumeLayout(False)
+        Me.gbShipmentWithInventoryandJE.ResumeLayout(False)
+        CType(Me.RadButton314, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RadButton315, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RadButton316, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox97.ResumeLayout(False)
         CType(Me.RadButton307, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton308, System.ComponentModel.ISupportInitialize).EndInit
@@ -11170,6 +11436,8 @@ Partial Class FrmUtility
         CType(Me.RadButton250, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox99.ResumeLayout(False)
         Me.GroupBox99.PerformLayout
+        CType(Me.btnCreateEInvoiceForSale, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.btnCreateEinvoiceForDCSSAle, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnCreateCrateEntry, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.lblFromGPDate, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.txtFromGPDate, System.ComponentModel.ISupportInitialize).EndInit
@@ -11216,11 +11484,22 @@ Partial Class FrmUtility
         Me.RadScrollablePanel4.PanelContainer.PerformLayout
         CType(Me.RadScrollablePanel4, System.ComponentModel.ISupportInitialize).EndInit
         Me.RadScrollablePanel4.ResumeLayout(False)
+        Me.gbUpdateInvDate.ResumeLayout(False)
+        Me.gbUpdateInvDate.PerformLayout
+        CType(Me.btnUpdateInvoiceDate, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.rbtnShipment, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.rbtnInvoice, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnItemCostUpdate, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.MyLabel75, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TxtCost, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TxtStockUOM, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TxtItem_Desc, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.MyLabel74, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox49.ResumeLayout(False)
         Me.GroupBox49.PerformLayout
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton141, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton349, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox53.ResumeLayout(False)
@@ -11445,7 +11724,6 @@ Partial Class FrmUtility
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
-        CType(Me.btnCreateEinvoiceForDCSSAle, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(False)
 
@@ -12262,5 +12540,22 @@ Partial Class FrmUtility
     Friend WithEvents btnResetMatSalesDoc As RadButton
     Friend WithEvents btnReCreateInventory As RadButton
     Friend WithEvents btnCreateEinvoiceForDCSSAle As RadButton
+    Friend WithEvents gbShipmentWithInventoryandJE As GroupBox
+    Friend WithEvents RadButton314 As RadButton
+    Friend WithEvents RadButton315 As RadButton
+    Friend WithEvents RadButton316 As RadButton
+    Friend WithEvents btnCreateEInvoiceForSale As RadButton
+    Friend WithEvents BtnItemCostUpdate As RadButton
+    Friend WithEvents MyLabel75 As common.Controls.MyLabel
+    Friend WithEvents TxtCost As common.MyNumBox
+    Friend WithEvents TxtStockUOM As common.Controls.MyTextBox
+    Friend WithEvents TxtItem_Desc As common.Controls.MyTextBox
+    Friend WithEvents MyLabel74 As common.Controls.MyLabel
+    Friend WithEvents TxtItemCode As common.UserControls.txtFinder
+    Friend WithEvents RadButton317 As RadButton
+    Friend WithEvents gbUpdateInvDate As GroupBox
+    Friend WithEvents btnUpdateInvoiceDate As RadButton
+    Friend WithEvents rbtnShipment As RadRadioButton
+    Friend WithEvents rbtnInvoice As RadRadioButton
 End Class
 

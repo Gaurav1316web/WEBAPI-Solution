@@ -66,6 +66,9 @@ Public Class clsMultipleInvoice
                     obj.Amount_Less_Discount += clsCommon.myCdbl(dr("Amount_Less_Discount"))
                     obj.Total_Tax_Amt += clsCommon.myCdbl(dr("Total_Tax_Amt"))
                     obj.Total_Amt += clsCommon.myCdbl(dr("Total_Amt"))
+                    obj.Gross_Amount += clsCommon.myCdbl(dr("Gross_Amount"))
+                    Dim DeductTPTFromDocAmt As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DeductTPTFromDocAmt, clsFixedParameterCode.DeductTPTFromDocAmt, trans)) = 1, True, False)
+
                     obj.Comments = clsCommon.myCstr(dr("Comments"))
                     obj.Comp_Code = clsCommon.myCstr(dr("Comp_Code"))
                     obj.Terms_Code = clsCommon.myCstr(dr("Terms_Code"))
@@ -434,7 +437,7 @@ Public Class clsMultipleInvoice
         End Try
         Return obj
     End Function
-    Public Shared Function ConvertShipmentToSaleInvoice(ByVal objShipment As clsPSShipmentHead, ByVal IsDairyModule As Boolean, ByVal trans As SqlTransaction) As clsPSInvoiceHead 'sanjay
+    Public Shared Function ConvertShipmentToSaleInvoice(ByVal objShipment As clsPSShipmentHead, ByVal InvoiceDate As DateTime, ByVal IsDairyModule As Boolean, ByVal trans As SqlTransaction) As clsPSInvoiceHead 'sanjay
         Dim obj As New clsPSInvoiceHead()
         obj = New clsPSInvoiceHead()
         Dim Taxable As Integer = 0
@@ -467,7 +470,7 @@ Public Class clsMultipleInvoice
             obj.RoundOffAmount = objShipment.RoundOffAmount
             obj.Total_Comm_Amt = objShipment.Total_Comm_Amt
             obj.Invoice_Type = objShipment.Invoice_Type
-            obj.Document_Date = clsCommon.GETSERVERDATE(trans)
+            obj.Document_Date = clsCommon.myCDate(InvoiceDate)
             obj.Customer_Code = objShipment.Customer_Code
             obj.Customer_Name = objShipment.Customer_Name
             obj.Status = ERPTransactionStatus.Pending
@@ -677,6 +680,8 @@ Public Class clsMultipleInvoice
             obj.Distributor_Commission_TotalAmt = 0
             obj.Security_TotalAmt = 0
             obj.Transporter_Commission_TotalAmt = 0
+            obj.TotalSubsidyAmt = 0
+            obj.Gross_Amount = 0
 
 
 
@@ -684,8 +689,10 @@ Public Class clsMultipleInvoice
             If (objShipment.Arr IsNot Nothing AndAlso objShipment.Arr.Count > 0) Then
                 obj.Arr = New List(Of clsPSInvoiceHeadDetail)
                 Dim objTr As clsPSInvoiceHeadDetail
+                Dim LineNo As Integer = 0
                 For Each objShipmentDetail As clsPSShipmentHeadDetail In objShipment.Arr
                     objTr = New clsPSInvoiceHeadDetail
+                    LineNo += 1
                     'Dim IsTaxable As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsTaxable from TSPL_ITEM_MASTER where item_code='" & objShipmentDetail.Item_Code & "'"))
                     'If (SingleInvoice = True OrElse (SingleInvoice = False AndAlso IIf(Taxable = 0, IsTaxable = 0, IsTaxable = 1))) Then
                     objTr.Sampling = objShipmentDetail.Sampling
@@ -715,7 +722,7 @@ Public Class clsMultipleInvoice
                     objTr.vendor_desc = objShipmentDetail.vendor_desc
                     objTr.Document_Code = objShipmentDetail.Document_Code
                     objTr.Row_Type = objShipmentDetail.Row_Type
-                    objTr.Line_No = objShipmentDetail.Line_No
+                    objTr.Line_No = LineNo
                     objTr.Status = Convert.ToInt32(objShipmentDetail.Status)
                     objTr.Item_Code = objShipmentDetail.Item_Code
                     objTr.Item_Desc = objShipmentDetail.Item_Desc
@@ -864,10 +871,10 @@ Public Class clsMultipleInvoice
                     '    obj.Discount_Amt += objShipmentDetail.Amt_Less_Discount
                     'Else
                     obj.Discount_Base += objShipmentDetail.Amount
-                        obj.Discount_Amt += objShipmentDetail.Disc_Amt
-                        obj.Amount_Less_Discount += objShipmentDetail.Amt_Less_Discount
-                        obj.Total_Tax_Amt += objShipmentDetail.Total_Tax_Amt
-                        obj.Total_Amt += objShipmentDetail.Item_Net_Amt
+                    obj.Discount_Amt += objShipmentDetail.Disc_Amt
+                    obj.Amount_Less_Discount += objShipmentDetail.Amt_Less_Discount
+                    obj.Total_Tax_Amt += objShipmentDetail.Total_Tax_Amt
+                    obj.Total_Amt += objShipmentDetail.Item_Net_Amt
                     'End If
                     'obj.Discount_Base += objShipmentDetail.Amt_Less_Discount
 
@@ -916,6 +923,13 @@ Public Class clsMultipleInvoice
                     obj.Distributor_Commission_TotalAmt += objShipmentDetail.Distributor_Commission_Amt
                     obj.Security_TotalAmt += objShipmentDetail.Security_Amt
                     obj.Transporter_Commission_TotalAmt += objShipmentDetail.Transporter_Commission_Amt
+                    Dim DeductTPTFromDocAmt As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DeductTPTFromDocAmt, clsFixedParameterCode.DeductTPTFromDocAmt, trans)) = 1, True, False)
+                    If DeductTPTFromDocAmt Then
+                        obj.TotalSubsidyAmt += objShipmentDetail.Transporter_Commission_Amt
+                        obj.Gross_Amount = (objShipment.Total_Amt - obj.Transporter_Commission_TotalAmt)
+                    Else
+                        obj.Gross_Amount = objShipment.Total_Amt
+                    End If
                     obj.Arr.Add(objTr)
 
                 Next

@@ -83,7 +83,12 @@ Public Class clsStanderdProductionEntry
             clsCommon.AddColumnsForChange(coll, "comp_code", objCommonVar.CurrentCompanyCode)
             clsCommon.AddColumnsForChange(coll, "PROD_ENTRY_CODE", obj.PROD_ENTRY_CODE)
             clsCommon.AddColumnsForChange(coll, "DESCRIPTION", obj.DESCRIPTION)
-            clsCommon.AddColumnsForChange(coll, "PROD_DATE", clsCommon.GetPrintDate(obj.PROD_DATE, "dd/MMM/yyyy"))
+            Dim ServerTime As DateTime = Nothing
+            If isNewEntry Then
+                ServerTime = clsCommon.GETSERVERDATE(trans)
+                obj.PROD_DATE = New DateTime(obj.PROD_DATE.Year, obj.PROD_DATE.Month, obj.PROD_DATE.Day, ServerTime.Hour, ServerTime.Minute, ServerTime.Second)
+            End If
+            clsCommon.AddColumnsForChange(coll, "PROD_DATE", clsCommon.GetPrintDate(obj.PROD_DATE, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Batch_Code", obj.Batch_Code, True)
             clsCommon.AddColumnsForChange(coll, "Batch_Code_Manual", obj.Batch_Code_Manual, True)
             clsCommon.AddColumnsForChange(coll, "BATCH_DATE", clsCommon.GetPrintDate(obj.BATCH_DATE, "dd/MMM/yyyy"))
@@ -171,7 +176,7 @@ left JOIN TSPL_EMPLOYEE_MASTER T2 ON T1.RECEIVED_BY=T2.EMP_CODE left JOIN TSPL_L
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             obj.PROD_ENTRY_CODE = dt.Rows(0)("PROD_ENTRY_CODE")
             obj.DESCRIPTION = clsCommon.myCstr(dt.Rows(0)("DESCRIPTION"))
-            obj.PROD_DATE = clsCommon.GetPrintDate(dt.Rows(0)("PROD_DATE"), "dd/MMM/yyyy")
+            obj.PROD_DATE = clsCommon.GetPrintDate(dt.Rows(0)("PROD_DATE"), "dd/MMM/yyyy hh:mm tt")
             obj.Batch_Code = clsCommon.myCstr(dt.Rows(0)("Batch_Code"))
             obj.Batch_Code_Manual = clsCommon.myCstr(dt.Rows(0)("Batch_Code_Manual"))
             obj.BATCH_DATE = clsCommon.GetPrintDate(dt.Rows(0)("BATCH_DATE"), "dd/MMM/yyyy")

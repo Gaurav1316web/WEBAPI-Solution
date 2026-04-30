@@ -118,6 +118,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -424,6 +425,13 @@
     <Compile Include="Report\frmDocumentVersionReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\FrmSystemAdministratorTool.Designer.vb">
+      <DependentUpon>FrmSystemAdministratorTool.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\FrmSystemAdministratorTool.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\ProcessHelpers.vb" />
     <Compile Include="Report\rptActiveUser.Designer.vb">
       <DependentUpon>rptActiveUser.vb</DependentUpon>
     </Compile>
@@ -452,6 +460,12 @@
       <DependentUpon>DashboardMilkUnion.vb</DependentUpon>
     </Compile>
     <Compile Include="VisualReport\DashboardMilkUnion.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VisualReport\frmDairyDashboard.Designer.vb">
+      <DependentUpon>frmDairyDashboard.vb</DependentUpon>
+    </Compile>
+    <Compile Include="VisualReport\frmDairyDashboard.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="VisualReport\RCDFDashboard.Designer.vb">
@@ -579,6 +593,9 @@
     <EmbeddedResource Include="Report\frmDocumentVersionReport.resx">
       <DependentUpon>frmDocumentVersionReport.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\FrmSystemAdministratorTool.resx">
+      <DependentUpon>FrmSystemAdministratorTool.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\rptActiveUser.resx">
       <DependentUpon>rptActiveUser.vb</DependentUpon>
     </EmbeddedResource>
@@ -593,6 +610,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="VisualReport\DashboardMilkUnion.resx">
       <DependentUpon>DashboardMilkUnion.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VisualReport\frmDairyDashboard.resx">
+      <DependentUpon>frmDairyDashboard.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VisualReport\RCDFDashboard.resx">
       <DependentUpon>RCDFDashboard.vb</DependentUpon>

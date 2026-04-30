@@ -35,7 +35,7 @@ Public Class FrmProductionAndSaleReport
     Private Sub FrmProductionAndSaleReport_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.R AndAlso btnReport.Enabled Then
             fillGridReport(False)
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.E AndAlso btnreset.Enabled Then
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.E AndAlso btnReset.Enabled Then
             reset()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C Then
             Close()
@@ -57,48 +57,51 @@ Public Class FrmProductionAndSaleReport
     Private Sub LOCATIONRIGTHS()
         Dim obj As New clsMCCCodes()
         Try
+            'If clsCommon.myLen(objCommonVar.strDefaultUserLocation) > 0 Then
+            'Loc_Desc_Code = "'" & objCommonVar.strDefaultUserLocation & "'"
+            'Loc_Desc_Name.Append("'" & clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Loc_Short_Name from TSPL_LOCATION_MASTER where Location_Code=" & Loc_Desc_Code & "")) & "'")
+            'Else
             obj = clsMCCCodes.GetData()
-            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
-                If obj.arrLocCodes IsNot Nothing AndAlso clsCommon.myLen(obj.arrLocCodes) > 0 Then
-                    arrLoc = obj.arrLocCodes
-                End If
-            End If
-
-            'If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
-            '    If obj.arrLocCodes IsNot Nothing AndAlso clsCommon.myLen(obj.arrLocCodes) > 0 Then
-            '        Dim locList As New List(Of String)
-            '        For Each loc As String In obj.arrLocCodes.Split(","c)
-            '            Dim cleanVal As String = loc.Replace("'", "").Trim()
-            '            If cleanVal.ToUpper() <> "RCDF" Then
-            '                locList.Add("'" & cleanVal & "'")
-            '            End If
-            '        Next
-            '        'arrLoc = obj.arrLocCodes
-            '        arrLoc = String.Join(",", locList)
-            '        'arrLoc = clsCommon.myCstr(locList)
-            '    End If
-            'End If
-
-
-
-            Dim Loc_Desc As String = " Select Loc_Short_Name,Location_Code from TSPL_LOCATION_MASTER WHERE LOCATION_CODE In (" & arrLoc & ") and isMainPlant=0  "
-            Dim dt As DataTable = (clsDBFuncationality.GetDataTable(Loc_Desc))
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                For i As Integer = 0 To dt.Rows.Count - 1
-                    If i = 0 Then
-                        Loc_Desc_Name.Append("'" & clsCommon.myCstr(dt.Rows(i)("Loc_Short_Name")) & "' ")
-                        'Loc_Desc_Code.Append("'" & clsCommon.myCstr(dt.Rows(i)("Location_Code")) & "' ")
-                        Loc_Desc_Code += " '" + clsCommon.myCstr(dt.Rows(i)("Location_Code")) + "'"
-
-                    Else
-                        Loc_Desc_Name.Append(", '" & clsCommon.myCstr(dt.Rows(i)("Loc_Short_Name")) & "' ")
-                        'Loc_Desc_Code.Append("'" & clsCommon.myCstr(dt.Rows(i)("Location_Code")) & "' ")
-                        Loc_Desc_Code += " ,'" + clsCommon.myCstr(dt.Rows(i)("Location_Code")) + "'"
-
+                If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
+                    If obj.arrLocCodes IsNot Nothing AndAlso clsCommon.myLen(obj.arrLocCodes) > 0 Then
+                        arrLoc = obj.arrLocCodes
                     End If
-                Next
-                'Loc_Desc_Code = 
-            End If
+                End If
+
+                'If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
+                '    If obj.arrLocCodes IsNot Nothing AndAlso clsCommon.myLen(obj.arrLocCodes) > 0 Then
+                '        Dim locList As New List(Of String)
+                '        For Each loc As String In obj.arrLocCodes.Split(","c)
+                '            Dim cleanVal As String = loc.Replace("'", "").Trim()
+                '            If cleanVal.ToUpper() <> "RCDF" Then
+                '                locList.Add("'" & cleanVal & "'")
+                '            End If
+                '        Next
+                '        'arrLoc = obj.arrLocCodes
+                '        arrLoc = String.Join(",", locList)
+                '        'arrLoc = clsCommon.myCstr(locList)
+                '    End If
+                'End If
+
+
+                Dim Loc_Desc As String = " Select Loc_Short_Name,Location_Code from TSPL_LOCATION_MASTER WHERE LOCATION_CODE In (" & arrLoc & ") and isMainPlant=0  "
+                Dim dt As DataTable = (clsDBFuncationality.GetDataTable(Loc_Desc))
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    For i As Integer = 0 To dt.Rows.Count - 1
+                        If i = 0 Then
+                            Loc_Desc_Name.Append("'" & clsCommon.myCstr(dt.Rows(i)("Loc_Short_Name")) & "' ")
+                            'Loc_Desc_Code.Append("'" & clsCommon.myCstr(dt.Rows(i)("Location_Code")) & "' ")
+                            Loc_Desc_Code += " '" + clsCommon.myCstr(dt.Rows(i)("Location_Code")) + "'"
+
+                        Else
+                            Loc_Desc_Name.Append(", '" & clsCommon.myCstr(dt.Rows(i)("Loc_Short_Name")) & "' ")
+                            'Loc_Desc_Code.Append("'" & clsCommon.myCstr(dt.Rows(i)("Location_Code")) & "' ")
+                            Loc_Desc_Code += " ,'" + clsCommon.myCstr(dt.Rows(i)("Location_Code")) + "'"
+
+                        End If
+                    Next
+                End If
+            'End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message)
         Finally
@@ -120,9 +123,9 @@ Public Class FrmProductionAndSaleReport
             'Dim dtBreakDownCode As DataTable
             Dim queryStock As String
             Dim query As String
-            gv1.ViewDefinition = New TableViewDefinition
-            gv1.DataSource = Nothing
-            gv1.Rows.Clear()
+            Gv1.ViewDefinition = New TableViewDefinition
+            Gv1.DataSource = Nothing
+            Gv1.Rows.Clear()
             Dim itemcode As String = ""
             Dim Location_code As String = ""
             Dim Month As Integer = fromDate.Value.Month
@@ -190,7 +193,7 @@ Public Class FrmProductionAndSaleReport
                 fDate = New DateTime(Year, Month, 1)
                 tDate = clsCommon.GetDateWithEndTime(fromDate.Value)
                 DayCount = DateDiff(DateInterval.Day, fDate, tDate) + 1
-                Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable("SELECT LOCATION_CODE FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N'")
+                Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable("SELECT LOCATION_CODE FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N' " & IIf(clsCommon.myLen(objCommonVar.strDefaultUserLocation) > 0, " And TSPL_LOCATION_MASTER.Location_Code ='" & objCommonVar.strDefaultUserLocation & "'", Nothing) & " ")
                 'Dim dtItem As DataTable = clsDBFuncationality.GetDataTable("select Item_Code from TSPL_ITEM_MASTER where Structure_Code='FG' and Item_Desc like '%SARAS%'")
                 Dim dtItem As DataTable = clsDBFuncationality.GetDataTable("select Item_Code from TSPL_ITEM_MASTER where FG_for_CF_RPT=1")
                 queryStock = ""
@@ -272,7 +275,7 @@ Public Class FrmProductionAndSaleReport
                 If rdbDaily.IsChecked Then
 
 
-                    query = " Select* from ( Select  '" + objCommonVar.CurrentUserCode + "' as UserName,  ROW_NUMBER() OVER(ORDER BY yy.Location ASC) as SNo, max(Location)Location,Max(Date)date,max(date1)date1,sum(Capacity)Capacity,sum(Noofshift)Noofshift, sum(ProdDailyQty)ProdDailyQty,
+                    query = " Select* from ( Select  '" + objCommonVar.CurrentUserCode + "' as UserName,  ROW_NUMBER() OVER(ORDER BY yy.Location ASC) as SNo,MAX(YY.Location_Code) As Location_Code, max(Location)Location,Max(Date)date,max(date1)date1,sum(Capacity)Capacity,sum(Noofshift)Noofshift, sum(ProdDailyQty)ProdDailyQty,
 sum(ProdCumQty)ProdCumQty,sum(CUD)CUD,sum(cum)CUM,sum(CUY)CUY,
 sum(saleDailyQty)saleDailyQty,	sum(SaleCumQty)SaleCumQty	,sum(FGS)FGS,	sum(PSO)PSO,sum(BreakdownHRS)BreakdownHRS,	max(BreakdownREASON)BreakdownREASON
 	, CAST(ROUND(MAX(DcsSeqNo_1), 0) AS INT) AS DcsSeqNo_1,CAST(ROUND(MAX(DcsSeqNo_2), 0) AS INT) AS DcsSeqNo_2,CAST(ROUND(MAX(DcsSeqNo_3), 0) AS INT) AS DcsSeqNo_3
@@ -280,7 +283,7 @@ sum(saleDailyQty)saleDailyQty,	sum(SaleCumQty)SaleCumQty	,sum(FGS)FGS,	sum(PSO)P
 from ("
 
                 End If
-                query += "select ROW_NUMBER() OVER(ORDER BY TSPL_LOCATION_MASTER.Location_code ASC) as SNo
+                query += "select ROW_NUMBER() OVER(ORDER BY TSPL_LOCATION_MASTER.Location_code ASC) as SNo,TSPL_LOCATION_MASTER.Location_code
                         ,TSPL_LOCATION_MASTER.Loc_Short_Name as [Location],format(convert(date,'" + fromDate.Value + "',103), 'dd MMMM yyyy') as Date,upper(format(convert(date,'" + fromDate.Value + "',103), 'MMMM yyyy'))as Date1,
                         cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "'))) AS DECIMAL(18,0)) as [Capacity],
                         NoOfShift
@@ -844,7 +847,7 @@ TSPL_SCRAPINVOICE_HEAD.Loc_Code FROM
                     query += "union all
 					
 
-					SELECT 0 as sn,max(TSPL_LOCATION_MASTER.Loc_Short_Name)Location,'' as Date,'' as 	Date1,0 as 	Capacity,0 as 	NoOfShift,0 as 	ProdDailyQty,0 as 	ProdCumQty,0 as CUD,0 as 	CUM,0 as 	CUY,	0 as SaleDailyQty,0 as	SaleCumQty,	0 as FGS,0 as	PSO,0 as	BreakdownHRS,'' as	BreakdownREASON	,
+					SELECT 0 as sn,Max(TSPL_LOCATION_MASTER.Location_Code) As Location_Code,max(TSPL_LOCATION_MASTER.Loc_Short_Name)Location,'' as Date,'' as 	Date1,0 as 	Capacity,0 as 	NoOfShift,0 as 	ProdDailyQty,0 as 	ProdCumQty,0 as CUD,0 as 	CUM,0 as 	CUY,	0 as SaleDailyQty,0 as	SaleCumQty,	0 as FGS,0 as	PSO,0 as	BreakdownHRS,'' as	BreakdownREASON	,
 										MAX(CASE WHEN rn = 1 THEN DcsSeqNo END) AS DcsSeqNo_1, MAX(CASE WHEN rn = 2 THEN DcsSeqNo END) AS DcsSeqNo_2, MAX(CASE WHEN rn = 3 THEN DcsSeqNo END) AS DcsSeqNo_3
 FROM
 (select xc.Location_Code,xc.DcsSeqNo, ROW_NUMBER() OVER (PARTITION BY xc.Location_Code  ORDER BY xc.DcsSeqNo ) AS rn from (Select  * from (
@@ -898,8 +901,8 @@ GROUP BY  RM_STOCK_DAYS.Location_Code,RM_STOCK_DAYS.ITEM_CODE
 LEFT JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = t.Location_Code
 WHERE rn <= 3
 GROUP BY t.Location_Code
-)YY group by YY.Location "
-                    query += " )Final  where Final.Location In (" & clsCommon.myCstr(Loc_Desc_Name) & ")"
+)YY group by YY.Location_Code,YY.Location "
+                    query += " )Final  where Final.Location_Code In (" & clsCommon.myCstr(Loc_Desc_Code) & ")"
 
                 End If
 

@@ -12,11 +12,20 @@ Public Class clsBMCTransporterBill
     Public Tanker_No As String = Nothing
     Public Toll_Tax As Double = 0
     Public Ice_Charge As Double = 0
+    'Public Fat_Shortage As Double = 0
+    'Public Snf_Shortage As Double = 0
+    'Public Fat_Snf_Shortage As Double = 0
+    'Public Fat_Rate As Double = 0
+    Public Snf_Rate As Double = 0
     Public Fat_Shortage As Double = 0
+    Public Fat_Shortage_NMG As Double = 0
     Public Snf_Shortage As Double = 0
+    Public Snf_Shortage_NMG As Double = 0
     Public Fat_Snf_Shortage As Double = 0
     Public Fat_Rate As Double = 0
-    Public Snf_Rate As Double = 0
+    Public Fat_Rate_NMG As Double = 0
+    Public Snf_Rate_NMG As Double = 0
+
     Public Tanker_Capacity As Double = 0
     Public KM_Rate As Double = 0
     Public Total_Amount As Double = 0
@@ -30,6 +39,11 @@ Public Class clsBMCTransporterBill
     Public Posted_Date As DateTime?
     Public Arr As List(Of clsBMCTransporterBillDetail) = Nothing
     Public ArrDT As DataTable = Nothing
+    Public Comment As String = Nothing
+    Public Remarks As String = Nothing
+    Public Is_Private As Boolean = False
+
+
 #End Region
 
 
@@ -48,20 +62,15 @@ Public Class clsBMCTransporterBill
     '    End Try
     'End Function
     Public Function SaveData(ByVal obj As clsBMCTransporterBill, ByVal isNewEntry As Boolean) As Boolean
-        Dim isSaved As Boolean = False
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            isSaved = obj.SaveData(obj, isNewEntry, trans)
-            If (isSaved) Then
-                trans.Commit()
-            Else
-                trans.Rollback()
-            End If
+            obj.SaveData(obj, isNewEntry, trans)
+            trans.Commit()
         Catch err As Exception
             trans.Rollback()
             Throw New Exception(err.Message)
         End Try
-        Return isSaved
+        Return True
     End Function
 
     Public Function SaveData(ByVal obj As clsBMCTransporterBill, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
@@ -89,11 +98,23 @@ Public Class clsBMCTransporterBill
         clsCommon.AddColumnsForChange(coll, "Tanker_No", obj.Tanker_No)
         clsCommon.AddColumnsForChange(coll, "Toll_Tax", obj.Toll_Tax)
         clsCommon.AddColumnsForChange(coll, "Ice_Charge", obj.Ice_Charge)
+
+
+        'clsCommon.AddColumnsForChange(coll, "Fat_Shortage", obj.Fat_Shortage)
+        'clsCommon.AddColumnsForChange(coll, "Snf_Shortage", obj.Snf_Shortage)
+        'clsCommon.AddColumnsForChange(coll, "Fat_Snf_Shortage", obj.Fat_Snf_Shortage)
+        'clsCommon.AddColumnsForChange(coll, "Fat_Rate", obj.Fat_Rate)
+        'clsCommon.AddColumnsForChange(coll, "Snf_Rate", obj.Snf_Rate)
         clsCommon.AddColumnsForChange(coll, "Fat_Shortage", obj.Fat_Shortage)
+        clsCommon.AddColumnsForChange(coll, "Fat_Shortage_NMG", obj.Fat_Shortage_NMG)
         clsCommon.AddColumnsForChange(coll, "Snf_Shortage", obj.Snf_Shortage)
+        clsCommon.AddColumnsForChange(coll, "Snf_Shortage_NMG", obj.Snf_Shortage_NMG)
         clsCommon.AddColumnsForChange(coll, "Fat_Snf_Shortage", obj.Fat_Snf_Shortage)
         clsCommon.AddColumnsForChange(coll, "Fat_Rate", obj.Fat_Rate)
+        clsCommon.AddColumnsForChange(coll, "Fat_Rate_NMG", obj.Fat_Rate_NMG)
         clsCommon.AddColumnsForChange(coll, "Snf_Rate", obj.Snf_Rate)
+        clsCommon.AddColumnsForChange(coll, "Snf_Rate_NMG", obj.Snf_Rate_NMG)
+
         clsCommon.AddColumnsForChange(coll, "Tanker_Capacity", obj.Tanker_Capacity)
         clsCommon.AddColumnsForChange(coll, "KM_Rate", obj.KM_Rate)
         clsCommon.AddColumnsForChange(coll, "Total_Amount", obj.Total_Amount)
@@ -103,6 +124,11 @@ Public Class clsBMCTransporterBill
         clsCommon.AddColumnsForChange(coll, "Total_Diesel", obj.Total_Diesel)
         clsCommon.AddColumnsForChange(coll, "Prorata_Amt", obj.Prorata_Amt)
         clsCommon.AddColumnsForChange(coll, "Total_Before_Calc", obj.Total_Before_Calc)
+
+        clsCommon.AddColumnsForChange(coll, "Comment", obj.Comment)
+        clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
+        clsCommon.AddColumnsForChange(coll, "Is_Private", IIf(obj.Is_Private, 1, 0))
+
         clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
         clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
         clsCommon.AddColumnsForChange(coll, "Posted_By", objCommonVar.CurrentUserCode)
@@ -153,6 +179,13 @@ Public Class clsBMCTransporterBill
             obj.Toll_Tax = clsCommon.myCdbl(dt.Rows(0)("Toll_Tax"))
             obj.Ice_Charge = clsCommon.myCdbl(dt.Rows(0)("Ice_Charge"))
             obj.Fat_Shortage = clsCommon.myCdbl(dt.Rows(0)("Fat_Shortage"))
+
+            obj.Fat_Rate_NMG = clsCommon.myCdbl(dt.Rows(0)("Fat_Rate_NMG"))
+            obj.Snf_Rate_NMG = clsCommon.myCdbl(dt.Rows(0)("Snf_Rate_NMG"))
+            obj.Fat_Shortage_NMG = clsCommon.myCdbl(dt.Rows(0)("Fat_Shortage_NMG"))
+            obj.Snf_Shortage_NMG = clsCommon.myCdbl(dt.Rows(0)("Snf_Shortage_NMG"))
+
+
             obj.Snf_Shortage = clsCommon.myCdbl(dt.Rows(0)("Snf_Shortage"))
             obj.Fat_Snf_Shortage = clsCommon.myCdbl(dt.Rows(0)("Fat_Snf_Shortage"))
             obj.Fat_Rate = clsCommon.myCdbl(dt.Rows(0)("Fat_Rate"))
@@ -168,26 +201,31 @@ Public Class clsBMCTransporterBill
             obj.Prorata_Amt = clsCommon.myCdbl(dt.Rows(0)("Prorata_Amt"))
             obj.Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 0, ERPTransactionStatus.Pending, ERPTransactionStatus.Approved)
 
+            obj.Comment = clsCommon.myCstr(dt.Rows(0)("Comment"))
+            obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
+            obj.Is_Private = (clsCommon.myCDecimal(dt.Rows(0)("Is_Private")) = 1)
+
             qry = "Select TSPL_BMC_TRANSPORTER_BILL_DETAIL.* from TSPL_BMC_TRANSPORTER_BILL_DETAIL 
                    where TSPL_BMC_TRANSPORTER_BILL_DETAIL.Document_Code='" + obj.Document_Code + "' ORDER BY TSPL_BMC_TRANSPORTER_BILL_DETAIL.PK_ID"
             obj.ArrDT = clsDBFuncationality.GetDataTable(qry, trans)
 
             If (obj.ArrDT IsNot Nothing AndAlso obj.ArrDT.Rows.Count > 0) Then
-                    obj.Arr = New List(Of clsBMCTransporterBillDetail)
-                    For Each dr As DataRow In obj.ArrDT.Rows
-                        Dim objTr As New clsBMCTransporterBillDetail
-                        objTr.Document_Code = clsCommon.myCstr(dr("Document_Code"))
-                        objTr.PK_ID = clsCommon.myCstr(dr("PK_ID"))
-                        objTr.MCC_Document_Code = clsCommon.myCstr(dr("MCC_Document_Code"))
-                        objTr.Station_1 = clsCommon.myCstr(dr("Station_1"))
-                        objTr.Station_2 = clsCommon.myCstr(dr("Station_2"))
-                        objTr.Station_3 = clsCommon.myCstr(dr("Station_3"))
-                        objTr.Station_4 = clsCommon.myCstr(dr("Station_4"))
-                        objTr.Trip = clsCommon.myCdbl(dr("trip"))
-                        objTr.GPS_KM = clsCommon.myCdbl(dr("GPS_KM"))
-                        objTr.KM = clsCommon.myCdbl(dr("KM"))
-                        objTr.Quantity_KG = clsCommon.myCdbl(dr("Quantity_KG"))
-                        objTr.Diesel_RD = clsCommon.myCdbl(dr("Diesel_RD"))
+                obj.Arr = New List(Of clsBMCTransporterBillDetail)
+                For Each dr As DataRow In obj.ArrDT.Rows
+                    Dim objTr As New clsBMCTransporterBillDetail
+                    objTr.Document_Code = clsCommon.myCstr(dr("Document_Code"))
+                    objTr.PK_ID = clsCommon.myCstr(dr("PK_ID"))
+                    objTr.MCC_Document_Code = clsCommon.myCstr(dr("MCC_Document_Code"))
+                    objTr.Station_1 = clsCommon.myCstr(dr("Station_1"))
+                    objTr.Station_2 = clsCommon.myCstr(dr("Station_2"))
+                    objTr.Station_3 = clsCommon.myCstr(dr("Station_3"))
+                    objTr.Station_4 = clsCommon.myCstr(dr("Station_4"))
+                    objTr.Category = clsCommon.myCstr(dr("Category"))
+                    objTr.Trip = clsCommon.myCdbl(dr("trip"))
+                    objTr.GPS_KM = clsCommon.myCdbl(dr("GPS_KM"))
+                    objTr.KM = clsCommon.myCdbl(dr("KM"))
+                    objTr.Quantity_KG = clsCommon.myCdbl(dr("Quantity_KG"))
+                    objTr.Diesel_RD = clsCommon.myCdbl(dr("Diesel_RD"))
                     objTr.Amount = clsCommon.myCdbl(dr("Amount"))
                     'objTr.BMC_Date = clsCommon.myCdbl(dr("Document_Date"))
                     objTr.BMC_Date = clsCommon.myCstr(dr("Document_Date"))
@@ -195,10 +233,10 @@ Public Class clsBMCTransporterBill
                     'clsCommon.AddColumnsForChange(coll, "Ice_Box", obj.Ice_Box)
                     'objTr.BalanceAmount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Balance_Amt from TSPL_VENDOR_INVOICE_HEAD left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code where TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader= '" + clsCommon.myCstr(dr("VLC_Code_VLC_Uploader")) + "' and Transfer_To_Saving=1"))
                     obj.Arr.Add(objTr)
-                    Next
-                End If
-
+                Next
             End If
+
+        End If
         Return obj
     End Function
 
@@ -298,12 +336,10 @@ Public Class clsBMCTransporterBill
             station1 = fullStation ' Or set it to "" or some default value if >> is not present
         End If
         'Dim station1 As String = obj.ArrDT.Rows(1)("Station_1").ToString()
-        Dim qry1 As String = clsDBFuncationality.getSingleValue(" select TSPL_BULK_route_master_location.Location_Code from TSPL_BULK_route_master_location
-                                        left outer join TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_BULK_route_master_location.Location_Code
-                                            where TSPL_LOCATION_MASTER.Location_Desc='" + station1 + "'", trans)
-        Dim Loc_Seg As String = clsDBFuncationality.getSingleValue(" select Loc_Segment_Code from TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.Location_Code='" + qry1 + "'", trans)
-
-
+        'Dim qry1 As String = clsDBFuncationality.getSingleValue(" select TSPL_BULK_route_master_location.Location_Code from TSPL_BULK_route_master_location
+        '                                left outer join TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_BULK_route_master_location.Location_Code
+        '                                    where TSPL_LOCATION_MASTER.Location_Desc='" + station1 + "'", trans)
+        Dim Loc_Seg As String = clsDBFuncationality.getSingleValue(" select top 1 Loc_Segment_Code from TSPL_LOCATION_MASTER", trans)
         For Each objTr As clsBMCTransporterBillDetail In obj.Arr
             Dim objVendInv As New clsVedorInvoiceHead()
             objVendInv.Invoice_Entry_Date = obj.Document_Date
@@ -329,7 +365,7 @@ Public Class clsBMCTransporterBill
 
             objVendInvTR.GL_Account_Code = clsCommon.myCstr(dtDed.Rows(0)("Freight_Provision"))
             If clsCommon.myLen(objVendInvTR.GL_Account_Code) <= 0 Then
-                Throw New Exception("Please set GL Account Code ")
+                Throw New Exception("Please set GL Account Code for Freight_Provision")
             End If
             objVendInvTR.GL_Account_Desc = clsGLAccount.GetName(objVendInvTR.GL_Account_Code, trans)
 
@@ -434,6 +470,7 @@ Public Class clsBMCTransporterBillDetail
     Public Station_2 As String = Nothing
     Public Station_3 As String = Nothing
     Public Station_4 As String = Nothing
+    Public Category As String = Nothing
     Public Trip As Decimal = 0
     Public GPS_KM As Decimal = 0
     Public KM As Decimal = 0
@@ -477,11 +514,12 @@ Public Class clsBMCTransporterBillDetail
             For Each obj As clsBMCTransporterBillDetail In Arr
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Document_Code", strDocNo)
-                clsCommon.AddColumnsForChange(coll, "MCC_Document_Code", obj.MCC_Document_Code)
+                clsCommon.AddColumnsForChange(coll, "MCC_Document_Code", obj.MCC_Document_Code, True)
                 clsCommon.AddColumnsForChange(coll, "Station_1", obj.Station_1)
                 clsCommon.AddColumnsForChange(coll, "Station_2", obj.Station_2)
                 clsCommon.AddColumnsForChange(coll, "Station_3", obj.Station_3)
                 clsCommon.AddColumnsForChange(coll, "Station_4", obj.Station_4)
+                clsCommon.AddColumnsForChange(coll, "Category", obj.Category)
                 clsCommon.AddColumnsForChange(coll, "Trip", obj.Trip)
                 clsCommon.AddColumnsForChange(coll, "GPS_KM", obj.GPS_KM)
                 clsCommon.AddColumnsForChange(coll, "KM", obj.KM)
@@ -493,8 +531,16 @@ Public Class clsBMCTransporterBillDetail
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BMC_TRANSPORTER_BILL_DETAIL", OMInsertOrUpdate.Insert, "", trans)
             Next
         End If
+        Dim qry As String = "select Tanker_No,Document_Date,Trip,sum(1) as Rep from (
+select TSPL_BMC_TRANSPORTER_BILL_HEAD.Tanker_No,CONVERT(Date, TSPL_BMC_TRANSPORTER_BILL_DETAIL.Document_Date,103) as Document_Date,TSPL_BMC_TRANSPORTER_BILL_DETAIL.Trip,  case when TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code='" & strDocNo & "' then 1 else 0 end as chk
+from TSPL_BMC_TRANSPORTER_BILL_DETAIL 
+left outer join TSPL_BMC_TRANSPORTER_BILL_HEAD on TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code=TSPL_BMC_TRANSPORTER_BILL_DETAIL.Document_Code
+) xx group by Tanker_No,Document_Date,Trip having sum(chk)>0 and sum(1)>1"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            Throw New Exception("Repeated Entry found on [" & clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("Document_Date")), "dd/MM/yyyy") & "] for Trip [" + clsCommon.myCstr(dt.Rows(0)("Trip")) + "]")
+        End If
         Return True
-
     End Function
 
 End Class

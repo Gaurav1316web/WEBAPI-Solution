@@ -541,6 +541,7 @@ Public Class clsCreateAllTable
             coll.Add("Union_Contact_Person", "Varchar(30) null ")
             coll.Add("Union_Contact_PhoneNo", "Varchar(30) null ")
             coll.Add("ISO_No", "Varchar(30) null ")
+            coll.Add("ISO_Date", "datetime null ")
             coll.Add("PCCN1", "Varchar(30) null ")
             coll.Add("PCCN2", "Varchar(30) null ")
             coll.Add("PCCP1", "Varchar(50) null ")
@@ -3489,6 +3490,16 @@ FROM TSPL_ITEM_MASTER"
             clsCommonFunctionality.CreateOrAlterTable("TSPL_Charge_Category", coll)
 
             coll = New Dictionary(Of String, String)()
+            coll.Add("Code", "Varchar(12) Primary Key")
+            coll.Add("Name", "Varchar(200)")
+            coll.Add("Route_Code", "varchar(12) null REFERENCES TSPL_ROUTE_MASTER(Route_No)")
+            coll.Add("Created_By", "Varchar(12) not null")
+            coll.Add("Created_Date", "Varchar(12) not null")
+            coll.Add("Modify_By", "Varchar(12) not null")
+            coll.Add("Modify_Date", "Varchar(12) not null")
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_Sub_Route_Master", coll, "", True, False, "", "", "", True)
+
+            coll = New Dictionary(Of String, String)()
             coll.Add("SNO", "int")
             coll.Add("Charge_Cat_Code", "Varchar(12)")
             coll.Add("Description", "Varchar(200)")
@@ -4324,6 +4335,8 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Manual_BatchNo", "VARCHAR(50) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BATCH_ITEM", coll, Nothing, True, True, "TSPL_INVENTORY_MOVEMENT", "Against_Inv_Movement_Trans_Id", "", True)
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BATCH_ITEM_INDIRECT", coll, Nothing, False, False, "TSPL_INVENTORY_MOVEMENT", "Against_Inv_Movement_Trans_Id", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BATCH_ITEM_CUSTOMER_BOOKING", coll, Nothing, True, True, "TSPL_INVENTORY_MOVEMENT", "Against_Inv_Movement_Trans_Id", "", True)
+
 
 
             coll = New Dictionary(Of String, String)()
@@ -6859,6 +6872,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Supply_Date", "Date NULL")
             coll.Add("FILE_INFO", "bigint NULL")
             coll.Add("Send_By", "varchar(12)  NULL")
+            coll.Add("Ship_To_Location", "varchar(50)  NULL")
             coll.Add("Send_Date", "datetime  NULL")
             coll.Add("Trip_No", "int NULL")
             coll.Add("Is_GHEE", "Integer Default 0")
@@ -8210,6 +8224,9 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("FILE_INFO", "bigint NULL")
             coll.Add("Status", "integer NOT NULL DEFAULT 0")
+            coll.Add("Trip_No", "Integer NULL")
+            coll.Add("Empty_Can", "Integer NULL")
+            coll.Add("Filled_Can", "Integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GATE_ENTRY", coll, "", True, True, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -8275,6 +8292,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("ROUTE_NO", "Varchar(30) null REFERENCES TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
             coll.Add("MCC", "varchar(30)  NULL References TSPL_MCC_MASTER(MCC_Code)")
             coll.Add("REF_PK_ID", "integer null references TSPL_GATE_ENTRY(PK_ID)")
+            coll.Add("Trip_No", "Integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GATE_ENTRY_DETAILS", coll, Nothing, True, True, "", "Gate_Entry_No", "Date_And_Time", True)
 
             coll = New Dictionary(Of String, String)()
@@ -8349,6 +8367,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("ROUTE_NO", "Varchar(30) null REFERENCES TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
             coll.Add("MCC", "varchar(30)  NULL References TSPL_MCC_MASTER(MCC_Code)")
             coll.Add("REF_PK_ID", "integer null references TSPL_GATE_ENTRY(PK_ID)")
+            coll.Add("Trip_No", "Integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "Tspl_Gate_Entry_Details_History", coll, Nothing, False, False)
 
             coll = New Dictionary(Of String, String)()
@@ -8574,8 +8593,8 @@ FROM TSPL_ITEM_MASTER"
             '    qry = "Update TSPL_DEMAND_BOOKING_DETAIL set Is_Posted=(select case when TSPL_DEMAND_BOOKING_MASTER.Posted=1 then 'Y' else 'N' end from TSPL_DEMAND_BOOKING_MASTER where TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No ) "
             '    clsDBFuncationality.ExecuteNonQuery(qry)
             'End If
-            clsDBFuncationality.ExecuteNonQuery("update TSPL_DEMAND_BOOKING_DETAIL set Source_By='APP' where Created_By is not null and Created_By <>''  and Source_By is null")
-            clsDBFuncationality.ExecuteNonQuery("update TSPL_DEMAND_BOOKING_DETAIL set Source_By='ERP' where (Created_By is null or Created_By ='') and Source_By is null")
+            'clsDBFuncationality.ExecuteNonQuery("update TSPL_DEMAND_BOOKING_DETAIL set Source_By='APP' where Created_By is not null and Created_By <>''  and Source_By is null")
+            'clsDBFuncationality.ExecuteNonQuery("update TSPL_DEMAND_BOOKING_DETAIL set Source_By='ERP' where (Created_By is null or Created_By ='') and Source_By is null")
 
 
             coll = New Dictionary(Of String, String)()
@@ -8972,6 +8991,8 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("ReceiverName", "varchar(50) NULL")
             coll.Add("Transport_Id", "varchar(50) null")
             coll.Add("Description", "VARCHAR(200) NULL")
+            coll.Add("MobileNO", "VARCHAR(15) NULL")
+            coll.Add("AdharNo", "VARCHAR(20) NULL")
             coll.Add("Is_Manual_Vehicle", "char(1) default 'N'")
             coll.Add("Manual_VehicleNo", "varchar(12) null")
             coll.Add("NoCrateIssue", "integer null")
@@ -9175,7 +9196,13 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("ShiftType", "varchar(20) NULL")
             coll.Add("Source_Document_Code", "varchar(30) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE", coll, Nothing, True, False, "", "Document_No", "Document_Date", True)
+            Try
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_CRATE_RECEIVED_HEAD_FRESHSALE alter column Driver varchar(100) null")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_CRATE_RECEIVED_HEAD_FRESHSALE_Hist_Data alter column Driver varchar(100) null")
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_CRATE_RECEIVED_HEAD_FRESHSALE_Delete_Data alter column Driver varchar(100) null")
+            Catch ex As Exception
 
+            End Try
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_No", "varchar(30) NOT NULL Primary key")
             coll.Add("Document_Date", "datetime not NULL")
@@ -10013,11 +10040,19 @@ FROM TSPL_ITEM_MASTER"
 
             ' -------------------------------------------End Service And Warranty --------------------------------------
 
-
+            qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_PLANT_WEIGHMENT' and COLUMN_NAME='Is_Other'"
+            dt = clsDBFuncationality.GetDataTable(qry)
+            If dt.Rows.Count = 0 Then
+                clsERPFuncationality.DropTableKey("TSPL_PLANT_WEIGHMENT", "Gate_Entry_No", EnumTableKeyType.Unique)
+                qry = " DROP INDEX IF EXISTS Unique_Gate_Entry_No ON TSPL_PLANT_WEIGHMENT;"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+                qry = " CREATE UNIQUE INDEX Unique_Gate_Entry_No ON TSPL_PLANT_WEIGHMENT (Gate_Entry_No) WHERE Gate_Entry_No IS NOT NULL;"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            End If
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_No", "varchar(30) NOT NULL Primary Key")
             coll.Add("Document_Date", "DateTime not NULL")
-            coll.Add("Gate_Entry_No", "varchar(50) not NULL ")
+            coll.Add("Gate_Entry_No", "varchar(50)  NULL ")
             coll.Add("Tanker_No", "varchar(20) not NULL ")
             coll.Add("Tare_Weight_Date", "datetime null")
             coll.Add("Type", "char(1) not null  ")
@@ -10038,7 +10073,13 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Posted_By", "varchar(12) NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
             coll.Add("Posted_Date", "datetime NULL")
             coll.Add("Sublocation_Code", "varchar(12) NULL References TSPL_LOCATION_MASTER(Location_Code) ")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PLANT_WEIGHMENT", coll, "UNIQUE(Gate_Entry_No)", True, False, Nothing, Nothing, Nothing, False)
+            coll.Add("Is_Other", "Integer NULL")
+            coll.Add("Party", "varchar(50) null")
+            coll.Add("Empty_Can", "Integer NULL")
+            coll.Add("Empty_Crate", "Integer NULL")
+            coll.Add("Filled_Can", "Integer NULL")
+            coll.Add("Filled_Crate", "Integer NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PLANT_WEIGHMENT", coll, "", True, False, Nothing, Nothing, Nothing, False)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Weighment_No", "varchar(30) primary key")
@@ -10903,6 +10944,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Latitude", "varchar(20) NULL")
             coll.Add("Longitude", "varchar(20) NULL")
             coll.Add("Entry_Date", "Datetime NULL")
+            coll.Add("MP_Code_Third_Party", "Varchar(30) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VLC_DATA_UPLOADER", coll, "Primary Key (Doc_No,PK_Id)", False, False, "", "Doc_No", "Doc_Date")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VLC_DATA_UPLOADER_SYNC", coll, "Primary Key (Doc_No,PK_Id)", False, False)
 
@@ -14303,6 +14345,23 @@ FROM TSPL_ITEM_MASTER"
             clsDBFuncationality.ExecuteNonQuery("update TSPL_MP_MASTER set Jan_Aadhar_No_Verified_ON=Modified_Date where  ISNULL(Jan_Aadhar_No_Verified,0) =1 and Jan_Aadhar_No_Verified_ON is null")
 
             coll = New Dictionary(Of String, String)()
+            coll.Add("MP_Code", "Varchar(30) NOT NULL primary key")
+            coll.Add("MP_Name", "varchar(100) not  NULL")
+            coll.Add("VLC_Code", "varchar(30) null REFERENCES TSPL_VLC_MASTER_HEAD (VLC_Code)")
+            coll.Add("MP_Code_VLC_Uploader", "varchar(6) NULL")
+            coll.Add("Created_By", "varchar(12) NOT NULL")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Father_Name", "varchar(100) ")
+            coll.Add("Gender", "varchar(10) NULL")
+            coll.Add("Add1", "varchar(50) not  NULL")
+            coll.Add("Telphone", "Varchar(30) null")
+            coll.Add("Fax", "Varchar(30) null")
+            coll.Add("BankName", "Varchar(50)  null")
+            coll.Add("IFCICode", "Varchar(50)  null")
+            coll.Add("AccountNO", "Varchar(50)  null")
+            coll.Add("Jan_Aadhar_No", "Varchar(30) null")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_MP_MASTER_THIRD_PARTY", coll, Nothing, True)
+            coll = New Dictionary(Of String, String)()
             coll.Add("TR_Code", "varchar(30) NOT NULL primary Key")
             coll.Add("MP_CODE", "varchar(30) null REFERENCES tspl_mp_master (MP_CODE)")
             coll.Add("INCENTIVE_CODE", "varchar(20) NULL")
@@ -14394,6 +14453,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("incentive_days", "float NULL")
             coll.Add("vsp_payment", "varchar(10) NULL")
             coll.Add("VSP_Payee_Name", "varchar(100) NULL")
+            coll.Add("Saving_Payee_Name", "varchar(100) NULL")
             coll.Add("Zila", "varchar(100) NULL")
             coll.Add("Tehsil", "varchar(100) NULL")
             coll.Add("Branch_Name", "varchar(150) NULL")
@@ -14656,6 +14716,19 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Transpoter_Name", "Varchar(200) NOT NULL")
             clsCommonFunctionality.CreateOrAlterTable("tspl_transport__Tanker_Details", coll)
 
+            qry = "IF EXISTS (
+    SELECT 1
+    FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE TABLE_NAME = 'TSPL_VENDOR_MASTER'
+      AND COLUMN_NAME = 'RegistrationNo'
+      AND DATA_TYPE = 'varchar'
+      AND CHARACTER_MAXIMUM_LENGTH < 100
+)
+BEGIN
+    ALTER TABLE TSPL_VENDOR_MASTER
+    ALTER COLUMN RegistrationNo VARCHAR(100);    
+END"
+            clsDBFuncationality.ExecuteNonQuery(qry)
 
 
 
@@ -14889,6 +14962,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("ANDROID_SECURE_ID", "varchar(30) null")
             coll.Add("ANDROID_DEVICE_MODEL_MANUFACTURER", "varchar(30) null")
             coll.Add("ANDROID_DEVICE_OS_VERSION", "varchar(30) null")
+            coll.Add("DataBase_Name", "varchar(15) NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_USER_MASTER", coll, "", True)
             Try
                 clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_USER_MASTER alter column SSO varchar(30) null")
@@ -15285,6 +15359,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Cust_Group_Code", "varchar(12) NULL REFERENCES TSPL_CUSTOMER_GROUP_MASTER (Cust_Group_Code)")
             coll.Add("Cust_Type_Code", "varchar(12) NULL")
             coll.Add("Route_No", "varchar(12) NULL REFERENCES TSPL_ROUTE_MASTER (Route_No)")
+            coll.Add("Sub_Route_Code", "varchar(12) NULL REFERENCES TSPL_Sub_ROUTE_MASTER (Code)")
             coll.Add("P_Route_No", "varchar(12) NULL REFERENCES TSPL_ROUTE_MASTER (Route_No)")
             coll.Add("I_Route_No", "varchar(12) NULL REFERENCES TSPL_ROUTE_MASTER (Route_No)")
             coll.Add("Route_Desc", "varchar(50) NULL")
@@ -17054,72 +17129,112 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("ARREAR_AMT", "NUMERIC(12,2) NULL ")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GENERATE_SALARY_ATTENDANCE", coll, Nothing, False, False, "TSPL_GENERATE_SALARY", "SALARY_GENERATION_CODE", "")
 
-            coll = New Dictionary(Of String, String)()
-            coll.Add("SALARY_GENERATION_CODE", "VARCHAR(30) NOT NULL REFERENCES TSPL_GENERATE_SALARY(SALARY_GENERATION_CODE) ")
-            coll.Add("EMP_CODE", "VARCHAR(12) NOT NULL REFERENCES TSPL_EMPLOYEE_MASTER(EMP_CODE) ")
-            coll.Add("LINE_NO", "INTEGER NOT NULL")
-            coll.Add("PAY_HEAD_CODE", "VARCHAR(30) NOT NULL REFERENCES TSPL_PAYHEAD_MASTER(PAY_HEAD_CODE) ")
-            coll.Add("HEAD_TYPE", "VARCHAR(10) NOT NULL")
-            coll.Add("SUB_HEAD_TYPE", "VARCHAR(30) NOT NULL")
-            coll.Add("CALC_BASIS", "VARCHAR(100) NOT NULL")
-            coll.Add("PAYHEAD_FORMULA", "VARCHAR(MAX) NOT NULL")
-            coll.Add("RATE_AMOUNT", "NUMERIC(10,3) NOT NULL")
-            coll.Add("ACTUAL_AMOUNT", "FLOAT NOT NULL ")
-            coll.Add("PAYABLE_AMOUNT", "NUMERIC(12,2) NOT NULL ")
-            coll.Add("FORMULA_AMOUNT", "VARCHAR(MAX)  NULL")
-            coll.Add("HEAD_VALUE", "NUMERIC(12,2) NULL ")
-            coll.Add("IsHiddenComponent", "BIT NOT NULL DEFAULT 0")
-            coll.Add("PF_MAX_LM", "NUMERIC(12,2) NOT NULL DEFAULT 0")
-            coll.Add("Account_Code", "VARCHAR(50)  NULL REFERENCES TSPL_GL_ACCOUNTS(Account_Code)")
+            Try
+                sqlStr = "SELECT count(1) FROM INFORMATION_SCHEMA.COLUMNS WHERE  TABLE_NAME = 'TSPL_GENERATE_SALARY_PAYHEADS' AND COLUMN_NAME = 'EMP_SAL_CODE' "
+                CodeExist = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(sqlStr))
 
-            coll.Add("EPF_RATE", "NUMERIC(12,2) NULL ")
-            coll.Add("ESI_RATE", "NUMERIC(12,2) NULL ")
-            coll.Add("CoEPF_RATE", "NUMERIC(5,2) NULL ")
-            coll.Add("CoEPF_RATE_AC01", "NUMERIC(5,2) NULL ")
-            coll.Add("CoEPF_AMT_AC01", "NUMERIC(12,2) NULL ")
-            coll.Add("CoEPS_RATE_AC10", "NUMERIC(5,2) NULL ")
-            coll.Add("CoEPS_AMT_AC10", "NUMERIC(12,2) NULL ")
-            coll.Add("ADMIN_RATE_AC02", "NUMERIC(5,2) NULL ")
-            coll.Add("ADMIN_AMT_AC02", "NUMERIC(12,2) NULL ")
-            coll.Add("EDLI_RATE_AC21", "NUMERIC(5,2) NULL ")
-            coll.Add("EDLI_AMT_AC21", "NUMERIC(12,2) NULL ")
-            coll.Add("ADMIN_EDLI_RATE_AC22", "NUMERIC(5,2) NULL ")
-            coll.Add("ADMIN_EDLI_AMT_AC22", "NUMERIC(12,2) NULL ")
-            coll.Add("OTHER_CHARGE", "NUMERIC(12,2) NULL ")
-            coll.Add("Co_ESI_RATE", "NUMERIC(5,2) NULL ")
-            coll.Add("Co_ESI_AMT", "NUMERIC(12,2) NULL ")
-            coll.Add("Employer_Account", "VARCHAR(50)  NULL REFERENCES TSPL_GL_ACCOUNTS(Account_Code)")
-            coll.Add("ARREAR_AMT", "FLOAT NULL ")
-            coll.Add("PRINCIPAL_ROUND_OFF", "FLOAT NULL ")
-            coll.Add("ARREAR_ROUND_OFF", "FLOAT NULL ")
-            coll.Add("CoEPF_AMT_AC01_ROUND_OFF", "FLOAT NULL ")
-            coll.Add("CoEPS_AMT_AC10_ROUND_OFF", "FLOAT NULL ")
+                coll = New Dictionary(Of String, String)()
+                coll.Add("SALARY_GENERATION_CODE", "VARCHAR(30) NOT NULL REFERENCES TSPL_GENERATE_SALARY(SALARY_GENERATION_CODE) ")
+                coll.Add("EMP_CODE", "VARCHAR(12) NOT NULL REFERENCES TSPL_EMPLOYEE_MASTER(EMP_CODE) ")
+                coll.Add("LINE_NO", "INTEGER NOT NULL")
+                coll.Add("PAY_HEAD_CODE", "VARCHAR(30) NOT NULL REFERENCES TSPL_PAYHEAD_MASTER(PAY_HEAD_CODE) ")
+                coll.Add("HEAD_TYPE", "VARCHAR(10) NOT NULL")
+                coll.Add("SUB_HEAD_TYPE", "VARCHAR(30) NOT NULL")
+                coll.Add("CALC_BASIS", "VARCHAR(100) NOT NULL")
+                coll.Add("PAYHEAD_FORMULA", "VARCHAR(MAX) NOT NULL")
+                coll.Add("RATE_AMOUNT", "NUMERIC(10,3) NOT NULL")
+                coll.Add("ACTUAL_AMOUNT", "FLOAT NOT NULL ")
+                coll.Add("PAYABLE_AMOUNT", "NUMERIC(12,2) NOT NULL ")
+                coll.Add("FORMULA_AMOUNT", "VARCHAR(MAX)  NULL")
+                coll.Add("HEAD_VALUE", "NUMERIC(12,2) NULL ")
+                coll.Add("IsHiddenComponent", "BIT NOT NULL DEFAULT 0")
+                coll.Add("PF_MAX_LM", "NUMERIC(12,2) NOT NULL DEFAULT 0")
+                coll.Add("Account_Code", "VARCHAR(50)  NULL REFERENCES TSPL_GL_ACCOUNTS(Account_Code)")
 
-            '' new columns
-            coll.Add("PF_Applicable", "Bit  NULL ")
-            coll.Add("PF_Calculation_Type", "Varchar(12) NULL ")
-            coll.Add("PF_Rule_Max_Lim", "FLOAT NULL ")
-            coll.Add("Custom_PF_Max_Lim", "FLOAT NULL ")
-            coll.Add("PF_No", " varchar(30)  NULL ")
-            coll.Add("ESI_Applicable", "Bit  NULL ")
-            coll.Add("ESI_Calculation_Type", "Varchar(12) NULL ")
-            coll.Add("ESI_Rule_Max_Lim", "FLOAT NULL ")
-            coll.Add("Custom_ESI_Max_Lim", "FLOAT NULL ")
-            coll.Add("ESI_No", " varchar(30)  NULL ")
-            coll.Add("EPS_To_EPF", "Bit  NULL ")
-            coll.Add("OT_Applicable", "Bit  NULL ")
-            coll.Add("OT_CODE", "VARCHAR(30) NULL REFERENCES TSPL_OT_MASTER(OT_CODE)")
-            coll.Add("OT_HOURS", "NUMERIC(6,2)  NULL ")
-            coll.Add("OT_RATE", "NUMERIC(12,2)  NULL ")
-            coll.Add("HOUR_MULTIPLIER", "NUMERIC(12,2)  NULL ")
-            coll.Add("Bonus_Applicable", "BIT  NULL ")
-            coll.Add("BONUS_CODE", "VARCHAR(30)  NULL ")
-            coll.Add("BONUS_FROM_PAY_PERIOD_CODE", "VARCHAR(30)  NULL ")
-            coll.Add("BONUS_TO_PAY_PERIOD_CODE", "VARCHAR(30)  NULL ")
-            coll.Add("OD_Applicable", "Bit  NULL ")
-            coll.Add("MAX_AMOUNT", "FLOAT NULL ")
-            coll.Add("PREV_ESI", "FLOAT NULL ")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GENERATE_SALARY_PAYHEADS", coll, "PK_TSPL_GENERATE_SALARY_PAYHEADS Primary Key(SALARY_GENERATION_CODE,EMP_CODE,PAY_HEAD_CODE) ", False, False, "TSPL_GENERATE_SALARY", "SALARY_GENERATION_CODE", "")
+                coll.Add("EPF_RATE", "NUMERIC(12,2) NULL ")
+                coll.Add("ESI_RATE", "NUMERIC(12,2) NULL ")
+                coll.Add("CoEPF_RATE", "NUMERIC(5,2) NULL ")
+                coll.Add("CoEPF_RATE_AC01", "NUMERIC(5,2) NULL ")
+                coll.Add("CoEPF_AMT_AC01", "NUMERIC(12,2) NULL ")
+                coll.Add("CoEPS_RATE_AC10", "NUMERIC(5,2) NULL ")
+                coll.Add("CoEPS_AMT_AC10", "NUMERIC(12,2) NULL ")
+                coll.Add("ADMIN_RATE_AC02", "NUMERIC(5,2) NULL ")
+                coll.Add("ADMIN_AMT_AC02", "NUMERIC(12,2) NULL ")
+                coll.Add("EDLI_RATE_AC21", "NUMERIC(5,2) NULL ")
+                coll.Add("EDLI_AMT_AC21", "NUMERIC(12,2) NULL ")
+                coll.Add("ADMIN_EDLI_RATE_AC22", "NUMERIC(5,2) NULL ")
+                coll.Add("ADMIN_EDLI_AMT_AC22", "NUMERIC(12,2) NULL ")
+                coll.Add("OTHER_CHARGE", "NUMERIC(12,2) NULL ")
+                coll.Add("Co_ESI_RATE", "NUMERIC(5,2) NULL ")
+                coll.Add("Co_ESI_AMT", "NUMERIC(12,2) NULL ")
+                coll.Add("Employer_Account", "VARCHAR(50)  NULL REFERENCES TSPL_GL_ACCOUNTS(Account_Code)")
+                coll.Add("ARREAR_AMT", "FLOAT NULL ")
+                coll.Add("PRINCIPAL_ROUND_OFF", "FLOAT NULL ")
+                coll.Add("ARREAR_ROUND_OFF", "FLOAT NULL ")
+                coll.Add("CoEPF_AMT_AC01_ROUND_OFF", "FLOAT NULL ")
+                coll.Add("CoEPS_AMT_AC10_ROUND_OFF", "FLOAT NULL ")
+
+                '' new columns
+                coll.Add("PF_Applicable", "Bit  NULL ")
+                coll.Add("PF_Calculation_Type", "Varchar(12) NULL ")
+                coll.Add("PF_Rule_Max_Lim", "FLOAT NULL ")
+                coll.Add("Custom_PF_Max_Lim", "FLOAT NULL ")
+                coll.Add("PF_No", " varchar(30)  NULL ")
+                coll.Add("ESI_Applicable", "Bit  NULL ")
+                coll.Add("ESI_Calculation_Type", "Varchar(12) NULL ")
+                coll.Add("ESI_Rule_Max_Lim", "FLOAT NULL ")
+                coll.Add("Custom_ESI_Max_Lim", "FLOAT NULL ")
+                coll.Add("ESI_No", " varchar(30)  NULL ")
+                coll.Add("EPS_To_EPF", "Bit  NULL ")
+                coll.Add("OT_Applicable", "Bit  NULL ")
+                coll.Add("OT_CODE", "VARCHAR(30) NULL REFERENCES TSPL_OT_MASTER(OT_CODE)")
+                coll.Add("OT_HOURS", "NUMERIC(6,2)  NULL ")
+                coll.Add("OT_RATE", "NUMERIC(12,2)  NULL ")
+                coll.Add("HOUR_MULTIPLIER", "NUMERIC(12,2)  NULL ")
+                coll.Add("Bonus_Applicable", "BIT  NULL ")
+                coll.Add("BONUS_CODE", "VARCHAR(30)  NULL ")
+                coll.Add("BONUS_FROM_PAY_PERIOD_CODE", "VARCHAR(30)  NULL ")
+                coll.Add("BONUS_TO_PAY_PERIOD_CODE", "VARCHAR(30)  NULL ")
+                coll.Add("OD_Applicable", "Bit  NULL ")
+                coll.Add("MAX_AMOUNT", "FLOAT NULL ")
+                coll.Add("PREV_ESI", "FLOAT NULL ")
+                coll.Add("EMP_SAL_CODE", "VARCHAR(30)  NULL REFERENCES TSPL_EMPLOYEE_SALARY(EMP_SAL_CODE)")
+                clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GENERATE_SALARY_PAYHEADS", coll, "PK_TSPL_GENERATE_SALARY_PAYHEADS Primary Key(SALARY_GENERATION_CODE,EMP_CODE,PAY_HEAD_CODE) ", False, False, "TSPL_GENERATE_SALARY", "SALARY_GENERATION_CODE", "")
+
+                If CodeExist = 0 Then
+                    qry = "update TSPL_GENERATE_SALARY_PAYHEADS set EMP_SAL_CODE=(select top 1 EMP_SAL_CODE from TSPL_EMPLOYEE_SALARY where TSPL_EMPLOYEE_SALARY.EMP_CODE=xx.EMP_CODE and TSPL_EMPLOYEE_SALARY.APPLICABLE_FROM<=xx.DATE_FROM)
+                            from (select TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE,TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE,TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE,TSPL_PAYPERIOD_MASTER.DATE_FROM,TSPL_PAYPERIOD_MASTER.DATE_TO ,TSPL_GENERATE_SALARY_PAYHEADS.EMP_SAL_CODE
+                            from TSPL_GENERATE_SALARY_PAYHEADS
+                            left outer join TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE
+                            left outer join TSPL_PAYPERIOD_MASTER on TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE=TSPL_GENERATE_SALARY.PAY_PERIOD_CODE
+                            where TSPL_GENERATE_SALARY_PAYHEADS.EMP_SAL_CODE is null )xx
+                            inner join TSPL_GENERATE_SALARY_PAYHEADS on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=xx.SALARY_GENERATION_CODE and TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=xx.EMP_CODE"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+
+                    qry = "update TSPL_GENERATE_SALARY_PAYHEADS set EMP_SAL_CODE=(select top 1 EMP_SAL_CODE from TSPL_EMPLOYEE_SALARY where TSPL_EMPLOYEE_SALARY.EMP_CODE=xx.EMP_CODE )
+                            from (select TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE,TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE,TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE,TSPL_PAYPERIOD_MASTER.DATE_FROM,TSPL_PAYPERIOD_MASTER.DATE_TO ,TSPL_GENERATE_SALARY_PAYHEADS.EMP_SAL_CODE
+                            from TSPL_GENERATE_SALARY_PAYHEADS
+                            left outer join TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE
+                            left outer join TSPL_PAYPERIOD_MASTER on TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE=TSPL_GENERATE_SALARY.PAY_PERIOD_CODE
+                            where TSPL_GENERATE_SALARY_PAYHEADS.EMP_SAL_CODE is null )xx
+                            inner join TSPL_GENERATE_SALARY_PAYHEADS on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=xx.SALARY_GENERATION_CODE and TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=xx.EMP_CODE"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+
+                    qry = "ALTER TABLE TSPL_GENERATE_SALARY_PAYHEADS ALTER COLUMN EMP_SAL_CODE VARCHAR(30) NOT NULL;"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+
+
+                    qry = " alter table TSPL_GENERATE_SALARY_PAYHEADS drop constraint PK_TSPL_GENERATE_SALARY_PAYHEADS "
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+
+                    qry = " ALTER TABLE TSPL_GENERATE_SALARY_PAYHEADS ADD CONSTRAINT PK_TSPL_GENERATE_SALARY_PAYHEADS
+                            PRIMARY KEY CLUSTERED (SALARY_GENERATION_CODE,EMP_CODE,PAY_HEAD_CODE,EMP_SAL_CODE)"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                End If
+            Catch ex As Exception
+                Throw New Exception(ex.Message)
+                'clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            End Try
 
             coll = New Dictionary(Of String, String)()
             coll.Add("SALARY_GENERATION_CODE", "VARCHAR(30) NOT NULL REFERENCES TSPL_GENERATE_SALARY(SALARY_GENERATION_CODE) ")
@@ -19326,7 +19441,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Location_GL_Code", "varchar(12) NULL")
             coll.Add("is_Opening", "integer not null default 0")
             coll.Add("Receipt_No", "varchar(30)  NOT NULL PRIMARY KEY ")
-            coll.Add("Receipt_Date", "date NULL")
+            coll.Add("Receipt_Date", "DATETIME NULL")
             coll.Add("Receipt_Post_Date", "date NULL")
             coll.Add("Entry_Desc", "varchar(500) NULL")
             coll.Add("Bank_Code", "varchar(12)  NOT NULL REFERENCES TSPL_BANK_MASTER (BANK_CODE)")
@@ -20611,6 +20726,13 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Department_Cost", "varchar(30)  null")
             ' clsCommonFunctionality.CreateOrAlterTable("TSPL_COST_CENTER_TYPE_MASTER", coll)
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_COST_CENTER_TYPE_MASTER", coll, "", True, False, "", "", "", True)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Cost_Code", "Varchar(30) null References TSPL_COST_CENTER_TYPE_MASTER(Code)")
+            coll.Add("EmpDepart", "varchar(12) null UNIQUE")
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_COST_CENTER_Emp_Depart_Master", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_COST_CENTER_Emp_Depart_Master", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)
             coll.Add("Requisition_Id", "varchar(30) NOT NULL Primary Key")
@@ -23431,7 +23553,7 @@ FROM TSPL_ITEM_MASTER"
             coll = New Dictionary(Of String, String)
             coll.Add("Code", "varchar(30) NOT NULL Primary Key")
             coll.Add("Date", "DateTime Not NULL")
-            coll.Add("GRN_Code", "Varchar(30) not null references TSPL_GRN_HEAD(GRN_No)")
+            coll.Add("GRN_Code", "Varchar(30)  null references TSPL_GRN_HEAD(GRN_No)")
             coll.Add("Description", "varchar(200) NULL")
             coll.Add("Status", "integer not null default 0")
             coll.Add("Remarks", "varchar(200) NULL")
@@ -23441,6 +23563,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Modify_Date", "Datetime NULL")
             coll.Add("Posted_By", "VARCHAR(12) NULL")
             coll.Add("Posted_Date", "Datetime NULL")
+            coll.Add("SRN_Code", "Varchar(30)  null references TSPL_SRN_HEAD(SRN_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Purchase_GateOut", coll, Nothing, True, False, "", "", "", True)
 
 
@@ -23968,7 +24091,7 @@ FROM TSPL_ITEM_MASTER"
 
             coll = New Dictionary(Of String, String)
             coll.Add("PI_No", "varchar(30) NOT NULL Primary Key")
-            coll.Add("PI_Date", "Date NOT NULL")
+            coll.Add("PI_Date", "DateTime NOT NULL")
             coll.Add("Vendor_Code", "varchar(12) NOT NULL")
             coll.Add("Vendor_Name", "varchar(200) NULL")
             coll.Add("Vendor_Invoice_No", "varchar(30) NULL")
@@ -24709,6 +24832,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Weighment_Time", "Datetime NULL")
             coll.Add("Is_Drip_Saver", "Integer NULL")
             coll.Add("Vehicle_No", "varchar(150) NULL")
+            coll.Add("QAT", "Integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL", coll, Nothing, True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_HEAD", "Document_No", "", True)
             coll.Item("Document_No") = "Varchar(30) not null"
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_SYNC", coll, Nothing, False, False)
@@ -25030,6 +25154,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Reject_Type", "Varchar(30) null references TSPL_MILK_REJECT_TYPE(Code)")
             coll.Add("Reject_Recovery_Per", "Decimal(18,2) null")
             coll.Add("Document_Shift", "char(1) null")
+            coll.Add("Against_MilkTransferIn", "Varchar(30) null references TSPL_MILK_TRANSFER_IN(Receipt_Challan_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC", coll, Nothing, True, True, "", "Document_No", "Document_Date", True)
 
             'If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
@@ -27243,6 +27368,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Vendor_Invoice_Date", "varchar(10) NULL")
             coll.Add("Document_No", "varchar(30)  NOT NULL PRIMARY KEY ")
             coll.Add("Invoice_Entry_Date", "varchar(10)  NOT NULL")
+            coll.Add("Invoice_Entry_Date_New", "DateTime  NULL")
             coll.Add("Posting_Date", "date NULL")
             coll.Add("Account_Set", "varchar(12) NULL")
             coll.Add("Document_Type", "char(1)  NOT NULL")
@@ -27346,6 +27472,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Branch_Name", "varchar(150) NULL")
             coll.Add("Vendor_Bank_ACNo", "varchar(50) NULL")
             coll.Add("Against_MCC_Material_Sale", "Varchar(30) null References TSPL_SD_SHIPMENT_HEAD(DOCUMENT_CODE)")
+            coll.Add("Against_MCC_Material_Sale_Return", "Varchar(30) null References TSPL_SD_SALE_RETURN_HEAD(DOCUMENT_CODE)")
             coll.Add("Against_VSP_Asset_Issue", "Varchar(30) null References TSPL_VSPAsset_HEAD(Doc_No)")
             coll.Add("Update_PR_APInvoice_Balance_Amt", "Integer not null default 0")
             coll.Add("Saving", "integer NULL")
@@ -28234,6 +28361,8 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Sub_Location_code", "varchar(12) NULL")
             coll.Add("EWayBill_QR_Code", "image null")
             coll.Add("Ewb_cancelDate", "datetime null")
+            coll.Add("VehicleNo", "Varchar(50) NULL")
+            coll.Add("No_Transporter", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPINVOICE_HEAD", coll, Nothing, True, True, "", "invoice_No", "posting_Date", True)
 
             qry = "alter table TSPL_SCRAPINVOICE_HEAD alter column AddCode1 varchar(35) null "
@@ -29119,6 +29248,11 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Ack_Date", "Datetime NULL")
             coll.Add("BarCode_Img", "image null")
             coll.Add("isCardSale", "integer not null default 0")
+            coll.Add("Location_Code_Prefix", " VARCHAR(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
+            coll.Add("Route_No", " VARCHAR(12) NULL REFERENCES TSPL_ROUTE_MASTER (Route_No)")
+            coll.Add("Is_Einvoice", "integer null")
+            coll.Add("TotalSubsidyAmt", "Decimal(18,2) NULL")
+            coll.Add("Is_Add_TPT", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Customer_Invoice_Head_History", coll, Nothing, False, False)
 
 
@@ -29187,6 +29321,12 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("History_Date", "datetime not null")
             coll.Add("AddChargeCode", "Varchar(50) null")
             coll.Add("AddChargeDesc", "Varchar(500) null")
+            coll.Add("Distributor_Commission_Amt", "decimal(18,4) NULL")
+            coll.Add("Transporter_Commission_Amt", "decimal(18,4) NULL")
+            coll.Add("Security_Amt", "decimal(18,2) NULL")
+            coll.Add("Promotional_GL_Account_Code", "varchar(50) null")
+            coll.Add("Transporter_GL_Account_Code", "varchar(50) null")
+            coll.Add("SD_GL_Account_Code", "varchar(50) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CUSTOMER_INVOICE_DETAIL_HISTORY", coll, Nothing, False, False)
 
             coll = New Dictionary(Of String, String)()
@@ -29926,7 +30066,7 @@ FROM TSPL_ITEM_MASTER"
             coll = New Dictionary(Of String, String)()
             coll.Add("BOM_CODE", "Varchar(30) NOT NULL PRIMARY KEY")
             coll.Add("DESCRIPTION", "Varchar(MAX) NULL")
-            coll.Add("BOM_DATE", "DATE NOT NULL")
+            coll.Add("BOM_DATE", "DATETIME NOT NULL")
             coll.Add("REVISION_NO", "VARCHAR(50) NOT NULL DEFAULT '' ")
             coll.Add("START_DATE", "DATE  NULL")
             coll.Add("END_DATE", "DATE NULL")
@@ -32012,6 +32152,9 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Rate_Diff_Amount_Type", "integer null")
             coll.Add("No_Transporter", "integer null")
             coll.Add("Is_Rate_Diff_Per_Amt", "integer null")
+            coll.Add("MobileNO", "VARCHAR(15) NULL")
+            coll.Add("AdharNo", "VARCHAR(20) NULL")
+
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
             Try
                 qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo=Document_Code where ParentDocNo is null "
@@ -34823,7 +34966,14 @@ inner JOIN tspl_sd_sale_Invoice_detail ON TSPL_Customer_Invoice_Head.Against_Sal
             coll.Add("TotalSubsidyDisAmt", "Decimal(18,2) NULL")
             coll.Add("Shift_Type", "Varchar(12) NULL")
             coll.Add("isMultipleReturn", "integer NULL")
-
+            coll.Add("Is_CashSale", "char(1) default 'N'")
+            coll.Add("Receipt_No", "varchar(30) NULL REFERENCES TSPL_Receipt_Header(Receipt_No)")
+            coll.Add("ReceiptAmt", "decimal(18,2) NULL")
+            coll.Add("Is_Rate_Diff_Per_Amt", "integer null")
+            coll.Add("Rate_Diff_Amount_Type", "integer null")
+            coll.Add("Is_Add_TPT", "integer null")
+            coll.Add("Is_Apply_TPT", "integer null")
+            coll.Add("TPT_Vendor", "varchar(12) NULL references TSPL_VENDOR_MASTER(Vendor_Code)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_RETURN_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
 
             Try
@@ -35799,6 +35949,8 @@ inner JOIN tspl_sd_sale_Invoice_detail ON TSPL_Customer_Invoice_Head.Against_Sal
             coll.Add("DrAmt", "varchar(20)  NULL")
             coll.Add("CrAmt", "varchar(20)  NULL")
             coll.Add("ClosingBal", "varchar(20) NULL")
+            coll.Add("VehicleNo", "Varchar(50) NULL")
+            coll.Add("No_Transporter", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPSALE_HEAD", coll, Nothing, True, True, "", "shipment_No", "shipment_Date", True)
 
             qry = "alter table TSPL_SCRAPSALE_HEAD alter column AddCode1 varchar(35) null "
@@ -36715,6 +36867,7 @@ inner JOIN tspl_sd_sale_Invoice_detail ON TSPL_Customer_Invoice_Head.Against_Sal
             coll.Add("Freight_Distance", "Integer Not Null Default 0")
             coll.Add("ProdRequestTransfer", "Integer not null default 0")
             coll.Add("EWayBill_QR_Code", "image null")
+            coll.Add("IsEwayBill", "Integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TRANSFER_ORDER_HEAD", coll, Nothing, True, True, "", "Document_No", "Document_Date", True)
 
 
@@ -38876,6 +39029,10 @@ inner JOIN tspl_sd_sale_Invoice_detail ON TSPL_Customer_Invoice_Head.Against_Sal
             coll.Add("Document_Amount", "decimal(18, 2) NULL")
             coll.Add("ActualTCSBaseAmount", "float null")
             coll.Add("ChangedTCSBaseAmount", "float null")
+            coll.Add("OpeningBal", "varchar(20)  NULL")
+            coll.Add("DrAmt", "varchar(20)  NULL")
+            coll.Add("CrAmt", "varchar(20)  NULL")
+            coll.Add("ClosingBal", "varchar(20) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_INVOICE_MASTER_BULKSALE", coll, Nothing, True, False, "", "Document_No", "Document_Date", True)
 
 
@@ -38977,9 +39134,44 @@ inner JOIN tspl_sd_sale_Invoice_detail ON TSPL_Customer_Invoice_Head.Against_Sal
             coll.Add("TAX5_Base_Amt", "decimal(18, 2) NULL")
             coll.Add("Amount_Less_Discount", "decimal(18, 2) NULL")
             coll.Add("Total_Tax_Amt", "decimal(18, 2) NULL")
+            coll.Add("Add_Charge_Code1", "varchar(30) NULL")
+            coll.Add("Add_Charge_Name1", "varchar(100) NULL")
+            coll.Add("Add_Charge_Amt1", "decimal(18, 2) NULL")
+            coll.Add("Add_Charge_Code2", "varchar(30) NULL")
+            coll.Add("Add_Charge_Name2", "varchar(100) NULL")
+            coll.Add("Add_Charge_Amt2", "decimal(18, 2) NULL")
+            coll.Add("Add_Charge_Code3", "varchar(30) NULL")
+            coll.Add("Add_Charge_Name3", "varchar(100) NULL")
+            coll.Add("Add_Charge_Amt3", "decimal(18, 2) NULL")
+            coll.Add("Add_Charge_Code4", "varchar(30) NULL")
+            coll.Add("Add_Charge_Name4", "varchar(100) NULL")
+            coll.Add("Add_Charge_Amt4", "decimal(18, 2) NULL")
+            coll.Add("Add_Charge_Code5", "varchar(30) NULL")
+            coll.Add("Add_Charge_Name5", "varchar(100) NULL")
+            coll.Add("Add_Charge_Amt5", "decimal(18, 2) NULL")
+            coll.Add("Add_Charge_Code6", "varchar(30) NULL")
+            coll.Add("Add_Charge_Name6", "varchar(100) NULL")
+            coll.Add("Add_Charge_Amt6", "decimal(18, 2) NULL")
+            coll.Add("Add_Charge_Code7", "varchar(30) NULL")
+            coll.Add("Add_Charge_Name7", "varchar(100) NULL")
+            coll.Add("Add_Charge_Amt7", "decimal(18, 2) NULL")
+            coll.Add("Add_Charge_Code8", "varchar(30) NULL")
+            coll.Add("Add_Charge_Name8", "varchar(100) NULL")
+            coll.Add("Add_Charge_Amt8", "decimal(18, 2) NULL")
+            coll.Add("Add_Charge_Code9", "varchar(30) NULL")
+            coll.Add("Add_Charge_Name9", "varchar(100) NULL")
+            coll.Add("Add_Charge_Amt9", "decimal(18, 2) NULL")
+            coll.Add("Add_Charge_Code10", "varchar(30) NULL")
+            coll.Add("Add_Charge_Name10", "varchar(100) NULL")
+            coll.Add("Add_Charge_Amt10", "decimal(18, 2) NULL")
+            coll.Add("Total_Add_Charge", "decimal(18, 2) NULL")
             coll.Add("Document_Amount", "decimal(18, 2) NULL")
             coll.Add("ActualTCSBaseAmount", "float null")
             coll.Add("ChangedTCSBaseAmount", "float null")
+            coll.Add("OpeningBal", "varchar(20)  NULL")
+            coll.Add("DrAmt", "varchar(20)  NULL")
+            coll.Add("CrAmt", "varchar(20)  NULL")
+            coll.Add("ClosingBal", "varchar(20) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_INVOICE_MASTER_BULKSALE_HISTORY", coll, Nothing, False, False)
 
 
@@ -45199,7 +45391,7 @@ inner JOIN tspl_sd_sale_Invoice_detail ON TSPL_Customer_Invoice_Head.Against_Sal
             coll.Add("Comp_Code", "varchar(8) null")
             coll.Add("Document_Code", "varchar(50) not null primary key")
             coll.Add("QC_Type", "varchar(12)null")
-            coll.Add("Document_Date", "Date null")
+            coll.Add("Document_Date", "DateTime null")
             coll.Add("Description", "varchar(200) null")
             coll.Add("Vendor_Code", "varchar(12) null REFERENCES TSPL_VENDOR_MASTER(Vendor_Code)")
             coll.Add("Bill_To_location", "Varchar(12) NULL References TSPL_LOCATION_MASTER(Location_Code)")
@@ -49141,6 +49333,12 @@ inner JOIN tspl_sd_sale_Invoice_detail ON TSPL_Customer_Invoice_Head.Against_Sal
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("SplitChar", "integer NULL")
+            coll.Add("WhatsApp_Phone_Number_ID", "varchar(50) NULL")
+            coll.Add("WhatsApp_Business_Account_ID", "varchar(50) NULL")
+            coll.Add("WhatsApp_Access_Token", "nvarchar(Max) NULL")
+            coll.Add("WhatsApp_URL", "varchar(100) NULL")
+            coll.Add("WhatsApp_Api_Version", "varchar(10) NULL")
+            coll.Add("WhatsApp_Is_Active", "bit NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ES_Config", coll, "", True)
 
 
@@ -49162,6 +49360,7 @@ inner JOIN tspl_sd_sale_Invoice_detail ON TSPL_Customer_Invoice_Head.Against_Sal
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("No_Of_Char", "integer null")
+            coll.Add("WhatsApp_Text", "varchar(200) null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ES_Content", coll, "", True)
 
             qry = clsGetKeys.GetForeignKeyName("TSPL_ES_CONTENT", "Template_ID", Nothing)
@@ -56936,6 +57135,7 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Rahat_Kampekat_Feed_Amount", "Decimal(18,2) null")
             coll.Add("Total_Amount", "Decimal(18,2) null")
             coll.Add("Mark_Invalid", "integer NULL")
+            coll.Add("Actual_Qty", "Decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MP_INCENTIVE_ENTRY_DETAIL", coll, "", True, False, "TSPL_MP_INCENTIVE_ENTRY_HEAD", "Document_Code", "")
 
             coll = New Dictionary(Of String, String)()
@@ -57931,7 +58131,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll = New Dictionary(Of String, String)()
             coll.Add("PROD_ENTRY_CODE", "VARCHAR(30) NOT NULL PRIMARY KEY ")
             coll.Add("DESCRIPTION", "Varchar(100) NOT NULL ")
-            coll.Add("PROD_DATE", "DATE NOT NULL")
+            coll.Add("PROD_DATE", "DATETIME NOT NULL")
             coll.Add("Batch_Code", "Varchar(30)  NULL REFERENCES TSPL_PP_BATCH_ORDER_HEAD(Batch_Code)")
             coll.Add("BATCH_DATE", "DATE NOT NULL")
             coll.Add("RECEIVED_BY", "Varchar(12)  NULL REFERENCES TSPL_EMPLOYEE_MASTER(EMP_CODE)")
@@ -58224,7 +58424,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BREAK_DOWN_MASTER", coll, "", True, False, "", "", "", True)
             coll = New Dictionary(Of String, String)()
             coll.Add("Doc_No", "varchar(30) NOT NULL Primary Key")
-            coll.Add("Doc_Date", "date NOT NULL")
+            coll.Add("Doc_Date", "DATETIME NOT NULL")
             coll.Add("Description", "varchar(150) null")
             coll.Add("Location_Code", "VARCHAR(12) not null REFERENCES TSPL_LOCATION_MASTER(Location_Code)")
             coll.Add("Break_Down_Code", "varchar(30) not null REFERENCES TSPL_BREAK_DOWN_MASTER(Code)")
@@ -59745,6 +59945,130 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Against_Make_Saving_Payment", "integer  null references TSPL_MAKE_SAVING_PAYMENT_DETAIL(PK_ID)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_HEADER", coll, Nothing, True, True, "", "Payment_No", "Payment_Date", True)
 
+            coll = New Dictionary(Of String, String)
+            coll.Add("Document_Code", "varchar(30) NOT NULL PRIMARY KEY")
+            coll.Add("Document_Date", "datetime NOT NULL")
+            coll.Add("From_Date", "datetime NOT NULL")
+            coll.Add("To_Date", "datetime NOT NULL")
+            coll.Add("Status", "integer null")
+            coll.Add("Tanker_No", "varchar(20) NULL  References TSPL_TANKER_MASTER(Tanker_No)")
+            coll.Add("Toll_Tax", "decimal(18,2) NULL ")
+            coll.Add("Ice_Charge", "decimal(18,2) NULL ")
+            coll.Add("Fat_Shortage", "decimal(18,2) NULL ")
+            coll.Add("Snf_Shortage", "decimal(18,2) NULL ")
+            coll.Add("Fat_Snf_Shortage", "decimal(18,2) NULL ") 'fat and snf shortage to be added
+            coll.Add("Fat_Rate", "decimal(18,2) NULL ")
+            coll.Add("Snf_Rate", "decimal(18,2) NULL ")
+            coll.Add("Tanker_Capacity", "decimal(18,2) NULL ")
+            coll.Add("KM_Rate", "decimal(18,2) NULL ")
+            coll.Add("Total_Amount", "decimal(18,2) NULL ")
+            coll.Add("Gross_Amount", "decimal(18,2) NULL ")
+            coll.Add("Diesel_Rate_Plus", "decimal(18,2) NULL ")
+            coll.Add("Diesel_Rate_Minus", "decimal(18,2) NULL ")
+            coll.Add("Total_Diesel", "decimal (18,2) NULL")
+            coll.Add("Prorata_Amt", "decimal (18,2) NULL")
+            coll.Add("Total_Before_Calc", "decimal (18,2) NULL")
+            coll.Add("Created_By", "varchar(12)  NOT NULL")
+            coll.Add("Created_Date", "datetime  NOT NULL")
+            coll.Add("Modify_By", "varchar(12)  NOT NULL")
+            coll.Add("Modify_Date", "datetime NOT NULL")
+            coll.Add("Posted_By", "varchar(12) NULL")
+            coll.Add("Posted_Date", "datetime null")
+            coll.Add("Is_Private", "integer null")
+            coll.Add("Comment", "varchar(100) NULL")
+            coll.Add("Remarks", "varchar(100) NULL")
+            coll.Add("Fat_Shortage_NMG", "decimal(18,2) NULL ")
+            coll.Add("Snf_Shortage_NMG", "decimal(18,2) NULL ")
+            coll.Add("Fat_Rate_NMG", "decimal(18,2) NULL ")
+            coll.Add("Snf_Rate_NMG", "decimal(18,2) NULL ")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BMC_TRANSPORTER_BILL_HEAD", coll, Nothing, True, False, "", "Document_Code", "Document_Date", True)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION PRIMARY KEY")
+            coll.Add("Document_Code", "varchar(30) NOT NULL References TSPL_BMC_TRANSPORTER_BILL_HEAD(Document_Code)")
+            coll.Add("MCC_Document_Code", "varchar(30)  NULL References TSPL_MILK_COLLECTION_MCC(Document_No)")
+            coll.Add("Category", "varchar(15) NULL")
+            coll.Add("Station_1", "varchar(40)  NULL")
+            coll.Add("Station_2", "varchar(40)  NULL")
+            coll.Add("Station_3", "varchar(40)  NULL")
+            coll.Add("Station_4", "varchar(40)  NULL")
+            coll.Add("Trip", "decimal (18,2) NULL")
+            coll.Add("GPS_KM", "decimal (18,2) NULL")
+            coll.Add("KM", "decimal (18,2) NULL")
+            coll.Add("Quantity_KG", "decimal (18,2) NULL")
+            coll.Add("Amount", "decimal (18,2) NULL")
+            coll.Add("Diesel_RD", "decimal (18,2) NULL")
+            coll.Add("Document_Date", "datetime NULL")
+            coll.Add("Ice_Box", "Char(1) NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BMC_TRANSPORTER_BILL_DETAIL", coll, Nothing, True, False, "TSPL_BMC_TRANSPORTER_BILL_HEAD", "Document_Code", "", True)
+
+            coll = New Dictionary(Of String, String)
+            coll.Add("Document_Code", "varchar(30) NOT NULL PRIMARY KEY")
+            coll.Add("Document_Date", "datetime NOT NULL")
+            coll.Add("Status", "integer null")
+            coll.Add("PAY_PERIOD_CODE", "VARCHAR(30) NOT NULL REFERENCES TSPL_PAYPERIOD_MASTER(PAY_PERIOD_CODE) ")
+            coll.Add("Created_By", "varchar(12)  NOT NULL")
+            coll.Add("Created_Date", "datetime  NOT NULL")
+            coll.Add("Modify_By", "varchar(12)  NOT NULL")
+            coll.Add("Modify_Date", "datetime NOT NULL")
+            coll.Add("Posted_By", "varchar(12) NULL")
+            coll.Add("Posted_Date", "datetime null")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_EMPLOYEE_OT_ENTRY_HEAD", coll, Nothing, True, False, "", "Document_Code", "Document_Date", True)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION PRIMARY KEY")
+            coll.Add("Document_Code", "varchar(30) NOT NULL References TSPL_EMPLOYEE_OT_ENTRY_HEAD(Document_Code)")
+            coll.Add("EMP_CODE", "VARCHAR(12) NOT NULL REFERENCES TSPL_EMPLOYEE_MASTER(EMP_CODE)")
+            coll.Add("OT_DATE", "datetime NOT NULL")
+            coll.Add("PAY_PERIOD_CODE", "VARCHAR(30) NOT NULL REFERENCES TSPL_PAYPERIOD_MASTER(PAY_PERIOD_CODE) ")
+            coll.Add("OT_TYPE", "varchar(40)  NOT NULL")
+            coll.Add("OT_HOURS", "decimal (18,2) NULL")
+            coll.Add("OT_BASIC", "decimal (18,2) NULL")
+            coll.Add("OT_DA", "decimal (18,2) NULL") ' add gps km column
+            coll.Add("Amount", "decimal (18,2) NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_EMPLOYEE_OT_ENTRY_DETAIL", coll, Nothing, True, False, "TSPL_EMPLOYEE_OT_ENTRY_HEAD", "Document_Code", "", True)
+
+            coll = New Dictionary(Of String, String)
+            coll.Add("Document_Code", "varchar(30) NOT NULL PRIMARY KEY")
+            coll.Add("Document_Date", "datetime NOT NULL")
+            coll.Add("Status", "integer null")
+            coll.Add("Remarks", "varchar(300) NULL")
+            coll.Add("From_Date", "datetime NOT NULL")
+            coll.Add("To_Date", "datetime NOT NULL")
+            'coll.Add("PAY_PERIOD_CODE", "VARCHAR(30) NOT NULL REFERENCES TSPL_PAYPERIOD_MASTER(PAY_PERIOD_CODE) ")
+            coll.Add("Created_By", "varchar(12)  NOT NULL")
+            coll.Add("Created_Date", "datetime  NOT NULL")
+            coll.Add("Modify_By", "varchar(12)  NOT NULL")
+            coll.Add("Modify_Date", "datetime NOT NULL")
+            coll.Add("Posted_By", "varchar(12) NULL")
+            coll.Add("Posted_Date", "datetime null")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_EMPLOYEE_OT_CALCULATION_HEAD", coll, Nothing, True, False, "", "Document_Code", "Document_Date", True)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION PRIMARY KEY")
+            coll.Add("REF_PK_ID", "Integer NOT NULL References TSPL_EMPLOYEE_OT_ENTRY_DETAIL(PK_ID)")
+            coll.Add("Document_Code", "varchar(30) NOT NULL References TSPL_EMPLOYEE_OT_CALCULATION_HEAD(Document_Code)")
+            coll.Add("Increment_Basic", "decimal (18,2) NULL")
+            coll.Add("Increment_DA", "decimal (18,2) NULL")
+            coll.Add("Amount", "decimal (18,2) NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_EMPLOYEE_OT_CALCULATION_DETAILS", coll, Nothing, True, False, "TSPL_EMPLOYEE_OT_CALCULATION_HEAD", "Document_Code", "", True)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Document_Code", "varchar(30) NOT NULL References TSPL_EMPLOYEE_OT_CALCULATION_HEAD(Document_Code)")
+            coll.Add("EMP_CODE", "VARCHAR(12) NOT NULL REFERENCES TSPL_EMPLOYEE_MASTER(EMP_CODE)")
+            coll.Add("OT_HOURS", "decimal (18,2) NULL")
+            coll.Add("Amount", "decimal (18,2) NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_EMPLOYEE_OT_CALCULATION_SUMMARY", coll, Nothing, True, False, "TSPL_EMPLOYEE_OT_CALCULATION_HEAD", "Document_Code", "", True)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Document_Code", "Varchar(30) not null  PRIMARY KEY")
+            coll.Add("Document_Date", "datetime not NULL")
+            coll.Add("Description", "varchar(50) Not NULL")
+            coll.Add("Created_By", "varchar(12) NOT NULL")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Modified_By", "varchar(12) NOT NULL")
+            coll.Add("Modified_Date", "Datetime NOT NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BMC_Category_Master", coll, "", True, False, "", "Document_Code", "Document_Date", True)
 
             clsCommon.ProgressBarPercentHide()
         Catch ex As Exception
@@ -60453,6 +60777,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
         coll.Add("Curr_Balance_Amt", "Decimal(18,2) NULL")
         coll.Add("Balance_Amt", "Decimal(18,2) NULL")
         coll.Add("Penalty", "Decimal(18,2) NULL")
+        coll.Add("Opening_Balance", "decimal (18,2) NULL")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CUSTOMER_PENALTY_DETAIL", coll, Nothing, True, False, "TSPL_CUSTOMER_PENALTY", "Document_No", "")
 
         coll = New Dictionary(Of String, String)()
@@ -60511,6 +60836,124 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
         coll.Add("Modified_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
         coll.Add("Modified_Date", "Datetime NOT NULL")
         clsCommonFunctionality.CreateOrAlterTable("TSPL_WEIGHING_MASTER", coll)
+
+        Try
+            Dim qry2 As String = ""
+            qry2 = "  ----PURCHASE INVOICE
+            alter table TSPL_PI_HEAD alter column PI_Date DATETIME NOT NULL 
+             alter table TSPL_PI_HEAD_HIST_DATA alter column PI_Date DATETIME NOT NULL
+            alter table TSPL_PI_HEAD_DELETE_DATA alter column PI_Date DATETIME NOT NULL
+            alter table TSPL_PI_HEAD_CANCEL_DATA alter column PI_Date DATETIME NOT NULL
+
+            -----Incoming Quality check entry Screen
+             alter table TSPL_QC_CHECK_HEAD alter column Document_Date DATETIME NOT NULL 
+            alter table TSPL_QC_CHECK_HEAD_HIST_DATA alter column Document_Date DATETIME NOT NULL
+             alter table TSPL_QC_CHECK_HEAD_DELETE_DATA alter column Document_Date DATETIME NOT NULL 
+            alter table TSPL_QC_CHECK_HEAD_CANCEL_DATA alter column Document_Date DATETIME NOT NULL
+
+            -----LCF 
+           alter table TSPL_MF_BOM_HEAD alter column BOM_DATE DATETIME NOT NULL 
+            alter table TSPL_MF_BOM_HEAD_HIST_DATA alter column BOM_DATE DATETIME NOT NULL
+            alter table TSPL_MF_BOM_HEAD_DELETE_DATA alter column BOM_DATE DATETIME Not NULL
+             alter table TSPL_MF_BOM_HEAD_CANCEL_DATA alter column BOM_DATE DATETIME NOT NULL
+
+            ----STD Production Entry
+             alter table TSPL_SPP_PRODUCTION_ENTRY alter column PROD_DATE DATETIME NOT NULL 
+             alter table TSPL_SPP_PRODUCTION_ENTRY_HIST_DATA alter column PROD_DATE DATETIME NOT NULL
+            alter table TSPL_SPP_PRODUCTION_ENTRY_DELETE_DATA alter column PROD_DATE DATETIME Not NULL
+            alter table TSPL_SPP_PRODUCTION_ENTRY_CANCEL_DATA alter column PROD_DATE DATETIME NOT NULL
+
+            ---Break Down Entry
+            alter table TSPL_BREAK_DOWN_ENTRY alter column DOC_DATE DATETIME NOT NULL 
+           alter table TSPL_BREAK_DOWN_ENTRY_HIST_DATA alter column DOC_DATE DATETIME NOT NULL
+
+            ----Receipt Entry
+           alter table TSPL_RECEIPT_HEADER alter column Receipt_Date DATETIME NOT NULL 
+           alter table TSPL_RECEIPT_HEADER_HIST_DATA alter column Receipt_Date DATETIME NOT NULL
+            alter table TSPL_RECEIPT_HEADER_DELETE_DATA alter column Receipt_Date DATETIME NOT NULL TABLE_NAME
+           alter table TSPL_RECEIPT_HEADER_CANCEL_DATA alter column Receipt_Date DATETIME NOT NULL "
+            clsDBFuncationality.ExecuteNonQuery(qry2)
+            Dim sqlStr As String = "SELECT count(1) FROM INFORMATION_SCHEMA.COLUMNS WHERE  TABLE_NAME = 'TSPL_EINVOICEHEADER_INFO' AND COLUMN_NAME = 'Code' "
+            Dim CodeExist = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(sqlStr))
+            If CodeExist = 0 Then
+                qry2 = "   ----AP Invoice Entry
+             alter table TSPL_VENDOR_INVOICE_HEAD add Invoice_Entry_Date_New DATETIME  NULL
+alter table TSPL_VENDOR_INVOICE_HEAD_HIST_DATA add Invoice_Entry_Date_New DATETIME  NULL
+alter table TSPL_VENDOR_INVOICE_HEAD_DELETE_DATA add Invoice_Entry_Date_New DATETIME  NULL
+alter table TSPL_VENDOR_INVOICE_HEAD_CANCEL_DATA add Invoice_Entry_Date_New DATETIME  NULL "
+                clsDBFuncationality.ExecuteNonQuery(qry2)
+            End If
+
+        Catch
+        End Try
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Document_Code", "varchar(50) Not NULL Primary Key")
+        coll.Add("Document_date", "DateTime Not NULL")
+        coll.Add("Location_Code", "VARCHAR(12) not NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
+        coll.Add("QC_Start_Time", "DateTime Not NULL")
+        coll.Add("QC_End_Time", "DateTime Not NULL")
+        coll.Add("Tendor_No", "Varchar(50) Not Null References TSPL_TENDER_HEADER(DocumentCode)")
+        coll.Add("Vendor_Code", "Varchar(12) Not Null References TSPL_VENDOR_MASTER(Vendor_Code)")
+        coll.Add("Item_Code", "Varchar(50) not NULL References TSPL_ITEM_MASTER(Item_Code)")
+        coll.Add("Remarks", "Varchar(200) Null")
+        coll.Add("Comments", "Varchar(200) Null")
+        coll.Add("Request_By", "Varchar(100) Null")
+        coll.Add("Status", "int Null")
+        coll.Add("QC_Status", "Varchar(20) Null")
+        coll.Add("Created_By", "varchar(12)  Not NULL")
+        coll.Add("Created_Date", "DateTime  Not NULL")
+        coll.Add("Modified_By", "varchar(12)  Not NULL")
+        coll.Add("Modified_Date", "datetime  Not NULL")
+        coll.Add("Posted_By", "varchar(12) NULL")
+        coll.Add("Posted_Date", "datetime NULL")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RCDF_CHEMICAL_QC_HEAD", coll, "", True, False, Nothing, Nothing, Nothing, False)
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("PK_Id", "Integer Not NULL identity primary key")
+        coll.Add("Document_Code", "VARCHAR(50) Not NULL REFERENCES TSPL_RCDF_CHEMICAL_QC_HEAD(Document_Code)")
+        coll.Add("Line_No", "integer null")
+        coll.Add("Item_Code", "Varchar(50) Not NULL References TSPL_ITEM_MASTER(Item_Code)")
+        coll.Add("QC_Param_Code", "varchar(30) null REFERENCES TSPL_QC_LOG_SHEET_MASTER(Code)")
+        coll.Add("Param_L_Range", "float null")
+        coll.Add("Param_U_Range", "float null")
+        coll.Add("Param_Status", "VARCHAR(100) null")
+        coll.Add("Param_Value", "varchar(max) null")
+        coll.Add("Param_QC_Status", "VARCHAR(100) null")
+        coll.Add("Measured_1", "VARCHAR(300) null")
+        coll.Add("Net_Measurement", "VARCHAR(300) null")
+        coll.Add("Reject_Remarks", "VARCHAR(200) null")
+        coll.Add("InputData", "float null")
+        coll.Add("InputDataDeductionPer", "float null")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RCDF_CHEMICAL_QC_DETAIL", coll, Nothing, True, False, "TSPL_RCDF_CHEMICAL_QC_HEAD", "Document_Code", "")
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Document_Code", "varchar(30) Not NULL Primary Key")
+        coll.Add("Document_Date", "DateTime Not NULL")
+        coll.Add("Union_Code", "VARCHAR(5) not NULL")
+        coll.Add("QC_Start_Time", "DateTime NULL")
+        coll.Add("QC_End_Time", "DateTime NULL")
+        coll.Add("Sample_No", "Varchar(50) Null")
+        coll.Add("Sample_Date", "DateTime NULL")
+        coll.Add("Item", "Varchar(50) Null")
+        coll.Add("Vehicle_No", "Varchar(50) Null")
+        coll.Add("Request_By", "Varchar(100) Null")
+        coll.Add("Reference_By", "Varchar(100) Null")
+        coll.Add("Remarks", "Varchar(200) Null")
+        coll.Add("Comments", "Varchar(200) Null")
+        coll.Add("Manual_Entry", "INTEGER NULL")
+        coll.Add("FAT", "Decimal(18,2) null")
+        coll.Add("SNF", "Decimal(18,2) null")
+        coll.Add("Status", "int Null")
+        coll.Add("Created_By", "varchar(12)  Not NULL")
+        coll.Add("Created_Date", "DateTime  Not NULL")
+        coll.Add("Modified_By", "varchar(12)  Not NULL")
+        coll.Add("Modified_Date", "datetime  Not NULL")
+        coll.Add("Posted_By", "varchar(12) NULL")
+        coll.Add("Posted_Date", "datetime NULL")
+        coll.Add("Cancel_By", "varchar(12) NULL")
+        coll.Add("Cancel_Date", "datetime NULL")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RCDF_UNION_QC", coll, "", True, False, Nothing, Nothing, Nothing, False)
+
 
         Return True
     End Function

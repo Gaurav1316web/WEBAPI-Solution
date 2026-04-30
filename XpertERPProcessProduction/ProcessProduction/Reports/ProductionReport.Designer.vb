@@ -22,10 +22,11 @@ Partial Class ProductionReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtBillToLocation = New common.UserControls.txtMultiSelectFinder()
         Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
         Me.Prdncreallchk = New common.Controls.MyRadioButton()
         Me.RePrdntchk = New common.Controls.MyRadioButton()
@@ -53,7 +54,6 @@ Partial Class ProductionReport
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.txtBillToLocation = New common.UserControls.txtMultiSelectFinder()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -137,6 +137,19 @@ Partial Class ProductionReport
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 363)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'txtBillToLocation
+        '
+        Me.txtBillToLocation.arrDispalyMember = Nothing
+        Me.txtBillToLocation.arrValueMember = Nothing
+        Me.txtBillToLocation.Location = New System.Drawing.Point(71, 69)
+        Me.txtBillToLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBillToLocation.MyLinkLable1 = Nothing
+        Me.txtBillToLocation.MyLinkLable2 = Nothing
+        Me.txtBillToLocation.MyNullText = "All"
+        Me.txtBillToLocation.Name = "txtBillToLocation"
+        Me.txtBillToLocation.Size = New System.Drawing.Size(302, 21)
+        Me.txtBillToLocation.TabIndex = 61
         '
         'RadGroupBox7
         '
@@ -395,7 +408,8 @@ Partial Class ProductionReport
         '
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyExportAPI = False
         Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
@@ -465,19 +479,6 @@ Partial Class ProductionReport
         Me.btnGo.Size = New System.Drawing.Size(57, 17)
         Me.btnGo.TabIndex = 38
         Me.btnGo.Text = ">>"
-        '
-        'txtBillToLocation
-        '
-        Me.txtBillToLocation.arrDispalyMember = Nothing
-        Me.txtBillToLocation.arrValueMember = Nothing
-        Me.txtBillToLocation.Location = New System.Drawing.Point(71, 69)
-        Me.txtBillToLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtBillToLocation.MyLinkLable1 = Nothing
-        Me.txtBillToLocation.MyLinkLable2 = Nothing
-        Me.txtBillToLocation.MyNullText = "All"
-        Me.txtBillToLocation.Name = "txtBillToLocation"
-        Me.txtBillToLocation.Size = New System.Drawing.Size(302, 21)
-        Me.txtBillToLocation.TabIndex = 61
         '
         'ProductionReport
         '

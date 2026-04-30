@@ -9,6 +9,9 @@ Public Class frmShipmentDairy
     Dim ParentDocNo As String = ""
     Dim CreditCustDoc As String = ""
     Dim defaultScreenstartup As Boolean = True
+    Dim CheckCustomeroutStandingAmt As Boolean = False
+    Dim ServerDateTimeForTaxableInvoice As Boolean = False
+    Dim DeductTPTFromDocAmt As Boolean = True
     Dim CreateAutoGatePass As Boolean = False
     Dim DefaultEnableEWayBill As Boolean = False
     Dim DispatchCommissionDecimalPlaces As Decimal = 4
@@ -62,6 +65,7 @@ Public Class frmShipmentDairy
     Dim EWBThresholdLimitForIntraCity As Integer = 0
     Dim EWBThresholdLimitForIntraState As Integer = 0
     Dim EWBThresholdLimitForInterState As Integer = 0
+    Dim DefaultEnableNoTransporter As Boolean = False
 
     Const colURoundOff As String = "colURoundOff"
     Const col_Is_Taxable As String = "col_Is_Taxable"
@@ -810,6 +814,10 @@ Public Class frmShipmentDairy
         EWBThresholdLimitForIntraCity = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraCity, Nothing))
         EWBThresholdLimitForIntraState = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraState, Nothing))
         EWBThresholdLimitForInterState = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForInterState, Nothing))
+        DefaultEnableNoTransporter = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultEnableNoTransporter, clsFixedParameterCode.DefaultEnableNoTransporter, Nothing)) = 1, True, False)
+        DeductTPTFromDocAmt = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DeductTPTFromDocAmt, clsFixedParameterCode.DeductTPTFromDocAmt, Nothing)) = 1, True, False)
+        CheckCustomeroutStandingAmt = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CheckCustomeroutStandingAmt, clsFixedParameterCode.CheckCustomeroutStandingAmt, Nothing)) = 1, True, False)
+        ServerDateTimeForTaxableInvoice = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ServerDateTimeForTaxableInvoice, clsFixedParameterCode.ServerDateTimeForTaxableInvoice, Nothing)) = 1, True, False)
 
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = dtpChallan.Value
@@ -1216,6 +1224,7 @@ Public Class frmShipmentDairy
         lblTaxAmt.Text = ""
         lblTotRAmt.Text = ""
         lblTotRAmt1.Text = ""
+        txtTPTComAmt.Text = ""
         TxtRoundoff.Text = ""
         UsLock1.Status = ERPTransactionStatus.Pending
         txtCarrier.Text = ""
@@ -1261,11 +1270,26 @@ Public Class frmShipmentDairy
         lblRouteDesc.Text = ""
         txtManualCustomer.Text = ""
         txtInsuranceNo.Text = ""
+        lblOutstandingDesc.Text = ""
         If AllowManualVehicleOnDairyDispatch = True Then
             txtManualVehicle.Visible = True
             lblManualVehicle.Visible = True
         End If
         btnCancel.Enabled = False
+        If DefaultEnableNoTransporter Then
+            txtTransporterCode.Enabled = False
+            lblTransporterName.Enabled = False
+            chkNoTranspoter.Checked = True
+        Else
+            txtTransporterCode.Enabled = True
+            lblTransporterName.Enabled = True
+            chkNoTranspoter.Checked = False
+        End If
+        CheckTaxNonTax()
+        txtOpeningbal.Text = ""
+        txtDrAmt.Text = ""
+        txtCrAmt.Text = ""
+        txtClosingBal.Text = ""
     End Sub
     Public Shared Function GetItemType() As DataTable
         Dim dt As New DataTable()
@@ -6853,6 +6877,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                     txtBoothSecurity.Text = clsCommon.myFormat(dblBoothSCAmt)
                     lblTotalWtMetric.Text = dblTotalWtMetric
                 End If
+
                 'lblAmtWithDiscount.Text = clsCommon.myFormat(dblTotAmt)
                 'lblDiscountAmt.Text = clsCommon.myFormat(dblTotDisAmt + dblCashDisAmt + dblVolumeSlabCashDisAmt)
                 'lblAmtAfterDiscount.Text = clsCommon.myFormat(dblAmtAfterDis)
@@ -6879,6 +6904,12 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                         lblTotRAmt.Text = Math.Round(clsCommon.myCdbl(lblTotRAmt.Text), 0)
                         lblTotRAmt1.Text = Math.Round(clsCommon.myCdbl(lblTotRAmt.Text), 0)
                     End If
+                End If
+                If DeductTPTFromDocAmt Then
+                    txtTPTComAmt.Text = clsCommon.myFormat(dblTCAmt)
+                    lblGrossAmount.Text = clsCommon.myFormat(clsCommon.myCdbl(lblTotRAmt.Text) - dblTCAmt)
+                Else
+                    lblGrossAmount.Text = clsCommon.myFormat(clsCommon.myCdbl(lblTotRAmt.Text))
                 End If
                 'If clsCommon.myLen(txtTransporterCode.Value) > 0 Then
                 '    lblFreightCharges.Text = Math.Round(clsCSATransfer.GetProvisionCharge(txtBillToLocation.Value, txtVendorNo.Value, clsCommon.myCdbl(txtGross_Wt.Text), clsCommon.myCdbl(txtVehicleCapacity.Value), clsCommon.myCstr(txtTransporterCode.Value)), 2)
@@ -7039,7 +7070,8 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         'End If
         chkIsEWayBill.Checked = False
         chkIsEWayBill.Enabled = True
-
+        txtTPTComAmt.Text = 0
+        lblGrossAmount.Text = 0
         txtDate.Focus()
         gv1.Rows.AddNew()
         gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = RowTypeItem
@@ -7190,6 +7222,12 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                 MergeDistributorItems(True, False, trans)
 
             End If
+            If ServerDateTimeForTaxableInvoice Then
+                Dim serverDateTime As DateTime = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy")
+                If clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") <> serverDateTime Then
+                    Throw New Exception("Document Date and Supply Date Should be Server Date Time")
+                End If
+            End If
             'Sanjay Ticket No- ERO/02/07/18-000365 not allow to update record if it is posted
             If UpdateCustomerAfterPost <> True Then
                 If Not isNewEntry AndAlso clsCommon.myLen(txtDocNo.Value) > 0 Then
@@ -7316,7 +7354,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             '' End  of EWB Threshold Limit 
             If clsCommon.CompairString(ddlDispatchTerms.SelectedValue, "CIF") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlDispatchTerms.SelectedValue, "CF") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlDispatchTerms.SelectedValue, "FE") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlDispatchTerms.SelectedValue, "O") = CompairStringResult.Equal Then
                 If chkownVehicle.Checked = False Then
-                    If clsCommon.myLen(txtTransporterCode.Value) <= 0 Then
+                    If clsCommon.myLen(txtTransporterCode.Value) <= 0 AndAlso Not chkNoTranspoter.Checked Then
                         txtTransporterCode.Focus()
                         Throw New Exception("Please select Transporter")
                     End If
@@ -7693,7 +7731,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                 '    Throw New Exception("Please define Freight Distance in EWay Bill Distance Master !")
                 'End If
                 If chkownVehicle.Checked = False Then
-                    If clsCommon.myLen(txtTransporterCode.Value) <= 0 Then
+                    If clsCommon.myLen(txtTransporterCode.Value) <= 0 AndAlso Not chkNoTranspoter.Checked Then
                         Throw New Exception("Pls Select Transporter")
                         txtTransporterCode.Focus()
                         Return False
@@ -7728,6 +7766,23 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                 End If
             End If
 
+            If CheckCustomeroutStandingAmt Then
+                If Not clsCustomerMaster.IsCreditCustomer(txtVendorNo.Value) Then
+
+                    LoadOutstanding()
+
+                    Dim custOutStanding As Double = clsCommon.myCdbl(lblOutstandingDesc.Text)
+                    If custOutStanding <= 0 Then
+                        Throw New Exception("Insufficient Balance.")
+                    End If
+                    custOutStanding = Math.Abs(custOutStanding)
+                    Dim TotalDocAmt As Double = clsCommon.myCdbl(lblTotRAmt.Text)
+                    If TotalDocAmt > custOutStanding Then
+                        Throw New Exception("Insufficient Balance.")
+                    End If
+                End If
+            End If
+
         Catch ex As Exception
             If blnReverse = False Then
                 clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -7738,6 +7793,21 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         End Try
         Return True
     End Function
+
+    Private Sub LoadOutstanding()
+        Dim qry As String = "Select  case when (( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt)) )>=0 then -abs(( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))) else abs(( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))) end  as BalAmt From ( " &
+                    "Select MAX(TSPL_CUSTOMER_MASTER.Cust_Group_Code) as Cust_Group_Code, ACode, MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as AName, '' as CurrencyCode,  " &
+                    "null as ConvRate, SUM(DrAmt* Final.ConvRate)-SUM(CrAmt) as OpngBal, 0 as DrAmt, 0 as CrAmt, 0 as [Sales], 0 as CollectionRefund, 0 as DrNote,  " &
+                    "0 as CrNote, MAX(tspl_customer_master.Cust_Category_Code) as Cust_Category_Code,MAX(CUST_CATEGORY_DESC) as Cust_Category_Desc,  " &
+                    "MAX(tspl_customer_master.Cust_Type_Code) As Cust_Type_Code,MAX(Cust_Type_Desc) As Cust_Type_Desc from   " &
+                    "(" & clsCustomerMaster.GetCustomerBaseQry(False, False, "", False, "ConvRate", "'" + txtVendorNo.Value + "'", True, clsCommon.GetPrintDate(txtDate.Value.AddDays(1), "dd/MMM/yyyy"), "", False, False, True, trans, False, txtDocNo.Value) & "   " &
+                    " ) Final left outer join TSPL_CUSTOMER_MASTER on final.ACode=TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN TSPL_CUSTOMER_GROUP_MASTER ON TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code " &
+                    "Left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =Final.DocNo  LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE=Final.Bank_Code " &
+                    "where  CONVERT(DATE,final.DocDate,103) <= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' AND LEN(ACode)>0 and ACode in ('" & txtVendorNo.Value & "')   AND TSPL_CUSTOMER_MASTER.Status='N' GROUP BY ACode " &
+                    ") XXX GROUP BY ACode ORDER BY ACode"
+        lblOutstandingDesc.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
+    End Sub
+
     Public Shared Function GetConvQuantity(ByVal strItem As String, ByVal strCurrentUnit As String, ByVal strConvertedUnit As String, ByVal dblQty As Double) As Double
         Dim dblCurrentConvF As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where Item_Code='" & strItem & "' and UOM_Code='" & strCurrentUnit & "'"))
         Dim dblConvQty As Double = 0
@@ -8623,6 +8693,10 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
             obj.Discount_Amt = clsCommon.myCdbl(lblDiscountAmt.Text)
             obj.Amount_Less_Discount = clsCommon.myCdbl(lblAmtAfterDiscount.Text)
             obj.Total_Amt = clsCommon.myCdbl(lblTotRAmt.Text)
+            If DeductTPTFromDocAmt Then
+                obj.TotalSubsidyAmt = clsCommon.myCdbl(txtTPTComAmt.Text)
+            End If
+            obj.Gross_Amount = clsCommon.myCdbl(lblGrossAmount.Text)
             obj.Carrier = txtCarrier.Text
             obj.Vehicle_Code = txtVehicleCode.Value
             obj.VehicleNo = lblVhicleNo.Text
@@ -10111,6 +10185,11 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                     Next
                     txtDCAmt.Text = obj.Distributor_Commission_TotalAmt
                     txtTCAmt.Text = obj.Transporter_Commission_TotalAmt
+                    If DeductTPTFromDocAmt Then
+                        txtTPTComAmt.Text = obj.Transporter_Commission_TotalAmt
+                        lblGrossAmount.Text = clsCommon.myFormat(clsCommon.myCdbl(lblTotRAmt.Text) - obj.Transporter_Commission_TotalAmt)
+                    End If
+
                     'lblDiscountAmt.Text = obj.Distributor_Commission_TotalAmt
                     If obj.Status = ERPTransactionStatus.Pending Then
                         gv1.Rows.AddNew()
@@ -10215,6 +10294,7 @@ order by TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code"
                         Next
                     End If
                 End If
+                LoadOutstanding()
             End If
             'txtCrate.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select sum(Qty) as Qty from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Document_Code='" + ParentDocNo + "' and Unit_code='Crate' group by Unit_code"))
             If clsCommon.myLen(txtInvoiceNo.Text) > 0 Then
@@ -10587,7 +10667,7 @@ order by TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code"
                 Else
                     txtClosingBal.Text = clsCommon.myCstr(ClosingBal) & " CR"
                 End If
-
+                txtClosingBal.Tag = ClosingBal
             End If
 
         Catch ex As Exception
@@ -11350,6 +11430,7 @@ left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=
                 If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
                     lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
                 End If
+                LoadOutstanding()
             Else
                 lblVendorName.Text = ""
                 txtTermCode.Value = ""
@@ -11361,6 +11442,7 @@ left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=
                 Me.txtCurrencyCode.Value = ""
                 Me.txtConversionRate.Text = 1
                 Me.txtApplicableFrom.Text = ""
+                lblOutstandingDesc.Text = ""
             End If
             '''' priti change start here
             qry = "SELECT TSPL_LOCATION_MASTER.Excisable,TSPL_LOCATION_MASTER.State, " &
@@ -12926,7 +13008,7 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                 Dim dblDisAmt As Decimal = (dblAmt * dblDisPer) / 100
                 'Dim dblSCAmt As Decimal = dblAmt * (dblSCRate / 100)
                 'gv1.Rows(IntRowNo).Cells(ColSCAmt).Value = dblSCAmt
-                If Not gv1.Rows(IntRowNo).Cells(ColDCRate).Value = Nothing AndAlso clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(ColDCRate).Value) >= 0 Then
+                If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(ColDCRate).Value), "") <> CompairStringResult.Equal AndAlso clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(ColDCRate).Value) >= 0 Then
                     If Not ApplyCommissionRateWithTax Then
                         gv1.Rows(IntRowNo).Cells(ColDCRateWithTax).Value = gv1.Rows(IntRowNo).Cells(ColDCRate).Value
                     Else
@@ -13157,7 +13239,7 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                 '    dblAmtAfterTax = dblAmtAfterDis - dblTotTaxAmt
                 'End If
                 dblAmtAfterDis = dblProductValue - dblDisAmt
-                dblAmtAfterTax = dblAmtAfterDis - (dblTotTaxAmt + dblTotTCSTaxAmt)
+                dblAmtAfterTax = dblAmtAfterDis + (dblTotTaxAmt + dblTotTCSTaxAmt)
 
                 gv1.Rows(IntRowNo).Cells(colAlterUnitQty).Value = clsCommon.myRoundOFF(dblAlterQty, 2, 4)
                 gv1.Rows(IntRowNo).Cells(colRateUnitQty).Value = clsCommon.myRoundOFF(dblQty, 2, 4)
@@ -14280,7 +14362,8 @@ and TSPL_Demand_Booking_Master.Route_No='" + txtRouteNo.Value + "' and TSPL_Dema
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
                     filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoiceALW1", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("TaxableNonTaxable")), "T") = CompairStringResult.Equal Then
-                    filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice_AJM", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    'filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice_AJM", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
                     filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoice_AJM", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
@@ -14297,7 +14380,7 @@ and TSPL_Demand_Booking_Master.Route_No='" + txtRouteNo.Value + "' and TSPL_Dema
                 frmCRV = Nothing
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No data found " & Environment.NewLine & ex.Message, Me.Text)
         End Try
         Return filePath
     End Function
@@ -14981,6 +15064,15 @@ On TabBatch.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code And  TabBatch.Ite
             rgbTaxNonTax.Visible = False
         Else
             rgbTaxNonTax.Visible = True
+        End If
+        CheckTaxNonTax()
+    End Sub
+    Private Sub CheckTaxNonTax()
+        If ServerDateTimeForTaxableInvoice Then
+
+            txtDate.Value = clsCommon.GETSERVERDATE
+            txtDate.Enabled = False
+
         End If
     End Sub
     Private Sub txtDate_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtDate.Validating
@@ -16569,7 +16661,22 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" & clsCommon.myCstr(gvDistributor.Row
                 For ii As Integer = 0 To gvDistributor.Rows.Count - 1
                     If clsCommon.myLen(gvDistributor.Rows(ii).Cells("Item_Code").Value) > 0 AndAlso clsCommon.myLen(gvDistributor.Rows(ii).Cells("Unit_code").Value) > 0 AndAlso clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value) > 0 Then
                         Dim strKey As String = "" ' clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
+                        Dim DisBilling_UOM As String = ""
+                        Dim DisBillingUOMConvFactor As Decimal = 0
+                        Dim DisBillingItemConvFactor As Decimal = 0
+                        Dim DispatchQty As Decimal = 0
+                        If ConvertIntoBillingUOM Then
+                            DisBilling_UOM = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select UOM_Code from TSPL_ITEM_UOM_DETAIL where Item_Code='" & clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) & "' and Billing_UOM=1", trans))
+                            If clsCommon.myLen(DisBilling_UOM) <= 0 Then
+                                Throw New Exception("Please Map Billing UOM for item [" & clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) & "]")
 
+                            End If
+                            DisBillingUOMConvFactor = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) & "' and TSPL_ITEM_UOM_DETAIL.Billing_UOM=1 ", trans))
+                            DisBillingItemConvFactor = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value) & "' ", trans))
+                            If DisBillingUOMConvFactor <= 0 OrElse DisBillingItemConvFactor <= 0 Then
+                                Throw New Exception("Biiling UOM/Billing Item Conversion Factor Should be > 0")
+                            End If
+                        End If
                         If Not IsLoadCreditCust Then
                             isCreditCust = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Credit_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + gvDistributor.Rows(ii).Cells("Cust_Code").Value + "'", trans))
                             If clsCommon.CompairString(isCreditCust, "Y") = CompairStringResult.Equal Then
@@ -16578,19 +16685,42 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" & clsCommon.myCstr(gvDistributor.Row
                             Else
                                 IsOnlyCreditCust = False
                                 If AllowGatePassDemandTripWise Then
-                                    strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Trip_No").Value)
+                                    If ConvertIntoBillingUOM Then
+                                        strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(DisBilling_UOM) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Trip_No").Value)
+                                    Else
+                                        strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Trip_No").Value)
+                                    End If
                                 Else
-                                    strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
+                                    If ConvertIntoBillingUOM Then
+                                        strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(DisBilling_UOM)
+                                    Else
+                                        strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
+                                    End If
+
                                 End If
+                                strKey = strKey.ToUpper()
                             End If
                             If myDictionary.ContainsKey(strKey) Then
-                                myDictionary(strKey).Qty += clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
+                                If ConvertIntoBillingUOM Then
+                                    DispatchQty = clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value) * DisBillingItemConvFactor
+                                    myDictionary(strKey).Qty += Math.Ceiling(DispatchQty / DisBillingUOMConvFactor)
+                                Else
+                                    myDictionary(strKey).Qty += clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
+                                End If
+
                             Else
                                 If clsCommon.CompairString(isCreditCust, "Y") <> CompairStringResult.Equal Then
                                     Dim obj As New clsSNShipmentDCSItemDetail
                                     obj.ICode = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value)
-                                    obj.UOM = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
-                                    obj.Qty = clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
+                                    If ConvertIntoBillingUOM Then
+                                        obj.UOM = DisBilling_UOM
+                                        DispatchQty = clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value) * DisBillingItemConvFactor
+                                        obj.Qty = Math.Ceiling(DispatchQty / DisBillingUOMConvFactor)
+                                    Else
+                                        obj.UOM = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
+                                        obj.Qty = clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
+                                    End If
+
                                     If AllowGatePassDemandTripWise Then
                                         obj.Trip_No = clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Trip_No").Value)
                                     End If
@@ -16599,13 +16729,30 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" & clsCommon.myCstr(gvDistributor.Row
                             End If
                         Else
                             If AllowGatePassDemandTripWise Then
-                                strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Trip_No").Value)
+                                If ConvertIntoBillingUOM Then
+                                    strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(DisBilling_UOM) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Trip_No").Value)
+                                Else
+                                    strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Trip_No").Value)
+                                End If
                             Else
-                                strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
+                                If ConvertIntoBillingUOM Then
+                                    strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(DisBilling_UOM)
+                                Else
+                                    strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
+                                End If
+
                             End If
+                            strKey = strKey.ToUpper()
+                            'strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
                             If myDictionary.ContainsKey(strKey) Then
                                 If clsCommon.CompairString(clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Cust_Code").Value), clsCommon.myCstr(gvDistributor.Rows(0).Cells("Cust_Code").Value)) = CompairStringResult.Equal Then
-                                    myDictionary(strKey).Qty += clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
+                                    If ConvertIntoBillingUOM Then
+                                        DispatchQty = clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value) * DisBillingItemConvFactor
+                                        myDictionary(strKey).Qty += Math.Ceiling(DispatchQty / DisBillingUOMConvFactor)
+                                    Else
+                                        myDictionary(strKey).Qty += clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
+                                    End If
+                                    'myDictionary(strKey).Qty += clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
 
                                 End If
                             Else
@@ -16613,8 +16760,14 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" & clsCommon.myCstr(gvDistributor.Row
 
                                     Dim obj As New clsSNShipmentDCSItemDetail
                                     obj.ICode = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value)
-                                    obj.UOM = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
-                                    obj.Qty = clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
+                                    If ConvertIntoBillingUOM Then
+                                        obj.UOM = DisBilling_UOM
+                                        DispatchQty = clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value) * DisBillingItemConvFactor
+                                        obj.Qty = Math.Ceiling(DispatchQty / DisBillingUOMConvFactor)
+                                    Else
+                                        obj.UOM = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
+                                        obj.Qty = clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
+                                    End If
                                     If AllowGatePassDemandTripWise Then
                                         obj.Trip_No = clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Trip_No").Value)
                                     End If
@@ -16669,6 +16822,12 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" & clsCommon.myCstr(gvDistributor.Row
                                 Dim DispatchQty As Decimal = clsCommon.myCDecimal(gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value) * BillingItemConvFactor
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colBillingQty).Value = Math.Ceiling(DispatchQty / BillingUOMConvFactor)
                                 'gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = Math.Ceiling(DispatchQty / BillingUOMConvFactor)
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = Billing_UOM
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colOrgUnit).Value = Billing_UOM
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = Math.Ceiling(DispatchQty / BillingUOMConvFactor)
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = Math.Ceiling(DispatchQty / BillingUOMConvFactor)
+                            Else
+                                Throw New Exception("Biiling UOM/Billing Item Conversion Factor Should be > 0")
                             End If
 
                         Else
@@ -16813,7 +16972,25 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
                     End If
                     If clsCommon.myLen(gvDistributor.Rows(ii).Cells("Item_Code").Value) > 0 AndAlso clsCommon.myLen(gvDistributor.Rows(ii).Cells("Unit_code").Value) > 0 AndAlso IsCheckQty Then
                         Dim strKey As String = "" ' clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
-                        If Not IsLoadCreditCust Then
+                        Dim DisBilling_UOM As String = ""
+                        Dim DisBillingUOMConvFactor As Decimal = 0
+                        Dim DisBillingItemConvFactor As Decimal = 0
+                        Dim DispatchQty As Decimal = 0
+                        If ConvertIntoBillingUOM Then
+                            DisBilling_UOM = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select UOM_Code from TSPL_ITEM_UOM_DETAIL where Item_Code='" & clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) & "' and Billing_UOM=1", trans))
+                            If clsCommon.myLen(DisBilling_UOM) <= 0 Then
+                                Throw New Exception("Please Map Billing UOM for item [" & clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) & "]")
+
+                            End If
+                            DisBillingUOMConvFactor = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) & "' and TSPL_ITEM_UOM_DETAIL.Billing_UOM=1 ", trans))
+                            DisBillingItemConvFactor = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value) & "' ", trans))
+                            If DisBillingUOMConvFactor <= 0 OrElse DisBillingItemConvFactor <= 0 Then
+                                Throw New Exception("Biiling UOM/Billing Item Conversion Factor Should be > 0")
+                            End If
+                        End If
+
+
+                            If Not IsLoadCreditCust Then
                             isCreditCust = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Credit_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + gvDistributor.Rows(ii).Cells("Cust_Code").Value + "'", trans))
                             If clsCommon.CompairString(isCreditCust, "Y") = CompairStringResult.Equal Then
                                 IsCreditCustomer = True
@@ -16821,20 +16998,42 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
                             Else
                                 IsOnlyCreditCust = False
                                 If AllowGatePassDemandTripWise Then
-                                    strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Trip_No").Value)
+                                    If ConvertIntoBillingUOM Then
+                                        strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(DisBilling_UOM) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Trip_No").Value)
+                                    Else
+                                        strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Trip_No").Value)
+                                    End If
                                 Else
-                                    strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
-                                End If
+                                    If ConvertIntoBillingUOM Then
+                                        strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(DisBilling_UOM)
+                                    Else
+                                        strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
+                                    End If
 
+                                End If
+                                strKey = strKey.ToUpper()
                             End If
                             If myDictionary.ContainsKey(strKey) Then
-                                myDictionary(strKey).Qty += clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
+                                If ConvertIntoBillingUOM Then
+                                    DispatchQty = clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value) * DisBillingItemConvFactor
+                                    myDictionary(strKey).Qty += Math.Ceiling(DispatchQty / DisBillingUOMConvFactor)
+                                Else
+                                    myDictionary(strKey).Qty += clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
+                                End If
+
                             Else
                                 If clsCommon.CompairString(isCreditCust, "Y") <> CompairStringResult.Equal Then
                                     Dim obj As New clsSNShipmentDCSItemDetail
                                     obj.ICode = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value)
-                                    obj.UOM = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
-                                    obj.Qty = clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
+                                    If ConvertIntoBillingUOM Then
+                                        obj.UOM = DisBilling_UOM
+                                        DispatchQty = clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value) * DisBillingItemConvFactor
+                                        obj.Qty = Math.Ceiling(DispatchQty / DisBillingUOMConvFactor)
+                                    Else
+                                        obj.UOM = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
+                                        obj.Qty = clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
+                                    End If
+
                                     If AllowGatePassDemandTripWise Then
                                         obj.Trip_No = clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Trip_No").Value)
                                     End If
@@ -16843,14 +17042,30 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
                             End If
                         Else
                             If AllowGatePassDemandTripWise Then
-                                strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Trip_No").Value)
+                                If ConvertIntoBillingUOM Then
+                                    strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(DisBilling_UOM) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Trip_No").Value)
+                                Else
+                                    strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Trip_No").Value)
+                                End If
                             Else
-                                strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
+                                If ConvertIntoBillingUOM Then
+                                    strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(DisBilling_UOM)
+                                Else
+                                    strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
+                                End If
+
                             End If
+                            strKey = strKey.ToUpper()
                             'strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
                             If myDictionary.ContainsKey(strKey) Then
                                 If clsCommon.CompairString(clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Cust_Code").Value), clsCommon.myCstr(gvDistributor.Rows(0).Cells("Cust_Code").Value)) = CompairStringResult.Equal Then
-                                    myDictionary(strKey).Qty += clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
+                                    If ConvertIntoBillingUOM Then
+                                        DispatchQty = clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value) * DisBillingItemConvFactor
+                                        myDictionary(strKey).Qty += Math.Ceiling(DispatchQty / DisBillingUOMConvFactor)
+                                    Else
+                                        myDictionary(strKey).Qty += clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
+                                    End If
+                                    'myDictionary(strKey).Qty += clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
 
                                 End If
                             Else
@@ -16858,8 +17073,13 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
 
                                     Dim obj As New clsSNShipmentDCSItemDetail
                                     obj.ICode = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value)
-                                    obj.UOM = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
-                                    obj.Qty = clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
+                                    If ConvertIntoBillingUOM Then
+                                        obj.UOM = DisBilling_UOM
+                                        obj.Qty = Math.Ceiling(DispatchQty / DisBillingUOMConvFactor)
+                                    Else
+                                        obj.UOM = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
+                                        obj.Qty = clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
+                                    End If
                                     If AllowGatePassDemandTripWise Then
                                         obj.Trip_No = clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Trip_No").Value)
                                     End If
@@ -16874,110 +17094,116 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
                         gv1.Rows.RemoveAt(gv1.Rows.Count - 1)
                     End If
                     For Each strKey As String In myDictionary.Keys
-                        gv1.Rows.AddNew()
-                        'trans = t1
-                        strExcise = IIf(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Excisable from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'", trans)) = "T", True, False)
-                        If strExcise = True Then
-                            lblRemovalDate.Visible = True
-                            txtRemovalDate.Visible = True
-                        Else
-                            lblRemovalDate.Visible = False
-                            txtRemovalDate.Visible = False
-                        End If
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = RowTypeItem
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = gv1.Rows.Count
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = RowTypeItem
-                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colOrderNo).Value = obj.Document_No
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTAX_PAID).Value = "No"
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = myDictionary(strKey).ICode
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = clsItemMaster.GetItemName(myDictionary(strKey).ICode, trans)
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colIHSN).Value = clsItemMaster.GetItemHSNCode(myDictionary(strKey).ICode, trans)
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colIsEmptyValue).Value = clsItemMaster.IsItemHaveEmptyValue(myDictionary(strKey).ICode, trans)
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colIStruct).Value = clsItemMaster.GetItemStructureCode(myDictionary(strKey).ICode, trans)
-                        If ConvertIntoBillingUOM Then
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = myDictionary(strKey).UOM
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colOrgUnit).Value = myDictionary(strKey).UOM
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = myDictionary(strKey).Qty
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = myDictionary(strKey).Qty
-                            Dim Billing_UOM As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select UOM_Code from TSPL_ITEM_UOM_DETAIL where Item_Code='" & clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) & "' and Billing_UOM=1", trans))
-                            If clsCommon.myLen(Billing_UOM) > 0 Then
-                                gv1.Rows(gv1.Rows.Count - 1).Cells(colBillingUnit).Value = Billing_UOM
+                        If clsCommon.myCdbl(myDictionary(strKey).Qty) > 0 Then
+
+                            gv1.Rows.AddNew()
+                            'trans = t1
+                            strExcise = IIf(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Excisable from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'", trans)) = "T", True, False)
+                            If strExcise = True Then
+                                lblRemovalDate.Visible = True
+                                txtRemovalDate.Visible = True
                             Else
-                                'LoadBlankGrid(trans)
-                                'LoadBlankGridAC(trans)
-                                'LoadBlankGridTax(trans)
-                                Throw New Exception("Please Map Billing UOM for item [" & clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value) & "]")
+                                lblRemovalDate.Visible = False
+                                txtRemovalDate.Visible = False
                             End If
-                            Dim BillingUOMConvFactor As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) & "' and TSPL_ITEM_UOM_DETAIL.Billing_UOM=1 ", trans))
-                            Dim BillingItemConvFactor As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(myDictionary(strKey).UOM) & "' ", trans))
-                            If BillingUOMConvFactor > 0 AndAlso BillingItemConvFactor > 0 Then
-                                Dim DispatchQty As Decimal = clsCommon.myCDecimal(gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value) * BillingItemConvFactor
-                                gv1.Rows(gv1.Rows.Count - 1).Cells(colBillingQty).Value = Math.Ceiling(DispatchQty / BillingUOMConvFactor)
-                                'gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = Math.Ceiling(DispatchQty / BillingUOMConvFactor)
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = RowTypeItem
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = gv1.Rows.Count
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = RowTypeItem
+                            'gv1.Rows(gv1.Rows.Count - 1).Cells(colOrderNo).Value = obj.Document_No
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTAX_PAID).Value = "No"
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = myDictionary(strKey).ICode
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = clsItemMaster.GetItemName(myDictionary(strKey).ICode, trans)
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colIHSN).Value = clsItemMaster.GetItemHSNCode(myDictionary(strKey).ICode, trans)
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colIsEmptyValue).Value = clsItemMaster.IsItemHaveEmptyValue(myDictionary(strKey).ICode, trans)
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colIStruct).Value = clsItemMaster.GetItemStructureCode(myDictionary(strKey).ICode, trans)
+                            If ConvertIntoBillingUOM Then
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = myDictionary(strKey).UOM
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colOrgUnit).Value = myDictionary(strKey).UOM
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = myDictionary(strKey).Qty
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = myDictionary(strKey).Qty
+                                Dim Billing_UOM As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select UOM_Code from TSPL_ITEM_UOM_DETAIL where Item_Code='" & clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) & "' and Billing_UOM=1", trans))
+                                If clsCommon.myLen(Billing_UOM) > 0 Then
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colBillingUnit).Value = Billing_UOM
+                                Else
+
+                                End If
+                                Dim BillingUOMConvFactor As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) & "' and TSPL_ITEM_UOM_DETAIL.Billing_UOM=1 ", trans))
+                                Dim BillingItemConvFactor As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(myDictionary(strKey).UOM) & "' ", trans))
+                                If BillingUOMConvFactor > 0 AndAlso BillingItemConvFactor > 0 Then
+                                    Dim DispatchQty As Decimal = clsCommon.myCDecimal(gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value) * BillingItemConvFactor
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colBillingQty).Value = Math.Ceiling(DispatchQty / BillingUOMConvFactor)
+                                    'gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = Math.Ceiling(DispatchQty / BillingUOMConvFactor)
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = Billing_UOM
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colOrgUnit).Value = Billing_UOM
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = Math.Ceiling(DispatchQty / BillingUOMConvFactor)
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = Math.Ceiling(DispatchQty / BillingUOMConvFactor)
+                                Else
+                                    Throw New Exception("Biiling UOM/Billing Item Conversion Factor Should be > 0")
+                                End If
+
+                            Else
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = myDictionary(strKey).UOM
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colBillingUnit).Value = myDictionary(strKey).UOM
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = myDictionary(strKey).Qty
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = myDictionary(strKey).Qty
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colBillingQty).Value = myDictionary(strKey).Qty
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colOrgUnit).Value = myDictionary(strKey).UOM
                             End If
 
-                        Else
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = myDictionary(strKey).UOM
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colBillingUnit).Value = myDictionary(strKey).UOM
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = myDictionary(strKey).Qty
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = myDictionary(strKey).Qty
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colBillingQty).Value = myDictionary(strKey).Qty
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colOrgUnit).Value = myDictionary(strKey).UOM
-                        End If
-
-                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = myDictionary(strKey).UOM
-                        Dim Str As String = txtTaxGroup.Value
-                        SetTaxX(clsCommon.myCstr(gv1.Rows(0).Cells(colICode).Value), trans)
-                        ItemPrice(gv1.CurrentRow.Cells(colICode).Value, gv1.CurrentRow.Cells(colUnit).Value, gv1.CurrentRow.Index, False, trans)
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationCode).Value = txtBillToLocation.Value
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationName).Value = lblBillToLocation.Text
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colIsSerialseItem).Value = clsItemMaster.IsSerializeItem(myDictionary(strKey).ICode, trans)
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colIsBatchItem).Value = clsItemMaster.IsBatchItem(myDictionary(strKey).ICode, trans)
-                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = myDictionary(strKey).Qty
-                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = myDictionary(strKey).Qty
-                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colOrgUnit).Value = myDictionary(strKey).UOM
-                        If AllowGatePassDemandTripWise Then
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTripNo).Value = myDictionary(strKey).Trip_No
-                        Else
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTripNo).Value = "1"
-                        End If
-                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colPendingQty).Value = 0
-                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colMRP).Value = 0
-                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colPriceDateColumn).Value = obj.Price_Date
-                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colPriceCOde).Value = obj.Price_Code
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colConvF).Value = 1
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTransporter).Value = txtTransNo.Text
-                        If Not AutoSchemeOnTotalDispatchQty Then
-                            Dim SchemeCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1  TSPL_SCHEME_MASTER_NEW.Scheme_Code
+                            'gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = myDictionary(strKey).UOM
+                            Dim Str As String = txtTaxGroup.Value
+                            SetTaxX(clsCommon.myCstr(gv1.Rows(0).Cells(colICode).Value), trans)
+                            ItemPrice(gv1.CurrentRow.Cells(colICode).Value, gv1.CurrentRow.Cells(colUnit).Value, gv1.CurrentRow.Index, False, trans)
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationCode).Value = txtBillToLocation.Value
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationName).Value = lblBillToLocation.Text
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colIsSerialseItem).Value = clsItemMaster.IsSerializeItem(myDictionary(strKey).ICode, trans)
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colIsBatchItem).Value = clsItemMaster.IsBatchItem(myDictionary(strKey).ICode, trans)
+                            'gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = myDictionary(strKey).Qty
+                            'gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = myDictionary(strKey).Qty
+                            'gv1.Rows(gv1.Rows.Count - 1).Cells(colOrgUnit).Value = myDictionary(strKey).UOM
+                            If AllowGatePassDemandTripWise Then
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTripNo).Value = myDictionary(strKey).Trip_No
+                            Else
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTripNo).Value = "1"
+                            End If
+                            'gv1.Rows(gv1.Rows.Count - 1).Cells(colPendingQty).Value = 0
+                            'gv1.Rows(gv1.Rows.Count - 1).Cells(colMRP).Value = 0
+                            'gv1.Rows(gv1.Rows.Count - 1).Cells(colPriceDateColumn).Value = obj.Price_Date
+                            'gv1.Rows(gv1.Rows.Count - 1).Cells(colPriceCOde).Value = obj.Price_Code
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colConvF).Value = 1
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTransporter).Value = txtTransNo.Text
+                            If Not AutoSchemeOnTotalDispatchQty Then
+                                Dim SchemeCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1  TSPL_SCHEME_MASTER_NEW.Scheme_Code
 from TSPL_SCHEME_MASTER_NEW 
 left join TSPL_SCHEME_DETAIL_NEW on TSPL_SCHEME_DETAIL_NEW.Scheme_Code=TSPL_SCHEME_MASTER_NEW.Scheme_Code
 left join TSPL_SCHEME_BENEFICIARY on TSPL_SCHEME_BENEFICIARY.Scheme_Code=TSPL_SCHEME_MASTER_NEW.Scheme_Code
 where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert(date,TSPL_SCHEME_MASTER_NEW.Start_Date,103)<='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' and 2=(Case when TSPL_SCHEME_MASTER_NEW.End_Date is null then 2 else (Case when TSPL_SCHEME_MASTER_NEW.End_Date>='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' then 2 else 3 end) end) and TSPL_SCHEME_DETAIL_NEW.MainItem_Code='" + myDictionary(strKey).ICode + "'  and TSPL_SCHEME_DETAIL_NEW.MainUnit_Code='" + myDictionary(strKey).UOM + "'
  order by TSPL_SCHEME_MASTER_NEW.Start_Date desc", trans))
-                            'gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Scheme_Code from TSPL_SCHEME_DETAIL_NEW where MainItem_Code='" + myDictionary(strKey).ICode + "'and  MainUnit_Code='" + myDictionary(strKey).UOM + "'", trans))
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value = clsCommon.myCstr(SchemeCode)
+                                'gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Scheme_Code from TSPL_SCHEME_DETAIL_NEW where MainItem_Code='" + myDictionary(strKey).ICode + "'and  MainUnit_Code='" + myDictionary(strKey).UOM + "'", trans))
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value = clsCommon.myCstr(SchemeCode)
 
-                        End If
-                        If chkSampling.Checked Then
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = 0
-                        End If
-                        If Not AutoSchemeOnTotalDispatchQty Then
-                            If Not ApplyManualScheme Then
-                                If AutoScheme = True Then
-                                    If Not IsLoadCreditCust Then
-                                        If clsCommon.myLen(gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value) > 0 Then
-                                            gv1.Rows(gv1.Rows.Count - 1).Cells(colSchemeApplicable).Value = "Yes"
-                                            findQtyandPromoSchemeCode(False, clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colTripNo).Value), clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value), txtDate.Value, trans)
+                            End If
+                            If chkSampling.Checked Then
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = 0
+                            End If
+                            If Not AutoSchemeOnTotalDispatchQty Then
+                                If Not ApplyManualScheme Then
+                                    If AutoScheme = True Then
+                                        If Not IsLoadCreditCust Then
+                                            If clsCommon.myLen(gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value) > 0 Then
+                                                gv1.Rows(gv1.Rows.Count - 1).Cells(colSchemeApplicable).Value = "Yes"
+                                                findQtyandPromoSchemeCode(False, clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colTripNo).Value), clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value), txtDate.Value, trans)
+                                            End If
                                         End If
                                     End If
                                 End If
                             End If
-                        End If
 
-                        'If Not IsCreditCustomer Then
-                        GetDCDetails(trans)
-                        'End If
-                        calculateFOR(gv1.Rows.Count - 1, trans)
+                            'If Not IsCreditCustomer Then
+                            GetDCDetails(trans)
+                            'End If
+                            calculateFOR(gv1.Rows.Count - 1, trans)
+                        End If
                     Next
                     If ApplyBoothWiseScheme Then
                         Dim lstBoothCode As New List(Of String)
@@ -17484,28 +17710,39 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
 
         Try
             If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso clsCommon.myLen(txtInvoiceNo.Text) > 0 Then
-                Dim EwbNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select EWayBillNo from TSPL_SD_SALE_INVOICE_HEAD where  document_code = '" & txtInvoiceNo.Text & "' ", trans))
-                If clsCommon.myLen(EwbNo) = 0 Then
-                    If FlagDocumentIsTaxable = 1 AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value, trans) Then
-                        Dim EInvoiceCancelTimeValid As Int64 = 0
-                        EInvoiceCancelTimeValid = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" Select  isnull (DATEDIFF(hour,EInvoice_Posting_Date,GETDATE()),0) as PostedHours from tspl_sd_sale_invoice_head where  document_code = '" & txtInvoiceNo.Text & "'", trans))
-                        If EInvoiceCancelTimeValid >= 24 Then
-                            Throw New Exception("E-Way Bill can not be Generated.It has been more than 24 hours.")
-                        End If
-                    End If
-                    If clsCommon.myLen(GetEWayBillNo(txtInvoiceNo.Text, trans)) <= 0 Then
-                        clsPSInvoiceHead.EWayBill_Implementation(txtInvoiceNo.Text, txtBillToLocation.Value, trans, True)
+                Dim strQry As String = "select Document_Code,Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & txtDocNo.Value & "'"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    For Each dr As DataRow In dt.Rows
+                        Dim DocNo As String = clsCommon.myCstr(dr("Document_Code"))
+                        Dim InvNo As String = clsCommon.myCstr(dr("Sale_Invoice_No"))
+                        Dim EwbNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select EWayBillNo from TSPL_SD_SALE_INVOICE_HEAD where  document_code = '" & InvNo & "' ", trans))
+                        If clsCommon.myLen(EwbNo) = 0 Then
+                            If FlagDocumentIsTaxable = 1 AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value, trans) Then
+                                Dim EInvoiceCancelTimeValid As Int64 = 0
+                                EInvoiceCancelTimeValid = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" Select  isnull (DATEDIFF(hour,EInvoice_Posting_Date,GETDATE()),0) as PostedHours from tspl_sd_sale_invoice_head where  document_code = '" & InvNo & "'", trans))
+                                If EInvoiceCancelTimeValid >= 24 Then
+                                    Throw New Exception("E-Way Bill can not be Generated.It has been more than 24 hours.")
+                                End If
+                            End If
+                            If clsCommon.myLen(GetEWayBillNo(InvNo, trans)) <= 0 Then
+                                clsPSInvoiceHead.EWayBill_Implementation(InvNo, txtBillToLocation.Value, trans, True)
 
-                        clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SALE_INVOICE_HEAD set IsEwaybill=1 where Document_Code='" & txtInvoiceNo.Text & "'", trans)
-                        clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SHIPMENT_HEAD set IsEwaybill=1 where Document_Code='" & txtDocNo.Value & "'", trans)
+                                clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SALE_INVOICE_HEAD set IsEwaybill=1 where Document_Code='" & InvNo & "'", trans)
+                                clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SHIPMENT_HEAD set IsEwaybill=1 where Document_Code='" & DocNo & "'", trans)
 
-                        If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" & txtInvoiceNo.Text & "'", trans)) <= 0 Then
-                            Throw New Exception("E-Way Bill For Sales Invoice No [" + txtInvoiceNo.Text + "] is not generated")
+                                If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" & InvNo & "'", trans)) <= 0 Then
+                                    Throw New Exception("E-Way Bill For Sales Invoice No [" + InvNo + "] is not generated")
+                                End If
+                            End If
+                        Else
+                            Throw New Exception("Ewb no [" & clsCommon.myCstr(EwbNo) & "] is already exists")
                         End If
-                    End If
+                    Next
                 Else
-                    Throw New Exception("Ewb no [" & clsCommon.myCstr(EwbNo) & "] is already exists")
+                    Throw New Exception("Please Select Parent Document")
                 End If
+
 
             Else
                 Throw New Exception("Please Select Document/Invoice ")
@@ -17547,6 +17784,17 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
 
         CancelData(True)
 
+    End Sub
+    Private Sub chkNoTranspoter_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkNoTranspoter.ToggleStateChanged
+        If chkNoTranspoter.Checked Then
+            txtTransporterCode.Enabled = False
+            lblTransporterName.Enabled = False
+            txtTransporterCode.Value = ""
+            lblTransporterName.Text = ""
+        Else
+            txtTransporterCode.Enabled = True
+            lblTransporterName.Enabled = True
+        End If
     End Sub
 End Class
 

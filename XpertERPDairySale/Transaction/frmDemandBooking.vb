@@ -665,7 +665,7 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
                 view.ColumnGroups.Add(New GridViewColumnGroup("Total"))
                 view.ColumnGroups(TempColGroupCount).Rows.Add(New GridViewColumnGroupRow())
                 view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colCrate).Name)
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") <> CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") <> CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") <> CompairStringResult.Equal Then
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") <> CompairStringResult.Equal Then
                     'view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colCrate).Name)
                     view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colLitre).Name)
                     view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colMAmt).Name)
@@ -2347,7 +2347,7 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
                                     gv1.Columns(colPAmt).IsVisible = False
                                     gv1.Columns(colPCount).IsVisible = False
                                     gv1.Columns(colMAmt).IsVisible = False
-                                    gv1.Columns(colCrate).IsVisible = False
+                                    gv1.Columns(colCrate).IsVisible = True
                                     gv1.Columns(colLitre).IsVisible = False
                                 Else
                                     gv1.Columns(colMAmt).IsVisible = True
@@ -2368,7 +2368,7 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
                                     gv1.Columns(colPAmt).IsVisible = False
                                     gv1.Columns(colPCount).IsVisible = False
                                     gv1.Columns(colMAmt).IsVisible = False
-                                    gv1.Columns(colCrate).IsVisible = False
+                                    gv1.Columns(colCrate).IsVisible = True
                                     gv1.Columns(colLitre).IsVisible = False
                                 Else
 
@@ -2389,14 +2389,14 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
                                 gv1.Columns(colPAmt).IsVisible = False
                                 gv1.Columns(colPCount).IsVisible = False
                                 gv1.Columns(colMAmt).IsVisible = False
-                                gv1.Columns(colCrate).IsVisible = False
+                                gv1.Columns(colCrate).IsVisible = True
                                 gv1.Columns(colLitre).IsVisible = False
                             Else
 
                                 gv1.Columns(colPAmt).IsVisible = True
                                 gv1.Columns(colPCount).IsVisible = True
                                 gv1.Columns(colMAmt).IsVisible = True
-                                gv1.Columns(colCrate).IsVisible = True
+                                gv1.Columns(colCrate).IsVisible = False
                                 gv1.Columns(colLitre).IsVisible = True
                             End If
 
@@ -3751,9 +3751,9 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
     Sub isFreshAmbientBoth()
         Try
             If Not isInsideLoadData Then
-                If rdbnFreshAmbientBoth.IsChecked Then
-                    HideUnhideRowsAndColumnsOFGrid()
-                End If
+                'If rdbnFreshAmbientBoth.IsChecked Then
+                HideUnhideRowsAndColumnsOFGrid()
+                'End If
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
                     checkPrintSetting()
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
@@ -3882,14 +3882,41 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
                 Left Outer Join TSPL_UNIT_MASTER On TSPL_UNIT_MASTER.Unit_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_code
                 where TSPL_DEMAND_BOOKING_MASTER.Document_No='" & txtDocNo.Value & "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & IIf(rbtnMorning.IsChecked, "Morning", "Evening") & "'
                 and TSPL_ITEM_MASTER.Is_Milk_Pouch=0 order by sku_seq"
-            Dim dtDataExist As DataTable = clsDBFuncationality.GetDataTable(" Select  Alies_Name,Max(Sku_Seq)Sku_Seq,Max(Case When Unit_Desc='Crate' Then Case When LEN(Unit_Desc_Hindi)>0 Then Unit_Desc_Hindi Else Unit_Desc End End) As SizeC,Max(Case When Unit_Desc='Pouch' Then Case When LEN(Unit_Desc_Hindi)>0 Then Unit_Desc_Hindi Else Unit_Desc End Else 'Pouch' End) As SizeP from (select distinct isnull(TSPL_ITEM_MASTER.Alies_Name_Hindi,'')  Alies_Name,sku_seq,SUBSTRING(TSPL_ITEM_MASTER.Alies_Name, LEN(TSPL_ITEM_MASTER.Alies_Name) -  CHARINDEX(' ', REVERSE(TSPL_ITEM_MASTER.Alies_Name))+2,LEN(TSPL_ITEM_MASTER.Alies_Name))+' '+ Case When LEN(TSPL_UNIT_MASTER.Unit_Desc_Hindi)>0 Then TSPL_UNIT_MASTER.Unit_Desc_Hindi Else TSPL_UNIT_MASTER.Unit_Desc End AS Size1,Case When LEN(TSPL_UNIT_MASTER.Unit_Desc_Hindi)>0 Then TSPL_UNIT_MASTER.Unit_Desc_Hindi Else TSPL_UNIT_MASTER.Unit_Desc End AS Size,TSPL_UNIT_MASTER.Unit_Desc_Hindi,TSPL_UNIT_MASTER.Unit_Desc from " & ItemInUse & ")xyz Group By Alies_Name order by sku_seq")
-            Dim dtDataExistProduct As DataTable = clsDBFuncationality.GetDataTable("select distinct isnull(TSPL_ITEM_MASTER.Alies_Name_Hindi,'')  Alies_Name,sku_seq,SUBSTRING(TSPL_ITEM_MASTER.Alies_Name, LEN(TSPL_ITEM_MASTER.Alies_Name) -  CHARINDEX(' ', REVERSE(TSPL_ITEM_MASTER.Alies_Name))+2,LEN(TSPL_ITEM_MASTER.Alies_Name))+' '+ Case When LEN(TSPL_UNIT_MASTER.Unit_Desc_Hindi)>0 Then TSPL_UNIT_MASTER.Unit_Desc_Hindi Else TSPL_UNIT_MASTER.Unit_Desc End AS Size1,Case When LEN(TSPL_UNIT_MASTER.Unit_Desc_Hindi)>0 Then TSPL_UNIT_MASTER.Unit_Desc_Hindi Else TSPL_UNIT_MASTER.Unit_Desc End AS Size   from " & ItemInUseProduct)
+            Dim dtDataExist As DataTable = clsDBFuncationality.GetDataTable(" Select  Item_Code,Alies_Name,Max(Sku_Seq)Sku_Seq,Max(Case When Unit_Desc='Crate' Then Case When LEN(Unit_Desc_Hindi)>0 Then Unit_Desc_Hindi Else Unit_Desc End End) As SizeC,Max(Case When Unit_Desc='Pouch' Then Case When LEN(Unit_Desc_Hindi)>0 Then Unit_Desc_Hindi Else Unit_Desc End Else 'Pouch' End) As SizeP,Max(Case When Unit_Desc='LTR' Then Case When LEN(Unit_Desc_Hindi)>0 Then Unit_Desc_Hindi Else Unit_Desc End Else 'LTR' End) As SizeL  from (select distinct isnull(TSPL_ITEM_MASTER.Alies_Name_Hindi,'')  Alies_Name,TSPL_ITEM_MASTER.Item_Code,sku_seq,SUBSTRING(TSPL_ITEM_MASTER.Alies_Name, LEN(TSPL_ITEM_MASTER.Alies_Name) -  CHARINDEX(' ', REVERSE(TSPL_ITEM_MASTER.Alies_Name))+2,LEN(TSPL_ITEM_MASTER.Alies_Name))+' '+ Case When LEN(TSPL_UNIT_MASTER.Unit_Desc_Hindi)>0 Then TSPL_UNIT_MASTER.Unit_Desc_Hindi Else TSPL_UNIT_MASTER.Unit_Desc End AS Size1,Case When LEN(TSPL_UNIT_MASTER.Unit_Desc_Hindi)>0 Then TSPL_UNIT_MASTER.Unit_Desc_Hindi Else TSPL_UNIT_MASTER.Unit_Desc End AS Size,TSPL_UNIT_MASTER.Unit_Desc_Hindi,TSPL_UNIT_MASTER.Unit_Desc from " & ItemInUse & ")xyz Group By Item_Code,Alies_Name order by sku_seq")
+            Dim dtDataExistProduct As DataTable = clsDBFuncationality.GetDataTable("select distinct isnull(TSPL_ITEM_MASTER.Alies_Name_Hindi,'')  Alies_Name,TSPL_ITEM_MASTER.Item_Code,sku_seq,SUBSTRING(TSPL_ITEM_MASTER.Alies_Name, LEN(TSPL_ITEM_MASTER.Alies_Name) -  CHARINDEX(' ', REVERSE(TSPL_ITEM_MASTER.Alies_Name))+2,LEN(TSPL_ITEM_MASTER.Alies_Name))+' '+ Case When LEN(TSPL_UNIT_MASTER.Unit_Desc_Hindi)>0 Then TSPL_UNIT_MASTER.Unit_Desc_Hindi Else TSPL_UNIT_MASTER.Unit_Desc End AS Size1,Case When LEN(TSPL_UNIT_MASTER.Unit_Desc_Hindi)>0 Then TSPL_UNIT_MASTER.Unit_Desc_Hindi Else TSPL_UNIT_MASTER.Unit_Desc End AS Size   from " & ItemInUseProduct)
             If (dtDataExist Is Nothing OrElse dtDataExist.Rows.Count = 0) AndAlso (dtDataExistProduct Is Nothing OrElse dtDataExistProduct.Rows.Count = 0) Then
                 'clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 Throw New InvalidOperationException("No Data Found")
 #Disable Warning S3385 ' "Exit" statements should not be used
                 Exit Sub
 #Enable Warning S3385 ' "Exit" statements should not be used
+            Else
+                Dim sbAlias As New StringBuilder()
+                If dtDataExist IsNot Nothing AndAlso dtDataExist.Rows.Count > 0 Then
+                    For Each strAlias As DataRow In dtDataExist.Rows
+                        If clsCommon.myLen(clsCommon.myCstr(strAlias("Alies_Name"))) <= 0 Then
+                            If clsCommon.myLen(clsCommon.myCstr(sbAlias)) > 0 Then
+                                sbAlias.Append(Environment.NewLine)
+                            End If
+                            sbAlias.Append("Alias Name can't be blank for Item [" & clsCommon.myCstr(strAlias("Item_Code")) & "]")
+                        End If
+                    Next
+                End If
+
+                If dtDataExistProduct IsNot Nothing AndAlso dtDataExistProduct.Rows.Count > 0 Then
+                    For Each strAlias As DataRow In dtDataExistProduct.Rows
+                        If clsCommon.myLen(clsCommon.myCstr(strAlias("Alies_Name"))) <= 0 Then
+                            If clsCommon.myLen(clsCommon.myCstr(sbAlias)) > 0 Then
+                                sbAlias.Append(Environment.NewLine)
+                            End If
+                            sbAlias.Append("Alias Name can't be blank for Item [" & clsCommon.myCstr(strAlias("Item_Code")) & "]")
+                        End If
+                    Next
+                End If
+                If clsCommon.myLen(clsCommon.myCstr(sbAlias)) > 0 Then
+                    Throw New Exception(clsCommon.myCstr(sbAlias))
+                End If
+                sbAlias = Nothing
             End If
             Dim sbstrItemC As New StringBuilder()
             Dim sbstrItemP As New StringBuilder()
@@ -3995,11 +4022,11 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
             Dim strProdQ As String = sbstrProdQ.ToString()
             Dim strItemSUM As String = sbstrItemSUM.ToString()
             Dim Qry As String = "select Row_Number() Over (Order By (Select 1)) As SNo,Cust_Code As Code,max(customer_Name) as Agents, " & strItemSUM & ""
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") <> CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") <> CompairStringResult.Equal AndAlso Not isExportTruckSheet Then
                 Qry += " ,sum(isnull(TotalLtr_CustWise,0)) as [Milk In Ltr],sum(isnull(TotalCrates_ItemWise,0)) as [Crates],sum(isnull(MAmt,0)) as [Milk Amount],sum(isnull(PQty,0)) as [Product Quantity],sum(isnull(PAmt,0)) as [Product Amount] "
             End If
 
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") <> CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") <> CompairStringResult.Equal AndAlso Not isExportTruckSheet Then
                 Qry += ",(sum(isnull(MAmt,0))+sum(isnull(PAmt,0))) as [Total Amount] "
             Else
                 If rbtn_Fresh.IsChecked Then
@@ -4029,14 +4056,24 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
 
             BaseQry += " Select '1' as  Code,TSPL_CUSTOMER_MASTER.Display_Seq,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,coalesce(TSPL_CUSTOMER_MASTER.Customer_Name_Hindi,TSPL_CUSTOMER_MASTER.Customer_Name) as Customer_Name 
 	, TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Alies_Name_Hindi as Alies_Name
-	,TSPL_ITEM_MASTER.Is_FreshItem,TSPL_ITEM_MASTER.Is_Ambient,Cast(TSPL_DEMAND_BOOKING_DETAIL.Qty As Int)Qty,TSPL_UNIT_MASTER.Unit_Code,TSPL_UNIT_MASTER.Unit_Desc
-	,Cast((CASE WHEN TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Crate' THEN TSPL_DEMAND_BOOKING_DETAIL.Qty ELSE 0 END) As Int) as Qty_Crate
-	,Cast((CASE WHEN TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Pouch' THEN TSPL_DEMAND_BOOKING_DETAIL.Qty ELSE 0 END) As Int) as Qty_Pouch
-	,TSPL_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise,TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount
+	,TSPL_ITEM_MASTER.Is_FreshItem,TSPL_ITEM_MASTER.Is_Ambient,"
+            BaseQry += " TSPL_UNIT_MASTER.Unit_Code,TSPL_UNIT_MASTER.Unit_Desc, "
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                BaseQry += " Cast(TSPL_DEMAND_BOOKING_DETAIL.Qty As decimal(18,2))Qty "
+                BaseQry += ",Cast((CASE WHEN TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Crate' THEN TSPL_DEMAND_BOOKING_DETAIL.Qty ELSE 0 END) As decimal(18,2)) as Qty_Crate
+	,Cast((CASE WHEN TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Pouch' THEN TSPL_DEMAND_BOOKING_DETAIL.Qty ELSE 0 END) As decimal(18,2)) as Qty_Pouch 	
+    ,Cast((CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch=0 THEN TSPL_DEMAND_BOOKING_DETAIL.Qty ELSE 0 END) As decimal(18,2)) as ProdQ	
+    ,Cast((CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch=0 THEN TSPL_DEMAND_BOOKING_DETAIL.Qty ELSE 0 END) As decimal(18,2)) as PQty "
+            Else
+                BaseQry += " Cast(TSPL_DEMAND_BOOKING_DETAIL.Qty As Int)Qty "
+                BaseQry += ",Cast((CASE WHEN TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Crate' THEN TSPL_DEMAND_BOOKING_DETAIL.Qty ELSE 0 END) As Int) as Qty_Crate
+	,Cast((CASE WHEN TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Pouch' THEN TSPL_DEMAND_BOOKING_DETAIL.Qty ELSE 0 END) As Int) as Qty_Pouch 	
+    ,Cast((CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch=0 THEN TSPL_DEMAND_BOOKING_DETAIL.Qty ELSE 0 END) As Int) as ProdQ	
+    ,Cast((CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch=0 THEN TSPL_DEMAND_BOOKING_DETAIL.Qty ELSE 0 END) As Int) as PQty "
+            End If
+            BaseQry += ",(CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch=1 THEN TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount ELSE 0 END) as MAmt
+    ,TSPL_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise,TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount
     ,TSPL_DEMAND_BOOKING_DETAIL.TotalCrates_ItemWise
-    ,Cast((CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch=0 THEN TSPL_DEMAND_BOOKING_DETAIL.Qty ELSE 0 END) As Int) as ProdQ
-	,(CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch=1 THEN TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount ELSE 0 END) as MAmt
-    ,Cast((CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch=0 THEN TSPL_DEMAND_BOOKING_DETAIL.Qty ELSE 0 END) As Int) as PQty
 	,(CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch=0 THEN TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount ELSE 0 END) as PAmt,TSPL_ITEM_MASTER.Summary_Seq_No
 	 from TSPL_DEMAND_BOOKING_MASTER Left outer join TSPL_DEMAND_BOOKING_DETAIL
      On TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No 
@@ -4045,21 +4082,19 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
 	left outer join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_code
     WHERE TSPL_DEMAND_BOOKING_MASTER.Document_No='" & txtDocNo.Value & "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & IIf(rbtnMorning.IsChecked, "Morning", "Evening") & "'" & IIf(clsCommon.CompairString(TripNo, "ALL") = CompairStringResult.Equal, "", "and TSPL_DEMAND_BOOKING_DETAIL.Trip_No='" & TripNo & "'") & ""
 
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal AndAlso isIndent Then
+            If (clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal OrElse isExportTruckSheet) AndAlso isIndent Then
                 BaseQry += " Union All "
                 BaseQry += " Select '1' as  Code,TSPL_CUSTOMER_MASTER.Display_Seq,TSPL_CUSTOMER_MASTER.Cust_Code,coalesce(TSPL_CUSTOMER_MASTER.Customer_Name_Hindi,TSPL_CUSTOMER_MASTER.Customer_Name) as Customer_Name 
 	, TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Alies_Name_Hindi as Alies_Name
 	,TSPL_ITEM_MASTER.Is_FreshItem,TSPL_ITEM_MASTER.Is_Ambient
-	,0 As Qty ,TSPL_UNIT_MASTER.Unit_Code,TSPL_UNIT_MASTER.Unit_Desc
+	,TSPL_UNIT_MASTER.Unit_Code,TSPL_UNIT_MASTER.Unit_Desc,0 As Qty
 	,0 as Qty_Crate
-	,0 as Qty_Pouch
-	,0 TotalLtr_ItemWise, 0 As ItemNetAmount
-    ,0 As TotalCrates_ItemWise
+	,0 as Qty_Pouch	
     ,0 as ProdQ
+    ,0 as PQty   
 	,0 as MAmt
-    ,0 as PQty
-	,0 as PAmt
-,TSPL_ITEM_MASTER.Summary_Seq_No
+    ,0 TotalLtr_ItemWise, 0 As ItemNetAmount,0 As TotalCrates_ItemWise      
+	,0 as PAmt,TSPL_ITEM_MASTER.Summary_Seq_No
 from TSPL_CUSTOMER_MASTER
 Left Outer Join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No = TSPL_ROUTE_MASTER.Route_No  
 LEFT Outer Join ( Select Document_No,Max(Document_Date)Document_Date,Route_No,Max(ShiftType)ShiftType from TSPL_DEMAND_BOOKING_MASTER Where CONVERT(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)=Convert(Date,'" & txtDate.Value & "',103) Group By Document_No,Route_No )TSPL_DEMAND_BOOKING_MASTER On TSPL_DEMAND_BOOKING_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No  
@@ -4194,15 +4229,17 @@ and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= Convert(Date,'"
                 For i As Integer = 0 To dtDataExist.Rows.Count - 1
                     'GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").FormatString = "{0:n0}"
                     'GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").FormatString = "{0:n0}"
-                    GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#C").TextAlignment = ContentAlignment.MiddleCenter
-                    GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#P").TextAlignment = ContentAlignment.MiddleCenter
+                    'GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#C").TextAlignment = ContentAlignment.MiddleCenter
+                    'GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#P").TextAlignment = ContentAlignment.MiddleCenter
                     GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#C").HeaderText = clsCommon.myCstr(dtDataExist.Rows(i).Item("SizeC")) '& " क्रेट"
                     GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#C").HeaderTextAlignment = ContentAlignment.MiddleCenter
                     GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#P").HeaderText = clsCommon.myCstr(dtDataExist.Rows(i).Item("SizeP")) '& " थैली"
                     GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#P").HeaderTextAlignment = ContentAlignment.MiddleCenter
-                    GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#C").IsVisible = clsCommon.myCBool(IIf(chkCrate, chkCrate, chkCratePouch))
+                    GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#L").HeaderText = clsCommon.myCstr(dtDataExist.Rows(i).Item("SizeL")) '& "LTR"
+                    GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#L").HeaderTextAlignment = ContentAlignment.MiddleCenter
+                    GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#C").IsVisible = clsCommon.myCBool(IIf(chkEntryUOM = 2, False, IIf(chkCrate, chkCrate, chkCratePouch)))
                     GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#P").IsVisible = clsCommon.myCBool(IIf(chkCratePouch, True, False))
-                    GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#L").IsVisible = False
+                    GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#L").IsVisible = clsCommon.myCBool(IIf(chkLTR, True, False)) 'False 
                     GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#A").IsVisible = False
                 Next
                 For i As Integer = 0 To dtDataExistProduct.Rows.Count - 1
@@ -4216,15 +4253,17 @@ and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= Convert(Date,'"
                 For i As Integer = 0 To dtDataExist.Rows.Count - 1
                     'GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#C").FormatString = "{0:n0}"
                     'GVTruckSheet.Columns("" + clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) + "#P").FormatString = "{0:n0}"
-                    GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#C").TextAlignment = ContentAlignment.MiddleCenter
-                    GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#P").TextAlignment = ContentAlignment.MiddleCenter
+                    'GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#C").TextAlignment = ContentAlignment.MiddleCenter
+                    'GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#P").TextAlignment = ContentAlignment.MiddleCenter
                     GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#C").HeaderText = clsCommon.myCstr(dtDataExist.Rows(i).Item("SizeC")) '& " क्रेट"
                     GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#C").HeaderTextAlignment = ContentAlignment.MiddleCenter
                     GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#P").HeaderText = clsCommon.myCstr(dtDataExist.Rows(i).Item("SizeP")) '& " थैली"
                     GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#P").HeaderTextAlignment = ContentAlignment.MiddleCenter
-                    GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#C").IsVisible = clsCommon.myCBool(IIf(chkCrate, chkCrate, chkCratePouch))
+                    GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#L").HeaderText = clsCommon.myCstr(dtDataExist.Rows(i).Item("SizeL")) '& "LTR"
+                    GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#L").HeaderTextAlignment = ContentAlignment.MiddleCenter
+                    GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#C").IsVisible = clsCommon.myCBool(IIf(chkEntryUOM = 2, False, IIf(chkCrate, chkCrate, chkCratePouch)))
                     GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#P").IsVisible = clsCommon.myCBool(IIf(chkCratePouch, True, False))
-                    GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#L").IsVisible = False
+                    GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#L").IsVisible = clsCommon.myCBool(IIf(chkLTR, True, False)) 'False 
                     GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#A").IsVisible = False
                 Next
             ElseIf rbtn_Ambient.IsChecked Then
@@ -4236,7 +4275,7 @@ and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= Convert(Date,'"
                     GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExistProduct.Rows(i).Item("Alies_Name")) & "#A").IsVisible = False
                 Next
             End If
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") <> CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") <> CompairStringResult.Equal AndAlso Not isExportTruckSheet Then
                 GVTruckSheet.Columns("Milk In Ltr").FormatString = "{0:n2}"
                 GVTruckSheet.Columns("Milk In Ltr").TextAlignment = ContentAlignment.MiddleCenter
                 GVTruckSheet.Columns("Crates").FormatString = "{0:n0}"
@@ -4271,6 +4310,7 @@ and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= Convert(Date,'"
                     view.ColumnGroups(TempColGroupCount).Rows.Add(New GridViewColumnGroupRow())
                     view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(GVTruckSheet.Columns(dr("Alies_Name") & "#C").Name)
                     view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(GVTruckSheet.Columns(dr("Alies_Name") & "#P").Name)
+                    view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(GVTruckSheet.Columns(dr("Alies_Name") & "#L").Name)
                     TempColGroupCount += 1
                 Next
                 For Each dr As DataRow In dtDataExistProduct.Rows
@@ -4285,6 +4325,7 @@ and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= Convert(Date,'"
                     view.ColumnGroups(TempColGroupCount).Rows.Add(New GridViewColumnGroupRow())
                     view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(GVTruckSheet.Columns(dr("Alies_Name") & "#C").Name)
                     view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(GVTruckSheet.Columns(dr("Alies_Name") & "#P").Name)
+                    view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(GVTruckSheet.Columns(dr("Alies_Name") & "#L").Name)
                     TempColGroupCount += 1
                 Next
             ElseIf rbtn_Ambient.IsChecked Then
@@ -4297,7 +4338,7 @@ and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= Convert(Date,'"
             End If
             view.ColumnGroups.Add(New GridViewColumnGroup(""))
             view.ColumnGroups(TempColGroupCount).Rows.Add(New GridViewColumnGroupRow())
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") <> CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") <> CompairStringResult.Equal AndAlso Not isExportTruckSheet Then
                 view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(GVTruckSheet.Columns("Milk In Ltr").Name)
                 view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(GVTruckSheet.Columns("Crates").Name)
                 view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(GVTruckSheet.Columns("Milk Amount").Name)
@@ -4411,14 +4452,14 @@ from (" & BaseQry & ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
                 End If
                 'If isVisibleCol <= totFreshAmbCol Then
                 Dim colToAdd As Integer = (totFreshAmbCol - isVisibleCol) + 5
-                    For i As Integer = 1 To colToAdd
-                        Dim newCol As New GridViewTextBoxColumn("ExtraCol" & i)
-                        newCol.HeaderText = ""
-                        newCol.IsVisible = True
-                        GVTruckSheet.Columns.Add(newCol)
-                        dtNew.Columns.Add("ExtraCol" & i, GetType(String))
-                    Next
-                    GVTruckSheet.Refresh()
+                For i As Integer = 1 To colToAdd
+                    Dim newCol As New GridViewTextBoxColumn("ExtraCol" & i)
+                    newCol.HeaderText = ""
+                    newCol.IsVisible = True
+                    GVTruckSheet.Columns.Add(newCol)
+                    dtNew.Columns.Add("ExtraCol" & i, GetType(String))
+                Next
+                GVTruckSheet.Refresh()
                 'End If
                 dtNew.Rows.Add(dtNew.NewRow)
 
@@ -4547,8 +4588,10 @@ from (" & BaseQry & ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
             Dim arrHeader As List(Of String) = New List(Of String)()
             If isExcelPDF Then
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse isExportTruckSheet Then
+                    Dim dtComp As DataTable = clsDBFuncationality.GetDataTable("Select ISO_No,ISO_Date from TSPL_COMPANY_MASTER Where Comp_code1='" & objCommonVar.CurrComp_Code1 & "'")
                     arrHeader.Add("Doc Date : " & clsCommon.myCstr(clsCommon.GetPrintDate(txtDate.Value, "dd-MMM-yyyy")) & "     " & "Shift : " & IIf(rbtnMorning.IsChecked, "Morning", "Evening") & "     " & "Trip No : " & clsCommon.myCstr(TripNo))
                     arrHeader.Add("Route : " & lblRouteDesc.Text & "     " & "City : " & lblCityName.Text & "     " & "Distributor : " & lblTransporterName.Text)
+                    arrHeader.Add("ISO No : " & clsCommon.myCstr(dtComp.Rows(0)("ISO_No")) & "      ISO Date : " & clsCommon.GetPrintDate(dtComp.Rows(0)("ISO_Date"), "dd/MM/yyyy"))
                     arrHeader.Add("")
                     'arrHeader.Add("Shift : " & IIf(rbtnMorning.IsChecked, "Morning", "Evening"))
                     'arrHeader.Add("Trip No : " & clsCommon.myCstr(TripNo))
@@ -4663,7 +4706,7 @@ from (" & BaseQry & ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
                 retValu = ii
 #Disable Warning S3385 ' "Exit" statements should not be used
                 Exit For
-#Enable Warning S3385 ' "Exit" statements should not be used
+#Enable Warning S3385 ' "Exit      " statements should not be used
                 'End If
             End If
         Next

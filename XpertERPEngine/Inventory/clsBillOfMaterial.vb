@@ -221,7 +221,7 @@ Public Class clsBillOfMaterial
             obj.BOM_CODE = clsCommon.myCstr(dt.Rows(0)("BOM_CODE"))
             obj.PROD_Drawing_No = clsCommon.myCstr(dt.Rows(0)("PROD_Drawing_No"))
             obj.DESCRIPTION = clsCommon.myCstr(dt.Rows(0)("DESCRIPTION"))
-            obj.BOM_DATE = clsCommon.GetPrintDate(dt.Rows(0)("BOM_DATE"), "dd/MMM/yyyy")
+            obj.BOM_DATE = clsCommon.GetPrintDate(dt.Rows(0)("BOM_DATE"), "dd/MMM/yyyy hh:mm tt")
             obj.REVISION_NO = clsCommon.myCstr(dt.Rows(0)("REVISION_NO"))
             obj.START_DATE = clsCommon.GetPrintDate(dt.Rows(0)("START_DATE"), "dd/MMM/yyyy")
             If IsDBNull(dt.Rows(0)("END_DATE")) = True Then
@@ -344,7 +344,12 @@ Public Class clsBillOfMaterial
             clsCommon.AddColumnsForChange(coll, "comp_code", objCommonVar.CurrentCompanyCode)
             clsCommon.AddColumnsForChange(coll, "BOM_CODE", obj.BOM_CODE)
             clsCommon.AddColumnsForChange(coll, "DESCRIPTION", obj.DESCRIPTION)
-            clsCommon.AddColumnsForChange(coll, "BOM_DATE", clsCommon.GetPrintDate(obj.BOM_DATE, "dd/MMM/yyyy"))
+            Dim ServerTime As DateTime = Nothing
+            If isNewEntry Then
+                ServerTime = clsCommon.GETSERVERDATE(trans)
+                obj.BOM_DATE = New DateTime(obj.BOM_DATE.Year, obj.BOM_DATE.Month, obj.BOM_DATE.Day, ServerTime.Hour, ServerTime.Minute, ServerTime.Second)
+            End If
+            clsCommon.AddColumnsForChange(coll, "BOM_DATE", clsCommon.GetPrintDate(obj.BOM_DATE, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "REVISION_NO", obj.REVISION_NO)
             clsCommon.AddColumnsForChange(coll, "START_DATE", clsCommon.GetPrintDate(obj.START_DATE, "dd/MMM/yyyy"))
             If Not obj.END_DATE Is Nothing Then

@@ -15,9 +15,20 @@ Public Class clsMccMaterialSaleReturn
     Public HeadDisc_Amt As Double = 0
     Public RateDiff_Per As Double = 0
     Public RateDiff_Amt As Double = 0
+    Public Rate_Diff_Amount_Type As Integer
+    Public Is_Rate_Diff_Per_Amt As Integer
     Public Gross_Amount As Double = 0
     Public TotalSubsidyAmt As Double = 0
     Public TotalSubsidyDisAmt As Double = 0
+    Public Transporter_Commission_TotalAmt As Double = 0
+    Public Is_Add_TPT As Boolean = False
+    Public Is_CashSale As String = "N"
+    Public Is_Apply_TPT As Boolean = False
+    Public TPT_Vendor As String = Nothing
+    Public Receipt_No As String = ""
+    Public ReceiptAmt As Double = 0
+    Public Payment_Terms As String = Nothing
+    Public Bank_Code As String = Nothing
     Public HeadDisc_PerAmt As Double = 0
     Public TotCashDiscAmt As Double = 0
 
@@ -320,9 +331,20 @@ Public Class clsMccMaterialSaleReturn
             clsCommon.AddColumnsForChange(coll, "HeadDisc_PerAmt", obj.HeadDisc_PerAmt)
             clsCommon.AddColumnsForChange(coll, "RateDiff_Per", obj.RateDiff_Per)
             clsCommon.AddColumnsForChange(coll, "RateDiff_Amt", obj.RateDiff_Amt)
+            clsCommon.AddColumnsForChange(coll, "Rate_Diff_Amount_Type", obj.Rate_Diff_Amount_Type, True)
+            clsCommon.AddColumnsForChange(coll, "Is_Rate_Diff_Per_Amt", obj.Is_Rate_Diff_Per_Amt, True)
+            clsCommon.AddColumnsForChange(coll, "Is_Apply_TPT", IIf(obj.Is_Apply_TPT, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "TPT_Vendor", obj.TPT_Vendor, True)
+            clsCommon.AddColumnsForChange(coll, "Is_Add_TPT", IIf(obj.Is_Add_TPT, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "Is_CashSale", obj.Is_CashSale)
+            clsCommon.AddColumnsForChange(coll, "Payment_Terms", obj.Payment_Terms)
+            clsCommon.AddColumnsForChange(coll, "Bank_Code", obj.Bank_Code, True)
+            clsCommon.AddColumnsForChange(coll, "Receipt_No", obj.Receipt_No, True)
+            clsCommon.AddColumnsForChange(coll, "ReceiptAmt", obj.ReceiptAmt, True)
             clsCommon.AddColumnsForChange(coll, "Gross_Amount", obj.Gross_Amount)
             clsCommon.AddColumnsForChange(coll, "TotalSubsidyAmt", obj.TotalSubsidyAmt)
             clsCommon.AddColumnsForChange(coll, "TotalSubsidyDisAmt", obj.TotalSubsidyDisAmt)
+            clsCommon.AddColumnsForChange(coll, "Transporter_Commission_TotalAmt", obj.Transporter_Commission_TotalAmt)
             clsCommon.AddColumnsForChange(coll, "HeadDisc_Amt", obj.HeadDisc_Amt)
             clsCommon.AddColumnsForChange(coll, "Return_Type", obj.Return_Type)
             clsCommon.AddColumnsForChange(coll, "Is_Taxable", IIf(obj.Is_Taxable, 1, 0))
@@ -365,7 +387,7 @@ Public Class clsMccMaterialSaleReturn
     Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsMccMaterialSaleReturn
         Dim obj As clsMccMaterialSaleReturn = Nothing
         Dim qry As String = "SELECT TSPL_SD_SALE_RETURN_HEAD.RoundOffAmount,  TSPL_SD_SALE_RETURN_HEAD.Return_Type,TSPL_SD_SALE_RETURN_HEAD.HeadDisc_PerAmt,TSPL_SD_SALE_RETURN_HEAD.Cust_PO_No,TSPL_SD_SALE_RETURN_HEAD.VehicleNo, TSPL_SD_SALE_RETURN_HEAD.Vehicle_Code,TSPL_SD_SALE_RETURN_HEAD.price_group_code , " &
-        "TSPL_SD_SALE_RETURN_HEAD.Invoice_Type,TSPL_SD_SALE_RETURN_HEAD.HeadDisc_Per,TSPL_SD_SALE_RETURN_HEAD.HeadDisc_Amt,TSPL_SD_SALE_RETURN_HEAD.RateDiff_Per,TSPL_SD_SALE_RETURN_HEAD.RateDiff_Amt,TSPL_SD_SALE_RETURN_HEAD.Gross_Amount,TSPL_SD_SALE_RETURN_HEAD.TotalSubsidyAmt,TSPL_SD_SALE_RETURN_HEAD.TotalSubsidyDisAmt,TSPL_SD_SALE_RETURN_HEAD.TotCashDiscAmt,TSPL_SD_SALE_RETURN_HEAD.Route_No,TSPL_SD_SALE_RETURN_HEAD.Route_Desc,TSPL_SD_SALE_RETURN_HEAD.Price_Code, TSPL_SD_SALE_RETURN_HEAD.Document_Code,TSPL_SD_SALE_RETURN_HEAD.Document_Date,TSPL_SD_SALE_RETURN_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SALE_RETURN_HEAD.Status,TSPL_SD_SALE_RETURN_HEAD.On_Hold,TSPL_SD_SALE_RETURN_HEAD.Ref_No,TSPL_SD_SALE_RETURN_HEAD.Description,TSPL_SD_SALE_RETURN_HEAD.Remarks,TSPL_SD_SALE_RETURN_HEAD.Tax_Group,TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location,TSPL_SD_SALE_RETURN_HEAD.Sub_Location_code,TSPL_SD_SALE_RETURN_HEAD.Ship_To_Location,TSPL_SD_SALE_RETURN_HEAD.TAX1,TSPL_SD_SALE_RETURN_HEAD.TAX1_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX1_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX1_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX2,TSPL_SD_SALE_RETURN_HEAD.TAX2_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX2_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX2_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX3,TSPL_SD_SALE_RETURN_HEAD.TAX3_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX3_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX3_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX4,TSPL_SD_SALE_RETURN_HEAD.TAX4_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX4_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX4_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX5,TSPL_SD_SALE_RETURN_HEAD.TAX5_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX5_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX5_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX6,TSPL_SD_SALE_RETURN_HEAD.TAX6_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX6_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX6_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX7,TSPL_SD_SALE_RETURN_HEAD.TAX7_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX7_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX7_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX8,TSPL_SD_SALE_RETURN_HEAD.TAX8_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX8_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX8_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX9,TSPL_SD_SALE_RETURN_HEAD.TAX9_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX9_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX9_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX10,TSPL_SD_SALE_RETURN_HEAD.TAX10_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX10_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX10_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.Discount_Base,TSPL_SD_SALE_RETURN_HEAD.Discount_Amt,TSPL_SD_SALE_RETURN_HEAD.Amount_Less_Discount,TSPL_SD_SALE_RETURN_HEAD.Total_Tax_Amt,TSPL_SD_SALE_RETURN_HEAD.Comments,TSPL_SD_SALE_RETURN_HEAD.Comp_Code,TSPL_SD_SALE_RETURN_HEAD.Terms_Code,TSPL_SD_SALE_RETURN_HEAD.Due_Date ,TSPL_LOCATION_MASTER.Location_Desc as BillToLocationName,TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipToLocationName,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as TaxGroupName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_SD_SALE_RETURN_HEAD.Posting_Date,TSPL_SD_SALE_RETURN_HEAD.Total_Amt,TSPL_SD_SALE_RETURN_HEAD.Carrier,TSPL_SD_SALE_RETURN_HEAD.VehicleNo,TSPL_SD_SALE_RETURN_HEAD.GRNo,TSPL_SD_SALE_RETURN_HEAD.GENo,TSPL_SD_SALE_RETURN_HEAD.GEDate, TSPL_SD_SALE_RETURN_HEAD.Dept,TSPL_SD_SALE_RETURN_HEAD.Dept_Desc,TSPL_SD_SALE_RETURN_HEAD.Item_Type,TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No ,TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code1,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name1,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt1,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code2,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name2,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt2,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code3,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name3,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt3,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code4,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name4,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt4,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code5,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name5,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt5,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code6,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name6,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt6,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code7,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name7,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt7,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code8,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name8,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt8,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code9 ,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name9,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt9 ,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code10 ,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name10,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt10,TSPL_SD_SALE_RETURN_HEAD.Total_Add_Charge,TSPL_SD_SALE_RETURN_HEAD.Tax_Calculation_Type,TSPL_SD_SALE_RETURN_HEAD.Challan_No, TSPL_SD_SALE_RETURN_HEAD.Challan_Date, TSPL_SD_SALE_RETURN_HEAD.Inv_Date,TSPL_SD_SALE_RETURN_HEAD.Inv_No,TSPL_SD_SALE_RETURN_HEAD.Is_Internal ,TSPL_SD_SALE_RETURN_HEAD.Salesman_Code ,TSPL_SD_SALE_RETURN_HEAD.Salesman_Name,"
+        "TSPL_SD_SALE_RETURN_HEAD.Invoice_Type,TSPL_SD_SALE_RETURN_HEAD.HeadDisc_Per,TSPL_SD_SALE_RETURN_HEAD.HeadDisc_Amt,TSPL_SD_SALE_RETURN_HEAD.RateDiff_Per,TSPL_SD_SALE_RETURN_HEAD.RateDiff_Amt,TSPL_SD_SALE_RETURN_HEAD.Rate_Diff_Amount_Type,TSPL_SD_SALE_RETURN_HEAD.Is_Rate_Diff_Per_Amt,TSPL_SD_SALE_RETURN_HEAD.Is_Add_TPT,TSPL_SD_SALE_RETURN_HEAD.Is_CashSale,TSPL_SD_SALE_RETURN_HEAD.Bank_Code,TSPL_SD_SALE_RETURN_HEAD.Payment_Terms,TSPL_SD_SALE_RETURN_HEAD.Receipt_No,TSPL_SD_SALE_RETURN_HEAD.ReceiptAmt,TSPL_SD_SALE_RETURN_HEAD.Is_Apply_TPT,TSPL_SD_SALE_RETURN_HEAD.TPT_Vendor,TSPL_SD_SALE_RETURN_HEAD.Gross_Amount,TSPL_SD_SALE_RETURN_HEAD.TotalSubsidyAmt,TSPL_SD_SALE_RETURN_HEAD.TotalSubsidyDisAmt,TSPL_SD_SALE_RETURN_HEAD.Transporter_Commission_TotalAmt,TSPL_SD_SALE_RETURN_HEAD.TotCashDiscAmt,TSPL_SD_SALE_RETURN_HEAD.Route_No,TSPL_SD_SALE_RETURN_HEAD.Route_Desc,TSPL_SD_SALE_RETURN_HEAD.Price_Code, TSPL_SD_SALE_RETURN_HEAD.Document_Code,TSPL_SD_SALE_RETURN_HEAD.Document_Date,TSPL_SD_SALE_RETURN_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SALE_RETURN_HEAD.Status,TSPL_SD_SALE_RETURN_HEAD.On_Hold,TSPL_SD_SALE_RETURN_HEAD.Ref_No,TSPL_SD_SALE_RETURN_HEAD.Description,TSPL_SD_SALE_RETURN_HEAD.Remarks,TSPL_SD_SALE_RETURN_HEAD.Tax_Group,TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location,TSPL_SD_SALE_RETURN_HEAD.Sub_Location_code,TSPL_SD_SALE_RETURN_HEAD.Ship_To_Location,TSPL_SD_SALE_RETURN_HEAD.TAX1,TSPL_SD_SALE_RETURN_HEAD.TAX1_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX1_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX1_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX2,TSPL_SD_SALE_RETURN_HEAD.TAX2_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX2_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX2_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX3,TSPL_SD_SALE_RETURN_HEAD.TAX3_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX3_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX3_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX4,TSPL_SD_SALE_RETURN_HEAD.TAX4_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX4_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX4_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX5,TSPL_SD_SALE_RETURN_HEAD.TAX5_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX5_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX5_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX6,TSPL_SD_SALE_RETURN_HEAD.TAX6_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX6_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX6_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX7,TSPL_SD_SALE_RETURN_HEAD.TAX7_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX7_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX7_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX8,TSPL_SD_SALE_RETURN_HEAD.TAX8_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX8_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX8_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX9,TSPL_SD_SALE_RETURN_HEAD.TAX9_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX9_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX9_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX10,TSPL_SD_SALE_RETURN_HEAD.TAX10_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX10_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX10_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.Discount_Base,TSPL_SD_SALE_RETURN_HEAD.Discount_Amt,TSPL_SD_SALE_RETURN_HEAD.Amount_Less_Discount,TSPL_SD_SALE_RETURN_HEAD.Total_Tax_Amt,TSPL_SD_SALE_RETURN_HEAD.Comments,TSPL_SD_SALE_RETURN_HEAD.Comp_Code,TSPL_SD_SALE_RETURN_HEAD.Terms_Code,TSPL_SD_SALE_RETURN_HEAD.Due_Date ,TSPL_LOCATION_MASTER.Location_Desc as BillToLocationName,TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipToLocationName,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as TaxGroupName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_SD_SALE_RETURN_HEAD.Posting_Date,TSPL_SD_SALE_RETURN_HEAD.Total_Amt,TSPL_SD_SALE_RETURN_HEAD.Carrier,TSPL_SD_SALE_RETURN_HEAD.VehicleNo,TSPL_SD_SALE_RETURN_HEAD.GRNo,TSPL_SD_SALE_RETURN_HEAD.GENo,TSPL_SD_SALE_RETURN_HEAD.GEDate, TSPL_SD_SALE_RETURN_HEAD.Dept,TSPL_SD_SALE_RETURN_HEAD.Dept_Desc,TSPL_SD_SALE_RETURN_HEAD.Item_Type,TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No ,TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code1,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name1,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt1,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code2,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name2,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt2,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code3,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name3,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt3,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code4,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name4,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt4,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code5,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name5,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt5,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code6,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name6,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt6,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code7,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name7,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt7,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code8,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name8,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt8,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code9 ,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name9,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt9 ,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code10 ,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name10,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt10,TSPL_SD_SALE_RETURN_HEAD.Total_Add_Charge,TSPL_SD_SALE_RETURN_HEAD.Tax_Calculation_Type,TSPL_SD_SALE_RETURN_HEAD.Challan_No, TSPL_SD_SALE_RETURN_HEAD.Challan_Date, TSPL_SD_SALE_RETURN_HEAD.Inv_Date,TSPL_SD_SALE_RETURN_HEAD.Inv_No,TSPL_SD_SALE_RETURN_HEAD.Is_Internal ,TSPL_SD_SALE_RETURN_HEAD.Salesman_Code ,TSPL_SD_SALE_RETURN_HEAD.Salesman_Name,"
         qry += " TSPL_SD_SALE_RETURN_HEAD.CURRENCY_CODE,TSPL_SD_SALE_RETURN_HEAD.CONVRATE,TSPL_SD_SALE_RETURN_HEAD.APPLICABLEFROM,TSPL_SD_SALE_RETURN_HEAD.PROJECT_ID,TSPL_SD_SALE_RETURN_HEAD.Is_Taxable, TSPL_SD_SALE_RETURN_HEAD.Is_Cancelled ,TSPL_SD_SALE_RETURN_HEAD.Gate_Entry_No"
         qry += " FROM TSPL_SD_SALE_RETURN_HEAD"
         qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location "
@@ -572,10 +594,20 @@ Public Class clsMccMaterialSaleReturn
             obj.HeadDisc_Amt = clsCommon.myCdbl(dt.Rows(0)("HeadDisc_Amt"))
             obj.RateDiff_Per = clsCommon.myCdbl(dt.Rows(0)("RateDiff_Per"))
             obj.RateDiff_Amt = clsCommon.myCdbl(dt.Rows(0)("RateDiff_Amt"))
+            obj.Rate_Diff_Amount_Type = clsCommon.myCdbl(dt.Rows(0)("Rate_Diff_Amount_Type"))
+            obj.Is_Rate_Diff_Per_Amt = clsCommon.myCdbl(dt.Rows(0)("Is_Rate_Diff_Per_Amt"))
+            obj.Is_Add_TPT = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Add_TPT")) = 1, True, False)
+            obj.Is_Apply_TPT = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Apply_TPT")) = 1, True, False)
+            obj.TPT_Vendor = clsCommon.myCstr(dt.Rows(0)("TPT_Vendor"))
+            obj.Is_CashSale = clsCommon.myCstr(dt.Rows(0)("Is_CashSale"))
+            obj.Receipt_No = clsCommon.myCstr(dt.Rows(0)("Receipt_No"))
+            obj.ReceiptAmt = clsCommon.myCdbl(dt.Rows(0)("ReceiptAmt"))
+            obj.Bank_Code = clsCommon.myCstr(dt.Rows(0)("Bank_Code"))
+            obj.Payment_Terms = clsCommon.myCstr(dt.Rows(0)("Payment_Terms"))
             obj.Gross_Amount = clsCommon.myCdbl(dt.Rows(0)("Gross_Amount"))
             obj.TotalSubsidyAmt = clsCommon.myCdbl(dt.Rows(0)("TotalSubsidyAmt"))
             obj.TotalSubsidyDisAmt = clsCommon.myCdbl(dt.Rows(0)("TotalSubsidyDisAmt"))
-
+            obj.Transporter_Commission_TotalAmt = clsCommon.myCdbl(dt.Rows(0)("Transporter_Commission_TotalAmt"))
             obj.Return_Type = clsCommon.myCstr(dt.Rows(0)("Return_Type"))
             obj.Is_Taxable = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Taxable")) = 1, True, False)
             '' CURRENCYCONVERSION 
@@ -589,36 +621,36 @@ Public Class clsMccMaterialSaleReturn
             End If
             '' END CURRENCYCONVERSION 
 
-            qry = "SELECT TSPL_SD_SALE_RETURN_DETAIL.InvoiceScheme_Code,TSPL_SD_SALE_RETURN_DETAIL.Cash_Scheme_Amount,TSPL_SD_SALE_RETURN_DETAIL.Cash_Scheme_Type,TSPL_SD_SALE_RETURN_DETAIL.Cash_Scheme_Pers,TSPL_SD_SALE_RETURN_DETAIL.Cash_Scheme_Code,TSPL_SD_SALE_RETURN_DETAIL.TAX_PAID ,TSPL_SD_SALE_RETURN_DETAIL.Item_Group, " & _
-            "TSPL_SD_SALE_RETURN_DETAIL.Scheme_Item_UOM,TSPL_SD_SALE_RETURN_DETAIL.Scheme_Qty,TSPL_SD_SALE_RETURN_DETAIL.Scheme_Item_Code,TSPL_SD_SALE_RETURN_DETAIL.Scheme_Type,TSPL_SD_SALE_RETURN_DETAIL.Alternate_UOM,TSPL_SD_SALE_RETURN_DETAIL.RATE_UOM , TSPL_SD_SALE_RETURN_DETAIL.OrgUnit_code,TSPL_SD_SALE_RETURN_DETAIL.Is_Mannual_Amt,TSPL_SD_SALE_RETURN_DETAIL.Document_Code,TSPL_SD_SALE_RETURN_DETAIL.Line_No, " & _
-            "TSPL_SD_SALE_RETURN_DETAIL.Status,TSPL_SD_SALE_RETURN_DETAIL.Row_Type,TSPL_SD_SALE_RETURN_DETAIL.status,TSPL_SD_SALE_RETURN_DETAIL.Item_Code, " & _
-            "TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SALE_RETURN_DETAIL.Qty,TSPL_SD_SALE_RETURN_DETAIL.Free_Qty,TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code, " & _
-            "TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code,TSPL_SD_SALE_RETURN_DETAIL.Balance_Qty,TSPL_SD_SALE_RETURN_DETAIL.Unit_code, " & _
-            "TSPL_SD_SALE_RETURN_DETAIL.Location,TSPL_SD_SALE_RETURN_DETAIL.Item_Cost,TSPL_SD_SALE_RETURN_DETAIL.TAX1,TSPL_SD_SALE_RETURN_DETAIL.TAX1_Rate, " & _
-            "TSPL_SD_SALE_RETURN_DETAIL.TAX1_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX2,TSPL_SD_SALE_RETURN_DETAIL.TAX2_Rate,TSPL_SD_SALE_RETURN_DETAIL.TAX2_Amt, " & _
-            "TSPL_SD_SALE_RETURN_DETAIL.TAX3,TSPL_SD_SALE_RETURN_DETAIL.TAX3_Rate,TSPL_SD_SALE_RETURN_DETAIL.TAX3_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX4, " & _
-            "TSPL_SD_SALE_RETURN_DETAIL.TAX4_Rate,TSPL_SD_SALE_RETURN_DETAIL.TAX4_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX5,TSPL_SD_SALE_RETURN_DETAIL.TAX5_Rate, " & _
-            "TSPL_SD_SALE_RETURN_DETAIL.TAX5_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX6,TSPL_SD_SALE_RETURN_DETAIL.TAX6_Rate,TSPL_SD_SALE_RETURN_DETAIL.TAX6_Amt, " & _
-            "TSPL_SD_SALE_RETURN_DETAIL.TAX7,TSPL_SD_SALE_RETURN_DETAIL.TAX7_Rate,TSPL_SD_SALE_RETURN_DETAIL.TAX7_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX8, " & _
-            "TSPL_SD_SALE_RETURN_DETAIL.TAX8_Rate,TSPL_SD_SALE_RETURN_DETAIL.TAX8_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX9,TSPL_SD_SALE_RETURN_DETAIL.TAX9_Rate, " & _
-            "TSPL_SD_SALE_RETURN_DETAIL.TAX9_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX10,TSPL_SD_SALE_RETURN_DETAIL.TAX10_Rate,TSPL_SD_SALE_RETURN_DETAIL.TAX10_Amt, " & _
-            "TSPL_SD_SALE_RETURN_DETAIL.Amount,TSPL_SD_SALE_RETURN_DETAIL.Disc_Per,TSPL_SD_SALE_RETURN_DETAIL.Disc_Amt, " & _
-            "TSPL_SD_SALE_RETURN_DETAIL.Amt_Less_Discount,TSPL_SD_SALE_RETURN_DETAIL.Total_Tax_Amt,TSPL_SD_SALE_RETURN_DETAIL.Item_Net_Amt, " & _
-            "TSPL_LOCATION_MASTER.Location_Desc as LocationName,TSPL_SD_SALE_RETURN_DETAIL.TAX1_Base_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX2_Base_Amt, " & _
-            "TSPL_SD_SALE_RETURN_DETAIL.TAX3_Base_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX4_Base_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX5_Base_Amt, " & _
-            "TSPL_SD_SALE_RETURN_DETAIL.TAX6_Base_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX7_Base_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX8_Base_Amt, " & _
-            "TSPL_SD_SALE_RETURN_DETAIL.TAX9_Base_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX10_Base_Amt,TSPL_SD_SALE_RETURN_DETAIL.MRP , " & _
-            "TSPL_SD_SALE_RETURN_DETAIL.Batch_No,TSPL_SD_SALE_RETURN_DETAIL.MFG_Date,TSPL_SD_SALE_RETURN_DETAIL.Expiry_Date, " & _
-            "TSPL_SD_SALE_RETURN_DETAIL.Specification,TSPL_SD_SALE_RETURN_DETAIL.Remarks,TSPL_SD_SALE_RETURN_DETAIL.Assessable, " & _
-            "TSPL_SD_SALE_RETURN_DETAIL.AssessableAmt,TSPL_SD_SALE_RETURN_DETAIL.DamageQty,TSPL_SD_SALE_RETURN_DETAIL.Return_Amount,TSPL_SD_SALE_RETURN_DETAIL.Damage_Amount, " & _
-             "TSPL_SD_SALE_RETURN_DETAIL.Scheme_Applicable,TSPL_SD_SALE_RETURN_DETAIL.Scheme_Code, " & _
-            "TSPL_SD_SALE_RETURN_DETAIL.Scheme_Item,TSPL_SD_SALE_RETURN_DETAIL.Item_Tax,TSPL_SD_SALE_RETURN_DETAIL.Total_MRP_Amt, " & _
-            "TSPL_SD_SALE_RETURN_DETAIL.Total_Basic_Amt,TSPL_SD_SALE_RETURN_DETAIL.Total_Disc_Amt,TSPL_SD_SALE_RETURN_DETAIL.Cust_Discount, " & _
-            "TSPL_SD_SALE_RETURN_DETAIL.Total_Cust_Discount,TSPL_SD_SALE_RETURN_DETAIL.ActualRate,TSPL_SD_SALE_RETURN_DETAIL.Cust_DiscountQty, " & _
-            "TSPL_SD_SALE_RETURN_DETAIL.Price_code,TSPL_SD_SALE_RETURN_DETAIL.Abatement_Per,TSPL_SD_SALE_RETURN_DETAIL.Abatement_Amt, " & _
-            "TSPL_SD_SALE_RETURN_DETAIL.FOC_Item,TSPL_SD_SALE_RETURN_DETAIL.Item_Weight,TSPL_SD_SALE_RETURN_DETAIL.Price_Date, " & _
-            "TSPL_SD_SALE_RETURN_DETAIL.Bin_No,TSPL_SD_SALE_RETURN_DETAIL.vendor_code,TSPL_SD_SALE_RETURN_DETAIL.vendor_desc,TSPL_SD_SALE_RETURN_DETAIL.PrincipleCode,TSPL_SD_SALE_RETURN_DETAIL.PrincipleDesc,TSPL_SD_SALE_RETURN_DETAIL.TotalItem_Weight,TSPL_SD_SALE_RETURN_DETAIL.Conv_Factor,TSPL_SD_SALE_RETURN_DETAIL.Purchase_Cost,TSPL_SD_SALE_RETURN_DETAIL.OrgRate,  " & _
-            "TSPL_SD_SALE_RETURN_DETAIL.HeadDiscPer,TSPL_SD_SALE_RETURN_DETAIL.HeadDiscPerAmt,TSPL_SD_SALE_RETURN_DETAIL.Markup_On,TSPL_SD_SALE_RETURN_DETAIL.Markup_Percent,TSPL_SD_SALE_RETURN_DETAIL.Landing_Cost,TSPL_SD_SALE_RETURN_DETAIL.HeadDiscAmt,TSPL_SD_SALE_RETURN_DETAIL.CustDiscPer,TSPL_SD_SALE_RETURN_DETAIL.CasdDiscScheme_Code "
+            qry = "SELECT TSPL_SD_SALE_RETURN_DETAIL.InvoiceScheme_Code,TSPL_SD_SALE_RETURN_DETAIL.Cash_Scheme_Amount,TSPL_SD_SALE_RETURN_DETAIL.Cash_Scheme_Type,TSPL_SD_SALE_RETURN_DETAIL.Cash_Scheme_Pers,TSPL_SD_SALE_RETURN_DETAIL.Cash_Scheme_Code,TSPL_SD_SALE_RETURN_DETAIL.TAX_PAID ,TSPL_SD_SALE_RETURN_DETAIL.Item_Group, " &
+            "TSPL_SD_SALE_RETURN_DETAIL.Scheme_Item_UOM,TSPL_SD_SALE_RETURN_DETAIL.Scheme_Qty,TSPL_SD_SALE_RETURN_DETAIL.Scheme_Item_Code,TSPL_SD_SALE_RETURN_DETAIL.Scheme_Type,TSPL_SD_SALE_RETURN_DETAIL.Alternate_UOM,TSPL_SD_SALE_RETURN_DETAIL.RATE_UOM , TSPL_SD_SALE_RETURN_DETAIL.OrgUnit_code,TSPL_SD_SALE_RETURN_DETAIL.Is_Mannual_Amt,TSPL_SD_SALE_RETURN_DETAIL.Document_Code,TSPL_SD_SALE_RETURN_DETAIL.Line_No, " &
+            "TSPL_SD_SALE_RETURN_DETAIL.Status,TSPL_SD_SALE_RETURN_DETAIL.Row_Type,TSPL_SD_SALE_RETURN_DETAIL.status,TSPL_SD_SALE_RETURN_DETAIL.Item_Code, " &
+            "TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SALE_RETURN_DETAIL.Qty,TSPL_SD_SALE_RETURN_DETAIL.Free_Qty,TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code, " &
+            "TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code,TSPL_SD_SALE_RETURN_DETAIL.Balance_Qty,TSPL_SD_SALE_RETURN_DETAIL.Unit_code, " &
+            "TSPL_SD_SALE_RETURN_DETAIL.Location,TSPL_SD_SALE_RETURN_DETAIL.Item_Cost,TSPL_SD_SALE_RETURN_DETAIL.TAX1,TSPL_SD_SALE_RETURN_DETAIL.TAX1_Rate, " &
+            "TSPL_SD_SALE_RETURN_DETAIL.TAX1_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX2,TSPL_SD_SALE_RETURN_DETAIL.TAX2_Rate,TSPL_SD_SALE_RETURN_DETAIL.TAX2_Amt, " &
+            "TSPL_SD_SALE_RETURN_DETAIL.TAX3,TSPL_SD_SALE_RETURN_DETAIL.TAX3_Rate,TSPL_SD_SALE_RETURN_DETAIL.TAX3_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX4, " &
+            "TSPL_SD_SALE_RETURN_DETAIL.TAX4_Rate,TSPL_SD_SALE_RETURN_DETAIL.TAX4_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX5,TSPL_SD_SALE_RETURN_DETAIL.TAX5_Rate, " &
+            "TSPL_SD_SALE_RETURN_DETAIL.TAX5_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX6,TSPL_SD_SALE_RETURN_DETAIL.TAX6_Rate,TSPL_SD_SALE_RETURN_DETAIL.TAX6_Amt, " &
+            "TSPL_SD_SALE_RETURN_DETAIL.TAX7,TSPL_SD_SALE_RETURN_DETAIL.TAX7_Rate,TSPL_SD_SALE_RETURN_DETAIL.TAX7_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX8, " &
+            "TSPL_SD_SALE_RETURN_DETAIL.TAX8_Rate,TSPL_SD_SALE_RETURN_DETAIL.TAX8_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX9,TSPL_SD_SALE_RETURN_DETAIL.TAX9_Rate, " &
+            "TSPL_SD_SALE_RETURN_DETAIL.TAX9_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX10,TSPL_SD_SALE_RETURN_DETAIL.TAX10_Rate,TSPL_SD_SALE_RETURN_DETAIL.TAX10_Amt, " &
+            "TSPL_SD_SALE_RETURN_DETAIL.Amount,TSPL_SD_SALE_RETURN_DETAIL.Disc_Per,TSPL_SD_SALE_RETURN_DETAIL.Disc_Amt, " &
+            "TSPL_SD_SALE_RETURN_DETAIL.Amt_Less_Discount,TSPL_SD_SALE_RETURN_DETAIL.Total_Tax_Amt,TSPL_SD_SALE_RETURN_DETAIL.Item_Net_Amt, " &
+            "TSPL_LOCATION_MASTER.Location_Desc as LocationName,TSPL_SD_SALE_RETURN_DETAIL.TAX1_Base_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX2_Base_Amt, " &
+            "TSPL_SD_SALE_RETURN_DETAIL.TAX3_Base_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX4_Base_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX5_Base_Amt, " &
+            "TSPL_SD_SALE_RETURN_DETAIL.TAX6_Base_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX7_Base_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX8_Base_Amt, " &
+            "TSPL_SD_SALE_RETURN_DETAIL.TAX9_Base_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX10_Base_Amt,TSPL_SD_SALE_RETURN_DETAIL.MRP , " &
+            "TSPL_SD_SALE_RETURN_DETAIL.Batch_No,TSPL_SD_SALE_RETURN_DETAIL.MFG_Date,TSPL_SD_SALE_RETURN_DETAIL.Expiry_Date, " &
+            "TSPL_SD_SALE_RETURN_DETAIL.Specification,TSPL_SD_SALE_RETURN_DETAIL.Remarks,TSPL_SD_SALE_RETURN_DETAIL.Assessable, " &
+            "TSPL_SD_SALE_RETURN_DETAIL.AssessableAmt,TSPL_SD_SALE_RETURN_DETAIL.DamageQty,TSPL_SD_SALE_RETURN_DETAIL.Return_Amount,TSPL_SD_SALE_RETURN_DETAIL.Damage_Amount, " &
+             "TSPL_SD_SALE_RETURN_DETAIL.Scheme_Applicable,TSPL_SD_SALE_RETURN_DETAIL.Scheme_Code, " &
+            "TSPL_SD_SALE_RETURN_DETAIL.Scheme_Item,TSPL_SD_SALE_RETURN_DETAIL.Item_Tax,TSPL_SD_SALE_RETURN_DETAIL.Total_MRP_Amt, " &
+            "TSPL_SD_SALE_RETURN_DETAIL.Total_Basic_Amt,TSPL_SD_SALE_RETURN_DETAIL.Total_Disc_Amt,TSPL_SD_SALE_RETURN_DETAIL.Cust_Discount, " &
+            "TSPL_SD_SALE_RETURN_DETAIL.Total_Cust_Discount,TSPL_SD_SALE_RETURN_DETAIL.ActualRate,TSPL_SD_SALE_RETURN_DETAIL.Cust_DiscountQty, " &
+            "TSPL_SD_SALE_RETURN_DETAIL.Price_code,TSPL_SD_SALE_RETURN_DETAIL.Abatement_Per,TSPL_SD_SALE_RETURN_DETAIL.Abatement_Amt, " &
+            "TSPL_SD_SALE_RETURN_DETAIL.FOC_Item,TSPL_SD_SALE_RETURN_DETAIL.Item_Weight,TSPL_SD_SALE_RETURN_DETAIL.Price_Date, " &
+            "TSPL_SD_SALE_RETURN_DETAIL.Bin_No,TSPL_SD_SALE_RETURN_DETAIL.vendor_code,TSPL_SD_SALE_RETURN_DETAIL.vendor_desc,TSPL_SD_SALE_RETURN_DETAIL.PrincipleCode,TSPL_SD_SALE_RETURN_DETAIL.PrincipleDesc,TSPL_SD_SALE_RETURN_DETAIL.TotalItem_Weight,TSPL_SD_SALE_RETURN_DETAIL.Conv_Factor,TSPL_SD_SALE_RETURN_DETAIL.Purchase_Cost,TSPL_SD_SALE_RETURN_DETAIL.OrgRate,  " &
+            "TSPL_SD_SALE_RETURN_DETAIL.HeadDiscPer,TSPL_SD_SALE_RETURN_DETAIL.HeadDiscPerAmt,TSPL_SD_SALE_RETURN_DETAIL.Markup_On,TSPL_SD_SALE_RETURN_DETAIL.Markup_Percent,TSPL_SD_SALE_RETURN_DETAIL.Landing_Cost,TSPL_SD_SALE_RETURN_DETAIL.HeadDiscAmt,TSPL_SD_SALE_RETURN_DETAIL.Transporter_Commission_Rate,TSPL_SD_SALE_RETURN_DETAIL.Transporter_Commission_Amt,TSPL_SD_SALE_RETURN_DETAIL.CustDiscPer,TSPL_SD_SALE_RETURN_DETAIL.CasdDiscScheme_Code "
             qry += " FROM TSPL_SD_SALE_RETURN_DETAIL "
             qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_RETURN_DETAIL.Location "
             qry += " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code"
@@ -755,6 +787,8 @@ Public Class clsMccMaterialSaleReturn
                     objTr.Landing_Cost = clsCommon.myCdbl(dr("Landing_Cost"))
                     objTr.HeadDiscAmt = clsCommon.myCdbl(dr("HeadDiscAmt"))
                     objTr.CustDiscPer = clsCommon.myCdbl(dr("CustDiscPer"))
+                    objTr.Transporter_Commission_Rate = clsCommon.myCdbl(dr("Transporter_Commission_Rate"))
+                    objTr.Transporter_Commission_Amt = clsCommon.myCdbl(dr("Transporter_Commission_Amt"))
                     objTr.CasdDiscScheme_Code = clsCommon.myCstr(dr("CasdDiscScheme_Code"))
                     objTr.Item_Weight = clsCommon.myCdbl(dr("Item_Weight"))
                     objTr.TotalItem_Weight = clsCommon.myCdbl(dr("TotalItem_Weight"))
@@ -817,6 +851,17 @@ Public Class clsMccMaterialSaleReturn
 
             UpdateInventoryMovement(obj, trans, False)
             createARInvoice(obj, trans, strARInvoiceNoRecreateOnly, strVoucherNoForRecreateOnly, FormId)
+
+            If obj.Transporter_Commission_TotalAmt > 0 Then
+                If Not clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse Not clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse Not clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
+                    APInvoice_DebitNote(obj, trans)
+                End If
+            End If
+            If objCommonVar.CreateAutoReceiptEntryDCSSale Then
+                If clsCommon.CompairString(obj.Is_CashSale, "Y") = CompairStringResult.Equal Then
+                    obj.RecieptEntryOfDCSSaleReturn(obj, trans)
+                End If
+            End If
             Dim ECustomerType = clsERPFuncationality.GetCustomerEInvoiceTypeFromTransationTable("TSPL_SD_SALE_INVOICE_HEAD", "Document_Code", obj.Against_Invoice_No, trans)
             If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso obj.Is_Taxable AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True Then
                 If clsDSSalesReturnHead.EInvoice_Implementation(obj.Document_Code, obj.Bill_To_Location, trans) = True Then
@@ -842,6 +887,130 @@ Public Class clsMccMaterialSaleReturn
         End Try
         Return True
     End Function
+
+    Shared Function APInvoice_DebitNote(ByVal obj As clsMccMaterialSaleReturn, ByVal trans As SqlTransaction) As Boolean
+        Dim isSaved As Boolean = True
+        Try
+
+            Dim DisCCodeForArAdj As String = ""
+            Dim GLAcARAdj As String = ""
+            Dim DiscDiscForArAdj As String = ""
+            Dim GLAcDescARAdj As String = ""
+
+            Dim objVendInv As New clsVedorInvoiceHead()
+            ''objCustInv.Document_No ''Will be Generateed
+            objVendInv.Invoice_Entry_Date = obj.Document_Date
+
+            objVendInv.Document_Type = "D"
+            '' ARNote = "Debit Note"
+
+            objVendInv.Against_MCC_Material_Sale_Return = obj.Document_Code
+            objVendInv.loc_code = clsLocation.GetSegmentCode(obj.Bill_To_Location, trans)
+            objVendInv.Document_Total = clsCommon.myCdbl(obj.Total_Amt)
+            objVendInv.Vendor_Code = clsCommon.myCstr(obj.Customer_Code)
+
+            objVendInv.Invoice_Type = "AP"
+            objVendInv.Vendor_Name = clsCommon.myCstr(obj.Customer_Name)
+            objVendInv.Posting_Date = objVendInv.Invoice_Entry_Date
+            objVendInv.Vendor_Invoice_Date = objVendInv.Invoice_Entry_Date
+            objVendInv.Account_Set = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT  ISNULL(Vendor_Account,'') AS [Vendor_Account] FROM TSPL_VENDOR_MASTER WHERE Vendor_Code ='" + objVendInv.Vendor_Code + "'", trans))
+            If (clsCommon.myLen(objVendInv.Account_Set) < 0) Then
+                Throw New Exception("Please set the vendor account set for vendor : " + objVendInv.Vendor_Code)
+            End If
+
+            objVendInv.Vendor_Control_AC = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select payable_account from TSPL_VENDOR_ACCOUNT_SET  where Acct_Set_Code='" + objVendInv.Account_Set + "'", trans))
+            objVendInv.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendInv.Vendor_Control_AC, objVendInv.loc_code, True, trans)
+
+            If clsCommon.myLen(objVendInv.Vendor_Control_AC) <= 0 Then
+                Throw New Exception("Please set the vendor payable Account")
+            End If
+
+            objVendInv.On_Hold = 0
+            objVendInv.Remarks = "AP Debit Note Against MCC Material Sale Return - " & obj.Document_Code & ""
+            objVendInv.Description = "AP Debit Note Against MCC Material Sale Return - " & obj.Document_Code & ""
+            objVendInv.Balance_Amt = clsCommon.myCdbl(obj.Total_Amt)
+            objVendInv.Amount_Less_Discount = clsCommon.myCdbl(obj.Total_Amt)
+            objVendInv.Discount_Base = clsCommon.myCdbl(obj.Total_Amt)
+
+            objVendInv.Arr = New List(Of clsVedorInvoiceDetail)
+
+            '' Detail Level Saving
+
+            Dim VendAccSet As String = String.Empty
+
+
+            Dim objVendInvTR As clsVedorInvoiceDetail = New clsVedorInvoiceDetail()
+
+            objVendInvTR.Detail_Line_No = 1
+            objVendInvTR.Amount = clsCommon.myCdbl(obj.Total_Amt)
+            objVendInvTR.Amount_less_Discount = clsCommon.myCdbl(obj.Total_Amt)
+            objVendInvTR.Total_Amount = clsCommon.myCdbl(obj.Total_Amt)
+
+
+            DisCCodeForArAdj = clsFixedParameter.GetData(clsFixedParameterType.DiscountCodeForArAdj, clsFixedParameterCode.DiscountCodeForArAdj, trans)
+            If clsCommon.myLen(DisCCodeForArAdj) <= 0 Then
+                Throw New Exception("Please Map Discount code from Sale setting")
+            End If
+            DiscDiscForArAdj = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" Select  Description from TSPL_Discount_Master WHERE Code='" & DisCCodeForArAdj & "'", trans))
+            GLAcARAdj = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" Select  Account_Code from TSPL_Discount_Master WHERE Code='" & DisCCodeForArAdj & "'", trans))
+            GLAcDescARAdj = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" Select  Account_Description from TSPL_Discount_Master WHERE Code='" & DisCCodeForArAdj & "'", trans))
+
+            objVendInvTR.GL_Account_Code = GLAcARAdj
+            objVendInvTR.GL_Account_Code = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendInvTR.GL_Account_Code, objVendInv.loc_code, True, trans)
+            objVendInvTR.GL_Account_Desc = GLAcDescARAdj
+            objVendInv.Arr.Add(objVendInvTR)
+
+            objVendInv.SaveData(objVendInv, True, trans)
+            clsVedorInvoiceHead.PostData("", objVendInv.Document_No, "", trans)
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+
+        Return isSaved
+    End Function
+
+    Public Function RecieptEntryOfDCSSaleReturn(ByVal objDCSSaleReturn As clsMccMaterialSaleReturn, ByVal trans As SqlTransaction) As String
+        Try
+            Dim dblReceiptAmt As Double = (objDCSSaleReturn.Total_Amt - objDCSSaleReturn.TotalSubsidyAmt)
+            If dblReceiptAmt > 0 Then
+                Dim obj As New clsRcptEntryHeader()
+                obj.Entry_Desc = "DCS Sale Return No - " + objDCSSaleReturn.Document_Code + " for Cash Memo No - " & objDCSSaleReturn.Document_Code & "  "
+                obj.Receipt_Date = clsCommon.GetPrintDate(objDCSSaleReturn.Document_Date, "dd/MMM/yyyy")
+                obj.Receipt_Post_Date = clsCommon.GetPrintDate(objDCSSaleReturn.Document_Date, "dd/MMM/yyyy")
+                obj.Bank_Code = clsCommon.myCstr(objDCSSaleReturn.Bank_Code)
+                obj.Document_No = objDCSSaleReturn.Document_Code
+                obj.Receipt_Type = "R"
+                obj.Payment_Code = clsCommon.myCstr(objDCSSaleReturn.Payment_Terms)
+                obj.Cheque_No = ""
+                obj.Cheque_Date = Nothing
+                obj.Cust_Code = clsCommon.myCstr(objDCSSaleReturn.Customer_Code)
+                obj.Receipt_Amount = dblReceiptAmt
+                obj.Balance_Amt = dblReceiptAmt
+                obj.UnApply_Amt = 0
+                obj.Apply_By = ""
+                obj.Apply_To = ""
+                obj.IsSalesmanType = "N"
+                obj.Salesman_Code = ""
+                obj.Salesman_Name = ""
+                obj.SecurityDeposit = "N"
+                obj.IsAutoApplyDoc_Refund = 1
+                If obj.SaveData(obj, True, trans) Then
+                    clsRcptEntryHeader.funRcptPost(obj.Receipt_No, trans, "MReceivable", objDCSSaleReturn.Bill_To_Location, True)
+                    'clsCommon.MyMessageBoxShow("Receipt No: '" + obj.Receipt_No + "' create aganist DCS Sale no: '" + objDCSSaleReturn.Document_Code + "'")
+                    clsDBFuncationality.ExecuteNonQuery("Update TSPL_SD_SALE_RETURN_HEAD set Receipt_No ='" & obj.Receipt_No & "' where Document_Code='" + objDCSSaleReturn.Document_Code + "'", trans)
+                End If
+                '---------------------------------------------------------------------------
+                Return obj.Receipt_No
+            Else
+                Throw New Exception("Receipt can't be created.Invoice amount is zero.")
+
+            End If
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return Nothing
+    End Function
     ''richa ERO/19/03/19-000517 added on 27 March,2019
     Public Shared Function ReverseAndUnpost(ByVal strCode As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -860,6 +1029,31 @@ Public Class clsMccMaterialSaleReturn
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Throw New Exception("Return No [" + strCode + "] is used in Payment process No [" + clsCommon.myCstr(dt.Rows(0)("Doc_No")) + "]")
             End If
+            If objCommonVar.CreateAutoReceiptEntryDCSSale Then
+                Qry = "select Receipt_No from TSPL_RECEIPT_DETAIL  where Document_No='" + strCode + "'"
+                Dim dtReceipt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
+                If dt IsNot Nothing AndAlso dtReceipt.Rows.Count > 0 Then
+                    clsDBFuncationality.ExecuteNonQuery("Update TSPL_SD_SALE_RETURN_HEAD set Receipt_No=null where Document_Code='" + strCode + "'", trans)
+                    For Each dr As DataRow In dtReceipt.Rows
+                        Dim strReceiptNo As String = clsCommon.myCstr(dr("Receipt_No"))
+                        clsRcptEntryHeader.ReverseAndUnpost(strReceiptNo, trans)
+                        Qry = "delete from TSPL_RECEIPT_DETAIL where Receipt_No='" + strReceiptNo + "'"
+                        clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+
+                        Qry = "delete from TSPL_RECEIPT_HEADER where Receipt_No='" + strReceiptNo + "'"
+                        clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                    Next
+                End If
+            End If
+
+            Qry = "Select document_no from TSPL_VENDOR_INVOICE_HEAD where Against_MCC_Material_Sale_Return='" + strCode + "'"
+            dt = clsDBFuncationality.GetDataTable(Qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                For Each dr As DataRow In dt.Rows
+                    clsVedorInvoiceHead.ReverseAndUnpost(clsCommon.myCstr(dr("document_no")), trans)
+                    clsVedorInvoiceHead.DeleteData(clsCommon.myCstr(dr("document_no")), trans)
+                Next
+            End If
 
             '' For Journal Entry of ar Invoice credit note
             Dim VoucherNo As String = clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where source_code='AR-CR' and source_doc_no=(Select Document_No from TSPL_Customer_Invoice_Head where Against_MCC_Material_Sale_Return ='" & clsCommon.myCstr(strCode) & "')", trans)
@@ -876,6 +1070,9 @@ Public Class clsMccMaterialSaleReturn
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
             Qry = "Delete from TSPL_Customer_Invoice_Head where Against_MCC_Material_Sale_Return ='" & clsCommon.myCstr(strCode) & "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+
+            clsBatchInventory.ReverseAndUnpost("MCC-MSALE", strCode, trans)
+
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_INVENTORY_MOVEMENT", "Source_Doc_No", trans)
             Qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" + strCode + "' and Trans_Type='MCC-MSR'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
@@ -940,10 +1137,10 @@ Public Class clsMccMaterialSaleReturn
                     If Not objInv Is Nothing Then
                         For Each objInvDetail As clsSNInvoiceDetail In objInv.Arr
                             If objInvDetail.Item_Code = objTr.Item_Code Then
-                                dblCogsBasicCost = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select sum(case when Costing_Method=0 then Avg_Cost when Costing_Method=1 then Avg_Cost when Costing_Method=2 then FIFO_Cost " & _
-                            "when Costing_Method=3 then LIFO_Cost end)/sum(Qty) as COst from TSPL_INVENTORY_MOVEMENT left outer join " & _
-                            "TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on " & _
-                            "TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code where " & _
+                                dblCogsBasicCost = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select sum(case when Costing_Method=0 then Avg_Cost when Costing_Method=1 then Avg_Cost when Costing_Method=2 then FIFO_Cost " &
+                            "when Costing_Method=3 then LIFO_Cost end)/sum(Qty) as COst from TSPL_INVENTORY_MOVEMENT left outer join " &
+                            "TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on " &
+                            "TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code where " &
                             "Source_Doc_No='" & objInvDetail.Shipment_Code & "' And TSPL_INVENTORY_MOVEMENT.Item_Code='" & objTr.Item_Code & "'  and  TSPL_INVENTORY_MOVEMENT.MRP=" & objTr.MRP & " ", trans))
                             End If
                         Next
@@ -1022,11 +1219,12 @@ Public Class clsMccMaterialSaleReturn
         ''objCustInv.Document_No ''Will be Generateed
         objCustInv.Document_Date = obj.Document_Date
         objCustInv.Document_Type = "C"
-        objCustInv.Document_Total = obj.Total_Amt
+        objCustInv.Document_Total = obj.Gross_Amount
         objCustInv.Customer_Code = obj.Customer_Code
         objCustInv.Customer_Name = obj.Customer_Name
         objCustInv.Posting_Date = obj.Document_Date
         objCustInv.RoundOffAmount = obj.RoundOffAmount
+        objCustInv.TotalSubsidyAmt = obj.TotalSubsidyAmt
         Dim qry As String = " select Cust_Account from TSPL_CUSTOMER_MASTER where Cust_Code='" + obj.Customer_Code + "'"
         objCustInv.Account_Set = clsDBFuncationality.getSingleValue(qry, trans)
         ''objCustInv.Order_No
@@ -1141,6 +1339,7 @@ Public Class clsMccMaterialSaleReturn
 
         'objCustInv.RefDocType=
         'objCustInv.RefDocNo
+        objCustInv.Is_Add_TPT = obj.Is_Add_TPT
         objCustInv.Add_Charge_Code1 = obj.Add_Charge_Code1
         objCustInv.Add_Charge_Name1 = obj.Add_Charge_Name1
         objCustInv.Add_Charge_Amt1 = obj.Add_Charge_Amt1
@@ -1178,6 +1377,7 @@ Public Class clsMccMaterialSaleReturn
         objCustInv.Against_MCC_Material_Sale_Return = obj.Document_Code
         Dim counter As Integer = 1
         objCustInv.Arr = New List(Of clsCustomerInvoiceDetail)
+        Dim FinancialImpactForTPT As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FinancialImpactForTPT, clsFixedParameterCode.FinancialImpactForTPT, trans)) = 1, True, False)
 
         '''' for return Qty
         For Each objTr As clsMccMaterialSaleReturnDetail In obj.Arr
@@ -1208,6 +1408,17 @@ Public Class clsMccMaterialSaleReturn
                     objCustInvTR.Discount_Per = objTr.Disc_Per
                     objCustInvTR.Discount = objTr.Disc_Amt
                     objCustInvTR.Amount_less_Discount = (objTr.Return_Amount - objTr.Total_Disc_Amt)
+                    If FinancialImpactForTPT Then
+                        objCustInvTR.Transporter_GL_Account_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Freight_Provision from TSPL_VENDOR_ACCOUNT_SET 
+left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Account=TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code
+left join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code=TSPL_VENDOR_MASTER.Vendor_Code
+where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans))
+                        If clsCommon.myLen(objCustInvTR.Transporter_GL_Account_Code) > 0 Then
+                            objCustInvTR.Transporter_Commission_Amt = objTr.Transporter_Commission_Amt
+                        Else
+                            Throw New Exception("Transporter GL Account Not Found!")
+                        End If
+                    End If
                     objCustInvTR.TAX1 = objTr.TAX1
                     objCustInvTR.TAX1_Rate = objTr.TAX1_Rate
                     objCustInvTR.TAX1_Amt = objTr.TAX1_Amt
@@ -1729,6 +1940,8 @@ Public Class clsMccMaterialSaleReturnDetail
     Public Markup_Percent As Double = 0
     Public Landing_Cost As Double = 0
     Public HeadDiscAmt As Double = 0
+    Public Transporter_Commission_Rate As Double = 0
+    Public Transporter_Commission_Amt As Double = 0
     Public CustDiscPer As Double = 0
     Public CasdDiscScheme_Code As String = Nothing
     Public Purchase_Cost As Double = 0
@@ -1887,6 +2100,8 @@ Public Class clsMccMaterialSaleReturnDetail
                 clsCommon.AddColumnsForChange(coll, "HeadDiscAmt", obj.HeadDiscAmt)
                 clsCommon.AddColumnsForChange(coll, "HeadDiscPer", obj.HeadDiscPer)
                 clsCommon.AddColumnsForChange(coll, "HeadDiscPerAmt", obj.HeadDiscPerAmt)
+                clsCommon.AddColumnsForChange(coll, "Transporter_Commission_Rate", obj.Transporter_Commission_Rate)
+                clsCommon.AddColumnsForChange(coll, "Transporter_Commission_Amt", obj.Transporter_Commission_Amt)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SALE_RETURN_DETAIL", OMInsertOrUpdate.Insert, "", trans)
                 clsSerializeInvenotry.SaveData("Sale Return", strDocNo, dtDocDate, "I", obj.Item_Code, obj.Location, obj.Line_No, obj.arrSrItem, trans)
                 clsBatchInventory.SaveData("MCC-MSR", strDocNo, dtDocDate, "I", obj.Item_Code, obj.Location, obj.Line_No, obj.MRP, obj.Unit_code, obj.arrBatchItem, trans)
@@ -1896,10 +2111,10 @@ Public Class clsMccMaterialSaleReturnDetail
     End Function
 
     Public Shared Function GetBalanceSRNQty(ByVal strSRNCode As String, ByVal strICode As String, ByVal strCurrPINNo As String, ByVal strUOM As String, ByVal dblMRP As Double, ByVal dblAssessable As Double) As Double
-        Dim qry As String = "select SUM(qty * RI) as Balance from(  " & _
-            " select TSPL_SD_SALE_RETURN_DETAIL.Item_Code as ICode,TSPL_SD_SALE_RETURN_DETAIL.Qty as Qty,1 as RI from TSPL_SD_SALE_RETURN_DETAIL left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code=TSPL_SD_SALE_RETURN_DETAIL.Document_Code where TSPL_SD_SALE_RETURN_DETAIL.Status=0 and TSPL_SD_SALE_RETURN_HEAD.Status=1 and TSPL_SD_SALE_RETURN_DETAIL.Document_Code ='" + strSRNCode + "' and TSPL_SD_SALE_RETURN_DETAIL.Item_Code='" + strICode + "' and  TSPL_SD_SALE_RETURN_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_SD_SALE_RETURN_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and isnull(TSPL_SD_SALE_RETURN_DETAIL.Assessable,0)='" + clsCommon.myCstr(dblAssessable) + "' " & _
-            " union all " & _
-            " select TSPL_PI_DETAIL.Item_Code as ICode,TSPL_PI_DETAIL.PI_Qty as Qty,-1 as RI from TSPL_PI_DETAIL left outer join TSPL_PI_HEAD on TSPL_PI_HEAD.PI_No=TSPL_PI_DETAIL.PI_No where TSPL_PI_DETAIL.SRN_Id='" + strSRNCode + "'   and TSPL_PI_DETAIL.Item_Code='" + strICode + "'  and  TSPL_PI_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_PI_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and isnull(TSPL_PI_DETAIL.Assessable,0)='" + clsCommon.myCstr(dblAssessable) + "'  and TSPL_PI_DETAIL.PI_No not in ('" + strCurrPINNo + "')  " & _
+        Dim qry As String = "select SUM(qty * RI) as Balance from(  " &
+            " select TSPL_SD_SALE_RETURN_DETAIL.Item_Code as ICode,TSPL_SD_SALE_RETURN_DETAIL.Qty as Qty,1 as RI from TSPL_SD_SALE_RETURN_DETAIL left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code=TSPL_SD_SALE_RETURN_DETAIL.Document_Code where TSPL_SD_SALE_RETURN_DETAIL.Status=0 and TSPL_SD_SALE_RETURN_HEAD.Status=1 and TSPL_SD_SALE_RETURN_DETAIL.Document_Code ='" + strSRNCode + "' and TSPL_SD_SALE_RETURN_DETAIL.Item_Code='" + strICode + "' and  TSPL_SD_SALE_RETURN_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_SD_SALE_RETURN_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and isnull(TSPL_SD_SALE_RETURN_DETAIL.Assessable,0)='" + clsCommon.myCstr(dblAssessable) + "' " &
+            " union all " &
+            " select TSPL_PI_DETAIL.Item_Code as ICode,TSPL_PI_DETAIL.PI_Qty as Qty,-1 as RI from TSPL_PI_DETAIL left outer join TSPL_PI_HEAD on TSPL_PI_HEAD.PI_No=TSPL_PI_DETAIL.PI_No where TSPL_PI_DETAIL.SRN_Id='" + strSRNCode + "'   and TSPL_PI_DETAIL.Item_Code='" + strICode + "'  and  TSPL_PI_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_PI_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and isnull(TSPL_PI_DETAIL.Assessable,0)='" + clsCommon.myCstr(dblAssessable) + "'  and TSPL_PI_DETAIL.PI_No not in ('" + strCurrPINNo + "')  " &
             " )Final "
         Return clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
     End Function

@@ -33,6 +33,10 @@ Public Class ProductionReport
             'End If
             txtFromDate.Value = clsCommon.GETSERVERDATE()
             txtToDate.Value = clsCommon.GETSERVERDATE()
+            If clsCommon.myLen(objCommonVar.strDefaultUserLocation) > 0 Then
+                txtBillToLocation.arrValueMember = New ArrayList()
+                txtBillToLocation.arrValueMember.Add(objCommonVar.strDefaultUserLocation)
+            End If
             LOCATIONRIGTHS()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -183,11 +187,11 @@ Public Class ProductionReport
                     End If
                 Next
             End If
-            qry = " Select *,MONTH(convert(date,PROD_DATE,103)) AS MonthNumber from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") & "' as FromDate, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") & "' as ToDate,   LOCATION_CODE,Location_Desc as [Location Description],Add1,Add4,CONVERT(Varchar(10), PROD_DATE,103) as PROD_DATE,[Item Code],ITEM_DESCRIPTION,isnull ([A-SHIFT], 0)  as [A-SHIFT],isnull ([B-SHIFT], 0) as [B-SHIFT], isnull ([C-SHIFT],0) as [C-SHIFT],
+            qry = " Select *,FORMAT(CONVERT(date, PROD_DATE, 103), 'yyyy-MM') AS MonthNumber from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") & "' as FromDate, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") & "' as ToDate,   LOCATION_CODE,Location_Desc as [Location Description],Add1,Add4,CONVERT(Varchar(10), PROD_DATE,103) as PROD_DATE,[Item Code],ITEM_DESCRIPTION,isnull ([A-SHIFT], 0)  as [A-SHIFT],isnull ([B-SHIFT], 0) as [B-SHIFT], isnull ([C-SHIFT],0) as [C-SHIFT],
                           isnull ([WHOLEDAY],0) as [WHOLEDAY] , (  isnull ([A-SHIFT], 0)  + isnull ([B-SHIFT], 0) + isnull ([C-SHIFT],0) + isnull ([WHOLEDAY],0) ) AS [TOTAL BAG],   
                           (((  isnull ([A-SHIFT], 0)  + isnull ([B-SHIFT], 0) + isnull ([C-SHIFT],0) + isnull ([WHOLEDAY],0) )* 50)/1000) as [Total MT]
                           FROM ( Select max(Add1)Add1,max(Add4)Add4,max(Location_Desc)Location_Desc,[Item Code],max(ITEM_DESCRIPTION)ITEM_DESCRIPTION,
-                               LOCATION_CODE,(PROD_DATE)PROD_DATE,shiftcode "
+                               LOCATION_CODE,(Convert(date,PROD_DATE,103))PROD_DATE,shiftcode "
             If Productionchk.IsChecked Then
                 qry += " ,Sum(qty_bag1) as qty_bag "
             ElseIf RePrdntchk.IsChecked Then
@@ -216,9 +220,9 @@ Public Class ProductionReport
 								   left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE
                                    LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE "
 
-            qry += " where 2=2  " & Status1 & " " & FG & " " & SFG & " " & FGSFG & " and TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE >= '" & clsCommon.GetPrintDate(txtFromDate.Value) & "' 
-                     and TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE<= '" & clsCommon.GetPrintDate(txtToDate.Value) & "'"
-            qry += " )Tab1 group by PROD_DATE,LOCATION_CODE,[Item Code],shiftcode)YY
+            qry += " where 2=2  " & Status1 & " " & FG & " " & SFG & " " & FGSFG & " and Convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103) >= '" & clsCommon.GetPrintDate(txtFromDate.Value) & "' 
+                     and Convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103) <= '" & clsCommon.GetPrintDate(txtToDate.Value) & "'"
+            qry += " )Tab1 group by Convert(date,PROD_DATE,103),LOCATION_CODE,[Item Code],shiftcode)YY
                                     PIVOT(SUM(qty_bag) FOR shiftcode IN ([A-SHIFT],[B-SHIFT],[C-SHIFT],[WHOLEDAY])) AS Tab2 )tmp
 									where [Item Code] IN (" & clsCommon.myCstr(itemNames1) & ")  and convert(date,tmp.PROD_DATE,103) >= convert(date,'" & clsCommon.GetPrintDate(txtFromDate.Value) & "',103) and convert(date,tmp.PROD_DATE,103)<=convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value) & "',103)" & whr & "  order by MonthNumber,PROD_DATE "
             'If clsCommon.myLen(qry) > 0 Then
@@ -490,11 +494,15 @@ Public Class ProductionReport
         Try
             Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
             Dim WhrCls As String = " Where Location_Type='Physical'  "
-            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                WhrCls += "  and  Location_Code in (" & objCommonVar.strCurrUserLocations & ")"
-            End If
-            If clsCommon.myLen(arrLoc) > 0 Then
-                WhrCls += " And Location_Code in (" & arrLoc & ")"
+            If clsCommon.myLen(objCommonVar.strDefaultUserLocation) > 0 Then
+                WhrCls += "  and  Location_Code in ('" & objCommonVar.strDefaultUserLocation & "')"
+            Else
+                If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                    WhrCls += "  and  Location_Code in (" & objCommonVar.strCurrUserLocations & ")"
+                End If
+                If clsCommon.myLen(arrLoc) > 0 Then
+                    WhrCls += " And Location_Code in (" & arrLoc & ")"
+                End If
             End If
             txtBillToLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("LocCode", qry & WhrCls, "Code", "Name", txtBillToLocation.arrValueMember, txtBillToLocation.arrDispalyMember)
         Catch ex As Exception

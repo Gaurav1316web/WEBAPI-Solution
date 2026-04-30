@@ -2,6 +2,8 @@
 Imports System.Reflection
 Imports System.Windows.Forms
 Public Class clsDocType
+    Public Const RCDFChecmicalQC As String = "RCDF Checmical QC"
+    Public Const RCDFUnionQC As String = "RCDF Union QC"
     Public Const ItemBatch As String = "Item Batch"
     Public Const RouteWiseSaleTarget As String = "Route Wise Sale Target"
     Public Const BMC_Transporter_Bill As String = "BMC Transporter Bill"
@@ -29,6 +31,8 @@ Public Class clsDocType
     Public Const MultipleProcDed As String = "Multiple Proc Ded"
     Public Const TransferToSaving As String = "Transfer To Saving"
     Public Const BMCTransporterBill As String = "BMC Transporter Bill"
+    Public Const EmployeeOTEntry As String = "Employee OT Entry"
+    Public Const EmployeeOTEntryCalculation As String = "Employee OT Entry Calculation"
     Public Const CHACHARGEMASTER As String = "CHA Charge Master"
     Public Const DebitNote As String = "AP Debit Note"
     Public Const CreditNote As String = "AP Credit Note"
@@ -583,6 +587,8 @@ Public Class clsDocType
     Public Const FarmerServiceOrder As String = "Farmer Service Order With Rate"
     Public Const DCSSale As String = "DCS Sale"
     Public Const DistributorCommission As String = "Distributor Commission"
+    Public Const BoothCommission As String = "Booth Commission"
+    Public Const BoothCalculation As String = "Booth Calculation"
     Public Const DCSTransportationCharges As String = "DCS Transportation Charges"
     Public Const DistributorRouteTagging As String = "Distributor Route Tagging"
     Public Const DailyDemand As String = "DailyDemand"
@@ -808,6 +814,9 @@ Public Class clsDocType
 
             Dim qry As String = "delete from TSPL_DOCUMENT_TYPE"
             clsDBFuncationality.ExecuteNonQuery(qry)
+
+            InsertDefaultValue(clsDocType.RCDFChecmicalQC, "", False, False)
+            InsertDefaultValue(clsDocType.RCDFUnionQC, "", False, False)
 
             InsertDefaultValue(clsDocType.TenderPenalty, "", False, True)
             InsertDefaultValue(clsDocType.RALNoc, "", False, True)
@@ -1613,6 +1622,8 @@ Public Class clsDocType
 
             InsertDefaultValue(clsDocType.DCSSale, "", False, True, True)
             InsertDefaultValue(clsDocType.DistributorCommission, "", False, False, True)
+            InsertDefaultValue(clsDocType.BoothCommission, "", False, False, True)
+            InsertDefaultValue(clsDocType.BoothCalculation, "", False, False, True)
             InsertDefaultValue(clsDocType.frmCustomerTender, "", False, False, True)
             InsertDefaultValue(clsDocType.frmCustomerTenderOrder, "", False, False, True)
             InsertDefaultValue(clsDocType.frmCustomerTenderDispatch, "", False, False, True)

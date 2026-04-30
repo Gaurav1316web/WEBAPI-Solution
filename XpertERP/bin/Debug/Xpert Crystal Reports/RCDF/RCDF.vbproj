@@ -106,6 +106,7 @@
     <None Include="Crystal Reports Common\crptDBT_NEFTUnionReportNEW.rpt" />
     <None Include="Crystal Reports Common\crptDBT_NEFTUnionReportYearly.rpt" />
     <None Include="Crystal Reports Common\crptDBT_NEFTUnionReportYearlyNEW.rpt" />
+    <None Include="Crystal Reports Common\crptDCSFarmerCollectionDetails.rpt" />
     <None Include="Crystal Reports Common\crptFarmerCollectionEntryStatus.rpt" />
     <None Include="Crystal Reports Common\crptFarmerCollectionReportForUnion.rpt" />
     <None Include="Crystal Reports Common\crptFarmerWiseCollectionAtDCS.rpt" />
@@ -121,6 +122,7 @@
     <None Include="Crystal Reports Common\rptUnionBookingReport.rpt" />
     <None Include="Crystal Reports Common\rptUnionWiseMilkTankerCollection.rpt" />
     <None Include="Crystal Reports Common\rptUnionWiseMilkTankerCollectionSummary.rpt" />
+    <None Include="Crystal Reports Common\rptUnionWiseMilkTankerCollectionUnionWiseSummary.rpt" />
     <None Include="Crystal Reports GST\Common Services\CashVoucher.rpt" />
     <None Include="Crystal Reports GST\Common Services\CashVoucherold.rpt" />
     <None Include="Crystal Reports GST\Common Services\crptBankBook.rpt" />
@@ -150,6 +152,7 @@
     <None Include="Crystal Reports GST\Dairy Sales Report\crptDairyGatePassJSL.rpt" />
     <None Include="Crystal Reports GST\Dairy Sales Report\crptDairySaleGatePassEntriesALW.rpt" />
     <None Include="Crystal Reports GST\Dairy Sales Report\crptDairySaleGatePassEntriesJDP.rpt" />
+    <None Include="Crystal Reports GST\Dairy Sales Report\crptDairySaleGatePassEntriesNAG.rpt" />
     <None Include="Crystal Reports GST\Dairy Sales Report\crptDairySaleGatePassEntryNewJPR-DRP.rpt" />
     <None Include="Crystal Reports GST\Dairy Sales Report\crptTaxableNonTaxableInvoiceBAR.rpt" />
     <None Include="Crystal Reports GST\Dairy Sales Report\crptTaxableNonTaxableInvoiceBARNew.rpt" />
@@ -528,11 +531,13 @@
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_LocalJDH.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_LocalRJS.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_LocalSKR.rpt" />
+    <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_LocalTNK.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_Local_WithMandi.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_NonTaxable.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_NonTaxableCHU.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_NonTaxableRJS.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_NonTaxables.rpt" />
+    <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_NonTaxableTNK.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMccMilkRate.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\RptMilkJobWorkTransfer.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMilkPurchaseInvoice.rpt" />
@@ -546,6 +551,7 @@
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreCHU.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreGNG.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreJAL.rpt" />
+    <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreJDH.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreJPR.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreRJS.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreTNK.rpt" />
@@ -1177,9 +1183,13 @@
     <None Include="Crystal Reports\Dairy Sales Report\BatchWise_PrintChallan.rpt" />
     <None Include="Crystal Reports\Dairy Sales Report\crptBPLprint.rpt" />
     <None Include="Crystal Reports\Dairy Sales Report\crptBulkInvoiceJPR.rpt" />
+    <None Include="Crystal Reports\Dairy Sales Report\crptDairySaleGatePassEntriesNAG.rpt" />
     <None Include="Crystal Reports\Dairy Sales Report\crptDCSDeductionGSTReport.rpt" />
     <None Include="Crystal Reports\Dairy Sales Report\crptDCSDeductionReport.rpt" />
+    <None Include="Crystal Reports\Dairy Sales Report\crptRouteWiseReportCHT.rpt" />
+    <None Include="Crystal Reports\Dairy Sales Report\crptZoneWiseReportCHT.rpt" />
     <None Include="Crystal Reports\Dairy Sales Report\RouteWiseDemand.rpt" />
+    <None Include="Crystal Reports\Dairy Sales Report\rptDemandSheet.rpt" />
     <None Include="Crystal Reports\Dairy Sales Report\rptVendorServiceInvoice_Union.rpt" />
     <None Include="Crystal Reports\Fixed Assets\frmAcquisionEntryReport.rpt" />
     <None Include="Crystal Reports\Fixed Assets\frmAssetScrapSale.rpt" />
@@ -1250,6 +1260,7 @@
     <None Include="Crystal Reports\HR_Payroll\crptKDILSalarySlip ForSingleEmployee.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptKDILSalarySlip.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptKDILSalarySlipFormat1.rpt" />
+    <None Include="Crystal Reports\HR_Payroll\crptKDILSalarySlipFormat11.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptKDILSalarySlipFormat1AJM.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptLabelPrinting.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptLastPayCertificate.rpt" />
@@ -1288,6 +1299,8 @@
     <None Include="Crystal Reports\HR_Payroll\rptDeductionRegister.rpt" />
     <None Include="Crystal Reports\HR_Payroll\rptDeductionRegisterkkk.rpt" />
     <None Include="Crystal Reports\HR_Payroll\rptDetailOfWelfareFundAmount.rpt" />
+    <None Include="Crystal Reports\HR_Payroll\rptEmployeeOTReportCalc.rpt" />
+    <None Include="Crystal Reports\HR_Payroll\rptEmployeeOTReportHours.rpt" />
     <None Include="Crystal Reports\HR_Payroll\rptGenerateBonusrpt.rpt" />
     <None Include="Crystal Reports\HR_Payroll\rptPayrollBankTransferDetail.rpt" />
     <None Include="Crystal Reports\HR_Payroll\rptTentativeSalary.rpt" />
@@ -1754,6 +1767,7 @@
     <None Include="Crystal Reports\Purchase Order\PO-G old1.rpt" />
     <None Include="Crystal Reports\Purchase Order\PO-G-PLI.rpt" />
     <None Include="Crystal Reports\Purchase Order\PO-G-SKR.rpt" />
+    <None Include="Crystal Reports\Purchase Order\PO-G-UDP.rpt" />
     <None Include="Crystal Reports\Purchase Order\PO-G.rpt" />
     <None Include="Crystal Reports\Purchase Order\PO-V.rpt" />
     <None Include="Crystal Reports\Purchase Order\POReport\FrmPurchaseOrderReport-G.rpt" />
@@ -2010,6 +2024,8 @@
     <None Include="Crystal Reports\Sales Report\crptPrimarySaleSummaryAccount.rpt" />
     <None Include="Crystal Reports\Sales Report\crptPrimarySaleSummaryShipping.rpt" />
     <None Include="Crystal Reports\Sales Report\CrptProductSaleSummaryNonTaxable.rpt" />
+    <None Include="Crystal Reports\Sales Report\CrptProductSaleSummaryPartyNonTaxable.rpt" />
+    <None Include="Crystal Reports\Sales Report\CrptProductSaleSummaryPartyTaxableNonTaxable.rpt" />
     <None Include="Crystal Reports\Sales Report\CrptProductSaleSummaryTaxableNonTaxable.rpt" />
     <None Include="Crystal Reports\Sales Report\CrptProductWiseSaleQuantity.rpt" />
     <None Include="Crystal Reports\Sales Report\crptProvisionalSales.rpt" />
@@ -2051,13 +2067,17 @@
     <None Include="Crystal Reports\Sales Report\crptSaleAccountBreakCashDisInvoicecSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleAccountSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleInvoice.rpt" />
+    <None Include="Crystal Reports\Sales Report\crptSaleInvoiceNonTaxable.rpt" />
+    <None Include="Crystal Reports\Sales Report\crptSaleInvoiceTaxable.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleInvoiceWithExcise.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleInvoiceWithoutExcise.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleInvoiceWithoutExciseCustom.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleInvoiceWithoutExciseCustomForGuntoor.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleOrderReport.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleRegisterDetailNew.rpt" />
+    <None Include="Crystal Reports\Sales Report\crptSaleRegisterNonTaxable.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleRegisterSmryNew.rpt" />
+    <None Include="Crystal Reports\Sales Report\crptSaleRegisterTaxable.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleReturnExcise.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleReturnInterExcise.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSaleReturnInterNonExcise.rpt" />
@@ -2073,6 +2093,7 @@
     <None Include="Crystal Reports\Sales Report\crptSettlement.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSettlementEntry.rpt" />
     <None Include="Crystal Reports\Sales Report\crptShipment.rpt" />
+    <None Include="Crystal Reports\Sales Report\CrptSTSRegister-ItemPartyWiseSummary .rpt" />
     <None Include="Crystal Reports\Sales Report\CrptSTSRegister-ItemWiseSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\CrptSTSRegister-ItemWiseSummaryPartyWise.rpt" />
     <None Include="Crystal Reports\Sales Report\CrptSTSRegister-ItemWiseSummaryPartyWisee.rpt" />
@@ -2117,11 +2138,15 @@
     <None Include="Crystal Reports\Sales Report\receiptold28052012.rpt" />
     <None Include="Crystal Reports\Sales Report\RouteMonthwiseSaleRpt.rpt" />
     <None Include="Crystal Reports\Sales Report\RouteSale.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptAccountStatement.rpt" />
     <None Include="Crystal Reports\Sales Report\rptBankSavingAdvice.rpt" />
     <None Include="Crystal Reports\Sales Report\rptBankSavingAdviceIFSC.rpt" />
     <None Include="Crystal Reports\Sales Report\rptBoothGatePassBKN.rpt" />
     <None Include="Crystal Reports\Sales Report\rptBoothSaleDateShiftWise.rpt" />
     <None Include="Crystal Reports\Sales Report\rptBoothSaleItemWise.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptBoothTruckSheetBothType.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptBoothTruckSheetMilkTypeCHT.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptBoothTruckSheetProductTypeCHT.rpt" />
     <None Include="Crystal Reports\Sales Report\RptCEAllocation.rpt" />
     <None Include="Crystal Reports\Sales Report\RptCEAllocationALl.rpt" />
     <None Include="Crystal Reports\Sales Report\rptCreditSaleDetail.rpt" />
@@ -2158,6 +2183,7 @@
     <None Include="Crystal Reports\Sales Report\rptHSNWiseSale.rpt" />
     <None Include="Crystal Reports\Sales Report\rptItemStockReport.rpt" />
     <None Include="Crystal Reports\Sales Report\rptMilkSaleAsPerGatePass.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptMilkSaleAsPerGatePassPartyWise.rpt" />
     <None Include="Crystal Reports\Sales Report\rptMonthlyInvoicePrint.rpt" />
     <None Include="Crystal Reports\Sales Report\rptNetSaleDetailCustomerWise.rpt" />
     <None Include="Crystal Reports\Sales Report\rptNetSaleDetailItemWise.rpt" />

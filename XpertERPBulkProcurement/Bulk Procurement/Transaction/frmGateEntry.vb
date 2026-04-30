@@ -402,6 +402,7 @@ Public Class FrmGateEntry
         End If
     End Sub
     Sub reset()
+        TxtTrip.Value = 1
         BtnResetProv.Enabled = False
         lblClosingDate.Text = ""
         txtOpeningKM.Text = 0
@@ -1678,6 +1679,7 @@ Public Class FrmGateEntry
             obj.openingKM = clsCommon.myCdbl(txtOpeningKM.Text)
             obj.closingKM = clsCommon.myCdbl(txtClosingKM.Text)
             obj.MCC = txtMCC.Value
+            obj.Trip_No = clsCommon.myCdbl(TxtTrip.Value)
             'obj.Reference_No = lblRefrenceNo.Text
             If chkBulkMilkProc.IsChecked Then
                 obj.Doc_Type = "BulkProc"
@@ -1688,7 +1690,7 @@ Public Class FrmGateEntry
                 obj.Location_Desc = clsCommon.myCstr(lblLocationDecBulk.Text)
                 obj.Vendor_Code = clsCommon.myCstr(fndVendorBulk.Value)
                 obj.Vendor_Desc = clsCommon.myCstr(lblVendorNameBulk.Text)
-                obj.Tanker_No = clsCommon.myCstr(txtTankerNoBulk.Text)
+                obj.Tanker_No = clsCommon.myCstr(TxtTrip.Value)
                 If chkAgainstTankerDispatch.IsChecked Then
                     obj.Challan_No = clsCommon.myCstr(fndChallanNoMcc.Value)
                 ElseIf chkAgainstRoute.IsChecked Then

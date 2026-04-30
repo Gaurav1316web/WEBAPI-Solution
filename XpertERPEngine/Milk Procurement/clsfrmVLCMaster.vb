@@ -75,6 +75,8 @@ Public Class clsfrmVLCMaster
     Public Bank_Code_Desc As String = Nothing
     Public Branch_Name As String = Nothing
     Public VSP_Payee_Name As String = Nothing
+    Public Saving_Payee_Name As String = Nothing
+
 
 
 
@@ -238,6 +240,8 @@ Public Class clsfrmVLCMaster
             clsCommon.AddColumnsForChange(coll, "Vendor_Code", obj.vlcCode)
             clsCommon.AddColumnsForChange(coll, "Vendor_name", obj.vlcName)
             clsCommon.AddColumnsForChange(coll, "VSP_Payee_Name", obj.VSP_Payee_Name)
+            clsCommon.AddColumnsForChange(coll, "Saving_Payee_Name", obj.Saving_Payee_Name)
+
             ' clsCommon.AddColumnsForChange(coll, "VLC_CODE_VLC_UPLOADER", obj.VLC_CODE_VLC_UPLOADER)
 
             If isNewEntry Then

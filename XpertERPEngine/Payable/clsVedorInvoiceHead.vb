@@ -8,11 +8,13 @@ Public Class clsVedorInvoiceHead
     Public Branch_IFSC_Code As String = Nothing
     Public Branch_Name As String = Nothing
     Public Against_MCC_Material_Sale As String = Nothing
+    Public Against_MCC_Material_Sale_Return As String = Nothing
     Public Vendor_Bank_ACNo As String = Nothing
     Public Addition_Doc_Type As String = Nothing
     Public PROJECT_ID As String = Nothing
     Public Document_No As String = Nothing
     Public Invoice_Entry_Date As String = Nothing
+    Public Invoice_Entry_Date_New As DateTime = Nothing
     Public Vendor_Code As String = Nothing
     Public Vendor_Name As String = Nothing
     Public DateAndTime As DateTime?
@@ -567,6 +569,14 @@ Public Class clsVedorInvoiceHead
 
         Dim coll As New Hashtable()
         clsCommon.AddColumnsForChange(coll, "Invoice_Entry_Date", clsCommon.GetPrintDate(obj.Invoice_Entry_Date, "dd/MM/yyyy"))
+
+        Dim ServerTime As DateTime = Nothing
+        If isNewEntry Then
+            ServerTime = clsCommon.GETSERVERDATE(trans)
+            obj.Invoice_Entry_Date_New = New DateTime(clsCommon.myCDate(obj.Invoice_Entry_Date).Year, clsCommon.myCDate(obj.Invoice_Entry_Date).Month, clsCommon.myCDate(obj.Invoice_Entry_Date).Day, ServerTime.Hour, ServerTime.Minute, ServerTime.Second)
+        End If
+
+        clsCommon.AddColumnsForChange(coll, "Invoice_Entry_Date_New", clsCommon.GetPrintDate(obj.Invoice_Entry_Date_New, "dd/MMM/yyyy hh:mm tt"))
         clsCommon.AddColumnsForChange(coll, "Vendor_Code", obj.Vendor_Code)
         clsCommon.AddColumnsForChange(coll, "Vendor_Name", obj.Vendor_Name)
         clsCommon.AddColumnsForChange(coll, "Vendor_Invoice_No", obj.Vendor_Invoice_No)
@@ -605,6 +615,7 @@ Public Class clsVedorInvoiceHead
         clsCommon.AddColumnsForChange(coll, "Branch_Name", obj.Branch_Name, True)
         clsCommon.AddColumnsForChange(coll, "Vendor_Bank_ACNo", obj.Vendor_Bank_ACNo, True)
         clsCommon.AddColumnsForChange(coll, "Against_MCC_Material_Sale", obj.Against_MCC_Material_Sale, True)
+        clsCommon.AddColumnsForChange(coll, "Against_MCC_Material_Sale_Return", obj.Against_MCC_Material_Sale_Return, True)
 
         Dim ApplyNoGSTCreditIndependentlyOnVendorServiceCharge As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyNoGSTCreditIndependentlyOnVendorServiceCharge, clsFixedParameterCode.ApplyNoGSTCreditIndependentlyOnVendorServiceCharge, trans)) = 1, True, False)
         If ApplyNoGSTCreditIndependentlyOnVendorServiceCharge = True Then
@@ -1425,6 +1436,7 @@ Public Class clsVedorInvoiceHead
             obj.RemittanceObject = clsRemittance.GetData(strDocumentNo, trans)
             obj.Document_No = clsCommon.myCstr(dt.Rows(0)("Document_No"))
             obj.Invoice_Entry_Date = clsCommon.myCstr(dt.Rows(0)("Invoice_Entry_Date"))
+            obj.Invoice_Entry_Date_New = clsCommon.myCDate(dt.Rows(0)("Invoice_Entry_Date_New"))
             obj.Vendor_Code = clsCommon.myCstr(dt.Rows(0)("Vendor_Code"))
             obj.Vendor_Name = clsCommon.myCstr(dt.Rows(0)("Vendor_Name"))
             obj.Vendor_Invoice_No = clsCommon.myCstr(dt.Rows(0)("Vendor_Invoice_No"))
@@ -1448,6 +1460,7 @@ Public Class clsVedorInvoiceHead
             obj.Branch_Name = clsCommon.myCstr(dt.Rows(0)("Branch_Name"))
             obj.Vendor_Bank_ACNo = clsCommon.myCstr(dt.Rows(0)("Vendor_Bank_ACNo"))
             obj.Against_MCC_Material_Sale = clsCommon.myCstr(dt.Rows(0)("Against_MCC_Material_Sale"))
+            obj.Against_MCC_Material_Sale_Return = clsCommon.myCstr(dt.Rows(0)("Against_MCC_Material_Sale_Return"))
             '--------------
             obj.RCM = IIf(clsCommon.myCdbl(dt.Rows(0)("RCM")) = 1, True, False)
             obj.IsEInvoice = IIf(clsCommon.myCdbl(dt.Rows(0)("IsEInvoice")) = 1, True, False)

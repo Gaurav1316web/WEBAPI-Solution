@@ -2519,7 +2519,7 @@ Public Class frmBulkPurchaseUploader
                             '   objDispatchMasterEntry.Is_Create_Auto_Invoice = 1
                             objDispatchMasterEntry.Is_Create_Auto_Invoice = 0
                             objDispatchMasterEntry.ReverseFlag = "N"
-
+                            objDispatchMasterEntry.Item_Code = strItemCode
                             ''insert data into dispatch Detail bulk sale
                             objDispatchMasterEntry.arrDispatchDetailBulkSale = New List(Of clsDispatchDetailBulkSale)
 

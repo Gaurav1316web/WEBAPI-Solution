@@ -1,7 +1,10 @@
 ﻿Imports common
 Public Class clsUserMgtCode
+    Public Const frmSubRouteMaster As String = "SUB-RT-MSTR"
+    Public Const frmAccountSalesReport As String = "ACC-SLS-RPT"
+    Public Const frmPIPaymentStatusReport As String = "PIP-STS-RPT"
     Public Const frmEmployeeOTEntry As String = "EMP-OT"
-
+    Public Const rptDCSTruckSheetRegister As String = "DCS_REG"
     Public Const frmTruckWiseRejectionReport As String = "TRW-RJN-RPT"
     Public Const frmBatchManufacturingMaster As String = "Bat-MAN-MA"
     Public Const rptDbtStatusRCDF As String = "DBT-ST-RCD"
@@ -35,6 +38,7 @@ Public Class clsUserMgtCode
     Public Const frmChangePasswordScreen As String = "CHNG-PASS"
     Public Const rptEmployeeDeductionMasterReport As String = "EMP-DED-RPT"
     Public Const rptTentativeReport As String = "TEN-SAL-RPT"
+    Public Const rptEmployeeOTReport As String = "EMP-OT-RPT"
     Public Const frmRCDFRateControl As String = "RCDF-RT-CNT"
     Public Const frmOfficeOrder As String = "OFFCE-ORD"
     Public Const frmEmployeeDeductionMaster As String = "EMP-DED-MST"
@@ -66,6 +70,7 @@ Public Class clsUserMgtCode
     Public Const frmUnpostBmcDcs As String = "Unpo-BM-DC"
     Public Const frmDCSTransportationCharges As String = "DCS-TPT-CH"
     Public Const frmManualIoTFarmerCollection As String = "MN-IoT-F-CL"
+    Public Const FrmBMCCategory As String = "BMC-CATY"
     Public Const ModulePayable As String = "MPayable"
     Public Const ModuleGL As String = "MGenLedger"
     Public Const ModuleSales As String = "MSales"
@@ -268,6 +273,7 @@ Public Class clsUserMgtCode
     Public Const frmDispatchReturn As String = "DIS-RETURN"
     Public Const frmGatePassDairy As String = "GATEPASS-DS"
     Public Const frmCrateReceviedDairySale As String = "CRT-REC-DS"
+    Public Const frmCrateReceviedBox As String = "CRT-REC-BOX"
     Public Const frmBookingDairyMultipleDistributor As String = "BOOK-DS-DIS"
     Public Const frmDairyBookingCustomer As String = "BOOK-DS-CU"
     Public Const frmPerformaInvoiceDairy As String = "Prof_Inv-D"
@@ -315,6 +321,8 @@ Public Class clsUserMgtCode
     Public Const frmDemandHistory As String = "DS_DEM_HIS"
     Public Const frmEwaybill As String = "E_WAY_BILL"
     Public Const rptItemWiseBillReport As String = "IT_WI_BI"
+    Public Const rptDistributorRouteMarginStatusReport As String = "Dis_R_ST"
+    Public Const rptPartWiseItemReport As String = "PA_WI_ITE"
 
     Public Const rptBankDetailsWithVendorMargin As String = "RPT_BDWVM"
     Public Const rptAbsentBooth As String = "ABS_BOOTH"
@@ -662,6 +670,7 @@ Public Class clsUserMgtCode
     'Public Const TimeTable As String = "TIME-TBL"
     Public Const Security_Matr As String = "Secu_Matr"
     Public Const frmDocumentVersionReport As String = "DOC_VER_RPT"
+    Public Const FrmSystemAdministratorTool As String = "SYS_ADM_TOL"
     'Public Const FrmSendSMSMultipleUser As String = "SNDSMS"
     'Public Const UtilityImportExport As String = "UTLT_IM_EX"
     Public Const frmSendSMSEmailSetting As String = "EML_SMS_SET"
@@ -1300,6 +1309,7 @@ Public Class clsUserMgtCode
     Public Const RptItemSalePurchaseSet As String = "ITM-PUR-SAL"
     Public Const rptCustomerWiseStockReco As String = "CUST-REC-RPT"
     Public Const ItemStockReport As String = "ITEM_STO_RPT"
+    Public Const ItemRateStatusReport As String = "ITEM_RAT_STA"
 
     'Public Const rptStockReport As String = "STOCK-RPT"
     ''-----------------------------------------------------Purchase----------------------------------------------------------------------
@@ -1585,6 +1595,7 @@ Public Class clsUserMgtCode
     Public Const frmDA_Arrear As String = "DA_Arrear"
     Public Const frmLeaveEncashment As String = "L_Encashment"
     Public Const frmLICEmployeeTagging As String = "LIC-EMP-TAG"
+    Public Const frmEmployeeOTCalculation As String = "EMP-OT-CAL"
     Public Const frmAllowanceDetails As String = "ALLOWANCE"
     Public Const frmDeductionDetails As String = "DEDUCTION"
     Public Const frmEmployeeStatus As String = "EMP_Status"
@@ -2540,6 +2551,7 @@ Public Class clsUserMgtCode
     Public Const rptPromptMsgPendindDoc As String = "PROMPTPENDOC"
     Public Const MISMassBalanceReport As String = "MAS-BAL-RPT"
     Public Const SundryDebtorsReport As String = "SUN-DBTR-RPT"
+    Public Const AccountStatementReport As String = "ACC-SMT-RPT"
     '==========================Milk Job Work===================
     Public Const MilkJobWork As String = "MJW"
     Public Const SubModuleMJWTransaction As String = "SMMJWTRANS"
@@ -2768,6 +2780,7 @@ Public Class clsUserMgtCode
     Public Const frmProductionUtilityCost As String = "PRO_UC_RPT"
     Public Const VehicleMasterForDairySale As String = "VM_DS"
     Public Const frmDistributorCommission As String = "Dis-COM-MST"
+    Public Const FrmBoothCommissionMaster As String = "BTH-COM-MST"
     Public Const FrmItemCapacityLimt As String = "ITM-CAP-LMT"
     Public Const FrmBoothRouteMapping As String = "BTH-ROT-MAP"
     Public Const frmDayBook As String = "DAY-BOOK"
@@ -2814,6 +2827,7 @@ Public Class clsUserMgtCode
     Public Const frmDemand_Sheet As String = "DEM-DEM_SHE"
     Public Const frmQuickDemand As String = "QUICK-DEM"
     Public Const frmProductQuickDemand As String = "PRD-QUK-DEM"
+    Public Const FrmBoothCommission As String = "BOOTH-COMM"
     Public Const frmLeakedSaleReturn As String = "LEK-SAL-RTN"
     Public Const frmDCSDEmandBooking As String = "DCS-DEM-TRN"
     Public Const frmBoothDispatch As String = "BOO-TH-DIS"
@@ -2850,8 +2864,15 @@ Public Class clsUserMgtCode
     Public Const XpertAPIBMCDCSSamplingReceiving As String = "BMC-DCS-SR"
     Public Const XpertAPIBMCDCSSampleReceivedRegister As String = "API-DCS-SMR"
     Public Const XpertAPITankerCollectionReport As String = "API-TNK-CLN"
+    Public Const XpertAPIRCDFChemicalQCRegister As String = "API-RCF-QCR"
+    Public Const XpertAPIRCDFUnionMilkQCRegister As String = "API-RUM-QCR"
     Public Const XpertAPIGateEntry As String = "API-GT-ENT"
     Public Const XpertAPIBMCMilkQC As String = "API-BM-MK-QC"
+    Public Const XpertAPIDEMANDBOOKING As String = "API-DEM-BOO"
+    Public Const XpertAPISaleDispatchDairy As String = "API-DIS-DS"
+
+    Public Const XpertAPIRCDFChemicalQC As String = "API-RCDF-QC"
+    Public Const XpertAPIRCDFUnionMilkQC As String = "API-RUMK-QC"
     ''=================== MIS start here============
 
     Public Const ModuleMIS As String = "MMIS"

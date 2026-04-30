@@ -22,7 +22,7 @@ Partial Class rptSaleInvoiceStatusReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -67,6 +67,10 @@ Partial Class rptSaleInvoiceStatusReport
         Me.rmenuPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnNonTaxable = New common.Controls.MyRadioButton()
+        Me.rbtnTaxable = New common.Controls.MyRadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -108,6 +112,11 @@ Partial Class rptSaleInvoiceStatusReport
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox5.SuspendLayout()
+        CType(Me.rbtnNonTaxable, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnTaxable, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -151,6 +160,7 @@ Partial Class rptSaleInvoiceStatusReport
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadSplitButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
@@ -173,6 +183,7 @@ Partial Class rptSaleInvoiceStatusReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox5)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
         Me.RadPageViewPage1.Controls.Add(Me.chkItemWiseCustomer)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
@@ -200,7 +211,7 @@ Partial Class rptSaleInvoiceStatusReport
         Me.RadGroupBox3.Controls.Add(Me.rdbDelete)
         Me.RadGroupBox3.Controls.Add(Me.rdbCancel)
         Me.RadGroupBox3.HeaderText = ""
-        Me.RadGroupBox3.Location = New System.Drawing.Point(443, 7)
+        Me.RadGroupBox3.Location = New System.Drawing.Point(611, 6)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox3.Size = New System.Drawing.Size(158, 39)
@@ -209,7 +220,7 @@ Partial Class rptSaleInvoiceStatusReport
         '
         'rdbDelete
         '
-        Me.rdbDelete.Location = New System.Drawing.Point(15, 9)
+        Me.rdbDelete.Location = New System.Drawing.Point(15, 12)
         Me.rdbDelete.MyLinkLable1 = Nothing
         Me.rdbDelete.MyLinkLable2 = Nothing
         Me.rdbDelete.Name = "rdbDelete"
@@ -220,7 +231,7 @@ Partial Class rptSaleInvoiceStatusReport
         '
         'rdbCancel
         '
-        Me.rdbCancel.Location = New System.Drawing.Point(79, 9)
+        Me.rdbCancel.Location = New System.Drawing.Point(79, 12)
         Me.rdbCancel.MyLinkLable1 = Nothing
         Me.rdbCancel.MyLinkLable2 = Nothing
         Me.rdbCancel.Name = "rdbCancel"
@@ -232,7 +243,7 @@ Partial Class rptSaleInvoiceStatusReport
         'chkItemWiseCustomer
         '
         Me.chkItemWiseCustomer.AutoSize = True
-        Me.chkItemWiseCustomer.Location = New System.Drawing.Point(434, 146)
+        Me.chkItemWiseCustomer.Location = New System.Drawing.Point(435, 149)
         Me.chkItemWiseCustomer.Name = "chkItemWiseCustomer"
         Me.chkItemWiseCustomer.Size = New System.Drawing.Size(122, 17)
         Me.chkItemWiseCustomer.TabIndex = 1506
@@ -562,7 +573,7 @@ Partial Class rptSaleInvoiceStatusReport
         Me.gvdata.MasterTemplate.AllowAddNewRow = False
         Me.gvdata.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvdata.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvdata.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvdata.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvdata.MyExportAPI = False
         Me.gvdata.MyExportFilePath = ""
         Me.gvdata.MyStopExport = False
@@ -586,7 +597,7 @@ Partial Class rptSaleInvoiceStatusReport
         '
         Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmenuExport, Me.rmenuPDF})
-        Me.RadSplitButton1.Location = New System.Drawing.Point(157, 11)
+        Me.RadSplitButton1.Location = New System.Drawing.Point(150, 11)
         Me.RadSplitButton1.Name = "RadSplitButton1"
         Me.RadSplitButton1.Size = New System.Drawing.Size(68, 18)
         Me.RadSplitButton1.TabIndex = 165
@@ -607,7 +618,7 @@ Partial Class rptSaleInvoiceStatusReport
         'btnReset
         '
         Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnReset.Location = New System.Drawing.Point(83, 11)
+        Me.btnReset.Location = New System.Drawing.Point(80, 11)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(68, 18)
         Me.btnReset.TabIndex = 164
@@ -621,6 +632,51 @@ Partial Class rptSaleInvoiceStatusReport
         Me.btnGo.Size = New System.Drawing.Size(68, 18)
         Me.btnGo.TabIndex = 162
         Me.btnGo.Text = ">>>"
+        '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Location = New System.Drawing.Point(220, 11)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(68, 18)
+        Me.btnPrint.TabIndex = 167
+        Me.btnPrint.Text = "Print"
+        '
+        'RadGroupBox5
+        '
+        Me.RadGroupBox5.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox5.Controls.Add(Me.rbtnNonTaxable)
+        Me.RadGroupBox5.Controls.Add(Me.rbtnTaxable)
+        Me.RadGroupBox5.HeaderText = "Invoice Type"
+        Me.RadGroupBox5.Location = New System.Drawing.Point(443, 5)
+        Me.RadGroupBox5.Name = "RadGroupBox5"
+        Me.RadGroupBox5.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox5.Size = New System.Drawing.Size(158, 40)
+        Me.RadGroupBox5.TabIndex = 1508
+        Me.RadGroupBox5.Text = "Invoice Type"
+        '
+        'rbtnNonTaxable
+        '
+        Me.rbtnNonTaxable.Location = New System.Drawing.Point(6, 11)
+        Me.rbtnNonTaxable.MyLinkLable1 = Nothing
+        Me.rbtnNonTaxable.MyLinkLable2 = Nothing
+        Me.rbtnNonTaxable.Name = "rbtnNonTaxable"
+        Me.rbtnNonTaxable.Size = New System.Drawing.Size(84, 18)
+        Me.rbtnNonTaxable.TabIndex = 396
+        Me.rbtnNonTaxable.TabStop = False
+        Me.rbtnNonTaxable.Text = "Non-Taxable"
+        '
+        'rbtnTaxable
+        '
+        Me.rbtnTaxable.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnTaxable.Location = New System.Drawing.Point(94, 11)
+        Me.rbtnTaxable.MyLinkLable1 = Nothing
+        Me.rbtnTaxable.MyLinkLable2 = Nothing
+        Me.rbtnTaxable.Name = "rbtnTaxable"
+        Me.rbtnTaxable.Size = New System.Drawing.Size(58, 18)
+        Me.rbtnTaxable.TabIndex = 391
+        Me.rbtnTaxable.Text = "Taxable"
+        Me.rbtnTaxable.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'rptSaleInvoiceStatusReport
         '
@@ -681,6 +737,12 @@ Partial Class rptSaleInvoiceStatusReport
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox5.ResumeLayout(False)
+        Me.RadGroupBox5.PerformLayout()
+        CType(Me.rbtnNonTaxable, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnTaxable, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -731,4 +793,8 @@ Partial Class rptSaleInvoiceStatusReport
     Friend WithEvents rdbCancel As common.Controls.MyRadioButton
     Friend WithEvents RadPageViewPage3 As RadPageViewPage
     Friend WithEvents gvdata As common.UserControls.MyRadGridView
+    Friend WithEvents btnPrint As RadButton
+    Friend WithEvents RadGroupBox5 As RadGroupBox
+    Friend WithEvents rbtnNonTaxable As common.Controls.MyRadioButton
+    Friend WithEvents rbtnTaxable As common.Controls.MyRadioButton
 End Class

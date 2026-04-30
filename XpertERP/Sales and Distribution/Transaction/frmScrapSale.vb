@@ -8,6 +8,7 @@ Public Class frmScrapSale
     Inherits FrmMainTranScreen
 
 #Region "Variables"
+    Dim DefaultEnableNoTransporter As Boolean = False
     Dim ApplyEWBThresholdLimit As Boolean = False
     Dim EWBThresholdLimitForIntraCity As Integer = 0
     Dim EWBThresholdLimitForIntraState As Integer = 0
@@ -223,6 +224,7 @@ Public Class frmScrapSale
         EWBThresholdLimitForIntraCity = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraCity, Nothing))
         EWBThresholdLimitForIntraState = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForIntraState, Nothing))
         EWBThresholdLimitForInterState = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyEWBThresholdLimit, clsFixedParameterCode.EWBThresholdLimitForInterState, Nothing))
+        DefaultEnableNoTransporter = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultEnableNoTransporter, clsFixedParameterCode.DefaultEnableNoTransporter, Nothing)) = 1, True, False)
         chkCashSale.Visible = True
         SetUserMgmtNew()
         ApplyManualTCS = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsManualTCS, clsFixedParameterCode.IsManualTCS, Nothing)) = 1, True, False)
@@ -452,6 +454,24 @@ Public Class frmScrapSale
         txttcstaxbaseamount.Value = 0
         lblActualTCSTaxBaseAmt.Text = "0"
         txtTCSTaxRate.Value = 0
+        btnUpdateVehicle.Visible = False
+
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
+            chkNoTranspoter.Visible = True
+            If DefaultEnableNoTransporter Then
+                txtTransporter_Code.Enabled = False
+                txtTransporter_desc.Enabled = False
+                chkNoTranspoter.Checked = True
+            Else
+                txtTransporter_Code.Enabled = True
+                txtTransporter_desc.Enabled = True
+                chkNoTranspoter.Checked = False
+            End If
+        Else
+            chkNoTranspoter.Checked = False
+            chkNoTranspoter.Visible = False
+        End If
+
     End Sub
     Private Sub GetOpeningClosingAndReceivedAmt(ByVal CustCode As String, ByVal docDate As DateTime)
         Try
@@ -2065,10 +2085,7 @@ Public Class frmScrapSale
         UcAttachment1.BlankAllControls()
         chkEInvoice.Checked = False
         chkIsEwaybill.Checked = False
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-            chkIsEwaybill.Enabled = True
-
-        End If
+        btnAdminCancel.Visible = False
         'Inter_unit_salechk.Checked = False
     End Sub
 
@@ -2445,7 +2462,7 @@ Public Class frmScrapSale
             'If clsCommon.myCdbl(txtFreightDistance.Value) <= 0 Then
             '    Throw New Exception("Please define Freight Distance in EWay Bill Distance Master.")
             'End If
-            If clsCommon.myLen(txtTransporter_Code.Value) <= 0 Then
+            If clsCommon.myLen(txtTransporter_Code.Value) <= 0 AndAlso Not chkNoTranspoter.Checked Then
                 Throw New Exception("Pls Select Transporter")
                 txtTransporter_Code.Focus()
                 Return False
@@ -2711,6 +2728,7 @@ Public Class frmScrapSale
                 obj.Loc_Code = fndLocation.Value
                 obj.Sub_Location_code = txtSubLocation.Value
                 obj.Vehicle_Id = TxtVehicleCode.Value
+                obj.VehicleNo = txtVehicleDesc.Text
                 obj.Is_ManualTCS = IIf(rbtnManualTCS.IsChecked, 1, 0)
                 obj.Loc_Name = txtlocation.Text
                 obj.Transporter_code = txtTransporter_Code.Value
@@ -2721,6 +2739,7 @@ Public Class frmScrapSale
                 obj.Is_Taxable = chkTaxable.Checked
                 obj.IsBuyBack = chkBuyBack.Checked
                 obj.IsEwaybill = IIf(chkIsEwaybill.Checked, 1, 0)
+                obj.No_Transporter = IIf(chkNoTranspoter.Checked, 1, 0)
                 If chkinvoice.Checked = True Then
                     obj.CreateInvoice = 1
                 Else
@@ -3026,13 +3045,19 @@ Public Class frmScrapSale
                     If clsCommon.myLen(objin.EwayBillValidDate) > 0 Then
                         txtEwayValidDate.Value = objin.EwayBillValidDate
                     End If
-                    btnEWaybillUpdate.Enabled = True
+                    btnEWaybillUpdate.Enabled = False
                     If clsCommon.myLen(objin.EWayBillDate) > 0 Then
                         txtEWayBillDate.Value = objin.EWayBillDate
                     End If
+                    btnUpdateVehicle.Visible = False
+                    btnEwb.Visible = False
+                    btnPrintEWB.Visible = True
 
                 Else
                     btnEWaybillUpdate.Enabled = True
+                    btnUpdateVehicle.Visible = True
+                    btnEwb.Visible = True
+                    btnPrintEWB.Visible = False
                 End If
 
                 If clsCommon.myLen(objin.EInvoiceIRNNo) > 0 Then
@@ -3063,9 +3088,13 @@ Public Class frmScrapSale
                     txtCrAmt.Text = obj.CrAmt
                     txtClosingBal.Text = obj.ClosingBal
                     chkIsEwaybill.Enabled = False
+                    btnEwb.Enabled = True
+
                 Else
                     btnCancel.Enabled = False
                     chkIsEwaybill.Enabled = True
+                    btnEwb.Enabled = False
+
                     GetOpeningClosingAndReceivedAmt(obj.cust_Code, obj.shipment_Date)
                 End If
 
@@ -3075,12 +3104,11 @@ Public Class frmScrapSale
                 'chkOnHold.Checked = obj.Status
                 If obj.Status = 1 Then
                     chkOnHold.Checked = True
-                    btnEwb.Enabled = True
                 Else
                     chkOnHold.Checked = False
-                    btnEwb.Enabled = False
                 End If
                 chkIsEwaybill.Checked = IIf(obj.IsEwaybill, True, False)
+                chkNoTranspoter.Checked = IIf(obj.No_Transporter, True, False)
                 txtGWeighmentNo.Value = obj.Weighment_Code
                 lblInvoiceNo.Text = obj.strInvoiceNo
                 txtponumber.Text = obj.Po_No
@@ -3104,7 +3132,7 @@ Public Class frmScrapSale
                 txtTransporter_Code.Value = obj.Transporter_code
                 txtTransporter_desc.Text = obj.Transporter_Name
                 txtFreightDistance.Value = obj.Freight_Distance
-                txtVehicleDesc.Text = ClsScrapSaleHead.GetVehicleDesc(TxtVehicleCode.Value, Nothing)
+                txtVehicleDesc.Text = obj.VehicleNo
                 fndShipToLocation.Value = obj.ToLoc_Code
                 lblDocAmount.Text = obj.doc_Amt
                 txtRoundOff.Text = obj.RoundOffAmount
@@ -4319,7 +4347,12 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
         Dim qry As String = "Select distinct  vehicle_id as Code ,Description,Transport_id ,Vendor_Name from TSPL_VEHICLE_MASTER left outer join TSPL_VENDOR_MASTER on tspl_vehicle_master.transport_id=TSPL_VENDOR_MASTER.vendor_code "
         Dim WhrCls As String = ""
         TxtVehicleCode.Value = clsCommon.ShowSelectForm("VehicleFND", qry, "Code", WhrCls, TxtVehicleCode.Value, "Code", isButtonClicked)
-        txtVehicleDesc.Text = ClsScrapSaleHead.GetVehicleDesc(TxtVehicleCode.Value, Nothing)
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") = CompairStringResult.Equal Then
+            txtVehicleDesc.Text = ClsScrapSaleHead.GetVehicleDesc(TxtVehicleCode.Value, Nothing)
+        Else
+            txtVehicleDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Number from TSPL_VEHICLE_MASTER where Vehicle_Id='" & TxtVehicleCode.Value & "'"))
+
+        End If
         'lblVehicleNo.Text = connectSql.RunScalar("Select Description  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" + Convert.ToString(TxtVehicleCode.Value) + "'")
         txtTransporter_desc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Name as Name from TSPL_VENDOR_MASTER left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Transport_id=TSPL_VENDOR_MASTER.vendor_code where Vehicle_id ='" + TxtVehicleCode.Value + "'"))
         txtTransporter_Code.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Code as Code from TSPL_VENDOR_MASTER left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Transport_id=TSPL_VENDOR_MASTER.vendor_code where Vehicle_id ='" + TxtVehicleCode.Value + "'"))
@@ -4991,7 +5024,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
     End Sub
 
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocNo._MYValidating
-        Dim qry As String = "select shipment_No as Code,CONVERT(varchar(10), shipment_Date,103)+' '+ CONVERT(varchar(5), shipment_Date,114) as Date,cust_Code as [Customer Code], cust_Name as Customer,ship_Total_Amt as Amount,case when ispost='0' then 'Pending' else 'Approved' end as [Status],(select top 1 invoice_No from TSPL_SCRAPINVOICE_HEAD where TSPL_SCRAPINVOICE_HEAD.shipment_No=tspl_scrapsale_head.shipment_No) as [Invoice No] from tspl_scrapsale_head"
+        Dim qry As String = "select shipment_No as Code,FORMAT(CAST(shipment_Date AS DATETIME),'dd/MM/yyyy hh:mm tt') as Date,cust_Code as [Customer Code], cust_Name as Customer,ship_Total_Amt as Amount,case when ispost='0' then 'Pending' else 'Approved' end as [Status],(select top 1 invoice_No from TSPL_SCRAPINVOICE_HEAD where TSPL_SCRAPINVOICE_HEAD.shipment_No=tspl_scrapsale_head.shipment_No) as [Invoice No] from tspl_scrapsale_head"
 
         Dim whrClas As String = " Doc_Type ='S' "
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
@@ -5246,6 +5279,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True
+                    btnAdminCancel.Visible = True
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
@@ -6473,11 +6507,12 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
 
 
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
-        CancelData()
+        CancelData(False)
     End Sub
 
-    Function CancelData() As Boolean
+    Function CancelData(ByVal IsCancelByAdmin As Boolean) As Boolean
         Try
+            Dim isEinvoiceCancelled As Boolean = False
             If clsCommon.myLen(lblInvoiceNo.Text) <= 0 Then
                 Throw New Exception("Code is empty")
             End If
@@ -6493,8 +6528,16 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
             If clsCommon.myLen(strReceiptCount) > 0 Then
                 Throw New Exception("You cannot cancelled this document because receiving (" + clsCommon.myCstr(strReceiptCount) + ") has been done against its AR Invoice.")
             End If
+            Dim strIrnNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select IRN_No from TSPL_SCRAPINVOICE_HEAD where invoice_No='" & lblInvoiceNo.Text & "'"))
+            If IsCancelByAdmin Then
+                If clsCommon.myLen(strIrnNo) > 0 Then
+                    If clsCommon.MyMessageBoxShow(Me, "Is E-invoice Cancelled on GST Portal?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                        isEinvoiceCancelled = True
+                    End If
+                End If
+            End If
 
-            If chkTaxable.Checked = True AndAlso clsERPFuncationality.GetEInvoiceStatus(dtpshipment.Value) = True AndAlso clsCommon.CompairString(EInvoiceType, "BB") = CompairStringResult.Equal Then
+            If chkTaxable.Checked = True AndAlso clsERPFuncationality.GetEInvoiceStatus(dtpshipment.Value) = True AndAlso clsCommon.CompairString(EInvoiceType, "BB") = CompairStringResult.Equal AndAlso Not isEinvoiceCancelled Then
                 Dim EInvoiceCancelTimeValid As Int64 = 0
                 EInvoiceCancelTimeValid = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" Select  isnull (DATEDIFF(hour,EInvoice_Posting_Date,GETDATE()),0) as PostedHours from TSPL_SCRAPINVOICE_HEAD where  invoice_No = '" + lblInvoiceNo.Text + "'"))
                 If EInvoiceCancelTimeValid >= 24 Then
@@ -6502,7 +6545,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                 End If
             End If
 
-            ClsScrapSaleHead.CancelData(Me.Form_ID, txtDocNo.Value, lblInvoiceNo.Text, NavigatorType.Current)
+            ClsScrapSaleHead.CancelData(Me.Form_ID, txtDocNo.Value, lblInvoiceNo.Text, NavigatorType.Current, isEinvoiceCancelled)
             clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
             AddNew()
         Catch ex As Exception
@@ -6601,7 +6644,9 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                 If objCommonVar.RCDFCFP Then
                     If Not isLoadData Then
                         chkEInvoice.Checked = True
-                        chkIsEwaybill.Checked = True
+                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") = CompairStringResult.Equal Then
+                            chkIsEwaybill.Checked = True
+                        End If
                     End If
                 End If
             Else
@@ -6610,7 +6655,10 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                     isReset = True
                     If Not isLoadData Then
                         chkEInvoice.Checked = False
-                        chkIsEwaybill.Checked = False
+                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") = CompairStringResult.Equal Then
+                            chkIsEwaybill.Checked = False
+
+                        End If
                     End If
                 End If
             End If
@@ -6703,6 +6751,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
             Create_Ewb(tran)
             tran.Commit()
             clsCommon.MyMessageBoxShow(Me, "EWB Created Successfully", Me.Text)
+            LoadData(txtDocNo.Value, NavigatorType.Current)
         Catch ex As Exception
             tran.Rollback()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -6712,12 +6761,12 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
 
         Try
             If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso clsCommon.myLen(lblInvoiceNo.Text) > 0 Then
-                Dim EwbNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select EWayBillNo from TSPL_SCRAPINVOICE_HEAD where  document_code = '" & lblInvoiceNo.Text & "' ", trans))
+                Dim EwbNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select EWayBillNo from TSPL_SCRAPINVOICE_HEAD where  invoice_No = '" & lblInvoiceNo.Text & "' ", trans))
                 If clsCommon.myLen(EwbNo) = 0 Then
 
                     If clsCommon.myLen(GetEWayBillNo(lblInvoiceNo.Text, trans)) <= 0 Then
                         ClsScrapInvoiceHead.EWayBill_Implementation(lblInvoiceNo.Text, fndLocation.Value, trans, True)
-                        If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SCRAPINVOICE_HEAD where Document_Code='" & lblInvoiceNo.Text & "'", trans)) <= 0 Then
+                        If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SCRAPINVOICE_HEAD where invoice_No='" & lblInvoiceNo.Text & "'", trans)) <= 0 Then
                             Throw New Exception("E-Way Bill For Sales Invoice No [" + lblInvoiceNo.Text + "] is not generated")
                         End If
                     End If
@@ -6734,7 +6783,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
         Return True
     End Function
     Public Shared Function GetEWayBillNo(strDocNo As String, trans As SqlTransaction) As String
-        Return clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SCRAPINVOICE_HEAD where Document_Code='" + strDocNo + "'", trans))
+        Return clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SCRAPINVOICE_HEAD where invoice_No='" + strDocNo + "'", trans))
     End Function
 
     Private Sub btnPrintEWB_Click(sender As Object, e As EventArgs) Handles btnPrintEWB.Click
@@ -6756,6 +6805,41 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub btnUpdateVehicle_Click(sender As Object, e As EventArgs) Handles btnUpdateVehicle.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso UsLock1.Status = ERPTransactionStatus.Approved Then
+                Dim frm As New FrmCommonUpdatesForEWB
+                frm.strDocNo = txtDocNo.Value
+                frm.strCustCode = fndcustNo.Value
+                frm.strTransId = txtTransporter_Code.Value
+                frm.strTransName = txtTransporter_desc.Text
+                frm.strVehicleNo = txtVehicleDesc.Text
+                frm.strScreenType = "ScrapSale"
+                frm.ShowDialog()
+            Else
+                Throw New Exception("Unable to proceed. You must select a Document Number that has already been approved.")
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub chkNoTranspoter_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkNoTranspoter.ToggleStateChanged
+        If chkNoTranspoter.Checked Then
+            txtTransporter_Code.Enabled = False
+            txtTransporter_desc.Enabled = False
+            txtTransporter_Code.Value = ""
+            txtTransporter_desc.Text = ""
+        Else
+            txtTransporter_Code.Enabled = True
+            txtTransporter_desc.Enabled = True
+        End If
+    End Sub
+
+    Private Sub btnAdminCancel_Click(sender As Object, e As EventArgs) Handles btnAdminCancel.Click
+        CancelData(True)
     End Sub
 End Class
 

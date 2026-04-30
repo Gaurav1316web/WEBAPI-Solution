@@ -22,17 +22,17 @@ Partial Class frmShipmentDairy
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim WindowsSettings2 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
-        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition13 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition14 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition15 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition16 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition17 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition18 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition19 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition20 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -40,6 +40,9 @@ Partial Class frmShipmentDairy
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.lblOutstandingDesc = New common.Controls.MyLabel()
+        Me.chkNoTranspoter = New Telerik.WinControls.UI.RadCheckBox()
+        Me.lblOutStanding = New common.Controls.MyLabel()
         Me.chkExcludeKKFMND = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtDemandNo = New common.UserControls.txtFinder()
         Me.lblDemandNO = New common.Controls.MyLabel()
@@ -266,6 +269,11 @@ Partial Class frmShipmentDairy
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel71 = New common.Controls.MyLabel()
+        Me.lblGrossAmount = New common.Controls.MyLabel()
+        Me.lblTPTComAmt = New common.Controls.MyLabel()
+        Me.txtTPTComAmt = New common.Controls.MyLabel()
+        Me.btnUpdateVehicle = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel34 = New common.Controls.MyLabel()
         Me.lblTotalWtMetric = New common.Controls.MyLabel()
         Me.btnAdminCancel = New Telerik.WinControls.UI.RadButton()
@@ -416,7 +424,6 @@ Partial Class frmShipmentDairy
         Me.txtDesc = New common.Controls.MyTextBox()
         Me.txtInvoiceDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel27 = New common.Controls.MyLabel()
-        Me.btnUpdateVehicle = New Telerik.WinControls.UI.RadButton()
         Me.btnEWB = New Telerik.WinControls.UI.RadButton()
         Me.btnprinte_wayBill = New Telerik.WinControls.UI.RadButton()
         Me.btnPrintInvoice = New Telerik.WinControls.UI.RadButton()
@@ -445,7 +452,6 @@ Partial Class frmShipmentDairy
         Me.Export_Head = New Telerik.WinControls.UI.RadMenuItem()
         Me.Export_details = New Telerik.WinControls.UI.RadMenuItem()
         Me.Import = New Telerik.WinControls.UI.RadMenuItem()
-        Me.chkNoTranspoter = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit
         Me.Panel1.SuspendLayout
         CType(Me.radScrollablePanel1, System.ComponentModel.ISupportInitialize).BeginInit
@@ -457,6 +463,9 @@ Partial Class frmShipmentDairy
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadPageView1.SuspendLayout
         Me.RadPageViewPage1.SuspendLayout
+        CType(Me.lblOutstandingDesc, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.chkNoTranspoter, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.lblOutStanding, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.chkExcludeKKFMND, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.lblDemandNO, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.chkIndividualCustomer, System.ComponentModel.ISupportInitialize).BeginInit
@@ -680,6 +689,11 @@ Partial Class frmShipmentDairy
         Me.pvpCustomFields.SuspendLayout
         Me.Attachments.SuspendLayout
         Me.RadPageViewPage4.SuspendLayout
+        CType(Me.MyLabel71, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.lblGrossAmount, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.lblTPTComAmt, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.txtTPTComAmt, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.btnUpdateVehicle, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.lblTotalWtMetric, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnAdminCancel, System.ComponentModel.ISupportInitialize).BeginInit
@@ -833,7 +847,6 @@ Partial Class frmShipmentDairy
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.txtInvoiceDate, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnUpdateVehicle, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnEWB, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnprinte_wayBill, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnPrintInvoice, System.ComponentModel.ISupportInitialize).BeginInit
@@ -853,7 +866,6 @@ Partial Class frmShipmentDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadMenu1.SuspendLayout
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.chkNoTranspoter, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
@@ -884,9 +896,9 @@ Partial Class frmShipmentDairy
         Me.RadMenuItem2.TabIndex = 0
         Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenuItem2.Visible = False
-        WindowsSettings2.EnableRoundedCorners = Nothing
-        WindowsSettings2.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
-        Me.RadMenuItem2.WindowsSettings = WindowsSettings2
+        WindowsSettings1.EnableRoundedCorners = Nothing
+        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
         'Panel1
         '
@@ -972,7 +984,7 @@ Partial Class frmShipmentDairy
         '
         '
         Me.RadPageView1.RootElement.MinSize = New System.Drawing.Size(0, 0)
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
         Me.RadPageView1.Size = New System.Drawing.Size(1110, 462)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -981,7 +993,9 @@ Partial Class frmShipmentDairy
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.lblOutstandingDesc)
         Me.RadPageViewPage1.Controls.Add(Me.chkNoTranspoter)
+        Me.RadPageViewPage1.Controls.Add(Me.lblOutStanding)
         Me.RadPageViewPage1.Controls.Add(Me.chkExcludeKKFMND)
         Me.RadPageViewPage1.Controls.Add(Me.txtDemandNo)
         Me.RadPageViewPage1.Controls.Add(Me.lblDemandNO)
@@ -1080,6 +1094,38 @@ Partial Class frmShipmentDairy
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1089, 416)
         Me.RadPageViewPage1.Text = "Shipment"
         '
+        'lblOutstandingDesc
+        '
+        Me.lblOutstandingDesc.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblOutstandingDesc.AutoSize = False
+        Me.lblOutstandingDesc.BorderVisible = True
+        Me.lblOutstandingDesc.FieldName = Nothing
+        Me.lblOutstandingDesc.Location = New System.Drawing.Point(771, 396)
+        Me.lblOutstandingDesc.Name = "lblOutstandingDesc"
+        Me.lblOutstandingDesc.Size = New System.Drawing.Size(133, 19)
+        Me.lblOutstandingDesc.TabIndex = 1578
+        Me.lblOutstandingDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblOutstandingDesc.TextWrap = False
+        '
+        'chkNoTranspoter
+        '
+        Me.chkNoTranspoter.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkNoTranspoter.Location = New System.Drawing.Point(777, 65)
+        Me.chkNoTranspoter.Name = "chkNoTranspoter"
+        Me.chkNoTranspoter.Size = New System.Drawing.Size(99, 16)
+        Me.chkNoTranspoter.TabIndex = 1600
+        Me.chkNoTranspoter.Text = "NO Transporter"
+        '
+        'lblOutStanding
+        '
+        Me.lblOutStanding.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblOutStanding.FieldName = Nothing
+        Me.lblOutStanding.Location = New System.Drawing.Point(713, 396)
+        Me.lblOutStanding.Name = "lblOutStanding"
+        Me.lblOutStanding.Size = New System.Drawing.Size(53, 18)
+        Me.lblOutStanding.TabIndex = 1577
+        Me.lblOutStanding.Text = "Total O/S"
+        '
         'chkExcludeKKFMND
         '
         Me.chkExcludeKKFMND.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1153,9 +1199,9 @@ Partial Class frmShipmentDairy
         '
         'rsbtnInvoice
         '
-        Me.rsbtnInvoice.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.rsbtnInvoice.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.rsbtnInvoice.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem9, Me.RadMenuItem10})
-        Me.rsbtnInvoice.Location = New System.Drawing.Point(903, 396)
+        Me.rsbtnInvoice.Location = New System.Drawing.Point(907, 394)
         Me.rsbtnInvoice.Name = "rsbtnInvoice"
         Me.rsbtnInvoice.Size = New System.Drawing.Size(88, 20)
         Me.rsbtnInvoice.TabIndex = 158
@@ -1373,7 +1419,7 @@ Partial Class frmShipmentDairy
         '
         Me.btnDeliveredTo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDeliveredTo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDeliveredTo.Location = New System.Drawing.Point(813, 398)
+        Me.btnDeliveredTo.Location = New System.Drawing.Point(1017, 396)
         Me.btnDeliveredTo.Name = "btnDeliveredTo"
         Me.btnDeliveredTo.Size = New System.Drawing.Size(69, 20)
         Me.btnDeliveredTo.TabIndex = 40
@@ -1393,7 +1439,7 @@ Partial Class frmShipmentDairy
         '
         Me.btnPrintBatchWise.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrintBatchWise.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintBatchWise.Location = New System.Drawing.Point(721, 398)
+        Me.btnPrintBatchWise.Location = New System.Drawing.Point(1018, 396)
         Me.btnPrintBatchWise.Name = "btnPrintBatchWise"
         Me.btnPrintBatchWise.Size = New System.Drawing.Size(82, 20)
         Me.btnPrintBatchWise.TabIndex = 43
@@ -1568,6 +1614,7 @@ Partial Class frmShipmentDairy
         '
         'chkCreateAutoInvoice
         '
+        Me.chkCreateAutoInvoice.Enabled = False
         Me.chkCreateAutoInvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.chkCreateAutoInvoice.Location = New System.Drawing.Point(733, 117)
         Me.chkCreateAutoInvoice.Name = "chkCreateAutoInvoice"
@@ -1644,7 +1691,7 @@ Partial Class frmShipmentDairy
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyExportAPI = False
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
@@ -4322,7 +4369,7 @@ Partial Class frmShipmentDairy
         Me.gvDistributor.MasterTemplate.AllowDeleteRow = False
         Me.gvDistributor.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDistributor.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvDistributor.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.gvDistributor.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvDistributor.MyExportAPI = False
         Me.gvDistributor.MyExportFilePath = ""
         Me.gvDistributor.MyStopExport = False
@@ -4619,7 +4666,7 @@ Partial Class frmShipmentDairy
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition13
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv2.MyExportAPI = False
         Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
@@ -4655,7 +4702,7 @@ Partial Class frmShipmentDairy
         Me.gvBoothScheme.MasterTemplate.AllowDeleteRow = False
         Me.gvBoothScheme.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBoothScheme.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvBoothScheme.MasterTemplate.ViewDefinition = TableViewDefinition14
+        Me.gvBoothScheme.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvBoothScheme.MyExportAPI = False
         Me.gvBoothScheme.MyExportFilePath = ""
         Me.gvBoothScheme.MyStopExport = False
@@ -4692,7 +4739,7 @@ Partial Class frmShipmentDairy
         Me.gvCrateType.MasterTemplate.AllowDeleteRow = False
         Me.gvCrateType.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCrateType.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCrateType.MasterTemplate.ViewDefinition = TableViewDefinition15
+        Me.gvCrateType.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvCrateType.MyExportAPI = False
         Me.gvCrateType.MyExportFilePath = ""
         Me.gvCrateType.MyStopExport = False
@@ -4721,7 +4768,7 @@ Partial Class frmShipmentDairy
         '
         '
         '
-        Me.gvManualscheme.MasterTemplate.ViewDefinition = TableViewDefinition16
+        Me.gvManualscheme.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvManualscheme.Name = "gvManualscheme"
         Me.gvManualscheme.Size = New System.Drawing.Size(1089, 416)
         Me.gvManualscheme.TabIndex = 0
@@ -4769,7 +4816,7 @@ Partial Class frmShipmentDairy
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition17
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvAC.MyExportAPI = False
         Me.gvAC.MyExportFilePath = ""
         Me.gvAC.MyStopExport = False
@@ -4842,6 +4889,10 @@ Partial Class frmShipmentDairy
         '
         'RadPageViewPage4
         '
+        Me.RadPageViewPage4.Controls.Add(Me.MyLabel71)
+        Me.RadPageViewPage4.Controls.Add(Me.lblGrossAmount)
+        Me.RadPageViewPage4.Controls.Add(Me.lblTPTComAmt)
+        Me.RadPageViewPage4.Controls.Add(Me.txtTPTComAmt)
         Me.RadPageViewPage4.Controls.Add(Me.btnUpdateVehicle)
         Me.RadPageViewPage4.Controls.Add(Me.MyLabel34)
         Me.RadPageViewPage4.Controls.Add(Me.lblTotalWtMetric)
@@ -4897,6 +4948,60 @@ Partial Class frmShipmentDairy
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1089, 416)
         Me.RadPageViewPage4.Text = "Total"
         '
+        'MyLabel71
+        '
+        Me.MyLabel71.FieldName = Nothing
+        Me.MyLabel71.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel71.Location = New System.Drawing.Point(115, 299)
+        Me.MyLabel71.Name = "MyLabel71"
+        Me.MyLabel71.Size = New System.Drawing.Size(79, 16)
+        Me.MyLabel71.TabIndex = 1576
+        Me.MyLabel71.Text = "Gross Amount"
+        '
+        'lblGrossAmount
+        '
+        Me.lblGrossAmount.AutoSize = False
+        Me.lblGrossAmount.BorderVisible = True
+        Me.lblGrossAmount.FieldName = Nothing
+        Me.lblGrossAmount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblGrossAmount.Location = New System.Drawing.Point(217, 298)
+        Me.lblGrossAmount.Name = "lblGrossAmount"
+        Me.lblGrossAmount.Size = New System.Drawing.Size(110, 18)
+        Me.lblGrossAmount.TabIndex = 1575
+        Me.lblGrossAmount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'lblTPTComAmt
+        '
+        Me.lblTPTComAmt.FieldName = Nothing
+        Me.lblTPTComAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTPTComAmt.Location = New System.Drawing.Point(87, 277)
+        Me.lblTPTComAmt.Name = "lblTPTComAmt"
+        Me.lblTPTComAmt.Size = New System.Drawing.Size(123, 16)
+        Me.lblTPTComAmt.TabIndex = 1574
+        Me.lblTPTComAmt.Text = "- TPT Commission Amt"
+        '
+        'txtTPTComAmt
+        '
+        Me.txtTPTComAmt.AutoSize = False
+        Me.txtTPTComAmt.BorderVisible = True
+        Me.txtTPTComAmt.FieldName = Nothing
+        Me.txtTPTComAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTPTComAmt.Location = New System.Drawing.Point(217, 276)
+        Me.txtTPTComAmt.Name = "txtTPTComAmt"
+        Me.txtTPTComAmt.Size = New System.Drawing.Size(110, 18)
+        Me.txtTPTComAmt.TabIndex = 1573
+        Me.txtTPTComAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'btnUpdateVehicle
+        '
+        Me.btnUpdateVehicle.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnUpdateVehicle.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnUpdateVehicle.Location = New System.Drawing.Point(606, 362)
+        Me.btnUpdateVehicle.Name = "btnUpdateVehicle"
+        Me.btnUpdateVehicle.Size = New System.Drawing.Size(191, 20)
+        Me.btnUpdateVehicle.TabIndex = 1567
+        Me.btnUpdateVehicle.Text = "Update Details For EWB"
+        '
         'MyLabel34
         '
         Me.MyLabel34.FieldName = Nothing
@@ -4931,7 +5036,6 @@ Partial Class frmShipmentDairy
         '
         'rpOpening
         '
-        Me.rpOpening.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.rpOpening.Controls.Add(Me.lblCrAmt)
         Me.rpOpening.Controls.Add(Me.txtCrAmt)
         Me.rpOpening.Controls.Add(Me.lblNetbalance)
@@ -4940,7 +5044,7 @@ Partial Class frmShipmentDairy
         Me.rpOpening.Controls.Add(Me.txtOpeningbal)
         Me.rpOpening.Controls.Add(Me.lblDrAmt)
         Me.rpOpening.Controls.Add(Me.txtDrAmt)
-        Me.rpOpening.Location = New System.Drawing.Point(522, 140)
+        Me.rpOpening.Location = New System.Drawing.Point(522, 172)
         Me.rpOpening.Name = "rpOpening"
         Me.rpOpening.Size = New System.Drawing.Size(265, 98)
         Me.rpOpening.TabIndex = 1569
@@ -5462,7 +5566,7 @@ Partial Class frmShipmentDairy
         Me.txtTCSTaxRate.IsSourceFromTable = False
         Me.txtTCSTaxRate.IsSourceFromValueList = False
         Me.txtTCSTaxRate.IsUnique = False
-        Me.txtTCSTaxRate.Location = New System.Drawing.Point(218, 353)
+        Me.txtTCSTaxRate.Location = New System.Drawing.Point(218, 387)
         Me.txtTCSTaxRate.MendatroryField = False
         Me.txtTCSTaxRate.MyLinkLable1 = Nothing
         Me.txtTCSTaxRate.MyLinkLable2 = Nothing
@@ -5482,7 +5586,7 @@ Partial Class frmShipmentDairy
         '
         Me.MyLabel57.FieldName = Nothing
         Me.MyLabel57.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel57.Location = New System.Drawing.Point(73, 307)
+        Me.MyLabel57.Location = New System.Drawing.Point(73, 341)
         Me.MyLabel57.Name = "MyLabel57"
         Me.MyLabel57.Size = New System.Drawing.Size(138, 16)
         Me.MyLabel57.TabIndex = 1399
@@ -5494,7 +5598,7 @@ Partial Class frmShipmentDairy
         Me.lblActualTCSTaxBaseAmt.BorderVisible = True
         Me.lblActualTCSTaxBaseAmt.FieldName = Nothing
         Me.lblActualTCSTaxBaseAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblActualTCSTaxBaseAmt.Location = New System.Drawing.Point(217, 305)
+        Me.lblActualTCSTaxBaseAmt.Location = New System.Drawing.Point(217, 339)
         Me.lblActualTCSTaxBaseAmt.Name = "lblActualTCSTaxBaseAmt"
         Me.lblActualTCSTaxBaseAmt.Size = New System.Drawing.Size(110, 18)
         Me.lblActualTCSTaxBaseAmt.TabIndex = 1398
@@ -5504,7 +5608,7 @@ Partial Class frmShipmentDairy
         '
         Me.MyLabel58.FieldName = Nothing
         Me.MyLabel58.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel58.Location = New System.Drawing.Point(85, 331)
+        Me.MyLabel58.Location = New System.Drawing.Point(85, 365)
         Me.MyLabel58.Name = "MyLabel58"
         Me.MyLabel58.Size = New System.Drawing.Size(122, 16)
         Me.MyLabel58.TabIndex = 1397
@@ -5523,7 +5627,7 @@ Partial Class frmShipmentDairy
         Me.txttcstaxbaseamount.IsSourceFromTable = False
         Me.txttcstaxbaseamount.IsSourceFromValueList = False
         Me.txttcstaxbaseamount.IsUnique = False
-        Me.txttcstaxbaseamount.Location = New System.Drawing.Point(218, 327)
+        Me.txttcstaxbaseamount.Location = New System.Drawing.Point(218, 361)
         Me.txttcstaxbaseamount.MendatroryField = False
         Me.txttcstaxbaseamount.MyLinkLable1 = Nothing
         Me.txttcstaxbaseamount.MyLinkLable2 = Nothing
@@ -5542,7 +5646,7 @@ Partial Class frmShipmentDairy
         '
         Me.MyLabel56.FieldName = Nothing
         Me.MyLabel56.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel56.Location = New System.Drawing.Point(58, 284)
+        Me.MyLabel56.Location = New System.Drawing.Point(58, 318)
         Me.MyLabel56.Name = "MyLabel56"
         Me.MyLabel56.Size = New System.Drawing.Size(153, 16)
         Me.MyLabel56.TabIndex = 124
@@ -5561,7 +5665,7 @@ Partial Class frmShipmentDairy
         Me.txtCustomerComplaintNo.IsSourceFromTable = False
         Me.txtCustomerComplaintNo.IsSourceFromValueList = False
         Me.txtCustomerComplaintNo.IsUnique = False
-        Me.txtCustomerComplaintNo.Location = New System.Drawing.Point(217, 285)
+        Me.txtCustomerComplaintNo.Location = New System.Drawing.Point(217, 319)
         Me.txtCustomerComplaintNo.MaxLength = 50
         Me.txtCustomerComplaintNo.MendatroryField = False
         Me.txtCustomerComplaintNo.MyLinkLable1 = Me.MyLabel22
@@ -5720,7 +5824,7 @@ Partial Class frmShipmentDairy
         '
         Me.RadLabel32.FieldName = Nothing
         Me.RadLabel32.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel32.Location = New System.Drawing.Point(75, 238)
+        Me.RadLabel32.Location = New System.Drawing.Point(75, 235)
         Me.RadLabel32.Name = "RadLabel32"
         Me.RadLabel32.Size = New System.Drawing.Size(140, 16)
         Me.RadLabel32.TabIndex = 131
@@ -5732,7 +5836,7 @@ Partial Class frmShipmentDairy
         Me.lblAddCharges1.BorderVisible = True
         Me.lblAddCharges1.FieldName = Nothing
         Me.lblAddCharges1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblAddCharges1.Location = New System.Drawing.Point(217, 237)
+        Me.lblAddCharges1.Location = New System.Drawing.Point(217, 234)
         Me.lblAddCharges1.Name = "lblAddCharges1"
         Me.lblAddCharges1.Size = New System.Drawing.Size(110, 18)
         Me.lblAddCharges1.TabIndex = 14
@@ -5764,7 +5868,7 @@ Partial Class frmShipmentDairy
         '
         Me.RadLabel27.FieldName = Nothing
         Me.RadLabel27.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel27.Location = New System.Drawing.Point(115, 262)
+        Me.RadLabel27.Location = New System.Drawing.Point(115, 257)
         Me.RadLabel27.Name = "RadLabel27"
         Me.RadLabel27.Size = New System.Drawing.Size(100, 16)
         Me.RadLabel27.TabIndex = 123
@@ -5776,7 +5880,7 @@ Partial Class frmShipmentDairy
         Me.lblTotRAmt.BorderVisible = True
         Me.lblTotRAmt.FieldName = Nothing
         Me.lblTotRAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotRAmt.Location = New System.Drawing.Point(217, 261)
+        Me.lblTotRAmt.Location = New System.Drawing.Point(217, 256)
         Me.lblTotRAmt.Name = "lblTotRAmt"
         Me.lblTotRAmt.Size = New System.Drawing.Size(110, 18)
         Me.lblTotRAmt.TabIndex = 15
@@ -5970,7 +6074,7 @@ Partial Class frmShipmentDairy
         Me.gv_Uploader_Temp.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_Uploader_Temp.MasterTemplate.ShowGroupedColumns = True
         Me.gv_Uploader_Temp.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_Uploader_Temp.MasterTemplate.ViewDefinition = TableViewDefinition18
+        Me.gv_Uploader_Temp.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gv_Uploader_Temp.MyExportAPI = False
         Me.gv_Uploader_Temp.MyExportFilePath = ""
         Me.gv_Uploader_Temp.MyStopExport = False
@@ -5993,7 +6097,7 @@ Partial Class frmShipmentDairy
         Me.gv_Uploader.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_Uploader.MasterTemplate.ShowGroupedColumns = True
         Me.gv_Uploader.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_Uploader.MasterTemplate.ViewDefinition = TableViewDefinition19
+        Me.gv_Uploader.MasterTemplate.ViewDefinition = TableViewDefinition9
         Me.gv_Uploader.MyExportAPI = False
         Me.gv_Uploader.MyExportFilePath = ""
         Me.gv_Uploader.MyStopExport = False
@@ -6572,7 +6676,7 @@ Partial Class frmShipmentDairy
         '
         '
         '
-        Me.gvCC.MasterTemplate.ViewDefinition = TableViewDefinition20
+        Me.gvCC.MasterTemplate.ViewDefinition = TableViewDefinition10
         Me.gvCC.Name = "gvCC"
         Me.gvCC.Size = New System.Drawing.Size(1089, 318)
         Me.gvCC.TabIndex = 0
@@ -7066,16 +7170,6 @@ Partial Class frmShipmentDairy
         Me.MyLabel27.TabIndex = 1472
         Me.MyLabel27.Text = "Invoice Date"
         '
-        'btnUpdateVehicle
-        '
-        Me.btnUpdateVehicle.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnUpdateVehicle.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUpdateVehicle.Location = New System.Drawing.Point(606, 362)
-        Me.btnUpdateVehicle.Name = "btnUpdateVehicle"
-        Me.btnUpdateVehicle.Size = New System.Drawing.Size(191, 20)
-        Me.btnUpdateVehicle.TabIndex = 1567
-        Me.btnUpdateVehicle.Text = "Update Details For EWB"
-        '
         'btnEWB
         '
         Me.btnEWB.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -7310,15 +7404,6 @@ Partial Class frmShipmentDairy
         Me.Import.Text = "Import"
         Me.Import.Visibility = Telerik.WinControls.ElementVisibility.Hidden
         '
-        'chkNoTranspoter
-        '
-        Me.chkNoTranspoter.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkNoTranspoter.Location = New System.Drawing.Point(777, 65)
-        Me.chkNoTranspoter.Name = "chkNoTranspoter"
-        Me.chkNoTranspoter.Size = New System.Drawing.Size(99, 16)
-        Me.chkNoTranspoter.TabIndex = 1600
-        Me.chkNoTranspoter.Text = "NO Transporter"
-        '
         'frmShipmentDairy
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -7345,6 +7430,9 @@ Partial Class frmShipmentDairy
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout
+        CType(Me.lblOutstandingDesc, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.chkNoTranspoter, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.lblOutStanding, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.chkExcludeKKFMND, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.lblDemandNO, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.chkIndividualCustomer, System.ComponentModel.ISupportInitialize).EndInit
@@ -7582,6 +7670,11 @@ Partial Class frmShipmentDairy
         Me.Attachments.ResumeLayout(False)
         Me.RadPageViewPage4.ResumeLayout(False)
         Me.RadPageViewPage4.PerformLayout
+        CType(Me.MyLabel71, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.lblGrossAmount, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.lblTPTComAmt, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.txtTPTComAmt, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.btnUpdateVehicle, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.lblTotalWtMetric, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnAdminCancel, System.ComponentModel.ISupportInitialize).EndInit
@@ -7744,7 +7837,6 @@ Partial Class frmShipmentDairy
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.txtInvoiceDate, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnUpdateVehicle, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnEWB, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnprinte_wayBill, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnPrintInvoice, System.ComponentModel.ISupportInitialize).EndInit
@@ -7765,7 +7857,6 @@ Partial Class frmShipmentDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit
         Me.RadMenu1.ResumeLayout(False)
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.chkNoTranspoter, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(False)
         Me.PerformLayout
@@ -8184,5 +8275,11 @@ Partial Class frmShipmentDairy
     Friend WithEvents MyLabel34 As common.Controls.MyLabel
     Friend WithEvents lblTotalWtMetric As common.Controls.MyLabel
     Friend WithEvents chkNoTranspoter As RadCheckBox
+    Friend WithEvents lblTPTComAmt As common.Controls.MyLabel
+    Friend WithEvents txtTPTComAmt As common.Controls.MyLabel
+    Friend WithEvents MyLabel71 As common.Controls.MyLabel
+    Friend WithEvents lblGrossAmount As common.Controls.MyLabel
+    Friend WithEvents lblOutstandingDesc As common.Controls.MyLabel
+    Friend WithEvents lblOutStanding As common.Controls.MyLabel
 End Class
 

@@ -17,11 +17,13 @@ Public Class frmDairyGatePass
     Dim AllowManualCrateForDispatch As Boolean = False
     Dim ApplyDepartmentRoute As Boolean = False
     Dim isDepartmentRoute As Boolean = False
+    Dim ServerDateTimeForTaxableInvoice As Boolean = False
     Dim strQueryCANCRate As String
     Dim dt As DataTable
     Private isNewEntry As Boolean = False
     Dim strVehicleNo As List(Of String)
     Private AllowGatePassDemandTripWise As Boolean = False
+    Private GatepassForTaxableandNonTaxableItems As Boolean = False
     Const ColApply As String = "ColApply"
     Const ColDocNo As String = "ColDocNo"
     Const ColDocDate As String = "ColDocDatet"
@@ -67,9 +69,13 @@ Public Class frmDairyGatePass
     Public Property CreditCustomer As String
     Public Property txtlocation As String
     Public Property vehicleno As String
+    Public Property vehicle_desc As String
+    Public Property DriverName As String
     Public Property docdate As Date?
     Public Property Supplydate As Date?
     Public Property Shifttype As String = Nothing
+    Public Property GenerateCustomerWiseGatePass As Boolean = False
+    Public Property ShipmentDocNo As String
     ''ERO/03/05/19-000584 by balwindr on 06/05/2019
     ''ERO/03/05/19-000584 by balwindr on 06/05/2019
     Dim VehicleDesc As String = Nothing
@@ -102,122 +108,155 @@ Public Class frmDairyGatePass
         'End If
     End Sub
     Private Sub FrmGatePassENtry1_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        settFileUpload = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.FileUpload, clsUserMgtCode.frmDairyGatePass, Nothing)) = 1)
-        'CreateTable()
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
-            chkGhee.Visible = True
-        Else
-            chkGhee.Visible = False
-        End If
-        'Dim coll As Dictionary(Of String, String)
-        'coll = New Dictionary(Of String, String)()
-        'coll.Add("Closing_Date", "Datetime null")
-        'coll.Add("ShiftType", "varchar(20) NULL")
-        'clsCommonFunctionality.CreateOrAlterTable("TSPL_DAIRYSALE_GATEPASS_MASTER", coll)
-        'coll = New Dictionary(Of String, String)()
-        'coll.Add("Production_Remarks", "varchar(200) NULL")
-        'coll.Add("GPCode", "varchar(30) NULL")
-        'clsCommonFunctionality.CreateOrAlterTable("TSPL_DEMAND_BOOKING_DETAIL", coll)
-        SetUserMgmtNew()
-        isNewEntry = True
+        Try
+            settFileUpload = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.FileUpload, clsUserMgtCode.frmDairyGatePass, Nothing)) = 1)
+            'CreateTable()
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
+                chkGhee.Visible = True
+            Else
+                chkGhee.Visible = False
+            End If
+            'Dim coll As Dictionary(Of String, String)
+            'coll = New Dictionary(Of String, String)()
+            'coll.Add("Closing_Date", "Datetime null")
+            'coll.Add("ShiftType", "varchar(20) NULL")
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_DAIRYSALE_GATEPASS_MASTER", coll)
+            'coll = New Dictionary(Of String, String)()
+            'coll.Add("Production_Remarks", "varchar(200) NULL")
+            'coll.Add("GPCode", "varchar(30) NULL")
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_DEMAND_BOOKING_DETAIL", coll)
+            SetUserMgmtNew()
+            isNewEntry = True
 
-        txtDate.Value = clsCommon.GETSERVERDATE()
-        txtSupplyDate.Value = txtDate.Value
-        txtGatepassDate.Value = clsCommon.GETSERVERDATE()
-        'CheckCreateCapacity = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CrateCapacityCheck, clsFixedParameterCode.CrateCapacityCheck, Nothing)))
-        isCreateProvisionOfTransporterInDairyDispatch = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionOfTransporterInDairyDispatch, clsFixedParameterCode.CreateProvisionOfTransporterInDairyDispatch, Nothing)))
-        IsLoadingSlipMandatory = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsLoadingSlipMandatory, clsFixedParameterCode.IsLoadingSlipMandatory, Nothing)) = 1, True, False)
-        AllowGatePassDemandTripWise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowGatePassDemandTripWise, clsFixedParameterCode.AllowGatePassDemandTripWise, Nothing)) = 1, True, False)
-        EnableLocation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, Nothing)) = 1, True, False)
-        SettCreateProvisionOnOpeningAndClosingKM = (clsCommon.myCdbl(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionOnOpeningAndClosingKM, clsFixedParameterCode.CreateProvisionOnOpeningAndClosingKM, Nothing))) = 1)
-        CreateGatePassFromDemand = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateGatePassFromDemand, clsFixedParameterCode.CreateGatePassFromDemand, Nothing)))
-        VehicleNofromDispatch = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.VehicleNofromDispatch, clsFixedParameterCode.VehicleNofromDispatch, Nothing)))
-        EnableProductSaleForJPR = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)))
-        AllowManualCrateForDispatch = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowManualCrateForDispatch, clsFixedParameterCode.AllowManualCrateForDispatch, Nothing)))
-        SetDefaultShiftTime = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SetDefaultShiftTime, clsFixedParameterCode.SetDefaultShiftTime, Nothing))
-        ApplyDepartmentRoute = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, Nothing)) = 1, True, False)
-        DifferentCrateTypeForFGItem = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DifferentCrateTypeForFGItem, clsFixedParameterCode.DifferentCrateTypeForFGItem, Nothing)) = 1, True, False)
-        CreateAutoGatePass = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateAutoGatePass, clsFixedParameterCode.CreateAutoGatePass, Nothing)) = 1, True, False)
+            txtDate.Value = clsCommon.GETSERVERDATE()
+            txtSupplyDate.Value = txtDate.Value
+            txtGatepassDate.Value = clsCommon.GETSERVERDATE()
+            'CheckCreateCapacity = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CrateCapacityCheck, clsFixedParameterCode.CrateCapacityCheck, Nothing)))
+            isCreateProvisionOfTransporterInDairyDispatch = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionOfTransporterInDairyDispatch, clsFixedParameterCode.CreateProvisionOfTransporterInDairyDispatch, Nothing)))
+            IsLoadingSlipMandatory = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsLoadingSlipMandatory, clsFixedParameterCode.IsLoadingSlipMandatory, Nothing)) = 1, True, False)
+            AllowGatePassDemandTripWise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowGatePassDemandTripWise, clsFixedParameterCode.AllowGatePassDemandTripWise, Nothing)) = 1, True, False)
+            GatepassForTaxableandNonTaxableItems = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.GatepassForTaxableandNonTaxableItems, clsFixedParameterCode.GatepassForTaxableandNonTaxableItems, Nothing)) = 1, True, False)
+            EnableLocation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, Nothing)) = 1, True, False)
+            SettCreateProvisionOnOpeningAndClosingKM = (clsCommon.myCdbl(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionOnOpeningAndClosingKM, clsFixedParameterCode.CreateProvisionOnOpeningAndClosingKM, Nothing))) = 1)
+            CreateGatePassFromDemand = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateGatePassFromDemand, clsFixedParameterCode.CreateGatePassFromDemand, Nothing)))
+            VehicleNofromDispatch = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.VehicleNofromDispatch, clsFixedParameterCode.VehicleNofromDispatch, Nothing)))
+            EnableProductSaleForJPR = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)))
+            AllowManualCrateForDispatch = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowManualCrateForDispatch, clsFixedParameterCode.AllowManualCrateForDispatch, Nothing)))
+            SetDefaultShiftTime = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SetDefaultShiftTime, clsFixedParameterCode.SetDefaultShiftTime, Nothing))
+            ApplyDepartmentRoute = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, Nothing)) = 1, True, False)
+            DifferentCrateTypeForFGItem = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DifferentCrateTypeForFGItem, clsFixedParameterCode.DifferentCrateTypeForFGItem, Nothing)) = 1, True, False)
+            CreateAutoGatePass = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateAutoGatePass, clsFixedParameterCode.CreateAutoGatePass, Nothing)) = 1, True, False)
+            ServerDateTimeForTaxableInvoice = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ServerDateTimeForTaxableInvoice, clsFixedParameterCode.ServerDateTimeForTaxableInvoice, Nothing)) = 1, True, False)
 
-        Addnew()
-        LoadBlankGrid()
-        Panel2.Visible = SettCreateProvisionOnOpeningAndClosingKM
-        cmbitemtype.Text = "Select"
-        txtTransporter.MaxLength = 100
-        txtSalesman.MaxLength = 100
-        txtRemarks.MaxLength = 200
-        txtComments.MaxLength = 200
-        If isCreateProvisionOfTransporterInDairyDispatch = True Then
-            btnPost.Visible = True
-            btnPost.Enabled = False
-        Else
-            ' btnPost.Visible = False
-        End If
-        If Not DifferentCrateTypeForFGItem Then
-            RadPageView1.Pages("rpvpCrateType").Item.Visibility = ElementVisibility.Collapsed
-        End If
-        AlternateVechileforGatePass = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowAlternateVechileforFreshSale, clsFixedParameterCode.ShowAlternateVechileforFreshSale, Nothing))
-        'funFillGrid()
-        txtTransporter.Enabled = False
-        If isCreateProvisionOfTransporterInDairyDispatch = True Then
-            txtTransporter.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Transport_Id from TSPL_VEHICLE_MASTER where Vehicle_Id='" & txtVehicle.Value & "'"))
-        End If
-        If clsCommon.myLen(Me.Tag) > 0 Then
-            LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
-        End If
-        txtmultiBooking.Enabled = False
-        If IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TollTaxMaster, clsFixedParameterCode.TollTaxMaster, Nothing)) = 0, False, True) = False Then
-            lblTollAmount.Visible = True
-            txtTollAmount.Visible = True
-        Else
-            lblTollAmount.Visible = False
-            txtTollAmount.Visible = False
-        End If
-        multipleDelteVisible(False)
-        If CreateGatePassFromDemand = True Then
-            RadGroupBox3.Visible = True
-            txtLocCode.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
-            If clsCommon.myLen(txtLocCode.Value) > 0 Then
-                txtLocDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocCode.Value + "'"))
+            Addnew()
+            LoadBlankGrid()
+            Panel2.Visible = SettCreateProvisionOnOpeningAndClosingKM
+            cmbitemtype.Text = "Select"
+            txtTransporter.MaxLength = 100
+            txtSalesman.MaxLength = 100
+            txtRemarks.MaxLength = 200
+            txtComments.MaxLength = 200
+            If isCreateProvisionOfTransporterInDairyDispatch = True Then
+                btnPost.Visible = True
+                btnPost.Enabled = False
+            Else
+                ' btnPost.Visible = False
             End If
-            txtLocCode.Enabled = False
-            txtmultiBooking.Visible = False
-        Else
-            RadGroupBox3.Visible = True
-        End If
-        fndRouteNo.Value = routeno
-        txtRouteName.Text = clsDBFuncationality.getSingleValue("select Route_Desc from TSPL_ROUTE_MASTER where Route_No='" & fndRouteNo.Value & "'")
-        txtLocCode.Value = txtlocation
-        txtLocDesc.Text = clsDBFuncationality.getSingleValue("select  Location_Desc  from TSPL_LOCATION_MASTER where Location_Code='" & txtLocCode.Value & "'")
-        txtVehicle.Value = vehicleno
-        lblVehicleDesc.Text = clsDBFuncationality.getSingleValue("select Description from TSPL_VEHICLE_MASTER where Vehicle_Id='" & txtVehicle.Value & "'")
-        If docdate IsNot Nothing AndAlso clsCommon.myLen(docdate) > 0 Then
-            txtDate.Value = docdate
-        End If
-        If Supplydate IsNot Nothing AndAlso clsCommon.myLen(Supplydate) > 0 Then
-            txtSupplyDate.Value = Supplydate
-        End If
-        If clsCommon.CompairString(Shifttype, "AM") = CompairStringResult.Equal Then
-            rbtnMorning.IsChecked = True
-            txtTripNo.Text = "1"
-            funFillGrid()
-            If CreateAutoGatePass Then
-                txtLoadingSlip.Text = "1"
-                btnSave_Click(btnSave, New EventArgs())
-                Me.Close()
+            If Not DifferentCrateTypeForFGItem Then
+                RadPageView1.Pages("rpvpCrateType").Item.Visibility = ElementVisibility.Collapsed
             End If
-        ElseIf clsCommon.CompairString(Shifttype, "PM") = CompairStringResult.Equal Then
-            rbtnEvening.IsChecked = True
-            txtTripNo.Text = "1"
-            funFillGrid()
-            If CreateAutoGatePass Then
-                txtLoadingSlip.Text = "1"
-                btnSave_Click(btnSave, New EventArgs())
-                Me.Close()
+            AlternateVechileforGatePass = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowAlternateVechileforFreshSale, clsFixedParameterCode.ShowAlternateVechileforFreshSale, Nothing))
+            'funFillGrid()
+            txtTransporter.Enabled = False
+            If isCreateProvisionOfTransporterInDairyDispatch = True Then
+                txtTransporter.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Transport_Id from TSPL_VEHICLE_MASTER where Vehicle_Id='" & txtVehicle.Value & "'"))
             End If
-        End If
-        '  LoadData(txtCode.Value, NavigatorType.Current)
+            If clsCommon.myLen(Me.Tag) > 0 Then
+                LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
+            End If
+            txtmultiBooking.Enabled = False
+            If IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TollTaxMaster, clsFixedParameterCode.TollTaxMaster, Nothing)) = 0, False, True) = False Then
+                lblTollAmount.Visible = True
+                txtTollAmount.Visible = True
+            Else
+                lblTollAmount.Visible = False
+                txtTollAmount.Visible = False
+            End If
+            multipleDelteVisible(False)
+            If CreateGatePassFromDemand = True Then
+                RadGroupBox3.Visible = True
+                txtLocCode.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+                If clsCommon.myLen(txtLocCode.Value) > 0 Then
+                    txtLocDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocCode.Value + "'"))
+                End If
+                txtLocCode.Enabled = False
+                txtmultiBooking.Visible = False
+            Else
+                RadGroupBox3.Visible = True
+            End If
+            fndRouteNo.Value = routeno
+            txtRouteName.Text = clsDBFuncationality.getSingleValue("select Route_Desc from TSPL_ROUTE_MASTER where Route_No='" & fndRouteNo.Value & "'")
+            txtLocCode.Value = txtlocation
+            txtLocDesc.Text = clsDBFuncationality.getSingleValue("select  Location_Desc  from TSPL_LOCATION_MASTER where Location_Code='" & txtLocCode.Value & "'")
+            txtVehicle.Value = vehicleno
+            lblVehicleDesc.Text = vehicle_desc 'clsDBFuncationality.getSingleValue("select Description from TSPL_VEHICLE_MASTER where Vehicle_Id='" & txtVehicle.Value & "'")
+            txtDriverName.Text = DriverName
+            If docdate IsNot Nothing AndAlso clsCommon.myLen(docdate) > 0 Then
+                txtDate.Value = docdate
+            End If
+            If Supplydate IsNot Nothing AndAlso clsCommon.myLen(Supplydate) > 0 Then
+                txtSupplyDate.Value = Supplydate
+            End If
+
+            If clsCommon.CompairString(Shifttype, "AM") = CompairStringResult.Equal Then
+                rbtnMorning.IsChecked = True
+                txtTripNo.Text = "1"
+                funFillGrid()
+                If CreateAutoGatePass Then
+                    txtLoadingSlip.Text = "1"
+                    btnSave_Click(btnSave, New EventArgs())
+                    btnPrint2_Click(btnPrint2, New EventArgs())
+                    Me.Close()
+                End If
+            ElseIf clsCommon.CompairString(Shifttype, "PM") = CompairStringResult.Equal Then
+                rbtnEvening.IsChecked = True
+                txtTripNo.Text = "1"
+                funFillGrid()
+                If CreateAutoGatePass Then
+                    txtLoadingSlip.Text = "1"
+                    btnSave_Click(btnSave, New EventArgs())
+                    btnPrint2_Click(btnPrint2, New EventArgs())
+                    Me.Close()
+                End If
+            End If
+            If GatepassForTaxableandNonTaxableItems Then
+                RadGroupBox1.Visible = True
+            End If
+            '  LoadData(txtCode.Value, NavigatorType.Current)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
+
+    Sub CheckTimeShift()
+        Try
+            Dim inputDate As DateTime
+            If DateTime.TryParse(txtDate.Value.ToString(), inputDate) Then
+                If inputDate.TimeOfDay < New TimeSpan(12, 0, 0) Then
+                    rbtnMorning.IsChecked = True
+                    rbtnEvening.IsChecked = False
+                Else
+                    rbtnEvening.IsChecked = True
+                    rbtnMorning.IsChecked = False
+                End If
+            Else
+                Throw New Exception("Invalid date format")
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Private Sub CreateTable()
         '    Dim coll As Dictionary(Of String, String)
         '    coll = New Dictionary(Of String, String)()
@@ -584,6 +623,16 @@ Public Class frmDairyGatePass
                         'strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Status=0"
                     Else
                         strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Status=1"
+                        If GatepassForTaxableandNonTaxableItems Then
+                            If rdbTaxable.IsChecked Then
+                                strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Is_Taxable=1 "
+                            ElseIf rdbNonTaxable.IsChecked Then
+                                strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Is_Taxable=0 "
+                            End If
+                        End If
+                    End If
+                    If GenerateCustomerWiseGatePass Then
+                        strQuery += " and TSPL_SD_SHIPMENT_HEAD.Document_Code='" & ShipmentDocNo & "' "
                     End If
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                         If chkGhee.Checked Then
@@ -1161,6 +1210,8 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                 End If
                 txtLoadingSlip.Text = obj.Loading_Slip
                 txtDriverName.Text = obj.Driver_Name
+                txtShipToLocation.Text = obj.Ship_To_Location
+
                 txtDriverMobNo.Text = obj.Driver_ContactNo
                 txtDistributorName.Text = obj.DistributorName
                 funLoadGrid(txtCode.Value)
@@ -1194,6 +1245,12 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
         If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
             txtDate.Select()
             Return False
+        End If
+        If ServerDateTimeForTaxableInvoice Then
+            Dim serverDateTime As DateTime = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy")
+            If clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") <> serverDateTime Then
+                Throw New Exception("Document Date and Supply Date Should be Server Date Time")
+            End If
         End If
         If chkAgainstTransfer.Checked = True Then
             If clsCommon.myLen(FndTransferNo.Value) <= 0 Then
@@ -1290,6 +1347,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                 obj.Salesman = txtSalesman.Text
                 obj.Remarks = txtRemarks.Text
                 obj.Comments = txtComments.Text
+                obj.Ship_To_Location = txtShipToLocation.Text
                 obj.Location_Code = txtLocCode.Value
                 obj.Location_Desc = txtLocDesc.Text
                 obj.Supply_Date = txtSupplyDate.Value
@@ -1495,6 +1553,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
         txtLocCode.Enabled = True
         TxtMultiDairyGPassReverse.arrValueMember = Nothing
         txtDriverName.Text = Nothing
+        txtShipToLocation.Text = Nothing
         txtDriverMobNo.Text = Nothing
         If SetDefaultShiftTime.Length > 0 Then
             Dim CurrDateTime As DateTime = clsCommon.GETSERVERDATE
@@ -1508,7 +1567,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                 rbtnMorning.IsChecked = True
             End If
         End If
-
+        CheckTimeShift()
     End Sub
     Private Sub cmbitemtype_SelectedIndexChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.Data.PositionChangedEventArgs)
         'If isInsideLoadData = False Then
@@ -1916,24 +1975,42 @@ where TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode='" & strCode & "' order by Sku_Seq "
             tbl_TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL = " TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL"
         End If
         Dim Qry As String = ""
-        Qry = " Select '" & clsCommon.myCstr(IIf(isCancel, "Y", "N")) & "' As isCancelled,*,'" & txtCode.Value & "' as GPCode,'" & txtDriverName.Text & "' as Driver_Name from (select 1 As CopyType, TabBatch.BatchNo,TabBatch.Batch_Qty,'' as Comp_Phone2,'' as Comp_Add3,'' as Comp_Add2,  InLtr.Conversion_factor As [ConversionInLtr],InCrate.Conversion_factor As [ConversionInCrate],InPouch.Conversion_factor As [ConversionInPouch],TSPL_SD_SHIPMENT_HEAD.Document_Date,
+        Qry = " Select '" & clsCommon.myCstr(IIf(isCancel, "Y", "N")) & "' As isCancelled,max(xxx.CopyType)CopyType,STRING_AGG(TabBatch.BatchNo,CHAR(10)) as BatchNo,--TabBatch.BatchNo,
+  STRING_AGG(CAST(Qty AS INT), CHAR(10)) as Batch_Qty,max(Comp_Phone2)Comp_Phone2,max(Comp_Add3)Comp_Add3,max(Comp_Add2)Comp_Add2,max(ConversionInLtr)ConversionInLtr,max(ConversionInCrate)ConversionInCrate, max(ConversionInPouch)ConversionInPouch,max(GP.GPDate)Document_Date,max(Is_Taxable)Is_Taxable,max(Shift)Shift,max(xxx.DOCUMENT_CODE)DOCUMENT_CODE,max(Line_No)Line_No, max(Row_Type)Row_Type,xxx.Item_Code,Sum(Qty)Qty,Sum(Balance_Qty)Balance_Qty,max(Order_Code)Order_Code,max(Unit_code)Unit_code,max(Location)Location, max(Item_Cost)Item_Cost,max(TAX1)TAX1,max(TAX1_Base_Amt)TAX1_Base_Amt,max(TAX1_Rate)TAX1_Rate,sum(TAX1_Amt)TAX1_Amt,max(TAX2)TAX2,max(TAX2_Base_Amt)TAX2_Base_Amt,max(TAX2_Rate)TAX2_Rate,sum(TAX2_Amt)TAX2_Amt,max(TAX3)TAX3,max(TAX3_Base_Amt)TAX3_Base_Amt,max(TAX3_Rate)TAX3_Rate,sum(TAX3_Amt)TAX3_Amt,max(TAX4)TAX4,max(TAX4_Base_Amt)TAX4_Base_Amt,max(TAX4_Rate)TAX4_Rate,sum(TAX4_Amt)TAX4_Amt,max(TAX5)TAX5,max(TAX5_Base_Amt)TAX5_Base_Amt,max(TAX5_Rate)TAX5_Rate,sum(TAX5_Amt)TAX5_Amt,max(TAX6)TAX6,max(TAX6_Base_Amt)TAX6_Base_Amt,max(TAX6_Rate)TAX6_Rate,sum(TAX6_Amt)TAX6_Amt,max(TAX7)TAX7,max(TAX7_Base_Amt)TAX7_Base_Amt,max(TAX7_Rate)TAX7_Rate,sum(TAX7_Amt)TAX7_Amt,max(TAX8)TAX8,max(TAX8_Base_Amt)TAX8_Base_Amt,max(TAX8_Rate)TAX8_Rate,sum(TAX8_Amt)TAX8_Amt,max(TAX9)TAX9,max(TAX9_Base_Amt)TAX9_Base_Amt,max(TAX9_Rate)TAX9_Rate,sum(TAX9_Amt)TAX9_Amt,max(TAX10)TAX10,max(TAX10_Base_Amt)TAX10_Base_Amt,max(TAX10_Rate)TAX10_Rate,sum(TAX10_Amt)TAX10_Amt,sum(Amount)Amount,max(Disc_Per)Disc_Per,sum(Disc_Amt)Disc_Amt,sum(Amt_Less_Discount)Amt_Less_Discount,sum(Total_Tax_Amt)Total_Tax_Amt,sum(Item_Net_Amt)Item_Net_Amt,max(Status)Status,max(MRP)MRP,max(Batch_No)Batch_No, max(MFG_Date)MFG_Date,max(Expiry_Date)Expiry_Date,sum(Free_Qty)Free_Qty,max(Specification)Specification,max(Remarks)Remarks,max(Assessable)Assessable,
+ sum(AssessableAmt)AssessableAmt,max(Is_Mannual_Amt)Is_Mannual_Amt,max(Bar_Code)Bar_Code,max(Price_code)Price_code,max(Price_Date)Price_Date,max(Abatement_Per)Abatement_Per,sum(Abatement_Amt)Abatement_Amt,max(Scheme_Code)Scheme_Code,max(Scheme_Applicable)Scheme_Applicable,max(Scheme_Item)Scheme_Item,max(FOC_Item)FOC_Item,max(Item_Tax)Item_Tax,max(Total_MRP_Amt)Total_MRP_Amt,sum(Total_Basic_Amt)Total_Basic_Amt,sum(Total_Disc_Amt)Total_Disc_Amt,sum(Cust_DiscountQty)Cust_DiscountQty,max(Cust_Discount)Cust_Discount,sum(Total_Cust_Discount)Total_Cust_Discount,max(Price_Amount1)Price_Amount1,max(Price_Amount2)Price_Amount2,max(Price_Amount3)Price_Amount3,max(Price_Amount4)Price_Amount4,max(Price_Amount5)Price_Amount5,max(Price_Amount6)Price_Amount6,max(Price_Amount7)Price_Amount7,max(Price_Amount8)Price_Amount8,max(Price_Amount9)Price_Amount9,max(Price_Amount10)Price_Amount10,max(ActualRate)ActualRate,max(Item_Weight)Item_Weight,max(Conv_Factor)Conv_Factor,max(TotalItem_Weight)TotalItem_Weight,max(Markup_On)Markup_On,max(Markup_Percent)Markup_Percent,max(Landing_Cost)Landing_Cost,sum(HeadDiscAmt)HeadDiscAmt,max(CustDiscPer)CustDiscPer,max(CasdDiscScheme_Code)CasdDiscScheme_Code,max(Purchase_Cost)Purchase_Cost,max(OrgRate)OrgRate,max(PrincipleCode)PrincipleCode,max(PrincipleDesc)PrincipleDesc,max(vendor_code)vendor_code,
+ max(vendor_desc)vendor_desc,max(Bin_No)Bin_No,max(Weight_UOM)Weight_UOM,max(HeadDiscPer)HeadDiscPer,sum(HeadDiscPerAmt)HeadDiscPerAmt,sum(DeliverQty)DeliverQty,max(Delivery_Code)Delivery_Code,sum(Crate)Crate,max(Commission_Rate)Commission_Rate,max(Commission_Party)Commission_Party,sum(Commission_Amt)Commission_Amt,
+  sum(Amt_Less_Commission)Amt_Less_Commission, max(OrgUnit_code)OrgUnit_code, max(Delivery_Code_PS)Delivery_Code_PS,max(Item_Group)Item_Group,
+ max(BOOK_QTY_UOM)BOOK_QTY_UOM,max(BOOK_Rate)BOOK_Rate,max(BOOK_RATE_UOM)BOOK_RATE_UOM,max(TAX_PAID)TAX_PAID,max(Alternate_UOM)Alternate_UOM,max(RATE_UOM)RATE_UOM,max(Scheme_Type)Scheme_Type,max(Scheme_Item_Code)Scheme_Item_Code,sum(Scheme_Qty)Scheme_Qty,max(Scheme_Item_UOM)Scheme_Item_UOM,max(Total_Item_WeightMetric)Total_Item_WeightMetric,max(Cash_Scheme_Code)Cash_Scheme_Code,max(Cash_Scheme_Type)Cash_Scheme_Type,max(Cash_Scheme_Pers)Cash_Scheme_Pers,sum(Cash_Scheme_Amount)Cash_Scheme_Amount,max(OrgRateUnit_code)OrgRateUnit_code,max(Rate_UnitQty)Rate_UnitQty,max(Alter_UnitQty)Alter_UnitQty,max(Sampling)Sampling,max(GatePass_No)GatePass_No,max(Disc_Scheme_Code)Disc_Scheme_Code,max(Disc_Scheme_Type)Disc_Scheme_Type,max(Disc_Scheme_Pers)Disc_Scheme_Pers,sum(Disc_Scheme_Amount)Disc_Scheme_Amount,max(AlternateRate)AlternateRate,max(ItemwiseTaxCode)ItemwiseTaxCode,max(Structure_Code)Structure_Code,sum(CAN)CAN,sum(ManualCan)ManualCan,sum(ItemLeakageAmount)ItemLeakageAmount,max(VS_CashSchemeCode)VS_CashSchemeCode,Sum(VS_Cash_Amt)VS_Cash_Amt,sum(VS_ltrInCrate)VS_ltrInCrate,max(Sub_Location_code)Sub_Location_code,max(Distributor_Commission_PKID)Distributor_Commission_PKID,max(Distributor_Commission_Rate)Distributor_Commission_Rate,max(Distributor_Commission_RateWithTax)Distributor_Commission_RateWithTax,sum(Distributor_Commission_Amt)Distributor_Commission_Amt,max(PK_ID)PK_ID,max(Security_Rate)Security_Rate,sum(Security_Amt)Security_Amt,max(Transporter_Commission_Rate)Transporter_Commission_Rate,Sum(Transporter_Commission_Amt)Transporter_Commission_Amt,max(Transporter)Transporter,max(Against_Booking_PK_ID)Against_Booking_PK_ID,max(Booth_Security_Rate)Booth_Security_Rate,sum(Booth_Security_Amt)Booth_Security_Amt,max(Scheme_Main_Item)Scheme_Main_Item,max(Disc_Per_Unit)Disc_Per_Unit,sum(Disc_Unit_Amt)Disc_Unit_Amt,max(REF_PK_ID)REF_PK_ID,max(REF_TPT_PK_ID)REF_TPT_PK_ID,max(Trip_No)Trip_No,max(Against_Cust_Ord_PK_ID)Against_Cust_Ord_PK_ID,max(Billing_Unit_code)Billing_Unit_code, sum(Billing_Qty)Billing_Qty,sum(Amount_with_Tax)Amount_with_Tax,sum(Booking_Qty)Booking_Qty,max(Access_Officer)Access_Officer,max(Item_Desc)Item_Desc,max(HSN_Code)HSN_Code, Sum(QtyInLtr)QtyInLtr,sum(QtyInKG)QtyInKG,sum(QtyInCrate)QtyInCrate,sum(QtyInPouch)QtyInPouch,max(FAT_Per)FAT_Per,max(SNF_Per)SNF_Per,max(Acidity)Acidity,max(Temperature)Temperature,max(MBRT_Hours)MBRT_Hours,max(Route_Desc)Route_Desc,max(Vehicle_Id)Vehicle_Id,max(Vehicle_Number)Vehicle_Number,max(Customer_Name)Customer_Name,max(Cust_Add1)Cust_Add1,max(Cust_Add2)Cust_Add2,max(Cust_Add3)Cust_Add3,max(Cust_PINCode)Cust_PINCode,max(Cust_Phone1)Cust_Phone1,max(Cust_Phone2)Cust_Phone2,max(GSTNO)GSTNO,
+ max(Comp_Name)Comp_Name	
+ ,max(Comp_Add1)Comp_Add1,max(Comp_City)Comp_City,max(Comp_State)Comp_State,max(Comp_GSTReg_No)Comp_GSTReg_No,max(Comp_PanNo)Comp_PanNo,max(Comp_Email)Comp_Email,
+ max(Comp_Pincode)Comp_Pincode,max(Comp_Phone1)Comp_Phone1,max(State_Code)State_Code,max(STATE_NAME)STATE_NAME,max(Route_No)Route_No,max(GP.supply_date)supply_date,
+ max(sublocation)sublocation,max(Comp_Code1)Comp_Code1,max(Is_Ambient)Is_Ambient,max(Is_FreshItem)Is_FreshItem,max(COL1)COL1,max(COL2)COL2,max(CopyType1)CopyType1,
+ '" & txtCode.Value & "' as GPCode,'" & txtShipToLocation.Text & "' as Ship_To_Location,'" & txtDriverName.Text & "' as Driver_Name ,max(orderby1)orderby1,max(orderby2)orderby2,max(orderby3)orderby3,Max(GatePass_Code)GatePass_Code
+  from ("
+        Qry += " select 1 As CopyType, '' as Comp_Phone2,'' as Comp_Add3,'' as Comp_Add2,  InLtr.Conversion_factor As [ConversionInLtr],InCrate.Conversion_factor As [ConversionInCrate],InPouch.Conversion_factor As [ConversionInPouch],TSPL_SD_SHIPMENT_HEAD.Document_Date,
                         TSPL_SD_SHIPMENT_HEAD.DO_Item_Type as Is_Taxable,Case When TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' OR TSPL_SD_SHIPMENT_HEAD.Shift_Type='M' Then '[M]' Else '[E]' End As Shift,
                         TSPL_SD_SHIPMENT_DETAIL.*,TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt as Amount_with_Tax ,TSPL_SD_SHIPMENT_DETAIL.Qty as Booking_Qty,TSPL_COMPANY_MASTER.Access_Officer,
                         TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.HSN_Code,
                         case when coalesce(InLtr.Conversion_factor,0)=0 then 0 else convert(Decimal(18,2),  TSPL_SD_SHIPMENT_DETAIL.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/coalesce(InLtr.Conversion_factor,1)) end as QtyInLtr, 
+case when coalesce(InKG.Conversion_factor,0)=0 then 0 else convert(Decimal(18,2),  TSPL_SD_SHIPMENT_DETAIL.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/coalesce(InKG.Conversion_factor,1)) end as QtyInKG,
                         case when coalesce(InCrate.Conversion_factor,0)=0 then 0 else convert(Decimal(18,2),  TSPL_SD_SHIPMENT_DETAIL.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/coalesce(InCrate.Conversion_factor,1)) end as QtyInCrate,
                         case when coalesce(InPouch.Conversion_factor,0)=0 then 0 else convert(Decimal(18,2),  TSPL_SD_SHIPMENT_DETAIL.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/coalesce(InPouch.Conversion_factor,1)) end as QtyInPouch,
                         TSPL_SD_SHIPMENT_HEAD.FAT_Per,TSPL_SD_SHIPMENT_HEAD.SNF_Per,TSPL_SD_SHIPMENT_HEAD.Acidity,TSPL_SD_SHIPMENT_HEAD.Temperature,TSPL_SD_SHIPMENT_HEAD.MBRT_Hours, 
-                        TSPL_Route_Master.Route_Desc,TSPL_VEHICLE_MASTER.Vehicle_Id,case when TSPL_SD_SHIPMENT_HEAD.VehicleNo > ''  then  TSPL_SD_SHIPMENT_HEAD.VehicleNo else TSPL_VEHICLE_MASTER.Number  end As Vehicle_Number,
+                        TSPL_Route_Master.Route_Desc,TSPL_VEHICLE_MASTER.Vehicle_Id,case when Len(TSPL_SD_SHIPMENT_HEAD.VehicleNo) >0 then TSPL_SD_SHIPMENT_HEAD.VehicleNo else TSPL_VEHICLE_MASTER.Number  end As Vehicle_Number,
                         TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_CUSTOMER_MASTER.Add1 As Cust_Add1,TSPL_CUSTOMER_MASTER.Add2 As Cust_Add2,TSPL_CUSTOMER_MASTER.Add3 As Cust_Add3,TSPL_CUSTOMER_MASTER.PIN_Code As Cust_PINCode,
                         TSPL_CUSTOMER_MASTER.Phone1 As Cust_Phone1,TSPL_CUSTOMER_MASTER.Phone2 As Cust_Phone2,TSPL_CUSTOMER_MASTER.GSTNO,
                         TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Logo_Img As Comp_Logo1,TSPL_COMPANY_MASTER.Logo_Img2 As Comp_Logo2,TSPL_COMPANY_MASTER.Add1 As Comp_Add1,
 
 TSPL_COMPANY_MASTER.City_Code As Comp_City,TSPL_COMPANY_MASTER.State As Comp_State,TSPL_COMPANY_MASTER.GSTReg_No As Comp_GSTReg_No,TSPL_COMPANY_MASTER.Pan_No As Comp_PanNo,
                         TSPL_COMPANY_MASTER.Email As Comp_Email,TSPL_COMPANY_MASTER.Pincode As Comp_Pincode,TSPL_COMPANY_MASTER.Phone1 As Comp_Phone1,
-                        TSPL_STATE_MASTER.GST_STATE_Code As State_Code,TSPL_STATE_MASTER.STATE_NAME,TSPL_SD_SHIPMENT_HEAD.Route_No,supply_date,TSPL_SD_SHIPMENT_HEAD.sub_location_code as sublocation, TSPL_COMPANY_MASTER.Comp_Code1  
+                        TSPL_STATE_MASTER.GST_STATE_Code As State_Code,TSPL_STATE_MASTER.STATE_NAME,TSPL_SD_SHIPMENT_HEAD.Route_No,supply_date,TSPL_SD_SHIPMENT_HEAD.sub_location_code as sublocation, TSPL_COMPANY_MASTER.Comp_Code1,TSPL_ITEM_MASTER.Is_Ambient,TSPL_ITEM_MASTER.Is_FreshItem ,TSPL_ITEM_MASTER.IsTaxable ,
+						CASE WHEN (CASE WHEN Is_FreshItem = 1 THEN 1 ELSE 0 END) = 1
+     AND (CASE WHEN IsTaxable = 0 THEN 1 ELSE 0 END) = 1 THEN 1 ELSE 2 END as orderby1,CASE WHEN (CASE WHEN Is_Ambient = 1 THEN 1 ELSE 0 END) = 1
+     AND (CASE WHEN IsTaxable = 0 THEN 1 ELSE 0 END) = 1 THEN 1 ELSE 2 END as orderby2,CASE WHEN ((CASE WHEN Is_FreshItem = 1 OR Is_Ambient = 1 THEN 1 ELSE 2 END) = 1
+        ) AND ((CASE WHEN IsTaxable = 1 THEN 1 ELSE 0 END) = 1 ) THEN 1 ELSE 0 END AS orderby3,TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode As GatePass_Code
                         from  " & tbl_TSPL_SD_SHIPMENT_HEAD & "
                         Left Outer Join " & tbl_TSPL_SD_SHIPMENT_DETAIL & " On TSPL_SD_SHIPMENT_DETAIL.Document_Code=TSPL_SD_SHIPMENT_HEAD.Document_Code
+                        Left Outer Join " & tbl_TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL & " On TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID=TSPL_SD_SHIPMENT_DETAIL.PK_ID
                         Left Outer Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
                         left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_HEAD.Bill_To_Location 
                         Left Outer Join TSPL_Route_Master On TSPL_Route_Master.Route_No=TSPL_SD_SHIPMENT_HEAD.Route_No 
@@ -1943,20 +2020,39 @@ TSPL_COMPANY_MASTER.City_Code As Comp_City,TSPL_COMPANY_MASTER.State As Comp_Sta
                         Left Outer Join TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
                         left outer join TSPL_ITEM_UOM_DETAIL  on TSPL_ITEM_UOM_DETAIL.Item_Code =TSPL_ITEM_MASTER.Item_Code  and   TSPL_ITEM_UOM_DETAIL.UOM_Code =TSPL_SD_SHIPMENT_DETAIL.Unit_code
                         left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL  left outer join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.UNIT_CODE= TSPL_ITEM_UOM_DETAIL.UOM_CODE where TSPL_UNIT_MaSTER.LTR_TYPE='Y') as InLtr on InLtr.Item_code=TSPL_ITEM_MASTER.Item_Code  
+left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL   where TSPL_ITEM_UOM_DETAIL.UOM_Code='KG') as InKG on InKG.Item_code=TSPL_ITEM_MASTER.Item_Code
                         left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL 	  left outer join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.UNIT_CODE= TSPL_ITEM_UOM_DETAIL.UOM_CODE where TSPL_UNIT_MaSTER.Crate_type='Y') as InCrate on InCrate.Item_code=TSPL_ITEM_MASTER.Item_Code  
                         left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL left outer join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.UNIT_CODE= TSPL_ITEM_UOM_DETAIL.UOM_CODE where TSPL_UNIT_MaSTER.Packet_Type='Y' ) as InPouch on InPouch.Item_code=TSPL_ITEM_MASTER.Item_Code  
 						
-						left outer join (select Document_Code, STRING_AGG(Batch_No,CHAR(10)) as BatchNo , STRING_AGG(CAST(Qty AS INT), CHAR(10)) as Batch_Qty
+--						left outer join (select Document_Code, STRING_AGG(Batch_No,CHAR(10)) as BatchNo , STRING_AGG(CAST(Qty AS INT), CHAR(10)) as Batch_Qty
+--,Item_Code,UOM
+--                from(
+--SELECT TSPL_BATCH_ITEM.Document_Code, Batch_No, Qty, Parent_Line_No,Item_Code,UOM FROM TSPL_BATCH_ITEM WHERE TSPL_BATCH_ITEM.Document_Type='FS-SH'
+--)x group by Document_Code,Parent_Line_No,Item_Code,UOM         
+--)TabBatch
+--On TabBatch.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code And  TabBatch.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code  and TabBatch.UOM=TSPL_SD_SHIPMENT_DETAIL.Unit_code  
+                       
+                        Left outer join TSPL_COMPANY_MASTER on  TSPL_COMPANY_MASTER.Comp_Code1 = 'BKN'
+                    where TSPL_SD_SHIPMENT_HEAD.Document_Code in(Select DISTINCT(TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE) from " & tbl_TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL & " 
+left outer join " & tbl_TSPL_SD_SHIPMENT_DETAIL & " ON  TSPL_SD_SHIPMENT_DETAIL.PK_ID=TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID where GPCode='" & StrCode & "'))xxx
+                        Left OUTER JOIN (
+Select 1 As COL1, 1 As COL2,  'ORIGINAL COPY' as CopyType1  "
+        If Not clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+            Qry += "UNION Select 1 as COL1, 2 as COL2,  'DUPLICATE COPY' as CopyType1 
+UNION Select 1 as COL1, 3 as COL2,  'TRIPLICATE COPY' as CopyType1 
+UNION Select 1 as COL1, 4 as COL2,  'QUADRUPLICATE COPY' as CopyType1 "
+        End If
+        Qry += ") YYY ON YYY.COL1=XXX.CopyType
+left outer join (select Document_Code, STRING_AGG(Batch_No,CHAR(10)) as BatchNo , STRING_AGG(CAST(Qty AS INT), CHAR(10)) as Batch_Qty
 ,Item_Code,UOM
                 from(
 SELECT TSPL_BATCH_ITEM.Document_Code, Batch_No, Qty, Parent_Line_No,Item_Code,UOM FROM TSPL_BATCH_ITEM WHERE TSPL_BATCH_ITEM.Document_Type='FS-SH'
 )x group by Document_Code,Parent_Line_No,Item_Code,UOM         
 )TabBatch
-On TabBatch.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code And  TabBatch.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code  and TabBatch.UOM=TSPL_SD_SHIPMENT_DETAIL.Unit_code  
-                        Left outer join TSPL_COMPANY_MASTER on  TSPL_COMPANY_MASTER.Comp_Code1 = 'BKN'
-                    where TSPL_SD_SHIPMENT_HEAD.Document_Code in(Select DISTINCT(TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE) from " & tbl_TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL & " 
-left outer join " & tbl_TSPL_SD_SHIPMENT_DETAIL & " ON  TSPL_SD_SHIPMENT_DETAIL.PK_ID=TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID where GPCode='" & StrCode & "'))xxx
-                        Left OUTER JOIN (Select 1 As COL1, 1 As COL2,  'ORIGINAL COPY' as CopyType1 UNION Select 1 as COL1, 2 as COL2,  'DUPLICATE COPY' as CopyType1 UNION Select 1 as COL1, 3 as COL2,  'TRIPLICATE COPY' as CopyType1 UNION Select 1 as COL1, 4 as COL2,  'QUADRUPLICATE COPY' as CopyType1) YYY ON YYY.COL1=XXX.CopyType ORDER BY Line_No,YYY.COL2  "
+On TabBatch.Document_Code= XXX.Document_Code And TabBatch.Item_Code=XXX.Item_Code  and TabBatch.UOM=XXX.Unit_code
+left join(select Gpdate,Supply_Date from " & tbl_TSPL_DAIRYSALE_GATEPASS_MASTER & " where GPCode='" & StrCode & "') GP on GP.Supply_Date=xxx.Supply_Date
+group by XXX.Item_Code 
+ORDER BY max(YYY.COL2 ),max(orderby1) ,max(orderby2) ,max(orderby3),max(Item_Desc)    "
         Return Qry
     End Function
 
@@ -1973,6 +2069,8 @@ left outer join " & tbl_TSPL_SD_SHIPMENT_DETAIL & " ON  TSPL_SD_SHIPMENT_DETAIL.
         Dim tbl_TSPL_SD_SHIPMENT_HEAD As String = Nothing
         Dim tbl_TSPL_BOOKING_MATSER As String = Nothing
         Dim tbl_TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL As String = Nothing
+        Dim tbl_TSPL_SD_SHIPMENT_BOOKING_DETAIL As String = Nothing
+
         If isCancel Then
             tbl_TSPL_DAIRYSALE_GATEPASS_DETAIL = " TSPL_DAIRYSALE_GATEPASS_DETAIL_Cancel_Data As TSPL_DAIRYSALE_GATEPASS_Detail "
             tbl_TSPL_DAIRYSALE_GATEPASS_MASTER = " TSPL_DAIRYSALE_GATEPASS_MASTER_Cancel_Data As TSPL_DAIRYSALE_GATEPASS_MASTER "
@@ -1980,6 +2078,7 @@ left outer join " & tbl_TSPL_SD_SHIPMENT_DETAIL & " ON  TSPL_SD_SHIPMENT_DETAIL.
             tbl_TSPL_SD_SHIPMENT_HEAD = " TSPL_SD_SHIPMENT_HEAD_Cancel_Data As TSPL_SD_SHIPMENT_HEAD "
             tbl_TSPL_BOOKING_MATSER = " TSPL_BOOKING_MATSER_Cancel_Data As TSPL_BOOKING_MATSER "
             tbl_TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL = " TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL_Cancel_Data As TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL"
+            tbl_TSPL_SD_SHIPMENT_BOOKING_DETAIL = " TSPL_SD_SHIPMENT_BOOKING_DETAIL_Cancel_Data As TSPL_SD_SHIPMENT_BOOKING_DETAIL"
         Else
             tbl_TSPL_DAIRYSALE_GATEPASS_DETAIL = " TSPL_DAIRYSALE_GATEPASS_Detail "
             tbl_TSPL_DAIRYSALE_GATEPASS_MASTER = " TSPL_DAIRYSALE_GATEPASS_MASTER "
@@ -1987,6 +2086,7 @@ left outer join " & tbl_TSPL_SD_SHIPMENT_DETAIL & " ON  TSPL_SD_SHIPMENT_DETAIL.
             tbl_TSPL_SD_SHIPMENT_HEAD = "  TSPL_SD_SHIPMENT_HEAD "
             tbl_TSPL_BOOKING_MATSER = " TSPL_BOOKING_MATSER "
             tbl_TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL = " TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL"
+            tbl_TSPL_SD_SHIPMENT_BOOKING_DETAIL = "  TSPL_SD_SHIPMENT_BOOKING_DETAIL"
         End If
 
 
@@ -2100,7 +2200,7 @@ MAX(TAX6)TAX6,MAX(TAX6_Amt)TAX6_Amt,
 MAX(TAX7)TAX7,MAX(TAX7_Amt)TAX7_Amt,
 MAX(TAX8)TAX8,MAX(TAX8_Amt)TAX8_Amt "
         End If
-        Qry += " ,max(Conver_Factr)Conver_Factr,max(Bulk_UOM_Code)Bulk_UOM_Code FROM
+        Qry += " ,max(Conver_Factr)Conver_Factr,max(Bulk_UOM_Code)Bulk_UOM_Code,MAX(Sale_Invoice_No)Sale_Invoice_No,MAX(Booth)Booth,MAX(Sub_Route_Code)Sub_Route_Code,MAX(Sub_Route_Name)Sub_Route_Name  FROM
                    ( select   Bulk_UOM.UOM_Code as Bulk_UOM_Code,Bulk_UOM.Conversion_Factor AS Conver_Factr,FORMAT( TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date, 'dd/MM/yyyy' ) as Supply_Date,tspl_item_uom_detail.Conversion_Factor As PrintUOMConv,"
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
             Qry += "NoCrateIssue, Demand_UniqueID, "
@@ -2110,7 +2210,7 @@ MAX(TAX8)TAX8,MAX(TAX8_Amt)TAX8_Amt "
         Else
             Qry += " ItemConversionCrate.Conversion_Factor as Conversion_FactorCrt , "
         End If
-        Qry += " TSPL_DAIRYSALE_GATEPASS_MASTER.DistributorName As 'Distributor',Concat(DistOrCreditCustomer.Add1 ,DistOrCreditCustomer.Add2) As 'DistAddress', ItemConversionInPouch.Conversion_Factor As 'CFinPouch', ItemConversionInLTR.Conversion_Factor AS 'CFinLTR', ItemConversionInKG.Conversion_Factor AS 'CFinKG', ItemConversionInBox.Conversion_Factor AS 'CFinBOX',"
+        Qry += " TSPL_DAIRYSALE_GATEPASS_MASTER.DistributorName As 'Distributor',DistAddress, ItemConversionInPouch.Conversion_Factor As 'CFinPouch', ItemConversionInLTR.Conversion_Factor AS 'CFinLTR', ItemConversionInKG.Conversion_Factor AS 'CFinKG', ItemConversionInBox.Conversion_Factor AS 'CFinBOX',"
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
             Qry += " ItemConversionInPrintUOM.Conversion_Factor as CFinPrintUOM,"
         End If
@@ -2131,7 +2231,7 @@ xyz.Sale_Invoice_No, "
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
             Qry += " xyz.ActualRate, "
         End If
-        Qry += "case when TSPL_DAIRYSALE_GATEPASS_DETAIL.Scheme_Item = 'Y' then 0 else xyz.Total_TCS_Amt end as Total_TCS_Amt,xyz.Zone_Code as Zonecode" + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ", xyz.ItemCost", "") + ",TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_Name,TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_ContactNo from " & tbl_TSPL_DAIRYSALE_GATEPASS_DETAIL & " " &
+        Qry += "case when TSPL_DAIRYSALE_GATEPASS_DETAIL.Scheme_Item = 'Y' then 0 else xyz.Total_TCS_Amt end as Total_TCS_Amt,xyz.Zone_Code as Zonecode" + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ", xyz.ItemCost", "") + ",TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_Name,TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_ContactNo,xyz.Sale_Invoice_No,xyz.Booth,xyz.Sub_Route_Code,xyz.Sub_Route_Name  from " & tbl_TSPL_DAIRYSALE_GATEPASS_DETAIL & " " &
                    " left outer join " & tbl_TSPL_DAIRYSALE_GATEPASS_MASTER & "  on TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode=TSPL_DAIRYSALE_GATEPASS_DETAIL.GPCode " &
                    " left outer join tspl_vehicle_master on tspl_vehicle_master.Vehicle_id=TSPL_DAIRYSALE_GATEPASS_MASTER.vehicle_id " &
                    " left outer join tspl_location_master on tspl_location_master.location_code=TSPL_DAIRYSALE_GATEPASS_MASTER.location_code " &
@@ -2139,10 +2239,6 @@ xyz.Sale_Invoice_No, "
                    " left outer join tspl_item_master on tspl_item_master.item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_code " &
                    " left outer join  TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_VEHICLE_MASTER.Transport_Id " &
                    " left outer join  tspl_route_master on tspl_route_master.Route_No=TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No " &
-                   " Left Outer Join " & tbl_TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL & " On TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode=TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode And TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.item_Code=tspl_item_master.item_code And TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.Unit_Code=tspl_item_master.unit_code
-Left Join " & tbl_TSPL_SD_SHIPMENT_DETAIL & " On TSPL_SD_SHIPMENT_DETAIL.PK_ID=TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID
-Left Outer Join " & tbl_TSPL_SD_SHIPMENT_HEAD & " On TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.Document_Code
-Left Outer Join TSPL_CUSTOMER_MASTER As DistOrCreditCustomer On  DistOrCreditCustomer.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code" &
              " left join tspl_item_uom_detail StockUnit on StockUnit.item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.item_code	and StockUnit.stocking_unit='Y'  " &
                    " left join tspl_item_uom_detail CurrentUnit on CurrentUnit.item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.item_code and 	CurrentUnit.uom_code=	TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code " &
                    " left join tspl_item_uom_detail CrateUnit on CrateUnit.item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.item_code  and 	CrateUnit.uom_code=	'Crate' " &
@@ -2196,7 +2292,7 @@ Left Outer Join TSPL_CUSTOMER_MASTER As DistOrCreditCustomer On  DistOrCreditCus
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
             Qry += "max(NoCrateIssue)NoCrateIssue,"
         End If
-        Qry += " max(Zone_Code)Zone_Code " + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ", max(TSPL_SD_SHIPMENT_DETAIL.Item_Cost) as ItemCost", "") + " from " & tbl_TSPL_SD_SHIPMENT_DETAIL & "   
+        Qry += " max(TSPL_CUSTOMER_MASTER.Zone_Code)Zone_Code " + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ", max(TSPL_SD_SHIPMENT_DETAIL.Item_Cost) as ItemCost", "") + ",Max(Concat(TSPL_CUSTOMER_MASTER.Add1,TSPL_CUSTOMER_MASTER.Add2)) As 'DistAddress',Max(TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No) As Sale_Invoice_No,MAX(TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code) As Booth,MAX(TSPL_CUSTOMER_MASTER_SUB_Route.Sub_Route_Code)Sub_Route_Code,Max(TSPL_SUB_ROUTE_MASTER.Name) As Sub_Route_Name  from " & tbl_TSPL_SD_SHIPMENT_DETAIL & "   
  
                      Left Outer Join " & tbl_TSPL_SD_SHIPMENT_HEAD & " ON TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE "
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
@@ -2204,6 +2300,9 @@ Left Outer Join TSPL_CUSTOMER_MASTER As DistOrCreditCustomer On  DistOrCreditCus
 
         End If
         Qry += " Left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+Left Outer Join " & tbl_TSPL_SD_SHIPMENT_BOOKING_DETAIL & " On TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code And TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code= TSPL_SD_SHIPMENT_DETAIL.Item_Code
+Left Outer Join TSPL_CUSTOMER_MASTER As TSPL_CUSTOMER_MASTER_SUB_Route On TSPL_CUSTOMER_MASTER_SUB_Route.Cust_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code
+Left Outer Join TSPL_SUB_ROUTE_MASTER On TSPL_SUB_ROUTE_MASTER.Code=TSPL_CUSTOMER_MASTER_SUB_Route.Sub_Route_Code
                      WHERE  --TSPL_SD_SHIPMENT_HEAD.GPCode = '" + StrCode + "'
                       TSPL_SD_SHIPMENT_DETAIL.PK_ID in(select PK_ID from " & tbl_TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL & " where GPCode = '" + StrCode + "')
                      Group By  TSPL_SD_SHIPMENT_DETAIL.Item_Code "
@@ -2406,7 +2505,7 @@ Left Outer Join TSPL_CUSTOMER_MASTER As DistOrCreditCustomer On  DistOrCreditCus
 
                 If dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                         filePath = frmCRV.funreport(MyBase.Form_ID, isfilePath, CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntriesGNG", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal Then
                         filePath = frmCRV.funreport(MyBase.Form_ID, isfilePath, CrystalReportFolder.KwalitySalesReport, dt, "crptDairyGatePassJSL", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
@@ -2430,6 +2529,8 @@ Left Outer Join TSPL_CUSTOMER_MASTER As DistOrCreditCustomer On  DistOrCreditCus
                         filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isfilePath, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptDairySaleGatePassEntriesKTA", "Gate Pass", clsCommon.myCDate(dt.Rows(0)("GPDate")), "rptCompanyAddress.rpt")
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
                         filePath = filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isfilePath, CrystalReportFolder.KwalitySalesReport, dt, Nothing, "crptDairySaleGatepassBKN", "Gate Pass", "", "rptCompanyAddress.rpt")
+                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
+                        filePath = filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isfilePath, CrystalReportFolder.KwalitySalesReport, dt, Nothing, "crptDairySaleGatePassEntriesNAG", "Gate Pass", "", "rptCompanyAddress.rpt")
 
                     Else
                         filePath = frmCRV.funreport(MyBase.Form_ID, isfilePath, CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntries", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
@@ -3945,6 +4046,15 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE in (select document_Code fro
             End If
         Catch ex As Exception
 
+        End Try
+    End Sub
+
+
+    Private Sub txtDate_Validating(sender As Object, e As ComponentModel.CancelEventArgs) Handles txtDate.Validating
+        Try
+            CheckTimeShift()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

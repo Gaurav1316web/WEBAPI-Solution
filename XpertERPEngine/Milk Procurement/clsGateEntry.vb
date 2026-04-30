@@ -33,6 +33,7 @@ Public Class clsGateEntry
     Public Challan_No As String = String.Empty
     Public Challan_Date As Date = Nothing
     Public Tanker_No As String = String.Empty
+    Public Trip_No As Integer
     Public isPosted As Integer = 0
     Public Posting_Date As Date = Nothing
     Public Dispatched_From_Mcc As String = String.Empty
@@ -110,6 +111,7 @@ Public Class clsGateEntry
             clsCommon.AddColumnsForChange(coll, "Challan_No", obj.Challan_No)
             clsCommon.AddColumnsForChange(coll, "Challan_Date", clsCommon.GetPrintDate(obj.Challan_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Tanker_No", obj.Tanker_No)
+            clsCommon.AddColumnsForChange(coll, "Trip_No", obj.Trip_No)
             clsCommon.AddColumnsForChange(coll, "isPosted", obj.isPosted)
             clsCommon.AddColumnsForChange(coll, "Against_Gate_Out", obj.Against_Gate_Out, True)
             clsCommon.AddColumnsForChange(coll, "IsAgainstGateOut", obj.IsAgainstGateOut)
@@ -642,6 +644,7 @@ Public Class clsGateEntry
                 obj.IsAgainstJobWork = clsCommon.myCdbl(dt.Rows(0)("IsAgainstJobWork"))
                 obj.Sublocation_Code = clsCommon.myCstr(dt.Rows(0)("Sublocation_Code"))
                 obj.Gate_Entry_No = clsCommon.myCstr(dt.Rows(0)("Gate_Entry_No"))
+                obj.Trip_No = clsCommon.myCdbl(dt.Rows(0)("Trip_No"))
                 obj.Reference_No = clsCommon.myCstr(dt.Rows(0)("Reference_No"))
                 obj.Doc_Type = clsCommon.myCstr(dt.Rows(0)("Doc_Type"))
                 obj.Date_And_Time = clsCommon.myCDate(dt.Rows(0)("Date_And_Time"))

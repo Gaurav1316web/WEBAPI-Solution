@@ -867,6 +867,10 @@ Public Class clsDemandBookingSale
         If (clsCommon.myLen(strCode) <= 0) Then
             Throw New Exception("Document No not found to Delete")
         End If
+        Dim isPosted As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Posted from  TSPL_DEMAND_BOOKING_MASTER where Document_No='" & strCode & "'"))
+        If isPosted = 1 Then
+            Throw New Exception("Demand cannot be deleted because its Posted.")
+        End If
         If clsCommon.myLen(clsCommon.myCstr(strCode)) > 0 Then
             Dim strDocNoForGatePassOrTrucksheetGeneratedMorning As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Document_No  from TSPL_DEMAND_BOOKING_DETAIL where document_No='" & strCode & "' and (IsGatePassGenerated='Y' or IsTruckSheetGenerated ='Y') and ShiftType='Evening' "))
             Dim strDocNoForGatePassOrTrucksheetGeneratedEvening As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Document_No  from TSPL_DEMAND_BOOKING_DETAIL where document_No='" & strCode & "' and (IsGatePassGenerated='Y' or IsTruckSheetGenerated ='Y') and ShiftType='Morning' "))

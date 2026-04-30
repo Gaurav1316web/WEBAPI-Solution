@@ -4,6 +4,9 @@ Imports System.Windows.Forms
 Imports Telerik.WinControls
 Public Class clsPSShipmentHead
 #Region "Variables"
+    Public MobileNO As String = Nothing
+    Public AdharNo As String = Nothing
+
     Public ActualTCSBaseAmount As Double = 0
     Public ChangedTCSBaseAmount As Double = 0
     Public IsSampling As Integer = 0
@@ -247,6 +250,8 @@ Public Class clsPSShipmentHead
     Public Transporter_Commission_TotalAmt As Decimal = 0
     Public Security_TotalAmt As Decimal = 0
     Public BoothSecurity_TotalAmt As Decimal = 0
+    Public Gross_Amount As Double = 0
+    Public TotalSubsidyAmt As Double = 0
     Public IsCreditCustomer As Boolean = False
     Public ParentDocNo As String = ""
     Public Vehicle_Type As String = ""
@@ -464,17 +469,17 @@ Public Class clsPSShipmentHead
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             '' Cancel E-Way Bill --------------------------------------
 
-            Dim ewbno As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select EWayBillNo from tspl_sd_sale_invoice_head where Document_Code='" & InvoiceNo & "' and Ewb_cancelDate is null ", trans))
-                If clsCommon.myLen(ewbno) > 0 Then
-                    Dim objResut As Object = ClsEInvoiceOFAPIs.CancelEWayBill(objCommonVar.CurrentCompanyCode, ewbno, "Order Cancelled", obj.Bill_To_Location, trans)
-                    If objResut Is Nothing Then
-                        Throw New Exception("e-way bill cancellation failed!")
-                    Else
-                        Dim CancelDate As String = objResut.SelectToken("data.cancelDate").ToString
-                        Dim strUpdateQry As String = "update tspl_sd_sale_invoice_head set Ewb_cancelDate='" & clsCommon.myCstr(CancelDate) & "' where EWayBillNo='" & clsCommon.myCstr(ewbno) & "'"
-                        clsDBFuncationality.ExecuteNonQuery(strUpdateQry, trans)
-                    End If
-                End If
+            'Dim ewbno As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select EWayBillNo from tspl_sd_sale_invoice_head where Document_Code='" & InvoiceNo & "' and Ewb_cancelDate is null ", trans))
+            '    If clsCommon.myLen(ewbno) > 0 Then
+            '        Dim objResut As Object = ClsEInvoiceOFAPIs.CancelEWayBill(objCommonVar.CurrentCompanyCode, ewbno, "Order Cancelled", obj.Bill_To_Location, trans)
+            '        If objResut Is Nothing Then
+            '            Throw New Exception("e-way bill cancellation failed!")
+            '        Else
+            '            Dim CancelDate As String = objResut.SelectToken("data.cancelDate").ToString
+            '            Dim strUpdateQry As String = "update tspl_sd_sale_invoice_head set Ewb_cancelDate='" & clsCommon.myCstr(CancelDate) & "' where EWayBillNo='" & clsCommon.myCstr(ewbno) & "'"
+            '            clsDBFuncationality.ExecuteNonQuery(strUpdateQry, trans)
+            '        End If
+            '    End If
 
             '' Cancel E-Invoice ----------------------------- 
             Dim strIrnNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select IRN_No from tspl_sd_sale_invoice_head where Document_Code='" & InvoiceNo & "'", trans))
@@ -631,7 +636,7 @@ Public Class clsPSShipmentHead
                     Dim strcount As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT count(Item_Code) FROM TSPL_LOCATION_WISE_ITEM_MASTER where Location_Code='" & clsCommon.myCstr(obj.Bill_To_Location) & "' and Item_Category='" & strItemCategory & "' and Item_Code='" & stritemcode & "'", trans))
                     If strcount > 0 Then
                         obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmShipmentProductSale, clsDocTransactionType.TaxExempted_ProductInvoice, obj.Bill_To_Location)
-                        obj.Invoice_Type = "A"
+                        'obj.Invoice_Type = "A"
                     Else
                         obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmShipmentProductSale, clsDocTransactionType.Other, obj.Bill_To_Location)
                     End If
@@ -720,6 +725,9 @@ Public Class clsPSShipmentHead
             clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
             clsCommon.AddColumnsForChange(coll, "Inv_No", obj.Inv_No)
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
+            clsCommon.AddColumnsForChange(coll, "MobileNO", obj.MobileNO)
+            clsCommon.AddColumnsForChange(coll, "AdharNo", obj.AdharNo)
+
             clsCommon.AddColumnsForChange(coll, "Bill_To_Location", obj.Bill_To_Location)
             clsCommon.AddColumnsForChange(coll, "Ship_To_Location", obj.Ship_To_Location, True)
             clsCommon.AddColumnsForChange(coll, "Ship_To_Party", obj.Ship_To_Party, True)
@@ -770,6 +778,7 @@ Public Class clsPSShipmentHead
             clsCommon.AddColumnsForChange(coll, "Discount_Amt", obj.Discount_Amt)
             clsCommon.AddColumnsForChange(coll, "Amount_Less_Discount", obj.Amount_Less_Discount)
             clsCommon.AddColumnsForChange(coll, "Total_Amt", obj.Total_Amt)
+            clsCommon.AddColumnsForChange(coll, "Gross_Amount", obj.Gross_Amount)
             clsCommon.AddColumnsForChange(coll, "Comments", obj.Comments)
             clsCommon.AddColumnsForChange(coll, "PROJECT_ID", obj.PROJECT_ID, True)
             clsCommon.AddColumnsForChange(coll, "ActualTCSBaseAmount", obj.ActualTCSBaseAmount)
@@ -2564,6 +2573,13 @@ Public Class clsPSShipmentHead
         obj.Discount_Amt = objShipment.Discount_Amt
         obj.Amount_Less_Discount = objShipment.Amount_Less_Discount
         obj.Total_Amt = objShipment.Total_Amt
+        obj.Gross_Amount = objShipment.Gross_Amount
+        Dim DeductTPTFromDocAmt As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DeductTPTFromDocAmt, clsFixedParameterCode.DeductTPTFromDocAmt, trans)) = 1, True, False)
+        If DeductTPTFromDocAmt Then
+            obj.TotalSubsidyAmt = objShipment.Transporter_Commission_TotalAmt
+        Else
+            obj.TotalSubsidyAmt = objShipment.TotalSubsidyAmt
+        End If
         obj.Comments = objShipment.Comments
         obj.Comp_Code = objShipment.Comp_Code
         obj.Terms_Code = objShipment.Terms_Code
