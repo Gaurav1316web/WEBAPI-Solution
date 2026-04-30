@@ -82,6 +82,10 @@ Public Class ClsInvoiceBulkSale
     Public Add_Charge_Amt10 As Double = 0
     Public Total_Add_Charge As Double = 0
     Public Document_Amount As Double = 0
+    Public OpeningBal As String = ""
+    Public DrAmt As String = ""
+    Public CrAmt As String = ""
+    Public ClosingBal As String = ""
 
 #End Region
 
@@ -439,7 +443,7 @@ Public Class ClsInvoiceBulkSale
         'End If
         Dim obj As ClsInvoiceBulkSale = Nothing
         'Dim Arr As List(Of ClsInvoiceBulkSale) = Nothing
-        Dim qry As String = "Select TSPL_INVOICE_MASTER_BULKSAlE.ChangedTCSBaseAmount,TSPL_INVOICE_MASTER_BULKSAlE.ActualTCSBaseAmount,TSPL_INVOICE_MASTER_BULKSAlE.EWayBillDate,TSPL_INVOICE_MASTER_BULKSAlE.EWayBillNo,TSPL_INVOICE_MASTER_BULKSAlE.Electronic_Ref_No,TSPL_INVOICE_MASTER_BULKSAlE.Document_No,isnull(TSPL_INVOICE_MASTER_BULKSAlE.To_date,GetDate()) as To_date,isnull(TSPL_INVOICE_MASTER_BULKSAlE.From_date,DATEADD(MONTH,-1,GETDATE())) as From_date,TSPL_INVOICE_MASTER_BULKSAlE.Document_Date,TSPL_INVOICE_MASTER_BULKSAlE.Location_Code,TSPL_INVOICE_MASTER_BULKSAlE.Customer_Code,TSPL_INVOICE_MASTER_BULKSAlE.Total_Amt,TSPL_INVOICE_MASTER_BULKSAlE.Posted,TSPL_INVOICE_MASTER_BULKSAlE.RoundOffAmount,TSPL_INVOICE_MASTER_BULKSAlE.InvoiceAgainst,TSPL_INVOICE_MASTER_BULKSAlE.comments,TSPL_INVOICE_MASTER_BULKSAlE.Tax_Group,TSPL_INVOICE_MASTER_BULKSAlE.TAX1,TSPL_INVOICE_MASTER_BULKSAlE.TAX1_Rate,TSPL_INVOICE_MASTER_BULKSAlE.TAX1_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX1_Base_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX2,TSPL_INVOICE_MASTER_BULKSAlE.TAX2_Rate,TSPL_INVOICE_MASTER_BULKSAlE.TAX2_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX2_Base_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX3,TSPL_INVOICE_MASTER_BULKSAlE.TAX3_Rate,TSPL_INVOICE_MASTER_BULKSAlE.TAX3_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX3_Base_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX4,TSPL_INVOICE_MASTER_BULKSAlE.TAX4_Rate,TSPL_INVOICE_MASTER_BULKSAlE.TAX4_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX4_Base_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX5,TSPL_INVOICE_MASTER_BULKSAlE.TAX5_Rate,TSPL_INVOICE_MASTER_BULKSAlE.TAX5_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX5_Base_Amt,TSPL_INVOICE_MASTER_BULKSAlE.Total_Tax_Amt,TSPL_INVOICE_MASTER_BULKSAlE.Document_Amount,TSPL_INVOICE_MASTER_BULKSAlE.Tax_Calculation_Type,Add_Charge_Code1,Add_Charge_Name1,Add_Charge_Amt1,Add_Charge_Code2,Add_Charge_Name2,Add_Charge_Amt2,Add_Charge_Code3,Add_Charge_Name3,Add_Charge_Amt3,Add_Charge_Code4,Add_Charge_Name4,Add_Charge_Amt4,Add_Charge_Code5,Add_Charge_Name5,Add_Charge_Amt5,Add_Charge_Code6,Add_Charge_Name6,Add_Charge_Amt6,Add_Charge_Code7,Add_Charge_Name7,Add_Charge_Amt7,Add_Charge_Code8,Add_Charge_Name8,Add_Charge_Amt8,Add_Charge_Code9,Add_Charge_Name9,Add_Charge_Amt9,Add_Charge_Code10,Add_Charge_Name10,Add_Charge_Amt10,Total_Add_Charge from TSPL_INVOICE_MASTER_BULKSAlE where 2=2  "
+        Dim qry As String = "Select TSPL_INVOICE_MASTER_BULKSAlE.ChangedTCSBaseAmount,TSPL_INVOICE_MASTER_BULKSAlE.ActualTCSBaseAmount,TSPL_INVOICE_MASTER_BULKSAlE.EWayBillDate,TSPL_INVOICE_MASTER_BULKSAlE.EWayBillNo,TSPL_INVOICE_MASTER_BULKSAlE.Electronic_Ref_No,TSPL_INVOICE_MASTER_BULKSAlE.Document_No,isnull(TSPL_INVOICE_MASTER_BULKSAlE.To_date,GetDate()) as To_date,isnull(TSPL_INVOICE_MASTER_BULKSAlE.From_date,DATEADD(MONTH,-1,GETDATE())) as From_date,TSPL_INVOICE_MASTER_BULKSAlE.Document_Date,TSPL_INVOICE_MASTER_BULKSAlE.Location_Code,TSPL_INVOICE_MASTER_BULKSAlE.Customer_Code,TSPL_INVOICE_MASTER_BULKSAlE.Total_Amt,TSPL_INVOICE_MASTER_BULKSAlE.Posted,TSPL_INVOICE_MASTER_BULKSAlE.RoundOffAmount,TSPL_INVOICE_MASTER_BULKSAlE.InvoiceAgainst,TSPL_INVOICE_MASTER_BULKSAlE.comments,TSPL_INVOICE_MASTER_BULKSAlE.Tax_Group,TSPL_INVOICE_MASTER_BULKSAlE.TAX1,TSPL_INVOICE_MASTER_BULKSAlE.TAX1_Rate,TSPL_INVOICE_MASTER_BULKSAlE.TAX1_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX1_Base_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX2,TSPL_INVOICE_MASTER_BULKSAlE.TAX2_Rate,TSPL_INVOICE_MASTER_BULKSAlE.TAX2_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX2_Base_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX3,TSPL_INVOICE_MASTER_BULKSAlE.TAX3_Rate,TSPL_INVOICE_MASTER_BULKSAlE.TAX3_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX3_Base_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX4,TSPL_INVOICE_MASTER_BULKSAlE.TAX4_Rate,TSPL_INVOICE_MASTER_BULKSAlE.TAX4_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX4_Base_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX5,TSPL_INVOICE_MASTER_BULKSAlE.TAX5_Rate,TSPL_INVOICE_MASTER_BULKSAlE.TAX5_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX5_Base_Amt,TSPL_INVOICE_MASTER_BULKSAlE.Total_Tax_Amt,TSPL_INVOICE_MASTER_BULKSAlE.Document_Amount,TSPL_INVOICE_MASTER_BULKSAlE.OpeningBal,TSPL_INVOICE_MASTER_BULKSAlE.DrAmt,TSPL_INVOICE_MASTER_BULKSAlE.CrAmt,TSPL_INVOICE_MASTER_BULKSAlE.ClosingBal,TSPL_INVOICE_MASTER_BULKSAlE.Tax_Calculation_Type,Add_Charge_Code1,Add_Charge_Name1,Add_Charge_Amt1,Add_Charge_Code2,Add_Charge_Name2,Add_Charge_Amt2,Add_Charge_Code3,Add_Charge_Name3,Add_Charge_Amt3,Add_Charge_Code4,Add_Charge_Name4,Add_Charge_Amt4,Add_Charge_Code5,Add_Charge_Name5,Add_Charge_Amt5,Add_Charge_Code6,Add_Charge_Name6,Add_Charge_Amt6,Add_Charge_Code7,Add_Charge_Name7,Add_Charge_Amt7,Add_Charge_Code8,Add_Charge_Name8,Add_Charge_Amt8,Add_Charge_Code9,Add_Charge_Name9,Add_Charge_Amt9,Add_Charge_Code10,Add_Charge_Name10,Add_Charge_Amt10,Total_Add_Charge from TSPL_INVOICE_MASTER_BULKSAlE where 2=2  "
         If clsCommon.myLen(arrLoc) > 0 Then
             qry += " and TSPL_INVOICE_MASTER_BULKSAlE.Location_Code in (" & arrLoc & ") "
         End If
@@ -484,6 +488,10 @@ Public Class ClsInvoiceBulkSale
             If dt.Rows(0)("EWayBillDate") IsNot DBNull.Value Then
                 obj.EWayBillDate = clsCommon.myCDate(dt.Rows(0)("EWayBillDate"))
             End If
+            obj.OpeningBal = clsCommon.myCstr(dt.Rows(0)("OpeningBal"))
+            obj.DrAmt = clsCommon.myCstr(dt.Rows(0)("DrAmt"))
+            obj.CrAmt = clsCommon.myCstr(dt.Rows(0)("CrAmt"))
+            obj.ClosingBal = clsCommon.myCstr(dt.Rows(0)("ClosingBal"))
             obj.Tax_Calculation_Type = IIf(clsCommon.myCdbl(dt.Rows(0)("Tax_Calculation_Type")) = 0, EnumTaxCalucationType.Automatic, EnumTaxCalucationType.Mannual)
             obj.Tax_Group = clsCommon.myCstr(dt.Rows(0)("Tax_Group"))
             obj.TAX1 = clsCommon.myCstr(dt.Rows(0)("TAX1"))
@@ -605,10 +613,14 @@ Public Class ClsInvoiceBulkSale
 
             createARInvoice(obj, "", "", trans)
 
+            GetOpeningClosingAndReceivedAmt(obj.Customer_Code, obj.Document_Date, obj, trans)
+
             Dim qry = "Update TSPL_INVOICE_MASTER_BULKSAlE set Posted=1, " &
-            "Posting_Date='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") & "' " &
+            "Posting_Date='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") & "' , OpeningBal='" & clsCommon.myCstr(obj.OpeningBal) & "',DrAmt='" & clsCommon.myCstr(obj.DrAmt) & "', CrAmt='" & clsCommon.myCstr(obj.CrAmt) & "', ClosingBal='" & clsCommon.myCstr(obj.ClosingBal) & "',Modified_By='" & objCommonVar.CurrentUserCode & "', " &
+                     "Modified_Date='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") & "' " &
             " where Document_No='" & strDocNo & "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_INVOICE_MASTER_BULKSAlE", "Document_No", trans)
             Return True
         Catch ex As Exception
@@ -616,6 +628,47 @@ Public Class ClsInvoiceBulkSale
         End Try
 
     End Function
+    Public Shared Sub GetOpeningClosingAndReceivedAmt(ByVal CustCode As String, ByVal docDate As DateTime, ByVal obj As ClsInvoiceBulkSale, ByVal trans As SqlTransaction)
+        Try
+            Dim OpeningBal As Decimal = 0
+            Dim DrAmt As Decimal = 0
+            Dim CrAmt As Decimal = 0
+            Dim ClosingBal As Decimal = 0
+            Dim isSkipBal As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select is_Skip_Balance from tspl_customer_Master where Cust_Code='" & CustCode & "'", trans))
+            If isSkipBal = 0 Then
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable("EXEC SP_GetBalCustWise @Cust_Code = '" + clsCommon.myCstr(CustCode) + "',@DocDate='" + clsCommon.GetPrintDate(docDate, "dd/MMM/yyyy HH:mm:ss") + "'", trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    OpeningBal = dt.Rows(0)("OpngBal")
+                    DrAmt = dt.Rows(0)("DrAmt")
+                    CrAmt = dt.Rows(0)("CrAmt")
+                    ClosingBal = dt.Rows(0)("BalAmt")
+                End If
+                If OpeningBal > 0 Then
+                    obj.OpeningBal = clsCommon.myCstr(OpeningBal) & " DR"
+                Else
+                    obj.OpeningBal = clsCommon.myCstr(OpeningBal) & " CR"
+                End If
+                If DrAmt > 0 Then
+                    obj.DrAmt = clsCommon.myCstr(DrAmt) & " DR"
+                Else
+                    obj.DrAmt = clsCommon.myCstr(DrAmt) & " CR"
+                End If
+                If CrAmt > 0 Then
+                    obj.CrAmt = clsCommon.myCstr(CrAmt) & " CR"
+                Else
+                    obj.CrAmt = clsCommon.myCstr(CrAmt) & " DR"
+                End If
+                If ClosingBal > 0 Then
+                    obj.ClosingBal = clsCommon.myCstr(ClosingBal) & " DR"
+                Else
+                    obj.ClosingBal = clsCommon.myCstr(ClosingBal) & " CR"
+                End If
+
+            End If
+        Catch ex As Exception
+
+        End Try
+    End Sub
 
     Public Shared Function createARInvoice(ByVal obj As ClsInvoiceBulkSale, ByVal strARNoForRecreate As String, ByVal strVoucherForRecreate As String, ByVal trans As SqlTransaction) As Boolean
         ''''''''''''''''''''''''''''''''''For Making AR Invoice

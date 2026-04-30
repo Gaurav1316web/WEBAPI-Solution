@@ -2385,7 +2385,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmSaleReturnFreshSale, "Fresh Sale Return", "1.27.02.07", clsUserMgtCode.SubModuleFreshSaleTransaction, "", 8, 0, "", "", "", True, True, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.FrmGatePassFS, "Fresh GatePass Entry", "1.27.02.08", clsUserMgtCode.SubModuleFreshSaleTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.FrmShortCloseDO, "Short Close DO", "1.27.02.09", clsUserMgtCode.SubModuleFreshSaleTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.frmCrateReceviedDairySale, "Crate Received Box", "1.27.02.10", clsUserMgtCode.SubModuleFreshSaleTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmCrateReceviedBox, "Crate Received Box", "1.27.02.10", clsUserMgtCode.SubModuleFreshSaleTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.FrmInvoiceCrateLinerDetail, "Invoice Crate Liner Detail", "1.27.02.11", clsUserMgtCode.SubModuleFreshSaleTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmsaleReturnGateEntryFS, "Sale Return Gate Entry Fresh Sale", "1.27.02.12", clsUserMgtCode.SubModuleFreshSaleTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmSubsidyCreditNote, "Create Subsidy Credit Note", "1.27.02.13", clsUserMgtCode.SubModuleFreshSaleTransaction, 8)
