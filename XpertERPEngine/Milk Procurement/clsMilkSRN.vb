@@ -1174,9 +1174,14 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strSRNNo + "'"
         & ",TSPL_VENDOR_MASTER.Actual_charges5,TSPL_VENDOR_MASTER.Service_Charge_Per_Unit,TSPL_VENDOR_MASTER.TIP_Buffalo,TSPL_VENDOR_MASTER.TIP_Cow,TSPL_VENDOR_MASTER.TIP_Mix,TSPL_VENDOR_MASTER.DistanceKM_Head_Load 
             from  TSPL_VENDOR_MASTER where Vendor_Code='" + objHead.VSP_CODE + "'"
             Dim DtMilkReceipt As DataTable = clsDBFuncationality.GetDataTable(qry, Trans)
-
-            qry = "select max(QAT) as QAT from TSPL_MILK_SHIFT_UPLOADER_DETAIL where TR_No in ('" + objHead.Against_Shift_Uploader_TR_No + "')"
-            Dim MilkShiftUploderQAT As Boolean = IIf(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, Trans)) = 1, True, False)
+            Dim MilkShiftUploderQAT As Boolean = False
+            If clsCommon.myLen(objHead.Against_Shift_Uploader_TR_No) > 0 Then
+                qry = "select max(QAT) as QAT from TSPL_MILK_SHIFT_UPLOADER_DETAIL where TR_No in ('" + objHead.Against_Shift_Uploader_TR_No + "')"
+                MilkShiftUploderQAT = IIf(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, Trans)) = 1, True, False)
+            ElseIf clsCommon.myLen(objHead.Against_Uploader_TR_No) > 0 Then
+                qry = "select max(QAT) as QAT from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL where TR_No in ('" + objHead.Against_Uploader_TR_No + "')"
+                MilkShiftUploderQAT = IIf(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, Trans)) = 1, True, False)
+            End If
             clsMilkSRNMCC.ObjList(0).Price_Code = ""
             If PickPriceFromFATAndSNF Then
                 clsMilkSRNMCC.ObjList(0).RATE = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(clsMilkSRNMCC.ObjList(0).MILK_Qty, clsMilkSRNMCC.ObjList(0).Price_Code, clsMilkSRNMCC.ObjList(0).FAT, clsMilkSRNMCC.ObjList(0).SNF, objHead.MCC_CODE, objHead.VLC_CODE, IIf(objHead.SHIFT.Contains("M"), "M", "E"), objHead.DOC_DATE, Trans, strMilkType, clsMilkSRNMCC.ObjList(0).QAT_Rate, clsMilkSRNMCC.ObjList(0).Negative_Rate)

@@ -23,6 +23,8 @@ Partial Class frmNIRQC
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.lblSampleNO = New common.Controls.MyLabel()
+        Me.txtSampleNo = New common.UserControls.txtFinder()
         Me.UsLock1 = New common.usLock()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.txtRemarks = New common.Controls.MyTextBox()
@@ -67,6 +69,7 @@ Partial Class frmNIRQC
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.lblSampleNO, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -119,6 +122,8 @@ Partial Class frmNIRQC
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblSampleNO)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtSampleNo)
         Me.SplitContainer1.Panel1.Controls.Add(Me.UsLock1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel3)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtRemarks)
@@ -142,9 +147,47 @@ Partial Class frmNIRQC
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(626, 372)
-        Me.SplitContainer1.SplitterDistance = 336
+        Me.SplitContainer1.Size = New System.Drawing.Size(624, 503)
+        Me.SplitContainer1.SplitterDistance = 467
         Me.SplitContainer1.TabIndex = 0
+        '
+        'lblSampleNO
+        '
+        Me.lblSampleNO.FieldName = Nothing
+        Me.lblSampleNO.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSampleNO.Location = New System.Drawing.Point(13, 331)
+        Me.lblSampleNO.Name = "lblSampleNO"
+        Me.lblSampleNO.Size = New System.Drawing.Size(62, 16)
+        Me.lblSampleNO.TabIndex = 16
+        Me.lblSampleNO.Text = "Sample No"
+        Me.lblSampleNO.Visible = False
+        '
+        'txtSampleNo
+        '
+        Me.txtSampleNo.CalculationExpression = Nothing
+        Me.txtSampleNo.FieldCode = Nothing
+        Me.txtSampleNo.FieldDesc = Nothing
+        Me.txtSampleNo.FieldMaxLength = 0
+        Me.txtSampleNo.FieldName = Nothing
+        Me.txtSampleNo.isCalculatedField = False
+        Me.txtSampleNo.IsSourceFromTable = False
+        Me.txtSampleNo.IsSourceFromValueList = False
+        Me.txtSampleNo.IsUnique = False
+        Me.txtSampleNo.Location = New System.Drawing.Point(112, 329)
+        Me.txtSampleNo.MendatroryField = True
+        Me.txtSampleNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSampleNo.MyLinkLable1 = Me.lblSampleNO
+        Me.txtSampleNo.MyLinkLable2 = Nothing
+        Me.txtSampleNo.MyReadOnly = False
+        Me.txtSampleNo.MyShowMasterFormButton = False
+        Me.txtSampleNo.Name = "txtSampleNo"
+        Me.txtSampleNo.ReferenceFieldDesc = Nothing
+        Me.txtSampleNo.ReferenceFieldName = Nothing
+        Me.txtSampleNo.ReferenceTableName = Nothing
+        Me.txtSampleNo.Size = New System.Drawing.Size(191, 20)
+        Me.txtSampleNo.TabIndex = 15
+        Me.txtSampleNo.Value = ""
+        Me.txtSampleNo.Visible = False
         '
         'UsLock1
         '
@@ -665,7 +708,7 @@ Partial Class frmNIRQC
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnClose.ImageScalingSize = New System.Drawing.Size(68, 14)
-        Me.btnClose.Location = New System.Drawing.Point(554, 6)
+        Me.btnClose.Location = New System.Drawing.Point(552, 6)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(68, 23)
         Me.btnClose.TabIndex = 2
@@ -675,7 +718,7 @@ Partial Class frmNIRQC
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(626, 372)
+        Me.ClientSize = New System.Drawing.Size(624, 503)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "frmNIRQC"
         '
@@ -687,6 +730,7 @@ Partial Class frmNIRQC
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.lblSampleNO, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit()
@@ -772,5 +816,7 @@ Partial Class frmNIRQC
     Friend WithEvents lblVehicleNo As common.Controls.MyLabel
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents CancelBtn As RadButton
+    Friend WithEvents lblSampleNO As common.Controls.MyLabel
+    Friend WithEvents txtSampleNo As common.UserControls.txtFinder
 End Class
 

@@ -2484,6 +2484,7 @@ Public Class clsCreateAllTable
             coll.Add("CrateType_Item", "Varchar(30) null")
             coll.Add("Summary_Seq_No", "decimal (18,2) NULL")
             coll.Add("IsSplitBilling", "integer NULL")
+            coll.Add("NIR_QC_Product_ID", "Varchar(30) null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_ITEM_MASTER alter COLUMN Deduction_Type varchar(30)")
@@ -14868,6 +14869,8 @@ END"
             coll.Add("Target", "decimal (18,2) NULL")
             coll.Add("IsEinvoice", "integer null default 0")
             coll.Add("IsSaleLocation", "integer null")
+            coll.Add("NIR_QC_Instrumental_ID", "Varchar(30) null")
+
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_LOCATION_MASTER", coll, "", True)
 
 
@@ -23167,6 +23170,34 @@ END"
             coll.Add("Item_Amt_After_Insurance", "decimal(18,2) NULL")
             coll.Add("isHighClass", "integer Not Null  DEFAULT 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MRN_DETAIL", coll, Nothing, True, True, "TSPL_MRN_HEAD", "MRN_No", "", True)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Analysis_Time", "datetime not NULL")
+            coll.Add("Product_Code", "Varchar(30) NULL")
+            coll.Add("Product_Name", "Varchar(100) NULL")
+            coll.Add("Sample_Number", "Varchar(30) NULL")
+            coll.Add("Sample_Type", "Varchar(30) NULL")
+            coll.Add("Sample_Comment", "Varchar(100) NULL")
+            coll.Add("Instrument_Name", "Varchar(100) NULL")
+            coll.Add("Instrument_Serial_Number", "Varchar(30) NULL")
+            coll.Add("Sample_Details_1", "Varchar(30) NULL")
+            coll.Add("Sample_Location", "Varchar(30) NULL")
+            coll.Add("Supplier_Name", "Varchar(30) NULL")
+            coll.Add("Cup_id", "Varchar(30) NULL")
+            coll.Add("Cup_type", "Varchar(30) NULL")
+            coll.Add("Moisture", "Decimal(18,2) null")
+            coll.Add("Ref_Moisture", "Decimal(18,2) null")
+            coll.Add("Silica_DM", "Decimal(18,2) null")
+            coll.Add("Ref_Silica_DM", "Decimal(18,2) null")
+            coll.Add("Fat_DM", "Decimal(18,2) null")
+            coll.Add("Ref_Fat_DM", "Decimal(18,2) null")
+            coll.Add("Protein_DM", "Decimal(18,2) null")
+            coll.Add("Ref_Protein_DM", "Decimal(18,2) null")
+            coll.Add("Fiber_DM", "Decimal(18,2) null")
+            coll.Add("Ref_Fiber_DM", "Decimal(18,2) null")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_NIR_QC_FOSS", coll, Nothing, False, False, "", "PK_Id", "Analysis_Time")
 
 
             coll = New Dictionary(Of String, String)

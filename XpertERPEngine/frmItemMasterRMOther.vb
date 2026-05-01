@@ -393,6 +393,8 @@ Public Class FrmItemMasterRMOther
         txtBmBdQty.Text = ""
         txtRptName.Text = ""
         txtRackNo.Text = ""
+        txtNirQcProduct.Text = ""
+
         txtPartNo.Value = ""
         txtDescription.Text = ""
         txtItemDescHindi.Text = ""
@@ -1729,6 +1731,7 @@ Public Class FrmItemMasterRMOther
                 obj.NIR_QC = chkNIRQC.Checked
                 ' Ticket No - BM00000003041 3/July/2014 by Puran
                 obj.Is_Scheme_Item = chkSchemeItem.Checked
+                obj.NIR_QC_Product_ID = txtNirQcProduct.Text
                 obj.Distributor_Commission = clsCommon.myCdbl(txtDistbtr_Amt.Text)
                 obj.CNF_Commission = clsCommon.myCdbl(txtCNF_Amt.Text)
                 obj.Correction_Factor = txtCorrectionFactor.Value
@@ -3042,6 +3045,8 @@ Public Class FrmItemMasterRMOther
                 chkIsDisplayDemad.Checked = obj.Is_DisplayDemand
                 chkExcludeInApp.Checked = obj.Is_ExcludeAPP
                 txtRackNo.Text = obj.Rack_No
+                txtNirQcProduct.Text = obj.NIR_QC_Product_ID
+
                 rbtnFresh.IsChecked = obj.Is_FreshItem
                 chkChangeRate.Checked = IIf(obj.Is_Rate_Change_OnDairyDispatch = 1, True, False)
                 chkAllowSRNwoShort.Checked = IIf(obj.AllowSRNWithoutShortReject = 1, True, False)
@@ -3685,7 +3690,7 @@ Public Class FrmItemMasterRMOther
             End If
             '--------------------------------------------------------------------------------
 
-            QrySheet = " Select TSPL_ITEM_MASTER.Item_Code as [Item Code], Item_Desc as [Item Description],sku_seq as [Seq No],Short_Description as [Short Description], Structure_Code as [Structure Code], Rack_No as [Rack No],"
+            QrySheet = " Select TSPL_ITEM_MASTER.Item_Code as [Item Code], Item_Desc as [Item Description],sku_seq as [Seq No],Short_Description as [Short Description], Structure_Code as [Structure Code], Rack_No as [Rack No],NIR_QC_Product_ID as [NIR QC Product ID],"
             QrySheet += " Purchase_Class_Code as [Purchase A/c Set], Sale_Class_Code as [Sale A/c Set], item_category as [Category], "
             QrySheet += " Sub_item_category as [Sub Category], Unit_Code as [UOM], Item_Type as [Item Type], TypeOfItm as [Type],TSPL_ITEM_MASTER.tolerence as [Tolerence], Cost,Purchase_Price as [Standard Purchase Price], "
             QrySheet += " Morning,Cheapter_Heads as [Chapter Code],Item_Sub_Group_Type as [Item Sub Group Type], Item_Category_Struct_Code as [Category Structure], Weight_UOM, Weight_Value,Is_MRP,ITF_CODE,Active,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,TSPL_ITEM_UOM_DETAIL.Weight,TSPL_ITEM_UOM_DETAIL.Stocking_Unit,Is_FreshItem,Is_Ambient,Product_type as [Product Type],case when coalesce(Is_Purchaseable,'0')='1' then 'Yes' else 'No' end as [Is Purchaseable],case when coalesce(Is_AllowQC_On_Purchase,'0')='1' then 'Yes' else 'No' end as [Is Allow QC on Purchase],Is_CrateType,Is_CAN_Type,case When Item_used_as='I' then 'MCC Issue' when item_used_as='S' then 'MCC Sale' when item_used_as='P' then 'Production' else 'None' end as [Used As],ISNULL(TSPL_ITEM_MASTER.GL_Account,'') AS [GL Account],(SELECT Description  From TSPL_GL_ACCOUNTS where Account_Code=TSPL_ITEM_MASTER.GL_Account) AS [Account Description] "

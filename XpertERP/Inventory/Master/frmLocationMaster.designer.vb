@@ -24,11 +24,7 @@ Partial Class frmLocationMaster
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmLocationMaster))
-        Dim WindowsSettings2 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
-        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem15 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -36,21 +32,25 @@ Partial Class frmLocationMaster
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition16 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition17 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition18 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition19 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition20 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition21 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition22 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition23 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition24 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition25 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition26 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition27 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition28 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition29 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition30 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition13 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition14 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition15 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.lblLocation = New common.Controls.MyLabel()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
@@ -74,6 +74,11 @@ Partial Class frmLocationMaster
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.Details = New Telerik.WinControls.UI.RadPageViewPage()
         Me.radgroupbox = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyLabel38 = New common.Controls.MyLabel()
+        Me.txtNirqcInc = New common.Controls.MyTextBox()
+        Me.lblNearestCity = New common.Controls.MyLabel()
+        Me.txtCity = New common.UserControls.txtFinder()
+        Me.RadLabel5 = New common.Controls.MyLabel()
         Me.rdbbtnNA = New Telerik.WinControls.UI.RadRadioButton()
         Me.chkSaleLocation = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkIsEinvoice = New Telerik.WinControls.UI.RadCheckBox()
@@ -105,7 +110,6 @@ Partial Class frmLocationMaster
         Me.MyLabel8 = New common.Controls.MyLabel()
         Me.txtcsa_comm_type = New common.Controls.MyLabel()
         Me.chkUseInJobWork = New Telerik.WinControls.UI.RadCheckBox()
-        Me.lblCity = New common.Controls.MyLabel()
         Me.TxtMultiLocation = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel17 = New common.Controls.MyLabel()
         Me.txtLocShortName = New common.Controls.MyTextBox()
@@ -119,7 +123,6 @@ Partial Class frmLocationMaster
         Me.TxtPFNo = New common.Controls.MyTextBox()
         Me.TxtESICNo = New common.Controls.MyTextBox()
         Me.txtNearestCity = New common.Controls.MyTextBox()
-        Me.lblNearestCity = New common.Controls.MyLabel()
         Me.chkconsumption = New Telerik.WinControls.UI.RadCheckBox()
         Me.cmbComm_Type = New common.Controls.MyComboBox()
         Me.txtcommsn_desc = New common.Controls.MyLabel()
@@ -177,6 +180,7 @@ Partial Class frmLocationMaster
         Me.txtCountry = New common.Controls.MyTextBox()
         Me.txtZipPostalCode = New common.Controls.MyTextBox()
         Me.lblZipPostalCode = New common.Controls.MyLabel()
+        Me.lblCity = New common.Controls.MyLabel()
         Me.txtAdd4 = New common.Controls.MyTextBox()
         Me.lblAddress = New common.Controls.MyLabel()
         Me.txtAdd3 = New common.Controls.MyTextBox()
@@ -216,7 +220,6 @@ Partial Class frmLocationMaster
         Me.lblRangeCode = New common.Controls.MyLabel()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.fndStkTrnsfrEmptyAc = New common.UserControls.txtFinder()
-        Me.RadLabel5 = New common.Controls.MyLabel()
         Me.fndStkTrnsfrFilledAc = New common.UserControls.txtFinder()
         Me.RadLabel6 = New common.Controls.MyLabel()
         Me.txtCommissionerate = New common.Controls.MyTextBox()
@@ -331,7 +334,6 @@ Partial Class frmLocationMaster
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer11 = New System.Windows.Forms.SplitContainer()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
-        Me.txtCity = New common.UserControls.txtFinder()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -346,6 +348,10 @@ Partial Class frmLocationMaster
         Me.Details.SuspendLayout()
         CType(Me.radgroupbox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.radgroupbox.SuspendLayout()
+        CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtNirqcInc, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblNearestCity, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbbtnNA, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSaleLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkIsEinvoice, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -378,7 +384,6 @@ Partial Class frmLocationMaster
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtcsa_comm_type, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkUseInJobWork, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblCity, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtLocShortName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -392,7 +397,6 @@ Partial Class frmLocationMaster
         CType(Me.TxtPFNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TxtESICNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtNearestCity, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblNearestCity, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkconsumption, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmbComm_Type, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtcommsn_desc, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -443,6 +447,7 @@ Partial Class frmLocationMaster
         CType(Me.txtCountry, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtZipPostalCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblZipPostalCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCity, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtAdd4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblAddress, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtAdd3, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -482,7 +487,6 @@ Partial Class frmLocationMaster
         CType(Me.lblRangeCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
-        CType(Me.RadLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCommissionerate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCommissionerate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -727,9 +731,9 @@ Partial Class frmLocationMaster
         Me.RadMenu1.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenu1.VerticalPopupAlignment = Telerik.WinControls.UI.VerticalPopupAlignment.TopToTop
         Me.RadMenu1.Visible = False
-        WindowsSettings2.EnableRoundedCorners = Nothing
-        WindowsSettings2.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
-        Me.RadMenu1.WindowsSettings = WindowsSettings2
+        WindowsSettings1.EnableRoundedCorners = Nothing
+        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenu1.WindowsSettings = WindowsSettings1
         '
         'MenuPrint
         '
@@ -836,6 +840,8 @@ Partial Class frmLocationMaster
         'radgroupbox
         '
         Me.radgroupbox.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.radgroupbox.Controls.Add(Me.MyLabel38)
+        Me.radgroupbox.Controls.Add(Me.txtNirqcInc)
         Me.radgroupbox.Controls.Add(Me.txtCity)
         Me.radgroupbox.Controls.Add(Me.rdbbtnNA)
         Me.radgroupbox.Controls.Add(Me.chkSaleLocation)
@@ -941,6 +947,86 @@ Partial Class frmLocationMaster
         Me.radgroupbox.Size = New System.Drawing.Size(876, 542)
         Me.radgroupbox.TabIndex = 0
         Me.radgroupbox.Text = "Details"
+        '
+        'MyLabel38
+        '
+        Me.MyLabel38.FieldName = Nothing
+        Me.MyLabel38.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel38.Location = New System.Drawing.Point(8, 416)
+        Me.MyLabel38.Name = "MyLabel38"
+        Me.MyLabel38.Size = New System.Drawing.Size(124, 16)
+        Me.MyLabel38.TabIndex = 1403
+        Me.MyLabel38.Text = "NIR QC Instrumental Id"
+        '
+        'txtNirqcInc
+        '
+        Me.txtNirqcInc.CalculationExpression = Nothing
+        Me.txtNirqcInc.FieldCode = Nothing
+        Me.txtNirqcInc.FieldDesc = Nothing
+        Me.txtNirqcInc.FieldMaxLength = 0
+        Me.txtNirqcInc.FieldName = Nothing
+        Me.txtNirqcInc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtNirqcInc.isCalculatedField = False
+        Me.txtNirqcInc.IsSourceFromTable = False
+        Me.txtNirqcInc.IsSourceFromValueList = False
+        Me.txtNirqcInc.IsUnique = False
+        Me.txtNirqcInc.Location = New System.Drawing.Point(135, 418)
+        Me.txtNirqcInc.MaxLength = 12
+        Me.txtNirqcInc.MendatroryField = False
+        Me.txtNirqcInc.MyLinkLable1 = Me.lblNearestCity
+        Me.txtNirqcInc.MyLinkLable2 = Nothing
+        Me.txtNirqcInc.Name = "txtNirqcInc"
+        Me.txtNirqcInc.ReferenceFieldDesc = Nothing
+        Me.txtNirqcInc.ReferenceFieldName = Nothing
+        Me.txtNirqcInc.ReferenceTableName = Nothing
+        Me.txtNirqcInc.Size = New System.Drawing.Size(125, 18)
+        Me.txtNirqcInc.TabIndex = 1402
+        '
+        'lblNearestCity
+        '
+        Me.lblNearestCity.FieldName = Nothing
+        Me.lblNearestCity.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblNearestCity.Location = New System.Drawing.Point(308, 114)
+        Me.lblNearestCity.Name = "lblNearestCity"
+        Me.lblNearestCity.Size = New System.Drawing.Size(68, 16)
+        Me.lblNearestCity.TabIndex = 1370
+        Me.lblNearestCity.Text = "Nearest City"
+        '
+        'txtCity
+        '
+        Me.txtCity.CalculationExpression = Nothing
+        Me.txtCity.FieldCode = Nothing
+        Me.txtCity.FieldDesc = Nothing
+        Me.txtCity.FieldMaxLength = 0
+        Me.txtCity.FieldName = Nothing
+        Me.txtCity.isCalculatedField = False
+        Me.txtCity.IsSourceFromTable = False
+        Me.txtCity.IsSourceFromValueList = False
+        Me.txtCity.IsUnique = False
+        Me.txtCity.Location = New System.Drawing.Point(110, 114)
+        Me.txtCity.MendatroryField = False
+        Me.txtCity.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCity.MyLinkLable1 = Me.RadLabel5
+        Me.txtCity.MyLinkLable2 = Nothing
+        Me.txtCity.MyReadOnly = False
+        Me.txtCity.MyShowMasterFormButton = False
+        Me.txtCity.Name = "txtCity"
+        Me.txtCity.ReferenceFieldDesc = Nothing
+        Me.txtCity.ReferenceFieldName = Nothing
+        Me.txtCity.ReferenceTableName = Nothing
+        Me.txtCity.Size = New System.Drawing.Size(192, 19)
+        Me.txtCity.TabIndex = 1401
+        Me.txtCity.Value = ""
+        '
+        'RadLabel5
+        '
+        Me.RadLabel5.FieldName = Nothing
+        Me.RadLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel5.Location = New System.Drawing.Point(338, 11)
+        Me.RadLabel5.Name = "RadLabel5"
+        Me.RadLabel5.Size = New System.Drawing.Size(137, 16)
+        Me.RadLabel5.TabIndex = 1
+        Me.RadLabel5.Text = "Stock Transfer Empty A/C"
         '
         'rdbbtnNA
         '
@@ -1075,15 +1161,15 @@ Partial Class frmLocationMaster
         Me.cmbNoOfShift.IsSourceFromTable = False
         Me.cmbNoOfShift.IsSourceFromValueList = False
         Me.cmbNoOfShift.IsUnique = False
-        RadListDataItem12.Selected = True
-        RadListDataItem12.Text = "Select"
-        RadListDataItem13.Text = "1"
-        RadListDataItem14.Text = "2"
-        RadListDataItem15.Text = "3"
-        Me.cmbNoOfShift.Items.Add(RadListDataItem12)
-        Me.cmbNoOfShift.Items.Add(RadListDataItem13)
-        Me.cmbNoOfShift.Items.Add(RadListDataItem14)
-        Me.cmbNoOfShift.Items.Add(RadListDataItem15)
+        RadListDataItem1.Selected = True
+        RadListDataItem1.Text = "Select"
+        RadListDataItem2.Text = "1"
+        RadListDataItem3.Text = "2"
+        RadListDataItem4.Text = "3"
+        Me.cmbNoOfShift.Items.Add(RadListDataItem1)
+        Me.cmbNoOfShift.Items.Add(RadListDataItem2)
+        Me.cmbNoOfShift.Items.Add(RadListDataItem3)
+        Me.cmbNoOfShift.Items.Add(RadListDataItem4)
         Me.cmbNoOfShift.Location = New System.Drawing.Point(801, 419)
         Me.cmbNoOfShift.MendatroryField = False
         Me.cmbNoOfShift.MyLinkLable1 = Me.lblNoOfShift
@@ -1110,7 +1196,7 @@ Partial Class frmLocationMaster
         '
         Me.MyLabel24.FieldName = Nothing
         Me.MyLabel24.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel24.Location = New System.Drawing.Point(458, 421)
+        Me.MyLabel24.Location = New System.Drawing.Point(459, 421)
         Me.MyLabel24.Name = "MyLabel24"
         Me.MyLabel24.Size = New System.Drawing.Size(169, 16)
         Me.MyLabel24.TabIndex = 1394
@@ -1202,7 +1288,7 @@ Partial Class frmLocationMaster
         'chkParlour
         '
         Me.chkParlour.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkParlour.Location = New System.Drawing.Point(383, 423)
+        Me.chkParlour.Location = New System.Drawing.Point(388, 423)
         Me.chkParlour.Name = "chkParlour"
         Me.chkParlour.Size = New System.Drawing.Size(69, 16)
         Me.chkParlour.TabIndex = 1391
@@ -1362,7 +1448,7 @@ Partial Class frmLocationMaster
         '
         Me.lbl_capacity.FieldName = Nothing
         Me.lbl_capacity.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbl_capacity.Location = New System.Drawing.Point(257, 419)
+        Me.lbl_capacity.Location = New System.Drawing.Point(263, 419)
         Me.lbl_capacity.Name = "lbl_capacity"
         Me.lbl_capacity.Size = New System.Drawing.Size(72, 16)
         Me.lbl_capacity.TabIndex = 1383
@@ -1380,7 +1466,7 @@ Partial Class frmLocationMaster
         Me.txt_capacity.IsSourceFromTable = False
         Me.txt_capacity.IsSourceFromValueList = False
         Me.txt_capacity.IsUnique = False
-        Me.txt_capacity.Location = New System.Drawing.Point(331, 416)
+        Me.txt_capacity.Location = New System.Drawing.Point(336, 416)
         Me.txt_capacity.MendatroryField = True
         Me.txt_capacity.MyLinkLable1 = Me.MyLabel8
         Me.txt_capacity.MyLinkLable2 = Me.txtcsa_comm_type
@@ -1428,16 +1514,6 @@ Partial Class frmLocationMaster
         Me.chkUseInJobWork.TabIndex = 1381
         Me.chkUseInJobWork.Text = "Use in Job Work"
         Me.chkUseInJobWork.Visible = False
-        '
-        'lblCity
-        '
-        Me.lblCity.FieldName = Nothing
-        Me.lblCity.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCity.Location = New System.Drawing.Point(9, 117)
-        Me.lblCity.Name = "lblCity"
-        Me.lblCity.Size = New System.Drawing.Size(29, 16)
-        Me.lblCity.TabIndex = 5
-        Me.lblCity.Text = " City"
         '
         'TxtMultiLocation
         '
@@ -1627,16 +1703,6 @@ Partial Class frmLocationMaster
         Me.txtNearestCity.Size = New System.Drawing.Size(280, 18)
         Me.txtNearestCity.TabIndex = 6
         '
-        'lblNearestCity
-        '
-        Me.lblNearestCity.FieldName = Nothing
-        Me.lblNearestCity.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblNearestCity.Location = New System.Drawing.Point(308, 114)
-        Me.lblNearestCity.Name = "lblNearestCity"
-        Me.lblNearestCity.Size = New System.Drawing.Size(68, 16)
-        Me.lblNearestCity.TabIndex = 1370
-        Me.lblNearestCity.Text = "Nearest City"
-        '
         'chkconsumption
         '
         Me.chkconsumption.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1682,7 +1748,7 @@ Partial Class frmLocationMaster
         Me.txtcommsn_desc.Enabled = False
         Me.txtcommsn_desc.FieldName = Nothing
         Me.txtcommsn_desc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtcommsn_desc.Location = New System.Drawing.Point(246, 480)
+        Me.txtcommsn_desc.Location = New System.Drawing.Point(246, 486)
         Me.txtcommsn_desc.Name = "txtcommsn_desc"
         Me.txtcommsn_desc.Size = New System.Drawing.Size(294, 18)
         Me.txtcommsn_desc.TabIndex = 1365
@@ -1692,7 +1758,7 @@ Partial Class frmLocationMaster
         '
         Me.MyLabel10.FieldName = Nothing
         Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel10.Location = New System.Drawing.Point(14, 480)
+        Me.MyLabel10.Location = New System.Drawing.Point(14, 486)
         Me.MyLabel10.Name = "MyLabel10"
         Me.MyLabel10.Size = New System.Drawing.Size(88, 16)
         Me.MyLabel10.TabIndex = 1363
@@ -1710,7 +1776,7 @@ Partial Class frmLocationMaster
         Me.txtcommsn_code.IsSourceFromTable = False
         Me.txtcommsn_code.IsSourceFromValueList = False
         Me.txtcommsn_code.IsUnique = False
-        Me.txtcommsn_code.Location = New System.Drawing.Point(110, 479)
+        Me.txtcommsn_code.Location = New System.Drawing.Point(110, 485)
         Me.txtcommsn_code.MendatroryField = True
         Me.txtcommsn_code.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtcommsn_code.MyLinkLable1 = Me.MyLabel10
@@ -1985,7 +2051,7 @@ Partial Class frmLocationMaster
         Me.RadGroupBox1.Controls.Add(Me.chkthirdparty)
         Me.RadGroupBox1.Controls.Add(Me.txtvndrcode)
         Me.RadGroupBox1.HeaderText = "Third Party Selection"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(0, 432)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(0, 436)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Size = New System.Drawing.Size(672, 43)
         Me.RadGroupBox1.TabIndex = 42
@@ -2406,14 +2472,14 @@ Partial Class frmLocationMaster
         Me.ddlLocationType.IsSourceFromTable = False
         Me.ddlLocationType.IsSourceFromValueList = False
         Me.ddlLocationType.IsUnique = False
-        RadListDataItem1.Text = "Physical"
-        RadListDataItem2.Text = "Logical"
-        RadListDataItem3.Text = "WorkOrder"
-        RadListDataItem4.Text = "Virtual"
-        Me.ddlLocationType.Items.Add(RadListDataItem1)
-        Me.ddlLocationType.Items.Add(RadListDataItem2)
-        Me.ddlLocationType.Items.Add(RadListDataItem3)
-        Me.ddlLocationType.Items.Add(RadListDataItem4)
+        RadListDataItem5.Text = "Physical"
+        RadListDataItem6.Text = "Logical"
+        RadListDataItem7.Text = "WorkOrder"
+        RadListDataItem8.Text = "Virtual"
+        Me.ddlLocationType.Items.Add(RadListDataItem5)
+        Me.ddlLocationType.Items.Add(RadListDataItem6)
+        Me.ddlLocationType.Items.Add(RadListDataItem7)
+        Me.ddlLocationType.Items.Add(RadListDataItem8)
         Me.ddlLocationType.Location = New System.Drawing.Point(110, 282)
         Me.ddlLocationType.MendatroryField = False
         Me.ddlLocationType.MyLinkLable1 = Me.lblLocationType
@@ -2536,6 +2602,16 @@ Partial Class frmLocationMaster
         Me.lblZipPostalCode.Size = New System.Drawing.Size(87, 16)
         Me.lblZipPostalCode.TabIndex = 8
         Me.lblZipPostalCode.Text = " Zip/PostalCode"
+        '
+        'lblCity
+        '
+        Me.lblCity.FieldName = Nothing
+        Me.lblCity.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCity.Location = New System.Drawing.Point(9, 117)
+        Me.lblCity.Name = "lblCity"
+        Me.lblCity.Size = New System.Drawing.Size(29, 16)
+        Me.lblCity.TabIndex = 5
+        Me.lblCity.Text = " City"
         '
         'txtAdd4
         '
@@ -3282,16 +3358,6 @@ Partial Class frmLocationMaster
         Me.fndStkTrnsfrEmptyAc.TabIndex = 2
         Me.fndStkTrnsfrEmptyAc.Value = ""
         '
-        'RadLabel5
-        '
-        Me.RadLabel5.FieldName = Nothing
-        Me.RadLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel5.Location = New System.Drawing.Point(338, 11)
-        Me.RadLabel5.Name = "RadLabel5"
-        Me.RadLabel5.Size = New System.Drawing.Size(137, 16)
-        Me.RadLabel5.TabIndex = 1
-        Me.RadLabel5.Text = "Stock Transfer Empty A/C"
-        '
         'fndStkTrnsfrFilledAc
         '
         Me.fndStkTrnsfrFilledAc.CalculationExpression = Nothing
@@ -3446,12 +3512,12 @@ Partial Class frmLocationMaster
         Me.ddlType.IsSourceFromTable = False
         Me.ddlType.IsSourceFromValueList = False
         Me.ddlType.IsUnique = False
-        RadListDataItem5.Text = "Depot"
-        RadListDataItem6.Text = "Manufacturing Unit"
-        RadListDataItem7.Text = "PLANT"
-        Me.ddlType.Items.Add(RadListDataItem5)
-        Me.ddlType.Items.Add(RadListDataItem6)
-        Me.ddlType.Items.Add(RadListDataItem7)
+        RadListDataItem9.Text = "Depot"
+        RadListDataItem10.Text = "Manufacturing Unit"
+        RadListDataItem11.Text = "PLANT"
+        Me.ddlType.Items.Add(RadListDataItem9)
+        Me.ddlType.Items.Add(RadListDataItem10)
+        Me.ddlType.Items.Add(RadListDataItem11)
         Me.ddlType.Location = New System.Drawing.Point(434, 5)
         Me.ddlType.MendatroryField = False
         Me.ddlType.MyLinkLable1 = Me.RadLabel1
@@ -3555,7 +3621,7 @@ Partial Class frmLocationMaster
         Me.gvSaleLocal.MasterTemplate.AllowDeleteRow = False
         Me.gvSaleLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleLocal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSaleLocal.MasterTemplate.ViewDefinition = TableViewDefinition16
+        Me.gvSaleLocal.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvSaleLocal.MyExportAPI = False
         Me.gvSaleLocal.MyExportFilePath = ""
         Me.gvSaleLocal.MyStopExport = False
@@ -3584,7 +3650,7 @@ Partial Class frmLocationMaster
         Me.gvSaleItemDetailsLocal.MasterTemplate.AllowDeleteRow = False
         Me.gvSaleItemDetailsLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleItemDetailsLocal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSaleItemDetailsLocal.MasterTemplate.ViewDefinition = TableViewDefinition17
+        Me.gvSaleItemDetailsLocal.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvSaleItemDetailsLocal.MyExportAPI = False
         Me.gvSaleItemDetailsLocal.MyExportFilePath = ""
         Me.gvSaleItemDetailsLocal.MyStopExport = False
@@ -3613,7 +3679,7 @@ Partial Class frmLocationMaster
         Me.gvSaleTaxLocal.MasterTemplate.AllowDeleteRow = False
         Me.gvSaleTaxLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleTaxLocal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSaleTaxLocal.MasterTemplate.ViewDefinition = TableViewDefinition18
+        Me.gvSaleTaxLocal.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvSaleTaxLocal.MyExportAPI = False
         Me.gvSaleTaxLocal.MyExportFilePath = ""
         Me.gvSaleTaxLocal.MyStopExport = False
@@ -3685,7 +3751,7 @@ Partial Class frmLocationMaster
         Me.gvSaleInterState.MasterTemplate.AllowDeleteRow = False
         Me.gvSaleInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleInterState.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSaleInterState.MasterTemplate.ViewDefinition = TableViewDefinition19
+        Me.gvSaleInterState.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvSaleInterState.MyExportAPI = False
         Me.gvSaleInterState.MyExportFilePath = ""
         Me.gvSaleInterState.MyStopExport = False
@@ -3714,7 +3780,7 @@ Partial Class frmLocationMaster
         Me.gvSaleItemDetailsInterState.MasterTemplate.AllowDeleteRow = False
         Me.gvSaleItemDetailsInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleItemDetailsInterState.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSaleItemDetailsInterState.MasterTemplate.ViewDefinition = TableViewDefinition20
+        Me.gvSaleItemDetailsInterState.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvSaleItemDetailsInterState.MyExportAPI = False
         Me.gvSaleItemDetailsInterState.MyExportFilePath = ""
         Me.gvSaleItemDetailsInterState.MyStopExport = False
@@ -3743,7 +3809,7 @@ Partial Class frmLocationMaster
         Me.gvSaleTaxInterState.MasterTemplate.AllowDeleteRow = False
         Me.gvSaleTaxInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleTaxInterState.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSaleTaxInterState.MasterTemplate.ViewDefinition = TableViewDefinition21
+        Me.gvSaleTaxInterState.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvSaleTaxInterState.MyExportAPI = False
         Me.gvSaleTaxInterState.MyExportFilePath = ""
         Me.gvSaleTaxInterState.MyStopExport = False
@@ -3820,7 +3886,7 @@ Partial Class frmLocationMaster
         Me.gvPurchaseLocal.MasterTemplate.AllowDeleteRow = False
         Me.gvPurchaseLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPurchaseLocal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvPurchaseLocal.MasterTemplate.ViewDefinition = TableViewDefinition22
+        Me.gvPurchaseLocal.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvPurchaseLocal.MyExportAPI = False
         Me.gvPurchaseLocal.MyExportFilePath = ""
         Me.gvPurchaseLocal.MyStopExport = False
@@ -3849,7 +3915,7 @@ Partial Class frmLocationMaster
         Me.gvPurchaseTaxLocal.MasterTemplate.AllowDeleteRow = False
         Me.gvPurchaseTaxLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPurchaseTaxLocal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvPurchaseTaxLocal.MasterTemplate.ViewDefinition = TableViewDefinition23
+        Me.gvPurchaseTaxLocal.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gvPurchaseTaxLocal.MyExportAPI = False
         Me.gvPurchaseTaxLocal.MyExportFilePath = ""
         Me.gvPurchaseTaxLocal.MyStopExport = False
@@ -3904,7 +3970,7 @@ Partial Class frmLocationMaster
         Me.gvPurchaseInterState.MasterTemplate.AllowDeleteRow = False
         Me.gvPurchaseInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPurchaseInterState.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvPurchaseInterState.MasterTemplate.ViewDefinition = TableViewDefinition24
+        Me.gvPurchaseInterState.MasterTemplate.ViewDefinition = TableViewDefinition9
         Me.gvPurchaseInterState.MyExportAPI = False
         Me.gvPurchaseInterState.MyExportFilePath = ""
         Me.gvPurchaseInterState.MyStopExport = False
@@ -3933,7 +3999,7 @@ Partial Class frmLocationMaster
         Me.gvPurchaseTaxInterState.MasterTemplate.AllowDeleteRow = False
         Me.gvPurchaseTaxInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPurchaseTaxInterState.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvPurchaseTaxInterState.MasterTemplate.ViewDefinition = TableViewDefinition25
+        Me.gvPurchaseTaxInterState.MasterTemplate.ViewDefinition = TableViewDefinition10
         Me.gvPurchaseTaxInterState.MyExportAPI = False
         Me.gvPurchaseTaxInterState.MyExportFilePath = ""
         Me.gvPurchaseTaxInterState.MyStopExport = False
@@ -4010,7 +4076,7 @@ Partial Class frmLocationMaster
         Me.gvTransferLocal.MasterTemplate.AllowDeleteRow = False
         Me.gvTransferLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTransferLocal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTransferLocal.MasterTemplate.ViewDefinition = TableViewDefinition26
+        Me.gvTransferLocal.MasterTemplate.ViewDefinition = TableViewDefinition11
         Me.gvTransferLocal.MyExportAPI = False
         Me.gvTransferLocal.MyExportFilePath = ""
         Me.gvTransferLocal.MyStopExport = False
@@ -4039,7 +4105,7 @@ Partial Class frmLocationMaster
         Me.gvTransferTaxLocal.MasterTemplate.AllowDeleteRow = False
         Me.gvTransferTaxLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTransferTaxLocal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTransferTaxLocal.MasterTemplate.ViewDefinition = TableViewDefinition27
+        Me.gvTransferTaxLocal.MasterTemplate.ViewDefinition = TableViewDefinition12
         Me.gvTransferTaxLocal.MyExportAPI = False
         Me.gvTransferTaxLocal.MyExportFilePath = ""
         Me.gvTransferTaxLocal.MyStopExport = False
@@ -4094,7 +4160,7 @@ Partial Class frmLocationMaster
         Me.gvTransferInterState.MasterTemplate.AllowDeleteRow = False
         Me.gvTransferInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTransferInterState.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTransferInterState.MasterTemplate.ViewDefinition = TableViewDefinition28
+        Me.gvTransferInterState.MasterTemplate.ViewDefinition = TableViewDefinition13
         Me.gvTransferInterState.MyExportAPI = False
         Me.gvTransferInterState.MyExportFilePath = ""
         Me.gvTransferInterState.MyStopExport = False
@@ -4123,7 +4189,7 @@ Partial Class frmLocationMaster
         Me.gvTransferTaxInterState.MasterTemplate.AllowDeleteRow = False
         Me.gvTransferTaxInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTransferTaxInterState.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTransferTaxInterState.MasterTemplate.ViewDefinition = TableViewDefinition29
+        Me.gvTransferTaxInterState.MasterTemplate.ViewDefinition = TableViewDefinition14
         Me.gvTransferTaxInterState.MyExportAPI = False
         Me.gvTransferTaxInterState.MyExportFilePath = ""
         Me.gvTransferTaxInterState.MyStopExport = False
@@ -4154,7 +4220,7 @@ Partial Class frmLocationMaster
         '
         Me.gvCategory.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCategory.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition30
+        Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition15
         Me.gvCategory.MyExportAPI = False
         Me.gvCategory.MyExportFilePath = ""
         Me.gvCategory.MyStopExport = False
@@ -5242,32 +5308,6 @@ Partial Class frmLocationMaster
         Me.btnHistory.TabIndex = 3
         Me.btnHistory.Text = "History"
         '
-        'txtCity
-        '
-        Me.txtCity.CalculationExpression = Nothing
-        Me.txtCity.FieldCode = Nothing
-        Me.txtCity.FieldDesc = Nothing
-        Me.txtCity.FieldMaxLength = 0
-        Me.txtCity.FieldName = Nothing
-        Me.txtCity.isCalculatedField = False
-        Me.txtCity.IsSourceFromTable = False
-        Me.txtCity.IsSourceFromValueList = False
-        Me.txtCity.IsUnique = False
-        Me.txtCity.Location = New System.Drawing.Point(110, 114)
-        Me.txtCity.MendatroryField = False
-        Me.txtCity.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCity.MyLinkLable1 = Me.RadLabel5
-        Me.txtCity.MyLinkLable2 = Nothing
-        Me.txtCity.MyReadOnly = False
-        Me.txtCity.MyShowMasterFormButton = False
-        Me.txtCity.Name = "txtCity"
-        Me.txtCity.ReferenceFieldDesc = Nothing
-        Me.txtCity.ReferenceFieldName = Nothing
-        Me.txtCity.ReferenceTableName = Nothing
-        Me.txtCity.Size = New System.Drawing.Size(192, 19)
-        Me.txtCity.TabIndex = 1401
-        Me.txtCity.Value = ""
-        '
         'frmLocationMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -5298,6 +5338,10 @@ Partial Class frmLocationMaster
         CType(Me.radgroupbox, System.ComponentModel.ISupportInitialize).EndInit()
         Me.radgroupbox.ResumeLayout(False)
         Me.radgroupbox.PerformLayout()
+        CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtNirqcInc, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblNearestCity, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbbtnNA, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSaleLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkIsEinvoice, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5331,7 +5375,6 @@ Partial Class frmLocationMaster
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtcsa_comm_type, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkUseInJobWork, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblCity, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtLocShortName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5346,7 +5389,6 @@ Partial Class frmLocationMaster
         CType(Me.TxtPFNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TxtESICNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtNearestCity, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblNearestCity, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkconsumption, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmbComm_Type, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtcommsn_desc, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5398,6 +5440,7 @@ Partial Class frmLocationMaster
         CType(Me.txtCountry, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtZipPostalCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblZipPostalCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCity, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtAdd4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblAddress, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtAdd3, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5442,7 +5485,6 @@ Partial Class frmLocationMaster
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
-        CType(Me.RadLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtCommissionerate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCommissionerate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5887,5 +5929,7 @@ Partial Class frmLocationMaster
     Friend WithEvents chkSaleLocation As RadCheckBox
     Friend WithEvents rdbbtnNA As RadRadioButton
     Friend WithEvents txtCity As common.UserControls.txtFinder
+    Friend WithEvents MyLabel38 As common.Controls.MyLabel
+    Friend WithEvents txtNirqcInc As common.Controls.MyTextBox
 End Class
 
