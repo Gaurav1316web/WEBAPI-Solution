@@ -67,6 +67,8 @@ Public Class clsItemMaster
     Public Warranty_Name As String = ""
     Public Weight_UOM As String = ""
     Public Rack_No As String = ""
+    Public NIR_QC_Product_ID As String = ""
+
     Public Weight_Value As Double = 0
     Public ITFCode As String
     Public Is_MRP As Boolean = False
@@ -475,7 +477,7 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
             '-----------------------------------------------------------------------
             strCode = clsCommon.ShowSelectForm("ItemFinder" + IIf(clsCommon.myLen(strVendorCode) > 0, "V", IIf(clsCommon.myLen(strCustomerCode) > 0, "C", "")), qry, "Code", WhrCls, strCode, "Code", isButtonClicked)
             If clsCommon.myLen(strCode) > 0 Then
-                qry = "select HSN_Code, Item_Code,TSPL_ITEM_MASTER.Weight_UOM as Weight_UOM,TSPL_ITEM_MASTER.Weight_Value as Weight_Value,Item_Desc,Unit_Code,Is_Serial_Item,Is_Pick_Auto_SrNo,Is_MRP,TSPL_ITEM_MASTER.RACK_NO As Rack_No, TSPL_ITEM_MASTER.Cost, TSPL_ITEM_MASTER.Is_Tax_Exempted,Product_Type,TSPL_ITEM_MASTER.Is_Batch_Item,TSPL_ITEM_MASTER.Can,TSPL_ITEM_MASTER.Crate,TSPL_ITEM_MASTER.Item_Type,TSPL_ITEM_MASTER.is_Insurance from TSPL_ITEM_MASTER where Item_Code='" + strCode + "' "
+                qry = "select HSN_Code, Item_Code,TSPL_ITEM_MASTER.Weight_UOM as Weight_UOM,TSPL_ITEM_MASTER.Weight_Value as Weight_Value,Item_Desc,Unit_Code,Is_Serial_Item,Is_Pick_Auto_SrNo,Is_MRP,TSPL_ITEM_MASTER.RACK_NO As Rack_No,TSPL_ITEM_MASTER.NIR_QC_Product_ID As NIR_QC_Product_ID, TSPL_ITEM_MASTER.Cost, TSPL_ITEM_MASTER.Is_Tax_Exempted,Product_Type,TSPL_ITEM_MASTER.Is_Batch_Item,TSPL_ITEM_MASTER.Can,TSPL_ITEM_MASTER.Crate,TSPL_ITEM_MASTER.Item_Type,TSPL_ITEM_MASTER.is_Insurance from TSPL_ITEM_MASTER where Item_Code='" + strCode + "' "
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     obj = New clsItemMaster()
@@ -490,6 +492,8 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
                     obj.Weight_Value = clsCommon.myCdbl(dt.Rows(0)("Weight_Value"))
                     ''richa Ticket No. BM00000003197 on 24/07/2014
                     obj.Rack_No = clsCommon.myCstr(dt.Rows(0)("Rack_No"))
+                    obj.NIR_QC_Product_ID = clsCommon.myCstr(dt.Rows(0)("NIR_QC_Product_ID"))
+
                     obj.Cost = clsCommon.myCdbl(dt.Rows(0)("Cost"))
                     obj.Tax_Exempted = clsCommon.myCdbl(dt.Rows(0)("Is_Tax_Exempted"))
                     obj.Product_Type = clsCommon.myCstr(dt.Rows(0)("Product_Type"))
@@ -591,7 +595,7 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
         '-----------------------------------------------------------------------
         strCode = clsCommon.ShowSelectForm("ItemFinder" + IIf(clsCommon.myLen(strVendorCode) > 0, "V", IIf(clsCommon.myLen(strCustomerCode) > 0, "C", "")), qry, "Code", WhrCls, strCode, "Code", isButtonClicked)
         If clsCommon.myLen(strCode) > 0 Then
-            qry = "select HSN_Code, Item_Code,TSPL_ITEM_MASTER.Weight_UOM as Weight_UOM,TSPL_ITEM_MASTER.Weight_Value as Weight_Value,Item_Desc,Unit_Code,Is_Serial_Item,Is_Pick_Auto_SrNo,Is_MRP,TSPL_ITEM_MASTER.RACK_NO As Rack_No, TSPL_ITEM_MASTER.Cost, TSPL_ITEM_MASTER.Is_Tax_Exempted,Product_Type,TSPL_ITEM_MASTER.Is_Batch_Item,TSPL_ITEM_MASTER.Can,TSPL_ITEM_MASTER.Crate,TSPL_ITEM_MASTER.Item_Type,TSPL_ITEM_MASTER.is_Insurance from TSPL_ITEM_MASTER where Item_Code='" + strCode + "' "
+            qry = "select HSN_Code, Item_Code,TSPL_ITEM_MASTER.Weight_UOM as Weight_UOM,TSPL_ITEM_MASTER.Weight_Value as Weight_Value,Item_Desc,Unit_Code,Is_Serial_Item,Is_Pick_Auto_SrNo,Is_MRP,TSPL_ITEM_MASTER.NIR_QC_Product_ID As NIR_QC_Product_ID,TSPL_ITEM_MASTER.RACK_NO As Rack_No, TSPL_ITEM_MASTER.Cost, TSPL_ITEM_MASTER.Is_Tax_Exempted,Product_Type,TSPL_ITEM_MASTER.Is_Batch_Item,TSPL_ITEM_MASTER.Can,TSPL_ITEM_MASTER.Crate,TSPL_ITEM_MASTER.Item_Type,TSPL_ITEM_MASTER.is_Insurance from TSPL_ITEM_MASTER where Item_Code='" + strCode + "' "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 obj = New clsItemMaster()
@@ -606,6 +610,8 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
                 obj.Weight_Value = clsCommon.myCdbl(dt.Rows(0)("Weight_Value"))
                 ''richa Ticket No. BM00000003197 on 24/07/2014
                 obj.Rack_No = clsCommon.myCstr(dt.Rows(0)("Rack_No"))
+                obj.NIR_QC_Product_ID = clsCommon.myCstr(dt.Rows(0)("NIR_QC_Product_ID"))
+
                 obj.Cost = clsCommon.myCdbl(dt.Rows(0)("Cost"))
                 obj.Tax_Exempted = clsCommon.myCdbl(dt.Rows(0)("Is_Tax_Exempted"))
                 obj.Product_Type = clsCommon.myCstr(dt.Rows(0)("Product_Type"))
@@ -657,7 +663,7 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
         '-----------------------------------------------------------------------
         strCode = clsCommon.ShowSelectForm("ItemFinder" + IIf(clsCommon.myLen(strVendorCode) > 0, "V", IIf(clsCommon.myLen(strCustomerCode) > 0, "C", "")), qry, "Code", Whrclass, strCode, "Code", isButtonClicked)
         If clsCommon.myLen(strCode) > 0 Then
-            qry = "select Item_Code,TSPL_ITEM_MASTER.Weight_UOM as Weight_UOM,TSPL_ITEM_MASTER.Weight_Value as Weight_Value,Item_Desc,Unit_Code,Is_Serial_Item,Is_Pick_Auto_SrNo,Is_MRP,TSPL_ITEM_MASTER.RACK_NO As Rack_No, TSPL_ITEM_MASTER.Cost, TSPL_ITEM_MASTER.Is_Tax_Exempted,Product_Type,TSPL_ITEM_MASTER.Is_Batch_Item from TSPL_ITEM_MASTER where Item_Code='" + strCode + "' "
+            qry = "select Item_Code,TSPL_ITEM_MASTER.Weight_UOM as Weight_UOM,TSPL_ITEM_MASTER.Weight_Value as Weight_Value,Item_Desc,Unit_Code,Is_Serial_Item,Is_Pick_Auto_SrNo,Is_MRP,TSPL_ITEM_MASTER.NIR_QC_Product_ID As NIR_QC_Product_ID,TSPL_ITEM_MASTER.RACK_NO As Rack_No, TSPL_ITEM_MASTER.Cost, TSPL_ITEM_MASTER.Is_Tax_Exempted,Product_Type,TSPL_ITEM_MASTER.Is_Batch_Item from TSPL_ITEM_MASTER where Item_Code='" + strCode + "' "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 obj = New clsItemMaster()
@@ -672,6 +678,8 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
                 obj.Weight_Value = clsCommon.myCdbl(dt.Rows(0)("Weight_Value"))
                 ''richa Ticket No. BM00000003197 on 24/07/2014
                 obj.Rack_No = clsCommon.myCdbl(dt.Rows(0)("Rack_No"))
+                obj.NIR_QC_Product_ID = clsCommon.myCdbl(dt.Rows(0)("NIR_QC_Product_ID"))
+
                 obj.Cost = clsCommon.myCdbl(dt.Rows(0)("Cost"))
                 obj.Tax_Exempted = clsCommon.myCdbl(dt.Rows(0)("Is_Tax_Exempted"))
                 obj.Product_Type = clsCommon.myCstr(dt.Rows(0)("Product_Type"))
@@ -1649,6 +1657,8 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
                 'If Not String.IsNullOrEmpty(obj.Rack_No) Then
                 clsCommon.AddColumnsForChange(coll, "Rack_No", obj.Rack_No)
                 'End If
+                clsCommon.AddColumnsForChange(coll, "NIR_QC_Product_ID", obj.NIR_QC_Product_ID)
+
                 clsCommon.AddColumnsForChange(coll, "Product_Type", obj.Product_Type)
                 clsCommon.AddColumnsForChange(coll, "CSA_Type", obj.CSA_Type)
                 clsCommon.AddColumnsForChange(coll, "Item_used_as", obj.Item_used_as) ''S OR I
@@ -1908,6 +1918,8 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
                 obj.Is_Ambient = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Ambient")) = 1, True, False)
                 obj.Tax_Exempted = clsCommon.myCdbl(dt.Rows(0)("Is_Tax_Exempted"))
                 obj.Rack_No = clsCommon.myCstr(dt.Rows(0)("Rack_No"))
+                obj.NIR_QC_Product_ID = clsCommon.myCstr(dt.Rows(0)("NIR_QC_Product_ID"))
+
                 obj.Product_Type = clsCommon.myCstr(dt.Rows(0)("Product_Type"))
                 obj.CSA_Type = clsCommon.myCstr(dt.Rows(0)("CSA_Type"))
                 obj.Posted = clsCommon.myCdbl(dt.Rows(0)("Posted"))

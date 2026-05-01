@@ -153,6 +153,7 @@ Public Class frmNIRQC
                 obj.QC_Remarks = txtRemarks.Text
                 obj.QC_Status = clsCommon.myCDecimal(cboVisualQCStatus.SelectedValue)
                 obj.Form_ID = Me.Form_ID
+
                 'If clsCommon.CompairString(clsCommon.myCstr(cboVisualQCStatus.SelectedItem), "Not Ok") <> CompairStringResult.Equal Then
                 'Dim dt As DataTable = clsDBFuncationality.GetDataTable(ReturnMRNDataQry())
                 'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -444,5 +445,15 @@ where TSPL_MRN_DETAIL.MRN_No ='" + txtMRNNo.Value + "' and TSPL_MRN_HEAD.Status=
     End Sub
     Private Sub CancelBtn_Click(sender As Object, e As EventArgs) Handles CancelBtn.Click
         CancelNIRQCData()
+    End Sub
+
+    Private Sub txtSampleNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtSampleNo._MYValidating
+        Try
+            Dim qry As String = "select Sample_Number as [Sample Number] , Sample_Type as [Sample Type], Sample_Comment as [Comment] from  TSPL_NIR_QC_FOSS "
+            txtSampleNo.Value = clsCityMaster.getFinder("", txtSampleNo.Value, isButtonClicked)
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

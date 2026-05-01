@@ -2484,6 +2484,7 @@ Public Class clsCreateAllTable
             coll.Add("CrateType_Item", "Varchar(30) null")
             coll.Add("Summary_Seq_No", "decimal (18,2) NULL")
             coll.Add("IsSplitBilling", "integer NULL")
+            coll.Add("NIR_QC_Product_ID", "Varchar(30) null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_ITEM_MASTER alter COLUMN Deduction_Type varchar(30)")
@@ -14867,6 +14868,8 @@ END"
             coll.Add("Target", "decimal (18,2) NULL")
             coll.Add("IsEinvoice", "integer null default 0")
             coll.Add("IsSaleLocation", "integer null")
+            coll.Add("NIR_QC_Instrumental_ID", "Varchar(30) null")
+
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_LOCATION_MASTER", coll, "", True)
 
 
