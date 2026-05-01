@@ -36,7 +36,7 @@ Public Class clsDBTMonthlyFarmerMilk
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             If isNewEntry Then
-                obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.DBTMonthlyFarmerMilk, "", obj.DBT_Reco_Code)
+                obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.DBTMonthlyFarmerMilk, "", "")
                 clsCommon.AddColumnsForChange(coll, "Document_Code", obj.Document_Code)
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
@@ -123,10 +123,10 @@ Public Class clsDBTMonthlyFarmerMilk
         Dim str As String = ""
         Dim qry As String = "Select TSPL_DBT_MONTHLY_FARMER_MILK.Document_Code as Code,Convert(varchar,TSPL_DBT_MONTHLY_FARMER_MILK.Document_Date,103) as Date
 ,TSPL_DBT_MONTHLY_FARMER_MILK.DBT_Reco_Code as [DBT Reco Code] ,Convert(varchar,TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date,103) as [From Date],Convert(varchar,TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date_To,103) as [To Date]
-,case when isnull(Status,0)=0 then 'Pending' else 'Approved' end as Status 
+,case when isnull(TSPL_DBT_MONTHLY_FARMER_MILK.Status,0)=0 then 'Pending' else 'Approved' end as Status 
 from TSPL_DBT_MONTHLY_FARMER_MILK 
-Left Outer Join TSPL_MCC_MASTER on TSPL_MCC_MASTER.DBT_Reco_Code=TSPL_DBT_MONTHLY_FARMER_MILK.DBT_Reco_Code  "
-        str = clsCommon.ShowSelectForm("DBTMFM#F", qry, "Code", whrcls, curcode, "Code", isButtonClicked, "Document_Date")
+Left Outer Join TSPL_DCS_MP_INCENTIVE_RECO_HEAD on TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Code=TSPL_DBT_MONTHLY_FARMER_MILK.DBT_Reco_Code "
+        str = clsCommon.ShowSelectForm("DBTMFM#F", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
         Return str
     End Function
     Public Shared Function PostData(ByVal strDocNo As String) As Boolean

@@ -32,13 +32,13 @@ Public Class frmDBTMonthlyFarmerMilk
         coll.Add("Modified_By", "varchar(12) NOT NULL")
         coll.Add("Modified_Date", "Datetime NOT NULL")
         coll.Add("Posted_By", "varchar(12)   NULL")
-        coll.Add("Posting_Date", "Datetime   NULL")
+        coll.Add("Posted_Date", "Datetime   NULL")
         coll.Add("Status", "int Null")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_MONTHLY_FARMER_MILK", coll, Nothing, False, False, "", "Document_Code", "Document_Date")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_MONTHLY_FARMER_MILK", coll, Nothing, True, False, "", "Document_Code", "Document_Date")
 
         coll = New Dictionary(Of String, String)()
         coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("Document_Code", "varchar(30) not NULL unique references TSPL_DBT_MONTHLY_FARMER_MILK (Document_Code) ")
+        coll.Add("Document_Code", "varchar(30) not NULL references TSPL_DBT_MONTHLY_FARMER_MILK (Document_Code) ")
         coll.Add("VLC_Code", "Varchar(30) not null REFERENCES TSPL_VLC_MASTER_HEAD (VLC_Code)")
         coll.Add("MP_Code", "varchar(30) null REFERENCES TSPL_MP_MASTER (MP_Code)")
         coll.Add("Cycle_No", "integer NULL ")
@@ -440,46 +440,24 @@ Public Class frmDBTMonthlyFarmerMilk
         'RadMenu1.Visible = MyBase.isExport
     End Sub
     Sub Reset()
-        'loadBlankGrid()
-        'Dim dt As Date = clsCommon.GETSERVERDATE()
-        'txtFromDate.Value = "01/" & DatePart(DateInterval.Month, dt) & "/" & DatePart(DateInterval.Year, dt)
-        'If SettMPIncentiveEntryApplyMonthly Then
-        '    txtToDate.Value = txtFromDate.Value.AddMonths(1).AddDays(-1)
-        'Else
-        '    txtToDate.Value = "01/" & DatePart(DateInterval.Month, dt) & "/" & DatePart(DateInterval.Year, dt)
-        'End If
-        'txtDocumentNo.Value = ""
-        'txtDBTReco.Value = ""
-        'lblMCCDesc.Text = ""
-        'txtdate.Value = dt
-        'txtDocumentNo.MyReadOnly = False
-        'btnsave.Text = "Save"
-        'mtxtVLC.arrValueMember = Nothing
-        'txtIncentiveRate.Value = 0
-        'btndelete.Enabled = False
-        'btnsave.Enabled = True
-        'btnPost.Enabled = False
-        'txtdate.Focus()
-        'txtDBTReco.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
-        'If clsCommon.myLen(SettMCCOneDBTOneDoc) > 0 Then
-        '    txtDBTReco.Value = SettMCCOneDBTOneDoc
-        'End If
-        'If clsCommon.myLen(txtDBTReco.Value) > 0 Then
-        '    lblMCCDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select MCC_NAME from tspl_mcc_master where mcc_Code='" & txtDBTReco.Value & "' "))
-        '    If clsCommon.myLen(lblMCCDesc.Text) <= 0 Then
-        '        txtDBTReco.Value = ""
-        '    End If
-        'End If
-        'EnableInputDataField()
-        'isNewEntry = True
-        'IsinsideLoadData = False
-        'lblPending.Status = ERPTransactionStatus.Pending
-        'rbtnFATSNFPer.IsChecked = True
-        'rbtnFATSNFKG.IsChecked = False
-        'txtIncentiveRate.Value = SettMPIncentiveEntryIncentiveRate
-        'mtxtVLC.Enabled = True
-        'txtDBTReco.Enabled = True
-        'btnAddMissing.Enabled = False
+        loadBlankGrid()
+        Dim dt As Date = clsCommon.GETSERVERDATE()
+        txtdate.Value = dt
+        txtFromDate.Value = dt
+        txtToDate.Value = dt
+        txtDocumentNo.Value = ""
+        txtDBTReco.Value = ""
+        txtDocumentNo.MyReadOnly = False
+        btnsave.Text = "Save"
+        btndelete.Enabled = False
+        btnsave.Enabled = True
+        btnPost.Enabled = False
+        txtdate.Focus()
+        EnableInputDataField()
+        isNewEntry = True
+        IsinsideLoadData = False
+        lblPending.Status = ERPTransactionStatus.Pending
+        txtDBTReco.Enabled = True
     End Sub
 
     Private Function AllowToSave() As Boolean
@@ -737,7 +715,7 @@ Public Class frmDBTMonthlyFarmerMilk
         End If
     End Sub
     Private Sub txtMCC__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDBTReco._MYValidating
-        txtDBTReco.Value = clsMPDCSInsentiveReco.getFinder(" not exists(select 1 from TSPL_DBT_MONTHLY_FARMER_MILK where Document_Code not in ('" + txtDocumentNo.Value + "'))", txtDBTReco.Value, isButtonClicked)
+        txtDBTReco.Value = clsMPDCSInsentiveReco.getFinder(" not exists( select 1 from TSPL_DBT_MONTHLY_FARMER_MILK where TSPL_DBT_MONTHLY_FARMER_MILK.DBT_Reco_Code=TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Code  and TSPL_DBT_MONTHLY_FARMER_MILK.Document_Code not in ('" + txtDocumentNo.Value + "'))", txtDBTReco.Value, isButtonClicked)
         If clsCommon.myLen(txtDBTReco.Value) > 0 Then
             SetRecoDate()
             fillMPS()
