@@ -57427,6 +57427,29 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DCS_MP_INCENTIVE_RECO_DETAIL", coll, "unique(Cycle_Year,Cycle_Month,Cycle_No,VLC_Code)", True, True, "TSPL_DCS_MP_INCENTIVE_RECO_HEAD", "Document_Code", "", True)
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID", coll, "", True, True, "TSPL_DCS_MP_INCENTIVE_RECO_HEAD", "Document_Code", "", True)
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Document_Code", "Varchar(30) NOT NULL primary key")
+            coll.Add("Document_Date", "datetime not NULL")
+            coll.Add("DBT_Reco_Code", "varchar(30) not NULL references TSPL_DCS_MP_INCENTIVE_RECO_HEAD (Document_Code) ")
+            coll.Add("Created_By", "varchar(12) NOT NULL")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Modified_By", "varchar(12) NOT NULL")
+            coll.Add("Modified_Date", "Datetime NOT NULL")
+            coll.Add("Posted_By", "varchar(12)   NULL")
+            coll.Add("Posted_Date", "Datetime   NULL")
+            coll.Add("Status", "int Null")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_MONTHLY_FARMER_MILK", coll, Nothing, True, False, "", "Document_Code", "Document_Date")
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Document_Code", "varchar(30) not NULL references TSPL_DBT_MONTHLY_FARMER_MILK (Document_Code) ")
+            coll.Add("VLC_Code", "Varchar(30) not null REFERENCES TSPL_VLC_MASTER_HEAD (VLC_Code)")
+            coll.Add("MP_Code", "varchar(30) null REFERENCES TSPL_MP_MASTER (MP_Code)")
+            coll.Add("Cycle_No", "integer NULL ")
+            coll.Add("Cycle_Month", "integer NULL ")
+            coll.Add("Cycle_Year", "integer NULL ")
+            coll.Add("Qty", "Decimal(18,2) null")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_MONTHLY_FARMER_MILK_DETAIL", coll, "", True, False, "TSPL_MP_INCENTIVE_ENTRY_HEAD", "Document_Code", "")
 
 
             qry = "alter table TSPL_DCS_MP_INCENTIVE_RECO_DETAIL alter column Qty decimal(18,3)"
