@@ -22,9 +22,11 @@ Partial Class FrmMCCMaterialSalePriceChart
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.txtPriceCode = New common.UserControls.txtFinder()
+        Me.lblPriceCode = New common.Controls.MyLabel()
         Me.txtMCC_Code = New common.UserControls.txtMultiSelectFinder()
         Me.txtDocNo = New common.UserControls.txtNavigator()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
@@ -47,12 +49,14 @@ Partial Class FrmMCCMaterialSalePriceChart
         Me.btnrefresh = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnshow = New Telerik.WinControls.UI.RadButton()
+        Me.btnCC = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.lblPriceCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblMCC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblEndDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -72,6 +76,7 @@ Partial Class FrmMCCMaterialSalePriceChart
         CType(Me.btnrefresh, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnshow, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnCC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -112,6 +117,9 @@ Partial Class FrmMCCMaterialSalePriceChart
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.btnCC)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtPriceCode)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblPriceCode)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtMCC_Code)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtDocNo)
         Me.SplitContainer2.Panel1.Controls.Add(Me.btnAddNew)
@@ -130,6 +138,44 @@ Partial Class FrmMCCMaterialSalePriceChart
         Me.SplitContainer2.Size = New System.Drawing.Size(728, 370)
         Me.SplitContainer2.SplitterDistance = 61
         Me.SplitContainer2.TabIndex = 2
+        '
+        'txtPriceCode
+        '
+        Me.txtPriceCode.CalculationExpression = Nothing
+        Me.txtPriceCode.FieldCode = Nothing
+        Me.txtPriceCode.FieldDesc = Nothing
+        Me.txtPriceCode.FieldMaxLength = 0
+        Me.txtPriceCode.FieldName = Nothing
+        Me.txtPriceCode.isCalculatedField = False
+        Me.txtPriceCode.IsSourceFromTable = False
+        Me.txtPriceCode.IsSourceFromValueList = False
+        Me.txtPriceCode.IsUnique = False
+        Me.txtPriceCode.Location = New System.Drawing.Point(408, 35)
+        Me.txtPriceCode.MendatroryField = True
+        Me.txtPriceCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPriceCode.MyLinkLable1 = Me.lblPriceCode
+        Me.txtPriceCode.MyLinkLable2 = Nothing
+        Me.txtPriceCode.MyReadOnly = False
+        Me.txtPriceCode.MyShowMasterFormButton = False
+        Me.txtPriceCode.Name = "txtPriceCode"
+        Me.txtPriceCode.ReferenceFieldDesc = Nothing
+        Me.txtPriceCode.ReferenceFieldName = Nothing
+        Me.txtPriceCode.ReferenceTableName = Nothing
+        Me.txtPriceCode.Size = New System.Drawing.Size(306, 18)
+        Me.txtPriceCode.TabIndex = 1602
+        Me.txtPriceCode.Value = ""
+        Me.txtPriceCode.Visible = False
+        '
+        'lblPriceCode
+        '
+        Me.lblPriceCode.FieldName = Nothing
+        Me.lblPriceCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPriceCode.Location = New System.Drawing.Point(344, 36)
+        Me.lblPriceCode.Name = "lblPriceCode"
+        Me.lblPriceCode.Size = New System.Drawing.Size(62, 16)
+        Me.lblPriceCode.TabIndex = 1603
+        Me.lblPriceCode.Text = "Price Code"
+        Me.lblPriceCode.Visible = False
         '
         'txtMCC_Code
         '
@@ -301,12 +347,15 @@ Partial Class FrmMCCMaterialSalePriceChart
         Me.gv.MasterTemplate.AllowDragToGroup = False
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv.MyExportAPI = False
+        Me.gv.MyExportFilePath = ""
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(705, 255)
         Me.gv.TabIndex = 0
+        Me.gv.VarID = ""
         '
         'RadPageViewPage2
         '
@@ -394,6 +443,15 @@ Partial Class FrmMCCMaterialSalePriceChart
         Me.btnshow.Text = "&Show"
         Me.btnshow.Visible = False
         '
+        'btnCC
+        '
+        Me.btnCC.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnCC.Location = New System.Drawing.Point(316, 12)
+        Me.btnCC.Name = "btnCC"
+        Me.btnCC.Size = New System.Drawing.Size(20, 21)
+        Me.btnCC.TabIndex = 1604
+        Me.btnCC.Text = "CC"
+        '
         'FrmMCCMaterialSalePriceChart
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -413,6 +471,7 @@ Partial Class FrmMCCMaterialSalePriceChart
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.lblPriceCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblMCC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblEndDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -432,6 +491,7 @@ Partial Class FrmMCCMaterialSalePriceChart
         CType(Me.btnrefresh, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnshow, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnCC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -461,5 +521,8 @@ Partial Class FrmMCCMaterialSalePriceChart
     Friend WithEvents txtMCC_Code As common.UserControls.txtMultiSelectFinder
     Friend WithEvents txtDocNo As common.UserControls.txtNavigator
     Friend WithEvents btnAddNew As RadButton
+    Friend WithEvents txtPriceCode As common.UserControls.txtFinder
+    Friend WithEvents lblPriceCode As common.Controls.MyLabel
+    Friend WithEvents btnCC As RadButton
 End Class
 

@@ -4,6 +4,7 @@ Imports common
 Public Class frmMCCMaterialSale
     Inherits FrmMainTranScreen
 #Region "Variables"
+    Dim ApplySaleRouteInDCSSale As Boolean = False
     Dim DefaultEnableNoTransporter As Boolean = False
     Dim ApplyEWBThresholdLimit As Boolean = False
     Dim EWBThresholdLimitForIntraCity As Integer = 0
@@ -276,6 +277,10 @@ Public Class frmMCCMaterialSale
         End If
     End Sub
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        ApplySaleRouteInDCSSale = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ApplySaleRouteInDCSSale, clsFixedParameterCode.ApplySaleRouteInDCSSale, Nothing)) = "1", True, False))
+        If ApplySaleRouteInDCSSale Then
+            PnlSaleRoute.Visible = True
+        End If
         arrMCCRights = clsMCCCodes.GetUserHavingMCCRights()
         CalculateTaxRatefromItemwsieTaxOnSale = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.CalculateTaxRatefromItemwsieTaxOnSale, clsFixedParameterCode.CalculateTaxRatefromItemwsieTaxOnSale, Nothing))
         RadPageView1.Pages("RadPageViewPage3").Item.Visibility = ElementVisibility.Collapsed
@@ -501,6 +506,8 @@ Public Class frmMCCMaterialSale
         chkOnHold.Checked = False
         txtVendorNo.Value = ""
         lblVendorName.Text = ""
+        FndPriceCode.Value = ""
+        txtSaleRoute.Value = ""
         setDCSBalance()
         txtDate.Value = clsCommon.GETSERVERDATE()
         dtpChallan.Value = clsCommon.GETSERVERDATE()
@@ -2530,7 +2537,11 @@ Public Class frmMCCMaterialSale
             Dim qry As String = "select UOM_Code as Code,UOM_Description as [Description] from TSPL_ITEM_UOM_DETAIL"
             Dim whrCls As String = "Item_Code='" + strICode + "'"
             gv1.CurrentRow.Cells(colUnit).Value = clsCommon.ShowSelectForm("ShipmentItefndnder", qry, "Code", whrCls, clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), "Code", isButtonClick)
-            gv1.CurrentRow.Cells(colRate).Value = clsEkoPro.GetRateMccSale(txtBillToLocation.Value, clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), txtDate.Value) 'clsCommon.myCDecimal(dr("BasicRate"))
+            If ApplySaleRouteInDCSSale Then
+                gv1.CurrentRow.Cells(colRate).Value = clsEkoPro.GetRateMccSale(txtBillToLocation.Value, clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), txtDate.Value, Nothing, FndPriceCode.Value)
+            Else
+                gv1.CurrentRow.Cells(colRate).Value = clsEkoPro.GetRateMccSale(txtBillToLocation.Value, clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), txtDate.Value) 'clsCommon.myCdbl(dr("BasicRate"))
+            End If
         End If
     End Sub
     Private Sub setGridFocus()
@@ -2807,7 +2818,11 @@ Public Class frmMCCMaterialSale
                             gv1.CurrentRow.Cells(colUOMName).Value = clsDBFuncationality.getSingleValue("select Unit_Desc from tspl_unit_master where Unit_code= '" + clsCommon.myCstr(dr("Unit")) + "'")
                             gv1.CurrentRow.Cells(colOrgUnit).Value = clsCommon.myCstr(dr("Unit"))
                             gv1.CurrentRow.Cells(colMRP).Value = clsCommon.myCDecimal(dr("MRP"))
-                            gv1.CurrentRow.Cells(colRate).Value = clsEkoPro.GetRateMccSale(txtBillToLocation.Value, clsCommon.myCstr(dr("Item")), clsCommon.myCstr(dr("Unit")), txtDate.Value) 'clsCommon.myCDecimal(dr("BasicRate"))
+                            If ApplySaleRouteInDCSSale Then
+                                gv1.CurrentRow.Cells(colRate).Value = clsEkoPro.GetRateMccSale(txtBillToLocation.Value, clsCommon.myCstr(dr("Item")), clsCommon.myCstr(dr("Unit")), txtDate.Value, Nothing, FndPriceCode.Value)
+                            Else
+                                gv1.CurrentRow.Cells(colRate).Value = clsEkoPro.GetRateMccSale(txtBillToLocation.Value, clsCommon.myCstr(dr("Item")), clsCommon.myCstr(dr("Unit")), txtDate.Value)
+                            End If
                             gv1.CurrentRow.Cells(colSchemeApplicable).Value = "No"
                             gv1.CurrentRow.Cells(colSchemeItem).Value = "No"
                             gv1.CurrentRow.Cells(colActualCost).Value = clsCommon.myCDecimal(dr("BasicRate"))
@@ -2875,7 +2890,15 @@ left outer join  TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VAL
                     If gv1.CurrentRow.Cells(colDCSSaleZeroCost).Value Then
                         gv1.CurrentRow.Cells(colRate).Value = 0
                     Else
-                        gv1.CurrentRow.Cells(colRate).Value = clsEkoPro.GetRateMccSale(txtBillToLocation.Value, clsCommon.myCstr(dr(0).Item("Item")), clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), txtDate.Value) 'clsCommon.myCDecimal(dr("BasicRate"))
+                        If ApplySaleRouteInDCSSale Then
+                            If clsCommon.myLen(FndPriceCode.Value) > 0 Then
+                                gv1.CurrentRow.Cells(colRate).Value = clsEkoPro.GetRateMccSale(txtBillToLocation.Value, clsCommon.myCstr(dr(0).Item("Item")), clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), txtDate.Value, Nothing, FndPriceCode.Value)
+                            Else
+                                Throw New Exception("Please select Price Code first.")
+                            End If
+                        Else
+                            gv1.CurrentRow.Cells(colRate).Value = clsEkoPro.GetRateMccSale(txtBillToLocation.Value, clsCommon.myCstr(dr(0).Item("Item")), clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), txtDate.Value) 'clsCommon.myCdbl(dr("BasicRate"))
+                        End If
                     End If
                     gv1.CurrentRow.Cells(colSchemeApplicable).Value = "No"
                     gv1.CurrentRow.Cells(colSchemeItem).Value = "No"
@@ -3433,7 +3456,16 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     End If
                 End If
             End If
-
+            If ApplySaleRouteInDCSSale Then
+                If clsCommon.myLen(FndPriceCode.Value) <= 0 Then
+                    FndPriceCode.Focus()
+                    Throw New Exception("Price Code cannot be blank.")
+                End If
+                If clsCommon.myLen(txtSaleRoute.Value) <= 0 Then
+                    txtSaleRoute.Focus()
+                    Throw New Exception("Sale Route cannot be blank.")
+                End If
+            End If
             If chkApplyTPT.Checked Then
                 If clsCommon.myLen(txtTPTVendor.Value) <= 0 Then
                     clsCommon.MyMessageBoxShow(Me, "Please select TPT Vendor", Me.Text)
@@ -3794,6 +3826,8 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
             If (AllowToSave(ChekPostBtn)) Then
                 Dim obj As New clsMCCMaterialSale()
                 obj.Sale_Invoice_No = txtInvoiceNo.Text
+                obj.DCS_Price_Code = FndPriceCode.Value
+                obj.Sale_Route_Code = txtSaleRoute.Value
                 'obj.WayBillNo = txtWayBillno.Text
                 ' obj.WayBillDate = txtWaybillDate.Value
                 obj.Road_Permit_No = txtRoadPermitNo.Text
@@ -4087,7 +4121,12 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     isSubLocation = False
                 End If
                 For Each grow As GridViewRowInfo In gv1.Rows
-                    Dim Rate_Mcc_Item As Decimal = clsEkoPro.GetRateMccSale(txtBillToLocation.Value, clsCommon.myCstr(grow.Cells(colICode).Value), clsCommon.myCstr(grow.Cells(colUnit).Value), txtDate.Value)
+                    Dim Rate_Mcc_Item As Decimal
+                    If ApplySaleRouteInDCSSale Then
+                        Rate_Mcc_Item = clsEkoPro.GetRateMccSale(txtBillToLocation.Value, clsCommon.myCstr(grow.Cells(colICode).Value), clsCommon.myCstr(grow.Cells(colUnit).Value), txtDate.Value, Nothing, FndPriceCode.Value)
+                    Else
+                        Rate_Mcc_Item = clsEkoPro.GetRateMccSale(txtBillToLocation.Value, clsCommon.myCstr(grow.Cells(colICode).Value), clsCommon.myCstr(grow.Cells(colUnit).Value), txtDate.Value)
+                    End If
                     Dim objTr As New clsMCCMaterialSaleDetail()
                     If Rate_Mcc_Item <> clsCommon.myCDecimal(grow.Cells(colRate).Value) Then
                         obj.Rate_Status = 2
@@ -4402,6 +4441,8 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 chkTaxable.Enabled = False
                 chkRateUserCustomer.ToggleState = ClsUserCustomerSettings.GetUserCustomerRateSetting(txtVendorNo.Value)
                 txtRoadPermitNo.Text = obj.Road_Permit_No
+                FndPriceCode.Value = obj.DCS_Price_Code
+                txtSaleRoute.Value = obj.Sale_Route_Code
                 lblVendorName.Text = obj.Customer_Name
                 txtRefNo.Text = obj.Ref_No
                 If clsCommon.myLen(obj.Challan_Date) > 0 Then
@@ -9712,5 +9753,27 @@ a:          End If
             txtTransporterCode.Enabled = True
             lblTransporterName.Enabled = True
         End If
+    End Sub
+    Private Sub txtSaleRoute__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtSaleRoute._MYValidating
+        Try
+            Dim qry As String = " select Route_No as Code,Route_Desc as Name from TSPL_Route_Master "
+            txtSaleRoute.Value = clsCommon.ShowSelectForm("SaleRoute", qry, "Code", "", txtSaleRoute.Value, "", isButtonClicked)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub FndPriceCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles FndPriceCode._MYValidating
+        Try
+            Dim qry As String = "Select Distinct Price_Code as Code, Price_Code_Desc as [Description] ,isnull(Transfer,0) as Transfer from TSPL_PRICE_COMPONENT_MAPPING"
+            FndPriceCode.Value = clsCommon.ShowSelectForm("PriceDCSSaleEn", qry, "Code", "", FndPriceCode.Value, "", isButtonClicked)
+            If clsCommon.myLen(FndPriceCode.Value) > 0 Then
+                FndPriceCode.Enabled = False
+            Else
+                FndPriceCode.Enabled = True
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

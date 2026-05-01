@@ -6,6 +6,7 @@ Public Class clsMCCMaterailSalePriceChat
     Public Code As String = ""
     Public DOCDate As DateTime = Nothing
     Public Effective_Date As DateTime = Nothing
+    Public Price_Code As String
     Public Arr As List(Of clsMCCMaterailSalePriceChatDetail) = Nothing
     Public ArrMCCRate As ArrayList = Nothing
 #End Region
@@ -33,6 +34,7 @@ Public Class clsMCCMaterailSalePriceChat
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "date", clsCommon.GetPrintDate(obj.DOCDate, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Effective_date", clsCommon.GetPrintDate(obj.Effective_Date, "dd/MMM/yyyy"))
+            clsCommon.AddColumnsForChange(coll, "Price_Code", obj.Price_Code)
             clsCommon.AddColumnsForChange(coll, "modified_by", clsCommon.myCstr(objCommonVar.CurrentUserCode))
             clsCommon.AddColumnsForChange(coll, "modified_date", clsCommon.myCstr(clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy")))
             If isNewEntry Then
@@ -82,7 +84,7 @@ Public Class clsMCCMaterailSalePriceChat
             obj.Code = clsCommon.myCstr(dt.Rows(0)("Code"))
             obj.DOCDate = clsCommon.myCDate(dt.Rows(0)("date"))
             obj.Effective_Date = clsCommon.myCDate(dt.Rows(0)("Effective_Date"))
-
+            obj.Price_Code = clsCommon.myCstr(dt.Rows(0)("Price_Code"))
             qry = "select tspl_item_master.Item_Code as [Item Code],tspl_item_master.Item_Desc as [Item Name],TSPL_UNIT_MASTER. unit_code as [Unit Code]" _
         & " ,Unit_Desc as [Unit Desc],Price,1 as Issaved from tspl_item_master left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=tspl_item_master.item_code" _
         & " left join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.UOM_Code left join TSPL_MCC_RATE_UPLOADER_Detail on " _

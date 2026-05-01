@@ -11544,6 +11544,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Code", "Varchar(30) NOT NULL")
             coll.Add("Date", "date NOT NULL")
             coll.Add("Effective_Date", "date NOT NULL")
+            coll.Add("Price_Code", "varchar(12)  NULL")
             coll.Add("Created_By", "varchar(12) NOT NULL")
             coll.Add("Created_Date", "varchar(10) NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
@@ -31468,6 +31469,8 @@ END"
             coll.Add("TPT_Vendor", "varchar(12) NULL references TSPL_VENDOR_MASTER(Vendor_Code)")
             coll.Add("Bank_Code", "VARCHAR(12) null REFERENCES TSPL_Bank_MASTER(Bank_Code)")
             coll.Add("Exclude_KKF_And_Mandi", "integer null")
+            coll.Add("DCS_Price_Code", "VARCHAR(12) NULL")
+            coll.Add("Sale_Route_Code", "varchar(12) NULL references TSPL_ROUTE_MASTER(Route_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DCS_SALE_ENTRY", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)
@@ -32154,7 +32157,8 @@ END"
             coll.Add("Is_Rate_Diff_Per_Amt", "integer null")
             coll.Add("MobileNO", "VARCHAR(15) NULL")
             coll.Add("AdharNo", "VARCHAR(20) NULL")
-
+            coll.Add("DCS_Price_Code", "VARCHAR(12) NULL")
+            coll.Add("Sale_Route_Code", "varchar(12) NULL references TSPL_ROUTE_MASTER(Route_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
             Try
                 qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo=Document_Code where ParentDocNo is null "
