@@ -49,7 +49,7 @@ from TSPL_PROGRAM_MASTER
 left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('SM')) as TBL_SMODULE on TBL_SMODULE.Program_Code = TSPL_PROGRAM_MASTER.Parent_Code
 left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('M')) as TBL_MODULE on TBL_MODULE.Program_Code = TBL_SMODULE.Parent_Code
 Where TBL_MODULE.Program_Code in (select  distinct Module_Name from TSPL_MODULE_PERMISSION ) and  not TSPL_PROGRAM_MASTER.Type in ('M','SM') 
-and TBL_MODULE.Program_Code in ('" & clsUserMgtCode.ModuleSaleDairy & "','" & clsUserMgtCode.ModuleSalesNew & "','" & clsUserMgtCode.SubModuleSaleNewTransaction & "','" & clsUserMgtCode.ModuleMCCMilkProcurement & "','" & clsUserMgtCode.ModulePurchase & "','" & clsUserMgtCode.ModulePayable & "') 
+and TBL_MODULE.Program_Code in ('" & clsUserMgtCode.ModuleSaleDairy & "','" & clsUserMgtCode.ModuleSalesNew & "','" & clsUserMgtCode.SubModuleSaleNewTransaction & "','" & clsUserMgtCode.ModuleMCCMilkProcurement & "','" & clsUserMgtCode.ModulePurchase & "','" & clsUserMgtCode.ModulePayable & "','" & clsUserMgtCode.ModuleMaterial & "') 
 and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') 
  "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
@@ -73,7 +73,7 @@ left outer join (select Program_Code, Program_Name,Parent_Code,case when len (is
 left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('M')) as TBL_MODULE on TBL_MODULE.Program_Code = TBL_SMODULE.Parent_Code
 Where TBL_MODULE.Program_Code in (select  distinct Module_Name from TSPL_MODULE_PERMISSION ) and  not TSPL_PROGRAM_MASTER.Type in ('M','SM') 
 and TBL_SMODULE.Parent_Code In ('" & clsCommon.myCstr(cboModule.SelectedValue) & "') 
-and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') And TSPL_PROGRAM_MASTER.Program_Code In ('" & clsUserMgtCode.frmSaleDispatchDairy & "','" & clsUserMgtCode.frmSNSaleInvoice & "','" & clsUserMgtCode.frmDairyGatePass & "','" & clsUserMgtCode.frmMCCMaterial & "','" & clsUserMgtCode.frmDairyBookingCustomer & "','" & clsUserMgtCode.frmWreckageBooking & "','" & clsUserMgtCode.frmSNPOS & "','" & clsUserMgtCode.frmGatePassDairy & "','" & clsUserMgtCode.ScrapSale & "','" & clsUserMgtCode.FrmVendorService & "','" & clsUserMgtCode.frmSaleReturndairy & "','" & clsUserMgtCode.frmSaleInvoicedairy & "')
+and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') And TSPL_PROGRAM_MASTER.Program_Code In ('" & clsUserMgtCode.frmSaleDispatchDairy & "','" & clsUserMgtCode.frmSNSaleInvoice & "','" & clsUserMgtCode.frmDairyGatePass & "','" & clsUserMgtCode.frmMCCMaterial & "','" & clsUserMgtCode.frmDairyBookingCustomer & "','" & clsUserMgtCode.frmWreckageBooking & "','" & clsUserMgtCode.frmSNPOS & "','" & clsUserMgtCode.frmGatePassDairy & "','" & clsUserMgtCode.ScrapSale & "','" & clsUserMgtCode.FrmVendorService & "','" & clsUserMgtCode.frmSaleReturndairy & "','" & clsUserMgtCode.frmSaleInvoicedairy & "','" & clsUserMgtCode.Transfer & "')
  "
             dt = clsDBFuncationality.GetDataTable(Qry)
             'dr = dt.NewRow()
@@ -137,7 +137,6 @@ and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transacti
         gv1.AllowAddNewRow = False
     End Sub
     Sub gv1Format()
-
         If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmSaleInvoicedairy) = CompairStringResult.Equal Then
             Me.gv1.MasterTemplate.Columns("IsMultipleInvoice").IsVisible = False
         End If
@@ -619,6 +618,25 @@ Inner Join TSPL_USER_MASTER On TSPL_USER_MASTER.User_Code=TSPL_SCRAPSALE_HEAD_De
                     qry += " Convert(Date,Document_Date,103)>=Convert(Date,'" & dtpFromDate.Value & "',103) And Convert(Date,Document_Date,103)<=Convert(Date,'" & dtpToDate.Value & "',103)"
                 End If
             End If
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.transfer) = CompairStringResult.Equal Then
+            If rdbCancel.IsChecked Then
+                qry = " select Document_No As [Document ID],Convert(varchar(10),Document_Date,103) As [Document Date],From_Location As [From Location],To_Location As [To Location],DOC_Total_Amt As [Total Amount],'' As [Description],Created_By As [Created By],Convert(varchar(10),Created_Date,103) As [Created Date],IRN_No As [IRN No],Ack_No As [Ack No],Convert(varchar(10),Ack_Date,103) As [Ack Date],Cancel_By As [Canceled By],
+Convert(varchar(10),Cancel_On,103) As [Canceled Date]  from TSPL_TRANSFER_ORDER_HEAD_Cancel_Data where 1=1 "
+                If rbtnCancelDate.IsChecked Then
+                    qry += " And Convert(Date,Cancel_On,103)>=Convert(Date,'" & dtpFromDate.Value & "',103) And Convert(Date,Cancel_On,103)<=Convert(Date,'" & dtpToDate.Value & "',103)"
+                Else
+                    qry += " And Convert(Date,Document_Date,103)>=Convert(Date,'" & dtpFromDate.Value & "',103) And Convert(Date,Document_Date,103)<=Convert(Date,'" & dtpToDate.Value & "',103)"
+                End If
+            Else
+                qry = " select Document_No As [Document ID],Convert(varchar(10),Document_Date,103) As [Document Date],From_Location As [From Location],To_Location As [To Location],DOC_Total_Amt As [Total Amount],'' As [Description],Created_By As [Created By],Convert(varchar(10),Created_Date,103) As [Created Date],IRN_No As [IRN No],Ack_No As [Ack No],Convert(varchar(10),Ack_Date,103) As [Ack Date],Delete_By As [Deleted By],
+Convert(varchar(10),Delete_On,103) As [Deleted Date] from TSPL_TRANSFER_ORDER_HEAD_Delete_Data "
+                If rbtnCancelDate.IsChecked Then
+                    qry += " Convert(Date,Delete_On,103)>=Convert(Date,'" & dtpFromDate.Value & "',103) And Convert(Date,Delete_On,103)<=Convert(Date,'" & dtpToDate.Value & "',103)"
+                Else
+                    qry += " Convert(Date,Document_Date,103)>=Convert(Date,'" & dtpFromDate.Value & "',103) And Convert(Date,Document_Date,103)<=Convert(Date,'" & dtpToDate.Value & "',103)"
+                End If
+
+            End If
         End If
         If clsCommon.CompairString(clsCommon.myCstr(qry), Nothing) <> CompairStringResult.Equal Then
 
@@ -762,91 +780,134 @@ Inner Join TSPL_USER_MASTER On TSPL_USER_MASTER.User_Code=TSPL_SCRAPSALE_HEAD_De
 
     Private Sub gv1_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellDoubleClick
         Try
-            If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmMCCMaterial) = CompairStringResult.Equal Then
-                clsMCCMaterialSale.funPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), False)
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmDairyBookingCustomer) = CompairStringResult.Equal Then
-                'PrintInvoiceForAll("", MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
-                Dim frm As New frmDairyBookingCustomer()
+            If gv1 IsNot Nothing AndAlso gv1.Rows.Count > 0 Then
+                If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmMCCMaterial) = CompairStringResult.Equal Then
+                    clsMCCMaterialSale.funPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), False)
+                ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmDairyBookingCustomer) = CompairStringResult.Equal Then
+                    'PrintInvoiceForAll("", MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
+                    Dim frm As New frmDairyBookingCustomer()
 
-                Dim InvoiceDocNo As String
-                Dim doccodeShip As String
-                'Dim InvoiceDocNo As New List(Of String)
-                doccodeShip = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SHIPMENT_HEAD_Cancel_Data  where Against_Booking_No ='" & clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value) & "'"))
+                    Dim InvoiceDocNo As String
+                    Dim doccodeShip As String
+                    'Dim InvoiceDocNo As New List(Of String)
+                    doccodeShip = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SHIPMENT_HEAD_Cancel_Data  where Against_Booking_No ='" & clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value) & "'"))
 
-                InvoiceDocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data where Against_Shipment_No ='" & doccodeShip & "'"))
-                'Dim Qry As String = Nothing
+                    InvoiceDocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data where Against_Shipment_No ='" & doccodeShip & "'"))
+                    'Dim Qry As String = Nothing
 
-                frm.printInvoice(clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), clsCommon.myCstr(InvoiceDocNo), clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), True)
-                'frm.printInvoice(clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), True)
-                frm = Nothing
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmSNPOS) = CompairStringResult.Equal Then
-                clsSNPOSHead.funSNFPOSPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmGatePassDairy) = CompairStringResult.Equal Then
-                clsMilkTransferIn.funGatepassdairyPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), False, False, Nothing)
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmDairyGatePass) = CompairStringResult.Equal Then
-                Dim frmFree As New XpertERPEngine.FrmFreeComboBox()
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select Code from (Select 'Print 1' As Code Union All Select 'Print 2' As Code)xyz")
-                frmFree.ComboSource = dt
-                frmFree.ComboValueMember = "Code"
-                frmFree.ComboDisplayMember = "Code"
-                frmFree.ShowDialog()
-                Dim Value As String = frmFree.strRetValue
-                frmFree = Nothing
-                If clsCommon.myLen(Value) <= 0 Then
-                    Throw New Exception("Select Print !")
+                    frm.printInvoice(clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), clsCommon.myCstr(InvoiceDocNo), clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), True)
+                    'frm.printInvoice(clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), True)
+                    frm = Nothing
+                ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmSNPOS) = CompairStringResult.Equal Then
+                    clsSNPOSHead.funSNFPOSPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
+                ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmGatePassDairy) = CompairStringResult.Equal Then
+                    clsMilkTransferIn.funGatepassdairyPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), False, False, Nothing)
+                ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmDairyGatePass) = CompairStringResult.Equal Then
+                    Dim frmFree As New XpertERPEngine.FrmFreeComboBox()
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select Code from (Select 'Print 1' As Code Union All Select 'Print 2' As Code)xyz")
+                    frmFree.ComboSource = dt
+                    frmFree.ComboValueMember = "Code"
+                    frmFree.ComboDisplayMember = "Code"
+                    frmFree.ShowDialog()
+                    Dim Value As String = frmFree.strRetValue
+                    frmFree = Nothing
+                    If clsCommon.myLen(Value) <= 0 Then
+                        Throw New Exception("Select Print !")
+                    End If
+                    Dim isFresh As Boolean = False
+                    Dim isAmbient As Boolean = False
+                    If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Item Type").Value), "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Item Type").Value), "I") = CompairStringResult.Equal Then
+                        isAmbient = True
+                    Else
+                        isFresh = True
+                    End If
+                    Dim frm As New frmDairyGatePass()
+                    If clsCommon.CompairString(Value, "Print 1") = CompairStringResult.Equal Then
+                        frm.GatepassWithFilePath(clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("GatePass No").Value), clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Gate Pass Date").Value), Nothing, isFresh, isAmbient, clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Route_No").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Location Code").Value), False, True)
+                    Else
+                        frm.funPrint2(clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("GatePass No").Value), False, True)
+                    End If
+                    frm = Nothing
+                ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.ScrapSale) = CompairStringResult.Equal Then
+                    Dim frm As New frmScrapSale()
+                    'Print(ByVal isPrint As Boolean, ByVal ischallan As Boolean, ByVal isPDFPath As Boolean, ByVal strCancelDelete As String)
+                    Dim strDoc As String = clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value)
+                    Dim strInvNo As String = clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Invoice No").Value)
+                    Dim strLocCode As String = clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Location Code").Value)
+                    If rdbCancel.IsChecked Then
+                        frm.Print(True, True, False, "Cancel", strDoc, strInvNo, strLocCode)
+                    Else
+                        frm.Print(True, True, False, "Delete", strDoc, strInvNo, strLocCode)
+                    End If
+                    frm = Nothing
+                ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.FrmVendorService) = CompairStringResult.Equal Then
+                    If rdbCancel.IsChecked Then
+                        clsVedorInvoiceHead.funVendorServicePrint(MyBase.Form_ID, "Cancel", clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
+                    Else
+                        clsVedorInvoiceHead.funVendorServicePrint(MyBase.Form_ID, "Delete", clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
+                    End If
+                ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmSaleReturndairy) = CompairStringResult.Equal Then
+                    If rdbCancel.IsChecked Then
+                        clsDSSalesReturnHead.funsaleReturnDairyPrint(MyBase.Form_ID, "Cancel", clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), False)
+                    Else
+                        clsDSSalesReturnHead.funsaleReturnDairyPrint(MyBase.Form_ID, "Delete", clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), False)
+                    End If
+                ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmSNSaleInvoice) = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmSaleInvoicedairy) = CompairStringResult.Equal Then
+                    Dim Qry As String = Nothing
+                    Dim dt As DataTable = Nothing
+                    Dim frm As New frmMultipleInvoice()
+                    If rdbCancel.IsChecked Then
+                        frm.PrintMultipleInvoice(Me.Form_ID, Me.Text, clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), "Cancel")
+                    Else
+                        frm.PrintMultipleInvoice(Me.Form_ID, Me.Text, clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), "Delete")
+                    End If
+                    frm = Nothing
+                ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.Transfer) = CompairStringResult.Equal Then
+                    Dim frmFree As New XpertERPEngine.FrmFreeComboBox()
+                    Dim strQry As String = "Select Code from ("
+                    strQry &= " Select 'Print' As Code "
+                    strQry &= " Union All "
+                    strQry &= " Select 'Delivery Challan' As Code "
+                    strQry &= " Union All "
+                    strQry &= " Select 'STA Print' As Code "
+                    strQry &= " Union All "
+                    strQry &= " Select 'STA Milk Print' As Code "
+                    strQry &= " Union All "
+                    strQry &= " Select 'STA Product Print' As Code "
+                    strQry &= " )xyz"
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+                    frmFree.ComboSource = dt
+                    frmFree.ComboValueMember = "Code"
+                    frmFree.ComboDisplayMember = "Code"
+                    frmFree.ShowDialog()
+                    Dim Value As String = frmFree.strRetValue
+                    frmFree = Nothing
+                    If clsCommon.myLen(Value) <= 0 Then
+                        Throw New Exception("Select Print !")
+                    End If
+                    Dim isCancelOrDelete As String = Nothing
+                    If rdbCancel.IsChecked Then
+                        isCancelOrDelete = "Cancel"
+                    Else
+                        isCancelOrDelete = "Delete"
+                    End If
+                    Dim frm As New FrmTransferKDIL()
+                    If clsCommon.CompairString(Value, "Print") = CompairStringResult.Equal Then
+                        frm.PrintData(Me.Form_ID, Me.Text, isCancelOrDelete, clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
+                    ElseIf clsCommon.CompairString(Value, "Delivery Challan") = CompairStringResult.Equal Then
+                        frm.PrintChallanReport(Me.Form_ID, Me.Text, clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), isCancelOrDelete)
+                    ElseIf clsCommon.CompairString(Value, "STA Print") = CompairStringResult.Equal Then
+                        frm.STAPrint(Me.Form_ID, Me.Text, clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), isCancelOrDelete)
+                    ElseIf clsCommon.CompairString(Value, "STA Milk Print") = CompairStringResult.Equal Then
+                        frm.STAMilkPrint(Me.Form_ID, Me.Text, clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), isCancelOrDelete)
+                    Else
+                        frm.STAProductPrint(Me.Form_ID, Me.Text, clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), isCancelOrDelete)
+                    End If
+                    frm = Nothing
+                    Else
+                        printCanceInvoice()
                 End If
-                Dim isFresh As Boolean = False
-                Dim isAmbient As Boolean = False
-                If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Item Type").Value), "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Item Type").Value), "I") = CompairStringResult.Equal Then
-                    isAmbient = True
-                Else
-                    isFresh = True
-                End If
-                Dim frm As New frmDairyGatePass()
-                If clsCommon.CompairString(Value, "Print 1") = CompairStringResult.Equal Then
-                    frm.GatepassWithFilePath(clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("GatePass No").Value), clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Gate Pass Date").Value), Nothing, isFresh, isAmbient, clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Route_No").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Location Code").Value), False, True)
-                Else
-                    frm.funPrint2(clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("GatePass No").Value), False, True)
-                End If
-                frm = Nothing
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.ScrapSale) = CompairStringResult.Equal Then
-                Dim frm As New frmScrapSale()
-                'Print(ByVal isPrint As Boolean, ByVal ischallan As Boolean, ByVal isPDFPath As Boolean, ByVal strCancelDelete As String)
-                Dim strDoc As String = clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value)
-                Dim strInvNo As String = clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Invoice No").Value)
-                Dim strLocCode As String = clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Location Code").Value)
-                If rdbCancel.IsChecked Then
-                    frm.Print(True, True, False, "Cancel", strDoc, strInvNo, strLocCode)
-                Else
-                    frm.Print(True, True, False, "Delete", strDoc, strInvNo, strLocCode)
-                End If
-                frm = Nothing
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.FrmVendorService) = CompairStringResult.Equal Then
-                If rdbCancel.IsChecked Then
-                    clsVedorInvoiceHead.funVendorServicePrint(MyBase.Form_ID, "Cancel", clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
-                Else
-                    clsVedorInvoiceHead.funVendorServicePrint(MyBase.Form_ID, "Delete", clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
-                End If
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmSaleReturndairy) = CompairStringResult.Equal Then
-                If rdbCancel.IsChecked Then
-                    clsDSSalesReturnHead.funsaleReturnDairyPrint(MyBase.Form_ID, "Cancel", clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), False)
-                Else
-                    clsDSSalesReturnHead.funsaleReturnDairyPrint(MyBase.Form_ID, "Delete", clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), False)
-                End If
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmSNSaleInvoice) = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmSaleInvoicedairy) = CompairStringResult.Equal Then
-                Dim Qry As String = Nothing
-                Dim dt As DataTable = Nothing
-                Dim frm As New frmMultipleInvoice()
-                If rdbCancel.IsChecked Then
-                    frm.PrintMultipleInvoice(Me.Form_ID, Me.Text, clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), "Cancel")
-                Else
-                    frm.PrintMultipleInvoice(Me.Form_ID, Me.Text, clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), "Delete")
-                End If
-                frm = Nothing
-            Else
-                printCanceInvoice()
             End If
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

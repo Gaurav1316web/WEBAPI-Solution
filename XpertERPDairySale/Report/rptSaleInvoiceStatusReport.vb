@@ -226,7 +226,7 @@ tspl_item_master.Item_Desc as [Item Name],
     				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX8='IGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Amt
     				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX9='IGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Amt
     				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX10='IGST' THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Amt  else 0 END AS [IGST Amt],
-					TSPL_SD_SALE_INVOICE_HEAD.Total_Tax_Amt as [Total Tax Amt],
+					TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt as [Total Tax Amt],
 					TSPL_SD_SALE_INVOICE_Detail.Item_Net_Amt as [Total Amt],
 					 TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt as [Subsidy Amt]
                          from TSPL_SD_SALE_INVOICE_HEAD
@@ -386,7 +386,7 @@ tspl_item_master.Item_Desc as [Item Name],
 
     Function BaseQryLoadDataInvoiceCount(ByVal fromDate As String, ByVal toDate As String, ByVal strLocation As String) As String
         Dim Qry As String = " Select *,(Total_Invoice-Total_CancelInvoice-Total_DeleteInvoice)as Active_invoice 
-from(Select Transcation_Type, Invoice_Tax_Type, MIN(XX.Document_Code) First_Invoice, MAX(XX.Document_Code)Last_Invoice, count(XX.Document_Code)Total_Invoice,
+from(Select LEFT(XX.Document_Code, CHARINDEX('/', XX.Document_Code) - 1) As Prefix,Transcation_Type, Invoice_Tax_Type, MIN(XX.Document_Code) First_Invoice, MAX(XX.Document_Code)Last_Invoice, count(Distinct XX.Document_Code)Total_Invoice,
 count(CASE WHEN XX.Cancel_DocumentCode Is Not NULL THEN 1 END) As Total_CancelInvoice,COUNT(Case When XX.Delete_DocumentCode Is Not NULL Then 1 End) As Total_DeleteInvoice
 from(Select   CASE WHEN EXISTS ( SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD 
         Left Join TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
@@ -962,7 +962,7 @@ Left Outer Join TSPL_TAX_MASTER As Tax10 On Tax10.Tax_Code=TSPL_SCRAPSALE_HEAD_R
         If clsCommon.myLen(strLocation) > 0 Then
             Qry &= " And TSPL_SCRAPSALE_HEAD_RETURN_Delete_Data.Loc_Code = '" & clsCommon.myCstr(strLocation) & "'"
         End If
-        Qry &= " ) XX group by XX.Transcation_Type,XX.Invoice_Tax_Type )YY "
+        Qry &= " ) XX group by LEFT(XX.Document_Code, CHARINDEX('/', XX.Document_Code) - 1),XX.Transcation_Type,XX.Invoice_Tax_Type )YY "
         Return Qry
     End Function
     Sub LoadDataInvoiceCount()
@@ -1075,14 +1075,33 @@ GROUP BY D.Item_Code HAVING SUM(CASE WHEN U.Report_UOM = 1 THEN 1 ELSE 0 END) = 
             End If
             Dim qry As String = ""
             If dtitem.Rows.Count > 0 Then
-                qry = "  Select Document_Code,max(BillNo)BillNo,max(BillDate)BillDate,max(Created_By)[Created By],max(Created_Date)[Created Date],max(Party_Code)Party_Code,max(PARTY_Name)PARTY_Name,
+                qry = "  Select Document_Code,max(Transcation_Type)[Transcation Type],max(BillNo)BillNo,max(BillDate)BillDate,max(Created_By)[Created By],max(Created_Date)[Created Date],max(Party_Code)Party_Code,max(PARTY_Name)PARTY_Name,
 max(ISNULL((Customer_Type),''))Customer_Type,max(Status)Status,sum([ItemBasic Amt])[ItemBasic Amt],
 sum([Margin Amt])[Margin Amt], " & SumItemCode & ",sum(Amt_Less_Discount1)[Total Basic Amt],sum(KKF)[KKF Amt],SUM([Mandi Tax Amt])[Mandi Tax Amt],sum([Party TCS Amt])[Party TCS Amt],sum([CGST Amt])[CGST Amt],sum([SGST Amt])[SGST Amt],sum([IGST Amt])[IGST Amt],sum([Total Tax Amt])[Total Tax Amt],
 Sum([Total Amt])[Total Amt]
 from (
 
 SELECT 
-TSPL_SD_SALE_INVOICE_HEAD.Document_Code AS Document_Code,
+TSPL_SD_SALE_INVOICE_HEAD.Document_Code AS Document_Code,CASE WHEN EXISTS ( SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD 
+        LEFT JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
+        WHERE TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
+          AND TSPL_SD_SHIPMENT_HEAD.Against_Booking_No IS NOT NULL)  And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC'  THEN 'CUSTOMER BOOKING'
+		  WHEN EXISTS (SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD 
+        LEFT JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
+        WHERE TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
+          AND TSPL_SD_SHIPMENT_HEAD.Against_Booking_No IS NULL AND ISNULL(TSPL_BOOKING_MATSER.Is_APS,0) = 0
+          AND TSPL_SD_SHIPMENT_HEAD.Item_Type = 'S') And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' THEN 'DISPATCH'
+		  WHEN EXISTS (SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD 
+        LEFT JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
+        WHERE TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
+          AND TSPL_SD_SHIPMENT_HEAD.Against_Booking_No IS NULL AND ISNULL(TSPL_BOOKING_MATSER.Is_APS,0) = 0
+          AND TSPL_SD_SHIPMENT_HEAD.Item_Type In ('P','I')) And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' THEN 'PRODUCT DISPATCH'
+		  WHEN EXISTS (SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD 
+		  LEFT JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
+        WHERE TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
+          AND TSPL_SD_SHIPMENT_HEAD.Against_Booking_No IS NULL AND (TSPL_BOOKING_MATSER.Is_APS=1 OR TSPL_SD_SHIPMENT_HEAD.Screen_Type= ('CT'))) And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' THEN 'APS SALES'
+        WHEN TSPL_SD_SALE_INVOICE_HEAD.IsMultipleInvoice = 1 THEN 'MULTIPLE INVOICE'	  
+ELSE 'DCS SALE' END AS Transcation_Type,
     RIGHT(TSPL_SD_SALE_INVOICE_HEAD.Document_Code, 6) AS BillNo,
     (CONVERT(varchar(20), TSPL_SD_SALE_INVOICE_HEAD.Document_Date, 103)) AS BillDate,
      (TSPL_CUSTOMER_MASTER.Cust_Code) as Party_Code,
@@ -1195,7 +1214,26 @@ WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= convert(date,
                 qry += " Union all
                       
   SELECT 
-TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Code AS Document_Code,
+TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Code AS Document_Code,CASE WHEN EXISTS ( SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD 
+        LEFT JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
+        WHERE TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Against_Shipment_No
+          AND TSPL_SD_SHIPMENT_HEAD.Against_Booking_No IS NOT NULL)  And TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Trans_Type <> 'MCC'  THEN 'CUSTOMER BOOKING'
+		  WHEN EXISTS (SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD 
+        LEFT JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
+        WHERE TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Against_Shipment_No
+          AND TSPL_SD_SHIPMENT_HEAD.Against_Booking_No IS NULL AND ISNULL(TSPL_BOOKING_MATSER.Is_APS,0) = 0
+          AND TSPL_SD_SHIPMENT_HEAD.Item_Type = 'S') And TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Trans_Type <> 'MCC' THEN 'DISPATCH'
+		  WHEN EXISTS (SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD 
+        LEFT JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
+        WHERE TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Against_Shipment_No
+          AND TSPL_SD_SHIPMENT_HEAD.Against_Booking_No IS NULL AND ISNULL(TSPL_BOOKING_MATSER.Is_APS,0) = 0
+          AND TSPL_SD_SHIPMENT_HEAD.Item_Type In ('P','I')) And TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Trans_Type <> 'MCC' THEN 'PRODUCT DISPATCH'
+		  WHEN EXISTS (SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD 
+		  LEFT JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
+        WHERE TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Against_Shipment_No
+          AND TSPL_SD_SHIPMENT_HEAD.Against_Booking_No IS NULL AND (TSPL_BOOKING_MATSER.Is_APS=1 OR TSPL_SD_SHIPMENT_HEAD.Screen_Type= ('CT'))) And TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Trans_Type <> 'MCC' THEN 'APS SALES'
+        WHEN TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.IsMultipleInvoice = 1 THEN 'MULTIPLE INVOICE'	  
+ELSE 'DCS SALE' END AS Transcation_Type,
     RIGHT(TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Code, 6) AS BillNo,
     (CONVERT(varchar(20), TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Date, 103)) AS BillDate,
      (TSPL_CUSTOMER_MASTER.Cust_Code) as Party_Code,
@@ -1308,7 +1346,26 @@ WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Date,103) >= c
 
                 qry += " union all
                      SELECT 
-TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Code AS Document_Code,
+TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Code AS Document_Code,CASE WHEN EXISTS ( SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD 
+        LEFT JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
+        WHERE TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Against_Shipment_No
+          AND TSPL_SD_SHIPMENT_HEAD.Against_Booking_No IS NOT NULL)  And TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Trans_Type <> 'MCC'  THEN 'CUSTOMER BOOKING'
+		  WHEN EXISTS (SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD 
+        LEFT JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
+        WHERE TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Against_Shipment_No
+          AND TSPL_SD_SHIPMENT_HEAD.Against_Booking_No IS NULL AND ISNULL(TSPL_BOOKING_MATSER.Is_APS,0) = 0
+          AND TSPL_SD_SHIPMENT_HEAD.Item_Type = 'S') And TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Trans_Type <> 'MCC' THEN 'DISPATCH'
+		  WHEN EXISTS (SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD 
+        LEFT JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
+        WHERE TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Against_Shipment_No
+          AND TSPL_SD_SHIPMENT_HEAD.Against_Booking_No IS NULL AND ISNULL(TSPL_BOOKING_MATSER.Is_APS,0) = 0
+          AND TSPL_SD_SHIPMENT_HEAD.Item_Type In ('P','I')) And TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Trans_Type <> 'MCC' THEN 'PRODUCT DISPATCH'
+		  WHEN EXISTS (SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD 
+		  LEFT JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
+        WHERE TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Against_Shipment_No
+          AND TSPL_SD_SHIPMENT_HEAD.Against_Booking_No IS NULL AND (TSPL_BOOKING_MATSER.Is_APS=1 OR TSPL_SD_SHIPMENT_HEAD.Screen_Type= ('CT'))) And TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Trans_Type <> 'MCC' THEN 'APS SALES'
+        WHEN TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.IsMultipleInvoice = 1 THEN 'MULTIPLE INVOICE'	  
+ELSE 'DCS SALE' END AS Transcation_Type,
     RIGHT(TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Code, 6) AS BillNo,
     (CONVERT(varchar(20), TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Date, 103)) AS BillDate,
      (TSPL_CUSTOMER_MASTER.Cust_Code) as Party_Code,
@@ -1422,7 +1479,7 @@ WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Date,103) >= c
   PIVOT (SUM(QtyUom)  For Item_Code In (" & ItemCode & ") ) As pivot_Code
   PIVOT (SUM(Amt_Less_Discount)  For Item_Code1 In (" & ItemDesc & ") ) As pivot_Desc
   
-  GROUP BY Document_Code "
+  GROUP BY Document_Code order by max(Transcation_Type) "
                 Dim dt As DataTable = New DataTable()
                 dt = clsDBFuncationality.GetDataTable(qry)
                 gvdata.DataSource = Nothing

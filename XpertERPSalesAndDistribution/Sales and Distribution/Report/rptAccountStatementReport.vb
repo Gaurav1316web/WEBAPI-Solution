@@ -61,16 +61,16 @@ from
 (Select Cust_Code,Receipt_Amount as Amount,Convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103) as Document_Date,1 as RI from TSPL_RECEIPT_HEADER
 union all "
             If rdbDispatch.IsChecked Then
-                qry += " Select  Customer_Code As Cust_Code,(Total_Amt-Transporter_Commission_TotalAmt) As Amount,convert(Date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) As Document_Date,2 As RI from TSPL_SD_SHIPMENT_HEAD
+                qry += " Select  Customer_Code As Cust_Code,(Total_Amt-isnull(Transporter_Commission_TotalAmt,0)) As Amount,convert(Date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) As Document_Date,2 As RI from TSPL_SD_SHIPMENT_HEAD
                         where Is_Taxable = 0 And TSPL_SD_SHIPMENT_HEAD.Status = 1
                         union all
-                        Select  Customer_Code As Cust_Code,(Total_Amt-Transporter_Commission_TotalAmt) As Amount,convert(Date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) As Document_Date,3 As RI from TSPL_SD_SHIPMENT_HEAD
+                        Select  Customer_Code As Cust_Code,(Total_Amt-isnull(Transporter_Commission_TotalAmt,0)) As Amount,convert(Date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) As Document_Date,3 As RI from TSPL_SD_SHIPMENT_HEAD
                         where Is_Taxable = 1 And TSPL_SD_SHIPMENT_HEAD.Status = 1 "
             Else
-                qry += " Select Customer_Code as Cust_Code,(Total_Amt-Transporter_Commission_TotalAmt) as Amount,convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Document_Date,2 as RI from TSPL_SD_SALE_INVOICE_HEAD
+                qry += " Select Customer_Code as Cust_Code,(Total_Amt-isnull(Transporter_Commission_TotalAmt,0)) as Amount,convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Document_Date,2 as RI from TSPL_SD_SALE_INVOICE_HEAD
                         where Is_Taxable=0 and TSPL_SD_SALE_INVOICE_HEAD.Status=1
                         Union all
-                        Select Customer_Code as Cust_Code,(Total_Amt-Transporter_Commission_TotalAmt) as Amount,convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Document_Date,3 as RI from TSPL_SD_SALE_INVOICE_HEAD
+                        Select Customer_Code as Cust_Code,(Total_Amt-isnull(Transporter_Commission_TotalAmt,0)) as Amount,convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Document_Date,3 as RI from TSPL_SD_SALE_INVOICE_HEAD
                         where Is_Taxable=1 and TSPL_SD_SALE_INVOICE_HEAD.Status=1 "
             End If
             qry += " union all

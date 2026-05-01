@@ -479,6 +479,12 @@
     <Compile Include="Milk Procurement\Transaction\BMC Transporter Bill.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmDBTMonthlyFarmerMilk.Designer.vb">
+      <DependentUpon>frmDBTMonthlyFarmerMilk.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmDBTMonthlyFarmerMilk.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Transaction\frmMakeSavingPaymentSelectDocs.Designer.vb">
       <DependentUpon>frmMakeSavingPaymentSelectDocs.vb</DependentUpon>
     </Compile>
@@ -1455,6 +1461,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\BMC Transporter Bill.resx">
       <DependentUpon>BMC Transporter Bill.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmDBTMonthlyFarmerMilk.resx">
+      <DependentUpon>frmDBTMonthlyFarmerMilk.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmMakeSavingPaymentSelectDocs.resx">
       <DependentUpon>frmMakeSavingPaymentSelectDocs.vb</DependentUpon>

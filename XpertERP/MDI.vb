@@ -8320,6 +8320,9 @@ Public Class MDI
                     Case clsUserMgtCode.DCSMPIncentiveReco
                         frm = New frmMPDCSIncentiveReco
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.DBTMonthlyFarmerMilk
+                        frm = New frmDBTMonthlyFarmerMilk
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.DBTCappingCheck
                         If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.DBTMilkQtyCapping, clsFixedParameterCode.DBTMilkQtyCapping, Nothing)) > 0 Then
                             frm = New frmDBTCaping

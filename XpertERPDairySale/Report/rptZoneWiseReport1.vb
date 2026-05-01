@@ -101,7 +101,7 @@ CASE WHEN CODE ='LTR'  THEN TotalLtr_ItemWise else 0  END AS fINAL2, CASE WHEN C
                 left outer join tspl_company_master on 2 = 2 left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_DEMAND_BOOKING_DETAIL.Item_Code = I.item_code 
                 Left Join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_master.Route_No 
                 where 2 = 2 and  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date) BETWEEN CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "', 103) and CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value) + "', 103) and  Is_FreshItem = 1)  XXXFirst 
-                where Item_Code is  not null and Area_Code is not null  group by   XXXFirst.Route_Desc,"
+                  group by   XXXFirst.Route_Desc,"
             qry += " XXXFirst.Zone_Code,"
             qry += " XXXFirst.Item_Code,XXXFirst.Sku_Seq,XXXFirst.Area_Code"
             qry += "  ) xx)PP   "
@@ -531,7 +531,7 @@ CASE WHEN CODE ='LTR'  THEN TotalLtr_ItemWise else 0  END AS fINAL2, CASE WHEN C
                 left outer join tspl_company_master on 2 = 2 left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_DEMAND_BOOKING_DETAIL.Item_Code = I.item_code 
                 Left Join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_master.Route_No 
                 where 2 = 2 and  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date) BETWEEN CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "', 103) and CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value) + "', 103) and  Is_FreshItem = 1)  XXXFirst 
-                where Item_Code is  not null and Area_Code is not null  group by   XXXFirst.Route_Desc,"
+              group by   XXXFirst.Route_Desc,"
             qry += " XXXFirst.Route_no,"
             qry += " XXXFirst.Item_Code,XXXFirst.Sku_Seq"
             qry += "  ) xx)PP   "
