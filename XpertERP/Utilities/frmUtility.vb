@@ -27834,6 +27834,17 @@ where Against_Shipment_No in (select Document_Code from TSPL_SD_SHIPMENT_HEAD wh
             Throw New Exception(ex.Message)
         End Try
     End Sub
+
+    Private Sub btnExportUpdateFormat_Click(sender As Object, e As EventArgs) Handles btnExportUpdateFormat.Click
+        Try
+            Dim str As String = "select '' as [Invoice No],'' as [Document Date]"
+            Dim whrCls As String = ""
+            ListImpExpColumnsMandatory = New List(Of String)({"Invoice No", "Document Date"})
+            transportSql.ExporttoExcel(str, whrCls, Me)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class
 Public Class clsDCDetail
 #Region "Varibales"

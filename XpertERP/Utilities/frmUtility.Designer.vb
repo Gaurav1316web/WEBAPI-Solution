@@ -609,6 +609,7 @@ Partial Class FrmUtility
         Me.RadPageViewPage7 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadScrollablePanel4 = New Telerik.WinControls.UI.RadScrollablePanel()
         Me.gbUpdateInvDate = New System.Windows.Forms.GroupBox()
+        Me.btnExportUpdateFormat = New Telerik.WinControls.UI.RadButton()
         Me.btnUpdateInvoiceDate = New Telerik.WinControls.UI.RadButton()
         Me.rbtnShipment = New Telerik.WinControls.UI.RadRadioButton()
         Me.rbtnInvoice = New Telerik.WinControls.UI.RadRadioButton()
@@ -1433,6 +1434,7 @@ Partial Class FrmUtility
         Me.RadScrollablePanel4.PanelContainer.SuspendLayout
         Me.RadScrollablePanel4.SuspendLayout
         Me.gbUpdateInvDate.SuspendLayout
+        CType(Me.btnExportUpdateFormat, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnUpdateInvoiceDate, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.rbtnShipment, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.rbtnInvoice, System.ComponentModel.ISupportInitialize).BeginInit
@@ -7913,6 +7915,7 @@ Partial Class FrmUtility
         '
         'gbUpdateInvDate
         '
+        Me.gbUpdateInvDate.Controls.Add(Me.btnExportUpdateFormat)
         Me.gbUpdateInvDate.Controls.Add(Me.btnUpdateInvoiceDate)
         Me.gbUpdateInvDate.Controls.Add(Me.rbtnShipment)
         Me.gbUpdateInvDate.Controls.Add(Me.rbtnInvoice)
@@ -7923,11 +7926,19 @@ Partial Class FrmUtility
         Me.gbUpdateInvDate.TabStop = False
         Me.gbUpdateInvDate.Text = "Update Invoice Date"
         '
+        'btnExportUpdateFormat
+        '
+        Me.btnExportUpdateFormat.Location = New System.Drawing.Point(111, 47)
+        Me.btnExportUpdateFormat.Name = "btnExportUpdateFormat"
+        Me.btnExportUpdateFormat.Size = New System.Drawing.Size(100, 24)
+        Me.btnExportUpdateFormat.TabIndex = 3
+        Me.btnExportUpdateFormat.Text = "Export Format"
+        '
         'btnUpdateInvoiceDate
         '
-        Me.btnUpdateInvoiceDate.Location = New System.Drawing.Point(25, 48)
+        Me.btnUpdateInvoiceDate.Location = New System.Drawing.Point(5, 48)
         Me.btnUpdateInvoiceDate.Name = "btnUpdateInvoiceDate"
-        Me.btnUpdateInvoiceDate.Size = New System.Drawing.Size(110, 24)
+        Me.btnUpdateInvoiceDate.Size = New System.Drawing.Size(100, 24)
         Me.btnUpdateInvoiceDate.TabIndex = 2
         Me.btnUpdateInvoiceDate.Text = "Update Date"
         '
@@ -11486,6 +11497,7 @@ Partial Class FrmUtility
         Me.RadScrollablePanel4.ResumeLayout(False)
         Me.gbUpdateInvDate.ResumeLayout(False)
         Me.gbUpdateInvDate.PerformLayout
+        CType(Me.btnExportUpdateFormat, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnUpdateInvoiceDate, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.rbtnShipment, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.rbtnInvoice, System.ComponentModel.ISupportInitialize).EndInit
@@ -12557,5 +12569,6 @@ Partial Class FrmUtility
     Friend WithEvents btnUpdateInvoiceDate As RadButton
     Friend WithEvents rbtnShipment As RadRadioButton
     Friend WithEvents rbtnInvoice As RadRadioButton
+    Friend WithEvents btnExportUpdateFormat As RadButton
 End Class
 
