@@ -44,6 +44,8 @@ Public Class clsFixedParameterType
     Public Const DBTMilkQtyCapping As String = "DBT Milk Qty Capping"
     Public Const PDAccountPaymanager As String = "PD Account Paymanager"
     Public Const BankAdviseRequired As String = "Bank Advice Start Date"
+    Public Const SeprateBankForDCSBankAdvice As String = "Seprate Bank For DCS Bank Advice"
+
     Public Const ApplyMergeForDCSMultipleDays As String = "Apply Merge For DCS Multiple Days"
     Public Const CalculateFATSNFLossCycleWise As String = "Calculate FAT SNF Loss Cycle Wise"
     Public Const PurchaseSlab As String = "PurchaseSlab"
@@ -941,6 +943,7 @@ Public Class clsFixedParameterType
     Public Const BulkProcPriceChartStandardRateWithZero As String = "Bulk Proc Price Chart standard rate with zero"
     Public Const RemoveForceAapprovalofBulkSRN As String = "Remove Force Approval of Bulk SRN"
     Public Const Allow_Plant_Depot_MCC_typeLocation As String = "Allow Plant Depot MCC type Location"
+    Public Const ApplySaleRouteInDCSSale As String = "Apply Sale Route In DCS Sale"
     Public Const ValidateCustomerPANwithName As String = "Allow Validate Customer PAN with Name"
     Public Const ValidateTaxGroupForTransaction As String = "Allow Validate Tax Group Should Not Blank"
     Public Const AllowSeprateSchemeItemPrintDairySaleInvoice As String = "Allow Seprate Scheme Item Print DairySaleInvoice"
@@ -1462,6 +1465,8 @@ Public Class clsFixedParameterCode
     Public Const EmployeeRetirementAge As String = "Employee Retirement Age"
     Public Const NoOfRecordForLotNo As String = "No Of Record For Lot No"
     Public Const BankAdviseRequired As String = "Bank Advice Start Date"
+    Public Const SeprateBankForDCSBankAdvice As String = "Seprate Bank For DCS Bank Advice"
+
     Public Const DBTMilkQtyCapping As String = "DBT Milk Qty Capping"
     Public Const ApplyMergeForDCSMultipleDays As String = "Apply Merge For DCS Multiple Days"
     Public Const CalculateFATSNFLossCycleWise As String = "Calculate FAT SNF Loss Cycle Wise"
@@ -2466,6 +2471,7 @@ Public Class clsFixedParameterCode
     Public Const BulkProcPriceChartStandardRateWithZero As String = "Bulk Proc Price Chart standard rate with zero"
     Public Const RemoveForceAapprovalofBulkSRN As String = "Remove Force Approval of Bulk SRN"
     Public Const Allow_Plant_Depot_MCC_typeLocation As String = "Allow Plant Depot MCC type Location"
+    Public Const ApplySaleRouteInDCSSale As String = "Apply Sale Route In DCS Sale"
     Public Const ValidateCustomerPANwithName As String = "Allow Validate Customer PAN with Name"
     Public Const ValidateTaxGroupForTransaction As String = "Allow Validate Tax Group Should Not Blank"
     Public Const AllowSeprateSchemeItemPrintDairySaleInvoice As String = "Allow Seprate Scheme Item Print DairySaleInvoice"
@@ -3112,6 +3118,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.EmployeeRetirementAge, clsFixedParameterCode.EmployeeRetirementAge, "60", "Define Retirement Age")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PDAccountPaymanager, clsFixedParameterCode.NoOfRecordForLotNo, "4500", "No of Records to Set Lot No")
         InsertDefaultValueFixedParameter(clsFixedParameterType.BankAdviseRequired, clsFixedParameterCode.BankAdviseRequired, "", "Bank Advise Start Date [dd/MMM/yyyy]")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.SeprateBankForDCSBankAdvice, clsFixedParameterCode.SeprateBankForDCSBankAdvice, "", "Seprate Bank For DCS Bank Advice")
+
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyMergeForDCSMultipleDays, clsFixedParameterCode.ApplyMergeForDCSMultipleDays, "1", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CalculateFATSNFLossCycleWise, clsFixedParameterCode.CalculateFATSNFLossCycleWise, "0", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PurchaseSlab, clsFixedParameterCode.ApplyRange, "0", "0:OFF;1:ON")
@@ -4174,6 +4182,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.BulkProcPriceChartStandardRateWithZero, clsFixedParameterCode.BulkProcPriceChartStandardRateWithZero, "0", "0-OFF;1-ON: Allow Bulk Proc Price Chart standard rate with zero")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RemoveForceAapprovalofBulkSRN, clsFixedParameterCode.RemoveForceAapprovalofBulkSRN, "0", "0-OFF;1-ON: Remove Force Approval of Bulk SRN")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Allow_Plant_Depot_MCC_typeLocation, clsFixedParameterCode.Allow_Plant_Depot_MCC_typeLocation, "0", "0-OFF;1-ON: Allow Plant/Depot/MCC type Location On MCC Item Price Chart/Mcc sale")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplySaleRouteInDCSSale, clsFixedParameterCode.ApplySaleRouteInDCSSale, "0", "0-OFF;1-ON: Apply sale Route in DCS Sale")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ValidateCustomerPANwithName, clsFixedParameterCode.ValidateCustomerPANwithName, "1", "0-OFF;1-ON: Validate Customer PAN with Name")
         InsertDefaultValueFixedParameter(clsFixedParameterType.POWeighmentManual, clsFixedParameterCode.POWeighmentManual, "0", "0-OFF;1-On:0-OFF, Manulay enter weighment.")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ValidateTaxGroupForTransaction, clsFixedParameterCode.ValidateTaxGroupForTransaction, "0", "0-OFF;1-On:0-OFF, Validate Tax Group Should not Blank.")
@@ -4787,6 +4796,9 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmEmployee_Master, clsFixedParameterType.EmployeeRetirementAge, clsFixedParameterCode.EmployeeRetirementAge, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.DBTNEFTUploader, clsFixedParameterType.PDAccountPaymanager, clsFixedParameterCode.NoOfRecordForLotNo, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmBankAdvise, clsFixedParameterType.BankAdviseRequired, clsFixedParameterCode.BankAdviseRequired, EnumControlType.TextBox)
+        InsertDefaultValue(clsUserMgtCode.frmBankAdvise, clsFixedParameterType.SeprateBankForDCSBankAdvice, clsFixedParameterCode.SeprateBankForDCSBankAdvice, EnumControlType.TextBox)
+        InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.SeprateBankForDCSBankAdvice, clsFixedParameterCode.SeprateBankForDCSBankAdvice, EnumControlType.TextBox)
+
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCSMultipleDays, clsFixedParameterType.ApplyMergeForDCSMultipleDays, clsFixedParameterCode.ApplyMergeForDCSMultipleDays, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkVSPPayment, clsFixedParameterType.CalculateFATSNFLossCycleWise, clsFixedParameterCode.CalculateFATSNFLossCycleWise, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FATSNFDiffReport, clsFixedParameterType.CalculateFATSNFLossCycleWise, clsFixedParameterCode.CalculateFATSNFLossCycleWise, EnumControlType.CheckBox)
@@ -5325,6 +5337,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmBulkMilkSRN, clsFixedParameterType.RemoveForceAapprovalofBulkSRN, clsFixedParameterCode.RemoveForceAapprovalofBulkSRN, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMCCMaterial, clsFixedParameterType.Allow_Plant_Depot_MCC_typeLocation, clsFixedParameterCode.Allow_Plant_Depot_MCC_typeLocation, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMCCMaterialSalePriceChart, clsFixedParameterType.Allow_Plant_Depot_MCC_typeLocation, clsFixedParameterCode.Allow_Plant_Depot_MCC_typeLocation, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmMCCMaterialSalePriceChart, clsFixedParameterType.ApplySaleRouteInDCSSale, clsFixedParameterCode.ApplySaleRouteInDCSSale, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMCCMaterialSaleReturn, clsFixedParameterType.Allow_Plant_Depot_MCC_typeLocation, clsFixedParameterCode.Allow_Plant_Depot_MCC_typeLocation, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.CustomerMaster, clsFixedParameterType.ValidateCustomerPANwithName, clsFixedParameterCode.ValidateCustomerPANwithName, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.CustomerMaster, clsFixedParameterType.AutoGeneratedCustomerCode, clsFixedParameterCode.AutoGeneratedCustomerCode, EnumControlType.CheckBox)

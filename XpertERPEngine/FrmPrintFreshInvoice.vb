@@ -1236,8 +1236,8 @@ Pivot(max(Item_Cagetory_Values) For Item_Category_Code   In ( [CATEGORY RM], [BR
                                     ROW_NUMBER() OVER (PARTITION BY TSPL_SD_SALE_INVOICE_DETAIL.Item_Code ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Date DESC ) AS RN
                                 FROM TSPL_SD_SALE_INVOICE_DETAIL
                                 JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_DETAIL.Document_Code
-                                WHERE 2=2 ) X WHERE RN = 1 ) BC ON BC.I1 = XY.Item_Code "
-                End If
+                                WHERE 2=2  AND TSPL_SD_SALE_INVOICE_HEAD.Document_Code in   (" + strinvoiceNo + ")  ) X WHERE RN = 1 ) BC ON BC.I1 = XY.Item_Code "
+            End If
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                     Qry += " group by Document_Code,Item_Code )XY  "
                 End If

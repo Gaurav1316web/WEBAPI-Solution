@@ -27,8 +27,8 @@ Partial Class frmDCSSaleEntry
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
@@ -212,6 +212,12 @@ Partial Class frmDCSSaleEntry
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.MyLabel10 = New common.Controls.MyLabel()
+        Me.txtSaleRoute = New common.UserControls.txtFinder()
+        Me.PnlSaleRoute = New System.Windows.Forms.Panel()
+        Me.MyLabel12 = New common.Controls.MyLabel()
+        Me.MyLabel17 = New common.Controls.MyLabel()
+        Me.FndPriceCode = New common.UserControls.txtFinder()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -380,6 +386,10 @@ Partial Class frmDCSSaleEntry
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.PnlSaleRoute.SuspendLayout()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -426,7 +436,7 @@ Partial Class frmDCSSaleEntry
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1282, 463)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -435,6 +445,7 @@ Partial Class frmDCSSaleEntry
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.PnlSaleRoute)
         Me.RadPageViewPage1.Controls.Add(Me.UcDCSBalance1)
         Me.RadPageViewPage1.Controls.Add(Me.chkExcludeKKFMandi)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel8)
@@ -614,7 +625,7 @@ Partial Class frmDCSSaleEntry
         Me.txtBankCode.ReferenceFieldDesc = Nothing
         Me.txtBankCode.ReferenceFieldName = Nothing
         Me.txtBankCode.ReferenceTableName = Nothing
-        Me.txtBankCode.Size = New System.Drawing.Size(143, 21)
+        Me.txtBankCode.Size = New System.Drawing.Size(143, 20)
         Me.txtBankCode.TabIndex = 319
         Me.txtBankCode.Value = ""
         Me.txtBankCode.Visible = False
@@ -1568,10 +1579,10 @@ Partial Class frmDCSSaleEntry
         Me.RadGroupBox2.Controls.Add(Me.gv1)
         Me.RadGroupBox2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox2.HeaderText = "Item Details"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(2, 181)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(2, 205)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1346, 149)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1346, 125)
         Me.RadGroupBox2.TabIndex = 40
         Me.RadGroupBox2.Text = "Item Details"
         '
@@ -1589,7 +1600,7 @@ Partial Class frmDCSSaleEntry
         '
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv1.MyExportAPI = False
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
@@ -1597,7 +1608,7 @@ Partial Class frmDCSSaleEntry
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(1326, 119)
+        Me.gv1.Size = New System.Drawing.Size(1326, 95)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         Me.gv1.VarID = ""
@@ -1824,7 +1835,7 @@ Partial Class frmDCSSaleEntry
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvAC.MyExportAPI = False
         Me.gvAC.MyExportFilePath = ""
         Me.gvAC.MyStopExport = False
@@ -3072,6 +3083,101 @@ Partial Class frmDCSSaleEntry
         Me.RadMenu1.Size = New System.Drawing.Size(1282, 20)
         Me.RadMenu1.TabIndex = 3
         '
+        'MyLabel10
+        '
+        Me.MyLabel10.FieldName = Nothing
+        Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel10.Location = New System.Drawing.Point(5, 6)
+        Me.MyLabel10.Name = "MyLabel10"
+        Me.MyLabel10.Size = New System.Drawing.Size(62, 16)
+        Me.MyLabel10.TabIndex = 324
+        Me.MyLabel10.Text = "Sale Route"
+        '
+        'txtSaleRoute
+        '
+        Me.txtSaleRoute.CalculationExpression = Nothing
+        Me.txtSaleRoute.FieldCode = Nothing
+        Me.txtSaleRoute.FieldDesc = Nothing
+        Me.txtSaleRoute.FieldMaxLength = 0
+        Me.txtSaleRoute.FieldName = Nothing
+        Me.txtSaleRoute.isCalculatedField = False
+        Me.txtSaleRoute.IsSourceFromTable = False
+        Me.txtSaleRoute.IsSourceFromValueList = False
+        Me.txtSaleRoute.IsUnique = False
+        Me.txtSaleRoute.Location = New System.Drawing.Point(111, 2)
+        Me.txtSaleRoute.MendatroryField = True
+        Me.txtSaleRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSaleRoute.MyLinkLable1 = Me.RadLabel2
+        Me.txtSaleRoute.MyLinkLable2 = Me.lblVendorName
+        Me.txtSaleRoute.MyReadOnly = False
+        Me.txtSaleRoute.MyShowMasterFormButton = False
+        Me.txtSaleRoute.Name = "txtSaleRoute"
+        Me.txtSaleRoute.ReferenceFieldDesc = Nothing
+        Me.txtSaleRoute.ReferenceFieldName = Nothing
+        Me.txtSaleRoute.ReferenceTableName = Nothing
+        Me.txtSaleRoute.Size = New System.Drawing.Size(168, 22)
+        Me.txtSaleRoute.TabIndex = 323
+        Me.txtSaleRoute.Value = ""
+        '
+        'PnlSaleRoute
+        '
+        Me.PnlSaleRoute.Controls.Add(Me.MyLabel17)
+        Me.PnlSaleRoute.Controls.Add(Me.FndPriceCode)
+        Me.PnlSaleRoute.Controls.Add(Me.MyLabel12)
+        Me.PnlSaleRoute.Controls.Add(Me.MyLabel10)
+        Me.PnlSaleRoute.Controls.Add(Me.txtSaleRoute)
+        Me.PnlSaleRoute.Location = New System.Drawing.Point(4, 177)
+        Me.PnlSaleRoute.Name = "PnlSaleRoute"
+        Me.PnlSaleRoute.Size = New System.Drawing.Size(538, 27)
+        Me.PnlSaleRoute.TabIndex = 325
+        Me.PnlSaleRoute.Visible = False
+        '
+        'MyLabel12
+        '
+        Me.MyLabel12.FieldName = Nothing
+        Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel12.Location = New System.Drawing.Point(144, 31)
+        Me.MyLabel12.Name = "MyLabel12"
+        Me.MyLabel12.Size = New System.Drawing.Size(41, 16)
+        Me.MyLabel12.TabIndex = 34
+        Me.MyLabel12.Text = "Project"
+        '
+        'MyLabel17
+        '
+        Me.MyLabel17.FieldName = Nothing
+        Me.MyLabel17.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel17.Location = New System.Drawing.Point(296, 6)
+        Me.MyLabel17.Name = "MyLabel17"
+        Me.MyLabel17.Size = New System.Drawing.Size(62, 16)
+        Me.MyLabel17.TabIndex = 326
+        Me.MyLabel17.Text = "Price Code"
+        '
+        'FndPriceCode
+        '
+        Me.FndPriceCode.CalculationExpression = Nothing
+        Me.FndPriceCode.FieldCode = Nothing
+        Me.FndPriceCode.FieldDesc = Nothing
+        Me.FndPriceCode.FieldMaxLength = 0
+        Me.FndPriceCode.FieldName = Nothing
+        Me.FndPriceCode.isCalculatedField = False
+        Me.FndPriceCode.IsSourceFromTable = False
+        Me.FndPriceCode.IsSourceFromValueList = False
+        Me.FndPriceCode.IsUnique = False
+        Me.FndPriceCode.Location = New System.Drawing.Point(364, 3)
+        Me.FndPriceCode.MendatroryField = True
+        Me.FndPriceCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FndPriceCode.MyLinkLable1 = Me.RadLabel2
+        Me.FndPriceCode.MyLinkLable2 = Me.lblVendorName
+        Me.FndPriceCode.MyReadOnly = False
+        Me.FndPriceCode.MyShowMasterFormButton = False
+        Me.FndPriceCode.Name = "FndPriceCode"
+        Me.FndPriceCode.ReferenceFieldDesc = Nothing
+        Me.FndPriceCode.ReferenceFieldName = Nothing
+        Me.FndPriceCode.ReferenceTableName = Nothing
+        Me.FndPriceCode.Size = New System.Drawing.Size(172, 22)
+        Me.FndPriceCode.TabIndex = 325
+        Me.FndPriceCode.Value = ""
+        '
         'frmDCSSaleEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3266,6 +3372,11 @@ Partial Class frmDCSSaleEntry
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.PnlSaleRoute.ResumeLayout(False)
+        Me.PnlSaleRoute.PerformLayout()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -3453,5 +3564,11 @@ Partial Class frmDCSSaleEntry
     Friend WithEvents chkExcludeKKFMandi As RadCheckBox
     Friend WithEvents UcDCSBalance1 As ucDCSBalance
     Friend WithEvents btnGatePass As RadButton
+    Friend WithEvents PnlSaleRoute As Panel
+    Friend WithEvents MyLabel17 As common.Controls.MyLabel
+    Friend WithEvents FndPriceCode As common.UserControls.txtFinder
+    Friend WithEvents MyLabel12 As common.Controls.MyLabel
+    Friend WithEvents MyLabel10 As common.Controls.MyLabel
+    Friend WithEvents txtSaleRoute As common.UserControls.txtFinder
 End Class
 

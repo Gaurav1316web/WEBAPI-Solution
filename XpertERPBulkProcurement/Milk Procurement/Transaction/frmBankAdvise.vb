@@ -2,6 +2,8 @@
 Public Class frmBankAdvise
 #Region "Variables"
     Dim IsBankAdviseStartDate As String
+    Dim IsSeprateBankForDCSBankAdvice As String
+
 #End Region
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
@@ -17,6 +19,8 @@ Public Class frmBankAdvise
             SetUserMgmtNew()
             Reset()
             IsBankAdviseStartDate = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.BankAdviseRequired, clsFixedParameterCode.BankAdviseRequired, Nothing))
+            IsSeprateBankForDCSBankAdvice = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SeprateBankForDCSBankAdvice, clsFixedParameterCode.SeprateBankForDCSBankAdvice, Nothing))
+
             'createTable()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
