@@ -229,7 +229,7 @@ Partial Class frmDBTMonthlyFarmerMilk
         Me.txtDBTReco.Location = New System.Drawing.Point(98, 34)
         Me.txtDBTReco.MendatroryField = True
         Me.txtDBTReco.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDBTReco.MyLinkLable1 = Nothing
+        Me.txtDBTReco.MyLinkLable1 = Me.MyLabel6
         Me.txtDBTReco.MyLinkLable2 = Nothing
         Me.txtDBTReco.MyReadOnly = False
         Me.txtDBTReco.MyShowMasterFormButton = False

@@ -638,6 +638,7 @@ Public Class clsDocType
     '--------Richa 08/09/2014 Against Ticket No BM00000003791
     Public Const VLCDataUploaderManual As String = "VLC Data Uploader Manual"
     Public Const MPIncentiveEntry As String = "MP Incentive Entrty"
+    Public Const DBTMonthlyFarmerMilk As String = "DBT Monthly Farmer Milk"
     Public Const CattelFeedGRNQC As String = "Cattel Feed GRN QC"
     Public Const MPDCSIncentiveReco As String = "DCS MP Incentive Reco"
     Public Const DBTCaping As String = "DBT Caping"
@@ -1301,6 +1302,7 @@ Public Class clsDocType
             '--------Created By Richa 08/09/2014 Against Ticket No BM00000003791
             InsertDefaultValue(clsDocType.VLCDataUploaderManual, "", False, True)
             InsertDefaultValue(clsDocType.MPIncentiveEntry, "", False, True)
+            InsertDefaultValue(clsDocType.DBTMonthlyFarmerMilk, "", False, False)
             InsertDefaultValue(clsDocType.CattelFeedGRNQC, "", False, False)
             InsertDefaultValue(clsDocType.DBTCaping, "", False, False)
             InsertDefaultValue(clsDocType.MPDCSIncentiveReco, "", False, False)

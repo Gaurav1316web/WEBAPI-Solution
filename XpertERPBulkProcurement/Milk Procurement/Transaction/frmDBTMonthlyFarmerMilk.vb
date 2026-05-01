@@ -521,62 +521,62 @@ Public Class frmDBTMonthlyFarmerMilk
     End Function
     Sub SaveData()
         Try
-            'If AllowToSave() Then
-            '    Dim obj As New clsMPIncentiveEntry()
-            '    obj.Document_Code = txtDocumentNo.Value
-            '    obj.Document_Date = txtdate.Value
-            '    obj.MCC_Code = txtDBTReco.Value
-            '    obj.From_Date = txtFromDate.Value
-            '    obj.To_Date = txtToDate.Value
-            '    obj.Incetive_Rate = txtIncentiveRate.Value
-            '    If rbtnFATSNFNA.IsChecked Then
-            '        obj.FATSNFPer = 2
-            '    Else
-            '        obj.FATSNFPer = rbtnFATSNFPer.IsChecked
-            '    End If
-            '    Dim objTr As New clsMPIncentiveEntryDetail
-            '    obj.arr = New List(Of clsMPIncentiveEntryDetail)
-            '    For Each grow As GridViewRowInfo In gvItem.Rows
-            '        If clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colQty).Value) > 0 Then
-            '            objTr = New clsMPIncentiveEntryDetail()
-            '            objTr.PK_Id = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colPKID).Value)
-            '            objTr.SNo = obj.arr.Count + 1
-            '            objTr.VLC_Code = clsCommon.myCstr(grow.Cells(clsMPIncetiveEntryColumns.colVLCCode).Value)
-            '            objTr.MP_Code = clsCommon.myCstr(grow.Cells(clsMPIncetiveEntryColumns.colMPCode).Value)
-            '            objTr.MP_Account_No = clsCommon.myCstr(grow.Cells(clsMPIncetiveEntryColumns.colMPAccountNo).Value)
-            '            objTr.MP_Bank = clsCommon.myCstr(grow.Cells(clsMPIncetiveEntryColumns.colMPBank).Value)
-            '            objTr.Qty = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colQty).Value)
-            '            objTr.UOM = clsCommon.myCstr(grow.Cells(clsMPIncetiveEntryColumns.colUOM).Value)
-            '            objTr.Amount = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colAmount).Value)
-            '            objTr.Amount_Actual = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colAmountActual).Value)
+            If AllowToSave() Then
+                Dim obj As New clsMPIncentiveEntry()
+                obj.Document_Code = txtDocumentNo.Value
+                obj.Document_Date = txtdate.Value
+                obj.MCC_Code = txtDBTReco.Value
+                obj.From_Date = txtFromDate.Value
+                obj.To_Date = txtToDate.Value
+                obj.Incetive_Rate = txtIncentiveRate.Value
+                If rbtnFATSNFNA.IsChecked Then
+                    obj.FATSNFPer = 2
+                Else
+                    obj.FATSNFPer = rbtnFATSNFPer.IsChecked
+                End If
+                Dim objTr As New clsMPIncentiveEntryDetail
+                obj.arr = New List(Of clsMPIncentiveEntryDetail)
+                For Each grow As GridViewRowInfo In gvItem.Rows
+                    If clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colQty).Value) > 0 Then
+                        objTr = New clsMPIncentiveEntryDetail()
+                        objTr.PK_Id = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colPKID).Value)
+                        objTr.SNo = obj.arr.Count + 1
+                        objTr.VLC_Code = clsCommon.myCstr(grow.Cells(clsMPIncetiveEntryColumns.colVLCCode).Value)
+                        objTr.MP_Code = clsCommon.myCstr(grow.Cells(clsMPIncetiveEntryColumns.colMPCode).Value)
+                        objTr.MP_Account_No = clsCommon.myCstr(grow.Cells(clsMPIncetiveEntryColumns.colMPAccountNo).Value)
+                        objTr.MP_Bank = clsCommon.myCstr(grow.Cells(clsMPIncetiveEntryColumns.colMPBank).Value)
+                        objTr.Qty = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colQty).Value)
+                        objTr.UOM = clsCommon.myCstr(grow.Cells(clsMPIncetiveEntryColumns.colUOM).Value)
+                        objTr.Amount = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colAmount).Value)
+                        objTr.Amount_Actual = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colAmountActual).Value)
 
-            '            objTr.MP_Phone_No = clsCommon.myCstr(grow.Cells(clsMPIncetiveEntryColumns.colMPPhoneNo).Value)
-            '            objTr.MP_Aadhar_No = clsCommon.myCstr(grow.Cells(clsMPIncetiveEntryColumns.colMPAadharNo).Value)
-            '            objTr.MP_IFSC_No = clsCommon.myCstr(grow.Cells(clsMPIncetiveEntryColumns.colMPIFSCCode).Value)
+                        objTr.MP_Phone_No = clsCommon.myCstr(grow.Cells(clsMPIncetiveEntryColumns.colMPPhoneNo).Value)
+                        objTr.MP_Aadhar_No = clsCommon.myCstr(grow.Cells(clsMPIncetiveEntryColumns.colMPAadharNo).Value)
+                        objTr.MP_IFSC_No = clsCommon.myCstr(grow.Cells(clsMPIncetiveEntryColumns.colMPIFSCCode).Value)
 
-            '            objTr.FAT = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colFAT).Value)
-            '            objTr.SNF = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colSNF).Value)
+                        objTr.FAT = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colFAT).Value)
+                        objTr.SNF = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colSNF).Value)
 
-            '            objTr.Pashu_Aahar_Qty = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colPashuAaharQty).Value)
-            '            objTr.Pashu_Aahar_Amount = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colPashuAaharAmt).Value)
-            '            objTr.Mineral_Mixture_Qty = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colMineralMixtureQty).Value)
-            '            objTr.Mineral_Mixture_Amount = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colMineralMixtureAmt).Value)
-            '            objTr.Sailej_Qty = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colSailejQty).Value)
-            '            objTr.Sailej_Amount = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colSailejAmt).Value)
-            '            objTr.Rahat_Kampekat_Feed_Qty = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colRahatKampekatFeedQty).Value)
-            '            objTr.Rahat_Kampekat_Feed_Amount = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colRahatKampekatFeedAmt).Value)
-            '            objTr.Total_Amount = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colTotAmount).Value)
-            '            obj.arr.Add(objTr)
-            '        End If
-            '    Next
-            '    If obj.arr.Count <= 0 Then
-            '        Throw New Exception("Please Enter Qty of At lease on MP")
-            '    End If
-            '    If (clsMPIncentiveEntry.SaveData(obj, isNewEntry)) Then
-            '        clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
-            '        LoadData(obj.Document_Code, NavigatorType.Current)
-            '    End If
-            'End If
+                        objTr.Pashu_Aahar_Qty = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colPashuAaharQty).Value)
+                        objTr.Pashu_Aahar_Amount = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colPashuAaharAmt).Value)
+                        objTr.Mineral_Mixture_Qty = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colMineralMixtureQty).Value)
+                        objTr.Mineral_Mixture_Amount = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colMineralMixtureAmt).Value)
+                        objTr.Sailej_Qty = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colSailejQty).Value)
+                        objTr.Sailej_Amount = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colSailejAmt).Value)
+                        objTr.Rahat_Kampekat_Feed_Qty = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colRahatKampekatFeedQty).Value)
+                        objTr.Rahat_Kampekat_Feed_Amount = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colRahatKampekatFeedAmt).Value)
+                        objTr.Total_Amount = clsCommon.myCdbl(grow.Cells(clsMPIncetiveEntryColumns.colTotAmount).Value)
+                        obj.arr.Add(objTr)
+                    End If
+                Next
+                If obj.arr.Count <= 0 Then
+                    Throw New Exception("Please Enter Qty of At lease on MP")
+                End If
+                If (clsMPIncentiveEntry.SaveData(obj, isNewEntry)) Then
+                    clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
+                    LoadData(obj.Document_Code, NavigatorType.Current)
+                End If
+            End If
         Catch ex As Exception
             If clsCommon.myLen(ex.Message) > 200 Then
                 clsERPFuncationality.OpenNotepadFile(ex.Message, Me.Text)
@@ -716,220 +716,62 @@ Public Class frmDBTMonthlyFarmerMilk
     Private Sub FormatGrid()
         Try
 
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colPKID).ReadOnly = True
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colPKID).IsVisible = False
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colPKID).TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+            gvItem.Columns("VLC_Code").HeaderText = "DCS Code"
+            gvItem.Columns("VLC_Code").ReadOnly = True
+            gvItem.Columns("VLC_Code").IsVisible = False
+            gvItem.Columns("VLC_Code").TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
 
 
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colSlNo).FormatString = ""
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colSlNo).Width = 60
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colSlNo).ReadOnly = True
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colSlNo).IsVisible = False
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colSlNo).TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+            gvItem.Columns("Vlc_Code_VLC_Uploader").FormatString = "DCS"
+            gvItem.Columns("Vlc_Code_VLC_Uploader").ReadOnly = True
+            gvItem.Columns("Vlc_Code_VLC_Uploader").IsVisible = True
+            gvItem.Columns("Vlc_Code_VLC_Uploader").Width = 100
+            gvItem.Columns("Vlc_Code_VLC_Uploader").TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
 
+            gvItem.Columns("VLC_Name").FormatString = "DCS Name"
+            gvItem.Columns("VLC_Name").ReadOnly = True
+            gvItem.Columns("VLC_Name").IsVisible = False
+            gvItem.Columns("VLC_Name").TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
 
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colVLCUploaderCode).FormatString = ""
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colVLCUploaderCode).ReadOnly = True
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colVLCUploaderCode).IsVisible = True
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colVLCUploaderCode).Width = 100
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colVLCUploaderCode).TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+            gvItem.Columns("MP_Code").FormatString = "Farmer Code"
+            gvItem.Columns("MP_Code").ReadOnly = True
+            gvItem.Columns("MP_Code").IsVisible = False
+            gvItem.Columns("MP_Code").TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
 
+            gvItem.Columns("MP_Uploader_Code").FormatString = "Farmer"
+            gvItem.Columns("MP_Uploader_Code").Width = 100
+            gvItem.Columns("MP_Uploader_Code").ReadOnly = True
+            gvItem.Columns("MP_Uploader_Code").TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
 
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colVLCCode).FormatString = ""
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colVLCCode).ReadOnly = True
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colVLCCode).IsVisible = False
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colVLCCode).TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+            gvItem.Columns("MP_Name").FormatString = "Farmer Name"
+            gvItem.Columns("MP_Name").Width = 200
+            gvItem.Columns("MP_Name").ReadOnly = True
+            gvItem.Columns("MP_Name").TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
 
+            gvItem.Columns("Qty").FormatString = "Quantity"
+            gvItem.Columns("Qty").Width = 120
+            gvItem.Columns("Qty").ReadOnly = False
+            gvItem.Columns("Qty").TextAlignment = System.Drawing.ContentAlignment.MiddleRight
 
+            gvItem.MasterTemplate.SummaryRowsBottom.Clear()
+            Dim summaryRowItem As New GridViewSummaryRowItem()
+            summaryRowItem.Add(New GridViewSummaryItem("Qty", "{0:n2}", GridAggregateFunction.Sum))
+            gvItem.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gvItem.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+            gvItem.BestFitColumns()
 
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colVLCName).FormatString = ""
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colVLCName).ReadOnly = True
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colVLCName).IsVisible = False
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colVLCName).TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+            ReStoreGridLayout()
 
-
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPUploaderCode).FormatString = ""
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPUploaderCode).Width = 100
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPUploaderCode).ReadOnly = True
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPUploaderCode).TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPCode).FormatString = ""
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPCode).ReadOnly = True
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPCode).IsVisible = True
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPCode).TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-
-
-
-
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPName).FormatString = ""
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPName).Width = 200
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPName).ReadOnly = True
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPName).TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-
-
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPBank).FormatString = ""
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPBank).Width = 100
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPBank).ReadOnly = True
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPBank).TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-
-
-
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPAccountNo).FormatString = ""
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPAccountNo).Name = clsMPIncetiveEntryColumns.colMPAccountNo
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPAccountNo).Width = 150
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPAccountNo).ReadOnly = True
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPAccountNo).TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-
-
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPIFSCCode).FormatString = ""
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPIFSCCode).Width = 150
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPIFSCCode).ReadOnly = True
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPIFSCCode).TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-
-
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPPhoneNo).FormatString = ""
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPPhoneNo).Width = 150
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPPhoneNo).ReadOnly = True
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPPhoneNo).TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPAadharNo).FormatString = ""
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPAadharNo).Width = 150
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPAadharNo).ReadOnly = True
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMPAadharNo).TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-
-
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colQty).FormatString = ""
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colQty).Width = 120
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colQty).ReadOnly = False
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colQty).TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colUOM).FormatString = ""
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colUOM).Width = 80
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colUOM).ReadOnly = True
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colUOM).TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-
-
-
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colFAT).FormatString = ""
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colFAT).Width = 120
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colFAT).ReadOnly = False
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colFAT).TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colSNF).FormatString = ""
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colSNF).Width = 120
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colSNF).ReadOnly = False
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colSNF).TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-
-
-
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colAmount).Width = 100
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colAmount).FormatString = "{0:n2}"
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colAmount).ReadOnly = Not SettApplyPashuAaharAndMineralMixture
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colAmount).TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-
-
-
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colAmountActual).Width = 100
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colAmountActual).FormatString = "{0:n2}"
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colAmountActual).ReadOnly = True
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colAmountActual).IsVisible = False
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colAmountActual).TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colPashuAaharQty).Width = 100
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colPashuAaharQty).FormatString = "{0:n2}"
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colPashuAaharQty).ReadOnly = Not SettApplyPashuAaharAndMineralMixture
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colPashuAaharQty).IsVisible = SettApplyPashuAaharAndMineralMixture
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colPashuAaharQty).TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-
-
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colPashuAaharAmt).Width = 100
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colPashuAaharAmt).FormatString = "{0:n2}"
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colPashuAaharAmt).ReadOnly = True
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colPashuAaharAmt).IsVisible = SettApplyPashuAaharAndMineralMixture
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colPashuAaharAmt).TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMineralMixtureQty).Width = 100
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMineralMixtureQty).FormatString = "{0:n2}"
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMineralMixtureQty).ReadOnly = Not SettApplyPashuAaharAndMineralMixture
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMineralMixtureQty).IsVisible = SettApplyPashuAaharAndMineralMixture
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMineralMixtureQty).TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMineralMixtureAmt).Width = 100
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMineralMixtureAmt).FormatString = "{0:n2}"
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMineralMixtureAmt).ReadOnly = True
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMineralMixtureAmt).IsVisible = SettApplyPashuAaharAndMineralMixture
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colMineralMixtureAmt).TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-
-
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colSailejQty).Width = 100
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colSailejQty).FormatString = "{0:n2}"
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colSailejQty).ReadOnly = Not SettApplyPashuAaharAndMineralMixture
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colSailejQty).IsVisible = SettApplyPashuAaharAndMineralMixture
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colSailejQty).TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colSailejAmt).Width = 100
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colSailejAmt).FormatString = "{0:n2}"
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colSailejAmt).ReadOnly = True
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colSailejAmt).IsVisible = SettApplyPashuAaharAndMineralMixture
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colSailejAmt).TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colRahatKampekatFeedQty).Width = 100
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colRahatKampekatFeedQty).FormatString = "{0:n2}"
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colRahatKampekatFeedQty).ReadOnly = Not SettApplyPashuAaharAndMineralMixture
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colRahatKampekatFeedQty).IsVisible = SettApplyPashuAaharAndMineralMixture
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colRahatKampekatFeedQty).TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colRahatKampekatFeedAmt).Width = 100
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colRahatKampekatFeedAmt).FormatString = "{0:n2}"
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colRahatKampekatFeedAmt).ReadOnly = True
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colRahatKampekatFeedAmt).IsVisible = SettApplyPashuAaharAndMineralMixture
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colRahatKampekatFeedAmt).TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-
-
-
-
-
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colTotAmount).Width = 100
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colTotAmount).FormatString = "{0:n2}"
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colTotAmount).ReadOnly = True
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colTotAmount).IsVisible = True
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colTotAmount).TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-
-
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colDBTProcessed).FormatString = ""
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colDBTProcessed).Width = 80
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colDBTProcessed).ReadOnly = True
-            'gvItem.Columns(clsMPIncetiveEntryColumns.colDBTProcessed).TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-
-            'gvItem.MasterTemplate.SummaryRowsBottom.Clear()
-            'Dim summaryRowItem As New GridViewSummaryRowItem()
-            'summaryRowItem.Add(New GridViewSummaryItem(clsMPIncetiveEntryColumns.colQty, "{0:n2}", GridAggregateFunction.Sum))
-            'summaryRowItem.Add(New GridViewSummaryItem(clsMPIncetiveEntryColumns.colAmount, "{0:n2}", GridAggregateFunction.Sum))
-            'summaryRowItem.Add(New GridViewSummaryItem(clsMPIncetiveEntryColumns.colAmountActual, "{0:n2}", GridAggregateFunction.Sum))
-            'summaryRowItem.Add(New GridViewSummaryItem(clsMPIncetiveEntryColumns.colPashuAaharAmt, "{0:n2}", GridAggregateFunction.Sum))
-            'summaryRowItem.Add(New GridViewSummaryItem(clsMPIncetiveEntryColumns.colMineralMixtureQty, "{0:n2}", GridAggregateFunction.Sum))
-            'summaryRowItem.Add(New GridViewSummaryItem(clsMPIncetiveEntryColumns.colMineralMixtureAmt, "{0:n2}", GridAggregateFunction.Sum))
-            'summaryRowItem.Add(New GridViewSummaryItem(clsMPIncetiveEntryColumns.colSailejQty, "{0:n2}", GridAggregateFunction.Sum))
-            'summaryRowItem.Add(New GridViewSummaryItem(clsMPIncetiveEntryColumns.colSailejAmt, "{0:n2}", GridAggregateFunction.Sum))
-            'summaryRowItem.Add(New GridViewSummaryItem(clsMPIncetiveEntryColumns.colRahatKampekatFeedQty, "{0:n2}", GridAggregateFunction.Sum))
-            'summaryRowItem.Add(New GridViewSummaryItem(clsMPIncetiveEntryColumns.colRahatKampekatFeedAmt, "{0:n2}", GridAggregateFunction.Sum))
-            'summaryRowItem.Add(New GridViewSummaryItem(clsMPIncetiveEntryColumns.colTotAmount, "{0:n2}", GridAggregateFunction.Sum))
-            'gvItem.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-            'gvItem.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
-            'gvItem.BestFitColumns()
-
-            'ReStoreGridLayout()
-
-            'gvItem.AllowAddNewRow = False
-            'gvItem.AllowDeleteRow = True
-            'gvItem.AllowRowReorder = False
-            'gvItem.ShowGroupPanel = False
-            'gvItem.EnableFiltering = True
-            'gvItem.ShowFilteringRow = True
-            'gvItem.EnableSorting = False
-            'gvItem.EnableGrouping = False
-            'gvItem.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
-            'gvItem.GridBehavior = New MyBehavior()
+            gvItem.AllowAddNewRow = False
+            gvItem.AllowDeleteRow = True
+            gvItem.AllowRowReorder = False
+            gvItem.ShowGroupPanel = False
+            gvItem.EnableFiltering = True
+            gvItem.ShowFilteringRow = True
+            gvItem.EnableSorting = False
+            gvItem.EnableGrouping = False
+            gvItem.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
+            gvItem.GridBehavior = New MyBehavior()
 
 
         Catch ex As Exception
@@ -1034,6 +876,7 @@ Public Class frmDBTMonthlyFarmerMilk
         If clsCommon.myLen(txtDBTReco.Value) > 0 Then
             SetRecoDate()
         End If
+        loadBlankGrid()
     End Sub
 
     Private Sub SetRecoDate()
@@ -1041,40 +884,41 @@ Public Class frmDBTMonthlyFarmerMilk
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             txtFromDate.Value = clsCommon.myCDate(dt.Rows(0)("Reco_Date"))
             txtFromDate.Value = clsCommon.myCDate(dt.Rows(0)("Reco_Date"))
-
         End If
     End Sub
 
     Sub fillMPS(ByVal arrVLC As ArrayList)
-        'loadBlankGrid()
-        'Dim Mcc_Uom As String = clsDBFuncationality.getSingleValue("select Uom_Code from TSPL_Mcc_UOM_DETAIL where Stocking_Unit='Y' and  MCC_CODE='" & txtDBTReco.Value & "'")
-        'Qry = clsMPIncentiveEntryDetail.getQry("", Mcc_Uom, arrVLC)
-
-        'Dim dt As DataTable = Nothing
-        '    Try
-        '        dt = clsDBFuncationality.GetDataTable(Qry + " order by TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_MP_MASTER.VLC_Code,cast(TSPL_MP_MASTER.MP_Code_VLC_Uploader as integer)")
-        '    Catch ex As Exception
-        '        dt = clsDBFuncationality.GetDataTable(Qry + " order by TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_MP_MASTER.VLC_Code,TSPL_MP_MASTER.MP_Code_VLC_Uploader ")
-        '    End Try
-        '    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-        '        gvItem.DataSource = dt
-        '        FormatGrid()
-        '        For ii As Integer = 0 To gvItem.Rows.Count - 1
-        '            If arrOLD.ContainsKey(clsCommon.myCstr(gvItem.Rows(ii).Cells(clsMPIncetiveEntryColumns.colMPCode).Value)) Then
-        '                Dim objTemp As clsTempFATSNFAmt = arrOLD(clsCommon.myCstr(gvItem.Rows(ii).Cells(clsMPIncetiveEntryColumns.colMPCode).Value))
-        '                gvItem.Rows(ii).Cells(clsMPIncetiveEntryColumns.colPKID).Value = objTemp.PKID
-        '                gvItem.Rows(ii).Cells(clsMPIncetiveEntryColumns.colAmount).Value = objTemp.Amt
-        '                gvItem.Rows(ii).Cells(clsMPIncetiveEntryColumns.colQty).Value = objTemp.Qty
-        '                gvItem.Rows(ii).Cells(clsMPIncetiveEntryColumns.colFAT).Value = objTemp.FAT
-        '                gvItem.Rows(ii).Cells(clsMPIncetiveEntryColumns.colSNF).Value = objTemp.SNF
-        '                gvItem.Rows(ii).Cells(clsMPIncetiveEntryColumns.colPashuAaharQty).Value = objTemp.PashuAaharQty
-        '                gvItem.Rows(ii).Cells(clsMPIncetiveEntryColumns.colMineralMixtureQty).Value = objTemp.MineralMixtureQty
-        '                gvItem.Rows(ii).Cells(clsMPIncetiveEntryColumns.colSailejQty).Value = objTemp.SailejQty
-        '                gvItem.Rows(ii).Cells(clsMPIncetiveEntryColumns.colRahatKampekatFeedQty).Value = objTemp.RahatKampekatFeedQty
-        '            End If
-        '        Next
-        '    End If
-
+        If clsCommon.myLen(txtDBTReco.Value) <= 0 Then
+            txtDBTReco.Focus()
+            Throw New Exception("Please select " + txtDBTReco.MyLinkLable1.Text)
+        End If
+        loadBlankGrid()
+        Dim Mcc_Uom As String = clsDBFuncationality.getSingleValue("select Uom_Code from TSPL_Mcc_UOM_DETAIL where Stocking_Unit='Y' and  MCC_CODE='" & txtDBTReco.Value & "'")
+        Dim Qry As String = "Select VLC_Code,max(Vlc_Code_VLC_Uploader) As Vlc_Code_VLC_Uploader,max(VLC_Name) As VLC_Name,MP_Code,max(MP_Uploader_Code) As MP_Uploader_Code,max(MP_Name) As MP_Name,sum(qty) As Qty from (  
+ select Doc_No,Convert(Varchar(10),Doc_Date,103)Doc_Date,shift,TSPL_VLC_MASTER_HEAD.VLC_Code, TSPL_VLC_MASTER_HEAD.Vlc_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,
+TSPl_MP_MAster.MP_CODE,TSPl_MP_MAster.MP_Name, TSPl_MP_MAster.MP_Code_VLC_Uploader As MP_Uploader_Code,TSPL_VLC_DATA_UPLOADER.qty 
+from TSPL_VLC_DATA_UPLOADER
+Left Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.Vlc_Code_VLC_Uploader=TSPL_VLC_DATA_UPLOADER.VLC_CODE
+Left Join TSPl_MP_MAster On TSPl_MP_MAster.MP_Code_VLC_Uploader=TSPL_VLC_DATA_UPLOADER.MP_CODE and TSPl_MP_MAster.VLC_Code=TSPL_VLC_MASTER_HEAD.VLC_Code
+ inner join TSPL_DCS_MP_INCENTIVE_RECO_DETAIL on TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.VLC_Code=TSPL_VLC_MASTER_HEAD.VLC_Code
+where TSPL_VLC_DATA_UPLOADER.Doc_Date>='" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "' And TSPL_VLC_DATA_UPLOADER.Doc_Date<='" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "'  and TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Document_Code='" & txtDBTReco.Value & "'
+ Union All 
+ select  TSPL_VLC_DATA_UPLOADER_MASTER.Document_Code As Doc_No,
+Convert(Varchar(10),TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date,103) As Doc_Date, TSPL_VLC_DATA_UPLOADER_MASTER.Shift,TSPL_VLC_DATA_UPLOADER_MASTER.VLC_CODE,
+TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPl_MP_MAster.MP_CODE,TSPl_MP_MAster.MP_Name,
+TSPl_MP_MAster.MP_Code_VLC_Uploader As MP_Uploader_Code,TSPL_VLC_DATA_UPLOADER_DETAIL.qty 
+from TSPL_VLC_DATA_UPLOADER_DETAIL
+Left Outer Join TSPL_VLC_DATA_UPLOADER_MASTER On TSPL_VLC_DATA_UPLOADER_MASTER.Document_Code=TSPL_VLC_DATA_UPLOADER_DETAIL.Document_Code
+Left Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.Vlc_Code_VLC_Uploader=TSPL_VLC_DATA_UPLOADER_MASTER.VLC_CODE
+Left Join TSPl_MP_MAster On TSPl_MP_MAster.MP_Code_VLC_Uploader=TSPL_VLC_DATA_UPLOADER_DETAIL.Farmer_Code and TSPl_MP_MAster.VLC_Code=TSPL_VLC_MASTER_HEAD.VLC_Code
+ inner join TSPL_DCS_MP_INCENTIVE_RECO_DETAIL on TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.VLC_Code=TSPL_VLC_DATA_UPLOADER_MASTER.VLC_CODE
+ where  convert(date,TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date,103) >='" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "' And convert(date,TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date,103)<= '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "'  and TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Document_Code='" & txtDBTReco.Value & "' 
+) xx where MP_CODE is not null group by VLC_Code,MP_CODE  order by Vlc_Code_VLC_Uploader,MP_Uploader_Code"
+        Dim dt As DataTable = Nothing
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            gvItem.DataSource = dt
+            FormatGrid()
+        End If
     End Sub
     Sub UpdateAllRow()
         If Not IsinsideLoadData Then
