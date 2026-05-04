@@ -86,7 +86,7 @@ Case When Manual_Weight=1 Then 'Manual' Else 'Auto' End As SampleManualAuto
 from [" & clsCommon.myCstr(dt.Rows(ii)("DataBase_Name")) & "].dbo.TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL
 Left Outer Join [" & clsCommon.myCstr(dt.Rows(ii)("DataBase_Name")) & "].dbo.TSPL_MILK_PROCUREMENT_UPLOADER_HEAD On TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No
 Left Outer Join [" & clsCommon.myCstr(dt.Rows(ii)("DataBase_Name")) & "].dbo.TSPL_MCC_MASTER On TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.MCC_Code
-Where CONVERT(date,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift_Date,103)>='" & txtFromDate.Value & "' And CONVERT(date,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift_Date,103)<='" & txtToDate.Value & "'
+Where CONVERT(date,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift_Date,103)>='" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "' And CONVERT(date,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift_Date,103)<='" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "' And TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Source_API=1
 "
             Next
 
@@ -98,7 +98,7 @@ SampleAutoCount,
 Case When SampleAutoMilk_Weight>0 Then ((SampleAutoFATKG*100)/SampleAutoMilk_Weight) Else 0 End As [SampleAutoFAT],
 Case When SampleAutoMilk_Weight>0 Then ((SampleAutoSNFKG*100)/SampleAutoMilk_Weight) Else 0 End As [SampleAutoSNF]"
             If isPrint Then
-                Qry &= " ,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img "
+                Qry &= " ,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") & "' +'  to  '+ '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") & "' As [DateRange],'" & objCommonVar.CurrentUser & "' As [PrintBy] "
             End If
             Qry &= "from (
 Select Max([Union]) As [Union],MCC_Code,Max(MCC_NAME) As MCC_NAME, 
