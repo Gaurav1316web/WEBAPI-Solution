@@ -879,7 +879,7 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
                     If clsCommon.CompairString(ddlReportType.SelectedValue, "Party Wise") = CompairStringResult.Equal Then
                         frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptSTSRegister-ItemWiseSummary", "STS Register Item Wise Summary")
                     ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Item Wise") = CompairStringResult.Equal Then
-                        frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptSTSRegister-ItemPartyWiseSummary ", "STS Register Item Party Wise Summary")
+                        frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptSTSRegister-ItemPartyWiseSummary", "STS Register Item Party Wise Summary")
                     End If
 
                     frmCRV = Nothing
@@ -899,10 +899,27 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
             Dim BaseQry As String = ""
             Dim dt As DataTable = Nothing
             Dim whrcls As String = ""
+            If ddlReportType.SelectedIndex = 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select Report Type ", Me.Text)
+                Exit Sub
+            End If
             If txtItem.arrValueMember IsNot Nothing Then
                 whrcls += " and Item_Code in (" & clsCommon.GetMulcallString(txtItem.arrValueMember) & ") "
             End If
-            Qry = "SELECT Item_Code, MAX(Item_Desc) AS Item_Desc, SUM(Out_Qty) AS Out_Qty, SUM(QtyPouch) AS QtyPouch, sum(qtyLtr)[Qty(Ltr)],
+            If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                whrcls += " And FromLoc.Location_Code In (" & clsCommon.GetMulcallString(txtLocation.arrValueMember) & ") "
+            End If
+            If txtToLocation.arrValueMember IsNot Nothing AndAlso txtToLocation.arrValueMember.Count > 0 Then
+                whrcls += " And TSPL_LOCATION_MASTER_2.Location_Code In (" & clsCommon.GetMulcallString(txtToLocation.arrValueMember) & ") "
+            End If
+            Qry = " select "
+            If clsCommon.CompairString(ddlReportType.SelectedValue, "Party Wise") = CompairStringResult.Equal Then
+                Qry += "  To_LocationCode,Max(xxx.Item_Desc)Item_Desc "
+            ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Item Wise") = CompairStringResult.Equal Then
+                Qry += " Item_Code,Max(xxx.Item_Desc)Item_Desc,right(Document_No,5) as BillNo,format(Document_Date,'dd-MM-yyyy') as Document_Date,(To_LocationCode) as To_LocationCode"
+            End If
+
+            Qry += ",'" & objCommonVar.CurrentUser & "' as UserName, max(To_LocationName)To_LocationName, SUM(Out_Qty) AS Out_Qty, SUM(QtyPouch) AS QtyPouch, sum(qtyLtr)[Qty(Ltr)],
     SUM(Amount) AS Amount, 
     '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AS Fromdate, 
     '" + clsCommon.GetPrintDate(txtToDate.Value) + "' AS ToDate, 
@@ -917,7 +934,8 @@ FROM (
         (xx.Out_Qty * tab2.Rate) AS Amount, 
         tab2.Rate
     FROM (
-        SELECT 
+        SELECT TSPL_TRANSFER_ORDER_HEAD.Document_NO, (TSPL_LOCATION_MASTER_2.Location_Code) as To_LocationCode,
+						max(TSPL_LOCATION_MASTER_2.Location_Desc) as To_LocationName,(FromLoc.Location_Code) as FromLocation,
             TSPL_TRANSFER_ORDER_DETAIL.Item_Code, 
             MAX(TSPL_TRANSFER_ORDER_HEAD.Price_Code) AS Price_Code, 
             TSPL_TRANSFER_ORDER_HEAD.Document_Date, 
@@ -949,9 +967,11 @@ FROM (
         AND TSPL_TRANSFER_ORDER_DETAIL.Unit_code = ItemConvReportUOM.UOM_Code
         LEFT JOIN TSPL_ITEM_UOM_DETAIL AS ItemConvinUOMpouch ON TSPL_TRANSFER_ORDER_DETAIL.Item_Code = ItemConvinUOMpouch.Item_Code AND ItemConvinUOMpouch.UOM_Code = 'Pouch'
     	LEFT JOIN TSPL_ITEM_UOM_DETAIL AS ItemConvinUOMLtr  ON TSPL_TRANSFER_ORDER_DETAIL.Item_Code = ItemConvinUOMLtr.Item_Code AND ItemConvinUOMLtr.UOM_Code = 'LTR'
-        LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2 LEFT OUTER JOIN TSPL_LOCATION_MASTER 
+        Left Outer Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code =TSPL_TRANSFER_ORDER_HEAD.Comp_Code  LEFT OUTER JOIN TSPL_LOCATION_MASTER 
         ON TSPL_LOCATION_MASTER.Location_Code = TSPL_TRANSFER_ORDER_DETAIL.Location 
-        WHERE TSPL_ITEM_MASTER.Is_FreshItem = 1 and IsTaxable=0 and convert(date,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + whrcls + " GROUP BY TSPL_TRANSFER_ORDER_HEAD.Document_Date, TSPL_TRANSFER_ORDER_DETAIL.Item_Code, TSPL_TRANSFER_ORDER_DETAIL.Unit_code
+    left outer join TSPL_LOCATION_MASTER as FromLoc on FromLoc.Location_Code=  TSPL_TRANSFER_ORDER_HEAD.From_Location 
+    left outer join  TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_2 on TSPL_LOCATION_MASTER_2.Location_Code=TSPL_TRANSFER_ORDER_HEAD.To_Location
+        WHERE TSPL_ITEM_MASTER.Is_FreshItem = 1 and IsTaxable=0 and convert(date,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + whrcls + " GROUP BY TSPL_LOCATION_MASTER_2.Location_Code,FromLoc.Location_Code, TSPL_TRANSFER_ORDER_HEAD.Document_NO,  TSPL_TRANSFER_ORDER_HEAD.Document_Date, TSPL_TRANSFER_ORDER_DETAIL.Item_Code, TSPL_TRANSFER_ORDER_DETAIL.Unit_code
     ) xx
     OUTER APPLY ( 
         SELECT TOP 1 TSPL_ITEM_PRICE_PLAN_DETAIL.Item_Basic_Price AS Rate
@@ -963,8 +983,12 @@ FROM (
         AND TSPL_ITEM_PRICE_PLAN_HEADER.Start_Date <= xx.Document_Date 
         ORDER BY TSPL_ITEM_PRICE_PLAN_HEADER.Start_Date DESC 
     ) AS tab2
-) xxx 
-GROUP BY Item_Code order by Item_Desc"
+) xxx  "
+            If clsCommon.CompairString(ddlReportType.SelectedValue, "Party Wise") = CompairStringResult.Equal Then
+                Qry += "  GROUP BY  To_LocationCode,Item_Code order by To_LocationName,max(xxx.Item_Desc)"
+            ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Item Wise") = CompairStringResult.Equal Then
+                Qry += "  GROUP BY Item_Code,Document_No,Document_Date ,To_LocationCode order by max(xxx.Item_Desc),Document_Date,max(xxx.To_LocationName) "
+            End If
             dt = clsDBFuncationality.GetDataTable(Qry)
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -987,7 +1011,12 @@ GROUP BY Item_Code order by Item_Desc"
                     gv1.BestFitColumns()
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptMilkStcSummary", "Milk Stc Summary")
+                    If clsCommon.CompairString(ddlReportType.SelectedValue, "Party Wise") = CompairStringResult.Equal Then
+                        frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptMilkStcSummaryPartyWise", "Milk Stc Summary Party Wise")
+                    ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Item Wise") = CompairStringResult.Equal Then
+                        frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptMilkStcSummary", "Milk Stc Summary Item Wise")
+                    End If
+
                     frmCRV = Nothing
 
                 End If
@@ -1037,7 +1066,7 @@ GROUP BY Item_Code order by Item_Desc"
                                     ) as Decimal(18, 2)
                                   ) as Def_UOM_Qty,
                             cast((TSPL_SD_SHIPMENT_DETAIL.Qty * ItemConvinUOM.Conversion_Factor / ItemConvReportUOM.Conversion_Factor) as Decimal(18, 2)) as QtyAccToReportUOM,ItemConvReportUOM.UOM_Code,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2, 
-                            TSPL_COMPANY_MASTER.Add3,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.State,TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Discount as Amount,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No,TSPL_SD_SHIPMENT_HEAD.TAX5_Amt,TSPL_SD_SHIPMENT_HEAD.Distributor_Commission_TotalAmt,TSPL_CUSTOMER_MASTER.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,
+                            TSPL_COMPANY_MASTER.Add3,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.State,TSPL_SD_SHIPMENT_DETAIL.Amount as Amount,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No,TSPL_SD_SHIPMENT_HEAD.TAX5_Amt,TSPL_SD_SHIPMENT_HEAD.Distributor_Commission_TotalAmt,TSPL_CUSTOMER_MASTER.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,
 							CASE WHEN TSPL_SD_SHIPMENT_HEAD.TAX1='KKF'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt
     				WHEN TSPL_SD_SHIPMENT_HEAD.TAX2='KKF'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt
     				WHEN TSPL_SD_SHIPMENT_HEAD.TAX3='KKF'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt
@@ -2998,7 +3027,7 @@ where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.V
     Sub LoadReportType()
         Try
             Dim qry As String = "select '' as Code, '<--Select-->' as Name   "
-            If BtnProductSalesSummary.IsChecked OrElse rbtnMilkSale.IsChecked OrElse BtnStcRegisterItemWiseSummary.IsChecked Then
+            If BtnProductSalesSummary.IsChecked OrElse rbtnMilkSale.IsChecked OrElse BtnStcRegisterItemWiseSummary.IsChecked OrElse BtnMilkStcSummary.IsChecked Then
                 qry += " union all Select 'Item Wise' as Code,'Item Wise' as Name  union all 
  Select 'Party Wise' as Code,'Party Wise' as Name "
             End If
@@ -3018,7 +3047,7 @@ where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.V
         End Try
     End Sub
 
-    Private Sub rbtnStockStatement_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnStockStatement.ToggleStateChanged, rbtnMilkSale.ToggleStateChanged, rbtnDistributorCollStatement.ToggleStateChanged, rbtnBoothSaleDateShiftWise.ToggleStateChanged, rbtnBoothSaleItemWise.ToggleStateChanged, BtnPartySaleMilkProduct.ToggleStateChanged, BtnProductSalesSummary.ToggleStateChanged, BtnBillWiseSaleOfMilkSummary.ToggleStateChanged, BtnStcRegisterPartyandItemWiseSummary.ToggleStateChanged, BtnStcRegisterItemWiseSummary.ToggleStateChanged, rbtnSalesRegister.ToggleStateChanged, BtnBillWiseSaleOfMilk.ToggleStateChanged
+    Private Sub rbtnStockStatement_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnStockStatement.ToggleStateChanged, rbtnMilkSale.ToggleStateChanged, rbtnDistributorCollStatement.ToggleStateChanged, rbtnBoothSaleDateShiftWise.ToggleStateChanged, rbtnBoothSaleItemWise.ToggleStateChanged, BtnPartySaleMilkProduct.ToggleStateChanged, BtnProductSalesSummary.ToggleStateChanged, BtnBillWiseSaleOfMilkSummary.ToggleStateChanged, BtnStcRegisterPartyandItemWiseSummary.ToggleStateChanged, BtnStcRegisterItemWiseSummary.ToggleStateChanged, BtnMilkStcSummary.ToggleStateChanged, rbtnSalesRegister.ToggleStateChanged, BtnBillWiseSaleOfMilk.ToggleStateChanged
         If rbtnStockStatement.IsChecked Then
             txtLocation.Visible = True
             lblLocation.Visible = True
@@ -3123,7 +3152,7 @@ where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.V
                 lblLocation.Visible = True
             End If
             LoadType()
-        ElseIf BtnStcRegisterPartyandItemWiseSummary.IsChecked OrElse BtnStcRegisterItemWiseSummary.IsChecked Then
+        ElseIf BtnStcRegisterPartyandItemWiseSummary.IsChecked OrElse BtnStcRegisterItemWiseSummary.IsChecked OrElse BtnMilkStcSummary.IsChecked Then
             btnGo.Enabled = True
             RadSplitButton1.Enabled = True
             txtLocation.Visible = True
@@ -3145,6 +3174,13 @@ where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.V
                 lblQtyConv.Visible = True
                 ddlDefaultReportUOM.Visible = True
                 LoadDefaultReportUOMType()
+            ElseIf BtnMilkStcSummary.IsChecked Then
+                lblLocation.Text = "From Location"
+                lblToLocation.Visible = True
+                txtToLocation.Visible = True
+                lblReportType.Visible = True
+                ddlReportType.Visible = True
+                LoadReportType()
             Else
                 lblLocation.Text = "Location"
             End If
@@ -3496,7 +3532,7 @@ left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_SCRAPINVOICE_HEAD
             End If
 
             If Print Then
-                    qry &= " Select xx.*,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,TSPL_COMPANY_MASTER.State,TSPL_STATE_MASTER.STATE_NAME,TSPL_COMPANY_MASTER.Pincode from ("
+                qry &= " Select xx.*,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,TSPL_COMPANY_MASTER.State,TSPL_STATE_MASTER.STATE_NAME,TSPL_COMPANY_MASTER.Pincode from ("
                 qry &= " Select ROW_NUMBER() OVER (PARTITION BY Invoice_No ORDER BY [Item Code]) AS SNo,Max(PrintBy)PrintBy,Max(FromDate)FromDate,Max(ToDate)ToDate,Max([Transcation Type])[Transcation Type],MAX([Customer Type])[Customer Type],Max([Doc Status])[Doc Status],Max(Location)Location,Max([Location GST])[Location GST],Max([Sub Location])[Sub Location],Invoice_Date,Shift,Invoice_No,Max([Invoice Type])[Invoice Type],Max([Route No])[Route No],([Party Code])[Party Code],Max([DCS Uploader])[DCS Uploader],Max([Party Name])[Party Name],
                     Max([Customer GSTNo])[Customer GSTNo],Max([Party State Code])[Party State Code],[Item Code],Max([Item Name])[Item Name],Max([HSN Code])[HSN Code],Max([Measure of Qty])[Measure of Qty],Sum([Product Qty])[Product Qty],Max([Report UOM])[Report UOM],Max(Rate)Rate,
 					Sum(CAST([ReportUOM Qty] AS DECIMAL(18,2))) AS [ReportUOM Qty],
@@ -3513,14 +3549,14 @@ left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_SCRAPINVOICE_HEAD
                     from (" & Baseqry & ")XX   "
             qry &= " Where 1=1 "
 
-                If clsCommon.CompairString(ddlType.SelectedValue, "Taxable") = CompairStringResult.Equal Then
-                    qry &= " And XX.[Invoice Type]='Taxable' "
-                ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Non Taxable") = CompairStringResult.Equal Then
-                    qry &= " And XX.[Invoice Type]='Non-Taxable' "
-                End If
-                If txtTransaction.arrValueMember IsNot Nothing AndAlso txtTransaction.arrValueMember.Count > 0 Then
-                    qry += " And XX.Transcation_Type In(" + clsCommon.GetMulcallString(txtTransaction.arrValueMember) + ")" + Environment.NewLine
-                End If
+            If clsCommon.CompairString(ddlType.SelectedValue, "Taxable") = CompairStringResult.Equal Then
+                qry &= " And XX.[Invoice Type]='Taxable' "
+            ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Non Taxable") = CompairStringResult.Equal Then
+                qry &= " And XX.[Invoice Type]='Non-Taxable' "
+            End If
+            If txtTransaction.arrValueMember IsNot Nothing AndAlso txtTransaction.arrValueMember.Count > 0 Then
+                qry += " And XX.Transcation_Type In(" + clsCommon.GetMulcallString(txtTransaction.arrValueMember) + ")" + Environment.NewLine
+            End If
 
             If Print Then
                 qry &= " )xyz "
@@ -3573,4 +3609,5 @@ left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_SCRAPINVOICE_HEAD
         ReStoreGridLayout()
     End Sub
 End Class
+
 

@@ -467,6 +467,7 @@ Public Class frmDCSSaleEntry
         lblVendorName.Text = ""
         FndPriceCode.Value = ""
         txtSaleRoute.Value = ""
+        FndPriceCode.Enabled = True
         txtDate.Value = clsCommon.GETSERVERDATE()
         dtpChallan.Value = clsCommon.GETSERVERDATE()
         txtBillToLocation.Value = ""
