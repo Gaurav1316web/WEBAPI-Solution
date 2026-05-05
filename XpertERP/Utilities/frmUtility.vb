@@ -27772,7 +27772,7 @@ where Against_Shipment_No in (select Document_Code from TSPL_SD_SHIPMENT_HEAD wh
                                     Try
                                         DocCode = objTr.strInvoiceNo
                                         If rbtnInvoice.IsChecked Then
-                                            Qry = " Update TSPL_SD_SALE_INVOICE_HEAD set Document_Date='" + clsCommon.GetPrintDate(objTr.DocDate) + "' where Docuemnt_Code='" + objTr.strInvoiceNo + "'"
+                                            Qry = " Update TSPL_SD_SALE_INVOICE_HEAD set Document_Date='" + clsCommon.GetPrintDate(objTr.DocDate) + "' where Document_Code='" + objTr.strInvoiceNo + "'"
                                             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
                                             Qry = "Update TSPL_Customer_Invoice_Head set Document_Date='" + clsCommon.GetPrintDate(objTr.DocDate) + "' where Against_Sale_No ='" + objTr.strInvoiceNo + "' "
                                             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
@@ -27783,7 +27783,7 @@ where Against_Shipment_No in (select Document_Code from TSPL_SD_SHIPMENT_HEAD wh
                                             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
                                             Qry = "update TSPL_SD_SHIPMENT_HEAD set Document_Date='" + clsCommon.GetPrintDate(objTr.DocDate) + "' where Sale_Invoice_No='" + objTr.strInvoiceNo + "'"
                                             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-                                            Qry = " Update TSPL_SD_SALE_INVOICE_HEAD set Document_Date='" + clsCommon.GetPrintDate(objTr.DocDate) + "' where Docuemnt_Code='" + objTr.strInvoiceNo + "'"
+                                            Qry = " Update TSPL_SD_SALE_INVOICE_HEAD set Document_Date='" + clsCommon.GetPrintDate(objTr.DocDate) + "' where Document_Code='" + objTr.strInvoiceNo + "'"
                                             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
                                             Qry = "Update TSPL_Customer_Invoice_Head set Document_Date='" + clsCommon.GetPrintDate(objTr.DocDate) + "' where Against_Sale_No ='" + objTr.strInvoiceNo + "' "
                                             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
