@@ -167,9 +167,9 @@ Public Class frmNIRQC
             LoadMRNData()
         End If
         CancelBtn.Enabled = True
-    End Sub MySub()
+    End Sub
 
-End Sub
+
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         Save()
     End Sub
@@ -490,7 +490,7 @@ where TSPL_MRN_DETAIL.MRN_No ='" + txtMRNNo.Value + "' and TSPL_MRN_HEAD.Status=
     Private Sub txtSampleNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtSampleNo._MYValidating
         Try
             Dim InstrumentalId As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select NIR_QC_Instrumental_ID from TSPL_LOCATION_MASTER where Location_Code='" & lblBillToLocationCode.Text & "'"))
-            ' Dim InstrumentalId As String = ""
+            'Dim InstrumentalId As String = ""
 
             'If obj IsNot Nothing AndAlso Not IsDBNull(obj) Then
             '    InstrumentalId = obj.ToString()
