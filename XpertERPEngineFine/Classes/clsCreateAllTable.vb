@@ -48703,6 +48703,10 @@ inner JOIN tspl_sd_sale_Invoice_detail ON TSPL_Customer_Invoice_Head.Against_Sal
             coll.Add("Balance_SNFKG", "float not NULL default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_JOB_MILK_SRN", coll, Nothing, True, False, "", "SRN_NO", "SRN_Date")
 
+            coll = New Dictionary(Of String, String)
+            coll.Add("Cust_Code", "varchar(12) null references TSPL_Customer_MASTER(Cust_Code)")
+            coll.Add("Opening_Amount", "decimal (18,2) NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Opening_Table", coll, Nothing, Nothing)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("SRN_NO", "varchar(30)  null")
