@@ -919,7 +919,7 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
                 Qry += " Item_Code,Max(xxx.Item_Desc)Item_Desc,right(Document_No,5) as BillNo,format(Document_Date,'dd-MM-yyyy') as Document_Date,(To_LocationCode) as To_LocationCode"
             End If
 
-            Qry += ",'" & objCommonVar.CurrentUser & "' as UserName, max(To_LocationName)To_LocationName, SUM(Out_Qty) AS Out_Qty, SUM(QtyPouch) AS QtyPouch, sum(qtyLtr)[Qty(Ltr)],
+            Qry += ",'" & objCommonVar.CurrentUser & "' as UserName, max(To_LocationName)To_LocationName, SUM(Out_Qty) AS Out_Qty, SUM(QtyPouch) AS QtyPouch, sum(qtyLtr)[Qty(Ltr)],sum(Rep_UOM_Qty)Rep_UOM_Qty,sum(Def_UOM_Qty)Def_UOM_Qty,
     SUM(Amount) AS Amount, 
     '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AS Fromdate, 
     '" + clsCommon.GetPrintDate(txtToDate.Value) + "' AS ToDate, 
@@ -955,7 +955,8 @@ FROM (
                 ItemConvinUOMpouch.Conversion_Factor) AS QtyPouch, 
     MAX(TSPL_TRANSFER_ORDER_DETAIL.Out_Qty * 
                 ItemConvReportUOM.Conversion_Factor / 
-                ItemConvinUOMLtr.Conversion_Factor) AS QtyLtr,
+                ItemConvinUOMLtr.Conversion_Factor) AS QtyLtr,sum(TSPL_TRANSFER_ORDER_DETAIL.Out_Qty * ItemConvReportUOM.Conversion_Factor / RepUOM.Conversion_Factor ) as Rep_UOM_Qty,
+				sum(TSPL_TRANSFER_ORDER_DETAIL.Out_Qty * ItemConvReportUOM.Conversion_Factor / DefUOM.Conversion_Factor) as Def_UOM_Qty,
             TSPL_TRANSFER_ORDER_DETAIL.Unit_code
         FROM TSPL_TRANSFER_ORDER_DETAIL 
         LEFT OUTER JOIN TSPL_TRANSFER_ORDER_HEAD 
@@ -967,11 +968,13 @@ FROM (
         AND TSPL_TRANSFER_ORDER_DETAIL.Unit_code = ItemConvReportUOM.UOM_Code
         LEFT JOIN TSPL_ITEM_UOM_DETAIL AS ItemConvinUOMpouch ON TSPL_TRANSFER_ORDER_DETAIL.Item_Code = ItemConvinUOMpouch.Item_Code AND ItemConvinUOMpouch.UOM_Code = 'Pouch'
     	LEFT JOIN TSPL_ITEM_UOM_DETAIL AS ItemConvinUOMLtr  ON TSPL_TRANSFER_ORDER_DETAIL.Item_Code = ItemConvinUOMLtr.Item_Code AND ItemConvinUOMLtr.UOM_Code = 'LTR'
+    LEFT JOIN ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL WHERE Report_UOM = 1 ) RepUOM ON TSPL_TRANSFER_ORDER_DETAIL.Item_Code = RepUOM.item_code
+LEFT JOIN ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL WHERE DEFAULT_UOM = 1 ) DefUOM ON TSPL_TRANSFER_ORDER_DETAIL.Item_Code = DefUOM.item_code
         Left Outer Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code =TSPL_TRANSFER_ORDER_HEAD.Comp_Code  LEFT OUTER JOIN TSPL_LOCATION_MASTER 
         ON TSPL_LOCATION_MASTER.Location_Code = TSPL_TRANSFER_ORDER_DETAIL.Location 
     left outer join TSPL_LOCATION_MASTER as FromLoc on FromLoc.Location_Code=  TSPL_TRANSFER_ORDER_HEAD.From_Location 
     left outer join  TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_2 on TSPL_LOCATION_MASTER_2.Location_Code=TSPL_TRANSFER_ORDER_HEAD.To_Location
-        WHERE TSPL_ITEM_MASTER.Is_FreshItem = 1 and IsTaxable=0 and convert(date,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + whrcls + " GROUP BY TSPL_LOCATION_MASTER_2.Location_Code,FromLoc.Location_Code, TSPL_TRANSFER_ORDER_HEAD.Document_NO,  TSPL_TRANSFER_ORDER_HEAD.Document_Date, TSPL_TRANSFER_ORDER_DETAIL.Item_Code, TSPL_TRANSFER_ORDER_DETAIL.Unit_code
+        WHERE IsTaxable=0 and convert(date,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + whrcls + " GROUP BY TSPL_LOCATION_MASTER_2.Location_Code,FromLoc.Location_Code, TSPL_TRANSFER_ORDER_HEAD.Document_NO,  TSPL_TRANSFER_ORDER_HEAD.Document_Date, TSPL_TRANSFER_ORDER_DETAIL.Item_Code, TSPL_TRANSFER_ORDER_DETAIL.Unit_code
     ) xx
     OUTER APPLY ( 
         SELECT TOP 1 TSPL_ITEM_PRICE_PLAN_DETAIL.Item_Basic_Price AS Rate
