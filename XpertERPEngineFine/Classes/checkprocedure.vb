@@ -3064,6 +3064,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptUnionWiseMilkTankerCollectionDetail, "Union Wise Milk Tanker Collection Detail", "1.51.03.27", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.rptMilkUnion2, "New Milk Union Report", "1.51.03.28", clsUserMgtCode.SubModuleMilkUnion, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, False, False, True)
         InsertDefaultValue(clsUserMgtCode.rptDbtStatusRCDF, "Dbt Status RCDF Report", "1.51.03.30", clsUserMgtCode.SubModuleMilkUnion, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, False, False, True)
+        InsertDefaultValue(clsUserMgtCode.frmUnionWiseDockEntryReport, "Union Wise Dock Entry Report ", "1.51.03.31", clsUserMgtCode.SubModuleMilkUnion, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, False, False, True)
 
 #End Region
 

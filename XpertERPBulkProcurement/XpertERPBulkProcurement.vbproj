@@ -353,6 +353,12 @@
     <Compile Include="Milk Procurement\Report\frmUnionWiseAppUserReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\frmUnionWiseDockEntryReport.Designer.vb">
+      <DependentUpon>frmUnionWiseDockEntryReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmUnionWiseDockEntryReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptAbsentBMCDCS.Designer.vb">
       <DependentUpon>rptAbsentBMCDCS.vb</DependentUpon>
     </Compile>
@@ -1398,6 +1404,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\frmUnionWiseAppUserReport.resx">
       <DependentUpon>frmUnionWiseAppUserReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\frmUnionWiseDockEntryReport.resx">
+      <DependentUpon>frmUnionWiseDockEntryReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptAbsentBMCDCS.resx">
       <DependentUpon>rptAbsentBMCDCS.vb</DependentUpon>

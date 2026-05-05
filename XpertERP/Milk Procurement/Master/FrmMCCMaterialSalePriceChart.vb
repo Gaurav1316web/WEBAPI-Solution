@@ -22,7 +22,7 @@ Public Class FrmMCCMaterialSalePriceChart
         txtMCC_Code.arrValueMember = Nothing
 
         txtDocNo.MyReadOnly = False
-        txtdate.Text = clsCommon.GETSERVERDATE()
+        txtdate.Value = clsCommon.GETSERVERDATE()
         txtEndDate.Value = txtdate.Text
         txtPriceCode.Value = ""
         gv.DataSource = Nothing
@@ -338,12 +338,14 @@ Public Class FrmMCCMaterialSalePriceChart
     End Sub
 
     Sub OpenUOMList(ByVal isButtonClick As Boolean)
-        Dim strICode As String = clsCommon.myCstr(gv.CurrentRow.Cells("Item Code").Value)
-        If clsCommon.myLen(strICode) > 0 Then
-            Dim qry As String = "select UOM_Code as Code,UOM_Description as [Description] from TSPL_ITEM_UOM_DETAIL"
-            Dim whrCls As String = "Item_Code='" + strICode + "'"
-            gv.CurrentRow.Cells("Unit Code").Value = clsCommon.ShowSelectForm("Unit_Fndr", qry, "Code", whrCls, clsCommon.myCstr(gv.CurrentRow.Cells("Item Code").Value), "Code", isButtonClick)
-            gv.CurrentRow.Cells("Unit desc").Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Unit_Desc from TSPL_Unit_master where Unit_Code='" & gv.CurrentRow.Cells("Unit Code").Value & "'"))
+        If Not isInsideLoadData Then
+            Dim strICode As String = clsCommon.myCstr(gv.CurrentRow.Cells("Item Code").Value)
+            If clsCommon.myLen(strICode) > 0 Then
+                Dim qry As String = "select UOM_Code as Code,UOM_Description as [Description] from TSPL_ITEM_UOM_DETAIL"
+                Dim whrCls As String = "Item_Code='" + strICode + "'"
+                gv.CurrentRow.Cells("Unit Code").Value = clsCommon.ShowSelectForm("Unit_Fndr", qry, "Code", whrCls, clsCommon.myCstr(gv.CurrentRow.Cells("Item Code").Value), "Code", isButtonClick)
+                gv.CurrentRow.Cells("Unit desc").Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Unit_Desc from TSPL_Unit_master where Unit_Code='" & gv.CurrentRow.Cells("Unit Code").Value & "'"))
+            End If
         End If
     End Sub
 
@@ -388,7 +390,7 @@ Public Class FrmMCCMaterialSalePriceChart
         Try
             Dim qry As String = "select TSPL_MCC_RATE_UPLOADER_master.Code as DocumentCode,convert(varchar(12),TSPL_MCC_RATE_UPLOADER_master.Date,103) as DocumentDate,TSPL_MCC_RATE_UPLOADER_master.Price_Code as [Price Code] from TSPL_MCC_RATE_UPLOADER_master "
             'Dim whrClas As String = " TSPL_DEMAND_BOOKING_MASTER.comp_code='" + objCommonVar.CurrentCompanyCode + "' "
-            Reset()
+            ' Reset()
             LoadData(clsCommon.ShowSelectForm("FSBook1DocNo", qry, "DocumentCode", "", txtDocNo.Value, "date DESC", isButtonClicked, " TSPL_MCC_RATE_UPLOADER_master.date "), NavigatorType.Current)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -477,6 +479,10 @@ Public Class FrmMCCMaterialSalePriceChart
                 txtDocNo.Value = strCode
                 LoadData(strCode, NavigatorType.Current)
                 txtDocNo.Value = ""
+                txtdate.Enabled = True
+                txtEndDate.Enabled = True
+                txtdate.Value = clsCommon.GETSERVERDATE
+                txtEndDate.Value = clsCommon.GETSERVERDATE
                 isNewEntry = True
             Else
                 Reset()

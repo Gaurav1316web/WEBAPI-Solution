@@ -508,6 +508,8 @@ Public Class frmMCCMaterialSale
         lblVendorName.Text = ""
         FndPriceCode.Value = ""
         txtSaleRoute.Value = ""
+        FndPriceCode.Enabled = True
+        FlagDocumentIsTaxable = 0
         setDCSBalance()
         txtDate.Value = clsCommon.GETSERVERDATE()
         dtpChallan.Value = clsCommon.GETSERVERDATE()

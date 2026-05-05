@@ -115,6 +115,7 @@
     <None Include="Crystal Reports Common\crptmilkunionreport.rpt" />
     <None Include="Crystal Reports Common\crptmilkunionreportNEW.rpt" />
     <None Include="Crystal Reports Common\crptUnionWiseDCSMachineSummary.rpt" />
+    <None Include="Crystal Reports Common\crptUnionWiseDockEntryReport.rpt" />
     <None Include="Crystal Reports Common\crptUnionWiseMachineDetail.rpt" />
     <None Include="Crystal Reports Common\rptAllUnionBookingReport.rpt" />
     <None Include="Crystal Reports Common\rptMilkSRNALLUnion.rpt" />
@@ -1987,6 +1988,7 @@
     <None Include="Crystal Reports\Sales Report\crptLoadOutStatus.rpt" />
     <None Include="Crystal Reports\Sales Report\crptLO_vs_VehicleCapacity.rpt" />
     <None Include="Crystal Reports\Sales Report\CrptMilkStcSummary.rpt" />
+    <None Include="Crystal Reports\Sales Report\CrptMilkStcSummaryPartyWise.rpt" />
     <None Include="Crystal Reports\Sales Report\crptmilkunionreport.rpt" />
     <None Include="Crystal Reports\Sales Report\crptMismatchReport.rpt" />
     <None Include="Crystal Reports\Sales Report\crptMismatchReportDetail.rpt" />
@@ -2095,6 +2097,7 @@
     <None Include="Crystal Reports\Sales Report\crptSettlementEntry.rpt" />
     <None Include="Crystal Reports\Sales Report\crptShipment.rpt" />
     <None Include="Crystal Reports\Sales Report\CrptSTSRegister-ItemPartyWiseSummary .rpt" />
+    <None Include="Crystal Reports\Sales Report\CrptSTSRegister-ItemPartyWiseSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\CrptSTSRegister-ItemWiseSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\CrptSTSRegister-ItemWiseSummaryPartyWise.rpt" />
     <None Include="Crystal Reports\Sales Report\CrptSTSRegister-ItemWiseSummaryPartyWisee.rpt" />
