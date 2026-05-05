@@ -1510,6 +1510,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewSavingPayment.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewSavingTNK.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewSWM.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewSWMNEW1.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewTNK.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceneww.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdvicenewwBKN.rpt" />

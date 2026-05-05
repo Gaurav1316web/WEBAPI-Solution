@@ -14,7 +14,7 @@ Public Class rptAccountStatementReport
         txtFromDate.Value = clsCommon.GETSERVERDATE()
         RadPageView1.SelectedPage = RadPageViewPage1
         Reset()
-        CreateTab()
+        'CreateTab()
     End Sub
 
     Sub CreateTab()

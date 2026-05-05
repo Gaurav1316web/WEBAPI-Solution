@@ -10,6 +10,7 @@ Public Class clsNIRQC
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
     Public Posted_Date As DateTime? = Nothing
     Public Form_ID As String
+    Public Against_Foss_PK_ID As String = Nothing
 #End Region
     Public Shared Function CheckNIRQCUsedInSRN(ByVal strSRNNo As String, ByVal trans As SqlTransaction) As Boolean
         Dim qry As String = "select sum(fin.[cnt]) from (Select 1 as [cnt],TSPL_SRN_DETAIL.SRN_No from TSPL_SRN_DETAIL 
@@ -41,6 +42,8 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
                 clsCommon.AddColumnsForChange(coll, "MRN_No", obj.MRN_No)
                 clsCommon.AddColumnsForChange(coll, "QC_Status", obj.QC_Status)
                 clsCommon.AddColumnsForChange(coll, "QC_Remarks", obj.QC_Remarks)
+                clsCommon.AddColumnsForChange(coll, "Against_Foss_PK_ID", obj.Against_Foss_PK_ID)
+
                 clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
                 If isNewEntry Then
@@ -108,6 +111,9 @@ where TSPL_MRN_DETAIL.MRN_No='" & strMRN & "' and TSPL_MRN_HEAD.Status=1 and TSP
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             obj = New clsNIRQC()
             obj.Document_No = clsCommon.myCstr(dt.Rows(0)("Document_No"))
+
+
+            obj.Against_Foss_PK_ID = clsCommon.myCstr(dt.Rows(0)("Against_Foss_PK_ID"))
             obj.Document_Date = clsCommon.myCDate(dt.Rows(0)("Document_Date"))
             obj.MRN_No = clsCommon.myCstr(dt.Rows(0)("MRN_No"))
             obj.QC_Status = clsCommon.myCDecimal(dt.Rows(0)("QC_Status"))

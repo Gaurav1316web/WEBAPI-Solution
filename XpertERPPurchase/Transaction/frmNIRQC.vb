@@ -31,6 +31,7 @@ Public Class frmNIRQC
     End Sub
     Private Sub FrmCapexMaster_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
+
             SetUserMgmtNew()
             LoadQCStatus()
             AddNew()
@@ -86,6 +87,12 @@ Public Class frmNIRQC
         btnPrint.Enabled = True
         btnPrint.Visible = True
         btnDelete.Enabled = False
+        LBLitem1.Text = ""
+        LBLitem2.Text = ""
+        LBLitem3.Text = ""
+        LBLitem4.Text = ""
+        LBLitem5.Text = ""
+        txtSampleNo.Value = Nothing
         'txtDate.Value = clsCommon.GETSERVERDATE()
         BlankAllControls()
     End Sub
@@ -122,23 +129,44 @@ Public Class frmNIRQC
             txtCode.Value = obj.Document_No
             txtDate.Value = obj.Document_Date
             txtMRNNo.Value = obj.MRN_No
+            ' txtSampleNo.Value = obj.REF_PK_ID
             txtRemarks.Text = obj.QC_Remarks
-            cboVisualQCStatus.SelectedValue = clsCommon.myCstr(obj.QC_Status)
-            UsLock1.Status = obj.Status
-            If obj.Status = ERPTransactionStatus.Approved Then
-                btnSave.Enabled = False
-                btnPost.Enabled = False
-                btnDelete.Enabled = False
-                CancelBtn.Enabled = True
-                'CancelBtn.Visible = True
-            Else
-                btnSave.Enabled = True
-                btnPost.Enabled = True
-                btnDelete.Enabled = True
+            txtSampleNo.Value = clsDBFuncationality.getSingleValue(" select Sample_Number  from TSPL_NIR_QC_FOSS  where PK_ID='" + obj.Against_Foss_PK_ID + "'")
+
+            Dim qry1 As String = "SELECT  Moisture,Silica_DM,Fat_DM,Protein_DM,Fiber_DM  FROM TSPL_NIR_QC_FOSS WHERE Sample_Number= '" + txtSampleNo.Value + "'"
+            Dim dts As DataTable = clsDBFuncationality.GetDataTable(qry1)
+            If dts.Rows.Count > 0 Then
+
+                LBLitem1.Text = dts.Rows(0)("Moisture").ToString()
+                LBLitem2.Text = dts.Rows(0)("Silica_DM").ToString()
+                LBLitem3.Text = dts.Rows(0)("Fat_DM").ToString()
+                LBLitem4.Text = dts.Rows(0)("Protein_DM").ToString()
+                LBLitem5.Text = dts.Rows(0)("Fiber_DM").ToString()
+
+                LBLitem1.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+                LBLitem2.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+                LBLitem3.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+                LBLitem4.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+                LBLitem5.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+
+
             End If
-            LoadMRNData()
-        End If
-        CancelBtn.Enabled = True
+            cboVisualQCStatus.SelectedValue = clsCommon.myCstr(obj.QC_Status)
+                UsLock1.Status = obj.Status
+                If obj.Status = ERPTransactionStatus.Approved Then
+                    btnSave.Enabled = False
+                    btnPost.Enabled = False
+                    btnDelete.Enabled = False
+                    CancelBtn.Enabled = True
+                    'CancelBtn.Visible = True
+                Else
+                    btnSave.Enabled = True
+                    btnPost.Enabled = True
+                    btnDelete.Enabled = True
+                End If
+                LoadMRNData()
+            End If
+            CancelBtn.Enabled = True
     End Sub
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         Save()
@@ -153,6 +181,16 @@ Public Class frmNIRQC
                 obj.QC_Remarks = txtRemarks.Text
                 obj.QC_Status = clsCommon.myCDecimal(cboVisualQCStatus.SelectedValue)
                 obj.Form_ID = Me.Form_ID
+                Dim sampleNo As String = txtSampleNo.Value.ToString().Trim()
+                '           Dim cnt As Integer = Convert.ToInt32(clsDBFuncationality.getSingleValue("SELECT COUNT(*)  FROM TSPL_NIR_QC  INNER JOIN TSPL_NIR_QC_FOSS  ON TSPL_NIR_QC.REF_PK_ID = TSPL_NIR_QC_FOSS.PK_Id
+                'WHERE TSPL_NIR_QC_FOSS.Sample_Number = '" & sampleNo & "'"))
+                '           If cnt > 0 Then
+                '               clsCommon.MyMessageBoxShow(Me, "Sample already used!", Me.Text)
+
+                '               Exit Sub
+                '           End If
+
+                obj.Against_Foss_PK_ID = clsDBFuncationality.getSingleValue("select PK_Id  from TSPL_NIR_QC_FOSS WHERE Sample_Number='" + txtSampleNo.Value + "'  ")
 
                 'If clsCommon.CompairString(clsCommon.myCstr(cboVisualQCStatus.SelectedItem), "Not Ok") <> CompairStringResult.Equal Then
                 'Dim dt As DataTable = clsDBFuncationality.GetDataTable(ReturnMRNDataQry())
@@ -449,8 +487,54 @@ where TSPL_MRN_DETAIL.MRN_No ='" + txtMRNNo.Value + "' and TSPL_MRN_HEAD.Status=
 
     Private Sub txtSampleNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtSampleNo._MYValidating
         Try
-            Dim qry As String = "select Sample_Number as [Sample Number] , Sample_Type as [Sample Type], Sample_Comment as [Comment] from  TSPL_NIR_QC_FOSS "
-            txtSampleNo.Value = clsCityMaster.getFinder("", txtSampleNo.Value, isButtonClicked)
+            Dim obj As Object = clsDBFuncationality.getSingleValue("select NIR_QC_Instrumental_ID from TSPL_LOCATION_MASTER where Location_Code='" & lblBillToLocationCode.Text & "'")
+            Dim InstrumentalId As String = ""
+
+            If obj IsNot Nothing AndAlso Not IsDBNull(obj) Then
+                InstrumentalId = obj.ToString()
+            End If
+            'Dim InstrumentalId As String = clsDBFuncationality.getSingleValue("select NIR_QC_Instrumental_ID from TSPL_LOCATION_MASTER where Location_Code='" + lblBillToLocationCode.Text + "'")
+            Dim ProductId As String = clsDBFuncationality.getSingleValue("select NIR_QC_Product_ID from TSPL_ITEM_MASTER where Item_Code='" + lblItem.Text + "'")
+
+            Dim qry1 As String = " select NIR_QC_Instrumental_ID from TSPL_LOCATION_MASTER where Location_Code='" + lblBillToLocationCode.Text + "'"
+
+
+            Dim QRY11 As String = "SELECT TSPL_NIR_QC_FOSS.Sample_Number ,TSPL_NIR_QC_FOSS.Sample_Type AS [Sample Type],TSPL_NIR_QC_FOSS.Sample_Comment AS [Comment],TSPL_NIR_QC_FOSS.Product_Code AS [Product Code],TSPL_NIR_QC_FOSS.Instrument_Serial_Number as [Instrument No.],Moisture,Silica_DM as [Silica],Fat_DM AS [Fat],Protein_DM as [Protein],Fiber_DM AS [Fiber]
+                FROM TSPL_NIR_QC_FOSS
+			    left outer join TSPL_NIR_QC on TSPL_NIR_QC.Against_Foss_PK_ID=TSPL_NIR_QC_FOSS.PK_Id
+				--    left outer join TSPL_MRN_DETAIL on TSPL_MRN_DETAIL.MRN_No=TSPL_NIR_QC.Mrn_no
+			  --  LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_MRN_DETAIL.Location
+			   -- LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.ITEM_CODE=TSPL_MRN_DETAIL.Item_Code
+			    ---Where 2=2  and  TSPL_NIR_QC_FOSS.PK_Id NOT IN (
+               -- SELECT distinct  TSPL_NIR_QC.Against_Foss_PK_ID FROM TSPL_NIR_QC WHERE TSPL_NIR_QC.Against_Foss_PK_ID IS NOT NULL) 
+             "
+            txtSampleNo.Value = clsCommon.ShowSelectForm("Location@Plant@Master", QRY11, "Sample_Number", "  TSPL_NIR_QC_FOSS.Instrument_Serial_Number='" + InstrumentalId + "'
+                and TSPL_NIR_QC_FOSS.Product_Code 	='" + ProductId + "'
+				and convert(date,TSPL_NIR_QC_FOSS.Analysis_Time,103) ='" + txtDate.Value + "'
+ and 	not exists (Select  1 FROM TSPL_NIR_QC WHERE TSPL_NIR_QC.Against_Foss_PK_ID = TSPL_NIR_QC_FOSS.PK_Id and  TSPL_NIR_QC.Document_No not in ('" + txtCode.Value + "') ) ", txtSampleNo.Value, "Sample_Number", isButtonClicked)
+            'txtSampleNo.Value = clsCommon.ShowSelectForm("Location@Plant@Master", QRY11, "Sample_Number", " TSPL_LOCATION_MASTER.Location_Code ='" + lblBillToLocationCode.Text + "'
+            '    OR TSPL_ITEM_MASTER.ITEM_CODE ='" + lblItem.Text + "'AND TSPL_NIR_QC_FOSS.PK_Id NOT IN (
+            'Select  TSPL_NIR_QC.REF_PK_ID FROM TSPL_NIR_QC WHERE TSPL_NIR_QC.REF_PK_ID IS NOT NULL) ", txtSampleNo.Value, "Sample_Number", isButtonClicked)
+
+
+            'Dim qry As String = "SELECT  TSPL_NIR_QC_FOSS.Sample_Number AS [Code],TSPL_NIR_QC_FOSS.Sample_Type AS [Sample Type],TSPL_NIR_QC_FOSS.Sample_Comment AS [Comment],TSPL_NIR_QC_FOSS.PK_Id
+            'FROM TSPL_NIR_QC_FOSS  "
+            'Dim WHCLS As String = " TSPL_NIR_QC_FOSS.PK_Id NOT IN (
+            'Select Case distinct  TSPL_NIR_QC.REF_PK_ID FROM TSPL_NIR_QC WHERE TSPL_NIR_QC.REF_PK_ID IS NOT NULL) "
+            'txtSampleNo.Value = clsCommon.ShowSelectForm("STMSTRFND", QRY, "Code", WHCLS, "", "Code", isButtonClicked)
+            ' txtSampleNo.Value = clsCommon.ShowSelectForm("RPTCITYFND", QRY11, "Sample_Number", "", txtSampleNo.Value, "Code", isButtonClicked)
+            Dim dt As New DataTable
+            Dim qry12 As String = "SELECT  Moisture,Silica_DM,Fat_DM,Protein_DM,Fiber_DM  FROM TSPL_NIR_QC_FOSS WHERE Sample_Number= '" + txtSampleNo.Value + "'"
+
+            Dim dts As DataTable = clsDBFuncationality.GetDataTable(qry12)
+            LBLitem1.Text = dts.Rows(0)("Moisture").ToString()
+            LBLitem2.Text = dts.Rows(0)("Silica_DM").ToString()
+            LBLitem3.Text = dts.Rows(0)("Fat_DM").ToString()
+            LBLitem4.Text = dts.Rows(0)("Protein_DM").ToString()
+            LBLitem5.Text = dts.Rows(0)("Fiber_DM").ToString()
+
+
+
 
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

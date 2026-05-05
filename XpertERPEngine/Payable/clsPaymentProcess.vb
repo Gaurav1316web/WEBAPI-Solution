@@ -1984,10 +1984,14 @@ select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo
     Public Shared Function PaymentProcessDrCrPrint(ByVal strDocNo As String, ByVal CycleFromDate As String, ByVal CycleToDate As String, ByVal strLoc As String, ByVal strRoutecode As String, ByVal strBank As String, ByVal strHoldUnhold As String, ByVal strMCC_Code As String, ByVal strVSPCode As String, ByVal CycleWiseData As Boolean) As Boolean
         Try
             Dim sQuery As String = ""
+            Dim settMaxFATPerLimit As Decimal = 0
+            Dim settMaxSNFPerLimit As Decimal = 0
             Dim dtDebit As New DataTable
             Dim dtCredit As New DataTable
             Dim dtMilkType As New DataTable
             Dim AreaWiseBilling As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
+            settMaxFATPerLimit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxFATPerLimitforReport, clsFixedParameterCode.MaxFATPerLimitforReport, Nothing))
+            settMaxSNFPerLimit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxSNFPerLimitforReport, clsFixedParameterCode.MaxSNFPerLimitforReport, Nothing))
 
             Dim dt As New DataTable
             Dim Flag As Boolean = False
@@ -2401,7 +2405,7 @@ Comp_Code,Comp_Name,max(MCC_NAME) as MCC_NAME,Regn_No
             'Dim BaseQty As String = clsPaymentProcessHead.Load_Report_Paymnet_RCDF_BaseQuery1(strDocNo, CycleFromDate, CycleToDate, strLoc, "", "", "", "", False)
             'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then cast( sum (FATQTY) * 100 /sum( Qty) as decimal(18,2))  as FATPer
             If True Then
-                Dim qry As String = "select 'SWEET' as Code,'SWEET' as Name union all select Code,Description from TSPL_MILK_REJECT_TYPE"
+                Dim qry As String = "select 'SWEET' as Code,'SWEET' as Name union all select 'GOODFAIL' as Code,'GOODFAIL' as Name union all select Code,Description from TSPL_MILK_REJECT_TYPE"
                 Dim dtRejType As DataTable = clsDBFuncationality.GetDataTable(qry)
 
                 sQuery = " select QBD,sum( Qty) as Qty, CASE WHEN SUM(Qty) = 0 THEN 0 ELSE CAST(SUM(FATQTY) * 100 / SUM(Qty) AS DECIMAL(18,2)) END AS FATPer,
@@ -2564,7 +2568,11 @@ where  TSPL_PAYMENT_PROCESS_HEAD.From_Date >= Convert(Date, ('" + CycleFromDate 
     ' Public Shared Function Load_Report_Paymnet_RCDF_BaseQuery1(ByVal strDocNo As String, ByVal CycleFromDate As String, ByVal CycleToDate As String, ByVal strLoc As String, ByVal strRoutecode As String, ByVal strBank As String, ByVal strHoldUnhold As String) As String
     Public Shared Function Load_Report_Paymnet_RCDF_BaseQuery1(ByVal strDocNo As String, ByVal CycleFromDate As String, ByVal CycleToDate As String, ByVal strLoc As String, ByVal strRoutecode As String, ByVal strBank As String, ByVal strHoldUnhold As String, ByVal strVSPCode As String, ByVal cyclewisedata As Boolean) As String
         Dim companyADD, CompName, CompCode As String
+        Dim settMaxFATPerLimit As Decimal = 0
+        Dim settMaxSNFPerLimit As Decimal = 0
         Dim AreaWiseBilling As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
+        settMaxFATPerLimit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxFATPerLimitforReport, clsFixedParameterCode.MaxFATPerLimitforReport, Nothing))
+        settMaxSNFPerLimit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxSNFPerLimitforReport, clsFixedParameterCode.MaxSNFPerLimitforReport, Nothing))
 
         Dim ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster As Boolean = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster, clsFixedParameterCode.ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster, Nothing)) > 0, True, False)
         Dim ApplyMilkTypeBuffaloCowOnPrint As Boolean = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyMilkTypeBuffaloCowOnPrint, clsFixedParameterCode.ApplyMilkTypeBuffaloCowOnPrint, Nothing)) > 0, True, False)
@@ -2681,11 +2689,20 @@ where  TSPL_PAYMENT_PROCESS_HEAD.From_Date >= Convert(Date, ('" + CycleFromDate 
 ,cast(((TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0)))-round( (TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0))*isnull(TSPL_MILK_SRN_DETAIL.FAT_Ratio,0),0) as integer) as SNF_Amount "
         ', " + IIf(objCommonVar.CurrentCompanyCode = "RCDF", "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type",
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
-            BaseQry += "  ,CASE WHEN (CASE WHEN TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No IS NOT NULL THEN ISNULL(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type, 'SWEET') 
-                            ELSE (CASE WHEN TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No IS NOT NULL THEN ISNULL(TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type, 'SWEET') END) END) = 'forfeited' THEN 'SWEET' 
-                                ELSE (CASE WHEN TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No IS NOT NULL THEN ISNULL(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type, 'SWEET') 
-                             ELSE (CASE WHEN TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No IS NOT NULL THEN ISNULL(TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type, 'SWEET') END) END) 
-                            END AS QBD"
+            'BaseQry += "  ,CASE WHEN (CASE WHEN TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No IS NOT NULL THEN ISNULL(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type, 'SWEET') 
+            '                ELSE (CASE WHEN TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No IS NOT NULL THEN ISNULL(TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type, 'SWEET') END) END) = 'forfeited' THEN 'SWEET' 
+            '                    ELSE (CASE WHEN TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No IS NOT NULL THEN ISNULL(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type, 'SWEET') 
+            '                 ELSE (CASE WHEN TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No IS NOT NULL THEN ISNULL(TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type, 'SWEET') END) END) 
+            '                END AS QBD"
+            BaseQry += " ,CASE WHEN TSPL_MILK_SRN_DETAIL.FAT_PER < " & settMaxFATPerLimit & " OR TSPL_MILK_SRN_DETAIL.SNF_PER < " & settMaxSNFPerLimit & " THEN 'GOODFAIL'
+                            WHEN (CASE WHEN TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No IS NOT NULL 
+                           THEN ISNULL(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type, 'SWEET') WHEN TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No IS NOT NULL 
+                           THEN ISNULL(TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type, 'SWEET')END) = 'forfeited'
+                           THEN 'SWEET'
+                            ELSE 
+                           (CASE WHEN TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No IS NOT NULL 
+                           THEN ISNULL(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type, 'SWEET') WHEN TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No IS NOT NULL 
+                            THEN ISNULL(TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type, 'SWEET')END)END AS QBD "
         Else
             BaseQry += "  ,(case when TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,'SWEET') else (case when TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,'SWEET') end) end) as QBD "
         End If
