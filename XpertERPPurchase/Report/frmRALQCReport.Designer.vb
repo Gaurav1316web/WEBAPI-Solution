@@ -354,6 +354,7 @@ Partial Class frmRALQCReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportAPI = False
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -382,6 +383,7 @@ Partial Class frmRALQCReport
         Me.gvDetails.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDetails.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvDetails.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvDetails.MyExportAPI = False
         Me.gvDetails.MyExportFilePath = ""
         Me.gvDetails.MyStopExport = False
         Me.gvDetails.Name = "gvDetails"
@@ -463,7 +465,7 @@ Partial Class frmRALQCReport
         '
         Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Location = New System.Drawing.Point(84, 6)
+        Me.btnReset.Location = New System.Drawing.Point(86, 6)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(71, 22)
         Me.btnReset.TabIndex = 453
