@@ -1057,6 +1057,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptQCAnalysisReport, "QC Analysis Report", "1.08.03.03", clsUserMgtCode.SubModuleQCReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptNIRQC, "NIR QC Report", "1.08.03.07", clsUserMgtCode.SubModuleQCReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmTruckWiseRejectionReport, "Truck Wise Rejection Report", "1.08.03.08", clsUserMgtCode.SubModuleQCReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmNIRQCvsWetQc, "NIRQC Vs WetQc", "1.08.03.08", clsUserMgtCode.SubModuleQCReport, 37)
+
 
         ''===========================end QC===========================================================
 #End Region

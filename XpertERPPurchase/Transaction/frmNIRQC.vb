@@ -152,22 +152,24 @@ Public Class frmNIRQC
 
             End If
             cboVisualQCStatus.SelectedValue = clsCommon.myCstr(obj.QC_Status)
-                UsLock1.Status = obj.Status
-                If obj.Status = ERPTransactionStatus.Approved Then
-                    btnSave.Enabled = False
-                    btnPost.Enabled = False
-                    btnDelete.Enabled = False
-                    CancelBtn.Enabled = True
-                    'CancelBtn.Visible = True
-                Else
-                    btnSave.Enabled = True
-                    btnPost.Enabled = True
-                    btnDelete.Enabled = True
-                End If
-                LoadMRNData()
+            UsLock1.Status = obj.Status
+            If obj.Status = ERPTransactionStatus.Approved Then
+                btnSave.Enabled = False
+                btnPost.Enabled = False
+                btnDelete.Enabled = False
+                CancelBtn.Enabled = True
+                'CancelBtn.Visible = True
+            Else
+                btnSave.Enabled = True
+                btnPost.Enabled = True
+                btnDelete.Enabled = True
             End If
-            CancelBtn.Enabled = True
+            LoadMRNData()
+        End If
+        CancelBtn.Enabled = True
     End Sub
+
+
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         Save()
     End Sub
@@ -487,14 +489,14 @@ where TSPL_MRN_DETAIL.MRN_No ='" + txtMRNNo.Value + "' and TSPL_MRN_HEAD.Status=
 
     Private Sub txtSampleNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtSampleNo._MYValidating
         Try
-            Dim obj As Object = clsDBFuncationality.getSingleValue("select NIR_QC_Instrumental_ID from TSPL_LOCATION_MASTER where Location_Code='" & lblBillToLocationCode.Text & "'")
-            Dim InstrumentalId As String = ""
+            Dim InstrumentalId As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select NIR_QC_Instrumental_ID from TSPL_LOCATION_MASTER where Location_Code='" & lblBillToLocationCode.Text & "'"))
+            'Dim InstrumentalId As String = ""
 
-            If obj IsNot Nothing AndAlso Not IsDBNull(obj) Then
-                InstrumentalId = obj.ToString()
-            End If
-            'Dim InstrumentalId As String = clsDBFuncationality.getSingleValue("select NIR_QC_Instrumental_ID from TSPL_LOCATION_MASTER where Location_Code='" + lblBillToLocationCode.Text + "'")
-            Dim ProductId As String = clsDBFuncationality.getSingleValue("select NIR_QC_Product_ID from TSPL_ITEM_MASTER where Item_Code='" + lblItem.Text + "'")
+            'If obj IsNot Nothing AndAlso Not IsDBNull(obj) Then
+            '    InstrumentalId = obj.ToString()
+            'End If
+            'Dim InstrumentalId As String = clsDBFuncationality.getSingleValue("select NIR_QC_Instrumental_ID from TSPL_LOCATION_MASTER where Location_Code='" + lblBillToLocation)Code.Text + "'")
+            Dim ProductId As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select NIR_QC_Product_ID from TSPL_ITEM_MASTER where Item_Code='" + lblItem.Text + "'"))
 
             Dim qry1 As String = " select NIR_QC_Instrumental_ID from TSPL_LOCATION_MASTER where Location_Code='" + lblBillToLocationCode.Text + "'"
 
