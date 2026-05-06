@@ -513,7 +513,7 @@ where TSPL_MRN_DETAIL.MRN_No ='" + txtMRNNo.Value + "' and TSPL_MRN_HEAD.Status=
             txtSampleNo.Value = clsCommon.ShowSelectForm("Location@Plant@Master", QRY11, "Sample_Number", "  TSPL_NIR_QC_FOSS.Instrument_Serial_Number='" + InstrumentalId + "'
                 and TSPL_NIR_QC_FOSS.Product_Code 	='" + ProductId + "'
 				and convert(date,TSPL_NIR_QC_FOSS.Analysis_Time,103) ='" + txtDate.Value + "'
- and 	not exists (Select  1 FROM TSPL_NIR_QC WHERE TSPL_NIR_QC.Against_Foss_PK_ID = TSPL_NIR_QC_FOSS.PK_Id and  TSPL_NIR_QC.Document_No not in ('" + txtCode.Value + "') ) ", txtSampleNo.Value, "Sample_Number", isButtonClicked)
+ and 	not exists (Select  1 FROM TSPL_NIR_QC WHERE TSPL_NIR_QC.Against_Foss_PK_ID = TSPL_NIR_QC_FOSS.PK_Id and  TSPL_NIR_QC.Document_No not in ('" + txtMRNNo.Value + "') ) ", txtSampleNo.Value, "Sample_Number", isButtonClicked)
             'txtSampleNo.Value = clsCommon.ShowSelectForm("Location@Plant@Master", QRY11, "Sample_Number", " TSPL_LOCATION_MASTER.Location_Code ='" + lblBillToLocationCode.Text + "'
             '    OR TSPL_ITEM_MASTER.ITEM_CODE ='" + lblItem.Text + "'AND TSPL_NIR_QC_FOSS.PK_Id NOT IN (
             'Select  TSPL_NIR_QC.REF_PK_ID FROM TSPL_NIR_QC WHERE TSPL_NIR_QC.REF_PK_ID IS NOT NULL) ", txtSampleNo.Value, "Sample_Number", isButtonClicked)
