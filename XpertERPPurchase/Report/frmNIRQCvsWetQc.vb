@@ -53,19 +53,44 @@ Public Class frmNIRQCvsWetQc
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
-            Dim QRY As String = "SELECT TSPL_NIR_QC.Document_No AS [NIRQC NO],TSPL_NIR_QC.Document_Date AS [NIRQC Date] , TSPL_SRN_HEAD.SRN_NO AS [SRN NO],TSPL_SRN_HEAD.SRN_DATE AS [SRN DATE],TSPL_MRN_HEAD.MRN_NO AS [MRN NO],TSPL_MRN_HEAD.mrn_date AS [MRN Date],TSPL_MRN_HEAD.Against_GRN as [GRN No],tspl_grn_head.GRN_DATE as [GRN Date],
-TSPL_MRN_HEAD.Vendor_Code as [Vendor Code],TSPL_MRN_HEAD.Vendor_Name as [Vendor Name],TSPL_MRN_HEAD.Bill_To_Location as [Location],Moisture	,	TSPL_NIR_QC_FOSS.Silica_DM	,	TSPL_NIR_QC_FOSS.Fat_DM	,	TSPL_NIR_QC_FOSS.Protein_DM	,	TSPL_NIR_QC_FOSS.Fiber_DM,
+            Dim QRY As String = "SELECT * FROM ( SELECT 
+        TSPL_QC_CHECK_SRN_DETAIL.document_code,
+        TSPL_NIR_QC.Document_No AS [NIRQC NO],
+        TSPL_NIR_QC.Document_Date AS [NIRQC Date],
+        TSPL_SRN_HEAD.SRN_NO AS [SRN NO],
+        TSPL_SRN_HEAD.SRN_DATE AS [SRN DATE],
+        TSPL_MRN_HEAD.MRN_NO AS [MRN NO],
+        TSPL_MRN_HEAD.mrn_date AS [MRN Date],
+        TSPL_MRN_HEAD.Against_GRN as [GRN No],
+        tspl_grn_head.GRN_DATE as [GRN Date],
+        TSPL_MRN_HEAD.Vendor_Code as [Vendor Code],
+        TSPL_MRN_HEAD.Vendor_Name as [Vendor Name],
+        TSPL_MRN_HEAD.Bill_To_Location as [Location],
+		 TSPL_QC_CHECK_SRN_DETAIL.ITEM_CODE,
+        TSPL_NIR_QC_FOSS.Moisture AS [FOSS Moisture],
+        TSPL_NIR_QC_FOSS.Silica_DM as [FOSS Silica],
+        TSPL_NIR_QC_FOSS.Fat_DM AS [FOSS Fat],
+        TSPL_NIR_QC_FOSS.Protein_DM AS [FOSS Protein],
+        TSPL_NIR_QC_FOSS.Fiber_DM AS [FOSS Fiber],
+		      
+        TSPL_QC_LOG_SHEET_MASTER.NIRQC_Para_type,
+        TSPL_QC_CHECK_SRN_DETAIL.InputData,QC_Param_Code
 
-TSPL_QC_CHECK_SRN_DETAIL.ITEM_CODE,QC_Param_Code,TSPL_QC_CHECK_SRN_DETAIL.InputData,TSPL_QC_LOG_SHEET_MASTER.NIRQC_Para_type
-	--,TSPL_SRN_TENDER.Against_TenderNo as [RAL]
- FROM TSPL_NIR_QC
- Left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.mrn_no=TSPL_NIR_QC.MRN_No
- LEFT OUTER JOIN TSPL_QC_CHECK_SRN_DETAIL ON TSPL_QC_CHECK_SRN_DETAIL.MRN_NO =TSPL_MRN_HEAD.MRN_NO
-left outer join tspl_grn_head on tspl_grn_head.Grn_no =TSPL_MRN_HEAD.Against_GRN
-LEFT OUTER JOIN TSPL_SRN_HEAD ON TSPL_SRN_HEAD.Against_MRN=TSPL_MRN_HEAD.MRN_No
-left outer join TSPL_QC_LOG_SHEET_MASTER on TSPL_QC_LOG_SHEET_MASTER.code=TSPL_QC_CHECK_SRN_DETAIL.QC_Param_Code
-LEFT OUTER JOIN TSPL_NIR_QC_FOSS ON TSPL_NIR_QC_FOSS.PK_ID =TSPL_NIR_QC.Against_Foss_PK_ID  WHERE 2=2 "
-            If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+    FROM TSPL_NIR_QC
+    LEFT JOIN TSPL_NIR_QC_FOSS 
+        ON TSPL_NIR_QC_FOSS.PK_Id = TSPL_NIR_QC.Against_Foss_PK_ID
+    LEFT JOIN TSPL_MRN_HEAD 
+        ON TSPL_MRN_HEAD.mrn_no = TSPL_NIR_QC.MRN_No
+    LEFT JOIN TSPL_QC_CHECK_SRN_DETAIL 
+        ON TSPL_QC_CHECK_SRN_DETAIL.MRN_NO = TSPL_MRN_HEAD.MRN_NO
+    LEFT JOIN tspl_grn_head 
+        ON tspl_grn_head.Grn_no = TSPL_MRN_HEAD.Against_GRN
+    LEFT JOIN TSPL_SRN_HEAD 
+        ON TSPL_SRN_HEAD.Against_MRN = TSPL_MRN_HEAD.MRN_No
+    LEFT JOIN TSPL_QC_LOG_SHEET_MASTER 
+        ON TSPL_QC_LOG_SHEET_MASTER.code = TSPL_QC_CHECK_SRN_DETAIL.QC_Param_Code WHERE 2=2 
+--where TSPL_QC_CHECK_SRN_DETAIL.document_code='QEQ-KAL/2324/002204'"
+             If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
                 QRY += " and TSPL_MRN_HEAD.Bill_To_Location in(" & clsCommon.GetMulcallString(txtLocation.arrValueMember) & ")" & Environment.NewLine
             End If
             If txtVendor.arrValueMember IsNot Nothing AndAlso txtVendor.arrValueMember.Count > 0 Then
@@ -74,6 +99,19 @@ LEFT OUTER JOIN TSPL_NIR_QC_FOSS ON TSPL_NIR_QC_FOSS.PK_ID =TSPL_NIR_QC.Against_
             If txtVendor.arrValueMember IsNot Nothing AndAlso txtVendor.arrValueMember.Count > 0 Then
                 QRY += " and TSPL_MRN_HEAD.Vendor_Code in(" & clsCommon.GetMulcallString(txtVendor.arrValueMember) & ")" & Environment.NewLine
             End If
+            QRY += ") AS SourceTable
+
+PIVOT (
+    MAX(InputData)
+    FOR NIRQC_Para_type IN (
+        [Moisture],
+        [Silica],
+        [Fat],
+        [Protein],
+        [Fiber]
+    )
+) AS PivotTable;"
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
         End Try
