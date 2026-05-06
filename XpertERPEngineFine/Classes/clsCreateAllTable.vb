@@ -1005,6 +1005,8 @@ Public Class clsCreateAllTable
             coll.Add("Code", "Varchar(30) not null PRIMARY KEY")
             coll.Add("Description", "Varchar(150) not null")
             coll.Add("Type", "varchar(6) NOT NULL")
+            coll.Add("NIRQC_Para_type", "varchar(30) NOT NULL")
+
             coll.Add("Nature", "char(1) NULL")
             ''richa Against Ticket No. BM00000003713 on 03/09/2014
             coll.Add("IsMandatory", "int Not NULL default 0 ")
@@ -10348,6 +10350,9 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("AliasName", "varchar(150) null")
             coll.Add("Clause_Ref", "varchar(100) null")
             coll.Add("IS_Ref", "varchar(100) null")
+            coll.Add("Type", "varchar(6) not null")
+            coll.Add("NIRQC_Para_type", "varchar(20) null")
+
             'clsCommonFunctionality.CreateOrAlterTable("TSPL_QC_LOG_SHEET_MASTER", coll)
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_QC_LOG_SHEET_MASTER", coll, "", True, False, "", "", "", True)
 

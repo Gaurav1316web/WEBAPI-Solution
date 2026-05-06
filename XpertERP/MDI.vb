@@ -7207,6 +7207,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmTruckWiseRejectionReport
                         frm = New frmTruckWiseRejectionReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmNIRQCvsWetQc
+                        frm = New frmNIRQCvsWetQc
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.frmOperationMaster
                         frm = New frmOperationMaster

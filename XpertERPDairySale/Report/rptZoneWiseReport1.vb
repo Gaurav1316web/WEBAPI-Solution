@@ -100,7 +100,14 @@ CASE WHEN CODE ='LTR'  THEN TotalLtr_ItemWise else 0  END AS fINAL2, CASE WHEN C
                 Left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code left outer join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_code left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code   and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_Code 
                 left outer join tspl_company_master on 2 = 2 left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_DEMAND_BOOKING_DETAIL.Item_Code = I.item_code 
                 Left Join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_master.Route_No 
-                where 2 = 2 and  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date) BETWEEN CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "', 103) and CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value) + "', 103) and  Is_FreshItem = 1)  XXXFirst 
+                where 2 = 2 and  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date) BETWEEN CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "', 103) and CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value) + "', 103) and  Is_FreshItem = 1"
+
+
+            If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                qry += " and TSPL_ROUTE_MASTER.Route_No in(" & clsCommon.GetMulcallString(txtRoute.arrValueMember) & ")" & Environment.NewLine
+            End If
+
+            qry += ")  XXXFirst 
                   group by   XXXFirst.Route_Desc,"
             qry += " XXXFirst.Zone_Code,"
             qry += " XXXFirst.Item_Code,XXXFirst.Sku_Seq,XXXFirst.Area_Code"
@@ -113,14 +120,22 @@ CASE WHEN CODE ='LTR'  THEN TotalLtr_ItemWise else 0  END AS fINAL2, CASE WHEN C
                 Dim FinalQuery As String = " With CTERawData as ( " + qry + "  )" + Environment.NewLine + Environment.NewLine
                 Dim itemList As String = ""
 
+            If dtItemsss.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
+                Exit Sub
+            Else
+
                 For Each row As DataRow In dtItemsss.Rows
                     itemList &= "'" & row("Item_Code").ToString() & "',"
                 Next
-
-                ' Remove last comma
                 If itemList.EndsWith(",") Then
                     itemList = itemList.Substring(0, itemList.Length - 1)
                 End If
+            End If
+
+
+            ' Remove last comma
+
             Dim ii As Integer = 1
             ' For ii As Integer = 1 To dtItems.Rows.Count Step 10
             'If ii > 1 Then
@@ -530,7 +545,14 @@ CASE WHEN CODE ='LTR'  THEN TotalLtr_ItemWise else 0  END AS fINAL2, CASE WHEN C
                 Left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code left outer join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_code left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code   and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_Code 
                 left outer join tspl_company_master on 2 = 2 left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_DEMAND_BOOKING_DETAIL.Item_Code = I.item_code 
                 Left Join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_master.Route_No 
-                where 2 = 2 and  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date) BETWEEN CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "', 103) and CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value) + "', 103) and  Is_FreshItem = 1)  XXXFirst 
+                where 2 = 2 and  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date) BETWEEN CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "', 103) and CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value) + "', 103) and  Is_FreshItem = 1"
+            
+            If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                qry += " and TSPL_ROUTE_MASTER.Route_No in(" & clsCommon.GetMulcallString(txtRoute.arrValueMember) & ")" & Environment.NewLine
+            End If
+
+
+            qry += ")  XXXFirst 
               group by   XXXFirst.Route_Desc,"
             qry += " XXXFirst.Route_no,"
             qry += " XXXFirst.Item_Code,XXXFirst.Sku_Seq"
@@ -543,14 +565,30 @@ CASE WHEN CODE ='LTR'  THEN TotalLtr_ItemWise else 0  END AS fINAL2, CASE WHEN C
             Dim FinalQuery As String = " With CTERawData as ( " + qry + "  )" + Environment.NewLine + Environment.NewLine
             Dim itemList As String = ""
 
-            For Each row As DataRow In dtItemsss.Rows
-                itemList &= "'" & row("Item_Code").ToString() & "',"
-            Next
 
-            ' Remove last comma
-            If itemList.EndsWith(",") Then
-                itemList = itemList.Substring(0, itemList.Length - 1)
+
+            If dtItemsss.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
+                Exit Sub
+            Else
+
+                For Each row As DataRow In dtItemsss.Rows
+                    itemList &= "'" & row("Item_Code").ToString() & "',"
+                Next
+                If itemList.EndsWith(",") Then
+                    itemList = itemList.Substring(0, itemList.Length - 1)
+                End If
             End If
+
+
+            'For Each row As DataRow In dtItemsss.Rows
+            '    itemList &= "'" & row("Item_Code").ToString() & "',"
+            'Next
+
+            '' Remove last comma
+            'If itemList.EndsWith(",") Then
+            '    itemList = itemList.Substring(0, itemList.Length - 1)
+            'End If
             Dim ii As Integer = 1
             ' For ii As Integer = 1 To dtItems.Rows.Count Step 10
             'If ii > 1 Then

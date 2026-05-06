@@ -7,6 +7,7 @@ Public Class clsPPLogSheetMaster
     Public nature As String = Nothing
     Public code As String = Nothing
     Public desc As String = Nothing
+    Public NIRQC_Para_type As String = Nothing
     Public type As String = Nothing
     Public IsMandatory As Integer = 0
     Public Pick_BO As Integer = 0
@@ -60,6 +61,8 @@ Public Class clsPPLogSheetMaster
             clsCommon.AddColumnsForChange(coll, "description", obj.desc)
             clsCommon.AddColumnsForChange(coll, "AliasName", obj.AliasName, True)
             clsCommon.AddColumnsForChange(coll, "type", obj.type)
+            clsCommon.AddColumnsForChange(coll, "NIRQC_Para_type", obj.NIRQC_Para_type)
+
             clsCommon.AddColumnsForChange(coll, "Nature", obj.nature)
             clsCommon.AddColumnsForChange(coll, "IsMandatory", obj.IsMandatory)
             clsCommon.AddColumnsForChange(coll, "IsRequired_InParameter_Master", obj.IsReq_Parameter_Master)
@@ -123,6 +126,8 @@ Public Class clsPPLogSheetMaster
                     clsCommon.AddColumnsForChange(coll, "Code", strCode)
                     clsCommon.AddColumnsForChange(coll, "description", obj.desc)
                     clsCommon.AddColumnsForChange(coll, "type", obj.type)
+                    clsCommon.AddColumnsForChange(coll, "NIRQC_Para_type", obj.NIRQC_Para_type)
+
                     clsCommon.AddColumnsForChange(coll, "Nature", obj.nature)
                     clsCommon.AddColumnsForChange(coll, "IsMandatory", obj.IsMandatory)
                     clsCommon.AddColumnsForChange(coll, "modified_by", clsCommon.myCstr(objCommonVar.CurrentUserCode))
@@ -174,6 +179,8 @@ Public Class clsPPLogSheetMaster
                 obj.desc = clsCommon.myCstr(dt.Rows(0)("description"))
                 obj.AliasName = clsCommon.myCstr(dt.Rows(0)("AliasName"))
                 obj.type = clsCommon.myCstr(dt.Rows(0)("type"))
+                obj.NIRQC_Para_type = clsCommon.myCstr(dt.Rows(0)("NIRQC_Para_type"))
+
                 obj.Trans_Id = clsCommon.myCstr(dt.Rows(0)("trans_id"))
                 obj.nature = clsCommon.myCstr(dt.Rows(0)("nature"))
                 obj.IsMandatory = clsCommon.myCdbl(dt.Rows(0)("IsMandatory"))
