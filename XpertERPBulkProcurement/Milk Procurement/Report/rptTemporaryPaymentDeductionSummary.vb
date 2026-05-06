@@ -620,7 +620,8 @@ left outer join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Documen
 left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.Doc_No
 left outer join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_SD_SALE_RETURN_HEAD.Customer_Code
 left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code
-where 2=2 
+where 2=2 and TSPL_PAYMENT_PROCESS_HEAD.From_Date='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy") + "' and TSPL_PAYMENT_PROCESS_HEAD.To_Date='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(ToDate), "dd/MMM/yyyy") + "'
+ 
 "
 
         Dim qry As String = ""
