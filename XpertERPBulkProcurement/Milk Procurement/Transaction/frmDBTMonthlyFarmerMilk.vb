@@ -670,22 +670,25 @@ Public Class frmDBTMonthlyFarmerMilk
         End If
     End Sub
     Private Sub gvItem_KeyDown(sender As Object, e As KeyEventArgs) Handles gvItem.KeyDown
-        If e.KeyCode = Keys.Enter Then
-            If gvItem.CurrentCell Is Nothing Then
-                Exit Sub
-            End If
-            If (gvItem.CurrentCell.ColumnInfo.Name = clsMPIncetiveEntryColumns.colAmount) Then
-                GridFocus(gvItem.CurrentRow)
-            ElseIf (gvItem.CurrentCell.ColumnInfo.Name = clsMPIncetiveEntryColumns.colMPUploaderCode) Then
-                gvItem.EndEdit()
-                gvItem.CurrentColumn = gvItem.Columns(clsMPIncetiveEntryColumns.colQty)
-                gvItem.BeginEdit()
-            ElseIf (gvItem.CurrentCell.ColumnInfo.Name = clsMPIncetiveEntryColumns.colMPUploaderCode Or gvItem.CurrentCell.ColumnInfo.Name = clsMPIncetiveEntryColumns.colMPName Or gvItem.CurrentCell.ColumnInfo.Name = clsMPIncetiveEntryColumns.colUOM Or gvItem.CurrentCell.ColumnInfo.Name = clsMPIncetiveEntryColumns.colQty) Then
-                gvItem.EndEdit()
-                gvItem.CurrentColumn = gvItem.Columns(gvItem.CurrentCell.ColumnInfo.Index + 1)
-                gvItem.BeginEdit()
-            End If
+        If True Then
+            Dim x As Integer = 10
         End If
+        'If e.KeyCode = Keys.Enter Then
+        '    If gvItem.CurrentCell Is Nothing Then
+        '        Exit Sub
+        '    End If
+        '    If (gvItem.CurrentCell.ColumnInfo.Name = clsMPIncetiveEntryColumns.colAmount) Then
+        '        GridFocus(gvItem.CurrentRow)
+        '    ElseIf (gvItem.CurrentCell.ColumnInfo.Name = clsMPIncetiveEntryColumns.colMPUploaderCode) Then
+        '        gvItem.EndEdit()
+        '        gvItem.CurrentColumn = gvItem.Columns(clsMPIncetiveEntryColumns.colQty)
+        '        gvItem.BeginEdit()
+        '    ElseIf (gvItem.CurrentCell.Colum   nInfo.Name = clsMPIncetiveEntryColumns.colMPUploaderCode Or gvItem.CurrentCell.ColumnInfo.Name = clsMPIncetiveEntryColumns.colMPName Or gvItem.CurrentCell.ColumnInfo.Name = clsMPIncetiveEntryColumns.colUOM Or gvItem.CurrentCell.ColumnInfo.Name = clsMPIncetiveEntryColumns.colQty) Then
+        '        gvItem.EndEdit()
+        '        gvItem.CurrentColumn = gvItem.Columns(gvItem.CurrentCell.ColumnInfo.Index + 1)
+        '        gvItem.BeginEdit()
+        '    End If
+        'End If
     End Sub
     Private Sub txtMCC__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDBTReco._MYValidating
         txtDBTReco.Value = clsMPDCSInsentiveReco.getFinder(" not exists( select 1 from TSPL_DBT_MONTHLY_FARMER_MILK where TSPL_DBT_MONTHLY_FARMER_MILK.DBT_Reco_Code=TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Code  and TSPL_DBT_MONTHLY_FARMER_MILK.Document_Code not in ('" + txtDocumentNo.Value + "'))", txtDBTReco.Value, isButtonClicked)
