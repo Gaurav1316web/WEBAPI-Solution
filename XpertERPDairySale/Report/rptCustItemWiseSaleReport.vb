@@ -757,6 +757,8 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
                 Qry += "  To_LocationCode,Max(xxx.Item_Desc)Item_Desc "
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Item Wise") = CompairStringResult.Equal Then
                 Qry += " Item_Code,Max(xxx.Item_Desc)Item_Desc,right(Document_No,5) as BillNo,format(Document_Date,'dd-MM-yyyy') as Document_Date,(To_LocationCode) as To_LocationCode"
+            ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Summary") = CompairStringResult.Equal Then
+                Qry += "  Item_Code,Max(xxx.Item_Desc) "
             End If
 
             Qry += " ,'" & objCommonVar.CurrentUser & "' as UserName ,max(To_LocationName)To_LocationName,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate,  Max(xxx.Item_Desc)Item_Desc,
@@ -853,6 +855,8 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
                 Qry += "  GROUP BY  To_LocationCode,Item_Code order by To_LocationName,max(xxx.Item_Desc)"
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Item Wise") = CompairStringResult.Equal Then
                 Qry += "  GROUP BY Item_Code,Document_No,Document_Date ,To_LocationCode order by max(xxx.Item_Desc),BillNo,Document_Date,To_LocationName "
+            ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Summary") = CompairStringResult.Equal Then
+                Qry += "  GROUP BY Item_Code order by max(xxx.Item_Desc)  "
             End If
             dt = clsDBFuncationality.GetDataTable(Qry)
 
@@ -880,6 +884,8 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
                         frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptSTSRegister-ItemWiseSummary", "STS Register Item Wise Summary")
                     ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Item Wise") = CompairStringResult.Equal Then
                         frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptSTSRegister-ItemPartyWiseSummary", "STS Register Item Party Wise Summary")
+                    ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Summary") = CompairStringResult.Equal Then
+                        frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptSTSRegister-Summary", "STS Register Summary")
                     End If
 
                     frmCRV = Nothing
@@ -917,6 +923,8 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
                 Qry += "  To_LocationCode,Max(xxx.Item_Desc)Item_Desc "
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Item Wise") = CompairStringResult.Equal Then
                 Qry += " Item_Code,Max(xxx.Item_Desc)Item_Desc,right(Document_No,5) as BillNo,format(Document_Date,'dd-MM-yyyy') as Document_Date,(To_LocationCode) as To_LocationCode"
+            ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Summary") = CompairStringResult.Equal Then
+                Qry += " Item_Code,Max(xxx.Item_Desc)Item_Desc "
             End If
 
             Qry += ",'" & objCommonVar.CurrentUser & "' as UserName, max(To_LocationName)To_LocationName, SUM(Out_Qty) AS Out_Qty, SUM(QtyPouch) AS QtyPouch, sum(qtyLtr)[Qty(Ltr)],sum(Rep_UOM_Qty)Rep_UOM_Qty,sum(Def_UOM_Qty)Def_UOM_Qty,
@@ -974,7 +982,7 @@ LEFT JOIN ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAI
         ON TSPL_LOCATION_MASTER.Location_Code = TSPL_TRANSFER_ORDER_DETAIL.Location 
     left outer join TSPL_LOCATION_MASTER as FromLoc on FromLoc.Location_Code=  TSPL_TRANSFER_ORDER_HEAD.From_Location 
     left outer join  TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_2 on TSPL_LOCATION_MASTER_2.Location_Code=TSPL_TRANSFER_ORDER_HEAD.To_Location
-        WHERE  convert(date,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + whrcls + " GROUP BY TSPL_LOCATION_MASTER_2.Location_Code,FromLoc.Location_Code, TSPL_TRANSFER_ORDER_HEAD.Document_NO,  TSPL_TRANSFER_ORDER_HEAD.Document_Date, TSPL_TRANSFER_ORDER_DETAIL.Item_Code, TSPL_TRANSFER_ORDER_DETAIL.Unit_code
+        WHERE  IsTaxable=0 and convert(date,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + whrcls + " GROUP BY TSPL_LOCATION_MASTER_2.Location_Code,FromLoc.Location_Code, TSPL_TRANSFER_ORDER_HEAD.Document_NO,  TSPL_TRANSFER_ORDER_HEAD.Document_Date, TSPL_TRANSFER_ORDER_DETAIL.Item_Code, TSPL_TRANSFER_ORDER_DETAIL.Unit_code
     ) xx
     OUTER APPLY ( 
         SELECT TOP 1 TSPL_ITEM_PRICE_PLAN_DETAIL.Item_Basic_Price AS Rate
@@ -991,6 +999,8 @@ LEFT JOIN ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAI
                 Qry += "  GROUP BY  To_LocationCode,Item_Code order by To_LocationName,max(xxx.Item_Desc)"
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Item Wise") = CompairStringResult.Equal Then
                 Qry += "  GROUP BY Item_Code,Document_No,Document_Date ,To_LocationCode order by max(xxx.Item_Desc),Document_Date,max(xxx.To_LocationName) "
+            ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Summary") = CompairStringResult.Equal Then
+                Qry += "  GROUP BY Item_Code order by max(xxx.Item_Desc)  "
             End If
             dt = clsDBFuncationality.GetDataTable(Qry)
 
@@ -1018,6 +1028,8 @@ LEFT JOIN ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAI
                         frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptMilkStcSummaryPartyWise", "Milk Stc Summary Party Wise")
                     ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Item Wise") = CompairStringResult.Equal Then
                         frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptMilkStcSummary", "Milk Stc Summary Item Wise")
+                    ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Summary") = CompairStringResult.Equal Then
+                        frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptMilkStcItemSummary", "Milk Stc Summary")
                     End If
 
                     frmCRV = Nothing
@@ -3033,6 +3045,9 @@ where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.V
             If BtnProductSalesSummary.IsChecked OrElse rbtnMilkSale.IsChecked OrElse BtnStcRegisterItemWiseSummary.IsChecked OrElse BtnMilkStcSummary.IsChecked Then
                 qry += " union all Select 'Item Wise' as Code,'Item Wise' as Name  union all 
  Select 'Party Wise' as Code,'Party Wise' as Name "
+                If BtnMilkStcSummary.IsChecked OrElse BtnStcRegisterItemWiseSummary.IsChecked Then
+                    qry += " union all Select 'Summary' as Code,'Summary' as Name "
+                End If
             End If
             ddlReportType.DataSource = clsDBFuncationality.GetDataTable(qry)
             ddlReportType.ValueMember = "Code"
