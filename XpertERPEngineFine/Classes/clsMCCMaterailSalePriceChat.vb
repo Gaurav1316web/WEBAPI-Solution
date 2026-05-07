@@ -68,7 +68,7 @@ Public Class clsMCCMaterailSalePriceChat
         Dim whrCls As String = ""
         Select Case NavType
             Case NavigatorType.First
-                qry += " and TSPL_MCC_RATE_UPLOADER_MASTER.Code = (select MIN(Document_No) from TSPL_MCC_RATE_UPLOADER_MASTER WHERE 1=1 " + whrCls + ")"
+                qry += " and TSPL_MCC_RATE_UPLOADER_MASTER.Code = (select MIN(Code) from TSPL_MCC_RATE_UPLOADER_MASTER WHERE 1=1 " + whrCls + ")"
             Case NavigatorType.Last
                 qry += " and TSPL_MCC_RATE_UPLOADER_MASTER.Code = (select Max(Code) from TSPL_MCC_RATE_UPLOADER_MASTER WHERE 1=1 " + whrCls + ")"
             Case NavigatorType.Current
