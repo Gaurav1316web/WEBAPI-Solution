@@ -17,22 +17,18 @@ Public Class frmNIRQCvsWetQc
         End Try
 
     End Sub
-    Sub ReportGrid()
+
+    Sub funreset()
         gv1.DataSource = Nothing
         gv1.Rows.Clear()
         gv1.Columns.Clear()
-        gv1.GroupDescriptors.Clear()
-        gv1.MasterTemplate.SummaryRowsBottom.Clear()
-        gv1.MasterView.Refresh()
-        gv1.ReadOnly = True
-    End Sub
-    Sub funreset()
-        ReportGrid()
+        RadPageView1.SelectedPage = RadPageViewPage1
+        RadGroupBox1.Enabled = True
         RadPageView1.SelectedPage = RadPageViewPage1
         txtLocation.arrValueMember = Nothing
         TxtRAL.arrValueMember = Nothing
         txtItem.arrValueMember = Nothing
-        txtVendor.arrValueMember = Nothing
+        TxtVendor.arrValueMember = Nothing
     End Sub
     Private Sub txtLocation__My_Click(sender As Object, e As EventArgs)
         Try
@@ -141,13 +137,14 @@ PIVOT (
 ) AS PivotTable )XXX GROUP BY  xxx.Document_No"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(QRY)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                ReportGrid1()
                 gv1.DataSource = dt
                 gv1.BestFitColumns()
                 gv1.EnableFiltering = True
                 gv1.ShowFilteringRow = True
                 gv1.ReadOnly = True
                 RadGroupBox1.Enabled = False
+                EnableDisableCntrl(False)
+
                 SetGridFormationOFGV1Collection()
                 View()
                 RadPageView1.SelectedPage = RadPageViewPage2
@@ -158,9 +155,24 @@ PIVOT (
             clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
         End Try
     End Sub
+    Sub EnableDisableCntrl(ByVal val As Boolean)
+        RadGroupBox1.Enabled = False
+
+    End Sub
     Sub SetGridFormationOFGV1Collection()
         gv1.TableElement.TableHeaderHeight = 40
+        gv1.ShowRowHeaderColumn = False
+        gv1.AllowAddNewRow = False
+        gv1.AllowDeleteRow = False
+        gv1.EnableFiltering = True
+        gv1.ShowFilteringRow = True
+        gv1.AutoExpandGroups = False
+
         gv1.MasterTemplate.ShowRowHeaderColumn = False
+        For ii As Integer = 0 To gv1.Columns.Count - 1
+            gv1.Columns(ii).ReadOnly = True
+            gv1.Columns(ii).BestFit()
+        Next
         Dim summaryRowItem As New GridViewSummaryRowItem()
         For ii As Integer = 0 To gv1.Columns.Count - 1
             gv1.Columns(ii).ReadOnly = True
@@ -199,6 +211,8 @@ PIVOT (
             view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Document_No").Name)
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Document_Date").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("document_code").Name)
+
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("SRN_NO").Name)
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("SRN_DATE").Name)
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("MRN_NO").Name)
