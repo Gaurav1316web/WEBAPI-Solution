@@ -3554,6 +3554,11 @@ Public Class frmIssueReturn
 
 
         LoadData(clsCommon.ShowSelectForm("IRTCodeFilter", qry, "Code", whrClas, txtDocNo.Value, "Doc_Date desc", isButtonClicked, "Doc_Date"), NavigatorType.Current)
+        If clsCommon.CompairString(clsCommon.myCstr(cboDocType.SelectedValue), "Issue") = CompairStringResult.Equal Then
+            btnGatePass.Visible = True
+        Else
+            btnGatePass.Visible = False
+        End If
     End Sub
 
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
@@ -5284,5 +5289,34 @@ Public Class frmIssueReturn
 
     Private Sub btnJE_Click(sender As Object, e As EventArgs) Handles btnJE.Click
         ShowJE(MyBase.Form_ID, txtDocNo.Value)
+    End Sub
+
+    Private Sub btnGatePass_Click(sender As Object, e As EventArgs) Handles btnGatePass.Click
+        PrintGatePass()
+    End Sub
+    Public Sub PrintGatePass()
+        Try
+            Dim frmCRV As New frmCrystalReportViewer()
+
+            Dim qry As String = "     SELECT  loc1.Location_Code,loc1.Location_Desc,loc1.Add1,TSPL_CostCenter_MASTER.cost_name,  TSPL_IssueReturn_HEAD.Created_By ,TSPL_IssueReturn_HEAD.Modify_By ,   TSPL_IssueReturn_HEAD.Doc_No,TSPL_IssueReturn_HEAD.RequisitionNo, TSPL_IssueReturn_HEAD.Doc_Date,TSPL_IssueReturn_HEAD.Doc_Type, TSPL_IssueReturn_HEAD.Remarks, TSPL_IssueReturn_HEAD.Comment,  case when  TSPL_IssueReturn_HEAD.Status=0 then 'Pending' else 'Approved' end as Status, TSPL_IssueReturn_HEAD.Posting_Date, TSPL_IssueReturn_DETAIL.Item_Code,TSPL_COMPANY_MASTER.ISO_No,TSPL_COMPANY_MASTER.Phone1,TSPL_COMPANY_MASTER.Email,TSPL_COMPANY_MASTER.GSTReg_No,TSPL_IssueReturn_DETAIL.Item_Desc, TSPL_IssueReturn_DETAIL.Required_Qty, TSPL_IssueReturn_DETAIL.Issued_Qty_AgainstRet as returnqty,   TSPL_IssueReturn_DETAIL.Unit_code, TSPL_COMPANY_MASTER.Comp_Name, TSPL_COMPANY_MASTER.Add1, TSPL_COMPANY_MASTER.Add2,   TSPL_COMPANY_MASTER.Add3, TSPL_COMPANY_MASTER.State, TSPL_COMPANY_MASTER.Logo_Img ,TSPL_COMPANY_MASTER.Logo_Img2, loc1.Location_Desc as Fromloc,loc2.Location_Desc as Toloc, emp1.Emp_Name as IssuesTo,emp2.Emp_Name as RequestBy,"
+            'qry += " --(select xxxx.Issued_Qty  from TSPL_IssueReturn_DETAIL  xxxx where xxxx.Doc_No=TSPL_IssueReturn_HEAD.Req_IssueNo and xxxx.Item_Code=TSPL_IssueReturn_DETAIL .Item_Code  )"
+            qry += " TSPL_IssueReturn_DETAIL.Issued_Qty as [Issued_Qty] ,TSPL_COMPANY_MASTER.Logo_Img as [Logo_Img],  TSPL_COMPANY_MASTER.Logo_Img2 as [Logo_Img2],'" + objCommonVar.CurrentUser + "' as User_Name,Vehicle_Id,From_Location,To_Location,convert(varchar,TSPL_REQUISITION_HEAD.Requisition_Date,103)Requisition_Date ,tspl_item_master.HSN_Code ,case when isnull(TSPL_BATCH_ITEM.Batch_No,'')='' then TSPL_IssueReturn_DETAIL.Issued_Qty else TSPL_BATCH_ITEM.Qty end as Qty,TSPL_BATCH_ITEM.Batch_No  FROM  TSPL_IssueReturn_HEAD  INNER JOIN TSPL_IssueReturn_DETAIL ON TSPL_IssueReturn_HEAD.Doc_No = TSPL_IssueReturn_DETAIL.Doc_No LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_IssueReturn_HEAD.comp_code = TSPL_COMPANY_MASTER.Comp_Code LEFT OUTER JOIN  TSPL_EMPLOYEE_MASTER as emp1 ON TSPL_IssueReturn_HEAD .Issue_To = emp1.EMP_CODE   LEFT OUTER JOIN  TSPL_EMPLOYEE_MASTER as emp2 ON TSPL_IssueReturn_HEAD.Request_By = emp2.EMP_CODE     LEFT OUTER JOIN  TSPL_LOCATION_MASTER as loc1 ON TSPL_IssueReturn_HEAD.From_Location = loc1.Location_Code LEFT OUTER JOIN  TSPL_LOCATION_MASTER  as loc2 ON TSPL_IssueReturn_HEAD.To_Location = loc2.Location_Code              LEFT OUTER JOIN  TSPL_CostCenter_MASTER   ON TSPL_IssueReturn_DETAIL.Cost_Code  = TSPL_CostCenter_MASTER.Cost_Code 
+            left outer join TSPL_REQUISITION_HEAD on TSPL_REQUISITION_HEAD.Requisition_Id= TSPL_IssueReturn_HEAD.RequisitionNo
+           	 left outer join tspl_item_master on tspl_item_master.Item_Code=TSPL_IssueReturn_DETAIL.Item_Code
+           	 left join TSPL_BATCH_ITEM on TSPL_IssueReturn_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code 
+           and TSPL_IssueReturn_DETAIL.Doc_No=TSPL_BATCH_ITEM.Document_Code and TSPL_BATCH_ITEM.In_Out_Type='I'"
+            qry += " where TSPL_IssueReturn_HEAD.Doc_No='" + txtDocNo.Value + "'"
+
+            Dim type As String = "select Doc_type from TSPL_IssueReturn_HEAD where Doc_No='" + txtDocNo.Value + "'"
+            Dim val As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(type))
+
+            If val = "Issue" Then
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "crptGatePassIssueReturn", "Issur/Return/Transfer GatePsss")
+            End If
+            frmCRV = Nothing
+        Catch ex As Exception
+
+        End Try
     End Sub
 End Class
