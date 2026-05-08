@@ -2102,11 +2102,17 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
             Dim newBlankRow1 As DataRow = Nothing
             Dim newBlankRow2 As DataRow = Nothing
             Dim RowIndexForTotal As Integer = 0
+            Dim settMaxFATPerLimit As Decimal = 0
+            Dim settMaxSNFPerLimit As Decimal = 0
+            Dim AreaWiseBilling As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
+            settMaxFATPerLimit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxFATPerLimitforReport, clsFixedParameterCode.MaxFATPerLimitforReport, Nothing))
+            settMaxSNFPerLimit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxSNFPerLimitforReport, clsFixedParameterCode.MaxSNFPerLimitforReport, Nothing))
+
 
             Dim fromDate As String = clsCommon.GetPrintDate(dtpFromDCS_Ledger.Value, "dd/MMM/yyyy")
             Dim Todate As String = clsCommon.GetPrintDate(dtpToDCS_Ledger.Value, "dd/MMM/yyyy")
 
-            Dim BaseQry As String = "select TBL_BILL_DETAILS.BillNo, TBL_BILL_DETAILS.BillDate, TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,
+            Dim BaseQry As String = "select TSPL_MILK_SRN_DETAIL.FAT_PER as FATPER,TSPL_MILK_SRN_DETAIL.SNF_PER AS SNFPER,TBL_BILL_DETAILS.BillNo, TBL_BILL_DETAILS.BillDate, TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,
 isnull(TSPL_VENDOR_MASTER.Actual_charges,0) as Actual_charges,isnull (TSPL_VENDOR_MASTER.Rate_Head_Load,0) as Rate_Head_Load ,isnull(TSPL_MILK_PURCHASE_INVOICE_HEAD.Handling_Charges_Amount,0) as Handling_Charges_Amount , TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE as MPD ,convert(varchar,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) as MPI_Date,   TSPL_MCC_MASTER.add1 +case when len(TSPL_MCC_MASTER.add2)>0 then ', '+TSPL_MCC_MASTER.add2 else '' end + case when LEN(TSPL_COMPANY_MASTER.City_Code)>0 then ', '+MCC_City.City_Name  else ' ' end + case when len(TSPL_MCC_MASTER.State_Code )>0 then MCC_State.STATE_NAME else '' end  as MCC_address, 
 TSPL_MILK_PURCHASE_INVOICE_DETAIL.VLC_NO,TSPL_MILK_SRN_DETAIL.UOM_Code,TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty 
 ,case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else  (Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0)) end as Standard_Rate
@@ -2162,9 +2168,14 @@ and not exists(select 1 from TSPL_MILK_PURCHASE_INVOICE_PRO_LOSS where TSPL_MILK
             End If
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
-                BaseQry = " select  XXXFinal.ROUTE_CODE , DOCNO, Route_Name , VSP_CODE, max(Vendor_Name) as Vendor_Name , max(Type) as Type ,sum( Qty) as Qty , sum(case when QBD = 'SWEET' then   Qty else 0 end) as SweetQty ,sum(case when QBD = 'CURD' then   Qty else 0 end) as CurdQty , sum(case when QBD = 'SOUR' then   Qty else 0 end) as SourQty , case when  sum( Qty) =0 then 0 else  sum(FATQTY) * 100 / sum( Qty) end  as FAT_PER ,case when  sum( Qty) =0 then 0 else  sum(SNFQTY) * 100 / sum( Qty) end as SNF_PER, sum(FATQTY) as  FATQTY, sum(SNFQTY) as SNFQTY, sum (SRN_Net_Amount) as SRN_Net_Amount,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,VLC_NO,Mcc_Code_VLC_Uploader,max(MCC_NAME)MCC_NAME from (  " + BaseQry + " ) XXXFinal group by  XXXFinal.ROUTE_CODE , DOCNO, Route_Name , VSP_CODE,VLC_NO,Mcc_Code_VLC_Uploader  "
+                BaseQry = " select  XXXFinal.ROUTE_CODE , DOCNO, Route_Name , VSP_CODE, max(Vendor_Name) as Vendor_Name , max(Type) as Type ,sum( Qty) as Qty , sum(case when QBD = 'SWEET' then   Qty else 0 end) as SweetQty ,
+                            sum(case when QBD = 'CURD' then   Qty else 0 end) as CurdQty , sum(case when QBD = 'SOUR' then   Qty else 0 end) as SourQty , case when  sum( Qty) =0 then 0 else  sum(FATQTY) * 100 / sum( Qty) end  as FAT_PER ,case when  sum( Qty) =0 then 0 else  sum(SNFQTY) * 100 / sum( Qty) end as SNF_PER, sum(FATQTY) as  FATQTY, sum(SNFQTY) as SNFQTY, sum (SRN_Net_Amount) as SRN_Net_Amount,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,VLC_NO,Mcc_Code_VLC_Uploader,max(MCC_NAME)MCC_NAME from (  " + BaseQry + " ) XXXFinal group by  XXXFinal.ROUTE_CODE , DOCNO, Route_Name , VSP_CODE,VLC_NO,Mcc_Code_VLC_Uploader  "
+                'ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
             Else
-                BaseQry = " select  XXXFinal.ROUTE_CODE , DOCNO, Route_Name , VSP_CODE, max(Vendor_Name) as Vendor_Name , max(Type) as Type ,sum( Qty) as Qty , sum(case when QBD = 'SWEET' then   Qty else 0 end) as SweetQty ,sum(case when QBD = 'CURD' then   Qty else 0 end) as CurdQty , sum(case when QBD = 'SOUR' then   Qty else 0 end) as SourQty , case when  sum( Qty) =0 then 0 else  sum(FATQTY) * 100 / sum( Qty) end  as FAT_PER ,case when  sum( Qty) =0 then 0 else  sum(SNFQTY) * 100 / sum( Qty) end as SNF_PER, sum(FATQTY) as  FATQTY, sum(SNFQTY) as SNFQTY, sum (SRN_Net_Amount) as SRN_Net_Amount,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,VLC_NO from (  " + BaseQry + " ) XXXFinal group by  XXXFinal.ROUTE_CODE , DOCNO, Route_Name , VSP_CODE,VLC_NO  "
+                BaseQry = " select  XXXFinal.ROUTE_CODE , DOCNO, Route_Name , VSP_CODE, max(Vendor_Name) as Vendor_Name , max(Type) as Type ,sum( Qty) as Qty , sum(case when QBD = 'SWEET' then   Qty else 0 end) as SweetQty ,
+                            SUM(CASE WHEN QBD = 'SWEET' AND (FATPER < " & settMaxFATPerLimit & " OR SNFPER < " & settMaxSNFPerLimit & ") THEN Qty ELSE 0 END) AS  GoodFailQty ,sum(case when QBD = 'CURD' then   Qty else 0 end) as CurdQty , sum(case when QBD = 'SOUR' then   Qty else 0 end) as SourQty , case when  sum( Qty) =0 then 0 else  sum(FATQTY) * 100 / sum( Qty) end  as FAT_PER ,case when  sum( Qty) =0 then 0 else  sum(SNFQTY) * 100 / sum( Qty) end as SNF_PER, sum(FATQTY) as  FATQTY, sum(SNFQTY) as SNFQTY, sum (SRN_Net_Amount) as SRN_Net_Amount,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,VLC_NO,Mcc_Code_VLC_Uploader,max(MCC_NAME)MCC_NAME from (  " + BaseQry + " ) XXXFinal group by  XXXFinal.ROUTE_CODE , DOCNO, Route_Name , VSP_CODE,VLC_NO,Mcc_Code_VLC_Uploader  "
+                'Else
+                'BaseQry = " select  XXXFinal.ROUTE_CODE , DOCNO, Route_Name , VSP_CODE, max(Vendor_Name) as Vendor_Name , max(Type) as Type ,sum( Qty) as Qty , sum(case when QBD = 'SWEET' then   Qty else 0 end) as SweetQty ,sum(case when QBD = 'CURD' then   Qty else 0 end) as CurdQty , sum(case when QBD = 'SOUR' then   Qty else 0 end) as SourQty , case when  sum( Qty) =0 then 0 else  sum(FATQTY) * 100 / sum( Qty) end  as FAT_PER ,case when  sum( Qty) =0 then 0 else  sum(SNFQTY) * 100 / sum( Qty) end as SNF_PER, sum(FATQTY) as  FATQTY, sum(SNFQTY) as SNFQTY, sum (SRN_Net_Amount) as SRN_Net_Amount,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,VLC_NO from (  " + BaseQry + " ) XXXFinal group by  XXXFinal.ROUTE_CODE , DOCNO, Route_Name , VSP_CODE,VLC_NO  "
             End If
             'BaseQry = " select  XXXFinal.ROUTE_CODE , DOCNO, Route_Name , VSP_CODE, max(Vendor_Name) as Vendor_Name , max(Type) as Type ,sum( Qty) as Qty , sum(case when QBD = 'SWEET' then   Qty else 0 end) as SweetQty ,sum(case when QBD = 'CURD' then   Qty else 0 end) as CurdQty , sum(case when QBD = 'SOUR' then   Qty else 0 end) as SourQty , sum(FATQTY) * 100 / sum( Qty)  as FAT_PER , sum(SNFQTY) * 100 / sum( Qty) as SNF_PER, sum(FATQTY) as  FATQTY, sum(SNFQTY) as SNFQTY, sum (SRN_Net_Amount) as SRN_Net_Amount,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,VLC_NO from (  " + BaseQry + " ) XXXFinal group by  XXXFinal.ROUTE_CODE , DOCNO, Route_Name , VSP_CODE,VLC_NO  "
 
@@ -2173,8 +2184,13 @@ and not exists(select 1 from TSPL_MILK_PURCHASE_INVOICE_PRO_LOSS where TSPL_MILK
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
                 legerMainQuery += "Invoice.Mcc_Code_VLC_Uploader, Invoice.MCC_NAME,"
             End If
+            'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+            legerMainQuery += "   Invoice.VSP_CODE,	Invoice.Vendor_Name,Invoice.Type,Invoice.Qty,(Invoice.SweetQty-Invoice.GoodFailQty)SweetQty,Invoice.GoodFailQty,Invoice.CurdQty,Invoice.SourQty,Invoice.FAT_PER,Invoice.SNF_PER,Invoice.FATQTY,Invoice.SNFQTY,Invoice.SRN_Net_Amount,Invoice.VLC_Code_VLC_Uploader,Invoice.VLC_NO, coalesce(PaymentProcess.Total_EMP_Amount,0) as Total_EMP_Amount,coalesce(PaymentProcess.Incentive_Amount,0) as Incentive_Amount ,coalesce(PaymentProcess.Incentive_EMP_Amount,0) as Incentive_EMP_Amount ,coalesce(PaymentProcess.EMP_Amount,0) as EMP_Amount ,coalesce(PaymentProcess.Vsp_Own_System_Amount,0) as Vsp_Own_System_Amount ,coalesce(PaymentProcess.Head_Load_Amount,0) as Head_Load_Amount ,"
+            'Else
+            'legerMainQuery += "   Invoice.VSP_CODE,	Invoice.Vendor_Name,Invoice.Type,Invoice.Qty,Invoice.SweetQty,Invoice.CurdQty,Invoice.SourQty,Invoice.FAT_PER,Invoice.SNF_PER,Invoice.FATQTY,Invoice.SNFQTY,Invoice.SRN_Net_Amount,Invoice.VLC_Code_VLC_Uploader,Invoice.VLC_NO, coalesce(PaymentProcess.Total_EMP_Amount,0) as Total_EMP_Amount,coalesce(PaymentProcess.Incentive_Amount,0) as Incentive_Amount ,coalesce(PaymentProcess.Incentive_EMP_Amount,0) as Incentive_EMP_Amount ,coalesce(PaymentProcess.EMP_Amount,0) as EMP_Amount ,coalesce(PaymentProcess.Vsp_Own_System_Amount,0) as Vsp_Own_System_Amount ,coalesce(PaymentProcess.Head_Load_Amount,0) as Head_Load_Amount ,"
+            'End If
 
-            legerMainQuery += "   Invoice.VSP_CODE,	Invoice.Vendor_Name,Invoice.Type,Invoice.Qty,Invoice.SweetQty,Invoice.CurdQty,Invoice.SourQty,Invoice.FAT_PER,Invoice.SNF_PER,Invoice.FATQTY,Invoice.SNFQTY,Invoice.SRN_Net_Amount,Invoice.VLC_Code_VLC_Uploader,Invoice.VLC_NO, coalesce(PaymentProcess.Total_EMP_Amount,0) as Total_EMP_Amount,coalesce(PaymentProcess.Incentive_Amount,0) as Incentive_Amount ,coalesce(PaymentProcess.Incentive_EMP_Amount,0) as Incentive_EMP_Amount ,coalesce(PaymentProcess.EMP_Amount,0) as EMP_Amount ,coalesce(PaymentProcess.Vsp_Own_System_Amount,0) as Vsp_Own_System_Amount ,coalesce(PaymentProcess.Head_Load_Amount,0) as Head_Load_Amount ,"
+            'legerMainQuery += "   Invoice.VSP_CODE,	Invoice.Vendor_Name,Invoice.Type,Invoice.Qty,Invoice.SweetQty,Invoice.CurdQty,Invoice.SourQty,Invoice.FAT_PER,Invoice.SNF_PER,Invoice.FATQTY,Invoice.SNFQTY,Invoice.SRN_Net_Amount,Invoice.VLC_Code_VLC_Uploader,Invoice.VLC_NO, coalesce(PaymentProcess.Total_EMP_Amount,0) as Total_EMP_Amount,coalesce(PaymentProcess.Incentive_Amount,0) as Incentive_Amount ,coalesce(PaymentProcess.Incentive_EMP_Amount,0) as Incentive_EMP_Amount ,coalesce(PaymentProcess.EMP_Amount,0) as EMP_Amount ,coalesce(PaymentProcess.Vsp_Own_System_Amount,0) as Vsp_Own_System_Amount ,coalesce(PaymentProcess.Head_Load_Amount,0) as Head_Load_Amount ,"
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                 legerMainQuery += " coalesce(PaymentProcess.Payable_Amount,0)+coalesce(PaymentProcess.Saving_Amount,0) as Payable_Amount "
@@ -2291,12 +2307,23 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
                 HeadingDCS = HeadingDCS + Environment.NewLine + " "
             Next
 
-            Dim HeadingMilkQty1 As String = "<QTY>" + Environment.NewLine + "SWEET" + Environment.NewLine + " SOUR" + Environment.NewLine + " CURD" + Environment.NewLine + "TOTAL"
-            Dim HeadingMilkQty1parts() As String = HeadingMilkQty1.Split(Environment.NewLine)
-            Dim HeadingMilkQty1NumberOfLines As Integer = HeadingMilkQty1parts.Length
-            For t As Integer = HeadingMilkQty1NumberOfLines To HeadingRowCount
-                HeadingMilkQty1 = HeadingMilkQty1 + Environment.NewLine + " "
-            Next
+            Dim HeadingMilkQty1 As String
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                HeadingMilkQty1 = "<QTY>" + Environment.NewLine + "SWEET" + Environment.NewLine + " GOODFAIL" + Environment.NewLine + " SOUR" + Environment.NewLine + "CURD" + Environment.NewLine + "TOTAL"
+                Dim HeadingMilkQty1parts() As String = HeadingMilkQty1.Split(Environment.NewLine)
+                Dim HeadingMilkQty1NumberOfLines As Integer = HeadingMilkQty1parts.Length
+                For t As Integer = HeadingMilkQty1NumberOfLines To HeadingRowCount
+                    HeadingMilkQty1 = HeadingMilkQty1 + Environment.NewLine + " "
+                Next
+            Else
+                HeadingMilkQty1 = "<QTY>" + Environment.NewLine + "SWEET" + Environment.NewLine + " SOUR" + Environment.NewLine + " CURD" + Environment.NewLine + "TOTAL"
+                Dim HeadingMilkQty1parts() As String = HeadingMilkQty1.Split(Environment.NewLine)
+                Dim HeadingMilkQty1NumberOfLines As Integer = HeadingMilkQty1parts.Length
+                For t As Integer = HeadingMilkQty1NumberOfLines To HeadingRowCount
+                    HeadingMilkQty1 = HeadingMilkQty1 + Environment.NewLine + " "
+                Next
+            End If
+
             Dim HeadingMilkQty2 As String = "<QTY>" + Environment.NewLine + "KGFAT" + Environment.NewLine + "KGSNF" + Environment.NewLine + " FAT%" + Environment.NewLine + " SNF%"
             Dim HeadingMilkQty2parts() As String = HeadingMilkQty2.Split(Environment.NewLine)
             Dim HeadingMilkQty2NumberOfLines As Integer = HeadingMilkQty2parts.Length
@@ -2584,6 +2611,7 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
             dtMain.Columns.Add(New DataColumn("Total", System.Type.GetType("System.Decimal")))
 
             Dim SumSWEET1 As Decimal = 0
+            Dim SumGoodFail1 As Decimal = 0
             Dim SumSOUR1 As Decimal = 0
             Dim SumCURD1 As Decimal = 0
             Dim SumQty1 As Decimal = 0
@@ -2630,6 +2658,7 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
                                     CountNo = clsCommon.myCdbl(V + 1)
                                 End If
                                 SumSWEET1 = clsCommon.myCdbl(dt.Compute("sum(SweetQty)", strWhrcls))
+                                SumGoodFail1 = clsCommon.myCdbl(dt.Compute("sum(GoodFailQty)", strWhrcls))
                                 SumSOUR1 = clsCommon.myCdbl(dt.Compute("sum(SourQty)", strWhrcls))
                                 SumCURD1 = clsCommon.myCdbl(dt.Compute("sum(CurdQty)", strWhrcls))
                                 SumQty1 = clsCommon.myCdbl(dt.Compute("sum(Qty)", strWhrcls))
@@ -2660,6 +2689,13 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
                                     dtMain.Rows.Add(DBNull.Value, clsCommon.myCstr(dtVSP1.Rows(V).Item("VLC_Code_VLC_Uploader")), SumCURD1, AVGFAT1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumNETPAYABLE1)
                                     '    'dtMain.Rows.Add(clsCommon.myCstr(dtVSP1.Rows(V).Item("ROUTE_CODE")), SumQty1, AVGSNF1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
                                     dtMain.Rows.Add(DBNull.Value, "Total", SumQty1, AVGSNF1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+                                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                                    dtMain.Rows.Add(clsCommon.myCstr(dtVSP1.Rows(V).Item("DOCNO")), SumSWEET1, SumKGFAT1, MilkAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, Sumtotal)
+                                    dtMain.Rows.Add(clsCommon.myCstr(dtVSP1.Rows(V).Item("Vendor_Name")), SumGoodFail1, SumKGSNF1, HeadLoadAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumDeduction1)
+                                    dtMain.Rows.Add(clsCommon.myCstr(dtVSP1.Rows(V).Item("VLC_Code_VLC_Uploader")), SumSOUR1, AVGFAT1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumNETPAYABLE1)
+                                    dtMain.Rows.Add(DBNull.Value, SumCURD1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+                                    dtMain.Rows.Add("Total", SumQty1, AVGSNF1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+
                                 Else
                                     dtMain.Rows.Add(clsCommon.myCstr(dtVSP1.Rows(V).Item("DOCNO")), SumSWEET1, SumKGFAT1, MilkAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, Sumtotal)
                                     dtMain.Rows.Add(clsCommon.myCstr(dtVSP1.Rows(V).Item("Vendor_Name")), SumSOUR1, SumKGSNF1, HeadLoadAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumDeduction1)
@@ -2766,6 +2802,7 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
                                 Sumtotal = MilkAmt + SumPayment1 + HeadLoadAmt
                             Else
                                 SumSWEET1 = clsCommon.myCdbl(dt.Compute("sum(SweetQty)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+                                SumGoodFail1 = clsCommon.myCdbl(dt.Compute("sum(GoodFailQty)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
                                 SumSOUR1 = clsCommon.myCdbl(dt.Compute("sum(SourQty)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
                                 SumCURD1 = clsCommon.myCdbl(dt.Compute("sum(CurdQty)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
                                 SumQty1 = clsCommon.myCdbl(dt.Compute("sum(Qty)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
@@ -2829,6 +2866,13 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
                                 dtMain.Rows.Add(DBNull.Value, DBNull.Value, SumSOUR1, SumKGSNF1, HeadLoadAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumDeduction1)
                                 dtMain.Rows.Add(DBNull.Value, DBNull.Value, SumCURD1, AVGFAT1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumNETPAYABLE1)
                                 dtMain.Rows.Add(DBNull.Value, DBNull.Value, SumQty1, AVGSNF1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+                            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                                dtMain.Rows.Add("R-Total: " + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "-" + clsCommon.myCstr(dtVSP1.Rows(0).Item("Route_Name")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+                                dtMain.Rows.Add(DBNull.Value, SumSWEET1, SumKGFAT1, MilkAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, Sumtotal)
+                                dtMain.Rows.Add(DBNull.Value, SumGoodFail1, SumKGSNF1, HeadLoadAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumDeduction1)
+                                dtMain.Rows.Add(DBNull.Value, SumSOUR1, AVGFAT1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumNETPAYABLE1)
+                                dtMain.Rows.Add(DBNull.Value, SumCURD1, AVGSNF1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+                                dtMain.Rows.Add(DBNull.Value, SumQty1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
                             Else
                                 dtMain.Rows.Add("R-Total: " + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "-" + clsCommon.myCstr(dtVSP1.Rows(0).Item("Route_Name")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
                                 dtMain.Rows.Add(DBNull.Value, SumSWEET1, SumKGFAT1, MilkAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, Sumtotal)
@@ -2957,6 +3001,7 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
                             CountNo = clsCommon.myCdbl(R + 1)
                         End If
                         SumSWEET1 = clsCommon.myCdbl(dt.Compute("sum(SweetQty)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
+                        SumGoodFail1 = clsCommon.myCdbl(dt.Compute("sum(GoodFailQty)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
                         SumSOUR1 = clsCommon.myCdbl(dt.Compute("sum(SourQty)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
                         SumCURD1 = clsCommon.myCdbl(dt.Compute("sum(CurdQty)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
                         SumQty1 = clsCommon.myCdbl(dt.Compute("sum(Qty)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
@@ -2998,10 +3043,17 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
                             dtMain.Rows.Add(DBNull.Value, clsCommon.myCstr(dr("Vendor_Name")), SumSOUR1, SumKGSNF1, HeadLoadAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumDeduction1)
                             dtMain.Rows.Add(DBNull.Value, clsCommon.myCstr(dr("VLC_Code_VLC_Uploader")), SumCURD1, AVGFAT1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumNETPAYABLE1)
                             dtMain.Rows.Add(DBNull.Value, "Total", SumQty1, AVGSNF1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+                        ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                            dtMain.Rows.Add(clsCommon.myCstr(dr("DOCNO")), SumSWEET1, SumKGFAT1, MilkAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, Sumtotal)
+                            dtMain.Rows.Add(clsCommon.myCstr(dr("Vendor_Name")), SumGoodFail1, SumKGSNF1, HeadLoadAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumDeduction1)
+                            dtMain.Rows.Add(clsCommon.myCstr(dr("VLC_Code_VLC_Uploader")), SumSOUR1, AVGFAT1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumNETPAYABLE1)
+                            dtMain.Rows.Add(DBNull.Value, SumCURD1, AVGSNF1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+                            dtMain.Rows.Add("Total", SumQty1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
                         Else
                             dtMain.Rows.Add(clsCommon.myCstr(dr("DOCNO")), SumSWEET1, SumKGFAT1, MilkAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, Sumtotal)
                             dtMain.Rows.Add(clsCommon.myCstr(dr("Vendor_Name")), SumSOUR1, SumKGSNF1, HeadLoadAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumDeduction1)
                             dtMain.Rows.Add(clsCommon.myCstr(dr("VLC_Code_VLC_Uploader")), SumCURD1, AVGFAT1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumNETPAYABLE1)
+                            'dtMain.Rows.Add(DBNull.Value, SumGoodFail1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
                             dtMain.Rows.Add("Total", SumQty1, AVGSNF1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
 
                         End If
@@ -3069,6 +3121,7 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
                 newBlankRow2 = dtMain.NewRow
                 dtMain.Rows.Add(newBlankRow2)
                 Dim GSumSWEET As Decimal = Math.Round(clsCommon.myCdbl(dt.Compute("sum(SweetQty)", "")), 2)
+                Dim GSumGoodFail As Decimal = Math.Round(clsCommon.myCdbl(dt.Compute("sum(GoodFailQty)", "")), 2)
                 Dim GSumSOUR As Decimal = Math.Round(clsCommon.myCdbl(dt.Compute("sum(SourQty)", "")), 2)
                 Dim GSumCURD As Decimal = Math.Round(clsCommon.myCdbl(dt.Compute("sum(CurdQty)", "")), 2)
                 Dim GSumQty As Decimal = Math.Round(clsCommon.myCdbl(dt.Compute("sum(Qty)", "")), 2)
@@ -3119,6 +3172,13 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
                     dtMain.Rows.Add(DBNull.Value, DBNull.Value, GSumSOUR, GSumKGSNF, GHeadLoadAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, GSumDeduction)
                     dtMain.Rows.Add(DBNull.Value, DBNull.Value, GSumCURD, GAVGFAT, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, GSumNETPAYABLE)
                     dtMain.Rows.Add(DBNull.Value, DBNull.Value, GSumQty, GAVGSNF, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                    dtMain.Rows.Add("G-TOTAL:", GSumSWEET, GSumKGFAT, GMilkAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, Gsumtotal)
+                    dtMain.Rows.Add(DBNull.Value, GSumGoodFail, GSumKGSNF, GHeadLoadAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, GSumDeduction)
+                    dtMain.Rows.Add(DBNull.Value, GSumSOUR, GAVGFAT, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, GSumNETPAYABLE)
+                    dtMain.Rows.Add(DBNull.Value, GSumCURD, GAVGSNF, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+                    dtMain.Rows.Add(DBNull.Value, GSumQty, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+
                 Else
                     dtMain.Rows.Add("G-TOTAL:", GSumSWEET, GSumKGFAT, GMilkAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, Gsumtotal)
                     dtMain.Rows.Add(DBNull.Value, GSumSOUR, GSumKGSNF, GHeadLoadAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, GSumDeduction)
@@ -3184,7 +3244,12 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
                 Gv1.EnableFiltering = True
                 RadPageView1.SelectedPage = RadPageViewPage2
                 Gv1.DataSource = dtMain
-                Gv1.TableElement.TableHeaderHeight = 80
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                    Gv1.TableElement.TableHeaderHeight = 100
+                Else
+                    Gv1.TableElement.TableHeaderHeight = 80
+                End If
+                'Gv1.TableElement.TableHeaderHeight = 100
                 Gv1.MasterTemplate.ShowRowHeaderColumn = False
                 For ii As Integer = 0 To Gv1.Columns.Count - 1
                     Gv1.Columns(ii).ReadOnly = True
