@@ -1722,6 +1722,7 @@
     <None Include="Crystal Reports\Purchase Order\crptDailyRcptSummary.rpt" />
     <None Include="Crystal Reports\Purchase Order\crptDebitAdivse.rpt" />
     <None Include="Crystal Reports\Purchase Order\crptDebitAdivseReport.rpt" />
+    <None Include="Crystal Reports\Purchase Order\crptGatePassIssueReturn.rpt" />
     <None Include="Crystal Reports\Purchase Order\crptGRNReport.rpt" />
     <None Include="Crystal Reports\Purchase Order\crptIssReturn_DocWiseSummary.rpt" />
     <None Include="Crystal Reports\Purchase Order\crptmaterialReceivedAfterJobWork.rpt" />

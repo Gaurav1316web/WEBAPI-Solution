@@ -44,7 +44,7 @@ Public Class frmNIRQCvsWetQc
         End Try
     End Sub
 
-    Private Sub TxtRAL__My_Click(sender As Object, e As EventArgs)
+    Private Sub TxtRAL__My_Click_1(sender As Object, e As EventArgs)
         Try
             Dim qry As String = "select  tspl_tender_header.DocumentCode as RALNO ,max(tspl_tender_header.DocumentDate) as DocumentDate  from tspl_tender_header
                             left outer join TSPL_TENDER_DETAIL on TSPL_TENDER_DETAIL.DocumentCode=tspl_tender_header.DocumentCode "
@@ -59,7 +59,7 @@ Public Class frmNIRQCvsWetQc
         End Try
     End Sub
 
-    Private Sub txtVendor__My_Click(sender As Object, e As EventArgs)
+    Private Sub txtVendor__My_Click_1(sender As Object, e As EventArgs)
         Dim qry As String = "select Vendor_Code as Code,Vendor_Name as Name from TSPL_VENDOR_MASTER  WHERE  Status='N'  order by Vendor_Code"
         TxtVendor.arrValueMember = clsCommon.ShowMultipleSelectForm("MulSelVUP", qry, "Code", "Name", TxtVendor.arrValueMember, TxtVendor.arrDispalyMember)
     End Sub
@@ -73,40 +73,32 @@ Public Class frmNIRQCvsWetQc
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
-    Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+    Public Sub Griddata(ByVal print As Boolean)
         Try
 
             Dim fromdate As String = clsCommon.myCDate(txtFromDate.Value, "dd/MM/yyyy")
             Dim Todate As String = clsCommon.myCDate(txtToDate.Value, "dd/MM/yyyy")
-            Dim QRY As String = "SELECT  max(Item_Desc)Item_Desc,max(Document_Date)Document_Date ,max(XXX.document_code)document_code,(xxx.Document_No)Document_No,max(xxx.RefTendorNo)RefTendorNo,max(xxx.SRN_NO)SRN_NO,max(xxx.SRN_DATE)SRN_DATE,max(xxx.MRN_NO)MRN_NO,max(xxx.mrn_date)mrn_date,max(xxx.Against_GRN)Against_GRN,max(xxx.GRN_DATE)GRN_DATE,max(xxx.Vendor_Code)Vendor_Code,max(xxx.Vendor_Name)Vendor_Name,max(xxx.Bill_To_Location)Bill_To_Location,max(xxx.ITEM_CODE)ITEM_CODE ,
+            Dim QRY As String = "SELECT  '" + objCommonVar.CurrentUserCode + "' as UserName ,  ROW_NUMBER() OVER (ORDER BY xxx.Document_No) AS SrNo,  max(Item_Desc)Item_Desc,max(Document_Date)Document_Date ,max(XXX.document_code)document_code,(xxx.Document_No)Document_No,max(xxx.RefTendorNo)RefTendorNo,max(xxx.SRN_NO)SRN_NO,max(xxx.SRN_DATE)SRN_DATE,max(xxx.MRN_NO)MRN_NO,max(xxx.mrn_date)mrn_date,max(xxx.Against_GRN)Against_GRN,max(xxx.GRN_DATE)GRN_DATE,max(xxx.Vendor_Code)Vendor_Code,max(xxx.Vendor_Name)Vendor_Name,max(xxx.Bill_To_Location)Bill_To_Location,max(xxx.ITEM_CODE)ITEM_CODE ,
              max(xxx.Moistures)Moistures,max(xxx.Silica_DM)Silica_DM,max(xxx.Fat_DM)Fat_DM,max(xxx.Protein_DM)Protein_DM,max(xxx.Fiber_DM)Fiber_DM
-             ,max(xxx.Moisture) Moisture,MAX(XXX.Silica)Silica,MAX(XXX.Fat) Fat,max(xxx.Protein) Protein,max(xxx.Fiber)Fiber
+             ,max(xxx.Moisture) Moisture,MAX(XXX.Silica)Silica,MAX(XXX.Fat) Fat,max(xxx.Protein) Protein,max(xxx.Fiber)Fiber,MAX(Comp_Name)Comp_Name,MAX(Add1)Add1,MAX(Add2)Add2
              FROM ( SELECT * FROM ( SELECT TSPL_GRN_DETAIL.Item_Desc ,TSPL_QC_CHECK_SRN_DETAIL.document_code,TSPL_NIR_QC.Document_No,convert(Varchar,TSPL_NIR_QC.Document_Date,103)Document_Date ,
              TSPL_SRN_HEAD.SRN_NO,convert(Varchar,TSPL_SRN_HEAD.SRN_DATE,103) AS SRN_DATE ,TSPL_MRN_HEAD.MRN_NO , convert(Varchar,TSPL_MRN_HEAD.mrn_date,103) AS mrn_date,
              TSPL_MRN_HEAD.Against_GRN as Against_GRN,convert(date,tspl_grn_head.GRN_DATE,103) as GRN_DATE,TSPL_MRN_HEAD.Vendor_Code as Vendor_Code,
              TSPL_MRN_HEAD.Vendor_Name as Vendor_Name,TSPL_MRN_HEAD.Bill_To_Location as Bill_To_Location,TSPL_QC_CHECK_SRN_DETAIL.ITEM_CODE,
              TSPL_NIR_QC_FOSS.Moisture AS Moistures, TSPL_NIR_QC_FOSS.Silica_DM as Silica_DM,TSPL_NIR_QC_FOSS.Fat_DM AS Fat_DM,
              TSPL_NIR_QC_FOSS.Protein_DM AS Protein_DM,TSPL_NIR_QC_FOSS.Fiber_DM AS Fiber_DM, TSPL_QC_LOG_SHEET_MASTER.NIRQC_Para_type,
-             TSPL_QC_CHECK_SRN_DETAIL.InputData,QC_Param_Code,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo
+             TSPL_QC_CHECK_SRN_DETAIL.InputData,QC_Param_Code,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.ADD2
     FROM TSPL_NIR_QC
-    LEFT JOIN TSPL_NIR_QC_FOSS 
-        ON TSPL_NIR_QC_FOSS.PK_Id = TSPL_NIR_QC.Against_Foss_PK_ID
-    LEFT JOIN TSPL_MRN_HEAD 
-        ON TSPL_MRN_HEAD.mrn_no = TSPL_NIR_QC.MRN_No
-    LEFT JOIN TSPL_QC_CHECK_SRN_DETAIL 
-        ON TSPL_QC_CHECK_SRN_DETAIL.MRN_NO = TSPL_MRN_HEAD.MRN_NO
-    LEFT JOIN tspl_grn_head 
-        ON tspl_grn_head.Grn_no = TSPL_MRN_HEAD.Against_GRN
-	LEFT JOIN TSPL_GRN_DETAIL 
-        ON TSPL_GRN_DETAIL.Grn_no = tspl_grn_head.GRN_No
-    LEFT JOIN TSPL_SRN_HEAD 
-        ON TSPL_SRN_HEAD.Against_MRN = TSPL_MRN_HEAD.MRN_No
-    LEFT JOIN TSPL_QC_LOG_SHEET_MASTER 
-        ON TSPL_QC_LOG_SHEET_MASTER.code = TSPL_QC_CHECK_SRN_DETAIL.QC_Param_Code 
+    LEFT JOIN TSPL_NIR_QC_FOSS  ON TSPL_NIR_QC_FOSS.PK_Id = TSPL_NIR_QC.Against_Foss_PK_ID
+    LEFT JOIN TSPL_MRN_HEAD  ON TSPL_MRN_HEAD.mrn_no = TSPL_NIR_QC.MRN_No
+    LEFT JOIN TSPL_QC_CHECK_SRN_DETAIL  ON TSPL_QC_CHECK_SRN_DETAIL.MRN_NO = TSPL_MRN_HEAD.MRN_NO
+    LEFT JOIN tspl_grn_head  ON tspl_grn_head.Grn_no = TSPL_MRN_HEAD.Against_GRN
+	LEFT JOIN TSPL_GRN_DETAIL ON TSPL_GRN_DETAIL.Grn_no = tspl_grn_head.GRN_No
+    LEFT JOIN TSPL_SRN_HEAD  ON TSPL_SRN_HEAD.Against_MRN = TSPL_MRN_HEAD.MRN_No
+    LEFT JOIN TSPL_QC_LOG_SHEET_MASTER  ON TSPL_QC_LOG_SHEET_MASTER.code = TSPL_QC_CHECK_SRN_DETAIL.QC_Param_Code 
 left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_MRN_HEAD.Against_PO
-
-WHERE 2=2 AND TSPL_NIR_QC_FOSS.PK_Id=3
+LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "'
+WHERE 2=2 
 "
             QRY += "  and convert(Date,TSPL_NIR_QC.Document_Date,103) >='" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "' And convert(Date,TSPL_NIR_QC.Document_Date,103)<='" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "' "
 
@@ -116,25 +108,15 @@ WHERE 2=2 AND TSPL_NIR_QC_FOSS.PK_Id=3
             If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
                 QRY += " and TSPL_QC_CHECK_SRN_DETAIL.ITEM_CODE in(" & clsCommon.GetMulcallString(txtItem.arrValueMember) & ")" & Environment.NewLine
             End If
-            If txtVendor.arrValueMember IsNot Nothing AndAlso txtVendor.arrValueMember.Count > 0 Then
-                QRY += " and TSPL_MRN_HEAD.Vendor_Code in(" & clsCommon.GetMulcallString(txtVendor.arrValueMember) & ")" & Environment.NewLine
+            If TxtVendor.arrValueMember IsNot Nothing AndAlso TxtVendor.arrValueMember.Count > 0 Then
+                QRY += " and TSPL_MRN_HEAD.Vendor_Code in(" & clsCommon.GetMulcallString(TxtVendor.arrValueMember) & ")" & Environment.NewLine
             End If
             If TxtRAL.arrValueMember IsNot Nothing AndAlso TxtRAL.arrValueMember.Count > 0 Then
                 QRY += " and TSPL_PURCHASE_ORDER_HEAD.RefTendorNo in(" & clsCommon.GetMulcallString(TxtRAL.arrValueMember) & ")" & Environment.NewLine
             End If
 
             QRY += ") AS SourceTable
-
-PIVOT (
-    MAX(InputData)
-    FOR NIRQC_Para_type IN (
-        [Moisture],
-        [Silica],
-        [Fat],
-        [Protein],
-        [Fiber]
-    )
-) AS PivotTable )XXX GROUP BY  xxx.Document_No"
+            PIVOT (MAX(InputData) FOR NIRQC_Para_type IN ( [Moisture],[Silica],[Fat],[Protein],[Fiber] )) AS PivotTable )XXX GROUP BY  xxx.Document_No"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(QRY)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 gv1.DataSource = dt
@@ -144,10 +126,13 @@ PIVOT (
                 gv1.ReadOnly = True
                 RadGroupBox1.Enabled = False
                 EnableDisableCntrl(False)
-
                 SetGridFormationOFGV1Collection()
                 View()
                 RadPageView1.SelectedPage = RadPageViewPage2
+                If print = True Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptNirQCvsWetQC", "NIRQC vs WetQC")
+                End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "Data not found !", Me.Text)
             End If
@@ -155,9 +140,11 @@ PIVOT (
             clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
         End Try
     End Sub
+    Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        Griddata(False)
+    End Sub
     Sub EnableDisableCntrl(ByVal val As Boolean)
         RadGroupBox1.Enabled = False
-
     End Sub
     Sub SetGridFormationOFGV1Collection()
         gv1.TableElement.TableHeaderHeight = 40
@@ -177,6 +164,7 @@ PIVOT (
         For ii As Integer = 0 To gv1.Columns.Count - 1
             gv1.Columns(ii).ReadOnly = True
             gv1.Columns(ii).IsVisible = True
+            gv1.Columns("UserName").IsVisible = False
             gv1.Columns("Document_No").HeaderText = "NIRQC NO"
             gv1.Columns("Document_Date").HeaderText = "NIRQC Date"
             gv1.Columns("document_code").HeaderText = "Wet QC NO"
@@ -191,7 +179,6 @@ PIVOT (
             gv1.Columns("Bill_To_Location").HeaderText = "Location"
             gv1.Columns("ITEM_CODE").HeaderText = "Item Code"
             gv1.Columns("Item_Desc").HeaderText = "Item Desc"
-
             ' gv1.Columns("ITEM_CODE").HeaderText = "ITEM CODE"
             gv1.Columns("Moistures").HeaderText = "Moisture "
             gv1.Columns("Silica_DM").HeaderText = "Silica"
@@ -212,7 +199,6 @@ PIVOT (
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Document_No").Name)
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Document_Date").Name)
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("document_code").Name)
-
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("SRN_NO").Name)
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("SRN_DATE").Name)
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("MRN_NO").Name)
@@ -225,7 +211,6 @@ PIVOT (
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("ITEM_CODE").Name)
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Item_Desc").Name)
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("RefTendorNo").Name)
-
             view.ColumnGroups.Add(New GridViewColumnGroup("FOSS NIRQC "))
             view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
             view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Moistures").Name)
@@ -233,7 +218,6 @@ PIVOT (
             view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Fat_DM").Name)
             view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Protein_DM").Name)
             view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Fiber_DM").Name)
-
             view.ColumnGroups.Add(New GridViewColumnGroup("WET QC "))
             view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
             view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Moisture").Name)
@@ -242,8 +226,6 @@ PIVOT (
             view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Protein").Name)
             view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Fiber").Name)
             'End If
-
-
             gv1.ViewDefinition = view
         End If
     End Sub
@@ -272,7 +254,6 @@ PIVOT (
                 Dim strtemp As String = "Date Range : " & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") & " To " & clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")
                 arrHeader.Add(strtemp)
                 arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
-
                 'If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
                 '    arrHeader.Add(" Customer : " + clsCommon.GetMulcallStringWithComma(txtMultiCustomer.arrDispalyMember))
                 'End If
@@ -307,5 +288,51 @@ PIVOT (
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub btnprint_Click(sender As Object, e As EventArgs) Handles btnprint.Click
+        Griddata(True)
+    End Sub
+
+    Private Sub txtItem__My_Click_1(sender As Object, e As EventArgs) Handles txtItem._My_Click
+        Try
+            Dim qry As String = " Select Item_Code as Code,Item_Desc as Name,Short_Description,Structure_Code from TSPL_ITEM_MASTER "
+            txtItem.arrValueMember = clsCommon.ShowMultipleSelectForm("@Item", qry, "Code", "Name", txtItem.arrValueMember, txtItem.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtLocation__My_Click_1(sender As Object, e As EventArgs) Handles txtLocation._My_Click
+        Try
+            Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER where Location_Type='Physical' "
+            'qry += " where 2=2 and Seg_No = '7' AND GIT='N' "
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                qry += " and  TSPL_LOCATION_MASTER.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+            End If
+            txtLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("LocMulSel", qry, "Code", "Name", txtLocation.arrValueMember, txtLocation.arrDispalyMember)
+
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub TxtRAL__My_Click(sender As Object, e As EventArgs) Handles TxtRAL._My_Click
+        Try
+            Dim qry As String = "select  tspl_tender_header.DocumentCode as RALNO ,max(tspl_tender_header.DocumentDate) as DocumentDate  from tspl_tender_header
+                            left outer join TSPL_TENDER_DETAIL on TSPL_TENDER_DETAIL.DocumentCode=tspl_tender_header.DocumentCode "
+            If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                qry += " where TSPL_TENDER_DETAIL.Location In (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
+            End If
+            qry += " group by tspl_tender_header.DocumentCode "
+            TxtRAL.arrValueMember = clsCommon.ShowMultipleSelectForm("LocMulSel", qry, "RALNO", "", TxtRAL.arrValueMember, TxtRAL.arrDispalyMember)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub TxtVendor__My_Click(sender As Object, e As EventArgs) Handles TxtVendor._My_Click
+        Dim qry As String = "select Vendor_Code as Code,Vendor_Name as Name from TSPL_VENDOR_MASTER  WHERE  Status='N'  order by Vendor_Code"
+        TxtVendor.arrValueMember = clsCommon.ShowMultipleSelectForm("MulSelVUP", qry, "Code", "Name", TxtVendor.arrValueMember, TxtVendor.arrDispalyMember)
     End Sub
 End Class
