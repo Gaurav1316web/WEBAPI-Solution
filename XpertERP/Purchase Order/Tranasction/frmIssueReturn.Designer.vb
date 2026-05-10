@@ -22,8 +22,8 @@ Partial Class frmIssueReturn
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -130,6 +130,7 @@ Partial Class frmIssueReturn
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnGatePass = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -224,6 +225,7 @@ Partial Class frmIssueReturn
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnGatePass, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -244,6 +246,7 @@ Partial Class frmIssueReturn
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnGatePass)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnJE)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.butCostCenterAndHirerachy_Update_AfterPost)
@@ -687,7 +690,9 @@ Partial Class frmIssueReturn
         '
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MyExportAPI = False
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -696,6 +701,7 @@ Partial Class frmIssueReturn
         Me.gv1.Size = New System.Drawing.Size(944, 65)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'chkReProcess
         '
@@ -1541,7 +1547,9 @@ Partial Class frmIssueReturn
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv2.MyExportAPI = False
+        Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1549,6 +1557,7 @@ Partial Class frmIssueReturn
         Me.gv2.Size = New System.Drawing.Size(946, 380)
         Me.gv2.TabIndex = 1
         Me.gv2.TabStop = False
+        Me.gv2.VarID = ""
         '
         'RadLabel11
         '
@@ -1679,17 +1688,17 @@ Partial Class frmIssueReturn
         '
         Me.btnJE.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnJE.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnJE.Location = New System.Drawing.Point(818, 5)
+        Me.btnJE.Location = New System.Drawing.Point(846, 4)
         Me.btnJE.Name = "btnJE"
-        Me.btnJE.Size = New System.Drawing.Size(71, 22)
+        Me.btnJE.Size = New System.Drawing.Size(66, 22)
         Me.btnJE.TabIndex = 47
         Me.btnJE.Text = "Show JE"
         '
         'btnHistory
         '
-        Me.btnHistory.Location = New System.Drawing.Point(487, 4)
+        Me.btnHistory.Location = New System.Drawing.Point(532, 4)
         Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(59, 22)
+        Me.btnHistory.Size = New System.Drawing.Size(52, 22)
         Me.btnHistory.TabIndex = 40
         Me.btnHistory.Text = "&History"
         '
@@ -1697,7 +1706,7 @@ Partial Class frmIssueReturn
         '
         Me.butCostCenterAndHirerachy_Update_AfterPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.butCostCenterAndHirerachy_Update_AfterPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.butCostCenterAndHirerachy_Update_AfterPost.Location = New System.Drawing.Point(296, 4)
+        Me.butCostCenterAndHirerachy_Update_AfterPost.Location = New System.Drawing.Point(342, 4)
         Me.butCostCenterAndHirerachy_Update_AfterPost.Name = "butCostCenterAndHirerachy_Update_AfterPost"
         Me.butCostCenterAndHirerachy_Update_AfterPost.Size = New System.Drawing.Size(186, 22)
         Me.butCostCenterAndHirerachy_Update_AfterPost.TabIndex = 12
@@ -1707,9 +1716,9 @@ Partial Class frmIssueReturn
         '
         Me.btncancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btncancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btncancel.Location = New System.Drawing.Point(550, 5)
+        Me.btncancel.Location = New System.Drawing.Point(587, 4)
         Me.btncancel.Name = "btncancel"
-        Me.btncancel.Size = New System.Drawing.Size(52, 22)
+        Me.btncancel.Size = New System.Drawing.Size(50, 22)
         Me.btncancel.TabIndex = 11
         Me.btncancel.Text = "Cancel"
         '
@@ -1717,9 +1726,9 @@ Partial Class frmIssueReturn
         '
         Me.btnShowInventory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnShowInventory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnShowInventory.Location = New System.Drawing.Point(725, 5)
+        Me.btnShowInventory.Location = New System.Drawing.Point(753, 5)
         Me.btnShowInventory.Name = "btnShowInventory"
-        Me.btnShowInventory.Size = New System.Drawing.Size(87, 22)
+        Me.btnShowInventory.Size = New System.Drawing.Size(91, 22)
         Me.btnShowInventory.TabIndex = 6
         Me.btnShowInventory.Text = "Show Inventory"
         '
@@ -1727,7 +1736,7 @@ Partial Class frmIssueReturn
         '
         Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(607, 5)
+        Me.btnReverse.Location = New System.Drawing.Point(639, 4)
         Me.btnReverse.Name = "btnReverse"
         Me.btnReverse.Size = New System.Drawing.Size(113, 22)
         Me.btnReverse.TabIndex = 4
@@ -1738,9 +1747,9 @@ Partial Class frmIssueReturn
         '
         Me.btnprint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnprint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnprint.Location = New System.Drawing.Point(221, 4)
+        Me.btnprint.Location = New System.Drawing.Point(191, 4)
         Me.btnprint.Name = "btnprint"
-        Me.btnprint.Size = New System.Drawing.Size(69, 22)
+        Me.btnprint.Size = New System.Drawing.Size(52, 22)
         Me.btnprint.TabIndex = 3
         Me.btnprint.Text = "Print"
         '
@@ -1748,9 +1757,9 @@ Partial Class frmIssueReturn
         '
         Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(149, 4)
+        Me.btnDelete.Location = New System.Drawing.Point(131, 4)
         Me.btnDelete.Name = "btnDelete"
-        Me.btnDelete.Size = New System.Drawing.Size(69, 22)
+        Me.btnDelete.Size = New System.Drawing.Size(57, 22)
         Me.btnDelete.TabIndex = 2
         Me.btnDelete.Text = "Delete"
         '
@@ -1758,9 +1767,9 @@ Partial Class frmIssueReturn
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(77, 4)
+        Me.btnPost.Location = New System.Drawing.Point(67, 4)
         Me.btnPost.Name = "btnPost"
-        Me.btnPost.Size = New System.Drawing.Size(69, 22)
+        Me.btnPost.Size = New System.Drawing.Size(62, 22)
         Me.btnPost.TabIndex = 1
         Me.btnPost.Text = "Post"
         '
@@ -1768,9 +1777,9 @@ Partial Class frmIssueReturn
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(895, 4)
+        Me.btnClose.Location = New System.Drawing.Point(913, 4)
         Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(75, 22)
+        Me.btnClose.Size = New System.Drawing.Size(57, 22)
         Me.btnClose.TabIndex = 5
         Me.btnClose.Text = "Close"
         '
@@ -1780,9 +1789,19 @@ Partial Class frmIssueReturn
         Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnSave.Location = New System.Drawing.Point(5, 4)
         Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(69, 22)
+        Me.btnSave.Size = New System.Drawing.Size(60, 22)
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
+        '
+        'btnGatePass
+        '
+        Me.btnGatePass.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnGatePass.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnGatePass.Location = New System.Drawing.Point(247, 4)
+        Me.btnGatePass.Name = "btnGatePass"
+        Me.btnGatePass.Size = New System.Drawing.Size(90, 22)
+        Me.btnGatePass.TabIndex = 48
+        Me.btnGatePass.Text = "GatePass Print"
         '
         'frmIssueReturn
         '
@@ -1895,6 +1914,7 @@ Partial Class frmIssueReturn
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnGatePass, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -2005,5 +2025,6 @@ Partial Class frmIssueReturn
     Friend WithEvents butCostCenterAndHirerachy_Update_AfterPost As RadButton
     Friend WithEvents btnHistory As RadButton
     Friend WithEvents btnJE As RadButton
+    Friend WithEvents btnGatePass As RadButton
 End Class
 

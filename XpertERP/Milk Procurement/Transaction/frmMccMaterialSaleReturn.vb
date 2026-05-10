@@ -3653,7 +3653,13 @@ Public Class frmMccMaterialSaleReturn
             End If
             RefreshReqNo()
 
+            For ii As Integer = 0 To gv1.RowCount - 1
+                UpdateCurrentRow(ii)
+            Next
+
             UpdateAllTotals()
+            CalculateDiscountAmount()
+            CalculateRateDiffAmount()
             If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
                 txtVendorNo.Focus()
@@ -4734,7 +4740,7 @@ Public Class frmMccMaterialSaleReturn
                     gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = obj.Add_Charge_Amt10
                 End If
                 chkTaxable.Checked = obj.Is_Taxable
-                FlagDocumentIsTaxable = obj.Is_Taxable
+                FlagDocumentIsTaxable = IIf(obj.Is_Taxable, "1", "0")
                 lblAddCharges.Text = clsCommon.myFormat(obj.Total_Add_Charge)
                 lblAddCharges1.Text = clsCommon.myFormat(obj.Total_Add_Charge)
                 If obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic Then
@@ -7732,11 +7738,6 @@ Public Class frmMccMaterialSaleReturn
                 Exit Sub
             End If
 
-            'Dim strReceiptCount As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select receipt_no from TSPL_RECEIPT_DETAIL where Document_No in (Select Document_No from TSPL_Customer_Invoice_Head  where against_Sale_no='" & txtInvoiceNo.Text & "') "))
-            'If clsCommon.myLen(strReceiptCount) > 0 Then
-            '    Throw New Exception("You cannot cancelled this document because receiving (" + clsCommon.myCstr(strReceiptCount) + ") has been done against its AR Invoice.")
-            'End If
-
             If FlagDocumentIsTaxable = 1 AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value) = True AndAlso clsCommon.CompairString(EInvoiceType, "BB") = CompairStringResult.Equal Then
                 Dim EInvoiceCancelTimeValid As Int64 = 0
                 EInvoiceCancelTimeValid = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(" Select  isnull (DATEDIFF(hour,EInvoice_Posting_Date,GETDATE()),0) as PostedHours from TSPL_SD_SALE_RETURN_HEAD where  document_code = '" + txtDocNo.Value + "'"))
@@ -7744,11 +7745,16 @@ Public Class frmMccMaterialSaleReturn
                     Throw New Exception("Invoice can not be cancelled.It has been more than 24 hours.")
                 End If
             End If
-            'clsMccMaterialSaleReturn.CancelData(Me.Form_ID, txtDocNo.Value, txtDocNo.Value, NavigatorType.Current, False)
-            'clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
-            'AddNew()
+            clsMccMaterialSaleReturn.CancelData(Me.Form_ID, txtDocNo.Value, False)
+            clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
+            AddNew()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+    Private Sub rbtnTotalAmt_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnTotalAmt.ToggleStateChanged, rbtnBasicAmt.ToggleStateChanged
+        If chkRateDiffAmt.IsChecked OrElse chkRateDiffRate.IsChecked Then
+            CalculateRateDiffAmount()
+        End If
     End Sub
 End Class

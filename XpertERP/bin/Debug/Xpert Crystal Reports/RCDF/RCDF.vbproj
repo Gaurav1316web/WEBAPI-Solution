@@ -1513,6 +1513,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewSavingPayment.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewSavingTNK.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewSWM.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewSWMNEW1.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewTNK.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceneww.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdvicenewwBKN.rpt" />
@@ -1724,6 +1725,7 @@
     <None Include="Crystal Reports\Purchase Order\crptDailyRcptSummary.rpt" />
     <None Include="Crystal Reports\Purchase Order\crptDebitAdivse.rpt" />
     <None Include="Crystal Reports\Purchase Order\crptDebitAdivseReport.rpt" />
+    <None Include="Crystal Reports\Purchase Order\crptGatePassIssueReturn.rpt" />
     <None Include="Crystal Reports\Purchase Order\crptGRNReport.rpt" />
     <None Include="Crystal Reports\Purchase Order\crptIssReturn_DocWiseSummary.rpt" />
     <None Include="Crystal Reports\Purchase Order\crptmaterialReceivedAfterJobWork.rpt" />
@@ -1989,6 +1991,7 @@
     <None Include="Crystal Reports\Sales Report\crptLoadOutReport.rpt" />
     <None Include="Crystal Reports\Sales Report\crptLoadOutStatus.rpt" />
     <None Include="Crystal Reports\Sales Report\crptLO_vs_VehicleCapacity.rpt" />
+    <None Include="Crystal Reports\Sales Report\CrptMilkStcItemSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\CrptMilkStcSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\CrptMilkStcSummaryPartyWise.rpt" />
     <None Include="Crystal Reports\Sales Report\crptmilkunionreport.rpt" />
@@ -2103,6 +2106,7 @@
     <None Include="Crystal Reports\Sales Report\CrptSTSRegister-ItemWiseSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\CrptSTSRegister-ItemWiseSummaryPartyWise.rpt" />
     <None Include="Crystal Reports\Sales Report\CrptSTSRegister-ItemWiseSummaryPartyWisee.rpt" />
+    <None Include="Crystal Reports\Sales Report\CrptSTSRegister-Summary.rpt" />
     <None Include="Crystal Reports\Sales Report\crptSubRouteWiseSaleTargetReportSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\crptTarget.rpt" />
     <None Include="Crystal Reports\Sales Report\crptTargetReport.rpt" />

@@ -276,6 +276,12 @@
     <Compile Include="Report\frmMorningReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\frmNIRQCvsWetQc.Designer.vb">
+      <DependentUpon>frmNIRQCvsWetQc.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmNIRQCvsWetQc.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\FrmPendingInvoice_Qty.Designer.vb">
       <DependentUpon>FrmPendingInvoice_Qty.vb</DependentUpon>
     </Compile>
@@ -619,6 +625,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\frmMorningReport.resx">
       <DependentUpon>frmMorningReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmNIRQCvsWetQc.resx">
+      <DependentUpon>frmNIRQCvsWetQc.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\FrmPendingInvoice_Qty.resx">
       <DependentUpon>FrmPendingInvoice_Qty.vb</DependentUpon>

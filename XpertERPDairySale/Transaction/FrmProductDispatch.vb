@@ -10618,7 +10618,10 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
             SerialNo = ""
         End If
         Dim qrycheck As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Manual_Customer from tspl_customer_master where cust_code='" + txtVendorNo.Value + "'"))
-        Dim Qry As String = "  select TSPL_SD_SHIPMENT_HEAD.HeadDisc_PerAmt,'" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy") + "' as RunDate,"
+        Dim Qry As String = "  select CASE 
+    WHEN TSPL_SD_SHIPMENT_HEAD.Status = 1 THEN 'Approve'
+    ELSE 'Pending'
+END AS Status,  TSPL_SD_SHIPMENT_HEAD.HeadDisc_PerAmt,'" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy") + "' as RunDate,"
         Qry += " TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER_fOR_Comp.City_Name)>0 then ', '+TSPL_CITY_MASTER_fOR_Comp.City_Name else ' ' end + case when len(TSPL_STATE_MASTER_For_Comp.STATE_NAME  )>0 then ', '+ TSPL_STATE_MASTER_For_Comp.STATE_NAME else ' ' end"
         Qry += "  + case when len(TSPL_COMPANY_MASTER.Pincode    )>0 then ', Pin Code - '+ cast(TSPL_COMPANY_MASTER.Pincode as varchar)  else ' ' end"
         Qry += "  + case when len(TSPL_COMPANY_MASTER.Tin_No     )>0 then ', Tin No - '+ cast(TSPL_COMPANY_MASTER.Tin_No as varchar)  else ' ' end"
@@ -13154,7 +13157,10 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
     Private Sub BtnPrintChallan_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles BtnPrintChallan.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
-                Dim strQry As String = "select TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1+TSPL_COMPANY_MASTER.Add2+TSPL_COMPANY_MASTER.Add3 as Comp_Address,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.GSTReg_No,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No,TSPL_SD_SHIPMENT_HEAD.Supply_Date,TSPL_SD_SALE_INVOICE_HEAD.Inv_Date,TSPL_SD_SHIPMENT_HEAD.VehicleNo,TSPL_VENDOR_MASTER.Transporter,isnull(TSPL_VENDOR_MASTER.Phone1,isnull(TSPL_VENDOR_MASTER.Phone2,isnull(TSPL_VENDOR_MASTER.Contact_Person_Phone,''))) as Phone_No,TSPL_SD_SHIPMENT_HEAD.route_no,TSPL_STATE_MASTER.STATE_NAME,
+                Dim strQry As String = "select CASE 
+    WHEN TSPL_SD_SHIPMENT_HEAD.Status = 1 THEN 'Approve'
+    ELSE 'Pending'
+END AS Status ,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1+TSPL_COMPANY_MASTER.Add2+TSPL_COMPANY_MASTER.Add3 as Comp_Address,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.GSTReg_No,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No,TSPL_SD_SHIPMENT_HEAD.Supply_Date,TSPL_SD_SALE_INVOICE_HEAD.Inv_Date,TSPL_SD_SHIPMENT_HEAD.VehicleNo,TSPL_VENDOR_MASTER.Transporter,isnull(TSPL_VENDOR_MASTER.Phone1,isnull(TSPL_VENDOR_MASTER.Phone2,isnull(TSPL_VENDOR_MASTER.Contact_Person_Phone,''))) as Phone_No,TSPL_SD_SHIPMENT_HEAD.route_no,TSPL_STATE_MASTER.STATE_NAME,
 TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.HSN_Code,
 TSPL_SD_SHIPMENT_DETAIL.Unit_code,TSPL_SD_SHIPMENT_HEAD.Document_Code,TSPL_SD_SHIPMENT_HEAD.Remarks as Description,TSPL_VENDOR_MASTER.Vendor_Name as transporter_name,
 case when isnull(TSPL_BATCH_ITEM.Batch_No,'')='' then TSPL_SD_SHIPMENT_DETAIL.Qty else TSPL_BATCH_ITEM.Qty end as Qty,
@@ -13181,7 +13187,7 @@ where TSPL_SD_SHIPMENT_HEAD.Document_Code='" + txtDocNo.Value + "' and TSPL_SD_S
                     Throw New Exception("Data not found!")
                 End If
             Else
-                    Throw New Exception("Document not found!")
+                Throw New Exception("Document not found!")
             End If
 
         Catch ex As Exception

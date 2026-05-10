@@ -1051,6 +1051,18 @@ GROUP BY D.Item_Code HAVING SUM(CASE WHEN U.Report_UOM = 1 THEN 1 ELSE 0 END) = 
             If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
                 itemqry += "  and TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Customer_Code in (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")"
             End If
+
+            itemqry += " Union all
+Select  TSPL_SCRAPINVOICE_Detail.Item_Code,TSPL_ITEM_MASTER.Item_Desc,isnull(TSPL_ITEM_UOM_DETAIL.Report_UOM,0)Report_UOM,TSPL_ITEM_UOM_DETAIL.UOM_Code
+                                        from TSPL_SCRAPINVOICE_Detail 
+                                        Left outer join  TSPL_SCRAPINVOICE_HEAD ON TSPL_SCRAPINVOICE_HEAD.invoice_No = TSPL_SCRAPINVOICE_Detail.invoice_No
+		                                Left outer join  TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_SCRAPINVOICE_Detail.Item_Code
+		                                Left outer join  TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_SCRAPINVOICE_Detail.Item_Code   
+		 	                            where 2=2  and CONVERT(DATE,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(txtfDate.Value, "dd/MMM/yyyy") & "',103)
+                                        AND CONVERT(DATE,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) <=convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103) and TSPL_ITEM_UOM_DETAIL.Report_UOM = 1 "
+            If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                itemqry += "  and TSPL_SCRAPINVOICE_HEAD.cust_Code in (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")"
+            End If
             itemqry += "  )XX order by Item_Desc "
             Dim dtitem As DataTable = clsDBFuncationality.GetDataTable(itemqry)
             If dtitem.Rows.Count > 0 Then
@@ -1475,7 +1487,125 @@ WHERE CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Date,103) >= c
                 If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
                     qry += "  and TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.Item_code in (" + clsCommon.GetMulcallString(txtItem.arrValueMember) + ")"
                 End If
-                qry += " )XX 
+
+                qry += "   ----MATERIAL SALE ------"
+                qry += " 
+              union all 
+               select  TSPL_SCRAPINVOICE_HEAD.invoice_No,'MATERIAL SALE' as Transcation_Type,
+   RIGHT(TSPL_SCRAPINVOICE_HEAD.invoice_No, 6) AS BillNo,
+    (CONVERT(varchar(20), TSPL_SCRAPINVOICE_HEAD.shipment_Date, 103)) AS BillDate,
+     (TSPL_CUSTOMER_MASTER.Cust_Code) as Party_Code,
+    (TSPL_CUSTOMER_MASTER.Customer_Name) AS PARTY_Name,
+	(TSPL_CUSTOMER_MASTER.Cust_Type_Code) as Customer_Type,
+Case when (TSPL_SCRAPINVOICE_HEAD.ispost)= 1 then 'POSTED' else 'UNPOSTED' end as Status,
+(TSPL_SCRAPINVOICE_Detail.Item_Code)Item_Code   ,
+(TSPL_ITEM_MASTER.Item_Desc)Item_Code1,
+(CAST((TSPL_SCRAPINVOICE_Detail.shipped_Qty * IMCF) / TSPL_ITEM_UOM_DETAIL.Conversion_Factor AS DECIMAL(18,2))) as QtyUom,
+           TSPL_SCRAPINVOICE_HEAD.Discount_Base as[ItemBasic Amt],
+    TSPL_SCRAPINVOICE_HEAD.Discount_Amt as[Margin Amt],
+  TSPL_SCRAPINVOICE_HEAD.Amount_Less_Discount as Amt_Less_Discount,
+  TSPL_SCRAPINVOICE_HEAD.Amount_Less_Discount as Amt_Less_Discount1
+
+,Convert(decimal(18,2),CASE WHEN TSPL_SCRAPINVOICE_Detail.TAX1='KKF'  THEN TSPL_SCRAPINVOICE_Detail.TAX1_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX2='KKF'  THEN TSPL_SCRAPINVOICE_Detail.TAX2_Amt 
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX3='KKF'  THEN TSPL_SCRAPINVOICE_Detail.TAX3_Amt 
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX4='KKF'  THEN TSPL_SCRAPINVOICE_Detail.TAX4_Amt 
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX5='KKF'  THEN TSPL_SCRAPINVOICE_Detail.TAX5_Amt 
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX6='KKF'  THEN TSPL_SCRAPINVOICE_Detail.TAX6_Amt 
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX7='KKF'  THEN TSPL_SCRAPINVOICE_Detail.TAX7_Amt 
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX8='KKF'  THEN TSPL_SCRAPINVOICE_Detail.TAX8_Amt 
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX9='KKF'  THEN TSPL_SCRAPINVOICE_Detail.TAX9_Amt 
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX10='KKF' THEN TSPL_SCRAPINVOICE_Detail.TAX10_Amt else 0  END) AS [KKF],
+					CASE When Tax1.Type='M'  THEN TSPL_SCRAPINVOICE_Detail.TAX1_Amt
+    				WHEN Tax2.Type='M' THEN TSPL_SCRAPINVOICE_Detail.TAX2_Amt
+    				WHEN Tax3.Type='M' THEN TSPL_SCRAPINVOICE_Detail.TAX3_Amt
+    				WHEN Tax4.Type='M' THEN TSPL_SCRAPINVOICE_Detail.TAX4_Amt
+    				WHEN Tax5.Type='M' THEN TSPL_SCRAPINVOICE_Detail.TAX5_Amt
+    				WHEN Tax6.Type='M' THEN TSPL_SCRAPINVOICE_Detail.TAX6_Amt
+    				WHEN Tax7.Type='M' THEN TSPL_SCRAPINVOICE_Detail.TAX7_Amt
+    				WHEN Tax8.Type='M' THEN TSPL_SCRAPINVOICE_Detail.TAX8_Amt
+    				WHEN Tax9.Type='M' THEN TSPL_SCRAPINVOICE_Detail.TAX9_Amt
+    				WHEN Tax10.Type='M' THEN TSPL_SCRAPINVOICE_Detail.TAX10_Amt else 0 END AS [Mandi Tax Amt],
+					CASE WHEN TSPL_SCRAPINVOICE_Detail.TAX1='TCS'  THEN TSPL_SCRAPINVOICE_Detail.TAX1_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX2='TCS'  THEN TSPL_SCRAPINVOICE_Detail.TAX2_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX3='TCS'  THEN TSPL_SCRAPINVOICE_Detail.TAX3_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX4='TCS'  THEN TSPL_SCRAPINVOICE_Detail.TAX4_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX5='TCS'  THEN TSPL_SCRAPINVOICE_Detail.TAX5_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX6='TCS'  THEN TSPL_SCRAPINVOICE_Detail.TAX6_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX7='TCS'  THEN TSPL_SCRAPINVOICE_Detail.TAX7_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX8='TCS'  THEN TSPL_SCRAPINVOICE_Detail.TAX8_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX9='TCS'  THEN TSPL_SCRAPINVOICE_Detail.TAX9_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX10='TCS' THEN TSPL_SCRAPINVOICE_Detail.TAX10_Amt  else 0 END AS [Party TCS Amt],
+					CASE WHEN TSPL_SCRAPINVOICE_Detail.TAX1='CGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX1_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX2='CGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX2_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX3='CGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX3_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX4='CGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX4_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX5='CGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX5_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX6='CGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX6_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX7='CGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX7_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX8='CGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX8_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX9='CGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX9_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX10='CGST' THEN TSPL_SCRAPINVOICE_Detail.TAX10_Amt else 0 END AS [CGST Amt],
+					Convert(decimal(18,2),CASE WHEN TSPL_SCRAPINVOICE_Detail.TAX1='SGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX1_Rate
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX2='SGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX2_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX3='SGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX3_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX4='SGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX4_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX5='SGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX5_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX6='SGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX6_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX7='SGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX7_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX8='SGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX8_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX9='SGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX9_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX10='SGST' THEN TSPL_SCRAPINVOICE_Detail.TAX10_Amt else 0 END) AS [SGST Amt],
+					
+					CASE WHEN TSPL_SCRAPINVOICE_Detail.TAX1='IGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX1_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX2='IGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX2_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX3='IGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX3_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX4='IGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX4_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX5='IGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX5_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX6='IGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX6_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX7='IGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX7_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX8='IGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX8_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX9='IGST'  THEN TSPL_SCRAPINVOICE_Detail.TAX9_Amt
+    				WHEN TSPL_SCRAPINVOICE_Detail.TAX10='IGST' THEN TSPL_SCRAPINVOICE_Detail.TAX10_Amt  else 0 END AS [IGST Amt],
+                    TSPL_SCRAPINVOICE_DETAIL.TotalTaxAmt as [Total Tax Amt],
+					TSPL_SCRAPINVOICE_Detail.TotalAmt as [Total Amt],
+					TSPL_SCRAPINVOICE_HEAD.Created_By,Convert(varchar(20),TSPL_SCRAPINVOICE_HEAD.Created_Date,103) as Created_Date
+                           from TSPL_SCRAPINVOICE_HEAD
+                    left join TSPL_SCRAPINVOICE_Detail on TSPL_SCRAPINVOICE_Detail.invoice_No=TSPL_SCRAPINVOICE_HEAD.invoice_No
+                    LEFT JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SCRAPINVOICE_Detail.Item_Code
+                    left join tspl_item_uom_detail  on tspl_item_uom_detail.item_code=TSPL_SCRAPINVOICE_Detail.item_code and tspl_item_uom_detail.UOM_Code=TSPL_SCRAPINVOICE_Detail.Unit_code
+					 left JOIN (
+        SELECT Item_Code, UOM_Code, Conversion_Factor as IMCF
+        FROM TSPL_ITEM_UOM_DETAIL
+    ) AS ItemCF 
+         ON ItemCF.Item_Code = TSPL_SCRAPINVOICE_Detail.Item_Code 
+        AND ItemCF.UOM_Code = TSPL_SCRAPINVOICE_Detail.Unit_code
+					left join tspl_item_uom_detail Report_UOM  on Report_UOM.item_code=TSPL_SCRAPINVOICE_Detail.item_code and Report_UOM.Report_UOM=1
+                    LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = TSPL_SCRAPINVOICE_HEAD.Loc_Code
+                     LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SCRAPINVOICE_HEAD.cust_Code
+                    left outer join TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code= TSPL_SCRAPINVOICE_HEAD.cust_Code
+                     LEFT OUTER JOIN TSPL_STATE_MASTER ON TSPL_CUSTOMER_MASTER.State = TSPL_STATE_MASTER.STATE_CODE
+                     left outer join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
+left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_SCRAPINVOICE_HEAD.tax1
+            left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_SCRAPINVOICE_HEAD.tax2  
+             left outer join tspl_tax_master as tax3 on tax3.Tax_Code=TSPL_SCRAPINVOICE_HEAD .TAX3  
+            left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_SCRAPINVOICE_HEAD .tax4  
+            left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_SCRAPINVOICE_HEAD .tax5  
+            left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_SCRAPINVOICE_HEAD .TAX6  
+             left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_SCRAPINVOICE_HEAD .TAX7 
+              left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =TSPL_SCRAPINVOICE_HEAD .TAX8
+            left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_SCRAPINVOICE_HEAD .TAX9 
+              left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_SCRAPINVOICE_HEAD .TAX10 
+                    where convert(date,shipment_Date,103)>=Convert( Date,'" & clsCommon.GetPrintDate(txtfDate.Value, "dd/MMM/yyyy") & "',103) and convert(date,shipment_Date,103)<=Convert( Date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103) "
+
+                If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                    qry += "  and TSPL_CUSTOMER_MASTER.Cust_Code in (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")"
+                End If
+                If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
+                    qry += "  and TSPL_SCRAPINVOICE_Detail.Item_code in (" + clsCommon.GetMulcallString(txtItem.arrValueMember) + ")"
+                End If
+
+                qry += " ) XX 
   PIVOT (SUM(QtyUom)  For Item_Code In (" & ItemCode & ") ) As pivot_Code
   PIVOT (SUM(Amt_Less_Discount)  For Item_Code1 In (" & ItemDesc & ") ) As pivot_Desc
   
