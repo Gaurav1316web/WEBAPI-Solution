@@ -1,5 +1,4 @@
-﻿Imports common
-Imports System.Data.SqlClient
+﻿Imports System.Data.SqlClient
 Public Class clsMccMaterialSaleReturn
 #Region "Variables"
     Public RoundOffAmount As Double = 0
@@ -1816,6 +1815,189 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
     '            Throw New Exception(ex.Message)
     '        End Try
     '    End Sub
+
+    Public Shared Function CancelData(ByVal Form_Id As String, ByVal Doc_No As String, ByVal isCancelByAdmin As Boolean) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            CancelData(Form_Id, Doc_No, trans, isCancelByAdmin)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function CancelData(ByVal Form_Id As String, ByVal Doc_No As String, ByVal trans As SqlTransaction, ByVal isCancelByAdmin As Boolean) As Boolean
+        Try
+            Dim qry As String = ""
+            Dim obj As clsMccMaterialSaleReturn = clsMccMaterialSaleReturn.GetData(Doc_No, NavigatorType.Current, trans)
+            If obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0 Then
+                Throw New Exception("Document- " & Doc_No & " not found")
+            End If
+            Dim strInvTransType As String = String.Empty
+
+            clsItemLocationDetails.CheckCancelInventoryBalance(Form_Id, Doc_No, trans)
+            '' transfer data into cancel table
+            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Doc_No, "TSPL_SD_SALE_RETURN_HEAD", "Document_Code", "TSPL_SD_SALE_RETURN_DETAIL", "Document_Code", trans)
+            '' cancel customer invoice data
+            qry = "select Document_No from TSPL_Customer_Invoice_Head  where Against_MCC_Material_Sale_Return='" & Doc_No & "'"
+            Dim Document_No As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+            If clsCommon.myLen(Document_No) > 0 Then
+                clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Document_No, "TSPL_Customer_Invoice_Head", "Document_No", "TSPL_Customer_Invoice_Detail", "Document_No", trans)
+            End If
+            '' cancel journal master data invoice
+            qry = "select Voucher_No from TSPL_JOURNAL_MASTER  where Source_Doc_No in (select Document_No from TSPL_Customer_Invoice_Head  where Document_No='" & Document_No & "')"
+            Dim Voucher_No As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+            If clsCommon.myLen(Voucher_No) > 0 Then
+                clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Voucher_No, "TSPL_JOURNAL_MASTER", "Voucher_No", "TSPL_JOURNAL_DETAILS", "Voucher_No", trans)
+            End If
+            '' cancel journal master data shipment
+            qry = "select Voucher_No from TSPL_JOURNAL_MASTER  where Source_Doc_No='" & Doc_No & "'"
+            Voucher_No = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+            If clsCommon.myLen(Voucher_No) > 0 Then
+                clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Voucher_No, "TSPL_JOURNAL_MASTER", "Voucher_No", "TSPL_JOURNAL_DETAILS", "Voucher_No", trans)
+            End If
+            '' cancel custom field data
+            clsCommonFunctionality.SaveCancelDataMultKey(objCommonVar.CurrentUserCode, Doc_No, "TSPL_CUSTOM_FIELD_VALUES", "Transaction_Code", "Program_Code", Form_Id, trans)
+            ''delete data from multiple tables
+            qry = "delete from TSPL_JOURNAL_DETAILS where Voucher_No in (select Voucher_No from TSPL_JOURNAL_MASTER where Source_Doc_No in (select Document_No from TSPL_Customer_Invoice_Head  where Against_MCC_Material_Sale_Return='" & Doc_No & "'))"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_JOURNAL_MASTER where Source_Doc_No in (select Document_No from TSPL_Customer_Invoice_Head  where Against_MCC_Material_Sale_Return='" & Doc_No & "')"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_Customer_Invoice_Detail where Document_No in (Select Document_No from TSPL_Customer_Invoice_Head  where Against_MCC_Material_Sale_Return='" & Doc_No & "')"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_Customer_Invoice_Head where Against_MCC_Material_Sale_Return='" & Doc_No & "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_CUSTOM_FIELD_VALUES where Transaction_Code in ('" & Doc_No & "') "
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            '' cancel Vendor invoice data
+            qry = "select Document_No from tspl_vendor_Invoice_Head  where Against_MCC_Material_Sale_Return='" & Doc_No & "'"
+            Document_No = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+            If clsCommon.myLen(Document_No) > 0 Then
+                clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Document_No, "tspl_vendor_Invoice_Head", "Document_No", "TSPL_VENDOR_INVOICE_DETAIL", "Document_No", trans)
+            End If
+
+            '' cancel journal master Vendor invoice
+            qry = "select Voucher_No from TSPL_JOURNAL_MASTER  where Source_Doc_No in (select Document_No from TSPL_Customer_Invoice_Head  where Document_No='" & Document_No & "')"
+            Voucher_No = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+            If clsCommon.myLen(Voucher_No) > 0 Then
+                clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Voucher_No, "TSPL_JOURNAL_MASTER", "Voucher_No", "TSPL_JOURNAL_DETAILS", "Voucher_No", trans)
+            End If
+            ''delete data from multiple tables
+            qry = "delete from TSPL_JOURNAL_DETAILS where Voucher_No in (select Voucher_No from TSPL_JOURNAL_MASTER where Source_Doc_No in (select Document_No from tspl_vendor_Invoice_Head  where Against_MCC_Material_Sale_Return='" & Doc_No & "'))"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_JOURNAL_MASTER where Source_Doc_No in (select Document_No from tspl_vendor_Invoice_Head  where Against_MCC_Material_Sale_Return='" & Doc_No & "')"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from tspl_vendor_Invoice_Detail where Document_No in (Select Document_No from tspl_vendor_Invoice_Head  where Against_MCC_Material_Sale_Return='" & Doc_No & "')"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from tspl_vendor_Invoice_Head where Against_MCC_Material_Sale_Return='" & Doc_No & "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+
+            qry = "delete from TSPL_BATCH_ITEM where  Document_Code='" & Doc_No & "' and Document_Type in ('MCC-MSR')"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" & Doc_No & "' and Trans_Type in ('MCC-MSR')"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_JOURNAL_DETAILS where Voucher_No in (select Voucher_No from TSPL_JOURNAL_MASTER where Source_Doc_No ='" & Doc_No & "')"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_JOURNAL_MASTER where Source_Doc_No  ='" & Doc_No & "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            '' Cancel E-Invoice ----------------------------- 
+            Dim strIrnNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select IRN_No from TSPL_SD_SALE_RETURN_HEAD where Document_Code='" & Doc_No & "'", trans))
+            If clsCommon.myLen(strIrnNo) > 0 Then
+                Dim dtirn As DataTable = clsDBFuncationality.GetDataTable("select Einvoice_type,IRN_No,Is_Taxable,Bill_To_Location from TSPL_SD_SALE_RETURN_HEAD where document_code='" & Doc_No & "'", trans)
+                If dtirn IsNot Nothing AndAlso dtirn.Rows.Count > 0 Then
+                    If clsCommon.CompairString(clsCommon.myCstr(dtirn.Rows(0)("Einvoice_type")), "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(dtirn.Rows(0)("Is_Taxable")), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True AndAlso Not isCancelByAdmin Then
+                        If ClsEInvoiceOFAPIs.EInvoice_Cancellation(Doc_No, clsCommon.myCstr(dtirn.Rows(0)("IRN_No")), clsCommon.myCstr(dtirn.Rows(0)("Bill_To_Location")), trans) = True Then
+                        Else
+                            Throw New Exception("Invalid JSON Value")
+                        End If
+                    End If
+                End If
+            End If
+
+            ''End of Cancel E_Invoice ---------------------------------------
+            qry = "delete from TSPL_SD_SALE_RETURN_DETAIL where Document_Code='" & Doc_No & "' "
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_SD_SALE_RETURN_HEAD where Document_Code='" & Doc_No & "' "
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function CancelData(ByVal Doc_No As String, ByVal Form_Id As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim qry As String = ""
+            qry = "select Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + Doc_No + "'"
+            Dim invoice_No As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+            If clsCommon.myLen(invoice_No) <= 0 Then
+                Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(Doc_No, NavigatorType.Current, trans, False, False, True)
+                If obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0 Then
+                    Throw New Exception("Document- " & Doc_No & " not found")
+                End If
+                Dim strInvTransType As String = String.Empty
+                clsItemLocationDetails.CheckCancelInventoryBalance(Form_Id, Doc_No, trans)
+                '' transfer data into cancel table
+                clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Doc_No, "tspl_sd_shipment_head", "Document_Code", "tspl_sd_shipment_DETAIL", "Document_Code", trans)
+                '' Cancel TSPL_DAIRYSALE_GATEPASS_MASTER 
+                Dim strDairyGAtePassCount As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select gpcode from TSPL_SD_SHIPMENT_HEAD where document_code='" & Doc_No & "' ", trans))
+                clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, strDairyGAtePassCount, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "TSPL_DAIRYSALE_GATEPASS_DETAIL", "GPCode", "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", "GPCode", trans)
+                '' cancel journal master data shipment
+                qry = "select Voucher_No from TSPL_JOURNAL_MASTER  where Source_Doc_No='" & Doc_No & "'"
+                Dim Voucher_No As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+                If clsCommon.myLen(Voucher_No) > 0 Then
+                    clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Voucher_No, "TSPL_JOURNAL_MASTER", "Voucher_No", "TSPL_JOURNAL_DETAILS", "Voucher_No", trans)
+                End If
+                qry = "delete from TSPL_BATCH_ITEM where  Document_Code='" & Doc_No & "' and Document_Type in ('PS-SH', 'FS-SH','MCC-MSALE')"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" & Doc_No & "' and Trans_Type in ('PS-SH', 'FS-SH','MCC-MSALE')"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                qry = "delete from TSPL_JOURNAL_DETAILS where Voucher_No in (select Voucher_No from TSPL_JOURNAL_MASTER where Source_Doc_No ='" & Doc_No & "')"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                qry = "delete from TSPL_JOURNAL_MASTER where Source_Doc_No  ='" & Doc_No & "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                ''Delete GatePass"
+                qry = "delete from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL where GPCode='" & strDairyGAtePassCount & "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                If IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateGatePassFromDemand, clsFixedParameterCode.CreateGatePassFromDemand, trans)) = 0, False, True) = True Then
+                    qry = "Update TSPL_DEMAND_BOOKING_DETAIL set GPCode = null where GPCode='" & strDairyGAtePassCount & "'"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                Else
+                    qry = "Update TSPL_SD_SHIPMENT_HEAD set GPCode = null where GPCode='" & strDairyGAtePassCount & "'"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                End If
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strDairyGAtePassCount), "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "TSPL_DAIRYSALE_GATEPASS_DETAIL", "GPCode", trans)
+                qry = "select COUNT(*) as doc_count from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL   where PK_ID in(select PK_ID from tspl_sd_shipment_detail where document_code='" + Doc_No + "')"
+                If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans)) > 0 Then
+                    Throw New Exception("Gate Pass has already been created.")
+                End If
+                qry = "delete from TSPL_DAIRYSALE_GATEPASS_DETAIL where GPCode='" & strDairyGAtePassCount & "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                qry = "delete from TSPL_DAIRYSALE_GATEPASS_MASTER where GPCode='" & strDairyGAtePassCount & "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                qry = "delete from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Document_Code='" & Doc_No & "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                qry = "delete from TSPL_SD_SHIPMENT_BOOTH_WISE_SCHEME_DETAIL where Document_Code='" & Doc_No & "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                qry = "delete from TSPL_SD_SHIPMENT_CRATE_DETAIL where Document_Code='" & Doc_No & "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                qry = "delete from tspl_sd_shipment_detail where Document_Code='" & Doc_No & "' "
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                qry = "delete from tspl_sd_shipment_head where Document_Code='" & Doc_No & "' "
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            Else
+                qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo='" + Doc_No + "' where Document_Code='" + Doc_No + "' "
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
 
 End Class
 

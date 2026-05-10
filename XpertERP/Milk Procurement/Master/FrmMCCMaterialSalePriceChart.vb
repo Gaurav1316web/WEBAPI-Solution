@@ -20,9 +20,9 @@ Public Class FrmMCCMaterialSalePriceChart
         isInsideLoadData = False
         txtDocNo.Value = ""
         txtMCC_Code.arrValueMember = Nothing
-
+        btnimport.Enabled = True
         txtDocNo.MyReadOnly = False
-        txtdate.Text = clsCommon.GETSERVERDATE()
+        txtdate.Value = clsCommon.GETSERVERDATE()
         txtEndDate.Value = txtdate.Text
         txtPriceCode.Value = ""
         gv.DataSource = Nothing
@@ -196,6 +196,7 @@ Public Class FrmMCCMaterialSalePriceChart
                                         ii += 1
                                         clsCommon.ProgressBarPercentUpdate(ii, arr.Count, "Loading Details..." & clsCommon.myCstr(ii) & "/" & clsCommon.myCstr(arr.Count) & "")
                                         gv.Rows.AddNew()
+                                        isInsideLoadData = True
                                         gv.Rows(gv.Rows.Count - 1).Cells("Item Code").Value = obj1.Item_Code
                                         gv.Rows(gv.Rows.Count - 1).Cells("Item Name").Value = obj1.Item_Name
                                         gv.Rows(gv.Rows.Count - 1).Cells("Unit Code").Value = obj1.Rate_UOM
@@ -205,6 +206,7 @@ Public Class FrmMCCMaterialSalePriceChart
                                 Catch ex As Exception
                                     Throw New Exception(ex.Message)
                                 Finally
+                                    isInsideLoadData = False
                                     clsCommon.ProgressBarPercentHide()
                                 End Try
                                 clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
@@ -309,31 +311,29 @@ Public Class FrmMCCMaterialSalePriceChart
     End Sub
 
     Sub OpenICodeList(ByVal isButtonClick As Boolean)
-        If Not isInsideLoadData Then
-            Dim qry As String
-            qry = "select * from (select TSPL_ITEM_MASTER.item_code as Item,TSPL_ITEM_MASTER.item_desc as [ItemDesc], TSPL_ITEM_MASTER.Unit_Code as Unit," _
-            & " UOM_Description as [Unit Name]  from  TSPL_ITEM_MASTER  left join tspl_Item_Uom_Detail on tspl_Item_Uom_Detail.item_Code=" _
-            & " TSPL_ITEM_MASTER.item_COde and stocking_unit='Y'   where  TSPL_ITEM_MASTER.Active=1 and (Item_Used_as='S' OR Item_Used_as='I' ) ) as s"
-            'If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
-            '    qry += " OR Item_Used_as='I' "       'refer by ashok sir and done by stuti on 16/10/2016
-            'End If
-            '' KDIL > DATE : 19-01-2017
-            'If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "KL") = CompairStringResult.Equal Then
-            '    qry += " OR Item_Used_as='I' "
-            'End If
+        Dim qry As String
+        qry = "select * from (select TSPL_ITEM_MASTER.item_code as Item,TSPL_ITEM_MASTER.item_desc as [ItemDesc], TSPL_ITEM_MASTER.Unit_Code as Unit," _
+        & " UOM_Description as [Unit Name]  from  TSPL_ITEM_MASTER  left join tspl_Item_Uom_Detail on tspl_Item_Uom_Detail.item_Code=" _
+        & " TSPL_ITEM_MASTER.item_COde and stocking_unit='Y'   where  TSPL_ITEM_MASTER.Active=1 and (Item_Used_as='S' OR Item_Used_as='I' ) ) as s"
+        'If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
+        '    qry += " OR Item_Used_as='I' "       'refer by ashok sir and done by stuti on 16/10/2016
+        'End If
+        '' KDIL > DATE : 19-01-2017
+        'If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "KL") = CompairStringResult.Equal Then
+        '    qry += " OR Item_Used_as='I' "
+        'End If
 
-            'qry += ") ) as s"
-            Dim dr As DataRow = clsCommon.ShowSelectFormForRow("MCCS@I", qry)
-            If Not dr Is Nothing Then
-                If clsCommon.myLen(clsCommon.myCstr(dr("Item"))) > 0 Then
-                    gv.CurrentRow.Cells("Item Code").Value = clsCommon.myCstr(dr("Item"))
-                    gv.CurrentRow.Cells("Item Name").Value = clsCommon.myCstr(dr("ItemDesc"))
-                    gv.CurrentRow.Cells("Unit Code").Value = clsCommon.myCstr(dr("Unit"))
-                    gv.CurrentRow.Cells("Unit desc").Value = clsCommon.myCstr(dr("Unit Name"))
-                    gv.CurrentRow.Cells("IsSaved").Value = 0
-                End If
-            Else
+        'qry += ") ) as s"
+        Dim dr As DataRow = clsCommon.ShowSelectFormForRow("MCCS@I", qry)
+        If Not dr Is Nothing Then
+            If clsCommon.myLen(clsCommon.myCstr(dr("Item"))) > 0 Then
+                gv.CurrentRow.Cells("Item Code").Value = clsCommon.myCstr(dr("Item"))
+                gv.CurrentRow.Cells("Item Name").Value = clsCommon.myCstr(dr("ItemDesc"))
+                gv.CurrentRow.Cells("Unit Code").Value = clsCommon.myCstr(dr("Unit"))
+                gv.CurrentRow.Cells("Unit desc").Value = clsCommon.myCstr(dr("Unit Name"))
+                gv.CurrentRow.Cells("IsSaved").Value = 0
             End If
+        Else
         End If
     End Sub
 
@@ -388,7 +388,7 @@ Public Class FrmMCCMaterialSalePriceChart
         Try
             Dim qry As String = "select TSPL_MCC_RATE_UPLOADER_master.Code as DocumentCode,convert(varchar(12),TSPL_MCC_RATE_UPLOADER_master.Date,103) as DocumentDate,TSPL_MCC_RATE_UPLOADER_master.Price_Code as [Price Code] from TSPL_MCC_RATE_UPLOADER_master "
             'Dim whrClas As String = " TSPL_DEMAND_BOOKING_MASTER.comp_code='" + objCommonVar.CurrentCompanyCode + "' "
-            Reset()
+            ' Reset()
             LoadData(clsCommon.ShowSelectForm("FSBook1DocNo", qry, "DocumentCode", "", txtDocNo.Value, "date DESC", isButtonClicked, " TSPL_MCC_RATE_UPLOADER_master.date "), NavigatorType.Current)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -418,7 +418,7 @@ Public Class FrmMCCMaterialSalePriceChart
                 isNewEntry = False
                 'LoadGrid()
                 isInsideLoadData = True
-
+                btnimport.Enabled = False
                 txtdate.Enabled = False
                 txtEndDate.Enabled = False
                 txtDocNo.Value = obj.Code
@@ -443,7 +443,8 @@ Public Class FrmMCCMaterialSalePriceChart
                 If obj.ArrMCCRate IsNot Nothing AndAlso obj.ArrMCCRate.Count > 0 Then
                     txtMCC_Code.arrValueMember = obj.ArrMCCRate
                 End If
-
+            Else
+                btnimport.Enabled = True
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -477,6 +478,10 @@ Public Class FrmMCCMaterialSalePriceChart
                 txtDocNo.Value = strCode
                 LoadData(strCode, NavigatorType.Current)
                 txtDocNo.Value = ""
+                txtdate.Enabled = True
+                txtEndDate.Enabled = True
+                txtdate.Value = clsCommon.GETSERVERDATE
+                txtEndDate.Value = clsCommon.GETSERVERDATE
                 isNewEntry = True
             Else
                 Reset()

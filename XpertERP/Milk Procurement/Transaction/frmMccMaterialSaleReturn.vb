@@ -253,6 +253,7 @@ Public Class frmMccMaterialSaleReturn
     Dim AllowPlandDeptMCCLocation As Boolean = False
     Dim AllowRoundOff_onInvoice As Boolean = False
     Dim StrPDFPath As String = Nothing
+    Dim FlagDocumentIsTaxable As Integer = 0
 #End Region
     Public Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.frmMCCMaterialSaleReturn)
@@ -3652,7 +3653,13 @@ Public Class frmMccMaterialSaleReturn
             End If
             RefreshReqNo()
 
+            For ii As Integer = 0 To gv1.RowCount - 1
+                UpdateCurrentRow(ii)
+            Next
+
             UpdateAllTotals()
+            CalculateDiscountAmount()
+            CalculateRateDiffAmount()
             If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
                 txtVendorNo.Focus()
@@ -4733,6 +4740,7 @@ Public Class frmMccMaterialSaleReturn
                     gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = obj.Add_Charge_Amt10
                 End If
                 chkTaxable.Checked = obj.Is_Taxable
+                FlagDocumentIsTaxable = IIf(obj.Is_Taxable, "1", "0")
                 lblAddCharges.Text = clsCommon.myFormat(obj.Total_Add_Charge)
                 lblAddCharges1.Text = clsCommon.myFormat(obj.Total_Add_Charge)
                 If obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic Then
@@ -5214,7 +5222,7 @@ Public Class frmMccMaterialSaleReturn
         strwherecls = Xtra.CustomerPermission()
         '----------------------------------------------------- richa BM00000008842
         ' Dim qry As String = "select Document_Code as Code,CONVERT(varchar(10), Document_Date,103)+' '+ CONVERT(varchar(5), Document_Date,114) as Date,Customer_Code as [Customer Code], Customer_Name as Customer,Total_Amt as Amount,case when TSPL_SD_SALE_RETURN_HEAD.Status=0 then 'Pending' else 'Approved' end as [Status] from TSPL_SD_SALE_RETURN_HEAD left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_RETURN_HEAD.Customer_Code "
-        Dim qry As String = "select TSPL_SD_SALE_RETURN_HEAD.Document_Code as Code,CONVERT(varchar(10), TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)+' '+ CONVERT(varchar(5), TSPL_SD_SALE_RETURN_HEAD.Document_Date,114) as Date,TSPL_SD_SALE_RETURN_HEAD.Customer_Code as [Customer Code], TSPL_CUSTOMER_MASTER.Customer_Name as Customer,TSPL_SD_SALE_RETURN_HEAD.Total_Amt as Amount,TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code as [Invoice No] ,TSPL_SD_SHIPMENT_HEAD.Document_Code  as [MCC Material Sale No],case when TSPL_SD_SALE_RETURN_HEAD.Status=0 then 'Pending' else 'Approved' end as [Status] from TSPL_SD_SALE_RETURN_HEAD left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_RETURN_HEAD.Customer_Code left outer join TSPL_SD_SALE_RETURN_DETAIL on TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE =TSPL_SD_SALE_RETURN_HEAD.Document_Code Left Outer Join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No =TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code"
+        Dim qry As String = "select TSPL_SD_SALE_RETURN_HEAD.Document_Code as Code,CONVERT(varchar(10), TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)+' '+ CONVERT(varchar(5), TSPL_SD_SALE_RETURN_HEAD.Document_Date,114) as Date,TSPL_SD_SALE_RETURN_HEAD.Customer_Code as [Customer Code], TSPL_CUSTOMER_MASTER.Customer_Name as Customer,TSPL_SD_SALE_RETURN_HEAD.Total_Amt as Amount,TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No as [Invoice No] ,TSPL_SD_SHIPMENT_HEAD.Document_Code  as [MCC Material Sale No],case when TSPL_SD_SALE_RETURN_HEAD.Status=0 then 'Pending' else 'Approved' end as [Status] from TSPL_SD_SALE_RETURN_HEAD left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_RETURN_HEAD.Customer_Code Left Outer Join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No =TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No "
 
         Dim whrClas As String = ""
 
@@ -7721,6 +7729,32 @@ Public Class frmMccMaterialSaleReturn
     End Function
 
     Private Sub rbtnCancel_Click(sender As Object, e As EventArgs) Handles rbtnCancel.Click
+        Try
+            Dim EInvoiceType As String = ""
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                Throw New Exception("Code is empty")
+            End If
+            If clsCommon.MyMessageBoxShow(Me, "Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+                Exit Sub
+            End If
 
+            If FlagDocumentIsTaxable = 1 AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value) = True AndAlso clsCommon.CompairString(EInvoiceType, "BB") = CompairStringResult.Equal Then
+                Dim EInvoiceCancelTimeValid As Int64 = 0
+                EInvoiceCancelTimeValid = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(" Select  isnull (DATEDIFF(hour,EInvoice_Posting_Date,GETDATE()),0) as PostedHours from TSPL_SD_SALE_RETURN_HEAD where  document_code = '" + txtDocNo.Value + "'"))
+                If EInvoiceCancelTimeValid >= 24 Then
+                    Throw New Exception("Invoice can not be cancelled.It has been more than 24 hours.")
+                End If
+            End If
+            clsMccMaterialSaleReturn.CancelData(Me.Form_ID, txtDocNo.Value, False)
+            clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
+            AddNew()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub rbtnTotalAmt_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnTotalAmt.ToggleStateChanged, rbtnBasicAmt.ToggleStateChanged
+        If chkRateDiffAmt.IsChecked OrElse chkRateDiffRate.IsChecked Then
+            CalculateRateDiffAmount()
+        End If
     End Sub
 End Class

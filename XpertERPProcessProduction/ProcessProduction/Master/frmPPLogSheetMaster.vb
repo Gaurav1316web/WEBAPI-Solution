@@ -34,6 +34,8 @@ Public Class frmPPLogSheetMaster
         txtdesc.Text = ""
         cbonature.SelectedValue = "None"
         cmbtype.SelectedValue = ""
+        cboNIRQCType.SelectedValue = ""
+
         chkReq_Para_Mst.Checked = False
         chkIsmandatory.Checked = False
         fndDepart_code.Value = ""
@@ -99,10 +101,52 @@ Public Class frmPPLogSheetMaster
         cbonature.ValueMember = "Code"
         cbonature.DisplayMember = "Name"
     End Sub
+    Sub LoadNIRQCCombobox()
+        Dim dt As New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Name", GetType(String))
 
+        Dim dr As DataRow = Nothing
+
+        dr = dt.NewRow()
+        dr("Code") = ""
+        dr("Name") = "Select"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "Moisture"
+        dr("Name") = "Moisture"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "Silica"
+        dr("Name") = "Silica"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "Fat"
+        dr("Name") = "Fat"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "Protein"
+        dr("Name") = "Protein"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "Fiber"
+        dr("Name") = "Fiber"
+        dt.Rows.Add(dr)
+
+        cboNIRQCType.DataSource = Nothing
+        cboNIRQCType.DataSource = dt
+        cboNIRQCType.DisplayMember = "Name"
+        cboNIRQCType.ValueMember = "Code"
+    End Sub
     Private Sub FrmParameterMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
         LoadCombobox()
+        LoadNIRQCCombobox()
         LoadUsers()
         LoadNature()
         Reset()
@@ -286,6 +330,8 @@ Public Class frmPPLogSheetMaster
             obj.desc = clsCommon.myCstr(txtdesc.Text.Replace("'", "`"))
             obj.AliasName = clsCommon.myCstr(txtAliasName.Text.Replace("'", "`"))
             obj.type = clsCommon.myCstr(cmbtype.SelectedValue)
+            obj.NIRQC_Para_type = clsCommon.myCstr(cboNIRQCType.SelectedValue)
+
             If clsCommon.CompairString(FORMTYPE, clsUserMgtCode.frmPPLogSheetMaster_QC) = CompairStringResult.Equal Then
                 obj.type = "OTHERS"
             End If
@@ -397,6 +443,8 @@ Public Class frmPPLogSheetMaster
                 txtdesc.Text = obj.desc
                 txtAliasName.Text = obj.AliasName
                 cmbtype.SelectedValue = obj.type
+                cboNIRQCType.SelectedValue = obj.NIRQC_Para_type
+
                 chkIsmandatory.Checked = clsCommon.myCBool(IIf(obj.IsMandatory = 1, True, False))
                 chkReq_Para_Mst.Checked = clsCommon.myCBool(IIf(obj.IsReq_Parameter_Master = 1, True, False))
                 chk_batch_no.Checked = clsCommon.myCBool(IIf(obj.Pick_BO = 1, True, False))

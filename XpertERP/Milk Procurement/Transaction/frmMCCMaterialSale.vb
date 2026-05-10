@@ -508,6 +508,8 @@ Public Class frmMCCMaterialSale
         lblVendorName.Text = ""
         FndPriceCode.Value = ""
         txtSaleRoute.Value = ""
+        FndPriceCode.Enabled = True
+        FlagDocumentIsTaxable = 0
         setDCSBalance()
         txtDate.Value = clsCommon.GETSERVERDATE()
         dtpChallan.Value = clsCommon.GETSERVERDATE()
@@ -2846,6 +2848,12 @@ Public Class frmMCCMaterialSale
         setBalance()
     End Sub
     Sub OpenICodeListCurrentCalaculation(ByVal isButtonClick As Boolean)
+        If ApplySaleRouteInDCSSale Then
+            If clsCommon.myLen(FndPriceCode.Value) <= 0 Then
+                gv1.CurrentRow.Cells(colICode).Value = ""
+                Throw New Exception("Please select Price Code first.")
+            End If
+        End If
         gv1.CurrentRow.Cells(colRowType).Value = RowTypeItem
         Dim strItemType As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value)
         Dim pivotheader As String = ""
@@ -2861,7 +2869,13 @@ left outer join (select TSPL_ITEM_MASTER_CATEGORY.Item_code,TSPL_ITEM_MASTER_CAT
 TSPL_ITEM_CATEGORY_LEVEL.DESCRIPTION,TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as cat_value  from TSPL_ITEM_MASTER_CATEGORY left outer join TSPL_ITEM_CATEGORY_LEVEL on TSPL_ITEM_CATEGORY_LEVEL.ITEM_CATEGORY_CODE= TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and ISNULL(TSPL_ITEM_CATEGORY_LEVEL.Form_Type,'item')='item' 
 left outer join  TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values  and ISNULL(TSPL_ITEM_CATEGORY_LEVEL_VALUES.Form_Type,'item')='item')a on a.Item_code=TSPL_ITEM_MASTER.Item_Code and TSPL_ITEM_MASTER.item_code=a.item_code "
             Dim whrcls As String = " "
-            whrcls = " TSPL_ITEM_MASTER.Active = 1 and TSPL_ITEM_MASTER.Deduction ='" + clsCommon.myCstr(cboDeductionType.SelectedValue) + "' And Is_FreshItem = 0 And coalesce(Product_Type,'') not in ('MI') and Item_Type not in ('A') and coalesce(Item_used_as,'')='S' "
+            whrcls = " TSPL_ITEM_MASTER.Active = 1 and TSPL_ITEM_MASTER.Deduction ='" + clsCommon.myCstr(cboDeductionType.SelectedValue) + "'"
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+                whrcls += "  And coalesce(Product_Type,'') not in ('MI') and Item_Type not in ('A') and coalesce(Item_used_as,'')='S' "
+            Else
+                whrcls += "  And Is_FreshItem = 0 And coalesce(Product_Type,'') not in ('MI') and Item_Type not in ('A') and coalesce(Item_used_as,'')='S' "
+            End If
+
             If clsERPFuncationality.GetGSTStatus(txtDate.Value) Then
                 whrcls += " and TSPL_ITEM_MASTER.IsTaxable='" + IIf(chkTaxable.Checked, "1", "0") + "'"
             End If
@@ -2893,8 +2907,6 @@ left outer join  TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VAL
                         If ApplySaleRouteInDCSSale Then
                             If clsCommon.myLen(FndPriceCode.Value) > 0 Then
                                 gv1.CurrentRow.Cells(colRate).Value = clsEkoPro.GetRateMccSale(txtBillToLocation.Value, clsCommon.myCstr(dr(0).Item("Item")), clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), txtDate.Value, Nothing, FndPriceCode.Value)
-                            Else
-                                Throw New Exception("Please select Price Code first.")
                             End If
                         Else
                             gv1.CurrentRow.Cells(colRate).Value = clsEkoPro.GetRateMccSale(txtBillToLocation.Value, clsCommon.myCstr(dr(0).Item("Item")), clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), txtDate.Value) 'clsCommon.myCdbl(dr("BasicRate"))

@@ -13799,7 +13799,7 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
             If SettDistributorWiseBilling Then
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                     Dim Whrcls As String = " TSPL_ROUTE_MASTER.Item_Type='M' "
-                    Dim strqry As String = "select Distinct TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No as Code from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER left join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No "
+                    Dim strqry As String = "select Distinct TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No as Code,TSPL_ROUTE_MASTER.Route_Desc as Name from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER left join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No "
 
                     txtRouteNo.Value = clsCommon.ShowSelectForm("DShipRouteFinder", strqry, "Code", Whrcls, txtRouteNo.Value, "", isButtonClicked)
                     fndRouteNo_TextChanged()
@@ -14337,8 +14337,11 @@ and TSPL_Demand_Booking_Master.Route_No='" + txtRouteNo.Value + "' and TSPL_Dema
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal AndAlso dt.Rows(0)("TaxableNonTaxable").ToString() = "T" Then
                     filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceBKN", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                    'If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("TaxableNonTaxable")), "T") = CompairStringResult.Equal Then
                     filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoiceBKN", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-
+                    'Else
+                    '    filePath = frmCRV.funreport(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, "crptMultipleInvoicePrintJDH", "Bill Of Supply")
+                    'End If
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                     filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceNAG", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     'ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
@@ -14370,7 +14373,7 @@ and TSPL_Demand_Booking_Master.Route_No='" + txtRouteNo.Value + "' and TSPL_Dema
                     filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoiceALW1", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("TaxableNonTaxable")), "T") = CompairStringResult.Equal Then
                     'filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice_AJM", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                    filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceAJMNew", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
                     filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoice_AJM", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
@@ -16997,7 +17000,7 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
                         End If
 
 
-                            If Not IsLoadCreditCust Then
+                        If Not IsLoadCreditCust Then
                             isCreditCust = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Credit_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + gvDistributor.Rows(ii).Cells("Cust_Code").Value + "'", trans))
                             If clsCommon.CompairString(isCreditCust, "Y") = CompairStringResult.Equal Then
                                 IsCreditCustomer = True

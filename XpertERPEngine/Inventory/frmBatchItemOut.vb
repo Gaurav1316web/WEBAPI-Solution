@@ -630,16 +630,18 @@ Public Class frmBatchItemOut
                 End If
 
                 qry += "" + Environment.NewLine
-                'qry += " union all " + Environment.NewLine
-                'qry += " select TSPL_BATCH_ITEM.Batch_No,TSPL_BATCH_ITEM.Manual_BatchNo,'O' as In_Out_Type,TSPL_BATCH_ITEM.UOM as OrgUOM,TSPL_BATCH_ITEM.Qty as OrgQty,TSPL_BATCH_ITEM.MRP as OrgMRP,TSPL_BATCH_ITEM.Expiry_Date,TSPL_BATCH_ITEM.Manufacture_Date, (TSPL_BATCH_ITEM.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ConvertedUOM.Conversion_Factor as Qty, (TSPL_BATCH_ITEM.MRP/TSPL_ITEM_UOM_DETAIL.Conversion_Factor)*ConvertedUOM.Conversion_Factor as MRP" + Environment.NewLine
-                'qry += " from TSPL_BATCH_ITEM " + Environment.NewLine
-                'qry += " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM.UOM" + Environment.NewLine
-                'qry += " left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUOM on ConvertedUOM.Item_Code=TSPL_BATCH_ITEM.Item_Code and ConvertedUOM.UOM_Code='" + strUOM + "'" + Environment.NewLine
-                'qry += " where TSPL_BATCH_ITEM.Item_Code='" + strItemCode + "' " + Environment.NewLine
-                'qry += " and TSPL_BATCH_ITEM.Document_Type = '" + strCurrDocType + "'   and TSPL_BATCH_ITEM.Document_Code <> '" + strCurrDocNo + "'  " + Environment.NewLine
+                qry += " union all " + Environment.NewLine
+                qry += " select TSPL_BATCH_ITEM.Batch_No,TSPL_BATCH_ITEM.Manual_BatchNo,'O' as In_Out_Type,TSPL_BATCH_ITEM.UOM as OrgUOM,TSPL_BATCH_ITEM.Qty as OrgQty,TSPL_BATCH_ITEM.MRP as OrgMRP,TSPL_BATCH_ITEM.Expiry_Date,TSPL_BATCH_ITEM.Manufacture_Date, (TSPL_BATCH_ITEM.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ConvertedUOM.Conversion_Factor as Qty, (TSPL_BATCH_ITEM.MRP/TSPL_ITEM_UOM_DETAIL.Conversion_Factor)*ConvertedUOM.Conversion_Factor as MRP" + Environment.NewLine
+                qry += " from TSPL_BATCH_ITEM " + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM.UOM" + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUOM on ConvertedUOM.Item_Code=TSPL_BATCH_ITEM.Item_Code and ConvertedUOM.UOM_Code='" + strUOM + "'" + Environment.NewLine
+                qry += " left outer join tspl_sd_sale_return_head on tspl_sd_sale_return_head.Document_Code =  TSPL_BATCH_ITEM.Document_Code
+ left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=tspl_sd_sale_return_head.Against_Invoice_No "
+                qry += " where TSPL_BATCH_ITEM.Item_Code='" + strItemCode + "' " + Environment.NewLine
+                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No='" & strShipmentNo & "' and TSPL_BATCH_ITEM.Document_Type = 'MCC-MSR'   and TSPL_BATCH_ITEM.Document_Code <> '" + strCurrDocNo + "'  " + Environment.NewLine
                 qry += " ) xx " + Environment.NewLine ' where MRP='" + clsCommon.myCstr(dblMRP) + "'" + Environment.NewLine
-                    qry += " )xxx" + Environment.NewLine
-                    qry += " group by Batch_No having sum(Qty * (case when In_Out_Type='I' then 1 else case when In_Out_Type='O' then -1 else 0 end end ))> 0 " + Environment.NewLine
+                qry += " )xxx" + Environment.NewLine
+                qry += " group by Batch_No having sum(Qty * (case when In_Out_Type='I' then 1 else case when In_Out_Type='O' then -1 else 0 end end ))> 0 " + Environment.NewLine
                     'Batch wise item return Ticket No- ALF/22/05/18-000066
                 ElseIf clsCommon.CompairString(strSplTransaction, "ScrapReturn") = CompairStringResult.Equal Then
                     qry = "select Batch_No as BatchNo,max(Manual_BatchNo) as Manual_BatchNo,Min(Manufacture_Date) as ManufactureDate,MAX(Expiry_Date) as ExpiryDate,sum(Qty * (case when In_Out_Type='I' then 1 else case when In_Out_Type='O' then -1 else 0 end end )) as Qty from (" + Environment.NewLine

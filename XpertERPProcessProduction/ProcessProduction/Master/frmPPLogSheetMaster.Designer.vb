@@ -63,10 +63,12 @@ Partial Class frmPPLogSheetMaster
         Me.fndNo = New common.UserControls.txtNavigator()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.cboNIRQCType = New common.Controls.MyComboBox()
+        Me.MyLabel6 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -101,10 +103,12 @@ Partial Class frmPPLogSheetMaster
         CType(Me.lblvendorname, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cboNIRQCType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -224,6 +228,8 @@ Partial Class frmPPLogSheetMaster
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.cboNIRQCType)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel6)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel5)
         Me.RadGroupBox1.Controls.Add(Me.chkReq_Para_Mst)
         Me.RadGroupBox1.Controls.Add(Me.cmbtype)
@@ -419,10 +425,10 @@ Partial Class frmPPLogSheetMaster
         Me.RadGroupBox2.Controls.Add(Me.cbgUsers)
         Me.RadGroupBox2.Controls.Add(Me.Panel5)
         Me.RadGroupBox2.HeaderText = "Users"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(86, 203)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(86, 228)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(383, 170)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(383, 145)
         Me.RadGroupBox2.TabIndex = 8
         Me.RadGroupBox2.Text = "Users"
         '
@@ -436,7 +442,7 @@ Partial Class frmPPLogSheetMaster
         Me.cbgUsers.MyAutoSizeColumnsMode = Telerik.WinControls.UI.GridViewAutoSizeColumnsMode.Fill
         Me.cbgUsers.MyShowHeadrText = False
         Me.cbgUsers.Name = "cbgUsers"
-        Me.cbgUsers.Size = New System.Drawing.Size(363, 120)
+        Me.cbgUsers.Size = New System.Drawing.Size(363, 95)
         Me.cbgUsers.TabIndex = 0
         Me.cbgUsers.ValueMember = "Code"
         '
@@ -650,6 +656,15 @@ Partial Class frmPPLogSheetMaster
         Me.UcAttachment1.Size = New System.Drawing.Size(548, 332)
         Me.UcAttachment1.TabIndex = 1
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(177, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(78, 21)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "History"
+        '
         'btnclose
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -677,14 +692,41 @@ Partial Class frmPPLogSheetMaster
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
-        'btnHistory
+        'cboNIRQCType
         '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Location = New System.Drawing.Point(177, 5)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(78, 21)
-        Me.btnHistory.TabIndex = 3
-        Me.btnHistory.Text = "History"
+        Me.cboNIRQCType.AutoCompleteDisplayMember = Nothing
+        Me.cboNIRQCType.AutoCompleteValueMember = Nothing
+        Me.cboNIRQCType.CalculationExpression = Nothing
+        Me.cboNIRQCType.DropDownAnimationEnabled = True
+        Me.cboNIRQCType.FieldCode = Nothing
+        Me.cboNIRQCType.FieldDesc = Nothing
+        Me.cboNIRQCType.FieldMaxLength = 0
+        Me.cboNIRQCType.FieldName = Nothing
+        Me.cboNIRQCType.isCalculatedField = False
+        Me.cboNIRQCType.IsSourceFromTable = False
+        Me.cboNIRQCType.IsSourceFromValueList = False
+        Me.cboNIRQCType.IsUnique = False
+        Me.cboNIRQCType.Location = New System.Drawing.Point(87, 201)
+        Me.cboNIRQCType.MendatroryField = True
+        Me.cboNIRQCType.MyLinkLable1 = Me.MyLabel6
+        Me.cboNIRQCType.MyLinkLable2 = Nothing
+        Me.cboNIRQCType.Name = "cboNIRQCType"
+        Me.cboNIRQCType.ReferenceFieldDesc = Nothing
+        Me.cboNIRQCType.ReferenceFieldName = Nothing
+        Me.cboNIRQCType.ReferenceTableName = Nothing
+        Me.cboNIRQCType.Size = New System.Drawing.Size(142, 20)
+        Me.cboNIRQCType.TabIndex = 43
+        Me.cboNIRQCType.Text = "MyComboBox1"
+        '
+        'MyLabel6
+        '
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel6.Location = New System.Drawing.Point(13, 202)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(71, 16)
+        Me.MyLabel6.TabIndex = 42
+        Me.MyLabel6.Text = "NIRQC Type"
         '
         'frmPPLogSheetMaster
         '
@@ -735,10 +777,12 @@ Partial Class frmPPLogSheetMaster
         CType(Me.lblvendorname, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cboNIRQCType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -788,5 +832,7 @@ Partial Class frmPPLogSheetMaster
     Friend WithEvents txtISRef As common.Controls.MyTextBox
     Friend WithEvents txtClsRef As common.Controls.MyTextBox
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents cboNIRQCType As common.Controls.MyComboBox
+    Friend WithEvents MyLabel6 As common.Controls.MyLabel
 End Class
 

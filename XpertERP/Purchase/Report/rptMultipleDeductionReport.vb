@@ -205,7 +205,7 @@ where convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(da
 
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                     strBaseqry += " union all
-SELECT TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code ,TSPL_VLC_MASTER_HEAD.VLC_Name as Vendor_Name,'D' as Type,TSPL_CUSTOMER_INVOICE_HEAD.Document_No,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,0 as Addition, (TSPL_SD_SHIPMENT_HEAD.Total_Amt) AS Deduction,TSPL_DEDUCTION_MASTER.Code as DeductionCode,TSPL_DEDUCTION_MASTER.Description as Deduction_Desc,cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer) as [VLC Uploader Code]
+SELECT TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code ,TSPL_VLC_MASTER_HEAD.VLC_Name as Vendor_Name,'D' as Type,TSPL_CUSTOMER_INVOICE_HEAD.Document_No,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,0 as Addition, isnull(TSPL_SD_SHIPMENT_HEAD.Gross_Amount,0) AS Deduction,TSPL_DEDUCTION_MASTER.Code as DeductionCode,TSPL_DEDUCTION_MASTER.Description as Deduction_Desc,cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer) as [VLC Uploader Code]
 from TSPL_SD_SHIPMENT_HEAD 
 left outer join TSPL_CUSTOMER_INVOICE_HEAD on TSPL_CUSTOMER_INVOICE_HEAD.Against_Sale_No=TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No
 inner join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code
