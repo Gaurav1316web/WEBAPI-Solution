@@ -270,7 +270,7 @@ WHERE 2=2
         End Try
     End Sub
 
-    Private Sub rmiPDF_Click(sender As Object, e As EventArgs) Handles rmiPDF.Click
+    Private Sub rmiPDF_Click(sender As Object, e As EventArgs)
         Try
             ExportToExcel(EnumExportTo.PDF, gv1)
         Catch ex As Exception
