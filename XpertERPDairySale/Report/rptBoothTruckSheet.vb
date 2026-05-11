@@ -227,7 +227,7 @@ TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITE
             If rbtnDemand.IsChecked Then
                 BaseQry += " TSPL_DEMAND_BOOKING_DETAIL.Unit_code,0 AS Receipt_Amount,TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_DEMAND_BOOKING_DETAIL.Trip_No, TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount as Amount from TSPL_DEMAND_BOOKING_DETAIL "
             ElseIf rbtnDispatch.IsChecked Then
-                BaseQry += "TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code,0 AS Receipt_Amount,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Trip_No,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Commission_Amt,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Security_Amt ,ItemNetAmount as Amount
+                BaseQry += "TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code,0 AS Receipt_Amount,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Trip_No,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Commission_Amt,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Security_Amt ,Case When TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty>0 Then IsNull(TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,0) Else 0 End as Amount
             from  TSPL_SD_SHIPMENT_BOOKING_DETAIL left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.TR_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code "
             End If
 
@@ -501,9 +501,9 @@ where 2 = 2  "
                 qry += " (TSPL_ITEM_MASTER.Alies_Name_Hindi)Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code  + ' ' + TSPL_CUSTOMER_MASTER.Customer_Name_Hindi  as [BoothName], "
             End If
             qry += "TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,'" + Shift + "' AS Shift_Type,TSPL_DEMAND_BOOKING_MASTER.Document_Date, TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,
-TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount as Amount,TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,"
+ TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,"
             If rbtnDispatch.IsChecked Then
-                qry += " TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code, Case When TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code='Crate' Then TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty Else 0 end CRATE "
+                qry += " Case When TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty>0 Then IsNull(TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,0) Else 0 End as Amount,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code, Case When TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code='Crate' Then TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty Else 0 end CRATE "
                 'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
 
                 'Else
@@ -514,7 +514,7 @@ TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount as Amount,TSPL_ITEM_MASTER.Short_Descri
                 qry += " ,TSPL_ITEM_MASTER.Sku_Seq,Case When TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code='Pouch' Then TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty Else 0 End Pouch,0 AS Receipt_Amount
 ,Case When TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code='Pack' Then TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty Else 0 End Pack "
             ElseIf rbtnDemand.IsChecked Then
-                qry += " TSPL_DEMAND_BOOKING_DETAIL.Unit_code, Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Crate' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 end CRATE "
+                qry += " IsNull(TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,0) As Amount,TSPL_DEMAND_BOOKING_DETAIL.Unit_code, Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Crate' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 end CRATE "
                 'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
 
                 'Else

@@ -951,6 +951,40 @@ Public Class FrmPrintFreshInvoice
             'End If
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BAR") = CompairStringResult.Equal Then
                 Qry += " from ( select Main_Final.*," + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal, "TSPL_COMPANY_MASTER.Access_Officer as FSSAI_NO,", "") + "TSPL_COMPANY_MASTER.Logo_Img,"
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                Qry += " Max(Final.PaymentTerms)PaymentTerms,
+ Max(Final.Booking_OpeningBal)Booking_OpeningBal,Max(Final.Booking_DrAmt)Booking_DrAmt,
+ Max(Final.Booking_CrAmt)Booking_CrAmt,Max(Final.Booking_ClosingBal)Booking_ClosingBal,
+ max(cast(BarCode_Img as varbinary(max))) as BarCode_Img,
+ --Max(Final.BarCode_Img)BarCode_Img,
+ Max(Final.DocumentTime)DocumentTime,Max(Final.Manual_VehicleNo)Manual_VehicleNo,Max(Final.Payment_Terms)Payment_Terms,Max(Final.ReceiverName)ReceiverName,Sum(Final.Amt_Less_Discount)Amt_Less_Discount,Sum(Final.Security_TotalAmt)Security_TotalAmt,Max(Final.Supply_Date)Supply_Date,Max(Final.Shift_Type)Shift_Type,Sum(Final.QTY_LTRKG)QTY_LTRKG,SUM(Final.QtyInPouch)QtyInPouch,Sum(Final.QtyInPack)QtyInPack,Sum(Final.TCAmt)TCAmt,SUM(TCRate)TCRate,Max(Final.Rate_Per_Pouch)Rate_Per_Pouch,Max(Final.Rate_Per_Pack)Rate_Per_Pack,
+ Max(Final.ITAX1)ITAX1,Max(Final.ITAX1_RATE)ITAX1_RATE,Sum(Final.ITAX1_Amt)ITAX1_Amt,Sum(Final.ITAX1_Base_Amt)ITAX1_Base_Amt,
+ Max(Final.ITAX2)ITAX2,Max(Final.ITAX2_RATE)ITAX2_RATE,Sum(Final.ITAX2_Amt)ITAX2_Amt,Sum(Final.ITAX2_Base_Amt)ITAX2_Base_Amt,
+ Max(Final.ITAX3)ITAX3,Max(Final.ITAX3_Rate)ITAX3_Rate,Sum(Final.ITAX3_Amt)ITAX3_Amt,Sum(Final.ITAX3_Base_Amt)ITAX3_Base_Amt,
+ Max(Final.ITAX4)ITAX4,Max(Final.ITAX4_RATE)ITAX4_RATE,Sum(Final.ITAX4_Amt)ITAX4_Amt,Sum(Final.ITAX4_Base_Amt)ITAX4_Base_Amt,
+ Max(Final.ITAX5)ITAX5,Max(Final.ITAX5_RATE)ITAX5_RATE,Sum(Final.ITAX5_Amt)ITAX5_Amt,Sum(Final.ITAX5_Base_Amt)ITAX5_Base_Amt,
+ Max(Final.ITAX6)ITAX6,Max(Final.ITAX6_RATE)ITAX6_RATE,Sum(Final.ITAX6_Amt)ITAX6_Amt,Sum(Final.ITAX6_Base_Amt)ITAX6_Base_Amt,
+ Max(Final.ITAX7)ITAX7,Max(Final.ITAX7_RATE)ITAX7_RATE,Sum(Final.ITAX7_Amt)ITAX7_Amt,Sum(Final.ITAX7_Base_Amt)ITAX7_Base_Amt,
+ Max(Final.ITAX8)ITAX8,Max(Final.ITAX8_RATE)ITAX8_RATE,Sum(Final.ITAX8_Amt)ITAX8_Amt,Sum(Final.ITAX8_Base_Amt)ITAX8_Base_Amt,
+ Max(Final.ITAX9)ITAX9,Max(Final.ITAX9_Rate)ITAX9_Rate,Sum(Final.ITAX9_Amt)ITAX9_Amt,Sum(Final.ITAX9_Base_Amt)ITAX9_Base_Amt,
+ Max(Final.ITAX10)ITAX10,Max(Final.ITAX10_RATE)ITAX10_RATE,Sum(Final.ITAX10_Amt)ITAX10_Amt,Sum(Final.ITAX10_Base_Amt)ITAX10_Base_Amt,
+ Max(Final.IRN_No)IRN_No,Max(Final.Zone_Code)Zone_Code,Max(Final.CF)CF,Max(Final.CF2)CF2,Max(Final.ConversionFactor)ConversionFactor,Max(Final.EInvoice_Type)EInvoice_Type,Max(Final.LeakageDeduction_Freshsale)LeakageDeduction_Freshsale,Max(Final.LeakageDeduction)LeakageDeduction,Max(Final.SCM)SCM,Max(Final.DIS_MARGIN)DIS_MARGIN,Max(Final.Location_Desc)Location_Desc,Max(Final.Loc_Short_Name)Loc_Short_Name,Max(Final.Loc_Pin)Loc_Pin,Max(Final.Loc_Phone)Loc_Phone,Max(Final.Loc_Eamil)Loc_Eamil,Max(Final.Loc_Website)Loc_Website,Max(Final.ISO_No)ISO_No,Max(Final.Invoice_No)Invoice_No,Max(Final.Invoice_Date)Invoice_Date,Max(Final.Cust_City)Cust_City,Max(Final.Against_Shipment_No)Against_Shipment_No,Max(Final.Cust_Gst_StateCode)Cust_Gst_StateCode,Max(Final.Electronic_Ref_No)Electronic_Ref_No,Max(Final.CustGSTNo)CustGSTNo,Max(Final.Area_Code)Area_Code,Max(Final.GST_STATE_Code)GST_STATE_Code,Max(Final.LocGstNo)LocGstNo,Max(Final.EWayBillNo)EWayBillNo,Max(Final.EWayBillDate)EWayBillDate,Max(Final.HSN_Code)HSN_Code,Max(Final.InvRemarks)InvRemarks,Max(Final.Conversion_Factor)Conversion_Factor,Sum(Final.QTY_Box)QTY_Box,Max(Final.Sale_Invoice_No)Sale_Invoice_No,Max(Final.vehicleNo)vehicleNo,Max(Final.Sale_Invoice_Date)Sale_Invoice_Date,Max(Final.RoundOffAmount)RoundOffAmount,Sum(Final.Total_Amt)Total_Amt,Max(Final.Loc_ADd1)Loc_ADd1,Max(Final.LOC_ADD2)LOC_ADD2,Max(Final.LOC_ADD3)LOC_ADD3,Max(Final.LocationState)LocationState,Max(Final.LOCPhone)LOCPhone,Max(Final.Loc_TIN_NO)Loc_TIN_NO,Final.Document_Code,Max(Final.Document_Date)Document_Date,Max(Final.Description)Description,
+ 
+ Max(Final.Sku_Seq)Sku_Seq,
+ Final.Item_Code,Max(Final.Print_Sequence)Print_Sequence,Max(Final.Line_No)Line_No,Max(Final.Item_Desc)Item_Desc,Sum(Final.QtyCrates)QtyCrates
+ ,Max(Final.ConvFactInCrate)ConvFactInCrate,Max(Final.convQtyInCrate)convQtyInCrate,Max(final.Unit_code)Unit_code,Sum(Final.Qty_Default)Qty_Default,Max(Final.Rate_Default)Rate_Default,Sum(Final.QtyPCS)QtyPCS,Sum(Final.valueInRs)valueInRs,Max(Final.comp_add2)comp_add2,Max(Final.comp_add3)comp_add3,Max(Final.CompPhone)CompPhone,Max(Final.Cash_Scheme_Amount)Cash_Scheme_Amount,Max(Final.schemeInCrates)schemeInCrates
+ ,--Sum(Final.GrandTotalCrates)GrandTotalCrates,max(cast(Logo_Img as varbinary(max))) As Logo_Img, max(cast(Logo_Img2 as varbinary(max))) As Logo_Img2,
+ Max(Final.Comp_Code)Comp_Code,Max(Final.Comp_Name)Comp_Name,Max(Final.comp_add1)comp_add1,Max(Final.comp_Fax)comp_Fax,Max(Final.comp_Email)comp_Email,Max(Final.comp_tinNo)comp_tinNo,Max(Final.cust_Code)cust_Code,Max(Final.Customer_Name)Customer_Name,Max(Final.cust_add1)cust_add1,Max(Final.cust_add2)cust_add2
+ ,Max(Final.cust_add3)cust_add3,Max(Final.CustPhone)CustPhone,Max(Final.cust_fax)cust_fax,Max(Final.Cust_state)Cust_state,Max(Final.cust_Statename)cust_Statename,Max(Final.cust_Email)cust_Email,Max(Final.cust_website)cust_website,Max(Final.Customer_Pan)Customer_Pan,Max(Final.Ack_No)Ack_No,Max(Final.Ack_Date)Ack_Date,Max(Final.TaxableNonTaxable)TaxableNonTaxable,
+
+ 
+Max(Final.Route_No)Route_No,Max(Final.Route_Desc)Route_Desc,Sum(Final.Distributor_Commission_TotalAmt)Distributor_Commission_TotalAmt,
+Sum(Final.Transporter_Commission_TotalAmt)Transporter_Commission_TotalAmt,Max(Final.Transport_Id)Transport_Id,Max(Final.Transporter_Name)Transporter_Name,Max(Final.Against_Delivery_Code)Against_Delivery_Code,Max(Final.batchNO)batchNO,Max(Final.Batchqty)Batchqty,Max(Final.Credit_Customer)Credit_Customer,Max(Final.Ship_To_Code)Ship_To_Code,Max(Final.Ship_To_Desc)Ship_To_Desc,
+Max(Final.Ship_Address)Ship_Address,Max(Final.Ship_State)Ship_State,Max(Final.Ship_Pin_Code)Ship_Pin_Code,Max(Final.Ship_PAN)Ship_PAN,Max(Final.Ship_GSTNO)Ship_GSTNO,Max(Final.Booth_Security_Amt)Booth_Security_Amt,Max(Final.Billing_Unit_code)Billing_Unit_code,Sum(Final.Billing_Qty)Billing_Qty,Max(Final.BulkCF)BulkCF,Max(Final.Total_Basic_Amt)Total_Basic_Amt,
+Sum(Final.Total_Tax_Amt)Total_Tax_Amt,Max(Final.ActualRate)ActualRate,Sum(Final.Item_Net_Amt)Item_Net_Amt,Max(Final.Particulars)Particulars,
+Max(Final.CopyType)CopyType,Max(Final.UserName)UserName,Max(Final.SellerGST)SellerGST,Max(Final.Pan_No)Pan_No,Max(Final.Bank_Name)Bank_Name,Max(Final.BankAccountNo)BankAccountNo,Max(Final.BankBranchAddress)BankBranchAddress,Max(Final.BankIFSCCode)BankIFSCCode,Max(Final.Tcan_No)Tcan_No,Max(Final.RateLtr)RateLtr
+ 
+ from ( select Main_Final.*,"
             Else
                 Qry += " Final.*  from ( select Main_Final.*," + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal, "TSPL_COMPANY_MASTER.Access_Officer as FSSAI_NO,", "") + "TSPL_COMPANY_MASTER.Logo_Img,"
             End If
@@ -982,7 +1016,9 @@ TSPL_RECEIPT_HEADER.Payment_Code,TSPL_RECEIPT_HEADER.cheque_No,TSPL_RECEIPT_HEAD
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
                 Qry += " ,'" + clsCommon.myCstr(AmtReceived) + "' as AmtReceived,'" + clsCommon.myCstr(clsCommon.GetMulcallStringWithComma(paymentMode)) + "' as PaymentMode,'" + clsCommon.myCstr(OpeningBal) + "' as OpeningBal,'" + clsCommon.myCstr(ClosingBal) + "' as ClosingBal  "
             End If
-
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                Qry += " ,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2 "
+            End If
             Qry += "  from ( select final.*,tbl_Brand.Brand,tbl_Brand.BRANDDESC,"
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
 
@@ -1022,7 +1058,7 @@ TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt,convert(varchar(12),TSPL_SD_SHIPMENT_HEA
                 Qry += " Case when tspl_item_master.Is_FreshItem = 1 then (( TSPL_SD_sale_invoice_DETAIL.Qty *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)) / coalesce(ITEMDETAIL3.LTR,1))  when tspl_item_master.Is_Ambient = 1 then ((TSPL_SD_sale_invoice_DETAIL.Qty *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)) / coalesce(ITEMDETAIL3.kg,1)) end  as QTY_LTRKG,"
             End If
             Qry += " Case when tspl_item_master.Is_FreshItem = 1 then 'LTR' When tspl_item_master.Is_Ambient = 1 then 'KG' End As Qty_LTRKG_UOM,((TSPL_ITEM_UOM_DETAIL.Conversion_Factor * TSPL_SD_SALE_INVOICE_DETAIL.Qty)/ItemConversionInPouch.Conversion_Factor) as QtyInPouch,
-((TSPL_ITEM_UOM_DETAIL.Conversion_Factor * TSPL_SD_SALE_INVOICE_DETAIL.Qty)/ItemConversionInPACK.Conversion_Factor) as QtyInPack,isnull(TSPL_SD_SALE_INVOICE_HEAD.Transporter_Commission_TotalAmt,0.00) as TCAmt,(TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt/((TSPL_ITEM_UOM_DETAIL.Conversion_Factor * TSPL_SD_SALE_INVOICE_DETAIL.Qty)/ItemConversionInPouch.Conversion_Factor)) as Rate_Per_Pouch,
+((TSPL_ITEM_UOM_DETAIL.Conversion_Factor * TSPL_SD_SALE_INVOICE_DETAIL.Qty)/ItemConversionInPACK.Conversion_Factor) as QtyInPack,ISNull(TSPL_SD_SALE_INVOICE_DETAIL.Transporter_Commission_Rate,0.00) As TCRate,isnull(TSPL_SD_SALE_INVOICE_HEAD.Transporter_Commission_TotalAmt,0.00) as TCAmt,(TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt/((TSPL_ITEM_UOM_DETAIL.Conversion_Factor * TSPL_SD_SALE_INVOICE_DETAIL.Qty)/ItemConversionInPouch.Conversion_Factor)) as Rate_Per_Pouch,
 (TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt/((TSPL_ITEM_UOM_DETAIL.Conversion_Factor * TSPL_SD_SALE_INVOICE_DETAIL.Qty)/ItemConversionInPACK.Conversion_Factor)) as Rate_Per_Pack,ItemConversionInPouch.UOM_Code As CPPouch_UOM_Code,ItemConversionInPACK.UOM_Code  As CPack_UOM_Code, "
 
             Qry += "TSPL_SD_SALE_INVOICE_DETAIL.TAX1 AS ITAX1,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_RATE AS ITAX1_RATE,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt AS ITAX1_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Base_Amt AS ITAX1_Base_Amt,
@@ -1237,6 +1273,9 @@ Pivot(max(Item_Cagetory_Values) For Item_Category_Code   In ( [CATEGORY RM], [BR
   Left Join TSPL_RECEIPT_HEADER on TSPL_BOOKING_Matser.Against_Receipt_No=TSPL_RECEIPT_HEADER.Receipt_No  "
             End If
             Qry += " ) Final "
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                Qry += " Group By Document_Code,Item_Code "
+            End If
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                 Qry += " Order By Print_Sequence "
             End If
