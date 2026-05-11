@@ -23,9 +23,9 @@ Partial Class FrmCompanyMaster
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmCompanyMaster))
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtISO_No = New common.Controls.MyTextBox()
@@ -193,6 +193,8 @@ Partial Class FrmCompanyMaster
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel30 = New common.Controls.MyLabel()
+        Me.txtISODate = New common.Controls.MyDateTimePicker()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.txtISO_No, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -358,12 +360,16 @@ Partial Class FrmCompanyMaster
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel30, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtISODate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.txtISODate)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel30)
         Me.RadGroupBox1.Controls.Add(Me.txtISO_No)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel21)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel20)
@@ -1712,12 +1718,12 @@ Partial Class FrmCompanyMaster
         Me.ddlModeofTransp.IsSourceFromTable = False
         Me.ddlModeofTransp.IsSourceFromValueList = False
         Me.ddlModeofTransp.IsUnique = False
-        RadListDataItem4.Text = "By Air"
-        RadListDataItem5.Text = "By Road"
-        RadListDataItem6.Text = "By Sea"
-        Me.ddlModeofTransp.Items.Add(RadListDataItem4)
-        Me.ddlModeofTransp.Items.Add(RadListDataItem5)
-        Me.ddlModeofTransp.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "By Air"
+        RadListDataItem2.Text = "By Road"
+        RadListDataItem3.Text = "By Sea"
+        Me.ddlModeofTransp.Items.Add(RadListDataItem1)
+        Me.ddlModeofTransp.Items.Add(RadListDataItem2)
+        Me.ddlModeofTransp.Items.Add(RadListDataItem3)
         Me.ddlModeofTransp.Location = New System.Drawing.Point(167, 339)
         Me.ddlModeofTransp.MendatroryField = False
         Me.ddlModeofTransp.MyLinkLable1 = Me.RadLabel2
@@ -2174,7 +2180,7 @@ Partial Class FrmCompanyMaster
         Me.RpMobileDetail.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RpMobileDetail.Location = New System.Drawing.Point(1, 1)
         Me.RpMobileDetail.Name = "RpMobileDetail"
-        Me.RpMobileDetail.SelectedPage = Me.RadPageMobile
+        Me.RpMobileDetail.SelectedPage = Me.RadPageViewPage1
         Me.RpMobileDetail.Size = New System.Drawing.Size(828, 557)
         Me.RpMobileDetail.TabIndex = 0
         CType(Me.RpMobileDetail.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -3081,6 +3087,45 @@ Partial Class FrmCompanyMaster
         Me.btnHistory.TabIndex = 3
         Me.btnHistory.Text = "History"
         '
+        'MyLabel30
+        '
+        Me.MyLabel30.FieldName = Nothing
+        Me.MyLabel30.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel30.Location = New System.Drawing.Point(276, 491)
+        Me.MyLabel30.Name = "MyLabel30"
+        Me.MyLabel30.Size = New System.Drawing.Size(53, 16)
+        Me.MyLabel30.TabIndex = 312
+        Me.MyLabel30.Text = "ISO Date"
+        '
+        'txtISODate
+        '
+        Me.txtISODate.CalculationExpression = Nothing
+        Me.txtISODate.CustomFormat = "dd/MM/yyyy"
+        Me.txtISODate.FieldCode = Nothing
+        Me.txtISODate.FieldDesc = Nothing
+        Me.txtISODate.FieldMaxLength = 0
+        Me.txtISODate.FieldName = Nothing
+        Me.txtISODate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtISODate.isCalculatedField = False
+        Me.txtISODate.IsSourceFromTable = False
+        Me.txtISODate.IsSourceFromValueList = False
+        Me.txtISODate.IsUnique = False
+        Me.txtISODate.Location = New System.Drawing.Point(332, 490)
+        Me.txtISODate.MendatroryField = False
+        Me.txtISODate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtISODate.MyLinkLable1 = Nothing
+        Me.txtISODate.MyLinkLable2 = Nothing
+        Me.txtISODate.Name = "txtISODate"
+        Me.txtISODate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtISODate.ReferenceFieldDesc = Nothing
+        Me.txtISODate.ReferenceFieldName = Nothing
+        Me.txtISODate.ReferenceTableName = Nothing
+        Me.txtISODate.Size = New System.Drawing.Size(96, 20)
+        Me.txtISODate.TabIndex = 313
+        Me.txtISODate.TabStop = False
+        Me.txtISODate.Text = "10/06/2011"
+        Me.txtISODate.Value = New Date(2011, 6, 10, 11, 51, 56, 953)
+        '
         'FrmCompanyMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3266,6 +3311,8 @@ Partial Class FrmCompanyMaster
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel30, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtISODate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -3437,5 +3484,7 @@ Partial Class FrmCompanyMaster
     Friend WithEvents TXTCCP3 As common.Controls.MyTextBox
     Friend WithEvents TXTCCN4 As common.Controls.MyTextBox
     Friend WithEvents TXTCCN3 As common.Controls.MyTextBox
+    Friend WithEvents txtISODate As common.Controls.MyDateTimePicker
+    Friend WithEvents MyLabel30 As common.Controls.MyLabel
 End Class
 
