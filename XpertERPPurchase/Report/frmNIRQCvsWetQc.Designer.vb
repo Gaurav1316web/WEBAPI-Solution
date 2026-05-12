@@ -42,10 +42,10 @@ Partial Class frmNIRQCvsWetQc
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.btnprint = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnExp = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
-        Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -69,6 +69,7 @@ Partial Class frmNIRQCvsWetQc
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnprint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -89,6 +90,7 @@ Partial Class frmNIRQCvsWetQc
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnprint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnExp)
         Me.SplitContainer1.Panel2.Controls.Add(Me.BtnReset)
@@ -348,6 +350,16 @@ Partial Class frmNIRQCvsWetQc
         Me.gv1.TabIndex = 1
         Me.gv1.VarID = ""
         '
+        'btnprint
+        '
+        Me.btnprint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnprint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnprint.Location = New System.Drawing.Point(255, 11)
+        Me.btnprint.Name = "btnprint"
+        Me.btnprint.Size = New System.Drawing.Size(71, 22)
+        Me.btnprint.TabIndex = 457
+        Me.btnprint.Text = "Print"
+        '
         'btnClose
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -361,7 +373,7 @@ Partial Class frmNIRQCvsWetQc
         'btnExp
         '
         Me.btnExp.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnExp.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
+        Me.btnExp.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel})
         Me.btnExp.Location = New System.Drawing.Point(166, 11)
         Me.btnExp.Name = "btnExp"
         Me.btnExp.Size = New System.Drawing.Size(83, 22)
@@ -373,13 +385,6 @@ Partial Class frmNIRQCvsWetQc
         Me.rmiExcel.Name = "rmiExcel"
         Me.rmiExcel.Text = "Excel "
         Me.rmiExcel.UseCompatibleTextRendering = False
-        '
-        'rmiPDF
-        '
-        Me.rmiPDF.Name = "rmiPDF"
-        Me.rmiPDF.Text = "PDF Summary"
-        Me.rmiPDF.UseCompatibleTextRendering = False
-        Me.rmiPDF.Visibility = Telerik.WinControls.ElementVisibility.Hidden
         '
         'BtnReset
         '
@@ -435,6 +440,7 @@ Partial Class frmNIRQCvsWetQc
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnprint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
@@ -449,7 +455,6 @@ Partial Class frmNIRQCvsWetQc
     Friend WithEvents btnGo As RadButton
     Friend WithEvents btnExp As RadSplitButton
     Friend WithEvents rmiExcel As RadMenuItem
-    Friend WithEvents rmiPDF As RadMenuItem
     Friend WithEvents btnClose As RadButton
     Friend WithEvents RadPageView1 As RadPageView
     Friend WithEvents RadPageViewPage1 As RadPageViewPage
@@ -469,4 +474,5 @@ Partial Class frmNIRQCvsWetQc
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents RadPageViewPage2 As RadPageViewPage
     Friend WithEvents gv1 As common.UserControls.MyRadGridView
+    Friend WithEvents btnprint As RadButton
 End Class

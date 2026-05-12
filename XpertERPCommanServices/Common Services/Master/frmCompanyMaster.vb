@@ -117,7 +117,7 @@ Public Class FrmCompanyMaster
                 ''=============================================
 
                 ' clsDBFuncationality.ExecuteNonQuery(" UPDATE TSPL_COMPANY_MASTER SET ISO_No = '" & txtISO_No.Text & "', Comp_ESIC_NO = '" & txtESICNO.Text & "' ,Comp_PF_NO ='" & txtPFNO.Text & "',Employer_Name='" & TxtEmployerName.Text & "',Employer_Desg='" & TxtEmployerDesg.Text & "',Employer_Add1='" & TxtEmployerAdd1.Text & "',Employer_Add2='" & TxtEmployerAdd2.Text & "',Employer_Add3='" & TxtEmployerAdd3.Text & "' " + xcheckInsurance + ",Bank_Name='" & txtBankName.Text & "',BankAccountNo='" & TxtBankAccountNo.Text & "',BankIFSCCode='" & txtifsccode.Text & "',BankBranchAddress='" & txtbranchAddress.Text & "',Union_Contact_Person='" & txtNodelOffName.Text & "',Union_Contact_PhoneNo='" & txtNobelOffMNo.Text & "' WHERE Comp_Code ='" + fndCompanyCode.Value + "'")
-                clsDBFuncationality.ExecuteNonQuery(" UPDATE TSPL_COMPANY_MASTER SET ISO_No = '" & txtISO_No.Text & "', Comp_ESIC_NO = '" & txtESICNO.Text & "' ,Comp_PF_NO ='" & txtPFNO.Text & "',Employer_Name='" & TxtEmployerName.Text & "',Employer_Desg='" & TxtEmployerDesg.Text & "',Employer_Add1='" & TxtEmployerAdd1.Text & "',Employer_Add2='" & TxtEmployerAdd2.Text & "',Employer_Add3='" & TxtEmployerAdd3.Text & "' " + xcheckInsurance + ",Bank_Name='" & txtBankName.Text & "',BankAccountNo='" & TxtBankAccountNo.Text & "',BankIFSCCode='" & txtifsccode.Text & "',BankBranchAddress='" & txtbranchAddress.Text & "',Union_Contact_Person='" & txtNodelOffName.Text & "',Union_Contact_PhoneNo='" & txtNobelOffMNo.Text & "' 
+                clsDBFuncationality.ExecuteNonQuery(" UPDATE TSPL_COMPANY_MASTER SET ISO_Date='" & clsCommon.GetPrintDate(txtISODate.Value, "dd/MMM/yyyy") & "',  ISO_No = '" & txtISO_No.Text & "', Comp_ESIC_NO = '" & txtESICNO.Text & "' ,Comp_PF_NO ='" & txtPFNO.Text & "',Employer_Name='" & TxtEmployerName.Text & "',Employer_Desg='" & TxtEmployerDesg.Text & "',Employer_Add1='" & TxtEmployerAdd1.Text & "',Employer_Add2='" & TxtEmployerAdd2.Text & "',Employer_Add3='" & TxtEmployerAdd3.Text & "' " + xcheckInsurance + ",Bank_Name='" & txtBankName.Text & "',BankAccountNo='" & TxtBankAccountNo.Text & "',BankIFSCCode='" & txtifsccode.Text & "',BankBranchAddress='" & txtbranchAddress.Text & "',Union_Contact_Person='" & txtNodelOffName.Text & "',Union_Contact_PhoneNo='" & txtNobelOffMNo.Text & "' 
 ,PCCN1='" & txtCCN1.Text & "' ,PCCN2='" & TXTCCN2.Text & "' ,PCCP1='" & TXTCCP1.Text & "' ,PCCP2='" & TXTCCP2.Text & "' ,
 OCCN1 = '" & TXTCCN3.Text & "',OCCN2 = '" & TXTCCN4.Text & "',OCCP1 = '" & TXTCCP3.Text & "',OCCP2 = '" & TXTCCP4.Text & "'
 WHERE Comp_Code ='" + fndCompanyCode.Value + "'")
@@ -250,7 +250,7 @@ WHERE Comp_Code ='" + fndCompanyCode.Value + "'")
                 ''=============================================
 
                 ' clsDBFuncationality.ExecuteNonQuery(" UPDATE TSPL_COMPANY_MASTER SET ISO_No = '" & txtISO_No.Text & "', Comp_ESIC_NO = '" & txtESICNO.Text & "' ,Comp_PF_NO ='" & txtPFNO.Text & "',Employer_Name='" & TxtEmployerName.Text & "',Employer_Desg='" & TxtEmployerDesg.Text & "',Employer_Add1='" & TxtEmployerAdd1.Text & "',Employer_Add2='" & TxtEmployerAdd2.Text & "',Employer_Add3='" & TxtEmployerAdd3.Text & "' " + xcheckInsurance + ",Bank_Name='" & txtBankName.Text & "',BankAccountNo='" & TxtBankAccountNo.Text & "',BankIFSCCode='" & txtifsccode.Text & "',BankBranchAddress='" & txtbranchAddress.Text & "',Union_Contact_Person='" & txtNodelOffName.Text & "',Union_Contact_PhoneNo='" & txtNobelOffMNo.Text & "'  WHERE Comp_Code ='" + fndCompanyCode.Value + "'")
-                clsDBFuncationality.ExecuteNonQuery(" UPDATE TSPL_COMPANY_MASTER SET ISO_No = '" & txtISO_No.Text & "', Comp_ESIC_NO = '" & txtESICNO.Text & "' ,Comp_PF_NO ='" & txtPFNO.Text & "',Employer_Name='" & TxtEmployerName.Text & "',Employer_Desg='" & TxtEmployerDesg.Text & "',Employer_Add1='" & TxtEmployerAdd1.Text & "',Employer_Add2='" & TxtEmployerAdd2.Text & "',Employer_Add3='" & TxtEmployerAdd3.Text & "' " + xcheckInsurance + ",Bank_Name='" & txtBankName.Text & "',BankAccountNo='" & TxtBankAccountNo.Text & "',BankIFSCCode='" & txtifsccode.Text & "',BankBranchAddress='" & txtbranchAddress.Text & "',Union_Contact_Person='" & txtNodelOffName.Text & "',Union_Contact_PhoneNo='" & txtNobelOffMNo.Text & "' 
+                clsDBFuncationality.ExecuteNonQuery(" UPDATE TSPL_COMPANY_MASTER SET ISO_Date='" & clsCommon.GetPrintDate(txtISODate.Value, "dd/MMM/yyyy") & "', ISO_No = '" & txtISO_No.Text & "', Comp_ESIC_NO = '" & txtESICNO.Text & "' ,Comp_PF_NO ='" & txtPFNO.Text & "',Employer_Name='" & TxtEmployerName.Text & "',Employer_Desg='" & TxtEmployerDesg.Text & "',Employer_Add1='" & TxtEmployerAdd1.Text & "',Employer_Add2='" & TxtEmployerAdd2.Text & "',Employer_Add3='" & TxtEmployerAdd3.Text & "' " + xcheckInsurance + ",Bank_Name='" & txtBankName.Text & "',BankAccountNo='" & TxtBankAccountNo.Text & "',BankIFSCCode='" & txtifsccode.Text & "',BankBranchAddress='" & txtbranchAddress.Text & "',Union_Contact_Person='" & txtNodelOffName.Text & "',Union_Contact_PhoneNo='" & txtNobelOffMNo.Text & "' 
 ,PCCN1='" & txtCCN1.Text & "' ,PCCN2='" & TXTCCN2.Text & "' ,PCCP1='" & TXTCCP1.Text & "' ,PCCP2='" & TXTCCP2.Text & "' ,
 OCCN1 = '" & TXTCCN3.Text & "',OCCN2 = '" & TXTCCN4.Text & "',OCCP1 = '" & TXTCCP3.Text & "',OCCP2 = '" & TXTCCP4.Text & "'
 WHERE Comp_Code ='" + fndCompanyCode.Value + "'")
@@ -278,7 +278,7 @@ WHERE Comp_Code ='" + fndCompanyCode.Value + "'")
         cboDataBase.SelectedIndex = 0
         'dt = clsDBFuncationality.GetDataTable("select  Comp_Name,Add1,Add2,Add3,City_Code ,Phone1 ,Phone2 ,Fax,Email ,Pincode ,State ,Tin_No ,CST_LST ,Regn_No ,Cform ,Mode_of_Trans ,DataBase_Name ,Logo_Img ,Logo_Img2 ,Vat_Reg_No ,ServiceTax_Reg_No ,Ecc_No ,CE_Range ,CE_Commissionerate,CE_Division ,Pan_No ,Tan_No ,Tcan_No ,Circle_No ,Ward_No ,Access_Officer,NameInTally,IntegrateWithTally,BaseCurrencyCode,ApplyMultiCurrency,cust_code,Is_Main_Company,CINNo,IECode ,Comp_PF_NO,Comp_ESIC_NO,ISNULL(Employer_Name,'') AS Employer_Name,ISNULL(Employer_Desg,'') AS Employer_Desg,ISNULL(Employer_Add1,'') AS Employer_Add1,ISNULL(Employer_Add2,'') AS Employer_Add2,ISNULL(Employer_Add3,'') AS Employer_Add3,Insurance_No,insurance_comp_name,insurance_valid_date,TinNo_Issue_Date,PanNo_Issue_Date,GSTINNo,GSTReg_No,Bank_Name,BankAccountNo,BankIFSCCode,BankBranchAddress,comp_code1,Union_Contact_Person,Union_Contact_PhoneNo,iso_no from TSPL_COMPANY_MASTER  where Comp_Code='" + fndCompanyCode.Value + "'")
         dt = clsDBFuncationality.GetDataTable("select  Comp_Name,Add1,Add2,Add3,City_Code ,Phone1 ,Phone2 ,Fax,Email ,Pincode ,State ,Tin_No ,CST_LST ,Regn_No ,Cform ,Mode_of_Trans ,DataBase_Name ,Logo_Img ,Logo_Img2 ,Vat_Reg_No ,ServiceTax_Reg_No ,Ecc_No ,CE_Range ,CE_Commissionerate,CE_Division ,Pan_No ,Tan_No ,Tcan_No ,Circle_No ,Ward_No ,Access_Officer,NameInTally,IntegrateWithTally,BaseCurrencyCode,ApplyMultiCurrency,cust_code,Is_Main_Company,CINNo,IECode ,Comp_PF_NO,Comp_ESIC_NO,ISNULL(Employer_Name,'') AS Employer_Name,ISNULL(Employer_Desg,'') AS Employer_Desg,ISNULL(Employer_Add1,'') AS Employer_Add1,ISNULL(Employer_Add2,'') AS Employer_Add2,ISNULL(Employer_Add3,'') AS Employer_Add3,Insurance_No,insurance_comp_name,insurance_valid_date,TinNo_Issue_Date,PanNo_Issue_Date,GSTINNo,GSTReg_No,Bank_Name,BankAccountNo,BankIFSCCode,BankBranchAddress,comp_code1,Union_Contact_Person,Union_Contact_PhoneNo,iso_no 
-,PCCN1,PCCN2,PCCP1,PCCP2,OCCN1,OCCN2,OCCP1,OCCP2 
+,PCCN1,PCCN2,PCCP1,PCCP2,OCCN1,OCCN2,OCCP1,OCCP2,ISO_Date 
 from TSPL_COMPANY_MASTER  where Comp_Code='" + fndCompanyCode.Value + "'")
 
         'While dr.Read()
@@ -356,6 +356,9 @@ from TSPL_COMPANY_MASTER  where Comp_Code='" + fndCompanyCode.Value + "'")
                 txtCIN.Text = clsCommon.myCstr(dr("CINNo"))
                 TxtIECode.Text = clsCommon.myCstr(dr("IECode"))
                 txtISO_No.Text = clsCommon.myCstr(dr("ISO_No"))
+                If clsCommon.myLen(dr("ISO_Date")) > 0 Then
+                    txtISODate.Value = clsCommon.myCDate(dr("ISO_Date"))
+                End If
                 txtESICNO.Text = clsCommon.myCstr(dr("Comp_ESIC_NO"))
                 txtPFNO.Text = clsCommon.myCstr(dr("Comp_PF_NO"))
 
@@ -474,6 +477,7 @@ from TSPL_COMPANY_MASTER  where Comp_Code='" + fndCompanyCode.Value + "'")
         txtcust_name.Text = ""
         chk_main_company.Checked = False
         txtISO_No.Text = ""
+        txtISODate.Value = clsCommon.GETSERVERDATE()
         txtESICNO.Text = ""
         txtPFNO.Text = ""
         TxtEmployerName.Text = ""
