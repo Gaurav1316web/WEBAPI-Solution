@@ -1790,6 +1790,8 @@
     <None Include="Crystal Reports\Purchase Order\rptCompanyAddress.rpt" />
     <None Include="Crystal Reports\Purchase Order\rptCustomerStockReco.rpt" />
     <None Include="Crystal Reports\Purchase Order\rptCustomerStockRecoALW.rpt" />
+    <None Include="Crystal Reports\Purchase Order\rptDistMraginstatusDetail.rpt" />
+    <None Include="Crystal Reports\Purchase Order\rptDistMraginstatusSummary.rpt" />
     <None Include="Crystal Reports\Purchase Order\rptissue.rpt" />
     <None Include="Crystal Reports\Purchase Order\rptissueNewV.rpt" />
     <None Include="Crystal Reports\Purchase Order\rptMRDA.rpt" />
