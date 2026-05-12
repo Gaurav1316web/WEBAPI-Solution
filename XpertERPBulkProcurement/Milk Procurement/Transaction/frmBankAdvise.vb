@@ -98,6 +98,7 @@ Public Class frmBankAdvise
         gv1.MasterTemplate.Columns.Add(repoPartialAmt)
 
         gv1.EnableFiltering = True
+        gv1.AllowDeleteRow = True
         gv1.AllowAddNewRow = False
         gv1.ShowGroupPanel = False
         gv1.AllowColumnReorder = False
@@ -234,9 +235,11 @@ left join (select Doc_No as PP_Code,Max(Payment_Mode) as Payment_Mode,sum(Payabl
             If Not isCellValueChangedOpen Then
                 isCellValueChangedOpen = True
                 If e.Column Is gv1.Columns(colPartialAmt) Then
-                    If clsCommon.myCDecimal(gv1.CurrentRow.Cells(colPartialAmt).Value) > clsCommon.myCDecimal(gv1.CurrentRow.Cells(colBalanceAmt).Value) Then
-                        gv1.CurrentRow.Cells(colPartialAmt).Value = clsCommon.myCDecimal(gv1.CurrentRow.Cells(colBalanceAmt).Value)
-                        Throw New Exception("Partial Amount cannot be greater than Balance Amount")
+                    If gv1.CurrentRow.Index > -1 Then
+                        If clsCommon.myCDecimal(gv1.CurrentRow.Cells(colPartialAmt).Value) > clsCommon.myCDecimal(gv1.CurrentRow.Cells(colBalanceAmt).Value) Then
+                            gv1.CurrentRow.Cells(colPartialAmt).Value = clsCommon.myCDecimal(gv1.CurrentRow.Cells(colBalanceAmt).Value)
+                            Throw New Exception("Partial Amount cannot be greater than Balance Amount")
+                        End If
                     End If
                 End If
                 isCellValueChangedOpen = False
@@ -391,14 +394,18 @@ left join (select Doc_No as PP_Code,Max(Payment_Mode) as Payment_Mode,sum(Payabl
 
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
         Try
+
             If clsCommon.myLen(fndDocNo.Value) > 0 Then
-                If clsBankAdvise.deleteData(fndDocNo.Value) Then
-                    clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully.", Me.Text)
-                    Reset()
+                If (myMessages.deleteConfirm()) Then
+                    If clsBankAdvise.deleteData(fndDocNo.Value) Then
+                        clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully.", Me.Text)
+                        Reset()
+                    End If
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "Data Not Found.", Me.Text)
             End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -415,21 +422,23 @@ left join (select Doc_No as PP_Code,Max(Payment_Mode) as Payment_Mode,sum(Payabl
     Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
         Try
             If clsCommon.myLen(fndDocNo.Value) > 0 Then
-                Dim qry As String = clsBankAdvise.ChkReturnQry(fndPaymentProcessNo.Value)
-                Dim dtBank As DataTable = clsDBFuncationality.GetDataTable(qry)
-                If dtBank IsNot Nothing AndAlso dtBank.Rows.Count > 0 Then
-                    For Each drBank As DataRow In dtBank.Rows
-                        ''Note IF You do any changes than change in function frmVendorBankAdvice.Print(ByVal isPrint As Boolean) 
-                        If clsCommon.myLen(drBank("Email")) <= 0 Then
-                            Throw New Exception("Please Define email ID for bank [" + clsCommon.myCstr(drBank("Company_Bank_Current")) + "]")
-                        End If
-                    Next
-                End If
+                If (myMessages.postConfirm()) Then
+                    Dim qry As String = clsBankAdvise.ChkReturnQry(fndPaymentProcessNo.Value)
+                    Dim dtBank As DataTable = clsDBFuncationality.GetDataTable(qry)
+                    If dtBank IsNot Nothing AndAlso dtBank.Rows.Count > 0 Then
+                        For Each drBank As DataRow In dtBank.Rows
+                            ''Note IF You do any changes than change in function frmVendorBankAdvice.Print(ByVal isPrint As Boolean) 
+                            If clsCommon.myLen(drBank("Email")) <= 0 Then
+                                Throw New Exception("Please Define email ID for bank [" + clsCommon.myCstr(drBank("Company_Bank_Current")) + "]")
+                            End If
+                        Next
+                    End If
 
-                If clsBankAdvise.postData(fndDocNo.Value) Then
-                    clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully", Me.Text)
-                    LoadData(fndDocNo.Value, Nothing)
-                    DisableFeilds()
+                    If clsBankAdvise.postData(fndDocNo.Value) Then
+                        clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully", Me.Text)
+                        LoadData(fndDocNo.Value, Nothing)
+                        DisableFeilds()
+                    End If
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "Data Not Found to Post.", Me.Text)
@@ -454,12 +463,14 @@ left join (select Doc_No as PP_Code,Max(Payment_Mode) as Payment_Mode,sum(Payabl
     Private Sub btnReverseAndUnpost_Click(sender As Object, e As EventArgs) Handles btnReverseAndUnpost.Click
         Try
             If clsCommon.myLen(fndDocNo.Value) > 0 Then
-                If clsBankAdvise.ReverseAndUnpost(fndDocNo.Value) Then
-                    clsCommon.MyMessageBoxShow(Me, "Data Reverse and Unposted Successfully", Me.Text)
-                    LoadData(fndDocNo.Value, Nothing)
+                If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                    If clsBankAdvise.ReverseAndUnpost(fndDocNo.Value) Then
+                        clsCommon.MyMessageBoxShow(Me, "Data Reverse and Unposted Successfully", Me.Text)
+                        LoadData(fndDocNo.Value, Nothing)
+                    End If
                 End If
             Else
-                clsCommon.MyMessageBoxShow(Me, "Data Not Found to Reverse and Unpost.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Not Found to Reverse and Unpost.", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -551,5 +562,10 @@ left join (select Doc_No as PP_Code,Max(Payment_Mode) as Payment_Mode,sum(Payabl
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
+    End Sub
+    Private Sub gv1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
+        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+            e.Cancel = True
+        End If
     End Sub
 End Class

@@ -147,7 +147,7 @@ Public Class clsBankAdvise
     Public Function GetPaymentProcessDCSWiseDetails(ByVal paymentProcessDocNo As String, ByVal isLoadData As Boolean, ByVal strDocNo As String, ByVal IsCheckDCSBal As Boolean) As String
         Try
             Dim BaseQry As String = " "
-            Dim Qry As String = "  select [Document Code],max([From Date])[From Date],max([To Date])[To Date],[DCS Code],max([DCS Name])[DCS Name],PP_Detail_No as [PP Detail No],sum(ri* [Balanace Amt])[Balanace Amt],max([MCC Code])[MCC Code],max([Area])[Area] from ( "
+            Dim Qry As String = "  select [Document Code],max([From Date])[From Date],max([To Date])[To Date],[DCS Code],max([DCS Name])[DCS Name],PP_Detail_No as [PP Detail No],cast(sum(ri* [Balanace Amt]) as decimal (18,2)) as [Balanace Amt],max([MCC Code])[MCC Code],max([Area])[Area] from ( "
             Qry += paymentProcessDetails("")
             Qry += " where FarmType='PP' And TSPL_PAYMENT_PROCESS_HEAD.isPrePosted=1 And TSPL_PAYMENT_PROCESS_HEAD.Doc_No Not In ( Select Payment_Process_Document_No from TSPL_BANK_ADVISE where Is_Partial = 0 ) "
             If clsCommon.myLen(paymentProcessDocNo) > 0 Then
@@ -418,7 +418,7 @@ Public Class clsBankAdviseDetail
     Public DCSName As String = ""
     Public Payment_Process_PP_Detail_No As String = Nothing
     Public Balance_Amt As Decimal = 0
-    Public Partial_Amt As Double = 0
+    Public Partial_Amt As Decimal = 0
 #End Region
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsBankAdviseDetail), ByVal paymentProcessDocNo As String, ByVal trans As SqlTransaction) As Boolean
 
