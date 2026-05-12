@@ -2399,7 +2399,7 @@ Partial Class FrmAPInvoiceEntry
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(47.0!, 26.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1073, 400)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1105, 446)
         Me.RadPageViewPage2.Text = "Taxes"
         '
         'GroupBox1
@@ -2486,7 +2486,7 @@ Partial Class FrmAPInvoiceEntry
         Me.RadLabel10.FieldName = Nothing
         Me.RadLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel10.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel10.Location = New System.Drawing.Point(904, 296)
+        Me.RadLabel10.Location = New System.Drawing.Point(936, 342)
         Me.RadLabel10.Name = "RadLabel10"
         Me.RadLabel10.Size = New System.Drawing.Size(162, 16)
         Me.RadLabel10.TabIndex = 4
@@ -2504,10 +2504,10 @@ Partial Class FrmAPInvoiceEntry
         Me.RadGroupBox1.Controls.Add(Me.lblTermName)
         Me.RadGroupBox1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox1.HeaderText = "Terms"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(1, 309)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(1, 355)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(1073, 87)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(1105, 87)
         Me.RadGroupBox1.TabIndex = 2
         Me.RadGroupBox1.Text = "Terms"
         '
@@ -2625,7 +2625,7 @@ Partial Class FrmAPInvoiceEntry
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
-        Me.gv2.Size = New System.Drawing.Size(1068, 254)
+        Me.gv2.Size = New System.Drawing.Size(1100, 300)
         Me.gv2.TabIndex = 2
         Me.gv2.TabStop = False
         Me.gv2.VarID = ""
@@ -2716,7 +2716,7 @@ Partial Class FrmAPInvoiceEntry
         Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(89.0!, 26.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 35)
         Me.pvpCustomFields.Name = "pvpCustomFields"
-        Me.pvpCustomFields.Size = New System.Drawing.Size(1073, 400)
+        Me.pvpCustomFields.Size = New System.Drawing.Size(1105, 446)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
         'Attachments
@@ -2725,7 +2725,7 @@ Partial Class FrmAPInvoiceEntry
         Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 26.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 35)
         Me.Attachments.Name = "Attachments"
-        Me.Attachments.Size = New System.Drawing.Size(1073, 400)
+        Me.Attachments.Size = New System.Drawing.Size(1105, 446)
         Me.Attachments.Text = "Attachments"
         '
         'UcAttachment1
@@ -2733,7 +2733,7 @@ Partial Class FrmAPInvoiceEntry
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
         Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(1073, 400)
+        Me.UcAttachment1.Size = New System.Drawing.Size(1105, 446)
         Me.UcAttachment1.TabIndex = 0
         Me.UcAttachment1.TabStop = False
         '
@@ -2767,7 +2767,7 @@ Partial Class FrmAPInvoiceEntry
         Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(41.0!, 26.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(1073, 400)
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(1105, 446)
         Me.RadPageViewPage4.Text = "Total"
         '
         'MyLabel14
@@ -2965,7 +2965,7 @@ Partial Class FrmAPInvoiceEntry
         '
         Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(560, 51)
+        Me.btnReverse.Location = New System.Drawing.Point(592, 51)
         Me.btnReverse.Name = "btnReverse"
         Me.btnReverse.Size = New System.Drawing.Size(267, 22)
         Me.btnReverse.TabIndex = 1

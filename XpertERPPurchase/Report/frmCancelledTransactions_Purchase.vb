@@ -550,7 +550,7 @@ from TSPL_PI_HEAD_Cancel_Data
 					Cancel_On as [Cancelled Date]
 from TSPL_PR_HEAD_Cancel_Data 
                     Left Outer Join TSPL_LOCATION_MASTER  on TSPL_PR_HEAD_Cancel_Data.Bill_To_Location  =TSPL_LOCATION_MASTER.Location_Code 
-                     WHERE"
+                     WHERE "
                 If rbtnCancelDate.IsChecked Then
                     qry += "convert(date,TSPL_PR_HEAD_Cancel_Data.Cancel_On ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
                      And Convert(Date, TSPL_PR_HEAD_Cancel_Data.Cancel_On,103) <= Convert(Date,'" + dtpToDate.Value + "',103) "
@@ -581,7 +581,7 @@ from TSPL_PR_HEAD_Cancel_Data
 					Cancel_On as [Cancelled Date],'' as Description
 from TSPL_REQUISITION_HEAD_Cancel_Data 
                     Left Outer Join TSPL_LOCATION_MASTER  on TSPL_REQUISITION_HEAD_Cancel_Data.Location  =TSPL_LOCATION_MASTER.Location_Code 
-                     WHERE "
+                     WHERE  "
                 If rbtnCancelDate.IsChecked Then
                     qry += "convert(date,TSPL_REQUISITION_HEAD_Cancel_Data.Cancel_On ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
                      And Convert(Date, TSPL_REQUISITION_HEAD_Cancel_Data.Cancel_On,103) <= Convert(Date,'" + dtpToDate.Value + "',103) "
